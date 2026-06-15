@@ -36,6 +36,12 @@
   },
   {
     "type": "SPECIES",
+    "id": "FORGE_LORD",
+    "description": "an entrepreneurial being",
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "GOBLIN_FORGE",
     "description": "a short and entrepreneurial humanoid",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ]

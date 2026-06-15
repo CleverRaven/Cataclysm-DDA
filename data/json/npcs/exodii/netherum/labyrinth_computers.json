@@ -134,25 +134,25 @@
     "responses": [
       {
         "text": "Unlock connected doors",
-        "effect": [ { "run_eocs": [ "EOC_LS_Unlock", "EOC_LS_Passcode_Generator" ] }, { "math": [ "npc_LS_door_requests", "=", "1" ] } ],
+        "effect": [ { "run_eocs": [ "EOC_LS_Unlock", "EOC_LS_Passcode_Generator" ] }, { "math": [ "n_LS_door_requests = 1" ] } ],
         "topic": "COMP_LS_Passcode_Door2",
-        "condition": { "math": [ "npc_LS_door_requests", "<", "1" ] }
+        "condition": { "math": [ "n_LS_door_requests < 1" ] }
       },
       {
         "text": "Lock connected doors",
-        "effect": [ { "run_eocs": [ "EOC_LS_Lock" ] }, { "math": [ "npc_LS_door_requests += 1" ] } ],
+        "effect": [ { "run_eocs": [ "EOC_LS_Lock" ] }, { "math": [ "n_LS_door_requests += 1" ] } ],
         "topic": "COMP_LS_Passcode_Door3",
-        "condition": { "math": [ "npc_LS_door_requests", "==", "1" ] }
+        "condition": { "math": [ "n_LS_door_requests == 1" ] }
       },
       {
         "text": "Unlock connected doors",
         "topic": "COMP_LS_Passcode_Door4",
-        "condition": { "math": [ "npc_LS_door_requests", "==", "2" ] }
+        "condition": { "math": [ "n_LS_door_requests == 2" ] }
       },
       {
         "text": "Now all the doors are *gone*, what the hell.",
         "topic": "COMP_LS_Passcode_Door5",
-        "condition": { "math": [ "npc_LS_door_requests", "==", "3" ] }
+        "condition": { "math": [ "n_LS_door_requests == 3" ] }
       },
       { "text": "Log off.", "topic": "TALK_DONE" }
     ]
@@ -192,7 +192,7 @@
         "effect": [
           { "math": [ "u_vitamin('blood') -= -12500" ] },
           { "math": [ "u_vitamin('redcells') -= -12500" ] },
-          { "math": [ "npc_LS_door_requests += 1" ] },
+          { "math": [ "n_LS_door_requests += 1" ] },
           { "run_eocs": [ "EOC_LS_ReallyUnlock" ] }
         ]
       },
@@ -227,55 +227,55 @@
         "text": "Enter the Thief's Passcode to extend the bridge.",
         "effect": [
           { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode0" },
-          { "math": [ "npc_LS_bridge_requests", "=", "1" ] },
+          { "math": [ "n_LS_bridge_requests = 1" ] },
           { "u_lose_trait": "LS_Passcode_0" }
         ],
-        "condition": { "and": [ { "math": [ "npc_LS_bridge_requests", "<", "1" ] }, { "u_has_trait": "LS_Passcode_0" } ] },
+        "condition": { "and": [ { "math": [ "n_LS_bridge_requests < 1" ] }, { "u_has_trait": "LS_Passcode_0" } ] },
         "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode0"
       },
       {
         "text": "Enter the Circle of Wings Passcode to extend the bridge.",
         "effect": [
           { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode1" },
-          { "math": [ "npc_LS_bridge_requests", "=", "1" ] },
+          { "math": [ "n_LS_bridge_requests = 1" ] },
           { "u_lose_trait": "LS_Passcode_1" }
         ],
-        "condition": { "and": [ { "math": [ "npc_LS_bridge_requests", "<", "1" ] }, { "u_has_trait": "LS_Passcode_1" } ] },
+        "condition": { "and": [ { "math": [ "n_LS_bridge_requests < 1" ] }, { "u_has_trait": "LS_Passcode_1" } ] },
         "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode1"
       },
       {
         "text": "Enter the Hard Nails Passcode to extend the bridge.",
         "effect": [
           { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode2" },
-          { "math": [ "npc_LS_bridge_requests", "=", "1" ] },
+          { "math": [ "n_LS_bridge_requests = 1" ] },
           { "u_lose_trait": "LS_Passcode_2" }
         ],
-        "condition": { "and": [ { "math": [ "npc_LS_bridge_requests", "<", "1" ] }, { "u_has_trait": "LS_Passcode_2" } ] },
+        "condition": { "and": [ { "math": [ "n_LS_bridge_requests < 1" ] }, { "u_has_trait": "LS_Passcode_2" } ] },
         "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode2"
       },
       {
         "text": "Enter the Laughing Man Passcode to extend the bridge.",
         "effect": [
           { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode3" },
-          { "math": [ "npc_LS_bridge_requests", "=", "1" ] },
+          { "math": [ "n_LS_bridge_requests = 1" ] },
           { "u_lose_trait": "LS_Passcode_3" }
         ],
-        "condition": { "and": [ { "math": [ "npc_LS_bridge_requests", "<", "1" ] }, { "u_has_trait": "LS_Passcode_3" } ] },
+        "condition": { "and": [ { "math": [ "n_LS_bridge_requests < 1" ] }, { "u_has_trait": "LS_Passcode_3" } ] },
         "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode3"
       },
       {
         "text": "Try to extend the bridge to the treasure room.",
-        "condition": { "math": [ "npc_LS_bridge_requests", "<", "1" ] },
+        "condition": { "math": [ "n_LS_bridge_requests < 1" ] },
         "topic": "COMP_LS_Bridge_control_deadend_1_Extend_nopasscode"
       },
       {
         "text": "Retract the bridge",
         "topic": "COMP_LS_Bridge_control_deadend_1_Retract",
-        "condition": { "math": [ "npc_LS_bridge_requests", ">", "1" ] }
+        "condition": { "math": [ "n_LS_bridge_requests", ">", "1" ] }
       },
       {
         "text": "[Computers] Try to find a way to force it.",
-        "condition": { "and": [ { "math": [ "u_skill('computer')", ">", "2" ] }, { "math": [ "npc_LS_bridge_requests", "==", "2" ] } ] },
+        "condition": { "and": [ { "math": [ "u_skill('computer') > 2" ] }, { "math": [ "n_LS_bridge_requests == 2" ] } ] },
         "topic": "COMP_LS_Bridge_control_deadend_1_force"
       },
       { "text": "Log off.", "topic": "TALK_DONE" }
@@ -315,7 +315,7 @@
     "type": "talk_topic",
     "id": "COMP_LS_Bridge_control_deadend_1_Retract",
     "dynamic_line": "&<color_light_green> @User > bridge --update=retract\n<color_light_green>Error: Insufficient confidence.\n<color_light_green>What is done cannot be undone.\n\n<color_light_green> @User > _</color>",
-    "speaker_effect": { "effect": { "math": [ "npc_LS_bridge_requests", "=", "2" ] } }
+    "speaker_effect": { "effect": { "math": [ "n_LS_bridge_requests = 2" ] } }
   },
   {
     "type": "talk_topic",

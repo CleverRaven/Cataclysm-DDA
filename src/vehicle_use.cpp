@@ -1940,6 +1940,10 @@ vehicle::prepare_multimag_pockets( vehicle &veh, map &here, item &tool,
     if( !tool.uses_firing_requirements() ) {
         return out;
     }
+    // TODO(multimag): this reads the base itype firing_requirements and raw
+    // per-pocket qty. It does not resolve gunmod-owned modes
+    // (mode_firing_requirements), nor apply consumption_mods / capacity_mods.
+    // Mods on a vehicle-mounted multimag host are out of scope here.
     const std::vector<pocket_consumption_entry> *entries =
         tool.type->firing_requirements.for_mode( mode );
     if( entries == nullptr ) {

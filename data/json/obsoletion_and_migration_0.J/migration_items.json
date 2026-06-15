@@ -376,6 +376,16 @@
   },
   {
     "type": "MIGRATION",
+    "id": "water_purifying_active",
+    "replace": "water_clean"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "water_purifying",
+    "replace": "water_clean"
+  },
+  {
+    "type": "MIGRATION",
     "id": "mre_strawberry_cake",
     "replace": "mre_chocolate_cake"
   },

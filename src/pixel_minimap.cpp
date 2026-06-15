@@ -11,6 +11,7 @@
 #include <iterator>
 #include <memory>
 #include <optional>
+#include <stdexcept>
 #include <tuple>
 #include <utility>
 #include <vector>
@@ -46,6 +47,19 @@ namespace
 
 const point total_tiles_count = { MAX_VIEW_DISTANCE * 2 + 1, MAX_VIEW_DISTANCE * 2 + 1 };
 
+tripoint_abs_sm center_to_abs_sm( const tripoint_bub_ms &center )
+{
+    return get_map().get_abs_sub() + rebase_rel( coords::project_to<coords::sm>( center ) );
+}
+
+// Enemy-beacon flicker sweeps brightness between these two percentages.
+constexpr int beacon_flicker_dim = 25;
+constexpr int beacon_flicker_full = 100;
+// Milliseconds contributed by one unit of the beacon_blink_interval setting.
+constexpr int beacon_blink_ms_per_step = 200;
+// Edge pixels of the beacon diamond are darkened by this divisor to outline it.
+constexpr int beacon_edge_divisor = 3;
+
 point get_pixel_size( const point &tile_size, pixel_minimap_mode mode )
 {
     switch( mode ) {
@@ -59,7 +73,7 @@ point get_pixel_size( const point &tile_size, pixel_minimap_mode mode )
             return { point::south_east };
     }
 
-    return {};
+    cata_fatal( "Invalid pixel_minimap_mode %d", static_cast<int>( mode ) );
 }
 
 /// Returns a number in range [0..1]. The range lasts for @param phase_length_ms (milliseconds).
@@ -93,8 +107,8 @@ SDL_Color get_map_color_at( const tripoint_bub_ms &p )
         return curses_color_to_SDL( vd.color );
     }
 
-    if( const furn_id &furn_id = here.furn( p ) ) {
-        return curses_color_to_SDL( furn_id->color() );
+    if( const furn_id &furn = here.furn( p ) ) {
+        return curses_color_to_SDL( furn->color() );
     }
 
     return curses_color_to_SDL( here.ter( p )->color() );
@@ -116,6 +130,18 @@ SDL_Color get_critter_color( Creature *critter, int flicker, int mixture )
     }
 
     return result;
+}
+
+// A boundary loss latches recovery so the dtor skips detach; abort either way
+// so a later render cannot composite stale data.
+[[noreturn]] void abort_minimap_frame( const scoped_render_target &scope,
+                                       const char *variant_refused_msg,
+                                       const char *boundary_lost_msg )
+{
+    if( !scope.boundary_intact() ) {
+        display_buffer_scope_signal_recovery_required();
+    }
+    throw std::runtime_error( scope.boundary_intact() ? variant_refused_msg : boundary_lost_msg );
 }
 
 } // namespace
@@ -197,8 +223,8 @@ struct pixel_minimap::submap_cache {
     submap_cache( submap_cache && ) = default;
 
     SDL_Color &color_at( const point &p ) {
-        cata_assert( p.x < SEEX );
-        cata_assert( p.y < SEEY );
+        cata_assert( p.x >= 0 && p.x < SEEX );
+        cata_assert( p.y >= 0 && p.y < SEEY );
 
         return minimap_colors[p.y * SEEX + p.x];
     }
@@ -231,9 +257,7 @@ void pixel_minimap::set_settings( const pixel_minimap_settings &settings )
 
 void pixel_minimap::prepare_cache_for_updates( const tripoint_bub_ms &center )
 {
-    const tripoint_abs_sm new_center_sm = get_map().get_abs_sub() + rebase_rel(
-            coords::project_to<coords::sm>
-            ( center ) );
+    const tripoint_abs_sm new_center_sm = center_to_abs_sm( center );
     const tripoint_rel_sm center_sm_diff = cached_center_sm - new_center_sm;
 
     //invalidate the cache if the game shifted more than one submap in the last update, or if z-level changed.
@@ -267,21 +291,18 @@ void pixel_minimap::flush_cache_updates()
             continue;
         }
 
-        scoped_render_target chunk_scope( renderer, mcp.second.chunk_tex.get()
-#if SDL_MAJOR_VERSION >= 3
-                                          , get_shared_variant_pass()
-#endif
-                                        );
+        if( !mcp.second.chunk_tex ) {
+            // Same null-target hazard as the window; drop updates and skip.
+            mcp.second.update_list.clear();
+            continue;
+        }
+
+        scoped_render_target chunk_scope( renderer, mcp.second.chunk_tex.get(),
+                                          get_shared_variant_pass() );
         if( !chunk_scope.is_valid() ) {
-            if( !chunk_scope.boundary_intact() ) {
-                // Boundary lost: latch so the enclosing dtor skips detach.
-                display_buffer_scope_signal_recovery_required();
-            }
-            // Chunk did not paint, so a later render would composite stale data.
-            // Throw to abort the frame, like the tint-mask path.
-            throw std::runtime_error( chunk_scope.boundary_intact()
-                                      ? "pixel_minimap::flush_cache_updates: variant_pass refused boundary"
-                                      : "pixel_minimap::flush_cache_updates: scoped_render_target boundary lost" );
+            abort_minimap_frame( chunk_scope,
+                                 "pixel_minimap::flush_cache_updates: variant_pass refused boundary",
+                                 "pixel_minimap::flush_cache_updates: scoped_render_target boundary lost" );
         }
 
         if( !mcp.second.ready ) {
@@ -319,12 +340,9 @@ void pixel_minimap::flush_cache_updates()
         // Restore failure leaves later draws landing on the chunk texture or an
         // undefined target, so propagate like the other scoped failures.
         if( !chunk_scope.restore() ) {
-            if( !chunk_scope.boundary_intact() ) {
-                display_buffer_scope_signal_recovery_required();
-            }
-            throw std::runtime_error( chunk_scope.boundary_intact()
-                                      ? "pixel_minimap::flush_cache_updates: variant_pass refused boundary on restore"
-                                      : "pixel_minimap::flush_cache_updates: failed to restore prior render target" );
+            abort_minimap_frame( chunk_scope,
+                                 "pixel_minimap::flush_cache_updates: variant_pass refused boundary on restore",
+                                 "pixel_minimap::flush_cache_updates: failed to restore prior render target" );
         }
     }
 }
@@ -449,7 +467,9 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
 
     const auto chunk_texture_generator = [&chunk_size, this]() {
         SDL_Texture_Ptr result = create_cache_texture( renderer, chunk_size.x, chunk_size.y );
-        SetTextureBlendMode( result, SDL_BLENDMODE_BLEND );
+        if( result ) {
+            SetTextureBlendMode( result, SDL_BLENDMODE_BLEND );
+        }
         return result;
     };
 
@@ -466,19 +486,13 @@ void pixel_minimap::reset()
 
 void pixel_minimap::render( const tripoint_bub_ms &center )
 {
-    scoped_render_target main_scope( renderer, main_tex.get()
-#if SDL_MAJOR_VERSION >= 3
-                                     , get_shared_variant_pass()
-#endif
-                                   );
+    scoped_render_target main_scope( renderer, main_tex.get(),
+                                     get_shared_variant_pass() );
     if( !main_scope.is_valid() ) {
-        if( !main_scope.boundary_intact() ) {
-            display_buffer_scope_signal_recovery_required();
-        }
         // main_tex unpainted: the RenderCopy below would composite stale data.
-        throw std::runtime_error( main_scope.boundary_intact()
-                                  ? "pixel_minimap::render: variant_pass refused boundary"
-                                  : "pixel_minimap::render: scoped_render_target boundary lost" );
+        abort_minimap_frame( main_scope,
+                             "pixel_minimap::render: variant_pass refused boundary",
+                             "pixel_minimap::render: scoped_render_target boundary lost" );
     }
     SetRenderDrawColor( renderer, pixel_minimap_r, pixel_minimap_g, pixel_minimap_b,
                         pixel_minimap_a );
@@ -490,21 +504,16 @@ void pixel_minimap::render( const tripoint_bub_ms &center )
     // Restore so the compositing RenderCopy below lands on the caller's prior
     // target, not main_tex.
     if( !main_scope.restore() ) {
-        if( !main_scope.boundary_intact() ) {
-            display_buffer_scope_signal_recovery_required();
-        }
-        throw std::runtime_error( main_scope.boundary_intact()
-                                  ? "pixel_minimap::render: variant_pass refused boundary on restore"
-                                  : "pixel_minimap::render: failed to restore prior render target" );
+        abort_minimap_frame( main_scope,
+                             "pixel_minimap::render: variant_pass refused boundary on restore",
+                             "pixel_minimap::render: failed to restore prior render target" );
     }
     RenderCopy( renderer, main_tex, &main_tex_clip_rect, &screen_clip_rect );
 }
 
 void pixel_minimap::render_cache( const tripoint_bub_ms &center )
 {
-    const tripoint_abs_sm sm_center = get_map().get_abs_sub() + rebase_rel(
-                                          coords::project_to<coords::sm>
-                                          ( center ) );
+    const tripoint_abs_sm sm_center = center_to_abs_sm( center );
     const tripoint_rel_sm sm_offset {
         total_tiles_count.x / SEEX / 2,
         total_tiles_count.y / SEEY / 2, 0
@@ -535,6 +544,10 @@ void pixel_minimap::render_cache( const tripoint_bub_ms &center )
         const tripoint_rel_sm sm_pos = tripoint_rel_sm( rel_pos ) + sm_offset;
         const tripoint_rel_ms ms_pos = coords::project_to<coords::ms>( sm_pos ) + ms_offset;
 
+        if( !elem.second.chunk_tex ) {
+            continue;
+        }
+
         const SDL_Rect chunk_rect = projector->get_chunk_rect( ms_pos.xy().raw(), {SEEX, SEEY} );
 
         RenderCopy( renderer, elem.second.chunk_tex, nullptr, &chunk_rect );
@@ -548,18 +561,18 @@ void pixel_minimap::render_critters( const tripoint_bub_ms &center )
     const map &m = get_map();
 
     //handles the enemy faction red highlights
-    //this value should be divisible by 200
-    const int indicator_length = settings.beacon_blink_interval * 200; //default is 2000 ms, 2 seconds
+    //full blink period in milliseconds; default is 2000 ms, 2 seconds
+    const int indicator_length = settings.beacon_blink_interval * beacon_blink_ms_per_step;
 
-    int flicker = 100;
+    int flicker = beacon_flicker_full;
     int mixture = 0;
 
     if( indicator_length > 0 ) {
         const float t = get_animation_phase( 2 * indicator_length );
         const float s = std::sin( 2 * M_PI * t );
 
-        flicker = lerp_clamped( 25, 100, std::abs( s ) );
-        mixture = lerp_clamped( 0, 100, std::max( s, 0.0f ) );
+        flicker = lerp_clamped( beacon_flicker_dim, beacon_flicker_full, std::abs( s ) );
+        mixture = lerp_clamped( 0, beacon_flicker_full, std::max( s, 0.0f ) );
     }
 
     const level_cache &access_cache = m.access_cache( center.z() );
@@ -615,6 +628,12 @@ void pixel_minimap::draw( const SDL_Rect &screen_rect, const tripoint_bub_ms &ce
     }
 
     set_screen_rect( screen_rect );
+
+    if( !main_tex ) {
+        // A null target would bind the window and clobber the screen.
+        return;
+    }
+
     process_cache( center );
     render( center );
 }
@@ -623,7 +642,8 @@ void pixel_minimap::draw_beacon( const SDL_Rect &rect, const SDL_Color &color )
 {
     for( int x = -rect.w, x_max = rect.w; x <= x_max; ++x ) {
         for( int y = -rect.h + std::abs( x ), y_max = rect.h - std::abs( x ); y <= y_max; ++y ) {
-            const int divisor = 2 * ( std::abs( y ) == rect.h - std::abs( x ) ? 1 : 0 ) + 1;
+            const bool on_edge = std::abs( y ) == rect.h - std::abs( x );
+            const int divisor = on_edge ? beacon_edge_divisor : 1;
 
             SetRenderDrawColor( renderer, color.r / divisor, color.g / divisor, color.b / divisor, 0xFF );
             RenderDrawPoint( renderer, point( rect.x + x, rect.y + y ) );
@@ -645,7 +665,7 @@ const
                     settings.square_pixels );
     }
 
-    return nullptr;
+    cata_fatal( "Invalid pixel_minimap_type %d", static_cast<int>( type ) );
 }
 
 #endif // SDL_TILES

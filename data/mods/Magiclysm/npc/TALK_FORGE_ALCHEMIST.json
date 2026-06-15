@@ -10,6 +10,7 @@
     "mission": "SHOPKEEP",
     "gender": "male",
     "chat": "TALK_FORGE_LORD_ALCHEMIST",
+    "death_eocs": [ "EOC_DEATH_FORGE_LORD" ],
     "faction": "forge_lords"
   },
   {

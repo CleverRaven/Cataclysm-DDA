@@ -100,6 +100,20 @@
     "items": [ { "item": "chem_zinc_powder", "count": [ 2, 175 ] } ]
   },
   {
+    "id": "potassiumchloride_small_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, filled 80% as new",
+    "items": [ { "item": "chem_potassium_chloride", "count": 355 } ]
+  },
+  {
+    "id": "potassiumchloride_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
+    "items": [ { "item": "chem_potassium_chloride", "count": [ 2, 355 ] } ]
+  },
+  {
     "id": "redphosphorus_small_bottle",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
@@ -561,6 +575,18 @@
     "type": "item_group",
     "container-item": "spool_small",
     "items": [ { "item": "solder_wire", "count": [ 0, 113 ] } ]
+  },
+  {
+    "id": "bag_garbage_box",
+    "type": "item_group",
+    "container-item": "box_small",
+    "items": [ { "item": "bag_garbage", "count": 20 } ]
+  },
+  {
+    "id": "bag_garbage_box_part",
+    "type": "item_group",
+    "container-item": "box_small",
+    "items": [ { "item": "bag_garbage", "count": [ 0, 20 ] } ]
   },
   {
     "id": "paint",

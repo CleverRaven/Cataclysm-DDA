@@ -194,6 +194,7 @@ Use the `Home` key to return to the top.
   - [`cbms`](#cbms)
   - [`traits`, `forced_traits`, `forbidden_traits`](#traits-forced_traits-forbidden_traits)
   - [`allowed_locs`](#allowed_locs)
+  - [`origin_offset`](#origin_offset)
   - [`start_name`](#start_name)
   - [`professions`](#professions)
   - [`hobbies`](#hobbies-1)
@@ -4114,6 +4115,18 @@ Lists of trait/mutation ids. Traits in "forbidden_traits" are forbidden and can'
 (optional, array of strings)
 
 A list of starting location ids (see start_locations.json) that can be chosen when using this scenario.
+
+## `origin_offset`
+(optional, pair of int)
+
+The number of OM (see [`POINTS_COORDINATES.md`](/doc/c++/POINTS_COORDINATES.md) for more information on OM) on the east - west and south - north axes to offset the origin of the search for the starting location.
+The first axis points east, the second axis points south.
+
+Example:
+```jsonc
+    "origin_offset": [ 10, -5 ]
+```
+This moves the search for the starting location 10 OM to the east and 5 OM to the north.
 
 ## `start_name`
 (string)
