@@ -1680,11 +1680,12 @@ std::string item::display_name( unsigned int quantity ) const
                         if( has_loaded_ammo ) {
                             const auto it = restrictions.find( loaded_ammotype );
                             if( it != restrictions.end() ) {
-                                well_max = it->second;
+                                // honor capacity_mods scaling
+                                well_max = p->ammo_capacity( loaded_ammotype );
                             }
                         } else if( !restrictions.empty() ) {
                             const std::pair<const ammotype, int> &first = *restrictions.begin();
-                            well_max = first.second;
+                            well_max = p->ammo_capacity( first.first );
                             ammo_id_for_name = first.first->default_ammotype();
                             if( !ammo_id_for_name.is_null() &&
                                 !ammo_id_for_name.is_empty() &&

@@ -334,6 +334,13 @@ class item_pocket
             return _saved_sealed;
         }
 
+        float get_capacity_mult() const {
+            return capacity_mult;
+        }
+        void set_capacity_mult( float m ) {
+            capacity_mult = m;
+        }
+
         // tries to put an item in the pocket. returns false if failure
         ret_val<item *> insert_item( const item &it, bool into_bottom = false,
                                      bool restack_charges = true, bool ignore_contents = false );
@@ -441,6 +448,8 @@ class item_pocket
         // Running totals tracked only between begin_bulk_fill()/end_bulk_fill().
         std::optional<units::volume> bulk_fill_volume; // NOLINT(cata-serialize)
         std::optional<units::mass> bulk_fill_weight; // NOLINT(cata-serialize)
+        // Stamped from installed mods' capacity_mods; rederived on rebuild, not serialized.
+        float capacity_mult = 1.0f; // NOLINT(cata-serialize)
         // list of sub body parts that can't currently support rigid ablative armor
         std::set<sub_bodypart_id> no_rigid;
 

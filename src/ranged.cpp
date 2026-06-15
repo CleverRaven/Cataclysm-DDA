@@ -3530,7 +3530,8 @@ void target_ui::update_status()
         // None of the turrets are in range
         status = Status::OutOfRange;
     } else if( mode == TargetMode::Fire &&
-               ( !gunmode_checks_common( *you, get_map(), msgbuf, relevant->gun_current_mode() ) ||
+               ( relevant->firing_mode_blocked( relevant->gun_get_mode_id() ) ||
+                 !gunmode_checks_common( *you, get_map(), msgbuf, relevant->gun_current_mode() ) ||
                  !gunmode_checks_weapon( *you, get_map(), msgbuf, relevant->gun_current_mode() ) )
              ) { // NOLINT(bugprone-branch-clone)
         // Selected gun mode is empty
