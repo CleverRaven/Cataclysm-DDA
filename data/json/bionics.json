@@ -1185,8 +1185,7 @@
           { "value": "CLIMATE_CONTROL_HEAT", "add": 5 },
           { "value": "bio_bloodreplenish" }
         ]
-      },
-      { "condition": "ALWAYS", "ench_effects": [ { "effect": "bio_bloodreplenish" } ] }
+      }
     ]
   },
   {
