@@ -8731,7 +8731,7 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
                           );
     int available_cleanser = std::max( {
         crafting_inv.charges_of( itype_soap ),
-        crafting_inv.charges_of( itype_detergent ),
+        crafting_inv.amount_of( itype_detergent ),
         crafting_inv.charges_of( itype_liquid_soap, INT_MAX, is_liquid )
     } );
 
@@ -8799,7 +8799,7 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
                               required.water );
         return std::nullopt;
     } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
-               !crafting_inv.has_charges( itype_detergent, required.cleanser ) &&
+               !crafting_inv.has_amount( itype_detergent, required.cleanser ) &&
                !crafting_inv.has_charges( itype_liquid_soap, required.cleanser, is_liquid ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
                               required.cleanser );
