@@ -275,43 +275,6 @@
     "flags": [ "DEAF", "OVERSIZE", "POWERARMOR_COMPATIBLE" ]
   },
   {
-    "id": "gobag",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "go bag" },
-    "description": "A huge duffel bag with a backpack attached, both packed to the gills.  Judging by the feel, a National Guardsman could have packed this to be ready for deployment.  Activate to unpack and enjoy.",
-    "weight": "18043 g",
-    "volume": "35750 ml",
-    "price": "1 kUSD",
-    "price_postapoc": "10 USD",
-    "material": [ "cotton", "plastic" ],
-    "symbol": "[",
-    "looks_like": "duffelbag",
-    "color": "green",
-    "warmth": 10,
-    "material_thickness": 3,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "use_action": { "type": "unpack", "group": "gobag_contents", "filthy_volume_threshold": "10 L" },
-    "armor": [
-      {
-        "encumbrance": 35,
-        "coverage": 100,
-        "covers": [ "torso", "arm_l", "arm_r" ],
-        "specifically_covers": [ "torso_hanging_back", "arm_shoulder_r", "arm_shoulder_l" ]
-      }
-    ]
-  },
-  {
-    "id": "personal_gobag",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "personal go bag" },
-    "description": "A huge duffel bag with a backpack attached, both packed to the gills.  You packed this to be ready for deployment.  Activate to unpack and enjoy.",
-    "looks_like": "gobag",
-    "use_action": { "type": "unpack", "group": "gobag_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
-    "copy-from": "gobag"
-  },
-  {
     "id": "leg_splint",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],

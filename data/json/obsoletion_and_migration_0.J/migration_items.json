@@ -869,6 +869,16 @@
   },
   {
     "type": "MIGRATION",
+    "id": "gobag",
+    "replace": "duffelbag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "personal_gobag",
+    "replace": "duffelbag"
+  },
+  {
+    "type": "MIGRATION",
     "id": "mc_kukri",
     "replace": "kukri"
   },
