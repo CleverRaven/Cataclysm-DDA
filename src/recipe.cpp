@@ -642,6 +642,11 @@ void recipe_step::load( const JsonObject &jo, const std::string &recipe_name, in
     mandatory( jo, false, "activity_level", exertion, activity_level_reader{} );
 
     optional( jo, false, "batch_time_factors", batch_info );
+    if( batch_savings::linear *lin = std::get_if<batch_savings::linear>( &batch_info.data ) ) {
+        if( lin->offset > time ) {
+            jo.throw_error( "batch scaling time greater than step time" );
+        }
+    }
     jo.read( "proficiencies", proficiencies );
 
     if( jo.has_member( "components" ) ) {
