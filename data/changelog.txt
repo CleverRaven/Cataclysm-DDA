@@ -234,6 +234,7 @@ More nuanced Hub 01-Exodii full cyborg aggression
 Charged tools can be used on unattended crafting steps
 Unattended liquid crafts wait for you to pour them
 Crafting faults
+Allows spawns offset from the origin like the beach, or deep in the forests to the west
 
 
 ## Content:
@@ -496,6 +497,13 @@ If the Exodii trust you enough they'll give you a Cyberframe
 Dimension: the Scarlet Sea
 Challenge - Labyrinth Bound
 Expanding zombie weakpoints with vitals
+Remove weaving recipes that use spinning tools
+Fix some typos
+Added more versions of ponds in the Highlands
+Add firewood
+Update some chemicals that exist in powder form to include the word 'powder' at the end, and add their chemical name if using a 3 letter acronym
+The Scarlet Sea is full of nasty chemicals
+Update Jenny's Quest tracker information regarding what she wants
 
 
 ## Interface:
@@ -660,6 +668,9 @@ Migrate popups in vehicle interaction menu to ImGui
 Update to ImGui 1.91.9b
 Move appliance infobox to imgui
 Display some items by volume, weight or length instead of count
+Show required crafting proficiencies in recipe details
+Allow favoriting on sort armor screen
+Preserve highlight location after wearing or wielding from the pickup screen
 
 
 ## Mods:
@@ -1146,6 +1157,25 @@ XE Proficiency CBMs
 [BPerks/MM/Sorc] XP mods can level up more than once at a time
 Aftershock: Add industrial habitat building.
 Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
+[Innawood] More blacklisting for recipes
+[XedraWood] Change coordinates to around Raleigh
+[Xedra Evolved] Palettize elemental altars, overwrite them in XedraWood
+[Xedra Evolved] Add brain tanning for glimmer fur
+[XedraWood] Add more professions
+[Xedra Evolved] Add a few more effects to Lights of Imbolc's curing
+[XedraWood] Remove random fungus
+[XedraWood] Overwrite default forest/field/swamp terrain spawn frequency
+[Innawood] Ravine edge caves
+[MoM] Premonition warns you about the Quiet Farmhouse
+[Xedra Evolved/Innawood] Separate IDs for moroi/wights Innawood for sprite reasons
+[XedraWood] Add separate GROUP_FOREST_THICK mongroup, tie it to thick forests
+[XedraWood] Characters are illiterate
+[XedraWood] Tanglevine patch map extra
+[XedraWood] Innawood recipe blacklisting
+[XedraWood] Add more hobbies
+[XE] Apply the supernatural exclusivity principle.
+[XedraWood] Increase river flood plain area
+[XedraWood] rework temperature and humidity
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1295,6 +1325,8 @@ Nobody wants to cooperate with psychopaths
 Zombie corpses aren't useful
 Stepped many many weapon recipes
 Joint Torsion Ratchet CBM doesn't allow for perpetual motion cyborgs
+Updated components quantities for ingot crafting
+Updated protein and cheese powder recipes with steps and made them more realistic
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1836,6 +1868,18 @@ Stop spamming player log when NPCs are hot
 Stop ref center guard EOCs from firing in alternate dimensions
 Uncomfortable limbs must exist
 Fix Android black screen after turning the screen off
+[Magiclysm] Fix Aura of Protection proficiency XP
+[Innawood] Overwrite trailhead palette to remove modern items
+Fix SDL3 numpad repeat on macOS
+[Innawood] Fix modern construction on desert islands
+Fix SDL3 colored light tint rows
+Air Filtration System CBM works with non-normal mouths
+Fix Chemicals Spawning multiple containers
+Fix Farming Supply Store Sand/Soil Bag Spawns
+Fix Nanomaterial Canisters only spawning 1, for a total of 2 nanomaterial per lab
+[Sky Island/Magiclysm] Fix Triffid merchant receiving `Human` trait
+[Sky Island] Repeated Merchant Stall mission fix
+Fix Potassium Chloride Powder Spawns
 
 
 ## Performance:
@@ -1882,6 +1926,7 @@ Skip lightmap rebuild on idle frames
 Speedup highway placement by caching expensive math
 Speed up spawning item groups into containers
 Crafting optimizations
+Fix n^3 deserialization bug by not trying to stack unstackable items
 
 
 ## Infrastructure:
@@ -2130,6 +2175,7 @@ Vendor plf colony/list verbatim under src/third-party
 Upgrade vendored plf_colony and plf_list to latest upstream
 Ignore root dotfiles by default in .gitignore
 Consume crafting tools per recipe step
+Abort and quarantine tileset atlas uploads interrupted by a renderer reset
 
 
 ## Build:
@@ -2168,6 +2214,9 @@ Build instruction and files for Visual Studio Code
 Demote GCC 16 -Wsfinae-incomplete to warning
 Proper SDL support
 Migrate Android to SDL3 via CMake + prefab AAR; drop SDL2 customs; bump buildkit
+Skip SDL frameworks for macOS curses release
+Enable Linux SDL3 desktop backends
+Document dylibbundler for macOS app builds
 
 
 ## I18N and A11Y:
