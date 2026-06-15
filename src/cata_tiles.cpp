@@ -14,6 +14,7 @@
 #include <optional>
 #include <set>
 #include <sstream>
+#include <stdexcept>
 #include <tuple>
 #include <unordered_set>
 #include <variant>
@@ -403,10 +404,38 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
     return inserted_tile;
 }
 
+bool service_mode2_upload_interrupt( const atlas_upload_interrupt interrupt,
+                                     atlas_replay_quarantine &quarantine,
+                                     const uint64_t instance_before )
+{
+    if( interrupt == atlas_upload_interrupt::renderer_invalidated ) {
+        // The drain is about to destroy the renderer; release the quarantined
+        // handles without SDL_DestroyTexture.
+        quarantine.abandon_pre_lost_renderer();
+    } else if( interrupt == atlas_upload_interrupt::paused ) {
+        // Wait out the background; the foreground event queues the rebuild.
+        pump_until_renderer_foreground();
+    }
+    drain_renderer_recovery();
+    const bool recovered = renderer_coordinator.state() == renderer_recovery_state::ready;
+    if( !quarantine.empty() ) {
+        // Destroy on the live renderer only when the drain left it healthy and the
+        // instance is unchanged (a reset the renderer survived). A bumped instance
+        // or unfinished recovery means the origin renderer is gone -- abandon,
+        // since a loss teardown can destroy it before the instance bumps.
+        if( recovered && renderer_coordinator.instance_generation() == instance_before ) {
+            quarantine.drain_live_renderer();
+        } else {
+            quarantine.abandon_pre_lost_renderer();
+        }
+    }
+    return recovered;
+}
+
 void cata_tiles::load_tileset( const std::string &tileset_id, const bool precheck,
                                const bool force, const bool pump_events, const bool terrain )
 {
-    const renderer_texture_generations gens = renderer_coordinator.texture_generations();
+    renderer_texture_generations gens = renderer_coordinator.texture_generations();
     // Skip the reload only when the same tileset is already bound against the
     // current renderer and texture generations; a generation bump from a
     // device reset or loss invalidates the bundle and must reload.
@@ -415,12 +444,54 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
         && tileset_ptr->get_gpu_textures_generation_at_upload() == gens.textures ) {
         return;
     }
+    // Snapshot the global mutation-overlay ordering before the candidate parse
+    // rewrites it: the ordering must match the bound tileset, so restore it if
+    // the load aborts without publishing a new one.
+    const std::map<std::string, int> overlay_ordering_snapshot = tileset_mutation_overlay_ordering;
     // TODO: move into clear or somewhere else.
     // reset the overlay ordering from the previous loaded tileset
     tileset_mutation_overlay_ordering.clear();
 
-    tileset_ptr = cache.load_tileset( tileset_id, renderer, precheck, force, pump_events, terrain,
-                                      memory_map_mode, gens.instance, gens.textures );
+    // A reset/loss/pause mid-upload aborts the load and quarantines the partial
+    // candidate; the live tileset stays bound. Drain outside the upload scope
+    // (drains are refused while it owns candidate textures), dispose the
+    // quarantine against the resulting renderer, and retry until the upload lands.
+    atlas_replay_quarantine quarantine;
+    const atlas_upload_poll poll = []() {
+        return renderer_coordinator.mode2_upload_poll();
+    };
+    bool published = false;
+    while( true ) {
+        atlas_upload_interrupt interrupt = atlas_upload_interrupt::none;
+        std::shared_ptr<const tileset> loaded;
+        const uint64_t instance_before = gens.instance;
+        {
+            // Gate drains across the upload (see atlas_upload_scope). A precheck
+            // does no GPU upload, so it is neither gated nor polled.
+            atlas_upload_scope upload_guard( !precheck );
+            loaded = cache.load_tileset( tileset_id, renderer, precheck, force, pump_events, terrain,
+                                         memory_map_mode, gens.instance, gens.textures,
+                                         precheck ? atlas_upload_poll{} : poll,
+                                         precheck ? nullptr : &quarantine, &interrupt );
+        }
+        if( interrupt == atlas_upload_interrupt::none ) {
+            tileset_ptr = loaded;
+            published = true;
+            break;
+        }
+        // Recover the renderer and dispose the quarantined candidate; stop when
+        // the drain could not ready it rather than spinning on a failed recovery.
+        if( !service_mode2_upload_interrupt( interrupt, quarantine, instance_before ) ) {
+            break;
+        }
+        gens = renderer_coordinator.texture_generations();
+    }
+
+    if( !published ) {
+        // The load aborted with the previous tileset still bound; restore the
+        // overlay ordering that matched it.
+        tileset_mutation_overlay_ordering = overlay_ordering_snapshot;
+    }
 
     set_draw_scale( 16 );
 
@@ -428,15 +499,21 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     // On isometric tilesets, fog intensity scales with zlevel_height in tile_config.json
     fog_alpha = is_isometric() ? std::min( std::max( int( 255.0f - 255.0f * pow( 155.0f / 255.0f,
                                            zlevel_height / 100.0f ) ), 40 ), 150 ) : 100;
+
+    if( !precheck && published ) {
+        // Service any recovery queued during the now-published upload. An
+        // aborted load already drained inside service_mode2_upload_interrupt and
+        // left recovery for the next outer boundary, so do not redrain here.
+        drain_renderer_recovery();
+    }
 }
 
 void cata_tiles::reinit()
 {
     set_draw_scale( 16 );
-    // Wrap so the clear lands on display_buffer rather than the null idle
-    // target.
+    // Wrap so the clear lands on display_buffer rather than the null idle target.
     display_buffer_draw_scope draw_scope;
-    if( display_buffer_scope_is_invalid() ) {
+    if( !draw_scope.should_draw() ) {
         return;
     }
     RenderClear( renderer );
@@ -936,7 +1013,8 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     // Start drawing from the lowest visible z-level (some off-screen tiles
     // are considered visible here to simplify the logic.)
     int cur_zlevel = std::max( center.z() - fov_3d_z_range, -OVERMAP_DEPTH );
-    while( cur_zlevel <= center.z() ) {
+    bool draw_aborted = false;
+    while( cur_zlevel <= center.z() && !draw_aborted ) {
         const half_open_rectangle<point> &cur_any_tile_range = is_isometric()
                 ? z_any_tile_range[center.z() - cur_zlevel] : top_any_tile_range;
         // For each row
@@ -950,6 +1028,13 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
         // is available.
         const bool zlev_has_color = zlev_cache.has_colored_lights && !iso;
         for( int row = cur_any_tile_range.p_min.y; row < cur_any_tile_range.p_max.y; row ++ ) {
+            if( renderer_should_abort_frame() ) {
+                // Abort emitting tiles mid-draw. Post-loop bookkeeping still runs
+                // so map memory and overrides stay consistent; invalidation kept
+                // for the next frame.
+                draw_aborted = true;
+                break;
+            }
             // --- Per-tile prepass ---
             // Initialize base height and decide which tiles need a colored light
             // tint overlay. We do this before the layer loop so that:
@@ -1067,6 +1152,19 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
             // dawn/dusk light, etc). Tint eligibility and color were precomputed
             // in the per-tile prepass above; row_tinted holds only eligible tiles.
             if( !row_tinted.empty() ) {
+#if SDL_MAJOR_VERSION >= 3
+                // Sprite rendering can leave a variant shader bound across same-variant
+                // runs. The tint overlay is plain renderer geometry/copy work, so it must
+                // start from null GPU render state or SDL3 may apply the sprite shader to
+                // only part of a row depending on which sprite path was hit first.
+                if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+                    if( !vp->flush() ) {
+                        display_buffer_scope_signal_recovery_required();
+                        throw std::runtime_error(
+                            "cata_tiles::draw: variant_pass flush failed before tint overlay; renderer in undefined state" );
+                    }
+                }
+#endif
                 const int zlev_base = ( cur_zlevel - center.z() ) * zlevel_height;
                 if( iso ) {
                     // Iso: flat tint rect over the tile footprint (unchanged
@@ -4038,43 +4136,69 @@ bool cata_tiles::draw_item_highlight( const tripoint_bub_ms &pos, int &height_3d
                                 lit_level::LIT, false, height_3d );
 }
 
+std::shared_ptr<tileset> tileset_cache::find_fresh_cached( const tileset_cache_key &key,
+        const uint64_t current_renderer_instance_gen, const uint64_t current_gpu_textures_gen ) const
+{
+    const auto it = tilesets_.find( key );
+    if( it == tilesets_.end() ) {
+        return nullptr;
+    }
+    std::shared_ptr<tileset> cached = it->second.lock();
+    if( cached
+        && cached->get_renderer_instance_generation_at_upload() == current_renderer_instance_gen
+        && cached->get_gpu_textures_generation_at_upload() == current_gpu_textures_gen ) {
+        return cached;
+    }
+    return nullptr;
+}
+
 std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &tileset_id,
         const SDL_Renderer_Ptr &renderer, const bool precheck, const bool force, const bool pump_events,
         const bool terrain, const std::string &memory_map_mode,
-        const uint64_t current_renderer_instance_gen, const uint64_t current_gpu_textures_gen )
+        const uint64_t current_renderer_instance_gen, const uint64_t current_gpu_textures_gen,
+        const atlas_upload_poll &poll, atlas_replay_quarantine *const quarantine,
+        atlas_upload_interrupt *const out_interrupt )
 {
+    if( out_interrupt ) {
+        *out_interrupt = atlas_upload_interrupt::none;
+    }
     const tileset_cache_key key {
         tileset_id, memory_map_mode, compute_tileset_filter_fingerprint( memory_map_mode )
     };
 
-    const auto get_or_create_tileset = [&]() {
-        const auto it = tilesets_.find( key );
-        if( it != tilesets_.end() ) {
-            std::shared_ptr<tileset> cached = it->second.lock();
-            if( cached
-                && cached->get_renderer_instance_generation_at_upload() == current_renderer_instance_gen
-                && cached->get_gpu_textures_generation_at_upload() == current_gpu_textures_gen ) {
-                return cached;
+    // Reuse a bundle uploaded against the current generations unless a reload
+    // is forced. A metadata-only precheck bundle (empty id) is rebuilt when a
+    // real load arrives.
+    if( !force ) {
+        if( std::shared_ptr<tileset> fresh = find_fresh_cached( key, current_renderer_instance_gen,
+                                             current_gpu_textures_gen ) ) {
+            if( precheck || !fresh->get_tileset_id().empty() ) {
+                return fresh;
             }
         }
-        std::shared_ptr<tileset> new_ts = std::make_shared<tileset>();
-        loader loader( *new_ts, renderer, memory_map_mode );
-        loader.load( tileset_id, precheck, pump_events, terrain );
-        new_ts->set_upload_generations( current_renderer_instance_gen, current_gpu_textures_gen );
-        // insert_or_assign so an expired weak_ptr at this key is replaced
-        // instead of being kept alongside a duplicate emplace attempt.
-        tilesets_.insert_or_assign( key, new_ts );
-        return new_ts;
-    };
-
-    std::shared_ptr<tileset> ts = get_or_create_tileset();
-
-    if( force || ( ts->get_tileset_id().empty() && !precheck ) ) {
-        loader loader( *ts, renderer, memory_map_mode );
-        loader.load( tileset_id, precheck, pump_events, terrain );
-        ts->set_upload_generations( current_renderer_instance_gen, current_gpu_textures_gen );
     }
-    return ts;
+
+    // Build the candidate in isolation and publish only on a fully successful
+    // upload, so an interrupted load never replaces the live bundle in the
+    // cache or in any consumer.
+    std::shared_ptr<tileset> candidate = std::make_shared<tileset>();
+    loader loader( *candidate, renderer, memory_map_mode );
+    const atlas_upload_interrupt interrupt =
+        loader.load( tileset_id, precheck, pump_events, terrain,
+                     current_renderer_instance_gen, current_gpu_textures_gen, poll, quarantine );
+    if( interrupt != atlas_upload_interrupt::none ) {
+        if( out_interrupt ) {
+            *out_interrupt = interrupt;
+        }
+        // Candidate dropped; its textures are already in the quarantine. The
+        // cache entry and every live tileset_ptr stay on the previous bundle.
+        return nullptr;
+    }
+    // load() recorded the generations on the bundle during upload.
+    // insert_or_assign so an expired weak_ptr at this key is replaced instead
+    // of being kept alongside a duplicate emplace attempt.
+    tilesets_.insert_or_assign( key, candidate );
+    return candidate;
 }
 
 void tileset_cache::release_live_atlases()

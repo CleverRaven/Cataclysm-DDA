@@ -78,13 +78,7 @@
             "prob": 30
           },
           { "item": "water_clean", "count": [ 6, 12 ], "prob": 20 },
-          {
-            "collection": [
-              { "item": "protein_bar_evac", "count": 12, "container-item": "box_small" },
-              { "item": "protein_bar_evac", "count": [ 8, 12 ], "container-item": "box_small" }
-            ],
-            "prob": 60
-          },
+          { "group": "full_box_of_evacuation_protein_bar", "prob": 60 },
           {
             "collection": [
               { "item": "extinguisher", "prob": 70, "charges": 100 },
@@ -98,14 +92,14 @@
           },
           {
             "collection": [
-              { "item": "detergent", "count": [ 0, 2 ] },
+              { "group": "detergent_small_box_part", "prob": 15 },
               { "group": "borax_box_part", "prob": 15 },
               { "item": "brush", "prob": 85 },
               { "item": "bleach", "prob": 45 },
               { "item": "chem_washing_soda", "prob": 10 },
               { "item": "ammonia_hydroxide", "prob": 15 },
               { "item": "vinegar", "prob": 10 },
-              { "item": "bag_garbage", "count": 25, "container-item": "box_small", "prob": 35 }
+              { "group": "bag_garbage_box", "prob": 35 }
             ],
             "prob": 15
           },
@@ -147,13 +141,7 @@
             ],
             "prob": 50
           },
-          {
-            "collection": [
-              { "item": "protein_bar_evac", "count": [ 1, 12 ], "container-item": "box_small" },
-              { "item": "protein_bar_evac", "count": [ 0, 11 ], "container-item": "box_small" }
-            ],
-            "prob": 60
-          },
+          { "group": "box_of_evacuation_protein_bar", "prob": 60 },
           {
             "collection": [
               { "item": "extinguisher", "prob": 50, "charges": 100 },
@@ -166,7 +154,7 @@
           },
           {
             "collection": [
-              { "item": "detergent", "count": [ 0, 2 ] },
+              { "group": "detergent_small_box_part", "prob": 15 },
               { "group": "borax_box_part", "prob": 15 },
               { "item": "brush", "prob": 85 },
               { "item": "bleach", "charges": [ 1, -1 ], "prob": 45 },
@@ -175,7 +163,7 @@
               { "item": "bowl_plastic", "prob": 5 },
               { "item": "ammonia_hydroxide", "charges": [ 1, -1 ], "prob": 15 },
               { "item": "chem_washing_soda", "count": [ 1, -1 ], "prob": 10 },
-              { "item": "bag_garbage", "count": [ 1, 25 ], "container-item": "box_small", "prob": 35 }
+              { "group": "bag_garbage_box_part", "prob": 35 }
             ],
             "prob": 15
           },

@@ -34,7 +34,7 @@
     "components": [
       [ [ "inventor_sniper", 1 ] ],
       [ [ "scrap_aluminum", 400 ] ],
-      [ [ "cable", 200 ] ],
+      [ [ "cable", 67 ] ],
       [ [ "e_scrap", 3 ] ],
       [ [ "lens", 5 ] ],
       [ [ "motor_micro", 8 ] ],
@@ -88,7 +88,7 @@
     "components": [
       [ [ "inventor_shotgun", 1 ] ],
       [ [ "scrap_aluminum", 400 ] ],
-      [ [ "cable", 200 ] ],
+      [ [ "cable", 67 ] ],
       [ [ "e_scrap", 3 ] ],
       [ [ "lens", 5 ] ],
       [ [ "motor_micro", 8 ] ],
@@ -142,7 +142,7 @@
     "components": [
       [ [ "blade", 3 ] ],
       [ [ "scrap_aluminum", 400 ] ],
-      [ [ "cable", 200 ] ],
+      [ [ "cable", 67 ] ],
       [ [ "e_scrap", 3 ] ],
       [ [ "lens", 5 ] ],
       [ [ "motor_micro", 8 ] ],
@@ -197,7 +197,7 @@
       [ [ "spring_medium", 4 ] ],
       [ [ "beartrap", 1 ] ],
       [ [ "scrap_aluminum", 400 ] ],
-      [ [ "cable", 200 ] ],
+      [ [ "cable", 67 ] ],
       [ [ "e_scrap", 3 ] ],
       [ [ "lens", 5 ] ],
       [ [ "motor_micro", 8 ] ],

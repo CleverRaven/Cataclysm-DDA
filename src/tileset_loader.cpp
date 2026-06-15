@@ -251,7 +251,10 @@ void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_P
 
     // Compute per-sprite opaque bounds once from the unfiltered atlas.
     // Color filter variants preserve the alpha channel, so rescanning is unnecessary.
-    // Blit into a 32-bit surface for format-safe pixel access.
+    // Blit into a 32-bit surface for format-safe pixel access. The normal atlas
+    // texture is uploaded from the same 32-bit surface so shader variants sample
+    // the same concrete RGBA pixels as the pre-baked variants; paletted fallback
+    // atlases are not reliable shader sources on every SDL3 GPU backend.
     SDL_Surface_Ptr scan_surf = create_surface_32( tile_atlas->w, tile_atlas->h );
     throwErrorIf( BlitSurface( tile_atlas, nullptr, scan_surf, nullptr ) != 0,
                   "SDL_BlitSurface failed" );
@@ -289,19 +292,12 @@ void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_P
         color_pixel_function_pointer color_pixel_function = get_color_pixel_function( std::get<1>
                 ( entry ) );
         if( !color_pixel_function ) {
-            // TODO: Move it inside apply_color_filter.
-            copy_surface_to_texture( tile_atlas, offset, *tile_values, opaque_bounds, abandon_gate );
+            copy_surface_to_texture( scan_surf, offset, *tile_values, opaque_bounds, abandon_gate );
         } else {
             copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_function ), offset,
                                      *tile_values, opaque_bounds, abandon_gate );
         }
     }
-}
-
-template<typename T>
-static void extend_vector_by( std::vector<T> &vec, const size_t additional_size )
-{
-    vec.resize( vec.size() + additional_size );
 }
 
 void tileset_cache::loader::read_image_dimensions( const cata_path &img_path,
@@ -315,12 +311,6 @@ void tileset_cache::loader::read_image_dimensions( const cata_path &img_path,
 
     const int expected_tilecount = ( tile_atlas->w / sprite_width ) *
                                    ( tile_atlas->h / sprite_height );
-    extend_vector_by( ts.tile_values, expected_tilecount );
-    extend_vector_by( ts.shadow_tile_values, expected_tilecount );
-    extend_vector_by( ts.night_tile_values, expected_tilecount );
-    extend_vector_by( ts.overexposed_tile_values, expected_tilecount );
-    extend_vector_by( ts.memory_tile_values, expected_tilecount );
-    extend_vector_by( ts.silhouette_tile_values, expected_tilecount );
 
     atlas_replay_descriptor desc;
     desc.image_path_u8 = img_path.get_unrelative_path().u8string();
@@ -336,8 +326,10 @@ void tileset_cache::loader::read_image_dimensions( const cata_path &img_path,
     size = expected_tilecount;
 }
 
-void tileset_cache::loader::load( const std::string &tileset_id, const bool precheck,
-                                  const bool pump_events, const bool terrain )
+atlas_upload_interrupt tileset_cache::loader::load( const std::string &tileset_id,
+        const bool precheck, const bool pump_events, const bool terrain,
+        const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation,
+        const atlas_upload_poll &poll, atlas_replay_quarantine *const quarantine )
 {
     std::string json_conf;
     std::string layering;
@@ -403,7 +395,10 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
 
     if( precheck ) {
         config.allow_omitted_members();
-        return;
+        // A precheck loads no textures; still record the generations so the
+        // metadata-only bundle is cache-fresh until the next renderer epoch.
+        ts.set_upload_generations( renderer_instance_generation, gpu_textures_generation );
+        return atlas_upload_interrupt::none;
     }
 
     ts.clear();
@@ -510,8 +505,9 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         load_layers( layer_config );
     }
 
-    upload_atlases( ts, renderer, memory_map_mode, ts.get_atlas_descriptors(),
-                    0, 0, pump_events );
+    return upload_atlases( ts, renderer, memory_map_mode, ts.get_atlas_descriptors(),
+                           renderer_instance_generation, gpu_textures_generation,
+                           pump_events, poll, quarantine );
 }
 
 void tileset_cache::loader::parse_atlases( const JsonObject &config,

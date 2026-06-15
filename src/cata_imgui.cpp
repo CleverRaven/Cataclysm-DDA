@@ -576,9 +576,9 @@ void cataimgui::client::new_frame( int display_buffer_w, int display_buffer_h )
 #endif
     }
 #endif
-    if( clear_screen ) {
+    if( clear_screen && clear_sdl_window() ) {
+        // Keep the request armed if the clear was deferred by a queued recovery.
         clear_screen = false;
-        clear_sdl_window();
     }
 #if SDL_MAJOR_VERSION >= 3
     ImGui_ImplSDLRenderer3_NewFrame();
@@ -615,11 +615,15 @@ void cataimgui::client::new_frame( int display_buffer_w, int display_buffer_h )
 void cataimgui::client::end_frame()
 {
     ImGui::Render();
+    // A watcher write can land after the outer-boundary drain passed but before
+    // this paint. The draw list is finalized; skip only the backend paint.
+    if( !renderer_should_abort_frame() ) {
 #if SDL_MAJOR_VERSION >= 3
-    ImGui_ImplSDLRenderer3_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
+        ImGui_ImplSDLRenderer3_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
 #else
-    ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
+        ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
 #endif
+    }
     ImGuiIO &io = ImGui::GetIO();
     for( const int &code : cata_input_trail ) {
         io.AddKeyEvent( cata_key_to_imgui( code ), false );

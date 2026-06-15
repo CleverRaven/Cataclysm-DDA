@@ -23,7 +23,7 @@
     "components": [
       [ [ "amplifier", 1 ], [ "makeshift_transformer", 2 ] ],
       [ [ "plastic_chunk", 1 ], [ "duct_tape", 10 ] ],
-      [ [ "cable", 10 ] ]
+      [ [ "cable", 4 ] ]
     ]
   },
   {
@@ -57,7 +57,7 @@
       [ [ "2x4", 3 ] ],
       [ [ "copper_scrap_equivalent", 10, "LIST" ] ],
       [ [ "stick", 1 ] ],
-      [ [ "copper_wire", 2 ] ],
+      [ [ "copper_wire", 1 ] ],
       [ [ "rope_any_short", 2, "LIST" ] ],
       [ [ "chunk_magnetite", 1 ] ]
     ]

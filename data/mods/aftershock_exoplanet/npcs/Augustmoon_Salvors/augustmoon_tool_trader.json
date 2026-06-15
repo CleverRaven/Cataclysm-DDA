@@ -111,7 +111,7 @@
     "name_suffix": "gadget store clerk",
     "class": "NC_AUGUSTMOON_TOOL_TRADER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_AUGUSTMOON_TOOL_TRADER",
     "faction": "UICA"
   },

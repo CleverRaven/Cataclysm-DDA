@@ -63,35 +63,5 @@
     "type": "recipe",
     "result": "plastic_chunk",
     "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "battery_charger",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "makeshift_hand_crank_charger",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "condensor_coil",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "evaporator_coil",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "light_minus_disposable_cell",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "power_supply",
-    "obsolete": true
   }
 ]

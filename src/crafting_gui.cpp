@@ -1121,7 +1121,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 if( total_yield > 1 ) {
                     //~ %1$s: success chance, %2$s: yield count, %3$s: time, %4$s: activity level
                     const std::string fmt = _( "%1$s chance to yield %2$s in %3$s of %4$s" );
-                    const std::string yield_as_string = recp.result()->count_or_volume_or_weight_prefix( total_yield );
+                    const std::string yield_as_string = recp.result()->item_measure_prefix( total_yield );
                     plain = string_format( fmt, chance_str, yield_as_string, time_str, activity_str );
                     colored = string_format( fmt,
                                              colorize( chance_str, success_col ),
@@ -1472,7 +1472,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
 // --- draw_modifier_table ---
 
 void crafting_ui_impl::draw_modifier_table( const recipe &recp,
-        const availability &/*avail*/, int batch_size )
+        const availability &avail, int batch_size )
 {
     // Helper: time impact as percentage. Input is a time multiplier
     // (>1 = slower, <1 = faster). Shows "+50%" (red) or "-20%" (green).
@@ -1594,32 +1594,45 @@ void crafting_ui_impl::draw_modifier_table( const recipe &recp,
         // --- Proficiencies ---
         {
             const auto &profs = recp.get_proficiencies();
-            bool has_profs = std::any_of( profs.begin(), profs.end(),
-            []( const recipe_proficiency & p ) {
-                return !p.required;
-            } );
-            if( has_profs ) {
+            if( !profs.empty() ) {
                 section_label( _( "Proficiencies" ) );
             }
 
-            for( const recipe_proficiency &prof : profs ) {
-                if( prof.required ) {
-                    continue;
+            const auto crafter_or_helper_has_proficiency = [&avail]( const proficiency_id & prof ) {
+                if( avail.crafter.has_proficiency( prof ) ) {
+                    return true;
                 }
-                bool known = crafter->has_proficiency( prof.id );
+                std::vector<Character *> helpers = avail.crafter.get_crafting_group();
+                return std::any_of( helpers.begin(), helpers.end(), [&prof]( const Character * helper ) {
+                    return helper->has_proficiency( prof );
+                } );
+            };
+
+            for( const recipe_proficiency &prof : profs ) {
+                bool known = crafter_or_helper_has_proficiency( prof.id );
                 ImGui::TableNextRow();
                 ImGui::TableNextColumn();
                 ImGui::Indent( row_indent );
 
-                if( known ) {
-                    nc_color dim = c_dark_gray;
-                    ImGui::TextColored( cataimgui::imvec4_from_color( dim ), "%s",
+                if( prof.required ) {
+                    nc_color col = known ? c_dark_gray : c_red;
+                    ImGui::TextColored( cataimgui::imvec4_from_color( col ), "%s",
                                         prof.id->name().c_str() );
                     ImGui::Unindent( row_indent );
-                    ImGui::TableNextColumn();
-                    ImGui::TextColored( cataimgui::imvec4_from_color( dim ), "-" );
-                    ImGui::TableNextColumn();
-                    ImGui::TextColored( cataimgui::imvec4_from_color( dim ), "-" );
+                    if( known ) {
+                        dash_cell();
+                    } else {
+                        ImGui::TableNextColumn();
+                        ImGui::TextColored( cataimgui::imvec4_from_color( col ), "%s",
+                                            _( "required" ) );
+                    }
+                    dash_cell();
+                } else if( known ) {
+                    ImGui::TextColored( cataimgui::imvec4_from_color( c_dark_gray ), "%s",
+                                        prof.id->name().c_str() );
+                    ImGui::Unindent( row_indent );
+                    dash_cell();
+                    dash_cell();
                 } else {
                     ImGui::TextColored( cataimgui::imvec4_from_color( c_white ), "%s",
                                         prof.id->name().c_str() );
@@ -2024,8 +2037,7 @@ void crafting_ui_impl::draw_requirement_tools( const requirement_data &req,
         } );
 
         // Label
-        std::string label = has_name ? string_format( "\u2022 %s: ", group_name ) :
-                            std::string( _( "\u2022 One of: " ) );
+        std::string label = string_format( _( "\u2022 %s: " ), has_name ? group_name : _( "One of" ) );
 
         if( is_expanded ) {
             // Expanded: label line, then each tool as a bullet below

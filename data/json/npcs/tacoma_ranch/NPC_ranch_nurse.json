@@ -7,7 +7,7 @@
     "gender": "female",
     "class": "NC_HUNTER",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_RANCH_NURSE",
     "mission_offered": "MISSION_RANCH_NURSE_1",
     "faction": "tacoma_commune"

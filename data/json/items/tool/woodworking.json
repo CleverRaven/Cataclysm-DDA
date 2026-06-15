@@ -275,7 +275,7 @@
     "material": [ "wood", "copper" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "CUT", 1 ], [ "AXE", 1 ], [ "BUTCHER", -44 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "AXE", "level": 1, "speed": 2.2 }, { "id": "BUTCHER", "level": -44 } ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "weapon_category": [ "HAND_AXES" ],
     "melee_damage": { "bash": 7, "cut": 14 }
@@ -296,7 +296,7 @@
     "symbol": "/",
     "color": "yellow",
     "looks_like": "ax",
-    "qualities": [ [ "CUT", 1 ], [ "AXE", 2 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "AXE", "level": 2, "speed": 1.5 }, { "id": "BUTCHER", "level": -30 } ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ],
     "melee_damage": { "bash": 12, "cut": 24 }
@@ -319,7 +319,13 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "weapon_category": [ "HAND_AXES" ],
-    "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "BUTCHER", 16 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "AXE", "level": 2, "speed": 1.5 },
+      { "id": "BUTCHER", "level": 16 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
     "melee_damage": { "bash": 10, "cut": 20 }
   },
   {
@@ -502,7 +508,12 @@
     "material": [ "stone" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -50 ], [ "AXE", 1 ], [ "HAMMER", 1 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "AXE", "level": 1, "speed": 12 },
+      { "id": "BUTCHER", "level": -50 },
+      { "id": "HAMMER", "level": 1 }
+    ],
     "flags": [ "SHEATH_AXE" ],
     "melee_damage": { "bash": 3, "cut": 11 }
   },
@@ -515,6 +526,12 @@
     "description": "A chunk of steel with one edge hammered down to something resembling a cutting edge.  It works passably well, but really can't compare to a proper axe.",
     "material": [ "steel" ],
     "flags": [ "SHEATH_AXE" ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "AXE", "level": 1, "speed": 7 },
+      { "id": "BUTCHER", "level": -50 },
+      { "id": "HAMMER", "level": 1 }
+    ],
     "melee_damage": { "bash": 5, "cut": 12 }
   },
   {
@@ -551,7 +568,12 @@
     "material": [ "wood", "stone" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "AXE", 1 ], [ "BUTCHER", -70 ], [ "HAMMER", 1 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "AXE", "level": 1, "speed": 3 },
+      { "id": "BUTCHER", "level": -70 },
+      { "id": "HAMMER", "level": 1 }
+    ],
     "flags": [ "BELT_CLIP", "SHEATH_AXE" ],
     "melee_damage": { "bash": 8, "cut": 14 }
   },

@@ -1,36 +1,18 @@
 {
   "name": "cdda-vcpkg-dependencies",
   "version-string": "0.J",
+  "port-version": 1,
   "dependencies": [
-    { "name": "pdcurses", "version>=": "3.9#4", "platform": "windows" }
-  ],
-  "features": {
-    "sdl2": {
-      "description": "Build against SDL2.",
-      "dependencies": [
-        "libvorbis",
-        { "name": "sdl2", "version>=": "2.26.4#0" },
-        { "name": "sdl2-image", "features": [ "libjpeg-turbo" ] },
-        { "name": "sdl2-mixer", "features": [ "libflac", "mpg123", "wavpack" ],
-          "default-features": false
-        },
-        "sdl2-ttf"
-      ]
+    { "name": "pdcurses", "version>=": "3.9#4", "platform": "windows" },
+    "sdl3",
+    { "name": "sdl3-image", "features": [ "jpeg", "png" ] },
+    "sdl3-ttf",
+    { "name": "sdl3-mixer",
+      "features": [ "libflac", "mpg123", "wavpack", "libvorbis" ],
+      "default-features": false
     },
-    "sdl3": {
-      "description": "Build against SDL3 instead of SDL2.",
-      "dependencies": [
-        "sdl3",
-        { "name": "sdl3-image", "features": [ "jpeg", "png" ] },
-        "sdl3-ttf",
-        { "name": "sdl3-mixer",
-          "features": [ "libflac", "mpg123", "wavpack", "libvorbis" ],
-          "default-features": false
-        },
-        { "name": "glslang", "features": [ "tools" ] },
-        "sdl3-shadercross"
-      ]
-    }
-  },
+    { "name": "glslang", "features": [ "tools" ] },
+    "sdl3-shadercross"
+  ],
   "builtin-baseline": "f6672d8e480ccdecddfad3fd1b838ba369ffe6cd"
 }

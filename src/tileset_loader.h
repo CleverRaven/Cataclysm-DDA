@@ -116,9 +116,16 @@ class tileset_cache::loader
         // tileset_id matches the option string. precheck only loads metadata
         // (tile dimensions). pump_events handles window events / refreshes
         // the screen during the upload pass. terrain marks this as an
-        // overmap/terrain tileset.
-        void load( const std::string &tileset_id, bool precheck, bool pump_events = false,
-                   bool terrain = false );
+        // overmap/terrain tileset. poll is consulted between atlas chunks; on
+        // interrupt the candidate textures move into *quarantine and the reason
+        // is returned without committing to ts. The generations are recorded on
+        // the uploaded bundle for the cache staleness check.
+        atlas_upload_interrupt load( const std::string &tileset_id, bool precheck,
+                                     bool pump_events = false, bool terrain = false,
+                                     uint64_t renderer_instance_generation = 0,
+                                     uint64_t gpu_textures_generation = 0,
+                                     const atlas_upload_poll &poll = {},
+                                     atlas_replay_quarantine *quarantine = nullptr );
 
         // Upload every descriptor and regenerate the default highlight when
         // active. Builds candidate vectors and swaps them into ts on full

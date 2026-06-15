@@ -6,7 +6,7 @@
     "name_suffix": "Bartender",
     "class": "NC_BARTENDER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_RANCH_BARKEEP",
     "mission_offered": "MISSION_RANCH_BARTENDER_1",
     "faction": "tacoma_commune"

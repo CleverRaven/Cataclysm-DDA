@@ -185,7 +185,7 @@
     "bodytype": "human",
     "species": [ "HUMAN" ],
     "material": [ "hflesh" ],
-    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
     "chat_topics": [ "TALK_CIVILIAN_WENDI" ],
     "volume": "62500 ml",
     "weight": "61500 g",

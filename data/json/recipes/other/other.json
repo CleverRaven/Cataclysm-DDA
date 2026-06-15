@@ -379,5 +379,24 @@
     "autolearn": true,
     "tools": [ [ [ "cigar_cutter", -1 ], [ "cigar_punch", -1 ] ] ],
     "components": [ [ [ "tobacco", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "firewood",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "autolearn": true,
+    "result_mult": 10,
+    "byproducts": [ [ "splinter", 5 ] ],
+    "components": [ [ [ "log", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Chopping the wood",
+        "time": "30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "AXE", "level": 1 } ]
+      }
+    ]
   }
 ]

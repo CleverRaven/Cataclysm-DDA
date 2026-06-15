@@ -1192,7 +1192,7 @@ class pickup_selector : public inventory_multiselector
         bool wield( int &count );
         bool wear();
         void remove_from_to_use( item_location &it );
-        void reopen_menu();
+        void reopen_menu( const item_location &next_item );
         const std::set<tripoint_bub_ms> where;
 };
 

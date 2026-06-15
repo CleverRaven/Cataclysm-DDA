@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.20)
-option(USE_SDL3 "Build against SDL3 instead of SDL2 (requires TILES)." "OFF")
+option(TILES "Build graphical tileset version." "OFF")
+option(USE_SDL3 "Build against SDL3 instead of SDL2 (requires TILES)." "${TILES}")
 if (USE_SDL3)
     set(VCPKG_MANIFEST_FEATURES "sdl3")
-else()
+elseif (TILES)
     set(VCPKG_MANIFEST_FEATURES "sdl2")
 endif()
 project(CataclysmDDA)
@@ -18,7 +19,6 @@ set(CMAKE_TLS_VERIFY ON)
 
 # Build options
 include(CMakeDependentOption)
-option(TILES "Build graphical tileset version." "OFF")
 option(CURSES "Build curses version." "ON")
 option(SOUND "Support for in-game sounds & music." "OFF")
 option(BACKTRACE "Support for printing stack backtraces on crash" "ON")
@@ -550,4 +550,3 @@ configure_file(
 add_custom_target(uninstall
         "${CMAKE_COMMAND}"
         -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
-

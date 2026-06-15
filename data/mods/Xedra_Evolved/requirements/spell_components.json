@@ -49,7 +49,7 @@
   {
     "id": "spell_components_cable_whip",
     "type": "requirement",
-    "components": [ [ [ "cable", 15 ] ] ]
+    "components": [ [ [ "cable", 5 ] ] ]
   },
   {
     "id": "spell_components_hedge_ward_off_rain",

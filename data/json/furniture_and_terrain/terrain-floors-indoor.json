@@ -1337,7 +1337,7 @@
     "deconstruct": {
       "ter_set": "t_pit",
       "items": [
-        { "item": "cable", "count": [ 8, 16 ] },
+        { "item": "cable", "count": [ 3, 6 ] },
         { "item": "cobalt_60", "count": [ 2, 10 ] },
         { "item": "scrap", "count": [ 8, 16 ] },
         { "item": "sheet_metal", "count": [ 5, 10 ] },

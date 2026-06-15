@@ -11,6 +11,7 @@ class window;
 
 #if defined(TILES)
 
+#include <cstdint>
 #include <memory>
 #include <string>
 
@@ -64,8 +65,10 @@ window_dimensions get_window_dimensions( const catacurses::window &win );
 window_dimensions get_window_dimensions( const point &pos, const point &size );
 
 const SDL_Renderer_Ptr &get_sdl_renderer();
-// Clears the SDL renderer to black
-void clear_sdl_window();
+// Clears the SDL renderer to black. Returns false without clearing when a
+// recovery/pause/resize is queued or the buffer bind failed, so the caller can
+// keep the clear request armed for a later frame.
+bool clear_sdl_window();
 // Returns the main game window. Needed by text input wrappers and other
 // SDL3 APIs that require an explicit window parameter.
 SDL_Window *get_sdl_window();
@@ -111,6 +114,17 @@ void display_buffer_scope_signal_recovery_required();
 // Clear the latch once the poisoned renderer is gone and a fresh one is wired.
 void display_buffer_scope_clear_recovery_required();
 
+// True when a draw must skip the backend paint, for any of: a queued recovery,
+// the app paused or resuming, a pending resize, or a latched draw-scope boundary
+// failure. Thin accessor so shared redraw paths skip the GPU paint without the
+// coordinator header. Callers below reference this set rather than re-listing it.
+bool renderer_should_abort_frame();
+
+// Monotonic count of completed renderer-resource rebuilds. Saved alongside any
+// retained renderer state (e.g. a clip rect) so a later restore can detect that
+// a recovery rebuilt the renderer in between and skip the now-stale restore.
+uint64_t renderer_resource_generation();
+
 // Nestable RAII guard: binds display_buffer on entry, restores the idle null
 // target on exit. Only the outermost switches; nested scopes are no-ops. On a
 // failed bind the scope is inactive and display_buffer_scope_is_invalid() is
@@ -120,7 +134,11 @@ void display_buffer_scope_clear_recovery_required();
 class display_buffer_draw_scope
 {
     public:
-        display_buffer_draw_scope();
+        // Default draws refuse the bind when renderer_should_abort_frame, so no
+        // SDL_SetRenderTarget runs on a paused or about-to-be-rebuilt renderer.
+        // The recovery-blank step passes allow_during_recovery to bind during its
+        // own gated work, where the abort latch is deliberately still raised.
+        explicit display_buffer_draw_scope( bool allow_during_recovery = false );
         ~display_buffer_draw_scope();
         display_buffer_draw_scope( const display_buffer_draw_scope & ) = delete;
         display_buffer_draw_scope &operator=( const display_buffer_draw_scope & ) = delete;
@@ -131,6 +149,12 @@ class display_buffer_draw_scope
         // Used after a variant_pass::flush failure to honor the shader
         // bind boundary.
         void abort_unbind();
+
+        // True when the caller should draw inside this scope: the bind succeeded
+        // and renderer_should_abort_frame is clear. Folds the bind-validity check
+        // and the post-bind abort recheck into one call so a draw path cannot skip
+        // the recheck.
+        bool should_draw() const;
 
     private:
         bool outermost_ = false;

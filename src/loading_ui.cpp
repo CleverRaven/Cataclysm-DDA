@@ -68,7 +68,9 @@ static void redraw()
         const float center_x = ImGui::GetMainViewport()->Size.x / 2;
         const float image_start_pos_x = center_x - ( gLUI->splash_size.x / 2 );
         ImGui::SetCursorPosX( image_start_pos_x );
-        ImGui::Image( reinterpret_cast<ImTextureID>( gLUI->splash.get() ), gLUI->splash_size );
+        if( gLUI->splash ) {
+            ImGui::Image( reinterpret_cast<ImTextureID>( gLUI->splash.get() ), gLUI->splash_size );
+        }
 
         // hint
         ImGui::SetCursorPosY( ImGui::GetWindowHeight() - gLUI->text_height );
@@ -208,7 +210,12 @@ static void update_state( const std::string &context, const std::string &step )
         gLUI->splash_size = { static_cast<float>( surf->w ) / longest_side_ratio,
                               static_cast<float>( surf->h ) / longest_side_ratio
                             };
-        gLUI->splash = CreateTextureFromSurface( get_sdl_renderer(), surf );
+        if( !renderer_should_abort_frame() ) {
+            // Skip the upload when recovery is queued: it would invalidate the
+            // texture. The splash stays absent for this load rather than uploading
+            // against a renderer about to be rebuilt.
+            gLUI->splash = CreateTextureFromSurface( get_sdl_renderer(), surf );
+        }
         gLUI->window_size = gLUI->splash_size + ImVec2{ 0.0f, 2.0f * ImGui::GetTextLineHeightWithSpacing() };
 #else
         std::string splash = PATH_INFO::title( get_holiday_from_time() );
@@ -235,6 +242,7 @@ void loading_ui::show( const std::string &context, const std::string &step )
         return;
     }
     update_state( context, step );
+    drain_renderer_recovery();
     ui_manager::redraw();
     refresh_display();
     inp_mngr.pump_events();
@@ -252,4 +260,13 @@ void loading_ui::done()
         delete gLUI;
         gLUI = nullptr;
     }
+}
+
+void loading_ui::release_gpu_resources()
+{
+#ifdef TILES
+    if( gLUI != nullptr ) {
+        gLUI->splash.reset();
+    }
+#endif
 }

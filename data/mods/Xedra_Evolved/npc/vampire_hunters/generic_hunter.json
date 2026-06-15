@@ -6,7 +6,7 @@
     "class": "NC_vampire_hunter_generic_guard",
     "//": "Generic class for the guards watching the base.  Another variant will be added for those participating in raid missions.",
     "attitude": 0,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_HUNTER_GENERIC_GUARD",
     "faction": "vampire_hunters"
   },

@@ -7,7 +7,7 @@
     "class": "MILITIA_MERCHANT",
     "attitude": 0,
     "name_suffix": "Survivor",
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_MILITIA_MAIN",
     "faction": "GM_militia_faction"
   },
@@ -161,7 +161,7 @@
       },
       { "text": "Do you have anything to trade?", "topic": "TALK_MILITIA_TRADE" },
       {
-        "text": "Time for me to leave",
+        "text": "Time for me to leave.",
         "topic": "TALK_MILITIA_BYE",
         "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_MILITIAMAIN" } ] }
       }

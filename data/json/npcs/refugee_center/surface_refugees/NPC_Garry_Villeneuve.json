@@ -7,7 +7,7 @@
     "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Garry",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_REFUGEE_Garry_1",
     "faction": "free_merchants"
   },

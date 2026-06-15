@@ -6,7 +6,7 @@
     "name_suffix": "CPT",
     "class": "NC_SOLDIER",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_OLD_GUARD_NEC_CPT",
     "faction": "old_guard",
     "mission_offered": "MISSION_OLD_GUARD_NEC_1"

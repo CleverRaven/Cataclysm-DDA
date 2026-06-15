@@ -8,7 +8,7 @@
     "name_unique": "Leonard Mai",
     "gender": "male",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "age": 88,
     "chat": "TALK_VAMPIRE_HUNTER_LEADER",
     "personality": { "aggression": 10, "bravery": 10, "collector": 2, "altruism": 1 },

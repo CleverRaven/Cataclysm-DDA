@@ -24,7 +24,7 @@
     "time": "45 m",
     "book_learn": [ [ "carpentry_book", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 3 ] ], [ [ "cable", 2 ] ] ]
+    "components": [ [ [ "scrap", 3 ] ], [ [ "cable", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -100,7 +100,7 @@
     "time": "20 m",
     "book_learn": [ [ "radio_book", 1 ], [ "textbook_anarch", 1 ], [ "mag_electronics", 1 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "cable", 20 ] ] ],
+    "components": [ [ [ "cable", 7 ] ] ],
     "tools": [ [ [ "two_way_radio", 25 ], [ "radiocontrol", 25 ] ] ]
   },
   {
@@ -149,7 +149,7 @@
     "using": [ [ "soldering_standard", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "amplifier", 2 ] ], [ [ "cable", 20 ] ] ]
+    "components": [ [ [ "amplifier", 2 ] ], [ [ "cable", 7 ] ] ]
   },
   {
     "type": "recipe",
@@ -182,7 +182,7 @@
     "using": [ [ "soldering_standard", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "circuit", 2 ] ], [ [ "e_scrap", 5 ] ], [ [ "cable", 2 ] ], [ [ "amplifier", 1 ] ] ]
+    "components": [ [ [ "circuit", 2 ] ], [ [ "e_scrap", 5 ] ], [ [ "cable", 1 ] ], [ [ "amplifier", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -199,7 +199,7 @@
     "using": [ [ "soldering_standard", 7 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "circuit", 3 ] ], [ [ "e_scrap", 7 ] ], [ [ "cable", 3 ] ], [ [ "amplifier", 2 ] ] ]
+    "components": [ [ [ "circuit", 3 ] ], [ [ "e_scrap", 7 ] ], [ [ "cable", 1 ] ], [ [ "amplifier", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -392,7 +392,7 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "e_scrap", 1 ] ], [ [ "scrap", 1 ] ], [ [ "cable", 2 ] ] ]
+    "components": [ [ [ "e_scrap", 1 ] ], [ [ "scrap", 1 ] ], [ [ "cable", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -410,7 +410,7 @@
     "using": [ [ "soldering_standard", 5 ], [ "steel_chunk_any", 1 ], [ "welding_standard", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "cable", 28 ] ], [ [ "e_scrap", 3 ] ], [ [ "scrap", 1 ] ], [ [ "bearing", 4 ] ] ]
+    "components": [ [ [ "cable", 10 ] ], [ [ "e_scrap", 3 ] ], [ [ "scrap", 1 ] ], [ [ "bearing", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -430,7 +430,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "e_scrap", 15 ] ],
-      [ [ "cable", 519 ] ],
+      [ [ "cable", 173 ] ],
       [ [ "pipe", 1 ] ],
       [ [ "bearing", 10 ] ],
       [ [ "sheet_metal_small", 4 ] ]
@@ -511,7 +511,7 @@
     "autolearn": true,
     "charges": 6,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "copper_wire", 6 ] ], [ [ "duct_tape", 1 ] ] ]
+    "components": [ [ [ "copper_wire", 2 ] ], [ [ "duct_tape", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -584,7 +584,7 @@
     "using": [ [ "soldering_standard", 40 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" }, { "proficiency": "prof_elec_soldering" } ],
-    "components": [ [ [ "e_scrap", 5 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 5 ] ], [ [ "plastic_chunk", 5 ] ] ]
+    "components": [ [ [ "e_scrap", 5 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 2 ] ], [ [ "plastic_chunk", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -601,7 +601,7 @@
     "using": [ [ "soldering_standard", 150 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_lcd_screen", 10 ] ], [ [ "processor", 3 ] ], [ [ "RAM", 2 ] ], [ [ "cable", 20 ] ] ]
+    "components": [ [ [ "small_lcd_screen", 10 ] ], [ [ "processor", 3 ] ], [ [ "RAM", 2 ] ], [ [ "cable", 7 ] ] ]
   },
   {
     "type": "recipe",
@@ -617,7 +617,7 @@
     "using": [ [ "soldering_standard", 50 ], [ "plastic_molding", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" }, { "proficiency": "prof_elec_soldering" } ],
-    "components": [ [ [ "lens", 4 ] ], [ [ "e_scrap", 10 ] ], [ [ "amplifier", 4 ] ], [ [ "cable", 20 ] ], [ [ "plastic_chunk", 5 ] ] ]
+    "components": [ [ [ "lens", 4 ] ], [ [ "e_scrap", 10 ] ], [ [ "amplifier", 4 ] ], [ [ "cable", 7 ] ], [ [ "plastic_chunk", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -634,7 +634,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "camera", 2 ], [ "camera_pro", 2 ], [ "smart_phone", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "camera", 2 ], [ "camera_pro", 2 ], [ "smart_phone", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "cable", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -667,7 +667,7 @@
     "using": [ [ "soldering_standard", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "amplifier", 1 ] ], [ [ "scrap_aluminum", 2 ] ], [ [ "cable", 4 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "amplifier", 1 ] ], [ [ "scrap_aluminum", 2 ] ], [ [ "cable", 2 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -683,7 +683,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cable", 50 ], [ "jumper_cable", 1 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "cable", 17 ], [ "jumper_cable", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -864,7 +864,7 @@
       [ [ "pipe", 6 ] ],
       [ [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ],
       [ [ "any_wire", 3, "LIST" ] ],
-      [ [ "cable", 10 ] ],
+      [ [ "cable", 4 ] ],
       [ [ "pipe_fittings", 4 ] ]
     ]
   },
@@ -917,7 +917,7 @@
       [ [ "pilot_light", 1 ] ],
       [ [ "light_minus_battery_cell", 1 ], [ "light_minus_disposable_cell", 1 ], [ "light_battery_cell", 1 ] ],
       [ [ "amplifier", 1 ] ],
-      [ [ "cable", 2 ] ]
+      [ [ "cable", 1 ] ]
     ]
   },
   {

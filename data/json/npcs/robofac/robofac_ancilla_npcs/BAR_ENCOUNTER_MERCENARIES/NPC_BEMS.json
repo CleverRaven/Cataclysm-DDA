@@ -6,7 +6,7 @@
     "name_unique": "the enterprising gunrunner",
     "class": "NC_BEM_GUNRUNNER",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "BEM_GUNRUNNER_1",
     "faction": "robofac_auxiliaries"
   },
@@ -17,7 +17,7 @@
     "name_suffix": "cyborg rescue",
     "class": "NC_ANCILLA_GRUNT",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "BGSS_CYBORG_1_STORY1",
     "faction": "your_followers"
   },
@@ -28,7 +28,7 @@
     "name_suffix": "kicking cyborg",
     "class": "NC_CYBORG_RESCUE",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "BGSS_CYBORG_1_STORY1",
     "faction": "your_followers"
   },
@@ -38,7 +38,7 @@
     "name_unique": "the drinking veteran",
     "class": "NC_ANCILLA_GRUNT",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "BEM_CHATTING_VETERANS_1",
     "faction": "robofac_auxiliaries"
   },
@@ -48,7 +48,7 @@
     "name_unique": "the drinking veteran",
     "class": "NC_ANCILLA_GRUNT",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "BEM_CHATTING_VETERANS_1",
     "faction": "robofac_auxiliaries"
   },
@@ -58,7 +58,7 @@
     "name_unique": "the pill pusher",
     "class": "NC_BEM_DRUGRUNNER",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "BEM_DRUGRUNNER_1",
     "faction": "robofac_auxiliaries"
   },
@@ -68,7 +68,7 @@
     "name_unique": "the traumatized traveler",
     "class": "NC_ANCILLA_GRUNT",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "BEM_JABBERWOCK_1",
     "faction": "robofac_auxiliaries"
   },
@@ -78,7 +78,7 @@
     "name_unique": "the shady mercenary",
     "class": "NC_ANCILLA_GRUNT",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "BEM_HUMAN_SAMPLE_1",
     "faction": "robofac_auxiliaries"
   },
@@ -88,7 +88,7 @@
     "name_unique": "the disconsolate mercenary",
     "class": "NC_ANCILLA_GRUNT",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "BEM_ANCHOR_SELLER_1",
     "faction": "robofac_auxiliaries"
   },
@@ -98,7 +98,7 @@
     "name_unique": "the cheerful mercenary",
     "class": "NC_ANCILLA_GRUNT",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "BEM_TEMPLATE_SELLER_1",
     "faction": "robofac_auxiliaries"
   },
@@ -108,7 +108,7 @@
     "name_unique": "the ID forger",
     "class": "NC_ANCILLA_GRUNT",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "BEM_KEYCARD_SELLER_1",
     "faction": "robofac_auxiliaries"
   },
@@ -118,7 +118,7 @@
     "name_suffix": "Mercenary",
     "class": "NC_ANCILLA_GRUNT",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "BEM_HIREABLE_1",
     "faction": "robofac_auxiliaries"
   },
@@ -128,7 +128,7 @@
     "name_unique": "the decorated hunter",
     "class": "NC_BEM_EXODII_HUNTER",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "BEM_EXODII_HUNTER_1",
     "faction": "robofac_auxiliaries"
   }

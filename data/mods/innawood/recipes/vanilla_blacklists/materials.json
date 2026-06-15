@@ -13,5 +13,10 @@
     "type": "recipe",
     "result": "sheet_nylon",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sheet_faux_fur_patchwork",
+    "obsolete": true
   }
 ]

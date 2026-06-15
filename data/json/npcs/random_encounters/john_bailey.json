@@ -7,7 +7,7 @@
     "name_suffix": "Survivor",
     "class": "NC_John_Bailey",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_RC_John_Bailey_1",
     "faction": "no_faction"
   },

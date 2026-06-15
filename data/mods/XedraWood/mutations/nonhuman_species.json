@@ -126,7 +126,7 @@
     "description": "Used to the warmth of the swamps as you are, you are little bothered by heat.",
     "types": [ "ACCLIMATIZATION" ],
     "points": 3,
-    "valid": true,
+    "valid": false,
     "vitamin_cost": 160,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ] } ]
   },
@@ -152,7 +152,7 @@
     "type": "mutation",
     "id": "INFRARED_LIZ",
     "name": { "str": "Heatsight" },
-    "description": "Your eyes are capable of sensing the heat of your prey.  Any anyone else, if necessary.",
+    "description": "Your eyes are capable of sensing the heat of your prey.  And anyone else, if necessary.",
     "points": 5,
     "vitamin_cost": 210,
     "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ]

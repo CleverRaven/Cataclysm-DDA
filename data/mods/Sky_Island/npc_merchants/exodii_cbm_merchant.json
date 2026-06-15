@@ -6,7 +6,7 @@
     "class": "NC_SKY_ISLAND_EXODII_CBM_MERCHANT",
     "name_unique": "┟┰┰┵═┼╧┤",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_SI_EXODII_MERCHANT",
     "faction": "sky_island_traders",
     "personality": { "aggression": -2, "bravery": 2, "collector": 6, "altruism": -1 },

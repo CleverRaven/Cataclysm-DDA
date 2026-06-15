@@ -205,6 +205,10 @@ void refresh_display()
     catacurses::doupdate();
 }
 
+void drain_renderer_recovery()
+{
+}
+
 void refresh_mouse_config()
 {
 }

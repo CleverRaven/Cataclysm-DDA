@@ -6,7 +6,7 @@
     "class": "NC_EXODII_TYPE_1_Merchant",
     "name_unique": "Rubik",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_EXODII_MERCHANT",
     "faction": "exodii",
     "personality": { "aggression": -1, "bravery": 2, "collector": -3, "altruism": 3 }

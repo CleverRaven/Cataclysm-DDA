@@ -123,7 +123,7 @@
       { "item": "wood_panel", "count": 1 },
       { "item": "2x4", "count": 4 },
       { "item": "nail", "charges": [ 8, 10 ] },
-      { "item": "cable", "count": [ 3, 4 ] }
+      { "group": "cable_roll_part" }
     ]
   }
 ]

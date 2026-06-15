@@ -878,7 +878,7 @@
     "time": "20 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "pliers_locking", -1 ], [ "toolset", -1 ] ] ],
-    "components": [ [ [ "cable", 19 ] ], [ [ "duct_tape", 20 ] ] ],
+    "components": [ [ [ "cable", 7 ] ], [ [ "duct_tape", 20 ] ] ],
     "pre_flags": "WALL",
     "pre_special": "check_no_wiring",
     "post_special": "done_wiring",

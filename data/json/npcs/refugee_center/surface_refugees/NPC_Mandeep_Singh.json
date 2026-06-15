@@ -7,7 +7,7 @@
     "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Mandeep",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_REFUGEE_Mandeep_1",
     "faction": "free_merchants"
   },

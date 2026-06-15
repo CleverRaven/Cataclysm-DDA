@@ -122,8 +122,6 @@ static const itype_id itype_efile_photos( "efile_photos" );
 static const itype_id itype_efile_recipes( "efile_recipes" );
 static const itype_id itype_joint_lit( "joint_lit" );
 static const itype_id itype_stock_none( "stock_none" );
-static const itype_id itype_water( "water" );
-static const itype_id itype_water_clean( "water_clean" );
 
 static const material_id material_wool( "wool" );
 
@@ -1825,12 +1823,12 @@ std::string item::display_name( unsigned int quantity ) const
                     }
                     amt = string_format( " (%s%s)",
                                          colorize( string_format( "%s/%s",
-                                                   type->count_or_volume_or_weight_prefix( amount ),
-                                                   type->count_or_volume_or_weight_prefix( max_amount ) ),
+                                                   type->item_measure_prefix( amount ),
+                                                   type->item_measure_prefix( max_amount ) ),
                                                    charges_color ),
                                          ammotext );
                 } else  {
-                    amt = string_format( " (%s%s)", type->count_or_volume_or_weight_prefix( amount ), ammotext );
+                    amt = string_format( " (%s%s)", type->item_measure_prefix( amount ), ammotext );
                 }
             }
         } else if( !ammotext.empty() ) {
@@ -4342,11 +4340,6 @@ void item::set_temp_flags( units::temperature new_temperature, float freeze_perc
         }
     } else if( new_temperature < temperatures::cold ) {
         set_flag( flag_COLD );
-    }
-
-    // Convert water into clean water if it starts boiling
-    if( typeId() == itype_water && new_temperature > temperatures::boiling ) {
-        convert( itype_water_clean ).poison = 0;
     }
 }
 
