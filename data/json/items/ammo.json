@@ -704,8 +704,8 @@
     "description": "A feather from a bird.  Useful for fletching arrows.",
     "material": [ "cotton" ],
     "flags": [ "NO_SALVAGE" ],
-    "volume": "250 ml",
-    "weight": "1 g"
+    "volume": "1 ml",
+    "weight": "10 mg"
   },
   {
     "type": "ITEM",
@@ -720,7 +720,7 @@
     "material": [ "down_feathers" ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "1 ml",
-    "weight": "10 mg"
+    "weight": "1 mg"
   },
   {
     "type": "ITEM",
