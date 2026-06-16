@@ -380,7 +380,7 @@
     "id": "achievement_wear_power_armor",
     "type": "achievement",
     "name": "Impenetrable",
-    "description": "AND YOU WILL REMAIN IN THIS MAN'S ARMY UNTIL YOU ARE FIVE-HUNDRED AND 10 YEARS OLD, which is the number of YEARS it will take for you pay for the Mk.  2 powered combat armor YOU!  HAVE!  LOST!",
+    "description": "AND YOU WILL REMAIN IN THIS MAN'S ARMY UNTIL YOU ARE… FIVE-HUNDRED AND 10 YEARS OLD, which is the number of YEARS it will take for YOU to pay for the Mk.  2 powered combat armor YOU!  HAVE!  LOST!",
     "requirements": [
       {
         "event_statistic": "num_avatar_wears_power_armor",
