@@ -1,5 +1,15 @@
 [
   {
+    "id": "smelting_standard",
+    "type": "requirement",
+    "tools": [
+      [ [ "forge", 1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "casting_mold", -1 ] ]
+    ]
+  },
+  {
     "id": "writing_standard",
     "type": "requirement",
     "name": "Writing",

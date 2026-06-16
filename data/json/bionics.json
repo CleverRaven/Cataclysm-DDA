@@ -1760,13 +1760,17 @@
     "//": "Only found in netherum labyrinth",
     "type": "bionic",
     "name": { "str": "Laser-Assisted Reading Device" },
-    "description": "Who needs a reading lamp when you don't need your eyes?  Your head has a short-distance laser scanner implant, allowing you to upload digital images of books straight into your brains optic lobe and language centers.  When active, you read slightly faster, and can read in the dark.",
+    "description": "Your head is implanted with a low-power reading light and a short-distance laser scanner, allowing you to upload digital images of books straight into your brain's optic lobe and language centers.  When active, you read slightly faster, and can read in the dark.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "active_flags": [ "READ_IN_DARKNESS" ],
-    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "READING_SPEED_MULTIPLIER", "multiply": -0.1 } ] } ],
-    "act_cost": "1 J",
-    "react_cost": "1 J",
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [ { "value": "READING_SPEED_MULTIPLIER", "multiply": -0.2 }, { "value": "LUMINATION", "add": 10 } ]
+      }
+    ],
+    "act_cost": "2 J",
+    "react_cost": "2 J",
     "time": "1 s"
   },
   {
