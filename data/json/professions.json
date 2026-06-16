@@ -6902,7 +6902,7 @@
     "type": "profession",
     "id": "mil_undercover",
     "name": "Undercover Operative",
-    "requirement": "achievement_kill_100_monsters"
+    "requirement": "achievement_kill_100_monsters",
     "description": "You've been tailing your target for months, and now he's a zombie.  So much for that lead.  Command isn't responding to your calls for an evac, so you'll have to make do with what you have on you.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 5,
