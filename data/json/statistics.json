@@ -2743,7 +2743,7 @@
     "event_transformation": "avatar_enters_oter_type",
     "value_constraints": {
       "oter_type_id": {
-        "equals_any": [ "oter_type_str_id", [ "lmoe_under_north", "lmoe_under_empty_prepperquest_north", "cabin_prepper_shelternorth" ] ]
+        "equals_any": [ "oter_type_str_id", [ "LMOE Shelter", "Locked LMOE Shelter", "Cabin_prepper" ] ]
       }
     }
   },
