@@ -476,7 +476,7 @@
     "material": [ "copper" ],
     "//": "12 AWG copper wire, 3.34 mm2 * 30 cm (1.002 ml), 30.6 kg/km (9.18 grams).",
     "volume": "1 ml",
-    "weight": "9 g",
+    "weight": "8960 mg",
     "longest_side": "30 cm",
     "display_type": "BY_LENGTH"
   },
@@ -1060,7 +1060,7 @@
     "description": "Some scrap bits of copper.  Could be used to craft things, such as makeshift ammunition.",
     "material": [ "copper" ],
     "volume": "1 ml",
-    "weight": "9 g"
+    "weight": "8960 mg"
   },
   {
     "type": "ITEM",
