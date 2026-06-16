@@ -619,30 +619,10 @@
     "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
     "copy-from": "ap_big_portable_freezer",
     "variants": [
-      {
-        "id": "up",
-        "label": "Up",
-        "symbols": "H",
-        "symbols_broken": "#"
-      },
-      {
-        "id": "down",
-        "label": "Down",
-        "symbols": "H",
-        "symbols_broken": "#"
-      },
-      {
-        "id": "left",
-        "label": "Left",
-        "symbols": "H",
-        "symbols_broken": "#"
-      },
-      {
-        "id": "right",
-        "label": "Right",
-        "symbols": "H",
-        "symbols_broken": "#"
-      }
+      { "id": "up", "label": "Up", "symbols": "H", "symbols_broken": "#" },
+      { "id": "down", "label": "Down", "symbols": "H", "symbols_broken": "#" },
+      { "id": "left", "label": "Left", "symbols": "H", "symbols_broken": "#" },
+      { "id": "right", "label": "Right", "symbols": "H", "symbols_broken": "#" }
     ]
   },
   {
