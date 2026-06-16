@@ -1294,7 +1294,7 @@ class Creature : public viewer
     public:
         // if false, the message from this creature dying is not printed
         bool death_message = true;
-        // if false, prevent creature from leaving any corpse after it's death
+        // if false, prevent creature from leaving any corpse after its death
         bool spawn_corpse = true;
         // drop everything this creature has in inventory
         bool death_drops = true;
