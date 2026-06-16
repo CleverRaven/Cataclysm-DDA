@@ -1022,7 +1022,6 @@
     "material": [ "powder_nonflam" ],
     "volume": "50 ml",
     "weight": "5275 mg",
-    "container": "bag_canvas"
   },
   {
     "type": "ITEM",
