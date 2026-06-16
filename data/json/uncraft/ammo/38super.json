@@ -9,7 +9,8 @@
       [ [ "lead", 1 ] ],
       [ [ "unprimed_38super_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder_magnum_pistol", 3 ] ]
+      [ [ "gunpowder_magnum_pistol", 3 ] ],
+	  [ [ "copper", 1 ] ]
     ]
   },
   {
