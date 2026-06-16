@@ -2881,9 +2881,11 @@ bool character_creator_ui::display()
 
     while( !cc_uistate.finished_character_creator ) {
 
+        input_context &current_tab_input = get_current_tab_input();
+        input_context::scoped_activation active_tab_context( current_tab_input );
+
         ui_manager::redraw();
         std::shared_ptr<uilist> current_tab_uilist = get_current_tab_uilist();
-        input_context &current_tab_input = get_current_tab_input();
         if( current_tab_uilist ) {
             cc_uilist_current = current_tab_uilist->create_or_get_ui();
             if( current_tab_uilist->query_setup() ) {
