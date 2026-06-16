@@ -154,7 +154,7 @@
         "effect": [
           { "u_sell_item": "blood_treatment", "count": 1 },
           { "u_add_var": "completed_hunter_cure_target", "value": "yes" },
-          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_die": { "remove_corpse": true, "supress_message": true } },
           { "u_message": "<npc_name> thanks you for the cure and departs.", "popup": true }
         ]
       }
@@ -183,7 +183,7 @@
         "effect": [
           { "u_sell_item": "blood_treatment", "count": 1 },
           { "u_add_var": "completed_hunter_cure_target", "value": "yes" },
-          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_die": { "remove_corpse": true, "supress_message": true } },
           { "u_message": "<npc_name> reluctantly takes the cure and departs.", "popup": true }
         ]
       }

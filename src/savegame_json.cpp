@@ -2632,7 +2632,9 @@ void monster::load( const JsonObject &data )
         }
     }
     data.read( "mission_fused", mission_fused );
-    data.read( "no_extra_death_drops", no_extra_death_drops );
+    // for migration, remove in 0.K
+    data.read( "no_extra_death_drops", death_drops );
+    data.read( "death_drops", death_drops );
     data.read( "dead", dead );
     data.read( "anger", anger );
     data.read( "morale", morale );
@@ -2719,7 +2721,7 @@ void monster::store( JsonOut &json ) const
     json.member( "faction", faction.id().str() );
     json.member( "mission_ids", mission_ids );
     json.member( "mission_fused", mission_fused );
-    json.member( "no_extra_death_drops", no_extra_death_drops );
+    json.member( "death_drops", death_drops );
     json.member( "dead", dead );
     json.member( "anger", anger );
     json.member( "morale", morale );

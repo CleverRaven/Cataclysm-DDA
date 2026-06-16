@@ -141,7 +141,7 @@
         "topic": "TALK_DONE",
         "condition": { "u_has_any_trait": [ "VAMPIRE_ANATHEMA", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] },
         "effect": [
-          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_die": { "remove_corpse": true, "supress_message": true } },
           { "u_message": "The mentor vanishes in a fine mist." }
         ]
       },
@@ -238,7 +238,7 @@
         "topic": "TALK_DONE",
         "effect": [
           "hostile",
-          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_die": { "remove_corpse": true, "supress_message": true } },
           { "u_message": "The mentor vanishes in a fine mist." }
         ]
       },
@@ -569,7 +569,7 @@
         "topic": "TALK_DONE",
         "effect": [
           "hostile",
-          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_die": { "remove_corpse": true, "supress_message": true } },
           { "u_message": "The mentor vanishes in a fine mist." }
         ]
       },
@@ -600,7 +600,7 @@
         "topic": "TALK_DONE",
         "effect": [
           "hostile",
-          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_die": { "remove_corpse": true, "supress_message": true } },
           { "u_message": "The mentor vanishes in a fine mist." }
         ]
       },

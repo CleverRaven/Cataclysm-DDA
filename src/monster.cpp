@@ -370,7 +370,7 @@ void monster::on_effect_int_change( const efftype_id &/*eid*/, int /*intensity*/
 void monster::poly( const mtype_id &id )
 {
     double hp_percentage = static_cast<double>( hp ) / static_cast<double>( type->hp );
-    if( !no_extra_death_drops ) {
+    if( death_drops ) {
         generate_inventory();
     }
     type = &id.obj();
@@ -3225,7 +3225,7 @@ void monster::die( map *here, Creature *nkiller )
     }
 
     if( death_drops ) {
-        if( !no_extra_death_drops ) {
+        if( death_drops ) {
             drop_items_on_death( here, corpse.get_item() );
         }
         spawn_dissectables_on_death( corpse.get_item() );
@@ -3348,7 +3348,7 @@ void monster::generate_inventory( bool disableDrops )
         }
         inv.push_back( it );
     }
-    no_extra_death_drops = disableDrops;
+    death_drops = !disableDrops;
 }
 
 void monster::drop_items_on_death( map *here, item *corpse ) const
