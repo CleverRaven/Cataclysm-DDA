@@ -1,0 +1,21 @@
+[
+  {
+    "id": "ACT_XEDRAWOOD_MEDITATE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "meditating",
+    "rooted": true,
+    "based_on": "time",
+    "do_turn_eoc": "EOC_XEDRAWOOD_MEDITATE_FULL_CHECK"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_MEDITATE_FULL_CHECK",
+    "condition": { "math": [ "u_val('power_percentage') == 100" ] },
+    "effect": [
+      "u_cancel_activity",
+      { "u_lose_effect": "effect_pattern_tattoo_meditation" },
+      { "u_message": "Replete with anima, you cease your meditations.", "type": "good" }
+    ]
+  }
+]
