@@ -3540,6 +3540,27 @@ mutation, stored in `mutation_id`  context value, is removed from character:
 ```
 
 
+#### `u_lose_category`, `npc_lose_category`
+Character or NPC will have all traits of the specified category removed, if they have them
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "u_lose_category" / "npc_lose_category" | **mandatory** | string or [variable object](#variable-object) | id of mutation category to be removed; if character or NPC has no such mutation, nothing happens |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+`URSINE` mutations are removed from character:
+```jsonc
+{ "u_lose_category": "URSINE" }
+```
+
+
 #### `u_lose_effect`, `npc_lose_effect`
 Remove effect from character or NPC, if it has one
 
