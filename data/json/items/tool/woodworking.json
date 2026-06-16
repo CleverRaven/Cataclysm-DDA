@@ -17,6 +17,7 @@
     "qualities": [ [ "CUT", 1 ], [ "AXE", 3 ], [ "BUTCHER", -36 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE", "NO_SALVAGE" ],
+    "faults": [ { "fault_group": "handle_long" }, { "fault_group": "blade_general_no_tip" } ],
     "//": "Wood axes also lack the ability to hook appropriately in combat, for the same reason they work well against trees.  Straight axe head instead of curved.",
     "weapon_category": [ "GREAT_AXES" ],
     "melee_damage": { "bash": 14, "cut": 28 }
@@ -277,6 +278,7 @@
     "color": "brown",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "AXE", "level": 1, "speed": 2.2 }, { "id": "BUTCHER", "level": -44 } ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general_no_tip" } ],
     "weapon_category": [ "HAND_AXES" ],
     "melee_damage": { "bash": 7, "cut": 14 }
   },
@@ -299,6 +301,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "AXE", "level": 2, "speed": 1.5 }, { "id": "BUTCHER", "level": -30 } ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general_no_tip" } ],
     "melee_damage": { "bash": 12, "cut": 24 }
   },
   {
@@ -318,6 +321,7 @@
     "longest_side": "38 cm",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general_no_tip" } ],
     "weapon_category": [ "HAND_AXES" ],
     "qualities": [
       { "id": "CUT", "level": 1 },
