@@ -399,7 +399,7 @@
       {
         "event_statistic": "avatar_last_item_worn",
         "is": "==",
-        "target": [ "itype_id", "rm_13" ],
+        "target": [ "itype_id", "rm_13_armor" ],
         "visible": "when_achievement_completed",
         "description": "Wear RM13 combat armor"
       }
@@ -547,7 +547,7 @@
     "name": "Adeptus Mechanicus",
     "description": "From the moment I understood the weakness of my flesh, it disgusted me.",
     "requirements": [ { "event_statistic": "num_installs_cbm", "is": ">=", "target": 25 } ],
-    "hidden_by": [ "achievement_install_10_cbm" ]
+    "hidden_by": [ "achievement_install_10_cbms" ]
   },
   {
     "id": "achievement_crosses_mutation_threshold",
@@ -2267,7 +2267,7 @@
       {
         "event_statistic": "last_overmap_special_avatar_entered",
         "is": "==",
-        "target": [ "overmap_special_id", "military_helipad" ],
+        "target": [ "overmap_special_id", "military helipad" ],
         "visible": "when_achievement_completed",
         "description": "Reach a Military Helipad"
       }
@@ -2351,7 +2351,7 @@
       {
         "event_statistic": "last_overmap_special_avatar_entered",
         "is": "==",
-        "target": [ "overmap_special_id", "prison" ],
+        "target": [ "overmap_special_id", "Prison" ],
         "description": "Go to a prison"
       }
     ]
