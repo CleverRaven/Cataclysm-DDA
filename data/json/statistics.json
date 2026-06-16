@@ -745,7 +745,7 @@
     "id": "num_avatar_wears_power_armor",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_wears_power_armor_any",
+    "event_transformation": "avatar_wears_power_armor",
     "description": { "str": "time worn power armor", "str_pl": "times worn power armor" }
   },
   {
