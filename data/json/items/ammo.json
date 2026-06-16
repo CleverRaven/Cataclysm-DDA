@@ -720,7 +720,7 @@
     "material": [ "down_feathers" ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "1 ml",
-    "weight": "10 mg"
+    "weight": "1 mg"
   },
   {
     "type": "ITEM",
