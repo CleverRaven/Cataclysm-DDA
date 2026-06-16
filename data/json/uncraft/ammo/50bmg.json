@@ -25,7 +25,7 @@
       [ [ "unprimed_50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 158 ] ],
-      [ [ "copper", 6 ] ]
+      [ [ "copper", 2 ] ]
     ]
   },
   {
@@ -39,7 +39,7 @@
       [ [ "unprimed_50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 158 ] ],
-      [ [ "copper", 6 ] ]
+      [ [ "copper", 2 ] ]
     ]
   },
   {
@@ -52,7 +52,7 @@
       [ [ "unprimed_50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 158 ] ],
-      [ [ "copper", 6 ] ],
+      [ [ "copper", 2 ] ],
       [ [ "scrap", 1 ] ]
     ]
   },

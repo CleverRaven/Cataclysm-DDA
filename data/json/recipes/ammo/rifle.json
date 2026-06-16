@@ -615,7 +615,7 @@
       [ [ "unprimed_50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 158 ] ],
-      [ [ "copper", 6 ] ]
+      [ [ "copper", 2 ] ]
     ]
   },
   {
@@ -634,7 +634,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "unprimed_50_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 158 ] ], [ [ "copper", 6 ] ] ]
+    "components": [ [ [ "unprimed_50_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 158 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "reloaded_50_incendiary",
@@ -657,7 +657,7 @@
       [ [ "unprimed_50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 158 ] ],
-      [ [ "copper", 6 ] ],
+      [ [ "copper", 2 ] ],
       [ [ "incendiary", 20 ] ]
     ]
   },
@@ -681,7 +681,7 @@
       [ [ "unprimed_50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "chem_black_powder", 158 ] ],
-      [ [ "copper", 6 ] ],
+      [ [ "copper", 2 ] ],
       [ [ "incendiary", 20 ] ]
     ]
   },
@@ -707,7 +707,7 @@
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 158 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "copper", 6 ] ]
+      [ [ "copper", 2 ] ]
     ]
   },
   {
@@ -731,7 +731,7 @@
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "chem_black_powder", 158 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "copper", 6 ] ]
+      [ [ "copper", 2 ] ]
     ]
   },
   {

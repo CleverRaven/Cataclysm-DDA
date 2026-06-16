@@ -391,8 +391,8 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CUT_FINE", "level": 2 } ],
     "components": [
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "scrap", 7 ] ],
-      [ [ "copper", 13 ] ],
+      [ [ "scrap", 6 ] ],
+      [ [ "copper", 6 ] ],
       [ [ "aluminum_foil", 400 ] ],
       [ [ "graphite", 98 ] ],
       [ [ "waste_electrolyte_slurry", 1 ] ]
