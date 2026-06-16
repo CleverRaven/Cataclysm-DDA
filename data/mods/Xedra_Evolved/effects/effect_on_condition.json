@@ -119,8 +119,6 @@
   {
     "type": "effect_on_condition",
     "id": "xe_test_remove_category",
-    "effect": [
-      { "u_lose_category": "URSINE" }
-    ]
+    "effect": [ { "u_lose_category": "URSINE" } ]
   }
 ]
