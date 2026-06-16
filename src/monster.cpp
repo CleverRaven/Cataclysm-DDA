@@ -1131,6 +1131,22 @@ std::vector<std::string> monster::extended_description() const
                                        type->speed_desc );
     tmp.emplace_back( speed_desc );
 
+    // Print "taming" food information
+    if( !type->petfood.food.empty() ) {
+        tmp.emplace_back( colorize( _( "Seems to be familiar with people and could be tamed with:" ),
+                                    c_light_blue ) );
+
+        for( std::string food_category : type->petfood.food ) {
+            std::vector<const itype *> food_items = Item_factory::find( [&]( const itype & t ) {
+                return t.use_methods.count( "PETFOOD" ) && t.comestible &&
+                       t.comestible->petfood.count( food_category );
+            } );
+            for( const itype *food_item_type : food_items ) {
+                tmp.emplace_back( colorize( food_item_type->nname( 1 ), c_white ) );
+            }
+        }
+    }
+
     tmp.emplace_back( "--" );
     tmp.emplace_back( string_format( "<dark>%s</dark>", type->get_description() ) );
     tmp.emplace_back( "--" );
