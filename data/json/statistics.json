@@ -2741,11 +2741,7 @@
     "id": "avatar_enters_lmoe",
     "type": "event_transformation",
     "event_transformation": "avatar_enters_oter_type",
-    "value_constraints": {
-      "oter_type_id": {
-        "equals_any": [ "oter_type_str_id", [ "LMOE Shelter", "Locked LMOE Shelter", "Cabin_prepper" ] ]
-      }
-    }
+    "value_constraints": { "oter_type_id": { "equals_any": [ "oter_type_str_id", [ "LMOE Shelter", "Locked LMOE Shelter", "Cabin_prepper" ] ] } }
   },
   {
     "id": "num_avatar_enters_lmoe",
