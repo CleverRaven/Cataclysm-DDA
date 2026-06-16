@@ -380,7 +380,7 @@
     "id": "achievement_wear_power_armor",
     "type": "achievement",
     "name": "Impenetrable",
-    "description": "AND YOU WILL REMAIN IN THIS MAN'S ARMY UNTIL YOU ARE 510 YEARS OLD, which is the number of YEARS it will take for you pay for the Mk. 2 powered combat armor YOU HAVE LOST!",
+    "description": "AND YOU WILL REMAIN IN THIS MAN'S ARMY UNTIL YOU ARE FIVE-HUNDRED AND 10 YEARS OLD, which is the number of YEARS it will take for you pay for the Mk. 2 powered combat armor YOU! HAVE! LOST!",
     "requirements": [
       {
         "event_statistic": "num_avatar_wears_power_armor",
@@ -409,7 +409,7 @@
     "id": "achievement_wear_crown",
     "type": "achievement",
     "name": "King Nothing",
-    "description": "...And you point your finger, but there's no one around...",
+    "description": "…And you point your finger, but there's no one around…",
     "requirements": [
       {
         "event_statistic": "avatar_last_item_worn",
@@ -2180,7 +2180,6 @@
     "id": "achievement_reach_lmoe",
     "type": "achievement",
     "name": "Last Man on Earth (except for all the other ones)",
-    "description": "It's statistically impossible",
     "requirements": [
       {
         "event_statistic": "num_avatar_enters_lmoe",
@@ -2529,7 +2528,8 @@
     "name": "I like you just the way you are",
     "//": "Silent Homestead",
     "manually_given": true,
-    "requirements": [ { "description": "Learn the true value of ugliness" } ]
+    "description": "Find the beauty in your own ugliness.",
+    "requirements": [  ]
   },
   {
     "id": "achievement_reach_highlands",
@@ -2565,7 +2565,7 @@
     "name": { "str": "Blackest Widow" },
     "//": "Void Weaver Killed",
     "manually_given": true,
-    "description": "Kill the biggest spider",
+    "description": "Killed the biggest spider",
     "requirements": [  ]
   },
   {
