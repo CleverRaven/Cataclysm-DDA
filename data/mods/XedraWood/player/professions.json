@@ -251,7 +251,7 @@
       { "id": "hedge_no_nightmares", "level": 1 },
       { "id": "hedge_astral_projection", "level": 1 }
     ],
-    "traits": [ "WITCHSIGHT", "HEDGE_MAGIC", "INSOMNIA" ],
+    "traits": [ "WITCHSIGHT", "WISE_LITERATE", "HEDGE_MAGIC", "INSOMNIA" ],
     "proficiencies": [ "prof_wound_care", "prof_occult_exploration", "prof_thaumatology" ],
     "hobbies": [
       "hobby_species_gracken",
@@ -294,7 +294,16 @@
       { "id": "forest_unity_nature", "level": 4 },
       { "id": "forest_traverse_the_wilds", "level": 2 }
     ],
-    "traits": [ "XEDRAWOOD_THE_WISE", "WITCHSIGHT", "HEDGE_MAGIC", "FOREST_MAGIC", "ELFAEYES", "ANIMALEMPATH2", "SEASONAL_AFFECTIVE" ],
+    "traits": [
+      "XEDRAWOOD_THE_WISE",
+      "WISE_LITERATE",
+      "WITCHSIGHT",
+      "HEDGE_MAGIC",
+      "FOREST_MAGIC",
+      "ELFAEYES",
+      "ANIMALEMPATH2",
+      "SEASONAL_AFFECTIVE"
+    ],
     "proficiencies": [ "prof_wound_care", "prof_occult_exploration", "prof_thaumatology" ],
     "recipes": [ "q_staff_of_the_wise" ],
     "hobbies": [
