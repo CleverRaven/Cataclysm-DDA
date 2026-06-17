@@ -1020,9 +1020,9 @@
     "color": "white",
     "description": "A handful of saltpeter powder.  Sometimes used as a fertilizer, this ubiquitous nitrate is the principal constituent of black gunpowder and simple rocket propellants, such as rocket candy.",
     "material": [ "powder_nonflam" ],
+    "display_type": "BY_WEIGHT",
     "volume": "50 ml",
-    "weight": "5275 mg",
-    "container": "bag_canvas"
+    "weight": "5275 mg"
   },
   {
     "type": "ITEM",
