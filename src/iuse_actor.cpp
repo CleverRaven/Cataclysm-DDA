@@ -51,7 +51,6 @@
 #include "item.h"
 #include "item_components.h"
 #include "item_contents.h"
-#include "item_group.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_transformation.h"
@@ -587,59 +586,6 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
     if( explosion_use != nullptr ) {
         explosion_use->get_actor_ptr()->info( it, dump );
     }
-}
-
-std::unique_ptr<iuse_actor> unpack_actor::clone() const
-{
-    return std::make_unique<unpack_actor>( *this );
-}
-
-void unpack_actor::load( const JsonObject &obj, const std::string & )
-{
-    optional( obj, false, "group", unpack_group );
-    optional( obj, false, "items_fit", items_fit, false );
-    optional( obj, false, "filthy_volume_threshold", filthy_vol_threshold, 0_ml );
-}
-
-std::optional<int> unpack_actor::use( Character *p, item &it, map *here,
-                                      const tripoint_bub_ms & ) const
-{
-    std::vector<item> items = item_group::items_from( unpack_group, calendar::turn );
-    item last_armor;
-
-    p->add_msg_if_player( _( "You unpack the %s." ), it.tname() );
-
-    for( item &content : items ) {
-        if( content.is_armor() ) {
-            if( items_fit ) {
-                content.set_flag( flag_FIT );
-            } else if( content.typeId() == last_armor.typeId() ) {
-                if( last_armor.has_flag( flag_FIT ) ) {
-                    content.set_flag( flag_FIT );
-                } else if( !last_armor.has_flag( flag_FIT ) ) {
-                    content.unset_flag( flag_FIT );
-                }
-            }
-            last_armor = content;
-        }
-
-        if( content.get_volume_capacity() >= filthy_vol_threshold &&
-            it.has_flag( flag_FILTHY ) ) {
-            content.set_flag( flag_FILTHY );
-        }
-
-        here->add_item_or_charges( p->pos_bub( *here ), content );
-    }
-
-    p->i_rem( &it );
-
-    return 0;
-}
-
-void unpack_actor::info( const item &, std::vector<iteminfo> &dump ) const
-{
-    dump.emplace_back( "DESCRIPTION",
-                       _( "This item could be unpacked to receive something." ) );
 }
 
 std::unique_ptr<iuse_actor> message_iuse::clone() const
