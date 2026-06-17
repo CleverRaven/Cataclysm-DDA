@@ -1011,6 +1011,7 @@ void add_msg( const game_message_params &params, std::string msg )
     Messages::add_msg( params, std::move( msg ) );
 }
 
+// msg argument will not expand name place holders
 void add_msg_if_player_sees( const tripoint_bub_ms &target, std::string msg )
 {
     const map &here = get_map();
