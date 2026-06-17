@@ -34,7 +34,7 @@
     "id": "afs_achievement_kill_100_uica_soldiers",
     "type": "achievement",
     "name": { "str": "Disposition Matrix" },
-    "description": "It is a necessary part of what we do.  We wont wake up in 10 years time and magically find a galaxy full of friends and 'welcome back' signs.\n<color_c_dark_gray>  - unknown member of Chancellor's Haaland administration, recorded c2392.",
+    "description": "It is a necessary part of what we do.  We won't wake up in 10 years time and magically find a galaxy full of friends and 'welcome back' signs.\n<color_c_dark_gray> - unknown member of Chancellor's Haaland administration, recorded c2392.",
     "requirements": [
       {
         "event_statistic": "num_avatar_uica_soldier_kills",
