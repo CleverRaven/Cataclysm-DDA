@@ -399,7 +399,7 @@
       {
         "event_statistic": "avatar_last_item_worn",
         "is": "==",
-        "target": [ "itype_id", "rm_13_armor" ],
+        "target": [ "itype_id", "rm13_armor" ],
         "visible": "when_achievement_completed",
         "description": "Wear RM13 combat armor"
       }
