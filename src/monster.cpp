@@ -1261,6 +1261,10 @@ std::vector<std::string> monster::extended_description() const
             tmp.emplace_back( "Lifespan end time: n/a <color_yellow>(indefinite)</color>" );
         }
 
+        tmp.emplace_back( string_format( "death_message: %s", death_message ? "true" : "false" ) );
+        tmp.emplace_back( string_format( "spawn_corpse: %s", spawn_corpse ? "true" : "false" ) );
+        tmp.emplace_back( string_format( "death_drops: %s", death_drops ? "true" : "false" ) );
+
         if( !type->weakpoints.weakpoint_list.empty() ) {
             tmp.emplace_back( colorize( "weakpoints:", c_white ) );
             for( const weakpoint &wp : type->weakpoints.weakpoint_list ) {

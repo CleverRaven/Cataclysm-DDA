@@ -2635,6 +2635,8 @@ void monster::load( const JsonObject &data )
     // for migration, remove in 0.K
     data.read( "no_extra_death_drops", death_drops );
     data.read( "death_drops", death_drops );
+    data.read( "spawn_corpse", spawn_corpse );
+    data.read( "death_message", death_message );
     data.read( "dead", dead );
     data.read( "anger", anger );
     data.read( "morale", morale );
@@ -2722,6 +2724,8 @@ void monster::store( JsonOut &json ) const
     json.member( "mission_ids", mission_ids );
     json.member( "mission_fused", mission_fused );
     json.member( "death_drops", death_drops );
+    json.member( "spawn_corpse", spawn_corpse );
+    json.member( "death_message", death_message );
     json.member( "dead", dead );
     json.member( "anger", anger );
     json.member( "morale", morale );
