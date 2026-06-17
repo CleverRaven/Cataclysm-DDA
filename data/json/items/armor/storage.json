@@ -3564,7 +3564,7 @@
     ],
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "FLOTATION", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
+    "flags": [ "FLOTATION", "BELTED", "WATERPROOF", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 10,
