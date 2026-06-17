@@ -393,6 +393,7 @@ class zone_data
             faction = _faction;
             invert = _invert;
             enabled = _enabled;
+            temporarily_disabled = false;
             is_vehicle = false;
             is_personal = false;
             start = _start;
