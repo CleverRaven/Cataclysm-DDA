@@ -1056,7 +1056,7 @@
     "price": "2 USD",
     "price_postapoc": "2 USD",
     "phase": "liquid",
-    "charges": 1
+    "charges": 1,
     "material": [ "flesh", "milk" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
