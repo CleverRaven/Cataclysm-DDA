@@ -140,7 +140,7 @@
     "time": "1 h",
     "autolearn": true,
     "reversible": { "time": "10 m" },
-    "using": [ [ "tailoring_nylon_patchwork", 2 ], [ "fastener_small", 1 ], [ "cordage_short", 2 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 2 ], [ "fastener_small", 1 ], [ "cordage_short", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
