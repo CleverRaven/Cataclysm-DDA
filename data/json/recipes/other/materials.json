@@ -414,7 +414,7 @@
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "scrap_copper", 36 ], [ "copper", 1800 ]  ] ]
+    "components": [ [ [ "scrap_copper", 36 ], [ "copper", 1800 ] ] ]
   },
   {
     "type": "recipe",
