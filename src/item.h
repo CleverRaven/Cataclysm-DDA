@@ -1109,7 +1109,7 @@ class item : public visitable
 
         /**
          * Return true if this item's type is counted by charges
-         * (true for stackable, ammo, or comestible)
+         * (true for stackable, ammo, or non-solid comestible)
          */
         bool count_by_charges() const;
 
