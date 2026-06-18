@@ -1,6 +1,6 @@
 import re
 
-from .message import Message, messages, occurrences
+from .message import Message, messages, occurrences, errors
 
 
 tag_pattern = re.compile(r'^<[a-zA-Z0-9_!?.-]*>$')
@@ -71,6 +71,15 @@ def write_text(json, origin, context="", comment="", plural=False):
 
     if (context, text) not in messages:
         messages[(context, text)] = list()
+
+    if explicit_plural:
+        for msg in messages[(context, text)]:
+            if msg.explicit_plural is True:
+                if text_plural and msg.text_plural != text_plural:
+                    errors.append(f"-- {origin}\n"
+                                  f"{text} | {text_plural}\n"
+                                  f"-- {msg.origin}\n"
+                                  f"{msg.text} | {msg.text_plural}")
 
     messages[(context, text)].append(
         Message(comments, origin, format_tag, context,
