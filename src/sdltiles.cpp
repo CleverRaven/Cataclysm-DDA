@@ -304,6 +304,22 @@ static point compute_drawable_dims()
     return point{ pw, ph };
 }
 
+#if !defined(__ANDROID__)
+// Present rect in drawable px: largest integer buffer multiple that fits
+// (absorbs SCALING_FACTOR + HiDPI), top-left, remainder border. A fractional
+// fit would grid the minimap. Inverted by window_to_display_buffer_coords.
+static SDL_Rect get_display_buffer_render_rect()
+{
+    const point b = compute_display_buffer_dims();
+    const point d = compute_drawable_dims();
+    if( b.x <= 0 || b.y <= 0 ) {
+        return SDL_Rect{ 0, 0, 0, 0 };
+    }
+    const int scale = std::max( 1, std::min( d.x / b.x, d.y / b.y ) );
+    return SDL_Rect{ 0, 0, b.x * scale, b.y * scale };
+}
+#endif
+
 // Test-only injected drawable pixels. The headless dummy backend reports backing
 // pixels equal to the logical window, so a DPI-only change cannot be produced
 // through SDL; a non-negative override stands in. Inert at the -1 default.
@@ -1027,7 +1043,14 @@ void refresh_display()
                        TERMINAL_HEIGHT * fontheight );
     RenderCopy( renderer, display_buffer, NULL, &dstrect );
 #else
-    RenderCopy( renderer, display_buffer, nullptr, nullptr );
+    // Integer-scaled top-left blit; remainder is border. A null full-window blit
+    // would fractionally scale and grid the minimap.
+    const SDL_Rect dstrect = get_display_buffer_render_rect();
+    if( dstrect.w > 0 && dstrect.h > 0 ) {
+        RenderCopy( renderer, display_buffer, nullptr, &dstrect );
+    } else {
+        RenderCopy( renderer, display_buffer, nullptr, nullptr );
+    }
 #endif
 
 #if defined(__ANDROID__)
@@ -1127,12 +1150,20 @@ SDL_Point window_to_display_buffer_coords( SDL_Point window_pt )
     int win_w = 0;
     int win_h = 0;
     GetWindowSize( window.get(), &win_w, &win_h );
-    if( win_w <= 0 || win_h <= 0 ) {
+    const point draw = compute_drawable_dims();
+    const SDL_Rect dst = get_display_buffer_render_rect();
+    if( win_w <= 0 || win_h <= 0 || draw.x <= 0 || draw.y <= 0 || dst.w <= 0 || dst.h <= 0 ) {
         return window_pt;
     }
+    // Invert the present rect: logical coords to drawable px, then through the
+    // rect to buffer px. Points past it land in the border.
+    const point p{
+        static_cast<int>( static_cast<int64_t>( window_pt.x ) * draw.x / win_w ),
+        static_cast<int>( static_cast<int64_t>( window_pt.y ) * draw.y / win_h )
+    };
     return SDL_Point{
-        static_cast<int>( static_cast<int64_t>( window_pt.x ) * buf_w / win_w ),
-        static_cast<int>( static_cast<int64_t>( window_pt.y ) * buf_h / win_h )
+        static_cast<int>( static_cast<int64_t>( p.x - dst.x ) * buf_w / dst.w ),
+        static_cast<int>( static_cast<int64_t>( p.y - dst.y ) * buf_h / dst.h )
     };
 #endif
 }
