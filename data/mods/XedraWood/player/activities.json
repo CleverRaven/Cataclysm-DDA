@@ -40,13 +40,13 @@
       { "u_message": "Your spirit returns with knowledge from the Unseen World.", "type": "good" },
       { "math": [ "u_val('mana') = 0" ] },
       { "u_add_effect": "effect_xedrawood_hedge_magic_spirit_quest_completed", "duration": "7 days" },
-      { "u_remove_effect": "effect_xedrawood_hedge_magic_spirit_questing" }
+      { "u_lose_effect": "effect_xedrawood_hedge_magic_spirit_questing" }
     ],
     "false_effect": [
-      { "u_message": "Your spirit returns in failure.  You have gained no new knowledge from your quest.", "type": "good" },
+      { "u_message": "Your spirit returns in failure.  You have gained no new knowledge from your quest.", "type": "bad" },
       { "math": [ "u_val('mana') = 0" ] },
       { "u_add_effect": "effect_xedrawood_hedge_magic_spirit_quest_completed", "duration": "7 days" },
-      { "u_remove_effect": "effect_xedrawood_hedge_magic_spirit_questing" }
+      { "u_lose_effect": "effect_xedrawood_hedge_magic_spirit_questing" }
     ]
   },
   {
@@ -61,10 +61,10 @@
       ]
     },
     "effect": [
-      { "u_message": "You break off your quest into the spirit world.", "type": "good" },
+      { "u_message": "You break off your quest into the spirit world.", "type": "mixed" },
       { "math": [ "u_val('mana') = 0" ] },
       { "u_add_effect": "effect_xedrawood_hedge_magic_spirit_quest_completed", "duration": "2 days" },
-      { "u_remove_effect": "effect_xedrawood_hedge_magic_spirit_questing" }
+      { "u_lose_effect": "effect_xedrawood_hedge_magic_spirit_questing" }
     ]
   }
 ]
