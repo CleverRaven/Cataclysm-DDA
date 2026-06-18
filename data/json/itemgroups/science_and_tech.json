@@ -293,7 +293,7 @@
       { "prob": 10, "group": "chem_sulphur_bottle_plastic_small_100_inf" },
       [ "chem_aluminium_powder", 10 ],
       [ "chem_hexamine", 10 ],
-      [ "chem_saltpetre", 15 ],
+      { "group": "saltpeter_canvas_bag_part", "prob": 15 },
       { "item": "chem_nitric_acid", "prob": 15, "charges": [ 1, -1 ] },
       { "item": "chem_muriatic_acid", "prob": 20, "charges": [ 1, -1 ] },
       { "group": "potassiumchloride_small_bottle_part", "prob": 5 },

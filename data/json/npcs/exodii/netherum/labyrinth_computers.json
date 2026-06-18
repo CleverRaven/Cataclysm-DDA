@@ -130,17 +130,18 @@
   },
   {
     "type": "talk_topic",
-    "id": [ "COMP_LS_Passcode_Door", "COMP_LS_Passcode_Door2", "COMP_LS_Passcode_Door3" ],
+    "id": "COMP_LS_Passcode_Door",
+    "dynamic_line": "&You see a strangely mundane black computer screen, with a blinking green cursor awaiting input.\n\n<color_light_green> @User > _</color>",
     "responses": [
       {
         "text": "Unlock connected doors",
-        "effect": [ { "run_eocs": [ "EOC_LS_Unlock", "EOC_LS_Passcode_Generator" ] }, { "math": [ "n_LS_door_requests = 1" ] } ],
+        "effect": { "math": [ "n_LS_door_requests = 1" ] },
         "topic": "COMP_LS_Passcode_Door2",
         "condition": { "math": [ "n_LS_door_requests < 1" ] }
       },
       {
         "text": "Lock connected doors",
-        "effect": [ { "run_eocs": [ "EOC_LS_Lock" ] }, { "math": [ "n_LS_door_requests += 1" ] } ],
+        "effect": { "math": [ "n_LS_door_requests += 1" ] },
         "topic": "COMP_LS_Passcode_Door3",
         "condition": { "math": [ "n_LS_door_requests == 1" ] }
       },
@@ -159,18 +160,17 @@
   },
   {
     "type": "talk_topic",
-    "id": "COMP_LS_Passcode_Door",
-    "dynamic_line": "&You see a strangely mundane black computer screen, with a blinking green cursor awaiting input.\n\n<color_light_green> @User > _</color>"
-  },
-  {
-    "type": "talk_topic",
     "id": "COMP_LS_Passcode_Door2",
-    "dynamic_line": "&<color_light_green> @User > doorstatus --update=unlock\n<color_light_green>Command accepted.\n<color_light_green>Nearby doors unlocked.\n<color_light_green>Thank you for using AltarOS.\n\n<color_light_green> @User > _"
+    "dynamic_line": "&<color_light_green> @User > doorstatus --update=unlock\n<color_light_green>Command accepted.\n<color_light_green>Nearby doors unlocked.\n<color_light_green>Thank you for using AltarOS.\n\n<color_light_green> @User > _",
+    "responses": [
+      { "text": "Log off.", "effect": { "run_eocs": [ "EOC_LS_Unlock", "EOC_LS_Passcode_Generator" ] }, "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
     "id": "COMP_LS_Passcode_Door3",
-    "dynamic_line": "&<color_light_green> @User > doorstatus --update=lock\n<color_light_green>Command accepted.\n<color_light_green>Nearby doors locked.\n<color_light_green>Warning: What is done cannot be undone.  This does not represent a return to how things were.  You can never go back.\n\n<color_light_green> @User > _"
+    "dynamic_line": "&<color_light_green> @User > doorstatus --update=lock\n<color_light_green>Command accepted.\n<color_light_green>Nearby doors locked.\n<color_light_green>Warning: What is done cannot be undone.  This does not represent a return to how things were.  You can never go back.\n\n<color_light_green> @User > _",
+    "responses": [ { "text": "Log off.", "effect": { "run_eocs": [ "EOC_LS_Lock" ] }, "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -192,8 +192,7 @@
         "effect": [
           { "math": [ "u_vitamin('blood') -= -12500" ] },
           { "math": [ "u_vitamin('redcells') -= -12500" ] },
-          { "math": [ "n_LS_door_requests += 1" ] },
-          { "run_eocs": [ "EOC_LS_ReallyUnlock" ] }
+          { "math": [ "n_LS_door_requests += 1" ] }
         ]
       },
       { "text": "Log off.", "topic": "TALK_DONE" }
@@ -203,7 +202,7 @@
     "type": "talk_topic",
     "id": "COMP_LS_Passcode_Door4blood",
     "dynamic_line": "&As it enters your skin, the thin needle seems to pulse, greedily gulping from your offered hand, and you feel abruptly dizzy and lightheaded.  It feels like it took a *lot* of blood.\n\n<color_light_green> @User > Inflict --damage=lifeblood\n<color_light_green>Processing contribution of reality ||||||||| 100%\n<color_light_green>Nearby doors unlocked.\n\n<color_light_green> @User > _",
-    "responses": [ { "text": "Log off.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Log off.", "effect": { "run_eocs": [ "EOC_LS_ReallyUnlock" ] }, "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -215,51 +214,31 @@
     "type": "talk_topic",
     "id": [
       "COMP_LS_Bridge_control_deadend_1",
-      "COMP_LS_Bridge_control_deadend_1_Extend_passcode0",
-      "COMP_LS_Bridge_control_deadend_1_Extend_passcode1",
-      "COMP_LS_Bridge_control_deadend_1_Extend_passcode2",
-      "COMP_LS_Bridge_control_deadend_1_Extend_passcode3",
       "COMP_LS_Bridge_control_deadend_1_Retract",
       "COMP_LS_Bridge_control_deadend_1_Extend_nopasscode"
     ],
     "responses": [
       {
         "text": "Enter the Thief's Passcode to extend the bridge.",
-        "effect": [
-          { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode0" },
-          { "math": [ "n_LS_bridge_requests = 1" ] },
-          { "u_lose_trait": "LS_Passcode_0" }
-        ],
+        "effect": [ { "math": [ "n_LS_bridge_requests = 1" ] }, { "u_lose_trait": "LS_Passcode_0" } ],
         "condition": { "and": [ { "math": [ "n_LS_bridge_requests < 1" ] }, { "u_has_trait": "LS_Passcode_0" } ] },
         "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode0"
       },
       {
         "text": "Enter the Circle of Wings Passcode to extend the bridge.",
-        "effect": [
-          { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode1" },
-          { "math": [ "n_LS_bridge_requests = 1" ] },
-          { "u_lose_trait": "LS_Passcode_1" }
-        ],
+        "effect": [ { "math": [ "n_LS_bridge_requests = 1" ] }, { "u_lose_trait": "LS_Passcode_1" } ],
         "condition": { "and": [ { "math": [ "n_LS_bridge_requests < 1" ] }, { "u_has_trait": "LS_Passcode_1" } ] },
         "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode1"
       },
       {
         "text": "Enter the Hard Nails Passcode to extend the bridge.",
-        "effect": [
-          { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode2" },
-          { "math": [ "n_LS_bridge_requests = 1" ] },
-          { "u_lose_trait": "LS_Passcode_2" }
-        ],
+        "effect": [ { "math": [ "n_LS_bridge_requests = 1" ] }, { "u_lose_trait": "LS_Passcode_2" } ],
         "condition": { "and": [ { "math": [ "n_LS_bridge_requests < 1" ] }, { "u_has_trait": "LS_Passcode_2" } ] },
         "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode2"
       },
       {
         "text": "Enter the Laughing Man Passcode to extend the bridge.",
-        "effect": [
-          { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode3" },
-          { "math": [ "n_LS_bridge_requests = 1" ] },
-          { "u_lose_trait": "LS_Passcode_3" }
-        ],
+        "effect": [ { "math": [ "n_LS_bridge_requests = 1" ] }, { "u_lose_trait": "LS_Passcode_3" } ],
         "condition": { "and": [ { "math": [ "n_LS_bridge_requests < 1" ] }, { "u_has_trait": "LS_Passcode_3" } ] },
         "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode3"
       },
@@ -294,22 +273,26 @@
   {
     "type": "talk_topic",
     "id": "COMP_LS_Bridge_control_deadend_1_Extend_passcode0",
-    "dynamic_line": "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode0>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>Watch your step.\n\n<color_light_green> @User > _</color>"
+    "dynamic_line": "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode0>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>Watch your step.\n\n<color_light_green> @User > _</color>",
+    "responses": [ { "text": "Log off.", "effect": { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode0" }, "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "COMP_LS_Bridge_control_deadend_1_Extend_passcode1",
-    "dynamic_line": "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode1>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>You are free.\n\n<color_light_green> @User > _</color>"
+    "dynamic_line": "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode1>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>You are free.\n\n<color_light_green> @User > _</color>",
+    "responses": [ { "text": "Log off.", "effect": { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode1" }, "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "COMP_LS_Bridge_control_deadend_1_Extend_passcode2",
-    "dynamic_line": "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode2>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>Kick some ass.\n\n<color_light_green> @User > _</color>"
+    "dynamic_line": "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode2>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>Kick some ass.\n\n<color_light_green> @User > _</color>",
+    "responses": [ { "text": "Log off.", "effect": { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode2" }, "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "COMP_LS_Bridge_control_deadend_1_Extend_passcode3",
-    "dynamic_line": "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode3>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>Asshole.\n\n<color_light_green> @User > _</color>"
+    "dynamic_line": "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode3>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>Asshole.\n\n<color_light_green> @User > _</color>",
+    "responses": [ { "text": "Log off.", "effect": { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode3" }, "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
