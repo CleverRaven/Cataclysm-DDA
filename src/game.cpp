@@ -1462,7 +1462,7 @@ void game::catch_a_monster( monster *fish, const tripoint_bub_ms &pos, Character
         u.add_msg_if_player( m_good, _( "You caught a %s." ), fish->type->nname() );
     }
     //quietly kill the caught
-    fish->no_corpse_quiet = true;
+    fish->spawn_corpse = false;
     fish->die( &here, p );
 }
 
@@ -4938,7 +4938,7 @@ bool game::revive_corpse( const tripoint_bub_ms &p, item &it, int radius )
         return false;
     }
 
-    critter.no_extra_death_drops = true;
+    critter.death_drops = false;
     critter.add_effect( effect_downed, 5_turns, true );
 
     if( it.get_var( "no_ammo" ) == "no_ammo" ) {

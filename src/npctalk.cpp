@@ -3643,6 +3643,36 @@ talk_effect_fun_t::func f_remove_trait( const JsonObject &jo, std::string_view m
     };
 }
 
+talk_effect_fun_t::func f_remove_category( const JsonObject &jo,
+        std::string_view member,
+        std::string_view,
+        bool is_npc )
+{
+    str_or_var category = get_str_or_var( jo.get_member( member ), member, true );
+
+    return [is_npc, category]( dialogue const & d ) {
+        Character *ch = d.actor( is_npc )->get_character();
+
+        const mutation_category_id cat_id( category.evaluate( d ) );
+
+        std::vector<trait_id> to_remove;
+
+        for( const trait_id &mut : ch->get_mutations() ) {
+            const mutation_branch &branch = mut.obj();
+
+            if( std::find( branch.category.begin(),
+                           branch.category.end(),
+                           cat_id ) != branch.category.end() ) {
+                to_remove.push_back( mut );
+            }
+        }
+
+        for( const trait_id &mut : to_remove ) {
+            ch->unset_mutation( mut );
+        }
+    };
+}
+
 talk_effect_fun_t::func f_learn_martial_art( const JsonObject &jo, std::string_view member,
         std::string_view, bool is_npc )
 {
@@ -5969,7 +5999,6 @@ talk_effect_fun_t::func f_die_advanced( const JsonObject &jo, std::string_view m
     JsonObject job = jo.get_object( member );
     std::optional<bool> remove_corpse;
     std::optional<bool> supress_message;
-    std::optional<bool> remove_from_creature_tracker;
 
     if( job.has_bool( "remove_corpse" ) ) {
         remove_corpse = job.get_bool( "remove_corpse" );
@@ -5977,27 +6006,15 @@ talk_effect_fun_t::func f_die_advanced( const JsonObject &jo, std::string_view m
     if( job.has_bool( "supress_message" ) ) {
         supress_message = job.get_bool( "supress_message" );
     }
-    if( job.has_bool( "remove_from_creature_tracker" ) ) {
-        remove_from_creature_tracker = job.get_bool( "remove_from_creature_tracker" );
-    }
 
-    return [remove_corpse, supress_message, remove_from_creature_tracker,
-                   is_npc]( dialogue const & d ) {
+    return [remove_corpse, supress_message, is_npc]( dialogue const & d ) {
         map &here = get_map();
 
-        if( d.actor( is_npc )->get_monster() ) {
-            monster &mon = *d.actor( is_npc )->get_monster();
-            if( remove_from_creature_tracker ) {
-                get_creature_tracker().remove( mon );
-                return;
-            }
-            mon.death_drops = remove_corpse.has_value() ? !remove_corpse.value() : mon.death_drops;
-            mon.quiet_death = supress_message.has_value() ? supress_message.value() : mon.quiet_death;
-        } else if( d.actor( is_npc )->get_npc() ) {
-            npc &guy_npc = *d.actor( is_npc )->get_npc();
-            guy_npc.spawn_corpse = remove_corpse.has_value() ? !remove_corpse.value() : guy_npc.spawn_corpse;
-            guy_npc.quiet_death = supress_message.has_value() ? supress_message.value() : guy_npc.quiet_death;
-        }
+        Creature *cr = d.actor( is_npc )->get_creature();
+
+        cr->death_message = supress_message.has_value() ? !supress_message.value() : cr->death_message;
+        cr->spawn_corpse = remove_corpse.has_value() ? !remove_corpse.value() : cr->spawn_corpse;
+        cr->death_drops = remove_corpse.has_value() ? !remove_corpse.value() : cr->death_drops;
 
         d.actor( is_npc )->die( &here );
     };
@@ -7794,8 +7811,8 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                     if( lifespan.value() > 0_seconds ) {
                         spawned->set_summon_time( lifespan.value() );
                         // Temporary monsters shouldn't drop items unless told to
-                        spawned->no_extra_death_drops = !temporary_drop_items;
-                        spawned->no_corpse_quiet = !temporary_drop_items;
+                        spawned->death_drops = temporary_drop_items;
+                        spawned->spawn_corpse = temporary_drop_items;
                     }
                 }
             }
@@ -8466,6 +8483,7 @@ parsers = {
     { "u_lose_var", "npc_lose_var", jarg::string, &talk_effect_fun::f_remove_var },
     { "u_add_trait", "npc_add_trait", jarg::member, &talk_effect_fun::f_add_trait },
     { "u_lose_trait", "npc_lose_trait", jarg::member, &talk_effect_fun::f_remove_trait },
+    { "u_lose_category", "npc_lose_category", jarg::member, &talk_effect_fun::f_remove_category },
     { "u_deactivate_trait", "npc_deactivate_trait", jarg::member, &talk_effect_fun::f_deactivate_trait },
     { "u_activate_trait", "npc_activate_trait", jarg::member, &talk_effect_fun::f_activate_trait },
     { "u_mutate", "npc_mutate", jarg::member | jarg::array, &talk_effect_fun::f_mutate },

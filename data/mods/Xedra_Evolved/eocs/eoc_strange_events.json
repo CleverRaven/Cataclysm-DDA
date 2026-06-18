@@ -144,7 +144,7 @@
         "type": "mixed"
       },
       { "u_add_trait": "XE_FACTION_CAMP_BROWNIE_BLESSING" },
-      { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } }
+      { "npc_die": { "remove_corpse": true, "supress_message": true } }
     ]
   }
 ]

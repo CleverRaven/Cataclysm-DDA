@@ -234,6 +234,7 @@ More nuanced Hub 01-Exodii full cyborg aggression
 Charged tools can be used on unattended crafting steps
 Unattended liquid crafts wait for you to pour them
 Crafting faults
+Allows spawns offset from the origin like the beach, or deep in the forests to the west
 
 
 ## Content:
@@ -1882,6 +1883,7 @@ Skip lightmap rebuild on idle frames
 Speedup highway placement by caching expensive math
 Speed up spawning item groups into containers
 Crafting optimizations
+Fix n^3 deserialization bug by not trying to stack unstackable items
 
 
 ## Infrastructure:
@@ -2130,6 +2132,7 @@ Vendor plf colony/list verbatim under src/third-party
 Upgrade vendored plf_colony and plf_list to latest upstream
 Ignore root dotfiles by default in .gitignore
 Consume crafting tools per recipe step
+Abort and quarantine tileset atlas uploads interrupted by a renderer reset
 
 
 ## Build:

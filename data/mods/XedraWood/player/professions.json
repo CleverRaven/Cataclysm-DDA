@@ -103,6 +103,38 @@
   },
   {
     "type": "profession",
+    "id": "pattern_tattoo_mountain_prof",
+    "name": "Aspirant of the Mountain",
+    "description": "You are one of the warrior companions to the Wise, and have received the sacred tattoos that bond your soul with the spirits of the land.  In your case, the spirits of the Mountain, granting you resilience and skill in unarmed combat.  Hopefully these talents will help you now.",
+    "points": 7,
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_gross_anatomy" ],
+    "skills": [
+      { "level": 2, "name": "deduction" },
+      { "level": 5, "name": "unarmed" },
+      { "level": 4, "name": "dodge" },
+      { "level": 4, "name": "melee" }
+    ],
+    "CBMs": [ "mountain_tattoo_one", "mountain_tattoo_two", "mountain_tattoo_three", "mountain_tattoo_four" ],
+    "traits": [ "TATTOOS_BASIC_TRAIT", "PAINRESIST" ],
+    "spells": [ { "id": "pattern_tattoo_mountain_meditation", "level": 1 } ],
+    "effect_on_conditions": [ "EOC_PROFESSION_PATTERN_TATTOO_MOUNTAIN" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "grass_cloak" },
+          { "item": "shirt_straw" },
+          { "item": "skirt_grass" },
+          { "item": "footrags_leather" },
+          { "item": "water_clean", "charges": 6, "container-item": "waterskin" },
+          { "item": "primitive_knife", "container-item": "sheath_birchbark" }
+        ]
+      },
+      "male": { "entries": [ { "item": "loincloth_leather" } ] },
+      "female": { "entries": [ { "item": "chestwrap_leather" }, { "item": "loincloth_leather" } ] }
+    }
+  },
+  {
+    "type": "profession",
     "id": "lizardfolk_warrior",
     "name": "Lizardfolk Swampstalker",
     "//": "Separate lizardfolk hunter/warrior professions because they don't have clothes and they have unarmed proficiency due to teeth and claws",

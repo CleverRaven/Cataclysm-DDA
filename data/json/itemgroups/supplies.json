@@ -226,6 +226,20 @@
     "items": [ { "item": "magnesium", "count": [ 2, 200 ] } ]
   },
   {
+    "id": "saltpeter_canvas_bag",
+    "type": "item_group",
+    "container-item": "bag_canvas",
+    "//": "15 liter bag, filled 80% as new",
+    "items": [ { "item": "chem_saltpetre", "count": 300 } ]
+  },
+  {
+    "id": "saltpeter_canvas_bag_part",
+    "type": "item_group",
+    "container-item": "bag_canvas",
+    "//": "15 liter bag, opened with a variable amount",
+    "items": [ { "item": "chem_saltpetre", "count": [ 2, 300 ] } ]
+  },
+  {
     "id": "sandbag",
     "type": "item_group",
     "container-item": "bag_durasack",

@@ -45,6 +45,34 @@
   },
   {
     "type": "mutation",
+    "id": "TATTOOS_BASIC_TRAIT",
+    "name": { "str": "Anima Attunement" },
+    "description": "You have been attuned to anima and can make use of tattoo patterns.  You regain anima quickly while meditating, moderately while asleep, and very slowly while awake.",
+    "points": 0,
+    "player_display": false,
+    "valid": false,
+    "flags": [ "MAGICAL_CBMS", "ATTUNEMENT" ],
+    "enchantments": [
+      { "condition": "ALWAYS", "values": [ { "value": "POWER_TRICKLE", "add": 100 } ] },
+      { "condition": { "u_has_effect": "asleep" }, "values": [ { "value": "POWER_TRICKLE", "add": 1000 } ] },
+      {
+        "condition": { "u_has_effect": "effect_pattern_tattoo_meditation" },
+        "values": [ { "value": "POWER_TRICKLE", "add": 3500 } ]
+      },
+      {
+        "condition": "ALWAYS",
+        "values": [
+          {
+            "value": "BIONIC_POWER",
+            "add": { "math": [ "100000000 + (50000000 * ( u_flames_tattoo_count +  u_mountain_tattoo_count + u_forest_tattoo_count ) )" ] }
+          }
+        ]
+      }
+    ],
+    "cancels": [ "NO_CBM_INSTALLATION" ]
+  },
+  {
+    "type": "mutation",
     "id": "XEDRAWOOD_THE_WISE",
     "name": { "str": "The Wise" },
     "points": 0,

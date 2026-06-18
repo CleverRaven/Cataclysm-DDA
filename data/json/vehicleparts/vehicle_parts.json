@@ -591,7 +591,13 @@
     "//": "add looks_like so that it rotates properly in vehicles",
     "looks_like": "minifridge",
     "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
-    "copy-from": "ap_big_portable_fridge"
+    "copy-from": "ap_big_portable_fridge",
+    "variants": [
+      { "id": "up", "label": "Up", "symbols": "H", "symbols_broken": "#" },
+      { "id": "down", "label": "Down", "symbols": "H", "symbols_broken": "#" },
+      { "id": "left", "label": "Left", "symbols": "H", "symbols_broken": "#" },
+      { "id": "right", "label": "Right", "symbols": "H", "symbols_broken": "#" }
+    ]
   },
   {
     "type": "vehicle_part",
@@ -611,7 +617,13 @@
     "//": "add looks_like so that it rotates properly in vehicles",
     "looks_like": "minifridge",
     "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
-    "copy-from": "ap_big_portable_freezer"
+    "copy-from": "ap_big_portable_freezer",
+    "variants": [
+      { "id": "up", "label": "Up", "symbols": "H", "symbols_broken": "#" },
+      { "id": "down", "label": "Down", "symbols": "H", "symbols_broken": "#" },
+      { "id": "left", "label": "Left", "symbols": "H", "symbols_broken": "#" },
+      { "id": "right", "label": "Right", "symbols": "H", "symbols_broken": "#" }
+    ]
   },
   {
     "type": "vehicle_part",

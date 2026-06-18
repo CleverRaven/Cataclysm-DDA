@@ -573,13 +573,13 @@
           {
             "if": "u_is_avatar",
             "then": [ { "run_eocs": "EOC_MOM_OUBLIETTE_MONSTER_PICK_DIMENSION" } ],
-            "else": [ { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": false } } ]
+            "else": [ { "u_die": { "remove_corpse": true, "supress_message": true } } ]
           }
         ]
       },
       {
         "if": { "and": [ "u_is_monster", { "math": [ "_damage_done", ">=", "u_hp('ALL')" ] } ] },
-        "then": [ { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": false } } ]
+        "then": [ { "u_die": { "remove_corpse": true, "supress_message": true } } ]
       }
     ],
     "false_effect": { "u_message": "You feel a strange, inward force.", "type": "neutral" }
