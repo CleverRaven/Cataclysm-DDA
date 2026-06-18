@@ -5057,7 +5057,6 @@ If the target is an item, it will be deleted.
 | --- | --- | --- | --- |
 | "remove_corpse" | optional | bool | default false; if true, the corpse and all inside of it won't be spawned on death |
 | "supress_message" | optional | bool | default false; if true, death would omit death message |
-| "remove_from_creature_tracker" | optional | bool | default false; if true, and talker is monster, the monster instead removed from creature tracker, resulting not only in monster disappearing without message and corpse, but also bypasses any death effect they could fire before their death |
 
 ##### Valid talkers:
 

@@ -44,12 +44,12 @@
         "text": "I will.  Get out.",
         "topic": "TALK_DONE",
         "condition": { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" },
-        "effect": { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } }
+        "effect": { "npc_die": { "remove_corpse": true, "supress_message": true } }
       },
       {
         "text": "Well, goodbye.",
         "topic": "TALK_DONE",
-        "effect": { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } }
+        "effect": { "npc_die": { "remove_corpse": true, "supress_message": true } }
       }
     ]
   },
@@ -63,7 +63,7 @@
       {
         "text": "Wait, I-",
         "topic": "TALK_DONE",
-        "effect": { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } }
+        "effect": { "npc_die": { "remove_corpse": true, "supress_message": true } }
       }
     ]
   },
@@ -77,7 +77,7 @@
       {
         "text": "Farewell then.",
         "topic": "TALK_DONE",
-        "effect": { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } }
+        "effect": { "npc_die": { "remove_corpse": true, "supress_message": true } }
       }
     ]
   },
@@ -91,7 +91,7 @@
       {
         "text": "Farewell then.",
         "topic": "TALK_DONE",
-        "effect": { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } }
+        "effect": { "npc_die": { "remove_corpse": true, "supress_message": true } }
       }
     ]
   }

@@ -318,7 +318,7 @@
       {
         "if": { "math": [ "u_psi_teleporter_damage > u_health_comparison" ] },
         "then": [
-          { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "u_die": { "remove_corpse": true, "supress_message": true } },
           { "npc_message": "With a tremendous mental exertion, you hurl your target…elsewhere." }
         ]
       }
@@ -342,7 +342,7 @@
         "if": { "math": [ "u_psi_teleporter_damage > u_health_comparison" ] },
         "then": [
           { "npc_message": "With a tremendous mental exertion, you hurl your target…elsewhere." },
-          { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": false } }
+          { "u_die": { "remove_corpse": true, "supress_message": true } }
         ]
       }
     ]
