@@ -101,7 +101,7 @@
                         "condition": { "u_has_trait": "DHAMPIR_TRAIT" },
                         "effect": [
                           {
-                            "if": { "math": [ "vampire_total_tier_two_traits() + rand(4) + rand(4) >= 11" ] },
+                            "if": { "math": [ "vampire_total_tier_three_traits() + rand(4) + rand(4) >= 11" ] },
                             "then": { "run_eocs": "EOC_DHAMPIR_GAIN_NEW_POWER_RESET_VALUE" },
                             "else": {
                               "u_roll_remainder": [
