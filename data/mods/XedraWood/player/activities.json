@@ -17,5 +17,34 @@
       { "u_lose_effect": "effect_pattern_tattoo_meditation" },
       { "u_message": "Replete with anima, you cease your meditations.", "type": "good" }
     ]
+  },
+  {
+    "id": "ACT_XEDRAWOOD_HEDGE_MAGIC_SPIRIT_QUEST",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "seeking knowledge from the Unseen World",
+    "rooted": true,
+    "based_on": "time",
+    "completion_eoc": "EOC_XEDRAWOOD_HEDGE_MAGIC_SPIRIT_QUEST_FINALIZATION"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_HEDGE_MAGIC_SPIRIT_QUEST_FINALIZATION",
+    "condition": {
+      "roll_contested": { "math": [ "u_skill('deduction') + (u_skill('speech') / 2) + rng(-2,8) + rng(-2,8)" ] },
+      "difficulty": 14
+    },
+    "effect": [
+      "u_cancel_activity",
+      { "run_eocs": "EOC_RESEARCH_THAUMATURGY_GAIN_SPELL" },
+      { "u_message": "Your spirit returns with knowledge from the Unseen World.", "type": "good" },
+      { "math": [ "u_val('mana') = 0" ] },
+      { "u_add_effect": "effect_xedrawood_hedge_magic_spirit_quest_completed", "duration": "7 days" }
+    ],
+    "false_effect": [
+      { "u_message": "Your spirit returns in failure.  You have gained nothing from your quest.", "type": "good" },
+      { "math": [ "u_val('mana') = 0" ] },
+      { "u_add_effect": "effect_xedrawood_hedge_magic_spirit_quest_completed", "duration": "3- days" }
+    ]
   }
 ]
