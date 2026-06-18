@@ -864,6 +864,11 @@
     "info": "This item will <good>attach directly</good> to <info>load bearing vests</info>, taking a <bad>large amount of space</bad>."
   },
   {
+    "id": "PALS_HUGE",
+    "type": "json_flag",
+    "info": "This item will <good>attach directly</good> to <info>MOLLE compatible backpacks</info>, taking a <bad>very large amount of space</bad>."
+  },
+  {
     "id": "PSYSHIELD_PARTIAL",
     "type": "json_flag",
     "//": "25% chance to protect against fear_paralyze monster attack.",
@@ -3075,5 +3080,30 @@
     "id": "ROBOFAC_LENS_HELMET",
     "type": "json_flag",
     "info": "This item allows you to wear Hub 01 LENS accessories."
+  },
+  {
+    "id": "MOD_HAZ_HOOD",
+    "type": "json_flag",
+    "info": "This hood is part of, or can be used with, the JSLIST system.  It is required to take advantage of the radiation protective effects."
+  },
+  {
+    "id": "MOD_HAZ_TORSO",
+    "type": "json_flag",
+    "info": "This overcoat is part of, or can be used with, the JSLIST system.  It is required to take advantage of the radiation protective effects."
+  },
+  {
+    "id": "MOD_HAZ_PANTS",
+    "type": "json_flag",
+    "info": "This pair of trousers is part of, or can be used with, the JSLIST system.  It is required to take advantage of the radiation protective effects."
+  },
+  {
+    "id": "MOD_HAZ_GLOVES",
+    "type": "json_flag",
+    "info": "This pair of gloves is part of, or can be used with, the JSLIST system.  It is required to take advantage of the radiation protective effects."
+  },
+  {
+    "id": "MOD_HAZ_BOOTS",
+    "type": "json_flag",
+    "info": "This pair of boots is part of, or can be used with, the JSLIST system.  It is required to take advantage of the radiation protective effects."
   }
 ]
