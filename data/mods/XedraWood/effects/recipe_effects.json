@@ -11,5 +11,13 @@
     "rating": "mixed",
     "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": -999 } ] } ],
     "flags": [ "NO_HEDGE_MAGICK" ]
+  },
+  {
+    "id": "effect_xedrawood_hedge_magic_spirit_questing",
+    "type": "effect_type",
+    "name": [ "Spirit-Questing" ],
+    "desc": [ "You are questing in the spirit world." ],
+    "rating": "mixed",
+    "flags": [ "BLIND", "DEAF" ]
   }
 ]

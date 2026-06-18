@@ -25,6 +25,7 @@
     "verb": "seeking knowledge from the Unseen World",
     "rooted": true,
     "based_on": "time",
+    "can_resume": false,
     "completion_eoc": "EOC_XEDRAWOOD_HEDGE_MAGIC_SPIRIT_QUEST_FINALIZATION"
   },
   {
@@ -35,16 +36,35 @@
       "difficulty": 14
     },
     "effect": [
-      "u_cancel_activity",
       { "run_eocs": "EOC_RESEARCH_THAUMATURGY_GAIN_SPELL" },
       { "u_message": "Your spirit returns with knowledge from the Unseen World.", "type": "good" },
       { "math": [ "u_val('mana') = 0" ] },
-      { "u_add_effect": "effect_xedrawood_hedge_magic_spirit_quest_completed", "duration": "7 days" }
+      { "u_add_effect": "effect_xedrawood_hedge_magic_spirit_quest_completed", "duration": "7 days" },
+      { "u_remove_effect": "effect_xedrawood_hedge_magic_spirit_questing" }
     ],
     "false_effect": [
       { "u_message": "Your spirit returns in failure.  You have gained no new knowledge from your quest.", "type": "good" },
       { "math": [ "u_val('mana') = 0" ] },
-      { "u_add_effect": "effect_xedrawood_hedge_magic_spirit_quest_completed", "duration": "7 days" }
+      { "u_add_effect": "effect_xedrawood_hedge_magic_spirit_quest_completed", "duration": "7 days" },
+      { "u_remove_effect": "effect_xedrawood_hedge_magic_spirit_questing" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_HEDGE_MAGIC_SPIRIT_QUEST_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_XEDRAWOOD_HEDGE_MAGIC_SPIRIT_QUEST", { "context_val": "activity" } ] },
+        { "u_has_effect": "effect_xedrawood_hedge_magic_spirit_questing" }
+      ]
+    },
+    "effect": [
+      { "u_message": "You break off your quest into the spirit world.", "type": "good" },
+      { "math": [ "u_val('mana') = 0" ] },
+      { "u_add_effect": "effect_xedrawood_hedge_magic_spirit_quest_completed", "duration": "2 days" },
+      { "u_remove_effect": "effect_xedrawood_hedge_magic_spirit_questing" }
     ]
   }
 ]
