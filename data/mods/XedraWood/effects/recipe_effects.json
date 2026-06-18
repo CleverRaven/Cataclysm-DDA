@@ -19,5 +19,26 @@
     "desc": [ "You are questing in the spirit world." ],
     "rating": "mixed",
     "flags": [ "BLIND", "DEAF" ]
+  },
+  {
+    "id": "effect_xedrawood_hedge_magic_spirit_questing_hallu_tracker",
+    "//": "hidden effect, used as a tracker",
+    "type": "effect_type",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "id": "effect_xedrawood_hedge_magic_spirit_questing_thirst_tracker",
+    "//": "hidden effect, used as a tracker",
+    "type": "effect_type",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "id": "effect_xedrawood_hedge_magic_spirit_questing_hunger_tracker",
+    "//": "hidden effect, used as a tracker",
+    "type": "effect_type",
+    "name": [ "" ],
+    "desc": [ "" ]
   }
 ]
