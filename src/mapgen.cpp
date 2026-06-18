@@ -1096,6 +1096,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
     setmap_opmap[ "trap" ] = JMAPGEN_SETMAP_TRAP;
     setmap_opmap[ "trap_remove" ] = JMAPGEN_SETMAP_TRAP_REMOVE;
     setmap_opmap[ "creature_remove" ] = JMAPGEN_SETMAP_CREATURE_REMOVE;
+    setmap_opmap[ "creature_kill" ] = JMAPGEN_SETMAP_CREATURE_KILL;
     setmap_opmap[ "item_remove" ] = JMAPGEN_SETMAP_ITEM_REMOVE;
     setmap_opmap[ "field_remove" ] = JMAPGEN_SETMAP_FIELD_REMOVE;
     setmap_opmap[ "radiation" ] = JMAPGEN_SETMAP_RADIATION;
@@ -1151,7 +1152,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
             tmp_i = jmapgen_int( pjo, "amount" );
         } else if( tmpop == JMAPGEN_SETMAP_BASH || tmpop == JMAPGEN_SETMAP_BURN ||
                    tmpop == JMAPGEN_SETMAP_ITEM_REMOVE || tmpop == JMAPGEN_SETMAP_FIELD_REMOVE ||
-                   tmpop == JMAPGEN_SETMAP_CREATURE_REMOVE ) {
+                   tmpop == JMAPGEN_SETMAP_CREATURE_REMOVE || tmpop == JMAPGEN_SETMAP_CREATURE_KILL ) {
             //suppress warning
         } else if( tmpop == JMAPGEN_SETMAP_VARIABLE ) {
             string_val = pjo.get_string( "id" );
@@ -5843,6 +5844,7 @@ mapgen_phase jmapgen_setmap::phase() const
         case JMAPGEN_SETMAP_TRAP:
         case JMAPGEN_SETMAP_TRAP_REMOVE:
         case JMAPGEN_SETMAP_CREATURE_REMOVE:
+        case JMAPGEN_SETMAP_CREATURE_KILL:
         case JMAPGEN_SETMAP_ITEM_REMOVE:
         case JMAPGEN_SETMAP_FIELD_REMOVE:
         case JMAPGEN_SETMAP_LINE_TRAP:
@@ -5935,11 +5937,10 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_CREATURE_REMOVE: {
-                Creature *tmp_critter = get_creature_tracker().creature_at( m.get_abs(
-                                            target_pos ), true );
-                if( tmp_critter && !tmp_critter->is_avatar() ) {
-                    tmp_critter->die( &m, nullptr );
-                }
+                m.kill_creature( target_pos, true );
+            }
+            case JMAPGEN_SETMAP_CREATURE_KILL: {
+                m.kill_creature( target_pos, false );
             }
             break;
             case JMAPGEN_SETMAP_ITEM_REMOVE: {
@@ -6036,19 +6037,14 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                                                        point_bub_ms( x2_get(), y2_get() ),
                                                        0 );
                 for( const point_bub_ms &i : line ) {
-                    Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.get_abs(
-                                                tripoint_bub_ms( i.x(), i.y(),
-                                                        z_level ) ) ), true );
-                    if( tmp_critter && !tmp_critter->is_avatar() ) {
-                        if ( tmp_critter->as_monster() != nullptr ) {
-                            monster target = *tmp_critter->as_monster();
-                            target.death_drops = false;
-                            tmp_critter->die( &m, nullptr );
-                        } else {
-                            tmp_critter->die( &m, nullptr );
-                        }
-  
-                    }
+                    m.kill_creature( tripoint_bub_ms( i.x(), i.y(), z_level ), true );
+                }
+            }
+            break;
+            case JMAPGEN_SETMAP_LINE_CREATURE_KILL: {
+                const std::vector<point_bub_ms> line = line_to( point_bub_ms( x_get(), y_get() ), point_bub_ms( x2_get(), y2_get() ), 0 );
+            for( const point_bub_ms &i : line ) {
+                m.kill_creature( tripoint_bub_ms( i.x(), i.y(), z_level ), false );
                 }
             }
             break;
@@ -6126,12 +6122,18 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                 const int cy2 = y2_get();
                 for( int tx = c.x(); tx <= cx2; tx++ ) {
                     for( int ty = c.y(); ty <= cy2; ty++ ) {
-                        Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.get_abs(
-                                                    tripoint_bub_ms( tx,
-                                                            ty, z_level ) ) ), true );
-                        if( tmp_critter && !tmp_critter->is_avatar() ) {
-                            tmp_critter->die( &m, nullptr );
-                        }
+                        m.kill_creature( tripoint_bub_ms( tx, ty, z_level ), true );
+                    }
+                }
+            }
+            break;
+            case JMAPGEN_SETMAP_SQUARE_CREATURE_KILL: {
+                const point_rel_ms c( x_get(), y_get() );
+                const int cx2 = x2_get();
+                const int cy2 = y2_get();
+                for( int tx = c.x(); tx <= cx2; tx++ ) {
+                    for( int ty = c.y(); ty <= cy2; ty++ ) {
+                        m.kill_creature( tripoint_bub_ms( tx, ty, z_level ), false );
                     }
                 }
             }

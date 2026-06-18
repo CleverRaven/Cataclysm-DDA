@@ -2614,6 +2614,18 @@ bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avo
     return true;
 }
 
+void map::kill_creature( const tripoint_bub_ms &p, bool remove_corpse )
+{
+    Creature *tmp_critter = get_creature_tracker().creature_at( get_abs( p ), true );
+    if( tmp_critter && !tmp_critter->is_avatar() ) {
+        if( remove_corpse ) {
+            tmp_critter->death_drops = false;
+            tmp_critter->spawn_corpse = false;
+        }
+        tmp_critter->die( this, nullptr );
+    }
+}
+
 std::string map::tername( const tripoint_bub_ms &p ) const
 {
     return ter( p ).obj().name();
