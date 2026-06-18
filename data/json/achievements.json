@@ -900,6 +900,21 @@
     ]
   },
   {
+    "id": "achievement_mutation_threshold_interstice",
+    "type": "achievement",
+    "name": "A Brand New Reality",
+    "description": "I guess I'll see you around.",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "INTERSTICE" ],
+        "description": "crossed interstice mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
     "id": "achievement_break_major_limbs",
     "type": "achievement",
     "name": "Broken But Not Defeated",
