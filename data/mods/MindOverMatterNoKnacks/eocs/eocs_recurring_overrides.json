@@ -1,21 +1,6 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_PORTAL_STORM_PSION_AWAKENING_DISTANT",
-    "effect": [  ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PORTAL_STORM_PSION_AWAKENING_MEDIUM",
-    "effect": [  ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PORTAL_STORM_PSION_AWAKENING_CLOSE",
-    "effect": [  ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_OXYGEN_ABSORPTION",
     "effect": [  ]
   },
