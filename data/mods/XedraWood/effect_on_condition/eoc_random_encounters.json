@@ -1,6 +1,11 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_RandEnc_Roadstop_camper_add",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_XEDRAWOOD_LIZARDFOLK_HUNTING_PARTY_SWAMP_RANDENC",
     "recurrence": 21600,
     "global": true,
