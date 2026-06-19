@@ -5850,11 +5850,13 @@ mapgen_phase jmapgen_setmap::phase() const
         case JMAPGEN_SETMAP_LINE_TRAP:
         case JMAPGEN_SETMAP_LINE_TRAP_REMOVE:
         case JMAPGEN_SETMAP_LINE_CREATURE_REMOVE:
+        case JMAPGEN_SETMAP_LINE_CREATURE_KILL:
         case JMAPGEN_SETMAP_LINE_ITEM_REMOVE:
         case JMAPGEN_SETMAP_LINE_FIELD_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_TRAP:
         case JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_CREATURE_REMOVE:
+        case JMAPGEN_SETMAP_SQUARE_CREATURE_KILL:
         case JMAPGEN_SETMAP_SQUARE_ITEM_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_FIELD_REMOVE:
             return mapgen_phase::default_;
@@ -6042,7 +6044,8 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_LINE_CREATURE_KILL: {
-                const std::vector<point_bub_ms> line = line_to( point_bub_ms( x_get(), y_get() ), point_bub_ms( x2_get(), y2_get() ), 0 );
+                const std::vector<point_bub_ms> line = line_to( point_bub_ms( x_get(), y_get() ),
+                                                       point_bub_ms( x2_get(), y2_get() ), 0 );
                 for( const point_bub_ms &i : line ) {
                     m.kill_creature( tripoint_bub_ms( i.x(), i.y(), z_level ), false );
                 }
