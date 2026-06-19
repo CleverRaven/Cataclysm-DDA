@@ -6012,9 +6012,11 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         complain_about( warning_name, d, snip, is_enemy(), spriority );
     } else {
         const std::string range_str = range < 1 ? "<punc>" :
-                                      string_format( _( " %s, %s" ),
+                                      //~ direction, distance
+                                      string_format( pgettext( "tracking creature", " %s, %s" ),
                                               direction_name( direction_from( pos_bub(), danger_pos ) ),
                                               distance_string( range ) );
+        //~ snippet, name, creature with range
         const std::string speech = string_format( _( "%s %s%s" ), snip, _( name ), range_str );
         complain_about( warning_name, d, speech, is_enemy(), spriority );
     }
@@ -6077,7 +6079,7 @@ bool npc::complain()
         std::string talktag = chat_snippets().snip_wound_infected.translated();
         parse_tags( talktag, get_player_character(), *this );
         const std::string speech = string_format( talktag, body_part_name( bp ) );
-        if( complain_about( infected_string, time_duration::from_hours( 4 - intensity ), speech,
+        if( ( infected_string, time_duration::from_hours( 4 - intensity ), speech,
                             intensity >= 3 ) ) {
             // Only one complaint per turn
             return true;
