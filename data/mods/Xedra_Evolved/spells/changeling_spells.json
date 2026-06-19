@@ -639,15 +639,19 @@
     "spell_class": "CHANGELING_MAGIC",
     "teachable": false,
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": 1,
     "difficulty": 8,
-    "base_casting_time": 180000,
-    "final_casting_time": 100,
-    "casting_time_increment": -6000,
+    "base_casting_time": {
+      "math": [
+        "max(( 180000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 2500) - (u_skill('gramarye') * 4500)), 100)"
+      ]
+    },
     "magic_type": "xe_fey_magick",
-    "base_energy_cost": 450,
-    "final_energy_cost": 350,
-    "energy_increment": -4
+    "base_energy_cost": {
+      "math": [
+        "max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 2) - (u_skill('gramarye') * 5)), 350)"
+      ]
+    }
   },
   {
     "id": "brownie_cultivate_goblin_fruit",
@@ -662,15 +666,19 @@
     "spell_class": "CHANGELING_MAGIC",
     "teachable": false,
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": 1,
     "difficulty": 8,
-    "base_casting_time": 180000,
-    "final_casting_time": 100,
-    "casting_time_increment": -6000,
+    "base_casting_time": {
+      "math": [
+        "max(( 180000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 2500) - (u_skill('gramarye') * 4500)), 100)"
+      ]
+    },
     "magic_type": "xe_fey_magick",
-    "base_energy_cost": 450,
-    "final_energy_cost": 350,
-    "energy_increment": -4
+    "base_energy_cost": {
+      "math": [
+        "max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 2) - (u_skill('gramarye') * 5)), 350)"
+      ]
+    }
   },
   {
     "id": "pooka_cultivate_goblin_fruit",
@@ -685,15 +693,17 @@
     "spell_class": "CHANGELING_MAGIC",
     "teachable": false,
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": 1,
     "difficulty": 8,
-    "base_casting_time": 180000,
-    "final_casting_time": 100,
-    "casting_time_increment": -6000,
+    "base_casting_time": {
+      "math": [
+        "max(( 180000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 2500) - (u_skill('gramarye') * 4500)), 100)"
+      ]
+    },
     "magic_type": "xe_fey_magick",
-    "base_energy_cost": 450,
-    "final_energy_cost": 350,
-    "energy_increment": -4
+    "base_energy_cost": {
+      "math": [ "max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 2) - (u_skill('gramarye') * 5)), 350)" ]
+    }
   },
   {
     "id": "trow_cultivate_goblin_fruit",
@@ -708,15 +718,17 @@
     "spell_class": "CHANGELING_MAGIC",
     "teachable": false,
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": 1,
     "difficulty": 8,
-    "base_casting_time": 180000,
-    "final_casting_time": 100,
-    "casting_time_increment": -6000,
+    "base_casting_time": {
+      "math": [
+        "max(( 180000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 2500) - (u_skill('gramarye') * 4500)), 100)"
+      ]
+    },
     "magic_type": "xe_fey_magick",
-    "base_energy_cost": 450,
-    "final_energy_cost": 350,
-    "energy_increment": -4
+    "base_energy_cost": {
+      "math": [ "max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 2) - (u_skill('gramarye') * 5)), 350)" ]
+    }
   },
   {
     "id": "noble_cultivate_goblin_fruit",
@@ -731,14 +743,14 @@
     "spell_class": "CHANGELING_MAGIC",
     "teachable": false,
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": 1,
     "difficulty": 8,
-    "base_casting_time": 180000,
-    "final_casting_time": 100,
-    "casting_time_increment": -6000,
+    "base_casting_time": {
+      "math": [ "max(( 180000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2500) - (u_skill('gramarye') * 4500)), 100)" ]
+    },
     "magic_type": "xe_fey_magick",
-    "base_energy_cost": 450,
-    "final_energy_cost": 350,
-    "energy_increment": -4
+    "base_energy_cost": {
+      "math": [ "max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2) - (u_skill('gramarye') * 5)), 350)" ]
+    }
   }
 ]
