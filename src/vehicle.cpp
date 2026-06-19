@@ -111,6 +111,8 @@ static const fault_id fault_tire_treads( "fault_tire_treads" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_gasoline( "gasoline" );
+static const itype_id fuel_type_gasoline_dead( "gasoline_dead" );
 static const itype_id fuel_type_mana( "mana" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_plutonium_cell( "plut_cell" );
@@ -501,6 +503,17 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, veh_spawn_status in
             rng_fuel_amount( pt, itype_battery );
         } else if( pt.is_tank() || pt.is_fuel_store() ) {
             rng_fuel_amount( pt, pt.ammo_current() );
+
+            /*If the vehicle has gasoline engine, and current day equals to or exceeds gasoline shelf time, then replace the gasoline with its expired version.
+            This is to simulate the gasoline going bad after a certain period of time.
+            */
+            if( pt.ammo_current() == fuel_type_gasoline ) {
+                if( calendar::turn - calendar::turn_zero >= time_duration::from_days(
+                        get_option<int>( "GASOLINE_SHELF_TIME" ) ) ) {
+                    pt.ammo_unset();
+                    rng_fuel_amount( pt, fuel_type_gasoline_dead );
+                }
+            }
         }
 
         if( vp.has_feature( "OPENABLE" ) ) { // doors are closed

@@ -173,6 +173,18 @@
     "effects": [ "FLAME", "STREAM", "IGNITE" ]
   },
   {
+    "id": "gasoline_dead",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str_sp": "expired gasoline" },
+    "copy-from": "gasoline",
+    "description": "It's hard to recognize gasoline in this flakes-filled brown sludge with a pungent, sour smell.  It cannot be used to start engines.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "ammo_type": "flammable",
+    "range": 0
+  },
+  {
     "id": "lamp_oil",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],

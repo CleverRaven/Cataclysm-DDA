@@ -520,5 +520,12 @@
     "//": "The maximum number of overmaps that an intersection can deviate from its gridded position. Cannot be greater than or equal to row / 2 or column / 2, may cause bugs for > row / 4, column / 4.",
     "stype": "int",
     "value": 2
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GASOLINE_SHELF_TIME",
+    "//": "Maximum shelf time (in days) for E10 ethanol-gasoline blend. After this time gasoline engines won't start at all on this fuel.",
+    "stype": "int",
+    "value": 180
   }
 ]

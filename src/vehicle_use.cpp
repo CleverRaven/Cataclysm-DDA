@@ -88,6 +88,7 @@ static const furn_str_id furn_f_plant_unharvested_overgrown( "f_plant_unharveste
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 
 static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_gasoline( "gasoline" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_wind( "wind" );
@@ -678,6 +679,10 @@ bool vehicle::start_engine( map &here, vehicle_part &vp )
                 add_msg( _( "You cannot use %s without at least two legs." ), vp.name() );
                 return false;
             }
+        } else if( vpi.fuel_type == fuel_type_gasoline ) {
+            add_msg( _( "The %1$s has %2$s in its tanks, but the fuel is <color_red>expired</color> and can't be used to start the engine." ),
+                     vp.name(), item::nname( vpi.fuel_type ) );
+            return false;
         } else {
             add_msg( _( "Looks like the %1$s is out of %2$s." ), vp.name(),
                      item::nname( vpi.fuel_type ) );
