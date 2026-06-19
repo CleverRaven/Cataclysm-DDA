@@ -56,7 +56,7 @@
     "looks_like": "mon_lizardfolk_hunter",
     "type": "MONSTER",
     "name": "lizardman hunter",
-    "description": "One of the lizardfolk of the swamps. Lithe and deadly, this is a hunter, bringing back the game that the lizardfolk require.",
+    "description": "One of the lizardfolk of the swamps.  Lithe and deadly, this is a hunter, bringing back the game that the lizardfolk require.",
     "copy-from": "mon_lizardfolk_warrior",
     "symbol": "L",
     "proportional": { "hp": 0.9, "volume": 0.9, "weight": 0.9, "speed": 0.97 },
