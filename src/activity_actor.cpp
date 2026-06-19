@@ -5825,7 +5825,11 @@ void consume_activity_actor::finish( player_activity &act, Character & )
         uistate.consume_uistate.consume_menu_selected_items = { consume_loc };
     }
 
-    if( !avatar_action::eat_here( player_character ) && reprompt_consume_menu ) {
+    if( !avatar_action::eat_here( player_character ) && reprompt_consume_menu
+        // Don't overrite an open_menu that something else already claimed (e.g. AIM.do_return_entry);
+        // otherwise that menu is left alive but never re-displayed, leaving a stray ui_adaptor that redraws spuriously.
+        && !uistate.open_menu
+      ) {
         uistate.open_menu = []() {
             avatar_action::eat_or_use( get_avatar(),
                                        game_menus::inv::consume( uistate.consume_uistate.consume_menu_comestype ) );
@@ -10420,7 +10424,11 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
     act.values.clear();
 
-    if( who.is_avatar() ) {
+    if( who.is_avatar()
+        // Don't overrite an open_menu that something else already claimed (e.g. AIM.do_return_entry);
+        // otherwise that menu is left alive but never re-displayed, leaving a stray ui_adaptor that redraws spuriously.
+        && !uistate.open_menu
+      ) {
         uistate.open_menu = []() {
             avatar_action::eat_or_use( get_avatar(),
                                        game_menus::inv::consume( uistate.consume_uistate.consume_menu_comestype ) );
