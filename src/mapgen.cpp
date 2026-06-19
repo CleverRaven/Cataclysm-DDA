@@ -32,7 +32,6 @@
 #include "condition.h"
 #include "coordinates.h"
 #include "creature.h"
-#include "creature_tracker.h"
 #include "cube_direction.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
