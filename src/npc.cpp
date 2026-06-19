@@ -3287,7 +3287,7 @@ void npc::die( map *here, Creature *nkiller )
     dead = true;
     Character::die( here, nkiller );
 
-    if( !quiet_death ) {
+    if( death_message ) {
         if( is_hallucination() || lifespan_end ) {
             add_msg_if_player_sees( *this, _( "%s disappears." ), get_name().c_str() );
             return;
@@ -3297,7 +3297,8 @@ void npc::die( map *here, Creature *nkiller )
     }
 
     if( Character *ch = dynamic_cast<Character *>( killer ) ) {
-        get_event_bus().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
+        get_event_bus().send<event_type::character_kills_character>( ch->getID(), getID(), get_name(),
+                myclass.c_str() );
     }
     Character &player_character = get_player_character();
     if( killer == &player_character ) {

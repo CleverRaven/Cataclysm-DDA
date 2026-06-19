@@ -3540,6 +3540,27 @@ mutation, stored in `mutation_id`  context value, is removed from character:
 ```
 
 
+#### `u_lose_category`, `npc_lose_category`
+Character or NPC will have all traits of the specified category removed, if they have them
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "u_lose_category" / "npc_lose_category" | **mandatory** | string or [variable object](#variable-object) | id of mutation category to be removed; if character or NPC has no such mutation, nothing happens |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+`URSINE` mutations are removed from character:
+```jsonc
+{ "u_lose_category": "URSINE" }
+```
+
+
 #### `u_lose_effect`, `npc_lose_effect`
 Remove effect from character or NPC, if it has one
 
@@ -5036,7 +5057,6 @@ If the target is an item, it will be deleted.
 | --- | --- | --- | --- |
 | "remove_corpse" | optional | bool | default false; if true, the corpse and all inside of it won't be spawned on death |
 | "supress_message" | optional | bool | default false; if true, death would omit death message |
-| "remove_from_creature_tracker" | optional | bool | default false; if true, and talker is monster, the monster instead removed from creature tracker, resulting not only in monster disappearing without message and corpse, but also bypasses any death effect they could fire before their death |
 
 ##### Valid talkers:
 
@@ -5589,17 +5609,89 @@ Spawn 2 hallucination `portal_person`s, outdoor, 3-5 tiles around the player, fo
 }
 ```
 
+#### `set_trap`
+Spawn a trap around target coordinates.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "set_trap" | **mandatory** | string or [variable object](#variable-object) | id of trap to spawn |
+| "location" | **mandatory** | [variable object](#variable-object) | the trap would spawn from this location |
+| "radius" | optional | int, [variable object](#variable-object) or value between two | default 1; radius in which all traps will be spawned |
+| "square" | optional | boolean | default false; if true, the field spawned will be a square, otherwise it will be a circle |
+
+##### Examples
+Select the area, and spawn bear traps 5 tiles around it
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLACE_TRAP",
+    "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
+      { "set_trap": "tr_beartrap", "location": { "context_val": "pos" }, "radius": 5 }
+    ]
+  }
+```
+
+#### `set_terrain`
+Spawn a terrain around target coordinates.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "set_terrain" | **mandatory** | string or [variable object](#variable-object) | id of terrain to spawn |
+| "location" | **mandatory** | [variable object](#variable-object) | the trap would spawn from this location |
+| "radius" | optional | int, [variable object](#variable-object) or value between two | default 1; radius in which all terrain will be spawned |
+| "avoid_creatures" | optional | boolean | default false; if true, terrain will not be spawned if some other creature stands on it |
+| "square" | optional | boolean | default false; if true, the field spawned will be a square, otherwise it will be a circle |
+
+##### Examples
+Select the area, and spawn thin ice 5 tiles around it
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLACE_TERRAIN",
+    "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
+      { "set_terrain": "t_ice_sh_thin", "location": { "context_val": "pos" }, "radius": 5 }
+    ]
+  }
+```
+
+#### `set_furniture`
+Spawn a furniture around target coordinates.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "set_furniture" | **mandatory** | string or [variable object](#variable-object) | id of furniture to spawn |
+| "location" | **mandatory** | [variable object](#variable-object) | the trap would spawn from this location |
+| "radius" | optional | int, [variable object](#variable-object) or value between two | default 1; radius in which all furniture will be spawned |
+| "avoid_creatures" | optional | boolean | default false; if true, furniture will not be spawned if some other creature stands on it |
+| "square" | optional | boolean | default false; if true, the field spawned will be a square, otherwise it will be a circle |
+
+##### Examples
+Select the area, and spawn tables 5 tiles around it
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLACE_FURNITURE",
+    "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
+      { "set_furniture": "f_table", "location": { "context_val": "pos" }, "radius": 5 }
+    ]
+  }
+```
+
 #### `u_set_field`, `npc_set_field`
-spawn a field in a square around player. it is recommended to not use it in favor of `u_transform_radius` or `u_emit` if possible
+Spawn a field around player or target coordinates.
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
 | "u_set_field", "npc_set_field" | **mandatory** | string or [variable object](#variable-object) | id of field to spawn around the player |
-| "intensity" | optional | int, [variable object](#variable-object) or value between two | default 1; intensity of field to spawn |
-| "radius" | optional | int, [variable object](#variable-object) or value between two | default 10000000; radius of a field to spawn |
-| "age" | optional | int, duration, [variable object](#variable-object) or value between two | how long the field would last |
+| "intensity" | optional | int, [variable object](#variable-object) or value between two | default 1; intensity of field to spawn. Each field evaluate intensity separately, so `[1, 5]` would spawn fields of intensity from 1 to 5 |
+| "radius" | optional | int, [variable object](#variable-object) or value between two | default 1; radius of a field to spawn |
+| "age" | optional | int, duration, [variable object](#variable-object) or value between two | default 1 second; how long the field would last. Each field evaluate age separately |
 | "outdoor_only"/ "indoor_only" | optional | boolean | default false; if used, field would be spawned only outside or only inside buildings |
 | "hit_player" | optional | boolean | default true; if field spawn where the player is, process like player stepped on this field |
+| "square" | optional | boolean | default false; if true, the field spawned will be a square, otherwise it will be a circle |
 | "target_var" | optional | [variable object](#variable-object) | if used, the field would spawn from this location instead of you or NPC |
 
 ##### Examples

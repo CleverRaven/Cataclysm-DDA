@@ -2188,7 +2188,6 @@ void Item_factory::init()
     add_iuse( "THORAZINE", &iuse::thorazine );
     add_iuse( "TOWEL", &iuse::towel );
     add_iuse( "UNFOLD_GENERIC", &iuse::unfold_generic );
-    add_iuse( "UNPACK_ITEM", &iuse::unpack_item );
     add_iuse( "CALL_OF_TINDALOS", &iuse::call_of_tindalos );
     add_iuse( "BLOOD_DRAW", &iuse::blood_draw );
     add_iuse( "VIBE", &iuse::vibe );
@@ -2203,7 +2202,6 @@ void Item_factory::init()
     add_iuse( "HEAT_SOLID_ITEMS", &iuse::heat_solid_items );
     add_iuse( "HEAT_ALL_ITEMS", &iuse::heat_all_items );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
-    add_iuse( "WATER_TABLETS", &iuse::water_tablets );
     add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
     add_iuse( "SEXTANT", &iuse::sextant );
@@ -2226,7 +2224,6 @@ void Item_factory::init()
     add_actor( std::make_unique<holster_actor>() );
     add_actor( std::make_unique<inscribe_actor>() );
     add_actor( std::make_unique<iuse_transform>() );
-    add_actor( std::make_unique<unpack_actor>() );
     add_actor( std::make_unique<message_iuse>() );
     add_actor( std::make_unique<mp3_iuse>() );
     add_actor( std::make_unique<sound_iuse>() );
@@ -2444,6 +2441,23 @@ void Item_factory::check_definitions() const
                     msg += string_format(
                                "firing_requirements references MAGAZINE_WELL pocket \"%s\" with no default_magazine; spawn paths cannot populate it\n",
                                id );
+                }
+            }
+        }
+
+        // Keys must be modes the mod owns via mode_modifier; flag add+hide of one mode.
+        if( type->gunmod ) {
+            for( const auto &mode_pair : type->gunmod->firing_requirements.per_mode ) {
+                if( !type->gunmod->mode_modifier.count( mode_pair.first ) ) {
+                    msg += string_format(
+                               "gunmod mode_firing_requirements mode \"%s\" is not in this mod's mode_modifier\n",
+                               mode_pair.first.str() );
+                }
+            }
+            for( const gun_mode_id &h : type->gunmod->hide_modes ) {
+                if( type->gunmod->mode_modifier.count( h ) ) {
+                    msg += string_format(
+                               "gunmod both adds and hides mode \"%s\"\n", h.str() );
                 }
             }
         }
@@ -3273,6 +3287,30 @@ void pocket_consumption_entry::deserialize( const JsonObject &jo )
     }
 }
 
+void pocket_consumption_mod::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "pocket", pocket );
+    if( jo.has_member( "set" ) ) {
+        set = jo.get_int( "set" );
+        if( *set < 1 ) {
+            jo.throw_error_at( "set", "consumption_mods set must be >= 1" );
+        }
+    }
+    optional( jo, was_loaded, "multiply", multiply, 1.0f );
+    if( multiply <= 0.0f ) {
+        jo.throw_error_at( "multiply", "consumption_mods multiply must be > 0" );
+    }
+}
+
+void pocket_capacity_mod::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "pocket", pocket );
+    optional( jo, was_loaded, "multiply", multiply, 1.0f );
+    if( multiply <= 0.0f ) {
+        jo.throw_error_at( "multiply", "capacity_mods multiply must be > 0" );
+    }
+}
+
 static std::vector<pocket_consumption_entry> read_consumption_entries(
     const JsonValue &val )
 {
@@ -3661,6 +3699,8 @@ void islot_mod::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "acceptable_ammo", acceptable_ammo, auto_flags_reader<ammotype> {} );
     optional( jo, was_loaded, "magazine_adaptor", magazine_adaptor, magazine_adaptor_reader{} );
     optional( jo, was_loaded, "pocket_mods", add_pockets );
+    optional( jo, was_loaded, "consumption_mods", consumption_mods );
+    optional( jo, was_loaded, "capacity_mods", capacity_mods );
 }
 
 void islot_book::deserialize( const JsonObject &jo )
@@ -3842,6 +3882,11 @@ void islot_gunmod::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "heat_per_shot_modifier", heat_per_shot_modifier );
     optional( jo, was_loaded, "heat_per_shot_multiplier", heat_per_shot_multiplier, 1.0f );
     optional( jo, was_loaded, "mode_modifier", mode_modifier, gun_modes_reader{} );
+    // Distinct key so it never collides with itype-level firing_requirements.
+    if( jo.has_member( "mode_firing_requirements" ) ) {
+        firing_requirements.deserialize_firing_requirements( jo, "mode_firing_requirements" );
+    }
+    optional( jo, was_loaded, "hide_modes", hide_modes );
     optional( jo, was_loaded, "reload_modifier", reload_modifier );
     optional( jo, was_loaded, "min_str_required_mod", min_str_required_mod );
     optional( jo, was_loaded, "min_str_required_mod_if_prone", min_str_required_mod_if_prone );

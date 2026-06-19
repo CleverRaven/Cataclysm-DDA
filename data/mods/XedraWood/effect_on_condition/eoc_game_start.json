@@ -4,7 +4,10 @@
     "id": "EOC_XEDRAWOOD_TRADITIONAL_MINDSET",
     "eoc_type": "EVENT",
     "required_event": "game_start",
-    "effect": [ { "u_add_trait": "XEDRA_WOOD_COMPUTER_ILLITERATE" }, { "u_add_trait": "ILLITERATE" } ]
+    "effect": [
+      { "u_add_trait": "XEDRA_WOOD_COMPUTER_ILLITERATE" },
+      { "if": { "not": { "u_has_trait": "WISE_LITERATE" } }, "then": { "u_add_trait": "ILLITERATE" } }
+    ]
   },
   {
     "type": "effect_on_condition",

@@ -1,5 +1,15 @@
 [
   {
+    "id": "smelting_standard",
+    "type": "requirement",
+    "tools": [
+      [ [ "forge", 1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "casting_mold", -1 ] ]
+    ]
+  },
+  {
     "id": "writing_standard",
     "type": "requirement",
     "name": "Writing",
@@ -36,5 +46,20 @@
     "id": "eggs_dragon_bird_small",
     "type": "requirement",
     "components": [ [ [ "egg_claw_runner", 1 ], [ "egg_claw_hunter", 1 ] ] ]
+  },
+  {
+    "id": "meat_nofish",
+    "type": "requirement",
+    "extend": { "components": [ [ [ "insect_meat", 1 ] ] ] }
+  },
+  {
+    "id": "meat_cooked",
+    "type": "requirement",
+    "extend": { "components": [ [ [ "insect_meat", 1 ] ] ] }
+  },
+  {
+    "id": "edible_fat",
+    "type": "requirement",
+    "extend": { "components": [ [ [ "insect_fat", 1 ] ] ] }
   }
 ]

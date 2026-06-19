@@ -1773,11 +1773,24 @@ void craft_stamp_passive_entry( item &craft, const Character &crafter, time_poin
     craft.set_passive_started_at( entry_time );
     craft.set_ready_at( entry_time + time_duration::from_moves( step_moves ) );
     if( cur_step.max_time.has_value() ) {
-        time_duration fail_dur = *cur_step.max_time;
-        if( cur_step.grace_period.has_value() ) {
-            fail_dur += *cur_step.grace_period;
-        }
-        craft.set_fail_at( entry_time + fail_dur );
+        const int batch = craft.get_making_batch_size();
+        const time_duration raw_max = *cur_step.max_time;
+        const time_duration raw_fail = raw_max + cur_step.grace_period.value_or( 0_turns );
+        // Scale max_time+grace by batch like ready_at, ignoring tool/prof
+        // speed.  One apply() call: linear setup offset is not distributive.
+        const int64_t fail_moves = static_cast<int64_t>( cur_step.batch_info.apply(
+                                       static_cast<double>( to_moves<int64_t>( raw_fail ) ), batch ) );
+        const int64_t max_moves = static_cast<int64_t>( cur_step.batch_info.apply(
+                                      static_cast<double>( to_moves<int64_t>( raw_max ) ), batch ) );
+        time_point fail_pt = entry_time + time_duration::from_moves( fail_moves );
+        // Keep ruin strictly after completion; grace window is the marginal
+        // scaled difference, or a floor when there is no grace_period.
+        const int64_t grace_moves = fail_moves - max_moves;
+        const time_duration min_window = grace_moves > 0
+                                         ? time_duration::from_moves( grace_moves )
+                                         : 1_turns;
+        fail_pt = std::max( fail_pt, craft.get_ready_at() + min_window );
+        craft.set_fail_at( fail_pt );
     }
     if( plan.choice == step_choice::set_timer && plan.alarm_offset.has_value() ) {
         craft.set_alarm_at( entry_time + *plan.alarm_offset );

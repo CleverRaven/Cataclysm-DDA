@@ -1455,7 +1455,8 @@ void vehicle::use_washing_machine( map &here, int p )
     // Get all the items that can be used as detergent
     const inventory &inv = player_character.crafting_inventory();
     std::vector<const item *> detergents = inv.items_with( [inv]( const item & it ) {
-        return it.has_flag( json_flag_DETERGENT ) && inv.has_charges( it.typeId(), 5 );
+        return it.has_flag( json_flag_DETERGENT ) &&
+               ( it.count_by_charges() ? inv.has_charges( it.typeId(), 5 ) : inv.has_amount( it.typeId(), 5 ) );
     } );
 
     vehicle_stack items = get_items( vp );
@@ -1537,7 +1538,7 @@ void vehicle::use_dishwasher( map &here, int p )
 {
     vehicle_part &vp = parts[p];
     avatar &player_character = get_avatar();
-    bool detergent_is_enough = player_character.crafting_inventory().has_charges( itype_detergent, 5 );
+    bool detergent_is_enough = player_character.crafting_inventory().has_amount( itype_detergent, 5 );
     vehicle_stack items = get_items( vp );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
         return i.has_flag( json_flag_FILTHY );
@@ -1940,6 +1941,10 @@ vehicle::prepare_multimag_pockets( vehicle &veh, map &here, item &tool,
     if( !tool.uses_firing_requirements() ) {
         return out;
     }
+    // TODO(multimag): this reads the base itype firing_requirements and raw
+    // per-pocket qty. It does not resolve gunmod-owned modes
+    // (mode_firing_requirements), nor apply consumption_mods / capacity_mods.
+    // Mods on a vehicle-mounted multimag host are out of scope here.
     const std::vector<pocket_consumption_entry> *entries =
         tool.type->firing_requirements.for_mode( mode );
     if( entries == nullptr ) {

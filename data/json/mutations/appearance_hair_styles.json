@@ -94,6 +94,7 @@
     "starting_trait": true,
     "valid": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       { "id": "black", "name": { "str": "Hair: black, crew-cut" }, "description": "Crewcut black hair style.", "weight": 1 },
       {
@@ -157,6 +158,7 @@
     "starting_trait": true,
     "valid": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       { "id": "black", "name": { "str": "Hair: black, afro" }, "description": "'Fro black hair style.", "weight": 1 },
       { "id": "blond", "name": { "str": "Hair: blond, afro" }, "description": "'Fro blond hair style.", "weight": 1 },
@@ -214,6 +216,7 @@
     "starting_trait": true,
     "valid": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "black",
@@ -287,6 +290,7 @@
     "starting_trait": true,
     "valid": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "black",
@@ -360,6 +364,7 @@
     "starting_trait": true,
     "valid": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "black",
@@ -433,6 +438,7 @@
     "starting_trait": true,
     "valid": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "black",
@@ -506,6 +512,7 @@
     "starting_trait": true,
     "valid": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "black",
@@ -579,6 +586,7 @@
     "starting_trait": true,
     "valid": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "black",
@@ -652,6 +660,7 @@
     "starting_trait": true,
     "valid": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       { "id": "black", "name": { "str": "Hair: black, mohawk" }, "description": "Mohawk black hair style.", "weight": 1 },
       {
@@ -700,6 +709,7 @@
     "starting_trait": true,
     "valid": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       { "id": "black", "name": { "str": "Hair: black, mohawk" }, "description": "You have a long black mohawk.", "weight": 1 },
       {
@@ -768,6 +778,7 @@
     "starting_trait": true,
     "valid": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "black",

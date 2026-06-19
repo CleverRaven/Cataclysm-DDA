@@ -180,7 +180,6 @@ std::optional<int> teleport( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> toolmod_attach( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> towel( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> unfold_generic( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> unpack_item( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> vibe( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> view_photos( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> view_recipes( Character *, item *, const tripoint_bub_ms & );
@@ -191,7 +190,6 @@ std::optional<int> wash_hard_items( Character *, item *, const tripoint_bub_ms &
 std::optional<int> wash_items( Character *p, bool soft_items, bool hard_items );
 std::optional<int> wash_soft_items( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> water_purifier( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> water_tablets( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> weak_antibiotic( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> weather_tool( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> sextant( Character *p, item *it, const tripoint_bub_ms & );

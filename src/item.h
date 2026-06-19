@@ -930,6 +930,9 @@ class item : public visitable
          * NOTE: This assumes that there is always one and only one pocket where ammo goes (mag or mag well)
          */
         void update_modified_pockets();
+        /** debugmsg if a mod references an unknown host pocket id, or two live pockets
+         *  share an id (by-id targeting then nondeterministic). */
+        void validate_mod_pocket_refs() const;
         /**
          * For pocket update stuff.
          * @return which pocket @contained is in.
@@ -1106,7 +1109,7 @@ class item : public visitable
 
         /**
          * Return true if this item's type is counted by charges
-         * (true for stackable, ammo, or comestible)
+         * (true for stackable, ammo, or non-solid comestible)
          */
         bool count_by_charges() const;
 
@@ -2968,6 +2971,10 @@ class item : public visitable
 
         /** Switch to the next available firing mode */
         void gun_cycle_mode();
+
+        /** True if @p mode cannot be fired: not live (all modes hidden), or an aux
+         *  gunmod mode targeting the aux item on a multimag gun (aux cost out of scope). */
+        bool firing_mode_blocked( const gun_mode_id &mode ) const;
 
         /** Get lowest actual and effective dispersion of either integral or any attached sights for specific character */
         std::pair<int, int> sight_dispersion( const Character &character ) const;

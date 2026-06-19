@@ -33,6 +33,8 @@ struct pick_info {
     item_location src_container;
     item_location dst;
 
+    item_location highlight;
+
     int extra_moves_per_distance = 0;
 
     units::volume picked_up_volume = 0_ml;

@@ -778,7 +778,7 @@ int item_pocket::ammo_capacity( const ammotype &ammo ) const
     if( found_ammo == data->ammo_restriction.end() ) {
         return 0;
     } else {
-        return found_ammo->second;
+        return std::lround( found_ammo->second * capacity_mult );
     }
 }
 
@@ -797,7 +797,9 @@ int item_pocket::remaining_ammo_capacity( const ammotype &ammo ) const
         }
         ammo_count += it.count();
     }
-    return total_capacity - ammo_count;
+    // A capacity-shrinking mod (or removing a boost mod) can leave a pocket
+    // overfilled; grandfather the overflow rather than report negative space.
+    return std::max( 0, total_capacity - ammo_count );
 }
 
 std::set<ammotype> item_pocket::ammo_types() const

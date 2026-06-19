@@ -376,6 +376,16 @@
   },
   {
     "type": "MIGRATION",
+    "id": "water_purifying_active",
+    "replace": "water_clean"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "water_purifying",
+    "replace": "water_clean"
+  },
+  {
+    "type": "MIGRATION",
     "id": "mre_strawberry_cake",
     "replace": "mre_chocolate_cake"
   },
@@ -866,6 +876,16 @@
     "type": "MIGRATION",
     "id": "gloves_bag",
     "replace": "plastic_shopping_bag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "gobag",
+    "replace": "duffelbag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "personal_gobag",
+    "replace": "duffelbag"
   },
   {
     "type": "MIGRATION",
