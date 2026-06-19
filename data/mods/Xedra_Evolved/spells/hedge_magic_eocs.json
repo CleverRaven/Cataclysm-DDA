@@ -268,6 +268,16 @@
         "search_data": [ { "flags": [ "SKINCHANGED" ], "worn_only": true } ],
         "true_eocs": [ { "id": "EOC_HEDGE_TURN_INTO_BEAR_WEAR_ITEM_INTANGIBLE", "effect": [ { "npc_set_flag": "SEMITANGIBLE" } ] } ]
       },
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "flags": [ "SKINCHANGED" ], "worn_only": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_HEDGE_TURN_INTO_BEAR_WEAR_ITEM_REMOVABLE",
+            "effect": [ { "npc_unset_flag": "NO_TAKEOFF" }, { "npc_unset_flag": "SHAPESHIFTED_ARMOR" } ]
+          }
+        ]
+      },
       { "run_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS", "time_in_future": [ "6 hours", "24 hours" ] }
     ]
   },
