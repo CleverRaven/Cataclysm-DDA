@@ -6012,10 +6012,10 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         complain_about( warning_name, d, snip, is_enemy(), spriority );
     } else {
         const std::string range_str = range < 1 ? "<punc>" :
-                                      string_format( pgettext( "direction, distance", " %s, %s" ),
+                                      string_format( _( " %s, %s" ),
                                               direction_name( direction_from( pos_bub(), danger_pos ) ),
                                               distance_string( range ) );
-        const std::string speech = string_format( pgettext( "snippet, name, creature with range", "%s %s%s" ), snip, _( name ), range_str );
+        const std::string speech = string_format( _( "%s %s%s" ), snip, _( name ), range_str );
         complain_about( warning_name, d, speech, is_enemy(), spriority );
     }
 }
