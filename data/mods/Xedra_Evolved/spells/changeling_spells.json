@@ -2,7 +2,7 @@
   {
     "id": "changeling_gain_new_traits",
     "type": "SPELL",
-    "name": "Unlock Fey Powers",
+    "name": "Unlock Your Fey Heritage",
     "description": "Using the power of human dreams, unlock the secrets of your fey heritage.  It requires a large amount of dreamdross and time to perform this research.",
     "message": "",
     "flags": [ "NO_FAIL", "VERBAL", "SOMATIC" ],

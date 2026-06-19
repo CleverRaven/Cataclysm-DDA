@@ -45,22 +45,26 @@
       {
         "if": {
           "or": [
-            { "math": [ "sum_traits_of_category('FAIR_FOLK_NOBLE') = u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE')" ] },
+            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') - 1 >= sum_traits_of_category('FAIR_FOLK_NOBLE') " ] },
             {
               "math": [
-                "sum_traits_of_category('FAIR_FOLK_COMMONER_BROWNIE') = u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE')"
+                "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') - 1 >= sum_traits_of_category('FAIR_FOLK_COMMONER_BROWNIE')"
               ]
             },
             {
-              "math": [ "sum_traits_of_category('FAIR_FOLK_COMMONER_POOKA') = u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA')" ]
-            },
-            {
               "math": [
-                "sum_traits_of_category('FAIR_FOLK_COMMONER_SELKIE') = u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE')"
+                "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') - 1 >= sum_traits_of_category('FAIR_FOLK_COMMONER_POOKA')"
               ]
             },
             {
-              "math": [ "sum_traits_of_category('FAIR_FOLK_COMMONER_TROW') = u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW')" ]
+              "math": [
+                "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') - 1 >= sum_traits_of_category('FAIR_FOLK_COMMONER_SELKIE')"
+              ]
+            },
+            {
+              "math": [
+                "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') - 1 >= sum_traits_of_category('FAIR_FOLK_COMMONER_TROW')"
+              ]
             }
           ]
         },
@@ -72,19 +76,6 @@
         ]
       }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_CHANGELING_ADVANCEMENT_DREAMDROSS_COST_UPDATER",
-    "effect": [ { "math": [ "u_changeling_new_trait_dreamdross_research_cost += 30" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PLAYABLE_CHANGELING_NOBLE_ADD_POWER_QUEUE_ON_GAME_START",
-    "eoc_type": "EVENT",
-    "required_event": "game_start",
-    "condition": { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" },
-    "effect": { "math": [ "u_changeling_advancement_dreams_counter++" ] }
   },
   {
     "type": "effect_on_condition",
@@ -107,9 +98,22 @@
       ]
     },
     "effect": [
-      { "math": [ "u_changeling_new_trait_dreamdross_research_cost = 30" ] },
+      { "math": [ "u_changeling_new_trait_dreamdross_research_cost = 35" ] },
       { "math": [ "u_spell_level('changeling_gain_new_traits') = 1" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_ADVANCEMENT_DREAMDROSS_COST_UPDATER",
+    "effect": [ { "math": [ "u_changeling_new_trait_dreamdross_research_cost += 35" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_NOBLE_ADD_POWER_QUEUE_ON_GAME_START",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" },
+    "effect": { "math": [ "u_changeling_advancement_dreams_counter++" ] }
   },
   {
     "type": "effect_on_condition",
