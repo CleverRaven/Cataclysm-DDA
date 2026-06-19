@@ -7,6 +7,14 @@
     "based_on": "time"
   },
   {
+    "id": "ACT_CHANGELING_RESEARCH_NEW_POWERS",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "daydreaming",
+    "based_on": "time",
+    "completion_eoc": "EOC_CHANGELING_RESEARCH_NEW_TRAIT_FINALIZE"
+  },
+  {
     "id": "ACT_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
