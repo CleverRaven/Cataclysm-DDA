@@ -269,7 +269,7 @@
     "name": { "str_sp": "slaked lime powder" },
     "symbol": "=",
     "color": "white",
-    "description": " A handful of slaked lime, a white odorless powder with many uses.  Also known as calcium hydroxide.",
+    "description": "A handful of slaked lime, a white odorless powder with many uses.  Also known as calcium hydroxide.",
     "material": [ "slaked_lime" ],
     "volume": "1 ml",
     "weight": "2211 mg"
