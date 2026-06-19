@@ -143,6 +143,9 @@ namespace
 // Used only if AttachConsole() works
 FILE *CONOUT;
 #endif
+
+}  // namespace
+
 void exit_handler( int s )
 {
     const int old_timeout = inp_mngr.get_timeout();
@@ -168,6 +171,9 @@ void exit_handler( int s )
     ui_manager::redraw_invalidated();
     catacurses::doupdate();
 }
+
+namespace
+{
 
 struct arg_handler {
     //! Handler function to be invoked when this argument is encountered. The handler will be

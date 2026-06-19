@@ -6108,8 +6108,7 @@ static void CheckMessages()
         try_sdl_update();
     }
     if( quit ) {
-        catacurses::endwin();
-        exit( 0 );
+        exit_handler( 0 );
     }
 }
 
