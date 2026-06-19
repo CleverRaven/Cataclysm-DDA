@@ -34,7 +34,7 @@ class tab_data
         input_context ctxt;
         std::string title;
 
-        bool draw_categories = false;
+        surroundings_menu_sort_flags sort_flags = surroundings_menu_sort_flags::DEFAULT;
         // each group will start at a new line
         // currently roughly grouped by actions on an entry and actions on the list as a whole
         std::vector<std::unordered_set<std::string>> hotkey_groups;
@@ -213,7 +213,6 @@ class surroundings_menu : public cataimgui::window
         surroundings_menu_tab_enum switch_tab = surroundings_menu_tab_enum::num_tabs;
         // auto scrolling when navigating by keyboard
         bool auto_scroll = false;
-        bool hide_ui = false;
 
         int max_gun_range = 0;
         bool highlight_new = false;

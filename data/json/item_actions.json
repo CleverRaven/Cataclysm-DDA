@@ -181,11 +181,6 @@
   },
   {
     "type": "item_action",
-    "id": "unpack",
-    "name": { "str": "Unpack" }
-  },
-  {
-    "type": "item_action",
     "id": "learn_spell",
     "name": { "str": "Learn spell" }
   },
@@ -561,6 +556,11 @@
   },
   {
     "type": "item_action",
+    "id": "PAPR_MASK_ACTIVATE",
+    "name": { "str": "Attach to PAPR blower, pressurise, and suction test" }
+  },
+  {
+    "type": "item_action",
     "id": "DIVE_TANK_ACTIVATE",
     "name": { "str": "Use regulator" }
   },
@@ -756,11 +756,6 @@
   },
   {
     "type": "item_action",
-    "id": "UNPACK_ITEM",
-    "name": { "str": "Unpack" }
-  },
-  {
-    "type": "item_action",
     "id": "BLOOD_DRAW",
     "name": { "str": "Draw some blood" }
   },
@@ -797,11 +792,6 @@
   {
     "type": "item_action",
     "id": "WATER_PURIFIER",
-    "name": { "str": "Purify some water" }
-  },
-  {
-    "type": "item_action",
-    "id": "WATER_TABLETS",
     "name": { "str": "Purify some water" }
   },
   {
@@ -857,7 +847,7 @@
   {
     "type": "item_action",
     "id": "musical_instrument",
-    "name": { "ctxt": "musical_instrument", "str": "Play" }
+    "name": { "str": "Play instrument" }
   },
   {
     "type": "item_action",
@@ -932,7 +922,7 @@
   {
     "type": "item_action",
     "id": "effect_on_conditions",
-    "name": { "str": "Activate item" }
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",

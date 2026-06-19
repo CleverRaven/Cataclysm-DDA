@@ -396,6 +396,11 @@
     "replace": "gg_plasma_mag"
   },
   {
+    "id": [ "nl_chem_thrower_mag" ],
+    "type": "MIGRATION",
+    "replace": "gg_nl_chem_thrower_mag"
+  },
+  {
     "id": [ "clip223_10rd" ],
     "type": "MIGRATION",
     "replace": "rifle_clip"

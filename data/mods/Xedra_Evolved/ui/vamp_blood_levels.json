@@ -250,17 +250,17 @@
         0,
         {
           "math": [
-            "(5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000) + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)) * 0.3333333"
+            "(5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 2300) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 5600) + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)) * 0.3333333"
           ]
         },
         {
           "math": [
-            "(5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000) + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)) * 0.6666666"
+            "(5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 2300) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 5600) + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)) * 0.6666666"
           ]
         },
         {
           "math": [
-            "5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000) + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)"
+            "5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 2300) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 5600) + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)"
           ]
         }
       ]

@@ -358,6 +358,7 @@
     "id": "GROUP_GENIUS_HOMULLUS",
     "monsters": [
       { "monster": "mon_zoomorphic_figure_small", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_xe_golem", "weight": 40, "cost_multiplier": 0 },
       { "monster": "mon_venus_doll", "weight": 400, "cost_multiplier": 0 }
     ]
   },
@@ -499,11 +500,6 @@
     "id": "GROUP_TRIFFID_MAGES",
     "default": "mon_triffid",
     "monsters": [ { "monster": "mon_triffid_greenseer", "weight": 1 } ]
-  },
-  {
-    "type": "monstergroup",
-    "id": "GROUP_CENTRAL_LAB",
-    "monsters": [ { "monster": "mon_zombie_oa_agent", "weight": 50, "cost_multiplier": 50 } ]
   },
   {
     "type": "monstergroup",

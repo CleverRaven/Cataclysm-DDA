@@ -207,7 +207,7 @@
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "flags": [ "ARVORE_POLLEN_IMMUNE" ], "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+    "immunity_data": { "flags": [ "ARVORE_POLLEN_IMMUNE", "INHALED_TOXIN_IMMUNE" ], "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
     "half_life": "10 minutes",
     "phase": "gas",
@@ -444,6 +444,26 @@
     "percent_spread": 20,
     "phase": "gas",
     "looks_like": "fd_dust"
+  },
+  {
+    "id": "fd_shoggoth_dissolution",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "spilled protoplasm", "color": "yellow" },
+      { "name": "puddle of protoplasm", "light_emitted": 1 },
+      { "name": "deep puddle of protoplasm", "light_emitted": 3 }
+    ],
+    "description_affix": "covered_in",
+    "underwater_age_speedup": "25 minutes",
+    "decay_amount_factor": 2,
+    "is_splattering": true,
+    "half_life": "1 days",
+    "phase": "liquid",
+    "accelerated_decay": true,
+    "display_field": true,
+    "moppable": true,
+    "mopsafe": true,
+    "looks_like": "fd_bile"
   },
   {
     "id": "fd_powder_of_revelation",

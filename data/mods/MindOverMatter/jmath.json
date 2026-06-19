@@ -13,15 +13,27 @@
   },
   {
     "type": "jmath_function",
+    "id": "psionic_power_modifiers",
+    "num_args": 0,
+    "return": "scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling * weariness_power_scaling()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "weariness_power_scaling",
+    "num_args": 0,
+    "return": "(u_effect_intensity('weary_1') > -1 ? 0.9 : 1) * (u_effect_intensity('weary_2') > -1 ? 0.75 : 1) * (u_effect_intensity('weary_3') > -1 ? 0.6 : 1) * (u_effect_intensity('weary_4') > -1 ? 0.45 : 1) * (u_effect_intensity('weary_5') > -1 ? 0.25 : 1) * (u_effect_intensity('weary_6') > -1 ? 0.25 : 1)"
+  },
+  {
+    "type": "jmath_function",
     "id": "psionic_power_experience_formula_channeling",
     "num_args": 0,
-    "return": "(u_val('focus_effective') / 100 ) * 80 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1) * u_nether_attunement_power_scaling"
+    "return": "(u_val('focus_effective') / 100 ) * 80 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1) * u_nether_attunement_power_scaling * game_option('SKILL_TRAINING_SPEED')"
   },
   {
     "type": "jmath_function",
     "id": "psionic_power_experience_formula",
     "num_args": 0,
-    "return": "(u_val('focus_effective') / 100) * 80 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1) * u_nether_attunement_power_scaling"
+    "return": "(u_val('focus_effective') / 100) * 80 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1) * u_nether_attunement_power_scaling * game_option('SKILL_TRAINING_SPEED')"
   },
   {
     "type": "jmath_function",
@@ -146,7 +158,7 @@
     "id": "concentration_trait_bonuses",
     "num_args": 0,
     "//": "Effects with an intelligence penalty have not been included below to avoid double counting",
-    "return": "(u_has_trait('CONCENTRATION_GOOD')) + (u_has_trait('CONCENTRATION_BAD') ? -1 : 0) + (u_has_trait('INT_ALPHA')) + (u_has_trait('NOMAD2') ? -1 : 0) + (u_has_trait('NOMAD3') ? -1 : 0) + (u_has_trait('PER_SLIME') ? -15 : 0) + (u_has_trait('CONCENTRATION_DEBUG') ? 50 : 0) + (u_has_proficiency('prof_concentration_basic')) + (u_has_proficiency('prof_concentration_intermediate')) + (u_has_proficiency('prof_concentration_master') * 2) + (u_effect_intensity('effect_disease_psionic_drain') > 4 ? -1 : 0) + (u_effect_intensity('effect_disease_psionic_drain') > 10 ? -1 : 0) + (u_effect_intensity('effect_psi_studying_power') > 0 ? -2 : 0) + (u_effect_intensity('effect_psi_learning_new_power') > 0 ? -3 : 0) + (u_effect_intensity('hallu') > 0 ? -1 : 0) + (u_effect_intensity('winded') > 0 ? -2 : 0) + (u_effect_intensity('nausea') > 0 ? -1 : 0) + (u_effect_intensity('nausea') > 3 ? -1 : 0) +  (u_effect_intensity('cold') > 1 ? -1 : 0) + (u_effect_intensity('hot') > 1 ? -1 : 0) + (u_effect_intensity('asthma') > 0 ? -3 : 0) + (u_effect_intensity('datura') > 0 ? -3 : 0) + (u_effect_intensity('dazed') > 0 ? -2 : 0) + (u_effect_intensity('psi_dazed') > 0 ? -2 : 0) + (u_effect_intensity('psi_dazed_zap') > 0 ? -1 : 0) + (u_effect_intensity('downed') > 0 ? -2 : 0) + (u_effect_intensity('boomered') > 0 ? -1 : 0) + (u_effect_intensity('conjunctivitis') > 0 ? -1 : 0) + (u_effect_intensity('teargas') > 0 ? -3 : 0) + (u_effect_intensity('smoke_eyes') > 0 ? -1 : 0) + (u_effect_intensity('smoke_lungs') > 0 ? -2 : 0) + (u_effect_intensity('effect_whispering_amalgamation_whispers') > 0 ? -2 : 0)"
+    "return": "(u_has_trait('CONCENTRATION_GOOD')) + (u_has_trait('CONCENTRATION_BAD') ? -1 : 0) + (u_has_trait('INT_ALPHA')) + (u_has_trait('NOMAD2') ? -1 : 0) + (u_has_trait('NOMAD3') ? -1 : 0) + (u_has_trait('PER_SLIME') ? -15 : 0) + (u_has_trait('PER_INTERSTICE') ? 2 : 0) + (u_has_trait('CONCENTRATION_DEBUG') ? 50 : 0) + (u_has_proficiency('prof_concentration_basic')) + (u_has_proficiency('prof_concentration_intermediate')) + (u_has_proficiency('prof_concentration_master') * 2) + (u_effect_intensity('effect_disease_psionic_drain') > 4 ? -1 : 0) + (u_effect_intensity('effect_disease_psionic_drain') > 10 ? -1 : 0) + (u_effect_intensity('effect_psi_studying_power') > 0 ? -2 : 0) + (u_effect_intensity('effect_psi_learning_new_power') > 0 ? -3 : 0) + (u_effect_intensity('hallu') > 0 ? -1 : 0) + (u_effect_intensity('winded') > 0 ? -2 : 0) + (u_effect_intensity('nausea') > 0 ? -1 : 0) + (u_effect_intensity('nausea') > 3 ? -1 : 0) +  (u_effect_intensity('cold') > 1 ? -1 : 0) + (u_effect_intensity('hot') > 1 ? -1 : 0) + (u_effect_intensity('asthma') > 0 ? -3 : 0) + (u_effect_intensity('datura') > 0 ? -3 : 0) + (u_effect_intensity('dazed') > 0 ? -2 : 0) + (u_effect_intensity('psi_dazed') > 0 ? -2 : 0) + (u_effect_intensity('psi_dazed_zap') > 0 ? -1 : 0) + (u_effect_intensity('downed') > 0 ? -2 : 0) + (u_effect_intensity('boomered') > 0 ? -1 : 0) + (u_effect_intensity('conjunctivitis') > 0 ? -1 : 0) + (u_effect_intensity('teargas') > 0 ? -3 : 0) + (u_effect_intensity('smoke_eyes') > 0 ? -1 : 0) + (u_effect_intensity('smoke_lungs') > 0 ? -2 : 0) + (u_effect_intensity('effect_whispering_amalgamation_whispers') > 0 ? -2 : 0)"
   },
   {
     "type": "jmath_function",

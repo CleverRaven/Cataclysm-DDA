@@ -868,7 +868,7 @@
     "id": "spell_scroll_technomancer_perception_buff_spell",
     "//": "Technomancer spell",
     "name": { "str": "Scroll of Keenness of Sight", "str_pl": "Scrolls of Keenness of Sight" },
-    "description": "You senses all sharpen.",
+    "description": "Your senses all sharpen.",
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_perception_buff_spell" ] }
   },
   {
@@ -1546,7 +1546,7 @@
     "id": "spell_scroll_seed_of_growth",
     "//": "Druid spell",
     "name": { "str": "Scroll of Seed of Growth", "str_pl": "Scrolls of Seed of Growth" },
-    "description": "Offer some of your life in a ritual to get tokens of growth in return.",
+    "description": "Offer some of your life in a ritual to increase the fertility of nearby crops.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_growth" ] }
   },
   {
@@ -1656,7 +1656,7 @@
     "id": "spell_scroll_biomancer_swim_frog",
     "//": "Biomancer spell",
     "name": { "str": "Scroll of Limbs of the Frog", "str_pl": "Scrolls of Limbs of the Frog" },
-    "description": "Swim with the fishes, with your froggy hands and legs.",
+    "description": "Swim with the fish, with your froggy hands and legs.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_swim_frog" ] }
   },
   {
@@ -2256,7 +2256,7 @@
     "id": "spell_scroll_earthshaper_repair_metal_stone",
     "//": "Earthshaper spell",
     "name": { "str": "Scroll of Fault-Mending Chant", "str_pl": "Scrolls of Fault-Mending Chant" },
-    "description": "With some earth and stone and a song, repair and item made of natural stone or metal.",
+    "description": "With some earth and stone and a song, repair an item made of natural stone or metal.",
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_repair_metal_stone" ] }
   },
   {

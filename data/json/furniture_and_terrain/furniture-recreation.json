@@ -9,6 +9,7 @@
     "move_cost_mod": 1,
     "coverage": 35,
     "required_str": 8,
+    "mass": "35 kg",
     "flags": [ "TRANSPARENT", "MINEABLE", "WORKOUT_ARMS" ],
     "crafting_pseudo_item": "pseudo_exercise_machine",
     "examine_action": "workout",
@@ -17,7 +18,7 @@
         { "item": "pipe", "count": 1 },
         { "item": "mc_steel_chunk", "count": 1 },
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "lead", "charges": [ 1000, 2000 ] }
+        { "item": "lead", "count": [ 1000, 2000 ] }
       ]
     },
     "bash": {
@@ -29,7 +30,7 @@
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "mc_steel_chunk", "prob": 50 },
         { "item": "pipe", "count": 1 },
-        { "item": "lead", "charges": [ 1000, 2000 ] }
+        { "item": "lead", "count": [ 1000, 2000 ] }
       ]
     }
   },
@@ -133,6 +134,7 @@
     "move_cost_mod": 2,
     "coverage": 40,
     "required_str": 5,
+    "mass": "10 kg",
     "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
     "bash": {
       "str_min": 6,
@@ -152,6 +154,7 @@
     "move_cost_mod": -1,
     "coverage": 75,
     "required_str": 12,
+    "mass": "77 kg",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "arcade_machine" },
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "item": "arcade_machine",
@@ -174,6 +177,7 @@
     "move_cost_mod": -1,
     "coverage": 35,
     "required_str": 8,
+    "mass": "77 kg",
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [
@@ -183,7 +187,7 @@
         { "item": "circuit", "count": 1 },
         { "item": "2x4", "count": 4 },
         { "item": "nail", "charges": [ 10, 12 ] },
-        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "cable", "count": [ 4, 5 ] },
         { "item": "power_supply", "prob": 50 },
         { "item": "RAM", "count": 1 },
         { "item": "pipe", "count": 2 },
@@ -202,7 +206,7 @@
         { "item": "scrap", "count": [ 0, 4 ] },
         { "item": "2x4", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 10 ] },
+        { "item": "cable", "count": [ 2, 4 ] },
         { "item": "circuit", "prob": 50 },
         { "item": "power_supply", "prob": 50 },
         { "item": "RAM", "prob": 50 },
@@ -224,6 +228,7 @@
     "color": "dark_gray",
     "move_cost_mod": 2,
     "required_str": 8,
+    "mass": "27 kg",
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
     "deconstruct": {
       "items": [
@@ -269,6 +274,7 @@
     "color": "dark_gray",
     "move_cost_mod": 2,
     "required_str": 8,
+    "mass": "20 kg",
     "looks_like": "f_ergometer",
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "WORKOUT_ARMS", "WORKOUT_LEGS" ],
     "crafting_pseudo_item": "pseudo_ergometer_mechanical",
@@ -311,6 +317,7 @@
     "color": "dark_gray",
     "move_cost_mod": 1,
     "required_str": 12,
+    "mass": "17 kg",
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
     "deconstruct": {
       "items": [
@@ -348,6 +355,7 @@
     "color": "dark_gray",
     "move_cost_mod": 1,
     "required_str": 12,
+    "mass": "15 kg",
     "looks_like": "f_treadmill",
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "WORKOUT_LEGS" ],
     "crafting_pseudo_item": "pseudo_treadmill_mechanical",
@@ -390,10 +398,10 @@
     "deconstruct": {
       "items": [
         { "item": "heavy_punching_bag_sack", "count": 1 },
-        { "item": "nuts_bolts", "charges": 4 },
+        { "item": "nuts_bolts", "count": 4 },
         { "item": "chain", "count": 4 },
         { "item": "blanket", "count": 6 },
-        { "item": "material_sand", "charges": 4000 }
+        { "item": "material_sand", "count": 4000 }
       ]
     },
     "bash": {
@@ -405,7 +413,7 @@
         { "item": "chain", "count": [ 1, 3 ] },
         { "item": "leather", "count": [ 16, 32 ] },
         { "item": "tanned_hide", "count": [ 0, 4 ] },
-        { "item": "material_sand", "charges": 4000 },
+        { "item": "material_sand", "count": 4000 },
         { "item": "sheet_cotton", "count": [ 4, 8 ] },
         { "item": "cotton_patchwork", "count": [ 2, 4 ] }
       ]
@@ -421,6 +429,7 @@
     "move_cost_mod": 6,
     "coverage": 70,
     "required_str": 8,
+    "mass": "317 kg",
     "//": "While heavy, most large pianos have casters for relatively easy movement.",
     "flags": [ "FLAMMABLE", "ORGANIC", "BLOCKSDOOR", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_PLAY_PIANO" ] },
@@ -445,6 +454,7 @@
     "coverage": 50,
     "max_volume": "3750 ml",
     "required_str": 7,
+    "mass": "17 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
@@ -454,7 +464,7 @@
         { "item": "wood_panel", "count": 1 },
         { "item": "2x4", "count": 4 },
         { "item": "nail", "charges": [ 8, 10 ] },
-        { "item": "cable", "charges": [ 3, 4 ] }
+        { "item": "cable", "count": [ 1, 2 ] }
       ]
     },
     "bash": {
@@ -467,7 +477,7 @@
         { "item": "scrap", "count": [ 0, 3 ] },
         { "item": "2x4", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 2, 6 ] },
-        { "item": "cable", "charges": [ 1, 3 ] },
+        { "item": "cable", "count": [ 1, 3 ] },
         { "item": "e_scrap", "prob": 25 },
         { "item": "plastic_chunk", "count": [ 0, 1 ] }
       ],
@@ -631,6 +641,7 @@
     "color": "brown",
     "move_cost_mod": 9,
     "required_str": 5,
+    "mass": "16 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
     "crafting_pseudo_item": "pseudo_archery_target_box",
     "item": "archery_target_box",
@@ -645,6 +656,7 @@
     "color": "yellow",
     "move_cost_mod": 9,
     "required_str": 6,
+    "mass": "30 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
     "crafting_pseudo_item": "pseudo_archery_target_bale",
     "deconstruct": { "items": [ { "item": "straw_pile", "count": 40 }, { "item": "rope_makeshift_30", "count": 1 } ] },

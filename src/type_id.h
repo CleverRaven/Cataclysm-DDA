@@ -166,6 +166,9 @@ using palette_id = string_id<mapgen_palette>;
 class material_type;
 using material_id = string_id<material_type>;
 
+class pp_generator;
+using pp_generator_id = string_id<pp_generator>;
+
 struct mission_type;
 using mission_type_id = string_id<mission_type>;
 
@@ -298,6 +301,9 @@ using shopkeeper_cons_rates_id = string_id<shopkeeper_cons_rates>;
 struct shopkeeper_blacklist;
 using shopkeeper_blacklist_id = string_id<shopkeeper_blacklist>;
 
+struct shopkeeper_whitelist;
+using shopkeeper_whitelist_id = string_id<shopkeeper_whitelist>;
+
 class Skill;
 using skill_id = string_id<Skill>;
 
@@ -411,6 +417,9 @@ using weakpoints_id = string_id<weakpoints>;
 
 class wound_type;
 using wound_type_id = string_id<wound_type>;
+
+class wound_fix;
+using wound_fix_id = string_id<wound_fix>;
 
 struct connect_group;
 using connect_group_id = string_id<connect_group>;

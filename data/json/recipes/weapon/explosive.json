@@ -48,7 +48,7 @@
       [ [ "flux_comp_gen", 1 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "antenna", 1 ] ],
-      [ [ "cable", 20 ] ]
+      [ [ "cable", 7 ] ]
     ]
   },
   {
@@ -198,6 +198,7 @@
     "tools": [
       [
         [ "welder", 20 ],
+        [ "welding_kit", 20 ],
         [ "welder_crude", 30 ],
         [ "integrated_welder", 30 ],
         [ "soldering_iron", 30 ],

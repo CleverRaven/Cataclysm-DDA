@@ -374,7 +374,7 @@
     "name": "Petrifying Touch",
     "description": "With a simple touch, you transform the body of your enemy into pure stone.  The effect is temporary, but the target will be totally immobile while the spell lasts.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "EVOCATION_SPELL", "SILENT", "NO_HANDS" ],
+    "flags": [ "EVOCATION_SPELL", "SILENT", "TOUCH_REQUIRED" ],
     "effect": "attack",
     "effect_str": "effect_earthshaper_petrifying_touch",
     "shape": "blast",

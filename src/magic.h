@@ -67,6 +67,7 @@ enum class spell_flag : int {
     TARGET_TELEPORT, // aoe is teleport variance from target
     NO_LEGS, // legs do not affect casting time
     CONCENTRATE, // focus affects spell fail %
+    TOUCH_REQUIRED, // attack spell requires an attack roll vs dodge to successfully affect the target
     RANDOM_AOE, // picks random number between min+increment*level and max instead of normal behavior
     RANDOM_DAMAGE, // picks random number between min+increment*level and max instead of normal behavior
     RANDOM_DURATION, // picks random number between min+increment*level and max instead of normal behavior
@@ -77,6 +78,7 @@ enum class spell_flag : int {
     EXTRA_EFFECTS_FIRST, // the extra effects are cast before the main spell.
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
     NO_FAIL, // this spell cannot fail when you cast it
+    HIDDEN_SPELL, // this spell never shows any message when cast
     SPAWN_GROUP, // spawn or summon from an item or monster group, instead of individual item/monster ID
     IGNITE_FLAMMABLE, // if spell effect area has any thing flammable, a fire will be produced
     MUST_HAVE_CLASS_TO_LEARN, // you can't learn the spell unless you already have the class.
@@ -864,6 +866,7 @@ void recover_energy( const spell &sp, Creature &, const tripoint_bub_ms &target 
 void spawn_summoned_monster( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
 void spawn_summoned_vehicle( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
 void recharge_vehicle( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
+void fertilize_plant( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
 void translocate( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
 // adds a timed event to the caster only
 void timed_event( const spell &sp, Creature &caster, const tripoint_bub_ms & );
@@ -919,6 +922,7 @@ effect_map{
     { "summon", spell_effect::spawn_summoned_monster },
     { "summon_vehicle", spell_effect::spawn_summoned_vehicle },
     { "recharge_vehicle", spell_effect::recharge_vehicle },
+    { "fertilize_plant", spell_effect::fertilize_plant },
     { "translocate", spell_effect::translocate },
     { "area_pull", spell_effect::area_pull },
     { "area_push", spell_effect::area_push },

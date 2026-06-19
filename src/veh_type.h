@@ -16,6 +16,7 @@
 
 #include "calendar.h"
 #include "color.h"
+#include "lightmap.h"
 #include "coordinates.h"
 #include "memory_fast.h"
 #include "point.h"
@@ -120,6 +121,7 @@ enum vpart_bitflags : int {
     VPFLAG_IGNORE_LEG_REQUIREMENT,
     VPFLAG_INOPERABLE_SMALL,
     VPFLAG_IGNORE_HEIGHT_REQUIREMENT,
+    VPFLAG_NL_BOILER,
 
     NUM_VPFLAGS
 };
@@ -483,6 +485,7 @@ class vpart_info
         // recharging (charging speed in watts)
         // funnel (water collection area in mm^2)
         int bonus = 0;
+        light_color_rgb light_color{};
 
         /** cargo weight modifier (percentage) */
         int cargo_weight_modifier = 100;

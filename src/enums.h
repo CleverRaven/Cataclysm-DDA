@@ -74,17 +74,28 @@ struct enum_traits<bionic_ui_sort_mode> {
     static constexpr bionic_ui_sort_mode last = bionic_ui_sort_mode::nsort;
 };
 
-enum class list_item_sort_mode : int {
-    DISTANCE,
-    NAME,
-    CATEGORY_DISTANCE,
-    CATEGORY_NAME,
+enum class veh_spawn_status : int {
+    DEFAULT_LIGHT_DMG = -1, // light damage (DEFAULT)
+    UNDAMAGED = 0, // Undamaged
+    DISABLED = 1, // disabled: destroyed seats, controls, tanks, tires, OR engine
+    PRISTINE = 2, // undamaged with no faults or security
+    LAST = 3
+};
+
+// default is sorting by distance
+enum class surroundings_menu_sort_flags : int {
+    DEFAULT       = 0,
+    NAME          = 1 << 0,
+    CATEGORY      = 1 << 1,
+    CATEGORY_NAME = NAME | CATEGORY, // this is currently needed to cycle through the option
     count
 };
 
 template<>
-struct enum_traits<list_item_sort_mode> {
-    static constexpr list_item_sort_mode last = list_item_sort_mode::count;
+struct enum_traits<surroundings_menu_sort_flags> {
+    static constexpr surroundings_menu_sort_flags first = surroundings_menu_sort_flags::DEFAULT;
+    static constexpr surroundings_menu_sort_flags last = surroundings_menu_sort_flags::count;
+    static constexpr bool is_flag_enum = true;
 };
 
 // When bool is not enough. NONE, SOME or ALL
@@ -350,6 +361,7 @@ enum class distraction_type : int {
     mutation,
     oxygen,
     withdrawal,
+    craft_step_complete,
     last,
 };
 

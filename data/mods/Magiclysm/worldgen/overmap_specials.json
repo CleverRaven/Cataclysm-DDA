@@ -321,7 +321,6 @@
     "id": "last_mage_on_earth_shelter_start",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lmoe_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "lmoe_roof_north" },
       { "point": [ 0, 0, -1 ], "overmap": "last_mage_on_earth_shelter_north" }
     ],
     "locations": [ "forest_without_trail" ],

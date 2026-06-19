@@ -50,10 +50,11 @@
     "description": "A traveler from another dimension.  A dimension of shadows with few bright lights.  Once your species matures, they gain the ability to create new alterations to their body from ingredients harvested from their kills, shadowstuff and magickal essence.",
     "types": [ "HERITAGE" ],
     "allowed_category": [ "GRACKEN" ],
-    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR", "CHAOTIC", "CHAOTIC_BAD" ],
     "empathize_with": [ "GRACKEN" ],
     "no_empathize_with": [ "HUMAN" ],
-    "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ]
+    "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -254,7 +255,7 @@
     "type": "mutation",
     "id": "SHADE_DEXTROUS_HANDS",
     "name": { "str": "Shade Dextrous Hands" },
-    "description": "Your hands are humanoid but appear to be made of swirling shadows.  You sport an extra digit on every finger that improves your ability to get into tight situations.",
+    "description": "Your hands are humanoid but appear to be made of swirling shadows.  You sport an extra digit on each hand that improves your ability to get into tight situations.",
     "//": "This is the first stage crafting hands mutation.",
     "types": [ "HANDS" ],
     "prereqs": [ "SHADE_HANDS" ],
@@ -350,7 +351,7 @@
     "mixed_effect": true,
     "points": 1,
     "category": [ "GRACKEN" ],
-    "flags": "HERBIVORE_DIET",
+    "flags": [ "HERBIVORE_DIET" ],
     "enchantments": [
       {
         "values": [

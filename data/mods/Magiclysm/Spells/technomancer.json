@@ -815,7 +815,7 @@
     "id": "technomancer_recharge_vehicle",
     "type": "SPELL",
     "name": "Imbue with Lightning",
-    "description": "This fancifully-named spell actually restores power to a battery or power grid.  An esoteric curiosity until electrical power became widespread, even then the power efficiency of fossil fuels rendered it a niche spell.",
+    "description": "This fancifully-named and lengthy spell actually restores power to a battery or power grid.  An esoteric curiosity until electrical power became widespread, and even then, the power efficiency of fossil fuels rendered it a niche spell.",
     "valid_targets": [ "ground" ],
     "spell_class": "TECHNOMANCER",
     "flags": [ "CHANNELING_SPELL", "RANDOM_DAMAGE", "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS", "NO_EXPLOSION_SFX" ],
@@ -829,7 +829,7 @@
     "min_range": 1,
     "magic_type": "magiclysm_channeling_magic",
     "base_energy_cost": 500,
-    "base_casting_time": 6000
+    "base_casting_time": 720000
   },
   {
     "id": "technomancer_gain_electronics_computer_spell",

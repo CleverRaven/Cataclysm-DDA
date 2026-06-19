@@ -25,7 +25,7 @@
     "time": "100 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "components": [ [ [ "power_supply", 1 ] ], [ [ "cable", 20 ] ], [ [ "bearing", 5 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "cable", 3 ] ], [ [ "bearing", 5 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
     "type": "uncraft",
@@ -38,7 +38,7 @@
     "using": [ [ "soldering_standard", 40 ], [ "welding_standard", 10 ] ],
     "components": [
       [ [ "power_supply", 1 ] ],
-      [ [ "cable", 60 ] ],
+      [ [ "cable", 20 ] ],
       [ [ "bearing", 20 ] ],
       [ [ "scrap", 3 ] ],
       [ [ "mc_steel_chunk", 3 ] ]

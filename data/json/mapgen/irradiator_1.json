@@ -102,19 +102,19 @@
         "'f**|qq  c|c c|c c|c | mmmm f     h      f mmmm |XM    )!UUUUUUPPPX|**f'",
         "'f**|-   -|- -|- -|- |      f    x7x     f      |X     )!!!!!!!!!PX|**f'",
         "'f**|qq              |------4NN--------NN4------|X  XXXXXXXXXXXXXXX|**f'",
-        "'f**|------------NN4-|                          |4NN---------------|**f'",
+        "'f**|------------NN4-|§                        §|4NN---------------|**f'",
         "'f**|MMMMMMMM4                                          4ZZPPPZZPPP|**f'",
         "'f**|M  PP   N          PPPXXXXXXX4NXXXXXXXXPPP         N        xP|**f'",
         "'f**|MP PPPPP|----==-------XXXXXXXXNXXXXXXXX-----==-----|PPZPPPZPPP|**f'",
         "'f**|TTTTTTTT| C K     KXXXXXXX!Q!!!!!Q!XXXXXX J        |TTTTTTTTTT|**f'",
         "'f**|--------4 C K   KKKXCCMMCX!!UUUUU!!XMMCCX J    J C 4----------|**f'",
-        "'f**|        N C K     KXCXXXCX!!UUUUU!!XCXXCX J    J C N          |**f'",
+        "'f**|§       N C K     KXCXXXCX!!UUUUU!!XCXXCX J    J C N          |**f'",
         "'f**| CCCCCCCMCC    C  CC1 XXCCCCCC3CCCCCCX 2     M   CCMCCCCCCCCC |**f'",
         "'f**| C      N C K  CCCC  KXXXX!!UUUUU!!XXX CCCCCCM J C N        C |**f'",
         "'f**| C |----4 C K        KXXXX!!UUUUU!!XXX       M J C 4------| C |**f'",
-        "'f**| C |j}hd| C K    [KKKKXXXX!!!!!!!!!XXX WW[[        |j  > Q| C |**f'",
+        "'f**| C |j}hd| C K    [KKKKXXXX!!!!!!!!!XXX WW[[       §|j  > Q| C |**f'",
         "'f**| C |j  S|----==-------XXXXXXRRRRRXXXXXX-----==-----|j >>>>| C |**f'",
-        "'f**| C |j   =             |AAAA  x0x AA MM|            =  >  >| C |**f'",
+        "'f**| C |j   =          §  |AAAA  x0x AA MM|            =  >  >| C |**f'",
         "'f**| C |----------------  |A      h      M|   |--------|  >>QQ| C |**f'",
         "'f**| C |^             ^|  |AAA       MMMMM|   |.......^|c  >QQ| C |**f'",
         "'f**| C |]  x|x   x|x  ]|  |---N------------|  |.       |c  > >| C |**f'",
@@ -122,9 +122,9 @@
         "'f**| C |]  x|x   x|x  ]|  |  |Y----))--|B B|  |. htth  |------| C |**f'",
         "'f**| C |] hd|dh hd|dh ]|  |F | 4|6h  hd|B B|  +       ^|<  + ?| C |**f'",
         "'f**| C |]  x|x   x|x  ]|  |V |YRRRR4YRR|-+-|  |  oaao  +   |--| C |**f'",
-        "'f**| C |^              +  +  +         +      |  oaao ^|<  + ?| C |**f'",
+        "'f**| C |^              +  +  +         +   §  |  oaao ^|<  + ?| C |**f'",
         "'f**| C |----------------==|---|---++---|----==|---------------| C |**f'",
-        "'f**| C |M  KKKKKKKKKKKK   |A AAAAR  RAAAA A|   JJJJJJJJJJJ    | C |**f'",
+        "'f**| C |M §KKKKKKKKKKKK   |A AAAAR  RAAAA A|   JJJJJJJJJJJ   §| C |**f'",
         "'f**| CCMCC                |A     D  D     A|J              CCCMCC |**f'",
         "'f**|   N C KKKKKKKKKKKK   |A ^oo^R  R^oo^ A|J  JJW MMMMMCCCC  N   |**f'",
         "'f**|   4 C                |-------++-------|J  J W MMMMM      4   |**f'",
@@ -356,7 +356,8 @@
           "x": 62,
           "y": 62
         }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

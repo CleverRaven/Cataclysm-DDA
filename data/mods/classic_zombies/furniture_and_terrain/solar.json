@@ -27,7 +27,7 @@
     "breaks_into": [
       { "item": "lc_steel_lump", "count": [ 2, 4 ] },
       { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
-      { "item": "scrap", "charges": [ 2, 4 ] },
+      { "item": "scrap", "count": [ 2, 4 ] },
       { "item": "solar_cell", "count": [ 1, 4 ] }
     ],
     "variants": [ { "symbols": "#", "symbols_broken": "x" } ]

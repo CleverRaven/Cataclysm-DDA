@@ -1,0 +1,230 @@
+[
+  {
+    "type": "monstergroup",
+    "id": "GROUP_FOREST_THICK",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "group": "GROUP_WILDERNESS_FOREST_MAMMAL", "weight": 375, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      { "group": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER", "weight": 375, "conditions": [ "WINTER" ] },
+      { "group": "GROUP_WILDERNESS_FOREST_BIRD", "weight": 300 },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_INSECT_HARMLESS",
+        "weight": 75,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "group": "GROUP_WILDERNESS_FOREST_INSECT", "weight": 75, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_REPTILE",
+        "weight": 30,
+        "cost_multiplier": 5,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "monster": "mon_claw_runner", "weight": 15, "cost_multiplier": 4 },
+      { "monster": "mon_claw_runner", "weight": 6, "cost_multiplier": 4, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_claw_hunter", "weight": 6, "cost_multiplier": 30 },
+      { "monster": "mon_claw_hunter", "weight": 2, "cost_multiplier": 30, "pack_size": [ 2, 5 ] },
+      {
+        "group": "GROUP_HOLLOW_TRIBAL_WARPARTY",
+        "weight": 10,
+        "cost_multiplier": 2,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "group": "GROUP_HOLLOW_TRIBAL_HUNTPARTY", "weight": 35, "conditions": [ "DAY" ] },
+      { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 40 },
+      { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 10, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_tanglevine", "weight": 5, "cost_multiplier": 15 },
+      { "group": "GROUP_FOREST_SPIRIT", "weight": 3, "cost_multiplier": 20 },
+      { "group": "GROUP_CHANGELING_MIRRORED_FIELD", "weight": 3, "cost_multiplier": 10 },
+      { "group": "GROUP_CHANGELING_MIRRORED_FIELD", "weight": 1, "cost_multiplier": 15, "pack_size": [ 2, 6 ] },
+      { "group": "GROUP_CHANGELING_STRIKE_FORCE", "weight": 1, "cost_multiplier": 15, "pack_size": [ 2, 6 ] },
+      { "group": "GROUP_TRIFFID", "weight": 2, "cost_multiplier": 15, "pack_size": [ 2, 6 ] },
+      { "group": "GROUP_OVERLAND_RENFIELD", "weight": 2, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_FOREST",
+    "monsters": [
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL",
+        "weight": 75,
+        "starts": "12 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL",
+        "weight": 75,
+        "starts": "28 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL",
+        "weight": 75,
+        "starts": "112 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL",
+        "weight": 75,
+        "starts": "360 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
+        "weight": 75,
+        "starts": "12 days",
+        "conditions": [ "WINTER" ]
+      },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
+        "weight": 75,
+        "starts": "28 days",
+        "conditions": [ "WINTER" ]
+      },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
+        "weight": 75,
+        "starts": "112 days",
+        "conditions": [ "WINTER" ]
+      },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
+        "weight": 75,
+        "starts": "360 days",
+        "conditions": [ "WINTER" ]
+      },
+      { "monster": "mon_claw_runner", "weight": 9, "cost_multiplier": 4 },
+      { "monster": "mon_claw_runner", "weight": 3, "cost_multiplier": 4, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_claw_hunter", "weight": 3, "cost_multiplier": 30 },
+      { "monster": "mon_claw_hunter", "weight": 1, "cost_multiplier": 30, "pack_size": [ 2, 5 ] },
+      {
+        "group": "GROUP_HOLLOW_TRIBAL_WARPARTY",
+        "weight": 50,
+        "cost_multiplier": 2,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "group": "GROUP_HOLLOW_TRIBAL_HUNTPARTY", "weight": 75, "conditions": [ "DAY" ] },
+      { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 25 },
+      { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 5, "pack_size": [ 2, 5 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_SWAMP",
+    "monsters": [
+      {
+        "monster": "mon_lemming",
+        "weight": 50,
+        "pack_size": [ 2, 7 ],
+        "starts": "360 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "monster": "mon_claw_runner", "weight": 15, "cost_multiplier": 4 },
+      { "monster": "mon_claw_runner", "weight": 5, "cost_multiplier": 4, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_claw_hunter", "weight": 6, "cost_multiplier": 30 },
+      { "monster": "mon_claw_hunter", "weight": 2, "cost_multiplier": 30, "pack_size": [ 2, 5 ] },
+      { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 25 },
+      { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 5, "pack_size": [ 2, 5 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_RIVER",
+    "default": "mon_null",
+    "monsters": [
+      { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 5 },
+      { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 1, "pack_size": [ 2, 5 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_FOREST_SPIRIT",
+    "default": "mon_null",
+    "monsters": [ { "monster": "mon_dryad", "weight": 200 }, { "monster": "mon_dryad", "weight": 25, "pack_size": [ 2, 3 ] } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_WILDERNESS_FOREST_ZOMBIE",
+    "override": true,
+    "monsters": [ { "monster": "mon_null", "weight": 1 } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_WILDERNESS_FOREST_MAMMAL_MUTANT",
+    "override": true,
+    "monsters": [ { "monster": "mon_null", "weight": 1 } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_MUTAFROGS_SWAMP",
+    "override": true,
+    "monsters": [ { "monster": "mon_null", "weight": 1 } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_TRIFFID",
+    "default": "mon_triffid",
+    "monsters": [
+      { "monster": "mon_triffid_seedshaper", "weight": 25, "cost_multiplier": 5 },
+      { "monster": "mon_triffid_vineweaver", "weight": 25, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_TRIFFID_OUTER",
+    "default": "mon_triffid",
+    "monsters": [
+      { "monster": "mon_triffid_seedshaper", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_triffid_vineweaver", "weight": 50, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_TRIFFID_HEARTGUARDS",
+    "default": "mon_triffid",
+    "monsters": [
+      { "monster": "mon_triffid_seedshaper", "weight": 150, "cost_multiplier": 2 },
+      { "monster": "mon_triffid_vineweaver", "weight": 150, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_MI-GO_CAMP_OM",
+    "monsters": [
+      { "monster": "mon_mi_go_mindrender", "weight": 50, "cost_multiplier": 20, "starts": "210 hours" },
+      { "monster": "mon_mi_go_lightbringer", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" },
+      { "monster": "mon_mi_go_juggernaut", "weight": 20, "cost_multiplier": 70, "starts": "210 hours" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_MI-GO_BASE_COMMON",
+    "monsters": [
+      { "monster": "mon_mi_go_mindrender", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" },
+      { "monster": "mon_mi_go_lightbringer", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" },
+      { "monster": "mon_mi_go_juggernaut", "weight": 15, "cost_multiplier": 8, "starts": "210 hours" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_MI-GO_BASE_CAPTORS",
+    "monsters": [
+      { "monster": "mon_mi_go_mindrender", "weight": 300, "cost_multiplier": 2, "starts": "210 hours" },
+      { "monster": "mon_mi_go_lightbringer", "weight": 300, "cost_multiplier": 2, "starts": "210 hours" },
+      { "monster": "mon_mi_go_juggernaut", "weight": 50, "cost_multiplier": 8, "starts": "210 hours" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_MI-GO_BASE_BOSS",
+    "monsters": [
+      { "monster": "mon_mi_go_mindrender", "weight": 200, "cost_multiplier": 2 },
+      { "monster": "mon_mi_go_mindrender", "weight": 50, "cost_multiplier": 5, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_mi_go_lightbringer", "weight": 200, "cost_multiplier": 2 },
+      { "monster": "mon_mi_go_lightbringer", "weight": 50, "cost_multiplier": 5, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_mi_go_juggernaut", "weight": 200, "cost_multiplier": 5 },
+      { "monster": "mon_mi_go_juggernaut", "weight": 50, "cost_multiplier": 20, "pack_size": [ 2, 3 ] }
+    ]
+  }
+]

@@ -7,9 +7,10 @@
     "name_suffix": "Forge Lord",
     "class": "NC_FORGE_LORD_REAGENT",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "gender": "female",
     "chat": "TALK_FORGE_LORD_REAGENT",
+    "death_eocs": [ "EOC_DEATH_FORGE_LORD" ],
     "faction": "forge_lords"
   },
   {
@@ -22,10 +23,25 @@
     "common": false,
     "bonus_int": { "one_in": 4 },
     "bonus_per": { "one_in": 4 },
-    "shopkeeper_item_group": [ { "group": "NC_FORGE_LORD_STORE_REAGENT_SHOP", "rigid": true } ],
-    "shopkeeper_price_rules": [ { "category": "guns", "premium": 1 }, { "category": "ammo", "premium": 1 } ],
+    "shopkeeper_item_group": [
+      { "group": "NC_FORGE_LORD_STORE_REAGENT_SHOP", "rigid": true },
+      {
+        "group": "forge_lord_pirate_treasure",
+        "condition": { "math": [ "1 == 0" ] },
+        "strict": true,
+        "refusal": "<npc_name> will never give you their treasures."
+      }
+    ],
+    "shopkeeper_price_rules": [
+      { "category": "guns", "premium": 1 },
+      { "category": "ammo", "premium": 1 },
+      { "group": "forge_lord_pirate_treasure", "premium": 1.2 }
+    ],
+    "shopkeeper_whitelist": "FORGE_REAGENT_WHITELIST",
     "worn_override": "NC_FORGE_REAGENT_clothes",
     "weapon_override": "NC_FORGE_REAGENT_wield",
+    "carry_override": "EMPTY_GROUP",
+    "sells_belongings": false,
     "skills": [
       {
         "skill": "ALL",
@@ -86,8 +102,9 @@
     "id": "NC_FORGE_LORD_STORE_REAGENT",
     "items": [
       { "group": "organic_materials", "count": [ 13, 18 ], "prob": 100 },
-      { "group": "magic_shop_potions", "count": [ 1, 3 ], "prob": 100 },
-      { "group": "potions_common", "count": [ 5, 8 ], "prob": 50 }
+      { "group": "alchemy_monster_loot", "count": [ 1, 3 ], "prob": 100 },
+      { "item": "crystallized_mana", "count": [ 2, 6 ], "prob": 100, "charges": [ 1, 10 ] },
+      { "item": "small_mana_crystal", "count": [ 1, 5 ], "prob": 100, "charges": [ 5, 50 ] }
     ]
   },
   {
@@ -106,6 +123,7 @@
       { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_FORGE_LORD_REAGENT" },
       { "text": "What are you doing here?", "topic": "TALK_FORGE_REAGENT_DOING" },
       { "text": "When are you getting new stuff?", "topic": "TALK_FORGE_REAGENT_ASK_INTERVAL" },
+      { "text": "What goods are you looking for?", "topic": "TALK_FORGE_REAGENT_ASK_BUYING" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ]
   },
@@ -132,5 +150,25 @@
       "no": "Well you obviously aren't an officer so here's the deal.  There's a mighty fine galleon making land on <restock_time_point>, I'm certain to have something good by then."
     },
     "responses": [ { "text": "May the seas be ever in your favor.", "topic": "TALK_FORGE_LORD_REAGENT" } ]
+  },
+  {
+    "id": "TALK_FORGE_REAGENT_ASK_BUYING",
+    "type": "talk_topic",
+    "dynamic_line": "I am always on the lookout for weapons and ammo.  I am also happy to relieve you of your treasures.",
+    "responses": [ { "text": "I'll keep an eye out.", "topic": "TALK_FORGE_LORD_REAGENT" } ]
+  },
+  {
+    "type": "shopkeeper_whitelist",
+    "id": "FORGE_REAGENT_WHITELIST",
+    "message": "<npcname> does not care for this.",
+    "entries": [
+      { "item": "denarius" },
+      { "group": "NC_FORGE_LORD_STORE_REAGENT" },
+      { "group": "NC_FORGE_PIRATE_wield" },
+      { "category": "guns" },
+      { "category": "ammo" },
+      { "group": "forge_of_wonders_tradeables" },
+      { "group": "forge_lord_pirate_treasure" }
+    ]
   }
 ]

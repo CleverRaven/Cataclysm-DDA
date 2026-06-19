@@ -40,6 +40,11 @@
 #include "ui_manager.h"
 #include "worldfactory.h"
 
+#if defined(__ANDROID__)
+#include <jni.h>
+#include "sdl_wrappers.h" // for GetAndroidJNIEnv(), GetAndroidActivity()
+#endif
+
 #if defined(TILES)
 #include "cata_tiles.h"
 #endif // TILES
@@ -1401,15 +1406,58 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
 #if defined(__ANDROID__)
 bool android_get_default_setting( const char *settings_name, bool default_value )
 {
-    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-    jobject activity = ( jobject )SDL_AndroidGetActivity();
+    JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+    jobject activity = ( jobject )GetAndroidActivity();
     jclass clazz( env->GetObjectClass( activity ) );
     jmethodID method_id = env->GetMethodID( clazz, "getDefaultSetting", "(Ljava/lang/String;Z)Z" );
-    jboolean ans = env->CallBooleanMethod( activity, method_id, env->NewStringUTF( settings_name ),
-                                           default_value );
+    jstring settings_name_arg = env->NewStringUTF( settings_name );
+    jboolean ans = env->CallBooleanMethod( activity, method_id, settings_name_arg, default_value );
+    env->DeleteLocalRef( settings_name_arg );
     env->DeleteLocalRef( activity );
     env->DeleteLocalRef( clazz );
     return ans;
+}
+
+std::string android_get_default_string_setting( const char *settings_name,
+        const char *default_value )
+{
+    JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+    jobject activity = ( jobject )GetAndroidActivity();
+    jclass clazz( env->GetObjectClass( activity ) );
+    jmethodID method_id = env->GetMethodID( clazz, "getDefaultStringSetting",
+                                            "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;" );
+    jstring settings_name_arg = env->NewStringUTF( settings_name );
+    jstring default_value_arg = env->NewStringUTF( default_value );
+    jstring result = static_cast<jstring>( env->CallObjectMethod(
+            activity, method_id, settings_name_arg, default_value_arg ) );
+    const char *result_chars = result != nullptr ? env->GetStringUTFChars( result, nullptr ) : nullptr;
+    std::string ans = result_chars != nullptr ? result_chars : default_value;
+    if( result_chars != nullptr ) {
+        env->ReleaseStringUTFChars( result, result_chars );
+    }
+    if( result != nullptr ) {
+        env->DeleteLocalRef( result );
+    }
+    env->DeleteLocalRef( default_value_arg );
+    env->DeleteLocalRef( settings_name_arg );
+    env->DeleteLocalRef( activity );
+    env->DeleteLocalRef( clazz );
+    return ans;
+}
+
+void android_apply_system_ui_mode()
+{
+    JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+    jobject activity = ( jobject )GetAndroidActivity();
+    jclass clazz( env->GetObjectClass( activity ) );
+    jmethodID method_id = env->GetMethodID( clazz, "setSystemUiMode",
+                                            "(Ljava/lang/String;)V" );
+    jstring mode_arg = env->NewStringUTF(
+                           ::get_option<std::string>( "ANDROID_SYSTEM_UI_MODE" ).c_str() );
+    env->CallVoidMethod( activity, method_id, mode_arg );
+    env->DeleteLocalRef( mode_arg );
+    env->DeleteLocalRef( activity );
+    env->DeleteLocalRef( clazz );
 }
 #endif
 
@@ -1577,11 +1625,6 @@ void options_manager::add_options_general()
     add_option_group( "general", Group( "player_safe_opts", to_translation( "Player safety options" ),
                                         to_translation( "Options regarding player safety." ) ),
     [&]( const std::string & page_id ) {
-        add( "DANGEROUS_PICKUPS", page_id, to_translation( "Dangerous pickups" ),
-             to_translation( "If true, will allow player to pick new items, even if it causes them to exceed the weight limit." ),
-             false
-           );
-
         add( "DANGEROUS_TERRAIN_WARNING_PROMPT", page_id,
              to_translation( "Dangerous terrain warning prompt" ),
              to_translation( "Always: You will be prompted to move onto dangerous tiles.  Running: You will only be able to move onto dangerous tiles while running and will be prompted.  Crouching: You will only be able to move onto a dangerous tile while crouching and will be prompted.  Never:  You will not be able to move onto a dangerous tile unless running and will not be warned or prompted." ),
@@ -1605,11 +1648,6 @@ void options_manager::add_options_general()
     add_option_group( "general", Group( "safe_mode_opts", to_translation( "Safe mode options" ),
                                         to_translation( "Options regarding safe mode." ) ),
     [&]( const std::string & page_id ) {
-        add( "SAFEMODE", page_id, to_translation( "Safe mode" ),
-             to_translation( "If true, will hold the game and display a warning if a hostile monster/NPC is approaching." ),
-             true
-           );
-
         add( "SAFEMODEPROXIMITY", page_id, to_translation( "Safe mode proximity distance" ),
              to_translation( "If safe mode is enabled, distance to hostiles at which safe mode should show a warning.  0 = Max player view distance.  This option only has effect when no safe mode rule is specified.  Otherwise, edit the default rule in Safe mode manager instead of this value." ),
              0, MAX_VIEW_DISTANCE, 0
@@ -1882,7 +1920,7 @@ void options_manager::add_options_interface()
              to_translation( "If true, show brand names for drugs, instead of generic functional names - 'Adderall', instead of 'prescription stimulant'." ),
              false );
         add( "SHOW_GUN_VARIANTS", page_id, to_translation( "Show gun brand names" ),
-             to_translation( "If true, show brand names for guns, instead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
+             to_translation( "If true, show brand or variant names for guns, instead of generic functional names - 'M4A1 carbine' or 'Mk 18 CQBR carbine' instead of 'M4 carbine'." ),
              false );
         add( "AMMO_IN_NAMES", page_id, to_translation( "Add ammo to weapon/magazine names" ),
              to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
@@ -2530,7 +2568,7 @@ void options_manager::add_options_graphics()
            );
 
         add( "MEMORY_MAP_MODE", page_id, to_translation( "Memory map overlay preset" ),
-        to_translation( "Specify the overlay in which the memory map is drawn.  Requires restart.  For custom overlay, define RGB values for dark and bright colors as well as gamma." ), {
+        to_translation( "Specify the overlay in which the memory map is drawn.  The custom overlay needs a restart to take effect; for it, define RGB values for dark and bright colors as well as gamma." ), {
             { "color_pixel_darken", to_translation( "Darkened" ) },
             { "color_pixel_sepia_light", to_translation( "Sepia" ) },
             { "color_pixel_sepia_dark", to_translation( "Sepia Dark" ) },
@@ -2703,9 +2741,17 @@ void options_manager::add_options_graphics()
             }
         }
 #   endif
+        // SDL3 drives renderer selection through SDL_HINT_RENDER_DRIVER; the
+        // saved RENDERER value is ignored at startup but the option ID is
+        // retained so configs from existing worlds still parse.
+#   if defined(USE_SDL3)
+        const options_manager::copt_hide_t renderer_hide = COPT_ALWAYS_HIDE;
+#   else
+        const options_manager::copt_hide_t renderer_hide = COPT_CURSES_HIDE;
+#   endif
         add( "RENDERER", page_id, to_translation( "Renderer" ),
              to_translation( "Set which renderer to use.  Requires restart." ), renderer_list,
-             default_renderer, COPT_CURSES_HIDE );
+             default_renderer, renderer_hide );
 #   endif
 
 #else
@@ -2723,20 +2769,38 @@ void options_manager::add_options_graphics()
              true, COPT_CURSES_HIDE
            );
 #endif
+        // FRAMEBUFFER_ACCEL only meaningful for the SDL2 software renderer
+        // path; under SDL3 the renderer is hidden and software fallback is
+        // automatic, so the option is hidden too.
+#if defined(USE_SDL3)
+        const options_manager::copt_hide_t framebuffer_accel_hide = COPT_ALWAYS_HIDE;
+#else
+        const options_manager::copt_hide_t framebuffer_accel_hide = COPT_CURSES_HIDE;
+#endif
         add( "FRAMEBUFFER_ACCEL", page_id, to_translation( "Software framebuffer acceleration" ),
              to_translation( "If true, use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
-             false, COPT_CURSES_HIDE
+             false, framebuffer_accel_hide
            );
 
 #if defined(__ANDROID__)
         get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
-#else
+#elif !defined(USE_SDL3)
         get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "RENDERER", "software" );
 #endif
 
+        // Color-modulated textures are an SDL2-era speed-up that replaces
+        // RenderFillRect with a stretched 1x1 texture. Under SDL3 the renderer
+        // batches fills efficiently and the texture path blends differently, so
+        // the saved value is ignored at startup and the option is hidden; the ID
+        // is retained so existing configs still parse.
+#if defined(USE_SDL3)
+        const options_manager::copt_hide_t color_modulated_hide = COPT_ALWAYS_HIDE;
+#else
+        const options_manager::copt_hide_t color_modulated_hide = COPT_CURSES_HIDE;
+#endif
         add( "USE_COLOR_MODULATED_TEXTURES", page_id, to_translation( "Use color modulated textures" ),
              to_translation( "If true, tries to use color modulated textures to speed-up ASCII drawing.  Requires restart." ),
-             false, COPT_CURSES_HIDE
+             false, color_modulated_hide
            );
 
         add( "SCALING_MODE", page_id, to_translation( "Scaling mode" ),
@@ -2780,12 +2844,6 @@ void options_manager::add_options_world_default()
 
     // These optiosn are purposefully and permanently hidden. It can only be modified through the sliders when creating a new world.
     // As such there is no name or description to show, those are blanked.
-    add( "CITY_SIZE", "world_default", translation(), translation(), 0, 16, 8, COPT_ALWAYS_HIDE
-       );
-
-    add( "CITY_SPACING", "world_default", translation(), translation(), 0, 8, 4, COPT_ALWAYS_HIDE
-       );
-
     add( "SPAWN_DENSITY", "world_default", translation(), translation(), 0.0, 50.0, 1.0, 0.1,
          COPT_ALWAYS_HIDE
        );
@@ -2829,14 +2887,6 @@ void options_manager::add_options_world_default()
              false
            );
     } );
-
-    add_empty_line();
-
-    add( "CHARACTER_POINT_POOLS", "world_default", to_translation( "Character point pools" ),
-         to_translation( "Allowed point pools for character generation." ),
-    { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Legacy Multipool" ) }, { "story_teller", to_translation( "Survivor" ) } },
-    "story_teller"
-       );
 
     add_empty_line();
 
@@ -2929,6 +2979,28 @@ void options_manager::add_options_android()
          to_translation( "If true, quicksave whenever the app loses focus (screen locked, app moved into background etc.)  WARNING: Experimental.  This may result in corrupt save games." ),
          false
        );
+
+    add_empty_line();
+
+    add_option_group( "android", Group( "android_display_opts",
+                                        to_translation( "Android display options" ),
+                                        to_translation( "Options regarding Android system bars and display insets." ) ),
+    [&]( const std::string & page_id ) {
+        add( "ANDROID_SYSTEM_UI_MODE", page_id, to_translation( "Android system bars" ),
+             to_translation( "Controls whether Android status and navigation bars are visible and whether the game may draw behind them.  This does not control Back button handling." ),
+        {
+            { "system_bars", to_translation( "Show system bars" ) },
+            { "fullscreen", to_translation( "Fullscreen" ) },
+            { "edge_to_edge", to_translation( "Edge-to-edge fullscreen" ) }
+        },
+        android_get_default_string_setting( "Android system UI mode", "system_bars" )
+           );
+
+        add( "ANDROID_RENDER_SAFE_AREA", page_id, to_translation( "Confine display to safe area" ),
+             to_translation( "If true, keep the game within the screen's safe area so it does not draw under the camera cutout or other unsafe edges.  If false, the game fills the entire screen.  This does not show or hide Android system bars." ),
+             true
+           );
+    } );
 
     add_empty_line();
 
@@ -3346,6 +3418,8 @@ options_manager::PageItem::fmt_tooltip( const std::string &group_id,
     }
 }
 
+namespace
+{
 /** String with color */
 struct string_col {
     std::string s;
@@ -3354,6 +3428,7 @@ struct string_col {
     string_col() : col( c_black ) { }
     string_col( const std::string &s, nc_color col ) : s( s ), col( col ) { }
 };
+} // namespace
 
 std::string options_manager::show( bool ingame, const bool world_options_only, bool with_tabs )
 {
@@ -3497,8 +3572,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 case ItemType::GroupHeader:
                     return true;
                 case ItemType::BlankLine:
-                case ItemType::Option:
                     return groups_state[it.group];
+                case ItemType::Option:
+                    return groups_state[it.group]
+                    && !get_options().get_option( it.data ).is_hidden();
                 default:
                     cata_fatal( "invalid ItemType" );
             }
@@ -3723,7 +3800,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 case ItemType::GroupHeader:
                     return true;
                 case ItemType::Option:
-                    return groups_state[curr_item.group];
+                    return groups_state[curr_item.group]
+                    && !get_options().get_option( curr_item.data ).is_hidden();
                 default:
                     cata_fatal( "invalid ItemType" );
             }
@@ -3914,6 +3992,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 world_generator->active_world->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
                 world_generator->active_world->save();
             }
+#if defined(__ANDROID__)
+            android_apply_system_ui_mode();
+#endif
             g->on_options_changed();
         } else {
             lang_changed = false;
@@ -3994,9 +4075,9 @@ void options_manager::deserialize( const JsonArray &ja )
         joOptions.allow_omitted_members();
 
         // yay hardcoded list! remove after 0.J
-        std::vector<std::string> removed_options = { "DISTANCE_INITIAL_VISIBILITY", "FOV_3D_Z_RANGE",
+        std::vector<std::string> removed_options = { "DISTANCE_INITIAL_VISIBILITY", "FOV_3D_Z_RANGE", "SAFEMODE",
                                                      "INITIAL_STAT_POINTS", "INITIAL_TRAIT_POINTS", "INITIAL_SKILL_POINTS", "MAX_TRAIT_POINTS",
-                                                     "SKILL_TRAINING_SPEED", "PROFICIENCY_TRAINING_SPEED"
+                                                     "SKILL_TRAINING_SPEED", "PROFICIENCY_TRAINING_SPEED", "CITY_SPACING", "CITY_SIZE"
                                                    };
 
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );
@@ -4117,6 +4198,9 @@ void options_manager::load()
 
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
+#endif
+#if defined(__ANDROID__)
+    android_apply_system_ui_mode();
 #endif
 }
 

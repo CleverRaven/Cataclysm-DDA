@@ -81,7 +81,7 @@
         "sym": "%",
         "color": "light_gray",
         "transparent": true,
-        "dangerous": false,
+        "dangerous": true,
         "concentration": 1,
         "effects": [
           {

@@ -6,7 +6,7 @@
     "name_suffix": "Thug",
     "class": "NC_THUG",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_DONE",
     "faction": "hells_raiders"
   },
@@ -17,7 +17,7 @@
     "name_suffix": "Bandit",
     "class": "NC_SCAVENGER",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_DONE",
     "faction": "hells_raiders"
   },
@@ -28,7 +28,7 @@
     "name_suffix": "assassin",
     "class": "NC_BOUNTY_HUNTER",
     "attitude": 10,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_DONE",
     "faction": "hells_raiders"
   },
@@ -39,7 +39,7 @@
     "name_suffix": "Bandit",
     "class": "NC_BANDIT_LEADER",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_DONE",
     "faction": "hells_raiders"
   },
@@ -50,7 +50,7 @@
     "name_suffix": "Bandit",
     "class": "NC_BANDIT_TRADER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_DONE",
     "faction": "hells_raiders"
   },
@@ -61,7 +61,7 @@
     "name_suffix": "Quartermaster",
     "class": "NC_BANDIT_QUARTERMASTER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_DONE",
     "faction": "hells_raiders"
   },
@@ -72,7 +72,7 @@
     "name_suffix": "Mechanic",
     "class": "NC_SCAVENGER",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_DONE",
     "faction": "hells_raiders"
   }

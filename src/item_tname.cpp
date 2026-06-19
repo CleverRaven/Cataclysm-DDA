@@ -15,6 +15,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "city.h"
 #include "color.h"
 #include "coordinates.h"
 #include "debug.h"
@@ -30,6 +31,7 @@
 #include "itype.h"
 #include "mutation.h"
 #include "options.h"
+#include "overmapbuffer.h"
 #include "point.h"
 #include "recipe.h"
 #include "relic.h"
@@ -43,6 +45,7 @@
 #include "value_ptr.h"
 
 static const flag_id json_flag_HINT_THE_LOCATION( "HINT_THE_LOCATION" );
+static const flag_id json_flag_LOCATION_PRECISE_CLOSEST_CITY( "LOCATION_PRECISE_CLOSEST_CITY" );
 
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_disassembly( "disassembly" );
@@ -222,7 +225,35 @@ std::string craft( item const &it, unsigned int /* quantity */,
         if( it.charges > 1 ) {
             maintext += string_format( " (%d)", it.charges );
         }
-        const int percent_progress = it.item_counter / 100000;
+        int effective_counter = it.item_counter;
+        const time_point pstart = it.get_passive_started_at();
+        const time_point saved_ready = it.get_saved_ready_at();
+        const time_point ready = saved_ready != calendar::before_time_starts
+                                 ? saved_ready : it.get_ready_at();
+        const int start_counter = it.get_passive_start_counter();
+        const int end_counter = it.get_passive_end_counter();
+        if( pstart != calendar::before_time_starts && ready > pstart && end_counter > start_counter ) {
+            // Freeze projection at pause time so a stalled craft does not
+            // keep ticking up.
+            const time_point pause_start = it.get_pause_started_at();
+            const time_point eff_now = pause_start != calendar::before_time_starts
+                                       ? pause_start : calendar::turn;
+            const time_duration step_dur = ready - pstart;
+            time_duration elapsed = eff_now - pstart;
+            if( elapsed < 0_seconds ) {
+                elapsed = 0_seconds;
+            }
+            if( elapsed > step_dur ) {
+                elapsed = step_dur;
+            }
+            const int64_t step_dur_moves = std::max( static_cast<int64_t>( 1 ),
+                                           to_moves<int64_t>( step_dur ) );
+            const double fraction = static_cast<double>( to_moves<int64_t>( elapsed ) ) / step_dur_moves;
+            const int projected = static_cast<int>( std::round( start_counter +
+                                                    fraction * ( end_counter - start_counter ) ) );
+            effective_counter = std::max( effective_counter, projected );
+        }
+        const int percent_progress = effective_counter / 100000;
         return string_format( "%s (%d%%)", maintext, percent_progress );
     }
     return {};
@@ -280,10 +311,11 @@ std::string contents( item const &it, unsigned int /* quantity */,
             if( total_count == aggi_count ) {
                 return string_format(
                            segments[tname::segments::CONTENTS_COUNT]
-                           //~ [container item name] " > [count] [type]"
-                           ? npgettext( "item name", " > %1$zd %2$s", " > %1$zd %2$s", total_count )
+                           //~ [container item name] " > [count or volume or weight or length (depending on type)] [type]"
+                           ? npgettext( "item name", " > %1$s %2$s", " > %1$s %2$s", total_count )
                            : " > %2$s",
-                           total_count, ctnc );
+                           contents_item.type->item_measure_prefix( total_count ),
+                           ctnc );
             }
             return string_format(
                        segments[tname::segments::CONTENTS_COUNT]
@@ -339,6 +371,24 @@ std::string location_hint( item const &it, unsigned int /* quantity */,
             return _( " (from this area)" );
         }
         return _( " (from far away)" );
+    }
+    return {};
+}
+
+std::string location_closest_city( item const &it, unsigned int /* quantity */,
+                                   segment_bitset const &/* segments */ )
+{
+    if( it.has_flag( json_flag_LOCATION_PRECISE_CLOSEST_CITY ) ) {
+        const tripoint_abs_ms map_pos_ms = it.get_var( "spawn_location", tripoint_abs_ms::invalid );
+        city_reference closest_city = city_reference::invalid;
+        if( !map_pos_ms.is_invalid() ) {
+            const tripoint_abs_omt map_pos_omt = project_to<coords::omt>( map_pos_ms );
+            const tripoint_abs_sm map_pos = project_to<coords::sm>( map_pos_omt );
+            closest_city = overmap_buffer.closest_city( map_pos );
+        }
+        if( closest_city.city != nullptr ) {
+            return string_format( ", %s", closest_city.city->name );
+        }
     }
     return {};
 }
@@ -692,6 +742,7 @@ constexpr std::array<decl_f_print_segment *, num_segments> get_segs_array()
     arr[static_cast<size_t>( tname::segments::FOOD_IRRADIATED ) ] = food_irradiated;
     arr[static_cast<size_t>( tname::segments::TEMPERATURE ) ] = temperature;
     arr[static_cast<size_t>( tname::segments::LOCATION_HINT ) ] = location_hint;
+    arr[static_cast<size_t>( tname::segments::LOCATION_PRECISE_CLOSEST_CITY ) ] = location_closest_city;
     arr[static_cast<size_t>( tname::segments::CLOTHING_SIZE ) ] = clothing_size;
     arr[static_cast<size_t>( tname::segments::ETHEREAL ) ] = ethereal;
     arr[static_cast<size_t>( tname::segments::FILTHY ) ] = filthy;
@@ -759,6 +810,7 @@ std::string enum_to_string<tname::segments>( tname::segments seg )
         case tname::segments::FOOD_IRRADIATED: return "FOOD_IRRADIATED";
         case tname::segments::TEMPERATURE: return "TEMPERATURE";
         case tname::segments::LOCATION_HINT: return "LOCATION_HINT";
+        case tname::segments::LOCATION_PRECISE_CLOSEST_CITY: return "LOCATION_PRECISE_CLOSEST_CITY";
         case tname::segments::CLOTHING_SIZE: return "CLOTHING_SIZE";
         case tname::segments::ETHEREAL: return "ETHEREAL";
         case tname::segments::FILTHY: return "FILTHY";

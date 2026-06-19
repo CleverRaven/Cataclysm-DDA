@@ -27,6 +27,8 @@
 #include "units.h"
 #include "vehicle.h"
 
+static const bodypart_str_id body_part_all( "all" );
+
 namespace io
 {
     // *INDENT-OFF*
@@ -96,6 +98,7 @@ namespace io
             case enchant_vals::mod::MELEE_DAMAGE: return "MELEE_DAMAGE";
             case enchant_vals::mod::MELEE_RANGE_MODIFIER: return "MELEE_RANGE_MODIFIER";
             case enchant_vals::mod::MELEE_TO_HIT: return "MELEE_TO_HIT";
+            case enchant_vals::mod::SMASH_BONUS: return "SMASH_BONUS";
             case enchant_vals::mod::RANGED_DAMAGE: return "RANGED_DAMAGE";
 			case enchant_vals::mod::RANGED_ARMOR_PENETRATION: return "RANGED_ARMOR_PENETRATION";
             case enchant_vals::mod::DODGE_CHANCE: return "DODGE_CHANCE";
@@ -200,9 +203,9 @@ bool string_id<enchantment>::is_valid() const
 }
 
 template<typename TKey>
-void load_add_and_multiply_dbl_or_var( const JsonObject &jo, std::string_view array_key,
-                                       const std::string &type_key, std::map<TKey, dbl_or_var> &add_map,
-                                       std::map<TKey, dbl_or_var> &mult_map )
+static void load_add_and_multiply_dbl_or_var( const JsonObject &jo, std::string_view array_key,
+        const std::string &type_key, std::map<TKey, dbl_or_var> &add_map,
+        std::map<TKey, dbl_or_var> &mult_map )
 {
     if( jo.has_array( array_key ) ) {
         for( const JsonObject value_obj : jo.get_array( array_key ) ) {
@@ -236,8 +239,8 @@ double enchant_cache::get_value( const TKey &value, const std::map<TKey, double>
 }
 
 template<typename TKey>
-void load_add_and_multiply( const JsonObject &jo, std::string_view array_key,
-                            const std::string &type_key, std::map<TKey, double> &add_map, std::map<TKey, double> &mult_map )
+static void load_add_and_multiply( const JsonObject &jo, std::string_view array_key,
+                                   const std::string &type_key, std::map<TKey, double> &add_map, std::map<TKey, double> &mult_map )
 {
     if( jo.has_array( array_key ) ) {
         for( const JsonObject value_obj : jo.get_array( array_key ) ) {
@@ -1160,7 +1163,8 @@ double enchant_cache::get_skill_value_add( const skill_id &value ) const
 
 int enchant_cache::get_encumbrance_add( const bodypart_str_id &value ) const
 {
-    return get_value<bodypart_str_id>( value, encumbrance_values_add );
+    return get_value<bodypart_str_id>( value,
+                                       encumbrance_values_add ) + get_value<bodypart_str_id>( body_part_all, encumbrance_values_add );
 }
 
 int enchant_cache::get_damage_add( const damage_type_id &value ) const
@@ -1190,7 +1194,9 @@ double enchant_cache::get_skill_value_multiply( const skill_id &value ) const
 
 double enchant_cache::get_encumbrance_multiply( const bodypart_str_id &value ) const
 {
-    return get_value<bodypart_str_id>( value, encumbrance_values_multiply );
+    return get_value<bodypart_str_id>( value,
+                                       encumbrance_values_multiply ) + get_value<bodypart_str_id>( body_part_all,
+                                               encumbrance_values_multiply );
 }
 
 double enchant_cache::get_damage_multiply( const damage_type_id &value ) const
@@ -1457,7 +1463,7 @@ void enchant_cache::cast_enchantment_spell( Creature &caster, const Creature *ta
                                       sp.npc_trigger_message,
                                       caster.get_name() );
         sp.get_spell( caster, sp.level ).cast_all_effects( caster, caster.pos_bub() );
-    } else  if( target != nullptr ) {
+    } else if( target != nullptr ) {
         const Creature &trg_crtr = *target;
         const spell &spell_lvl = sp.get_spell( caster, sp.level );
         if( !spell_lvl.is_valid_target( caster, trg_crtr.pos_bub() ) ||

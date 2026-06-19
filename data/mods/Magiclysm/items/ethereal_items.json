@@ -312,7 +312,6 @@
       "NEVER_JAMS"
     ],
     "max_worn": 1,
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "ammo": [ "arrow" ],
     "min_strength": 9,
@@ -460,24 +459,6 @@
     "initial_charges": 15,
     "max_charges": 15,
     "use_action": [ "WATER_PURIFIER" ]
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "druid_fertilizer",
-    "name": { "str_sp": "seed of growth" },
-    "weight": "27 g",
-    "color": "white",
-    "flags": [ "TRADER_AVOID", "FERTILIZER" ],
-    "comestible_type": "FOOD",
-    "symbol": "°",
-    "quench": -10,
-    "healthy": -2,
-    "description": "A magical powder that can be scattered on growing crops to make them grow faster.",
-    "material": [ "powder" ],
-    "volume": "33 ml",
-    "category": "chems",
-    "fun": -15
   },
   {
     "id": "armor_frost",
@@ -1640,32 +1621,6 @@
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "melee_damage": { "bash": 1 }
-  },
-  {
-    "id": "item_kelvinist_frozen_heart",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR", "ARTIFACT" ],
-    "name": "Rime-Frozen Heart",
-    "description": "You don't feel anything.",
-    "weight": "0 g",
-    "volume": "0 ml",
-    "price": "36 USD 46 cent",
-    "symbol": "o",
-    "color": "white",
-    "material": [ "magical_material" ],
-    "flags": [
-      "PERSONAL",
-      "SEMITANGIBLE",
-      "ZERO_WEIGHT",
-      "OVERSIZE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "PADDED",
-      "INTEGRATED"
-    ],
-    "max_worn": 1,
-    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "NUMB", "PSYCHOPATH" ] } ]
   },
   {
     "id": "aura_bearmantle",

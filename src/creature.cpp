@@ -109,6 +109,7 @@ static const efftype_id effect_eff_monster_immune_to_telepathy( "eff_monster_imm
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
 static const efftype_id effect_knockdown( "knockdown" );
 static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_monster_locked_on( "monster_locked_on" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_onfire( "onfire" );
@@ -200,6 +201,11 @@ Creature &Creature::operator=( const Creature & ) = default;
 Creature &Creature::operator=( Creature && ) noexcept = default;
 
 Creature::~Creature() = default;
+
+safe_reference<Creature> Creature::get_safe_reference()
+{
+    return anchor->reference_to( this );
+}
 
 tripoint_bub_ms Creature::pos_bub() const
 {
@@ -516,8 +522,8 @@ bool Creature::sees( const map &here, const Creature &critter ) const
         return false;
     }
 
-    if( critter.has_flag( mon_flag_ALWAYS_VISIBLE ) || ( has_flag( mon_flag_ALWAYS_SEES_YOU ) &&
-            critter.is_avatar() ) ) {
+    if( critter.has_flag( mon_flag_ALWAYS_VISIBLE ) || ( ( has_flag( mon_flag_ALWAYS_SEES_YOU ) ||
+            has_effect( effect_monster_locked_on ) ) && critter.is_avatar() ) ) {
         return true;
     }
 
@@ -568,10 +574,23 @@ bool Creature::sees( const map &here, const Creature &critter ) const
         return false;
     }
 
+    // Creatures with infrared vision check here after invisibility
+    if( this->has_flag( mon_flag_INFRARED_VISION ) && critter.is_warm() ) {
+        const monster *m = this->as_monster();
+        return target_range <= std::max( m->type->vision_day, m->type->vision_night );
+    }
+
     // This check is ridiculously expensive so defer it to after everything else.
     auto visible = []( const Character * ch ) {
         return ch == nullptr || !ch->is_invisible();
     };
+
+    // Creatures underwater beneath a solid surface (walkway, ice) are hidden
+    // from non-underwater observers. Underwater observers can still see each other.
+    if( !is_likely_underwater( here ) && critter.is_underwater() &&
+        here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, critter_pos ) ) {
+        return false;
+    }
 
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
@@ -829,7 +848,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         bool maybe_boo = false;
         if( angle_iff ) {
             units::angle tangle = coord_to_angle( pos_abs(), m->pos_abs() );
-            units::angle diff = units::fabs( u_angle - tangle );
+            units::angle diff = units::abs( u_angle - tangle );
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360_degrees || diff < iff_hangle ) &&
                 ( dist * 3 / 2 + 6 > pldist ) ) {
@@ -1159,7 +1178,11 @@ struct projectile_attack_results {
     std::string wp_hit;
     bool is_crit = false;
     bool is_headshot = false;
-    const weakpoint *wp;
+    // TODO: select_body_part_projectile_attack only sets wp for monster targets; the
+    // non-monster path leaves it null, so deal_projectile_attack must guard the deref.
+    // Long-term: change deal_damage to take const weakpoint* (or std::optional) so the
+    // missing weakpoint is explicit at the API boundary.
+    const weakpoint *wp = nullptr;
 
     explicit projectile_attack_results( const projectile &proj ) {
         max_damage = proj.impact.total_damage();
@@ -1435,7 +1458,10 @@ void Creature::deal_projectile_attack( map *here, Creature *source, dealt_projec
         }
     }
 
-    dealt_dam = deal_damage( source, hit_selection.bp_hit, impact, wp_attack_copy, *hit_selection.wp );
+    // TODO: see note on projectile_attack_results::wp; this fallback hides the API gap.
+    static const weakpoint default_weakpoint;
+    dealt_dam = deal_damage( source, hit_selection.bp_hit, impact, wp_attack_copy,
+                             hit_selection.wp ? *hit_selection.wp : default_weakpoint );
     // Force damage instance to match the selected body point
     dealt_dam.bp_hit = hit_selection.bp_hit;
     // Retrieve the selected weakpoint from the damage instance.
@@ -1500,13 +1526,14 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         total_damage = clamp( get_hp( bp ), total_base_damage, total_damage );
     }
     if( !bp->has_flag( json_flag_BIONIC_LIMB ) ) {
-        mod_pain( total_pain );
+        mod_pain( total_pain, bp );
     }
 
     apply_damage( source, bp, total_damage );
 
     if( wkpt != nullptr ) {
         wkpt->apply_effects( *this, total_damage, attack );
+        add_msg_debug( debugmode::DF_WEAKPOINTS, "applying weakpoint: %s", wkpt->id );
     }
 
     return dealt_dams;
@@ -2195,7 +2222,7 @@ void Creature::clear_values()
     values.clear();
 }
 
-int Creature::mod_pain( int npain )
+int Creature::mod_pain( int npain, const bodypart_id /* bp */ )
 {
     mod_pain_noresist( npain );
     return npain;
@@ -2877,7 +2904,7 @@ static void sort_body_parts( std::vector<bodypart_id> &bps, const Creature *c )
         pending.pop();
         result.push_back( next );
 
-        const cata::flat_set<bodypart_id> children_set = parts_connected_to.at( next );
+        const cata::flat_set<bodypart_id> &children_set = parts_connected_to.at( next );
         std::vector<bodypart_id> children( children_set.begin(), children_set.end() );
         std::sort( children.begin(), children.end(), compare_children );
         for( const bodypart_id &child : children ) {

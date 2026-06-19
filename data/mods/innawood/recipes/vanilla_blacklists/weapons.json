@@ -1,0 +1,107 @@
+[
+  {
+    "type": "recipe",
+    "result": "EMPbomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "briefcase_smg",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sharp_toothbrush",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pointed_rebar",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sling-ready_grenade",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "military_explosive_half_barrel_bomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "military_explosive_full_barrel_bomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "military_explosive_bomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "military_explosive_pipebomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "military_explosive_small_grenade",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sling-ready_homemade_grenade_2",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "military_explosive_grenade",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sword_sheets_welded",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ax_sheets_bolted",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sword_sheets_welded_large",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mace_pipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mace_pipe_large",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "spear_rebar",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sharp_rebar",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "m26_mass_standalone",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "m320",
+    "obsolete": true
+  }
+]

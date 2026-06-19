@@ -37,8 +37,8 @@
     "description": "Pale, round egg laid by a smaller dinosaur.",
     "material": [ "egg" ],
     "volume": "12 ml",
-    "rot_spawn": { "group": "GROUP_EGG_DINO_SMALL" },
-    "vitamins": [ [ "egg_allergen", 1 ] ]
+    "vitamins": [ [ "egg_allergen", 1 ] ],
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_DINO_SMALL" } }
   },
   {
     "type": "ITEM",
@@ -53,8 +53,8 @@
     "description": "Pale, round egg laid by a larger dinosaur.",
     "material": [ "egg" ],
     "volume": "3400 ml",
-    "rot_spawn": { "group": "GROUP_EGG_DINO_LARGE" },
-    "vitamins": [ [ "egg_allergen", 1 ] ]
+    "vitamins": [ [ "egg_allergen", 1 ] ],
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_DINO_LARGE" } }
   },
   {
     "type": "ITEM",
@@ -89,8 +89,8 @@
     "comestible_type": "FOOD",
     "description": "Pale, football-shaped egg laid by a smaller dinosaur.",
     "material": [ "egg" ],
-    "rot_spawn": { "group": "GROUP_EGG_THEROPOD_SMALL" },
-    "vitamins": [ [ "egg_allergen", 1 ] ]
+    "vitamins": [ [ "egg_allergen", 1 ] ],
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_THEROPOD_SMALL" } }
   },
   {
     "type": "ITEM",
@@ -105,8 +105,8 @@
     "description": "Pale, football-shaped egg laid by a larger dinosaur.",
     "material": [ "egg" ],
     "volume": "3400 ml",
-    "rot_spawn": { "group": "GROUP_EGG_THEROPOD_LARGE" },
-    "vitamins": [ [ "egg_allergen", 1 ] ]
+    "vitamins": [ [ "egg_allergen", 1 ] ],
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_THEROPOD_LARGE" } }
   },
   {
     "type": "ITEM",
@@ -114,7 +114,7 @@
     "id": "egg_tawa",
     "name": "tawa egg",
     "copy-from": "egg_dino_theropod_small",
-    "rot_spawn": { "monster": "mon_tawa_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_tawa_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -122,7 +122,7 @@
     "id": "egg_coelophysis",
     "name": "coelophysis egg",
     "copy-from": "egg_dino_theropod_small",
-    "rot_spawn": { "monster": "mon_coelophysis_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_coelophysis_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -130,7 +130,7 @@
     "id": "egg_dilophosaurus",
     "name": "dilophosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_dilophosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_dilophosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -138,7 +138,7 @@
     "id": "egg_ceratosaurus",
     "name": "ceratosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_ceratosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_ceratosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -146,7 +146,7 @@
     "id": "egg_spinosaurus",
     "name": "spinosaurus egg",
     "copy-from": "egg_dino_theropod_large",
-    "rot_spawn": { "monster": "mon_spinosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_spinosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -154,7 +154,7 @@
     "id": "egg_torvosaurus",
     "name": "torvosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_torvosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_torvosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -162,7 +162,7 @@
     "id": "egg_allosaurus",
     "name": "allosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_allosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_allosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -170,7 +170,7 @@
     "id": "egg_acrocanthosaurus",
     "name": "acrocanthosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_acrocanthosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_acrocanthosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -178,7 +178,7 @@
     "id": "egg_giganotosaurus",
     "name": "giganotosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_giganotosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_giganotosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -186,7 +186,7 @@
     "id": "egg_siats",
     "name": "siats egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_siats_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_siats_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -194,7 +194,7 @@
     "id": "egg_dryptosaurus",
     "name": "dryptosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_dryptosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_dryptosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -202,7 +202,7 @@
     "id": "egg_nanotyrannus",
     "name": "nanotyrannus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_nanotyrannus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_nanotyrannus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -210,7 +210,7 @@
     "id": "egg_appalachiosaurus",
     "name": "appalachiosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_appalachiosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_appalachiosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -218,7 +218,7 @@
     "id": "egg_gorgosaurus",
     "name": "gorgosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_gorgosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_gorgosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -226,7 +226,7 @@
     "id": "egg_albertosaurus",
     "name": "albertosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_albertosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_albertosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -234,7 +234,7 @@
     "id": "egg_qianzhousaurus",
     "name": "qianzhousaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_qianzhousaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_qianzhousaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -242,7 +242,7 @@
     "id": "egg_nanuqsaurus",
     "name": "nanuqsaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_nanuqsaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_nanuqsaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -250,7 +250,7 @@
     "id": "egg_daspletosaurus",
     "name": "daspletosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_daspletosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_daspletosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -258,7 +258,7 @@
     "id": "egg_tyrannosaurus",
     "name": "tyrannosaurus egg",
     "copy-from": "egg_dino_theropod_large",
-    "rot_spawn": { "monster": "mon_tyrannosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_tyrannosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -266,7 +266,7 @@
     "id": "egg_compsognathus",
     "name": "compsognathus egg",
     "copy-from": "egg_dino_theropod_small",
-    "rot_spawn": { "monster": "mon_compsognathus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_compsognathus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -274,7 +274,7 @@
     "id": "egg_nedcolbertia",
     "name": "nedcolbertia egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_nedcolbertia_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_nedcolbertia_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -282,7 +282,7 @@
     "id": "egg_gallimimus",
     "name": "gallimimus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_gallimimus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_gallimimus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -290,7 +290,7 @@
     "id": "egg_struthiomimus",
     "name": "struthiomimus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_struthiomimus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_struthiomimus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -298,7 +298,7 @@
     "id": "egg_ornithomimus",
     "name": "ornithomimus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_ornithomimus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_ornithomimus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -306,7 +306,7 @@
     "id": "egg_albertonykus",
     "name": "albertonykus egg",
     "copy-from": "egg_dino_theropod_small",
-    "rot_spawn": { "monster": "mon_albertonykus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_albertonykus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -314,7 +314,7 @@
     "id": "egg_falcarius",
     "name": "falcarius egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_falcarius_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_falcarius_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -322,7 +322,7 @@
     "id": "egg_therizinosaurus",
     "name": "therizinosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_therizinosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_therizinosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -330,7 +330,7 @@
     "id": "egg_nothronychus",
     "name": "nothronychus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_nothronychus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_nothronychus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -338,7 +338,7 @@
     "id": "egg_anzu",
     "name": "anzu egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_anzu_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_anzu_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -346,7 +346,7 @@
     "id": "egg_saurornitholestes",
     "name": "saurornitholestes egg",
     "copy-from": "egg_dino_theropod_small",
-    "rot_spawn": { "monster": "mon_saurornitholestes_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_saurornitholestes_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -354,7 +354,7 @@
     "id": "egg_velociraptor",
     "name": "velociraptor egg",
     "copy-from": "egg_dino_theropod_small",
-    "rot_spawn": { "monster": "mon_velociraptor_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_velociraptor_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -362,7 +362,7 @@
     "id": "egg_deinonychus",
     "name": "deinonychus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_deinonychus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_deinonychus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -370,7 +370,7 @@
     "id": "egg_utahraptor",
     "name": "utahraptor egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "monster": "mon_utahraptor_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_utahraptor_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -378,7 +378,7 @@
     "id": "egg_dromaeosaurus",
     "name": "dromaeosaurus egg",
     "copy-from": "egg_dino_theropod_small",
-    "rot_spawn": { "monster": "mon_dromaeosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_dromaeosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -386,7 +386,7 @@
     "id": "egg_stenonychosaurus",
     "name": "stenonychosaurus egg",
     "copy-from": "egg_dino_theropod_small",
-    "rot_spawn": { "monster": "mon_stenonychosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_stenonychosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -394,7 +394,7 @@
     "id": "egg_eoraptor",
     "name": "eoraptor egg",
     "copy-from": "egg_dino_small",
-    "rot_spawn": { "monster": "mon_eoraptor_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_eoraptor_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -402,7 +402,7 @@
     "id": "egg_sarahsaurus",
     "name": "sarahsaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_sarahsaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_sarahsaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -410,7 +410,7 @@
     "id": "egg_anchisaurus",
     "name": "anchisaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_anchisaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_anchisaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -418,7 +418,7 @@
     "id": "egg_issi",
     "name": "issi egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_issi_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_issi_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -426,7 +426,7 @@
     "id": "egg_moabosaurus",
     "name": "moabosaurus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "monster": "mon_moabosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_moabosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -434,7 +434,7 @@
     "id": "egg_haplocanthosaurus",
     "name": "haplocanthosaurus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "monster": "mon_haplocanthosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_haplocanthosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -442,7 +442,7 @@
     "id": "egg_amargasaurus",
     "name": "amargasaurus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "monster": "mon_amargasaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_amargasaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -450,7 +450,7 @@
     "id": "egg_apatosaurus",
     "name": "apatosaurus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "monster": "mon_apatosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_apatosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -458,7 +458,7 @@
     "id": "egg_brontosaurus",
     "name": "brontosaurus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "monster": "mon_brontosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_brontosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -466,7 +466,7 @@
     "id": "egg_diplodocus",
     "name": "diplodocus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "monster": "mon_diplodocus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_diplodocus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -474,7 +474,7 @@
     "id": "egg_barosaurus",
     "name": "barosaurus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "monster": "mon_barosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_barosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -482,7 +482,7 @@
     "id": "egg_camarasaurus",
     "name": "camarasaurus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "monster": "mon_camarasaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_camarasaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -490,7 +490,7 @@
     "id": "egg_brachiosaurus",
     "name": "brachiosaurus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "monster": "mon_brachiosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_brachiosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -498,7 +498,7 @@
     "id": "egg_astrodon",
     "name": "astrodon egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "monster": "mon_astrodon_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_astrodon_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -506,7 +506,7 @@
     "id": "egg_alamosaurus",
     "name": "alamosaurus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "monster": "mon_alamosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_alamosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -514,7 +514,7 @@
     "id": "egg_scutellosaurus",
     "name": "scutellosaurus egg",
     "copy-from": "egg_dino_small",
-    "rot_spawn": { "monster": "mon_scutellosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_scutellosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -522,7 +522,7 @@
     "id": "egg_stegosaurus",
     "name": "stegosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_stegosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_stegosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -530,7 +530,7 @@
     "id": "egg_hesperosaurus",
     "name": "hesperosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_hesperosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_hesperosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -538,7 +538,7 @@
     "id": "egg_gastonia",
     "name": "gastonia egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_gastonia_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_gastonia_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -546,7 +546,7 @@
     "id": "egg_gargoyleosaurus",
     "name": "gargoyleosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_gargoyleosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_gargoyleosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -554,7 +554,7 @@
     "id": "egg_sauropelta",
     "name": "sauropelta egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_sauropelta_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_sauropelta_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -562,7 +562,7 @@
     "id": "egg_nodosaurus",
     "name": "nodosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_nodosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_nodosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -570,7 +570,7 @@
     "id": "egg_panoplosaurus",
     "name": "panoplosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_panoplosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_panoplosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -578,7 +578,7 @@
     "id": "egg_edmontonia",
     "name": "edmontonia egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_edmontonia_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_edmontonia_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -586,7 +586,7 @@
     "id": "egg_zuul",
     "name": "zuul egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_zuul_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_zuul_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -594,7 +594,7 @@
     "id": "egg_dyoplosaurus",
     "name": "dyoplosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_dyoplosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_dyoplosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -602,7 +602,7 @@
     "id": "egg_ankylosaurus",
     "name": "ankylosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_ankylosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_ankylosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -610,7 +610,7 @@
     "id": "egg_euoplocephalus",
     "name": "euoplocephalus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_euoplocephalus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_euoplocephalus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -618,7 +618,7 @@
     "id": "egg_scolosaurus",
     "name": "scolosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_scolosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_scolosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -626,7 +626,7 @@
     "id": "egg_tenontosaurus",
     "name": "tenontosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_tenontosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_tenontosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -634,7 +634,7 @@
     "id": "egg_dryosaurus",
     "name": "dryosaurus egg",
     "copy-from": "egg_dino_small",
-    "rot_spawn": { "monster": "mon_dryosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_dryosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -642,7 +642,7 @@
     "id": "egg_camptosaurus",
     "name": "camptosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_camptosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_camptosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -650,7 +650,7 @@
     "id": "egg_iguanodon",
     "name": "iguanodon egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_iguanodon_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_iguanodon_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -658,7 +658,7 @@
     "id": "egg_eolambia",
     "name": "eolambia egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_eolambia_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_eolambia_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -666,7 +666,7 @@
     "id": "egg_hadrosaurus",
     "name": "hadrosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_hadrosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_hadrosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -674,7 +674,7 @@
     "id": "egg_maiasaura",
     "name": "maiasaura egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_maiasaura_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_maiasaura_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -682,7 +682,7 @@
     "id": "egg_gryposaurus",
     "name": "gryposaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_gryposaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_gryposaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -690,7 +690,7 @@
     "id": "egg_prosaurolophus",
     "name": "prosaurolophus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_prosaurolophus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_prosaurolophus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -698,7 +698,7 @@
     "id": "egg_saurolophus",
     "name": "saurolophus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_saurolophus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_saurolophus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -706,7 +706,7 @@
     "id": "egg_edmontosaurus",
     "name": "edmontosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_edmontosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_edmontosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -714,7 +714,7 @@
     "id": "egg_parasaurolophus",
     "name": "parasaurolophus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_parasaurolophus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_parasaurolophus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -722,7 +722,7 @@
     "id": "egg_lambeosaurus",
     "name": "lambeosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_lambeosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_lambeosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -730,7 +730,7 @@
     "id": "egg_corythosaurus",
     "name": "corythosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_corythosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_corythosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -738,7 +738,7 @@
     "id": "egg_hypacrosaurus",
     "name": "hypacrosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_hypacrosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_hypacrosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -746,7 +746,7 @@
     "id": "egg_stegoceras",
     "name": "stegoceras egg",
     "copy-from": "egg_dino_small",
-    "rot_spawn": { "monster": "mon_stegoceras_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_stegoceras_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -754,7 +754,7 @@
     "id": "egg_pachycephalosaurus",
     "name": "pachycephalosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_pachycephalosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_pachycephalosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -762,7 +762,7 @@
     "id": "egg_aquilops",
     "name": "aquilops egg",
     "copy-from": "egg_dino_small",
-    "rot_spawn": { "monster": "mon_aquilops_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_aquilops_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -770,7 +770,7 @@
     "id": "egg_leptoceratops",
     "name": "leptoceratops egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_leptoceratops_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_leptoceratops_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -778,7 +778,7 @@
     "id": "egg_zuniceratops",
     "name": "zuniceratops egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_zuniceratops_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_zuniceratops_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -786,7 +786,7 @@
     "id": "egg_lokiceratops",
     "name": "lokiceratops egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_lokiceratops_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_lokiceratops_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -794,7 +794,7 @@
     "id": "egg_styracosaurus",
     "name": "styracosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_styracosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_styracosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -802,7 +802,7 @@
     "id": "egg_centrosaurus",
     "name": "centrosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_centrosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_centrosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -810,7 +810,7 @@
     "id": "egg_einiosaurus",
     "name": "einiosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_einiosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_einiosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -818,7 +818,7 @@
     "id": "egg_achelousaurus",
     "name": "achelousaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_achelousaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_achelousaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -826,7 +826,7 @@
     "id": "egg_pachyrhinosaurus",
     "name": "pachyrhinosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_pachyrhinosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_pachyrhinosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -834,7 +834,7 @@
     "id": "egg_chasmosaurus",
     "name": "chasmosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_chasmosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_chasmosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -842,7 +842,7 @@
     "id": "egg_pentaceratops",
     "name": "pentaceratops egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_pentaceratops_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_pentaceratops_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -850,7 +850,7 @@
     "id": "egg_kosmoceratops",
     "name": "kosmoceratops egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_kosmoceratops_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_kosmoceratops_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -858,7 +858,7 @@
     "id": "egg_torosaurus",
     "name": "torosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_torosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_torosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -866,7 +866,7 @@
     "id": "egg_triceratops",
     "name": "triceratops egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_triceratops_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_triceratops_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -874,7 +874,7 @@
     "id": "egg_nanosaurus",
     "name": "nanosaurus egg",
     "copy-from": "egg_dino_small",
-    "rot_spawn": { "monster": "mon_nanosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_nanosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -882,7 +882,7 @@
     "id": "egg_fona",
     "name": "fona egg",
     "copy-from": "egg_dino_small",
-    "rot_spawn": { "monster": "mon_fona_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_fona_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -890,7 +890,7 @@
     "id": "egg_oryctodromeus",
     "name": "oryctodromeus egg",
     "copy-from": "egg_dino_small",
-    "rot_spawn": { "monster": "mon_oryctodromeus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_oryctodromeus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -898,7 +898,7 @@
     "id": "egg_thescelosaurus",
     "name": "thescelosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "monster": "mon_thescelosaurus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_thescelosaurus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -906,7 +906,7 @@
     "id": "egg_dimorphodon",
     "name": "dimorphodon egg",
     "copy-from": "egg_chicken",
-    "rot_spawn": { "monster": "mon_dimorphodon_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_dimorphodon_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -914,7 +914,7 @@
     "id": "egg_pteranodon",
     "name": "pteranodon egg",
     "copy-from": "egg_chicken",
-    "rot_spawn": { "monster": "mon_pteranodon_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_pteranodon_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -922,7 +922,7 @@
     "id": "egg_quetzalcoatlus",
     "name": "quetzalcoatlus egg",
     "copy-from": "egg_chicken",
-    "rot_spawn": { "monster": "mon_quetzalcoatlus_hatchling" }
+    "extend": { "rot_spawn": { "monster": "mon_quetzalcoatlus_hatchling" } }
   },
   {
     "type": "ITEM",
@@ -939,8 +939,8 @@
     "material": [ "egg" ],
     "fun": 2,
     "flags": [ "FREEZERBURN" ],
-    "rot_spawn": { "group": "GROUP_NULL", "chance": 0 },
-    "vitamins": [ [ "egg_allergen", 1 ] ]
+    "vitamins": [ [ "egg_allergen", 1 ] ],
+    "extend": { "rot_spawn": { "group": "GROUP_NULL", "chance": 0 } }
   },
   {
     "type": "ITEM",
@@ -957,8 +957,8 @@
     "material": [ "egg" ],
     "fun": 10,
     "flags": [ "FREEZERBURN" ],
-    "rot_spawn": { "group": "GROUP_NULL", "chance": 0 },
-    "vitamins": [ [ "egg_allergen", 1 ] ]
+    "vitamins": [ [ "egg_allergen", 1 ] ],
+    "extend": { "rot_spawn": { "group": "GROUP_NULL", "chance": 0 } }
   },
   {
     "type": "ITEM",
@@ -975,7 +975,7 @@
     "material": [ "egg" ],
     "fun": 20,
     "flags": [ "FREEZERBURN" ],
-    "rot_spawn": { "group": "GROUP_NULL", "chance": 0 },
-    "vitamins": [ [ "egg_allergen", 1 ] ]
+    "vitamins": [ [ "egg_allergen", 1 ] ],
+    "extend": { "rot_spawn": { "group": "GROUP_NULL", "chance": 0 } }
   }
 ]

@@ -2355,7 +2355,7 @@
     "id": "magus_spellbooks_restricted_tier_1",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 30 } ]
+    "entries": [ { "item": "wizard_beginner_old", "prob": 30 } ]
   },
   {
     "id": "magus_spellbooks_illegal_tier_1",

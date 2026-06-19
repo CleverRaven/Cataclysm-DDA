@@ -1266,5 +1266,37 @@
     "name": "standing stones",
     "sym": "S",
     "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "inner_cabins_cabin" ],
+    "copy-from": "inner_cabins_cabin",
+    "name": "cabin",
+    "sym": "C",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "inner_cabins_cabin_roof" ],
+    "copy-from": "inner_cabins_cabin_roof",
+    "name": "cabin roof",
+    "sym": "C",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "inner_cabins_empty_cabin" ],
+    "copy-from": "inner_cabins_empty_cabin",
+    "name": "cabin",
+    "sym": "C",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "inner_cabins_empty_cabin_roof" ],
+    "copy-from": "inner_cabins_empty_cabin_roof",
+    "name": "cabin roof",
+    "sym": "C",
+    "color": "brown"
   }
 ]

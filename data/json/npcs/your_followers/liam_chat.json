@@ -266,7 +266,7 @@
         "condition": { "u_has_mission": "directions_hub01" }
       },
       {
-        "text": "This 'scrap metal castle' sounds far fetched to me.",
+        "text": "This 'scrap metal castle' sounds far-fetched to me.",
         "topic": "TALK_Liam_Opinions_directions_exodii",
         "condition": { "u_has_mission": "directions_exodii" }
       },

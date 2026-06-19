@@ -22,6 +22,34 @@
     "melee_damage": { "stab": 20 }
   },
   {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "integrated_raven_feathers",
+    "copy-from": "integrated_feathers",
+    "name": { "str_sp": "feathers" },
+    "armor": [
+      {
+        "material": [ { "type": "mut_feather", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "leg_l",
+          "leg_r",
+          "arm_l",
+          "arm_r",
+          "torso",
+          "head",
+          "wing_ravenfolk_l",
+          "wing_ravenfolk_r"
+        ],
+        "coverage": 100,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
     "id": "integrated_scaled_hands",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],

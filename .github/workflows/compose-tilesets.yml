@@ -9,19 +9,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout local repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: master
           sparse-checkout: |
             src
             tools
           fetch-depth: 1
+          persist-credentials: false
 
       - name: Build json formatter
         run: make tools/format/json_formatter.cgi
 
       - name: Save formatter and compose into cache
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: |
             tools/format
@@ -119,7 +120,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Restore tools into workspace from cache
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: |
             tools/format
@@ -127,19 +128,20 @@ jobs:
           key: tools-${{ github.run_id }}
 
       - name: Install dependencies
-        uses: awalsh128/cache-apt-pkgs-action@v1
+        uses: awalsh128/cache-apt-pkgs-action@2c09a5e66da6c8016428a2172bd76e5e4f14bb17 # v1
         with:
           packages: python3 python3-pip libvips42
       - run: pip install pyvips
 
       - name: Clone tileset repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: ${{ matrix.tileset_repo }}
           ref: master
           path: build-tilesets
           sparse-checkout: ${{matrix.tileset_src_checkout}}
           fetch-depth: 1
+          persist-credentials: false
 
       - name: Build ${{ matrix.name }}
         run: |
@@ -152,7 +154,7 @@ jobs:
           [ -f "$SOURCE/layering.json" ] && mv -v "$SOURCE/layering.json" "$DEST/" || echo "No layering.json for ${{ matrix.name }}"
 
       - name: Store artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: "tileset-${{ matrix.name }}"
           path: "${{github.workspace}}/gfx/*"

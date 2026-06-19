@@ -50,6 +50,10 @@ class building_bin
 struct region_settings_city {
     region_settings_city_id id = region_settings_city_id::NULL_ID();
 
+    bool is_megacity = false;
+    int city_size = 8;
+    int city_spacing = 4;
+
     // About the average US city non-residential, non-park land usage
     int shop_radius = 30;
     int shop_sigma = 20;
@@ -291,10 +295,10 @@ struct region_settings_ocean {
     double noise_threshold_ocean = 0.25;
     int ocean_size_min = 100;
     int ocean_depth = -9;
-    int ocean_start_north = 0;
-    int ocean_start_east = 10;
-    int ocean_start_west = 0;
-    int ocean_start_south = 0;
+    std::optional<int> ocean_start_north;
+    std::optional<int> ocean_start_east;
+    std::optional<int> ocean_start_west;
+    std::optional<int> ocean_start_south;
     int sandy_beach_width = 2;
 
     bool was_loaded = false;

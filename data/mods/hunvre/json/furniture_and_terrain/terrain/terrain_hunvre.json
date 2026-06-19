@@ -1,0 +1,78 @@
+[
+  {
+    "id": "t_concrete_light",
+    "copy-from": "t_concrete",
+    "type": "terrain",
+    "name": "Concrete light",
+    "description": "Concrete light",
+    "extend": { "flags": [ "TRANSPARENT_FLOOR" ] }
+  },
+  {
+    "id": "t_floor_container",
+    "copy-from": "t_concrete_light",
+    "type": "terrain",
+    "name": "Container",
+    "description": "Container",
+    "extend": { "flags": [ "CONTAINER" ] }
+  },
+  {
+    "id": "t_wall_control",
+    "copy-from": "t_concrete",
+    "type": "terrain",
+    "name": "wall controls",
+    "description": "Wall controls.",
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_CHANGE_FURNITURE" ] }
+  },
+  {
+    "id": "t_ret_furn_target",
+    "copy-from": "t_sidewalk",
+    "type": "terrain",
+    "name": "Target",
+    "description": "Target"
+  },
+  {
+    "id": "t_airlock_control",
+    "copy-from": "t_concrete",
+    "type": "terrain",
+    "name": "airlock controls",
+    "description": "Airlock controls."
+  },
+  {
+    "id": "t_contraband_scanner",
+    "type": "terrain",
+    "name": "contraband scanner",
+    "description": "An advanced device capable of scanning objects passing through it for contraband, often compared to the metal detectors of old.  This one is still functioning and might trigger an alarm.",
+    "symbol": "M",
+    "color": "light_blue",
+    "trap": "tr_contraband_scanner",
+    "max_volume": "800 L",
+    "move_cost": 2,
+    "flags": [ "INDOORS", "PERMEABLE", "THIN_OBSTACLE", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 55,
+      "ter_set": "t_concrete_light",
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 6 ] },
+        { "item": "plastic_chunk", "count": [ 4, 8 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 8, 12 ] }
+      ]
+    }
+  },
+  {
+    "id": "t_central_elevator",
+    "copy-from": "t_elevator",
+    "type": "terrain",
+    "name": "central elevator"
+  },
+  {
+    "id": "t_central_elevator_closed",
+    "copy-from": "t_elevator",
+    "type": "terrain",
+    "name": "closed central elevator hatch",
+    "delete": { "flags": [ "ELEVATOR" ] }
+  }
+]

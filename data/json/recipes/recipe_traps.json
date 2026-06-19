@@ -76,7 +76,7 @@
     "using": [ [ "soldering_standard", 16 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "teleporter", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "solar_cell", 1 ] ], [ [ "cable", 3 ] ] ]
+    "components": [ [ [ "teleporter", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "solar_cell", 1 ] ], [ [ "cable", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -179,23 +179,6 @@
     "using": [ [ "cordage", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_traps" }, { "proficiency": "prof_trapsetting" } ],
     "components": [ [ [ "slamfire_shotgun_d", 1 ] ], [ [ "shot_00", 2 ], [ "shot_slug", 2 ], [ "shot_flechette", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "blade_trap",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TRAPS",
-    "skill_used": "mechanics",
-    "skills_required": [ "traps", 3 ],
-    "difficulty": 4,
-    "time": "25 m",
-    "reversible": true,
-    "decomp_learn": 3,
-    "proficiencies": [ { "proficiency": "prof_traps" } ],
-    "book_learn": [ [ "manual_mechanics", 3 ], [ "manual_traps", 3 ], [ "howto_traps", 3 ], [ "book_icef", 4 ] ],
-    "qualities": [ { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "motor_small", 1 ] ], [ [ "blade", 2 ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",

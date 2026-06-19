@@ -2,12 +2,10 @@
   {
     "type": "npc",
     "id": "xe_vampire_mentor",
-    "//": "Maybe there will be non-mentor vampire NPCs someday.  For now, there's only the mentors.",
-    "//2": "When vampires will gain random weaknesses, no mentor will ever have the Barred from Mortal Joys weakness.",
     "name_suffix": "vampire",
     "class": "NC_NPC_XE_VAMPIRE_MENTOR",
     "attitude": 0,
-    "mission": 2,
+    "mission": "SHELTER",
     "chat": "TALK_VAMPIRE_MENTOR",
     "faction": "no_faction"
   },
@@ -36,9 +34,10 @@
     "traits": [
       { "group": "Appearance_demographics" },
       { "group": "BG_survival_story_UNIVERSAL" },
-      { "group": "NPC_starting_traits" },
+      { "group": "NPC_Vampire_Mentor_starting_traits" },
       { "group": "trait_group_complete_vampire" },
-      { "trait": "MENTOR_PEACE", "prob": 100 }
+      { "trait": "MENTOR_PEACE", "prob": 100 },
+      { "trait": "PSYCHOPATH", "prob": 100 }
     ]
   },
   {
@@ -142,7 +141,7 @@
         "topic": "TALK_DONE",
         "condition": { "u_has_any_trait": [ "VAMPIRE_ANATHEMA", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] },
         "effect": [
-          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_die": { "remove_corpse": true, "supress_message": true } },
           { "u_message": "The mentor vanishes in a fine mist." }
         ]
       },
@@ -239,7 +238,7 @@
         "topic": "TALK_DONE",
         "effect": [
           "hostile",
-          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_die": { "remove_corpse": true, "supress_message": true } },
           { "u_message": "The mentor vanishes in a fine mist." }
         ]
       },
@@ -544,6 +543,7 @@
     "effect": [
       { "finish_mission": "GET_COMPONENTS_FOR_TIER_5", "success": true },
       { "u_add_trait": "BLOOD_DRINKER" },
+      { "run_eocs": [ "EOC_TIER_5_REMOVE_MORALS" ] },
       { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
       { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
       { "u_add_effect": "vampire_virus_post_mortal", "intensity": 1, "duration": "PERMANENT" },
@@ -569,7 +569,7 @@
         "topic": "TALK_DONE",
         "effect": [
           "hostile",
-          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_die": { "remove_corpse": true, "supress_message": true } },
           { "u_message": "The mentor vanishes in a fine mist." }
         ]
       },
@@ -600,7 +600,7 @@
         "topic": "TALK_DONE",
         "effect": [
           "hostile",
-          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_die": { "remove_corpse": true, "supress_message": true } },
           { "u_message": "The mentor vanishes in a fine mist." }
         ]
       },

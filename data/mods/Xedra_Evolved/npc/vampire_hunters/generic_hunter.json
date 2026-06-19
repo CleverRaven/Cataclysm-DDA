@@ -1,0 +1,95 @@
+[
+  {
+    "type": "npc",
+    "id": "vampire_hunter_generic_guard",
+    "name_suffix": "hunter",
+    "class": "NC_vampire_hunter_generic_guard",
+    "//": "Generic class for the guards watching the base.  Another variant will be added for those participating in raid missions.",
+    "attitude": 0,
+    "mission": "NULL",
+    "chat": "TALK_HUNTER_GENERIC_GUARD",
+    "faction": "vampire_hunters"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_vampire_hunter_generic_guard",
+    "name": { "str": "guard" },
+    "job_description": "I keep the place safe.",
+    "//": "Basic guard guarding the base.  Can't risk the important non-combattants being killed within the base.",
+    "//2": "Good at combat, but not much else.",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "worn_override": "VAMPIRE_HUNTER_DEFAULT_worn",
+    "weapon_override": "VAMPIRE_HUNTER_DEFAULT_CROSSBOW_wield",
+    "skills": [
+      { "skill": "rifle", "bonus": { "rng": [ 4, 7 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 7 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "stabbing", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 2, 5 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "VAMPIRE_HUNTER_DEFAULT_worn",
+    "subtype": "collection",
+    "//": "They got their gear before the end happened, so it's proper gear and not random clothing.",
+    "//2": "However, their focus at passing for mundane to hide in plain sight means that they lack kevlar vests and other hard-to-justify gear.",
+    "//3": "These hunters know that some vampires are burnt by holy symbols, so they all have one",
+    "//4": "Until they can decide to prefer wielding a crossbow to a bayonet when dealing with a distant enemy, they won't have bayonets.",
+    "entries": [
+      {
+        "distribution": [ { "item": "vest", "prob": 20 }, { "item": "vest_jean", "prob": 20 }, { "item": "vest_leather", "prob": 20 } ],
+        "prob": 100
+      },
+      { "item": "holy_symbol_wood" },
+      {
+        "distribution": [
+          { "item": "jeans", "prob": 25 },
+          { "item": "pants", "prob": 25 },
+          { "item": "pants_leather", "prob": 25 },
+          { "item": "pants_cargo", "prob": 25 }
+        ],
+        "prob": 100
+      },
+      { "item": "longshirt" },
+      { "item": "socks" },
+      { "item": "boots" },
+      { "item": "quiver", "contents-group": "quiver_crossbow_vampire_hunter" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "VAMPIRE_HUNTER_DEFAULT_CROSSBOW_wield",
+    "subtype": "collection",
+    "//": "They all have the same crossbow type as the hunter professions for the same reason.",
+    "entries": [ { "item": "compcrossbow" } ]
+  },
+  {
+    "id": "TALK_HUNTER_GENERIC_GUARD",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "u_has_trait": "VAMPIRE",
+        "yes": "If you're looking for a cure, you'll find that inside.  If you're not, go away now.",
+        "no": [
+          "I'm not in charge here, you're looking for someone else…",
+          "Keep civil or I'll bring the pain.",
+          "Just on watch, move along.",
+          "Don't distract me.  I'm on watch.",
+          { "is_day": [ "Hello.  Welcome to our safe zone." ], "no": [ "Good evening.  Welcome to our safe zone." ] },
+          {
+            "u_male": [ "Sir.", "Rough out there, isn't it?" ],
+            "no": [ "Ma'am", "Ma'am, you really shouldn't be traveling out there." ]
+          }
+        ]
+      }
+    ],
+    "responses": [ { "text": "Don't mind me…", "topic": "TALK_DONE" } ]
+  }
+]

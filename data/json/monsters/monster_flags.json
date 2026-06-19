@@ -30,6 +30,11 @@
     "//": "Stumbles in its movement"
   },
   {
+    "id": "CLUMSY_ATTACKS",
+    "type": "monster_flag",
+    "//": "Has a chance to fall when attacking"
+  },
+  {
     "id": "WARM",
     "type": "monster_flag",
     "//": "Warm blooded"
@@ -153,6 +158,11 @@
     "id": "TRUESIGHT",
     "type": "monster_flag",
     "//": "Monster can see creatures even when they're invisible"
+  },
+  {
+    "id": "PLANT_BLOOD",
+    "type": "monster_flag",
+    "//": "Monster bleeds sap"
   },
   {
     "id": "PERMANENT_INVISIBILITY",
@@ -605,9 +615,19 @@
     "//": "This monster can always be seen regardless of los or light or anything"
   },
   {
+    "id": "APPEARS_NEUTRAL",
+    "type": "monster_flag",
+    "//COMMENT": "This monster appears neutral but AI behaves as if not. (The effect is hardcoded)"
+  },
+  {
     "id": "ALWAYS_SEES_YOU",
     "type": "monster_flag",
     "//": "This monster always knows where the avatar is"
+  },
+  {
+    "id": "LOCKS_ON",
+    "type": "monster_flag",
+    "//": "Once this monster establishes initial line-of-sight to the avatar, it gains a temporary effect where it always knows the avatar's location for its duration"
   },
   {
     "id": "ALL_SEEING",
@@ -618,6 +638,11 @@
     "id": "MIND_SEEING",
     "type": "monster_flag",
     "//": "This monster can see everything within 5 squares + its vision bonuses regardless of light or obstacles, unless that thing is undetectable to telepathy"
+  },
+  {
+    "id": "INFRARED_VISION",
+    "type": "monster_flag",
+    "//": "This monster can see in the infrared spectrum"
   },
   {
     "id": "NEVER_WANDER",

@@ -81,6 +81,7 @@ static const mtype_id mon_player_blob( "mon_player_blob" );
 
 static const mutation_category_id mutation_category_ANY( "ANY" );
 
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ARVORE_FOREST_MAPPING( "ARVORE_FOREST_MAPPING" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
@@ -419,8 +420,9 @@ bool Character::can_power_mutation( const trait_id &mut ) const
     bool thirst = mut->thirst && get_thirst() >= 260;
     bool sleepiness = mut->sleepiness && get_sleepiness() >= sleepiness_levels::EXHAUSTED;
     bool mana = mut->mana && magic->available_mana() <= mut->cost;
+    bool stamina = mut->stamina && get_stamina() <= mut->cost;
 
-    return !hunger && !sleepiness && !thirst && !mana;
+    return !hunger && !sleepiness && !thirst && !mana && !stamina;
 }
 
 void Character::mutation_reflex_trigger( const trait_id &mut )
@@ -578,6 +580,11 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     if( mut.obj().vanity ) {
         return;
     }
+
+    if( mut == trait_ACIDBLOOD ) {
+        my_blood_type = blood_type::blood_acid;
+    }
+
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
     }
@@ -587,6 +594,9 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     const mutation_branch &branch = mut.obj();
 
     for( const itype_id &armor : branch.integrated_armor ) {
+        if( is_wearing( armor ) ) {
+            continue;
+        }
         item tmparmor( armor );
         wear_item( tmparmor, false, true, true, true );
     }
@@ -664,6 +674,11 @@ void Character::mutation_loss_effect( const trait_id &mut )
 {
     if( mut.obj().vanity ) {
         return;
+    }
+
+    // give the player a random new blood type, regardless of what it was before
+    if( mut == trait_ACIDBLOOD ) {
+        randomize_blood();
     }
 
     if( mut == trait_GLASSJAW ) {
@@ -863,6 +878,9 @@ void Character::activate_cached_mutation( const trait_id &mut )
         }
         if( mdata.mana ) {
             magic->mod_mana( *this, -cost );
+        }
+        if( mdata.stamina ) {
+            mod_stamina( -cost );
         }
         tdata.powered = true;
         recalc_sight_limits();

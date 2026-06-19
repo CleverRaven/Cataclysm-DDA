@@ -47,6 +47,27 @@
     }
   },
   {
+    "id": "ACT_KEYPAD_ENTRY",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "pressing keys",
+    "based_on": "speed",
+    "can_resume": false,
+    "interruptable": false,
+    "interruptable_with_kb": false,
+    "completion_eoc": "EOC_UNLOCK_ELOCK_ACTUAL"
+  },
+  {
+    "id": "EOC_UNLOCK_ELOCK_ACTUAL",
+    "type": "effect_on_condition",
+    "condition": { "roll_contested": { "math": [ "u_skill('deduction')" ] }, "difficulty": 12 },
+    "effect": [
+      { "u_transform_radius": 2, "ter_furn_transform": "unlock_elock" },
+      { "u_message": "The numpad glows green and emits a happy chirp as the door unlocks.", "popup": true }
+    ],
+    "false_effect": { "u_message": "The numpad flashes while beeping angrily at you.", "popup": true }
+  },
+  {
     "type": "terrain",
     "id": "t_door_elocked",
     "name": "closed wood door with an electronic lock",
@@ -74,23 +95,8 @@
       "effect_on_conditions": [
         {
           "id": "eoc_unlock_elock",
-          "condition": { "roll_contested": { "math": [ "u_skill('deduction')" ] }, "difficulty": 12 },
-          "effect": [
-            { "u_location_variable": { "global_val": "door_transform" }, "min_radius": 1, "max_radius": 2 },
-            {
-              "u_transform_radius": 2,
-              "ter_furn_transform": "unlock_elock",
-              "target_var": { "global_val": "door_transform" }
-            },
-            {
-              "u_transform_radius": 2,
-              "ter_furn_transform": "unlock_elock",
-              "target_var": { "global_val": "door_transform" },
-              "time_in_future": [ "2 seconds", "10 seconds" ]
-            },
-            { "u_message": "The numpad glows green and emits a happy chirp as the door unlocks.", "popup": true }
-          ],
-          "false_effect": { "u_message": "The numpad flashes while beeping angrily at you.", "popup": true }
+          "condition": { "u_query": "Try to deduce the key code?", "default": false },
+          "effect": [ { "u_assign_activity": "ACT_KEYPAD_ENTRY", "duration": "1 seconds" } ]
         }
       ]
     },

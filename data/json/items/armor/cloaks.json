@@ -16,13 +16,13 @@
     "warmth": 20,
     "material_thickness": 0.3,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_GASTROPOD_FOOT" ],
     "use_action": [ "POST_UP" ],
     "armor": [
       {
         "encumbrance": 50,
         "coverage": 60,
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "tail", "gastropod_foot" ]
       }
     ]
   },
@@ -45,7 +45,32 @@
       {
         "encumbrance": 0,
         "coverage": 100,
-        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+        "covers": [
+          "leg_l",
+          "leg_r",
+          "torso",
+          "arm_l",
+          "arm_r",
+          "hand_l",
+          "hand_r",
+          "head",
+          "foot_l",
+          "foot_r",
+          "mouth",
+          "eyes",
+          "tail",
+          "gastropod_foot",
+          "beak",
+          "muzzle",
+          "hoof_r",
+          "hoof_l",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r"
+        ]
       }
     ]
   },
@@ -131,7 +156,7 @@
       {
         "id": "aromantic_pride_flag",
         "name": { "str": "aromantic flag" },
-        "description": "A large black, gray, white and green aromantic flag.  The green and light green stripes cover everyone under the aromantic spectrum, while represents nonromantic forms of love and attraction, and the gray and black represent all sexualities under the aromantic spectrum.",
+        "description": "A large black, gray, white and green aromantic flag.  The green and light green stripes cover everyone under the aromantic spectrum, white represents nonromantic forms of love and attraction, and the gray and black represent all sexualities under the aromantic spectrum.",
         "weight": 2
       },
       {
@@ -1659,6 +1684,48 @@
     "color": "blue"
   },
   {
+    "id": "ruana_sci_fi",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "//": "found in the inner cabins alongside helmet_sci_fi.  complement to cape_sci_fi, which is found as loot from nether spider.  Longer on one arm than the other.",
+    "name": { "str": "dusken ruana" },
+    "description": "Evening-hued bands drift across the span of this draped garment, dissolving at the edges without symmetry.  In motion, its metallic fibers reflect soft, glistening halos.",
+    "weight": "8100 g",
+    "volume": "3500 ml",
+    "price_postapoc": "750 USD",
+    "material": [ "nanotubes" ],
+    "symbol": "[",
+    "looks_like": "poncho",
+    "color": "blue",
+    "warmth": 20,
+    "material_thickness": 3.5,
+    "flags": [ "OUTER", "OVERSIZE", "UNBREAKABLE", "SOFT" ],
+    "sided": true,
+    "armor": [
+      { "encumbrance": 2, "coverage": 95, "covers": [ "torso" ] },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 2,
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "layers": [ "OUTER" ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 2,
+        "specifically_covers": [ "arm_upper_r", "arm_upper_l" ],
+        "layers": [ "OUTER" ]
+      },
+      {
+        "encumbrance": 1,
+        "coverage": 100,
+        "covers": [ "arm_r" ],
+        "specifically_covers": [ "arm_elbow_r", "arm_lower_r" ]
+      }
+    ]
+  },
+  {
     "id": "grass_cloak",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -1678,10 +1745,10 @@
     "armor": [
       { "encumbrance": 4, "coverage": 65, "covers": [ "torso" ] },
       {
-        "covers": [ "leg_l", "leg_r" ],
+        "covers": [ "leg_l", "leg_r", "gastropod_foot" ],
         "coverage": 65,
         "encumbrance": 4,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r", "leg_gastropod_draped" ],
         "layers": [ "BELTED" ]
       }
     ]
@@ -1703,10 +1770,10 @@
     "armor": [
       { "encumbrance": 4, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r" ] },
       {
-        "covers": [ "leg_l", "leg_r" ],
+        "covers": [ "leg_l", "leg_r", "gastropod_foot", "tail" ],
         "coverage": 65,
         "encumbrance": 4,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r", "leg_hip_gastropod_l", "leg_hip_gastropod_r", "leg_upper_gastropod" ],
         "layers": [ "BELTED" ]
       }
     ],
@@ -1730,14 +1797,14 @@
     "looks_like": "coat_rain",
     "symbol": "[",
     "color": "light_blue",
-    "flags": [ "OVERSIZE", "HOOD", "BELTED", "STURDY" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "STURDY", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "encumbrance": 8, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r" ] },
       {
-        "covers": [ "leg_l", "leg_r" ],
+        "covers": [ "leg_l", "leg_r", "gastropod_foot", "tail" ],
         "coverage": 65,
         "encumbrance": 8,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r", "leg_gastropod_draped", "tail_default_base", "tail_default_center" ],
         "layers": [ "BELTED" ]
       }
     ],
@@ -1761,14 +1828,14 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "HOOD", "BELTED" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "encumbrance": 2, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r" ] },
       {
-        "covers": [ "leg_l", "leg_r" ],
+        "covers": [ "leg_l", "leg_r", "gastropod_foot", "tail" ],
         "coverage": 65,
         "encumbrance": 2,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r", "leg_gastropod_draped", "tail_default_base", "tail_default_center" ],
         "layers": [ "BELTED" ]
       }
     ],
@@ -1810,14 +1877,14 @@
     "color": "dark_gray",
     "warmth": 8,
     "material_thickness": 0.1,
-    "flags": [ "OVERSIZE", "BELTED" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "encumbrance": 2, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r" ] },
       {
-        "covers": [ "leg_l", "leg_r" ],
+        "covers": [ "leg_l", "leg_r", "gastropod_foot", "tail" ],
         "coverage": 65,
         "encumbrance": 2,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r", "leg_gastropod_draped", "tail_default_base", "tail_default_center" ],
         "layers": [ "BELTED" ]
       }
     ]
@@ -1839,14 +1906,14 @@
     "warmth": 60,
     "material_thickness": 0.6,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "BELTED", "RAINPROOF" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "RAINPROOF", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r" ] },
       {
-        "covers": [ "leg_l", "leg_r" ],
+        "covers": [ "leg_l", "leg_r", "gastropod_foot", "tail" ],
         "coverage": 65,
         "encumbrance": 6,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r", "leg_gastropod_draped", "tail_default_base", "tail_default_center" ],
         "layers": [ "BELTED" ]
       }
     ]
@@ -1868,14 +1935,14 @@
     "warmth": 40,
     "material_thickness": 1.5,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "BELTED", "RAINPROOF" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "RAINPROOF", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r" ] },
       {
-        "covers": [ "leg_l", "leg_r" ],
+        "covers": [ "leg_l", "leg_r", "gastropod_foot", "tail" ],
         "coverage": 65,
         "encumbrance": 6,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r", "leg_gastropod_draped", "tail_default_base", "tail_default_center" ],
         "layers": [ "BELTED" ]
       }
     ]
@@ -1897,14 +1964,14 @@
     "warmth": 50,
     "material_thickness": 0.5,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "BELTED" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "encumbrance": 5, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r" ] },
       {
-        "covers": [ "leg_l", "leg_r" ],
+        "covers": [ "leg_l", "leg_r", "gastropod_foot", "tail" ],
         "coverage": 65,
         "encumbrance": 5,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r", "leg_gastropod_draped", "tail_default_base", "tail_default_center" ],
         "layers": [ "BELTED" ]
       }
     ]
@@ -1926,14 +1993,14 @@
     "warmth": 5,
     "material_thickness": 0.3,
     "environmental_protection": 5,
-    "flags": [ "OVERSIZE", "BELTED" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "encumbrance": 3, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "head", "hand_l", "hand_r" ] },
       {
-        "covers": [ "leg_l", "leg_r" ],
+        "covers": [ "leg_l", "leg_r", "gastropod_foot", "tail" ],
         "coverage": 65,
         "encumbrance": 3,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r", "leg_gastropod_draped", "tail_default_base", "tail_default_center" ],
         "layers": [ "BELTED" ]
       }
     ]
@@ -1960,7 +2027,7 @@
       "msg": "Your optical cloak flickers as it becomes transparent.",
       "target": "optical_cloak_on",
       "need_charges": 20,
-      "need_charges_msg": "You don't have enough UPS charges to turn on the %s"
+      "need_charges_msg": "You don't have enough UPS charges."
     },
     "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "BELTED", "SOFT", "NO_REPAIR", "RAINPROOF" ],
     "armor": [
@@ -2001,7 +2068,7 @@
       "ammo_scale": 0,
       "type": "transform",
       "menu_text": "Turn off",
-      "msg": "The %s flickers for a moment as it becomes opaque.",
+      "msg": "Your optical cloak flickers for a moment as it becomes opaque.",
       "target": "optical_cloak"
     }
   },
@@ -2102,7 +2169,7 @@
     "material": [ "nylon" ],
     "weight": "450 g",
     "volume": "2300 ml",
-    "flags": [ "RAINPROOF", "HOOD", "OVERSIZE", "OUTER" ],
+    "flags": [ "RAINPROOF", "HOOD", "OVERSIZE", "OUTER", "ALLOWS_GASTROPOD_FOOT" ],
     "environmental_protection": 2,
     "material_thickness": 0.2,
     "pocket_data": [
@@ -2128,8 +2195,18 @@
       { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 },
       {
         "coverage": 100,
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_r", "leg_upper_l" ]
+        "covers": [ "leg_l", "leg_r", "gastropod_foot", "tail" ],
+        "specifically_covers": [
+          "leg_hip_l",
+          "leg_hip_r",
+          "leg_upper_r",
+          "leg_upper_l",
+          "leg_hip_gastropod_l",
+          "leg_hip_gastropod_r",
+          "leg_upper_gastropod",
+          "tail_default_base",
+          "tail_default_center"
+        ]
       }
     ]
   },
@@ -2148,7 +2225,7 @@
     "material": [ "nylon" ],
     "weight": "1100 g",
     "volume": "3800 ml",
-    "flags": [ "RAINPROOF", "HOOD", "OVERSIZE", "OUTER", "STURDY" ],
+    "flags": [ "RAINPROOF", "HOOD", "OVERSIZE", "OUTER", "STURDY", "ALLOWS_GASTROPOD_FOOT" ],
     "environmental_protection": 4,
     "warmth": 5,
     "material_thickness": 0.4,
@@ -2175,8 +2252,18 @@
       { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 },
       {
         "coverage": 100,
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_r", "leg_upper_l" ]
+        "covers": [ "leg_l", "leg_r", "gastropod_foot", "tail" ],
+        "specifically_covers": [
+          "leg_hip_l",
+          "leg_hip_r",
+          "leg_upper_r",
+          "leg_upper_l",
+          "leg_hip_gastropod_l",
+          "leg_hip_gastropod_r",
+          "leg_upper_gastropod",
+          "tail_default_base",
+          "tail_default_center"
+        ]
       }
     ]
   },
@@ -2195,7 +2282,7 @@
     "weight": "900 g",
     "volume": "4000 ml",
     "warmth": 50,
-    "flags": [ "OVERSIZE", "OUTER", "SOFT" ],
+    "flags": [ "OVERSIZE", "OUTER", "SOFT", "ALLOWS_GASTROPOD_FOOT" ],
     "environmental_protection": 4,
     "material_thickness": 0.4,
     "armor": [
@@ -2209,8 +2296,18 @@
       { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 },
       {
         "coverage": 100,
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_r", "leg_upper_l" ]
+        "covers": [ "leg_l", "leg_r", "gastropod_foot", "tail" ],
+        "specifically_covers": [
+          "leg_hip_l",
+          "leg_hip_r",
+          "leg_upper_r",
+          "leg_upper_l",
+          "leg_hip_gastropod_l",
+          "leg_hip_gastropod_r",
+          "leg_upper_gastropod",
+          "tail_default_base",
+          "tail_default_center"
+        ]
       }
     ]
   },
@@ -2232,8 +2329,20 @@
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 80, "encumbrance": 12 },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100 },
       {
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_upper_l", "leg_upper_r", "leg_knee_r", "leg_knee_l", "leg_hip_r", "leg_hip_l" ],
+        "covers": [ "leg_l", "leg_r", "gastropod_foot", "tail" ],
+        "specifically_covers": [
+          "leg_upper_l",
+          "leg_upper_r",
+          "leg_knee_r",
+          "leg_knee_l",
+          "leg_hip_r",
+          "leg_hip_l",
+          "leg_hip_gastropod_l",
+          "leg_hip_gastropod_r",
+          "leg_upper_gastropod",
+          "tail_default_base",
+          "tail_default_center"
+        ],
         "coverage": 100
       },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_l", "leg_lower_r" ], "coverage": 10 },

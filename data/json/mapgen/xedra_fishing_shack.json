@@ -37,14 +37,7 @@
         {
           "id": "eoc_xedra_unlock_elock",
           "condition": { "compare_string": [ "yes", { "u_val": "knows_xedra_field_station_3_passcode" } ] },
-          "effect": [
-            { "u_location_variable": { "global_val": "door_transform" }, "min_radius": 1, "max_radius": 2 },
-            {
-              "u_transform_radius": 2,
-              "ter_furn_transform": "unlock_elock",
-              "target_var": { "global_val": "door_transform" }
-            }
-          ],
+          "effect": [ { "u_transform_radius": 2, "ter_furn_transform": "unlock_elock_xedra3" } ],
           "false_effect": { "u_message": "You press four random buttons and nothing happens.", "popup": true }
         }
       ]
@@ -52,7 +45,7 @@
   },
   {
     "type": "ter_furn_transform",
-    "id": "unlock_elock",
+    "id": "unlock_elock_xedra3",
     "terrain": [
       {
         "result": [ "t_door_metal_c" ],

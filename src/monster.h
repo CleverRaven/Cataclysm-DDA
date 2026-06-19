@@ -79,7 +79,7 @@ enum monster_horde_attraction {
 
 class monster : public Creature
 {
-        friend class editmap;
+        friend class editmap_ui;
     public:
         monster();
         explicit monster( const mtype_id &id );
@@ -343,7 +343,9 @@ class monster : public Creature
          * bash the designated target.  **/
         std::map<damage_type_id, int> group_bash_skill( const tripoint_bub_ms &target );
 
-        void stumble();
+        void stumble_base( bool is_voluntary );
+        void stumble_voluntary();
+        void stumble_involuntary();
         void knock_back_to( const tripoint_bub_ms &to ) override;
 
         // Combat
@@ -472,7 +474,7 @@ class monster : public Creature
         void reset_stats() override;
 
         void die( map *here, Creature *killer ) override; //this is the die from Creature, it calls kill_mo
-        void drop_items_on_death( map *here, item *corpse );
+        void drop_items_on_death( map *here, item *corpse ) const;
         void spawn_dissectables_on_death( item *corpse ) const; //spawn dissectable CBMs into CORPSE pocket
         //spawn monster's inventory without killing it
         void generate_inventory( bool disableDrops = true );
@@ -565,14 +567,6 @@ class monster : public Creature
         // Names of mission monsters fused with this monster
         std::vector<std::string> mission_fused;
         const mtype *type;
-        // If true, don't spawn loot items as part of death.
-        bool no_extra_death_drops = false;
-        // If true, monster dies quietly and leaves no corpse.
-        bool no_corpse_quiet = false;
-        // Turned to false for simulating monsters during distant missions so they don't drop in sight.
-        bool death_drops = true;
-        // If true, sound and message is suppressed for monster death.
-        bool quiet_death = false;
         bool is_dead() const;
         bool made_footstep = false;
         //if we are a nemesis monster from the 'hunted' trait
@@ -631,6 +625,7 @@ class monster : public Creature
         std::map<std::string, mon_special_attack, std::less<>> special_attacks;
         std::optional<tripoint_abs_ms> goal;
         bool dead = false;
+
         /** Normal upgrades **/
         int next_upgrade_time();
         bool upgrades = false;
@@ -676,6 +671,8 @@ class monster : public Creature
         void load( const JsonObject &data, const tripoint_abs_sm &submap_loc );
 
         void on_move( const tripoint_abs_ms &old_pos ) override;
+        void on_effect_int_change( const efftype_id &eid, int intensity,
+                                   const bodypart_id &bp ) override;
         /** Processes monster-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;
 };

@@ -26,6 +26,7 @@
 #include "debug.h"
 #include "input_context.h"
 #include "item.h"
+#include "item_category.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "memory_fast.h"
@@ -40,7 +41,6 @@ class JsonObject;
 class JsonOut;
 class basecamp;
 class inventory_selector_preset;
-class item_category;
 class item_stack;
 class string_input_popup;
 class tinymap;
@@ -97,6 +97,7 @@ class inventory_entry
         inventory_entry( const inventory_entry &entry, const item_category *custom_category ) :
             inventory_entry( entry ) {
             this->custom_category = custom_category;
+            this->cached_category_ptr = nullptr;
         }
 
         explicit inventory_entry( const std::vector<item_location> &locations,
@@ -201,6 +202,7 @@ class inventory_entry
 
         void set_custom_category( const item_category *category ) {
             custom_category = category;
+            cached_category_ptr = nullptr;
         }
 
         void reset_collation() {
@@ -222,6 +224,7 @@ class inventory_entry
 
     private:
         mutable item_category const *custom_category = nullptr;
+        mutable item_category const *cached_category_ptr = nullptr;
     protected:
         // indents the entry if it is contained in an item
         bool _indent = true;
@@ -657,6 +660,7 @@ class inventory_selector
         void add_map_items( const tripoint_bub_ms &target, bool add_efiles = false );
         void add_inaccessible_map_items( const tripoint_bub_ms &target, bool add_efiles = false );
         void add_vehicle_items( const tripoint_bub_ms &target, bool add_efiles = false );
+        void add_vehicle_tank_items( const tripoint_bub_ms &target );
         void add_nearby_items( int radius = 1, bool add_efiles = false );
         void add_remote_map_items( tinymap *remote_map, const tripoint_omt_ms &target );
         void add_basecamp_items( const basecamp &camp );
@@ -1030,7 +1034,35 @@ class container_inventory_selector : public inventory_pick_selector
         item_location loc;
 };
 
-std::vector<item_location> get_possible_reload_targets( const item_location &target );
+// One reload destination: either a MAGAZINE_WELL slot (kind::well) or an
+// already-loaded magazine accepting loose ammo (kind::loaded_mag). owner is
+// the gun/gunmod containing the well; ui_well_index groups entries in the UI.
+struct reload_target {
+    enum class kind {
+        well,
+        loaded_mag,
+        // Integral MAGAZINE on a multimag host: target is the host item,
+        // pocket_index points at the MAGAZINE pocket for direct deposit.
+        integral_magazine,
+    };
+
+    item_location target;
+    item_location owner;
+    int pocket_index = -1;
+    int ui_well_index = -1;
+    kind kind = kind::well;
+};
+
+std::vector<reload_target> get_possible_reload_targets( const item_location &target );
+
+// First reload_target accepting the given ammo, or nullptr.
+const reload_target *find_matching_reload_target(
+    const std::vector<reload_target> &targets, const item_location &ammo );
+
+// Every reload_target accepting the given ammo. Used to detect ambiguous
+// reloads (multiple matching wells / loaded mags) for disambiguation prompts.
+std::vector<const reload_target *> find_all_matching_reload_targets(
+    const std::vector<reload_target> &targets, const item_location &ammo );
 class ammo_inventory_selector : public inventory_selector
 {
     public:
@@ -1039,9 +1071,21 @@ class ammo_inventory_selector : public inventory_selector
 
         drop_location execute();
         void set_all_entries_chosen_count();
+        // True if the user changed the count for the entry returned by
+        // the most recent execute().
+        bool last_choice_count_player_adjusted() const {
+            return last_player_adjusted;
+        }
     private:
         void mod_chosen_count( inventory_entry &entry, int val );
         const item_location reload_loc;
+        // Keyed on item_location so the signal survives column rebuilds
+        // caused by filtering during the menu session.
+        std::vector<item_location> player_adjusted_ammo_locs;
+        bool last_player_adjusted = false;
+        // Per-well synthetic categories. std::list keeps pointers stable for
+        // inventory_entry::custom_category.
+        std::list<item_category> reload_well_categories;
 };
 
 /**
@@ -1148,7 +1192,7 @@ class pickup_selector : public inventory_multiselector
         bool wield( int &count );
         bool wear();
         void remove_from_to_use( item_location &it );
-        void reopen_menu();
+        void reopen_menu( const item_location &next_item );
         const std::set<tripoint_bub_ms> where;
 };
 

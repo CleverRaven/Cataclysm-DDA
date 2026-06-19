@@ -7,7 +7,7 @@
     "gender": "male",
     "class": "NC_ISHERWOOD_JACK",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "age": 73,
     "height": 184,
     "chat": "TALK_ISHERWOOD_JACK",

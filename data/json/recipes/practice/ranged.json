@@ -301,5 +301,18 @@
       [ [ "hose", -1 ] ],
       [ [ "pseudo_archery_target_box", -1 ], [ "pseudo_archery_target_bale", -1 ] ]
     ]
+  },
+  {
+    "id": "prac_target",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "name": "target practice",
+    "description": "The best way to train firearm skill is to shoot a firearm.  Do exactly that.",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_RANGED",
+    "time": "0 s",
+    "autolearn": true,
+    "flags": [ "SECRET", "BLIND_EASY", "ALWAYS_START_ON_GROUND" ],
+    "result_eocs": [ { "id": "EOC_START_TARGET_PRACTICE", "effect": [ { "u_assign_activity": "ACT_TARGET_PRACTICE" } ] } ]
   }
 ]

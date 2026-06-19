@@ -1,0 +1,49 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_door_stone_c",
+    "looks_like": "t_door_metal_c",
+    "name": "closed stone door",
+    "description": "A heavy stone door.  It is currently closed.",
+    "symbol": "+",
+    "color": "cyan",
+    "move_cost": 0,
+    "coverage": 95,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
+    "flags": [ "NOITEM", "DOOR", "BLOCK_WIND", "SUPPORTS_ROOF" ],
+    "open": "t_door_stone_o",
+    "bash": {
+      "str_min": 80,
+      "str_max": 250,
+      "sound": "rock shattering!",
+      "sound_fail": "crash!",
+      "ter_set": "t_mdoor_frame",
+      "items": [ { "item": "rock", "count": [ 10, 25 ] }, { "item": "rock_large", "count": [ 3, 8 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_door_stone_o",
+    "name": "open stone door",
+    "description": "A heavy stone door.  It is currently open.",
+    "symbol": "'",
+    "looks_like": "t_door_metal_o",
+    "color": "cyan",
+    "move_cost": 2,
+    "roof": "t_metal_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF" ],
+    "close": "t_door_stone_c",
+    "bash": {
+      "str_min": 80,
+      "str_max": 250,
+      "sound": "rock shattering!",
+      "sound_fail": "crash!",
+      "ter_set": "t_mdoor_frame",
+      "items": [ { "item": "rock", "count": [ 10, 25 ] }, { "item": "rock_large", "count": [ 3, 8 ] } ]
+    }
+  }
+]

@@ -146,7 +146,7 @@
       [ [ "power_supply", 1 ] ],
       [ [ "afs_energy_storage_3", 1 ] ],
       [ [ "canister_empty", 1 ] ],
-      [ [ "cable", 60 ] ],
+      [ [ "cable", 20 ] ],
       [ [ "afs_heat_1", 1 ] ]
     ]
   },

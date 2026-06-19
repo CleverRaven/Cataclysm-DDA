@@ -34,6 +34,7 @@
 #include "map_extras.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
+#include "mapgen_post_process.h"
 #include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
@@ -67,22 +68,11 @@ static const mongroup_id GROUP_SUBWAY_CITY( "GROUP_SUBWAY_CITY" );
 static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_ZOMBIE_HORDE( "GROUP_ZOMBIE_HORDE" );
 
-static const oter_str_id oter_central_lab( "central_lab" );
-static const oter_str_id oter_central_lab_core( "central_lab_core" );
-static const oter_str_id oter_central_lab_train_depot( "central_lab_train_depot" );
 static const oter_str_id oter_empty_rock( "empty_rock" );
 static const oter_str_id oter_field( "field" );
 static const oter_str_id oter_forest( "forest" );
 static const oter_str_id oter_forest_thick( "forest_thick" );
 static const oter_str_id oter_forest_water( "forest_water" );
-static const oter_str_id oter_ice_lab( "ice_lab" );
-static const oter_str_id oter_ice_lab_core( "ice_lab_core" );
-static const oter_str_id oter_lab( "lab" );
-static const oter_str_id oter_lab_core( "lab_core" );
-static const oter_str_id oter_lab_escape_cells( "lab_escape_cells" );
-static const oter_str_id oter_lab_escape_entrance( "lab_escape_entrance" );
-static const oter_str_id oter_lab_train_depot( "lab_train_depot" );
-static const oter_str_id oter_open_air( "open_air" );
 static const oter_str_id oter_sewer_end_north( "sewer_end_north" );
 static const oter_str_id oter_sewer_isolated( "sewer_isolated" );
 static const oter_str_id oter_sewer_sub_station( "sewer_sub_station" );
@@ -91,14 +81,7 @@ static const oter_str_id oter_subway_end_north( "subway_end_north" );
 static const oter_str_id oter_subway_isolated( "subway_isolated" );
 static const oter_str_id oter_underground_sub_station( "underground_sub_station" );
 
-static const oter_type_str_id oter_type_ants_queen( "ants_queen" );
 static const oter_type_str_id oter_type_bridge( "bridge" );
-static const oter_type_str_id oter_type_central_lab_core( "central_lab_core" );
-static const oter_type_str_id oter_type_central_lab_stairs( "central_lab_stairs" );
-static const oter_type_str_id oter_type_ice_lab_core( "ice_lab_core" );
-static const oter_type_str_id oter_type_ice_lab_stairs( "ice_lab_stairs" );
-static const oter_type_str_id oter_type_lab_core( "lab_core" );
-static const oter_type_str_id oter_type_lab_stairs( "lab_stairs" );
 static const oter_type_str_id oter_type_microlab_sub_connector( "microlab_sub_connector" );
 static const oter_type_str_id oter_type_railroad_bridge( "railroad_bridge" );
 static const oter_type_str_id oter_type_road( "road" );
@@ -289,8 +272,9 @@ void overmap::populate( overmap_special_batch &enabled_specials )
 
 void overmap::populate()
 {
-    overmap_special_batch enabled_specials = overmap_specials::get_default_batch( loc );
     const region_settings_feature_flag &overmap_feature_flag = settings->overmap_feature_flag;
+    overmap_special_batch enabled_specials = overmap_specials::get_default_batch( loc,
+            settings->get_settings_city().city_size );
 
     const bool should_blacklist = !overmap_feature_flag.blacklist.empty();
     const bool should_whitelist = !overmap_feature_flag.whitelist.empty();
@@ -414,6 +398,15 @@ std::optional<mapgen_arguments> *overmap::mapgen_args( const tripoint_om_omt &p 
     return it->second;
 }
 
+std::vector<pp_resolved_generator> *overmap::pp_decisions( const tripoint_om_omt &p )
+{
+    auto it = pp_decisions_index.find( p );
+    if( it == pp_decisions_index.end() ) {
+        return nullptr;
+    }
+    return it->second;
+}
+
 std::string *overmap::join_used_at( const om_pos_dir &p )
 {
     auto it = joins_used.find( p );
@@ -444,9 +437,7 @@ void overmap::set_seen( const tripoint_om_omt &p, om_vision_level val, bool forc
 
     layer[p.z() + OVERMAP_DEPTH].visible[p.xy()] = val;
 
-    if( val > om_vision_level::details ) {
-        add_extra_note( p );
-    }
+    add_extra_note( p );
 }
 
 om_vision_level overmap::seen( const tripoint_om_omt &p ) const
@@ -703,12 +694,10 @@ void overmap::add_extra( const tripoint_om_omt &p, const map_extra_id &id )
     }
 }
 
-void overmap::add_extra_note( const tripoint_om_omt &p )
+void overmap::add_extra_note( const tripoint_om_omt &p, bool force_add )
 {
-    if( seen( p ) < om_vision_level::details ) {
-        return;
-    }
-
+    // overmap::add_extra_note is called from overmap::set_seen - to add notes for already generated,
+    // but as yet unseen, tiles.
     const std::vector<om_map_extra> &layer_extras = layer[p.z() + OVERMAP_DEPTH].extras;
     auto extrait = std::find_if( layer_extras.begin(),
     layer_extras.end(), [&p]( const om_map_extra & extra ) {
@@ -718,6 +707,18 @@ void overmap::add_extra_note( const tripoint_om_omt &p )
         return;
     }
     const map_extra_id &extra = extrait->id;
+
+    if( !force_add && !extra->potentially_visible_at( seen( p ) ) ) {
+        return;
+    }
+
+    if( !force_add && extra->visibility == map_extra_visibility::same_tile ) {
+        tripoint_abs_omt target = project_combine( this->pos(), p );
+        if( target != get_avatar().pos_abs_omt() ) {
+            return;
+        }
+    }
+
 
     auto_notes::auto_note_settings &auto_note_settings = get_auto_notes_settings();
 
@@ -1060,17 +1061,13 @@ bool overmap::generate_sub( const int z )
 {
     cata_assert( z < 0 );
 
-    bool requires_sub = false;
+    //TODO: This forces every sub level to generate, otherwise this function doesn't get called for anything below -2 currently.
+    bool requires_sub = true;
     std::vector<point_om_omt> subway_points;
     std::vector<point_om_omt> sewer_points;
 
     std::vector<city> ant_points;
     std::vector<city> goo_points;
-    std::vector<city> lab_points;
-    std::vector<city> ice_lab_points;
-    std::vector<city> central_lab_points;
-    std::vector<point_om_omt> lab_train_points;
-    std::vector<point_om_omt> central_lab_train_points;
 
     std::unordered_map<oter_type_id, std::function<void( const tripoint_om_omt &p )>>
     oter_above_actions = {
@@ -1082,60 +1079,7 @@ bool overmap::generate_sub( const int z )
                 sewer_points.emplace_back( p.xy() );
             }
         },
-        {
-            oter_type_lab_core.id(),
-            [&]( const tripoint_om_omt & p )
-            {
-                lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
-            }
-        },
-        {
-            oter_type_lab_stairs.id(),
-            [&]( const tripoint_om_omt & p )
-            {
-                if( z == -1 ) {
-                    lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
-                } else {
-                    ter_set( p, oter_lab.id() );
-                }
-            }
-        },
-        {
-            oter_type_ice_lab_core.id(),
-            [&]( const tripoint_om_omt & p )
-            {
-                ice_lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
-            }
-        },
-        {
-            oter_type_ice_lab_stairs.id(),
-            [&]( const tripoint_om_omt & p )
-            {
-                if( z == -1 ) {
-                    ice_lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
-                } else {
-                    ter_set( p, oter_ice_lab.id() );
-                }
-            }
-        },
-        {
-            oter_type_central_lab_core.id(),
-            [&]( const tripoint_om_omt & p )
-            {
-                central_lab_points.emplace_back( p.xy(), rng( std::max( 1, 7 + z ), 9 + z ) );
-            }
-        },
-        {
-            oter_type_central_lab_stairs.id(),
-            [&]( const tripoint_om_omt & p )
-            {
-                ter_set( p, oter_central_lab.id() );
-            }
-        },
     };
-
-    // Avoid constructing strings inside the loop
-    static const std::string s_hidden_lab_stairs = "hidden_lab_stairs";
 
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
@@ -1175,8 +1119,6 @@ bool overmap::generate_sub( const int z )
 
             if( above_action_it != oter_above_actions.end() ) {
                 above_action_it->second( p );
-            } else if( is_ot_match( s_hidden_lab_stairs, oter_above, ot_match_type::contains ) ) {
-                lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
             }
         }
     }
@@ -1184,84 +1126,6 @@ bool overmap::generate_sub( const int z )
         settings->overmap_connection.sewer_connection;
     connect_closest_points( sewer_points, z, *overmap_connection_sewer_tunnel );
 
-    // A third of overmaps have labs with a 1-in-2 chance of being subway connected.
-    // If the central lab exists, all labs which go down to z=4 will have a subway to central.
-    int lab_train_odds = 0;
-    if( z == -2 && one_in( 3 ) ) {
-        lab_train_odds = 2;
-    }
-    if( z == -4 && !central_lab_points.empty() ) {
-        lab_train_odds = 1;
-    }
-
-    for( city &i : lab_points ) {
-        bool lab = build_lab( tripoint_om_omt( i.pos, z ), i.size, &lab_train_points, "", lab_train_odds );
-        requires_sub |= lab;
-        if( !lab && ter( tripoint_om_omt( i.pos, z ) ) == oter_lab_core ) {
-            ter_set( tripoint_om_omt( i.pos, z ), oter_lab.id() );
-        }
-    }
-    for( city &i : ice_lab_points ) {
-        bool ice_lab = build_lab( tripoint_om_omt( i.pos, z ), i.size, &lab_train_points, "ice_",
-                                  lab_train_odds );
-        requires_sub |= ice_lab;
-        if( !ice_lab && ter( tripoint_om_omt( i.pos, z ) ) == oter_ice_lab_core ) {
-            ter_set( tripoint_om_omt( i.pos, z ), oter_ice_lab.id() );
-        }
-    }
-    for( city &i : central_lab_points ) {
-        bool central_lab = build_lab( tripoint_om_omt( i.pos, z ), i.size, &central_lab_train_points,
-                                      "central_", lab_train_odds );
-        requires_sub |= central_lab;
-        if( !central_lab && ter( tripoint_om_omt( i.pos, z ) ) == oter_central_lab_core ) {
-            ter_set( tripoint_om_omt( i.pos, z ), oter_central_lab.id() );
-        }
-    }
-
-    const auto create_real_train_lab_points = [this, z](
-                const std::vector<point_om_omt> &train_points,
-    std::vector<point_om_omt> &real_train_points ) {
-        bool is_first_in_pair = true;
-        for( const point_om_omt &p : train_points ) {
-            tripoint_om_omt i( p, z );
-            const std::vector<tripoint_om_omt> nearby_locations {
-                i + point::north,
-                i + point::south,
-                i + point::east,
-                i + point::west };
-            if( is_first_in_pair ) {
-                ter_set( i, oter_open_air.id() ); // mark tile to prevent subway gen
-
-                for( const tripoint_om_omt &nearby_loc : nearby_locations ) {
-                    if( is_ot_match( "empty_rock", ter( nearby_loc ), ot_match_type::contains ) ) {
-                        // mark tile to prevent subway gen
-                        ter_set( nearby_loc, oter_open_air.id() );
-                    }
-                    if( is_ot_match( "solid_earth", ter( nearby_loc ), ot_match_type::contains ) ) {
-                        // mark tile to prevent subway gen
-                        ter_set( nearby_loc, oter_field.id() );
-                    }
-                }
-            } else {
-                // change train connection point back to rock to allow gen
-                if( is_ot_match( "open_air", ter( i ), ot_match_type::contains ) ) {
-                    ter_set( i, oter_empty_rock.id() );
-                }
-                if( is_ot_match( "field", ter( i ), ot_match_type::contains ) ) {
-                    ter_set( i, oter_solid_earth.id() );
-                }
-                real_train_points.push_back( i.xy() );
-            }
-            is_first_in_pair = !is_first_in_pair;
-        }
-    };
-    std::vector<point_om_omt>
-    subway_lab_train_points; // real points for subway, excluding train depot points
-    create_real_train_lab_points( lab_train_points, subway_lab_train_points );
-    create_real_train_lab_points( central_lab_train_points, subway_lab_train_points );
-
-    subway_points.insert( subway_points.end(), subway_lab_train_points.begin(),
-                          subway_lab_train_points.end() );
     const overmap_connection_id &overmap_connection_subway_tunnel =
         settings->overmap_connection.subway_connection;
     connect_closest_points( subway_points, z, *overmap_connection_subway_tunnel );
@@ -1271,49 +1135,6 @@ bool overmap::generate_sub( const int z )
             ter_set( tripoint_om_omt( i, z ), oter_underground_sub_station.id() );
         }
     }
-
-    // The first lab point is adjacent to a lab, set it a depot (as long as track was actually laid).
-    const auto create_train_depots = [this, z,
-                                            overmap_connection_subway_tunnel]( const oter_id & train_type,
-    const std::vector<point_om_omt> &train_points ) {
-        bool is_first_in_pair = true;
-        std::vector<point_om_omt> extra_route;
-        for( const point_om_omt &p : train_points ) {
-            tripoint_om_omt i( p, z );
-            if( is_first_in_pair ) {
-                const std::vector<tripoint_om_omt> subway_possible_loc {
-                    i + point::north,
-                    i + point::south,
-                    i + point::east,
-                    i + point::west };
-                extra_route.clear();
-                ter_set( i, oter_empty_rock.id() ); // this clears marked tiles
-                bool is_depot_generated = false;
-                for( const tripoint_om_omt &subway_loc : subway_possible_loc ) {
-                    if( !is_depot_generated &&
-                        is_ot_match( "subway", ter( subway_loc ), ot_match_type::contains ) ) {
-                        extra_route.push_back( i.xy() );
-                        extra_route.push_back( subway_loc.xy() );
-                        connect_closest_points( extra_route, z, *overmap_connection_subway_tunnel );
-
-                        ter_set( i, train_type );
-                        is_depot_generated = true; // only one connection to depot
-                    } else if( is_ot_match( "open_air", ter( subway_loc ),
-                                            ot_match_type::contains ) ) {
-                        // clear marked
-                        ter_set( subway_loc, oter_empty_rock.id() );
-                    } else if( is_ot_match( "field", ter( subway_loc ),
-                                            ot_match_type::contains ) ) {
-                        // clear marked
-                        ter_set( subway_loc, oter_solid_earth.id() );
-                    }
-                }
-            }
-            is_first_in_pair = !is_first_in_pair;
-        }
-    };
-    create_train_depots( oter_lab_train_depot.id(), lab_train_points );
-    create_train_depots( oter_central_lab_train_depot.id(), central_lab_train_points );
 
     for( city &i : cities ) {
         tripoint_om_omt omt_pos( i.pos, z );
@@ -1618,7 +1439,9 @@ void overmap::place_special_forced( const overmap_special_id &special_id,
                                     const tripoint_om_omt &p,
                                     om_direction::type dir )
 {
-    static city invalid_city;
+    // Dummy city for place_special's road-connection fallback.
+    // "" avoids city() default ctor that eats RNG via SNIPPET.
+    static const city invalid_city( "" );
     place_special( *special_id, p, dir, invalid_city, false, true );
 }
 /**
@@ -2177,7 +2000,7 @@ void overmap::place_forest_trails()
 void overmap::place_forest_trailheads()
 {
     // No trailheads if there are no cities.
-    const int city_size = get_option<int>( "CITY_SIZE" );
+    const int city_size = settings->get_settings_city().city_size;
     if( city_size <= 0 ) {
         return;
     }
@@ -2274,11 +2097,14 @@ bool overmap::guess_has_lake( const point_abs_om &p, const double noise_threshol
     const om_noise::om_noise_layer_lake noise_func( origin, g->get_seed() );
 
     int lake_tiles = 0;
-    for( int i = 0; i < OMAPX; i++ ) {
+    for( int i = 0; i < OMAPX && lake_tiles < max_tile_count; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             const point_om_omt seed_point( i, j );
             if( omt_lake_noise_threshold( origin, seed_point, noise_threshold ) ) {
                 lake_tiles++;
+                if( lake_tiles >= max_tile_count ) {
+                    break;
+                }
             }
         }
     }
@@ -2344,7 +2170,7 @@ void overmap::place_swamps()
 
 void overmap::place_roads( const std::vector<const overmap *> &neighbor_overmaps )
 {
-    int op_city_size = get_option<int>( "CITY_SIZE" );
+    int op_city_size = settings->get_settings_city().city_size;
     if( op_city_size <= 0 ) {
         return;
     }
@@ -2404,7 +2230,7 @@ void overmap::place_roads( const std::vector<const overmap *> &neighbor_overmaps
 void overmap::place_railroads( const std::vector<const overmap *> &neighbor_overmaps )
 {
     // no railroads if there are no cities
-    int op_city_size = get_option<int>( "CITY_SIZE" );
+    int op_city_size = settings->get_settings_city().city_size;
     if( op_city_size <= 0 ) {
         return;
     }
@@ -2543,7 +2369,7 @@ void overmap::calculate_forestosity()
 
 void overmap::calculate_urbanity()
 {
-    int op_city_size = get_option<int>( "CITY_SIZE" );
+    int op_city_size = settings->get_settings_city().city_size;
     if( op_city_size <= 0 ) {
         return;
     }
@@ -2600,176 +2426,6 @@ void overmap::calculate_urbanity()
     }
     urbanity = static_cast<int>( urbanity_adj );
     //debugmsg( "urbanity = %i at OM %i, %i", urbanity, this_om.x(), this_om.y() );
-}
-
-bool overmap::build_lab(
-    const tripoint_om_omt &p, int s, std::vector<point_om_omt> *lab_train_points,
-    const std::string &prefix, int train_odds )
-{
-    std::vector<tripoint_om_omt> generated_lab;
-    const oter_id labt( prefix + "lab" );
-    const oter_id labt_stairs( labt.id().str() + "_stairs" );
-    const oter_id labt_core( labt.id().str() + "_core" );
-    const oter_id labt_finale( labt.id().str() + "_finale" );
-    const oter_id labt_ants( "ants_lab" );
-    const oter_id labt_ants_stairs( "ants_lab_stairs" );
-
-    ter_set( p, labt );
-    generated_lab.push_back( p );
-
-    // maintain a list of potential new lab maps
-    // grows outwards from previously placed lab maps
-    std::set<tripoint_om_omt> candidates;
-    candidates.insert( { p + point::north, p + point::east, p + point::south, p + point::west } );
-    while( !candidates.empty() ) {
-        const tripoint_om_omt cand = *candidates.begin();
-        candidates.erase( candidates.begin() );
-        if( !inbounds( cand ) ) {
-            continue;
-        }
-        const int dist = manhattan_dist( p.xy(), cand.xy() );
-        if( dist <= s * 2 ) { // increase radius to compensate for sparser new algorithm
-            int dist_increment = s > 3 ? 3 : 2; // Determines at what distance the odds of placement decreases
-            if( one_in( dist / dist_increment + 1 ) ) { // odds diminish farther away from the stairs
-                // make an ants lab if it's a basic lab and ants were there before.
-                if( prefix.empty() && check_ot( "ants", ot_match_type::type, cand ) ) {
-                    // skip over a queen's chamber.
-                    if( ter( cand )->get_type_id() != oter_type_ants_queen ) {
-                        ter_set( cand, labt_ants );
-                    }
-                } else {
-                    ter_set( cand, labt );
-                }
-                generated_lab.push_back( cand );
-                // add new candidates, don't backtrack
-                for( const point &offset : four_adjacent_offsets ) {
-                    const tripoint_om_omt new_cand = cand + offset;
-                    const int new_dist = manhattan_dist( p.xy(), new_cand.xy() );
-                    if( ter( new_cand ) != labt && new_dist > dist ) {
-                        candidates.insert( new_cand );
-                    }
-                }
-            }
-        }
-    }
-
-    bool generate_stairs = true;
-    for( tripoint_om_omt &elem : generated_lab ) {
-        // Use a check for "_stairs" to catch the hidden_lab_stairs tiles.
-        if( is_ot_match( "_stairs", ter( elem + tripoint::above ), ot_match_type::contains ) ) {
-            generate_stairs = false;
-        }
-    }
-    if( generate_stairs && !generated_lab.empty() ) {
-        std::shuffle( generated_lab.begin(), generated_lab.end(), rng_get_engine() );
-
-        // we want a spot where labs are above, but we'll settle for the last element if necessary.
-        tripoint_om_omt lab_pos;
-        for( tripoint_om_omt elem : generated_lab ) {
-            lab_pos = elem;
-            if( ter( lab_pos + tripoint::above ) == labt ) {
-                break;
-            }
-        }
-        ter_set( lab_pos + tripoint::above, labt_stairs );
-    }
-
-    ter_set( p, labt_core );
-    int numstairs = 0;
-    if( s > 0 ) { // Build stairs going down
-        while( !one_in( 6 ) ) {
-            tripoint_om_omt stair;
-            int tries = 0;
-            do {
-                stair = p + point( rng( -s, s ), rng( -s, s ) );
-                tries++;
-            } while( ( ter( stair ) != labt && ter( stair ) != labt_ants ) && tries < 15 );
-            if( tries < 15 ) {
-                if( ter( stair ) == labt_ants ) {
-                    ter_set( stair, labt_ants_stairs );
-                } else {
-                    ter_set( stair, labt_stairs );
-                }
-                numstairs++;
-            }
-        }
-    }
-
-    // We need a finale on the bottom of labs.  Central labs have a chance of additional finales.
-    if( numstairs == 0 || ( prefix == "central_" && one_in( -p.z() - 1 ) ) ) {
-        tripoint_om_omt finale;
-        int tries = 0;
-        do {
-            finale = p + point( rng( -s, s ), rng( -s, s ) );
-            tries++;
-        } while( tries < 15 && ter( finale ) != labt && ter( finale ) != labt_core );
-        ter_set( finale, labt_finale );
-    }
-
-    if( train_odds > 0 && one_in( train_odds ) ) {
-        tripoint_om_omt train;
-        int tries = 0;
-        int adjacent_labs;
-
-        do {
-            train = p + point( rng( -s * 1.5 - 1, s * 1.5 + 1 ), rng( -s * 1.5 - 1, s * 1.5 + 1 ) );
-            tries++;
-
-            adjacent_labs = 0;
-            for( const point &offset : four_adjacent_offsets ) {
-                if( is_ot_match( "lab", ter( train + offset ), ot_match_type::contains ) &&
-                    !is_ot_match( "lab_subway", ter( train + offset ), ot_match_type::contains ) ) {
-                    ++adjacent_labs;
-                }
-            }
-        } while( tries < 50 && (
-                     ter( train ) == labt ||
-                     ter( train ) == labt_stairs ||
-                     ter( train ) == labt_finale ||
-                     adjacent_labs != 1 ) );
-        if( tries < 50 ) {
-            lab_train_points->push_back( train.xy() ); // possible train depot
-            // next is rail connection
-            for( const point &offset : four_adjacent_offsets ) {
-                if( is_ot_match( "lab", ter( train + offset ), ot_match_type::contains ) &&
-                    !is_ot_match( "lab_subway", ter( train + offset ), ot_match_type::contains ) ) {
-                    lab_train_points->push_back( train.xy() - offset );
-                    break;
-                }
-            }
-        }
-    }
-
-    // 4th story of labs is a candidate for lab escape, as long as there's no train or finale.
-    if( prefix.empty() && p.z() == -4 && train_odds == 0 && numstairs > 0 ) {
-        tripoint_om_omt cell;
-        int tries = 0;
-        int adjacent_labs = 0;
-
-        // Find a space bordering just one lab to the south.
-        do {
-            cell = p + point( rng( -s * 1.5 - 1, s * 1.5 + 1 ), rng( -s * 1.5 - 1, s * 1.5 + 1 ) );
-            tries++;
-
-            adjacent_labs = 0;
-            for( const point &offset : four_adjacent_offsets ) {
-                if( is_ot_match( "lab", ter( cell + offset ), ot_match_type::contains ) &&
-                    !is_ot_match( "lab_subway", ter( cell + offset ), ot_match_type::contains ) ) {
-                    ++adjacent_labs;
-                }
-            }
-        } while( tries < 50 && (
-                     ter( cell ) == labt_stairs ||
-                     ter( cell ) == labt_finale ||
-                     ter( cell + point::south ) != labt ||
-                     adjacent_labs != 1 ) );
-        if( tries < 50 ) {
-            ter_set( cell, oter_lab_escape_cells.id() );
-            ter_set( cell + point::south, oter_lab_escape_entrance.id() );
-        }
-    }
-
-    return numstairs > 0;
 }
 
 void overmap::place_ravines()
@@ -3417,6 +3073,46 @@ std::vector<tripoint_om_omt> overmap::place_special(
             safe_at_worldgen.emplace( location );
         }
     }
+
+    // Collect unique pp_generators referenced by any OMT of this special.
+    std::set<pp_generator_id> special_pp_gens;
+    for( const tripoint_om_omt &location : result.omts_used ) {
+        for( const pp_generator_id &gen_id : ter( location )->get_post_process_generators() ) {
+            special_pp_gens.insert( gen_id );
+        }
+    }
+    if( !special_pp_gens.empty() ) {
+        std::vector<pp_resolved_generator> decisions;
+        for( const pp_generator_id &gen_id : special_pp_gens ) {
+            const pp_generator &gen = gen_id.obj();
+            pp_resolved_generator resolved;
+            resolved.generator = gen_id;
+            std::map<sub_generator_type, uint8_t> type_counts;
+            for( const pp_sub_generator &sg : gen.sub_generators() ) {
+                const uint8_t ord = type_counts[sg.type];
+                if( sg.scope == pp_sub_generator_scope::overmap_special ) {
+                    pp_sub_decision dec;
+                    dec.type = sg.type;
+                    dec.ordinal = ord;
+                    dec.st = pp_sub_decision::status::not_evaluated;
+                    dec.seed = rng_bits();
+                    resolved.sub_decisions.push_back( dec );
+                }
+                type_counts[sg.type]++;
+            }
+            if( !resolved.sub_decisions.empty() ) {
+                decisions.push_back( std::move( resolved ) );
+            }
+        }
+        if( !decisions.empty() ) {
+            std::vector<pp_resolved_generator> *decisions_p =
+                &*pp_decision_storage.emplace( std::move( decisions ) );
+            for( const tripoint_om_omt &location : result.omts_used ) {
+                pp_decisions_index[location] = decisions_p;
+            }
+        }
+    }
+
     // Place spawns.
     const overmap_special_spawns &spawns = special.get_monster_spawns();
     if( spawns.group ) {
@@ -3478,6 +3174,11 @@ bool overmap::place_special_attempt(
                 continue;
             }
             const overmap_special_placement_constraints &constraints = special.get_constraints();
+            // Deck-draw losers are kept in the batch for chain-spawned descendants
+            // but must not be placed on this overmap.
+            if( iter->instances_placed >= constraints.occurrences.max ) {
+                continue;
+            }
             // If we haven't finished placing minimum instances of all specials,
             // skip specials that are at their minimum count already.
             if( !place_optional && iter->instances_placed >= constraints.occurrences.min ) {
@@ -3494,6 +3195,11 @@ bool overmap::place_special_attempt(
             }
 
             place_special( special, p, rotation, nearest_city, false, must_be_unexplored );
+
+            // Only this call site participates in deck accounting.
+            if( special.has_flag( "OVERMAP_UNIQUE" ) || special.has_flag( "GLOBALLY_UNIQUE" ) ) {
+                overmap_buffer.consume_deck_placement( special.id );
+            }
 
             if( ++iter->instances_placed >= constraints.occurrences.max ) {
                 enabled_specials.erase( iter );
@@ -3534,7 +3240,7 @@ void overmap::place_specials_pass(
 }
 
 // Split map into sections, iterate through sections iterate through specials,
-// check if special is valid  pick & place special.
+// check if special is valid pick & place special.
 // When a sector is populated it's removed from the list,
 // and when a special reaches max instances it is also removed.
 void overmap::place_specials( overmap_special_batch &enabled_specials )
@@ -3577,26 +3283,63 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         const bool globally_unique = iter->special_details->has_flag( "GLOBALLY_UNIQUE" );
         if( unique || globally_unique ) {
             const overmap_special_id &id = iter->special_details->id;
-            const overmap_special_placement_constraints &constraints = iter->special_details->get_constraints();
-            const float special_count = overmap_buffer.get_unique_special_count( id );
-            const float overmap_count = overmap_buffer.get_overmap_count();
-            const float min = special_count > 0 ? constraints.occurrences.min / special_count :
-                              constraints.occurrences.min;
-            const float max = std::max( overmap_count > 0 ? constraints.occurrences.max / overmap_count :
-                                        constraints.occurrences.max, min );
-            if( x_in_y( min, max ) && ( !overmap_buffer.contains_unique_special( id ) ) ) {
-                // Min and max are overloaded to be the chance of occurrence,
-                // so reset instances placed to one short of max so we don't place several.
-                iter->instances_placed = constraints.occurrences.max - 1;
-            } else {
+            const overmap_special_placement_constraints &constraints =
+                iter->special_details->get_constraints();
+            const int occ_min = constraints.occurrences.min;
+            const int occ_max = constraints.occurrences.max;
+
+            // Specials with no success cards or empty deck never spawn via this path.
+            if( occ_min <= 0 || occ_max <= 0 ) {
                 iter = enabled_specials.erase( iter );
                 continue;
+            }
+
+            // GLOBALLY_UNIQUE already placed -- done forever.
+            if( globally_unique && overmap_buffer.contains_unique_special( id ) ) {
+                iter = enabled_specials.erase( iter );
+                continue;
+            }
+
+            unique_special_deck_state &deck =
+                overmap_buffer.get_deck_state( id, occ_min, occ_max );
+
+            // Draw only when nothing is pending -- prevents unbounded backlog.
+            if( deck.to_place <= 0 ) {
+                // successes_remain > 0 guard: x_in_y(0, N) can return true when rng_float is 0.0.
+                if( deck.successes_remain > 0 && x_in_y( deck.successes_remain, deck.cards_remain ) ) {
+                    deck.successes_remain--;
+                    deck.cards_remain--;
+                    deck.to_place++;
+                } else {
+                    deck.cards_remain--;
+                }
+
+                // Deck exhausted -- reshuffle (start a new cycle).
+                if( deck.cards_remain <= 0 ) {
+                    deck.successes_remain = occ_min;
+                    deck.cards_remain = occ_max;
+                }
+            }
+
+            if( deck.to_place > 0 ) {
+                // Allow exactly one placement attempt on this overmap.
+                iter->instances_placed = constraints.occurrences.max - 1;
+            } else {
+                // Sentinel: max marks "deck said no for this overmap" while keeping
+                // the entry alive for chain-spawned descendants to draw fresh.
+                iter->instances_placed = constraints.occurrences.max;
             }
         }
         ++iter;
     }
-    // Bail out early if we have nothing to place.
-    if( enabled_specials.empty() ) {
+    // Bail out early if we have nothing to place.  Deck-draw losers stay in
+    // the batch (instances_placed == max) for chain-spawned descendants, so
+    // check for actual candidates rather than batch emptiness.
+    const bool any_candidates = std::any_of( enabled_specials.begin(), enabled_specials.end(),
+    []( const overmap_special_placement & p ) {
+        return p.instances_placed < p.special_details->get_constraints().occurrences.max;
+    } );
+    if( !any_candidates ) {
         return;
     }
     om_special_sectors sectors = get_sectors( OMSPEC_FREQ );
@@ -3847,10 +3590,9 @@ void overmap::place_mongroups()
         const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
         const om_noise::om_noise_layer_ocean f( global_base_point(), g->get_seed() );
         const point_abs_om this_om = pos();
-        const int northern_ocean = settings_ocean.ocean_start_north;
-        const int eastern_ocean = settings_ocean.ocean_start_east;
-        const int western_ocean = settings_ocean.ocean_start_west;
-        const int southern_ocean = settings_ocean.ocean_start_south;
+        const bool oceans_disabled = !settings_ocean.ocean_start_north.has_value() &&
+                                     !settings_ocean.ocean_start_east.has_value() &&
+                                     !settings_ocean.ocean_start_west.has_value() && !settings_ocean.ocean_start_south.has_value();
 
         // noise threshold adjuster for deep ocean. Increase to make deep ocean move further from the shore.
         constexpr float DEEP_OCEAN_THRESHOLD_ADJUST = 1.25;
@@ -3858,7 +3600,7 @@ void overmap::place_mongroups()
         // code taken from place_oceans, but noise threshold increased to determine "deep ocean".
         const auto is_deep_ocean = [&]( const point_om_omt & p ) {
             // credit to ehughsbaird for thinking up this inbounds solution to infinite flood fill lag.
-            if( northern_ocean == 0 && eastern_ocean == 0 && western_ocean == 0 && southern_ocean == 0 ) {
+            if( oceans_disabled ) {
                 // you know you could just turn oceans off in global_settings.json right?
                 return false;
             }

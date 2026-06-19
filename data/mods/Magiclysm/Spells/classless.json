@@ -304,7 +304,7 @@
     "min_duration": 24000,
     "max_duration": 360000,
     "duration_increment": 24000,
-    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "learn_spells": { "protection_aura_plus": 15 }
   },
   {
@@ -331,7 +331,7 @@
     "min_duration": 360000,
     "max_duration": 2160000,
     "duration_increment": 72000,
-    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ]
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ]
   },
   {
     "id": "translocate_self",
@@ -377,7 +377,7 @@
     "type": "SPELL",
     "name": "Greater Acid Resistance",
     "description": "Protects the user from acid.  Now you know this spell like the back of your hand, and start to design your own version, no longer requiring you to hold concentration.",
-    "valid_targets": [ "none" ],
+    "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "effect_acid_res_aura_greater",
     "shape": "blast",

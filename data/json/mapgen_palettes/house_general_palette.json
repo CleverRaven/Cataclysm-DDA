@@ -352,7 +352,7 @@
       ],
       "8": [
         { "item": "SUS_hair_drawer", "chance": 30 },
-        { "item": "SUS_bathroom_cabinet", "chance": 30 },
+        { "item": "SUS_bathroom_cabinet", "chance": 30, "repeat": [ 1, 4 ] },
         { "item": "SUS_bathroom_medicine", "chance": 40 },
         { "item": "harddrugs_residential", "chance": 2 }
       ],
@@ -884,7 +884,7 @@
       ],
       "8": [
         { "item": "SUS_hair_drawer", "chance": 30 },
-        { "item": "SUS_bathroom_cabinet", "chance": 30 },
+        { "item": "SUS_bathroom_cabinet", "chance": 60, "repeat": [ 1, 4 ] },
         { "item": "SUS_bathroom_medicine", "chance": 40 },
         { "item": "harddrugs_residential", "chance": 2 }
       ],
@@ -1002,7 +1002,7 @@
       ],
       "8": [
         { "item": "SUS_hair_drawer", "chance": 30 },
-        { "item": "SUS_bathroom_cabinet", "chance": 30 },
+        { "item": "SUS_bathroom_cabinet", "chance": 60, "repeat": [ 1, 4 ] },
         { "item": "SUS_bathroom_medicine", "chance": 40 },
         { "item": "harddrugs_residential", "chance": 2 }
       ],

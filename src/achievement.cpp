@@ -76,6 +76,8 @@ bool string_id<achievement>::is_valid() const
     return achievement_factory.is_valid( *this );
 }
 
+namespace
+{
 enum class requirement_visibility : int {
     always,
     when_requirement_completed,
@@ -83,6 +85,7 @@ enum class requirement_visibility : int {
     never,
     last
 };
+} // namespace
 
 template<>
 struct enum_traits<requirement_visibility> {

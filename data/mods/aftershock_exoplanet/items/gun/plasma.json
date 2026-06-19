@@ -162,7 +162,7 @@
     "ranged_damage": [ { "damage_type": "afs_plasma", "amount": 10 } ],
     "modes": [ [ "DEFAULT", "standard", 3 ], [ "AUTO", "unsafe", 5 ] ],
     "delete": { "ammo_effects": [ "PLASMA", "FLAME", "EMP", "EXPLOSIVE_SMALL" ] },
-    "extend": { "ammo_effects": [ "OVERHEATS", "FUSION_FAN" ] },
+    "extend": { "ammo_effects": [ "FUSION_FAN" ], "flags": [ "OVERHEATS" ] },
     "ammo": [ "afs_shydrogen" ],
     "dispersion": 200,
     "ammo_to_fire": 1,

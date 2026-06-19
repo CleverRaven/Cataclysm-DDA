@@ -5,7 +5,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_PSI",
-    "name": "[Ψ]practice: precognition",
+    "name": "contemplation: precognition",
     "description": "Recipes related to practicing precognition.",
     "skill_used": "metaphysics",
     "nested_category_data": [
@@ -96,7 +96,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: intuitive artistry",
+    "name": "contemplation: intuitive artisan",
     "id": "practice_afs_precog_craft_bonus",
     "description": "Contemplate your powers and improve your ability to search through the future to determine exactly how you should build that thing you're working on.",
     "category": "CC_*",

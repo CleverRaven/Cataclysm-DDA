@@ -18,7 +18,7 @@
       "msg": "You activate your %s.",
       "target": "afs_magellan_suit_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "armor": [
       {
@@ -85,7 +85,7 @@
       "type": "transform",
       "ammo_scale": 0,
       "menu_text": "Turn off",
-      "msg": "Your %s deactivates.",
+      "msg": "You deactivate your %s.",
       "target": "afs_magellan_suit"
     },
     "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
@@ -109,7 +109,7 @@
       "msg": "You activate your %s.",
       "target": "afs_frontier_cryo_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "armor": [
       {
@@ -173,7 +173,7 @@
       "type": "transform",
       "ammo_scale": 0,
       "menu_text": "Turn off",
-      "msg": "Your %s deactivates.",
+      "msg": "You deactivate your %s.",
       "target": "afs_frontier_cryo"
     }
   },
@@ -197,7 +197,7 @@
       "msg": "You activate your %s.",
       "target": "afs_combat_cryo_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "armor": [
       {
@@ -249,7 +249,7 @@
       "type": "transform",
       "ammo_scale": 0,
       "menu_text": "Turn off",
-      "msg": "Your %s deactivates.",
+      "msg": "You deactivate your %s.",
       "target": "afs_combat_cryo"
     },
     "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
@@ -267,7 +267,7 @@
       "msg": "You activate your %s.",
       "target": "afs_combat_cryo_on_xl",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -283,7 +283,7 @@
       "type": "transform",
       "ammo_scale": 0,
       "menu_text": "Turn off",
-      "msg": "Your %s deactivates.",
+      "msg": "You deactivate your %s.",
       "target": "afs_combat_cryo_xl"
     },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
@@ -317,7 +317,7 @@
       "msg": "You activate your %s.",
       "target": "afs_cryopod_bodyglove_on",
       "need_charges": 5,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "warmth": 20,
     "environmental_protection": 10,
@@ -361,7 +361,7 @@
       "type": "transform",
       "ammo_scale": 0,
       "menu_text": "Turn off",
-      "msg": "Your %s deactivates.",
+      "msg": "You deactivate your %s.",
       "target": "afs_cryopod_bodyglove"
     },
     "flags": [

@@ -808,6 +808,8 @@ std::string effect::disp_name() const
     return ret;
 }
 
+namespace
+{
 // Used in disp_desc()
 struct desc_freq {
     double chance;
@@ -818,6 +820,7 @@ struct desc_freq {
     desc_freq( double c, int v, const std::string &pos, const std::string &neg ) : chance( c ),
         val( v ), pos_string( pos ), neg_string( neg ) {}
 };
+} // namespace
 
 std::string effect::disp_desc( bool reduced ) const
 {

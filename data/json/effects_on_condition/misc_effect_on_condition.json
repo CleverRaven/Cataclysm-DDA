@@ -55,9 +55,23 @@
     "type": "effect_on_condition",
     "eoc_type": "AVATAR_DEATH",
     "condition": {
-      "and": [ { "npc_allies_global": 1 }, { "u_query": "You have died.  Continue as one of your followers?", "default": false } ]
+      "and": [
+        { "not": { "u_has_trait": "PSYCHOPATH" } },
+        { "npc_allies_global": 1 },
+        { "u_query": "You have died.  Continue as one of your followers?", "default": false }
+      ]
     },
-    "effect": [ "take_control_menu" ]
+    "effect": [ "take_control_menu" ],
+    "false_effect": [
+      {
+        "if": { "and": [ { "u_has_trait": "PSYCHOPATH" }, { "npc_allies_global": 1 } ] },
+        "then": {
+          "u_message": "You have died.  Just like you, nobody cares to have carried on your legacy.  You can not continue as a follower.",
+          "popup": true,
+          "type": "bad"
+        }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -461,5 +475,71 @@
         { "not": { "npc_has_species": "ABERRATION" } }
       ]
     }
+  },
+  {
+    "id": "EOC_SET_TAROT",
+    "type": "effect_on_condition",
+    "effect": [
+      { "set_string_var": "<card_tarot_any>", "target_var": { "u_val": "card_1" }, "parse_tags": true },
+      { "set_string_var": "<card_tarot_any>", "target_var": { "u_val": "card_2" }, "parse_tags": true },
+      { "set_string_var": "<card_tarot_any>", "target_var": { "u_val": "card_3" }, "parse_tags": true }
+    ]
+  },
+  {
+    "id": "EOC_SET_TAROT_MAJOR",
+    "type": "effect_on_condition",
+    "effect": [
+      { "set_string_var": "<card_major_arcana>", "target_var": { "u_val": "card_1" }, "parse_tags": true },
+      { "set_string_var": "<card_major_arcana>", "target_var": { "u_val": "card_2" }, "parse_tags": true },
+      { "set_string_var": "<card_major_arcana>", "target_var": { "u_val": "card_3" }, "parse_tags": true }
+    ]
+  },
+  {
+    "id": "EOC_PRINT_TAROT_RESULT",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "set_string_var": "You pull <u_val:card_1><card_orientation>, <u_val:card_2><card_orientation> and <u_val:card_3><card_orientation>.",
+        "target_var": { "u_val": "result" },
+        "parse_tags": true
+      },
+      { "u_message": "<u_val:result>" }
+    ]
+  },
+  {
+    "id": "EOC_DRAW_TAROT_FULL",
+    "type": "effect_on_condition",
+    "effect": [
+      { "run_eocs": "EOC_SET_TAROT" },
+      {
+        "condition": { "compare_string": [ { "u_val": "card_1" }, { "u_val": "card_2" }, { "u_val": "card_3" } ] },
+        "iterations": 100,
+        "run_eocs": "EOC_SET_TAROT"
+      },
+      { "run_eocs": "EOC_PRINT_TAROT_RESULT" }
+    ]
+  },
+  {
+    "id": "EOC_DRAW_TAROT_MAJOR",
+    "type": "effect_on_condition",
+    "effect": [
+      { "run_eocs": "EOC_SET_TAROT_MAJOR" },
+      {
+        "condition": { "compare_string": [ { "u_val": "card_1" }, { "u_val": "card_2" }, { "u_val": "card_3" } ] },
+        "iterations": 100,
+        "run_eocs": "EOC_SET_TAROT_MAJOR"
+      },
+      { "run_eocs": "EOC_PRINT_TAROT_RESULT" }
+    ]
+  },
+  {
+    "id": "EOC_DRAW_TAROT",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "names": [ "Pull from the full deck", "Pull from the major arcanas" ],
+        "run_eoc_selector": [ "EOC_DRAW_TAROT_FULL", "EOC_DRAW_TAROT_MAJOR" ]
+      }
+    ]
   }
 ]

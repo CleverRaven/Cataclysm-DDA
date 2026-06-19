@@ -23,6 +23,7 @@
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
+#include "localized_comparator.h"
 #include "magic.h"
 #include "mission.h"
 #include "mutation.h"
@@ -39,15 +40,19 @@
 struct bionic_data;
 
 static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
+static const json_character_flag json_flag_NO_CBM_INSTALLATION( "NO_CBM_INSTALLATION" );
 static const trait_group::Trait_group_tag
 Trait_group_BG_survival_story_UNIVERSAL( "BG_survival_story_UNIVERSAL" );
+static const trait_id trait_NO_CBM_INSTALLATION( "NO_CBM_INSTALLATION" );
 
 namespace
 {
 generic_factory<profession> all_profs( "profession" );
 } // namespace
 
-static class json_item_substitution
+namespace
+{
+class json_item_substitution
 {
     public:
         void reset();
@@ -78,6 +83,7 @@ static class json_item_substitution
         std::vector<item> get_bonus_items( const std::vector<trait_id> &traits ) const;
         std::vector<item> get_substitution( const item &it, const std::vector<trait_id> &traits ) const;
 } item_substitutions;
+} // namespace
 
 /** @relates string_id */
 template<>
@@ -163,6 +169,8 @@ void profession::finalize_all()
     all_profs.finalize();
 }
 
+namespace
+{
 class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
 {
     public:
@@ -178,7 +186,10 @@ class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
             } );
         }
 };
+} // namespace
 
+namespace
+{
 class addiction_reader : public generic_typed_reader<addiction_reader>
 {
     public:
@@ -216,6 +227,7 @@ class item_reader : public generic_typed_reader<item_reader>
             } );
         }
 };
+} // namespace
 
 void profession::load( const JsonObject &jo, std::string_view )
 {
@@ -267,8 +279,8 @@ void profession::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "npc_background", _starting_npc_background,
               Trait_group_BG_survival_story_UNIVERSAL );
     optional( jo, was_loaded, "chargen_allow_npc", _chargen_allow_npc, true );
-    optional( jo, was_loaded, "age_lower", age_lower, 16 );
-    optional( jo, was_loaded, "age_upper", age_upper, 55 );
+    optional( jo, was_loaded, "age_lower", age_lower, DEFAULT_PROF_AGE_LOWER );
+    optional( jo, was_loaded, "age_upper", age_upper, DEFAULT_PROF_AGE_UPPER );
     optional( jo, was_loaded, "starting_cash", _starting_cash );
 
     if( jo.has_string( "vehicle" ) ) {
@@ -461,6 +473,30 @@ void profession::check_definition() const
     for( const auto &a : _starting_CBMs ) {
         if( !a.is_valid() ) {
             debugmsg( "bionic %s for profession %s does not exist", a.c_str(), id.c_str() );
+        }
+    }
+    if( !_starting_CBMs.empty() && !is_hobby() ) {
+        bool has_interface = false;
+        for( const trait_and_var &t : _starting_traits ) {
+            if( t.trait.is_valid() ) {
+                // Accept traits that cancel NO_CBM_INSTALLATION (e.g. CBM_Interface)
+                const std::vector<trait_id> &t_cancels = t.trait->cancels;
+                if( std::find( t_cancels.begin(), t_cancels.end(),
+                               trait_NO_CBM_INSTALLATION ) != t_cancels.end() ) {
+                    has_interface = true;
+                    break;
+                }
+                // Accept traits that have the NO_CBM_INSTALLATION flag themselves:
+                // the profession pre-installs CBMs but blocks future installation.
+                if( t.trait->flags.count( json_flag_NO_CBM_INSTALLATION ) ) {
+                    has_interface = true;
+                    break;
+                }
+            }
+        }
+        if( !has_interface ) {
+            debugmsg( "profession %s has starting CBMs but no trait that cancels "
+                      "NO_CBM_INSTALLATION (e.g. CBM_Interface)", id.c_str() );
         }
     }
 
@@ -801,6 +837,33 @@ void profession::learn_spells( avatar &you ) const
 std::vector<effect_on_condition_id> profession::get_eocs() const
 {
     return effect_on_conditions;
+}
+
+bool profession_sorter::operator()( const string_id<profession> &a,
+                                    const string_id<profession> &b ) const
+{
+    // The generic ("Unemployed") profession should be listed first.
+    const profession *gen = profession::generic();
+    if( &b.obj() == gen ) {
+        return false;
+    } else if( &a.obj() == gen ) {
+        return true;
+    }
+
+    if( !a->can_pick().success() && b->can_pick().success() ) {
+        return false;
+    }
+
+    if( a->can_pick().success() && !b->can_pick().success() ) {
+        return true;
+    }
+
+    if( sort_by_points ) {
+        return a->point_cost() < b->point_cost();
+    } else {
+        return localized_compare( a->gender_appropriate_name( male ),
+                                  b->gender_appropriate_name( male ) );
+    }
 }
 
 // item_substitution stuff:

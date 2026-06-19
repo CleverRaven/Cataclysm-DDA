@@ -720,6 +720,8 @@ Integer svto( std::string_view s )
 {
     Integer result = 0;
     const char *end = s.data() + s.size();
+    // from_chars takes a [first, last) pointer pair, not a null-terminated string.
+    // NOLINTNEXTLINE(bugprone-suspicious-stringview-data-usage)
     std::from_chars_result r = std::from_chars( s.data(), end, result );
     if( r.ptr != end ) {
         cata_fatal( "could not parse string_view as an integer" );
@@ -909,16 +911,18 @@ std::string io::enum_to_string<aggregate_type>( aggregate_type agg )
 
 std::optional<double> svtod( std::string_view token, bool debugmsg_on_fail )
 {
+    // strtod requires a null-terminated string; copy through std::string.
+    std::string token_owned( token );
     char *pEnd = nullptr;
-    double const val = std::strtod( token.data(), &pEnd );
-    if( pEnd == token.data() + token.size() ) {
+    double const val = std::strtod( token_owned.c_str(), &pEnd );
+    if( pEnd == token_owned.data() + token_owned.size() ) {
         return { val };
     }
     char block = *pEnd;
     if( block == ',' || block == '.' ) {
         // likely localized with a different locale
-        std::string unlocalized( token );
-        unlocalized[pEnd - token.data()] = block == ',' ? '.' : ',';
+        std::string unlocalized = token_owned;
+        unlocalized[pEnd - token_owned.data()] = block == ',' ? '.' : ',';
         return svtod( unlocalized );
     }
     if( debugmsg_on_fail ) {

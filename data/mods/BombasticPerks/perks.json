@@ -626,49 +626,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Hey, that's against the Geneva Convention!  When not wielding a weapon, or object that could be used as an improvised weapon, you take -25% reduced damage.",
-    "//": "u_has_weapon checks if you're wielding ANYTHNG, not a weapon specifically, hence the long condition below.",
-    "enchantments": [
-      {
-        "condition": {
-          "and": [
-            { "not": { "u_has_wielded_with_weapon_category": "AUTOMATIC_PISTOLS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "SHIVS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "QUARTERSTAVES" } },
-            { "not": { "u_has_wielded_with_weapon_category": "HOOKING_WEAPONRY" } },
-            { "not": { "u_has_wielded_with_weapon_category": "AUTOMATIC_RIFLES" } },
-            { "not": { "u_has_wielded_with_weapon_category": "KNIVES" } },
-            { "not": { "u_has_wielded_with_weapon_category": "MEDIUM_SWORDS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "GREAT_HAMMERS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "GREAT_AXES" } },
-            { "not": { "u_has_wielded_with_weapon_category": "MACES" } },
-            { "not": { "u_has_wielded_with_weapon_category": "SPEARS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "FENCING_WEAPONRY" } },
-            { "not": { "u_has_wielded_with_weapon_category": "LONG_SWORDS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "GREAT_SWORDS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "BIONIC_WEAPONRY" } },
-            { "not": { "u_has_wielded_with_weapon_category": "SHORT_SWORDS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "HAND_AXES" } },
-            { "not": { "u_has_wielded_with_weapon_category": "BATONS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "FLAILS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "POLEARMS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "LONG_THRUSTING_SWORDS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "BIONIC_SWORDS" } },
-            { "not": { "u_has_wielded_with_flag": "OLD_GUN" } },
-            { "not": { "u_has_wielded_with_flag": "NEVER_JAMS" } },
-            { "not": { "u_has_wielded_with_flag": "NON_FOULING" } },
-            { "not": { "u_has_wielded_with_flag": "RELOAD_AND_SHOOT" } },
-            { "not": { "u_has_wielded_with_flag": "RELOAD_EJECT" } },
-            { "not": { "u_has_wielded_with_flag": "RELOAD_ONE" } },
-            { "not": { "u_has_wielded_with_flag": "STR_DRAW" } },
-            { "not": { "u_has_wielded_with_flag": "DURABLE_MELEE" } },
-            { "not": { "u_has_wielded_with_flag": "BIONIC_WEAPON" } },
-            { "not": { "u_has_wielded_with_flag": "POLEARM" } }
-          ]
-        },
-        "values": [ { "value": "ARMOR_ALL", "multiply": -0.25 } ]
-      }
-    ]
+    "description": "Hey, that's against the Geneva Convention!  When completely unarmed, you take -25% reduced damage.",
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ARMOR_ALL", "multiply": -0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -734,7 +693,7 @@
   {
     "type": "mutation",
     "id": "perk_popeye",
-    "name": { "str": "Of sailors and spinach" },
+    "name": { "str": "Of Sailors and Spinach" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -778,7 +737,7 @@
   {
     "type": "mutation",
     "id": "perk_safety_net",
-    "name": { "str": "Safety net" },
+    "name": { "str": "Safety Net" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -798,7 +757,7 @@
   {
     "type": "mutation",
     "id": "perk_long_shot",
-    "name": { "str": "Long shot" },
+    "name": { "str": "Long Shot" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -842,6 +801,20 @@
     "activation_msg": "You activate your quicken metamagic.",
     "activated_eocs": [ "EOC_metamagic_toggle_quicken_on" ],
     "deactivated_eocs": [ "EOC_metamagic_toggle_quicken_off" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_metamagic_extended",
+    "name": { "str": "Metamagic: Extended Spell" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You have learned to make the effects of your spells last much longer for the same amount of mana with a more challenging invocation.  +100% duration, +4 difficulty.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You activate your extended metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_extended_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_extended_off" ]
   },
   {
     "type": "mutation",
@@ -944,7 +917,7 @@
   {
     "type": "mutation",
     "id": "perk_crafty_hands",
-    "name": { "str": "Crafty hands" },
+    "name": { "str": "Crafty Hands" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -984,6 +957,17 @@
   },
   {
     "type": "mutation",
+    "id": "perk_hairsuit",
+    "name": { "str": "Hairsuit" },
+    "//": "An obvious pun on the word `hirsute`",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You've gained the ability to weave your long and luxurious hair into a protective and form-fitting bodysuit.  High heels and handgun skills sold separately.",
+    "integrated_armor": [ "hair_suit_off" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_empath",
     "name": { "str": "Empath" },
     "points": 0,
@@ -994,7 +978,7 @@
   {
     "type": "mutation",
     "id": "perk_jugg",
-    "name": { "str": "Iron arm" },
+    "name": { "str": "Iron Arm" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1009,7 +993,7 @@
   {
     "type": "mutation",
     "id": "perk_skeleton",
-    "name": { "str": "Skin and bones" },
+    "name": { "str": "Skin and Bones" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1070,7 +1054,7 @@
   {
     "type": "mutation",
     "id": "perk_dice_addition_damage",
-    "name": { "str": "Damage dice" },
+    "name": { "str": "Damage Dice" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1116,6 +1100,33 @@
   },
   {
     "type": "mutation",
+    "id": "perk_kevlard",
+    "name": { "str": "Kevlard" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Conventional wisdom says it's not healthy to be fat, but you're nothing if not unconventional.  Your natural padding acts as a ballistic vest, and the fatter you are, the more protection you'll get.  You must be at least Obese to receive any benefit.",
+    "enchantments": [
+      {
+        "condition": {
+          "and": [ { "math": [ "u_calories('format': 'percent') >= 200" ] }, { "math": [ "u_calories('format': 'percent') < 300" ] } ]
+        },
+        "mutations": [ "perk_kevlard_obese" ]
+      },
+      {
+        "condition": {
+          "and": [ { "math": [ "u_calories('format': 'percent') >= 300" ] }, { "math": [ "u_calories('format': 'percent') < 400" ] } ]
+        },
+        "mutations": [ "perk_kevlard_veryobese" ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_calories('format': 'percent') >= 400" ] } ] },
+        "mutations": [ "perk_kevlard_morbidlyobese" ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_nocturnal",
     "name": { "str": "Nocturnal" },
     "points": 0,
@@ -1152,10 +1163,19 @@
       {
         "condition": "ALWAYS",
         "values": [
-          { "value": "STRENGTH", "add": { "math": [ "(u_val('thirst')/120) + (u_val('sleepiness')/150)" ] } },
-          { "value": "DEXTERITY", "add": { "math": [ "(u_val('thirst')/120) + (u_val('sleepiness')/150)" ] } },
-          { "value": "INTELLIGENCE", "add": { "math": [ "(u_val('thirst')/120) + (u_val('sleepiness')/150)" ] } },
-          { "value": "PERCEPTION", "add": { "math": [ "(u_val('thirst')/120) + (u_val('sleepiness')/150)" ] } },
+          { "value": "STRENGTH", "add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50)" ] } },
+          {
+            "value": "DEXTERITY",
+            "add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50)" ] }
+          },
+          {
+            "value": "INTELLIGENCE",
+            "add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50)" ] }
+          },
+          {
+            "value": "PERCEPTION",
+            "add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50)" ] }
+          },
           { "value": "SPEED", "add": { "math": [ "clamp(( (u_val('thirst') - 80 ) / 10 ) , 0, 50)" ] } }
         ]
       },
@@ -1210,7 +1230,7 @@
   {
     "type": "mutation",
     "id": "perk_dream_armor",
-    "name": { "str": "Armor of dreams" },
+    "name": { "str": "Armor of Dreams" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1220,11 +1240,11 @@
   {
     "type": "mutation",
     "id": "perk_redrage",
-    "name": { "str": "Red rage" },
+    "name": { "str": "Red Rage" },
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You hate the feeling of your blood leaking so much that it empowers you.  Deal more melee damage the more you are bleeding.",
+    "description": "You hate the feeling of your blood leaking so much that it empowers you.  You deal more melee damage the more you are bleeding.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -1235,7 +1255,7 @@
   {
     "type": "mutation",
     "id": "perk_peer_pressure",
-    "name": { "str": "Peer pressure" },
+    "name": { "str": "Peer Pressure" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1259,7 +1279,7 @@
   {
     "type": "mutation",
     "id": "perk_poison_painkill",
-    "name": { "str": "Numb from the toxin" },
+    "name": { "str": "Numb from the Toxin" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1316,6 +1336,21 @@
   },
   {
     "type": "mutation",
+    "id": "perk_smash_boost",
+    "name": { "str": "Smashing for Wimps" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Strong you might not be, but you can still break things down by hitting them the right way.  You get a bonus to your smashing ability that increases the weaker you are.",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "SMASH_BONUS", "add": { "math": [ "16 - clamp(u_val('strength'), 0, 16)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_speedballing",
     "name": { "str": "Speedballing" },
     "points": 0,
@@ -1327,7 +1362,7 @@
   {
     "type": "mutation",
     "id": "perk_flawless_memory",
-    "name": { "str": "Flawless memory" },
+    "name": { "str": "Flawless Memory" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1353,7 +1388,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You've found that you can move just a little bit quicker the more dexterous you are.  Unfortunately, this applies comes at a loss to your max carry weight.  Gain 2 speed for every point of DEX away from 8 and lose 4 kg of carry weight.",
+    "description": "You've found that you can move just a little bit quicker the more dexterous you are.  Unfortunately, this applies comes at a loss to your max carry weight.  Gain 2 speed for every point of DEX away from 8.  You lose 4% of your max carry weight for each point between 8 and 20 DEX, and 2% for each point beyond 20.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -1361,7 +1396,11 @@
       },
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "CARRY_WEIGHT", "add": { "math": [ "min( 0, 8 - u_val('dexterity') ) * 4000" ] } } ]
+        "values": [ { "value": "CARRY_WEIGHT", "multiply": { "math": [ "min( 0, 8 - u_val('dexterity') ) * 0.04" ] } } ]
+      },
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CARRY_WEIGHT", "multiply": { "math": [ "min( 0, 20 - u_val('dexterity') ) * -0.02" ] } } ]
       }
     ]
   },
@@ -1450,6 +1489,27 @@
       {
         "condition": { "u_has_wielded_with_ammotype": "22" },
         "values": [ { "value": "RANGED_ARMOR_PENETRATION", "add": 5 }, { "value": "WEAKPOINT_ACCURACY", "multiply": 3 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_yeoman",
+    "name": { "str": "Yeoman" },
+    "description": "In a world of guns, you were born to string a bow.  With such weapons you draw back further, increasing damage and range, and your arrows strike true with unerring accuracy.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "SHEATH_BOW" },
+        "values": [
+          { "value": "RANGED_ARMOR_PENETRATION", "add": 4 },
+          { "value": "WEAKPOINT_ACCURACY", "multiply": 1 },
+          { "value": "WEAPON_DISPERSION", "multiply": -0.25 },
+          { "value": "RANGED_DAMAGE", "multiply": 0.25 },
+          { "value": "RANGE", "add": 6 }
+        ]
       }
     ]
   },

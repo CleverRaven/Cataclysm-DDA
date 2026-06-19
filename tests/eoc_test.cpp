@@ -254,7 +254,7 @@ void check_ter_in_line( tripoint_abs_ms const &first, tripoint_abs_ms const &sec
 TEST_CASE( "EOC_teleport", "[eoc]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     tripoint_abs_ms before = get_avatar().pos_abs();
     dialogue newDialog( get_talker_for( get_avatar() ), nullptr );
     effect_on_condition_EOC_teleport_test->activate( newDialog );
@@ -266,7 +266,7 @@ TEST_CASE( "EOC_teleport", "[eoc]" )
 TEST_CASE( "EOC_beta_elevate", "[eoc]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     npc &n = spawn_npc( get_avatar().pos_bub().xy() + point::south, "thug" );
 
     REQUIRE( n.hp_percentage() > 0 );
@@ -357,7 +357,7 @@ TEST_CASE( "EOC_transform_radius", "[eoc][timed_event]" )
     constexpr int eoc_range = 5;
     constexpr time_duration delay = 30_seconds;
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     tripoint_abs_ms const start = get_avatar().pos_abs();
     dialogue newDialog( get_talker_for( get_avatar() ), nullptr );
     check_ter_in_radius( start, eoc_range, ter_t_grass );
@@ -379,7 +379,7 @@ TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
 {
     map &here = get_map();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     shared_ptr_fast<npc> guy = make_shared_fast<npc>();
     overmap_buffer.insert_npc( guy );
     npc &npc = *guy;
@@ -402,7 +402,7 @@ TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
 TEST_CASE( "EOC_activity_finish", "[eoc][timed_event]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     get_avatar().assign_activity( ACT_ADD_VARIABLE_COMPLETE, 10 );
 
     complete_activity( get_avatar() );
@@ -413,7 +413,7 @@ TEST_CASE( "EOC_activity_finish", "[eoc][timed_event]" )
 TEST_CASE( "EOC_combat_mutator_test", "[eoc]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     item weapon( itype_test_knife_combat );
     get_avatar().set_wielded_item( weapon );
     npc &n = spawn_npc( get_avatar().pos_bub().xy() + point::south, "thug" );
@@ -434,7 +434,7 @@ TEST_CASE( "EOC_combat_mutator_test", "[eoc]" )
 TEST_CASE( "EOC_alive_test", "[eoc]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -448,7 +448,7 @@ TEST_CASE( "EOC_alive_test", "[eoc]" )
 TEST_CASE( "EOC_attack_test", "[eoc]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     npc &n = spawn_npc( get_avatar().pos_bub().xy() + point::south, "thug" );
 
     dialogue newDialog( get_talker_for( get_avatar() ), get_talker_for( n ) );
@@ -458,7 +458,7 @@ TEST_CASE( "EOC_attack_test", "[eoc]" )
 TEST_CASE( "EOC_context_test", "[eoc][math_parser]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -480,7 +480,7 @@ TEST_CASE( "EOC_context_test", "[eoc][math_parser]" )
 TEST_CASE( "EOC_option_test", "[eoc][math_parser]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -499,7 +499,7 @@ TEST_CASE( "EOC_option_test", "[eoc][math_parser]" )
 TEST_CASE( "EOC_mutator_test", "[eoc][math_parser]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -515,7 +515,7 @@ TEST_CASE( "EOC_mutator_test", "[eoc][math_parser]" )
 TEST_CASE( "EOC_math_addiction", "[eoc][math_parser]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     avatar &a = get_avatar();
 
     item test_whiskey( itype_test_whiskey_caffenated );
@@ -538,7 +538,7 @@ TEST_CASE( "EOC_math_addiction", "[eoc][math_parser]" )
 TEST_CASE( "EOC_math_armor", "[eoc][math_parser]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     avatar &a = get_avatar();
     a.worn.wear_item( a, item( itype_test_eoc_armor_suit ), false, true, true );
 
@@ -558,7 +558,7 @@ TEST_CASE( "EOC_math_armor", "[eoc][math_parser]" )
 TEST_CASE( "EOC_math_field", "[eoc][math_parser]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -577,7 +577,7 @@ TEST_CASE( "EOC_math_field", "[eoc][math_parser]" )
 TEST_CASE( "EOC_math_item", "[eoc][math_parser]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -593,7 +593,7 @@ TEST_CASE( "EOC_math_item", "[eoc][math_parser]" )
 TEST_CASE( "EOC_math_proficiency", "[eoc][math_parser]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -621,7 +621,7 @@ TEST_CASE( "EOC_math_proficiency", "[eoc][math_parser]" )
 TEST_CASE( "EOC_math_spell", "[eoc][math_parser]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -647,7 +647,7 @@ TEST_CASE( "EOC_math_spell", "[eoc][math_parser]" )
 TEST_CASE( "EOC_mutation_test", "[eoc][mutations]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -684,7 +684,7 @@ TEST_CASE( "EOC_mutation_test", "[eoc][mutations]" )
 TEST_CASE( "EOC_purifiability", "[eoc][mutations]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     avatar &me = get_avatar();
 
     // Gain both traits
@@ -711,7 +711,7 @@ TEST_CASE( "EOC_purifiability", "[eoc][mutations]" )
 TEST_CASE( "EOC_monsters_nearby", "[eoc][math_parser]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     avatar &a = get_avatar();
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
@@ -749,7 +749,7 @@ TEST_CASE( "EOC_monsters_nearby", "[eoc][math_parser]" )
 TEST_CASE( "EOC_activity_ongoing", "[eoc][timed_event]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     get_avatar().assign_activity( ACT_ADD_VARIABLE_DURING, 300 );
 
     complete_activity( get_avatar() );
@@ -761,7 +761,7 @@ TEST_CASE( "EOC_activity_ongoing", "[eoc][timed_event]" )
 TEST_CASE( "EOC_stored_condition_test", "[eoc]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -903,7 +903,7 @@ TEST_CASE( "EOC_meta_test", "[eoc]" )
 TEST_CASE( "EOC_increment_var_var", "[eoc]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -922,7 +922,7 @@ TEST_CASE( "EOC_increment_var_var", "[eoc]" )
 TEST_CASE( "EOC_string_var_var", "[eoc]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     standard_npc dude;
     dialogue d( get_talker_for( get_avatar() ), get_talker_for( &dude ) );
     global_variables &globvars = get_globals();
@@ -943,7 +943,7 @@ TEST_CASE( "EOC_string_var_var", "[eoc]" )
 TEST_CASE( "EOC_run_with_test", "[eoc]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -967,7 +967,7 @@ TEST_CASE( "EOC_run_with_test", "[eoc]" )
 TEST_CASE( "EOC_run_until_test", "[eoc]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -982,7 +982,7 @@ TEST_CASE( "EOC_run_until_test", "[eoc]" )
 TEST_CASE( "EOC_run_with_test_expects", "[eoc]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -1010,7 +1010,7 @@ TEST_CASE( "EOC_run_with_test_expects", "[eoc]" )
 TEST_CASE( "EOC_run_with_test_queue", "[eoc]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -1038,7 +1038,7 @@ TEST_CASE( "EOC_run_with_test_queue", "[eoc]" )
 TEST_CASE( "EOC_run_inv_test", "[eoc]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     tripoint_abs_ms pos_before = get_avatar().pos_abs();
     tripoint_abs_ms pos_after = pos_before + tripoint::south_east;
@@ -1188,7 +1188,7 @@ TEST_CASE( "math_weapon_damage", "[eoc]" )
 TEST_CASE( "EOC_event_test", "[eoc]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -1250,7 +1250,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     globvars.clear_global_values();
     clear_avatar();
     clear_npcs();
-    clear_map();
+    clear_map_without_vision();
 
     // character_melee_attacks_character
     npc &npc_dst_melee = spawn_npc( get_avatar().pos_bub().xy() + point::south, "thug" );
@@ -1266,7 +1266,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     CHECK( globvars.get_global_value( "victim_name" ) == npc_dst_melee.get_name() );
 
     // character_melee_attacks_monster
-    clear_map();
+    clear_map_without_vision();
     monster &mon_dst_melee = spawn_test_monster( "mon_zombie",
                              get_avatar().pos_bub() + tripoint::east );
     get_avatar().melee_attack( mon_dst_melee, false );
@@ -1280,7 +1280,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
 
     // character_ranged_attacks_character
     const tripoint_bub_ms target_pos = get_avatar().pos_bub() + point::east;
-    clear_map();
+    clear_map_without_vision();
     npc &npc_dst_ranged = spawn_npc( target_pos.xy(), "thug" );
     for( loop = 0; loop < 1000; loop++ ) {
         arm_shooter( get_avatar(), itype_shotgun_s );
@@ -1299,7 +1299,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     CHECK( globvars.get_global_value( "victim_name" ) == npc_dst_ranged.get_name() );
 
     // character_ranged_attacks_monster
-    clear_map();
+    clear_map_without_vision();
     monster &mon_dst_ranged = spawn_test_monster( "mon_zombie", target_pos );
     for( loop = 0; loop < 1000; loop++ ) {
         arm_shooter( get_avatar(), itype_shotgun_s );
@@ -1318,7 +1318,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     CHECK( globvars.get_global_value( "victim_type" ) == "mon_zombie" );
 
     // character_kills_monster
-    clear_map();
+    clear_map_without_vision();
     monster &victim = spawn_test_monster( "mon_zombie", target_pos );
     victim.die( &here, &get_avatar() );
 
@@ -1330,7 +1330,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
 TEST_CASE( "EOC_spell_exp", "[eoc]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -1370,7 +1370,7 @@ TEST_CASE( "EOC_map_test", "[eoc]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     map &m = get_map();
     const tripoint_abs_ms start = get_avatar().pos_abs();
@@ -1395,7 +1395,7 @@ TEST_CASE( "EOC_martial_art_test", "[eoc]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
 
@@ -1420,7 +1420,7 @@ TEST_CASE( "EOC_martial_art_test", "[eoc]" )
 TEST_CASE( "EOC_string_test", "[eoc]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -1442,7 +1442,7 @@ TEST_CASE( "EOC_string_test", "[eoc]" )
 TEST_CASE( "EOC_compare_string_test", "[eoc]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -1480,7 +1480,7 @@ TEST_CASE( "EOC_compare_string_test", "[eoc]" )
 TEST_CASE( "EOC_run_eocs", "[eoc]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -1518,7 +1518,7 @@ TEST_CASE( "EOC_run_eocs", "[eoc]" )
     globvars.clear_global_values();
     avatar &u = get_avatar();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     clear_npcs();
     npc &guy = spawn_npc( u.pos_bub().xy() + point::east, "thug" );
     tripoint_abs_ms mon_loc = u.pos_abs() + tripoint::west;

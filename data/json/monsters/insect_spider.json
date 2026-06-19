@@ -57,7 +57,7 @@
     "dissect": "dissect_troglobite_sample_small",
     "fear_triggers": [ "FIRE" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SMELLS", "HEARS", "GOODHEARING", "BASHES", "BORES", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL" ],
+    "flags": [ "SMELLS", "HEARS", "GOODHEARING", "BASHES", "BORES", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL", "ACID_BLOOD" ],
     "armor": { "bash": 6, "electric": 3 }
   },
   {
@@ -898,7 +898,7 @@
     "id": "mon_dragonfly_naiad",
     "type": "MONSTER",
     "name": { "str": "giant dragonfly naiad" },
-    "description": "A predatory, aquatic dragonfly larva, normally barely a centimeter long and feeding on small fishes, grown to the size of a catfish.  Underneath its sharp mandibles you can see that its folded lower jaw has changed into something resembling a barbed spear.",
+    "description": "A predatory, aquatic dragonfly larva, normally barely a centimeter long and feeding on small fish, grown to the size of a catfish.  Underneath its sharp mandibles you can see that its folded lower jaw has changed into something resembling a barbed spear.",
     "species": [ "INSECT" ],
     "bodytype": "insect",
     "material": [ "iflesh" ],
@@ -1484,14 +1484,14 @@
           {
             "effect": "maimed_leg",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "One of the %s's legs falls limp!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "maimed_leg",
             "chance": 50,
-            "duration": [ 25, 100 ],
+            "duration": [ "25 seconds", "100 seconds" ],
             "message": "One of the %s's legs falls limp!",
             "damage_required": [ 11, 24 ]
           },
@@ -2178,7 +2178,6 @@
         "cooldown": 5,
         "move_cost": 130,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 10, "armor_penetration": 20 } ],
-        "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 4 ] ],
         "min_mul": 0.5,
         "max_mul": 1.5,
         "condition": { "not": { "u_has_effect": "maimed_mandible" } }
@@ -2254,7 +2253,6 @@
         "damage_max_instance": [ { "damage_type": "cut", "amount": 10, "armor_penetration": 30 } ],
         "min_mul": 1,
         "max_mul": 3,
-        "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 4 ] ],
         "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
@@ -2351,6 +2349,63 @@
     "vision_night": 8,
     "zombify_into": "mon_meat_cocoon_tiny",
     "delete": { "weakpoints": [ { "id": "stinger" } ], "flags": [ "FLIES" ], "special_attacks": [ "dermatik_impale" ] }
+  },
+  {
+    "id": "mon_dermatik_juvenile_flightless",
+    "type": "MONSTER",
+    "name": { "str": "flightless juvenile dermatik" },
+    "description": "A recently pupated parasitoid wasp the size of a large cat, with a raw fleshy look to her pale exoskeleton and an underdeveloped ovipositor extruding from her abdomen.  She's extricating her wings with repeating spastic motions from the fraying membrane they are still bound in, almost ready to search for a suitable home for her many, many children.",
+    "species": [ "INSECT" ],
+    "copy-from": "mon_dermatik",
+    "diff": 1,
+    "volume": "8 L",
+    "weight": "10 kg",
+    "hp": 35,
+    "speed": 10,
+    "looks_like": "mon_dermatik",
+    "aggression": 5,
+    "morale": 10,
+    "melee_skill": 3,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "dodge": 0,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "id": "mon_juv_dermatik_wingmolt",
+        "spell_data": { "id": "mon_juv_dermatik_wingmolt_spell", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "condition": { "one_in_chance": 3 },
+        "monster_message": "%1$s pulls her wings free and begins to take flight!",
+        "cooldown": 1
+      }
+    ],
+    "delete": { "weakpoints": [ { "id": "stinger" } ], "flags": [ "FLIES" ], "special_attacks": [ "dermatik_impale" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE", "CANPLAY", "GRABS" ],
+    "armor": { "bash": 1, "cut": 3 }
+  },
+  {
+    "id": "mon_dermatik_juvenile",
+    "type": "MONSTER",
+    "name": { "str": "juvenile dermatik" },
+    "description": "A recently pupated parasitoid wasp the size of a large cat, with a raw fleshy look to her pale exoskeleton and a fully developed ovipositor extruding from her abdomen.  She sluggishly buzzes about on still-stiffening wings, ready to search for a suitable home for her many, many children.",
+    "species": [ "INSECT_FLYING" ],
+    "copy-from": "mon_dermatik",
+    "diff": 2,
+    "volume": "8 L",
+    "weight": "10 kg",
+    "hp": 35,
+    "speed": 90,
+    "looks_like": "mon_dermatik",
+    "aggression": 40,
+    "morale": 10,
+    "melee_skill": 3,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "dodge": 3,
+    "armor": { "bash": 1, "cut": 3 }
   },
   {
     "id": "mon_dermatik_incubator_deer",
@@ -2616,6 +2671,7 @@
     "flags": [
       "ACIDPROOF",
       "SHORTACIDTRAIL",
+      "ACID_BLOOD",
       "HEARS",
       "POISON",
       "SEES",
@@ -3531,14 +3587,14 @@
           {
             "effect": "maimed_mandible",
             "chance": 25,
-            "duration": [ 1, 10 ],
+            "duration": [ "1 seconds", "10 seconds" ],
             "message": "The %s's mandibles are maimed!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_mandible",
             "chance": 50,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's mandibles are maimed!",
             "damage_required": [ 21, 40 ]
           },

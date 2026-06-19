@@ -1,0 +1,34 @@
+[
+  {
+    "result": "nl_kipple_scrap_steel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 4 ] ] ]
+  },
+  {
+    "result": "nl_kipple_scrap_alu",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 10 ] ] ]
+  },
+  {
+    "result": "nl_kipple_scrap_copper",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap_copper", 2 ] ] ]
+  },
+  {
+    "result": "nl_kipple_scrap_plastic",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 10 ] ] ]
+  }
+]

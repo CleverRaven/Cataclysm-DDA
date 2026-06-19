@@ -1,6 +1,7 @@
 #include "NoStaticTranslationCheck.h"
 
 #include <clang/AST/Expr.h>
+#include <clang/AST/ExprCXX.h>
 #include <clang/ASTMatchers/ASTMatchFinder.h>
 #include <clang/ASTMatchers/ASTMatchers.h>
 #include <clang/ASTMatchers/ASTMatchersInternal.h>
@@ -48,8 +49,16 @@ void NoStaticTranslationCheck::check( const MatchFinder::MatchResult &Result )
     if( !translationCall ) {
         return;
     }
+    // CXXOperatorCallExpr::getBeginLoc points at the operator parens in clang
+    // 21+; anchor to the receiver so the column stays stable across versions.
+    SourceLocation loc = translationCall->getBeginLoc();
+    if( const auto *opCall = dyn_cast<CXXOperatorCallExpr>( translationCall ) ) {
+        if( opCall->getOperator() == OO_Call && opCall->getNumArgs() > 0 ) {
+            loc = opCall->getArg( 0 )->getBeginLoc();
+        }
+    }
     diag(
-        translationCall->getBeginLoc(),
+        loc,
         "Translation functions should not be called when initializing a static variable.  "
         "See the `### Static string variables` section in `doc/TRANSLATING.md` for details."
     );

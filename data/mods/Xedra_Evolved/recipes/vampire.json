@@ -135,7 +135,6 @@
           "BLOODHASTE",
           "MAGICFORBLOOD",
           "HYPNOTIC_GAZE",
-          "BLOODBANK",
           "VAMPIRE_COMMAND_BEAST",
           "VAMPIRE_EARTH_SLUMBER",
           "VAMPIRE_CARDIO_BONUS",
@@ -454,6 +453,8 @@
             "EOC_REFINE_VAMPIRE_BLOOD_TEMPORARY_BOOST_REFINEMENT_MIND_BOOST",
             "EOC_REFINE_VAMPIRE_BAT_FORM_REFINEMENT_SWARM",
             "EOC_REFINE_VAMPIRE_CARDIO_BONUS_REFINEMENT_STAMINAFORBLOOD",
+            "EOC_REFINE_VAMPIRE_WALK_ON_WALLS_LOW_GRAVITY",
+            "EOC_REFINE_VAMPIRE_EARTH_SLUMBER_CREATE_PITS",
             "EOC_NONE"
           ],
           "allow_cancel": true,
@@ -466,6 +467,8 @@
             "Refine Carmine Vitality: Carmine Clarity",
             "Refine Shape of the Night Flier: Shape of the Night Fliers' Swarm",
             "Refine Incarnadine Energy/Unholy Endurance: Incarnadine Relentlessness",
+            "Refine Spider's Walk: Light as a Spider's Thread",
+            "Refine Earthen Slumber: Earthen Grave",
             "Nothing"
           ],
           "title": "Your research uncovers…",
@@ -478,6 +481,8 @@
             "Refine your Carmine Vitality so it increases intelligence and perception as well.",
             "Modify your Shape of the Night Flier to turn in a multitude of bats, making you as durable in this form as you are in your default form.",
             "Expand your Incarnadine Energy so that each use of Unholy Endurance temporarily increases its effect.",
+            "Further lessen your gravity, increasing how much you can carry and allowing you to glide down from heights.",
+            "Learn to use your Earthen Slumber to instead create large holes for your enemies to fall in them.",
             "End your research."
           ]
         }
@@ -612,6 +617,39 @@
         "u_message": "You learned Incarnadine Relentlessness, a new use for your Incarnadine Energy and Unholy Endurance Blood Arts.",
         "type": "good"
       },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_VAMPIRE_WALK_ON_WALLS_LOW_GRAVITY",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRE_WALK_ON_WALLS" },
+        { "not": { "u_has_trait": "VAMPIRE_WALK_ON_WALLS_REFINEMENT_LOW_GRAVITY" } }
+      ]
+    },
+    "effect": [
+      { "u_add_trait": "VAMPIRE_WALK_ON_WALLS_REFINEMENT_LOW_GRAVITY" },
+      {
+        "u_message": "You learned Light as a Spider's Thread, a new use for your Spider's Walk Blood Art.",
+        "type": "good"
+      },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_VAMPIRE_EARTH_SLUMBER_CREATE_PITS",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRE_EARTH_SLUMBER" },
+        { "not": { "u_has_trait": "VAMPIRE_EARTH_SLUMBER_REFINEMENT_CREATE_PITS" } }
+      ]
+    },
+    "effect": [
+      { "u_add_trait": "VAMPIRE_EARTH_SLUMBER_REFINEMENT_CREATE_PITS" },
+      { "u_message": "You learned Earthen Grave, a new use for your Earthen Slumber Blood Art.", "type": "good" },
       { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
     ]
   }

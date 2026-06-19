@@ -1,0 +1,99 @@
+[
+  {
+    "//": "None of these spawn so nothing here matters",
+    "id": "flames_tattoo_one",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str_sp": "flames_tattoo_one", "//~": "NO_I18N" },
+    "looks_like": "bio_int_enhancer",
+    "description": { "str": "flames_tattoo_one", "//~": "NO_I18N" },
+    "price": "5 kUSD",
+    "weight": "100 g",
+    "difficulty": 99
+  },
+  {
+    "id": "flames_tattoo_two",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str_sp": "flames_tattoo_two", "//~": "NO_I18N" },
+    "looks_like": "bio_int_enhancer",
+    "description": { "str": "flames_tattoo_two", "//~": "NO_I18N" },
+    "price": "5 kUSD",
+    "weight": "100 g",
+    "difficulty": 99
+  },
+  {
+    "id": "mountain_tattoo_one",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str_sp": "mountain_tattoo_one", "//~": "NO_I18N" },
+    "looks_like": "bio_int_enhancer",
+    "description": { "str": "mountain_tattoo_one", "//~": "NO_I18N" },
+    "price": "5 kUSD",
+    "weight": "100 g",
+    "difficulty": 99
+  },
+  {
+    "id": "mountain_tattoo_two",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str_sp": "mountain_tattoo_two", "//~": "NO_I18N" },
+    "looks_like": "bio_int_enhancer",
+    "description": { "str": "mountain_tattoo_two", "//~": "NO_I18N" },
+    "price": "5 kUSD",
+    "weight": "100 g",
+    "difficulty": 99
+  },
+  {
+    "id": "mountain_tattoo_three",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str_sp": "mountain_tattoo_three", "//~": "NO_I18N" },
+    "looks_like": "bio_int_enhancer",
+    "description": { "str": "mountain_tattoo_three", "//~": "NO_I18N" },
+    "price": "5 kUSD",
+    "weight": "100 g",
+    "difficulty": 99
+  },
+  {
+    "id": "mountain_tattoo_four",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str_sp": "mountain_tattoo_four", "//~": "NO_I18N" },
+    "looks_like": "bio_int_enhancer",
+    "description": { "str": "mountain_tattoo_four", "//~": "NO_I18N" },
+    "price": "5 kUSD",
+    "weight": "100 g",
+    "difficulty": 99
+  },
+  {
+    "id": "mountain_tattoo_five",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str_sp": "mountain_tattoo_five", "//~": "NO_I18N" },
+    "looks_like": "bio_int_enhancer",
+    "description": { "str": "mountain_tattoo_five", "//~": "NO_I18N" },
+    "price": "5 kUSD",
+    "weight": "100 g",
+    "difficulty": 99
+  },
+  {
+    "id": "mountain_tattoo_six",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str_sp": "mountain_tattoo_six", "//~": "NO_I18N" },
+    "looks_like": "bio_int_enhancer",
+    "description": { "str": "mountain_tattoo_six", "//~": "NO_I18N" },
+    "price": "5 kUSD",
+    "weight": "100 g",
+    "difficulty": 99
+  }
+]

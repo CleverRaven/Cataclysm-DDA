@@ -4,7 +4,6 @@
 #include <cstring>
 #include <optional>
 #include <ostream>
-#include <set>
 #include <vector>
 
 #include "cached_options.h"
@@ -17,6 +16,8 @@
 #include "mapgen.h"
 #include "output.h"
 #include "string_formatter.h"
+
+class pp_generator;
 
 static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
 
@@ -467,6 +468,7 @@ std::string enum_to_string<oter_travel_cost_type>( oter_travel_cost_type data )
         case oter_travel_cost_type::highway: return "highway";
         case oter_travel_cost_type::road: return "road";
         case oter_travel_cost_type::field: return "field";
+        case oter_travel_cost_type::crop_field: return "crop_field";
         case oter_travel_cost_type::dirt_road: return "dirt_road";
         case oter_travel_cost_type::trail: return "trail";
         case oter_travel_cost_type::forest: return "forest";
@@ -555,6 +557,7 @@ static string_id<map_data_summary> map_data_for_travel_cost( oter_travel_cost_ty
         case oter_travel_cost_type::field:
         case oter_travel_cost_type::dirt_road:
             return map_data_summary_empty_omt;
+        case oter_travel_cost_type::crop_field:
         case oter_travel_cost_type::trail:
         case oter_travel_cost_type::forest:
         case oter_travel_cost_type::shore:
@@ -612,6 +615,8 @@ void oter_type_t::load( const JsonObject &jo, const std::string_view )
 
 
     optional( jo, was_loaded, "vision_levels", vision_levels, oter_vision_default );
+    optional( jo, was_loaded, "post_process_generators", post_process_generators,
+              string_id_reader<pp_generator> {} );
     optional( jo, false, "uniform_terrain", uniform_terrain );
     if( uniform_terrain ) {
         return;
@@ -651,6 +656,21 @@ void oter_type_t::check() const
     }
     if( uniform_terrain && !uniform_terrain->is_valid() ) {
         debugmsg( "Invalid uniform_terrain id '%s' for '%s'", uniform_terrain->c_str(), id.str() );
+    }
+    for( const pp_generator_id &gen : post_process_generators ) {
+        if( !gen.is_valid() ) {
+            debugmsg( "Invalid post_process_generators id '%s' for '%s'", gen.str(), id.str() );
+        }
+    }
+    if( !post_process_generators.empty() && has_flag( oter_flags::road ) ) {
+        debugmsg( "'%s' has post_process_generators but road flag; "
+                  "road OMTs use hardcoded dispatch and the field will be ignored",
+                  id.str() );
+    }
+    if( has_flag( oter_flags::pp_generate_riot_damage ) && post_process_generators.empty() ) {
+        DebugLog( D_WARNING, D_MAP_GEN ) <<
+                                         "oter_type " << id.str() << " uses deprecated PP_GENERATE_RIOT_DAMAGE flag; "
+                                         "use \"post_process_generators\": [\"riot_damage\"] instead";
     }
     /* find omts without vision_levels assigned
     if( vision_levels == oter_vision_default && !has_flag( oter_flags::should_not_spawn ) ) {
@@ -817,10 +837,10 @@ void oter_t::get_rotation_and_subtile( int &rotation, int &subtile ) const
 {
     if( is_linear() ) {
         const om_lines::type &t = om_lines::all[line];
-        rotation = t.rotation;
+        rotation = ( 4 - t.rotation ) % 4;;
         subtile = t.subtile;
     } else if( is_rotatable() ) {
-        rotation = ( 4 - static_cast<int>( get_dir() ) ) % 4;
+        rotation = static_cast<int>( get_dir() );
         subtile = -1;
     } else {
         rotation = 0;
@@ -861,32 +881,6 @@ bool oter_t::has_connection( om_direction::type dir ) const
     return om_lines::has_segment( line, dir );
 }
 
-bool oter_t::is_hardcoded() const
-{
-    // TODO: This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
-    static const std::set<std::string> hardcoded_mapgen = {
-        "ants_lab",
-        "ants_lab_stairs",
-        "ice_lab",
-        "ice_lab_stairs",
-        "ice_lab_core",
-        "ice_lab_finale",
-        "central_lab",
-        "central_lab_stairs",
-        "central_lab_core",
-        "central_lab_finale",
-        "tower_lab",
-        "tower_lab_stairs",
-        "tower_lab_finale",
-        "lab",
-        "lab_core",
-        "lab_stairs",
-        "lab_finale"
-    };
-
-    return hardcoded_mapgen.find( get_mapgen_id() ) != hardcoded_mapgen.end();
-}
-
 void overmap_terrains::load( const JsonObject &jo, const std::string &src )
 {
     terrain_types.load( jo, src );
@@ -911,16 +905,13 @@ void overmap_terrains::check_consistency()
 
         if( has_mapgen_for( mid ) ) {
             if( test_mode ) {
-                if( elem.is_hardcoded() ) {
-                    debugmsg( "Mapgen terrain \"%s\" exists in both JSON and a hardcoded function.  Consider removing the latter.",
-                              mid.c_str() );
-                } else if( elem.has_uniform_terrain() ) {
+                if( elem.has_uniform_terrain() ) {
                     debugmsg( "Mapgen terrain \"%s\" specifies a uniform_terrain which is incompatible with additional JSON mapgen.",
                               mid.c_str() );
                 }
             }
             check_mapgen_consistent_with( mid, elem );
-        } else if( !elem.is_hardcoded() && !elem.has_uniform_terrain() ) {
+        } else if( !elem.has_uniform_terrain() ) {
             debugmsg( "No mapgen terrain exists for \"%s\".", mid.c_str() );
         }
     }

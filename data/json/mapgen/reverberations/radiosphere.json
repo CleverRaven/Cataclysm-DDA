@@ -86,10 +86,10 @@
       "rows": [
         " cllllc ",
         "ctcllctc",
-        "lcllllcl",
+        "lcllLlcl",
         "lllcclll",
         "lllCTlll",
-        "lcllllcl",
+        "lcllLlcl",
         "ctcllctc",
         " cllllc "
       ],
@@ -100,9 +100,14 @@
         "C": "t_linoleum_white",
         "t": "t_linoleum_white",
         "T": "t_linoleum_white",
-        "w": "t_wall_w",
-        "W": "t_wall_glass",
-        "d": [ [ "t_door_glass_c", 70 ], [ "t_door_glass_o", 30 ] ]
+        "L": "t_radiosphere_radio_tower_liminal_light"
+      },
+      "fields": {
+        "l": { "field": "fd_air_conditioner_radiosphere", "intensity": 1 },
+        "c": { "field": "fd_air_conditioner_radiosphere", "intensity": 1 },
+        "C": { "field": "fd_air_conditioner_radiosphere", "intensity": 1 },
+        "t": { "field": "fd_air_conditioner_radiosphere", "intensity": 1 },
+        "T": { "field": "fd_air_conditioner_radiosphere", "intensity": 1 }
       },
       "furniture": { "c": [ [ "f_null", 40 ], [ "f_chair", 60 ] ], "t": "f_table", "T": "f_counter", "C": "f_counter" },
       "items": {

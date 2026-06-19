@@ -23,7 +23,7 @@
       "target": "afs_energy_saber_on",
       "msg": "You activate the claw, and its bludgeoning surface slowly flattens into an edge as it begins to glow red-hot",
       "need_charges": 1,
-      "need_charges_msg": "The claw is out of charge."
+      "need_charges_msg": "The batteries are dead."
     },
     "flags": [ "BELT_CLIP", "DURABLE_MELEE" ],
     "pocket_data": [
@@ -86,7 +86,7 @@
     "ammo": [ "battery" ],
     "ammo_to_fire": 0,
     "energy_drain": "900 kJ",
-    "ammo_effects": [ "LOW_RANGE_VAPORIZATION", "NEVER_MISFIRES" ],
+    "ammo_effects": [ "LOW_RANGE_VAPORIZATION" ],
     "range": 30,
     "dispersion": 80,
     "durability": 6,

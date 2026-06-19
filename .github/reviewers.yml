@@ -27,6 +27,8 @@ files:
     - Maleclypse
   'data/mods/MindOverMatter/**':
     - Standing-Storm
+  'data/mods/Megacity/**':
+    - RenechCDDA
   'data/mods/innawood/**':
     - Light-Wave
   'data/mods/MA/**':
@@ -35,6 +37,8 @@ files:
     - gettingusedto
   'data/mods/Tamable_Wildlife/**':
     - Termineitor244
+  'data/mods/translate-dialogue/**':
+    - Tektolnes
   'data/mods/Limb_WIP/**':
     - Venera3
   'data/mods/alt_map_key/**':

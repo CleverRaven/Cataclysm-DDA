@@ -213,6 +213,7 @@ class talker_character_const: virtual public const_talker
         matec_id get_random_technique( Creature const &t, bool crit, bool dodge_counter,
                                        bool block_counter,
                                        const std::vector<matec_id> &blacklist = {} ) const override;
+        bool is_in_vehicle() const override;
 
     private:
         const Character *me_chr_const{};

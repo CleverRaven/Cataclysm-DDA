@@ -23,7 +23,6 @@ static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
-static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 
 namespace std
 {
@@ -220,7 +219,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         ACT_MOVE_ITEMS,
         activity_id::NULL_ID(), // ACT_ADV_INVENTORY is uistate.open_menu now
         activity_id::NULL_ID(), // ACT_ARMOR_LAYERS is uistate.open_menu now
-        ACT_START_FIRE,
+        activity_id::NULL_ID(), // ACT_START_FIRE is an actor now
         ACT_OPEN_GATE,
         ACT_FILL_LIQUID,
         ACT_HOTWIRE_CAR,

@@ -107,6 +107,7 @@
     "description": "Designed to attach to an exosuit's legs, these are sturdy plates of vacuum-cast carbide.",
     "weight": "20250 g",
     "material": [ "vacuum_carbide_hard" ],
+    "faults": [ { "fault_group": "carbide_armor" } ],
     "non_functional": "damaged_exo_leg_vcc",
     "armor": [
       {

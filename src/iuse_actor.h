@@ -28,6 +28,7 @@ class JsonObject;
 class item;
 class item_location;
 class map;
+class npc;
 class npc_template;
 struct furn_t;
 
@@ -37,6 +38,10 @@ namespace sounds
 {
 enum class sound_t : int;
 } // namespace sounds
+
+// this might not be the ideal place for this, but for now it'll do
+template<typename T>
+item_location form_loc_recursive( T &loc, item &it );
 
 /**
  * Transform an item into a specific type.
@@ -112,31 +117,6 @@ class iuse_transform : public iuse_actor
         std::string get_name() const override;
         void finalize( const itype_id &my_item_type ) override;
         void info( const item &, std::vector<iteminfo> & ) const override;
-};
-
-class unpack_actor : public iuse_actor
-{
-    public:
-        /** The itemgroup from which we unpack items from */
-        item_group_id unpack_group;
-
-        /** Whether or not the items from the group should spawn fitting */
-        bool items_fit = false;
-
-        /**
-         *  If the item is filthy, at what volume (held) threshold should the
-         *   items unpacked be made filthy
-         */
-        units::volume filthy_vol_threshold = 0_ml;
-
-        explicit unpack_actor( const std::string &type = "unpack" ) : iuse_actor( type ) {}
-
-        ~unpack_actor() override = default;
-        void load( const JsonObject &obj, const std::string & ) override;
-        using iuse_actor::use;
-        std::optional<int> use( Character *p, item &it, map *here, const tripoint_bub_ms & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-        void info( const item &, std::vector<iteminfo> &dump ) const override;
 };
 
 class message_iuse : public iuse_actor
@@ -468,8 +448,8 @@ class reveal_map_actor : public iuse_actor
          * The radius of the overmap area that gets revealed.
          * This is in overmap terrain coordinates.
          * A radius of 1 means all terrains directly around center are revealed.
-         * The center is location of nearest city defined in `reveal_map_center` variable of
-         * activated item (or current player global omt location if variable is not set).
+         * The center is location of nearest city defined in `spawn_location` variable of
+         * activated item. Skip if location is missing.
          */
         int radius = 0;
         /**
@@ -548,6 +528,13 @@ class firestarter_actor : public iuse_actor
         ret_val<void> can_use( const Character &p, const item &it, map *,
                                const tripoint_bub_ms & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
+
+        // NPC-safe fire starting. Bypasses UI (choose_adjacent, query_yn,
+        // tinder picker). Uses real can_use(), moves, and skill formulas.
+        // Warmth-specific: plain FIRE type only (not SMOKER/KILN).
+        // Returns true if fire was started (instant) or activity assigned.
+        bool npc_start_fire( npc &who, item &tool,
+                             const tripoint_bub_ms &fire_pos ) const;
 };
 
 /**

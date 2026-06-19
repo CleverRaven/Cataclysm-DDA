@@ -112,7 +112,7 @@
     "type": "MONSTER_FACTION",
     "name": "slime",
     "copy-from": "slime",
-    "extend": { "neutral": [ "changeling", "nightmares", "vampire" ] }
+    "extend": { "neutral": [ "nightmares", "vampire" ], "by_mood": "changeling" }
   },
   {
     "type": "MONSTER_FACTION",

@@ -28,7 +28,7 @@
     "copy-from": "egg_chicken",
     "name": { "str": "unfertilized bird egg" },
     "description": "A nutritious egg laid by a bird.  This one is unfertilized and probably from a farm.",
-    "rot_spawn": { "chance": 0 }
+    "extend": { "rot_spawn": { "chance": 0 } }
   },
   {
     "type": "ITEM",
@@ -38,7 +38,7 @@
     "spoils_in": "13 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.73, "weight": 0.73, "calories": 0.73 },
-    "rot_spawn": { "monster": "mon_grouse_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_grouse_chick" } }
   },
   {
     "type": "ITEM",
@@ -48,7 +48,7 @@
     "spoils_in": "9 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.3, "weight": 0.3, "calories": 0.3 },
-    "rot_spawn": { "monster": "mon_pigeon_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_pigeon_chick" } }
   },
   {
     "type": "ITEM",
@@ -58,7 +58,7 @@
     "spoils_in": "9 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.34, "weight": 0.34, "calories": 0.34 },
-    "rot_spawn": { "monster": "mon_crow_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_crow_chick" } }
   },
   {
     "type": "ITEM",
@@ -67,7 +67,7 @@
     "name": { "str": "raven egg" },
     "spoils_in": "11 days",
     "copy-from": "egg_crow",
-    "rot_spawn": { "monster": "mon_raven_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_raven_chick" } }
   },
   {
     "type": "ITEM",
@@ -77,7 +77,7 @@
     "spoils_in": "9 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.18, "weight": 0.18, "calories": 0.18 },
-    "rot_spawn": { "monster": "mon_bluejay_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_bluejay_chick" } }
   },
   {
     "type": "ITEM",
@@ -87,7 +87,7 @@
     "spoils_in": "7 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.09, "weight": 0.09, "calories": 0.09 },
-    "rot_spawn": { "monster": "mon_cardinal_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_cardinal_chick" } }
   },
   {
     "type": "ITEM",
@@ -99,7 +99,7 @@
     "description": "A nutritious egg laid by a robin.  The shell is colored a distinctive light blue.",
     "color": "light_blue",
     "proportional": { "volume": 0.15, "weight": 0.15, "calories": 0.15 },
-    "rot_spawn": { "monster": "mon_robin_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_robin_chick" } }
   },
   {
     "type": "ITEM",
@@ -109,7 +109,7 @@
     "spoils_in": "7 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
-    "rot_spawn": { "monster": "mon_sparrow_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_sparrow_chick" } }
   },
   {
     "type": "ITEM",
@@ -119,7 +119,7 @@
     "spoils_in": "6 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.03, "weight": 0.03, "calories": 0.03 },
-    "rot_spawn": { "monster": "mon_chickadee_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_chickadee_chick" } }
   },
   {
     "type": "ITEM",
@@ -129,7 +129,7 @@
     "spoils_in": "8 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
-    "rot_spawn": { "monster": "mon_waxwing_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_waxwing_chick" } }
   },
   {
     "type": "ITEM",
@@ -141,7 +141,7 @@
     "proportional": { "volume": 1.4, "weight": 1.4 },
     "calories": 130,
     "vitamins": [ [ "iron", "3 mg" ], [ "calcium", "45 mg" ], [ "egg_allergen", 1 ] ],
-    "rot_spawn": { "monster": "mon_duck_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_duck_chick" } }
   },
   {
     "type": "ITEM",
@@ -149,7 +149,7 @@
     "id": "egg_duck_domestic",
     "name": { "str": "domestic duck egg" },
     "copy-from": "egg_duck",
-    "rot_spawn": { "monster": "mon_duck_domestic_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_duck_domestic_chick" } }
   },
   {
     "type": "ITEM",
@@ -161,7 +161,7 @@
     "proportional": { "volume": 3.26, "weight": 3.26 },
     "calories": 302,
     "vitamins": [ [ "iron", "6 mg" ], [ "calcium", "98 mg" ], [ "egg_allergen", 1 ] ],
-    "rot_spawn": { "monster": "mon_goose_canadian_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_goose_canadian_chick" } }
   },
   {
     "type": "ITEM",
@@ -173,7 +173,7 @@
     "proportional": { "volume": 1.58, "weight": 1.58 },
     "calories": 135,
     "vitamins": [ [ "iron", "3 mg" ], [ "calcium", "78 mg" ], [ "egg_allergen", 1 ] ],
-    "rot_spawn": { "monster": "mon_turkey_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_turkey_chick" } }
   },
   {
     "type": "ITEM",
@@ -181,7 +181,7 @@
     "id": "egg_turkey_domestic",
     "name": { "str": "domestic turkey egg" },
     "copy-from": "egg_turkey",
-    "rot_spawn": { "monster": "mon_turkey_domestic_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_turkey_domestic_chick" } }
   },
   {
     "type": "ITEM",
@@ -190,7 +190,7 @@
     "name": { "str": "ring-necked pheasant egg" },
     "spoils_in": "14 days",
     "copy-from": "egg_chicken",
-    "rot_spawn": { "monster": "mon_pheasant_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_pheasant_chick" } }
   },
   {
     "type": "ITEM",
@@ -200,7 +200,7 @@
     "spoils_in": "14 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.9, "weight": 0.9, "calories": 0.9 },
-    "rot_spawn": { "monster": "mon_guinea_fowl_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_guinea_fowl_chick" } }
   },
   {
     "type": "ITEM",
@@ -210,7 +210,7 @@
     "spoils_in": "23 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
-    "rot_spawn": { "monster": "mon_wormsnake_baby" }
+    "extend": { "rot_spawn": { "monster": "mon_wormsnake_baby" } }
   },
   {
     "type": "ITEM",
@@ -220,7 +220,7 @@
     "spoils_in": "40 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.25, "weight": 0.25, "calories": 0.25 },
-    "rot_spawn": { "monster": "mon_turtle_painted_baby" }
+    "extend": { "rot_spawn": { "monster": "mon_turtle_painted_baby" } }
   },
   {
     "type": "ITEM",
@@ -230,7 +230,7 @@
     "spoils_in": "51 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.25, "weight": 0.25, "calories": 0.25 },
-    "rot_spawn": { "monster": "mon_turtle_snapping_common_baby" }
+    "extend": { "rot_spawn": { "monster": "mon_turtle_snapping_common_baby" } }
   },
   {
     "type": "ITEM",
@@ -240,7 +240,7 @@
     "spoils_in": "28 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
-    "rot_spawn": { "monster": "mon_skink_fivelined_baby" }
+    "extend": { "rot_spawn": { "monster": "mon_skink_fivelined_baby" } }
   },
   {
     "type": "ITEM",
@@ -274,7 +274,7 @@
     "price_postapoc": "5 USD",
     "proportional": { "weight": 4, "calories": 4, "volume": 4 },
     "vitamins": [ [ "calcium", 28 ], [ "iron", 72 ], [ "mutant_toxin", 100 ], [ "egg_allergen", 1 ] ],
-    "rot_spawn": { "monster": "mon_ant_larva", "chance": 100 }
+    "extend": { "rot_spawn": { "monster": "mon_ant_larva", "chance": 100 } }
   },
   {
     "type": "ITEM",
@@ -283,7 +283,7 @@
     "name": { "str": "acid ant egg" },
     "copy-from": "ant_egg",
     "description": "A large, heavy acid ant egg, the size of a softball.  Extremely nutritious, but incredibly gross.",
-    "rot_spawn": { "monster": "mon_ant_acid_larva" }
+    "extend": { "rot_spawn": { "monster": "mon_ant_acid_larva" } }
   },
   {
     "type": "ITEM",
@@ -292,7 +292,7 @@
     "name": { "str": "roach egg" },
     "description": "A fist-sized egg from a giant roach.  Incredibly gross.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_giant_cockroach_nymph", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_giant_cockroach_nymph", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -301,7 +301,7 @@
     "name": { "str": "plague vector egg" },
     "description": "A fist-sized egg from a plague vector.  Incredibly gross.",
     "copy-from": "egg_roach",
-    "rot_spawn": { "monster": "mon_plague_nymph" }
+    "extend": { "rot_spawn": { "monster": "mon_plague_nymph" } }
   },
   {
     "type": "ITEM",
@@ -311,7 +311,7 @@
     "description": "A fist-sized egg from a locust.",
     "copy-from": "egg_insect",
     "color": "green",
-    "rot_spawn": { "monster": "mon_locust_nymph", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_locust_nymph", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -321,7 +321,7 @@
     "description": "The still-wet egg of a mutated dragonfly.  Serves as a disgusting substitute for the real thing, just don't let it hatch in the water.",
     "copy-from": "egg_insect",
     "color": "light_green",
-    "rot_spawn": { "monster": "mon_dragonfly_naiad", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_dragonfly_naiad", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -331,7 +331,7 @@
     "description": "The fist-sized egg of a mutant firefly.  Glows faintly in the dark.",
     "copy-from": "egg_insect",
     "color": "yellow",
-    "rot_spawn": { "monster": "mon_firefly_larva", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_firefly_larva", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -343,7 +343,7 @@
     "color": "light_green",
     "proportional": { "weight": 2, "calories": 2, "volume": 2 },
     "vitamins": [ [ "calcium", 14 ], [ "iron", 36 ], [ "mutant_toxin", 50 ], [ "egg_allergen", 1 ] ],
-    "rot_spawn": { "monster": "mon_centipede_larva", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_centipede_larva", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -354,7 +354,7 @@
     "copy-from": "egg_insect",
     "color": "white",
     "spoils_in": "2 days",
-    "rot_spawn": { "monster": "mon_wasp_larva", "chance": 100 }
+    "extend": { "rot_spawn": { "monster": "mon_wasp_larva", "chance": 100 } }
   },
   {
     "type": "ITEM",
@@ -367,7 +367,7 @@
     "spoils_in": "20 days",
     "proportional": { "weight": 5, "calories": 5, "volume": 5 },
     "vitamins": [ [ "calcium", 35 ], [ "iron", 90 ], [ "mutant_toxin", 125 ], [ "egg_allergen", 1 ] ],
-    "rot_spawn": { "monster": "mon_stag_beetle_larva", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_stag_beetle_larva", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -379,7 +379,7 @@
     "color": "yellow",
     "proportional": { "weight": 2, "calories": 2, "volume": 2 },
     "vitamins": [ [ "calcium", 14 ], [ "iron", 36 ], [ "mutant_toxin", 50 ], [ "egg_allergen", 1 ] ],
-    "rot_spawn": { "monster": "mon_antlion_larva", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_antlion_larva", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -388,7 +388,7 @@
     "name": { "str": "water strider egg" },
     "description": "A large, sticky, and wet water strider egg.  You should probably put it back in the water.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_strider_nymph", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_strider_nymph", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -398,7 +398,7 @@
     "description": "A long, white, pill-shaped grasshopper egg.  Inside you can see two twitching legs.",
     "copy-from": "egg_insect",
     "color": "light_green",
-    "rot_spawn": { "monster": "mon_grasshopper_nymph", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_grasshopper_nymph", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -408,7 +408,7 @@
     "description": "A ladybug egg.  It looks like a huge yellow rice grain.  You can see a translucent, hungry larva inside.",
     "copy-from": "egg_insect",
     "color": "light_red",
-    "rot_spawn": { "monster": "mon_lady_bug_larva", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_lady_bug_larva", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -418,7 +418,7 @@
     "description": "A mole cricket egg covered in bits of sand and dirt.  It's brown with a few black dots on it.",
     "copy-from": "egg_insect",
     "color": "brown",
-    "rot_spawn": { "monster": "mon_mole_cricket_nymph", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_mole_cricket_nymph", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -431,7 +431,7 @@
     "spoils_in": "10 days",
     "proportional": { "weight": 5, "calories": 5, "volume": 5 },
     "vitamins": [ [ "calcium", 35 ], [ "iron", 90 ], [ "mutant_toxin", 125 ], [ "egg_allergen", 1 ] ],
-    "rot_spawn": { "monster": "mon_mantis_nymph", "chance": 50, "amount": [ 1, 3 ] }
+    "extend": { "rot_spawn": { "monster": "mon_mantis_nymph", "chance": 50, "amount": [ 1, 3 ] } }
   },
   {
     "type": "ITEM",
@@ -440,7 +440,7 @@
     "name": { "str": "fly egg" },
     "description": "The egg of a fly.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_fly_larva", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_fly_larva", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -449,7 +449,7 @@
     "name": { "str": "moth fly egg" },
     "description": "The egg of a moth fly.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_moth_fly_larva", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_moth_fly_larva", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -458,7 +458,7 @@
     "name": { "str": "silverfish egg" },
     "description": "The egg of a silverfish.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_silverfish_nymph", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_silverfish_nymph", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -467,7 +467,7 @@
     "name": { "str": "house centipede egg" },
     "description": "The egg of a house centipede.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_centipede_house_larva", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_centipede_house_larva", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -476,7 +476,7 @@
     "name": { "str": "mosquito egg" },
     "description": "The egg of a mosquito.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_mosquito_larva", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_mosquito_larva", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -485,7 +485,7 @@
     "name": { "str": "cellar spider egg" },
     "description": "The egg of a cellar spider.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_spider_cellar_giant_s", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_spider_cellar_giant_s", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -494,7 +494,7 @@
     "name": { "str": "jumping spider egg" },
     "description": "The egg of a jumping spider.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_spider_jumping_giant_s", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_spider_jumping_giant_s", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -503,7 +503,7 @@
     "name": { "str": "trapdoor spider egg" },
     "description": "The egg of a trapdoor spider.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_spider_trapdoor_s", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_spider_trapdoor_s", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -512,7 +512,7 @@
     "name": { "str": "web spider egg" },
     "description": "The egg of a web spider.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_spider_web_s", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_spider_web_s", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -521,7 +521,7 @@
     "name": { "str": "black widow egg" },
     "description": "The egg of a black widow.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_spider_widow_giant_s", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_spider_widow_giant_s", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -530,7 +530,7 @@
     "name": { "str": "wolf spider egg" },
     "description": "The egg of a wolf spider.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_spider_wolf_giant_s", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_spider_wolf_giant_s", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -542,7 +542,7 @@
     "spoils_in": "10 days",
     "proportional": { "weight": 5, "calories": 5, "volume": 5 },
     "vitamins": [ [ "calcium", 35 ], [ "iron", 90 ], [ "mutant_toxin", 125 ], [ "egg_allergen", 1 ] ],
-    "rot_spawn": { "monster": "mon_worm_larva", "chance": 50, "amount": [ 1, 3 ] }
+    "extend": { "rot_spawn": { "monster": "mon_worm_larva", "chance": 50, "amount": [ 1, 3 ] } }
   },
   {
     "type": "ITEM",
@@ -551,7 +551,7 @@
     "name": { "str": "slug egg" },
     "description": "The egg of a slug.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_slug_larva", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_slug_larva", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -560,7 +560,7 @@
     "name": { "str": "snail egg" },
     "description": "The egg of a snail.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_snail_larva", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_snail_larva", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -610,7 +610,7 @@
     "id": "egg_brown_trout",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_brown_trout", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_brown_trout", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -618,7 +618,7 @@
     "id": "egg_brook_trout",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_brook_trout", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_brook_trout", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -626,7 +626,7 @@
     "id": "egg_lake_trout",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_lake_trout", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_lake_trout", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -634,7 +634,7 @@
     "id": "egg_rainbow_trout",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_rainbow_trout", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_rainbow_trout", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -642,7 +642,7 @@
     "id": "egg_salmon",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_salmon", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_salmon", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -650,7 +650,7 @@
     "id": "egg_cod",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_cod", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_cod", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -658,7 +658,7 @@
     "id": "egg_haddock",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_haddock", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_haddock", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -666,7 +666,7 @@
     "id": "egg_bluefin_tuna",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_bluefin_tuna", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_bluefin_tuna", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -674,7 +674,7 @@
     "id": "egg_halibut",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_halibut", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_halibut", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -682,7 +682,7 @@
     "id": "egg_pollock",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_pollock", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_pollock", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -690,7 +690,7 @@
     "id": "egg_flounder",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_flounder", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_flounder", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -698,7 +698,7 @@
     "id": "egg_mackerel",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_mackerel", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_mackerel", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -706,7 +706,7 @@
     "id": "egg_bluefish",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_bluefish", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_bluefish", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -714,7 +714,7 @@
     "id": "egg_blackfish",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_blackfish", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_blackfish", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -722,7 +722,7 @@
     "id": "egg_porgy",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_porgy", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_porgy", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -730,7 +730,7 @@
     "id": "egg_kokanee_salmon",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_kokanee_salmon", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_kokanee_salmon", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -738,7 +738,7 @@
     "id": "egg_whitefish",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_whitefish", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_whitefish", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -746,7 +746,7 @@
     "id": "egg_whitefish_round",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_whitefish_round", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_whitefish_round", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -754,7 +754,7 @@
     "id": "egg_lbass",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_lbass", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_lbass", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -762,7 +762,7 @@
     "id": "egg_sbass",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_sbass", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_sbass", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -770,7 +770,7 @@
     "id": "egg_pbass",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_pbass", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_pbass", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -778,7 +778,7 @@
     "id": "egg_perch",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_perch", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_perch", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -786,7 +786,7 @@
     "id": "egg_walleye",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_walleye", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_walleye", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -794,7 +794,7 @@
     "id": "egg_sunfish",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_sunfish", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_sunfish", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -802,7 +802,7 @@
     "id": "egg_pumpkinseed",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_pumpkinseed", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_pumpkinseed", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -810,7 +810,7 @@
     "id": "egg_bluegill",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_bluegill", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_bluegill", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -818,7 +818,7 @@
     "id": "egg_redbreast",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_redbreast", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_redbreast", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -826,7 +826,7 @@
     "id": "egg_green_sunfish",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_green_sunfish", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_green_sunfish", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -834,7 +834,7 @@
     "id": "egg_rock_bass",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_rock_bass", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_rock_bass", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -842,7 +842,7 @@
     "id": "egg_calico_bass",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_calico_bass", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_calico_bass", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -850,7 +850,7 @@
     "id": "egg_warmouth",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_warmouth", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_warmouth", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -858,7 +858,7 @@
     "id": "egg_bullhead",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_bullhead", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_bullhead", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -866,7 +866,7 @@
     "id": "egg_bullhead_yellow",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_bullhead_yellow", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_bullhead_yellow", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -874,7 +874,7 @@
     "id": "egg_channel_catfish",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_channel_catfish", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_channel_catfish", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -882,7 +882,7 @@
     "id": "egg_white_catfish",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_white_catfish", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_white_catfish", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -890,7 +890,7 @@
     "id": "egg_pike",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_pike", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_pike", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -898,7 +898,7 @@
     "id": "egg_pickerel",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_pickerel", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_pickerel", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -906,7 +906,7 @@
     "id": "egg_pickerel_american",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_pickerel_american", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_pickerel_american", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -914,7 +914,7 @@
     "id": "egg_muskellunge",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_muskellunge", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_muskellunge", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -922,7 +922,7 @@
     "id": "egg_white_sucker",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_white_sucker", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_white_sucker", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -930,7 +930,7 @@
     "id": "egg_carp",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_carp", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_carp", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -938,7 +938,7 @@
     "id": "egg_grass_carp",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_grass_carp", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_grass_carp", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -946,7 +946,7 @@
     "id": "egg_goldfish",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_goldfish", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_goldfish", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -954,7 +954,7 @@
     "id": "egg_bowfin",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_bowfin", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_bowfin", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -964,7 +964,7 @@
     "copy-from": "egg_fish",
     "use_action": [ "POISON" ],
     "//": "Gar eggs are poisonous - this is not an oversight. This is also why these are omitted from the cooking requirement group.",
-    "rot_spawn": { "monster": "mon_fry_gar_longnose", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_gar_longnose", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -972,7 +972,7 @@
     "id": "egg_burbot",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_burbot", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_burbot", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -980,7 +980,7 @@
     "id": "egg_sturgeon_lake",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_sturgeon_lake", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_sturgeon_lake", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -988,7 +988,7 @@
     "id": "egg_sturgeon_shortnose",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_sturgeon_shortnose", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_sturgeon_shortnose", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -996,7 +996,7 @@
     "id": "egg_fallfish",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "monster": "mon_fry_fallfish", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_fallfish", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -1025,7 +1025,7 @@
     "id": "egg_mutant_salmon",
     "name": { "str_sp": "mutant fish roe" },
     "copy-from": "egg_fish_mutant",
-    "rot_spawn": { "monster": "mon_fry_mutant_salmon", "chance": 45 }
+    "extend": { "rot_spawn": { "monster": "mon_fry_mutant_salmon", "chance": 45 } }
   },
   {
     "type": "ITEM",
@@ -1065,7 +1065,7 @@
     "price_postapoc": "25 cent",
     "flags": [  ],
     "fun": -2,
-    "rot_spawn": { "chance": 0 }
+    "extend": { "rot_spawn": { "chance": 0 } }
   },
   {
     "type": "ITEM",
@@ -1083,8 +1083,8 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 3,
-    "rot_spawn": { "chance": 0 },
-    "vitamins": [ [ "egg_allergen", 1 ] ]
+    "vitamins": [ [ "egg_allergen", 1 ] ],
+    "extend": { "rot_spawn": { "chance": 0 } }
   },
   {
     "type": "ITEM",
@@ -1110,8 +1110,8 @@
     "material": [ "egg" ],
     "fun": 2,
     "flags": [ "FREEZERBURN" ],
-    "rot_spawn": { "chance": 0 },
-    "vitamins": [ [ "egg_allergen", 1 ] ]
+    "vitamins": [ [ "egg_allergen", 1 ] ],
+    "extend": { "rot_spawn": { "chance": 0 } }
   },
   {
     "type": "ITEM",
@@ -1341,7 +1341,7 @@
     "proportional": { "volume": 2.88, "weight": 2.88 },
     "calories": 266,
     "vitamins": [ [ "iron", "5 mg" ], [ "calcium", "86 mg" ], [ "egg_allergen", 1 ] ],
-    "rot_spawn": { "monster": "mon_goose_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_goose_chick" } }
   },
   {
     "type": "ITEM",
@@ -1354,7 +1354,7 @@
     "volume": "1 ml",
     "calories": 1,
     "//": "Volume and calories defined manually because proportional rounded them down to 0",
-    "rot_spawn": { "monster": "mon_hummingbird_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_hummingbird_chick" } }
   },
   {
     "type": "ITEM",
@@ -1364,7 +1364,7 @@
     "spoils_in": "6 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
-    "rot_spawn": { "monster": "mon_woodpecker_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_woodpecker_chick" } }
   },
   {
     "type": "ITEM",
@@ -1374,7 +1374,7 @@
     "spoils_in": "13 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.73, "weight": 0.73, "calories": 0.73 },
-    "rot_spawn": { "monster": "mon_coot_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_coot_chick" } }
   },
   {
     "type": "ITEM",
@@ -1383,7 +1383,7 @@
     "name": { "str": "double-crested cormorant egg" },
     "spoils_in": "14 days",
     "copy-from": "egg_chicken",
-    "rot_spawn": { "monster": "mon_cormorant_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_cormorant_chick" } }
   },
   {
     "type": "ITEM",
@@ -1392,7 +1392,7 @@
     "name": { "str": "common gallinule egg" },
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.73, "weight": 0.73, "calories": 0.73 },
-    "rot_spawn": { "monster": "mon_moorhen_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_moorhen_chick" } }
   },
   {
     "type": "ITEM",
@@ -1401,7 +1401,7 @@
     "name": { "str": "horned grebe egg" },
     "spoils_in": "12 days",
     "copy-from": "egg_chicken",
-    "rot_spawn": { "monster": "mon_grebe_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_grebe_chick" } }
   },
   {
     "type": "ITEM",
@@ -1410,7 +1410,7 @@
     "name": "water beetle egg",
     "description": "The egg of a water beetle, usually found near aquatic grass.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_diving_larva", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_diving_larva", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -1419,7 +1419,7 @@
     "name": "water scorpion egg",
     "copy-from": "egg_insect",
     "description": "The egg of a water scorpion, usually found near aquatic grass.",
-    "rot_spawn": { "monster": "mon_water_scorpion_larva", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_water_scorpion_larva", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -1428,7 +1428,7 @@
     "name": "butterfly egg",
     "description": "The egg of a butterfly.  They are usually found clustered on leaves.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_caterpillar_butterfly", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_caterpillar_butterfly", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -1437,7 +1437,7 @@
     "name": "moth egg",
     "description": "The egg of a moth.  They are usually found clustered on leaves.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_caterpillar_moth", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_caterpillar_moth", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -1446,7 +1446,7 @@
     "name": "cicada egg",
     "description": "The egg of a cicada.  They are usually found near trees.",
     "copy-from": "egg_insect",
-    "rot_spawn": { "monster": "mon_cicada_nymph", "chance": 50 }
+    "extend": { "rot_spawn": { "monster": "mon_cicada_nymph", "chance": 50 } }
   },
   {
     "type": "ITEM",
@@ -1486,7 +1486,7 @@
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "description": "This is a dense cluster of dark frog's eggs, not dissimilar in appearance to caviar.",
-    "rot_spawn": { "monster": "mon_leo_tadpole", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_leo_tadpole", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -1495,7 +1495,7 @@
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "description": "A thin film of frog eggs floats together atop the water in a roughly circular mass.",
-    "rot_spawn": { "monster": "mon_bullfrog_tadpole", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_bullfrog_tadpole", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -1505,7 +1505,7 @@
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "description": "These eggs float in long strands, drifting in the still water.",
     "use_action": [ "POISON" ],
-    "rot_spawn": { "monster": "mon_fowler_tadpole", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_fowler_tadpole", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -1515,7 +1515,7 @@
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "description": "A spiral strand of frog eggs adorns a patch of underwater vegetation.",
     "use_action": [ "POISON" ],
-    "rot_spawn": { "monster": "mon_freedom_tadpole", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_freedom_tadpole", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -1524,7 +1524,7 @@
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "description": "A loose grouping of surprisingly few frog's eggs, anchored to submerged vegetation.",
-    "rot_spawn": { "monster": "mon_peeper_tadpole", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_peeper_tadpole", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -1533,7 +1533,7 @@
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "description": "A small patch of frog's eggs rests on the water's surface.",
-    "rot_spawn": { "monster": "mon_gray_tadpole", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_gray_tadpole", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -1542,7 +1542,7 @@
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "description": "A tight, spherical cluster of eggs, often found near submerged vegetation.  This cluster is polar, with dark pigment collected near the tops of the eggs and white left on the underside.",
-    "rot_spawn": { "monster": "mon_mink_tadpole", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_mink_tadpole", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -1552,7 +1552,7 @@
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "description": "A globular mass of frog's eggs.  The individual eggs are colored a dark brown on top and a yellow-cream on the bottom.",
     "use_action": [ "POISON" ],
-    "rot_spawn": { "monster": "mon_pickerel_tadpole", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_pickerel_tadpole", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -1561,7 +1561,7 @@
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "description": "A thin sheet of clear, gelatinous eggs with dark embryos peppered throughout.",
-    "rot_spawn": { "monster": "mon_green_tadpole", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_green_tadpole", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -1570,7 +1570,7 @@
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "description": "This softball-sized mass of gooey eggs clings together like a bunch of soft, transparent grapes.  The \"seeds\" inside these appear to be growing legs.",
-    "rot_spawn": { "monster": "mon_wood_tadpole", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_wood_tadpole", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -1580,7 +1580,7 @@
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "description": "Several short strands of tightly clustered black eggs connected together by their viscous coverings.",
     "use_action": [ "POISON" ],
-    "rot_spawn": { "monster": "mon_spade_tadpole", "chance": 20 }
+    "extend": { "rot_spawn": { "monster": "mon_spade_tadpole", "chance": 20 } }
   },
   {
     "type": "ITEM",
@@ -1606,7 +1606,7 @@
     "copy-from": "egg_proxy_bigfrog",
     "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },
     "description": "From a distance you could mistake it for a cluster of gigantic caviar.  It is only on close inspection that you can make out the faint translucence of these softball-sized frog eggs.",
-    "rot_spawn": { "monster": "mon_pattern_bigtad", "chance": 45 }
+    "extend": { "rot_spawn": { "monster": "mon_pattern_bigtad", "chance": 45 } }
   },
   {
     "type": "ITEM",
@@ -1615,7 +1615,7 @@
     "copy-from": "egg_proxy_bigfrog",
     "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },
     "description": "A thick flotilla of enormous frog eggs floats together atop the water in a roughly circular mass.",
-    "rot_spawn": { "monster": "mon_strange_bigtad", "chance": 45 }
+    "extend": { "rot_spawn": { "monster": "mon_strange_bigtad", "chance": 45 } }
   },
   {
     "type": "ITEM",
@@ -1625,7 +1625,7 @@
     "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },
     "description": "Looking like a submerged buoy-line, this long strand of softball-sized, gelatinous eggs floats gently in the still water.",
     "use_action": [ "POISON" ],
-    "rot_spawn": { "monster": "mon_foul_bigtad", "chance": 45 }
+    "extend": { "rot_spawn": { "monster": "mon_foul_bigtad", "chance": 45 } }
   },
   {
     "type": "ITEM",
@@ -1635,7 +1635,7 @@
     "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },
     "description": "This is a spiral strand of giant frog eggs.  Its increased weight and size nearly smothers the submerged vegetation it clings to.",
     "use_action": [ "POISON" ],
-    "rot_spawn": { "monster": "mon_odd_bigtad", "chance": 45 }
+    "extend": { "rot_spawn": { "monster": "mon_odd_bigtad", "chance": 45 } }
   },
   {
     "type": "ITEM",
@@ -1644,7 +1644,7 @@
     "copy-from": "egg_proxy_bigfrog",
     "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },
     "description": "A patch of giant frog's eggs resembling a very thick, clear sack of oranges.",
-    "rot_spawn": { "monster": "mon_vocal_bigtad", "chance": 45 }
+    "extend": { "rot_spawn": { "monster": "mon_vocal_bigtad", "chance": 45 } }
   },
   {
     "type": "ITEM",
@@ -1654,6 +1654,6 @@
     "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },
     "description": "These golfball-sized frog eggs cling together by their sticky membranes.",
     "use_action": [ "POISON" ],
-    "rot_spawn": { "monster": "mon_shift_bigtad", "chance": 45 }
+    "extend": { "rot_spawn": { "monster": "mon_shift_bigtad", "chance": 45 } }
   }
 ]

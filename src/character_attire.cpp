@@ -56,7 +56,11 @@ static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_onfire( "onfire" );
 
 static const flag_id json_flag_HIDDEN( "HIDDEN" );
+static const flag_id json_flag_MUTATED_ANATOMY_ONLY( "MUTATED_ANATOMY_ONLY" );
 static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
+static const flag_id json_flag_SHAPESHIFTED_ARMOR( "SHAPESHIFTED_ARMOR" );
+
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 
 static const material_id material_acidchitin( "acidchitin" );
 static const material_id material_bone( "bone" );
@@ -105,6 +109,20 @@ units::mass get_selected_stack_weight( const item *i, const std::map<const item 
 
 ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) const
 {
+
+    if( it.has_flag( json_flag_MUTATED_ANATOMY_ONLY ) ) {
+        int wearable_parts = 0;
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            if( it.covers( bp ) ) {
+                wearable_parts++;
+            }
+        }
+        if( wearable_parts == 0 ) {
+            return ret_val<void>::make_failure(
+                       _( "Can't wear that, it's made for particular mutated anatomy." ) );
+        }
+    }
+
     if( it.has_flag( flag_INTEGRATED ) ) {
         return ret_val<void>::make_success();
     }
@@ -166,7 +184,8 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
             if( !it.covers( bp ) ) {
                 continue;
             }
-            if( is_limb_broken( bp ) && !worn_with_flag( flag_SPLINT, bp ) ) {
+            if( is_limb_broken( bp ) && !worn_with_flag( flag_SPLINT, bp ) &&
+                !bp->has_flag( json_flag_BIONIC_LIMB ) ) {
                 need_splint = true;
                 break;
             }
@@ -244,6 +263,13 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
     if( amount_worn( it.typeId() ) >= it.max_worn() ) {
         return ret_val<void>::make_failure( _( "Can't wear %1$i or more %2$s at once." ),
                                             it.max_worn() + 1, it.tname( it.max_worn() + 1 ) );
+    }
+
+    if( it.has_flag( flag_ROBOFAC_LENS_ACCESSORY ) &&
+        ( !worn_with_flag( flag_ROBOFAC_LENS_HELMET ) ) ) {
+        return ret_val<void>::make_failure( ( is_avatar() ?
+                                              _( "You can't wear that without a LENS helmet." )
+                                              : string_format( _( "%s can't wear that without a LENS helmet." ), get_name() ) ) );
     }
 
     return ret_val<void>::make_success();
@@ -512,6 +538,11 @@ ret_val<void> Character::can_takeoff( const item &it, const std::list<item> *res
         return ret_val<void>::make_failure( !is_npc() ?
                                             _( "You can't take that item off." ) :
                                             _( "<npcname> can't take that item off." ) );
+    }
+    if( it.has_flag( json_flag_SHAPESHIFTED_ARMOR ) ) {
+        return ret_val<void>::make_failure( !is_npc() ?
+                                            _( "That item is currently shapeshifted into your form." ) :
+                                            _( "That item is currently shapeshifted into <npcname>'s form." ) );
     }
     return ret_val<void>::make_success();
 }
@@ -1591,7 +1622,7 @@ int outfit::sum_filthy_cover( bool ranged, bool melee, bodypart_id bp ) const
 void outfit::inv_dump( std::vector<item *> &ret )
 {
     for( item &i : worn ) {
-        if( !i.has_flag( flag_INTEGRATED ) ) {
+        if( !i.has_flag( flag_INTEGRATED ) && !i.has_flag( json_flag_SHAPESHIFTED_ARMOR ) ) {
             ret.push_back( &i );
         }
     }
@@ -1947,7 +1978,7 @@ std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy )
 
                 // need to go through each locations under location to check if it's covered, since secondary locations can cover multiple underlying locations
                 for( const sub_bodypart_str_id &under_sbp : sbp->locations_under ) {
-                    if( covered_sbps.count( under_sbp ) != 1 ) {
+                    if( covered_sbps.count( under_sbp ) != 1 && guy.has_sub_bodypart( sbp ) ) {
                         guy.add_msg_if_player(
                             string_format( _( "<color_c_red>The %s rubs uncomfortably against your unpadded %s.</color>" ),
                                            i.display_name(), under_sbp->name ) );
@@ -2462,7 +2493,7 @@ void outfit::write_text_memorial( std::ostream &file, const std::string &indent,
                                   const char *eol ) const
 {
     for( const item &elem : worn ) {
-        item next_item = elem;
+        const item &next_item = elem;
         file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";

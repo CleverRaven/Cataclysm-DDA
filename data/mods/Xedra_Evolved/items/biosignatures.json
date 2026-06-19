@@ -8,5 +8,15 @@
     "weight": "150 g",
     "volume": "250 ml",
     "description": "A fresh pile of bat guano; this could probably be used to make some great fertilizer."
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "bezoar",
+    "name": { "str_sp": "bezoar" },
+    "copy-from": "feces_manure",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "description": "A solid, indigestible mass of material—commonly hair, fiber, or calcium and phosphorous—that accumulates in the gastrointestinal tract, usually the stomach of goats."
   }
 ]

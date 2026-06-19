@@ -31,13 +31,8 @@ class monster;
 enum class creature_size : int;
 enum class phase_id : int;
 
-namespace catacurses
-{
-class window;
-}  // namespace catacurses
 struct const_dialogue;
 struct dealt_projectile_attack;
-struct point;
 template <typename E> struct enum_traits;
 
 using mon_action_death  = void ( * )( monster & );
@@ -92,6 +87,7 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_ALWAYS_SEES_YOU,
        mon_flag_ALWAYS_VISIBLE,
        mon_flag_ANIMAL,
+       mon_flag_APPEARS_NEUTRAL,
        mon_flag_AQUATIC,
        mon_flag_ARTHROPOD_BLOOD,
        mon_flag_ATTACKMON,
@@ -107,6 +103,7 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_CAN_DIG,
        mon_flag_CAN_OPEN_DOORS,
        mon_flag_CLIMBS,
+       mon_flag_CLUMSY_ATTACKS,
        mon_flag_COMBAT_MOUNT,
        mon_flag_CONSOLE_DESPAWN,
        mon_flag_CONVERSATION,
@@ -149,10 +146,12 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_HUMAN,
        mon_flag_ID_CARD_DESPAWN,
        mon_flag_IMMOBILE,
+       mon_flag_INFRARED_VISION,
        mon_flag_INSECTICIDEPROOF,
        mon_flag_INTERIOR_AMMO,
        mon_flag_KEENNOSE,
        mon_flag_KEEP_DISTANCE,
+       mon_flag_LOCKS_ON,
        mon_flag_LOUDMOVES,
        mon_flag_MECH_DEFENSIVE,
        mon_flag_MECH_RECON_VISION,
@@ -182,6 +181,7 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_PET_MOUNTABLE,
        mon_flag_PET_WONT_FOLLOW,
        mon_flag_PHOTOPHOBIC,
+       mon_flag_PLANT_BLOOD,
        mon_flag_PLASTIC,
        mon_flag_POISON,
        mon_flag_PRIORITIZE_TARGETS,
@@ -611,7 +611,8 @@ struct mtype {
         void set_strategy();
         void add_goal( const std::string &goal_id );
         const behavior::node_t *get_goals() const;
-        void faction_display( catacurses::window &w, const point &top_left, int width ) const;
+        std::string get_difficulty_description() const;
+        std::string get_size_name() const;
 
         // Historically located in monstergenerator.cpp
         void load( const JsonObject &jo, std::string_view src );

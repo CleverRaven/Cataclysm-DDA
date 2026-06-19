@@ -16,7 +16,12 @@
     "time": "5 m",
     "faults_removed": [ "fault_electronic_blown_fuse" ],
     "skills": { "electronics": 3 },
-    "requirements": [ { "qualities": [ { "id": "SCREW", "level": 1 } ], "components": [ [ [ "e_scrap", 1 ], [ "copper_wire", 1 ] ] ] } ]
+    "requirements": [
+      {
+        "qualities": [ { "id": "SCREW", "level": 1 } ],
+        "components": [ [ [ "e_scrap", 1 ] ], [ [ "copper_wire", 1 ], [ "cable", 1 ] ] ]
+      }
+    ]
   },
   {
     "type": "fault",

@@ -739,6 +739,8 @@ std::string enumerate_as_string( const Container &values,
  * @param conj Choose how to separate the last elements.
  */
 template<typename FIter, typename F>
+// Iterator pair by value is idiomatic for STL-style templates.
+// NOLINTNEXTLINE(performance-unnecessary-value-param)
 std::string enumerate_as_string( FIter first, FIter last, F &&string_for,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
@@ -798,7 +800,8 @@ std::string get_labeled_bar( double val, int width, const std::string &label,
  */
 template<typename BarIterator>
 std::string get_labeled_bar( double val, int width, const std::string &label,
-                             BarIterator begin, BarIterator end, std::function<std::string( BarIterator, int )> printer );
+                             BarIterator begin, BarIterator end,
+                             const std::function<std::string( BarIterator, int )> &printer );
 
 /**
  * @return String containing the bar. Example: "Label [************]".
@@ -1224,6 +1227,41 @@ int get_window_height();
  * delaying the update until the next time we are waiting for user input.
  */
 void refresh_display();
+
+/**
+ * Service pending renderer-resource recovery at an outer loop boundary. No-op in
+ * curses; in SDL drains the coordinator so a target reset, device loss, or mobile
+ * foreground rebuilds before the next draw.
+ */
+void drain_renderer_recovery();
+
+/**
+ * Pump SDL events on the main thread until the renderer leaves the paused
+ * lifecycle state (a foreground event has landed). Used by the tileset-load
+ * retry loop after a background interrupt; android-only in practice. No-op in
+ * curses or when not paused.
+ */
+void pump_until_renderer_foreground();
+
+enum class atlas_upload_interrupt;
+class atlas_replay_quarantine;
+/**
+ * Service renderer recovery for an interrupted standalone tileset-load upload and
+ * dispose the quarantined candidate against the resulting renderer: destroy on a
+ * healthy same-instance renderer, otherwise abandon without SDL_DestroyTexture.
+ * instance_before is the instance generation sampled when the candidate textures
+ * were created. Returns true if the renderer came back healthy so the caller may
+ * retry, false to stop and keep the previous tileset bound.
+ */
+bool service_mode2_upload_interrupt( atlas_upload_interrupt interrupt,
+                                     atlas_replay_quarantine &quarantine,
+                                     uint64_t instance_before );
+
+/**
+ * Sync OS cursor and ImGui cursor-handling flags with the current
+ * ENABLE_MOUSE and HIDE_CURSOR option values. No-op in curses builds.
+ */
+void refresh_mouse_config();
 
 /**
  * Assigns a custom color to each symbol.

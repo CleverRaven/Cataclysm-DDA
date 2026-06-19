@@ -152,7 +152,7 @@
     "use_action": {
       "need_wielding": true,
       "target": "inventor_warp_grenade_act",
-      "msg": "You pull the pin on the grenade.",
+      "msg": "You pull the pin on the %s.",
       "target_timer": "5 seconds",
       "menu_text": "Pull pin",
       "type": "transform"
@@ -174,7 +174,7 @@
     "material": [ "mc_steel", "plastic" ],
     "symbol": "*",
     "color": "green",
-    "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
+    "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "cast_spell", "spell_id": "netherium_warp_grenade_detonation", "no_fail": true, "level": 0 },
     "countdown_interval": "5 seconds",
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],

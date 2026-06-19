@@ -20,6 +20,7 @@
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
+#include "enum_traits.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -230,6 +231,7 @@ void item_tab_data::init( const Character &you, map &m )
     if( uistate.list_item_downvote_active ) {
         filter_priority_minus = uistate.list_item_downvote;
     }
+    sort_flags = static_cast<surroundings_menu_sort_flags>( uistate.vmenu_item_sort );
     apply_filter();
     if( !filtered_list.empty() ) {
         selected_entry = filtered_list.front();
@@ -306,6 +308,7 @@ void item_tab_data::apply_filter()
     uistate.list_item_filter = filter;
     uistate.list_item_priority = filter_priority_plus;
     uistate.list_item_downvote = filter_priority_minus;
+    uistate.vmenu_item_sort = static_cast<int>( sort_flags );
 
     auto filter_function = item_filter_from_string( uistate.list_item_filter );
 
@@ -318,7 +321,7 @@ void item_tab_data::apply_filter()
     // then apply regular sorting
     std::sort( filtered_list.begin(), filtered_list.end(),
     [&]( const map_entity_stack<item> *lhs, const map_entity_stack<item> *rhs ) {
-        return lhs->compare( *rhs, draw_categories );
+        return lhs->compare( *rhs, sort_flags );
     } );
 
     // then apply priorities
@@ -421,6 +424,7 @@ void monster_tab_data::init( const Character &you )
     if( uistate.list_monster_filter_active ) {
         filter = uistate.monster_filter;
     }
+    sort_flags = static_cast<surroundings_menu_sort_flags>( uistate.vmenu_monster_sort );
     apply_filter();
     if( !filtered_list.empty() ) {
         selected_entry = filtered_list.front();
@@ -459,22 +463,20 @@ void monster_tab_data::apply_filter()
 {
     filtered_list.clear();
     uistate.monster_filter = filter;
+    uistate.vmenu_monster_sort = static_cast<int>( sort_flags );
 
-    // todo: filter_from_string<Creature>
-    // for now just matching creature name
-    // auto z = item_filter_from_string( filter );
+    auto filter_function = creature_filter_from_string( uistate.monster_filter );
 
     // first apply regular filter
-    std::copy_if( monster_list.begin(), monster_list.end(),
-    std::back_inserter( filtered_list ), []( const map_entity_stack<Creature> *a ) {
-        return lcmatch( remove_color_tags( a->get_selected_entity()->disp_name() ),
-                        uistate.monster_filter );
+    std::copy_if( monster_list.begin(), monster_list.end(), std::back_inserter( filtered_list ),
+    [filter_function]( const map_entity_stack<Creature> *monster_stack ) {
+        return filter_function( *monster_stack->get_selected_entity() );
     } );
 
     // then apply regular sorting
     std::sort( filtered_list.begin(), filtered_list.end(),
     [&]( const map_entity_stack<Creature> *lhs, const map_entity_stack<Creature> *rhs ) {
-        return lhs->compare( *rhs, draw_categories );
+        return lhs->compare( *rhs, sort_flags );
     } );
 }
 
@@ -573,6 +575,7 @@ void terfurn_tab_data::init( const Character &you, map &m )
     if( uistate.list_terfurn_filter_active ) {
         filter = uistate.terfurn_filter;
     }
+    sort_flags = static_cast<surroundings_menu_sort_flags>( uistate.vmenu_terfurn_sort );
     apply_filter();
     if( !filtered_list.empty() ) {
         selected_entry = filtered_list.front();
@@ -647,22 +650,21 @@ void terfurn_tab_data::apply_filter()
 {
     filtered_list.clear();
     uistate.terfurn_filter = filter;
+    uistate.vmenu_terfurn_sort = static_cast<int>( sort_flags );
 
-    // todo: filter_from_string<map_data_common_t>
-    // for now just matching creature name
-    // auto z = item_filter_from_string( filter );
+    auto filter_function = terfurn_filter_from_string( uistate.terfurn_filter );
 
     // first apply regular filter
-    std::copy_if( terfurn_list.begin(), terfurn_list.end(),
-    std::back_inserter( filtered_list ), []( const map_entity_stack<map_data_common_t> *a ) {
-        return lcmatch( remove_color_tags( a->get_selected_entity()->name() ), uistate.terfurn_filter );
+    std::copy_if( terfurn_list.begin(), terfurn_list.end(), std::back_inserter( filtered_list ),
+    [filter_function]( const map_entity_stack<map_data_common_t> *terfurn_stack ) {
+        return filter_function( *terfurn_stack->get_selected_entity() );
     } );
 
     // then apply regular sorting
     std::sort( filtered_list.begin(), filtered_list.end(),
                [&]( const map_entity_stack<map_data_common_t> *lhs,
     const map_entity_stack<map_data_common_t> *rhs ) {
-        return lhs->compare( *rhs, draw_categories );
+        return lhs->compare( *rhs, sort_flags );
     } );
 }
 
@@ -743,7 +745,7 @@ cataimgui::bounds surroundings_menu::get_bounds()
     // hide info panel on small displays
     info_height = TERMY > 30 ? std::min( 25, TERMY / 2 ) : 0;
     return {
-        static_cast<float>( str_width_to_pixels( TERMX - width ) ),
+        static_cast<float>( ImGui::GetMainViewport()->Size.x - str_width_to_pixels( width ) ),
         0.f,
         static_cast<float>( str_width_to_pixels( width ) ),
         static_cast<float>( str_height_to_pixels( TERMY ) )
@@ -752,10 +754,7 @@ cataimgui::bounds surroundings_menu::get_bounds()
 
 void surroundings_menu::draw_controls()
 {
-    if( hide_ui ) {
-        ImGuiWindow *w = ImGui::GetCurrentWindowRead();
-        ImGui::SetWindowHiddenAndSkipItemsForCurrentFrame( w );
-    }
+    hide_if_hidden();
     if( ImGui::BeginTabBar( "surroundings tabs" ) ) {
         draw_item_tab();
         draw_monster_tab();
@@ -850,7 +849,7 @@ void surroundings_menu::draw_item_tab()
                 for( map_entity_stack<item> *it : item_data.filtered_list ) {
                     bool prio_plus = entry_no <= item_data.priority_plus_end;
                     bool prio_minus = entry_no >= item_data.priority_minus_start;
-                    if( item_data.draw_categories ) {
+                    if( item_data.sort_flags & surroundings_menu_sort_flags::CATEGORY ) {
                         std::string cat = prio_plus ? _( "HIGH PRIORITY" ) : prio_minus ? _( "LOW PRIORITY" ) :
                                           it->get_category();
                         draw_category_separator( cat, last_category, 0 );
@@ -861,7 +860,7 @@ void surroundings_menu::draw_item_tab()
                     ImGui::TableNextColumn();
                     ImGui::PushID( entry_no++ );
                     ImGui::Selectable( "", &is_selected,
-                                       ImGuiSelectableFlags_AllowItemOverlap | ImGuiSelectableFlags_SpanAllColumns, ImVec2( 0, 0 ) );
+                                       ImGuiSelectableFlags_AllowOverlap | ImGuiSelectableFlags_SpanAllColumns, ImVec2( 0, 0 ) );
                     if( is_selected ) {
                         if( auto_scroll || item_data.selected_entry != it ) {
                             // auto_scroll marks keyboard selected items
@@ -877,7 +876,7 @@ void surroundings_menu::draw_item_tab()
                     }
                     ImGui::SameLine( 0, 0 );
                     ImGui::PopID();
-                    nc_color color = prio_plus ? c_yellow : prio_minus ? c_red : itm->color_in_inventory();
+                    nc_color color = prio_plus ? c_yellow : prio_minus ? c_red : it->get_selected_color();
                     std::string newness_str;
                     nc_color newness_color;
                     if( highlight_new ) {
@@ -897,7 +896,7 @@ void surroundings_menu::draw_item_tab()
 
                     // FIXME: these width calculations somehow work for variable-width but not for fixed-width fonts
                     ImFont *font = ImGui::GetFont();
-                    float newness_str_width = font->CalcTextSizeA( font->FontSize, FLT_MAX, 0.f,
+                    float newness_str_width = font->CalcTextSizeA( ImGui::GetFontSize(), FLT_MAX, 0.f,
                                               newness_str.c_str() ).x + ImGui::GetStyle().ItemSpacing.x;
                     float wrap_width_subtrahend = ImGui::GetStyle().ItemSpacing.x;
                     if( highlight_new && !newness_str.empty() ) {
@@ -995,14 +994,14 @@ void surroundings_menu::draw_monster_tab()
             std::string last_category;
             int entry_no = 0;
             for( map_entity_stack<Creature> *it : monster_data.filtered_list ) {
-                if( monster_data.draw_categories ) {
+                if( monster_data.sort_flags & surroundings_menu_sort_flags::CATEGORY ) {
                     draw_category_separator( it->get_category(), last_category, 1 );
                 }
                 bool is_selected = it == monster_data.selected_entry;
                 ImGui::TableNextColumn();
                 ImGui::PushID( entry_no++ );
                 ImGui::Selectable( "", &is_selected,
-                                   ImGuiSelectableFlags_AllowItemOverlap | ImGuiSelectableFlags_SpanAllColumns, ImVec2( 0, 0 ) );
+                                   ImGuiSelectableFlags_AllowOverlap | ImGuiSelectableFlags_SpanAllColumns, ImVec2( 0, 0 ) );
                 if( is_selected ) {
                     if( auto_scroll ) {
                         ImGui::SetScrollHereY();
@@ -1020,7 +1019,7 @@ void surroundings_menu::draw_monster_tab()
                 cataimgui::draw_colored_text( sees ? "!" : " ", c_yellow );
 
                 ImGui::TableNextColumn();
-                nc_color mon_color = mon->basic_symbol_color();
+                nc_color mon_color = it->get_selected_color();
                 cataimgui::TextColoredTrimmed( it->get_selected_name(), mon_color );
 
                 ImGui::TableNextColumn();
@@ -1073,8 +1072,7 @@ void surroundings_menu::draw_monster_tab()
             if( ImGui::BeginChild( "info", ImVec2( 0.0f, str_height_to_pixels( info_height ) ) ) ) {
                 if( monster_data.selected_entry ) {
                     draw_extended_description(
-                        monster_data.selected_entry->get_selected_entity()->extended_description(),
-                        str_width_to_pixels( width ), info_scroll );
+                        monster_data.selected_entry->get_selected_entity()->extended_description(), info_scroll );
                 }
             }
             ImGui::EndChild();
@@ -1119,14 +1117,14 @@ void surroundings_menu::draw_terfurn_tab()
             std::string last_category;
             int entry_no = 0;
             for( map_entity_stack<map_data_common_t> *it : terfurn_data.filtered_list ) {
-                if( terfurn_data.draw_categories ) {
+                if( terfurn_data.sort_flags & surroundings_menu_sort_flags::CATEGORY ) {
                     draw_category_separator( it->get_category(), last_category, 0 );
                 }
                 bool is_selected = it == terfurn_data.selected_entry;
                 ImGui::TableNextColumn();
                 ImGui::PushID( entry_no++ );
                 ImGui::Selectable( "", &is_selected,
-                                   ImGuiSelectableFlags_AllowItemOverlap | ImGuiSelectableFlags_SpanAllColumns, ImVec2( 0, 0 ) );
+                                   ImGuiSelectableFlags_AllowOverlap | ImGuiSelectableFlags_SpanAllColumns, ImVec2( 0, 0 ) );
                 if( is_selected ) {
                     if( auto_scroll ) {
                         ImGui::SetScrollHereY();
@@ -1137,8 +1135,7 @@ void surroundings_menu::draw_terfurn_tab()
                 }
                 ImGui::SameLine( 0, 0 );
                 ImGui::PopID();
-                const map_data_common_t *terfurn = it->get_selected_entity();
-                nc_color color = terfurn->color();
+                nc_color color = it->get_selected_color();
                 cataimgui::TextColoredTrimmed( it->get_selected_name(), color );
 
                 ImGui::TableNextColumn();
@@ -1154,8 +1151,7 @@ void surroundings_menu::draw_terfurn_tab()
             if( ImGui::BeginChild( "info", ImVec2( 0.0f, str_height_to_pixels( info_height ) ) ) ) {
                 if( terfurn_data.selected_entry ) {
                     draw_extended_description(
-                        terfurn_data.selected_entry->get_selected_entity()->extended_description(),
-                        str_width_to_pixels( width ), info_scroll );
+                        terfurn_data.selected_entry->get_selected_entity()->extended_description(), info_scroll );
                 }
             }
             ImGui::EndChild();
@@ -1441,7 +1437,7 @@ void surroundings_menu::change_selected_tab_sorting()
 {
     auto_scroll = true;
     tab_data *data = get_selected_data();
-    data->draw_categories = !data->draw_categories;
+    ++data->sort_flags;
     data->apply_filter();
 }
 

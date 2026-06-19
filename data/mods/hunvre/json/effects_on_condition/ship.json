@@ -1,0 +1,55 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_start_storyteller",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "effect": [ { "run_eocs": [ "eoc_announcements", "eoc_oneirosis" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_announcements",
+    "recurrence": [ "30 minutes", "90 minutes" ],
+    "effect": [ { "run_eocs": [ "eoc_switch_lights" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_switch_lights",
+    "condition": { "math": [ "rng(0, 12) == 0" ] },
+    "effect": {
+      "if": { "math": [ "lights_are_off == 0" ] },
+      "then": [
+        { "custom_light_level": 0, "length": "9999 days", "key": "lights_off" },
+        { "math": [ "lights_are_off = 1" ] },
+        { "u_message": "\"Multiple grid failures detected.  Blackouts expected in multiple sectors.\"" }
+      ],
+      "else": [
+        { "alter_timed_events": "lights_off" },
+        { "math": [ "lights_are_off = 0" ] },
+        { "u_message": "The lights turn back on." }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_talk_spawn",
+    "recurrence": 1,
+    "condition": { "math": [ "spawned == 0" ] },
+    "deactivate_condition": { "math": [ "spawned == 1" ] },
+    "effect": [
+      { "math": [ "spawned = 1" ] },
+      {
+        "u_message": "An infinite, warm darkness.  Thoughts fill your mind but you're not sure they're yours, sadness, happiness, bliss and horror.  They become more and more intense, almost to the point of completely losing yourself.  Then you wake up."
+      },
+      { "run_eocs": [ "eoc_teleport_to_bed" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_teleport_to_bed",
+    "effect": [
+      { "u_location_variable": { "context_val": "bed" }, "target_params": { "om_terrain": "hab_unit", "z": 0 } },
+      { "u_teleport": { "context_val": "bed" }, "force": true }
+    ]
+  }
+]

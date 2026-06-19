@@ -1,0 +1,124 @@
+[
+  {
+    "type": "profession",
+    "id": "shaman",
+    "copy-from": "shaman",
+    "name": "Healer"
+  },
+  {
+    "type": "profession",
+    "id": "recruit",
+    "copy-from": "recruit",
+    "name": "Novice Tribal Warrior"
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_ierde",
+    "copy-from": "paraclesian_ierde",
+    "traits": [ "IERDE", "IERDE_STONE_MEDITATIONS", "ILLITERATE" ],
+    "skills": [ { "level": 3, "name": "deduction" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ],
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_arvore",
+    "copy-from": "paraclesian_arvore",
+    "traits": [ "ARVORE", "ARVORE_SEED_BEARER", "ILLITERATE" ],
+    "skills": [ { "level": 3, "name": "gramarye" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ],
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_undine",
+    "copy-from": "paraclesian_undine",
+    "traits": [ "UNDINE", "ILLITERATE" ],
+    "proficiencies": [ "prof_parkour" ],
+    "skills": [ { "level": 3, "name": "deduction" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ],
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_salamander",
+    "copy-from": "paraclesian_salamander",
+    "traits": [ "SALAMANDER", "PYROMANIA", "DEFT", "ILLITERATE" ],
+    "skills": [ { "level": 3, "name": "gramarye" }, { "level": 1, "name": "unarmed" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ],
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_homullus",
+    "copy-from": "paraclesian_homullus",
+    "traits": [ "HOMULLUS", "ILLITERATE" ],
+    "skills": [ { "level": 3, "name": "deduction" }, { "level": 3, "name": "speech" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ],
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_sylph",
+    "copy-from": "paraclesian_sylph",
+    "traits": [ "SYLPH", "LIGHTSTEP", "ILLITERATE" ],
+    "skills": [ { "level": 3, "name": "deduction" }, { "level": 3, "name": "dodge" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ],
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_ierde_naked_afraid",
+    "copy-from": "paraclesian_ierde_naked_afraid",
+    "traits": [ "IERDE", "IERDE_STONE_MEDITATIONS", "ILLITERATE" ],
+    "skills": [ { "level": 3, "name": "deduction" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ],
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_arvore_naked_afraid",
+    "copy-from": "paraclesian_arvore_naked_afraid",
+    "traits": [ "ARVORE", "ARVORE_SEED_BEARER", "ILLITERATE" ],
+    "skills": [ { "level": 3, "name": "gramarye" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ],
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_undine_naked_afraid",
+    "copy-from": "paraclesian_undine_naked_afraid",
+    "traits": [ "UNDINE", "ILLITERATE" ],
+    "proficiencies": [ "prof_parkour" ],
+    "skills": [ { "level": 3, "name": "deduction" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ],
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_salamander_naked_afraid",
+    "copy-from": "paraclesian_salamander_naked_afraid",
+    "traits": [ "SALAMANDER", "PYROMANIA", "DEFT", "ILLITERATE" ],
+    "skills": [ { "level": 3, "name": "gramarye" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ],
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_homullus_naked_afraid",
+    "copy-from": "paraclesian_homullus_naked_afraid",
+    "traits": [ "HOMULLUS", "ILLITERATE" ],
+    "skills": [ { "level": 3, "name": "deduction" }, { "level": 3, "name": "speech" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ],
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_sylph_naked_afraid",
+    "copy-from": "paraclesian_sylph_naked_afraid",
+    "traits": [ "SYLPH", "LIGHTSTEP", "ILLITERATE" ],
+    "skills": [ { "level": 3, "name": "deduction" }, { "level": 3, "name": "dodge" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ],
+    "chargen_allow_npc": false
+  }
+]

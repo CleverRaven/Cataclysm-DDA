@@ -13,7 +13,35 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "damage_transfer" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "You play with your %s.",
+      "effect_on_conditions": [ "EOC_MAGICIANS_HAT" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGICIANS_HAT",
+    "condition": { "math": [ "u_magicians_hat_xp == 0" ] },
+    "effect": [
+      { "math": [ "u_magicians_hat_xp ++" ] },
+      { "math": [ "magic_potential++" ] },
+      {
+        "u_message": "You do some extemperaneous magic tricks with the hat and somehow feel as though something inside of you has changed."
+      },
+      {
+        "u_message": "Got magic potential from Frosty's hat, magic_potential: <global_val:magic_potential>",
+        "type": "debug"
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_MAGICIANS_HAT2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGICIANS_HAT2",
+    "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "math": [ "u_magicians_hat_xp == 1" ] } ] },
+    "effect": [ { "run_eocs": "EOC_DREAM_CLASS_XP" } ],
+    "false_effect": { "u_message": "You've learned as much as you can from this item." }
   },
   {
     "id": "fire_ball",
@@ -29,6 +57,28 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "red",
-    "use_action": { "type": "learn_spell", "spells": [ "fire_teleport" ] }
+    "use_action": { "type": "effect_on_conditions", "description": "You play with your %s.", "effect_on_conditions": [ "EOC_FIRE_BALL" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FIRE_BALL",
+    "condition": { "math": [ "u_fire_ball_xp == 0" ] },
+    "effect": [
+      { "math": [ "u_fire_ball_xp ++" ] },
+      { "math": [ "magic_potential++" ] },
+      { "u_message": "Did you know how to do contact juggling before the cataclysm or only just now this moment?" },
+      {
+        "u_message": "Got magic potential from the dragonball, magic_potential: <global_val:magic_potential>",
+        "type": "debug"
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_FIRE_BALL2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FIRE_BALL2",
+    "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "math": [ "u_fire_ball_xp == 1" ] } ] },
+    "effect": [ { "run_eocs": "EOC_DREAM_CLASS_XP" } ],
+    "false_effect": { "u_message": "You've learned as much as you can from this item." }
   }
 ]

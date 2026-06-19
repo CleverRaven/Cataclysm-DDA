@@ -5,7 +5,7 @@
     "name_suffix": "Representative",
     "class": "NC_COWBOY",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_OLD_GUARD_REP",
     "faction": "old_guard",
     "mission_offered": "MISSION_OLD_GUARD_REP_1"

@@ -1,10 +1,10 @@
 [
   {
-    "id": "deck_of_tarot_cards",
+    "id": "deck_of_tarot_cards_xe",
     "type": "ITEM",
     "category": "artifacts",
     "looks_like": "deck_of_cards",
-    "name": { "str": "deck of tarot cards", "str_pl": "decks of tarot cards" },
+    "name": { "str": "deck of esoteric tarot cards", "str_pl": "decks of esoteric tarot cards" },
     "description": "A deck of intricately designed tarot cards.  When you lay out your future they seem to be trying to tell you to take a leap of faith.",
     "weight": "50 g",
     "volume": "50 ml",

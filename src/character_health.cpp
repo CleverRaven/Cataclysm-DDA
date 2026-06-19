@@ -173,6 +173,7 @@ static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 static const json_character_flag json_flag_NUMB( "NUMB" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+static const json_character_flag json_flag_PARTIAL_BIONIC_LIMB( "PARTIAL_BIONIC_LIMB" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
@@ -211,6 +212,7 @@ static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
+static const trait_id trait_NPC_STASIS( "NPC_STASIS" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
@@ -240,6 +242,7 @@ std::string enum_to_string<blood_type>( blood_type data )
         case blood_type::blood_A: return "A";
         case blood_type::blood_B: return "B";
         case blood_type::blood_AB: return "AB";
+        case blood_type::blood_acid: return "Acid";
             // *INDENT-ON*
         case blood_type::num_bt:
             break;
@@ -455,7 +458,7 @@ void Character::conduct_blood_analysis()
 
 int Character::get_standard_stamina_cost( const item *thrown_item ) const
 {
-    // Previously calculated as 2_gram * std::max( 1, str_cur )
+    // Previously calculated as 2_gram * std::max( 1, get_str() )
     // using 16_gram normalizes it to 8 str. Same effort expenditure
     // for each strike, regardless of weight. This is compensated
     // for by the additional move cost as weapon weight increases
@@ -1422,6 +1425,10 @@ bool Character::needs_food() const
 
 void Character::update_needs( int rate_multiplier )
 {
+    // Stasis NPCs don't accumulate any needs.
+    if( has_trait( trait_NPC_STASIS ) ) {
+        return;
+    }
     const int current_stim = get_stim();
     // Hunger, thirst, & sleepiness up every 5 minutes
     effect &sleep = get_effect( effect_sleep );
@@ -1467,6 +1474,9 @@ void Character::update_needs( int rate_multiplier )
                 if( has_effect( effect_disrupted_sleep ) || has_effect( effect_recently_coughed ) ) {
                     recovered *= .5;
                 }
+                if( has_effect( effect_melatonin ) ) {
+                    recovered *= .8;
+                }
                 mod_sleepiness( -recovered );
 
                 // Sleeping on the ground, no bionic = 1x rest_modifier
@@ -1477,10 +1487,6 @@ void Character::update_needs( int rate_multiplier )
                 // Sleeping on a bed, bionic         = 6x rest_modifier
                 // Sleeping on a comfy bed, bionic   = 9x rest_modifier
                 float rest_modifier = ( has_flag( json_flag_STOP_SLEEP_DEPRIVATION ) ? 3 : 1 );
-                // Melatonin supplements also add a flat bonus to recovery speed
-                if( has_effect( effect_melatonin ) ) {
-                    rest_modifier += 1;
-                }
 
                 const int comfort = get_comfort_at( pos_bub() ).comfort;
                 if( comfort >= comfort_data::COMFORT_VERY_COMFORTABLE ) {
@@ -1509,6 +1515,7 @@ void Character::update_needs( int rate_multiplier )
             mod_sleepiness( -3 ); // Fish sleep less in water
         }
     }
+
     if( is_avatar() && wasnt_sleepinessd && get_sleepiness() > sleepiness_levels::DEAD_TIRED &&
         !lying ) {
         if( !activity ) {
@@ -1518,7 +1525,6 @@ void Character::update_needs( int rate_multiplier )
             g->cancel_activity_query( _( "You're feeling tired." ) );
         }
     }
-
     if( current_stim < 0 ) {
         set_stim( std::min( current_stim + rate_multiplier, 0 ) );
     } else if( current_stim > 0 ) {
@@ -1747,7 +1753,7 @@ void Character::check_needs_extremes()
                 add_effect( effect_lack_sleep, 30_minutes + 1_turns );
             }
             /** @EFFECT_INT slightly decreases occurrence of short naps when dead tired */
-            if( one_in( 50 + int_cur ) ) {
+            if( one_in( 50 + get_int() ) ) {
                 // Rivet's idea: look out for microsleeps!
                 fall_asleep( 30_seconds );
             }
@@ -1757,7 +1763,7 @@ void Character::check_needs_extremes()
                 add_effect( effect_lack_sleep, 30_minutes + 1_turns );
             }
             /** @EFFECT_INT slightly decreases occurrence of short naps when exhausted */
-            if( one_in( 100 + int_cur ) ) {
+            if( one_in( 100 + get_int() ) ) {
                 fall_asleep( 30_seconds );
             }
         } else if( get_sleepiness() >= sleepiness_levels::DEAD_TIRED &&
@@ -1802,10 +1808,10 @@ void Character::check_needs_extremes()
             }
             // else you pass out for 20 hours, guaranteed
 
-            // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + int_cur) at lethal sleep deprivation)
+            // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + get_int()) at lethal sleep deprivation)
             // Note: these can coexist with sleepiness-related microsleeps
             /** @EFFECT_INT slightly decreases occurrence of short naps when sleep deprived */
-            if( one_in( static_cast<int>( sleep_deprivation_pct * 75 ) + int_cur ) ) {
+            if( one_in( static_cast<int>( sleep_deprivation_pct * 75 ) + get_int() ) ) {
                 fall_asleep( 30_seconds );
             }
 
@@ -1815,7 +1821,7 @@ void Character::check_needs_extremes()
 
             if( can_pass_out && calendar::once_every( 10_minutes ) ) {
                 /** @EFFECT_PER slightly increases resilience against passing out from sleep deprivation */
-                if( one_in( static_cast<int>( ( 1 - sleep_deprivation_pct ) * 100 ) + per_cur ) ||
+                if( one_in( static_cast<int>( ( 1 - sleep_deprivation_pct ) * 100 ) + get_per() ) ||
                     sleep_deprivation >= SLEEP_DEPRIVATION_MASSIVE ) {
                     add_msg_player_or_npc( m_bad,
                                            _( "Your body collapses due to sleep deprivation, your neglected fatigue rushing back all at once, and you pass out on the spot." )
@@ -2245,7 +2251,7 @@ void Character::mod_stamina( int mod )
     if( stamina < 0 ) {
         for( const bodypart_id &bp : get_all_body_parts() ) {
             if( !bp->windage_effect.is_null() ) {
-                add_effect( bp->windage_effect, 10_turns );
+                add_effect( bp->windage_effect, 10_turns, bp );
             }
         }
     }
@@ -2433,7 +2439,7 @@ void Character::cough( bool harmful, int loudness )
         const int stam = get_stamina();
         const int malus = get_stamina_max() * 0.05; // 5% max stamina
         mod_stamina( -malus );
-        if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
+        if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 20 ) ) {
             apply_damage( nullptr, body_part_torso, 1 );
         }
     }
@@ -2540,7 +2546,7 @@ int Character::vitamin_RDA( const vitamin_id &vitamin, int amount ) const
 void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 {
     bodypart &body_bp = body.at( bp.id() );
-    body_bp.add_wound( wd );
+    body_bp.add_or_worsen_wound( wd );
     morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 }
 
@@ -2573,9 +2579,6 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
     }
 
     int pain = 0;
-    if( !hurt->has_flag( json_flag_BIONIC_LIMB ) ) {
-        pain = mod_pain( dam / 2 );
-    }
 
     const bodypart_id &part_to_damage = hurt->main_part;
 
@@ -2621,6 +2624,21 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
     }
 }
 
+bool Character::is_within_wound_limit_for_bp( const bodypart_id bp, wound_type_id wound_id ) const
+{
+    if( wound_id->get_limit() == 0 ) {
+        return true;
+    }
+
+    const std::vector present_wounds = get_part( bp )->get_wounds();
+    const int amount = std::count_if( present_wounds.begin(),
+    present_wounds.end(), [wound_id]( wound wd ) {
+        return wd.type == wound_id;
+    } );
+
+    return amount < wound_id->get_limit();
+}
+
 void Character::apply_random_wound( bodypart_id bp, const damage_instance &d )
 {
     if( x_in_y( 1.0f - get_option<float>( "WOUND_CHANCE" ), 1.0f ) ) {
@@ -2628,14 +2646,16 @@ void Character::apply_random_wound( bodypart_id bp, const damage_instance &d )
     }
 
     weighted_int_list<wound_type_id> possible_wounds;
-    for( const std::pair<bp_wounds, int> &wd : bp->potential_wounds ) {
+    for( const auto &[potential_wound, wound_weight] : bp->potential_wounds ) {
         for( const damage_unit &du : d.damage_units ) {
-            const bool damage_within_limits = du.amount >= wd.first.damage_required.first &&
-                                              du.amount <= wd.first.damage_required.second;
-            const bool damage_type_matches = std::find( wd.first.damage_type.begin(),
-                                             wd.first.damage_type.end(), du.type ) != wd.first.damage_type.end();
-            if( damage_within_limits && damage_type_matches ) {
-                possible_wounds.add( wd.first.id, wd.second );
+            const bool damage_within_limits = du.amount >= potential_wound.damage_required.first &&
+                                              du.amount <= potential_wound.damage_required.second;
+            const bool damage_type_matches = std::find( potential_wound.damage_type.begin(),
+                                             potential_wound.damage_type.end(), du.type ) != potential_wound.damage_type.end();
+            const bool iwwlfb = is_within_wound_limit_for_bp( bp, potential_wound.id );
+
+            if( damage_within_limits && damage_type_matches && iwwlfb ) {
+                possible_wounds.add( potential_wound.id, wound_weight );
             }
         }
     }
@@ -2774,7 +2794,7 @@ int Character::reduce_healing_effect( const efftype_id &eff_id, int remove_med,
     if( remove_med < intensity ) {
         if( eff_id == effect_bandaged ) {
             add_msg_if_player( m_bad, _( "Bandages on your %s were damaged!" ), body_part_name( hurt ) );
-        } else  if( eff_id == effect_disinfected ) {
+        } else if( eff_id == effect_disinfected ) {
             add_msg_if_player( m_bad, _( "You got some filth on your disinfected %s!" ),
                                body_part_name( hurt ) );
         }
@@ -2782,7 +2802,7 @@ int Character::reduce_healing_effect( const efftype_id &eff_id, int remove_med,
         if( eff_id == effect_bandaged ) {
             add_msg_if_player( m_bad, _( "Bandages on your %s were destroyed!" ),
                                body_part_name( hurt ) );
-        } else  if( eff_id == effect_disinfected ) {
+        } else if( eff_id == effect_disinfected ) {
             add_msg_if_player( m_bad, _( "Your %s is no longer disinfected!" ), body_part_name( hurt ) );
         }
     }
@@ -2797,7 +2817,9 @@ void Character::heal_bp( bodypart_id bp, int dam )
 
 void Character::heal( const bodypart_id &healed, int dam )
 {
-    if( !is_limb_broken( healed ) && ( dam != 0 || healed->has_flag( json_flag_ALWAYS_HEAL ) ) ) {
+    if( ( !is_limb_broken( healed ) || healed->has_flag( json_flag_BIONIC_LIMB ) ||
+          healed->has_flag( json_flag_PARTIAL_BIONIC_LIMB ) ) && ( dam != 0 ||
+                  healed->has_flag( json_flag_ALWAYS_HEAL ) ) ) {
         add_msg_debug( debugmode::DF_CHAR_HEALTH, "Base healing of %s = %d", body_part_name( healed ),
                        dam );
         if( healed->has_flag( json_flag_HEAL_OVERRIDE ) ) {
@@ -2882,7 +2904,7 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
     }
 
     if( disturb ) {
-        if( has_effect( effect_sleep ) && !has_bionic( bio_sleep_shutdown ) ) {
+        if( in_sleep_state() && !has_bionic( bio_sleep_shutdown ) ) {
             wake_up();
         }
         if( uistate.distraction_attack && !is_npc() && !has_effect( effect_narcosis ) ) {
@@ -3219,7 +3241,8 @@ stat_mod Character::get_weight_penalty() const
 {
     stat_mod ret;
     const float bmi = get_bmi_fat();
-    ret.strength = std::floor( ( 1.0f - ( bmi / character_weight_category::normal ) ) * str_max );
+    ret.strength = std::floor( ( 1.0f - ( bmi / character_weight_category::normal ) ) *
+                               get_str_base() );
     ret.dexterity = std::floor( ( character_weight_category::normal - bmi ) * 3.0f );
     ret.intelligence = ret.dexterity;
     return ret;
@@ -3332,7 +3355,7 @@ int Character::get_pain() const
     return p + Creature::get_pain();
 }
 
-int Character::mod_pain( int npain )
+int Character::mod_pain( int npain, const bodypart_id bp )
 {
     if( npain > 0 ) {
         double mult = enchantment_cache->get_value_multiply( enchant_vals::mod::PAIN );
@@ -3347,6 +3370,8 @@ int Character::mod_pain( int npain )
             npain = roll_remainder( npain * ( 1 + mult ) );
         }
         npain += enchantment_cache->get_value_add( enchant_vals::mod::PAIN );
+
+        npain *= bp->pain_mod;
 
         // no matter how powerful the enchantment if we are gaining pain we don't lose any
         npain = std::max( 0, npain );

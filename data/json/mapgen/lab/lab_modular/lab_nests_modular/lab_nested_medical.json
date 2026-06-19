@@ -17,7 +17,8 @@
         "...ë....."
       ],
       "palettes": [ "lab_common_palette", "lab_medical_palette" ],
-      "place_nested": [ { "chunks": [ [ "lab_medical_6x6_open", 100 ] ], "x": 0, "y": 0 } ]
+      "place_nested": [ { "chunks": [ [ "lab_medical_6x6_open", 100 ] ], "x": 0, "y": 0 } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -37,7 +38,8 @@
         ".........",
         "...ë....."
       ],
-      "palettes": [ "lab_common_palette", "lab_medical_palette" ]
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -174,7 +176,8 @@
         "....ë...."
       ],
       "palettes": [ "lab_common_palette", "lab_medical_palette" ],
-      "vehicles": { "ւ": { "vehicle": "hospital_bed", "rotation": 270 } }
+      "vehicles": { "ւ": { "vehicle": "hospital_bed", "rotation": 270 } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -217,7 +220,8 @@
         "....ë...."
       ],
       "palettes": [ "lab_common_palette", "lab_medical_palette" ],
-      "vehicles": { "ƃ": { "vehicle": "wheelchair", "rotation": 90 } }
+      "vehicles": { "ƃ": { "vehicle": "wheelchair", "rotation": 90 } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -260,7 +264,8 @@
       ],
       "palettes": [ "lab_common_palette", "lab_medical_palette" ],
       "furniture": { "Ƨ": [ "f_treadmill", "f_treadmill_mechanical" ] },
-      "vehicles": { "ƃ": { "vehicle": "wheelchair", "rotation": 90 } }
+      "vehicles": { "ƃ": { "vehicle": "wheelchair", "rotation": 90 } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -334,7 +339,8 @@
       "place_monster": [
         { "group": "GROUP_LAB_MUTANT_BOSS", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 6, 8 ] },
         { "monster": "mon_mutant_alpha_boss", "x": 2, "y": 2 }
-      ]
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   }
 ]

@@ -57,7 +57,7 @@
     "harvest": "zombie_humanoid_headless",
     "decay": "zombie_decay_bone",
     "upgrades": { "half_life": 96, "into_group": "GROUP_ZOMBIE_BRAINLESS_UPGRADE" },
-    "extend": { "flags": [ "NOHEAD", "GEN_DORMANT" ] },
+    "extend": { "flags": [ "NOHEAD", "GEN_DORMANT", "CLUMSY_ATTACKS" ] },
     "delete": { "flags": [ "SEES" ], "special_attacks": [ "bite_humanoid" ] },
     "//3": "Removed Bite attack to reflect damage to mouth.",
     "//4": "Has NOHEAD flag to reflect the head is already catastrophically damaged.  Only detects through hearing."
@@ -287,7 +287,7 @@
     "harvest": "zombie_humanoid_headless",
     "decay": "zombie_decay_bone",
     "upgrades": { "half_life": 112, "into": "mon_zombie_skull" },
-    "extend": { "flags": [ "GOODHEARING", "NOHEAD" ] },
+    "extend": { "flags": [ "GOODHEARING", "NOHEAD", "CLUMSY_ATTACKS" ] },
     "delete": { "special_attacks": [ "bite_humanoid" ] },
     "//3": "Removed Bite as this creature does not have a 'mouth'."
   },
@@ -665,7 +665,8 @@
       }
     ],
     "upgrades": { "half_life": 140, "into": "mon_zombie_hunter" },
-    "fungalize_into": "mon_zombie_runner_dusted"
+    "fungalize_into": "mon_zombie_runner_dusted",
+    "extend": { "flags": [ "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_regenerating",
@@ -783,7 +784,7 @@
     "grab_strength": 15,
     "special_attacks": [ { "id": "grab" }, [ "SHRIEK_ALERT", 20 ], [ "SHRIEK_STUN", 1 ], { "id": "scratch_humanoid" } ],
     "upgrades": false,
-    "extend": { "flags": [ "SMELLS", "KEENNOSE" ] }
+    "extend": { "flags": [ "SMELLS", "KEENNOSE", "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_shady",
@@ -798,7 +799,7 @@
     "vision_night": 40,
     "harvest": "zombie_humanoid_shadow",
     "upgrades": { "half_life": 112, "into_group": "GROUP_ZOMBIE_SHADY_UPGRADES" },
-    "extend": { "flags": [ "SMELLS", "NIGHT_INVISIBILITY" ] }
+    "extend": { "flags": [ "SMELLS", "NIGHT_INVISIBILITY", "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_shrieker",
@@ -849,7 +850,7 @@
     ],
     "upgrades": false,
     "armor": { "bash": 5, "cut": 3, "bullet": 2, "electric": 2 },
-    "extend": { "flags": [ "GOODHEARING", "NOHEAD" ] }
+    "extend": { "flags": [ "GOODHEARING", "NOHEAD", "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_ocular",
@@ -868,7 +869,8 @@
     "vision_day": 100,
     "special_attacks": [ { "id": "grab", "cooldown": 6 }, { "id": "scratch_humanoid", "cooldown": 15 } ],
     "upgrades": false,
-    "armor": { "bash": 5, "cut": 3, "bullet": 2, "electric": 2 }
+    "armor": { "bash": 5, "cut": 3, "bullet": 2, "electric": 2 },
+    "extend": { "flags": [ "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_smoker",
@@ -891,6 +893,14 @@
     "upgrades": { "half_life": 120, "into": "mon_smoker_brute" },
     "armor": { "heat": 5, "electric": 1 },
     "extend": { "flags": [ "HARDTOSHOOT" ] }
+  },
+  {
+    "id": "mon_zombie_smoker_no_weakpoints",
+    "type": "MONSTER",
+    "name": { "str_sp": "smoker zombie test only", "//~": "NO_I18N" },
+    "description": { "str": "This smoker zombie is for testing purposes only", "//~": "NO_I18N" },
+    "copy-from": "mon_zombie_smoker",
+    "delete": { "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ] }
   },
   {
     "id": "mon_smoker_brute",
@@ -938,7 +948,8 @@
     "dodge": 1,
     "death_drops": "mon_zombie_swimmer_death_drops",
     "upgrades": { "half_life": 120, "into": "mon_zombie_swimmer" },
-    "categories": [ "CLASSIC" ]
+    "categories": [ "CLASSIC" ],
+    "extend": { "flags": [ "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_swimmer",
@@ -957,7 +968,7 @@
     "//grab": "Tier 2 mob, but webbed hands don't sound very grabby",
     "death_drops": "mon_zombie_swimmer_death_drops",
     "upgrades": { "half_life": 168, "into": "mon_zombie_mancroc" },
-    "extend": { "flags": [ "WATER_CAMOUFLAGE" ] }
+    "extend": { "flags": [ "WATER_CAMOUFLAGE", "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_technician",
@@ -973,7 +984,7 @@
     "vision_night": 2,
     "death_drops": "mon_zombie_technician_death_drops",
     "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 3 },
-    "extend": { "weakpoint_sets": [ "wps_humanoid_open_helmet" ] }
+    "extend": { "weakpoint_sets": [ "wps_humanoid_open_helmet" ], "flags": [ "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_miner",
@@ -991,7 +1002,7 @@
     "death_drops": "mon_zombie_miner_death_drops",
     "upgrades": { "half_life": 140, "into_group": "GROUP_ZOMBIE_MINER_UPGRADE" },
     "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 1 },
-    "extend": { "weakpoint_sets": [ "wps_humanoid_open_helmet" ] }
+    "extend": { "weakpoint_sets": [ "wps_humanoid_open_helmet" ], "flags": [ "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_thorny",
@@ -1013,7 +1024,7 @@
     "death_drops": "mon_zombie_thorny_death_drops",
     "upgrades": false,
     "armor": { "bash": 2, "cut": 4, "bullet": 3, "electric": 1 },
-    "extend": { "flags": [ "SMELLS", "RANGED_ATTACKER", "PARALYZEVENOM" ] }
+    "extend": { "flags": [ "SMELLS", "RANGED_ATTACKER", "PARALYZEVENOM", "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_reenactor",
@@ -1038,5 +1049,58 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "zombie_fursuits", 100 ] ] },
     "armor": { "bash": 5, "cut": 5, "bullet": 1, "electric": 1 },
     "//": "The torn fursuit offers slightly more protection."
+  },
+  {
+    "id": "mon_zombie_rot_grabber",
+    "type": "MONSTER",
+    "name": { "str": "decayed grasper" },
+    "description": "A once-dead human corpse, moving despite seeming like it could fall apart into putrescence at any moment.  It slowly crawls along the ground with an eerily-fluid motion.",
+    "copy-from": "mon_zombie_base",
+    "hp": 55,
+    "speed": 30,
+    "color": "light_green_yellow",
+    "melee_skill": 1,
+    "melee_dice_sides": 2,
+    "grab_strength": 50,
+    "vision_day": 15,
+    "fungalize_into": "mon_zombie_rot_dusted",
+    "upgrades": false,
+    "//": "No PARROT is deliberate, it's in no condition to speak",
+    "special_attacks": [
+      { "id": "bite_humanoid", "cooldown": 5 },
+      { "id": "scratch_humanoid" },
+      {
+        "id": "grab",
+        "accuracy": 4,
+        "move_cost": 25,
+        "cooldown": 2,
+        "attack_upper": false,
+        "hit_dmg_u": "%1$s winds its limbs around your %2$s!",
+        "hit_dmg_npc": "%1$s winds its limbs around <npcname>'s %2$s!"
+      }
+    ],
+    "extend": { "flags": [ "GEN_DORMANT" ] }
+  },
+  {
+    "id": "mon_zombie_rot_diseased",
+    "type": "MONSTER",
+    "name": { "str": "zombie plaguebearer" },
+    "description": "The skin of this walking corpse glistens with disturbing fluids.  Even at a distance, the smell nearly makes you gag.",
+    "copy-from": "mon_zombie_base",
+    "hp": 65,
+    "speed": 70,
+    "color": "light_green_yellow",
+    "melee_skill": 3,
+    "melee_dice_sides": 2,
+    "grab_strength": 50,
+    "attack_effs": [ { "id": "pre_flu", "duration": 432000, "chance": 2 }, { "id": "rat_bite_fever", "duration": 345600, "chance": 3 } ],
+    "fungalize_into": "mon_zombie_rot_dusted",
+    "emit_fields": [ { "emit_id": "emit_nauseating_smell", "delay": "1 s" } ],
+    "upgrades": false,
+    "special_attacks": [
+      { "id": "bite_humanoid", "cooldown": 5, "infection_chance": 95 },
+      { "id": "grab", "cooldown": 2 },
+      { "id": "scratch_humanoid" }
+    ]
   }
 ]

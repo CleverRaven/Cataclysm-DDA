@@ -39,7 +39,7 @@
     "components": [
       [ [ "power_supply", 4 ] ],
       [ [ "scrap", 2 ] ],
-      [ [ "cable", 80 ] ],
+      [ [ "cable", 9 ] ],
       [ [ "plastic_chunk", 1 ] ],
       [ [ "duct_tape", 60 ] ]
     ]
@@ -60,7 +60,7 @@
     "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 }, { "id": "HAMMER", "level": 3, "amount": 1 } ],
     "components": [
       [ [ "scrap", 4 ] ],
-      [ [ "cable", 2 ] ],
+      [ [ "cable", 1 ] ],
       [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "e_scrap", 1 ] ]
@@ -108,7 +108,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_semiconductors" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "amplifier", 2 ] ], [ [ "antenna", 1 ] ], [ [ "scrap_aluminum", 5 ] ], [ [ "cable", 7 ] ] ]
+    "components": [ [ [ "amplifier", 2 ] ], [ [ "antenna", 1 ] ], [ [ "scrap_aluminum", 5 ] ], [ [ "cable", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -124,7 +124,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_semiconductors" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "receiver", 1 ] ], [ [ "antenna", 1 ] ], [ [ "scrap_aluminum", 5 ] ], [ [ "cable", 7 ] ] ]
+    "components": [ [ [ "receiver", 1 ] ], [ [ "antenna", 1 ] ], [ [ "scrap_aluminum", 5 ] ], [ [ "cable", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -145,7 +145,7 @@
       [ [ "bottle_glass", 2 ], [ "plastic_bottles_4l", 2, "LIST" ] ],
       [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
       [ [ "scrap", 3 ] ],
-      [ [ "cable", 5 ] ]
+      [ [ "cable", 2 ] ]
     ]
   },
   {
@@ -171,7 +171,7 @@
       [ [ "receiver", 1 ] ],
       [ [ "antenna", 1 ] ],
       [ [ "scrap_aluminum", 5 ] ],
-      [ [ "cable", 10 ] ]
+      [ [ "cable", 4 ] ]
     ]
   },
   {
@@ -195,7 +195,7 @@
     ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "laptop", -1 ] ] ],
-    "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "scrap_aluminum", 4 ] ], [ [ "cable", 10 ] ] ]
+    "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "scrap_aluminum", 4 ] ], [ [ "cable", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -217,7 +217,7 @@
       [ [ "copper", 1 ], [ "nails", 1, "LIST" ], [ "any_wire", 1, "LIST" ] ],
       [ [ "scrap", 1 ] ],
       [ [ "duct_tape", 10 ] ],
-      [ [ "cable", 5 ] ]
+      [ [ "cable", 2 ] ]
     ]
   },
   {
@@ -235,7 +235,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering", "skill_penalty": 0.125 }, { "proficiency": "prof_elec_circuits" } ],
     "using": [ [ "soldering_standard", 5 ] ],
-    "components": [ [ [ "soldering_iron", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "scrap", 1 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "soldering_iron", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "scrap", 1 ] ], [ [ "cable", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -268,7 +268,7 @@
         [ "knife_butter", 6 ],
         [ "muffler", 1 ]
       ],
-      [ [ "cable", 10 ] ]
+      [ [ "cable", 4 ] ]
     ]
   },
   {
@@ -300,7 +300,7 @@
         [ "knife_butter", 6 ],
         [ "muffler", 1 ]
       ],
-      [ [ "cable", 15 ] ]
+      [ [ "cable", 5 ] ]
     ]
   },
   {
@@ -327,7 +327,7 @@
       [ [ "element", 2 ], [ "crude_heating_element", 2 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "cable", 10 ] ],
+      [ [ "cable", 4 ] ],
       [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
       [ [ "plastic_chunk", 18 ] ]
     ]
@@ -350,7 +350,7 @@
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_elec_circuits" }
     ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "cable", 5 ] ], [ [ "motor_micro", 1 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "cable", 2 ] ], [ [ "motor_micro", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -500,7 +500,7 @@
       [ [ "plastic_chunk", 12 ] ],
       [ [ "scrap_aluminum", 4 ] ],
       [ [ "e_scrap", 2 ] ],
-      [ [ "cable", 8 ] ],
+      [ [ "cable", 3 ] ],
       [ [ "spring_small", 2 ] ],
       [ [ "radio_car_wheel", 1 ] ]
     ]
@@ -529,7 +529,7 @@
       [ [ "glass_shard", 8 ] ],
       [ [ "plastic_chunk", 10 ] ],
       [ [ "element", 1 ], [ "crude_heating_element", 1 ] ],
-      [ [ "cable", 10 ] ]
+      [ [ "cable", 4 ] ]
     ]
   },
   {
@@ -553,7 +553,7 @@
       [ [ "sheet_metal_small", 4 ] ],
       [ [ "scrap", 5 ] ],
       [ [ "draw_plate", 1 ] ],
-      [ [ "cable", 10 ] ]
+      [ [ "cable", 4 ] ]
     ]
   },
   {

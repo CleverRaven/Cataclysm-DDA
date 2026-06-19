@@ -747,6 +747,7 @@
     "parts": [
       { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_motorbike" ] },
       { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] },
+      { "x": -1, "y": 0, "parts": [ "battery_motorbike" ] },
       { "x": 1, "y": 0, "parts": [ "wheel_mount_light_steerable", "wheel_motorbike" ] },
       { "x": -2, "y": 0, "parts": [ "wheel_mount_light", "wheel_motorbike" ] },
       { "x": -2, "y": -1, "parts": [ "halfboard#sw", "muffler" ] },
@@ -762,6 +763,7 @@
     "parts": [
       { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_motorbike" ] },
       { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] },
+      { "x": -1, "y": 0, "parts": [ "battery_motorbike" ] },
       { "x": 1, "y": 0, "parts": [ "wheel_mount_light_steerable", "wheel_motorbike" ] },
       { "x": -2, "y": 0, "parts": [ "wheel_mount_light", "wheel_motorbike" ] },
       { "x": -2, "y": -1, "parts": [ "halfboard#sw", "muffler" ] },

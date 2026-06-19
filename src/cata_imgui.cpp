@@ -1,5 +1,7 @@
 #include "cata_imgui.h"
 
+#include <cmath>
+
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
@@ -13,14 +15,13 @@
 #include "input.h"
 #include "output.h"
 #include "path_info.h"
-#include "system_locale.h"
+#include "point.h"
 #include "ui_manager.h"
 #include "input_context.h"
 
 static ImGuiKey cata_key_to_imgui( int cata_key );
 
 #ifdef TUI
-#include "wcwidth.h"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #include <curses.h>
@@ -30,6 +31,8 @@ static ImGuiKey cata_key_to_imgui( int cata_key );
 
 #include "color_loader.h"
 
+namespace
+{
 struct RGBTuple {
     uint8_t Blue;
     uint8_t Green;
@@ -44,6 +47,7 @@ struct pairs {
 ImVec4 impalette[256] = {};
 std::array<RGBTuple, color_loader<RGBTuple>::COLOR_NAMES_COUNT> rgbPalette;
 std::array<pairs, 100> colorpairs;   //storage for paired colors
+} // namespace
 
 static ImVec4 compute_color( uint8_t index )
 {
@@ -87,18 +91,10 @@ ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
     return impalette[palette_index];
 }
 
+namespace
+{
 std::vector<std::pair<int, ImTui::mouse_event>> imtui_events;
-
-static int GetFallbackStrWidth( const char *s_begin, const char *s_end,
-                                const float scale )
-{
-    return utf8_width( std::string( s_begin, s_end ) ) * int( scale );
-}
-
-static int GetFallbackCharWidth( ImWchar c, const float scale )
-{
-    return mk_wcwidth( c ) * scale;
-}
+} // namespace
 
 cataimgui::client::client()
 {
@@ -110,8 +106,7 @@ cataimgui::client::client()
     ImTui_ImplText_Init();
     ImGuiIO &io = ImGui::GetIO();
 
-    io.Fonts->Fonts[0]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
-    io.Fonts->Fonts[0]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
+    ( void )io;
 
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
@@ -123,16 +118,35 @@ cataimgui::client::~client()
 {
     ImTui_ImplNcurses_Shutdown();
     ImTui_ImplText_Shutdown();
-    ImGui::Shutdown();
+    // DestroyContext runs the internal Shutdown and frees the context;
+    // calling ImGui::Shutdown alone leaks the context created in the
+    // constructor.
+    ImGui::DestroyContext();
 }
 
-void cataimgui::client::new_frame()
+void cataimgui::client::new_frame( int display_buffer_w, int display_buffer_h )
 {
+    // TUI layout is driven by the ncurses backend, not display-buffer
+    // pixel dims.
+    ( void )display_buffer_w;
+    ( void )display_buffer_h;
     ImTui_ImplNcurses_NewFrame( imtui_events );
     imtui_events.clear();
     ImTui_ImplText_NewFrame();
 
     ImGui::NewFrame();
+}
+
+void cataimgui::client::abort_frame()
+{
+    // EndFrame finalizes the drawlist without painting it. Drain
+    // cata_input_trail like end_frame() so events do not pile up.
+    ImGui::EndFrame();
+    ImGuiIO &io = ImGui::GetIO();
+    for( const int &code : cata_input_trail ) {
+        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+    }
+    cata_input_trail.clear();
 }
 
 void cataimgui::client::end_frame()
@@ -161,8 +175,12 @@ void cataimgui::client::set_alloced_pair_count( short count )
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
-void cataimgui::client::process_input( void *input )
+void cataimgui::client::process_input( void *input, int display_buffer_w, int display_buffer_h )
 {
+    // TUI input is in cell coordinates from ncurses; no display-buffer
+    // pixel scaling.
+    ( void )display_buffer_w;
+    ( void )display_buffer_h;
     if( !any_window_shown() ) {
         return;
     }
@@ -199,14 +217,14 @@ void cataimgui::client::process_input( void *input )
                         break;
                 }
             }
-            imtui_events.push_back( std::pair<int, ImTui::mouse_event>( KEY_MOUSE, new_mouse_event ) );
+            imtui_events.emplace_back( KEY_MOUSE, new_mouse_event );
         } else {
             int ch = curses_input->get_first_input();
             if( ch != UNKNOWN_UNICODE ) {
                 if( ch > 127 && ch < 245 ) { // Values between 127 and 245 indicate UTF-8
                     ch = utf8_wrapper( curses_input->text ).at( 0 );
                 }
-                imtui_events.push_back( std::pair<int, ImTui::mouse_event>( ch, new_mouse_event ) );
+                imtui_events.emplace_back( ch, new_mouse_event );
             }
         }
     }
@@ -243,10 +261,17 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
 #include "sdl_utils.h"
 #include "sdl_font.h"
 #include "sdltiles.h"
+#include "sdl_wrappers.h"
 #include "font_loader.h"
-#include "wcwidth.h"
+#if SDL_MAJOR_VERSION >= 3
+#include <imgui/imgui_impl_sdl3.h>
+#include <imgui/imgui_impl_sdlrenderer3.h>
+#else
 #include <imgui/imgui_impl_sdl2.h>
 #include <imgui/imgui_impl_sdlrenderer2.h>
+#endif
+
+static bool clear_screen = false;
 
 ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
 {
@@ -255,6 +280,11 @@ ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
              static_cast<float>( c.g / 255. ),
              static_cast<float>( c.b / 255. ),
              static_cast<float>( c.a / 255. ) };
+}
+
+ImU32 cataimgui::ImU32_from_color( const nc_color &color )
+{
+    return ImGui::GetColorU32( cataimgui::imvec4_from_color( color ) );
 }
 
 cataimgui::client::client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Window_Ptr &sdl_window,
@@ -280,87 +310,72 @@ cataimgui::client::client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Windo
     // Default cellPadding is {4, 2}. We reduce this to {3, 2}.
     ImGui::PushStyleVar( ImGuiStyleVar_CellPadding, ImVec2( 3, style.CellPadding.y ) );
 
-    ImGui_ImplSDL2_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
-    ImGui_ImplSDLRenderer2_Init( sdl_renderer.get() );
+    init_platform_backend();
+    init_renderer_backend();
 }
 
-// this function QUEUES a character to be drawn
-static bool CanRenderFallbackChar( ImWchar wch )
+void cataimgui::client::init_platform_backend()
 {
-    return wch != 0;
-}
-
-static int GetFallbackStrWidth( const char *s_begin, const char *s_end,
-                                const float scale )
-{
-    return fontwidth * utf8_width( std::string( s_begin, s_end ) ) * int( scale );
-}
-
-static int GetFallbackCharWidth( ImWchar c, const float scale )
-{
-    return fontwidth * mk_wcwidth( c ) * scale;
-}
-
-// NOLINTNEXTLINE(bugprone-suspicious-include)
-#include "cldr/imgui-glyph-ranges.cpp"
-
-static void AddGlyphRangesFromCLDR( ImFontGlyphRangesBuilder *b, const std::string &lang )
-{
-    // NOLINTBEGIN(bugprone-branch-clone)
-    if( lang == "en" ) {
-        AddGlyphRangesFromCLDRForEN( b );
-    } else if( lang == "ar" ) {
-        AddGlyphRangesFromCLDRForAR( b );
-    } else if( lang == "cs" ) {
-        AddGlyphRangesFromCLDRForCS( b );
-    } else if( lang == "da" ) {
-        AddGlyphRangesFromCLDRForDA( b );
-    } else if( lang == "de" ) {
-        AddGlyphRangesFromCLDRForDE( b );
-    } else if( lang == "el" ) {
-        AddGlyphRangesFromCLDRForEL( b );
-    } else if( lang == "es_AR" ) {
-        AddGlyphRangesFromCLDRForES( b );
-    } else if( lang == "es_ES" ) {
-        AddGlyphRangesFromCLDRForES( b );
-    } else if( lang == "fr" ) {
-        AddGlyphRangesFromCLDRForFR( b );
-    } else if( lang == "hu" ) {
-        AddGlyphRangesFromCLDRForHU( b );
-    } else if( lang == "id" ) {
-        AddGlyphRangesFromCLDRForID( b );
-    } else if( lang == "is" ) {
-        AddGlyphRangesFromCLDRForIS( b );
-    } else if( lang == "it_IT" ) {
-        AddGlyphRangesFromCLDRForIT( b );
-    } else if( lang == "ja" ) {
-        AddGlyphRangesFromCLDRForJA( b );
-    } else if( lang == "ko" ) {
-        AddGlyphRangesFromCLDRForKO( b );
-    } else if( lang == "nb" ) {
-        AddGlyphRangesFromCLDRForNB( b );
-    } else if( lang == "nl" ) {
-        AddGlyphRangesFromCLDRForNL( b );
-    } else if( lang == "pl" ) {
-        AddGlyphRangesFromCLDRForPL( b );
-    } else if( lang == "pt" ) {
-        AddGlyphRangesFromCLDRForPT( b );
-    } else if( lang == "pt_BR" ) {
-        AddGlyphRangesFromCLDRForPT( b );
-    } else if( lang == "ru" ) {
-        AddGlyphRangesFromCLDRForRU( b );
-    } else if( lang == "sr" ) {
-        AddGlyphRangesFromCLDRForSR( b );
-    } else if( lang == "tr" ) {
-        AddGlyphRangesFromCLDRForTR( b );
-    } else if( lang == "uk_UA" ) {
-        AddGlyphRangesFromCLDRForUK_UA( b );
-    } else if( lang == "zh_CN" ) {
-        AddGlyphRangesFromCLDRForZH_HANS( b );
-    } else if( lang == "zh_TW" ) {
-        AddGlyphRangesFromCLDRForZH_HANT( b );
+    if( platform_backend_active_ ) {
+        return;
     }
-    // NOLINTEND(bugprone-branch-clone)
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDL3_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
+#else
+    ImGui_ImplSDL2_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
+#endif
+    platform_backend_active_ = true;
+}
+
+void cataimgui::client::init_renderer_backend()
+{
+    if( renderer_backend_active_ ) {
+        return;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDLRenderer3_Init( sdl_renderer.get() );
+#else
+    ImGui_ImplSDLRenderer2_Init( sdl_renderer.get() );
+#endif
+    renderer_backend_active_ = true;
+}
+
+void cataimgui::client::shutdown_renderer_backend()
+{
+    if( !renderer_backend_active_ ) {
+        return;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDLRenderer3_Shutdown();
+#else
+    ImGui_ImplSDLRenderer2_Shutdown();
+#endif
+    renderer_backend_active_ = false;
+}
+
+void cataimgui::client::shutdown_platform_backend()
+{
+    if( !platform_backend_active_ ) {
+        return;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDL3_Shutdown();
+#else
+    ImGui_ImplSDL2_Shutdown();
+#endif
+    platform_backend_active_ = false;
+}
+
+void cataimgui::client::destroy_backend_device_objects() const
+{
+    if( !renderer_backend_active_ ) {
+        return;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDLRenderer3_DestroyDeviceObjects();
+#else
+    ImGui_ImplSDLRenderer2_DestroyDeviceObjects();
+#endif
 }
 
 #if defined(__clang__) || defined(__GNUC__)
@@ -369,21 +384,18 @@ static void AddGlyphRangesFromCLDR( ImFontGlyphRangesBuilder *b, const std::stri
 #define UNUSED
 #endif
 
-static void AddGlyphRangesMisc( UNUSED ImFontGlyphRangesBuilder *b )
-{
-    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
-    static ImWchar superscripts[] = { 0x00B9, 0x00B9, 0x00B2, 0x00B3, 0x2070, 0x208E, 0x0000 };
-    b->AddRanges( &superscripts[0] );
-}
-
 
 // Load all fonts that exist in typefaces list
 // - typefaces is a list of paths.
 static void load_font( ImGuiIO &io, const std::vector<font_config> &typefaces,
-                       const ImWchar *ranges )
+                       float font_size = 0.0f )
 {
     std::vector<font_config> io_typefaces{ typefaces };
     ensure_unifont_loaded( io_typefaces );
+
+    if( font_size <= 0.0f ) {
+        font_size = fontheight;
+    }
 
     ImFontConfig config = ImFontConfig();
 
@@ -394,8 +406,8 @@ static void load_font( ImGuiIO &io, const std::vector<font_config> &typefaces,
             printf( "Font file '%s' does not exist.\n", it->path.c_str() );
         } else {
             config.MergeMode = !first;
-            config.FontBuilderFlags = it->imgui_config();
-            io.Fonts->AddFontFromFileTTF( it->path.c_str(), fontheight, &config, ranges );
+            config.FontLoaderFlags = it->imgui_config();
+            io.Fonts->AddFontFromFileTTF( it->path.c_str(), font_size, &config );
             first = false;
         }
     }
@@ -420,59 +432,37 @@ static void check_font( const ImFont *font )
 
 void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
                                     const Font_Ptr &mono_font,
-                                    const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
+                                    UNUSED const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT>
+                                    &windowsPalette,
                                     const std::vector<font_config> &gui_typefaces, const std::vector<font_config> &mono_typefaces )
 {
     ImGuiIO &io = ImGui::GetIO();
     if( ImGui::GetIO().FontDefault == nullptr ) {
-        for( size_t index = 0; index < color_loader<SDL_Color>::COLOR_NAMES_COUNT; index++ ) {
-            SDL_Color sdlCol = windowsPalette[index];
-            ImU32 rgb = sdlCol.b << 16 | sdlCol.g << 8 | sdlCol.r;
-            sdlColorsToCata[rgb] = index;
-        }
+        // Glyphs bake lazily on first use; the merged unifont in
+        // ensure_unifont_loaded() supplies CJK / non-Latin coverage.
 
-        std::string lang = get_option<std::string>( "USE_LANG" );
-        if( lang.empty() ) {
-            lang = SystemLocale::Language().value_or( "en" );
+        const bool cjk = get_option<bool>( "IMGUI_LOAD_CHINESE" );
+        // Fonts[0] = gui, Fonts[1] = mono, Fonts[2] = gui 1.5x (non-CJK only)
+        load_font( io, gui_typefaces );
+        load_font( io, mono_typefaces );
+        if( !cjk ) {
+            load_font( io, gui_typefaces,
+                       static_cast<float>( lroundf( fontheight * 1.5f ) ) );
         }
-        ImFontGlyphRangesBuilder b = {};
-        b.AddRanges( io.Fonts->GetGlyphRangesDefault() );
-        AddGlyphRangesFromCLDR( &b, lang );
-        AddGlyphRangesMisc( &b );
-        if( get_option<bool>( "IMGUI_LOAD_CHINESE" ) ) {
-            b.AddRanges( io.Fonts->GetGlyphRangesChineseFull() );
+        for( int i = 0; i < io.Fonts->Fonts.Size; i++ ) {
+            check_font( io.Fonts->Fonts[i] );
         }
-        ImVector<ImWchar> ranges;
-        b.BuildRanges( &ranges );
-
-        load_font( io, gui_typefaces, ranges.begin() );
-        load_font( io, mono_typefaces, ranges.begin() );
-        io.Fonts->Fonts[0]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
-        io.Fonts->Fonts[0]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
-        io.Fonts->Fonts[0]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
-        io.Fonts->Fonts[1]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
-        io.Fonts->Fonts[1]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
-        io.Fonts->Fonts[1]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
-        io.Fonts->Build();
-        check_font( io.Fonts->Fonts[0] );
-        check_font( io.Fonts->Fonts[1] );
-        ImGui::SetCurrentFont( ImGui::GetDefaultFont() );
-        ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback( [&]( const ImFontGlyphToDraw & glyph ) {
-            std::string uni_string = std::string( glyph.uni_str );
-            point p( int( glyph.pos.x ), int( glyph.pos.y - 3 ) );
-            unsigned char col = 0;
-            auto it = sdlColorsToCata.find( glyph.col & 0xFFFFFF );
-            if( it != sdlColorsToCata.end() ) {
-                col = it->second;
-            }
-            mono_font->OutputChar( sdl_renderer, sdl_geometry, glyph.uni_str, p, col );
-        } );
+        ( void )mono_font;
     }
 }
 
 cataimgui::client::~client()
 {
-    ImGui_ImplSDL2_Shutdown();
+    // Reverse-order teardown: renderer backend, platform backend, context.
+    // Skipping any one leaks that resource.
+    shutdown_renderer_backend();
+    shutdown_platform_backend();
+    ImGui::DestroyContext();
 }
 
 #if 0 and not TUI
@@ -482,7 +472,7 @@ struct FreeTypeTest {
     FontBuildMode   BuildMode = FontBuildMode_FreeType;
     bool            WantRebuild = true;
     float           RasterizerMultiply = 1.0f;
-    unsigned int    FreeTypeBuilderFlags = 0;
+    unsigned int    FreeTypeLoaderFlags = 0;
 
     // Call _BEFORE_ NewFrame()
     bool PreNewFrame() {
@@ -491,25 +481,25 @@ struct FreeTypeTest {
         }
 
         ImFontAtlas *atlas = ImGui::GetIO().Fonts;
-        for( int n = 0; n < atlas->ConfigData.Size; n++ ) {
-            ( static_cast<ImFontConfig *>( &atlas->ConfigData[n] ) )->RasterizerMultiply = RasterizerMultiply;
+        for( int n = 0; n < atlas->Sources.Size; n++ ) {
+            ( static_cast<ImFontConfig *>( &atlas->Sources[n] ) )->RasterizerMultiply = RasterizerMultiply;
         }
 
-        // Allow for dynamic selection of the builder.
-        // In real code you are likely to just define IMGUI_ENABLE_FREETYPE and never assign to FontBuilderIO.
+        // Allow for dynamic selection of the font loader.
+        // In real code you are likely to just define IMGUI_ENABLE_FREETYPE and never call SetFontLoader().
 #ifdef IMGUI_ENABLE_FREETYPE
         if( BuildMode == FontBuildMode_FreeType ) {
-            atlas->FontBuilderIO = ImGuiFreeType::GetBuilderForFreeType();
-            atlas->FontBuilderFlags = FreeTypeBuilderFlags;
+            atlas->SetFontLoader( ImGuiFreeType::GetFontLoader() );
+            atlas->FontLoaderFlags = FreeTypeLoaderFlags;
         }
 #endif
 #ifdef IMGUI_ENABLE_STB_TRUETYPE
         if( BuildMode == FontBuildMode_Stb ) {
-            atlas->FontBuilderIO = ImFontAtlasGetBuilderForStbTruetype();
-            atlas->FontBuilderFlags = 0;
+            atlas->SetFontLoader( ImFontAtlasGetFontLoaderForStbTruetype() );
+            atlas->FontLoaderFlags = 0;
         }
 #endif
-        atlas->Build();
+        ImFontAtlasBuildMain( atlas );
         WantRebuild = false;
         return true;
     }
@@ -533,22 +523,22 @@ struct FreeTypeTest {
 #ifndef IMGUI_ENABLE_FREETYPE
             ImGui::TextColored( ImVec4( 1.0f, 0.5f, 0.5f, 1.0f ), "Error: FreeType builder not compiled!" );
 #endif
-            WantRebuild |= ImGui::CheckboxFlags( "NoHinting", &FreeTypeBuilderFlags,
-                                                 ImGuiFreeTypeBuilderFlags_NoHinting );
-            WantRebuild |= ImGui::CheckboxFlags( "NoAutoHint", &FreeTypeBuilderFlags,
-                                                 ImGuiFreeTypeBuilderFlags_NoAutoHint );
-            WantRebuild |= ImGui::CheckboxFlags( "ForceAutoHint", &FreeTypeBuilderFlags,
-                                                 ImGuiFreeTypeBuilderFlags_ForceAutoHint );
-            WantRebuild |= ImGui::CheckboxFlags( "LightHinting", &FreeTypeBuilderFlags,
-                                                 ImGuiFreeTypeBuilderFlags_LightHinting );
-            WantRebuild |= ImGui::CheckboxFlags( "MonoHinting", &FreeTypeBuilderFlags,
-                                                 ImGuiFreeTypeBuilderFlags_MonoHinting );
-            WantRebuild |= ImGui::CheckboxFlags( "Bold", &FreeTypeBuilderFlags,
-                                                 ImGuiFreeTypeBuilderFlags_Bold );
-            WantRebuild |= ImGui::CheckboxFlags( "Oblique", &FreeTypeBuilderFlags,
-                                                 ImGuiFreeTypeBuilderFlags_Oblique );
-            WantRebuild |= ImGui::CheckboxFlags( "Monochrome", &FreeTypeBuilderFlags,
-                                                 ImGuiFreeTypeBuilderFlags_Monochrome );
+            WantRebuild |= ImGui::CheckboxFlags( "NoHinting", &FreeTypeLoaderFlags,
+                                                 ImGuiFreeTypeLoaderFlags_NoHinting );
+            WantRebuild |= ImGui::CheckboxFlags( "NoAutoHint", &FreeTypeLoaderFlags,
+                                                 ImGuiFreeTypeLoaderFlags_NoAutoHint );
+            WantRebuild |= ImGui::CheckboxFlags( "ForceAutoHint", &FreeTypeLoaderFlags,
+                                                 ImGuiFreeTypeLoaderFlags_ForceAutoHint );
+            WantRebuild |= ImGui::CheckboxFlags( "LightHinting", &FreeTypeLoaderFlags,
+                                                 ImGuiFreeTypeLoaderFlags_LightHinting );
+            WantRebuild |= ImGui::CheckboxFlags( "MonoHinting", &FreeTypeLoaderFlags,
+                                                 ImGuiFreeTypeLoaderFlags_MonoHinting );
+            WantRebuild |= ImGui::CheckboxFlags( "Bold", &FreeTypeLoaderFlags,
+                                                 ImGuiFreeTypeLoaderFlags_Bold );
+            WantRebuild |= ImGui::CheckboxFlags( "Oblique", &FreeTypeLoaderFlags,
+                                                 ImGuiFreeTypeLoaderFlags_Oblique );
+            WantRebuild |= ImGui::CheckboxFlags( "Monochrome", &FreeTypeLoaderFlags,
+                                                 ImGuiFreeTypeLoaderFlags_Monochrome );
         }
 
         if( BuildMode == FontBuildMode_Stb ) {
@@ -563,17 +553,58 @@ struct FreeTypeTest {
 FreeTypeTest freetype_test;
 #endif
 
-void cataimgui::client::new_frame()
+point cataimgui::imgui_frame_display_size( const int display_buffer_w, const int display_buffer_h,
+        const int renderer_output_w, const int renderer_output_h )
+{
+    if( display_buffer_w > 0 && display_buffer_h > 0 ) {
+        return point{ display_buffer_w, display_buffer_h };
+    }
+    return point{ renderer_output_w, renderer_output_h };
+}
+
+void cataimgui::client::new_frame( int display_buffer_w, int display_buffer_h )
 {
 #if 0 and not TUI
     if( freetype_test.PreNewFrame() ) {
         // REUPLOAD FONT TEXTURE TO GPU
+#if SDL_MAJOR_VERSION >= 3
+        ImGui_ImplSDLRenderer3_DestroyDeviceObjects();
+        ImGui_ImplSDLRenderer3_CreateDeviceObjects();
+#else
         ImGui_ImplSDLRenderer2_DestroyDeviceObjects();
         ImGui_ImplSDLRenderer2_CreateDeviceObjects();
+#endif
     }
 #endif
+    if( clear_screen && clear_sdl_window() ) {
+        // Keep the request armed if the clear was deferred by a queued recovery.
+        clear_screen = false;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDLRenderer3_NewFrame();
+    ImGui_ImplSDL3_NewFrame();
+#else
     ImGui_ImplSDLRenderer2_NewFrame();
     ImGui_ImplSDL2_NewFrame();
+#endif
+
+    // ImGui draws into display_buffer, whose size differs from the window under
+    // SCALING_FACTOR or android letterboxing. Prefer the caller's dims; fall
+    // back to the bound target's output size.
+    {
+        ImGuiIO &io = ImGui::GetIO();
+        int output_w = 0;
+        int output_h = 0;
+        if( display_buffer_w <= 0 || display_buffer_h <= 0 ) {
+            GetRendererOutputSize( sdl_renderer, &output_w, &output_h );
+        }
+        const point sz = imgui_frame_display_size( display_buffer_w, display_buffer_h,
+                         output_w, output_h );
+        if( sz.x > 0 && sz.y > 0 ) {
+            io.DisplaySize = ImVec2( static_cast<float>( sz.x ), static_cast<float>( sz.y ) );
+            io.DisplayFramebufferScale = ImVec2( 1.0f, 1.0f );
+        }
+    }
 
     ImGui::NewFrame();
 #if 0 and not TUI
@@ -584,7 +615,15 @@ void cataimgui::client::new_frame()
 void cataimgui::client::end_frame()
 {
     ImGui::Render();
-    ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
+    // A watcher write can land after the outer-boundary drain passed but before
+    // this paint. The draw list is finalized; skip only the backend paint.
+    if( !renderer_should_abort_frame() ) {
+#if SDL_MAJOR_VERSION >= 3
+        ImGui_ImplSDLRenderer3_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
+#else
+        ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
+#endif
+    }
     ImGuiIO &io = ImGui::GetIO();
     for( const int &code : cata_input_trail ) {
         io.AddKeyEvent( cata_key_to_imgui( code ), false );
@@ -592,21 +631,46 @@ void cataimgui::client::end_frame()
     cata_input_trail.clear();
 }
 
-void cataimgui::client::process_input( void *input )
+void cataimgui::client::abort_frame()
+{
+    // EndFrame finalizes the drawlist without painting it. Drain
+    // cata_input_trail like end_frame() so events do not pile up.
+    ImGui::EndFrame();
+    ImGuiIO &io = ImGui::GetIO();
+    for( const int &code : cata_input_trail ) {
+        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+    }
+    cata_input_trail.clear();
+}
+
+bool cataimgui::clear_pending()
+{
+    return clear_screen;
+}
+
+void cataimgui::client::process_input( void *input, int display_buffer_w, int display_buffer_h )
 {
     if( any_window_shown() ) {
         const SDL_Event *evt = static_cast<const SDL_Event *>( input );
         bool no_mouse = ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_NoMouse;
         if( no_mouse ) {
             switch( evt->type ) {
-                case SDL_MOUSEMOTION:
-                case SDL_MOUSEWHEEL:
-                case SDL_MOUSEBUTTONDOWN:
-                case SDL_MOUSEBUTTONUP:
+                case CATA_MOUSEMOTION:
+                case CATA_MOUSEWHEEL:
+                case CATA_MOUSEBUTTONDOWN:
+                case CATA_MOUSEBUTTONUP:
                     return;
             }
         }
+        ( void )display_buffer_w;
+        ( void )display_buffer_h;
+#if SDL_MAJOR_VERSION >= 3
+        ImGui_ImplSDL3_ProcessEvent( evt );
+#else
+        // Coordinates already converted to display_buffer space by
+        // convert_event_to_display_buffer_coords in the event pump.
         ImGui_ImplSDL2_ProcessEvent( evt );
+#endif
     }
 }
 
@@ -633,6 +697,28 @@ bool cataimgui::client::any_window_shown()
         }
     }
     return any_window_shown;
+}
+
+bool cataimgui::client::want_capture_mouse()
+{
+    return ImGui::GetCurrentContext() != nullptr && ImGui::GetIO().WantCaptureMouse;
+}
+
+bool cataimgui::client::want_capture_keyboard()
+{
+    return ImGui::GetCurrentContext() != nullptr && ImGui::GetIO().WantCaptureKeyboard;
+}
+
+bool cataimgui::client::want_text_input()
+{
+    return ImGui::GetCurrentContext() != nullptr && ImGui::GetIO().WantTextInput;
+}
+
+void cataimgui::client::clear_text_focus()
+{
+    if( ImGui::GetCurrentContext() != nullptr ) {
+        ImGui::ClearActiveID();
+    }
 }
 
 static ImGuiKey cata_key_to_imgui( int cata_key )
@@ -883,7 +969,19 @@ cataimgui::window::~window()
         if( !ui_adaptor::has_imgui() ) {
             ImGui::GetIO().ClearInputKeys();
             GImGui->InputEventsQueue.resize( 0 );
+#ifdef TILES
+            // Removes leftover ImGui artifacts
+            clear_screen = true;
+#endif
         }
+    }
+}
+
+void cataimgui::window::hide_if_hidden() const
+{
+    if( hide_ui ) {
+        ImGuiWindow *w = ImGui::GetCurrentWindowRead();
+        ImGui::SetWindowHiddenAndSkipItemsForCurrentFrame( w );
     }
 }
 
@@ -892,10 +990,10 @@ bool cataimgui::window::is_bounds_changed()
     return p_impl->is_resized;
 }
 
-size_t cataimgui::window::get_text_width( const std::string &text )
+size_t cataimgui::window::get_text_width( std::string_view text )
 {
 #ifndef TUI
-    return ImGui::CalcTextSize( text.c_str() ).x;
+    return ImGui::CalcTextSize( text.data(), text.data() + text.size() ).x;
 #else
     return utf8_width( text );
 #endif
@@ -926,6 +1024,27 @@ size_t cataimgui::window::str_height_to_pixels( size_t len )
 #else
     return len;
 #endif
+}
+
+size_t cataimgui::get_string_width( const std::string_view str )
+{
+    return str.size() * ImGui::CalcTextSize( " " ).x;
+}
+
+size_t cataimgui::get_string_height( const std::string_view str, const float wrap_width )
+{
+    const std::string new_str = remove_color_tags( str );
+    size_t chars_per_line = size_t( wrap_width );
+    if( chars_per_line == 0 ) {
+        chars_per_line = SIZE_MAX;
+    }
+#ifndef TUI
+    size_t char_width = size_t( ImGui::CalcTextSize( " " ).x );
+    chars_per_line /= char_width;
+#endif
+    const std::vector<std::string> folded_msg = foldstring( new_str, chars_per_line );
+
+    return folded_msg.size() * ImGui::GetTextLineHeightWithSpacing();
 }
 
 void cataimgui::window::mark_resized()
@@ -1065,6 +1184,13 @@ void cataimgui::window::clear_filter()
     }
 }
 
+void cataimgui::window::defocus_filter()
+{
+    if( filter_impl && filter_impl->id != 0 && GImGui->ActiveId == filter_impl->id ) {
+        ImGui::ClearActiveID();
+    }
+}
+
 bool cataimgui::InputFloat( const char *label, float *v, float step, float step_fast,
                             const char *format, ImGuiInputTextFlags flags )
 {
@@ -1075,17 +1201,36 @@ bool cataimgui::InputFloat( const char *label, float *v, float step, float step_
 
 void cataimgui::PushGuiFont()
 {
-#ifdef TILES
-    ImGui::PushFont( ImGui::GetIO().Fonts->Fonts[0] );
-#endif
+    ImFont *font = ImGui::GetIO().Fonts->Fonts[0];
+    ImGui::PushFont( font, font->LegacySize );
 }
 
 void cataimgui::PushMonoFont()
 {
 #ifdef TILES
-    ImGui::PushFont( ImGui::GetIO().Fonts->Fonts[1] );
+    ImFont *font = ImGui::GetIO().Fonts->Fonts[1];
+#else
+    ImFont *font = ImGui::GetIO().Fonts->Fonts[0];
 #endif
+    ImGui::PushFont( font, font->LegacySize );
 }
+
+void cataimgui::PushGuiFont1_5x()
+{
+    if( ImGui::GetIO().Fonts->Fonts.Size > 2 ) {
+        ImFont *font = ImGui::GetIO().Fonts->Fonts[2];
+        ImGui::PushFont( font, font->LegacySize );
+    } else {
+        ImFont *font = ImGui::GetIO().Fonts->Fonts[0];
+        ImGui::PushFont( font, font->LegacySize * 1.5f );
+    }
+}
+
+void cataimgui::PopGuiFont1_5x()
+{
+    ImGui::PopFont();
+}
+
 
 bool cataimgui::BeginRightAlign( const char *str_id )
 {
@@ -1102,6 +1247,16 @@ bool cataimgui::BeginRightAlign( const char *str_id )
 void cataimgui::EndRightAlign()
 {
     ImGui::EndTable();
+}
+
+bool cataimgui::BeginTabItem( const char *label, bool is_selected, bool *p_open,
+                              ImGuiTabItemFlags flags )
+{
+    if( is_selected ) {
+        return ImGui::BeginTabItem( label, p_open, flags | ImGuiTabItemFlags_SetSelected );
+    } else {
+        return ImGui::BeginTabItem( label, p_open, flags );
+    }
 }
 
 // Use the base terminal palette to reasonably color ImGui elements.
@@ -1146,11 +1301,11 @@ static void inherit_base_colors()
     style.Colors[ImGuiCol_ResizeGripActive] = c_white;
     style.Colors[ImGuiCol_Tab] = c_black;
     style.Colors[ImGuiCol_TabHovered] = c_blue;
-    style.Colors[ImGuiCol_TabActive] = c_blue;
-    style.Colors[ImGuiCol_TabUnfocused] = c_black;
-    style.Colors[ImGuiCol_TabUnfocusedActive] = c_black;
+    style.Colors[ImGuiCol_TabSelected] = c_blue;
+    style.Colors[ImGuiCol_TabDimmed] = c_black;
+    style.Colors[ImGuiCol_TabDimmedSelected] = c_black;
     style.Colors[ImGuiCol_TextSelectedBg] = c_blue;
-    style.Colors[ImGuiCol_NavHighlight] = c_blue;
+    style.Colors[ImGuiCol_NavCursor] = c_blue;
 }
 
 static void load_imgui_style_file( const cata_path &style_path )
@@ -1206,9 +1361,12 @@ static void load_imgui_style_file( const cata_path &style_path )
         {"ImGuiCol_ResizeGripActive", ImGuiCol_ResizeGripActive},
         {"ImGuiCol_Tab", ImGuiCol_Tab},
         {"ImGuiCol_TabHovered", ImGuiCol_TabHovered},
-        {"ImGuiCol_TabActive", ImGuiCol_TabActive},
-        {"ImGuiCol_TabUnfocused", ImGuiCol_TabUnfocused},
-        {"ImGuiCol_TabUnfocusedActive", ImGuiCol_TabUnfocusedActive},
+        {"ImGuiCol_TabActive", ImGuiCol_TabSelected},
+        {"ImGuiCol_TabSelected", ImGuiCol_TabSelected},
+        {"ImGuiCol_TabUnfocused", ImGuiCol_TabDimmed},
+        {"ImGuiCol_TabDimmed", ImGuiCol_TabDimmed},
+        {"ImGuiCol_TabUnfocusedActive", ImGuiCol_TabDimmedSelected},
+        {"ImGuiCol_TabDimmedSelected", ImGuiCol_TabDimmedSelected},
         {"ImGuiCol_PlotLines", ImGuiCol_PlotLines},
         {"ImGuiCol_PlotLinesHovered", ImGuiCol_PlotLinesHovered},
         {"ImGuiCol_PlotHistogram", ImGuiCol_PlotHistogram},
@@ -1220,7 +1378,8 @@ static void load_imgui_style_file( const cata_path &style_path )
         {"ImGuiCol_TableRowBgAlt", ImGuiCol_TableRowBgAlt},
         {"ImGuiCol_TextSelectedBg", ImGuiCol_TextSelectedBg},
         {"ImGuiCol_DragDropTarget", ImGuiCol_DragDropTarget},
-        {"ImGuiCol_NavHighlight", ImGuiCol_NavHighlight},
+        {"ImGuiCol_NavHighlight", ImGuiCol_NavCursor},
+        {"ImGuiCol_NavCursor", ImGuiCol_NavCursor},
         {"ImGuiCol_NavWindowingHighlight", ImGuiCol_NavWindowingHighlight},
         {"ImGuiCol_NavWindowingDimBg", ImGuiCol_NavWindowingDimBg},
         {"ImGuiCol_ModalWindowDimBg", ImGuiCol_ModalWindowDimBg},

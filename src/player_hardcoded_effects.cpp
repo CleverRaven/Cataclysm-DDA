@@ -252,7 +252,7 @@ static void eff_fun_fungus( Character &u, effect &it )
                 u.mod_hunger( awfulness );
                 u.mod_thirst( awfulness );
                 ///\EFFECT_STR decreases damage taken by fungus effect
-                u.apply_damage( nullptr, bodypart_id( "torso" ), awfulness / std::max( u.str_cur,
+                u.apply_damage( nullptr, bodypart_id( "torso" ), awfulness / std::max( u.get_str(),
                                 1 ) ); // can't be healthy
             }
             break;
@@ -457,7 +457,7 @@ static void eff_fun_hallu( Character &u, effect &it )
             ///\EFFECT_STR_NPC increases volume of hallucination sounds (NEGATIVE)
 
             ///\EFFECT_INT_NPC decreases volume of hallucination sounds
-            int loudness = 20 + u.str_cur - u.int_cur;
+            int loudness = 20 + u.get_str() - u.get_int();
             loudness = ( loudness > 5 ? loudness : 5 );
             loudness = ( loudness < 30 ? loudness : 30 );
             sounds::sound( u.pos_bub(), loudness, sounds::sound_t::speech, _( random_entry_ref( npc_hallu ) ),
@@ -487,6 +487,8 @@ static void eff_fun_hallu( Character &u, effect &it )
     }
 }
 
+namespace
+{
 struct temperature_effect {
     int str_pen;
     int dex_pen;
@@ -521,6 +523,7 @@ struct temperature_effect {
         }
     }
 };
+} // namespace
 
 static void eff_fun_cold( Character &u, effect &it )
 {

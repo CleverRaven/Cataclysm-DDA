@@ -477,6 +477,30 @@
     "dur_add_perc": 25
   },
   {
+    "id": "arion_blood_drank",
+    "type": "effect_type",
+    "name": [ "Drank blood" ],
+    "desc": [ "The hungry Arion has drunk blood and is now visibly regenerating." ],
+    "rating": "good",
+    "show_in_info": true
+  },
+  {
+    "id": "effect_feed_the_black_horse",
+    "type": "effect_type",
+    "name": [ "Feed Arion" ],
+    "desc": [ "It's time to feed Arion.  If you do not there will be consequences." ],
+    "rating": "bad",
+    "show_in_info": true
+  },
+  {
+    "id": "effect_fed_the_black_horse",
+    "type": "effect_type",
+    "name": [ "Fed Arion" ],
+    "desc": [ "You have fed Arion and it shall not devolve for a while." ],
+    "rating": "good",
+    "show_in_info": true
+  },
+  {
     "type": "effect_type",
     "id": "vampire_virus",
     "name": [ "Wan", "Reddened Eyes", "Bloodthirst" ],
@@ -822,6 +846,10 @@
             }
           }
         ]
+      },
+      {
+        "condition": { "math": [ "u_val('strength') >= 25" ] },
+        "ench_effects": [ { "effect": "effect_xe_blocking_huge_attacks", "intensity": 1 } ]
       }
     ]
   },
@@ -836,7 +864,7 @@
       {
         "values": [
           {
-            "value": "STRENGTH",
+            "value": "SMASH_BONUS",
             "add": {
               "math": [
                 "(1 + (vampire_total_tier_one_traits_plus_potency() * 0.25) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)  + (vampire_total_tier_five_traits_plus_cauldron() * 1) ) * (u_effect_intensity('effect_vampire_unholy_devastation') * 0.25 )"
@@ -1342,6 +1370,13 @@
     "id": "effect_sylph_underground_timer",
     "name": [ "Underground in Dead Air" ],
     "desc": [ "You were not born to crawl beneath the dirt like a mole.  You need to get out to the open sky." ],
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_wet_rate_limiter",
+    "name": [ "" ],
+    "desc": [ "" ],
     "rating": "bad"
   },
   {
@@ -1887,6 +1922,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_salamander_is_near_a_fire",
+    "//": "Hidden effect, used in Salamander spellcasting failure calculations",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_salamander_featherfall",
     "name": [ "" ],
     "desc": [ "" ],
@@ -1980,6 +2022,16 @@
       "pain_chance": [ 3 ],
       "pain_tick": [ 1 ]
     }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_rain_immunity",
+    "name": [ "Steam Shell" ],
+    "desc": [ "A thin barrier of heat around your body is protecting you from rain." ],
+    "apply_message": "",
+    "remove_message": "The thin shell of heat around your body dissipates.",
+    "rating": "good",
+    "flags": [ "RAIN_IMMUNE" ]
   },
   {
     "type": "effect_type",
@@ -2430,6 +2482,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_paraclesian_cannot_use_computers_flag",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Empty name and description to hide effect",
+    "flags": [ "CANNOT_USE_COMPUTERS" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_paraclesian_see_fae",
     "name": [ "Wyrd Sight" ],
     "desc": [ "You can sense nearby creatures that come from under the hill." ],
@@ -2508,6 +2568,13 @@
     "name": [ "" ],
     "desc": [ "" ],
     "removes_effects": [ "common_cold", "pre_common_cold", "flu", "pre_flu" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_ward_off_rain",
+    "name": [ "To Keep Off the Rain and the Damp" ],
+    "desc": [ "Thanks to the words of the charm you spoke, you won't get wet in the rain." ],
+    "flags": [ "RAIN_IMMUNE" ]
   },
   {
     "type": "effect_type",
@@ -2953,6 +3020,14 @@
       }
     ],
     "flags": [ "CLIMB_NO_LADDER", "FEATHER_FALL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_temporary_psychopath",
+    "name": [ "Arbiter Mundi" ],
+    "desc": [ "Yours is the right to rule." ],
+    "rating": "mixed",
+    "flags": [ "PSYCHOPATH" ]
   },
   {
     "type": "effect_type",
@@ -3662,7 +3737,7 @@
         "values": [
           {
             "value": "MAX_MANA",
-            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 250 )" ] }
+            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_destabilizing_strikes') ), 250 )" ] }
           }
         ]
       }
@@ -3684,7 +3759,7 @@
         "values": [
           {
             "value": "MAX_MANA",
-            "add": { "math": [ "-max( 500 - ( 12.5 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 125 )" ] }
+            "add": { "math": [ "-max( 500 - ( 12.5 * u_spell_level('xedra_chronomancer_stabilize_timeline') ), 125 )" ] }
           }
         ]
       }
@@ -3842,8 +3917,8 @@
     "max_intensity": 5,
     "apply_message": "You want to sink your fangs in someone's neck and drink their blood.",
     "miss_messages": [ [ "Your thirst distract you.", 1 ] ],
-    "base_mods": { "sleep_chance": [ -1003 ], "sleep_min": [ 15000 ], "sleep_max": [ 21000 ] },
-    "scaling_mods": { "per_mod": [ -0.5 ], "dex_mod": [ -0.5 ], "int_mod": [ -0.75 ], "sleep_chance": [ 501 ] },
+    "base_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ], "int_mod": [ -1.5 ] },
+    "scaling_mods": { "per_mod": [ -0.5 ], "dex_mod": [ -0.5 ], "int_mod": [ -0.75 ] },
     "limb_score_mods": [
       { "limb_score": "manip", "modifier": 1.0, "scaling": -0.1 },
       { "limb_score": "block", "modifier": 1.0, "scaling": -0.1 },
@@ -3876,6 +3951,17 @@
     "main_parts_only": true,
     "base_mods": { "pain_min": [ 2 ], "pain_tick": [ 10 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_tick": [ 10 ] },
     "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_holy_burnt_carrying_holy",
+    "name": [ "Unworthy of the holy" ],
+    "desc": [ "You are wearing a holy symbol.  It will cause you severe pain until you take it off." ],
+    "rating": "bad",
+    "apply_message": "You wince in pain as you put on the holy symbol.",
+    "remove_message": "The pain subsides as you take off the holy symbol.",
+    "base_mods": { "pain_amount": [ 5 ], "pain_min": [ 1 ], "pain_max": [ 3 ], "pain_max_val": [ 100 ] },
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -4190,6 +4276,22 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_bloodthorne_druid_prevent_vampirism",
+    "name": [ "Sapshield" ],
+    "desc": [ "You are protected against the vampires' curse." ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bloodthorne_druid_prevent_vampirism_active",
+    "name": [ "Blooming Sapshield" ],
+    "desc": [ "You are protected against the vampires' curse." ],
+    "show_in_info": true,
+    "removes_effects": [ "vampire_virus" ],
+    "remove_message": "Your sapshield fades away."
+  },
+  {
+    "type": "effect_type",
     "id": "effect_bloodthorne_druid_thorn_prison",
     "name": [ "Henge of Iron Thorns" ],
     "desc": [ "You are imprisoned in a thick tangle of thorns." ],
@@ -4300,6 +4402,14 @@
     "id": "effect_xe_werewolf_summon_shadow_pack_limiter",
     "name": [ "Summoned the Shadow Pack" ],
     "desc": [ "You called on the aid of ancestral werewolves and must wait before seeking their aid again." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_follower_summoned_dross",
+    "name": [ "Recently created dreamdross" ],
+    "desc": [
+      "This person has recently gave you dreamdross.  It will take some time before they gather an usable amount of dross again."
+    ]
   },
   {
     "type": "effect_type",

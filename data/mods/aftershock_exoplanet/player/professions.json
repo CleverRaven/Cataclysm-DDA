@@ -34,7 +34,7 @@
     "points": 4,
     "starting_cash": 1120000,
     "traits": [ "CBM_Interface" ],
-    "CBMs": [ "bio_weight", "bn_bio_solar", "bio_power_storage_mkII", "bio_flashlight", "bio_tools", "bio_sunglasses" ],
+    "CBMs": [ "bio_weight", "bio_microgen", "bio_power_storage_mkII", "bio_flashlight", "bio_tools", "bio_sunglasses" ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "launcher" } ],
     "items": {
       "both": {
@@ -193,7 +193,7 @@
             "contents-item": [ "shoulder_strap", "acog_scope" ]
           },
           { "item": "afs_military_vestxl" },
-          { "item": "xlpolice_belt" },
+          { "item": "police_belt" },
           { "item": "legpouch_large", "contents-group": "afs_UICASTA30" }
         ]
       },
@@ -459,7 +459,7 @@
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc2" },
           { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "holster" },
           { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": [ "shoulder_strap" ] },
-          { "item": "baton", "container-item": "xlpolice_belt" }
+          { "item": "baton", "container-item": "police_belt" }
         ]
       },
       "male": { "entries": [ { "item": "xlboxer_shorts" } ] },
@@ -470,7 +470,7 @@
     "type": "profession",
     "id": "afs_bio_operator",
     "name": "Rogue Operator",
-    "description": "You worked as a mercenary across six continents for a dozen corps.  A VP at the last corp decided he wanted to put you on retainer and you agreed to a three month gig in return for some additional bionics.  You woke up with an extra bionic, a cranial bomb that needed to be reset every month or so or it blows up.  Now you have days until the bomb goes off.  Maybe you'll find someone who can remove it.  Can you even sleep, for fear of death?",
+    "description": "You worked as a mercenary across six clusters for a dozen corps.  A VP at the last corp decided he wanted to put you on retainer and you agreed to a three month gig in return for some additional bionics.  You woke up with an extra bionic, a cranial bomb that needed to be reset every month or so or it blows up.  While traveling with him to this frozen hellscape, you found the code to reset it.  So you did unto him, right out the airlock.  Turns out the code you found was for someone's elses cranial bomb.  You landed the shuttle at the nearest UICA spaceport, burning your forged documents by tying them to the murdered executive's shuttle.  Now you have to find someone who'll remove this black market cbm without asking any questions before it blows up.  Can you even sleep, for fear of death?",
     "points": 2,
     "starting_cash": 1120000,
     "traits": [ "CBM_Interface" ],

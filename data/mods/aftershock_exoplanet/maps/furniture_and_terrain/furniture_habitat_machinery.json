@@ -22,7 +22,7 @@
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "cable", "count": [ 1, 5 ] },
         { "item": "cu_pipe", "count": [ 2, 5 ] },
         { "item": "thermostat", "count": 1 },
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
@@ -39,7 +39,7 @@
         { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "afs_material_1", "count": [ 2, 5 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "cable", "count": [ 1, 5 ] },
         { "item": "afs_circuitry_1", "count": [ 1, 4 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "afs_circuitry_1", "count": [ 1, 4 ] },
@@ -74,7 +74,7 @@
         { "item": "afs_energy_storage_1", "count": [ 1, 2 ] },
         { "item": "afs_heat_2_salvage", "count": [ 1, 4 ] },
         { "item": "frame", "count": 1 },
-        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "cable", "count": [ 1, 5 ] },
         { "item": "hose", "count": [ 0, 2 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "polycarbonate_sheet", "count": [ 1, 2 ] }
@@ -106,10 +106,91 @@
         { "item": "afs_heat_2_salvage", "count": [ 1, 4 ] },
         { "item": "frame", "count": 1 },
         { "item": "oxygen_tank", "prob": 15, "charges": [ 4, -1 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "cable", "count": [ 1, 5 ] },
         { "item": "hose", "count": [ 3, 10 ] },
         { "item": "cu_pipe", "count": [ 5, 15 ] },
         { "item": "polycarbonate_sheet", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cryo_storage_l",
+    "name": "cryogenic storage unit",
+    "looks_like": "f_console",
+    "description": "A small cabinet used to store objects for indefinite periods of time.  Maintaining cryogenic storage is expensive, so whatever is stowed inside is likely to be valuable.",
+    "symbol": "9",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 25,
+    "flags": [ "SEALED", "PLACE_ITEM", "CONTAINER", "NO_SPOIL" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_unlock_afs_cryo_storage_unit",
+          "effect": [
+            { "math": [ "_t_delay = time('20 m')" ] },
+            { "u_add_var": "hack_success_eoc", "value": "EOC_hack_cryo_storage_unit_success" },
+            {
+              "run_eocs": "EOC_start_lock_hack",
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 8, "t_radius": 0 },
+              "alpha_talker": "avatar"
+            }
+          ]
+        }
+      ]
+    },
+    "bash": {
+      "str_min": 60,
+      "str_max": 145,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "plastic_chunk", "count": [ 20, 40 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
+        { "item": "cable", "count": [ 24, 47 ] },
+        { "item": "RAM", "count": [ 0, 2 ] },
+        { "item": "e_scrap", "count": [ 10, 20 ] },
+        { "item": "circuit", "count": [ 2, 5 ] },
+        { "item": "amplifier", "count": [ 0, 1 ] },
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "power_supply", "count": [ 2, 5 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cryo_storage_o",
+    "name": "unlocked cryogenic storage unit",
+    "looks_like": "f_console",
+    "description": "A small cabinet used to store objects for indefinite periods of time.  Forceful opening has interrupted the cryogenic process, so whatever is inside must be recovered quickly.",
+    "symbol": "9",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 25,
+    "flags": [ "ALARMED", "PLACE_ITEM", "CONTAINER" ],
+    "bash": {
+      "str_min": 60,
+      "str_max": 145,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "plastic_chunk", "count": [ 20, 40 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
+        { "item": "cable", "count": [ 24, 47 ] },
+        { "item": "RAM", "count": [ 0, 2 ] },
+        { "item": "e_scrap", "count": [ 10, 20 ] },
+        { "item": "circuit", "count": [ 2, 5 ] },
+        { "item": "amplifier", "count": [ 0, 1 ] },
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "power_supply", "count": [ 2, 5 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
       ]
     }
   },
@@ -148,7 +229,7 @@
         { "item": "scrap", "count": [ 2, 8 ] },
         { "item": "plastic_chunk", "count": [ 20, 40 ] },
         { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
-        { "item": "cable", "charges": [ 70, 140 ] },
+        { "item": "cable", "count": [ 24, 47 ] },
         { "item": "RAM", "count": [ 0, 2 ] },
         { "item": "e_scrap", "count": [ 10, 20 ] },
         { "item": "circuit", "count": [ 2, 5 ] },

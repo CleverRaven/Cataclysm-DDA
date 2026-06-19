@@ -1,15 +1,18 @@
 {
   "name": "cdda-vcpkg-dependencies",
   "version-string": "0.J",
+  "port-version": 1,
   "dependencies": [
-    { "name": "sdl2", "version>=": "2.26.4#0" },
-    { "name": "sdl2-image", "features": [ "libjpeg-turbo" ] },
-    { "name": "sdl2-mixer", "features": [ "libflac", "mpg123", "wavpack" ],
+    { "name": "pdcurses", "version>=": "3.9#4", "platform": "windows" },
+    "sdl3",
+    { "name": "sdl3-image", "features": [ "jpeg", "png" ] },
+    "sdl3-ttf",
+    { "name": "sdl3-mixer",
+      "features": [ "libflac", "mpg123", "wavpack", "libvorbis" ],
       "default-features": false
     },
-    "libvorbis",
-    "sdl2-ttf",
-    { "name": "pdcurses", "version>=": "3.9#4", "platform": "windows" }
+    { "name": "glslang", "features": [ "tools" ] },
+    "sdl3-shadercross"
   ],
-  "builtin-baseline": "1b6e030cf096faf4f82d7b7025de8b2abee3e3df"
+  "builtin-baseline": "f6672d8e480ccdecddfad3fd1b838ba369ffe6cd"
 }

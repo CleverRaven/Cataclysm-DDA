@@ -125,7 +125,7 @@
     "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 }, { "id": "HAMMER", "level": 3, "amount": 1 } ],
     "components": [
       [ [ "scrap", 4 ] ],
-      [ [ "cable", 2 ] ],
+      [ [ "cable", 1 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "rune_technomancer", 1 ] ]

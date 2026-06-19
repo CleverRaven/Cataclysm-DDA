@@ -92,6 +92,7 @@ static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rock( "rock" );
 
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
+static const json_character_flag json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 
 static const material_id material_iflesh( "iflesh" );
 static const material_id material_veggy( "veggy" );
@@ -116,7 +117,7 @@ using namespace map_field_processing;
 void map::create_burnproducts( const tripoint_bub_ms &p, const item &fuel,
                                const units::mass &burned_mass )
 {
-    const std::map<material_id, int> all_mats = fuel.made_of();
+    const std::map<material_id, int> &all_mats = fuel.made_of();
     if( all_mats.empty() ) {
         return;
     }
@@ -365,6 +366,24 @@ void map::spread_gas( field_entry &cur, const tripoint_bub_ms &p, int percent_sp
         maptile up_tile = maptile_at_internal( up );
         if( gas_can_spread_to( cur, up_tile ) && valid_move( p, up, true, true ) ) {
             gas_spread_to( cur, up_tile, up );
+        }
+    }
+}
+
+void map::furniture_terrain_emit_fields()
+{
+    if( calendar::once_every( 10_seconds ) ) {
+        for( const tripoint_bub_ms &elem : get_furn_field_locations() ) {
+            const furn_t &furn_to_emit = *furn( elem );
+            for( const emit_id &e : furn_to_emit.emissions ) {
+                emit_field( elem, e );
+            }
+        }
+        for( const tripoint_bub_ms &elem : get_ter_field_locations() ) {
+            const ter_t &ter_to_emit = *ter( elem );
+            for( const emit_id &e : ter_to_emit.emissions ) {
+                emit_field( elem, e );
+            }
         }
     }
 }
@@ -760,8 +779,8 @@ static void field_processor_fd_electricity( const tripoint_bub_ms &p, field_entr
     }
 }
 
-static void field_processor_monster_spawn( const tripoint_bub_ms &p, field_entry &cur,
-        field_proc_data &pd )
+void field_processor_monster_spawn( const tripoint_bub_ms &p, field_entry &cur,
+                                    field_proc_data &pd )
 {
     const field_intensity_level &int_level = cur.get_intensity_level();
     int monster_spawn_chance = int_level.monster_spawn_chance;
@@ -1528,7 +1547,8 @@ void map::player_in_field( Character &you )
         }
         if( ft == fd_fire ) {
             // Heatsink or suit prevents ALL fire damage.
-            if( !you.has_flag( json_flag_HEATSINK ) && !you.is_wearing( itype_rm13_armor_on ) ) {
+            if( !you.has_flag( json_flag_HEATSINK ) && !you.has_flag( json_flag_HEAT_IMMUNE ) &&
+                !you.is_wearing( itype_rm13_armor_on ) ) {
 
                 // To modify power of a field based on... whatever is relevant for the effect.
                 int adjusted_intensity = cur.get_field_intensity();
@@ -1539,6 +1559,14 @@ void map::player_in_field( Character &you )
                     } else {
                         adjusted_intensity -= 1;
                     }
+                }
+
+                // After adjusting intensity, check if the fire is powerful enough to actually hurt us
+                if( cur.get_field_intensity() == 1 ) {
+                    continue; // Small piddly fire cannot hurt anything
+                }
+                if( cur.get_field_intensity() == 2 && !one_in( 10 ) ) {
+                    continue; // Active fire can barely hurt anything walking through, 10% chance
                 }
 
                 if( adjusted_intensity >= 1 ) {
@@ -1755,25 +1783,67 @@ void map::player_in_field( Character &you )
     }
 }
 
-void map::creature_in_field( Creature &critter )
+void map::maybe_apply_field_effect( const std::vector<field_effect> &vfe, Creature &critter ) const
 {
+
     bool in_vehicle = false;
     bool inside_vehicle = false;
+
+    if( const optional_vpart_position vp = veh_at( critter.pos_bub() ) ; vp.has_value() ) {
+        in_vehicle = true;
+        if( vp->is_inside() ) {
+            inside_vehicle = true;
+        }
+    }
+
+    for( const field_effect &fe : vfe ) {
+        if( in_vehicle && fe.immune_in_vehicle ) {
+            continue;
+        }
+        if( inside_vehicle && fe.immune_inside_vehicle ) {
+            continue;
+        }
+        if( !inside_vehicle && fe.immune_outside_vehicle ) {
+            continue;
+        }
+        if( in_vehicle && !one_in( fe.chance_in_vehicle ) ) {
+            continue;
+        }
+        if( inside_vehicle && !one_in( fe.chance_inside_vehicle ) ) {
+            continue;
+        }
+        if( !inside_vehicle && !one_in( fe.chance_outside_vehicle ) ) {
+            continue;
+        }
+
+        const effect field_fx = fe.get_effect();
+        if( critter.is_immune_effect( field_fx.get_id() ) ||
+            critter.check_immunity_data( fe.immunity_data ) ) {
+            continue;
+        }
+        bool effect_added = false;
+        if( fe.is_environmental ) {
+            effect_added = critter.add_env_effect( fe.id, fe.bp.id(), fe.intensity,  fe.get_duration() );
+        } else {
+            effect_added = true;
+            critter.add_effect( field_fx.get_id(), field_fx.get_duration(), field_fx.get_bp(),
+                                field_fx.is_permanent(), field_fx.get_intensity() );
+        }
+        if( effect_added ) {
+            critter.add_msg_player_or_npc( fe.env_message_type, fe.get_message(), fe.get_message_npc() );
+        }
+
+    }
+
+}
+
+void map::creature_in_field( Creature &critter )
+{
     if( critter.is_monster() ) {
         monster_in_field( *static_cast<monster *>( &critter ) );
     } else {
         Character *you = critter.as_character();
         if( you ) {
-            in_vehicle = you->in_vehicle;
-            // If we are in a vehicle figure out if we are inside (reduces effects usually)
-            // and what part of the vehicle we need to deal with.
-            if( in_vehicle ) {
-                if( const optional_vpart_position vp = veh_at( you->pos_bub() ) ) {
-                    if( vp->is_inside() ) {
-                        inside_vehicle = true;
-                    }
-                }
-            }
             player_in_field( *you );
         }
     }
@@ -1786,45 +1856,13 @@ void map::creature_in_field( Creature &critter )
         }
         const field_type_id cur_field_id = cur_field_entry.get_field_type();
 
-        for( const field_effect &fe : cur_field_entry.get_intensity_level().field_effects ) {
-            if( in_vehicle && fe.immune_in_vehicle ) {
-                continue;
-            }
-            if( inside_vehicle && fe.immune_inside_vehicle ) {
-                continue;
-            }
-            if( !inside_vehicle && fe.immune_outside_vehicle ) {
-                continue;
-            }
-            if( in_vehicle && !one_in( fe.chance_in_vehicle ) ) {
-                continue;
-            }
-            if( inside_vehicle && !one_in( fe.chance_inside_vehicle ) ) {
-                continue;
-            }
-            if( !inside_vehicle && !one_in( fe.chance_outside_vehicle ) ) {
-                continue;
-            }
+        if( !critter.is_immune_field( cur_field_id ) ) {
+            maybe_apply_field_effect( cur_field_entry.get_intensity_level().field_effects, critter );
+        }
 
-            const effect field_fx = fe.get_effect();
-            if( critter.is_immune_field( cur_field_id ) || critter.is_immune_effect( field_fx.get_id() ) ||
-                critter.check_immunity_data( fe.immunity_data ) ) {
-                continue;
-            }
-            bool effect_added = false;
-            if( fe.is_environmental ) {
-                effect_added = critter.add_env_effect( fe.id, fe.bp.id(), fe.intensity,  fe.get_duration() );
-            } else {
-                effect_added = true;
-                critter.add_effect( field_fx.get_id(), field_fx.get_duration(), field_fx.get_bp(),
-                                    field_fx.is_permanent(), field_fx.get_intensity() );
-            }
-            if( effect_added ) {
-                critter.add_msg_player_or_npc( fe.env_message_type, fe.get_message(), fe.get_message_npc() );
-            }
-            if( cur_field_id->decrease_intensity_on_contact ) {
-                mod_field_intensity( critter.pos_bub(), cur_field_id, -1 );
-            }
+        if( cur_field_id->decrease_intensity_on_contact &&
+            !critter.is_immune_field( cur_field_id ) ) {
+            mod_field_intensity( critter.pos_bub(), cur_field_id, -1 );
         }
     }
 }
@@ -2263,6 +2301,10 @@ std::vector<FieldProcessorPtr> map_field_processing::processors_for_type( const 
     }
     if( ft.id == fd_fire ) {
         processors.push_back( &field_processor_fd_fire );
+        // Removes fungal terrain and "kills it".
+        // The non-flammability of fungal terrain makes fire not spread.
+        // But fire acting as a fungicide still "clears it", as far as you can spread the fire.
+        processors.push_back( &field_processor_fd_fungicidal_gas );
     }
     if( ft.id == fd_fungal_haze ) {
         processors.push_back( &field_processor_fd_fungal_haze );

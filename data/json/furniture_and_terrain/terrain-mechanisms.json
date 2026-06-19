@@ -185,7 +185,7 @@
         { "item": "rope_6", "count": [ 3, 4 ] },
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "splinter", "count": [ 2, 4 ] },
-        { "item": "nuts_bolts", "charges": [ 2, 3 ] },
+        { "item": "nuts_bolts", "count": [ 2, 3 ] },
         { "item": "block_and_tackle", "count": [ 0, 1 ] }
       ],
       "hit_field": [ "fd_dust", 2 ],
@@ -195,7 +195,7 @@
       "ter_set": "t_dirtfloor",
       "items": [
         { "item": "rope_30", "count": 1 },
-        { "item": "nuts_bolts", "charges": 3 },
+        { "item": "nuts_bolts", "count": 3 },
         { "item": "2x4", "count": 8 },
         { "item": "block_and_tackle", "count": 1 }
       ]
@@ -815,7 +815,7 @@
       "ter_set": "t_concrete",
       "items": [
         { "item": "processor", "prob": 25 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "count": [ 1, 2 ], "prob": 50 },
         { "item": "small_lcd_screen", "prob": 25 },
         { "item": "e_scrap", "count": [ 1, 3 ], "prob": 50 },
         { "item": "circuit", "prob": 25 },
@@ -846,7 +846,7 @@
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "count": [ 1, 2 ], "prob": 50 },
         { "item": "small_lcd_screen", "prob": 25 },
         { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
         { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
@@ -905,7 +905,7 @@
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "count": [ 1, 2 ], "prob": 50 },
         { "item": "small_lcd_screen", "prob": 25 },
         { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
         { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
@@ -955,7 +955,7 @@
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "count": [ 1, 2 ], "prob": 50 },
         { "item": "small_lcd_screen", "prob": 25 },
         { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
         { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
@@ -987,7 +987,7 @@
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "count": [ 1, 2 ], "prob": 50 },
         { "item": "small_lcd_screen", "prob": 25 },
         { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
         { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
@@ -1122,6 +1122,28 @@
       "query": true,
       "query_msg": "Are you sure you want to open this door?",
       "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_exodii_string_dimension",
+    "name": "keyhole",
+    "description": "An large keyhole attached to a physically toggled mechanism.",
+    "symbol": "6",
+    "color": "green",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "EXODII_STRING_DIMENSION_CARD" ],
+      "consume_card": false,
+      "allow_hacking": false,
+      "despawn_monsters": false,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_o" },
+      "query": true,
+      "query_msg": "The large plastic key looks like it will fit in this odd keyhole.  Use it?",
+      "success_msg": "The key fits in the lock with a soft, plasticky noise.  The door opens!",
       "redundant_msg": "The door is already open."
     }
   }

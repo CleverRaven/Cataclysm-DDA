@@ -315,6 +315,13 @@
     "display_field": true
   },
   {
+    "id": "fd_npc_no_go_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "NPC no-go zone", "sym": "X", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
     "id": "fd_npc_retreat_zone",
     "type": "field_type",
     "intensity_levels": [ { "name": "NPC retreat zone", "sym": "5", "dangerous": false } ],

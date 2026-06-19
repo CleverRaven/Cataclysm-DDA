@@ -61,6 +61,7 @@
       [ "afs_sporting_goods_store", 400 ],
       [ "afs_clinic_1", 400 ],
       [ "afs_city_urban_farm_small", 300 ],
+      [ "afs_city_urban_industrial_habitat", 100 ],
       [ "afs_small_urban_farm_ground", 300 ],
       [ "afs_small_office", 300 ],
       [ "afs_cafe_1", 300 ],
@@ -83,7 +84,7 @@
     "base_pressure": 1015.0,
     "base_wind": 9.0,
     "base_wind_distrib_peaks": 80,
-    "base_wind_season_variation": 50,
+    "base_wind_season_variation": 0,
     "weather_white_list": [ "clear", "sunny", "cloudy", "afs_whiteout", "afs_thunder", "afs_lightning", "afs_flurries", "afs_snowing" ]
   },
   {

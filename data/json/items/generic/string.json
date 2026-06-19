@@ -166,7 +166,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "seat belt" },
     "description": "A length of synthetic fiber weaved into a flat band, usually used to securely fasten passenger inside vehicles.",
-    "material": "nylon",
+    "material": [ "nylon" ],
     "weight": "800 g",
     "volume": "696 ml",
     "pocket_data": [

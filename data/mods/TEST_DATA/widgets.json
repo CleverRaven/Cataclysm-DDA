@@ -617,7 +617,7 @@
     "id": "test_sundial_text",
     "type": "widget",
     "separator": ": ",
-    "label": "SUN",
+    "label": "SKY",
     "style": "text",
     "var": "sundial_text"
   },

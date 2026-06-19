@@ -11,7 +11,7 @@
     "time": "45 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 3 ] ], [ [ "cable", 2 ] ] ]
+    "components": [ [ [ "scrap", 3 ] ], [ [ "cable", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -68,7 +68,7 @@
     "time": "20 m 30 s",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
-    "components": [ [ [ "cable", 20 ] ] ]
+    "components": [ [ [ "cable", 7 ] ] ]
   },
   {
     "type": "recipe",
@@ -102,7 +102,7 @@
     "autolearn": true,
     "using": [ [ "soldering_standard", 5 ], [ "steel_chunk_any", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "cable", 3 ] ], [ [ "e_scrap", 3 ], [ "makeshift_transformer", 3 ] ] ]
+    "components": [ [ [ "cable", 1 ] ], [ [ "e_scrap", 3 ], [ "makeshift_transformer", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -119,7 +119,7 @@
     "autolearn": true,
     "using": [ [ "soldering_standard", 5 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "e_scrap", 5 ], [ "makeshift_transformer", 5 ] ], [ [ "cable", 6 ] ] ]
+    "components": [ [ [ "e_scrap", 5 ], [ "makeshift_transformer", 5 ] ], [ [ "cable", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -142,7 +142,7 @@
       [ [ "pipe", 6 ] ],
       [ [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ],
       [ [ "wire", 3 ] ],
-      [ [ "cable", 10 ] ],
+      [ [ "cable", 4 ] ],
       [ [ "pipe_fittings", 4 ] ]
     ]
   },
@@ -164,7 +164,7 @@
     "components": [
       [ [ "e_scrap", 5 ], [ "makeshift_transformer", 5 ] ],
       [ [ "amplifier", 1 ], [ "makeshift_transformer", 2 ] ],
-      [ [ "cable", 5 ] ],
+      [ [ "cable", 2 ] ],
       [ [ "plastic_chunk", 5 ] ]
     ]
   },
@@ -246,7 +246,7 @@
     "book_learn": [ [ "manual_electronics", 1 ], [ "textbook_electronics", 2 ], [ "advanced_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "amplifier", 2 ], [ "makeshift_transformer", 2 ] ], [ [ "cable", 20 ] ] ]
+    "components": [ [ [ "amplifier", 2 ], [ "makeshift_transformer", 2 ] ], [ [ "cable", 7 ] ] ]
   },
   {
     "type": "recipe",

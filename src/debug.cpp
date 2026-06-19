@@ -171,6 +171,8 @@ static uintptr_t get_image_base( const char *const path )
  * Class for capturing debugmsg,
  * used by capture_debugmsg_during.
  */
+namespace
+{
 class capture_debugmsg
 {
     public:
@@ -178,6 +180,7 @@ class capture_debugmsg
         std::string dmsg();
         ~capture_debugmsg();
 };
+} // namespace
 
 std::string capture_debugmsg_during( const std::function<void()> &func )
 {
@@ -206,6 +209,11 @@ capture_debugmsg::~capture_debugmsg()
 bool debug_has_error_been_observed()
 {
     return error_observed;
+}
+
+void debug_reset_error_observed()
+{
+    error_observed = false;
 }
 
 // saved in game::serialize
@@ -254,6 +262,7 @@ std::string filter_name( debug_filter value )
         case DF_NPC_COMBATAI: return "DF_NPC_COMBATAI";
         case DF_NPC_ITEMAI: return "DF_NPC_ITEMAI";
         case DF_NPC_MOVEAI: return "DF_NPC_MOVEAI";
+        case DF_NPC_NEEDS: return "DF_NPC_NEEDS";
         case DF_OVERMAP: return "DF_OVERMAP";
         case DF_RADIO: return "DF_RADIO";
         case DF_RANGED: return "DF_RANGED";
@@ -263,6 +272,9 @@ std::string filter_name( debug_filter value )
         case DF_VEHICLE: return "DF_VEHICLE";
         case DF_VEHICLE_DRAG: return "DF_VEHICLE_DRAG";
         case DF_VEHICLE_MOVE: return "DF_VEHICLE_MOVE";
+        case DF_WEAKPOINTS: return "DF_WEAKPOINTS";
+        case DF_WOUNDS: return "DF_WOUNDS";
+        case DF_MONITOR: return "DF_MONITOR";
         // *INDENT-ON*
         case DF_LAST:
         default:
@@ -272,6 +284,8 @@ std::string filter_name( debug_filter value )
 }
 } // namespace debugmode
 
+namespace
+{
 struct buffered_prompt_info {
     std::string filename;
     std::string line;
@@ -279,6 +293,7 @@ struct buffered_prompt_info {
     std::string text;
     bool forced;
 };
+} // namespace
 
 namespace
 {
@@ -393,7 +408,7 @@ static void debug_error_prompt(
 #if defined(TILES)
             case 'c':
             case 'C':
-                SDL_SetClipboardText( formatted_report.c_str() );
+                SetClipboardText( formatted_report );
                 break;
 #endif // TILES
             case 'i':
@@ -426,6 +441,8 @@ void replay_buffered_debugmsg_prompts()
     buffered_prompts().clear();
 }
 
+namespace
+{
 struct time_info {
     int hours;
     int minutes;
@@ -446,9 +463,12 @@ struct time_info {
         return out;
     }
 };
+} // namespace
 
 static time_info get_time() noexcept;
 
+namespace
+{
 struct repetition_folder {
     const char *m_filename = nullptr;
     const char *m_line = nullptr;
@@ -509,6 +529,7 @@ struct repetition_folder {
         return ( now_raw - old_raw ) > timeout_raw;
     }
 };
+} // namespace
 
 static repetition_folder rep_folder;
 static void output_repetitions( std::ostream &out );
@@ -604,6 +625,8 @@ void limitDebugClass( int class_bitmask )
 // Null OStream                                                     {{{2
 // ---------------------------------------------------------------------
 
+namespace
+{
 class NullStream : public std::ostream
 {
     public:
@@ -611,6 +634,7 @@ class NullStream : public std::ostream
         NullStream( const NullStream & ) = delete;
         NullStream( NullStream && ) = delete;
 };
+} // namespace
 
 // DebugFile OStream Wrapper                                        {{{2
 // ---------------------------------------------------------------------
@@ -712,6 +736,8 @@ struct OutputDebugStreamA : public std::ostream {
 };
 #endif
 
+namespace
+{
 struct DebugFile {
     void init( DebugOutput, const cata_path &filename );
     void deinit();
@@ -728,6 +754,7 @@ struct DebugFile {
     std::shared_ptr<std::ostream> file = std::make_shared<std::ostringstream>();
     cata_path filename;
 };
+} // namespace
 
 // DebugFile OStream Wrapper                                        {{{2
 // ---------------------------------------------------------------------
@@ -979,6 +1006,7 @@ static std::optional<uintptr_t> debug_compute_load_offset(
     for( const char *nm_variant : nm_variants ) {
         std::ostringstream cmd;
         cmd << nm_variant << ' ' << binary << " 2>&1";
+        // NOLINTNEXTLINE(bugprone-command-processor): debug-only symbol resolution
         FILE *nm = popen( cmd.str().c_str(), "re" );
         if( !nm ) {
             out << "    backtrace: popen(nm) failed: " << strerror( errno ) << "\n";
@@ -1339,6 +1367,7 @@ void debug_write_backtrace( std::ostream &out )
             cmd << " 0x" << ( address - load_offset );
         }
         cmd << " 2>&1";
+        // NOLINTNEXTLINE(bugprone-command-processor): debug-only address symbolization
         FILE *addr2line = popen( cmd.str().c_str(), "re" );
         if( addr2line == nullptr ) {
             out << "    backtrace: popen(addr2line) failed\n";
@@ -1617,6 +1646,8 @@ std::string game_info::operating_system()
 }
 
 #if !defined(EMSCRIPTEN) && !defined(__CYGWIN__) && !defined (__ANDROID__) && ( defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(CATA_IS_ON_BSD) ) // linux; unix; MacOs; BSD
+namespace
+{
 class FILEDeleter
 {
     public:
@@ -1624,6 +1655,7 @@ class FILEDeleter
             pclose( f );
         }
 };
+} // namespace
 
 /** Execute a command with the shell by using `popen()`.
  * @param command The full command to execute.
@@ -1635,6 +1667,7 @@ static std::string shell_exec( const std::string &command )
     std::vector<char> buffer( 512 );
     std::string output;
     try {
+        // NOLINTNEXTLINE(bugprone-command-processor): crash-handler shells out by design
         std::unique_ptr<FILE, FILEDeleter> pipe( popen( command.c_str(), "r" ) );
         if( pipe ) {
             while( fgets( buffer.data(), buffer.size(), pipe.get() ) != nullptr ) {

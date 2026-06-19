@@ -1,6 +1,14 @@
 [
   {
     "type": "overmap_terrain",
+    "id": [ "inner_cabins_depths_entrance" ],
+    "copy-from": "inner_cabins_depths_entrance",
+    "name": "cabin",
+    "sym": "C",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "shipwreck_river_1", "shipwreck_river_2", "shipwreck_river_3", "shipwreck_river_4" ],
     "copy-from": "shipwreck_river_1",
     "name": "shipwreck",
@@ -669,6 +677,27 @@
     "copy-from": "triffid_grove_roof",
     "name": "triffid grove roof",
     "sym": "T",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "alien_meadow_core",
+    "copy-from": "alien_meadow_core",
+    "sym": ",",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "alien_meadow_join",
+    "copy-from": "alien_meadow_join",
+    "sym": ",",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "alien_meadow_end",
+    "copy-from": "alien_meadow_end",
+    "sym": ",",
     "color": "pink"
   }
 ]

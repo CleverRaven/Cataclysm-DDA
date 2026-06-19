@@ -34,13 +34,14 @@ class player_activity
 {
     private:
         activity_id type;
-        cata::clone_ptr<activity_actor> actor;
 
         std::set<distraction_type> ignored_distractions; // NOLINT(cata-serialize)
 
         bool ignoreQuery = false; // NOLINT(cata-serialize)
 
     public:
+        cata::clone_ptr<activity_actor> actor;
+
         /** Total number of moves (1/100th of a second) required to complete the activity */
         int moves_total = 0;
         /** The number of moves (1/100th of a second) remaining in this activity before it is complete. */

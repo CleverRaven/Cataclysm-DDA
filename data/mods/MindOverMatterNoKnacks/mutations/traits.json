@@ -1,0 +1,11 @@
+[
+  {
+    "type": "mutation",
+    "id": "PSYCHIC_KNACK",
+    "copy-from": "PSYCHIC_KNACK",
+    "name": { "str": "Psychic" },
+    "description": "You can use the hidden power of your mind to affect the physical world.",
+    "player_display": true,
+    "flags": [ "ATTUNEMENT" ]
+  }
+]

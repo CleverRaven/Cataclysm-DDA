@@ -1638,5 +1638,107 @@
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "COLLAR", "ALARMCLOCK", "OUTER" ],
     "passive_effects": [ { "id": "ench_sevenoclock_coat" } ]
+  },
+  {
+    "id": "trenchcoat_aramid",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "trenchcoat, aramid" },
+    "description": "A trenchoat made of aramid fibers to provide level 1 stab/cut protection up to 24 joules.  Lots of pockets and low profile.",
+    "weight": "1750 g",
+    "volume": "7250 ml",
+    "price": "979 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "material": [ "kevlar" ],
+    "symbol": "[",
+    "looks_like": "trenchcoat",
+    "color": "brown",
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 9, 19 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 9, 9 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 90,
+        "encumbrance": [ 4, 5 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "coverage": 80,
+        "encumbrance": [ 0, 0 ]
+      }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ],
+    "warmth": 50,
+    "material_thickness": 3,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "blazer_aramid",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "blazer, aramid" },
+    "description": "A professional-looking wool blazer.  It's made of aramid fibers to provide Level 1 cut/stab resistance up to 24 joules.",
+    "weight": "680 g",
+    "volume": "3500 ml",
+    "price": "120 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "kevlar" ],
+    "symbol": "[",
+    "looks_like": "jacket_light",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 16, 20 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 16, 16 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "11 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "11 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "350 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "9 cm",
+        "moves": 100
+      }
+    ],
+    "warmth": 25,
+    "material_thickness": 1.5,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "VARSIZE", "OUTER" ],
+    "variant_type": "generic",
+    "variants": [
+      { "id": "generic", "//": "inherit name and description from item" },
+      {
+        "id": "bostonchan",
+        "name": { "str": "Boston-Chan blazer" },
+        "append": true,
+        "description": "This one is bright blue and styled to cosplay Boston-Chan.",
+        "color": "blue",
+        "weight": 0
+      }
+    ]
   }
 ]

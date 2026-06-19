@@ -390,10 +390,9 @@
     "use_action": [
       {
         "target": "large_space_heater_on",
-        "msg": "You turn on the heater.",
+        "msg": "You turn on the %s.",
         "need_charges": 1,
-        "need_charges_msg": "The heater needs more charge.",
-        "menu_text": "Turn on",
+        "need_charges_msg": "The batteries are dead.",
         "type": "transform"
       },
       { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" }
@@ -425,7 +424,7 @@
       {
         "ammo_scale": 0,
         "target": "large_space_heater",
-        "msg": "You turn off the heater.",
+        "msg": "You turn off the %s.",
         "menu_text": "Turn off",
         "type": "transform"
       },
@@ -601,10 +600,9 @@
     "use_action": [
       {
         "target": "small_space_heater_on",
-        "msg": "You turn on the heater.",
+        "msg": "You turn on the %s.",
         "need_charges": 1,
-        "need_charges_msg": "The heater needs more charge.",
-        "menu_text": "Turn on",
+        "need_charges_msg": "The batteries are dead.",
         "type": "transform"
       },
       { "type": "link_up", "cable_length": 2, "charge_rate": "500 W" }
@@ -636,7 +634,7 @@
       {
         "ammo_scale": 0,
         "target": "small_space_heater",
-        "msg": "You turn off the heater.",
+        "msg": "You turn off the %s.",
         "menu_text": "Turn off",
         "type": "transform"
       },
@@ -1208,6 +1206,21 @@
     "material": [ "plastic" ],
     "symbol": "p",
     "color": "dark_gray",
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "id": "tape_measure",
+    "symbol": ";",
+    "color": "yellow",
+    "name": { "str": "tape measure" },
+    "description": "A 25' tape measure, with a bright yellow, plastic exterior.",
+    "material": [ "plastic" ],
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": "20 USD",
+    "price_postapoc": "2 USD 50 cent",
     "melee_damage": { "bash": 1 }
   }
 ]

@@ -139,18 +139,9 @@
     "type": "palette",
     "id": "bunker_ext",
     "terrain": {
-      " ": [ [ "t_region_groundcover", 60 ], [ "t_region_shrub", 2 ], "t_region_tree" ],
+      " ": "t_region_groundcover",
       "_": [ "t_region_groundcover", [ "t_region_groundcover_barren", 9 ] ],
       "#": "t_soil",
-      "$": [ "t_region_tree_fruit", "t_region_tree_nut", "t_region_shrub_fruit", "t_region_shrub" ],
-      "S": [
-        [ "t_region_groundcover", 5 ],
-        "t_region_tree_fruit",
-        "t_region_tree_nut",
-        "t_region_tree",
-        "t_region_shrub_fruit",
-        "t_region_shrub"
-      ],
       "v": "t_open_air",
       "+": "t_door_metal_c",
       ".": "t_dirt",

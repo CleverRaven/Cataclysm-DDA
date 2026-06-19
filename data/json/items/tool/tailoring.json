@@ -402,5 +402,24 @@
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "tool_ammo": [ "thread" ]
+  },
+  {
+    "id": "sewing_machine",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "sewing machine" },
+    "description": "An absolutely essential tool for any modern tailor.  It works much faster than manual tailoring tools, but it must be plugged into a power grid to function.",
+    "//": "Based on https://www.singer.com/products/singer-heavy-duty-4452-sewing-machine",
+    "symbol": ">",
+    "color": "red",
+    "weight": "6600 g",
+    "volume": "10 L",
+    "price": "250 USD",
+    "price_postapoc": "10 USD",
+    "material": [ { "type": "aluminum", "portion": 95 }, { "type": "plastic", "portion": 5 } ],
+    "charged_qualities": [ { "id": "SEW", "level": 3, "speed": 0.25 } ],
+    "charges_per_use": 1,
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "84 W" } ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   }
 ]

@@ -90,14 +90,14 @@ class query_popup
          */
         template <typename ...Args>
         query_popup &message( const std::string &fmt, Args &&... args ) {
-            assert_format( fmt, std::forward<Args>( args )... );
+            assert_format<Args...>( fmt );
             invalidate_ui();
             text = string_format( fmt, std::forward<Args>( args )... );
             return *this;
         }
         template <typename ...Args>
         query_popup &message( const char *const fmt, Args &&... args ) {
-            assert_format( fmt, std::forward<Args>( args )... );
+            assert_format<Args...>( fmt );
             invalidate_ui();
             text = string_format( fmt, std::forward<Args>( args )... );
             return *this;
@@ -107,28 +107,28 @@ class query_popup
          **/
         template <typename ...Args>
         query_popup &wait_message( const nc_color &bar_color, const std::string &fmt, Args &&... args ) {
-            assert_format( fmt, std::forward<Args>( args )... );
+            assert_format<Args...>( fmt );
             invalidate_ui();
             text = wait_text( string_format( fmt, std::forward<Args>( args )... ), bar_color );
             return *this;
         }
         template <typename ...Args>
         query_popup &wait_message( const nc_color &bar_color, const char *const fmt, Args &&... args ) {
-            assert_format( fmt, std::forward<Args>( args )... );
+            assert_format<Args...>( fmt );
             invalidate_ui();
             text = wait_text( string_format( fmt, std::forward<Args>( args )... ), bar_color );
             return *this;
         }
         template <typename ...Args>
         query_popup &wait_message( const std::string &fmt, Args &&... args ) {
-            assert_format( fmt, std::forward<Args>( args )... );
+            assert_format<Args...>( fmt );
             invalidate_ui();
             text = wait_text( string_format( fmt, std::forward<Args>( args )... ) );
             return *this;
         }
         template <typename ...Args>
         query_popup &wait_message( const char *const fmt, Args &&... args ) {
-            assert_format( fmt, std::forward<Args>( args )... );
+            assert_format<Args...>( fmt );
             invalidate_ui();
             text = wait_text( string_format( fmt, std::forward<Args>( args )... ) );
             return *this;
@@ -237,7 +237,7 @@ class query_popup
         void invalidate_ui() const;
 
         template <typename ...Args>
-        static void assert_format( const std::string_view, Args &&... ) {
+        static void assert_format( const std::string_view ) {
             static_assert( sizeof...( Args ) > 0,
                            "Format string should take at least one argument.  "
                            "If your message is not a format string, "
