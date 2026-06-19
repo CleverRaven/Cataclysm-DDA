@@ -1037,7 +1037,7 @@ int spell::energy_cost( const Character &guy ) const
         cost = type->base_energy_cost.evaluate( d );
     }
     // Spells with no cost are not increased by encumbrance
-    if( cost == 0) {
+    if( cost == 0 ) {
         return 0;
     }
     if( !no_hands() && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {

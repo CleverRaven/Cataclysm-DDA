@@ -192,43 +192,26 @@ class pixel_minimap::shared_texture_pool
         std::vector<size_t> inactive_index;
 };
 
-struct pixel_minimap::submap_cache {
-    //the color stored for each submap tile
-    std::array<SDL_Color, SEEX *SEEY> minimap_colors = {};
-    //checks if the submap has been looked at by the minimap routine
-    bool touched = false;
-    //the texture updates are drawn to
-    SDL_Texture_Ptr chunk_tex;
-    //the submap being handled
-    size_t texture_index = 0;
-    //the list of updates to apply to the texture
-    //reduces render target switching to once per submap
-    std::vector<point> update_list;
-    //flag used to indicate that the texture needs to be cleared before first use
-    bool ready = false;
-    shared_texture_pool &pool;
+//reserve the SEEX * SEEY submap tiles
+pixel_minimap::submap_cache::submap_cache( shared_texture_pool &pool ) :
+    pool( pool )
+{
+    chunk_tex = pool.request_tex( texture_index );
+}
 
-    //reserve the SEEX * SEEY submap tiles
-    explicit submap_cache( shared_texture_pool &pool ) :
-        pool( pool ) {
-        chunk_tex = pool.request_tex( texture_index );
-    }
+//handle the release of the borrowed texture
+pixel_minimap::submap_cache::~submap_cache()
+{
+    pool.release_tex( texture_index, std::move( chunk_tex ) );
+}
 
-    //handle the release of the borrowed texture
-    ~submap_cache() {
-        pool.release_tex( texture_index, std::move( chunk_tex ) );
-    }
+SDL_Color &pixel_minimap::submap_cache::color_at( const point &p )
+{
+    cata_assert( p.x >= 0 && p.x < SEEX );
+    cata_assert( p.y >= 0 && p.y < SEEY );
 
-    submap_cache( const submap_cache & ) = delete;
-    submap_cache( submap_cache && ) = default;
-
-    SDL_Color &color_at( const point &p ) {
-        cata_assert( p.x >= 0 && p.x < SEEX );
-        cata_assert( p.y >= 0 && p.y < SEEY );
-
-        return minimap_colors[p.y * SEEX + p.x];
-    }
-};
+    return minimap_colors[p.y * SEEX + p.x];
+}
 
 pixel_minimap::pixel_minimap( const SDL_Renderer_Ptr &renderer,
                               const GeometryRenderer_Ptr &geometry ) :

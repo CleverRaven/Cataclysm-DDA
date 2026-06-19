@@ -45,6 +45,15 @@
   },
   {
     "type": "mutation",
+    "id": "WISE_LITERATE",
+    "name": { "str": "Rune-Lore" },
+    "description": "You know the secret signs and runes used by the Wise to pass messages and record information.",
+    "cancels": [ "ILLITERATE" ],
+    "points": 0,
+    "valid": false
+  },
+  {
+    "type": "mutation",
     "id": "TATTOOS_BASIC_TRAIT",
     "name": { "str": "Anima Attunement" },
     "description": "You have been attuned to anima and can make use of tattoo patterns.  You regain anima quickly while meditating, moderately while asleep, and very slowly while awake.",
