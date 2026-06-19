@@ -34,8 +34,6 @@ Travel to dimension `test`, take any follower within 10 tiles of your avatar wit
 ```
 There are also `all` and `enemy` filters you can use.
 
-There's a quirk with NPCs right now, that causes issues when attempting to take them with you to another dimension and then attempt to teleport them to some location within the same turn, you probably have to delay the npc teleportation stage by a turn to get around this. This might get fixed in the future.
-
 ## Items
 
 When using `u_travel_to_dimension` EOC, you can choose to take the nearby items with you.
