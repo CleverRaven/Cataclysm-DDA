@@ -12,6 +12,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": "daydreaming",
     "based_on": "time",
+    "can_resume": false,
+    "multi_activity": false,
     "completion_eoc": "EOC_CHANGELING_RESEARCH_NEW_TRAIT_FINALIZE"
   },
   {
@@ -20,6 +22,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": "daydreaming",
     "based_on": "time",
+    "can_resume": false,
+    "multi_activity": false,
     "completion_eoc": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_FINALIZE"
   },
   {
@@ -28,6 +32,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": "daydreaming",
     "based_on": "time",
+    "can_resume": false,
+    "multi_activity": false,
     "completion_eoc": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_FINALIZE"
   },
   {
@@ -36,6 +42,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": "daydreaming",
     "based_on": "time",
+    "can_resume": false,
+    "multi_activity": false,
     "completion_eoc": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_FINALIZE"
   },
   {
@@ -44,6 +52,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": "daydreaming",
     "based_on": "time",
+    "can_resume": false,
+    "multi_activity": false,
     "completion_eoc": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_FINALIZE"
   },
   {

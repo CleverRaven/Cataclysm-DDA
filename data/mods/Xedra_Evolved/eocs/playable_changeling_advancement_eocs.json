@@ -40,30 +40,36 @@
     "id": "EOC_CHANGELING_RESEARCH_NEW_TRAIT_FINALIZE",
     "effect": [
       { "u_message": "You sit back with a smile.  It is done.", "type": "good" },
+      {
+        "u_consume_item": "scrap_dreamdross",
+        "count": { "math": [ "u_changeling_new_trait_dreamdross_research_cost" ] }
+      },
       { "run_eocs": "EOC_CHANGELING_ADVANCEMENT_DREAMDROSS_COST_UPDATER" },
       { "math": [ "u_changeling_advancement_dreams_counter++" ] },
       {
         "if": {
           "or": [
-            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') - 1 >= sum_traits_of_category('FAIR_FOLK_NOBLE') " ] },
+            {
+              "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') - 1) >= u_sum_traits_of_category('FAIR_FOLK_NOBLE') " ]
+            },
             {
               "math": [
-                "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') - 1 >= sum_traits_of_category('FAIR_FOLK_COMMONER_BROWNIE')"
+                "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') - 1) >= u_sum_traits_of_category('FAIR_FOLK_COMMONER_BROWNIE')"
               ]
             },
             {
               "math": [
-                "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') - 1 >= sum_traits_of_category('FAIR_FOLK_COMMONER_POOKA')"
+                "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') - 1) >= u_sum_traits_of_category('FAIR_FOLK_COMMONER_POOKA')"
               ]
             },
             {
               "math": [
-                "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') - 1 >= sum_traits_of_category('FAIR_FOLK_COMMONER_SELKIE')"
+                "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') - 1) >= u_sum_traits_of_category('FAIR_FOLK_COMMONER_SELKIE')"
               ]
             },
             {
               "math": [
-                "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') - 1 >= sum_traits_of_category('FAIR_FOLK_COMMONER_TROW')"
+                "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') - 1) >= u_sum_traits_of_category('FAIR_FOLK_COMMONER_TROW')"
               ]
             }
           ]
