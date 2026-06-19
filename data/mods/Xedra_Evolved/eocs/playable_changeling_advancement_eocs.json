@@ -38,6 +38,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CHANGELING_RESEARCH_NEW_TRAIT_FINALIZE",
+    "//": "Trait values below have to be manually set because changes_to traits count in the total but you can't have both, so u_sum_traits_of_category won't accurately count how many traits you can have at one time.",
     "effect": [
       { "u_message": "You sit back with a smile.  It is done.", "type": "good" },
       {
@@ -49,29 +50,11 @@
       {
         "if": {
           "or": [
-            {
-              "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') - 1) >= u_sum_traits_of_category('FAIR_FOLK_NOBLE') " ]
-            },
-            {
-              "math": [
-                "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') - 1) >= u_sum_traits_of_category('FAIR_FOLK_COMMONER_BROWNIE')"
-              ]
-            },
-            {
-              "math": [
-                "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') - 1) >= u_sum_traits_of_category('FAIR_FOLK_COMMONER_POOKA')"
-              ]
-            },
-            {
-              "math": [
-                "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') - 1) >= u_sum_traits_of_category('FAIR_FOLK_COMMONER_SELKIE')"
-              ]
-            },
-            {
-              "math": [
-                "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') - 1) >= u_sum_traits_of_category('FAIR_FOLK_COMMONER_TROW')"
-              ]
-            }
+            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') >= 29" ] },
+            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') >= 29" ] },
+            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') >= 38" ] },
+            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') >= 28" ] },
+            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') >= 25" ] }
           ]
         },
         "then": [
