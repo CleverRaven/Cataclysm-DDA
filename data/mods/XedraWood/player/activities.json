@@ -17,5 +17,65 @@
       { "u_lose_effect": "effect_pattern_tattoo_meditation" },
       { "u_message": "Replete with anima, you cease your meditations.", "type": "good" }
     ]
+  },
+  {
+    "id": "ACT_XEDRAWOOD_HEDGE_MAGIC_SPIRIT_QUEST",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "seeking knowledge from the Unseen World",
+    "rooted": true,
+    "based_on": "time",
+    "can_resume": false,
+    "completion_eoc": "EOC_XEDRAWOOD_HEDGE_MAGIC_SPIRIT_QUEST_FINALIZATION"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_HEDGE_MAGIC_SPIRIT_QUEST_FINALIZATION",
+    "condition": {
+      "roll_contested": { "math": [ "u_skill('deduction') + (u_skill('speech') / 2) + rng(-2,8) + rng(-2,8)" ] },
+      "difficulty": 14
+    },
+    "effect": [
+      {
+        "math": [
+          "_roll_results = (u_skill('deduction') + (u_skill('speech') / 2) + rng(-2,8) + rng(-2,8)) + (u_effect_intensity('effect_xedrawood_hedge_magic_spirit_questing_hallu_tracker') > -1 ? 1 : 0) + (u_effect_intensity('effect_xedrawood_hedge_magic_spirit_questing_thirst_tracker') > -1 ? 1 : 0) + (u_effect_intensity('effect_xedrawood_hedge_magic_spirit_questing_hunger_tracker') > -1 ? 1 : 0)"
+        ]
+      },
+      { "message": "You rolled a <context_val:roll_results> vs difficulty 15.", "type": "debug" },
+      {
+        "if": { "roll_contested": { "math": [ "_roll_results" ] }, "difficulty": 15 },
+        "then": [
+          { "run_eocs": "EOC_RESEARCH_THAUMATURGY_GAIN_SPELL" },
+          { "u_message": "Your spirit returns with knowledge from the Unseen World.", "type": "good" },
+          { "math": [ "u_val('mana') = 0" ] },
+          { "u_add_effect": "effect_xedrawood_hedge_magic_spirit_quest_completed", "duration": "7 days" },
+          { "u_lose_effect": "effect_xedrawood_hedge_magic_spirit_questing" }
+        ],
+        "else": [
+          { "u_message": "Your spirit returns in failure.  You have gained no new knowledge from your quest.", "type": "bad" },
+          { "math": [ "u_val('mana') = 0" ] },
+          { "u_add_effect": "effect_xedrawood_hedge_magic_spirit_quest_completed", "duration": "7 days" },
+          { "u_lose_effect": "effect_xedrawood_hedge_magic_spirit_questing" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_HEDGE_MAGIC_SPIRIT_QUEST_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_XEDRAWOOD_HEDGE_MAGIC_SPIRIT_QUEST", { "context_val": "activity" } ] },
+        { "u_has_effect": "effect_xedrawood_hedge_magic_spirit_questing" }
+      ]
+    },
+    "effect": [
+      { "u_message": "You break off your quest into the spirit world.", "type": "mixed" },
+      { "math": [ "u_val('mana') = 0" ] },
+      { "u_add_effect": "effect_xedrawood_hedge_magic_spirit_quest_completed", "duration": "2 days" },
+      { "u_lose_effect": "effect_xedrawood_hedge_magic_spirit_questing" }
+    ]
   }
 ]

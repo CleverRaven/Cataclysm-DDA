@@ -82,7 +82,7 @@
         { "item": "fire_drill_large", "x": 13, "y": 10, "chance": 100 },
         { "item": "oil_lamp_clay", "x": 11, "y": 13, "chance": 100 },
         { "item": "primitive_axe", "x": 12, "y": 10, "chance": 100 },
-        { "item": "log", "x": 12, "y": 11, "chance": 100, "repeat": [ 75, 150 ] },
+        { "item": "firewood", "x": 12, "y": 11, "chance": 100, "repeat": [ 75, 150 ] },
         { "item": "clay_pot", "x": 16, "y": 7, "chance": 100 }
       ]
     }

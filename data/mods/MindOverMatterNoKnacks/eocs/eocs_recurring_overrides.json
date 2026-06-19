@@ -1,0 +1,692 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_OXYGEN_ABSORPTION",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_FLEXIBILITY",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_DASH",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_ARMOR_SKIN",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_CLIMATE_CONTROL",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_ADRENALINE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_ENHANCE_MOBILITY",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_HAMMERHAND",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_REFLEX_ENHANCE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_SEALED_SYSTEM",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_METABOLISM_ENHANCE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_VITAMINOSIS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_COMBAT_DANCE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_PERFECTED_MOTION",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_HURRICANE_BLOWS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_LEARNING_PREMONITION",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_LEARNING_SPOT_WEAKNESS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_LEARNING_NIGHT_VISION",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_LEARNING_AURA_SIGHT",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_LEARNING_RANGED_ENHANCE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_LEARNING_EXAMINE_ITEM",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_LEARNING_SENSE_HOSTILE_CREATURES",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_LEARNING_VOYANCE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_LEARNING_DODGE_POWER",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_LEARNING_CRAFT_BONUS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_LEARNING_PERFECT_SHOT",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_LEARNING_SEE_MAP",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_LEARNING_CLEAR_SIGHT",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_LEARNING_ASTRAL_PROJECTION",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_LEARNING_GROUP_TACTICS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_LEARNING_OMNISCIENCE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_ZAP_ENEMIES",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_MELEE_ATTACKS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_PERSONAL_BATTERY",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_PARALYSIS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_REDUCE_PAIN",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_HACKING_INTERFACE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_LIGHTNING_BOLT",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_RECHARGE_VEHICLE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_PAIN_IMMUNE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_SPEED_BOOST",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_ROBOT_INTERFACE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_KILL_ROBOT",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_LIGHTNING_AURA",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_LIGHTNING_BLAST",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_REVIVE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LEARNING_LIGHT_UP_ENEMY",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LEARNING_SNUFF_LIGHT",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTO_LEARNING_LIGHT_DODGE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTO_LEARNING_LIGHT_BEAM",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTO_LEARNING_CAMOUFLAGE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTO_LEARNING_RAD_IMMUNITY",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LEARNING_LIGHT_ARMS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LEARNING_HIDE_UGLY",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LEARNING_FLASH_BANG",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LEARNING_LIGHT_IMAGE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LEARNING_RADIO",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LEARNING_STERILIZE_FOOD",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LEARNING_STUN_ROBOTS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LEARNING_INVISIBILITY",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LEARNING_LIGHT_FLASH",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LEARNING_LIGHT_BLINDING_GLARE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LEARNING_LIGHT_DISINTEGRATE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LEARNING_LIGHT_ARMY",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_LEARNING_ERUPTION",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_LEARNING_CAUTERIZE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_LEARNING_CALL_FLAMES",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_LEARNING_QUELL_FLAMES",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_LEARNING_CLOAK",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_LEARNING_FLAMETHROWER",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_LEARNING_LANCE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_LEARNING_THERMOGENESIS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_LEARNING_AURA",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_LEARNING_FLAME_IMMUNITY",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_LEARNING_BLAST",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_LEARNING_AOE_BLAST",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_LEARNING_INCINERATION",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_NOISEMAKER",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_SLAM_DOWN",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_MOMENTUM",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_SLOWFALL",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_WAVE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_WATER_WALKING",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_LIFTING_FIELD",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_STRENGTH",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_HAMMER",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_VEHICLE_LIFT",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_SHIELD",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_EXPLOSION",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_LEVITATION",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_MEGAKINESIS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_AEGIS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_EARTHSHAKER",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_SHIELD",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_MESMERIZE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_MORALE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_BLAST",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_BEASTMASTER",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_CONFUSION",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_FEAR",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_INVISIBILITY",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_AOE_BLAST",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_BEAST_TAMING",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_MIND_CONTROL",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_NETWORK",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_PHASE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_WARPED_STRIKES",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_EPHEMERAL_WALK",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_ITEM_APPORT",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_STRIDE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_TRANSPOSE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_DISPLACEMENT",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_REACTIVE_DISPLACEMENT",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_COLLAPSE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_FARSTEP",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_BANISH",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_LOCI_ESTABLISHMENT",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_GATEWAY",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_dilated_gateway",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_RELOCATION",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_BREACH",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_REALITY_TEAR",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_CONCENTRATED_HEALING",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_STOP_BLEEDING",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_HEALING_TOUCH",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_HURT_TOUCH",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_REMOVE_POISON",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_CURE_DISEASE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_SLEEPING_TRANCE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_STOP_INFECTION",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_HEALING_TRANCE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_ATTACK_TOUCH",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_BLOOD_PURGE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_NO_NEED_FOR_SLEEP",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_BANISH_ILLNESS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_SUPER_HEAL",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_DEGENERATING_TOUCH",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_RETURN_FROM_DEATH",
+    "effect": [  ]
+  }
+]
