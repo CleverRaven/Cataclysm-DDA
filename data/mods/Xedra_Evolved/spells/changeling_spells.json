@@ -1,5 +1,24 @@
 [
   {
+    "id": "changeling_gain_new_traits",
+    "type": "SPELL",
+    "name": "Unlock Your Fey Heritage",
+    "description": "Using the power of human dreams, unlock the secrets of your fey heritage.  It requires a large amount of dreamdross and time to perform this research.",
+    "message": "",
+    "flags": [ "NO_FAIL", "VERBAL", "SOMATIC" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 4,
+    "skill": "gramarye",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_USE_DREAMDROSS_TO_UNLOCK_NEW_TRAITS",
+    "magic_type": "xe_fey_magick",
+    "shape": "blast",
+    "base_energy_cost": 1000,
+    "base_casting_time": 50
+  },
+  {
     "id": "changeling_research_new_seasonal_spells",
     "type": "SPELL",
     "name": "Develop New Glamours",
@@ -35,7 +54,7 @@
     "magic_type": "xe_fey_magick",
     "shape": "blast",
     "base_energy_cost": 0,
-    "base_casting_time": 50
+    "base_casting_time": 90000
   },
   {
     "id": "changeling_disguise_as_nature_spell",
