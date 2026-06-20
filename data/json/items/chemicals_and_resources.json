@@ -1508,8 +1508,8 @@
     "color": "light_gray",
     "description": "A handful of almost-weightless residue left after the burning of some substance.",
     "material": [ "powder_nonflam" ],
-    "volume": "2 ml",
-    "weight": "1 g"
+    "volume": "20 ml",
+    "weight": "10 g"
   },
   {
     "type": "ITEM",
@@ -1523,8 +1523,8 @@
     "color": "light_gray",
     "description": "The burnt remains of a person or animal.",
     "material": [ "powder_nonflam" ],
-    "volume": "1 ml",
-    "weight": "1 g"
+    "volume": "10 ml",
+    "weight": "10 g"
   },
   {
     "type": "ITEM",

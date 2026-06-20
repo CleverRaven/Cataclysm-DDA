@@ -1311,7 +1311,7 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "ash", "count": [ 200, 500 ] }, { "item": "scrap", "count": [ 2, 5 ] } ]
+      "items": [ { "item": "ash", "count": [ 20, 50 ] }, { "item": "scrap", "count": [ 2, 5 ] } ]
     },
     "shoot": { "chance_to_hit": 25, "reduce_damage": [ 5, 10 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 5, 20 ] }
   },
