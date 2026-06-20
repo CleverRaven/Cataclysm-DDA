@@ -2904,7 +2904,7 @@ bool holster_actor::store( Character &you, item &holster, item &obj ) const
                                obj.tname(), holster.tname() );
         return false;
     }
-    you.add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : holster_msg.translated(),
+    you.add_msg_if_player( holster_msg.empty() ? _( "You holster your %s." ) : holster_msg.translated(),
                            obj.tname(), holster.tname() );
 
     // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
