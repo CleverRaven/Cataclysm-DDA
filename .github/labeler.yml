@@ -43,7 +43,7 @@ labels:
 
   - label: "<DO NOT MERGE>"
     matcher:
-      body: "(\\s|^)\\s*LLM +\".+\"\\s*(\n|$)"
+      body: ".*LLM.*"
 
   - label: "[C++]"
     matcher:
