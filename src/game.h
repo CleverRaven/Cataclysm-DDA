@@ -42,12 +42,6 @@ class game;
 
 extern std::unique_ptr<game> g;
 
-/**
- * Shutdown, orderly.
- * `s == 2` prompts for confirmation; any other value exits without prompting.
- */
-void exit_handler( int s );
-
 extern const int savegame_version;
 extern int savegame_loading_version;
 
