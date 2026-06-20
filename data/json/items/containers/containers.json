@@ -5421,8 +5421,7 @@
         "transparent": true,
         "moves": 200
       }
-    ],
-    "flags": [ "NO_RELOAD" ]
+    ]
   },
   {
     "id": "spool_welding",
@@ -5446,8 +5445,7 @@
         "moves": 800,
         "volume_multiplier": 0.3
       }
-    ],
-    "flags": [ "NO_RELOAD" ]
+    ]
   },
   {
     "id": "tube_welding_rod",
