@@ -29,6 +29,7 @@
     "name": { "str": "motorbike battery", "str_pl": "motorbike batteries" },
     "description": "A 12 V lead-acid battery used to power smaller vehicles' electrical systems.",
     "ascii_picture": "battery_motorbike",
+    "looks_like": "battery_car",
     "weight": "3000 g",
     "volume": "1500 ml",
     "price": "20 USD",
