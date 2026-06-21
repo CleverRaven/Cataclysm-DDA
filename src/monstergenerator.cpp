@@ -1605,7 +1605,7 @@ void monster_death_effect::deserialize( const JsonObject &data )
 
 void pet_food_data::load( const JsonObject &jo )
 {
-    mandatory( jo, was_loaded, "food", food );
+    optional( jo, was_loaded, "food", food );
     optional( jo, was_loaded, "feed", feed );
     optional( jo, was_loaded, "pet", pet );
 }

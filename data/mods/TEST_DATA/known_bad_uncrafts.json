@@ -84,7 +84,6 @@
       "40x46mm_hornets_nest_410_slug",
       "40x46mm_m1006",
       "40x46mm_m433",
-      "40x46mm_m576",
       "40x46mm_m651",
       "40x53mm_buckshot_m169",
       "40x53mm_flechette_m169",
@@ -811,7 +810,6 @@
       "electric_lantern",
       "electric_spinwheel",
       "electrohack",
-      "electrolysis_kit",
       "electrolyzer_makeshift",
       "electronics_controls",
       "emerald_gold_earring",
@@ -927,7 +925,6 @@
       "grass_keffiyeh",
       "greatcoat",
       "greeting_card",
-      "grenade",
       "grenade_inc",
       "grenade_pouch",
       "grenadebandolier",
@@ -1549,7 +1546,6 @@
       "planer",
       "plastichoboreel",
       "plastics_book",
-      "platinum_ear",
       "platinum_watch",
       "plays_book",
       "pliers",
@@ -2195,8 +2191,7 @@
       "years_old_newspaper",
       "yoke_harness_heavyduty",
       "young_koji_done",
-      "zweihander_fake",
-      "cable"
+      "zweihander_fake"
     ]
   },
   {

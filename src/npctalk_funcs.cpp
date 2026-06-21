@@ -407,7 +407,7 @@ void talk_function::goto_location( npc &p )
     time_duration ETA = time_between_npc_OM_moves * tiles_to_travel;
     ETA = ETA * rng_float( 0.8, 1.2 ); // Add +-20% variance in our estimate
     if( !query_yn(
-            _( "Estimated time to arrival: %1$s  \nTiles to travel: %2$s  \nIs this path and destination acceptable?" ),
+            _( "Estimated time to arrival: %1$s  \nTiles to travel: %2$d  \nIs this path and destination acceptable?" ),
             to_string_approx( ETA ), tiles_to_travel ) ) {
         p.goal = npc::no_goal_point;
         p.omt_path.clear();

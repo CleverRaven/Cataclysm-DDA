@@ -52,5 +52,17 @@
     "sym": "D",
     "color": "yellow",
     "autonote_visibility": "details"
+  },
+  {
+    "id": "mx_tanglevine_patch",
+    "type": "map_extra",
+    "name": { "str": "Tanglevines" },
+    "description": "A patch of tanglevines is growing here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_tanglevine_patch" },
+    "min_max_zlevel": [ -2, 0 ],
+    "sym": "t",
+    "color": "green",
+    "autonote_visibility": "none",
+    "flags": [ "WILDERNESS" ]
   }
 ]

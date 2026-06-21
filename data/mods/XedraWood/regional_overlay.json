@@ -6,10 +6,10 @@
     "copy-from": "default",
     "noise_threshold_forest": 0.15,
     "noise_threshold_forest_thick": 0.25,
-    "noise_threshold_swamp_adjacent_water": 0.3,
-    "noise_threshold_swamp_isolated": 0.6,
-    "river_floodplain_buffer_distance_min": 3,
-    "river_floodplain_buffer_distance_max": 15
+    "noise_threshold_swamp_adjacent_water": 0.15,
+    "noise_threshold_swamp_isolated": 0.8,
+    "river_floodplain_buffer_distance_min": 10,
+    "river_floodplain_buffer_distance_max": 35
   },
   {
     "type": "region_settings_ocean",
@@ -25,6 +25,26 @@
     "sandy_beach_width": 15
   },
   {
+    "type": "weather_generator",
+    "id": "default",
+    "copy-from": "default",
+    "base_temperature": 13,
+    "base_humidity": 75.0,
+    "base_pressure": 1012.0
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_groundcover",
+    "ter_id": "t_region_groundcover",
+    "replace_with_terrain": [ [ "t_grass", 12000 ], [ "t_grass_dead", 2000 ], [ "t_dirt", 1000 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_groundcover_swamp",
+    "ter_id": "t_region_groundcover_swamp",
+    "replace_with_terrain": [ [ "t_grass_long", 300 ], [ "t_grass_tall", 100 ], [ "t_moss", 200 ], [ "t_dirt", 200 ] ]
+  },
+  {
     "type": "map_extra_collection",
     "id": "forest_water",
     "copy-from": "forest_water",
@@ -34,12 +54,30 @@
     "type": "map_extra_collection",
     "id": "forest",
     "copy-from": "forest",
-    "extend": { "extras": [ [ "mx_nest_claw_runner", 2 ] ] }
+    "extend": { "extras": [ [ "mx_warped_tree_grove", 10 ], [ "mx_campfire_remnants", 5 ], [ "mx_nest_claw_runner", 2 ] ] }
   },
   {
     "type": "map_extra_collection",
     "id": "forest_thick",
     "copy-from": "forest_thick",
-    "extend": { "extras": [ [ "mx_warped_tree_grove", 10 ], [ "mx_campfire_remnants", 5 ] ] }
+    "extend": { "extras": [ [ "mx_warped_tree_grove", 10 ], [ "mx_campfire_remnants", 5 ], [ "mx_tanglevine_patch", 2 ] ] }
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "ravine_bottom",
+    "copy-from": "ravine_bottom",
+    "extend": { "extras": [ [ "mx_warped_tree_grove", 10 ], [ "mx_tanglevine_patch", 4 ] ] }
+  },
+  {
+    "type": "forest_biome_mapgen",
+    "id": "biome_forest_thick_default",
+    "copy-from": "biome_forest_thick_default",
+    "extend": { "terrains": [ "xedrawood_scenario_wise_one_hut" ] }
+  },
+  {
+    "type": "forest_biome_mapgen",
+    "id": "biome_forest_default",
+    "copy-from": "biome_forest_default",
+    "extend": { "terrains": [ "xedrawood_scenario_wise_one_hut" ] }
   }
 ]

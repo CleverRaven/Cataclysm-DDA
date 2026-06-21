@@ -15,7 +15,7 @@
     "price": "2 cent",
     "price_postapoc": "1 cent",
     "material": [ "fruit" ],
-    "volume": "1 ml",
+    "volume": "120 ml",
     "fun": 3,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "fruit_allergen", 1 ] ]
   },
@@ -34,7 +34,7 @@
     "price": "2 cent",
     "price_postapoc": "1 cent",
     "material": [ "nut" ],
-    "volume": "1 ml",
+    "volume": "120 ml",
     "fun": 3,
     "vitamins": [ [ "vitC", 2 ], [ "calcium", 3 ], [ "nut_allergen", 1 ] ]
   },

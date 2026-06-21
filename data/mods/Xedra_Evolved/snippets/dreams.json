@@ -278,5 +278,16 @@
       "mi-go chan",
       "darkness, endless darkness"
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "vampire_infected_fae_wake_up",
+    "text": [
+      "Your dreams are filled with nothing but blood and drinking it.  As long as you are a vampire, your growth as a fae will be blocked.",
+      "Your dreams are those of the undead.  Until you cure yourself from their infection, your dreams will not help you grow.",
+      "You wake up from a dreamless sleep.  You must purge that illness if you wish to have your fae dreams back.",
+      "Your nascent vampirism is muddling your dreams, making them unfit to empower you.",
+      "Nothing in this dream but blood and darkness.  Only curing this illness can restore your ability to grow."
+    ]
   }
 ]

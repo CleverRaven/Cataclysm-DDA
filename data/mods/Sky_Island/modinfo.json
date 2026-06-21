@@ -10,7 +10,8 @@
     "dependencies": [ "dda" ],
     "conflicts": [ "backrooms", "MA", "extra_mut_scens" ],
     "version": "0.4.0",
-    "loading_images": [ "skyisland1.png" ]
+    "loading_images": [ "skyisland1.png" ],
+    "disable_other_loading_screens": true
   },
   {
     "type": "EXTERNAL_OPTION",

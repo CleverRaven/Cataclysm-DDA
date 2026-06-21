@@ -370,7 +370,7 @@ void monster::on_effect_int_change( const efftype_id &/*eid*/, int /*intensity*/
 void monster::poly( const mtype_id &id )
 {
     double hp_percentage = static_cast<double>( hp ) / static_cast<double>( type->hp );
-    if( !no_extra_death_drops ) {
+    if( death_drops ) {
         generate_inventory();
     }
     type = &id.obj();
@@ -1131,6 +1131,22 @@ std::vector<std::string> monster::extended_description() const
                                        type->speed_desc );
     tmp.emplace_back( speed_desc );
 
+    // Print "taming" food information
+    if( !type->petfood.food.empty() ) {
+        tmp.emplace_back( colorize( _( "Seems to be familiar with people and could be tamed with:" ),
+                                    c_light_blue ) );
+
+        for( std::string food_category : type->petfood.food ) {
+            std::vector<const itype *> food_items = Item_factory::find( [&]( const itype & t ) {
+                return t.use_methods.count( "PETFOOD" ) && t.comestible &&
+                       t.comestible->petfood.count( food_category );
+            } );
+            for( const itype *food_item_type : food_items ) {
+                tmp.emplace_back( colorize( food_item_type->nname( 1 ), c_white ) );
+            }
+        }
+    }
+
     tmp.emplace_back( "--" );
     tmp.emplace_back( string_format( "<dark>%s</dark>", type->get_description() ) );
     tmp.emplace_back( "--" );
@@ -1261,14 +1277,26 @@ std::vector<std::string> monster::extended_description() const
             tmp.emplace_back( "Lifespan end time: n/a <color_yellow>(indefinite)</color>" );
         }
 
+        tmp.emplace_back( string_format( "death_message: %s", death_message ? "true" : "false" ) );
+        tmp.emplace_back( string_format( "spawn_corpse: %s", spawn_corpse ? "true" : "false" ) );
+        tmp.emplace_back( string_format( "death_drops: %s", death_drops ? "true" : "false" ) );
+
+        if( !type->weakpoints.weakpoint_list.empty() ) {
+            tmp.emplace_back( colorize( "weakpoints:", c_white ) );
+            for( const weakpoint &wp : type->weakpoints.weakpoint_list ) {
+                tmp.emplace_back( string_format( "%s - coverage %.3f", wp.id, wp.coverage ) );
+            }
+        }
+
         const std::vector<std::reference_wrapper<const effect>> all_effects = get_effects();
         if( !all_effects.empty() ) {
             tmp.emplace_back( "Applied effects:" );
             for( const effect &eff : all_effects ) {
                 const std::string is_permanent = eff.is_permanent() ? "(permanent)" : "";
-                tmp.emplace_back( string_format( "%s (%s) %s", eff.get_id().c_str(),
-                                                 to_string_writable( eff.get_duration() ).c_str(),
-                                                 is_permanent.c_str() ) );
+                tmp.emplace_back( string_format( "%s [%d] (%s) %s", eff.get_id().c_str(),
+                                                 eff.get_intensity(),
+                                                 to_string_writable( eff.get_duration() ),
+                                                 is_permanent ) );
             }
         }
     }
@@ -3217,7 +3245,7 @@ void monster::die( map *here, Creature *nkiller )
     }
 
     if( death_drops ) {
-        if( !no_extra_death_drops ) {
+        if( death_drops ) {
             drop_items_on_death( here, corpse.get_item() );
         }
         spawn_dissectables_on_death( corpse.get_item() );
@@ -3340,7 +3368,7 @@ void monster::generate_inventory( bool disableDrops )
         }
         inv.push_back( it );
     }
-    no_extra_death_drops = disableDrops;
+    death_drops = !disableDrops;
 }
 
 void monster::drop_items_on_death( map *here, item *corpse ) const

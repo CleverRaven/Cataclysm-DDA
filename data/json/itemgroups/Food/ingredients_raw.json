@@ -162,7 +162,7 @@
     "type": "item_group",
     "id": "cocoa_powder_various_full",
     "subtype": "distribution",
-    "entries": [ { "prob": 1, "group": "cocoa_powder_bag_paper_full", "container-item": "null", "count": [ 10, 40 ] } ]
+    "entries": [ { "prob": 2, "group": "cocoa_powder_bag_paper_full" }, { "prob": 1, "group": "cocoa_powder_bag_plastic_full" } ]
   },
   {
     "type": "item_group",
@@ -202,7 +202,10 @@
     "type": "item_group",
     "id": "milk_cocoa_powder_various_full",
     "subtype": "distribution",
-    "entries": [ { "prob": 1, "group": "milk_cocoa_powder_bag_paper_full", "container-item": "null", "count": [ 10, 40 ] } ]
+    "entries": [
+      { "prob": 2, "group": "milk_cocoa_powder_bag_paper_full" },
+      { "prob": 1, "group": "milk_cocoa_powder_bag_plastic_full" }
+    ]
   },
   {
     "type": "item_group",

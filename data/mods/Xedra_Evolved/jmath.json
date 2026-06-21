@@ -241,7 +241,7 @@
     "type": "jmath_function",
     "id": "vampire_total_tier_two_traits",
     "num_args": 0,
-    "return": "u_has_trait('BLOODHEAL') + u_has_trait('COAGULANTWEAVE') + u_has_trait('VAMPIRIC_DODGE') + u_has_trait('VAMPIRE_FEAR_GAZE') + u_has_trait('VAMPIRE_WALK_ON_WALLS') + u_has_trait('VAMPIRE_BEAST_CLAWS') + u_has_trait('VAMPIRIC_STEALTH_BONUS') + u_has_trait('VAMPIRE_SEE_HEAT') + u_has_trait('VAMPIRE_FEIGN_DEATH') + u_has_trait('VAMPIRE_BLOOD_TEMPORARY_BOOST') + u_has_trait('EYEGLEAM_UPGRADE') + u_has_trait('VAMPIRE_SEE_THROUGH_NIGHT_EYES') + u_has_trait('BLOOD_FUN_UPGRADE') + u_has_trait('VAMPIRE_SILENT_MOVE_UPGRADE') + u_has_trait('DHAMPIR_FANGS') + u_has_trait('DHAMPIR_SLOWFALL') + u_has_trait('DHAMPIR_RESIST_DISEASE_POISON_INFECTION')"
+    "return": "u_has_trait('BLOODHEAL') + u_has_trait('COAGULANTWEAVE') + u_has_trait('VAMPIRIC_DODGE') + u_has_trait('VAMPIRE_FEAR_GAZE') + u_has_trait('VAMPIRE_WALK_ON_WALLS') + u_has_trait('VAMPIRE_BEAST_CLAWS') + u_has_trait('VAMPIRIC_STEALTH_BONUS') + u_has_trait('VAMPIRE_SEE_HEAT') + u_has_trait('VAMPIRE_FEIGN_DEATH') + u_has_trait('VAMPIRE_BLOOD_TEMPORARY_BOOST') + u_has_trait('EYEGLEAM_UPGRADE') + u_has_trait('VAMPIRE_SEE_THROUGH_NIGHT_EYES') + u_has_trait('BLOOD_FUN_UPGRADE') + u_has_trait('VAMPIRE_SILENT_MOVE_UPGRADE') + u_has_trait('DHAMPIR_FANGS') + u_has_trait('DHAMPIR_SLOWFALL') + u_has_trait('DHAMPIR_RESIST_DISEASE_POISON_INFECTION') + u_has_trait('DHAMPIR_BLACKEN_SOUL_ARION')"
   },
   {
     "type": "jmath_function",
@@ -377,6 +377,13 @@
     "id": "werewolf_tier_five_traits",
     "num_args": 0,
     "return": "u_has_trait('WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM') + u_has_trait('WEREWOLF_CLOSE_TEAR_IN_REALITY') + u_has_trait('WEREWOLF_WALK_THROUGH_WALLS') + u_has_trait('WEREWOLF_SUMMON_SHADOW_PACK')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "werewolf_cure_outside_effects_mana_cost",
+    "//": "This is meant to include all infections, contaminations, poisons and parasites exclusively caused by Nether beings, fae, paraclesians and vampires.  Intentionally skips magical weakening effects.",
+    "num_args": 0,
+    "return": "(u_effect_intensity('vampire_virus') > -1 ? 250 : 0) + (u_effect_intensity('vampire_virus') > 1 ? 250 : 0) + (u_effect_intensity('vampire_virus') > 2 ? 250 : 0) + (u_has_trait('VAMPIRE') * 250) + (u_has_trait('VAMPIRE2') * 500) + (u_has_trait('VAMPIRE3') * 700) + (u_vampire_total_tier_one_traits * 100) + (u_vampire_total_tier_two_traits * 150) + (u_vampire_total_tier_three_traits * 200) + (u_effect_intensity('tpollen') > -1 ? 350 : 0) + (u_effect_intensity('spores') > -1 ? 100 : 0) + (u_effect_intensity('fungus') > -1 ? 500 : 0) + (u_effect_intensity('hallucinogenic_acid_light') > -1 ? 150 : 0) + (u_effect_intensity('hallucinogenic_acid_heavy') > -1 ? 300 : 0) + (u_effect_intensity('taint') > -1 ? 200 : 0) + (u_effect_intensity('taint') > 1 ? 200 : 0) + (u_effect_intensity('taint') > 2 ? 200 : 0) + (u_effect_intensity('taint') > 3 ? 200 : 0) + (u_effect_intensity('migo_atmosphere') > -1 ? 100 : 0) + (u_effect_intensity('glowing_gas') > -1 ? 250 : 0) + (u_effect_intensity('glowing_gas_cover') > -1 ? 150 : 0) + (u_effect_intensity('effect_hound_of_tindalos_slobber') > -1 ? 300 : 0) + (u_effect_intensity('effect_hunting_horror_poison_light_sensitive') > -1 ? 500 : 0) + (u_effect_intensity('blood_spiders') > -1 ? 200 : 0) + (u_effect_intensity('effect_evil_eye') > -1 ? 100 : 0) + (u_effect_intensity('effect_evil_eye') > 1 ? 100 : 0) + (u_effect_intensity('effect_evil_eye') > 2 ? 100 : 0) + (u_effect_intensity('effect_evil_eye') > 3 ? 100 : 0) + (u_effect_intensity('effect_evil_eye') > 4 ? 100 : 0)"
   },
   {
     "type": "jmath_function",

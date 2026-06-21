@@ -1966,7 +1966,7 @@
     "//2": "1412g zincite ~ 15.8140 mol ZnO (1287.354g) + 1.7571 mol MnO (124.644g) | in theory require 7.907 mol C under perfect conditions",
     "//3": "125×931mg anthracite coal @ ~90% carbon ~ 8.7201 mol C | input excess carbon to account for wastage e.g. CO lost to atmosphere",
     "//4": "output 375×1.785g zinc metal = 10.2382 mol Zn | byproduct 5 mol ZnO residue (imperfect process) | remainder wasted e.g. zinc vapor lost to atmosphere",
-    "byproduct_group": [ { "item": "chem_zinc_oxide", "container-item": "null", "charges": 500 } ],
+    "byproduct_group": [ { "item": "chem_zinc_oxide", "container-item": "null", "count": 500 } ],
     "//": "carbon content of wood charcoal varies drastically (50~95%); picked ~80.56% so that 1040mg charcoal equiv. to 931mg coal",
     "components": [ [ [ "material_zincite", 1 ] ], [ [ "coal_lump", 125 ], [ "charcoal", 125 ] ] ]
   },

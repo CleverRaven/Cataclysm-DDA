@@ -362,7 +362,7 @@
   {
     "id": "highland_purple_incense",
     "type": "ITEM",
-    "name": { "str": "purple incense" },
+    "name": { "str_sp": "purple incense" },
     "description": "Small shards of a crystalline substance.  It has a strange smell, mostly of ozone.",
     "category": "other",
     "weight": "10 g",
@@ -377,7 +377,7 @@
     "id": "highland_yellow_incense",
     "type": "ITEM",
     "copy-from": "highland_purple_incense",
-    "name": { "str": "yellow incense" },
+    "name": { "str_sp": "yellow incense" },
     "description": "Small stones of fragrant resin.  They still maintain a faint scent of citrus and pine.",
     "color": "yellow"
   },
@@ -385,7 +385,7 @@
     "id": "highland_green_incense",
     "type": "ITEM",
     "copy-from": "highland_purple_incense",
-    "name": { "str": "green incense" },
+    "name": { "str_sp": "green incense" },
     "description": "Pearls of glossy green resin are mixed with small leaves and wood chips.  They have a fresh, herbal scent.",
     "color": "green"
   },
@@ -393,14 +393,14 @@
     "id": "highland_black_incense",
     "type": "ITEM",
     "copy-from": "highland_purple_incense",
-    "name": { "str": "black incense" },
+    "name": { "str_sp": "black incense" },
     "description": "A very fine and smooth powder.  It smells like it has already been burnt.",
     "color": "black"
   },
   {
     "id": "highland_red_incense",
     "type": "ITEM",
-    "name": { "str": "red incense" },
+    "name": { "str_sp": "red incense" },
     "copy-from": "highland_purple_incense",
     "description": "Small branches and dried red flowers.  They have a weak acrid scent, like burnt coffee grounds.",
     "color": "red"
@@ -408,7 +408,7 @@
   {
     "id": "highland_blue_incense",
     "type": "ITEM",
-    "name": { "str": "blue incense" },
+    "name": { "str_sp": "blue incense" },
     "copy-from": "highland_purple_incense",
     "description": "Dead grubs float in some foul smelling blue gel.  They have an unnerving number of legs.",
     "color": "blue"
@@ -417,7 +417,7 @@
     "id": "highland_white_incense",
     "type": "ITEM",
     "copy-from": "highland_purple_incense",
-    "name": { "str": "white incense" },
+    "name": { "str_sp": "white incense" },
     "description": "Milk-white spiral shells of some kind of mollusk.  The dead creatures inside still have a faint salty scent.",
     "color": "white"
   },
@@ -425,7 +425,7 @@
     "id": "highland_golden_incense",
     "type": "ITEM",
     "copy-from": "highland_purple_incense",
-    "name": { "str": "golden incense" },
+    "name": { "str_sp": "golden incense" },
     "description": "The dried remnants of a strange flower that was parasitized by golden mold.  It has a strange chemical scent, like honey mixed with gasoline.",
     "color": "yellow"
   }

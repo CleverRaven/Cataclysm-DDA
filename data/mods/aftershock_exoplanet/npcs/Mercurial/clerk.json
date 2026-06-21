@@ -47,7 +47,7 @@
     "name_suffix": "Mercurial augmentation tech.",
     "class": "NC_AUGUSTMOON_GENETECH_TRADER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_AUGUSTMOON_GENETECH_TRADER",
     "faction": "mercurial"
   },

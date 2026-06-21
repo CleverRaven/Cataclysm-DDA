@@ -212,7 +212,8 @@ bool shopkeeper_item_group::can_restock( npc const &guy ) const
 std::string shopkeeper_item_group::get_refusal() const
 {
     if( refusal.empty() ) {
-        return _( "<npc_faction> faction does not trust you enough." );
+        //~Unspecified refusal reason. Mostly a fallback, the important thing here is to convey that the reason is ambiguous or unknown.
+        return _( "<npc_faction> will not trade this." );
     }
 
     return refusal.translated();

@@ -8,7 +8,7 @@
     "mission_offered": "MISSION_ROBOFAC_MERC_1_RADIO",
     "class": "NC_ROBOFAC_MERC_1",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_ROBOFAC_MERC_1",
     "faction": "robofac_auxiliaries"
   },

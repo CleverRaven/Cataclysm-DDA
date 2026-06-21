@@ -9,6 +9,9 @@
 #include <string>
 
 #include "cata_assert.h"
+#if SDL_MAJOR_VERSION >= 3
+#include "cata_shader.h"
+#endif
 #include "debug.h"
 #include "point.h"
 
@@ -87,7 +90,8 @@ void RenderCopy( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &textur
         return;
     }
 #if SDL_MAJOR_VERSION >= 3
-    SDL_FRect fsrc, fdst;
+    SDL_FRect fsrc;
+    SDL_FRect fdst;
     const SDL_FRect *fsrcp = srcrect ? &( fsrc = to_frect( *srcrect ) ) : nullptr;
     const SDL_FRect *fdstp = dstrect ? &( fdst = to_frect( *dstrect ) ) : nullptr;
     printErrorIf( !SDL_RenderTexture( renderer.get(), texture.get(), fsrcp, fdstp ),
@@ -138,6 +142,67 @@ SDL_Texture_Ptr CreateTextureFromSurface( const SDL_Renderer_Ptr &renderer,
                                  scale_quality_to_mode( g_default_texture_scale_quality ) );
     }
     return result;
+}
+
+std::shared_ptr<SDL_Texture> make_gated_texture( SDL_Texture *raw, gpu_handle_graveyard::gate g )
+{
+    return std::shared_ptr<SDL_Texture>( raw,
+    [g = std::move( g )]( SDL_Texture * t ) {
+        if( t && ( !g || !g->load() ) ) {
+            SDL_Texture_deleter{}( t );
+        }
+    } );
+}
+
+gpu_handle_graveyard::gpu_handle_graveyard()
+    : gate_( std::make_shared<std::atomic<bool>>( false ) )
+{
+}
+
+gpu_handle_graveyard::~gpu_handle_graveyard()
+{
+    // Never SDL_DestroyTexture at teardown -- the renderer may already be gone.
+    // Inline the poison-and-clear without abandon()'s gate re-arm: a make_shared
+    // in a (noexcept) destructor could terminate on bad_alloc.
+    if( gate_ && !handles_.empty() ) {
+        gate_->store( true );
+    }
+    handles_.clear();
+}
+
+void gpu_handle_graveyard::add( SDL_Texture *raw )
+{
+    if( !raw ) {
+        return;
+    }
+    handles_.push_back( make_gated_texture( raw, gate_ ) );
+}
+
+void gpu_handle_graveyard::adopt( std::shared_ptr<SDL_Texture> handle )
+{
+    if( handle ) {
+        handles_.push_back( std::move( handle ) );
+    }
+}
+
+void gpu_handle_graveyard::drain_live_renderer()
+{
+    // Gate stays clear, so clearing the handles runs each deleter
+    // (SDL_DestroyTexture) against the still-live renderer.
+    handles_.clear();
+    gate_ = std::make_shared<std::atomic<bool>>( false );
+}
+
+void gpu_handle_graveyard::abandon()
+{
+    // Poison the gate only when this graveyard owns handles: an empty one may
+    // share its gate with handles committed elsewhere (a successful upload),
+    // which must still destroy normally.
+    if( gate_ && !handles_.empty() ) {
+        gate_->store( true );
+    }
+    handles_.clear();
+    gate_ = std::make_shared<std::atomic<bool>>( false );
 }
 
 void SetRenderDrawColor( const SDL_Renderer_Ptr &renderer, const Uint8 r, const Uint8 g,
@@ -308,21 +373,147 @@ SDL_Surface_Ptr load_image( const char *const path )
     return result;
 }
 
-bool SetRenderTarget( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &texture )
+void scoped_render_target::mark_boundary_lost()
+{
+    renderer_boundary_signal_recovery_required();
+    boundary_intact_ = false;
+}
+
+scoped_render_target::scoped_render_target( const SDL_Renderer_Ptr &renderer,
+        SDL_Texture *target, cata_shader::variant_pass *vp )
 {
     if( !renderer ) {
-        dbg( D_ERROR ) << "Tried to use a null renderer";
+        dbg( D_ERROR ) << "scoped_render_target: null renderer";
+        return;
+    }
+    // Already latched (or embargoed): renderer may be dangling after a LOST
+    // handover, so even SDL_GetRenderTarget is unsafe. Refuse before any SDL call.
+    if( renderer_boundary_recovery_pending() ) {
+        boundary_intact_ = false;
+        return;
+    }
+    renderer_ = renderer.get();
+#if SDL_MAJOR_VERSION >= 3
+    vp_ = vp;
+    // Flush the pass FIRST so an embargoed pass refuses before any SDL call;
+    // only then capture prior_target_ and switch.
+    if( vp_ && !vp_->flush() ) {
+        mark_boundary_lost();
+        renderer_ = nullptr;
+        vp_ = nullptr;
+        return;
+    }
+    prior_target_ = SDL_GetRenderTarget( renderer_ );
+    if( !SDL_SetRenderTarget( renderer_, target ) ) {
+        dbg( D_ERROR ) << "scoped_render_target: SDL_SetRenderTarget failed: " << SDL_GetError();
+        mark_boundary_lost();
+        renderer_ = nullptr;
+        prior_target_ = nullptr;
+        vp_ = nullptr;
+        return;
+    }
+#else
+    ( void )vp;
+    prior_target_ = SDL_GetRenderTarget( renderer_ );
+    if( SDL_SetRenderTarget( renderer_, target ) != 0 ) {
+        dbg( D_ERROR ) << "scoped_render_target: SDL_SetRenderTarget failed: " << SDL_GetError();
+        mark_boundary_lost();
+        renderer_ = nullptr;
+        prior_target_ = nullptr;
+        return;
+    }
+#endif
+    valid_ = true;
+}
+
+bool scoped_render_target::restore()
+{
+    if( restore_attempted_ ) {
+        return last_restore_ok_;
+    }
+    restore_attempted_ = true;
+    last_restore_ok_ = false;
+    if( !valid_ || !renderer_ ) {
         return false;
     }
-    // a null texture is fine for SDL (resets to default target)
+    if( renderer_boundary_recovery_pending() ) {
+        // Already latched; do not issue another SDL_SetRenderTarget.
+        boundary_intact_ = false;
+        return false;
+    }
 #if SDL_MAJOR_VERSION >= 3
-    const bool failed = printErrorIf( !SDL_SetRenderTarget( renderer.get(), texture.get() ),
+    if( vp_ && !vp_->flush() ) {
+        // Undefined shader-state bind: do not switch the target.
+        dbg( D_ERROR ) << "scoped_render_target::restore: variant_pass flush failed";
+        mark_boundary_lost();
+        return false;
+    }
+    if( !SDL_SetRenderTarget( renderer_, prior_target_ ) ) {
+        dbg( D_ERROR ) << "scoped_render_target::restore: SDL_SetRenderTarget failed: "
+                       << SDL_GetError();
+        mark_boundary_lost();
+        return false;
+    }
+#else
+    if( SDL_SetRenderTarget( renderer_, prior_target_ ) != 0 ) {
+        dbg( D_ERROR ) << "scoped_render_target::restore: SDL_SetRenderTarget failed: "
+                       << SDL_GetError();
+        mark_boundary_lost();
+        return false;
+    }
+#endif
+    restored_ = true;
+    last_restore_ok_ = true;
+    return true;
+}
+
+scoped_render_target::~scoped_render_target()
+{
+    if( restored_ || !valid_ || !renderer_ ) {
+        return;
+    }
+    if( restore_attempted_ ) {
+        // Explicit restore already failed and logged; the caller chose to
+        // abort. Do not retry to avoid masking the original failure.
+        return;
+    }
+    if( renderer_boundary_recovery_pending() ) {
+        // Another callsite latched recovery; suppress the implicit restore.
+        // The coordinator rebinds on rebuild.
+        boundary_intact_ = false;
+        return;
+    }
+    ( void )restore();
+}
+
+bind_result permanent_render_target_bind( const SDL_Renderer_Ptr &renderer, SDL_Texture *target,
+        cata_shader::variant_pass *vp )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "permanent_render_target_bind: null renderer";
+        // No SDL call issued, so no embargo: pre-switch refusal.
+        return bind_result::refused_pre_switch;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    if( vp && !vp->flush() ) {
+        // Unsafe shader-state bind: do not switch the target. Latch recovery.
+        renderer_boundary_signal_recovery_required();
+        return bind_result::failed_in_switch;
+    }
+    const bool failed = printErrorIf( !SDL_SetRenderTarget( renderer.get(), target ),
                                       "SDL_SetRenderTarget failed" );
 #else
-    const bool failed = printErrorIf( SDL_SetRenderTarget( renderer.get(), texture.get() ) != 0,
+    ( void )vp;
+    const bool failed = printErrorIf( SDL_SetRenderTarget( renderer.get(), target ) != 0,
                                       "SDL_SetRenderTarget failed" );
 #endif
-    return !failed;
+    if( failed ) {
+        // SDL may have mutated target state before failing; latch recovery.
+        // Callers with a quarantine path still see the bind_result and
+        // sequence their own teardown -- the latch is additive.
+        renderer_boundary_signal_recovery_required();
+    }
+    return failed ? bind_result::failed_in_switch : bind_result::ok;
 }
 
 void RenderClear( const SDL_Renderer_Ptr &renderer )
@@ -397,7 +588,8 @@ void RenderCopyEx( const SDL_Renderer_Ptr &renderer, SDL_Texture *const texture,
         return;
     }
 #if SDL_MAJOR_VERSION >= 3
-    SDL_FRect fsrc, fdst;
+    SDL_FRect fsrc;
+    SDL_FRect fdst;
     SDL_FPoint fcenter;
     const SDL_FRect *fsrcp = srcrect ? &( fsrc = to_frect( *srcrect ) ) : nullptr;
     const SDL_FRect *fdstp = dstrect ? &( fdst = to_frect( *dstrect ) ) : nullptr;
@@ -976,6 +1168,14 @@ void GetRendererOutputSize( const SDL_Renderer_Ptr &renderer, int *w, int *h )
 #endif
 }
 
+SDL_Texture *GetRenderTarget( const SDL_Renderer_Ptr &renderer )
+{
+    if( !renderer ) {
+        return nullptr;
+    }
+    return SDL_GetRenderTarget( renderer.get() );
+}
+
 
 uint32_t GetTicks()
 {
@@ -1041,7 +1241,8 @@ bool SetClipboardText( const std::string &text )
 Uint32 GetMouseState( int *x, int *y )
 {
 #if SDL_MAJOR_VERSION >= 3
-    float fx = 0, fy = 0;
+    float fx = 0;
+    float fy = 0;
     Uint32 buttons = SDL_GetMouseState( &fx, &fy );
     if( x ) {
         *x = static_cast<int>( fx );
@@ -1335,38 +1536,17 @@ SDL_Renderer_Ptr CreateRenderer( const SDL_Window_Ptr &window, const char *drive
 }
 
 
-void ConvertEventCoordinates( const SDL_Renderer_Ptr &renderer, SDL_Event *event )
-{
-#if SDL_MAJOR_VERSION >= 3
-    if( renderer && event ) {
-        SDL_ConvertEventToRenderCoordinates( renderer.get(), event );
-    }
-#else
-    ( void )renderer;
-    ( void )event;
-    // SDL2: no-op. SDL_RenderSetLogicalSize auto-scales mouse/touch events.
-#endif
-}
-
-
 float GetFingerX( const SDL_Event &ev, const int windowWidth )
 {
-#if SDL_MAJOR_VERSION >= 3
-    ( void )windowWidth;
-    return ev.tfinger.x;
-#else
+    // Both SDL2 and SDL3 deliver tfinger.x in normalized [0..1] space.
+    // Multiply by the logical window width to land in window pixel units
+    // for shortcut hit-tests and joystick math.
     return ev.tfinger.x * windowWidth;
-#endif
 }
 
 float GetFingerY( const SDL_Event &ev, const int windowHeight )
 {
-#if SDL_MAJOR_VERSION >= 3
-    ( void )windowHeight;
-    return ev.tfinger.y;
-#else
     return ev.tfinger.y * windowHeight;
-#endif
 }
 
 #endif // defined(TILES)

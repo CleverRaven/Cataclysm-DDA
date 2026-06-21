@@ -2,10 +2,14 @@
 #ifndef CATA_SRC_PIXEL_MINIMAP_H
 #define CATA_SRC_PIXEL_MINIMAP_H
 
-#include <map>
+#include <array>
+#include <cstddef>
 #include <memory>
+#include <unordered_map>
+#include <vector>
 
 #include "coordinates.h"
+#include "map_scale_constants.h"
 #include "point.h"
 #include "sdl_wrappers.h"
 #include "sdl_geometry.h"
@@ -43,18 +47,48 @@ class pixel_minimap
 
         void draw( const SDL_Rect &screen_rect, const tripoint_bub_ms &center );
 
+        // Drop every renderer-owned GPU resource (main texture, texture
+        // pool) along with the projector and submap cache. All of it
+        // rebuilds lazily on the next draw().
+        void reset();
+
         // True if the last draw() rendered any critters with blinking beacons.
         bool has_blinking_beacons() const {
             return has_blinking_beacons_;
         }
 
     private:
-        struct submap_cache;
+        // Texture pool, defined in the .cpp; forward declared so submap_cache can hold a ref.
+        class shared_texture_pool;
+
+        struct submap_cache {
+            //the color stored for each submap tile
+            std::array<SDL_Color, SEEX *SEEY> minimap_colors = {};
+            //checks if the submap has been looked at by the minimap routine
+            bool touched = false;
+            //the texture updates are drawn to
+            SDL_Texture_Ptr chunk_tex;
+            //the submap being handled
+            size_t texture_index = 0;
+            //the list of updates to apply to the texture
+            //reduces render target switching to once per submap
+            std::vector<point> update_list;
+            //flag used to indicate that the texture needs to be cleared before first use
+            bool ready = false;
+            shared_texture_pool &pool;
+
+            explicit submap_cache( shared_texture_pool &pool );
+            ~submap_cache();
+
+            submap_cache( const submap_cache & ) = delete;
+            submap_cache( submap_cache && ) = default;
+
+            SDL_Color &color_at( const point &p );
+        };
 
         submap_cache &get_cache_at( const tripoint_abs_sm &abs_sm_pos );
 
         void set_screen_rect( const SDL_Rect &screen_rect );
-        void reset();
 
         void draw_beacon( const SDL_Rect &rect, const SDL_Color &color );
 
@@ -90,11 +124,9 @@ class pixel_minimap
 
         std::unique_ptr<pixel_minimap_projector> projector;
 
-        //the minimap texture pool which is used to reduce new texture allocation spam
-        class shared_texture_pool;
         std::unique_ptr<shared_texture_pool> tex_pool;
 
-        std::map<tripoint_abs_sm, submap_cache> cache;
+        std::unordered_map<tripoint_abs_sm, submap_cache> cache;
 
         bool has_blinking_beacons_ = false;
 };

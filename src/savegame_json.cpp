@@ -2199,24 +2199,18 @@ void npc::load( const JsonObject &data )
 
     data.read( "assigned_camp", assigned_camp );
     data.read( "job", job );
+
+    // remove migration in 0.K
     if( data.read( "mission", misstmp ) ) {
         mission = static_cast<npc_mission>( misstmp );
-        static const std::set<npc_mission> legacy_missions = {{
-                NPC_MISSION_LEGACY_1, NPC_MISSION_LEGACY_2,
-                NPC_MISSION_LEGACY_3
-            }
-        };
+        static const std::set<npc_mission> legacy_missions = { NPC_MISSION_LEGACY_1 };
         if( legacy_missions.count( mission ) > 0 ) {
             mission = NPC_MISSION_NULL;
         }
     }
     if( data.read( "previous_mission", misstmp ) ) {
         previous_mission = static_cast<npc_mission>( misstmp );
-        static const std::set<npc_mission> legacy_missions = {{
-                NPC_MISSION_LEGACY_1, NPC_MISSION_LEGACY_2,
-                NPC_MISSION_LEGACY_3
-            }
-        };
+        static const std::set<npc_mission> legacy_missions = { NPC_MISSION_LEGACY_1 };
         if( legacy_missions.count( mission ) > 0 ) {
             previous_mission = NPC_MISSION_NULL;
         }
@@ -2632,7 +2626,11 @@ void monster::load( const JsonObject &data )
         }
     }
     data.read( "mission_fused", mission_fused );
-    data.read( "no_extra_death_drops", no_extra_death_drops );
+    // for migration, remove in 0.K
+    data.read( "no_extra_death_drops", death_drops );
+    data.read( "death_drops", death_drops );
+    data.read( "spawn_corpse", spawn_corpse );
+    data.read( "death_message", death_message );
     data.read( "dead", dead );
     data.read( "anger", anger );
     data.read( "morale", morale );
@@ -2719,7 +2717,9 @@ void monster::store( JsonOut &json ) const
     json.member( "faction", faction.id().str() );
     json.member( "mission_ids", mission_ids );
     json.member( "mission_fused", mission_fused );
-    json.member( "no_extra_death_drops", no_extra_death_drops );
+    json.member( "death_drops", death_drops );
+    json.member( "spawn_corpse", spawn_corpse );
+    json.member( "death_message", death_message );
     json.member( "dead", dead );
     json.member( "anger", anger );
     json.member( "morale", morale );
@@ -4487,6 +4487,14 @@ void mm_submap::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
+static std::string migrate_memorized_terrain( const std::string &ter_id )
+{
+    if( auto it = ter_migrations.find( ter_str_id( ter_id ) ); it != ter_migrations.end() ) {
+        return it->second.first.str();
+    }
+    return ter_id;
+}
+
 void mm_submap::deserialize( int version, const JsonArray &ja )
 {
     size_t submap_array_idx = 0;
@@ -4504,7 +4512,7 @@ void mm_submap::deserialize( int version, const JsonArray &ja )
                 if( version < 1 ) { // legacy, remove after 0.H comes out
                     std::string id = ja_tile.get_string( 0 );
                     if( string_starts_with( id, "t_" ) ) {
-                        tile.set_ter_id( std::move( id ) );
+                        tile.set_ter_id( migrate_memorized_terrain( id ) );
                         tile.set_ter_subtile( ja_tile.get_int( 1 ) );
                         tile.set_ter_rotation( ja_tile.get_int( 2 ) );
                         tile.set_dec_id( "" );
@@ -4533,7 +4541,7 @@ void mm_submap::deserialize( int version, const JsonArray &ja )
                 } else {
                     remaining = ja_tile.get_int( 0 ) - 1;
                     tile.symbol = ja_tile.get_int( 1 );
-                    tile.set_ter_id( ja_tile.get_string( 2 ) );
+                    tile.set_ter_id( migrate_memorized_terrain( ja_tile.get_string( 2 ) ) );
                     tile.ter_subtile = ja_tile.get_int( 3 );
                     tile.ter_rotation = ja_tile.get_int( 4 );
                     if( ja_tile.size() > 5 ) {

@@ -1563,7 +1563,9 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint_bub_ms 
     }
 
     creature_tracker &creatures = get_creature_tracker();
-    if( monster *const mon = creatures.creature_at<monster>( *pnt, true ) ) {
+    monster *const mon = creatures.creature_at<monster>( *pnt, true );
+
+    if( mon != nullptr && !mon->type->petfood.food.empty() ) {
         p->mod_moves( -to_moves<int>( 1_seconds ) );
 
         bool can_feed = false;
@@ -2375,20 +2377,6 @@ std::optional<int> iuse::manage_exosuit( Character *p, item *it, const tripoint_
     return 0;
 }
 
-std::optional<int> iuse::unpack_item( Character *p, item *it, const tripoint_bub_ms & )
-{
-    if( p->cant_do_underwater() ) {
-        return std::nullopt;
-    }
-    std::string oname = it->typeId().str() + "_on";
-    p->mod_moves( -to_moves<int>( 10_seconds ) );
-    p->add_msg_if_player( _( "You unpack your %s for use." ), it->tname() );
-    it->convert( itype_id( oname ), p ).active = false;
-    // Check if unpacking led to invalid container state
-    p->invalidate_inventory_validity_cache();
-    return 0;
-}
-
 std::optional<int> iuse::pack_cbm( Character *p, item *it, const tripoint_bub_ms & )
 {
     item_location bionic = g->inv_map_splice( []( const item & e ) {
@@ -2538,29 +2526,6 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
     }
     // We've already consumed the tablets, so don't try to consume them again
     return std::nullopt;
-}
-
-std::optional<int> iuse::water_tablets( Character *p, item *it, const tripoint_bub_ms & )
-{
-    map &here = get_map();
-
-    if( p->cant_do_mounted() ) {
-        return std::nullopt;
-    }
-
-    item_location obj = g->inv_map_splice( [&here]( const item_location & e ) {
-        return ( !e->empty() && e->has_item_with( []( const item & it ) {
-            return it.typeId() == itype_water || it.typeId() == itype_water_murky;
-        } ) ) || ( ( e->typeId() == itype_water || e->typeId() == itype_water_murky ) &&
-                   here.has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, e.pos_bub( here ) ) );
-    }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
-
-    if( !obj ) {
-        p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
-        return std::nullopt;
-    }
-
-    return purify_water( p, it, obj );
 }
 
 std::optional<int> iuse::directional_antenna( Character *p, item *it, const tripoint_bub_ms & )
@@ -3973,13 +3938,23 @@ std::optional<int> iuse::gasmask_activate( Character *p, item *it, const tripoin
         it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
     }
 
-    if( it->has_flag( flag_PAPR_MASK ) ) {
-        if( !p->has_item_with_flag( flag_PAPR_BLOWER ) ) {
-            p->add_msg_if_player( m_bad,
-                                  _( "You don't have an active PAPR blower unit so the %s fails to function." ), it->tname() );
-            it->set_var( "overwrite_env_resist", 0 );
-            it->active = false;
-        }
+    return 0;
+}
+
+std::optional<int> iuse::papr_mask_activate( Character *p, item *it, const tripoint_bub_ms & )
+{
+    if( !p->has_item_with_flag( flag_PAPR_BLOWER ) ) {
+        p->add_msg_if_player( m_bad,
+                              _( "You don't have an active PAPR blower unit so the %s fails to function." ), it->tname() );
+    } else if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You fail to adjust your damaged %s so it doesn't leak." ),
+                              it->tname() );
+        return std::nullopt;
+
+    } else {
+        p->add_msg_if_player( _( "You prepare your %s." ), it->tname() );
+        it->active = true;
+        it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
     }
 
     return 0;
@@ -4045,14 +4020,72 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint_bub_ms 
         it->active = false;
     }
 
-    if( it->has_flag( flag_PAPR_MASK ) ) {
-        if( !p->has_item_with_flag( flag_PAPR_BLOWER ) ) {
+    return 0;
+}
+
+std::optional<int> iuse::papr_mask( Character *p, item *it, const tripoint_bub_ms & )
+{
+    if( p && p->is_worn( *it ) ) {
+        if( it->activation_success() ) {
+            // In case if failed the previous tick.
+            it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
+        } else {
+            p->add_msg_if_player( m_bad, _( "Your damaged %s is leaking." ), it->tname() );
+            it->set_var( "overwrite_env_resist", 0 );
+            return std::nullopt;
+        }
+        if( p && !p->has_item_with_flag( flag_PAPR_BLOWER ) ) {
             p->add_msg_if_player( m_bad, _( "Your PAPR system stops working!" ) );
             it->set_var( "overwrite_env_resist", 0 );
             it->active = false;
         }
     }
+    return 0;
+}
 
+std::optional<int> iuse::papr_blower( Character *p, item *it, const tripoint_bub_ms &pos )
+{
+    map &here = get_map();
+    // calculate amount of absorbed gas per filter charge
+    const field &gasfield = here.field_at( pos );
+    for( const auto &dfield : gasfield ) {
+        const field_entry &entry = dfield.second;
+        int gas_abs_factor = to_turns<int>( entry.get_field_type()->gas_absorption_factor );
+        // Not set, skip this field
+        if( gas_abs_factor == 0 ) {
+            continue;
+        }
+        const field_intensity_level &int_level = entry.get_intensity_level();
+        // 6000 is the amount of "gas absorbed" charges in a full 100 capacity gas mask cartridge.
+        // factor/concentration gives an amount of seconds the cartidge is expected to last in current conditions.
+        /// 6000/that is the amount of "gas absorbed" charges to tick up every second in order to reach that number.
+        float gas_absorbed = 6000 / ( static_cast<float>( gas_abs_factor ) / static_cast<float>
+                                      ( int_level.concentration ) );
+        add_msg_debug( debugmode::DF_IUSE, "Absorbing %g/60 from field: 6000 / (%d * %d)", gas_absorbed,
+                       gas_abs_factor, int_level.concentration );
+        if( gas_absorbed > 0 ) {
+            it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + gas_absorbed );
+        }
+    }
+    if( it->get_var( "gas_absorbed", 0 ) >= 60 ) {
+        it->ammo_consume_in_pocket( "papr_blower_filter", 1, here, pos );
+        it->set_var( "gas_absorbed", 0 );
+        if( it->ammo_remaining_in_pocket( "papr_blower_filter" ) < 10 ) {
+            p->add_msg_player_or_npc(
+                m_bad,
+                _( "Your %s is struggling to filter gas!" ),
+                _( "<npcname>'s PAPR blower is struggling to filter gas!" )
+                , it->tname() );
+        }
+    }
+    if( it->ammo_remaining_in_pocket( "papr_blower_filter" ) == 0 ) {
+        p->add_msg_player_or_npc(
+            m_bad,
+            _( "Your %s requires new filters!" ),
+            _( "<npcname> needs new PAPR blower filters!" )
+            , it->tname() );
+        it->deactivate();
+    }
     return 0;
 }
 
@@ -8684,7 +8717,7 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
                           );
     int available_cleanser = std::max( {
         crafting_inv.charges_of( itype_soap ),
-        crafting_inv.charges_of( itype_detergent ),
+        crafting_inv.amount_of( itype_detergent ),
         crafting_inv.charges_of( itype_liquid_soap, INT_MAX, is_liquid )
     } );
 
@@ -8752,7 +8785,7 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
                               required.water );
         return std::nullopt;
     } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
-               !crafting_inv.has_charges( itype_detergent, required.cleanser ) &&
+               !crafting_inv.has_amount( itype_detergent, required.cleanser ) &&
                !crafting_inv.has_charges( itype_liquid_soap, required.cleanser, is_liquid ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
                               required.cleanser );

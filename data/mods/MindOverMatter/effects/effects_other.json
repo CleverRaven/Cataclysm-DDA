@@ -39,5 +39,12 @@
     "desc": [ "" ],
     "rating": "good",
     "flags": [ "BLOCK_HUGE_ATTACKS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_premonition_quiet_farm_limiter",
+    "//": "Hidden effect, used as a limiter",
+    "name": [ "" ],
+    "desc": [ "" ]
   }
 ]

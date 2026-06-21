@@ -1,0 +1,23 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_forest_traverse_the_wilds",
+    "name": [ "Weald-Walking" ],
+    "desc": [ "Nature is speeding your passage." ],
+    "rating": "good",
+    "max_duration": 57600,
+    "show_in_info": true,
+    "remove_message": "Nature no longer speeds your movements.",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": { "math": [ "((u_spell_level('forest_traverse_the_wilds') * -0.015) - 0.05)" ] } }
+        ]
+      },
+      {
+        "condition": { "math": [ "u_spell_level('effect_forest_traverse_the_wilds') > 7" ] },
+        "values": [ { "value": "PHASE_DISTANCE", "add": 2 } ]
+      }
+    ]
+  }
+]

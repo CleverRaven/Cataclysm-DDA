@@ -1663,7 +1663,7 @@
     "purifiable": false,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Your tough skin and thick nails allow you to use yours hands to replace some simple tools.  Your punches hit harder as well.",
+    "description": "Your tough skin and thick nails allow you to use your hands to replace some simple tools.  Your punches hit harder as well.",
     "types": [ "CLAWS" ],
     "prereqs": [ "IERDE_SKIN_2" ],
     "category": [ "FAIR_FOLK_COMMONER_TROW" ],

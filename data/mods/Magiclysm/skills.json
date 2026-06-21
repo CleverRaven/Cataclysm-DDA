@@ -42,7 +42,7 @@
       { "level": 3, "description": "You weave spells with deliberate care and can get reliable results." },
       { "level": 5, "description": "Your incantations flow naturally, you adapt to magical feedback with ease." },
       { "level": 7, "description": "You cast complex spells effortlessly, as if speaking a native tongue." },
-      { "level": 10, "description": "magic obeys your will before you even voice it." }
+      { "level": 10, "description": "Magic obeys your will before you even voice it." }
     ]
   }
 ]

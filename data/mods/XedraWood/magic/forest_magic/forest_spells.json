@@ -1,0 +1,264 @@
+[
+  {
+    "id": "forest_commanding_grasses",
+    "type": "SPELL",
+    "name": { "str": "Commanding the Grasses" },
+    "description": "Your command over plants allows you to cause grass to grow in profusion from the soil, making the terrain very difficult for enemies to traverse.",
+    "message": "You reach out and infuse life into the least of the plants of the earth.",
+    "valid_targets": [ "self", "hostile", "ground" ],
+    "flags": [ "VERBAL", "SOMATIC", "NO_PROJECTILE" ],
+    "max_level": 15,
+    "skill": "deduction",
+    "difficulty": 1,
+    "spell_class": "FOREST_MAGIC",
+    "effect": "ter_transform",
+    "effect_str": "ter_arvore_command_grasses",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( ( (8 + (u_spell_level('forest_commanding_grasses') * 0.85) + (u_skill('deduction') * 1.2) ) ) * xedrawood_forest_magic_modifiers() ), 35)"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "min( ( ( (8 + (u_spell_level('forest_commanding_grasses') * 0.85) + (u_skill('deduction') * 1.2) ) ) * xedrawood_forest_magic_modifiers() ), 35)"
+      ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( ( ( (3 + (u_spell_level('forest_commanding_grasses') * 0.5) + (u_skill('deduction') * 0.75) ) ) * xedrawood_forest_magic_modifiers() ), 35)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( ( (3 + (u_spell_level('forest_commanding_grasses') * 0.5) + (u_skill('deduction') * 0.75) ) ) * xedrawood_forest_magic_modifiers() ), 35)"
+      ]
+    },
+    "magic_type": "xedrawood_forest_magic",
+    "base_casting_time": 250,
+    "base_energy_cost": 100
+  },
+  {
+    "id": "forest_bramble_spear",
+    "type": "SPELL",
+    "name": "Spear of Brambles",
+    "description": "This spell turns a stick into a vicious spear that drips with sticky sap.",
+    "message": "You grasp the stick tightly and feel the sap flowing within.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "spell_class": "FOREST_MAGIC",
+    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION" ],
+    "max_level": 15,
+    "effect": "spawn_item",
+    "effect_str": "bramble_spear_item",
+    "components": "spell_components_bramble_spear",
+    "shape": "blast",
+    "difficulty": 2,
+    "min_damage": 1,
+    "max_damage": 1,
+    "magic_type": "xedrawood_forest_magic",
+    "base_casting_time": 12000,
+    "base_energy_cost": 250,
+    "min_duration": {
+      "math": [
+        "( (12182 + (u_spell_level('forest_bramble_spear') * 11826) + (u_skill('deduction') * 21915) ) ) * xedrawood_forest_magic_modifiers()"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (26182 + (u_spell_level('forest_bramble_spear') * 23185) + (u_skill('deduction') * 40952) ) ) * xedrawood_forest_magic_modifiers()"
+      ]
+    }
+  },
+  {
+    "id": "forest_unity_nature",
+    "type": "SPELL",
+    "name": "Unity with Nature",
+    "description": "Reaching out to the forest, you absorb some of its serenity and peace into yourself.",
+    "message": "You close your eyes and listen to the leaves rustling in the wind as you solemnly intone the incantation.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "spell_class": "FOREST_MAGIC",
+    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION" ],
+    "max_level": 15,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FOREST_NATURE_UNITY",
+    "shape": "blast",
+    "difficulty": 3,
+    "min_duration": {
+      "math": [
+        "(35501 + (u_spell_level('forest_unity_nature') * 12681) + (u_skill('deduction') * 23085) ) * xedrawood_forest_magic_modifiers()"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "(85815 + (u_spell_level('forest_unity_nature') * 38044) + (u_skill('deduction') * 56085) ) * xedrawood_forest_magic_modifiers()"
+      ]
+    },
+    "magic_type": "xedrawood_forest_magic",
+    "base_casting_time": 180000,
+    "base_energy_cost": 600,
+    "final_energy_cost": 400,
+    "energy_increment": -10
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FOREST_NATURE_UNITY",
+    "effect": [
+      {
+        "math": [
+          "_duration_low = (355.01 + (u_spell_level('forest_unity_nature') * 126.81) + (u_skill('deduction') * 230.85) ) * xedrawood_forest_magic_modifiers()"
+        ]
+      },
+      {
+        "math": [
+          "_duration_high = (858.15 + (u_spell_level('forest_unity_nature') * 380.44) + (u_skill('deduction') * 560.85) ) * xedrawood_forest_magic_modifiers()"
+        ]
+      },
+      { "math": [ "_spell_duration = rng(_duration_low,_duration_high)" ] },
+      { "u_add_effect": "natures_commune", "duration": { "math": [ "_spell_duration" ] } },
+      { "u_lose_morale": "morale_forest_unity" },
+      {
+        "u_add_morale": "morale_forest_unity",
+        "bonus": { "math": [ "5 + (u_spell_level('forest_unity_nature') * 3)" ] },
+        "max_bonus": 50,
+        "duration": { "math": [ "_spell_duration" ] },
+        "decay_start": { "math": [ "_spell_duration / 2" ] }
+      }
+    ]
+  },
+  {
+    "id": "forest_traverse_the_wilds",
+    "type": "SPELL",
+    "name": "Weald-Walking",
+    "description": "Blend in to the forests and urge them to speed your passage.  Trees bend out of the way, bushes do not hinder you, and even grass subtly moves your feet along.  The ritual must be enacted in the forest and will fail if you pass out from beneath the boughs.",
+    "message": "You beseech the leaves and the roots to speed your passage through the forest.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "spell_class": "FOREST_MAGIC",
+    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION" ],
+    "caster_condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain_with_flag": "YOUNG" }
+          ]
+        },
+        {
+          "or": [
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "forest_thick" },
+            { "u_at_om_location": "great_tree_z0_nw" },
+            { "u_at_om_location": "great_tree_z0_ne" },
+            { "u_at_om_location": "great_tree_z0_sw" },
+            { "u_at_om_location": "great_tree_z0_se" }
+          ]
+        }
+      ]
+    },
+    "caster_condition_fail_message": "You must be out in the wilds to traverse them.",
+    "effect": "attack",
+    "effect_str": "effect_forest_traverse_the_wilds",
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": 15,
+    "min_duration": {
+      "math": [
+        "(51384 + (u_spell_level('forest_unity_nature') * 14095) + (u_skill('deduction') * 29813) ) * xedrawood_forest_magic_modifiers()"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "(98045 + (u_spell_level('forest_unity_nature') * 44825) + (u_skill('deduction') * 71805) ) * xedrawood_forest_magic_modifiers()"
+      ]
+    },
+    "magic_type": "xedrawood_forest_magic",
+    "base_energy_cost": 150,
+    "base_casting_time": 6000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FOREST_TRAVERSE_THE_WILDS_REMOVER",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_forest_traverse_the_wilds" },
+        {
+          "not": {
+            "or": [
+              { "u_at_om_location": "forest" },
+              { "u_at_om_location": "forest_thick" },
+              { "u_at_om_location": "great_tree_z0_nw" },
+              { "u_at_om_location": "great_tree_z0_ne" },
+              { "u_at_om_location": "great_tree_z0_sw" },
+              { "u_at_om_location": "great_tree_z0_se" }
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "effect_forest_traverse_the_wilds" },
+      { "u_message": "As you exit the forest, your spell fades.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FOREST_TRAVERSE_THE_WILDS_REMOVER_INDOORS",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "and": [ { "u_has_effect": "effect_forest_traverse_the_wilds" }, { "not": "u_is_outside" } ] },
+    "effect": [
+      { "u_lose_effect": "effect_forest_traverse_the_wilds" },
+      { "u_message": "As you step indoors, your spell fades.", "type": "bad" }
+    ]
+  },
+  {
+    "id": "forest_whisper_leaves",
+    "type": "SPELL",
+    "name": "Whisper of the Leaves",
+    "description": "Reach out to the forest spirits and ask them to teach you the lay of the land.  The longer you remain in the trance, the more you will learn.  You must be standing near a tree in a forest or the ritual will fail.",
+    "message": "You place a hand on the tree and close your eyes as you reach out to the spirits of the forest.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "spell_class": "FOREST_MAGIC",
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "caster_condition": { "or": [ { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ] },
+    "caster_condition_fail_message": "You must be in a forest to commune with the forest spirits.",
+    "max_level": 15,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FOREST_GAIN_WHISPER_LEAVES",
+    "shape": "blast",
+    "difficulty": 6,
+    "magic_type": "xedrawood_forest_magic",
+    "base_casting_time": 18000,
+    "base_energy_cost": 800,
+    "final_energy_cost": 500,
+    "energy_increment": -40
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FOREST_GAIN_WHISPER_LEAVES",
+    "condition": { "not": { "u_has_trait": "TREE_COMMUNION" } },
+    "effect": [
+      { "u_add_trait": "TREE_COMMUNION" },
+      { "u_activate_trait": "TREE_COMMUNION" },
+      { "run_eocs": "EOC_LOSE_WHISPER_LEAVES", "time_in_future": [ "1 seconds", "1 seconds" ] }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You are already in tune with the rhythms of the forest.  Further magic cannot deepen your bond.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LOSE_WHISPER_LEAVES",
+    "effect": [ { "u_lose_trait": "TREE_COMMUNION" } ]
+  }
+]

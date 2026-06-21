@@ -29,6 +29,9 @@ static bool showing_debug_message = false;
 static bool restart_redrawing = false;
 #if defined( TILES )
 static std::optional<SDL_Rect> prev_clip_rect;
+// renderer_resource_generation() sampled when prev_clip_rect was saved, so the
+// restore can be skipped if a recovery rebuilt the renderer in between.
+static uint64_t prev_clip_rect_generation = 0;
 #endif
 static ui_stack_t ui_stack;
 
@@ -63,13 +66,21 @@ ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : is_imgui( false ),
     // alone does not prevent the graphics from becoming borked in other ways,
     // but `ui_manager` will redo the entire redrawing as soon as the redraw
     // callback returns.
-    const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
-    if( RenderIsClipEnabled( renderer ) ) {
-        prev_clip_rect = SDL_Rect();
-        RenderGetClipRect( renderer, &prev_clip_rect.value() );
-        RenderSetClipRect( renderer, nullptr );
-    } else {
+    if( renderer_should_abort_frame() ) {
+        // A recovery/pause/resize is queued; the renderer is about to be rebuilt.
+        // Skip the clip-rect query and reset, and clear any saved rect so the
+        // destructor does not restore a stale one onto the rebuilt renderer.
         prev_clip_rect = std::nullopt;
+    } else {
+        const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
+        if( RenderIsClipEnabled( renderer ) ) {
+            prev_clip_rect = SDL_Rect();
+            RenderGetClipRect( renderer, &prev_clip_rect.value() );
+            RenderSetClipRect( renderer, nullptr );
+            prev_clip_rect_generation = renderer_resource_generation();
+        } else {
+            prev_clip_rect = std::nullopt;
+        }
     }
 #endif
     ui_stack.emplace_back( *this );
@@ -85,8 +96,11 @@ ui_adaptor::~ui_adaptor()
         cata_assert( showing_debug_message );
         showing_debug_message = false;
 #if defined( TILES )
-        // See ui_adaptor( debug_message_ui )
-        if( prev_clip_rect.has_value() ) {
+        // See ui_adaptor( debug_message_ui ). Skip the restore when a recovery is
+        // queued now, or when one rebuilt the renderer since the rect was saved:
+        // the saved rect belongs to the pre-rebuild renderer.
+        if( prev_clip_rect.has_value() && !renderer_should_abort_frame()
+            && renderer_resource_generation() == prev_clip_rect_generation ) {
             const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
             RenderSetClipRect( renderer, &prev_clip_rect.value() );
         }
@@ -366,11 +380,38 @@ void ui_adaptor::redraw_invalidated( )
     if( test_mode || ui_stack.empty() ) {
         return;
     }
+#if defined(TILES)
+    display_buffer_draw_scope draw_scope;
+    if( !draw_scope.should_draw() ) {
+        // Return before the redraw callbacks clear their invalidation flags, so a
+        // queued recovery, a failed bind, or a watcher race all leave invalidation
+        // intact for the next drain to replay the full UI.
+        return;
+    }
+    int buf_w = 0;
+    int buf_h = 0;
+    get_display_buffer_dims( &buf_w, &buf_h );
+#endif
     // This boolean is needed when a debug error is thrown inside redraw_invalidated
     if( !imgui_frame_started ) {
+#if defined(TILES)
+        imclient->new_frame( buf_w, buf_h );
+#else
         imclient->new_frame();
+#endif
     }
     imgui_frame_started = true;
+
+    // On abnormal exit (exception unwinding a draw callback) close the frame
+    // without rendering so the next NewFrame() does not assert. No-op on the
+    // normal path: end_frame()/abort_frame() clear imgui_frame_started first.
+    on_out_of_scope imgui_frame_balance( [] {
+        if( imgui_frame_started )
+        {
+            imclient->abort_frame();
+            imgui_frame_started = false;
+        }
+    } );
 
     restore_on_out_of_scope prev_redraw_in_progress( redraw_in_progress );
     restore_on_out_of_scope prev_restart_redrawing( restart_redrawing );
@@ -476,6 +517,19 @@ void ui_adaptor::redraw_invalidated( )
     emscripten_sleep( 1 );
 #endif
 
+#if defined(TILES)
+    if( renderer_should_abort_frame() ) {
+        // Close the ImGui frame WITHOUT backend rendering: abort_frame balances
+        // the next NewFrame assert without painting the drawlist onto a target
+        // about to be rebuilt. A recovery re-invalidates every adaptor; a bare
+        // resize keeps the buffer contents the present path restretches.
+        if( imgui_frame_started ) {
+            imclient->abort_frame();
+        }
+        imgui_frame_started = false;
+        return;
+    }
+#endif
     imclient->end_frame();
     imgui_frame_started = false;
 

@@ -53,7 +53,8 @@
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR", "CHAOTIC", "CHAOTIC_BAD" ],
     "empathize_with": [ "GRACKEN" ],
     "no_empathize_with": [ "HUMAN" ],
-    "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ]
+    "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -254,7 +255,7 @@
     "type": "mutation",
     "id": "SHADE_DEXTROUS_HANDS",
     "name": { "str": "Shade Dextrous Hands" },
-    "description": "Your hands are humanoid but appear to be made of swirling shadows.  You sport an extra digit on every finger that improves your ability to get into tight situations.",
+    "description": "Your hands are humanoid but appear to be made of swirling shadows.  You sport an extra digit on each hand that improves your ability to get into tight situations.",
     "//": "This is the first stage crafting hands mutation.",
     "types": [ "HANDS" ],
     "prereqs": [ "SHADE_HANDS" ],

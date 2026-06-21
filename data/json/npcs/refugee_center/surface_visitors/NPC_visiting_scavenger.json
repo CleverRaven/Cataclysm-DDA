@@ -6,7 +6,7 @@
     "name_suffix": "Survivor",
     "class": "NC_SCAVENGER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_RC_SURVIVOR_1",
     "faction": "no_faction"
   },

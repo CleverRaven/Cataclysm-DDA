@@ -167,7 +167,7 @@
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "5l_silver", 2 ], [ "1l_silver", 10 ], [ "silver_small", 20980 ] ] ]
+    "components": [ [ [ "5l_silver", 2 ], [ "1l_silver", 10 ], [ "silver_small", 10000 ] ] ]
   },
   {
     "result": "5l_silver",
@@ -182,7 +182,7 @@
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "1l_silver", 5 ], [ "silver_small", 10490 ] ] ]
+    "components": [ [ [ "1l_silver", 5 ], [ "silver_small", 5000 ] ] ]
   },
   {
     "result": "1l_silver",
@@ -197,7 +197,7 @@
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "silver_small", 2098 ] ] ]
+    "components": [ [ [ "silver_small", 1000 ] ] ]
   },
   {
     "result": "10l_gold",
@@ -212,7 +212,7 @@
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "5l_gold", 2 ], [ "1l_gold", 10 ], [ "gold_small", 38640 ] ] ]
+    "components": [ [ [ "5l_gold", 2 ], [ "1l_gold", 10 ], [ "gold_small", 10000 ] ] ]
   },
   {
     "result": "5l_gold",
@@ -227,7 +227,7 @@
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "1l_gold", 5 ], [ "gold_small", 19320 ] ] ]
+    "components": [ [ [ "1l_gold", 5 ], [ "gold_small", 5000 ] ] ]
   },
   {
     "result": "1l_gold",
@@ -242,7 +242,7 @@
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "gold_small", 3864 ] ] ]
+    "components": [ [ [ "gold_small", 1000 ] ] ]
   },
   {
     "result": "10l_lead",
@@ -257,7 +257,7 @@
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "5l_lead", 2 ], [ "1l_lead", 10 ], [ "lead", 22690 ] ] ]
+    "components": [ [ [ "5l_lead", 2 ], [ "1l_lead", 10 ], [ "lead", 10000 ] ] ]
   },
   {
     "result": "5l_lead",
@@ -272,7 +272,7 @@
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "1l_lead", 5 ], [ "lead", 11345 ] ] ]
+    "components": [ [ [ "1l_lead", 5 ], [ "lead", 5000 ] ] ]
   },
   {
     "result": "1l_lead",
@@ -287,7 +287,7 @@
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "lead", 2269 ] ] ]
+    "components": [ [ [ "lead", 1000 ] ] ]
   },
   {
     "result": "10l_bronze",
@@ -414,7 +414,7 @@
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "scrap_copper", 36 ] ] ]
+    "components": [ [ [ "scrap_copper", 36 ], [ "copper", 1800 ] ] ]
   },
   {
     "type": "recipe",
@@ -605,7 +605,7 @@
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "5l_zinc", 2 ], [ "1l_zinc", 10 ], [ "zinc_metal", 39780 ] ] ]
+    "components": [ [ [ "5l_zinc", 2 ], [ "1l_zinc", 10 ], [ "zinc_metal", 10000 ] ] ]
   },
   {
     "result": "5l_zinc",
@@ -620,7 +620,7 @@
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "1l_zinc", 5 ], [ "zinc_metal", 19890 ] ] ]
+    "components": [ [ [ "1l_zinc", 5 ], [ "zinc_metal", 5000 ] ] ]
   },
   {
     "result": "1l_zinc",
@@ -635,7 +635,7 @@
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "zinc_metal", 3978 ] ] ]
+    "components": [ [ [ "zinc_metal", 1000 ] ] ]
   },
   {
     "type": "recipe",
@@ -974,40 +974,6 @@
     "components": [ [ [ "thread_kevlar", 100 ] ] ]
   },
   {
-    "result": "sheet_kevlar",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_OTHER",
-    "difficulty": 4,
-    "id_suffix": "spinningwheel",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "batch_time_factors": [ 70, 1 ],
-    "time": "2 h",
-    "book_learn": [ [ "manual_tailor", 4 ], [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_weaving" } ],
-    "tools": [ [ [ "spinwheelitem", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread_kevlar", 100 ] ] ]
-  },
-  {
-    "result": "sheet_kevlar",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "difficulty": 4,
-    "id_suffix": "electric_spinwheel",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "batch_time_factors": [ 70, 1 ],
-    "time": "1 h 20 m",
-    "book_learn": [ [ "manual_tailor", 4 ], [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_weaving" } ],
-    "tools": [ [ [ "electric_spinwheel", 200 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread_kevlar", 100 ] ] ]
-  },
-  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "kevlar_patch",
@@ -1100,38 +1066,6 @@
     "proficiencies": [ { "proficiency": "prof_weaving" }, { "proficiency": "prof_closures_waterproofing" } ],
     "tools": [ [ [ "loom_frame", -1 ] ], [ [ "shed_stick", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread_canvas", 80 ] ], [ [ "wax_any", 1, "LIST" ] ] ]
-  },
-  {
-    "result": "sheet_canvas",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_OTHER",
-    "id_suffix": "spinningwheel",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "batch_time_factors": [ 50, 1 ],
-    "time": "1 h 30 m",
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_weaving" }, { "proficiency": "prof_closures_waterproofing" } ],
-    "tools": [ [ [ "spinwheelitem", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thread_canvas", 80 ] ], [ [ "wax_any", 1, "LIST" ] ] ]
-  },
-  {
-    "result": "sheet_canvas",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "id_suffix": "electric_spinwheel",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "batch_time_factors": [ 50, 1 ],
-    "time": "1 h 30 m",
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_weaving" }, { "proficiency": "prof_closures_waterproofing" } ],
-    "tools": [ [ [ "electric_spinwheel", 181 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "thread_canvas", 80 ] ], [ [ "wax_any", 1, "LIST" ] ] ]
   },
   {

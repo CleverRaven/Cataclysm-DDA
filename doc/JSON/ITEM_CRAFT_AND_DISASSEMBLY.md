@@ -173,6 +173,8 @@ Each entry in the `"steps"` array is an object with these fields:
 "batch_time_factors": // (Optional)  Same format as recipe-level.
 "attention":          // (Optional)  Either "none" (default) or "unattended".  See "Unattended steps".
 "max_time":           // (Optional)  Duration.  Hard deadline for an unattended step.  Must be > "time".
+                      //             Authored per-unit; the ruin deadline ("max_time" + "grace_period")
+                      //             scales with batch size through "batch_time_factors", like "time".
 "grace_period":       // (Optional)  Duration.  Extra time past "max_time" before the craft is destroyed.
                       //             Only allowed when "max_time" is set.
 "unattend_message":   // (Optional)  Translatable string.  Shown when an unattended step finishes
@@ -253,7 +255,7 @@ When the wall-clock deadline elapses:
 
 - Non-terminal: step advances, distraction fires with `unattend_message` (or a vague log line without a timepiece).  Suppressed if the player is already on this craft.
 - Terminal: craft auto-finalizes at the deadline, so morale, EOCs, heat, and birthday use in-game completion time.
-- `max_time + grace_period` past start: craft is destroyed.
+- `max_time + grace_period` past start: craft is destroyed.  This deadline is batch-scaled the same way as completion, so the ruin window tracks the batch-scaled completion time rather than staying a flat per-unit duration.
 
 If the step's tools or qualities become unavailable, or a charged tool runs short on charges, the step pauses and the deadline slides forward once the requirement is restored.  `crafter_id` is remembered so env-check picks up the crafter's pseudo-tools, bionics, and trait qualities when they are next to the craft.
 

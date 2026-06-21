@@ -565,7 +565,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_MUSIC_REMOVE",
-    "effect": [ { "u_message": "The song in your head fades.", "type": "info" }, { "u_lose_trait": "GOBLIN_FRUIT_MUSIC" } ]
+    "effect": [
+      { "u_message": "The song in your head fades.", "type": "info" },
+      { "u_lose_trait": "GOBLIN_FRUIT_MUSIC" },
+      { "u_consume_item": "internal_mp3_fruit_on" }
+    ]
   },
   {
     "type": "ITEM",

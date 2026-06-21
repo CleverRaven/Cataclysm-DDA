@@ -82,10 +82,22 @@ then
         -DCMAKE_BUILD_TYPE="$build_type" \
         -DTILES=${TILES:-0} \
         -DSOUND=${SOUND:-0} \
+        ${SDL3:+-DUSE_SDL3=${SDL3}} \
         ..
     make -j$num_jobs
 else
-    make -j "$num_jobs" CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 FRAMEWORK=1 UNIVERSAL_BINARY=1 DEBUG_SYMBOLS=1
+    effective_sdl3="${SDL3:-}"
+    if [ -z "${SDL3+x}" ] && [ "${TILES:-0}" = "1" ]; then
+        effective_sdl3=1
+    fi
+    make_args=( CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 DEBUG_SYMBOLS=1 )
+    if [ -n "${SDL3+x}" ]; then
+        make_args+=( SDL3="$SDL3" )
+    fi
+    if [ "$effective_sdl3" != "1" ]; then
+        make_args+=( FRAMEWORK=1 UNIVERSAL_BINARY=1 )
+    fi
+    make -j "$num_jobs" "${make_args[@]}"
 
     # For CI on macOS, patch the test binary so it can find SDL2 libraries.
     if [[ ! -z "$OS" && "$OS" = "macos-12" ]]

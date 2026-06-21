@@ -45,7 +45,7 @@
     "height": 182,
     "class": "NC_SALVOR_RIPPER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_SALVOR_RIPPER",
     "faction": "independents"
   },

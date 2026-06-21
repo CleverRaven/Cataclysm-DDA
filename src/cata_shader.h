@@ -94,6 +94,14 @@ class shader
             return ptr_;
         }
 
+        // Renounce ownership without SDL_ReleaseGPUShader, for when the
+        // renderer still references this through a stale bind we could not
+        // detach -- destroying it would invalidate live GPU pipeline state.
+        void abandon() {
+            ptr_ = nullptr;
+            device_ = nullptr;
+        }
+
     private:
         shader( SDL_GPUDevice *device, SDL_GPUShader *ptr )
             : device_( device ), ptr_( ptr ) {}
@@ -131,41 +139,16 @@ class render_state
             return ptr_;
         }
 
+        // Renounce ownership without SDL_DestroyGPURenderState. Used when a
+        // probe leaves the state bound on a renderer we cannot safely detach.
+        void abandon() {
+            ptr_ = nullptr;
+        }
+
     private:
         explicit render_state( SDL_GPURenderState *ptr ) : ptr_( ptr ) {}
 
         SDL_GPURenderState *ptr_ = nullptr;
-};
-
-// RAII bracket around SDL_SetGPURenderState. Binds the supplied state on
-// construction, clears it on destruction (or earlier via unbind()). ImGui's
-// SDL3 renderer backend does not save/restore custom GPU state; any unpaired
-// bind leaks into the next draw, so the bracket is mandatory.
-class gpu_state_scope
-{
-    public:
-        // Binds state on the renderer. is_valid() reflects whether the bind
-        // succeeded; on failure end-of-scope is a no-op.
-        gpu_state_scope( SDL_Renderer *renderer, SDL_GPURenderState *state );
-        ~gpu_state_scope();
-
-        gpu_state_scope( const gpu_state_scope & ) = delete;
-        gpu_state_scope &operator=( const gpu_state_scope & ) = delete;
-        gpu_state_scope( gpu_state_scope && ) = delete;
-        gpu_state_scope &operator=( gpu_state_scope && ) = delete;
-
-        bool is_valid() const {
-            return active_;
-        }
-
-        // Clears the bind early. Returns true on success (or no-op when
-        // already inactive), false if SDL_SetGPURenderState(NULL) failed.
-        // Subsequent destruction is a no-op.
-        bool unbind();
-
-    private:
-        SDL_Renderer *renderer_ = nullptr;
-        bool active_ = false;
 };
 
 // Owns one SDL_GPUShader + SDL_GPURenderState per supported variant and
@@ -187,9 +170,8 @@ class gpu_state_scope
 //   - select_memory_preset(p) picks which memory shader try_begin(MEMORY)
 //     binds. Nullopt disables the MEMORY shader path so callers fall back
 //     to the memory atlas (used for the custom MEMORY_MAP_MODE preset).
-//   - try_begin(v) returns true iff v has an active shader path AND the
-//     state is bound. NORMAL or unsupported MEMORY preset returns false and
-//     ensures no shader stays bound from a previous draw.
+//   - try_begin(v) binds the shader for v and returns a begin_result (see
+//     the enum doc). Atlas-fallback paths clear any prior bind first.
 //   - end() is a no-op; bind persists for the next sprite.
 //   - flush() unbinds any held state. Call once per frame after the last
 //     sprite draw so ImGui or the next-frame draws see no leaked bind.
@@ -211,16 +193,50 @@ class variant_pass
             return probed_ok_ && !session_disabled_;
         }
 
-        bool try_begin( variant_kind v );
+        // try_begin outcome. bound: shader path active, draw with it.
+        // use_atlas: safe fallback (NORMAL, unsupported MEMORY preset, clean
+        // session_disabled) -- renderer valid, fall through to the pre-baked
+        // atlas. abort_frame: a failed SDL_SetGPURenderState left the renderer
+        // undefined -- caller MUST stop rendering; the frame aborts and the
+        // coordinator rebuilds.
+        enum class begin_result {
+            bound,
+            use_atlas,
+            abort_frame,
+        };
+
+        begin_result try_begin( variant_kind v );
         bool end();
 
-        void flush();
+        // Returns false on SDL_SetGPURenderState(NULL) failure; pass
+        // stays flagged bound so callers can refuse to cross a
+        // render-target boundary.
+        bool flush();
 
         void select_memory_preset( std::optional<memory_preset> preset );
+
+        // Drop all GPU resources, flushing held state first; idempotent. On
+        // flush failure the handles are abandoned and the embargo raised (see
+        // abandoned_pending_rebind_). Run before the owning renderer dies.
+        void release_gpu_resources();
+
+        // Abandon every handle without calling SDL: intentional leak for when
+        // even flush() is unsafe (dangling renderer), reclaimed at process
+        // exit. Raises the embargo. Prefer release_gpu_resources() otherwise.
+        void force_abandon_gpu_resources();
+
+        // Adopt a freshly created renderer after LOST/DEVICE_RESET, reset local
+        // boundary state, and clear the embargo so the next try_begin re-probes.
+        // Never skips on pointer equality: DEVICE_RESET keeps the pointer.
+        void rebind_renderer( SDL_Renderer *renderer );
 
     private:
         void probe();
         void reset();
+        // Drop shader + render-state slots. abandon_handles=true skips SDL
+        // destroy on each (renderer undefined or about to die); false runs the
+        // destructors normally to release the SDL handles.
+        void clear_state_arrays( bool abandon_handles );
         SDL_GPURenderState *state_for( variant_kind v ) const;
 
         SDL_Renderer *renderer_ = nullptr;
@@ -231,6 +247,16 @@ class variant_pass
         memory_states_;
         std::optional<memory_preset> active_memory_preset_;
         std::optional<variant_kind> currently_bound_;
+        // Set after an unsafe bind transition (failed SDL_SetGPURenderState or
+        // a probe boundary loss): next flush() must call null-state regardless
+        // of currently_bound_ to clear whatever the renderer holds.
+        bool unbind_required_ = false;
+        // The "embargo": while true, every SDL-touching method (flush,
+        // try_begin, release_gpu_resources, dtor) refuses without calling SDL,
+        // the renderer being presumed dangling/unsafe. Raised by
+        // force_abandon_gpu_resources() and by release_gpu_resources() on flush
+        // failure; cleared by rebind_renderer().
+        bool abandoned_pending_rebind_ = false;
         bool probe_attempted_ = false;
         bool probed_ok_ = false;
         bool session_disabled_ = false;

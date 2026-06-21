@@ -2093,7 +2093,7 @@
       [ [ "sheet_metal", 6 ] ],
       [ [ "fire_brick", 30 ] ],
       [ [ "thermometer", 2 ] ],
-      [ [ "cable", 10 ] ],
+      [ [ "cable", 4 ] ],
       [ [ "mortar_build", 150 ] ],
       [ [ "water", 20 ], [ "water_clean", 20 ] ],
       [ [ "small_lcd_screen", 1 ] ],
@@ -2117,7 +2117,7 @@
         "proficiencies": [ { "proficiency": "prof_welding_basic" } ]
       },
       {
-        "name": "Grinding  grooves for the heating elements",
+        "name": "Grinding grooves for the heating elements",
         "time": "1 h",
         "qualities": [ { "id": "GRIND", "level": 2 } ],
         "activity_level": "BRISK_EXERCISE"

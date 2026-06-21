@@ -109,5 +109,25 @@
     "spoils_in": "8 days 16 hours",
     "fun": 0,
     "use_action": [ "BLECH" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "tanglevine_root",
+    "name": { "str": "tanglevine root" },
+    "weight": "210 g",
+    "color": "green",
+    "symbol": "%",
+    "description": "A thick, woody root from a tanglevine.  The end glistens as though sap were still flowing through it.",
+    "price": "10 USD",
+    "price_postapoc": "3 USD 10 cent",
+    "material": [ "veggy" ],
+    "volume": "350 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "dryad_bark",
+    "copy-from": "alder_bark",
+    "name": { "str": "dryad bark", "str_pl": "chunks of dryad bark" },
+    "description": "A strip of bark taken from a fallen dryad.  It's still slightly supple, as though it were attached to a living tree."
   }
 ]

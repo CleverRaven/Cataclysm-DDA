@@ -422,6 +422,7 @@ void body_part_type::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "no_power_effect", no_power_effect, efftype_id::NULL_ID() );
     optional( jo, was_loaded, "smash_message", smash_message );
     optional( jo, was_loaded, "smash_efficiency", smash_efficiency, 0.5f );
+    optional( jo, was_loaded, "pain_mod", pain_mod, 1.f );
 
     optional( jo, was_loaded, "hot_morale_mod", hot_morale_mod, 0.0 );
     optional( jo, was_loaded, "cold_morale_mod", cold_morale_mod, 0.0 );
@@ -1028,15 +1029,28 @@ std::vector<bp_onhit_effect> bodypart::get_onhit_effects( damage_type_id dtype )
     return result;
 }
 
-float bodypart::wound_adjusted_limb_value( const float val ) const
+float bodypart::wound_adjusted_limb_value( const float val, const limb_score_id &score ) const
 {
     double percent = static_cast<double>( get_hp_cur() ) /
                      static_cast<double>( get_hp_max() );
+
+    float wound_score_penalty = 0.f;
+
+    if( id->has_limb_score( score ) ) {
+        for( const wound &wd : wounds ) {
+            for( const wound_limb_score &s : wd.type->get_limb_scores() ) {
+                if( s.score == score ) {
+                    wound_score_penalty += s.value;
+                }
+            }
+        }
+    }
+
     if( percent > 0.75 ) {
-        return val;
+        return val * ( 1 - wound_score_penalty );
     }
     percent /= 0.75;
-    return val * static_cast<float>( percent );
+    return val * ( static_cast<float>( percent ) - wound_score_penalty );
 }
 
 float bodypart::encumb_adjusted_limb_value( const Creature &mon, const float val ) const
@@ -1070,7 +1084,7 @@ float bodypart::get_limb_score( const Creature &mon, const limb_score_id &score,
 
     float sc = id->get_limb_score( score );
     if( process_wounds ) {
-        sc = wound_adjusted_limb_value( sc );
+        sc = wound_adjusted_limb_value( sc, score );
     }
     if( process_encumb ) {
         sc = encumb_adjusted_limb_value( mon, sc );

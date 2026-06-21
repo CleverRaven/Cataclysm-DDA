@@ -122,8 +122,6 @@ static const itype_id itype_efile_photos( "efile_photos" );
 static const itype_id itype_efile_recipes( "efile_recipes" );
 static const itype_id itype_joint_lit( "joint_lit" );
 static const itype_id itype_stock_none( "stock_none" );
-static const itype_id itype_water( "water" );
-static const itype_id itype_water_clean( "water_clean" );
 
 static const material_id material_wool( "wool" );
 
@@ -310,7 +308,8 @@ safe_reference<item> item::get_safe_reference()
     return anchor->reference_to( this );
 }
 
-item::item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections )
+item::item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections,
+            bool should_add_faults )
     : item( itype_craft, calendar::turn )
 {
     craft_data_ = cata::make_value<craft_data>();
@@ -326,6 +325,10 @@ item::item( const recipe *rec, int qty, item_components items, std::vector<item_
         if( goes_bad() ) {
             inherit_rot_from_components( *this );
         }
+    }
+
+    if( should_add_faults ) {
+        set_flag( flag_FAULT_ON_COMPLETION );
     }
 
     for( item_components::type_vector_pair &tvp : components ) {
@@ -1677,11 +1680,12 @@ std::string item::display_name( unsigned int quantity ) const
                         if( has_loaded_ammo ) {
                             const auto it = restrictions.find( loaded_ammotype );
                             if( it != restrictions.end() ) {
-                                well_max = it->second;
+                                // honor capacity_mods scaling
+                                well_max = p->ammo_capacity( loaded_ammotype );
                             }
                         } else if( !restrictions.empty() ) {
                             const std::pair<const ammotype, int> &first = *restrictions.begin();
-                            well_max = first.second;
+                            well_max = p->ammo_capacity( first.first );
                             ammo_id_for_name = first.first->default_ammotype();
                             if( !ammo_id_for_name.is_null() &&
                                 !ammo_id_for_name.is_empty() &&
@@ -1820,12 +1824,12 @@ std::string item::display_name( unsigned int quantity ) const
                     }
                     amt = string_format( " (%s%s)",
                                          colorize( string_format( "%s/%s",
-                                                   type->count_or_volume_or_weight_prefix( amount ),
-                                                   type->count_or_volume_or_weight_prefix( max_amount ) ),
+                                                   type->item_measure_prefix( amount ),
+                                                   type->item_measure_prefix( max_amount ) ),
                                                    charges_color ),
                                          ammotext );
                 } else  {
-                    amt = string_format( " (%s%s)", type->count_or_volume_or_weight_prefix( amount ), ammotext );
+                    amt = string_format( " (%s%s)", type->item_measure_prefix( amount ), ammotext );
                 }
             }
         } else if( !ammotext.empty() ) {
@@ -4337,11 +4341,6 @@ void item::set_temp_flags( units::temperature new_temperature, float freeze_perc
         }
     } else if( new_temperature < temperatures::cold ) {
         set_flag( flag_COLD );
-    }
-
-    // Convert water into clean water if it starts boiling
-    if( typeId() == itype_water && new_temperature > temperatures::boiling ) {
-        convert( itype_water_clean ).poison = 0;
     }
 }
 

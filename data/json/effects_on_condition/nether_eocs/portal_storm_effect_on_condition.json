@@ -605,7 +605,7 @@
     "id": "EOC_PORTAL_SMOKE",
     "effect": [
       { "u_message": "A million tiny pinpricks in space open for an instant, and smoke fills the air.", "type": "bad" },
-      { "u_set_field": "fd_smoke", "outdoor_only": true },
+      { "u_set_field": "fd_smoke", "outdoor_only": true, "radius": 150 },
       { "math": [ "u_ire -= 1" ] }
     ]
   },

@@ -23,6 +23,7 @@
 #include "flexbuffer_json.h"
 #include "game_inventory.h"
 #include "input.h"
+#include "pickup.h"
 #include "input_enums.h"
 #include "inventory.h"
 #include "item.h"
@@ -795,7 +796,7 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
     }
 
     return ( count > 1 ) ? string_format( "%s %s",
-                                          entry.any_item()->type->count_or_volume_or_weight_prefix( count ), disp_name ) : disp_name;
+                                          entry.any_item()->type->item_measure_prefix( count ), disp_name ) : disp_name;
 }
 
 std::string inventory_selector_preset::get_denial( const inventory_entry &entry ) const
@@ -4950,16 +4951,17 @@ pickup_selector::pickup_selector( Character &p, const inventory_selector_preset 
 #endif
 
     set_hint( string_format(
-                  _( "%s wield %s wear\n%s expand %s all\n%s examine %s/%s/%s quantity (or type number then %s)" ),
-                  colorize( ctxt.get_desc( "WIELD" ), c_yellow ),
-                  colorize( ctxt.get_desc( "WEAR" ), c_yellow ),
-                  colorize( ctxt.get_desc( "SHOW_HIDE_CONTENTS" ), c_yellow ),
-                  colorize( ctxt.get_desc( "SHOW_HIDE_CONTENTS_ALL" ), c_yellow ),
-                  colorize( ctxt.get_desc( "EXAMINE" ), c_yellow ),
-                  colorize( ctxt.get_desc( "MARK_WITH_COUNT" ), c_yellow ),
-                  colorize( ctxt.get_desc( "INCREASE_COUNT" ), c_yellow ),
-                  colorize( ctxt.get_desc( "DECREASE_COUNT" ), c_yellow ),
-                  colorize( ctxt.get_desc( "TOGGLE_ENTRY" ), c_yellow ) ) );
+                  _( "<color_yellow>%s</color> Wield  <color_yellow>%s</color> Wear  <color_yellow>%s</color> Expand  <color_yellow>%s</color> All  <color_yellow>%s</color> Examine\n"
+                     "Quantity: <color_yellow>%s</color> to mark selected  <color_yellow>%s</color>/<color_yellow>%s</color> to offset  type number then <color_yellow>%s</color> to set" ),
+                  ctxt.get_desc( "WIELD" ),
+                  ctxt.get_desc( "WEAR" ),
+                  ctxt.get_desc( "SHOW_HIDE_CONTENTS" ),
+                  ctxt.get_desc( "SHOW_HIDE_CONTENTS_ALL" ),
+                  ctxt.get_desc( "EXAMINE" ),
+                  ctxt.get_desc( "MARK_WITH_COUNT" ),
+                  ctxt.get_desc( "INCREASE_COUNT" ),
+                  ctxt.get_desc( "DECREASE_COUNT" ),
+                  ctxt.get_desc( "TOGGLE_ENTRY" ) ) );
 }
 
 void pickup_selector::apply_selection( std::vector<drop_location> selection )
@@ -5011,6 +5013,23 @@ drop_locations pickup_selector::execute()
     return dropped_pos_and_qty;
 }
 
+static item_location get_item_to_highlight_after_use( inventory_column &column,
+        item_location const &loc )
+{
+    bool found = false;
+    for( const inventory_entry *entry : column.get_entries( return_item ) ) {
+        for( const item_location &l : entry->locations ) {
+            if( found ) {
+                return l;
+            }
+            if( l == loc ) {
+                found = true;
+            }
+        }
+    }
+    return item_location::nowhere;
+}
+
 bool pickup_selector::wield( int &count )
 {
     inventory_entry &selected = get_active_column().get_highlighted();
@@ -5026,7 +5045,8 @@ bool pickup_selector::wield( int &count )
 
     if( u.can_wield( *it ).success() ) {
         remove_from_to_use( it );
-        reopen_menu();
+        const item_location next_item = get_item_to_highlight_after_use( get_active_column(), it );
+        reopen_menu( next_item );
         u.assign_activity( wield_activity_actor( it, charges ) );
         return true;
     } else {
@@ -5048,7 +5068,9 @@ bool pickup_selector::wear()
 
     if( u.can_wear( *items.front() ).success() ) {
         remove_from_to_use( items.front() );
-        reopen_menu();
+        const item_location next_item = get_item_to_highlight_after_use( get_active_column(),
+                                        items.front() );
+        reopen_menu( next_item );
         u.assign_activity( wear_activity_actor( items, quantities ) );
         return true;
     } else {
@@ -5058,11 +5080,13 @@ bool pickup_selector::wear()
     return false;
 }
 
-void pickup_selector::reopen_menu()
+void pickup_selector::reopen_menu( const item_location &next_item )
 {
     // copy the member variables to still be valid on call
-    uistate.open_menu = [where = where, to_use = to_use]() {
-        get_player_character().pick_up( game_menus::inv::pickup( where, to_use ) );
+    uistate.open_menu = [where = where, to_use = to_use, next_item]() {
+        Pickup::pick_info pickup_info;
+        pickup_info.highlight = next_item;
+        get_player_character().pick_up( game_menus::inv::pickup( where, to_use, pickup_info ) );
     };
 }
 
@@ -5231,10 +5255,10 @@ unload_selector::unload_selector( Character &p,
 
 std::string unload_selector::hint_string()
 {
-    std::string mode = uistate.unload_auto_contain ? _( "Auto" ) : _( "Manual" );
     return string_format(
-               _( "[<color_yellow>%s</color>] Confirm [<color_yellow>%s</color>] Cancel [<color_yellow>%s</color>] Select destination(<color_yellow>%s</color>)" ),
-               ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "QUIT" ), ctxt.get_desc( "CONTAIN_MODE" ), mode );
+               _( "<color_yellow>%s</color> Confirm  <color_yellow>%s</color> Cancel  <color_yellow>%s</color> Select destination (<color_yellow>%s</color>)" ),
+               ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "QUIT" ), ctxt.get_desc( "CONTAIN_MODE" ),
+               uistate.unload_auto_contain ? _( "Auto" ) : _( "Manual" ) );
 }
 
 std::pair<item_location, bool> unload_selector::execute()

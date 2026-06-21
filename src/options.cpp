@@ -1410,11 +1410,54 @@ bool android_get_default_setting( const char *settings_name, bool default_value 
     jobject activity = ( jobject )GetAndroidActivity();
     jclass clazz( env->GetObjectClass( activity ) );
     jmethodID method_id = env->GetMethodID( clazz, "getDefaultSetting", "(Ljava/lang/String;Z)Z" );
-    jboolean ans = env->CallBooleanMethod( activity, method_id, env->NewStringUTF( settings_name ),
-                                           default_value );
+    jstring settings_name_arg = env->NewStringUTF( settings_name );
+    jboolean ans = env->CallBooleanMethod( activity, method_id, settings_name_arg, default_value );
+    env->DeleteLocalRef( settings_name_arg );
     env->DeleteLocalRef( activity );
     env->DeleteLocalRef( clazz );
     return ans;
+}
+
+std::string android_get_default_string_setting( const char *settings_name,
+        const char *default_value )
+{
+    JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+    jobject activity = ( jobject )GetAndroidActivity();
+    jclass clazz( env->GetObjectClass( activity ) );
+    jmethodID method_id = env->GetMethodID( clazz, "getDefaultStringSetting",
+                                            "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;" );
+    jstring settings_name_arg = env->NewStringUTF( settings_name );
+    jstring default_value_arg = env->NewStringUTF( default_value );
+    jstring result = static_cast<jstring>( env->CallObjectMethod(
+            activity, method_id, settings_name_arg, default_value_arg ) );
+    const char *result_chars = result != nullptr ? env->GetStringUTFChars( result, nullptr ) : nullptr;
+    std::string ans = result_chars != nullptr ? result_chars : default_value;
+    if( result_chars != nullptr ) {
+        env->ReleaseStringUTFChars( result, result_chars );
+    }
+    if( result != nullptr ) {
+        env->DeleteLocalRef( result );
+    }
+    env->DeleteLocalRef( default_value_arg );
+    env->DeleteLocalRef( settings_name_arg );
+    env->DeleteLocalRef( activity );
+    env->DeleteLocalRef( clazz );
+    return ans;
+}
+
+void android_apply_system_ui_mode()
+{
+    JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+    jobject activity = ( jobject )GetAndroidActivity();
+    jclass clazz( env->GetObjectClass( activity ) );
+    jmethodID method_id = env->GetMethodID( clazz, "setSystemUiMode",
+                                            "(Ljava/lang/String;)V" );
+    jstring mode_arg = env->NewStringUTF(
+                           ::get_option<std::string>( "ANDROID_SYSTEM_UI_MODE" ).c_str() );
+    env->CallVoidMethod( activity, method_id, mode_arg );
+    env->DeleteLocalRef( mode_arg );
+    env->DeleteLocalRef( activity );
+    env->DeleteLocalRef( clazz );
 }
 #endif
 
@@ -2745,9 +2788,19 @@ void options_manager::add_options_graphics()
         get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "RENDERER", "software" );
 #endif
 
+        // Color-modulated textures are an SDL2-era speed-up that replaces
+        // RenderFillRect with a stretched 1x1 texture. Under SDL3 the renderer
+        // batches fills efficiently and the texture path blends differently, so
+        // the saved value is ignored at startup and the option is hidden; the ID
+        // is retained so existing configs still parse.
+#if defined(USE_SDL3)
+        const options_manager::copt_hide_t color_modulated_hide = COPT_ALWAYS_HIDE;
+#else
+        const options_manager::copt_hide_t color_modulated_hide = COPT_CURSES_HIDE;
+#endif
         add( "USE_COLOR_MODULATED_TEXTURES", page_id, to_translation( "Use color modulated textures" ),
              to_translation( "If true, tries to use color modulated textures to speed-up ASCII drawing.  Requires restart." ),
-             false, COPT_CURSES_HIDE
+             false, color_modulated_hide
            );
 
         add( "SCALING_MODE", page_id, to_translation( "Scaling mode" ),
@@ -2926,6 +2979,28 @@ void options_manager::add_options_android()
          to_translation( "If true, quicksave whenever the app loses focus (screen locked, app moved into background etc.)  WARNING: Experimental.  This may result in corrupt save games." ),
          false
        );
+
+    add_empty_line();
+
+    add_option_group( "android", Group( "android_display_opts",
+                                        to_translation( "Android display options" ),
+                                        to_translation( "Options regarding Android system bars and display insets." ) ),
+    [&]( const std::string & page_id ) {
+        add( "ANDROID_SYSTEM_UI_MODE", page_id, to_translation( "Android system bars" ),
+             to_translation( "Controls whether Android status and navigation bars are visible and whether the game may draw behind them.  This does not control Back button handling." ),
+        {
+            { "system_bars", to_translation( "Show system bars" ) },
+            { "fullscreen", to_translation( "Fullscreen" ) },
+            { "edge_to_edge", to_translation( "Edge-to-edge fullscreen" ) }
+        },
+        android_get_default_string_setting( "Android system UI mode", "system_bars" )
+           );
+
+        add( "ANDROID_RENDER_SAFE_AREA", page_id, to_translation( "Confine display to safe area" ),
+             to_translation( "If true, keep the game within the screen's safe area so it does not draw under the camera cutout or other unsafe edges.  If false, the game fills the entire screen.  This does not show or hide Android system bars." ),
+             true
+           );
+    } );
 
     add_empty_line();
 
@@ -3725,7 +3800,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 case ItemType::GroupHeader:
                     return true;
                 case ItemType::Option:
-                    return groups_state[curr_item.group];
+                    return groups_state[curr_item.group]
+                    && !get_options().get_option( curr_item.data ).is_hidden();
                 default:
                     cata_fatal( "invalid ItemType" );
             }
@@ -3916,6 +3992,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 world_generator->active_world->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
                 world_generator->active_world->save();
             }
+#if defined(__ANDROID__)
+            android_apply_system_ui_mode();
+#endif
             g->on_options_changed();
         } else {
             lang_changed = false;
@@ -4119,6 +4198,9 @@ void options_manager::load()
 
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
+#endif
+#if defined(__ANDROID__)
+    android_apply_system_ui_mode();
 #endif
 }
 

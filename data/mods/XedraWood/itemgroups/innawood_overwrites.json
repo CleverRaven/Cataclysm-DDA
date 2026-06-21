@@ -1,0 +1,20 @@
+[
+  {
+    "type": "item_group",
+    "id": "shirts",
+    "subtype": "distribution",
+    "entries": [ { "item": "shirt_straw", "prob": 80 }, { "item": "vest_leather", "prob": 10 }, { "item": "poncho", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "preserved_food",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "dry_meat_preserved_in_sack", "prob": 10 },
+      { "group": "dry_fish_preserved_in_sack", "prob": 10 },
+      { "group": "dry_veggy_preserved_in_sack", "prob": 10, "count": 2 },
+      { "group": "dry_corn_preserved_in_sack", "prob": 1 },
+      { "group": "dry_fruit_preserved_in_sack", "prob": 10 }
+    ]
+  }
+]

@@ -512,7 +512,7 @@
     "time": "90 m",
     "qualities": [ { "id": "SMOOTH", "level": 1 } ],
     "components": [ [ [ "alien_pod_resin", 2 ] ] ],
-    "pre_special": "check_empty",
+    "pre_special": "check_support",
     "post_terrain": "t_floor_resin"
   },
   {

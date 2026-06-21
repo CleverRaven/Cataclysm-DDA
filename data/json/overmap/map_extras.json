@@ -395,6 +395,14 @@
     "flags": [ "CLASSIC", "WATER" ]
   },
   {
+    "id": "mx_failed_fungal_spore",
+    "type": "map_extra",
+    "name": { "str": "Traces of alien fungus" },
+    "description": "Area infected with dormant fungus.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_failed_fungal_spore" },
+    "min_max_zlevel": [ 0, 0 ]
+  },
+  {
     "id": "mx_trees",
     "type": "map_extra",
     "name": { "str": "Stand of trees" },

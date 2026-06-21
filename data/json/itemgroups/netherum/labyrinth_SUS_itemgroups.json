@@ -29,7 +29,7 @@
       [ "multitool", 10 ],
       [ "recharge_station", 10 ],
       [ "hand_crank_charger", 25 ],
-      { "item": "graphite", "prob": 10, "count": [ 1, 250 ] },
+      { "group": "graphite_small_bottle_part", "prob": 10 },
       [ "metal_file", 10 ],
       [ "clamp", 10 ],
       [ "sandpaper", 80 ],

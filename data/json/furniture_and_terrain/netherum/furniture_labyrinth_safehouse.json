@@ -56,7 +56,7 @@
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
         { "item": "plutonium", "count": [ 0, 3 ] },
-        { "item": "lead", "charges": [ 12, 18 ] },
+        { "item": "lead", "count": [ 12, 18 ] },
         { "item": "sheet_metal_small", "count": [ 10, 30 ] },
         { "item": "scrap_copper", "count": [ 25, 50 ] },
         { "item": "e_scrap", "count": [ 20, 40 ] },

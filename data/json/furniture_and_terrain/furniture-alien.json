@@ -291,7 +291,7 @@
         { "item": "scrap_copper", "count": [ 2, 12 ] },
         { "item": "exodii_computer", "count": [ 0, 1 ] },
         { "item": "exodii_motor", "count": [ 0, 1 ] },
-        { "item": "cable", "count": [ 0, 3 ] },
+        { "item": "cable", "count": [ 0, 2 ] },
         { "item": "exodii_scanner_dish", "count": [ 0, 1 ] }
       ]
     }
@@ -322,7 +322,7 @@
         { "item": "scrap_copper", "count": [ 2, 12 ] },
         { "item": "amplifier", "count": [ 0, 5 ] },
         { "item": "power_supply", "count": [ 0, 1 ] },
-        { "item": "cable", "count": [ 0, 5 ] }
+        { "item": "cable", "count": [ 0, 2 ] }
       ]
     }
   },
@@ -446,7 +446,7 @@
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
         { "item": "plutonium", "count": [ 0, 3 ] },
-        { "item": "lead", "charges": [ 12, 18 ] },
+        { "item": "lead", "count": [ 12, 18 ] },
         { "item": "sheet_metal_small", "count": [ 10, 30 ] },
         { "item": "scrap_copper", "count": [ 25, 50 ] },
         { "item": "e_scrap", "count": [ 20, 40 ] },
@@ -480,7 +480,7 @@
         { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
         { "item": "steel_armor", "count": [ 2, 4 ] },
         { "item": "plutonium", "count": [ 0, 3 ] },
-        { "item": "lead", "charges": [ 12, 18 ] },
+        { "item": "lead", "count": [ 12, 18 ] },
         { "item": "sheet_metal_small", "count": [ 10, 30 ] },
         { "item": "scrap_copper", "count": [ 25, 50 ] },
         { "item": "e_scrap", "count": [ 20, 40 ] },
@@ -516,7 +516,7 @@
         { "item": "pipe", "count": [ 0, 3 ] },
         { "item": "pipe_fittings", "count": [ 0, 3 ] },
         { "item": "plutonium", "count": [ 0, 3 ] },
-        { "item": "lead", "charges": [ 12, 18 ] },
+        { "item": "lead", "count": [ 12, 18 ] },
         { "item": "sheet_metal_small", "count": [ 10, 30 ] },
         { "item": "scrap_copper", "count": [ 12, 37 ] },
         { "item": "e_scrap", "count": [ 10, 20 ] },
@@ -550,7 +550,7 @@
         { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
         { "item": "sheet_metal", "count": [ 5, 10 ] },
         { "item": "plutonium", "count": [ 0, 3 ] },
-        { "item": "lead", "charges": [ 12, 18 ] },
+        { "item": "lead", "count": [ 12, 18 ] },
         { "item": "sheet_metal_small", "count": [ 10, 30 ] },
         { "item": "scrap_copper", "count": [ 12, 37 ] },
         { "item": "e_scrap", "count": [ 15, 30 ] },
@@ -580,7 +580,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "sheet_metal", "count": [ 0, 1 ] },
         { "item": "sheet_metal_small", "count": [ 4, 8 ] },
         { "item": "e_scrap", "count": [ 2, 6 ] },
@@ -612,7 +612,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "sheet_metal", "count": [ 0, 1 ] },
         { "item": "sheet_metal_small", "count": [ 4, 8 ] },
         { "item": "e_scrap", "count": [ 2, 6 ] },
@@ -645,7 +645,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 2, 5 ] },
         { "item": "amplifier", "count": [ 2, 5 ] },
@@ -674,7 +674,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 1, 3 ] },
         { "item": "amplifier", "count": [ 1, 3 ] },
@@ -703,7 +703,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 1, 3 ] },
         { "item": "amplifier", "count": [ 1, 3 ] },
@@ -732,7 +732,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 1, 3 ] },
         { "item": "amplifier", "count": [ 1, 3 ] },
@@ -757,7 +757,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 1, 3 ] },
         { "item": "amplifier", "count": [ 1, 3 ] },
@@ -934,7 +934,7 @@
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
         { "item": "plutonium", "count": [ 0, 3 ] },
-        { "item": "lead", "charges": [ 12, 18 ] },
+        { "item": "lead", "count": [ 12, 18 ] },
         { "item": "sheet_metal_small", "count": [ 10, 30 ] },
         { "item": "scrap_copper", "count": [ 12, 37 ] },
         { "item": "e_scrap", "count": [ 10, 20 ] },
@@ -962,7 +962,7 @@
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
         { "item": "plutonium", "count": [ 0, 3 ] },
-        { "item": "lead", "charges": [ 12, 18 ] },
+        { "item": "lead", "count": [ 12, 18 ] },
         { "item": "sheet_metal_small", "count": [ 10, 30 ] },
         { "item": "scrap_copper", "count": [ 12, 37 ] },
         { "item": "e_scrap", "count": [ 10, 20 ] },
@@ -1051,7 +1051,7 @@
         { "item": "uranium", "count": [ 10, 50 ] },
         { "item": "uran_cell", "charges": [ 10, 150 ] },
         { "item": "plutonium", "count": [ 0, 20 ] },
-        { "item": "lead", "charges": [ 12, 18 ] }
+        { "item": "lead", "count": [ 12, 18 ] }
       ]
     }
   },

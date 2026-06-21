@@ -115,5 +115,10 @@
       },
       { "u_add_trait": "EATER_SIXTH_SENSE" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "xe_test_remove_category",
+    "effect": [ { "u_lose_category": "URSINE" } ]
   }
 ]

@@ -2,6 +2,7 @@
 #include <cstddef>
 #include <functional>
 #include <list>
+#include <map>
 #include <set>
 #include <sstream>
 #include <string>
@@ -20,6 +21,8 @@
 #include "debug.h"
 #include "flag.h"
 #include "flat_set.h"
+#include "flexbuffer_json.h"
+#include "gun_mode.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
@@ -29,6 +32,7 @@
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "json.h"
+#include "json_loader.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "messages.h"
@@ -50,6 +54,9 @@ static const flag_id json_flag_CASING( "CASING" );
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 static const gun_mode_id gun_mode_BURST( "BURST" );
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
+static const gun_mode_id gun_mode_EXTRA( "EXTRA" );
+static const gun_mode_id gun_mode_REGULATED( "REGULATED" );
+static const gun_mode_id gun_mode_TGMODE( "TGMODE" );
 
 static const item_group_id Item_spawn_data_test_multimag_full_load( "test_multimag_full_load" );
 
@@ -71,12 +78,27 @@ static const itype_id itype_paper( "paper" );
 static const itype_id itype_robofac_gun( "robofac_gun" );
 static const itype_id itype_stanag30( "stanag30" );
 static const itype_id itype_sw_619( "sw_619" );
+static const itype_id itype_test_multimag_add_extra_mode_mod( "test_multimag_add_extra_mode_mod" );
+static const itype_id itype_test_multimag_aux_gun( "test_multimag_aux_gun" );
+static const itype_id itype_test_multimag_bad_pocket_gunmod( "test_multimag_bad_pocket_gunmod" );
+static const itype_id itype_test_multimag_capacity_gunmod( "test_multimag_capacity_gunmod" );
+static const itype_id
+itype_test_multimag_capacity_well_gunmod( "test_multimag_capacity_well_gunmod" );
+static const itype_id itype_test_multimag_consume_gunmod( "test_multimag_consume_gunmod" );
+static const itype_id
+itype_test_multimag_consume_gunmod_mult( "test_multimag_consume_gunmod_mult" );
+static const itype_id itype_test_multimag_consume_toolmod( "test_multimag_consume_toolmod" );
 static const itype_id itype_test_multimag_gun( "test_multimag_gun" );
 static const itype_id itype_test_multimag_gun_consume( "test_multimag_gun_consume" );
 static const itype_id itype_test_multimag_gun_integral_ammo( "test_multimag_gun_integral_ammo" );
 static const itype_id itype_test_multimag_gun_same_type( "test_multimag_gun_same_type" );
+static const itype_id itype_test_multimag_hide_all_mod( "test_multimag_hide_all_mod" );
+static const itype_id
+itype_test_multimag_hide_extra_mode_mod( "test_multimag_hide_extra_mode_mod" );
+static const itype_id itype_test_multimag_regulated_mod( "test_multimag_regulated_mod" );
 static const itype_id itype_test_multimag_tool_consume( "test_multimag_tool_consume" );
 static const itype_id itype_test_multimag_tool_factor( "test_multimag_tool_factor" );
+static const itype_id itype_test_multimag_tool_gunmod( "test_multimag_tool_gunmod" );
 static const itype_id itype_test_multimag_turret_gun( "test_multimag_turret_gun" );
 static const itype_id itype_test_multimag_vehicle_welder( "test_multimag_vehicle_welder" );
 static const itype_id itype_welding_wire_steel_tests_dupe( "welding_wire_steel_tests_dupe" );
@@ -1407,6 +1429,306 @@ TEST_CASE( "consume_shots_and_consume_tool_uses_drain_per_pocket",
         CHECK( welder.ammo_remaining_in_pocket( "power" ) == 95 );
         CHECK( welder.ammo_remaining_in_pocket( "oxygen" ) == 18 );
         CHECK( welder.ammo_remaining_in_pocket( "rod" ) == 4 );
+    }
+}
+
+TEST_CASE( "gunmod_supplies_per_mode_firing_requirements", "[multimag][consume][mod]" )
+{
+    clear_map();
+    map &here = get_map();
+    const tripoint_bub_ms pos = tripoint_bub_ms::zero;
+
+    item gun = make_multimag_consume_gun( 15, 100 );
+    REQUIRE( gun.put_in( item( itype_test_multimag_regulated_mod ),
+                         pocket_type::MOD ).success() );
+
+    GIVEN( "a gun mod that adds a REGULATED mode with its own per-pocket cost" ) {
+        THEN( "the added mode appears and DEFAULT is hidden" ) {
+            const std::map<gun_mode_id, gun_mode> modes = gun.gun_all_modes();
+            CHECK( modes.count( gun_mode_REGULATED ) == 1 );
+            CHECK( modes.count( gun_mode_DEFAULT ) == 0 );
+        }
+        WHEN( "fired in REGULATED mode" ) {
+            const int got = gun.consume_shots( gun_mode_REGULATED, 3, here, pos, nullptr );
+            THEN( "the mod's firing_requirements drive consumption, not DEFAULT" ) {
+                CHECK( got == 3 );
+                // 15 - 3*1
+                CHECK( gun.ammo_remaining_in_pocket( "ammo" ) == 12 );
+                // 100 - 3*1 (host DEFAULT would have drawn 5/shot)
+                CHECK( gun.ammo_remaining_in_pocket( "power" ) == 97 );
+            }
+        }
+        WHEN( "the hidden DEFAULT mode id is fired directly" ) {
+            const int got = gun.consume_shots( gun_mode_DEFAULT, 3, here, pos, nullptr );
+            THEN( "it is blocked and bills nothing, not the host DEFAULT cost" ) {
+                CHECK( got == 0 );
+                CHECK( gun.ammo_remaining_in_pocket( "ammo" ) == 15 );
+                CHECK( gun.ammo_remaining_in_pocket( "power" ) == 100 );
+            }
+        }
+    }
+}
+
+TEST_CASE( "gunmod_hide_modes_global_kill_switch", "[multimag][consume][mod]" )
+{
+    clear_map();
+    map &here = get_map();
+    const tripoint_bub_ms pos = tripoint_bub_ms::zero;
+
+    SECTION( "hiding every mode leaves the gun unfireable, not crashing" ) {
+        item gun = make_multimag_consume_gun( 15, 100 );
+        REQUIRE( gun.put_in( item( itype_test_multimag_hide_all_mod ),
+                             pocket_type::MOD ).success() );
+        CHECK( gun.gun_all_modes().empty() );
+        // No live mode: shot resolution refuses, consuming nothing.
+        CHECK( gun.shots_remaining( here, nullptr ) == 0 );
+        CHECK( gun.consume_shots( gun_mode_DEFAULT, 1, here, pos, nullptr ) == 0 );
+        CHECK( gun.ammo_remaining_in_pocket( "ammo" ) == 15 );
+        CHECK( gun.ammo_remaining_in_pocket( "power" ) == 100 );
+    }
+
+    SECTION( "one mod can hide a mode another mod added" ) {
+        item gun = make_multimag_consume_gun( 15, 100 );
+        REQUIRE( gun.put_in( item( itype_test_multimag_add_extra_mode_mod ),
+                             pocket_type::MOD ).success() );
+        REQUIRE( gun.gun_all_modes().count( gun_mode_EXTRA ) == 1 );
+        REQUIRE( gun.put_in( item( itype_test_multimag_hide_extra_mode_mod ),
+                             pocket_type::MOD ).success() );
+        CHECK( gun.gun_all_modes().count( gun_mode_EXTRA ) == 0 );
+    }
+}
+
+TEST_CASE( "gunmod_scales_integral_pocket_capacity", "[multimag][mod]" )
+{
+    clear_map();
+    item gun( itype_test_multimag_gun_integral_ammo );
+    const item_pocket *ammo_p = gun.pocket_by_id( "ammo" );
+    REQUIRE( ammo_p != nullptr );
+    REQUIRE_FALSE( ammo_p->ammo_types().empty() );
+    const ammotype at = *ammo_p->ammo_types().begin();
+    REQUIRE( ammo_p->ammo_capacity( at ) == 1 );
+
+    REQUIRE( gun.put_in( item( itype_test_multimag_capacity_gunmod ),
+                         pocket_type::MOD ).success() );
+
+    THEN( "the integral pocket capacity scales, including the reload-facing remaining" ) {
+        const item_pocket *scaled = gun.pocket_by_id( "ammo" );
+        REQUIRE( scaled != nullptr );
+        CHECK( scaled->ammo_capacity( at ) == 2 );
+        CHECK( scaled->remaining_ammo_capacity( at ) == 2 );
+        // the item-level API (used by reload/UI) reflects the scaling too
+        CHECK( gun.ammo_capacity( at ) == 2 );
+    }
+}
+
+TEST_CASE( "capacity_mods_reflected_in_item_name", "[multimag][mod]" )
+{
+    clear_map();
+    item gun( itype_test_multimag_gun_integral_ammo );
+    REQUIRE( gun.put_in( item( itype_test_multimag_capacity_gunmod ),
+                         pocket_type::MOD ).success() );
+    const std::string name = remove_color_tags( gun.display_name() );
+    INFO( name );
+    // the integral ammo pocket capacity doubles 1 -> 2; empty it shows as 0/2
+    CHECK( name.find( "0/2" ) != std::string::npos );
+}
+
+TEST_CASE( "capacity_mods_survive_save_load_roundtrip", "[multimag][mod]" )
+{
+    clear_map();
+    item gun( itype_test_multimag_gun_integral_ammo );
+    REQUIRE( gun.put_in( item( itype_test_multimag_capacity_gunmod ),
+                         pocket_type::MOD ).success() );
+    const item_pocket *ammo_p = gun.pocket_by_id( "ammo" );
+    REQUIRE( ammo_p != nullptr );
+    const ammotype at = *ammo_p->ammo_types().begin();
+    REQUIRE( ammo_p->ammo_capacity( at ) == 2 );
+
+    std::ostringstream os;
+    JsonOut jsout( os );
+    gun.serialize( jsout );
+    JsonValue jv = json_loader::from_string( os.str() );
+    item loaded;
+    loaded.deserialize( jv.get_object() );
+
+    // capacity_mult is not serialized; it must re-derive from the saved mod on load
+    const item_pocket *ammo2 = loaded.pocket_by_id( "ammo" );
+    REQUIRE( ammo2 != nullptr );
+    CHECK( ammo2->ammo_capacity( at ) == 2 );
+}
+
+TEST_CASE( "capacity_mod_overflow_grandfathered_on_removal", "[multimag][mod]" )
+{
+    clear_map();
+    item gun( itype_test_multimag_gun_integral_ammo );
+    REQUIRE( gun.put_in( item( itype_test_multimag_capacity_gunmod ),
+                         pocket_type::MOD ).success() );
+    item_pocket *ammo = gun.pocket_by_id( "ammo" );
+    REQUIRE( ammo != nullptr );
+    const ammotype at = *ammo->ammo_types().begin();
+    REQUIRE( ammo->ammo_capacity( at ) == 2 );
+    REQUIRE( ammo->insert_item( item( itype_9mm, calendar::turn, 1 ) ).success() );
+    REQUIRE( ammo->insert_item( item( itype_9mm, calendar::turn, 1 ) ).success() );
+    REQUIRE( ammo->remaining_ammo_capacity( at ) == 0 );
+
+    WHEN( "the boost mod is removed while the pocket is at the boosted fill" ) {
+        gun.remove_items_with( [&]( const item & it ) {
+            return it.typeId() == itype_test_multimag_capacity_gunmod;
+        } );
+        THEN( "capacity drops but contents are grandfathered and remaining clamps to 0" ) {
+            const item_pocket *ammo2 = gun.pocket_by_id( "ammo" );
+            REQUIRE( ammo2 != nullptr );
+            CHECK( ammo2->ammo_capacity( at ) == 1 );
+            CHECK( ammo2->remaining_ammo_capacity( at ) == 0 );
+            // item-level API: capacity drops and remaining clamps (no -1)
+            CHECK( gun.ammo_capacity( at ) == 1 );
+            CHECK( gun.remaining_ammo_capacity() == 0 );
+            int loaded = 0;
+            for( const item *it : ammo2->all_items_top() ) {
+                loaded += it->count();
+            }
+            CHECK( loaded == 2 );
+        }
+    }
+}
+
+TEST_CASE( "capacity_mods_on_magazine_well_diagnosed", "[multimag][mod]" )
+{
+    clear_map();
+    item gun( itype_test_multimag_gun_integral_ammo );  // "power" is a MAGAZINE_WELL
+    const std::string dmsg = capture_debugmsg_during( [&]() {
+        gun.put_in( item( itype_test_multimag_capacity_well_gunmod ), pocket_type::MOD );
+    } );
+    CHECK( dmsg.find( "not an integral MAGAZINE" ) != std::string::npos );
+}
+
+TEST_CASE( "mod_consumption_mods_override_per_pocket", "[multimag][consume][mod]" )
+{
+    clear_map();
+    map &here = get_map();
+    const tripoint_bub_ms pos = tripoint_bub_ms::zero;
+
+    SECTION( "gunmod set overrides a pocket's per-shot cost" ) {
+        item gun = make_multimag_consume_gun( 15, 100 );  // DEFAULT: ammo 1, power 5
+        REQUIRE( gun.put_in( item( itype_test_multimag_consume_gunmod ),
+                             pocket_type::MOD ).success() );
+        const int got = gun.consume_shots( gun_mode_DEFAULT, 2, here, pos, nullptr );
+        CHECK( got == 2 );
+        CHECK( gun.ammo_remaining_in_pocket( "ammo" ) == 13 );   // 1/shot untouched
+        CHECK( gun.ammo_remaining_in_pocket( "power" ) == 96 );  // set 2/shot -> 100 - 2*2
+    }
+
+    SECTION( "toolmod multiply scales a pocket's per-use cost" ) {
+        item tool = make_multimag_consume_tool( 12, 30 );  // well_a 2/use, well_b 1/use
+        REQUIRE( tool.put_in( item( itype_test_multimag_consume_toolmod ),
+                              pocket_type::MOD ).success() );
+        const int got = tool.consume_tool_uses( 3, here, pos, nullptr );
+        CHECK( got == 3 );
+        // well_a: max(1, round(2*0.5)) = 1 per use -> 12 - 3
+        CHECK( tool.ammo_remaining_in_pocket( "well_a" ) == 9 );
+        CHECK( tool.ammo_remaining_in_pocket( "well_b" ) == 27 );  // untouched
+    }
+}
+
+TEST_CASE( "mod_unknown_pocket_id_diagnosed_at_install", "[multimag][mod]" )
+{
+    clear_map();
+    item gun = make_multimag_consume_gun( 15, 100 );
+    const std::string dmsg = capture_debugmsg_during( [&]() {
+        gun.put_in( item( itype_test_multimag_bad_pocket_gunmod ), pocket_type::MOD );
+    } );
+    CHECK( dmsg.find( "unknown pocket id" ) != std::string::npos );
+    CHECK( dmsg.find( "nonexistent" ) != std::string::npos );
+}
+
+TEST_CASE( "consumption_mods_combine_order_independent", "[multimag][consume][mod]" )
+{
+    clear_map();
+    map &here = get_map();
+    const tripoint_bub_ms pos = tripoint_bub_ms::zero;
+
+    // Two mods on the power pocket: set 2 and multiply 0.5 -> 2*0.5 = 1 per shot,
+    // independent of install order.
+    auto power_drained = [&]( bool set_first ) -> int {
+        item gun = make_multimag_consume_gun( 15, 100 );
+        if( set_first )
+        {
+            REQUIRE( gun.put_in( item( itype_test_multimag_consume_gunmod ), pocket_type::MOD ).success() );
+            REQUIRE( gun.put_in( item( itype_test_multimag_consume_gunmod_mult ),
+                                 pocket_type::MOD ).success() );
+        } else
+        {
+            REQUIRE( gun.put_in( item( itype_test_multimag_consume_gunmod_mult ),
+                                 pocket_type::MOD ).success() );
+            REQUIRE( gun.put_in( item( itype_test_multimag_consume_gunmod ), pocket_type::MOD ).success() );
+        }
+        REQUIRE( gun.consume_shots( gun_mode_DEFAULT, 1, here, pos, nullptr ) == 1 );
+        return 100 - gun.ammo_remaining_in_pocket( "power" );
+    };
+
+    const int set_first = power_drained( true );
+    const int mult_first = power_drained( false );
+    CAPTURE( set_first, mult_first );
+    CHECK( set_first == 1 );
+    CHECK( mult_first == 1 );
+}
+
+TEST_CASE( "tool_gunmod_firing_requirements_is_not_own_consumption", "[multimag][consume][mod]" )
+{
+    clear_map();
+    map &here = get_map();
+    const tripoint_bub_ms pos = tripoint_bub_ms::zero;
+
+    // A TOOL+GUNMOD's mode_firing_requirements is the cost it imposes on its gun
+    // host, not its own tool consumption: the bare item is not a multimag host.
+    item tg( itype_test_multimag_tool_gunmod );
+    REQUIRE( tg.is_tool() );
+    REQUIRE( tg.is_gunmod() );
+    CHECK_FALSE( tg.uses_firing_requirements() );
+
+    SECTION( "installed on a gun, its mode draws the mod's per-pocket cost" ) {
+        item gun = make_multimag_consume_gun( 15, 100 );
+        REQUIRE( gun.put_in( item( itype_test_multimag_tool_gunmod ),
+                             pocket_type::MOD ).success() );
+        REQUIRE( gun.gun_all_modes().count( gun_mode_TGMODE ) == 1 );
+        const int got = gun.consume_shots( gun_mode_TGMODE, 2, here, pos, nullptr );
+        CHECK( got == 2 );
+        CHECK( gun.ammo_remaining_in_pocket( "ammo" ) == 13 );   // 15 - 2*1
+        CHECK( gun.ammo_remaining_in_pocket( "power" ) == 98 );  // 100 - 2*1 (DEFAULT would be 5)
+    }
+}
+
+TEST_CASE( "aux_gunmod_mode_blocked_on_multimag_host", "[multimag][consume][mod]" )
+{
+    clear_map();
+    map &here = get_map();
+    const tripoint_bub_ms pos = tripoint_bub_ms::zero;
+
+    item gun = make_multimag_consume_gun( 15, 100 );
+    REQUIRE( gun.put_in( item( itype_test_multimag_aux_gun ), pocket_type::MOD ).success() );
+
+    // The aux gun-gunmod contributes a mode whose gun_mode target is the aux item.
+    gun_mode_id aux_mode;
+    for( const std::pair<const gun_mode_id, gun_mode> &m : gun.gun_all_modes() ) {
+        if( m.second.target != &gun ) {
+            aux_mode = m.first;
+        }
+    }
+    REQUIRE_FALSE( aux_mode.is_empty() );
+
+    WHEN( "the aux mode is selected on the multimag host" ) {
+        THEN( "it is blocked: not fireable, host pockets untouched" ) {
+            CHECK( gun.firing_mode_blocked( aux_mode ) );
+            int consumed = -1;
+            // consume_shots intentionally debugmsgs once when refusing an aux mode.
+            const std::string dmsg = capture_debugmsg_during( [&]() {
+                consumed = gun.consume_shots( aux_mode, 1, here, pos, nullptr );
+            } );
+            CHECK( consumed == 0 );
+            CHECK( dmsg.find( "aux-gunmod" ) != std::string::npos );
+            CHECK( gun.ammo_remaining_in_pocket( "ammo" ) == 15 );
+            CHECK( gun.ammo_remaining_in_pocket( "power" ) == 100 );
+        }
     }
 }
 

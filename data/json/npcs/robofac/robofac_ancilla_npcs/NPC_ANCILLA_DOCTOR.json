@@ -6,7 +6,7 @@
     "gender": "male",
     "class": "NC_ANCILLA_DOCTOR",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_ANCILLA_DOCTOR",
     "faction": "no_faction"
   },

@@ -113,6 +113,10 @@
     "type": "json_flag"
   },
   {
+    "id": "ALLOWS_LEG_TENTACLES",
+    "type": "json_flag"
+  },
+  {
     "id": "ALLOWS_TALONS",
     "type": "json_flag"
   },
@@ -991,6 +995,11 @@
     "info": "This clothing will <good>protect</good> you from harm and withstand <info>a lot of abuse</info>.",
     "conflicts": [ "FRAGILE" ],
     "inherit": false
+  },
+  {
+    "id": "FAULT_ON_COMPLETION",
+    "//COMMENT": "Hardcoded application/removal.",
+    "type": "json_flag"
   },
   {
     "id": "SUN_GLASSES",

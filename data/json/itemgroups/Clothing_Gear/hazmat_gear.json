@@ -1,5 +1,73 @@
 [
   {
+    "id": "hazmat_suits",
+    "type": "item_group",
+    "//": "Various types of hazmat suits, without masks",
+    "items": [
+      { "collection": [ { "item": "cleansuit" }, { "item": "gloves_rubber" }, { "item": "boots_rubber" } ], "prob": 40 },
+      [ "hazmat_suit", 60 ]
+    ]
+  },
+  {
+    "id": "hazmat_masks",
+    "type": "item_group",
+    "//": "Full face protection worn with hazmat suits",
+    "items": [
+      { "collection": [ { "item": "glasses_safety" }, { "item": "mask_filter", "charges": [ 0, -1 ] } ], "prob": 40 },
+      {
+        "distribution": [
+          { "item": "mask_gas", "charges": [ 0, -1 ], "prob": 50 },
+          { "item": "mask_gas", "charges": [ 0, -1 ], "contents-group": "gasmask_inserts_in_use", "prob": 25 },
+          { "group": "gasmask_bag_full", "prob": 25 },
+          { "group": "gasmask_bag_used", "prob": 60 }
+        ],
+        "prob": 60
+      },
+      { "item": "mask_gas_half", "prob": 60, "charges": [ 0, -1 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "hazmat_mask",
+    "items": [
+      [ "mask_dust", 80 ],
+      { "item": "mask_filter", "prob": 20, "charges": [ 0, -1 ] },
+      {
+        "distribution": [
+          { "item": "mask_gas", "charges": [ 0, -1 ], "prob": 25 },
+          { "item": "mask_gas", "charges": [ 0, -1 ], "contents-group": "gasmask_inserts_in_use", "prob": 25 },
+          { "group": "gasmask_bag_full", "prob": 50 }
+        ],
+        "prob": 10
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "hazmat_torso",
+    "items": [ [ "cleansuit", 40 ], [ "technician_coveralls", 60 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "hazmat_boots",
+    "items": [ [ "boots_rubber", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "hazmat_gloves",
+    "items": [ [ "gloves_medical", 60 ], [ "gloves_rubber", 40 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "hazmat_full",
+    "items": [ [ "hazmat_suit", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "hazmat_eyes",
+    "items": [ [ "glasses_safety", 50 ] ]
+  },
+  {
     "id": "decontamination_room",
     "type": "item_group",
     "subtype": "collection",

@@ -62,9 +62,7 @@
       { "prob": 55, "group": "porkstick_bag_plastic_4" },
       { "prob": 50, "group": "nachos_bag_plastic_full" },
       { "prob": 40, "group": "chocpretzels_bag_plastic_3" },
-      { "prob": 25, "group": "popcorn_bag_plastic_4" },
-      { "prob": 35, "group": "popcorn2_bag_plastic_4" },
-      { "prob": 35, "group": "popcorn3_bag_plastic_4" },
+      { "prob": 95, "group": "popcorn_bag_various" },
       { "prob": 25, "group": "cracklins_bag_plastic_4" },
       { "prob": 25, "group": "fried_seeds_bag_plastic_4" }
     ]
@@ -399,24 +397,14 @@
   },
   {
     "type": "item_group",
-    "id": "popcorn_bag_plastic_4",
-    "subtype": "collection",
+    "id": "popcorn_bag_various",
+    "subtype": "distribution",
     "container-item": "bag_plastic_small",
-    "entries": [ { "item": "popcorn", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "popcorn2_bag_plastic_4",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "popcorn2", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "popcorn3_bag_plastic_4",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "popcorn3", "container-item": "null", "count": 4 } ]
+    "entries": [
+      { "item": "popcorn", "container-item": "null", "count": 4, "prob": 1 },
+      { "item": "popcorn2", "container-item": "null", "count": 4, "prob": 4 },
+      { "item": "popcorn3", "container-item": "null", "count": 4, "prob": 2 }
+    ]
   },
   {
     "type": "item_group",
@@ -538,10 +526,17 @@
   },
   {
     "type": "item_group",
-    "id": "protein_bar_box_small",
+    "id": "full_box_of_evacuation_protein_bar",
     "subtype": "collection",
     "container-item": "box_small",
     "entries": [ { "item": "protein_bar_evac", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "box_of_evacuation_protein_bar",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "protein_bar_evac", "count": [ 1, 12 ] } ]
   },
   {
     "type": "item_group",
@@ -636,7 +631,7 @@
     "subtype": "distribution",
     "id": "chewing_gum_full_nic",
     "container-item": { "item": "blister_pack_small", "variant": "blister_pack_gum" },
-    "items": [ { "item": "caff_gum", "count": 12 } ]
+    "items": [ { "item": "nic_gum", "count": 12 } ]
   },
   {
     "type": "item_group",

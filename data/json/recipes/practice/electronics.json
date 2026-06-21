@@ -13,7 +13,7 @@
     "proficiencies": [ { "proficiency": "prof_elec_soldering", "time_multiplier": 1, "skill_penalty": 0 } ],
     "autolearn": [ [ "electronics", 1 ] ],
     "book_learn": [ [ "mag_electronics", 0 ], [ "manual_electronics", 0 ] ],
-    "components": [ [ [ "cable", 5 ] ], [ [ "e_scrap", 2 ] ] ],
+    "components": [ [ [ "cable", 2 ] ], [ [ "e_scrap", 2 ] ] ],
     "using": [ [ "soldering_standard", 5 ] ]
   },
   {
@@ -34,7 +34,7 @@
       [ [ "voltmeter", -1 ], [ "multimeter", 1 ], [ "integrated_multimeter", 1 ] ],
       [ [ "antenna", -1 ], [ "circuit", -1 ], [ "element", -1 ], [ "light_bulb", -1 ], [ "motor_micro", -1 ] ]
     ],
-    "components": [ [ [ "cable", 10 ] ], [ [ "e_scrap", 5 ] ] ],
+    "components": [ [ [ "cable", 4 ] ], [ [ "e_scrap", 5 ] ] ],
     "byproducts": [ [ "e_scrap", 2 ] ],
     "using": [ [ "soldering_standard", 10 ] ]
   },
@@ -60,7 +60,7 @@
       [ [ "power_supply", -1 ] ],
       [ [ "amplifier", -1 ], [ "element", -1 ], [ "receiver", -1 ], [ "transponder", -1 ] ]
     ],
-    "components": [ [ [ "cable", 20 ] ], [ [ "e_scrap", 10 ] ], [ [ "circuit", 1 ] ] ],
+    "components": [ [ [ "cable", 7 ] ], [ [ "e_scrap", 10 ] ], [ [ "circuit", 1 ] ] ],
     "byproducts": [ [ "e_scrap", 5 ] ],
     "using": [ [ "soldering_standard", 20 ] ]
   },
@@ -88,7 +88,7 @@
       [ [ "processor", -1 ] ],
       [ [ "amplifier", -1 ], [ "receiver", -1 ], [ "transponder", -1 ] ]
     ],
-    "components": [ [ [ "cable", 40 ] ], [ [ "e_scrap", 20 ] ], [ [ "circuit", 2 ] ] ],
+    "components": [ [ [ "cable", 7 ] ], [ [ "e_scrap", 20 ] ], [ [ "circuit", 2 ] ] ],
     "byproducts": [ [ "e_scrap", 10 ] ],
     "using": [ [ "soldering_standard", 40 ] ]
   }

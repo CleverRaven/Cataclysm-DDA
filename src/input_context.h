@@ -95,6 +95,29 @@ class input_context
             register_action( "toggle_language_to_en" );
         }
 
+        // Make a persistent input_context the stack top for this scope, so the
+        // Android shortcut bar (which reads the stack top) shows its actions
+        // even when the screen redraws before polling input.
+        class scoped_activation
+        {
+            public:
+                explicit scoped_activation( input_context &ctx ) {
+                    ( void )ctx;
+#if defined(__ANDROID__) || defined(TILES)
+                    input_context_stack.push( ctx.handle );
+#endif
+                }
+                ~scoped_activation() {
+#if defined(__ANDROID__) || defined(TILES)
+                    input_context_stack.pop();
+#endif
+                }
+                scoped_activation( const scoped_activation & ) = delete;
+                scoped_activation &operator=( const scoped_activation & ) = delete;
+                scoped_activation( scoped_activation && ) = delete;
+                scoped_activation &operator=( scoped_activation && ) = delete;
+        };
+
         input_context( const input_context &other ) {
             reassign( other );
         }

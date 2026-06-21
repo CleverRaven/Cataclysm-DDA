@@ -1619,11 +1619,22 @@ static void craft_actualize_ready( item &craft, time_point now, const item_locat
         return;
     }
 
+    // Verify before debit so a rejected closure does not burn charges first.
+    Character *consumer = resolve_consume_crafter( craft, loc );
+    if( consumer != nullptr ) {
+        const step_source_context src = resolve_step_source( craft, loc );
+        if( !consumer->verify_step_tools( craft, step_idx, src.origin, src.radius,
+                                          /*pin_to_map=*/src.present_char == nullptr ) ) {
+            craft_enter_env_pause( craft, now, loc );
+            return;
+        }
+    }
+
     // Drain the step's charged tools to current progress (the full allocation at
     // completion); a shortfall re-pauses.  Runs before the restored-but-not-ready
     // return below, since craft_check_env_step only restores on qualities: a pause
     // for missing charges must not clear while the charges are still short.
-    if( Character *consumer = resolve_consume_crafter( craft, loc ) ) {
+    if( consumer != nullptr ) {
         if( !consumer->craft_consume_passive_step_tools( craft, now, loc ) ) {
             craft_enter_env_pause( craft, now, loc );
             return;
@@ -1762,11 +1773,24 @@ void craft_stamp_passive_entry( item &craft, const Character &crafter, time_poin
     craft.set_passive_started_at( entry_time );
     craft.set_ready_at( entry_time + time_duration::from_moves( step_moves ) );
     if( cur_step.max_time.has_value() ) {
-        time_duration fail_dur = *cur_step.max_time;
-        if( cur_step.grace_period.has_value() ) {
-            fail_dur += *cur_step.grace_period;
-        }
-        craft.set_fail_at( entry_time + fail_dur );
+        const int batch = craft.get_making_batch_size();
+        const time_duration raw_max = *cur_step.max_time;
+        const time_duration raw_fail = raw_max + cur_step.grace_period.value_or( 0_turns );
+        // Scale max_time+grace by batch like ready_at, ignoring tool/prof
+        // speed.  One apply() call: linear setup offset is not distributive.
+        const int64_t fail_moves = static_cast<int64_t>( cur_step.batch_info.apply(
+                                       static_cast<double>( to_moves<int64_t>( raw_fail ) ), batch ) );
+        const int64_t max_moves = static_cast<int64_t>( cur_step.batch_info.apply(
+                                      static_cast<double>( to_moves<int64_t>( raw_max ) ), batch ) );
+        time_point fail_pt = entry_time + time_duration::from_moves( fail_moves );
+        // Keep ruin strictly after completion; grace window is the marginal
+        // scaled difference, or a floor when there is no grace_period.
+        const int64_t grace_moves = fail_moves - max_moves;
+        const time_duration min_window = grace_moves > 0
+                                         ? time_duration::from_moves( grace_moves )
+                                         : 1_turns;
+        fail_pt = std::max( fail_pt, craft.get_ready_at() + min_window );
+        craft.set_fail_at( fail_pt );
     }
     if( plan.choice == step_choice::set_timer && plan.alarm_offset.has_value() ) {
         craft.set_alarm_at( entry_time + *plan.alarm_offset );
@@ -2330,6 +2354,12 @@ bool item::handle_craft_failure( Character &crafter )
         return false;
     }
 
+    // The completed result will have a crafting defect (if any are defined).
+    // TODO: Change this into either-fault-or-damage-and-progress-loss, instead of both. Once crafting defects have wider adoption.
+    if( !has_flag( flag_FAULT_ON_COMPLETION ) ) {
+        set_flag( flag_FAULT_ON_COMPLETION );
+    }
+
     const double success_roll = crafter.crafting_failure_roll( get_making() );
     const int starting_components = this->components.size();
     // Destroy at most 75% of the components, always a chance of losing 1 though
@@ -2536,6 +2566,7 @@ void Character::complete_craft( item &craft, const std::optional<tripoint_bub_ms
     item_components &used = craft.components;
     const double relative_rot = craft.get_relative_rot();
     const bool should_heat = making.hot_result();
+    const bool add_faults_to_results = craft.has_flag( flag_FAULT_ON_COMPLETION );
     std::vector<item> newits;
 
     if( making.is_practice() ) {
@@ -2543,6 +2574,11 @@ void Character::complete_craft( item &craft, const std::optional<tripoint_bub_ms
         // practice recipes don't produce a result item
     } else if( !making.result().is_null() ) {
         newits = making.create_results( batch_size, &used );
+        if( add_faults_to_results ) {
+            for( item &craft_result : newits ) {
+                craft_result.set_random_fault_of_type( "crafting_defect" );
+            }
+        }
         // only wield crafted items if there's only one
         bool allow_wield = newits.size() == 1;
         spawn_items( *this, newits, loc, relative_rot, should_heat, allow_wield );
@@ -3571,7 +3607,7 @@ static int step_buckets_for_fraction( double f )
 }
 
 bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &targets,
-        int active_step, const tripoint_bub_ms &origin, int radius, bool pin_to_map )
+        const tripoint_bub_ms &origin, int radius, bool pin_to_map )
 {
     std::vector<std::vector<step_tool_alloc>> allocs = craft.get_step_tool_allocs();
 
@@ -3599,10 +3635,10 @@ bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &
         for( int a = 0; a < static_cast<int>( allocs[s].size() ); ++a ) {
             step_tool_alloc &alloc = allocs[s][a];
             if( alloc.sel.comp.count <= 0 ) {
-                // step_buckets_for_fraction reaches 20 before the step is ready,
-                // so a tool removed after its last bucket must still be re-checked
-                // here or the final true-up would finish using a tool that is gone.
-                if( s == active_step ? tgt > 0 : tgt > alloc.consumed_buckets ) {
+                // Re-check non-charged tool presence on bucket transitions only;
+                // verify_step_tools sweeps the step at completion to catch a
+                // tool removed within the final bucket.
+                if( tgt > alloc.consumed_buckets ) {
                     presence.push_back( { alloc.sel.comp.type, s, a, tgt } );
                 }
                 continue;
@@ -3638,8 +3674,6 @@ bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &
 
     // Aggregate the required charges per tool type, then preflight, so shared
     // pools cannot pass per-alloc yet fail in total.
-    inventory map_inv;
-    map_inv.form_from_map( origin, radius, this );
     std::map<itype_id, int> need_player;
     std::map<itype_id, int> need_map;
     std::map<itype_id, int> need_both;
@@ -3659,11 +3693,23 @@ bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &
                 break;
         }
     }
+    // form_from_map is expensive in dense areas; defer it until a map-sourced
+    // check actually needs it.  Active crafts with player-held tools never hit
+    // need_map and pin_to_map=false, so the inventory is never built.
+    std::optional<inventory> map_inv;
+    const auto get_map_inv = [&]() -> const inventory & {
+        if( !map_inv )
+        {
+            map_inv.emplace();
+            map_inv->form_from_map( origin, radius, this );
+        }
+        return *map_inv;
+    };
     const auto shortfall = [&]( const std::map<itype_id, int> &need, int which ) -> bool {
         for( const std::pair<const itype_id, int> &n : need )
         {
             bool ok = which == 0 ? has_charges( n.first, n.second )
-            : which == 1 ? map_inv.has_charges( n.first, n.second )
+            : which == 1 ? get_map_inv().has_charges( n.first, n.second )
             : crafting_inventory().has_charges( n.first, n.second );
             if( !ok ) {
                 add_msg_player_or_npc(
@@ -3679,7 +3725,7 @@ bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &
     for( const pending_presence &p : presence ) {
         // Source the presence check the same way charges are: from the craft tile
         // when the crafter is out of reach, otherwise from the crafter.
-        const bool present = pin_to_map ? map_inv.has_tools( p.type, 1 )
+        const bool present = pin_to_map ? get_map_inv().has_tools( p.type, 1 )
                              : crafting_inventory().has_tools( p.type, 1 );
         if( !present ) {
             add_msg_player_or_npc(
@@ -3711,7 +3757,45 @@ bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &
     return true;
 }
 
-bool Character::craft_consume_step_tools( item &craft )
+bool Character::verify_step_tools( item &craft, int step_idx,
+                                   const tripoint_bub_ms &origin, int radius, bool pin_to_map )
+{
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return true;
+    }
+    const std::vector<std::vector<step_tool_alloc>> &allocs = craft.get_step_tool_allocs();
+    if( step_idx < 0 || step_idx >= static_cast<int>( allocs.size() ) ) {
+        return true;
+    }
+    std::optional<inventory> map_inv;
+    const auto get_map_inv = [&]() -> const inventory & {
+        if( !map_inv )
+        {
+            map_inv.emplace();
+            map_inv->form_from_map( origin, radius, this );
+        }
+        return *map_inv;
+    };
+    for( const step_tool_alloc &alloc : allocs[step_idx] ) {
+        if( alloc.sel.comp.count > 0 ) {
+            continue;
+        }
+        const bool present = pin_to_map ? get_map_inv().has_tools( alloc.sel.comp.type, 1 )
+                             : crafting_inventory().has_tools( alloc.sel.comp.type, 1 );
+        if( !present ) {
+            add_msg_player_or_npc(
+                _( "You no longer have the %s and can't continue crafting." ),
+                _( "<npcname> no longer has the %s and can't continue crafting." ),
+                item::nname( alloc.sel.comp.type ) );
+            // Resume must reselect; otherwise an OR alternative is unreachable.
+            craft.set_tools_to_continue( false );
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Character::craft_consume_step_tools( item &craft, const crafting_cost_context *cost_ctx )
 {
     if( has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -3724,7 +3808,13 @@ bool Character::craft_consume_step_tools( item &craft )
     const int cur_step = craft.get_current_step();
     const double cur_progress = craft.get_step_progress();
     const bool craft_done = craft.item_counter >= 10000000;
-    const crafting_cost_context ctx = crafting_cost_context::for_recipe( *this, rec );
+    // for_recipe rebuilds the nearby inventory and rescans qualities, too costly
+    // to run every turn in a dense base; lean on the caller's cache when given.
+    std::optional<crafting_cost_context> ctx_owned;
+    if( cost_ctx == nullptr ) {
+        ctx_owned = crafting_cost_context::for_recipe( *this, rec );
+    }
+    const crafting_cost_context &ctx = cost_ctx != nullptr ? *cost_ctx : *ctx_owned;
 
     std::vector<int> targets( n_steps, 0 );
     for( int s = 0; s < n_steps; ++s ) {
@@ -3740,7 +3830,7 @@ bool Character::craft_consume_step_tools( item &craft )
             targets[s] = step_buckets_for_fraction( budget > 0.0 ? cur_progress / budget : 1.0 );
         }
     }
-    return consume_step_tool_targets( craft, targets, rec.has_steps() ? cur_step : 0,
+    return consume_step_tool_targets( craft, targets,
                                       pos_bub(), PICKUP_RANGE, /*pin_to_map=*/false );
 }
 
@@ -3784,7 +3874,7 @@ bool Character::craft_consume_passive_step_tools( item &craft, time_point now,
         }
     }
     const step_source_context src = resolve_step_source( craft, loc );
-    return consume_step_tool_targets( craft, targets, cur_step, src.origin, src.radius,
+    return consume_step_tool_targets( craft, targets, src.origin, src.radius,
                                       /*pin_to_map=*/src.present_char == nullptr );
 }
 

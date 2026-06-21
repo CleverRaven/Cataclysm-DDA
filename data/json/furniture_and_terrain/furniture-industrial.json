@@ -15,7 +15,7 @@
       "str_max": 150,
       "sound_fail": "clang!",
       "items": [
-        { "item": "cable", "count": [ 0, 4 ] },
+        { "item": "cable", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 8, 12 ] },
         { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "metal_tank_little", "count": [ 0, 2 ] },
@@ -26,7 +26,7 @@
     },
     "deconstruct": {
       "items": [
-        { "item": "cable", "count": [ 4, 8 ] },
+        { "item": "cable", "count": [ 2, 3 ] },
         { "item": "lc_steel_chunk", "count": [ 4, 6 ] },
         { "item": "scrap", "count": [ 12, 16 ] },
         { "item": "metal_tank_little", "count": [ 2, 4 ] },
@@ -98,7 +98,7 @@
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "lc_steel_chunk", "count": [ 1, 6 ] },
         { "item": "plutonium", "count": [ 0, 3 ] },
-        { "item": "lead", "charges": [ 12, 18 ] }
+        { "item": "lead", "count": [ 12, 18 ] }
       ]
     },
     "deconstruct": { "items": [ { "item": "compact_ASRG_containment", "count": 1 } ] }
@@ -326,7 +326,7 @@
         { "item": "motor_small", "prob": 40 },
         { "item": "processor", "count": 1 },
         { "item": "RAM", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "small_lcd_screen", "count": 1 },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "circuit", "count": [ 3, 8 ] },
@@ -422,9 +422,9 @@
       "str_max": 100,
       "sound": "shred!",
       "sound_fail": "thud!",
-      "items": [ { "item": "scrap_copper", "count": [ 1, 5 ] }, { "item": "cable", "count": [ 1, 4 ] } ]
+      "items": [ { "item": "scrap_copper", "count": [ 1, 5 ] }, { "item": "cable", "count": [ 1, 2 ] } ]
     },
-    "deconstruct": { "items": [ { "item": "cable", "count": [ 3, 4 ] } ] }
+    "deconstruct": { "items": [ { "item": "cable", "count": [ 1, 2 ] } ] }
   },
   {
     "type": "furniture",
@@ -445,13 +445,13 @@
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 10, 20 ] },
-        { "item": "cable", "count": [ 20, 100 ] },
+        { "item": "cable", "count": [ 7, 34 ] },
         { "item": "pipe", "count": [ 1, 2 ] }
       ]
     },
     "deconstruct": {
       "items": [
-        { "item": "cable", "count": [ 200, 800 ] },
+        { "item": "cable", "count": [ 67, 267 ] },
         { "item": "pipe_fittings", "count": [ 1, 2 ] },
         { "item": "pipe", "count": [ 2, 4 ] }
       ]
@@ -477,7 +477,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 100, 800 ] },
+        { "item": "cable", "count": [ 34, 267 ] },
         { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 0, 5 ] },
         { "item": "e_scrap", "count": [ 2, 8 ] },
@@ -506,7 +506,7 @@
         { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "processor", "count": 1 },
         { "item": "RAM", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "small_lcd_screen", "count": 1 },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "circuit", "count": [ 3, 8 ] },
@@ -566,7 +566,7 @@
         { "item": "uranium", "count": [ 10, 50 ] },
         { "item": "uran_cell", "charges": [ 10, 150 ] },
         { "item": "plutonium", "count": [ 0, 20 ] },
-        { "item": "lead", "charges": [ 12, 18 ] }
+        { "item": "lead", "count": [ 12, 18 ] }
       ]
     }
   },
@@ -591,7 +591,7 @@
       "items": [
         { "item": "scrap", "count": [ 1, 6 ] },
         { "item": "plastic_chunk", "count": [ 4, 8 ] },
-        { "item": "cable", "count": [ 2, 6 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "e_scrap", "count": [ 8, 12 ] }
       ]
     }
@@ -618,7 +618,7 @@
         { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "processor", "count": 1 },
         { "item": "RAM", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "small_lcd_screen", "count": 1 },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "circuit", "count": [ 3, 8 ] },

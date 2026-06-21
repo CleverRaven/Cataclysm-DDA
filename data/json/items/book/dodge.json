@@ -7,11 +7,7 @@
     "name": { "str": "Dance Dance Dance!", "str_pl": "issues of Dance Dance Dance!" },
     "description": "Learn the moves of the trendiest dances right now.",
     "variants": [
-      {
-        "id": "mag_dodge",
-        "name": { "str": "Dance Dance Dance!", "str_pl": "issues of Dance Dance Dance!" },
-        "description": "Learn the moves of the trendiest dances right now."
-      },
+      { "id": "mag_dodge", "//": "inherit name from item" },
       {
         "id": "mag_dodge_1",
         "name": { "str": "How Animals Move", "str_pl": "copies of How Animals Move" },
@@ -62,11 +58,7 @@
     "name": { "str": "The Book of Dances", "str_pl": "copies of The Book of Dances" },
     "description": "This massive antique book documents dances from all around the world in great detail.  A perceptive reader could learn a lot about defensive footwork from some of the war dances.",
     "variants": [
-      {
-        "id": "manual_dodge",
-        "name": { "str": "The Book of Dances", "str_pl": "copies of The Book of Dances" },
-        "description": "This massive antique book documents dances from all around the world in great detail.  A perceptive reader could learn a lot about defensive footwork from some of the war dances."
-      },
+      { "id": "manual_dodge", "//": "inherit name from item" },
       {
         "id": "manual_dodge_1",
         "name": { "str": "The Complete Book about Dodgeball", "str_pl": "copies of The Complete Book about Dodgeball" },
@@ -105,13 +97,9 @@
     "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Break a Leg!", "str_pl": "copies of Break a Leg!" },
-    "description": "The Kids' Guide to Acting and Stagecraft.",
+    "description": "\"The Kids' Guide to Acting and Stagecraft\".  This book is packed with engaging outdoor games, complete with rules, strategies, and tips for mastering each activity, along with some simple drills to train skills in an easy way.",
     "variants": [
-      {
-        "id": "manual_dodge_kid",
-        "name": { "str": "Break a Leg!", "str_pl": "copies of Break a Leg!" },
-        "description": "\"The Kids' Guide to Acting and Stagecraft\".  This book is packed with engaging outdoor games, complete with rules, strategies, and tips for mastering each activity, along with some simple drills to train skills in an easy way."
-      },
+      { "id": "manual_dodge_kid", "//": "inherit name from item" },
       {
         "id": "manual_dodge_kid_1",
         "name": { "str": "Self-defense for Your Child", "str_pl": "copies of Self-defense for Your Child" },
@@ -134,14 +122,10 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "category": "manuals",
-    "name": { "str": "Treasury of Legends about Western Dancing", "str_pl": "copies of Western Dancing" },
+    "name": { "str": "Treasury of Legends about Western Dancing", "str_pl": "copies of Treasury of Legends about Western Dancing" },
     "description": "Written by Emanuel Nogueira, a constabulario and historian of Nuevo Laredo, this massive book details the movements and cultural legacies of a variety of North American folk dances.",
     "variants": [
-      {
-        "id": "book_nonf_hard_dodge_tlwd",
-        "name": { "str": "Treasury of Legends about Western Dancing", "str_pl": "copies of Treasury of Legends about Western Dancing" },
-        "description": "Written by Emanuel Nogueira, a constabulario and historian of Nuevo Laredo, this massive book details the movements and cultural legacies of a variety of North American folk dances."
-      },
+      { "id": "book_nonf_hard_dodge_tlwd", "//": "inherit name from item" },
       {
         "id": "book_nonf_hard_dodge_tlwd_1",
         "name": { "str": "A Guide To Making Yourself A Hard Target", "str_pl": "copies of A Guide To Making Yourself A Hard Target" },

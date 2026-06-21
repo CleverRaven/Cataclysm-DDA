@@ -720,7 +720,7 @@ class Creature : public viewer
         virtual bool has_trait( const trait_id &flag ) const;
 
         // not-quite-stats, maybe group these with stats later
-        virtual int mod_pain( int npain );
+        virtual int mod_pain( int npain, bodypart_id bp = bodypart_id() );
         virtual void mod_pain_noresist( int npain );
         virtual void set_pain( int npain );
         virtual int get_pain() const;
@@ -1291,6 +1291,15 @@ class Creature : public viewer
 
         time_point last_updated;
 
+    public:
+        // if false, the message from this creature dying is not printed
+        bool death_message = true;
+        // if false, prevent creature from leaving any corpse after its death
+        bool spawn_corpse = true;
+        // drop everything this creature has in inventory
+        bool death_drops = true;
+
+    protected:
         bool fake = false;
         Creature();
         Creature( const Creature & );
