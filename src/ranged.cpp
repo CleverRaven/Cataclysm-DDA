@@ -3580,7 +3580,7 @@ void target_ui::set_last_target()
 bool target_ui::confirm_non_enemy_target()
 {
     // Check if you are casting a spell at yourself.
-    if( mode == TargetMode::Spell && ( src == dst || spell_aoe.count( src ) == 1 ) ) {
+    if( uistate.distraction_self_target && ( mode == TargetMode::Spell ) && ( src == dst || spell_aoe.count( src ) == 1 ) ) {
         if( !query_yn( _( "Really attack yourself?" ) ) ) {
             return false;
         }

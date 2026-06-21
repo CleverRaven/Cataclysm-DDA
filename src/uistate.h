@@ -218,6 +218,7 @@ class uistatedata
         bool distraction_noise = true;
         bool distraction_pain = true;
         bool distraction_attack = true;
+        bool distraction_self_target = true;
         bool distraction_hostile_close = true;
         bool distraction_hostile_spotted = true;
         bool distraction_conversation = true;

@@ -417,6 +417,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "distraction_noise", distraction_noise );
     json.member( "distraction_pain", distraction_pain );
     json.member( "distraction_attack", distraction_attack );
+    json.member( "distraction_self_target", distraction_self_target );
     json.member( "distraction_hostile_close", distraction_hostile_close );
     json.member( "distraction_hostile_spotted", distraction_hostile_spotted );
     json.member( "distraction_conversation", distraction_conversation );
@@ -511,6 +512,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "distraction_noise", distraction_noise );
     jo.read( "distraction_pain", distraction_pain );
     jo.read( "distraction_attack", distraction_attack );
+    jo.read( "distraction_self_target", distraction_self_target );
     jo.read( "distraction_hostile_close", distraction_hostile_close );
     jo.read( "distraction_hostile_spotted", distraction_hostile_spotted );
     jo.read( "distraction_conversation", distraction_conversation );

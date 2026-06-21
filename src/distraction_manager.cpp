@@ -33,6 +33,7 @@ static const std::vector<configurable_distraction> &get_configurable_distraction
         {&uistate.distraction_noise,           translate_marker( "Noise" ),                        translate_marker( "This distraction will interrupt your activity when you hear a noise." )},
         {&uistate.distraction_pain,            translate_marker( "Pain" ),                         translate_marker( "This distraction will interrupt your activity when you feel pain." )},
         {&uistate.distraction_attack,          translate_marker( "Attack" ),                       translate_marker( "This distraction will interrupt your activity when you're attacked." )},
+        {&uistate.distraction_self_target,     translate_marker( "Self target" ),                  translate_marker( "This distraction will interrupt your activity when you're targeting/attacking yourself." )},
         {&uistate.distraction_hostile_close,   translate_marker( "Hostile is dangerously close" ), translate_marker( "This distraction will interrupt your activity when a hostile comes within 5 tiles from you." )},
         {&uistate.distraction_hostile_spotted, translate_marker( "Hostile spotted" ),              translate_marker( "This distraction will interrupt your activity when you spot a hostile." )},
         {&uistate.distraction_conversation,    translate_marker( "Conversation" ),                 translate_marker( "This distraction will interrupt your activity when someone starts a conversation with you." )},
@@ -149,6 +150,7 @@ void distraction_manager_gui::show()
                 uistate.distraction_noise = toggle_state;
                 uistate.distraction_pain = toggle_state;
                 uistate.distraction_attack = toggle_state;
+                uistate.distraction_self_target = toggle_state;
                 uistate.distraction_hostile_close = toggle_state;
                 uistate.distraction_hostile_spotted = toggle_state;
                 uistate.distraction_conversation = toggle_state;
