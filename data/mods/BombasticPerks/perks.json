@@ -992,7 +992,10 @@
     "valid": false,
     "description": "Smoking is bad, but damn it's badass.  You deal more damage and shoot more accurately when you smoke.",
     "enchantments": [
-      { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.25 } ] },
+      {
+        "condition": { "u_has_effect": "cig" },
+        "melee_damage_bonus": [ { "type": "bash", "multiply": 0.25 }, { "type": "stab", "multiply": 0.25 }, { "type": "cut", "multiply": 0.25 } ]
+      },
       { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.25 } ] }
     ]
   },
@@ -1144,7 +1147,8 @@
             { "not": { "u_has_effect": "effect_perk_rage_against_the_unnatural_penalty" } }
           ]
         },
-        "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.35 }, { "value": "ARMOR_ALL", "multiply": -0.15 } ]
+        "melee_damage_bonus": [ { "type": "bash", "multiply": 0.35 }, { "type": "stab", "multiply": 0.35 }, { "type": "cut", "multiply": 0.35 } ],
+        "values": [ { "value": "ARMOR_ALL", "multiply": -0.15 } ]
       }
     ]
   },
@@ -1307,7 +1311,11 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "MELEE_DAMAGE", "multiply": { "math": [ "u_effect_intensity('bleed') * 0.05" ] } } ]
+        "melee_damage_bonus": [
+          { "type": "bash", "multiply": { "math": [ "u_effect_intensity('bleed') * 0.05" ] } },
+          { "type": "stab", "multiply": { "math": [ "u_effect_intensity('bleed') * 0.05" ] } },
+          { "type": "cut", "multiply": { "math": [ "u_effect_intensity('bleed') * 0.05" ] } }
+        ]
       }
     ]
   },
