@@ -1211,7 +1211,7 @@
           },
           { "set_string_var": "perk_fencing_footwork", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have melee 5,  dexterity 10, and fencing weapon proficiency",
+            "set_string_var": "Must have melee 5, dexterity 10, and fencing weapon proficiency",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -1225,6 +1225,25 @@
               ]
             }
           }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_fish_in_water" } },
+        "text": "Gain [<trait_name:perk_fish_in_water>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_fish_in_water>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_fish_in_water>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_fish_in_water", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have athletics 4",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('swimming') >= 4" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },

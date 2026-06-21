@@ -721,6 +721,21 @@
   },
   {
     "type": "mutation",
+    "id": "perk_fish_in_water",
+    "name": { "str": "Like a Fish in the Water" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "So unremarkable that there's no proverb about it.  When in deep water, your stamina regeneration is doubled, and you can swim 25% faster.",
+    "enchantments": [
+      {
+        "condition": { "and": [ { "u_is_on_terrain_with_flag": "SWIMMABLE" }, { "u_is_on_terrain_with_flag": "DEEP_WATER" } ] },
+        "values": [ { "value": "REGEN_STAMINA", "multiply": 1 }, { "value": "MOVECOST_SWIM_MOD", "multiply": -0.25 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_artifact_resonance_detection",
     "name": { "str": "Nether Resonator" },
     "points": 0,
