@@ -15,14 +15,9 @@
     "abstract": "4x4_car_abstract_dwarf_modded",
     "type": "vehicle",
     "name": "4x4 Car",
-"copy-from": "4x4_car_abstract",
+    "copy-from": "4x4_car_abstract",
     "parts": [
-      {
-        "x": 0,
-        "y": 0,
-        "parts": [ "controls", "pedal_extenders", "integrated_heater_small", "dashboard", "vehicle_alarm" ]
-      }
-    ],
+      { "x": 0, "y": 0, "parts": [ "controls", "pedal_extenders", "integrated_heater_small", "dashboard", "vehicle_alarm" ] }
     ]
   },
   {
