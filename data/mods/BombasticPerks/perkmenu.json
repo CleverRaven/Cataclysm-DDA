@@ -1201,6 +1201,30 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_fencing_footwork" } },
+        "text": "Gain [<trait_name:perk_fencing_footwork>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_fencing_footwork>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_fencing_footwork>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_fencing_footwork", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have melee 5 and dexterity 10",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [ { "math": [ "u_skill('melee') >= 5" ] }, { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus') >= 10" ] } ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_artifact_resonance_detection" } },
         "text": "Gain [<trait_name:perk_artifact_resonance_detection>]",
         "effect": [

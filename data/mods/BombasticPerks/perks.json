@@ -703,6 +703,24 @@
   },
   {
     "type": "mutation",
+    "id": "perk_fencing_footwork",
+    "name": { "str": "Fancy Footwork" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": {
+      "str": "Ho!  Ha-Ha!  Guard!  Turn!  Parry!  Dodge!  Spin!  Ha!  Thrust!  When wielding a fencing weapon, you gain +1 bonus dodge and slightly reduced move cost on flat terrain.",
+      "//~": "The beginning of this description is a reference to the Looney Tunes short 'Robin Hood Daffy' "
+    },
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_weapon_category": "FENCING" },
+        "values": [ { "value": "BONUS_DODGE", "add": 1 }, { "value": "MOVECOST_FLATGROUND_MOD", "multiply": -0.05 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_artifact_resonance_detection",
     "name": { "str": "Nether Resonator" },
     "points": 0,
