@@ -8,6 +8,24 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_gain_dreamdross_from_dreams",
+    "name": [ "Harvested Dreams" ],
+    "desc": [ "Your dreams were harvested by a changeling for dreamdross, and cannot be harvested for a time after." ],
+    "rating": "mixed",
+    "enchantments": [ { "mutations": [ "BADTEMPER" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_stop_nether_conditions",
+    "name": [ "Dancer in the Endless Dark" ],
+    "desc": [ "You are immune to several deleterious otherworldly conditions." ],
+    "rating": "good",
+    "remove_message": "Your protection against otherworldly threats fades away.",
+    "blocks_effects": [ "taint", "tindrift", "darkness", "amigara", "teleglow", "attention", "evil" ],
+    "flags": [ "IMPERIAL_ROAD_TRAVELER" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_spring_reduce_scent",
     "name": [ "Scent of Fresh Flowers" ],
     "desc": [ "A sweet scent fills the air." ],
@@ -430,6 +448,16 @@
       },
       { "condition": { "is_season": "autumn" }, "values": [ { "value": "STEALTH_MODIFIER", "add": 33 } ] }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_stop_supernatural_healing",
+    "name": [ "Curse of the Recalcitrant Wound" ],
+    "desc": [ "Your skin itches." ],
+    "remove_message": "The itching of your skin fades.",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.667 } ] } ],
+    "flags": [ "BLOCK_SUPERNATURAL_HEALING" ]
   },
   {
     "type": "effect_type",
