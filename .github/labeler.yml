@@ -41,6 +41,10 @@ labels:
     matcher:
       body: "(\\s|^)#### Summary\\s*I18N +\".+\"\\s*(\n|$)"
 
+  - label: "<DO NOT MERGE>"
+    matcher:
+      body: ".*LLM.*"
+
   - label: "[C++]"
     matcher:
       files:
