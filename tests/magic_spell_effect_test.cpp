@@ -15,6 +15,7 @@
 #include "magic_spell_effect_helpers.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "messages.h"
 #include "npc.h"
 #include "player_helpers.h"
