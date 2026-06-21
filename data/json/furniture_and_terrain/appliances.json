@@ -868,7 +868,6 @@
     "name": { "str": "medium grid battery" },
     "flags": [ "APPLIANCE" ],
     "description": "A medium battery to store electrical power in a static power grid.",
-    "size": "5 L",
     "copy-from": "medium_storage_battery",
     "requirements": { "removal": { "time": "6 m" } },
     "variants": [ { "symbols": "B", "symbols_broken": "#" } ]
@@ -880,7 +879,6 @@
     "color": "light_red",
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "description": "A large battery to store electrical power in a static power grid.",
-    "size": "25 L",
     "copy-from": "storage_battery",
     "requirements": { "removal": { "time": "6 m" } },
     "variants": [ { "symbols": "B", "symbols_broken": "#" } ]
@@ -892,7 +890,6 @@
     "color": "red",
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "description": "A very large battery to store electrical power in a static power grid.",
-    "size": "50 L",
     "copy-from": "large_storage_battery",
     "requirements": { "removal": { "time": "6 m" } },
     "variants": [ { "symbols": "B", "symbols_broken": "#" } ]
@@ -906,7 +903,6 @@
     "color": "red",
     "flags": [ "APPLIANCE" ],
     "description": "A car battery wired into a static power grid.",
-    "size": "10 L",
     "item": "battery_car",
     "breaks_into": [
       { "item": "lead", "count": [ 1680, 2380 ] },
