@@ -456,7 +456,8 @@
       { "group": "military_papr_kit", "prob": 5 },
       { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
       { "item": "balthazar_radio", "prob": 1 },
-      { "group": "infantry_knives", "prob": 80 }
+      { "group": "infantry_knives", "prob": 80 },
+      { "group": "mod_haz_used", "prob": 5 }
     ]
   },
   {
@@ -471,7 +472,8 @@
       { "group": "gasmask_bag_full", "prob": 20 },
       { "group": "military_papr_kit", "prob": 5 },
       { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
-      { "group": "infantry_knives", "prob": 100 }
+      { "group": "infantry_knives", "prob": 100 },
+      { "group": "mod_haz_used", "prob": 5 }
     ]
   },
   {
@@ -788,7 +790,8 @@
       { "item": "briefcase", "prob": 5 },
       { "item": "survnote", "prob": 2 },
       { "item": "flight_helmet", "prob": 20, "ammo-item": "light_battery_cell", "charges": [ 0, 150 ] },
-      { "item": "mil_flight_suit", "prob": 20 }
+      { "item": "mil_flight_suit", "prob": 20 },
+      { "group": "mod_haz_packed", "prob": 15 }
     ]
   },
   {

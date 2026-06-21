@@ -387,7 +387,6 @@ const flag_id flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
 const flag_id flag_ZERO_WEIGHT( "ZERO_WEIGHT" );
 const flag_id flag_ZOOM( "ZOOM" );
 const flag_id flag_wooled( "wooled" );
-const flag_id flag_MOD_HAZ_HOOD ( "MOD_HAZ_HOOD" );
 const flag_id flag_MOD_HAZ_COAT ( "MOD_HAZ_COAT" );
 const flag_id flag_MOD_HAZ_HOOD ( "MOD_HAZ_BOOTS" );
 const flag_id flag_MOD_HAZ_HOOD ( "MOD_HAZ_PANTS" );

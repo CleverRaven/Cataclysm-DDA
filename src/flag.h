@@ -435,7 +435,6 @@ extern const flag_id flag_SOFT;
 extern const flag_id flag_HARD;
 extern const flag_id flag_SHREDDED;
 extern const flag_id flag_FROM_FROZEN_LIQUID;
-extern const flag_id flag_MOD_HAZ_HOOD;
 extern const flag_id flag_MOD_HAZ_GLOVES;
 extern const flag_id flag_MOD_HAZ_PANTS;
 extern const flag_id flag_MOD_HAZ_COAT;

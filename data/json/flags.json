@@ -3082,11 +3082,6 @@
     "info": "This item allows you to wear Hub 01 LENS accessories."
   },
   {
-    "id": "MOD_HAZ_HOOD",
-    "type": "json_flag",
-    "info": "This hood is part of, or can be used with, the JSLIST system.  It is required to take advantage of the radiation protective effects."
-  },
-  {
     "id": "MOD_HAZ_TORSO",
     "type": "json_flag",
     "info": "This overcoat is part of, or can be used with, the JSLIST system.  It is required to take advantage of the radiation protective effects."

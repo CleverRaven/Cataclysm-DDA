@@ -187,5 +187,22 @@
       { "item": "dog_tag", "prob": 40 },
       { "item": "id_LIXA_mil", "prob": 75 }
     ]
+  },
+  {
+    "id": "mon_zombie_soldier_acid_1_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 60,
+    "entries": [
+      { "group": "hazmat_soldier_set", "damage": [ 1, 4 ] },
+      { "group": "military_patrol_food", "prob": 30 },
+      { "item": "two_way_radio", "prob": 30 },
+      { "group": "wallets_military", "prob": 25 },
+      { "group": "military_patrol_food", "prob": 30 },
+      { "group": "pocket_cigar", "prob": 15 },
+      { "group": "misc_smoking_legal", "prob": 30 },
+      { "item": "dog_tag", "prob": 60 }
+    ]
   }
 ]
