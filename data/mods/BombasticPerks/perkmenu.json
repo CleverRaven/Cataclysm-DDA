@@ -1211,14 +1211,18 @@
           },
           { "set_string_var": "perk_fencing_footwork", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have melee 5 and dexterity 10",
+            "set_string_var": "Must have melee 5,  dexterity 10, and fencing weapon proficiency",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
           {
             "set_condition": "perk_condition",
             "condition": {
-              "and": [ { "math": [ "u_skill('melee') >= 5" ] }, { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus') >= 10" ] } ]
+              "and": [
+                { "math": [ "u_skill('melee') >= 5" ] },
+                { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus') >= 10" ] },
+                { "math": [ "u_proficiency('prof_fencing_weapons_pro', 'format': 'percent') >= 100" ] }
+              ]
             }
           }
         ],
