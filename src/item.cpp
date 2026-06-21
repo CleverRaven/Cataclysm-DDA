@@ -120,8 +120,6 @@ static const itype_id itype_craft( "craft" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_efile_photos( "efile_photos" );
 static const itype_id itype_efile_recipes( "efile_recipes" );
-static const itype_id itype_gasoline( "gasoline" );
-static const itype_id itype_gasoline_dead( "gasoline_dead" );
 static const itype_id itype_joint_lit( "joint_lit" );
 static const itype_id itype_stock_none( "stock_none" );
 
@@ -4857,12 +4855,6 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
                 }
             }
             return false;
-        }
-        if( typeId() == itype_gasoline ) {
-            if( calendar::turn - calendar::turn_zero >= time_duration::from_days(
-                    get_option<int>( "GASOLINE_SHELF_TIME" ) ) ) {
-                convert( itype_gasoline_dead, carrier );
-            }
         }
     }
     return false;
