@@ -31,7 +31,7 @@
     "bleed_rate": 80,
     "vision_day": 45,
     "vision_night": 55,
-    "harvest": "demihuman",
+    "harvest": "demihuman_sevenoclock",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [
       {
@@ -87,7 +87,7 @@
     "bleed_rate": 80,
     "vision_day": 45,
     "vision_night": 55,
-    "harvest": "demihuman",
+    "harvest": "demihuman_sevenoclock",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [
       {
@@ -141,7 +141,7 @@
     "bleed_rate": 40,
     "vision_day": 30,
     "vision_night": 30,
-    "harvest": "mutant_meatslug",
+    "harvest": "mutant_meatslug_deathworm",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [
       {
