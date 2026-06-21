@@ -4448,5 +4448,14 @@
     ],
     "max_intensity": 10,
     "rating": "mixed"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_withering_healing_down",
+    "name": [ "Withered" ],
+    "desc": [ { "str": "You feel strangely enervated." } ],
+    "rating": "bad",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.5 } ] } ]
   }
 ]

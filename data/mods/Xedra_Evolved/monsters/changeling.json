@@ -392,7 +392,7 @@
     ]
   },
   {
-    "id": "mon_march_lord",
+    "abstract": "mon_march_lord",
     "type": "MONSTER",
     "name": { "str": "March Lord" },
     "description": "Nearly seven feet tall and whip thin, this warlord of the border realm of the Nether is clothed in silks and silvery tightly woven chainmail.  It glares at you and an ethereal sword manifests in its hand.",
@@ -410,9 +410,8 @@
     "aggression": 50,
     "morale": 120,
     "melee_skill": 7,
-    "melee_dice": 8,
-    "melee_dice_sides": 3,
-    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "dodge": 5,
     "harvest": "fae_march_lord",
@@ -420,7 +419,7 @@
     "vision_day": 50,
     "vision_night": 6,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "hoary_blast_march_lord", "min_level": 5 }, "cooldown": 15 } ],
+    "special_attacks": [ { "id": "march_lord_sword_winter" } ],
     "death_drops": "changeling_lord_death_drops",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [
@@ -448,6 +447,37 @@
       "xe_cold_iron_bash_damage": 0,
       "xe_cold_iron_stab_damage": 0
     }
+  },
+  {
+    "id": "mon_march_lord_spring",
+    "copy-from": "mon_march_lord",
+    "speed": 120,
+    "special_attacks": [ { "id": "march_lord_sword_spring" } ],
+    "death_drops": "changeling_lord_spring_death_drops"
+  },
+  {
+    "id": "mon_march_lord_summer",
+    "copy-from": "mon_march_lord",
+    "speed": 160,
+    "special_attacks": [ { "id": "march_lord_sword_summer" } ],
+    "death_drops": "changeling_lord_summer_death_drops"
+  },
+  {
+    "id": "mon_march_lord_autumn",
+    "copy-from": "mon_march_lord",
+    "speed": 140,
+    "special_attacks": [ { "id": "march_lord_sword_autumn" } ],
+    "death_drops": "changeling_lord_autumn_death_drops"
+  },
+  {
+    "id": "mon_march_lord_winter",
+    "copy-from": "mon_march_lord",
+    "speed": 130,
+    "special_attacks": [
+      { "id": "march_lord_sword_winter" },
+      { "type": "spell", "spell_data": { "id": "hoary_blast_march_lord", "min_level": 5 }, "cooldown": 15 }
+    ],
+    "death_drops": "changeling_lord_winter_death_drops"
   },
   {
     "id": "mon_wild_huntsman",
