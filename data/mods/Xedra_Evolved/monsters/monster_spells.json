@@ -949,7 +949,7 @@
     "id": "touch_of_frailty_monster",
     "name": { "str": "Touch of Frailty monster", "//~": "NO_I18N" },
     "description": { "str": "Monster casts Touch of Frailty.", "//~": "NO_I18N" },
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "TOUCH_REQUIRED" ],
+    "flags": [ "SILENT", "NO_LEGS", "RANDOM_DURATION", "TOUCH_REQUIRED" ],
     "valid_targets": [ "hostile" ],
     "max_level": 1,
     "effect": "attack",

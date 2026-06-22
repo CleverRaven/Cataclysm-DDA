@@ -480,10 +480,10 @@
       {
         "id": "xe_march_lord_summon_plants",
         "type": "spell",
-        "spell_data": { "id": "summon_bashing_vine_changeling_monster", "min_level": 5 },
+        "spell_data": { "id": "summon_bashing_vine_changeling_monster" },
         "cooldown": 45,
         "condition": { "and": [ "npc_is_outside", { "npc_is_on_terrain_with_flag": "GRAZABLE" } ] },
-        "monster_message": "%1$s's gerstures and plants grow in moments."
+        "monster_message": "%1$s's gestures and plants grow in moments."
       }
     ],
     "death_drops": "changeling_lord_spring_death_drops",
