@@ -24,8 +24,8 @@
           "omt": "s_gas_rural",
           "map_update": "nest_RandEnc_ruralgas_jotunn",
           "map_removal": "nest_RandEnc_jotunn_remove",
-          "chance": 1,
-          "days_till_spawn": 0
+          "chance": 10,
+          "days_till_spawn": 7
         }
       }
     ]
