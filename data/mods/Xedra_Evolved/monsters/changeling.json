@@ -538,7 +538,7 @@
         "spell_data": { "id": "swirl_autumn_leaves_monster", "min_level": 0 },
         "cooldown": 50,
         "condition": { "not": { "u_has_effect": "effect_monster_swirl_of_autumn_leaves" } },
-        "monster_message": "%1$s gestures whirling colored leaves surround them."
+        "monster_message": "%1$s gestures and whirling colored leaves surround them."
       }
     ],
     "death_drops": "changeling_lord_autumn_death_drops",
@@ -562,7 +562,7 @@
         "type": "spell",
         "spell_data": { "id": "winter_silence_spell_monster" },
         "cooldown": 30,
-        "monster_message": "Snow forms around %1$s's hand as they gesture towards %31s."
+        "monster_message": "Snow forms around %1$s's hand as they gesture towards %3$s."
       }
     ],
     "death_drops": "changeling_lord_winter_death_drops"
