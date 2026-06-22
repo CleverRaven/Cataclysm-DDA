@@ -235,6 +235,9 @@ Charged tools can be used on unattended crafting steps
 Unattended liquid crafts wait for you to pour them
 Crafting faults
 Allows spawns offset from the origin like the beach, or deep in the forests to the west
+Make the three Luty SMG variants craftable
+Gun and tool mods can retune multimag host consumption, firing modes, and pocket capacity
+Remove Mutation Category EOC
 
 
 ## Content:
@@ -497,6 +500,8 @@ If the Exodii trust you enough they'll give you a Cyberframe
 Dimension: the Scarlet Sea
 Challenge - Labyrinth Bound
 Expanding zombie weakpoints with vitals
+Add recipie for 'counterweight_pouch'
+Add Flathub download link to packaging page
 
 
 ## Interface:
@@ -661,6 +666,8 @@ Migrate popups in vehicle interaction menu to ImGui
 Update to ImGui 1.91.9b
 Move appliance infobox to imgui
 Display some items by volume, weight or length instead of count
+Added 'taming' food information in monster extended description
+Fix Android virtual keyboard and quick shortcut bar on ImGui screens
 
 
 ## Mods:
@@ -1147,6 +1154,16 @@ XE Proficiency CBMs
 [BPerks/MM/Sorc] XP mods can level up more than once at a time
 Aftershock: Add industrial habitat building.
 Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
+[XedraWood] Giant bugs aren't mutants
+[XedraWood] Add bronze lamellar cuirass
+[XedraWood] Add magical tattoos and a profession that starts with them
+[XE] Fix the fruit's music lasting forever.
+[XedraWood] The Wise are literate, start with hedge magic recipes
+[MoM: Psychic Scream] Disable recurring power learning/awakening EoCs
+[Xedra Evolved] Make gaining dhampir powers less deterministic
+Aftershock: Achievements related to fighting NPC factions.
+[Xedra Evolved] Rework changeling advancement
+[Xedra Evolved] Regularize changeling goblin fruit glamours
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1296,6 +1313,10 @@ Nobody wants to cooperate with psychopaths
 Zombie corpses aren't useful
 Stepped many many weapon recipes
 Joint Torsion Ratchet CBM doesn't allow for perpetual motion cyborgs
+Add tainted human blood to the any_blood requirement
+Zero cost spells remain zero cost even if encumbered
+Allow copper ingots in 1l_copper recipe
+Updated ingot recipes with steps and realistic power
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1837,6 +1858,21 @@ Stop spamming player log when NPCs are hot
 Stop ref center guard EOCs from firing in alternate dimensions
 Uncomfortable limbs must exist
 Fix Android black screen after turning the screen off
+Batch crafts no longer vanish when an unattended step's timeout is shorter than the batch-scaled craft time
+Labyrinth treasure room terminals work, and don't crash
+[Xedra Evolved] Fix werewolf being able to use mutagen
+Fix feather volume and weight
+Correct Chem_Saltpetre spawns broken by de-charging
+Fixes the [zone crash bug #82524](https://github.com/CleverRaven/Cataclysm-DDA/issues/82524) by initializing a previously uninitialized variable.
+ token will be replaced with NPC name
+Fix var/mapgen-related labyrinth computer crash
+Fix black grid lines on the pixel minimap
+[Magiclysm] No ferals in the Last Mage on Earth shelter
+Fix use of detergent for washing
+[Xedra Evolved] Fix bearskin problems
+Hide AIM action menu
+Crash in any ImGui window on alt + F4
+Fix: Perk_melee doesn't initialize for NPC followers on switching
 
 
 ## Performance:
@@ -2133,6 +2169,9 @@ Upgrade vendored plf_colony and plf_list to latest upstream
 Ignore root dotfiles by default in .gitignore
 Consume crafting tools per recipe step
 Abort and quarantine tileset atlas uploads interrupted by a renderer reset
+Refactor pixel minimap drawing and guard null render targets
+Document that only non-solid comestibles are counted by charges
+Add shape variants to food truck fridge/freezer for Sprites
 
 
 ## Build:
@@ -2171,6 +2210,7 @@ Build instruction and files for Visual Studio Code
 Demote GCC 16 -Wsfinae-incomplete to warning
 Proper SDL support
 Migrate Android to SDL3 via CMake + prefab AAR; drop SDL2 customs; bump buildkit
+Fix Flatpak aarch64 Makefile builds
 
 
 ## I18N and A11Y:
