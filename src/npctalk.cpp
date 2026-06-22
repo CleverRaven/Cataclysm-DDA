@@ -6328,8 +6328,13 @@ void set_mortar_adjustment_ready_at( npc &gunner, const time_point &ready_at )
 bool mortar_spotting_feedback_pending( const npc &gunner, const tripoint_abs_ms &target )
 {
     for( const timed_event &event : get_timed_events().get_all() ) {
-        if( event.type == timed_event_type::MORTAR_SPOTTING_FEEDBACK &&
-            event.character == gunner.getID() && event.map_square == target ) {
+        if( event.type != timed_event_type::MORTAR_SPOTTING_FEEDBACK ||
+            event.map_square != target ) {
+            continue;
+        }
+        const mortar_spotting_feedback_event_data *feedback =
+            event.get_data<mortar_spotting_feedback_event_data>();
+        if( feedback != nullptr && feedback->gunner_id == gunner.getID() ) {
             return true;
         }
     }

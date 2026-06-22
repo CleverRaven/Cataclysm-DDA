@@ -3,6 +3,7 @@
 #define CATA_SRC_TIMED_EVENT_H
 
 #include <list>
+#include <memory>
 #include <string>
 
 #include "calendar.h"
@@ -44,6 +45,29 @@ enum class timed_event_type : int {
     NUM_TIMED_EVENT_TYPES
 };
 
+struct timed_event_data {
+    virtual ~timed_event_data() = default;
+};
+
+struct timed_event_target_data : timed_event_data {
+    tripoint_abs_ms target = tripoint_abs_ms::invalid;
+};
+
+struct timed_event_character_data : timed_event_data {
+    character_id character;
+};
+
+struct mortar_spotting_feedback_event_data : timed_event_data {
+    character_id gunner_id;
+    double accuracy_multiplier = 1.0;
+    double location_multiplier = 1.0;
+};
+
+struct mortar_field_event_data : timed_event_data {
+    int radius = 0;
+    int age_seconds = 0;
+};
+
 struct timed_event {
     timed_event_type type = timed_event_type::NONE;
     /** On which turn event should be happening. */
@@ -60,16 +84,8 @@ struct timed_event {
     std::string string_id;
     /** key to alter this event later */
     std::string key;
-    /** Optional secondary location used by event-specific logic. */
-    tripoint_abs_ms target = tripoint_abs_ms::invalid;
-    /** Optional character used by event-specific logic. */
-    character_id character;
-    /** Mortar spotting correction state, fixed when the shot is ordered. */
-    double mortar_feedback_accuracy_multiplier = 1.0;
-    double mortar_feedback_location_multiplier = 1.0;
-    /** Mortar field payload state, fixed when the shot is ordered. */
-    int mortar_field_radius = 0;
-    int mortar_field_age_seconds = 0;
+    /** Optional event-specific payload.  Handlers cast based on event type. */
+    std::unique_ptr<timed_event_data> data;
     /** specifically for EXPLOSION event */
     explosion_data expl_data;
 
@@ -92,6 +108,18 @@ struct timed_event {
     void actualize();
     // Every turn
     void per_turn();
+
+    template<typename T>
+    const T *get_data() const
+    {
+        return static_cast<const T *>( data.get() );
+    }
+
+    template<typename T>
+    T *get_data()
+    {
+        return static_cast<T *>( data.get() );
+    }
 };
 
 class timed_event_manager
