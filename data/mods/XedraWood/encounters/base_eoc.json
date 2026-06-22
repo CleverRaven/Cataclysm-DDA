@@ -1,7 +1,15 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_XE_RandEnc",
+    "id": "EOC_XedraWood_RandEnc_Set_Initial_RandEnc_Time",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": "u_is_avatar",
+    "effect": { "math": [ "u_timer_XedraWood_RandEnc = time('now')" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XedraWood_RandEnc",
     "//": "Just a copy of the base RandEnc so they can run concurrently",
     "condition": {
       "and": [
@@ -15,6 +23,7 @@
       ]
     },
     "effect": [
+      { "u_message": "lizardfolk encounter has met its conditions!" },
       { "mapgen_update": [ { "context_val": "map_update" } ], "om_terrain": { "context_val": "omt" } },
       { "math": [ "u_timer_XedraWood_RandEnc = time('now')" ] },
       {
