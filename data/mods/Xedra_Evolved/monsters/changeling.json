@@ -449,6 +449,7 @@
     }
   },
   {
+    "type": "MONSTER",
     "id": "mon_march_lord_spring",
     "copy-from": "mon_march_lord",
     "speed": 120,
@@ -456,6 +457,7 @@
     "death_drops": "changeling_lord_spring_death_drops"
   },
   {
+    "type": "MONSTER",
     "id": "mon_march_lord_summer",
     "copy-from": "mon_march_lord",
     "speed": 160,
@@ -463,6 +465,7 @@
     "death_drops": "changeling_lord_summer_death_drops"
   },
   {
+    "type": "MONSTER",
     "id": "mon_march_lord_autumn",
     "copy-from": "mon_march_lord",
     "speed": 140,
@@ -470,6 +473,7 @@
     "death_drops": "changeling_lord_autumn_death_drops"
   },
   {
+    "type": "MONSTER",
     "id": "mon_march_lord_winter",
     "copy-from": "mon_march_lord",
     "speed": 130,

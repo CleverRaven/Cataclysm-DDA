@@ -474,12 +474,6 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_mi_go",
-    "copy-from": "mon_mi_go",
-    "extend": { "armor": { "withering_damage": 14 } }
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_mi_go_slaver",
     "copy-from": "mon_mi_go_slaver",
     "extend": { "armor": { "withering_damage": 14 } }
@@ -564,12 +558,6 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_flaming_eye",
-    "copy-from": "mon_flaming_eye",
-    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_flying_polyp",
     "copy-from": "mon_flying_polyp",
     "extend": { "flags": [ "WITHERINGPROOF" ] }
@@ -588,12 +576,6 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_hound_tindalos",
-    "copy-from": "mon_hound_tindalos",
-    "extend": { "flags": [ "WITHERINGPROOF" ] }
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_hunting_horror",
     "copy-from": "mon_hunting_horror",
     "extend": { "flags": [ "WITHERINGPROOF" ] }
@@ -608,12 +590,6 @@
     "type": "MONSTER",
     "id": "mon_shadow_snake",
     "copy-from": "mon_shadow_snake",
-    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_shoggoth",
-    "copy-from": "mon_shoggoth",
     "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
   },
   {
