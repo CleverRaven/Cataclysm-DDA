@@ -450,20 +450,16 @@ item_location Character::i_add( item it, bool /* should_stack */, const item *av
     invalidate_leak_level_cache();
     item_location added = try_add( it, avoid, original_inventory_item, allow_wield,
                                    ignore_pkt_settings );
-    if( added == item_location::nowhere ) {
-        if( !allow_wield || !wield( it ) ) {
-            if( allow_drop ) {
-                return item_location( map_cursor( pos_abs() ), &get_map().add_item_or_charges( pos_bub(),
-                                      it ) );
-            } else {
-                return added;
-            }
-        } else {
-            return item_location( *this, &weapon );
-        }
-    } else {
+    if( added != item_location::nowhere ) {
         return added;
     }
+    if( allow_wield && wield( it ) ) {
+        return item_location( *this, &weapon );
+    }
+    if( !allow_drop ) {
+        return added;
+    }
+    return item_location( map_cursor( pos_abs() ), &get_map().add_item_or_charges( pos_bub(), it ) );
 }
 
 item_location Character::i_add( item it, int &copies_remaining,

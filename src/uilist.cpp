@@ -87,8 +87,8 @@ void uilist_impl::draw_controls()
         ImGui::TableSetupColumn( "menu", ImGuiTableColumnFlags_WidthFixed, parent.calculated_menu_size.x );
         ImGui::TableSetupColumn( "right", ImGuiTableColumnFlags_WidthFixed, parent.extra_space_right );
 
-        ImGui::TableSetColumnEnabled( 0, parent.extra_space_left < 1.0f ? false : true );
-        ImGui::TableSetColumnEnabled( 2, parent.extra_space_right < 1.0f ? false : true );
+        ImGui::TableSetColumnEnabled( 0, parent.extra_space_left >= 1.0f );
+        ImGui::TableSetColumnEnabled( 2, parent.extra_space_right >= 1.0f );
 
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex( 1 );

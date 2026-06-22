@@ -681,38 +681,33 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
 
 void activity_handlers::travel_do_turn( player_activity *act, Character *you )
 {
-    if( !you->omt_path.empty() ) {
-        you->omt_path.pop_back();
-        if( you->omt_path.empty() ) {
-            you->add_msg_if_player( m_info, _( "You have reached your destination." ) );
-            act->set_to_null();
-            ui::omap::force_quit();
-            return;
-        }
-        const tripoint_abs_omt next_omt = you->omt_path.back();
-        tripoint_abs_ms waypoint;
-        if( you->omt_path.size() == 1 ) {
-            // if next omt is the final one, target its midpoint
-            waypoint = midpoint( project_bounds<coords::ms>( next_omt ) );
-        } else {
-            // otherwise target the middle of the edge nearest to our current location
-            const tripoint_abs_ms cur_omt_mid = midpoint( project_bounds<coords::ms>
-                                                ( you->pos_abs_omt() ) );
-            waypoint = clamp( cur_omt_mid, project_bounds<coords::ms>( next_omt ) );
-        }
-        map &here = get_map();
-        tripoint_bub_ms centre_sub = here.get_bub( waypoint );
-        const std::vector<tripoint_bub_ms> route_to =
-            here.route( *you, pathfinding_target::radius( centre_sub, 2 ) );
-        if( !route_to.empty() ) {
-            const activity_id act_travel = ACT_TRAVELLING;
-            you->set_destination( route_to, player_activity( act_travel ) );
-        } else {
-            you->add_msg_if_player( m_warning, _( "You cannot reach that destination." ) );
-            ui::omap::force_quit();
-        }
-    } else {
+    if( you->omt_path.size() <= 1 ) {
+        you->omt_path.clear();  // in case the size was 1
         you->add_msg_if_player( m_info, _( "You have reached your destination." ) );
+        act->set_to_null();
+        ui::omap::force_quit();
+        return;
+    }
+    you->omt_path.pop_back();
+    const tripoint_abs_omt next_omt = you->omt_path.back();
+    tripoint_abs_ms waypoint;
+    if( you->omt_path.size() == 1 ) {
+        // if next omt is the final one, target its midpoint
+        waypoint = midpoint( project_bounds<coords::ms>( next_omt ) );
+    } else {
+        // otherwise target the middle of the edge nearest to our current location
+        const tripoint_abs_ms cur_omt_mid = midpoint( project_bounds<coords::ms>
+                                            ( you->pos_abs_omt() ) );
+        waypoint = clamp( cur_omt_mid, project_bounds<coords::ms>( next_omt ) );
+    }
+    map &here = get_map();
+    tripoint_bub_ms centre_sub = here.get_bub( waypoint );
+    const std::vector<tripoint_bub_ms> route_to =
+        here.route( *you, pathfinding_target::radius( centre_sub, 2 ) );
+    if( !route_to.empty() ) {
+        you->set_destination( route_to, player_activity( ACT_TRAVELLING ) );
+    } else {
+        you->add_msg_if_player( m_warning, _( "You cannot reach that destination." ) );
         ui::omap::force_quit();
     }
     act->set_to_null();

@@ -435,7 +435,7 @@ void Character::randomize( const bool random_scenario, bool play_now )
         outfit = gender_selection;
     }
     if( !MAP_SHARING::isSharing() ) {
-        play_now ? pick_name() : pick_name( true );
+        pick_name( !play_now );
     } else {
         name = MAP_SHARING::getUsername();
     }

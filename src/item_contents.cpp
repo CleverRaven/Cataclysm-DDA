@@ -604,23 +604,16 @@ item_contents::item_contents( const std::vector<pocket_data> &pockets )
 
 bool item_contents::empty_with_no_mods() const
 {
-    return contents.empty() ||
-    std::all_of( contents.begin(), contents.end(), []( const item_pocket & p ) {
+    return std::all_of( contents.begin(), contents.end(), []( const item_pocket & p ) {
         return p.is_default_state();
     } );
 }
 
 bool item_contents::empty() const
 {
-    if( contents.empty() ) {
-        return true;
-    }
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::MOD ) ) {
-            // item mods aren't really contents per se
-            continue;
-        }
-        if( !pocket.empty() ) {
+        // item mods aren't really contents per se
+        if( !pocket.is_type( pocket_type::MOD ) && !pocket.empty() ) {
             return false;
         }
     }
@@ -629,14 +622,8 @@ bool item_contents::empty() const
 
 bool item_contents::empty_container() const
 {
-    if( contents.empty() ) {
-        return true;
-    }
     for( const item_pocket &pocket : contents ) {
-        if( !pocket.is_type( pocket_type::CONTAINER ) ) {
-            continue;
-        }
-        if( !pocket.empty() ) {
+        if( pocket.is_type( pocket_type::CONTAINER ) && !pocket.empty() ) {
             return false;
         }
     }
