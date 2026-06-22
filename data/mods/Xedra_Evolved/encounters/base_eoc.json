@@ -23,7 +23,7 @@
       ]
     },
     "effect": [
-      { "u_message": "Random encounter has met its conditions.", "type": "debug" },
+      { "u_message": "Xedra Evolved random encounter has met its conditions.", "type": "debug" },
       {
         "u_location_variable": { "global_val": "XE_randenc_loc" },
         "target_params": { "om_terrain": { "context_val": "omt" }, "random": true, "search_range": 30, "min_distance": 3 }
@@ -45,7 +45,7 @@
         "then": { "u_message": "<global_val:XE_RandEnc_Trigger_Message>", "type": "info" }
       }
     ],
-    "false_effect": { "u_message": "Random encounter has not met its conditions.", "type": "debug" }
+    "false_effect": { "u_message": "Xedra Evolved random encounter has not met its conditions.", "type": "debug" }
   },
   {
     "type": "effect_on_condition",
