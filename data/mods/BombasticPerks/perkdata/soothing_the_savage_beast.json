@@ -1,0 +1,49 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BOMBASTIC_PERKS_SOOTHING_THE_SAVAGE_BEAST",
+    "effect": [
+      {
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
+        "variables": {
+          "prep_time": 3,
+          "spell_to_cast": "soothing_the_savage_beast_spell",
+          "message_success": { "i18n": true, "str": "You sing a song to charm the most wild heart." },
+          "message_fail": { "i18n": true, "str": "Your song has no effect!" }
+        }
+      }
+    ]
+  },
+  {
+    "id": "soothing_the_savage_beast_spell",
+    "type": "SPELL",
+    "name": { "str": "Soothing the Savage Beast Perk Spell", "//~": "NO_I18N" },
+    "description": { "str": "Soothes the savage beast if you have the perk.  You shouldn't have this.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "skill": "survival",
+    "flags": [ "VERBAL", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "SILENT" ],
+    "effect": "charm_monster",
+    "shape": "blast",
+    "min_damage": 800,
+    "max_damage": 800,
+    "min_duration": 180000,
+    "max_duration": 540000,
+    "min_aoe": 6,
+    "max_aoe": 6,
+    "targeted_monster_species": [ "MAMMAL", "BIRD", "AMPHIBIAN", "REPTILE", "FISH" ],
+    "ignored_monster_species": [
+      "ZOMBIE",
+      "ROBOT",
+      "ROBOT_FLYING",
+      "NETHER",
+      "NETHER_EMANATION",
+      "LEECH_PLANT",
+      "WORM",
+      "FUNGUS",
+      "SLIME",
+      "PSI_NULL"
+    ]
+  }
+]
