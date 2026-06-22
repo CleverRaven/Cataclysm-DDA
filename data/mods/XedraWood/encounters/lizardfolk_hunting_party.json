@@ -7,7 +7,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XEDRAWOOD_LIZARDFOLK_HUNTING_PARTY_SWAMP_RANDENC",
-    "recurrence": 1,
+    "recurrence": 21600,
     "global": true,
     "condition": { "math": [ "XedraWood_RandEnc != 1" ] },
     "effect": [
