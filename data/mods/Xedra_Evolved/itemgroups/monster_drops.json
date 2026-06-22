@@ -221,11 +221,46 @@
       },
       { "group": "bannerman_armor", "prob": 100, "damage": [ 0, 4 ] },
       { "group": "pendant_necklaces_silver", "prob": 5 },
-      { "item": "winter_lord_estoc", "prob": 100, "damage": [ 1, 5 ] },
       { "item": "baldric", "prob": 100 },
       { "item": "purity_crackers", "prob": 10 },
       { "item": "golden_bridle", "prob": 5 },
       { "item": "scrap_dreamdross", "prob": 75, "count": [ 12, 24 ] }
+    ]
+  },
+  {
+    "id": "changeling_lord_spring_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "changeling_lord_death_drops", "prob": 100 },
+      { "item": "spring_lord_estoc", "prob": 100, "damage": [ 1, 5 ] }
+    ]
+  },
+  {
+    "id": "changeling_lord_summer_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "changeling_lord_death_drops", "prob": 100 },
+      { "item": "summer_lord_estoc", "prob": 100, "damage": [ 1, 5 ] }
+    ]
+  },
+  {
+    "id": "changeling_lord_autumn_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "changeling_lord_death_drops", "prob": 100 },
+      { "item": "autumn_lord_estoc", "prob": 100, "damage": [ 1, 5 ] }
+    ]
+  },
+  {
+    "id": "changeling_lord_winter_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "changeling_lord_death_drops", "prob": 100 },
+      { "item": "winter_lord_estoc", "prob": 100, "damage": [ 1, 5 ] }
     ]
   },
   {

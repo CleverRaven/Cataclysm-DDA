@@ -420,6 +420,56 @@
   },
   {
     "type": "monstergroup",
+    "id": "GROUP_MARCH_LORDS",
+    "monsters": [
+      { "group": "GROUP_MARCH_LORDS_SPRING", "weight": 1, "conditions": [ "SPRING" ] },
+      { "group": "GROUP_MARCH_LORDS_SUMMER", "weight": 1, "conditions": [ "SUMMER" ] },
+      { "group": "GROUP_MARCH_LORDS_AUTUMN", "weight": 1, "conditions": [ "AUTUMN" ] },
+      { "group": "GROUP_MARCH_LORDS_WINTER", "weight": 1, "conditions": [ "WINTER" ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_MARCH_LORDS_SPRING",
+    "monsters": [
+      { "monster": "mon_march_lord_spring", "weight": 3 },
+      { "monster": "mon_march_lord_summer", "weight": 1 },
+      { "monster": "mon_march_lord_autumn", "weight": 1 },
+      { "monster": "mon_march_lord_winter", "weight": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_MARCH_LORDS_SUMMER",
+    "monsters": [
+      { "monster": "mon_march_lord_spring", "weight": 1 },
+      { "monster": "mon_march_lord_summer", "weight": 3 },
+      { "monster": "mon_march_lord_autumn", "weight": 1 },
+      { "monster": "mon_march_lord_winter", "weight": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_MARCH_LORDS_AUTUMN",
+    "monsters": [
+      { "monster": "mon_march_lord_spring", "weight": 1 },
+      { "monster": "mon_march_lord_summer", "weight": 1 },
+      { "monster": "mon_march_lord_autumn", "weight": 3 },
+      { "monster": "mon_march_lord_winter", "weight": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_MARCH_LORDS_WINTER",
+    "monsters": [
+      { "monster": "mon_march_lord_spring", "weight": 1 },
+      { "monster": "mon_march_lord_summer", "weight": 1 },
+      { "monster": "mon_march_lord_autumn", "weight": 1 },
+      { "monster": "mon_march_lord_winter", "weight": 3 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "id": "GROUP_HEDGE_TO_CAUSE_ARMED_MEN",
     "monsters": [
       { "monster": "mon_hedge_armed_warrior_sword", "weight": 400 },

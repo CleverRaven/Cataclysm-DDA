@@ -149,7 +149,7 @@
     "shape": "blast",
     "difficulty": 3,
     "effect": "attack",
-    "damage_type": "biological",
+    "damage_type": "withering_damage",
     "min_damage": {
       "math": [
         "( ( 15 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 1.6) + (u_skill('gramarye') * 3) ) ) * (global_what_is_the_season == 1 ? 0.6 : 1)"

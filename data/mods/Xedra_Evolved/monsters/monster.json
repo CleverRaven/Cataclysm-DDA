@@ -249,7 +249,7 @@
           "monster_message": "%1$s stares at you and you feel a sense of doom!"
         }
       ],
-      "flags": [ "EVIL_EYE_IMMUNE_MONSTER" ]
+      "flags": [ "EVIL_EYE_IMMUNE_MONSTER", "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ]
     }
   },
   {
