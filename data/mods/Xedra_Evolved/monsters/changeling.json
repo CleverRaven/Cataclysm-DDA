@@ -453,7 +453,31 @@
     "id": "mon_march_lord_spring",
     "copy-from": "mon_march_lord",
     "speed": 120,
-    "special_attacks": [ { "id": "march_lord_sword_spring" } ],
+    "special_attacks": [
+      { "id": "march_lord_sword_spring" },
+      {
+        "id": "xe_greenseer_create_grasses",
+        "type": "spell",
+        "spell_data": { "id": "summon_grass_field_monster", "min_level": 7 },
+        "cooldown": 25,
+        "condition": { "and": [ "u_is_outside", "npc_is_outside", { "npc_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "monster_message": "%1$s's idly waves a hand at %3$s."
+      },
+      {
+        "id": "xe_spring_march_lord_viridian_cuirass",
+        "type": "spell",
+        "spell_data": { "id": "viridian_cuirass_monster", "min_level": 0 },
+        "cooldown": 50,
+        "condition": {
+          "and": [
+            "u_is_outside",
+            { "u_is_on_terrain_with_flag": "GRAZABLE" },
+            { "not": { "u_has_effect": "effect_monster_viridian_cuirass" } }
+          ]
+        },
+        "monster_message": "%1$s's gestures and an armor of vines and leaves grows around them."
+      }
+    ],
     "death_drops": "changeling_lord_spring_death_drops",
     "extend": { "armor": { "biological": 26 } }
   },
@@ -462,7 +486,27 @@
     "id": "mon_march_lord_summer",
     "copy-from": "mon_march_lord",
     "speed": 160,
-    "special_attacks": [ { "id": "march_lord_sword_summer" } ],
+    "special_attacks": [
+      { "id": "march_lord_sword_summer" },
+      {
+        "id": "xe_punishing_summer_heat",
+        "type": "spell",
+        "spell_data": { "id": "punishing_summer_heat_monster" },
+        "cooldown": 20,
+        "condition": {
+          "or": [ { "not": { "is_season": "winter" } }, { "and": [ "u_is_outside", "npc_is_outside", { "is_season": "winter" } ] } ]
+        },
+        "monster_message": "%1$s's gestures and there is a brief burst of light."
+      },
+      {
+        "id": "xe_fire_in_the_blood_monster",
+        "type": "spell",
+        "spell_data": { "id": "fire_in_the_blood_monster", "min_level": 0 },
+        "cooldown": 50,
+        "condition": { "not": { "u_has_effect": "effect_monster_a_fire_in_the_blood" } },
+        "monster_message": "%1$s's gestures and heat-haze shimmers around them for a moment."
+      }
+    ],
     "death_drops": "changeling_lord_summer_death_drops"
   },
   {
@@ -470,7 +514,25 @@
     "id": "mon_march_lord_autumn",
     "copy-from": "mon_march_lord",
     "speed": 140,
-    "special_attacks": [ { "id": "march_lord_sword_autumn" } ],
+    "special_attacks": [
+      { "id": "march_lord_sword_autumn" },
+      {
+        "id": "xe_touch_of_frailty",
+        "type": "spell",
+        "spell_data": { "id": "touch_of_frailty_monster" },
+        "cooldown": 15,
+        "condition": { "not": { "npc_has_effect": "effect_changeling_autumn_touch_of_frailty_monster" } },
+        "monster_message": "The air wavers around %1$s's hand as they reach out for %3$s."
+      },
+      {
+        "id": "xe_autumn_swirl_of_autumn_leaves",
+        "type": "spell",
+        "spell_data": { "id": "swirl_autumn_leaves_monster", "min_level": 0 },
+        "cooldown": 50,
+        "condition": { "not": { "u_has_effect": "effect_monster_swirl_of_autumn_leaves" } },
+        "monster_message": "%1$s's gestures whirling colored leaves surround them."
+      }
+    ],
     "death_drops": "changeling_lord_autumn_death_drops",
     "extend": { "armor": { "withering_damage": 32 } }
   },
@@ -481,7 +543,19 @@
     "speed": 130,
     "special_attacks": [
       { "id": "march_lord_sword_winter" },
-      { "type": "spell", "spell_data": { "id": "hoary_blast_march_lord", "min_level": 5 }, "cooldown": 15 }
+      {
+        "type": "spell",
+        "spell_data": { "id": "hoary_blast_march_lord", "min_level": 5 },
+        "cooldown": 15,
+        "monster_message": "%1$s's takes a deep breath and blows out freezing air!"
+      },
+      {
+        "id": "xe_winter_silence_spell",
+        "type": "spell",
+        "spell_data": { "id": "winter_silence_spell_monster" },
+        "cooldown": 30,
+        "monster_message": "Snow forms around %1$s's hand as they gesture towards %31s."
+      }
     ],
     "death_drops": "changeling_lord_winter_death_drops"
   },

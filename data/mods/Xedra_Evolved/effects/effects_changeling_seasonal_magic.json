@@ -578,6 +578,7 @@
     "name": [ "Frozen Tongue" ],
     "desc": [ "Your tongue feels like solid ice." ],
     "remove_message": "The icy feeling on your tongue vanishes.",
+    "show_in_info": true,
     "flags": [ "MUTE" ]
   },
   {
