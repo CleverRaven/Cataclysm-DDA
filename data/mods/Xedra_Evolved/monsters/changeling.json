@@ -461,7 +461,7 @@
         "spell_data": { "id": "summon_grass_field_monster", "min_level": 7 },
         "cooldown": 25,
         "condition": { "and": [ "u_is_outside", "npc_is_outside", { "npc_is_on_terrain_with_flag": "DIGGABLE" } ] },
-        "monster_message": "%1$s's idly waves a hand at %3$s."
+        "monster_message": "%1$s idly waves a hand at %3$s."
       },
       {
         "id": "xe_spring_march_lord_viridian_cuirass",
@@ -475,7 +475,7 @@
             { "not": { "u_has_effect": "effect_monster_viridian_cuirass" } }
           ]
         },
-        "monster_message": "%1$s's gestures and an armor of vines and leaves grows around them."
+        "monster_message": "%1$s gestures and an armor of vines and leaves grows around them."
       },
       {
         "id": "xe_march_lord_summon_plants",
@@ -483,7 +483,7 @@
         "spell_data": { "id": "summon_bashing_vine_changeling_monster" },
         "cooldown": 45,
         "condition": { "and": [ "npc_is_outside", { "npc_is_on_terrain_with_flag": "GRAZABLE" } ] },
-        "monster_message": "%1$s's gestures and plants grow in moments."
+        "monster_message": "%1$s gestures and plants grow in moments."
       }
     ],
     "death_drops": "changeling_lord_spring_death_drops",
@@ -504,7 +504,7 @@
         "condition": {
           "or": [ { "not": { "is_season": "winter" } }, { "and": [ "u_is_outside", "npc_is_outside", { "is_season": "winter" } ] } ]
         },
-        "monster_message": "%1$s's gestures and there is a brief burst of light."
+        "monster_message": "%1$s gestures and there is a brief burst of light."
       },
       {
         "id": "xe_fire_in_the_blood_monster",
@@ -512,7 +512,7 @@
         "spell_data": { "id": "fire_in_the_blood_monster", "min_level": 0 },
         "cooldown": 50,
         "condition": { "not": { "u_has_effect": "effect_monster_a_fire_in_the_blood" } },
-        "monster_message": "%1$s's gestures and heat-haze shimmers around them for a moment."
+        "monster_message": "%1$s gestures and heat-haze shimmers around them for a moment."
       }
     ],
     "death_drops": "changeling_lord_summer_death_drops"
@@ -538,7 +538,7 @@
         "spell_data": { "id": "swirl_autumn_leaves_monster", "min_level": 0 },
         "cooldown": 50,
         "condition": { "not": { "u_has_effect": "effect_monster_swirl_of_autumn_leaves" } },
-        "monster_message": "%1$s's gestures whirling colored leaves surround them."
+        "monster_message": "%1$s gestures whirling colored leaves surround them."
       }
     ],
     "death_drops": "changeling_lord_autumn_death_drops",
@@ -555,7 +555,7 @@
         "type": "spell",
         "spell_data": { "id": "hoary_blast_march_lord", "min_level": 5 },
         "cooldown": 15,
-        "monster_message": "%1$s's takes a deep breath and blows out freezing air!"
+        "monster_message": "%1$s takes a deep breath and blows out freezing air!"
       },
       {
         "id": "xe_winter_silence_spell",

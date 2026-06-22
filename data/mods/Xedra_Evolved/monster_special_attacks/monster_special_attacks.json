@@ -115,7 +115,7 @@
     "attack_type": "melee",
     "id": "march_lord_sword_spring",
     "cooldown": 2,
-    "move_cost": 91,
+    "move_cost": 119,
     "accuracy": 8,
     "damage_max_instance": [
       { "damage_type": "bash", "amount": 8 },
@@ -135,7 +135,7 @@
     "attack_type": "melee",
     "id": "march_lord_sword_summer",
     "cooldown": 2,
-    "move_cost": 91,
+    "move_cost": 119,
     "accuracy": 8,
     "damage_max_instance": [
       { "damage_type": "bash", "amount": 8 },
@@ -155,7 +155,7 @@
     "attack_type": "melee",
     "id": "march_lord_sword_autumn",
     "cooldown": 2,
-    "move_cost": 91,
+    "move_cost": 119,
     "accuracy": 8,
     "damage_max_instance": [
       { "damage_type": "bash", "amount": 8 },
@@ -175,7 +175,7 @@
     "attack_type": "melee",
     "id": "march_lord_sword_winter",
     "cooldown": 2,
-    "move_cost": 91,
+    "move_cost": 119,
     "accuracy": 8,
     "damage_max_instance": [
       { "damage_type": "bash", "amount": 8 },
