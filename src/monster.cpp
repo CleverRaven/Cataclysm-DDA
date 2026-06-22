@@ -2202,8 +2202,10 @@ bool monster::melee_attack( Creature &target, float accuracy )
         return false;
     }
     if( !sees( here, target ) && !target.is_hallucination() ) {
-        add_msg_debug( debugmode::DF_MONSTER, "Z-Level view violation: %s tried to attack %s.",
-                       disp_name(), target.disp_name() );
+        add_msg_debug( debugmode::DF_MONSTER,
+                       "Visibility/LOS mismatch: %s %s tried to melee-attack %s %s.",
+                       disp_name(), pos_abs().to_string_writable(),
+                       target.disp_name(), target.pos_abs().to_string_writable() );
         return false;
     }
     // Prevent monsters from attacking THROUGH terrain if they are submerged under it & target isn't.
