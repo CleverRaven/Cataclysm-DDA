@@ -4,14 +4,19 @@
     "id": "EOC_RandEnc_Roadstop_Jotunn",
     "recurrence": 1,
     "global": true,
+    "run_for_npcs": false,
     "condition": { "math": [ "XE_RandEnc == 0" ] },
     "effect": [
       { "set_condition": "random_enc_condition", "condition": { "not": { "is_season": "winter" } } },
       { "u_message": "Jotunn/Zebra encounter has triggered!", "type": "debug" },
       {
         "set_string_var": "You hear a sustained burst of gunfire somewhere in the distance.",
-        "target_var": { "global_val": "XE_RanEnc_Trigger_Message" },
+        "target_var": { "global_val": "XE_RandEnc_Trigger_Message" },
         "i18n": true
+      },
+      {
+        "set_condition": "XE_random_enc_trigger_message_condition",
+        "condition": { "math": [ "u_val('pos_z') >= 0" ] }
       },
       {
         "run_eocs": "EOC_XE_RandEnc",
@@ -19,8 +24,8 @@
           "omt": "s_gas_rural",
           "map_update": "nest_RandEnc_ruralgas_jotunn",
           "map_removal": "nest_RandEnc_jotunn_remove",
-          "chance": 10,
-          "days_till_spawn": 7
+          "chance": 1,
+          "days_till_spawn": 0
         }
       }
     ]
