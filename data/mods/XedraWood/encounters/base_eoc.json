@@ -22,7 +22,6 @@
       ]
     },
     "effect": [
-      { "u_message": "lizardfolk encounter has met its conditions!" },
       {
         "u_location_variable": { "global_val": "XedraWood_randenc_loc" },
         "target_params": { "om_terrain": { "context_val": "omt" }, "random": true, "search_range": 30, "min_distance": 3 }
