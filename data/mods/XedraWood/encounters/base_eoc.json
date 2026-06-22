@@ -22,6 +22,7 @@
       ]
     },
     "effect": [
+      { "u_message": "XedraWood random encounter has met its conditions.", "type": "debug" },
       {
         "u_location_variable": { "global_val": "XedraWood_randenc_loc" },
         "target_params": { "om_terrain": { "context_val": "omt" }, "random": true, "search_range": 30, "min_distance": 3 }
@@ -38,7 +39,8 @@
         "copy_var": { "context_val": "map_removal" },
         "target_var": { "global_val": "XedraWood_random_encounter_map_remove" }
       }
-    ]
+    ],
+    "false_effect": { "u_message": "XedraWood random encounter has not met its conditions.", "type": "debug" }
   },
   {
     "type": "effect_on_condition",
