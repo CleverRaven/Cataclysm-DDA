@@ -1,16 +1,16 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_RandEnc_Roadstop_Jotunn",
-    "recurrence": 3000,
+    "id": "EOC_RandEnc_March_Lord_Hunting_Party",
+    "recurrence": 21600,
     "global": true,
     "run_for_npcs": false,
     "condition": { "math": [ "XE_RandEnc == 0" ] },
     "effect": [
-      { "set_condition": "random_enc_condition", "condition": { "not": { "is_season": "winter" } } },
-      { "u_message": "Jotunn/Zebra encounter has triggered!", "type": "debug" },
+      { "set_condition": "random_enc_condition", "condition": { "and": [ "u_is_outside", { "is_weather": "fog" } ] } },
+      { "u_message": "March Lord hunt encounter has triggered!", "type": "debug" },
       {
-        "set_string_var": "You hear a sustained burst of gunfire somewhere in the distance.",
+        "set_string_var": "You hear a low horn-call somewhere out in the fog.",
         "target_var": { "global_val": "XE_RandEnc_Trigger_Message" },
         "i18n": true
       },
@@ -21,10 +21,10 @@
       {
         "run_eocs": "EOC_XE_RandEnc",
         "variables": {
-          "omt": "s_gas_rural",
-          "map_update": "nest_RandEnc_ruralgas_jotunn",
-          "map_removal": "nest_RandEnc_jotunn_remove",
-          "chance": 10,
+          "omt": "field",
+          "map_update": "nest_RandEnc_March_Lord_Hunting_Party",
+          "map_removal": "nest_RandEnc_March_Lord_Hunting_Party_remove",
+          "chance": 15,
           "days_till_spawn": 7
         }
       }
@@ -32,8 +32,8 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "nest_RandEnc_ruralgas_jotunn",
-    "//": "Adds a random encounter at this rural gas station",
+    "update_mapgen_id": "nest_RandEnc_March_Lord_Hunting_Party",
+    "//": "Adds a random encounter at this field",
     "object": {
       "place_monsters": [ { "monster": "GROUP_Exodii_Jotunn", "x": [ 3, 17 ], "y": [ 13, 15 ] } ],
       "place_vehicles": [ { "vehicle": "bearcub", "chance": 30, "status": -3, "x": [ 11 ], "y": [ 12 ] } ],
@@ -42,8 +42,8 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "nest_RandEnc_ruralgas_jotunn_remove",
-    "//": "removes a random encounter at this roadstop",
+    "update_mapgen_id": "nest_RandEnc_March_Lord_Hunting_Party_remove",
+    "//": "removes a random encounter at the field",
     "object": { "set": [ { "square": "creature_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 } ] }
   }
 ]
