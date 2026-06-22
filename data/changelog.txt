@@ -235,6 +235,7 @@ Charged tools can be used on unattended crafting steps
 Unattended liquid crafts wait for you to pour them
 Crafting faults
 Allows spawns offset from the origin like the beach, or deep in the forests to the west
+Gun and tool mods can retune multimag host consumption, firing modes, and pocket capacity
 
 
 ## Content:
@@ -1147,6 +1148,7 @@ XE Proficiency CBMs
 [BPerks/MM/Sorc] XP mods can level up more than once at a time
 Aftershock: Add industrial habitat building.
 Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
+[XedraWood] Add magical tattoos and a profession that starts with them
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1296,6 +1298,7 @@ Nobody wants to cooperate with psychopaths
 Zombie corpses aren't useful
 Stepped many many weapon recipes
 Joint Torsion Ratchet CBM doesn't allow for perpetual motion cyborgs
+Zero cost spells remain zero cost even if encumbered
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1837,6 +1840,8 @@ Stop spamming player log when NPCs are hot
 Stop ref center guard EOCs from firing in alternate dimensions
 Uncomfortable limbs must exist
 Fix Android black screen after turning the screen off
+Batch crafts no longer vanish when an unattended step's timeout is shorter than the batch-scaled craft time
+Labyrinth treasure room terminals work, and don't crash
 
 
 ## Performance:
