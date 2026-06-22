@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "v2_combustion_magic",
     "name": "magic v-twin combustion engine",
     "symbol": "v",
@@ -12,7 +12,7 @@
     "price": "8 kUSD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "small_vehicle_controls",
     "name": { "str": "small driver vehicle controls", "str_pl": "sets of small driver svehicle controls" },
     "description": "A set of various vehicle controls for small drivers.  Useful for crafting.",
