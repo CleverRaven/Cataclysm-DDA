@@ -3271,7 +3271,7 @@ links one furniture id to one ammunition type and provides the range, flight tim
 dispersion parameters used by player-operated and NPC-operated mortar fire.
 
 All range and distance values are in map tiles.  Error values describe the minimum mortar
-dispersion before skill, spotting, weather, and other fire mission modifiers are applied.
+dispersion before skill, spotting, and other fire mission modifiers are applied.
 
 ```jsonc
 {
