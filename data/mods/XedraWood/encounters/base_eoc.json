@@ -18,18 +18,21 @@
         { "u_near_om_location": { "context_val": "omt" }, "range": 30 },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= _days_till_spawn" ] },
         { "math": [ "time_since(u_timer_XedraWood_RandEnc) >= time('1 d')" ] },
-        { "not": { "u_near_om_location": { "context_val": "omt" }, "range": 2 } },
         { "get_condition": "random_enc_condition" }
       ]
     },
     "effect": [
       { "u_message": "lizardfolk encounter has met its conditions!" },
-      { "mapgen_update": [ { "context_val": "map_update" } ], "om_terrain": { "context_val": "omt" } },
-      { "math": [ "u_timer_XedraWood_RandEnc = time('now')" ] },
       {
         "u_location_variable": { "global_val": "XedraWood_randenc_loc" },
-        "target_params": { "om_terrain": { "context_val": "omt" } }
+        "target_params": { "om_terrain": { "context_val": "omt" }, "random": true, "search_range": 30, "min_distance": 3 }
       },
+      {
+        "mapgen_update": [ { "context_val": "map_update" } ],
+        "om_terrain": { "context_val": "omt" },
+        "target_var": { "global_val": "XedraWood_randenc_loc" }
+      },
+      { "math": [ "u_timer_XedraWood_RandEnc = time('now')" ] },
       { "math": [ "XedraWood_RandEnc = 1" ] },
       { "copy_var": { "context_val": "omt" }, "target_var": { "global_val": "XedraWood_random_encounter_omt" } },
       {

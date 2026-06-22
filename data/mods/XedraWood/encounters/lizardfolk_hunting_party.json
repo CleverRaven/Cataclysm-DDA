@@ -7,12 +7,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XEDRAWOOD_LIZARDFOLK_HUNTING_PARTY_SWAMP_RANDENC",
-    "recurrence": 21600,
+    "recurrence": 1,
     "global": true,
     "condition": { "math": [ "XedraWood_RandEnc != 1" ] },
     "effect": [
       { "set_condition": "random_enc_condition", "condition": { "not": { "is_season": "winter" } } },
-      { "u_message": "lizardfolk encounter has triggered!" },
+      { "u_message": "lizardfolk encounter has triggered!", "type": "debug" },
       {
         "run_eocs": "EOC_XedraWood_RandEnc",
         "variables": {
