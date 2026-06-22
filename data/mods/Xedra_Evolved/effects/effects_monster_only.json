@@ -58,7 +58,7 @@
   {
     "type": "effect_type",
     "id": "effect_monster_viridian_cuirass",
-    "name": [ "Viridian Curiass" ],
+    "name": [ "Viridian Cuirass" ],
     "desc": [ "" ],
     "show_in_info": true,
     "enchantments": [
