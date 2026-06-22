@@ -18,7 +18,6 @@
         { "u_near_om_location": { "context_val": "omt" }, "range": 30 },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= _days_till_spawn" ] },
         { "math": [ "time_since(u_timer_xe_RandEnc) >= time('1 d')" ] },
-        { "not": { "u_near_om_location": { "context_val": "omt" }, "range": 2 } },
         { "get_condition": "random_enc_condition" }
       ]
     },

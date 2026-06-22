@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RandEnc_March_Lord_Hunting_Party",
-    "recurrence": 21600,
+    "recurrence": 1,
     "global": true,
     "run_for_npcs": false,
     "condition": { "math": [ "XE_RandEnc == 0" ] },
@@ -25,7 +25,7 @@
           "map_update": "nest_RandEnc_March_Lord_Hunting_Party",
           "map_removal": "nest_RandEnc_March_Lord_Hunting_Party_remove",
           "chance": 15,
-          "days_till_spawn": 7
+          "days_till_spawn": 0
         }
       }
     ]
