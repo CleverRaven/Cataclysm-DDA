@@ -17,7 +17,6 @@
     "name": { "str": "small driver vehicle controls", "str_pl": "sets of small driver svehicle controls" },
     "description": "A set of various vehicle controls for small drivers.  Useful for crafting.",
     "weight": "6000 g",
-    "to_hit": -4,
     "color": "light_cyan",
     "symbol": "$",
     "material": [ "plastic", "steel" ],
