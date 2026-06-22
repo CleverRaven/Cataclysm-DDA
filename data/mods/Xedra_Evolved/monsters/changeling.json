@@ -454,7 +454,8 @@
     "copy-from": "mon_march_lord",
     "speed": 120,
     "special_attacks": [ { "id": "march_lord_sword_spring" } ],
-    "death_drops": "changeling_lord_spring_death_drops"
+    "death_drops": "changeling_lord_spring_death_drops",
+    "extend": { "armor": { "biological": 26 } }
   },
   {
     "type": "MONSTER",
@@ -470,7 +471,8 @@
     "copy-from": "mon_march_lord",
     "speed": 140,
     "special_attacks": [ { "id": "march_lord_sword_autumn" } ],
-    "death_drops": "changeling_lord_autumn_death_drops"
+    "death_drops": "changeling_lord_autumn_death_drops",
+    "extend": { "armor": { "withering_damage": 32 } }
   },
   {
     "type": "MONSTER",
