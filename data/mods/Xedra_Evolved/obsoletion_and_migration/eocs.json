@@ -205,5 +205,14 @@
     "//": "Remove in 0.J",
     "id": "EOC_RandEnc_Jotunn_remove",
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RandEnc_RandEnc_Time_Catchup",
+    "//": "Remove in 0.J",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "and": [ "u_is_avatar", { "not": { "math": [ "has_var(u_timer_xe_RandEnc)" ] } } ] },
+    "effect": { "math": [ "u_timer_xe_RandEnc = time('now')" ] }
   }
 ]

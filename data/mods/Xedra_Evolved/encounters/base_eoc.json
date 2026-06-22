@@ -1,6 +1,14 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_XE_RandEnc_Set_Initial_RandEnc_Time",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": "u_is_avatar",
+    "effect": { "math": [ "u_timer_xe_RandEnc = time('now')" ] }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_XE_RandEnc",
     "//": "Just a copy of the base RandEnc so they can run concurrently",
     "condition": {
@@ -15,6 +23,7 @@
       ]
     },
     "effect": [
+      { "u_message": "Random encounter has met its conditions.", "type": "debug" },
       {
         "u_location_variable": { "global_val": "XE_randenc_loc" },
         "target_params": { "om_terrain": { "context_val": "omt" }, "random": true, "search_range": 30, "min_distance": 3 }
@@ -30,8 +39,10 @@
       {
         "copy_var": { "context_val": "map_removal" },
         "target_var": { "global_val": "XE_random_encounter_map_remove" }
-      }
-    ]
+      },
+      { "u_message": "<global_val:XE_RanEnc_Trigger_Message>.", "type": "neutral" }
+    ],
+    "false_effect": { "u_message": "Random encounter has not met its conditions.", "type": "debug" }
   },
   {
     "type": "effect_on_condition",
@@ -46,11 +57,10 @@
       ]
     },
     "effect": [
+      { "u_message": "Current random encounter is being removed.", "type": "debug" },
       {
         "mapgen_update": [ { "global_val": "XE_random_encounter_map_remove" } ],
-        "om_terrain": {
-          "global_val": "XE_random_encounter_omtXE_random_encounter_omtXE_random_encounter_omtXE_random_encounter_omtXE_random_encounter_omt"
-        },
+        "om_terrain": { "global_val": "XE_random_encounter_omt" },
         "target_var": { "global_val": "XE_randenc_loc" }
       },
       { "math": [ "XE_RandEnc = 0" ] }
