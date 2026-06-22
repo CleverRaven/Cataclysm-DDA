@@ -35,9 +35,12 @@
     "update_mapgen_id": "nest_RandEnc_March_Lord_Hunting_Party",
     "//": "Adds a random encounter at this field",
     "object": {
-      "place_monsters": [ { "monster": "GROUP_Exodii_Jotunn", "x": [ 3, 17 ], "y": [ 13, 15 ] } ],
-      "place_vehicles": [ { "vehicle": "bearcub", "chance": 30, "status": -3, "x": [ 11 ], "y": [ 12 ] } ],
-      "place_corpses": [ { "group": "GROUP_FERAL_AGENTS", "x": [ 7, 14 ], "y": [ 6, 18 ] } ]
+      "place_monster": [
+        { "group": "GROUP_MARCH_LORDS", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "monster": "mon_wild_hunt_hound", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 2, 4 ] },
+        { "monster": "mon_wild_huntsman", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ] },
+        { "monster": "mon_changeling_bannerman", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
+      ]
     }
   },
   {
