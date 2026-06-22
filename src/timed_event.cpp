@@ -172,8 +172,9 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
     , map_square( p )
     , strength( s )
     , string_id( std::move( s_id ) )
-    , target( t )
 {
+    data = std::make_unique<timed_event_target_data>();
+    get_data<timed_event_target_data>()->target = t;
     map_point = project_to<coords::sm>( map_square );
 }
 
@@ -413,12 +414,14 @@ void timed_event::actualize()
                 }
                 break;
             }
-            if( target.is_invalid() ) {
+            const timed_event_target_data *target_data = get_data<timed_event_target_data>();
+            if( target_data == nullptr || target_data->target.is_invalid() ) {
                 add_mortar_impact_report( report_mode, recipient,
                                           string_format( _( "Splash %s." ), cue ) );
                 break;
             }
 
+            const tripoint_abs_ms &target = target_data->target;
             const point d( map_square.x() - target.x(), map_square.y() - target.y() );
             const int miss_distance = round_to_nearest_10( std::hypot( d.x, d.y ) );
             if( miss_distance == 0 ) {
@@ -434,11 +437,19 @@ void timed_event::actualize()
         break;
 
         case timed_event_type::MORTAR_SPOTTING_FEEDBACK: {
-            npc *gunner = character.is_valid() ? g->find_npc( character ) : nullptr;
+            const mortar_spotting_feedback_event_data *feedback =
+                get_data<mortar_spotting_feedback_event_data>();
+            if( feedback == nullptr ) {
+                add_msg_debug( debugmode::DF_NPC,
+                               "Mortar spotting feedback ignored: missing event payload." );
+                break;
+            }
+            npc *gunner = feedback->gunner_id.is_valid() ? g->find_npc( feedback->gunner_id ) :
+                          nullptr;
             if( gunner == nullptr ) {
                 add_msg_debug( debugmode::DF_NPC,
                                "Mortar spotting feedback ignored: gunner id %d no longer exists.",
-                               character.get_value() );
+                               feedback->gunner_id.get_value() );
                 break;
             }
             const std::optional<tripoint_abs_ms> current_target = mortar_gunner_target( *gunner );
@@ -462,10 +473,8 @@ void timed_event::actualize()
                                         "mortar_current_accuracy_multiplier", 1.0 );
             const double old_location = get_mortar_gunner_value( *gunner,
                                         "mortar_location_error", 1.0 );
-            const double accuracy_multiplier = clamp( mortar_feedback_accuracy_multiplier, 0.0,
-                                               1.0 );
-            const double location_multiplier = clamp( mortar_feedback_location_multiplier, 0.0,
-                                               1.0 );
+            const double accuracy_multiplier = clamp( feedback->accuracy_multiplier, 0.0, 1.0 );
+            const double location_multiplier = clamp( feedback->location_multiplier, 0.0, 1.0 );
             const double new_accuracy = std::max( 1.0, old_accuracy * accuracy_multiplier );
             const double new_location = std::max( 1.0, old_location * location_multiplier );
             gunner->set_value( "mortar_current_accuracy_multiplier", new_accuracy );
@@ -480,11 +489,18 @@ void timed_event::actualize()
         break;
 
         case timed_event_type::MORTAR_QUEUED_FIRE: {
-            npc *gunner = character.is_valid() ? g->find_npc( character ) : nullptr;
+            const timed_event_character_data *queued_fire = get_data<timed_event_character_data>();
+            if( queued_fire == nullptr ) {
+                add_msg_debug( debugmode::DF_NPC,
+                               "Queued mortar fire ignored: missing event payload." );
+                break;
+            }
+            npc *gunner = queued_fire->character.is_valid() ? g->find_npc( queued_fire->character ) :
+                          nullptr;
             if( gunner == nullptr ) {
                 add_msg_debug( debugmode::DF_NPC,
                                "Queued mortar fire ignored: gunner id %d no longer exists.",
-                               character.get_value() );
+                               queued_fire->character.get_value() );
                 break;
             }
             talk_effect_fun::fire_queued_mortar( *gunner, map_square, std::max( 1, strength ) );
@@ -492,8 +508,9 @@ void timed_event::actualize()
         break;
 
         case timed_event_type::MORTAR_FIELD: {
-            const int radius = std::max( 0, mortar_field_radius );
-            const int age_seconds = mortar_field_age_seconds;
+            const mortar_field_event_data *field_data = get_data<mortar_field_event_data>();
+            const int radius = field_data == nullptr ? 0 : std::max( 0, field_data->radius );
+            const int age_seconds = field_data == nullptr ? 0 : field_data->age_seconds;
             const time_duration age = age_seconds == 0 ? 0_turns :
                                       -time_duration::from_seconds( age_seconds );
             const field_type_str_id field_type( string_id );
@@ -673,9 +690,12 @@ void timed_event_manager::add_mortar_feedback( const time_point &when,
     events.emplace_back( timed_event_type::MORTAR_SPOTTING_FEEDBACK, when, -1, target,
                          correction_reported ? 1 : 0, "" );
     timed_event &event = events.back();
-    event.character = gunner_id;
-    event.mortar_feedback_accuracy_multiplier = clamp( accuracy_multiplier, 0.0, 1.0 );
-    event.mortar_feedback_location_multiplier = clamp( location_multiplier, 0.0, 1.0 );
+    event.data = std::make_unique<mortar_spotting_feedback_event_data>();
+    mortar_spotting_feedback_event_data *feedback =
+        event.get_data<mortar_spotting_feedback_event_data>();
+    feedback->gunner_id = gunner_id;
+    feedback->accuracy_multiplier = clamp( accuracy_multiplier, 0.0, 1.0 );
+    feedback->location_multiplier = clamp( location_multiplier, 0.0, 1.0 );
 }
 
 void timed_event_manager::add_mortar_queued_fire( const time_point &when,
@@ -684,7 +704,8 @@ void timed_event_manager::add_mortar_queued_fire( const time_point &when,
     events.emplace_back( timed_event_type::MORTAR_QUEUED_FIRE, when, -1, target,
                          std::max( 1, round_count ), "" );
     timed_event &event = events.back();
-    event.character = gunner_id;
+    event.data = std::make_unique<timed_event_character_data>();
+    event.get_data<timed_event_character_data>()->character = gunner_id;
 }
 
 void timed_event_manager::add_mortar_field( const time_point &when,
@@ -694,8 +715,10 @@ void timed_event_manager::add_mortar_field( const time_point &when,
     events.emplace_back( timed_event_type::MORTAR_FIELD, when, -1, where, intensity,
                          field_type, "" );
     timed_event &event = events.back();
-    event.mortar_field_radius = std::max( 0, radius );
-    event.mortar_field_age_seconds = age_seconds;
+    event.data = std::make_unique<mortar_field_event_data>();
+    mortar_field_event_data *field_data = event.get_data<mortar_field_event_data>();
+    field_data->radius = std::max( 0, radius );
+    field_data->age_seconds = age_seconds;
 }
 
 void timed_event_manager::add( timed_event_type type, const time_point &when,
