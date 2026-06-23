@@ -4,46 +4,30 @@
     "id": "EOC_RandEnc_Roadstop_Jotunn",
     "recurrence": 3000,
     "global": true,
-    "condition": {
-      "and": [
-        { "u_near_om_location": "s_gas_rural", "range": 30 },
-        "is_day",
-        { "one_in_chance": 10 },
-        { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] },
-        { "math": [ "time_since(u_timer_jotunn_RandEnc) >= time('1 d')" ] },
-        { "not": { "u_near_om_location": "s_gas_rural", "range": 2 } },
-        { "not": { "is_season": "winter" } }
-      ]
-    },
+    "run_for_npcs": false,
+    "condition": { "math": [ "XE_RandEnc == 0" ] },
     "effect": [
-      { "mapgen_update": "nest_RandEnc_ruralgas_jotunn", "om_terrain": "s_gas_rural" },
-      { "math": [ "u_timer_jotunn_RandEnc = time('now')" ] },
+      { "set_condition": "random_enc_condition", "condition": { "not": { "is_season": "winter" } } },
+      { "u_message": "Jotunn/Zebra encounter has triggered!", "type": "debug" },
       {
-        "u_location_variable": { "global_val": "randenc_jotunn_loc" },
-        "target_params": { "om_terrain": "roadstop_a" }
+        "set_string_var": "You hear a sustained burst of gunfire somewhere in the distance.",
+        "target_var": { "global_val": "XE_RandEnc_Trigger_Message" },
+        "i18n": true
       },
-      { "math": [ "RandEnc_Jotunn = 1" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_RandEnc_Jotunn_remove",
-    "recurrence": 200,
-    "global": true,
-    "condition": {
-      "and": [
-        { "math": [ "time_since(u_timer_jotunn_RandEnc) > time('3 h')" ] },
-        { "not": { "u_near_om_location": "roadstop_a", "range": 2 } },
-        { "math": [ "RandEnc_Jotunn == 1" ] }
-      ]
-    },
-    "effect": [
       {
-        "mapgen_update": "nest_RandEnc_jotunn_remove",
-        "om_terrain": "roadstop_a",
-        "target_var": { "global_val": "randenc_jotunn_loc" }
+        "set_condition": "XE_random_enc_trigger_message_condition",
+        "condition": { "math": [ "u_val('pos_z') >= 0" ] }
       },
-      { "math": [ "RandEnc_Jotunn = 0" ] }
+      {
+        "run_eocs": "EOC_XE_RandEnc",
+        "variables": {
+          "omt": "s_gas_rural",
+          "map_update": "nest_RandEnc_ruralgas_jotunn",
+          "map_removal": "nest_RandEnc_jotunn_remove",
+          "chance": 10,
+          "days_till_spawn": 7
+        }
+      }
     ]
   },
   {
@@ -51,7 +35,7 @@
     "update_mapgen_id": "nest_RandEnc_ruralgas_jotunn",
     "//": "Adds a random encounter at this rural gas station",
     "object": {
-      "place_monsters": [ { "monster": "GROUP_Exodii_Jotunn", "x": [ 3, 17 ], "y": [ 13, 15 ] } ],
+      "place_monster": [ { "group": "GROUP_Exodii_Jotunn", "x": [ 3, 17 ], "y": [ 13, 15 ] } ],
       "place_vehicles": [ { "vehicle": "bearcub", "chance": 30, "status": -3, "x": [ 11 ], "y": [ 12 ] } ],
       "place_corpses": [ { "group": "GROUP_FERAL_AGENTS", "x": [ 7, 14 ], "y": [ 6, 18 ] } ]
     }

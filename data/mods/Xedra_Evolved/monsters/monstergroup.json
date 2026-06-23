@@ -212,7 +212,7 @@
   {
     "type": "monstergroup",
     "id": "GROUP_FERAL_AGENTS",
-    "monsters": [ { "monster": "mon_feral_zebra_agent", "weight": 100, "pack_size": [ 1, 2 ] } ]
+    "monsters": [ { "monster": "mon_feral_zebra_agent", "weight": 100, "pack_size": [ 1, 3 ] } ]
   },
   {
     "type": "monstergroup",
@@ -421,11 +421,12 @@
   {
     "type": "monstergroup",
     "id": "GROUP_MARCH_LORDS",
+    "//": "This unfortunately has to be random because otherwise it doesn't only choose the appropriate season, if it rolls an inappropriate one nothing spawns",
     "monsters": [
-      { "group": "GROUP_MARCH_LORDS_SPRING", "weight": 1, "conditions": [ "SPRING" ] },
-      { "group": "GROUP_MARCH_LORDS_SUMMER", "weight": 1, "conditions": [ "SUMMER" ] },
-      { "group": "GROUP_MARCH_LORDS_AUTUMN", "weight": 1, "conditions": [ "AUTUMN" ] },
-      { "group": "GROUP_MARCH_LORDS_WINTER", "weight": 1, "conditions": [ "WINTER" ] }
+      { "group": "GROUP_MARCH_LORDS_SPRING", "weight": 1 },
+      { "group": "GROUP_MARCH_LORDS_SUMMER", "weight": 1 },
+      { "group": "GROUP_MARCH_LORDS_AUTUMN", "weight": 1 },
+      { "group": "GROUP_MARCH_LORDS_WINTER", "weight": 1 }
     ]
   },
   {
