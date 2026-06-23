@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RandEnc_March_Lord_Hunting_Party",
-    "recurrence": 1,
+    "recurrence": 21600,
     "global": true,
     "run_for_npcs": false,
     "condition": { "math": [ "XE_RandEnc == 0" ] },
