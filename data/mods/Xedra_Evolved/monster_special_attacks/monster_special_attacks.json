@@ -160,7 +160,7 @@
     "damage_max_instance": [
       { "damage_type": "bash", "amount": 8 },
       { "damage_type": "cut", "amount": 42 },
-      { "damage_type": "cold", "amount": 9 }
+      { "damage_type": "withering_damage", "amount": 9 }
     ],
     "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
     "hit_dmg_u": "%1$s hits your %2$s with an ethereal blade!",
