@@ -3919,7 +3919,7 @@ item_location inventory_pick_selector::execute()
                 on_input( input );
             }
         } else if( input.action == "ORGANIZE_MENU" ) {
-            u.worn.organize_items_menu();
+            u.worn.organize_items_menu( u );
             return item_location();
         } else if( input.action == "QUIT" ) {
             return item_location();

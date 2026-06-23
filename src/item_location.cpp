@@ -1428,6 +1428,11 @@ int item_location::get_quality( const std::string &quality, bool strict_boiling 
     return tool->get_quality_nonrecursive( qualityid, strict_boiling );
 }
 
+void item_location::favorite_settings_menu()
+{
+    ( *this )->favorite_settings_menu( *this );
+}
+
 // Hint-driven uid resolution with bounded fallback.  No world-wide scan.
 // Returns invalid for items in monster stomachs, portals, or off-bubble.
 item_location find_item_by_uid( int64_t uid, const item_locator_hint &hint )
