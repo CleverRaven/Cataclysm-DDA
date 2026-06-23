@@ -198,6 +198,24 @@ void pocket_favorite_callback::refresh_columns( uilist *menu )
     menu->setup();
 }
 
+/**
+ * Return true, if item_pocket* needle is (eventually) in item* haystack.
+ */
+static bool is_pocket_in_item( const item *haystack, const item_pocket *needle )
+{
+    for( const item_pocket *pocket : haystack->get_standard_pockets() ) {
+        if( needle == pocket ) {
+            return true;
+        }
+        for( const item *itm : pocket->all_items_top() ) {
+            if( is_pocket_in_item( itm, needle ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_pocket )
 {
     uilist selector_menu;
@@ -245,13 +263,10 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
                 }
 
                 // make sure we dont try to put anything in itself
-                if( entry.enabled ) {
-                    for( item_pocket *pocket : item_to_move.first->get_standard_pockets() ) {
-                        if( std::get<0>( *itt ) == pocket ) {
-                            entry.enabled = false;
-                        }
-                    }
+                if( entry.enabled && is_pocket_in_item( item_to_move.first, std::get<0>( *itt ) ) ) {
+                    entry.enabled = false;
                 }
+
                 // parent can contain
                 if( entry.enabled
                     && !std::get<3>( *itt ).parents_can_contain_recursive( item_to_move.first ).success()
