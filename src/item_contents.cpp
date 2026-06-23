@@ -252,6 +252,12 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
                         }
                     }
                 }
+                // parent can contain
+                if( entry.enabled
+                    && !std::get<3>( *itt ).parents_can_contain_recursive( item_to_move.first ).success()
+                  ) {
+                    entry.enabled = false;
+                }
 
                 // move through the pockets as you process entries
                 ++itt;
