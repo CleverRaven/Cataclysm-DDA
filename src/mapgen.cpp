@@ -5940,6 +5940,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             case JMAPGEN_SETMAP_CREATURE_REMOVE: {
                 m.kill_creature( target_pos, true );
             }
+            break;
             case JMAPGEN_SETMAP_CREATURE_KILL: {
                 m.kill_creature( target_pos, false );
             }
