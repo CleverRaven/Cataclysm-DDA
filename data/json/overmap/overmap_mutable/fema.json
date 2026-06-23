@@ -7,7 +7,7 @@
     "city_distance": [ 0, 24 ],
     "city_sizes": [ 2, -1 ],
     "occurrences": [ 1, 3 ],
-    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE" ],
+    "flags": [ "OVERMAP_UNIQUE", "MAN_MADE" ],
     "check_for_locations_area": [ { "type": [ "field", "forest" ], "from": [ -8, 0, 0 ], "to": [ 8, 20, 0 ] } ],
     "joins": [
       "road_to_road",

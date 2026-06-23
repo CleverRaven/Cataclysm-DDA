@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "lodgev_ground1", "lodgev_ground2" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -45,7 +44,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "lodgev_2ndfloor1", "lodgev_2ndfloor2" ] ],
     "object": {
       "fill_ter": "t_open_air",
@@ -101,7 +99,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "lodgev_roof1", "lodgev_roof2" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -141,7 +138,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "lodgev_basement_residential1", "lodgev_basement_residential2" ] ],
     "object": {
       "fill_ter": "t_soil",

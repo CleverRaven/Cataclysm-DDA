@@ -55,8 +55,8 @@
     "healthy": -1,
     "fun": -10,
     "cooks_like": "meat_cooked",
-    "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "mutant_toxin", 25 ] ],
-    "flags": [ "SMOKABLE", "RAW" ],
+    "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "mutant_toxin", 25 ], [ "human_flesh_vitamin", 1 ] ],
+    "flags": [ "RAW" ],
     "smoking_result": "meat_smoked"
   },
   {
@@ -81,7 +81,7 @@
     "description": "A shriveled gray stomach, it hasn't seen use in a very long time.",
     "weight": "72 g",
     "volume": "250 ml",
-    "vitamins": [ [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "human_flesh_vitamin", 1 ] ],
     "price_postapoc": "25 cent",
     "price": "2 USD",
     "spoils_in": "8 hours",
@@ -105,7 +105,7 @@
     "price_postapoc": "10 cent",
     "material": [ "bone" ],
     "volume": "250 ml",
-    "vitamins": [ [ "calcium", 96 ], [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
+    "vitamins": [ [ "calcium", 96 ], [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ],
     "into": "meal_bone",
     "recipe": "meal_bone_mill_1_4"
   },
@@ -127,7 +127,7 @@
     "price": "0 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ],
     "parasites": 32,
     "fun": -20
   },
@@ -148,18 +148,10 @@
     "description": "A smooth light green block of cleaned and rendered human fat.  While it'll remain edible for a very long time, it won't be the most appetizing.",
     "price": "5 USD",
     "volume": "250 ml",
-    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ],
     "parasites": 32,
     "fun": -20,
     "material": [ "hflesh" ]
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "frost_human_lard",
-    "name": { "str_sp": "freezerburned human lard" },
-    "copy-from": "frost_human_tallow",
-    "description": "A smooth light green block of dry-rendered human fat.  It's very frostburnt, and while it will remain edible for a very long time, it's not the most appetizing."
   },
   {
     "type": "ITEM",
@@ -181,7 +173,7 @@
     "price_postapoc": "20 cent",
     "material": [ "flesh" ],
     "flags": [ "TRADER_AVOID" ],
-    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ],
     "fun": -12
   },
   {
@@ -201,7 +193,7 @@
     "fun": -10,
     "cooks_like": "meat_cooked",
     "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "mutant_toxin", 25 ] ],
-    "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
+    "flags": [ "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
   },
   {
@@ -230,7 +222,7 @@
     "description": "This is a tiny scrap of dubiously edible alien meat.  It's not much, but it might be better than starving.",
     "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
-    "delete": { "flags": [ "SMOKABLE" ] },
+    "smoking_result": "null",
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "mutant_toxin", 5 ] ]
   },
   {
@@ -486,21 +478,13 @@
   {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "id": "alien_lard",
-    "name": { "str_sp": "alien lard" },
-    "copy-from": "alien_tallow",
-    "description": "A smooth white block of dry-rendered animal fat.  It'll last for a very long time, but you are unsure of its edibility.  Can be used as an ingredient in many foods and projects."
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "alien_organs",
     "symbol": "¨",
     "name": { "str_sp": "unidentifiable alien organs" },
     "volume": "166 ml",
     "weight": "250 g",
-    "color": "black",
+    "color": "dark_gray",
     "looks_like": "feces_manure",
     "description": "An unidentifiable pile of organs; you have no idea how you'd prepare them.",
     "snippet_category": "alien_organ",

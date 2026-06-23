@@ -128,5 +128,66 @@
         "prob": 60
       }
     ]
+  },
+  {
+    "id": "combat_exoskeleton_light_damaged",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "combat_exoskeleton_light", "damage": [ 0, 3 ] } ]
+  },
+  {
+    "id": "combat_exoskeleton_medium_damaged",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "combat_exoskeleton_medium", "damage": [ 0, 3 ] } ]
+  },
+  {
+    "id": "combat_exoskeleton_heavy_damaged",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "combat_exoskeleton_heavy", "damage": [ 0, 3 ] } ]
+  },
+  {
+    "id": "combat_exoskeleton_armor_set_damaged",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "combat_exoskeleton_armor_set_light", "damage": [ 0, 3 ] },
+      { "group": "combat_exoskeleton_armor_set_medium", "damage": [ 0, 3 ] },
+      { "group": "combat_exoskeleton_armor_set_heavy", "damage": [ 0, 3 ] }
+    ]
+  },
+  {
+    "id": "combat_exoskeleton_armor_set_light",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      "combat_exoskeleton_armor_head_light",
+      "combat_exoskeleton_armor_torso_light",
+      "combat_exoskeleton_armor_arm_light",
+      "combat_exoskeleton_armor_leg_light"
+    ]
+  },
+  {
+    "id": "combat_exoskeleton_armor_set_medium",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      "combat_exoskeleton_armor_head_medium",
+      "combat_exoskeleton_armor_torso_medium",
+      "combat_exoskeleton_armor_arm_medium",
+      "combat_exoskeleton_armor_leg_medium"
+    ]
+  },
+  {
+    "id": "combat_exoskeleton_armor_set_heavy",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      "combat_exoskeleton_armor_head_heavy",
+      "combat_exoskeleton_armor_torso_heavy",
+      "combat_exoskeleton_armor_arm_heavy",
+      "combat_exoskeleton_armor_leg_heavy"
+    ]
   }
 ]

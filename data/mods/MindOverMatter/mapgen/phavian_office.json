@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "office_cubical_phavian" ],
     "object": {
       "fill_ter": "t_floor",
@@ -81,7 +80,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "office_cubical_phavian_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -134,7 +132,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "office_cubical_phavian_basement" ],
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -197,7 +194,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "office_cubical_phavian_subbasement" ],
     "object": {
       "fill_ter": "t_strconc_floor",

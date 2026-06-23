@@ -39,6 +39,9 @@
 *  Customization (error_public.h)
 ******************************************/
 typedef ZSTD_ErrorCode ERR_enum;
+#ifdef PREFIX
+#undef PREFIX
+#endif
 #define PREFIX(name) ZSTD_error_##name
 
 

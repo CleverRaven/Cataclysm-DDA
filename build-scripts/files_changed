@@ -17,7 +17,7 @@ then
     if [ -n $TRAVIS_COMMIT_RANGE ]
     then
         # If this string is populated, it should work.
-        # But it mught fail, due to e.g. the shallow clone depth missing the
+        # But it might fail, due to e.g. the shallow clone depth missing the
         # relevant commit, in which case we fail
         files_list $TRAVIS_COMMIT_RANGE || exit 1
     else

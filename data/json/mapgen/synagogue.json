@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "synagogue" ],
     "//": "New England Synagogue",
     "object": {
@@ -11,7 +10,7 @@
         "  ss^^^^^^^ss^^^^^^^    ",
         "  s^^||||w|++|w||||^^   ",
         "  s^||tt........+.||^   ",
-        "  s^|..........l|..|^   ",
+        "  s^|§.........l|..|^   ",
         " ss^|lll.tt.....|ST|^^  ",
         " s^||||||||++||||||||^  ",
         " s^|................|^  ",
@@ -24,7 +23,7 @@
         " s^|#.#.#.rrrr.#.#.#|^  ",
         " s^w................w^  ",
         " s^|.######..######.|^  ",
-        " s^|.......AA.......|^  ",
+        " s^|.......AA......§|^  ",
         " s^||||+||||||||+||||^  ",
         " s^^woo.o|y.eD....ow^^  ",
         " ss^|y...+.....h.ho|^   ",
@@ -81,12 +80,12 @@
         ".": { "item": "synagogue", "chance": 3 },
         ",": { "item": "synagogue", "chance": 3 },
         "l": { "item": "jackets", "chance": 60 }
-      }
+      },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "synagogue_roof",
     "object": {
       "fill_ter": "t_open_air",
@@ -122,7 +121,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "synagogue_upper_roof",
     "object": {
       "fill_ter": "t_open_air",

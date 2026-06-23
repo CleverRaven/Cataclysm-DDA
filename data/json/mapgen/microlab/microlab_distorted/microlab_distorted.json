@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "microlab_distorted" ] ],
     "object": {
       "predecessor_mapgen": "microlab_generic",
@@ -17,7 +16,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "microlab_distorted_edge" ] ],
     "object": {
       "predecessor_mapgen": "microlab_generic_edge",

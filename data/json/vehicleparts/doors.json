@@ -9,7 +9,18 @@
     "damage_reduction": { "all": 20 },
     "description": "A door.  Has a window so you can see out of it, even when closed.",
     "durability": 225,
-    "flags": [ "CARGO", "CARGO_PASSABLE", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "DOOR", "LOCKABLE_DOOR", "HUGE_OK" ],
+    "flags": [
+      "CARGO",
+      "CARGO_PASSABLE",
+      "OBSTACLE",
+      "OPENABLE",
+      "BOARDABLE",
+      "WINDOW",
+      "DOOR",
+      "LOCKABLE_DOOR",
+      "HUGE_OK",
+      "FRAGILE_COMPONENTS"
+    ],
     "item": "frame",
     "location": "center",
     "looks_like": "t_door_metal_c",
@@ -138,7 +149,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_lc_steel", 3 ] ] }
     },
-    "size": "200 L",
+    "size": "37500 ml",
     "extend": { "flags": [ "LOCKABLE_CARGO", "MULTISQUARE", "COVERED" ] },
     "type": "vehicle_part"
   },
@@ -176,7 +187,6 @@
       },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "8 m", "using": [ [ "repair_welding_lc_steel", 4 ] ] }
     },
-    "size": "100 L",
     "type": "vehicle_part"
   },
   {
@@ -188,6 +198,30 @@
     "name": { "str": "heavy-duty opaque hatch" },
     "extend": { "flags": [ "OPAQUE" ] },
     "delete": { "flags": [ "WINDOW" ] },
+    "type": "vehicle_part"
+  },
+  {
+    "id": "hatchback_trunk",
+    "copy-from": "hatch",
+    "description": "A fold up door covering trunk space.  A window lets you see through it when closed.",
+    "durability": 420,
+    "name": { "str": "hatchback trunk" },
+    "//": "30 cm of weld per quadrant of damage, 4x that to install",
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "70 m",
+        "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "40 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_lc_steel", 3 ] ] }
+    },
+    "size": "125000 ml",
+    "extend": { "flags": [ "LOCKABLE_CARGO", "MULTISQUARE", "COVERED", "FRAGILE_COMPONENTS" ] },
     "type": "vehicle_part"
   },
   {
@@ -209,7 +243,7 @@
     },
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
     "extend": { "flags": [ "SIMPLE_PART" ] },
-    "delete": { "flags": [ "CARGO", "CARGO_PASSABLE" ] },
+    "delete": { "flags": [ "CARGO", "CARGO_PASSABLE", "LOCKABLE_DOOR" ] },
     "damage_reduction": { "all": 8 }
   },
   {

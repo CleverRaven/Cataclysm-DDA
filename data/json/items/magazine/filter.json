@@ -35,7 +35,7 @@
     "//3": "As it turns out, protecting your lungs from sucking down toxins is expensive.",
     "material": [ "plastic", "rubber", "charcoal" ],
     "symbol": "=",
-    "color": "black",
+    "color": "dark_gray",
     "ammo_type": [ "gasfilter_m" ],
     "count": 100,
     "capacity": 100,

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "This is a laundromat on the bottom-right",
     "nested_mapgen_id": "skyscraper_shopping_0_lr_entrance_store",
     "object": {
@@ -52,7 +51,7 @@
         "D": { "item": "laundry", "chance": 15 },
         "W": { "item": "laundry", "chance": 15 },
         "t": { "item": "laundry", "chance": 5 },
-        "&": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 70 }
       },
       "place_items": [
         { "item": "behindcounter", "x": 7, "y": 12, "chance": 60 },
@@ -68,7 +67,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "This is a fitness gym on the bottom right",
     "nested_mapgen_id": "skyscraper_shopping_0_lr_entrance_store",
     "object": {
@@ -122,7 +120,7 @@
         "b": { "item": "gym", "chance": 30 },
         "L": { "item": "gym", "chance": 60, "repeat": [ 4, 9 ] },
         ".": { "item": "gym", "chance": 5 },
-        "&": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 2, 4 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 50 }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 10, 18 ], "chance": 60, "repeat": [ 5, 10 ] } ]
@@ -130,7 +128,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "This is a grocery store in the middle right.  It and the map below are linked across tile boundaries",
     "nested_mapgen_id": "skyscraper_shopping_0_mr_upper_store",
     "object": {
@@ -186,7 +183,7 @@
         "E": { "item": "cannedfood", "chance": 70, "repeat": [ 2, 4 ] },
         "t": { "item": "snacks", "chance": 50, "repeat": [ 1, 3 ] },
         "D": { "item": "groce_frozen", "chance": 70, "repeat": [ 1, 2 ] },
-        "U": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] }
+        "U": { "item": "SUS_trash_trashcan", "chance": 20 }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_loot": [ { "group": "cash_register_random", "x": [ 4, 6 ], "y": 18 } ],
@@ -195,7 +192,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "This is a grocery store in the middle right.  It and the map above are linked across tile boundaries",
     "nested_mapgen_id": "skyscraper_shopping_0_mr_lower_store",
     "object": {
@@ -233,7 +229,7 @@
         "A": { "item": "alcohol", "chance": 40, "repeat": [ 1, 2 ] },
         "e": { "item": "groce_premade", "chance": 60, "repeat": [ 1, 2 ] },
         "p": [
-          { "item": "groce_cereal", "chance": 50, "repeat": [ 1, 3 ] },
+          { "item": "cereal_in_container_full", "chance": 50, "repeat": [ 1, 3 ] },
           { "item": "groce_pasta", "chance": 50, "repeat": [ 1, 3 ] }
         ],
         "P": { "item": "produce", "chance": 50, "repeat": [ 1, 3 ] },
@@ -246,7 +242,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "This is a beauty salon in the upper right",
     "nested_mapgen_id": "skyscraper_shopping_0_ur_store_1",
     "object": {
@@ -308,7 +303,7 @@
         "r": { "item": "beauty", "chance": 100, "repeat": [ 1, 4 ] },
         "C": { "item": "SUS_hair_drawer", "chance": 100, "repeat": [ 1 ] },
         "t": { "item": "magazines", "chance": 100, "repeat": [ 2, 4 ] },
-        "&": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 70 }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 5, 18 ], "y": [ 5, 14 ], "chance": 60, "repeat": [ 6, 10 ] } ]
@@ -316,7 +311,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_shopping_0_toilets_7x7_E",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -332,7 +326,7 @@
       "terrain": { ".": "t_linoleum_white", "|": "t_brick_wall", "+": "t_door_c" },
       "furniture": { "S": "f_sink", "T": "f_toilet", "a": "f_trashcan" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 6, "y2": 2 } ],
-      "items": { "a": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] }, "T": { "item": "SUS_toilet", "chance": 50 } },
+      "items": { "a": { "item": "SUS_trash_trashcan", "chance": 70 }, "T": { "item": "SUS_toilet", "chance": 50 } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 0, 6 ], "y": [ 1, 2 ], "chance": 60, "repeat": [ 1, 5 ] } ],
       "toilets": { "T": {  } }
@@ -340,7 +334,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_shopping_0_toilets_7x7_W",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -356,7 +349,7 @@
       "terrain": { ".": "t_linoleum_white", "|": "t_brick_wall", "+": "t_door_c" },
       "furniture": { "S": "f_sink", "T": "f_toilet", "a": "f_trashcan" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 6, "y2": 2 } ],
-      "items": { "a": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] }, "T": { "item": "SUS_toilet", "chance": 50 } },
+      "items": { "a": { "item": "SUS_trash_trashcan", "chance": 70 }, "T": { "item": "SUS_toilet", "chance": 50 } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 0, 6 ], "y": [ 1, 2 ], "chance": 60, "repeat": [ 1, 5 ] } ],
       "toilets": { "T": {  } }
@@ -364,7 +357,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "This is a food court in the middle left",
     "nested_mapgen_id": "skyscraper_shopping_0_ml_lower_store_1",
     "object": {
@@ -425,8 +417,8 @@
         "U": "f_trashcan"
       },
       "items": {
-        "U": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] },
-        "d": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 3 ] },
+        "U": { "item": "SUS_trash_trashcan", "chance": 70 },
+        "d": { "item": "SUS_trash_trashcan", "chance": 30 },
         "T": { "item": "restaur_table", "chance": 15 },
         "f": { "item": "restaur_fridge", "chance": 50, "repeat": [ 2, 8 ] },
         "F": { "item": "restaur_fridge", "chance": 50, "repeat": [ 2, 8 ] },
@@ -450,7 +442,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "weight": 500,
     "//": "This is a grocery store in the middle left. Lower weight because of guaranteed grocery store on the right",
     "nested_mapgen_id": "skyscraper_shopping_0_ml_upper_store_1",
@@ -514,7 +505,7 @@
       "items": {
         "b": { "item": "behindcounter", "chance": 60 },
         "$": { "item": "cash_register_random", "chance": 100 },
-        "U": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] }
+        "U": { "item": "SUS_trash_trashcan", "chance": 70 }
       },
       "place_items": [
         { "item": "magazines", "x": [ 5, 7 ], "y": 22, "chance": 80, "repeat": [ 3, 10 ] },
@@ -529,7 +520,7 @@
         { "item": "groce_frozen", "x": 4, "y": 13, "chance": 80, "repeat": [ 1, 8 ] },
         { "item": "groce_meat", "x": 4, "y": 14, "chance": 80, "repeat": [ 1, 8 ] },
         { "item": "groce_dairyegg", "x": 4, "y": 15, "chance": 80, "repeat": [ 1, 8 ] },
-        { "item": "groce_cereal", "x": [ 5, 6 ], "y": 20, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "cereal_in_container_full", "x": [ 5, 6 ], "y": 20, "chance": 80, "repeat": [ 1, 8 ] },
         { "item": "groce_bread", "x": [ 7, 8 ], "y": 20, "chance": 80, "repeat": [ 1, 8 ] },
         { "item": "snacks", "x": [ 9, 10 ], "y": 20, "chance": 80, "repeat": [ 1, 12 ] },
         { "item": "groce_softdrink", "x": [ 8, 10 ], "y": 14, "chance": 80, "repeat": [ 1, 8 ] },
@@ -543,7 +534,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "This is an electronics store in the middle left",
     "nested_mapgen_id": "skyscraper_shopping_0_ml_upper_store_1",
     "object": {
@@ -617,7 +607,7 @@
         "R": { "item": "supplies_electronics", "chance": 50, "repeat": [ 2, 5 ] },
         "t": { "item": "elecsto_books", "chance": 10 },
         "$": { "item": "cash_register_random", "chance": 100 },
-        "U": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] }
+        "U": { "item": "SUS_trash_trashcan", "chance": 70 }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_ELECTRO", "x": [ 6, 18 ], "y": [ 13, 20 ], "chance": 80, "repeat": [ 5, 10 ] } ]
@@ -625,7 +615,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "This is a book store in the middle left",
     "nested_mapgen_id": "skyscraper_shopping_0_ml_upper_store_1",
     "object": {
@@ -695,7 +684,7 @@
       "items": {
         "b": { "item": "behindcounter", "chance": 60 },
         "$": { "item": "cash_register_random", "chance": 100 },
-        "&": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] },
+        "&": { "item": "SUS_trash_trashcan", "chance": 70 },
         "B": { "item": "homebooks", "chance": 50, "repeat": [ 2, 5 ] },
         "K": { "item": "SUS_business_bookcase", "chance": 80 },
         "J": { "item": "SUS_engineering_bookcase", "chance": 75 },
@@ -718,7 +707,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "This is a pet supply store in the upper-left.",
     "nested_mapgen_id": "skyscraper_shopping_0_ul_store_1",
     "object": {
@@ -782,7 +770,7 @@
         "D": { "item": "vet_hardrug", "chance": 20 },
         "u": { "item": "vet_utility", "chance": 85, "repeat": [ 1, 4 ] },
         "t": { "item": "magazines", "chance": 70, "repeat": [ 1, 6 ] },
-        "U": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] }
+        "U": { "item": "SUS_trash_trashcan", "chance": 70 }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_VANILLA", "x": [ 4, 18 ], "y": [ 5, 11 ], "chance": 50, "repeat": [ 6, 10 ] } ]
@@ -790,7 +778,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_small1_ul",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -811,7 +798,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_small2_ul",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -832,7 +818,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_small_sofa_ul",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -858,7 +843,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_small_sofa_ul",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -884,7 +868,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_small_sofa_ul",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -910,7 +893,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_small_sofa_ul",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -936,7 +918,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_small_office_ul",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -961,7 +942,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_small_office_ul",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -987,7 +967,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_small_office_ul",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1013,7 +992,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_small_office_ul",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1039,7 +1017,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_small_office_ul",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1065,7 +1042,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_6x6_glass_ur",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1093,7 +1069,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_6x6_glass_ur",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1121,7 +1096,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_6x6_glass_ur",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1149,7 +1123,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_6x6_glass_ur",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1177,7 +1150,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_6x6_glass_ur",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1205,7 +1177,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_6x6_office_ur",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1226,7 +1197,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_6x6_computer_ur",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1246,7 +1216,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_6x6_files_ur",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1266,7 +1235,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_register_ur",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1286,7 +1254,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_benches_ur",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1306,7 +1273,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_sofa_ur",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1333,7 +1299,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_sofa_ur",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1360,7 +1325,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_sofa_ur",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1387,7 +1351,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_sofa_ur",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1414,7 +1377,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_office_ur",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1434,7 +1396,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_crowded_dl",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -1458,12 +1419,12 @@
         "****************"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_generic_dl",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -1487,12 +1448,12 @@
         "****************"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_office_glass_dl",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -1526,12 +1487,12 @@
         "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_private_dl",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -1555,12 +1516,12 @@
         "****************"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_office_slide_dl",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -1584,12 +1545,12 @@
         "****************"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_boss_cafe_dr",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -1625,12 +1586,12 @@
       },
       "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_boss_cafe_dr",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -1666,12 +1627,12 @@
       },
       "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_boss_cafe_dr",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -1707,12 +1668,12 @@
       },
       "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_boss_cafe_dr",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -1748,12 +1709,12 @@
       },
       "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_office_dr",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -1777,12 +1738,12 @@
         "****************"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_office_glass_dr",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -1814,12 +1775,12 @@
         "d": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "x": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_office_slide_dr",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -1849,7 +1810,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_office_private_dr",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -1879,7 +1839,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_office_crowded_dr",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -1909,7 +1868,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_register_ol",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1929,7 +1887,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_office1_ol",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1948,7 +1905,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_office2_ol",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1967,7 +1923,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_sofas_ol",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1993,7 +1948,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_sofas_ol",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2019,7 +1973,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_sofas_ol",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2045,7 +1998,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_sofas_ol",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2071,7 +2023,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_office_slide_al",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -2095,12 +2046,12 @@
         "*V.............."
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_office_crowded_al",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -2124,12 +2075,12 @@
         "*V.............."
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_office_al",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -2153,12 +2104,12 @@
         "*V.............."
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_office_private_al",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -2182,12 +2133,12 @@
         "*V.............."
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_office_glass_al",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -2221,12 +2172,12 @@
         "M": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_office_slide_ar",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -2250,12 +2201,12 @@
         "..............V*"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_office_crowded_ar",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -2279,12 +2230,12 @@
         "..............V*"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_office_ar",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -2308,12 +2259,12 @@
         "..............V*"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_office_private_ar",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -2337,12 +2288,12 @@
         "..............V*"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_office_glass_ar",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -2374,12 +2325,12 @@
         "x": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_register_or",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2398,7 +2349,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_office_or",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2417,7 +2367,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_sofas_or",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2443,7 +2392,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_sofas_or",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2469,7 +2417,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_sofas_or",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2495,7 +2442,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_sofas_or",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2521,7 +2467,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_toilet_il",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2533,12 +2478,12 @@
         "*****",
         "*****"
       ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_storage1_il",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2551,12 +2496,12 @@
         "*****"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_storage2_il",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2568,12 +2513,12 @@
         "*****",
         "*****"
       ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_storage3_il",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2586,12 +2531,12 @@
         "*****"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_cleaning1_il",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2603,12 +2548,12 @@
         "*****",
         "*****"
       ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_cleaning2_il",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2626,7 +2571,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_toilet_ir",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2644,7 +2588,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_storage1_ir",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2663,7 +2606,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_storage2_ir",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2681,7 +2623,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_storage3_ir",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2700,7 +2641,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_cleaning1_ir",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2718,7 +2658,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_5x5_cleaning2_ir",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2736,7 +2675,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_boss_al",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2765,7 +2703,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_boss_al",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2794,7 +2731,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_boss_al",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2823,7 +2759,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_boss_al",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2852,7 +2787,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_eating_al",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2873,7 +2807,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_office_al",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2901,7 +2834,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_office_al",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2929,7 +2861,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_office_al",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2957,7 +2888,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_office_al",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2985,7 +2915,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_meeting_al",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3013,7 +2942,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_meeting_al",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3041,7 +2969,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_meeting_al",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3069,7 +2996,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_meeting_al",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3097,7 +3023,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_office_ar",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3125,7 +3050,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_office_ar",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3153,7 +3077,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_office_ar",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3181,7 +3104,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_office_ar",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3209,7 +3131,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_boss_ar",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3231,7 +3152,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_sofas_ar",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3259,7 +3179,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_sofas_ar",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3287,7 +3206,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_sofas_ar",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3315,7 +3233,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_sofas_ar",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3343,7 +3260,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_files_ar",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3369,7 +3285,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_4x4_cr1_r",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -3386,7 +3301,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_4x4_cr2_r",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -3403,7 +3317,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_4x4_cr3_r",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -3420,7 +3333,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_4x4_cr1_l",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -3437,7 +3349,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_4x4_cr2_l",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -3454,7 +3365,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_4x4_cr3_l",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -3471,7 +3381,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr1_l",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3499,7 +3408,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr1_l",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3527,7 +3435,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr1_l",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3555,7 +3462,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr1_l",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3583,7 +3489,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr2_l",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3611,7 +3516,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr3_l",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3640,7 +3544,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr3_l",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3669,7 +3572,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr3_l",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3696,7 +3598,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr3_l",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3723,7 +3624,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr1_r",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3751,7 +3651,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr1_r",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3779,7 +3678,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr1_r",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3807,7 +3705,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr1_r",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3835,7 +3732,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr2_r",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3864,7 +3760,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr3_r",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3893,7 +3788,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr3_r",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3922,7 +3816,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr3_r",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3951,7 +3844,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr3_r",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3980,7 +3872,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "skyscraper_8x8_mr4_r",
     "object": {
       "mapgensize": [ 8, 8 ],

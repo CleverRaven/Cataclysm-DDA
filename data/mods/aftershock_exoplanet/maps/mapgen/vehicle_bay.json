@@ -1,0 +1,78 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "afs_vehicle_bay_a1", "afs_vehicle_bay_a2" ] ],
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "                                                ",
+        " ññññññññññññññññññññññññññññññññññññ/////      ",
+        " ñ                                   /222/      ",
+        " ñ   ©©©©© ©©©©   ©©©© ©©  ©©©©©©©©  .'../      ",
+        " ñ  ©©____________________________©1 ..&&/      ",
+        " ñ  ©______   ____ _   ______3_ ___© ..&&////// ",
+        " ñ  ©______ __ ___   ____  ___ ____1 ....!...l/ ",
+        " ñ   _______   ____©©_____  _______© .'../.'.l/ ",
+        " ñ  ©_______ ________ _____  ______1 /222//!/// ",
+        " ñ  ©___   ___ __  __    ___ ______© //////./ ñ ",
+        " ñ  ©____ _____  __________________©°° °°°/!/ ñ ",
+        " ñ  ©__    ___  ___©©___ ___   ____©°°° °° °° ñ ",
+        " ñ  ©_    ___    __©©__   ___  ____©°°  °°°°° ñ ",
+        " ñ  ©_________  _ ____________  _  ©°°°°°° °  ñ ",
+        " ñ   ____  _____ ______    __  ___      °° °  ñ ",
+        " ñ   _____  _  _________  _________©      °°  ñ ",
+        " ñ   __________  __©©_______ ______© °°° °°°  ñ ",
+        " ñ  ©_____ _____ ___ __  ___ __ ___  °° °° °  ñ ",
+        " ñ  ©_____   ______  __    __   ___© °°°°°°°  ñ ",
+        " ñ  ©©_____ _____ __ ___ ____ ____©© °°°  °°  ñ ",
+        " ñ   ©©____ ___©©   ©©©©©________©©       °°  ñ ",
+        " ñ     ___   __           _  ___         °°°  ñ ",
+        " ñññññ  _   ___ ññññññññ __  _  _ ñññññññ°°°ñññ ",
+        "           _               _   __        °      "
+      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_mech_furnishing", "afs_habitat_exterior", "afs_light_param_palette" ],
+      "terrain": { "ñ": "t_chainfence", "_": "t_pavement", "3": "t_pavement" },
+      "furniture": { "&": "f_sealed_intermodal_crate", "2": "f_rack" },
+      "gaspumps": { "1": {  } },
+      "items": { "&": [ { "item": "afs_crate_civ_rand" } ], "2": [ { "item": "afs_vehicle_bay_rack" } ] },
+      "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 2, 22 ], "y": [ 2, 22 ], "pack_size": [ 1, 2 ], "chance": 50 } ],
+      "place_nested": [ { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 24, "y": 0 } ],
+      "vehicles": { "3": { "vehicle": "warehouse_vehicles", "chance": 12, "rotation": 180 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "afs_vehicle_bay_a1_roof", "afs_vehicle_bay_a2_roof" ] ],
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "                                                ",
+        "                                     .....      ",
+        "                                     .....      ",
+        "                                     .A...      ",
+        "                                     .A...      ",
+        "                                     .A........ ",
+        "                                     .A..s.s.s. ",
+        "                                     .A..s.s.s. ",
+        "                                     ..X....... ",
+        "                                     ........   ",
+        "                                          ...   ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                "
+      ],
+      "terrain": { " ": "t_open_air", ".": "t_metal_floor", "A": "t_glass_roof", "s": "t_metal_floor", "X": "t_metal_floor" },
+      "furniture": { "X": "f_small_satellite_dish", "s": "f_solar_unit" }
+    }
+  }
+]

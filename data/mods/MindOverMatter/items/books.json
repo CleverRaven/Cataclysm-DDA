@@ -165,7 +165,22 @@
     "intelligence": 8,
     "time": "12 m",
     "read_skill": "unarmed",
-    "read_fun": 1
+    "read_fun": -2
+  },
+  {
+    "id": "phavian_psionic_control_mutations_book",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "name": { "str": "Progress Report: EMERALD VANGUARD", "str_pl": "copies of Progress Report: EMERALD VANGUARD" },
+    "description": "A formal report with a mostly-blank cover page, stamped with the Project PHAVIAN logo at the top and a red \"EMERALD VANGUARD - EYES ONLY\" centered underneath.  Skimming through it, it seems to be a report of a series of tests involving mixing \"PE050\" and \"BURNT NOVEMBER\" together.  Near the end of the report is a series of \"noetic exercises\" designed to allow the \"mathematician\" to exert conscious control over \"the progressive changes made by exposure to XE037\". There's a lot of jargon in here but the instructions seem like you might be able to puzzle them out.",
+    "copy-from": "recipe_lab_elec",
+    "required_level": 2,
+    "max_level": 2,
+    "intelligence": 12,
+    "time": "45 m",
+    "read_skill": "metaphysics",
+    "read_fun": -2
   },
   {
     "id": "phavian_psionic_teleportation_combat_book",
@@ -180,7 +195,7 @@
     "intelligence": 12,
     "time": "45 m",
     "read_skill": "metaphysics",
-    "read_fun": 1
+    "read_fun": -2
   },
   {
     "id": "phavian_psionic_telepathic_mental_engineering_book",
@@ -195,6 +210,6 @@
     "intelligence": 10,
     "time": "12 m",
     "read_skill": "metaphysics",
-    "read_fun": 1
+    "read_fun": -2
   }
 ]

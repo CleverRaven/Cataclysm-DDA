@@ -1,3 +1,21 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Item spawn system](#item-spawn-system)
+  - [Collection or Distribution](#collection-or-distribution)
+  - [Format](#format)
+    - [Entries array](#entries-array)
+    - [Ammo and Magazines](#ammo-and-magazines)
+  - [Shortcuts](#shortcuts)
+  - [Adding to item groups](#adding-to-item-groups)
+  - [Inlined item groups](#inlined-item-groups)
+    - [Notes](#notes)
+      - [Testing](#testing)
+      - [SUS](#sus)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Item spawn system
 
 ## Collection or Distribution
@@ -97,13 +115,15 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 "artifact": <object>
 "event": <string>
 "snippets": <string>
+"faults": <array>
+"variables": <global_variables:impl_t> (either string and string, or string and double)
 ```
 
 `contents` is added as contents of the created item.  It is not checked if they can be put into the item.  This allows water, that contains a book, that contains a steel frame, that contains a corpse.
 
-`count` makes the item spawn repeat, each time creating a new item.
+`count` makes the item spawn repeat, each time creating a new item. Setting to -1 fills the container if there's one and spawns 1 if not.
 
-`charges`: Setting only min and not max will make the game calculate the max charges based on container or ammo/magazine capacity. Setting max too high will decrease it to the maximum capacity. Not setting min will set it to 0 when max is set.
+`charges`: Setting only min and not max will make the game calculate the max charges based on container or ammo/magazine capacity. Setting max too high will decrease it to the maximum capacity. Setting to -1 fills the container if there's one and spawns the maximum of charges if not.
 
 `sealed`: If true, a container will be sealed when the item spawns.  Default is `true`.
 
@@ -117,8 +137,6 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 
 `event`: A reference to a holiday in the `holiday` enum. If specified, the entry only spawns during the specified real holiday. This works the same way as the seasonal title screens, where the holiday is checked against the current system's time. If the holiday matches, the item's spawn probability is taken from the `prob` field. Otherwise, the spawn probability becomes 0.
 
-`snippets`: If item uses `snippet_category` instead of description, and snippets contain ids, allow to pick a specific description of an item to spawn; see [JSON_INFO.md#snippets](JSON_INFO.md#snippets)
-
 Current possible values are:
 - "none" (Not event-based. Same as omitting the "event" field.)
 - "new_year"
@@ -127,6 +145,22 @@ Current possible values are:
 - "halloween"
 - "thanksgiving"
 - "christmas"
+
+`snippets`: If item uses `snippet_category` instead of description, and snippets contain ids, allow to pick a specific description of an item to spawn; see [JSON_INFO.md#snippets](JSON_INFO.md#snippets)
+
+`faults`: If item can have this fault or faults, it would be spawned with it applied. Possible values are:
+  `id`: array of fault id that should be applied, if possible
+  `chance`: chance to apply any of the faults. Default is 100, always apply
+For example:
+```json
+  { "group": "nested_ar10", "prob": 89, "faults": [ { "id": [ "fault_stovepipe" ], "chance": 50 } ] },
+```
+
+`variables`: Variables can be loaded into item at itemgroup level, if necessary:
+For example:
+```json
+  { "group": "used_usb_drives", "prob": 60, "variables": [ { "browsed": "true" } ] },
+```
 
 `artifact`: This object determines that the item or group that is spawned by this entry will become an artifact. Here is an example:
 ```jsonc
@@ -161,6 +195,13 @@ be specified for guns and magazines in the entries array to use a non-default am
   If any item groups are referenced from your item group, then their ammo/magazine chances are ignored, and yours are used instead.
 
 *  Use `charges` in the entries array.  A default magazine will be added for you if needed.
+
+#### Multi-well items
+
+Items with more than one `MAGAZINE_WELL` pocket follow two extra rules:
+
+* `charges` on the entry is ambiguous (no rule says how to split the count across pockets) and is rejected with a debugmsg.  The wells stay empty.
+* `ammo` and `magazine` are still single rolls per item, but the outcome is applied to every empty well.  When `magazine` rolls true, each well's default magazine is installed; when `ammo` also rolls true, each inserted magazine is filled with its own default ammo.  Wells already holding a magazine are skipped except for an empty mag, which is topped up when the `ammo` roll succeeds.
 
 ## Shortcuts
 
@@ -251,7 +292,7 @@ Mods can add entries to item groups by specifying a group with the same id that 
 
 In some places one can define an item group directly instead of giving the id of a group.  One cannot refer to that group elsewhere - it has no visible id (it has an unspecific/random id internally).  This is most useful when the group is very specific to the place it is used and won't ever appear anywhere else.
 
-As an example: monster death drops (`death_drops` entry in the `MONSTER` object, see [MONSTERS.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/MONSTERS.md) can do this.  If the monster is very specific (e.g. a special robot, a unique endgame monster), the item spawned upon its death won't (in that form) appear in any other group.
+As an example: monster death drops (`death_drops` entry in the `MONSTER` object, see [MONSTERS.md](MONSTERS.md) can do this.  If the monster is very specific (e.g. a special robot, a unique endgame monster), the item spawned upon its death won't (in that form) appear in any other group.
 
 Therefore, this snippet:
 

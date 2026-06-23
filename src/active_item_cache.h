@@ -23,6 +23,7 @@ struct item_reference {
     std::vector<item_pocket const *> pocket_chain;
 
     float spoil_multiplier() const;
+    float insulation() const;
     bool has_watertight_container() const;
 };
 

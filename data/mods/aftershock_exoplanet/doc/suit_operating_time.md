@@ -55,7 +55,6 @@ Consider the Magellan exosuit, which has the following definition:
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "afs_magellan_suit_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },

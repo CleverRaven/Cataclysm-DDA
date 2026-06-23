@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "bunker_roof",
     "object": {
       "fill_ter": "t_open_air",
@@ -36,7 +35,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "bunker" ],
     "object": {
       "fill_ter": "t_floor",
@@ -104,7 +102,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "bunker_basement_1" ],
     "weight": 250,
     "object": {
@@ -112,24 +109,24 @@
       "rows": [
         "........................",
         ".||||||||||||||||||||||.",
-        ".|H  à RR|ç 5| n 0|@C@|.",
+        ".|H  à RR|ç 5| n§0|@C@|.",
         ".|H hs   ^   +    /   |.",
-        ".|s     0|   |CCCg|@C@|.",
+        ".|s   § 0|   |CCCg|@C@|.",
         ".||||||||||  ||||||||||.",
         ".|0 hr|  µ|  0|@  0ç @|.",
         ".|E hr|   + ~ |!     !|.",
-        ".|E   | < |   +      @|.",
+        ".|E   | < |§  +      @|.",
         ".||||^|||||   |@     !|.",
         ".|U +         |!     @|.",
         ".||||||||||   |!@ @! !|.",
-        ".|h s s s0|   |||||||||.",
+        ".|h s§s s0|   |||||||||.",
         ".|s h h hW|   |}   0 X|.",
-        ".|h       +   +       |.",
+        ".|h       +   +      §|.",
         ".||CCCZCCC|   |sHHHsRR|.",
         ".|0      Y|   |||||||||.",
         ".|S1OCCFCC|5      +  S|.",
         ".|||||||||||*|||+||0 S|.",
-        ".|qqqqqqG     |   |   |.",
+        ".|qqqqqqG§    |   |   |.",
         ".|          h |+|+|+|+|.",
         ".|LLLLLLG  CàC|9|9|t|t|.",
         ".||||||||||||||||||||||.",
@@ -170,7 +167,7 @@
           { "item": "grenade_can_pa120_grenades_full", "chance": 10 }
         ],
         "U": { "item": "SUS_janitors_closet", "chance": 100 },
-        "L": { "item": "milspec_arsenal_group_only_ammo", "chance": 100 },
+        "L": { "item": "milspec_arsenal_group_only_ammo", "chance": 100, "repeat": [ 2, 4 ] },
         "G": { "item": "arsenal_armor_collection", "chance": 100 },
         "E": { "item": "guns_rifle_milspec", "chance": 100 }
       },
@@ -179,7 +176,7 @@
         { "group": "hospital_medical_items", "x": [ 14, 16 ], "y": 4, "chance": 70, "repeat": [ 1, 3 ] },
         { "group": "bunker_basement_drugs", "x": [ 14, 16 ], "y": 4, "chance": 80, "repeat": [ 1, 3 ] },
         { "group": "dining", "x": [ 8, 9 ], "y": 17, "chance": 75, "repeat": [ 1, 2 ] },
-        { "group": "oven", "x": 4, "y": 17, "chance": 70 },
+        { "group": "SUS_oven", "x": 4, "y": 17, "chance": 70 },
         { "group": "cleaning", "x": 2, "y": 10, "chance": 70 },
         { "group": "bunker_basement_suicide", "x": 3, "y": 3 },
         { "item": "mess_tray", "x": [ 5, 6 ], "y": 17, "chance": 50, "repeat": [ 4, 5 ] },
@@ -191,7 +188,8 @@
         { "item": "stereo", "x": 19, "y": 15, "chance": 80 }
       ],
       "vehicles": { "n": { "vehicle": "hospital_bed", "status": 0 } },
-      "monster": { "~": { "monster": "mon_turret_rifle" } }
+      "monster": { "~": { "monster": "mon_turret_rifle" } },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -211,7 +209,7 @@
   {
     "type": "item_group",
     "id": "bunker_basement_food",
-    "items": [ { "group": "cannedfood", "prob": 80 }, { "group": "pasta", "prob": 50 } ]
+    "items": [ { "group": "cannedfood", "prob": 80 }, { "group": "pasta_ingredients", "prob": 50 } ]
   },
   {
     "type": "item_group",

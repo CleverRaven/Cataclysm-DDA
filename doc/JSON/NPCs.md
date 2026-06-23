@@ -57,7 +57,7 @@ Format:
   "carry_override": "NC_EXAMPLE_carried",                                  // Optional. Defines an item group that replaces their carried items (in pockets, etc). Items which cannot
                                                                            // be carried will overflow(fall to the ground) when the NPC is loaded.
   "weapon_override": "NC_EXAMPLE_weapon",                                  // Optional. Defines an item group that replaces their wielded weapon.
-  "bye_message_override": "<fuck_you>",                                    // Optional. If used, overrides the default bye message (picked from <bye> snippet) to any another custom snippet
+  "bye_message_override": "<fuck_you>",                                    // Optional. If used, overrides the default bye message (picked from <bye> snippet) to any another custom snippet, if set to "null" will make the npc not say anything when leaving dialogue.
   "shopkeeper_item_group": [                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration) below.
     { "group": "example_shopkeeper_itemgroup1" },
     { "group": "example_shopkeeper_itemgroup2", "trust": 10 },
@@ -86,6 +86,8 @@ Format:
 * `"shopkeeper_consumption_rates"` optional to define item consumption rates for this shopkeeper. Default is to consume all items before restocking
 * `"shopkeeper_price_rules"` optional to define personal price rules with the same format as faction price rules (see [FACTIONS.md](FACTIONS.md)). These take priority over faction rules
 * `"shopkeeper_blacklist"` optional to define blacklists for this shopkeeper
+* `"shopkeeper_whitelist"` optional to define whitelist for this shopkeeper. syntax is the same as for blacklist, but `message` field should be ignored
+* `"whitelist_message"` if whitelist is used, this will be printed on every item that is not matched by whitelist
 * `"restock_interval"`: optional. Default is 6 days
 
 #### Shopkeeper item groups
@@ -95,7 +97,7 @@ Format:
 - `"condition"` : (_optional_) Checked alongside trust with the avatar as alpha and the evaluating NPC as beta. See [Player or NPC conditions](#player-or-npc-conditions).
 - `"strict"` : (_optional_) If true, items in this group will not be available for restocking unless the conditions are met. (Defaults to false)
 - `"rigid"` : (_optional_) By default, item groups will be continually iterated until they reach a certain value or size threshold for the NPC. Rigid groups are instead guaranteed to populate a single time if they can, and will not include duplicate reruns. (Defaults to false)
-- `"refusal"` : (_optional_) message to display in UIs (ex: trade UI) when conditions are not met. Defaults to `"<npcname> does not trust you enough"`
+- `"refusal"` : (_optional_) message to display in UIs (ex: trade UI) when conditions are not met. Defaults to `"<npc_faction> faction does not trust you enough."`
 
 #### Shopkeeper consumption rates
 Controls consumption of shopkeeper's stock of items (simulates purchase by other people besides they player).
@@ -129,6 +131,23 @@ Specifies blacklist of items that shopkeeper will not accept for trade.  Format 
       "item": "hammer",
       "condition": { "compare_string": [ "yes", { "npc_val": "bool_test_hammer_hater" } ] },
       "message": "<npcname> hates this item"
+    },
+    { "category": "ammo" },
+    { "group": "EXODII_basic_trade" }
+  ]
+```
+
+#### Shopkeeper whiteliste
+Specifies whitelist of items, shopkeeper will not accept anything else.  Format is similar to `shopkeeper_blacklist`.  `message` will have to be defined among the instance instead of being inside of it
+
+```jsonc
+  "type": "shopkeeper_whitelist",
+  "id": "basic_whitelist",
+  "message": "<npcname> will never buy this.",
+  "entries": [
+    {
+      "item": "hammer",
+      "condition": { "compare_string": [ "yes", { "npc_val": "bool_test_hammer_hater" } ] }
     },
     { "category": "ammo" },
     { "group": "EXODII_basic_trade" }
@@ -180,7 +199,7 @@ This is the JSON that creates the NPC ID that is used to spawn an NPC in "mapgen
 | `name_unique` | Set name of NPC.
 | `name_suffix` | Set name suffix of NPC.
 | `attitude`    | _(mandatory)_ Based on the enum in `npc.h`. The important ones are `0=NPCATT_NULL`, `1=NPCATT_TALK`, `3=NPCATT_FOLLOW`, `10=NPCATT_KILL`, and `11=NPCATT_FLEE`.
-| `mission`     | _(mandatory)_ Based on the enum in `npc.h`. The important ones are `0=NPC_MISSION_NULL`, `3=NPC_MISSION_SHOPKEEP`, `7=NPC_MISSION_GUARD`, and `8=NPC_MISSION_GUARD_PATROL`.
+| `mission`     | _(mandatory)_ Based on the enum in `npc.h`. The important ones are `NULL`, `SHOPKEEP`, `GUARD`, and `GUARD_PATROL`.
 | `chat`        | _(mandatory)_ Covered in the dialogue examples below.
 | `faction`     | Set faction NPC belongs to (see [FACTIONS.md](FACTIONS.md)).
 | `death_eocs`  | String `effect_on_condition` ids and/or inline `effect_on_condition`s (see [EFFECT_ON_CONDITION.md](EFFECT_ON_CONDITION.md)). When the npc dies all of these `eoc`s are run with the victim as u and the killer as npc.
@@ -211,7 +230,7 @@ If `npc` has the following fields, the game will display a dialogue with the ind
 Field | Default topic ID  | Uses for...
 ---|---|---
 `talk_friend` | `TALK_FRIEND` | Talk to a follower NPC
-`talk_radio` | `TALK_RADIO` | Talk to a follower NPC with two way radios
+`talk_radio` | `TALK_RADIO` | Talk to a follower NPC or faction representative with two way radios
 `talk_leader` | `TALK_LEADER` | Talk to an NPC that have 5=NPCATT_LEAD
 `talk_stole_item` | `TALK_STOLE_ITEM` | Talk to an NPC that have 18=NPCATT_RECOVER_GOODS
 `talk_wake_up` | `TALK_WAKE_UP` | Talk to a sleeping NPC
@@ -222,6 +241,8 @@ Field | Default topic ID  | Uses for...
 `talk_stranger_wary` | `TALK_STRANGER_WARY` | see "success and failure" section
 `talk_stranger_friendly` | `TALK_STRANGER_FRIENDLY` | see "success and failure" section
 `talk_stranger_neutral` | `TALK_STRANGER_NEUTRAL` | see "success and failure" section
+`talk_mission_inqure` | `TALK_MISSION_INQUIRE` | see [the missions docs](MISSIONS_JSON.md)
+`talk_mission_describe_urgent` | `TALK_MISSION_DESCRIBE_URGENT` | see [the missions docs](MISSIONS_JSON.md)
 
 ---
 
@@ -346,35 +367,40 @@ Field | Default messages/snippets | Used for...
 
 ### Special Custom Entries
 
-Certain entries like the snippets above are taken from the game state as opposed to JSON; they are found in the npctalk function parse_tags. They are as follows:
+Certain entries like the snippets above are taken from the game state as opposed to JSON; they are found in the npctalk function parse_tags. In dialogue the alpha talker is the avatar and the beta talker is the NPC.
 
-Field | Used for...
----|---
-`<yrwp>` | displays avatar's wielded item
-`<mywp>` | displays npc's wielded item
-`<u_name>` | displays avatar's name
-`<npc_name>` | displays npc's name
-`<ammo>` | displays avatar's ammo
-`<current_activity>` | displays npc's current activity
-`<punc>` | displays a random punctuation from: `.`, `…`, `!`
-`<mypronoun>` | displays npc's pronoun
-`<total_kills>` | total kills of the Player
-`<time_survived>` | time since start of the game
-`<topic_item>` | referenced item
-`<topic_item_price>` | referenced item unit price
-`<topic_item_my_total_price>` | TODO Add
-`<topic_item_your_total_price>` | TODO Add
-`<interval>` | displays the time remaining until restock
-`<u_val:VAR>` | The user variable VAR
-`<npc_val:VAR>` | The npc variable VAR
-`<context_val:VAR>` | The context variable VAR
-`<global_val:VAR>` | The global variable VAR
-`<item_name:ID>` | The name of the item from ID
-`<item_description:ID>` | The description of the item from ID
-`<trait_name:ID>` | The name of the trait from ID
-`<trait_description:ID>` | The description of the trait from ID
-`<spell_name:ID>` | The description of the name from ID
-`<spell_description:ID>` | The description of the trait from ID
+| Field                                         | Expects talker | Description
+| --------------------------------------------- | -------------- | -----------------------------------
+| `<yrwp>`                                      | alpha          | gets replaced with alpha talker's wielded item
+| `<mywp>`                                      | beta           | gets replaced with beta talker's wielded item or "fists" if they aren't wielding anything
+| `<u_name>`                                    | alpha          | gets replaced with alpha talker's name
+| `<npc_name>`                                  | beta           | gets replaced with beta talker's name
+| `<npcname>`                                   | N/A            | DO NOT USE, DEPRECATED - This will not work in parse_tags! It is listed here so you don't confuse it with with the very similar <npc_name>.
+| `<ammo>`                                      | beta           | gets replaced with beta talker's ammo or "BADAMMO" if it can't be determined
+| `<current_activity>`                          | beta           | gets replaced with beta talker's current activity or "doing this and that" if they don't have one assigned
+| `<mypronoun>`                                 | beta           | gets replaced with capitalised beta talker's pronoun (just "He" or "She" as of writing)
+| `<mypossesivepronoun>`                        | beta           | gets replaced with lowercase beta talker's possesive pronoun (just "his" or "her" as of writing)
+| `<topic_item>`                                | N/A            | gets replaced with talk_topic's referenced item's name
+| `<topic_item_price>`                          | N/A            | gets replaced with talk_topic's referenced item's unit price before modifiers
+| `<topic_item_my_total_price>`                 | beta           | gets replaced with the total price for talk_topic's referenced item in beta talker's inventory
+| `<topic_item_your_total_price>`               | alpha          | gets replaced with the total price for talk_topic's referenced item in alpha talker's inventory
+| `<interval>`                                  | beta           | gets replaced with the time remaining until the beta talker restocks
+| `<restock_time_point>`                        | beta           | displays the date of next restock of the beta talker
+| `<u_val:VAR>`                                 | alpha          | gets replaced with the user variable VAR
+| `<npc_val:VAR>`                               | beta           | gets replaced with the npc variable VAR
+| `<context_val:VAR>`                           | N/A            | gets replaced with the context variable VAR
+| `<global_val:VAR>`                            | N/A            | gets replaced with the global variable VAR
+| `<item_name:ID>`                              | N/A            | gets replaced with the name of the item from ID
+| `<item_description:ID>`                       | N/A            | gets replaced with the description of the item from ID
+| `<trait_name:ID>`                             | N/A            | gets replaced with the name of the trait from ID
+| `<trait_description:ID>`                      | N/A            | gets replaced with the description of the trait from ID (avatar variant of trait is used, if avatar has such trait)
+| `<spell_name:ID>`                             | N/A            | gets replaced with the name of the spell from ID
+| `<spell_description:ID>`                      | N/A            | gets replaced with the description of the spell from id
+| `<u_spell_level:ID>`                          | alpha          | gets replaced with the spell level of corresponding spell alpha talker has. If alpha talker has no such spell, it returns -1
+| `<keybind:ID>` and `<keybind:CATEGORY_ID:ID>` | N/A            | gets replaced with the keys bound to a specific `"type": "keybind"` found in data/raw or "Unbound globally/locally! (<keybind_name> in keybind category CATEGORY_ID)" if unbound.
+| `<city>`                                      | N/A            | gets replaced with the name of the closest city to the avatar
+| `<time_survived>`                             | N/A            | gets replaced with time since start of the game
+| `<total_kills>`                               | N/A            | gets replaced with total kills of the avatar
 
 item_name and similar tags, that parse the text out of the id, are able to parse the tags of variables, so it is possible to use `<item_name:<global_val:VAR>>`
 
@@ -663,7 +689,7 @@ The short format is equivalent to (an unconditional switching of the topic, `eff
 }
 ```
 
-When using a conditional you can specify the response to still appear but be marked as unavailable. This can be done by adding a `failure_explanation` or `failure_topic` in the bellow example if the condition fails `*Didn't have enough: I, the player, say to you...` will be what appears in the responses, and if selected it will instead go to `TALK_EXPLAIN_FAILURE` and wont trigger the other effects:
+When using a conditional you can specify the response to still appear but be marked as unavailable. This can be done by adding a `failure_explanation` or `failure_topic` in the below example if the condition fails `*Didn't have enough: I, the player, say to you...` will be what appears in the responses, and if selected it will instead go to `TALK_EXPLAIN_FAILURE` and wont trigger the other effects:
 ```jsonc
 {
   "condition": "...something...",
@@ -726,19 +752,48 @@ Optional, if not defined, `"NONE"` is used. Otherwise one of `"NONE"`, `"LIE"`, 
 
 The `difficulty` is only required if type is not `"NONE"` or `"CONDITION"` and, for most trials, specifies the success chance in percent (it is however modified by various things like mutations).  Higher difficulties are easier to pass. `"SKILL_CHECK"` trials are unique, and use the difficulty as a flat comparison.
 
-An optional `mod` array takes any of the following modifiers and increases the difficulty by the NPC's opinion of your character or personality trait for that modifier multiplied by the value: `"ANGER"`, `"FEAR"`, `"TRUST"`, `"VALUE"`, `"AGGRESSION"`, `"ALTRUISM"`, `"BRAVERY"`, `"COLLECTOR"`. The special `"POS_FEAR"` modifier treats NPC's fear of your character below 0 as though it were 0.  The special `"TOTAL"` modifier sums all previous modifiers and then multiplies the result by its value and is used when setting the owed value.
-
 `"CONDITION"` trials take a mandatory `condition` instead of `difficulty`.  The `success` object is chosen if the `condition` is true and the `failure` is chosen otherwise.
 
 `"SKILL_CHECK"` trials check the user's level in a skill, whose ID is read from the string object `skill_required`. The `success` object is chosen if the skill level is equal to or greater than `difficulty`, and `failure` is chosen otherwise.
 
 Sample trials:
 ```jsonc
-"trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] }
+"trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ], [ "u_has_trait: PSYCHOPATH", -40 ] ] }
 "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] }
 "trial": { "type": "CONDITION", "condition": { "npc_has_trait": "FARMER" } }
 "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "swimming" }
 ```
+
+#### `mod`
+`mod` is an array of modifiers to the trial's chances. Each mod is comprised of two values, the modifier and a factor. These are multiplied together to get the total change to the % chance. A modifier of -10 and a factor of 2 would produce a total mod of -20 to the chances, taking a chance of 64% down to 44%.
+
+Note that *there is no check that mod types are valid*. Invalid mod types will always count as 0(being totally ignored). Check your spelling.
+
+Valid mod types are:
+
+### `ANGER` / `FEAR` / `TRUST` / `VALUE`
+Uses the NPC's specific opinion value of the player as the modifier.
+
+### `POS_FEAR`
+The special `"POS_FEAR"` modifier treats NPC's fear of your character below 0 as though it were 0.
+
+### `AGGRESSION` / `ALTRUISM` / `BRAVERY` / `COLLECTOR`
+Uses the NPC's specific personality value as the modifier.
+
+### `MISSIONS`
+Uses the value of all previously completed missions given by that NPC as a value. Missions may define a specific value that they are 'worth'.
+
+### `U_INTIMIDATE` / `NPC_INTIMIDATE`
+U_INTIMIDATE does a C++ calculation to estimate how intimidating the player character looks.
+NPC_INTIMIDATE does the same thing to estimate the NPC's intimidation factor.
+
+### `u_has_trait: ` / `npc_has_trait: `
+u_has_trait checks if the player character has the specified trait.
+npc_has_trait checks if the NPC has the specified trait.
+Modifier is 1 if they have the trait, 0 otherwise.
+
+### `TOTAL`
+The special `"TOTAL"` modifier sums all previous modifiers and then multiplies the result by its value and is used when setting the owed value.
 
 #### `success` and `failure`
 The `success` and `failure` objects define the outcome, depending on the result of the trial.  Both objects have the same structure; the `failure` object is used if the trial fails, the `success` object is used otherwise.
@@ -811,7 +866,7 @@ A repeat response has the following format:
 ```jsonc
 {
   "for_item": [
-    "jerky", "meat_smoked", "fish_smoked", "cooking_oil", "cooking_oil2", "cornmeal", "flour",
+    "jerky", "meat_smoked", "fish_smoked", "cooking_oil", "cornmeal", "flour",
     "fruit_wine", "beer", "sugar"
   ],
   "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
@@ -871,6 +926,7 @@ Effect | Description
 ---|---
 `start_trade` | Opens the trade screen and allows trading with the NPC.
 `give_equipment` | Allows your character to select items from the NPC's inventory and transfer them to your inventory.
+`pick_style` | Allows the player to manually select a style for the NPC. Only for use in mods, not 'vanilla' DDA.
 `npc_gets_item` | Allows your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will not accept it if they do not have space or weight to carry it, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
 `npc_gets_item_to_use` | Allow your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will attempt to wield it and will not accept it if it is too heavy or is an inferior weapon to what they are currently using, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
 `u_spawn_item: `string or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `use_item_group: `bool), (*optional* `suppress_message: `bool), (*optional* `flags: `array of string or [variable object](#variable-object)) | Your character gains the item or `count` copies of the item, contained in `container` if specified. If used in an NPC conversation the items are said to be given by the NPC.  If a variable item is passed for the name an item of the type contained in it will be used.  If `use_item_group` is true (defaults to false) , it will instead create items from the item group given. ("count" and "container" will be ignored since they are defined in the item group.)  If `suppress_message` is true (defaults to false) no message will be shown. If `force_equip` is true (defaults to false) characters will equip the items if they can.  The item will have all the flags from the array `flags`.
@@ -914,6 +970,7 @@ Effect | Description
 `basecamp_mission` | The NPC will offer you a list of missions for your allied NPCs, depending on the local basecamp.
 `bionic_install` | The NPC installs a bionic from your character's inventory onto your character, using very high skill, and charging you according to the operation's difficulty.
 `bionic_remove` | The NPC removes a bionic from your character, using very high skill, and charging you according to the operation's difficulty.
+`repair_bionic_limbs` | The NPC repairs all bionic and partially bionic limbs, charging you at a rate of 20x the number of HP required to fully heal.
 `npc_class_change: `string or [variable object](#variable-object) | Change the NPC's class to the new value.
 `npc_faction_change: `string or [variable object](#variable-object) | Change the NPC's faction membership to the new value.
 `u_faction_rep: `int or [variable object](#variable-object) | Increases your reputation with the NPC's current faction, or decreases it if the value is negative.
@@ -975,7 +1032,7 @@ Condition | Type | Description
 `"has_available_mission" or "u_has_available_mission" or "npc_has_available_mission"` | simple string | `true` if u or the NPC has one job available for the player character.
 `"has_many_available_missions"` | simple string | `true` if the NPC has several jobs available for the player character.
 `"mission_goal" or "npc_mission_goal" or "u_mission_goal"` | string or [variable object](#variable-object) | `true` if u or the NPC's current mission has the same goal as `mission_goal`.
-`"u_has_activity" or "npc_has_activity" | simple string | `true` if the [selected talker](EFFECT_ON_CONDITION.md#alpha-and-beta-talkers) is currently performing an [activity](PLAYER_ACTIVITY.md).
+`"u_has_activity" or "npc_has_activity" | simple string | `true` if the [selected talker](EFFECT_ON_CONDITION.md#alpha-and-beta-talkers) is currently performing an [activity](/doc/PLAYER_ACTIVITY.md).
 `"u_is_travelling" or "npc_is_travelling" | simple string | `true` if the [selected talker](EFFECT_ON_CONDITION.md#alpha-and-beta-talkers) has a current destination. Note that this just checks the destination exists, not whether u or npc is actively moving to it.
 `"mission_complete" or "npc_mission_complete" or "u_mission_complete"` | simple string | `true` if u or the NPC has completed the other's current mission.
 `"mission_incomplete" or "npc_mission_incomplete" or "u_mission_incomplete"` | simple string | `true` if u or the NPC hasn't completed the other's current mission.
@@ -1170,7 +1227,7 @@ Condition | Type | Description
 ## Utility Structures
 
 ### Variable Object
-`variable_object`: This is either an object, a `math` [expression](#math) or array describing a variable name. It can either describe a double, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is a double `default` is a double which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, `context_val`, `var_val` or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `context_val` is used it describes a variable on the current dialogue context, `var_val` tries to resolve a variable stored in a `context_val` (more explanation bellow), if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
+`variable_object`: This is either an object, a `math` [expression](#math) or array describing a variable name. It can either describe a double, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is a double `default` is a double which will be the value returned if the variable is not defined. If it is a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, `context_val`, `var_val` or `global_val` can be used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `context_val` is used it describes a variable on the current dialogue context, `var_val` tries to resolve a variable stored in a `context_val` (more explanation below), if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
 
 Example:
 ```jsonc
@@ -1274,6 +1331,17 @@ Examples:
     { "math": [ "n_crazyness * 2 >= ( x + y ) * u_z" ] },
 ```
 
+#### Tripoints
+Members of tripoint variables can be accessed with the dot operator in the usual way
+```jsonc
+      { "u_location_variable": { "u_val": "mypos" } },
+      { "math": [ "u_myx = u_mypos.x" ] },
+      { "math": [ "u_myy = u_mypos.y" ] },
+      { "math": [ "u_myz = u_mypos.z" ] },
+      // assignment works too
+      { "math": [ "u_mypos.z = 12" ] },
+```
+
 #### Constants
 The tokens `π` (and `pi` alias ) and `e` are recognized as mathematical constants and get replaced by their nominal values.
 
@@ -1328,14 +1396,18 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | addiction_turns(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return the characters current duration left (in turns) for the given addiction.<br/>Argument is addiction type ID. <br/><br/>Example:<br/>`"condition": { "math": [ "u_addiction_turns('caffeine') >= 3600"] }`|
 | characters_nearby()     |  ✅  |   ❌   | u, n, global  | Return the number of nearby characters (that is, the avatar and/or NPCs who are not hallucinations). <br/><br/>Optional kwargs:<br/>`radius`: `d`/`v` - limit to radius (rl_dist)<br/>`location`: `v` - center search on this location<br/>`attitude`: `s`/`v` - attitude filter. Must be one of `hostile`, `allies`, `not_allies`, `any`. Assumes `any` if not specified<br/><br/>The `location` kwarg is mandatory in the global scope.<br/>`allow_hallucinations`: `d`/`v` - False by default. If set to any non-zero number, all hallucinated NPCs in range will be counted as well.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_characters_nearby('radius': u_search_radius * 3, 'attitude': 'not_allies' ) > 0" ] }`<br/><br/>`"condition": { "math": [ "characters_nearby( 'radius': u_search_radius * 3, 'location': u_search_loc) > 5" ] }`|
 | charge_count(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the charges of a given item in the character's inventory.<br/>Argument is item ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_charge_count('light_battery_cell') >= 100"] }`|
+| consumption_count(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return how many times an item was eaten within a time window.  Respects the `eats_like` field, so items grouped together are counted as one.<br/>Argument is item ID.<br/><br/>Optional kwargs:<br/>`hours`: `d` - Time window in hours (default 48).<br/><br/>Example:<br/>`"condition": { "math": [ "u_consumption_count('butter', 'hours': 6) >= 3"] }`|
+| consumption_count_total    |  ✅   |   ❌  | u, n  | Return total number of items eaten within a time window, regardless of type.<br/><br/>Optional kwargs:<br/>`hours`: `d` - Time window in hours (default 48).<br/><br/>Example:<br/>`"condition": { "math": [ "u_consumption_count_total('hours': 6) >= 1"] }`|
 | coverage(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total coverage of a body part.<br/>Argument is bodypart ID. <br/>For items, returns typical coverage of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_coverage('torso') > 0"] }`|
 | distance(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | g  | Return distance between two targets.<br/>Arguments are location variables or special strings (`u`, `npc`). `u` means your location. `npc` means NPC's location.<br/><br/>Example:<br/>`"condition": { "math": [ "distance('u', loc) <= 50"] }`|
+| light_level(`v`)    |  ✅   |   ❌  | g | Return the value of light level the specific tile has. <br/>Argument is location variable. <br/>Return values are:<br/>`0` = DARK<br/>`1` = LOW (Hard to see)<br/>`3` = BRIGHT_ONLY (bright but indistinct(i do not know what it means))<br/>`4` = BRIGHT (only for light sources)<br/>`5` = MEMORIZED (Not a light level but behaves similarly)<br/>`6` = BLANK (blank space, not an actual light level) <br/><br/>Example:<br/>`"condition": { "math": [ "light_level(_pos) == 3" ] }`|
 | effect_intensity(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters intensity of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set intensity of effect.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso') > 1"] }`|
 | effect_duration(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return the characters duration of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set duration of effect.<br/>`unit`: `s`/`v` - Specify the unit of the duration. Omitting will use seconds.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_duration('bite', 'bodypart': 'torso') > 1"] }`<br/>`{ "math": [ "_thing = u_effect_duration('yrax_overcharged', 'bodypart': 'torso', 'unit': 'hours')" ] }`|
+| limb_score(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the character limb score.<br/>Argument is limb score id.<br/><br/>Optional kwargs:<br/>`type`: `s`/`v` - Specifies the type of bodypart of which score should be picked, like `arm` or `sensor`, see the full list in [JSON_INFO.md#Body_parts](JSON_INFO.md#Body_parts).<br/><br/> Example:<br/>`{ "math": [ "_foo = u_limb_score('lift', 'type': 'arm')" ] }`|
 | encumbrance(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total encumbrance of a body part.<br/>Argument is bodypart ID. <br/> For items, returns typical encumbrance of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_encumbrance('torso') > 0"] }`|
 | health(`d`/`v`)    |  ✅   |   ✅  | u, n  | Return character current health .<br/><br/>Example:<br/>`{ "math": [ "u_health() -= 1" ] }`|
 | energy(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return a numeric value (in millijoules) for an energy string (see [Units](JSON_INFO.md#units)).<br/><br/>Example:<br/>`{ "math": [ "u_val('power') -= energy('25 kJ')" ] }`|
-| faction_like(`s`/`v`)<br/>faction_respect(`s`/`v`)<br/>faction_trust(`s`/`v`)<br/>faction_food_supply(`s`/`v`)<br/>faction_wealth(`s`/`v`)<br/>faction_power(`s`/`v`)<br/>faction_size(`s`/`v`)    |   ✅   |   ✅  | N/A<br/>(global)  | Return the like/respect/trust/fac_food_supply/wealth/power/size value a faction has for the avatar.<br/>Argument is faction ID.<br/>`faction_food_supply` has an optional second argument(kwarg) for getting/setting vitamins.<br/><br/>Example:<br/>`"condition": { "math": [ "faction_like('hells_raiders') < -60" ] }`<br/><br/>`{ "math": [ "calcium_amount", "=", "faction_food_supply('your_followers', 'vitamin':'calcium')" ] },`<br/>`{ "u_message": "Calcium stored is <global_val:calcium_amount>", "type": "good" },`|
+| faction_like(`s`/`v`)<br/>faction_respect(`s`/`v`)<br/>faction_trust(`s`/`v`)<br/>faction_food_supply(`s`/`v`)<br/>faction_wealth(`s`/`v`)<br/>faction_power(`s`/`v`)<br/>faction_size(`s`/`v`)    |   ✅   |   ✅  | N/A<br/>(global)  | Return the like/respect/trust/fac_food_supply/wealth/power/size value a faction has for the avatar.<br/>Argument is faction ID.<br/>`faction_food_supply` has an optional second argument(kwarg) for getting/setting vitamins.<br/><br/>Example:<br/>`"condition": { "math": [ "faction_like('hells_raiders') < -60" ] }`<br/><br/>`{ "math": [ "calcium_amount = faction_food_supply('your_followers', 'vitamin':'calcium')" ] },`<br/>`{ "u_message": "Calcium stored is <global_val:calcium_amount>", "type": "good" },`|
 | field_strength(`s`/`v`)    |   ✅   |   ❌  | u, n, global  | Return the strength of a field on the tile.<br/>Argument is field ID.<br/><br/>Optional kwargs:<br/> `location`: `v` - center search on this location<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_field_strength('fd_blood') > 5" ] }`<br/><br/>`"condition": { "math": [ "field_strength('fd_blood_insect', 'location': u_search_loc) > 5" ] }`|
 | has_flag(`s`/`v`) | ✅ | ❌ | u, n | Check whether the actor has a flag. Meant to be used as condition for ternaries. Argument is trait ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg = u_has_flag('MUTATION_TRESHOLD') ? 100 : 15" ] }`|
 | has_trait(`s`/`v`)    |  ✅   |   ❌  | u, n  | Check whether the actor has a trait. Meant to be used as condition for ternaries. Argument is trait ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg = u_has_trait('FEEBLE') ? 100 : 15" ] }`|
@@ -1350,18 +1422,22 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | item_count(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the number of a given item in the character's inventory.<br/>Argument is item ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_item_count('backpack') >= 1"] }`|
 | item_rad(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return irradiation of worn items with the specified flag.<br/>Argument is flag ID.<br/><br/>Optional kwargs:<br/>`aggregate`: `s`/`v` - Specify the aggregation function to run, in case there's more than one item. Valid values are `min`/`max`/`sum`/`average`/`first`/`last`. Defaults to `min` if not specified. <br/><br/>Example:<br/>`"condition": { "math": [ "u_item_rad('RAD_DETECT') >= 1"] }`|
 | melee_damage(`s`/`v`)     |  ✅  |   ❌   | u, n  | Return the item's melee damage. Argument is damage type. For special value `ALL`, return sum for all damage types. <br/><br/>Actor must be an item.<br/><br/>Example:<br/>`{ "math": [ "mymelee = n_melee_damage('ALL')" ] }`<br/>See `EOC_test_weapon_damage` for a complete example|
-| monsters_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Return the number of nearby monsters. Takes any number of `s`tring or `v`ariable positional parameters as monster IDs. <br/><br/>Optional kwargs:<br/>`radius`: `d`/`v` - limit to radius (rl_dist)<br/>`location`: `v` - center search on this location<br/>`attitude`: `s`/`v` - attitude filter. Must be one of `hostile`, `friendly`, `both`. Assumes `hostile` if not specified<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_monsters_nearby('radius': u_search_radius * 3) > 5" ] }`<br/><br/>`"condition": { "math": [ "monsters_nearby('mon_void_maw', 'mon_void_limb', mon_fotm_var, 'radius': u_search_radius * 3, 'location': u_search_loc)", ">", "5" ] }`|
+| monsters_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Return the number of nearby monsters. Takes any number of `s`tring or `v`ariable positional parameters as monster IDs. <br/><br/>Optional kwargs:<br/>`radius`: `d`/`v` - limit to radius (rl_dist)<br/>`location`: `v` - center search on this location<br/>`attitude`: `s`/`v` - attitude filter. Must be one of `hostile`, `friendly`, `both`. Assumes `hostile` if not specified<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_monsters_nearby('radius': u_search_radius * 3) > 5" ] }`<br/><br/>`"condition": { "math": [ "monsters_nearby('mon_void_maw', 'mon_void_limb', 'mon_fotm_var', 'radius': u_search_radius * 3, 'location': u_search_loc)", ">", "5" ] }`|
 | mod_load_order(`s`/`v`)  |  ✅   |   ❌  | N/A<br/>(global)  | Returns the load order of specified mod. Argument is mod id. Returns -1 is the mod is not loaded. |
 | mon_species_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Same as `monsters_nearby()`, but arguments are monster species |
 | mon_groups_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Same as `monsters_nearby()`, but arguments are monster groups |
 | moon_phase()     |  ✅  |   ❌   | N/A<br/>(global)  | Returns current phase of the Moon. <pre>MOON_NEW = 0,<br/>WAXING_CRESCENT = 1,<br/>HALF_MOON_WAXING = 2,<br/>WAXING_GIBBOUS = 3,<br/>FULL = 4,<br/>WANING_GIBBOUS = 5,<br/>HALF_MOON_WANING = 6,<br/>WANING_CRESCENT = 7 |
 | num_input(`s`/`v`,`d`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Prompt the player for a number.<br/>Arguments are Prompt text, Default Value:<br/>`"math": [ "u_value_to_set = num_input('Playstyle Perks Cost?', 4)" ]`|
+| oxygen()   |  ✅  |   ✅   | u, n  | Return or set the characters oxygen level.<br/><br/>Example:<br/>`{ "math": [ "u_oxygen() -= 1" ] }` Reduces the alpha talker's oxygen level by 1 provided it was greater than 0<br/>|
+| oxygen_max()   |  ✅  |   ❌   | u, n  | Return the characters max oxygen level.<br/><br/>Example:<br/>`{ "math": [ "u_oxygen() = max(u_oxygen(), 0.5 * u_oxygen_max())" ] }` Increases the alpha talker's oxygen level to half the max if it was below that<br/>|
 | pain()     |  ✅  |   ✅   | u, n  | Return or set pain.  Optional kwargs:<br/>`type`: `s/v` - return the value of specific format or assign in specific way.  Can be `perceived` ( for return, return pain value minus painkillers; for assigning, apply pain taking into account possible mutations, effects, cbms etc (pain sentitivity or pain deafness, for example)) or `raw` (for return, return flat amount of pain; for assigning, bypasses all checks).  If not used, `raw` is used by default. <br/> Example:<br/>`{ "math": [ "n_pain() = u_pain() + 9000" ] }` <br/>`{ "math": [ "u_pain('type': 'perceived' ) >= 40" ] }` <br/>`{ "math": [ "u_pain('type': 'perceived' ) += 22" ] }` |
+| price()     |  ✅  |   ❌   | u, n  | Return pre apocalypse item price in cents. <br/> Example:<br/>`{ "math": [ "item_price = n_price()" ] }, { "u_message": "Pre Apocalypse Price: <global_val:item_price>." }` |
+| price_postapoc()     |  ✅  |   ❌   | u, n  | Return post apocalypse item price in cents. <br/> Example:<br/>`{ "math": [ "item_price = n_price_postapoc()" ] }, { "u_message": "Post Apocalypse Price: <global_val:item_price>." }` |
 | proficiency(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set proficiency<br/>Argument is proficiency ID.<br/><br/> Optional kwargs:<br/>`format`: `s` - `percent` return or set how many percent done the learning is. `permille` does likewise for permille. `time_spent` return or set total time spent. `time_left` return or set the remaining time. `total_time_required` return total time required to train a given proficiency (read only).<br/>`direct`: `true`/`false`/`d` - false (default) perform the adjustment by practicing the proficiency for the given amount of time. This will likely result in different values than specified. `true` perform the adjustment directly, bypassing other factors that may affect it.<br/><br/>Example:<br/>`{ "math": [ "u_proficiency('prof_intro_chemistry', 'format': 'percent') = 50" ] }`|
 | school_level(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the highest level of spells known of that school.<br/>Argument is school ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_school_level('MAGUS') >= 3"] }`|
 | school_level_adjustment(`s`/`v`)    |   ✅  |  ✅   | u, n  | Return or set temporary caster level adjustment. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to 0 before the event triggers. To avoid overwriting values from other EoCs, it is recommended to adjust the values here with `+=` or `-=` instead of setting it to an absolute value.<br/>Argument is school ID.<br/><br/>Example:<br/>`{ "math": [ "u_school_level_adjustment('MAGUS')++"] }`|
 | skill(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set skill level<br/><br/>Example:<br/>`"condition": { "math": [ "u_skill('driving') >= 5"] }`<br/>`"condition": { "math": [ "u_skill(someskill) >= 5"] }`|
-| spell_difficulty(`s`/`v`)    |  ✅  |   ✅   | u,n | Returns the difficulty of the given spell id, modified by temporary difficulty modifiers if the character knows the spell; otherwise just the base difficulty calculations.  <br/> Example:<br/>`"math": [ "_difficulty = u_spell_difficulty('test_spell_id')"] }`|
+| spell_difficulty(`s`/`v`)    |  ✅  |   ✅   | u,n | Returns the difficulty of the given spell id, modified by temporary difficulty modifiers if the character knows the spell; otherwise just the base difficulty calculations.  Optional kwargs:<br/>`baseline`: `false` or `true`.  If `true`, temporary difficulty modifiers are ignored.  <br/> Example:<br/>`"math": [ "_difficulty = u_spell_difficulty('test_spell_id', 'baseline': 'true')"] }`|
 | skill_exp(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set skill experience<br/> Argument is skill ID. <br/><br/> Optional kwargs:<br/>`format`: `s`/`v` - must be `percentage` or `raw`.<br/><br/>Example:<br/>`{ "math": [ "u_skill_exp('driving', 'format': crt_format)--"] }`|
 | spell_exp(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set spell xp<br/> Example:<br/>`"condition": { "math": [ "u_spell_exp('SPELL_ID') >= 5"] }`|
 | spell_exp_for_level(`s`/`v`, `d`/`v`)    |  ✅  |   ❌   | g  | Return the amount of XP necessary for a spell level for the given spell. Arguments are spell id and desired level.  <br/> Example:<br/>`"math": [ "spell_exp_for_level('SPELL_ID', u_spell_level('SPELL_ID') ) * 5"] }`|
@@ -1391,8 +1467,10 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | climate_control_str_heat()    |  ✅   |   ❌  | u, n  | return amount of heat climate control that character currently has (character feels better in warm places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "u_climate_control_str_heat() < 0" ] }`|
 | climate_control_str_chill()    |  ✅   |   ❌  | u, n  | return amount of chill climate control that character currently has (character feels better in cold places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "n_climate_control_str_chill() < 0" ] }`|
 | calories()    |  ✅   |   ✅  | u, n  | Return amount of calories character has. If used on item, return amount of calories this item gives when consumed (not affected by enchantments or mutations).  Optional kwargs:<br/>`format`: `s`/`v` - return the value in specific format.  Can be `percent` (return percent to the healthy amount of calories, `100` being the target, bmi 25, or 110000 kcal) or `raw`.  If now used, `raw` is used by default.<br/>`dont_affect_weariness`: `true`/`false` (default false) When assigning value, whether the gained/spent calories should be tracked by weariness.<br/><br/>Example:<br/>`"condition": { "math": [ "u_calories() < 0" ] }`<br/>`"condition": { "math": [ "u_calories('format': 'percent') > 0" ] }`<br/>`"condition": { "math": [ "u_calories() = 110000" ] }`|
+| artifact_resonance()    |  ✅   |   ❌  | u, n  | Return amount of total artifact resonance character has. If used on item, return resonance of that item only. <br/><br/>Example:<br/>`"condition": { "math": [ "u_artifact_resonance() > 0" ] }`<br/>|
 | get_calories_daily()  |  ✅   |   ❌  | g  | Return amount of calories character consumed before, up to 30 days, in kcal. Calorie diary is something only character has, so it can't be used with NPCs. Optional kwargs:<br/>`day`: `d/v` - picks the date the value would be pulled from, from 0 to 30. Default 0, meaning amount of calories you consumed today.<br/>`type`: `s/v` - picks the data that would be pulled. Possible values are: `spent` - how much calories character spent in different activities throughout the day; `gained` - how much calories character ate that day; `ingested` - how much calories character processed that day; `total` - `gained` minus `spent`. Default is `total`;<br/><br/>Example:<br/>`"condition": { "math": [ "get_calories_daily() > 1000" ] }`<br/> `{ "math": [ "foo = get_calories_daily('type':'gained', 'day':'1')" ] }`|
 | quality( `s` / `v` )  |  ✅   |   ❌  | u, n | Return the level of a specified item tool quality. Only usable on item talkers.<br/>Argument is the quality ID. Returns the lowest integer value if the item lacks the specified quality.<br/>Optional kwargs:<br/>`strict`: `true` / `false` (default false) When true the item must be empty to have the boiling quality.<br/><br/>Example<br/>`"condition: { "math": [ " u_quality('HACK') > 0 " ] }`<br/>`{ "math": [ "_cut_quality = u_quality('CUT') " ] }`<br/>`condition: { "math": [ " u_quality('BOIL', 'strict': true ) > 0" ] }`
+| gender() |  ✅  |  ✅  | u, n | Character's current gender. (Boolean value currently. Value is 1/true for male, 0/false for female).<br/><br/>Examples:<br/>`"condition: { "math": [ " u_gender() == 1 " ] }`<br/>`{ "math": [ "u_gender() = 0" ] }` |
 
 #### List of Character and item aspects
 These can be read or written to with `val()`.
@@ -1433,6 +1511,7 @@ These can be read or written to with `val()`.
 | `sleep_deprivation` | ✅ | Current sleep deprivation level. |
 | `sold` | ✅ | Amount of money the avatar has sold the Character |
 | `stamina` | ✅ | Current stamina level. |
+| `stamina_max` | ❌ | Maximum stamina level. |
 | `stim` | ✅ | Current stim level. |
 | `strength`<br/>`dexterity`<br/>`intelligence`<br/>`perception` | ✅ | Current attributes |
 | `strength_base`<br/>`dexterity_base`<br/>`intelligence_base`<br/>`perception_base` | ✅ | Base attributes |

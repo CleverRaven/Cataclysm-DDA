@@ -10,16 +10,8 @@
       {
         "run_eocs": "EOC_BIOKIN_OVERCOME_PAIN_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( ( (u_spell_level('biokin_overcome_pain') * 20 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( ( (u_spell_level('biokin_overcome_pain') * 75 ) + 2100) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_overcome_pain') * 20 ) + 600) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_overcome_pain') * 75 ) + 2100) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -66,21 +58,13 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 1" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('biokin_overcome_pain')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('biokin_overcome_pain') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_BIOKIN_OVERCOME_PAIN_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( ( (u_spell_level('biokin_overcome_pain') * 20 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( ( (u_spell_level('spell: biokin_overcome_pain') * 75 ) + 2100) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_overcome_pain') * 20 ) + 600) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('spell: biokin_overcome_pain') * 75 ) + 2100) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -97,16 +81,8 @@
       {
         "run_eocs": "EOC_BIOKIN_PHYSICAL_ENHANCE_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('biokin_physical_enhance') * 15) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('biokin_physical_enhance') * 90) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_physical_enhance') * 15) + 90) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_physical_enhance') * 90) + 450) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -125,21 +101,13 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 2" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('biokin_physical_enhance')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('biokin_physical_enhance') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_BIOKIN_PHYSICAL_ENHANCE_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('biokin_physical_enhance') * 15) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('biokin_physical_enhance') * 90) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_physical_enhance') * 15) + 90) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_physical_enhance') * 90) + 450) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -153,21 +121,12 @@
       { "u_message": "As you seal your lips, your chest still rises and falls.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_biokin_breathe_skin", "duration": "PERMANENT" },
-      { "u_spawn_item": "biokin_breathe_skin_item", "suppress_message": true, "force_equip": true },
       { "u_lose_effect": "biokin_sealed_system" },
       {
         "run_eocs": "EOC_BIOKIN_BREATH_SKIN_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('biokin_breathe_skin') * 36) + 180) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('biokin_breathe_skin') * 72) + 540) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_breathe_skin') * 36) + 180) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_breathe_skin') * 72) + 540) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -177,11 +136,7 @@
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_REMOVE_BREATHE_SKIN",
     "condition": { "u_has_effect": "effect_biokin_breathe_skin" },
-    "effect": [
-      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
-      { "u_lose_effect": "effect_biokin_breathe_skin" },
-      { "u_remove_item_with": "biokin_breathe_skin_item" }
-    ]
+    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_biokin_breathe_skin" } ]
   },
   {
     "type": "effect_on_condition",
@@ -190,21 +145,13 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 2" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('biokin_breathe_skin')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('biokin_breathe_skin') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_BIOKIN_BREATH_SKIN_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('biokin_breathe_skin') * 36) + 180) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('biokin_breathe_skin') * 72) + 540) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_breathe_skin') * 36) + 180) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_breathe_skin') * 72) + 540) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -221,16 +168,8 @@
       {
         "run_eocs": "EOC_BIOKIN_HARDENED_SKIN_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('biokin_armor_skin') * 86) + 356) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('biokin_armor_skin') * 244) + 693) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_armor_skin') * 86) + 356) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_armor_skin') * 244) + 693) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -249,21 +188,13 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('biokin_armor_skin')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('biokin_armor_skin') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_BIOKIN_HARDENED_SKIN_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('biokin_armor_skin') * 86) + 356) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('biokin_armor_skin') * 244) + 693) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_armor_skin') * 86) + 356) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_armor_skin') * 244) + 693) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -281,16 +212,8 @@
       {
         "run_eocs": "EOC_BIOKIN_CLIMATE_CONTROL_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('biokin_climate_control') * 180) + 300 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('biokin_climate_control') * 360) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_climate_control') * 180) + 300 ) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_climate_control') * 360) + 600) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -309,21 +232,13 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('biokin_climate_control')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('biokin_climate_control') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_BIOKIN_CLIMATE_CONTROL_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('biokin_climate_control') * 180) + 300 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('biokin_climate_control') * 360) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_climate_control') * 180) + 300 ) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_climate_control') * 360) + 600) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -340,16 +255,8 @@
       {
         "run_eocs": "EOC_BIOKIN_ENHANCE_MOBILITY_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( ( (u_spell_level('biokin_enhance_mobility') * 45 ) + 300) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( ( (u_spell_level('biokin_enhance_mobility') * 120 ) + 900) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_enhance_mobility') * 45 ) + 300) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_enhance_mobility') * 120 ) + 900) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -377,21 +284,13 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 5" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('biokin_enhance_mobility')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('biokin_enhance_mobility') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_BIOKIN_ENHANCE_MOBILITY_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( ( (u_spell_level('biokin_enhance_mobility') * 45 ) + 300) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( ( (u_spell_level('biokin_enhance_mobility') * 120 ) + 900) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_enhance_mobility') * 45 ) + 300) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_enhance_mobility') * 120 ) + 900) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -409,16 +308,8 @@
       {
         "run_eocs": "EOC_BIOKIN_HAMMERHAND_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('biokin_hammerhand') * 450) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('biokin_hammerhand') * 750) + 5400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_hammerhand') * 450) + 1800) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_hammerhand') * 750) + 5400) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -441,21 +332,13 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 5" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('biokin_hammerhand')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('biokin_hammerhand') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_BIOKIN_HAMMERHAND_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('biokin_hammerhand') * 450) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('biokin_hammerhand') * 750) + 5400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_hammerhand') * 450) + 1800) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_hammerhand') * 750) + 5400) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -472,16 +355,8 @@
       {
         "run_eocs": "EOC_BIOKIN_REFLEX_ENHANCE_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('biokin_reflex_enhance') * 15) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('biokin_reflex_enhance') * 90) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_reflex_enhance') * 15) + 90) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_reflex_enhance') * 90) + 450) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -500,21 +375,13 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 6" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('biokin_reflex_enhance')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('biokin_reflex_enhance') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_BIOKIN_REFLEX_ENHANCE_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('biokin_reflex_enhance') * 15) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('biokin_reflex_enhance') * 90) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_reflex_enhance') * 15) + 90) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_reflex_enhance') * 90) + 450) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -531,16 +398,8 @@
       {
         "run_eocs": "EOC_BIOKIN_METABOLISM_ENHANCE_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('biokin_metabolism_enhance') * 250) + 2700) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('biokin_metabolism_enhance') * 500) + 6750) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_metabolism_enhance') * 250) + 2700) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_metabolism_enhance') * 500) + 6750) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -559,22 +418,14 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 7" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('biokin_metabolism_enhance')", "+=", "psionic_power_experience_formula()" ] },
-      { "math": [ "u_val('sleep_deprivation')", "-=", "10" ] },
+      { "math": [ "u_spell_exp('biokin_metabolism_enhance') += psionic_power_experience_formula()" ] },
+      { "math": [ "u_val('sleep_deprivation') -= 10" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_BIOKIN_METABOLISM_ENHANCE_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('biokin_metabolism_enhance') * 250) + 2700) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('biokin_metabolism_enhance') * 500) + 6750) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_metabolism_enhance') * 250) + 2700) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_metabolism_enhance') * 500) + 6750) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -591,16 +442,8 @@
       {
         "run_eocs": "EOC_BIOKIN_GUIDED_EVOLUTION_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( ( u_spell_level('biokin_guided_evolution') * 250 ) + 2700 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( ( u_spell_level('biokin_guided_evolution') * 500 ) + 6750 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( ( u_spell_level('biokin_guided_evolution') * 250 ) + 2700 ) * psionic_power_modifiers()" ] },
+          { "math": [ "( ( u_spell_level('biokin_guided_evolution') * 500 ) + 6750 ) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -627,16 +470,8 @@
       {
         "run_eocs": "EOC_BIOKIN_GUIDED_EVOLUTION_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( ( u_spell_level('biokin_guided_evolution') * 250 ) + 2700 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( ( u_spell_level('biokin_guided_evolution') * 500 ) + 6750 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( ( u_spell_level('biokin_guided_evolution') * 250 ) + 2700 ) * psionic_power_modifiers()" ] },
+          { "math": [ "( ( u_spell_level('biokin_guided_evolution') * 500 ) + 6750 ) * psionic_power_modifiers()" ] }
         ]
       }
     ]
@@ -652,16 +487,8 @@
       {
         "run_eocs": "EOC_BIOKIN_COMBAT_DANCE_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('biokin_combat_dance') * 12) + 40) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('biokin_combat_dance') * 59) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_combat_dance') * 12) + 40) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_combat_dance') * 59) + 200) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -680,21 +507,13 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 8" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('biokin_combat_dance')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('biokin_combat_dance') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_BIOKIN_COMBAT_DANCE_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('biokin_combat_dance') * 12) + 40) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('biokin_combat_dance') * 59) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_combat_dance') * 12) + 40) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_combat_dance') * 59) + 200) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -711,16 +530,8 @@
       {
         "run_eocs": "EOC_BIOKIN_PERFECTED_MOTION_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('biokin_perfected_motion') * 0.5) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('biokin_perfected_motion') * 1.1) + 30) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_perfected_motion') * 0.5) + 5) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_perfected_motion') * 1.1) + 30) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -742,21 +553,13 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 9" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('biokin_perfected_motion')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('biokin_perfected_motion') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_BIOKIN_PERFECTED_MOTION_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('biokin_perfected_motion') * 0.5) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('biokin_perfected_motion') * 1.1) + 30) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_perfected_motion') * 0.5) + 5) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_perfected_motion') * 1.1) + 30) * psionic_power_modifiers()" ] }
         ]
       }
     ],

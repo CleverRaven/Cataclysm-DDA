@@ -3,7 +3,7 @@
     "id": "300_winmag",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".300 Winchester Magnum" },
+    "name": { "str_sp": ".300 Winchester Magnum JHP" },
     "description": ".300 Winchester Magnum ammunition with a 220gr JHP bullet.  The 300WM round is an extremely powerful and accurate rifle round introduced in 1963.  It has proven popular with hunters and snipers, although it is not as common as .308 or .30-06.",
     "ascii_picture": "300_winmag",
     "weight": "28 g",
@@ -85,7 +85,7 @@
     "copy-from": "300_winmag",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".300 Winchester Magnum, black powder" },
+    "name": { "str_sp": ".300 Winchester Magnum JHP, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -93,16 +93,16 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_300_winmag",
     "copy-from": "300_winmag",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".300 Winchester Magnum, reloaded" },
+    "name": { "str_sp": ".300 Winchester Magnum JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]

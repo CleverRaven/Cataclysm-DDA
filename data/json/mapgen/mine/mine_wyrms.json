@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mine_wyrms_west", "mine_wyrms_central", "mine_wyrms_east" ] ],
     "object": {
       "fill_ter": "t_rock_floor",
@@ -52,8 +51,8 @@
                 { "item": "material_shrd_limestone", "prob": 40, "count": [ 1, 10 ] },
                 { "item": "material_limestone", "prob": 40, "count": [ 1, 10 ] },
                 { "item": "material_niter", "prob": 5, "count": [ 1, 10 ] },
-                { "item": "material_sand", "prob": 50, "charges": [ 10, 500 ] },
-                { "item": "material_soil", "prob": 50, "charges": [ 10, 500 ] },
+                { "item": "material_sand", "prob": 50, "count": [ 10, 500 ] },
+                { "item": "material_soil", "prob": 50, "count": [ 10, 500 ] },
                 { "item": "chunk_sulfur", "prob": 5, "count": [ 1, 10 ] },
                 { "item": "material_rocksalt", "prob": 5, "count": [ 1, 10 ] },
                 { "item": "material_rhodonite", "prob": 5, "count": [ 1, 10 ] },
@@ -71,7 +70,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mine_wyrms_finale",
     "object": {
       "fill_ter": "t_rock_floor",

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_corner_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -36,7 +35,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_corner_inner_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -92,7 +90,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_straight_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -148,7 +145,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_straight_stairs_even_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -156,7 +152,7 @@
         "..........|||||.........",
         "..........|>_%|.........",
         "..........||+||.........",
-        "...........f.f..........",
+        "...........f.f§.........",
         "...........fgf..........",
         "........................",
         "........................",
@@ -180,12 +176,12 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { "|": "t_wall_metal", "_": "t_thconc_floor", "%": "t_thconc_floor" },
-      "furniture": { "%": "f_machinery_heavy" }
+      "furniture": { "%": "f_machinery_heavy" },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_straight_stairs_odd_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -193,7 +189,7 @@
         "..........|||||.........",
         "..........|%_>|.........",
         "..........||+||.........",
-        "...........f.f..........",
+        "...........f.f§.........",
         "...........fgf..........",
         "........................",
         "........................",
@@ -217,12 +213,12 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { "|": "t_wall_metal", "_": "t_thconc_floor", "%": "t_thconc_floor" },
-      "furniture": { "%": "f_machinery_heavy" }
+      "furniture": { "%": "f_machinery_heavy" },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_straight_stairs_roof_+1" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -257,7 +253,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_center_stairs_even_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -274,7 +269,7 @@
         ".|>>|...oooooooo...|%%|.",
         ".|>>|...oooooooo...|%%|.",
         ".+__|...oooooooo...|%%|.",
-        ".|%%|...oooooooo...|__+.",
+        ".|%%|§..oooooooo..§|__+.",
         ".|%%|...oooooooo...|>>|.",
         ".|%%|...oooooooo...|>>|.",
         ".||||...oooooooo...||||.",
@@ -289,12 +284,12 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { "|": "t_wall_metal", "_": "t_thconc_floor" },
-      "furniture": { "%": "f_machinery_heavy" }
+      "furniture": { "%": "f_machinery_heavy" },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_center_stairs_odd_roof" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -331,7 +326,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_center_stairs_roof_+1" ],
     "object": {
       "fill_ter": "t_flat_roof",

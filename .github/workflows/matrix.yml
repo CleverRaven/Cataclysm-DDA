@@ -38,19 +38,16 @@ concurrency:
 # For github provided runners: https://github.com/actions/runner-images
 # See also our publicized docs about compiler support: https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/c++/COMPILER_SUPPORT.md
 #
-# At the time of writing (Jan 2025), the feature matrix for the above criteria looks like this:
+# At the time of writing (June 2025), the feature matrix for the above criteria looks like this:
 # | name                                 | OS       | compiler | newest/ oldest | tiles | sound | localize | cmake | backtrace | lto | sanitize | mods |
 # | ------------------------------------ | -------- | -------- | -------------- | ----- | ----- | -------- | ----- | --------- | --- | -------- | ---- |
 # | Basic Build and Test                 | ubuntu   | clang-13 | oldest (clang) |       |       | yes      |       |           |     |          | yes  |
 # | Clang 18, Ubuntu, Tiles, ASan        | ubuntu   | clang-18 | newest (clang) | yes   |       | yes      |       | yes       |     | address  |      |
 # | GCC 9, Curses, LTO                   | ubuntu   | gcc-9    | oldest   (gcc) |       |       | yes      |       | yes       | yes |          |      |
-# | GCC 12, Ubuntu, Curses, ASan         | ubuntu   | gcc-12   | newest*  (gcc) |       |       | yes      |       |           |     | address  |      |
+# | GCC 14, Ubuntu, Curses               | ubuntu   | gcc-14   | newest   (gcc) |       |       | yes      |       |           |     |          |      |
 # | GCC 9, Ubuntu, Tiles, Sound, CMake   | ubuntu   | gcc-9    | oldest   (gcc) | yes   | yes   |          | yes   |           |     |          |      |
-# | macOS 13, Apple Clang 15             | macOS 13 | apple clang-15  |  N/A    | yes   | yes   | yes      |       |           |     |          |      |
+# | macOS 15, Apple Clang 17             | macOS 15 | apple clang-17  |  N/A    | yes   | yes   | yes      |       |           |     |          |      |
 # | Windows (in msvc-full-features.yml)  | windows  | msvc     |     N/A        | yes   | yes   | yes      |       | yes?      |     |          |      |
-#
-# gcc-12 is not actually newest. gcc-14 exists, but it's failing the asan tests on newer (24.04) ubuntu runners for whatever reason.
-# See https://github.com/CleverRaven/Cataclysm-DDA/pull/79517#issuecomment-2635790180 for a tiny bit more context
 
 jobs:
   skip-duplicates-code:
@@ -61,10 +58,10 @@ jobs:
       should_skip_code: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@master
+        uses: fkirc/skip-duplicate-actions@04a1aebece824b56e6ad6a401d015479cd1c50b3 # master
         with:
           skip_after_successful_duplicate: 'false'
-          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**", "data/**", "lang/**"]'
+          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "tools/**", "utilities/**", "data/**", "lang/**"]'
   skip-duplicates-data:
     continue-on-error: true
     runs-on: ubuntu-latest
@@ -73,10 +70,10 @@ jobs:
       should_skip_data: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@master
+        uses: fkirc/skip-duplicate-actions@04a1aebece824b56e6ad6a401d015479cd1c50b3 # master
         with:
           skip_after_successful_duplicate: 'false'
-          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**"]'
+          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "tools/**", "utilities/**"]'
   matrix-variables:
     permissions:
       contents: none
@@ -92,8 +89,22 @@ jobs:
           echo "fail_fast=$([ "$GITHUB_REF_NAME" = "master" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo false || echo true)" >> $GITHUB_OUTPUT
           echo "skip_tests=$([ "$GITHUB_REF_NAME" = "master" ] && echo true || echo false)" >> $GITHUB_OUTPUT
           echo "max_parallel=$([ "$GITHUB_REF_NAME" = "master" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo 20 || echo 1)" >> $GITHUB_OUTPUT
+  compile-shaders:
+    name: Compile shaders
+    needs: [ skip-duplicates-code, skip-duplicates-data ]
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.draft == false && (needs.skip-duplicates-code.outputs.should_skip_code != 'true' || needs.skip-duplicates-data.outputs.should_skip_data != 'true')) }}
+    runs-on: ubuntu-24.04
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      with:
+        persist-credentials: false
+    - name: build SDL3 shader artifacts
+      uses: ./.github/actions/build-sdl3-shaders
+
   varied_builds:
-    needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables ]
+    needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables, compile-shaders ]
+    if: ${{ always() && (needs.compile-shaders.result == 'success' || needs.compile-shaders.result == 'skipped') }}
     strategy:
       fail-fast: ${{ fromJSON(needs.matrix-variables.outputs.fail_fast) }}
       max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
@@ -116,23 +127,25 @@ jobs:
             ccache_key: linux-llvm-13
 
           - compiler: clang++
-            os: macos-13
+            os: macos-15
             cmake: 0
             native: osx
             pch: 0
             tiles: 1
             sound: 1
+            sdl3: 1
             localize: 1
-            title: macOS 13, Apple Clang 15, Tiles, Sound, x64 and arm64 Universal Binary
-            ccache_limit: 10G
-            ccache_key: macos-llvm-15-universal
+            title: macOS 15, Apple Clang 17, Tiles, Sound, SDL3
+            ccache_limit: 12G
+            ccache_key: macos-llvm-17-sdl3
 
           - title: Android x64 (build only)
             os: ubuntu-latest
             android: arm64
+            sdl3: 1
 
           - compiler: g++-9
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             cmake: 0
             tiles: 0
             sound: 0
@@ -146,12 +159,14 @@ jobs:
             title: GCC 9, Curses, LTO
             ccache_limit: 7.5G
             ccache_key: linux-gcc-9-lto
+            extra_package: g++-9
 
           - compiler: clang++-18
-            os: ubuntu-latest
+            os: ubuntu-24.04
             cmake: 0
             tiles: 1
             sound: 0
+            sdl3: 1
             localize: 1
             native: linux64
             pch: 1
@@ -161,30 +176,32 @@ jobs:
             ccache_limit: 6G
             ccache_key: linux-llvm-18-asan
 
-          - compiler: g++-12
-            os: ubuntu-22.04
+          - compiler: g++-14
+            os: ubuntu-latest
             cmake: 0
             tiles: 0
             sound: 0
             localize: 1
             native: linux64
             pch: 1
-            sanitize: address
-            title: GCC 12, Ubuntu, Curses, ASan
+            title: GCC 14, Ubuntu, Curses
             ccache_limit: 6.5G
-            ccache_key: linux-gcc-12-asan
+            ccache_key: linux-gcc-14
 
           - compiler: g++-9
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             cmake: 1
             tiles: 1
             sound: 1
+            sdl3: 1
             localize: 0
             native: linux64
+            sanitize: undefined
             pch: 1
             title: GCC 9, Ubuntu, Tiles, Sound, CMake
             ccache_limit: 1G
             ccache_key: linux-gcc-9-cmake
+            extra_package: g++-9
 
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
@@ -198,6 +215,7 @@ jobs:
         OS: ${{ matrix.os }}
         TILES: ${{ matrix.tiles }}
         SOUND: ${{ matrix.sound }}
+        SDL3: ${{ matrix.sdl3 }}
         LOCALIZE: ${{ matrix.localize }}
         MODS: ${{ matrix.mods }}
         SANITIZE: ${{ matrix.sanitize }}
@@ -219,30 +237,48 @@ jobs:
         CCACHE_NOCOMPRESS: true
         SKIP: >-
           ${{
-          ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang 13, Ubuntu, Curses)' ) ||
-          ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) ||
-          ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' )
+          ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang oldest supported, Ubuntu, Curses)' ) ||
+          ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates-code.outputs.should_skip_code == 'true' ) ||
+          ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-data.outputs.should_skip_data == 'true' )
           }}
         SKIP_TESTS: ${{ fromJSON(needs.matrix-variables.outputs.skip_tests) || (matrix.android != '') }}
     steps:
-    - name: Maximize build space
+    - name: Maximize build space (ubuntu)
       if: ${{ runner.os == 'Linux' }}
-      uses: AdityaGarg8/remove-unwanted-software@v4.1
+      uses: AdityaGarg8/remove-unwanted-software@8831c82abf29b34eb2caac48d5f999ecfc0d8eef # v4.1
       with:
         remove-android: ${{ matrix.android == '' }}
+    - name: Maximize build space (mac)
+      if: ${{ runner.os == 'macos' && matrix.android == '' }}
+      run: |
+        sudo rm -rf $ANDROID_HOME
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      with:
+        persist-credentials: false
+    - name: download prebuilt shader artifacts
+      if: ${{ env.SKIP == 'false' && matrix.tiles == 1 && matrix.sdl3 == 1 }}
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+      with:
+        name: cdda-shaders
+        path: data/shaders
+    - name: mark shader artifacts fresh
+      if: ${{ env.SKIP == 'false' && matrix.tiles == 1 && matrix.sdl3 == 1 }}
+      run: |
+          touch data/shaders/build-*.stamp data/shaders/*.spv data/shaders/*.dxil data/shaders/*.msl
     - name: install dependencies (ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       run: |
           sudo apt-get update
-          sudo apt-get install libncursesw5-dev ccache gettext parallel
+          sudo apt-get install libncursesw5-dev ccache gettext parallel ${{ matrix.extra_package }}
           sudo locale-gen en_US.UTF-8 de_DE.UTF-8
-    - name: install SDL2 dependencies (ubuntu)
-      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 }}
-      run: |
-          sudo apt-get install libflac-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev
+    - name: setup SDL3 stack (ubuntu)
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 && matrix.sdl3 == 1 }}
+      uses: ./.github/actions/setup-sdl3-stack
+      with:
+        cache-key: sdl3-stack-strict-sdl-3.4.10-image-3.4.4-ttf-3.2.2-mixer-3.2.4-ubuntu-24.04-v2
+        prefix: ${{ runner.workspace }}/sdl3_prefix
     - name: install recent ccache on ubuntu
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       run: |
@@ -250,23 +286,15 @@ jobs:
           sudo apt-get remove --purge -y ccache
           curl -sL https://github.com/ccache/ccache/releases/download/v4.10.2/ccache-4.10.2-linux-x86_64.tar.xz | sudo tar Jxvf - --strip-components 1 -C /usr/bin ccache-4.10.2-linux-x86_64/ccache
           ccache --version
-    - name: install runtime dependencies (mac)
-      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
-      uses: BrettDong/setup-sdl2-frameworks@v1
-      with:
-        sdl2: 2.30.11
-        sdl2-ttf: 2.24.0
-        sdl2-image: 2.8.4
-        sdl2-mixer: 2.8.0
     - name: install build dependencies (mac)
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
       run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel
-    - name: install macports (mac)
-      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' && matrix.tiles == 1 }}
-      uses: melusina-org/setup-macports@v1
-      with:
-        parameters: '.github/macports/macports.yml'
+    - name: install SDL3 dependencies (mac)
+      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 == 1 }}
+      run: |
+          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes \
+              brew install pkgconf sdl3 sdl3_image sdl3_ttf sdl3_mixer
     - name: prepare
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/requirements.sh
@@ -280,21 +308,21 @@ jobs:
       shell: bash
     - name: ccache cache files
       if: ${{ env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) && matrix.ccache_key != '' }}
-      uses: actions/cache@v4
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       with:
         path: ${{ steps.get-vars.outputs.ccache-path }}
         # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
         key: ccache-${{ github.ref_name }}-${{ matrix.ccache_key }}--${{ steps.get-vars.outputs.datetime }}
         restore-keys: |
           ccache-master-${{ matrix.ccache_key }}--
-    - uses: ammaraskar/gcc-problem-matcher@master
+    - uses: ammaraskar/gcc-problem-matcher@0f9c86f9e693db67dacf53986e1674de5f2e5f28 # master
 
-    - name: Set up JDK 8 (android)
+    - name: Set up JDK (android)
       if: runner.os == 'Linux' && matrix.android != 'none'
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4
       with:
-        java-version: '11'
-        distribution: 'adopt'
+        java-version: '17'
+        distribution: 'temurin'
     - name: Build CDDA
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/gha_compile_only.sh
@@ -325,26 +353,26 @@ jobs:
         echo ${{ github.event.number }} > pull_request_id
         echo "false" > ${{ env.ARCHIVE_SUCCESS }}
       if: ${{ env.ARCHIVE_SUCCESS && failure() }}
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       if: ${{ always() && env.ARCHIVE_SUCCESS }}
       with:
         name: pull_request_id
         path: pull_request_id
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       if: ${{ always() && env.ARCHIVE_SUCCESS }}
       with:
         name: ${{ env.ARCHIVE_SUCCESS }}
         path: ${{ env.ARCHIVE_SUCCESS }}
     - name: upload artifacts if failed
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       if: failure()
       with:
         name: cata_test
         path: tests/cata_test*
         if-no-files-found: ignore
         retention-days: 9
-  emscripten:
-    needs: [ skip-duplicates-code, varied_builds ]
-    uses: ./.github/workflows/emscripten.yml
-    if: ${{ needs.skip-duplicates.outputs.should_skip_code != 'true' && success() && github.event.pull_request.draft == false }}
-    secrets: inherit
+  #emscripten:
+  #  needs: [ skip-duplicates-code, varied_builds ]
+  #  uses: ./.github/workflows/emscripten.yml
+  #  if: ${{ needs.skip-duplicates-code.outputs.should_skip_code != 'true' && success() && github.event.pull_request.draft == false }}
+  #  secrets: inherit

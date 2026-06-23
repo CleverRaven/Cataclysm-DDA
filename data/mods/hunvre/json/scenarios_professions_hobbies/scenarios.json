@@ -1,0 +1,16 @@
+[
+  {
+    "type": "scenario",
+    "id": "awakened",
+    "name": "Awakened",
+    "points": 0,
+    "description": "The alarms have stopped blaring, you can't remember the last time you heard an announcement.  Everything is quiet except for some noise outside, moaning?",
+    "start_name": "Awakened",
+    "allowed_locs": [ "sloc_depths" ],
+    "reveal_locale": true,
+    "distance_initial_visibility": 0,
+    "flags": [ "LONE_START" ],
+    "start_of_cataclysm": { "hour": 0, "day": 1, "season": "spring", "year": 1 },
+    "start_of_game": { "hour": 0, "day": 1, "season": "spring", "year": 1 }
+  }
+]

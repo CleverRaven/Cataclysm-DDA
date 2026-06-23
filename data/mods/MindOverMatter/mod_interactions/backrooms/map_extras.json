@@ -1,0 +1,58 @@
+[
+  {
+    "id": "mx_alien_grass",
+    "type": "map_extra",
+    "copy-from": "mx_alien_grass",
+    "min_max_zlevel": [ -3, 3 ],
+    "extend": { "flags": [ "BACKROOMS" ] }
+  },
+  {
+    "id": "mx_alien_grass_2",
+    "type": "map_extra",
+    "copy-from": "mx_alien_grass_2",
+    "min_max_zlevel": [ -3, 3 ],
+    "extend": { "flags": [ "BACKROOMS" ] }
+  },
+  {
+    "id": "mx_alien_grass_3",
+    "type": "map_extra",
+    "copy-from": "mx_alien_grass_3",
+    "min_max_zlevel": [ -3, 3 ],
+    "extend": { "flags": [ "BACKROOMS" ] }
+  },
+  {
+    "id": "mx_alien_grass_4",
+    "type": "map_extra",
+    "copy-from": "mx_alien_grass_4",
+    "min_max_zlevel": [ -3, 3 ],
+    "extend": { "flags": [ "BACKROOMS" ] }
+  },
+  {
+    "id": "mx_alien_grass_5",
+    "type": "map_extra",
+    "copy-from": "mx_alien_grass_5",
+    "min_max_zlevel": [ -3, 3 ],
+    "extend": { "flags": [ "BACKROOMS" ] }
+  },
+  {
+    "id": "mx_nether_pond",
+    "type": "map_extra",
+    "copy-from": "mx_nether_pond",
+    "min_max_zlevel": [ -3, 3 ],
+    "extend": { "flags": [ "BACKROOMS" ] }
+  },
+  {
+    "id": "mx_glass_and_crystal",
+    "type": "map_extra",
+    "copy-from": "mx_glass_and_crystal",
+    "min_max_zlevel": [ -3, 3 ],
+    "extend": { "flags": [ "BACKROOMS" ] }
+  },
+  {
+    "id": "mx_phavian_science",
+    "type": "map_extra",
+    "copy-from": "mx_phavian_science",
+    "min_max_zlevel": [ -3, 3 ],
+    "extend": { "flags": [ "BACKROOMS" ] }
+  }
+]

@@ -17,7 +17,6 @@
       "PADDED",
       "WATERPROOF",
       "RAINPROOF",
-      "IRRITANT_IMMUNE",
       "RAD_PROOF",
       "ELECTRIC_IMMUNE",
       "SUN_GLASSES",
@@ -166,9 +165,8 @@
       "type": "transform",
       "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v1.38…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
       "target": "combat_exoskeleton_heavy_on",
-      "active": true,
       "need_charges": 1,
-      "need_charges_msg": "The exoskeleton batteries are empty."
+      "need_charges_msg": "The batteries are dead."
     },
     "tool_ammo": "battery",
     "passive_effects": [ { "id": "combat_exoskeleton_heavy_active" } ]
@@ -179,7 +177,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "combat exoskeleton mk1 (on)", "str_pl": "combat exoskeletons mk1 (on)" },
-    "extend": { "flags": [ "GAS_PROOF", "WATCH", "PARTIAL_DEAF", "TWO_WAY_RADIO" ] },
+    "extend": { "flags": [ "GAS_PROOF", "WATCH", "PARTIAL_DEAF", "TWO_WAY_RADIO", "SPAWN_ACTIVE" ] },
     "power_draw": "200 W",
     "revert_to": "combat_exoskeleton_heavy",
     "use_action": {
@@ -269,14 +267,13 @@
     "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "combat exoskeleton mk2", "str_pl": "combat exoskeletons mk2" },
     "description": "These were the second wave of military combat exoskeleton, and got a lot of media attention, with popular Navy commercials featuring them heavily.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
-    "looks_like": "power_armor_basic",
+    "looks_like": "combat_exoskeleton_medium",
     "use_action": {
       "type": "transform",
       "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v2.86…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
       "target": "combat_exoskeleton_medium_on",
-      "active": true,
       "need_charges": 1,
-      "need_charges_msg": "The exoskeleton batteries are empty."
+      "need_charges_msg": "The batteries are dead."
     },
     "tool_ammo": "battery",
     "passive_effects": [ { "id": "combat_exoskeleton_medium_active" } ]
@@ -287,7 +284,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "combat exoskeleton mk2 (on)", "str_pl": "combat exoskeletons m2 (on)" },
-    "extend": { "flags": [ "GAS_PROOF", "WATCH", "PARTIAL_DEAF", "TWO_WAY_RADIO" ] },
+    "extend": { "flags": [ "GAS_PROOF", "WATCH", "PARTIAL_DEAF", "TWO_WAY_RADIO", "SPAWN_ACTIVE" ] },
     "power_draw": "175 W",
     "revert_to": "combat_exoskeleton_medium",
     "use_action": {
@@ -382,9 +379,8 @@
       "type": "transform",
       "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v3.51…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
       "target": "combat_exoskeleton_light_on",
-      "active": true,
       "need_charges": 1,
-      "need_charges_msg": "The exoskeleton batteries are empty."
+      "need_charges_msg": "The batteries are dead."
     },
     "tool_ammo": "battery",
     "passive_effects": [ { "id": "combat_exoskeleton_light_active" } ]
@@ -395,7 +391,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "combat exoskeleton mk3 (on)", "str_pl": "combat exoskeletons mk3 (on)" },
-    "extend": { "flags": [ "GAS_PROOF", "WATCH", "PARTIAL_DEAF", "TWO_WAY_RADIO" ] },
+    "extend": { "flags": [ "GAS_PROOF", "WATCH", "PARTIAL_DEAF", "TWO_WAY_RADIO", "SPAWN_ACTIVE" ] },
     "power_draw": "150 W",
     "revert_to": "combat_exoskeleton_light",
     "use_action": {
@@ -490,17 +486,7 @@
     "warmth": 0,
     "environmental_protection": 0,
     "delete": {
-      "flags": [
-        "STURDY",
-        "PADDED",
-        "WATERPROOF",
-        "RAINPROOF",
-        "IRRITANT_IMMUNE",
-        "RAD_PROOF",
-        "ELECTRIC_IMMUNE",
-        "SUN_GLASSES",
-        "COMBAT_TOGGLEABLE"
-      ]
+      "flags": [ "STURDY", "PADDED", "WATERPROOF", "RAINPROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "SUN_GLASSES", "COMBAT_TOGGLEABLE" ]
     },
     "armor": [
       {

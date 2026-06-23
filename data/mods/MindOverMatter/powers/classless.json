@@ -8,7 +8,8 @@
     "failure_cost_percent": 0.5,
     "failure_exp_percent": 0.3,
     "max_book_level": 0,
-    "casting_xp_formula_id": "psionic_power_experience_formula_channeling"
+    "casting_xp_formula_id": "psionic_power_experience_formula_channeling",
+    "failure_chance_formula_id": "psionic_power_success_formula"
   },
   {
     "id": "classless_toggleable_concentration_end",

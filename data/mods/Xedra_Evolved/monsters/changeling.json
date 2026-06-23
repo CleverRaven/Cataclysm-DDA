@@ -6,6 +6,7 @@
     "description": "The outline looks human but the movements of the limbs are too willowy and sinuous, a small knife flickers between its fingers in and out of sight.  Its clothing appears to be skintight silvery chain or scale mail, it shifts in the light.",
     "default_faction": "changeling",
     "looks_like": "mon_feral_human_pipe",
+    "categories": [ "XE_CLASSIC" ],
     "bodytype": "human",
     "species": [ "CHANGELING" ],
     "volume": "62500 ml",
@@ -21,7 +22,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "families": [ "prof_wp_demihuman" ],
     "dodge": 2,
     "harvest": "fae_changeling",
@@ -58,6 +59,7 @@
       "FAE_CREATURE",
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER",
+      "PATH_AVOID_FIRE",
       "DROPS_AMMO"
     ],
     "armor": {
@@ -78,6 +80,7 @@
     "name": { "str": "changeling bannerman", "str_pl": "changeling bannermen" },
     "description": "A tall lithe humanoid of indeterminate gender, clad in silvery scale mail and wielding archaic weapons.  Their sea-green eyes promise violence.",
     "copy-from": "mon_changeling",
+    "categories": [ "XE_CLASSIC" ],
     "symbol": "%",
     "hp": 80,
     "speed": 110,
@@ -104,6 +107,7 @@
     "name": { "str": "redcap aspirant" },
     "description": "With a red feathered plume rising out of their helmet, this large combatant is clearly a cut above many of the foes you've faced.  Ogrish features stare out from under the blood drenched helmet.",
     "copy-from": "mon_changeling",
+    "categories": [ "XE_CLASSIC" ],
     "symbol": "A",
     "volume": "122500 ml",
     "weight": "161500 g",
@@ -134,6 +138,7 @@
     "name": { "str": "pooka aspirant" },
     "description": "This diminutive warrior possesses both animalistic features and custom made arms and armor.  The twinkle in its eye seems to giggle as it readies its weapons.",
     "copy-from": "mon_changeling",
+    "categories": [ "XE_CLASSIC" ],
     "symbol": "A",
     "volume": "32500 ml",
     "weight": "41500 g",
@@ -159,13 +164,242 @@
     }
   },
   {
-    "id": "mon_march_lord",
+    "id": "mon_xe_troll",
+    "type": "MONSTER",
+    "name": { "str": "troll" },
+    "description": "An enormous man-like form, wearing rough-spun clothing and almost twice as tall as a human.  It bears a club almost as big as a tree-trunk in one meaty, earth-brown hand.",
+    "default_faction": "changeling",
+    "copy-from": "mon_changeling",
+    "looks_like": "mon_ogre",
+    "categories": [ "XE_CLASSIC" ],
+    "volume": "875 L",
+    "weight": "850 kg",
+    "hp": 450,
+    "speed": 105,
+    "diff": 15,
+    "material": [ "flesh" ],
+    "symbol": "T",
+    "color": "brown",
+    "aggression": 75,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "dodge": 0,
+    "families": [ "prof_wp_demihuman", "prof_wp_hulk" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_body_armor" ],
+    "anger_triggers": [ "HURT", "PLAYER_WEAK", "PLAYER_CLOSE" ],
+    "grab_strength": 50,
+    "zombify_into": "mon_zombie_hulk",
+    "fungalize_into": "mon_zombie_hulk_fungalize",
+    "death_drops": "changeling_troll_death_drops",
+    "special_attacks": [
+      { "id": "grab", "condition": { "u_has_effect": "disarmed" } },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "troll_weapon_club",
+        "cooldown": 3,
+        "move_cost": 200,
+        "accuracy": 5,
+        "range": 2,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 40 } ],
+        "condition": { "test_eoc": "is_disarmed" },
+        "eoc": [ "EOC_XE_TROLL_HITS_YOU_WITH_GIANT_CLUB" ],
+        "hit_dmg_u": "%1$s hits your %2$s with an enormous club!",
+        "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with an enormous club!",
+        "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor.",
+        "blockable": false
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "troll_smash_with_weapon",
+        "move_cost": 400,
+        "cooldown": 20,
+        "range": 2,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ],
+        "condition": { "test_eoc": "is_disarmed" },
+        "hitsize_min": 12,
+        "throw_strength": 100,
+        "hit_dmg_u": "%1$s takes a powerful swing at your %2$s, pulverizing it!",
+        "hit_dmg_npc": "%1$s takes a powerful swing at <npcname>!",
+        "no_dmg_msg_u": "%s takes a swing at you, but it's blunted by your armor.",
+        "no_dmg_msg_npc": "%s takes a swing at <npcname>, but they appear unharmed.",
+        "miss_msg_u": "%s takes a powerful swing at you, but you dodge it!",
+        "miss_msg_npc": "%s takes a powerful swing at <npcname>, who dodges it!",
+        "blockable": false
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "troll_smash_without_weapon",
+        "move_cost": 400,
+        "cooldown": 20,
+        "range": 2,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ],
+        "condition": { "not": { "test_eoc": "is_disarmed" } },
+        "hitsize_min": 12,
+        "throw_strength": 70,
+        "hit_dmg_u": "%1$s takes a powerful swing at your %2$s, pulverizing it!",
+        "hit_dmg_npc": "%1$s takes a powerful swing at <npcname>!",
+        "no_dmg_msg_u": "%s takes a swing at you, but it's blunted by your armor.",
+        "no_dmg_msg_npc": "%s takes a swing at <npcname>, but they appear unharmed.",
+        "miss_msg_u": "%s takes a powerful swing at you, but you dodge it!",
+        "miss_msg_npc": "%s takes a powerful swing at <npcname>, who dodges it!",
+        "blockable": false
+      },
+      [ "EAT_FOOD", 120 ]
+    ],
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
+    "armor": {
+      "bash": 12,
+      "cut": 8,
+      "stab": 6,
+      "heat": 6,
+      "bullet": 6,
+      "electric": 2,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    },
+    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
+  },
+  {
+    "id": "mon_xe_troll_full_armor",
+    "copy-from": "mon_xe_troll",
+    "type": "MONSTER",
+    "name": { "str": "troll manbreaker" },
+    "description": "An enormous man-like form, over twice as tall as a human and clad in a suit of faintly-shimmering armor that looks like it could stop an anti-tank round.  It carries a warhammer made of the same material that looks like it could destroy a brick wall in a single swing.",
+    "speed": 90,
+    "melee_skill": 7,
+    "diff": 25,
+    "special_attacks": [
+      { "id": "grab", "condition": { "u_has_effect": "disarmed" } },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "troll_weapon_warhammer",
+        "cooldown": 4,
+        "move_cost": 250,
+        "range": 2,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 65 } ],
+        "condition": { "test_eoc": "is_disarmed" },
+        "eoc": [ "EOC_XE_TROLL_HITS_YOU_WITH_GIANT_CLUB" ],
+        "hit_dmg_u": "%1$s hits your %2$s with a gigantic hammer!",
+        "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a gigantic hammer!",
+        "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor.",
+        "blockable": false
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "troll_smash_with_weapon",
+        "move_cost": 400,
+        "cooldown": 20,
+        "range": 2,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ],
+        "condition": { "test_eoc": "is_disarmed" },
+        "hitsize_min": 12,
+        "throw_strength": 100,
+        "hit_dmg_u": "%1$s takes a powerful swing at your %2$s, pulverizing it!",
+        "hit_dmg_npc": "%1$s takes a powerful swing at <npcname>!",
+        "no_dmg_msg_u": "%s takes a swing at you, but it's blunted by your armor.",
+        "no_dmg_msg_npc": "%s takes a swing at <npcname>, but they appear unharmed.",
+        "miss_msg_u": "%s takes a powerful swing at you, but you dodge it!",
+        "miss_msg_npc": "%s takes a powerful swing at <npcname>, who dodges it!",
+        "blockable": false
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "troll_smash_without_weapon",
+        "move_cost": 400,
+        "cooldown": 20,
+        "range": 2,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ],
+        "condition": { "not": { "test_eoc": "is_disarmed" } },
+        "hitsize_min": 12,
+        "throw_strength": 70,
+        "hit_dmg_u": "%1$s takes a powerful swing at your %2$s, pulverizing it!",
+        "hit_dmg_npc": "%1$s takes a powerful swing at <npcname>!",
+        "no_dmg_msg_u": "%s takes a swing at you, but it's blunted by your armor.",
+        "no_dmg_msg_npc": "%s takes a swing at <npcname>, but they appear unharmed.",
+        "miss_msg_u": "%s takes a powerful swing at you, but you dodge it!",
+        "miss_msg_npc": "%s takes a powerful swing at <npcname>, who dodges it!",
+        "blockable": false
+      },
+      [ "EAT_FOOD", 120 ]
+    ],
+    "death_drops": "changeling_troll_manbreaker_death_drops",
+    "armor": {
+      "bash": 44,
+      "cut": 72,
+      "stab": 32,
+      "heat": 20,
+      "bullet": 72,
+      "electric": 2,
+      "pure": 160,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_TROLL_HITS_YOU_WITH_GIANT_CLUB",
+    "effect": [
+      {
+        "switch": { "math": [ "n_val('size')" ] },
+        "cases": [
+          {
+            "case": 1,
+            "effect": [ { "npc_add_effect": "downed", "duration": [ 2, 5 ] }, { "npc_add_effect": "stunned", "duration": [ 2, 5 ] } ]
+          },
+          {
+            "case": 2,
+            "effect": [
+              { "npc_add_effect": "downed", "duration": [ 2, 4 ] },
+              { "if": { "math": [ "rand(4) >= 1" ] }, "then": { "npc_add_effect": "stunned", "duration": [ 1, 4 ] } }
+            ]
+          },
+          {
+            "case": 3,
+            "effect": [
+              { "if": { "math": [ "rand(2) >= 1" ] }, "then": { "npc_add_effect": "downed", "duration": [ 1, 4 ] } },
+              { "if": { "math": [ "rand(4) >= 2" ] }, "then": { "npc_add_effect": "stunned", "duration": [ 1, 3 ] } }
+            ]
+          },
+          {
+            "case": 4,
+            "effect": [
+              { "if": { "math": [ "rand(2) >= 2" ] }, "then": { "npc_add_effect": "downed", "duration": [ 1, 3 ] } },
+              { "if": { "math": [ "rand(4) >= 3" ] }, "then": { "npc_add_effect": "stunned", "duration": [ 1, 2 ] } }
+            ]
+          },
+          {
+            "case": 5,
+            "effect": [ { "if": { "math": [ "rand(4) >= 4" ] }, "then": { "npc_add_effect": "stunned", "duration": [ 1, 2 ] } } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "abstract": "mon_march_lord",
     "type": "MONSTER",
     "name": { "str": "March Lord" },
     "description": "Nearly seven feet tall and whip thin, this warlord of the border realm of the Nether is clothed in silks and silvery tightly woven chainmail.  It glares at you and an ethereal sword manifests in its hand.",
     "default_faction": "changeling",
     "bodytype": "human",
     "species": [ "CHANGELING", "CHANGELING_NOBLE" ],
+    "categories": [ "XE_CLASSIC" ],
     "volume": "72500 ml",
     "weight": "91500 g",
     "hp": 190,
@@ -176,17 +410,16 @@
     "aggression": 50,
     "morale": 120,
     "melee_skill": 7,
-    "melee_dice": 8,
-    "melee_dice_sides": 3,
-    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "dodge": 5,
     "harvest": "fae_march_lord",
     "families": [ "prof_wp_demihuman" ],
     "vision_day": 50,
     "vision_night": 6,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "hoary_blast_march_lord", "min_level": 5 }, "cooldown": 15 } ],
+    "special_attacks": [ { "id": "march_lord_sword_winter" } ],
     "death_drops": "changeling_lord_death_drops",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [
@@ -216,6 +449,125 @@
     }
   },
   {
+    "type": "MONSTER",
+    "id": "mon_march_lord_spring",
+    "copy-from": "mon_march_lord",
+    "speed": 120,
+    "special_attacks": [
+      { "id": "march_lord_sword_spring" },
+      {
+        "id": "xe_march_lord_create_grasses",
+        "type": "spell",
+        "spell_data": { "id": "summon_grass_field_monster", "min_level": 7 },
+        "cooldown": 25,
+        "condition": { "and": [ "u_is_outside", "npc_is_outside", { "npc_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "monster_message": "%1$s idly waves a hand at %3$s."
+      },
+      {
+        "id": "xe_spring_march_lord_viridian_cuirass",
+        "type": "spell",
+        "spell_data": { "id": "viridian_cuirass_monster", "min_level": 0 },
+        "cooldown": 50,
+        "condition": {
+          "and": [
+            "u_is_outside",
+            { "u_is_on_terrain_with_flag": "GRAZABLE" },
+            { "not": { "u_has_effect": "effect_monster_viridian_cuirass" } }
+          ]
+        },
+        "monster_message": "%1$s gestures and an armor of vines and leaves grows around them."
+      },
+      {
+        "id": "xe_march_lord_summon_plants",
+        "type": "spell",
+        "spell_data": { "id": "summon_bashing_vine_changeling_monster" },
+        "cooldown": 45,
+        "condition": { "and": [ "npc_is_outside", { "npc_is_on_terrain_with_flag": "GRAZABLE" } ] },
+        "monster_message": "%1$s gestures and plants grow in moments."
+      }
+    ],
+    "death_drops": "changeling_lord_spring_death_drops",
+    "extend": { "armor": { "biological": 26 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_march_lord_summer",
+    "copy-from": "mon_march_lord",
+    "speed": 160,
+    "special_attacks": [
+      { "id": "march_lord_sword_summer" },
+      {
+        "id": "xe_punishing_summer_heat",
+        "type": "spell",
+        "spell_data": { "id": "punishing_summer_heat_monster" },
+        "cooldown": 20,
+        "condition": {
+          "or": [ { "not": { "is_season": "winter" } }, { "and": [ "u_is_outside", "npc_is_outside", { "is_season": "winter" } ] } ]
+        },
+        "monster_message": "%1$s gestures and there is a brief burst of light."
+      },
+      {
+        "id": "xe_fire_in_the_blood_monster",
+        "type": "spell",
+        "spell_data": { "id": "fire_in_the_blood_monster", "min_level": 0 },
+        "cooldown": 50,
+        "condition": { "not": { "u_has_effect": "effect_monster_a_fire_in_the_blood" } },
+        "monster_message": "%1$s gestures and heat-haze shimmers around them for a moment."
+      }
+    ],
+    "death_drops": "changeling_lord_summer_death_drops"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_march_lord_autumn",
+    "copy-from": "mon_march_lord",
+    "speed": 140,
+    "special_attacks": [
+      { "id": "march_lord_sword_autumn" },
+      {
+        "id": "xe_touch_of_frailty",
+        "type": "spell",
+        "spell_data": { "id": "touch_of_frailty_monster" },
+        "cooldown": 15,
+        "condition": { "not": { "npc_has_effect": "effect_changeling_autumn_touch_of_frailty_monster" } },
+        "monster_message": "The air wavers around %1$s's hand as they reach out for %3$s."
+      },
+      {
+        "id": "xe_autumn_swirl_of_autumn_leaves",
+        "type": "spell",
+        "spell_data": { "id": "swirl_autumn_leaves_monster", "min_level": 0 },
+        "cooldown": 50,
+        "condition": { "not": { "u_has_effect": "effect_monster_swirl_of_autumn_leaves" } },
+        "monster_message": "%1$s gestures and whirling colored leaves surround them."
+      }
+    ],
+    "death_drops": "changeling_lord_autumn_death_drops",
+    "extend": { "armor": { "withering_damage": 32 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_march_lord_winter",
+    "copy-from": "mon_march_lord",
+    "speed": 130,
+    "special_attacks": [
+      { "id": "march_lord_sword_winter" },
+      {
+        "type": "spell",
+        "spell_data": { "id": "hoary_blast_march_lord", "min_level": 5 },
+        "cooldown": 15,
+        "monster_message": "%1$s takes a deep breath and blows out freezing air!"
+      },
+      {
+        "id": "xe_winter_silence_spell",
+        "type": "spell",
+        "spell_data": { "id": "winter_silence_spell_monster" },
+        "cooldown": 30,
+        "monster_message": "Snow forms around %1$s's hand as they gesture towards %3$s."
+      }
+    ],
+    "death_drops": "changeling_lord_winter_death_drops"
+  },
+  {
     "id": "mon_wild_huntsman",
     "type": "MONSTER",
     "name": { "str": "Wild Huntsman", "str_pl": "Wild Huntsmen" },
@@ -223,6 +575,7 @@
     "default_faction": "changeling",
     "bodytype": "human",
     "species": [ "CHANGELING", "CHANGELING_NOBLE" ],
+    "categories": [ "XE_CLASSIC" ],
     "volume": "72500 ml",
     "weight": "91500 g",
     "hp": 250,
@@ -235,7 +588,7 @@
     "melee_skill": 7,
     "melee_dice": 1,
     "melee_dice_sides": 6,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "dodge": 5,
     "harvest": "fae_march_lord",
     "families": [ "prof_wp_demihuman" ],
@@ -278,6 +631,7 @@
       "GROUP_BASH",
       "HUMAN",
       "FAE_CREATURE",
+      "TRUESIGHT",
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER",
       "MAGIC_USER"
@@ -298,11 +652,12 @@
   {
     "id": "mon_wild_hunt_hound",
     "type": "MONSTER",
-    "name": { "str": "hound of the wild hunt" },
+    "name": { "str": "hound of the wild hunt", "str_pl": "hounds of the wild hunt" },
     "description": "An enormous dog, a meter and a half high at the shoulder, with silvery fur and multicolored eyes.  It sniffs the air and looks around alertly.",
     "default_faction": "changeling",
     "bodytype": "dog",
     "species": [ "CHANGELING" ],
+    "categories": [ "XE_CLASSIC" ],
     "volume": "200000 ml",
     "weight": "200000 g",
     "hp": 175,
@@ -343,7 +698,7 @@
       }
     ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "TRUESIGHT", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS" ],
     "armor": {
       "bash": 8,
       "cut": 10,
@@ -361,6 +716,7 @@
     "bodytype": "human",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "CHANGELING" ],
+    "categories": [ "XE_CLASSIC" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 80,
@@ -374,7 +730,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie_humanoid",
@@ -454,6 +810,7 @@
     "default_faction": "changeling",
     "bodytype": "human",
     "species": [ "CHANGELING" ],
+    "categories": [ "XE_CLASSIC" ],
     "volume": "30000 ml",
     "weight": "40750 g",
     "hp": 40,
@@ -468,7 +825,7 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body", "wps_humanoid_head_big" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_child_body", "wps_humanoid_head_big" ],
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "fetch",
@@ -486,6 +843,7 @@
     "default_faction": "changeling",
     "bodytype": "human",
     "species": [ "CHANGELING" ],
+    "categories": [ "XE_CLASSIC" ],
     "volume": "45000 ml",
     "weight": "60750 g",
     "hp": 20,
@@ -499,7 +857,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 9,
     "dodge": 2,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "vision_day": 30,
     "vision_night": 3,
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s bursts into a rain of pollen!" },
@@ -515,6 +873,7 @@
     "looks_like": "mon_wolf",
     "bodytype": "dog",
     "species": [ "CHANGELING" ],
+    "categories": [ "XE_CLASSIC" ],
     "volume": "31000 ml",
     "weight": "43750 g",
     "hp": 35,
@@ -547,6 +906,7 @@
     "default_faction": "changeling",
     "bodytype": "spider",
     "species": [ "CHANGELING" ],
+    "categories": [ "XE_CLASSIC" ],
     "diff": 2,
     "volume": "62500 ml",
     "weight": "81500 g",
@@ -598,6 +958,7 @@
     "default_faction": "changeling",
     "bodytype": "horse",
     "species": [ "CHANGELING" ],
+    "categories": [ "XE_CLASSIC" ],
     "volume": "770000 ml",
     "weight": "770 kg",
     "hp": 140,
@@ -658,8 +1019,8 @@
     "description": "A hooved grazing creature with a thick, shaggy, shimmering mane of hair, a sweeping tail, and powerful-looking muscles.  It has a stubby nub of a horn growth starting.  This one is still a juvenile; it'll take a while before it can be ridden.",
     "default_faction": "changeling",
     "bodytype": "horse",
-    "categories": [ "CHANGELING" ],
-    "species": [ "MAMMAL" ],
+    "species": [ "CHANGELING" ],
+    "categories": [ "XE_CLASSIC" ],
     "volume": "250000 ml",
     "weight": "250 kg",
     "hp": 55,
@@ -695,6 +1056,7 @@
     "default_faction": "changeling",
     "bodytype": "human",
     "species": [ "CHANGELING" ],
+    "categories": [ "XE_CLASSIC" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 180,
@@ -712,7 +1074,7 @@
     "grab_strength": 100,
     "dodge": 5,
     "harvest": "fae_changeling",
-    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
     "families": [ "prof_wp_demihuman" ],
     "special_attacks": [ { "id": "ranged_pull", "cooldown": 10 }, { "id": "grab_drag" }, { "id": "drag_followup" } ],
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
@@ -726,6 +1088,7 @@
     "default_faction": "mantis",
     "bodytype": "insect",
     "species": [ "INSECT" ],
+    "categories": [ "XE_CLASSIC" ],
     "volume": "650 L",
     "weight": "650 kg",
     "hp": 180,
@@ -785,10 +1148,12 @@
     "id": "mon_changeling_wisp",
     "type": "MONSTER",
     "name": "will-o'-the-wisp",
+    "looks_like": "mon_wisp",
     "description": "Drifting lights in the distance, moving slowly, seeming to light the way.  But to what?",
     "default_faction": "changeling",
     "bodytype": "blob",
     "species": [ "CHANGELING" ],
+    "categories": [ "XE_CLASSIC" ],
     "volume": "1500 ml",
     "weight": "136 g",
     "hp": 20,
@@ -823,5 +1188,41 @@
       "NO_BREATHE",
       "SWARMS"
     ]
+  },
+  {
+    "id": "mon_xe_strange_event_brownie",
+    "type": "MONSTER",
+    "name": { "str": "household brownie" },
+    "description": "A small humanoid wearing old-fashioned clothing and seemingly covered in thick hair.  It looks at you in shock.",
+    "copy-from": "mon_changeling",
+    "chat_topics": [ "XE_STRANGE_EVENT_BROWNIE_MEETS_BROWNIE" ],
+    "categories": [ "XE_CLASSIC" ],
+    "symbol": "B",
+    "volume": "32500 ml",
+    "weight": "41500 g",
+    "hp": 62,
+    "speed": 120,
+    "melee_dice": 3,
+    "melee_dice_sides": 6,
+    "dodge": 6,
+    "special_attacks": [
+      {
+        "id": "mon_xe_strange_brownie_open_conversation",
+        "type": "spell",
+        "spell_data": { "id": "mon_xe_strange_brownie_open_conversation" },
+        "cooldown": 1,
+        "condition": "npc_is_avatar",
+        "monster_message": "%1$s looks at you in shock."
+      }
+    ],
+    "armor": {
+      "stab": 3,
+      "bash": 6,
+      "cut": 2,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    },
+    "extend": { "flags": [ "PACIFIST", "CAMOUFLAGE" ] }
   }
 ]

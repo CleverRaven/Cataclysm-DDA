@@ -1,3 +1,22 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Vehicle prototypes](#vehicle-prototypes)
+  - [Vehicle prototypes](#vehicle-prototypes-1)
+    - [Part order](#part-order)
+    - [Parts list](#parts-list)
+    - [Extra options](#extra-options)
+      - [Turrets](#turrets)
+      - [Fuel tanks](#fuel-tanks)
+      - [VEH_TOOLS parts](#veh_tools-parts)
+    - [Part variants](#part-variants)
+    - [Items list](#items-list)
+    - [Zones list](#zones-list)
+  - [Export vehicle prototypes using debug menu](#export-vehicle-prototypes-using-debug-menu)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Vehicle prototypes
 
 Vehicle prototypes are used to spawn stock vehicles. After a vehicle has been spawned, it is saved in a different format.
@@ -97,14 +116,12 @@ and describes the items that may spawn at that location.
 TYPE and DATA may be one of:
 ```jsonc
 "items": "itemid"                                   // single item of that type
-"items": [ "itemid1", "itemid2", /* ... */ ]        // all the items in the array
+"items": [ "itemid1", { "id": "itemid2", "variant": "foo" }, /* ... */ ]        // all the items in the array
 "item_groups": "groupid"                            // one or more items in the group, depending on
                                                     // whether the group is a collection or distribution
 "item_groups": [ "groupid1", "groupid2" /* ... */ ] // one or more items for each group
 ```
 the optional keyword "chance" provides an X in 100 chance that a particular item definition will spawn.
-
-If a single item is specified through `"items"`, an itype variant for it can be specified through `"variant"`.
 
 Multiple lines of items may share the same X and Y values.
 

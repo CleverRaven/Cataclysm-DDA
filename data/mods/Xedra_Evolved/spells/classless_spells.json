@@ -293,7 +293,7 @@
     "type": "effect_on_condition",
     "id": "EOC_BOANN_RETALIATION_NON_PLAYER_REAL",
     "//": "You won't ever see the teleported target again, so might as well kill it.",
-    "//2": "The hunt won't spawn as you you did not strike Boann yourself.",
+    "//2": "The hunt won't spawn as you did not strike Boann yourself.",
     "condition": "u_is_alive",
     "effect": [
       { "u_cast_spell": { "id": "boann_banish_monsters_check" } },

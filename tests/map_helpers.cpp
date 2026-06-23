@@ -1,20 +1,22 @@
 #include "map_helpers.h"
 
+#include <bitset>
 #include <memory>
-#include <optional>
+#include <unordered_map>
 #include <vector>
 
 #include "avatar.h"
-#include "basecamp.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "character_attire.h"
 #include "clzones.h"
+#include "creature_tracker.h"
 #include "coordinates.h"
 #include "field.h"
 #include "game.h"
 #include "item.h"
+#include "mapbuffer.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -26,6 +28,7 @@
 #include "ret_val.h"
 #include "submap.h"
 #include "type_id.h"
+#include "weather.h"
 
 static const itype_id itype_blindfold( "blindfold" );
 static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
@@ -51,13 +54,18 @@ void clear_radiation()
     for( int z = -1; z <= OVERMAP_HEIGHT; ++z ) {
         for( int x = 0; x < mapsize; ++x ) {
             for( int y = 0; y < mapsize; ++y ) {
-                here.set_radiation( tripoint_bub_ms{ x, y, z}, 0 );
+                here.set_radiation( tripoint_bub_ms{ x, y, z }, 0 );
             }
         }
     }
 }
 
 void wipe_map_terrain( map *target )
+{
+    wipe_map_terrain_with_vision( target, true );
+}
+
+void wipe_map_terrain_with_vision( map *target, bool with_vision )
 {
     map &here = target ? *target : get_map();
     const int mapsize = here.getmapsize() * SEEX;
@@ -66,7 +74,11 @@ void wipe_map_terrain( map *target )
         for( int x = 0; x < mapsize; ++x ) {
             for( int y = 0; y < mapsize; ++y ) {
                 here.set( tripoint_bub_ms{ x, y, z}, terrain, furn_str_id::NULL_ID() );
-                here.partial_con_remove( { x, y, z } );
+                if( with_vision ) {
+                    here.partial_con_remove( { x, y, z } );
+                } else {
+                    here.partial_con_remove_no_vision_for_testing( { x, y, z } );
+                }
             }
         }
     }
@@ -129,17 +141,23 @@ void clear_zones()
 
 void clear_basecamps()
 {
-    std::optional<basecamp *> camp;
-    do {
-        const tripoint_abs_omt &avatar_pos = get_avatar().pos_abs_omt();
-        camp = overmap_buffer.find_camp( avatar_pos.xy() );
-        if( camp && *camp != nullptr ) {
-            ( **camp ).remove_camp( avatar_pos );
-        }
-    } while( camp );
+    overmap_buffer.clear_camps( get_avatar().pos_abs_omt().xy() );
 }
 
+static std::bitset<24 * 24> impassable_omt;
+static std::bitset<24 * 24> passable_omt{ ~impassable_omt };
+
 void clear_map( int zmin, int zmax )
+{
+    clear_map_with_vision( zmin, zmax, true );
+}
+
+void clear_map_without_vision( int zmin, int zmax )
+{
+    clear_map_with_vision( zmin, zmax, false );
+}
+
+void clear_map_with_vision( int zmin, int zmax, bool with_vision )
 {
     map &here = get_map();
     if( const tripoint_abs_sm &abs_sub = here.get_abs_sub(); abs_sub.z() != 0 ) {
@@ -153,7 +171,7 @@ void clear_map( int zmin, int zmax )
     }
     clear_zones();
     clear_npcs();
-    wipe_map_terrain();
+    wipe_map_terrain_with_vision( nullptr, with_vision );
     clear_creatures();
     here.clear_traps();
     for( int z = zmin; z <= zmax; ++z ) {
@@ -161,12 +179,23 @@ void clear_map( int zmin, int zmax )
     }
     here.process_items();
     clear_basecamps();
+    get_weather().snow_depth_map.clear();
+    // Set a chunk of overmap passability cache to all passable.
+    const tripoint_abs_sm &abs_sub = here.get_abs_sub();
+    const tripoint_abs_omt abs_omt = project_to<coords::omt>( abs_sub );
+    overmap_buffer.clear_mongroups();
+    for( int y = -4; y < 10; ++y ) {
+        for( int x = -4; x < 10; ++x ) {
+            tripoint_abs_omt this_omt{ abs_omt.x() + x, abs_omt.y() + y, 0 };
+            overmap_buffer.set_passable( this_omt, passable_omt );
+        }
+    }
 }
 
 void clear_map_and_put_player_underground()
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     // Make sure the player doesn't block the path of the monster being tested.
     get_player_character().setpos( here, tripoint_bub_ms{ 0, 0, -2 } );
 }
@@ -174,7 +203,19 @@ void clear_map_and_put_player_underground()
 monster &spawn_test_monster( const std::string &monster_type, const tripoint_bub_ms &start,
                              const bool death_drops )
 {
-    monster *const test_monster_ptr = g->place_critter_at( mtype_id( monster_type ), start );
+    mtype_id type( monster_type );
+    REQUIRE( !type.is_null() );
+    REQUIRE( get_creature_tracker().creature_at( start ) == nullptr );
+    monster mon( type );
+    map &here = get_map();
+    CAPTURE( here.ter( start ) );
+    CAPTURE( here.furn( start ) );
+    CAPTURE( here.tr_at( start ) );
+    CAPTURE( here.move_cost( start ) );
+    REQUIRE( mon.will_move_to( start ) );
+    REQUIRE( mon.know_danger_at( start ) );
+
+    monster *const test_monster_ptr = g->place_critter_at( type, start );
     REQUIRE( test_monster_ptr );
     test_monster_ptr->death_drops = death_drops;
     return *test_monster_ptr;
@@ -202,7 +243,7 @@ void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_i
     constexpr int z_surface = 0;
     constexpr int z_bottom = -2;
 
-    clear_map( z_bottom - 1, z_surface + 1 );
+    clear_map_with_vision( z_bottom - 1, z_surface + 1, /* with_vision = */ false );
 
     map &here = get_map();
     const tripoint_bub_ms p1( 0, 0, z_bottom - 1 );
@@ -265,4 +306,30 @@ void set_time( const time_point &time )
     here.update_visibility_cache( z );
     here.invalidate_map_cache( z );
     here.build_map_cache( z );
+}
+
+void clear_overmaps()
+{
+    // Just drop all generated overmaps.
+    overmap_buffer.clear();
+    // Also all generated submaps.
+    MAPBUFFER.clear();
+    // Just make a new map.
+    get_map() = map();
+    g->place_player_overmap( tripoint_abs_omt() );
+}
+
+bool map_meddler::has_altered_submaps( map &m )
+{
+    for( submap *sm : m.grid ) {
+        if( sm->player_adjusted_map ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+submap *map_meddler::unsafe_get_submap_at( tripoint_bub_ms &p, point_sm_ms &l )
+{
+    return get_map().unsafe_get_submap_at( p, l );
 }

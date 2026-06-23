@@ -171,7 +171,7 @@
     "name": "dumpsite",
     "sym": "D",
     "color": "brown",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -198,7 +198,7 @@
     "sym": "R",
     "color": "i_green",
     "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ] },
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -207,7 +207,7 @@
     "name": "recycle center roof",
     "sym": "R",
     "color": "i_green",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -234,7 +234,7 @@
     "sym": "J",
     "color": "i_brown",
     "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ] },
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -248,8 +248,6 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "ws_regional_dump_0_0",
-      "ws_regional_dump_1_0",
       "ws_regional_dump_2_0",
       "ws_regional_dump_3_0",
       "ws_regional_dump_3_0_roof",
@@ -288,6 +286,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "ws_regional_dump_0_0", "ws_regional_dump_1_0" ],
+    "copy-from": "generic_regional_dump",
+    "looks_like": "s_lot",
+    "vision_levels": "large_pavement"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "smallscrapyard",
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "small scrap yard",
@@ -310,7 +315,8 @@
     "name": "small dump",
     "sym": "d",
     "color": "i_brown",
-    "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ] }
+    "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ] },
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -339,6 +345,6 @@
     "name": "abandoned textile mill",
     "color": "light_blue",
     "extend": { "flags": [ "SOURCE_CONSTRUCTION" ] },
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   }
 ]

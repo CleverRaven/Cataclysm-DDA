@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "house_detatched8",
     "type": "mapgen",
     "object": {
@@ -17,7 +16,7 @@
         "....%[.#I |  x H#.%%....",
         ".....%.#d +  x Ho.%[%...",
         ".%..%..#|||    y#%.%....",
-        "..%[%!.o5    2|+##...%..",
+        "..%[%!.o5é   2|+##...%..",
         "...%%%^#F JA 6|-t#^.....",
         "....%[.#O4JA >|BS#%.....",
         ".....%.##o##*#####......",
@@ -72,7 +71,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_detatched8_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -84,10 +82,10 @@
         "          -..-          ",
         "          -..-          ",
         "       ----..----       ",
+        "       -.N.0....-       ",
         "       -........-       ",
-        "       -......N.-       ",
         "       -..&.....-       ",
-        "       -...1....-       ",
+        "       -........-       ",
         "       -........--      ",
         "       5.....=...5      ",
         "       -.........-      ",
@@ -104,23 +102,11 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" },
-      "nested": {
-        "1": {
-          "//": "11% chance for solar, 20% chance it's v2",
-          "chunks": [
-            [ "residential_1x2_solar", 12 ],
-            [ "residential_2x2_solar", 8 ],
-            [ "residential_1x2_solar_v2", 3 ],
-            [ "residential_2x2_solar_v2", 2 ],
-            [ "null", 220 ]
-          ]
-        }
-      }
+      "nested": { "0": { "chunks": [ [ "residential_6kW_solar", 125 ], [ "null", 873 ] ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_detatched8_basement",
     "object": {
       "fill_ter": "t_thconc_floor",

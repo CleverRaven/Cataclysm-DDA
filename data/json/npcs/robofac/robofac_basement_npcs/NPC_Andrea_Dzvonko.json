@@ -7,7 +7,7 @@
     "name_suffix": "software engineer",
     "class": "NC_HUB01_ADzvonko",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "HUB01_ADzvonko_Intro",
     "faction": "robofac"
   },
@@ -39,7 +39,7 @@
       { "item": "bra" },
       { "item": "panties" },
       { "item": "socks" },
-      { "item": "robofac_jumpsuit" },
+      { "item": "jumpsuit", "variant": "robofac" },
       { "item": "sneakers" },
       { "item": "sweater" }
     ]

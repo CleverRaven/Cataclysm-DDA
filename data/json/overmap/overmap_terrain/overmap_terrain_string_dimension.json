@@ -1,0 +1,239 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "string_dimension_crossroads" ],
+    "flags": [ "NO_ROTATE" ],
+    "vision_levels": "open_land",
+    "land_use_code": "open_land",
+    "name": "bridges",
+    "sym": ".",
+    "color": "light_gray",
+    "see_cost": "all_clear"
+  },
+  {
+    "type": "overmap_location",
+    "id": "string_dimension_crossroads",
+    "terrains": [ "string_dimension_crossroads" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "string_dimension_void" ],
+    "flags": [ "NO_ROTATE" ],
+    "vision_levels": "open_land",
+    "name": "empty space",
+    "sym": " ",
+    "color": "black",
+    "see_cost": "all_clear"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "string_dimension_true_void" ],
+    "flags": [ "NO_ROTATE" ],
+    "vision_levels": "open_land",
+    "name": "empty space",
+    "sym": " ",
+    "color": "black",
+    "see_cost": "opaque"
+  },
+  {
+    "type": "overmap_location",
+    "id": "string_dimension_true_void",
+    "terrains": [ "string_dimension_true_void" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "string_dimension_small_ziggurat_1",
+      "string_dimension_small_ziggurat_0",
+      "string_dimension_small_ziggurat_-1",
+      "string_dimension_small_ziggurat_-2",
+      "string_dimension_small_ziggurat_-3"
+    ],
+    "vision_levels": "isolated_tower",
+    "name": "floating inverted ziggurat",
+    "sym": "Z",
+    "color": "yellow",
+    "see_cost": "low"
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_string_dimension_plane",
+    "copy-from": "generic_open_land",
+    "name": "planes",
+    "sym": "+",
+    "color": "light_blue",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "string_dimension_plane_core",
+    "copy-from": "generic_string_dimension_plane",
+    "extend": { "flags": [ "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "string_dimension_plane_end",
+    "copy-from": "generic_string_dimension_plane"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "string_dimension_plane_z_stack_0", "string_dimension_plane_z_stack_1", "string_dimension_plane_z_stack_-1" ],
+    "vision_levels": "isolated_tower",
+    "name": "z-stack",
+    "sym": "+",
+    "color": "yellow",
+    "see_cost": "low"
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_string_dimension_field",
+    "copy-from": "generic_open_land",
+    "name": "fields",
+    "sym": ",",
+    "color": "white",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "string_dimension_field_core",
+    "copy-from": "generic_string_dimension_field",
+    "extend": { "flags": [ "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "string_dimension_field_end",
+    "copy-from": "generic_string_dimension_field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "string_dimension_field_vent_a", "string_dimension_field_vent_b" ],
+    "vision_levels": "open_land",
+    "name": "grassy field",
+    "sym": ",",
+    "color": "red",
+    "see_cost": "all_clear"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "string_dimension_field_vent_a_-1",
+      "string_dimension_field_vent_b_-1",
+      "string_dimension_field_vent_a_-2",
+      "string_dimension_field_vent_a_-3"
+    ],
+    "vision_levels": "underground_stone",
+    "name": "underground cistern",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": "full_high",
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "string_dimension_dome_x2y0z-2",
+      "string_dimension_dome_x1y1z-2",
+      "string_dimension_dome_x0y2z-2",
+      "string_dimension_dome_z-2",
+      "string_dimension_dome_x0y0z-1",
+      "string_dimension_dome_x1y0z-1",
+      "string_dimension_dome_x2y0z-1",
+      "string_dimension_dome_x0y1z-1",
+      "string_dimension_dome_x1y1z-1",
+      "string_dimension_dome_x2y1z-1",
+      "string_dimension_dome_x0y2z-1",
+      "string_dimension_dome_x1y2z-1",
+      "string_dimension_dome_x2y2z-1",
+      "string_dimension_dome_x0y0z0",
+      "string_dimension_dome_x1y0z0",
+      "string_dimension_dome_x2y0z0",
+      "string_dimension_dome_x0y1z0",
+      "string_dimension_dome_x1y1z0",
+      "string_dimension_dome_x2y1z0",
+      "string_dimension_dome_x0y2z0",
+      "string_dimension_dome_x1y2z0",
+      "string_dimension_dome_x2y2z0",
+      "string_dimension_dome_x0y0z1",
+      "string_dimension_dome_x1y0z1",
+      "string_dimension_dome_x2y0z1",
+      "string_dimension_dome_x0y1z1",
+      "string_dimension_dome_x1y1z1",
+      "string_dimension_dome_x2y1z1",
+      "string_dimension_dome_x0y2z1",
+      "string_dimension_dome_x1y2z1",
+      "string_dimension_dome_x2y2z1",
+      "string_dimension_dome_x0y0z2",
+      "string_dimension_dome_x1y0z2",
+      "string_dimension_dome_x2y0z2",
+      "string_dimension_dome_x0y1z2",
+      "string_dimension_dome_x1y1z2",
+      "string_dimension_dome_x2y1z2",
+      "string_dimension_dome_x0y2z2",
+      "string_dimension_dome_x1y2z2",
+      "string_dimension_dome_x2y2z2"
+    ],
+    "vision_levels": "industrial_building",
+    "name": "domed fortress",
+    "sym": "o",
+    "color": "light_gray",
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "string_dimension_dome_distress_beacon", "string_dimension_dome_distress_beacon_1" ],
+    "vision_levels": "isolated_tower",
+    "name": "big electronic thing",
+    "sym": "E",
+    "color": "light_green",
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "string_dimension_utility_tunnel_entrance" ],
+    "vision_levels": "open_land",
+    "land_use_code": "open_land",
+    "name": "islet",
+    "sym": "o",
+    "color": "light_gray",
+    "see_cost": "all_clear",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "string_dimension_utility_tunnel_four_way",
+      "string_dimension_utility_tunnel_T",
+      "string_dimension_utility_tunnel_straight",
+      "string_dimension_utility_tunnel_corner",
+      "string_dimension_utility_tunnel_end"
+    ],
+    "name": "utility tunnel",
+    "sym": "#",
+    "color": "red",
+    "see_cost": "high",
+    "vision_levels": "underground_dirt",
+    "travel_cost_type": "basement",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "string_dimension_ka_facility_x0y0z0",
+      "string_dimension_ka_facility_x1y0z0",
+      "string_dimension_ka_facility_x2y0z0",
+      "string_dimension_ka_facility_x3y0z0",
+      "string_dimension_ka_facility_x4y0z0",
+      "string_dimension_ka_facility_x0y1z0",
+      "string_dimension_ka_facility_x1y1z0",
+      "string_dimension_ka_facility_x2y1z0",
+      "string_dimension_ka_facility_x3y1z0",
+      "string_dimension_ka_facility_x4y1z0"
+    ],
+    "vision_levels": "industrial_building",
+    "name": "strange facility",
+    "sym": "K",
+    "color": "red",
+    "see_cost": "full_high"
+  }
+]

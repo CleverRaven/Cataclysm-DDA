@@ -27,7 +27,6 @@
       "No Hope adds 3 difficulties that allow you to pick between increasingly more harsh multipliers to spawn rates split by item category intended to make basic survival less trivial and progression slower and in turn require more exploration leading to greater risk while less powerful without decreasing the spawn rates of items such as mutagens and bionics that are intended as rewards for exploring more dangerous locations and are already rare and as such shouldn't be punished.",
       "The difficulty options can be used alongside the regular item spawn rate setting if desired with expected results.",
       "For exact numerical breakdowns of the options see difficulty_options.json along with DIFFICULTY_OPTIONS.md for a barebones breakdown of which categories are affected and why.",
-      "If you wish to alter the difficulty settings past the 3 options you might prefer to use a personal mod to add a 4th option so that you don't need to keep editing files on update and can instead just copy paste the personal mod across, see https://github.com/Procyonae/CDDAMiniMods/tree/main/data/mods/No_Hope_Custom_Difficulty (shortcut in mod folder) for a template of such a mod that just needs the numbers tweaking to your liking.",
       "If you wish to change the selected option on an existing save you can do so by binding the debug menu then navigating to debug menu -> Game -> Activate EOC -> EOC_NH_set_difficulty.  This notably won't change already generated item spawns anywhere that your reality bubble has touched."
     ]
   }

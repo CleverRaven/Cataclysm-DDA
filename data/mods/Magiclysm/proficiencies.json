@@ -378,5 +378,68 @@
     "default_skill_penalty": 0.2,
     "time_to_learn": "32 h",
     "required_proficiencies": [ "prof_magic_conveyance_apprentice" ]
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_druidic_shifting",
+    "name": "Shapeshifting",
+    "description": "Proficiencies for involving druidic transformation into the forms of animals."
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_druid_basis_of_transformation",
+    "category": "prof_druidic_shifting",
+    "name": { "str": "Basis of Druidic Transformation" },
+    "description": "As a druid, you have the innate potential to transform yourself into different animals.  You just need to study and master the techniques.",
+    "time_to_learn": "1 h",
+    "can_learn": true
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_druid_transformation_bear",
+    "category": "prof_druidic_shifting",
+    "name": { "str": "Form Mastery (Forest King)" },
+    "description": "You've mastered the art of transforming yourself into a bear.",
+    "can_learn": true,
+    "time_to_learn": "16 h",
+    "default_time_multiplier": 1,
+    "default_skill_penalty": 0.1,
+    "required_proficiencies": [ "prof_druid_basis_of_transformation" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_druid_transformation_cougar",
+    "category": "prof_druidic_shifting",
+    "name": { "str": "Form Mastery (Stalking Hunter)" },
+    "description": "You've mastered the art of transforming yourself into a cougar.",
+    "can_learn": true,
+    "time_to_learn": "16 h",
+    "default_time_multiplier": 1,
+    "default_skill_penalty": 0.1,
+    "required_proficiencies": [ "prof_druid_basis_of_transformation" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_druid_transformation_deer",
+    "category": "prof_druidic_shifting",
+    "name": { "str": "Form Mastery (Swift Runner)" },
+    "description": "You've mastered the art of transforming yourself into a deer.",
+    "can_learn": true,
+    "time_to_learn": "16 h",
+    "default_time_multiplier": 1,
+    "default_skill_penalty": 0.1,
+    "required_proficiencies": [ "prof_druid_basis_of_transformation" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_druid_transformation_raven",
+    "category": "prof_druidic_shifting",
+    "name": { "str": "Form Mastery (Soaring Wings)" },
+    "description": "You've mastered the art of transforming yourself into a raven.",
+    "can_learn": true,
+    "time_to_learn": "16 h",
+    "default_time_multiplier": 1,
+    "default_skill_penalty": 0.1,
+    "required_proficiencies": [ "prof_druid_basis_of_transformation" ]
   }
 ]

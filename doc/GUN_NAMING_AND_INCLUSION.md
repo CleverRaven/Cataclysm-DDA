@@ -1,3 +1,21 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Gun Naming and Inclusion Guidelines](#gun-naming-and-inclusion-guidelines)
+  - [Generic Guns](#generic-guns)
+  - [Gun Brand Names (`gun` type variants)](#gun-brand-names-gun-type-variants)
+- [Inclusion Criteria](#inclusion-criteria)
+  - [Rarity Threshold](#rarity-threshold)
+    - [Civilian Firearms](#civilian-firearms)
+    - [Military and Police Firearms](#military-and-police-firearms)
+  - [Difference Threshold](#difference-threshold)
+- [Gun Naming](#gun-naming)
+  - [Rule 1 (Descriptive Names): What is this?](#rule-1-descriptive-names-what-is-this)
+  - [Rule 2 (Identifier Check): What goes with this?](#rule-2-identifier-check-what-goes-with-this)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Gun Naming and Inclusion Guidelines
 
 Cataclysm: Dark Days Ahead includes much of the complexity embodied by guns in

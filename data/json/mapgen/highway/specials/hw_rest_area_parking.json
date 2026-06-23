@@ -8,7 +8,6 @@
       [ "null", "hw_rest_area_parking_-1_3" ]
     ],
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [

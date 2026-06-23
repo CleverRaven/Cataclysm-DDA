@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "GMLODGE1_1", "GMLODGE1_2", "GMLODGE1_3", "GMLODGE1_4" ] ],
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -42,7 +41,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "GMLODGE2_1", "GMLODGE2_2", "GMLODGE2_3", "GMLODGE2_4" ],
       [ "GMLODGE3_1", "GMLODGE3_2", "GMLODGE3_3", "GMLODGE3_4" ]
@@ -121,7 +119,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "GMLODGE4_1", "GMLODGE4_2", "GMLODGE4_3", "GMLODGE4_4" ] ],
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -162,7 +159,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "GMLODGE2_2_2", "GMLODGE2_3_2" ], [ "GMLODGE3_2_2", "GMLODGE3_3_2" ] ],
     "object": {
       "fill_ter": "t_open_air",
@@ -236,7 +232,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "GMLODGE2_roof_2", "GMLODGE2_roof_3" ], [ "GMLODGE3_roof_2", "GMLODGE3_roof_3" ] ],
     "object": {
       "fill_ter": "t_open_air",

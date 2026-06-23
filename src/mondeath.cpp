@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -16,7 +17,6 @@
 #include "harvest.h"
 #include "item.h"
 #include "itype.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mattack_actors.h"
@@ -34,6 +34,8 @@
 
 static const efftype_id effect_no_ammo( "no_ammo" );
 
+static const flag_id json_flag_GIBBED( "GIBBED" );
+
 static const harvest_drop_type_id harvest_drop_bone( "bone" );
 static const harvest_drop_type_id harvest_drop_flesh( "flesh" );
 
@@ -41,11 +43,7 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 
 item_location mdeath::normal( map *here, monster &z )
 {
-    if( z.no_corpse_quiet ) {
-        return {};
-    }
-
-    if( !z.quiet_death && !z.has_flag( mon_flag_QUIETDEATH ) ) {
+    if( z.death_message && !z.has_flag( mon_flag_QUIETDEATH ) ) {
         if( z.type->in_species( species_ZOMBIE ) && get_map().inbounds( z.pos_abs() ) ) {
             sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos_bub() ) );
         }
@@ -54,7 +52,7 @@ item_location mdeath::normal( map *here, monster &z )
         add_msg_if_player_sees( z, m_good, _( "The %s dies!" ), z.name() );
     }
 
-    if( z.death_drops ) {
+    if( z.spawn_corpse ) {
         const int max_hp = std::max( z.get_hp_max(), 1 );
         const float overflow_damage = std::max( -z.get_hp(), 0 );
         const float corpse_damage = 2.5 * overflow_damage / max_hp;
@@ -185,13 +183,11 @@ item_location mdeath::splatter( map *here, monster &z )
         }
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
-        corpse.set_flag( STATIC( flag_id( "GIBBED" ) ) );
+        corpse.set_flag( json_flag_GIBBED );
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
-        if( !z.has_eaten_enough() ) {
-            corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
-        }
+
         return here->add_item_or_charges_ret_loc( z.pos_bub( *here ), corpse );
     }
     return {};
@@ -207,7 +203,7 @@ void mdeath::disappear( monster &z )
 void mdeath::broken( map *here, monster &z )
 {
     // Bail out if flagged (simulates eyebot flying away)
-    if( z.no_corpse_quiet ) {
+    if( !z.spawn_corpse ) {
         return;
     }
     std::string item_id;
@@ -238,15 +234,26 @@ void mdeath::broken( map *here, monster &z )
                 for( const std::pair<const std::string, mtype_special_attack> &attack : z.type->special_attacks ) {
                     if( attack.second->id == "gun" ) {
                         item gun = item( dynamic_cast<const gun_actor *>( attack.second.get() )->gun_type );
-                        bool same_ammo = false;
-                        if( gun.typeId()->magazine_default.count( item( ammo_entry.first ).ammo_type() ) ) {
-                            same_ammo = true;
+                        const ammotype at = item( ammo_entry.first ).ammo_type();
+                        // TODO(multimag): picks the first well-default whose mag accepts this
+                        // ammo type. Sibling wells with the same ammotype but different default
+                        // magazines collapse to the first match.
+                        itype_id mag_id;
+                        for( const itype_id &well_default : gun.magazines_default() ) {
+                            if( well_default.is_null() ) {
+                                continue;
+                            }
+                            const std::set<ammotype> &mag_types = well_default->magazine->type;
+                            if( mag_types.find( at ) != mag_types.end() ) {
+                                mag_id = well_default;
+                                break;
+                            }
                         }
-                        if( same_ammo && gun.uses_magazine() ) {
+                        if( !mag_id.is_null() && gun.uses_magazine() ) {
                             std::vector<item> mags;
                             int ammo_count = ammo_entry.second;
                             while( ammo_count > 0 ) {
-                                item mag = item( gun.type->magazine_default.find( item( ammo_entry.first ).ammo_type() )->second );
+                                item mag = item( mag_id );
                                 mag.ammo_set( ammo_entry.first,
                                               std::min( ammo_count, mag.type->magazine->capacity ) );
                                 mags.insert( mags.end(), mag );
@@ -286,8 +293,8 @@ item_location make_mon_corpse( map *here, monster &z, int damageLvl )
     if( z.has_effect( effect_no_ammo ) ) {
         corpse.set_var( "no_ammo", "no_ammo" );
     }
-    if( !z.has_eaten_enough() ) {
-        corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
+    if( z.times_combatted_player ) {
+        corpse.set_var( "times_combatted", z.times_combatted_player );
     }
     return here->add_item_or_charges_ret_loc( z.pos_bub( *here ), corpse );
 }

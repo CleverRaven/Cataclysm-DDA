@@ -12,8 +12,8 @@
           "omt": "roadstop_a",
           "map_update": "nest_RandEnc_campervan_traveler_add",
           "map_removal": "nest_RandEnc_campervan_traveler_remove",
-          "chance": "10",
-          "days_till_spawn": "7"
+          "chance": 10,
+          "days_till_spawn": 7
         }
       }
     ]
@@ -72,7 +72,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_campervan_traveler_add",
     "object": {
       "place_vehicles": [
@@ -83,7 +82,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_campervan_traveler_remove",
     "object": {
       "remove_npcs": [ { "class": "traveler_camper_van", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],

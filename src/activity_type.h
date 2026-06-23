@@ -36,6 +36,8 @@ struct enum_traits<based_on_type> {
 class activity_type
 {
     private:
+        bool was_loaded = false;
+
         activity_id id_;
         bool rooted_ = false;
         translation verb_ = to_translation( "THIS IS A BUG" );
@@ -44,6 +46,7 @@ class activity_type
         based_on_type based_on_ = based_on_type::SPEED;
         bool can_resume_ = true;
         bool multi_activity_ = false;
+        bool fetch_items_to_zone_ = true;
         bool refuel_fires = false;
         bool auto_needs = false;
         float activity_level = NO_EXERCISE;
@@ -80,6 +83,9 @@ class activity_type
         bool multi_activity() const {
             return multi_activity_;
         }
+        bool fetch_items_to_zone() const {
+            return fetch_items_to_zone_;
+        }
         /**
          * If true, player will refuel one adjacent fire if there is firewood spot adjacent.
          */
@@ -100,7 +106,8 @@ class activity_type
         bool call_finish( player_activity *, Character * ) const;
 
         /** JSON stuff */
-        static void load( const JsonObject &jo );
+        void load( const JsonObject &jo );
+        static void load_all( const JsonObject &jo );
         static void check_consistency();
         static void reset();
 };

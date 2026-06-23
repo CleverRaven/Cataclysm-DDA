@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "shills_branch_manager",
     "object": {
       "mapgensize": [ 1, 1 ],

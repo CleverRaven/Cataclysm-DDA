@@ -171,6 +171,8 @@ static uintptr_t get_image_base( const char *const path )
  * Class for capturing debugmsg,
  * used by capture_debugmsg_during.
  */
+namespace
+{
 class capture_debugmsg
 {
     public:
@@ -178,6 +180,7 @@ class capture_debugmsg
         std::string dmsg();
         ~capture_debugmsg();
 };
+} // namespace
 
 std::string capture_debugmsg_during( const std::function<void()> &func )
 {
@@ -208,6 +211,12 @@ bool debug_has_error_been_observed()
     return error_observed;
 }
 
+void debug_reset_error_observed()
+{
+    error_observed = false;
+}
+
+// saved in game::serialize
 bool debug_mode = false;
 
 namespace debugmode
@@ -240,6 +249,7 @@ std::string filter_name( debug_filter value )
         case DF_EXPLOSION: return "DF_EXPLOSION";
         case DF_FOOD: return "DF_FOOD";
         case DF_GAME: return "DF_GAME";
+        case DF_HIGHWAY: return "DF_HIGHWAY";
         case DF_IEXAMINE: return "DF_IEXAMINE";
         case DF_IUSE: return "DF_IUSE";
         case DF_MAP: return "DF_MAP";
@@ -252,6 +262,7 @@ std::string filter_name( debug_filter value )
         case DF_NPC_COMBATAI: return "DF_NPC_COMBATAI";
         case DF_NPC_ITEMAI: return "DF_NPC_ITEMAI";
         case DF_NPC_MOVEAI: return "DF_NPC_MOVEAI";
+        case DF_NPC_NEEDS: return "DF_NPC_NEEDS";
         case DF_OVERMAP: return "DF_OVERMAP";
         case DF_RADIO: return "DF_RADIO";
         case DF_RANGED: return "DF_RANGED";
@@ -261,6 +272,9 @@ std::string filter_name( debug_filter value )
         case DF_VEHICLE: return "DF_VEHICLE";
         case DF_VEHICLE_DRAG: return "DF_VEHICLE_DRAG";
         case DF_VEHICLE_MOVE: return "DF_VEHICLE_MOVE";
+        case DF_WEAKPOINTS: return "DF_WEAKPOINTS";
+        case DF_WOUNDS: return "DF_WOUNDS";
+        case DF_MONITOR: return "DF_MONITOR";
         // *INDENT-ON*
         case DF_LAST:
         default:
@@ -270,6 +284,8 @@ std::string filter_name( debug_filter value )
 }
 } // namespace debugmode
 
+namespace
+{
 struct buffered_prompt_info {
     std::string filename;
     std::string line;
@@ -277,6 +293,7 @@ struct buffered_prompt_info {
     std::string text;
     bool forced;
 };
+} // namespace
 
 namespace
 {
@@ -333,40 +350,45 @@ static void debug_error_prompt(
         );
 #endif
 
+    const std::string error_message = string_format(
+                                          "\n\n" // Looks nicer with some space
+                                          " %s\n" // translated user string: error notification
+                                          " -----------------------------------------------------------\n"
+                                          "%s"
+                                          " -----------------------------------------------------------\n"
+#if defined(BACKTRACE)
+                                          " %s\n" // translated user string: where to find backtrace
+#endif
+                                          , _( "An error has occurred!  Written below is the error report:" ),
+                                          formatted_report
+#if defined(BACKTRACE)
+                                          , backtrace_instructions
+#endif
+                                      );
+    const std::string instructions = string_format(
+                                         " %s\n" // translated user string: space to continue
+                                         " %s\n" // translated user string: ignore key
+#if defined(TILES)
+                                         " %s\n" // translated user string: copy
+#endif // TILES
+                                         , _( "Press <color_white>space bar</color> to continue the game." )
+                                         , _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
+#if defined(TILES)
+                                         , _( "Press <color_white>C</color> (or <color_white>c</color>) to copy this message to the clipboard." )
+#endif // TILES
+                                     );
+    std::string message = error_message + instructions;
+
     // Create a special debug message UI that does various things to ensure
     // the graphics are correct when the debug message is displayed during a
     // redraw callback.
-    ui_adaptor ui( ui_adaptor::debug_message_ui {} );
+    ui_adaptor ui( ui_adaptor::debug_message_ui{} );
     const auto init_window = []( ui_adaptor & ui ) {
         ui.position_from_window( catacurses::stdscr );
     };
     init_window( ui );
     ui.on_screen_resize( init_window );
-    const std::string message = string_format(
-                                    "\n\n" // Looks nicer with some space
-                                    " %s\n" // translated user string: error notification
-                                    " -----------------------------------------------------------\n"
-                                    "%s"
-                                    " -----------------------------------------------------------\n"
-#if defined(BACKTRACE)
-                                    " %s\n" // translated user string: where to find backtrace
-#endif
-                                    " %s\n" // translated user string: space to continue
-                                    " %s\n" // translated user string: ignore key
-#if defined(TILES)
-                                    " %s\n" // translated user string: copy
-#endif // TILES
-                                    , _( "An error has occurred!  Written below is the error report:" ),
-                                    formatted_report,
-#if defined(BACKTRACE)
-                                    backtrace_instructions,
-#endif
-                                    _( "Press <color_white>space bar</color> to continue the game." ),
-                                    _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
-#if defined(TILES)
-                                    , _( "Press <color_white>C</color> (or <color_white>c</color>) to copy this message to the clipboard." )
-#endif // TILES
-                                );
+
     ui.on_redraw( [&]( const ui_adaptor & ) {
         catacurses::erase();
         fold_and_print( catacurses::stdscr, point::zero, getmaxx( catacurses::stdscr ), c_light_red,
@@ -386,7 +408,7 @@ static void debug_error_prompt(
 #if defined(TILES)
             case 'c':
             case 'C':
-                SDL_SetClipboardText( formatted_report.c_str() );
+                SetClipboardText( formatted_report );
                 break;
 #endif // TILES
             case 'i':
@@ -395,6 +417,8 @@ static void debug_error_prompt(
                 [[fallthrough]];
             case ' ':
                 stop = true;
+                message = error_message;
+                ui_manager::redraw();
                 break;
         }
     }
@@ -417,6 +441,8 @@ void replay_buffered_debugmsg_prompts()
     buffered_prompts().clear();
 }
 
+namespace
+{
 struct time_info {
     int hours;
     int minutes;
@@ -437,9 +463,12 @@ struct time_info {
         return out;
     }
 };
+} // namespace
 
 static time_info get_time() noexcept;
 
+namespace
+{
 struct repetition_folder {
     const char *m_filename = nullptr;
     const char *m_line = nullptr;
@@ -500,6 +529,7 @@ struct repetition_folder {
         return ( now_raw - old_raw ) > timeout_raw;
     }
 };
+} // namespace
 
 static repetition_folder rep_folder;
 static void output_repetitions( std::ostream &out );
@@ -595,6 +625,8 @@ void limitDebugClass( int class_bitmask )
 // Null OStream                                                     {{{2
 // ---------------------------------------------------------------------
 
+namespace
+{
 class NullStream : public std::ostream
 {
     public:
@@ -602,6 +634,7 @@ class NullStream : public std::ostream
         NullStream( const NullStream & ) = delete;
         NullStream( NullStream && ) = delete;
 };
+} // namespace
 
 // DebugFile OStream Wrapper                                        {{{2
 // ---------------------------------------------------------------------
@@ -703,6 +736,8 @@ struct OutputDebugStreamA : public std::ostream {
 };
 #endif
 
+namespace
+{
 struct DebugFile {
     void init( DebugOutput, const cata_path &filename );
     void deinit();
@@ -719,6 +754,7 @@ struct DebugFile {
     std::shared_ptr<std::ostream> file = std::make_shared<std::ostringstream>();
     cata_path filename;
 };
+} // namespace
 
 // DebugFile OStream Wrapper                                        {{{2
 // ---------------------------------------------------------------------
@@ -970,6 +1006,7 @@ static std::optional<uintptr_t> debug_compute_load_offset(
     for( const char *nm_variant : nm_variants ) {
         std::ostringstream cmd;
         cmd << nm_variant << ' ' << binary << " 2>&1";
+        // NOLINTNEXTLINE(bugprone-command-processor): debug-only symbol resolution
         FILE *nm = popen( cmd.str().c_str(), "re" );
         if( !nm ) {
             out << "    backtrace: popen(nm) failed: " << strerror( errno ) << "\n";
@@ -1330,6 +1367,7 @@ void debug_write_backtrace( std::ostream &out )
             cmd << " 0x" << ( address - load_offset );
         }
         cmd << " 2>&1";
+        // NOLINTNEXTLINE(bugprone-command-processor): debug-only address symbolization
         FILE *addr2line = popen( cmd.str().c_str(), "re" );
         if( addr2line == nullptr ) {
             out << "    backtrace: popen(addr2line) failed\n";
@@ -1608,6 +1646,8 @@ std::string game_info::operating_system()
 }
 
 #if !defined(EMSCRIPTEN) && !defined(__CYGWIN__) && !defined (__ANDROID__) && ( defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(CATA_IS_ON_BSD) ) // linux; unix; MacOs; BSD
+namespace
+{
 class FILEDeleter
 {
     public:
@@ -1615,6 +1655,7 @@ class FILEDeleter
             pclose( f );
         }
 };
+} // namespace
 
 /** Execute a command with the shell by using `popen()`.
  * @param command The full command to execute.
@@ -1626,6 +1667,7 @@ static std::string shell_exec( const std::string &command )
     std::vector<char> buffer( 512 );
     std::string output;
     try {
+        // NOLINTNEXTLINE(bugprone-command-processor): crash-handler shells out by design
         std::unique_ptr<FILE, FILEDeleter> pipe( popen( command.c_str(), "r" ) );
         if( pipe ) {
             while( fgets( buffer.data(), buffer.size(), pipe.get() ) != nullptr ) {

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "station_radio" ],
     "//": "Eventually the exterior shed will house the main breaker or generator that must be activated prior to transmitting.",
     "object": {
@@ -12,8 +11,8 @@
         " _   ssss #7dddy|.ddd7# ",
         " _4  ssss #7.h..|..h.7# ",
         " _##w#==###7...r|r...7# ",
-        " _#7.c...r|||+|||||+||# ",
-        " _#.hc..............|l# ",
+        " _#7.c..§r|||+|||||+||# ",
+        " _#.hc............§.|l# ",
         " _#y................+.# ",
         " _#||WWW||||||..||+|||# ",
         " _#7.....+...D..|o..dy# ",
@@ -22,7 +21,7 @@
         " _#########w##..||||||# ",
         " _FR___<_____=.....+..# ",
         " _G__________#.hnh.|St# ",
-        "  F_&____&___w.....#### ",
+        "  F_&____&___w....§#### ",
         "  F_____<____#rcSce#    ",
         "  F__________###w###4   ",
         "  F__________G          ",
@@ -81,9 +80,9 @@
       },
       "items": {
         "o": { "item": "novels", "chance": 70, "repeat": [ 1, 10 ] },
-        "r": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 1, 3 ] },
+        "r": { "item": "SUS_trash_trashcan", "chance": 70 },
         "t": { "item": "SUS_toilet", "chance": 50 },
-        "R": { "item": "SUS_trash_dumpster", "chance": 80, "repeat": [ 1, 5 ] },
+        "R": { "item": "SUS_trash_dumpster", "chance": 80 },
         "d": { "item": "SUS_office_desk", "chance": 33 },
         "e": { "item": "SUS_fridge_breakroom", "chance": 70 },
         "P": { "item": "electronics", "chance": 70, "repeat": [ 1, 4 ] },
@@ -94,12 +93,12 @@
         { "group": "cleaning", "x": 21, "y": 6, "chance": 70 },
         { "group": "electronics", "x": 14, "y": 20, "chance": 70 }
       ],
-      "place_nested": [ { "chunks": [ [ "NPC_meteorologist_spawn", 20 ], [ "null", 80 ] ], "x": 19, "y": 10 } ]
+      "place_nested": [ { "chunks": [ [ "NPC_meteorologist_spawn", 20 ], [ "null", 80 ] ], "x": 19, "y": 10 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "station_radio_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -113,11 +112,11 @@
         "  -...................- ",
         "  -..........A.&......- ",
         "  -...................- ",
-        "  -...N.:.............- ",
+        "  -...N.:.......1.....- ",
         "  -...................- ",
         "  -...................- ",
         "  ----###-----........- ",
-        "      #v#    -..1....=- ",
+        "      #v#    -.......=- ",
         "             -........- ",
         "    R,aaaR   -..HЯ.---- ",
         "    , a,≷a   -.....-    ",
@@ -136,7 +135,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "station_radio_tower_even",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -172,7 +170,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "station_radio_tower_odd",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -208,7 +205,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "station_radio_tower_top",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -257,7 +253,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "station_radio_1" ],
     "//": "Eventually the exterior shed will house the main breaker or generator that must be activated prior to transmitting.",
     "object": {
@@ -268,10 +263,10 @@
         " #yhhr..|dd7|.t|.l#4 _  ",
         " w......|yh.|.S|+|###_  ",
         " w.7cc..|d..|+||.hnh#_  ",
-        " #..hc..|dh.|..|....w_  ",
+        " #..hc..|dh.|.§|....w_  ",
         " #||||++|7..|..+...rw_  ",
         " #d.7|..|||+|..|ecSc#_  ",
-        " wdh7|.........##ww##GFF",
+        " wdh7|..§......##ww##GFF",
         " #c.7|........r#_______F",
         " #d..+..|||D#=##_&____&F",
         " wdh.|..|d7.#________<_F",
@@ -282,7 +277,7 @@
         "    whh.|.c.#__________F",
         "    #...|.6a#_____#=###F",
         "    #dd.|.c.#_____#..x# ",
-        "    w.a.|...#<____w.hxw ",
+        "    w.a.|..§#<____w.hxw ",
         "    #ooo|777#_____#..x# ",
         "    #########FFFFF#hlP# ",
         "                  ##### ",
@@ -337,9 +332,9 @@
       },
       "items": {
         "o": { "item": "novels", "chance": 70, "repeat": [ 1, 10 ] },
-        "r": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 1, 3 ] },
+        "r": { "item": "SUS_trash_trashcan", "chance": 70 },
         "t": { "item": "SUS_toilet", "chance": 50 },
-        "R": { "item": "SUS_trash_dumpster", "chance": 80, "repeat": [ 1, 5 ] },
+        "R": { "item": "SUS_trash_dumpster", "chance": 80 },
         "d": { "item": "SUS_office_desk", "chance": 33 },
         "e": { "item": "SUS_fridge_breakroom", "chance": 70 },
         "P": { "item": "electronics", "chance": 70, "repeat": [ 1, 4 ] },
@@ -350,12 +345,12 @@
         { "group": "cleaning", "x": 17, "y": 2, "chance": 70 },
         { "group": "electronics", "x": 20, "y": 21, "chance": 70 }
       ],
-      "place_nested": [ { "chunks": [ [ "NPC_meteorologist_spawn", 20 ], [ "null", 80 ] ], "x": 10, "y": 17 } ]
+      "place_nested": [ { "chunks": [ [ "NPC_meteorologist_spawn", 20 ], [ "null", 80 ] ], "x": 10, "y": 17 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "station_radio_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -364,10 +359,10 @@
         " ------------------     ",
         " -............=...-     ",
         " -.X.X............5--   ",
-        " -.............1....-   ",
+        " -..................-   ",
         " -.X.X..............-   ",
         " -.......&.......HЯ.-   ",
-        " -..................-   ",
+        " -.0................-   ",
         " -.............------   ",
         " -.............-        ",
         " -..........---- R,aaaR ",
@@ -380,19 +375,19 @@
         "    -...:...-     ..... ",
         "    -.......##    ..... ",
         "    -.......#v    ..X.. ",
-        "    -.......##    .1... ",
+        "    -.......##    ..... ",
         "    ---------     ..... ",
         "                  ..... ",
         "                        "
       ],
       "palettes": [ "roof_palette" ],
       "furniture": { "X": "f_satellite", "H": "f_water_heater" },
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" }
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" },
+      "nested": { "0": { "chunks": [ [ "residential_6kW_solar", 125 ], [ "null", 873 ] ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "station_radio_1_tower_even",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -428,7 +423,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "station_radio_1_tower_odd",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -464,7 +458,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "station_radio_1_tower_top",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",

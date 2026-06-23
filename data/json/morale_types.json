@@ -405,6 +405,16 @@
     "text": "Failure"
   },
   {
+    "id": "morale_fun_craft",
+    "type": "morale_type",
+    "text": "Got to enjoy crafting"
+  },
+  {
+    "id": "morale_shitty_craft",
+    "type": "morale_type",
+    "text": "Forced themself to work on crafting"
+  },
+  {
     "id": "morale_perm_debug",
     "type": "morale_type",
     "text": "Debug morale"
@@ -453,5 +463,10 @@
     "id": "morale_sunset",
     "type": "morale_type",
     "text": "Saw the sun set"
+  },
+  {
+    "id": "morale_applied_makeup",
+    "type": "morale_type",
+    "text": "Applied makeup"
   }
 ]

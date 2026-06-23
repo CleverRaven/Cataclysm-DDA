@@ -12,6 +12,7 @@
     "weight": "81500 g",
     "hp": 84,
     "speed": 100,
+    "move_skills": { "climb": 8 },
     "material": [ "flesh" ],
     "symbol": "@",
     "color": "magenta",
@@ -20,14 +21,13 @@
     "melee_skill": 3,
     "melee_dice": 1,
     "melee_dice_sides": 6,
-    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 1,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "stomach_size": 700,
     "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "starting_ammo": { "rock": 6 },
     "special_attacks": [
@@ -74,7 +74,7 @@
     "id": "mon_feral_sapien_spear",
     "type": "MONSTER",
     "name": { "str": "cunning feral" },
-    "description": "This feral human's eyes look more focused, and its movements steadier, than others of their kind.  They're carrying a crude spear, and have assembled some basic armor from scavenged clothing and bits of riot armor, though you can see several gaps.  Despite these signs of greater intelligence, this creature is still only a few steps away from being a zombie themself.",
+    "description": "This feral human's eyes look more focused, and its movements steadier, than others of their kind.  They're carrying a crude spear, and have assembled some basic armor from scavenged clothing and bits of riot armor, though you can see several gaps.  Despite these signs of greater intelligence, this creature is still only a few steps away from being a zombie themselves.",
     "copy-from": "mon_feral_human_pipe",
     "dodge": 3,
     "special_attacks": [ [ "PARROT_AT_DANGER", 0 ], { "id": "feral_weapon_spear_knife" } ],
@@ -101,7 +101,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 4,
     "vision_night": 15,
@@ -113,7 +113,7 @@
     "death_drops": "default_zombie_death_drops",
     "dissect": "dissect_troglobite_sample_small",
     "zombify_into": "mon_zombie_shady",
-    "extend": { "flags": [ "FILTHY" ] }
+    "extend": { "flags": [ "FILTHY", "INFRARED_VISION" ] }
   },
   {
     "id": "mon_feral_human_crowbar",
@@ -144,7 +144,7 @@
   {
     "id": "mon_feral_human_axe",
     "type": "MONSTER",
-    "name": { "str": "deranged axeman", "str_pl": "deranged axemen" },
+    "name": "axe murderer",
     "description": "They stumble along dragging a large bloodstained axe.  Their face is twisted into a sadistic grin, and they walk among the dead as though already one of them.",
     "copy-from": "mon_feral_human_pipe",
     "special_attacks": [ { "id": "feral_weapon_axe" }, [ "PARROT_AT_DANGER", 0 ] ],
@@ -261,7 +261,7 @@
     "special_attacks": [ { "id": "feral_weapon_baton-extended" } ],
     "death_drops": "feral_security_death_drops_9mm",
     "zombify_into": "mon_zombie_labsecurity",
-    "extend": { "flags": [ "CLIMBS" ], "weakpoint_sets": [ "wps_humanoid_body_armor" ], "families": [ "prof_wp_syn_armored" ] },
+    "extend": { "weakpoint_sets": [ "wps_humanoid_body_armor" ], "families": [ "prof_wp_syn_armored" ] },
     "armor": { "bash": 4, "cut": 6, "stab": 4, "bullet": 4 }
   },
   {
@@ -282,9 +282,7 @@
     "copy-from": "mon_feral_human_pipe",
     "melee_skill": 2,
     "special_attacks": [ { "id": "feral_weapon_broom" }, [ "BROWSE", 100 ], [ "EAT_FOOD", 100 ], [ "PARROT_AT_DANGER", 0 ] ],
-    "extend": { "flags": [ "CLIMBS" ] },
     "delete": { "flags": [ "BASHES", "GROUP_BASH" ] },
-    "//2": "Removed bashing and added CLIMBS to avoid them from trashing too much the mansion.",
     "death_drops": "feral_maids_death_drops_broom"
   },
   {
@@ -340,7 +338,7 @@
       "flags": [ "LOUDMOVES", "BASHES", "GROUP_BASH" ],
       "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ]
     },
-    "delete": { "flags": [ "CLIMBS" ] },
+    "delete": { "move_skills": { "climb": 8 } },
     "//": "No synthetic armor proficiency because plate armor doesn't work the same as modern armor",
     "armor": { "bash": 20, "cut": 20, "stab": 15, "bullet": 12 }
   },
@@ -366,7 +364,7 @@
     "special_attacks": [ { "id": "feral_weapon_mace_pipe" }, [ "PARROT_AT_DANGER", 0 ] ],
     "death_drops": "mon_feral_prepper_mace_death_drops",
     "zombify_into": "mon_zombie_survivor",
-    "extend": { "flags": [ "CLIMBS" ], "weakpoint_sets": [ "wps_humanoid_light_armor" ], "families": [ "prof_wp_syn_armored" ] },
+    "extend": { "weakpoint_sets": [ "wps_humanoid_light_armor" ], "families": [ "prof_wp_syn_armored" ] },
     "armor": { "bash": 4, "cut": 4, "acid": 4, "bullet": 4 }
   },
   {
@@ -398,7 +396,6 @@
     "zombify_into": "mon_zombie_survivor",
     "delete": { "anger_triggers": [ "HURT" ] },
     "extend": {
-      "flags": [ "CLIMBS" ],
       "anger_triggers": [ "STALK" ],
       "weakpoint_sets": [ "wps_humanoid_light_armor" ],
       "families": [ "prof_wp_syn_armored" ]
@@ -410,7 +407,7 @@
     "id": "mon_feral_militia",
     "type": "MONSTER",
     "name": { "str": "mad militia" },
-    "description": "Wearing a tactical camo uniform with a Kevlar vest, this person seems to have been a militia member, now turned feral.  Their hands grip unto a semi-automatic rifle as their bloodshot eyes scan for threats; a flashlight strapped to their helmet illuminates their presence and surroundings.",
+    "description": "Wearing a tactical camo uniform with a Kevlar vest, this person seems to have been a militia member, now turned feral.  Their hands grip onto a semi-automatic rifle as their bloodshot eyes scan for threats; a flashlight strapped to their helmet illuminates their presence and surroundings.",
     "copy-from": "mon_feral_human_pipe",
     "diff": 15,
     "aggression": 75,
@@ -424,7 +421,6 @@
     "zombify_into": "mon_zombie_milbase_personnel",
     "delete": { "anger_triggers": [ "HURT" ] },
     "extend": {
-      "flags": [ "CLIMBS" ],
       "anger_triggers": [ "STALK" ],
       "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
       "families": [ "prof_wp_syn_armored" ]
@@ -458,8 +454,7 @@
     "melee_skill": 6,
     "vision_day": 50,
     "special_attacks": [ { "id": "feral_weapon_shotgun_melee" } ],
-    "death_drops": "mon_feral_jackboot_death_drops",
-    "extend": { "flags": [ "CLIMBS" ] }
+    "death_drops": "mon_feral_jackboot_death_drops"
   },
   {
     "id": "mon_feral_swimmer_kickboard",
@@ -513,8 +508,8 @@
   {
     "id": "mon_feral_marine_bayonet",
     "type": "MONSTER",
-    "name": { "str": "feral marine" },
-    "description": "This twitching, bloodied person is still clad in a ragged naval uniform, the insignia of the marines visible on their coat and a corresponding tattoo on their forearm.  Clutching a rifle in their quivering hands, you see them repeatedly pull the weapon's trigger, constantly muttering incoherently and yanking back on the gun's charging handle every time the rifle fails to fire.  Seemingly having lost the capability to comprehend that their weapon is empty, you'd feel relatively safe were it not for the gleaming bayonet still attached to the end of their firearm.",
+    "name": { "str": "feral Marine" },
+    "description": "This twitching, bloodied person is still clad in a ragged Marine uniform, the insignia of the Marines visible on their coat and a corresponding tattoo on their forearm.  Clutching a rifle in their quivering hands, you see them repeatedly pull the weapon's trigger, constantly muttering incoherently and yanking back on the gun's charging handle every time the rifle fails to fire.  Seemingly having lost the capability to comprehend that their weapon is empty, you'd feel relatively safe were it not for the gleaming bayonet still attached to the end of their firearm.",
     "copy-from": "mon_feral_human_pipe",
     "speed": 85,
     "aggression": 50,
@@ -543,8 +538,7 @@
     "diff": 4,
     "special_attacks": [ { "id": "feral_weapon_m18" }, [ "PARROT_AT_DANGER", 0 ] ],
     "death_drops": "mon_feral_officer_death_drops",
-    "zombify_into": "mon_zombie_officer",
-    "extend": { "flags": [ "CLIMBS" ] }
+    "zombify_into": "mon_zombie_officer"
   },
   {
     "id": "mon_feral_cop",

@@ -66,5 +66,29 @@
     "time": "15 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "strap_cotton", 1 ] ], [ [ "snapfastener_steel", 5 ] ], [ [ "sheet_nylon", 10 ] ], [ [ "thread", 50 ] ] ]
+  },
+  {
+    "result": "bandolier_pipebomb",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "strap_cotton", 2 ] ], [ [ "snapfastener_steel", 5 ] ], [ [ "sheet_nylon_patchwork", 20 ] ], [ [ "nylon", 8 ] ] ]
+  },
+  {
+    "result": "bandolier_pipebomb_xs",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "strap_cotton", 2 ] ], [ [ "snapfastener_steel", 3 ] ], [ [ "sheet_nylon_patchwork", 15 ] ], [ [ "nylon", 8 ] ] ]
+  },
+  {
+    "result": "bandolier_pipebomb_xl",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "strap_cotton", 2 ] ], [ [ "snapfastener_steel", 7 ] ], [ [ "sheet_nylon_patchwork", 26 ] ], [ [ "nylon", 8 ] ] ]
   }
 ]

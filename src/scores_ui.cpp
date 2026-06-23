@@ -12,7 +12,6 @@
 #include <vector>
 
 #include "achievement.h"
-#include "avatar.h"
 #include "cata_imgui.h"
 #include "color.h"
 #include "enum_traits.h"
@@ -22,7 +21,6 @@
 #include "kill_tracker.h"
 #include "localized_comparator.h"
 #include "mtype.h"
-#include "options.h"
 #include "past_games_info.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
@@ -33,6 +31,8 @@
 
 template <typename E> struct enum_traits;
 
+namespace
+{
 enum class scores_ui_tab : int {
     achievements = 0,
     conducts,
@@ -40,6 +40,7 @@ enum class scores_ui_tab : int {
     kills,
     num_tabs
 };
+} // namespace
 
 template<>
 struct enum_traits<scores_ui_tab> {
@@ -47,6 +48,8 @@ struct enum_traits<scores_ui_tab> {
     static constexpr scores_ui_tab last = scores_ui_tab::num_tabs;
 };
 
+namespace
+{
 class scores_ui
 {
         friend class scores_ui_impl;
@@ -231,15 +234,6 @@ void scores_ui_impl::draw_scores_text() const
 
 void scores_ui_impl::draw_kills_text() const
 {
-    if( get_option<bool>( "STATS_THROUGH_KILLS" ) &&
-        ImGui::CollapsingHeader( _( "Stats through kills:" ), ImGuiTreeNodeFlags_DefaultOpen ) ) {
-        ImGui::TextWrapped( _( "Total kills: %d" ), total_kills );
-        ImGui::NewLine();
-        ImGui::TextWrapped( _( "Experience: %d (%d points available)" ),
-                            get_avatar().kill_xp,
-                            get_avatar().free_upgrade_points() );
-    }
-
     if( ImGui::CollapsingHeader( string_format( _( "Monster kills (%d):" ), monster_kills ).c_str(),
                                  monster_group_collapsed ? ImGuiTreeNodeFlags_None : ImGuiTreeNodeFlags_DefaultOpen ) ) {
         if( monster_kills == 0 ) {
@@ -368,6 +362,7 @@ void scores_ui_impl::draw_controls()
 
     cataimgui::set_scroll( s );
 }
+} // namespace
 
 void show_scores_ui()
 {

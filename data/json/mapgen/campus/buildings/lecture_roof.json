@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "campus_lecture_0_0_3" ], [ "campus_lecture_0_1_3" ], [ "campus_lecture_0_2_3" ], [ "campus_lecture_0_3_3" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [

@@ -34,7 +34,7 @@
     "description": "Jay wants you to go to someone's house and get some software that they had taken home.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
-    "item": "usb_drive_nano",
+    "item": "nano_fabricator_encryption_code",
     "value": 1000,
     "start": {
       "assign_mission_target": { "om_terrain": "house_garage", "reveal_radius": 2, "random": true, "search_range": 200 },
@@ -68,7 +68,7 @@
         "terrain": { "M": "t_thconc_floor" },
         "furniture": { "C": "f_console_broken", "W": "f_machinery_light", "@": "f_table" },
         "monster": { "M": { "monster": "mon_zombie_nullfield" } },
-        "item": { "@": [ { "item": "usb_drive_nano", "amount": 1 } ] }
+        "item": { "@": [ { "item": "nano_fabricator_encryption_code", "amount": 1 } ] }
       }
     },
     "end": {

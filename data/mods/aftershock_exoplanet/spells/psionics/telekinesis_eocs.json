@@ -52,7 +52,7 @@
           "(((u_telekinesis_power_level * 25) * u_telekinesis_intelligence) + 10) / (u_weight() / 1000000)"
         ]
       },
-      { "math": [ "u_afs_telekinesis_shove_spell_level = clamp(((u_weight_ratio - 1) * 2), 0, 30)" ] },
+      { "math": [ "u_afs_telekinesis_shove_spell_level = clamp( ( (u_weight_ratio - 1) * 2), 0, 30)" ] },
       { "u_location_variable": { "context_val": "loc" } },
       {
         "if": { "math": [ "u_afs_telekinesis_shove_spell_level < 1" ] },
@@ -91,10 +91,10 @@
             ],
             "else": [
               {
-                "npc_cast_spell": { "id": "telekinetic_force_shove_away", "min_level": { "math": [ "u_telekinesis_shove_spell_level" ] } },
+                "npc_cast_spell": { "id": "afs_telekinetic_force_shove_away", "min_level": { "math": [ "u_telekinesis_shove_spell_level" ] } },
                 "loc": { "context_val": "loc" }
               },
-              { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" }
+              { "run_eocs": "EOC_AFS_TELEKINETIC_PUSH_DOWN_CHECKER" }
             ]
           }
         ]
@@ -124,7 +124,7 @@
           "(((u_telekinesis_power_level * 25) * u_telekinesis_intelligence ) + 10) / (u_weight() / 1000000)"
         ]
       },
-      { "math": [ "u_telekinesis_pull_spell_level = clamp(((u_weight_ratio - 1) * 2), 0, 30)" ] },
+      { "math": [ "u_telekinesis_pull_spell_level = clamp( ( (u_weight_ratio - 1) * 2), 0, 30)" ] },
       { "u_location_variable": { "context_val": "loc" } },
       {
         "if": { "math": [ "u_telekinesis_pull_spell_level < 1" ] },
@@ -137,6 +137,35 @@
           { "npc_message": "You pull your target towards you.", "type": "good" },
           { "run_eocs": "EOC_AFS_TELEKINETIC_PUSH_DOWN_CHECKER" }
         ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_TELEKIN_WAVE_TARGETS",
+    "condition": "has_alpha",
+    "effect": [
+      { "npc_location_variable": { "context_val": "player_position" } },
+      { "math": [ "u_telekinesis_power_level = n_spell_level('afs_telekinetic_wave')" ] },
+      { "math": [ "u_telekinesis_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_telekinesis_weight_ratio = 55" ] },
+      {
+        "math": [
+          "u_weight_ratio",
+          "=",
+          "( ( (u_telekinesis_power_level * u_telekinesis_weight_ratio) * u_telekinesis_intelligence) + (u_telekinesis_weight_ratio / 2) ) / (u_weight() / 1000000)"
+        ]
+      },
+      { "math": [ "u_telekinesis_shove_spell_level = clamp( ( (u_weight_ratio - 1) * 2), 0, 30)" ] },
+      {
+        "if": { "x_in_y_chance": { "x": { "math": [ "u_weight_ratio * 1000" ] }, "y": 1000 } },
+        "then": [ { "u_add_effect": "downed", "duration": 2 } ]
+      },
+      {
+        "u_knockback": { "math": [ "u_telekinesis_shove_spell_level" ] },
+        "stun": 2,
+        "dam_mult": { "math": [ "1 + (u_telekinesis_shove_spell_level * 0.4)" ] },
+        "direction_var": { "context_val": "player_position" }
       }
     ]
   }

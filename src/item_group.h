@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "enums.h"
+#include "global_vars.h"
 #include "item.h"
 #include "relic.h"
 #include "type_id.h"
@@ -183,7 +184,7 @@ class Item_spawn_data
         }
 
         int get_probability( bool skip_event_check ) const;
-        void set_probablility( int prob ) {
+        void set_probability( int prob ) {
             probability = prob;
         }
         bool is_event_based() const {
@@ -258,7 +259,7 @@ class Item_modifier
          * if item should not spawn in a container.
          * If the created item is a liquid and it uses the default
          * charges, it will expand/shrink to fill the container completely.
-         * If it is created with to much charges, they are reduced.
+         * If it is created with too many charges, they are reduced.
          * If it is created with the non-default charges, but it still fits
          * it is not changed.
          */
@@ -277,6 +278,16 @@ class Item_modifier
          * gun variant id, for guns with variants
          */
         std::string variant;
+
+        /**
+        * add this faults to item, if possible
+        */
+        std::vector<std::pair<fault_id, int>> faults;
+
+        /**
+        * add this variables to item
+        */
+        global_variables::impl_t item_vars;
 
         /**
          * Custom sub set of snippets to be randomly chosen from and then applied to the item.
@@ -406,6 +417,12 @@ class Item_group : public Item_spawn_data
 
     protected:
         /**
+         * Sample one entry from a G_DISTRIBUTION. Returns nullptr when the
+         * distribution is empty or the pick lands on an inactive event-based
+         * entry. Requires type == G_DISTRIBUTION.
+         */
+        const Item_spawn_data *pick_distribution_entry() const;
+        /**
          * Contains the sum of the probability of all entries
          * that this group contains.
          */
@@ -414,6 +431,11 @@ class Item_group : public Item_spawn_data
          * Links to the entries in this group.
          */
         prop_list items;
+        /**
+         * Cumulative probability table, lazily built for binary-search
+         * picks; cleared when @ref items mutates.
+         */
+        mutable std::vector<int> cached_cum_prob;
 };
 
 #endif // CATA_SRC_ITEM_GROUP_H

@@ -7,7 +7,7 @@
     "name_suffix": "server maintenance",
     "class": "NC_HUB01_SNarayana",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "HUB01_SNarayana_Intro",
     "faction": "robofac"
   },
@@ -39,7 +39,7 @@
     "entries": [
       { "item": "boxer_briefs" },
       { "item": "socks" },
-      { "item": "robofac_jumpsuit" },
+      { "item": "jumpsuit", "variant": "robofac" },
       { "item": "boots" },
       { "item": "hat_ball" },
       { "item": "gloves_work" }

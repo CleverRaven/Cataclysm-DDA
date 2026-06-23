@@ -95,18 +95,13 @@
         "result": "f_plant_mature",
         "valid_furniture": [ "f_plant_seedling", "f_plant_seed" ],
         "message": "The plant grows in moments, leaves unfurling, roots churning the soil, and flowers opening toward the sun.  Before you even lower your hands, it's fully grown, though not yet ready for the harvest."
-      },
-      {
-        "result": "f_dirtmound_shallow_mature",
-        "valid_furniture": [ "f_dirtmound_shallow_seed", "f_dirtmound_shallow_seedling" ],
-        "message": "The plant grows in moments, leaves unfurling, roots churning the soil, and flowers opening toward the sun.  Before you even lower your hands, it's fully grown, though not yet ready for the harvest."
-      },
-      {
-        "result": "f_dirtmound_pile_mature",
-        "valid_furniture": [ "f_dirtmound_pile_seed", "f_dirtmound_pile_seedling" ],
-        "message": "The plant grows in moments, leaves unfurling, roots churning the soil, and flowers opening toward the sun.  Before you even lower your hands, it's fully grown, though not yet ready for the harvest."
       }
     ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_changeling_summer_remove_ring_fire",
+    "field": [ { "result": "fd_null", "valid_field": [ "fd_fire" ], "message": "" } ]
   },
   {
     "type": "ter_furn_transform",
@@ -115,16 +110,6 @@
       {
         "result": "f_plant_harvest",
         "valid_furniture": [ "f_plant_mature" ],
-        "message": "The plant's buds swell, fruiting and growing.  Before you even lower your hands, it's ripe and ready for the harvest."
-      },
-      {
-        "result": "f_dirtmound_shallow_harvest",
-        "valid_furniture": [ "f_dirtmound_shallow_mature" ],
-        "message": "The plant's buds swell, fruiting and growing.  Before you even lower your hands, it's ripe and ready for the harvest."
-      },
-      {
-        "result": "f_dirtmound_pile_harvest",
-        "valid_furniture": [ "f_dirtmound_pile_mature" ],
         "message": "The plant's buds swell, fruiting and growing.  Before you even lower your hands, it's ripe and ready for the harvest."
       }
     ]

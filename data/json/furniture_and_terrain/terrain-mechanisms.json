@@ -134,7 +134,7 @@
     "symbol": "6",
     "color": "white",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "COLLAPSES", "THIN_OBSTACLE" ],
+    "flags": [ "TRANSPARENT", "PERMEABLE", "NOITEM", "COLLAPSES", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
       "str_min": 18,
@@ -153,7 +153,7 @@
     "symbol": "6",
     "color": "white",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "COLLAPSES", "THIN_OBSTACLE" ],
+    "flags": [ "TRANSPARENT", "PERMEABLE", "NOITEM", "COLLAPSES", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
       "str_min": 18,
@@ -185,15 +185,17 @@
         { "item": "rope_6", "count": [ 3, 4 ] },
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "splinter", "count": [ 2, 4 ] },
-        { "item": "nuts_bolts", "charges": [ 2, 3 ] },
+        { "item": "nuts_bolts", "count": [ 2, 3 ] },
         { "item": "block_and_tackle", "count": [ 0, 1 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "deconstruct": {
       "ter_set": "t_dirtfloor",
       "items": [
         { "item": "rope_30", "count": 1 },
-        { "item": "nuts_bolts", "charges": 3 },
+        { "item": "nuts_bolts", "count": 3 },
         { "item": "2x4", "count": 8 },
         { "item": "block_and_tackle", "count": 1 }
       ]
@@ -219,7 +221,9 @@
         { "item": "rope_makeshift_6", "count": [ 3, 4 ] },
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "splinter", "count": [ 2, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "deconstruct": {
       "ter_set": "t_dirt",
@@ -251,7 +255,9 @@
         { "item": "rope_makeshift_6", "count": [ 3, 4 ] },
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "splinter", "count": [ 2, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "deconstruct": {
       "ter_set": "t_dirt",
@@ -281,6 +287,28 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_concrete_wall",
+      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_intercom_balthazar",
+    "name": "intercom",
+    "description": "A rudimentary intercom panel.  This one looks to be set up in a hurry with the microphone and speaker just dangling.",
+    "symbol": "=",
+    "color": "light_gray",
+    "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "FREE_TO_EXAMINE" ],
+    "//": "For the player to chat with an NPC through the intercom, the npc must have NC_BALTHAZAR and must be within 10 tiles of the intercom.",
+    "examine_action": "intercom_balthazar",
+    "bash": {
+      "str_min": 18,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_strconc_wall",
       "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
     }
   },
@@ -629,7 +657,7 @@
     "description": "A smartcard reader.  It sports the stylized symbol of an atom and a rifle on a black background.  You could swipe a security employee badge near it to unlock the gates.",
     "//": "Tier 3 card for a lab.  High security access.",
     "symbol": "6",
-    "color": "black",
+    "color": "dark_gray",
     "copy-from": "t_card_science",
     "looks_like": "t_card_science",
     "examine_action": {
@@ -787,7 +815,7 @@
       "ter_set": "t_concrete",
       "items": [
         { "item": "processor", "prob": 25 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "count": [ 1, 2 ], "prob": 50 },
         { "item": "small_lcd_screen", "prob": 25 },
         { "item": "e_scrap", "count": [ 1, 3 ], "prob": 50 },
         { "item": "circuit", "prob": 25 },
@@ -818,7 +846,7 @@
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "count": [ 1, 2 ], "prob": 50 },
         { "item": "small_lcd_screen", "prob": 25 },
         { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
         { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
@@ -877,7 +905,7 @@
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "count": [ 1, 2 ], "prob": 50 },
         { "item": "small_lcd_screen", "prob": 25 },
         { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
         { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
@@ -927,7 +955,7 @@
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "count": [ 1, 2 ], "prob": 50 },
         { "item": "small_lcd_screen", "prob": 25 },
         { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
         { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
@@ -959,7 +987,7 @@
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "count": [ 1, 2 ], "prob": 50 },
         { "item": "small_lcd_screen", "prob": 25 },
         { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
         { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
@@ -1073,5 +1101,50 @@
     "color": "light_green",
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_office_warehouse_anduril",
+    "name": "Anduril Industries card reader",
+    "description": "A badge scanner.  It has the logo of Anduril Industries and a sign that reads \"Authorized personnel only.  All visitors must sign in at the office.\"",
+    "//": "Entrance card for Anduril Industries IVAS testing warehouse",
+    "symbol": "6",
+    "color": "green",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "ANDURIL_AR_CARD" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": false,
+      "terrain_changes": { "t_door_metal_locked": "t_thconc_floor" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_exodii_string_dimension",
+    "name": "keyhole",
+    "description": "An large keyhole attached to a physically toggled mechanism.",
+    "symbol": "6",
+    "color": "green",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "EXODII_STRING_DIMENSION_CARD" ],
+      "consume_card": false,
+      "allow_hacking": false,
+      "despawn_monsters": false,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_o" },
+      "query": true,
+      "query_msg": "The large plastic key looks like it will fit in this odd keyhole.  Use it?",
+      "success_msg": "The key fits in the lock with a soft, plasticky noise.  The door opens!",
+      "redundant_msg": "The door is already open."
+    }
   }
 ]

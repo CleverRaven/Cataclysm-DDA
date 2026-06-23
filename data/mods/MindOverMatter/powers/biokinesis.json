@@ -10,30 +10,22 @@
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_PHYSICAL_ENHANCE_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('biokin_physical_enhance') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('biokin_physical_enhance') * 9000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('biokin_physical_enhance') * 1500) + 9000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('biokin_physical_enhance') * 9000) + 45000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_biokin_physical') > -1 ? 0 : max((3500 - (u_spell_level('biokin_physical_enhance') * 175)), 1250)"
+        "u_effect_intensity('effect_biokin_physical') > -1 ? 0 : max( (3500 - (u_spell_level('biokin_physical_enhance') * 175) ), 1250)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_biokin_physical') > -1 ? 10 : max((120 -(u_spell_level('biokin_physical_enhance') * 5.5)), 75)"
+        "u_effect_intensity('effect_biokin_physical') > -1 ? 10 : max( (120 -(u_spell_level('biokin_physical_enhance') * 5.5) ), 75)"
       ]
     }
   },
@@ -48,22 +40,14 @@
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_PAIN_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('biokin_overcome_pain') * 2000) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('biokin_overcome_pain') * 7500) + 130000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('biokin_overcome_pain') * 2000) + 30000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('biokin_overcome_pain') * 7500) + 130000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_overcome_pain') > 0 ? 0 : max((1750 - (u_spell_level('biokin_overcome_pain') * 75)), 850)"
@@ -86,22 +70,14 @@
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_BREATHE_SKIN_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('biokin_breathe_skin') * 3600) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('biokin_breathe_skin') * 7200) + 54000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('biokin_breathe_skin') * 3600) + 18000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('biokin_breathe_skin') * 7200) + 54000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_breathe_skin') > 0 ? 0 : max((2500 - (u_spell_level('biokin_breathe_skin') * 85)), 1200)"
@@ -124,7 +100,7 @@
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -144,47 +120,45 @@
     "type": "SPELL",
     "name": "[Ψ]Burst of Speed",
     "description": "Like a cheetah, you can run with incredible speed for a short distance.",
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "spell_class": "BIOKINETIC",
-    "magic_type": "mom_psionics",
-    "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-    "difficulty": 3,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_BIOKIN_DASH_CHECKER",
-    "shape": "blast",
-    "base_energy_cost": 3000,
-    "final_energy_cost": 1500,
-    "energy_increment": -190,
-    "base_casting_time": 75,
-    "final_casting_time": 15,
-    "casting_time_increment": -4.5
-  },
-  {
-    "id": "biokin_dash_real",
-    "type": "SPELL",
-    "name": { "str": "[Ψ]Burst of Speed Real", "//~": "NO_I18N" },
-    "description": { "str": "The actual effect that causes the burst of speed.  It's a bug if you have it.", "//~": "NO_I18N" },
-    "message": "",
+    "message": "You move almost faster than the eye can see.",
     "teachable": false,
     "valid_targets": [ "ground", "ally", "hostile" ],
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "caster_condition": {
+      "and": [
+        { "not": { "u_has_effect": "grabbed", "bodypart": "head" } },
+        { "not": { "u_has_effect": "grabbed", "bodypart": "torso" } },
+        { "not": { "u_has_effect": "grabbed", "bodypart": "arm_l" } },
+        { "not": { "u_has_effect": "grabbed", "bodypart": "arm_r" } },
+        { "not": { "u_has_effect": "grabbed", "bodypart": "leg_l" } },
+        { "not": { "u_has_effect": "grabbed", "bodypart": "leg_r" } },
+        { "not": { "u_has_effect": "disabled", "bodypart": "leg_l" } },
+        { "not": { "u_has_effect": "disabled", "bodypart": "leg_r" } },
+        { "not": { "u_is_on_terrain_with_flag": "DEEP_WATER" } }
+      ]
+    },
+    "caster_condition_fail_message": "Your circumstances prevent you from moving freely right now.",
     "effect": "dash",
     "shape": "blast",
     "min_damage": 0,
     "damage_type": "biological",
     "min_range": {
       "math": [
-        "min( ( ( (u_spell_level('biokin_dash') * 0.5) + 3 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 12) * (u_effect_intensity('effect_biokin_combat_dance') > -1 ? (1.25 + (u_spell_level('biokin_combat_dance') * 0.03) ) : 1 )"
+        "min( ( ( (u_spell_level('biokin_dash') * 0.5) + 3 ) * psionic_power_modifiers()), 12) * (u_effect_intensity('effect_biokin_combat_dance') > -1 ? (1.25 + (u_spell_level('biokin_combat_dance') * 0.03) ) : 1 )"
       ]
     },
-    "max_range": 12
+    "max_range": 12,
+    "base_energy_cost": 3000,
+    "final_energy_cost": 1500,
+    "energy_increment": -190,
+    "base_casting_time": 75,
+    "final_casting_time": 15,
+    "casting_time_increment": -4.5
   },
   {
     "id": "biokin_change_appearance",
@@ -197,7 +171,7 @@
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -221,22 +195,14 @@
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_HARDENED_SKIN_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('biokin_armor_skin') * 8600) + 35600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('biokin_armor_skin') * 24400) + 69300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('biokin_armor_skin') * 8600) + 35600) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('biokin_armor_skin') * 24400) + 69300) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_armor_skin') > 0 ? 0 : max((2500 - (u_spell_level('biokin_armor_skin') * 125)), 750)"
@@ -259,7 +225,7 @@
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -283,22 +249,14 @@
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_CLIMATE_CONTROL_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('biokin_climate_control') * 18000) + 30000 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('biokin_climate_control') * 36000) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('biokin_climate_control') * 18000) + 30000 ) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('biokin_climate_control') * 36000) + 60000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_climate_control') > 0 ? 0 : max((3500 - (u_spell_level('biokin_climate_control') * 175)), 1250)"
@@ -321,23 +279,15 @@
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_ENHANCE_MOBILITY_INITIATE",
     "shape": "blast",
     "min_damage": 1,
-    "min_duration": {
-      "math": [
-        "( ( (u_spell_level('biokin_enhance_mobility') * 4500 ) + 30000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( ( (u_spell_level('biokin_enhance_mobility') * 12000 ) + 90000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('biokin_enhance_mobility') * 4500 ) + 30000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('biokin_enhance_mobility') * 12000 ) + 90000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_enhance_mobility') > 0 ? 0 : max((4500 - (u_spell_level('biokin_enhance_mobility') * 150)), 2500)"
@@ -360,22 +310,14 @@
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_HAMMERHAND_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('biokin_hammerhand') * 45000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('biokin_hammerhand') * 75000) + 540000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('biokin_hammerhand') * 45000) + 180000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('biokin_hammerhand') * 75000) + 540000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_hammerhand') > 0 ? 0 : max((4500 - (u_spell_level('biokin_hammerhand') * 225)), 2250)"
@@ -398,22 +340,14 @@
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_REFLEX_ENHANCE_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('biokin_reflex_enhance') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('biokin_reflex_enhance') * 9000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('biokin_reflex_enhance') * 1500) + 9000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('biokin_reflex_enhance') * 9000) + 45000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_reflex') > -1 ? 0 : max((5500 - (u_spell_level('biokin_reflex_enhance') * 205)), 2250)"
@@ -436,7 +370,7 @@
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -446,16 +380,8 @@
       { "id": "biokin_sealed_remove_breathe_skin", "hit_self": true }
     ],
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('biokin_sealed_system') * 800) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('biokin_sealed_system') * 2500) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('biokin_sealed_system') * 800) + 6000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('biokin_sealed_system') * 2500) + 30000) * psionic_power_modifiers()" ] },
     "base_energy_cost": 5500,
     "final_energy_cost": 2750,
     "energy_increment": -175,
@@ -507,22 +433,14 @@
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_METABOLISM_ENHANCE_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('biokin_metabolism_enhance') * 25000) + 270000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('biokin_metabolism_enhance') * 50000) + 675000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('biokin_metabolism_enhance') * 25000) + 270000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('biokin_metabolism_enhance') * 50000) + 675000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_metabolism_enhance') > -1 ? 0 : max((8000 - (u_spell_level('biokin_metabolism_enhance') * 250)), 4000)"
@@ -545,7 +463,7 @@
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -565,22 +483,14 @@
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_GUIDED_EVOLUTION_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( ( u_spell_level('biokin_guided_evolution') * 25000 ) + 270000 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( ( u_spell_level('biokin_guided_evolution') * 50000 ) + 675000 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( ( u_spell_level('biokin_guided_evolution') * 25000 ) + 270000 ) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( ( u_spell_level('biokin_guided_evolution') * 50000 ) + 675000 ) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_guided_evolution') > -1 ? 0 : max( 8000 - ( u_spell_level('biokin_guided_evolution') * 250 ), 4000 )"
@@ -603,22 +513,14 @@
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_COMBAT_DANCE_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('biokin_combat_dance') * 1200) + 4000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('biokin_combat_dance') * 5900) + 20000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('biokin_combat_dance') * 1200) + 4000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('biokin_combat_dance') * 5900) + 20000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_combat_dance') > -1 ? 0 : max( 5500 - ( u_spell_level('biokin_combat_dance') * 125 ), 2250 )"
@@ -641,22 +543,14 @@
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 9,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_PERFECTED_MOTION_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('biokin_perfected_motion') * 50) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('biokin_perfected_motion') * 110) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('biokin_perfected_motion') * 50) + 500) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('biokin_perfected_motion') * 110) + 3000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_perfected_motion') > -1 ? 0 : max( 8000 - ( u_spell_level('biokin_perfected_motion') * 175 ), 3500 )"
@@ -679,7 +573,7 @@
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 10,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -706,7 +600,7 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",
     "effect_str": "effect_biokin_hurricane_blows_2",
     "shape": "blast",

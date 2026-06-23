@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 9x9 medical room, includes door and south wall.",
     "nested_mapgen_id": "lab_medical_9x9_S",
     "object": {
@@ -18,12 +17,12 @@
         "...ë....."
       ],
       "palettes": [ "lab_common_palette", "lab_medical_palette" ],
-      "place_nested": [ { "chunks": [ [ "lab_medical_6x6_open", 100 ] ], "x": 0, "y": 0 } ]
+      "place_nested": [ { "chunks": [ [ "lab_medical_6x6_open", 100 ] ], "x": 0, "y": 0 } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 9x9 medical room, includes door and south wall.",
     "nested_mapgen_id": "lab_medical_9x9_S",
     "object": {
@@ -39,12 +38,12 @@
         ".........",
         "...ë....."
       ],
-      "palettes": [ "lab_common_palette", "lab_medical_palette" ]
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 6x6 medical room.",
     "nested_mapgen_id": "lab_medical_6x6_open",
     "object": {
@@ -63,7 +62,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 6x6 medical room.",
     "nested_mapgen_id": "lab_medical_6x6_open",
     "object": {
@@ -81,7 +79,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 6x6 medical room.",
     "nested_mapgen_id": "lab_medical_6x6_open",
     "object": {
@@ -95,18 +92,11 @@
         ".A...."
       ],
       "palettes": [ "lab_common_palette", "lab_medical_palette" ],
-      "computers": {
-        "6": {
-          "name": "Centrifuge",
-          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
-          "failures": [ { "action": "destroy_blood" } ]
-        }
-      }
+      "computers": { "6": {  } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 9x9 medical room, includes door and north wall.",
     "nested_mapgen_id": "lab_medical_9x9_N",
     "object": {
@@ -129,7 +119,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 9x9 medical room, includes door and north wall.",
     "nested_mapgen_id": "lab_medical_9x9_N",
     "object": {
@@ -150,7 +139,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 9x9 medical room, includes door and north wall.",
     "nested_mapgen_id": "lab_medical_9x9_N",
     "object": {
@@ -172,7 +160,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 9x9 medical room, includes door and north wall.",
     "nested_mapgen_id": "lab_medical_9x9_S",
     "object": {
@@ -189,12 +176,12 @@
         "....ë...."
       ],
       "palettes": [ "lab_common_palette", "lab_medical_palette" ],
-      "vehicles": { "ւ": { "vehicle": "hospital_bed", "rotation": 270 } }
+      "vehicles": { "ւ": { "vehicle": "hospital_bed", "rotation": 270 } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 9x9 medical room, includes door and north wall.",
     "nested_mapgen_id": "lab_medical_9x9_N",
     "object": {
@@ -217,7 +204,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 9x9 medical room, includes door and north wall.",
     "nested_mapgen_id": "lab_medical_9x9_S",
     "object": {
@@ -234,12 +220,12 @@
         "....ë...."
       ],
       "palettes": [ "lab_common_palette", "lab_medical_palette" ],
-      "vehicles": { "ƃ": { "vehicle": "wheelchair", "rotation": 90 } }
+      "vehicles": { "ƃ": { "vehicle": "wheelchair", "rotation": 90 } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 9x9 medical room, includes door and north wall.",
     "nested_mapgen_id": "lab_medical_9x9_N",
     "object": {
@@ -261,7 +247,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 9x9 medical room, includes door and north wall.",
     "nested_mapgen_id": "lab_medical_9x9_S",
     "object": {
@@ -279,12 +264,12 @@
       ],
       "palettes": [ "lab_common_palette", "lab_medical_palette" ],
       "furniture": { "Ƨ": [ "f_treadmill", "f_treadmill_mechanical" ] },
-      "vehicles": { "ƃ": { "vehicle": "wheelchair", "rotation": 90 } }
+      "vehicles": { "ƃ": { "vehicle": "wheelchair", "rotation": 90 } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 9x9 medical room, includes door and south wall.",
     "nested_mapgen_id": "lab_medical_9x9_S_autodoc",
     "object": {
@@ -307,7 +292,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 9x9 medical room, includes door and north wall.",
     "nested_mapgen_id": "lab_medical_9x9_N_autodoc",
     "object": {
@@ -330,7 +314,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A custom nest for the mutant child boss",
     "nested_mapgen_id": "lab_medical_boss_child",
     "object": {
@@ -356,7 +339,8 @@
       "place_monster": [
         { "group": "GROUP_LAB_MUTANT_BOSS", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 6, 8 ] },
         { "monster": "mon_mutant_alpha_boss", "x": 2, "y": 2 }
-      ]
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   }
 ]

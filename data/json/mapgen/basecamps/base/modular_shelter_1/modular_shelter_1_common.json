@@ -9,7 +9,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_0",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_floor", "x": 15, "y": 15 },
@@ -20,7 +19,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_fireplace",
-    "method": "json",
     "object": {
       "set": [
         { "point": "furniture", "id": "f_fireplace", "x": 18, "y": 14, "z": 0 },
@@ -33,7 +31,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_brazier",
-    "method": "json",
     "object": {
       "set": [
         { "point": "furniture", "id": "f_brazier", "x": 18, "y": 14 },
@@ -45,7 +42,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_stove",
-    "method": "json",
     "object": {
       "set": [
         { "point": "furniture", "id": "f_woodstove", "x": 18, "y": 14, "z": 0 },
@@ -58,12 +54,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_well",
-    "method": "json",
     "object": { "set": [ { "point": "terrain", "id": "t_water_pump", "x": 16, "y": 18 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_shelter_1_bed_nw_wall",
     "object": {
       "parameters": {
@@ -84,12 +78,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_bed_NW",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_1_bed_nw_wall" ], "x": 8, "y": 8 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_shelter_1_bed_w1_wall",
     "object": {
       "parameters": {
@@ -110,24 +102,20 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_bed_W1",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_1_bed_w1_wall" ], "x": 5, "y": 10 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_bed_W2",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_1_bed_w1_wall" ], "x": 5, "y": 13 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_bed_W3",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_1_bed_w1_wall" ], "x": 5, "y": 16 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_shelter_1_bed_southwest_wall",
     "object": {
       "parameters": {
@@ -150,12 +138,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_bed_SW",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_1_bed_southwest_wall" ], "x": 5, "y": 19 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_shelter_1_bed_south1_wall",
     "object": {
       "parameters": {
@@ -177,12 +163,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_bed_S1",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_1_bed_south1_wall" ], "x": 8, "y": 20 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_shelter_1_bed_south2_wall",
     "object": {
       "parameters": {
@@ -205,12 +189,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_bed_S2",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_1_bed_south2_wall" ], "x": 11, "y": 19 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_shelter_1_dining_room",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -226,12 +208,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_dining",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_1_dining_room" ], "x": 12, "y": 9 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_shelter_1_living_room",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -248,7 +228,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_livingroom",
-    "method": "json",
     "object": {
       "place_nested": [ { "chunks": [ "fbmc_shelter_1_living_room" ], "x": 8, "y": 11 } ],
       "set": [
@@ -261,7 +240,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_pantry",
-    "method": "json",
     "object": {
       "set": [
         { "point": "furniture", "id": "f_rack_wood", "x": 18, "y": 16 },
@@ -277,7 +255,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_craftspot",
-    "method": "json",
     "object": {
       "set": [
         { "point": "furniture", "id": "f_workbench", "x": 16, "y": 15 },
@@ -289,7 +266,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_radio_console",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_radio_tower", "x": 18, "y": 8 },

@@ -6,6 +6,9 @@
 #include "path_info.h"
 #include "text_snippets.h"
 
+namespace
+{
+
 class IsOneOf : public Catch::MatcherBase<std::string>
 {
         std::set< std::string > values;
@@ -23,6 +26,8 @@ class IsOneOf : public Catch::MatcherBase<std::string>
             return s;
         }
 };
+
+} // namespace
 
 TEST_CASE( "name_generation", "[name]" )
 {

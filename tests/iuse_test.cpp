@@ -1,8 +1,8 @@
 #include <cstdlib>
 #include <functional>
-#include <list>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "avatar.h"
 #include "bodypart.h"
@@ -11,17 +11,13 @@
 #include "character_attire.h"
 #include "coordinates.h"
 #include "flag.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
 #include "map.h"
-#include "map_helpers.h"
-#include "map_selector.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
-#include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -35,7 +31,6 @@ static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_conjunctivitis( "conjunctivitis" );
 static const efftype_id effect_cureall( "cureall" );
 static const efftype_id effect_dermatik( "dermatik" );
-static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_hallu( "hallu" );
@@ -56,34 +51,26 @@ static const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 
-static const furn_str_id furn_f_toilet( "f_toilet" );
-
-static const itype_id itype_55gal_drum( "55gal_drum" );
 static const itype_id itype_albuterol( "albuterol" );
 static const itype_id itype_antifungal( "antifungal" );
 static const itype_id itype_antiparasitic( "antiparasitic" );
 static const itype_id itype_atomic_coffee( "atomic_coffee" );
-static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_coffee( "coffee" );
 static const itype_id itype_diazepam( "diazepam" );
+static const itype_id itype_gasfilter_med( "gasfilter_med" );
 static const itype_id itype_inhaler( "inhaler" );
+static const itype_id itype_mask_gas( "mask_gas" );
 static const itype_id itype_oxygen( "oxygen" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_panacea( "panacea" );
 static const itype_id itype_prozac( "prozac" );
-static const itype_id itype_pur_tablets( "pur_tablets" );
 static const itype_id itype_saline( "saline" );
 static const itype_id itype_thorazine( "thorazine" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
-static const itype_id itype_water( "water" );
-static const itype_id itype_water_clean( "water_clean" );
-static const itype_id itype_water_purifying( "water_purifying" );
 static const itype_id itype_xanax( "xanax" );
 
 static const morale_type morale_wet( "morale_wet" );
-
-static const ter_str_id ter_t_grass( "t_grass" );
 
 TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 {
@@ -733,347 +720,32 @@ TEST_CASE( "xanax", "[iuse][xanax]" )
     }
 }
 
-static item_location give_tablets( avatar &dummy, int count, bool in_inventory )
+// Gas mask has no charges_per_use; iuse::gasmask must drain the filter via
+// ammo_consume directly. consume_tool_uses bails out without draining when
+// charges_to_use() is zero.
+TEST_CASE( "gasmask_filter_drains_on_full_absorption", "[iuse][gasmask]" )
 {
-    const int existing_tablets = dummy.crafting_inventory().count_item( itype_pur_tablets );
-    item_location tablets;
-    if( in_inventory ) {
-        for( int i = 0; i < count; ++i ) {
-            tablets = dummy.i_add( item( itype_pur_tablets, calendar::turn ) );
-        }
-    } else {
-        // Tablets fail to spawn directly on the ground, so put them in a backpack, then spawn that
-        item container( itype_backpack );
-        for( int i = 0; i < count; ++i ) {
-            container.put_in( item( itype_pur_tablets, calendar::turn ), pocket_type::CONTAINER );
-        }
-        item_location container_loc = get_map().add_item_or_charges_ret_loc( dummy.pos_bub(), container,
-                                      true );
-        REQUIRE( container_loc );
-        std::list<item *> all_tablets = container_loc->all_items_top();
-        REQUIRE( !all_tablets.empty() );
-        tablets = item_location( container_loc, all_tablets.front() );
-    }
-    REQUIRE( tablets );
-    // Since we checked it earlier, the crafting inventory needs to be invalidated to force an update
-    dummy.invalidate_crafting_inventory();
-    REQUIRE( dummy.crafting_inventory().count_item( itype_pur_tablets ) == count + existing_tablets );
-    return tablets;
-}
-
-static item_location give_water( avatar &dummy, int count, bool in_inventory )
-{
-    item container( itype_55gal_drum );
-    item_location container_loc;
-    item water( itype_water );
-    water.charges = count;
-    container.put_in( water, pocket_type::CONTAINER );
-    if( in_inventory ) {
-        container_loc = dummy.i_add( container );
-    } else {
-        container_loc = get_map().add_item_or_charges_ret_loc( dummy.pos_bub(), container, true );
-    }
-    REQUIRE( container_loc );
-    // Spawning a container of water next to the player does not update the crafting inventory, so force an update
-    dummy.invalidate_crafting_inventory();
-    REQUIRE( dummy.crafting_inventory().charges_of( itype_water ) == count );
-    return item_location( dummy, &container_loc->only_item() );
-}
-
-TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
-{
-    map &here = get_map();
     avatar dummy;
     dummy.normalize();
-    build_test_map( ter_t_grass );
-    const tripoint_bub_ms test_origin( 20, 20, 0 );
-    dummy.setpos( here, test_origin );
-    // Give the player a backpack to hold the tablets
-    dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
-
-    SECTION( "1 tablet in inventory will purify 4 water in inventory" ) {
-        item_location tablet = give_tablets( dummy, 1, true );
-        item_location water_location = give_water( dummy, 4, true );
-
-        iuse::purify_water( &dummy, tablet.get_item(), water_location );
-
-        CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
-        CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
-    }
-
-    SECTION( "1 tablet in inventory will purify 1 water in inventory" ) {
-        item_location tablet = give_tablets( dummy, 1, true );
-        item_location water_location = give_water( dummy, 1, true );
-
-        iuse::purify_water( &dummy, tablet.get_item(), water_location );
-
-        CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 1 );
-        CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
-    }
-
-    SECTION( "1 tablet in inventory will not purify 5 water in inventory" ) {
-        item_location tablet = give_tablets( dummy, 1, true );
-        item_location water_location = give_water( dummy, 5, true );
-
-        iuse::purify_water( &dummy, tablet.get_item(), water_location );
-
-        CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 5 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 0 );
-        CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 1 );
-    }
-
-    SECTION( "3 tablets in inventory will purify 12 water in inventory" ) {
-        item_location tablet = give_tablets( dummy, 3, true );
-        item_location water_location = give_water( dummy, 12, true );
-
-        iuse::purify_water( &dummy, tablet.get_item(), water_location );
-
-        CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 12 );
-        CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
-    }
-
-    SECTION( "2 tablets in inventory will purify 4 water in inventory" ) {
-        item_location tablet = give_tablets( dummy, 2, true );
-        item_location water_location = give_water( dummy, 4, true );
-
-        iuse::purify_water( &dummy, tablet.get_item(), water_location );
-
-        CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
-        CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 1 );
-    }
-
-    SECTION( "1 tablet nearby will purify 4 water nearby" ) {
-        item_location tablet = give_tablets( dummy, 1, false );
-        item_location water_location = give_water( dummy, 4, false );
-
-        iuse::purify_water( &dummy, tablet.get_item(), water_location );
-
-        CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
-        CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
-    }
-
-    SECTION( "2 tablets nearby will purify 5 water nearby" ) {
-        item_location tablet = give_tablets( dummy, 2, false );
-        item_location water_location = give_water( dummy, 5, false );
-
-        iuse::purify_water( &dummy, tablet.get_item(), water_location );
-
-        CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 5 );
-        CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
-    }
-
-    SECTION( "3 tablets nearby will not purify 13 water nearby" ) {
-        item_location tablet = give_tablets( dummy, 3, false );
-        item_location water_location = give_water( dummy, 13, false );
-
-        iuse::purify_water( &dummy, tablet.get_item(), water_location );
-
-        CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 13 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 0 );
-        CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 3 );
-    }
-
-    SECTION( "1 tablet in inventory will purify 2 water nearby" ) {
-        item_location tablet = give_tablets( dummy, 1, true );
-        item_location water_location = give_water( dummy, 2, false );
-
-        iuse::purify_water( &dummy, tablet.get_item(), water_location );
-
-        CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 2 );
-        CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
-    }
-
-    SECTION( "1 tablet nearby will purify 1 water in inventory" ) {
-        item_location tablet = give_tablets( dummy, 1, false );
-        item_location water_location = give_water( dummy, 1, true );
-
-        iuse::purify_water( &dummy, tablet.get_item(), water_location );
-
-        CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 1 );
-        CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
-    }
-
-    SECTION( "1 tablet nearby and 1 tablet in inventory will purify 3 water in inventory" ) {
-        item_location tablet = give_tablets( dummy, 1, false );
-        tablet = give_tablets( dummy, 1, true );
-        item_location water_location = give_water( dummy, 3, true );
-
-        iuse::purify_water( &dummy, tablet.get_item(), water_location );
-
-        CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 3 );
-        CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 1 );
-    }
-
-    SECTION( "1 tablet nearby and 1 tablet in inventory will purify 8 water in inventory" ) {
-        item_location tablet = give_tablets( dummy, 1, false );
-        tablet = give_tablets( dummy, 1, true );
-        item_location water_location = give_water( dummy, 8, true );
-
-        iuse::purify_water( &dummy, tablet.get_item(), water_location );
-
-        CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 8 );
-        CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
-    }
-
-    SECTION( "1 tablet nearby and 1 tablet in inventory will purify 2 water nearby" ) {
-        item_location tablet = give_tablets( dummy, 1, false );
-        tablet = give_tablets( dummy, 1, true );
-        item_location water_location = give_water( dummy, 8, false );
-
-        iuse::purify_water( &dummy, tablet.get_item(), water_location );
-
-        CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 8 );
-        CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
-    }
-
-    SECTION( "1 tablet nearby and 1 tablet in inventory will not purify 9 water nearby" ) {
-        item_location tablet = give_tablets( dummy, 1, false );
-        tablet = give_tablets( dummy, 1, true );
-        item_location water_location = give_water( dummy, 9, false );
-
-        iuse::purify_water( &dummy, tablet.get_item(), water_location );
-
-        CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 9 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 0 );
-        CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 2 );
-    }
-
-    SECTION( "6 tablets will purify a toilet tank" ) {
-        item_location tablet = give_tablets( dummy, 6, true );
-        here.furn_set( dummy.pos_bub( here ) + tripoint::north, furn_f_toilet );
-        item water( itype_water );
-        water.charges = 24;
-        here.add_item( dummy.pos_bub( here ) + tripoint::north, water );
-        item_location water_location( map_cursor( dummy.pos_bub() + tripoint::north ), &water );
-
-        REQUIRE( water_location );
-        REQUIRE( water_location.get_item()->typeId() == itype_water );
-        REQUIRE( water_location.get_item()->charges == 24 );
-        REQUIRE( water_location.where_recursive() == item_location::type::map );
-
-        iuse::purify_water( &dummy, tablet.get_item(), water_location );
-
-        // TODO: Figure out why the crafting inventory doesn't update to show water_purifying
-        /*dummy.invalidate_crafting_inventory();
-            CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 24 );
-            CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );*/
-        // Until then, show that it works by checking the item directly:
-        CHECK( water_location.get_item()->typeId() == itype_water_purifying );
-        CHECK( water_location.get_item()->charges == 24 );
-    }
-}
-
-TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
-{
     map &here = get_map();
-    avatar dummy;
-    dummy.normalize();
-    build_test_map( ter_t_grass );
-    const tripoint_bub_ms test_origin( 20, 20, 0 );
-    dummy.setpos( here, test_origin );
+    const tripoint_bub_ms pos = dummy.pos_bub( here );
 
-    SECTION( "Test purifying time" ) {
-        item_location tablet = give_tablets( dummy, 1, true );
-        item_location water_location = give_water( dummy, 4, false );
+    item mask( itype_mask_gas );
+    REQUIRE( mask.put_in( item( itype_gasfilter_med ), pocket_type::MAGAZINE_WELL ).success() );
+    const int charges_before = mask.ammo_remaining();
+    REQUIRE( charges_before > 0 );
 
-        iuse::purify_water( &dummy, tablet.get_item(), water_location );
+    item_location mask_loc = dummy.i_add( mask );
+    REQUIRE( dummy.wear( mask_loc, false ) );
+    item *worn_mask = dummy.worn.top_items_loc( dummy ).front().get_item();
+    REQUIRE( worn_mask != nullptr );
+    REQUIRE( dummy.is_worn( *worn_mask ) );
 
-        REQUIRE( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
-        REQUIRE( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
+    worn_mask->active = true;
+    worn_mask->set_var( "gas_absorbed", 60 );
 
-        SECTION( "Still purifying at ten minutes" ) {
-            calendar::turn += 10_minutes;
-            dummy.invoke_item( water_location.get_item() );
+    iuse::gasmask( &dummy, worn_mask, pos );
 
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
-        }
-
-        SECTION( "Still purifying at thirty minutes" ) {
-            calendar::turn += 30_minutes;
-            dummy.invoke_item( water_location.get_item() );
-
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
-        }
-
-        SECTION( "Clean water at forty minutes" ) {
-            calendar::turn += 40_minutes;
-            dummy.invoke_item( water_location.get_item() );
-
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 4 );
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 0 );
-        }
-    }
-
-    SECTION( "Test purifying time with old water" ) {
-        item_location tablet = give_tablets( dummy, 1, true );
-        item_location water_location = give_water( dummy, 4, false );
-
-        calendar::turn += 24_hours;
-
-        iuse::purify_water( &dummy, tablet.get_item(), water_location );
-
-        SECTION( "Still purifying ten minutes later" ) {
-            calendar::turn += 10_minutes;
-            dummy.invoke_item( water_location.get_item() );
-
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
-        }
-
-        SECTION( "Still purifying thirty minutes later" ) {
-            calendar::turn += 30_minutes;
-            dummy.invoke_item( water_location.get_item() );
-
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
-        }
-
-        SECTION( "Clean water forty minutes later" ) {
-            calendar::turn += 40_minutes;
-            dummy.invoke_item( water_location.get_item() );
-
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 4 );
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 0 );
-        }
-    }
-
-    SECTION( "Test purifying known bad water" ) {
-        item_location water_location = give_water( dummy, 4, false );
-        water_location.get_item()->poison = 100;
-
-        SECTION( "The water will poison us before purification" ) {
-            dummy.consume( water_location, true );
-            REQUIRE( water_location.get_item()->charges == 3 );
-            REQUIRE( water_location.get_item()->poison > 0 );
-
-            CHECK( dummy.has_effect( effect_foodpoison ) );
-        }
-
-        SECTION( "The water is safe after purification" ) {
-            item_location tablet = give_tablets( dummy, 1, true );
-            iuse::purify_water( &dummy, tablet.get_item(), water_location );
-            calendar::turn += 40_minutes;
-            dummy.invoke_item( water_location.get_item() );
-            REQUIRE( dummy.crafting_inventory().charges_of( itype_water_clean ) == 4 );
-            dummy.consume( water_location, true );
-            REQUIRE( water_location.get_item()->charges == 3 );
-
-            CHECK_FALSE( dummy.has_effect( effect_foodpoison ) );
-        }
-
-    }
+    CHECK( worn_mask->ammo_remaining() == charges_before - 1 );
+    CHECK( worn_mask->get_var( "gas_absorbed", -1 ) == 0 );
 }

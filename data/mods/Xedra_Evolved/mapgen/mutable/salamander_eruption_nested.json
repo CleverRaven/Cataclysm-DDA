@@ -7,7 +7,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "spiral_cw",
     "object": {
       "palettes": [ "salamander_eruption_palette" ],
@@ -24,7 +23,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "spiral_ccw",
     "object": {
       "palettes": [ "salamander_eruption_palette" ],
@@ -41,7 +39,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "spiral_boulder_cw",
     "object": {
       "palettes": [ "salamander_eruption_palette" ],
@@ -58,7 +55,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "spiral_boulder_ccw",
     "object": {
       "palettes": [ "salamander_eruption_palette" ],
@@ -75,7 +71,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "salamander_tunnel_entrance",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -96,7 +91,6 @@
   {
     "//": "walls of tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "salamander_tunnel_bounds_h",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -122,7 +116,6 @@
   {
     "//": "walls of tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "salamander_tunnel_bounds_h1",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -148,7 +141,6 @@
   {
     "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "salamander_tunnel_bounds_v",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -174,7 +166,6 @@
   {
     "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "salamander_tunnel_bounds_v1",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -200,7 +191,6 @@
   {
     "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "salamander_tunnel_bounds_v2",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -225,7 +215,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "salamander_sinkhole",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -236,13 +225,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "salamander_toxic_gas",
     "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_gas_vent", "x": 0, "y": 0, "intensity": 2, "age": 20 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fallen_adventurer",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -266,7 +253,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mine_lava",
     "object": {
       "palettes": [ "salamander_eruption_palette" ],
@@ -284,7 +270,6 @@
   {
     "//": "slopes down to be used where appropriate",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "transition_down",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -299,7 +284,6 @@
   {
     "//": "slopes up to be used where appropriate",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "transition_up",
     "object": {
       "mapgensize": [ 2, 2 ],

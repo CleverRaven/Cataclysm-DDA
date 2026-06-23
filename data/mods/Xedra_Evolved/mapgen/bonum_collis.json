@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "boann_sidhe_island",
     "object": {
       "fill_ter": "t_floor",
@@ -75,7 +74,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "boann_sidhe_z1",
     "object": {
       "fill_ter": "t_open_air",

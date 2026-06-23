@@ -41,6 +41,7 @@ enum class segments : std::size_t {
     FOOD_IRRADIATED,
     TEMPERATURE,
     LOCATION_HINT,
+    LOCATION_PRECISE_CLOSEST_CITY,
     CLOTHING_SIZE,
     ETHEREAL,
     FILTHY,
@@ -59,6 +60,7 @@ enum class segments : std::size_t {
     TECHNIQUES,
     CONTENTS,
     EMEMORY,
+    ACTIVITY_OCCUPANCY,
 
     last_segment,
 

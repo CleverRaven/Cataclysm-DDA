@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_mansion_farm_field",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -13,12 +12,12 @@
         "     "
       ],
       "terrain": { "f": "t_dirtmound" },
-      "furniture": { "f": "f_clear" }
+      "furniture": { "f": "f_clear" },
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_mansion_farm_field_thin",
     "object": {
       "mapgensize": [ 5, 5 ],

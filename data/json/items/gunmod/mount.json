@@ -1,26 +1,5 @@
 [
   {
-    "id": "grip_mount",
-    "type": "ITEM",
-    "subtypes": [ "GUNMOD" ],
-    "name": { "str": "replaceable furniture kit" },
-    "description": "A kit consisting of various steel and plastic parts.  When installed, it will permanently modify and partially replace some of the weapon's furniture so that it can be easily changed if needed.  This allows installing any kind of more advanced grips or other furniture.",
-    "weight": "80 g",
-    "volume": "50 ml",
-    "integral_volume": "0 ml",
-    "price": "60 USD",
-    "price_postapoc": "5 USD",
-    "material": [ "steel", "plastic" ],
-    "symbol": ":",
-    "color": "light_gray",
-    "location": "grip mount",
-    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
-    "install_time": "20 m",
-    "min_skills": [ [ "gun", 5 ] ],
-    "add_mod": [ [ "grip", 1 ] ],
-    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
-  },
-  {
     "id": "rail_mount",
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],

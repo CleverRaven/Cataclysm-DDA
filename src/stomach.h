@@ -2,12 +2,12 @@
 #ifndef CATA_SRC_STOMACH_H
 #define CATA_SRC_STOMACH_H
 
+#include <array>
 #include <cstdint>
 #include <map>
-#include <string>
+#include <string_view>
 #include <utility>
 #include <variant>
-#include <vector>
 
 #include "calendar.h"
 #include "type_id.h"
@@ -25,7 +25,7 @@ using mass = units::quantity<int, units::mass_in_microgram_tag>;
 constexpr mass microgram = units::quantity<int, units::mass_in_microgram_tag>( 1, {} );
 constexpr mass milligram = units::quantity<int, units::mass_in_microgram_tag>( 1000, {} );
 constexpr mass gram = units::quantity<int, units::mass_in_microgram_tag>( 1000000, {} );
-const std::vector<std::pair<std::string, mass>> mass_units = { {
+constexpr std::array<std::pair<std::string_view, mass>, 5> mass_units = { {
         { "ug", microgram },
         { "μg", microgram },
         { "mcg", microgram },
@@ -73,6 +73,7 @@ struct nutrients {
         }
 
         nutrients operator-();
+        nutrients operator-( const nutrients &r );
 
         nutrients &operator+=( const nutrients &r );
         nutrients &operator-=( const nutrients &r );
@@ -99,6 +100,8 @@ struct nutrients {
         void deserialize( const JsonObject &jo );
 
         void clear_vitamins();
+
+        void ensure_positive();
 
     private:
         /** vitamins potentially provided by this comestible (if any) */

@@ -33,7 +33,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "moonshine_still",
     "type": "mapgen",
     "weight": 100,
@@ -76,7 +75,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "moonshine_still",
     "type": "mapgen",
     "weight": 10,
@@ -132,7 +130,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "moonshine_still_roof",
     "object": {
       "fill_ter": "t_thatch_roof",
@@ -166,7 +163,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "moonshine_still_1",
     "type": "mapgen",
     "object": {
@@ -209,7 +205,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "moonshine_still_roof_1",
     "object": {
       "fill_ter": "t_thatch_roof",
@@ -243,7 +238,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "moonshine_still_2",
     "type": "mapgen",
     "object": {
@@ -281,7 +275,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "moonshine_still_roof_2",
     "object": {
       "fill_ter": "t_thatch_roof",

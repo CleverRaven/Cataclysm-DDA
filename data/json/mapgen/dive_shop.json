@@ -69,7 +69,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_dive_shop",
     "weight": 200,
     "object": {
@@ -84,11 +83,11 @@
         ",____,____,____,____,sss",
         "ssssssssssssssssssssssss",
         "##OOO#OOO###O)O###OOO##.",
-        "#^       ^|      $   R#.",
+        "#^       ^|§     $   R#.",
         "#   hhhh  |      C   R#.",
         "#G  nnnn  +      C L R#.",
         "#   hhhh  |      C   R#.",
-        "#         | ]]]] cDD R#.",
+        "#§        | ]]]] cDD R#.",
         "#|+||||+||||||||||||+|#.",
         "#t S|ll ll| **********#.",
         "#||||bb bb| *~~~~~~~~*O.",
@@ -96,7 +95,7 @@
         "#| |||||||| *~~~~~~~~*#.",
         "#? ?|  BBB| *~~~~~~~~*O.",
         "#? ?|   L + *~~~~~~~~*O.",
-        "#? ?|3    | **********#.",
+        "#? ?|3   §| **********#.",
         "###############+#######.",
         ".4.............sssss<..."
       ],
@@ -106,12 +105,12 @@
         { "item": "dive_shop_books", "x": [ 4, 7 ], "y": 11, "chance": 80, "repeat": [ 1, 5 ] },
         { "item": "cash_register_random", "x": 17, "y": [ 10, 13 ], "chance": 100 }
       ],
-      "place_monster": [ { "group": "GROUP_DIVING", "x": [ 12, 19 ], "y": [ 16, 20 ], "chance": 80, "repeat": [ 1, 2 ] } ]
+      "place_monster": [ { "group": "GROUP_DIVING", "x": [ 12, 19 ], "y": [ 16, 20 ], "chance": 80, "repeat": [ 1, 2 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_dive_shop",
     "weight": 500,
     "object": {
@@ -126,10 +125,10 @@
         ",____,____,____,____,sss",
         "ssssssssssssssssssssssss",
         "###OOOOOO##))##OOOOOO##.",
-        "#]            ^RRRRRR^#.",
+        "#]§           ^RRRRRR^#.",
         "#]   R R R            #.",
         "#]   R R R            #.",
-        "#]   R R R            #.",
+        "#]   R R R           §#.",
         "#]   R R R   ###DDDD$##.",
         "#]           #L      ^#.",
         "#]           |::::::::#.",
@@ -138,7 +137,7 @@
         "#]   R R R   )  nnnnn O.",
         "#||| R R R   )  nnnnn O.",
         "#S +         :G hhhhh #.",
-        "#t | ]]]]]   :        #.",
+        "#t |§]]]]]   :       §#.",
         "###############+#OOO###.",
         ".4.............sssss<..."
       ],
@@ -147,12 +146,12 @@
         { "item": "dive_shop_books", "x": [ 16, 20 ], "y": [ 18, 19 ], "chance": 80, "repeat": [ 2, 7 ] },
         { "item": "cash_register_random", "x": 13, "y": [ 13, 14 ], "chance": 100 }
       ],
-      "place_monster": [ { "group": "GROUP_CIVILIAN", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 50, "repeat": [ 1, 2 ] } ]
+      "place_monster": [ { "group": "GROUP_CIVILIAN", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 50, "repeat": [ 1, 2 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_dive_shop_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -167,7 +166,7 @@
         "                        ",
         "-.....................- ",
         "-.:...................- ",
-        "-.....................- ",
+        "-..1..................- ",
         "-.....................- ",
         "-.....................- ",
         "-.....................- ",
@@ -176,7 +175,7 @@
         "-.....................- ",
         "-..............ooo..Я.- ",
         "-....A.........ooo..Я.- ",
-        "-....1.........ooo....- ",
+        "-..............ooo....- ",
         "-..................&..- ",
         "-.....................- ",
         "-5--------------------- ",

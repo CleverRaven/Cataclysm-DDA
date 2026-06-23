@@ -120,6 +120,7 @@ class material_type
 
         void load( const JsonObject &jsobj, std::string_view src );
         static void finalize_all();
+        void finalize();
         void check() const;
 
         material_id ident() const;
@@ -179,7 +180,7 @@ void check();
 void reset();
 
 material_list get_all();
-std::set<material_id> get_rotting();
+const std::set<material_id> &get_rotting();
 
 } // namespace materials
 

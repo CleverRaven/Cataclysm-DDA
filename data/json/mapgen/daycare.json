@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_daycare" ],
     "object": {
       "fill_ter": "t_floor",
@@ -16,16 +15,16 @@
         " 8      LL 4222222222222",
         " 8         8****2222**  ",
         "*||+||vvv||||||||gg||*  ",
-        "*|X..X...X..IIIVX::X|*  ",
+        "*|X..X...X.§IIIVX::X|*  ",
         "*|B.,,,,,,,,,.IVX::X|*  ",
         "*|B.,a#a,a#a,.I||++||*  ",
         "*|B.,a#a,a#a,..g:::I|*  ",
         "*vX.,,,,,,,,,..g:::Iv*  ",
         "*|B.,a#a,a#a,.Y|----v*  ",
         "*|B.,a#a,a#a,....F.X|***",
-        "*|B.,,,,,,,,,.....|||||*",
+        "*|B.,,,,,,,,,....§|||||*",
         "*|X.........|||+|||X:Jv*",
-        "*||+||+|...F|::::::::Cv*",
+        "*||+||+|§..F|::::::::Cv*",
         "*|&:D|A|IIIB|HIIH:|f:cv*",
         "*||||||||vv|||vvv||||||*",
         "**0*********************",
@@ -78,7 +77,7 @@
       "toilets": { "&": {  } },
       "item": { "B": { "item": "child_book", "repeat": [ 1, 4 ], "chance": 66 } },
       "items": {
-        "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 30 },
         "C": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
         "c": [
           { "item": "SUS_breakfast_cupboard", "chance": 30 },
@@ -102,12 +101,12 @@
         "Á": { "vehicle": "parking_garage", "chance": 33, "rotation": 90 },
         ",": { "vehicle": "tricycle", "chance": 5 },
         ".": { "vehicle": "tricycle", "chance": 2 }
-      }
+      },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_daycare_roof",
     "object": {
       "fill_ter": "t_flat_roof",

@@ -6,6 +6,8 @@
 flexbuffer
 json
 translation
+# we don't want to muck with third-party source code
+third-party
 # iwyu mangles these
 lightmap
 color

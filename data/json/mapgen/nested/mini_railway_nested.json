@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "trolley_problem",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -18,7 +17,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ordinary_railways",
     "object": {
       "mapgensize": [ 5, 5 ],

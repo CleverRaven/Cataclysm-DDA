@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_nether_pond",
     "object": {
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
@@ -10,7 +9,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nether_pond_chunk",
     "object": {
       "mapgensize": [ 12, 12 ],

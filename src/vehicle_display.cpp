@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <iterator>
 #include <optional>
 #include <set>
 #include <string>
@@ -24,11 +25,12 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
-static const std::string part_location_structure( "structure" );
 static const ammotype ammo_battery( "battery" );
 
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id itype_battery( "battery" );
+
+static const vpart_location_id vpart_location_structure( "structure" );
 
 std::string vehicle::disp_name() const
 {
@@ -41,7 +43,8 @@ vpart_display::vpart_display()
 
 vpart_display::vpart_display( const vehicle_part &vp )
     : id( vp.info().id )
-    , variant( vp.info().variants.at( vp.variant ) ) {}
+    , variant( vp.info().variants.at( vp.variant ) )
+    , carried_furn( vp.get_base().get_var( "tied_down_furniture" ) ) {}
 
 std::string vpart_display::get_tileset_id() const
 {
@@ -170,7 +173,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1,
         if( vp.is_fuel_store() && !vp.ammo_current().is_null() ) {
             if( detail ) {
                 if( vp.ammo_current() == itype_battery ) {
-                    partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining( ),
+                    partname += string_format( _( " (%d/%d charge)" ), vp.ammo_remaining( ),
                                                vp.ammo_capacity( ammo_battery ) );
                 } else if( vp.ammo_current()->stack_size > 0 ) {
                     const itype *pt_ammo_cur = item::find_type( vp.ammo_current() );
@@ -199,7 +202,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1,
         if( armor ) {
             left_sym = "(";
             right_sym = ")";
-        } else if( vpi.location == part_location_structure ) {
+        } else if( vpi.location == vpart_location_structure ) {
             left_sym = "[";
             right_sym = "]";
         } else {
@@ -292,6 +295,12 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
                                            vp.carried_name() );
             new_lines += 1;
         }
+        if( vp.degradation() > 0 && vp.damage() == vp.degradation() ) {
+            // Some untranslated padding and a linebreak for formatting here, but we re-use the same string from item::repair_info()
+            possible_msg += string_format( "   %s\n",
+                                           _( "<color_c_red>Degraded and cannot be repaired beyond the current level.</color>" ) );
+            new_lines += 1;
+        }
 
         possible_msg += "</color>\n";
         if( lines + new_lines <= max_y ) {
@@ -333,6 +342,24 @@ std::vector<itype_id> vehicle::get_printable_fuel_types( map &here ) const
     } );
 
     return res;
+}
+
+std::string vehicle::print_fuel_indicators( map &here, int start_index )
+{
+    std::string ret;
+
+    auto fuels = get_printable_fuel_types( here );
+    if( fuels.empty() ) {
+        return "";
+    }
+
+    for( int i = start_index; i < static_cast<int>( fuels.size() ); i++ ) {
+        const itype_id &f = fuels[i];
+        ret += print_fuel_indicator( here, f, fuel_used_last_turn );
+        ret += "\n";
+    }
+
+    return ret;
 }
 
 /**
@@ -384,6 +411,90 @@ void vehicle::print_fuel_indicators( map &here, const catacurses::window &win, c
     }
 }
 
+std::string vehicle::print_fuel_indicator( map &here, const itype_id &fuel_type,
+        std::map<itype_id, units::energy> fuel_usages )
+{
+    const std::string linebreak = "\n";
+    // The old window re-drew a symbol over the indicator. That's unreliable, so we simply use a lookup table
+    // to figure out which of the 5 possible combinations to draw before printing anything at all.
+    std::map<int, std::string> fuel_indicator = {
+        {0, "E\\.··.F"},
+        {20, "E.\\··.F"},
+        {40, "E.·|·.F"},
+        {60, "E.··/.F"},
+        {80, "E.··./F"}
+    };
+    int cap = fuel_capacity( here, fuel_type );
+    int f_left = fuel_left( here, fuel_type );
+    nc_color f_color = item::find_type( fuel_type )->color;
+    int pct_amount = cap > 0 ? f_left * 99 / cap : 0;
+    auto fuel_string = fuel_indicator.rbegin();
+    while( fuel_string != fuel_indicator.rend() && pct_amount < fuel_string->first ) {
+        fuel_string++;
+    }
+    std::string ret = fuel_string->second;
+
+    if( debug_mode || cap == 0 ) {
+        // Space is intentional.
+        ret += colorize( string_format( " %d/%d", f_left, cap ), f_color );
+    } else {
+        // Space is intentional.
+        ret += colorize( string_format( " %d", f_left * 100 / cap ), f_color );
+        // This uses a separate color, for some reason!
+        ret += colorize( "%%", c_light_gray );
+    }
+
+    // previously handled by the 'desc' bool
+    ret += colorize( string_format( " - %s", item::nname( fuel_type ) ), c_light_gray );
+
+    // previously handled by the 'verbose' bool
+    auto fuel_data = fuel_usages.find( fuel_type );
+    int rate = 0;
+    std::string units;
+    if( fuel_data != fuel_usages.end() ) {
+        rate = consumption_per_hour( fuel_type, fuel_data->second );
+        units = _( "mL" );
+    }
+    if( fuel_type == itype_battery ) {
+        rate += power_to_energy_bat( net_battery_charge_rate( here,/* include_reactors = */ true ),
+                                     1_hours );
+        units = _( "kJ" );
+    }
+    if( rate != 0 && cap != 0 ) {
+        int tank_use = 0;
+        nc_color tank_color = c_light_green;
+        std::string tank_goal = _( "full" );
+        if( rate > 0 ) {
+            tank_use = cap - f_left;
+            if( !tank_use ) {
+                return ret;
+            }
+        } else {
+            if( !f_left ) {
+                return ret;
+            }
+            tank_use = f_left;
+            tank_color = c_light_red;
+            tank_goal = _( "empty" );
+        }
+
+        // promote to double so esimate doesn't overflow for high fuel values
+        // 3600 * tank_use overflows signed 32 bit when tank_use is over ~596523
+        double turns = to_turns<double>( 60_minutes );
+        time_duration estimate = time_duration::from_turns( turns * tank_use / std::abs( rate ) );
+
+        if( debug_mode ) {
+            ret += colorize( string_format( _( ", %d %s(%4.2f%%)/hour, %s until %s" ), rate, units,
+                                            100.0 * rate / cap, to_string_clipped( estimate ), tank_goal ), tank_color );
+        } else {
+            ret += colorize( string_format( _( ", %3.1f%% / hour, %s until %s" ), 100.0 * rate  / cap,
+                                            to_string_clipped( estimate ), tank_goal ), tank_color );
+        }
+    }
+
+    return ret;
+}
+
 /**
  * Prints a fuel gauge for a vehicle
  * @param win Pointer to the window to draw in.
@@ -420,6 +531,7 @@ void vehicle::print_fuel_indicator( map &here, const catacurses::window &win, co
             mvwprintz( win, p + point( 6, 0 ), f_color, "%d/%d", f_left, cap );
         } else {
             mvwprintz( win, p + point( 6, 0 ), f_color, "%d", f_left * 100 / cap );
+            // Unicode character 045 AKA the percent sign.
             wprintz( win, c_light_gray, "%c", 045 );
         }
     }
@@ -486,23 +598,24 @@ void vehicle::print_speed_gauge( map &here, const catacurses::window &win, const
                        ( strain <= 0.2 ? c_yellow :
                          ( strain <= 0.4 ? c_light_red : c_red ) );
     // Get cruising (target) velocity, and current (actual) velocity
-    int t_speed = static_cast<int>( convert_velocity( cruise_velocity, VU_VEHICLE ) );
-    int c_speed = static_cast<int>( convert_velocity( velocity, VU_VEHICLE ) );
-    auto ndigits = []( int value ) {
-        return value == 0 ? 1 :
-               ( value > 0 ?
-                 static_cast<int>( std::log10( static_cast<double>( std::abs( value ) ) ) ) + 1 :
-                 static_cast<int>( std::log10( static_cast<double>( std::abs( value ) ) ) ) + 2 );
+    const double t_speed = convert_velocity( cruise_velocity, VU_VEHICLE );
+    const double c_speed = convert_velocity( velocity, VU_VEHICLE );
+    auto ndigits = []( double value ) {
+        return ( value < 0 ? 1 : 0 ) +
+               ( value == 0 ? 1 :
+                 ( ( value < 1000 && value > -1000 ) ? 3 :
+                   static_cast<int>( std::log10( static_cast<double>( std::abs( value ) ) ) ) + 1 ) );
     };
     const std::string type = get_option<std::string> ( "USE_METRIC_SPEEDS" );
     int t_offset = ndigits( t_speed );
     int c_offset = ndigits( c_speed );
 
     // Target cruising velocity in green
-    mvwprintz( win, p, c_light_green, "%d", t_speed );
+    mvwprintz( win, p, c_light_green, "%s", three_digit_display( t_speed ) );
     mvwprintz( win, p + point( t_offset + spacing, 0 ), c_light_gray, "<" );
     // Current velocity in color indicating engine strain
-    mvwprintz( win, p + point( t_offset + 1 + 2 * spacing, 0 ), col_vel, "%d", c_speed );
+    mvwprintz( win, p + point( t_offset + 1 + 2 * spacing, 0 ), col_vel, "%s",
+               three_digit_display( c_speed ) );
     // Units of speed (mph, km/h, t/t)
     mvwprintz( win, p + point( t_offset  + c_offset + 1 + 3 * spacing, 0 ), c_light_gray, type );
 }

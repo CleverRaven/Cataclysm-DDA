@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_courtyard" ],
     "object": {
       "fill_ter": "t_region_groundcover_urban",
@@ -46,7 +45,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "apartment_complex_entrance",
@@ -108,12 +106,16 @@
         { "item_group": "vending_drink", "lootable": true, "x": [ 14, 17 ], "y": 16 },
         { "item_group": "vending_drink", "lootable": true, "x": 24, "y": 16 },
         { "item_group": "vending_food", "lootable": true, "x": 24, "y": 18 }
+      ],
+      "place_nested": [
+        { "chunks": [ "fire_extinguisher" ], "x": 10, "y": 9 },
+        { "chunks": [ "fire_extinguisher" ], "x": 34, "y": 7 },
+        { "chunks": [ "fire_extinguisher" ], "x": 63, "y": 8 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_center_stairs_even_ground" ],
     "object": {
       "fill_ter": "t_floor",
@@ -143,12 +145,12 @@
         "~''''''''''''''''''''''~",
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "palettes": [ "standard_domestic_palette", "apt_complex" ]
+      "palettes": [ "standard_domestic_palette", "apt_complex" ],
+      "place_nested": [ { "chunks": [ "fire_extinguisher" ], "x": 7, "y": 22 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_center_stairs_even" ],
     "object": {
       "fill_ter": "t_floor",
@@ -179,12 +181,12 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "palettes": [ "standard_domestic_palette", "apt_complex" ],
-      "terrain": { ".": "t_open_air_rooved" }
+      "terrain": { ".": "t_open_air_rooved" },
+      "place_nested": [ { "chunks": [ "fire_extinguisher" ], "x": 7, "y": 22 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_center_stairs_odd" ],
     "object": {
       "fill_ter": "t_floor",
@@ -215,12 +217,12 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "palettes": [ "standard_domestic_palette", "apt_complex" ],
-      "terrain": { ".": "t_open_air_rooved" }
+      "terrain": { ".": "t_open_air_rooved" },
+      "place_nested": [ { "chunks": [ "fire_extinguisher" ], "x": 7, "y": 22 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "apartment_complex_garage_corner",
@@ -236,13 +238,13 @@
         "Ŧ-.#````````````````````Ŧ-.#'''''```````````````Ŧ-.#````````````````````",
         "Ŧ-.#```W````````````````~~~=````````````````````Ŧ-.#````W```````````````",
         "Ŧ-.#````````````````````~~~=````````````````````Ŧ-.#````````````````````",
-        "Ŧ-.#[[[[[[[[````````````~~~=````````````````````Ŧ-.#[[[[[[[[````````````",
+        "Ŧ-.#[[[[[[[[````````````~~~=````````````````````Ŧ-.#[[[[[[[[§```````````",
         "Ŧ-.#````````````````````~~~=````````````````````Ŧ-.#````````````````````",
         "Ŧ-.#````````````````````~~~=````````````````````Ŧ-.#````````````````````",
         "Ŧ-.#```W````````````````~~~=````````````````````Ŧ-.#````````````````````",
         "Ŧ-.#````````````````````Ŧ-0#0```````````````````Ŧ-.#```W````````````````",
         "Ŧ-.#````````````````````Ŧ-.#````````````````````Ŧ-.#````````````````````",
-        "Ŧ-.#[[[[[[[[````````````Ŧ-.#````````````````````Ŧ-.#[[[[[[[[````````````",
+        "Ŧ-.#[[[[[[[[`````§``````Ŧ-.#`````````````§``````Ŧ-.#[[[[[[[[````````````",
         "Ŧ-.#########`````[`````[Ŧ-.#########`````[`````[Ŧ-.#########````````````",
         "Ŧ-.........#`````[`````[Ŧ-.........#`````[`````[Ŧ-.........#````````````",
         "Ŧ-....%%%..#`````[`````[Ŧ-....%%%..#`````[`````[Ŧ-....%%%..#````````````",
@@ -256,12 +258,12 @@
         "Ŧ-----------------------Ŧ-----------------------Ŧ--------------~~~~~~---",
         "ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ~~~~~~ŦŦŦ"
       ],
-      "palettes": [ "apt_complex_ground", "apt_complex_garage" ]
+      "palettes": [ "apt_complex_ground", "apt_complex_garage" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "apartment_complex_garage_corner_inner" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -278,7 +280,7 @@
         "''``````````[`````[`````",
         "''``````````[`````[`````",
         "''``````````[`````[`````",
-        "''``````````````````````",
+        "''````````````````§`````",
         "''``````````````````````",
         "''``````````````````````",
         "#'``````````````````````",
@@ -291,12 +293,12 @@
         "``````''''''''''''``````",
         "``````'##''''''##'``````"
       ],
-      "palettes": [ "apt_complex_ground", "apt_complex_garage" ]
+      "palettes": [ "apt_complex_ground", "apt_complex_garage" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "apartment_complex_garage_corner_inner_wall" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -313,7 +315,7 @@
         "''[[`[[`````[`````[`````",
         "''[`[`[`````[`````[`````",
         "''[[[[[`````[`````[`````",
-        "''``````````````````````",
+        "''````````````````§`````",
         "''``````````````````````",
         "''``````````````````````",
         "#'``````````````````````",
@@ -326,12 +328,12 @@
         "``````''''''''''''``````",
         "``````'##''''''##'``````"
       ],
-      "palettes": [ "apt_complex_ground", "apt_complex_garage" ]
+      "palettes": [ "apt_complex_ground", "apt_complex_garage" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "apartment_complex_garage_corner_inner_wallALT" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -348,7 +350,7 @@
         "''```````````````[`````#",
         "''```````````````[`````#",
         "''```````````````[`````#",
-        "''`````````````````````#",
+        "''```````````````§`````#",
         "''`````````````````````#",
         "''`````````````````````#",
         "#'`````````````````````#",
@@ -361,12 +363,12 @@
         "``````'''''''''''''''''#",
         "``````'##''''''##''''''*"
       ],
-      "palettes": [ "apt_complex_ground", "apt_complex_garage" ]
+      "palettes": [ "apt_complex_ground", "apt_complex_garage" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "apartment_complex_garage_straight", "apartment_complex_garage_straight_gate" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -382,7 +384,7 @@
         "````````````````````````````````````````````````",
         "````````````````````````````````````````````````",
         "````````````````````````````````````````````````",
-        "````````````````````````````````````````````````",
+        "`````§`````````````````§```````````````````````§",
         "`````[`````[`````[`````[```````````````````````[",
         "`````[`````[`````[`````[```````````````````````[",
         "`````[`````[`````[`````[```````````````````````[",
@@ -410,12 +412,12 @@
           "y": 1,
           "neighbors": { "above": [ "apartment_complex_straight_stairs_odd" ] }
         }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "apartment_complex_garage_straight_wall", "apartment_complex_garage_straight_gate_wall" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -431,7 +433,7 @@
         "```````````````````````'```````````````````````'",
         "```````````````````````'```````````````````````'",
         "```````````````````````'```````````````````````'",
-        "```````````````````````'```````````````````````'",
+        "```````````§```````````'```````````````````````'",
         "`````[`````[`````[`````'```````````````````````'",
         "`````[`````[`````[`````'```````````````````````'",
         "`````[`````[`````[`````'```````````````````````'",
@@ -459,12 +461,12 @@
           "y": 1,
           "neighbors": { "above": [ "apartment_complex_straight_stairs_odd" ] }
         }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "apartment_complex_garage_straight_wallALT", "apartment_complex_garage_straight_gate_wallALT" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -480,7 +482,7 @@
         "#```````````````````````#```````````````````````",
         "#```````````````````````#```````````````````````",
         "#```````````````````````#```````````````````````",
-        "#```````````````````````#```````````````````````",
+        "#``````````§````````````#``````````````````````§",
         "#[[[[[`````[`````[`````[#``````````````````````[",
         "#[`[`[`````[`````[`````[#``````````````````````[",
         "#[[`[[`````[`````[`````[#``````````````````````[",
@@ -508,7 +510,8 @@
           "y": 1,
           "neighbors": { "above": [ "apartment_complex_straight_stairs_odd" ] }
         }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   }
 ]

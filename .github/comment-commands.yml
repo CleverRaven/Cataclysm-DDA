@@ -23,7 +23,6 @@ users:
     - Jan-Blasiak
     - MNG-cataclysm
     - mqrause
-    - andrei8l
     - haveric
     - MylieDaniels
     - nopenoperson 
@@ -56,6 +55,17 @@ users:
     - terribleperson
     - moxian
     - Kray4000
+    - czyjanek
+    - SariusSkelrets
+    - SittingDucken
+    - ShnitzelX2
+    - BalthazarArgall
+    - dobbry-vechur
+    - thaelina
+    - Tektolnes
+    - gettingusedto
+    - Uwuewsky
+    - armaswiss
 
 keywords:
   - name: confirm-bug
@@ -74,3 +84,7 @@ keywords:
   - name: help-wanted
     # example: /help-wanted
     value: '\/(H|h)elp[\s-]*(W|w)anted.*'
+
+  - name: retry-jobs
+    # example: /retry, /rerun
+    value: '\/(([Rr])etry|([Rr])erun).*'

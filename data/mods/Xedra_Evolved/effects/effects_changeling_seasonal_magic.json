@@ -68,6 +68,19 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_spring_enchanted_butterfly_wings",
+    "name": [ "Wings of Gossamer" ],
+    "desc": [ "You have a pair of gossamer wings sprouting from your back." ],
+    "apply_message": "A pair of coruscating gossamer wings sprout from your back!",
+    "remove_message": "Your gossamer wings turn to flower petals and blow away.",
+    "max_duration": "12 hours",
+    "enchantments": [
+      { "mutations": [ "MUTATION_COSMETIC_BUTTERFLY_WINGS", "MUTATION_NO_RIGID_TORSO_ARMOR" ] },
+      { "modified_bodyparts": [ { "gain": "wing_gossamer_l" }, { "gain": "wing_gossamer_r" } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_spring_healing_increase_while_outside",
     "name": [ "New Growth" ],
     "desc": [ "You are drawing on the energy of life to increase your healing rate." ],
@@ -277,6 +290,30 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_summer_ring_of_flames",
+    "name": [ "Summer Champion" ],
+    "desc": [ "You stand in the ring of flames, facing your foe.  Woe to the vanquished." ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "KNOCKBACK_RESIST", "add": 100 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ] } ],
+    "blocks_effects": [ "blisters" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_ring_of_flames_limiter",
+    "//": "Limiter so the avatar_moves EoC for Ring of Champions doesn't immediately break due to removal of fields taking 1 round to occur",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_ring_of_flames_enemy",
+    "name": [ "Enemy Champion" ],
+    "desc": [ "You are the target of Ring of Champions.  Your death will end the glamour." ],
+    "rating": "good",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_summer_powerful_sunlight",
     "name": [ "Helios's Wrath" ],
     "desc": [ "You blaze with the pure light of the summer sun." ],
@@ -412,6 +449,40 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_autumn_wither_with_time_character",
+    "name": [ "Time Fells the Mightiest Warrior" ],
+    "desc": [ "A glamour has reduced your martial skill to almost nothing." ],
+    "apply_message": "",
+    "remove_message": "Your vigor returns.",
+    "show_in_info": true,
+    "max_duration": "12 hours",
+    "enchantments": [
+      {
+        "skills": [
+          { "value": "melee", "multiply": -1 },
+          { "value": "stabbing", "multiply": -1 },
+          { "value": "bashing", "multiply": -1 },
+          { "value": "cutting", "multiply": -1 },
+          { "value": "dodge", "multiply": -1 },
+          { "value": "gun", "multiply": -1 },
+          { "value": "archery", "multiply": -1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_wither_with_time_monster",
+    "name": [ "Time Fells the Mightiest Warrior" ],
+    "desc": [ "A glamour has reduced your martial skill to almost nothing." ],
+    "apply_message": "",
+    "remove_message": "Your vigor returns.",
+    "show_in_info": true,
+    "max_duration": "12 hours",
+    "base_mods": { "hit_mod": [ -10 ], "dodge_mod": [ -10 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_winter_freeze_target_in_place_not_winter",
     "name": [ "Grip of Winter" ],
     "desc": [ "Ice coats your lower limbs, freezing you in place." ],
@@ -447,6 +518,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_winter_walk_in_silence",
+    "name": [ "Snow-Fox's Stride" ],
+    "desc": [ "With a light step, you can walk across even new-fallen snow at full speed." ],
+    "apply_message": "",
+    "remove_message": "You sink into the snow with a soft crunch.",
+    "max_duration": "12 hours",
+    "flags": [ "SNOWWALKING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_winter_walk_on_water",
     "name": [ "Path of Rime" ],
     "desc": [ "Each step you take leaves a tracing of frost on the ground, and liquids freeze at your touch." ],
@@ -464,7 +545,7 @@
     "remove_message": "Life returns to your limbs.",
     "show_in_info": true,
     "max_duration": "6 hours",
-    "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ] } ],
+    "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ], "ench_effects": [ { "effect": "downed", "intensity": 1 } ] } ],
     "limb_score_mods": [
       { "limb_score": "lift", "modifier": 0.2 },
       { "limb_score": "block", "modifier": 0.0 },
@@ -484,10 +565,20 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_winter_stop_bleeding",
+    "name": [ "Veins of Ice" ],
+    "desc": [ "You can fool them once, but you can't fool them twice." ],
+    "apply_message": "You feel a cold chill in your bones.",
+    "remove_message": "The chill in your bones fades away.",
+    "flags": [ "BLEED_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_winter_silence",
     "name": [ "Frozen Tongue" ],
     "desc": [ "Your tongue feels like solid ice." ],
     "remove_message": "The icy feeling on your tongue vanishes.",
+    "show_in_info": true,
     "flags": [ "MUTE" ]
   },
   {
@@ -507,7 +598,7 @@
     "id": "effect_changeling_winter_neutralize_morale",
     "name": [ "Frozen Heart" ],
     "desc": [ "All emotions are frozen out." ],
-    "enchantments": [ { "mutations": [ "PSYCHOPATH" ] } ]
+    "flags": [ "NUMB", "PSYCHOPATH" ]
   },
   {
     "type": "effect_type",
@@ -532,5 +623,24 @@
     "name": [ "" ],
     "desc": [ "" ],
     "flags": [ "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_cut_off_fey_nature",
+    "name": [ "The Soul of Iron" ],
+    "desc": [ "Your fey powers are cut off, like they're trapped behind a wall of glass." ],
+    "remove_message": "The glass wall cutting off your fey powers shatters into dust.",
+    "rating": "mixed",
+    "removes_effects": [
+      "effect_xe_iron_intolerance_wearing_steel_tier_1",
+      "effect_xe_iron_intolerance_wearing_steel_tier_2",
+      "effect_xe_iron_intolerance_wearing_steel_tier_3",
+      "effect_xe_iron_intolerance_wearing_steel_tier_4",
+      "effect_xe_iron_intolerance_wearing_iron_tier_1",
+      "effect_xe_iron_intolerance_wearing_iron_tier_2",
+      "effect_xe_iron_intolerance_wearing_iron_tier_3",
+      "effect_xe_iron_intolerance_wearing_iron_tier_4"
+    ],
+    "flags": [ "NO_FEY_MAGIC" ]
   }
 ]

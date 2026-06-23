@@ -1,0 +1,66 @@
+[
+  {
+    "type": "mutation",
+    "id": "PORTAL_DEPENDENT",
+    "name": { "str": "Portal Dependent" },
+    "description": "You feel alien in your own body, as if part of you remained behind with the storm.  You will suffer severely when not exposed to portal storms unless you find a way to anchor yourself to the world again.",
+    "points": -8,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "REALITY_GRASP",
+    "name": { "str": "Stabilized in Reality" },
+    "description": "You have regained some substance and have stabilized somewhat, if not entirely.  Portal storm withdrawal will not affect you as strongly as before.",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "anti_shape",
+    "name": { "str": "Extradimensional Comprehension" },
+    "description": "In the tunnel at LIXA, you were inside of an impossible shape, where the X, Y, and Z axis were mere suggestions.  When you put the shape out of its misery, (as much misery as a concept can have), you saw it for what it was; just a shape.  You can now visualize \"impossible\" shapes in your mind's eye, rendering them mundane to you.",
+    "points": 0,
+    "player_display": true,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "HAS_NEMESIS",
+    "name": { "str": "Hunted" },
+    "description": "Something has been hunting you relentlessly.  You can outrun it, but it always seems to find you eventually.",
+    "points": -1,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "TAINTED_SHADOW",
+    "name": { "str": "Tainted Shadow" },
+    "description": "You shouldn't see this.  This makes you spawn tainted shadows.",
+    "points": 0,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NOT_GLASS",
+    "name": { "str": "Comfortably Fluid" },
+    "description": "You can hear your heartbeat in your ears, feel the blood sloshing around in your veins.  The uneven hitches in your breath, the aches in your joints, the rumbling of your stomach.  It's nasty and messy and ugly.  And you are extremely grateful for that.",
+    "points": 0,
+    "player_display": true,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
+  }
+]

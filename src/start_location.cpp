@@ -5,7 +5,6 @@
 #include <functional>
 #include <optional>
 
-#include "assign.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -15,6 +14,7 @@
 #include "clzones.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "current_map.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -24,6 +24,7 @@
 #include "map.h"
 #include "map_extras.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "mapgen_parameter.h"
 #include "mapgendata.h"
@@ -117,44 +118,66 @@ const std::set<std::string> &start_location::flags() const
     return _flags;
 }
 
-void start_location::load( const JsonObject &jo, const std::string &src )
+void omt_types_parameters::deserialize( const JsonValue &jv )
 {
-    const bool strict = src == "dda";
+    if( jv.test_string() ) {
+        jv.read( omt, true );
+        omt_type = ot_match_type::type;
+        return;
+    }
+    JsonObject jo = jv.get_object();
+    mandatory( jo, false, "om_terrain", omt );
+    optional( jo, false, "om_terrain_match_type", omt_type, ot_match_type::type );
+    optional( jo, false, "parameters", parameters );
+}
 
+void start_location::load( const JsonObject &jo, const std::string_view )
+{
     mandatory( jo, was_loaded, "name", _name );
-    std::string ter;
-    for( const JsonValue entry : jo.get_array( "terrain" ) ) {
-        ot_match_type ter_match_type = ot_match_type::type;
-        std::unordered_map<std::string, std::string> parameter_map;
-        if( entry.test_string() ) {
-            ter = entry.get_string();
-        } else {
-            JsonObject jot = entry.get_object();
-            ter = jot.get_string( "om_terrain" );
-            if( jot.has_string( "om_terrain_match_type" ) ) {
-                ter_match_type = jot.get_enum_value<ot_match_type>( "om_terrain_match_type", ter_match_type );
-            }
-            if( jot.has_object( "parameters" ) ) {
-                std::unordered_map<std::string, std::string> parameter_map;
-                jot.read( "parameters", parameter_map );
-            }
-        }
-        _locations.emplace_back( omt_types_parameters{ ter, ter_match_type, parameter_map } );
-    }
-    if( jo.has_array( "city_sizes" ) ) {
-        assign( jo, "city_sizes", constraints_.city_size, strict );
-    }
-    if( jo.has_array( "city_distance" ) ) {
-        assign( jo, "city_distance", constraints_.city_distance, strict );
-    }
-    if( jo.has_array( "allowed_z_levels" ) ) {
-        assign( jo, "allowed_z_levels", constraints_.allowed_z_levels, strict );
-    }
+    optional( jo, was_loaded, "terrain", _locations );
+    optional( jo, was_loaded, "city_sizes", constraints_.city_size, { 0, INT_MAX } );
+    optional( jo, was_loaded, "city_distance", constraints_.city_distance, { 0, INT_MAX } );
+    optional( jo, was_loaded, "allowed_z_levels", constraints_.allowed_z_levels,
+    { -OVERMAP_DEPTH, OVERMAP_HEIGHT} );
     optional( jo, was_loaded, "flags", _flags, auto_flags_reader<> {} );
 }
 
 void start_location::check() const
 {
+    if( _locations.empty() ) {
+        debugmsg( "start_location %s has no terrain defined", id.c_str() );
+    }
+    for( const omt_types_parameters &loc : _locations ) {
+        if( loc.omt.empty() ) {
+            debugmsg( "start_location %s has empty om_terrain string", id.c_str() );
+            continue;
+        }
+        if( loc.omt_type == ot_match_type::exact &&
+            !oter_str_id( loc.omt ).is_valid() ) {
+            debugmsg( "start_location %s references invalid exact om_terrain \"%s\"",
+                      id.c_str(), loc.omt );
+        } else if( loc.omt_type == ot_match_type::type &&
+                   !oter_type_str_id( loc.omt ).is_valid() ) {
+            debugmsg( "start_location %s references invalid om_terrain type \"%s\"",
+                      id.c_str(), loc.omt );
+        } else if( loc.omt_type == ot_match_type::subtype ||
+                   loc.omt_type == ot_match_type::prefix ||
+                   loc.omt_type == ot_match_type::contains ) {
+            bool found = false;
+            for( const oter_t &ter : overmap_terrains::get_all() ) {
+                if( is_ot_match( loc.omt, ter.id.id(), loc.omt_type ) ) {
+                    found = true;
+                    break;
+                }
+            }
+            if( !found ) {
+                debugmsg( "start_location %s om_terrain \"%s\" (match_type %s) "
+                          "matches no loaded overmap terrain",
+                          id.c_str(), loc.omt,
+                          io::enum_to_string( loc.omt_type ) );
+            }
+        }
+    }
 }
 
 void start_location::finalize()
@@ -374,6 +397,8 @@ void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
     // Now prepare the initial map (change terrain etc.)
     tinymap player_start;
     player_start.load( omtstart, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *player_start.cast_to_map() );
     prepare_map( player_start );
     player_start.save();
 }
@@ -534,6 +559,8 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
 {
     tinymap m;
     m.load( omtstart, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *m.cast_to_map() );
     m.build_outside_cache( m.get_abs_sub().z() );
     point_bub_ms player_pos = get_player_character().pos_bub().xy();
     const point_bub_ms u( player_pos.x() % HALF_MAPSIZE_X, player_pos.y() % HALF_MAPSIZE_Y );
@@ -629,9 +656,6 @@ void start_locations::load( const JsonObject &jo, const std::string &src )
 void start_locations::finalize_all()
 {
     all_start_locations.finalize();
-    for( const start_location &start_loc : all_start_locations.get_all() ) {
-        const_cast<start_location &>( start_loc ).finalize();
-    }
 }
 
 void start_locations::check_consistency()

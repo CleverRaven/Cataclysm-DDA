@@ -25,6 +25,7 @@
 #include "magic_teleporter_list.h"
 #include "mdarray.h"
 #include "memory_fast.h"
+#include "point.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -74,6 +75,11 @@ struct monster_visible_info {
     void remove_npc( npc *n );
 };
 
+struct point_of_interest {
+    tripoint_abs_omt pos = tripoint_abs_omt::invalid;
+    std::string text;
+};
+
 class avatar : public Character
 {
     public:
@@ -86,6 +92,18 @@ class avatar : public Character
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
         avatar &operator=( avatar && );
 
+        // Zone sort viewport lock state -- ephemeral, not serialized.
+        // Visual lock only; zoom restoration is on the activity actor.
+        struct zone_sort_viewport_t {
+            bool active = false;
+            tripoint_abs_ms center;
+            int target_zoom = 0;
+            int saved_zoom = 0;
+            tripoint_abs_ms bbox_min;
+            tripoint_abs_ms bbox_max;
+        };
+        zone_sort_viewport_t zone_sort_viewport; // NOLINT(cata-serialize)
+
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
         void export_as_npc( const cata_path &path );
@@ -93,6 +111,7 @@ class avatar : public Character
         void deserialize( const JsonObject &data ) override;
         bool save_map_memory();
         void load_map_memory();
+        void clear_map_memory();
 
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );
@@ -134,12 +153,12 @@ class avatar : public Character
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
 
-        void toggle_map_memory();
         //! @copydoc map_memory::is_valid() const
         bool is_map_memory_valid() const;
         bool should_show_map_memory() const;
         void prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 );
         const memorized_tile &get_memorized_tile( const tripoint_abs_ms &p ) const;
+        bool has_memory_at( const tripoint_abs_ms &p ) const;
         void memorize_terrain( const tripoint_abs_ms &p, std::string_view id,
                                int subtile, int rotation );
         void memorize_decoration( const tripoint_abs_ms &p, std::string_view id,
@@ -159,19 +178,28 @@ class avatar : public Character
         std::vector<mission *> get_active_missions() const;
         std::vector<mission *> get_completed_missions() const;
         std::vector<mission *> get_failed_missions() const;
+        std::vector<point_of_interest> get_points_of_interest() const;
         /**
-         * Returns the mission that is currently active. Returns null if mission is active.
+         * Returns the mission that is currently active. Returns null if no mission is active.
          */
         mission *get_active_mission() const;
         /**
-         * Returns the target of the active mission or @ref tripoint_abs_omt::invalid if there is
-         * no active mission.
+         * Returns the point of interest that is currently active. Returns null if no mission is active.
+         */
+        point_of_interest get_active_point_of_interest() const;
+        /**
+         * Returns the target of the active mission/point of interest or @ref tripoint_abs_omt::invalid if there is
+         * no active mission or point of interest.
          */
         tripoint_abs_omt get_active_mission_target() const;
         /**
          * Set which mission is active. The mission must be listed in @ref active_missions.
          */
         void set_active_mission( mission &cur_mission );
+        /**
+         * Set which point of interest is active. The point of interest must be listed in @ref points_of_interest.
+         */
+        void set_active_point_of_interest( const point_of_interest &active_point_of_interest );
         /**
          * Called when a mission has been assigned to the player.
          */
@@ -188,12 +216,20 @@ class avatar : public Character
 
         void remove_active_mission( mission &cur_mission );
 
+        /**
+        * Despite the name, this operation also makes an existing point of interest active.
+        */
+        void add_point_of_interest( const point_of_interest &new_point_of_interest );
+        void delete_point_of_interest( tripoint_abs_omt pos );
+
         //return avatar diary
         diary *get_avatar_diary();
 
         // Dialogue and bartering--see npctalk.cpp
         void talk_to( std::unique_ptr<talker> talk_with, bool radio_contact = false,
-                      bool is_computer = false, bool is_not_conversation = false, const std::string &debug_topic = "" );
+                      bool is_computer = false, bool is_not_conversation = false,
+                      const std::string &debug_topic = "",
+                      const std::string &remote_name = "" );
 
         /**
          * Try to disarm the NPC. May result in fail attempt, you receiving the weapon and instantly wielding it,
@@ -228,8 +264,7 @@ class avatar : public Character
 
         /** smash a map feature */
         struct smash_result {
-            int skill;
-            int resistance;
+            bool can_smash;
             bool did_smash;
             bool success;
         };
@@ -276,6 +311,9 @@ class avatar : public Character
 
         // Set in npc::talk_to_you for use in further NPC interactions
         bool dialogue_by_radio = false;
+        // When set, overrides the NPC display name in dialogue and trade
+        // windows (e.g. "the intercom" for remote intercom conversations).
+        std::string dialogue_remote_name;
         // Preferred aim mode - ranged.cpp aim mode defaults to this if possible
         std::string preferred_aiming_mode;
 
@@ -285,22 +323,31 @@ class avatar : public Character
         // rebuilds the full aim cache for the character if it is dirty
         void rebuild_aim_cache() const;
 
+        // directly sets movement mode bypassing movecost of changing modes
         void set_movement_mode( const move_mode_id &mode ) override;
-
-        // Cycles to the next move mode.
-        void cycle_move_mode();
-        // Cycles to the previous move mode.
-        void cycle_move_mode_reverse();
-        // Resets to walking.
         void reset_move_mode();
-        // Toggles running on/off.
-        void toggle_run_mode();
-        // Toggles crouching on/off.
-        void toggle_crouch_mode();
-        // Toggles lying down on/off.
-        void toggle_prone_mode();
-        // Activate crouch mode if not in crouch mode.
         void activate_crouch_mode();
+
+        // manages deferred move cost of changing move mods
+        // primarily used for player actions that change move mode
+        void set_desired_movement_mode( const move_mode_id &mode );
+        move_mode_id get_desired_move_mode() const;
+
+        void cycle_desired_move_mode();
+        void cycle_desired_move_mode_reverse();
+
+        bool is_walk_mode_desired() const;
+        void set_walk_mode_desired();
+
+        bool is_run_mode_desired() const;
+        void toggle_run_mode_desired();
+
+        bool is_crouch_mode_desired() const;
+        void toggle_crouch_mode_desired();
+
+        bool is_prone_mode_desired() const;
+        void toggle_prone_mode_desired();
+
 
         bool wield( item &it );
         bool wield( item_location loc, bool remove_old = true );
@@ -359,6 +406,8 @@ class avatar : public Character
         void log_activity_level( float level ) override;
         std::string total_daily_calories_string() const;
         //set 0-3 random hobbies, with 1 and 2 being twice as likely as 0 and 3
+        std::set<character_id> get_followers() const;
+        std::set<character_id> get_known_faction_representatives() const;
 
         int movecounter = 0;
 
@@ -373,10 +422,13 @@ class avatar : public Character
         vproto_id starting_vehicle = vproto_id::NULL_ID();
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;
+        std::set<character_id> faction_representatives;
 
         mutable bool aim_cache_dirty = true;
 
         const mood_face_id &character_mood_face( bool clear_cache = false ) const;
+
+        bool is_waiting_to_change_mode_mode();
 
     private:
         npc &get_shadow_npc();
@@ -385,7 +437,6 @@ class avatar : public Character
         std::string save_id;
 
         std::unique_ptr<map_memory> player_map_memory;
-        bool show_map_memory;
 
         friend class debug_menu::mission_debug;
         /**
@@ -404,9 +455,18 @@ class avatar : public Character
         /**
          * The currently active mission, or null if no mission is currently in progress.
          */
-        mission *active_mission;
         /**
-        * diary to track player progression and to write the players stroy
+        * Points of interest added by the player.
+        */
+        std::vector<point_of_interest> points_of_interest;
+
+        mission *active_mission;
+
+        point_of_interest active_point_of_interest;
+
+        void update_active_mission();
+        /**
+        * diary to track player progression and to write the players story
         */
         std::unique_ptr <diary> a_diary;
         /**
@@ -433,6 +493,8 @@ class avatar : public Character
 
         // true when the space is still visible when aiming
         mutable cata::mdarray<bool, point_bub_ms> aim_cache;
+
+        move_mode_id desired_move_mode;
 };
 
 avatar &get_avatar();

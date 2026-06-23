@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "cs_tire_shop" ],
-    "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -13,7 +12,7 @@
         "...~~y''''y~~''''''~~...",
         "...~~y''''y~e''''''~~...",
         "...~#ggggggg#======#g#..",
-        "...~# rrrrr eM-MM-M  #..",
+        "...~#§rrrrr eM-MM-M  #..",
         "...~#        M-MM-M A#..",
         "...~# rrrrr  M-MM-M A#..",
         "...~#        M-MM-M t#..",
@@ -21,12 +20,12 @@
         "...~#        M-MM-M t#..",
         "...~# rrrrr  M-MM-M A#..",
         "...~#        M-MM-M A#..",
-        "...~# rrrrr  MMMMMM  #..",
-        "...~D               m#..",
+        "...~# rrrrr  MMMMMM §#..",
+        "...~D   §           m#..",
         "....# cc||l|||| ||  Sg..",
         "....# ch|L C|Vv c|  Sg..",
         "....#   |L C|   c||D|#..",
-        "....#rrr|L C|hhhh|T S#4.",
+        "....#rrr|L§C|hhhh|T S#4.",
         "....#ggg#####gggg#####..",
         ".........u<ux...........",
         "........................"
@@ -76,15 +75,15 @@
         "C": { "item": "oa_ig_ts_crates", "chance": 50 },
         "T": { "item": "SUS_toilet", "chance": 50 }
       },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } },
       "place_loot": [ { "group": "cash_register_random", "x": 6, "y": 18 } ],
-      "add": [ { "item": "microwave", "x": 16, "y": 18, "chance": 2 }, { "item": "coffeemaker", "x": 16, "y": 19, "chance": 2 } ],
+      "place_item": [ { "item": "microwave", "x": 16, "y": 18, "chance": 2 }, { "item": "coffeemaker", "x": 16, "y": 19, "chance": 2 } ],
       "toilets": { "T": {  } },
       "place_signs": [ { "signage": "Discount Tires", "x": 22, "y": 1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cs_tire_shop_roof",
     "object": {
       "fill_ter": "t_flat_roof",

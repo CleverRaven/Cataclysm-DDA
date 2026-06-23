@@ -66,7 +66,10 @@ class profession
         itype_id no_bonus; // See profession::items and class json_item_substitution in profession.cpp
 
         // does this profession require a specific achiement to unlock
-        std::optional<achievement_id> _requirement;
+        std::vector<achievement_id> _requirements;
+        // does this profession require the requirement even when metaprogression is disabled?
+        bool hard_requirement = false;
+        bool _chargen_allow_npc = true;
 
         std::vector<addiction> _starting_addictions;
         std::vector<bionic_id> _starting_CBMs;
@@ -99,6 +102,7 @@ class profession
         profession();
 
         static void load_profession( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void load_item_substitutions( const JsonObject &jo );
 
         // these should be the only ways used to get at professions
@@ -129,21 +133,24 @@ class profession
         std::vector<matype_id> ma_known() const;
         std::vector<matype_id> ma_choices() const;
         bool allows_hobby( const string_id<profession> &hobby )const;
-        int ma_choice_amount;
+        int ma_choice_amount = 0;
         StartingSkillList skills() const;
         const std::vector<mission_type_id> &missions() const;
-        int age_lower = 21;
-        int age_upper = 55;
+        static constexpr int DEFAULT_PROF_AGE_LOWER = 21;
+        static constexpr int DEFAULT_PROF_AGE_UPPER = 55;
+        int age_lower = DEFAULT_PROF_AGE_LOWER;
+        int age_upper = DEFAULT_PROF_AGE_UPPER;
 
         std::vector<std::pair<string_id<profession>, mod_id>> src;
 
-        std::optional<achievement_id> get_requirement() const;
+        std::vector<achievement_id> get_requirements() const;
 
         std::map<spell_id, int> spells() const;
         void learn_spells( avatar &you ) const;
         std::vector<effect_on_condition_id> get_eocs() const;
         //returns the profession id
         profession_id get_profession_id() const;
+        bool has_hard_requirement() const;
 
         /**
          * Check if this type of profession has a certain flag set.
@@ -166,6 +173,7 @@ class profession
         ret_val<void> can_pick() const;
         bool is_locked_trait( const trait_id &trait ) const;
         bool is_forbidden_trait( const trait_id &trait ) const;
+        bool chargen_allow_npc() const;
         std::vector<trait_and_var> get_locked_traits() const;
         std::set<trait_id> get_forbidden_traits() const;
         trait_id pick_background() const;
@@ -182,6 +190,14 @@ struct profession_blacklist {
     static void reset();
     void load( const JsonObject &jo, std::string_view );
     void check_consistency() const;
+};
+
+
+struct profession_sorter {
+    bool sort_by_points = true;
+    bool male = false;
+    /** @related player */
+    bool operator()( const string_id<profession> &a, const string_id<profession> &b ) const;
 };
 
 #endif // CATA_SRC_PROFESSION_H

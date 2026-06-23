@@ -1,12 +1,12 @@
 # Design Docs
 
-These documents are for the lore basis and mechnical assumptions behind some of XEs systems. They contain heavy spoilers, obviously--if you're a player, don't read if you want to be surprised!
+These documents are for the lore basis and mechanical assumptions behind some of XEs systems. They contain heavy spoilers, obviously--if you're a player, don't read if you want to be surprised!
 
 ## The Principle of Supernatural Exclusivity
 
-Xedra Evolved has more types of playable supernatural with their own magic than any other CDDA mod, and it's a general principle that these are all exclusive. You cannot have a werewolf chronomancer, or a changeling mad genius, or a a gracken lilit. Most magickal powers require starting as having that power to develop it, and those who start with non-human power sources cannot learn human dream magick.
+Xedra Evolved has more types of playable supernatural with their own magic than any other CDDA mod, and it's a general principle that these are all exclusive. You cannot have a werewolf chronomancer, or a changeling mad genius, or a gracken lilit. Most magickal powers require starting as having that power to develop it, and those who start with non-human power sources cannot learn human dream magick.
 
-The exception to this is vampirism. Since vampirism is an infection, anyone can theoretically develop it (barring lilin or dhampirs who are immune), but becoming a vampire locks out previous supernatural powers. The lower tiers merely cannot learn new powers, but making the choice to become a full vampire removes all previous supernatural powers as the blood overwhelms everything.
+The exception to this is vampirism. Since vampirism is an infection, anyone can theoretically develop it (barring lilin, dhampirs, grackens and paraclesians who are immune), but becoming a vampire locks out previous supernatural powers. The lower tiers merely cannot learn new powers, but making the choice to become a full vampire removes all previous supernatural powers as the blood overwhelms everything.
 
 ## Timeline Differences from vanilla CDDA
 
@@ -21,13 +21,13 @@ TBD
 Cryptids are an assortment of unique beings and creatures that share a single thing: how hard they are to encounter.  Their abilities and motives are as unique as they are, and their origin is unclear.
 
 There are three ways to encounter a cryptid:
-- Find and examinate their tracks to locate that cryptid's lair.
+- Find and examine their tracks to locate that cryptid's lair.
 - Start as a cryptid hunter to get a map to a random cryptid.
 - Stumble upon their lair by pure chance.
 
 Guidelines to add a new cryptid:
 - All cryptids must be unique.  The player cannot encounter the same cryptid twice in the same world.
-- Adding a cryptid includes the addition of a lair terrain where they can be found, and a track terrain where the player can get directions to the lair by examinating a special tile.
+- Adding a cryptid includes the addition of a lair terrain where they can be found, and a track terrain where the player can get directions to the lair by examining a special tile.
 - The cryptid's lair is globally unique, while the track overmap cannot be found more than once per overmap.
 - Each cryptid have their own track and lair.  They do not share them.
 - There is no need for them to have loot.  You can make your new cryptid drop something, but it is not required.
@@ -40,10 +40,10 @@ Hedge Magick is designed to represent minor tricks and simple charms, things lik
 
 Principles of Hedge Magick:
 - Anyone can learn hedge magick. 
-- Hedge magick has no levels and does not fail. If you have the ingredients and appropriate conditions it succeeds, and if you don't it fails.
-- Hedge magick requires either components, particular conditions like a time of day or location, or (often) both.
+- Hedge magick has no levels and does not fail. If you have the ingredients and appropriate conditions it succeeds, and if you don't it can't be attempted at all.
+- Hedge magick requires either components, particular conditions like a time of day or location, extensive periods of time to enact, and occasionally all three.
 - Hedge magick requires extensive study to learn. Most hedge magick the survivor is likely to find developed from first principles by recluses and weirdos, and the survivor has to interpret those notes into a decipherable magickal formula.
-- Existing hedge magick was often developed by looking at real-world occultism, but this is less importan than keeping hedge magick's power level low--real-world occultists make some absolutely wild claims of their power.
+- Existing hedge magick was often developed by looking at real-world occultism, but this is less important than keeping hedge magick's power level low--real-world occultists make some absolutely wild claims of their power.
 
 Alchemy: TBD
 
@@ -59,7 +59,7 @@ Vampires gain new powers with time, intended to mimic the progression of a disea
 
 ### Blood Arts
 
-Blood Arts is the term for vampires' special abilities. With them, vampires can become stronger, faster, more resilient, have better senses, hypnotize or charm their prey, and eventually turn into wolf, bat, or mist.  More powerful vampires can also control darkness and shadows. The balance point for Blood Arts is intentionally set so that a vampires who uses several of them will either have to feed soon after to avoid the `withering` (the status penalties that come from being low on blood), or will have to gorge beforehand and become `blood_quenched` in order to have enough blood to use all the Blood Arts they want during combat.
+Blood Arts is the term for vampires' special abilities. With them, vampires can become stronger, faster, more resilient, have better senses, hypnotize or charm their prey, and eventually turn into wolf, bat, or mist.  More powerful vampires can also control darkness and shadows. The balance point for Blood Arts is intentionally set so that a vampire who uses several of them will either have to feed soon after to avoid the `withering` (the status penalties that come from being low on blood), or will have to gorge beforehand and become `blood_quenched` in order to have enough blood to use all the Blood Arts they want during combat.
 
 Principles of Blood Arts:
 - Blood Arts cost blood. Any secondary costs (mana, stamina, sleepiness, etc) are unnecessary. Use of their powers should require vampires to drink more blood.
@@ -67,6 +67,9 @@ Principles of Blood Arts:
 - Blood Arts do not have levels, and are not subject to failure based on power or skill level.
 - Blood Arts that turn on and remain on until turned off should be implemented as activatable mutations, so that there's a easy screen where the player can see what all is active and turn them on and off. Blood Arts which create an instant or temporary effect should be implemented as spells in the Supernatural Powers menu.
 - It is currently possible for a player to eventually learn every single available Blood Art, so be careful of unexpected synergies. 
+- Blood Art refinements are boosts to one or more Blood Arts.  They cannot be granted by the disease and must be gained through research.
+- They have their own research recipe and EOC, and are intended to be harder to research than regular Blood Arts.
+- When creating a refinement, there is more leeway to the "vampire-y" theme and scope than for regular Blood Arts.
 - New vampire powers need to be added to the vampire virus EoC (\Xedra_Evolved\effects\vampvirus.json) in order for vampires to learn them. If it's a power that a dhampir could also learn, they should also be added to the dhampir learning EoC (\Xedra_Evolved\mutations\dhampir_eocs.json)
 
 ### Vampire Anathema
@@ -90,7 +93,7 @@ If a power amplifies a base vampire trait, said trait is a prerequisite.  Gainin
 
 Drawbacks guidelines:
 -The high blood drain is an integral part of being an Anathema.  Amplifying vampirism also amplifies the thirst for blood and drives them to kill and drain as many as they can as their self-devouring vampire blood causes heightened depletion.  
--Player Anathema that has yet to reach the Anathema threshold have a total of six vampiric weaknesses.  A post-threshold player Anathema has a total of nine.  They can use the mentors' recipe to reshuffle them, but they cannot reduce how many weaknesses they have.
+-Player Anathema that have yet to reach the Anathema threshold have a total of six vampiric weaknesses.  A post-threshold player Anathema has a total of nine.  They can use the mentors' recipe to reshuffle them, but they cannot reduce how many weaknesses they have.
 -Gaining this threshold also grants one and only one of the Anathema-exclusive weaknesses.  If adding new ones, it is important that their gameplay impact is similar.  This weakness is permanent and cannot be reshuffled, so there mustn't be a weakness that is overall better or worse than the others.
 
 This path is incompatible with regular mutation thresholds.  The player cannot gain access to the anathema mutations if they already have a threshold, and the trait granting this access prevents gaining any other threshold.  Mutating is still possible, but the player will have to pick between regular thresholds and boosting their vampirism through this method.
@@ -99,7 +102,7 @@ This path is incompatible with regular mutation thresholds.  The player cannot g
 
 Dhampirs are the children of a lower-tier vampire, one who has not yet made the awful choice to become an undead monster, and a mortal (or, rarely, another lower-tier vampire). They inherit a portion of vampire power but also some vampiric weaknesses. Dhampirs are innately capable of sensing both vampires and renfields, and will sometimes become vampire hunters because they cannot help but be aware of the threat.
 
-Dhampirs naturally regenerate the blood vitamin uses to power their Blood Arts, but intentionally do so very slowly. The dhampir gameplay loop is designed to always tempt to them drink blood for power, to facilitate the "am I a man, or a monster?" question that often plagues fictional dhampirs, but also punish them in turn if they do. Dhampirs gain two weaknesses from a set of thematically-appropriate ones, but if they've ever drunk blood--even once--this list is expanded and they become eligible for more total weaknesses.
+Dhampirs naturally regenerate the blood vitamin used to power their Blood Arts, but intentionally do so very slowly. The dhampir gameplay loop is designed to always tempt to them drink blood for power, to facilitate the "am I a man, or a monster?" question that often plagues fictional dhampirs, but also punish them in turn if they do. Dhampirs gain two weaknesses from a set of thematically-appropriate ones, but if they've ever drunk blood--even once--this list is expanded and they become eligible for more total weaknesses.
 
 Dhampirs can use tier 1, 2, and 3 Blood Arts, though they should not have any shapeshifting or Blood Arts that rely on the vampire being undead (such as falling off a ten-story building and taking no damage). 
 
@@ -124,7 +127,7 @@ Principles of Werewolf powers:
 - Werewolf powers have a chance to fail based entirely on the pain the werewolf is suffering from. Since werewolves regenerate, this means that while they can be in a very difficult situation if they're at high pain, they merely need to wait a few minutes to return to 0 chance to fail. 
 - Werewolf powers revolve around changing form and hunting prey. They generally cannot bring their metaphysical might to bear in situations that require stealth or diplomacy, though some exceptions exist. 
 
-Werewolves gain new powers by killing enemies in barehand combat. The wolf must hunt.
+Werewolves gain new powers by killing enemies in barehanded combat. The wolf must hunt.
 
 ## The Fair Folk
 
@@ -140,13 +143,13 @@ Paraclesians are based on the elements: Sylphs for air, Ierde for earth, Undines
 
 Paraclesians are the eldest and original Fair Folk, born from the "dreams" of natural features like mountains and rivers. They spring to life fully formed, but with little power, and their parents often place them outside the Bright Lands to grow up. Those Paraclesians who survive and manage to make it back home are considered adults. 
 
-Paralecian magick is heavily themed and also grows much stronger when in an appropriate place of power (in the wilderness away from cities for Arvore, underground for Ierde, and so on) and much weaker when in an opposite place (underground for Sylph, in the cold for Salamanders, etc). At the moment it has levels and requires practice, but this is undesirable--the Fair Folk are magical beings and should not need to practice their spells like human wizards. All Paraclesians can transform into the embodiment of their element, and all of them transform into more pure elemental forms as they grow in power.
+Paralecian magick is heavily themed and also grows much stronger when in an appropriate place of power (in the wilderness away from cities for Arvore, underground for Ierde, and so on) and much weaker when in an opposite place (underground for Sylph, in the cold for Salamanders, etc). While elemental magick has levels, level does not determine its power, only the ability to learn new spells. Power is determined by Deduction skill and the number of spells the Paraclesian knows, along with attribute-based modifiers.
 
 Each Paraclesian has their own design sensibilities:
 - Arvore: Arvore powers relate to plants, nature, and growing things. Their magic allows them to become more plantlike, encourage plant growth, draw sustenance from soil and sunlight, and so on. While Arvore do have damaging spells, they mostly only affect plants and zombies, and then not generally in a magical bolt instant-damage fashion, since damage-over-time is much more similar to how nature works. Arvore deliberately have no powers that affect animals. The mortal need Arvore can overcome is requiring food and drink.
 - Homullus: Homullus powers relate to humanity, tools, cities and knowledge.  They have abilities related to managing humans and formerly human creatures such as ferals, renfields, etc.  Currently not implemented but they should be incredibly effective at dealing with cyborgs and some abilities related to interacting with robots (as tools created by humans).  They have the ability to install CBMs or even choose to limit their Paraclesian abilities by pursuing a mutation path created by humans.  The mortal need that Homullus can overcome is anything that limits their ability to make choices such as mind control. Homullus are also, uniquely, not bothered by iron.
 - Ierde: Ierde powers relate to resilience, preservation, and the manipulation of earth and stone. They are designed less to destroy their enemies with magick and more to slow them, redirect them, and simply outlast them (though since only the player has stamina this works less well than it could). The mortal need Ierde can overcome is sensitivity to pain and tiredness (stamina, not sleepiness). 
-- Salamander: Salamanders are the most innately destructive of the Paraclesians, though their magick also invokes the way forests regrow after a forest fire. Their magick allows them to move quickly and set everything on fire (though they are deliberately designed without an "I cast fireball" equivalent), with some associatons with the heat of the forge and with light. The mortal need Salamander can overcome is need for water or sleep, though part of their design is that they need much more extra food (as fuel, so to speak)
+- Salamander: Salamanders are the most innately destructive of the Paraclesians, though their magick also invokes the way forests regrow after a forest fire. Their magick allows them to move quickly and set everything on fire (though they are deliberately designed without an "I cast fireball" equivalent), with some associations with the heat of the forge and with light. The mortal need Salamander can overcome is need for water or sleep, though part of their design is that they need much more extra food (as fuel, so to speak)
 - Sylph: Sylph powers relate to wind, lightning, and the weather (weather currently unimplemented). Their powers allow them to breathe without air, affect the morale of enemies and friends, conjure up blasts of lightning, and control the air around them. The mortal need Sylphs can overcome is being tied down, in both the literal gravity sense and the metaphorical snares or entanglements sense.
 - Undine: Undine powers relate to water and acid, as well as the transformation of liquids.  Undines are slightly different because by default they do not need to drink water and heal when in water, but many of their powers have a thirst cost so they can become thirsty by using their magic. They can also regain thirst automatically when underwater, so the push-pull of Undine powers is making sure to never be so far from water that they can't top up when necessary.
 
@@ -156,7 +159,7 @@ Paraclesians gain their powers by spending time in their native environments, th
 
 Changelings are originally the offspring of pairings between mortals and elemental fae in the unremembered past, which occurred often enough that their descendants formed a new stable population. While they do sometimes still swap mortal babies for fae babies, the name "changeling" as a collective is used for convenience and most changelings are born and grow up Under the Hill.
 
-The Fair Folk make a habit of making offers to mortals to come back to the Elflands with them, especially on worlds that have undergone or are about to undergo a Cataclysm. The reason for this is that changeling magic relies on mortal dreams for power, which means they need mortals on hand to dream for them. The degree to which they are willing to coerce mortals into this arragement varies based on the individual changeling but the temptation is always there. They will not bring anyone to the Elflands who has not sworn some sort of agreement with them, and for this reason the Exodii are wary to antagonistic towards them. 
+The Fair Folk make a habit of making offers to mortals to come back to the Elflands with them, especially on worlds that have undergone or are about to undergo a Cataclysm. The reason for this is that changeling magic relies on mortal dreams for power, which means they need mortals on hand to dream for them. The degree to which they are willing to coerce mortals into this arrangement varies based on the individual changeling but the temptation is always there. They will not bring anyone to the Elflands who has not sworn some sort of agreement with them, and for this reason the Exodii are wary to antagonistic towards them. 
 
 Changelings are divided into two great courts, the Summer (or Seelie) Court and the Winter (or Unseelie) Court. The Summer Court is more benevolent to mortals (Lady Boann is Summer Court), but that does not mean they are nice. Changelings are also divided into two broad types, nobles and commoners. Nobles are more magically powerful, but commoners have individual tricks that the nobles cannot copy with their magic, such as the selkies' facility with weather control or brownies' ability to speed crafting when unobserved.
 
@@ -170,11 +173,11 @@ The following types of changelings exist or are planned:
 - Selkies: Based on the seal-folk of Northern Europe. They can control the weather and exist without penalty in water, and are beguiling to mortals.
 - Trow: Based on coblyns and knockers. Their abilities relate to the earth and mining.
 
-Currently, changelings gain their powers in a stready drip of 1 per 5-7 days. It is intended that they accomplish various deeds to gain their powers, but it is currently unimplemeneted.
+Currently, changelings gain their powers in a steady drip of 1 per 8-10 days. There are a small number of various deeds that each changeling can accomplish to gain more powers, which will be expanded over time. Deeds should generally be in-theme, such as how pooka deeds involve the wilderness, trow deeds involve mining and the underground, etc. Repeatable deeds are possible, but should be tasks that require effort: the only currently repeatable deeds are killing a March Lord and closing a shadow wound.
 
 #### Seasonal Magick
 
-Changeling magic is based on the seasons. Each changeling (except nobles) can pick one path, with their initial choice determined by their court (Spring or summer for the Summer Court, fall or autumn for the Winter Court). Nobles can pick a second season after their first, and this second season does not have to respect their court choice. Each season has its own themes for its glamours:
+Changeling magic is based on the seasons. Each changeling (except nobles) can pick one path, with their initial choice determined by their court (Spring or summer for the Summer Court, autumn or winter for the Winter Court). Nobles can pick a second season after their first, and this second season does not have to respect their court choice. Each season has its own themes for its glamours:
 
 - Autumn: Fear, decay, the harvest, preservation, fog, colors, home and the hearth
 - Spring: Plants, growth, healing, rain, creativity, and love
@@ -204,10 +207,10 @@ Principles of lilin powers:
 - Lilin powers should, where possible, have their names taken from passages from the Hebrew Bible or related literature (The Book of Enoch, The Book of Tobit, etc)
 - Lilin should not have any powers that make them physically tougher. Their strengths are in stealth and evasion. 
 - Lilin should not have any damaging power with big up-front damage. Like a disease, they rely on enervating their targets until they're so weak they are easy to kill. However, they can increase the severity of existing diseases. 
-- Lilin can use their ruach to weave beautiful illusions around themselves (at night), they need to use their own words to persuade.
+- Lilin can use their ruach to weave beautiful illusions around themselves (at night), but they need to use their own words to persuade.
 - Like Blood Arts, lilin powers that turn on and remain on until turned off should be implemented as activatable mutations, and powers which create an instant or temporary effect should be implemented as spells in the Supernatural Powers menu.
 
-Lilin gain new powers by dedicating some ruach to power reseach. They can only possibly gain new powers when outside under the moonlight (currently implemented as just outside at night), where periodic power-gaining rolls are made. 
+Lilin gain new powers by dedicating some ruach to power research. They can only possibly gain new powers when outside under the moonlight (currently implemented as just outside at night), where periodic power-gaining rolls are made. 
 
 ## Gracken
 

@@ -336,7 +336,7 @@
         "require_targeting_monster": true,
         "targeting_cost": 10,
         "targeting_timeout_extend": -1,
-        "targeting_sound": "\"Hostile Detected.\"",
+        "targeting_sound": "\"Hostile detected.\"",
         "targeting_volume": 10
       },
       {
@@ -355,7 +355,7 @@
         "require_targeting_monster": true,
         "targeting_cost": 10,
         "targeting_timeout_extend": -1,
-        "targeting_sound": "\"Hostile Detected.\"",
+        "targeting_sound": "\"Hostile detected.\"",
         "targeting_volume": 10
       }
     ],
@@ -418,7 +418,7 @@
         "require_targeting_monster": true,
         "targeting_cost": 10,
         "targeting_timeout_extend": -1,
-        "targeting_sound": "\"Hostile Detected.\"",
+        "targeting_sound": "\"Hostile detected.\"",
         "targeting_volume": 10
       },
       {
@@ -437,7 +437,7 @@
         "require_targeting_monster": true,
         "targeting_cost": 10,
         "targeting_timeout_extend": -1,
-        "targeting_sound": "\"Hostile Detected.\"",
+        "targeting_sound": "\"Hostile detected.\"",
         "targeting_volume": 10
       }
     ],
@@ -503,6 +503,7 @@
     "weight": "386 kg",
     "hp": 120,
     "speed": 200,
+    "weakpoint_sets": [ "wps_animal_quadruped", "wps_vital_organs", "wps_eyes" ],
     "material": [ "flesh" ],
     "symbol": "M",
     "color": "brown",
@@ -625,7 +626,13 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
+    "weakpoint_sets": [
+      "wps_humanoid_body",
+      "wps_vital_organs",
+      "wps_humanoid_body_armor",
+      "wps_humanoid_open_helmet",
+      "wps_humanoid_gasmask"
+    ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "vision_day": 30,
     "vision_night": 3,
@@ -835,7 +842,7 @@
     "extend": {
       "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
       "families": [ "prof_wp_syn_armored" ],
-      "flags": [ "ELECTRIC" ]
+      "flags": [ "ELECTRIC", "INFRARED_VISION" ]
     }
   },
   {

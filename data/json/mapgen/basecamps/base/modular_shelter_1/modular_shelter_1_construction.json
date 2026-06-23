@@ -31,7 +31,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_shelter_1_bedroom_NW",
     "object": {
       "parameters": {
@@ -62,12 +61,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_bedroom_NW",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_1_bedroom_NW" ], "x": 8, "y": 8 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_shelter_1_bedroom_W1",
     "object": {
       "parameters": {
@@ -98,12 +95,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_bedroom_W1",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_1_bedroom_W1" ], "x": 5, "y": 10 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_shelter_1_bedroom_W2",
     "object": {
       "parameters": {
@@ -134,12 +129,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_bedroom_W2",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_1_bedroom_W2" ], "x": 5, "y": 13 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_shelter_1_bedroom_W3",
     "object": {
       "parameters": {
@@ -169,7 +162,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_shelter_1_bedroom_SW",
     "object": {
       "parameters": {
@@ -201,7 +193,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_bedroom_SW",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmc_shelter_1_bedroom_SW" ], "x": 5, "y": 19 },
@@ -211,7 +202,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_shelter_1_bedroom_S1",
     "object": {
       "parameters": {
@@ -242,7 +232,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_shelter_1_bedroom_S2",
     "object": {
       "parameters": {
@@ -272,7 +261,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_1_bedroom_S",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmc_shelter_1_bedroom_S1" ], "x": 8, "y": 19 },

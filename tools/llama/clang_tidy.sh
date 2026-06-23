@@ -14,13 +14,18 @@ else
 fi
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-top_dir="$(dirname "$script_dir")"
+top_dir="$(dirname "$(dirname "$script_dir")")"
+build_dir=${CATA_BUILD_DIR:-build}
+case "$build_dir" in
+    /*) ;;
+    *) build_dir="$top_dir/$build_dir" ;;
+esac
 
-list_of_files=$(grep '"file": "' build/compile_commands.json | \
-    sed "s+.*$PWD/++;s+\"$++" | \
-    egrep "$file_regex")
+list_of_files=$(grep '"file": "' "${build_dir}/compile_commands.json" | \
+    sed "s+.*$PWD/++" | sed 's+"$++' | \
+    grep -E "$file_regex")
 
-plugin_lib="$top_dir/build/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so"
+plugin_lib="${build_dir}/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so"
 plugin_opt=
 if [ -r "$plugin_lib" ]
 then

@@ -29,6 +29,7 @@
       "-": "t_door_metal_locked",
       "4": "t_gutter_downspout",
       ".": "t_thconc_floor",
+      "Ł": "t_thconc_floor",
       "d": "t_region_groundcover_barren",
       "^": [ [ "t_thconc_floor", 10 ], "t_region_soil" ],
       " ": { "param": "lawn_type", "fallback": "t_region_groundcover_forest" },
@@ -51,11 +52,11 @@
         { "item": "misc_smoking", "chance": 1 }
       ]
     },
+    "vehicles": { "Ł": { "vehicle": "hand_truck", "chance": 40 } },
     "nested": { "|": { "chunks": [ [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] } }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -92,7 +93,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -131,7 +131,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_1",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -148,7 +147,7 @@
         "    d|..............|d  ",
         "    d|.............<|d  ",
         "    d|^.............|d  ",
-        "    d|..^...........|d  ",
+        "    d|..^..........Ł|d  ",
         "    d|...^.^....||o||d  ",
         "    d|^..^......w#..|d  ",
         "    d|O.O..^....w#..|d  ",
@@ -174,7 +173,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_1_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -217,7 +215,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_2",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -230,7 +227,7 @@
         "      aaa               ",
         "   dddaaadddddddddd     ",
         "   d|||+||||||||||d     ",
-        "   d|....^...^..{|d     ",
+        "   d|Ł...^...^..{|d     ",
         "   d|......^....{|d     ",
         "   d|..^..^...^..|d     ",
         "   d|.......^....|d     ",
@@ -239,7 +236,7 @@
         "   d|.X^X.X.X.X..|aa    ",
         "   d|...........^|aa    ",
         "   d|.X.X.X.X.X..Daa    ",
-        "   d|....^.......|aa    ",
+        "   d|....^......Ł|aa    ",
         "   d|.X.X.X.X.X..|aa    ",
         "   4|........^...|d     ",
         "   d||||||||||||||d     ",
@@ -272,7 +269,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_2_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -310,7 +306,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_3",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -321,7 +316,7 @@
         "           aa+..#c|d    ",
         "  dddddddddaa|^...|d    ",
         "  d||||||||||||D|||d    ",
-        "  d|.X^X.X.X......|d    ",
+        "  d|ŁX^X.X.X......|d    ",
         "  d|.X.X.X.X...^..|d    ",
         "  d|.............{|d    ",
         "  d|............^{|d    ",
@@ -348,7 +343,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_3_roof",
     "object": {
       "fill_ter": "t_tile_flat_roof",
@@ -401,7 +395,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_4",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -412,10 +405,10 @@
         "              aaa       ",
         "      ddddddddaaaddddd  ",
         "      d||||||||+|||||d  ",
-        "      d|............|d  ",
+        "      d|...........Ł|d  ",
         "      d|...........^|d  ",
         "    aaa|......^.....|d  ",
-        "    aaa|..^.........|d  ",
+        "    aaa|Ł.^.........|d  ",
         "    aaa|.........^.^|d  ",
         "    aaa+......^.....|d  ",
         "    aaa|..{.........|d  ",
@@ -443,7 +436,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_4_roof",
     "object": {
       "fill_ter": "t_tile_flat_roof",

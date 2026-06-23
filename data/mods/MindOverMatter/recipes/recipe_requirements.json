@@ -68,6 +68,11 @@
     "extend": { "tools": [ [ [ "pyrokinetic_torch_weld", -1 ] ] ] }
   },
   {
+    "id": "repair_welding_lc_steel",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_torch_weld", -1 ] ] ] }
+  },
+  {
     "id": "bullet_forming",
     "type": "requirement",
     "tools": [

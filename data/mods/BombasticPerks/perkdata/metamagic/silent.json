@@ -1,13 +1,13 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_metamagic_toggle_silent",
-    "condition": { "compare_string": [ "yes", { "u_val": "perk_metamagic_silent_deactivated" } ] },
+    "id": "EOC_metamagic_toggle_silent_on",
+    "effect": [ { "u_add_var": "perk_metamagic_silent_deactivated", "value": "no" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_toggle_silent_off",
     "effect": [
-      { "u_message": "You activate your silent metamagic" },
-      { "u_add_var": "perk_metamagic_silent_deactivated", "value": "no" }
-    ],
-    "false_effect": [
       { "u_message": "You deactivate your silent metamagic" },
       { "u_add_var": "perk_metamagic_silent_deactivated", "value": "yes" }
     ]
@@ -24,8 +24,15 @@
       ]
     },
     "effect": [
-      { "math": [ "u_spellcasting_adjustment('sound', 'flag_blacklist': 'CONSUMES_RUNES' ) = -1" ] },
-      { "math": [ "u_spellcasting_adjustment('cost', 'flag_blacklist': 'CONSUMES_RUNES' ) = 0.2" ] }
+      { "math": [ "u_spellcasting_adjustment('sound', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' ) = -1" ] },
+      {
+        "math": [ "u_spellcasting_adjustment('cost', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' ) = 0.2" ]
+      },
+      {
+        "math": [
+          "u_spellcasting_adjustment('cost', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES', 'flag_whitelist': 'SILENT' ) = -0.2"
+        ]
+      }
     ]
   }
 ]

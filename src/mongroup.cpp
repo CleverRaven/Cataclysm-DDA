@@ -4,12 +4,12 @@
 #include <string>
 #include <utility>
 
-#include "assign.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "flexbuffer_json.h"
+#include "generic_factory.h"
 #include "mtype.h"
 #include "options.h"
 #include "rng.h"
@@ -554,7 +554,9 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
     g.replace_monster_group = jo.get_bool( "replace_monster_group", false );
     g.new_monster_group = mongroup_id( jo.get_string( "new_monster_group_id",
                                        mongroup_id::NULL_ID().str() ) );
-    assign( jo, "replacement_time", g.monster_group_time, false, 1_days );
+    if( jo.has_member( "replacement_time" ) ) {
+        mandatory( jo, false, "replacement_time", g.monster_group_time, time_bound_reader{ 1_days } );
+    }
     g.is_safe = jo.get_bool( "is_safe", false );
 
     g.freq_total = jo.get_int( "freq_total", ( extending ? g.freq_total : 0 ) + freq_total );

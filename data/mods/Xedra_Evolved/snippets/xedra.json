@@ -40,39 +40,39 @@
     "category": "desk_postit_field_agent",
     "text": [
       {
-        "name": "green postit 1",
+        "name": "green post-it note",
         "id": "desk_postit_field_agent_1",
         "text": "Remember to make the mortgage payment every month by the 5th!"
       },
-      { "name": "green postit 2", "id": "desk_postit_field_agent_2", "text": "Password: J@ckboot1" },
+      { "name": "green post-it note", "id": "desk_postit_field_agent_2", "text": "Password: J@ckboot1" },
       {
-        "name": "green postit 3",
+        "name": "green post-it note",
         "id": "desk_postit_field_agent_3",
         "text": "Call neighbors and try to identify date the McFarland's went missing."
       },
       {
-        "name": "green postit 4",
+        "name": "green post-it note",
         "id": "desk_postit_field_agent_4",
         "text": "Cultists?  Foreign Agents?  Pod people?"
       },
-      { "name": "green postit 5", "id": "desk_postit_field_agent_5", "text": "Carcosa?  Leng?" },
-      { "name": "green postit 6", "id": "desk_postit_field_agent_6", "text": "Delta Green?  Majestic 12?" },
+      { "name": "green post-it note", "id": "desk_postit_field_agent_5", "text": "Carcosa?  Leng?" },
+      { "name": "green post-it note", "id": "desk_postit_field_agent_6", "text": "Delta Green?  Majestic 12?" },
       {
-        "name": "green postit 7",
+        "name": "green post-it note",
         "id": "desk_postit_field_agent_7",
         "text": "Surveillance to continue on home until Jamison returns."
       },
       {
-        "name": "green postit 8",
+        "name": "green post-it note",
         "id": "desk_postit_field_agent_8",
         "text": "Suspect appears to have hung from the ceiling waiting for the Smith's to return home."
       },
       {
-        "name": "green postit 9",
+        "name": "green post-it note",
         "id": "desk_postit_field_agent_9",
         "text": "Local doctor said it looked like viral cancer similar to some stories he'd seen out of Tazmania."
       },
-      { "name": "green postit 10", "id": "desk_postit_field_agent_10", "text": "Requisition heavier weaponry" }
+      { "name": "green post-it note", "id": "desk_postit_field_agent_10", "text": "Requisition heavier weaponry" }
     ]
   },
   {
@@ -80,48 +80,48 @@
     "category": "agent_postit_gray",
     "text": [
       {
-        "name": "gray postit 1",
+        "name": "gray post-it note",
         "id": "agent_postit_gray_1",
         "text": "Several of the victims appear to have been exsanguinated and the others were killed while they fled.  Suspicion that the first victims in the club were killed by exsanguination and only upon their death did the other club goers recognize the danger and attempt to flee."
       },
       {
-        "name": "gray postit 2",
+        "name": "gray post-it note",
         "id": "agent_postit_gray_2",
         "text": "Every scene is permeated by the smell of rosemary and mint.  All victims set on fire after their death."
       },
       {
-        "name": "gray postit 3",
+        "name": "gray post-it note",
         "id": "agent_postit_gray_3",
         "text": "Three different types of shapechangers found in the last month?  Separate successful experiments from one power or different incursions that we should expect more from each type?"
       },
       {
-        "name": "gray postit 4",
+        "name": "gray post-it note",
         "id": "agent_postit_gray_4",
         "text": "Does Danvers State have room for more guests?"
       },
       {
-        "name": "gray postit 5",
+        "name": "gray post-it note",
         "id": "agent_postit_gray_5",
         "text": "Field Office in Utah was recently hit by some kind of strike team unsure if it was a foreign squad trying to grab something specific or if they had attracted the attention of other forces that decided to cross over."
       },
-      { "name": "gray postit 6", "id": "agent_postit_gray_6", "text": "Need more armor piercing rounds." },
+      { "name": "gray post-it note", "id": "agent_postit_gray_6", "text": "Need more armor piercing rounds." },
       {
-        "name": "gray postit 7",
+        "name": "gray post-it note",
         "id": "agent_postit_gray_7",
         "text": "Victims found decapitated and staked.  Send bodies out for autopsy."
       },
       {
-        "name": "gray postit 8",
+        "name": "gray post-it note",
         "id": "agent_postit_gray_8",
         "text": "Folklore says to burn any remains and then scatter the ashes in running water."
       },
       {
-        "name": "gray postit 9",
+        "name": "gray post-it note",
         "id": "agent_postit_gray_9",
         "text": "Shapeshifter Suspect is *NOT* allergic to salt."
       },
       {
-        "name": "gray postit 10",
+        "name": "gray post-it note",
         "id": "agent_postit_gray_10",
         "text": "Call requisitions to find out about silver rounds?"
       }
@@ -132,32 +132,32 @@
     "category": "agent_postit_migo",
     "text": [
       {
-        "name": "pink postit 1",
+        "name": "pink post-it note",
         "id": "agent_postit_migo_1",
         "text": "Any missions that end up discovering 'mi-go' class aliens require approval from an external agency before engagement."
       },
       {
-        "name": "pink postit 2",
+        "name": "pink post-it note",
         "id": "agent_postit_migo_2",
         "text": "Aliens are mirrorshades territory, and you know how they feel about us. Cowboys and adventurers they call us."
       },
       {
-        "name": "pink postit 3",
+        "name": "pink post-it note",
         "id": "agent_postit_migo_3",
         "text": "Off books, there are bonuses available to any agent that is able to execute any 'mi-go' and make it disappear."
       },
       {
-        "name": "pink postit 4",
+        "name": "pink post-it note",
         "id": "agent_postit_migo_4",
         "text": "Memo: Several agents appear to have broken protocols and gone rogue in regards to mi-go interactions.  They have been missing for three weeks and became presumed dead after pieces of their bodies totalling 30% of their weight had been mailed home in individual packages."
       },
       {
-        "name": "pink postit 5",
+        "name": "pink post-it note",
         "id": "agent_postit_migo_5",
         "text": "They seem to be here to take captives and animals to go back to their homeworld/s."
       },
       {
-        "name": "pink postit 6",
+        "name": "pink post-it note",
         "id": "agent_postit_migo_6",
         "text": "Off books, we need more intel on the mirrorshades so we can avenge Tony, Martell, and Picarelli."
       }
@@ -168,19 +168,60 @@
     "category": "border_patrol_files",
     "text": [
       {
-        "name": "incursion_zero",
+        "name": "incursion zero",
         "id": "incursion_zero_report",
         "text": "Date: 07/13/2008\nLocation: Old Cain Springs, Kentucky\nIncident: Faerie Incursion\nDescription: Our department has received reports of strange occurrences in the area, including sightings of small, barkskinned creatures that match the description of faeries from folklore.  Witnesses have reported missing objects, strange noises, and unexplained lights in the vicinity.\nResponse: Our team has been dispatched to the area to investigate.  We are working closely with local law enforcement and other relevant agencies to determine the nature of the incursion and to neutralize any potential threats.  We advise residents to stay indoors and report any suspicious activity to the authorities.\nStatus: The situation is ongoing.  We have set up a temporary command center in the area and are conducting a thorough investigation.  Our team is equipped with specialized equipment to detect and track interdimensional activity.  We will provide further updates as the situation develops.\nRecommendation: Based on our findings, we recommend that the area be designated as a potential hotspot for interdimensional activity.  We suggest that ongoing surveillance and monitoring be put in place to ensure the safety of local residents and to prevent any further incursions.  We also recommend that education programs be put in place to help residents understand the nature of these creatures and how to avoid potential conflicts."
       },
       {
-        "name": "abduction_report",
+        "name": "abduction report",
         "id": "abduction_report_1",
         "text": "Date: 07/25/2008\nLocation: Old Cain Springs, Kentucky\nIncident: Abduction of Locals\nDescription: Our team has received reports of several local residents who have gone missing under mysterious circumstances.  Witnesses have reported seeing small, floating lights in the area around the time of the disappearances, leading us to believe that fae-class cryptids may be involved.\nResponse: Our team has launched a full investigation into the matter, working in close coordination with local law enforcement.  We have engaged significant animal based tracking resources, and are gathering intelligence from witnesses and other sources to build a comprehensive picture of the situation.\nStatus: The situation is ongoing.  At this time, we have not been able to locate the missing individuals or definitively establish the involvement of fae-class cryptids.  However, we are actively pursuing all leads and are dedicating significant resources to this investigation.\nRecommendation: Based on our findings to date, we recommend that the area be designated as a high-risk zone for fae cryptid activity.  We urge all residents to exercise caution and report any suspicious activity to the authorities.  Additionally, we recommend that public awareness campaigns be initiated to educate the public about the potential dangers of fae cryptids and how to avoid potential conflicts.  Our team will continue to provide updates as the investigation progresses."
       },
       {
-        "name": "lights_in_swamp_report",
+        "name": "lights in swamp report",
         "id": "lights_in_swamp_report",
         "text": "Date: 04/29/2016\nLocation: Norton, Massachusetts wetlands\nIncident: Strange lights and sounds in bogs at night\nDescription: Sam 'Goatman' Simmons, has reported numerous strange lights and sounds emanating from the bogs on the northern edge of Norton, MA on the way to Rehobeth.  He'd been drinking and walking his goat late one night and as he neared the edge of the wetlands he heard strange music and multicolored lights.  He suspected one of his neighbors who's property adjoined the bog of throwing a party but after walking around the edges he couldn't figure out how to get through the various streams and ponds to get to it.  Finally at some point, he remembered stories his grandparents had told about people going missing in the bogs and decided to go home and call the police.  The police passed it on to the Border Patrol who investigated for dimensional spillage.  While they were unable to find any cryptids or artifacts at the bogs, they measured a weakness in reality that suggests that the stories might have basis in fact.  Border Patrol left emergency contact information with the local police in the event of any future incursions."
+      },
+      {
+        "name": "vilna shul letter",
+        "id": "vilna_shul_letter",
+        "text": "During our investigation of a series of illnesses befalling the Beacon Hill community we received this a letter from a local rabbi containing the following quote\n'Rav Pappa said: We hold that a lion does not pounce upon two people.  The Gemara challenges this: But how can that be?  We see that it does pounce upon two people.  The Gemara answers: That statement of Rav Pappa must be in accordance with that which Rami bar Abba said: An animal does not overpower a person until he appears to it as an animal, as it is stated: 'But man does not abide in honor, he is like the beasts that perish' (Psalms 49:13).  However, animals do not attack people who are human in their spiritual character.  In a similar vein, Rabbi Ḥanina said: It is prohibited to sleep alone in a house, and anyone who sleeps alone in a house will be seized by the evil spirit Lilith.'\n None of the victims were suffering their maladies any longer and none of them would speak further to our agents.  Does this have any relevance to the case Rosenberg was talking about?  Needs further investigation."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "bloodthorne_druid_vampire_report",
+    "text": [
+      {
+        "id": "bloodthorne_vampire_1",
+        "name": "Field Report Red Twilight 34",
+        "text": "Field Report Red Twilight 34: Discovered a partially burnt cabin in the Freetown-Fall River State Forest with multiple sets of victims.  A significant number of victims dating back at least 80 years and then three bodies belonging to what we believe were the owners of the cabin and likely perpetrators of the prior murders and finally a body buried a mile away from the cabin likely belonging to the group that attacked and killed the cabin owners."
+      },
+      {
+        "id": "bloodthorne_vampire_2",
+        "name": "Exhumation Report: Red Twilight 34-a1:",
+        "text": "Exhumation Report: Red Twilight-a1: Dozens of victims with the oldest identified dating back to the Great Depression.  Comparing to missing persons reports from nearby towns a number of bodies were identified as wearing clothes the missing was last seen in.  The bodies were buried in a group of pits that were clearly dug up repeatedly over the years to add new bodies to.  The most recent body was two weeks old and had developed grave wax preserving evidence of the exsanguination."
+      },
+      {
+        "id": "bloodthorne_vampire_3",
+        "name": "Exhumation Report: Red Twilight 34-a2:",
+        "text": "Exhumation Report: Red Twilight 34-a2: The three bodies of the cabin residents did not appear to be related to one another but there were pictures and portraits of them alone and together throughout the cabin.  The one with the youngest appearance had portraits demonstrating the oldest style of dress and then as the portraits and then pictures become more modern first the woman and then the other man begin appearing.  The few features all three had in common were retractable fangs in the roof of the mouth and a mummification of all organs save the heart, which appeared to be more efficient at pumping blood.  Finally all three had significant wounds consistent with being whipped with thorny vines, though where you would find vines strong enough with thorns large enough to deal fatal wounds is unknown."
+      },
+      {
+        "id": "bloodthorne_vampire_4",
+        "name": "Exhumation Report: Red Twilight 34-a3:",
+        "text": "Exhumation Report: Red Twilight 34-a3: The final body was located at a gravesite over a mile away.  This corpse appeared to have some kind of symbiotic or parasitic bonding with a vine growing inside of the body.  It has sharp retractable thorns that pop out after the coiled vine is removed from the body.  There were scars on the body where it looked as though thorns from the vine had stitched together particularly nasty wounds.  Given the difference in how this body was buried and the distance from the cabin, we suspect that this body belonged to one of the attackers who killed the cabin inhabitants.  His companions finished the battle and then carried him away for a quiet burial."
+      },
+      {
+        "id": "bloodthorne_vampire_5",
+        "name": "Field Report Red Twilight 34 b-1",
+        "text": "Summary: We suspect that the cabin was inhabited by vampires similar to ones we have found elsewhere though either this group was particularly prone to murdering their blood donors or other vampires we've discovered are much more adept at disposing of bodies in ways that can't be tied back to them.  We will need to have further investigation into this subject.  The man infested with vines however is unlike anything else we've encountered before.  Appearing to be a normal human, his body contained significant secrets.  Organs and features from both the plant and animal kingdoms not found in humans were discovered during the autopsy and review of cellular material."
+      },
+      {
+        "id": "bloodthorne_vampire_6",
+        "name": "Field Report Red Twilight 34 b-2",
+        "text": "Summary (cont): In conclusion we appear to have stumbled upon some kind of factional war between the blood drinkers and the possessors of these symbiotic vines.  Is this a  turf squabble between two local groups or is this something larger?"
       }
     ]
   }

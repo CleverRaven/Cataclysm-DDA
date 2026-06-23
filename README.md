@@ -23,25 +23,32 @@ Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalypt
 
 #### Arch Linux
 
-Ncurses and tiles versions are available in the [community repo](https://www.archlinux.org/packages/?q=cataclysm-dda).
+Ncurses and tiles versions are available in the [community repos](https://www.archlinux.org/packages/?q=cataclysm-dda).
 
-`sudo pacman -S cataclysm-dda`
+```sh
+sudo pacman -S cataclysm-dda
+sudo pacman -S cataclysm-dda-tiles
+```
 
 #### Fedora
 
 Ncurses and tiles versions are available in the [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda).
 
-`sudo dnf install cataclysm-dda`
+```sh
+sudo dnf install cataclysm-dda
+```
 
 #### Debian / Ubuntu
 
 Ncurses and tiles versions are available in the [official repos](https://tracker.debian.org/pkg/cataclysm-dda).
 
-`sudo apt install cataclysm-dda-curses cataclysm-dda-sdl`
+```sh
+sudo apt install cataclysm-dda-curses cataclysm-dda-sdl
+```
 
-#### Flathub
+#### Flatpak
 
-[Download from Flathub](https://flathub.org/apps/org.cataclysmdda.CataclysmDDA)
+Download from [Flathub](https://flathub.org/apps/org.cataclysmdda.CataclysmDDA).
 
 ## Compile
 
@@ -57,7 +64,7 @@ We also have the following build guides:
 Cataclysm: Dark Days Ahead is the result of contributions from over 1000 volunteers under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See https://creativecommons.org/licenses/by-sa/3.0/ for details.
 Some code distributed with the project is not part of the project and is released under different software licenses; the files covered by different software licenses have their own license notices.
 
-Please see [CONTRIBUTING.md](doc/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
 
 Special thanks to the contributors, including but not limited to, people below:
 <a href="https://github.com/cleverraven/cataclysm-dda/graphs/contributors">
@@ -96,8 +103,8 @@ Press the `?` key, followed by the `1` key to see the full list of key commands.
 
 #### I've found a bug. What should I do?
 
-Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/) using [bug report template](https://github.com/CleverRaven/Cataclysm-DDA/issues/new?template=bug_report.md). If you're not able to, send an email to `kevin.granade@gmail.com`.
+Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/) using [bug report template](https://github.com/CleverRaven/Cataclysm-DDA/issues/new?template=bug_report.yaml). If you're not able to, send an email to `kevin.granade@gmail.com`.
 
 #### I would like to make a suggestion. What should I do?
 
-Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/) using [feature request template](https://github.com/CleverRaven/Cataclysm-DDA/issues/new?template=feature_request.md).
+Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/) using [feature request template](https://github.com/CleverRaven/Cataclysm-DDA/issues/new?template=feature_request.yaml).

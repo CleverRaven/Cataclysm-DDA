@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "microlab_distorted_hallway_end",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -25,7 +24,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "microlab_distorted_hallway_straight",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -46,7 +44,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "microlab_distorted_hallway_curved",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -66,7 +63,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "microlab_distorted_hallway_tee",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -86,7 +82,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "microlab_distorted_hallway_four_way",
     "object": {
       "fill_ter": "t_strconc_floor",

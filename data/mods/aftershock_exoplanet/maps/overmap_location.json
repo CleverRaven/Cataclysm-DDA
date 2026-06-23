@@ -1,6 +1,21 @@
 [
   {
     "type": "overmap_location",
+    "id": "land",
+    "terrains": [ "field", "afs_aeolian_plain", "forest", "forest_thick", "forest_water", "forest_trail" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "base_land",
+    "terrains": [ "field", "forest", "forest_thick", "forest_water" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "aeolian_plain",
+    "terrains": [ "afs_aeolian_plain" ]
+  },
+  {
+    "type": "overmap_location",
     "id": "subterranean_empty",
     "terrains": [ "deep_rock", "solid_glacier", "empty_rock", "solid_earth" ]
   }

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "office_dentist" ],
     "weight": 500,
     "object": {
@@ -14,7 +13,7 @@
         " ! sy----y----y----ys ! ",
         " ! ssssssssssssssssss ! ",
         "   ##w#####dd########   ",
-        "  *#DPD|p..........b#*  ",
+        "  *#DPD|p.........§b#*  ",
         "  *w.h.d...DPDff...bw*  ",
         "  *#BBB|....h.ff...bw*  ",
         "   #||||...|||||...b#*  ",
@@ -23,7 +22,7 @@
         "  *#cnc|..|S,|S,|X%#    ",
         "  s#||||..|t&|t&|,,#*   ",
         "  sd......|||||||~^#*   ",
-        "  s#|d||...........w*   ",
+        "  s#|d||§..........w*   ",
         "   #L__||d|||d|||d|#* [ ",
         "   #L_=|S,E|S,E|S,E#*   ",
         "   #LWF|C,,|C,,|C,,#    ",
@@ -104,14 +103,14 @@
         "P": { "item": "SUS_office_desk", "chance": 80 },
         "n": { "item": "dinnerware", "chance": 25 },
         "C": { "item": "dentist_supplies", "chance": 75 },
-        "t": { "item": "SUS_trash_trashcan", "chance": 100 }
+        "t": { "item": "SUS_trash_trashcan_public", "chance": 100 }
       },
-      "place_loot": [ { "item": "microwave", "x": 4, "y": 11 } ]
+      "place_loot": [ { "item": "microwave", "x": 4, "y": 11 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "office_dentist_roof",
     "object": {
       "fill_ter": "t_flat_roof",

@@ -8,8 +8,8 @@
     "description": "A collection of 6 pockets, designed to hold rifle magazines and keep them accessible and secure.  Has MOLLE straps for attaching to an ILBE or can be strapped directly to your chest.  Standard issue in UICA forces.",
     "weight": "500 g",
     "volume": "500 ml",
-    "price": "20 USD",
-    "price_postapoc": "2 USD",
+    "price": "40 USD",
+    "price_postapoc": "40 USD",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -151,8 +151,8 @@
     "description": "A large magnetic magazine carrier.  It is capable of holding two large magazines close at hand.",
     "weight": "180 g",
     "volume": "500 ml",
-    "price": "20 USD",
-    "price_postapoc": "6 USD",
+    "price": "80 USD",
+    "price_postapoc": "80 USD",
     "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -183,5 +183,55 @@
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_LARGE" ],
     "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+  },
+  {
+    "id": "belt_loop_large",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "large belt loop" },
+    "description": "A MOLLE-compatible loop for attaching large tools and weapons to a load-bearing vest.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": "15 USD",
+    "price_postapoc": "15 USD",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "leather_pouch",
+    "color": "brown",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "holster": true,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "6000 g",
+        "max_item_length": "100 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP" ],
+        "volume_encumber_modifier": 0.15,
+        "transparent": true
+      },
+      {
+        "holster": true,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "6000 g",
+        "max_item_length": "100 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP" ],
+        "volume_encumber_modifier": 0.15,
+        "transparent": true
+      },
+      {
+        "holster": true,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "6000 g",
+        "max_item_length": "100 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP" ],
+        "volume_encumber_modifier": 0.15,
+        "transparent": true
+      }
+    ],
+    "flags": [ "CANT_WEAR", "WATER_FRIENDLY", "PALS_LARGE" ],
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ]
   }
 ]

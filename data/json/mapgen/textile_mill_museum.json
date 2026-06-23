@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "textile_mill_museum_0a0", "textile_mill_museum_0a1", "textile_mill_museum_0a2" ],
       [ "textile_mill_museum_0b0", "textile_mill_museum_0b1", "textile_mill_museum_0b2" ]
@@ -24,7 +23,7 @@
         "..........._..[...................1  =    1.....~~~......~~~~~~~~.......",
         "......._____......................-       -.....~~.......~~~~~~~~~......",
         "....%.._--1-1-1-1-1-1-1-1-1-1-1-1---1-+-1---1-1-1-1--....~~~~~~~~~~.%...",
-        "......._-    cccccc      CCCCCC                :~~: -....~~~~~~~~~~~%...",
+        "......._-§   cccccc      CCCCCC                :~~: -....~~~~~~~~~~~%...",
         "......._1    cccccc      CCCCCC                :~~: 1...~~~~~~~~~~~~....",
         "......._-                                      :~~: -...~~~~~~~~~~~~....",
         "......._1                                      :~~: 1....~~~~~~~~~~.....",
@@ -42,7 +41,7 @@
         "........1                                      :~~: 1....~~~~~~~~~~..[..",
         "........-                                      :~~: -....~~~~~~~~~~.....",
         "........1                    MMMMM             :~~: 1....~~~~~~~~~~.....",
-        "........-   ccnnnnm       mmmmnnnmmmM          :~~: -....~~~~~~~~~~.....",
+        "........-   ccnnnnm       mmmmnnnmmmM         §:~~: -....~~~~~~~~~~.....",
         "........--1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1--...~~~~~~~~~~~.....",
         "...[...........................................^~~~~~~~~~~~~~~~~~~......",
         "...............................................~~~~~~~~~~~~~~~~~~~~~....",
@@ -63,12 +62,12 @@
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 1, 23 ], "y": [ 1, 23 ], "chance": 1 },
         { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 24, 47 ], "chance": 1 }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "textile_mill_museum_1a0", "textile_mill_museum_1a1", "textile_mill_museum_1a2" ],
       [ "textile_mill_museum_1b0", "textile_mill_museum_1b1", "textile_mill_museum_1b2" ]
@@ -135,7 +134,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "textile_mill_museum_2a0", "textile_mill_museum_2a1", "textile_mill_museum_2a2" ],
       [ "textile_mill_museum_2b0", "textile_mill_museum_2b1", "textile_mill_museum_2b2" ]

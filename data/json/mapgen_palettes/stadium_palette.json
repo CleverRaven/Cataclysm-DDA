@@ -125,13 +125,13 @@
     },
     "items": {
       "b": [
-        { "item": "beer", "chance": 1, "repeat": [ 1, 2 ] },
+        { "item": "beer_in_container", "chance": 1, "repeat": [ 1, 2 ] },
         { "item": "snacks", "chance": 1, "repeat": [ 1, 2 ] },
         { "item": "jackets", "chance": 1 }
       ],
-      "&": { "item": "SUS_trash_trashcan", "chance": 66, "repeat": [ 1, 5 ] },
-      "a": { "item": "SUS_trash_trashcan", "chance": 66, "repeat": [ 1, 5 ] },
-      "á": { "item": "SUS_trash_trashcan", "chance": 66, "repeat": [ 1, 5 ] },
+      "&": { "item": "SUS_trash_trashcan", "chance": 66 },
+      "a": { "item": "SUS_trash_trashcan", "chance": 66 },
+      "á": { "item": "SUS_trash_trashcan", "chance": 66 },
       "A": { "item": "SUS_trash_dumpster", "chance": 70, "repeat": [ 1, 8 ] },
       "d": { "item": "SUS_office_desk", "chance": 33 },
       "m": { "item": "SUS_janitors_closet", "chance": 80 },
@@ -272,7 +272,6 @@
     "type": "item_group",
     "id": "bread_bag_plastic_2",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "bread", "container-item": "null", "count": 2 } ]
   }

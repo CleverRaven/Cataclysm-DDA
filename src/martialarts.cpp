@@ -130,6 +130,11 @@ void weapon_category::load_weapon_categories( const JsonObject &jo, const std::s
     weapon_category_factory.load( jo, src );
 }
 
+void weapon_category::finalize_all()
+{
+    weapon_category_factory.finalize();
+}
+
 void weapon_category::reset()
 {
     weapon_category_factory.reset();
@@ -180,16 +185,23 @@ void load_technique( const JsonObject &jo, const std::string &src )
     ma_techniques.load( jo, src );
 }
 
+void ma_technique::finalize_all()
+{
+    ma_techniques.finalize();
+}
+
 // To avoid adding empty entries
 template <typename Container>
-void add_if_exists( const JsonObject &jo, Container &cont, bool was_loaded,
-                    const std::string &json_key, const typename Container::key_type &id )
+static void add_if_exists( const JsonObject &jo, Container &cont, bool was_loaded,
+                           const std::string &json_key, const typename Container::key_type &id )
 {
     if( jo.has_member( json_key ) ) {
         mandatory( jo, was_loaded, json_key, cont[id] );
     }
 }
 
+namespace
+{
 class ma_skill_reader : public generic_typed_reader<ma_skill_reader>
 {
     public:
@@ -220,6 +232,7 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
             } );
         }
 };
+} // namespace
 
 tech_effect_data load_tech_effect_data( const JsonObject &e )
 {
@@ -229,6 +242,8 @@ tech_effect_data load_tech_effect_data( const JsonObject &e )
                              json_character_flag( e.get_string( "req_flag", "NULL" ) ) );
 }
 
+namespace
+{
 class tech_effect_reader : public generic_typed_reader<tech_effect_reader>
 {
     public:
@@ -244,6 +259,7 @@ class tech_effect_reader : public generic_typed_reader<tech_effect_reader>
             } );
         }
 };
+} // namespace
 
 void ma_requirements::load( const JsonObject &jo, std::string_view )
 {
@@ -370,6 +386,7 @@ void ma_buff::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "persists", persists, false );
 
     optional( jo, was_loaded, "bonus_dodges", dodges_bonus, 0 );
+    optional( jo, was_loaded, "free_dodges", free_dodges, 0 );
     optional( jo, was_loaded, "bonus_blocks", blocks_bonus, 0 );
 
     optional( jo, was_loaded, "quiet", quiet, false );
@@ -404,6 +421,13 @@ void load_martial_art( const JsonObject &jo, const std::string &src )
     martialarts.load( jo, src );
 }
 
+void martialart::finalize_all()
+{
+    martialarts.finalize();
+}
+
+namespace
+{
 class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
 {
     public:
@@ -416,6 +440,7 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
             return mabuff_id( jsobj.get_string( "id" ) );
         }
 };
+} // namespace
 
 void martialart::load( const JsonObject &jo, std::string_view src )
 {
@@ -595,6 +620,8 @@ void check_martialarts()
  * Note: this class must not contain any new members, it will be converted to a plain
  * effect_type later and that would slice the new members of.
  */
+namespace
+{
 class ma_buff_effect_type : public effect_type
 {
     public:
@@ -618,6 +645,7 @@ class ma_buff_effect_type : public effect_type
             apply_msgs.emplace_back( no_translation( "" ), m_good );
         }
 };
+} // namespace
 
 void finalize_martial_arts()
 {
@@ -630,6 +658,7 @@ void finalize_martial_arts()
         effect_type::register_ma_buff_effect( new_eff );
     }
     attack_vector_factory.finalize();
+    ma_buffs.finalize();
     for( const attack_vector &vector : attack_vector_factory.get_all() ) {
         // Check if this vector allows substitutions in the first place
         if( vector.strict_limb_definition ) {
@@ -639,7 +668,7 @@ void finalize_martial_arts()
         // The vector needs both a limb and a contact area, so we can substitute safely
         std::vector<bodypart_str_id> similar_bp;
         for( const bodypart_str_id &bp : vector.limbs ) {
-            for( const bodypart_str_id &similar : bp->similar_bodyparts ) {
+            for( const bodypart_str_id &similar : bp->get_all_combined_similar_bodyparts() ) {
                 similar_bp.emplace_back( similar );
             }
         }
@@ -648,7 +677,7 @@ void finalize_martial_arts()
 
         std::vector<sub_bodypart_str_id> similar_sbp;
         for( const sub_bodypart_str_id &sbp : vector.contact_area ) {
-            for( const sub_bodypart_str_id &similar : sbp->similar_bodyparts ) {
+            for( const sub_bodypart_str_id &similar : sbp->get_all_combined_similar_sub_bodyparts() ) {
                 similar_sbp.emplace_back( similar );
             }
         }
@@ -963,6 +992,7 @@ ma_buff::ma_buff()
     max_stacks = 1; // total number of stacks this buff can have
 
     dodges_bonus = 0; // extra dodges, like karate
+    free_dodges = 0; // number of dodges that won't consume stamina
     blocks_bonus = 0; // extra blocks, like karate
 
 }
@@ -994,8 +1024,11 @@ bool ma_buff::is_valid_character( const Character &u ) const
 
 void ma_buff::apply_character( Character &u ) const
 {
+    // Note: MAs typically have multiple buffs, using a setter here is probably a mistake!
     u.mod_num_dodges_bonus( dodges_bonus );
+    // This uses a setter, but it's actually just mod() because it unnecessarily gets the existing bonus.
     u.set_num_blocks_bonus( u.get_num_blocks_bonus() + blocks_bonus );
+    u.mod_free_dodges( free_dodges );
 }
 
 int ma_buff::hit_bonus( const Character &u ) const
@@ -1093,31 +1126,24 @@ std::string ma_buff::get_description( bool passive ) const
     }
 
     if( dodges_bonus > 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <good>+%s</good> bonus to <info>dodge</info> for the stack",
-                               "* Will give a <good>+%s</good> bonus to <info>dodge</info> per stack",
-                               max_stacks ),
-                    dodges_bonus ) + "\n";
+        dump += string_format( _( "* Can dodge <good>%d</good> extra times per turn" ),
+                               dodges_bonus ) + "\n";
     } else if( dodges_bonus < 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <bad>%s</bad> penalty to <info>dodge</info> for the stack",
-                               "* Will give a <bad>%s</bad> penalty to <info>dodge</info> per stack",
-                               max_stacks ),
-                    dodges_bonus ) + "\n";
+        dump += string_format( _( "* Can dodge <bad>%d</bad> fewer times per turn" ),
+                               std::abs( dodges_bonus ) ) + "\n";
+    }
+
+    if( free_dodges > 0 ) {
+        dump += string_format( _( "* <good>%d</good> dodges each turn will not consume stamina" ),
+                               free_dodges ) + "\n";
     }
 
     if( blocks_bonus > 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <good>+%s</good> bonus to <info>block</info> for the stack",
-                               "* Will give a <good>+%s</good> bonus to <info>block</info> per stack",
-                               max_stacks ),
-                    blocks_bonus ) + "\n";
+        dump += string_format( _( "* Can block <good>%d</good> extra times per turn" ),
+                               blocks_bonus ) + "\n";
     } else if( blocks_bonus < 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <bad>%s</bad> penalty to <info>block</info> for the stack",
-                               "* Will give a <bad>%s</bad> penalty to <info>block</info> per stack",
-                               max_stacks ),
-                    blocks_bonus ) + "\n";
+        dump += string_format( _( "* Can block <bad>%d</bad> fewer times per turn" ),
+                               std::abs( blocks_bonus ) ) + "\n";
     }
 
     if( quiet ) {
@@ -1304,11 +1330,8 @@ void martialart::activate_eocs( Character &u,
 {
     for( const effect_on_condition_id &eoc : eocs ) {
         dialogue d( get_talker_for( u ), nullptr );
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for a martial art activation.  If you don't want the effect_on_condition to happen on its own (without the martial art being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this martial art with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "a martial art activation", "martial art being activated",
+                                       "martial art" );
     }
 }
 
@@ -1428,9 +1451,9 @@ std::vector<matec_id> character_martial_arts::get_all_techniques( const item_loc
         tecs.insert( tecs.end(), weapon_techs.begin(), weapon_techs.end() );
     }
     // If we have any items that also provide techniques
-    const std::vector<const item *> tech_providing_items = u.cache_get_items_with(
+    const std::vector<item_location> tech_providing_items = u.cache_get_items_with(
                 json_flag_PROVIDES_TECHNIQUES );
-    for( const item *it : tech_providing_items ) {
+    for( const item_location &it : tech_providing_items ) {
         const std::set<matec_id> &item_techs = it->get_techniques();
         tecs.insert( tecs.end(), item_techs.begin(), item_techs.end() );
     }
@@ -1502,7 +1525,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
         }
         // Check if we have the required limbs
         bool reqs = true;
-        for( const std::pair<body_part_type::type, int> &req : vec->limb_req ) {
+        for( const std::pair<bp_type, int> &req : vec->limb_req ) {
             int count = 0;
             for( const bodypart_id &bp : user.get_all_body_parts_of_type( req.first ) ) {
                 if( user.get_part_hp_cur( bp ) > bp->health_limit ) {
@@ -1668,13 +1691,13 @@ bool character_martial_arts::can_leg_block( const Character &owner ) const
     // Do we have boring human anatomy? Use the basic calculation
     // Legs are harder to block with, so the score thresholds stay the same
     if( !owner.has_flag( json_flag_NONSTANDARD_BLOCK ) ) {
-        return owner.get_limb_score( limb_score_block, body_part_type::type::leg ) >= 0.5f;
+        return owner.get_limb_score( limb_score_block, bp_type::leg ) >= 0.5f;
     } else {
         // Check all standard legs for the score threshold
-        for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::leg ) ) {
+        for( const bodypart_id &bp : owner.get_all_body_parts_of_type( bp_type::leg ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
                 owner.get_part( bp )->get_limb_score( owner, limb_score_block ) * bp->limbtypes.at(
-                    body_part_type::type::leg ) >= 0.25f ) {
+                    bp_type::leg ) >= 0.25f ) {
                 return true;
             }
         }
@@ -1702,13 +1725,13 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
     // Success conditions.
     // Do we have boring human anatomy? Use the basic calculation
     if( !owner.has_flag( json_flag_NONSTANDARD_BLOCK ) ) {
-        return owner.get_limb_score( limb_score_block, body_part_type::type::arm ) >= 0.5f;
+        return owner.get_limb_score( limb_score_block, bp_type::arm ) >= 0.5f;
     } else {
         // Check all standard arms for the score threshold
-        for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+        for( const bodypart_id &bp : owner.get_all_body_parts_of_type( bp_type::arm ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
                 owner.get_part( bp )->get_limb_score( owner, limb_score_block ) * bp->limbtypes.at(
-                    body_part_type::type::arm ) >= 0.25f ) {
+                    bp_type::arm ) >= 0.25f ) {
                 return true;
             }
         }
@@ -2111,10 +2134,10 @@ std::string ma_technique::get_description() const
     dump += string_format( _( condition_desc ) ) + "\n";
 
     if( weighting > 1 ) {
-        dump += string_format( _( "* <info>Greater chance</info> to activate: <stat>+%s%%</stat>" ),
+        dump += string_format( _( "* <info>Greater chance</info> to activate: <stat>+%d%%</stat>" ),
                                ( 100 * ( weighting - 1 ) ) ) + "\n";
     } else if( weighting < -1 ) {
-        dump += string_format( _( "* <info>Lower chance</info> to activate: <stat>1/%s</stat>" ),
+        dump += string_format( _( "* <info>Lower chance</info> to activate: <stat>1/%d</stat>" ),
                                std::abs( weighting ) ) + "\n";
     }
 
@@ -2206,6 +2229,8 @@ std::string ma_technique::get_description() const
     return dump;
 }
 
+namespace
+{
 class ma_details_ui
 {
         friend class ma_details_ui_impl;
@@ -2346,7 +2371,8 @@ void ma_details_ui_impl::init_data()
                     buffs_total++;
                     std::vector<std::string> buff_lines =
                         string_split( replace_colors( buff->get_description( passive ) ), '\n' );
-                    buffs_text[title] = buff_lines;
+                    // Merge our accumulated text into the existing one. There might be more than one buff of this type, so we want to display all of them.
+                    buffs_text[title].insert( buffs_text[title].end(), buff_lines.begin(), buff_lines.end() );
                 }
             }
         };
@@ -2530,6 +2556,7 @@ void ma_details_ui_impl::draw_controls()
 
     draw_ma_details_text();
 }
+} // namespace
 
 static void show_ma_details_ui( const matype_id &style_selected )
 {

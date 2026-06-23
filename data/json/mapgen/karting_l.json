@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "karting_0_0_0", "karting_0_1_0", "karting_0_2_0" ],
       [ "karting_1_0_0", "karting_1_1_0", "karting_1_2_0" ],
@@ -110,7 +109,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "karting_0_0_1", "karting_0_1_1", "karting_0_2_1" ],
       [ "karting_1_0_1", "karting_1_1_1", "karting_1_2_1" ],
@@ -199,7 +197,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "karting_0_0_2", "karting_0_1_2", "karting_0_2_2" ],
       [ "karting_1_0_2", "karting_1_1_2", "karting_1_2_2" ],

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "bar" ],
     "object": {
       "fill_ter": "t_floor",
@@ -12,7 +11,7 @@
         ",    ,    ,==,    ,    ,",
         ",    ,    ,==,    ,    ,",
         "###'#'#'###++###'#'#'###",
-        "#....................q.#",
+        "#.§................§.q.#",
         "#...BB...BB...BB...qccc#",
         "#...bb...bb...bb....cl&#",
         "#...bb...bb...bb...qclc#",
@@ -25,7 +24,7 @@
         "#......................#",
         "#....xxxx.....xxxx....T#",
         "#....xxxx.....xxxx....T#",
-        "#......................#",
+        "#..§...............§...#",
         "#|+||+############||+||#",
         "#rl|rl#===dd<====Dllll@#",
         "#ts|ts#4=========#{{{l@#",
@@ -71,8 +70,8 @@
       "toilets": { "t": {  } },
       "items": {
         "x": { "item": "pool_table", "chance": 30, "repeat": [ 1, 2 ] },
-        "T": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 2 ] },
-        "r": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 2 ] },
+        "T": { "item": "SUS_trash_trashcan_public", "chance": 50 },
+        "r": { "item": "SUS_trash_trashcan_public", "chance": 50 },
         "d": { "item": "SUS_trash_dumpster", "chance": 70, "repeat": [ 2, 4 ] },
         "t": { "item": "bar_bathroom", "chance": 30, "repeat": [ 1, 2 ] },
         "#": [
@@ -87,12 +86,12 @@
         { "item": "bar_food", "x": 20, "y": [ 9, 15 ], "chance": 75, "repeat": [ 2, 3 ] },
         { "item": "bar_alcohol", "x": 20, "y": [ 9, 15 ], "chance": 85, "repeat": [ 3, 4 ] },
         { "item": "cash_register_random", "x": 22, "y": 9, "chance": 100 }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "bar_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -136,7 +135,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "bar_1" ],
     "object": {
       "fill_ter": "t_floor",
@@ -145,28 +143,28 @@
         "    7   7        ~~~    ",
         "                 ~~~    ",
         "              ##'#+#'## ",
-        "              #pq....a# ",
+        "              #pq..§.a# ",
         " ##'###'###'###Q...xx.# ",
         " #BBB|BBB|BBBB|Q...xx.# ",
         " #bbB|Bbb|BbbB|Q...xx.# ",
         " #.................xx.# ",
         " #X...q.q.q...........# ",
         " #X...uuuuu...p|.q.q.q# ",
-        "##...|||||||+|||Hccccc# ",
+        "##§..|||||||+|||Hccccc# ",
         "#a.....q.....BB|------# ",
         "#p............B|$$$s-@# ",
         "#o......o|C...B|||||+|# ",
         "#o..BB..o|p....+--s|-{# ",
         "#o.Cbb..o##!O!##+|+|-{# ",
         "#o..q.C.o#<!!!=#t|t|-{# ",
-        "#op.....o#dd===#||||-{# ",
+        "#op....§o#dd===#||||-{# ",
         "###BBBB###dd===D------# ",
         "  ##''##==dd===#&&&{{{# ",
         "       F=======######## ",
         "       f=======F4       ",
         "       FFFFFFFFF        "
       ],
-      "nested": { "7": { "chunks": [ "garden_3x3_3" ] } },
+      "nested": { "7": { "chunks": [ "garden_3x3_3" ] }, "§": { "chunks": [ "fire_extinguisher" ] } },
       "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "7": "t_region_groundcover_urban",
@@ -226,7 +224,7 @@
         "u": { "item": "bar_alcohol", "chance": 30, "repeat": [ 1, 2 ] },
         "{": { "item": "bar_alcohol", "chance": 75, "repeat": [ 1, 8 ] },
         "$": { "item": "bar_fridge", "chance": 70, "repeat": [ 1, 8 ] },
-        "&": { "item": "fridgesnacks", "chance": 40, "repeat": [ 1, 2 ] },
+        "&": { "item": "SUS_fridge_snacks", "chance": 40, "repeat": [ 1, 2 ] },
         "x": { "item": "pool_table", "chance": 30, "repeat": [ 1, 2 ] }
       },
       "place_loot": [ { "group": "cash_register_random", "x": 21, "y": 13 } ]
@@ -234,7 +232,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "bar_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",

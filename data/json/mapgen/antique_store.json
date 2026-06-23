@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_antique" ],
     "object": {
       "fill_ter": "t_floor",
@@ -14,7 +13,7 @@
         "FFFFFFFFFFFFFFFFFFFFFFFF",
         "FFFFFFFFFFFFFFFFFFFFFFFF",
         "###OOOOOO##++##OOOOOO###",
-        "#l                    l#",
+        "#l       §            l#",
         "#l                    l#",
         "#l  llllll    llllll  l#",
         "#l                    l#",
@@ -23,7 +22,7 @@
         "#l                    l#",
         "#l                    l#",
         "#      ccTTTTTTcc      #",
-        "#              Lc      #",
+        "#     §        Lc     §#",
         "###########M############",
         ".4........._________<...",
         "........................",
@@ -54,12 +53,12 @@
         { "item": "antique", "x": [ 22, 22 ], "y": [ 8, 15 ], "chance": 85, "repeat": [ 1, 3 ] },
         { "item": "antique_rare", "x": [ 9, 14 ], "y": [ 16, 16 ], "chance": 65 },
         { "item": "cash_register_random", "x": [ 15, 16 ], "y": 16, "chance": 100 }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_antique_roof" ],
     "object": {
       "fill_ter": "t_tar_flat_roof",

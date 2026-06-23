@@ -20,7 +20,6 @@
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "input_context.h"
-#include "make_static.h"
 #include "memory_fast.h"
 #include "output.h"
 #include "point.h"
@@ -37,6 +36,8 @@
 #define BPGRAPH_MAXCOLS 40
 
 static const bodygraph_id bodygraph_full_body( "full_body" );
+
+static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 
 namespace
 {
@@ -242,6 +243,8 @@ void bodygraph::check() const
 using part_tuple =
     std::tuple<bodypart_id, const sub_body_part_type *, const bodygraph_part *, bool>;
 
+namespace
+{
 struct bodygraph_display {
     const Character *u;
     bodygraph_id id;
@@ -284,6 +287,7 @@ struct bodygraph_display {
     void draw_info();
     void display();
 };
+} // namespace
 
 bodygraph_display::bodygraph_display( const Character *u, const bodygraph_id &id ) :
     u( u ), id( id ), ctxt( "BODYGRAPH" )
@@ -404,6 +408,8 @@ static const bodygraph_id &get_bg_rows( const bodygraph_id &bgid )
     if( !!bgid->mirror ) {
         return get_bg_rows( bgid->mirror.value() );
     }
+    // bodygraph_id is a string_id with stable storage; callers do not pass temporaries.
+    // NOLINTNEXTLINE(bugprone-return-const-ref-from-parameter)
     return bgid;
 }
 
@@ -518,8 +524,8 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     info_txt.emplace_back( string_format( "%s: %d%%", colorize( _( "Wetness" ), c_magenta ),
                                           static_cast<int>( info.wetness * 100.0f ) ) );
     // part temperature
-    const bool temp_precise = u->cache_has_item_with( STATIC( flag_id( "THERMOMETER" ) ) ) ||
-                              u->has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) );
+    const bool temp_precise = u->cache_has_item_with( json_flag_THERMOMETER ) ||
+                              u->has_flag( json_flag_THERMOMETER );
     const units::temperature temp = units::from_fahrenheit( info.temperature.first / 50.0 );
     info_txt.emplace_back( string_format( "%s: %s", colorize( _( "Body temp" ), c_magenta ),
                                           temp_precise ? colorize( print_temperature( temp ),

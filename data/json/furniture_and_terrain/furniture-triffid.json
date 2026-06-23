@@ -9,13 +9,16 @@
     "move_cost_mod": 6,
     "required_str": -1,
     "light_emitted": 15,
+    "light_color": [ 0, 120, 0 ],
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC" ],
     "bash": {
       "str_min": 6,
       "str_max": 30,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 3, 5 ] } ]
+      "items": [ { "item": "splinter", "count": [ 3, 5 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -34,7 +37,9 @@
       "str_max": 60,
       "sound": "smash",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 10, 15 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 15 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {

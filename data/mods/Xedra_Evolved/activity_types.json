@@ -7,11 +7,23 @@
     "based_on": "time"
   },
   {
+    "id": "ACT_CHANGELING_RESEARCH_NEW_POWERS",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "daydreaming",
+    "based_on": "time",
+    "can_resume": false,
+    "multi_activity": false,
+    "completion_eoc": "EOC_CHANGELING_RESEARCH_NEW_TRAIT_FINALIZE"
+  },
+  {
     "id": "ACT_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
     "verb": "daydreaming",
     "based_on": "time",
+    "can_resume": false,
+    "multi_activity": false,
     "completion_eoc": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_FINALIZE"
   },
   {
@@ -20,6 +32,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": "daydreaming",
     "based_on": "time",
+    "can_resume": false,
+    "multi_activity": false,
     "completion_eoc": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_FINALIZE"
   },
   {
@@ -28,6 +42,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": "daydreaming",
     "based_on": "time",
+    "can_resume": false,
+    "multi_activity": false,
     "completion_eoc": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_FINALIZE"
   },
   {
@@ -36,6 +52,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": "daydreaming",
     "based_on": "time",
+    "can_resume": false,
+    "multi_activity": false,
     "completion_eoc": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_FINALIZE"
   },
   {
@@ -45,5 +63,25 @@
     "verb": "drinking blood",
     "based_on": "time",
     "can_resume": false
+  },
+  {
+    "type": "activity_type",
+    "id": "ACT_WEREWOLF_LEARNING_MOON_GIFT",
+    "activity_level": "NO_EXERCISE",
+    "verb": "learning a new gift",
+    "based_on": "time",
+    "can_resume": false,
+    "do_turn_eoc": "EOC_WEREWOLF_LEARNING_MOON_GIFT_MOON_CHECK",
+    "completion_eoc": "EOC_WEREWOLF_LEARNING_MOON_GIFT_END"
+  },
+  {
+    "id": "ACT_STUDY_NETHER_SORCERY",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "studying the text",
+    "based_on": "time",
+    "can_resume": false,
+    "do_turn_eoc": "EOC_NETHER_SORCERY_LIGHT_CANCEL",
+    "completion_eoc": "EOC_NETHER_SORCERY_FINAL_LEARN_CHECK"
   }
 ]

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "state_park_0_0", "state_park_1_0" ], [ "state_park_0_1", "state_park_1_1" ] ],
     "object": {
       "predecessor_mapgen": "forest_thick",
@@ -72,7 +71,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "state_park_1_0_1" ],
     "object": {
       "rows": [

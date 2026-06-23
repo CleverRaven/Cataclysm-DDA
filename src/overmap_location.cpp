@@ -96,10 +96,12 @@ void overmap_locations::reset()
     locations.reset();
 }
 
+const std::vector<overmap_location> &overmap_locations::get_all()
+{
+    return locations.get_all();
+}
+
 void overmap_locations::finalize()
 {
     locations.finalize();
-    for( const overmap_location &elem : locations.get_all() ) {
-        const_cast<overmap_location &>( elem ).finalize(); // This cast is ugly, but safe.
-    }
 }

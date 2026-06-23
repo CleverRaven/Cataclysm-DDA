@@ -207,7 +207,7 @@
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
     "name": { "str": "ACOG scope" },
-    "description": "A 4x32 TA01 Advanced Combat Optical Gunsight with a tritium illuminated crosshair.",
+    "description": "A 4x32 TA01 Advanced Combat Optical Gunsight with a tritium-illuminated crosshair.",
     "weight": "280 g",
     "volume": "112 ml",
     "price": "680 USD",

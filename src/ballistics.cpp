@@ -23,7 +23,6 @@
 #include "item.h"
 #include "itype.h"
 #include "line.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_scale_constants.h"
 #include "mapdata.h"
@@ -46,6 +45,7 @@ static const ammo_effect_str_id ammo_effect_ACT_ON_RANGED_HIT( "ACT_ON_RANGED_HI
 static const ammo_effect_str_id ammo_effect_BOUNCE( "BOUNCE" );
 static const ammo_effect_str_id ammo_effect_BURST( "BURST" );
 static const ammo_effect_str_id ammo_effect_DRAW_AS_LINE( "DRAW_AS_LINE" );
+static const ammo_effect_str_id ammo_effect_EXCESS_PEN( "EXCESS_PEN" );
 static const ammo_effect_str_id ammo_effect_HEAVY_HIT( "HEAVY_HIT" );
 static const ammo_effect_str_id ammo_effect_JET( "JET" );
 static const ammo_effect_str_id ammo_effect_MUZZLE_SMOKE( "MUZZLE_SMOKE" );
@@ -60,6 +60,10 @@ static const ammo_effect_str_id ammo_effect_STREAM_BIG( "STREAM_BIG" );
 static const ammo_effect_str_id ammo_effect_STREAM_TINY( "STREAM_TINY" );
 static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
 static const ammo_effect_str_id ammo_effect_WIDE( "WIDE" );
+
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_stab( "stab" );
 
 static const itype_id itype_glass_shard( "glass_shard" );
 
@@ -141,9 +145,9 @@ static void drop_or_embed_projectile( map *here, const dealt_projectile_attack &
         // Item volume bumps up the required damage too
         // FIXME: Hardcoded damage types
         embed = embed &&
-                ( attack.dealt_dam.type_damage( STATIC( damage_type_id( "cut" ) ) ) / 2 ) +
-                attack.dealt_dam.type_damage( STATIC( damage_type_id( "stab" ) ) ) >
-                attack.dealt_dam.type_damage( STATIC( damage_type_id( "bash" ) ) ) +
+                ( attack.dealt_dam.type_damage( damage_cut ) / 2 ) +
+                attack.dealt_dam.type_damage( damage_stab ) >
+                attack.dealt_dam.type_damage( damage_bash ) +
                 vol * 3 / 250_ml + rng( 0, 5 );
     }
 
@@ -442,6 +446,10 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
 
         for( size_t i = 1; i < traj_len && ( has_momentum || stream ); ++i ) {
             tp = t_copy[i];
+            if( !here->inbounds( tp ) ) {
+                debugmsg( "Shot along %s out-of-bounds", tp.to_string() );
+                break;
+            }
             int distance = rl_dist( source, tp );
             // no spread at point-blank, skip point-blank calculate
             if( !first && distance <= 1 ) {
@@ -536,6 +544,27 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
             }
 
             if( critter != nullptr && cur_missed_by < 1.0 ) {
+                // Prevent shots from hitting underwater creatures that are beneath surface (except thin ice);
+                // treat the shot as hitting the terrain instead.
+                if( critter->is_underwater() &&
+                    here->has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, critter->pos_bub() ) &&
+                    !here->has_flag( ter_furn_flag::TFLAG_THIN_ICE, critter->pos_bub() ) ) {
+                    double it = here->shoot( tp, proj, !no_item_damage && tp == target_c );
+                    if( it > 0 ) {
+                        if( proj.count > 1 ) {
+                            proj.shot_impact.mult_damage( it );
+                            if( first && distance <= 1 ) {
+                                point_blank_rescale = it;
+                            }
+                        } else {
+                            proj.impact.mult_damage( it );
+                        }
+                    }
+                    if( origin != nullptr && origin->is_avatar() ) {
+                        add_msg( m_info, _( "Your shot is blocked by the surface." ) );
+                    }
+                    continue;
+                }
                 if( in_veh != nullptr && veh_pointer_or_null( here->veh_at( tp ) ) == in_veh &&
                     critter->is_avatar() ) {
                     // Turret either was aimed by the player (who is now ducking) and shoots from above
@@ -569,7 +598,20 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                     if( here == &reality_bubble() ) {
                         sfx::do_projectile_hit( *attack.last_hit_critter );
                     }
-                    has_momentum = false;
+                    // If the projectile has excess penetration, and would one-shot the enemy, make it continue through the trajectory.
+                    // TODO: Add creature armor and armor penetration to condition.
+                    // TODO: Extend trajectory for targeted monster being first monster hit.
+                    // TODO: Take into account creature physicality, in a more realistic way.
+                    if( proj.proj_effects.count( ammo_effect_EXCESS_PEN ) &&
+                        ( attack.dealt_dam.total_damage() >= attack.last_hit_critter->get_hp_max() ) ) {
+                        // Reduces the projectile's damage based on the creature's size
+                        // Numbers are roughly based on civil war journals, where a cannon shot would penetrate through about 3-4 people.
+                        double size_mult =
+                            0.8 * ( 1 / ( static_cast<double>( attack.last_hit_critter->get_size() ) ) );
+                        proj.shot_impact.mult_damage( size_mult, true );
+                    } else {
+                        has_momentum = false;
+                    }
                     // on-hit effects for inflicted damage types
                     for( const std::pair<const damage_type_id, int> &dt : attack.dealt_dam.dealt_dams ) {
                         dt.first->onhit_effects( origin, attack.last_hit_critter );

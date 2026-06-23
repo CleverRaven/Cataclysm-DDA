@@ -246,7 +246,7 @@
     "type": "ITEM",
     "description": "This hollow plastic toilet plunger's bell compresses like an accordion.  It is efficient at its intended purpose, and complete rubbish as a weapon.",
     "symbol": "p",
-    "color": "black",
+    "color": "dark_gray",
     "price": "15 USD 90 cent",
     "price_postapoc": "10 cent",
     "weight": "680 g",
@@ -290,7 +290,7 @@
     "subtypes": [ "TOOL" ],
     "description": "This tool dries your hair by pushing air through a coil of hot wires.  The heat can be toggled on and off.",
     "symbol": "(",
-    "color": "black",
+    "color": "dark_gray",
     "price": "21 USD",
     "price_postapoc": "0 cent",
     "volume": "500 ml",
@@ -358,7 +358,7 @@
     "snippet_category": [
       { "id": "btoy1", "text": "A plastic floating bath toy." },
       { "id": "btoy2", "text": "A yellow rubber duck.  Designed to dropped in the bath." },
-      { "id": "btoy3", "text": "A black rubber duck with large white eyes.  Designed to dropped in the bath." },
+      { "id": "btoy3", "text": "A black rubber duck with large white eyes.  Designed to be dropped in the bath." },
       { "id": "btoy4", "text": "A small green dinosaur with a wide grin.  Designed for bath time." }
     ]
   },

@@ -40,8 +40,8 @@
       "field_office_20"
     ],
     "copy-from": "field_office_1",
-    "sym": "b",
-    "color": "i_light_gray"
+    "sym": "B",
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -54,7 +54,7 @@
     "type": "overmap_terrain",
     "id": [ "safe_house_basement" ],
     "copy-from": "safe_house_basement",
-    "sym": "b",
+    "sym": "B",
     "color": "light_green"
   },
   {
@@ -74,8 +74,8 @@
       "cathedralv_3_SE"
     ],
     "copy-from": "cathedralv_1_NW",
-    "sym": "c",
-    "color": "i_white"
+    "sym": "C",
+    "color": "white"
   },
   {
     "type": "overmap_terrain",
@@ -90,15 +90,15 @@
       "cathedralv_7_NE"
     ],
     "copy-from": "cathedralv_4_NW",
-    "sym": "c",
-    "color": "i_white"
+    "sym": "C",
+    "color": "white"
   },
   {
     "type": "overmap_terrain",
     "id": [ "cathedralv_b_NW", "cathedralv_b_NE", "cathedralv_b_SW", "cathedralv_b_SE" ],
     "copy-from": "cathedralv_b_NW",
-    "sym": "c",
-    "color": "i_white"
+    "sym": "C",
+    "color": "white"
   },
   {
     "type": "overmap_terrain",
@@ -133,8 +133,8 @@
       "genius_loci_SE_roof"
     ],
     "copy-from": "ierde_genius_loci_NW",
-    "sym": "a",
-    "color": "i_cyan"
+    "sym": "A",
+    "color": "cyan"
   },
   {
     "type": "overmap_terrain",
@@ -147,21 +147,21 @@
     "type": "overmap_terrain",
     "id": [ "salamander_eruption_ground" ],
     "copy-from": "salamander_eruption_ground",
-    "sym": "s",
+    "sym": "S",
     "color": "cyan"
   },
   {
     "type": "overmap_terrain",
     "id": [ "salamander_eruption_roof" ],
     "copy-from": "salamander_eruption_roof",
-    "sym": "s",
+    "sym": "S",
     "color": "cyan"
   },
   {
     "type": "overmap_terrain",
     "id": [ "salamander_eruption_entrance" ],
     "copy-from": "salamander_eruption_entrance",
-    "sym": "s",
+    "sym": "S",
     "color": "red"
   },
   {
@@ -174,36 +174,36 @@
     "type": "overmap_terrain",
     "id": "salamander_finale",
     "copy-from": "salamander_finale",
-    "sym": "s",
+    "sym": "S",
     "color": "red"
   },
   {
     "type": "overmap_terrain",
     "id": [ "lodgev_ground1", "lodgev_ground2" ],
     "copy-from": "lodgev_ground1",
-    "sym": "l",
-    "color": "i_brown"
+    "sym": "L",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": [ "lodgev_2ndfloor1", "lodgev_2ndfloor2" ],
     "copy-from": "lodgev_2ndfloor1",
-    "sym": "l",
-    "color": "i_brown"
+    "sym": "L",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": [ "lodgev_roof1", "lodgev_roof2" ],
     "copy-from": "lodgev_roof1",
-    "sym": "l",
-    "color": "i_brown"
+    "sym": "L",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": [ "lodgev_basement_residential1", "lodgev_basement_residential2" ],
     "copy-from": "lodgev_basement_residential1",
-    "sym": "b",
-    "color": "i_brown"
+    "sym": "B",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -330,7 +330,7 @@
     "type": "overmap_terrain",
     "id": [ "cabin_sevenoclock", "cabin_roof_sevenoclock" ],
     "copy-from": "cabin_sevenoclock",
-    "sym": "o",
+    "sym": "O",
     "color": "brown"
   },
   {

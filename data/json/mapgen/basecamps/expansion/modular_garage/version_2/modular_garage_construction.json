@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_1_construction",
     "object": {
       "parameters": {
@@ -39,7 +38,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_1_roof_construction",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -58,7 +56,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmg_2_1_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmg_2_1_construction" ], "x": 0, "y": 16, "z": 0 },
@@ -68,7 +65,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_2_construction",
     "object": {
       "parameters": {
@@ -106,7 +102,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_2_roof_construction",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -125,7 +120,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmg_2_2_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmg_2_2_construction" ], "x": 14, "y": 16, "z": 0 },
@@ -135,7 +129,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_wall_1_construction",
     "object": {
       "parameters": {
@@ -171,7 +164,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_wall_1_3_roof_construction",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -187,7 +179,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_wall_2_construction",
     "object": {
       "parameters": {
@@ -224,7 +215,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_wall_2_roof_construction",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -241,7 +231,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_wall_3_construction",
     "object": {
       "parameters": {
@@ -278,7 +267,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmg_2_wall_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmg_2_wall_1_construction" ], "x": 2, "y": 18, "z": 0 },
@@ -292,7 +280,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_4_construction",
     "object": {
       "parameters": {
@@ -329,7 +316,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_4_roof_construction",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -347,7 +333,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmg_2_4_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmg_2_4_construction" ], "x": 0, "y": 10, "z": 0 },
@@ -357,7 +342,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_5_construction",
     "object": {
       "parameters": {
@@ -394,7 +378,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_5_roof_construction",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -412,7 +395,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmg_2_5_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmg_2_5_construction" ], "x": 14, "y": 10, "z": 0 },
@@ -422,7 +404,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_7_construction",
     "object": {
       "parameters": {
@@ -459,7 +440,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_7_roof_construction",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -477,7 +457,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmg_2_7_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmg_2_7_construction" ], "x": 0, "y": 5, "z": 0 },
@@ -487,7 +466,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_8_construction",
     "object": {
       "parameters": {
@@ -524,7 +502,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_8_roof_construction",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -542,7 +519,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmg_2_8_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmg_2_8_construction" ], "x": 14, "y": 5, "z": 0 },
@@ -552,7 +528,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_10_construction",
     "object": {
       "parameters": {
@@ -589,7 +564,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_10_roof_construction",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -607,7 +581,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmg_2_10_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmg_2_10_construction" ], "x": 0, "y": 1, "z": 0 },
@@ -617,7 +590,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_11_construction",
     "object": {
       "parameters": {
@@ -654,7 +626,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_2_11_roof_construction",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -672,7 +643,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmg_2_11_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmg_2_11_construction" ], "x": 14, "y": 1, "z": 0 },

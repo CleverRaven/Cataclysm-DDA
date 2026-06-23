@@ -185,7 +185,7 @@
     "//": "Another EOC is required so the game can check if the follower allowed without making all NPCs okay with being drained once every three days.",
     "//2": "No check for asleep as you need to ask them for this EOC to happen.",
     "effect": [
-      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300)" ] },
+      { "math": [ "n_vitamin('lilin_ruach_vitamin') += rng(200,300)" ] },
       { "npc_message": "You feel a rush of warmth as you absorb the ruach.", "type": "good" },
       { "math": [ "u_lilin_ruach_drained_recently = 1" ] },
       { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS_DIALOGUE" },
@@ -211,7 +211,7 @@
             { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "1" ] }
           ]
         },
-        "then": { "math": [ "u_npc_fear()", "+=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
+        "then": { "math": [ "u_npc_fear() += 1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
       },
       {
         "if": {
@@ -221,7 +221,7 @@
             { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "1" ] }
           ]
         },
-        "then": { "math": [ "u_npc_trust()", "-=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
+        "then": { "math": [ "u_npc_trust() -= 1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
       },
       {
         "if": {
@@ -231,7 +231,7 @@
             { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "2" ] }
           ]
         },
-        "then": { "math": [ "u_npc_value()", "-=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
+        "then": { "math": [ "u_npc_value() -= 1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
       },
       {
         "u_deal_damage": "biological",
@@ -270,7 +270,7 @@
             { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "2" ] }
           ]
         },
-        "then": { "math": [ "u_val('sleepiness')", "+=", "2 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 1.5)" ] }
+        "then": { "math": [ "u_val('sleepiness') += 2 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 1.5)" ] }
       },
       {
         "if": { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "4" ] },

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_enforcer_station_a1" ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -72,14 +71,13 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_enforcer_station_a1_floor2" ],
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
         "                        ",
         " //////==/////--)--/)-- ",
-        " /~/~/.hc/>>/❶-@.~-@.~- ",
+        " /~/~/.hÓ/>>/❶-@.~-@.~- ",
         " /:/:/.'k/../❺-@..-@..- ",
         " =...//://../:-...-...- ",
         " /á..:...'....-))!-))!- ",
@@ -143,12 +141,18 @@
           "x": 0,
           "y": 0
         }
-      ]
+      ],
+      "computers": {
+        "Ó": {
+          "name": "ColNet access point",
+          "eocs": [ "EOC_GENERIC_SALVAGE_COMPUTER" ],
+          "chat_topics": [ "COMPUTER_GENERIC_SALVAGE_LOCKED" ]
+        }
+      }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_enforcer_station_a1_roof" ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -194,7 +198,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_enforcer_station_a1_floor1_moxies",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -203,7 +206,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_enforcer_station_a1_floor1_robots",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -212,7 +214,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_enforcer_station_a1_floor2_moxies",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -221,7 +222,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_enforcer_station_a1_floor2_robots",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -230,7 +230,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_enforcer_station_a1_armory_unlooted",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -272,7 +271,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_enforcer_station_a1_armory_looted",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -309,7 +307,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_enforcer_station_a1_garage_open",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -344,7 +341,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_enforcer_station_a1_garage_patrol_car",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -353,7 +349,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_enforcer_station_a1_garage_cycles",
     "object": {
       "mapgensize": [ 24, 24 ],

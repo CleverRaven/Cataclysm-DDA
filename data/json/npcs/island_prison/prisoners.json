@@ -6,7 +6,7 @@
     "name_suffix": "prisoner",
     "class": "NC_THUG_PRISONER",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_PRISONER_GENERIC",
     "faction": "prisoners"
   },
@@ -17,7 +17,7 @@
     "name_suffix": "gatekeeper",
     "class": "NC_THUG_PRISONER",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_PRISONER_GREET",
     "faction": "prisoners"
   },
@@ -28,7 +28,7 @@
     "name_suffix": "leader of prisoners",
     "class": "NC_THUG_PRISONER",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_PRISONER_LEADER_GREET",
     "faction": "prisoners",
     "mission_offered": "MISSION_PRISONER_LEADER_GET_ID_CARD"
@@ -67,7 +67,7 @@
     "entries": [
       { "group": "male_underwear" },
       { "distribution": [ { "group": "clothing_prisoner_shoes" }, { "group": "cop_shoes" } ] },
-      { "distribution": [ { "item": "striped_shirt" }, { "group": "cop_torso" } ] },
+      { "distribution": [ { "item": "buttonshirt", "variant": "striped" }, { "group": "cop_torso" } ] },
       { "distribution": [ { "item": "striped_pants" }, { "group": "cop_pants" } ] },
       { "distribution": [ { "item": "tacvest" }, { "item": "kevlar" } ], "prob": 15 },
       { "group": "socks_unisex" },
@@ -96,7 +96,6 @@
       [ "spear_spike", 20 ],
       [ "spear_knife", 15 ],
       [ "makeshift_sap", 15 ],
-      [ "homewrecker", 15 ],
       [ "makeshift_knife", 15 ],
       [ "nailboard", 15 ],
       [ "sword_wood", 10 ],

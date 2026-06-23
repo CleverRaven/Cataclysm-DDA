@@ -1,13 +1,13 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_metamagic_toggle_quicken",
-    "condition": { "compare_string": [ "yes", { "u_val": "perk_metamagic_quicken_deactivated" } ] },
+    "id": "EOC_metamagic_toggle_quicken_on",
+    "effect": [ { "u_add_var": "perk_metamagic_quicken_deactivated", "value": "no" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_toggle_quicken_off",
     "effect": [
-      { "u_message": "You activate your quicken metamagic" },
-      { "u_add_var": "perk_metamagic_quicken_deactivated", "value": "no" }
-    ],
-    "false_effect": [
       { "u_message": "You deactivate your quicken metamagic" },
       { "u_add_var": "perk_metamagic_quicken_deactivated", "value": "yes" }
     ]
@@ -24,8 +24,10 @@
       ]
     },
     "effect": [
-      { "math": [ "u_spellcasting_adjustment('casting_time', 'flag_blacklist': 'CONSUMES_RUNES' ) = -0.95" ] },
-      { "math": [ "u_spellcasting_adjustment('cost', 'flag_blacklist': 'CONSUMES_RUNES' ) = 1" ] }
+      {
+        "math": [ "u_spellcasting_adjustment('casting_time', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' ) = -0.95" ]
+      },
+      { "math": [ "u_spellcasting_adjustment('cost', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' ) = 1" ] }
     ]
   }
 ]

@@ -4,6 +4,7 @@
 
 #include <string_view>
 
+#include "coordinates.h"
 #include "ret_val.h"
 
 /**
@@ -21,5 +22,7 @@ extern template ret_val<int> try_parse_integer<int>( std::string_view, bool use_
 extern template ret_val<long> try_parse_integer<long>( std::string_view, bool use_locale );
 extern template ret_val<long long> try_parse_integer<long long>( std::string_view,
         bool use_locale );
+
+ret_val<tripoint_abs_omt> try_parse_coordinate_abs( std::string_view s );
 
 #endif // CATA_SRC_TRY_PARSE_INTEGER_H

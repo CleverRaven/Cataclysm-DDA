@@ -133,6 +133,21 @@ if(PKG_CONFIG_FOUND)
                 PkgConfig::libmpg123
                 PkgConfig::opusfile
             )
+            if (NOT DYNAMIC_LINKING)
+              pkg_check_modules(vorbis REQUIRED IMPORTED_TARGET vorbis)
+              pkg_check_modules(vorbisenc REQUIRED IMPORTED_TARGET vorbisenc)
+              pkg_check_modules(vorbisfile REQUIRED IMPORTED_TARGET vorbisfile)
+              pkg_check_modules(wavpack REQUIRED IMPORTED_TARGET wavpack)
+              pkg_check_modules(libxmp REQUIRED IMPORTED_TARGET libxmp)
+              target_link_libraries(SDL2_mixer::SDL2_mixer-static INTERFACE
+                PkgConfig::vorbisfile
+                PkgConfig::vorbis
+                PkgConfig::ogg
+                PkgConfig::vorbisenc
+                PkgConfig::wavpack
+                PkgConfig::libxmp
+              )
+            endif()
         endif()
     elseif(TARGET SDL2_mixer::SDL2_mixer)
         pkg_check_modules(FLAC REQUIRED IMPORTED_TARGET flac)

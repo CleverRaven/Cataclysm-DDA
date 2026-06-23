@@ -104,9 +104,6 @@ struct mission_start {
     static void find_safety( mission * );        // Goal is set to non-spawn area
     static void place_book( mission * );         // Place a book to retrieve
     static void reveal_refugee_center( mission * ); // Find refugee center
-    static void create_lab_console( mission * );  // Reveal lab with an unlocked workstation
-    static void create_hidden_lab_console( mission * );  // Reveal hidden lab with workstation
-    static void create_ice_lab_console( mission * );  // Reveal lab with an unlocked workstation
 };
 
 // These functions are run when a mission ends
@@ -146,13 +143,13 @@ struct mission_target_params {
 namespace mission_util
 {
 tripoint_abs_omt random_house_in_closest_city();
-tripoint_abs_omt target_closest_lab_entrance( const tripoint_abs_omt &origin, int reveal_rad,
-        mission *miss );
 bool reveal_road( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
                   overmapbuffer &omb );
-tripoint_abs_omt reveal_om_ter( const std::string &omter, int reveal_rad, bool must_see,
+tripoint_abs_omt reveal_om_ter( tripoint_abs_omt origin, const std::string &omter, int reveal_rad,
+                                bool must_see,
                                 int target_z = 0 );
-tripoint_abs_omt target_om_ter( const std::string &omter, int reveal_rad, mission *miss,
+tripoint_abs_omt target_om_ter( tripoint_abs_omt origin, const std::string &omter, int reveal_rad,
+                                mission *miss,
                                 bool must_see, int target_z = 0 );
 tripoint_abs_omt target_om_ter_random(
     const std::string &omter, int reveal_rad, mission *miss, bool must_see, int range,
@@ -237,10 +234,6 @@ struct mission_type {
          */
         static const mission_type *get( const mission_type_id &id );
         /**
-         * Converts the legacy int id to a string_id.
-         */
-        static mission_type_id from_legacy( int old_id );
-        /**
          * Returns a random id of a mission type that can be started at the defined origin
          * around tripoint p, see @ref mission_start.
          * Returns @ref MISSION_NULL if no suitable type could be found.
@@ -255,12 +248,12 @@ struct mission_type {
 
         static void reset();
         static void load_mission_type( const JsonObject &jo, const std::string &src );
-        static void finalize();
+        static void finalize_all();
         static void check_consistency();
 
         bool parse_funcs( const JsonObject &jo, std::string_view src,
                           std::function<void( mission * )> &phase_func );
-        bool load( const JsonObject &jo, const std::string &src );
+        bool load( const JsonObject &jo, std::string_view src );
 
         /**
          * Returns the translated name
@@ -296,6 +289,8 @@ class mission
         // Marked on the player's map. (INT_MIN, INT_MIN) for none,
         // global overmap terrain coordinates.
         tripoint_abs_omt target;
+        // Dimension the mission is specific to
+        std::string dimension;
         // Item that needs to be found (or whatever)
         itype_id item_id;
         // The number of above items needed
@@ -341,6 +336,7 @@ class mission
         bool has_deadline() const;
         time_point get_deadline() const;
         std::string get_description() const;
+        std::string get_dimension() const;
         bool has_target() const;
         const tripoint_abs_omt &get_target() const;
         const mission_type &get_type() const;
@@ -371,6 +367,7 @@ class mission
          * Simple setters, no checking if the values is performed. */
         /*@{*/
         void set_deadline( time_point new_deadline );
+        void set_dimension( const std::string &dimension_prefix );
         void set_target( const tripoint_abs_omt &p );
         void set_target_npc_id( const character_id &npc_id );
         void set_assigned_player_id( const character_id &char_id );

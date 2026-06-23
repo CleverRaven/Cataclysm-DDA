@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "construction_site" ],
     "weight": 100,
     "object": {
@@ -42,7 +41,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "construction_site" ],
     "weight": 100,
     "object": {
@@ -83,7 +81,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "construction_site" ],
     "weight": 100,
     "object": {
@@ -127,7 +124,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "construction_site" ],
     "weight": 100,
     "object": {
@@ -168,7 +164,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "construction_site" ],
     "weight": 100,
     "object": {

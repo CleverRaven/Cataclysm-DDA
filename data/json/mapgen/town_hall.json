@@ -67,7 +67,7 @@
       "B": [ { "item": "magazines", "chance": 10 }, { "item": "jackets", "chance": 5 } ],
       "Y": { "item": "jackets", "chance": 55, "repeat": [ 1, 6 ] },
       "l": { "item": "SUS_janitors_closet", "chance": 100 },
-      "r": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 2 ] },
+      "r": { "item": "SUS_trash_trashcan_public", "chance": 60 },
       "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] },
       "e": { "item": "SUS_fridge_breakroom", "chance": 55, "repeat": [ 2, 3 ] },
       "O": { "item": "SUS_oven", "chance": 100 },
@@ -82,11 +82,11 @@
       "I": [ { "item": "subwaymap", "chance": 2 }, { "item": "sewermap", "chance": 2 } ]
     },
     "vendingmachines": { "4": { "item_group": "vending_drink", "lootable": true }, "5": { "item_group": "vending_food", "lootable": true } },
-    "monster": { " ": { "group": "GROUP_CIVILIAN", "chance": 1 } }
+    "monster": { " ": { "group": "GROUP_CIVILIAN", "chance": 1 } },
+    "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "town_hall_0_0_0", "town_hall_1_0_0" ], [ "town_hall_0_1_0", "town_hall_1_1_0" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -101,7 +101,7 @@
         ".s.|||i|B    B|i|||...3ss3...| cBBBc  cBBBc v.s.",
         ".s.|Sii|c    c|iiS|...ssss...|              |.s.",
         ".s.|||+|      |+||||v||++||v|| cBBBc  cBBBc |.s.",
-        ".s.|              |p        p|              |.s.",
+        ".s.|§             |p        p|              |.s.",
         ".s.v                 ______    cBBBc  cBBBc v.s.",
         ".s.v                 ______                 v.s.",
         ".s.v                 ______    cBBBc  cBBBc v.s.",
@@ -109,7 +109,7 @@
         ".s.|####      ####|  |xddd|  |              |.s.",
         ".s.| ??        ?? |  + h r|  |4             |.s.",
         ".s.| ?          ? |  ||||||  |5             v.s.",
-        ".s.|p??        ??p|          |              v.s.",
+        ".s.|p??        ??p|         §|              v.s.",
         ".s.||||||=!!=||||||          |  #  #  #  #  |.s.",
         ".s.|>BBBBY  rBBBBp|  #    #  |  #  #  #  #  |.s.",
         ".s.|              |>>#    #>>|  #  #  #  #  |.s.",
@@ -131,10 +131,10 @@
         ".s.v hhhh    hhhh |''|SSi||||| I/// ///h/// v.s.",
         ".s.v              |''|iiiiiii| I/d  /dh /d  v.s.",
         ".s.|              |''|+|+|+|+|  /d h/d  /dh |.s.",
-        ".s.|p   [    [   p|''|T|T|T|T|  /x  /x  /x  |.s.",
+        ".s.|p   [    [  §p|''|T|T|T|T|  /x  /x  /x §|.s.",
         ".s.|||||  cc  |||||''|||||||||  /// /// |||||.s.",
         ".s.....|h     + hx|''+'''|'''+   I   I  |.....s.",
-        ".s.....|     h|ddx|''|lll|RRR|p    r   p|.....s.",
+        ".s.....|§    h|ddx|''|lll|RRR|p    r   p|.....s.",
         ".ss....|||vv|||||||--|||||||||||||||vv|||....ss.",
         "..ss...............ss.......................ss..",
         "...ssssssssssssssssssssssssssssssssssssssssss...",
@@ -145,7 +145,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "town_hall_0_0_1", "town_hall_1_0_1" ], [ "town_hall_0_1_1", "town_hall_1_1_1" ] ],
     "weight": 100,
     "object": {
@@ -166,16 +165,16 @@
         "***|           hcc|o?  tt  ?o|              |***",
         "***|    Y   r  hcc|o?? tt ??o| cccc    Y    |***",
         "***|||||||++|||||||o        o|||||||++|||||||***",
-        "***|@i#p          |          | cBBc      #i@|***",
+        "***|@i#p          |§         | cBBc      #i@|***",
         "***vii#                                  #iiv***",
         "***vii#                                  #iiv***",
-        "***|@i#      cBBc |         r|          p#i@|***",
+        "***|@i#      cBBc |         r|    §     p#i@|***",
         "***||||||=!!=||||||          |||||||++|||||||***",
         "***|<BBBBr   BBBB |###    ###|I   |p  p|   Y|***",
         "***|              |<<      <<|I x =    = x  |***",
         "***v BBBB    BBBB |<<      <<| hd !    ! d hv***",
         "***vp            p|||||++|||||  d =    = d  v***",
-        "***|##############|tthY  Y  h|Y  p|    |   I|***",
+        "***|##############|tthY  Y §h|Y  p|    |   I|***",
         "***|~~~~~~~~~~~~~~|tt ____   ||||||   6||||||***",
         "***|~~~~~~~~~~~~~~|hh ____ h |iiii=    YIddx|***",
         "***v~~~~~~~~~~~~~~|tt ____   |i<ii!      h  v***",
@@ -190,7 +189,7 @@
         "***|~~~~~~~~~~~~~~| tt       |xddI/    YIddx|***",
         "***v~~~~~~~~~~~~~~||vv|++|vv||||||/       h v***",
         "***v~~~~~~~~~~~~~~|..#''''#..|'''+     p   Iv***",
-        "***|~~~~~~~~~~~~~~|..#''''#..|'>'|||++||| h |***",
+        "***|~~~~~~~~~~~~~~|..#''''#..|'>'|||++||| h§|***",
         "***|~~~~~~~~~~~~~~|###''''###|'''|Y   po|ddx|***",
         "***||v||~~~~~~||v||333ssss333||+||     o||v||***",
         "*******|~~~~~~|ssssssssssssssssss| ddcco|*******",
@@ -205,7 +204,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "town_hall_1_0_1" ] ],
     "weight": 100,
     "object": {
@@ -215,7 +213,7 @@
         "************************",
         "*********||vvvv||*******",
         "*****|||||p    p|||||***",
-        "*****|             x|***",
+        "*****|        §    x|***",
         "*****v hth |++| hth v***",
         "*****v hth v  v hth v***",
         "*****v  h  v  v  h  v***",
@@ -229,9 +227,9 @@
         "     | cBBc      #i@|***",
         "                 #iiv***",
         "                 #iiv***",
-        "    r|          p#i@|***",
+        "    r|§         p#i@|***",
         "     |||||||++|||||||***",
-        "  ###|I   |p  p|   Y|***",
+        "  ###|I   |p  p|§  Y|***",
         "   <<|I x =    = x  |***",
         "   <<| hd !    ! d hv***",
         "+|||||  d =    = d  v***"
@@ -241,7 +239,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "town_hall_0_0_roof", "town_hall_1_0_roof" ], [ "town_hall_0_1_roof", "town_hall_1_1_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -301,7 +298,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "town_hall_1_1_upper_roof" ],
     "object": {
       "rows": [

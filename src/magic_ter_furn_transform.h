@@ -82,6 +82,7 @@ class ter_furn_transform
 
         static void reset();
         static void load_transform( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         void load( const JsonObject &jo, std::string_view );
 
         static const std::vector<ter_furn_transform> &get_all();

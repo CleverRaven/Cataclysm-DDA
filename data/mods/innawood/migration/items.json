@@ -1,0 +1,8 @@
+[
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": "leather_journal_innawood",
+    "replace": "leather_journal"
+  }
+]

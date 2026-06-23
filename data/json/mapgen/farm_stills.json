@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "farm_stills_4", "farm_stills_3", "farm_stills_2", "farm_stills_1" ],
       [ "farm_stills_8", "farm_stills_7", "farm_stills_6", "farm_stills_5" ],
@@ -146,7 +145,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "farm_stills_3_2nd" ], [ "farm_stills_7_roof" ] ],
     "type": "mapgen",
     "object": {
@@ -218,7 +216,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "farm_stills_3_roof",
     "type": "mapgen",
     "object": {
@@ -255,7 +252,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "farm_stills_3_basement",
     "object": {
       "fill_ter": "t_dirtfloor",

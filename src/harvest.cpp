@@ -103,6 +103,11 @@ void harvest_drop_type::load_harvest_drop_types( const JsonObject &jo, const std
     harvest_drop_type_factory.load( jo, src );
 }
 
+void harvest_drop_type::finalize_all()
+{
+    harvest_drop_type_factory.finalize();
+}
+
 void harvest_drop_type::reset()
 {
     harvest_drop_type_factory.reset();
@@ -158,6 +163,8 @@ bool harvest_entry::operator==( const harvest_entry &rhs ) const
     return drop == rhs.drop;
 }
 
+namespace
+{
 class harvest_entry_reader : public generic_typed_reader<harvest_entry_reader>
 {
     public:
@@ -176,6 +183,7 @@ class harvest_entry_reader : public generic_typed_reader<harvest_entry_reader>
             return ret;
         }
 };
+} // namespace
 
 void harvest_list::finalize()
 {
@@ -189,9 +197,6 @@ void harvest_list::finalize()
 void harvest_list::finalize_all()
 {
     harvest_list_factory.finalize();
-    for( const harvest_list &pr : get_all() ) {
-        const_cast<harvest_list &>( pr ).finalize();
-    }
 }
 
 void harvest_list::load( const JsonObject &obj, std::string_view )

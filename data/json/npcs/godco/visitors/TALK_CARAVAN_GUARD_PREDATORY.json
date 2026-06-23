@@ -2,7 +2,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_GUARD_PREDATORY",
-    "dynamic_line": "*looks up at you in uninterested fashion.  \"What do you want?  I'm working.",
+    "dynamic_line": "*looks up at you in uninterested fashion.  \"What do you want?  I'm working.\"",
     "responses": [
       { "text": "Oh, uh, sorry.", "topic": "TALK_DONE" },
       {
@@ -156,7 +156,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_FIVE",
-    "dynamic_line": "*holds their abdomen as they nearly keel over from laughter.  \"You better be glad that I think you're funny, anyone else would find it an insult.  $150 is more like it to me.",
+    "dynamic_line": "*holds their abdomen as they nearly keel over from laughter.  \"You better be glad that I think you're funny, anyone else would find it an insult.  $150 is more like it to me.\"",
     "responses": [
       {
         "text": "Alright, here it is.",
@@ -177,7 +177,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_TWENTY_WIN",
-    "dynamic_line": "*seems to get lost in thought for a moment, before looking back at you.  \"Alright, you have a deal.",
+    "dynamic_line": "*seems to get lost in thought for a moment, before looking back at you.  \"Alright, you have a deal.\"",
     "responses": [
       {
         "text": "Pleasure doing business.",
@@ -192,7 +192,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_TWENTY_FAIL",
-    "dynamic_line": "*seems to get lost in thought for a moment, before looking back at you.  \"Nah, I think $150 would be a better price.",
+    "dynamic_line": "*seems to get lost in thought for a moment, before looking back at you.  \"Nah, I think $150 would be a better price.\"",
     "responses": [
       {
         "text": "Alright, here it is.",

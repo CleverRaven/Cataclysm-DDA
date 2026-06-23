@@ -306,5 +306,11 @@
         ]
       ]
     }
+  },
+  {
+    "id": "whips",
+    "type": "requirement",
+    "//": "Any weapon that features a handle and flexible lash.",
+    "extend": { "tools": [ [ [ "tentacle_whip", -1 ], [ "flarewhip", -1 ], [ "mwhip_iron", -1 ] ] ] }
   }
 ]

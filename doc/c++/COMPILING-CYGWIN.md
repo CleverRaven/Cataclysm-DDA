@@ -1,6 +1,19 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Compilation guide for 64 bit Windows (using Cygwin)](#compilation-guide-for-64-bit-windows-using-cygwin)
+  - [Prerequisites:](#prerequisites)
+  - [Installation:](#installation)
+  - [Configuration:](#configuration)
+  - [Cloning and compilation:](#cloning-and-compilation)
+  - [Running:](#running)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Compilation guide for 64 bit Windows (using Cygwin)
 
-This guide contains instructions for compiling Cataclysm-DDA on Windows under Cygwin. **PLEASE NOTE:** These instructions *are not intended* to produce a redistributable copy of CDDA. Please download the official builds from the website or [cross-compile from Linux](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/COMPILING/COMPILING.md#cross-compile-to-windows-from-linux) if that is your intention.
+This guide contains instructions for compiling Cataclysm-DDA on Windows under Cygwin. **PLEASE NOTE:** These instructions *are not intended* to produce a redistributable copy of CDDA. Please download the official builds from the website or [cross-compile from Linux](COMPILING.md#cross-compile-to-windows-from-linux) if that is your intention.
 
 These instructions were written using 64-bit Windows 7 and the 64-bit version of Cygwin; the steps should be the same for other versions of Windows.
 
@@ -57,7 +70,7 @@ You will see messages saying packages are already installed, as well as Cygwin i
 
 **Note:** This will download the entire CDDA repository and all of its history (3GB). If you're just testing, you should probably add `--depth=1` (~350MB).
 
-**Note:** If you want to contribute to CDDA, see [example git workflow](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/CONTRIBUTING.md#example-workflow).
+**Note:** If you want to contribute to CDDA, see [example git workflow](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/CONTRIBUTING.md#example-workflow).
 
 ```bash
 cd /cygdrive/c/dev

@@ -2,12 +2,12 @@
   {
     "type": "npc",
     "id": "refugee_MangalpreetSingh",
-    "name_unique": "Mangalpreet Singh",
+    "name_unique": "Mangalpreet Kaur",
     "gender": "female",
     "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Mangalpreet",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_REFUGEE_Mangalpreet_1",
     "faction": "free_merchants"
   },

@@ -43,6 +43,39 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_BROKEN_LIMBS_MAKES_SOMATIC_SPELLS_HARDER",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "disabled", "bodypart": "arm_r" }, { "u_has_effect": "disabled", "bodypart": "arm_l" } ] },
+        { "not": { "u_has_flag": "SUBTLE_SPELL" } }
+      ]
+    },
+    "effect": [
+      {
+        "if": {
+          "and": [
+            { "or": [ { "u_has_effect": "disabled", "bodypart": "arm_r" }, { "u_has_effect": "disabled", "bodypart": "arm_l" } ] },
+            {
+              "not": { "and": [ { "u_has_effect": "disabled", "bodypart": "arm_r" }, { "u_has_effect": "disabled", "bodypart": "arm_l" } ] }
+            }
+          ]
+        },
+        "then": [
+          { "math": [ "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm', 'flag_whitelist': 'SOMATIC' )", "=", "10" ] }
+        ]
+      },
+      {
+        "if": { "and": [ { "u_has_effect": "disabled", "bodypart": "arm_r" }, { "u_has_effect": "disabled", "bodypart": "arm_l" } ] },
+        "then": [
+          { "math": [ "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm', 'flag_whitelist': 'SOMATIC' )", "=", "30" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_THAUMIC_ZOMBIES_INCREASE_DIFFICULTY",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
@@ -50,50 +83,6 @@
     "effect": [
       { "math": [ "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm' ) = 2" ] },
       { "math": [ "u_spellcasting_adjustment('cost', 'mod': 'magiclysm') = 0.25" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_NO_CASTING_CHANNELING_SPELLS_EFFECTS",
-    "eoc_type": "EVENT",
-    "required_event": "opens_spellbook",
-    "condition": { "u_has_trait": "NO_CASTING_CHANNELING_SPELLS" },
-    "effect": [
-      { "math": [ "u_spellcasting_adjustment('difficulty', 'flag_whitelist': 'CHANNELING_SPELL') = 999" ] },
-      { "math": [ "u_spellcasting_adjustment('cost', 'flag_whitelist': 'CHANNELING_SPELL') = 999" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_NO_CASTING_EVOCATION_SPELLS_EFFECTS",
-    "eoc_type": "EVENT",
-    "required_event": "opens_spellbook",
-    "condition": { "u_has_trait": "NO_CASTING_EVOCATION_SPELLS" },
-    "effect": [
-      { "math": [ "u_spellcasting_adjustment('difficulty', 'flag_whitelist': 'EVOCATION_SPELL') = 999" ] },
-      { "math": [ "u_spellcasting_adjustment('cost', 'flag_whitelist': 'EVOCATION_SPELL') = 999" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_NO_CASTING_CONJURATION_SPELLS_EFFECTS",
-    "eoc_type": "EVENT",
-    "required_event": "opens_spellbook",
-    "condition": { "u_has_trait": "NO_CASTING_CONJURATION_SPELLS" },
-    "effect": [
-      { "math": [ "u_spellcasting_adjustment('difficulty', 'flag_whitelist': 'CONJURATION_SPELL') = 999" ] },
-      { "math": [ "u_spellcasting_adjustment('cost', 'flag_whitelist': 'CONJURATION_SPELL') = 999" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_NO_CASTING_ENHANCEMENT_SPELLS_EFFECTS",
-    "eoc_type": "EVENT",
-    "required_event": "opens_spellbook",
-    "condition": { "u_has_trait": "NO_CASTING_ENHANCEMENT_SPELLS" },
-    "effect": [
-      { "math": [ "u_spellcasting_adjustment('difficulty', 'flag_whitelist': 'ENHANCEMENT_SPELL') = 999" ] },
-      { "math": [ "u_spellcasting_adjustment('cost', 'flag_whitelist': 'ENHANCEMENT_SPELL') = 999" ] }
     ]
   },
   {
@@ -147,8 +136,23 @@
     "required_event": "opens_spellbook",
     "condition": { "u_has_trait": "MAGIC_EMPTY" },
     "effect": [
-      { "math": [ "u_spellcasting_adjustment('difficulty', 'flag_blacklist': 'PSIONIC') = 999" ] },
-      { "math": [ "u_spellcasting_adjustment('cost', 'flag_blacklist': 'PSIONIC') = 999" ] }
+      { "math": [ "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm',  'flag_blacklist': 'PSIONIC') = 999" ] },
+      { "math": [ "u_spellcasting_adjustment('cost',  'mod': 'magiclysm', 'flag_blacklist': 'PSIONIC') = 999" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MANA_OVERLOAD_MAKES_SPELLS_MORE_DIFFICULT",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_effect": "effect_mana_overload" },
+    "effect": [
+      {
+        "math": [ "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm')", "=", "(u_effect_intensity('effect_mana_overload') )" ]
+      },
+      {
+        "math": [ "u_spellcasting_adjustment('cost',  'mod': 'magiclysm')", "=", "(u_effect_intensity('effect_mana_overload') / 2)" ]
+      }
     ]
   }
 ]

@@ -130,5 +130,17 @@
     "pre_special": "check_empty",
     "post_terrain": "f_stool",
     "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_beanbag",
+    "group": "build_beanbag",
+    "category": "FURN",
+    "time": "15 s",
+    "components": [ [ [ "beanbag", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_beanbag",
+    "activity_level": "LIGHT_EXERCISE",
+    "required_skills": [ [ "fabrication", 0 ] ]
   }
 ]

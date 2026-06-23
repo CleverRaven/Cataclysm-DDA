@@ -6,7 +6,8 @@
     "vision_levels": "large_building",
     "sym": "l",
     "color": "light_gray",
-    "see_cost": "full_high"
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -15,7 +16,8 @@
     "name": "research facility roof",
     "sym": "l",
     "color": "light_gray",
-    "see_cost": "full_high"
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -24,7 +26,8 @@
     "vision_levels": "large_building",
     "sym": "l",
     "color": "light_gray",
-    "see_cost": "full_high"
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -33,7 +36,8 @@
     "name": "research facility access road",
     "sym": "l",
     "color": "light_gray",
-    "see_cost": "none"
+    "see_cost": "none",
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -42,7 +46,8 @@
     "vision_levels": "large_building",
     "sym": "l",
     "color": "light_gray",
-    "see_cost": "full_high"
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -60,7 +65,8 @@
     "vision_levels": "underground_stone",
     "sym": "l",
     "color": "light_gray",
-    "see_cost": "full_high"
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -69,7 +75,8 @@
     "name": "LIXA research floor",
     "sym": "L",
     "color": "light_blue",
-    "see_cost": "full_high"
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -78,7 +85,8 @@
     "vision_levels": "underground_stone",
     "sym": "L",
     "color": "light_blue",
-    "see_cost": "full_high"
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -87,6 +95,7 @@
     "name": "unfolded space",
     "sym": "!",
     "color": "white",
-    "see_cost": "full_high"
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE" ]
   }
 ]

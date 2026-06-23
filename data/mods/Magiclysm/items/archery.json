@@ -21,7 +21,6 @@
       "NEVER_JAMS",
       "SHEATH_BOW"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 10,
     "ammo": [ "arrow_orichalcum", "arrow" ],
@@ -164,7 +163,7 @@
     "copy-from": "arrow_druid_crafted",
     "//": "I'd like this to cause massive knockback but I'm limited by the available ammo flags.",
     "name": { "str": "gravity arrow" },
-    "color": "black",
+    "color": "dark_gray",
     "recovery_chance": 86,
     "description": "An arrow with a fragment of a magus rune in the arrowhead.  It reverses flight briefly after striking its target and then hits another one.",
     "effects": [ "BOUNCE" ]
@@ -197,6 +196,14 @@
         "weight_multiplier": 0.5,
         "volume_multiplier": 0.5,
         "moves": 20
+      }
+    ],
+    "armor": [
+      {
+        "encumbrance": [ 3, 11 ],
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
       }
     ],
     "extend": { "flags": [ "TARDIS" ] }

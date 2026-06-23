@@ -1,0 +1,343 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Exit_Controls",
+    "dynamic_line": "&You see a strangely mundane black computer screen, with a blinking green cursor awaiting input.\n\n<color_light_green> @User > _</color>",
+    "responses": [
+      {
+        "text": "<color_yellow>Activate exit protocol: Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ",
+        "condition": { "compare_string": [ "yes", { "u_val": "traveled_safehouse_to_labyrinth" } ] },
+        "topic": "COMP_LS_Exit_Controls2_safehouse"
+      },
+      {
+        "text": "<color_red>Activate exit protocol: Earth gate",
+        "condition": { "compare_string": [ "yes", { "u_val": "traveled_home_to_labyrinth" } ] },
+        "topic": "COMP_LS_Exit_Controls2_home"
+      },
+      {
+        "text": "<color_red>Activate exit protocol: KÁ gate",
+        "condition": { "compare_string": [ "yes", { "u_val": "traveled_string_dimension_to_labyrinth" } ] },
+        "topic": "COMP_LS_Exit_Controls2_string_dimension"
+      },
+      { "text": "<color_light_green>Log off", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Exit_Controls2_safehouse",
+    "dynamic_line": "&<color_light_green> @User > skill -EXIT -@User\n<color_light_green>Really exit?  You will not be able to return to the same place.",
+    "responses": [
+      {
+        "text": "Yes.",
+        "effect": [ { "u_add_var": "stuck_in_labyrinth", "value": "no" }, { "run_eocs": "EOC_LS_SAFEHOUSE_Exit_labyrinth" } ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "No.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Exit_Controls2_home",
+    "dynamic_line": "&<color_light_green> @User > skill -EXIT -@User\n<color_light_green>Really exit?  You will not be able to return to the same place.",
+    "responses": [
+      {
+        "text": "Yes.",
+        "effect": [ { "u_add_var": "stuck_in_labyrinth", "value": "no" }, { "run_eocs": "EOC_LS_Exit_labyrinth" } ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "No.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Exit_Controls2_string_dimension",
+    "dynamic_line": "&<color_light_green> @User > skill -EXIT -@User\n<color_light_green>Really exit?  You will not be able to return to the same place.",
+    "responses": [
+      {
+        "text": "Yes.",
+        "effect": [ { "u_add_var": "stuck_in_labyrinth", "value": "no" }, { "run_eocs": "EOC_LS_SD_Exit_labyrinth" } ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "No.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Exit_Controls_Temp_overgrown",
+    "dynamic_line": [
+      "&You see a computer terminal with slender vines growing out of its case.\n\n<color_light_green> AltarOS remote connected\n\n Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ translocated to this string\n\n @User > _</color>",
+      "&You see a computer terminal with slender vines growing out of its case.\n\n<color_light_green> AltarOS remote connected\n\n Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ translocated to this node\n\n @User > _</color>",
+      "&You see a computer terminal with slender vines growing out of its case.\n\n<color_light_green> AltarOS remote connected\n\n Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ translocated to this dimension\n\n @User > _</color>",
+      "&You see a computer terminal with slender vines growing out of its case.\n\n<color_light_green> AltarOS remote connected\n\n Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ translocated to this universe\n\n @User > _</color>",
+      "&You see a computer terminal with slender vines growing out of its case.\n\n<color_light_green> AltarOS remote connected\n\n Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ attuned to this string\n\n @User > _</color>",
+      "&You see a computer terminal with slender vines growing out of its case.\n\n<color_light_green> AltarOS remote connected\n\n Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ attuned to this node\n\n @User > _</color>",
+      "&You see a computer terminal with slender vines growing out of its case.\n\n<color_light_green> AltarOS remote connected\n\n Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ attuned to this dimension\n\n @User > _</color>",
+      "&You see a computer terminal with slender vines growing out of its case.\n\n<color_light_green> AltarOS remote connected\n\n Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ attuned to this universe\n\n @User > _</color>",
+      "&You see a computer terminal with slender vines growing out of its case.\n\n<color_light_green> AltarOS remote connected\n\n Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ dimensionally anchored\n\n @User > _</color>"
+    ],
+    "responses": [
+      {
+        "text": "<color_yellow>Activate exit protocol: Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ",
+        "condition": { "compare_string": [ "yes", { "u_val": "traveled_safehouse_to_labyrinth" } ] },
+        "topic": "COMP_LS_Exit_Controls_Temp_overgrown2_safehouse"
+      },
+      { "text": "<color_light_green>Log off", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Exit_Controls_Temp_overgrown2_safehouse",
+    "dynamic_line": "&<color_light_green> @User > skill -EXIT -@User\n\n<color_light_green> Really exit?  You </color><color_white>will</color><color_light_green> be able to return to this place, but </color><color_white>only</color><color_light_green> to this place.",
+    "responses": [
+      {
+        "text": "Yes.",
+        "effect": [
+          { "u_add_var": "stuck_in_labyrinth", "value": "yes" },
+          { "u_add_var": "player_location_temp_labyrinth_return_dimension", "value": "netherum_labyrinth2" },
+          { "run_eocs": "EOC_LS_SAFEHOUSE_Exit_labyrinth_temp" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "No.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS2_MAP",
+    "dynamic_line": "&<color_light_green> AltarOS map-node ONLINE.\n<color_light_green> Connection to AltarOS remote FAILED.\n<color_light_green> @User > _",
+    "responses": [ { "text": "Download map data.", "topic": "COMP_LS2_MAP_2" }, { "text": "Log off.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS2_MAP_2",
+    "dynamic_line": "&<color_light_green> @User > map get --update\n<color_light_green> Error: Insufficient confidence.  Blood tax requested.\n\n</color>A drawer on the side of the terminal slides open, revealing a a bloodstained stone with the outline of a human hand.",
+    "responses": [
+      {
+        "text": "[Place your hand on the stone]",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "math": [ "u_vitamin('blood') -= 6250" ] },
+          { "math": [ "u_vitamin('redcells') -= 6250" ] },
+          { "u_location_variable": { "context_val": "loc" } },
+          { "reveal_map": { "context_val": "loc" }, "radius": 30 },
+          {
+            "u_message": "You place your hand on the stone.  There is a pinch, then a wet, mechanical hiss, as something draws a lot of blood.  The terminal immediately displays a topological map of the surrounding labyrinthian structures."
+          }
+        ]
+      },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Passcode_Door",
+    "dynamic_line": "&You see a strangely mundane black computer screen, with a blinking green cursor awaiting input.\n\n<color_light_green> @User > _</color>",
+    "responses": [
+      {
+        "text": "Unlock connected doors",
+        "effect": { "math": [ "n_LS_door_requests = 1" ] },
+        "topic": "COMP_LS_Passcode_Door2",
+        "condition": { "math": [ "n_LS_door_requests < 1" ] }
+      },
+      {
+        "text": "Lock connected doors",
+        "effect": { "math": [ "n_LS_door_requests += 1" ] },
+        "topic": "COMP_LS_Passcode_Door3",
+        "condition": { "math": [ "n_LS_door_requests == 1" ] }
+      },
+      {
+        "text": "Unlock connected doors",
+        "topic": "COMP_LS_Passcode_Door4",
+        "condition": { "math": [ "n_LS_door_requests == 2" ] }
+      },
+      {
+        "text": "Now all the doors are *gone*, what the hell.",
+        "topic": "COMP_LS_Passcode_Door5",
+        "condition": { "math": [ "n_LS_door_requests == 3" ] }
+      },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Passcode_Door2",
+    "dynamic_line": "&<color_light_green> @User > doorstatus --update=unlock\n<color_light_green>Command accepted.\n<color_light_green>Nearby doors unlocked.\n<color_light_green>Thank you for using AltarOS.\n\n<color_light_green> @User > _",
+    "responses": [
+      { "text": "Log off.", "effect": { "run_eocs": [ "EOC_LS_Unlock", "EOC_LS_Passcode_Generator" ] }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Passcode_Door3",
+    "dynamic_line": "&<color_light_green> @User > doorstatus --update=lock\n<color_light_green>Command accepted.\n<color_light_green>Nearby doors locked.\n<color_light_green>Warning: What is done cannot be undone.  This does not represent a return to how things were.  You can never go back.\n\n<color_light_green> @User > _",
+    "responses": [ { "text": "Log off.", "effect": { "run_eocs": [ "EOC_LS_Lock" ] }, "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Passcode_Door4",
+    "dynamic_line": "&<color_light_green> @User > doorstatus --update=unlock\n<color_light_green>Bad command or file name.\n<color_light_green>What is done cannot be undone.  Please see prior user warning.\n\n<color_light_green> @User > _",
+    "responses": [
+      { "text": "There must be some way to force the computer to do it.", "topic": "COMP_LS_Passcode_Door4sudo" },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Passcode_Door4sudo",
+    "dynamic_line": "&<color_light_green> @User > doorstatus --update=unlock --force\n<color_light_green>Error: Insufficient confidence.\n<color_light_green>Aborted: No forceable process.\n @User > sudo doorstatus --update=unlock\n<color_light_green>Oh, is that how it will be?  Very well.\n<color_light_green>Blood tax requested.\nA drawer on the side of the terminal slides open, revealing a small, thin needle.\n\n<color_light_green> @User > _",
+    "responses": [
+      {
+        "text": "[ Prick yourself on the needle ]",
+        "topic": "COMP_LS_Passcode_Door4blood",
+        "effect": [
+          { "math": [ "u_vitamin('blood') -= -12500" ] },
+          { "math": [ "u_vitamin('redcells') -= -12500" ] },
+          { "math": [ "n_LS_door_requests += 1" ] }
+        ]
+      },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Passcode_Door4blood",
+    "dynamic_line": "&As it enters your skin, the thin needle seems to pulse, greedily gulping from your offered hand, and you feel abruptly dizzy and lightheaded.  It feels like it took a *lot* of blood.\n\n<color_light_green> @User > Inflict --damage=lifeblood\n<color_light_green>Processing contribution of reality ||||||||| 100%\n<color_light_green>Nearby doors unlocked.\n\n<color_light_green> @User > _",
+    "responses": [ { "text": "Log off.", "effect": { "run_eocs": [ "EOC_LS_ReallyUnlock" ] }, "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Passcode_Door5",
+    "dynamic_line": "&<color_light_green> @User > doorstatus --list\n<color_light_green>12 drwxr-xr-x 1 @User\n<color_light_green>File lost or deleted.\n<color_light_green>A new, stronger reality has supplanted the previous.  Thank you for using AltarOS.\n<color_light_green> @User > _",
+    "responses": [ { "text": "Log off.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [
+      "COMP_LS_Bridge_control_deadend_1",
+      "COMP_LS_Bridge_control_deadend_1_Retract",
+      "COMP_LS_Bridge_control_deadend_1_Extend_nopasscode"
+    ],
+    "responses": [
+      {
+        "text": "Enter the Thief's Passcode to extend the bridge.",
+        "effect": [ { "math": [ "n_LS_bridge_requests = 1" ] }, { "u_lose_trait": "LS_Passcode_0" } ],
+        "condition": { "and": [ { "math": [ "n_LS_bridge_requests < 1" ] }, { "u_has_trait": "LS_Passcode_0" } ] },
+        "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode0"
+      },
+      {
+        "text": "Enter the Circle of Wings Passcode to extend the bridge.",
+        "effect": [ { "math": [ "n_LS_bridge_requests = 1" ] }, { "u_lose_trait": "LS_Passcode_1" } ],
+        "condition": { "and": [ { "math": [ "n_LS_bridge_requests < 1" ] }, { "u_has_trait": "LS_Passcode_1" } ] },
+        "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode1"
+      },
+      {
+        "text": "Enter the Hard Nails Passcode to extend the bridge.",
+        "effect": [ { "math": [ "n_LS_bridge_requests = 1" ] }, { "u_lose_trait": "LS_Passcode_2" } ],
+        "condition": { "and": [ { "math": [ "n_LS_bridge_requests < 1" ] }, { "u_has_trait": "LS_Passcode_2" } ] },
+        "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode2"
+      },
+      {
+        "text": "Enter the Laughing Man Passcode to extend the bridge.",
+        "effect": [ { "math": [ "n_LS_bridge_requests = 1" ] }, { "u_lose_trait": "LS_Passcode_3" } ],
+        "condition": { "and": [ { "math": [ "n_LS_bridge_requests < 1" ] }, { "u_has_trait": "LS_Passcode_3" } ] },
+        "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode3"
+      },
+      {
+        "text": "Try to extend the bridge to the treasure room.",
+        "condition": { "math": [ "n_LS_bridge_requests < 1" ] },
+        "topic": "COMP_LS_Bridge_control_deadend_1_Extend_nopasscode"
+      },
+      {
+        "text": "Retract the bridge",
+        "topic": "COMP_LS_Bridge_control_deadend_1_Retract",
+        "condition": { "math": [ "n_LS_bridge_requests", ">", "1" ] }
+      },
+      {
+        "text": "[Computers] Try to find a way to force it.",
+        "condition": { "and": [ { "math": [ "u_skill('computer') > 2" ] }, { "math": [ "n_LS_bridge_requests == 2" ] } ] },
+        "topic": "COMP_LS_Bridge_control_deadend_1_force"
+      },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1",
+    "dynamic_line": "&You see a strangely mundane black computer screen, with a blinking green cursor awaiting input.\n\n<color_light_green> @User > _</color>"
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_Extend_nopasscode",
+    "dynamic_line": "&<color_light_green> @User > bridge --update=extend\n<color_light_green>Error: No PASSCODE or CONFIDENCE.\n<color_light_green>If you have a PASSCODE, please enter using syntax --pass=\"your password\"\n<color_light_green>If you have not been granted a PASSCODE, contact your system obelisk for help.\n\n<color_light_green> @User > _"
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_Extend_passcode0",
+    "dynamic_line": "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode0>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>Watch your step.\n\n<color_light_green> @User > _</color>",
+    "responses": [ { "text": "Log off.", "effect": { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode0" }, "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_Extend_passcode1",
+    "dynamic_line": "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode1>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>You are free.\n\n<color_light_green> @User > _</color>",
+    "responses": [ { "text": "Log off.", "effect": { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode1" }, "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_Extend_passcode2",
+    "dynamic_line": "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode2>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>Kick some ass.\n\n<color_light_green> @User > _</color>",
+    "responses": [ { "text": "Log off.", "effect": { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode2" }, "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_Extend_passcode3",
+    "dynamic_line": "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode3>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>Asshole.\n\n<color_light_green> @User > _</color>",
+    "responses": [ { "text": "Log off.", "effect": { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode3" }, "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_Retract",
+    "dynamic_line": "&<color_light_green> @User > bridge --update=retract\n<color_light_green>Error: Insufficient confidence.\n<color_light_green>What is done cannot be undone.\n\n<color_light_green> @User > _</color>",
+    "speaker_effect": { "effect": { "math": [ "n_LS_bridge_requests = 2" ] } }
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_force",
+    "dynamic_line": "&<color_light_green> @User > help --retract\n<color_light_green>Help?  @User help request logged.\n<color_light_green>Error: \"Help\" - implied payment|cost detected.\n<color_light_green>Error: Payment|cost not implemented.  Try again some day.\n\n<color_light_green> @User > _</color>",
+    "responses": [ { "text": "Log off.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Boiler_Exit_Controls",
+    "dynamic_line": "& ▄▄▄· ▄▄▌  ▄▄▄▄▄ ▄▄▄· ▄▄▄            .▄▄ ·\n▐█ ▀█ ██•  •██  ▐█ ▀█ ▀▄ █·    ▪     ▐█ ▀.\n▄█▀▀█ ██▪   ▐█.▪▄█▀▀█ ▐▀▀▄      ▄█▀▄ ▄▀▀▀█▄\n▐█ ▪▐▌▐█▌▐▌ ▐█▌·▐█ ▪▐▌▐█•█▌    ▐█▌.▐▌▐█▄▪▐█\n ▀  ▀ .▀▀▀  ▀▀▀  ▀  ▀ .▀  ▀     ▀█▄▀▪ ▀▀▀▀\n\n @AltarOS > echo -anchor -cargo -nt AUTO\n\n ANCHOR:CARGO RESONANCE LOCK = true.\n\n Start exit protocol.       ᵖˡᵉᵃˢᵉ\n\n @AltarOS > skill -ELEVATE -@User\n\n<color_light_green> @User > _</color>",
+    "responses": [
+      {
+        "text": "<color_light_green>Activate exit protocol: Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ",
+        "topic": "COMP_LS_Boiler_Exit_Controls2"
+      },
+      { "text": "<color_red>Log off", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Boiler_Exit_Controls2",
+    "dynamic_line": "&<color_light_green> @User > sudo skill -EXIT -@User -RESONANCE_ANCHOR</color>\n\n Exit with the coupled device?  You will <color_red>never</color> see this exact place again.",
+    "responses": [
+      { "text": "Yes.", "effect": { "run_eocs": "EOC_LS_mission_boiler_teleport_to_safehouse" }, "topic": "TALK_DONE" },
+      { "text": "No.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Water_Cooler_Exit_Controls",
+    "dynamic_line": "&This would almost look like an earthly water cooler, except the base is made up of cobbled together scrap metal, and the tank is a clouded fishbowl of green liquid.  Where the tap would be is a thin, sharp spike, feeding a dribble-tube that vanishes into the tank.  As you approach, some lights flicker, and a beam of light from some unseen projector casts an image upon the bulbous tank.\n\n\n\u00A0\u00A0▄▄▄\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0██▓\u00A0\u00A0▄▄▄█████▓\u00A0▄▄▄\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0██▀███\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0▒█████\u00A0\u00A0\u00A0\u00A0██████\u00A0\n▒████▄\u00A0\u00A0\u00A0\u00A0▓██▒\u00A0\u00A0▓\u00A0\u00A0██▒\u00A0▓▒▒████▄\u00A0\u00A0\u00A0\u00A0▓██\u00A0▒\u00A0██▒\u00A0\u00A0\u00A0▒██▒\u00A0\u00A0██▒▒██\u00A0\u00A0\u00A0\u00A0▒\u00A0\n▒██\u00A0\u00A0▀█▄\u00A0\u00A0▒██░\u00A0\u00A0▒\u00A0▓██░\u00A0▒░▒██\u00A0\u00A0▀█▄\u00A0\u00A0▓██\u00A0░▄█\u00A0▒\u00A0\u00A0\u00A0▒██░\u00A0\u00A0██▒░\u00A0▓██▄\u00A0\u00A0\u00A0\n░██▄▄▄▄██\u00A0▒██░\u00A0\u00A0░\u00A0▓██▓\u00A0░\u00A0░██▄▄▄▄██\u00A0▒██▀▀█▄\u00A0\u00A0\u00A0\u00A0\u00A0▒██\u00A0\u00A0\u00A0██░\u00A0\u00A0▒\u00A0\u00A0\u00A0██▒\n\u00A0▓█\u00A0\u00A0\u00A0▓██▒░██████▒▒██▒\u00A0░\u00A0\u00A0▓█\u00A0\u00A0\u00A0▓██▒░██▓\u00A0▒██▒\u00A0\u00A0\u00A0░\u00A0████▓▒░▒██████▒▒\n\u00A0▒▒\u00A0\u00A0\u00A0▓▒█░░\u00A0▒░▓\u00A0\u00A0░▒\u00A0░░\u00A0\u00A0\u00A0\u00A0▒▒\u00A0\u00A0\u00A0▓▒█░░\u00A0▒▓\u00A0░▒▓░\u00A0\u00A0\u00A0░\u00A0▒░▒░▒░\u00A0▒\u00A0▒▓▒\u00A0▒\u00A0░\n\u00A0\u00A0▒\u00A0\u00A0\u00A0▒▒\u00A0░░\u00A0░\u00A0▒\u00A0\u00A0░\u00A0\u00A0░\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0▒\u00A0\u00A0\u00A0▒▒\u00A0░\u00A0\u00A0░▒\u00A0░\u00A0▒░\u00A0\u00A0\u00A0\u00A0\u00A0░\u00A0▒\u00A0▒░\u00A0░\u00A0░▒\u00A0\u00A0░\u00A0░\n\u00A0\u00A0░\u00A0\u00A0\u00A0▒\u00A0\u00A0\u00A0\u00A0\u00A0░\u00A0░\u00A0\u00A0\u00A0░\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0░\u00A0\u00A0\u00A0▒\u00A0\u00A0\u00A0\u00A0\u00A0░░\u00A0\u00A0\u00A0░\u00A0\u00A0\u00A0\u00A0░\u00A0░\u00A0░\u00A0▒\u00A0\u00A0░\u00A0\u00A0░\u00A0\u00A0░\u00A0\u00A0\n\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0░\u00A0\u00A0░\u00A0\u00A0\u00A0\u00A0░\u00A0\u00A0░\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0░\u00A0\u00A0░\u00A0\u00A0\u00A0░\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0░\u00A0░\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0░\u00A0\u00A0\n\n @AltarOS > Bringing us here is a great service hᵤmₐn.  A blood tax is required to attune the object, and return it to your home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ.",
+    "responses": [
+      {
+        "text": "Prick your hand upon the metal spike.",
+        "effect": { "run_eocs": "EOC_LS_mission_water_cooler_teleport_to_safehouse" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "Step away.", "topic": "TALK_DONE" }
+    ]
+  }
+]

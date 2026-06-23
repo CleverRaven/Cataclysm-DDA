@@ -9,6 +9,7 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <string_view>
 
 #include "cuboid_rectangle.h"
 #include "options.h"
@@ -19,6 +20,9 @@ enum class special_game_type;
 
 class JsonArray;
 class JsonObject;
+
+constexpr std::string_view zzip_overmap_directory = "overmaps";
+constexpr std::string_view zzip_suffix = ".zzip";
 
 namespace catacurses
 {
@@ -37,7 +41,7 @@ class save_t
         std::string base_path() const;
 
         static save_t from_save_id( const std::string &save_id );
-        static save_t from_base_path( const std::string &base_path );
+        static save_t from_base_path( std::string_view base_path );
 
         bool operator==( const save_t &rhs ) const {
             return name == rhs.name;
@@ -75,7 +79,7 @@ struct WORLD {
         bool save_exists( const save_t &name ) const;
         void add_save( const save_t &name );
 
-        bool save( bool is_conversion = false ) const;
+        bool save() const;
 
         void load_options( const JsonArray &options_json );
         bool load_options();
@@ -83,6 +87,12 @@ struct WORLD {
         bool save_timestamp() const;
         bool load_timestamp();
         bool create_timestamp();
+
+        bool has_compression_enabled() const;
+        bool set_compression_enabled( bool enabled );
+    private:
+        mutable std::optional<bool> is_compressed;
+
 };
 
 class mod_manager;
@@ -130,7 +140,7 @@ class worldfactory
         bool valid_worldname( const std::string &name, bool automated = false ) const;
 
         /**
-         * @param delete_folder If true: delete all the files and directories  of the given
+         * @param delete_folder If true: delete all the files and directories of the given
          * world folder. Else just avoid deleting the config files and the directory
          * itself.
          */
@@ -157,7 +167,8 @@ class worldfactory
         std::map<int, inclusive_rectangle<point>> draw_mod_list( const catacurses::window &w, int &start,
                                                size_t cursor, const std::vector<mod_id> &mods,
                                                bool is_active_list, const std::string &text_if_empty,
-                                               const catacurses::window &w_shift, bool recalc_start );
+                                               const catacurses::window &w_shift, bool recalc_start,
+                                               const std::vector<mod_id> &potential_conflicts = std::vector<mod_id>() );
 
         WORLD *add_world( std::unique_ptr<WORLD> retworld );
 

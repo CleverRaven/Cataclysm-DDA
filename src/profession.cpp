@@ -13,6 +13,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
+#include "color.h"
 #include "debug.h"
 #include "effect_on_condition.h"
 #include "flag.h"
@@ -22,10 +23,12 @@
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
+#include "localized_comparator.h"
 #include "magic.h"
 #include "mission.h"
 #include "mutation.h"
 #include "options.h"
+#include "output.h"
 #include "past_achievements_info.h"
 #include "pimpl.h"
 #include "trait_group.h"
@@ -37,15 +40,19 @@
 struct bionic_data;
 
 static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
+static const json_character_flag json_flag_NO_CBM_INSTALLATION( "NO_CBM_INSTALLATION" );
 static const trait_group::Trait_group_tag
 Trait_group_BG_survival_story_UNIVERSAL( "BG_survival_story_UNIVERSAL" );
+static const trait_id trait_NO_CBM_INSTALLATION( "NO_CBM_INSTALLATION" );
 
 namespace
 {
 generic_factory<profession> all_profs( "profession" );
 } // namespace
 
-static class json_item_substitution
+namespace
+{
+class json_item_substitution
 {
     public:
         void reset();
@@ -76,6 +83,7 @@ static class json_item_substitution
         std::vector<item> get_bonus_items( const std::vector<trait_id> &traits ) const;
         std::vector<item> get_substitution( const item &it, const std::vector<trait_id> &traits ) const;
 } item_substitutions;
+} // namespace
 
 /** @relates string_id */
 template<>
@@ -156,6 +164,13 @@ void profession::load_profession( const JsonObject &jo, const std::string &src )
     all_profs.load( jo, src );
 }
 
+void profession::finalize_all()
+{
+    all_profs.finalize();
+}
+
+namespace
+{
 class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
 {
     public:
@@ -171,7 +186,10 @@ class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
             } );
         }
 };
+} // namespace
 
+namespace
+{
 class addiction_reader : public generic_typed_reader<addiction_reader>
 {
     public:
@@ -209,6 +227,7 @@ class item_reader : public generic_typed_reader<item_reader>
             } );
         }
 };
+} // namespace
 
 void profession::load( const JsonObject &jo, std::string_view )
 {
@@ -259,8 +278,9 @@ void profession::load( const JsonObject &jo, std::string_view )
     std::string background_group_id;
     optional( jo, was_loaded, "npc_background", _starting_npc_background,
               Trait_group_BG_survival_story_UNIVERSAL );
-    optional( jo, was_loaded, "age_lower", age_lower, 16 );
-    optional( jo, was_loaded, "age_upper", age_upper, 55 );
+    optional( jo, was_loaded, "chargen_allow_npc", _chargen_allow_npc, true );
+    optional( jo, was_loaded, "age_lower", age_lower, DEFAULT_PROF_AGE_LOWER );
+    optional( jo, was_loaded, "age_upper", age_upper, DEFAULT_PROF_AGE_UPPER );
     optional( jo, was_loaded, "starting_cash", _starting_cash );
 
     if( jo.has_string( "vehicle" ) ) {
@@ -320,7 +340,23 @@ void profession::load( const JsonObject &jo, std::string_view )
     }
     optional( jo, was_loaded, "no_bonus", no_bonus );
 
-    optional( jo, was_loaded, "requirement", _requirement );
+    if( jo.has_member( "requirement" ) ) {
+        _requirements.clear();
+        if( jo.has_string( "requirement" ) ) {
+            _requirements.emplace_back( jo.get_string( "requirement" ) );
+        } else if( jo.has_array( "requirement" ) ) {
+            mandatory( jo, was_loaded, "requirement", _requirements );
+        } else {
+            jo.throw_error_at( "requirement", "requirement must be string or array" );
+        }
+    }
+
+    optional( jo, was_loaded, "hard_requirement", hard_requirement, false );
+
+    if( hard_requirement && _requirements.empty() ) {
+        jo.throw_error_at( "hard_requirement",
+                           "Cannot have hard requirement when object has no requirements" );
+    }
 
     optional( jo, was_loaded, "skills", _starting_skills, skilllevel_reader {} );
     optional( jo, was_loaded, "addictions", _starting_addictions, addiction_reader {} );
@@ -437,6 +473,30 @@ void profession::check_definition() const
     for( const auto &a : _starting_CBMs ) {
         if( !a.is_valid() ) {
             debugmsg( "bionic %s for profession %s does not exist", a.c_str(), id.c_str() );
+        }
+    }
+    if( !_starting_CBMs.empty() && !is_hobby() ) {
+        bool has_interface = false;
+        for( const trait_and_var &t : _starting_traits ) {
+            if( t.trait.is_valid() ) {
+                // Accept traits that cancel NO_CBM_INSTALLATION (e.g. CBM_Interface)
+                const std::vector<trait_id> &t_cancels = t.trait->cancels;
+                if( std::find( t_cancels.begin(), t_cancels.end(),
+                               trait_NO_CBM_INSTALLATION ) != t_cancels.end() ) {
+                    has_interface = true;
+                    break;
+                }
+                // Accept traits that have the NO_CBM_INSTALLATION flag themselves:
+                // the profession pre-installs CBMs but blocks future installation.
+                if( t.trait->flags.count( json_flag_NO_CBM_INSTALLATION ) ) {
+                    has_interface = true;
+                    break;
+                }
+            }
+        }
+        if( !has_interface ) {
+            debugmsg( "profession %s has starting CBMs but no trait that cancels "
+                      "NO_CBM_INSTALLATION (e.g. CBM_Interface)", id.c_str() );
         }
     }
 
@@ -708,19 +768,31 @@ ret_val<void> profession::can_afford( const Character &you, const int points ) c
 
 ret_val<void> profession::can_pick() const
 {
+    const bool meta_progression = get_option<bool>( "META_PROGRESS" );
     // if meta progression is disabled then skip this
     if( get_past_achievements().is_completed( achievement_achievement_arcade_mode ) ||
-        !get_option<bool>( "META_PROGRESS" ) ) {
+        ( !meta_progression && !has_hard_requirement() ) ) {
         return ret_val<void>::make_success();
     }
 
-    if( _requirement ) {
-        const bool has_req = get_past_achievements().is_completed(
-                                 _requirement.value()->id );
-        if( !has_req ) {
+    if( !_requirements.empty() ) {
+        bool has_all_req = true;
+        std::vector<std::string> req_names;
+        for( const auto req : _requirements ) {
+            bool has_this_req = get_past_achievements().is_completed( req->id );
+            has_all_req &= has_this_req;
+            req_names.emplace_back( colorize( req->name().translated(), has_this_req ? c_green : c_red ) );
+        }
+        std::string fail_msg = n_gettext(
+                                   _( "You must complete the achievement \"%s\" to unlock this profession." ),
+                                   _( "You must complete these achievements to unlock this profession: %s" ), _requirements.size() );
+        if( !meta_progression ) {
+            fail_msg += _( "\nThis profession can only be unlocked through achievements." );
+        }
+        if( !has_all_req ) {
             return ret_val<void>::make_failure(
-                       _( "You must complete the achievement \"%s\" to unlock this profession." ),
-                       _requirement.value()->name() );
+                       fail_msg,
+                       enumerate_as_string( req_names ) );
         }
     }
 
@@ -739,6 +811,11 @@ bool profession::is_locked_trait( const trait_id &trait ) const
 bool profession::is_forbidden_trait( const trait_id &trait ) const
 {
     return _forbidden_traits.count( trait ) != 0;
+}
+
+bool profession::chargen_allow_npc() const
+{
+    return _chargen_allow_npc;
 }
 
 std::map<spell_id, int> profession::spells() const
@@ -760,6 +837,33 @@ void profession::learn_spells( avatar &you ) const
 std::vector<effect_on_condition_id> profession::get_eocs() const
 {
     return effect_on_conditions;
+}
+
+bool profession_sorter::operator()( const string_id<profession> &a,
+                                    const string_id<profession> &b ) const
+{
+    // The generic ("Unemployed") profession should be listed first.
+    const profession *gen = profession::generic();
+    if( &b.obj() == gen ) {
+        return false;
+    } else if( &a.obj() == gen ) {
+        return true;
+    }
+
+    if( !a->can_pick().success() && b->can_pick().success() ) {
+        return false;
+    }
+
+    if( a->can_pick().success() && !b->can_pick().success() ) {
+        return true;
+    }
+
+    if( sort_by_points ) {
+        return a->point_cost() < b->point_cost();
+    } else {
+        return localized_compare( a->gender_appropriate_name( male ),
+                                  b->gender_appropriate_name( male ) );
+    }
 }
 
 // item_substitution stuff:
@@ -955,6 +1059,11 @@ profession_id profession::get_profession_id() const
     return id;
 }
 
+bool profession::has_hard_requirement() const
+{
+    return hard_requirement;
+}
+
 bool profession::is_hobby() const
 {
     return _subtype == "hobby";
@@ -965,7 +1074,7 @@ const std::vector<mission_type_id> &profession::missions() const
     return _missions;
 }
 
-std::optional<achievement_id> profession::get_requirement() const
+std::vector<achievement_id> profession::get_requirements() const
 {
-    return _requirement;
+    return _requirements;
 }

@@ -73,7 +73,8 @@
     "vision_levels": "single_water",
     "see_cost": "none",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "SOURCE_DRINK", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "SIDEWALK", "SOURCE_DRINK" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -98,7 +99,7 @@
     "name": "state park",
     "sym": "S",
     "color": "i_green",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -187,8 +188,9 @@
     "vision_levels": "blends_till_details",
     "see_cost": "low",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "SOURCE_FARMING", "PP_GENERATE_RIOT_DAMAGE" ],
-    "extras": "park"
+    "flags": [ "SIDEWALK", "SOURCE_FARMING" ],
+    "extras": "park",
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -209,7 +211,8 @@
     "vision_levels": "city_building",
     "see_cost": "high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "SOURCE_FARMING", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "SIDEWALK", "SOURCE_FARMING" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -278,7 +281,7 @@
     "name": "miniature railway",
     "sym": "R",
     "color": "green",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -301,7 +304,7 @@
     "name": "miniature railway park",
     "sym": "P",
     "color": "light_green",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -322,7 +325,7 @@
     "name": "golf course",
     "sym": "G",
     "color": "green",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -332,7 +335,7 @@
     "vision_levels": "large_pavement",
     "sym": "G",
     "color": "light_gray",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -342,7 +345,7 @@
     "name": "golf course service building",
     "sym": "G",
     "color": "light_gray",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -351,7 +354,7 @@
     "name": "golf course bar",
     "sym": "G",
     "color": "light_gray",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -360,7 +363,7 @@
     "name": "golf course service building roof",
     "sym": "G",
     "color": "light_gray",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -368,7 +371,9 @@
     "copy-from": "generic_city_building",
     "name": "zoo parking",
     "sym": "P",
-    "color": "i_green"
+    "color": "i_green",
+    "looks_like": "s_lot",
+    "vision_levels": "large_pavement"
   },
   {
     "type": "overmap_terrain",
@@ -406,7 +411,7 @@
     "name": "zoo cave",
     "sym": "Z",
     "color": "light_gray",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -683,7 +688,8 @@
     "color": "dark_gray",
     "see_cost": "none",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "SIDEWALK" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -708,35 +714,39 @@
       "stadium_football_7_6"
     ],
     "copy-from": "generic_stadium_park",
-    "sym": "─"
+    "sym": "─",
+    "looks_like": "s_lot",
+    "vision_levels": "large_pavement"
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "stadium_football_0_1",
-      "stadium_football_0_2",
-      "stadium_football_0_3",
-      "stadium_football_0_4",
-      "stadium_football_0_5",
-      "stadium_football_8_4",
-      "stadium_football_8_5"
-    ],
+    "id": [ "stadium_football_0_3", "stadium_football_8_3" ],
     "copy-from": "generic_stadium_park",
     "sym": "│"
   },
   {
     "type": "overmap_terrain",
     "id": [
+      "stadium_football_0_1",
+      "stadium_football_0_2",
+      "stadium_football_0_4",
+      "stadium_football_0_5",
       "stadium_football_8_1",
       "stadium_football_8_2",
-      "stadium_football_8_3",
-      "stadium_1_0",
-      "stadium_2_0",
-      "stadium_0_0",
-      "stadium_3_0"
+      "stadium_football_8_4",
+      "stadium_football_8_5"
     ],
+    "copy-from": "stadium_football_0_3",
+    "looks_like": "s_lot",
+    "vision_levels": "large_pavement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "stadium_1_0", "stadium_2_0", "stadium_0_0", "stadium_3_0" ],
     "copy-from": "generic_stadium_park",
-    "sym": "O"
+    "sym": "O",
+    "looks_like": "s_lot",
+    "vision_levels": "large_pavement"
   },
   {
     "type": "overmap_terrain",
@@ -1114,7 +1124,7 @@
     "name": "marina",
     "color": "cyan",
     "sym": "~",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1132,7 +1142,7 @@
     "name": "marina",
     "color": "cyan",
     "sym": "m",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1141,7 +1151,7 @@
     "name": "marina parking",
     "color": "cyan",
     "sym": "m",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",

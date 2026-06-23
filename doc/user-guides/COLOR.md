@@ -1,3 +1,20 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Colors](#colors)
+  - [Color string format](#color-string-format)
+  - [Examples of color strings](#examples-of-color-strings)
+  - [Color code](#color-code)
+  - [Possible colors](#possible-colors)
+  - [Color rules](#color-rules)
+  - [Color tags](#color-tags)
+- [User color customization](#user-color-customization)
+  - [Base colors](#base-colors)
+  - [GUI colors](#gui-colors)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Colors
 
 DDA is colorful game. You can use several foreground and background colors in various places:
@@ -45,22 +62,22 @@ Color code is short string which defines color and can be used, for example, in 
 
 | Color (image)                                            | Color name (dda)   | Color name (curses) | Default R,G,B values | Color code | Notes                                                  |
 |:--------------------------------------------------------:|:------------------:|:-------------------:|:--------------------:|:----------:|:------------------------------------------------------:|
-| ![#000000](https://via.placeholder.com/20/000000/000000?text=+) | `black`            | `BLACK`             | `0,0,0`              |            |                                                        |
-| ![#ff0000](https://via.placeholder.com/20/ff0000/000000?text=+) | `red`              | `RED`               | `255,0,0`            | `R`        |                                                        |
-| ![#006e00](https://via.placeholder.com/20/006e00/000000?text=+) | `green`            | `GREEN`             | `0,110,0`            | `G`        |                                                        |
-| ![#5c3317](https://via.placeholder.com/20/5c3317/000000?text=+) | `brown`            | `BROWN`             | `92,51,23`           | `br`       |                                                        |
-| ![#0000c8](https://via.placeholder.com/20/0000c8/000000?text=+) | `blue`             | `BLUE`              | `0,0,200`            | `B`        |                                                        |
-| ![#8b3a62](https://via.placeholder.com/20/8b3a62/000000?text=+) | `magenta`          | `MAGENTA`           | `139,58,98`          | `P`        |                                                        |
-| ![#0096b4](https://via.placeholder.com/20/0096b4/000000?text=+) | `cyan`             | `CYAN`              | `0,150,180`          | `C`        |                                                        |
-| ![#969696](https://via.placeholder.com/20/969696/000000?text=+) | `light_gray`       | `GRAY`              | `150,150,150`        | `lg`       | deprecated `lt` prefix can be used instead of `light_` |
-| ![#636363](https://via.placeholder.com/20/636363/000000?text=+) | `dark_gray`        | `DGRAY`             | `99,99,99`           | `dg`       | deprecated `dk` prefix can be used instead of `dark_`  |
-| ![#ff9696](https://via.placeholder.com/20/ff9696/000000?text=+) | `light_red`        | `LRED`              | `255,150,150`        |            | deprecated `lt` prefix can be used instead of `light_` |
-| ![#00ff00](https://via.placeholder.com/20/00ff00/000000?text=+) | `light_green`      | `LGREEN`            | `0,255,0`            | `g`        | deprecated `lt` prefix can be used instead of `light_` |
-| ![#ffff00](https://via.placeholder.com/20/ffff00/000000?text=+) | `yellow`           | `YELLOW`            | `255,255,0`          |            |                                                        |
-| ![#6464ff](https://via.placeholder.com/20/6464ff/000000?text=+) | `light_blue`       | `LBLUE`             | `100,100,255`        | `b`        | deprecated `lt` prefix can be used instead of `light_` |
-| ![#fe00fe](https://via.placeholder.com/20/fe00fe/000000?text=+) | `pink`             | `LMAGENTA`          | `254,0,254`          | `lm`       |                                                        |
-| ![#00f0ff](https://via.placeholder.com/20/00f0ff/000000?text=+) | `light_cyan`       | `LCYAN`             | `0,240,255`          | `c`        | deprecated `lt` prefix can be used instead of `light_` |
-| ![#ffffff](https://via.placeholder.com/20/ffffff/000000?text=+) | `white`            | `WHITE`             | `255,255,255`        | `W`        |                                                        |
+| ![#000000](https://placehold.co/20/000000/000000?text=@) | `black`            | `BLACK`             | `0,0,0`              |            |                                                        |
+| ![#ff0000](https://placehold.co/20/ff0000/000000?text=@) | `red`              | `RED`               | `255,0,0`            | `R`        |                                                        |
+| ![#006e00](https://placehold.co/20/006e00/000000?text=@) | `green`            | `GREEN`             | `0,110,0`            | `G`        |                                                        |
+| ![#5c3317](https://placehold.co/20/5c3317/000000?text=@) | `brown`            | `BROWN`             | `92,51,23`           | `br`       |                                                        |
+| ![#0000c8](https://placehold.co/20/0000c8/000000?text=@) | `blue`             | `BLUE`              | `0,0,200`            | `B`        |                                                        |
+| ![#8b3a62](https://placehold.co/20/8b3a62/000000?text=@) | `magenta`          | `MAGENTA`           | `139,58,98`          | `P`        |                                                        |
+| ![#0096b4](https://placehold.co/20/0096b4/000000?text=@) | `cyan`             | `CYAN`              | `0,150,180`          | `C`        |                                                        |
+| ![#969696](https://placehold.co/20/969696/000000?text=@) | `light_gray`       | `GRAY`              | `150,150,150`        | `lg`       | deprecated `lt` prefix can be used instead of `light_` |
+| ![#636363](https://placehold.co/20/636363/000000?text=@) | `dark_gray`        | `DGRAY`             | `99,99,99`           | `dg`       | deprecated `dk` prefix can be used instead of `dark_`  |
+| ![#ff9696](https://placehold.co/20/ff9696/000000?text=@) | `light_red`        | `LRED`              | `255,150,150`        |            | deprecated `lt` prefix can be used instead of `light_` |
+| ![#00ff00](https://placehold.co/20/00ff00/000000?text=@) | `light_green`      | `LGREEN`            | `0,255,0`            | `g`        | deprecated `lt` prefix can be used instead of `light_` |
+| ![#ffff00](https://placehold.co/20/ffff00/000000?text=@) | `yellow`           | `YELLOW`            | `255,255,0`          |            |                                                        |
+| ![#6464ff](https://placehold.co/20/6464ff/000000?text=@) | `light_blue`       | `LBLUE`             | `100,100,255`        | `b`        | deprecated `lt` prefix can be used instead of `light_` |
+| ![#fe00fe](https://placehold.co/20/fe00fe/000000?text=@) | `pink`             | `LMAGENTA`          | `254,0,254`          | `lm`       |                                                        |
+| ![#00f0ff](https://placehold.co/20/00f0ff/000000?text=@) | `light_cyan`       | `LCYAN`             | `0,240,255`          | `c`        | deprecated `lt` prefix can be used instead of `light_` |
+| ![#ffffff](https://placehold.co/20/ffffff/000000?text=@) | `white`            | `WHITE`             | `255,255,255`        | `W`        |                                                        |
 
 **Note:** Default RGB values are taken from file `\data\raw\colors.json`.
 **Note:** RGB values can be redefined in file `\config\base_colors.json`.
@@ -157,7 +174,7 @@ The game provides a nice built-in color manager with several pre-defined color t
 
 
 ## GUI colors
-The UI *menus* do not (always) adhere to the base color customization, and can be customized separately, in the `config/imgui_style.json`. The default config is:
+The UI *menus* do not (always) adhere to the base color customization, and can be customized separately. The currently used style is saved in `config/imgui_style.json`. The file is only semi permanent as it is overwritten when you select a different style ingame. To save a custom style permanently, create a `custom_styles` subfolder in the `config` folder and put a copy of the style in it. The default config is:
 ```jsonc
 {
   "inherit_base_colors": false,

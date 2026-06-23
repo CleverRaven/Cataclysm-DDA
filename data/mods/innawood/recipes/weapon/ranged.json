@@ -181,7 +181,7 @@
       [ [ "cordage_superior_short", 1, "LIST" ] ],
       [ [ "spring", 1 ] ],
       [ [ "scrap", 4 ] ],
-      [ [ "nail", 10 ] ]
+      [ [ "nails", 10, "LIST" ] ]
     ]
   },
   {

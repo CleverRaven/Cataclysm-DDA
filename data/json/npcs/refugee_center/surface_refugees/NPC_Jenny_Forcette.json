@@ -35,7 +35,7 @@
       { "item": "sports_bra" },
       { "item": "panties" },
       { "item": "socks" },
-      { "item": "tshirt", "variant": "tux" },
+      { "item": "tshirt" },
       { "item": "jeans" },
       { "item": "hoodie" },
       { "item": "sneakers" },
@@ -62,7 +62,7 @@
     "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Jenny",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_REFUGEE_JENNY_1",
     "faction": "free_merchants",
     "mission_offered": "MISSION_REFUGEE_Jenny_GET_MOTOR"
@@ -282,7 +282,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Games3",
-    "dynamic_line": "Well, of course I played the mandatory amount of dice based RPGs necessary to graduate my engineering program,\" she grins.  \"They're fun, something like that would be nice around here, but I'm not that kind of storyteller and I don't think anyone else here is nerdy enough for it.\"  Jenny tips her head a bit.  \"It's nice that you're asking but don't worry about me, I've got recreation.\"",
+    "dynamic_line": "Well, of course I played the mandatory amount of dice based RPGs necessary to graduate my engineering program,\" she grins.  \"They're fun, something like that would be nice around here, but I'm not that kind of storyteller and I don't think anyone else here is nerdy enough for it.\"  Jenny tips her head a bit.  \"It's nice that you're asking but don't worry about me, I've got recreation.",
     "responses": [
       { "text": "Have you ever thought about going back for your board games?", "topic": "TALK_REFUGEE_JENNY_Games2" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
@@ -292,7 +292,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Teach1",
-    "dynamic_line": "Huh.\"  She purses her lips and looks at you reluctantly.  \"I guess I can teach you a bit, but you'd have to be like, my on-the-job apprentice and help me get stuff done.  It'll cost you a bit depending on what you want to learn.  Do you know anything about electronics, computers, or mechanics already?\"",
+    "dynamic_line": "Huh.\"  She purses her lips and looks at you reluctantly.  \"I guess I can teach you a bit, but you'd have to be like, my on-the-job apprentice and help me get stuff done.  It'll cost you a bit depending on what you want to learn.  Do you know anything about electronics, computers, or mechanics already?",
     "responses": [
       {
         "text": "[Skill 2] I'm not a total noob.",
@@ -330,7 +330,7 @@
         "failure": { "topic": "TALK_REFUGEE_JENNY_Teach2_Sorry" },
         "success": { "topic": "TALK_REFUGEE_JENNY_Teach2" }
       },
-      { "text": "Um, you know what?  Nevermind.  What were you saying?", "topic": "TALK_NONE" },
+      { "text": "Um, you know what?  Never mind.  What were you saying?", "topic": "TALK_NONE" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
@@ -571,7 +571,7 @@
     "id": "MISSION_REFUGEE_Jenny_GET_PNEUMATICS",
     "type": "mission_definition",
     "name": { "str": "Find reference material about air rifles for Jenny." },
-    "description": "Find reference material about air rifles.  <color_yellow>A book that has 'Pneumatic' in its name</color> could be the thing she wants.",
+    "description": "Find reference material about air rifles.  <color_yellow>A book that has 'Pneumatic' in its name</color> could be the thing she wants.  She probably wants a physical copy, if I can find it. ",
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",

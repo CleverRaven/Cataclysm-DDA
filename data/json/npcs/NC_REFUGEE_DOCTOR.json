@@ -120,7 +120,9 @@
       { "item": "antiparasitic", "prob": 10 },
       { "item": "survnote", "prob": 5 },
       { "item": "diazepam", "prob": 10 },
-      { "item": "syringe", "prob": 20 }
+      { "item": "syringe", "prob": 20 },
+      { "group": "birth_control", "prob": 25 },
+      { "group": "estrogen_hrt", "prob": 2 }
     ]
   }
 ]

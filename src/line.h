@@ -165,6 +165,12 @@ std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
 std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
 // sqrt(dX^2 + dY^2)
 
+// orthogonally-connected line from p1 to p2, for overmap generation
+// Note: reordering p1 and p2 may result in different lines
+// C++ implementation of https://www.redblobgames.com/grids/line-drawing/ algorithm
+// if needed, generalize for all point types
+std::vector<point_abs_om> orthogonal_line_to( const point_abs_om &p1, const point_abs_om &p2 );
+
 inline float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 {
     return std::sqrt( static_cast<double>( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
@@ -201,6 +207,26 @@ inline int rl_dist( const tripoint &loc1, const tripoint &loc2 )
 inline int rl_dist( const point &a, const point &b )
 {
     return rl_dist( tripoint( a, 0 ), tripoint( b, 0 ) );
+}
+
+template< class Point >
+std::vector<Point> cubic_bezier( const Point &pa, const Point &pb,
+                                 const Point &pc, const Point &pd, const int n_segs )
+{
+    const auto cubic_bezier_single_axis = []( const int pa, const int pb, const int pc, const int pd,
+    const double t ) {
+        // a(1-t)^3 + 3bt(1-t)^2 + 3ct^2(1-t) + dt^3
+        return static_cast<int>( pow( ( 1.0 - t ), 3.0 ) * pa + ( 3.0 * t * pow( ( 1.0 - t ),
+                                 2.0 ) ) * pb + ( 3.0 * pow( t, 2.0 ) * ( 1.0 - t ) ) * pc + pow( t, 3.0 ) * pd );
+    };
+    std::vector<Point> pts;
+    for( int i = 0; i <= n_segs; ++i ) {
+        const double t = i / static_cast<double>( n_segs );
+        pts.push_back( Point{
+            cubic_bezier_single_axis( pa.x(), pb.x(), pc.x(), pd.x(), t ),
+            cubic_bezier_single_axis( pa.y(), pb.y(), pc.y(), pd.y(), t ) } );
+    }
+    return pts;
 }
 
 /**
@@ -271,8 +297,7 @@ std::vector<point_bub_ms> squares_in_direction( const point_bub_ms &p1, const po
 std::vector<point_omt_ms> squares_in_direction( const point_omt_ms &p1, const point_omt_ms &p2 );
 // Returns a vector of squares adjacent to @from that are closer to @to than @from is.
 // Currently limited to the same z-level as @from.
-std::vector<tripoint_bub_ms> squares_closer_to( const tripoint_bub_ms &from,
-        const tripoint_bub_ms &to );
+std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to );
 void calc_ray_end( units::angle, int range, const tripoint &p, tripoint &out );
 template<typename Point, coords::origin Origin, coords::scale Scale>
 void calc_ray_end( units::angle angle, int range,

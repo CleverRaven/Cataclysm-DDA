@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mi-go_scout_tower_dino_1",
     "object": {
       "fill_ter": "t_floor_resin",
@@ -39,7 +38,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mi-go_scout_tower_dino_3",
     "object": {
       "fill_ter": "t_floor_resin",
@@ -79,7 +77,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_dino_room14",
     "//": "Large monster holding cell",
     "object": {
@@ -100,7 +97,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_dino_room17",
     "//": "Large monster holding cell",
     "object": {

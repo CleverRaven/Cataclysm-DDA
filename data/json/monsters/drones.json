@@ -117,7 +117,7 @@
     "//": "weight and dimensions based on the approx. size of a Griff 350, which is a commercial cargo-hauling quadcopter.  Then I added a large balloon on top.",
     "hp": 20,
     "speed": 70,
-    "material": [ "aluminum", "steel" ],
+    "material": [ "aluminum", "qt_steel" ],
     "symbol": "e",
     "color": "light_green",
     "aggression": -20,

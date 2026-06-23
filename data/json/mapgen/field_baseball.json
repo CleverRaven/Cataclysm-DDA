@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_baseballfield_a1", "s_baseballfield_a2" ], [ "s_baseballfield_b1", "s_baseballfield_b2" ] ],
     "object": {
       "rows": [
@@ -111,7 +110,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_baseballfield_a2_2" ],
     "object": {
       "fill_ter": "t_open_air",

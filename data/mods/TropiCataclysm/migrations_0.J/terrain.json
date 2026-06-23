@@ -1,0 +1,17 @@
+[
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_fungus_termite",
+    "to_ter": "t_dirt_underground"
+  },
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_fungus_underground",
+    "to_ter": "t_dirt_underground"
+  },
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_fungus_underground_harvested",
+    "to_ter": "t_dirt_underground"
+  }
+]

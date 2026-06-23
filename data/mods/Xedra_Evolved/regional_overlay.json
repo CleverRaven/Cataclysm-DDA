@@ -1,53 +1,60 @@
 [
   {
-    "type": "region_overlay",
-    "regions": [ "all" ],
-    "city": { "houses": { "safe_house": 5 }, "parks": { "vampire_cathedral": 50 } },
-    "map_extras": {
-      "road": {
-        "chance": 75,
-        "extras": {
-          "mx_golden_monolith": 15,
-          "mx_military": 50,
-          "mx_science": 400,
-          "mx_collegekids": 500,
-          "mx_roadblock": 830,
-          "mx_roadblock_mil": 170,
-          "mx_bandits_block": 800,
-          "mx_drugdeal": 300,
-          "mx_supplydrop": 100,
-          "mx_portal": 50,
-          "mx_portal_in": 40,
-          "mx_dreamwound_shadow": 25,
-          "mx_roadworks": 1000,
-          "mx_mayhem": 500,
-          "mx_casings": 1000,
-          "mx_corpses": 300,
-          "mx_prison_bus": 150
-        }
-      },
-      "forest": { "chance": 40, "extras": { "mx_goblin_fruits": 25, "mx_ring_of_mushrooms": 15 } },
-      "forest_thick": { "chance": 30, "extras": { "mx_goblin_fruits": 30, "mx_ring_of_mushrooms": 20 } },
-      "forest_water": { "chance": 20, "extras": { "mx_goblin_fruits": 15 } },
-      "field": {
-        "chance": 75,
-        "extras": {
-          "mx_deathworm_track": 1,
-          "mx_sevenoclock_track": 1,
-          "mx_dreamwound_shadow": 5,
-          "mx_trees_map_salamander": 75,
-          "mx_trees_map_sylph": 75,
-          "mx_trees_map_ierde": 75,
-          "mx_homelesscamp_homullus": 75,
-          "mx_forest_pond_avore": 75,
-          "mx_forest_pond_salamander_avore": 75,
-          "mx_pond_forest_undine": 75,
-          "mx_pond_forest_undine_ierde": 75,
-          "mx_ring_of_mushrooms": 30,
-          "mx_goblin_fruits": 15
-        }
-      },
-      "agricultural": { "chance": 38, "extras": { "mx_goblin_fruits": 15, "mx_ring_of_mushrooms": 10 } }
+    "type": "region_settings_city",
+    "id": "default",
+    "copy-from": "default",
+    "extend": { "houses": [ [ "safe_house", 5 ] ], "parks": [ [ "vampire_cathedral", 50 ] ] }
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "road",
+    "copy-from": "road",
+    "extend": { "extras": [ [ "mx_golden_monolith", 15 ] ] }
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "forest",
+    "copy-from": "forest",
+    "extend": { "extras": [ [ "mx_goblin_fruits", 25 ], [ "mx_ring_of_mushrooms", 15 ] ] }
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "forest_thick",
+    "copy-from": "forest_thick",
+    "extend": { "extras": [ [ "mx_goblin_fruits", 30 ], [ "mx_ring_of_mushrooms", 20 ] ] }
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "forest_water",
+    "copy-from": "forest_water",
+    "extend": { "extras": [ [ "mx_goblin_fruits", 15 ] ] }
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "field",
+    "copy-from": "field",
+    "extend": {
+      "extras": [
+        [ "mx_deathworm_track", 1 ],
+        [ "mx_sevenoclock_track", 1 ],
+        [ "mx_dreamwound_shadow", 5 ],
+        [ "mx_trees_map_salamander", 75 ],
+        [ "mx_trees_map_sylph", 75 ],
+        [ "mx_trees_map_ierde", 75 ],
+        [ "mx_homelesscamp_homullus", 75 ],
+        [ "mx_forest_pond_avore", 75 ],
+        [ "mx_forest_pond_salamander_avore", 75 ],
+        [ "mx_pond_forest_undine", 75 ],
+        [ "mx_pond_forest_undine_ierde", 75 ],
+        [ "mx_ring_of_mushrooms", 30 ],
+        [ "mx_goblin_fruits", 15 ]
+      ]
     }
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "agricultural",
+    "copy-from": "agricultural",
+    "extend": { "extras": [ [ "mx_goblin_fruits", 15 ], [ "mx_ring_of_mushrooms", 10 ] ] }
   }
 ]

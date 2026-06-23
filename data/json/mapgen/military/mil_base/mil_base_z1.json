@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "mil_base_1a1", "mil_base_2a1", "mil_base_3a1", "mil_base_4a1" ],
       [ "mil_base_1b1", "mil_base_2b1", "mil_base_3b1", "mil_base_4b1" ],
@@ -114,7 +113,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "mil_base_5a1", "mil_base_6a1", "mil_base_7a1", "mil_base_8a1" ],
       [ "mil_base_5b1", "mil_base_6b1", "mil_base_7b1", "mil_base_8b1" ],
@@ -227,7 +225,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "mil_base_1e1", "mil_base_2e1", "mil_base_3e1", "mil_base_4e1" ],
       [ "mil_base_1f1", "mil_base_2f1", "mil_base_3f1", "mil_base_4f1" ],
@@ -323,7 +320,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "mil_base_5e1", "mil_base_6e1", "mil_base_7e1", "mil_base_8e1" ],
       [ "mil_base_5f1", "mil_base_6f1", "mil_base_7f1", "mil_base_8f1" ],
@@ -418,7 +414,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "mil_base_1h1", "mil_base_2h1", "mil_base_3h1", "mil_base_4h1" ],
       [ "mil_base_1i1", "mil_base_2i1", "mil_base_3i1", "mil_base_4i1" ],
@@ -541,7 +536,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "mil_base_5h1", "mil_base_6h1", "mil_base_7h1", "mil_base_8h1" ],
       [ "mil_base_5i1", "mil_base_6i1", "mil_base_7i1", "mil_base_8i1" ],

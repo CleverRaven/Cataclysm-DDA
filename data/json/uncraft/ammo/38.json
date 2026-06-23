@@ -7,7 +7,7 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
-      [ [ "38_casing", 1 ] ],
+      [ [ "unprimed_38_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 3 ] ],
       [ [ "copper", 1 ] ]
@@ -19,7 +19,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 3 ] ], [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 3 ] ] ]
+    "components": [ [ [ "lead", 3 ] ], [ [ "unprimed_38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 3 ] ] ]
   },
   {
     "result": "38_special_p",
@@ -27,14 +27,14 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 3 ] ], [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 3 ] ] ]
+    "components": [ [ [ "lead", 3 ] ], [ [ "unprimed_38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 3 ] ] ]
   },
   {
-    "result": "38_super",
+    "result": "38_casing",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 5 ] ] ]
+    "components": [ [ [ "unprimed_38_casing", 1 ] ], [ [ "spent_smpistol_primer", 1 ] ] ]
   }
 ]

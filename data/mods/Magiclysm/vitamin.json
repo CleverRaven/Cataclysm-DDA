@@ -20,5 +20,18 @@
     "max": 2500,
     "rate": "1 h",
     "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "vitamin_elven_wilderness",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "The Longing" },
+    "deficiency": "effect_vitamin_elven_wilderness",
+    "excess": "effect_vitamin_elven_wilderness_bonus",
+    "min": -336,
+    "max": 96,
+    "rate": "0 h",
+    "disease": [ [ -24, -84 ], [ -85, -168 ], [ -169, -252 ], [ -253, -336 ] ],
+    "disease_excess": [ [ 96, 96 ] ]
   }
 ]

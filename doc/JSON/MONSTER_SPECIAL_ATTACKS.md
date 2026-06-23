@@ -1,25 +1,34 @@
-# How to add special attacks to monsters
-- [Monster special Attacks](#monster-special-attacks)
-    - [TODO](#todo)
-    - [Adding `special_attacks` to monsters](#adding-special_attacks-to-monsters)
-      - [Old style array](#old-style-array)
-      - [New style object](#new-style-object)
-      - [Combination](#combination)
-    - [Hardcoded special attacks](#hardcoded-special-attacks)
-    - [JSON special attacks](#json-special-attacks)
-        - [`bite`](#bite)
-        - [`grab`](#grab-attacks)
-    - [Non-melee special attacks](#non-melee-special-attacks)
-        - [`gun`](#gun)
-        - [`spell`](#spell)
-        - [`leap`](#leap)
-    - [Monster defensive attacks](#monster-defensive-attacks)        
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Monster special attacks](#monster-special-attacks)
+  - [Special attack selection logic](#special-attack-selection-logic)
+  - [TODO](#todo)
+  - [Adding `special_attacks` to monsters](#adding-special_attacks-to-monsters)
+    - [Old style array](#old-style-array)
+    - [New style object](#new-style-object)
+    - [Combination](#combination)
+  - [Hardcoded special attacks](#hardcoded-special-attacks)
+  - [JSON special attacks](#json-special-attacks)
+    - [`bite`](#bite)
+    - [Grab attacks](#grab-attacks)
+    - [`gun`](#gun)
+    - ["spell" Monster Spells](#spell-monster-spells)
+    - ["leap"](#leap)
+  - [Monster defensive attacks](#monster-defensive-attacks)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Monster special attacks
 
 Monster creatures in C:DDA not only can do simple melee attacks, they have a wide array of attack-type actions.  
 
 Depending on the intended effect, these can be valid `use_actions` for tools and weapons, hardcoded special attacks, any normal physical attack or even spells.  Also, depending on the kind of attack, these can be cooldown-based, conditioned or occur on death.
+
+## Special attack selection logic
+
+On each action the monster evaluates each special attack in alphabetical order, attempting to trigger each attack that is not in cooldown in turn until one is found whose preconditions are met or the monster runs out of candidates. This means "Early" attacks with low, or especially zero cooldowns will trigger very frequently unless they have preconditions preventing this. The cooldown is not set unless the attack is triggered.  Early attacks with low cooldowns can effecctively "starve" later special attacks and even the monster's default melee attack.
 
 
 ## TODO
@@ -90,8 +99,6 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```BIO_OP_IMPALE``` Stabbing attack, deals heavy damage and has a chance to cause bleeding.
 - ```BIO_OP_TAKEDOWN``` Takedown attack, bashes either the target's head or torso and inflicts `downed`.
 - ```BLOW_WHISTLE``` Blow a whistle creating a sound of volume 40 from the position of the monster.
-- ```BOOMER_GLOW``` Spits glowing bile.
-- ```BOOMER``` Spits bile.
 - ```BRANDISH``` Brandishes a knife at the player.
 - ```BROWSE``` The monster will eat harvestable foods from BROWSABLE trees and plants when they're in season.
 - ```BREATHE``` Spawns a `breather`.  Note: `breather hub` only!
@@ -167,7 +174,7 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 
 ## JSON special attacks
 
-These special attacks are defined in [JSON](/data/json/monster_special_attacks), and belong to the `monster_attack` type, `melee` attack_type.  These don't have to be declared in the monster's attack data, the `id` of the desired attack can be used instead.  All fields beyond `id` are optional.
+These special attacks are defined in [JSON](/data/json/monster_special_attacks), and belong to the `monster_attack` type, `melee` attack_type.  These don't have to be declared in the monster's attack data, the `id` of the desired attack can be used instead.  All fields beyond `id` and `cooldown` are optional.
 
 | field                       | description
 | ---                         | ---
@@ -177,8 +184,7 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 |						      | randomly rolled multiplier between the values `min_mul` and `max_mul`.  Default 0.5 and 1.0, meaning each attack will do at least half of the defined damage.
 | `move_cost`                 | Integer, moves needed to complete special attack.  Default 100.
 | `accuracy`                  | Integer, if defined the attack will use a different accuracy from monster's regular melee attack.
-| `body_parts`			      | List, If empty the regular melee roll body part selection is used.  If non-empty, a body part is selected from the map to be targeted using the provided weights.
-|						      | targeted with a chance proportional to the value.
+| `body_part_types`           | If used, the attack will pick a random body part from the list of all possible bodyparts of types used. For example, using `"body_part_types": [ [ "torso", 4 ], [ "arm", 3 ] ],` would pick torso with probability of 4, or any arm with probability of 3. Possible values are: head, torso, sensor, mouth, arm, hand, leg, foot, wing, tail, other.
 | `condition`                 | Object, dialog conditions enabling the attack - see `NPCs.md` for the potential conditions - note that `u` refers to the monster, `npc` to the attack target, and for `x_has_flag` conditions targeting monsters only take effect flags into consideration, not monster flags.
 | `attack_upper`		      | Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls (provided the bodypart is not explicitly targeted).
 | `range`       		      | Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
@@ -190,6 +196,8 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 | `dodgeable`                 | Boolean, default true. The attack can be dodged normally.
 | `uncanny_dodgeable`         | Boolean, defaults to the value of `dodgeable`. The attack can be dodged by the Uncanny Dodge bionic or by characters having the `UNCANNY_DODGE` character flag.  Uncanny dodging takes precedence over normal dodging.
 | `blockable`                 | Boolean, default true.  The attack can be blocked (after the dodge checks).
+| `attack_amount`             | Pair of integers, default 1.  Specifies if this attack will hit you once, or multiple times, in multiple limbs (or multiple times in the same limb, if you are unlucky). The total damage of attack will be split evenly across all hits.
+| `spread_damage`             | Boolean, default false.  If true, attack will damage all the limbs of character; The total damage of attack will be split evenly across all limbs
 | `effects_require_dmg`       | Boolean, default true.  Effects will only be applied if the attack successfully damaged the target.
 | `effects`				      | Array, defines additional effects for the attack to add.  See [MONSTERS.md](MONSTERS.md#attack_effs) for the exact syntax. Duration is in turns, not in movement points
 | `self_effects_always`        | Array of `effects` the monster applies to itself when doing this attack.
@@ -315,3 +323,15 @@ A special defense attack, triggered when the monster is attacked.  It should con
 - ```ACIDSPLASH``` Splashes acid on the attacker.
 - ```NONE``` No special attack to the attacker.
 - ```ZAPBACK``` Shocks attacker on hit.
+
+## EOC attack
+
+Triggers the specified `effect_on_condition` with the monster as `alpha_talker` and its target as `beta_talker`, the attack requires vision of the target. 
+
+| Field             | Description                                                                                                |
+| ---               | ---------------------------------------------------------------------------------------------------------- |
+| `range`           | (Required) Float, maximal range of the jump.  Respects circular distance setting!                          |
+| `cooldown`        | Disregard target location entirely when leaping, leading to completely random jumps.                       |
+| `eoc`             | (Required) Array of ids, the effect on condition . See `NPCs.md`                                           |
+| `condition`       | Object, dialogue conditions enabling the attack.  See `NPCs.md` for the possible conditions, `u` refers to the monster.                |
+| `allow_no_target` | Default `false`. If true the script will always run, the beta talker will be discarded.                    |

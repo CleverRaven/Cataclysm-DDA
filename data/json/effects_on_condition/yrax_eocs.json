@@ -1,0 +1,64 @@
+[
+  {
+    "id": "EOC_YRAX_WARP_IN",
+    "type": "effect_on_condition",
+    "condition": { "math": [ "yrax_to_spawn + 1  > yrax_spawned" ] },
+    "effect": [
+      { "math": [ "yrax_to_spawn = rand(2) +2" ] },
+      { "math": [ "yrax_spawned++" ] },
+      {
+        "u_location_variable": { "context_val": "tar" },
+        "passable_only": true,
+        "min_radius": 5,
+        "max_radius": 10,
+        "target_max_radius": 4
+      },
+      { "u_cast_spell": { "id": "yrax_science_team" }, "loc": { "context_val": "tar" } },
+      { "run_eocs": "EOC_YRAX_WARP_IN", "time_in_future": [ "1 seconds", "2 seconds" ] }
+    ],
+    "false_effect": [ { "math": [ "yrax_spawned = 0" ] } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "yrax_science_team",
+    "name": { "str": "Yrax science team", "//~": "NO_I18N" },
+    "description": { "str": "Summons yrax science drones.", "//~": "NO_I18N" },
+    "flags": [ "PERMANENT", "HOSTILE_SUMMON", "SPAWN_GROUP" ],
+    "extra_effects": [ { "id": "yrax_teleport_plasma" } ],
+    "valid_targets": [ "ground", "self" ],
+    "max_level": 1,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 10,
+    "max_range": 10,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "base_casting_time": 3,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "GROUP_YRAX_SCIENCE_DRONES"
+  },
+  {
+    "type": "SPELL",
+    "id": "yrax_teleport_plasma",
+    "name": { "str": "Distanglement", "//~": "NO_I18N" },
+    "description": { "str": "Spacetime combusts as the yrax force passage.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile", "ground", "self", "ally" ],
+    "effect": "attack",
+    "shape": "blast",
+    "message": "",
+    "damage_type": "heat",
+    "min_damage": 0,
+    "max_damage": 0,
+    "flags": [ "LOUD", "RANDOM_DAMAGE", "RANDOM_AOE" ],
+    "base_casting_time": 100,
+    "min_aoe": 1,
+    "max_aoe": 2,
+    "min_range": 1,
+    "max_range": 1,
+    "field_id": "fd_plasma",
+    "field_chance": 2,
+    "min_field_intensity": 3,
+    "max_field_intensity": 3
+  }
+]

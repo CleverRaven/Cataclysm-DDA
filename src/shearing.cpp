@@ -37,15 +37,12 @@ void shearing_entry::load( const JsonObject &jo )
 {
     mandatory( jo, was_loaded, "result", result );
 
-    optional( jo, was_loaded, "ratio_mass", ratio_mass );
-    ratio_mass = std::max( 0.00f, ratio_mass );
+    optional( jo, was_loaded, "ratio_mass", ratio_mass, numeric_bound_reader<float> {0.f} );
 
-    optional( jo, was_loaded, "ratio_volume", ratio_volume );
-    ratio_volume = std::max( 0.00f, ratio_volume );
+    optional( jo, was_loaded, "ratio_volume", ratio_volume, numeric_bound_reader<float> {0.f} );
 
     if( jo.has_int( "amount" ) ) {
-        mandatory( jo, was_loaded, "amount", amount );
-        amount = std::max( 0, amount );
+        mandatory( jo, was_loaded, "amount", amount, numeric_bound_reader<int> {0} );
     } else if( jo.has_array( "amount" ) ) {
         std::vector<int> amount_random = jo.get_int_array( "amount" );
         random_min = std::max( 0, amount_random[0] );
@@ -54,6 +51,12 @@ void shearing_entry::load( const JsonObject &jo )
             std::swap( random_min, random_max );
         }
     }
+}
+
+void shearing_data::deserialize( const JsonArray &ja )
+{
+    ja.read( entries_ );
+    valid_ = !entries_.empty();
 }
 
 shearing_data::shearing_data( std::vector<shearing_entry> &shearing_entries )

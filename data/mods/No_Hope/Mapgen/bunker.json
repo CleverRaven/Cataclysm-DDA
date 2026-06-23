@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "bunker_basement_1",
     "//": "Adds back autodoc",
     "weight": 25000,
@@ -81,7 +80,7 @@
         { "group": "SUS_fridge_survivor", "x": 7, "y": 15, "chance": 20 },
         { "group": "bunker_basement_food", "x": [ 5, 6 ], "y": 15, "chance": 25 },
         { "group": "dining", "x": [ 8, 9 ], "y": 15, "chance": 25 },
-        { "group": "oven", "x": 4, "y": 15, "chance": 20 },
+        { "group": "SUS_oven", "x": 4, "y": 15, "chance": 20 },
         { "group": "cleaning", "x": 2, "y": 17, "chance": 20 },
         { "group": "bunker_basement_suicide", "x": 3, "y": 3 },
         { "item": "mess_tray", "x": [ 5, 6 ], "y": 15, "chance": 50, "repeat": [ 4, 5 ] },
@@ -97,7 +96,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Non suicide version",
     "om_terrain": "bunker_basement_1",
     "weight": 50000,
@@ -168,7 +166,7 @@
         { "group": "SUS_fridge_survivor", "x": 7, "y": 15, "chance": 20 },
         { "group": "bunker_basement_food", "x": [ 5, 6 ], "y": 15, "chance": 25 },
         { "group": "dining", "x": [ 8, 9 ], "y": 15, "chance": 25 },
-        { "group": "oven", "x": 4, "y": 15, "chance": 20 },
+        { "group": "SUS_oven", "x": 4, "y": 15, "chance": 20 },
         { "group": "cleaning", "x": 2, "y": 17, "chance": 20 },
         { "group": "alcohol", "x": 5, "y": 3 },
         { "item": "glass", "x": 5, "y": 3 },

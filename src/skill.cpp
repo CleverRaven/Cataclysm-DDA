@@ -8,6 +8,7 @@
 #include <iterator>
 #include <utility>
 
+#include "character.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
@@ -89,6 +90,25 @@ Skill::Skill( const skill_id &ident, const translation &name, const translation 
 {
 }
 
+std::vector<const Skill *> Skill::get_skills_for_chr_display(
+    Character &chr, std::function<bool ( const Skill &, const Skill & )> pred )
+{
+    std::vector<const Skill *> result;
+    result.reserve( skills.size() );
+
+    for( const Skill &sk : skills ) {
+        if( !sk.obsolete() && sk.can_chr_use( chr ) ) {
+            result.push_back( &sk );
+        }
+    }
+
+    std::sort( begin( result ), end( result ), [&]( const Skill * lhs, const Skill * rhs ) {
+        return pred( *lhs, *rhs );
+    } );
+
+    return result;
+}
+
 std::vector<const Skill *> Skill::get_skills_sorted_by(
     std::function<bool ( const Skill &, const Skill & )> pred )
 {
@@ -112,6 +132,29 @@ void Skill::reset()
 {
     skills.clear();
     contextual_skills.clear();
+}
+
+void Skill::check_consistency()
+{
+    for( Skill &skill : skills )  {
+        auto rt = skill._requires_all_traits.begin();
+        while( rt != skill._requires_all_traits.end() ) {
+            auto current = rt++;
+            if( !trait_id( *current ).is_valid() ) {
+                debugmsg( "trait %s does not exist", current->c_str() );
+                rt = skill._requires_all_traits.erase( current );
+            }
+        }
+
+        rt = skill._requires_any_traits.begin();
+        while( rt != skill._requires_any_traits.end() ) {
+            auto current = rt++;
+            if( !trait_id( *current ).is_valid() ) {
+                debugmsg( "trait %s does not exist", current->c_str() );
+                rt = skill._requires_any_traits.erase( current );
+            }
+        }
+    }
 }
 
 void Skill::load_skill( const JsonObject &jsobj )
@@ -157,6 +200,10 @@ void Skill::load_skill( const JsonObject &jsobj )
         debugmsg( "skill '%s' missing 'sort_rank' field.", ident.str() );
     }
 
+    if( jsobj.has_bool( "consumes_focus" ) ) {
+        sk.consumes_focus = jsobj.get_bool( "consumes_focus" );
+    }
+
     sk._time_to_attack = time_to_attack;
     sk._companion_combat_rank_factor = jsobj.get_int( "companion_combat_rank_factor", 0 );
     sk._companion_survival_rank_factor = jsobj.get_int( "companion_survival_rank_factor", 0 );
@@ -166,6 +213,8 @@ void Skill::load_skill( const JsonObject &jsobj )
     sk._level_descriptions_practice = level_descriptions_practice;
     sk._obsolete = jsobj.get_bool( "obsolete", false );
     sk._teachable = jsobj.get_bool( "teachable", true );
+    sk._requires_all_traits = jsobj.get_tags( "requires_all_traits" );
+    sk._requires_any_traits = jsobj.get_tags( "requires_any_traits" );
 
     if( sk.is_contextual_skill() ) {
         contextual_skills[sk.ident()] = sk;
@@ -244,6 +293,26 @@ skill_id Skill::from_legacy_int( const int legacy_id )
 skill_id Skill::random_skill()
 {
     return random_entry_ref( skills ).ident();
+}
+
+bool Skill::can_chr_use( Character &chr ) const
+{
+    for( std::string tid : _requires_all_traits ) {
+        if( !chr.has_trait( trait_id( tid ) ) ) {
+            return false;
+        }
+    }
+
+    if( !_requires_any_traits.empty() ) {
+        for( std::string tid : _requires_any_traits ) {
+            if( chr.has_trait( trait_id( tid ) ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    return true;
 }
 
 // used for the pacifist trait

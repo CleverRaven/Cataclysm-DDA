@@ -91,7 +91,7 @@
         "u_message": "Your time spent surrounded by the remnants of civilization has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('homullus_charm_feral_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('homullus_charm_feral_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -109,7 +109,7 @@
         "u_message": "Your time spent surrounded by the remnants of civilization has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('homullus_summon_feral_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('homullus_summon_feral_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -127,7 +127,7 @@
         "u_message": "Your time spent surrounded by the remnants of civilization has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('homullus_self_deception_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('homullus_self_deception_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -145,7 +145,7 @@
         "u_message": "Your time spent surrounded by the remnants of civilization has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('homullus_invisible_to_humans_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('homullus_invisible_to_humans_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -163,9 +163,7 @@
         "u_message": "Your time spent surrounded by the remnants of civilization has increased your facility with your fae magicks.",
         "type": "good"
       },
-      {
-        "math": [ "u_spell_exp('homullus_reduced_visibility_ally_spell')", "+=", "paraclesian_passive_spell_exp(1)" ]
-      }
+      { "math": [ "u_spell_exp('homullus_reduced_visibility_ally_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -183,7 +181,7 @@
         "u_message": "Your time spent surrounded by the remnants of civilization has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('homullus_restore_power_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('homullus_restore_power_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -201,7 +199,7 @@
         "u_message": "Your time spent surrounded by the remnants of civilization has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('homullus_add_learning_focus_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('homullus_add_learning_focus_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -219,7 +217,7 @@
         "u_message": "Your time spent surrounded by the remnants of civilization has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('homullus_road_translocate_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('homullus_road_translocate_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -237,7 +235,7 @@
         "u_message": "Your time spent surrounded by the remnants of civilization has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('homullus_cultivate_goblin_fruit')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('homullus_cultivate_goblin_fruit') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -255,7 +253,7 @@
         "u_message": "Your time spent surrounded by the remnants of civilization has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('paraclesian_spell_make_gossamer')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('paraclesian_spell_make_gossamer') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   }

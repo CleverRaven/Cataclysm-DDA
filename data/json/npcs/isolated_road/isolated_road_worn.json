@@ -18,7 +18,7 @@
   },
   {
     "type": "item_group",
-    "id": "CODY_MILLER_weild",
+    "id": "CODY_MILLER_wield",
     "subtype": "collection",
     "items": [ { "item": "hammer" } ]
   },
@@ -53,7 +53,7 @@
   },
   {
     "type": "item_group",
-    "id": "JAY_RUCKERS_weild",
+    "id": "JAY_RUCKERS_wield",
     "subtype": "collection",
     "items": [ { "item": "screwdriver" } ]
   },

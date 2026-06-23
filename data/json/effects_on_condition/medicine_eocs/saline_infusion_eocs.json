@@ -25,6 +25,6 @@
     "id": "SALINE_INFUSION_eff",
     "//": "4 ml of saline per 1 ml of blood, rate 2L/hour.  1 ml of blood = 10 units of vitamin",
     "//2": "because of do_turn_eoc, effect has some precision loss when calculates the amount of blood compensated, in favor of the player",
-    "effect": [ { "math": [ "u_vitamin('blood')", "+=", "(u_amount_of_saline_infused * ( 10 / 4 )) / 3600" ] } ]
+    "effect": [ { "math": [ "u_vitamin('blood') += (u_amount_of_saline_infused * ( 10 / 4 )) / 3600" ] } ]
   }
 ]

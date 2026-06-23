@@ -1,0 +1,286 @@
+[
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [
+      {
+        "text": "Can you teach me about those glowing boxes?",
+        "topic": "TALK_TEACH_PARACLESIAN_COMPUTERS_SURE",
+        "condition": {
+          "and": [
+            { "u_has_any_trait": [ "ARVORE", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ] },
+            { "math": [ "u_proficiency('prof_paraclesian_computer_understanding', 'format': 'percent') < 100" ] },
+            { "math": [ "n_skill('computer') >= 4" ] },
+            {
+              "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_computer_teaching_high" } ] }
+            }
+          ]
+        },
+        "effect": { "math": [ "n_proficiency('prof_paraclesian_computer_understanding', 'format': 'percent', 'direct': true) += 100" ] }
+      },
+      {
+        "text": "Can you teach me about those glowing boxes?",
+        "topic": "TALK_TEACH_PARACLESIAN_COMPUTERS_NO",
+        "condition": {
+          "and": [
+            { "u_has_any_trait": [ "ARVORE", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ] },
+            { "math": [ "u_proficiency('prof_paraclesian_computer_understanding', 'format': 'percent') < 100" ] },
+            { "math": [ "n_skill('computer') < 4" ] },
+            {
+              "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_computer_teaching_low" } ] }
+            }
+          ]
+        }
+      },
+      {
+        "text": "Can you teach me how to use your thinking machines?",
+        "topic": "TALK_TEACH_PARACLESIAN_HOMULLUS_COMPUTERS_SURE",
+        "condition": {
+          "and": [
+            { "u_has_trait": "HOMULLUS" },
+            { "math": [ "u_proficiency('prof_paraclesian_computer_understanding', 'format': 'percent') < 100" ] },
+            { "math": [ "n_skill('computer') >= 4" ] },
+            {
+              "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_computer_teaching_high" } ] }
+            }
+          ]
+        },
+        "effect": { "math": [ "n_proficiency('prof_paraclesian_computer_understanding', 'format': 'percent', 'direct': true) += 100" ] }
+      },
+      {
+        "text": "Can you teach me how to use your thinking machines?",
+        "topic": "TALK_TEACH_PARACLESIAN_HOMULLUS_COMPUTERS_NO",
+        "condition": {
+          "and": [
+            { "u_has_trait": "HOMULLUS" },
+            { "math": [ "u_proficiency('prof_paraclesian_computer_understanding', 'format': 'percent') < 100" ] },
+            { "math": [ "n_skill('computer') < 4" ] },
+            {
+              "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_computer_teaching_low" } ] }
+            }
+          ]
+        }
+      },
+      {
+        "text": "What are these devices filled with lightning?  Can you teach me about them?",
+        "topic": "TALK_TEACH_PARACLESIAN_ELECTRONICS_SURE",
+        "condition": {
+          "and": [
+            { "u_has_any_trait": [ "ARVORE", "IERDE", "SALAMANDER", "UNDINE" ] },
+            { "math": [ "u_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent') < 100" ] },
+            { "math": [ "n_skill('electronics') >= 4" ] },
+            {
+              "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_electronics_teaching_high" } ] }
+            }
+          ]
+        },
+        "effect": {
+          "math": [ "n_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent', 'direct': true) += 100" ]
+        }
+      },
+      {
+        "text": "What are these devices filled with lightning?  Can you teach me about them?",
+        "topic": "TALK_TEACH_PARACLESIAN_ELECTRONICS_NO",
+        "condition": {
+          "and": [
+            { "u_has_any_trait": [ "ARVORE", "IERDE", "SALAMANDER", "UNDINE" ] },
+            { "math": [ "u_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent') < 100" ] },
+            { "math": [ "n_skill('electronics') < 4" ] },
+            {
+              "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_electronics_teaching_low" } ] }
+            }
+          ]
+        }
+      },
+      {
+        "text": "I can feel the lightning in these mortal artifacts.  Can you tell me how to harness it?",
+        "topic": "TALK_TEACH_PARACLESIAN_ELECTRONICS_SURE",
+        "condition": {
+          "and": [
+            { "u_has_trait": "SYLPH" },
+            { "math": [ "u_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent') < 100" ] },
+            { "math": [ "n_skill('electronics') >= 4" ] },
+            {
+              "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_electronics_teaching_high" } ] }
+            }
+          ]
+        },
+        "effect": {
+          "math": [ "n_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent', 'direct': true) += 100" ]
+        }
+      },
+      {
+        "text": "I can feel the lightning in these mortal artifacts.  Can you tell me how to harness it?",
+        "topic": "TALK_TEACH_PARACLESIAN_SYLPH_ELECTRONICS_NO",
+        "condition": {
+          "and": [
+            { "u_has_trait": "SYLPH" },
+            { "math": [ "u_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent') < 100" ] },
+            { "math": [ "n_skill('electronics') < 4" ] },
+            {
+              "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_electronics_teaching_low" } ] }
+            }
+          ]
+        }
+      },
+      {
+        "text": "Can you teach me to use these galvanic mechanisms?",
+        "topic": "TALK_TEACH_PARACLESIAN_HOMULLUS_ELECTRONICS_SURE",
+        "condition": {
+          "and": [
+            { "u_has_trait": "HOMULLUS" },
+            { "math": [ "u_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent') < 100" ] },
+            { "math": [ "n_skill('electronics') >= 4" ] },
+            {
+              "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_electronics_teaching_high" } ] }
+            }
+          ]
+        },
+        "effect": {
+          "math": [ "n_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent', 'direct': true) += 100" ]
+        }
+      },
+      {
+        "text": "Can you teach me to use these galvanic mechanisms?",
+        "topic": "TALK_TEACH_PARACLESIAN_HOMULLUS_ELECTRONICS_NO",
+        "condition": {
+          "and": [
+            { "u_has_trait": "HOMULLUS" },
+            { "math": [ "u_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent') < 100" ] },
+            { "math": [ "n_skill('electronics') < 4" ] },
+            {
+              "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_electronics_teaching_low" } ] }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEACH_PARACLESIAN_COMPUTERS_SURE",
+    "dynamic_line": [ "Box-  You mean, phones?  Computers?  Oh, sure.  Just let me know when." ],
+    "responses": [
+      {
+        "text": "Thank you.",
+        "topic": "TALK_FRIEND",
+        "effect": { "npc_add_var": "asked_faction_npc_about_paraclesian_computer_teaching_high", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEACH_PARACLESIAN_COMPUTERS_NO",
+    "dynamic_line": [ "Box-  You mean, phones?  Computers?  I'm sorry, I don't really know much about that stuff." ],
+    "responses": [
+      {
+        "text": "Alas.",
+        "topic": "TALK_FRIEND",
+        "effect": { "npc_add_var": "asked_faction_npc_about_paraclesian_computer_teaching_low", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEACH_PARACLESIAN_HOMULLUS_COMPUTERS_SURE",
+    "dynamic_line": [ "\"Thinking machines\"? You mean computers?  Oh, sure, if you want." ],
+    "responses": [
+      {
+        "text": "Thank you.",
+        "topic": "TALK_FRIEND",
+        "effect": { "npc_add_var": "asked_faction_npc_about_paraclesian_computer_teaching_high", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEACH_PARACLESIAN_HOMULLUS_COMPUTERS_NO",
+    "dynamic_line": [ "\"Thinking machines\"? You mean computers?  I'm sorry, I don't really know much about that stuff." ],
+    "responses": [
+      {
+        "text": "Very well.",
+        "topic": "TALK_FRIEND",
+        "effect": { "npc_add_var": "asked_faction_npc_about_paraclesian_computer_teaching_low", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEACH_PARACLESIAN_ELECTRONICS_SURE",
+    "dynamic_line": [
+      "Filled with lightning?  You mean tasers?  No, you-  Oh, oh, I see, you want to know about electricity.  Yeah, I can teach you.  Just let me know when."
+    ],
+    "responses": [
+      {
+        "text": "Thank you.",
+        "topic": "TALK_FRIEND",
+        "effect": { "npc_add_var": "asked_faction_npc_about_paraclesian_electronics_teaching_high", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEACH_PARACLESIAN_ELECTRONICS_NO",
+    "dynamic_line": [
+      "Filled with lightning?  You mean like, circuits and stuff?  I'm sorry, I don't really know enough to explain it all to you."
+    ],
+    "responses": [
+      {
+        "text": "Alas.",
+        "topic": "TALK_FRIEND",
+        "effect": { "npc_add_var": "asked_faction_npc_about_paraclesian_electronics_teaching_low", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEACH_PARACLESIAN_SYLPH_ELECTRONICS_SURE",
+    "dynamic_line": [ "The lightning?  You mean electricity?  Yeah, I can teach you.  Just let me know when." ],
+    "responses": [
+      {
+        "text": "Thank you.",
+        "topic": "TALK_FRIEND",
+        "effect": { "npc_add_var": "asked_faction_npc_about_paraclesian_electronics_teaching_high", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEACH_PARACLESIAN_SYLPH_ELECTRONICS_NO",
+    "dynamic_line": [
+      "Lightning?  Like, a taser or something?  Or do you mean batteries?  I'm sorry, I don't really know enough to explain it all to you."
+    ],
+    "responses": [
+      {
+        "text": "Alas.",
+        "topic": "TALK_FRIEND",
+        "effect": { "npc_add_var": "asked_faction_npc_about_paraclesian_electronics_teaching_low", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEACH_PARACLESIAN_HOMULLUS_ELECTRONICS_SURE",
+    "dynamic_line": [ "Gal-what?  Wait, you mean electronics?  Yeah, I can teach you.  Just let me know when." ],
+    "responses": [
+      {
+        "text": "Thank you.",
+        "topic": "TALK_FRIEND",
+        "effect": { "npc_add_var": "asked_faction_npc_about_paraclesian_electronics_teaching_high", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEACH_PARACLESIAN_HOMULLUS_ELECTRONICS_NO",
+    "dynamic_line": [ "Gal-what?  I'm sorry, I don't know what you're talking about." ],
+    "responses": [
+      {
+        "text": "Ah.  Oh well.",
+        "topic": "TALK_FRIEND",
+        "effect": { "npc_add_var": "asked_faction_npc_about_paraclesian_electronics_teaching_low", "value": "yes" }
+      }
+    ]
+  }
+]

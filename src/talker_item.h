@@ -52,6 +52,7 @@ class talker_item_const: public const_talker_cloner<talker_item_const>
         int get_hp_max( const bodypart_id & ) const override;
         units::energy power_cur() const override;
         units::energy power_max() const override;
+        int get_artifact_resonance() const override;
 
         int get_count() const override;
         int coverage_at( bodypart_id & ) const override;
@@ -60,6 +61,8 @@ class talker_item_const: public const_talker_cloner<talker_item_const>
         int get_weight() const override;
         int get_quality( const std::string &, bool strict ) const override;
 
+        int get_price() const override;
+        int get_price_postapoc() const override;
     private:
         const item_location *me_it_const{};
 };
@@ -87,8 +90,9 @@ class talker_item: public talker_item_const, public talker_cloner<talker_item>
         void set_all_parts_hp_cur( int ) override;
         void set_degradation( int ) override;
         void die( map *here ) override;
-        void set_fault( const fault_id &fault_id, bool force, bool message ) override;
-        void set_random_fault_of_type( const std::string &fault_type, bool force, bool message ) override;
+        void set_fault( const fault_id &fault_id, bool force, const Character *holder ) override;
+        void set_random_fault_of_type( const std::string &fault_type, bool force,
+                                       const Character *holder ) override;
 
     private:
         item_location *me_it{};

@@ -1,3 +1,28 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Compiling CMAKE VCPKG](#compiling-cmake-vcpkg)
+- [Disclaimer](#disclaimer)
+- [Contents](#contents)
+- [1 Prerequisites](#1-prerequisites)
+- [2 Configure](#2-configure)
+  - [Presets](#presets)
+  - [vcpkg](#vcpkg)
+  - [Visual Studio](#visual-studio)
+  - [Terminal](#terminal)
+- [3 Build](#3-build)
+  - [Visual Studio](#visual-studio-1)
+  - [Terminal](#terminal-1)
+- [4 Install](#4-install)
+  - [Visual Studio](#visual-studio-2)
+  - [Terminal](#terminal-2)
+- [5 Run](#5-run)
+  - [Visual Studio](#visual-studio-3)
+  - [Terminal](#terminal-3)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Compiling CMAKE VCPKG
 # Disclaimer
 

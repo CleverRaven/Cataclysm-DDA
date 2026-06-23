@@ -12,7 +12,6 @@
       [ "robofachq_roof_a0", "robofachq_roof_a1", "robofachq_roof_a2", "robofachq_roof_a3" ],
       [ "robofachq_roof_e", "robofachq_roof_e", "robofachq_roof_e", "robofachq_roof_e" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_concrete",
       "rows": [
@@ -130,7 +129,6 @@
       ],
       [ "robofachq_surface_b0", "robofachq_surface_b1", "robofachq_surface_b2", "robofachq_surface_b3" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -193,7 +191,7 @@
         ",,,,,,,,,,,,,,,,,|$,,,(B  [   |?ñt  Y||eeee||yyyyyyyyyyyyyy___________|||,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|$,,,(hdh=   |^     ||Eeee||9  y  8 y  99|___________|||,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|$,,||||||[[||  a   ||||||||99 y 88 y 999|55555555555|||,,,,,,,,,,,,,,,,,,,,,,,",
-        ",,,,,,,,,,,,,,,,,|$,,,(  h h  ||||||+||||||Q|||||||||||||||MMMMMMMMMMM|||,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,|$,,,(  h h  ||||||+||||||||||||||||||||||MMMMMMMMMMM|||,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|$,,,(  6dd  2 7|; Y||||||||||||||||||||||mmmmmmmmmmm|||,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|$,,,(B h  ^^|77|i  |,,,,,,,,,,,,,,,,,,|||||||||||||||||||,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|||u|||||||||||||||||,,,,,,,,,,,,,,,,,,|||||||||||||||||,|,,,,,,,,,,,,,,,,,,,,,",
@@ -254,9 +252,8 @@
         "l": [ { "item": "NC_ROBOFAC_FIELD_RESEARCHER_worn", "chance": 50 }, { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 50 } ],
         "i": { "item": "cleaning", "chance": 50 },
         "B": [ { "item": "textbooks", "chance": 50 }, { "item": "manuals", "chance": 50 } ],
-        "7": { "item": "file_room", "chance": 100, "repeat": [ 10, 30 ] }
-      },
-      "npcs": { "Q": { "class": "robofac_intercom" } }
+        "7": { "item": "SUS_office_filing_cabinet", "chance": 100, "repeat": [ 10, 30 ] }
+      }
     }
   },
   {
@@ -267,7 +264,6 @@
       [ "robofachq_rock", "robofachq_foyer1", "robofachq_foyer2", "robofachq_rock" ],
       [ "robofachq_rock", "robofachq_rock", "robofachq_foyer4", "robofachq_rock" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor_no_roof",
       "rows": [
@@ -382,7 +378,7 @@
       },
       "furniture": { "6": "f_console", ":": "f_server", "f": "f_filing_cabinet", "A": "f_indoor_flagpole" },
       "item": { "A": { "item": "american_flag" } },
-      "items": { "f": { "item": "file_room", "chance": 100, "repeat": [ 10, 30 ] } },
+      "items": { "f": { "item": "SUS_office_filing_cabinet", "chance": 100, "repeat": [ 10, 30 ] } },
       "monster": { "T": { "monster": "mon_robofac_laserturret_mk1" } },
       "npcs": { "G": { "class": "hub_security" }, "Q": { "class": "hub_security_head" } }
     }
@@ -393,7 +389,6 @@
       [ "robofachq_exe_a0", "robofachq_exe_a1", "robofachq_exe_a2", "robofachq_exe_a3" ],
       [ "robofachq_exe_b0", "robofachq_exe_b1", "robofachq_exe_b2", "robofachq_exe_b3" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor_no_roof",
       "rows": [
@@ -440,9 +435,9 @@
         "#|iii    |====[[||=====|===[=|===[|[==||==[=||2||2|||[=======||  |||=====||||||2|||2||||########",
         "#|||||||||      ^|  hd^|^   H|    |    |^   |f ff f|  d  dh dh|  |Y      Y^|;2Y  |  Y2;|########",
         "#########|dd     [   dh|h   t|h h |    | d  |f ff f|  dh d  d |  2  hhhhh ^|||  |||  |||########",
-        "#########| h     [  hh |6dd H|ddd |6dd |hd  |f ff f| Y       Y|  2  ttttt ^|;2Y i|i Y2;|########",
+        "#########| V     [  hh |6dd H|ddd |6dd |hd  |f ff f| Y       Y|  2  ttttt ^|;2Y i|i Y2;|########",
         "#########|dd   dd|Y    |h  YB|Yh  |Yhd |^  Y|f    f|  d  d  dh|  |  hhh h ^|||  i|i  |||########",
-        "#########|Yh    h|BBBB^|^^BBB|A6^^|    |BBBB|ffffff|  dh d  d |^^|Y   h  Y^|;2Y i|i Y2;|########",
+        "#########| X    S|BBBB^|^^BBB|A6^^|    |BBBB|ffffff|  dh d  d |^^|Y   h  Y^|;2Y i|i Y2;|########",
         "#########|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||########",
         "################################################################################################"
       ],
@@ -466,12 +461,15 @@
         "H": "f_armchair",
         "L": "f_locker",
         "f": "f_filing_cabinet",
-        "A": "f_indoor_flagpole"
+        "A": "f_indoor_flagpole",
+        "S": "f_chair",
+        "V": "f_chair",
+        "X": "f_chair"
       },
       "item": { "A": { "item": "american_flag" } },
       "items": {
-        "F": { "item": "fridge", "chance": 80 },
-        "f": { "item": "file_room", "chance": 100, "repeat": [ 10, 30 ] },
+        "F": { "item": "SUS_fridge", "chance": 80 },
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 100, "repeat": [ 1, 3 ] },
         "@": { "item": "bed", "chance": 80 },
         "r": [
           { "item": "cop_armory", "chance": 80 },
@@ -487,8 +485,8 @@
           { "item": "guns_milspec", "chance": 40 }
         ],
         "K": { "item": "kitchen", "chance": 40 },
-        "o": { "item": "oven", "chance": 70 },
-        "d": [ { "item": "SUS_office_supplies", "chance": 70 }, { "item": "office_mess", "chance": 70, "repeat": [ 1, 3 ] } ],
+        "o": { "item": "SUS_oven", "chance": 70 },
+        "d": [ { "item": "SUS_office_supplies", "chance": 70 }, { "item": "SUS_office_mess", "chance": 70, "repeat": [ 1, 3 ] } ],
         "D": { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 50 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
@@ -496,7 +494,13 @@
         ]
       },
       "monster": { "T": { "monster": "mon_robofac_laserturret_mk1" } },
-      "npcs": { "G": { "class": "hub_security" }, "Q": { "class": "hub_security_head" } },
+      "npcs": {
+        "G": { "class": "hub_security" },
+        "Q": { "class": "hub_security_head" },
+        "S": { "class": "robofac_intercom_supply" },
+        "V": { "class": "robofac_intercom_day" },
+        "X": { "class": "robofac_intercom_night" }
+      },
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
     }
   },
@@ -506,7 +510,6 @@
       [ "robofachq_hab_a0", "robofachq_hab_a1", "robofachq_hab_a2", "robofachq_hab_a3" ],
       [ "robofachq_hab_b0", "robofachq_hab_b1", "robofachq_hab_b2", "robofachq_hab_b3" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor_no_roof",
       "rows": [
@@ -594,7 +597,7 @@
           { "item": "robots", "chance": 50, "repeat": [ 1, 3 ] },
           { "item": "supplies_electronics", "chance": 50, "repeat": [ 1, 3 ] }
         ],
-        "F": { "item": "fridge", "chance": 80, "repeat": [ 2, 6 ] },
+        "F": { "item": "SUS_fridge", "chance": 80, "repeat": [ 1, 2 ] },
         "@": { "item": "bed", "chance": 80 },
         "M": [
           { "item": "SUS_dishes", "chance": 80, "repeat": [ 1, 3 ] },
@@ -606,8 +609,8 @@
           { "item": "SUS_cookware", "chance": 40, "repeat": [ 1, 3 ] }
         ],
         "K": { "item": "kitchen", "chance": 40 },
-        "o": { "item": "oven", "chance": 70 },
-        "d": [ { "item": "SUS_office_supplies", "chance": 70 }, { "item": "office_mess", "chance": 70, "repeat": [ 1, 3 ] } ],
+        "o": { "item": "SUS_oven", "chance": 70 },
+        "d": [ { "item": "SUS_office_supplies", "chance": 70 }, { "item": "SUS_office_desk", "chance": 70 } ],
         "r": [ { "item": "tools_earthworking", "chance": 50 }, { "item": "supplies_farming", "chance": 70, "repeat": [ 1, 3 ] } ],
         "D": { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 50 },
         "B": [
@@ -625,7 +628,6 @@
       [ "robofachq_res_a0", "robofachq_res_a1", "robofachq_res_a2", "robofachq_res_a3" ],
       [ "robofachq_res_b0", "robofachq_res_b1", "robofachq_res_b2", "robofachq_res_b3" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor_no_roof",
       "rows": [
@@ -712,7 +714,7 @@
           { "item": "robots", "chance": 50, "repeat": [ 1, 3 ] },
           { "item": "supplies_electronics", "chance": 50, "repeat": [ 1, 3 ] }
         ],
-        "d": [ { "item": "SUS_office_supplies", "chance": 70 }, { "item": "office_mess", "chance": 70, "repeat": [ 1, 3 ] } ],
+        "d": [ { "item": "SUS_office_supplies", "chance": 70 }, { "item": "SUS_office_desk", "chance": 70, "repeat": [ 1, 3 ] } ],
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -727,7 +729,6 @@
       [ "robofachq_subline_a0", "robofachq_subline_a1", "robofachq_subline_a2", "robofachq_subline_a3" ],
       [ "robofachq_sub_a0", "robofachq_sub_a1", "robofachq_sub_a2", "robofachq_sub_a3" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor_no_roof",
       "rows": [
@@ -812,7 +813,6 @@
       [ "robofachq_ai_a0", "robofachq_ai_a1", "robofachq_ai_a2", "robofachq_ai_a3" ],
       [ "robofachq_ai_b0", "robofachq_ai_b1", "robofachq_ai_b2", "robofachq_ai_b3" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor_no_roof",
       "rows": [
@@ -877,7 +877,6 @@
       [ "robofachq_aiutl_a0", "robofachq_aiutl_a1", "robofachq_aiutl_a2", "robofachq_aiutl_a3" ],
       [ "robofachq_aiutl_b0", "robofachq_aiutl_b1", "robofachq_aiutl_b2", "robofachq_aiutl_b3" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor_no_roof",
       "rows": [

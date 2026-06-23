@@ -226,11 +226,12 @@ void diary::show_diary_ui( diary *c_diary )
 
         print_list_scrollable( &w_changes, c_diary->get_change_list(), &selected[window_mode::CHANGE_WIN],
                                currwin == window_mode::CHANGE_WIN, false, report_color_error::yes );
-        print_list_scrollable( &w_text, c_diary->get_page_text(), &selected[window_mode::TEXT_WIN],
+        print_list_scrollable( &w_text, c_diary->get_desc_or_page_text( selected[window_mode::CHANGE_WIN] ),
+                               &selected[window_mode::TEXT_WIN],
                                currwin == window_mode::TEXT_WIN, false, report_color_error::no );
 
         trim_and_print( w_head, point::south_east, getmaxx( w_head ) - 2, c_white,
-                        c_diary->get_head_text() );
+                        c_diary->get_head_text( c_diary->get_page_ptr()->is_summary() ) );
 
         wnoutrefresh( w_border );
         wnoutrefresh( w_head );
@@ -311,8 +312,10 @@ void diary::show_diary_ui( diary *c_diary )
         draw_border( w_info );
         center_print( w_info, 0, c_light_gray, string_format( _( "Info" ) ) );
         if( currwin == window_mode::CHANGE_WIN || currwin == window_mode::TEXT_WIN ) {
-            fold_and_print( w_info, point::south_east, getmaxx( w_info ) - 2, c_white,
-                            c_diary->get_desc_map()[selected[window_mode::CHANGE_WIN]] );
+            if( !c_diary->get_page_ptr()->is_summary() ) {
+                fold_and_print( w_info, point::south_east, getmaxx( w_info ) - 2, c_white,
+                                c_diary->get_desc_map()[ selected[window_mode::CHANGE_WIN] ] );
+            }
         }
 
         wnoutrefresh( w_info );
@@ -341,7 +344,10 @@ void diary::show_diary_ui( diary *c_diary )
         } else if( navigate_ui_list( action, selected[currwin], 10,
                                      currwin == window_mode::PAGE_WIN ? c_diary->pages.size()
                                      : currwin == window_mode::CHANGE_WIN ? c_diary->change_list.size()
-                                     : text_to_list_scrollable( w_text, c_diary->get_page_text(), false ).size(), true ) ) {
+                                     : text_to_list_scrollable( w_text,
+                                             c_diary->get_desc_or_page_text( selected[window_mode::CHANGE_WIN] ),
+                                             false ).size(),
+                                     true ) ) {
             // size in navigate_ui_list above is redundant with print_list_scrollable's wrapping effect during redraw
             if( currwin == window_mode::PAGE_WIN ) {
                 selected[window_mode::CHANGE_WIN] = 0;
@@ -360,7 +366,7 @@ void diary::show_diary_ui( diary *c_diary )
         } else if( action == "VIEW_SCORES" ) {
             show_scores_ui();
         } else if( action == "DELETE PAGE" ) {
-            if( !c_diary->pages.empty() ) {
+            if( c_diary->pages.size() > 1 ) {
                 if( query_yn( _( "Really delete Page?" ) ) ) {
                     c_diary->delete_page();
                     if( selected[window_mode::PAGE_WIN] >= static_cast<int>( c_diary->pages.size() ) ) {
@@ -382,6 +388,9 @@ void diary::show_diary_ui( diary *c_diary )
 
 void diary::edit_page_ui( const std::function<catacurses::window()> &create_window )
 {
+    if( get_page_ptr()->is_summary() ) {
+        return;
+    }
     // Modify the stored text so the new text is displayed after exiting from
     // the editor window and before confirming or canceling the y/n query.
     std::string &new_text = get_page_ptr()->m_text;

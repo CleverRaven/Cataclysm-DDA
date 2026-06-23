@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iterator>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -58,7 +59,7 @@ void npc_class::reset_npc_classes()
 
 // Copies the value under the key "ALL" to all unassigned skills
 template <typename T>
-void apply_all_to_unassigned( T &skills )
+static void apply_all_to_unassigned( T &skills )
 {
     auto iter = std::find_if( skills.begin(), skills.end(),
     []( decltype( *begin( skills ) ) &pr ) {
@@ -78,17 +79,19 @@ void apply_all_to_unassigned( T &skills )
 
 void npc_class::finalize_all()
 {
-    for( const npc_class &cl_const : npc_class_factory.get_all() ) {
-        npc_class &cl = const_cast<npc_class &>( cl_const );
-        apply_all_to_unassigned( cl.skills );
-        apply_all_to_unassigned( cl.bonus_skills );
+    npc_class_factory.finalize();
+}
 
-        for( const auto &pr : cl.bonus_skills ) {
-            if( cl.skills.count( pr.first ) == 0 ) {
-                cl.skills[ pr.first ] = pr.second;
-            } else {
-                cl.skills[ pr.first ] = cl.skills[ pr.first ] + pr.second;
-            }
+void npc_class::finalize()
+{
+    apply_all_to_unassigned( skills );
+    apply_all_to_unassigned( bonus_skills );
+
+    for( const auto &pr : bonus_skills ) {
+        if( skills.count( pr.first ) == 0 ) {
+            skills[ pr.first ] = pr.second;
+        } else {
+            skills[ pr.first ] = skills[ pr.first ] + pr.second;
         }
     }
 }
@@ -209,7 +212,8 @@ bool shopkeeper_item_group::can_restock( npc const &guy ) const
 std::string shopkeeper_item_group::get_refusal() const
 {
     if( refusal.empty() ) {
-        return _( "<npcname> does not trust you enough" );
+        //~Unspecified refusal reason. Mostly a fallback, the important thing here is to convey that the reason is ambiguous or unknown.
+        return _( "<npc_faction> will not trade this." );
     }
 
     return refusal.translated();
@@ -265,7 +269,13 @@ void npc_class::load( const JsonObject &jo, std::string_view )
               shopkeeper_cons_rates_id::NULL_ID() );
     optional( jo, was_loaded, SHOPKEEPER_BLACKLIST, shop_blacklist_id,
               shopkeeper_blacklist_id::NULL_ID() );
+    optional( jo, was_loaded, SHOPKEEPER_WHITELIST, shop_whitelist_id,
+              shopkeeper_whitelist_id::NULL_ID() );
     optional( jo, was_loaded, "restock_interval", restock_interval, 6_days );
+    if( jo.has_array( "work_hours" ) ) {
+        JsonArray arr = jo.get_array( "work_hours" );
+        work_hours_ = { arr.get_int( 0 ), arr.get_int( 1 ) };
+    }
     optional( jo, was_loaded, "worn_override", worn_override );
     optional( jo, was_loaded, "carry_override", carry_override );
     optional( jo, was_loaded, "weapon_override", weapon_override );
@@ -395,6 +405,15 @@ const shopkeeper_blacklist &npc_class::get_shopkeeper_blacklist() const
     return shop_blacklist_id.obj();
 }
 
+const shopkeeper_whitelist &npc_class::get_shopkeeper_whitelist() const
+{
+    if( shop_whitelist_id.is_null() ) {
+        shopkeeper_whitelist static const null_whitelist;
+        return null_whitelist;
+    }
+    return shop_whitelist_id.obj();
+}
+
 faction_price_rule const *npc_class::get_price_rules( item const &it, npc const &guy ) const
 {
     auto const el = std::find_if(
@@ -410,6 +429,20 @@ faction_price_rule const *npc_class::get_price_rules( item const &it, npc const 
 const time_duration &npc_class::get_shop_restock_interval() const
 {
     return restock_interval;
+}
+
+const std::pair<int, int> &npc_class::get_work_hours() const
+{
+    return work_hours_;
+}
+
+bool is_within_work_hours( int hour, int start, int end )
+{
+    if( start <= end ) {
+        return hour >= start && hour < end;
+    }
+    // wraps midnight
+    return hour >= start || hour < end;
 }
 
 int npc_class::roll_strength() const

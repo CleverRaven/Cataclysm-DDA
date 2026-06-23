@@ -35,11 +35,13 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "viewer.h"
 #include "ui_manager.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "clzones.h"
 
 static const efftype_id effect_teleglow( "teleglow" );
 
@@ -47,6 +49,9 @@ static const flag_id json_flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_TELEPORT_LOCK( "TELEPORT_LOCK" );
 
+static const itype_id itype_power_cord( "power_cord" );
+
+static const std::string flag_WIRING( "WIRING" );
 
 static bool TestForVehicleTeleportCollision( vehicle &veh, map &here, map *dest,
         const tripoint_abs_ms &dp )
@@ -57,6 +62,11 @@ static bool TestForVehicleTeleportCollision( vehicle &veh, map &here, map *dest,
             dest->load( project_to<coords::sm>( dp + rel_pos ), false );
         }
 
+        if( part.info().has_flag( flag_WIRING ) ||
+            part.info().base_item == itype_power_cord
+          ) {
+            continue;
+        }
         veh_collision coll = veh.part_collision( *dest, part.part_index(), dp + rel_pos, true, false );
         if( coll.type != veh_coll_nothing ) {
             tripoint_abs_ms point = dp + rel_pos;
@@ -188,7 +198,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
                                         p->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
                                         p->has_effect_with_flag( json_flag_TELEPORT_LOCK ) ) ) {
         if( display_message ) {
-            p->add_msg_if_player( m_warning, _( "You feel a strange, inwards force." ) );
+            p->add_msg_if_player( m_warning, _( "You feel a strange, inward force." ) );
         }
         return false;
     }
@@ -198,9 +208,15 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
     map tm;
     map *dest = &here;
     tripoint_bub_ms dest_target = target;
+    // Track whether we reloaded the map for the avatar so we can restore it
+    // if the teleport fails (otherwise pos_bub() goes out of bounds).
+    bool map_reloaded_for_avatar = false;
+    tripoint_abs_omt original_omt;
     if( !here.inbounds( target ) ) {
         if( c_is_u ) {
+            original_omt = project_to<coords::omt>( critter.pos_abs() );
             g->place_player_overmap( project_to<coords::omt>( abs_ms ), false );
+            map_reloaded_for_avatar = true;
         } else {
             dest = &tm;
             dest->load( project_to<coords::sm>( abs_ms ), false );
@@ -208,6 +224,13 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
         }
         dest_target = dest->get_bub( abs_ms );
     }
+
+    const auto restore_map_on_failure = [&]() {
+        if( map_reloaded_for_avatar ) {
+            g->place_player_overmap( original_omt, false );
+        }
+    };
+
     //handles teleporting into solids.
     if( dest->impassable( dest_target ) ) {
         if( force || force_safe ) {
@@ -227,6 +250,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
                 if( c_is_u && display_message ) {
                     add_msg( m_bad, _( "You cannot teleport safely." ) );
                 }
+                restore_map_on_failure();
                 return false;
             }
             critter.apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
@@ -275,6 +299,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
                 } else if( !c_is_u && p != nullptr ) {
                     add_msg( m_bad, _( "%s flickers but remains exactly where they are." ), p->get_name() );
                 }
+                restore_map_on_failure();
                 return false;
             }
         }
@@ -287,6 +312,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
                 } else if( get_player_view().sees( here, critter ) && display_message ) {
                     add_msg( _( "%1$s flickers." ), critter.disp_name() );
                 }
+                restore_map_on_failure();
                 return false;
             }
             //if the thing that was going to be teleported into has a dimensional anchor, break out early and don't teleport.
@@ -294,6 +320,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
                 ( poor_soul->as_character()->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
                   poor_soul->as_character()->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
                 poor_soul->as_character()->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
+                restore_map_on_failure();
                 return false;
             }
             if( force ) {
@@ -304,6 +331,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
                 if( c_is_u && display_message ) {
                     add_msg( m_bad, _( "You cannot teleport safely." ) );
                 }
+                restore_map_on_failure();
                 return false;
             } else if( !collision ) {
                 //we passed all the conditions needed for a teleport accident, so handle messages for teleport accidents here
@@ -380,7 +408,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
     return true;
 }
 
-bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
+bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp, bool force )
 {
     map &here = get_map();
     map *dest = &here;
@@ -389,10 +417,11 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
     tileray facing;
     facing.init( veh.turn_dir );
 
-    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), veh.pivot_point( here ) );
+    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), veh.pivot_anchor[0] );
 
     Character &player_character = get_player_character();
     tripoint_bub_ms src = veh.pos_bub( here );
+    auto pos_abs_offset = dp - veh.pos_abs();
 
     map tm;
     point_sm_ms src_offset;
@@ -428,7 +457,8 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
             break;
         }
     }
-    if( !TestForVehicleTeleportCollision( veh, here, dest, dp ) ) {
+    // Once forced teleportation is specified, collision test is skipped.
+    if( !force && !TestForVehicleTeleportCollision( veh, here, dest, dp ) ) {
         return false;
     }
     here.memory_clear_vehicle_points( veh );
@@ -477,6 +507,15 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
         // Has to be after update_map or coordinates won't be valid
         g->setremoteveh( &veh );
     }
+    // Cables on vehicle need to translate to new postion to keep connection working
+    veh.translate_cables( pos_abs_offset );
     CleanUpAfterVehicleTeleport( veh, here, dp, smzs, src );
+    return true;
+}
+
+bool teleport::teleport_zone( zone_data &zone, const tripoint_abs_ms &dp )
+{
+    auto new_end_point = dp + ( zone.get_end_point() - zone.get_start_point() );
+    zone.set_position( std::make_pair( dp, new_end_point ) );
     return true;
 }

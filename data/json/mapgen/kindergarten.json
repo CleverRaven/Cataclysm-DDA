@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "small_kindergarten" ],
     "object": {
       "fill_ter": "t_floor",
@@ -15,7 +14,7 @@
         ".........#h  h#.........",
         ".........#y  y#.........",
         ".###ooo###:;;:##ooo####.",
-        ".#y  bb            CCC#.",
+        ".#y  bb       §    CCC#.",
         ".#              hh   C#.",
         ".o b TT        hTTh   o.",
         ".o b TT        hTTh   o.",
@@ -27,7 +26,7 @@
         ".#B  B  hhh hhh  +    #.",
         ".oT  B  hhh hhh  |V  t#.",
         ".ob  B           |S  t#.",
-        ".#TbbB y   h   y |V  t#.",
+        ".#TbbB y § h   y |V  t#.",
         ".#########ooooo########.",
         ".....................4.."
       ],
@@ -59,12 +58,12 @@
         "C": { "item": "toy_box", "chance": 80, "repeat": [ 4, 10 ] },
         "S": { "item": "SUS_evac_shelter_bathroom_counter", "chance": 75, "repeat": [ 1, 4 ] }
       },
-      "place_monster": [ { "monster": "mon_zombie_child", "x": [ 2, 21 ], "y": [ 9, 20 ], "chance": 75, "repeat": [ 3, 8 ] } ]
+      "place_monster": [ { "monster": "mon_zombie_child", "x": [ 2, 21 ], "y": [ 9, 20 ], "chance": 75, "repeat": [ 3, 8 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "small_kindergarten_roof",
     "object": {
       "fill_ter": "t_flat_roof",

@@ -1,3 +1,35 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [The DDA Development Process](#the-dda-development-process)
+  - [Table of Contents](#table-of-contents)
+  - [The basic concept](#the-basic-concept)
+    - [Experimental/Stable](#experimentalstable)
+      - [Why this format?](#why-this-format)
+    - [Mainline, in-repo mods, third party mods, and forks](#mainline-in-repo-mods-third-party-mods-and-forks)
+    - [Project roles](#project-roles)
+  - [FAQ for prospective contributors](#faq-for-prospective-contributors)
+    - [How can I make sure my contribution will be accepted?](#how-can-i-make-sure-my-contribution-will-be-accepted)
+      - [What if different people have different opinions of my idea?](#what-if-different-people-have-different-opinions-of-my-idea)
+      - [My idea was rejected, changed beyond recognition, or requires a lot more than I expected.](#my-idea-was-rejected-changed-beyond-recognition-or-requires-a-lot-more-than-i-expected)
+      - [Do a lot of things get merged to the project, then reverted?](#do-a-lot-of-things-get-merged-to-the-project-then-reverted)
+      - [How do I deal with a ton of comments and suggestions to my idea?](#how-do-i-deal-with-a-ton-of-comments-and-suggestions-to-my-idea)
+      - [Am I allowed to do what I want with an existing NPC/faction/feature?](#am-i-allowed-to-do-what-i-want-with-an-existing-npcfactionfeature)
+    - [Is the Discord strict?](#is-the-discord-strict)
+    - [How does player feedback affect the project's development?](#how-does-player-feedback-affect-the-projects-development)
+      - [Do we care about the players?](#do-we-care-about-the-players)
+        - [So wait, it sounds like you're just going to do whatever you want and you don't care what the players say.](#so-wait-it-sounds-like-youre-just-going-to-do-whatever-you-want-and-you-dont-care-what-the-players-say)
+  - [Supplemental Material](#supplemental-material)
+    - [A Very Brief History of DDA](#a-very-brief-history-of-dda)
+      - [Why did Kevin do this to me?](#why-did-kevin-do-this-to-me)
+    - [Realism as a design goal](#realism-as-a-design-goal)
+    - [Why did X system get worked on while the more important Y system didn't?](#why-did-x-system-get-worked-on-while-the-more-important-y-system-didnt)
+      - [Why did X system get implemented with Y, but not Z?](#why-did-x-system-get-implemented-with-y-but-not-z)
+  - [The Bottom Line](#the-bottom-line)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # The DDA Development Process
 
 **A guide for new and prospective contributors, or just for people curious about how the devs understand the project to work.**
@@ -64,7 +96,7 @@ Cataclysm: DDA is one version of the 'Cataclysm' source code.  There are many ot
 
 This is a quick summary of the different terms we use for different groups within the project.  Almost all of these terms are quite fuzzy and imprecise.
 
-* **CleverRaven** is the github organization that owns this fork of CDDA.  That might sound precise, but it's actually a little hard to define who is or is not part of CleverRaven and whether or not they have any official authority.  Not all CleverRaven members are lead developers with merge permissions, but anyone who is a member of CleverRaven has some trust and experience with the project.
+* **CleverRaven** is the GitHub organization that owns this fork of CDDA.  That might sound precise, but it's actually a little hard to define who is or is not part of CleverRaven and whether or not they have any official authority.  Not all CleverRaven members are lead developers with merge permissions, but anyone who is a member of CleverRaven has some trust and experience with the project.
 * The **Project Lead** is Kevin Granade.  He mainly serves as the final voice in what can go into the project, and arbitrates disputes between other members of the team.
 * **Senior developers** have merge permissions with CleverRaven and have been around a long time.  This is a very fuzzy role, none of us know exactly what makes a person a "senior" developer versus any other kind of "developer".  It just kind of happens, usually because they're doing leadership things and not being told to stop.[^erk]  Some of the senior devs have gold names on Discord, but because we love confusion, most do not.
 * **Developers** are members of CleverRaven with merge permissions, aka "mergers".  These folks are trusted enough to be allowed to merge to the main project branch.  They are the main workforce of the game's management team.  Developers usually have green or gold names on Discord.
@@ -119,7 +151,7 @@ The best way to protect yourself from getting something reverted, or rejected be
 
 If you're feeling overwhelmed by the amount of work being piled on you, first, we recommend making sure the suggestions are coming from someone with some authority on the matter.  When in doubt, these issues are easiest to sort out on Discord, where it's easier to tell who has some authority.  On GitHub we're doing our best to make sure that project members get a user badge, like this:
 ![image](https://github.com/I-am-Erk/Cataclysm-DDA/assets/45136638/6106b80f-274e-43c7-a937-58f601f035e6)  
-A "member" badge means this person has permissions with CleverRaven and so has a better chance of being correct, but if they say they're not an authority in this area, that means you shouldn't overvalue them either.  As a last resort, consider pinging kevingranade or I-am-Erk on github to come in and clarify, although we'd very much prefer you to come ask in Discord.  It can also help to check if the suggested changes are in line with any of the official guides and documentation.
+A "member" badge means this person has permissions with CleverRaven and so has a better chance of being correct, but if they say they're not an authority in this area, that means you shouldn't overvalue them either.  As a last resort, consider pinging kevingranade or I-am-Erk on GitHub to come in and clarify, although we'd very much prefer you to come ask in Discord.  It can also help to check if the suggested changes are in line with any of the official guides and documentation.
 
 If the requested changes are coming from a trusted source, and it's more than you feel you can handle, it's all right to say as much.  We might not mean that we expect *you* to do whatever is being suggested.  Other times, the thing you're trying to do is just not going to be as easy as it looked.  In that case, we'd prefer you to do it if you can, but it's all right to decide that we're asking for too much.  These problems can *usually* be avoided with a well-discussed GitHub/Discourse post or Discord conversation.  If you're extremely averse to having this happen, try to be patient and persistent and make sure you've got the go-ahead from a developer before beginning, but we want to emphasize that *most of the time, this doesn't happen*.  The bigger your contribution is, the more important it becomes to get clearance.
 
@@ -131,7 +163,7 @@ As a general rule, in fact, we would prefer it if new contributors would feel we
 
 ### Is the Discord strict?
 
-We don't think so, but obviously we're biased.  First, make sure you're looking at [the developer discord](https://discord.gg/hqWgHC8TKY) and not the fan discord or the old one that was subjected to a nazi takeover (seriously).
+We don't think so, but obviously we're biased.  First, make sure you're looking at [the developer discord](https://discord.gg/hqWgHC8TKY) and not the fan discord or the old one that was subjected to a Nazi takeover (seriously).
 
 If you're on the developer discord to talk about development, it's very difficult to get banned or kicked out, and you'll always get warnings first[^spam].  If you're worried about getting in trouble for your memes or fun chat times, we suggest just going to [the community discord](https://discord.gg/byxwnAU
 ), where the rules are much more lax.  It's still fine to chat on the developer discord, but we intentionally run it mainly for very focused discussion of the game.   It's also the place to go to see the devs talking like normal people instead of giving dry technical responses on GH.

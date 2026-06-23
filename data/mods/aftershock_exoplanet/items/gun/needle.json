@@ -37,7 +37,22 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "3x35_150_mag", "3x35_75_mag" ] } ]
+    "pocket_data": [
+      { "id": "ammo", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "3x35_150_mag", "3x35_75_mag" ], "rigid": true },
+      {
+        "id": "power",
+        "pocket_type": "MAGAZINE_WELL",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_cartridge" ]
+      }
+    ],
+    "firing_requirements": {
+      "DEFAULT": [ { "pocket": "ammo", "qty": 1 }, { "pocket": "power", "qty": 10 } ],
+      "BURST": [ { "pocket": "ammo", "qty": 1 }, { "pocket": "power", "qty": 10 } ],
+      "AUTO": [ { "pocket": "ammo", "qty": 1 }, { "pocket": "power", "qty": 10 } ]
+    }
   },
   {
     "id": "3x35_pistol",
@@ -61,7 +76,7 @@
     "skill": "pistol",
     "dispersion": 280,
     "durability": 9,
-    "modes": [ [ "BURST", "2 rd.", 3 ], [ "AUTO", "auto", 5 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 5 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "grip", 1 ],
@@ -73,7 +88,22 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "3x35_75_mag", "3x35_150_mag" ] } ]
+    "pocket_data": [
+      { "id": "ammo", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "3x35_150_mag", "3x35_75_mag" ], "rigid": true },
+      {
+        "id": "power",
+        "pocket_type": "MAGAZINE_WELL",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_cartridge" ]
+      }
+    ],
+    "firing_requirements": {
+      "DEFAULT": [ { "pocket": "ammo", "qty": 1 }, { "pocket": "power", "qty": 5 } ],
+      "BURST": [ { "pocket": "ammo", "qty": 1 }, { "pocket": "power", "qty": 10 } ],
+      "AUTO": [ { "pocket": "ammo", "qty": 1 }, { "pocket": "power", "qty": 10 } ]
+    },
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   }
 ]

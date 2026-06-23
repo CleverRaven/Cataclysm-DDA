@@ -38,5 +38,203 @@
       ],
       "flags": [ "TELEPORT_IMMUNE" ]
     }
+  },
+  {
+    "id": "mon_transcendant_alpha_psion",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_psion_default",
+    "looks_like": "mon_mutant_alpha",
+    "name": { "str": "mathematician A57" },
+    "description": "No one could mistake this person for a human; they move with astonishing speed and grace, but every motion is precisely controlled.  As they catch sight of you, a momentary grimace mars the perfection of their unnaturally beautiful face, and as they move quickly toward you, they make a quick gesture and some debris on the floor moves out of their way.",
+    "symbol": "@",
+    "color": "magenta",
+    "hp": 150,
+    "regen_morale": true,
+    "regenerates": 2,
+    "regeneration_modifiers": [ [ "effect_psi_null", -5 ], [ "effect_feral_regeneration", 5 ] ],
+    "bleed_rate": 0,
+    "death_drops": "mon_mathematician_alpha_five_seven_death_drops",
+    "zombify_into": "mon_zombie_survivor",
+    "extend": {
+      "special_attacks": [
+        { "id": "feral_weapon_pipe" },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "transcendant_alpha_weapon_pipe",
+          "cooldown": 1,
+          "move_cost": 15,
+          "accuracy": 6,
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 9 } ],
+          "condition": { "and": [ { "test_eoc": "is_disarmed" }, { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } ] },
+          "hit_dmg_u": "Mathematician A57 hits your %2$s with a pipe in a blur of motion!",
+          "hit_dmg_npc": "Mathematician A57 hits <npcname>'s %2$s with a pipe in a blur of motion!",
+          "miss_msg_u": "Mathematician A57 tries to hit you, but you barely dodge!",
+          "miss_msg_npc": "Mathematician A57 tries to hit <npcname>, but they barely dodge!",
+          "no_dmg_msg_u": "Mathematician A57 hits your %2$s without penetrating your armor.",
+          "no_dmg_msg_npc": "Mathematician A57 hits <npcname>'s %2$s without penetrating their armor."
+        },
+        {
+          "id": "smash",
+          "attack_upper": true,
+          "throw_strength": 50,
+          "range": 8,
+          "cooldown": { "math": [ "5 + rand(10)" ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } },
+              { "not": { "npc_has_flag": "TELEKIN_SHIELD" } }
+            ]
+          }
+        },
+        {
+          "type": "leap",
+          "cooldown": { "math": [ "2 + rand(5)" ] },
+          "move_cost": 50,
+          "allow_no_target": true,
+          "max_range": 5,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } } ]
+          },
+          "message": "Mathematician A57 moves so quickly your eyes can barely follow them!"
+        },
+        [ "BIO_OP_DISARM", 10 ],
+        {
+          "id": "bio_op_takedown",
+          "cooldown": { "math": [ "5 + rand(10)" ] },
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } } ]
+          }
+        },
+        {
+          "id": "psi_transcendant_alpha_hardened_skin",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_hardened_skin_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "u_has_effect": "effect_monster_hardened_skin" } },
+              { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } }
+            ]
+          },
+          "monster_message": "Mathematician A57's skin takes on a slightly waxen appearance."
+        },
+        {
+          "id": "psi_transcendant_alpha_heightened_reflexes",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_heightened_reflexes_enhanced_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "u_has_effect": "effect_monster_heightened_reflex_enhanced" } }
+            ]
+          },
+          "monster_message": "Mathematician A57 begins moving much more quickly."
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "psi_transcendant_alpha_hurricane_blows_probe",
+          "cooldown": { "math": [ "15 + rand(30)" ] },
+          "move_cost": 100,
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
+          "self_effects_always": [ { "id": "effect_psi_biokin3_hurricane_blows", "duration": 0 } ],
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } } ]
+          },
+          "dodgeable": false,
+          "blockable": false,
+          "hit_dmg_u": "Mathematician A57 blurs as they explode into motion!",
+          "hit_dmg_npc": "Mathematician A57 blurs as they explode into motion!",
+          "miss_msg_u": "Mathematician A57 blurs as they explode into motion!",
+          "miss_msg_npc": "Mathematician A57 blurs as they explode into motion!",
+          "no_dmg_msg_u": "Mathematician A57 blurs as they explode into motion!",
+          "no_dmg_msg_npc": "Mathematician A57 blurs as they explode into motion!"
+        },
+        {
+          "id": "psi_transcendant_alpha_telegrab",
+          "type": "spell",
+          "spell_data": { "id": "telekinetic_pull_monster", "min_level": 3 },
+          "cooldown": { "math": [ "5 + rand(10)" ] },
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
+          "monster_message": "Mathematician A57 stares at %3$s and %3$s is lifted up and pulled towards them!"
+        },
+        {
+          "id": "psi_transcendant_alpha_momentum_alteration",
+          "type": "spell",
+          "spell_data": { "id": "telekinetic_momentum_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_momentum_alteration" } } ]
+          },
+          "monster_message": "The air around Mathematician A57Mathematician A57 wavers."
+        },
+        {
+          "id": "psi_transcendant_alpha_inertial_barrier",
+          "type": "spell",
+          "spell_data": { "id": "telekinetic_barrier_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
+          },
+          "monster_message": "The air around Mathematician A57 distorts."
+        },
+        [ "PULL_METAL_WEAPON", 10 ],
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "mon_transcendant_alpha_laceration",
+          "cooldown": { "math": [ "6 + rand(12)" ] },
+          "accuracy": 6,
+          "move_cost": 60,
+          "damage_max_instance": [ { "damage_type": "biological", "amount": 15 } ],
+          "effects": [
+            { "id": "bleed", "duration": [ 60, 120 ], "intensity": [ 1, 10 ], "chance": 50, "affect_hit_bp": true },
+            { "id": "psi_vitakinetic_degeneration", "duration": [ 600, 2400 ] }
+          ],
+          "dodgeable": true,
+          "blockable": false,
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "hit_dmg_u": "Mathematician A57 touches you and wounds open on your flesh!",
+          "hit_dmg_npc": "Mathematician A57 touches <npcname> and wounds open on their flesh!",
+          "miss_msg_u": "Mathematician A57 tries to touch you, but you dodge!",
+          "miss_msg_npc": "Mathematician A57 tries to touch <npcname>, but they dodge!",
+          "no_dmg_msg_u": "Mathematician A57 touches you but only hits your armor.",
+          "no_dmg_msg_npc": "Mathematician A57 touches <npcname> but only hits their armor."
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "mon_transcendant_alpha_weakness_2",
+          "cooldown": { "math": [ "7 + rand(14)" ] },
+          "accuracy": 6,
+          "move_cost": 60,
+          "damage_max_instance": [ { "damage_type": "biological", "amount": 1 } ],
+          "dodgeable": true,
+          "blockable": false,
+          "eoc": [ "EOC_FERAL_VITAKIN2_ENERVATING_TOUCH" ],
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "hit_dmg_u": "Mathematician A57 touches you and you feel weaker!",
+          "hit_dmg_npc": "Mathematician A57 touches <npcname> and they flinch!",
+          "miss_msg_u": "Mathematician A57 tries to touch you, but you dodge!",
+          "miss_msg_npc": "Mathematician A57 tries to touch <npcname>, but they dodge!",
+          "no_dmg_msg_u": "Mathematician A57 touches you but only hits your armor.",
+          "no_dmg_msg_npc": "Mathematician A57 touches <npcname> but only hits their armor."
+        },
+        {
+          "id": "psi_transcendant_alpha_regeneration",
+          "type": "spell",
+          "spell_data": { "id": "vitakinetic_regeneration_monster" },
+          "cooldown": { "math": [ "10 + rand(20)" ] },
+          "allow_no_target": true,
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_feral_regeneration" } } ] },
+          "monster_message": "Mathematician A57 closes their eyes and their wounds begin healing at a rapid pace!"
+        }
+      ],
+      "flags": [ "CLIMBS", "PUSH_VEH", "PUSH_MON", "STUN_IMMUNE", "NO_BREATHE", "NO_FUNG_DMG", "WIELDED_WEAPON" ]
+    }
   }
 ]

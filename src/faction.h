@@ -12,20 +12,17 @@
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "character_id.h"
 #include "color.h"
 #include "generic_factory.h"
+#include "list.h"
 #include "shop_cons_rate.h"
 #include "stomach.h"
 #include "translation.h"
 #include "type_id.h"
 
 enum class vitamin_type : int;
-
-namespace catacurses
-{
-class window;
-}  // namespace catacurses
 
 // TODO: Redefine?
 constexpr int MAX_FAC_NAME_SIZE = 40;
@@ -121,13 +118,33 @@ class faction_template
     private:
         explicit faction_template( const JsonObject &jsobj );
 
-
     public:
         static void load( const JsonObject &jsobj );
         static void check_consistency();
         static void reset();
+        // summary nutrients of the current food supply
+        nutrients food_supply() const;
+        void add_kcal( int kcal, time_point expires );
+        void empty_food_supply();
+        // returns what could not be consumed
+        nutrients consume_food_supply( const nutrients &consumed );
+        nutrients add_to_food_supply( const std::map<time_point, nutrients> &added );
 
+        // remove rotted items in the food supply
+        void prune_food_supply();
+        // debug access to food supply
+        cata::list<std::pair<time_point, nutrients>> &debug_food_supply();
+
+        // Returns (hopefully) translated version of the faction's name.
+        std::string get_name() const;
+        // TODO: Move to faction constructor?
+        void set_name( std::string new_name );
+
+    protected:
+        // TODO: Shouldn't this be a translation object...
         std::string name;
+
+    public:
         int likes_u;
         int respects_u;
         int trusts_u; // Determines which item groups are available for trading
@@ -136,7 +153,15 @@ class faction_template
         translation desc;
         int size; // How big is our sphere of influence?
         int power; // General measure of our power
-        nutrients food_supply; //Total nutritional value held
+        // Three steal states: Always, Never, Ask
+        // Always = true, Never = false, Ask = std::nullopt
+        std::optional<bool> steal_persist;
+    protected:
+        // Sorted list of nutrients and when they expire
+        // The time_point == 0 mod 1_days, and calendar::turn_zero is non-perishable food
+        cata::list<std::pair<time_point, nutrients>> _food_supply; //Total nutritional value held
+
+    public:
         bool consumes_food; //Whether this faction actually draws down the food_supply when eating from it
         int wealth;  //Total trade currency
         bool lone_wolf_faction; // is this a faction for just one person?
@@ -157,15 +182,14 @@ class faction : public faction_template
 
         void deserialize( const JsonObject &jo );
         void serialize( JsonOut &json ) const;
-        void faction_display( const catacurses::window &fac_w, int width ) const;
 
 
         std::string describe() const;
         bool check_relations( const std::vector<faction_power_spec> &faction_power_specs ) const;
         std::vector<std::string> epilogue() const;
 
-        std::string food_supply_text();
-        nc_color food_supply_color();
+        std::string food_supply_text() const;
+        nc_color food_supply_color() const;
 
         std::pair<nc_color, std::string> vitamin_stores( vitamin_type vit );
 

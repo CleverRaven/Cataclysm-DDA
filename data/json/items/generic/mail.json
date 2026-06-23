@@ -239,7 +239,7 @@
         "id": "sympathy_greeting_card",
         "name": { "str": "sympathy card" },
         "description": "A black greeting card with a picture of a dimly lit candle.  Words printed on it read: \"Please accept our deepest and most heartfelt condolences at this challenging time.\"",
-        "color": "black"
+        "color": "dark_gray"
       },
       {
         "id": "thank_you_greeting_card",

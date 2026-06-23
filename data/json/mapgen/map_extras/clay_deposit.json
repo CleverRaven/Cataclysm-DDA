@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_clay_deposit",
     "object": {
       "place_nested": [
@@ -16,7 +15,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "15x15_clay_deposit",
     "object": {
       "mapgensize": [ 15, 15 ],
@@ -29,7 +27,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "7x7_clay_deposit",
     "object": {
       "mapgensize": [ 7, 7 ],

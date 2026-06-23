@@ -11,7 +11,7 @@
     "id": "SUS_science_personal_effects",
     "//": "These are personal effects, such as might be found at their workplace or on their person. The rates for medication (including vision aids) are intended to mirror the distribution of these items in the general US population.",
     "//2": "diazepem ~5.6% in 2013 https://www.benzoinfo.com/prescribing-statistics/",
-    "//3": "antiparasitics: only data for US military could be found via google searching, but if rate is comparable to general population it's not even 1% https://academic.oup.com/ofid/article/9/3/ofac040/6528390 https://health.mil/News/Articles/2024/01/01/MSMR-Ivermectin",
+    "//3": "antiparasitics: only data for US military could be found via Google searching, but if rate is comparable to general population it's not even 1% https://academic.oup.com/ofid/article/9/3/ofac040/6528390 https://health.mil/News/Articles/2024/01/01/MSMR-Ivermectin",
     "//4": "~4.1% of the population with at least one stimulant prescription per year https://www.cdc.gov/mmwr/volumes/72/wr/mm7213a1.htm",
     "//5": "~8.7% of the population have asthma, presumably only some require an inhaler https://www.cdc.gov/nchs/fastats/asthma.htm",
     "items": [
@@ -30,6 +30,79 @@
       [ "wrapped_rad_badge", 5 ],
       { "prob": 1, "group": "antiparasitic_bottle_plastic_pill_prescription_1_10" },
       { "prob": 6, "group": "diazepam_bottle_plastic_pill_prescription_1_10" }
+    ]
+  },
+  {
+    "id": "ultralight_battery_any_open",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      {
+        "collection": [
+          { "group": "ultralight_battery_small_bag", "prob": 100, "count": [ 0, 2 ] },
+          { "group": "ultralight_battery_small_bag_part", "prob": 100 }
+        ],
+        "prob": 100
+      },
+      {
+        "collection": [
+          { "group": "ultralight_battery_large_bag", "prob": 100, "count": [ 0, 1 ] },
+          { "group": "ultralight_battery_large_bag_part", "prob": 100 }
+        ],
+        "prob": 20
+      }
+    ]
+  },
+  {
+    "id": "light_battery_any_open",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      {
+        "collection": [
+          { "group": "light_battery_small_bag", "prob": 100, "count": [ 0, 2 ] },
+          { "group": "light_battery_small_bag_part", "prob": 100 }
+        ],
+        "prob": 100
+      },
+      {
+        "collection": [
+          { "group": "light_battery_large_bag", "prob": 100, "count": [ 0, 1 ] },
+          { "group": "light_battery_large_bag_part", "prob": 100 }
+        ],
+        "prob": 20
+      }
+    ]
+  },
+  {
+    "id": "medium_battery_any_open",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      {
+        "collection": [
+          { "group": "medium_battery_small_bag", "prob": 100, "count": [ 0, 2 ] },
+          { "group": "medium_battery_small_bag_part", "prob": 100 }
+        ],
+        "prob": 100
+      },
+      {
+        "collection": [
+          { "group": "medium_battery_large_bag", "prob": 100, "count": [ 0, 1 ] },
+          { "group": "medium_battery_large_bag_part", "prob": 100 }
+        ],
+        "prob": 20
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "SUS_used_batteries",
+    "entries": [
+      { "group": "ultralight_battery_any_open", "prob": 70 },
+      { "group": "light_battery_any_open", "prob": 100 },
+      { "group": "medium_battery_any_open", "prob": 35 }
     ]
   }
 ]

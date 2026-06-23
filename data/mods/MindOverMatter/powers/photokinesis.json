@@ -10,22 +10,14 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_PHOTOKIN_LIGHT_LOCAL_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('photokinetic_light_local') * 26000) + 156000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('photokinetic_light_local') * 87000) + 342000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('photokinetic_light_local') * 26000) + 156000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('photokinetic_light_local') * 87000) + 342000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_photokin_light_local') > -1 ? 0 : max((1500 - (u_spell_level('photokinetic_light_local') * 80)), 450)"
@@ -48,7 +40,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -70,22 +62,14 @@
     "teachable": false,
     "valid_targets": [ "self", "ground", "ally", "hostile" ],
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "shape": "blast",
-    "min_range": {
-      "math": [
-        "min( (( (u_spell_level('photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
-      ]
-    },
+    "min_range": { "math": [ "min( (( (u_spell_level('photokinetic_create_light') * 1.2) + 5) * psionic_power_modifiers()), 70)" ] },
     "max_range": 70,
-    "min_aoe": {
-      "math": [
-        "min( (( (u_spell_level('photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
-      ]
-    },
+    "min_aoe": { "math": [ "min( (( (u_spell_level('photokinetic_create_light') * 0.8) + 1) * psionic_power_modifiers()), 50)" ] },
     "max_aoe": 50,
     "field_id": "fd_photokin_light_1",
     "min_field_intensity": 1,
@@ -101,22 +85,14 @@
     "teachable": false,
     "valid_targets": [ "self", "ground", "ally", "hostile" ],
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "shape": "blast",
-    "min_range": {
-      "math": [
-        "min( (( (u_spell_level('photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
-      ]
-    },
+    "min_range": { "math": [ "min( (( (u_spell_level('photokinetic_create_light') * 1.2) + 5) * psionic_power_modifiers()), 70)" ] },
     "max_range": 70,
-    "min_aoe": {
-      "math": [
-        "min( (( (u_spell_level('photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
-      ]
-    },
+    "min_aoe": { "math": [ "min( (( (u_spell_level('photokinetic_create_light') * 0.8) + 1) * psionic_power_modifiers()), 50)" ] },
     "max_aoe": 50,
     "field_id": "fd_photokin_light_2",
     "min_field_intensity": 1,
@@ -132,22 +108,14 @@
     "teachable": false,
     "valid_targets": [ "self", "ground", "ally", "hostile" ],
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "shape": "blast",
-    "min_range": {
-      "math": [
-        "min( (( (u_spell_level('photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
-      ]
-    },
+    "min_range": { "math": [ "min( (( (u_spell_level('photokinetic_create_light') * 1.2) + 5) * psionic_power_modifiers()), 70)" ] },
     "max_range": 70,
-    "min_aoe": {
-      "math": [
-        "min( (( (u_spell_level('photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
-      ]
-    },
+    "min_aoe": { "math": [ "min( (( (u_spell_level('photokinetic_create_light') * 0.8) + 1) * psionic_power_modifiers()), 50)" ] },
     "max_aoe": 50,
     "field_id": "fd_photokin_light_3",
     "min_field_intensity": 1,
@@ -158,34 +126,22 @@
     "id": "photokinetic_light_up_enemy",
     "type": "SPELL",
     "name": "[Ψ]Illuminate",
-    "description": "Create photons to illuminate an entire area.",
+    "description": "Surround a single target with a outline of line that follows them as they move, revealing their position at all times.",
     "message": "Your target is outlined in light.",
     "teachable": false,
     "valid_targets": [ "ally", "hostile" ],
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_PHOTOKIN_LIGHT_UP_ENEMY_TARGET",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('photokinetic_light_up_enemy') * 1800) + 6600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('photokinetic_light_up_enemy') * 7100) + 18400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "min_range": {
-      "math": [
-        "min( (( (u_spell_level('photokinetic_light_up_enemy') * 1.1) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('photokinetic_light_up_enemy') * 1800) + 6600) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('photokinetic_light_up_enemy') * 7100) + 18400) * psionic_power_modifiers()" ] },
+    "min_range": { "math": [ "min( (( (u_spell_level('photokinetic_light_up_enemy') * 1.1) + 3) * psionic_power_modifiers()), 70)" ] },
     "max_range": 70,
     "base_energy_cost": 2750,
     "final_energy_cost": 750,
@@ -205,24 +161,16 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "shape": "blast",
-    "min_duration": { "math": [ "((u_spell_level('photokinetic_snuff_light') * 1000) + 5000) * u_nether_attunement_power_scaling" ] },
-    "max_duration": { "math": [ "((u_spell_level('photokinetic_snuff_light') * 1000) + 10000) * u_nether_attunement_power_scaling" ] },
-    "min_range": {
-      "math": [
-        "min( (( (u_spell_level('photokinetic_snuff_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
-      ]
-    },
+    "min_duration": { "math": [ "((u_spell_level('photokinetic_snuff_light') * 1000) + 5000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "((u_spell_level('photokinetic_snuff_light') * 1000) + 10000) * psionic_power_modifiers()" ] },
+    "min_range": { "math": [ "min( (( (u_spell_level('photokinetic_snuff_light') * 1.2) + 5) * psionic_power_modifiers()), 70)" ] },
     "max_range": 70,
-    "min_aoe": {
-      "math": [
-        "min( (( (u_spell_level('photokinetic_snuff_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
-      ]
-    },
+    "min_aoe": { "math": [ "min( (( (u_spell_level('photokinetic_snuff_light') * 0.8) + 1) * psionic_power_modifiers()), 50)" ] },
     "field_id": "fd_darkness",
     "min_field_intensity": 1,
     "max_field_intensity": 1,
@@ -244,22 +192,14 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_PHOTOKIN_LIGHT_DODGE_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('photokinetic_light_dodge') * 1300) + 2800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('photokinetic_light_dodge') * 2700) + 12500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('photokinetic_light_dodge') * 1300) + 2800) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('photokinetic_light_dodge') * 2700) + 12500) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_photokin_dodge') > -1 ? 0 : max((2250 - (u_spell_level('photokinetic_light_dodge') * 135)), 500)"
@@ -282,26 +222,14 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "SILENT", "RANDOM_DAMAGE" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "SILENT", "RANDOM_DAMAGE" ],
     "effect": "attack",
     "difficulty": 3,
     "shape": "line",
-    "min_damage": {
-      "math": [
-        "( (u_spell_level('photokinetic_light_beam') * 1.5) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_damage": {
-      "math": [
-        "( (u_spell_level('photokinetic_light_beam') * 3.5) + 15) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_damage": { "math": [ "( (u_spell_level('photokinetic_light_beam') * 1.5) + 3) * psionic_power_modifiers()" ] },
+    "max_damage": { "math": [ "( (u_spell_level('photokinetic_light_beam') * 3.5) + 15) * psionic_power_modifiers()" ] },
     "damage_type": "psi_photokinetic_damage",
-    "min_range": {
-      "math": [
-        "min( (( (u_spell_level('photokinetic_light_beam') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 30)"
-      ]
-    },
+    "min_range": { "math": [ "min( (( (u_spell_level('photokinetic_light_beam') * 0.6) + 2) * psionic_power_modifiers()), 30)" ] },
     "max_range": 30,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "field_id": "fd_laser",
@@ -326,7 +254,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -334,22 +262,22 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('photokinetic_camouflage') * 4800) + 69000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 4800) + 69000) * psionic_power_modifiers()"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('photokinetic_camouflage') * 11300) + 143000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 11300) + 143000) * psionic_power_modifiers()"
       ]
     },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 0 : max((3500 - (u_spell_level('photokinetic_camouflage') * 75)), 1500)"
+        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 0 : max((3500 - ( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 75)), 1500)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 10 : max((150 -(u_spell_level('photokinetic_camouflage') * 8)), 75)"
+        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 10 : max((150 -( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 8)), 75)"
       ]
     }
   },
@@ -364,22 +292,14 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_PHOTOKIN_RAD_IMMUNITY_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('photokinetic_rad_immunity') * 1800) + 37000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('photokinetic_rad_immunity') * 18200) + 81000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('photokinetic_rad_immunity') * 1800) + 37000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('photokinetic_rad_immunity') * 18200) + 81000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_photokin_light_barrier') > -1 ? 0 : max((3000 - (u_spell_level('photokinetic_rad_immunity') * 125)), 800)"
@@ -402,22 +322,14 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_photokin_arms",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('photokinetic_light_arms') * 800) + 2600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('photokinetic_light_arms') * 4100) + 7100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('photokinetic_light_arms') * 800) + 2600) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('photokinetic_light_arms') * 4100) + 7100) * psionic_power_modifiers()" ] },
     "base_energy_cost": 4000,
     "final_energy_cost": 1500,
     "energy_increment": -125,
@@ -436,7 +348,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -444,24 +356,51 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('photokinetic_hide_ugly') * 2250) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('photokinetic_hide_ugly') + u_spell_level('photokinetic_hide_ugly_knack') ) * 2250) + 45000) * psionic_power_modifiers()"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('photokinetic_hide_ugly') * 5500) + 89000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('photokinetic_hide_ugly') + u_spell_level('photokinetic_hide_ugly_knack') ) * 5500) + 89000) * psionic_power_modifiers()"
       ]
     },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 0 : max((6500 - (u_spell_level('photokinetic_hide_ugly') * 150)), 2000)"
+        "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 0 : max( (6500 - ( (u_spell_level('photokinetic_hide_ugly') + u_spell_level('photokinetic_hide_ugly_knack') ) * 150) ), 2000)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 10 : max((1500 -(u_spell_level('photokinetic_hide_ugly') * 75)), 150)"
+        "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 10 : max( (1500 - ( (u_spell_level('photokinetic_hide_ugly') + u_spell_level('photokinetic_hide_ugly_knack') ) * 75) ), 150)"
       ]
     }
+  },
+  {
+    "id": "photokinetic_flash_bang",
+    "type": "SPELL",
+    "name": "[Ψ]Flashbang",
+    "description": "Create a concentration of photons and EM radiation and then allow them to burst outward, creating a bright flash of light accompanied by a loud sound, producing a flashbang effect.",
+    "message": "The air bursts into a eye-searing flash accompanied by a loud bang!",
+    "teachable": false,
+    "valid_targets": [ "ally", "ground", "hostile" ],
+    "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "difficulty": 4,
+    "effect": "flashbang",
+    "shape": "blast",
+    "min_range": { "math": [ "min( ( ( (u_spell_level('photokinetic_flash_bang') * 0.7) + 3) * psionic_power_modifiers() ), 50)" ] },
+    "max_range": 50,
+    "min_aoe": { "math": [ "min( ( ( (u_spell_level('photokinetic_flash_bang') * 0.5) + 2) * psionic_power_modifiers() ), 30)" ] },
+    "max_aoe": { "math": [ "min( ( ( (u_spell_level('photokinetic_flash_bang') * 0.5) + 2) * psionic_power_modifiers() ), 30)" ] },
+    "base_energy_cost": 4500,
+    "final_energy_cost": 1750,
+    "energy_increment": -120,
+    "base_casting_time": 135,
+    "final_casting_time": 50,
+    "casting_time_increment": -5.5
   },
   {
     "id": "photokinetic_light_image",
@@ -474,33 +413,17 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION", "RANDOM_DAMAGE" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION", "RANDOM_DAMAGE" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "summon",
     "effect_str": "mon_photokin_image",
     "shape": "blast",
     "min_damage": 1,
-    "max_damage": {
-      "math": [
-        " (u_spell_level('photokinetic_light_beam') / 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "min_duration": {
-      "math": [
-        "((u_spell_level('photokinetic_light_image') * 550) + 4840) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "((u_spell_level('photokinetic_light_image') * 1350) + 13650) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "min_range": {
-      "math": [
-        "min( (( (u_spell_level('photokinetic_light_image') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
-      ]
-    },
+    "max_damage": { "math": [ " (u_spell_level('photokinetic_light_image') / 3) * psionic_power_modifiers()" ] },
+    "min_duration": { "math": [ "((u_spell_level('photokinetic_light_image') * 550) + 4840) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "((u_spell_level('photokinetic_light_image') * 1350) + 13650) * psionic_power_modifiers()" ] },
+    "min_range": { "math": [ "min( (( (u_spell_level('photokinetic_light_image') * 0.8) + 2) * psionic_power_modifiers()), 40)" ] },
     "max_range": 40,
     "min_aoe": 3,
     "max_aoe": 3,
@@ -522,7 +445,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -530,22 +453,22 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('photokinetic_radio') * 12600) + 145600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('photokinetic_radio') + u_spell_level('photokinetic_radio_knack') ) * 12600) + 145600) * psionic_power_modifiers()"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('photokinetic_radio') * 77200) + 522000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('photokinetic_radio') + u_spell_level('photokinetic_radio_knack') ) * 77200) + 522000) * psionic_power_modifiers()"
       ]
     },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_photokinetic_radio') > -1 ? 0 : max((5000 - (u_spell_level('photokinetic_radio') * 100)), 2250)"
+        "u_effect_intensity('effect_photokinetic_radio') > -1 ? 0 : max( (5000 - ( (u_spell_level('photokinetic_radio') + u_spell_level('photokinetic_radio_knack') ) * 100) ), 2250)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_photokinetic_radio') > -1 ? 10 : max((250 -(u_spell_level('photokinetic_radio') * 10)), 75)"
+        "u_effect_intensity('effect_photokinetic_radio') > -1 ? 10 : max( (250 - ( (u_spell_level('photokinetic_radio') + u_spell_level('photokinetic_radio_knack') ) * 10) ), 75)"
       ]
     }
   },
@@ -560,7 +483,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -582,38 +505,18 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "sensor_stun",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('photokinetic_stun_robots') * 200) + 75) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('photokinetic_stun_robots') * 300) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "min_range": {
-      "math": [
-        "min( (( (u_spell_level('photokinetic_stun_robots') * 0.8) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('photokinetic_stun_robots') * 200) + 75) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('photokinetic_stun_robots') * 300) + 150) * psionic_power_modifiers()" ] },
+    "min_range": { "math": [ "min( (( (u_spell_level('photokinetic_stun_robots') * 0.8) + 3) * psionic_power_modifiers()), 50)" ] },
     "max_range": 50,
-    "min_aoe": {
-      "math": [
-        "min( (( (u_spell_level('photokinetic_stun_robots') * 0.25) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 20)"
-      ]
-    },
-    "max_aoe": {
-      "math": [
-        "min( (( (u_spell_level('photokinetic_stun_robots') * 0.25) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 20)"
-      ]
-    },
+    "min_aoe": { "math": [ "min( (( (u_spell_level('photokinetic_stun_robots') * 0.25) + 1) * psionic_power_modifiers()), 20)" ] },
+    "max_aoe": { "math": [ "min( (( (u_spell_level('photokinetic_stun_robots') * 0.25) + 1) * psionic_power_modifiers()), 20)" ] },
     "base_energy_cost": 6000,
     "final_energy_cost": 2200,
     "energy_increment": -150,
@@ -633,22 +536,14 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_PHOTOKIN_INVISIBILITY_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('photokinetic_invisibility') * 600) + 1600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('photokinetic_invisibility') * 2300) + 4200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('photokinetic_invisibility') * 600) + 1600) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('photokinetic_invisibility') * 2300) + 4200) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_photokin_invisibility') > -1 ? 0 : max((3500 - (u_spell_level('photokinetic_invisibility') * 125)), 1200)"
@@ -671,33 +566,17 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "shape": "line",
-    "min_damage": {
-      "math": [
-        "( (u_spell_level('photokinetic_light_flash') * 2.5) + 20) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_damage": {
-      "math": [
-        "( (u_spell_level('photokinetic_light_flash') * 6) + 54) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_damage": { "math": [ "( (u_spell_level('photokinetic_light_flash') * 2.5) + 20) * psionic_power_modifiers()" ] },
+    "max_damage": { "math": [ "( (u_spell_level('photokinetic_light_flash') * 6) + 54) * psionic_power_modifiers()" ] },
     "damage_type": "psi_photokinetic_damage",
-    "min_range": {
-      "math": [
-        "min( (( (u_spell_level('photokinetic_light_flash') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
-      ]
-    },
+    "min_range": { "math": [ "min( (( (u_spell_level('photokinetic_light_flash') * 0.6) + 2) * psionic_power_modifiers()), 50)" ] },
     "max_range": 50,
-    "min_aoe": {
-      "math": [
-        "min( (( (u_spell_level('photokinetic_light_flash') * 0.3) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 20)"
-      ]
-    },
+    "min_aoe": { "math": [ "min( (( (u_spell_level('photokinetic_light_flash') * 0.3) + 1) * psionic_power_modifiers()), 20)" ] },
     "max_aoe": 20,
     "field_id": "fd_laser",
     "min_field_intensity": 2,
@@ -721,22 +600,14 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_PHOTOKIN_BLINDING_GLARE_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('photokinetic_blinding_glare') * 1100) + 5900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('photokinetic_blinding_glare') * 4700) + 17800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('photokinetic_blinding_glare') * 1100) + 5900) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('photokinetic_blinding_glare') * 4700) + 17800) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_photokin_blinding_glare') > -1 ? 0 : max((6500 - (u_spell_level('photokinetic_blinding_glare') * 95)), 3250)"
@@ -759,26 +630,16 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "shape": "blast",
-    "min_damage": {
-      "math": [
-        "( (u_spell_level('photokinetic_light_disintegrate') * 5.5) + 45) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_damage": {
-      "math": [
-        "( (u_spell_level('photokinetic_light_disintegrate') * 17) + 135) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_damage": { "math": [ "( (u_spell_level('photokinetic_light_disintegrate') * 5.5) + 45) * psionic_power_modifiers()" ] },
+    "max_damage": { "math": [ "( (u_spell_level('photokinetic_light_disintegrate') * 17) + 135) * psionic_power_modifiers()" ] },
     "damage_type": "psi_photokinetic_damage",
     "min_range": {
-      "math": [
-        "min( (( (u_spell_level('photokinetic_light_disintegrate') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
-      ]
+      "math": [ "min( (( (u_spell_level('photokinetic_light_disintegrate') * 0.8) + 2) * psionic_power_modifiers()), 50)" ]
     },
     "max_range": 50,
     "base_energy_cost": 8000,
@@ -799,22 +660,14 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 9,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_PHOTOKIN_LIGHT_ARMY_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( ( u_spell_level('photokinetic_light_army') * 450) + 3740) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( ( u_spell_level('photokinetic_light_army') * 1100) + 9650) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( ( u_spell_level('photokinetic_light_army') * 450) + 3740) * psionic_power_modifiers() " ] },
+    "max_duration": { "math": [ "( ( u_spell_level('photokinetic_light_army') * 1100) + 9650) * psionic_power_modifiers() " ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_photokin_light_army') > -1 ? 0 : max((10000 - (u_spell_level('photokinetic_light_army') * 255)), 5500)"

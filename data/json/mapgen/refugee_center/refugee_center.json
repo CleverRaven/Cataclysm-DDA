@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "evac_center_1", "evac_center_2", "evac_center_3", "evac_center_4", "evac_center_5" ] ],
     "object": {
       "faction_owner": [
@@ -53,7 +52,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "evac_center_6", "evac_center_7", "evac_center_8", "evac_center_9", "evac_center_10" ] ],
     "object": {
       "faction_owner": [
@@ -103,7 +101,20 @@
         { "type": "NPC_NO_INVESTIGATE", "faction": "old_guard", "x": [ 69, 71 ], "y": [ 2, 23 ] },
         { "type": "NPC_NO_INVESTIGATE", "faction": "old_guard", "x": [ 72, 95 ], "y": [ 0, 23 ] },
         { "type": "NPC_NO_INVESTIGATE", "faction": "lobby_beggars", "x": [ 69, 71 ], "y": [ 2, 23 ] },
-        { "type": "NPC_NO_INVESTIGATE", "faction": "lobby_beggars", "x": [ 72, 95 ], "y": [ 0, 23 ] }
+        { "type": "NPC_NO_INVESTIGATE", "faction": "lobby_beggars", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_INVESTIGATE", "faction": "no_faction", "x": [ 69, 71 ], "y": [ 2, 23 ] },
+        { "type": "NPC_NO_INVESTIGATE", "faction": "no_faction", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "free_merchants", "x": [ 69, 71 ], "y": [ 2, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "free_merchants", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "wasteland_scavengers", "x": [ 69, 71 ], "y": [ 2, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "wasteland_scavengers", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "old_guard", "x": [ 69, 71 ], "y": [ 2, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "old_guard", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "no_faction", "x": [ 69, 71 ], "y": [ 2, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "no_faction", "x": [ 72, 95 ], "y": [ 0, 23 ] }
       ],
       "place_vehicles": [
         { "vehicle": "schoolbus", "x": 19, "y": 13, "chance": 75, "rotation": 270 },
@@ -111,7 +122,7 @@
       ],
       "items": {
         "@": { "item": "bed", "chance": 80 },
-        "D": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 3 ] },
+        "D": { "item": "SUS_trash_trashcan", "chance": 60 },
         "F": { "item": "SUS_fridge_survivor", "chance": 60 },
         "L": { "item": "allclothes", "chance": 90, "repeat": [ 1, 5 ] },
         "c": [ { "item": "kitchen_appliances", "chance": 5 }, { "item": "dishes_utility", "chance": 5 } ],
@@ -119,12 +130,12 @@
           { "item": "dishes_utility", "chance": 80, "repeat": [ 1, 3 ] },
           { "item": "dishes_dining", "chance": 80, "repeat": [ 5, 25 ] }
         ],
-        "i": { "item": "office", "chance": 90, "repeat": [ 1, 6 ] },
+        "i": { "item": "SUS_office_desk", "chance": 90 },
         "k": { "item": "cubical_office", "chance": 20, "repeat": [ 1, 2 ] },
         "u": { "item": "cleaning", "chance": 80, "repeat": [ 1, 3 ] },
         "v": [
           { "item": "cannedfood", "chance": 50, "repeat": [ 1, 3 ] },
-          { "item": "pasta", "chance": 50, "repeat": [ 1, 3 ] },
+          { "item": "pasta_ingredients", "chance": 50, "repeat": [ 1, 3 ] },
           { "item": "snacks", "chance": 50, "repeat": [ 1, 3 ] }
         ],
         "z": { "item": "shelter", "chance": 90, "repeat": [ 1, 3 ] }
@@ -146,15 +157,14 @@
         { "class": "evac_broker", "x": 50, "y": 20 },
         { "class": "evac_teamster", "x": 54, "y": 4 },
         { "class": "guard", "x": 60, "y": 9 },
-        { "class": "guard", "x": 54, "y": 20 },
-        { "class": "guard", "x": 63, "y": 15 }
+        { "class": "night_guard", "x": 54, "y": 20 },
+        { "class": "night_guard", "x": 63, "y": 15 }
       ],
       "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 74, 87 ], "y": [ 4, 20 ], "density": 0.6 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "evac_center_11", "evac_center_12", "evac_center_13", "evac_center_14", "evac_center_15" ] ],
     "object": {
       "faction_owner": [
@@ -201,10 +211,15 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "wasteland_scavengers", "x": [ 72, 95 ], "y": [ 0, 23 ] },
         { "type": "NPC_NO_INVESTIGATE", "faction": "free_merchants", "x": [ 24, 32 ], "y": [ 3, 20 ] },
         { "type": "NPC_NO_INVESTIGATE", "faction": "wasteland_scavengers", "x": [ 24, 32 ], "y": [ 3, 20 ] },
-        { "type": "NPC_INVESTIGATE_ONLY", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 21, 23 ] }
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 21, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 48, 50 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 0, 20 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 69, 71 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 72, 95 ], "y": [ 0, 23 ] }
       ],
       "items": {
-        "D": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 3 ] },
+        "D": { "item": "SUS_trash_trashcan", "chance": 60 },
         "L": { "item": "cleaning", "chance": 80, "repeat": [ 2, 6 ] },
         "S": [ { "item": "dishes_dining", "chance": 80, "repeat": [ 1, 3 ] }, { "item": "dishes_utility", "chance": 10 } ],
         "T": { "item": "dishes_dining", "chance": 5 },
@@ -212,7 +227,10 @@
         "d": { "item": "dishes_dining", "chance": 80, "repeat": [ 2, 5 ] },
         "k": { "item": "cubical_office", "chance": 20, "repeat": [ 1, 2 ] },
         "r": { "item": "shower", "chance": 80, "repeat": [ 1, 3 ] },
-        "u": [ { "item": "cannedfood", "chance": 80, "repeat": [ 1, 8 ] }, { "item": "pasta", "chance": 70, "repeat": [ 1, 8 ] } ]
+        "u": [
+          { "item": "cannedfood", "chance": 80, "repeat": [ 1, 8 ] },
+          { "item": "pasta_ingredients", "chance": 70, "repeat": [ 1, 8 ] }
+        ]
       },
       "place_vehicles": [
         { "vehicle": "schoolbus", "x": 4, "y": 8, "chance": 75, "rotation": 270 },
@@ -227,14 +245,13 @@
         { "class": "refugee_UyenTran", "x": 69, "y": 4 },
         { "class": "refugee_RhyzaeaJohnny", "x": 69, "y": 2 },
         { "class": "refugee_FatimaalJadir", "x": 72, "y": 3 },
-        { "class": "guard", "x": 62, "y": 21 },
+        { "class": "night_guard", "x": 62, "y": 21 },
         { "class": "refugee_beggar5", "x": 64, "y": 22 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "evac_center_16", "evac_center_17", "evac_center_18", "evac_center_19", "evac_center_20" ] ],
     "object": {
       "faction_owner": [
@@ -283,6 +300,11 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "old_guard", "x": [ 48, 59 ], "y": [ 2, 19 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "old_guard", "x": [ 48, 48 ], "y": [ 0, 0 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 0, 4 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 48, 50 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 5, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 69, 71 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 72, 95 ], "y": [ 0, 23 ] },
         { "type": "LOOT_UNSORTED", "faction": "free_merchants", "x": [ 72, 72 ], "y": [ 0, 0 ] },
         { "type": "LOOT_CURRENCY", "faction": "free_merchants", "x": [ 71, 71 ], "y": [ 2, 2 ] },
         { "type": "LOOT_WOOD", "faction": "free_merchants", "x": [ 71, 71 ], "y": [ 1, 1 ] },
@@ -290,14 +312,14 @@
       ],
       "items": {
         "@": { "item": "bed", "chance": 80 },
-        "D": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 3 ] },
+        "D": { "item": "SUS_trash_trashcan", "chance": 60 },
         "L": { "item": "shelter", "chance": 30 },
-        "i": { "item": "office", "chance": 90, "repeat": [ 1, 6 ] },
+        "i": { "item": "SUS_office_desk", "chance": 90 },
         "k": { "item": "cubical_office", "chance": 20, "repeat": [ 1, 2 ] },
         "o": [ { "item": "homebooks", "chance": 80, "repeat": [ 1, 2 ] }, { "item": "textbooks", "chance": 20 } ],
         "u": [ { "item": "cannedfood", "chance": 80, "repeat": [ 2, 8 ] }, { "item": "snacks", "chance": 25, "repeat": [ 1, 3 ] } ],
         "v": [
-          { "item": "pasta", "chance": 80, "repeat": [ 2, 8 ] },
+          { "item": "pasta_ingredients", "chance": 80, "repeat": [ 2, 8 ] },
           { "item": "kitchen", "chance": 50, "repeat": [ 1, 3 ] },
           { "item": "snacks", "chance": 25, "repeat": [ 1, 3 ] }
         ],
@@ -311,10 +333,10 @@
       "place_npcs": [
         { "class": "scavenger_merc", "x": 48, "y": 5 },
         { "class": "guard", "x": 39, "y": 4, "unique_id": "GUARD1" },
-        { "class": "guard", "x": 36, "y": 7, "unique_id": "GUARD2" },
+        { "class": "night_guard", "x": 36, "y": 7, "unique_id": "GUARD2" },
         { "class": "arsonist", "x": 38, "y": 19 },
         { "class": "old_guard_rep", "x": 47, "y": 10 },
-        { "class": "guard", "x": 45, "y": 3, "unique_id": "GUARD3" },
+        { "class": "night_guard", "x": 45, "y": 3, "unique_id": "GUARD3" },
         { "class": "free_merchants_merchant", "x": 71, "y": 0 },
         { "class": "science_rep", "x": 48, "y": 0 },
         { "class": "guard", "x": 52, "y": 4, "unique_id": "GUARD4" },
@@ -323,8 +345,8 @@
         { "class": "refugee_beggar3", "x": 64, "y": 0 },
         { "class": "refugee_beggar4", "x": 61, "y": 2 },
         { "class": "guard", "x": 73, "y": 3, "unique_id": "GUARD5" },
-        { "class": "guard", "x": 89, "y": 3, "unique_id": "GUARD6" },
-        { "class": "guard", "x": 88, "y": 19, "unique_id": "GUARD7" }
+        { "class": "night_guard", "x": 89, "y": 3, "unique_id": "GUARD6" },
+        { "class": "night_guard", "x": 88, "y": 19, "unique_id": "GUARD7" }
       ],
       "place_variables": [
         { "name": "GUARD1_First", "x": 39, "y": 4 },
@@ -352,7 +374,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "evac_center_21", "evac_center_22", "evac_center_23", "evac_center_24", "evac_center_25" ] ],
     "object": {
       "faction_owner": [

@@ -1,0 +1,13 @@
+[
+  {
+    "id": "oneirosis_vitamin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "oneirosis vitamin" },
+    "min": 0,
+    "max": 100,
+    "excess": "oneirosis_effect",
+    "disease_excess": [ [ 20, 50 ], [ 50, 80 ], [ 80, 100 ] ],
+    "rate": "0 hours"
+  }
+]

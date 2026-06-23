@@ -8,7 +8,8 @@
       [ "seed_blackberries", 60 ],
       [ "seed_cranberries", 60 ],
       [ "seed_raspberries", 60 ],
-      [ "seed_wheat", 60 ],
+      [ "seed_wheat", 20 ],
+      [ "seed_red_winter_wheat", 40 ],
       [ "seed_buckwheat", 10 ],
       [ "seed_barley", 60 ],
       [ "seed_sugar_beet", 60 ],
@@ -42,7 +43,14 @@
       [ "seed_spurge", 10 ],
       [ "seed_popcorn", 10 ],
       [ "seed_mustard", 10 ],
-      [ "seed_hops", 20 ]
+      [ "seed_hops", 20 ],
+      [ "seed_eggplant", 60 ],
+      [ "seed_cauliflower", 60 ],
+      [ "seed_kale", 60 ],
+      [ "seed_artichoke", 60 ],
+      [ "seed_asparagus", 60 ],
+      [ "seed_brussels_sprout", 60 ],
+      [ "seed_pea", 60 ]
     ]
   },
   {
@@ -61,7 +69,7 @@
       { "group": "fertilizer_commercial_bag_canvas_60", "prob": 30 },
       [ "fungicide", 20 ],
       { "group": "insecticide_bag_plastic", "prob": 30 },
-      { "item": "chem_saltpetre", "prob": 15, "charges": [ 10, 50 ] },
+      { "group": "saltpeter_canvas_bag_part", "prob": 15 },
       [ "sickle", 40 ],
       { "group": "tools_toolbox", "prob": 10 },
       [ "bullwhip", 30 ],
@@ -73,6 +81,7 @@
       [ "elec_shears", 10 ],
       [ "tree_spile", 40 ],
       { "group": "quicklime_bag", "prob": 30 },
+      { "group": "quicklime_barrel_part", "prob": 30 },
       [ "pitchfork", 40 ],
       [ "steam_triple_small", 1 ],
       [ "steam_triple_medium", 1 ],
@@ -137,12 +146,19 @@
       [ "seed_hops", 4 ],
       [ "seed_beans", 1 ],
       [ "seed_lentils", 1 ],
+      [ "seed_pea", 1 ],
       [ "seed_chili_pepper", 1 ],
       [ "seed_garlic", 1 ],
       [ "seed_horseradish", 1 ],
       [ "seed_popcorn", 1 ],
       [ "seed_mustard", 1 ],
+      [ "seed_eggplant", 1 ],
       [ "seed_oats", 1 ],
+      [ "seed_cauliflower", 1 ],
+      [ "seed_kale", 1 ],
+      [ "seed_artichoke", 1 ],
+      [ "seed_asparagus", 1 ],
+      [ "seed_brussels_sprout", 1 ],
       [ "tomato", 9 ],
       [ "pumpkin", 6 ],
       [ "watermelon", 2 ],
@@ -157,7 +173,14 @@
       [ "carrot", 3 ],
       [ "withered", 40 ],
       [ "straw_pile", 20 ],
-      [ "survnote", 1 ]
+      [ "survnote", 1 ],
+      [ "eggplant", 3 ],
+      [ "cauliflower_head", 3 ],
+      [ "kale_head", 3 ],
+      [ "raw_artichoke", 5 ],
+      [ "pea_pods", 5 ],
+      [ "raw_asparagus", 5 ],
+      [ "brussels_sprout", 15 ]
     ]
   },
   {
@@ -208,7 +231,6 @@
     "type": "item_group",
     "id": "juice_pulp_wooden_barrel_7_77",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "wooden_barrel",
     "entries": [ { "item": "juice_pulp", "count": [ 7, 77 ] } ]
   }

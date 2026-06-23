@@ -262,7 +262,7 @@
     "id": "xlhalfboard",
     "type": "vehicle_part",
     "copy-from": "base_board_abstract",
-    "name": { "str": "extra light quarterpanel" },
+    "name": { "str": "extra-light quarterpanel" },
     "item": "pipe",
     "looks_like": "halfboard",
     "durability": 70,

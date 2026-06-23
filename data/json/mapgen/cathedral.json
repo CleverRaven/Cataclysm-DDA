@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "cathedral_b_NW", "cathedral_b_NE" ], [ "cathedral_b_SW", "cathedral_b_SE" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -75,7 +74,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "cathedral_1_NW", "cathedral_1_NE" ], [ "cathedral_1_SW", "cathedral_1_SE" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -157,7 +155,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "cathedral_2_NW", "cathedral_2_NE" ], [ "cathedral_2_SW", "cathedral_2_SE" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -231,7 +228,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "cathedral_3_NW", "cathedral_3_NE" ], [ "cathedral_3_SW", "cathedral_3_SE" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -315,7 +311,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "cathedral_4_NW", "cathedral_4_NE" ], [ "cathedral_5_NW", "cathedral_5_NE" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -375,7 +370,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "cathedral_6_NW", "cathedral_6_NE" ], [ "cathedral_7_NW", "cathedral_7_NE" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",

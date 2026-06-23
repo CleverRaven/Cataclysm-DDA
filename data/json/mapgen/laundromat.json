@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_laundromat" ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
@@ -11,12 +10,12 @@
         "ss_____-_____sssssssssss",
         "ss_____-_____sssssssssss",
         "s#===========#[[#===#sss",
-        "s#^..........^..^...#sss",
+        "s#^..........^..^..§#sss",
         "s#t..#.............&#sss",
         "s#C.B#.............D#sss",
         "s#ttt#....rrrr.....D#sss",
         "s#WWWWWWWWWWWt.....D#%ss",
-        "s#.................D#%ss",
+        "s#§................D#%ss",
         "s#WWWWWWWWWWWt.....D#sss",
         "s#.................D#LLs",
         "s#WWWWWWWWWWWt.....D#ass",
@@ -26,7 +25,7 @@
         "s#c...WWWWWWWt.....|lS#s",
         "s#6................+lT#s",
         "s#6...rrrrrrrr.....|||#s",
-        "s#V...rrrrrrrr.....|lS#s",
+        "s#V...rrrrrrrr....§|lS#s",
         "s#v................+lT#s",
         "s#############++#######s",
         "ssssssssssssssssssssssss"
@@ -73,7 +72,7 @@
       "toilets": { "T": {  } },
       "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true }, "v": { "item_group": "vending_food", "lootable": true } },
       "place_items": [
-        { "item": "SUS_trash_trashcan", "x": 19, "y": 6, "chance": 80 },
+        { "item": "SUS_trash_trashcan_public", "x": 19, "y": 6, "chance": 80 },
         { "item": "behindcounter", "x": 4, "y": 8, "chance": 60 },
         { "item": "laundry", "x": [ 2, 13 ], "y": 9, "chance": 60, "repeat": [ 1, 2 ] },
         { "item": "laundry", "x": 19, "y": [ 7, 15 ], "chance": 60, "repeat": [ 1, 2 ] },
@@ -92,12 +91,12 @@
         { "vehicle": "shopping_cart", "x": 15, "y": 12, "chance": 10 },
         { "vehicle": "shopping_cart", "x": 17, "y": 18, "chance": 10 },
         { "vehicle": "shopping_cart", "x": 17, "y": 21, "chance": 10 }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_laundromat_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -134,7 +133,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_laundromat_1" ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
@@ -226,7 +224,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_laundromat_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",

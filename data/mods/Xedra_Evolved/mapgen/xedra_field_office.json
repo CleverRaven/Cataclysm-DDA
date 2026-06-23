@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "field_office_1", "field_office_2" ], [ "field_office_3", "field_office_4" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -81,7 +80,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "field_office_5", "field_office_6" ], [ "field_office_7", "field_office_8" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -270,7 +268,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "field_office_9", "field_office_10" ], [ "field_office_11", "field_office_12" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -472,7 +469,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "field_office_13", "field_office_14" ], [ "field_office_15", "field_office_16" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -574,7 +570,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "field_office_17", "field_office_18" ], [ "field_office_19", "field_office_20" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -634,7 +629,6 @@
     "type": "mapgen",
     "om_terrain": [ [ "field_office_ex_1", "field_office_ex_2" ], [ "field_office_ex_3", "field_office_ex_4" ] ],
     "//": "Feral Xedra remnants and Exodii are fighting here",
-    "method": "json",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -708,7 +702,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "field_office_ex_5", "field_office_ex_6" ], [ "field_office_ex_7", "field_office_ex_8" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -897,7 +890,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "field_office_ex_9", "field_office_ex_10" ], [ "field_office_ex_11", "field_office_ex_12" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1103,7 +1095,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "field_office_ex_13", "field_office_ex_14" ], [ "field_office_ex_15", "field_office_ex_16" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -1205,7 +1196,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "field_office_17", "field_office_18" ], [ "field_office_19", "field_office_20" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

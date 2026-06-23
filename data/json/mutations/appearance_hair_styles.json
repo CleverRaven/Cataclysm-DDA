@@ -7,7 +7,6 @@
     "points": 0,
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
     "vanity": true,
     "types": [ "hair_style" ]
@@ -20,7 +19,6 @@
     "description": "Your hair has been shaved close to the head.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
@@ -95,8 +93,8 @@
     "points": 0,
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       { "id": "black", "name": { "str": "Hair: black, crew-cut" }, "description": "Crewcut black hair style.", "weight": 1 },
       {
@@ -159,8 +157,8 @@
     "points": 0,
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       { "id": "black", "name": { "str": "Hair: black, afro" }, "description": "'Fro black hair style.", "weight": 1 },
       { "id": "blond", "name": { "str": "Hair: blond, afro" }, "description": "'Fro blond hair style.", "weight": 1 },
@@ -188,7 +186,6 @@
     "points": 0,
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
@@ -218,8 +215,8 @@
     "description": "You have long hair, swooping over one eye.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "black",
@@ -292,8 +289,8 @@
     "points": 0,
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "black",
@@ -366,8 +363,8 @@
     "description": "You have long, messy hair, worn loose and carefree!",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "black",
@@ -440,8 +437,8 @@
     "description": "You have very long hair, which goes down to your waist.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "black",
@@ -514,8 +511,8 @@
     "description": "You have extremely long hair, which goes down to your knees.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "black",
@@ -588,8 +585,8 @@
     "description": "Your hair is now so long that it reaches the floor.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "black",
@@ -662,8 +659,8 @@
     "points": 0,
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       { "id": "black", "name": { "str": "Hair: black, mohawk" }, "description": "Mohawk black hair style.", "weight": 1 },
       {
@@ -711,8 +708,8 @@
     "points": 0,
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       { "id": "black", "name": { "str": "Hair: black, mohawk" }, "description": "You have a long black mohawk.", "weight": 1 },
       {
@@ -780,8 +777,8 @@
     "description": "Business in the front, party in the back!",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "black",
@@ -854,7 +851,6 @@
     "description": "You have long hair, pulled back into a ponytail.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
@@ -929,7 +925,6 @@
     "points": 0,
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
@@ -979,7 +974,6 @@
     "description": "You have short hair, without a fringe.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
@@ -1054,7 +1048,6 @@
     "description": "You have short hair, with the fringe over one eye.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
@@ -1129,7 +1122,6 @@
     "description": "You are rockin' with these long locks.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
@@ -1204,7 +1196,6 @@
     "description": "Your face is framed by cute curls.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
@@ -1279,7 +1270,6 @@
     "description": "Your modern and plain cut common among college students.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
@@ -1354,7 +1344,6 @@
     "description": "Your long hair is bound into a bun.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
@@ -1429,7 +1418,6 @@
     "description": "Your long hair is bound in a braid.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
@@ -1504,7 +1492,6 @@
     "description": "Hair tied into two puffs.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
@@ -1579,7 +1566,6 @@
     "description": "Hair threaded with beads.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
@@ -1654,7 +1640,6 @@
     "description": "Two very long braids.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
@@ -1729,7 +1714,6 @@
     "description": "Hair for the better princess.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
@@ -1804,7 +1788,6 @@
     "description": "Hair for lawyers and crime solvers.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
@@ -1879,7 +1862,6 @@
     "description": "You have naturally black hair.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": false,
     "vanity": true,
     "types": [ "hair_color" ]
@@ -1892,7 +1874,6 @@
     "description": "You have naturally blond hair.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": false,
     "vanity": true,
     "types": [ "hair_color" ]
@@ -1905,7 +1886,6 @@
     "description": "You have naturally brown hair.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": false,
     "vanity": true,
     "types": [ "hair_color" ]
@@ -1918,7 +1898,6 @@
     "description": "You have naturally gray hair.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": false,
     "vanity": true,
     "types": [ "hair_color" ]
@@ -1931,7 +1910,6 @@
     "description": "You have naturally red hair.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": false,
     "vanity": true,
     "types": [ "hair_color" ]
@@ -1944,7 +1922,6 @@
     "description": "You have naturally white hair.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "player_display": false,
     "vanity": true,
     "types": [ "hair_color" ]

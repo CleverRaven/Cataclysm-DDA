@@ -1,3 +1,31 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Developer Tooling](#developer-tooling)
+  - [Pre-commit hook](#pre-commit-hook)
+  - [Code style (astyle)](#code-style-astyle)
+      - [Instruction:](#instruction)
+  - [JSON style](#json-style)
+  - [ctags](#ctags)
+  - [clang-tidy](#clang-tidy)
+    - [Custom clang-tidy plugin](#custom-clang-tidy-plugin)
+      - [Extreme tl;dr for Ubuntu Focal (including WSL)](#extreme-tldr-for-ubuntu-focal-including-wsl)
+      - [Ubuntu Focal](#ubuntu-focal)
+      - [Other Linux distributions](#other-linux-distributions)
+      - [Windows](#windows)
+        - [Build LLVM](#build-llvm)
+        - [Build clang-tidy with custom checks](#build-clang-tidy-with-custom-checks)
+        - [(Optional) Test custom checks work](#optional-test-custom-checks-work)
+      - [Run custom-built clang-tidy on your code](#run-custom-built-clang-tidy-on-your-code)
+      - [Windows MinGW-w64](#windows-mingw-w64)
+        - [Build LLVM](#build-llvm-1)
+        - [Build clang-tidy with custom checks](#build-clang-tidy-with-custom-checks-1)
+  - [include-what-you-use](#include-what-you-use)
+  - [Python and pyvips on Windows](#python-and-pyvips-on-windows)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Developer Tooling
 
 ## Pre-commit hook
@@ -66,10 +94,14 @@ In addition to the usual means of creating a `tags` file via e.g. [`ctags`](http
 
 ## clang-tidy
 
-Cataclysm has a [clang-tidy configuration file](../.clang-tidy) and if you have
+Cataclysm has a [clang-tidy configuration file](../../.clang-tidy) and if you have
 `clang-tidy` available you can run it to perform static analysis of the
-codebase.  We test with `clang-tidy` from LLVM 18.0.0 with CI, so for the most
-consistent results, you might want to use that version.
+codebase.  CI runs `clang-tidy` from LLVM 18.0.0 (Ubuntu apt.llvm.org build),
+so for the most consistent results that is still the recommended baseline.
+The build scripts also accept `LLVM_VERSION=19|20|21|22` (and `LLVM_PREFIX`
+for non-Ubuntu install layouts) so the same workflow works against newer
+toolchains; preemptive `.clang-tidy` disables keep newer-version noise out
+of the way.
 
 To run it, you have a few options.
 
@@ -100,10 +132,23 @@ The following set of commands should take you from zero to running clang-tidy eq
 sudo apt install build-essential cmake clang-18 libclang-18-dev llvm-18 llvm-18-dev llvm-18-tools pip
 sudo pip install compiledb lit
 test -f /usr/bin/python || sudo ln -s /usr/bin/python3 /usr/bin/python
-# The following command invokes clang-tidy exactly like CI does
-COMPILER=clang++-18 CLANG=clang++-18 CMAKE=1 CATA_CLANG_TIDY=plugin TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-build.sh
-COMPILER=clang++-18 CLANG=clang++-18 CMAKE=1 CATA_CLANG_TIDY=plugin TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-run.sh
+# The following commands invoke clang-tidy exactly like CI does
+COMPILER=clang++-18 CATA_CLANG_TIDY=clang-tidy-18 TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-build.sh
+COMPILER=clang++-18 CATA_CLANG_TIDY=clang-tidy-18 TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-run.sh
 ```
+
+To target another toolchain set `LLVM_VERSION` (and optionally `LLVM_PREFIX`)
+along with the matching `CATA_CLANG_TIDY` executable, e.g.
+
+```sh
+LLVM_VERSION=21 COMPILER=clang++-21 CATA_CLANG_TIDY=clang-tidy-21 \
+    TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-build.sh
+```
+
+The build directory can be overridden with `CATA_BUILD_DIR` (default `build`),
+which is honoured by `clang-tidy-build.sh`, `clang-tidy-run.sh`,
+`clang-tidy-wrapper.sh`, `tools/repeat_clang_tidy.sh`, and
+`tools/llama/clang_tidy.sh`.
 
 #### Ubuntu Focal
 
@@ -113,7 +158,7 @@ here](https://apt.llvm.org/) to your `sources.list`, install the needed packages
 libclang-18-dev llvm-18-dev llvm-18-tools`), and build Cataclysm with CMake,
 adding `-DCATA_CLANG_TIDY_PLUGIN=ON`.
 
-[apt.llvm.org](apt.llvm.org) also has an automated install script.
+[apt.llvm.org](https://apt.llvm.org) also has an automated install script.
 
 #### Other Linux distributions
 

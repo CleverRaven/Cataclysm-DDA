@@ -62,36 +62,24 @@
     ],
     "onhit_eocs": [ "EOC_PERK_SPEND_INSIGHT", "EOC_PERK_PRESSURE_STRIKES_SCHEDULE" ],
     "onkill_eocs": [ "EOC_PERK_TWILIGHT_FORM", "EOC_PERK_tempo_zoning" ],
-    "onmove_eocs": [ "EOC_PERK_MOMENTUM_2", "EOC_PERK_duelist_insert_reach" ],
-    "ondodge_eocs": [
-      {
-        "id": "EOC_PERK_DODGE_RETREAT",
-        "condition": {
-          "and": [ { "u_has_flag": "MELEE_PERK_MOVING_DODGE" }, { "not": { "u_has_flag": "MELEE_PERK_KNIFE_COUNTER_DODGE" } } ]
-        },
-        "effect": [
-          {
-            "run_eocs": "EOC_PERK_TRY_RETREAT",
-            "condition": { "math": [ "u_monsters_nearby('radius': 1) > 0" ] },
-            "iterations": 10
-          }
-        ]
-      }
-    ],
-    "onblock_eocs": [  ],
+    "onmove_eocs": [ "EOC_PERK_MOMENTUM_2", "EOC_PERK_duelist_insert_reach", "EOC_PERK_POISE_MOUNTAIN_MOVE" ],
+    "ondodge_eocs": [ "EOC_PERK_DODGE_RETREAT", "EOC_POISE_LOSE" ],
+    "onblock_eocs": [ "EOC_POISE_GAIN" ],
     "onpause_eocs": [
       {
         "id": "EOC_PERK_CAREFREE_STANCE",
         "condition": { "u_has_flag": "MELEE_PERK_CAREFREE_STANCE" },
         "effect": { "run_eocs": "EOC_CLEAR_BUFFS" }
       },
-      "EOC_CLEAR_MOMENTUM_DUELIST"
+      "EOC_CLEAR_MOMENTUM_DUELIST",
+      "EOC_PERK_POISE_MOUNTAIN_WAIT"
     ],
     "techniques": [
       "tec_perk_stagger_strike",
       "tec_perk_feint",
       "tec_perk_fore",
       "tec_perk_fore_stunned",
+      "tec_perk_poise_parry",
       "tec_perk_execution_sword",
       "tec_perk_execution_axe",
       "tec_perk_execution_hammer",

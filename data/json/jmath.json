@@ -1,0 +1,8 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "scaling_factor",
+    "num_args": 1,
+    "return": "( ( _0 + 10) / 20 )"
+  }
+]

@@ -8,7 +8,8 @@
     "see_cost": "none",
     "spawns": { "group": "GROUP_ZOMBIE", "population": [ 6, 12 ], "chance": 100 },
     "travel_cost_type": "road",
-    "flags": [ "LINEAR", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "LINEAR" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -19,7 +20,8 @@
     "color": "blue",
     "see_cost": "medium",
     "spawns": { "group": "GROUP_ZOMBIE", "population": [ 6, 12 ], "chance": 100 },
-    "flags": [ "SOURCE_FOOD", "RISK_EXTREME", "GENERIC_LOOT", "SOURCE_COOKING", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "SOURCE_FOOD", "RISK_EXTREME", "GENERIC_LOOT", "SOURCE_COOKING" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -30,7 +32,8 @@
     "color": "red",
     "see_cost": "medium",
     "spawns": { "group": "GROUP_MIL_BASE", "population": [ 8, 14 ], "chance": 100 },
-    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -41,7 +44,8 @@
     "color": "light_blue",
     "see_cost": "medium",
     "spawns": { "group": "GROUP_VANILLA_DORMANT", "population": [ 3, 8 ], "chance": 100 },
-    "flags": [ "RISK_EXTREME", "GENERIC_LOOT", "SOURCE_COOKING", "SOURCE_FOOD", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "RISK_EXTREME", "GENERIC_LOOT", "SOURCE_COOKING", "SOURCE_FOOD" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -52,7 +56,8 @@
     "color": "light_blue",
     "see_cost": "medium",
     "spawns": { "group": "GROUP_MIL_BASE", "population": [ 6, 16 ], "chance": 100 },
-    "flags": [ "RISK_EXTREME", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "RISK_EXTREME" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -63,7 +68,8 @@
     "color": "dark_gray",
     "see_cost": "medium",
     "spawns": { "group": "GROUP_VANILLA_DORMANT", "population": [ 6, 16 ], "chance": 100 },
-    "flags": [ "RISK_EXTREME", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "RISK_EXTREME" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -75,105 +81,21 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter", "shelter_vandal", "shelter_unfinished", "shelter_survivor" ],
+    "id": [ "shelter", "shelter_unfinished" ],
     "name": "evac shelter A-23",
     "copy-from": "shelter_abstract",
     "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_infested" ],
-    "copy-from": "shelter",
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_1", "shelter_1_vandal", "shelter_1_unfinished", "shelter_1_survivor" ],
-    "name": "evac shelter B-05",
-    "copy-from": "shelter_abstract",
-    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_1_infested" ],
-    "copy-from": "shelter_1",
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_1b", "shelter_1b_vandal", "shelter_1b_unfinished", "shelter_1b_survivor" ],
-    "copy-from": "shelter_abstract",
-    "name": "evac shelter B-19",
-    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_1b_infested" ],
-    "copy-from": "shelter_1b",
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_2", "shelter_2_vandal", "shelter_2_unfinished", "shelter_2_survivor" ],
-    "name": "evac shelter C-41",
-    "copy-from": "shelter_abstract",
-    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_2_infested" ],
-    "copy-from": "shelter_2",
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_roof" ],
+    "id": "shelter_roof",
     "name": "evac shelter roof A-23",
     "copy-from": "shelter_abstract"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_roof_1" ],
-    "name": "evac shelter roof B-05",
-    "copy-from": "shelter_abstract"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_roof_1b" ],
-    "name": "evac shelter roof B-19",
-    "copy-from": "shelter_abstract"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_roof_2" ],
-    "name": "evac shelter roof C-41",
-    "copy-from": "shelter_abstract"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_under", "shelter_under_vandal", "shelter_under_unfinished", "shelter_under_infested" ],
+    "id": [ "shelter_under", "shelter_under_unfinished" ],
     "name": "evac shelter basement A-23",
-    "copy-from": "shelter_abstract",
-    "flags": [ "KNOWN_UP" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_under_1b", "shelter_under_1b_vandal", "shelter_under_1b_unfinished", "shelter_under_1b_infested" ],
-    "name": "evac shelter basement B-19",
-    "copy-from": "shelter_abstract",
-    "flags": [ "KNOWN_UP" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_under_2", "shelter_under_2_vandal", "shelter_under_2_unfinished", "shelter_under_2_infested" ],
-    "name": "evac shelter basement C-41",
-    "copy-from": "shelter_abstract",
-    "flags": [ "KNOWN_UP" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_under_1", "shelter_under_1_vandal", "shelter_under_1_unfinished", "shelter_under_1_infested" ],
-    "name": "evac shelter basement B-05",
     "copy-from": "shelter_abstract",
     "flags": [ "KNOWN_UP" ]
   },
@@ -189,42 +111,13 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "lmoe_prepperquest",
-    "name": "LMOE shelter",
-    "sym": "+",
-    "color": "red",
-    "vision_levels": "natural_outcropping",
-    "see_cost": "spaced_high",
-    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lmoe_roof",
-    "name": "LMOE shelter",
-    "vision_levels": "roof_or_air",
-    "sym": ".",
-    "color": "brown",
-    "see_cost": "none",
-    "flags": [ "KNOWN_DOWN" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "lmoe_under",
     "name": "LMOE shelter",
     "vision_levels": "underground_dirt",
     "sym": "+",
     "color": "red",
     "see_cost": "full_high",
-    "flags": [ "KNOWN_UP", "SHOULD_NOT_SPAWN", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lmoe_under_empty",
-    "name": "LMOE shelter",
-    "vision_levels": "underground_dirt",
-    "sym": "+",
-    "color": "red",
-    "see_cost": "full_high",
+    "spawns": { "group": "GROUP_PREPPER_HOUSE", "population": [ 2, 12 ], "chance": 50 },
     "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
@@ -236,26 +129,6 @@
     "color": "red",
     "see_cost": "full_high",
     "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lmoe_zombie",
-    "name": "LMOE shelter",
-    "vision_levels": "natural_outcropping",
-    "sym": "+",
-    "color": "red",
-    "see_cost": "spaced_high",
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lmoe_zombie_under_empty",
-    "name": "LMOE shelter",
-    "vision_levels": "underground_dirt",
-    "sym": "+",
-    "color": "red",
-    "see_cost": "full_high",
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -299,14 +172,15 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "outpost",
+    "id": [ "outpost", "outpost_parking" ],
     "name": "military outpost",
     "sym": "M",
     "color": "red",
     "vision_levels": "isolated_building",
     "see_cost": "high",
     "extras": "build",
-    "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -590,7 +464,7 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_mil_base_minefield",
-    "name": "military base minefield",
+    "name": "military base perimeter",
     "vision_levels": "open_land",
     "color": "light_gray",
     "see_cost": "none"
@@ -630,5 +504,17 @@
     "id": "mil_base_minefield_sw",
     "copy-from": "generic_mil_base_minefield",
     "sym": "└"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_minefield_gate_right",
+    "copy-from": "generic_mil_base_minefield",
+    "sym": "┐"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_minefield_gate_left",
+    "copy-from": "generic_mil_base_minefield",
+    "sym": "┌"
   }
 ]

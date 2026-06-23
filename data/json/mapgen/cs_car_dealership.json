@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "cs_car_dealership" ],
-    "method": "json",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -20,12 +19,12 @@
         " $____________________$ ",
         " $_#OOO##+#_____yy__yy$ ",
         " $_#sssVv.#OOO#_y____y$ ",
-        " $_#......#...#_y____y$ ",
+        " $_#§.....#...#_y____y$ ",
         " $_#......#.d.#_______$ ",
         " $_#Fttc..+.dh#_______$ ",
         " $_#####..#.d.#_______$ ",
         " $_#L..l..#####_y____y$ ",
-        " $_#L.S#..+''T#_y____y$ ",
+        " $_#L§S#..+''T#_y____y$ ",
         " $_#####OO#####_yy__yy$ ",
         " $___________4________$ ",
         " $DD$$~$$$$$$$$$$$$$$$$ ",
@@ -77,13 +76,13 @@
         "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_items": [ { "item": "oa_ig_cd_fuel", "chance": 30, "x": 6, "y": 19 } ],
-      "add": [ { "item": "microwave", "x": 5, "y": 16, "chance": 2 }, { "item": "coffeemaker", "x": 6, "y": 16, "chance": 2 } ],
-      "toilets": { "T": {  } }
+      "place_item": [ { "item": "microwave", "x": 5, "y": 16, "chance": 2 }, { "item": "coffeemaker", "x": 6, "y": 16, "chance": 2 } ],
+      "toilets": { "T": {  } },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cs_car_dealership_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",

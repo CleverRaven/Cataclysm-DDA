@@ -118,7 +118,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "id": "bolt_metal",
-    "name": { "str": "simple metal bolt" },
+    "name": { "str": "makeshift metal bolt" },
     "symbol": "=",
     "color": "green",
     "description": "A simple fletched wooden crossbow bolt with a sharpened makeshift tip.",

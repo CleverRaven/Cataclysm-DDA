@@ -62,7 +62,7 @@
     "color": "dark_gray",
     "warmth": 20,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100, "encumbrance": 10 },
       {
@@ -72,7 +72,28 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 }
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ],
+        "layers": [ "BELTED" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 67,
+        "encumbrance": 10,
+        "specifically_covers": [ "leg_upper_gastropod" ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 85,
+        "encumbrance": 11,
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": 13, "layers": [ "BELTED" ] }
     ]
   },
   {
@@ -97,6 +118,12 @@
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
         "coverage": 90,
         "encumbrance": [ 4, 5 ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 90,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
       }
     ],
     "pocket_data": [
@@ -120,7 +147,7 @@
     "warmth": 80,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_GASTROPOD_FOOT" ],
     "variant_type": "generic",
     "variants": [
       {
@@ -169,7 +196,7 @@
         "id": "bomber_beaver_fur",
         "name": { "str": "beaver skin bomber jacket" },
         "description": "The skins of what used to be several beavers have taken to the skies within the composition of this sleek-fitting flight jacket, or, rather, they would if the coat were in any way designed to be a practical piece of kit.  With a soft spread of brown fur lining the inside of this wide-necked overcoat and its exterior finished in a bold, glossy black color, it's safe to say that this garment belongs more within a ski chalet than the cockpit of a fighter craft.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 6
       },
       {
@@ -213,6 +240,8 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "fur coat" },
+    "//": "delete fur coat variants, this is survivor made",
+    "variants": [  ],
     "copy-from": "coat_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -223,6 +252,8 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "coat_fur",
     "name": { "str": "fur coat" },
+    "//": "delete fur coat variants, this is survivor made",
+    "variants": [  ],
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -234,6 +265,8 @@
     "looks_like": "coat_fur",
     "name": { "str": "faux fur coat" },
     "description": "A garishly-colored faux fur coat with a couple small pockets.  Although not as warm as natural fur, it gives you some of that unique flair.",
+    "//": "delete fur coat variants",
+    "variants": [  ],
     "material": [ "faux_fur", "cotton" ],
     "color": "pink",
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
@@ -273,7 +306,7 @@
     "color": "white",
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 2, 5 ] },
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 2, 2 ] }
     ],
     "pocket_data": [
@@ -301,6 +334,102 @@
     ],
     "warmth": 15,
     "material_thickness": 0.25,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "coat_lab_xedra_mark",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "shielded lab coat" },
+    "description": "A long white coat modified for some unknown purpose.  A synthetic x-ray protection apron has been integrated as a liner, with open pockets to accommodate torso plates.  The coat itself also has a layer of shiny metallized polyethylene terephthalate carefully sewn into it, including along the sleeves - the tag for the emergency blanket it was taken from is still attached.  The small breast pocket is embroidered in blue with the name \"Mark Cavaliere, PhD.\"",
+    "weight": "580 g",
+    "volume": "2250 ml",
+    "price": "25 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "cotton", "nylon", "plastic", "aluminum" ],
+    "symbol": "[",
+    "looks_like": "coat_winter",
+    "color": "white",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ],
+        "coverage": 100,
+        "encumbrance": 4,
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.74 },
+          { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.01 }
+        ]
+      },
+      {
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "coverage": 95,
+        "encumbrance": 4,
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.74 },
+          { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.01 }
+        ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 3,
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.01 }
+        ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "13 kg",
+        "max_item_length": "46 cm",
+        "moves": 800,
+        "description": "Pocket for a large plate.",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "13 kg",
+        "max_item_length": "46 cm",
+        "moves": 800,
+        "description": "Pocket for a large plate.",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 30,
+    "material_thickness": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -389,19 +518,35 @@
     "id": "coat_winter",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "winter coat" },
-    "description": "A padded coat with deep pockets and a hood.  Very warm.",
+    "name": { "str": "puffer jacket" },
+    "description": "A down-filled jacket with deep pockets and a hood.  Very warm.",
     "weight": "1340 g",
     "volume": "6750 ml",
     "price": "140 USD",
     "price_postapoc": "7 USD 50 cent",
-    "material": [ "cotton" ],
+    "material": [ "nylon", "down_feathers" ],
     "symbol": "[",
     "looks_like": "coat_rain",
     "color": "light_red",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 18, 27 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 18, 21 ] }
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 16, 25 ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "down_feathers", "covered_by_mat": 100, "thickness": 4 }
+        ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 16, 16 ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "down_feathers", "covered_by_mat": 100, "thickness": 4 }
+        ]
+      }
     ],
     "pocket_data": [
       {
@@ -461,7 +606,49 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] }
+      {
+        "covers": [
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ],
+        "coverage": 86,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [
+          "tentacle_draped_lower_front_l",
+          "tentacle_draped_lower_middle_l",
+          "tentacle_draped_lower_rear_l",
+          "tentacle_draped_lower_front_r",
+          "tentacle_draped_lower_middle_r",
+          "tentacle_draped_lower_rear_r"
+        ],
+        "layers": [ "BELTED" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ],
+        "layers": [ "BELTED" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 60,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_upper_gastropod" ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 85,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       {
@@ -510,7 +697,7 @@
     "warmth": 15,
     "material_thickness": 1.5,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ]
   },
   {
     "id": "duster_fur",
@@ -535,7 +722,28 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 13, 13 ] }
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ],
+        "layers": [ "BELTED" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 60,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_upper_gastropod" ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 13, 13 ] },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 85,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       {
@@ -584,7 +792,7 @@
     "warmth": 50,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "xl_duster_fur",
@@ -631,7 +839,7 @@
     "name": { "str": "faux fur duster" },
     "description": "A thick faux fur duster, falling below your knees.  Has many pockets for storing things.",
     "material": [ "faux_fur", "cotton" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_GASTROPOD_FOOT" ],
     "warmth": 40
   },
   {
@@ -675,7 +883,28 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] }
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ],
+        "layers": [ "BELTED" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 60,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_upper_gastropod" ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 85,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       {
@@ -724,7 +953,7 @@
     "warmth": 30,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "xl_duster_leather",
@@ -768,7 +997,28 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 11, 11 ] }
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": [ 11, 13 ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ],
+        "layers": [ "BELTED" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 55,
+        "encumbrance": [ 11, 13 ],
+        "specifically_covers": [ "leg_upper_gastropod" ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 11, 11 ] },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 85,
+        "encumbrance": [ 8, 9 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 8, 9 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       {
@@ -803,7 +1053,7 @@
     "warmth": 50,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "hakama_gi",
@@ -947,6 +1197,12 @@
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
         "coverage": 100,
         "encumbrance": [ 7, 7 ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": [ 7, 7 ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
       }
     ],
     "pocket_data": [
@@ -998,7 +1254,7 @@
     ],
     "warmth": 20,
     "material_thickness": 0.4,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_GASTROPOD_FOOT" ],
     "variant_type": "generic",
     "variants": [
       {
@@ -1057,7 +1313,7 @@
         "id": "m65_black",
         "name": { "str": "urban black combat jacket" },
         "description": "Fitted with a brass main zip and corresponding buttons, this entire jacket forgoes frivolities and is, instead, dyed a solid shade of midnight black.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 25,
         "append": true
       },
@@ -1482,6 +1738,12 @@
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
         "coverage": 80,
         "encumbrance": [ 0, 0 ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 80,
+        "encumbrance": 0,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
       }
     ],
     "pocket_data": [
@@ -1495,7 +1757,7 @@
     ],
     "warmth": 10,
     "material_thickness": 0.2,
-    "flags": [ "OUTER", "VARSIZE", "POCKETS" ]
+    "flags": [ "OUTER", "VARSIZE", "POCKETS", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "jacket_leather",
@@ -1750,7 +2012,7 @@
         "id": "black_varsity_jacket",
         "name": { "str": "black varsity jacket" },
         "description": "This one is completely black.  At least a dozen different patches are sewn on it.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 10,
         "append": true
       },
@@ -1766,7 +2028,7 @@
         "id": "black_red_varsity_jacket",
         "name": { "str": "Crimson Bulls varsity jacket" },
         "description": "This one's torso is black and its arms are red.  It has an angry looking red bull ready to charge on its back.  Across the front writes \"BULLS\".",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 10,
         "append": true
       },
@@ -1802,7 +2064,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "judo gi" },
     "description": "Plain white judo gi.",
-    "weight": "1000 g",
+    "weight": "750 g",
     "volume": "1500 ml",
     "price": "50 USD",
     "price_postapoc": "50 cent",
@@ -1879,7 +2141,7 @@
     "color": "brown",
     "warmth": 20,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 70, "encumbrance": 2 },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100 },
@@ -1889,7 +2151,19 @@
         "coverage": 100,
         "encumbrance": 2
       },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_l", "leg_lower_r" ], "coverage": 50 }
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r", "leg_upper_gastropod" ],
+        "encumbrance": 2
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_l", "leg_lower_r" ], "coverage": 50 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 100,
+        "encumbrance": [ 3, 3 ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 100, "encumbrance": [ 4, 4 ] }
     ]
   },
   {
@@ -1939,12 +2213,24 @@
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 2, 2 ] },
       {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r", "leg_upper_gastropod" ],
+        "encumbrance": [ 2, 2 ]
+      },
+      {
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
         "coverage": 100,
         "encumbrance": [ 2, 2 ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 95 }
+      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 95 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 100,
+        "encumbrance": [ 2, 2 ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 100, "encumbrance": [ 4, 4 ] }
     ],
     "pocket_data": [
       {
@@ -1957,7 +2243,7 @@
     ],
     "warmth": 20,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "yukata",
@@ -1978,12 +2264,24 @@
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
       {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": [ 1, 1 ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r", "leg_upper_gastropod" ]
+      },
+      {
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
         "coverage": 100,
         "encumbrance": [ 1, 1 ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 95 }
+      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 95 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 100,
+        "encumbrance": [ 1, 1 ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 100, "encumbrance": [ 3, 3 ] }
     ],
     "pocket_data": [
       {
@@ -1996,7 +2294,7 @@
     ],
     "warmth": 5,
     "material_thickness": 0.15,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "haori",
@@ -2042,7 +2340,7 @@
     "color": "white",
     "warmth": 17,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100, "encumbrance": 10 },
       {
@@ -2052,7 +2350,16 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 }
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r", "leg_upper_gastropod" ],
+        "encumbrance": 10,
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 60, "encumbrance": 8 },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 45, "encumbrance": 8 }
     ]
   },
   {
@@ -2112,7 +2419,7 @@
     "variants": [
       {
         "id": "leather_police_jacket",
-        "name": { "str": "motorcycle police jacket" },
+        "//": "inherit name from item",
         "description": "It is emblazoned with the insignia of the local police force.",
         "weight": 0,
         "append": true
@@ -2213,6 +2520,13 @@
         "layers": [ "BELTED" ]
       },
       {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 80,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r", "leg_upper_gastropod" ],
+        "encumbrance": [ 8, 10 ],
+        "layers": [ "BELTED" ]
+      },
+      {
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
         "coverage": 100,
@@ -2223,7 +2537,14 @@
         "specifically_covers": [ "arm_lower_l", "arm_lower_r" ],
         "coverage": 90,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 85,
+        "encumbrance": [ 8, 8 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 10, 10 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       {
@@ -2271,7 +2592,7 @@
     ],
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "OUTER" ]
+    "flags": [ "VARSIZE", "OUTER", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "ghost_robe",
@@ -2279,7 +2600,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "ghost's robe" },
     "description": "A white hooded ghost's robe characteristic of souls that haunt the living world.",
-    "weight": "348 g",
+    "weight": "250 g",
     "volume": "500 ml",
     "price": "28 USD",
     "price_postapoc": "80 cent",
@@ -2298,16 +2619,29 @@
         "layers": [ "BELTED" ]
       },
       {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 80,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r", "leg_upper_gastropod" ],
+        "encumbrance": 10
+      },
+      {
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
         "coverage": 100,
         "encumbrance": 2
       },
-      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 }
+      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 95,
+        "encumbrance": [ 3, 3 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 85, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "warmth": 8,
     "material_thickness": 0.1,
-    "flags": [ "UNRESTRICTED", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "UNRESTRICTED", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "ghost_robe_sheet",
@@ -2315,7 +2649,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "cheap ghost's robe" },
     "description": "A cheap ghost costume comprised of a white sheet with two eye holes cut out.  A simple hat is worn underneath to keep the sheet in place.",
-    "weight": "880 g",
+    "weight": "225 g",
     "volume": "550 ml",
     "price": "20 USD",
     "price_postapoc": "60 cent",
@@ -2335,17 +2669,31 @@
         "layers": [ "BELTED" ]
       },
       {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 80,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r", "leg_upper_gastropod" ],
+        "encumbrance": 2,
+        "layers": [ "BELTED" ]
+      },
+      {
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
         "coverage": 100,
         "encumbrance": 2
       },
       { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 60 },
-      { "covers": [ "eyes" ], "coverage": 5, "encumbrance": 1 }
+      { "covers": [ "eyes" ], "coverage": 5, "encumbrance": 1 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 85,
+        "encumbrance": [ 3, 3 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 4, 4 ], "layers": [ "BELTED" ] }
     ],
     "warmth": 5,
     "material_thickness": 0.1,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "grim_reaper_robe",
@@ -2353,7 +2701,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "grim reaper's robe" },
     "description": "A black hooded grim reaper's robe with a face cover to hide the user's lack of facial skin.  It pairs nicely with a scythe.  Use it to remove the face cover and show yourself before your victims.",
-    "weight": "453 g",
+    "weight": "225 g",
     "volume": "550 ml",
     "price": "35 USD",
     "price_postapoc": "90 cent",
@@ -2373,12 +2721,26 @@
         "layers": [ "BELTED" ]
       },
       {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 80,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r", "leg_upper_gastropod" ],
+        "encumbrance": 2,
+        "layers": [ "BELTED" ]
+      },
+      {
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
         "coverage": 100,
         "encumbrance": 2
       },
-      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 }
+      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 80,
+        "encumbrance": [ 2, 2 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 60, "encumbrance": 4, "layers": [ "BELTED" ] }
     ],
     "use_action": {
       "type": "transform",
@@ -2388,16 +2750,19 @@
     },
     "warmth": 10,
     "material_thickness": 0.1,
-    "flags": [ "UNRESTRICTED", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "UNRESTRICTED", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "grim_reaper_robe_faceless",
     "copy-from": "grim_reaper_robe",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "grim reaper's robe (faceless)", "str_pl": "grim reaper's robes (faceless)" },
+    "name": {
+      "str": "grim reaper's robe (faceless)",
+      "str_pl": "grim reaper's robes (faceless)",
+      "//~": "'Faceless' as in 'face cover'less and because, without the cover of darkness (A black face cover) a real grim reaper would really be faceless"
+    },
     "description": "A black hooded grim reaper's robe with the face cover removed to show the user's lack of facial skin.  It pairs nicely with a scythe.  Use it to hide your lack of facial features.",
-    "//": "'Faceless' as in 'face cover'less and because, without the cover of darkness (A black face cover) a real grim reaper would really be faceless",
     "use_action": {
       "type": "transform",
       "msg": "You shroud your face in darkness.",
@@ -2415,12 +2780,26 @@
         "layers": [ "BELTED" ]
       },
       {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 80,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r", "leg_upper_gastropod" ],
+        "encumbrance": 2,
+        "layers": [ "BELTED" ]
+      },
+      {
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
         "coverage": 100,
         "encumbrance": 2
       },
-      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 }
+      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 80,
+        "encumbrance": [ 2, 2 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 60, "encumbrance": 4, "layers": [ "BELTED" ] }
     ]
   },
   {
@@ -2447,6 +2826,13 @@
         "layers": [ "BELTED" ]
       },
       {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 95,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r", "leg_upper_gastropod" ],
+        "encumbrance": [ 6, 6 ],
+        "layers": [ "BELTED" ]
+      },
+      {
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
         "coverage": 100,
@@ -2457,7 +2843,14 @@
         "specifically_covers": [ "arm_lower_l", "arm_lower_r" ],
         "coverage": 95,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 100,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 100, "encumbrance": [ 8, 8 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       {
@@ -2477,7 +2870,7 @@
     ],
     "warmth": 15,
     "material_thickness": 1.5,
-    "flags": [ "VARSIZE", "OUTER", "HOOD" ]
+    "flags": [ "VARSIZE", "OUTER", "HOOD", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "samghati",
@@ -2495,7 +2888,7 @@
     "color": "brown",
     "warmth": 12,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "OUTER" ],
+    "flags": [ "VARSIZE", "OUTER", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": 2 },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 80 },
@@ -2505,7 +2898,26 @@
         "coverage": 100,
         "encumbrance": 2
       },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_l", "leg_lower_r" ], "coverage": 90 }
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_l", "leg_lower_r" ], "coverage": 90 },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r", "leg_upper_gastropod" ],
+        "encumbrance": 2
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 30,
+        "specifically_covers": [ "leg_lower_gastropod" ],
+        "encumbrance": 2
+      },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 75,
+        "encumbrance": [ 2, 2 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 55, "encumbrance": 4, "layers": [ "BELTED" ] }
     ]
   },
   {
@@ -2697,11 +3109,32 @@
         "layers": [ "BELTED" ]
       },
       {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ],
+        "layers": [ "BELTED" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 60,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_upper_gastropod" ],
+        "layers": [ "BELTED" ]
+      },
+      {
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
         "coverage": 40,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 80,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 55, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       {
@@ -2750,7 +3183,7 @@
     "warmth": 15,
     "material_thickness": 1.5,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "sleeveless_duster_fur",
@@ -2777,11 +3210,32 @@
         "layers": [ "BELTED" ]
       },
       {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ],
+        "layers": [ "BELTED" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 60,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_upper_gastropod" ],
+        "layers": [ "BELTED" ]
+      },
+      {
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
         "coverage": 40,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 80,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 55, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       {
@@ -2830,7 +3284,7 @@
     "warmth": 50,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "sleeveless_duster_faux_fur",
@@ -2868,11 +3322,32 @@
         "layers": [ "BELTED" ]
       },
       {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ],
+        "layers": [ "BELTED" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 60,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_upper_gastropod" ],
+        "layers": [ "BELTED" ]
+      },
+      {
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
         "coverage": 40,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 85,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       {
@@ -2921,7 +3396,7 @@
     "warmth": 30,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "sleeveless_trenchcoat",
@@ -2949,7 +3424,7 @@
     "warmth": 15,
     "material_thickness": 1.5,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 15 ] },
       {
@@ -2965,11 +3440,25 @@
         "encumbrance": [ 4, 5 ]
       },
       {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 60,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_upper_gastropod" ]
+      },
+      {
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "coverage": 80,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 85, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 5, 5 ] }
     ]
   },
   {
@@ -2998,7 +3487,7 @@
     "warmth": 50,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 9, 19 ] },
       {
@@ -3018,7 +3507,21 @@
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "coverage": 80,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 60,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_upper_gastropod" ]
+      },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 85, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 5, 5 ] }
     ]
   },
   {
@@ -3058,7 +3561,7 @@
     "warmth": 30,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 11, 17 ] },
       {
@@ -3078,7 +3581,21 @@
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "coverage": 80,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 60,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_upper_gastropod" ]
+      },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 85, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 5, 5 ] }
     ]
   },
   {
@@ -3097,7 +3614,7 @@
     "color": "dark_gray",
     "warmth": 2,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": 3 },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
@@ -3111,6 +3628,12 @@
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
         "coverage": 100,
         "encumbrance": 3
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": 3,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
       },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 80 }
     ]
@@ -3131,8 +3654,27 @@
     "color": "white",
     "warmth": 20,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 7, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
+    "flags": [ "VARSIZE", "ALLOWS_GASTROPOD_FOOT" ],
+    "armor": [
+      {
+        "encumbrance": 7,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": 7,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 95,
+        "encumbrance": 7,
+        "specifically_covers": [ "leg_upper_gastropod" ]
+      },
+      { "encumbrance": 7, "coverage": 85, "covers": [ "tail_thick", "tail_club" ] }
+    ]
   },
   {
     "id": "trenchcoat",
@@ -3162,7 +3704,21 @@
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "coverage": 80,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 60,
+        "encumbrance": [ 0, 0 ],
+        "specifically_covers": [ "leg_upper_gastropod" ]
+      },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 75, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 50, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -3175,7 +3731,7 @@
     "warmth": 15,
     "material_thickness": 1.5,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "trenchcoat_fur",
@@ -3205,7 +3761,26 @@
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "coverage": 80,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 60,
+        "encumbrance": [ 0, 0 ],
+        "specifically_covers": [ "leg_upper_gastropod" ]
+      },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 80,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 60, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -3218,7 +3793,7 @@
     "warmth": 50,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "trenchcoat_faux_fur",
@@ -3259,7 +3834,26 @@
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "coverage": 80,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 60,
+        "encumbrance": [ 0, 0 ],
+        "specifically_covers": [ "leg_upper_gastropod" ]
+      },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 80,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 60, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -3272,7 +3866,7 @@
     "warmth": 30,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "tunic",
@@ -3290,7 +3884,7 @@
     "color": "dark_gray",
     "warmth": 2,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": 3 },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
@@ -3301,7 +3895,24 @@
         "coverage": 100,
         "encumbrance": 3
       },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 80 }
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 80 },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": 5,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
+      },
+      { "covers": [ "gastropod_foot" ], "coverage": 50, "specifically_covers": [ "leg_upper_gastropod" ] },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "coverage": 50
+      },
+      {
+        "covers": [ "tail_thick", "tail_club" ],
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "coverage": 40
+      }
     ]
   },
   {
@@ -3310,7 +3921,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "rag tunic" },
     "description": "A poorly-made long tunic with a string tied around the waist to keep it all in place.",
-    "weight": "683 g",
+    "weight": "500 g",
     "volume": "1 L",
     "price": "70 cent",
     "price_postapoc": "60 cent",
@@ -3320,7 +3931,7 @@
     "color": "light_red",
     "warmth": 15,
     "material_thickness": 0.3,
-    "flags": [ "OVERSIZE" ],
+    "flags": [ "OVERSIZE", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 95, "encumbrance": 5 },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 85 },
@@ -3330,7 +3941,24 @@
         "coverage": 95,
         "encumbrance": 5
       },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 65 }
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 65 },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": 5,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
+      },
+      { "covers": [ "gastropod_foot" ], "coverage": 65, "specifically_covers": [ "leg_upper_gastropod" ] },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "coverage": 50
+      },
+      {
+        "covers": [ "tail_thick", "tail_club" ],
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "coverage": 40
+      }
     ]
   },
   {
@@ -3371,6 +3999,28 @@
         "specifically_covers": [ "leg_upper_l", "leg_upper_r", "leg_knee_l", "leg_knee_r", "leg_lower_l", "leg_lower_r", "leg_hip_l", "leg_hip_r" ],
         "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 } ],
         "coverage": 100
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "coverage": 100,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 60,
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "specifically_covers": [ "leg_upper_gastropod" ]
+      },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "coverage": 50
+      },
+      {
+        "covers": [ "tail_thick", "tail_club" ],
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "coverage": 40
       }
     ],
     "pocket_data": [
@@ -3398,7 +4048,7 @@
     ],
     "warmth": 30,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "waistcoat",
@@ -3406,7 +4056,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "waistcoat" },
     "description": "An elegant waistcoat.  Ideal for those occasions when wearing only a shirt would be too casual and a suit would be overdoing it.",
-    "weight": "516 g",
+    "weight": "500 g",
     "volume": "1 L",
     "price": "50 USD",
     "price_postapoc": "2 USD 50 cent",
@@ -3529,7 +4179,7 @@
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "trenchcoat",
-    "color": "black",
+    "color": "dark_gray",
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 11, 17 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] },
@@ -3544,12 +4194,26 @@
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "coverage": 80,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 60,
+        "encumbrance": [ 0, 0 ],
+        "specifically_covers": [ "leg_upper_gastropod" ]
+      },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 75, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 50, "encumbrance": [ 5, 5 ] }
     ],
     "warmth": 30,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "OUTER" ]
+    "flags": [ "VARSIZE", "OUTER", "ALLOWS_GASTROPOD_FOOT" ]
   },
   {
     "id": "plaguedoctor_robe",
@@ -3567,7 +4231,7 @@
     "color": "dark_gray",
     "warmth": 24,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100, "encumbrance": 12 },
       {
@@ -3577,7 +4241,28 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 12 }
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": 12,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ],
+        "layers": [ "BELTED" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 95,
+        "encumbrance": 12,
+        "specifically_covers": [ "leg_upper_gastropod" ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 12 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 90,
+        "encumbrance": 10,
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 75, "encumbrance": 15, "layers": [ "BELTED" ] }
     ]
   },
   {
@@ -3596,7 +4281,7 @@
     "color": "dark_gray",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100, "encumbrance": 10 },
       {
@@ -3606,7 +4291,28 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 }
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ],
+        "layers": [ "BELTED" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 85,
+        "encumbrance": 10,
+        "specifically_covers": [ "leg_upper_gastropod" ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 85,
+        "encumbrance": 10,
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": 13, "layers": [ "BELTED" ] }
     ]
   },
   {
@@ -3786,7 +4492,7 @@
       },
       {
         "id": "tacjacket_arctic",
-        "name": { "str": "poler-camo tactical jacket" },
+        "name": { "str": "polar-camo tactical jacket" },
         "description": "Fit for utility in light snowfall and in the colder months, this jacket, while not as insulating as thicker winter overcoats, is resplendent with a mixed camo palette of snowy white, gray, and a hint of light brown.",
         "color": "white",
         "weight": 5,
@@ -3820,10 +4526,90 @@
         "id": "tacjacket_black_camo",
         "name": { "str": "urban-black tactical jacket" },
         "description": "Pitch-black, from its mandarin collar to its hems, this jacket is a coat for the aspiring nocturnal operator, tacticool edge lord, and those in the business to be afoot during the small hours of the night.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 15,
         "append": true
       }
     ]
+  },
+  {
+    "id": "abaya",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": "abaya",
+    "description": "A loose-fitting, full-length outer garment generally worn over clothing by Muslim women.",
+    "weight": "600 g",
+    "volume": "2 L",
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
+    "symbol": "Y",
+    "color": "dark_gray",
+    "material": [ "cotton" ],
+    "material_thickness": 0.2,
+    "warmth": 5,
+    "flags": [ "VARSIZE", "OUTER" ],
+    "armor": [ { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100 } ]
+  },
+  {
+    "id": "coat_light_winter",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "shell jacket" },
+    "description": "A lightweight waterproof shell jacket designed to block wind and rain.  It has deep pockets and provides a moderate amount of warmth.",
+    "weight": "880 g",
+    "volume": "2150 ml",
+    "price": "140 USD",
+    "price_postapoc": "5 USD ",
+    "material": [ "nylon", "cotton" ],
+    "symbol": "[",
+    "looks_like": "coat_winter",
+    "color": "light_blue",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 12, 14 ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.25 }
+        ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 12, 12 ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.25 }
+        ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "max_length": "18 cm",
+        "moves": 90
+      }
+    ],
+    "warmth": 40,
+    "material_thickness": 1,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER" ]
   }
 ]

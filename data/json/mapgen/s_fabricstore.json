@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_fabricstore" ],
     "//": "Fabric Outlet",
     "object": {
@@ -11,7 +10,7 @@
         "------------------------",
         "------------------------",
         "..p--####:::++:::#......",
-        "..p--#JJ|        #......",
+        "..p--#JJ|§       #......",
         "..p--#  |        #......",
         "..p--#+||        #......",
         "..p--# [Q  ccc  C#......",
@@ -21,7 +20,7 @@
         "..p--#  c        #......",
         "..p--#+|||i|ccccc#......",
         "..p--# [[[ |   s%#......",
-        "..p--#  s  |     #......",
+        "..p--#  s  |    §#......",
         "..p--;   s |+||||#......",
         ".....0  [[   +___#......",
         "....z#|+||i|||_St#......",
@@ -38,12 +37,12 @@
         "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "place_loot": [ { "group": "cash_register_random", "x": 7, "y": 7 } ]
+      "place_loot": [ { "group": "cash_register_random", "x": 7, "y": 7 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_fabricstore_roof",
     "object": {
       "fill_ter": "t_flat_roof",

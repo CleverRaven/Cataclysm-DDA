@@ -60,14 +60,37 @@
     "description": "A lightweight, battery-powered tool to weld metal pieces together using a plasma-inducted electric arc.  A decent tool, but you think you can do more with some modifications.",
     "weight": "2000 g",
     "volume": "2500 ml",
-    "material": [ "steel", "plastic" ],
+    "material": [ "lc_steel", "plastic" ],
     "extend": { "flags": [ "INVENTOR_CRAFTED" ] },
-    "pocket_data": [
+    "use_action": [
       {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
-        "default_magazine": "medium_battery_cell"
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [
+          "iron",
+          "steel",
+          "aluminum",
+          "copper",
+          "bronze",
+          "fancy_bronze",
+          "silver",
+          "gold",
+          "budget_steel",
+          "lc_steel",
+          "mc_steel",
+          "hc_steel",
+          "ch_steel",
+          "lc_steel_chain",
+          "mc_steel_chain",
+          "hc_steel_chain",
+          "ch_steel_chain",
+          "platinum",
+          "superalloy"
+        ],
+        "skill": "fabrication",
+        "tool_quality": 10,
+        "cost_scaling": 0.1,
+        "move_cost": 500
       },
       {
         "type": "link_up",
@@ -75,6 +98,14 @@
         "ammo_scale": 0,
         "cable_length": 10,
         "charge_rate": "100 W"
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -134,7 +165,7 @@
     "looks_like": "box_large_metal",
     "description": "An enormous industrial press shaped device, covered in sensors, circuits, and other doodads.  Two inverted teleporters are located on each side of the hammers, poised to perfectly align at the end of a strike.  Doing so will smoothen the overall local barrier between Earth and other realities, filling in any holes at the expense of weakening it in a much wider area.  This is an overall positive effect, allowing you to heal tears that would never naturally close, but expect large temporary side-effects.",
     "longest_side": "1495 mm",
-    "material": [ "steel" ],
+    "material": [ "mc_steel" ],
     "symbol": "#",
     "volume": "601475 ml",
     "weight": "226 kg",
@@ -173,7 +204,7 @@
     "weight": "300 g",
     "volume": "400 ml",
     "longest_side": "30 cm",
-    "material": [ "aluminum", "steel" ],
+    "material": [ "aluminum", "mc_steel" ],
     "symbol": ";",
     "color": "white",
     "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED", "TRADER_AVOID" ],
@@ -197,5 +228,89 @@
     ],
     "melee_damage": { "stab": 10 },
     "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "inventor_water_purifier",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "ThirstTrouncer Dispenser" },
+    "looks_like": "water_purifier",
+    "description": "This turbocharged water purifier can turn any water into pure ThirstTrouncer.  Even sewage will be processed, purified and turned into the most hydrating substance ever made through clever application of the principles that rule the purification of water.  Warning: do not consume if hydrated.",
+    "longest_side": "200 mm",
+    "material": [ "plastic", "steel" ],
+    "symbol": ";",
+    "volume": "4 L",
+    "weight": "1760 g",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "default_magazine": "inventor_heavy_cell"
+      }
+    ],
+    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "tool_ammo": "battery"
+  },
+  {
+    "id": "inventor_oxygen_jelly_machine",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "Oxyjelly Machine" },
+    "looks_like": "pressure_cooker",
+    "description": "This high-pressure device creates the perfect environment to jellify oxygen, resulting in a compact and light jelly carrying all the benefits of pure oxygen.",
+    "material": [ "steel" ],
+    "symbol": ")",
+    "volume": "8000 ml",
+    "weight": "7 kg",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "default_magazine": "inventor_heavy_cell"
+      }
+    ],
+    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "tool_ammo": "battery"
+  },
+  {
+    "id": "inventor_gaming_rig",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
+    "name": { "str": "Oneiromantic gaming rig" },
+    "description": "One of the harsh realities of being an inventor is needing to devote a third of your time to sleep and then devote some time to do non-inventor fun things.  This little wonder alleviates this issue by turning your sleep time in entertainment time through application of your deductive power!  Have it on your person while you sleep and your dreams will become anything you want!  No nightmare will disturb you, for you decide if they happen at all!",
+    "material": [ "steel" ],
+    "symbol": "n",
+    "volume": "750 ml",
+    "weight": "1 kg",
+    "use_action": [
+      { "target": "inventor_gaming_rig_on", "need_charges": 1, "msg": "The gaming rig is activated.", "type": "transform" }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "default_magazine": "inventor_heavy_cell"
+      }
+    ],
+    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "passive_effects": [ { "id": "ench_inventor_gaming_rig" } ],
+    "tool_ammo": "battery"
+  },
+  {
+    "id": "inventor_gaming_rig_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "inventor_gaming_rig",
+    "name": { "str": "Oneiromantic gaming rig (on)", "str_pl": "Oneiromantic gaming rigs (on)" },
+    "power_draw": "3 W",
+    "revert_to": "inventor_gaming_rig",
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
+    "use_action": [ { "ammo_scale": 0, "target": "inventor_gaming_rig", "msg": "The gaming rig powers down.", "type": "transform" } ]
   }
 ]

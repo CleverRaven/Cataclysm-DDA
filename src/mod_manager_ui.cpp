@@ -68,6 +68,28 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     return info;
 }
 
+std::optional<mod_id> mod_ui::find_mod_conflict( const mod_id &checked_mod,
+        const std::vector<mod_id> &active_list )
+{
+    for( const mod_id &some_active_mod : active_list ) {
+        for( const mod_id &conflict_mod_id : some_active_mod->conflicts ) {
+            if( conflict_mod_id == checked_mod ) {
+                return some_active_mod;
+            }
+        }
+    }
+    if( checked_mod.is_valid() ) {
+        for( const mod_id &conflict_mod_id : checked_mod->conflicts ) {
+            std::vector<mod_id>::const_iterator it = std::find( active_list.begin(),
+                    active_list.end(), conflict_mod_id );
+            if( it != active_list.end() ) {
+                return *it;
+            }
+        }
+    }
+    return std::nullopt;
+}
+
 void mod_ui::try_add( const mod_id &mod_to_add,
                       std::vector<mod_id> &active_list )
 {
@@ -79,6 +101,13 @@ void mod_ui::try_add( const mod_id &mod_to_add,
         debugmsg( "Unable to load mod \"%s\".", mod_to_add.c_str() );
         return;
     }
+    std::optional<mod_id> conflict = find_mod_conflict( mod_to_add, active_list );
+    if( conflict ) {
+        popup( _( "Unable to add %s.  It conflicts with %s." ),
+               mod_to_add->name(), ( *conflict )->name() );
+        return;
+    }
+
     const MOD_INFORMATION &mod = *mod_to_add;
     bool errs;
     try {

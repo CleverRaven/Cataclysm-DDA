@@ -38,12 +38,28 @@
     "id": "afs_tools_robot_maintenance",
     "//": "tools used for fixing robots.",
     "items": [
-      { "group": "afs_robotics_scrapgroup", "prob": 10 },
+      { "group": "afs_robotics_scrapgroup", "prob": 7 },
+      { "group": "afs_tools_circuitry_materials", "prob": 3 },
       [ "glasses_safety", 5 ],
       { "group": "afs_tools_electric_repair", "prob": 10 },
       { "group": "afs_tools_welding", "prob": 5 },
       [ "vac_mold", 5 ],
       { "group": "tools_toolbox", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_circuitry_materials",
+    "subtype": "collection",
+    "items": [
+      { "group": "afs_common_circuitry_scrapgroup", "prob": 30 },
+      { "group": "afs_common_energy_storage_scrapgroup", "prob": 10 },
+      { "group": "afs_common_material_scrapgroup", "prob": 10 },
+      [ "breadboard", 5 ],
+      { "group": "solder_wire_spool_part", "prob": 10 },
+      [ "circuit", 30 ],
+      [ "e_scrap", 30 ],
+      [ "cable", 50 ]
     ]
   },
   {
@@ -58,10 +74,11 @@
     "//": "Keeps your solar panels, lights and well everything going.",
     "items": [
       [ "screwdriver_set", 20 ],
-      { "group": "superglue", "prob": 30 },
+      { "group": "glue_strong_domestic", "prob": 30 },
       [ "pliers", 10 ],
       [ "multitool", 20 ],
       [ "voltmeter", 20 ],
+      [ "multimeter", 20 ],
       [ "jumper_cable", 10 ],
       [ "hd_tow_cable", 5 ],
       [ "recharge_station", 10 ],
@@ -73,8 +90,37 @@
       { "group": "writing_utensils", "prob": 10 },
       { "item": "soldering_iron", "prob": 30 },
       { "item": "soldering_iron_portable", "prob": 30, "charges": [ 0, 50 ] },
-      { "item": "solder_wire", "prob": 30 },
+      { "group": "solder_wire_spool_part", "prob": 30 },
       { "group": "duct_tape_roll_part", "prob": 30, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_plumbing",
+    "//": "Plumbing tools, still mostly mundane.",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [ { "item": "wrench", "prob": 70 }, { "item": "wrench_large", "prob": 20 }, { "item": "wrench_48", "prob": 10 } ],
+        "prob": 60
+      },
+      {
+        "distribution": [
+          { "item": "crowbar", "prob": 20 },
+          { "item": "claw_bar", "prob": 10 },
+          { "item": "hammer_sledge", "prob": 20 },
+          { "item": "hammer_sledge_short", "prob": 20 },
+          { "item": "hammer_sledge_engineer", "prob": 20 },
+          { "item": "hammer_sledge_heavy", "prob": 10 }
+        ],
+        "prob": 30
+      },
+      [ "pliers", 50 ],
+      [ "bucket", 10 ],
+      [ "bucket_5gal", 10 ],
+      [ "clamp", 10 ],
+      [ "sandpaper", 90 ],
+      [ "bench_vise", 15 ]
     ]
   },
   {
@@ -90,7 +136,7 @@
     "items": [
       {
         "distribution": [
-          { "group": "afs_tools_welding", "prob": 20 },
+          { "group": "afs_tools_welding", "prob": 30 },
           {
             "collection": [
               { "item": "afs_foamgun", "prob": 100, "count": [ 1, 2 ] },
@@ -103,13 +149,20 @@
               { "item": "plastic_sheet", "prob": 100, "count": [ 3, 6 ] },
               { "group": "duct_tape_roll_part", "prob": 100, "count": [ 1, 5 ] }
             ],
-            "prob": 60
+            "prob": 50
           }
         ],
-        "prob": 80
+        "prob": 70
       },
+      { "group": "tools_toolbox", "prob": 5 },
+      { "group": "afs_tools_plumbing", "prob": 15 },
       { "item": "afs_imager", "prob": 10 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_welding_paste_tube",
+    "items": [ { "item": "afs_welding_paste", "count": 280 } ]
   },
   {
     "type": "item_group",
@@ -120,7 +173,9 @@
     "items": [
       {
         "distribution": [
-          { "item": "welder", "prob": 40 },
+          { "item": "welder", "prob": 20 },
+          { "item": "squeeze_tube", "contents-group": "afs_welding_paste_tube", "prob": 20, "count": [ 1, 2 ] },
+          { "item": "welder", "prob": 20 },
           {
             "collection": [
               { "item": "oxy_torch", "prob": 100, "count": [ 1, 2 ] },
@@ -131,7 +186,7 @@
           },
           {
             "collection": [
-              { "item": "afs_40g_plasma_civ", "prob": 100, "count": [ 1, 2 ] },
+              { "item": "afs_40g_plasma_civ", "ammo-item": "afs_shydrogen", "charges": [ 16, 40 ], "prob": 100, "count": [ 1, 2 ] },
               { "item": "afs_plasma_torch", "prob": 50, "count": [ 1, 2 ] }
             ],
             "prob": 40
@@ -139,10 +194,14 @@
         ],
         "prob": 30
       },
+      { "group": "afs_tools_welding_consumable", "prob": 10, "count": [ 1, 2 ] },
       { "item": "polisher", "prob": 20 },
       { "item": "angle_grinder", "prob": 20 },
       [ "clamp", 10 ],
       [ "metal_file", 10 ],
+      [ "hacksaw", 5 ],
+      [ "saw", 5 ],
+      [ "bow_saw", 5 ],
       [ "sandpaper", 10 ],
       [ "goggles_welding", 30 ]
     ]
@@ -151,12 +210,13 @@
     "type": "item_group",
     "id": "afs_tools_welding_consumable",
     "items": [
-      { "item": "welding_rod_steel", "prob": 90, "charges": [ 1000, 1600 ] },
-      { "item": "welding_rod_alloy", "prob": 40, "charges": [ 1000, 1600 ] },
-      { "item": "welding_wire_steel", "prob": 90, "charges": [ 1000, 1600 ] },
-      { "item": "welding_wire_alloy", "prob": 40, "charges": [ 1000, 1600 ] },
-      { "item": "brazing_rod_bronze", "prob": 80, "charges": [ 500, 1500 ] },
-      { "item": "brazing_rod_alloy", "prob": 30, "charges": [ 400, 1200 ] }
+      { "item": "squeeze_tube", "contents-group": "afs_welding_paste_tube", "prob": 90, "count": [ 1, 2 ] },
+      { "item": "welding_rod_steel", "prob": 90, "count": [ 1000, 1600 ] },
+      { "item": "welding_rod_alloy", "prob": 40, "count": [ 1000, 1600 ] },
+      { "item": "welding_wire_steel", "prob": 90, "count": [ 1000, 1600 ] },
+      { "item": "welding_wire_alloy", "prob": 40, "count": [ 1000, 1600 ] },
+      { "item": "brazing_rod_bronze", "prob": 80, "count": [ 500, 1500 ] },
+      { "item": "brazing_rod_alloy", "prob": 30, "count": [ 400, 1200 ] }
     ]
   },
   {
@@ -219,8 +279,45 @@
       { "item": "multitool", "prob": 5 },
       { "item": "screwdriver_set", "prob": 15 },
       { "item": "pliers", "prob": 5 },
-      { "group": "superglue", "prob": 5 },
+      { "group": "glue_weak_domestic", "prob": 5 },
+      { "group": "glue_strong_domestic", "prob": 5 },
       { "group": "duct_tape_roll_part", "prob": 10, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "afs_vehicle_bay_rack",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "vehicle_bay_tools", "prob": 50 }, { "group": "vehicle_bay_mats", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "vehicle_bay_tools",
+    "//": "Mechanic's tools, still mostly mundane.",
+    "subtype": "collection",
+    "items": [
+      { "group": "tools_toolbox", "prob": 5 },
+      { "group": "afs_hard_hat", "prob": 5 },
+      { "group": "afs_tools_welding", "prob": 5 },
+      { "group": "afs_tools_welding_consumable", "prob": 10 },
+      { "group": "tools_common_small", "prob": 20, "count": [ 2, 4 ] },
+      { "item": "screwdriver_set", "prob": 20 },
+      { "item": "pliers", "prob": 5 },
+      { "item": "multitool", "prob": 5 },
+      { "item": "gloves_work", "prob": 5 },
+      { "item": "glasses_safety", "prob": 5 },
+      { "item": "goggles_welding", "prob": 5 },
+      { "item": "polisher", "prob": 20 },
+      { "item": "angle_grinder", "prob": 20 },
+      [ "thread_cutting_set", 5 ],
+      [ "hand_pump", 5 ],
+      [ "jumper_cable", 10 ],
+      [ "extension_cable", 15 ],
+      [ "hd_tow_cable", 5 ],
+      [ "clamp", 5 ],
+      [ "clamp", 5 ],
+      [ "metal_file", 10 ],
+      [ "hacksaw", 5 ]
     ]
   },
   {
@@ -229,13 +326,6 @@
     "//": "lightweight tools used for finding and getting into places where you don't belong.",
     "items": [
       { "item": "electrohack", "prob": 100 },
-      {
-        "collection": [
-          { "item": "afs_40g_plasma_civ", "prob": 100, "count": [ 1, 2 ] },
-          { "item": "afs_plasma_torch", "prob": 50, "count": [ 1, 2 ] }
-        ],
-        "prob": 20
-      },
       {
         "collection": [ { "item": "afs_jetpack", "prob": 50 }, { "item": "ammonia_liquid", "prob": 100, "count": [ 1, 2 ] } ],
         "prob": 10
@@ -264,7 +354,7 @@
       [ "fertilizer_liquid", 20 ],
       { "group": "fertilizer_commercial_bag_canvas_60", "prob": 30 },
       [ "fungicide", 20 ],
-      { "item": "chem_saltpetre", "prob": 15, "charges": [ 10, 50 ] },
+      { "item": "chem_saltpetre", "prob": 15, "count": [ 10, 50 ] },
       [ "sickle", 40 ],
       { "group": "tools_toolbox", "prob": 10 },
       [ "bullwhip", 30 ],
@@ -287,6 +377,55 @@
       [ "shovel_snow", 40 ],
       [ "shovel_snow_plastic", 50 ],
       [ "hose_garden", 60 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_biolab",
+    "//": "Stuff you can find in the worktables of biology and chemistry labs.",
+    "items": [
+      {
+        "collection": [
+          { "item": "microscope" },
+          { "item": "microscope_dissecting", "prob": 30 },
+          { "item": "microscope_slide", "count": [ 5, 20 ] },
+          { "item": "petri_dish", "count": [ 0, 3 ] }
+        ],
+        "prob": 20
+      },
+      {
+        "collection": [
+          { "item": "microcentrifuge" },
+          { "item": "test_tube_micro", "count": [ 5, 20 ] },
+          { "item": "rack_test_tube_micro", "count": [ 0, 1 ] },
+          { "item": "petri_dish", "count": [ 0, 3 ] }
+        ],
+        "prob": 20
+      },
+      {
+        "collection": [
+          { "item": "stand_ring" },
+          { "item": "funnel_separation", "prob": 30 },
+          { "item": "gradcylinder", "prob": 30 },
+          { "item": "still_lab", "prob": 30 },
+          { "item": "test_tube", "count": [ 5, 20 ] },
+          { "item": "flask_glass", "count": [ 0, 3 ] },
+          { "item": "beaker", "count": [ 0, 3 ] },
+          { "item": "stand_ring_clamps", "count": [ 0, 3 ] }
+        ],
+        "prob": 20
+      },
+      {
+        "collection": [ { "item": "pouch_autoclave", "count": [ 5, 20 ] }, { "item": "autoclave", "prob": 20 } ],
+        "prob": 20
+      },
+      { "item": "vac_oven_small", "prob": 30 },
+      { "item": "filter_paper_quantitative", "prob": 3, "charges": [ 10, -1 ] },
+      { "item": "afs_sample_container", "prob": 30 },
+      { "item": "ph_meter", "prob": 30 },
+      { "item": "analytical_set_basic", "prob": 30 },
+      { "item": "vac_pump", "prob": 30 },
+      { "item": "autoclave", "prob": 20 }
     ]
   }
 ]

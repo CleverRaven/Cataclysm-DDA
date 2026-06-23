@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_surplus" ],
     "//": "Intact variant",
     "weight": 100,
@@ -11,7 +10,7 @@
         ".........[.~~...........",
         "...........~~...........",
         "..#''''''##!!##''''''##.",
-        "..#             QrQ@  #.",
+        "..#             QrQ@ §#.",
         "..# G         b     b #.",
         "..#SG           T     #.",
         "..# G        @        #.",
@@ -28,19 +27,19 @@
         "..# A A A F D D F F F #.",
         "..# A A A F D D F F F #.",
         "..# A A A F D D F F F #.",
-        "..#                   #.",
+        "..#§                  #.",
         "..#|+|####!#######|+| #.",
         "..#&_%#4YYYUUYUU<#LL|@#.",
         "..#####YYYYYYYYYY######."
       ],
       "palettes": [ "mil_surplus_intact", "parametrized_walls_palette" ],
       "terrain": { " ": "t_thconc_floor" },
-      "place_loot": [ { "group": "cash_register_random", "x": 4, "y": [ 4, 7 ] } ]
+      "place_loot": [ { "group": "cash_register_random", "x": 4, "y": [ 4, 7 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_surplus" ],
     "//": "Looted variant",
     "weight": 1000,
@@ -50,7 +49,7 @@
         ".........[.~~...........",
         "...........~~...........",
         "..#''''''##!!##''''''##.",
-        "..#             QrQ@  #.",
+        "..#             QrQ@ §#.",
         "..# G    1    b     b #.",
         "..#SG           T     #.",
         "..#1G        @        #.",
@@ -67,19 +66,19 @@
         "..# А А А Е Г Г Е Е Е #.",
         "..# А А А Е Г Г Е Е Е #.",
         "..# А А А Е Г Г Е Е Е #.",
-        "..#                   #.",
+        "..#§                  #.",
         "..#|+|####!#######|+| #.",
         "..#&_%#4YYYUUYUU<#LL|@#.",
         "..#####YYYYYYYYYY######."
       ],
       "palettes": [ "mil_surplus_looted", "parametrized_walls_palette" ],
       "terrain": { " ": "t_thconc_floor" },
-      "place_loot": [ { "group": "cash_register_random_ransacked", "x": 4, "y": [ 4, 7 ] } ]
+      "place_loot": [ { "group": "cash_register_random_ransacked", "x": 4, "y": [ 4, 7 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_surplus" ],
     "//": "Boarded up variant",
     "weight": 500,
@@ -89,7 +88,7 @@
         ".........[.~~...........",
         "...........~~...........",
         "..#''''''##!!##''''''##.",
-        "..#             QrQ@  #.",
+        "..#             QrQ@ §#.",
         "..# G         b     b #.",
         "..#SG           T     #.",
         "..# G        @        #.",
@@ -106,19 +105,19 @@
         "..# А А А Е Г Г Е Е Е #.",
         "..# А А А Е Г Г Е Е Е #.",
         "..# А А А Е Г Г Е Е Е #.",
-        "..#                   #.",
+        "..#§                  #.",
         "..#|+|####!#######|+| #.",
         "..#&_%#4YYYUUYUU<#LL|@#.",
         "..#####YYYYYYYYYY######."
       ],
       "palettes": [ "mil_surplus_boarded", "parametrized_walls_palette" ],
       "terrain": { " ": "t_thconc_floor" },
-      "place_loot": [ { "group": "cash_register_random_ransacked", "x": 4, "y": [ 4, 7 ] } ]
+      "place_loot": [ { "group": "cash_register_random_ransacked", "x": 4, "y": [ 4, 7 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mil_surplus_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -178,7 +177,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_surplus_1" ],
     "//": "Intact variant",
     "weight": 100,
@@ -188,7 +186,7 @@
         ".........[.~~...........",
         "...........~~...........",
         ".##''''''##!!##''''''##.",
-        ".#GGG           @  @  #.",
+        ".#GGG           @  @ §#.",
         ".# SG                 #.",
         ".#  G          A BB C #.",
         ".#L                   #.",
@@ -206,17 +204,17 @@
         ".#                    #.",
         ".# EEEEEEE    FFFFFFF #.",
         ".#                    #.",
-        ".# FFFFFFF    FFFFFFF #4",
+        ".#§FFFFFFF    FFFFFFF #4",
         ".######################.",
         "........................"
       ],
       "palettes": [ "mil_surplus_intact", "parametrized_walls_palette" ],
-      "place_loot": [ { "group": "cash_register_random", "x": 4, "y": [ 3, 5 ] } ]
+      "place_loot": [ { "group": "cash_register_random", "x": 4, "y": [ 3, 5 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_surplus_1" ],
     "//": "Looted variant",
     "weight": 1000,
@@ -226,7 +224,7 @@
         ".........[.~~...........",
         "...........~~...........",
         ".##''''''##!!##''''''##.",
-        ".#GGG      1    @  @  #.",
+        ".#GGG      1    @  @ §#.",
         ".# SG                 #.",
         ".# 1G          А ББ В #.",
         ".#L       1           #.",
@@ -244,17 +242,17 @@
         ".#                    #.",
         ".# ДДДДДДД    ЕЕЕЕЕЕЕ #.",
         ".#                    #.",
-        ".# ЕЕЕЕЕЕЕ    ЕЕЕЕЕЕЕ #4",
+        ".#§ЕЕЕЕЕЕЕ    ЕЕЕЕЕЕЕ #4",
         ".######################.",
         "........................"
       ],
       "palettes": [ "mil_surplus_looted", "parametrized_walls_palette" ],
-      "place_loot": [ { "group": "cash_register_random_ransacked", "x": 4, "y": [ 3, 5 ] } ]
+      "place_loot": [ { "group": "cash_register_random_ransacked", "x": 4, "y": [ 3, 5 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_surplus_1" ],
     "//": "Boarded up variant",
     "weight": 500,
@@ -264,7 +262,7 @@
         ".........[.~~...........",
         "...........~~...........",
         ".##''''''##!!##''''''##.",
-        ".#GGG           @  @  #.",
+        ".#GGG           @  @ §#.",
         ".# SG                 #.",
         ".#  G          А ББ В #.",
         ".#L                   #.",
@@ -282,17 +280,17 @@
         ".#                    #.",
         ".# ДДДДДДД    ЕЕЕЕЕЕЕ #.",
         ".#                    #.",
-        ".# ЕЕЕЕЕЕЕ    ЕЕЕЕЕЕЕ #4",
+        ".#§ЕЕЕЕЕЕЕ    ЕЕЕЕЕЕЕ #4",
         ".######################.",
         "........................"
       ],
       "palettes": [ "mil_surplus_boarded", "parametrized_walls_palette" ],
-      "place_loot": [ { "group": "cash_register_random_ransacked", "x": 4, "y": [ 3, 5 ] } ]
+      "place_loot": [ { "group": "cash_register_random_ransacked", "x": 4, "y": [ 3, 5 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mil_surplus_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -349,7 +347,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "mil_surplus_2",
     "//": "Intact variant",
     "type": "mapgen",
@@ -365,7 +362,7 @@
         "..#        y|    DDDAB#.",
         "..#@        +  h     C#.",
         "..#||||     ||GGGGGG||#.",
-        "..#                  F#.",
+        "..#§                §F#.",
         "..# T    tt          F#.",
         "..#      tt          F#.",
         "..#           AD  CE F#.",
@@ -373,7 +370,7 @@
         "..# T    tt   AD  CE F#.",
         "..#      tt   AD  CE F#.",
         "..#           AB  CE F#.",
-        "..#QQ   y     AB  CE F#.",
+        "..#QQ   y §   AB  CE F#.",
         "..#rr  |||||| AB  CE F#.",
         "..#QQQ |Llll| AB  CE F#.",
         "..#||| |    |        F#.",
@@ -383,11 +380,11 @@
         ".............YYYYY......"
       ],
       "palettes": [ "mil_surplus_intact", "parametrized_walls_palette" ],
-      "place_items": [ { "item": "cash_register_random", "x": [ 14, 19 ], "y": 7, "chance": 100 } ]
+      "place_items": [ { "item": "cash_register_random", "x": [ 14, 19 ], "y": 7, "chance": 100 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
-    "method": "json",
     "om_terrain": "mil_surplus_2",
     "//": "Looted variant",
     "type": "mapgen",
@@ -425,7 +422,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "mil_surplus_2",
     "//": "Boarded up variant",
     "type": "mapgen",
@@ -464,7 +460,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mil_surplus_roof_2",
     "object": {
       "fill_ter": "t_flat_roof",

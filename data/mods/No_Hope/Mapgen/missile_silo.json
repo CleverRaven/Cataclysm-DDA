@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "silo_finale" ],
     "//": "Adds a missile launch option to the finale's computer",
     "weight": 400,

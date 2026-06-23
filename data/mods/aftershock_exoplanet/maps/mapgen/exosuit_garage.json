@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_exosuit_garage_a1",
     "object": {
       "fill_ter": "t_metal_floor",
@@ -50,7 +49,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_exosuit_garage_a1_roof",
     "object": {
       "fill_ter": "t_metal_floor",
@@ -86,7 +84,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_exosuit_garage_unlooted",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -143,7 +140,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_exosuit_garage_looted",
     "object": {
       "mapgensize": [ 24, 24 ],

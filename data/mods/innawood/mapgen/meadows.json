@@ -1,0 +1,113 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "meadow_mutable",
+    "subtype": "mutable",
+    "locations": [ "field_no_meadow" ],
+    "occurrences": [ 10, 20 ],
+    "//": "Place before all priority buildings and before meadows",
+    "priority": 3,
+    "flags": [ "WILDERNESS", "CLASSIC" ],
+    "check_for_locations_area": [ { "type": [ "field_no_meadow" ], "from": [ 5, 5, 0 ], "to": [ -5, -5, 0 ] } ],
+    "joins": [ "meadow_to_meadow" ],
+    "overmaps": {
+      "meadow_core": {
+        "overmap": "meadow_core",
+        "north": "meadow_to_meadow",
+        "east": "meadow_to_meadow",
+        "south": "meadow_to_meadow",
+        "west": "meadow_to_meadow"
+      },
+      "meadow_end": { "overmap": "meadow_end_north", "north": "meadow_to_meadow" },
+      "meadow_fill": {
+        "overmap": "meadow_end_north",
+        "north": { "id": "meadow_to_meadow", "type": "available" },
+        "east": { "id": "meadow_to_meadow", "type": "available" },
+        "west": { "id": "meadow_to_meadow", "type": "available" }
+      }
+    },
+    "root": "meadow_core",
+    "phases": [
+      [
+        { "overmap": "meadow_core", "weight": 2600 },
+        { "overmap": "meadow_end", "weight": 50 },
+        { "overmap": "meadow_fill", "weight": 1000 }
+      ]
+    ]
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "meadow_12x12_shrubs",
+    "weight": 350,
+    "//": "Patch of cotton growing in a meadow",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    7777    ",
+        "   777777   ",
+        "   777777   ",
+        "  77777777  ",
+        " 7777777777 ",
+        "777777777777",
+        "777777777777",
+        " 7777777777 ",
+        "  77777777  ",
+        "   777777   ",
+        "   777777   ",
+        "    7777    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { " ": "f_null", "7": [ [ "f_null", 250 ], [ "f_wildcotton", 25 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "meadow_12x12_shrubs",
+    "weight": 350,
+    "//": "Patch of spurge growing in a meadow",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    7777    ",
+        "   777777   ",
+        "   777777   ",
+        "  77777777  ",
+        " 7777777777 ",
+        "777777777777",
+        "777777777777",
+        " 7777777777 ",
+        "  77777777  ",
+        "   777777   ",
+        "   777777   ",
+        "    7777    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { " ": "f_null", "7": [ [ "f_null", 250 ], [ "f_flower_spurge", 25 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "meadow_12x12_shrubs",
+    "weight": 350,
+    "//": "Patch of corn growing in a meadow",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    7777    ",
+        "   777777   ",
+        "   777777   ",
+        "  77777777  ",
+        " 7777777777 ",
+        "777777777777",
+        "777777777777",
+        " 7777777777 ",
+        "  77777777  ",
+        "   777777   ",
+        "   777777   ",
+        "    7777    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { " ": "f_null", "7": [ [ "f_null", 250 ], [ "f_wildcorn", 25 ] ] }
+    }
+  }
+]

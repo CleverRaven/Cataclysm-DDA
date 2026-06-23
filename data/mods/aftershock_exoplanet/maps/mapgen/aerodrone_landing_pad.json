@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_aerodrone_landing_pad_a1_floor_1",
     "object": {
       "fill_ter": "t_thconc_floor_no_roof",
@@ -64,7 +63,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_aerodrone_landing_pad_a1_floor_2",
     "object": {
       "fill_ter": "t_metal_floor",

@@ -1,3 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Design - Design Doc Overview](#design---design-doc-overview)
+  - [About this Page](#about-this-page)
+    - [How to Understand the Design Docs](#how-to-understand-the-design-docs)
+  - [Design Overview](#design-overview)
+  - [Table of Contents](#table-of-contents)
+      - [Game Design and Balance](#game-design-and-balance)
+      - [Lore and Setting](#lore-and-setting)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Design - Design Doc Overview
 
 ## About this Page

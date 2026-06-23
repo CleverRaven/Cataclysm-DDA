@@ -21,13 +21,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_triffid_field_terrain",
     "object": { "mapgensize": [ 1, 1 ], "rows": [ "I" ], "palettes": [ "triffid" ], "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_triffid_field_furniture",
     "object": {
       "mapgensize": [ 1, 1 ],

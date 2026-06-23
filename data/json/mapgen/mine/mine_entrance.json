@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mine_entrance", "mine_entrance_loading_zone" ] ],
     "object": {
       "rows": [
@@ -9,25 +8,25 @@
         "f  v  ,,,,,,,,,,,,    !  f  ;;;;;;;;;;;;;;;; f  ",
         "f/    ,,,,,,,,,,,,,,,,,  f  ;;;;;;;;;;;;;;;; f  ",
         "|-000--000-0+0|00--00|,  f  ;;;;;;;;;;;;;;;; f  ",
-        "|dddrFFddcW..2|2..Fdd|,  f  ;°°°;;;;;;;;;°;; f  ",
+        "|dddrFFddcW§.2|2..Fdd|,  f  ;°°°;;;;;;;;;°;; f  ",
         "0dC.....Cc....?....dC|,  f  ;°°°;;;;;;;;°°°; f  ",
         "0............a|b...d.|,  f  ;°°°;;;;;;;°°°°° f  ",
-        "0..C...|*-|-*-|b.....|,  f  °°°°°;;;;;;;°°°; f  ",
+        "0§.C...|*-|-*-|b....§|,  f  °°°°°;;;;;;;°°°; f  ",
         "|rddd1p|.l|&_s|a36561|,  f  ;°°°;;;;;;;;°°°; f  ",
         "|-000--|--|---|------|,  f  ;;°;;;;;;;;;°°°; f  ",
         "f     ,,,,,,,,,,,,,,,,,,,,,,;;;;;;;;;;;;;;;; f  ",
         "|----|+|----|  ,,,,,,,,,,,,,;;;;;;;;;;;;;;;; f  ",
         "|I.hĎ|.|дh.I|  ,|---%-------;;;;;;;;;;;;;;;; f  ",
         "0BB..+.+..BB0  ,|eEE~~~eEE®®;;;;;;Ø;;;;;;;;; f  ",
-        "|----|.|----|  ,|~EE~~~~EE==;;;;;;;;;;;;;;;; f  ",
+        "|----|§|----|  ,|~EE~~~~EE==;;;;;;;;;;;;;;;; f  ",
         "|I.hĎ|.|дh.I|  ,|------|EE=~;;;;;;;;;;;;;;;; f  ",
         "0BB..+.+..BB0  ,|TTogTr|~~=~;;;;;;;;;;;;;;;; f  ",
         "|----|.|----|  ,0S....Ć|8~=~8|   |````|      f  ",
         "|I.hD|.|Дh.I|  ,|a....Ĉ|8~=~8|   |$``@|      f  ",
         "0BB..+.+..BB0  ,|----+-|8~=~8|   |````|      f  ",
-        "|----|.|----|  ,|hth..h|8~=~8|   |````|      f  ",
+        "|----|.|----|  ,|hth§.h|8~=~8|   |````|      f  ",
         "|&___+.+____|  ,+.....t|8~~~8|   |````|      f  ",
-        "|R__s|.|Й__7|/ /|hth..h|88888|/ /|9999|      f  ",
+        "|R__s|§|Й__7|/ /|hth..h|88888|/ /|9999|      f  ",
         "|----|0|----|fff|-0--0-|-----|fff|----|fffffff  "
       ],
       "palettes": [ "parametrized_linoleum_palette" ],
@@ -159,13 +158,15 @@
       },
       "gaspumps": { "@": { "fuel": "gasoline", "amount": [ 100, 500 ] }, "$": { "fuel": "diesel", "amount": [ 100, 500 ] } },
       "vehicles": { "Ø": { "vehicle": "tatra_truck", "chance": 50, "fuel": 40 } },
-      "nested": { "`": { "chunks": [ [ "mechanical_fluid", 10 ], [ "gasoline_diesel_motor_oil", 80 ], [ "null", 80 ] ] } },
+      "nested": {
+        "`": { "chunks": [ [ "mechanical_fluid", 10 ], [ "gasoline_diesel_motor_oil", 80 ], [ "null", 80 ] ] },
+        "§": { "chunks": [ "fire_extinguisher" ] }
+      },
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mine_entrance_roof", "mine_entrance_loading_zone_roof" ] ],
     "object": {
       "rows": [
@@ -199,7 +200,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mechanical_fluid",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -208,7 +208,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gasoline_diesel_motor_oil",
     "object": {
       "mapgensize": [ 1, 1 ],

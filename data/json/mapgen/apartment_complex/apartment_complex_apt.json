@@ -1,13 +1,12 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_corner_ground" ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
         "Ŧ-.###################'~",
-        "Ŧ-.#    | |     '''''*''",
+        "Ŧ-.#    | |     '''''*'§",
         "Ŧ-.o    | +     '''''#*#",
         "Ŧ-.#    |||     ''''##''",
         "Ŧ-.##|+||       #####'''",
@@ -32,12 +31,16 @@
         "ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex_ground" ],
-      "place_nested": [ { "chunks": [ "apt_complex_corner_a" ], "x": 0, "y": 0 }, { "chunks": [ "apt_complex_corner_b" ], "x": 0, "y": 0 } ]
+      "place_nested": [
+        { "chunks": [ "apt_complex_corner_a" ], "x": 0, "y": 0 },
+        { "chunks": [ "apt_complex_corner_b" ], "x": 0, "y": 0 },
+        { "chunks": [ "fire_extinguisher" ], "x": 23, "y": 1 }
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_corner" ],
     "object": {
       "fill_ter": "t_floor",
@@ -68,12 +71,15 @@
         "........................"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex" ],
-      "place_nested": [ { "chunks": [ "apt_complex_corner_a" ], "x": 0, "y": 0 }, { "chunks": [ "apt_complex_corner_b" ], "x": 0, "y": 0 } ]
+      "place_nested": [
+        { "chunks": [ "apt_complex_corner_a" ], "x": 0, "y": 0 },
+        { "chunks": [ "apt_complex_corner_b" ], "x": 0, "y": 0 },
+        { "chunks": [ "fire_extinguisher" ], "x": 23, "y": 1 }
+      ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_corner_inner_ground" ],
     "object": {
       "fill_ter": "t_floor",
@@ -106,13 +112,13 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex_ground" ],
       "place_nested": [
         { "chunks": [ "apt_complex_corner_inner_a" ], "x": 0, "y": 0 },
-        { "chunks": [ "apt_complex_corner_inner_b" ], "x": 0, "y": 0 }
+        { "chunks": [ "apt_complex_corner_inner_b" ], "x": 0, "y": 0 },
+        { "chunks": [ "fire_extinguisher" ], "x": 23, "y": 2 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_corner_inner" ],
     "object": {
       "fill_ter": "t_floor",
@@ -145,13 +151,13 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex" ],
       "place_nested": [
         { "chunks": [ "apt_complex_corner_inner_a" ], "x": 0, "y": 0 },
-        { "chunks": [ "apt_complex_corner_inner_b" ], "x": 0, "y": 0 }
+        { "chunks": [ "apt_complex_corner_inner_b" ], "x": 0, "y": 0 },
+        { "chunks": [ "fire_extinguisher" ], "x": 23, "y": 2 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_straight_ground" ],
     "object": {
       "fill_ter": "t_floor",
@@ -184,13 +190,13 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex_ground" ],
       "place_nested": [
         { "chunks": [ "apt_complex_straight_a" ], "x": 0, "y": 0 },
-        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 }
+        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 },
+        { "chunks": [ "fire_extinguisher" ], "x": 16, "y": 1 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_straight" ],
     "object": {
       "fill_ter": "t_floor",
@@ -223,13 +229,13 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex" ],
       "place_nested": [
         { "chunks": [ "apt_complex_straight_a" ], "x": 0, "y": 0 },
-        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 }
+        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 },
+        { "chunks": [ "fire_extinguisher" ], "x": 16, "y": 1 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_straight_stairs_even_ground" ],
     "object": {
       "fill_ter": "t_floor",
@@ -262,13 +268,13 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex_ground" ],
       "place_nested": [
         { "chunks": [ "apt_complex_straight_a" ], "x": 0, "y": 0 },
-        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 }
+        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 },
+        { "chunks": [ "fire_extinguisher" ], "x": 16, "y": 1 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_straight_stairs_even" ],
     "object": {
       "fill_ter": "t_floor",
@@ -301,13 +307,13 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex" ],
       "place_nested": [
         { "chunks": [ "apt_complex_straight_a" ], "x": 0, "y": 0 },
-        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 }
+        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 },
+        { "chunks": [ "fire_extinguisher" ], "x": 16, "y": 1 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_straight_stairs_odd" ],
     "object": {
       "fill_ter": "t_floor",
@@ -340,7 +346,8 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex" ],
       "place_nested": [
         { "chunks": [ "apt_complex_straight_a" ], "x": 0, "y": 0 },
-        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 }
+        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 },
+        { "chunks": [ "fire_extinguisher" ], "x": 16, "y": 1 }
       ]
     }
   }

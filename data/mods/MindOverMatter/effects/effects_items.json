@@ -91,9 +91,25 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_mom_cascade_stone",
+    "name": [ "Energy Locus" ],
+    "desc": [ "You are overflowing with a torrent of Nether power." ],
+    "rating": "good",
+    "remove_message": "The torrent of Nether power finally ceases."
+  },
+  {
+    "type": "effect_type",
     "id": "effect_black_nether_water_nightmares",
     "//": "Hidden effect to set off an EoC",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_fall_one_story",
+    "//": "Hidden effect, lets you fall one story",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "ONE_STORY_FALL" ]
   }
 ]

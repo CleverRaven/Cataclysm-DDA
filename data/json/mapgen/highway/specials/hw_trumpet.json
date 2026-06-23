@@ -95,7 +95,6 @@
       [ "null", "null", "null", "hw_trumpet_0_4", "hw_trumpet_1_4", "null", "null", "null", "null", "null", "null" ]
     ],
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [
@@ -299,7 +298,6 @@
   {
     "om_terrain": [ [ "hw_trumpet_bridge_0_0", "hw_trumpet_bridge_1_0" ], [ "hw_trumpet_bridge_0_1", "hw_trumpet_bridge_1_1" ] ],
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [

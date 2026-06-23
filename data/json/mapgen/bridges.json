@@ -39,7 +39,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "bridge" ],
     "weight": { "global_val": "vanilla_bridge_weight", "default": 1000 },
     "object": {
@@ -75,7 +74,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "bridge_road" ],
     "weight": { "global_val": "vanilla_bridge_weight", "default": 1000 },
     "object": {
@@ -115,7 +113,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "bridgehead_ground" ],
     "weight": { "global_val": "vanilla_bridge_weight", "default": 1000 },
     "object": {
@@ -174,7 +171,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "bridgehead_ramp" ],
     "weight": { "global_val": "vanilla_bridge_weight", "default": 1000 },
     "object": {
@@ -211,7 +207,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_bridge_road_trash",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -221,7 +216,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_bridgehead_ground_trash",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -231,7 +225,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_bridgehead_ramp_trash",
     "object": {
       "mapgensize": [ 24, 24 ],

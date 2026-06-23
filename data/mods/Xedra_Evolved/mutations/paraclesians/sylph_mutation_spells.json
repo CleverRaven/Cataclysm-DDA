@@ -187,6 +187,9 @@
     "min_range": 12,
     "max_range": 24,
     "range_increment": 0.4,
+    "min_aoe": 4,
+    "max_aoe": 7,
+    "aoe_increment": 0.25,
     "base_casting_time": 200,
     "final_casting_time": 80,
     "casting_time_increment": -5,
@@ -705,11 +708,11 @@
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
     "flags": [ "NO_EXPLOSION_SFX", "RANDOM_AOE" ],
-    "effect": "area_pull",
+    "effect": "area_push",
     "shape": "blast",
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('sylph_massive_lightning_bolt_spell') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) )), 50)"
+        "min( ( ( (u_spell_level('sylph_massive_lightning_bolt_spell') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ) ), 50)"
       ]
     },
     "max_range": 50,

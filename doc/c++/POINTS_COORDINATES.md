@@ -1,3 +1,22 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Points, tripoints, and coordinate systems](#points-tripoints-and-coordinate-systems)
+  - [Axes](#axes)
+  - [Coordinate systems](#coordinate-systems)
+  - [Vertical coordinates](#vertical-coordinates)
+  - [Vehicle coordinates](#vehicle-coordinates)
+  - [Point types](#point-types)
+  - [Raw point types](#raw-point-types)
+  - [Point Constants](#point-constants)
+  - [Converting between point types](#converting-between-point-types)
+    - [Changing scale](#changing-scale)
+    - [Changing origin](#changing-origin)
+  - [Point operations](#point-operations)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Points, tripoints, and coordinate systems
 
 ## Axes
@@ -80,7 +99,7 @@ origin.
 ## Point types
 
 To work with these coordinate systems we have a variety of types.  These are
-defined in [`coordinates.h`](../src/coordinates.h).  For example, we have
+defined in [`coordinates.h`](/src/coordinates.h).  For example, we have
 `point_abs_ms` for absolute map-square coordinates.  The four parts of the
 type name are *dimension*`_`*origin*`_`*scale*(_ib).
 

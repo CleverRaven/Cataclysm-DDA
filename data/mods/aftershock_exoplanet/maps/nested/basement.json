@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements.  resistance_12x12",
     "nested_mapgen_id": "recroom_12x12",
     "object": {
@@ -52,7 +51,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements.  cyberpunk_12x12",
     "nested_mapgen_id": "tvroom_12x12",
     "object": {
@@ -100,7 +98,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements.  amateur_crispr_12x12",
     "nested_mapgen_id": "workoutroom_12x12",
     "object": {
@@ -140,7 +137,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements.  room_6x6_makerspace",
     "nested_mapgen_id": "room_6x6_woodworker",
     "object": {
@@ -185,7 +181,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_orchard_N",
     "//": "an grow area for various exotic plants",
     "object": {
@@ -245,7 +240,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_orchard_S",
     "//": "an grow area for various exotic plants",
     "object": {
@@ -305,7 +299,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_weed_E",
     "//": "an grow area for various exotic plants",
     "object": {
@@ -365,7 +358,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_weed_W",
     "//": "an grow area for various exotic plants",
     "object": {

@@ -23,7 +23,7 @@
     "category": "spare_parts",
     "name": { "str": "short string" },
     "description": "A 6-inch (or about 15 cm) long piece of cotton string.",
-    "weight": "6 g",
+    "weight": "5 g",
     "volume": "10ml",
     "price": "10 cent",
     "price_postapoc": "10 cent",
@@ -166,7 +166,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "seat belt" },
     "description": "A length of synthetic fiber weaved into a flat band, usually used to securely fasten passenger inside vehicles.",
-    "material": "nylon",
+    "material": [ "nylon" ],
     "weight": "800 g",
     "volume": "696 ml",
     "pocket_data": [

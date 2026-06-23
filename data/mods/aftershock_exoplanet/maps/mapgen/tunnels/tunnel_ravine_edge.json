@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_tunnel_ravine_edge" ],
     "object": {
       "rows": [
@@ -39,7 +38,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tunnel_corner_l",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -60,7 +58,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tunnel_corner_r",
     "object": {
       "mapgensize": [ 9, 9 ],

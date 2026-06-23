@@ -15,17 +15,18 @@
       "str_max": 150,
       "sound_fail": "clang!",
       "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "cable", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 8, 12 ] },
         { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "metal_tank_little", "count": [ 0, 2 ] },
         { "item": "jerrycan", "count": [ 0, 2 ] },
         { "item": "metal_tank", "count": [ 0, 2 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 2 ]
     },
     "deconstruct": {
       "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "cable", "count": [ 2, 3 ] },
         { "item": "lc_steel_chunk", "count": [ 4, 6 ] },
         { "item": "scrap", "count": [ 12, 16 ] },
         { "item": "metal_tank_little", "count": [ 2, 4 ] },
@@ -57,11 +58,12 @@
         { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 7 ] },
         { "item": "pipe", "count": [ 0, 1 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     },
     "deconstruct": {
       "items": [
-        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "lc_steel_chunk", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 4, 6 ] },
         { "item": "motor_small", "count": [ 0, 1 ] },
@@ -96,7 +98,7 @@
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "lc_steel_chunk", "count": [ 1, 6 ] },
         { "item": "plutonium", "count": [ 0, 3 ] },
-        { "item": "lead", "charges": [ 12, 18 ] }
+        { "item": "lead", "count": [ 12, 18 ] }
       ]
     },
     "deconstruct": { "items": [ { "item": "compact_ASRG_containment", "count": 1 } ] }
@@ -114,9 +116,24 @@
     "required_str": 2,
     "deployed_item": "xedra_antenna",
     "examine_action": "deployed_furniture",
+    "item": "xedra_antenna",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "MOUNTABLE", "CAN_SIT" ],
-    "max_volume": "600 L",
-    "deconstruct": { "items": [ { "item": "xedra_antenna", "count": 1 } ] }
+    "max_volume": "600 L"
+  },
+  {
+    "type": "furniture",
+    "id": "f_xedra_mobile_weather_station",
+    "name": "mobile antenna",
+    "symbol": "T",
+    "description": "A mix of mundane and otherworldly devices deployed from the top of a sleek black case.  It is equipped with a built-in analysis computer, a small thermal printer, and a rechargeable battery.  The case itself is outfitted with back straps and a telescoping stand.  \"X.E.D.R.A.\" and \"HE weather station\" are engraved on the case.",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "coverage": 10,
+    "required_str": 2,
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "item": "xedra_mobile_weather_station",
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "xedra_mobile_weather_station" },
+    "bash": { "str_min": 6, "str_max": 30, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -165,7 +182,8 @@
         { "item": "bearing", "charges": [ 2, 8 ] },
         { "item": "frame", "prob": 20 },
         { "item": "motor_small", "prob": 10 }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -222,7 +240,8 @@
         { "item": "motor", "prob": 10 },
         { "item": "metal_tank", "prob": 20 },
         { "item": "motor_large", "prob": 5 }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 2 ]
     }
   },
   {
@@ -277,7 +296,9 @@
         { "item": "splinter", "count": [ 4, 8 ] },
         { "item": "2x4", "count": 2 },
         { "item": "nail", "charges": [ 2, 5 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 3 ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -305,7 +326,7 @@
         { "item": "motor_small", "prob": 40 },
         { "item": "processor", "count": 1 },
         { "item": "RAM", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "small_lcd_screen", "count": 1 },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "circuit", "count": [ 3, 8 ] },
@@ -331,7 +352,7 @@
         { "item": "motor_small", "prob": 10 },
         { "item": "processor", "prob": 40 },
         { "item": "RAM", "count": [ 1, 2 ] },
-        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "small_lcd_screen", "prob": 40 },
         { "item": "e_scrap", "count": [ 3, 8 ] },
         { "item": "circuit", "count": [ 1, 3 ] },
@@ -401,9 +422,9 @@
       "str_max": 100,
       "sound": "shred!",
       "sound_fail": "thud!",
-      "items": [ { "item": "scrap_copper", "count": [ 1, 5 ] }, { "item": "cable", "charges": [ 1, 4 ] } ]
+      "items": [ { "item": "scrap_copper", "count": [ 1, 5 ] }, { "item": "cable", "count": [ 1, 2 ] } ]
     },
-    "deconstruct": { "items": [ { "item": "cable", "charges": [ 3, 4 ] } ] }
+    "deconstruct": { "items": [ { "item": "cable", "count": [ 1, 2 ] } ] }
   },
   {
     "type": "furniture",
@@ -424,13 +445,13 @@
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 10, 20 ] },
-        { "item": "cable", "charges": [ 20, 100 ] },
+        { "item": "cable", "count": [ 7, 34 ] },
         { "item": "pipe", "count": [ 1, 2 ] }
       ]
     },
     "deconstruct": {
       "items": [
-        { "item": "cable", "charges": [ 200, 800 ] },
+        { "item": "cable", "count": [ 67, 267 ] },
         { "item": "pipe_fittings", "count": [ 1, 2 ] },
         { "item": "pipe", "count": [ 2, 4 ] }
       ]
@@ -456,7 +477,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 100, 800 ] },
+        { "item": "cable", "count": [ 34, 267 ] },
         { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 0, 5 ] },
         { "item": "e_scrap", "count": [ 2, 8 ] },
@@ -485,7 +506,7 @@
         { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "processor", "count": 1 },
         { "item": "RAM", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "small_lcd_screen", "count": 1 },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "circuit", "count": [ 3, 8 ] },
@@ -506,7 +527,7 @@
         { "item": "mc_steel_chunk", "prob": 40 },
         { "item": "processor", "prob": 40 },
         { "item": "RAM", "count": [ 1, 2 ] },
-        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "small_lcd_screen", "prob": 40 },
         { "item": "e_scrap", "count": [ 3, 8 ] },
         { "item": "circuit", "count": [ 1, 3 ] },
@@ -514,7 +535,8 @@
         { "item": "amplifier", "prob": 40 },
         { "item": "plastic_chunk", "count": [ 2, 8 ] },
         { "item": "scrap", "count": [ 3, 8 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -544,7 +566,91 @@
         { "item": "uranium", "count": [ 10, 50 ] },
         { "item": "uran_cell", "charges": [ 10, 150 ] },
         { "item": "plutonium", "count": [ 0, 20 ] },
-        { "item": "lead", "charges": [ 12, 18 ] }
+        { "item": "lead", "count": [ 12, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_metal_detector",
+    "name": "metal detector",
+    "description": "A metal detector like one you'd see at the airport.  This one is no longer functioning.",
+    "symbol": "M",
+    "color": "light_blue",
+    "coverage": 20,
+    "move_cost_mod": 2,
+    "//": "Based on https://uniqscan.com/products/copy-of-walk-through-metal-detector-ub500, 70cm * 200cm * 60cm",
+    "max_volume": "800 L",
+    "required_str": -1,
+    "flags": [ "PERMEABLE", "THIN_OBSTACLE", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 45,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 6 ] },
+        { "item": "plastic_chunk", "count": [ 4, 8 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 8, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_balthazar_server",
+    "name": "Balthazar's server racks",
+    "looks_like": "t_machinery_electronic",
+    "description": "The servers Balthazar is running on.  Destroying these will severely damage, if not kill them.",
+    "symbol": "$",
+    "color": "yellow",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": -1,
+    "flags": [ "ALARMED" ],
+    "deconstruct": {
+      "skill": { "skill": "electronics", "min": 1, "max": 8 },
+      "items": [
+        { "item": "lc_wire", "count": [ 1, 16 ], "prob": 80 },
+        { "item": "mc_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "hc_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "qt_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
+        { "item": "processor", "count": 1 },
+        { "item": "RAM", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "circuit", "count": [ 3, 8 ] },
+        { "item": "power_supply", "count": [ 1, 3 ] },
+        { "item": "amplifier", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 1, 5 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 80,
+      "sound": "clang!",
+      "sound_fail": "ting.",
+      "items": [
+        { "item": "lc_wire", "count": [ 1, 8 ], "prob": 60 },
+        { "item": "mc_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "hc_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "qt_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "pipe", "prob": 40 },
+        { "item": "mc_steel_chunk", "prob": 40 },
+        { "item": "bearing", "charges": [ 2, 4 ] },
+        { "item": "processor", "prob": 40 },
+        { "item": "RAM", "count": [ 1, 2 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
+        { "item": "small_lcd_screen", "prob": 40 },
+        { "item": "e_scrap", "count": [ 3, 8 ] },
+        { "item": "circuit", "count": [ 1, 3 ] },
+        { "item": "power_supply", "prob": 40 },
+        { "item": "amplifier", "prob": 40 },
+        { "item": "plastic_chunk", "count": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 3, 8 ] }
       ]
     }
   }

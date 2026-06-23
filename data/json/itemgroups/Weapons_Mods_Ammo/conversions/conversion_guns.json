@@ -13,7 +13,7 @@
       {
         "item": "modular_m4_carbine",
         "variant": "m4_cqbr",
-        "contents-item": [ "pistol_grip", "retool_ar15_223rem_short", "suppressor", "adjustable_stock" ]
+        "contents-item": [ "retool_ar15_223rem_short", "suppressor", "adjustable_stock" ]
       }
     ]
   },
@@ -108,6 +108,76 @@
     "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_22" } ]
   },
   {
+    "id": "h&k416a5_any",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "modular_m27_assault_rifle", "variant": "modular_h&k416a5", "contents-item": "retool_ar15_223rem" },
+      {
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_h&k416a5",
+        "contents-item": "retool_ar15_223rem_short"
+      },
+      {
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_h&k416a5",
+        "contents-item": "retool_ar15_223rem_medium"
+      },
+      {
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_h&k416a5",
+        "contents-item": "retool_ar15_223rem_extended"
+      }
+    ]
+  },
+  {
+    "id": "h&k416a5_default_or_short",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "modular_m27_assault_rifle", "variant": "modular_h&k416a5", "contents-item": "retool_ar15_223rem" },
+      {
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_h&k416a5",
+        "contents-item": "retool_ar15_223rem_short"
+      }
+    ]
+  },
+  {
+    "id": "m27iar",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      {
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_m27iar",
+        "contents-item": [
+          "retool_ar15_223rem",
+          "shoulder_strap",
+          "bipod",
+          "grip",
+          "mipim",
+          "red_dot_sight",
+          "hybrid_sight_4x",
+          "suppressor",
+          "adjustable_stock"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "m38dmr",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      {
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_m38dmr",
+        "contents-item": [ "retool_ar15_223rem", "shoulder_strap", "bipod", "grip", "mipim", "rifle_scope", "suppressor", "adjustable_stock" ]
+      }
+    ]
+  },
+  {
     "id": "ar_pistol",
     "type": "item_group",
     "subtype": "collection",
@@ -184,18 +254,6 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "item": "axmc", "contents-item": "retool_axmc_308win" } ]
-  },
-  {
-    "id": "cz600",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [ { "item": "cz600", "contents-item": "retool_cz600_223rem" } ]
-  },
-  {
-    "id": "cz600_762",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [ { "item": "cz600", "contents-item": "retool_cz600_762" } ]
   },
   {
     "id": "modular_deagle_357",

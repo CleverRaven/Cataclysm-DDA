@@ -31,6 +31,7 @@
       { "item": "win70", "prob": 20, "charges": [ 0, 3 ] },
       { "item": "henry_big_boy", "prob": 2, "charges": [ 0, 10 ] },
       { "item": "weatherby_5", "prob": 2, "charges": [ 0, 3 ] },
+      { "item": "varmint_airgun", "prob": 20, "charges": [ 0, 1 ] },
       { "item": "single_sling", "prob": 10 }
     ]
   },
@@ -62,7 +63,7 @@
       { "group": "preserved_food", "prob": 20 },
       { "group": "dry_goods", "prob": 30 },
       { "item": "meat_smoked", "components": [ "human_flesh" ], "prob": 60 },
-      { "group": "pantry", "prob": 10 }
+      { "group": "SUS_pantry", "prob": 10 }
     ]
   }
 ]

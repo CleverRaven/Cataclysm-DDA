@@ -1,0 +1,36 @@
+[
+  {
+    "id": "shot_00",
+    "copy-from": "shotshell_abstract",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str_sp": "12 gauge buckshot" },
+    "weight": "43 g",
+    "description": "A 12 gauge shotgun shell, filled with 9 pellets of 00 buck.  A very common and versatile round, they're useful for both self defense and for hunting.  The spread of the shot doesn't just increase your chances to have a projectile hit, it also causes a much larger wound, greatly increasing lethality.  It does struggle with range, and against body armor.",
+    "ascii_picture": "shot_00",
+    "price": "5 USD",
+    "price_postapoc": "8 USD",
+    "range": 18,
+    "damage": { "damage_type": "bullet", "amount": 60 },
+    "shot_damage": { "damage_type": "bullet", "amount": 15, "armor_penetration": 4 },
+    "projectile_count": 9,
+    "shot_spread": 300,
+    "recoil": 2500,
+    "loudness": 160,
+    "effects": [ "COOKOFF", "SHOT" ]
+  },
+  {
+    "id": "afs_shot_he",
+    "copy-from": "shot_slug",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "12 gauge explosive slug" },
+    "description": "A shotgun shell shooting a small explosive.  Banned in several states.  While an explosive from a shotgun sounds impressive, its practical applications are limited at best.  The loss in mass in order to accommodate an explosive give it much less impact force compared to traditional ammunition.  The relatively small size of the slug can only accommodate a limited amount of explosives, resulting in a fairly underwhelming explosion.  These traits make it a utility tool for damaging barriers and disrupting other explosive devices, rather than something for anti-personnel use.",
+    "ascii_picture": "shot_he",
+    "price": "30 USD",
+    "price_postapoc": "16 USD",
+    "count": 5,
+    "extend": { "effects": [ "EXPLOSIVE_HESHOT" ] },
+    "damage": { "damage_type": "bullet", "amount": 10, "armor_penetration": 0 }
+  }
+]

@@ -4,6 +4,8 @@
     "id": "dev:default",
     "name": "default",
     "description": "contains all the mods recommended by the developers",
-    "dependencies": [ "dda", "no_npc_food", "personal_portal_storms", "No_Rail_Stations" ]
+    "//": "Not really obsolete! Marked as such to prevent it from showing in the main list",
+    "obsolete": true,
+    "dependencies": [ "dda", "no_npc_food", "personal_portal_storms" ]
   }
 ]

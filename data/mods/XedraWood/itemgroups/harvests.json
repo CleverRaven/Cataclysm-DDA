@@ -1,0 +1,37 @@
+[
+  {
+    "id": "harvest_morningflower",
+    "type": "harvest",
+    "entries": [ { "drop": "morningflower_leaves", "base_num": [ 1, 4 ] } ]
+  },
+  {
+    "id": "harvest_harfry",
+    "type": "harvest",
+    "entries": [ { "drop": "harfry_root", "base_num": [ 1, 2 ] } ]
+  },
+  {
+    "id": "harvest_harfry_summer",
+    "type": "harvest",
+    "entries": [ { "drop": "harfry_root", "base_num": [ 2, 4 ] } ]
+  },
+  {
+    "id": "harvest_maidenshair",
+    "type": "harvest",
+    "entries": [ { "drop": "maidens_hair", "base_num": [ 1, 4 ] } ]
+  },
+  {
+    "id": "harvest_witchwood",
+    "type": "harvest",
+    "entries": [ { "drop": "witchwood_bark", "base_num": [ 3, 6 ] } ]
+  },
+  {
+    "id": "harvest_starsbreath",
+    "type": "harvest",
+    "entries": [ { "drop": "starsbreath_harvested", "base_num": [ 2, 4 ] } ]
+  },
+  {
+    "id": "harvest_corpsefire",
+    "type": "harvest",
+    "entries": [ { "drop": "corpsefire_cap", "base_num": [ 1, 3 ] } ]
+  }
+]

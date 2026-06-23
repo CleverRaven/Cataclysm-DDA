@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "bowling_alley" ],
     "object": {
       "fill_ter": "t_floor",
@@ -14,7 +13,7 @@
         ",,,,,y_____y_____y_____y",
         ",,,,,y_____y_____y_____4",
         "##+######OOOO####OOOO###",
-        "#                      #",
+        "#§                    §#",
         "#      ccc     c    c  #",
         "#F     ttt    ctc  ctc #",
         "#&     ccc             #",
@@ -24,7 +23,7 @@
         "#ctc sC    1|GSSGSSGSSG#",
         "#ctc  Cs   1|GSSGSSGSSG#",
         "#ctc sC00  1|GSSGSSGSSG#",
-        "#     |||+|||GSSGSSGSSG#",
+        "#    §|||+|||GSSGSSGSSG#",
         "#     |f~~~2|GSSGSSGSSG#",
         "#+||+||f~~~2|GSSGSSGSSG#",
         "#'U|'U|(~~~2||$$|$$|$$|#",
@@ -96,12 +95,12 @@
         { "vehicle": "parking_garage_short", "x": [ 8, 9 ], "y": 4, "rotation": 90, "chance": 33 },
         { "vehicle": "parking_garage_short", "x": [ 14, 15 ], "y": 4, "rotation": 90, "chance": 33 },
         { "vehicle": "parking_garage_short", "x": [ 20, 21 ], "y": 4, "rotation": 90, "chance": 33 }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "bowling_alley_roof",
     "object": {
       "fill_ter": "t_flat_roof",

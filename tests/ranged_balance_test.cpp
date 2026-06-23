@@ -15,6 +15,7 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -71,7 +72,7 @@ static const itype_id itype_gloves_wraps_fur( "gloves_wraps_fur" );
 static const itype_id itype_hk_mp5( "hk_mp5" );
 static const itype_id itype_holo_sight( "holo_sight" );
 static const itype_id itype_m14ebr( "m14ebr" );
-static const itype_id itype_mask_guy_fawkes( "mask_guy_fawkes" );
+static const itype_id itype_mask_skull( "mask_skull" );
 static const itype_id itype_mossberg_590( "mossberg_590" );
 static const itype_id itype_mossberg_930( "mossberg_930" );
 static const itype_id itype_mp40semi( "mp40semi" );
@@ -91,6 +92,9 @@ static const itype_id itype_test_shot_00_fire_damage( "test_shot_00_fire_damage"
 
 using firing_statistics = statistics<bool>;
 
+namespace
+{
+
 class Threshold
 {
     public:
@@ -108,8 +112,10 @@ class Threshold
         double _chance;
 };
 
+} // namespace
+
 template < class T >
-std::ostream &operator <<( std::ostream &os, const std::vector<T> &v )
+static std::ostream &operator <<( std::ostream &os, const std::vector<T> &v )
 {
     os << "[";
     for( typename std::vector<T>::const_iterator ii = v.begin(); ii != v.end(); ++ii ) {
@@ -193,6 +199,8 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
                                     const int min_good_range, const int max_good_range )
 {
     {
+        aim_mods_cache aim_cache = shooter.gen_aim_mods_cache( *shooter.get_wielded_item() );
+        const Target_attributes target;
         const dispersion_sources dispersion = get_dispersion( shooter, 0, min_quickdraw_range );
         std::vector<firing_statistics> minimum_stats = firing_test( dispersion, min_quickdraw_range, {
             Threshold( accuracy_grazing, 0.2 ),
@@ -200,8 +208,10 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
         } );
         INFO( dispersion );
         INFO( "Range: " << min_quickdraw_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil ) );
+        INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL, target,
+                aim_cache ) );
+        INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil,
+                target, aim_cache ) );
         CAPTURE( shooter.get_modifier( character_modifier_ranged_dispersion_manip_mod ) );
         CAPTURE( minimum_stats[0].n() );
         CAPTURE( minimum_stats[0].margin_of_error() );
@@ -211,26 +221,34 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
         CHECK( minimum_stats[1].avg() < 0.1 );
     }
     {
+        aim_mods_cache aim_cache = shooter.gen_aim_mods_cache( *shooter.get_wielded_item() );
+        const Target_attributes target;
         const dispersion_sources dispersion = get_dispersion( shooter, 300, min_good_range );
         firing_statistics good_stats = firing_test( dispersion, min_good_range, Threshold( accuracy_goodhit,
                                        0.5 ) );
         INFO( dispersion );
         INFO( "Range: " << min_good_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil ) );
+        INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL, target,
+                aim_cache ) );
+        INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil,
+                target, aim_cache ) );
         CAPTURE( shooter.get_modifier( character_modifier_ranged_dispersion_manip_mod ) );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
         CHECK( good_stats.avg() > 0.0 );
     }
     {
+        aim_mods_cache aim_cache = shooter.gen_aim_mods_cache( *shooter.get_wielded_item() );
+        const Target_attributes target;
         const dispersion_sources dispersion = get_dispersion( shooter, 500, max_good_range );
         firing_statistics good_stats = firing_test( dispersion, max_good_range, Threshold( accuracy_goodhit,
                                        0.1 ) );
         INFO( dispersion );
         INFO( "Range: " << max_good_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil ) );
+        INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL, target,
+                aim_cache ) );
+        INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil,
+                target, aim_cache ) );
         CAPTURE( shooter.get_modifier( character_modifier_ranged_dispersion_manip_mod ) );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
@@ -240,6 +258,8 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
 
 static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
 {
+    aim_mods_cache aim_cache = shooter.gen_aim_mods_cache( *shooter.get_wielded_item() );
+    const Target_attributes target;
     const int fast_shooting_range = 3;
     const float hit_rate_cap = hit_rate + 0.5f;
     const dispersion_sources dispersion = get_dispersion( shooter, moves, fast_shooting_range );
@@ -249,8 +269,10 @@ static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
                                          Threshold( accuracy_standard, hit_rate_cap ) );
     INFO( dispersion );
     INFO( "Range: " << fast_shooting_range );
-    INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL ) );
-    INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil ) );
+    INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL, target,
+            aim_cache ) );
+    INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil,
+            target, aim_cache ) );
     CAPTURE( shooter.get_modifier( character_modifier_ranged_dispersion_manip_mod ) );
     CAPTURE( shooter.get_wielded_item()->gun_skill().str() );
     CAPTURE( shooter.get_skill_level( shooter.get_wielded_item()->gun_skill() ) );
@@ -290,11 +312,11 @@ static constexpr tripoint_bub_ms shooter_pos( 60, 60, 0 );
 // The gun used for the test is the easiest for players to find.
 TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
 {
-    clear_map();
+    clear_map_without_vision();
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
     shooter.set_body();
     shooter.worn.wear_item( shooter, item( itype_backpack ), false, false );
-    equip_shooter( shooter, { itype_bastsandals, itype_armguard_hard, itype_armguard_soft, itype_test_armor_chitin, itype_beekeeping_gloves, itype_mask_guy_fawkes, itype_cowboy_hat } );
+    equip_shooter( shooter, { itype_bastsandals, itype_armguard_hard, itype_armguard_soft, itype_test_armor_chitin, itype_beekeeping_gloves, itype_mask_skull, itype_cowboy_hat } );
     assert_encumbrance( shooter, 10 );
 
     SECTION( "an unskilled shooter with a common pistol" ) {
@@ -332,7 +354,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
 // To simulate players who already have sufficient proficiency and equipment
 TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 {
-    clear_map();
+    clear_map_without_vision();
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 10, 10, 10 );
     shooter.set_body();
     equip_shooter( shooter, { itype_cloak_wool, itype_footrags_wool, itype_gloves_wraps_fur, itype_glasses_safety, itype_balclava } );
@@ -378,7 +400,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 // To simulate hero
 TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
 {
-    clear_map();
+    clear_map_without_vision();
     standard_npc shooter( "Shooter", shooter_pos, {}, 10, 20, 20, 20, 20 );
     shooter.set_body();
     equip_shooter( shooter, { } );
@@ -497,7 +519,7 @@ static void shoot_monster( const itype_id &gun_type, const std::vector<itype_id>
                            const std::function<bool ( const standard_npc &, const monster & )> &other_checks = nullptr )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     statistics<int> damage;
     constexpr tripoint_bub_ms shooter_pos{ 60, 60, 0 };
     const tripoint_bub_ms monster_pos = shooter_pos + ( point::east * range );
@@ -537,7 +559,7 @@ static void shoot_monster( const itype_id &gun_type, const std::vector<itype_id>
 
 TEST_CASE( "shot_features", "[gun]" "[slow]" )
 {
-    clear_map();
+    clear_map_without_vision();
     // BIRDSHOT
     // Unarmored target
     // Minor damage at range.
@@ -656,7 +678,7 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
 
 TEST_CASE( "shot_custom_damage_type", "[gun]" "[slow]" )
 {
-    clear_map();
+    clear_map_without_vision();
     auto check_eocs = []( const standard_npc & src, const monster & tgt ) {
         return src.get_value( "general_dmg_type_test_test_fire" ) == "source" &&
                tgt.get_value( "general_dmg_type_test_test_fire" ) == "target";
@@ -677,8 +699,8 @@ TEST_CASE( "shot_custom_damage_type", "[gun]" "[slow]" )
 static constexpr float fudge_factor = 0.025;
 
 template<typename T, typename W>
-std::map<T, float> hit_distribution( const targeting_graph<T, W> &graph,
-                                     std::optional<float> guess = std::nullopt, int iters = 100000 )
+static std::map<T, float> hit_distribution( const targeting_graph<T, W> &graph,
+        std::optional<float> guess = std::nullopt, int iters = 100000 )
 {
     std::map<T, float> hits;
     for( int i = 0; i < iters; ++i ) {

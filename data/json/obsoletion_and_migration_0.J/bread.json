@@ -1,0 +1,58 @@
+[
+  {
+    "id": "sourdough_young_uncovered",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "category": "food",
+    "name": { "str_sp": "juvenile sourdough starter (obsolete)" },
+    "description": "A floury paste that is slowly going bad.  Someday it will be sourdough.",
+    "comestible_type": "FOOD",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": "10 cent",
+    "price_postapoc": "10 cent",
+    "material": [ "wheat" ],
+    "symbol": "%",
+    "color": "white",
+    "flags": [ "SOFT" ],
+    "fun": -5,
+    "calories": 192,
+    "use_action": {
+      "target": "sourdough_starter_uncovered",
+      "msg": "After feeding it and caring for it for a week, your sourdough starter is finally ready for the big leagues.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 518400,
+      "not_ready_msg": "You've been caring for your starter for a while, but it's going to need longer before you can do anything tasty with it."
+    },
+    "vitamins": [ [ "wheat_allergen", 1 ] ]
+  },
+  {
+    "id": "sourdough_split_uncovered",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "category": "food",
+    "name": { "str_sp": "freshly fed sourdough starter (obsolete)" },
+    "description": "A floury paste with sourdough starter mixed in.  It needs a day to recover its strength before it can be used again.",
+    "comestible_type": "FOOD",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": "10 cent",
+    "price_postapoc": "10 cent",
+    "material": [ "wheat" ],
+    "symbol": "%",
+    "color": "white",
+    "flags": [ "SOFT" ],
+    "fun": -5,
+    "calories": 192,
+    "use_action": {
+      "target": "sourdough_starter_uncovered",
+      "msg": "The starter is now stinky and bubbly, and looks ready for cooking.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 86400,
+      "not_ready_msg": "The starter isn't quite ready to go."
+    },
+    "vitamins": [ [ "wheat_allergen", 1 ] ]
+  }
+]

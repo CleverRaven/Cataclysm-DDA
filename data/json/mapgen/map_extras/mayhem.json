@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_mayhem",
     "object": {
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
@@ -10,7 +9,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_mayhem_crash_start",
     "object": {
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
@@ -19,7 +17,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_mayhem_crash",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -66,7 +63,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_mayhem_limo",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -105,7 +101,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_mayhem_tire_change",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -157,7 +152,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_mayhem_tire_change_robbed",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -194,7 +188,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_mayhem_tire_change_wolves",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -233,7 +226,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_mayhem_tire_change_wolves_north",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -247,7 +239,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_mayhem_tire_change_wolves_south",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -261,7 +252,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_dead_wolf",
     "object": {
       "mapgensize": [ 1, 1 ],

@@ -210,7 +210,7 @@
     "name": { "str": "carbon fiber hunting arrow" },
     "symbol": "=",
     "color": "green",
-    "description": "A fletched carbon fiber arrow shaft with an expanding broadhead tip.",
+    "description": "A fletched carbon fiber arrow shaft with an expanding broadhead tip.  Deals impressive damage to targets.",
     "material": [ { "type": "kevlar_rigid", "portion": 81 }, { "type": "steel", "portion": 19 } ],
     "delete": { "flags": [ "NONCONDUCTIVE" ] },
     "copy-from": "arrow_field_point_fletched",
@@ -275,7 +275,6 @@
       "target": "arrow_flamming",
       "target_timer": "20 seconds",
       "msg": "You light the arrow.",
-      "active": true,
       "need_fire": 1,
       "menu_text": "Light arrow",
       "type": "transform"
@@ -293,8 +292,9 @@
     "color": "brown",
     "revert_to": "arrow_field_point_fletched",
     "recovery_chance": 97,
+    "use_action": { "target": "flamable_arrow", "menu_text": "Extinguish arrow", "type": "transform" },
     "effects": [ "IGNITE" ],
-    "extend": { "flags": [ "TRADER_AVOID" ] }
+    "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "selfbow",
@@ -318,7 +318,6 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "reload_noise_volume": 3,
     "loudness": 8,
     "skill": "archery",
@@ -371,7 +370,6 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 8,
     "ammo": [ "arrow" ],
@@ -412,7 +410,7 @@
     "description": "A high-powered bow with shaped cams and extra cables for high-velocity shots that can be used effectively by fairly strong archers.  Currently set to a medium weight.",
     "price": "550 USD",
     "//": "60 lb draw weight 24in draw, 100J, 0.55 slugs of momentum with a 30g arrow.",
-    "material": [ "steel", "plastic" ],
+    "material": [ "aluminum", "plastic" ],
     "flags": [
       "FIRE_TWOHAND",
       "RELOAD_AND_SHOOT",
@@ -422,7 +420,6 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 9,
     "ammo": [ "arrow" ],
@@ -513,7 +510,6 @@
       "FRAGILE_MELEE",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 12,
     "ammo": [ "arrow" ],
@@ -569,7 +565,6 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "ammo": [ "arrow" ],
     "min_strength": 10,
@@ -622,7 +617,6 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 9,
     "ammo": [ "arrow" ],
@@ -678,7 +672,6 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 9,
     "ammo": [ "arrow" ],
@@ -701,7 +694,7 @@
     "use_action": {
       "need_wielding": true,
       "type": "transform",
-      "menu_text": "Disassemble it",
+      "menu_text": "Disassemble",
       "target": "takedown_recurbow_folded",
       "msg": "You disassemble your bow.",
       "ammo_scale": 0,
@@ -746,7 +739,7 @@
     "use_action": {
       "need_wielding": true,
       "type": "transform",
-      "menu_text": "Assemble it",
+      "menu_text": "Assemble",
       "target": "takedown_recurbow",
       "msg": "You assemble your bow.",
       "moves": 1500
@@ -775,7 +768,6 @@
       "FRAGILE_MELEE",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 9,
     "ammo": [ "arrow" ],
@@ -887,7 +879,6 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 15,
     "ammo": [ "arrow" ],
@@ -931,7 +922,6 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 8,
     "ammo": [ "arrow" ],

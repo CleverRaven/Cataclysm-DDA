@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "great_tree_crown_01", "great_tree_crown_02", "great_tree_crown_03", "great_tree_crown_04" ],
       [ "great_tree_crown_05", "great_tree_crown_06", "great_tree_crown_07", "great_tree_crown_08" ],
@@ -113,7 +112,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "great_tree_crown_top_01", "great_tree_crown_top_02" ], [ "great_tree_crown_top_03", "great_tree_crown_top_04" ] ],
     "object": {
       "rows": [

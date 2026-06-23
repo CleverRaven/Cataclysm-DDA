@@ -8,7 +8,7 @@
     "name_suffix": "Merchant",
     "class": "NC_FREE_MERCHANTS_MERCHANT",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_FREE_MERCHANTS_MERCHANT",
     "mission_offered": "MISSION_FREE_MERCHANTS_EVAC_1",
     "faction": "free_merchants"
@@ -181,7 +181,7 @@
       [ "bandana", 20 ],
       [ "scarf", 15 ],
       [ "hat_boonie", 20 ],
-      [ "balclava", 10 ],
+      { "item": "balclava", "variant": "black", "prob": 10 },
       [ "pickaxe", 20 ],
       [ "makeshift_machete", 15 ],
       [ "fungicide", 20 ],

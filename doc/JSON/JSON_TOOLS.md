@@ -1,3 +1,14 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [JSON tools](#json-tools)
+  - [Keys and Values](#keys-and-values)
+  - [Examples](#examples)
+  - [Examples and use cases](#examples-and-use-cases)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # JSON tools
 
 In the `tools/json_tools/` folder you will find several scripts for working with JSON data, written in

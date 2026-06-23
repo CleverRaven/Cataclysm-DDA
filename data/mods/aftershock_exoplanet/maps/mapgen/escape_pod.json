@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_crashed_escape_pod_roof",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -36,7 +35,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_crashed_escape_pod" ],
     "object": {
       "predecessor_mapgen": "field",

@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "bandit_drug_lab",
     "type": "mapgen",
     "object": {

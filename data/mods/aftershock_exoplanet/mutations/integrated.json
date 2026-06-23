@@ -12,7 +12,7 @@
     "price_postapoc": "0 cent",
     "material": [ "mut_fur" ],
     "symbol": "x",
-    "color": "black",
+    "color": "dark_gray",
     "warmth": 90,
     "environmental_protection": 2,
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY", "SOFT" ],

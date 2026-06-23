@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "campus_health_0_0_3" ], [ "campus_health_0_1_3" ], [ "campus_health_0_2_3" ] ],
     "object": {
       "fill_ter": "t_open_air",

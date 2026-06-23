@@ -1,0 +1,146 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_inventor_calorie_storage_activated",
+    "effect": [ { "u_add_effect": "effect_bio_inventor_calorie_storage", "duration": "PERMANENT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_calorie_storage",
+    "recurrence": [ "50 s", "70 s" ],
+    "condition": { "u_has_effect": "effect_bio_inventor_calorie_storage" },
+    "deactivate_condition": { "not": { "u_has_effect": "effect_bio_inventor_calorie_storage" } },
+    "//": "Consumes 100 calories per minute while above the threshold to create 75 vitamin.  While under the threshold, consume up to 100 vitamin to create that much calories.",
+    "effect": [
+      { "math": [ "u_calories_needed = 95000" ] },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_calorie_storage_check_size_tiny",
+            "condition": { "u_has_flag": "TINY" },
+            "effect": [ { "math": [ "u_calories_needed /= 8" ] }, { "run_eocs": "EOC_calorie_storage_convert" } ],
+            "false_effect": [ { "run_eocs": [ "EOC_calorie_storage_check_size_small" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_calorie_storage_check_size_small",
+    "condition": { "u_has_flag": "SMALL" },
+    "effect": [ { "math": [ "u_calories_needed /= 3" ] }, { "run_eocs": "EOC_calorie_storage_convert" } ],
+    "false_effect": [ { "run_eocs": [ "EOC_calorie_storage_check_size_large" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_calorie_storage_check_size_large",
+    "condition": { "u_has_flag": "LARGE" },
+    "effect": [ { "math": [ "u_calories_needed *= 1.5" ] }, { "run_eocs": "EOC_calorie_storage_convert" } ],
+    "false_effect": [ { "run_eocs": [ "EOC_calorie_storage_check_size_huge" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_calorie_storage_check_size_huge",
+    "condition": { "u_has_flag": "HUGE" },
+    "effect": [ { "math": [ "u_calories_needed *= 2" ] }, { "run_eocs": "EOC_calorie_storage_convert" } ],
+    "false_effect": [ { "run_eocs": [ "EOC_calorie_storage_convert" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_calorie_storage_convert",
+    "condition": { "u_has_effect": "effect_bio_inventor_calorie_storage" },
+    "effect": [
+      {
+        "if": { "math": [ "u_calories() <= u_calories_needed" ] },
+        "then": [
+          {
+            "if": { "math": [ "u_vitamin('stored_calories') >= 100" ] },
+            "then": [
+              { "math": [ "u_calories('dont_affect_weariness': true) += 100" ] },
+              { "math": [ "u_vitamin('stored_calories') -= 100" ] }
+            ],
+            "else": [
+              {
+                "if": { "and": [ { "math": [ "u_vitamin('stored_calories') < 100" ] }, { "math": [ "u_vitamin('stored_calories') > 0" ] } ] },
+                "then": [
+                  { "math": [ "u_calories('dont_affect_weariness': true) += u_vitamin('stored_calories')" ] },
+                  { "math": [ "u_vitamin('stored_calories') -= u_vitamin('stored_calories')" ] },
+                  { "u_message": "The last of your orbiting calories settle inside your body.", "type": "mixed" }
+                ]
+              }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "if": { "math": [ "u_calories() >= u_calories_needed * 1.05" ] },
+            "then": [
+              { "math": [ "u_calories('dont_affect_weariness': true) -= 100" ] },
+              { "math": [ "u_vitamin('stored_calories') += 75" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_inventor_calorie_storage_deactivated",
+    "effect": [ { "math": [ "u_vitamin('stored_calories') = 0" ] }, { "u_lose_effect": "effect_bio_inventor_calorie_storage" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_inventor_creative_fuel",
+    "condition": { "math": [ "u_vitamin('creative_spark') > 0" ] },
+    "effect": [
+      { "math": [ "u_vitamin('creative_spark')--" ] },
+      { "math": [ "u_val('power') += rng(900000000, 1100000000)" ] },
+      { "u_message": "Some of your brillance is converted into electricity.", "type": "info" }
+    ],
+    "false_effect": [ { "u_message": "Your creativity isn't potent enough to be converted to electricity.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_inventor_book_burn_boost_activated",
+    "//": "Consumes all selected books to increase the vitamin based on how many were consumed.  The higher the vitamin, the higher the effect and depletion rate.",
+    "effect": [
+      { "math": [ "u_amount_of_burned_books = 0" ] },
+      {
+        "u_run_inv_eocs": "manual_mult",
+        "search_data": [ { "category": "manuals" }, { "category": "ma_manuals" }, { "category": "books" } ],
+        "true_eocs": [
+          {
+            "id": "EOC_bio_inventor_book_burn_boost_start",
+            "effect": [ { "math": [ "u_amount_of_burned_books++" ] }, "npc_die" ]
+          }
+        ],
+        "false_eocs": [
+          {
+            "id": "EOC_bio_inventor_book_burn_boost_fail",
+            "effect": [ { "u_message": "The buddy needs books to burn!", "type": "bad" } ]
+          }
+        ]
+      },
+      { "run_eocs": "EOC_bio_inventor_book_burn_boost_vitamin_gain" }
+    ]
+  },
+  {
+    "id": "EOC_bio_inventor_book_burn_boost_vitamin_gain",
+    "type": "effect_on_condition",
+    "condition": { "math": [ "u_amount_of_burned_books > 0" ] },
+    "effect": [
+      { "math": [ "u_vitamin('burned_books')  += u_amount_of_burned_books" ] },
+      { "u_message": "Your mind fills with information as the books burn!", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_inventor_book_burn_boost_vitamin_drain",
+    "recurrence": [
+      { "math": [ "660 - (u_effect_intensity('effect_burned_books') * 60)" ] },
+      { "math": [ "660 - (u_effect_intensity('effect_burned_books') * 60)" ] }
+    ],
+    "effect": [ { "math": [ "u_vitamin('burned_books')--" ] } ]
+  }
+]

@@ -1,0 +1,65 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "item_mountain_tattoo_six",
+    "name": { "str_sp": "The Crown of the Mountain" },
+    "description": "The spirits have infused you with the resilience of the mountains.",
+    "weight": "400 g",
+    "volume": "400 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "stone" ],
+    "symbol": "x",
+    "color": "light_gray",
+    "warmth": 1,
+    "environmental_protection": 1,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [ { "type": "stone", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 4,
+        "breathability": "AVERAGE"
+      },
+      {
+        "material": [ { "type": "stone", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r", "tail" ],
+        "coverage": 100,
+        "encumbrance": 4,
+        "breathability": "AVERAGE"
+      },
+      {
+        "material": [ { "type": "stone", "covered_by_mat": 100, "thickness": 1.75 } ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 4,
+        "breathability": "AVERAGE"
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "id": "druid_bramble_spear_item",
+    "name": { "str": "spear of brambles", "str_pl": "spears of brambles" },
+    "looks_like": "spear_wood",
+    "description": "A twisted wooden spear whose branches twine together into a vicious point sticky with sap.",
+    "weight": "1200 g",
+    "price_postapoc": "1 cent",
+    "color": "green",
+    "symbol": "/",
+    "material": [ "wood" ],
+    "techniques": [ "WBLOCK_1", "IMPALE" ],
+    "volume": "1750 ml",
+    "longest_side": "180 cm",
+    "melee_damage": { "bash": 5, "stab": 26 },
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE" ],
+    "weapon_category": [ "POLEARMS", "SPEARS" ],
+    "price": "1 cent",
+    "qualities": [ [ "COOK", 1 ] ],
+    "passive_effects": [ { "has": "WIELD", "hit_you_effect": [ { "id": "bramble_spear_slow", "hit_self": false } ] } ]
+  }
+]

@@ -58,7 +58,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "dispensary",
     "object": {
       "fill_ter": "t_floor",
@@ -74,8 +73,8 @@
         ".#b   ~~  b-__nn__......",
         ".#^       ^-4_BB_&......",
         ".#|+|cccMM|##########...",
-        ".#M     h hI|1111111#...",
-        ".#M        I|S'''''1#...",
+        ".#M §   h hI|1111111#...",
+        ".#M       §I|S'''''1#...",
         ".#||||==|||||S'''''1#...",
         ".#''''''''''''''1''1#...",
         ".#''''''''''''''1''1#...",
@@ -90,12 +89,12 @@
       ],
       "palettes": [ "dispensary_palette" ],
       "terrain": { "B": "t_concrete", "&": "t_concrete", "n": "t_concrete", "S": "t_thconc_floor", "=": "t_thconc_floor" },
-      "place_loot": [ { "group": "cash_register_random", "x": [ 5, 9 ], "y": 10 } ]
+      "place_loot": [ { "group": "cash_register_random", "x": [ 5, 9 ], "y": 10 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "dispensary_roof" ],
     "object": {
       "fill_ter": "t_tile_flat_roof",
@@ -139,7 +138,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "dispensary_1",
     "object": {
       "fill_ter": "t_floor",
@@ -149,7 +147,7 @@
         ".........sssss......[...",
         ".........sssFD..........",
         "....#---#sss#---#.......",
-        "....#^  #sss#  ^#.......",
+        "....#^ §#sss#  ^#.......",
         "....-b  #-:-#  b-.......",
         "....-b         b-...[...",
         "....-b         b-.......",
@@ -157,9 +155,9 @@
         "....-   bb ~~~~ #4......",
         "....#  ||||###M|#####...",
         "....#  |&   h  |1111#...",
-        "....#  |       |''''#...",
+        "....#  |      §|''''#...",
         "....#  = h     +'''1#...",
-        "....#& |III0000|11'1#...",
+        "....#&§|III0000|11'1#...",
         "....##############+##...",
         "..../___________f__</...",
         "..../___________g___/...",
@@ -183,12 +181,12 @@
         "/": "t_brick_wall",
         "0": "t_floor"
       },
-      "place_loot": [ { "group": "cash_register_random", "x": [ 11, 14 ], "y": 11 } ]
+      "place_loot": [ { "group": "cash_register_random", "x": [ 11, 14 ], "y": 11 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "dispensary_roof_1" ],
     "object": {
       "fill_ter": "t_tile_flat_roof",
@@ -232,7 +230,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "dispensary_2" ],
     "object": {
       "fill_ter": "t_floor",
@@ -240,7 +237,7 @@
         "ssssssssssssssssssssssss",
         "ssssssssssssssssssssssss",
         "..#######--:--####---#..",
-        "..#t +  bb   bbb^| h -..",
+        "..#t + §bb   bbb^|§h -..",
         "..#S |  ~~~~~~~  |II -..",
         "..#|||  ~~~~~~~  | h -..",
         "..#&     ###MMMM +   #..",
@@ -254,7 +251,7 @@
         ".4#b~ |'''0|1''1|2''1#..",
         "..#b~ |'''0|1''1|2''1#..",
         "..#b~ |'''''''''''''1#..",
-        "..#   |''''''33'''''1#..",
+        "..#  §|''''''33'''''1#..",
         "..##+#################..",
         ".._____...BB..<.........",
         ".._____..........[......",
@@ -267,12 +264,12 @@
       "place_items": [
         { "item": "snacks", "x": 3, "y": [ 14, 16 ], "chance": 50, "repeat": [ 1, 3 ] },
         { "item": "cash_register_random", "x": [ 9, 11 ], "y": 6, "chance": 100 }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "dispensary_roof_2" ],
     "object": {
       "fill_ter": "t_tile_flat_roof",

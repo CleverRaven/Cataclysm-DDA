@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_roadblock",
     "object": {
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
@@ -10,7 +9,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_roadblock_turret",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -63,7 +61,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_roadblock_cops",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -117,7 +114,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_roadblock_crash",
     "object": {
       "mapgensize": [ 24, 24 ],

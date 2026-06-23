@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "hive_edge_00", "hive_edge_10", "hive_edge_20" ],
       [ "hive_edge_01", "hive", "hive_edge_21" ],
@@ -91,7 +90,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "hive_edge_00_roof", "hive_edge_10_roof", "hive_edge_20_roof" ],
       [ "hive_edge_01_roof", "hive_roof", "hive_edge_21_roof" ],

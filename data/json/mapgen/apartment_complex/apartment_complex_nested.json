@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_a",
     "weight": 100,
     "object": {
@@ -39,7 +38,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_a",
     "weight": 100,
     "object": {
@@ -77,7 +75,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_a",
     "weight": 100,
     "object": {
@@ -115,7 +112,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_a",
     "weight": 100,
     "object": {
@@ -153,7 +149,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_a",
     "weight": 100,
     "object": {
@@ -191,7 +186,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_a",
     "weight": 100,
     "object": {
@@ -229,7 +223,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_a",
     "weight": 100,
     "object": {
@@ -267,7 +260,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_a",
     "weight": 100,
     "object": {
@@ -305,7 +297,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_b",
     "weight": 100,
     "object": {
@@ -343,7 +334,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_b",
     "weight": 100,
     "object": {
@@ -381,7 +371,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_b",
     "weight": 100,
     "object": {
@@ -419,7 +408,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_b",
     "weight": 100,
     "object": {
@@ -457,7 +445,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_b",
     "weight": 100,
     "object": {
@@ -495,7 +482,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_b",
     "weight": 100,
     "object": {
@@ -533,7 +519,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_b",
     "weight": 100,
     "object": {
@@ -571,7 +556,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_b",
     "weight": 100,
     "object": {
@@ -609,7 +593,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_inner_a",
     "weight": 100,
     "object": {
@@ -647,7 +630,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_inner_a",
     "weight": 100,
     "object": {
@@ -685,7 +667,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_inner_a",
     "weight": 100,
     "object": {
@@ -723,7 +704,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_inner_a",
     "weight": 100,
     "object": {
@@ -761,7 +741,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_inner_a",
     "weight": 100,
     "object": {
@@ -802,7 +781,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_inner_a",
     "weight": 100,
     "object": {
@@ -840,7 +818,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_inner_b",
     "weight": 100,
     "object": {
@@ -878,7 +855,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_inner_b",
     "weight": 100,
     "object": {
@@ -916,7 +892,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_inner_b",
     "weight": 100,
     "object": {
@@ -957,7 +932,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_inner_b",
     "weight": 100,
     "object": {
@@ -995,7 +969,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_inner_b",
     "weight": 100,
     "object": {
@@ -1036,7 +1009,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_corner_inner_b",
     "weight": 100,
     "object": {
@@ -1074,7 +1046,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_a",
     "weight": 100,
     "object": {
@@ -1112,7 +1083,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_a",
     "weight": 100,
     "object": {
@@ -1153,7 +1123,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_a",
     "weight": 100,
     "object": {
@@ -1194,7 +1163,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_a",
     "weight": 100,
     "object": {
@@ -1232,7 +1200,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_a",
     "weight": 100,
     "object": {
@@ -1270,7 +1237,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_a",
     "weight": 100,
     "object": {
@@ -1308,7 +1274,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_a",
     "weight": 100,
     "object": {
@@ -1346,7 +1311,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_a",
     "weight": 100,
     "object": {
@@ -1384,7 +1348,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_a",
     "weight": 100,
     "object": {
@@ -1422,7 +1385,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_a",
     "weight": 100,
     "object": {
@@ -1460,7 +1422,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_b",
     "weight": 100,
     "object": {
@@ -1501,7 +1462,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_b",
     "weight": 100,
     "object": {
@@ -1542,7 +1502,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_b",
     "weight": 100,
     "object": {
@@ -1583,7 +1542,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_b",
     "weight": 100,
     "object": {
@@ -1621,7 +1579,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_b",
     "weight": 100,
     "object": {
@@ -1659,7 +1616,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_b",
     "weight": 100,
     "object": {
@@ -1697,7 +1653,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_b",
     "weight": 100,
     "object": {
@@ -1735,7 +1690,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_b",
     "weight": 100,
     "object": {
@@ -1773,7 +1727,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_b",
     "weight": 100,
     "object": {
@@ -1814,7 +1767,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "apt_complex_straight_b",
     "weight": 100,
     "object": {

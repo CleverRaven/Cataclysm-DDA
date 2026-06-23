@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "iso_hallway_isolated",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -16,7 +15,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "iso_hallway_safe",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -32,7 +30,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_hallway_safe_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -72,7 +69,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "safe_tile_center",
     "//": "Plants variant",
     "object": {
@@ -88,7 +84,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "safe_tile_center",
     "//": "Autodoc variant",
     "weight": 500,
@@ -108,7 +103,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_hallway_straight_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -146,7 +140,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_hallway_straight_isolated_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -184,7 +177,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_hallway_straight_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [

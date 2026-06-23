@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "overgrownlot",
     "weight": 1000,
     "object": {
@@ -63,7 +62,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": "overgrownlot",
     "weight": 1000,
@@ -111,7 +109,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": "overgrownlot",
     "weight": 1000,
@@ -168,7 +165,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": "overgrownlot",
     "weight": 1000,

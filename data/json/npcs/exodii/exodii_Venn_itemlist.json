@@ -1,0 +1,18 @@
+[
+  {
+    "type": "item_group",
+    "id": "EXODII_Bionic_Limb_Store_Tier1",
+    "subtype": "collection",
+    "items": [
+      { "item": "bio_exodii_arm_bionic_basic_right", "prob": 100 },
+      { "item": "bio_exodii_arm_bionic_basic_left", "prob": 100 },
+      { "item": "bio_exodii_leg_bionic_basic_right", "prob": 100 },
+      { "item": "bio_exodii_leg_bionic_basic_left", "prob": 100 },
+      { "item": "bio_exodii_arm_bionic_basic_armored_right", "prob": 100 },
+      { "item": "bio_exodii_arm_bionic_basic_armored_left", "prob": 100 },
+      { "item": "bio_exodii_leg_bionic_basic_armored_right", "prob": 100 },
+      { "item": "bio_exodii_leg_bionic_basic_armored_left", "prob": 100 },
+      { "item": "bio_exodii_leg_bionic_treads", "prob": 100 }
+    ]
+  }
+]

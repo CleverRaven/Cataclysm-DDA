@@ -7,7 +7,7 @@
     "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Uyen",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_REFUGEE_Uyen_1",
     "faction": "free_merchants",
     "mission_offered": "MISSION_REFUGEE_Uyen_1"
@@ -356,7 +356,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "mission_flag_Uyen_Mission3", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "3" ] }
+        { "math": [ "u_counter_refugee_center_refugee_happiness += 3" ] }
       ]
     }
   }

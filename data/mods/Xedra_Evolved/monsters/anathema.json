@@ -34,7 +34,6 @@
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 85,
-    "melee_training_cap": 0,
     "path_settings": {
       "max_dist": 45,
       "allow_open_doors": true,
@@ -253,6 +252,7 @@
     "//2": "Requires at least one warning to have been given before spawning can succeed. The warnings are global, not character-unique.",
     "condition": {
       "and": [
+        { "test_eoc": "EOC_CONDITION_IS_NOT_ON_SKY_ISLAND" },
         { "one_in_chance": 6 },
         { "not": "is_day" },
         { "not": { "u_has_effect": "sleep" } },
@@ -342,6 +342,7 @@
     "//1": "Same conditions as the above, minus the RNG check and the warnings check.",
     "condition": {
       "and": [
+        { "test_eoc": "EOC_CONDITION_IS_NOT_ON_SKY_ISLAND" },
         { "not": "is_day" },
         { "not": { "u_has_effect": "sleep" } },
         { "not": { "u_has_effect": "effect_vampire_torpor" } },
@@ -416,7 +417,7 @@
       ]
     },
     "effect": [
-      { "math": [ "Anathema_Warnings", "+=", "1" ] },
+      { "math": [ "Anathema_Warnings += 1" ] },
       {
         "if": { "math": [ "Anathema_Warnings < 2" ] },
         "then": { "u_message": "Anathema_Warnings_Snippets", "snippet": true, "popup": true },
@@ -530,6 +531,12 @@
       { "run_eocs": "EOC_KILL_SHADOW", "beta_loc": { "global_val": "Vampire_Anathema" } },
       { "u_message": "…but they will come back.", "type": "bad" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_IS_NOT_ON_SKY_ISLAND",
+    "condition": { "math": [ "0 == 0" ] },
+    "effect": [  ]
   },
   {
     "type": "snippet",

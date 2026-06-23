@@ -5,7 +5,6 @@
 #include <set>
 #include <sstream>
 #include <string>
-#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -27,6 +26,7 @@ static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
 static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_MEATARIAN( "MEATARIAN" );
 static const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
@@ -85,12 +85,17 @@ static int get_item_count( const std::set<const item *> &items )
     return sum;
 }
 
+namespace
+{
+
 struct failure {
     string_id<profession> prof;
     std::vector<trait_id> mut;
     itype_id item_name;
     std::string reason;
 };
+
+} // namespace
 
 namespace std
 {
@@ -133,9 +138,10 @@ TEST_CASE( "starting_items", "[slow]" )
         trait_WOOLALLERGY
     };
     // Prof/scen combinations that need to be checked.
-    std::unordered_map<const scenario *, std::vector<string_id<profession>>> scen_prof_combos;
+    std::vector<std::pair<const scenario *, std::vector<string_id<profession>>>> scen_prof_combos;
+    scen_prof_combos.emplace_back( scenario::generic(), std::vector<string_id<profession>> {} );
     for( const auto &id : scenario::generic()->permitted_professions() ) {
-        scen_prof_combos[scenario::generic()].push_back( id );
+        scen_prof_combos.back().second.push_back( id );
     }
 
     std::set<failure> failures;
@@ -226,5 +232,13 @@ TEST_CASE( "Generated_character_with_category_mutations", "[mutation]" )
         CHECK( u.has_trait( trait_TAIL_FLUFFY ) );
         u.remove_mutation( trait_TAIL_FLUFFY );
         CHECK( !u.has_trait( trait_TAIL_FLUFFY ) );
+    }
+}
+
+TEST_CASE( "cannibal_not_randomly_selected", " [character] [traits] [random]" )
+{
+    for( int i = 0; i < 1000; ++i ) {
+        trait_id random_trait = get_avatar().random_bad_trait();
+        REQUIRE( random_trait != trait_CANNIBAL );
     }
 }

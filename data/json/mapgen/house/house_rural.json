@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "rural_house1",
     "type": "mapgen",
     "object": {
@@ -44,7 +43,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_house1_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -63,9 +61,9 @@
         "                        ",
         "                        ",
         " ---------              ",
+        " -..0....-              ",
+        " -N......-              ",
         " -.......-              ",
-        " -.......-              ",
-        " -.....N.-              ",
         " -.......-              ",
         " -.&.....-              ",
         " 5......--              ",
@@ -75,11 +73,11 @@
         "    -----               "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "nested": { "0": { "chunks": [ [ "residential_6kW_solar", 125 ], [ "null", 873 ] ] } }
     }
   },
   {
-    "method": "json",
     "om_terrain": "rural_house2",
     "type": "mapgen",
     "object": {
@@ -130,7 +128,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_house2_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -145,7 +142,7 @@
         "  -.....-               ",
         "  -.....-               ",
         "  -..=..-               ",
-        "  -.....-               ",
+        "  -0....-               ",
         "  -.....-               ",
         "  -.....-               ",
         "  -.....----            ",
@@ -161,12 +158,12 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "nested": { "0": { "chunks": [ [ "residential_6kW_solar", 125 ], [ "null", 873 ] ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_house2_basement",
     "object": {
       "fill_ter": "t_thconc_floor",

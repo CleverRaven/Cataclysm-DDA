@@ -1,0 +1,192 @@
+[
+  {
+    "type": "npc",
+    "id": "xe_vampire_mission_target",
+    "name_suffix": "vampire",
+    "class": "NC_XE_VAMPIRE_MISSION_TARGET",
+    "attitude": 0,
+    "mission": "SHELTER",
+    "chat": "TALK_VAMPIRE_MISSION_TARGET",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_XE_VAMPIRE_MISSION_TARGET",
+    "name": "Vampire",
+    "job_description": "A vampire that may or may not want to be cured from their condition.  The only way to find out is to ask them.",
+    "//": "Having the vampire be the same one every time is far easier to balance than full-random vampires.",
+    "common": false,
+    "worn_override": "xe_vampire_mission_target_worn",
+    "weapon_override": "xe_vampire_mission_target_wield",
+    "traits": [
+      { "group": "Appearance_demographics" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Random_vampire_reason" },
+      { "trait": "VAMPIRE_BLOOD_ARTS" },
+      { "trait": "VAMPIRE" },
+      { "trait": "VAMPIRE2" },
+      { "trait": "VAMPIRE3" },
+      { "trait": "EYEGLEAM" },
+      { "trait": "VAMPIRIC_STRENGTH" },
+      { "trait": "VAMPIRIC_RESILIENCE" },
+      { "trait": "VAMPIRE_HEALTH_BONUS" },
+      { "trait": "BLOODHEAL" },
+      { "trait": "VAMPIRIC_DODGE" },
+      { "trait": "VAMPIRE_SEE_HEAT" },
+      { "trait": "VAMPIRE_BLOOD_TEMPORARY_BOOST" },
+      { "trait": "MAGICFORBLOOD" },
+      { "trait": "VAMPIRE_COMMAND_BEAST" },
+      { "trait": "VAMPIRE_CARDIO_BONUS" },
+      { "trait": "VAMPIRE_BONUS_HP" },
+      { "trait": "VAMPIRE_WEAKNESS_MORE_BLOOD" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "xe_vampire_mission_target_worn",
+    "//": "Until there's a way to make a NPC spawn with random equipment but with a single non-random piece of equipment, this group will be needed to make sure the sun-sensitive vampire has sunglasses.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "sunglasses" },
+      {
+        "distribution": [
+          { "item": "jeans", "prob": 25 },
+          { "item": "pants", "prob": 25 },
+          { "item": "pants_leather", "prob": 25 },
+          { "item": "pants_cargo", "prob": 25 }
+        ],
+        "prob": 100
+      },
+      { "item": "longshirt" },
+      { "item": "socks" },
+      { "item": "sneakers" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "xe_vampire_mission_target_wield",
+    "subtype": "distribution",
+    "entries": [ { "item": "umbrella", "prob": 10 }, { "item": "teleumbrella-extended", "prob": 10 } ]
+  },
+  {
+    "id": "TALK_VAMPIRE_MISSION_TARGET",
+    "type": "talk_topic",
+    "//": "Depending on their reason to become a vampire, they will be more or less open to be cured.",
+    "dynamic_line": {
+      "npc_has_trait": "VAMPIRE_REASON_VENGEFUL",
+      "yes": "You're back to finish the job, aren't you?  They sent you to kill me!",
+      "no": [ "What do you want?", "Why are you here?" ]
+    },
+    "responses": [
+      {
+        "text": "I am here to cure you from your vampirism.",
+        "topic": "TALK_VAMPIRE_MISSION_TARGET_CURE",
+        "condition": {
+          "and": [
+            { "npc_has_any_trait": [ "VAMPIRE_REASON_UNWILLING", "VAMPIRE_REASON_DELUDED" ] },
+            { "u_has_item": "blood_treatment" }
+          ]
+        }
+      },
+      {
+        "text": "I am here to cure you from your vampirism.",
+        "topic": "TALK_VAMPIRE_MISSION_TARGET_CURE_REFUSE",
+        "condition": { "and": [ { "npc_has_trait": "VAMPIRE_REASON_POWER_HUNGRY" }, { "u_has_item": "blood_treatment" } ] }
+      },
+      {
+        "text": "I am here to kill you.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_any_trait": [ "VAMPIRE_REASON_UNWILLING", "VAMPIRE_REASON_POWER_HUNGRY", "VAMPIRE_REASON_DELUDED" ] },
+        "effect": "hostile"
+      },
+      {
+        "text": "…",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_trait": "VAMPIRE_REASON_VENGEFUL" },
+        "effect": "hostile"
+      },
+      {
+        "text": "I'm just passing.  Bye.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_any_trait": [ "VAMPIRE_REASON_UNWILLING", "VAMPIRE_REASON_DELUDED" ] }
+      },
+      {
+        "text": "I'm just passing.  Bye.",
+        "topic": "TALK_VAMPIRE_MISSION_TARGET_POWER_HUNGRY_ATTACK",
+        "condition": { "npc_has_trait": "VAMPIRE_REASON_POWER_HUNGRY" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_MISSION_TARGET_CURE",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_has_trait": "VAMPIRE_REASON_DELUDED",
+      "yes": "Why would I want that?  Being a vampire is great!  If you try to cure me, you're good as dead.",
+      "no": "Yes, please cure me!"
+    },
+    "responses": [
+      {
+        "text": "Being a vampire is not great.  It's something you don't want to become.",
+        "trial": { "type": "PERSUADE", "difficulty": 10 },
+        "condition": { "npc_has_trait": "VAMPIRE_REASON_DELUDED" },
+        "success": { "topic": "TALK_VAMPIRE_MISSION_TARGET_CURE_CONVINCED" },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      },
+      {
+        "text": "Vampire hunters are great at killing vampires.  Do you want to be another name on their kill list?",
+        "trial": { "type": "INTIMIDATE", "difficulty": 10 },
+        "condition": { "npc_has_trait": "VAMPIRE_REASON_DELUDED" },
+        "success": { "topic": "TALK_VAMPIRE_MISSION_TARGET_CURE_CONVINCED" },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      },
+      {
+        "text": "You don't want the cure?  I'll kill you then.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_trait": "VAMPIRE_REASON_DELUDED" },
+        "effect": "hostile"
+      },
+      {
+        "text": "[Give them the cure]",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_trait": "VAMPIRE_REASON_UNWILLING" },
+        "effect": [
+          { "u_sell_item": "blood_treatment", "count": 1 },
+          { "u_add_var": "completed_hunter_cure_target", "value": "yes" },
+          { "npc_die": { "remove_corpse": true, "supress_message": true } },
+          { "u_message": "<npc_name> thanks you for the cure and departs.", "popup": true }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_MISSION_TARGET_CURE_REFUSE",
+    "type": "talk_topic",
+    "dynamic_line": "How insulting.  You still think you hunters can do anything against me?  I'll prove you wrong.",
+    "responses": [ { "text": "…", "topic": "TALK_DONE", "effect": "hostile" } ]
+  },
+  {
+    "id": "TALK_VAMPIRE_MISSION_TARGET_POWER_HUNGRY_ATTACK",
+    "type": "talk_topic",
+    "dynamic_line": "Insufficiently servile.  No matter, there are more servants elsewhere.",
+    "responses": [ { "text": "…", "topic": "TALK_DONE", "effect": "hostile" } ]
+  },
+  {
+    "id": "TALK_VAMPIRE_MISSION_TARGET_CURE_CONVINCED",
+    "type": "talk_topic",
+    "dynamic_line": "Okay, I'll take the cure.",
+    "responses": [
+      {
+        "text": "[Give them the cure]",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "u_sell_item": "blood_treatment", "count": 1 },
+          { "u_add_var": "completed_hunter_cure_target", "value": "yes" },
+          { "npc_die": { "remove_corpse": true, "supress_message": true } },
+          { "u_message": "<npc_name> reluctantly takes the cure and departs.", "popup": true }
+        ]
+      }
+    ]
+  }
+]

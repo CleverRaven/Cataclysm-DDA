@@ -121,7 +121,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water", 30 ], [ "water_clean", 30 ] ],
-      [ [ "wax_any", 6, "LIST" ], [ "any_tallow", 24, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
+      [ [ "wax_any", 6, "LIST" ], [ "any_tallow", 60, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
       [ [ "salt", 150 ] ]
     ],
     "proficiencies": [
@@ -186,7 +186,7 @@
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "water", 30 ], [ "water_clean", 30 ] ],
-      [ [ "wax_any", 6, "LIST" ], [ "any_tallow", 24, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
+      [ [ "wax_any", 6, "LIST" ], [ "any_tallow", 60, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
       [ [ "salt", 150 ] ],
       [ [ "bone_sturdy", 39, "LIST" ] ]
     ],
@@ -270,6 +270,7 @@
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_articulation" }
     ]
   },

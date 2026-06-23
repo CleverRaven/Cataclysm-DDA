@@ -1,3 +1,15 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Variants](#variants)
+  - [What variants cannot do](#what-variants-cannot-do)
+  - [Issues](#issues)
+  - [Criteria](#criteria)
+  - [Guns and drugs](#guns-and-drugs)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Variants
 
 Variants, added in [#51613](https://github.com/CleverRaven/Cataclysm-DDA/pull/51613) and [#46814](https://github.com/CleverRaven/Cataclysm-DDA/pull/46814) are CDDAs solution to allowing the same item have different names. It's used in guns to have generic or specific names changeable with a setting, or in items such as clothing to have lots of different colors without having a bunch of essentially duplicate entries for an item. They can be weighted, meaning different variants have a different chance of showing up when the base item is spawned. They're a great way to add extra variety to the game at a low cost to both effort, and file sizes. The information on how variants are defined shares the same doc as snippets, [here](../JSON/JSON_INFO.md#snippets).  This doc aims to provide contributors with a good idea of what is, and isn't acceptable as variants.

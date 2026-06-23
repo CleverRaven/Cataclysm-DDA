@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "indoor_tent_3x3_N",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -142,7 +141,10 @@
             { "item": "elbow_pads", "prob": 1 },
             { "item": "legpouch_large", "prob": 1 },
             { "item": "gloves_tactical", "prob": 1 },
-            { "item": "molle_pack", "prob": 1 }
+            { "item": "molle_pack", "prob": 1 },
+            { "item": "military_poncho", "prob": 1 },
+            { "item": "military_poncho_heavy", "prob": 1 },
+            { "item": "military_poncho_liner", "prob": 1 }
           ]
         },
         "repeat": [ 1, 3 ],
@@ -238,7 +240,10 @@
             { "item": "legpouch_large", "prob": 1 },
             { "item": "gloves_tactical", "prob": 1 },
             { "group": "molle_backpacks_and_accessories", "prob": 1 },
-            { "group": "loaded_lbv", "prob": 1 }
+            { "group": "loaded_lbv", "prob": 1 },
+            { "item": "military_poncho", "prob": 1 },
+            { "item": "military_poncho_heavy", "prob": 1 },
+            { "item": "military_poncho_liner", "prob": 1 }
           ]
         },
         "repeat": [ 1, 3 ],
@@ -335,7 +340,10 @@
             { "item": "elbow_pads", "prob": 1 },
             { "item": "legpouch_large", "prob": 1 },
             { "item": "gloves_tactical", "prob": 1 },
-            { "item": "molle_pack", "prob": 1 }
+            { "item": "molle_pack", "prob": 1 },
+            { "item": "military_poncho", "prob": 1 },
+            { "item": "military_poncho_heavy", "prob": 1 },
+            { "item": "military_poncho_liner", "prob": 1 }
           ]
         },
         "repeat": [ 1, 3 ],

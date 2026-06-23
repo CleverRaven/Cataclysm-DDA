@@ -169,7 +169,7 @@
     "id": "TALK_GODCO_Julian_Join",
     "dynamic_line": "Aight, here are the rules: don't commit sins, don't litter, and try not to die.  Have some mutual respect, capiche?",
     "responses": [
-      { "text": "Got it.", "topic": "TALK_GODCO_Julian_Joinee" },
+      { "text": "Got it.", "topic": "TALK_GODCO_Julian_Joinee", "effect": { "u_set_fac_relation": "share public goods" } },
       { "text": "Actually, <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },

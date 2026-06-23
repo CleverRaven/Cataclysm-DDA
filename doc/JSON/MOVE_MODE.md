@@ -1,3 +1,29 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Movement Modes](#movement-modes)
+  - [definition](#definition)
+    - [`type`](#type)
+    - [`id`](#id)
+    - [`character`](#character)
+    - [`panel_char`](#panel_char)
+    - [`name`](#name)
+    - [`panel_color`](#panel_color)
+    - [`symbol_color`](#symbol_color)
+    - [`exertion_level`](#exertion_level)
+    - [`change_good_x`](#change_good_x)
+    - [`change_bad_x`](#change_bad_x)
+    - [`move_type`](#move_type)
+    - [`stamina_multiplier`](#stamina_multiplier)
+    - [`sound_multiplier`](#sound_multiplier)
+    - [`move_speed_multiplier`](#move_speed_multiplier)
+    - [`mech_power_use`](#mech_power_use)
+    - [`swim_speed_mod`](#swim_speed_mod)
+    - [`stop_hauling`](#stop_hauling)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Movement Modes
 
 ## definition
@@ -12,6 +38,9 @@
   "panel_color": "light_green",
   "symbol_color": "light_green",
   "exertion_level": "EXTRA_EXERCISE",
+  "prepare_none": "You eye the ground and wonder how to miss it",
+  "prepare_animal": "Your horse is growing some wings",
+  "prepare_mech": "Your mechs jetpack is warming up",
   "change_good_none": "You throw yourself at the ground, and miss.",
   "change_good_animal": "You steer your steed into a... fly?",
   "change_good_mech": "You enable your mech's jetpack unit.",
@@ -58,6 +87,13 @@ MODERATE_EXERCISE
 ACTIVE_EXERCISE
 EXTRA_EXERCISE
 ```
+
+### `prepare_x`
+Mandatory. The message given when the character switches their desired mode to this move mode, before any action is taken.
+There are three values for x: `none`, `animal`, and `mech`.
+- `none` is the message given when the character is not mounted.
+- `animal` is the message given when riding an animal.
+- `mech` is the message given when in a mech.
 
 ### `change_good_x`
 Mandatory. The message given when the character switches to this move mode.

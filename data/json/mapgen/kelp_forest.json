@@ -9,7 +9,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "kelp_forest",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -31,7 +30,6 @@
   {
     "om_terrain": "kelp_forest_core",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "ocean_bed",
       "rows": [
@@ -67,7 +65,6 @@
   {
     "om_terrain": "kelp_forest_end",
     "type": "mapgen",
-    "method": "json",
     "weight": 10,
     "object": {
       "fallback_predecessor_mapgen": "ocean_bed",
@@ -104,7 +101,6 @@
   {
     "om_terrain": "kelp_forest_end",
     "type": "mapgen",
-    "method": "json",
     "weight": 2,
     "object": {
       "fallback_predecessor_mapgen": "ocean_bed",
@@ -141,7 +137,6 @@
   {
     "om_terrain": "kelp_forest_end",
     "type": "mapgen",
-    "method": "json",
     "weight": 2,
     "object": {
       "fallback_predecessor_mapgen": "ocean_bed",

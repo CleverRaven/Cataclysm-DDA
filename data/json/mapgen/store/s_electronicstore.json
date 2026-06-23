@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_electronicstore" ],
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -38,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_electronicstore_2ndfloor" ],
     "object": {
       "fill_ter": "t_floor",
@@ -107,7 +105,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_electronicstore_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",

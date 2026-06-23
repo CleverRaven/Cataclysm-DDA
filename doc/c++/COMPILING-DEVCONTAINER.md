@@ -1,3 +1,14 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Compilation guide for devcontainers in Visual Studio Code](#compilation-guide-for-devcontainers-in-visual-studio-code)
+  - [Prerequisites:](#prerequisites)
+  - [Installation:](#installation)
+- [Cross-compiling from Linux to Windows](#cross-compiling-from-linux-to-windows)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Compilation guide for devcontainers in Visual Studio Code
 
 This guide contains instructions for compiling Cataclysm-DDA in Visual Studio Code using a [Devcontainer](https://code.visualstudio.com/learn/develop-cloud/containers)
@@ -17,13 +28,7 @@ The devcontainer was introduced in [#65748](https://github.com/CleverRaven/Catac
 3. Add CleverRaven as the remote upstream with git remote add upstream git@github.com:CleverRaven/Cataclysm-DDA.git
 4. Open the folder where you cloned your repository in Visual Studio Code via the UI or by navigating to the directory in a terminal and typing Code
 5. Visual Studio Code will show a pup-up in the bottom right with recommended extensions. Install those.
-6. If you don't plan to compile the object creator, open the Dockerfile in the VSCode file browser and scroll down to find this section:
-  ![Image showing the uncommented part of the dockerfile](../img/Devcontainer-Find-Uncommented-Linux-QT5-Libs.png)
-
-  comment out that part so it looks like this:
-  ![Image showing the uncommented part of the dockerfile](../img/Devcontainer-Commented-Out-Qt5-Linux-Libs.png)
-
-If you don't plan to cross-compile the game, scroll down to find this section:
+6. If you don't plan to cross-compile the game, scroll down to find this section:
 
   ![Image showing the uncommented part of the dockerfile](../img/Devcontainer-Uncomment-Windows-Part-In-Dockerfile.png)
 
@@ -96,32 +101,4 @@ You can then test your build on your linux machine by opening a terminal in the 
   
   Next, press the play button to build the game. After it is build, you should see the cataclysm-tiles.exe file in the folder where you cloned your fork to (e.g. /workspaces/Cataclysm-DDA)
 
-
-
-# Cross-compiling object creator from Linux to Windows
-These steps allow you to cross-compile the object creator from Linux to Windows
-
-1. Follow all of the steps written earlier in this guide
-
-2. Open the Dockerfile in the VSCode file browser and scroll down to find this section:
-
-  ![Image showing the commented part of the dockerfile](../img/Devcontainer-Find-Commented-QT5-Commands-In-Dockerfile.png)
-
-  Uncomment that part (select it and press ctrl+/ in vscode) so it looks like this:
-  
-  ![Image showing the uncommented part of the dockerfile](../img/Devcontainer-Uncomment-QT5-Part-In-Dockerfile.png)
-
-3. Save the Dockerfile and re-open VSCode. Allow the Devcontainer to rebuild. This is going to take a while (45 minutes depending on the performance of your computer)
-
-  ![Image showing prompt to rebuild the devcontainer](../img/Devcontainer-Dockerfile-Changed-Prompt-Click-Rebuild.png)
-
-4. After the devcontainer is build, enter the following command into the terminal in vscode (you may need to click the + sign to open a new terminal): `make object_creator.exe CROSS="/opt/mxe/usr/bin/x86_64-w64-mingw32.static-" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 PREFIX=output PCH=0 MXE_TARGETS='x86_64-w64-mingw32.static'`
-
-  ![Image showing prompt to rebuild the devcontainer](../img/Devcontainer-Enter-Build-Command-Object-Creator-Terminal.png)
-
-  Note: This will only work if you first build the windows version of cataclysm-tiles as described in [Cross-compiling from Linux to Windows](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/COMPILING/COMPILING-DEVCONTAINER.md#cross-compiling-from-linux-to-windows).
-
-  Note 2: If you want to make a clean built, enter `make clean-object_creator` in the terminal before you run the build command.
-
-  This will build the object creator. After it is build, you should see the object_creator.exe file object_creator folder inside the folder where you cloned your fork to (e.g. /workspaces/Cataclysm-DDA/object_creator). Copy /object_creator/object_creator.exe to your windows machine in the same folder as cataclysm-tiles.exe
 

@@ -1,0 +1,121 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XW_CHIRURGEONS_ATTACK",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": {
+      "and": [ { "not": "is_day" }, { "or": [ { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ] } ]
+    },
+    "effect": [
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_monsters_nearby('radius': 30) == 0" ] },
+            { "math": [ "u_characters_nearby('radius': 20, 'attitude': 'allies') == 0" ] }
+          ]
+        },
+        "then": [
+          {
+            "if": { "and": [ { "u_at_om_location": "forest" }, { "x_in_y_chance": { "x": 1, "y": 250000 } } ] },
+            "then": [
+              { "u_message": "Shadows suddenly move around you under the boughs of the trees.", "popup": true },
+              {
+                "u_spawn_monster": "mon_xw_chirurgeon",
+                "real_count": { "math": [ "rand(2) + 3" ] },
+                "outdoor_only": true,
+                "min_radius": 8,
+                "max_radius": 20,
+                "lifespan": [ "10 minutes", "15 minutes" ]
+              }
+            ]
+          },
+          {
+            "if": { "and": [ { "u_at_om_location": "forest_thick" }, { "x_in_y_chance": { "x": 1, "y": 75000 } } ] },
+            "then": [
+              { "u_message": "Shadows suddenly move around you under the boughs of the trees.", "popup": true },
+              {
+                "u_spawn_monster": "mon_xw_chirurgeon",
+                "real_count": { "math": [ "rand(2) + 3" ] },
+                "outdoor_only": true,
+                "min_radius": 8,
+                "max_radius": 20,
+                "lifespan": [ "10 minutes", "15 minutes" ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XW_KILLED_BY_CHIRURGEONS",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "u_has_effect": "effect_mon_xw_chirurgeon_tracker" },
+    "effect": [
+      "u_prevent_death",
+      {
+        "u_message": "You collapse to the ground as darkness creeps in across your vision and the pain grows more and more distant.  The last thing you see are the cloaked forms closing in around you and reaching for you with their clawed hands.",
+        "popup": true
+      },
+      { "math": [ "u_vitamin('redcells') = 0" ] },
+      { "math": [ "u_vitamin('blood') = 0" ] },
+      { "math": [ "u_pain() = 0" ] },
+      { "u_lose_effect": [ "bleed", "dazed", "stunned" ] },
+      { "math": [ "u_hp('ALL_MINOR') = 999" ] },
+      { "math": [ "u_hp('torso') = max( u_hp('torso'), 15)" ] },
+      { "math": [ "u_hp('head') = max( u_hp('head'), 15)" ] },
+      { "math": [ "u_hp('arm_l') = max( u_hp('arm_l'), 15)" ] },
+      { "math": [ "u_hp('arm_r') = max( u_hp('arm_r'), 15)" ] },
+      { "math": [ "u_hp('leg_l') = max( u_hp('leg_l'), 15)" ] },
+      { "math": [ "u_hp('leg_r') = max( u_hp('leg_r'), 15)" ] },
+      {
+        "u_location_variable": { "context_val": "chirurgeon_teleport" },
+        "target_params": { "om_terrain": "forest_thick", "search_range": 250, "min_distance": 45, "z": 0, "random": true }
+      },
+      { "u_add_effect": "effect_mon_xw_chirurgeon_sleeper", "duration": "8 hours" },
+      { "math": [ "_chirurgeons_iterations = rand(3) + 1" ] },
+      { "message": "You will gain <context_val:chirurgeons_iterations> mutations.", "type": "debug" },
+      { "u_teleport": { "context_val": "chirurgeon_teleport" } },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_XW_KILLED_BY_CHIRURGEONS_MUTATE",
+            "effect": [
+              { "set_string_var": "<random_category>", "target_var": { "context_val": "dart_mutation_category" }, "parse_tags": true },
+              { "message": "Mutation category is <context_val:dart_mutation_category>.", "type": "debug" },
+              {
+                "u_mutate_category": { "context_val": "dart_mutation_category" },
+                "use_vitamins": false,
+                "true_random": true
+              }
+            ]
+          }
+        ],
+        "iterations": { "math": [ "_chirurgeons_iterations" ] }
+      },
+      { "math": [ "u_val('sleepiness') += 250" ] },
+      { "u_add_effect": "sleep", "duration": "6 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XW_KILLED_BY_CHIRURGEONS_AWAKEN",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_mon_xw_chirurgeon_sleeper" },
+        { "compare_string": [ "sleep", { "context_val": "effect" } ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Time passes before you wake up.  You don't know how much.  When you finally do awaken, you're in an unfamiliar part of the forest, and something about you is different.",
+        "popup": true
+      },
+      { "u_lose_effect": "effect_mon_xw_chirurgeon_sleeper" }
+    ]
+  }
+]
