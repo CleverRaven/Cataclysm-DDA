@@ -45,6 +45,11 @@
     "parts": [ { "x": 0, "y": 0, "parts": [ "pedal_extenders" ] } ]
   },
   {
+    "abstract": "car_abstract_no_items_1_missing_wheel_dwarf_modded",
+    "type": "vehicle",
+    "copy-from": "car_abstract_no_items_1_missing_wheel"
+  },
+  {
     "abstract": "car_abstract_dwarf_modded",
     "type": "vehicle",
     "copy-from": "car_abstract_no_items_1_missing_wheel_dwarf_modded",
