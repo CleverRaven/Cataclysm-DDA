@@ -110,14 +110,12 @@ struct timed_event {
     void per_turn();
 
     template<typename T>
-    const T *get_data() const
-    {
+    const T *get_data() const {
         return static_cast<const T *>( data.get() );
     }
 
     template<typename T>
-    T *get_data()
-    {
+    T *get_data() {
         return static_cast<T *>( data.get() );
     }
 };
