@@ -849,20 +849,153 @@
     "type": "effect_on_condition",
     "id": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
     "effect": [
-      { "u_deactivate_trait": "POOKA_ANTLERS" },
-      { "u_deactivate_trait": "POOKA_HORNS" },
-      { "u_deactivate_trait": "POOKA_FANGS" },
-      { "u_deactivate_trait": "POOKA_SABER_TEETH" },
-      { "u_deactivate_trait": "POOKA_WOLF_EARS" },
-      { "u_deactivate_trait": "POOKA_FELINE_EARS" },
-      { "u_deactivate_trait": "POOKA_CLAWS" },
-      { "u_deactivate_trait": "POOKA_STAINLESS_CLAWS" },
-      { "u_deactivate_trait": "POOKA_URSINE_FUR" },
-      { "u_deactivate_trait": "POOKA_CHITIN" },
-      { "u_deactivate_trait": "POOKA_QUADRUPED" },
-      { "u_deactivate_trait": "POOKA_LEAPING_LEGS" },
-      { "u_deactivate_trait": "POOKA_WOLF_TAIL" },
-      { "u_deactivate_trait": "POOKA_TAIL_LONG" },
+      {
+		    "run_eocs": [
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_ANTLERS",
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_HORNS",
+		    	"EOC_POOKA_SHAPESHIFTS_DEACTIVATE_FANGS",
+	    		"EOC_POOKA_SHAPESHIFTS_DEACTIVATE_SABER_TEETH",
+	    		"EOC_POOKA_SHAPESHIFTS_DEACTIVATE_WOLF_EARS",
+		    	"EOC_POOKA_SHAPESHIFTS_DEACTIVATE_FELINE_EARS",
+		    	"EOC_POOKA_SHAPESHIFTS_DEACTIVATE_CLAWS",
+		    	"EOC_POOKA_SHAPESHIFTS_DEACTIVATE_STAINLESS_CLAWS",
+		    	"EOC_POOKA_SHAPESHIFTS_DEACTIVATE_URSINE_FUR",
+		    	"EOC_POOKA_SHAPESHIFTS_DEACTIVATE_CHITIN",
+		    	"EOC_POOKA_SHAPESHIFTS_DEACTIVATE_QUADRUPED",
+		    	"EOC_POOKA_SHAPESHIFTS_DEACTIVATE_LEAPING_LEGS",
+		    	"EOC_POOKA_SHAPESHIFTS_DEACTIVATE_SKUNK_TAIL",
+	    		"EOC_POOKA_SHAPESHIFTS_DEACTIVATE_WOLF_TAIL",
+	    		"EOC_POOKA_SHAPESHIFTS_DEACTIVATE_TAIL_LONG",
+	    		"EOC_POOKA_SHAPESHIFTS_DEACTIVATE_TAIL_STING"
+		    ]
+	    }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_ANTLERS",
+    "condition": { "u_has_trait": "POOKA_ANTLERS" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_ANTLERS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_HORNS",
+    "condition": { "u_has_trait": "POOKA_HORNS" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_HORNS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_FANGS",
+    "condition": { "u_has_trait": "POOKA_FANGS" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_FANGS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_SABER_TEETH",
+    "condition": { "u_has_trait": "POOKA_SABER_TEETH" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_SABER_TEETH" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_WOLF_EARS",
+    "condition": { "u_has_trait": "POOKA_WOLF_EARS" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_WOLF_EARS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_FELINE_EARS",
+    "condition": { "u_has_trait": "POOKA_FELINE_EARS" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_FELINE_EARS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_CLAWS",
+    "condition": { "u_has_trait": "POOKA_CLAWS" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_CLAWS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_STAINLESS_CLAWS",
+    "condition": { "u_has_trait": "POOKA_STAINLESS_CLAWS" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_STAINLESS_CLAWS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_URSINE_FUR",
+    "condition": { "u_has_trait": "POOKA_URSINE_FUR" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_URSINE_FUR" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_CHITIN",
+    "condition": { "u_has_trait": "POOKA_CHITIN" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_CHITIN" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_QUADRUPED",
+    "condition": { "u_has_trait": "POOKA_QUADRUPED" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_QUADRUPED" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_LEAPING_LEGS",
+    "condition": { "u_has_trait": "POOKA_LEAPING_LEGS" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_LEAPING_LEGS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_SKUNK_TAIL",
+    "condition": { "u_has_trait": "POOKA_SKUNK_TAIL" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_SKUNK_TAIL" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_WOLF_TAIL",
+    "condition": { "u_has_trait": "POOKA_WOLF_TAIL" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_WOLF_TAIL" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_TAIL_LONG",
+    "condition": { "u_has_trait": "POOKA_TAIL_LONG" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_TAIL_LONG" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_TAIL_STING",
+    "condition": { "u_has_trait": "POOKA_TAIL_STING" },
+    "effect": [
       { "u_deactivate_trait": "POOKA_TAIL_STING" }
     ]
   },
@@ -870,7 +1003,7 @@
     "type": "effect_on_condition",
     "id": "EOC_POOKA_ANTLERS_ON",
     "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
-    "effect": [ { "u_deactivate_trait": "POOKA_HORNS" }, { "u_add_trait": "ANTLERS" } ],
+    "effect": [ { "run_eocs": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_HORNS" }, { "u_add_trait": "ANTLERS" } ],
     "false_effect": [
       {
         "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
@@ -888,7 +1021,7 @@
     "type": "effect_on_condition",
     "id": "EOC_POOKA_HORNS_ON",
     "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
-    "effect": [ { "u_deactivate_trait": "POOKA_ANTLERS" }, { "u_add_trait": "HORNS_CURLED" } ],
+    "effect": [ { "run_eocs": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_ANTLERS" }, { "u_add_trait": "HORNS_CURLED" } ],
     "false_effect": [
       {
         "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
@@ -942,7 +1075,7 @@
     "type": "effect_on_condition",
     "id": "EOC_POOKA_WOLF_EARS_ON",
     "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
-    "effect": [ { "u_lose_trait": "ELFA_EARS" }, { "u_deactivate_trait": "POOKA_FELINE_EARS" }, { "u_add_trait": "LUPINE_EARS" } ],
+    "effect": [ { "u_lose_trait": "ELFA_EARS" }, { "run_eocs": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_FELINE_EARS" }, { "u_add_trait": "LUPINE_EARS" } ],
     "false_effect": [
       {
         "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
@@ -960,7 +1093,7 @@
     "type": "effect_on_condition",
     "id": "EOC_POOKA_FELINE_EARS_ON",
     "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
-    "effect": [ { "u_lose_trait": "ELFA_EARS" }, { "u_deactivate_trait": "POOKA_WOLF_EARS" }, { "u_add_trait": "FELINE_EARS" } ],
+    "effect": [ { "u_lose_trait": "ELFA_EARS" }, { "run_eocs": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_WOLF_EARS" }, { "u_add_trait": "FELINE_EARS" } ],
     "false_effect": [
       {
         "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
@@ -1032,7 +1165,7 @@
     "type": "effect_on_condition",
     "id": "EOC_POOKA_URSINE_FUR_ON",
     "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
-    "effect": [ { "u_deactivate_trait": "POOKA_CHITIN" }, { "u_add_trait": "URSINE_FUR" } ],
+    "effect": [ { "run_eocs": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_CHITIN" }, { "u_add_trait": "URSINE_FUR" } ],
     "false_effect": [
       {
         "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
@@ -1050,7 +1183,7 @@
     "type": "effect_on_condition",
     "id": "EOC_POOKA_CHITIN_ON",
     "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
-    "effect": [ { "u_deactivate_trait": "POOKA_URSINE_FUR" }, { "u_add_trait": "CHITIN2" } ],
+    "effect": [ { "run_eocs": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_URSINE_FUR" }, { "u_add_trait": "CHITIN2" } ],
     "false_effect": [
       {
         "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
@@ -1068,7 +1201,7 @@
     "type": "effect_on_condition",
     "id": "EOC_POOKA_QUADRUPED_ON",
     "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
-    "effect": [ { "u_deactivate_trait": "POOKA_LEAPING_LEGS" }, { "u_add_trait": "POOKA_QUADRUPED_TRAITS" } ],
+    "effect": [ { "run_eocs": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_LEAPING_LEGS" }, { "u_add_trait": "POOKA_QUADRUPED_TRAITS" } ],
     "false_effect": [
       {
         "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
@@ -1086,7 +1219,7 @@
     "type": "effect_on_condition",
     "id": "EOC_POOKA_LEAPING_LEGS_ON",
     "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
-    "effect": [ { "u_deactivate_trait": "POOKA_QUADRUPED_TRAITS" }, { "u_add_trait": "LEAPING_LEGS" } ],
+    "effect": [ { "run_eocs": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_QUADRUPED" }, { "u_add_trait": "LEAPING_LEGS" } ],
     "false_effect": [
       {
         "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
@@ -1105,9 +1238,13 @@
     "id": "EOC_POOKA_SKUNK_TAIL_ON",
     "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
     "effect": [
-      { "u_deactivate_trait": "POOKA_TAIL_LONG" },
-      { "u_deactivate_trait": "POOKA_TAIL_STING" },
-      { "u_deactivate_trait": "POOKA_TAIL_FLUFFY" },
+      {
+		    "run_eocs": [
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_TAIL_LONG", 
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_TAIL_STING", 
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_WOLF_TAIL" 
+		    ]
+	    },
       { "u_add_trait": "TAIL_SKUNK" }
     ],
     "false_effect": [
@@ -1128,9 +1265,13 @@
     "id": "EOC_POOKA_WOLF_TAIL_ON",
     "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
     "effect": [
-      { "u_deactivate_trait": "POOKA_TAIL_LONG" },
-      { "u_deactivate_trait": "POOKA_TAIL_STING" },
-      { "u_deactivate_trait": "TAIL_SKUNK" },
+      {
+		    "run_eocs": [
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_TAIL_LONG", 
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_TAIL_STING", 
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_SKUNK_TAIL" 
+		    ]
+	    },
       { "u_add_trait": "TAIL_FLUFFY" }
     ],
     "false_effect": [
@@ -1151,9 +1292,13 @@
     "id": "EOC_POOKA_TAIL_LONG_ON",
     "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
     "effect": [
-      { "u_deactivate_trait": "POOKA_WOLF_TAIL" },
-      { "u_deactivate_trait": "POOKA_TAIL_STING" },
-      { "u_deactivate_trait": "POOKA_SKUNK_TAIL" },
+      {
+		    "run_eocs": [
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_WOLF_TAIL", 
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_TAIL_STING", 
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_SKUNK_TAIL" 
+		    ]
+	    },
       { "u_add_trait": "TAIL_LONG" }
     ],
     "false_effect": [
@@ -1174,9 +1319,13 @@
     "id": "EOC_POOKA_TAIL_STING_ON",
     "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
     "effect": [
-      { "u_deactivate_trait": "POOKA_WOLF_TAIL" },
-      { "u_deactivate_trait": "POOKA_TAIL_LONG" },
-      { "u_deactivate_trait": "TAIL_SKUNK" },
+      {
+		    "run_eocs": [
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_WOLF_TAIL", 
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_TAIL_LONG", 
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_SKUNK_TAIL" 
+		    ]
+	    },
       { "u_add_trait": "TAIL_STING" }
     ],
     "false_effect": [
@@ -1228,11 +1377,63 @@
     "condition": { "math": [ "u_val('mana') >= 2" ] },
     "effect": [ { "math": [ "u_val('mana') -= 1" ] } ],
     "false_effect": [
-      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BAT" },
-      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_RAVEN" },
-      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BEAR" },
-      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_DEER" },
-      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_WOLF" },
+	    {
+		    "run_eocs": [
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_FULL_BAT",
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_FULL_RAVEN",
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_FULL_BEAR",
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_FULL_DEER",
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_FULL_WOLF",
+			    "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_FULL_COUGAR"
+		    ]
+	    }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_FULL_BAT",
+    "condition": { "u_has_trait": "POOKA_SHAPESHIFT_FULL_BAT" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BAT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_FULL_RAVEN",
+    "condition": { "u_has_trait": "POOKA_SHAPESHIFT_FULL_RAVEN" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_RAVEN" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_FULL_BEAR",
+    "condition": { "u_has_trait": "POOKA_SHAPESHIFT_FULL_BEAR" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BEAR" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_FULL_DEER",
+    "condition": { "u_has_trait": "POOKA_SHAPESHIFT_FULL_DEER" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_DEER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_FULL_WOLF",
+    "condition": { "u_has_trait": "POOKA_SHAPESHIFT_FULL_WOLF" },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_WOLF" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_DEACTIVATE_FULL_COUGAR",
+    "condition": { "u_has_trait": "POOKA_SHAPESHIFT_FULL_COUGAR" },
+    "effect": [
       { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_COUGAR" }
     ]
   },
