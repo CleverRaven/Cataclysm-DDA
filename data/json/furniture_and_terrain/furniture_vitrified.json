@@ -461,7 +461,7 @@
     "id": "f_vitrified_sink",
     "name": "black glass sink",
     "symbol": "&",
-    "description": "A glass basin and tap.  The inside stops halfway down in sheet of concentric ripples, with the tiny spire of a splashing droplet at the center ",
+    "description": "A glass basin and tap.  The inside stops halfway down in sheet of concentric ripples, with the tiny spire of a splashing droplet at the center.",
     "color": "dark_gray",
     "move_cost_mod": 2,
     "coverage": 60,
