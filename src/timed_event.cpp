@@ -416,8 +416,8 @@ void timed_event::actualize()
             }
             const timed_event_target_data *target_data = get_data<timed_event_target_data>();
             if( target_data == nullptr || target_data->target.is_invalid() ) {
-                add_mortar_impact_report( report_mode, recipient,
-                                          string_format( _( "Splash %s." ), cue ) );
+                add_msg_debug( debugmode::DF_NPC,
+                               "Mortar impact message ignored: missing target payload." );
                 break;
             }
 
@@ -509,8 +509,13 @@ void timed_event::actualize()
 
         case timed_event_type::MORTAR_FIELD: {
             const mortar_field_event_data *field_data = get_data<mortar_field_event_data>();
-            const int radius = field_data == nullptr ? 0 : std::max( 0, field_data->radius );
-            const int age_seconds = field_data == nullptr ? 0 : field_data->age_seconds;
+            if( field_data == nullptr ) {
+                add_msg_debug( debugmode::DF_NPC,
+                               "Mortar field event ignored: missing event payload." );
+                break;
+            }
+            const int radius = std::max( 0, field_data->radius );
+            const int age_seconds = field_data->age_seconds;
             const time_duration age = age_seconds == 0 ? 0_turns :
                                       -time_duration::from_seconds( age_seconds );
             const field_type_str_id field_type( string_id );
