@@ -1,19 +1,28 @@
 #include "mortar.h"
 
 #include <algorithm>
+#include <bitset>
 #include <cmath>
 #include <cstdlib>
 #include <limits>
 #include <unordered_map>
 #include <utility>
 
+#include "ammo_effect.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "debug.h"
+#include "flag.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "item.h"
+#include "itype.h"
+#include "map.h"
+#include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "point.h"
 #include "rng.h"
+#include "timed_event.h"
 
 namespace
 {
@@ -29,6 +38,23 @@ constexpr double mortar_min_skill_error_multiplier = 3.0;
 constexpr double mortar_multiplier_soft_cap_threshold = 10.0;
 constexpr double mortar_multiplier_hard_cap = 70.0;
 constexpr double mortar_multiplier_above_soft_cap_scale = 0.5;
+constexpr double mortar_weather_error_multiplier = 3.0;
+constexpr double mortar_no_tactical_data_error_multiplier = 3.0;
+constexpr double mortar_no_proficiency_error_multiplier = 4.0;
+constexpr double mortar_binocular_reference_multiplier = 1.5;
+constexpr double mortar_laser_rangefinder_sensor_multiplier = 1.8;
+constexpr double mortar_laser_rangefinder_axis_multiplier = 0.5;
+constexpr int mortar_laser_rangefinder_range = 2000;
+constexpr float mortar_he_explosion_power_threshold = 100.0f;
+
+static const itype_id itype_60mm_shell_m721( "60mm_shell_m721" );
+static const itype_id itype_laser_rangefinder( "laser_rangefinder" );
+static const itype_id itype_mortar_fire_control_tablet( "mortar_fire_control_tablet" );
+static const itype_id itype_software_mortar_fire_control( "software_mortar_fire_control" );
+
+static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
+
+static const proficiency_id proficiency_prof_mortar_operation( "prof_mortar_operation" );
 
 int interpolate_flight_seconds( const int distance, const int lower_distance,
                                 const int lower_seconds, const int upper_distance,
@@ -333,6 +359,224 @@ mortar_creeping_solution mortar_creeping_adjustment( const tripoint_abs_ms &mort
                                      danger_close, offset_multiplier };
 }
 
+static bool mortar_item_has_fire_control( const item &it )
+{
+    if( it.typeId() == itype_mortar_fire_control_tablet ||
+        it.typeId() == itype_software_mortar_fire_control ) {
+        return true;
+    }
+    if( it.is_estorage() ) {
+        for( const item *software : it.softwares() ) {
+            if( software->typeId() == itype_software_mortar_fire_control ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool mortar_has_tactical_data_system( const Character &who, const tripoint_abs_ms &mortar_pos )
+{
+    if( who.cache_has_item_with( itype_mortar_fire_control_tablet ) ||
+        who.has_software( itype_software_mortar_fire_control ) ) {
+        return true;
+    }
+
+    map &here = get_map();
+    const tripoint_bub_ms mortar_bub = here.get_bub( mortar_pos );
+    if( !here.inbounds( mortar_bub ) ) {
+        return false;
+    }
+    for( const tripoint_bub_ms &pos : points_in_radius( mortar_bub, 1 ) ) {
+        if( !here.inbounds( pos ) ) {
+            continue;
+        }
+        for( const item &it : here.i_at( pos ) ) {
+            if( mortar_item_has_fire_control( it ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+static double mortar_proficiency_accuracy_multiplier( const Character &who )
+{
+    if( who.has_proficiency( proficiency_prof_mortar_operation ) ) {
+        return 1.0;
+    }
+    const double practiced = clamp<double>( who.get_proficiency_practice(
+            proficiency_prof_mortar_operation ), 0.0, 1.0 );
+    return 1.0 + ( mortar_no_proficiency_error_multiplier - 1.0 ) * ( 1.0 - practiced );
+}
+
+double mortar_fixed_accuracy_multiplier( const Character &who,
+        const tripoint_abs_ms &mortar_pos, const bool include_weather )
+{
+    return mortar_proficiency_accuracy_multiplier( who ) *
+           ( mortar_has_tactical_data_system( who, mortar_pos ) ? 1.0 :
+             mortar_no_tactical_data_error_multiplier ) *
+           ( include_weather ? mortar_weather_error_multiplier : 1.0 );
+}
+
+bool mortar_round_has_high_explosive_payload( const item &round )
+{
+    if( !round.ammo_data() ) {
+        return false;
+    }
+    for( const ammo_effect_str_id &ammo_eff : round.ammo_data()->ammo->ammo_effects ) {
+        if( ammo_eff.obj().aoe_explosion_data.power >= mortar_he_explosion_power_threshold ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool mortar_round_has_impact_payload( const item &round )
+{
+    if( round.typeId() == itype_60mm_shell_m721 ) {
+        return true;
+    }
+    if( !round.ammo_data() ) {
+        return false;
+    }
+    for( const ammo_effect_str_id &ammo_eff : round.ammo_data()->ammo->ammo_effects ) {
+        const ammo_effect &effect = ammo_eff.obj();
+        if( effect.aoe_explosion_data.power > 0 || !effect.aoe_field_types.empty() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+static bool mortar_has_charged_laser_rangefinder( const Character &spotter )
+{
+    return spotter.cache_has_item_with( itype_laser_rangefinder,
+    [&spotter]( const item & it ) {
+        return it.ammo_sufficient( &spotter );
+    } );
+}
+
+bool mortar_uses_laser_rangefinder( const Character &spotter, const tripoint_abs_ms &target )
+{
+    return rl_dist( spotter.pos_abs(), target ) <= mortar_laser_rangefinder_range &&
+           mortar_has_charged_laser_rangefinder( spotter );
+}
+
+static bool mortar_has_zoom_optic( const Character &spotter )
+{
+    if( spotter.cache_has_item_with( flag_ZOOM ) ) {
+        return true;
+    }
+    const auto gun_has_zoom_mod = []( const item & gun ) {
+        for( const item *mod : gun.gunmods() ) {
+            if( mod->has_flag( flag_ZOOM ) ) {
+                return true;
+            }
+        }
+        return false;
+    };
+    return spotter.cache_has_item_with( "mortar scoped gun", &item::is_gun, gun_has_zoom_mod );
+}
+
+static double mortar_soft_cap_sensor_multiplier( const double multiplier )
+{
+    if( multiplier <= 4.0 ) {
+        return multiplier;
+    }
+    return 4.0 + ( multiplier - 4.0 ) / ( 1.0 + multiplier - 4.0 );
+}
+
+double mortar_spotter_sensor_multiplier( const Character &spotter,
+        const std::optional<tripoint_abs_ms> &target )
+{
+    double multiplier = 1.0;
+    if( target && mortar_uses_laser_rangefinder( spotter, *target ) ) {
+        multiplier *= mortar_laser_rangefinder_sensor_multiplier;
+    } else if( mortar_has_zoom_optic( spotter ) ) {
+        multiplier *= mortar_binocular_reference_multiplier;
+    }
+    if( spotter.has_flag( json_flag_ENHANCED_VISION ) ) {
+        multiplier *= 1.4;
+    }
+
+    const std::bitset<NUM_VISION_MODES> &vision_modes = spotter.get_vision_modes();
+    if( vision_modes[VISION_CLAIRVOYANCE_SUPER] ) {
+        multiplier *= 1.8;
+    } else if( vision_modes[VISION_CLAIRVOYANCE_PLUS] ) {
+        multiplier *= 1.5;
+    } else if( vision_modes[VISION_CLAIRVOYANCE] ) {
+        multiplier *= 1.3;
+    }
+    if( vision_modes[NV_GOGGLES] ) {
+        multiplier *= 1.25;
+    } else if( vision_modes[NIGHTVISION_3] ) {
+        multiplier *= 1.3;
+    } else if( vision_modes[NIGHTVISION_2] ) {
+        multiplier *= 1.2;
+    } else if( vision_modes[NIGHTVISION_1] ) {
+        multiplier *= 1.1;
+    }
+    if( vision_modes[IR_VISION] ) {
+        multiplier *= 1.2;
+    }
+
+    multiplier *= clamp<double>( spotter.hearing_ability(), 0.25, 1.8 );
+    return mortar_soft_cap_sensor_multiplier( multiplier );
+}
+
+double mortar_base_location_error( const Character &spotter, const tripoint_abs_ms &target )
+{
+    const double perception = clamp<double>( spotter.get_per(), 1.0, 10.0 );
+    double base = 0.0;
+    if( perception <= 5.0 ) {
+        base = 500.0 - ( perception - 1.0 ) * ( 250.0 / 4.0 );
+    } else {
+        base = 250.0 - ( perception - 5.0 ) * ( 100.0 / 5.0 );
+    }
+    return std::max( 1.0, base * mortar_binocular_reference_multiplier /
+                     mortar_spotter_sensor_multiplier( spotter, target ) );
+}
+
+mortar_location_error mortar_make_location_error( const Character &spotter,
+        const tripoint_abs_ms &target, const double cep )
+{
+    mortar_location_error error{ cep, cep };
+    if( mortar_uses_laser_rangefinder( spotter, target ) ) {
+        error.range *= mortar_laser_rangefinder_axis_multiplier;
+    }
+    return error;
+}
+
+bool mortar_schedule_impact_payload( const item &round, const tripoint_abs_ms &impact,
+                                     const time_point &when )
+{
+    bool scheduled = false;
+    if( round.typeId() == itype_60mm_shell_m721 ) {
+        const int illumination_duration = rng( 40, 60 );
+        get_timed_events().add_mortar_field( when, impact, 1, "fd_mortar_illumination", 0,
+                                             illumination_duration );
+        scheduled = true;
+    }
+    for( const ammo_effect_str_id &ammo_eff : round.ammo_data()->ammo->ammo_effects ) {
+        const ammo_effect &effect = ammo_eff.obj();
+        if( effect.aoe_explosion_data.power > 0 ) {
+            get_timed_events().add( timed_event_type::EXPLOSION,
+                                    when, impact, effect.aoe_explosion_data );
+            scheduled = true;
+        }
+        for( const aoe_field_effect &aoe : effect.aoe_field_types ) {
+            if( x_in_y( aoe.chance, 100 ) ) {
+                get_timed_events().add_mortar_field( when, impact,
+                                                     rng( aoe.intensity_min, aoe.intensity_max ),
+                                                     aoe.field_type.str(), aoe.radius );
+                scheduled = true;
+            }
+        }
+    }
+    return scheduled;
+}
+
 void mortar_type::load( const JsonObject &jo, std::string_view )
 {
     const numeric_bound_reader<int> positive_int{ 1 };
@@ -537,6 +781,19 @@ tripoint_abs_ms mortar_type::apply_location_error( const tripoint_abs_ms &target
     return apply_axis_dispersion( target, axis_from, axis_to,
                                   error.range / circular_cep_sigma_factor,
                                   error.deflection / circular_cep_sigma_factor );
+}
+
+tripoint_abs_ms mortar_type::roll_impact( const tripoint_abs_ms &fire_center,
+        const tripoint_abs_ms &mortar_pos, const tripoint_abs_ms &location_axis_from,
+        const tripoint_abs_ms &location_axis_to, const mortar_location_error &location_error,
+        const mortar_error &ballistic_error, tripoint_abs_ms *aimpoint ) const
+{
+    const tripoint_abs_ms aimpoint_result = apply_location_error( fire_center,
+                                           location_axis_from, location_axis_to, location_error );
+    if( aimpoint != nullptr ) {
+        *aimpoint = aimpoint_result;
+    }
+    return apply_dispersion( aimpoint_result, mortar_pos, fire_center, ballistic_error );
 }
 
 mortar_error mortar_type::project_location_error( const tripoint_abs_ms &axis_from,
