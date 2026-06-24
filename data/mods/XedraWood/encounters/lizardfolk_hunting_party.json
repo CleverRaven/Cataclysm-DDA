@@ -7,18 +7,19 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XEDRAWOOD_LIZARDFOLK_HUNTING_PARTY_SWAMP_RANDENC",
-    "recurrence": 21600,
+    "recurrence": 1,
     "global": true,
-    "condition": { "math": [ "RandEnc != 1" ] },
+    "condition": { "math": [ "XedraWood_RandEnc != 1" ] },
     "effect": [
       { "set_condition": "random_enc_condition", "condition": { "not": { "is_season": "winter" } } },
+      { "u_message": "lizardfolk encounter has triggered!", "type": "debug" },
       {
-        "run_eocs": "EOC_RandEnc",
+        "run_eocs": "EOC_XedraWood_RandEnc",
         "variables": {
           "omt": "forest_water",
           "map_update": "nest_RandEnc_lizardfolk_hunting_party_add",
           "map_removal": "nest_RandEnc_lizardfolk_hunting_party_remove",
-          "chance": 10,
+          "chance": 1,
           "days_till_spawn": 0
         }
       }

@@ -7,7 +7,6 @@
     "name": { "str": "barbed javelin" },
     "description": "Fake gun that fires barbed javelins.",
     "flags": [ "NEVER_JAMS", "NONCONDUCTIVE", "NO_REPAIR", "WATERPROOF_GUN", "NO_SALVAGE", "NO_UNLOAD", "NO_TURRET" ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "rifle",
     "durability": 10,
     "range": 10,
@@ -34,7 +33,6 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 8,
     "ammo": [ "arrow" ],
