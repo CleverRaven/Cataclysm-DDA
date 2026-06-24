@@ -1,7 +1,6 @@
 
 #include <algorithm>
 #include <array>
-#include <bitset>
 #include <climits>
 #include <cmath>
 #include <cstddef>
@@ -26,7 +25,6 @@
 #include "action.h"
 #include "activity_actor_definitions.h"
 #include "ammo.h"
-#include "ammo_effect.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -179,16 +177,10 @@ static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_60mm_shell_m720a1( "60mm_shell_m720a1" );
-static const itype_id itype_60mm_shell_m721( "60mm_shell_m721" );
 static const itype_id itype_60mm_shell_m768( "60mm_shell_m768" );
 static const itype_id itype_eplrs_net_control_station( "eplrs_net_control_station" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
-static const itype_id itype_laser_rangefinder( "laser_rangefinder" );
-static const itype_id itype_mortar_fire_control_tablet( "mortar_fire_control_tablet" );
-static const itype_id itype_software_mortar_fire_control( "software_mortar_fire_control" );
-
-static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 
 static const proficiency_id proficiency_prof_mortar_operation( "prof_mortar_operation" );
 
@@ -6381,17 +6373,9 @@ void set_mortar_adjustment_tactic( npc &gunner, const mortar_adjustment_tactic t
     }
 }
 
-constexpr double mortar_weather_error_multiplier = 3.0;
-constexpr double mortar_no_tactical_data_error_multiplier = 3.0;
-constexpr double mortar_no_proficiency_error_multiplier = 4.0;
-constexpr double mortar_binocular_reference_multiplier = 1.5;
-constexpr double mortar_laser_rangefinder_sensor_multiplier = 1.8;
-constexpr double mortar_laser_rangefinder_axis_multiplier = 0.5;
 constexpr double mortar_laser_rangefinder_repeat_location_multiplier = 0.35;
 constexpr double mortar_eplrs_location_multiplier = 0.3;
-constexpr int mortar_laser_rangefinder_range = 2000;
 constexpr int mortar_eplrs_charges_per_use = 2;
-constexpr float mortar_he_explosion_power_threshold = 100.0f;
 constexpr double mortar_fire_for_effect_minimum_error_slack = 0.05;
 constexpr double mortar_no_wait_feedback_reduction_scale = 0.5;
 constexpr int mortar_report_mode_none = 0;
@@ -6452,57 +6436,6 @@ int mortar_report_mode( const Character &spotter, const npc &gunner )
     return mortar_report_mode_none;
 }
 
-bool item_has_mortar_fire_control( const item &it )
-{
-    if( it.typeId() == itype_mortar_fire_control_tablet ||
-        it.typeId() == itype_software_mortar_fire_control ) {
-        return true;
-    }
-    if( it.is_estorage() ) {
-        for( const item *software : it.softwares() ) {
-            if( software->typeId() == itype_software_mortar_fire_control ) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-bool mortar_has_tactical_data_system( const npc &gunner, const tripoint_abs_ms &mortar_pos )
-{
-    if( gunner.cache_has_item_with( itype_mortar_fire_control_tablet ) ||
-        gunner.has_software( itype_software_mortar_fire_control ) ) {
-        return true;
-    }
-
-    map &here = get_map();
-    const tripoint_bub_ms mortar_bub = here.get_bub( mortar_pos );
-    if( !here.inbounds( mortar_bub ) ) {
-        return false;
-    }
-    for( const tripoint_bub_ms &pos : points_in_radius( mortar_bub, 1 ) ) {
-        if( !here.inbounds( pos ) ) {
-            continue;
-        }
-        for( const item &it : here.i_at( pos ) ) {
-            if( item_has_mortar_fire_control( it ) ) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-double mortar_proficiency_accuracy_multiplier( const Character &gunner )
-{
-    if( gunner.has_proficiency( proficiency_prof_mortar_operation ) ) {
-        return 1.0;
-    }
-    const double practiced = clamp<double>( gunner.get_proficiency_practice(
-            proficiency_prof_mortar_operation ), 0.0, 1.0 );
-    return 1.0 + ( mortar_no_proficiency_error_multiplier - 1.0 ) * ( 1.0 - practiced );
-}
-
 double get_mortar_accuracy_multiplier( const npc &gunner )
 {
     const diag_value value = gunner.get_value( "mortar_current_accuracy_multiplier" );
@@ -6519,15 +6452,6 @@ double get_mortar_accuracy_multiplier( const npc &gunner )
 void set_mortar_accuracy_multiplier( npc &gunner, const double multiplier )
 {
     gunner.set_value( "mortar_current_accuracy_multiplier", std::max( 1.0, multiplier ) );
-}
-
-double mortar_fixed_accuracy_multiplier( const npc &gunner, const tripoint_abs_ms &mortar_pos,
-        const bool first_shot )
-{
-    return mortar_proficiency_accuracy_multiplier( gunner ) *
-           ( mortar_has_tactical_data_system( gunner, mortar_pos ) ? 1.0 :
-             mortar_no_tactical_data_error_multiplier ) *
-           ( first_shot ? mortar_weather_error_multiplier : 1.0 );
 }
 
 time_duration mortar_adjustment_downtime( const npc &gunner, const tripoint_abs_ms &mortar_pos )
@@ -6555,112 +6479,6 @@ double mortar_ammo_change_accuracy_penalty( const npc &gunner )
 void set_mortar_last_spot_observed( npc &gunner, const bool observed )
 {
     gunner.set_value( "mortar_last_spot_observed", observed ? 1 : 0 );
-}
-
-bool mortar_round_has_high_explosive_payload( const item &round )
-{
-    if( !round.ammo_data() ) {
-        return false;
-    }
-    for( const ammo_effect_str_id &ammo_eff : round.ammo_data()->ammo->ammo_effects ) {
-        if( ammo_eff.obj().aoe_explosion_data.power >= mortar_he_explosion_power_threshold ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool mortar_round_has_impact_payload( const item &round )
-{
-    if( round.typeId() == itype_60mm_shell_m721 ) {
-        return true;
-    }
-    if( !round.ammo_data() ) {
-        return false;
-    }
-    for( const ammo_effect_str_id &ammo_eff : round.ammo_data()->ammo->ammo_effects ) {
-        const ammo_effect &effect = ammo_eff.obj();
-        if( effect.aoe_explosion_data.power > 0 || !effect.aoe_field_types.empty() ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool mortar_has_charged_laser_rangefinder( const Character &spotter )
-{
-    return spotter.cache_has_item_with( itype_laser_rangefinder,
-    [&spotter]( const item & it ) {
-        return it.ammo_sufficient( &spotter );
-    } );
-}
-
-bool mortar_uses_laser_rangefinder( const Character &spotter, const tripoint_abs_ms &target )
-{
-    return rl_dist( spotter.pos_abs(), target ) <= mortar_laser_rangefinder_range &&
-           mortar_has_charged_laser_rangefinder( spotter );
-}
-
-bool mortar_has_zoom_optic( const Character &spotter )
-{
-    if( spotter.cache_has_item_with( flag_ZOOM ) ) {
-        return true;
-    }
-    const auto gun_has_zoom_mod = []( const item & gun ) {
-        for( const item *mod : gun.gunmods() ) {
-            if( mod->has_flag( flag_ZOOM ) ) {
-                return true;
-            }
-        }
-        return false;
-    };
-    return spotter.cache_has_item_with( "mortar scoped gun", &item::is_gun, gun_has_zoom_mod );
-}
-
-double mortar_soft_cap_sensor_multiplier( const double multiplier )
-{
-    if( multiplier <= 4.0 ) {
-        return multiplier;
-    }
-    return 4.0 + ( multiplier - 4.0 ) / ( 1.0 + multiplier - 4.0 );
-}
-
-double mortar_spotter_sensor_multiplier( const Character &spotter,
-        const std::optional<tripoint_abs_ms> &target = std::nullopt )
-{
-    double multiplier = 1.0;
-    if( target && mortar_uses_laser_rangefinder( spotter, *target ) ) {
-        multiplier *= mortar_laser_rangefinder_sensor_multiplier;
-    } else if( mortar_has_zoom_optic( spotter ) ) {
-        multiplier *= mortar_binocular_reference_multiplier;
-    }
-    if( spotter.has_flag( json_flag_ENHANCED_VISION ) ) {
-        multiplier *= 1.4;
-    }
-
-    const std::bitset<NUM_VISION_MODES> &vision_modes = spotter.get_vision_modes();
-    if( vision_modes[VISION_CLAIRVOYANCE_SUPER] ) {
-        multiplier *= 1.8;
-    } else if( vision_modes[VISION_CLAIRVOYANCE_PLUS] ) {
-        multiplier *= 1.5;
-    } else if( vision_modes[VISION_CLAIRVOYANCE] ) {
-        multiplier *= 1.3;
-    }
-    if( vision_modes[NV_GOGGLES] ) {
-        multiplier *= 1.25;
-    } else if( vision_modes[NIGHTVISION_3] ) {
-        multiplier *= 1.3;
-    } else if( vision_modes[NIGHTVISION_2] ) {
-        multiplier *= 1.2;
-    } else if( vision_modes[NIGHTVISION_1] ) {
-        multiplier *= 1.1;
-    }
-    if( vision_modes[IR_VISION] ) {
-        multiplier *= 1.2;
-    }
-
-    multiplier *= clamp<double>( spotter.hearing_ability(), 0.25, 1.8 );
-    return mortar_soft_cap_sensor_multiplier( multiplier );
 }
 
 double mortar_perception_spotting_factor( const int perception )
@@ -6691,29 +6509,6 @@ double mortar_feedback_multiplier( const double multiplier, const bool no_wait_a
         return clamped;
     }
     return 1.0 - ( 1.0 - clamped ) * mortar_no_wait_feedback_reduction_scale;
-}
-
-double mortar_base_location_error( const Character &spotter, const tripoint_abs_ms &target )
-{
-    const double perception = clamp<double>( spotter.get_per(), 1.0, 10.0 );
-    double base = 0.0;
-    if( perception <= 5.0 ) {
-        base = 500.0 - ( perception - 1.0 ) * ( 250.0 / 4.0 );
-    } else {
-        base = 250.0 - ( perception - 5.0 ) * ( 100.0 / 5.0 );
-    }
-    return std::max( 1.0, base * mortar_binocular_reference_multiplier /
-                     mortar_spotter_sensor_multiplier( spotter, target ) );
-}
-
-mortar_location_error mortar_make_location_error( const Character &spotter,
-        const tripoint_abs_ms &target, const double cep )
-{
-    mortar_location_error error{ cep, cep };
-    if( mortar_uses_laser_rangefinder( spotter, target ) ) {
-        error.range *= mortar_laser_rangefinder_axis_multiplier;
-    }
-    return error;
 }
 
 tripoint_abs_ms mortar_average_spotter_axis( const tripoint_abs_ms &spotter_pos,
@@ -7346,10 +7141,10 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
     std::optional<time_duration> first_flight_time;
     for( size_t i = 0; i < rounds.size(); ++i ) {
         const item &current_round = rounds[i];
-        const tripoint_abs_ms aimpoint_abs_ms = mortar_data.apply_location_error( fire_center_abs_ms,
-                                                location_axis_from, location_axis_to, location_error );
-        const tripoint_abs_ms impact_abs_ms = mortar_data.apply_dispersion( aimpoint_abs_ms,
-                                              mortar_abs, fire_center_abs_ms, ballistic_error );
+        tripoint_abs_ms aimpoint_abs_ms;
+        const tripoint_abs_ms impact_abs_ms = mortar_data.roll_impact( fire_center_abs_ms,
+                                              mortar_abs, location_axis_from, location_axis_to,
+                                              location_error, ballistic_error, &aimpoint_abs_ms );
         const double shot_lost_chance = mortar_shot_lost_chance( you, impact_abs_ms );
         const int shot_lost_roll = rng( 1, 10000 );
         const bool shot_observed = shot_lost_roll > shot_lost_chance * 10000.0;
@@ -7398,33 +7193,7 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
         const time_duration flight_time = mortar_data.npc_flight_time( target_distance );
         const time_point impact_time = fire_time + flight_time;
         const time_point impact_message_time = impact_time + 1_seconds;
-        bool scheduled = false;
-        if( current_round.typeId() == itype_60mm_shell_m721 ) {
-            const int illumination_duration = rng( 40, 60 );
-            get_timed_events().add_mortar_field( impact_time, impact_abs_ms, 1,
-                                                 "fd_mortar_illumination", 0,
-                                                 illumination_duration );
-            scheduled = true;
-        }
-        for( const ammo_effect_str_id &ammo_eff : current_round.ammo_data()->ammo->ammo_effects ) {
-            const ammo_effect &effect = ammo_eff.obj();
-            if( effect.aoe_explosion_data.power > 0 ) {
-                // Match player-operated mortars: queue an absolute-map timed explosion.
-                // process_explosions() loads a temporary map if the impact is outside the bubble.
-                get_timed_events().add( timed_event_type::EXPLOSION,
-                                        impact_time, impact_abs_ms, effect.aoe_explosion_data );
-                scheduled = true;
-            }
-            for( const aoe_field_effect &aoe : effect.aoe_field_types ) {
-                if( x_in_y( aoe.chance, 100 ) ) {
-                    get_timed_events().add_mortar_field( impact_time, impact_abs_ms,
-                                                         rng( aoe.intensity_min, aoe.intensity_max ),
-                                                         aoe.field_type.str(), aoe.radius );
-                    scheduled = true;
-                }
-            }
-        }
-        if( !scheduled ) {
+        if( !mortar_schedule_impact_payload( current_round, impact_abs_ms, impact_time ) ) {
             add_msg( _( "That round has no mortar impact payload." ) );
             add_mortar_ammo( gunner, current_round, 1 );
             continue;

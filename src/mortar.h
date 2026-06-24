@@ -13,6 +13,7 @@
 #include "type_id.h"
 
 class JsonObject;
+class Character;
 class item;
 
 struct mortar_error {
@@ -49,6 +50,22 @@ tripoint_abs_ms mortar_make_creeping_axis_to( const tripoint_abs_ms &target,
 mortar_creeping_solution mortar_creeping_adjustment( const tripoint_abs_ms &mortar_pos,
         const tripoint_abs_ms &target, const tripoint_abs_ms &axis_to,
         const tripoint_abs_ms &spotter_pos, const mortar_error &error );
+bool mortar_has_tactical_data_system( const Character &who,
+                                      const tripoint_abs_ms &mortar_pos );
+double mortar_fixed_accuracy_multiplier( const Character &who,
+        const tripoint_abs_ms &mortar_pos, bool include_weather );
+bool mortar_round_has_high_explosive_payload( const item &round );
+bool mortar_round_has_impact_payload( const item &round );
+bool mortar_uses_laser_rangefinder( const Character &spotter,
+                                    const tripoint_abs_ms &target );
+double mortar_spotter_sensor_multiplier( const Character &spotter,
+        const std::optional<tripoint_abs_ms> &target = std::nullopt );
+double mortar_base_location_error( const Character &spotter,
+                                   const tripoint_abs_ms &target );
+mortar_location_error mortar_make_location_error( const Character &spotter,
+        const tripoint_abs_ms &target, double cep );
+bool mortar_schedule_impact_payload( const item &round, const tripoint_abs_ms &impact,
+                                     const time_point &when );
 
 class mortar_type
 {
@@ -108,6 +125,13 @@ class mortar_type
                                               const tripoint_abs_ms &axis_from,
                                               const tripoint_abs_ms &axis_to,
                                               const mortar_location_error &error ) const;
+        tripoint_abs_ms roll_impact( const tripoint_abs_ms &fire_center,
+                                     const tripoint_abs_ms &mortar_pos,
+                                     const tripoint_abs_ms &location_axis_from,
+                                     const tripoint_abs_ms &location_axis_to,
+                                     const mortar_location_error &location_error,
+                                     const mortar_error &ballistic_error,
+                                     tripoint_abs_ms *aimpoint = nullptr ) const;
         mortar_error project_location_error( const tripoint_abs_ms &axis_from,
                                              const tripoint_abs_ms &axis_to,
                                              const tripoint_abs_ms &location_axis_from,
