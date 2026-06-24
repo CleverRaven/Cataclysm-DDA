@@ -819,7 +819,6 @@ static void draw_header( const catacurses::window &w )
                             _( "Load a <C>olor theme" ) ) + 2;
     shortcut_print( w, point( tmpx, 1 ), c_white, c_light_green, _( "Load <T>emplate" ) );
 
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 0, 2 ), c_white, _( "Some color changes may require a restart." ) );
 
     wattron( w, BORDER_COLOR );
