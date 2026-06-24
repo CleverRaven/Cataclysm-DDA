@@ -6948,7 +6948,6 @@ void assign_mortar_support_impl( npc &gunner )
     gunner.set_value( "mortar_assignment", mortar->type->id.str() );
     gunner.set_value( "mortar_assignment_pos", mortar_abs );
     gunner.remove_value( "mortar_target" );
-    gunner.remove_value( "mortar_current_cep" );
     gunner.remove_value( "mortar_location_error" );
     gunner.remove_value( "mortar_adjustment_ready_turn" );
     gunner.remove_value( "mortar_adjustment_tactic" );

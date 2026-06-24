@@ -555,22 +555,13 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
         return;
     }
 
-    std::vector<ammotype> expected_ammo_types = ammo_type;
-    if( mortar != nullptr ) {
-        expected_ammo_types = { mortar->ammo() };
-    }
-    if( expected_ammo_types.empty() ) {
-        debugmsg( "Mortar examine action for %s has no configured ammunition.",
+    if( mortar == nullptr ) {
+        debugmsg( "Mortar examine action for %s has no matching mortar_type.",
                   here.furn( examp ).id().c_str() );
         return;
     }
-    inventory_filter_preset preset( [expected_ammo_types]( const item_location & loc ) {
-        for( ammotype desired_ammo : expected_ammo_types ) {
-            if( desired_ammo == loc->ammo_type() ) {
-                return true;
-            };
-        }
-        return false;
+    inventory_filter_preset preset( [mortar]( const item_location & loc ) {
+        return mortar->ammo() == loc->ammo_type();
     } );
     inventory_pick_selector inv_s( you, preset );
     inv_s.add_nearby_items( PICKUP_RANGE );
@@ -596,13 +587,7 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
         return;
     }
 
-    const int mortar_range = mortar != nullptr ? mortar->range() : range;
-    if( mortar_range <= 0 ) {
-        debugmsg( "Mortar examine action for %s has invalid range %d.",
-                  here.furn( examp ).id().c_str(), mortar_range );
-        return;
-    }
-    const int aim_range = mortar_range / 24;
+    const int aim_range = mortar->range() / 24;
     const tripoint_abs_omt pos_omt = project_to<coords::omt>( here.get_abs( examp ) );
     tripoint_abs_omt target = ui::omap::choose_point( "Pick a target.", pos_omt, false, aim_range );
 
@@ -620,70 +605,63 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
     const int launcher_skill = you.get_skill_level( skill_launcher );
     const tripoint_abs_ms mortar_abs = here.get_abs( examp );
     const int target_distance = rl_dist( mortar_abs, target_abs_ms );
-    if( mortar != nullptr ) {
-        const tripoint_abs_ms designated_target_abs_ms = target_abs_ms;
-        const int distance = target_distance;
-        const double skill_multiplier = mortar_type::skill_accuracy_multiplier( launcher_skill );
-        const double fixed_multiplier = mortar_fixed_accuracy_multiplier( you, mortar_abs );
-        const double raw_total_multiplier = skill_multiplier * fixed_multiplier;
-        const double total_multiplier = mortar_type::effective_ballistic_multiplier(
-                                            raw_total_multiplier );
-        const bool round_is_he = mortar_round_has_high_explosive_payload( *loc.get_item() );
-        const int minimum_target_distance = round_is_he ?
-                                            mortar->minimum_target_distance( distance, total_multiplier ) :
-                                            MAX_VIEW_DISTANCE;
-        if( distance <= minimum_target_distance ) {
-            if( round_is_he ) {
-                add_msg( _( "Target is too close to the mortar; minimum safe range is %d tiles." ),
-                         minimum_target_distance );
-            } else {
-                add_msg( _( "Target is too close to the mortar." ) );
-            }
-            return;
+    const tripoint_abs_ms designated_target_abs_ms = target_abs_ms;
+    const int distance = target_distance;
+    const double skill_multiplier = mortar_type::skill_accuracy_multiplier( launcher_skill );
+    const double fixed_multiplier = mortar_fixed_accuracy_multiplier( you, mortar_abs );
+    const double raw_total_multiplier = skill_multiplier * fixed_multiplier;
+    const double total_multiplier = mortar_type::effective_ballistic_multiplier(
+                                        raw_total_multiplier );
+    const bool round_is_he = mortar_round_has_high_explosive_payload( *loc.get_item() );
+    const int minimum_target_distance = round_is_he ?
+                                        mortar->minimum_target_distance( distance, total_multiplier ) :
+                                        MAX_VIEW_DISTANCE;
+    if( distance <= minimum_target_distance ) {
+        if( round_is_he ) {
+            add_msg( _( "Target is too close to the mortar; minimum safe range is %d tiles." ),
+                     minimum_target_distance );
+        } else {
+            add_msg( _( "Target is too close to the mortar." ) );
         }
-
-        const double location_error_cep = mortar_base_location_error( you, designated_target_abs_ms );
-        const mortar_location_error location_error = mortar_make_location_error(
-                    you, designated_target_abs_ms, location_error_cep );
-        const mortar_error minimum_error = mortar->minimum_error( distance );
-        const mortar_error ballistic_error{ minimum_error.range * total_multiplier,
-                                            minimum_error.deflection * total_multiplier };
-        if( round_is_he && !confirm_player_mortar_probable_impact_area( *mortar, designated_target_abs_ms,
-                mortar_abs, ballistic_error, you.pos_abs(), designated_target_abs_ms, location_error,
-                you ) ) {
-            return;
-        }
-
-        const tripoint_abs_ms aimpoint_abs_ms = mortar->apply_location_error( designated_target_abs_ms,
-                                                you.pos_abs(), designated_target_abs_ms, location_error );
-        target_abs_ms = mortar->apply_dispersion( aimpoint_abs_ms, mortar_abs,
-                        designated_target_abs_ms,
-                        ballistic_error );
-        add_msg_debug( debugmode::DF_EXPLOSION,
-                       "Player mortar fire: distance %d, minimum range %.2f, minimum deflection %.2f, "
-                       "skill multiplier %.2f, fixed multiplier %.2f, raw total multiplier %.2f, "
-                       "effective total multiplier %.2f, minimum target distance %d, location error %.2f:%.2f, "
-                       "HE %d, rangefinder %d, aimpoint offset %d:%d, impact offset %d:%d.",
-                       distance, minimum_error.range, minimum_error.deflection, skill_multiplier,
-                       fixed_multiplier, raw_total_multiplier, total_multiplier, minimum_target_distance,
-                       location_error.range, location_error.deflection,
-                       round_is_he ? 1 : 0,
-                       mortar_uses_laser_rangefinder( you, designated_target_abs_ms ) ? 1 : 0,
-                       aimpoint_abs_ms.x() - designated_target_abs_ms.x(),
-                       aimpoint_abs_ms.y() - designated_target_abs_ms.y(),
-                       target_abs_ms.x() - designated_target_abs_ms.x(),
-                       target_abs_ms.y() - designated_target_abs_ms.y() );
-    } else if( target_distance <= MAX_VIEW_DISTANCE ) {
-        add_msg( _( "Target is too close." ) );
         return;
     }
+
+    const double location_error_cep = mortar_base_location_error( you, designated_target_abs_ms );
+    const mortar_location_error location_error = mortar_make_location_error(
+                you, designated_target_abs_ms, location_error_cep );
+    const mortar_error minimum_error = mortar->minimum_error( distance );
+    const mortar_error ballistic_error{ minimum_error.range * total_multiplier,
+                                        minimum_error.deflection * total_multiplier };
+    if( round_is_he && !confirm_player_mortar_probable_impact_area( *mortar, designated_target_abs_ms,
+            mortar_abs, ballistic_error, you.pos_abs(), designated_target_abs_ms, location_error,
+            you ) ) {
+        return;
+    }
+
+    const tripoint_abs_ms aimpoint_abs_ms = mortar->apply_location_error( designated_target_abs_ms,
+                                            you.pos_abs(), designated_target_abs_ms, location_error );
+    target_abs_ms = mortar->apply_dispersion( aimpoint_abs_ms, mortar_abs,
+                    designated_target_abs_ms,
+                    ballistic_error );
+    add_msg_debug( debugmode::DF_EXPLOSION,
+                   "Player mortar fire: distance %d, minimum range %.2f, minimum deflection %.2f, "
+                   "skill multiplier %.2f, fixed multiplier %.2f, raw total multiplier %.2f, "
+                   "effective total multiplier %.2f, minimum target distance %d, location error %.2f:%.2f, "
+                   "HE %d, rangefinder %d, aimpoint offset %d:%d, impact offset %d:%d.",
+                   distance, minimum_error.range, minimum_error.deflection, skill_multiplier,
+                   fixed_multiplier, raw_total_multiplier, total_multiplier, minimum_target_distance,
+                   location_error.range, location_error.deflection,
+                   round_is_he ? 1 : 0,
+                   mortar_uses_laser_rangefinder( you, designated_target_abs_ms ) ? 1 : 0,
+                   aimpoint_abs_ms.x() - designated_target_abs_ms.x(),
+                   aimpoint_abs_ms.y() - designated_target_abs_ms.y(),
+                   target_abs_ms.x() - designated_target_abs_ms.x(),
+                   target_abs_ms.y() - designated_target_abs_ms.y() );
 
     time_duration aim_dur = aim_duration.evaluate( d );
     you.assign_activity( ACT_MORTAR_AIMING, to_moves<int>( aim_dur ) );
 
-    const time_duration impact_delay = mortar != nullptr ? mortar->player_flight_time(
-                                           target_distance ) :
-                                       flight_time.evaluate( d );
+    const time_duration impact_delay = mortar->player_flight_time( target_distance );
     const time_point impact_time = calendar::turn + impact_delay + aim_dur;
     if( loc->typeId() == itype_60mm_shell_m721 ) {
         const int illumination_duration = rng( 40, 60 );
@@ -722,8 +700,6 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
 
 void mortar_examine_actor::load( const JsonObject &jo, const std::string &src )
 {
-    optional( jo, false, "ammo", ammo_type );
-    optional( jo, false, "range", range, 0 );
     if( jo.has_member( "condition" ) ) {
         read_condition( jo, "condition", condition, false );
         has_condition = true;
@@ -732,7 +708,6 @@ void mortar_examine_actor::load( const JsonObject &jo, const std::string &src )
               to_translation( "You can't use this mortar." ) );
 
     optional( jo, false, "aim_duration", aim_duration, 0_seconds );
-    optional( jo, false, "flight_time", flight_time, 0_seconds );
 
     for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
         eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src ) );
@@ -741,11 +716,6 @@ void mortar_examine_actor::load( const JsonObject &jo, const std::string &src )
 
 void mortar_examine_actor::finalize() const
 {
-    for( ammotype ammo : ammo_type ) {
-        if( !ammo.is_valid() ) {
-            debugmsg( "Invalid ammo type: %s", ammo.str() );
-        }
-    }
 }
 
 std::unique_ptr<iexamine_actor> mortar_examine_actor::clone() const
