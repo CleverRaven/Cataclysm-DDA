@@ -789,7 +789,7 @@ tripoint_abs_ms mortar_type::roll_impact( const tripoint_abs_ms &fire_center,
         const mortar_error &ballistic_error, tripoint_abs_ms *aimpoint ) const
 {
     const tripoint_abs_ms aimpoint_result = apply_location_error( fire_center,
-                                           location_axis_from, location_axis_to, location_error );
+                                            location_axis_from, location_axis_to, location_error );
     if( aimpoint != nullptr ) {
         *aimpoint = aimpoint_result;
     }
