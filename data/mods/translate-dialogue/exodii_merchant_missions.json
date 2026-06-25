@@ -211,7 +211,7 @@
     "dynamic_line": { "concatenate": [ "Aye?", "\"\n\n[TRANSLATE:] \"", "Aye?" ] }
   },
   {
-    "id": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_truth",
+    "id": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_truth",
     "type": "talk_topic",
     "dynamic_line": {
       "concatenate": [
