@@ -593,6 +593,7 @@
     "difficulty": 8,
     "effect": "ter_transform",
     "effect_str": "ter_changeling_winter_close_the_reality_tear",
+    "components": "spell_components_changeling_dreamsparks_4",
     "min_range": 1,
     "max_range": 1,
     "base_energy_cost": {

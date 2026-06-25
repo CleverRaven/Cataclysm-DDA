@@ -84,6 +84,8 @@
     "effect_str": "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS",
     "magic_type": "xe_fey_magick",
     "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
     "base_energy_cost": 800,
     "base_casting_time": 90000
   },

@@ -123,6 +123,13 @@
         "valid_field": [ "fd_fatigue" ],
         "message": "The edges of the swirling wound in reality crack like ice over new fallen snow, and then the entire portal shatters into shards of nothingness."
       }
+    ],
+    "trap": [
+      {
+        "result": "tr_null",
+        "valid_trap": [ "tr_portal" ],
+        "message": "The edges of the swirling wound in reality crack like ice over new fallen snow, and then the entire portal shatters into shards of nothingness."
+      }
     ]
   }
 ]

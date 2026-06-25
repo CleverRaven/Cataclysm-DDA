@@ -505,7 +505,7 @@
   {
     "type": "effect_type",
     "id": "effect_changeling_autumn_stop_supernatural_healing",
-    "name": [ "Curse of the Recalcitrant Wound" ],
+    "name": [ "Malediction of the Recalcitrant Wound" ],
     "desc": [ "Your skin itches." ],
     "remove_message": "The itching of your skin fades.",
     "show_in_info": true,

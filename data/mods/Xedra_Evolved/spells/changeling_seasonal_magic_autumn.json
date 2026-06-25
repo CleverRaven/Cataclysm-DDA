@@ -235,7 +235,7 @@
     "type": "SPELL",
     "name": "Malediction of the Recalcitrant Wound",
     "description": "Curse the target's body with supernatural frailty, reducing their healing time and blocking supernatural forms of regeneration from working at all.  The duration is <color_green>greatly increased</color> in autumn.",
-    "message": "",
+    "message": "You mutter a curse under your breath and point at your target.",
     "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_autumn",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
@@ -247,6 +247,8 @@
     "difficulty": 5,
     "effect": "attack",
     "effect_str": "effect_changeling_autumn_stop_supernatural_healing",
+    "min_range": 12,
+    "max_range": 12,
     "min_duration": {
       "math": [
         "( ( 1905 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 209) + (u_skill('gramarye') * 684) ) ) * (global_what_is_the_season == 3 ? 3 : 1)"
@@ -472,7 +474,7 @@
     "effect": "attack",
     "components": "spell_components_changeling_dreamsparks_4",
     "extra_effects": [
-      { "id": "changeling_autumn_giant_withering_aoe_ter_transform_spell" },
+      { "id": "changeling_autumn_giant_withering_aoe_ter_transform_spell", "hit_self": true },
       { "id": "changeling_autumn_giant_withering_aoe_extra_plant_damage_spell" }
     ],
     "damage_type": "withering_damage",
@@ -526,15 +528,14 @@
     "name": { "str": "The Dying of the Year Ter Transform", "//~": "NO_I18N" },
     "description": { "str": "Ter transform from the Dying of the Year.  You should not see this.", "//~": "NO_I18N" },
     "message": "",
-    "flags": [ "NO_HANDS", "NO_LEGS", "SILENT", "NO_PROJECTILE" ],
+    "flags": [ "NO_HANDS", "NO_LEGS", "SILENT", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "magic_type": "xe_fey_seasonal_magick_autumn",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
-    "valid_targets": [ "ground" ],
+    "valid_targets": [ "self", "ground" ],
     "teachable": false,
     "skill": "gramarye",
     "max_level": 1,
     "shape": "blast",
-    "difficulty": 3,
     "effect": "ter_transform",
     "effect_str": "dead_vegetation",
     "//": "Turns out there's already a ter_transform to kill plants so we can just borrow that",
