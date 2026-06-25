@@ -361,6 +361,20 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_summer_stay_awake_in_sunlight",
+    "name": [ "Invigorating Sunlight" ],
+    "desc": [ "The warmth and energy of the sun washes your tiredness away." ],
+    "remove_message": "The sensation of the sun's warmth fades away.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "condition": { "and": [ "u_is_outside", { "or": [ { "is_weather": "clear" }, { "is_weather": "sunny" } ] } ] },
+        "values": [ { "value": "SLEEPINESS", "multiply": -1 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_summer_ring_of_flames",
     "name": [ "Summer Champion" ],
     "desc": [ "You stand in the ring of flames, facing your foe.  Woe to the vanquished." ],

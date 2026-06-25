@@ -214,6 +214,20 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_GAIN_STAY_AWAKE_IN_SUNLIGHT_EFFECT",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "compare_string": [ "effect_changeling_summer_stay_awake_in_sunlight", { "context_val": "effect" } ] },
+    "effect": [
+      {
+        "math": [
+          "u_val('sleep_deprivation') += ( (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * -20) + (u_skill('gramarye') * -45)  ) "
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_SUMMER_RING_OF_FLAMES_INITIATE",
     "condition": { "not": { "npc_has_effect": "effect_changeling_summer_ring_of_flames" } },
     "effect": [
