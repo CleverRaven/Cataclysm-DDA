@@ -2630,7 +2630,7 @@
     "id": "GASFILTER_MED",
     "type": "json_flag",
     "info": "A medium-sized gasmask filter.",
-    "name": "gas mask cartridge"
+    "name": "CBRN filter canister"
   },
   {
     "id": "PANORAMIC_OUTSERT",

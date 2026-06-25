@@ -17,7 +17,7 @@
 #include "game.h"
 #include "item.h"
 #include "map.h"
-#include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "mutation.h"
 #include "player_helpers.h"
 #include "point.h"

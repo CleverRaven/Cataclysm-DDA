@@ -26,6 +26,7 @@
 #include "json.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "math_parser_diag_value.h"
 #include "monster.h"
 #include "npc.h"

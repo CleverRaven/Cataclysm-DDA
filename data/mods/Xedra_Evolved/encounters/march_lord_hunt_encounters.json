@@ -1,0 +1,52 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_March_Lord_Hunting_Party",
+    "recurrence": 21600,
+    "global": true,
+    "run_for_npcs": false,
+    "condition": { "math": [ "XE_RandEnc == 0" ] },
+    "effect": [
+      { "set_condition": "random_enc_condition", "condition": { "and": [ "u_is_outside", { "is_weather": "fog" } ] } },
+      { "u_message": "March Lord hunt encounter has triggered!", "type": "debug" },
+      {
+        "set_string_var": "You hear a low horn-call somewhere out in the fog.",
+        "target_var": { "global_val": "XE_RandEnc_Trigger_Message" },
+        "i18n": true
+      },
+      {
+        "set_condition": "XE_random_enc_trigger_message_condition",
+        "condition": { "math": [ "u_val('pos_z') >= 0" ] }
+      },
+      {
+        "run_eocs": "EOC_XE_RandEnc",
+        "variables": {
+          "omt": "field",
+          "map_update": "nest_RandEnc_March_Lord_Hunting_Party",
+          "map_removal": "nest_RandEnc_March_Lord_Hunting_Party_remove",
+          "chance": 15,
+          "days_till_spawn": 0
+        }
+      }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "nest_RandEnc_March_Lord_Hunting_Party",
+    "//": "Adds a random encounter at this field",
+    "object": {
+      "place_monster": [
+        { "group": "GROUP_MARCH_LORDS", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "monster": "mon_wild_hunt_hound", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 2, 4 ] },
+        { "monster": "mon_wild_huntsman", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ] },
+        { "monster": "mon_changeling_bannerman", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "nest_RandEnc_March_Lord_Hunting_Party_remove",
+    "//": "removes a random encounter at the field",
+    "object": { "set": [ { "square": "creature_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 } ] }
+  }
+]

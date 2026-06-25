@@ -1194,7 +1194,7 @@
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       },
-      "place_monster": [ { "monster": [ "mon_march_lord" ], "x": 3, "y": 4 } ],
+      "place_monster": [ { "group": "GROUP_MARCH_LORDS", "x": 3, "y": 4 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -1257,7 +1257,7 @@
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       },
-      "place_monster": [ { "monster": [ "mon_march_lord" ], "x": 3, "y": 4 } ],
+      "place_monster": [ { "group": "GROUP_MARCH_LORDS", "x": 3, "y": 4 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
