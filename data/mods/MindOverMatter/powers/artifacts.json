@@ -677,6 +677,23 @@
     ]
   },
   {
+    "id": "MoM_AEA_AoE_KNOCKDOWN",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA AoE Knockdown", "//~": "NO_I18N" },
+    "description": { "str": "Unleash a wave of force and knock targets down.", "//~": "NO_I18N" },
+    "message": "A soundless explosion bursts out from you!",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "RANDOM_AOE", "RANDOM_DURATION", "NO_LEGS" ],
+    "effect": "attack",
+    "effect_str": "downed",
+    "shape": "blast",
+    "min_aoe": 3,
+    "max_aoe": 7,
+    "min_duration": 300,
+    "max_duration": 700
+  },
+  {
     "type": "SPELL",
     "id": "MoM_AEA_LEVITATION",
     "name": { "str": "MoM AEA Artifact Levitation", "//~": "NO_I18N" },
@@ -689,6 +706,20 @@
     "min_duration": 500,
     "max_duration": 1900,
     "base_casting_time": 50
+  },
+  {
+    "id": "MoM_AEA_AEGIS",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Artifact Levitation", "//~": "NO_I18N" },
+    "description": { "str": "Makes you immune to physical damage briefly.", "//~": "NO_I18N" },
+    "message": "The air around you shimmers.",
+    "valid_targets": [ "self" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_telekinetic_aegis",
+    "shape": "blast",
+    "min_duration": 200,
+    "max_duration": 500
   },
   {
     "type": "SPELL",
