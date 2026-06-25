@@ -97,6 +97,24 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_monster_physical_enhancement",
+    "name": [ "Physical Enhancement" ],
+    "desc": [ "You are enhancing your strength and agility." ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ 1 ] },
+    "enchantments": [ { "melee_damage_bonus": [ { "type": "bash", "multiply": 0.1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_physical_enhancement_improved",
+    "name": [ "Physical Enhancement" ],
+    "desc": [ "You are greatly enhancing your strength and agility." ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ 2 ] },
+    "enchantments": [ { "melee_damage_bonus": [ { "type": "bash", "multiply": 0.25 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_monster_hardened_skin",
     "name": [ "Hardened Skin" ],
     "desc": [ "You are more resilient than normal." ],
