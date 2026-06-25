@@ -298,7 +298,7 @@
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_7"
       },
       {
-        "text": "[Favor Exodii] Suggest deliveries be managed through a nearby camp, rather than something more permenant.  Whisper to Smokes: \"Outside of the Exodii's protection, but also outside of their influence\".",
+        "text": "[Favor Exodii] Suggest deliveries be managed through a nearby camp, rather than something more permanent.  Whisper to Smokes: \"Outside of the Exodii's protection, but also outside of their influence\".",
         "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
         "success": {
           "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_7",
