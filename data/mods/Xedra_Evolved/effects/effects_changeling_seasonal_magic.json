@@ -246,6 +246,59 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_summer_absorb_strength",
+    "name": [ "Hand of Lugh" ],
+    "desc": [ "Your strength has been absorbed." ],
+    "show_in_info": true,
+    "rating": "bad",
+    "enchantments": [
+      {
+        "condition": "u_is_monster",
+        "melee_damage_bonus": [ { "type": "bash", "multiply": -0.2 }, { "type": "cut", "multiply": -0.2 }, { "type": "stab", "multiply": -0.2 } ]
+      },
+      {
+        "condition": "u_is_character",
+        "values": [
+          {
+            "value": "STRENGTH",
+            "add": {
+              "math": [ "max( (-1 + ( u_changeling_summer_glamour_tracker / -8 ) + (u_changeling_gramarye_tracker * -0.3) ), -6)" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_absorb_strength_self",
+    "name": [ "Hand of Lugh" ],
+    "desc": [ "Your strength is empowered by that of your enemies." ],
+    "remove_message": "Your borrowed strength drains away.",
+    "show_in_info": true,
+    "rating": "good",
+    "max_duration": "2 hours",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "STRENGTH",
+            "add": {
+              "math": [ "min( (1 + ( u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') / 8 ) + (u_skill('gramarye') * 0.3) ), 6)" ]
+            }
+          }
+        ]
+      }
+    ],
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 1.1 },
+      { "limb_score": "block", "modifier": 1.1 },
+      { "limb_score": "grip", "modifier": 1.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_summer_slow_and_sweat_debuff",
     "name": [ "Sun-struck" ],
     "desc": [ "You need to sit down in the shade." ],

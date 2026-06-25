@@ -459,6 +459,7 @@
     "type": "SPELL",
     "name": "The Dying of the Year",
     "description": "No matter how much it might struggle, in the end, every leaf falls.  This glamour channels the raw power of autumn into an area around you, killing plants and causing rapid decay in anyone caught in the radius.  The damage is <color_red>greatly reduced</color> in spring.",
+    "message": "You throw both your hands wide and the vegetation around you starts to wither and die.",
     "flags": [ "VERBAL", "SOMATIC", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_autumn",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
