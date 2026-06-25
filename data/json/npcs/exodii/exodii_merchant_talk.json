@@ -688,10 +688,26 @@
       {
         "text": "So, we seem to be done with the negotiations.  Let's talk payment.",
         "condition": {
-          "and": [ { "math": [ "exodii_FM_negotiation_success == 1" ] }, { "u_has_mission": "EXODII_MISSION_MEET_FREE_MERCHANTS" } ]
+          "and": [
+            { "not": { "math": [ "exodii_FM_annoyed >= 3" ] } },
+            { "math": [ "exodii_FM_negotiation_success == 1" ] },
+            { "u_has_mission": "EXODII_MISSION_MEET_FREE_MERCHANTS" }
+          ]
         },
         "effect": { "finish_mission": "EXODII_MISSION_MEET_FREE_MERCHANTS", "success": true },
         "topic": "TALK_EXODII_MERCHANT_mission_4_complete"
+      },
+      {
+        "text": "Well, the deal went through.  I did my best, Rubik.",
+        "condition": {
+          "and": [
+            { "math": [ "exodii_FM_annoyed >= 3" ] },
+            { "math": [ "exodii_FM_negotiation_success == 1" ] },
+            { "u_has_mission": "EXODII_MISSION_MEET_FREE_MERCHANTS" }
+          ]
+        },
+        "effect": { "finish_mission": "EXODII_MISSION_MEET_FREE_MERCHANTS", "success": true },
+        "topic": "TALK_EXODII_MERCHANT_mission_4_complete_partial"
       },
       {
         "text": "Those negotiations didn't go so well, did they?",

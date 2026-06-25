@@ -1394,6 +1394,27 @@
     ]
   },
   {
+    "id": "TALK_EXODII_MERCHANT_mission_4_complete_partial",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//": "Indeed, they succeeded.  And yes, I know you rried.  That's how it goes, sometimes.  Have a look around the shop and choose a reward.",
+      "str": "Aye, they did indeed.  And aye, ye clearly tried.  That's the way'o'things.  Have a look about, tell me what ye like."
+    },
+    "responses": [
+      {
+        "text": "[$1000 in store credit] How about store credit instead?",
+        "effect": [ { "u_add_faction_trust": -4 }, { "u_spend_cash": -100000 }, "start_trade" ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I don't need anything.  Just keep in mind that I'm always on your side, yeah?",
+        "effect": [ { "u_add_faction_trust": 4 } ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
     "id": "TALK_EXODII_MERCHANT_mission_4_complete_failed",
     "type": "talk_topic",
     "dynamic_line": {
