@@ -698,7 +698,7 @@
     "id": "MoM_AEA_LEVITATION",
     "name": { "str": "MoM AEA Artifact Levitation", "//~": "NO_I18N" },
     "description": { "str": "Causes you to levitate briefly", "//~": "NO_I18N" },
-    "valid_targets": [ "hostile", "ally" ],
+    "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "effect_mom_artifact_levitation",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
@@ -710,7 +710,7 @@
   {
     "id": "MoM_AEA_AEGIS",
     "type": "SPELL",
-    "name": { "str": "MoM AEA Artifact Levitation", "//~": "NO_I18N" },
+    "name": { "str": "MoM AEA Artifact Aegis", "//~": "NO_I18N" },
     "description": { "str": "Makes you immune to physical damage briefly.", "//~": "NO_I18N" },
     "message": "The air around you shimmers.",
     "valid_targets": [ "self" ],
