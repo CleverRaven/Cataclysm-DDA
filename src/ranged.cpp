@@ -3026,7 +3026,7 @@ target_handler::trajectory target_ui::run()
                 continue;
             }
             bool can_skip_confirm = mode == TargetMode::Spell && ( casting->damage( player_character ) <= 0 ||
-                                    casting->effect() == "pickup" );
+                                    casting->effect() == "pickup" || casting->effect() == "summon" );
             if( !can_skip_confirm && !confirm_non_enemy_target() ) {
                 continue;
             }
