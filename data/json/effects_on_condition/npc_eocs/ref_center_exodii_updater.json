@@ -1,0 +1,348 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EXODII_FM_UPDATES_RECURRANCE",
+    "//": "updates that occur automatically, without the player",
+    "recurrence": "24 hours",
+    "global": true,
+    "condition": {
+      "and": [
+        { "math": [ "exodii_FM_negotiation_failed != 1" ] },
+        {
+          "or": [
+            { "math": [ "FM_exodii_caravan_placed != 1" ] },
+            { "math": [ "FM_exodii_butte_building_placed != 1" ] },
+            { "math": [ "FM_exodii_autodoc_placed != 1" ] }
+          ]
+        }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "math": [ "exodii_FM_negotiation_failed == 1" ] },
+        {
+          "and": [
+            { "math": [ "FM_exodii_caravan_placed == 1" ] },
+            { "math": [ "FM_exodii_butte_building_placed == 1" ] },
+            { "math": [ "FM_exodii_autodoc_placed == 1" ] }
+          ]
+        }
+      ]
+    },
+    "effect": { "run_eocs": [ "EOC_EXODII_FM_UPDATES_RECURRANCE_EVENT_EXODII", "EOC_EXODII_FM_UPDATES_RECURRANCE_EVENT_FM" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EXODII_FM_UPDATES_RECURRANCE_EVENT_EXODII",
+    "global": true,
+    "condition": {
+      "and": [
+        { "u_near_om_location": "exodii_base_x0y3z0", "range": 180 },
+        { "not": { "u_near_om_location": "exodii_base_x0y3z0", "range": 2 } }
+      ]
+    },
+    "effect": [
+      {
+        "if": {
+          "and": [ { "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ] }, { "math": [ "FM_exodii_caravan_placed != 1" ] } ]
+        },
+        "then": [
+          { "math": [ "FM_exodii_caravan_placed = 1" ] },
+          { "mapgen_update": "EXODII_FM_UPDATE_PLACE_TENTS", "om_terrain": "exodii_base_x0y3z0" }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "time_since('cataclysm', 'unit':'days') >= 120" ] },
+            { "math": [ "FM_exodii_butte_building_placed != 1" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "FM_exodii_butte_building_placed = 1" ] },
+          { "mapgen_update": "EXODII_FM_UPDATE_PLACE_WAREHOUSE", "om_terrain": "exo_base_safehouse_stone_0" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EXODII_FM_UPDATES_RECURRANCE_EVENT_FM",
+    "global": true,
+    "condition": {
+      "and": [
+        { "u_near_om_location": "evac_center_17", "range": 180 },
+        { "not": { "u_near_om_location": "evac_center_17", "range": 2 } }
+      ]
+    },
+    "effect": [
+      {
+        "if": {
+          "and": [ { "math": [ "time_since('cataclysm', 'unit':'days') >= 360" ] }, { "math": [ "FM_exodii_autodoc_placed != 1" ] } ]
+        },
+        "then": [
+          { "math": [ "FM_exodii_autodoc_placed = 1" ] },
+          { "mapgen_update": "EXODII_FM_UPDATE_PLACE_AUTODOC", "om_terrain": "evac_center_17" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "//": "updates if the player completes the negotiations between Exodii and Free Merchants.",
+    "id": "EOC_EXODII_FM_UPDATES",
+    "effect": { "run_eocs": [ "EOC_EXODII_FM_UPDATE_BUILD_BASE_AT_EXODII", "EOC_EXODII_FM_UPDATE_PLACE_AUTODOC" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EXODII_FM_UPDATE_BUILD_BASE_AT_EXODII",
+    "condition": {
+      "and": [
+        { "u_near_om_location": "exodii_base_x0y3z0", "range": 180 },
+        { "not": { "u_near_om_location": "exodii_base_x0y3z0", "range": 2 } }
+      ]
+    },
+    "effect": [
+      { "math": [ "FM_exodii_caravan_placed = 1" ] },
+      { "mapgen_update": "EXODII_FM_UPDATE_PLACE_TENTS", "om_terrain": "exodii_base_x0y3z0" },
+      {
+        "if": { "math": [ "exodii_FM_butte_building == 1" ] },
+        "then": [
+          { "math": [ "FM_exodii_butte_building_placed = 1" ] },
+          { "mapgen_update": "EXODII_FM_UPDATE_PLACE_WAREHOUSE", "om_terrain": "exo_base_safehouse_stone_0" }
+        ]
+      }
+    ],
+    "false_effect": { "run_eocs": "EOC_EXODII_FM_UPDATE_BUILD_BASE_AT_EXODII", "time_in_future": "12 hours" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EXODII_FM_UPDATE_PLACE_AUTODOC",
+    "condition": {
+      "and": [
+        { "u_near_om_location": "evac_center_17", "range": 180 },
+        { "not": { "u_near_om_location": "evac_center_17", "range": 2 } }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "math": [ "exodii_FM_autodoc == 1" ] },
+        "then": [
+          { "math": [ "FM_exodii_autodoc_placed = 1" ] },
+          { "mapgen_update": "EXODII_FM_UPDATE_PLACE_AUTODOC", "om_terrain": "evac_center_17" }
+        ]
+      }
+    ],
+    "false_effect": { "run_eocs": "EOC_EXODII_FM_UPDATE_PLACE_AUTODOC", "time_in_future": "12 hours" }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "EXODII_FM_UPDATE_PLACE_TENTS",
+    "object": { "place_nested": [ { "chunks": [ "EXODII_FM_UPDATE_PLACE_TENTS" ], "x": 0, "y": 8 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "EXODII_FM_UPDATE_PLACE_WAREHOUSE",
+    "object": { "place_nested": [ { "chunks": [ "EXODII_FM_UPDATE_PLACE_WAREHOUSE" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "EXODII_FM_UPDATE_PLACE_AUTODOC",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "EXODII_FM_UPDATE_PLACE_AUTODOC_1" ], "x": 23, "y": 0 },
+        { "chunks": [ "EXODII_FM_UPDATE_PLACE_AUTODOC_2" ], "x": 23, "y": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "EXODII_FM_UPDATE_PLACE_AUTODOC_1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "terrain": { " ": "t_floor" },
+      "furniture": { " ": "f_autodoc_couch" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "EXODII_FM_UPDATE_PLACE_AUTODOC_2",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "terrain": { " ": "t_floor" },
+      "furniture": { " ": "f_autodoc" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "EXODII_FM_UPDATE_PLACE_TENTS",
+    "object": {
+      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 14 ], "y": [ 0, 14 ] } ],
+      "mapgensize": [ 15, 15 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "               ",
+        " ######..o hth ",
+        " #x.rrrr..     ",
+        " #t.rrrr..     ",
+        " #x.rrrr..  F  ",
+        " #+++##..o     ",
+        " #c.t#.... h   ",
+        " #####...   t  ",
+        "  o.....o   h  ",
+        " ...rrrr###    ",
+        "o..rrrr.+c#    ",
+        " .rrrr.o###    ",
+        "  ..#+#        ",
+        "   o#c#        ",
+        "    ###        "
+      ],
+      "terrain": {
+        ".": "t_dirt",
+        "r": "t_carpet_red_outdoor",
+        "#": "t_dirt",
+        "x": "t_dirt",
+        "c": "t_dirt",
+        "F": "t_pit_shallow",
+        "o": "t_wood_sunshade_pole"
+      },
+      "furniture": { "#": "f_skin_wall", "+": "f_skin_door", "x": "f_crate_o", "t": "f_table", "h": "f_chair", "F": "f_firering" },
+      "traps": { "c": "tr_fur_rollmat", "v": "tr_funnel" },
+      "place_npcs": [
+        { "class": "exodii_free_merchant", "x": 5, "y": 3 },
+        { "class": "guard", "x": 11, "y": 6 },
+        { "class": "guard", "x": 12, "y": 8 }
+      ],
+      "items": { "c": { "item": "bed", "chance": 100 } },
+      "item": { "F": { "item": "pot", "chance": 100 } },
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "free_merchants", "x": 2, "y": [ 2, 4 ] },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_ROBOFAC_FREE_MERCHANT_misc",
+          "faction": "free_merchants",
+          "x": 2,
+          "y": 2
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_ROBOFAC_FREE_MERCHANT_misc",
+          "faction": "free_merchants",
+          "x": 2,
+          "y": 4
+        }
+      ],
+      "place_nested": [ { "chunks": [ "EXODII_FM_UPDATE_PLACE_TENTS_z1" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "EXODII_FM_UPDATE_PLACE_TENTS_z1",
+    "object": {
+      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 14 ], "y": [ 0, 14 ] } ],
+      "mapgensize": [ 15, 15 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "               ",
+        " ,,,,,,...     ",
+        " ,,,,,,...     ",
+        " ,,,,,,...     ",
+        " ,,,,,,...     ",
+        " ,,,,,,...     ",
+        " ,,,,,....     ",
+        " ,,,,,...      ",
+        "  .......      ",
+        " .......,,,    ",
+        "........,,,    ",
+        " .......,,,    ",
+        "  ..,,,        ",
+        "   .,,,        ",
+        "    ,,,        "
+      ],
+      "terrain": { ".": "t_canvas_roof", ",": "t_canvas_roof" }
+    }
+  },
+  {
+    "nested_mapgen_id": "EXODII_FM_UPDATE_PLACE_WAREHOUSE",
+    "type": "mapgen",
+    "object": {
+      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "###                     ",
+        "#c#                     ",
+        "#+#                     ",
+        "                        ",
+        "                        ",
+        "   o   xxx   xxx   o    ",
+        "               x        ",
+        "                        ",
+        "                        ",
+        "       o       o        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_dirt", "#": "t_dirt", "c": "t_dirt", "o": "t_wood_sunshade_pole" },
+      "furniture": { "#": "f_skin_wall", "+": "f_skin_door", "x": "f_crate_o" },
+      "traps": { "c": "tr_fur_rollmat", "v": "tr_funnel" },
+      "place_npcs": [ { "class": "guard", "x": 12, "y": 12 } ],
+      "items": { "c": { "item": "bed", "chance": 100 } },
+      "place_nested": [ { "chunks": [ "EXODII_FM_UPDATE_PLACE_WAREHOUSE_z1" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "EXODII_FM_UPDATE_PLACE_WAREHOUSE_z1",
+    "type": "mapgen",
+    "object": {
+      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "...                     ",
+        "...                     ",
+        "...                     ",
+        "                        ",
+        "                        ",
+        "   ,,,,,,,,,,,,,,,,,    ",
+        "     ,,,,,,,,,,,,,      ",
+        "      ,,,,,,,,,,,       ",
+        "       ,,,,,,,,,        ",
+        "       ,,,,,,,,,        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_canvas_roof", ",": "t_canvas_roof" }
+    }
+  }
+]

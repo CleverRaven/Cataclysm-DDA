@@ -1650,5 +1650,27 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_red_outdoor",
+    "copy-from": "t_carpet_base",
+    "looks_like": "t_carpet_red",
+    "name": "red carpet",
+    "description": "Soft red carpet laying directly on the dirt.",
+    "color": "red",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_dirt",
+      "str_min": 5,
+      "str_max": 15,
+      "str_min_supported": 100,
+      "items": [
+        { "item": "sheet_cotton", "count": [ 1, 2 ] },
+        { "item": "cotton_patchwork", "count": [ 2, 4 ] },
+        { "item": "nail", "charges": [ 1, 3 ] }
+      ]
+    }
   }
 ]

@@ -112,7 +112,10 @@
       { "point": [ 0, 3, 4 ], "overmap": "exodii_base_x0y3z4_north" },
       { "point": [ 1, 3, 4 ], "overmap": "exodii_base_x1y3z4_north" },
       { "point": [ 2, 3, 4 ], "overmap": "exodii_base_x2y3z4_north" },
-      { "point": [ 3, 3, 4 ], "overmap": "exodii_base_x3y3z4_north" }
+      { "point": [ 3, 3, 4 ], "overmap": "exodii_base_x3y3z4_north" },
+      { "point": [ -2, 2, 0 ], "overmap": "exo_base_safehouse_stone_0_north" },
+      { "point": [ -2, 2, 1 ], "overmap": "exo_base_safehouse_stone_1_north" },
+      { "point": [ -2, 2, 2 ], "overmap": "exo_base_safehouse_stone_2_north" }
     ],
     "locations": [ "land", "swamp", "forest" ],
     "city_distance": [ 2, 120 ],
