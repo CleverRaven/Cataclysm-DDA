@@ -2548,6 +2548,7 @@ void tab_creatures_view::draw_body( debug_console &host )
     const tripoint_bub_ms apos = you.pos_bub( here );
 
     struct row_data {
+        // type of creature (npc, mon, you (ie avatar))
         std::string kind;
         std::string name;
         std::string type_id;
@@ -2697,7 +2698,7 @@ void tab_creatures_view::draw_body( debug_console &host )
                                              rows.size() ), creature_filter );
         const std::vector<colspec<row_data>> specs = {
             {
-                _( "Kind" ), colw::fit, []( const row_data & r )
+                pgettext( "type of creature", "Kind" ), colw::fit, []( const row_data & r )
                 {
                     return r.kind;
                 }
@@ -4999,7 +5000,7 @@ void tab_data_view::draw_item_wakeups_table()
                 }
             },
             {
-                _( "Kind" ), colw::fit, [&]( const scheduled_wakeup_info *const & w )
+                pgettext( "debug wakeup type", "Kind" ), colw::fit, [&]( const scheduled_wakeup_info *const & w )
                 {
                     return std::string( kind_name( w->kind ) );
                 }
