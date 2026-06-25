@@ -122,7 +122,7 @@
     },
     "responses": [
       { "text": "Sounds good", "topic": "TALK_EXODII_FREE_MERCHANT" },
-      { "text": "So do you plan to stick around here permenantly?", "topic": "TALK_EXODII_FREE_MERCHANT_PERMENANT" }
+      { "text": "So do you plan to stick around here permanently?", "topic": "TALK_EXODII_FREE_MERCHANT_PERMENANT" }
     ]
   },
   {

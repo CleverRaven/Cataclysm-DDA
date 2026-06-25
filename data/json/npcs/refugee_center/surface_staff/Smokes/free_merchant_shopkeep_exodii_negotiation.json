@@ -3,11 +3,11 @@
     "id": [ "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations" ],
     "type": "talk_topic",
     "//": "exodii_FM_antagonized tracks the deal itself - at max value it fails totally.  exodii_FM_annoyed tracks reward - above 3, and you don't get a reward.  exodii_FM_balance tracks who gives the reward and its magnitude - negative favors exodii and positive favors FM.",
-    "dynamic_line": "&You boot up the strange TV-radio device.  There is a sharp squeel from the device as the screen, first covered in only static, blips into life.  After a moment, the image on the screen wobbles and Rubik appears, offering a stiff bow.  You hold the screen up so Smokes can see it.",
+    "dynamic_line": "&You boot up the strange TV-radio device.  There is a sharp squeal from the device as the screen, first covered in only static, blips into life.  After a moment, the image on the screen wobbles and Rubik appears, offering a stiff bow.  You hold the screen up so Smokes can see it.",
     "speaker_effect": { "effect": { "math": [ "exodii_FM_balance = 0" ] } },
     "responses": [
       {
-        "text": "[Neutral] Introduce Rubik and Smokes to each other, then give them the floor.  Offer occassional help translating.",
+        "text": "[Neutral] Introduce Rubik and Smokes to each other, then give them the floor.  Offer occasional help translating.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_2"
       },
       {
@@ -33,11 +33,11 @@
     "dynamic_line": "&Rubik explains they are primarily looking for plastics, metals, and media.  Rubik and Smokes start to talk about the nature of the trade.  Guaranteed shipments?  First right of refusal?  What about prices for bulk goods?",
     "responses": [
       {
-        "text": "[Neutral] Sit quietly and let them negotiate.  Offer occassional help translating.",
+        "text": "[Neutral] Sit quietly and let them negotiate.  Offer occasional help translating.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_3"
       },
       {
-        "text": "[Favour Exodii] Point out that the Exodii's needs are predictable and simple.  \"They need a lot of things other survivors may not buy.\"",
+        "text": "[Favor Exodii] Point out that the Exodii's needs are predictable and simple.  \"They need a lot of things other survivors may not buy.\"",
         "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
         "success": {
           "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_3",
@@ -56,7 +56,7 @@
         }
       },
       {
-        "text": "[Favour Merchants] Remind Rubik that the Free Merchants are taking on the risk of the shipments, and need to stick around Earth even if the Exodii leave.  \"I think thats worth a small premium, no?\"",
+        "text": "[Favor Merchants] Remind Rubik that the Free Merchants are taking on the risk of the shipments, and need to stick around Earth even if the Exodii leave.  \"I think thats worth a small premium, no?\"",
         "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
         "success": {
           "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_3",
@@ -97,11 +97,11 @@
     "dynamic_line": "&Smokes and Rubik start to discuss what exactly the Exodii have to offer.  Rubik first offers up firearms, hefting one of their zombie hunting rifles into the frame…",
     "responses": [
       {
-        "text": "[Neutral] Sit quietly and let them negotiate.  Offer occassional help translating.",
+        "text": "[Neutral] Sit quietly and let them negotiate.  Offer occasional help translating.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_4"
       },
       {
-        "text": "[Favour Exodii] Explain to Smokes the unique nature of the firearms you have seen.  \"They're really well tuned for taking down a <zombie>.\"",
+        "text": "[Favor Exodii] Explain to Smokes the unique nature of the firearms you have seen.  \"They're really well tuned for taking down a <zombie>.\"",
         "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
         "success": {
           "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_4",
@@ -120,7 +120,7 @@
         }
       },
       {
-        "text": "[Favour Merchants] Remind Rubik & Smokes that these firearms use ammunition not from this world.  \"They're great guns, but be sure to work ammunition into the deal.\"",
+        "text": "[Favor Merchants] Remind Rubik & Smokes that these firearms use ammunition not from this world.  \"They're great guns, but be sure to work ammunition into the deal.\"",
         "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
         "success": {
           "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_4",
@@ -161,11 +161,11 @@
     "dynamic_line": "&Rubik moves on to medical services and starts to explain the nature of their medical robots.  Smokes talks a bit about the Old Guard and a medical doctor stationed at the center…",
     "responses": [
       {
-        "text": "[Neutral] Sit quietly and let them negotiate.  Offer occassional help translating.",
+        "text": "[Neutral] Sit quietly and let them negotiate.  Offer occasional help translating.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_5"
       },
       {
-        "text": "[Favour Exodii] Explain to Smokes the miraculous nature of their medical technology, and how it's definitely worth the price for access to it.",
+        "text": "[Favor Exodii] Explain to Smokes the miraculous nature of their medical technology, and how it's definitely worth the price for access to it.",
         "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
         "success": {
           "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_5",
@@ -184,7 +184,7 @@
         }
       },
       {
-        "text": "[Favour Merchants] Encourage Smokes to negotiate a medical robot be installed at the Evacuee Center.",
+        "text": "[Favor Merchants] Encourage Smokes to negotiate a medical robot be installed at the Evacuee Center.",
         "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
         "success": {
           "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_5",
@@ -234,7 +234,7 @@
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_6"
       },
       {
-        "text": "[Favour Exodii] Whisper to Smokes: \"Listen, I know these guys.  Sweeten the deal as a gesture of good will, and things will go well for you.\"",
+        "text": "[Favor Exodii] Whisper to Smokes: \"Listen, I know these guys.  Sweeten the deal as a gesture of good will, and things will go well for you.\"",
         "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
         "success": {
           "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_6",
@@ -253,7 +253,7 @@
         }
       },
       {
-        "text": "[Favour Merchants] Whisper to Smokes and encourage him to ask for a bit more.",
+        "text": "[Favor Merchants] Whisper to Smokes and encourage him to ask for a bit more.",
         "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
         "success": {
           "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_6",
@@ -294,11 +294,11 @@
     "dynamic_line": "&After a quiet moment, the discussion moves on to the nature of the caravans.  The Free Merchants will want to set up an encampment near the Exodii's butte…",
     "responses": [
       {
-        "text": "[Neutral] Sit quietly and let them negotiate.  Offer occassional help translating.",
+        "text": "[Neutral] Sit quietly and let them negotiate.  Offer occasional help translating.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_7"
       },
       {
-        "text": "[Favour Exodii] Suggest deliveries be managed through a nearby camp, rather than something more permenant.  Whisper to Smokes: \"Outside of the Exodii's protection, but also outside of their influence\".",
+        "text": "[Favor Exodii] Suggest deliveries be managed through a nearby camp, rather than something more permenant.  Whisper to Smokes: \"Outside of the Exodii's protection, but also outside of their influence\".",
         "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
         "success": {
           "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_7",
@@ -317,7 +317,7 @@
         }
       },
       {
-        "text": "[Favour Merchants] Subtly hint to Smokes that they could probably negotiate protection, or a fortified structure for the Free Merchants.",
+        "text": "[Favor Merchants] Subtly hint to Smokes that they could probably negotiate protection, or a fortified structure for the Free Merchants.",
         "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
         "success": {
           "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_7",
@@ -362,11 +362,11 @@
     "dynamic_line": "&Rubik broaches the topic of recruitment & CBM interfaces…",
     "responses": [
       {
-        "text": "[Neutral] Sit quietly and let them negotiate.  Offer occassional help translating.",
+        "text": "[Neutral] Sit quietly and let them negotiate.  Offer occasional help translating.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_8"
       },
       {
-        "text": "[Favour Exodii] Talk about the benefits of CBMs.",
+        "text": "[Favor Exodii] Talk about the benefits of CBMs.",
         "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
         "success": {
           "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_8",
@@ -385,7 +385,7 @@
         }
       },
       {
-        "text": "[Favour Merchants] Point out that the Exodii are asking for access to people, which should be negotiated like anything else.  \"Rubik, maybe it's worth sweetening the deal some, if you're going to be courting some of their people.\"",
+        "text": "[Favor Merchants] Point out that the Exodii are asking for access to people, which should be negotiated like anything else.  \"Rubik, maybe it's worth sweetening the deal some, if you're going to be courting some of their people.\"",
         "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
         "success": {
           "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_8",
@@ -423,10 +423,10 @@
   {
     "id": [ "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_8" ],
     "type": "talk_topic",
-    "dynamic_line": "&The negotiation is coming to an end, and evething both parties are willing to offer is on the table…",
+    "dynamic_line": "&The negotiation is coming to an end…",
     "responses": [
       {
-        "text": "[Neutral] Let them finish, and offer occassional help translating.",
+        "text": "[Neutral] Let them finish, and offer occasional help translating.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_DONE"
       },
       {
