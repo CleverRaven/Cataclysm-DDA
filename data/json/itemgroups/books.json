@@ -459,6 +459,7 @@
       { "item": "cookbook_bloodforgood", "prob": 2 },
       { "item": "atomic_survival", "prob": 1 },
       { "item": "textbook_anarch", "prob": 1 },
+      { "item": "improvised_munition_handbook", "prob": 1 },
       { "item": "book_pneumatics", "prob": 1 },
       { "item": "cookbook_human", "prob": 1 },
       { "item": "theater_props", "prob": 1 }
@@ -601,6 +602,7 @@
       { "item": "pocket_firstaid", "prob": 4 },
       { "item": "pocket_survival", "prob": 2 },
       { "item": "textbook_anarch", "prob": 1 },
+      { "item": "improvised_munition_handbook", "prob": 1 },
       { "item": "textbook_survival", "prob": 8 },
       { "item": "modern_tanner", "prob": 4 },
       { "item": "manual_survival", "prob": 3 },

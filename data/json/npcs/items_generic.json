@@ -1054,6 +1054,7 @@
       [ "tent_kit", 6 ],
       [ "tequila", 5 ],
       [ "textbook_anarch", 1 ],
+      { "item": "improvised_munition_handbook", "prob": 1 },
       [ "textbook_armeast", 1 ],
       [ "textbook_armwest", 1 ],
       [ "textbook_business", 1 ],
