@@ -302,10 +302,68 @@
     "condition": { "not": { "u_has_effect": "effect_changeling_gain_dreamdross_from_dreams" } },
     "effect": [
       {
-        "u_add_effect": "effect_changeling_gain_dreamdross_from_dreams",
-        "duration": { "math": [ "518400 + rand(259200) - (n_skill('gramarye') * 28800) * rng(0.66666,1.333333)" ] }
-      },
-      { "run_eocs": [ "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS_SPAWN" ], "alpha_talker": "npc" }
+        "if": { "not": { "u_has_effect": "effect_changeling_banquet_of_dreams_damage" } },
+        "then": [
+          {
+            "if": {
+              "or": [
+                { "npc_has_effect": "effect_changeling_active_banquet_of_dreams" },
+                {
+                  "and": [ { "npc_has_effect": "effect_changeling_temporary_psychopath" }, { "x_in_y_chance": { "x": 1, "y": 5 } } ]
+                }
+              ]
+            },
+            "then": [
+              {
+                "u_add_effect": "effect_changeling_gain_dreamdross_from_dreams",
+                "duration": { "math": [ "518400 + rand(259200) - (n_skill('gramarye') * 28800) * rng(0.66666,1.333333)" ] }
+              },
+              { "u_add_effect": "effect_changeling_banquet_of_dreams_damage", "duration": "PERMANENT" },
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS_TARGET_PSYCHOLOGICAL_DAMAGE",
+                    "effect": [
+                      {
+                        "u_roll_remainder": [
+                          "NUMB",
+                          "BADTEMPER",
+                          "SHOUT2",
+                          "CHEMIMBALANCE",
+                          "MOODSWINGS",
+                          "FORGETFUL",
+                          "ADDICTIVE",
+                          "NARCOLEPTIC",
+                          "JITTERY",
+                          "INSOMNIA",
+                          "HEAVYSLEEPER2"
+                        ],
+                        "type": "mutation"
+                      }
+                    ]
+                  }
+                ],
+                "iterations": 3
+              },
+              { "run_eocs": [ "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS_SPAWN_FEAST" ], "alpha_talker": "npc" }
+            ],
+            "else": [
+              {
+                "u_add_effect": "effect_changeling_gain_dreamdross_from_dreams",
+                "duration": { "math": [ "518400 + rand(259200) - (n_skill('gramarye') * 28800) * rng(0.66666,1.333333)" ] }
+              },
+              { "run_eocs": [ "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS_SPAWN" ], "alpha_talker": "npc" }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "u_add_effect": "effect_changeling_gain_dreamdross_from_dreams",
+            "duration": { "math": [ "518400 + rand(259200) - (n_skill('gramarye') * 28800) * rng(0.66666,1.333333)" ] }
+          },
+          { "run_eocs": [ "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS_SPAWN_LOW" ], "alpha_talker": "npc" }
+        ]
+      }
     ],
     "false_effect": [
       { "npc_message": "The mortal's dreams are fragile, evanescent things, not suitable for the harvest.", "type": "bad" }
@@ -328,6 +386,34 @@
         "else": { "u_spawn_item": "scrap_dreamdross", "count": { "math": [ "(rand(4) + 1)" ] }, "suppress_message": true }
       },
       { "u_message": "You reach into the mortal's dreams and coalesce them into shining dreamdross.", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS_SPAWN_LOW",
+    "//": "We need this hack because there is no npc_spawn_item",
+    "effect": [
+      { "u_spawn_item": "scrap_dreamdross", "count": { "math": [ "rand(2)" ] }, "suppress_message": true },
+      {
+        "u_message": "You reach into the mortal's feeble dreams and pull what few scraps of dreamdross out as you can.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS_SPAWN_FEAST",
+    "//": "We need this hack because there is no npc_spawn_item",
+    "effect": [
+      {
+        "u_spawn_item": "scrap_dreamdross",
+        "count": { "math": [ "(rand(4) + 4) + (rand(4) + 4) + (rand(4) + 4) + (rand(4) + 4) + (rand(4) + 4) + 12" ] },
+        "suppress_message": true
+      },
+      {
+        "u_message": "You reach into the mortal's and rip them out whole, filling both hands with a cascade of shining dreamdross.",
+        "type": "good"
+      }
     ]
   },
   {
