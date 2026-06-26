@@ -50,11 +50,11 @@
       {
         "if": {
           "or": [
-            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') >= 29" ] },
-            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') >= 29" ] },
-            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') >= 38" ] },
-            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') >= 28" ] },
-            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') >= 25" ] }
+            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') >= 31" ] },
+            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') >= 31" ] },
+            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') >= 40" ] },
+            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') >= 30" ] },
+            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') >= 27" ] }
           ]
         },
         "then": [
@@ -341,7 +341,14 @@
     "condition": {
       "and": [
         { "test_eoc": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING" },
-        { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord" ] }
+        {
+          "or": [
+            { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord" ] },
+            { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord" ] },
+            { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord" ] },
+            { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord" ] }
+          ]
+        }
       ]
     },
     "effect": [ { "math": [ "u_changeling_advancement_dreams_counter++" ] } ]
