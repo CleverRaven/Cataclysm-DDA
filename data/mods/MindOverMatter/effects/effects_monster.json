@@ -434,6 +434,20 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_mom_tindalos_hounds_corrupted_stride",
+    "//": "Hidden affect, turns Extended Stride into a penalty",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_tindalos_hounds_corrupted_stride_warning",
+    "name": [ "Corrupted Stride" ],
+    "desc": [ "Your Extended Stride is working the opposite of how it should, increasing relative distance around you." ],
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_riftwalker_teleport",
     "name": [ "Dimensionally Unstable" ],
     "desc": [ "You feel like you're barely part of the world." ],
