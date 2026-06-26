@@ -2149,7 +2149,6 @@
     "decay_messages": [ [ "You are sinking despite your best efforts.", "bad" ], [ "You wobble briefly downward before recovering.", "bad" ] ],
     "rating": "good",
     "max_duration": "7 days",
-    "max_intensity": 34,
     "flags": [ "LEVITATION", "CLIMB_FLYING", "ITEM_WATERPROOFING", "WATERWALKING" ]
   },
   {
