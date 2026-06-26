@@ -181,6 +181,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_DISPLACEMENT_CHECK",
+    "condition": {
+      "and": [
+        { "not": { "u_has_flag": "TELEPORT_IMMUNE" } },
+        { "not": { "u_has_flag": "TELESTOP" } },
+        { "not": { "u_has_flag": "DIMENSIONAL_ANCHOR" } },
+        { "not": { "u_has_flag": "TELEPORT_LOCK" } }
+      ]
+    },
     "effect": [
       { "math": [ "u_teleportation_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
       { "math": [ "u_teleportation_intelligence_power_level = n_spell_level('teleport_displacement')" ] },
@@ -211,6 +219,12 @@
             "else": [ { "npc_message": "You touch <u_name> but nothing happens.  They are too big to teleport.", "type": "bad" } ]
           }
         ]
+      }
+    ],
+    "false_effect": [
+      {
+        "if": { "not": { "npc_has_effect": "effect_teleport_reactive_displacement" } },
+        "then": [ { "npc_message": "You touch <u_name> but nothing happens at all.", "type": "bad" } ]
       }
     ]
   },
