@@ -192,11 +192,8 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "survivor_corpse",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_items": [ { "item": "corpses_unisex_survival", "x": [ 0 ], "y": [ 0 ], "chance": 100 } ]
-    }
+    "nested_mapgen_id": "corpses_bones_only",
+    "object": { "mapgensize": [ 1, 1 ], "place_items": [ { "item": "corpses_bones_only", "x": [ 0 ], "y": [ 0 ], "chance": 100 } ] }
   },
   {
     "type": "mapgen",
