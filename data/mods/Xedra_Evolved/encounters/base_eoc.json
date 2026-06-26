@@ -25,7 +25,7 @@
       { "u_message": "Xedra Evolved random encounter has met its conditions.", "type": "debug" },
       {
         "u_location_variable": { "global_val": "XE_randenc_loc" },
-        "target_params": { "om_terrain": { "context_val": "omt" }, "random": true, "search_range": 30, "min_distance": 3 }
+        "target_params": { "om_terrain": { "context_val": "omt" }, "random": true, "z": 0, "search_range": 30, "min_distance": 3 }
       },
       {
         "mapgen_update": [ { "context_val": "map_update" } ],
