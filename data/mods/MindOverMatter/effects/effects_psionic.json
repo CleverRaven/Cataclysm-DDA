@@ -2474,12 +2474,7 @@
       },
       {
         "condition": { "u_has_effect": "effect_mom_tindalos_hounds_corrupted_stride" },
-        "values": [
-          {
-            "value": "MOVE_COST",
-            "multiply": { "math": [ "max( ( ( ( u_spell_level('teleport_stride') * 0.02 ) + 0.05 ) * psionic_power_modifiers() ), 0.6)" ] }
-          }
-        ],
+        "values": [ { "value": "MOVE_COST", "multiply": -0.05 } ],
         "ench_effects": [ { "effect": "effect_mom_tindalos_hounds_corrupted_stride_warning", "intensity": 1 } ]
       }
     ],
