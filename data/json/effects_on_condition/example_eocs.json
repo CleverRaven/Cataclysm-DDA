@@ -7,11 +7,36 @@
       { "set_string_var": "name_3", "target_var": { "context_val": "name" } },
       { "set_string_var": "option 3", "target_var": { "context_val": "description" }, "i18n": true },
       {
-        "run_eoc_selector": [ "EOC_selector_test_1", "EOC_selector_test_2", "EOC_selector_test_3", "EOC_selector_test_4" ],
-        "names": [ "name_1", "name_2", "<context_val:name>", "should_fail" ],
-        "keys": [ "a", "b", "c", "d" ],
-        "descriptions": [ "option 1", "option 2", "<context_val:description>", "should not be available" ],
-        "variables": [ { "val": 8 } ],
+        "run_eoc_selector": [
+          {
+            "eocs": [ "EOC_selector_test_1" ],
+            "name": "name_1",
+            "key": "a",
+            "description": "option 1",
+            "variables": [ { "val": 8 } ]
+          },
+          {
+            "eocs": [ "EOC_selector_test_2" ],
+            "name": "name_2",
+            "key": "b",
+            "description": "option 2",
+            "variables": [ { "val": 8 } ]
+          },
+          {
+            "eocs": [ "EOC_selector_test_3" ],
+            "name": "<context_val:name>",
+            "key": "c",
+            "description": "<context_val:description>",
+            "variables": [ { "val": 8 } ]
+          },
+          {
+            "eocs": [ "EOC_selector_test_4" ],
+            "name": "should_fail",
+            "key": "d",
+            "description": "should not be available",
+            "variables": [ { "val": 8 } ]
+          }
+        ],
         "title": "<context_val:title>",
         "allow_cancel": true
       }
