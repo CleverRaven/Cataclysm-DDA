@@ -4,7 +4,7 @@
     "id": "NC_ARSONIST_STOCK",
     "subtype": "collection",
     "items": [
-      { "item": "molotov", "count": 5 },
+      { "distribution": [ { "item": "molotov", "count": 5 }, { "item": "gelled_molotov", "count": 5 } ] },
       { "item": "cotton_patchwork", "count": 25 },
       { "item": "gasoline", "count": 1 },
       { "item": "pipebomb", "count": 25 },
@@ -12,6 +12,7 @@
       { "item": "FMCNote", "count": 3 },
       { "item": "nail", "count": 5, "charges": [ 1, 100 ] },
       { "item": "rebar", "count": 5 },
+      { "item": "improvised_munition_handbook", "count": 1 },
       { "item": "textbook_anarch", "count": 1 },
       { "count": 1, "group": "fertilizer_commercial_bag_canvas_60" }
     ]
