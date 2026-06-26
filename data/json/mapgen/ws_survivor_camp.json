@@ -189,7 +189,11 @@
         "E": { "chunks": [ [ "tent_b_3x3_E", 10 ], [ "tent_b_5x5_E", 20 ], [ "null", 5 ] ] },
         "W": { "chunks": [ [ "tent_b_3x3_W", 10 ], [ "tent_b_5x5_W", 20 ], [ "null", 5 ] ] }
       },
-      "terrain": { "_": "t_region_groundcover", "O": "t_pit_shallow", "p": [ "t_pit_spiked", "t_region_groundcover" ] },
+      "terrain": {
+        "_": "t_region_groundcover",
+        "O": "t_pit_shallow",
+        "p": [ [ "t_pit_spiked", 3 ], [ "t_dirt", 3 ], [ "t_region_groundcover", 1 ] ]
+      },
       "furniture": { "O": "f_firering" },
       "items": {
         "c": { "item": "sc_loot_rare", "chance": 30 },
