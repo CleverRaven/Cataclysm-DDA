@@ -418,11 +418,12 @@
     "purifiable": false,
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "You get ready to rip as much power from mortal dreams as you can.",
     "spells_learned": [ [ "changeling_gain_dreamdross_from_dreams", 1 ] ],
     "enchantments": [
       {
         "condition": "ACTIVE",
-        "ench_effects": [ { "effects": "effect_changeling_active_banquet_of_dreams", "intensity": 1 } ]
+        "ench_effects": [ { "effect": "effect_changeling_active_banquet_of_dreams", "intensity": 1 } ]
       }
     ]
   },
