@@ -16,6 +16,20 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_active_banquet_of_dreams",
+    "//": "Hidden effect, used to determine if a mutation is active",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_banquet_of_dreams_damage",
+    "//": "Hidden effect, used if a target has had empowered Banquet of Dreams used on them",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_stop_nether_conditions",
     "name": [ "Dancer in the Endless Dark" ],
     "desc": [ "You are immune to several deleterious otherworldly conditions." ],
