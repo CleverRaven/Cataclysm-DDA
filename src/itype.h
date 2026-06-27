@@ -377,6 +377,7 @@ enum class item_display_type {
     BY_WEIGHT, // e.g. "12lbs of salt"
     BY_VOLUME, // e.g. "4 liters of water"
     BY_LENGTH, // e.g. "12ft of duct tape"
+    BY_VALUE, // e.g. "$200 of gift cards"
     LAST
 };
 
