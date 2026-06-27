@@ -32,6 +32,13 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SHADOW_SPAWN_CONDITIONS_XE_EFFECTS",
+    "//": "This is overridden in XE but is always true in vanilla",
+    "condition": { "not": { "u_has_effect": "effect_changeling_" } },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SHADOW_WITHDRAWS_FOR_NOW",
     "recurrence": "1 second",
     "global": true,

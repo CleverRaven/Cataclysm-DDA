@@ -363,6 +363,13 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SHADOW_SPAWN_CONDITIONS_XE_EFFECTS",
+    "//": "This is overridden in XE but is always true in vanilla",
+    "condition": { "math": [ "0 == 0" ] },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SHADOW_SPAWN_CONDITIONS",
     "//1": "Night time, shadow is active, you are outdoors *and awake*, and you are not likely to be near shelter.",
     "//2": "Requires at least one warning to have been given before spawning can succeed. The warnings are global, not character-unique.",
@@ -370,7 +377,8 @@
       "and": [
         { "test_eoc": "EOC_SHADOW_SPAWN_CONDITIONS_SHOULD_SPAWN" },
         { "test_eoc": "EOC_SHADOW_SPAWN_CONDITIONS_CAN_SPAWN" },
-        { "test_eoc": "EOC_SHADOW_SPAWN_CONDITIONS_VALID_LOCATION" }
+        { "test_eoc": "EOC_SHADOW_SPAWN_CONDITIONS_VALID_LOCATION" },
+        { "test_eoc": "EOC_SHADOW_SPAWN_CONDITIONS_XE_EFFECTS" }
       ]
     }
   },
