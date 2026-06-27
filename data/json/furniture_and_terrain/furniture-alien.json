@@ -1049,7 +1049,7 @@
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "mc_steel_chunk", "count": [ 1, 6 ] },
         { "item": "uranium", "count": [ 10, 50 ] },
-        { "item": "uran_cell", "charges": [ 10, 150 ] },
+        { "item": "uran_cell", "count": [ 10, 150 ] },
         { "item": "plutonium", "count": [ 0, 20 ] },
         { "item": "lead", "count": [ 12, 18 ] }
       ]
