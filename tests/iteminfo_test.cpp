@@ -2751,7 +2751,7 @@ TEST_CASE( "disassembly_time_and_yield", "[iteminfo][disassembly]" )
            "--\n"
            "<color_c_white>Disassembly</color> takes about 2 minutes, requires 1 tool"
            " with <color_c_cyan>metal sawing of 2</color> or more and <color_c_white>might"
-           " yield</color>: 24 TEST small metal sheet.\n" );
+           " yield</color>: 24 TEST small metal sheets.\n" );
 }
 
 // Related JSON fields:

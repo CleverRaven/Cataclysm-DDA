@@ -14,8 +14,8 @@
 #include "color.h"
 #include "debug.h"
 #include "enum_conversions.h"
-#include "flexbuffer_json.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
@@ -32,7 +32,6 @@
 #include "trap.h"
 #include "type_id.h"
 #include "uilist.h"
-
 
 static furn_id f_null;
 
@@ -51,13 +50,15 @@ static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
 
 static const skill_id skill_survival( "survival" );
 
-namespace
+namespace mapdata
 {
 
 generic_factory<ter_t> terrain_data( "terrain" );
 generic_factory<furn_t> furniture_data( "furniture" );
 
-} // namespace
+} // namespace mapdata
+
+using namespace mapdata;
 
 /** @relates int_id */
 template<>
@@ -701,6 +702,11 @@ void map_data_common_t::set_examine( const iexamine_functions &func )
 {
     examine_func.clear();
     examine_func.emplace_back( func );
+}
+
+std::vector<cata::clone_ptr<iexamine_actor>> map_data_common_t::get_examine() const
+{
+    return examine_actor;
 }
 
 void map_data_common_t::examine( Character &you, const tripoint_bub_ms &examp ) const
