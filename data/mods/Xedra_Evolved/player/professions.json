@@ -843,7 +843,7 @@
           { "group": "charged_smart_phone" },
           { "item": "leaves", "count": 4 },
           { "item": "cotton_patchwork", "count": 4 },
-          { "item": "ash", "count": 48 },
+          { "item": "ash", "count": 4 },
           { "item": "soybean_seed", "count": 4 }
         ]
       },

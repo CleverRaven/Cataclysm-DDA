@@ -436,7 +436,7 @@
       [ [ "clay_lump", 1 ] ],
       [ [ "edible_blood", 6, "LIST" ], [ "blank_blood", 1 ] ],
       [ [ "water_clean", 5 ] ],
-      [ [ "corpse_ash", 25 ] ]
+      [ [ "corpse_ash", 2 ] ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -583,7 +583,7 @@
       [ [ "salamander_sample", 5 ] ],
       [ [ "faewild", 5 ] ],
       [ [ "scrap_dreamdross", 5 ] ],
-      [ [ "ash", 50 ], [ "corpse_ash", 50 ] ]
+      [ [ "ash", 5 ], [ "corpse_ash", 5 ] ]
     ]
   }
 ]

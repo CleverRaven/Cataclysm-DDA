@@ -156,7 +156,7 @@
       [
         [ "ammonia_liquid", 2 ],
         [ "vinegar", 16 ],
-        [ "ash", 100 ],
+        [ "ash", 10 ],
         [ "tanbark", 1 ],
         [ "salt", 100 ],
         [ "chem_potassium_alum", 100 ]

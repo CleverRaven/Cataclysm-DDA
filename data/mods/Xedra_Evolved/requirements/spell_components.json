@@ -94,7 +94,7 @@
   {
     "id": "spell_components_hedge_light_fire",
     "type": "requirement",
-    "components": [ [ [ "ash", 12 ], [ "corpse_ash", 12 ] ] ]
+    "components": [ [ [ "ash", 1 ], [ "corpse_ash", 1 ] ] ]
   },
   {
     "id": "spell_components_hedge_make_plants_grow",
@@ -135,7 +135,7 @@
   {
     "id": "spell_components_hedge_nether_eye_paste",
     "type": "requirement",
-    "components": [ [ [ "corpse_ash", 50 ] ], [ [ "edible_blood", 1, "LIST" ], [ "blood_tainted", 1 ] ], [ [ "wild_herbs", 20 ] ] ],
+    "components": [ [ [ "corpse_ash", 5 ] ], [ [ "edible_blood", 1, "LIST" ], [ "blood_tainted", 1 ] ], [ [ "wild_herbs", 20 ] ] ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 } ]
   },
   {
@@ -274,7 +274,7 @@
     "id": "spell_components_hedge_extinguish_fire_spell",
     "type": "requirement",
     "tools": [ [ [ "spellbook_hedge_book_of_raziel", -1 ] ] ],
-    "components": [ [ [ "ash", 25 ] ] ]
+    "components": [ [ [ "ash", 2 ] ] ]
   },
   {
     "id": "spell_components_hedge_chicken_sacrifice_make_rain",

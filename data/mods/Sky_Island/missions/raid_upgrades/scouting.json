@@ -594,7 +594,7 @@
       [ [ "porcelain_urn", 1 ] ],
       [ [ "crystal_urn", 1 ] ],
       [ [ "warptoken", 16 ] ],
-      [ [ "corpse_ash", 3000 ] ]
+      [ [ "corpse_ash", 300 ] ]
     ]
   },
   {

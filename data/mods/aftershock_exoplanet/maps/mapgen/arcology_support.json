@@ -583,7 +583,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "a" ],
       "furniture": { "a": "f_ash" },
-      "item": { "a": [ { "item": "ash", "amount": 49, "chance": 100 }, { "item": "bone_human", "amount": [ 3, 5 ], "chance": 50 } ] },
+      "item": { "a": [ { "item": "ash", "amount": 4, "chance": 100 }, { "item": "bone_human", "amount": [ 3, 5 ], "chance": 50 } ] },
       "items": { "a": { "item": "science", "chance": 10 } }
     }
   },
