@@ -57,6 +57,39 @@
     "base_casting_time": 90000
   },
   {
+    "id": "changeling_gain_dreamdross_from_dreams",
+    "type": "SPELL",
+    "name": "Banquet of Dreams",
+    "description": "Draw on the dreams of a sleeping mortal, condensing them into dreamdross.  When so harnessed, the target requires a period of time after to recover before their dreams are once again suitable for harvesting.  A mortal whose dreams are harvested will also be depressed for a time afterwards.",
+    "message": "",
+    "flags": [ "NO_FAIL", "VERBAL", "SOMATIC", "SILENT" ],
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "target_condition": {
+      "and": [
+        { "npc_has_effect": "sleep" },
+        "npc_is_character",
+        {
+          "not": {
+            "npc_has_any_trait": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE", "VAMPIRE", "LILIN_TRAITS", "CHANGELING_MAGIC" ]
+          }
+        }
+      ]
+    },
+    "target_condition_fail_message": "You must target a sleeping mortal with this glamour.",
+    "difficulty": 4,
+    "skill": "gramarye",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS",
+    "magic_type": "xe_fey_magick",
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "base_energy_cost": 800,
+    "base_casting_time": 90000
+  },
+  {
     "id": "changeling_disguise_as_nature_spell",
     "type": "SPELL",
     "name": "None Here But the Stones",
@@ -124,6 +157,29 @@
     "magic_type": "xe_fey_magick",
     "base_energy_cost": { "math": [ "max(( 300 - (changeling_common_traits() * 3) - (u_skill('gramarye') * 10)), 100)" ] },
     "base_casting_time": { "math": [ "max(( 100 - changeling_common_traits() - (u_skill('gramarye') * 3)), 50)" ] }
+  },
+  {
+    "id": "changeling_stop_nether_conditions_spell",
+    "type": "SPELL",
+    "name": "Dancing in the Endless Dark",
+    "description": "This glamour will protect you from a variety of deleterious otherworldly afflictions, such as the gaze of a flaming eye or the side effects of sudden teleportation.  It may also be applied to allies, but it must be applied before exposure",
+    "message": "",
+    "flags": [ "NO_FAIL", "SOMATIC", "VERBAL", "RANDOM_DURATION" ],
+    "valid_targets": [ "self", "ally" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 7,
+    "skill": "gramarye",
+    "max_level": 1,
+    "effect": "attack",
+    "effect_str": "effect_changeling_stop_nether_conditions",
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": { "math": [ "(changeling_common_traits() * 5095) + (u_skill('gramarye') * 12185) + 18952" ] },
+    "max_duration": { "math": [ "(changeling_common_traits() * 13091) + (u_skill('gramarye') * 29051) + 42915" ] },
+    "magic_type": "xe_fey_magick",
+    "base_energy_cost": { "math": [ "max(( 550 - (changeling_common_traits() * 4) - (u_skill('gramarye') * 9)), 250)" ] },
+    "base_casting_time": { "math": [ "max(( 1000 - (changeling_common_traits() * 7) - (u_skill('gramarye') * 13)), 500)" ] }
   },
   {
     "id": "changeling_noble_cure_bad_conditions_spell",

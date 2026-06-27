@@ -231,6 +231,40 @@
     "base_casting_time": 50
   },
   {
+    "id": "changeling_autumn_stop_supernatural_healing_spell",
+    "type": "SPELL",
+    "name": "Malediction of the Recalcitrant Wound",
+    "description": "Curse the target's body with supernatural frailty, reducing their healing time and blocking supernatural forms of regeneration from working at all.  The duration is <color_green>greatly increased</color> in autumn.",
+    "message": "You mutter a curse under your breath and point at your target.",
+    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "ally", "hostile" ],
+    "teachable": false,
+    "skill": "gramarye",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 5,
+    "effect": "attack",
+    "effect_str": "effect_changeling_autumn_stop_supernatural_healing",
+    "min_range": 12,
+    "max_range": 12,
+    "min_duration": {
+      "math": [
+        "( ( 1905 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 209) + (u_skill('gramarye') * 684) ) ) * (global_what_is_the_season == 3 ? 3 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 5690 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 581) + (u_skill('gramarye') * 1185) ) ) * (global_what_is_the_season == 3 ? 3 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 500 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 7) - (u_skill('gramarye') * 11)), 250)" ]
+    },
+    "base_casting_time": 150
+  },
+  {
     "id": "changeling_autumn_protection_from_ranged_spell",
     "type": "SPELL",
     "name": "Swirl of Autumn Leaves",
@@ -421,5 +455,144 @@
       "math": [ "max( ( 850 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 6) - (u_skill('gramarye') * 11)), 550)" ]
     },
     "base_casting_time": 175
+  },
+  {
+    "id": "changeling_autumn_giant_withering_aoe_spell",
+    "type": "SPELL",
+    "name": "The Dying of the Year",
+    "description": "No matter how much it might struggle, in the end, every leaf falls.  This glamour channels the raw power of autumn into an area around you, killing plants and causing rapid decay in anyone caught in the radius.  The damage is <color_red>greatly reduced</color> in spring.",
+    "message": "You throw both your hands wide and the vegetation around you starts to wither and die.",
+    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DAMAGE", "RANDOM_DURATION", "IGNORE_WALLS", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "ally", "hostile" ],
+    "teachable": false,
+    "skill": "gramarye",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 10,
+    "effect": "attack",
+    "components": "spell_components_changeling_dreamsparks_4",
+    "extra_effects": [
+      { "id": "changeling_autumn_giant_withering_aoe_ter_transform_spell", "hit_self": true },
+      { "id": "changeling_autumn_giant_withering_aoe_extra_plant_damage_spell" }
+    ],
+    "damage_type": "withering_damage",
+    "min_damage": {
+      "math": [
+        "( ( 13 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 1) + (u_skill('gramarye') * 2) ) ) * (global_what_is_the_season == 1 ? 0.4 : 1)"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( ( 24 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 1.8) + (u_skill('gramarye') * 3) ) ) * (global_what_is_the_season == 1 ? 0.4 : 1)"
+      ]
+    },
+    "min_dot": {
+      "math": [
+        "( ( 1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.1) + (u_skill('gramarye') * 0.3333) ) ) * (global_what_is_the_season == 1 ? 0.4 : 1)"
+      ]
+    },
+    "max_dot": {
+      "math": [
+        "( ( 1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.1) + (u_skill('gramarye') * 0.3333) ) ) * (global_what_is_the_season == 1 ? 0.4 : 1)"
+      ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( ( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.5) + (u_skill('gramarye') * 1) ) ), 20)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.5) + (u_skill('gramarye') * 1) ) ), 20)"
+      ]
+    },
+    "min_duration": {
+      "math": [ "( ( 805 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 75) + (u_skill('gramarye') * 165) ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( ( 2105 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 195) + (u_skill('gramarye') * 328) ) )" ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 2000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 19) - (u_skill('gramarye') * 28)), 1000)"
+      ]
+    },
+    "base_casting_time": 350,
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING" ]
+  },
+  {
+    "id": "changeling_autumn_giant_withering_aoe_ter_transform_spell",
+    "type": "SPELL",
+    "name": { "str": "The Dying of the Year Ter Transform", "//~": "NO_I18N" },
+    "description": { "str": "Ter transform from the Dying of the Year.  You should not see this.", "//~": "NO_I18N" },
+    "message": "",
+    "flags": [ "NO_HANDS", "NO_LEGS", "SILENT", "NO_PROJECTILE", "IGNORE_WALLS" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "self", "ground" ],
+    "teachable": false,
+    "skill": "gramarye",
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "ter_transform",
+    "effect_str": "dead_vegetation",
+    "//": "Turns out there's already a ter_transform to kill plants so we can just borrow that",
+    "min_aoe": {
+      "math": [
+        "min( ( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.5) + (u_skill('gramarye') * 1) ) ), 20)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.5) + (u_skill('gramarye') * 1) ) ), 20)"
+      ]
+    }
+  },
+  {
+    "id": "changeling_autumn_giant_withering_aoe_extra_plant_damage_spell",
+    "type": "SPELL",
+    "name": { "str": "The Dying of the Year Plant Damage", "//~": "NO_I18N" },
+    "description": { "str": "Extra damage to plants from the Dying of the Year.  You should not see this.", "//~": "NO_I18N" },
+    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DAMAGE", "RANDOM_DURATION", "IGNORE_WALLS", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "ally", "hostile" ],
+    "teachable": false,
+    "skill": "gramarye",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 10,
+    "effect": "attack",
+    "damage_type": "withering_damage",
+    "min_dot": {
+      "math": [
+        "( ( 1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.1) + (u_skill('gramarye') * 0.3333) ) ) * (global_what_is_the_season == 1 ? 0.4 : 1)"
+      ]
+    },
+    "max_dot": {
+      "math": [
+        "( ( 1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.1) + (u_skill('gramarye') * 0.3333) ) ) * (global_what_is_the_season == 1 ? 0.4 : 1)"
+      ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( ( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.5) + (u_skill('gramarye') * 1) ) ), 20)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.5) + (u_skill('gramarye') * 1) ) ), 20)"
+      ]
+    },
+    "min_duration": {
+      "math": [ "( ( 805 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 75) + (u_skill('gramarye') * 165) ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( ( 2105 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 195) + (u_skill('gramarye') * 328) ) )" ]
+    },
+    "base_casting_time": 350,
+    "targeted_monster_species": [ "PLANT", "ARVORE" ]
   }
 ]
