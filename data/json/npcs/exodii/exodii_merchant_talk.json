@@ -686,6 +686,38 @@
         "topic": "TALK_EXODII_MERCHANT_mission_3_complete"
       },
       {
+        "text": "So, we seem to be done with the negotiations.  Let's talk payment.",
+        "condition": {
+          "and": [
+            { "not": { "math": [ "exodii_FM_annoyed >= 3" ] } },
+            { "math": [ "exodii_FM_negotiation_success == 1" ] },
+            { "u_has_mission": "EXODII_MISSION_MEET_FREE_MERCHANTS" }
+          ]
+        },
+        "effect": { "finish_mission": "EXODII_MISSION_MEET_FREE_MERCHANTS", "success": true },
+        "topic": "TALK_EXODII_MERCHANT_mission_4_complete"
+      },
+      {
+        "text": "Well, the deal went through.  I did my best, Rubik.",
+        "condition": {
+          "and": [
+            { "math": [ "exodii_FM_annoyed >= 3" ] },
+            { "math": [ "exodii_FM_negotiation_success == 1" ] },
+            { "u_has_mission": "EXODII_MISSION_MEET_FREE_MERCHANTS" }
+          ]
+        },
+        "effect": { "finish_mission": "EXODII_MISSION_MEET_FREE_MERCHANTS", "success": true },
+        "topic": "TALK_EXODII_MERCHANT_mission_4_complete_partial"
+      },
+      {
+        "text": "Those negotiations didn't go so well, did they?",
+        "condition": {
+          "and": [ { "math": [ "exodii_FM_negotiation_failed == 1" ] }, { "u_has_mission": "EXODII_MISSION_MEET_FREE_MERCHANTS" } ]
+        },
+        "effect": [ { "finish_mission": "EXODII_MISSION_MEET_FREE_MERCHANTS", "success": true }, { "u_add_faction_trust": -10 } ],
+        "topic": "TALK_EXODII_MERCHANT_mission_4_complete_failed"
+      },
+      {
         "text": "I managed to find a computer in that other-Exodii place we talked about.  Here's the data.",
         "condition": {
           "and": [
@@ -1412,6 +1444,24 @@
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_mission_3_intro"
+      },
+      {
+        "text": "[Pop-an-Work: Free Merchants]",
+        "//": "Only available if the player didn't sell the warehouse to Hub 01, or if they did, as long as the Exodii didn't find out",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "EXODII_MISSION_MEET_FREE_MERCHANTS" } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "mission_completed_exodii_mission_meet_free_merchants" } ] }
+            },
+            { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
+            { "math": [ "warehouse_was_found == 1" ] },
+            { "math": [ "exodii_knows_u_double_crossed != 1" ] },
+            { "math": [ "time_since('cataclysm', 'unit':'days') >= 14" ] },
+            { "math": [ "FM_exodii_caravan_placed != 1" ] }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_mission_4_intro"
       },
       { "text": "I'm not interested in anything right now.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
