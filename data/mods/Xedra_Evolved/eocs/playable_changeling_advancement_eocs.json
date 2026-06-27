@@ -1,10 +1,100 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_XE_CHANGELING_GRANT_POWER_VITAMIN_RECURRING",
-    "recurrence": [ "8 days", "10 days" ],
-    "condition": { "test_eoc": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING" },
-    "effect": { "math": [ "u_changeling_advancement_dreams_counter++" ] }
+    "id": "EOC_CHANGELING_USE_DREAMDROSS_TO_UNLOCK_NEW_TRAITS",
+    "condition": {
+      "and": [
+        {
+          "u_has_items": { "item": "scrap_dreamdross", "count": { "math": [ "u_changeling_new_trait_dreamdross_research_cost" ] } }
+        },
+        { "not": { "u_has_trait": "VAMPIRE" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "You reach into the dreamdross and draw on the dreams of mortals for power.", "type": "good" },
+      {
+        "u_assign_activity": "ACT_CHANGELING_RESEARCH_NEW_POWERS",
+        "duration": {
+          "math": [
+            "10800 + min( ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 1800) + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 1800) + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 1800) + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 1800) + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 1800) ), 28800)"
+          ]
+        }
+      }
+    ],
+    "false_effect": [
+      {
+        "if": { "u_has_trait": "VAMPIRE" },
+        "then": {
+          "u_message": "You try to draw on the dreamdross's power but you can't think about anything but finding some warm, delicious blood to sate your thirst.",
+          "type": "bad"
+        },
+        "else": {
+          "u_message": "You don't have enough dreamdross to draw on for power.  You need at least <u_val:changeling_new_trait_dreamdross_research_cost> scraps of dreamdross.",
+          "type": "bad"
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_NEW_TRAIT_FINALIZE",
+    "//": "Trait values below have to be manually set because changes_to traits count in the total but you can't have both, so u_sum_traits_of_category won't accurately count how many traits you can have at one time.",
+    "effect": [
+      { "u_message": "You sit back with a smile.  It is done.", "type": "good" },
+      {
+        "u_consume_item": "scrap_dreamdross",
+        "count": { "math": [ "u_changeling_new_trait_dreamdross_research_cost" ] }
+      },
+      { "run_eocs": "EOC_CHANGELING_ADVANCEMENT_DREAMDROSS_COST_UPDATER" },
+      { "math": [ "u_changeling_advancement_dreams_counter++" ] },
+      {
+        "if": {
+          "or": [
+            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') >= 31" ] },
+            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') >= 31" ] },
+            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') >= 40" ] },
+            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') >= 30" ] },
+            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') >= 27" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "You have reached the pinnacle of power possible in the mortal lands.  For any greater advancements, you'll need to travel Under the Hill.",
+            "popup": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_GAIN_POWER_SPELL",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('changeling_gain_new_traits') != 1" ] },
+        { "not": { "math": [ "has_var(u_changeling_new_trait_dreamdross_research_cost)" ] } },
+        {
+          "u_has_any_trait": [
+            "UNKNOWING_CHANGELING_NOBLE",
+            "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+            "UNKNOWING_CHANGELING_COMMONER_POOKA",
+            "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+            "UNKNOWING_CHANGELING_COMMONER_TROW"
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_changeling_new_trait_dreamdross_research_cost = 35" ] },
+      { "math": [ "u_spell_level('changeling_gain_new_traits') = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_ADVANCEMENT_DREAMDROSS_COST_UPDATER",
+    "effect": [ { "math": [ "u_changeling_new_trait_dreamdross_research_cost += 35" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -251,7 +341,14 @@
     "condition": {
       "and": [
         { "test_eoc": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING" },
-        { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord" ] }
+        {
+          "or": [
+            { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord" ] },
+            { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord" ] },
+            { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord" ] },
+            { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord" ] }
+          ]
+        }
       ]
     },
     "effect": [ { "math": [ "u_changeling_advancement_dreams_counter++" ] } ]

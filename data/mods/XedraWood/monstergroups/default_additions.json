@@ -145,6 +145,19 @@
   },
   {
     "type": "monstergroup",
+    "id": "GROUP_LIZARDFOLK_HUNTING_BAND_NONHOSTILE",
+    "monsters": [ { "monster": "mon_lizardfolk_warrior", "weight": 1 }, { "monster": "mon_lizardfolk_hunter", "weight": 3 } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_LIZARDFOLK_HUNTING_BAND_HOSTILE",
+    "monsters": [
+      { "monster": "mon_lizardfolk_warrior_hostile", "weight": 1 },
+      { "monster": "mon_lizardfolk_hunter_hostile", "weight": 3 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "id": "GROUP_WILDERNESS_FOREST_ZOMBIE",
     "override": true,
     "monsters": [ { "monster": "mon_null", "weight": 1 } ]

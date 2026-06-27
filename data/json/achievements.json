@@ -1999,7 +1999,7 @@
         "is": "==",
         "target": [ "overmap_special_id", "hub_01" ],
         "visible": "when_achievement_completed",
-        "description": "Reach Hub-01"
+        "description": "Reach Hub 01"
       }
     ]
   },

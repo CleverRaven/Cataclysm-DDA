@@ -830,7 +830,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "gelled_gasoline",
     "id_suffix": "from_lye_and_rosin",
-    "//": [ "TM 21 210, Section V No. 4.1", "castor oil can be used instead of rosin" ],
+    "//": [ "TM 31-210, Section V No. 4.1", "castor oil can be used instead of rosin" ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -841,7 +841,8 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "book_learn": {
       "textbook_gaswarfare": { "skill_level": 2 },
-      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" },
+      "improvised_munition_handbook": { "skill_level": 1 }
     },
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "components": [
@@ -856,7 +857,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "gelled_gasoline",
     "id_suffix": "from_lye_alcohol_tallow",
-    "//": [ "TM 21 210, Section V No. 4.2" ],
+    "//": [ "TM 31-210, Section V No. 4.2" ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -867,7 +868,8 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "book_learn": {
       "textbook_gaswarfare": { "skill_level": 2 },
-      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" },
+      "improvised_munition_handbook": { "skill_level": 1 }
     },
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "components": [
@@ -883,7 +885,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "gelled_gasoline",
     "id_suffix": "from_lye_alcohol_tallow_substitute",
-    "//": [ "TM 21 210, Section V No. 4.2" ],
+    "//": [ "TM 31-210, Section V No. 4.2" ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -894,7 +896,8 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "book_learn": {
       "textbook_gaswarfare": { "skill_level": 2 },
-      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" },
+      "improvised_munition_handbook": { "skill_level": 1 }
     },
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "components": [
@@ -910,7 +913,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "gelled_gasoline",
     "id_suffix": "from_alcohol_soap",
-    "//": [ "TM 21 210, Section V No. 4.3" ],
+    "//": [ "TM 31-210, Section V No. 4.3" ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -921,7 +924,8 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "book_learn": {
       "textbook_gaswarfare": { "skill_level": 2 },
-      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" },
+      "improvised_munition_handbook": { "skill_level": 1 }
     },
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "components": [
@@ -936,7 +940,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "gelled_gasoline",
     "id_suffix": "from_wax",
-    "//": [ "TM 21 210, Section V No. 4.6" ],
+    "//": [ "TM 31-210, Section V No. 4.6" ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -947,7 +951,8 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "book_learn": {
       "textbook_gaswarfare": { "skill_level": 2 },
-      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" },
+      "improvised_munition_handbook": { "skill_level": 1 }
     },
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "tools": [ [ [ "water_boiling_heat", 4, "LIST" ] ] ],
@@ -963,7 +968,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "gelled_gasoline",
     "id_suffix": "from_blood",
-    "//": [ "TM 21 210, Section V No. 4.7" ],
+    "//": [ "TM 31-210, Section V No. 4.7" ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -974,7 +979,8 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "book_learn": {
       "textbook_gaswarfare": { "skill_level": 2 },
-      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" },
+      "improvised_munition_handbook": { "skill_level": 1 }
     },
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "components": [

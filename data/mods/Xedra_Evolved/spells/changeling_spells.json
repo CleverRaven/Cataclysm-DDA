@@ -1,5 +1,24 @@
 [
   {
+    "id": "changeling_gain_new_traits",
+    "type": "SPELL",
+    "name": "Unlock Your Fey Heritage",
+    "description": "Using the power of human dreams, unlock the secrets of your fey heritage.  It requires a large amount of dreamdross and time to perform this research.",
+    "message": "",
+    "flags": [ "NO_FAIL", "VERBAL", "SOMATIC" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 4,
+    "skill": "gramarye",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_USE_DREAMDROSS_TO_UNLOCK_NEW_TRAITS",
+    "magic_type": "xe_fey_magick",
+    "shape": "blast",
+    "base_energy_cost": 1000,
+    "base_casting_time": 50
+  },
+  {
     "id": "changeling_research_new_seasonal_spells",
     "type": "SPELL",
     "name": "Develop New Glamours",
@@ -35,7 +54,40 @@
     "magic_type": "xe_fey_magick",
     "shape": "blast",
     "base_energy_cost": 0,
-    "base_casting_time": 50
+    "base_casting_time": 90000
+  },
+  {
+    "id": "changeling_gain_dreamdross_from_dreams",
+    "type": "SPELL",
+    "name": "Banquet of Dreams",
+    "description": "Draw on the dreams of a sleeping mortal, condensing them into dreamdross.  When so harnessed, the target requires a period of time after to recover before their dreams are once again suitable for harvesting.  A mortal whose dreams are harvested will also be depressed for a time afterwards.",
+    "message": "",
+    "flags": [ "NO_FAIL", "VERBAL", "SOMATIC", "SILENT" ],
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "target_condition": {
+      "and": [
+        { "npc_has_effect": "sleep" },
+        "npc_is_character",
+        {
+          "not": {
+            "npc_has_any_trait": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE", "VAMPIRE", "LILIN_TRAITS", "CHANGELING_MAGIC" ]
+          }
+        }
+      ]
+    },
+    "target_condition_fail_message": "You must target a sleeping mortal with this glamour.",
+    "difficulty": 4,
+    "skill": "gramarye",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS",
+    "magic_type": "xe_fey_magick",
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "base_energy_cost": 800,
+    "base_casting_time": 90000
   },
   {
     "id": "changeling_disguise_as_nature_spell",
@@ -105,6 +157,29 @@
     "magic_type": "xe_fey_magick",
     "base_energy_cost": { "math": [ "max(( 300 - (changeling_common_traits() * 3) - (u_skill('gramarye') * 10)), 100)" ] },
     "base_casting_time": { "math": [ "max(( 100 - changeling_common_traits() - (u_skill('gramarye') * 3)), 50)" ] }
+  },
+  {
+    "id": "changeling_stop_nether_conditions_spell",
+    "type": "SPELL",
+    "name": "Dancing in the Endless Dark",
+    "description": "This glamour will protect you from a variety of deleterious otherworldly afflictions, such as the gaze of a flaming eye or the side effects of sudden teleportation.  It may also be applied to allies, but it must be applied before exposure",
+    "message": "",
+    "flags": [ "NO_FAIL", "SOMATIC", "VERBAL", "RANDOM_DURATION" ],
+    "valid_targets": [ "self", "ally" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 7,
+    "skill": "gramarye",
+    "max_level": 1,
+    "effect": "attack",
+    "effect_str": "effect_changeling_stop_nether_conditions",
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": { "math": [ "(changeling_common_traits() * 5095) + (u_skill('gramarye') * 12185) + 18952" ] },
+    "max_duration": { "math": [ "(changeling_common_traits() * 13091) + (u_skill('gramarye') * 29051) + 42915" ] },
+    "magic_type": "xe_fey_magick",
+    "base_energy_cost": { "math": [ "max(( 550 - (changeling_common_traits() * 4) - (u_skill('gramarye') * 9)), 250)" ] },
+    "base_casting_time": { "math": [ "max(( 1000 - (changeling_common_traits() * 7) - (u_skill('gramarye') * 13)), 500)" ] }
   },
   {
     "id": "changeling_noble_cure_bad_conditions_spell",
@@ -639,15 +714,19 @@
     "spell_class": "CHANGELING_MAGIC",
     "teachable": false,
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": 1,
     "difficulty": 8,
-    "base_casting_time": 180000,
-    "final_casting_time": 100,
-    "casting_time_increment": -6000,
+    "base_casting_time": {
+      "math": [
+        "max(( 180000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 2500) - (u_skill('gramarye') * 4500)), 100)"
+      ]
+    },
     "magic_type": "xe_fey_magick",
-    "base_energy_cost": 450,
-    "final_energy_cost": 350,
-    "energy_increment": -4
+    "base_energy_cost": {
+      "math": [
+        "max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 2) - (u_skill('gramarye') * 5)), 350)"
+      ]
+    }
   },
   {
     "id": "brownie_cultivate_goblin_fruit",
@@ -662,15 +741,19 @@
     "spell_class": "CHANGELING_MAGIC",
     "teachable": false,
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": 1,
     "difficulty": 8,
-    "base_casting_time": 180000,
-    "final_casting_time": 100,
-    "casting_time_increment": -6000,
+    "base_casting_time": {
+      "math": [
+        "max(( 180000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 2500) - (u_skill('gramarye') * 4500)), 100)"
+      ]
+    },
     "magic_type": "xe_fey_magick",
-    "base_energy_cost": 450,
-    "final_energy_cost": 350,
-    "energy_increment": -4
+    "base_energy_cost": {
+      "math": [
+        "max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 2) - (u_skill('gramarye') * 5)), 350)"
+      ]
+    }
   },
   {
     "id": "pooka_cultivate_goblin_fruit",
@@ -685,15 +768,17 @@
     "spell_class": "CHANGELING_MAGIC",
     "teachable": false,
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": 1,
     "difficulty": 8,
-    "base_casting_time": 180000,
-    "final_casting_time": 100,
-    "casting_time_increment": -6000,
+    "base_casting_time": {
+      "math": [
+        "max(( 180000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 2500) - (u_skill('gramarye') * 4500)), 100)"
+      ]
+    },
     "magic_type": "xe_fey_magick",
-    "base_energy_cost": 450,
-    "final_energy_cost": 350,
-    "energy_increment": -4
+    "base_energy_cost": {
+      "math": [ "max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 2) - (u_skill('gramarye') * 5)), 350)" ]
+    }
   },
   {
     "id": "trow_cultivate_goblin_fruit",
@@ -708,15 +793,17 @@
     "spell_class": "CHANGELING_MAGIC",
     "teachable": false,
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": 1,
     "difficulty": 8,
-    "base_casting_time": 180000,
-    "final_casting_time": 100,
-    "casting_time_increment": -6000,
+    "base_casting_time": {
+      "math": [
+        "max(( 180000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 2500) - (u_skill('gramarye') * 4500)), 100)"
+      ]
+    },
     "magic_type": "xe_fey_magick",
-    "base_energy_cost": 450,
-    "final_energy_cost": 350,
-    "energy_increment": -4
+    "base_energy_cost": {
+      "math": [ "max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 2) - (u_skill('gramarye') * 5)), 350)" ]
+    }
   },
   {
     "id": "noble_cultivate_goblin_fruit",
@@ -731,14 +818,14 @@
     "spell_class": "CHANGELING_MAGIC",
     "teachable": false,
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": 1,
     "difficulty": 8,
-    "base_casting_time": 180000,
-    "final_casting_time": 100,
-    "casting_time_increment": -6000,
+    "base_casting_time": {
+      "math": [ "max(( 180000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2500) - (u_skill('gramarye') * 4500)), 100)" ]
+    },
     "magic_type": "xe_fey_magick",
-    "base_energy_cost": 450,
-    "final_energy_cost": 350,
-    "energy_increment": -4
+    "base_energy_cost": {
+      "math": [ "max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2) - (u_skill('gramarye') * 5)), 350)" ]
+    }
   }
 ]

@@ -32,6 +32,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SHADOW_SPAWN_CONDITIONS_XE_EFFECTS",
+    "condition": { "not": { "u_has_effect": "effect_changeling_stop_nether_conditions" } },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SHADOW_WITHDRAWS_FOR_NOW",
     "recurrence": "1 second",
     "global": true,

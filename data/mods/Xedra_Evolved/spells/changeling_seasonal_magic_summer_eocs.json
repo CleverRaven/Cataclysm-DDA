@@ -103,6 +103,46 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_ABSORB_STRENGTH_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_changeling_summer_absorb_strength" } },
+    "effect": [
+      {
+        "if": { "and": [ { "not": { "u_has_species": "ROBOT" } }, { "not": { "u_has_species": "ROBOT_FLYING" } } ] },
+        "then": [
+          { "math": [ "u_changeling_gramarye_tracker = n_skill('gramarye')" ] },
+          {
+            "math": [ "u_changeling_summer_glamour_tracker = n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER')" ]
+          },
+          {
+            "math": [
+              "u_spell_low_duration = ( ( 80.64 + (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 13.51) + (n_skill('gramarye') * 45.08) ) )"
+            ]
+          },
+          {
+            "math": [
+              "u_spell_high_duration = ( ( 140.85 + (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 30.12) + (n_skill('gramarye') * 99.81) ) )"
+            ]
+          },
+          {
+            "u_add_effect": "effect_changeling_summer_absorb_strength",
+            "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+          },
+          {
+            "npc_add_effect": "effect_changeling_summer_absorb_strength_self",
+            "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+          }
+        ],
+        "else": [
+          {
+            "npc_message": "You touch the machine but nothing happens.  What strength it possesses is not amenable to removal.",
+            "type": "bad"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_SUMMER_RUN_FOR_LONG_PERIODS_CONTINUANCE",
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
@@ -170,6 +210,20 @@
     "effect": [
       { "math": [ "u_weather_change_limit = 0" ] },
       { "u_lose_effect": [ "effect_controlling_weather", "effect_controlling_weather_lightningstorm" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_GAIN_STAY_AWAKE_IN_SUNLIGHT_EFFECT",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "compare_string": [ "effect_changeling_summer_stay_awake_in_sunlight", { "context_val": "effect" } ] },
+    "effect": [
+      {
+        "math": [
+          "u_val('sleep_deprivation') += ( (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * -20) + (u_skill('gramarye') * -45)  ) "
+        ]
+      }
     ]
   },
   {

@@ -115,6 +115,7 @@
   },
   {
     "id": "mon_spring_changeling_bashing_vine",
+    "looks_like": "mon_tanglevine",
     "type": "MONSTER",
     "name": { "str": "tanglevine" },
     "description": "A thick mass of animated vine, lashing back and forth at anything that comes within reach.  Long thorns grow from its sides.",

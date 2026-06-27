@@ -392,7 +392,7 @@
     ]
   },
   {
-    "id": "mon_march_lord",
+    "abstract": "mon_march_lord",
     "type": "MONSTER",
     "name": { "str": "March Lord" },
     "description": "Nearly seven feet tall and whip thin, this warlord of the border realm of the Nether is clothed in silks and silvery tightly woven chainmail.  It glares at you and an ethereal sword manifests in its hand.",
@@ -410,9 +410,8 @@
     "aggression": 50,
     "morale": 120,
     "melee_skill": 7,
-    "melee_dice": 8,
-    "melee_dice_sides": 3,
-    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "dodge": 5,
     "harvest": "fae_march_lord",
@@ -420,7 +419,7 @@
     "vision_day": 50,
     "vision_night": 6,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "hoary_blast_march_lord", "min_level": 5 }, "cooldown": 15 } ],
+    "special_attacks": [ { "id": "march_lord_sword_winter" } ],
     "death_drops": "changeling_lord_death_drops",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [
@@ -448,6 +447,125 @@
       "xe_cold_iron_bash_damage": 0,
       "xe_cold_iron_stab_damage": 0
     }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_march_lord_spring",
+    "copy-from": "mon_march_lord",
+    "speed": 120,
+    "special_attacks": [
+      { "id": "march_lord_sword_spring" },
+      {
+        "id": "xe_march_lord_create_grasses",
+        "type": "spell",
+        "spell_data": { "id": "summon_grass_field_monster", "min_level": 7 },
+        "cooldown": 25,
+        "condition": { "and": [ "u_is_outside", "npc_is_outside", { "npc_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "monster_message": "%1$s idly waves a hand at %3$s."
+      },
+      {
+        "id": "xe_spring_march_lord_viridian_cuirass",
+        "type": "spell",
+        "spell_data": { "id": "viridian_cuirass_monster", "min_level": 0 },
+        "cooldown": 50,
+        "condition": {
+          "and": [
+            "u_is_outside",
+            { "u_is_on_terrain_with_flag": "GRAZABLE" },
+            { "not": { "u_has_effect": "effect_monster_viridian_cuirass" } }
+          ]
+        },
+        "monster_message": "%1$s gestures and an armor of vines and leaves grows around them."
+      },
+      {
+        "id": "xe_march_lord_summon_plants",
+        "type": "spell",
+        "spell_data": { "id": "summon_bashing_vine_changeling_monster" },
+        "cooldown": 45,
+        "condition": { "and": [ "npc_is_outside", { "npc_is_on_terrain_with_flag": "GRAZABLE" } ] },
+        "monster_message": "%1$s gestures and plants grow in moments."
+      }
+    ],
+    "death_drops": "changeling_lord_spring_death_drops",
+    "extend": { "armor": { "biological": 26 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_march_lord_summer",
+    "copy-from": "mon_march_lord",
+    "speed": 160,
+    "special_attacks": [
+      { "id": "march_lord_sword_summer" },
+      {
+        "id": "xe_punishing_summer_heat",
+        "type": "spell",
+        "spell_data": { "id": "punishing_summer_heat_monster" },
+        "cooldown": 20,
+        "condition": {
+          "or": [ { "not": { "is_season": "winter" } }, { "and": [ "u_is_outside", "npc_is_outside", { "is_season": "winter" } ] } ]
+        },
+        "monster_message": "%1$s gestures and there is a brief burst of light."
+      },
+      {
+        "id": "xe_fire_in_the_blood_monster",
+        "type": "spell",
+        "spell_data": { "id": "fire_in_the_blood_monster", "min_level": 0 },
+        "cooldown": 50,
+        "condition": { "not": { "u_has_effect": "effect_monster_a_fire_in_the_blood" } },
+        "monster_message": "%1$s gestures and heat-haze shimmers around them for a moment."
+      }
+    ],
+    "death_drops": "changeling_lord_summer_death_drops"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_march_lord_autumn",
+    "copy-from": "mon_march_lord",
+    "speed": 140,
+    "special_attacks": [
+      { "id": "march_lord_sword_autumn" },
+      {
+        "id": "xe_touch_of_frailty",
+        "type": "spell",
+        "spell_data": { "id": "touch_of_frailty_monster" },
+        "cooldown": 15,
+        "condition": { "not": { "npc_has_effect": "effect_changeling_autumn_touch_of_frailty_monster" } },
+        "monster_message": "The air wavers around %1$s's hand as they reach out for %3$s."
+      },
+      {
+        "id": "xe_autumn_swirl_of_autumn_leaves",
+        "type": "spell",
+        "spell_data": { "id": "swirl_autumn_leaves_monster", "min_level": 0 },
+        "cooldown": 50,
+        "condition": { "not": { "u_has_effect": "effect_monster_swirl_of_autumn_leaves" } },
+        "monster_message": "%1$s gestures and whirling colored leaves surround them."
+      }
+    ],
+    "death_drops": "changeling_lord_autumn_death_drops",
+    "extend": { "armor": { "withering_damage": 32 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_march_lord_winter",
+    "copy-from": "mon_march_lord",
+    "speed": 130,
+    "special_attacks": [
+      { "id": "march_lord_sword_winter" },
+      {
+        "type": "spell",
+        "spell_data": { "id": "hoary_blast_march_lord", "min_level": 5 },
+        "cooldown": 15,
+        "monster_message": "%1$s takes a deep breath and blows out freezing air!"
+      },
+      {
+        "id": "xe_winter_silence_spell",
+        "type": "spell",
+        "spell_data": { "id": "winter_silence_spell_monster" },
+        "cooldown": 30,
+        "monster_message": "Snow forms around %1$s's hand as they gesture towards %3$s."
+      }
+    ],
+    "death_drops": "changeling_lord_winter_death_drops"
   },
   {
     "id": "mon_wild_huntsman",

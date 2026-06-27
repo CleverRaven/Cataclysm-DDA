@@ -1,0 +1,140 @@
+[
+  {
+    "type": "npc",
+    "id": "exodii_free_merchant",
+    "//": "A free merchant caravanner t",
+    "name_suffix": "Free Merchant",
+    "class": "NC_EXODII_FREE_MERCHANT",
+    "attitude": 0,
+    "mission": "SHOPKEEP",
+    "chat": "TALK_EXODII_FREE_MERCHANT",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_EXODII_FREE_MERCHANT",
+    "name": { "str": "Caravaneer" },
+    "job_description": "I'm the owner of a trade caravan.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "RETURN_TO_START_POS" } ],
+    "//": "This is a unique NPC who doesn't get randomly selected background traits",
+    "common": false,
+    "bonus_int": { "one_in": 4 },
+    "bonus_per": { "one_in": 4 },
+    "shopkeeper_item_group": [ { "group": "NC_EXODII_FREE_MERCHANT_misc", "rigid": true } ],
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "mechanics", "bonus": { "one_in": 2 } },
+      { "skill": "computer", "bonus": { "one_in": 2 } },
+      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 3, 5 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_EXODII_FREE_MERCHANT_storage",
+    "subtype": "distribution",
+    "entries": [ { "item": "duffelbag", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_EXODII_FREE_MERCHANT_coat",
+    "subtype": "distribution",
+    "entries": [ { "item": "trenchcoat", "prob": 80 }, { "item": "vest", "prob": 60 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "NC_EXODII_FREE_MERCHANT_misc",
+    "items": [
+      { "item": "jerky", "count": [ 10, 25 ], "prob": 100 },
+      { "item": "tallow", "prob": 100, "count": [ 20, 50 ] },
+      { "item": "pemmican", "count": [ 10, 25 ], "prob": 100 },
+      { "item": "dry_meat", "count": [ 10, 25 ], "prob": 100 },
+      { "item": "dry_fish", "count": [ 10, 25 ], "prob": 100 },
+      { "item": "dry_veggy", "prob": 100, "count": [ 20, 50 ] },
+      { "item": "dry_fruit", "count": [ 10, 25 ], "prob": 100 },
+      { "group": "solder_wire_spool", "count": [ 2, 5 ] },
+      { "item": "welding_rod_steel", "count": [ 750, 4000 ], "entry-wrapper": "tube_welding_rod" },
+      { "item": "welding_rod_alloy", "count": [ 750, 4000 ], "entry-wrapper": "tube_welding_rod" },
+      { "item": "welding_wire_steel", "count": [ 333, 2000 ], "entry-wrapper": "spool_welding" },
+      { "item": "welding_wire_alloy", "count": [ 500, 3000 ], "entry-wrapper": "spool_welding" },
+      { "item": "brazing_rod_bronze", "count": [ 250, 2000 ], "entry-wrapper": "tube_welding_rod" },
+      { "item": "brazing_rod_alloy", "count": [ 250, 2000 ], "entry-wrapper": "tube_welding_rod" },
+      { "item": "scrap", "count": [ 125, 250 ] },
+      { "item": "nuts_bolts", "count": [ 10, 25 ] },
+      { "item": "sheet_metal_small", "count": [ 50, 100 ] },
+      { "item": "lc_steel_chunk", "count": [ 100, 200 ] },
+      { "item": "lc_steel_lump", "count": [ 50, 100 ] },
+      { "item": "sheet_metal", "count": [ 25, 50 ] },
+      { "item": "lc_steel_lump", "count": [ 25, 50 ] },
+      { "item": "mc_steel_lump", "count": [ 25, 50 ] },
+      { "item": "hc_steel_lump", "count": [ 25, 50 ] }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_FREE_MERCHANT",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": {
+        "u_has_trait": "EXODII_CYBERFRAME_GENERIC",
+        "yes": "Well, an Exodii… and a U.S marshal.  That's not something you see every day.",
+        "no": [
+          "Still plenty of outlaws in the roads, perhaps you should tend to your job, marshal…",
+          "You see anything you want, marshal?",
+          "Oh, a U.S. marshal."
+        ]
+      },
+      "no": {
+        "u_has_trait": "EXODII_CYBERFRAME_GENERIC",
+        "yes": [ "Ah, an Exodii?  Welcome…", "Any Exodii?  Here to trade, I hope?", "Safe travels, Exodii." ],
+        "no": [ "Welcome…", "Here to trade, I hope?", "Safe travels, scavenger." ]
+      }
+    },
+    "responses": [
+      { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_EXODII_FREE_MERCHANT" },
+      { "text": "When is the next shipment?", "topic": "TALK_EXODII_FREE_MERCHANT_INTERVAL" },
+      { "text": "What are you doing here?", "topic": "TALK_EXODII_FREE_MERCHANT_DOING" },
+      {
+        "text": "I'm not an Exodii, I'm just a cyborg.",
+        "condition": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" },
+        "topic": "TALK_EXODII_FREE_MERCHANT_EXODII"
+      },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_FREE_MERCHANT_EXODII",
+    "type": "talk_topic",
+    "dynamic_line": "If you say so.  Can't say I can really tell the difference.  No offense.",
+    "responses": [ { "text": "Anyway…", "topic": "TALK_EXODII_FREE_MERCHANT" } ]
+  },
+  {
+    "id": "TALK_EXODII_FREE_MERCHANT_DOING",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "I keep to my own business, and you keep to yours, marshal.  Seems like a fair deal?",
+      "no": "Well, we're part of the caravan depot set up to keep regular trade with the Exodii, here.  I'm in charge of keeping things running and restocking the caravans, but also doing trade with scavs and the like.  Happy to trade food and supplies, if you're interested."
+    },
+    "responses": [
+      { "text": "Sounds good", "topic": "TALK_EXODII_FREE_MERCHANT" },
+      { "text": "So do you plan to stick around here permanently?", "topic": "TALK_EXODII_FREE_MERCHANT_PERMENANT" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_FREE_MERCHANT_PERMENANT",
+    "type": "talk_topic",
+    "dynamic_line": "Who knows?  Lots of scavs come through.  The Exodii are quick to dispatch any <zombies>.  And the Exodii seem happy about it all.  Seems good a place as any to settle down.",
+    "responses": [ { "text": "Anyway…", "topic": "TALK_EXODII_FREE_MERCHANT" } ]
+  },
+  {
+    "id": "TALK_EXODII_FREE_MERCHANT_INTERVAL",
+    "type": "talk_topic",
+    "dynamic_line": "Around <restock_time_point>, if the caravan doesn't run into trouble.",
+    "responses": [ { "text": "Thanks for the info, bye.", "topic": "TALK_DONE" } ]
+  }
+]

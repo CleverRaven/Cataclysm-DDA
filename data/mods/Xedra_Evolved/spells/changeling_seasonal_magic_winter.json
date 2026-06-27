@@ -200,7 +200,7 @@
     "id": "changeling_winter_feign_death_spell",
     "type": "SPELL",
     "name": "Stillness of the Tomb",
-    "description": "You and your nearby allies' footsteps make almost no sound when you move, like the footsteps of an animal traveling across new-fallen snow.  If used in winter, your footsteps are <color_green>totally silent</color>.  The glamour is <color_yellow>quicker to expire</color> in summer.",
+    "description": "Infuse yourself the power of death and take on the mien of a corpse.  You will not breathe or move while it is in effect and enemies will assume you are dead.  You cannot weave this glamour twice in quick succession and expect the same enemies to be fooled again.  The glamour is <color_red>more expensive</color> in summer.",
     "message": "",
     "flags": [ "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "magic_type": "xe_fey_seasonal_magick_winter",
@@ -214,7 +214,9 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_CHANGELING_WINTER_FEIGN_DEATH",
     "base_energy_cost": {
-      "math": [ "max( ( 100 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') - (u_skill('gramarye') * 2)), 40)" ]
+      "math": [
+        "max( ( 100 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') - (u_skill('gramarye') * 2)), 40) * (global_what_is_the_season == 2 ? 3 : 1)"
+      ]
     },
     "base_casting_time": 25
   },
@@ -571,6 +573,39 @@
     "max_field_intensity": 3,
     "field_intensity_variance": 0.5,
     "field_chance": 1
+  },
+  {
+    "id": "changeling_winter_close_the_reality_tear_spell",
+    "type": "SPELL",
+    "name": "Calming the Heart of Chaos",
+    "description": "Infuse the power of stasis and death into a tear in reality, closing it.  This glamour <color_red>does not function</color> in the summer.",
+    "message": "",
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "ground" ],
+    "teachable": false,
+    "caster_condition": { "not": { "is_season": "summer" } },
+    "caster_condition_fail_message": "The glamour cannot be used in the summer.",
+    "skill": "gramarye",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 8,
+    "effect": "ter_transform",
+    "effect_str": "ter_changeling_winter_close_the_reality_tear",
+    "components": "spell_components_changeling_dreamsparks_4",
+    "min_range": 1,
+    "max_range": 1,
+    "base_energy_cost": {
+      "math": [
+        "max( ( 1500 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 10 ) - (u_skill('gramarye') * 25)), 800)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 3000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 50 ) - (u_skill('gramarye') * 150)), 1000)"
+      ]
+    }
   },
   {
     "id": "changeling_winter_cut_off_fey_nature_spell",

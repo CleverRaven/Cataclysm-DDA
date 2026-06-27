@@ -169,6 +169,15 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "corpses_bones_only",
+    "entries": [
+      { "item": "skull_human", "damage": [ 3, 4 ], "prob": 75 },
+      { "item": "bone_human", "damage": [ 3, 4 ], "prob": 100, "count": [ 10, 20 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "corpses_unisex_survival_undam",
     "container-item": "corpse_generic_human",
     "entries": [ { "group": "clothes_unisex_survival", "damage": [ 1, 3 ], "prob": 100 } ]
@@ -183,10 +192,117 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "corpses_bones_only",
+    "object": { "mapgensize": [ 1, 1 ], "place_items": [ { "item": "corpses_bones_only", "x": [ 0 ], "y": [ 0 ], "chance": 100 } ] }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "survivor_creature",
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_monster": [ { "group": "GROUP_SURVIVOR_FOREST", "x": [ 0 ], "y": [ 0 ], "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "survivor_forest_camp" ],
+    "weight": { "math": [ "clamp( ( time_since('cataclysm', 'unit':'days') + 100 ),100,250)" ] },
+    "//": "This is meant to represent a camp that was attacked by the Shadow",
+    "object": {
+      "fallback_predecessor_mapgen": "forest_thick",
+      "rows": [
+        "                        ",
+        "                        ",
+        " _________     _________",
+        " _,,,,,,,_     _,,,,,,,_",
+        " _,,===,,_     _,,===,,_",
+        " _,,===,,_     _,,===,,_",
+        " _,E....,_______,E....,_",
+        " _,.....,,,,,,,,M.....,_",
+        " _,.....,,,,,,,,B.....,_",
+        " _,.....,,,A@,,,C.....,_",
+        " _,.....,,,,O,,,S.....,_",
+        " _,,,,,,,,,,@,,,,,,,,,,_",
+        " _,,,,,,,,$....,,,,,,,,_",
+        " ______,,,.....,,,______",
+        "      _,,,.....,,,_     ",
+        "      _,,,.....,,,_     ",
+        "      _,,,.....,,,_     ",
+        "      _,,,,,,,,,,,_     ",
+        "      _,,,,@,,,,,,_     ",
+        "     __-----------__    ",
+        "    __--~~~~~~~~~--__   ",
+        "    _--~~~~~~~~~~~--_   ",
+        "    __--~~~~~~~~~--__   ",
+        "     __-----------__    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "nested": {
+        "E": { "chunks": [ [ "leather_tent_b_5x5_S", 100 ] ] },
+        "$": { "chunks": [ [ "leather_tent_b_5x5_N", 100 ] ] },
+        "A": { "chunks": [ [ "survivor_corpse", 1 ], [ "corpses_bones_only", 25 ], [ "null", 75 ] ] }
+      },
+      "terrain": {
+        ",": [ [ "t_dirt", 20 ], [ "t_tree_very_dead", 1 ] ],
+        ".": "t_dirt",
+        "_": [ [ "t_region_groundcover", 10 ], [ "t_dirt", 10 ], [ "t_tree_very_dead", 1 ] ],
+        "~": "t_pit",
+        "O": "t_dirt",
+        "@": "t_dirt",
+        "$": "t_dirt",
+        "E": "t_dirt",
+        "S": "t_dirt",
+        "=": "t_dirtmound",
+        "-": "t_pit_shallow",
+        "C": "t_dirt",
+        "B": "t_dirt",
+        "A": "t_dirt",
+        "M": "t_dirt"
+      },
+      "furniture": {
+        "O": "f_firering",
+        "@": "f_logstool",
+        "S": "f_smoking_rack",
+        "C": "f_kiln_empty",
+        "B": "f_butcher_rack",
+        "M": "f_fiber_mat"
+      },
+      "place_traps": [
+        { "trap": "tr_fur_rollmat", "x": 12, "y": 14 },
+        { "trap": "tr_fur_rollmat", "x": [ 18, 20 ], "y": [ 7, 9 ] },
+        { "trap": "tr_fur_rollmat", "x": [ 4, 6 ], "y": [ 7, 9 ] }
+      ],
+      "place_furniture": [ { "furn": "f_boulder_large", "x": [ 10, 16 ], "y": [ 21, 23 ], "repeat": [ 1, 3 ] } ],
+      "place_monster": [ { "group": "GROUP_POND_FISH_2", "x": 13, "y": 21, "chance": 100, "repeat": [ 4, 8 ] } ],
+      "place_items": [
+        { "item": "book_survival_2", "x": 11, "y": 14, "chance": 100, "repeat": [ 1, 3 ] },
+        { "item": "corpse_child_survival", "x": [ 18, 20 ], "y": [ 7, 9 ], "chance": 100 },
+        { "item": "corpse_female_survival", "x": [ 18, 20 ], "y": [ 7, 9 ], "chance": 100 }
+      ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 18, 20 ], "y": [ 7, 9 ], "repeat": [ -1, 3 ] } ],
+      "place_loot": [
+        { "item": "compositebow", "x": 5, "y": 7, "chance": 100 },
+        { "group": "makeshift_archery_ammo", "x": 5, "y": 7, "repeat": [ 1, 3 ], "chance": 100 },
+        { "item": "ash", "x": 5, "y": 7, "chance": 100, "repeat": [ 2, 3 ] },
+        { "item": "childnote", "x": 19, "y": 7, "chance": 100 },
+        { "item": "ash", "x": 16, "y": 7, "chance": 100, "repeat": [ 5, 20 ] },
+        { "item": "ash", "x": 16, "y": 7, "chance": 100, "repeat": [ 5, 20 ] },
+        { "item": "makeshift_pillow", "x": 12, "y": 14, "chance": 100 },
+        { "item": "needle_bone", "x": 11, "y": 13, "chance": 100 },
+        { "item": "primitive_adze", "x": 11, "y": 13, "chance": 100 },
+        { "item": "wicker_backpack", "x": 11, "y": 13, "chance": 100 },
+        { "item": "primitive_hammer", "x": 11, "y": 13, "chance": 100 },
+        { "item": "sickle_stone", "x": 11, "y": 13, "chance": 100 },
+        { "item": "stone_chisel", "x": 11, "y": 13, "chance": 100 },
+        { "item": "fire_drill_large", "x": 11, "y": 13, "chance": 100 },
+        { "item": "oil_lamp_clay", "x": 11, "y": 13, "chance": 100 },
+        { "item": "primitive_axe", "x": 11, "y": 9, "chance": 100 },
+        { "item": "ash", "x": 8, "y": 10, "chance": 100, "repeat": [ 30, 50 ] },
+        { "item": "clay_watercont", "x": 8, "y": 9, "chance": 100 },
+        { "item": "clay_pot", "x": 13, "y": 18, "chance": 100 },
+        { "item": "ash", "x": 13, "y": 18, "chance": 100, "repeat": [ 1, 2 ] },
+        { "item": "fishing_rod_basic", "x": 12, "y": 18, "chance": 100 }
+      ]
     }
   }
 ]

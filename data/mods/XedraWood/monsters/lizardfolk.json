@@ -1,0 +1,99 @@
+[
+  {
+    "id": "mon_lizardfolk_warrior",
+    "looks_like": "mon_lizardfolk_warrior",
+    "type": "MONSTER",
+    "name": "lizardfolk warrior",
+    "description": "One of the lizardfolk of the swamps.  The size and armaments indicate this is a warrior.",
+    "default_faction": "lizardfolk_nonhostile",
+    "bodytype": "human",
+    "species": [ "LIZARDFOLK" ],
+    "volume": "80 L",
+    "weight": "100 kg",
+    "hp": 130,
+    "speed": 105,
+    "material": [ "flesh" ],
+    "symbol": "L",
+    "color": "green",
+    "aggression": -10,
+    "morale": 80,
+    "vision_day": 40,
+    "vision_night": 5,
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "dodge": 3,
+    "harvest": "harvest_lizardfolk",
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_wp_demihuman" ],
+    "death_drops": [ { "item": "spear_stone", "prob": 30 }, { "item": "leather_belt", "prob": 20 } ],
+    "special_attacks": [
+      { "id": "feral_weapon_spear_knife", "accuracy": 4 },
+      { "id": "scratch", "cooldown": 2, "condition": { "test_eoc": "is_disarmed" } },
+      { "type": "bite", "cooldown": 3, "condition": { "test_eoc": "is_disarmed" } }
+    ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER",
+      "CLIMBS",
+      "GROUP_MORALE",
+      "SWIMS",
+      "PUSH_MON",
+      "SWARMS",
+      "CAN_OPEN_DOORS",
+      "NO_BREATHE",
+      "INFRARED_VISION"
+    ],
+    "armor": { "bash": 2, "cut": 8, "stab": 5, "bullet": 10 }
+  },
+  {
+    "id": "mon_lizardfolk_hunter",
+    "looks_like": "mon_lizardfolk_hunter",
+    "type": "MONSTER",
+    "name": "lizardman hunter",
+    "description": "One of the lizardfolk of the swamps.  Lithe and deadly, this is a hunter, bringing back the game that the lizardfolk require.",
+    "copy-from": "mon_lizardfolk_warrior",
+    "symbol": "L",
+    "proportional": { "hp": 0.9, "volume": 0.9, "weight": 0.9, "speed": 0.97 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "lizardfolk_javelin_throw",
+        "fake_skills": [ [ "gun", 5 ], [ "rifle", 4 ] ],
+        "fake_dex": 8,
+        "fake_per": 8,
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 10, "DEFAULT" ] ],
+        "description": "The lizardman hunter hurls a javelin at you!"
+      },
+      { "id": "scratch", "cooldown": 2, "condition": { "test_eoc": "is_disarmed" } },
+      { "type": "bite", "cooldown": 3, "condition": { "test_eoc": "is_disarmed" } }
+    ],
+    "death_drops": [ { "item": "spear_stone", "prob": 30 }, { "item": "javelin", "prob": 40 }, { "item": "spearsling", "prob": 20 } ]
+  },
+  {
+    "id": "mon_lizardfolk_warrior_hostile",
+    "copy-from": "mon_lizardfolk_warrior",
+    "type": "MONSTER",
+    "name": "lizardfolk warrior",
+    "description": "A tall, powerful, reptilian humanoid with a muscular tail whose skin is covered in dark gray-green scales.  They are coldblooded and primarily live in swamps.",
+    "default_faction": "lizardfolk_hostile",
+    "aggression": 30
+  },
+  {
+    "id": "mon_lizardfolk_hunter_hostile",
+    "type": "MONSTER",
+    "name": "lizardfolk hunter",
+    "description": "The hunter is smaller than a warrior, but equally as deadly, with their lithe figures and accurate javelin throws.",
+    "copy-from": "mon_lizardfolk_hunter",
+    "default_faction": "lizardfolk_hostile",
+    "aggression": 30
+  }
+]
