@@ -273,9 +273,6 @@ struct islot_comestible {
         /**List of diseases carried by this comestible and their associated probability*/
         std::map<diseasetype_id, float> contamination;
 
-        // Materials to generate the below
-        material_id primary_material =
-            material_id::NULL_ID(); //TO-DO: this overrides materials and shouldn't be necessary
         //** specific heats in J/(g K) and latent heat in J/g */
         float specific_heat_liquid = 4.186f; // NOLINT(cata-serialize)
         float specific_heat_solid = 2.108f; // NOLINT(cata-serialize)
