@@ -768,7 +768,6 @@
   {
     "id": "test_sheet_metal_small",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": "TEST small metal sheet",
     "description": "A small sheet of metal.",
@@ -777,12 +776,10 @@
     "volume": "250 ml",
     "price": "20 USD",
     "to_hit": -3,
-    "stack_size": 8,
     "//": "Roughly in the 15cm×15cm to 20cm×20cm range. Compact and stacks well, so equally dense as a solid block.",
     "material": [ "steel" ],
     "symbol": "]",
     "color": "light_cyan",
-    "ammo_type": "components",
     "melee_damage": { "bash": 5 }
   },
   {
@@ -3502,11 +3499,17 @@
     "color": "light_gray"
   },
   {
+    "type": "ammunition_type",
+    "id": "test_solid_1ml",
+    "name": "",
+    "default": "test_solid_1ml"
+  },
+  {
     "id": "test_solid_1ml",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "category": "spare_parts",
-    "ammo_type": "components",
+    "ammo_type": "test_solid_1ml",
     "name": { "str": "test solid" },
     "description": "One milliliter solid.",
     "material": [ "test_material" ],
@@ -5573,6 +5576,12 @@
     "tool_ammo": [ "battery" ]
   },
   {
+    "type": "ammunition_type",
+    "id": "throwing_stick_with_charges",
+    "name": "",
+    "default": "throwing_stick_with_charges"
+  },
+  {
     "id": "throwing_stick_with_charges",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
@@ -5586,7 +5595,7 @@
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
-    "ammo_type": "thrown",
+    "ammo_type": "throwing_stick_with_charges",
     "thrown_damage": [ { "damage_type": "bash", "amount": 2 }, { "damage_type": "stab", "amount": 6 } ],
     "flags": [ "NOGIB" ],
     "melee_damage": { "bash": 2, "stab": 7 }
