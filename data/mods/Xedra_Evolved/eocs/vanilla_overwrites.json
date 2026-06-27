@@ -34,7 +34,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SHADOW_SPAWN_CONDITIONS_XE_EFFECTS",
     "//": "This is overridden in XE but is always true in vanilla",
-    "condition": { "not": { "u_has_effect": "effect_changeling_" } },
+    "condition": { "not": { "u_has_effect": "effect_changeling_stop_nether_conditions" } },
     "effect": [  ]
   },
   {
