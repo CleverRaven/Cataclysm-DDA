@@ -1362,7 +1362,7 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
     } else if( dt == damage_bash ) {
         float melee_bonus = u.get_skill_level( skill_melee );
 
-        /** @EFFECT_UNARMED caps bash damage with unarmed weapons */
+        /** Martial arts can increase bash cap by melee skill. */
         if( u.is_melee_bash_damage_cap_bonus() ) {
             bash_cap += melee_bonus;
         }
@@ -1421,7 +1421,7 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
         } else if( dt == damage_bash ) {
             dmg_mul *= 1.f + 0.5f * crit_mod;
             // 50% armor penetration
-            armor_mult = 0.5f * crit_mod;
+            armor_mult = 1.f - 0.5f * crit_mod;
         }
     }
 
