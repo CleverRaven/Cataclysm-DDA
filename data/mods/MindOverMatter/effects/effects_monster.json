@@ -434,6 +434,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_mom_tindalos_hounds_corrupted_stride",
+    "//": "Hidden affect, reduces effects of extended stride",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_tindalos_hounds_corrupted_stride_warning",
+    "name": [ "Corrupted Stride" ],
+    "desc": [ "Your Extended Stride isn't working nearly as well as it should." ],
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hound_extended_speed_bonus",
+    "name": [ "Moving Oddly" ],
+    "desc": [ "The Hound flickers as it moves." ],
+    "show_in_info": true,
+    "base_mods": { "speed_mod": [ 35 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_riftwalker_teleport",
     "name": [ "Dimensionally Unstable" ],
     "desc": [ "You feel like you're barely part of the world." ],
