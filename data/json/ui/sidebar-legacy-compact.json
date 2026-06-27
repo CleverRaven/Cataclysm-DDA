@@ -177,7 +177,7 @@
     "style": "layout",
     "arrange": "rows",
     "//": "TODO Make the temperature look like it used to.",
-    "widgets": [ "pain_desc_no_label", "body_temp_desc_no_label", "focus_num" ]
+    "widgets": [ "pain_desc_no_label", "body_temp_desc_no_label" ]
   },
   {
     "id": "lcom_needs_right_sa_layout",
@@ -185,7 +185,7 @@
     "style": "layout",
     "arrange": "rows",
     "//": "TODO Make the temperature look like it used to.",
-    "widgets": [ "pain_num_label", "body_temp_desc_no_label", "focus_num" ]
+    "widgets": [ "pain_num_label", "body_temp_desc_no_label" ]
   },
   {
     "id": "lcom_needs_layout",
