@@ -1167,12 +1167,7 @@
     "quench": 2,
     "fun": -10,
     "calories": 40,
-    "vitamins": [
-      [ "vitC", 9 ],
-      [ "calcium", 0 ],
-      [ "iron", 14 ],
-      [ "meat_allergen", 1 ]
-    ],
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ], [ "meat_allergen", 1 ] ],
     "extend": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
