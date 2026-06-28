@@ -165,6 +165,74 @@
   },
   {
     "type": "recipe",
+    "result": "gold_small",
+    "id_suffix": "from_lead_with_alchemy",
+    "name": "%s from lead",
+    "charges": 50,
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "fabrication",
+    "skills_required": [ "chemistry", 4 ],
+    "difficulty": 4,
+    "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_gold_from_lead", 6 ] ],
+    "components": [
+      [ [ "lead", 100 ] ],
+      [ [ "chem_saltpetre", 10 ] ],
+      [ [ "chem_borax", 10 ] ],
+      [ [ "silver_small", 5 ] ],
+      [ [ "scrap_moon_tears", 3 ] ],
+      [ [ "scrap_dreamdross", 10 ] ],
+      [ [ "coal_lump", 1 ] ],
+      [ [ "oxy_powder", 5 ] ],
+      [ [ "chem_nitric_acid", 3 ] ]
+    ],
+    "steps": [
+      {
+        "name": "Grind coal and mix with borax and oxidizer powder",
+        "time": "15 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "FINE_GRIND", "level": 1 }, { "id": "CONTAIN", "level": 1 } ]
+      },
+      {
+        "name": "Melting half of the lead alongside scrap dreamdross, moon's tear scrap, silver, and saltpeter powder in a forge",
+        "time": "3 h",
+        "activity_level": "LIGHT_EXERCISE",
+        "using": [ [ "forging_scrap", 70 ], [ "metalworking_tongs_any", 1 ] ],
+        "tools": [ [ "crucible" ] ]
+      },
+      {
+        "name": "Add in the rest of the lead and the mixed powder to the melted metal and continue melting it.",
+        "time": "5 h",
+        "activity_level": "LIGHT_EXERCISE",
+        "using": [ [ "forging_scrap", 120 ], [ "metalworking_tongs_any", 1 ] ]
+      },
+      {
+        "name": "Cast the melted metal onto sandcasting mold and let it rest in dark place",
+        "time": "14 d 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "tools": [ [ "casting_mold" ] ],
+        "attention": "unattended",
+        "unattend_message": "The metal has finished resting."
+      },
+      {
+        "name": "Clean the ingot and prepare it to be dipped with nitric acid",
+        "time": "10 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 1 } ]
+      },
+      {
+        "name": "Dip the ingot into nitric acid",
+        "time": "2 h",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CHEM", "level": 1 } ],
+        "attention": "unattended",
+        "unattend_message": "The gold shows its golden color."
+      }
+    ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "charm_of_marzanna",
     "category": "CC_XEDRA",

@@ -132,6 +132,22 @@
   {
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
+    "id": "alchemy_recipe_gold_from_lead",
+    "copy-from": "schematics_generic",
+    "looks_like": "spell_scroll",
+    "name": { "str_sp": "scribbled notes (gold from lead)" },
+    "description": "An handwritten set of notes detailing an alchemical recipe for making pure gold out of lead as its main base metal.  You've read about the futile attempts from alchemists at the middle ages, but this recipe requires some metal you've never known existed.  Surely this one will fail like the other recipes, right?",
+    "required_level": 2,
+    "max_level": 2,
+    "intelligence": 10,
+    "time": "45 m",
+    "symbol": "ç",
+    "color": "light_green",
+    "read_skill": "chemistry"
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "alchemy_recipe_väinämöinens_kantele_imitation",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
