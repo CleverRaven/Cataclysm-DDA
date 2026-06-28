@@ -11,6 +11,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thin slurry of refined protein mixed with water.  While quite nutritious, it is not particularly tasty.",
+    "display_type": "BY_VOLUME",
     "weight": "278 g",
     "volume": "250 ml",
     "charges": 1,
@@ -41,6 +42,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "Raw, refined protein.  While quite nutritious, it is impossible to enjoy in its pure form, try adding water.",
+    "display_type": "BY_VOLUME",
     "//": "1 g of protein powder is 0.959 ml, 1 serving is 28g and 27ml",
     "weight": "28 g",
     "volume": "27 ml",
@@ -96,6 +98,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.",
+    "display_type": "BY_VOLUME",
     "material": [ "fruit" ],
     "calories": 150,
     "fun": 4,
@@ -116,6 +119,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals.",
+    "display_type": "BY_VOLUME",
     "vitamins": [ [ "calcium", "175 mg" ], [ "iron", "940 μg" ], [ "vitC", "20 mg" ] ]
   },
   {
@@ -130,6 +134,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "freaky %s" } }
     ],
     "description": "Milk enriched with protein powder, it's extra healthy and doesn't taste too bad.",
+    "display_type": "BY_VOLUME",
     "weight": "286 g",
     "volume": "250 ml",
     "charges": 1,
@@ -160,6 +165,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thick and tasty smoothie made from pure refined protein and nutritious fruit mixed into milk.",
+    "display_type": "BY_VOLUME",
     "material": [ "fruit", "milk" ],
     "calories": 165,
     "fun": 5,
