@@ -386,10 +386,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "copy-from": "flesh",
-    "name": {
-      "str": "slab of raw cured porkbelly",
-      "str_pl": "of raw cured porkbelly slabs"
-    },
+    "name": { "str": "slab of raw cured porkbelly", "str_pl": "of raw cured porkbelly slabs" },
     "description": "Porkbelly that has been preserved and flavored with salt and sugar to draw out the moisture from the first layer.  Still raw, it is ready for smoking into bacon.",
     "weight": "250 g",
     "volume": "250ml",
