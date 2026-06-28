@@ -993,10 +993,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_buckwheat",
-    "name": {
-      "str": "threshed buckwheat",
-      "str_pl": "of threshed buckwheat"
-    },
+    "name": { "str": "threshed buckwheat", "str_pl": "of threshed buckwheat" },
     "comestible_type": "FOOD",
     "material": [ "wheat" ],
     "weight": "190 g",
