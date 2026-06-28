@@ -4938,7 +4938,6 @@ bool game::revive_corpse( const tripoint_bub_ms &p, item &it, int radius )
         return false;
     }
 
-    critter.death_drops = false;
     critter.add_effect( effect_downed, 5_turns, true );
 
     if( it.get_var( "no_ammo" ) == "no_ammo" ) {
