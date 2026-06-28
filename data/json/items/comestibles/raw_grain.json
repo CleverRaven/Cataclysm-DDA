@@ -156,7 +156,6 @@
     "quench": -1,
     "calories": 30,
     "description": "Plain, unseasoned popcorn.  Not as tasty as other kinds, but healthier as a result.",
-    "display_type": "BY_WEIGHT",
     "price": "28 cent",
     "price_postapoc": "6 cent",
     "material": [ "veggy" ],
