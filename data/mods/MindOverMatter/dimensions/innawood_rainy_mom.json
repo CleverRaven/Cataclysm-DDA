@@ -3,7 +3,7 @@
     "type": "region_settings",
     "id": "mom_innawood_rainy",
     "copy-from": "default",
-    "cities": null,
+    "cities": "no_cities",
     "highways": null,
     "place_roads": false,
     "weather": "mom_innawood_rainy",

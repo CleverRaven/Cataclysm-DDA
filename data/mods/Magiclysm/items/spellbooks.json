@@ -48,6 +48,26 @@
     "use_action": { "type": "learn_spell", "spells": [ "create_atomic_light", "sound_bomb", "classless_watch_spell", "protection_aura" ] }
   },
   {
+    "id": "wizard_beginner_old",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "name": { "str": "Magica Beginning", "str_pl": "copies of Magica Beginning" },
+    "//": "2 Magus, 3 classless spell",
+    "description": "An English translation of the original Latin work, this book was written by a magus for her apprentices.  In current days the majority of the theory is outdated, therefore this work is of mostly historical significance, but it is still possible to learn several spells from it.",
+    "weight": "60 g",
+    "volume": "250 ml",
+    "price": "50 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "light_red",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "magic_missile", "phase_door", "create_atomic_light", "sound_bomb", "classless_watch_spell" ]
+    }
+  },
+  {
     "id": "novice_stormshaper_book",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],

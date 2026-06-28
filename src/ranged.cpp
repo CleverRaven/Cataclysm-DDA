@@ -158,12 +158,16 @@ static const fault_id fault_overheat_melting( "fault_overheat_melting" );
 static const fault_id fault_overheat_safety( "fault_overheat_safety" );
 static const fault_id fault_overheat_venting( "fault_overheat_venting" );
 
+static const flag_id json_flag_BOLT_ACTION( "BOLT_ACTION" );
 static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const flag_id json_flag_FILTHY( "FILTHY" );
+static const flag_id json_flag_LEVER_ACTION( "LEVER_ACTION" );
+static const flag_id json_flag_PUMP_ACTION( "PUMP_ACTION" );
+static const flag_id json_flag_SINGLE_ACTION( "SINGLE_ACTION" );
 
 static const material_id material_budget_steel( "budget_steel" );
-static const material_id material_case_hardened_steel( "case_hardened_steel" );
 static const material_id material_glass( "glass" );
+static const material_id material_hardened_steel( "hardened_steel" );
 static const material_id material_high_steel( "high_steel" );
 static const material_id material_iron( "iron" );
 static const material_id material_low_steel( "low_steel" );
@@ -187,10 +191,11 @@ static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_GUNSHY( "GUNSHY" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
+static const trap_str_id tr_target_spinner( "tr_target_spinner" );
 
 static const std::string gun_mechanical_simple( "gun_mechanical_simple" );
 
-static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_case_hardened_steel, material_high_steel, material_low_steel, material_med_steel, material_tempered_steel };
+static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_hardened_steel, material_high_steel, material_low_steel, material_med_steel, material_tempered_steel };
 
 // Maximum duration of aim-and-fire loop, in turns
 static constexpr int AIF_DURATION_LIMIT = 10;
@@ -207,6 +212,8 @@ static int RAS_time( const Character &p, const item_location &loc );
 static void cycle_action( item &weap, const itype_id &ammo, map *here, const tripoint_bub_ms &pos );
 static void make_gun_sound_effect( const Character &p, bool burst, item *weapon );
 
+namespace
+{
 class target_ui
 {
     public:
@@ -467,6 +474,7 @@ class target_ui
         // `harmful` is `false` if using a non-damaging spell
         void on_target_accepted( bool harmful ) const;
 };
+} // namespace
 
 target_handler::trajectory target_handler::mode_select_only( avatar &you, int range )
 {
@@ -512,7 +520,7 @@ target_handler::trajectory target_handler::mode_reach( avatar &you, item_locatio
     ui.you = &you;
     ui.mode = target_ui::TargetMode::Reach;
     ui.relevant = weapon.get_item();
-    ui.range = weapon ? weapon->current_reach_range( you ) : 1;
+    ui.range = weapon ? weapon->current_reach_range( you ).first : 1;
 
     restore_on_out_of_scope view_offset_prev( you.view_offset );
     return ui.run();
@@ -678,7 +686,7 @@ int Character::gun_engagement_moves( const item &gun, int target, int start,
     double penalty = start;
     const aim_mods_cache aim_cache = gen_aim_mods_cache( gun );
     while( penalty > target ) {
-        const double adj = aim_per_move( gun, penalty, attributes, { std::ref( aim_cache ) } );
+        const double adj = aim_per_move( gun, penalty, attributes, aim_cache );
         if( adj <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
@@ -687,6 +695,32 @@ int Character::gun_engagement_moves( const item &gun, int target, int start,
     }
 
     return mv;
+}
+
+static int action_time( const Character &p, const itype &firing )
+{
+    float operation_time = 0.f;
+    if( firing.has_flag( json_flag_LEVER_ACTION ) ) {
+        // in moves, 0.8 seconds
+        operation_time += 80.f;
+    } else if( firing.has_flag( json_flag_SINGLE_ACTION ) ) {
+        operation_time += 100.f;
+    } else if( firing.has_flag( json_flag_PUMP_ACTION ) ) {
+        operation_time += 120.f;
+    } else if( firing.has_flag( json_flag_BOLT_ACTION ) ) {
+        operation_time += 160.f;
+    }
+
+    // either 10 in gun skill, or 10 in marksmanship, or something in between would mitigate 50% of penalty
+    const float operation_skill =
+        std::min( p.get_skill_level( skill_gun ) + p.get_skill_level( firing.gun->skill_used ), 10.f );
+
+    const float factor = 1.f - ( 0.05f * operation_skill );
+    operation_time *= factor;
+
+    add_msg_debug( debugmode::DF_RANGED, "operation time: %.0f", operation_time );
+
+    return static_cast<int>( operation_time );
 }
 
 bool Character::handle_gun_damage( item &it )
@@ -776,7 +810,7 @@ bool Character::handle_gun_damage( item &it )
     const double jam_chance = gun_jam_chance + mag_jam_chance;
 
     add_msg_debug( debugmode::DF_RANGED,
-                   "Gun jam chance: %s\nMagazine jam chance: %s\nGun damage level: %d\nMagazine damage level: %d\nFail to feed chance: %s",
+                   "Gun jam chance: %f\nMagazine jam chance: %f\nGun damage level: %d\nMagazine damage level: %d\nFail to feed chance: %f",
                    gun_jam_chance, mag_jam_chance, gun_damage, mag_damage, jam_chance );
 
     // Here we check if we're underwater and whether we should misfire.
@@ -814,7 +848,8 @@ bool Character::handle_gun_damage( item &it )
         // Default chance is 1/10000 unless set via json, damage is proportional to caliber(see below).
         // Can be toned down with 'consume_divisor.'
 
-    } else if( it.has_flag( flag_CONSUMABLE ) && !curammo_effects.count( ammo_effect_LASER ) &&
+    } else if( it.has_flag( flag_CONSUMABLE ) && it.ammo_data() != nullptr &&
+               !curammo_effects.count( ammo_effect_LASER ) &&
                !curammo_effects.count( ammo_effect_PLASMA ) && !curammo_effects.count( ammo_effect_EMP ) ) {
         int uncork = ( ( 10 * it.ammo_data()->ammo->loudness )
                        + ( it.ammo_data()->ammo->recoil / 2 ) ) / 100;
@@ -986,17 +1021,64 @@ bool Character::handle_gun_overheat( item &it )
     return true;
 }
 
+static int get_action_penalty( const map &here, const Character &guy, const item &gun )
+{
+    // skip action penalty if we do not have any more rounds to load
+    if( gun.shots_remaining( here, &guy ) == 0 ) {
+        return 0;
+    }
+
+    float action_penalty = 0;
+
+    if( gun.has_flag( json_flag_LEVER_ACTION ) ) {
+        action_penalty += 800.f;
+    } else if( gun.has_flag( json_flag_SINGLE_ACTION ) ) {
+        action_penalty += 1000.f;
+    } else if( gun.has_flag( json_flag_PUMP_ACTION ) ) {
+        action_penalty += 1200.f;
+    } else if( gun.has_flag( json_flag_BOLT_ACTION ) ) {
+        action_penalty += 1600.f;
+    }
+
+    // for higher calibers, the penalty doesn't matter that much,
+    // their recoil is already hard enough they have to effectively re-aim from scratch every time
+    action_penalty = std::max( action_penalty - gun.gun_recoil( guy ), 0.f );
+
+    if( action_penalty == 0.f ) {
+        return 0;
+    }
+
+    // either 12 in marksmanship, or 12 in skill the gun uses, or something in between, would mitigate 80% of penalty
+    const float action_skill =
+        std::min( guy.get_skill_level( skill_gun ) + guy.get_skill_level( gun.gun_skill() ), 12.f );
+
+    const float factor = 1.f - ( 0.067f * action_skill );
+    action_penalty *= factor;
+
+    add_msg_debug( debugmode::DF_RANGED, "action_penalty: %.0f", action_penalty );
+
+    return action_penalty;
+}
+
 void npc::pretend_fire( npc *source, int shots, item &gun )
 {
     int curshot = 0;
     if( one_in( 50 ) ) {
         add_msg_if_player_sees( *source, m_info, _( "%s shoots something." ), source->disp_name() );
     }
+    map &here = get_map();
     while( curshot != shots ) {
-        const int required = gun.ammo_required();
-        if( gun.ammo_consume( required, pos_bub(), this ) != required ) {
-            debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
-            break;
+        if( gun.uses_firing_requirements() ) {
+            if( gun.consume_one_shot( here, pos_bub( here ), this ) != 1 ) {
+                debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
+                break;
+            }
+        } else {
+            const int required = gun.ammo_required();
+            if( gun.ammo_consume( required, pos_bub(), this ) != required ) {
+                debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
+                break;
+            }
         }
 
         item *weapon = &gun;
@@ -1049,10 +1131,21 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
         const int ammo_left = ammo ? ammo.get_item()->count() : gun.ammo_remaining( );
         shots = std::min( shots, ammo_left / gun.ammo_required() );
     }
+    // Multimag vehicle turrets: also cap by per-pocket feasibility so the
+    // firing loop never overruns a vehicle-loaded battery pocket mid-burst.
+    if( gun.has_flag( flag_VEHICLE ) && gun.uses_firing_requirements() ) {
+        shots = std::min( shots, gun.shots_remaining( here, nullptr ) );
+    }
 
     if( shots <= 0 ) {
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname() );
         return 0;
+    }
+
+    short times_shot_target = 0;
+    Creature *maybe_target = get_creature_tracker().creature_at( here.get_abs( target ) );
+    if( maybe_target && maybe_target->as_monster() ) {
+        times_shot_target = maybe_target->as_monster()->times_combatted_player;
     }
 
     // usage of any attached bipod is dependent upon terrain or on being prone
@@ -1073,7 +1166,8 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
                               static_cast<float>( MAX_SKILL ) ) / static_cast<double>( MAX_SKILL * 2 );
 
     itype_id gun_id = gun.typeId();
-    int attack_moves = time_to_attack( *this, *gun_id ) + RAS_time( *this, ammo );
+    int attack_moves = time_to_attack( *this, *gun_id ) +
+                       RAS_time( *this, ammo ) + action_time( *this, *gun_id ) ;
     skill_id gun_skill = gun.gun_skill();
     add_msg_debug( debugmode::DF_RANGED, "Gun skill (%s) %g", gun_skill.c_str(),
                    get_skill_level( gun_skill ) ) ;
@@ -1081,6 +1175,11 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
     int curshot = 0;
     int hits = 0; // total shots on target
     int delay = 0; // delayed recoil that has yet to be applied
+    // Snapshot the gun slot. The wielded item can stop being a gun
+    // mid-loop (recoil-induced unwield, fire transforms), and the
+    // post-shot hurt_part / skill-practice blocks still need to read
+    // it for the shots that already fired.
+    const islot_gun *const original_gun = gun.is_gun() ? gun.type->gun.get() : nullptr;
     while( curshot != shots ) {
         // Special handling for weapons where we supply the ammo separately (i.e. ammo is populated)
         // instead of it being loaded into the weapon, reload right before firing.
@@ -1132,6 +1231,8 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
                 continue;
             }
             if( monster *const m = hit_entry.first->as_monster() ) {
+                times_shot_target = std::max( times_shot_target, m->times_combatted_player );
+                m->times_combatted_player++;
                 cata::event e = cata::event::make<event_type::character_ranged_attacks_monster>( getID(), gun_id,
                                 projectile_use_ammo_id,
                                 false,
@@ -1161,15 +1262,22 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
         }
 
         int qty = gun.gun_recoil( *this, bipod );
-        delay  += qty * absorb;
-        // if shoots multiple barrels simultaneously, do not apply the recoil just yet
+
+        add_msg_debug( debugmode::DF_RANGED, "total recoil: %d; absorbed: %.0f%%",
+                       qty, absorb * 100 );
+
+        delay += qty * absorb;
+        // Temporarily scale by 5x as we adjust MAX_RECOIL, factoring in the recoil enchantment also.
+        const int added_recoil = enchantment_cache->modify_value(
+                                     enchant_vals::mod::RECOIL_MODIFIER, 5.0 ) * ( qty * ( 1.0 - absorb ) );
+
+        add_msg_debug( debugmode::DF_RANGED, "final recoil of this shot: %d", added_recoil );
+
+        // if shoots multiple barrels simultaneously, do not apply the recoil while shooting, only in the end
         if( gun.gun_current_mode().flags.count( "VOLLEY" ) ) {
-            delay += enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER, 5.0 ) *
-                     ( qty * ( 1.0 - absorb ) );
+            delay += added_recoil;
         } else {
-            // Temporarily scale by 5x as we adjust MAX_RECOIL, factoring in the recoil enchantment also.
-            recoil += enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER, 5.0 ) *
-                      ( qty * ( 1.0 - absorb ) );
+            recoil += added_recoil;
         }
 
         const itype_id current_ammo = gun.ammo_current();
@@ -1187,20 +1295,30 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
             }
         }
 
-        const int required = gun.ammo_required();
-        if( gun.ammo_consume( required, here, pos_bub( here ), this ) != required ) {
-            debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname() );
-            break;
-        }
-
-        // Vehicle turrets drain vehicle battery and do not care about this
-        if( !gun.has_flag( flag_VEHICLE ) ) {
-            const units::energy energ_req = gun.get_gun_energy_drain();
-            const units::energy drained = gun.energy_consume( energ_req, &here, pos_bub( here ), this );
-            if( drained < energ_req ) {
-                debugmsg( "Unexpected shortage of energy whilst firing %s. Required: %i J, drained: %i J",
-                          gun.tname(), units::to_joule( energ_req ), units::to_joule( drained ) );
+        if( gun.uses_firing_requirements() ) {
+            // Vehicle turret passes nullptr carrier so multimag_drain skips
+            // player UPS/bionic. Vehicle is billed via drain_back_multimag
+            // in turret_data::post_fire.
+            Character *drain_carrier = gun.has_flag( flag_VEHICLE ) ? nullptr : this;
+            if( gun.consume_one_shot( here, pos_bub( here ), drain_carrier ) != 1 ) {
+                debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname() );
                 break;
+            }
+        } else {
+            const int required = gun.ammo_required();
+            if( gun.ammo_consume( required, here, pos_bub( here ), this ) != required ) {
+                debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname() );
+                break;
+            }
+            // Vehicle turrets drain vehicle battery and do not care about this
+            if( !gun.has_flag( flag_VEHICLE ) ) {
+                const units::energy energ_req = gun.get_gun_energy_drain();
+                const units::energy drained = gun.energy_consume( energ_req, &here, pos_bub( here ), this );
+                if( drained < energ_req ) {
+                    debugmsg( "Unexpected shortage of energy whilst firing %s. Required: %i J, drained: %i J",
+                              gun.tname(), units::to_joule( energ_req ), units::to_joule( drained ) );
+                    break;
+                }
             }
         }
 
@@ -1215,21 +1333,29 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
     // Use different amounts of time depending on the type of gun and our skill
     mod_moves( -attack_moves );
 
-    const islot_gun &firing = *gun.type->gun;
-    for( const std::pair<const bodypart_str_id, int> &hurt_part : firing.hurt_part_when_fired ) {
-        apply_damage( nullptr, bodypart_id( hurt_part.first ), hurt_part.second );
-        add_msg_player_or_npc( _( "Your %s is hurt by the recoil!" ),
-                               _( "<npcname>'s %s is hurt by the recoil!" ),
-                               body_part_name_accusative( bodypart_id( hurt_part.first ) ) );
+    const islot_gun *firing = original_gun;
+    if( !firing && gun.is_gun() ) {
+        firing = gun.type->gun.get();
+    }
+    if( firing != nullptr ) {
+        for( const std::pair<const bodypart_str_id, int> &hurt_part : firing->hurt_part_when_fired ) {
+            apply_damage( nullptr, bodypart_id( hurt_part.first ), hurt_part.second );
+            add_msg_player_or_npc( _( "Your %s is hurt by the recoil!" ),
+                                   _( "<npcname>'s %s is hurt by the recoil!" ),
+                                   body_part_name_accusative( bodypart_id( hurt_part.first ) ) );
+        }
     }
 
-    // Practice the base gun skill proportionally to number of hits, but always by one.
-    if( !gun.has_flag( flag_WONT_TRAIN_MARKSMANSHIP ) ) {
-        practice( skill_gun, ( hits + 1 ) * 5 );
+    // Preventing using a trapped creature as an infinite training dummy.
+    if( times_shot_target < 100 && curshot > 0 ) {
+        // Practice the base gun skill proportionally to number of hits, but always by one.
+        if( firing != nullptr && !gun.has_flag( flag_WONT_TRAIN_MARKSMANSHIP ) ) {
+            practice( skill_gun, ( hits + 1 ) * 5 );
+        }
+        // launchers train weapon skill for both hits and misses.
+        int practice_units = gun_skill == skill_launcher ? curshot : hits;
+        practice( gun_skill, ( practice_units + 1 ) * 5 );
     }
-    // launchers train weapon skill for both hits and misses.
-    int practice_units = gun_skill == skill_launcher ? curshot : hits;
-    practice( gun_skill, ( practice_units + 1 ) * 5 );
 
     if( !gun.is_gun() ) {
         // If we lose our gun as a side effect of firing it, skip the rest of the function.
@@ -1241,6 +1367,9 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
     for( item *mod : gun.gunmods() ) {
         mod->set_var( "shot_counter", mod->get_var( "shot_counter", 0 ) + curshot );
     }
+
+    add_msg_debug( debugmode::DF_RANGED, "off it, a delayed recoil: %d", delay );
+
     if( gun.has_flag( flag_RELOAD_AND_SHOOT ) ) {
         // Reset aim for bows and other reload-and-shoot weapons.
         recoil = MAX_RECOIL;
@@ -1252,6 +1381,9 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
             // TODO: shouldn't this affect only recoil accumulated during this function?
             recoil = recoil / 2;
         }
+
+        recoil += get_action_penalty( here, *this, gun );
+
         // Cap
         recoil = std::min( MAX_RECOIL, recoil );
     }
@@ -1703,7 +1835,7 @@ static void mod_stamina_archery( Character &you, const item &relevant )
 {
     // Set activity level to 10 * str_ratio, with 10 being max (EXTRA_EXERCISE)
     // This ratio should never be below 0 and above 1
-    const float str_ratio = static_cast<float>( relevant.get_min_str() ) / you.str_cur;
+    const float str_ratio = static_cast<float>( relevant.get_min_str() ) / you.get_str();
     you.set_activity_level( 10 * str_ratio );
 
     // Calculate stamina drain based on archery, athletics skill, and effective bow strength ratio
@@ -1718,9 +1850,11 @@ static void mod_stamina_archery( Character &you, const item &relevant )
                    stamina_cost, str_ratio, skill_modifier );
 }
 
-static void do_aim( Character &you, const item &relevant, const double min_recoil )
+static void do_aim( Character &you, const item &relevant, const Target_attributes &target,
+                    const double min_recoil )
 {
-    const double aim_amount = you.aim_per_move( relevant, you.recoil );
+    const aim_mods_cache aim_cache = you.gen_aim_mods_cache( relevant );
+    const double aim_amount = you.aim_per_move( relevant, you.recoil, target, aim_cache );
     if( aim_amount > 0 && you.recoil > min_recoil ) {
         // Increase aim at the cost of moves
         you.mod_moves( -1 );
@@ -1741,12 +1875,15 @@ static void do_aim( Character &you, const item &relevant, const double min_recoi
     }
 }
 
+namespace
+{
 struct confidence_rating {
     double aim_level;
     char symbol;
     std::string color;
     std::string label;
 };
+} // namespace
 
 static int print_steadiness( const catacurses::window &w, int line_number, double steadiness )
 {
@@ -1833,6 +1970,8 @@ Target_attributes::Target_attributes( int rng, double target_size, float light_t
 * struct used to hold the information on entire aim_type prediction;
 * all the properties and odds for every 'confidence' outcome
 */
+namespace
+{
 struct aim_type_prediction {
     struct aim_confidence {
         std::string label;
@@ -1858,6 +1997,7 @@ struct recoil_prediction {
     double recoil;
     int moves;
 };
+} // namespace
 
 /*
 * This method tries to estimate the amount of moves required to reach
@@ -1874,10 +2014,9 @@ static recoil_prediction predict_recoil( const Character &you, const item &weapo
     double predicted_recoil = start_recoil;
     int predicted_delay = 0;
     const aim_mods_cache &aim_cache = you.gen_aim_mods_cache( weapon );
-    auto aim_cache_opt = std::make_optional( std::ref( aim_cache ) );
     // next loop simulates aiming until either aim mode threshold or sight_dispersion is reached
     do {
-        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target, aim_cache_opt );
+        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target, aim_cache );
         if( aim_amount <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
@@ -2324,9 +2463,15 @@ int time_to_attack( const Character &p, const itype &firing )
 {
     const skill_id &skill_used = firing.gun->skill_used;
     const time_info_t &info = skill_used->time_to_attack();
-    return std::max( info.min_time,
-                     static_cast<int>( round( info.base_time - info.time_reduction_per_level * p.get_skill_level(
-                                           skill_used ) ) ) );
+
+    const float reduction = info.time_reduction_per_level * p.get_skill_level( skill_used );
+    const int time = static_cast<int>( round( info.base_time - reduction ) );
+
+    const int ret = std::max( info.min_time, time );
+
+    add_msg_debug( debugmode::DF_RANGED, "time to attack: %d", ret );
+
+    return ret;
 }
 
 int RAS_time( const Character &p, const item_location &loc )
@@ -2337,7 +2482,8 @@ int RAS_time( const Character &p, const item_location &loc )
         const item_location gun = p.get_wielded_item();
         int sta_percent = ( 100 * p.get_stamina() ) / p.get_stamina_max();
         time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
-        item::reload_option opt = item::reload_option( &p, gun, loc );
+        item::reload_option opt = item::reload_option( &p, gun, loc,
+                                  item::reload_option::POCKET_FALLBACK );
         time += opt.moves();
     }
     return time;
@@ -2880,7 +3026,7 @@ target_handler::trajectory target_ui::run()
                 continue;
             }
             bool can_skip_confirm = mode == TargetMode::Spell && ( casting->damage( player_character ) <= 0 ||
-                                    casting->effect() == "pickup" );
+                                    casting->effect() == "pickup" || casting->effect() == "summon" );
             if( !can_skip_confirm && !confirm_non_enemy_target() ) {
                 continue;
             }
@@ -3136,6 +3282,10 @@ bool target_ui::set_cursor_pos( const tripoint_bub_ms &new_pos )
         valid_pos.z() = clamp( valid_pos.z(), -OVERMAP_DEPTH, OVERMAP_HEIGHT );
         // Or current view range
         valid_pos.z() = clamp( valid_pos.z() - src.z(), -fov_3d_z_range, fov_3d_z_range ) + src.z();
+        // Or across z-levels (in melee)
+        if( mode == TargetMode::Reach && src.z() != new_pos.z() ) {
+            return false;
+        }
 
         new_traj = here.find_clear_path( src, valid_pos );
         if( range == 1 ) {
@@ -3300,8 +3450,17 @@ void target_ui::update_target_list()
             targets.push_back( target->pos_bub() );
         }
     }
+    // Sort hostile creatures first, then by distance within each group.
+    creature_tracker &creatures = get_creature_tracker();
     std::sort( targets.begin(), targets.end(), [&]( const tripoint_bub_ms lhs,
     const tripoint_bub_ms rhs ) {
+        const Creature *cl = creatures.creature_at( lhs, true );
+        const Creature *cr = creatures.creature_at( rhs, true );
+        const bool lhs_hostile = cl && cl->attitude_to( *you ) == Creature::Attitude::HOSTILE;
+        const bool rhs_hostile = cr && cr->attitude_to( *you ) == Creature::Attitude::HOSTILE;
+        if( lhs_hostile != rhs_hostile ) {
+            return lhs_hostile;
+        }
         return rl_dist_exact( lhs, you->pos_bub() ) < rl_dist_exact( rhs, you->pos_bub() );
     } );
 }
@@ -3321,10 +3480,11 @@ tripoint_bub_ms target_ui::choose_initial_target()
         return targets[0];
     }
 
-    // Try closest practice target
+    // Try closest practice/spinner target
     std::optional<tripoint_bub_ms> target_spot = find_point_closest_first( src, 0, range, [this,
     &here]( const tripoint_bub_ms & pt ) {
-        return here.tr_at( pt ).id == tr_practice_target && this->you->sees( here, pt );
+        return ( here.tr_at( pt ).id == tr_practice_target || here.tr_at( pt ).id == tr_target_spinner ) &&
+               this->you->sees( here, pt );
     } );
 
     if( target_spot != std::nullopt ) {
@@ -3370,7 +3530,8 @@ void target_ui::update_status()
         // None of the turrets are in range
         status = Status::OutOfRange;
     } else if( mode == TargetMode::Fire &&
-               ( !gunmode_checks_common( *you, get_map(), msgbuf, relevant->gun_current_mode() ) ||
+               ( relevant->firing_mode_blocked( relevant->gun_get_mode_id() ) ||
+                 !gunmode_checks_common( *you, get_map(), msgbuf, relevant->gun_current_mode() ) ||
                  !gunmode_checks_weapon( *you, get_map(), msgbuf, relevant->gun_current_mode() ) )
              ) { // NOLINT(bugprone-branch-clone)
         // Selected gun mode is empty
@@ -3387,6 +3548,8 @@ void target_ui::update_status()
         // We're out of range. This can happen if we switch from long-ranged
         // gun mode to short-ranged. We can, of course, move the cursor into range automatically,
         // but that would be rude. Instead, wait for directional keys/etc. and *then* move the cursor.
+        status = Status::OutOfRange;
+    } else if( mode == TargetMode::Reach && src.z() != dst.z() ) {
         status = Status::OutOfRange;
     } else {
         status = Status::Good;
@@ -3629,7 +3792,7 @@ void target_ui::update_ammo_range_from_gun_mode()
         }
     } else {
         if( relevant->gun_current_mode().melee() ) {
-            range = relevant->current_reach_range( *you );
+            range = relevant->current_reach_range( *you ).first;
         } else {
             ammo = activity->reload_loc ? activity->reload_loc.get_item()->type :
                    relevant->gun_current_mode().target->ammo_data();
@@ -3730,7 +3893,7 @@ bool target_ui::action_switch_mode()
     } else {
         if( relevant->gun_current_mode().melee() ) {
             refresh = true;
-            range = relevant->current_reach_range( *you );
+            range = relevant->current_reach_range( *you ).first;
         } else {
             ammo = activity->reload_loc ? activity->reload_loc.get_item()->type :
                    relevant->gun_current_mode().target->ammo_data();
@@ -3779,10 +3942,11 @@ bool target_ui::action_aim()
 {
     set_last_target();
     apply_aim_turning_penalty();
+    const Target_attributes target( src, dst );
     const double min_recoil = calculate_aim_cap( *you, dst );
     double hold_recoil = you->recoil;
     for( int i = 0; i < 10; ++i ) {
-        do_aim( *you, *relevant, min_recoil );
+        do_aim( *you, *relevant, target, min_recoil );
     }
     add_msg_debug( debugmode::debug_filter::DF_BALLISTIC,
                    "you reduced recoil from %f to %f in 10 moves",
@@ -3818,9 +3982,10 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
     int aim_threshold = it->threshold;
     set_last_target();
     apply_aim_turning_penalty();
+    const Target_attributes target( src, dst );
     const double min_recoil = calculate_aim_cap( *you, dst );
     do {
-        do_aim( *you, relevant ? *relevant : null_item_reference(), min_recoil );
+        do_aim( *you, relevant ? *relevant : null_item_reference(), target, min_recoil );
     } while( you->get_moves() > 0 && you->recoil > aim_threshold &&
              you->recoil - sight_dispersion > min_recoil );
 
@@ -4193,7 +4358,33 @@ void target_ui::panel_gun_info( int &text_y )
     nc_color clr = c_light_gray;
     print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
 
-    if( status == Status::OutOfAmmo ) {
+    if( mode == TargetMode::TurretManual && turret &&
+        relevant->uses_firing_requirements() ) {
+        // Show panel even when not ready, so player sees which pocket is short.
+        if( status == Status::OutOfAmmo ) {
+            mvwprintz( w_target, point( 1, text_y++ ), c_red, _( "OUT OF AMMO" ) );
+        }
+        const std::vector<multimag_display_pocket> dps = turret->multimag_display_state();
+        for( const multimag_display_pocket &dp : dps ) {
+            const itype *ad = dp.ammo_itype.is_null() ? nullptr : item::find_type( dp.ammo_itype );
+            const std::string ammo_name = ad ? ad->nname( std::max( dp.effective_qty, 1 ) ) :
+                                          dp.pocket_id;
+            const nc_color ammo_clr = ad ? ad->color : c_light_gray;
+            const bool short_of_one_use = dp.effective_qty < dp.per_use_qty;
+            nc_color row_clr = short_of_one_use ? c_red : clr;
+            std::string ammo_str;
+            if( dp.vehicle_bound ) {
+                ammo_str = string_format( _( "%s: %s (vehicle %d, need %d)" ),
+                                          dp.pocket_id, colorize( ammo_name, ammo_clr ),
+                                          dp.effective_qty, dp.per_use_qty );
+            } else {
+                ammo_str = string_format( _( "%s: %s (%d, need %d)" ),
+                                          dp.pocket_id, colorize( ammo_name, ammo_clr ),
+                                          dp.effective_qty, dp.per_use_qty );
+            }
+            print_colored_text( w_target, point( 1, text_y++ ), row_clr, row_clr, ammo_str );
+        }
+    } else if( status == Status::OutOfAmmo ) {
         mvwprintz( w_target, point( 1, text_y++ ), c_red, _( "OUT OF AMMO" ) );
     } else if( ammo ) {
         bool is_favorite = relevant->is_ammo_container() && relevant->first_ammo().is_favorite;
@@ -4274,7 +4465,8 @@ void target_ui::panel_spell_info( int &text_y )
         nc_color color = c_light_gray;
         const std::string fx = casting->effect();
         const std::string aoes = casting->aoe_string( get_player_character() );
-        if( fx == "attack" || fx == "area_pull" || fx == "area_push" || fx == "ter_transform" ) {
+        if( fx == "attack" || fx == "area_pull" || fx == "area_push" || fx == "ter_transform" ||
+            fx == "fertilize_plant" ) {
 
             if( casting->shape() == spell_shape::cone ) {
                 text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
@@ -4426,6 +4618,11 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
         !gmode->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         if( !gmode->ammo_remaining( ) ) {
             messages.push_back( string_format( _( "Your %s is empty!" ), gmode->tname() ) );
+        } else if( gmode->uses_firing_requirements() ) {
+            messages.push_back( string_format( _( "Your %s needs to fire: %s." ),
+                                               gmode->tname(),
+                                               gmode->format_consumption_requirements(
+                                                   /*method=*/"", gmode->gun_get_mode_id() ) ) );
         } else {
             messages.push_back( string_format( _( "Your %s needs %i charges to fire!" ),
                                                gmode->tname(), gmode->ammo_required() ) );

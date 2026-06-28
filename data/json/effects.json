@@ -698,6 +698,17 @@
   },
   {
     "type": "effect_type",
+    "id": "overburdened",
+    "name": [ "Overburdened" ],
+    "desc": [ "You strain to move with all you're carrying." ],
+    "//COMMENT": "This has no apply message because there's an existing application message in Pickup::do_pickup().",
+    "//COMMENT2": "You're carrying too much and are overburdened!",
+    "rating": "bad",
+    "show_in_info": true,
+    "flags": [ "DISABLE_FLIGHT" ]
+  },
+  {
+    "type": "effect_type",
     "id": "assisted",
     "name": [ "Assisted" ],
     "max_intensity": 1000,
@@ -737,9 +748,9 @@
   },
   {
     "type": "effect_type",
-    "id": "winded_leg_l",
-    "name": [ "Winded (Left Leg)" ],
-    "desc": [ "You're short of breath.  Your left leg has impaired function until you recover." ],
+    "id": "winded_leg",
+    "name": [ "Winded" ],
+    "desc": [ "You're short of breath.  Your leg has impaired function until you recover." ],
     "rating": "bad",
     "max_duration": "30 s",
     "base_mods": { "speed_mod": [ -5 ], "pain_min": [ 1 ], "pain_chance": [ 10 ], "pain_max_val": [ 20 ] },
@@ -754,26 +765,9 @@
   },
   {
     "type": "effect_type",
-    "id": "winded_leg_r",
-    "name": [ "Winded (Right Leg)" ],
-    "desc": [ "You're short of breath.  Your right leg has impaired function until you recover." ],
-    "rating": "bad",
-    "max_duration": "30 s",
-    "base_mods": { "speed_mod": [ -5 ], "pain_min": [ 1 ], "pain_chance": [ 10 ], "pain_max_val": [ 20 ] },
-    "limb_score_mods": [
-      { "limb_score": "block", "modifier": 0.9 },
-      { "limb_score": "swim", "modifier": 0.7 },
-      { "limb_score": "move_speed", "modifier": 0.8 },
-      { "limb_score": "footing", "modifier": 0.8 },
-      { "limb_score": "balance", "modifier": 0.8 }
-    ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "winded_arm_l",
-    "name": [ "Winded (Left Arm)" ],
-    "desc": [ "You're short of breath.  Your left arm has impaired function until you recover." ],
+    "id": "winded_arm",
+    "name": [ "Winded" ],
+    "desc": [ "You're short of breath.  Your arm has impaired function until you recover." ],
     "rating": "bad",
     "max_duration": "30 s",
     "base_mods": {
@@ -795,19 +789,44 @@
   },
   {
     "type": "effect_type",
-    "id": "winded_arm_r",
-    "name": [ "Winded (Right Arm)" ],
-    "desc": [ "You're short of breath.  Your right arm has impaired function until you recover." ],
+    "id": "winded_crab_leg",
+    "name": [ "Winded" ],
+    "desc": [ "You're short of breath.  One of your crab legs has impaired function until you recover." ],
     "rating": "bad",
     "max_duration": "30 s",
-    "base_mods": {
-      "dex_mod": [ -1 ],
-      "str_mod": [ -1 ],
-      "speed_mod": [ -5 ],
-      "pain_min": [ 1 ],
-      "pain_chance": [ 10 ],
-      "pain_max_val": [ 20 ]
-    },
+    "base_mods": { "speed_mod": [ -3 ], "pain_min": [ 1 ], "pain_chance": [ 10 ], "pain_max_val": [ 20 ] },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.95 },
+      { "limb_score": "move_speed", "modifier": 0.9 },
+      { "limb_score": "footing", "modifier": 0.85 },
+      { "limb_score": "balance", "modifier": 0.9 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "winded_tentacle",
+    "name": [ "Winded" ],
+    "desc": [ "You're short of breath.  One of your tentacles has impaired function until you recover." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": { "speed_mod": [ -3 ], "pain_min": [ 1 ], "pain_chance": [ 10 ], "pain_max_val": [ 20 ] },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.95 },
+      { "limb_score": "move_speed", "modifier": 0.9 },
+      { "limb_score": "footing", "modifier": 0.85 },
+      { "limb_score": "balance", "modifier": 0.9 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "no_power_leg",
+    "name": [ "Low Power" ],
+    "desc": [ "You're low on power.  Your leg is operating in emergency mode and has limited function." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": { "speed_mod": [ -5 ] },
     "limb_score_mods": [
       { "limb_score": "block", "modifier": 0.5 },
       { "limb_score": "swim", "modifier": 0.5 },
@@ -815,7 +834,54 @@
       { "limb_score": "footing", "modifier": 0.5 },
       { "limb_score": "balance", "modifier": 0.5 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "no_power_arm",
+    "name": [ "Low Power" ],
+    "desc": [ "You're low on power.  Your arm is operating in emergency mode and has limited function." ],
+    "rating": "bad",
+    "max_duration": "10 s",
+    "base_mods": { "dex_mod": [ -1 ], "str_mod": [ -1 ], "speed_mod": [ -5 ] },
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 0.5 },
+      { "limb_score": "block", "modifier": 0.5 },
+      { "limb_score": "swim", "modifier": 0.5 },
+      { "limb_score": "manip", "modifier": 0.5 },
+      { "limb_score": "grip", "modifier": 0.5 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "no_power_eyes",
+    "name": [ "Low Power" ],
+    "desc": [ "You're low on power.  Your eyes are operating in emergency mode and have limited function." ],
+    "rating": "bad",
+    "max_duration": "10 s",
+    "base_mods": { "per_mod": [ -2 ] },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.5 },
+      { "limb_score": "night_vis", "modifier": 0.5 },
+      { "limb_score": "reaction", "modifier": 0.5 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "no_power_tank_treads",
+    "name": [ "Low Power (Bionic Treads)" ],
+    "desc": [ "You're low on power.  Your bionic treads are operating in emergency mode and have limited function." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": { "speed_mod": [ -10 ] },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.0 },
+      { "limb_score": "swim", "modifier": 0.01 },
+      { "limb_score": "move_speed", "modifier": 0.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -1019,7 +1085,7 @@
     "desc": [ "You have been poisoned!" ],
     "miss_messages": [ [ "You feel bad inside.", 1 ] ],
     "rating": "bad",
-    "immune_bp_flags": [ "BIONIC_LIMB" ],
+    "immune_bp_flags": [ "BIONIC_LIMB", "NON_FLESH_LIMB" ],
     "resist_traits": [ "POISRESIST" ],
     "resist_effects": [ "prophylactic_antivenom" ],
     "pain_sizing": true,
@@ -1029,6 +1095,9 @@
       "per_mod": [ -2, -1 ],
       "dex_mod": [ -1, -1 ],
       "str_mod": [ -2, 0 ],
+      "health_amount": [ -2, -1 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 150, 900 ],
       "pain_min": [ 1 ],
       "pain_chance": [ 150, 900 ],
       "hurt_min": [ 1 ],
@@ -1066,7 +1135,7 @@
     "desc": [ "You have been badly poisoned!" ],
     "miss_messages": [ [ "You feel bad inside.", 2 ] ],
     "rating": "bad",
-    "immune_bp_flags": [ "BIONIC_LIMB" ],
+    "immune_bp_flags": [ "BIONIC_LIMB", "NON_FLESH_LIMB" ],
     "resist_traits": [ "POISRESIST" ],
     "resist_effects": [ "prophylactic_antivenom" ],
     "pain_sizing": true,
@@ -1077,6 +1146,9 @@
       "dex_mod": [ -2 ],
       "str_mod": [ -3, -1 ],
       "speed_mod": [ -10 ],
+      "health_amount": [ -4, -1 ],
+      "health_min": [ -2 ],
+      "health_chance": [ 100, 500 ],
       "pain_min": [ 2 ],
       "pain_chance": [ 100, 500 ],
       "hurt_min": [ 1 ],
@@ -1101,6 +1173,9 @@
       "per_mod": [ -2, -1 ],
       "dex_mod": [ -1, -1 ],
       "str_mod": [ -2, 0 ],
+      "health_amount": [ -3 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 150, 900 ],
       "pain_min": [ 2 ],
       "pain_chance": [ 150, 900 ],
       "hurt_min": [ 2 ],
@@ -1122,7 +1197,7 @@
     "remove_message": "The burning pain subsides, but the damage is done.",
     "show_intensity": false,
     "rating": "bad",
-    "immune_bp_flags": [ "BIONIC_LIMB" ],
+    "immune_bp_flags": [ "BIONIC_LIMB", "NON_FLESH_LIMB" ],
     "resist_traits": [ "POISRESIST" ],
     "blood_analysis_description": "Necrotizing Venom",
     "resist_effects": [ "prophylactic_antivenom" ],
@@ -1135,6 +1210,10 @@
     "max_duration": 2250,
     "//": "30 m to max, 7,5 m overhead, dmg chance scales from 1/13 to 1/3, Pain from 1/20 to 1/5",
     "base_mods": {
+      "health_amount": [ -5 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 20, 100 ],
+      "health_tick": [ 15, 60 ],
       "pain_amount": [ 5, 2 ],
       "pain_min": [ 0, -4 ],
       "pain_chance": [ 20, 100 ],
@@ -1156,7 +1235,7 @@
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
     "blood_analysis_description": "Systemic Inflammatory Agents",
-    "immune_bp_flags": [ "BIONIC_LIMB" ],
+    "immune_bp_flags": [ "BIONIC_LIMB", "NON_FLESH_LIMB" ],
     "speed_name": "Poisoned",
     "resist_effects": [ "prophylactic_antivenom" ],
     "max_intensity": 125,
@@ -1173,6 +1252,8 @@
       "stamina_min": [ -5 ],
       "stamina_chance": [ 4.5, 10 ],
       "speed_mod": [ -10, 0 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 300, 1800 ],
       "vomit_chance": [ 15, 150 ],
       "vomit_tick": [ 1200 ]
     },
@@ -1210,8 +1291,8 @@
     "int_decay_tick": 90,
     "int_decay_remove": true,
     "resist_traits": [ "ELFA_NV" ],
-    "immune_bp_flags": [ "BIONIC_LIMB" ],
-    "base_mods": { "per_mod": [ -3, 0 ] },
+    "immune_bp_flags": [ "BIONIC_LIMB", "NON_FLESH_LIMB" ],
+    "base_mods": { "per_mod": [ -3, 0 ], "health_amount": [ -3 ], "health_min": [ -1 ], "health_chance": [ 300, 1800 ] },
     "scaling_mods": { "per_mod": [ -2, -1 ] },
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.75, "resist_modifier": 1.0, "scaling": -0.25, "resist_scaling": -0.1 },
@@ -1232,7 +1313,15 @@
     "int_decay_tick": 100,
     "int_decay_remove": true,
     "resist_traits": [ "PAINRESIST" ],
-    "base_mods": { "pain_amount": [ 10, 2 ], "pain_min": [ 5, 1 ], "pain_chance": [ 10, 20 ], "pain_tick": [ 5 ] },
+    "base_mods": {
+      "health_amount": [ -3 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 150, 900 ],
+      "pain_amount": [ 10, 2 ],
+      "pain_min": [ 5, 1 ],
+      "pain_chance": [ 10, 20 ],
+      "pain_tick": [ 5 ]
+    },
     "scaling_mods": { "pain_min": [ 5, 1 ], "pain_chance": [ -1, 0 ] }
   },
   {
@@ -1249,6 +1338,9 @@
       "dex_mod": [ -1 ],
       "str_mod": [ -3, -1 ],
       "speed_mod": [ -20 ],
+      "health_amount": [ -10 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 300, 900 ],
       "pain_min": [ 1 ],
       "pain_chance": [ 300, 900 ],
       "vomit_chance": [ 600, 1200 ]
@@ -1284,11 +1376,17 @@
     "rating": "bad",
     "max_intensity": 20,
     "resist_traits": [ "POISRESIST" ],
-    "immune_bp_flags": [ "BIONIC_LIMB" ],
+    "immune_bp_flags": [ "BIONIC_LIMB", "NON_FLESH_LIMB" ],
     "resist_effects": [ "prophylactic_antivenom" ],
     "int_add_val": 1,
     "int_decay_tick": 600,
-    "base_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -5, -3 ] },
+    "base_mods": {
+      "dex_mod": [ -0.34, -0.17 ],
+      "speed_mod": [ -5, -3 ],
+      "health_amount": [ -3 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 200, 750 ]
+    },
     "scaling_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -5, -3 ] },
     "limb_score_mods": [
       {
@@ -2159,6 +2257,27 @@
     "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
     "blood_analysis_description": "Crustacean Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_interstice",
+    "name": [ "Interstitial Mutation", "Interstitial Transformation", "Interstitial Metamorphosis" ],
+    "desc": [ "You consumed some interdimensional contaminant.", "Who said that?", "You see all the colors of space." ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_INTERSTICE" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 200 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 50 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "per_mod": [ 2.5 ], "int_mod": [ 1 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -15 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Interdimensional Contamination"
   },
   {
     "type": "effect_type",
@@ -3070,6 +3189,32 @@
   },
   {
     "type": "effect_type",
+    "id": "lung_collapse",
+    "name": [ "Lung Collapse" ],
+    "desc": [ "You have difficulties breathing!" ],
+    "rating": "bad",
+    "max_intensity": 2,
+    "//": "intensity 1 - one of two lungs is collapsed; intensity 2 - both lungs are collapsed",
+    "base_mods": { "hurt_amount": [ 1 ], "hurt_tick": [ 4 ] },
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "SPEED", "multiply": { "math": [ "u_effect_intensity('lung_collapse') * -0.25" ] } } ]
+      }
+    ],
+    "chance_kill": [ [ 0, 1 ], [ 1, 120 ] ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "revived_marker",
+    "//COMMENT": "Hardcoded dummy effect to track a monster as revived. Applied and checked in C++ only.",
+    "name": [ "Revived" ],
+    "desc": [ "" ],
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
     "id": "slimed",
     "name": [ "Slimed" ],
     "desc": [ "You're covered in thick goo!" ],
@@ -3194,7 +3339,7 @@
     "desc": [ "Your %s is frostnipped and has gone numb.", "Your %s is frostbitten!  Its tissues are frozen from the cold!" ],
     "part_descs": true,
     "speed_name": "Frostbite",
-    "immune_bp_flags": [ "BIONIC_LIMB" ],
+    "immune_bp_flags": [ "BIONIC_LIMB", "NON_FLESH_LIMB" ],
     "dur_add_perc": 0,
     "max_intensity": 2,
     "scaling_mods": { "speed_mod": [ -5 ] },
@@ -3213,7 +3358,7 @@
     "id": "frostbite_recovery",
     "name": [ "Defrosting" ],
     "desc": [ "Your %s is starting to feel the damage cold has wrought." ],
-    "immune_bp_flags": [ "BIONIC_LIMB" ],
+    "immune_bp_flags": [ "BIONIC_LIMB", "NON_FLESH_LIMB" ],
     "part_descs": true,
     "base_mods": { "pain_max_val": [ 40 ], "pain_chance": [ 2 ], "pain_min": [ 1 ] }
   },
@@ -3225,7 +3370,7 @@
     "main_parts_only": true,
     "part_descs": true,
     "miss_messages": [ [ "Your blisters distract you", 1 ] ],
-    "immune_bp_flags": [ "BIONIC_LIMB" ],
+    "immune_bp_flags": [ "BIONIC_LIMB", "NON_FLESH_LIMB" ],
     "base_mods": {
       "dex_mod": [ -1 ],
       "str_mod": [ -1 ],
@@ -3240,7 +3385,7 @@
   {
     "type": "effect_type",
     "id": "dermatik",
-    "immune_bp_flags": [ "BIONIC_LIMB" ],
+    "immune_bp_flags": [ "BIONIC_LIMB", "NON_FLESH_LIMB" ],
     "blood_analysis_description": "Insect Parasite",
     "vitamins": [
       { "vitamin": "dermatik_larva_size", "rate": [ [ 1, 1 ] ], "tick": [ "1 m" ] },
@@ -3288,7 +3433,7 @@
     "resist_effects": [ "took_flumed", "took_antihistamine" ],
     "main_parts_only": true,
     "show_in_info": true,
-    "immune_bp_flags": [ "BIONIC_LIMB" ],
+    "immune_bp_flags": [ "BIONIC_LIMB", "NON_FLESH_LIMB" ],
     "max_intensity": 3,
     "base_mods": { "str_mod": [ -0.34 ], "int_mod": [ -1 ] },
     "scaling_mods": { "str_mod": [ -0.34 ], "int_mod": [ -1 ] }
@@ -3323,14 +3468,8 @@
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
     "immune_flags": [ "NO_DISEASE" ],
-    "base_mods": {
-      "thirst_tick": [ 3600 ],
-      "thirst_min": [ 1 ],
-      "sleepiness_tick": [ 600 ],
-      "sleepiness_min": [ 1 ],
-      "str_mod": [ -1, 0 ],
-      "cough_chance": [ 600, 0 ]
-    }
+    "base_mods": { "thirst_tick": [ 3600 ], "thirst_min": [ 1 ], "str_mod": [ -1, 0 ], "cough_chance": [ 600, 0 ] },
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS", "multiply": 0.025 }, { "value": "SLEEPINESS_REGEN", "multiply": -0.025 } ] } ]
   },
   {
     "//": "For player, indistinguishable from pre_cold, but separate here to allow for separate resistances from flu shot/antibodies.",
@@ -3345,14 +3484,8 @@
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
     "immune_flags": [ "NO_DISEASE" ],
-    "base_mods": {
-      "thirst_tick": [ 3600 ],
-      "thirst_min": [ 1 ],
-      "sleepiness_tick": [ 600 ],
-      "sleepiness_min": [ 1 ],
-      "str_mod": [ -1, 0 ],
-      "cough_chance": [ 600, 0 ]
-    }
+    "base_mods": { "thirst_tick": [ 3600 ], "thirst_min": [ 1 ], "str_mod": [ -1, 0 ], "cough_chance": [ 600, 0 ] },
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS", "multiply": 0.05 }, { "value": "SLEEPINESS_REGEN", "multiply": -0.05 } ] } ]
   },
   {
     "type": "effect_type",
@@ -3369,14 +3502,21 @@
     "base_mods": {
       "thirst_tick": [ 1800 ],
       "thirst_min": [ 1 ],
-      "sleepiness_tick": [ 300 ],
-      "sleepiness_min": [ 1 ],
       "str_mod": [ -3, -1 ],
       "dex_mod": [ -1, 0 ],
       "per_mod": [ -1, 0 ],
       "int_mod": [ -2, -1 ],
       "cough_chance": [ 300, 0 ]
     },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SLEEPINESS", "multiply": 0.05 },
+          { "value": "SLEEPINESS_REGEN", "multiply": -0.05 },
+          { "value": "SLEEPY", "add": -5 }
+        ]
+      }
+    ],
     "blood_analysis_description": "Viral Infection"
   },
   {
@@ -3396,8 +3536,6 @@
     "base_mods": {
       "thirst_tick": [ 1800 ],
       "thirst_min": [ 1 ],
-      "sleepiness_tick": [ 300 ],
-      "sleepiness_min": [ 1 ],
       "str_mod": [ -4, -2 ],
       "dex_mod": [ -2, 0 ],
       "per_mod": [ -1, 0 ],
@@ -3407,6 +3545,15 @@
       "cough_chance": [ 300, 0 ],
       "vomit_chance": [ 3600, 7200 ]
     },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SLEEPINESS", "multiply": 0.15 },
+          { "value": "SLEEPINESS_REGEN", "multiply": -0.15 },
+          { "value": "SLEEPY", "add": -10 }
+        ]
+      }
+    ],
     "blood_analysis_description": "Viral Infection"
   },
   {
@@ -3538,10 +3685,8 @@
       "venom_dmg",
       "venom_weaken",
       "winded",
-      "winded_leg_l",
-      "winded_leg_r",
-      "winded_arm_l",
-      "winded_arm_r"
+      "winded_leg",
+      "winded_arm"
     ],
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -2 ], "per_mod": [ -2 ], "int_mod": [ -1 ] },
     "scaling_mods": { "str_mod": [ 2 ], "dex_mod": [ 3 ], "per_mod": [ 3 ], "int_mod": [ 1 ] },
@@ -3557,7 +3702,7 @@
     "rating": "good",
     "max_intensity": 2,
     "int_dur_factor": "50 s",
-    "removes_effects": [ "winded", "winded_leg_l", "winded_leg_r", "winded_arm_l", "winded_arm_r" ],
+    "removes_effects": [ "winded", "winded_leg", "winded_arm" ],
     "base_mods": { "speed_mod": [ -5 ], "dex_mod": [ -2 ], "per_mod": [ -1 ], "int_mod": [ -2 ] },
     "scaling_mods": {
       "speed_mod": [ 15 ],
@@ -3581,7 +3726,7 @@
     "miss_messages": [ [ "Your comedown throws you off.", 1 ] ],
     "max_intensity": 2,
     "int_dur_factor": "150 s",
-    "removes_effects": [ "winded", "winded_leg_l", "winded_leg_r", "winded_arm_l", "winded_arm_r" ],
+    "removes_effects": [ "winded", "winded_leg", "winded_arm" ],
     "base_mods": {
       "speed_mod": [ -10 ],
       "str_mod": [ -2 ],
@@ -3927,7 +4072,7 @@
     "apply_message": "Your skin starts burning around some of your scratches.  Some aspirin might relieve the effects.",
     "remove_message": "The fever breaks.",
     "rating": "bad",
-    "immune_bp_flags": [ "BIONIC_LIMB" ],
+    "immune_bp_flags": [ "BIONIC_LIMB", "NON_FLESH_LIMB" ],
     "resist_effects": [ "aspirin" ],
     "base_mods": {
       "stamina_min": [ -50 ],
@@ -4428,6 +4573,7 @@
     "id": "mending",
     "name": [ "Started Recovery", "Recovering", "Mostly Recovered" ],
     "desc": [ "This damaged limb is slowly regaining its functions." ],
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "//": "Duration is 10 days, but the actual time taken is probabilistic.",
     "max_duration": "10 d",
     "int_dur_factor": "60 h",
@@ -4438,7 +4584,7 @@
     "type": "effect_type",
     "id": "disabled",
     "name": [ { "ctxt": "physically", "str": "Disabled" } ],
-    "desc": [ "This limb is damaged beyond use and may require a splint to recover." ],
+    "desc": [ "This limb is damaged beyond use and may require a splint or some other intervention to recover." ],
     "//": "This sounds weird. We need <bp_affected> tag or something",
     "apply_message": "Your limb breaks!",
     "remove_message": "The broken limb has mended.",
@@ -4613,8 +4759,8 @@
     "desc": [ "You are under the effects of a stomach soother." ],
     "int_add_val": 1,
     "max_intensity": 3,
-    "base_mods": { "vomit_tick": [ 60 ], "health_chance": [ 1500 ], "health_min": [ 1 ] },
-    "scaling_mods": { "health_min": [ -1.5 ], "health_min_val": [ -2 ], "vomit_tick": [ 120 ] },
+    "base_mods": { "vomit_tick": [ 60 ] },
+    "scaling_mods": { "vomit_tick": [ 120 ] },
     "max_duration": 14400,
     "dur_add_perc": 70
   },
@@ -4955,7 +5101,7 @@
     "id": "weakened_inertia",
     "type": "effect_type",
     "name": [ "Weakened Inertia" ],
-    "desc": [ "Your body moves strangely easily, as if it weighted less." ],
+    "desc": [ "Your body moves strangely easily, as if it weighed less." ],
     "apply_message": "Your inertia itself is damaged, but the outcome seems suspiciously beneficial.",
     "remove_message": "Reality reasserts itself and your inertia returns to normal.",
     "rating": "good",
@@ -5318,6 +5464,12 @@
   },
   {
     "type": "effect_type",
+    "id": "a_turncoat_to_the_end",
+    "name": [ "Turncoat or fool?" ],
+    "//": "Used to display the special end screen if you died on the Hub 01 surgical table."
+  },
+  {
+    "type": "effect_type",
     "//": "Horrible hack to apply vision flag. Set in C++ basecamp::start_crafting()",
     "id": "HACK_camp_vision_for_npc",
     "name": [ "" ],
@@ -5555,6 +5707,155 @@
     "name": [ "" ],
     "desc": [ "" ],
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.9 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_claw_manipulation_penalty",
+    "//": "Hidden effect, provides the limb score penalty from Claws",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "limb_score_mods": [ { "limb_score": "manip", "modifier": 0.95 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_claw_st_manipulation_penalty",
+    "//": "Hidden effect, provides the limb score penalty from Stainless Claws",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "limb_score_mods": [ { "limb_score": "manip", "modifier": 0.9 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_shorter_fingers_manipulation_penalty",
+    "//": "Hidden effect, provides the limb score penalty from Stubby Fingers",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "limb_score_mods": [ { "limb_score": "manip", "modifier": 0.95 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_insect_wings_muscle_veh_boost",
+    "//": "Hidden effect, provides the muscle vehicle boost from active insect wings",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "MUSCLE_VEH_BOOST" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dextrous_paws_no_practice_manipulation_penalty",
+    "//": "Hidden effect, provides the limb score penalty from Little or Dextrous Paws when you haven't practiced",
+    "name": [ "Clumsy Fingers" ],
+    "desc": [ "You're still getting used to these new paws.  Maybe you need some practice." ],
+    "limb_score_mods": [ { "limb_score": "manip", "modifier": 0.75 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "monster_locked_on",
+    "//": "Applied to monsters after they first establish line-of-sight to the avatar.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_duration": "2 minutes"
+  },
+  {
+    "id": "nauseating_smell",
+    "type": "effect_type",
+    "name": [ "Nauseating Stench" ],
+    "desc": [ "Something smells unbelievably foul." ],
+    "apply_message": "You are assaulted by one of the most vile smells you've ever smelled.",
+    "remove_message": "The last traces of the foul stench leave your nostrils.",
+    "rating": "bad",
+    "max_duration": 120,
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "speed_mod": [ -10 ],
+      "cough_chance": [ 3 ],
+      "vomit_chance": [ 15 ],
+      "vomit_tick": [ 10 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "nl_phase_goo",
+    "name": [ "Out of phase" ],
+    "desc": [
+      "Your body is partially out of phase with reality.  You move much more slowly, but you might be able to phase through some obstacles with ease."
+    ],
+    "apply_message": "You're coated in out-of-phase goo!",
+    "remove_message": "Your body returns to its normal phase.",
+    "rating": "bad",
+    "max_intensity": 1,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": 0.75 },
+          { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -1 },
+          { "value": "PHASE_DISTANCE", "add": 1 }
+        ]
+      }
+    ],
+    "show_in_info": true
+  },
+  {
+    "id": "effect_scarlet_atmopshere",
+    "type": "effect_type",
+    "//": "A nitrogen-rich atmosphere with trace amounts of Bromine, Phosgene, and Nitrogen dioxide.  Insidious killer.",
+    "name": [ "Scarlet Atmosphere" ],
+    "desc": [ "You've been breathing in an alien atmosphere.  Breathing is difficult." ],
+    "remove_message": "Your head clears.",
+    "rating": "bad",
+    "blood_analysis_description": "Trace: HNO3, HNO2, HBr, HBrO",
+    "max_intensity": 125,
+    "max_effective_intensity": 100,
+    "max_duration": 18000,
+    "int_dur_factor": 144,
+    "dur_add_perc": 500,
+    "harmful_cough": true,
+    "base_mods": {
+      "stamina_amount": [ -200 ],
+      "stamina_min": [ -100 ],
+      "stamina_chance": [ 10 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 300 ],
+      "cough_chance": [ 150 ],
+      "hurt_min": [ 1 ],
+      "hurt_chance": [ 450 ]
+    },
+    "scaling_mods": { "stamina_min": [ -1 ], "stamina_amount": [ -2 ], "stamina_chance": [ 0 ], "hurt_min": [ 0.0125 ] },
+    "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.8 }, { "limb_score": "reaction", "modifier": 0.8 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "id": "effect_scarlet_water",
+    "type": "effect_type",
+    "//": "A nitrogen-rich atmosphere of the scarlet sea makes this water midly acidic, with trace amounts of dissolved Bromide.",
+    "name": [ "Drank Acrid Water" ],
+    "desc": [ "That yellowish water isn't sitting right with you." ],
+    "remove_message": "The acrid taste in your mouth subsides, and your head clears.",
+    "miss_messages": [ [ "Your guts feel awful.", 1 ] ],
+    "rating": "bad",
+    "blood_analysis_description": "Bromide",
+    "resist_traits": [ "POISRESIST" ],
+    "max_intensity": 5,
+    "base_mods": {
+      "per_mod": [ -1, 0 ],
+      "dex_mod": [ -1, 0 ],
+      "str_mod": [ -1, 0 ],
+      "speed_mod": [ -20, 0 ],
+      "health_min": [ -2, -1 ],
+      "health_chance": [ 300, 900 ],
+      "hurt_min": [ 1, 0 ],
+      "hurt_chance": [ 450, 1350 ],
+      "vomit_chance": [ 2400, 7200 ],
+      "vomit_tick": [ 1200 ]
+    },
+    "scaling_mods": { "hurt_min": [ 3 ], "vomit_tick": [ -225 ], "per_mod": [ -0.5 ], "dex_mod": [ -0.5 ], "str_mod": [ -0.5 ] },
+    "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.8 }, { "limb_score": "reaction", "modifier": 0.8 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]

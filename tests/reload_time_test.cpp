@@ -73,7 +73,7 @@ static void check_reload_time( const itype_id &weapon, const itype_id &ammo,
     CHECK( spent_moves < expected_upper );
 }
 
-TEST_CASE( "reload_from_inventory_times", "[reload],[inventory],[balance]" )
+TEST_CASE( "reload_from_inventory_times", "[reload] [inventory] [balance]" )
 {
     // Build a list of gear loadouts ranked by expected firing speed.
     clear_avatar();

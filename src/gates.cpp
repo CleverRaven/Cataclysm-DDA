@@ -40,6 +40,8 @@
 #include "viewer.h"
 #include "vpart_position.h"
 
+static const fault_id fault_broken_window( "fault_broken_window" );
+
 static const furn_str_id furn_f_crate_o( "f_crate_o" );
 static const furn_str_id furn_f_safe_o( "f_safe_o" );
 
@@ -586,15 +588,36 @@ bool doors::unlock_door( map &m, Creature &who, const tripoint_bub_ms &lockp )
         const int unlockable = veh->next_part_to_unlock( vpart, !inside_vehicle );
 
         if( unlockable >= 0 ) {
-            if( const Character *const ch = who.as_character() ) {
-                if( !veh->handle_potential_theft( *ch ) ) {
-                    return false;
-                }
-                veh->unlock( unlockable );
-                who.add_msg_if_player( _( "You unlock the %1$s's %2$s." ), veh->name,
-                                       veh->part( unlockable ).name() );
-                didit = true;
+            if( who.as_character() && !veh->handle_potential_theft( *who.as_character() ) ) {
+                return false;
             }
+            // For various... reasons, we are forced to manually check if a broken window was responsible for letting us unlock the door.
+            // TODO: Separate this out into a function or something not awful.
+            // It's a lambda right now so we don't have to check it unless we need it.
+            auto has_broken_window = [&]() {
+                std::vector<vehicle_part *> parts_at_target = veh->get_parts_at( &m, lockp, "LOCKABLE_DOOR",
+                        part_status_flag::available );
+                return !parts_at_target.empty() && parts_at_target.front()->has_fault( fault_broken_window );
+            };
+            const bool reaches_in = !inside_vehicle && has_broken_window();
+            veh->unlock( unlockable );
+            if( reaches_in ) {
+                if( who.as_avatar() ) {
+                    add_msg( _( "You reach in through the broken glass and unlock the %1$s's %2$s." ), veh->name,
+                             veh->part( unlockable ).name() );
+                } else {
+                    add_msg( _( "%1$s reaches in through the broken glass and unlocks the %2$s's %3$s." ),
+                             who.disp_name(), veh->name, veh->part( unlockable ).name() );
+                }
+            } else {
+                if( who.as_avatar() ) {
+                    add_msg( _( "You unlock the %1$s's %2$s." ), veh->name, veh->part( unlockable ).name() );
+                } else {
+                    add_msg( _( "%1$s unlocks the %2$s's %3$s." ), who.disp_name(), veh->name,
+                             veh->part( unlockable ).name() );
+                }
+            }
+            didit = true;
         } else if( inside_unlockable >= 0 ) {
             who.add_msg_if_player( m_info, _( "That %s can only be unlocked from the inside." ),
                                    veh->part( inside_unlockable ).name() );

@@ -95,6 +95,29 @@ class input_context
             register_action( "toggle_language_to_en" );
         }
 
+        // Make a persistent input_context the stack top for this scope, so the
+        // Android shortcut bar (which reads the stack top) shows its actions
+        // even when the screen redraws before polling input.
+        class scoped_activation
+        {
+            public:
+                explicit scoped_activation( input_context &ctx ) {
+                    ( void )ctx;
+#if defined(__ANDROID__) || defined(TILES)
+                    input_context_stack.push( ctx.handle );
+#endif
+                }
+                ~scoped_activation() {
+#if defined(__ANDROID__) || defined(TILES)
+                    input_context_stack.pop();
+#endif
+                }
+                scoped_activation( const scoped_activation & ) = delete;
+                scoped_activation &operator=( const scoped_activation & ) = delete;
+                scoped_activation( scoped_activation && ) = delete;
+                scoped_activation &operator=( scoped_activation && ) = delete;
+        };
+
         input_context( const input_context &other ) {
             reassign( other );
         }
@@ -118,6 +141,9 @@ class input_context
 
         template<typename Rhs>
         void reassign( Rhs &&other ) {
+            // Distinct member moves from the same source object are intentional;
+            // suppress the conservative use-after-move alert on the per-member chain.
+            // NOLINTBEGIN(bugprone-use-after-move)
             // Don't touch the handle
 #if defined(__ANDROID__)
             registered_manual_keys = std::forward<Rhs>( other ).registered_manual_keys;
@@ -135,6 +161,7 @@ class input_context
             timeout = std::forward<Rhs>( other ).timeout;
             preferred_keyboard_mode = std::forward<Rhs>( other ).preferred_keyboard_mode;
             action_name_overrides = std::forward<Rhs>( other ).action_name_overrides;
+            // NOLINTEND(bugprone-use-after-move)
         }
 
 

@@ -29,7 +29,8 @@
     "color": "yellow",
     "symbol": "$",
     "flags": [ "COIN_SHAPED" ],
-    "material": [ "gold" ]
+    "material": [ "gold" ],
+    "use_action": [ "COIN_FLIP" ]
   },
   {
     "type": "ITEM",
@@ -44,7 +45,8 @@
     "color": "brown",
     "symbol": "$",
     "flags": [ "COIN_SHAPED" ],
-    "material": [ "copper" ]
+    "material": [ "copper" ],
+    "use_action": [ "COIN_FLIP" ]
   },
   {
     "type": "ITEM",
@@ -178,7 +180,7 @@
     "id": "coin_silver",
     "name": { "str": "Silver Eagle coin" },
     "description": "The official silver bullion coin of the United States, it has a nominal face value of one dollar and is guaranteed to contain one troy ounce of 99.9% pure silver.",
-    "weight": "31 g",
+    "weight": "10 g",
     "volume": "1 ml",
     "price": "23 USD",
     "price_postapoc": "3 USD 10 cent",
@@ -194,7 +196,7 @@
     "id": "coin_gold",
     "name": { "str": "American Buffalo coin" },
     "description": "The official 24-karat bullion coin of the United States, it has a nominal face value of fifty dollars and is guaranteed to contain one troy ounce of 99.99% pure gold.",
-    "weight": "31 g",
+    "weight": "38 g",
     "volume": "1 ml",
     "price": "1 kUSD 750 USD",
     "price_postapoc": "6 USD",

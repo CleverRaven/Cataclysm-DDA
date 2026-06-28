@@ -73,6 +73,8 @@ enum class event_type : int {
     crosses_mutation_threshold,
     crosses_mycus_threshold,
     cuts_tree,
+    dermatik_eggs_hatch,
+    dermatik_eggs_injected,
     destroys_triffid_grove,
     dies_from_asthma_attack,
     dies_from_drug_overdose,
@@ -112,6 +114,7 @@ enum class event_type : int {
     opens_portal,
     opens_spellbook,
     opens_temple,
+    phase_move,
     player_fails_conduct,
     player_gets_achievement,
     player_levels_spell,
@@ -192,7 +195,10 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 106,
+// NOTE: Events are saved to the character file for later memorializing them. It's currently unsafe to ever remove any of these.
+// Removal will cause any save file with one of the saved events to be unable to load.
+// FIXME.
+static_assert( static_cast<int>( event_type::num_event_types ) == 109,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -374,10 +380,11 @@ struct event_spec<event_type::character_kills_monster> {
 
 template<>
 struct event_spec<event_type::character_kills_character> {
-    static constexpr std::array<event_field, 3> fields = {{
+    static constexpr std::array<event_field, 4> fields = {{
             { "killer", cata_variant_type::character_id },
             { "victim", cata_variant_type::character_id },
             { "victim_name", cata_variant_type::string },
+            { "victim_class", cata_variant_type::string },
         }
     };
 };
@@ -567,6 +574,12 @@ struct event_spec<event_type::crosses_mycus_threshold> : event_spec_character {}
 
 template<>
 struct event_spec<event_type::cuts_tree> : event_spec_character {};
+
+template<>
+struct event_spec<event_type::dermatik_eggs_hatch> : event_spec_character {};
+
+template<>
+struct event_spec<event_type::dermatik_eggs_injected> : event_spec_character {};
 
 template<>
 struct event_spec<event_type::destroys_triffid_grove> : event_spec_empty {};
@@ -829,6 +842,15 @@ struct event_spec<event_type::opens_portal> : event_spec_empty {};
 
 template<>
 struct event_spec<event_type::opens_temple> : event_spec_empty {};
+
+template<>
+struct event_spec<event_type::phase_move> {
+    static constexpr std::array<event_field, 2> fields = {{
+            { "distance_traveled", cata_variant_type::int_ },
+            { "is_bionic", cata_variant_type::bool_ },
+        }
+    };
+};
 
 template<>
 struct event_spec<event_type::releases_subspace_specimens> : event_spec_empty {};

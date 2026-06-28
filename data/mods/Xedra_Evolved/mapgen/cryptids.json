@@ -8,7 +8,7 @@
     "sym": "l",
     "min_max_zlevel": [ 0, 0 ],
     "color": "magenta_yellow",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "type": "mapgen",
@@ -154,7 +154,7 @@
     "sym": "l",
     "min_max_zlevel": [ 0, 0 ],
     "color": "magenta_yellow",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "type": "mapgen",

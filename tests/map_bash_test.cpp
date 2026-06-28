@@ -14,6 +14,7 @@
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "mapdata.h"
 #include "npc.h"
 #include "player_helpers.h"
@@ -57,9 +58,9 @@ void bash_test_loadout::apply( Character &guy ) const
 {
     clear_character( guy );
 
-    guy.str_max = strength;
+    guy.set_str_base( strength );
     guy.reset_stats();
-    REQUIRE( guy.str_cur == strength );
+    REQUIRE( guy.get_str() == strength );
 
     for( const itype_id &it : worn ) {
         REQUIRE( guy.wear_item( item( it ), false, false ).has_value() );

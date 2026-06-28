@@ -243,7 +243,7 @@
     "result": "chem_washing_soda",
     "byproduct_group": [
       { "item": "ammonia_liquid", "container-item": "null", "charges": 4 },
-      { "item": "chem_calcium_chloride", "container-item": "null", "charges": 51 }
+      { "item": "chem_calcium_chloride", "container-item": "null", "count": 51 }
     ],
     "charges": 41,
     "category": "CC_CHEM",
@@ -288,7 +288,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "chem_baking_soda",
-    "byproduct_group": [ { "item": "material_quicklime", "charges": 8 } ],
+    "byproduct_group": [ { "item": "material_quicklime", "count": 8 } ],
     "charges": 76,
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -350,7 +350,7 @@
       { "proficiency": "prof_inorganic_chemistry" },
       { "proficiency": "prof_organic_chemistry" }
     ],
-    "charges": 958,
+    "result_mult": 958,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "mercury", 22 ] ], [ [ "chem_nitric_acid", 1 ] ], [ [ "chem_ethanol", 206 ] ] ]
@@ -371,7 +371,7 @@
       { "proficiency": "prof_intro_chem_synth" },
       { "proficiency": "prof_inorganic_chemistry" }
     ],
-    "charges": 1168,
+    "result_mult": 1168,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
     "components": [

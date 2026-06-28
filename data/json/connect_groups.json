@@ -146,5 +146,17 @@
   {
     "type": "connect_group",
     "id": "ICE"
+  },
+  {
+    "type": "connect_group",
+    "id": "ALIENMEADOW"
+  },
+  {
+    "type": "connect_group",
+    "id": "GREENHOUSE"
+  },
+  {
+    "type": "connect_group",
+    "id": "STRING"
   }
 ]

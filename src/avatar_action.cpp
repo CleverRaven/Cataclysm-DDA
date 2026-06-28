@@ -86,6 +86,7 @@ static const itype_id itype_underbrush( "underbrush" );
 
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
+static const json_character_flag json_flag_FLOTATION( "FLOTATION" );
 static const json_character_flag json_flag_ITEM_WATERPROOFING( "ITEM_WATERPROOFING" );
 static const json_character_flag json_flag_WATERWALKING( "WATERWALKING" );
 
@@ -379,8 +380,12 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
 
     if( monster *const mon_ptr = creatures.creature_at<monster>( dest_loc, true ) ) {
         monster &critter = *mon_ptr;
-        if( critter.friendly == 0 &&
-            !critter.has_effect( effect_pet ) ) {
+        // Creatures swimming under a solid surface don't block surface movement
+        if( critter.is_underwater() &&
+            m.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, dest_loc ) ) {
+            // They're under the walkway/ice, player walks over them
+        } else if( critter.friendly == 0 &&
+                   !critter.has_effect( effect_pet ) ) {
             if( you.is_auto_moving() ) {
                 add_msg( m_warning, _( "Monster in the way.  Auto move canceled." ) );
                 add_msg( m_info, _( "Move into the monster to attack." ) );
@@ -391,23 +396,12 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
                                           _( "You're too pacified to strike anything…" ) ) ) {
                 return false;
             }
-            bool safe_mode = ( get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF );
-            if( safe_mode ) {
-                // If safe mode is enabled, only allow attacking neutral creatures when it is inactive
-                if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
-                    g->safe_mode != SAFE_MODE_OFF ) {
-                    const std::string msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
-                    add_msg( m_warning,
-                             _( "Not attacking the %1$s -- safe mode is on!  (%2$s to turn it off)" ), critter.name(),
-                             msg_safe_mode );
-                    return false;
-                }
-            } else {
-                // If safe mode is disabled, ask for confirmation before attacking a neutral creature
-                if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
-                    !query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
-                    return false;
-                }
+            if( g->safe_mode == SAFE_MODE_ON && critter.attitude_to( you ) == Creature::Attitude::NEUTRAL ) {
+                const std::string msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
+                add_msg( m_warning,
+                         _( "Not attacking the %1$s -- safe mode is on!  (%2$s to turn it off)" ), critter.name(),
+                         msg_safe_mode );
+                return false;
             }
             you.melee_attack( critter, true );
             if( critter.is_hallucination() ) {
@@ -668,7 +662,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint_bub_ms &p )
     int movecost = you.swim_speed();
     you.practice( skill_swimming, you.is_underwater() ? 2 : 1 );
     if( ( movecost >= 500 || you.has_effect( effect_winded ) ) &&
-        !you.has_flag( json_flag_WATERWALKING ) ) {
+        !you.has_flag( json_flag_WATERWALKING ) && !you.worn_with_flag( json_flag_FLOTATION ) ) {
         if( !you.is_underwater() &&
             !( you.shoe_type_count( itype_swim_fins ) == 2 ||
                ( you.shoe_type_count( itype_swim_fins ) == 1 && one_in( 2 ) ) ) ) {
@@ -746,12 +740,15 @@ void avatar_action::autoattack( avatar &you, map &m )
         return;
     }
     const item_location weapon = you.get_wielded_item();
-    int reach = weapon ? weapon->reach_range( you ) : std::max( 1,
+    int reach = weapon ? weapon->reach_range( you ).first : std::max( 1,
                 static_cast<int>( you.calculate_by_enchantment( 1, enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) );
     std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );
     critters.erase( std::remove_if( critters.begin(), critters.end(), [&you,
     reach]( const Creature * c ) {
         if( reach == 1 && !you.is_adjacent( c, true ) ) {
+            return true;
+        }
+        if( !you.can_reach_attack( *c ) ) { // target on different z-level
             return true;
         }
         if( !c->is_npc() ) {
@@ -826,8 +823,10 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     } else if( !weapon->is_gun() ) {
         return;
-    } else if( weapon->has_ammo_data() &&
+    } else if( !weapon->uses_firing_requirements() && weapon->has_ammo_data() &&
                !weapon->ammo_types().count( weapon->loaded_ammo().ammo_type() ) ) {
+        // Multimag guns enforce per-pocket ammo at load time; this gate is for
+        // single-mag guns whose accepted ammo can shift via gunmod conversion.
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon->tname(), weapon->ammo_current()->nname( 1 ) );
         return;

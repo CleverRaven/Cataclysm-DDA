@@ -1,0 +1,83 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "sandwich_t",
+    "copy-from": "sandwich_t",
+    "conditional_names": [
+      {
+        "type": "VITAMIN",
+        "condition": "human_flesh_vitamin",
+        "name": { "str": "slob sandwich", "str_pl": "slob sandwiches" }
+      },
+      {
+        "type": "FLAG",
+        "condition": "STRICT_HUMANITARIANISM",
+        "name": { "str": "satyr sandwich", "str_pl": "satyr sandwiches" }
+      },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "mutant %s" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "insect", "name": { "str_sp": "insect %s" } }
+    ]
+  },
+  {
+    "id": "meat_fried",
+    "copy-from": "meat_fried",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "conditional_names": [
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "fried fool" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "fried familiar" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "%s, mutant" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "insect", "name": { "str_sp": "%s, insect" } }
+    ]
+  },
+  {
+    "id": "jerky",
+    "copy-from": "jerky",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "conditional_names": [
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "jerk jerky" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "talking animal jerky" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "monster jerky" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "insect", "name": { "str_sp": "insect jerky" } }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "pemmican",
+    "copy-from": "pemmican",
+    "conditional_names": [
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "prepper %s" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Orley %s" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "pernicious %s" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "insect", "name": { "str_sp": "insect %s" } }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "pemmican_veggy",
+    "copy-from": "pemmican_veggy",
+    "conditional_names": [
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "prepper %s" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Orley %s" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "pernicious %s" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "insect", "name": { "str_sp": "insect %s" } }
+    ]
+  },
+  {
+    "id": "meat_smoked",
+    "copy-from": "meat_smoked",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "conditional_names": [
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "smoked sucker" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "smoked Narnian" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "%s, mutant" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "fae", "name": { "str_sp": "smoked fae" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "insect", "name": { "str_sp": "%s, insect" } }
+    ]
+  }
+]

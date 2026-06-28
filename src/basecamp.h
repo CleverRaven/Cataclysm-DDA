@@ -64,11 +64,6 @@ struct expansion_data {
 using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;
 
-namespace catacurses
-{
-class window;
-} // namespace catacurses
-
 namespace base_camps
 {
 
@@ -199,7 +194,6 @@ class basecamp
         std::vector<std::vector<ui_mission_id>> hidden_missions;
         std::vector<tripoint_abs_omt> fortifications;
         std::vector<expansion_salt_water_pipe *> salt_water_pipes;
-        void faction_display( const catacurses::window &fac_w, int width ) const;
 
         //change name of camp
         void set_name( const std::string &new_name );

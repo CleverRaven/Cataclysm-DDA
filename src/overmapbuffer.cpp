@@ -10,6 +10,7 @@
 #include <optional>
 #include <string>
 #include <tuple>
+#include <type_traits>
 
 #include "basecamp.h"
 #include "calendar.h"
@@ -254,6 +255,7 @@ void overmapbuffer::save()
 void overmapbuffer::reset()
 {
     overmaps.clear();
+    global_state.highway_intersections.clear();
     last_requested_overmap = nullptr;
 }
 
@@ -269,6 +271,7 @@ void overmap_global_state::clear()
 {
     placed_unique_specials.clear();
     unique_special_count.clear();
+    unique_special_decks.clear();
     highway_intersections.clear();
     overmap_count = 0;
     major_river_count = 0;
@@ -318,6 +321,12 @@ void overmapbuffer::add_extra( const tripoint_abs_omt &p, const map_extra_id &id
 {
     overmap_with_local_coords om_loc = get_om_global( p );
     om_loc.om->add_extra( om_loc.local, id );
+}
+
+void overmapbuffer::add_extra_note( const tripoint_abs_omt &p, const bool force_add )
+{
+    overmap_with_local_coords om_loc = get_om_global( p );
+    om_loc.om->add_extra_note( om_loc.local, force_add );
 }
 
 void overmapbuffer::delete_extra( const tripoint_abs_omt &p )
@@ -918,6 +927,12 @@ std::optional<mapgen_arguments> *overmapbuffer::mapgen_args( const tripoint_abs_
     return om_loc.om->mapgen_args( om_loc.local );
 }
 
+std::vector<pp_resolved_generator> *overmapbuffer::pp_decisions( const tripoint_abs_omt &p )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p );
+    return om_loc.om->pp_decisions( om_loc.local );
+}
+
 std::string *overmapbuffer::join_used_at( const std::pair<tripoint_abs_omt, cube_direction> &p )
 {
     const overmap_with_local_coords om_loc = get_om_global( p.first );
@@ -986,6 +1001,7 @@ overmap_path_params overmap_path_params::for_player()
     ret.set_cost( oter_travel_cost_type::road, 24 );
     ret.set_cost( oter_travel_cost_type::dirt_road, 24 );
     ret.set_cost( oter_travel_cost_type::field, 36 );
+    ret.set_cost( oter_travel_cost_type::crop_field, 54 );
     ret.set_cost( oter_travel_cost_type::trail, 43 );
     ret.set_cost( oter_travel_cost_type::shore, 48 );
     ret.set_cost( oter_travel_cost_type::forest, 72 );
@@ -1016,6 +1032,8 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
     ret.set_cost( oter_travel_cost_type::road, 8 ); // limited by vehicle autodrive speed
     const int field_cost = can_offroad ? std::lround( 12 / std::min( 1.0f, offroad_coeff ) ) : -1;
     ret.set_cost( oter_travel_cost_type::field, field_cost );
+    ret.set_cost( oter_travel_cost_type::crop_field,
+                  can_offroad ? std::lround( 36 / std::min( 1.0f, offroad_coeff ) ) : -1 );
     ret.set_cost( oter_travel_cost_type::dirt_road, field_cost );
     ret.set_cost( oter_travel_cost_type::trail,
                   ( can_offroad && tiny ) ? field_cost + 8 : -1 );
@@ -1042,6 +1060,33 @@ overmap_path_params overmap_path_params::for_aircraft()
     overmap_path_params ret;
     ret.set_cost( oter_travel_cost_type::air, 8 ); // limited by vehicle autodrive speed
     ret.allow_diagonal = false;
+    return ret;
+}
+
+// For the for-loop in the below function.
+using enum_traits_int = std::underlying_type_t<oter_travel_cost_type>;
+static constexpr enum_traits_int max = static_cast<enum_traits_int>
+                                       ( enum_traits<oter_travel_cost_type>::last );
+overmap_path_params overmap_path_params::flatten_pathfinding_costs( overmap_path_params orig )
+{
+    overmap_path_params ret = std::move( orig );
+
+    for( enum_traits_int i = 0; i < max; ++i ) {
+        // In order to make a more direct path we take the logarithm (base 2) of the existing travel cost.
+        // This allows the pathfinding to consider most passable terrains as 'close enough', while still
+        // avoiding any really bad routes, and never pathing into impassable terrains.
+
+        oter_travel_cost_type checked = static_cast<oter_travel_cost_type>( i );
+
+        if( ret.travel_cost_per_type.find( checked ) == ret.travel_cost_per_type.end() ) {
+            continue; // Value doesn't already exist in the map, skip.
+        }
+        if( ret.travel_cost_per_type[checked] < 1 ) {
+            continue; // Impassable, skip.
+        }
+        ret.travel_cost_per_type[checked] = log2( ret.travel_cost_per_type[checked] );
+    }
+
     return ret;
 }
 
@@ -1086,7 +1131,7 @@ pf::simple_path<tripoint_abs_omt> overmapbuffer::get_travel_path(
 
     constexpr int radius = 4 * OMAPX; // radius of search in OMTs = 4 overmaps
     const pf::simple_path<tripoint_abs_omt> &path = pf::find_overmap_path( src, dest, radius, estimate,
-            g->display_om_pathfinding_progress, std::nullopt, params.allow_diagonal );
+            game::display_om_pathfinding_progress, std::nullopt, params.allow_diagonal );
     return path;
 }
 
@@ -1872,6 +1917,36 @@ void overmapbuffer::inc_major_river_count()
     global_state.major_river_count++;
 }
 
+unique_special_deck_state &overmapbuffer::get_deck_state(
+    const overmap_special_id &id, int successes, int deck_size )
+{
+    auto [it, inserted] = global_state.unique_special_decks.try_emplace( id );
+    unique_special_deck_state &deck = it->second;
+    // Reset if: new entry, constraints changed (mod update), or saved
+    // state has invalid invariants (corrupt save, manual edit, etc.).
+    if( inserted || deck.successes != successes || deck.deck_size != deck_size ||
+        deck.cards_remain <= 0 || deck.successes_remain > deck.cards_remain ||
+        deck.successes_remain > successes || deck.to_place < 0 ) {
+        deck.successes = successes;
+        deck.deck_size = deck_size;
+        deck.successes_remain = successes;
+        deck.cards_remain = deck_size;
+        if( inserted ) {
+            deck.to_place = 0;
+        }
+        // On constraint change, keep to_place -- those draws already happened.
+    }
+    return deck;
+}
+
+void overmapbuffer::consume_deck_placement( const overmap_special_id &id )
+{
+    auto it = global_state.unique_special_decks.find( id );
+    if( it != global_state.unique_special_decks.end() && it->second.to_place > 0 ) {
+        it->second.to_place--;
+    }
+}
+
 bool overmap_feature_grid::feature_point_exists( const point_abs_om &intersection_om ) const
 {
     return feature_grid.find( intersection_om.to_string_writable() ) !=
@@ -2077,29 +2152,47 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal
         return;
     }
     map &here = get_map();
+
+    struct queued_node {
+        tripoint_abs_ms pos;
+        horde_map::node_type node;
+    };
+    std::vector<queued_node> to_spawn;
     for( std::unordered_map<tripoint_abs_ms, horde_entity> *monster_tree : monster_bucket ) {
-        for( std::pair<const tripoint_abs_ms, horde_entity> &monster_entry : *monster_tree ) {
-            const tripoint_bub_ms local = here.get_bub( monster_entry.first );
-            // The monster position must be local to the main map when added to the game
-            if( !spawn_nonlocal ) {
-                cata_assert( here.inbounds( local ) );
-            }
-            // TODO: This needs to verify that the monster can be placed, otherwise it will fail with a debugmsg in creature_tracker::add()
-            monster *placed = nullptr;
-            if( monster_entry.second.monster_data ) {
-                placed = g->place_critter_around( make_shared_fast<monster>
-                                                  ( *monster_entry.second.monster_data ),
-                                                  local, 1, true );
-                // TODO: make sure entity data such as destination is synched
-            } else {
-                placed = g->place_critter_around( monster_entry.second.type_id->id, local, 1 );
-            }
-            if( placed ) {
-                placed->on_load();
-            }
+        for( auto it = monster_tree->begin(); it != monster_tree->end(); ) {
+            auto cur = it++;
+            tripoint_abs_ms pos = cur->first;
+            to_spawn.push_back( queued_node{ pos, monster_tree->extract( cur ) } );
         }
     }
     om.hordes.clear_chunk( current_submap_loc );
+
+    // Deterministic order, preserving bucket sequence as tie-break.
+    std::stable_sort( to_spawn.begin(), to_spawn.end(),
+    []( const queued_node & a, const queued_node & b ) {
+        return a.pos < b.pos;
+    } );
+
+    for( queued_node &entry : to_spawn ) {
+        const tripoint_bub_ms local = here.get_bub( entry.pos );
+        if( !spawn_nonlocal ) {
+            cata_assert( here.inbounds( local ) );
+        }
+        monster *placed = nullptr;
+        if( entry.node.mapped().monster_data ) {
+            placed = g->place_critter_around( make_shared_fast<monster>(
+                                                  *entry.node.mapped().monster_data ),
+                                              local, 1, true );
+            // TODO: make sure entity data such as destination is synched
+        } else {
+            placed = g->place_critter_around( entry.node.mapped().type_id->id, local, 1 );
+        }
+        if( placed ) {
+            placed->on_load();
+        } else {
+            om.hordes.insert( std::move( entry.node ) );
+        }
+    }
 }
 
 void overmapbuffer::spawn_mongroup( const tripoint_abs_sm &p, const mongroup_id &type, int count )

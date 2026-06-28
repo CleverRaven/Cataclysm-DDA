@@ -165,7 +165,7 @@ void auto_note_settings::default_initialize()
     load( false );
 
     for( const map_extra &extra : MapExtras::mapExtraFactory().get_all() ) {
-        if( has_auto_note_enabled( extra.id, false ) && extra.autonote ) {
+        if( has_auto_note_enabled( extra.id, false ) && extra.visibility != map_extra_visibility::none ) {
             character_autoNoteEnabled.insert( extra.id );
         }
     }
@@ -247,7 +247,7 @@ auto_note_manager_gui::auto_note_manager_gui()
     for( const map_extra &extra : MapExtras::mapExtraFactory().get_all() ) {
         // Ignore all extras that have autonote disabled in the JSON.
         // This filters out lots of extras users shouldn't see (like "normal")
-        if( !extra.autonote ) {
+        if( extra.visibility == map_extra_visibility::none ) {
             continue;
         }
 

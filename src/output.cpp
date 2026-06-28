@@ -46,7 +46,7 @@
 
 #if defined(__ANDROID__)
 #include <jni.h>
-#include <SDL_keyboard.h>
+#include "sdl_wrappers.h" // for GetAndroidJNIEnv(), GetAndroidActivity()
 #endif
 
 // Display data
@@ -844,8 +844,8 @@ bool query_yn( const std::string &text )
 {
 #if defined(__ANDROID__)
     if( get_option<bool>( "ANDROID_NATIVE_UI" ) ) {
-        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+        jobject activity = ( jobject )GetAndroidActivity();
         jclass clazz( env->GetObjectClass( activity ) );
         jmethodID get_nativeui_method_id = env->GetMethodID( clazz, "getNativeUI",
                                            "()Lcom/cleverraven/cataclysmdda/NativeUI;" );
@@ -957,8 +957,8 @@ int popup( const std::string &text, PopupFlags flags )
 {
 #if defined(__ANDROID__)
     if( get_option<bool>( "ANDROID_NATIVE_UI" ) && flags == PF_NONE ) {
-        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+        jobject activity = ( jobject )GetAndroidActivity();
         jclass clazz( env->GetObjectClass( activity ) );
         jmethodID get_nativeui_method_id = env->GetMethodID( clazz, "getNativeUI",
                                            "()Lcom/cleverraven/cataclysmdda/NativeUI;" );
@@ -1591,15 +1591,6 @@ static std::string trim( std::string_view s, Predicate pred )
     return std::string( wsfront, wsend.base() );
 }
 
-template<typename Prep>
-std::string trim_trailing( std::string_view s, Prep prep )
-{
-    return std::string( s.begin(), std::find_if_not(
-    s.rbegin(), s.rend(), [&prep]( int c ) {
-        return prep( c );
-    } ).base() );
-}
-
 std::string trim( std::string_view s )
 {
     return trim( s, []( int c ) {
@@ -1609,10 +1600,13 @@ std::string trim( std::string_view s )
 
 std::string trim_trailing_punctuations( std::string_view s )
 {
-    return trim_trailing( s, []( int c ) {
+    std::u32string u32s = utf8_to_utf32( s );
+    auto it = std::find_if_not( u32s.rbegin(), u32s.rend(), []( char32_t ch ) {
         // '<' and '>' are used for tags and should not be removed
-        return c == '.' || c == '!';
+        return u32_ispunct( ch ) && ch != U'<' && ch != U'>';
     } );
+    u32s.erase( it.base(), u32s.end() );
+    return utf32_to_utf8( u32s );
 }
 
 std::string remove_punctuations( const std::string_view s )
@@ -2083,8 +2077,8 @@ bool scrollbar::handle_dragging( const std::string &action, const std::optional<
         // We don't want to accidentally select something on mouse-up after dragging the scrollbar, so if
         // there's a mouse-up event, tell the UI that we've handled it
         return action == "SELECT";
-    } else  if( action == "CLICK_AND_DRAG" && coord.has_value() &&
-                scrollbar_area.contains( coord.value() ) ) {
+    } else if( action == "CLICK_AND_DRAG" && coord.has_value() &&
+               scrollbar_area.contains( coord.value() ) ) {
         // Started dragging the scrollbar
         dragging = true;
         return true;
@@ -2751,11 +2745,12 @@ using RatingVector = std::vector<std::tuple<double, char, std::string>>;
 template std::string get_labeled_bar<RatingVector::iterator>( const double val, const int width,
         const std::string &label,
         RatingVector::iterator begin, RatingVector::iterator end,
-        std::function<std::string( RatingVector::iterator, int )> printer );
+        const std::function<std::string( RatingVector::iterator, int )> &printer );
 
 template<typename BarIterator>
 std::string get_labeled_bar( const double val, const int width, const std::string &label,
-                             BarIterator begin, BarIterator end, std::function<std::string( BarIterator, int )> printer )
+                             BarIterator begin, BarIterator end,
+                             const std::function<std::string( BarIterator, int )> &printer )
 {
     std::string result;
 

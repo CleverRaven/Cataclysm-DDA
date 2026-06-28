@@ -27,7 +27,7 @@
         "         s              ",
         "         s              ",
         "  #w#+###+###w##w#####  ",
-        "  #&fff|______RR_____#  ",
+        "  #&fff|______RR____§#  ",
         "  #fcffD__________P__#  ",
         "###ddft|__________{{_#  ",
         "#T||||||__________{{_#  ",
@@ -42,7 +42,7 @@
         "  #_{{_{{_________{{_#  ",
         "  #_{{_{{_{{{{{P__{{_#  ",
         "  #_{{_{{_{{{{{___{{_#  ",
-        "  #__________________#  ",
+        "  #§_________________#  ",
         "  ###############+####  ",
         "                        ",
         "                        "
@@ -54,6 +54,7 @@
         " ": "t_region_groundcover_urban",
         "D": "t_door_c",
         "_": "t_thconc_floor",
+        "§": "t_thconc_floor",
         "c": "t_floor",
         "R": "t_recycler",
         "d": "t_floor",
@@ -73,7 +74,8 @@
         { "signage": "IRON", "x": 15, "y": 15 },
         { "signage": "BATTERIES", "x": 18, "y": 16 },
         { "signage": "STEEL", "x": 15, "y": 18 }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -161,7 +163,7 @@
         "     cccc               ",
         "     cccc               ",
         "  ---S++S--###ww##D#w#  ",
-        "  -ccccccccwC_______b#  ",
+        "  -ccccccccwC§______b#  ",
         "  -ccPccPcc#a&AA____b###",
         "  -c{{cc{{c#||||____b|T#",
         "  -c{{cc{{c#&RAR_____=_#",
@@ -177,7 +179,7 @@
         "  -c{{ccccc_______dd_#  ",
         "  -c{{ccPcc__ddds_dd_#  ",
         "  -c{{cc{{c__ddd__dd_#  ",
-        "  -cccccccc#_________#  ",
+        "  -cccccccc#________§#  ",
         "  ---------###########  ",
         "                        ",
         "                        "
@@ -212,7 +214,8 @@
         { "signage": "STEEL", "x": 5, "y": 13 },
         { "signage": "<given_name>'s Recycling", "x": 8, "y": 3 },
         { "signage": "Drop off 7am to 6pm Monday thru Friday", "x": 11, "y": 3 }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     },
     "om_terrain": "recyclecenter_1",
     "type": "mapgen"

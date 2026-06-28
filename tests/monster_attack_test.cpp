@@ -17,6 +17,7 @@
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "mattack_common.h"
 #include "messages.h"
 #include "monster.h"
@@ -109,13 +110,15 @@ static void test_monster_attack( const tripoint &target_offset, bool expect_atta
     reset_caches( a_zlev, t_zlev );
     CHECK( you.sees( here, target_monster ) == expect_vision );
     if( special_attack == nullptr ) {
+        // FIXME: This should be a reach attack!
         CHECK( you.melee_attack( target_monster, false ) == expect_attack );
     }
 }
 
 static void monster_attack_zlevel( const std::string &title, const tripoint &offset,
                                    const std::string &monster_ter, const std::string &target_ter,
-                                   const bool ledge, const bool expected_vertical, const bool expected_adjacent )
+                                   const bool ledge, const bool expected_vertical, const bool expected_adjacent,
+                                   const bool on_stairs = false )
 {
     clear_map_without_vision();
     map &here = get_map();
@@ -133,7 +136,11 @@ static void monster_attack_zlevel( const std::string &title, const tripoint &off
                 here.ter_set( target_location + more_offset, target_ledge );
             }
         }
-        test_monster_attack( offset, expected_vertical, expected_vertical );
+        if( on_stairs ) {
+            test_monster_attack( offset, true, expected_adjacent );
+        } else {
+            test_monster_attack( offset, expected_vertical, expected_vertical );
+        }
         if( ledge ) {
             here.ter_set( target_location, target_ledge );
         }
@@ -177,9 +184,9 @@ TEST_CASE( "monster_attack", "[vision][reachability]" )
     }
 
     monster_attack_zlevel( "attack_up_stairs", tripoint::above, "t_stairs_up", "t_stairs_down",
-                           false, true, true );
+                           false, false, true, true );
     monster_attack_zlevel( "attack_down_stairs", tripoint::below, "t_stairs_down", "t_stairs_up",
-                           false, true, true );
+                           false, false, true, true );
     monster_attack_zlevel( "attack through ceiling", tripoint::above, "t_floor", "t_floor",
                            false, false, false );
     monster_attack_zlevel( "attack through floor", tripoint::below, "t_floor", "t_floor",
@@ -191,7 +198,7 @@ TEST_CASE( "monster_attack", "[vision][reachability]" )
                            true, false, true );
 }
 
-TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
+TEST_CASE( "monster_throwing_sanity_test", "[throwing] [balance]" )
 {
     std::array<float, 6> expected_average_damage_at_range = { 0, 0, 8.5, 6.5, 5, 3.25 };
     clear_map_without_vision();
@@ -300,42 +307,32 @@ TEST_CASE( "Targeted_grab_removal_test", "[mattack][grab]" )
 {
     map &here = get_map();
 
-    const std::string grabber_left = "mon_debug_grabber_left";
-    const std::string grabber_right = "mon_debug_grabber_right";
+    const std::string grabber = "mon_debug_grabber_head";
     const tripoint_bub_ms target_location = attacker_location + tripoint::east;
-    const tripoint_bub_ms attacker_location_e = target_location + tripoint::east;
 
     clear_map_without_vision();
     clear_creatures();
     Character &you = get_player_character();
     clear_avatar();
-    you.setpos( here, target_location );
+    you.setpos( here, attacker_location );
 
-    monster &test_monster_left = spawn_test_monster( grabber_left, attacker_location_e );
-    monster &test_monster_right = spawn_test_monster( grabber_right, attacker_location );
-    test_monster_left.set_dest( you.pos_abs() );
-    test_monster_right.set_dest( you.pos_abs() );
-    const mattack_actor &attack_left = test_monster_left.type->special_attacks.at( "grab" ).operator
-                                       * ();
-    const mattack_actor &attack_right = test_monster_right.type->special_attacks.at( "grab" ).operator
-                                        * ();
+    monster &test_monster = spawn_test_monster( grabber, target_location );
+    test_monster.set_dest( you.pos_abs() );
+    const mattack_actor &attack = test_monster.type->special_attacks.at( "grab" ).operator
+                                  * ();
 
-    // Grabbed by both
-    REQUIRE( attack_left.call( test_monster_left ) );
-    REQUIRE( attack_right.call( test_monster_right ) );
+    // Grabbed
+    REQUIRE( attack.call( test_monster ) );
 
-    //Have two grabs, the monsters have the right filter effects
-    REQUIRE( you.has_effect( effect_grabbed, body_part_arm_r ) );
-    REQUIRE( you.has_effect( effect_grabbed, body_part_arm_l ) );
-    REQUIRE( test_monster_right.is_grabbing( body_part_arm_r ) );
-    REQUIRE( test_monster_left.is_grabbing( body_part_arm_l ) );
+    //Grab, the monsters have the filter effects
+    REQUIRE( you.has_effect( effect_grabbed, body_part_head ) );
+    REQUIRE( test_monster.is_grabbing( body_part_head ) );
 
-    // Kill the left grabber
-    test_monster_left.die( &here, nullptr );
+    // Kill the grabber
+    test_monster.die( &here, nullptr );
 
-    // Now we only have the one
-    REQUIRE( you.has_effect( effect_grabbed, body_part_arm_r ) );
-    REQUIRE( !you.has_effect( effect_grabbed, body_part_arm_l ) );
+    // Now we have none
+    REQUIRE( !you.has_effect( effect_grabbed, body_part_head ) );
 }
 
 TEST_CASE( "Ranged_pull_tests", "[mattack][grab]" )

@@ -41,6 +41,16 @@
     ]
   },
   {
+    "id": "afs_ipav_patch_kit",
+    "type": "ITEM",
+    "copy-from": "syringe",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "IPAV patch kit" },
+    "description": "A small applicator used to mend IPAV armor.  Official UICA doctrine dictates that IPAV armor is rated to survive a single combat encounter, and this kit is only to be used in emergency situations where resupply is not possible.  It contains a single dose of high density polymer gel that can be applied to damaged plates for temporary repair.",
+    "price": "400 USD",
+    "price_postapoc": "400 USD"
+  },
+  {
     "id": "g_shovel",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -146,6 +156,7 @@
     },
     "melee_damage": { "bash": 6 },
     "tool_ammo": [ "battery" ],
+    "power_draw": "600 mW",
     "passive_effects": [
       { "id": "afs_motion_sensor_wield" },
       {
@@ -231,7 +242,12 @@
       "PORTABLE_GAME",
       "E_FILE_DEVICE",
       "EBOOKSAVE",
-      { "type": "mp3", "transform": "afs_atomic_smartphone", "message": "The phone turns off.", "activate": false }
+      {
+        "type": "mp3",
+        "transform": "afs_atomic_smartphone",
+        "message": "You stop listening to music and take your earbuds out.",
+        "activate": false
+      }
     ],
     "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ] }
@@ -305,7 +321,12 @@
       "PORTABLE_GAME",
       "E_FILE_DEVICE",
       "EBOOKSAVE",
-      { "type": "mp3", "transform": "afs_wraitheon_smartphone", "message": "The phone turns off.", "activate": false }
+      {
+        "type": "mp3",
+        "transform": "afs_wraitheon_smartphone",
+        "message": "You stop listening to music and take your earbuds out.",
+        "activate": false
+      }
     ],
     "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ] },
     "tick_action": [ "MP3_ON" ]
@@ -315,7 +336,7 @@
     "copy-from": "afs_atomic_smartphone_flashlight",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "Wraitheon executive's smartphone - Flashlight", "str_pl": "Executive's smartphones - Flashlight" },
+    "name": { "str": "Wraitheon executive's smartphone - Flashlight", "str_pl": "Wraitheon executive's smartphones - Flashlight" },
     "revert_to": "afs_atomic_smartphone",
     "use_action": [
       "PORTABLE_GAME",
@@ -448,8 +469,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "UPS_OFF",
-    "name": { "str": "UPS", "str_pl": "UPSes" },
-    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable",
+    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable.",
     "sided": true,
     "price": "1300 USD",
     "price_postapoc": "1300 USD",
@@ -471,8 +491,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "UPS_ON",
-    "name": { "str": "UPS", "str_pl": "UPSes" },
-    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable",
+    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable.",
     "sided": true,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } } ],
     "flags": [ "RECHARGE", "BELTED", "NO_UNLOAD", "NO_RELOAD", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS" ],
@@ -573,7 +592,7 @@
     "revert_to": "control_laptop",
     "use_action": {
       "target": "control_laptop",
-      "msg": "You stop lighting up the screen.",
+      "msg": "You turn off the screen.",
       "ammo_scale": 0,
       "menu_text": "Turn off",
       "type": "transform"
@@ -600,7 +619,6 @@
       {
         "target": "vr_laptop_holosuite",
         "msg": "The holosuite comes to life around you.",
-        "menu_text": "power on holosuite",
         "need_charges": 1,
         "need_charges_msg": "The batteries are dead.",
         "type": "transform"
@@ -758,8 +776,8 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "tools",
-    "name": { "str": "infolink jack" },
-    "description": "The interface jack of an implanted infolink, coiled within your forearm and accessible through a small port in your wrist.  It can be used to interface and hack into electronic devices.",
+    "name": { "str": "Infolink jack" },
+    "description": "The interface jack of an implanted Infolink, coiled within your forearm and accessible through a small port in your wrist.  It can be used to interface and hack into electronic devices.",
     "weight": "20 g",
     "volume": "2 ml",
     "price": "1 USD",
@@ -1049,7 +1067,7 @@
     "color": "light_green",
     "use_action": {
       "target": "afs_atomic_light_off",
-      "msg": "You close the nightlight's cover.",
+      "msg": "You close the lamp's cover.",
       "menu_text": "Close cover",
       "type": "transform"
     },
@@ -1064,12 +1082,7 @@
     "category": "tools",
     "name": { "str": "atomic reading light (covered)", "str_pl": "atomic reading lights (covered)" },
     "description": "A commercially produced reading light, with the gimmick of never having to replace batteries thanks to its nuclear decay powered power source.  Instead of having an on/off switch, there is instead a cover you close over it.",
-    "use_action": {
-      "target": "afs_atomic_light",
-      "msg": "You open the nightlight's cover.",
-      "menu_text": "Open cover",
-      "type": "transform"
-    },
+    "use_action": { "target": "afs_atomic_light", "msg": "You open the lamp's cover.", "menu_text": "Open cover", "type": "transform" },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "ALLOWS_REMOTE_USE" ]
   },
   {

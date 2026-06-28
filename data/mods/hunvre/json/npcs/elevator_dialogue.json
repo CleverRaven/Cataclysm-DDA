@@ -1,0 +1,31 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "elevator_controls_start",
+    "dynamic_line": "&This computer controls the elevator platform.",
+    "//": "TODO: Make it possible to actually take the elevator places",
+    "responses": [
+      {
+        "text": "Attempt to call the elevator.",
+        "condition": { "math": [ "elevator_present == 0" ] },
+        "trial": { "type": "SKILL_CHECK", "difficulty": 6, "skill_required": "computer" },
+        "success": { "topic": "elevator_controls_call_success", "effect": [ { "run_eocs": "EOC_elevator_controls_call" } ] },
+        "failure": { "topic": "elevator_controls_call_fail" }
+      },
+      { "text": "Leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "elevator_controls_call_success",
+    "dynamic_line": "&You hear the elevator arrive.",
+    "responses": [ { "text": "Leave.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "elevator_controls_call_fail",
+    "dynamic_line": "&You fail to make the elevator move.",
+    "//": "TODO: Make this have actual consequences",
+    "responses": [ { "text": "Leave.", "topic": "TALK_DONE" } ]
+  }
+]

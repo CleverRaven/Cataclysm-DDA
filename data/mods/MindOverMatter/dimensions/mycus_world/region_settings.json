@@ -3,7 +3,7 @@
     "type": "region_settings",
     "id": "mom_mycus_world",
     "copy-from": "default",
-    "cities": null,
+    "cities": "no_cities",
     "highways": null,
     "place_roads": false,
     "forest_trails": null,

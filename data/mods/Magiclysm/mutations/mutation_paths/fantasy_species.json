@@ -669,7 +669,7 @@
     "types": [ "EYES" ],
     "description": "While your reddish eyes have been known to give other people a start, they help you see in the dark.  You have much better night vision than a human, even being able to craft in the dark.",
     "category": [ "SPECIES_GOBLIN" ],
-    "enchantments": [ "ench_goblin_eyes" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_goblin" } ] } ],
     "flags": [ "CRAFT_IN_DARKNESS" ]
   },
   {
@@ -817,7 +817,8 @@
     "prereqs": [ "SNOUT" ],
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 10 },
-    "integrated_armor": [ "integrated_lizardfolk_teeth" ]
+    "integrated_armor": [ "integrated_lizardfolk_teeth" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_long" } ] } ]
   },
   {
     "type": "mutation",
@@ -868,6 +869,22 @@
   },
   {
     "type": "mutation",
+    "id": "RAVENFOLK_EYES",
+    "name": { "str": "Ravenfolk Eyes" },
+    "description": "Your vision is particularly acute, and you can pick out zombies much farther away.  Perception +2, as well as increased vision and reaction limb scores.",
+    "category": [ "SPECIES_RAVENFOLK" ],
+    "types": [ "EYES" ],
+    "prereqs": [ "PER_UP_3" ],
+    "points": 5,
+    "vitamin_cost": 210,
+    "visibility": 1,
+    "enchantments": [
+      { "values": [ { "value": "PERCEPTION", "add": 2 } ] },
+      { "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_avian" } ] }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "RAVENFOLK_WINGS",
     "name": { "str": "Ravenfolk Wings" },
     "points": 0,
@@ -880,8 +897,8 @@
     "types": [ "WINGS" ],
     "strict_threshreq": true,
     "restricts_gear": [ "torso" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "wing_ravenfolk_l" }, { "gain": "wing_ravenfolk_r" } ] } ],
     "allow_soft_gear": true,
-    "flags": [ "WINGS_2", "WING_GLIDE" ],
     "active": true,
     "activated_is_setup": false,
     "activation_msg": "",
@@ -902,19 +919,11 @@
     "wet_protection": [ { "part": "mouth", "ignored": 2 } ],
     "restricts_gear": [ "mouth" ],
     "destroys_gear": true,
-    "attacks": [
-      {
-        "attack_text_u": "You stab into %s with your beak!",
-        "attack_text_npc": "%1$s stabs into %2$s with their beak!",
-        "body_part": "mouth",
-        "chance": 15,
-        "base_damage": { "damage_type": "stab", "amount": 12 }
-      }
-    ],
     "active": true,
     "activated_is_setup": false,
     "activation_msg": "",
-    "activated_eocs": [ "EOC_RAVENFOLK_SCREECH" ]
+    "activated_eocs": [ "EOC_RAVENFOLK_SCREECH" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "beak_bird" } ] } ]
   },
   {
     "type": "mutation",
@@ -947,9 +956,19 @@
   },
   {
     "type": "mutation",
-    "id": "FEATHERS",
-    "copy-from": "FEATHERS",
-    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
+    "id": "RAVEN_FEATHERS",
+    "name": { "str": "Feathers" },
+    "description": "Dark feathers cover your entire body, providing a marginal protection against attacks and minor protection from cold.  They also provide a natural waterproofing.",
+    "category": [ "SPECIES_RAVENFOLK" ],
+    "types": [ "SKIN" ],
+    "prereqs": [ "SKIN_ROUGH" ],
+    "leads_to": [ "DOWN" ],
+    "points": 2,
+    "vitamin_cost": 160,
+    "visibility": 10,
+    "ugliness": 0,
+    "bodytemp_modifiers": [ 50, 100 ],
+    "integrated_armor": [ "integrated_raven_feathers" ]
   },
   {
     "type": "mutation",
@@ -967,6 +986,7 @@
     "type": "mutation",
     "id": "DOWN",
     "copy-from": "DOWN",
+    "prereqs": [ "FEATHERS", "RAVEN_FEATHERS" ],
     "extend": { "category": [ "SPECIES_RAVENFOLK" ], "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ] }
   },
   {

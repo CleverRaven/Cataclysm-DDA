@@ -251,6 +251,8 @@ enum class iteminfo_parts : size_t {
 
     DESCRIPTION_MED_ADDICTING,
 
+    DESCRIPTION_ASCII_ART,
+
     // element count tracker
     NUM_VALUES
 };

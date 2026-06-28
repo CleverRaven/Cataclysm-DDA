@@ -20,12 +20,11 @@
     "description": "An incredibly alcoholic and caffeinated drink.  This probably isn't healthy.",
     "price": "1 USD 70 cent",
     "price_postapoc": "50 cent",
-    "material": [ "alcohol" ],
-    "primary_material": "water",
+    "material": [ { "type": "water", "portion": 10 }, { "type": "alcohol", "portion": 1 } ],
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
-    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME", "SINGLE_USE" ],
     "use_action": { "type": "cast_spell", "spell_id": "blackout_rage_drink", "no_fail": true, "level": 0 },
     "fun": 5
   },
@@ -70,7 +69,7 @@
       "activation_message": "You feel better almost instantly.",
       "effects": [ { "id": "curesome" } ]
     },
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN", "SINGLE_USE" ],
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
@@ -88,7 +87,7 @@
     "color": "pink",
     "stim": 20,
     "fun": 25,
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE", "SINGLE_USE" ],
     "use_action": { "type": "cast_spell", "spell_id": "future_sight", "no_fail": true, "level": 25 }
   },
   {
@@ -133,7 +132,7 @@
     "longest_side": "60 cm",
     "price": "250 USD",
     "price_postapoc": "5 USD",
-    "material": "lead",
+    "material": [ "lead" ],
     "symbol": "*",
     "color": "dark_gray",
     "flags": [ "SINGLE_USE" ],
@@ -161,7 +160,7 @@
     "container": "flask_glass",
     "color": "light_blue",
     "comestible_type": "MED",
-    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE", "SINGLE_USE" ],
     "material": [ "powder" ],
     "price": "25 USD"
   },
@@ -355,7 +354,7 @@
     "quench": 2,
     "healthy": 7,
     "fun": -30,
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN", "SINGLE_USE" ],
     "consumption_effect_on_conditions": [ "extend_life" ]
   },
   {
@@ -391,7 +390,7 @@
     "quench": 2,
     "healthy": 3,
     "fun": -1,
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN", "SINGLE_USE" ],
     "consumption_effect_on_conditions": [ "change_gender" ]
   },
   {
@@ -476,7 +475,7 @@
     "quench": 2,
     "healthy": 7,
     "fun": -30,
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN", "SINGLE_USE" ],
     "consumption_effect_on_conditions": [ "become_plant_fae" ]
   },
   {
@@ -497,7 +496,7 @@
     "quench": 2,
     "healthy": 7,
     "fun": -30,
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN", "SINGLE_USE" ],
     "consumption_effect_on_conditions": [ "become_earth_fae" ]
   },
   {
@@ -518,7 +517,7 @@
     "quench": 2,
     "healthy": 7,
     "fun": -30,
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN", "SINGLE_USE" ],
     "consumption_effect_on_conditions": [ "become_water_fae" ]
   },
   {
@@ -539,7 +538,7 @@
     "quench": 2,
     "healthy": 7,
     "fun": -30,
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN", "SINGLE_USE" ],
     "consumption_effect_on_conditions": [ "become_air_fae" ]
   },
   {
@@ -561,7 +560,7 @@
     "healthy": 7,
     "fun": -30,
     "light": 5,
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN", "SINGLE_USE" ],
     "consumption_effect_on_conditions": [ "become_fire_fae" ]
   },
   {
@@ -582,7 +581,7 @@
     "quench": 2,
     "healthy": 7,
     "fun": -30,
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN", "SINGLE_USE" ],
     "consumption_effect_on_conditions": [ "become_doll_fae" ]
   }
 ]

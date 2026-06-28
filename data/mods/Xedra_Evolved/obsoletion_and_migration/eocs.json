@@ -161,5 +161,58 @@
       "next_weather",
       { "u_message": "The darkness you summoned fades away, clearing the sky.", "type": "bad" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_SKILLS_UPDATE_START",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "u_has_any_trait": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ] },
+    "effect": [ { "math": [ "u_paraclesian_technology_update = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_SKILLS_UPDATE_LOAD",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": {
+      "and": [
+        { "math": [ "u_paraclesian_technology_update != 1" ] },
+        { "u_has_any_trait": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ] }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "math": [ "u_skill('computers') > 0" ] },
+        "then": { "math": [ "u_proficiency('prof_paraclesian_computer_understanding', 'format': 'percent', 'direct': true) += 100" ] }
+      },
+      {
+        "if": { "math": [ "u_skill('electronics') > 0" ] },
+        "then": {
+          "math": [ "u_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent', 'direct': true) += 100" ]
+        }
+      },
+      { "math": [ "u_paraclesian_technology_update = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_CHANGELING_GRANT_POWER_VITAMIN_RECURRING",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "//": "Remove in 0.J",
+    "id": "EOC_RandEnc_Jotunn_remove",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RandEnc_RandEnc_Time_Catchup",
+    "//": "Remove in 0.J",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "and": [ "u_is_avatar", { "not": { "math": [ "has_var(u_timer_xe_RandEnc)" ] } } ] },
+    "effect": { "math": [ "u_timer_xe_RandEnc = time('now')" ] }
   }
 ]

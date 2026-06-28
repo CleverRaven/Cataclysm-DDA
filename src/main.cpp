@@ -23,6 +23,7 @@
 #include <utility>
 #include <vector>
 #if defined(_WIN32)
+#include "cata_allocator.h"
 #include "platform_win.h"
 #else
 #include <csignal>
@@ -31,6 +32,7 @@
 #include <flatbuffers/util.h>
 
 #include "cached_options.h"
+#include "cata_allocator.h"
 #include "cata_path.h"
 #include "color.h"
 #include "compatibility.h"
@@ -76,19 +78,17 @@
 class ui_adaptor;
 
 #if defined(TILES) || defined(SDL_SOUND)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#      include <SDL2/SDL_version.h>
-#   else
-#      include <SDL_version.h>
-#   endif
+#   include "sdl_version_wrappers.h"
+#endif
+
+#if defined(TILES)
+#   include "sdltiles.h"
 #endif
 
 #if defined(__ANDROID__)
-#include <SDL_filesystem.h>
-#include <SDL_keyboard.h>
-#include <SDL_system.h>
 #include <android/log.h>
 #include <unistd.h>
+#include "sdl_wrappers.h" // for GetAndroidExternalStoragePath(), SDL_main
 
 // Taken from: https://codelab.wordpress.com/2014/11/03/how-to-use-standard-output-streams-for-logging-in-android-apps/
 // Force Android standard output to adb logcat output
@@ -628,6 +628,9 @@ extern "C" int SDL_main( int argc, char **argv ) {
 int main( int argc, const char *argv[] )
 {
 #endif
+
+    cata::init_allocator();
+
     ordered_static_globals();
     init_crash_handlers();
     reset_floating_point_mode();
@@ -663,7 +666,7 @@ int main( int argc, const char *argv[] )
 
     // On Android first launch, we copy all data files from the APK into the app's writeable folder so std::io stuff works.
     // Use the external storage so it's publicly modifiable data (so users can mess with installed data, save games etc.)
-    std::string external_storage_path( SDL_AndroidGetExternalStoragePath() );
+    std::string external_storage_path( GetAndroidExternalStoragePath() );
 
     PATH_INFO::init_base_path( external_storage_path );
 #else
@@ -739,19 +742,19 @@ int main( int argc, const char *argv[] )
     DebugLog( D_INFO, DC_ALL ) << "[main] C++ locale set to " << std::locale().name();
 
 #if defined(TILES) || defined(SDL_SOUND)
-    SDL_version compiled;
-    SDL_VERSION( &compiled );
-    DebugLog( D_INFO, DC_ALL ) << "SDL version used during compile is "
-                               << static_cast<int>( compiled.major ) << "."
-                               << static_cast<int>( compiled.minor ) << "."
-                               << static_cast<int>( compiled.patch );
+    {
+        const SDLVersionInfo compiled = GetCompiledSDLVersion();
+        DebugLog( D_INFO, DC_ALL ) << "SDL version used during compile is "
+                                   << compiled.major << "."
+                                   << compiled.minor << "."
+                                   << compiled.patch;
 
-    SDL_version linked;
-    SDL_GetVersion( &linked );
-    DebugLog( D_INFO, DC_ALL ) << "SDL version used during linking and in runtime is "
-                               << static_cast<int>( linked.major ) << "."
-                               << static_cast<int>( linked.minor ) << "."
-                               << static_cast<int>( linked.patch );
+        const SDLVersionInfo linked = GetLinkedSDLVersion();
+        DebugLog( D_INFO, DC_ALL ) << "SDL version used during linking and in runtime is "
+                                   << linked.major << "."
+                                   << linked.minor << "."
+                                   << linked.patch;
+    }
 #endif
 
 #if !defined(TILES)
@@ -845,11 +848,18 @@ int main( int argc, const char *argv[] )
 
 #if defined(LOCALIZE)
     if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
-        imclient->new_frame(); // we have to prime the pump, because of reasons
-        imclient->end_frame();
-        const std::string lang = select_language();
-        get_options().get_option( "USE_LANG" ).setValue( lang );
-        set_language_from_options();
+#if defined(TILES)
+        display_buffer_draw_scope draw_scope;
+        if( !display_buffer_scope_is_invalid() ) {
+#endif
+            imclient->new_frame(); // we have to prime the pump, because of reasons
+            imclient->end_frame();
+            const std::string lang = select_language();
+            get_options().get_option( "USE_LANG" ).setValue( lang );
+            set_language_from_options();
+#if defined(TILES)
+        }
+#endif
     }
 #endif
     replay_buffered_debugmsg_prompts();
@@ -864,7 +874,7 @@ int main( int argc, const char *argv[] )
 
         shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
         get_event_bus().send<event_type::game_begin>( getVersionString() );
-        while( !do_turn() ) {}
+        while( !g->do_turn() ) {}
     }
 
     exit_handler( -999 );

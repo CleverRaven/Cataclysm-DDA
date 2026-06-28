@@ -173,6 +173,8 @@ void teleporter_list::deserialize( const JsonObject &data )
     }
 }
 
+namespace
+{
 class teleporter_callback : public uilist_callback
 {
     private:
@@ -194,6 +196,7 @@ class teleporter_callback : public uilist_callback
             }
         }
 };
+} // namespace
 
 std::optional<tripoint_abs_omt> teleporter_list::choose_teleport_location()
 {

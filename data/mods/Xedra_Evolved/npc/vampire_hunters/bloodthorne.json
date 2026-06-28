@@ -1,0 +1,380 @@
+[
+  {
+    "type": "npc",
+    "id": "vampire_hunter_bloodthorne",
+    "name_suffix": "Bloodthorne druid",
+    "class": "NC_vampire_hunter_bloodthorne",
+    "//": "A bloodthorne druid helping the hunters, mainly by proposing a cure to vampirism that's not dependent on current supplies.",
+    "//2": "Main goal is to make new Bloodthorne druids.",
+    "name_unique": "Phyliss Thomason",
+    "gender": "female",
+    "attitude": 0,
+    "mission": "NULL",
+    "chat": "TALK_HUNTER_BLOODTHORNE",
+    "personality": { "aggression": 5, "bravery": 10, "collector": -3, "altruism": 3 },
+    "faction": "vampire_hunters"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_vampire_hunter_bloodthorne",
+    "name": { "str": "Bloodthorne druid" },
+    "job_description": "I hunt vampires with my inner plant.",
+    "//": "Hunts with her heartvines, so she's better at melee but poor at crossbows.",
+    "//2": "She has been a Bloodthorne for a very long time, thus getting all what a Bloodthorne can get.",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_Mixed" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" },
+      { "trait": "FALSE_ARVORE_HATRED" },
+      { "trait": "BLOODTHORNE_SORCERY" },
+      { "trait": "BLOODTHORNE_DRUID" },
+      { "trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" },
+      { "trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP" },
+      { "trait": "JAUNDICE_ARVORE_ALCHEMY" },
+      { "trait": "GREENSTRIDE" },
+      { "trait": "ARVORE_NURTURING_THE_GREEN" },
+      { "trait": "ARVORE_SUMMON_WOOD_WALL" },
+      { "trait": "ARVORE_COMMUNE_WITH_NATURE" },
+      { "trait": "ARVORE_SUMMON_BRIARS" },
+      { "trait": "ARVORE_FOREST_TELEPORT" },
+      { "trait": "ARVORE_TERRAIN_BASH_SPELL" },
+      { "trait": "ARVORE_VERDANT_INFUSION" },
+      { "trait": "ARVORE_SUMMON_GRASS_FIELD" },
+      { "trait": "ARVORE_CLIMBING_VINE_SPELL" },
+      { "trait": "ARVORE_ANTI_PLANT_SPELL" },
+      { "trait": "ARVORE_FOREST_MAPPING" },
+      { "trait": "ARVORE_WOOD_WEAPON_DAMAGE" },
+      { "trait": "ARVORE_TOXIC_FLESH" },
+      { "trait": "ARVORE_SUN_NUTRIENTS_AND_MANA" },
+      { "trait": "ARVORE_PAIN_RESISTANCE" },
+      { "trait": "ARVORE_VINE_DRAG" },
+      { "trait": "ARVORE_WOOD_CLAWS" },
+      { "trait": "ARVORE_RESIST_CHILL" },
+      { "trait": "ARVORE_KNOW_TIME" },
+      { "trait": "ARVORE_SURVIVAL_BONUS" },
+      { "trait": "ARVORE_EYES" },
+      { "trait": "ARVORE_BLOOD" },
+      { "trait": "ARVORE_THORN_SKIN" },
+      { "trait": "BLOODTHORNE_DRUID_REGAIN_BLOOD" },
+      { "trait": "BLOODTHORNE_DRUID_BONUS_MANA_REGEN" },
+      { "trait": "BLOODTHORNE_DRUID_STOP_BLEEDING" },
+      { "trait": "BLOODTHORNE_DRUID_PREVENT_VAMPIRISM" },
+      { "trait": "BLOODTHORNE_DRUID_GAIN_STRENGTH_DEXTERITY_BUFF" },
+      { "trait": "BLOODTHORNE_DRUID_WHIP_TARGETS_IN_NATURE" },
+      { "trait": "BLOODTHORNE_DRUID_AURA_OF_VINES" },
+      { "trait": "BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD" },
+      { "trait": "BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES" },
+      { "trait": "BLOODTHORNE_DRUID_SUMMON_THORNHOUND" },
+      { "trait": "BLOODTHORNE_DRUID_SLOWER_BLEEDING" },
+      { "trait": "BLOODTHORNE_DRUID_CREATE_THORN_PRISON" }
+    ],
+    "worn_override": "VAMPIRE_HUNTER_BLOODTHORNE_worn",
+    "weapon_override": "EMPTY_GROUP",
+    "common": false,
+    "skills": [
+      { "skill": "melee", "bonus": { "rng": [ 5, 7 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 5, 7 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 4, 5 ] } },
+      { "skill": "deduction", "bonus": { "rng": [ 5, 6 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "VAMPIRE_HUNTER_BLOODTHORNE_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "holy_symbol_wood" },
+      {
+        "distribution": [
+          { "item": "jeans", "prob": 25 },
+          { "item": "pants", "prob": 25 },
+          { "item": "pants_leather", "prob": 25 },
+          { "item": "pants_cargo", "prob": 25 }
+        ],
+        "prob": 100
+      },
+      { "item": "longshirt" },
+      { "item": "socks" },
+      { "item": "boots" }
+    ]
+  },
+  {
+    "id": "TALK_HUNTER_BLOODTHORNE",
+    "type": "talk_topic",
+    "//": "Due to her heartvines, she notices vampirism before it has visible symptoms.",
+    "dynamic_line": [
+      {
+        "u_has_effect": "vampire_virus",
+        "yes": "You seem unwell.  Are you looking for a cure to your condition?",
+        "no": [
+          {
+            "u_has_item": "arvore_sample",
+            "yes": "I see you brought some arvore samples.  Can I have them?  I'll tell Elsa and Blaine to reward you if you do.",
+            "no": "You do not need my help right now, so I'll return to my work."
+          }
+        ]
+      }
+    ],
+    "responses": [
+      {
+        "text": "I am.  Free me from this curse.",
+        "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_OFFER_CURE",
+        "condition": { "u_has_effect": "vampire_virus" }
+      },
+      {
+        "text": "How can you help me?",
+        "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_INTRO",
+        "condition": { "not": { "u_has_effect": "vampire_virus" } }
+      },
+      {
+        "text": "Sure!  How many do you want?",
+        "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_SELL_SAMPLES",
+        "condition": { "u_has_item": "arvore_sample" }
+      },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_OFFER_CURE",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "math": [ "human_blood_vitamin > 0" ],
+        "yes": "Before that, you must starve yourself of blood so I know you genuinely want to be freed.  Return to me when you will show symptoms of blood starvation and I will cure you.",
+        "no": "You starved yourself of blood.  Good.  Now lie there on the dirt and stay perfectly still while the heartvines do their work.  It'll take half an hour, it'll hurt and you'll probably need a few days to recover, but you won't become another victim of this curse."
+      }
+    ],
+    "responses": [
+      {
+        "text": "Go ahead.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "math": [ "human_blood_vitamin < 1" ] },
+            { "math": [ "u_hp('head') >= vampire_bloodthorne_maximal_cure_damage()" ] },
+            { "math": [ "u_hp('torso') >= vampire_bloodthorne_maximal_cure_damage()" ] },
+            { "math": [ "u_hp('arm_l') >= vampire_bloodthorne_maximal_cure_damage()" ] },
+            { "math": [ "u_hp('arm_r') >= vampire_bloodthorne_maximal_cure_damage()" ] },
+            { "math": [ "u_hp('leg_l') >= vampire_bloodthorne_maximal_cure_damage()" ] },
+            { "math": [ "u_hp('leg_r') >= vampire_bloodthorne_maximal_cure_damage()" ] }
+          ]
+        },
+        "effect": [ { "run_eocs": "EOC_BLOODTHORNE_DRUID_PURGE_VAMPIRISM_IN_OTHER", "alpha_talker": "avatar" } ]
+      },
+      {
+        "text": "Go ahead.",
+        "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_CURE_WARNING",
+        "condition": {
+          "and": [
+            { "math": [ "human_blood_vitamin < 1" ] },
+            {
+              "or": [
+                { "math": [ "u_hp('head') < vampire_bloodthorne_maximal_cure_damage()" ] },
+                { "math": [ "u_hp('torso') < vampire_bloodthorne_maximal_cure_damage()" ] },
+                { "math": [ "u_hp('arm_l') < vampire_bloodthorne_maximal_cure_damage()" ] },
+                { "math": [ "u_hp('arm_r') < vampire_bloodthorne_maximal_cure_damage()" ] },
+                { "math": [ "u_hp('leg_l') < vampire_bloodthorne_maximal_cure_damage()" ] },
+                { "math": [ "u_hp('leg_r') < vampire_bloodthorne_maximal_cure_damage()" ] }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_CURE_WARNING",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "I must warn you before we start.  Your weakened body and your potent vampirism mean that the heartvines will cause severe damage to your body.  You could die from the procedure.  Are you sure you want to do this?"
+    ],
+    "responses": [
+      { "text": "I will find another way", "topic": "TALK_DONE" },
+      {
+        "text": "Do it.  <color_red>This might literally kill you.</color>",
+        "topic": "TALK_DONE",
+        "effect": [ { "run_eocs": "EOC_BLOODTHORNE_DRUID_PURGE_VAMPIRISM_IN_OTHER", "alpha_talker": "avatar" } ]
+      }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_PERFORM_CURE",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "\"And done\" Phyliss says.  \"You're now free from vampirism for the time being.  Take some time to recover, and ask Blaine if you ever want to buy a less painful cure from him.\""
+    ],
+    "responses": [ { "text": "thanks.  <end_talking_bye>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_INTRO",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "I can use my heartvines to cure people from vampirism.  I let the heartvines enter their veins where the curse will be destroyed by the heartvines and their intense desire to kill all vampires.  It's painful for them, but it's better than staying a vampire."
+    ],
+    "responses": [
+      { "text": "What's a heartvine?", "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_INNER_PLANT" },
+      { "text": "Cool.  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_INNER_PLANT",
+    "//": "Maybe she'll offer the player to become a Bloodthorne druid someday, but not for now.",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "That's how Bloodthorne druids call the plant inside them.  It empowers us through the essence of nature spirits so we may kill the blood-drinkers.  Before you ask, I can't help you become one.  I wasn't taught how to do this before I lost contact with other Bloodthorne druids."
+    ],
+    "responses": [
+      { "text": "What do you mean by \"essence\"?", "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_NEED_SAMPLES" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_NEED_SAMPLES",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Their very essence, torn from their corpses and transferred into our bodies.  They can sense that, and it is why they try to kill all Bloodthorne druids on sight.  As long as you don't ingest their essence they won't hate you for killing their brethren, so you're perfect to gather these samples for our mutual gain."
+    ],
+    "responses": [
+      {
+        "text": "I have some.  Do you want them?",
+        "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_SELL_SAMPLES",
+        "condition": { "u_has_item": "arvore_sample" }
+      },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_SELL_SAMPLES",
+    "type": "talk_topic",
+    "//": "She offers more help at first, but reduces her reward with each new sample bought up to a minimal gain.  This is to counterbalance the need of getting you on board with killing nature spirits and the faction's limited resources to spare.",
+    "//2": "1 Help for the first sample, 1 Help for 2 subsequent samples until a total of 5 has been bought by her, 1 Help for 3 samples onwards.",
+    "dynamic_line": [
+      {
+        "math": [ "sold_arvore_sample_to_bloodthorne_hunter == 0" ],
+        "yes": "I'll take as many as you offer.",
+        "no": [
+          {
+            "math": [ "sold_arvore_sample_to_bloodthorne_hunter == 1" ],
+            "yes": "You started hunting nature spirits?  Good!  Don't feel bad about them.  If they won't use their powers against the bloodsuckers, we will take these powers for ourselves to fight this war.",
+            "no": [
+              {
+                "math": [ "sold_arvore_sample_to_bloodthorne_hunter < 6" ],
+                "yes": "I'll have to offer less help per sample, as I can't keep giving favors away for so little.",
+                "no": "The more samples, the better.  I'll need as many as possible so I may make more Bloodthorne druids someday."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "responses": [
+      {
+        "text": "[Sell her 1 arvore sample]",
+        "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_SELL_SAMPLES",
+        "condition": { "u_has_item": "arvore_sample" },
+        "effect": [
+          { "u_sell_item": "arvore_sample", "count": 1 },
+          { "math": [ "sold_arvore_sample_to_bloodthorne_hunter++" ] },
+          {
+            "switch": { "math": [ "sold_arvore_sample_to_bloodthorne_hunter" ] },
+            "cases": [
+              { "case": 1, "effect": { "math": [ "vampire_hunters_owed_help++" ] } },
+              {
+                "case": 2,
+                "effect": {
+                  "if": { "math": [ "owed_help_from_bloodthorne_transaction > 1" ] },
+                  "then": [ { "math": [ "vampire_hunters_owed_help++" ] }, { "math": [ "owed_help_from_bloodthorne_transaction -= 2" ] } ],
+                  "else": [ { "math": [ "owed_help_from_bloodthorne_transaction++" ] } ]
+                }
+              },
+              {
+                "case": 6,
+                "effect": {
+                  "if": { "math": [ "owed_help_from_bloodthorne_transaction > 2" ] },
+                  "then": [ { "math": [ "vampire_hunters_owed_help++" ] }, { "math": [ "owed_help_from_bloodthorne_transaction -= 3" ] } ],
+                  "else": [ { "math": [ "owed_help_from_bloodthorne_transaction++" ] } ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "text": "[Sell her 5 arvore samples]",
+        "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_SELL_SAMPLES",
+        "condition": { "u_has_items": { "item": "arvore_sample", "count": 5 } },
+        "effect": [
+          { "u_sell_item": "arvore_sample", "count": 5 },
+          { "math": [ "sold_arvore_sample_to_bloodthorne_hunter += 5" ] },
+          {
+            "switch": { "math": [ "sold_arvore_sample_to_bloodthorne_hunter" ] },
+            "cases": [
+              { "case": 5, "effect": { "math": [ "vampire_hunters_owed_help += 3" ] } },
+              {
+                "case": 6,
+                "effect": [ { "math": [ "vampire_hunters_owed_help += 2" ] }, { "math": [ "owed_help_from_bloodthorne_transaction++" ] } ]
+              },
+              {
+                "case": 7,
+                "effect": [ { "math": [ "vampire_hunters_owed_help += 2" ] }, { "math": [ "owed_help_from_bloodthorne_transaction += 2" ] } ]
+              },
+              { "case": 8, "effect": [ { "math": [ "vampire_hunters_owed_help += 2" ] } ] },
+              {
+                "case": 9,
+                "effect": [ { "math": [ "vampire_hunters_owed_help += 1" ] }, { "math": [ "owed_help_from_bloodthorne_transaction += 2" ] } ]
+              },
+              {
+                "case": 10,
+                "effect": [
+                  {
+                    "if": { "math": [ "owed_help_from_bloodthorne_transaction > 0" ] },
+                    "then": [ { "math": [ "vampire_hunters_owed_help += 2" ] }, { "math": [ "owed_help_from_bloodthorne_transaction--" ] } ],
+                    "else": [ { "math": [ "vampire_hunters_owed_help++" ] }, { "math": [ "owed_help_from_bloodthorne_transaction += 2" ] } ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "text": "[Sell her 10 arvore samples]",
+        "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_SELL_SAMPLES",
+        "condition": { "u_has_items": { "item": "arvore_sample", "count": 10 } },
+        "//": "Rounding results in cases 12 to 14 being the same reward-wise.",
+        "effect": [
+          { "u_sell_item": "arvore_sample", "count": 10 },
+          { "math": [ "sold_arvore_sample_to_bloodthorne_hunter += 10" ] },
+          {
+            "switch": { "math": [ "sold_arvore_sample_to_bloodthorne_hunter" ] },
+            "cases": [
+              {
+                "case": 10,
+                "effect": [ { "math": [ "vampire_hunters_owed_help += 4" ] }, { "math": [ "owed_help_from_bloodthorne_transaction += 2" ] } ]
+              },
+              { "case": 11, "effect": { "math": [ "vampire_hunters_owed_help += 4" ] } },
+              {
+                "case": 12,
+                "effect": [ { "math": [ "vampire_hunters_owed_help += 3" ] }, { "math": [ "owed_help_from_bloodthorne_transaction += 2" ] } ]
+              },
+              {
+                "case": 15,
+                "effect": [
+                  {
+                    "if": { "math": [ "owed_help_from_bloodthorne_transaction > 1" ] },
+                    "then": [ { "math": [ "vampire_hunters_owed_help += 4" ] }, { "math": [ "owed_help_from_bloodthorne_transaction -= 2" ] } ],
+                    "else": [ { "math": [ "vampire_hunters_owed_help += 3" ] }, { "math": [ "owed_help_from_bloodthorne_transaction++" ] } ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  }
+]

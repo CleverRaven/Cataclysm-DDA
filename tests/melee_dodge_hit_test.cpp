@@ -36,7 +36,7 @@ static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static float hit_base_with_dex( avatar &dummy, int dexterity )
 {
     clear_character( dummy );
-    dummy.dex_max = dexterity;
+    dummy.set_dex_base( dexterity );
 
     return dummy.get_hit_base();
 }
@@ -45,7 +45,7 @@ static float hit_base_with_dex( avatar &dummy, int dexterity )
 static float dodge_base_with_dex_and_skill( avatar &dummy, int dexterity, int dodge_skill )
 {
     clear_character( dummy );
-    dummy.dex_max = dexterity;
+    dummy.set_dex_base( dexterity );
     dummy.set_skill_level( skill_dodge, dodge_skill );
 
     return dummy.get_dodge_base();

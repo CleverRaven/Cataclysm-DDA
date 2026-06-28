@@ -11,6 +11,7 @@
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "translation.h"
 #include "type_id.h"
 
@@ -20,7 +21,6 @@ class JsonArray;
 class JsonObject;
 class JsonValue;
 class item;
-class time_duration;
 struct const_dialogue;
 struct damage_instance;
 struct resistances;
@@ -76,8 +76,8 @@ struct weakpoint_effect {
     bool permanent;
     // Chance to instantly kill the monster on attack, percent from 1 to 100
     std::pair<int, int> instant_death_chance;
-    // The range of the durations (in turns) of the effect.
-    std::pair<int, int> duration;
+    // The range of the durations of the effect.
+    std::pair<time_duration, time_duration> duration;
     // The range of the intensities of the effect.
     std::pair<int, int> intensity;
     // The range of damage, as a percentage of max health, required to the effect.

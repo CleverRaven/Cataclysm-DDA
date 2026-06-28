@@ -70,7 +70,7 @@ static void test_repair( const std::vector<item> &tools, bool plug_in_tools, boo
 
     const tripoint_bub_ms vehicle_origin = test_origin + tripoint::south_east;
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_car, vehicle_origin, -90_degrees, 0,
-                                         0 );
+                                         veh_spawn_status::UNDAMAGED );
 
     REQUIRE( veh_ptr != nullptr );
     // Find the frame at the origin.

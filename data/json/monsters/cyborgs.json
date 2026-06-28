@@ -160,7 +160,7 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "vision_day": 50,
-    "vision_night": 20,
+    "vision_night": 5,
     "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "revert_to_itype": "e_scrap",
     "starting_ammo": { "123ln": 3000 },
@@ -193,6 +193,7 @@
     "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
+      "INFRARED_VISION",
       "HEARS",
       "GOODHEARING",
       "HAS_MIND",

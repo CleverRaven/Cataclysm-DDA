@@ -357,12 +357,13 @@ bool trapfunc::board( const tripoint_bub_ms &p, Creature *c, item * )
         return false;
     }
     map &here = get_map();
+    const std::string trap_name = here.tr_at( p ).name();
     // Only a chance to step on the board, dependent on size
     if( !x_in_y( occupied_tile_fraction( c->get_size() ), 1.0f ) ) {
         return false;
     }
-    c->add_msg_if_player( m_bad, _( "You step on a %s!" ), here.tr_at( p ).name() );
-    c->add_msg_if_npc( _( "%s steps on a %s!" ), c->disp_name( false, true ), here.tr_at( p ).name() );
+    c->add_msg_if_player( m_bad, _( "You step on a %s!" ), trap_name );
+    c->add_msg_if_npc( _( "%s steps on a %s!" ), c->disp_name( false, true ), trap_name );
     if( c->has_effect( effect_ridden ) ) {
         monster *z = c->as_monster();
         mount_step_on_trap_make_slow_give_msg( z, p );
@@ -380,9 +381,9 @@ bool trapfunc::board( const tripoint_bub_ms &p, Creature *c, item * )
         here.remove_trap( p );
         if( !c->is_avatar() ) {
             add_msg_if_player_sees( p, _( "%s destroys a %s as they move over it!" ),
-                                    c->disp_name( false, true ), here.tr_at( p ).name() );
+                                    c->disp_name( false, true ), trap_name );
         } else {
-            add_msg( _( "You destroy the %s as you step on it!" ), here.tr_at( p ).name() );
+            add_msg( _( "You destroy the %s as you step on it!" ), trap_name );
         }
     } else if( x_in_y( 40, 100 ) ) {
         // 40% chance disarm trap
@@ -397,13 +398,13 @@ bool trapfunc::caltrops( const tripoint_bub_ms &p, Creature *c, item * )
         return false;
     }
     map &here = get_map();
+    const std::string trap_name = here.tr_at( p ).name();
     // Only a chance to step on the caltrop, dependent on size
     if( !x_in_y( occupied_tile_fraction( c->get_size() ), 1.0f ) ) {
         return false;
     }
-    c->add_msg_if_player( m_bad, _( "You step on a sharp %s!" ), here.tr_at( p ).name() );
-    c->add_msg_if_npc( _( "%s steps on a sharp %s!" ), c->disp_name( false, true ),
-                       here.tr_at( p ).name() );
+    c->add_msg_if_player( m_bad, _( "You step on a sharp %s!" ), trap_name );
+    c->add_msg_if_npc( _( "%s steps on a sharp %s!" ), c->disp_name( false, true ), trap_name );
     if( c->has_effect( effect_ridden ) ) {
         monster *z = c->as_monster();
         mount_step_on_trap_make_slow_give_msg( z, p );
@@ -421,9 +422,9 @@ bool trapfunc::caltrops( const tripoint_bub_ms &p, Creature *c, item * )
         here.remove_trap( p );
         if( !c->is_avatar() ) {
             add_msg_if_player_sees( p, _( "%s destroys a %s as they move over it!" ),
-                                    c->disp_name( false, true ), here.tr_at( p ).name() );
+                                    c->disp_name( false, true ), trap_name );
         } else {
-            add_msg( _( "You destroy the %s as you step on it!" ), here.tr_at( p ).name() );
+            add_msg( _( "You destroy the %s as you step on it!" ), trap_name );
         }
     } else if( x_in_y( 20, 100 ) ) {
         // 20% chance disarm trap
@@ -535,7 +536,7 @@ bool trapfunc::tripwire( const tripoint_bub_ms &p, Creature *c, item * )
         }
         if( !you->is_mounted() ) {
             ///\EFFECT_DEX decreases chance of taking damage from a tripwire trap
-            if( rng( 5, 20 ) > you->dex_cur ) {
+            if( rng( 5, 20 ) > you->get_dex() ) {
                 you->hurtall( rng( 1, 4 ), nullptr );
             }
         }
@@ -658,7 +659,7 @@ bool trapfunc::shotgun( const tripoint_bub_ms &p, Creature *c, item * )
         Character *you = dynamic_cast<Character *>( c );
         if( you != nullptr ) {
             ///\EFFECT_STR_MAX increases chance of two shots from shotgun trap
-            shots = ( one_in( 8 ) || one_in( 20 - you->str_max ) ? 2 : 1 );
+            shots = ( one_in( 8 ) || one_in( 20 - you->get_str_base() ) ? 2 : 1 );
             if( here.tr_at( p ) != tr_shotgun_2 ) {
                 shots = 1;
             }
@@ -744,6 +745,7 @@ bool trapfunc::shotgun( const tripoint_bub_ms &p, Creature *c, item * )
     return true;
 }
 
+// Remove after 0.J
 bool trapfunc::blade( const tripoint_bub_ms &, Creature *c, item * )
 {
     map &here = get_map();
@@ -1332,7 +1334,7 @@ static bool sinkhole_safety_roll( Character &you, const itype_id &itemname, cons
 
     ///\EFFECT_THROW increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
     const int throwing_skill_level = round( you.get_skill_level( skill_throw ) );
-    const int roll = rng( throwing_skill_level, throwing_skill_level + you.str_cur + you.dex_cur );
+    const int roll = rng( throwing_skill_level, throwing_skill_level + you.get_str() + you.get_dex() );
     map &here = get_map();
     if( roll < diff ) {
         you.add_msg_if_player( m_bad, _( "You fail to attach it…" ) );

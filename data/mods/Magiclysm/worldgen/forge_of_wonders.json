@@ -357,7 +357,8 @@
         { "class": "forge_lord_reagents", "x": 48, "y": 88 },
         { "class": "forge_lord_pirate", "x": 53, "y": 88 },
         { "class": "forge_lord_pirate", "x": 49, "y": 91 },
-        { "class": "forge_lord_pirate", "x": 54, "y": 91 }
+        { "class": "forge_lord_pirate", "x": 54, "y": 91 },
+        { "class": "forge_lord_alchemist", "x": 9, "y": 57 }
       ],
       "place_zones": [
         {
@@ -415,6 +416,62 @@
           "faction": "forge_lords",
           "x": [ 53, 55 ],
           "y": [ 89, 90 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_STORE_POTION_SHOP",
+          "faction": "forge_lords",
+          "x": [ 6, 8 ],
+          "y": [ 56, 57 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_STORE_POTION_SHOP",
+          "faction": "forge_lords",
+          "x": [ 6, 9 ],
+          "y": [ 59 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_STORE_POTION_SHOP",
+          "faction": "forge_lords",
+          "x": [ 6, 7 ],
+          "y": [ 54 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_STORE_POTION_SHOP",
+          "faction": "forge_lords",
+          "x": [ 9 ],
+          "y": [ 54 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_STORE_POTION_SHOP",
+          "faction": "forge_lords",
+          "x": [ 12, 13 ],
+          "y": [ 56, 59 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_STORE_POTION_SHOP",
+          "faction": "forge_lords",
+          "x": [ 15, 16 ],
+          "y": [ 56, 59 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_STORE_POTION_SHOP",
+          "faction": "forge_lords",
+          "x": [ 12, 13 ],
+          "y": [ 52, 54 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_STORE_POTION_SHOP",
+          "faction": "forge_lords",
+          "x": [ 15, 16 ],
+          "y": [ 52, 54 ]
         }
       ]
     }

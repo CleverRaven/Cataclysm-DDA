@@ -6,7 +6,7 @@
     "name_suffix": "Hub Scientist",
     "class": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP",
     "attitude": 1,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP",
     "death_eocs": [ "ROBOFAC_ROBOFAC_SCIENTIST_CHOP_SHOP_DEATH" ],
     "faction": "robofac_auxiliaries_chop_shop"
@@ -17,7 +17,12 @@
     "name": { "str": "Hub Scientist" },
     "job_description": "A Hub 01 scientist.",
     "common": false,
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "bonus_str": { "rng": [ 0, 1 ] },
     "bonus_dex": { "rng": [ 0, 2 ] },
     "bonus_int": { "rng": [ -2, 0 ] },

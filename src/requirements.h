@@ -248,6 +248,11 @@ struct requirement_data {
             return id_;
         }
 
+        /** Optional human-readable name (e.g. "Heat source" for surface_heat).
+         *  Empty if not set in JSON. */
+        const std::string &display_name() const;
+        bool has_display_name() const;
+
         /** null requirements are always empty (were never initialized) */
         bool is_null() const {
             return id_.is_null();
@@ -397,6 +402,7 @@ struct requirement_data {
 
     private:
         requirement_id id_ = requirement_id::NULL_ID(); // NOLINT(cata-serialize)
+        translation name_; // NOLINT(cata-serialize)
 
         bool blacklisted = false;
 

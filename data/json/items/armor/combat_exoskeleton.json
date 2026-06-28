@@ -267,7 +267,7 @@
     "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "combat exoskeleton mk2", "str_pl": "combat exoskeletons mk2" },
     "description": "These were the second wave of military combat exoskeleton, and got a lot of media attention, with popular Navy commercials featuring them heavily.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
-    "looks_like": "power_armor_basic",
+    "looks_like": "combat_exoskeleton_medium",
     "use_action": {
       "type": "transform",
       "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v2.86…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",

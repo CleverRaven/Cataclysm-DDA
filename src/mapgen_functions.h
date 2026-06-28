@@ -66,6 +66,6 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
             ter_id const &base_ter = ter_str_id( "t_dirt" ).id() );
 mapgen_parameters get_map_special_params( const std::string &mapgen_id );
 
-void resolve_regional_terrain_and_furniture( const mapgendata &dat );
+void resolve_regional_terrain_and_furniture( const mapgendata &dat, int z_offset = 0 );
 
 #endif // CATA_SRC_MAPGEN_FUNCTIONS_H

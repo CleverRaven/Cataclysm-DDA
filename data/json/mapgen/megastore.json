@@ -163,7 +163,7 @@
       "F": { "item": "vending_drink_items", "chance": 65, "repeat": [ 4, 12 ] },
       "k": { "item": "shirts", "chance": 65, "repeat": [ 1, 4 ] },
       "K": { "item": "shoes", "chance": 65, "repeat": [ 1, 4 ] },
-      "r": { "item": "snacks", "chance": 75, "repeat": [ 2, 10 ] },
+      "r": { "item": "cash_register_impulse_buy_general" },
       "R": { "item": "shelter", "chance": 65, "repeat": [ 1, 4 ] },
       "x": { "item": "textbooks", "chance": 65, "repeat": [ 1, 4 ] },
       "X": { "item": "dresser", "chance": 65, "repeat": [ 1, 4 ] }

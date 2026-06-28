@@ -3,7 +3,6 @@
     "type": "palette",
     "id": "highland_road",
     "terrain": {
-      " ": [ "t_highland_groundcover", 1 ],
       "i": [ [ "t_stone_road", 10 ], [ "t_highland_groundcover", 1 ] ],
       "I": [ [ "t_tree_dead_warped", 1 ], [ "t_highland_groundcover", 2 ] ],
       "/": [ [ "t_stone_road", 4 ], [ "t_highland_groundcover", 1 ] ]
@@ -12,19 +11,24 @@
   {
     "type": "mapgen",
     "om_terrain": "highland_road_end",
-    "object": { "fill_ter": "t_region_groundcover", "place_nested": [ { "chunks": [ "24x24_highland_road_end" ], "x": 0, "y": 0 } ] }
+    "object": {
+      "fill_ter": "t_highland_groundcover",
+      "place_nested": [ { "chunks": [ "24x24_highland_road_end" ], "x": 0, "y": 0 } ]
+    }
   },
   {
     "type": "mapgen",
     "om_terrain": "highland_road_straight",
     "object": {
-      "fill_ter": "t_region_groundcover",
+      "fill_ter": "t_highland_groundcover",
       "place_nested": [
         {
           "chunks": [ "24x24_highland_road_straight_meander_east", "24x24_highland_road_straight_meander_west" ],
           "x": 0,
           "y": 0
-        }
+        },
+        { "chunks": [ "24x24_highland_road_ruins_east" ], "x": 0, "y": 0, "neighbors": { "east": "highland_ruins" } },
+        { "chunks": [ "24x24_highland_road_ruins_west" ], "x": 0, "y": 0, "neighbors": { "west": "highland_ruins" } }
       ]
     }
   },
@@ -32,7 +36,7 @@
     "type": "mapgen",
     "om_terrain": "highland_road_four_way",
     "object": {
-      "fill_ter": "t_region_groundcover",
+      "fill_ter": "t_highland_groundcover",
       "place_nested": [ { "chunks": [ "24x24_highland_road_four_way" ], "x": 0, "y": 0 } ]
     }
   },
@@ -40,7 +44,7 @@
     "type": "mapgen",
     "om_terrain": "highland_road_curved",
     "object": {
-      "fill_ter": "t_region_groundcover",
+      "fill_ter": "t_highland_groundcover",
       "place_nested": [ { "chunks": [ "24x24_highland_road_curved" ], "x": 0, "y": 0 } ]
     }
   },
@@ -48,7 +52,7 @@
     "type": "mapgen",
     "om_terrain": "highland_road_tee",
     "object": {
-      "fill_ter": "t_region_groundcover",
+      "fill_ter": "t_highland_groundcover",
       "place_nested": [
         { "chunks": [ "24x24_highland_road_tee" ], "x": 0, "y": 0 },
         {
@@ -305,6 +309,117 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "highland_road" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "imperial_road_fountains",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "       ////ii////       ",
+        " ----- ////ii/////----- ",
+        " -www- ////ii//// -www- ",
+        " Swww- ////ii//// -wwwS ",
+        " -www- ////ii//// -www- ",
+        " -www- ////ii//// -www- ",
+        " Swww- ////ii//// -wwwS ",
+        " -www-/////ii//// -www- ",
+        " -----////ii///// ----- ",
+        "      ////ii////        ",
+        "      ////ii////        ",
+        "  ----////ii////  ----  ",
+        "  -SF ////ii////   FS-  ",
+        "  ----////ii////  ----  ",
+        "      ////ii////        ",
+        " -----////ii////  ----- ",
+        " -www-////ii///// -www- ",
+        " Swww-/////ii//// -wwwS ",
+        " -www- ////ii//// -www- ",
+        " -www- ////ii//// -www- ",
+        " Swww- ////ii//// -wwwS ",
+        " -www- ////ii//// -www- ",
+        " ----- ////ii//// ----- ",
+        "       ////ii////       "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_road" ],
+      "terrain": { "F": "t_highland_groundcover", "|": "t_rock_wall", "-": "t_stone_fence" },
+      "furniture": { "S": "f_highlands_holy_statue", "F": "f_slab", "w": [ [ "f_null", 2 ], [ "f_lilypad", 1 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_highland_road_ruins_west",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "  |    ////ii////       ",
+        "  || //////ii////       ",
+        "  /////////ii////   I   ",
+        " //////////ii////       ",
+        "|||////////ii////       ",
+        " |  ///////ii////       ",
+        " |/ ///////ii////       ",
+        " |  / /////ii////   I   ",
+        " //S  ////ii/////       ",
+        "   // ////ii////        ",
+        " //   ////ii////        ",
+        "   |/ ////ii////        ",
+        " |||/ ////ii////    I   ",
+        "   ///////ii////        ",
+        "    | ////ii////        ",
+        "  |||/////ii////        ",
+        "  /// ////ii/////   I   ",
+        "      /////ii////       ",
+        " ||    ////ii////       ",
+        "  // / ////ii////       ",
+        "  | ///////ii////   I   ",
+        "  |  / ////ii////       ",
+        "|||/// ////ii////       ",
+        "       ////ii////       "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_road" ],
+      "terrain": { "F": "t_highland_groundcover", "|": [ [ "t_rock_wall", 2 ], [ "t_highland_groundcover", 1 ] ], "-": "t_stone_fence" },
+      "furniture": { "S": "f_highlands_holy_statue", "F": "f_slab", "w": [ [ "f_null", 2 ], [ "f_lilypad", 1 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_highland_road_ruins_east",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "       ////ii////    |  ",
+        "       ////ii////   ||  ",
+        "   I   ////ii///////////",
+        "       ////ii////////// ",
+        "       ////ii/////////| ",
+        "       ////ii/////  |  /",
+        "       ////ii///// /| / ",
+        "   I   ////ii/////  |///",
+        "       /////ii///// S///",
+        "        ////ii//// //   ",
+        "        ////ii////   // ",
+        "        ////ii//// /|/  ",
+        "    I   ////ii////|||   ",
+        "        ////ii////      ",
+        "        ////ii////  //||",
+        "       /////ii/////    |",
+        "       ////ii/////////| ",
+        "       ////ii////////// ",
+        "   I   ////ii///////////",
+        "       ////ii////   || /",
+        "       ////ii////    |//",
+        "       ////ii/////// /  ",
+        "       ////ii////   |   ",
+        "       ////ii////   ||| "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_road" ],
+      "terrain": { "F": "t_highland_groundcover", "|": [ [ "t_rock_wall", 2 ], [ "t_highland_groundcover", 1 ] ], "-": "t_stone_fence" },
+      "furniture": { "S": "f_highlands_holy_statue", "F": "f_slab", "w": [ [ "f_null", 2 ], [ "f_lilypad", 1 ] ] }
     }
   }
 ]

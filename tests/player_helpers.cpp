@@ -16,6 +16,7 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
@@ -93,6 +94,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     // clear_mutations() removes traits but does not rebuild bodypart topology.
     // Rebuild anatomy now so tests see baseline human limbs (e.g. feet, not talons).
     dummy.set_body();
+    dummy.tally_organic_size();
     dummy.mutation_category_level.clear();
     dummy.clear_bionics();
 
@@ -108,12 +110,6 @@ void clear_character( Character &dummy, bool skip_nutrition )
         dummy.consume( food );
     }
 
-    // This sets HP to max, clears addictions and morale,
-    // and sets hunger, thirst, sleepiness and such to zero
-    dummy.environmental_revert_effect();
-    // However, the above does not set stored kcal
-    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
-
     dummy.prof = profession::generic();
     dummy.hobbies.clear();
     dummy._skills->clear();
@@ -121,7 +117,12 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.clear_morale();
     dummy.activity.set_to_null();
     dummy.backlog.clear();
+    // Reset age/height before stored kcal since get_healthy_kcal()
+    // depends on height.
     dummy.reset_chargen_attributes();
+    dummy.environmental_revert_effect();
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
+
     dummy.set_pain( 0 );
     dummy.reset_bonuses();
     dummy.set_speed_base( 100 );
@@ -148,10 +149,10 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.set_underwater( false );
 
     // Make stats nominal.
-    dummy.str_max = 8;
-    dummy.dex_max = 8;
-    dummy.int_max = 8;
-    dummy.per_max = 8;
+    dummy.set_str_base( 8 );
+    dummy.set_dex_base( 8 );
+    dummy.set_int_base( 8 );
+    dummy.set_per_base( 8 );
     dummy.set_str_bonus( 0 );
     dummy.set_dex_bonus( 0 );
     dummy.set_int_bonus( 0 );
@@ -165,6 +166,11 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.magic = pimpl<known_magic>();
     dummy.forget_all_recipes();
     dummy.set_focus( dummy.calc_focus_equilibrium() );
+
+    // Final stored_kcal sync after all attribute resets.
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
+    // Recompute hp_max now that stats, body, and kcal are all finalized.
+    dummy.recalc_hp();
 }
 
 void arm_shooter( Character &shooter, const itype_id &gun_type,
@@ -218,6 +224,7 @@ void clear_avatar()
 {
     avatar &avatar = get_avatar();
     clear_character( avatar );
+    avatar.grab( object_type::NONE );
     avatar.clear_identified();
     avatar.clear_nutrition();
     avatar.reset_all_missions();

@@ -35,6 +35,8 @@ static int filter_skill_input_callback( ImGuiInputTextCallbackData *data )
     return 0;
 }
 
+namespace
+{
 class study_zone_window : public cataimgui::window
 {
     public:
@@ -297,6 +299,7 @@ class study_zone_window : public cataimgui::window
         float max_npc_name_width = 0.0f;
         input_context ctxt;
 };
+} // namespace
 
 study_zone_ui_result query_study_zone_skills( std::map<std::string, std::set<skill_id>>
         &npc_skill_preferences )

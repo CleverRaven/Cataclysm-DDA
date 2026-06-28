@@ -282,7 +282,7 @@ void weakpoint_difficulty::load( const JsonObject &jo )
 weakpoint_effect::weakpoint_effect()  :
     chance( 100.0f ),
     permanent( false ),
-    duration( 1, 1 ),
+    duration( 1_seconds, 1_seconds ),
     intensity( 0, 0 ),
     damage_required( 0.0f, 100.0f ) {}
 
@@ -322,17 +322,18 @@ void weakpoint_effect::apply_to( Creature &target, int total_damage,
     if( !get_message().empty() && attack.source != nullptr && attack.source->is_avatar() ) {
         add_msg_if_player_sees( target, m_good, get_message(), target.get_name() );
     }
+    add_msg_debug( debugmode::DF_WEAKPOINTS, "applying effect: %s", effect.str() );
 }
 
 void weakpoint_effect::load( const JsonObject &jo )
 {
     optional( jo, false, "effect", effect );
     optional( jo, false, "effect_on_conditions", effect_on_conditions );
-    optional( jo, false, "chance", chance, numeric_bound_reader{0.f, 100.f} );
+    optional( jo, false, "chance", chance, numeric_bound_reader{0.f, 100.f}, 100.f );
     optional( jo, false, "permanent", permanent );
     optional( jo, false, "message", message );
     optional( jo, false, "instant_death_chance", instant_death_chance, pair_reader<int> {} );
-    optional( jo, false, "duration", duration, pair_reader<int> {} );
+    optional( jo, false, "duration", duration, pair_reader<time_duration> {} );
     optional( jo, false, "intensity", intensity, pair_reader<int> {} );
     optional( jo, false, "damage_required", damage_required, pair_reader<float> {} );
 }

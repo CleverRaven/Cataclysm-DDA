@@ -42,9 +42,7 @@
     "effect": [
       { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
       {
-        "math": [
-          "_teleport_blink_limit = ( ( ( u_spell_level('teleport_blink') * 3500 ) + 5000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
-        ]
+        "math": [ "_teleport_blink_limit = ( ( ( u_spell_level('teleport_blink') * 3500 ) + 5000 ) * psionic_power_modifiers() )" ]
       },
       { "u_message": "Your Blink volume limit is <context_val:teleport_blink_limit>.", "type": "debug" },
       {
@@ -78,9 +76,7 @@
     "effect": [
       { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
       {
-        "math": [
-          "_teleport_phase_limit = ( ( ( u_spell_level('teleport_phase') * 5000 ) + 10000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
-        ]
+        "math": [ "_teleport_phase_limit = ( ( ( u_spell_level('teleport_phase') * 5000 ) + 10000 ) * psionic_power_modifiers() )" ]
       },
       { "u_message": "Your Phase volume limit is <context_val:teleport_blink_limit>.", "type": "debug" },
       {
@@ -123,11 +119,7 @@
                     "wielded_only": true,
                     "condition": {
                       "and": [
-                        {
-                          "math": [
-                            "n_volume() <= ((u_spell_level('teleport_item_apport') * 2500) + 2000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                          ]
-                        },
+                        { "math": [ "n_volume() <= ((u_spell_level('teleport_item_apport') * 2500) + 2000) * psionic_power_modifiers()" ] },
                         { "math": [ "n_volume() > 0" ] }
                       ]
                     }
@@ -140,11 +132,7 @@
                       {
                         "u_query_tile": "line_of_sight",
                         "target_var": { "context_val": "teleporter_item_apport_location" },
-                        "range": {
-                          "math": [
-                            "min( ( ( (u_spell_level('teleport_item_apport') * 1.25) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
-                          ]
-                        },
+                        "range": { "math": [ "min( ( ( (u_spell_level('teleport_item_apport') * 1.25) + 2) * psionic_power_modifiers() ), 80)" ] },
                         "z_level": true,
                         "message": "Select apport location."
                       },
@@ -193,6 +181,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_DISPLACEMENT_CHECK",
+    "condition": {
+      "and": [
+        { "not": { "u_has_flag": "TELEPORT_IMMUNE" } },
+        { "not": { "u_has_flag": "TELESTOP" } },
+        { "not": { "u_has_flag": "DIMENSIONAL_ANCHOR" } },
+        { "not": { "u_has_flag": "TELEPORT_LOCK" } }
+      ]
+    },
     "effect": [
       { "math": [ "u_teleportation_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
       { "math": [ "u_teleportation_intelligence_power_level = n_spell_level('teleport_displacement')" ] },
@@ -224,7 +220,21 @@
           }
         ]
       }
+    ],
+    "false_effect": [
+      {
+        "if": { "not": { "npc_has_effect": "effect_teleport_reactive_displacement" } },
+        "then": [ { "npc_message": "You touch <u_name> but nothing happens at all.", "type": "bad" } ]
+      }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_EPHEMERAL_WALK_ADDITIONAL_STAMINA_COST",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "u_has_effect": "effect_teleport_ephemeral_walk" },
+    "effect": [ { "math": [ "u_val('stamina') -= max((150 - (u_spell_level('teleport_ephemeral_walk') * 4)), 50)" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -276,9 +286,7 @@
     "effect": [
       { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
       {
-        "math": [
-          "_teleport_farstep_limit = ( ( ( u_spell_level('teleport_farstep') * 5000 ) + 8000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
-        ]
+        "math": [ "_teleport_farstep_limit = ( ( ( u_spell_level('teleport_farstep') * 5000 ) + 8000 ) * psionic_power_modifiers() )" ]
       },
       { "u_message": "Your Farstep volume limit is <context_val:teleport_farstep_limit>.", "type": "debug" },
       {
@@ -324,7 +332,7 @@
       {
         "if": { "math": [ "u_psi_teleporter_damage > u_health_comparison" ] },
         "then": [
-          { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "u_die": { "remove_corpse": true, "supress_message": true } },
           { "npc_message": "With a tremendous mental exertion, you hurl your target…elsewhere." }
         ]
       }
@@ -348,7 +356,7 @@
         "if": { "math": [ "u_psi_teleporter_damage > u_health_comparison" ] },
         "then": [
           { "npc_message": "With a tremendous mental exertion, you hurl your target…elsewhere." },
-          { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": false } }
+          { "u_die": { "remove_corpse": true, "supress_message": true } }
         ]
       }
     ]
@@ -406,7 +414,7 @@
       {
         "if": {
           "math": [
-            "u_teleport_total_carried_volume <= ( ( ( u_spell_level('teleport_gateway') * 7500 ) + 10000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+            "u_teleport_total_carried_volume <= ( ( ( u_spell_level('teleport_gateway') * 7500 ) + 10000 ) * psionic_power_modifiers() )"
           ]
         },
         "then": [ { "math": [ "u_teleport_total_carried_volume = 1" ] } ],
@@ -1292,11 +1300,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1336,11 +1340,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1380,11 +1380,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1424,11 +1420,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1468,11 +1460,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1512,11 +1500,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1556,11 +1540,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1600,11 +1580,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1644,11 +1620,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1688,11 +1660,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1770,9 +1738,37 @@
     "condition": { "u_has_effect": "effect_teleport_loci_establishment" },
     "effect": [
       {
-        "u_teleport": { "u_val": "teleporter_loci_establishment_loc" },
-        "success_message": "You feel a moment of darkness and terrible cold, but you are quickly back at your established locus.",
-        "fail_message": "Something goes wrong with the Loci Technique!"
+        "if": {
+          "and": [
+            { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } },
+            { "not": { "u_has_flag": "DIMENSIONAL_ANCHOR" } },
+            { "not": { "u_has_flag": "TELEPORT_LOCK" } }
+          ]
+        },
+        "then": [
+          { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
+          {
+            "math": [
+              "_teleport_loci_technique_limit = ( ( ( u_spell_level('teleport_loci_technique') * 5000 ) + 8000 ) * psionic_power_modifiers() )"
+            ]
+          },
+          {
+            "u_message": "Your Loci Technique volume limit is <context_val:teleport_loci_technique_limit>.",
+            "type": "debug"
+          },
+          {
+            "if": { "math": [ "u_teleport_total_carried_volume <= _teleport_loci_technique_limit" ] },
+            "then": [
+              {
+                "u_teleport": { "u_val": "teleporter_loci_establishment_loc" },
+                "success_message": "You feel a moment of darkness and terrible cold, but you are quickly back at your established locus.",
+                "fail_message": "Something goes wrong with the Loci Technique!"
+              }
+            ],
+            "else": [ { "run_eocs": [ "EOC_TELEPORTER_GATEWAY_MESSAGE_CARRYING_TOO_MUCH" ] } ]
+          }
+        ],
+        "else": { "u_message": "You feel a strange, inward force.", "type": "bad" }
       }
     ],
     "false_effect": [ { "u_message": "You are currently not concentrating on [Ψ]Loci Establishment!" } ]

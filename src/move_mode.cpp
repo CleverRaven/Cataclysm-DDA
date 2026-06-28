@@ -59,8 +59,12 @@ void move_mode::load( const JsonObject &jo, std::string_view/*src*/ )
     optional( jo, was_loaded, "exertion_level_animal_riding", _exertion_level_animal_riding,
               activity_level_reader{} );
 
+    mandatory( jo, was_loaded, "prepare_none", prepare_messages[steed_type::NONE] );
+    mandatory( jo, was_loaded, "prepare_animal", prepare_messages[steed_type::ANIMAL] );
+    mandatory( jo, was_loaded, "prepare_mech", prepare_messages[steed_type::MECH] );
+
     mandatory( jo, was_loaded, "change_good_none", change_messages_success[steed_type::NONE] );
-    optional( jo, was_loaded, "change_good_animal", change_messages_success[steed_type::ANIMAL] );
+    mandatory( jo, was_loaded, "change_good_animal", change_messages_success[steed_type::ANIMAL] );
     mandatory( jo, was_loaded, "change_good_mech", change_messages_success[steed_type::MECH] );
 
     optional( jo, was_loaded, "change_bad_none", change_messages_fail[steed_type::NONE],
@@ -146,6 +150,19 @@ std::string move_mode::change_message( bool success, steed_type steed ) const
     }
 
     return change_messages_fail.at( steed ).translated();
+}
+
+std::string move_mode::prepare_message( steed_type steed ) const
+{
+    if( steed == steed_type::NUM ) {
+        debugmsg( "Attempted to switch to bad movement mode!" );
+        //~ This should never occur - this is the message when the character switches to
+        //~ an invalid move mode or there's not a message for failing to switch to a move
+        //~ mode
+        return _( "You feel bugs crawl over your skin." );
+    }
+
+    return prepare_messages.at( steed ).translated();
 }
 
 move_mode_id move_mode::cycle() const

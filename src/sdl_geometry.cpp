@@ -38,6 +38,13 @@ void DefaultGeometryRenderer::rect( const SDL_Renderer_Ptr &renderer, const SDL_
 
 ColorModulatedGeometryRenderer::ColorModulatedGeometryRenderer( const SDL_Renderer_Ptr &renderer )
 {
+    build_texture( renderer );
+}
+
+void ColorModulatedGeometryRenderer::build_texture( const SDL_Renderer_Ptr &renderer )
+{
+    tex.reset();
+
     SDL_Surface_Ptr alt_surf;
     try {
         alt_surf = create_surface_32( 1, 1 );
@@ -46,9 +53,9 @@ ColorModulatedGeometryRenderer::ColorModulatedGeometryRenderer( const SDL_Render
         return;
     }
 
-    FillRect( alt_surf, nullptr, SDL_MapRGB( alt_surf->format, 255, 255, 255 ) );
+    FillRect( alt_surf, nullptr, MapRGB( alt_surf, 255, 255, 255 ) );
 
-    tex.reset( SDL_CreateTextureFromSurface( renderer.get(), alt_surf.get() ) );
+    tex = CreateTextureFromSurface( renderer, alt_surf );
     alt_surf.reset();
 
     SetTextureBlendMode( tex, SDL_BLENDMODE_BLEND );
@@ -58,8 +65,18 @@ ColorModulatedGeometryRenderer::ColorModulatedGeometryRenderer( const SDL_Render
     if( !tex_enable ) {
         tex.reset();
     }
-    DebugLog( D_INFO, DC_ALL ) << "ColorModulatedGeometryRenderer constructor() = " <<
+    DebugLog( D_INFO, DC_ALL ) << "ColorModulatedGeometryRenderer build_texture() = " <<
                                ( tex_enable ? "SUCCESS" : "FAIL" ) << ". tex_enable = " << tex_enable;
+}
+
+void ColorModulatedGeometryRenderer::release_gpu_resources()
+{
+    tex.reset();
+}
+
+void ColorModulatedGeometryRenderer::rebuild_for_renderer( const SDL_Renderer_Ptr &renderer )
+{
+    build_texture( renderer );
 }
 
 void ColorModulatedGeometryRenderer::rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
@@ -67,7 +84,7 @@ void ColorModulatedGeometryRenderer::rect( const SDL_Renderer_Ptr &renderer, con
 {
     if( tex ) {
         SetTextureColorMod( tex, color.r, color.g, color.b );
-        SDL_SetTextureAlphaMod( tex.get(), color.a );
+        SetTextureAlphaMod( tex, color.a );
         RenderCopy( renderer, tex, nullptr, &rect );
     } else {
         DefaultGeometryRenderer::rect( renderer, rect, color );

@@ -53,7 +53,6 @@
     "show_intensity": false,
     "max_intensity": 10,
     "max_duration": "21 days",
-    "dur_add_perc": 25,
     "int_dur_factor": "3 days"
   },
   {
@@ -184,5 +183,21 @@
     "//": "Hidden effect, used as a tracker",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_incense_nether_attunement_minor",
+    "//": "Hidden effect, part of an enchantment",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 1, 5 ] ], "tick": [ "30 s" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_incense_nether_attunement_major",
+    "//": "Hidden effect, part of an enchantment",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 3, 6 ] ], "tick": [ "5 s" ] } ]
   }
 ]

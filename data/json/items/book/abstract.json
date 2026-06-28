@@ -496,7 +496,7 @@
     "description": "seeing this is a bug.",
     "weight": "30 g",
     "volume": "250 ml",
-    "flags": [ "PAPER_SHAPED" ],
+    "flags": [ "PRESERVE_SPAWN_LOC", "LOCATION_PRECISE_CLOSEST_CITY", "PAPER_SHAPED" ],
     "price": "10 USD",
     "price_postapoc": "10 USD",
     "material": [ "paper" ],

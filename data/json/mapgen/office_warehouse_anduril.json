@@ -7,11 +7,11 @@
       "rows": [
         "ssssssssssssssssssssssss",
         "ss###++++++7####--####ss",
-        "ss#           #C  dcF#ss",
+        "ss#§          #C  dcF#ss",
         "ss# yyyyyyyyy #C  dd #ss",
         "ss# y       y #C    p#ss",
         "ss# y       y ###+6###ss",
-        "ss# y       y        #ss",
+        "ss# y       y §      #ss",
         "ss# y       y        #ss",
         "ss# y       y   cd   #ss",
         "ss# y       y   dd   #ss",
@@ -26,7 +26,7 @@
         "ss# SSSSSS  6        #ss",
         "ss#         +     *-*#ss",
         "ss# SSSSSS  *     * u#ss",
-        "ss#         *     *Tt#ss",
+        "ss#         *    §*Tt#ss",
         "ss####################ss",
         "ssssssssssssssssssssssss"
       ],
@@ -72,7 +72,8 @@
         "T": { "item": "SUS_toilet", "chance": 50 },
         "^": { "item": "SUS_coffee_cupboard" }
       },
-      "place_loot": [ { "item": "military_vis_aug_system", "x": 9, "y": 15 } ]
+      "place_loot": [ { "item": "military_vis_aug_system", "x": 9, "y": 15 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

@@ -1335,7 +1335,7 @@
         [ "yarn", 200 ],
         [ "plant_fibre", 200 ],
         [ "straw_pile", 10 ],
-        [ "cable", 37 ]
+        [ "cable", 13 ]
       ]
     ]
   },

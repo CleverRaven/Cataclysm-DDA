@@ -86,17 +86,23 @@ jobs:
         cmakeVersion: 3.31.6
 
     - name: Install vcpkg
-      uses: lukka/run-vcpkg@7d259227a1fb6471a0253dd5ab7419835228f7d7 # v11
+      uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2 # v11.6
       id: runvcpkg
       with:
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-        vcpkgGitCommitId: '1b6e030cf096faf4f82d7b7025de8b2abee3e3df'
+        vcpkgGitCommitId: 'f6672d8e480ccdecddfad3fd1b838ba369ffe6cd'
 
     - name: Integrate vcpkg
       run: |
         vcpkg integrate install --vcpkg-root "$env:RUNNER_WORKSPACE\b\vcpkg"
       env:
         RUNNER_WORKSPACE: ${{ runner.workspace }}
+
+    - name: Cache vcpkg installed packages
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      with:
+        path: msvc-full-features/vcpkg_installed
+        key: vcpkg-installed-sdl3-${{ hashFiles('msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/x64-windows-static.cmake') }}-f6672d8e480ccdecddfad3fd1b838ba369ffe6cd
 
     - name: Download ccache
       uses: robinraju/release-downloader@368754b9c6f47c345fcfbf42bcb577c2f0f5f395 # v1.9

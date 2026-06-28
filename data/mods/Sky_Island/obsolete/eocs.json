@@ -14,5 +14,14 @@
     "required_event": "game_begin",
     "condition": { "math": [ "islandrank >= 1" ] },
     "effect": [ { "u_learn_recipe": "warpextender" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_rememorize",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "//": "Delete after 0.J",
+    "condition": { "current_dimension": "default_skyisland" },
+    "effect": { "run_eocs": "EOC_memorize_island" }
   }
 ]

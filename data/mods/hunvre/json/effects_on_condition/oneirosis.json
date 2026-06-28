@@ -1,0 +1,41 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_oneirosis",
+    "recurrence": [ "1 hours", "2 hours" ],
+    "effect": [
+      {
+        "if": { "u_has_effect": "stim", "intensity": 20 },
+        "then": { "math": [ "u_vitamin('oneirosis_vitamin') += 3" ] },
+        "else": { "math": [ "u_vitamin('oneirosis_vitamin') -= 3" ] }
+      },
+      { "run_eocs": "eoc_oneirosis_auditory_hallucinations" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_oneirosis_sleep",
+    "eoc_type": "EVENT",
+    "required_event": "character_falls_asleep",
+    "condition": { "u_has_effect": "oneirosis", "intensity": 4 },
+    "effect": [
+      {
+        "if": { "u_has_effect": "depressants", "intensity": 20 },
+        "else": [
+          {
+            "u_message": "As sleep comes you feel yourself falling faster and faster, as you fall you feel a gentle warmth enveloping you, an intense feeling of happiness, your senses start to get blurrier, it goes on for infinity, then, you can't feel anything anymore."
+          },
+          "u_die"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_oneirosis_auditory_hallucinations",
+    "recurrence": [ "5 minutes", "1 hours" ],
+    "condition": { "u_has_effect": "oneirosis", "intensity": 2 },
+    "deactivate_condition": { "u_has_effect": "oneirosis", "intensity": 1 },
+    "effect": [ { "u_message": "<oneirosis_auditory_hallucination>", "snippet": true, "type": "warning" } ]
+  }
+]

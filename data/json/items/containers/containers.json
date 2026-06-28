@@ -742,7 +742,7 @@
         "max_contains_volume": "500 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
-        "sealed_data": { "spoil_multiplier": 0.5 },
+        "sealed_data": { "spoil_multiplier": 0.0 },
         "moves": 400
       }
     ],
@@ -1552,7 +1552,7 @@
     "type": "ITEM",
     "category": "container",
     "//": "Roughly based on https://www.amazon.ca/Boxes-Fast-BF14442FOL-Corrugated-Cardboard/dp/B077BZHDYF",
-    "name": { "str": "longarm cardboard box", "str_pl": "longarm cardboard cardboard boxes" },
+    "name": { "str": "longarm cardboard box", "str_pl": "longarm cardboard boxes" },
     "looks_like": "box_small",
     "description": "An elongated cardboard box, meant to contain a longarm such as a shotgun or rifle.",
     "ascii_picture": "box_oversize",
@@ -2726,7 +2726,7 @@
     "category": "container",
     "name": { "str": "3 L glass jar" },
     "looks_like": "jar_glass_sealed",
-    "description": "A three-liter glass jar with a metal screw top lid, used for canning.  Preserves its contents from rot until opened.",
+    "description": "A three-liter glass jar with a metal screw top lid, used for canning.  Preserves its contents from rot until opened (assuming it was sterile before sealing).",
     "ascii_picture": "jar_3l_glass_sealed",
     "weight": "953 g",
     "volume": "3530 ml",
@@ -3195,7 +3195,7 @@
     "volume": "150 ml",
     "longest_side": "16 cm",
     "price": "10 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "20 cent",
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -3552,7 +3552,7 @@
     "category": "container",
     "name": { "str": "rotten barrel" },
     "looks_like": "wooden_barrel",
-    "description": "Traditionally made of white oak; these vessels are known for delivering delicious whiskey to the future.  It has a capacity of 100 liters, or would if it weren't so rotten that it can't possibly contain anything",
+    "description": "Traditionally made of white oak; these vessels are known for delivering delicious whiskey to the future.  It has a capacity of 100 liters, or would if it weren't so rotten that it can't possibly contain anything.",
     "ascii_picture": "wooden_barrel",
     "weight": "42408 g",
     "volume": "110 L",
@@ -3667,11 +3667,11 @@
     "looks_like": "cup_plastic",
     "description": "A cheap, disposable cup with a plastic lid and straw.",
     "ascii_picture": "styrofoam_cup",
-    "weight": "50 g",
-    "volume": "501 ml",
-    "price": "0 cent",
+    "weight": "7 g",
+    "volume": "650 ml",
+    "price": "55 cent",
     "price_postapoc": "0 cent",
-    "material": [ "plastic" ],
+    "material": [ "styrofoam" ],
     "symbol": ")",
     "color": "white",
     "pocket_data": [
@@ -3842,7 +3842,7 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
-    "use_action": { "menu_text": "open", "type": "transform", "target": "condom", "msg": "You rip open the wrapped condom." },
+    "use_action": { "menu_text": "Open", "type": "transform", "target": "condom", "msg": "You rip open the wrapped condom." },
     "flags": [ "BANK_NOTE_SHAPED" ]
   },
   {
@@ -5043,6 +5043,7 @@
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1 L",
+        "max_item_length": "30 cm",
         "max_contains_weight": "1 kg",
         "item_restriction": [ "duct_tape", "medical_tape" ],
         "volume_multiplier": 0.75
@@ -5064,7 +5065,7 @@
     "price": "15 USD",
     "price_postapoc": "50 cent",
     "material": [ "wood" ],
-    "looks_like": "clay_canister",
+    "looks_like": "ceramic_mug",
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -5094,7 +5095,7 @@
     "price": "30 USD",
     "price_postapoc": "50 cent",
     "material": [ "steel" ],
-    "looks_like": "clay_canister",
+    "looks_like": "ceramic_mug",
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -5395,5 +5396,77 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "10 kg", "transparent": true }
     ],
     "flags": [ "NO_RELOAD" ]
+  },
+  {
+    "id": "spool_small",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small spool" },
+    "description": "A small plastic spool designed to hold various materials.",
+    "//": "0.5 lbs or 3 ft of solder",
+    "weight": "20 g",
+    "volume": "50 ml",
+    "//2": "spool itself is 200 ml, but volume is reduced if empty",
+    "material": [ "plastic" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_volume": "200 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "50 cm",
+        "item_restriction": [ "solder_wire", "cable", "copper_wire" ],
+        "transparent": true,
+        "moves": 200
+      }
+    ]
+  },
+  {
+    "id": "spool_welding",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "wire spool" },
+    "description": "A large plastic spool designed to hold welding wire.",
+    "weight": "400 g",
+    "volume": "1600 ml",
+    "material": [ "plastic" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_volume": "3000 ml",
+        "max_contains_weight": "6 kg",
+        "item_restriction": [ "welding_wire_steel", "welding_wire_alloy" ],
+        "transparent": true,
+        "moves": 800,
+        "volume_multiplier": 0.3
+      }
+    ]
+  },
+  {
+    "id": "tube_welding_rod",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "welding rod tube" },
+    "description": "A long, clear plastic canister with a threaded cap.  It is designed to hold heavy stacks of welding and brazing rods.",
+    "weight": "250 g",
+    "volume": "4200 ml",
+    "material": [ "plastic" ],
+    "symbol": "|",
+    "color": "light_cyan",
+    "longest_side": "48 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "4000 ml",
+        "max_contains_weight": "12 kg",
+        "max_item_length": "47 cm",
+        "rigid": true
+      }
+    ]
   }
 ]

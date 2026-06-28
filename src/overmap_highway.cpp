@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -685,11 +686,13 @@ bool overmap::highway_select_end_points( const std::vector<const overmap *> &nei
                 //neighboring overmap highway edge connects to this overmap
                 const tripoint_om_omt opposite_edge = neighbor_overmaps[i]->highway_connections[( i + 2 ) %
                                                       HIGHWAY_MAX_CONNECTIONS];
-                if( opposite_edge == tripoint_om_omt::zero ) {
-                    debugmsg( "highway connections not initialized; inter-overmap highway pathing failed" );
-                    return false;
+                if( opposite_edge == tripoint_om_omt::zero ||
+                    opposite_edge == tripoint_om_omt::invalid ) {
+                    // Neighbor has no highway data -- drop this connection.
+                    neighbor_connections[i] = false;
+                } else {
+                    end_points[i] = wrap_point( opposite_edge );
                 }
-                end_points[i] = wrap_point( opposite_edge );
             } else {
                 new_end_point[i] = true;
             }
@@ -1061,14 +1064,23 @@ void highway_intersection_grid::set_options()
 void highway_intersection_grid::generate_offset( overmap_feature_grid_node &node )
 {
     const int max_offset_variance = this->max_offset_variance;
-    auto no_lakes = []( const point_abs_om & pt ) {
+    auto no_lakes = [this]( const point_abs_om & pt ) {
         const region_settings &settings = overmap_buffer.get_default_settings( pt );
         if( !settings.overmap_lake ) {
             return true;
         }
-        const region_settings_lake &lake_settings = settings.get_settings_lake();
-        return !overmap::guess_has_lake( pt, lake_settings.noise_threshold_lake,
-                                         lake_settings.lake_size_min );
+        auto val_emplaced = om_has_lake_cache.emplace( pt, false );
+        // A little trickery, instead of doing find/emplace/set, we just use a single
+        // emplace which returns the existing entry if it was already set. the .second
+        // member is true if emplacement happened, which means it was *not* set, so
+        // we have to actually test it for lakeness.
+        if( val_emplaced.second ) {
+            const region_settings_lake &lake_settings = settings.get_settings_lake();
+            val_emplaced.first->second =
+                !overmap::guess_has_lake( pt, lake_settings.noise_threshold_lake,
+                                          lake_settings.lake_size_min );
+        }
+        return val_emplaced.first->second;
     };
     const point_abs_om grid_pos = node.get_grid_pos();
     tripoint_abs_om as_tripoint( grid_pos, 0 );

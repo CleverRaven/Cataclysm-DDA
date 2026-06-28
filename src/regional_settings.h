@@ -50,6 +50,10 @@ class building_bin
 struct region_settings_city {
     region_settings_city_id id = region_settings_city_id::NULL_ID();
 
+    bool is_megacity = false;
+    int city_size = 8;
+    int city_spacing = 4;
+
     // About the average US city non-residential, non-park land usage
     int shop_radius = 30;
     int shop_sigma = 20;

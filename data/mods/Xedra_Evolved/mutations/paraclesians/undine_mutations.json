@@ -301,11 +301,10 @@
     "points": 1,
     "visibility": 2,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Undine's eyes begin reflecting their mood with colors of the deep waters, pitch black when angry or sad and green-blue when pleased.  Glare no longer impacts them, and neither do light levels when trying to sleep.  They can also see without problem underwater.",
+    "description": "Upon gaining this ability the Undine's eyes begin reflecting their mood with colors of the deep waters, pitch black when angry or sad and green-blue when pleased.  Glare no longer impacts them, and neither do light levels when trying to sleep.  They can also see without problem underwater and have better night vision in general.",
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "integrated_armor": [ "integrated_undine_eyes" ],
-    "flags": [ "SEESLEEP", "SWIM_GOGGLES" ]
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "fae_eyes_undine" } ] } ]
   },
   {
     "type": "mutation",

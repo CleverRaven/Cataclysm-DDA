@@ -1,0 +1,71 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LATITUDE",
+    "//": "Sets the latitude used for sunrise/sunset times.  Set to Raleigh.",
+    "stype": "float",
+    "value": 35.787743
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LONGITUDE",
+    "//": "Sets the longitude used for sunrise/sunset times.  Set to Raleigh.",
+    "stype": "float",
+    "value": -78.644257
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "CBM_SLOTS_ENABLED",
+    "//": "Used here to enable body slots for magical tattoos",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SPAWN_ANIMAL_DENSITY",
+    "stype": "float",
+    "value": 1.5
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DISABLE_ANIMAL_CLASH",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "INT_BASED_LEARNING_FOCUS_ADJUSTMENT",
+    "stype": "int",
+    "value": 6
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "ZOMBIFY_INTO_ENABLED",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "EVOLUTION_INVERSE_MULTIPLIER",
+    "//": "Higher-evo monsters should mostly be spawned through mapgen or map extras, so just crank this up so we don't have to edit a ton of monsters to turn evolution off",
+    "stype": "float",
+    "value": 99.0
+  },
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "flag": { "name": "REVIVES", "value": false },
+    "stat": { "name": "speed", "modifier": 0.9 }
+  },
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "flag": { "name": "WARM", "value": false },
+    "stat": { "name": "hp", "modifier": 4 }
+  },
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "stat": { "name": "bleed_rate", "modifier": 0 }
+  }
+]

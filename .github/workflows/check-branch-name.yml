@@ -1,6 +1,10 @@
 name: Check pull request head branch name
 
 on:
+  # Normally risky but the workflow doesn't interpolate any user controlled content.
+  # i.e. no ${{ }} expressions anywhere, and none that reference anything that can be
+  # written by the pr author. Does not check out and execute user controlled code.
+  # Safe to use pull_request_target.
   pull_request_target:
     types:
       - opened
@@ -11,9 +15,8 @@ jobs:
     if: github.head_ref == 'master' && github.repository == 'CleverRaven/Cataclysm-DDA'
     steps:
       - name: Post warning
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             await github.rest.issues.createComment({
               owner: context.repo.owner,

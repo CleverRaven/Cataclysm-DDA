@@ -17,6 +17,7 @@
 #include "cata_io.h"
 #include "cata_path.h"
 #include "city.h"
+#include "colony.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -24,10 +25,12 @@
 #include "hash_utils.h"
 #include "horde_entity.h"
 #include "input.h"
+#include "item_wakeup.h"
 #include "json.h"
 #include "json_loader.h"
 #include "kill_tracker.h"
 #include "map.h"
+#include "mapgen_post_process.h"
 #include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
@@ -41,6 +44,7 @@
 #include "overmap_types.h"
 #include "overmap_map_data_cache.h"
 #include "path_info.h"
+#include "power_network.h"
 #include "regional_settings.h"
 #include "scent_map.h"
 #include "stats_tracker.h"
@@ -281,9 +285,6 @@ void game::unserialize_impl( const JsonObject &data )
     load_map( project_combine( com, lev ), /*pump_events=*/true );
 
     safe_mode = static_cast<safe_mode_type>( tmprun );
-    if( get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF ) {
-        safe_mode = SAFE_MODE_ON;
-    }
 
     std::string linebuff;
     std::string linebuf;
@@ -469,7 +470,7 @@ void overmap::unserialize( const JsonObject &jsobj )
         std::vector<std::pair<tripoint_om_omt, int>> flat_index;
         jsobj.read( "mapgen_arg_index", flat_index, true );
         for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
-            auto it = mapgen_arg_storage.get_iterator_from_index( p.second );
+            auto it = cata::get_iterator_from_index( mapgen_arg_storage, p.second );
             mapgen_args_index.emplace( p.first, &*it );
         }
     }
@@ -478,6 +479,17 @@ void overmap::unserialize( const JsonObject &jsobj )
         jsobj.read( "omt_stack_arguments_map", flat_omt_stack_arguments_map, true );
         for( const std::pair<point_abs_omt, mapgen_arguments> &p : flat_omt_stack_arguments_map ) {
             omt_stack_arguments_map.emplace( p );
+        }
+    }
+    if( jsobj.has_member( "pp_decision_storage" ) ) {
+        jsobj.read( "pp_decision_storage", pp_decision_storage, true );
+    }
+    if( jsobj.has_member( "pp_decisions_index" ) ) {
+        std::vector<std::pair<tripoint_om_omt, int>> flat_index;
+        jsobj.read( "pp_decisions_index", flat_index, true );
+        for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
+            auto it = cata::get_iterator_from_index( pp_decision_storage, p.second );
+            pp_decisions_index.emplace( p.first, &*it );
         }
     }
     std::vector<tripoint_abs_omt> camps_to_place;
@@ -1261,6 +1273,8 @@ void overmap::serialize_view( std::ostream &fout ) const
     json.end_object();
 }
 
+namespace
+{
 // Compares all fields except position and monsters
 // If any group has monsters, it is never equal to any group (because monsters are unique)
 struct mongroup_bin_eq {
@@ -1290,6 +1304,7 @@ struct mongroup_hash {
         return ret;
     }
 };
+} // namespace
 
 void overmap::save_monster_groups( JsonOut &jout ) const
 {
@@ -1543,8 +1558,8 @@ void overmap::serialize( std::ostream &fout ) const
          mapgen_args_index ) {
         json.start_array();
         json.write( p.first );
-        auto it = mapgen_arg_storage.get_iterator_from_pointer( p.second );
-        int index = mapgen_arg_storage.get_index_from_iterator( it );
+        auto it = mapgen_arg_storage.get_iterator( p.second );
+        int index = cata::get_index_from_iterator( mapgen_arg_storage, it );
         json.write( index );
         json.end_array();
     }
@@ -1557,6 +1572,22 @@ void overmap::serialize( std::ostream &fout ) const
         json.start_array();
         json.write( p.first );
         p.second.serialize( json );
+        json.end_array();
+    }
+    json.end_array();
+    fout << std::endl;
+
+    json.member( "pp_decision_storage", pp_decision_storage );
+    fout << std::endl;
+    json.member( "pp_decisions_index" );
+    json.start_array();
+    for( const std::pair<const tripoint_om_omt, std::vector<pp_resolved_generator> *> &p :
+         pp_decisions_index ) {
+        json.start_array();
+        json.write( p.first );
+        auto it = pp_decision_storage.get_iterator( p.second );
+        int index = cata::get_index_from_iterator( pp_decision_storage, it );
+        json.write( index );
         json.end_array();
     }
     json.end_array();
@@ -1668,6 +1699,9 @@ void game::unserialize_master( const cata_path &file_name, std::istream &fin )
 
 void game::unserialize_master( const JsonValue &jv )
 {
+    // Reset state that has no clear-on-load hook of its own; otherwise a
+    // save without the field inherits the previous game's queue.
+    get_item_wakeups().clear();
     JsonObject game_json = jv;
     for( JsonMember jsin : game_json ) {
         std::string name = jsin.name();
@@ -1675,6 +1709,8 @@ void game::unserialize_master( const JsonValue &jv )
             next_mission_id = jsin.get_int();
         } else if( name == "next_npc_id" ) {
             next_npc_id.deserialize( jsin );
+        } else if( name == "next_item_uid" ) {
+            jsin.read( next_item_uid );
         } else if( name == "active_missions" ) {
             mission::unserialize_all( jsin );
         } else if( name == "factions" ) {
@@ -1685,6 +1721,8 @@ void game::unserialize_master( const JsonValue &jv )
             weather_manager::unserialize_all( jsin );
         } else if( name == "timed_events" ) {
             timed_event_manager::unserialize_all( jsin );
+        } else if( name == "item_wakeups" ) {
+            get_item_wakeups().deserialize( jsin );
         } else if( name == "overmapbuffer" ) {
             overmap_buffer.global_state.deserialize( jsin );
         } else if( name == "placed_unique_specials" ) {
@@ -1707,6 +1745,7 @@ void game::unserialize_dimension_data( const cata_path &file_name, std::istream 
 
 void game::unserialize_dimension_data( const JsonValue &jv )
 {
+    power_networks().clear();
     JsonObject game_json = jv;
     for( JsonMember jsin : game_json ) {
         std::string name = jsin.name();
@@ -1718,6 +1757,8 @@ void game::unserialize_dimension_data( const JsonValue &jv )
             overmap_buffer.deserialize_placed_unique_specials( jsin );
         } else if( name == "region_type" ) {
             jsin.read( overmap_buffer.current_region_type );
+        } else if( name == "power_networks" ) {
+            power_networks().deserialize( jsin );
         }
     }
 }
@@ -1744,6 +1785,21 @@ void weather_manager::serialize_all( JsonOut &json )
     if( weather.forced_temperature ) {
         json.member( "forced_temperature", units::to_fahrenheit( *weather.forced_temperature ) );
     }
+    if( !weather.snow_depth_map.empty() ) {
+        json.member( "snow_depth" );
+        json.start_array();
+        for( const auto &pair : weather.snow_depth_map ) {
+            if( pair.second.depth_mm > 0.001 ) {
+                json.start_object();
+                json.member( "x", pair.first.x() );
+                json.member( "y", pair.first.y() );
+                json.member( "depth_mm", pair.second.depth_mm );
+                json.member( "last_update", pair.second.last_update );
+                json.end_object();
+            }
+        }
+        json.end_array();
+    }
     json.end_object();
 }
 
@@ -1763,6 +1819,25 @@ void weather_manager::unserialize_all( const JsonObject &w )
         get_weather().forced_temperature = units::from_fahrenheit( read_forced_temp );
     } else {
         get_weather().forced_temperature.reset();
+    }
+    get_weather().snow_depth_map.clear();
+    if( w.has_array( "snow_depth" ) ) {
+        for( JsonObject entry : w.get_array( "snow_depth" ) ) {
+            // Normalize z to 0: snow depth is z-agnostic
+            tripoint_abs_omt pos( entry.get_int( "x" ), entry.get_int( "y" ), 0 );
+            // Consume "z" if present (old save format stored per-z entries)
+            if( entry.has_int( "z" ) ) {
+                entry.get_int( "z" );
+            }
+            omt_snow_state state;
+            entry.read( "depth_mm", state.depth_mm );
+            entry.read( "last_update", state.last_update );
+            // If duplicate xy from different z-levels, keep the deeper snow
+            auto it = get_weather().snow_depth_map.find( pos );
+            if( it == get_weather().snow_depth_map.end() || state.depth_mm > it->second.depth_mm ) {
+                get_weather().snow_depth_map[pos] = state;
+            }
+        }
     }
 }
 
@@ -1842,12 +1917,16 @@ void game::serialize_master( std::ostream &fout )
 
         json.member( "next_mission_id", next_mission_id );
         json.member( "next_npc_id", next_npc_id );
+        json.member( "next_item_uid", next_item_uid );
 
         json.member( "active_missions" );
         mission::serialize_all( json );
 
         json.member( "timed_events" );
         timed_event_manager::serialize_all( json );
+
+        json.member( "item_wakeups" );
+        get_item_wakeups().serialize( json );
 
         json.member( "factions", *faction_manager_ptr );
         json.member( "seed", seed );
@@ -1872,6 +1951,10 @@ void game::serialize_dimension_data( std::ostream &fout )
         weather_manager::serialize_all( json );
 
         json.member( "region_type", overmap_buffer.current_region_type );
+
+        json.member( "power_networks" );
+        power_networks().serialize( json );
+
         json.end_object();
     } catch( const JsonError &e ) {
         debugmsg( "error saving to %s: %s", SAVE_DIMENSION_DATA, e.c_str() );
@@ -1996,6 +2079,26 @@ void creature_tracker::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
+void unique_special_deck_state::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "successes", successes );
+    json.member( "deck_size", deck_size );
+    json.member( "successes_remain", successes_remain );
+    json.member( "cards_remain", cards_remain );
+    json.member( "to_place", to_place );
+    json.end_object();
+}
+
+void unique_special_deck_state::deserialize( const JsonObject &json )
+{
+    json.read( "successes", successes );
+    json.read( "deck_size", deck_size );
+    json.read( "successes_remain", successes_remain );
+    json.read( "cards_remain", cards_remain );
+    json.read( "to_place", to_place );
+}
+
 void overmap_global_state::serialize( JsonOut &json ) const
 {
     json.start_object();
@@ -2005,6 +2108,7 @@ void overmap_global_state::serialize( JsonOut &json ) const
     json.member( "unique_special_count", unique_special_count );
     json.member( "overmap_highway_intersection_grid", highway_intersections );
     json.member( "major_river_count", major_river_count );
+    json.member( "unique_special_decks", unique_special_decks );
 
     json.end_object();
 }
@@ -2034,6 +2138,8 @@ void overmap_global_state::deserialize( const JsonObject &json )
         json.read( "overmap_highway_intersection_grid", highway_intersections );
     }
     json.read( "major_river_count", major_river_count );
+    unique_special_decks.clear();
+    json.read( "unique_special_decks", unique_special_decks );
 }
 
 void overmapbuffer::deserialize_placed_unique_specials( const JsonValue &jsin )

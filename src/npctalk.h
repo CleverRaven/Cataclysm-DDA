@@ -51,6 +51,7 @@ void bionic_install( npc & );
 void bionic_install_allies( npc & );
 void bionic_remove( npc & );
 void bionic_remove_allies( npc & );
+void repair_bionic_limbs( npc & );
 void dismount( npc & );
 void find_mount( npc & );
 
@@ -82,6 +83,7 @@ void assign_guard( npc & );
 void assign_camp( npc & );
 void abandon_camp( npc & );
 void stop_guard( npc & );
+void return_to_camp_duties( npc & );
 void end_conversation( npc & );
 void insult_combat( npc & );
 void reveal_stats( npc & );

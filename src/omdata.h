@@ -341,6 +341,7 @@ enum class oter_travel_cost_type : int {
     highway,
     road,
     field,
+    crop_field,
     dirt_road,
     trail,
     forest,
@@ -357,6 +358,7 @@ enum class oter_travel_cost_type : int {
 
 template<>
 struct enum_traits<oter_travel_cost_type> {
+    static constexpr oter_travel_cost_type first = static_cast<oter_travel_cost_type>( 0 );
     static constexpr oter_travel_cost_type last = oter_travel_cost_type::last;
 };
 
@@ -445,6 +447,8 @@ struct oter_type_t {
         std::optional<ter_str_id> uniform_terrain;
 
         oter_vision_id vision_levels;
+
+        std::vector<pp_generator_id> post_process_generators;
 
         std::string get_symbol() const;
 
@@ -579,6 +583,10 @@ struct oter_t {
 
         const overmap_static_spawns &get_static_spawns() const {
             return type->static_spawns;
+        }
+
+        const std::vector<pp_generator_id> &get_post_process_generators() const {
+            return type->post_process_generators;
         }
 
         overmap_land_use_code_id get_land_use_code() const {
@@ -777,7 +785,7 @@ class overmap_special
         effect_on_condition_id get_eoc() const {
             return eoc;
         }
-        bool can_spawn() const;
+        bool can_spawn( int city_size ) const;
         /** Returns terrain at the given point. */
         const overmap_special_terrain &get_terrain_at( const tripoint_rel_omt &p ) const;
         /** @returns true if this special requires a city */
@@ -795,6 +803,7 @@ class overmap_special
         //NOTE: only useful for fixed overmap special
         std::vector<overmap_special_terrain> get_terrains() const;
         std::vector<overmap_special_terrain> preview_terrains() const;
+        std::vector<oter_type_id> get_terrain_type_ids() const;
         std::vector<overmap_special_locations> required_locations() const;
         int score_rotation_at( const overmap &om, const tripoint_om_omt &p,
                                om_direction::type r ) const;
@@ -898,7 +907,7 @@ void reset();
 
 const std::vector<overmap_special> &get_all();
 
-overmap_special_batch get_default_batch( const point_abs_om &origin );
+overmap_special_batch get_default_batch( const point_abs_om &origin, int city_size );
 /**
  * Generates a simple special from a building id.
  */
@@ -923,6 +932,7 @@ struct overmap_special_data {
     virtual void check( const std::string &context ) const = 0;
     virtual std::vector<overmap_special_terrain> get_terrains() const = 0;
     virtual std::vector<overmap_special_terrain> preview_terrains() const = 0;
+    virtual std::vector<oter_type_id> get_terrain_type_ids() const = 0;
     virtual std::vector<overmap_special_locations> required_locations() const = 0;
     virtual int score_rotation_at( const overmap &om, const tripoint_om_omt &p,
                                    om_direction::type r ) const = 0;
@@ -946,6 +956,7 @@ struct fixed_overmap_special_data : overmap_special_data {
     const overmap_special_terrain &get_terrain_at( const tripoint_rel_omt &p ) const;
     std::vector<overmap_special_terrain> get_terrains() const override;
     std::vector<overmap_special_terrain> preview_terrains() const override;
+    std::vector<oter_type_id> get_terrain_type_ids() const override;
     std::vector<overmap_special_locations> required_locations() const override;
     int score_rotation_at( const overmap &om, const tripoint_om_omt &p,
                            om_direction::type r ) const override;
@@ -1332,6 +1343,7 @@ struct mutable_overmap_special_data : overmap_special_data {
     overmap_special_terrain root_as_overmap_special_terrain() const;
     std::vector<overmap_special_terrain> get_terrains() const override;
     std::vector<overmap_special_terrain> preview_terrains() const override;
+    std::vector<oter_type_id> get_terrain_type_ids() const override;
     std::vector<overmap_special_locations> required_locations() const override;
     int score_rotation_at( const overmap &, const tripoint_om_omt &,
                            om_direction::type ) const override;

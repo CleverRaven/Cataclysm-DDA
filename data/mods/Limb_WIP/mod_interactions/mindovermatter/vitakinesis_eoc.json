@@ -9,7 +9,7 @@
           "EOC_VITAKIN_RESTORE_LIMB_LEFT_LEG",
           "EOC_VITAKIN_RESTORE_LIMB_RIGHT_ARM",
           "EOC_VITAKIN_RESTORE_LIMB_LEFT_ARM",
-          "EOC_PORTAL_NULL_AWAKENING"
+          "EOC_MOM_NO_EFFECT"
         ],
         "names": [ "Restore Right Leg", "Restore Left Leg", "Restore Right Arm", "Restore Left Arm", "Nevermind" ],
         "keys": [ "1", "2", "3", "4", "5" ],

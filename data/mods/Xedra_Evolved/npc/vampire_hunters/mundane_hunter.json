@@ -1,0 +1,141 @@
+[
+  {
+    "type": "npc",
+    "id": "vampire_hunter_mundane",
+    "name_suffix": "regular hunter",
+    "class": "NC_vampire_hunter_mundane",
+    "//": "The hunter that hunted regular animals as part of the cover-up.  She is now responsible to hunt animals for food.",
+    "name_unique": "Elsa Nielsen",
+    "gender": "female",
+    "attitude": 0,
+    "mission": "NULL",
+    "chat": "TALK_HUNTER_MUNDANE",
+    "personality": { "aggression": 2, "bravery": 6, "collector": 5, "altruism": 2 },
+    "faction": "vampire_hunters"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_vampire_hunter_mundane",
+    "name": { "str": "regular hunter" },
+    "job_description": "I hunt, but I don't hunt vampires.",
+    "//": "Was recruited as part of the cover-up that hid the vampire-hunting group as a bunch of regular crossbow hunters.",
+    "//2": "She's great at hunting animals but has little combat training and barely knows anything about vampires except the necessity to kill them all, thus the low deduction, low combat and high shooting skills.",
+    "//3": "She also teaches the new recruits and explains to wanderers how they're just an exclusive hunting club, thus high social and being willing to teach how to use crossbows.",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_Irish" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "bonus_str": { "rng": [ 2, 3 ] },
+    "bonus_dex": { "rng": [ 1, 3 ] },
+    "bonus_int": { "rng": [ 1, 2 ] },
+    "bonus_per": { "rng": [ 3, 5 ] },
+    "sells_belongings": false,
+    "shopkeeper_item_group": "hunter_mundane_sold_items",
+    "shopkeeper_consumption_rates": "basic_shop_rates",
+    "worn_override": "VAMPIRE_HUNTER_DEFAULT_worn",
+    "weapon_override": "VAMPIRE_HUNTER_DEFAULT_CROSSBOW_wield",
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "sum": [ { "dice": [ 1, 2 ] } ] } ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 6, 8 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 6, 8 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 5, 6 ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "deduction", "bonus": { "rng": [ -3, -2 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 3, 4 ] } }
+    ]
+  },
+  {
+    "id": "TALK_HUNTER_MUNDANE",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "u_has_trait": "VAMPIRE",
+        "yes": "Go see Blaine or Phyliss about your infection, or else Leonard won't calm down about it.",
+        "no": [ "Welcome.", "Hello.", "Hi." ]
+      }
+    ],
+    "responses": [
+      { "text": "Do you have something to trade?", "topic": "TALK_HUNTER_MUNDANE_TRADE" },
+      { "text": "Could you teach me something?", "topic": "TALK_HUNTER_MUNDANE_TRAIN" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HUNTER_MUNDANE_TRADE",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "math": [ "vampire_hunters_owed_help > 0" ],
+        "no": "I have plenty of leather and bone to sell and I can give you some jerky if you want",
+        "yes": "I have plenty of leather and bone to sell but nothing edible to spare.  We must maintain our food stockpile for when it will be scarce."
+      }
+    ],
+    "responses": [
+      { "text": "I'll buy.", "topic": "TALK_HUNTER_MUNDANE", "effect": "start_trade" },
+      {
+        "text": "I'd take some jerky.",
+        "topic": "TALK_HUNTER_MUNDANE_GIVE_JERKY",
+        "condition": { "math": [ "vampire_hunters_owed_help >= 1" ] },
+        "effect": [ { "math": [ "vampire_hunters_owed_help--" ] }, { "u_spawn_item": "jerky", "count": 5 } ]
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "Maybe later.  Bye!", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HUNTER_MUNDANE_TRAIN",
+    "type": "talk_topic",
+    "//": "Ideally this would make the training free, but the varying costs make that prohibitively hard to do.",
+    "dynamic_line": [
+      {
+        "math": [ "vampire_hunters_owed_help > 0" ],
+        "yes": "You helped us, so I'll give you a good discount for your training.",
+        "no": "If you want that, you'll have to pay for it.  I won't stop gathering food just to train a stranger."
+      }
+    ],
+    "responses": [
+      { "text": "I can pay.", "topic": "TALK_TRAIN", "condition": { "math": [ "vampire_hunters_owed_help < 1" ] } },
+      {
+        "text": "Thanks!  Let's start the training.",
+        "topic": "TALK_TRAIN",
+        "condition": { "math": [ "vampire_hunters_owed_help >= 1" ] },
+        "effect": [ { "u_spend_cash": -2500 }, { "math": [ "vampire_hunters_owed_help--" ] } ]
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "Maybe later.  Bye!", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HUNTER_MUNDANE_GIVE_JERKY",
+    "type": "talk_topic",
+    "dynamic_line": [ "Here's some jerky.  It's not something we sell, but you brought some badly-needed help so you can have it." ],
+    "responses": [
+      {
+        "text": "I'd take more jerky.",
+        "topic": "TALK_HUNTER_MUNDANE_GIVE_JERKY",
+        "condition": { "math": [ "vampire_hunters_owed_help >= 1" ] },
+        "effect": [ { "math": [ "vampire_hunters_owed_help--" ] }, { "u_spawn_item": "jerky", "count": 5 } ]
+      },
+      { "text": "Let's trade.", "topic": "TALK_HUNTER_MUNDANE", "effect": "start_trade" },
+      { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "Maybe later.  Bye!", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "hunter_mundane_sold_items",
+    "//": "Leather, bone and sinew, in other words anything worth selling but not edible from various animals.",
+    "//2": "The guards take turns treating the hides to make leather as Elsa taught them, as having anything to sell can result in more food and supplies.",
+    "items": [
+      { "item": "bone", "count": [ 20, 50 ] },
+      { "item": "sinew", "count": [ 400, 800 ] },
+      { "item": "leather", "count": [ 3, 15 ] },
+      { "item": "tanned_hide", "count": [ 1, 5 ] }
+    ]
+  }
+]

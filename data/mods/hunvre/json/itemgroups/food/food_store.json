@@ -1,0 +1,16 @@
+[
+  {
+    "id": "elevator_fridge_food",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "TODO: Add more groups to this file.",
+    "items": [ { "group": "any_crepe" } ]
+  },
+  {
+    "id": "elevator_fridge_drink",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "TODO: Add more groups to this file.",
+    "items": [ { "group": "any_crepe" } ]
+  }
+]

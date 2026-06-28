@@ -1,0 +1,116 @@
+[
+  {
+    "type": "scenario",
+    "id": "evacuee",
+    "copy-from": "evacuee",
+    "extend": { "professions": [ "tribal_warrior_expert", "lizardfolk_warrior", "lizardfolk_hunter", "wise_one_apprentice" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "cave_lonesome",
+    "copy-from": "cave_lonesome",
+    "extend": {
+      "professions": [
+        "tribal_warrior_expert",
+        "lizardfolk_warrior",
+        "lizardfolk_hunter",
+        "wise_one_apprentice",
+        "pattern_tattoo_mountain_prof"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "infected",
+    "copy-from": "infected",
+    "extend": { "professions": [ "tribal_warrior_expert", "wise_one_apprentice", "pattern_tattoo_mountain_prof" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "hunted_start",
+    "copy-from": "hunted_start",
+    "extend": {
+      "professions": [
+        "tribal_warrior_expert",
+        "lizardfolk_warrior",
+        "lizardfolk_hunter",
+        "wise_one_apprentice",
+        "pattern_tattoo_mountain_prof"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "fungal_start",
+    "copy-from": "fungal_start",
+    "extend": { "professions": [ "tribal_warrior_expert", "lizardfolk_warrior", "lizardfolk_hunter", "wise_one_apprentice" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "bordered",
+    "copy-from": "bordered",
+    "extend": {
+      "professions": [
+        "tribal_warrior_expert",
+        "lizardfolk_warrior",
+        "lizardfolk_hunter",
+        "wise_one_apprentice",
+        "pattern_tattoo_mountain_prof"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "ambushed",
+    "copy-from": "ambushed",
+    "extend": {
+      "professions": [
+        "tribal_warrior_expert",
+        "lizardfolk_warrior",
+        "lizardfolk_hunter",
+        "wise_one_apprentice",
+        "pattern_tattoo_mountain_prof"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "summer_advanced_start",
+    "copy-from": "summer_advanced_start",
+    "extend": {
+      "professions": [
+        "tribal_warrior_expert",
+        "lizardfolk_warrior",
+        "lizardfolk_hunter",
+        "wise_one_apprentice",
+        "pattern_tattoo_mountain_prof"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "wilderness",
+    "copy-from": "wilderness",
+    "extend": {
+      "professions": [
+        "tribal_warrior_expert",
+        "lizardfolk_warrior",
+        "lizardfolk_hunter",
+        "wise_one_apprentice",
+        "pattern_tattoo_mountain_prof"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "xedrawood_wise_one_start",
+    "name": "Path of the Wise",
+    "description": "You demonstrated a connection with the unseen world from a young age, and a passing member of the Wise take an interest in you when they visited your people.  They took you with them to train as an apprentice, initiating you into the mysteries, and you studied with an eager mind.  Now you'll need to find your own way.",
+    "points": 8,
+    "start_name": "Remote dwelling",
+    "allowed_locs": [ "sloc_wise_one_hut" ],
+    "professions": [ "wise_one_apprentice", "wise_one_forest" ],
+    "reveal_locale": false,
+    "flags": [ "LONE_START" ]
+  }
+]

@@ -825,6 +825,10 @@ inline std::string JsonObject::get_string( const char *key ) const
 {
     return get_member( key );
 }
+inline std::string JsonObject::get_string( std::string_view key ) const
+{
+    return get_member( key );
+}
 
 template<typename T, typename std::enable_if_t<std::is_convertible_v<T, std::string>>*>
 std::string JsonObject::get_string( const std::string &key, T &&fallback ) const

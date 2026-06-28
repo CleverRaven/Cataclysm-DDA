@@ -57,5 +57,33 @@
       "+": "t_door_metal_locked"
     },
     "furniture": { "c": "f_electrical_conduit" }
+  },
+  {
+    "type": "palette",
+    "id": "string_dimension_utility_tunnel",
+    "terrain": {
+      " ": [
+        [ "t_string_void", 194 ],
+        [ "t_string_point_big", 1 ],
+        [ "t_string_point_big", 1 ],
+        [ "t_string_point_small_gray", 2 ],
+        [ "t_string_point_small_gray", 2 ]
+      ],
+      ".": [
+        [ "t_string_void", 92 ],
+        [ "t_strconc_floor_no_roof", 92 ],
+        [ "t_string_point_big", 1 ],
+        [ "t_string_point_big", 1 ],
+        [ "t_string_point_small_gray", 2 ],
+        [ "t_string_point_small_gray", 2 ]
+      ],
+      ",": "t_strconc_floor_no_roof",
+      "I": "t_strconc_floor_no_roof",
+      "o": [ [ "t_string_dimension_strconc_red_light", 1 ], [ "t_sewage_pipe", 999 ] ],
+      "|": "t_strconc_wall",
+      ">": "t_ladder_down",
+      "<": "t_ladder_up"
+    },
+    "furniture": { "I": "f_ground_cable" }
   }
 ]

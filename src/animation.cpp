@@ -1,3 +1,4 @@
+#include "player_activity.h"
 #include "animation.h"
 
 
@@ -8,6 +9,8 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <string>
+#include <string_view>
 #include <thread>
 #include <utility>
 #include <vector>
@@ -43,6 +46,8 @@
 #include "sdltiles.h"
 #include "weather_type.h"
 #endif
+
+static const activity_id ACT_TARGET_PRACTICE( "ACT_TARGET_PRACTICE" );
 
 namespace
 {
@@ -94,10 +99,25 @@ class explosion_animation : public basic_animation
         }
 };
 
+bool skip_bullet_animation_delay()
+{
+    return get_avatar().activity.id() == ACT_TARGET_PRACTICE;
+}
+
 class bullet_animation : public basic_animation
 {
     public:
         bullet_animation() : basic_animation( 1 ) {
+        }
+
+        void progress() const {
+            draw();
+
+            // Skip artificial animation delay to greatly reduce the realtime
+            // delay between shots during player target practice activity
+            if( !skip_bullet_animation_delay() ) {
+                basic_animation::progress();
+            }
         }
 };
 
@@ -871,7 +891,7 @@ void game::draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
 #endif
 
 #if defined(TILES)
-void game::draw_async_anim( const tripoint_bub_ms &p, const std::string &tile_id,
+void game::draw_async_anim( const tripoint_bub_ms &p, std::string_view tile_id,
                             const std::string &ncstr,
                             const nc_color &nccol )
 {
@@ -897,11 +917,11 @@ void game::draw_async_anim( const tripoint_bub_ms &p, const std::string &tile_id
         return;
     }
 
-    tilecontext->init_draw_async_anim( p, tile_id );
+    tilecontext->init_draw_async_anim( p, std::string( tile_id ) );
     g->invalidate_main_ui_adaptor();
 }
 #else
-void game::draw_async_anim( const tripoint_bub_ms &p, const std::string &,
+void game::draw_async_anim( const tripoint_bub_ms &p, std::string_view,
                             const std::string &ncstr,
                             const nc_color &nccol )
 {

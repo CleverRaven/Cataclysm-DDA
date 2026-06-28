@@ -186,7 +186,7 @@
         { "item": "antenna", "count": [ 0, 1 ] },
         { "item": "exodii_module", "count": [ 0, 1 ] },
         { "item": "exodii_motor", "count": [ 0, 1 ] },
-        { "item": "cable", "charges": [ 0, 2 ] },
+        { "item": "cable", "count": [ 0, 2 ] },
         { "item": "scrap_copper", "count": [ 2, 12 ] }
       ]
     }
@@ -291,7 +291,7 @@
         { "item": "scrap_copper", "count": [ 2, 12 ] },
         { "item": "exodii_computer", "count": [ 0, 1 ] },
         { "item": "exodii_motor", "count": [ 0, 1 ] },
-        { "item": "cable", "charges": [ 0, 3 ] },
+        { "item": "cable", "count": [ 0, 2 ] },
         { "item": "exodii_scanner_dish", "count": [ 0, 1 ] }
       ]
     }
@@ -308,7 +308,9 @@
     "coverage": 30,
     "required_str": 6,
     "light_emitted": 90,
-    "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR" ],
+    "light_color": [ 220, 255, 200 ],
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "exodii_lamp" },
+    "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -320,7 +322,7 @@
         { "item": "scrap_copper", "count": [ 2, 12 ] },
         { "item": "amplifier", "count": [ 0, 5 ] },
         { "item": "power_supply", "count": [ 0, 1 ] },
-        { "item": "cable", "charges": [ 0, 5 ] }
+        { "item": "cable", "count": [ 0, 2 ] }
       ]
     }
   },
@@ -335,6 +337,7 @@
     "coverage": 5,
     "required_str": -1,
     "light_emitted": 90,
+    "light_color": [ 255, 230, 210 ],
     "flags": [ "TRANSPARENT", "NOITEM" ]
   },
   {
@@ -443,7 +446,7 @@
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
         { "item": "plutonium", "count": [ 0, 3 ] },
-        { "item": "lead", "charges": [ 12, 18 ] },
+        { "item": "lead", "count": [ 12, 18 ] },
         { "item": "sheet_metal_small", "count": [ 10, 30 ] },
         { "item": "scrap_copper", "count": [ 25, 50 ] },
         { "item": "e_scrap", "count": [ 20, 40 ] },
@@ -477,7 +480,7 @@
         { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
         { "item": "steel_armor", "count": [ 2, 4 ] },
         { "item": "plutonium", "count": [ 0, 3 ] },
-        { "item": "lead", "charges": [ 12, 18 ] },
+        { "item": "lead", "count": [ 12, 18 ] },
         { "item": "sheet_metal_small", "count": [ 10, 30 ] },
         { "item": "scrap_copper", "count": [ 25, 50 ] },
         { "item": "e_scrap", "count": [ 20, 40 ] },
@@ -513,7 +516,7 @@
         { "item": "pipe", "count": [ 0, 3 ] },
         { "item": "pipe_fittings", "count": [ 0, 3 ] },
         { "item": "plutonium", "count": [ 0, 3 ] },
-        { "item": "lead", "charges": [ 12, 18 ] },
+        { "item": "lead", "count": [ 12, 18 ] },
         { "item": "sheet_metal_small", "count": [ 10, 30 ] },
         { "item": "scrap_copper", "count": [ 12, 37 ] },
         { "item": "e_scrap", "count": [ 10, 20 ] },
@@ -547,7 +550,7 @@
         { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
         { "item": "sheet_metal", "count": [ 5, 10 ] },
         { "item": "plutonium", "count": [ 0, 3 ] },
-        { "item": "lead", "charges": [ 12, 18 ] },
+        { "item": "lead", "count": [ 12, 18 ] },
         { "item": "sheet_metal_small", "count": [ 10, 30 ] },
         { "item": "scrap_copper", "count": [ 12, 37 ] },
         { "item": "e_scrap", "count": [ 15, 30 ] },
@@ -577,7 +580,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "sheet_metal", "count": [ 0, 1 ] },
         { "item": "sheet_metal_small", "count": [ 4, 8 ] },
         { "item": "e_scrap", "count": [ 2, 6 ] },
@@ -609,7 +612,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "sheet_metal", "count": [ 0, 1 ] },
         { "item": "sheet_metal_small", "count": [ 4, 8 ] },
         { "item": "e_scrap", "count": [ 2, 6 ] },
@@ -642,7 +645,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 2, 5 ] },
         { "item": "amplifier", "count": [ 2, 5 ] },
@@ -671,7 +674,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 1, 3 ] },
         { "item": "amplifier", "count": [ 1, 3 ] },
@@ -700,7 +703,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 1, 3 ] },
         { "item": "amplifier", "count": [ 1, 3 ] },
@@ -708,6 +711,32 @@
         { "item": "exodii_module", "count": [ 0, 1 ] },
         { "item": "exodii_portalizer", "count": [ 0, 2 ] },
         { "item": "exodii_computer", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_string_dimension_floor_portal_enclosure",
+    "name": "metal ring",
+    "description": "A heavy metal ring sitting on the floor, surrounding a spot charred by residue that gives off an acrid, unfamiliar smell.",
+    "symbol": "O",
+    "color": "light_gray",
+    "move_cost_mod": 3,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "bash": {
+      "str_min": 45,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "crash!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "circuit", "count": [ 1, 3 ] },
+        { "item": "amplifier", "count": [ 1, 3 ] },
+        { "item": "power_supply", "count": [ 1, 4 ] }
       ]
     }
   },
@@ -728,7 +757,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 1, 3 ] },
         { "item": "amplifier", "count": [ 1, 3 ] },
@@ -905,13 +934,49 @@
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
         { "item": "plutonium", "count": [ 0, 3 ] },
-        { "item": "lead", "charges": [ 12, 18 ] },
+        { "item": "lead", "count": [ 12, 18 ] },
         { "item": "sheet_metal_small", "count": [ 10, 30 ] },
         { "item": "scrap_copper", "count": [ 12, 37 ] },
         { "item": "e_scrap", "count": [ 10, 20 ] },
         { "item": "string_dimension_computer", "count": [ 0, 1 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_string_dimension_pylon_inert",
+    "name": "inert column",
+    "description": "A floor-to-ceiling cylinder wrapped neatly and tightly in thick copper wire.  It has no markings, but the cables connected to the base suggest that it generates or receives some kind of power.  Perhaps it once worked, but it is now still and silent.",
+    "symbol": "O",
+    "color": "red",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 60,
+      "str_max": 400,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 16 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
+        { "item": "plutonium", "count": [ 0, 3 ] },
+        { "item": "lead", "count": [ 12, 18 ] },
+        { "item": "sheet_metal_small", "count": [ 10, 30 ] },
+        { "item": "scrap_copper", "count": [ 12, 37 ] },
+        { "item": "e_scrap", "count": [ 10, 20 ] },
+        { "item": "string_dimension_computer", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_vent_inert",
+    "description": "A metal vent on the floor.",
+    "copy-from": "f_vent_cold_air2_stream",
+    "symbol": "~",
+    "color": "light_gray"
   },
   {
     "type": "furniture",
@@ -986,7 +1051,7 @@
         { "item": "uranium", "count": [ 10, 50 ] },
         { "item": "uran_cell", "charges": [ 10, 150 ] },
         { "item": "plutonium", "count": [ 0, 20 ] },
-        { "item": "lead", "charges": [ 12, 18 ] }
+        { "item": "lead", "count": [ 12, 18 ] }
       ]
     }
   },
@@ -1033,6 +1098,7 @@
     "coverage": 80,
     "required_str": -1,
     "light_emitted": 40,
+    "light_color": [ 255, 0, 255 ],
     "max_volume": "1000 L",
     "flags": [ "CONTAINER", "PLACE_ITEM", "NO_SIGHT", "HIDE_PLACE", "BLOCKSDOOR", "MOUNTABLE", "SMALL_HIDE" ]
   }

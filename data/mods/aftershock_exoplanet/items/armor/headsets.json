@@ -26,7 +26,6 @@
     "use_action": [
       {
         "target": "afs_combat_headset",
-        "menu_text": "activate the infovisor",
         "msg": "You lower the visor and flick the control dial to active.",
         "type": "transform",
         "need_charges": 1,

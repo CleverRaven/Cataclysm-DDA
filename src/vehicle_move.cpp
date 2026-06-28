@@ -54,6 +54,8 @@ static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const fault_id fault_axle_broken( "fault_axle_broken" );
+static const fault_id fault_cracked_rim( "fault_cracked_rim" );
 static const fault_id fault_flat_tire_riding_on_rims( "fault_flat_tire_riding_on_rims" );
 static const fault_id fault_punctured_tires( "fault_punctured_tires" );
 
@@ -1328,6 +1330,61 @@ double vehicle::wheel_damage_chance_vs_item( const item &it, const vehicle_part 
     return chance_to_damage;
 }
 
+static void apply_tire_punctures( vehicle_part *vp_wheel, std::vector<std::string> *messages )
+{
+    if( vp_wheel->has_fault( fault_flat_tire_riding_on_rims ) ) { // Already in worst possible state.
+        return;
+    }
+
+    if( !vp_wheel->has_fault( fault_punctured_tires ) ) {
+        if( vp_wheel->fault_set( fault_punctured_tires ) ) {
+            messages->emplace_back( string_format(
+                                        _( "You hear a loud pop from below, and your vehicle suddenly start to wobble like crazy!" ) ) );
+            return;
+        }
+    } else {
+        // Already punctured, but get hit *again* --> chance to instantly set 100% flat
+        if( vp_wheel->fault_set( fault_flat_tire_riding_on_rims ) ) {
+            messages->emplace_back( string_format(
+                                        _( "With a jolt, hitting something has blown out your tire!" ) ) );
+            return;
+        }
+    }
+}
+
+static void apply_generic_wheel_fault( vehicle_part *vp_wheel, std::vector<std::string> *messages )
+{
+    if( vp_wheel->has_fault( fault_axle_broken ) ) { // Already in worst possible state.
+        return;
+    }
+
+    // 90% chance to just crack rim on 'first' failure
+    // 10% chance to go straight to broken axle on any 'first' failure
+    // Wagon wheels are notorious for this kind of critical failure.
+    if( !vp_wheel->has_fault( fault_cracked_rim ) && x_in_y( 90, 100 ) ) {
+        if( vp_wheel->fault_set( fault_cracked_rim ) ) {
+            messages->emplace_back( string_format(
+                                        _( "You hear a crunch as you run something over!" ) ) );
+            return;
+        }
+    } else {
+        if( vp_wheel->fault_set( fault_axle_broken ) ) {
+            messages->emplace_back( string_format(
+                                        _( "Your vehicle lurches as one of the wheels gives out!" ) ) );
+            return;
+        }
+    }
+}
+
+static void apply_wheel_faults( vehicle_part *vp_wheel, std::vector<std::string> *messages )
+{
+    if( vp_wheel->faults_potential().count( fault_punctured_tires ) ) { // Most wheels
+        apply_tire_punctures( vp_wheel, messages );
+    } else if( vp_wheel->faults_potential().count( fault_cracked_rim ) ) { // Wooden cart wheels
+        apply_generic_wheel_fault( vp_wheel, messages );
+    }
+}
+
 void vehicle::damage_wheel_on_item( vehicle_part *vp_wheel, const item &it,
                                     std::vector<std::string> *messages ) const
 {
@@ -1335,29 +1392,12 @@ void vehicle::damage_wheel_on_item( vehicle_part *vp_wheel, const item &it,
         return;
     }
 
-    if( vp_wheel->has_fault( fault_flat_tire_riding_on_rims ) ) { // Already in worst possible state.
-        return;
-    }
-
     const double chance_to_damage = wheel_damage_chance_vs_item( it, *vp_wheel );
 
     if( chance_to_damage > 0.0 && chance_to_damage >= rng_float( 0.0, 1.0 ) ) {
-        if( !vp_wheel->has_fault( fault_punctured_tires ) ) {
-            if( vp_wheel->fault_set( fault_punctured_tires ) ) {
-                messages->emplace_back( string_format(
-                                            _( "You hear a loud pop from below, and your vehicle suddenly start to wobble like crazy!" ) ) );
-                refresh_pivot( get_map() );
-                return;
-            }
-        } else {
-            // Already punctured, but get hit *again* --> chance to instantly set 100% flat
-            if( vp_wheel->fault_set( fault_flat_tire_riding_on_rims ) ) {
-                messages->emplace_back( string_format(
-                                            _( "With a jolt, hitting something has blown out your tire!" ) ) );
-                refresh_pivot( get_map() );
-                return;
-            }
-        }
+        apply_wheel_faults( vp_wheel, messages );
+        refresh_pivot( get_map() );
+        return;
     }
 }
 
@@ -1682,7 +1722,7 @@ void vehicle::pldrive( map &here, Character &driver, const int trn, const int ac
 
         ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
         if( handling_diff * rng( 1, 10 ) <
-            driver.dex_cur + effective_driver_skill * 2 ) {
+            driver.get_dex() + effective_driver_skill * 2 ) {
             driver.add_msg_if_player( _( "You regain control of the %s." ), name );
             driver.practice( skill_driving, velocity / 5 );
             velocity = static_cast<int>( forward_velocity() );
@@ -2330,6 +2370,70 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
     return traction_wheel_area;
 }
 
+float map::vehicle_wheel_traction( const vehicle &veh, const tripoint_bub_ms &at_origin,
+                                   bool ignore_movement_modifiers )
+{
+    if( veh.is_in_water( /* deep_water = */ true ) ) {
+        return veh.can_float( *this ) ? 1.0f : -1.0f;
+    }
+    if( veh.is_watercraft() && veh.can_float( *this ) ) {
+        return 1.0f;
+    }
+
+    if( veh.wheelcache.empty() ) {
+        return 0.0f;
+    }
+
+    float traction_wheel_area = 0.0f;
+    for( const int wheel_idx : veh.wheelcache ) {
+        const vehicle_part &vp = veh.part( wheel_idx );
+        const vpart_info &vpi = vp.info();
+        const tripoint_bub_ms pp = at_origin + vp.precalc[0];
+        const ter_t &tr = ter( pp ).obj();
+        if( tr.has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ||
+            tr.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
+            continue;
+        }
+
+        int move_mod = move_cost_ter_furn( pp );
+        if( move_mod == 0 ) {
+            return 0.0f;
+        }
+
+        if( ignore_movement_modifiers ) {
+            traction_wheel_area += vp.contact_area();
+            continue;
+        }
+
+        for( const veh_ter_mod &mod : vpi.wheel_info->terrain_modifiers ) {
+            const bool ter_has_flag = tr.has_flag( mod.terrain_flag );
+            if( ter_has_flag && mod.move_override ) {
+                move_mod = mod.move_override;
+                break;
+            } else if( !ter_has_flag && mod.move_penalty ) {
+                move_mod += mod.move_penalty;
+                break;
+            }
+        }
+
+        move_mod = std::max( move_mod, move_mod + vp.move_penalty() );
+
+        if( move_mod == 0 ) {
+            debugmsg( "move_mod resulted in a 0, ignoring wheel" );
+            continue;
+        }
+
+        constexpr float THICK_ICE_TRACTION_FACTOR = 0.3f;
+        if( tr.has_flag( ter_furn_flag::TFLAG_THICK_ICE ) ) {
+            traction_wheel_area += 2.0 * vp.contact_area() / move_mod * THICK_ICE_TRACTION_FACTOR;
+        } else {
+            traction_wheel_area += 2.0 * vp.contact_area() / move_mod;
+        }
+    }
+
+    return traction_wheel_area;
+}
+
 units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                                  const units::angle &direction )
 {
@@ -2365,7 +2469,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
         int move_resist = 1;
         if( psg ) {
             ///\EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt
-            move_resist = psg->str_cur * 150 + 500;
+            move_resist = psg->get_str() * 150 + 500;
             if( veh.part( ps ).info().has_flag( "SEAT_REQUIRES_BALANCE" ) ) {
                 // Much harder to resist being thrown on a skateboard-like vehicle.
                 // Penalty mitigated by Deft and Skater.
@@ -2412,7 +2516,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             ///\EFFECT_DEX reduces chance of losing control of vehicle when shaken
 
             ///\EFFECT_DRIVING reduces chance of losing control of vehicle when shaken
-            if( lose_ctrl_roll > psg->dex_cur * 2 + psg->get_skill_level( skill_driving ) * 3 ) {
+            if( lose_ctrl_roll > psg->get_dex() * 2 + psg->get_skill_level( skill_driving ) * 3 ) {
                 psg->add_msg_player_or_npc( m_warning,
                                             _( "You lose control of the %s." ),
                                             _( "<npcname> loses control of the %s." ), veh.name );

@@ -1,0 +1,57 @@
+[
+  {
+    "id": "GROUP_HOLLOW_TRIBALS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_hollow_tribal_warrior", "weight": 10 },
+      { "monster": "mon_hollow_tribal_warrior", "weight": 2, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_hollow_tribal", "weight": 40 },
+      { "monster": "mon_hollow_tribal", "weight": 8, "cost_multiplier": 2, "pack_size": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "GROUP_HOLLOW_TRIBAL_WORKERS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_hollow_tribal", "weight": 40 },
+      { "monster": "mon_hollow_tribal", "weight": 5, "cost_multiplier": 2, "pack_size": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "GROUP_HOLLOW_TRIBAL_WARPARTY",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_hollow_tribal_warrior", "weight": 20 },
+      { "monster": "mon_hollow_tribal_warrior", "weight": 4, "cost_multiplier": 2, "pack_size": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "GROUP_HOLLOW_TRIBAL_HUNTPARTY",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_hollow_hunter", "weight": 20 },
+      { "monster": "mon_hollow_hunter", "weight": 4, "pack_size": [ 2, 5 ] }
+    ]
+  },
+  {
+    "id": "GROUP_HOLLOW_TRIBAL_OUTRIDERS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_hollow_tribal_warrior", "weight": 20 },
+      { "monster": "mon_hollow_tribal_warrior", "weight": 4, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_hollow_hunter", "weight": 20 },
+      { "monster": "mon_hollow_hunter", "weight": 4, "pack_size": [ 2, 5 ] }
+    ]
+  },
+  {
+    "id": "GROUP_HOLLOW_ZOMBIES",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie", "weight": 800 },
+      { "monster": "mon_zombie", "weight": 40, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_zombie_tough", "weight": 100 },
+      { "monster": "mon_zombie", "weight": 10, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_zombie_rot", "weight": 200 }
+    ]
+  }
+]

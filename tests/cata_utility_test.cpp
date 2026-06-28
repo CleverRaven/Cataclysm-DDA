@@ -18,7 +18,7 @@
 // tests both variants of string_starts_with
 template <std::size_t N>
 // NOLINTNEXTLINE(modernize-avoid-c-arrays)
-bool test_string_starts_with( const std::string &s1, const char( &s2 )[N] )
+static bool test_string_starts_with( const std::string &s1, const char( &s2 )[N] )
 {
     CAPTURE( s1, s2, N );
     bool r1 =  string_starts_with( s1, s2 );
@@ -30,7 +30,7 @@ bool test_string_starts_with( const std::string &s1, const char( &s2 )[N] )
 // tests both variants of string_ends_with
 template <std::size_t N>
 // NOLINTNEXTLINE(modernize-avoid-c-arrays)
-bool test_string_ends_with( const std::string &s1, const char( &s2 )[N] )
+static bool test_string_ends_with( const std::string &s1, const char( &s2 )[N] )
 {
     CAPTURE( s1, s2, N );
     bool r1 =  string_ends_with( s1, s2 );

@@ -27,7 +27,7 @@ static const itype_id itype_test_balanced_sword( "test_balanced_sword" );
 static const itype_id itype_test_clumsy_sword( "test_clumsy_sword" );
 static const itype_id itype_test_normal_sword( "test_normal_sword" );
 
-static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
+static const mtype_id mon_zombie_smoker_no_weakpoints( "mon_zombie_smoker_no_weakpoints" );
 static const mtype_id mon_zombie_soldier_no_weakpoints( "mon_zombie_soldier_no_weakpoints" );
 static const mtype_id mon_zombie_survivor_no_weakpoints( "mon_zombie_survivor_no_weakpoints" );
 static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
@@ -140,7 +140,7 @@ TEST_CASE( "effective_damage_per_second", "[effective][dps]" )
     }
 
     SECTION( "against an agile target" ) {
-        monster smoker( mon_zombie_smoker );
+        monster smoker( mon_zombie_smoker_no_weakpoints );
         REQUIRE( smoker.get_dodge() >= 4 );
 
         CHECK( clumsy_sword.effective_dps( dummy, smoker ) == Approx( 11.0f ).epsilon( 0.15f ) );
@@ -158,8 +158,8 @@ TEST_CASE( "effective_damage_per_second", "[effective][dps]" )
         monster mummy( pseudo_debug_mon );
 
         SECTION( "STR 6, DEX 6" ) {
-            dummy.str_max = 6;
-            dummy.dex_max = 6;
+            dummy.set_str_base( 6 );
+            dummy.set_dex_base( 6 );
 
             CHECK( clumsy_sword.effective_dps( dummy, mummy ) == Approx( 20.0f ).epsilon( 0.15f ) );
             CHECK( normal_sword.effective_dps( dummy, mummy ) == Approx( 26.0f ).epsilon( 0.15f ) );
@@ -167,8 +167,8 @@ TEST_CASE( "effective_damage_per_second", "[effective][dps]" )
         }
 
         SECTION( "STR 8, DEX 10" ) {
-            dummy.str_max = 8;
-            dummy.dex_max = 10;
+            dummy.set_str_base( 8 );
+            dummy.set_dex_base( 10 );
 
             CHECK( clumsy_sword.effective_dps( dummy, mummy ) == Approx( 25.0f ).epsilon( 0.15f ) );
             CHECK( normal_sword.effective_dps( dummy, mummy ) == Approx( 32.0f ).epsilon( 0.15f ) );
@@ -176,8 +176,8 @@ TEST_CASE( "effective_damage_per_second", "[effective][dps]" )
         }
 
         SECTION( "STR 10, DEX 10" ) {
-            dummy.str_max = 10;
-            dummy.dex_max = 10;
+            dummy.set_str_base( 10 );
+            dummy.set_dex_base( 10 );
 
             CHECK( clumsy_sword.effective_dps( dummy, mummy ) == Approx( 27.0f ).epsilon( 0.15f ) );
             CHECK( normal_sword.effective_dps( dummy, mummy ) == Approx( 34.0f ).epsilon( 0.15f ) );
@@ -192,7 +192,7 @@ TEST_CASE( "effective_vs_actual_damage_per_second", "[actual][dps][!mayfail]" )
     clear_character( dummy );
 
     monster soldier( mon_zombie_soldier_no_weakpoints );
-    monster smoker( mon_zombie_smoker );
+    monster smoker( mon_zombie_smoker_no_weakpoints );
     monster survivor( mon_zombie_survivor_no_weakpoints );
 
     item clumsy_sword( itype_test_clumsy_sword );
@@ -224,7 +224,7 @@ TEST_CASE( "accuracy_increases_success", "[accuracy][dps]" )
     clear_character( dummy );
 
     monster soldier( mon_zombie_soldier_no_weakpoints );
-    monster smoker( mon_zombie_smoker );
+    monster smoker( mon_zombie_smoker_no_weakpoints );
     monster survivor( mon_zombie_survivor_no_weakpoints );
 
     item clumsy_sword( itype_test_clumsy_sword );
@@ -247,10 +247,10 @@ TEST_CASE( "accuracy_increases_success", "[accuracy][dps]" )
 static void make_experienced_tester( avatar &test_guy )
 {
     clear_character( test_guy );
-    test_guy.str_max = 10;
-    test_guy.dex_max = 10;
-    test_guy.int_max = 10;
-    test_guy.per_max = 10;
+    test_guy.set_str_base( 10 );
+    test_guy.set_dex_base( 10 );
+    test_guy.set_int_base( 10 );
+    test_guy.set_per_base( 10 );
     test_guy.set_str_bonus( 0 );
     test_guy.set_dex_bonus( 0 );
     test_guy.set_int_bonus( 0 );

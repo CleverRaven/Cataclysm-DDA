@@ -6,7 +6,7 @@
     "name_suffix": "DinoLab survivor",
     "class": "dm_dinolab_survivor",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_Yoshimi_1",
     "faction": "no_faction",
     "mission_offered": "MISSION_DinoLab_Yos_1"
@@ -203,7 +203,7 @@
     "goal": "MGOAL_KILL_MONSTER_SPEC",
     "difficulty": 2,
     "value": 1000,
-    "monster_type": "DINOSAUR",
+    "monster_species": "DINOSAUR",
     "monster_kill_goal": 5,
     "start": {
       "assign_mission_target": { "om_terrain": "dinozoo_1_1", "om_terrain_replace": "land", "reveal_radius": 1, "random": true, "search_range": 220 }

@@ -292,6 +292,8 @@
       { "group": "crossbow_bolts", "prob": 5 },
       { "group": "crossbow_bolts_makeshift", "prob": 7 },
       { "item": "bbgun", "prob": 10, "charges": [ 0, 150 ] },
+      { "item": "varmint_airgun", "prob": 20 },
+      { "group": "ammo_varmint_airgun", "prob": 20 },
       [ "crossbow", 2 ],
       [ "compcrossbow", 2 ],
       [ "mag_survival", 40 ],
@@ -717,44 +719,5 @@
       "battleship",
       "clue"
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "bottle_otc_painkiller_1_20",
-    "subtype": "distribution",
-    "container-item": "bottle_plastic_pill_painkiller",
-    "entries": [
-      { "item": "aspirin", "container-item": "null", "count": [ 1, 20 ] },
-      { "item": "ibuprofen", "container-item": "null", "count": [ 1, 20 ] },
-      { "item": "acetaminophen", "container-item": "null", "count": [ 1, 20 ] }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "protein_powder_bottle_plastic_small_1_9",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "protein_powder", "container-item": "null", "count": [ 1, 9 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "quikclot_bag_plastic_1_6",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "quikclot", "container-item": "null", "count": [ 1, 6 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "bfipowder_bottle_plastic_small_1_4",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "bfipowder", "container-item": "null", "count": [ 1, 4 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "pur_tablets_bottle_plastic_small_1_50",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "pur_tablets", "count": [ 1, 50 ] } ]
   }
 ]

@@ -1736,7 +1736,7 @@
     "name": { "str": "stone sculpture" },
     "description": "A medium-sized stone sculpture.",
     "category": "other",
-    "material": "stone",
+    "material": [ "stone" ],
     "weight": "7884 g",
     "volume": "20813 ml",
     "longest_side": "30 cm",
@@ -1786,7 +1786,7 @@
     "name": { "str": "clay sculpture" },
     "description": "A small clay sculpture.",
     "category": "other",
-    "material": "clay",
+    "material": [ "clay" ],
     "weight": "150 g",
     "volume": "94 ml",
     "longest_side": "30 cm",
@@ -1908,5 +1908,19 @@
     "description": "A handful of dry leaves(?) from an alien plant.  Despite their otherworldly origin, they have very few uses and are thus (almost) only good for burning.",
     "color": "red",
     "symbol": ","
+  },
+  {
+    "type": "ITEM",
+    "id": "waste_electrolyte_slurry",
+    "category": "other",
+    "name": { "str_sp": "Electrolyte Slurry" },
+    "symbol": "o",
+    "color": "cyan",
+    "description": "The leftover remnants of what was inside of a lithium-ion battery.  It has a rainbow sheen, almost like oil resting on water.",
+    "material": [ "acid" ],
+    "volume": "400 ml",
+    "weight": "700 g",
+    "stackable": true,
+    "phase": "liquid"
   }
 ]

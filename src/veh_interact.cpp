@@ -33,6 +33,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "handle_liquid.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "item.h"
 #include "itype.h"
@@ -55,7 +56,6 @@
 #include "ret_val.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "tileray.h"
 #include "translation.h"
 #include "translations.h"
@@ -946,35 +946,6 @@ void veh_interact::move_fuel_cursor( map &here, int delta )
     }
 }
 
-static void sort_uilist_entries_by_line_drawing( std::vector<uilist_entry> &shape_ui_entries )
-{
-    // An ordering of the line drawing symbols that does not result in
-    // connecting when placed adjacent to each other vertically.
-    const static std::map<int, int> symbol_order = {
-        { LINE_XOXO, 0 }, { LINE_OXOX, 1 },
-        { LINE_XOOX, 2 }, { LINE_XXOO, 3 },
-        { LINE_XXXX, 4 }, { LINE_OXXO, 5 },
-        { LINE_OOXX, 6 }
-    };
-
-    std::sort( shape_ui_entries.begin(), shape_ui_entries.end(),
-    []( const uilist_entry & a, const uilist_entry & b ) {
-        auto a_iter = symbol_order.find( a.extratxt.sym );
-        auto b_iter = symbol_order.find( b.extratxt.sym );
-        if( a_iter != symbol_order.end() ) {
-            if( b_iter != symbol_order.end() ) {
-                return a_iter->second < b_iter->second;
-            } else {
-                return true;
-            }
-        } else if( b_iter != symbol_order.end() ) {
-            return false;
-        } else {
-            return a.extratxt.sym < b.extratxt.sym;
-        }
-    } );
-}
-
 void veh_interact::do_install( map &here )
 {
     task_reason reason = cant_do( here, VEHICLE_INSTALL );
@@ -1035,12 +1006,12 @@ void veh_interact::do_install( map &here )
         const std::string action = main_context.handle_input();
         msg.reset();
         if( action == "FILTER" ) {
-            string_input_popup()
-            .title( _( "Search for part" ) )
-            .width( 50 )
-            .description( _( "Filter" ) )
-            .max_length( 100 )
-            .edit( filter );
+            string_input_popup_imgui popup( 34 );
+            popup.set_text( _( "Search for part" ) );
+            popup.set_description( _( "Filter" ) );
+            popup.set_max_input_length( 100 );
+
+            filter = popup.query();
             tab = tab_filters.size() - 1; // Move to the user filter tab.
             pos = 0;
         } else if( action == "REPAIR" ) {
@@ -1476,14 +1447,14 @@ void veh_interact::calc_overview( map &here )
                     }
                     const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
                     int offset = 1;
-                    std::string fmtstring = "%s %s  %5.1fL";
+                    std::string fmtstring = "%s %s  %s";
                     if( pt.is_leaking() ) {
-                        fmtstring = str_cat( "%s %s ", leak_marker, "%5.1fL", leak_marker );
+                        fmtstring = str_cat( "%s %s ", leak_marker, "%s", leak_marker );
                         offset = 0;
                     }
                     right_print( w, y, offset, pt_ammo_cur->color,
                                  string_format( fmtstring, specials, pt_ammo_cur->nname( 1 ),
-                                                round_up( units::to_liter( it.volume() ), 1 ) ) );
+                                                pt_ammo_cur->item_measure_prefix( pt.ammo_remaining() ) ) );
                 } else {
                     if( pt.is_leaking() ) {
                         std::string outputstr = str_cat( leak_marker, "      ", leak_marker );
@@ -1560,9 +1531,49 @@ void veh_interact::calc_overview( map &here )
                                             details_ammo );
             }
             if( vpr.part().is_turret() ) {
-                overview_opts.emplace_back( "5_TURRET", &vpr.part(), selectable,
-                                            selectable ? next_hotkey( hotkey ) : input_event(),
-                                            details_ammo );
+                if( vpr.part().get_base().uses_firing_requirements() ) {
+                    auto multimag_details = [veh = this->veh]( const vehicle_part & pt,
+                    const catacurses::window & w, int y ) {
+                        const turret_data td = veh->turret_query( const_cast<vehicle_part &>( pt ) );
+                        const std::vector<multimag_display_pocket> dps = td.multimag_display_state();
+                        int row = y + 1;
+                        for( const multimag_display_pocket &dp : dps ) {
+                            const std::string &label = dp.pocket_id;
+                            std::string ammo_text;
+                            nc_color ammo_clr = c_light_gray;
+                            if( !dp.ammo_itype.is_null() ) {
+                                const itype *ad = item::find_type( dp.ammo_itype );
+                                ammo_text = ad ? ad->nname( std::max( dp.effective_qty, 1 ) ) : dp.pocket_id;
+                                ammo_clr = ad ? ad->color : c_light_gray;
+                            } else {
+                                ammo_text = "-";
+                            }
+                            const nc_color row_clr = ( dp.effective_qty < dp.per_use_qty )
+                                                     ? c_red : c_light_gray;
+                            const std::string source_tag = dp.vehicle_bound ?
+                                                           colorize( "[v] ", c_cyan ) : "    ";
+                            trim_and_print( w, point( 8, row ), getmaxx( w ) - 14, row_clr, "%s",
+                                            label );
+                            right_print( w, row, 1, ammo_clr,
+                                         string_format( "%s%s   %5i", source_tag,
+                                                        colorize( ammo_text, ammo_clr ),
+                                                        dp.effective_qty ) );
+                            row++;
+                        }
+                    };
+                    auto multimag_extra_rows = [veh = this->veh]( const vehicle_part & pt ) {
+                        const turret_data td = veh->turret_query( const_cast<vehicle_part &>( pt ) );
+                        return static_cast<int>( td.multimag_display_state().size() );
+                    };
+                    overview_opts.emplace_back( "5_TURRET", &vpr.part(), selectable,
+                                                selectable ? next_hotkey( hotkey ) : input_event(),
+                                                multimag_details );
+                    overview_opts.back().extra_rows = multimag_extra_rows;
+                } else {
+                    overview_opts.emplace_back( "5_TURRET", &vpr.part(), selectable,
+                                                selectable ? next_hotkey( hotkey ) : input_event(),
+                                                details_ammo );
+                }
             }
         }
 
@@ -1632,7 +1643,9 @@ void veh_interact::display_overview( const map &here )
 
         // print extra columns (if any)
         overview_opts[idx].details( pt, w_list, y );
-        y++;
+        const int rows_used = 1 + ( overview_opts[idx].extra_rows
+                                    ? overview_opts[idx].extra_rows( pt ) : 0 );
+        y += rows_used;
         if( y < ( getmaxy( w_list ) - 1 ) ) {
             overview_limit = overview_offset;
         } else {
@@ -1980,44 +1993,6 @@ bool veh_interact::do_unload( map &here )
     return true;
 }
 
-void veh_interact::do_change_shape_menu( vehicle_part &vp )
-{
-    const vpart_info &vpi = vp.info();
-    uilist smenu;
-    smenu.text = _( "Choose cosmetic variant:" );
-    int ret_code = 0;
-    int default_selection = 0;
-    std::vector<std::string> variants;
-    for( const auto& [variant_id, vv] : vpi.variants ) {
-        if( variant_id == vp.variant ) {
-            default_selection = ret_code;
-        }
-        uilist_entry entry( vv.get_label() );
-        entry.txt = entry.txt.empty() ? _( "Default" ) : entry.txt;
-        entry.retval = ret_code++;
-        entry.extratxt.left = 1;
-        entry.extratxt.sym = vv.get_symbol_curses( 0_degrees, false );
-        entry.extratxt.color = vpi.color;
-        variants.emplace_back( variant_id );
-        smenu.entries.emplace_back( entry );
-    }
-    sort_uilist_entries_by_line_drawing( smenu.entries );
-
-    // get default selection after sorting
-    for( std::size_t i = 0; i < smenu.entries.size(); ++i ) {
-        if( smenu.entries[i].retval == default_selection ) {
-            default_selection = i;
-            break;
-        }
-    }
-
-    smenu.selected = default_selection;
-    smenu.query();
-    if( smenu.ret >= 0 ) {
-        vp.variant = variants[smenu.ret];
-    }
-}
-
 void veh_interact::do_assign_crew( map &here )
 {
     if( cant_do( here, VEHICLE_ASSIGN_CREW ) != task_reason::CAN_DO ) {
@@ -2058,11 +2033,8 @@ void veh_interact::do_assign_crew( map &here )
 
 void veh_interact::do_rename()
 {
-    std::string name = string_input_popup()
-                       .title( _( "Enter new vehicle name:" ) )
-                       .width( 60 )
-                       .text( veh->name )
-                       .query_string();
+    string_input_popup_imgui popup( 34, veh->name, _( "Enter new vechicle name:" ) );
+    std::string name = popup.query();
     if( !name.empty() ) {
         veh->name = name;
         if( veh->tracking_on ) {
@@ -2081,13 +2053,10 @@ void veh_interact::do_relabel( const map &here )
     }
 
     const vpart_position vp( *veh, cpart );
-    string_input_popup pop;
-    std::string text = pop
-                       .title( _( "New label:" ) )
-                       .width( 20 )
-                       .text( vp.get_label().value_or( "" ) )
-                       .query_string();
-    if( pop.confirmed() ) {
+    string_input_popup_imgui popup( 34, vp.get_label().value_or( "" ),
+                                    _( "New label:" ) );
+    std::string text = popup.query();
+    if( !popup.cancelled() ) {
         vp.set_label( text );
     }
 }
@@ -2967,7 +2936,7 @@ void veh_interact::count_durability()
         total_durability_color = c_light_green;
 
     } else if( pct < 33 ) {
-        total_durability_text = _( "dented" );
+        total_durability_text = pgettext( "adjective", "dented" );
         total_durability_color = c_yellow;
 
     } else if( pct < 66 ) {

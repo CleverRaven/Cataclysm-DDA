@@ -18,6 +18,7 @@
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "point.h"
 #include "test_data.h"
 #include "test_statistics.h"
@@ -176,7 +177,8 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
 
     const tripoint_bub_ms map_starting_point( 60, 60, 0 );
     map &here = get_map();
-    vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 0, 0 );
+    vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 0,
+                                         veh_spawn_status::UNDAMAGED );
 
     REQUIRE( veh_ptr != nullptr );
     if( veh_ptr == nullptr ) {

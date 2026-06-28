@@ -738,6 +738,12 @@ class const_talker
         virtual bool is_in_vehicle() const {
             return false;
         }
+        virtual int get_price() const {
+            return 0;
+        }
+        virtual int get_price_postapoc() const {
+            return 0;
+        }
 };
 
 class talker: virtual public const_talker
@@ -892,8 +898,8 @@ class talker: virtual public const_talker
         virtual void set_all_parts_hp_cur( int ) {}
         virtual void set_degradation( int ) {}
         virtual void die( map * ) {}
-        virtual void set_fault( const fault_id &, bool, bool ) {};
-        virtual void set_random_fault_of_type( const std::string &, bool, bool ) {};
+        virtual void set_fault( const fault_id &, bool, const Character * ) {};
+        virtual void set_random_fault_of_type( const std::string &, bool, const Character * ) {};
         virtual void set_mana_cur( int ) {}
         virtual void mod_daily_health( int, int ) {}
         virtual void mod_livestyle( int ) {}

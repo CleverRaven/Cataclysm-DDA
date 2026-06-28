@@ -111,8 +111,8 @@ void mission_type::reset()
 }
 
 template <typename Fun>
-void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
-                      const std::map<std::string, Fun> &cont )
+static void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
+                             const std::map<std::string, Fun> &cont )
 {
     if( jo.has_string( id ) ) {
         const auto iter = cont.find( jo.get_string( id ) );

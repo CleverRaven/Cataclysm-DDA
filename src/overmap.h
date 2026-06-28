@@ -58,6 +58,7 @@ class monster;
 class npc;
 class overmap_connection;
 struct horde_entity;
+struct pp_resolved_generator;
 struct map_data_summary;
 struct region_settings;
 template <typename T> struct enum_traits;
@@ -393,6 +394,8 @@ class highway_intersection_grid : public overmap_feature_grid
         // cannot be placed in constructor because options are loaded after overmapbuffer
         void set_options();
         void generate_offset( overmap_feature_grid_node &node ) override;
+    private:
+        std::unordered_map<point_abs_om, bool> om_has_lake_cache;
 };
 
 /*
@@ -493,6 +496,9 @@ class overmap
         // ter_unsafe is UB when out of bounds.
         const oter_id &ter_unsafe( const tripoint_om_omt &p ) const;
         std::optional<mapgen_arguments> *mapgen_args( const tripoint_om_omt & );
+        // Persisted PP decisions for this OMT, or nullptr if this OMT is not part of
+        // a special with any overmap_special-scoped sub-generators.
+        std::vector<pp_resolved_generator> *pp_decisions( const tripoint_om_omt & );
         std::string *join_used_at( const om_pos_dir & );
         std::vector<oter_id> predecessors( const tripoint_om_omt & );
         void set_seen( const tripoint_om_omt &p, om_vision_level val, bool force = false );
@@ -512,7 +518,7 @@ class overmap
         bool has_extra( const tripoint_om_omt &p ) const;
         const map_extra_id &extra( const tripoint_om_omt &p ) const;
         void add_extra( const tripoint_om_omt &p, const map_extra_id &id );
-        void add_extra_note( const tripoint_om_omt &p );
+        void add_extra_note( const tripoint_om_omt &p, bool force_add = false );
         void delete_extra( const tripoint_om_omt &p );
 
         /**
@@ -648,6 +654,7 @@ class overmap
         point_om_omt get_fallback_road_connection_point() const;
     private:
         friend class overmapbuffer;
+        friend class overmap_test_helper;
 
         std::vector<shared_ptr_fast<npc>> npcs;
 
@@ -659,7 +666,10 @@ class overmap
         std::optional<point_om_omt> fallback_road_connection_point; // NOLINT(cata-serialize)
 
         // Whether this overmap has a highway connection point at this direction (N/E/S/W)
-        std::array<tripoint_om_omt, 4> highway_connections;
+        std::array<tripoint_om_omt, 4> highway_connections = {
+            tripoint_om_omt::invalid, tripoint_om_omt::invalid,
+            tripoint_om_omt::invalid, tripoint_om_omt::invalid
+        };
 
         std::array<map_layer, OVERMAP_LAYERS> layer;
         std::unordered_map<tripoint_abs_omt, scent_trace> scents;
@@ -683,6 +693,11 @@ class overmap
         std::unordered_map<tripoint_om_omt, std::optional<mapgen_arguments> *> mapgen_args_index;
         // Records mapgen parameters required at the omt level, fixed at the same values vertically
         std::unordered_map<point_abs_omt, mapgen_arguments> omt_stack_arguments_map;
+
+        // Persisted post-process decisions at overmap_special scope.
+        // Colony provides stable pointers so all OMTs of a special share one allocation.
+        cata::colony<std::vector<pp_resolved_generator>> pp_decision_storage;
+        std::unordered_map<tripoint_om_omt, std::vector<pp_resolved_generator> *> pp_decisions_index;
 
         // Records the joins that were chosen during placement of a mutable
         // special, so that it can be queried later by mapgen

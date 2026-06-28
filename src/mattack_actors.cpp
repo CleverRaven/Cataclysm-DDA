@@ -1,6 +1,7 @@
 #include "mattack_actors.h"
 
 #include <algorithm>
+#include <cstdlib>
 #include <functional>
 #include <iterator>
 #include <limits>
@@ -38,6 +39,7 @@
 #include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "mapdata.h"
+#include "melee.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -59,6 +61,7 @@
 #include "vehicle.h"
 #include "viewer.h"
 #include "vpart_position.h"
+#include "weighted_list.h"
 
 static const damage_type_id damage_bash( "bash" );
 
@@ -384,6 +387,14 @@ bool mon_spellcasting_actor::call( monster &mon ) const
     spell spell_instance = spell_data.get_spell( mon );
     spell_instance.set_message( spell_data.trigger_message );
 
+    if( !spell_data.self && !allow_no_target ) {
+        Creature *tgt_creature = get_creature_tracker().creature_at( target );
+        if( tgt_creature && mon.is_underwater() && !tgt_creature->is_underwater() &&
+            get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_SWIM_UNDER, mon.pos_bub() ) ) {
+            return false;
+        }
+    }
+
     // Bail out if the target is out of range.
     if( !spell_data.self && rl_dist( mon.pos_bub(), target ) > spell_instance.range( mon ) ) {
         return false;
@@ -477,13 +488,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
         grab_data.load_grab( obj.get_object( "grab_data" ) );
     }
 
-    if( obj.has_array( "body_parts" ) ) {
-        for( JsonArray sub : obj.get_array( "body_parts" ) ) {
-            const bodypart_str_id bp( sub.get_string( 0 ) );
-            const float prob = sub.get_float( 1 );
-            body_parts.add_or_replace( bp, prob );
-        }
-    }
+    optional( obj, was_loaded, "body_part_types", body_parts_types );
 
     if( obj.has_array( "effects" ) ) {
         for( JsonObject eff : obj.get_array( "effects" ) ) {
@@ -530,14 +535,41 @@ Creature *melee_actor::find_target( monster &z ) const
         return nullptr;
     }
 
+    if( range == 1 && !z.is_adjacent( target, /*bool allow_z_levels =*/ false ) ) {
+        return nullptr;
+    }
+
     if( range > 1 ) {
-        if( !z.sees( here, *target ) ||
-            !here.clear_path( z.pos_bub( here ), target->pos_bub( here ), range, 1, 200 ) ) {
+        if( !z.sees( here, *target ) ) {
             return nullptr;
         }
 
-    } else if( !z.is_adjacent( target, false ) ) {
-        return nullptr;
+        const int horiz_dist = rl_dist( z.pos_bub().xy(), target->pos_bub().xy() );
+
+        // Little patch until trig_dist updates. Hopefully you aren't reading this in 2030+ :)
+        const int vert_distance_scale = 4;
+        const int vert_dist = std::abs( z.pos_bub().z() - target->pos_bub().z() ) * vert_distance_scale;
+
+        if( horiz_dist + vert_dist > range ) {
+            return nullptr;
+        }
+
+        std::vector<tripoint_bub_ms> path = line_to( z.pos_bub(), target->pos_bub(), 0, 0 );
+        path.pop_back(); // Last point is our target
+
+        // Scaled-down reimplementation of Character::reach_attack() with character-specific values removed.
+        for( const tripoint_bub_ms &path_point : path ) {
+            Creature *collateral_damage = get_creature_tracker().creature_at( path_point );
+            if( collateral_damage ) {
+                return nullptr; // Something else in the way, can't attack
+            }
+            // All ranged melee specials are considered to be "Spear" type attacks or otherwise capable of passing through thin obstacles
+            if( here.impassable( path_point ) &&
+                !here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, path_point ) ) {
+                return nullptr; // Wall or something
+            }
+        }
+        return target; // Nothing in the way, is in range, we can hit it!
     }
 
     return target;
@@ -771,12 +803,57 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
     return 1;
 }
 
+std::vector<bodypart_id> melee_actor::pick_bodyparts_hit( const Creature *target,
+        const int hitspread ) const
+{
+    std::vector<bodypart_id> bodyparts_hit;
+    const int attack_amt = rng( attack_amount.first, attack_amount.second );
+
+    // if damage is spread, just grab all possible bodyparts
+    if( spread_damage ) {
+        bodyparts_hit = target->get_all_body_parts();
+        return bodyparts_hit;
+    }
+
+    // target specific bodyparts, by picking from a list of all possible bpts
+    if( !body_parts_types.empty() ) {
+        weighted_int_list<bodypart_id> potential_bps;
+        for( const auto &[bp, weight] : body_parts_types ) {
+            for( const bodypart_id &bp_of_type : target->get_all_body_parts_of_type( bp ) ) {
+                potential_bps.add( bp_of_type, weight );
+            }
+        }
+
+        if( !potential_bps.empty() ) {
+            for( int i = 0; i < attack_amt; i++ ) {
+                const bodypart_id bp = *potential_bps.pick();
+                bodyparts_hit.emplace_back( bp );
+            }
+            return bodyparts_hit;
+        }
+    }
+
+    // if no early return, use default selection
+    for( int i = 0; i < attack_amt; i++ ) {
+        const bodypart_id &bp =
+            target->select_body_part( hitsize_min, hitsize_max, attack_upper, hitspread );
+        bodyparts_hit.emplace_back( bp );
+    }
+
+    return bodyparts_hit;
+}
+
 bool melee_actor::call( monster &z ) const
 {
     map &here = get_map();
 
     Creature *target = find_target( z );
     if( target == nullptr ) {
+        return false;
+    }
+
+    if( z.is_underwater() && !target->is_underwater() &&
+        here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SWIM_UNDER, z.pos_bub() ) ) {
         return false;
     }
 
@@ -805,24 +882,8 @@ bool melee_actor::call( monster &z ) const
 
     // Dodge check
     const int acc = accuracy >= 0 ? accuracy : z.type->melee_skill;
-    int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
-
-    // Pick bodyparts hit
-    std::vector<bodypart_id> bodyparts_hit;
-    const int attack_amt = rng( attack_amount.first, attack_amount.second );
-    if( spread_damage ) {
-        bodyparts_hit = target->get_all_body_parts();
-    } else if( !body_parts.empty() ) {
-        for( int i = 0; i < attack_amt; i++ ) {
-            bodyparts_hit.emplace_back( *body_parts.pick() );
-        }
-    } else {
-        for( int i = 0; i < attack_amt; i++ ) {
-            const bodypart_id &bp =
-                target->select_body_part( hitsize_min, hitsize_max, attack_upper, hitspread );
-            bodyparts_hit.emplace_back( bp );
-        }
-    }
+    int hitspread = target->deal_melee_attack( &z, melee::melee_hit_range( acc ) );
+    std::vector<bodypart_id> bodyparts_hit = pick_bodyparts_hit( target, hitspread );
 
     if( bodyparts_hit.empty() ) {
         debugmsg( "Monster %s tries to attack, but fails to pick bodypart/bodyparts", z.type->id.c_str() );
@@ -1255,7 +1316,7 @@ int gun_actor::get_max_range()  const
 {
     int max_range = 0;
     for( const auto &e : ranges ) {
-        max_range = std::max( std::max( max_range, e.first.first ), e.first.second );
+        max_range = std::max( { max_range, e.first.first, e.first.second } );
     }
 
     add_msg_debug( debugmode::DF_MATTACK, "Max range %d", max_range );
@@ -1309,6 +1370,11 @@ bool gun_actor::call( monster &z ) const
             }
             aim_at = random_entry( moving_veh_parts, tripoint_bub_ms() );
         }
+    }
+
+    if( target && z.is_underwater() && !target->is_underwater() &&
+        here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SWIM_UNDER, z.pos_bub() ) ) {
+        return false;
     }
 
     const int dist = rl_dist( z.pos_bub(), aim_at );
@@ -1437,7 +1503,7 @@ bool gun_actor::shoot( monster &z, const tripoint_bub_ms &target, const gun_mode
 
     add_msg_debug( debugmode::DF_MATTACK,
                    "Temp NPC:\nSTR %d, DEX %d, INT %d, PER %d\nGun skill (%s) %d",
-                   tmp.str_cur, tmp.dex_cur, tmp.int_cur, tmp.per_cur,
+                   tmp.get_str(), tmp.get_dex(), tmp.get_int(), tmp.get_per(),
                    gun.gun_skill().c_str(), static_cast<int>( tmp.get_skill_level( throwing ? skill_throw :
                            skill_gun ) ) );
 
@@ -1459,6 +1525,11 @@ void polymorph_special::load_internal( const JsonObject &jo, const std::string &
     optional( jo, was_loaded, "poly_keep_speed", keep_speed, true );
     optional( jo, was_loaded, "poly_keep_hp", keep_hp, true );
     optional( jo, was_loaded, "poly_keep_anger", keep_anger, true );
+
+    if( jo.has_member( "condition" ) ) {
+        read_condition( jo, "condition", condition, false );
+        has_condition = true;
+    }
 }
 
 bool polymorph_special::call( monster &z ) const

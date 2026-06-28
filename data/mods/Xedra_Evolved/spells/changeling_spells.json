@@ -1,5 +1,24 @@
 [
   {
+    "id": "changeling_gain_new_traits",
+    "type": "SPELL",
+    "name": "Unlock Your Fey Heritage",
+    "description": "Using the power of human dreams, unlock the secrets of your fey heritage.  It requires a large amount of dreamdross and time to perform this research.",
+    "message": "",
+    "flags": [ "NO_FAIL", "VERBAL", "SOMATIC" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 4,
+    "skill": "gramarye",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_USE_DREAMDROSS_TO_UNLOCK_NEW_TRAITS",
+    "magic_type": "xe_fey_magick",
+    "shape": "blast",
+    "base_energy_cost": 1000,
+    "base_casting_time": 50
+  },
+  {
     "id": "changeling_research_new_seasonal_spells",
     "type": "SPELL",
     "name": "Develop New Glamours",
@@ -9,7 +28,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 6,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
     "effect": "effect_on_condition",
     "effect_str": "EOC_CHANGELING_USE_DREAMDROSS_TO_RESEARCH_NEW_SPELLS",
@@ -28,14 +47,47 @@
     "valid_targets": [ "self" ],
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 9,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
     "effect": "effect_on_condition",
     "effect_str": "EOC_CHANGELING_TURN_DREAMDROSS_INTO_DREAMSPARKS",
     "magic_type": "xe_fey_magick",
     "shape": "blast",
     "base_energy_cost": 0,
-    "base_casting_time": 50
+    "base_casting_time": 90000
+  },
+  {
+    "id": "changeling_gain_dreamdross_from_dreams",
+    "type": "SPELL",
+    "name": "Banquet of Dreams",
+    "description": "Draw on the dreams of a sleeping mortal, condensing them into dreamdross.  When so harnessed, the target requires a period of time after to recover before their dreams are once again suitable for harvesting.  A mortal whose dreams are harvested will also be depressed for a time afterwards.",
+    "message": "",
+    "flags": [ "NO_FAIL", "VERBAL", "SOMATIC", "SILENT" ],
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "target_condition": {
+      "and": [
+        { "npc_has_effect": "sleep" },
+        "npc_is_character",
+        {
+          "not": {
+            "npc_has_any_trait": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE", "VAMPIRE", "LILIN_TRAITS", "CHANGELING_MAGIC" ]
+          }
+        }
+      ]
+    },
+    "target_condition_fail_message": "You must target a sleeping mortal with this glamour.",
+    "difficulty": 4,
+    "skill": "gramarye",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS",
+    "magic_type": "xe_fey_magick",
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "base_energy_cost": 800,
+    "base_casting_time": 90000
   },
   {
     "id": "changeling_disguise_as_nature_spell",
@@ -47,16 +99,16 @@
     "valid_targets": [ "self" ],
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 2,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
     "effect": "effect_on_condition",
     "effect_str": "EOC_CHANGELING_DISGUISE_AS_NATURE",
     "shape": "blast",
-    "min_duration": { "math": [ "(changeling_common_traits() * 2250) + (u_skill('deduction') * 23400) + 35100" ] },
-    "max_duration": { "math": [ "(changeling_common_traits() * 5750) + (u_skill('deduction') * 56300) + 78900" ] },
+    "min_duration": { "math": [ "(changeling_common_traits() * 2250) + (u_skill('gramarye') * 23400) + 35100" ] },
+    "max_duration": { "math": [ "(changeling_common_traits() * 5750) + (u_skill('gramarye') * 56300) + 78900" ] },
     "magic_type": "xe_fey_magick",
-    "base_energy_cost": { "math": [ "max(( 150 - (changeling_common_traits() * 2) - (u_skill('deduction') * 3)), 50)" ] },
-    "base_casting_time": { "math": [ "max(( 100 - changeling_common_traits() - (u_skill('deduction') * 3)), 30)" ] }
+    "base_energy_cost": { "math": [ "max(( 150 - (changeling_common_traits() * 2) - (u_skill('gramarye') * 3)), 50)" ] },
+    "base_casting_time": { "math": [ "max(( 100 - changeling_common_traits() - (u_skill('gramarye') * 3)), 30)" ] }
   },
   {
     "id": "changeling_invisibility_spell",
@@ -68,16 +120,16 @@
     "valid_targets": [ "self" ],
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 6,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
     "effect": "attack",
     "effect_str": "effect_changeling_invisibility",
     "shape": "blast",
-    "min_duration": { "math": [ "(changeling_common_traits() * 50) + (u_skill('deduction') * 500) + 2600" ] },
-    "max_duration": { "math": [ "(changeling_common_traits() * 163) + (u_skill('deduction') * 1200) + 13900" ] },
+    "min_duration": { "math": [ "(changeling_common_traits() * 50) + (u_skill('gramarye') * 500) + 2600" ] },
+    "max_duration": { "math": [ "(changeling_common_traits() * 163) + (u_skill('gramarye') * 1200) + 13900" ] },
     "magic_type": "xe_fey_magick",
-    "base_energy_cost": { "math": [ "max(( 750 - (changeling_common_traits() * 5) - (u_skill('deduction') * 20)), 350)" ] },
-    "base_casting_time": { "math": [ "max(( 250 - (changeling_common_traits() * 3) - (u_skill('deduction') * 8)), 50)" ] }
+    "base_energy_cost": { "math": [ "max(( 750 - (changeling_common_traits() * 5) - (u_skill('gramarye') * 20)), 350)" ] },
+    "base_casting_time": { "math": [ "max(( 250 - (changeling_common_traits() * 3) - (u_skill('gramarye') * 8)), 50)" ] }
   },
   {
     "id": "changeling_summon_will_o_the_wisps_spell",
@@ -89,22 +141,45 @@
     "valid_targets": [ "ground", "self", "ally", "hostile" ],
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 3,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
     "effect": "summon",
     "effect_str": "mon_changeling_wisp",
     "shape": "blast",
     "min_damage": 2,
     "max_damage": 4,
-    "min_duration": { "math": [ "(changeling_common_traits() * 190) + (u_skill('deduction') * 3980) + 16500" ] },
-    "max_duration": { "math": [ "(changeling_common_traits() * 608) + (u_skill('deduction') * 9750) + 39800" ] },
+    "min_duration": { "math": [ "(changeling_common_traits() * 190) + (u_skill('gramarye') * 3980) + 16500" ] },
+    "max_duration": { "math": [ "(changeling_common_traits() * 608) + (u_skill('gramarye') * 9750) + 39800" ] },
     "min_range": 25,
     "max_range": 25,
     "min_aoe": 3,
     "max_aoe": 3,
     "magic_type": "xe_fey_magick",
-    "base_energy_cost": { "math": [ "max(( 300 - (changeling_common_traits() * 3) - (u_skill('deduction') * 10)), 100)" ] },
-    "base_casting_time": { "math": [ "max(( 100 - changeling_common_traits() - (u_skill('deduction') * 3)), 50)" ] }
+    "base_energy_cost": { "math": [ "max(( 300 - (changeling_common_traits() * 3) - (u_skill('gramarye') * 10)), 100)" ] },
+    "base_casting_time": { "math": [ "max(( 100 - changeling_common_traits() - (u_skill('gramarye') * 3)), 50)" ] }
+  },
+  {
+    "id": "changeling_stop_nether_conditions_spell",
+    "type": "SPELL",
+    "name": "Dancing in the Endless Dark",
+    "description": "This glamour will protect you from a variety of deleterious otherworldly afflictions, such as the gaze of a flaming eye or the side effects of sudden teleportation.  It may also be applied to allies, but it must be applied before exposure",
+    "message": "",
+    "flags": [ "NO_FAIL", "SOMATIC", "VERBAL", "RANDOM_DURATION" ],
+    "valid_targets": [ "self", "ally" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 7,
+    "skill": "gramarye",
+    "max_level": 1,
+    "effect": "attack",
+    "effect_str": "effect_changeling_stop_nether_conditions",
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": { "math": [ "(changeling_common_traits() * 5095) + (u_skill('gramarye') * 12185) + 18952" ] },
+    "max_duration": { "math": [ "(changeling_common_traits() * 13091) + (u_skill('gramarye') * 29051) + 42915" ] },
+    "magic_type": "xe_fey_magick",
+    "base_energy_cost": { "math": [ "max(( 550 - (changeling_common_traits() * 4) - (u_skill('gramarye') * 9)), 250)" ] },
+    "base_casting_time": { "math": [ "max(( 1000 - (changeling_common_traits() * 7) - (u_skill('gramarye') * 13)), 500)" ] }
   },
   {
     "id": "changeling_noble_cure_bad_conditions_spell",
@@ -116,7 +191,7 @@
     "valid_targets": [ "self", "ally" ],
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 5,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
     "effect": "effect_on_condition",
     "effect_str": "EOC_NOBLE_CURE_BAD_CONDITIONS",
@@ -125,10 +200,10 @@
     "max_range": 1,
     "magic_type": "xe_fey_magick",
     "base_energy_cost": {
-      "math": [ "max(( 600 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 5) - (u_skill('deduction') * 35)), 200)" ]
+      "math": [ "max(( 600 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 5) - (u_skill('gramarye') * 35)), 200)" ]
     },
     "base_casting_time": {
-      "math": [ "max(( 250 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2) - (u_skill('deduction') * 5)), 150)" ]
+      "math": [ "max(( 250 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2) - (u_skill('gramarye') * 5)), 150)" ]
     }
   },
   {
@@ -141,18 +216,18 @@
     "valid_targets": [ "self" ],
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 4,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
     "effect": "effect_on_condition",
     "effect_str": "EOC_CHANGELING_NOBLE_BURNING_WEAPON",
     "shape": "blast",
-    "min_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 240) + (u_skill('deduction') * 2600) + 27800" ] },
-    "max_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 880) + (u_skill('deduction') * 17500) + 91500" ] },
+    "min_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 240) + (u_skill('gramarye') * 2600) + 27800" ] },
+    "max_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 880) + (u_skill('gramarye') * 17500) + 91500" ] },
     "magic_type": "xe_fey_magick",
     "base_energy_cost": {
-      "math": [ "max(( 400 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 3) - (u_skill('deduction') * 20)), 200)" ]
+      "math": [ "max(( 400 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 3) - (u_skill('gramarye') * 20)), 200)" ]
     },
-    "base_casting_time": { "math": [ "max(( 250 - u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') - (u_skill('deduction') * 5)), 150)" ] }
+    "base_casting_time": { "math": [ "max(( 250 - u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') - (u_skill('gramarye') * 5)), 150)" ] }
   },
   {
     "id": "changeling_noble_burning_weapon_fire_damage",
@@ -194,21 +269,21 @@
     "valid_targets": [ "self", "ally" ],
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 5,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
     "effect": "effect_on_condition",
     "effect_str": "EOC_CHANGELING_NOBLE_MOVEMENT_BUFFS",
     "shape": "blast",
     "min_range": 1,
     "max_range": 1,
-    "min_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 550) + (u_skill('deduction') * 3900) + 22500" ] },
-    "max_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 1230) + (u_skill('deduction') * 8900) + 69100" ] },
+    "min_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 550) + (u_skill('gramarye') * 3900) + 22500" ] },
+    "max_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 1230) + (u_skill('gramarye') * 8900) + 69100" ] },
     "magic_type": "xe_fey_magick",
     "base_energy_cost": {
-      "math": [ "max(( 300 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2) - (u_skill('deduction') * 25)), 100)" ]
+      "math": [ "max(( 300 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2) - (u_skill('gramarye') * 25)), 100)" ]
     },
     "base_casting_time": {
-      "math": [ "max(( 200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2) - (u_skill('deduction') * 10)), 50)" ]
+      "math": [ "max(( 200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2) - (u_skill('gramarye') * 10)), 50)" ]
     }
   },
   {
@@ -221,25 +296,25 @@
     "valid_targets": [ "self", "ally", "ground", "hostile" ],
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 8,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
     "effect": "summon",
     "effect_str": "GROUP_HOSTS_OF_SAMHAIN",
     "shape": "blast",
-    "min_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.04) + (u_skill('deduction') * 0.1) + 1" ] },
-    "max_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.12) + (u_skill('deduction') * 0.25) + 2" ] },
+    "min_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.04) + (u_skill('gramarye') * 0.1) + 1" ] },
+    "max_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.12) + (u_skill('gramarye') * 0.25) + 2" ] },
     "min_range": 20,
     "max_range": 20,
     "min_aoe": 3,
     "max_aoe": 3,
-    "min_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 340) + (u_skill('deduction') * 2700) + 14200" ] },
-    "max_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 620) + (u_skill('deduction') * 11300) + 52300" ] },
+    "min_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 340) + (u_skill('gramarye') * 2700) + 14200" ] },
+    "max_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 620) + (u_skill('gramarye') * 11300) + 52300" ] },
     "magic_type": "xe_fey_magick",
     "base_energy_cost": {
-      "math": [ "max(( 1200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 15) - (u_skill('deduction') * 40)), 550)" ]
+      "math": [ "max(( 1200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 15) - (u_skill('gramarye') * 40)), 550)" ]
     },
     "base_casting_time": {
-      "math": [ "max(( 400 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 8) - (u_skill('deduction') * 15)), 150)" ]
+      "math": [ "max(( 400 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 8) - (u_skill('gramarye') * 15)), 150)" ]
     }
   },
   {
@@ -254,20 +329,20 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 5,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
-    "min_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 4.5) + (u_skill('deduction') * 20) + 10" ] },
-    "max_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 9) + (u_skill('deduction') * 30) + 30" ] },
-    "min_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 691) + (u_skill('deduction') * 3246) + 8259" ] },
-    "max_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 1685) + (u_skill('deduction') * 8388) + 26221" ] },
+    "min_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 4.5) + (u_skill('gramarye') * 20) + 10" ] },
+    "max_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 9) + (u_skill('gramarye') * 30) + 30" ] },
+    "min_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 691) + (u_skill('gramarye') * 3246) + 8259" ] },
+    "max_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 1685) + (u_skill('gramarye') * 8388) + 26221" ] },
     "min_range": 15,
     "max_range": 15,
     "magic_type": "xe_fey_magick",
     "base_energy_cost": {
-      "math": [ "max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 5) - (u_skill('deduction') * 15)), 150)" ]
+      "math": [ "max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 5) - (u_skill('gramarye') * 15)), 150)" ]
     },
     "base_casting_time": {
-      "math": [ "max(( 150 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 3) - (u_skill('deduction') * 8)), 50)" ]
+      "math": [ "max(( 150 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 3) - (u_skill('gramarye') * 8)), 50)" ]
     },
     "targeted_monster_species": [ "CHANGELING" ],
     "ignored_monster_species": [ "CHANGELING_NOBLE" ]
@@ -284,20 +359,20 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 7,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
-    "min_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 3) + (u_skill('deduction') * 20) + 10" ] },
-    "max_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 7) + (u_skill('deduction') * 30) + 30" ] },
-    "min_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 286) + (u_skill('deduction') * 2455) + 5824" ] },
-    "max_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 773) + (u_skill('deduction') * 6250) + 19375" ] },
+    "min_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 3) + (u_skill('gramarye') * 20) + 10" ] },
+    "max_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 7) + (u_skill('gramarye') * 30) + 30" ] },
+    "min_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 286) + (u_skill('gramarye') * 2455) + 5824" ] },
+    "max_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 773) + (u_skill('gramarye') * 6250) + 19375" ] },
     "min_range": 10,
     "max_range": 10,
     "magic_type": "xe_fey_magick",
     "base_energy_cost": {
-      "math": [ "max(( 700 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 9) - (u_skill('deduction') * 25)), 300)" ]
+      "math": [ "max(( 700 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 9) - (u_skill('gramarye') * 25)), 300)" ]
     },
     "base_casting_time": {
-      "math": [ "max(( 150 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 3) - (u_skill('deduction') * 8)), 50)" ]
+      "math": [ "max(( 150 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 3) - (u_skill('gramarye') * 8)), 50)" ]
     },
     "targeted_monster_species": [ "FERAL", "HUMAN" ]
   },
@@ -311,7 +386,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 7,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
     "effect": "effect_on_condition",
     "effect_str": "EOC_BROWNIE_INDOOR_BLINK",
@@ -319,12 +394,12 @@
     "magic_type": "xe_fey_magick",
     "base_energy_cost": {
       "math": [
-        "max(( 500 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 3) - (u_skill('deduction') * 15)), 250)"
+        "max(( 500 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 3) - (u_skill('gramarye') * 15)), 250)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "max(( 150 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 1) - (u_skill('deduction') * 4)), 50)"
+        "max(( 150 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 1) - (u_skill('gramarye') * 4)), 50)"
       ]
     }
   },
@@ -337,7 +412,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 9,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
     "effect": "effect_on_condition",
     "effect_str": "EOC_BROWNIE_HOME_TELEPORT_ACTUAL_TELEPORT",
@@ -345,12 +420,12 @@
     "magic_type": "xe_fey_magick",
     "base_energy_cost": {
       "math": [
-        "max(( 800 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 10) - (u_skill('deduction') * 25)), 400)"
+        "max(( 800 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 10) - (u_skill('gramarye') * 25)), 400)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "max(( 100 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 3) - (u_skill('deduction') * 5)), 25)"
+        "max(( 100 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 3) - (u_skill('gramarye') * 5)), 25)"
       ]
     }
   },
@@ -366,26 +441,26 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 6,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
-    "min_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 3) + (u_skill('deduction') * 10) + 15" ] },
-    "max_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 7) + (u_skill('deduction') * 25) + 60" ] },
+    "min_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 3) + (u_skill('gramarye') * 10) + 15" ] },
+    "max_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 7) + (u_skill('gramarye') * 25) + 60" ] },
     "min_duration": {
-      "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 286) + (u_skill('deduction') * 3455) + 9450" ]
+      "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 286) + (u_skill('gramarye') * 3455) + 9450" ]
     },
     "max_duration": {
-      "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 850) + (u_skill('deduction') * 8641) + 33145" ]
+      "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 850) + (u_skill('gramarye') * 8641) + 33145" ]
     },
     "min_range": 10,
     "max_range": 10,
     "magic_type": "xe_fey_magick",
     "base_energy_cost": {
       "math": [
-        "max(( 600 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 8) - (u_skill('deduction') * 25)), 250)"
+        "max(( 600 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 8) - (u_skill('gramarye') * 25)), 250)"
       ]
     },
     "base_casting_time": {
-      "math": [ "max(( 200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 4) - (u_skill('deduction') * 8)), 50)" ]
+      "math": [ "max(( 200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 4) - (u_skill('gramarye') * 8)), 50)" ]
     },
     "targeted_monster_species": [ "MAMMAL", "BIRD" ]
   },
@@ -401,32 +476,26 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 7,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
-    "min_damage": {
-      "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 3) + (u_skill('deduction') * 10) + 10" ]
-    },
-    "max_damage": {
-      "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 7) + (u_skill('deduction') * 20) + 30" ]
-    },
+    "min_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 3) + (u_skill('gramarye') * 10) + 10" ] },
+    "max_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 7) + (u_skill('gramarye') * 20) + 30" ] },
     "min_duration": {
-      "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 286) + (u_skill('deduction') * 2455) + 5824" ]
+      "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 286) + (u_skill('gramarye') * 2455) + 5824" ]
     },
     "max_duration": {
-      "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 773) + (u_skill('deduction') * 6250) + 19375" ]
+      "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 773) + (u_skill('gramarye') * 6250) + 19375" ]
     },
     "min_range": 10,
     "max_range": 10,
     "magic_type": "xe_fey_magick",
     "base_energy_cost": {
       "math": [
-        "max(( 750 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 9) - (u_skill('deduction') * 25)), 350)"
+        "max(( 750 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 9) - (u_skill('gramarye') * 25)), 350)"
       ]
     },
     "base_casting_time": {
-      "math": [
-        "max(( 200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4) - (u_skill('deduction') * 8)), 50)"
-      ]
+      "math": [ "max(( 200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4) - (u_skill('gramarye') * 8)), 50)" ]
     },
     "targeted_monster_species": [ "FERAL", "HUMAN" ]
   },
@@ -443,26 +512,26 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 3,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
     "min_duration": {
       "math": [
-        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 560) + (u_skill('deduction') * 5120) + 13540) * selkie_has_weather_mastery()"
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 560) + (u_skill('gramarye') * 5120) + 13540) * selkie_has_weather_mastery()"
       ]
     },
     "max_duration": {
       "math": [
-        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 1380) + (u_skill('deduction') * 12305) + 49850) * selkie_has_weather_mastery()"
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 1380) + (u_skill('gramarye') * 12305) + 49850) * selkie_has_weather_mastery()"
       ]
     },
     "magic_type": "xe_fey_magick",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_selkie_fog_cloak') > -1 ? 0 : max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 5) - (u_skill('deduction') * 15)), 100)"
+        "u_effect_intensity('effect_selkie_fog_cloak') > -1 ? 0 : max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 5) - (u_skill('gramarye') * 15)), 100)"
       ]
     },
     "base_casting_time": {
-      "math": [ "max(( 100 - u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') - (u_skill('deduction') * 3)), 40)" ]
+      "math": [ "max(( 100 - u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') - (u_skill('gramarye') * 3)), 40)" ]
     }
   },
   {
@@ -478,27 +547,27 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 5,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
     "min_duration": {
       "math": [
-        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 980) + (u_skill('deduction') * 3453) + 20310) * selkie_has_weather_mastery()"
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 980) + (u_skill('gramarye') * 3453) + 20310) * selkie_has_weather_mastery()"
       ]
     },
     "max_duration": {
       "math": [
-        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 2415) + (u_skill('deduction') * 10275) + 74775) * selkie_has_weather_mastery()"
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 2415) + (u_skill('gramarye') * 10275) + 74775) * selkie_has_weather_mastery()"
       ]
     },
     "magic_type": "xe_fey_magick",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_controlling_weather_fog') > -1 ? 50 : max(( 750 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 3) - (u_skill('deduction') * 25)), 400)"
+        "u_effect_intensity('effect_controlling_weather_fog') > -1 ? 50 : max(( 750 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 3) - (u_skill('gramarye') * 25)), 400)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "max(( 30000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 25) - (u_skill('deduction') * 500)), 6000)"
+        "max(( 30000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 25) - (u_skill('gramarye') * 500)), 6000)"
       ]
     }
   },
@@ -515,27 +584,27 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 6,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
     "min_duration": {
       "math": [
-        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 1715) + (u_skill('deduction') * 6043) + 35543) * selkie_has_weather_mastery()"
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 1715) + (u_skill('gramarye') * 6043) + 35543) * selkie_has_weather_mastery()"
       ]
     },
     "max_duration": {
       "math": [
-        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4226) + (u_skill('deduction') * 17981) + 123379) * selkie_has_weather_mastery()"
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4226) + (u_skill('gramarye') * 17981) + 123379) * selkie_has_weather_mastery()"
       ]
     },
     "magic_type": "xe_fey_magick",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_controlling_weather_rains') > -1 ? 0 : max(( 950 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 3) - (u_skill('deduction') * 25)), 450)"
+        "u_effect_intensity('effect_controlling_weather_rains') > -1 ? 0 : max(( 950 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 3) - (u_skill('gramarye') * 25)), 450)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "max(( 60000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 45) - (u_skill('deduction') * 1000)), 6000)"
+        "max(( 60000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 45) - (u_skill('gramarye') * 1000)), 6000)"
       ]
     }
   },
@@ -552,27 +621,27 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 7,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
     "min_duration": {
       "math": [
-        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 1715) + (u_skill('deduction') * 6043) + 35543) * selkie_has_weather_mastery()"
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 1715) + (u_skill('gramarye') * 6043) + 35543) * selkie_has_weather_mastery()"
       ]
     },
     "max_duration": {
       "math": [
-        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4226) + (u_skill('deduction') * 17981) + 123379) * selkie_has_weather_mastery()"
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4226) + (u_skill('gramarye') * 17981) + 123379) * selkie_has_weather_mastery()"
       ]
     },
     "magic_type": "xe_fey_magick",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_controlling_weather_rainstorm') > -1 ? 0 : max(( 1200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4) - (u_skill('deduction') * 25)), 600)"
+        "u_effect_intensity('effect_controlling_weather_rainstorm') > -1 ? 0 : max(( 1200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4) - (u_skill('gramarye') * 25)), 600)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "max(( 90000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 45) - (u_skill('deduction') * 1000)), 9000)"
+        "max(( 90000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 45) - (u_skill('gramarye') * 1000)), 9000)"
       ]
     }
   },
@@ -589,17 +658,17 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 9,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
     "magic_type": "xe_fey_magick",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_controlling_weather_lightningstorm') > -1 ? 50 : max(( 500 - u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') - (u_skill('deduction') * 15)), 200)"
+        "u_effect_intensity('effect_controlling_weather_lightningstorm') > -1 ? 50 : max(( 500 - u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') - (u_skill('gramarye') * 15)), 200)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "max(( 9000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 10) - (u_skill('deduction') * 250)), 1000)"
+        "max(( 9000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 10) - (u_skill('gramarye') * 250)), 1000)"
       ]
     }
   },
@@ -613,7 +682,7 @@
     "valid_targets": [ "ground", "self", "ally", "hostile" ],
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 2,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
     "effect": "noise",
     "shape": "blast",
@@ -625,10 +694,10 @@
     "max_aoe": 1,
     "magic_type": "xe_fey_magick",
     "base_energy_cost": {
-      "math": [ "max(( 200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 2) - (u_skill('deduction') * 5)), 35)" ]
+      "math": [ "max(( 200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 2) - (u_skill('gramarye') * 5)), 35)" ]
     },
     "base_casting_time": {
-      "math": [ "max(( 150 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 3) - (u_skill('deduction') * 6)), 50)" ]
+      "math": [ "max(( 150 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 3) - (u_skill('gramarye') * 6)), 50)" ]
     },
     "sound_description": "a loud thump"
   },
@@ -638,22 +707,26 @@
     "name": "Cultivate Goblin Fruit",
     "description": "You may spin a bit of fae magic into water, bringing forth a goblin fruit.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast near water or under the rain.",
     "valid_targets": [ "self" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "effect": "effect_on_condition",
     "effect_str": "EOC_SELKIE_GOBLIN_FRUIT",
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "teachable": false,
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": 1,
     "difficulty": 8,
-    "base_casting_time": 180000,
-    "final_casting_time": 100,
-    "casting_time_increment": -6000,
+    "base_casting_time": {
+      "math": [
+        "max(( 180000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 2500) - (u_skill('gramarye') * 4500)), 100)"
+      ]
+    },
     "magic_type": "xe_fey_magick",
-    "base_energy_cost": 450,
-    "final_energy_cost": 350,
-    "energy_increment": -4
+    "base_energy_cost": {
+      "math": [
+        "max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 2) - (u_skill('gramarye') * 5)), 350)"
+      ]
+    }
   },
   {
     "id": "brownie_cultivate_goblin_fruit",
@@ -661,22 +734,26 @@
     "name": "Cultivate Goblin Fruit",
     "description": "You may spin a bit of fae magic into the air, bringing forth a goblin fruit.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast indoors, when nobody is watching.",
     "valid_targets": [ "self" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "effect": "effect_on_condition",
     "effect_str": "EOC_BROWNIE_GOBLIN_FRUIT",
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "teachable": false,
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": 1,
     "difficulty": 8,
-    "base_casting_time": 180000,
-    "final_casting_time": 100,
-    "casting_time_increment": -6000,
+    "base_casting_time": {
+      "math": [
+        "max(( 180000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 2500) - (u_skill('gramarye') * 4500)), 100)"
+      ]
+    },
     "magic_type": "xe_fey_magick",
-    "base_energy_cost": 450,
-    "final_energy_cost": 350,
-    "energy_increment": -4
+    "base_energy_cost": {
+      "math": [
+        "max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 2) - (u_skill('gramarye') * 5)), 350)"
+      ]
+    }
   },
   {
     "id": "pooka_cultivate_goblin_fruit",
@@ -684,22 +761,24 @@
     "name": "Cultivate Goblin Fruit",
     "description": "You may spin a bit of fae magic into the air, bringing forth a goblin fruit.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast near an animal.",
     "valid_targets": [ "self" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "effect": "effect_on_condition",
     "effect_str": "EOC_POOKA_GOBLIN_FRUIT",
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "teachable": false,
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": 1,
     "difficulty": 8,
-    "base_casting_time": 180000,
-    "final_casting_time": 100,
-    "casting_time_increment": -6000,
+    "base_casting_time": {
+      "math": [
+        "max(( 180000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 2500) - (u_skill('gramarye') * 4500)), 100)"
+      ]
+    },
     "magic_type": "xe_fey_magick",
-    "base_energy_cost": 450,
-    "final_energy_cost": 350,
-    "energy_increment": -4
+    "base_energy_cost": {
+      "math": [ "max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 2) - (u_skill('gramarye') * 5)), 350)" ]
+    }
   },
   {
     "id": "trow_cultivate_goblin_fruit",
@@ -707,22 +786,24 @@
     "name": "Cultivate Goblin Fruit",
     "description": "You may spin a bit of fae magic into the earth, bringing forth a goblin fruit.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast underground or at night.",
     "valid_targets": [ "self" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "effect": "effect_on_condition",
     "effect_str": "EOC_TROW_GOBLIN_FRUIT",
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "teachable": false,
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": 1,
     "difficulty": 8,
-    "base_casting_time": 180000,
-    "final_casting_time": 100,
-    "casting_time_increment": -6000,
+    "base_casting_time": {
+      "math": [
+        "max(( 180000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 2500) - (u_skill('gramarye') * 4500)), 100)"
+      ]
+    },
     "magic_type": "xe_fey_magick",
-    "base_energy_cost": 450,
-    "final_energy_cost": 350,
-    "energy_increment": -4
+    "base_energy_cost": {
+      "math": [ "max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 2) - (u_skill('gramarye') * 5)), 350)" ]
+    }
   },
   {
     "id": "noble_cultivate_goblin_fruit",
@@ -730,21 +811,21 @@
     "name": "Cultivate Goblin Fruit",
     "description": "You may spin a bit of fae magic into the air, bringing forth a goblin fruit.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast near a human or a Fae.",
     "valid_targets": [ "self" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "effect": "effect_on_condition",
     "effect_str": "EOC_NOBLE_GOBLIN_FRUIT",
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "teachable": false,
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": 1,
     "difficulty": 8,
-    "base_casting_time": 180000,
-    "final_casting_time": 100,
-    "casting_time_increment": -6000,
+    "base_casting_time": {
+      "math": [ "max(( 180000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2500) - (u_skill('gramarye') * 4500)), 100)" ]
+    },
     "magic_type": "xe_fey_magick",
-    "base_energy_cost": 450,
-    "final_energy_cost": 350,
-    "energy_increment": -4
+    "base_energy_cost": {
+      "math": [ "max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2) - (u_skill('gramarye') * 5)), 350)" ]
+    }
   }
 ]

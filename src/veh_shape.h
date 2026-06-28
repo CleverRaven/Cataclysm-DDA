@@ -55,6 +55,7 @@ class veh_shape
             const std::function<ret_val<void>( const vpart_reference & )> &predicate,
             const std::optional<vpart_reference> &preselect ) const;
 
+    public:
         void change_part_shape( vpart_reference vpr ) const;
 };
 

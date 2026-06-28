@@ -213,7 +213,6 @@ class surroundings_menu : public cataimgui::window
         surroundings_menu_tab_enum switch_tab = surroundings_menu_tab_enum::num_tabs;
         // auto scrolling when navigating by keyboard
         bool auto_scroll = false;
-        bool hide_ui = false;
 
         int max_gun_range = 0;
         bool highlight_new = false;

@@ -173,12 +173,10 @@
     "flags": [ "VERBAL", "SILENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "self" ],
     "skill": "metaphysics",
-    "effect": "mutate",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_random_artifact_mutate",
     "shape": "blast",
     "message": "",
-    "//": "33.33% chance, or 1/3",
-    "min_damage": 3333,
-    "max_damage": 3333,
     "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   },
   {
@@ -634,6 +632,152 @@
     "field_intensity_increment": 1,
     "field_intensity_variance": 1,
     "field_chance": 2
+  },
+  {
+    "id": "MoM_AEA_BURST_OF_FORCE",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Wave of Force", "//~": "NO_I18N" },
+    "description": { "str": "Unleash a wave of force and knock targets back.", "//~": "NO_I18N" },
+    "message": "A wave of force burst out from you!",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "RANDOM_AOE", "NO_LEGS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AEA_TELEKIN_WAVE_TARGETS",
+    "shape": "blast",
+    "min_aoe": 1,
+    "max_aoe": 3
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AEA_TELEKIN_WAVE_TARGETS",
+    "condition": "has_alpha",
+    "effect": [
+      { "npc_location_variable": { "context_val": "player_position" } },
+      { "math": [ "_push_nearby_enemies_power_level = 8" ] },
+      { "math": [ "_telekinesis_weight_ratio = 55" ] },
+      {
+        "math": [
+          "_weight_ratio",
+          "=",
+          "( (_push_nearby_enemies_power_level * _telekinesis_weight_ratio) + (_telekinesis_weight_ratio / 2) ) / (u_weight() / 1000000)"
+        ]
+      },
+      { "math": [ "_telekinesis_shove_spell_level = clamp( ( (_weight_ratio - 1) * 1.5), 0, 20)" ] },
+      {
+        "if": { "x_in_y_chance": { "x": { "math": [ "_weight_ratio * 1000" ] }, "y": 1000 } },
+        "then": [ { "u_add_effect": "downed", "duration": 2 } ]
+      },
+      {
+        "u_knockback": { "math": [ "_telekinesis_shove_spell_level" ] },
+        "stun": 2,
+        "dam_mult": { "math": [ "1 + (_telekinesis_shove_spell_level * 0.4)" ] },
+        "direction_var": { "context_val": "player_position" }
+      }
+    ]
+  },
+  {
+    "id": "MoM_AEA_AoE_KNOCKDOWN",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA AoE Knockdown", "//~": "NO_I18N" },
+    "description": { "str": "Unleash a wave of force and knock targets down.", "//~": "NO_I18N" },
+    "message": "A soundless explosion bursts out from you!",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "RANDOM_AOE", "RANDOM_DURATION", "NO_LEGS" ],
+    "effect": "attack",
+    "effect_str": "downed",
+    "shape": "blast",
+    "min_aoe": 3,
+    "max_aoe": 7,
+    "min_duration": 300,
+    "max_duration": 700
+  },
+  {
+    "type": "SPELL",
+    "id": "MoM_AEA_LEVITATION",
+    "name": { "str": "MoM AEA Artifact Levitation", "//~": "NO_I18N" },
+    "description": { "str": "Causes you to levitate briefly", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "effect_mom_artifact_levitation",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "shape": "blast",
+    "min_duration": 500,
+    "max_duration": 1900,
+    "base_casting_time": 50
+  },
+  {
+    "id": "MoM_AEA_AEGIS",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Artifact Aegis", "//~": "NO_I18N" },
+    "description": { "str": "Makes you immune to physical damage briefly.", "//~": "NO_I18N" },
+    "message": "The air around you shimmers.",
+    "valid_targets": [ "self" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_telekinetic_aegis",
+    "shape": "blast",
+    "min_duration": 200,
+    "max_duration": 500
+  },
+  {
+    "type": "SPELL",
+    "id": "MoM_AEA_BLINK",
+    "name": { "str": "MoM AEA Artifact Blink", "//~": "NO_I18N" },
+    "description": { "str": "Causes you to teleport to a random nearby point", "//~": "NO_I18N" },
+    "valid_targets": [ "none" ],
+    "effect": "short_range_teleport",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_AOE" ],
+    "shape": "blast",
+    "min_aoe": 1,
+    "max_aoe": 5,
+    "aoe_increment": 0.25,
+    "min_range": 10,
+    "base_casting_time": 50
+  },
+  {
+    "type": "SPELL",
+    "id": "MoM_AEA_AOE_SLOW",
+    "name": { "str": "MoM AEA Artifact AoE Slow", "//~": "NO_I18N" },
+    "description": { "str": "Causes you to slow nearby enemies", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile", "ally" ],
+    "effect": "attack",
+    "effect_str": "effect_mom_artifact_slow",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_AOE" ],
+    "shape": "blast",
+    "min_aoe": 6,
+    "max_aoe": 12,
+    "base_casting_time": 50
+  },
+  {
+    "type": "SPELL",
+    "id": "MoM_AEA_DISTANT_TELEPORT",
+    "name": { "str": "MoM AEA Artifact Distant Teleport", "//~": "NO_I18N" },
+    "description": { "str": "Causes you to teleport far away", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_NETHER_EFFECT_APPLY_TELEPORT_MISJUMP",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "shape": "blast",
+    "base_casting_time": 50
+  },
+  {
+    "type": "SPELL",
+    "id": "MoM_AEA_REALITY_TEMPORARY_TEAR",
+    "name": { "str": "MoM AEA Artifact Temporary Reality Tear", "//~": "NO_I18N" },
+    "description": { "str": "Causes you to open a temporary tear in reality.", "//~": "NO_I18N" },
+    "valid_targets": [ "ground", "hostile", "ally", "self" ],
+    "effect": "attack",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_TARGET" ],
+    "shape": "blast",
+    "min_range": 10,
+    "max_range": 10,
+    "base_casting_time": 50,
+    "field_id": "fd_tear_in_reality_temporary",
+    "field_chance": 1,
+    "min_field_intensity": 2,
+    "max_field_intensity": 2
   },
   {
     "type": "SPELL",

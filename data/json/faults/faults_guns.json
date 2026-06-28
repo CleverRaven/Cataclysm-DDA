@@ -38,7 +38,7 @@
     "type": "fault",
     "name": { "str": "Fused internals" },
     "description": "Excessive heat has rendered this weapon inoperable.",
-    "item_prefix": "ruined",
+    "item_prefix": { "ctxt": "prefix", "str": "ruined" },
     "flags": [ "RUINED_GUN" ]
   },
   {

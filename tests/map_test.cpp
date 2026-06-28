@@ -22,6 +22,7 @@
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "map_scale_constants.h"
 #include "map_selector.h"
 #include "monster.h"
@@ -310,8 +311,7 @@ TEST_CASE( "active_monster_drops", "[active_item][map]" )
     }
     REQUIRE( bag_plastic.put_in( cookie, pocket_type::CONTAINER ).success() );
 
-    monster &zombo = spawn_test_monster( "mon_zombie", start_loc, true );
-    zombo.no_extra_death_drops = true;
+    monster &zombo = spawn_test_monster( "mon_test_no_drop", start_loc, true );
     zombo.inv.emplace_back( bag_plastic );
     calendar::turn += time_duration::from_seconds( cookie.processing_speed() + 1 );
     zombo.die( &here, nullptr );

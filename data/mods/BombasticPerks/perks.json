@@ -626,49 +626,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Hey, that's against the Geneva Convention!  When not wielding a weapon, or object that could be used as an improvised weapon, you take -25% reduced damage.",
-    "//": "u_has_weapon checks if you're wielding ANYTHNG, not a weapon specifically, hence the long condition below.",
-    "enchantments": [
-      {
-        "condition": {
-          "and": [
-            { "not": { "u_has_wielded_with_weapon_category": "AUTOMATIC_PISTOLS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "SHIVS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "QUARTERSTAVES" } },
-            { "not": { "u_has_wielded_with_weapon_category": "HOOKING_WEAPONRY" } },
-            { "not": { "u_has_wielded_with_weapon_category": "AUTOMATIC_RIFLES" } },
-            { "not": { "u_has_wielded_with_weapon_category": "KNIVES" } },
-            { "not": { "u_has_wielded_with_weapon_category": "MEDIUM_SWORDS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "GREAT_HAMMERS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "GREAT_AXES" } },
-            { "not": { "u_has_wielded_with_weapon_category": "MACES" } },
-            { "not": { "u_has_wielded_with_weapon_category": "SPEARS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "FENCING_WEAPONRY" } },
-            { "not": { "u_has_wielded_with_weapon_category": "LONG_SWORDS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "GREAT_SWORDS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "BIONIC_WEAPONRY" } },
-            { "not": { "u_has_wielded_with_weapon_category": "SHORT_SWORDS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "HAND_AXES" } },
-            { "not": { "u_has_wielded_with_weapon_category": "BATONS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "FLAILS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "POLEARMS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "LONG_THRUSTING_SWORDS" } },
-            { "not": { "u_has_wielded_with_weapon_category": "BIONIC_SWORDS" } },
-            { "not": { "u_has_wielded_with_flag": "OLD_GUN" } },
-            { "not": { "u_has_wielded_with_flag": "NEVER_JAMS" } },
-            { "not": { "u_has_wielded_with_flag": "NON_FOULING" } },
-            { "not": { "u_has_wielded_with_flag": "RELOAD_AND_SHOOT" } },
-            { "not": { "u_has_wielded_with_flag": "RELOAD_EJECT" } },
-            { "not": { "u_has_wielded_with_flag": "RELOAD_ONE" } },
-            { "not": { "u_has_wielded_with_flag": "STR_DRAW" } },
-            { "not": { "u_has_wielded_with_flag": "DURABLE_MELEE" } },
-            { "not": { "u_has_wielded_with_flag": "BIONIC_WEAPON" } },
-            { "not": { "u_has_wielded_with_flag": "POLEARM" } }
-          ]
-        },
-        "values": [ { "value": "ARMOR_ALL", "multiply": -0.25 } ]
-      }
-    ]
+    "description": "Hey, that's against the Geneva Convention!  When completely unarmed, you take -25% reduced damage.",
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ARMOR_ALL", "multiply": -0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -744,6 +703,39 @@
   },
   {
     "type": "mutation",
+    "id": "perk_fencing_footwork",
+    "name": { "str": "Fancy Footwork" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": {
+      "str": "Ho!  Ha-Ha!  Guard!  Turn!  Parry!  Dodge!  Spin!  Ha!  Thrust!  When wielding a fencing weapon, you gain +1 bonus dodge and slightly reduced move cost on flat terrain.",
+      "//~": "The beginning of this description is a reference to the Looney Tunes short 'Robin Hood Daffy' "
+    },
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_weapon_category": "FENCING" },
+        "values": [ { "value": "BONUS_DODGE", "add": 1 }, { "value": "MOVECOST_FLATGROUND_MOD", "multiply": -0.05 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_fish_in_water",
+    "name": { "str": "Like a Fish in the Water" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "So unremarkable that there's no proverb about it.  When in deep water, your stamina regeneration is doubled, and you can swim 25% faster.",
+    "enchantments": [
+      {
+        "condition": { "and": [ { "u_is_on_terrain_with_flag": "SWIMMABLE" }, { "u_is_on_terrain_with_flag": "DEEP_WATER" } ] },
+        "values": [ { "value": "REGEN_STAMINA", "multiply": 1 }, { "value": "MOVECOST_SWIM_MOD", "multiply": -0.25 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_artifact_resonance_detection",
     "name": { "str": "Nether Resonator" },
     "points": 0,
@@ -766,6 +758,32 @@
   },
   {
     "type": "mutation",
+    "id": "perk_artifact_resonance_exploitation",
+    "name": { "str": "Resonating Empowerment" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your frequent handling of artifacts has allowed you to redirect some of the otherworldly power they carry.  When suffering from resonance effects, you gain a variety of minor bonuses such as resistance to fire, electricity, or cold, increased dodge, or increased stamina regeneration.",
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_artifact_resonance() > 2000" ] },
+        "incoming_damage_mod": [
+          { "type": "heat", "add": { "math": [ "rand(8) + 2" ] } },
+          { "type": "electric", "add": { "math": [ "rand(8) + 2" ] } },
+          { "type": "cold", "add": { "math": [ "rand(8) + 2" ] } }
+        ],
+        "values": [
+          { "value": "BONUS_DODGE", "add": { "math": [ "rand(1)" ] } },
+          { "value": "REGEN_STAMINA", "multiply": { "math": [ "rng(0.1,0.3)" ] } },
+          { "value": "FORCEFIELD", "multiply": { "math": [ "rng(0,0.1)" ] } },
+          { "value": "MOVE_COST", "multiply": { "math": [ "rng(-0.05,0)" ] } },
+          { "value": "PAIN", "multiply": { "math": [ "rng(-0.15,0)" ] } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_frakenstein",
     "name": { "str": "Playing God" },
     "points": 0,
@@ -778,7 +796,7 @@
   {
     "type": "mutation",
     "id": "perk_safety_net",
-    "name": { "str": "Safety net" },
+    "name": { "str": "Safety Net" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -798,7 +816,7 @@
   {
     "type": "mutation",
     "id": "perk_long_shot",
-    "name": { "str": "Long shot" },
+    "name": { "str": "Long Shot" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -842,6 +860,20 @@
     "activation_msg": "You activate your quicken metamagic.",
     "activated_eocs": [ "EOC_metamagic_toggle_quicken_on" ],
     "deactivated_eocs": [ "EOC_metamagic_toggle_quicken_off" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_metamagic_extended",
+    "name": { "str": "Metamagic: Extended Spell" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You have learned to make the effects of your spells last much longer for the same amount of mana with a more challenging invocation.  +100% duration, +4 difficulty.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You activate your extended metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_extended_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_extended_off" ]
   },
   {
     "type": "mutation",
@@ -944,7 +976,7 @@
   {
     "type": "mutation",
     "id": "perk_crafty_hands",
-    "name": { "str": "Crafty hands" },
+    "name": { "str": "Crafty Hands" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -960,7 +992,10 @@
     "valid": false,
     "description": "Smoking is bad, but damn it's badass.  You deal more damage and shoot more accurately when you smoke.",
     "enchantments": [
-      { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.25 } ] },
+      {
+        "condition": { "u_has_effect": "cig" },
+        "melee_damage_bonus": [ { "type": "bash", "multiply": 0.25 }, { "type": "stab", "multiply": 0.25 }, { "type": "cut", "multiply": 0.25 } ]
+      },
       { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.25 } ] }
     ]
   },
@@ -1005,7 +1040,7 @@
   {
     "type": "mutation",
     "id": "perk_jugg",
-    "name": { "str": "Iron arm" },
+    "name": { "str": "Iron Arm" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1020,7 +1055,7 @@
   {
     "type": "mutation",
     "id": "perk_skeleton",
-    "name": { "str": "Skin and bones" },
+    "name": { "str": "Skin and Bones" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1081,7 +1116,7 @@
   {
     "type": "mutation",
     "id": "perk_dice_addition_damage",
-    "name": { "str": "Damage dice" },
+    "name": { "str": "Damage Dice" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1112,7 +1147,8 @@
             { "not": { "u_has_effect": "effect_perk_rage_against_the_unnatural_penalty" } }
           ]
         },
-        "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.35 }, { "value": "ARMOR_ALL", "multiply": -0.15 } ]
+        "melee_damage_bonus": [ { "type": "bash", "multiply": 0.35 }, { "type": "stab", "multiply": 0.35 }, { "type": "cut", "multiply": 0.35 } ],
+        "values": [ { "value": "ARMOR_ALL", "multiply": -0.15 } ]
       }
     ]
   },
@@ -1190,10 +1226,19 @@
       {
         "condition": "ALWAYS",
         "values": [
-          { "value": "STRENGTH", "add": { "math": [ "(u_val('thirst')/120) + (u_val('sleepiness')/150)" ] } },
-          { "value": "DEXTERITY", "add": { "math": [ "(u_val('thirst')/120) + (u_val('sleepiness')/150)" ] } },
-          { "value": "INTELLIGENCE", "add": { "math": [ "(u_val('thirst')/120) + (u_val('sleepiness')/150)" ] } },
-          { "value": "PERCEPTION", "add": { "math": [ "(u_val('thirst')/120) + (u_val('sleepiness')/150)" ] } },
+          { "value": "STRENGTH", "add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50)" ] } },
+          {
+            "value": "DEXTERITY",
+            "add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50)" ] }
+          },
+          {
+            "value": "INTELLIGENCE",
+            "add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50)" ] }
+          },
+          {
+            "value": "PERCEPTION",
+            "add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50)" ] }
+          },
           { "value": "SPEED", "add": { "math": [ "clamp(( (u_val('thirst') - 80 ) / 10 ) , 0, 50)" ] } }
         ]
       },
@@ -1248,7 +1293,7 @@
   {
     "type": "mutation",
     "id": "perk_dream_armor",
-    "name": { "str": "Armor of dreams" },
+    "name": { "str": "Armor of Dreams" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1258,7 +1303,7 @@
   {
     "type": "mutation",
     "id": "perk_redrage",
-    "name": { "str": "Red rage" },
+    "name": { "str": "Red Rage" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1266,14 +1311,18 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "MELEE_DAMAGE", "multiply": { "math": [ "u_effect_intensity('bleed') * 0.05" ] } } ]
+        "melee_damage_bonus": [
+          { "type": "bash", "multiply": { "math": [ "u_effect_intensity('bleed') * 0.05" ] } },
+          { "type": "stab", "multiply": { "math": [ "u_effect_intensity('bleed') * 0.05" ] } },
+          { "type": "cut", "multiply": { "math": [ "u_effect_intensity('bleed') * 0.05" ] } }
+        ]
       }
     ]
   },
   {
     "type": "mutation",
     "id": "perk_peer_pressure",
-    "name": { "str": "Peer pressure" },
+    "name": { "str": "Peer Pressure" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1380,7 +1429,7 @@
   {
     "type": "mutation",
     "id": "perk_flawless_memory",
-    "name": { "str": "Flawless memory" },
+    "name": { "str": "Flawless Memory" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1406,7 +1455,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You've found that you can move just a little bit quicker the more dexterous you are.  Unfortunately, this applies comes at a loss to your max carry weight.  Gain 2 speed for every point of DEX away from 8 and lose 4 kg of carry weight.",
+    "description": "You've found that you can move just a little bit quicker the more dexterous you are.  Unfortunately, this applies comes at a loss to your max carry weight.  Gain 2 speed for every point of DEX away from 8.  You lose 4% of your max carry weight for each point between 8 and 20 DEX, and 2% for each point beyond 20.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -1414,7 +1463,11 @@
       },
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "CARRY_WEIGHT", "add": { "math": [ "min( 0, 8 - u_val('dexterity') ) * 4000" ] } } ]
+        "values": [ { "value": "CARRY_WEIGHT", "multiply": { "math": [ "min( 0, 8 - u_val('dexterity') ) * 0.04" ] } } ]
+      },
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CARRY_WEIGHT", "multiply": { "math": [ "min( 0, 20 - u_val('dexterity') ) * -0.02" ] } } ]
       }
     ]
   },
@@ -1508,6 +1561,27 @@
   },
   {
     "type": "mutation",
+    "id": "perk_yeoman",
+    "name": { "str": "Yeoman" },
+    "description": "In a world of guns, you were born to string a bow.  With such weapons you draw back further, increasing damage and range, and your arrows strike true with unerring accuracy.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "SHEATH_BOW" },
+        "values": [
+          { "value": "RANGED_ARMOR_PENETRATION", "add": 4 },
+          { "value": "WEAKPOINT_ACCURACY", "multiply": 1 },
+          { "value": "WEAPON_DISPERSION", "multiply": -0.25 },
+          { "value": "RANGED_DAMAGE", "multiply": 0.25 },
+          { "value": "RANGE", "add": 6 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_secret_closet_storage",
     "name": { "str": "Closetland" },
     "description": "When you were little you remember thinking that your closet was a portal to a secret realm and if you just knew the way to open the path, you could find your way through to another world.  Well, you've found the way.\n\nWhen in a closet (walls on all sides except for one closed door), activate this perk to transport you to a secret realm.  Deactivate this perk to transport you back to your entrance point.",
@@ -1539,5 +1613,31 @@
     "points": 0,
     "purifiable": false,
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "perk_soothing_the_savage_beast",
+    "name": { "str": "Soothing the Savage Beast" },
+    "description": "Disney princesses stand back!  You have learned the secret tongues of bird and beast, or at least, you can howl or chirp in such a way that they consider it an offer of friendship.  Activate this perk to charm any nearby mammals, birds, amphibians, reptiles, or fish (not insects or spiders).",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_eocs": [ "EOC_BOMBASTIC_PERKS_SOOTHING_THE_SAVAGE_BEAST" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_hive_queen",
+    "name": { "str": "Hive Queen" },
+    "description": "The insects have accepted you as one of their own.  You are neutral with eusocial insects, including giant ones, but your presence is a little unnerving to animals and people.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "anger_relations": [ [ "MAMMAL", 5 ], [ "BIRD", 5 ] ],
+    "enchantments": [
+      { "condition": { "not": { "u_has_effect": "effect_hive_queen_canceller" } }, "mutations": [ "TRAIT_HIVE_QUEEN" ] },
+      { "values": [ { "value": "SOCIAL_PERSUADE", "add": -5 }, { "value": "SOCIAL_INTIMIDATE", "add": -5 } ] }
+    ],
+    "flags": [ "ANIMALDISCORD" ]
   }
 ]

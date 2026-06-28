@@ -1,0 +1,27 @@
+[
+  {
+    "type": "ITEM",
+    "id": "teeth_macuahuitl",
+    "name": { "str": "teeth-bladed macuahuitl" },
+    "copy-from": "teeth_macuahuitl",
+    "melee_damage": { "bash": 16, "cut": 30 }
+  },
+  {
+    "id": "q_staff_of_the_wise",
+    "looks_like": "rune_magus_weapon",
+    "type": "ITEM",
+    "copy-from": "q_staff",
+    "name": { "str": "Staff of the Wise", "str_pl": "Staves of the Wise" },
+    "description": "The traditional staff of the Wise, carved with curving runes and enchanted with secret rites passed down from ages beyoned memory.  While wielding the staff, the cost of your enchantments is reduced by 33% and their casting time is reduced by 50%.",
+    "weight": "1530 g",
+    "volume": "1550 ml",
+    "longest_side": "185 cm",
+    "price": "39 USD",
+    "material": [ "wood" ],
+    "symbol": "/",
+    "color": "brown",
+    "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS", "WISE_SORCERY_AID" ],
+    "melee_damage": { "bash": 20 }
+  }
+]

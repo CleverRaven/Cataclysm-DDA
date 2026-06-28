@@ -380,5 +380,25 @@
     "melee_damage": { "bash": 5 },
     "read_skill": "spellcraft",
     "read_fun": -1
+  },
+  {
+    "id": "harnessing_hellfire",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "name": { "str": "Harnessing Hellfire", "str_pl": "copies of Harnessing Hellfire" },
+    "description": "A detailed guide on how one could use otherworldly flames for crafting everlasting light sources.  Long considered outdated, now might be time for these methods to make a comeback.",
+    "weight": "160 g",
+    "volume": "700 ml",
+    "price": "60 USD",
+    "material": [ "paper" ],
+    "looks_like": "manual_gun",
+    "required_level": 3,
+    "max_level": 4,
+    "intelligence": 9,
+    "time": "25 m",
+    "symbol": "?",
+    "color": "light_gray",
+    "read_skill": "spellcraft"
   }
 ]

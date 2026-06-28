@@ -81,6 +81,9 @@ static const efftype_id effect_sleep( "sleep" );
 static const faction_id faction_no_faction( "no_faction" );
 static const faction_id faction_your_followers( "your_followers" );
 
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+static const json_character_flag json_flag_PARTIAL_BIONIC_LIMB( "PARTIAL_BIONIC_LIMB" );
+
 static const mission_type_id mission_MISSION_REACH_SAFETY( "MISSION_REACH_SAFETY" );
 
 static const morale_type morale_haircut( "morale_haircut" );
@@ -224,7 +227,7 @@ void spawn_animal( npc &p, const mtype_id &mon )
 
 void talk_function::start_trade( npc &p )
 {
-    npc_trading::trade( p, 0, _( "Trade" ) );
+    npc_trading::trade( p.get_trade_delegate(), 0, _( "Trade" ) );
 }
 
 void talk_function::sort_loot( npc &p )
@@ -404,7 +407,7 @@ void talk_function::goto_location( npc &p )
     time_duration ETA = time_between_npc_OM_moves * tiles_to_travel;
     ETA = ETA * rng_float( 0.8, 1.2 ); // Add +-20% variance in our estimate
     if( !query_yn(
-            _( "Estimated time to arrival: %1$s  \nTiles to travel: %2$s  \nIs this path and destination acceptable?" ),
+            _( "Estimated time to arrival: %1$s  \nTiles to travel: %2$d  \nIs this path and destination acceptable?" ),
             to_string_approx( ETA ), tiles_to_travel ) ) {
         p.goal = npc::no_goal_point;
         p.omt_path.clear();
@@ -429,7 +432,10 @@ void talk_function::assign_guard( npc &p )
     }
     p.set_attitude( NPCATT_NULL );
     p.set_mission( NPC_MISSION_GUARD_ALLY );
-    p.chatbin.first_topic = p.chatbin.talk_friend_guard;
+    p.chatbin.first_topic = p.assigned_camp
+                            ? "TALK_FRIEND_GUARD_CAMP"
+                            : p.chatbin.talk_friend_guard;
+    p.clear_committed_goal();
     p.set_omt_destination();
 }
 
@@ -447,18 +453,60 @@ void talk_function::assign_camp( npc &p )
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( p.pos_abs_omt().xy() );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
+        if( p.has_player_activity() ) {
+            p.revert_after_activity();
+        }
         p.set_attitude( NPCATT_NULL );
-        p.set_mission( NPC_MISSION_GUARD_ALLY );
+        p.set_mission( NPC_MISSION_CAMP_RESIDENT );
+        p.guard_pos = std::nullopt;
+        p.clear_ai_guard_pos();
         temp_camp->add_assignee( p.getID() );
         temp_camp->job_assignment_ui();
         temp_camp->validate_assignees();
         add_msg( _( "%1$s is assigned to %2$s" ), p.disp_name(), temp_camp->camp_name() );
-        if( p.has_player_activity() ) {
-            p.revert_after_activity();
-        }
-        p.chatbin.first_topic = p.chatbin.talk_friend_guard;
-        p.set_omt_destination();
+        p.chatbin.first_topic = "TALK_FRIEND_CAMP_RESIDENT";
+        p.goal = npc::no_goal_point;
+        p.omt_path.clear();
+        p.path.clear();
+        p.chair_pos = std::nullopt;
+        p.wander_pos = std::nullopt;
+        p.clear_destination();
+        p.clear_committed_goal();
     }
+}
+
+void talk_function::return_to_camp_duties( npc &p )
+{
+    p.set_attitude( NPCATT_NULL );
+    p.set_mission( NPC_MISSION_CAMP_RESIDENT );
+    p.guard_pos = std::nullopt;
+    p.clear_ai_guard_pos();
+    p.clear_committed_goal();
+    p.chatbin.first_topic = "TALK_FRIEND_CAMP_RESIDENT";
+    // Check whether the NPC is already within the camp footprint
+    // (including expansion tiles), not just the base OMT.
+    bool at_camp = false;
+    if( p.assigned_camp ) {
+        std::optional<basecamp *> bcp = overmap_buffer.find_camp( p.assigned_camp->xy() );
+        at_camp = ( bcp && *bcp )
+                  ? ( *bcp )->point_within_camp( p.pos_abs_omt() )
+                  : p.pos_abs_omt() == *p.assigned_camp;
+    }
+    if( p.assigned_camp && !at_camp ) {
+        p.goal = *p.assigned_camp;
+        tripoint_abs_omt surface = p.pos_abs_omt();
+        surface.z() = 0;
+        p.omt_path = overmap_buffer.get_travel_path( surface, *p.assigned_camp,
+                     overmap_path_params::for_npc() ).points;
+    } else {
+        p.goal = npc::no_goal_point;
+        p.omt_path.clear();
+    }
+    p.path.clear();
+    p.chair_pos = std::nullopt;
+    p.wander_pos = std::nullopt;
+    p.clear_destination();
+    add_msg( _( "%s returns to camp duties." ), p.get_name() );
 }
 
 void talk_function::stop_guard( npc &p )
@@ -477,13 +525,10 @@ void talk_function::stop_guard( npc &p )
     p.chatbin.first_topic = p.chatbin.talk_friend;
     p.goal = npc::no_goal_point;
     p.guard_pos = std::nullopt;
-    if( p.assigned_camp ) {
-        if( std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *p.assigned_camp ).xy() ) ) {
-            ( *bcp )->remove_assignee( p.getID() );
-            ( *bcp )->validate_assignees();
-        }
-        p.assigned_camp = std::nullopt;
-    }
+    p.clear_ai_guard_pos();
+    p.clear_committed_goal();
+    // assigned_camp is preserved: the NPC remembers their camp while following.
+    // Player can send them back via "Go back to your camp" in follower dialogue.
 }
 
 void talk_function::wake_up( npc &p )
@@ -736,6 +781,44 @@ void talk_function::give_all_aid( npc &p )
     }
     player_character.assign_activity( wait_npc_activity_actor( 60_minutes, p.get_name() ) );
     p.add_effect( effect_currently_busy, 240_minutes );
+}
+
+void talk_function::repair_bionic_limbs( npc &p )
+{
+    Character &player_character = get_player_character();
+
+    signed int price = 0;
+
+    for( const bodypart_id &bp : player_character.get_all_body_parts(
+             get_body_part_flags::only_main ) ) {
+        if( bp->has_flag( json_flag_BIONIC_LIMB ) || bp->has_flag( json_flag_PARTIAL_BIONIC_LIMB ) ) {
+            price += ( player_character.get_part_hp_max( bp ) - player_character.get_part_hp_cur( bp ) ) * 20;
+        }
+    }
+    if( price == 0 ) {
+        add_msg( m_good, _( "You don't need any repairs…" ) );
+        return;
+    }
+    bool const ret = npc_trading::pay_npc( p, price );
+    if( !ret ) {
+        return;
+    }
+
+    for( const bodypart_id &bp :
+         player_character.get_all_body_parts( get_body_part_flags::only_main ) ) {
+        if( bp->has_flag( json_flag_BIONIC_LIMB ) ||  bp->has_flag( json_flag_PARTIAL_BIONIC_LIMB ) ) {
+            player_character.heal( bp, player_character.get_part_hp_max( bp ) -
+                                   player_character.get_part_hp_cur( bp ) );
+            if( player_character.has_effect( effect_bite, bp.id() ) ) {
+                player_character.remove_effect( effect_bite, bp );
+            }
+            if( player_character.has_effect( effect_bleed, bp.id() ) ) {
+                player_character.remove_effect( effect_bleed, bp );
+            }
+        }
+    }
+    player_character.assign_activity( wait_npc_activity_actor( 30_minutes, p.get_name() ) );
+    p.add_effect( effect_currently_busy, 120_minutes );
 }
 
 static void generic_barber( const std::string &mut_type )

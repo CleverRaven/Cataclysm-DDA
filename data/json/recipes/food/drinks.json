@@ -1,23 +1,32 @@
 [
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
     "result": "water_clean",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "time": "5 m",
     "autolearn": true,
-    "batch_time_factors": [ 20, 1 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "//": "1u of water_boiling_heat takes 5 m minimum, heat at full power",
-    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+    "steps": [
+      {
+        "name": "Boiling",
+        "time": "5 m",
+        "//": "1u of water_boiling_heat takes 5 m minimum, heat at full power",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ { "id": "BOIL", "level": 1 } ],
+        "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+        "batch_time_factors": [ 20, 1 ],
+        "attention": "unattended",
+        "max_time": "30 m"
+      }
+    ],
     "components": [ [ [ "water", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "water_clean",
+    "charges": 1,
     "category": "CC_FOOD",
     "id_suffix": "using_water_purifier",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -33,18 +42,54 @@
   },
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "result": "water_purifying_active",
+    "result": "water_clean",
     "category": "CC_FOOD",
     "id_suffix": "using_tablets",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "time": "5 m",
-    "batch_time_factors": [ 90, 2 ],
     "charges": 4,
-    "//": "See pur_tablets item definition for documentation and discussion",
     "autolearn": true,
-    "components": [ [ [ "water", 4 ], [ "water_murky", 4 ] ], [ [ "pur_tablets", 1 ] ] ]
+    "flags": [ "BLIND_EASY" ],
+    "steps": [
+      {
+        "name": "Mixing and shaking",
+        "time": "10 m",
+        "batch_time_factors": { "mode": "linear", "setup": "10 m" },
+        "activity_level": "MODERATE_EXERCISE"
+      },
+      {
+        "name": "Purifying",
+        "time": "40 m",
+        "batch_time_factors": { "mode": "linear", "setup": "40 m" },
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended"
+      }
+    ],
+    "components": [ [ [ "water", 4 ] ], [ [ "pur_tablets", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "water_clean",
+    "copy-from": "herbal_tea_from_tea_bag",
+    "id_suffix": "using_tablets_from_murky_water",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "steps": [
+      {
+        "name": "Mixing and shaking",
+        "time": "10 m",
+        "batch_time_factors": { "mode": "linear", "setup": "10 m" },
+        "activity_level": "MODERATE_EXERCISE"
+      },
+      {
+        "name": "Purifying",
+        "time": "40 m",
+        "batch_time_factors": { "mode": "linear", "setup": "40 m" },
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended"
+      }
+    ],
+    "components": [ [ [ "water_murky", 4 ] ], [ [ "pur_tablets", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -141,6 +186,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "herbal_tea",
+    "charges": 1,
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "copy-from": "herbal_tea_from_tea_bag",
@@ -597,6 +643,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "cranberry_juice",
+    "charges": 1,
     "byproducts": [ [ "juice_pulp", 2 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -611,6 +658,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "apple_cider",
+    "charges": 1,
     "byproducts": [ [ "juice_pulp", 2 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -645,6 +693,7 @@
     "skill_used": "cooking",
     "time": "30 s",
     "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "lemonade_powder", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
@@ -657,6 +706,7 @@
     "skill_used": "cooking",
     "time": "30 s",
     "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "orangeade_powder", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
@@ -669,6 +719,7 @@
     "skill_used": "cooking",
     "time": "30 s",
     "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "grapeade_powder", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
@@ -716,6 +767,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "juice",
+    "charges": 1,
     "byproducts": [ [ "juice_pulp" ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -731,6 +783,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "juice",
     "id_suffix": "fresh",
+    "charges": 1,
     "byproducts": [ [ "juice_pulp", 2 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -745,6 +798,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "sweet_water",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -785,6 +839,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "milk_tea",
+    "charges": 2,
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "cooking",
@@ -801,6 +856,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "milk_coffee",
+    "charges": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -974,6 +1030,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "milk_coffee_sweetened",
+    "charges": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -1014,6 +1071,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "milk_tea_sweetened",
+    "charges": 2,
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "cooking",
@@ -1246,6 +1304,7 @@
     "time": "2 m",
     "autolearn": true,
     "//": "You're just dissolving the milk cocoa powder into the water. That takes some time because cocoa powder has some fat. Therefore, you need to mix well",
+    "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "cocoa_powder_milk", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {

@@ -61,5 +61,14 @@
     "//": "Hidden, but provides effect limiting bezoar consumption",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_blocking_huge_attacks",
+    "//": "Hidden effect, used for a conditional bonus",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "flags": [ "BLOCK_HUGE_ATTACKS" ]
   }
 ]

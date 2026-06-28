@@ -445,5 +445,47 @@
         { "math": [ "distance(_weather_location, portal_storm_center) <= value_or(portal_storm_distance, 50)" ] }
       ]
     }
+  },
+  {
+    "id": "rainstorm_reverberation",
+    "type": "weather_type",
+    "name": "Rain Storm",
+    "color": "blue",
+    "map_color": "i_blue",
+    "sym": "%",
+    "sun_sym": "☔",
+    "ranged_penalty": 6,
+    "sight_penalty": 1.2,
+    "light_modifier": -100,
+    "sun_multiplier": 0.01,
+    "sound_attn": 8,
+    "dangerous": false,
+    "precip": "heavy",
+    "rains": true,
+    "tiles_animation": "weather_rain_drop",
+    "weather_animation": { "factor": 0.04, "color": "blue", "sym": ";" },
+    "sound_category": "rainstorm",
+    "condition": { "current_dimension": "radiosphere" },
+    "priority": 5
+  },
+  {
+    "id": "scarlet_day",
+    "type": "weather_type",
+    "name": "Scarlet Day",
+    "color": "light_gray",
+    "map_color": "dark_gray_white",
+    "sym": "~",
+    "sun_sym": "⛅",
+    "ranged_penalty": 0,
+    "sight_penalty": 1.0,
+    "light_modifier": -100,
+    "sun_multiplier": 0.01,
+    "sound_attn": 0,
+    "dangerous": false,
+    "precip": "none",
+    "rains": false,
+    "sound_category": "cloudy",
+    "priority": 1,
+    "condition": { "current_dimension": "scarlet" }
   }
 ]

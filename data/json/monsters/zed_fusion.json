@@ -130,7 +130,6 @@
         "accuracy": 7,
         "range": 2,
         "cooldown": 30,
-        "blockable": false,
         "condition": { "math": [ "u_effect_intensity('grown_of_fuse') > 300" ] },
         "hit_dmg_u": "A meaty tendril slams into your %2$s, sending you flying!",
         "hit_dmg_npc": "A meaty tendril slams into <npcname>'s %2$s, sending them flying!",
@@ -239,6 +238,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "bleed_rate": 0,
     "vision_night": 10,
+    "upgrades": false,
     "grab_strength": 75,
     "special_attacks": [
       { "id": "longswipe", "min_mul": 1, "max_mul": 2, "cooldown": 5 },
@@ -534,7 +534,6 @@
         "accuracy": 7,
         "range": 2,
         "cooldown": 30,
-        "blockable": false,
         "hit_dmg_u": "A meaty tendril slams into your %2$s, sending you flying!",
         "hit_dmg_npc": "A meaty tendril slams into <npcname>'s %2$s, sending them flying!",
         "no_dmg_msg_u": "A meaty tendril slams into your %2$s, but does no damage!",

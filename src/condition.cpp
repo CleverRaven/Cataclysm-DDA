@@ -1885,6 +1885,14 @@ conditional_t::func f_u_has_camp()
     };
 }
 
+conditional_t::func f_npc_has_assigned_camp()
+{
+    return []( const_dialogue const & d ) {
+        const npc *n = d.const_actor( true )->get_const_npc();
+        return n && n->assigned_camp.has_value();
+    };
+}
+
 conditional_t::func f_has_pickup_list( bool is_npc )
 {
     return [is_npc]( const_dialogue const & d ) {
@@ -2115,7 +2123,7 @@ conditional_t::func f_is_rotten()
 
 template<class T>
 static std::function<T( const_dialogue const & )> get_get_str_( const JsonObject &jo,
-        std::function<T( const std::string & )> ret_func )
+        const std::function<T( const std::string & )> &ret_func )
 {
     if( !jo.has_string( "mutator" ) ) {
         return nullptr;
@@ -2164,7 +2172,7 @@ static std::function<T( const_dialogue const & )> get_get_str_( const JsonObject
 
 template<class T>
 static std::function<T( const_dialogue const & )> get_get_translation_( const JsonObject &jo,
-        std::function<T( const translation & )> ret_func )
+        const std::function<T( const translation & )> &ret_func )
 {
     // straight translation - used by diag_value_or_var
     if( jo.get_bool( "i18n", false ) && jo.has_string( "str" ) ) {
@@ -2599,6 +2607,7 @@ parsers_simple = {
     {"u_is_outside", "npc_is_outside", &conditional_fun::f_is_outside },
     {"u_is_underwater", "npc_is_underwater", &conditional_fun::f_is_underwater },
     {"u_has_camp", &conditional_fun::f_u_has_camp },
+    {"npc_has_assigned_camp", &conditional_fun::f_npc_has_assigned_camp },
     {"u_has_pickup_list", "has_pickup_list", &conditional_fun::f_has_pickup_list },
     {"u_has_pickup_list", "npc_has_pickup_list", &conditional_fun::f_has_pickup_list },
     {"is_by_radio", &conditional_fun::f_is_by_radio },

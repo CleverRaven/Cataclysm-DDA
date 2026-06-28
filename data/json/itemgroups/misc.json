@@ -12,7 +12,7 @@
             "collection": [
               { "item": "tobacco", "count": [ 1, 20 ], "container-item": "null", "entry-wrapper": "bag_plastic" },
               {
-                "distribution": [ { "item": "rolling_paper", "prob": 70, "charges": [ 1, 30 ] }, { "item": "pipe_tobacco", "prob": 30 } ]
+                "distribution": [ { "item": "rolling_paper", "prob": 70, "count": [ 1, 30 ] }, { "item": "pipe_tobacco", "prob": 30 } ]
               }
             ],
             "prob": 20
@@ -169,7 +169,7 @@
     "//": "~50L of loamy soil, sand, clay, and rocks from digging in generic dirt",
     "items": [
       { "item": "material_soil", "count": [ 8, 12 ] },
-      { "item": "material_sand", "charges": [ 1, 10 ], "prob": 5 },
+      { "item": "material_sand", "count": [ 1, 10 ], "prob": 5 },
       { "item": "clay_lump", "count": [ 1, 4 ], "prob": 5 },
       { "item": "rock", "count": [ 1, 4 ], "prob": 10 },
       { "item": "rock_flaking", "count": [ 1, 4 ], "prob": 2 },
@@ -218,41 +218,6 @@
       { "group": "jackets", "prob": 15 },
       { "group": "novels", "prob": 15 },
       { "group": "bags_trip", "prob": 20 }
-    ]
-  },
-  {
-    "id": "gobag_contents",
-    "type": "item_group",
-    "subtype": "collection",
-    "//": "Items generated from a go bag",
-    "items": [
-      { "item": "duffelbag" },
-      { "item": "backpack" },
-      { "item": "helmet_army" },
-      { "item": "jacket_army_modern" },
-      { "item": "pants_army" },
-      { "item": "tshirt", "count": 3 },
-      { "item": "under_armor" },
-      { "item": "tacvest" },
-      { "item": "coat_rain" },
-      { "item": "hood_rain" },
-      { "item": "long_underpants" },
-      { "item": "towel" },
-      { "item": "boots_combat" },
-      { "item": "socks", "count": 3 },
-      { "item": "gloves_tactical" },
-      { "group": "batteries" },
-      { "item": "flashlight", "charges": 150 },
-      { "item": "light_battery_cell", "charges": 150, "container-item": "radio" },
-      { "item": "lighter", "charges": 100 },
-      { "item": "pockknife" },
-      { "item": "multitool" },
-      { "group": "full_ifak" },
-      { "item": "rollmat" },
-      { "item": "sleeping_bag_roll" },
-      { "item": "ear_plugs" },
-      { "group": "MRE", "count": 3 },
-      { "item": "water_clean", "count": 2, "charges": 2, "container-item": "bottle_plastic", "sealed": false }
     ]
   },
   {
@@ -335,7 +300,7 @@
     "entries": [
       { "group": "pens", "prob": 90 },
       { "group": "pens", "prob": 30 },
-      { "item": "pencil", "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "pencil", "prob": 30 },
       { "item": "scissors_child", "prob": 50 },
       { "item": "eraser", "prob": 50 },
       { "item": "sharpener", "prob": 50 },

@@ -1,0 +1,12 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_labyrinth_buoy_turret_1_1_drops",
+    "entries": [
+      { "item": "nl_chem_thrower", "prob": 100 },
+      { "item": "nl_chem_thrower_mag", "prob": 100, "charges": [ 1, 57 ] },
+      { "item": "nl_chem_thrower_mag", "prob": 66, "charges": 57 }
+    ]
+  }
+]

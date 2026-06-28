@@ -918,8 +918,7 @@
     "calories": 174,
     "description": "This looks like a sunflower seed the size of your palm.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.  You could probably plant it.",
     "price": "1 cent",
-    "material": [ "fruit" ],
-    "primary_material": "dried_vegetable",
+    "material": [ { "type": "dried_vegetable", "portion": 10 }, { "type": "fruit", "portion": 1 } ],
     "volume": "10 ml",
     "fun": 30,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
@@ -1675,6 +1674,29 @@
     "recipe": ""
   },
   {
+    "id": "seed_red_winter_wheat",
+    "copy-from": "seed_wheat",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
+    "name": { "str_sp": "red winter wheat seeds" },
+    "description": "A pile of dry wheatberries, designated for planting.  This variety is meant to grow over winter, ready for harvest in the Spring.",
+    "plant_name": "red winter wheat",
+    "fruit": "red_winter_wheat_stalks",
+    "seeds": false,
+    "//COMMENT2": "Because of the way temperature checks currently work, this is *too generous* and lets them be planted literally whenever! Winter wheat is still supposed to be planted *before* winter, and then it survives the winter. But whatever, this is fine for the moment. It should all 'just work' if and when the temperature checks are improved.",
+    "growth_temp": "-23 C",
+    "//COMMENT3": "The 90 days between GROWTH_MATURE check is intended to allow this plant to survive winter temperatures.",
+    "growth_stages": [
+      { "GROWTH_SEED": "5 days" },
+      { "GROWTH_SEEDLING": "15 days" },
+      { "GROWTH_MATURE": "90 days" },
+      { "GROWTH_HARVEST": "10 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ],
+    "into": "null",
+    "recipe": ""
+  },
+  {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "fried_seeds",
@@ -1689,8 +1711,7 @@
     "//": "4 per cup",
     "price": "20 cent",
     "price_postapoc": "12 cent",
-    "material": [ "veggy" ],
-    "primary_material": "dried_vegetable",
+    "material": [ { "type": "dried_vegetable", "portion": 10 }, { "type": "veggy", "portion": 1 } ],
     "volume": "62 ml",
     "flags": [ "SMOKED" ],
     "freezing_point": -274,
@@ -1713,8 +1734,7 @@
     "description": "Coffee pods taken from a Kentucky coffeetree.  If washed thoroughly and roasted, you could use them to make a dark and bitter brew much like coffee.",
     "price": "25 cent",
     "price_postapoc": "12 cent",
-    "material": [ "veggy" ],
-    "primary_material": "dried_vegetable",
+    "material": [ { "type": "dried_vegetable", "portion": 10 }, { "type": "veggy", "portion": 1 } ],
     "volume": "62 ml",
     "fun": -10,
     "flags": [ "HIDDEN_POISON", "RAW" ],
@@ -1734,8 +1754,7 @@
     "price": "1 cent",
     "volume": "30 ml",
     "weight": "15 g",
-    "primary_material": "dried_vegetable",
-    "material": [ "veggy" ],
+    "material": [ { "type": "dried_vegetable", "portion": 10 }, { "type": "veggy", "portion": 1 } ],
     "calories": 78,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ],
     "addiction_type": "caffeine",
@@ -1748,7 +1767,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "id": "roasted_coffee_bean",
     "copy-from": "coffee_bean",
-    "category": "other",
+    "category": "FOOD",
     "name": { "str_sp": "roasted coffee beans" },
     "description": "Some roasted coffee beans, can be ground into powder.",
     "extend": { "flags": [ "RAW" ] }
@@ -1909,6 +1928,7 @@
     "price": "70 cent",
     "name": { "str_sp": "eggplant seeds" },
     "description": "Some eggplant seeds.",
+    "flags": [ "PLANTABLE_SEED" ],
     "plant_name": "eggplant",
     "fruit": "eggplant",
     "seeds": false,
@@ -1919,6 +1939,131 @@
       { "GROWTH_MATURE": "15 days" },
       { "GROWTH_HARVEST": "15 days" },
       { "GROWTH_OVERGROWN": "1 hour" }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_cauliflower",
+    "copy-from": "seed",
+    "price": "70 cent",
+    "name": { "str_sp": "cauliflower seeds" },
+    "description": "Some cauliflower seeds.",
+    "flags": [ "PLANTABLE_SEED" ],
+    "plant_name": "cauliflower",
+    "fruit": "cauliflower_head",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "15 days" },
+      { "GROWTH_SEEDLING": "15 days" },
+      { "GROWTH_MATURE": "15 days" },
+      { "GROWTH_HARVEST": "15 days" }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_artichoke",
+    "copy-from": "seed",
+    "price": "70 cent",
+    "name": { "str_sp": "artichoke seeds" },
+    "description": "Some artichoke seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "plant_name": "artichoke",
+    "fruit": "raw_artichoke",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "20 days" },
+      { "GROWTH_SEEDLING": "20 days" },
+      { "GROWTH_MATURE": "20 days" },
+      { "GROWTH_HARVEST": "20 days" },
+      { "GROWTH_OVERGROWN": "10 hour" }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_asparagus",
+    "copy-from": "seed",
+    "price": "70 cent",
+    "name": { "str_sp": "asparagus seeds" },
+    "description": "Some asparagus seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "plant_name": "asparagus",
+    "fruit": "raw_asparagus",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "30 days" },
+      { "GROWTH_SEEDLING": "30 days" },
+      { "GROWTH_MATURE": "20 days" },
+      { "GROWTH_HARVEST": "10 days" },
+      { "GROWTH_OVERGROWN": "10 hour" }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_brussels_sprout",
+    "copy-from": "seed",
+    "price": "70 cent",
+    "name": { "str_sp": "brussels sprout seeds" },
+    "description": "Some brussels sprout seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "plant_name": "brussels_sprout",
+    "fruit": "brussels_sprout_stalk",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "20 days" },
+      { "GROWTH_SEEDLING": "20 days" },
+      { "GROWTH_MATURE": "10 days" },
+      { "GROWTH_HARVEST": "10 days" },
+      { "GROWTH_OVERGROWN": "10 hour" }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_kale",
+    "copy-from": "seed",
+    "price": "70 cent",
+    "name": { "str_sp": "kale seeds" },
+    "description": "Some kale sprout seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "plant_name": "kale",
+    "fruit": "kale_head",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "15 days" },
+      { "GROWTH_SEEDLING": "15 days" },
+      { "GROWTH_MATURE": "10 days" },
+      { "GROWTH_HARVEST": "10 days" },
+      { "GROWTH_OVERGROWN": "10 hour" }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_pea",
+    "copy-from": "pea",
+    "category": "seeds",
+    "name": { "str_sp": "pea seeds" },
+    "container": "null",
+    "description": "Some fresh peas, ready for planting.",
+    "extend": { "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ] },
+    "plant_name": "pea",
+    "fruit": "pea_pods",
+    "seeds": false,
+    "growth_stages": [
+      { "GROWTH_SEED": "20 days" },
+      { "GROWTH_SEEDLING": "20 days" },
+      { "GROWTH_MATURE": "20 days" },
+      { "GROWTH_HARVEST": "20 days" },
+      { "GROWTH_OVERGROWN": "10 hour" }
     ]
   }
 ]

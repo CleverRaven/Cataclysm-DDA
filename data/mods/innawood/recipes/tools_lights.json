@@ -35,7 +35,7 @@
     "using": [ [ "soldering_standard", 7 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "cable", 8 ] ],
+      [ [ "cable", 3 ] ],
       [ [ "plastic_chunk", 2 ] ],
       [ [ "circuit", 2 ] ],
       [ [ "e_scrap", 2 ], [ "makeshift_transformer", 2 ] ],
@@ -65,7 +65,7 @@
         [ "plastic_bottles_any", 1, "LIST" ]
       ],
       [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
-      [ [ "cable", 10 ] ]
+      [ [ "cable", 4 ] ]
     ]
   },
   {
@@ -85,7 +85,7 @@
       [ [ "amplifier", 4 ], [ "makeshift_transformer", 8 ] ],
       [ [ "steel_chunk_any", 2, "LIST" ], [ "scrap", 6 ] ],
       [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
-      [ [ "cable", 10 ] ]
+      [ [ "cable", 4 ] ]
     ]
   },
   {
@@ -105,7 +105,7 @@
       [ [ "amplifier", 4 ], [ "makeshift_transformer", 8 ] ],
       [ [ "steel_chunk_any", 2, "LIST" ], [ "scrap", 6 ] ],
       [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
-      [ [ "cable", 10 ] ]
+      [ [ "cable", 4 ] ]
     ]
   },
   {
@@ -126,7 +126,7 @@
       [ [ "amplifier", 2 ], [ "makeshift_transformer", 4 ] ],
       [ [ "plastic_chunk", 2 ], [ "scrap", 3 ] ],
       [ [ "lightstrip_inactive", 2 ], [ "light_bulb", 2 ] ],
-      [ [ "cable", 10 ] ]
+      [ [ "cable", 4 ] ]
     ]
   },
   {
@@ -147,7 +147,7 @@
       [ [ "amplifier", 3 ], [ "makeshift_transformer", 6 ] ],
       [ [ "plastic_chunk", 3 ], [ "scrap", 4 ] ],
       [ [ "lightstrip_inactive", 3 ], [ "light_bulb", 3 ] ],
-      [ [ "cable", 12 ] ]
+      [ [ "cable", 4 ] ]
     ]
   },
   {
@@ -189,7 +189,7 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "cable", 2 ] ],
+      [ [ "cable", 1 ] ],
       [ [ "amplifier", 1 ], [ "makeshift_transformer", 2 ] ],
       [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
       [ [ "steel_lump_any", 1, "LIST" ] ],
@@ -212,7 +212,7 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "cable", 2 ] ],
+      [ [ "cable", 1 ] ],
       [ [ "amplifier", 1 ], [ "makeshift_transformer", 2 ] ],
       [ [ "floodlight", 1 ] ],
       [ [ "steel_lump_any", 1, "LIST" ] ],

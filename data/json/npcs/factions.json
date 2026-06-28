@@ -423,6 +423,7 @@
         "kill on sight": false,
         "watch your back": false,
         "share my stuff": false,
+        "share public goods": true,
         "guard your stuff": false,
         "lets you in": false,
         "defends your space": false,
@@ -1142,7 +1143,8 @@
       { "group": "games_board_all", "premium": 2.5 },
       { "group": "exodii_pay_extra_for_metals", "premium": 4 },
       { "group": "exodii_pay_extra_for_medicine", "premium": 4 },
-      { "group": "exodii_pay_extra_for_ammo", "premium": 4 }
+      { "group": "exodii_pay_extra_for_ammo", "premium": 4 },
+      { "group": "exodii_pay_extra_for_petrochemical", "premium": 4 }
     ],
     "relations": {
       "free_merchants": {

@@ -20,6 +20,20 @@ class JsonOut;
 
 enum class bp_type;
 
+struct wound_progress {
+    wound_type_id id;
+    int chance;
+
+    void deserialize( const JsonObject &jo );
+};
+
+struct wound_limb_score {
+    limb_score_id score;
+    float value;
+
+    void deserialize( const JsonObject &jo );
+};
+
 class wound_type
 {
     public:
@@ -41,7 +55,9 @@ class wound_type
         std::string get_description() const;
         int evaluate_pain() const;
         time_duration evaluate_healing_time() const;
+        int get_limit() const;
 
+        std::vector<wound_limb_score> get_limb_scores() const;
 
         // what damage types can apply this wound
         std::vector<damage_type_id> damage_types;
@@ -58,9 +74,18 @@ class wound_type
         std::vector<bp_type> blacklist_body_part_types;
 
         std::set<wound_fix_id> fixes;
+
+        // list of wounds this wound can lead to
+        std::vector<wound_progress> wound_progression;
     private:
         translation name_;
         translation description_;
+
+        // how many of this specific wound character can receive
+        // 0 means any amount
+        unsigned int limit = 0;
+
+        std::vector<wound_limb_score> limb_scores;
 
         // if applied, how long it may take for it to heal
         std::pair<time_duration, time_duration> healing_time_;
@@ -86,6 +111,20 @@ class wound
         time_duration get_healing_time() const;
         // update the wound healing progress, if it's healed, return true
         bool update_wound( time_duration time_passed );
+
+        wound &operator+=( const wound &wd ) {
+            healing_time += wd.get_healing_time();
+            pain += wd.get_pain();
+            // reset healing progress? maybe not necessary?
+            healing_progress = 0_seconds;
+
+            return *this;
+        }
+
+        bool operator==( const wound &wd ) {
+            return type == wd.type && healing_progress == wd.healing_progress ;
+        }
+
     private:
         // how long it takes for this wound to heal. Can be adjusted by wound fix.
         time_duration healing_time;

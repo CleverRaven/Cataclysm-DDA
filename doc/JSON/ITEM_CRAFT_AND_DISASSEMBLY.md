@@ -3,6 +3,7 @@
 *Contents*
 
 - [Recipes](#recipes)
+  - [Recipe steps](#recipe-steps)
   - [Practice recipes](#practice-recipes)
   - [Nested recipes](#nested-recipes)
   - [Recipe requirements](#recipe-requirements)
@@ -77,7 +78,7 @@ Crafting recipes are defined as a JSON object with the following fields:
 "container": "jar_glass_sealed", //The resulting item will be contained by the item set here, overrides default container.
 "container_variant": "jar_glass_sealed_strawberry_picture", //The container specified above will spawn as the specified variant, overrides the normal weighted behavior.
 "batch_time_factors": ..., // See below for details
-"charges": 2,                // Number of resulting items/charges per craft. Uses default charges if not set. If a container is set, this is the amount that gets put inside it, capped by container capacity.
+"charges": 2,                // (Optional, default 1) Number of resulting items/charges per craft. If a container is set, this is the amount that gets put inside it, capped by container capacity.
 "result_mult": 2,            // Multiplier for resulting items. Also multiplies container items.
 "flags": [                   // A set of strings describing boolean features of the recipe
   "BLIND_EASY",
@@ -136,6 +137,148 @@ It is specified as follows:
 ```jsonc
 "batch_time_factors": { "mode": "linear": "setup": "12 m" },
 "batch_time_factors": { "mode": "linear": "setup": "12 m", "max": 20 },
+```
+
+## Recipe steps
+
+Recipes can optionally define a `"steps"` array to split the craft into named phases.  Each step has its own time, activity level, proficiencies, tools, qualities, and batch savings.
+
+When `"steps"` is present, the following fields must appear per-step and must **not** appear at root level: `"time"`, `"activity_level"`, `"tools"`, `"qualities"`, `"proficiencies"`, `"batch_time_factors"`.
+
+`"using"` is allowed at both root level and step level for step recipes.  Root-level `"using"` merges into whole-recipe requirements (tools, qualities, and components are all gated at craft start).  Step-level `"using"` merges into that step's requirements and also participates in tool speed resolution for that step.
+
+`"components"` remains at root level.  All other recipe fields (`"result"`, `"skill_used"`, `"difficulty"`, `"book_learn"`, `"autolearn"`, etc.) also remain at root.
+
+### Inheritance
+
+Step recipes support `"copy-from"` and `"abstract"`.
+
+- If a child recipe uses `"copy-from"` pointing to a step recipe and does **not** include a `"steps"` array, it inherits the base's steps.  The child can override root-level fields like `"difficulty"`, `"skill_used"`, `"components"`, etc.
+- If the child **does** include a `"steps"` array, its steps replace the base's.  Root-level `"using"` from the base is preserved; the child can override it by providing its own `"using"`.
+- An `"abstract"` recipe with steps serves as a template.  Concrete children inherit steps and provide their own `"components"` and `"result"`.
+
+### Step fields
+
+Each entry in the `"steps"` array is an object with these fields:
+
+```jsonc
+"name":               // (Mandatory) Translatable string.  Shown in the crafting progress message.
+"time":               // (Mandatory) Duration (e.g. "5 m").  Must be > 0.
+"activity_level":     // (Mandatory) Same values as the recipe-level field.
+"proficiencies":      // (Optional)  Same format as recipe-level.  Only these proficiencies are
+                      //             trained while the craft is in this step.
+"tools":              // (Optional)  Same format as recipe-level.
+"qualities":          // (Optional)  Same format as recipe-level.
+"using":              // (Optional)  Same format as recipe-level.  Merges into this step's requirements.
+"batch_time_factors": // (Optional)  Same format as recipe-level.
+"attention":          // (Optional)  Either "none" (default) or "unattended".  See "Unattended steps".
+"max_time":           // (Optional)  Duration.  Hard deadline for an unattended step.  Must be > "time".
+                      //             Authored per-unit; the ruin deadline ("max_time" + "grace_period")
+                      //             scales with batch size through "batch_time_factors", like "time".
+"grace_period":       // (Optional)  Duration.  Extra time past "max_time" before the craft is destroyed.
+                      //             Only allowed when "max_time" is set.
+"unattend_message":   // (Optional)  Translatable string.  Shown when an unattended step finishes
+                      //             while the player is elsewhere.  Has a generic fallback.
+```
+
+`"components"` at step level is not allowed.
+
+### Example
+
+```jsonc
+{
+  "type": "recipe",
+  "result": "bread",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_BREAD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "charges": 10,
+  "components": [
+    [ [ "flour", 22 ], [ "bread_flour", 5 ] ],
+    [ [ "yeast", 1 ] ],
+    [ [ "water_clean", 2 ] ],
+    [ [ "sugar", 4 ] ]
+  ],
+  "steps": [
+    {
+      "name": "Mix dough",
+      "time": "5 m",
+      "activity_level": "MODERATE_EXERCISE",
+      "batch_time_factors": [ 25, 4 ],
+      "proficiencies": [
+        { "proficiency": "prof_food_prep" },
+        { "proficiency": "prof_baking" },
+        { "proficiency": "prof_baking_bread" }
+      ]
+    },
+    {
+      "name": "Let dough rise",
+      "time": "10 m",
+      "activity_level": "NO_EXERCISE",
+      "batch_time_factors": [ 5, 4 ]
+    },
+    {
+      "name": "Bake",
+      "time": "5 m",
+      "activity_level": "LIGHT_EXERCISE",
+      "batch_time_factors": [ 50, 4 ],
+      "qualities": [ { "id": "OVEN", "level": 1 } ],
+      "tools": [ [ [ "surface_heat", 22, "LIST" ] ] ]
+    }
+  ]
+}
+```
+
+### Runtime behavior
+
+- All step tools and qualities are merged and checked at craft start.
+- The craft tracks a single overall progress bar.
+- The activity level changes as the craft moves between steps.
+- Proficiency training is limited to the proficiencies listed on the current step.
+- Batch savings are applied per-step and summed.
+- The current step name appears in the crafting progress message.
+- Tool speed modifiers (see `"speed"` in item quality definitions) apply per-step: a tool with `"speed": 0.5` on a quality halves the time of steps requiring that quality, without affecting other steps.
+- Tool charges are consumed per-step, in proportion to that step's progress, so a charged tool listed on one step drains only while that step runs.  Recipe-root tools (root `"using"`/`"tools"`) are spread across the steps by each step's share of the total time.
+
+### Unattended steps
+
+A step marked `"attention": "unattended"` is wall-clock time the crafter does not actively work through (rising, marinating, curing).  Starting or resuming such a recipe shows a planning modal per unattended step:
+
+- Wait: player roots under `ACT_CRAFT_WAIT`, time passes, activity flips back to active mode when the step finishes (or ends entirely if the step was the last one).
+- Do something else: activity ends, craft stays where it landed, player is free.
+- Set a timer: like "do something else" plus an alarm clock at a chosen offset.  Only offered with a watch, smartphone, or alarm-clock bionic.
+
+Choices persist across save/load.  On resume the modal asks only about the in-flight unattended step and any later unattended steps; already-completed steps are skipped.  The item name shows live percentage progress projected from counter snapshots taken at step entry, even when no actor is running.
+
+When the wall-clock deadline elapses:
+
+- Non-terminal: step advances, distraction fires with `unattend_message` (or a vague log line without a timepiece).  Suppressed if the player is already on this craft.
+- Terminal: craft auto-finalizes at the deadline, so morale, EOCs, heat, and birthday use in-game completion time.
+- `max_time + grace_period` past start: craft is destroyed.  This deadline is batch-scaled the same way as completion, so the ruin window tracks the batch-scaled completion time rather than staying a flat per-unit duration.
+
+If the step's tools or qualities become unavailable, or a charged tool runs short on charges, the step pauses and the deadline slides forward once the requirement is restored.  `crafter_id` is remembered so env-check picks up the crafter's pseudo-tools, bionics, and trait qualities when they are next to the craft.
+
+NPCs do not see the planning modal and behave as if implicitly waiting; the unattended block in the craft activity actor still drives their craft forward.
+
+Schema:
+
+- `"max_time"`, when set, must be strictly greater than `"time"`.
+- `"grace_period"` requires `"max_time"`.
+- `"attention": "supervised"` is rejected at load (reserved).
+- An unattended step may list charged tools.  Their charges are drained over the step's wall-clock progress (fully spent by completion), drawn from the crafter when next to the craft or from the craft's own tile otherwise; running short pauses the step until charges return.
+
+Example:
+
+```jsonc
+{
+  "name": "Let dough rise",
+  "time": "10 m",
+  "activity_level": "NO_EXERCISE",
+  "batch_time_factors": [ 5, 4 ],
+  "attention": "unattended",
+  "unattend_message": "The dough has finished rising."
+}
 ```
 
 ## Practice recipes
@@ -333,7 +476,11 @@ For instance, this `"uncraft"` recipe for a motorbike alternator uses either 20 
 ```
 
 Requirements may include `"tools"` or `"qualities"` in addition to
-`"components"`.  Here we have a standard soldering requirement needing either a
+`"components"`.  An optional `"name"` field provides a human-readable
+display name (e.g. "Heat source", "Welding tools") that UIs can show
+instead of listing every alternative tool individually.
+
+Here we have a standard soldering requirement needing either a
 `"soldering_iron"` or `"toolset"`, plus 1 unit of the `"solder_wire"` component:
 
 
@@ -341,6 +488,7 @@ Requirements may include `"tools"` or `"qualities"` in addition to
 {
   "id": "soldering_standard",
   "type": "requirement",
+  "name": "Soldering tools",
   "//": "Tools and materials needed for soldering metal items or electronics",
   "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ],
   "components": [ [ [ "solder_wire", 1 ] ] ]
@@ -409,12 +557,14 @@ error during recipe finalization that your recipe is too complex.  In this
 case, the game may not be able to correctly predict whether it can be crafted.
 
 To work around this issue, if you do not wish to simplify the recipe
-requirements, then you can split your recipe into multiple steps.  For
-example, if we wanted to simplify the above survivor telescope recipe we could
-introduce an intermediate item "survivor eyepiece", which requires one of
-either lens, and then the telescope would require a high-quality lens and an
-eyepiece.  Overall, the requirements are the same, but neither recipe has any
-overlap.
+requirements, you can introduce intermediate items to break the overlap.
+For example, if we wanted to simplify the above survivor telescope recipe we
+could introduce an intermediate item "survivor eyepiece", which requires one
+of either lens, and then the telescope would require a high-quality lens and
+an eyepiece.  Overall, the requirements are the same, but neither recipe has
+any overlap.
+
+Note: this is different from [recipe steps](#recipe-steps), which split a single recipe into named phases with per-step tools and proficiencies but do not create intermediate items.
 
 For more details, see [this pull
 request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the

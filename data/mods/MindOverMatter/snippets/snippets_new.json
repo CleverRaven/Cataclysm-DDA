@@ -250,7 +250,7 @@
         "name": "testing report N2-8129",
         "id": "lab_file_clairsentience_02",
         "weight": 800,
-        "text": "Subject O21 was placed blindfolded in a completely dark room with a deck of shuffled playing cards, instructed to remove the blindfold, and asked to sort them in standard order: clubs, diamonds, hearts, spades, each in numerical order.  Task was completed in 6:03 with 18/52 cards in the proper order and minor to major ordering errors in all other cards.  Subject was then asked to drink from the coffee cup in the room.  Cup was placed on a shelf above the door to prevent movement around the room from discovering it, but task was completed in 1:14, with the only difficulty being subject's height (158 cm) making it harder to reach the shelf.  Subject was then asked to cross the room to the table, pick up the paper, and read the sequence of numbers written on it.  Subject was unable to do so, only correctly reciting the first two digits.\n\nExperiment does uphold the thesis that successful NOBLE HORIZON mathematicians perceive their surroundings through means other than light.  As O21 was unable to read the document, their sense is not \"sight\" as such.  Further experimentation to determine its limits is necessary."
+        "text": "O21 was placed blindfolded in a completely dark room with a deck of shuffled playing cards, instructed to remove the blindfold, and asked to sort them in standard order: clubs, diamonds, hearts, spades, each in numerical order.  Task was completed in 6:03 with 18/52 cards in the proper order and minor to major ordering errors in all other cards.  O21 was then asked to drink from the coffee cup in the room.  Cup was placed on a shelf above the door to prevent movement around the room from discovering it, but task was completed in 1:14, with the only difficulty being their's height (158 cm) making it harder to reach the shelf.  O21 was then asked to cross the room to the table, pick up the paper, and read the sequence of numbers written on it.  O21 was unable to do so, only correctly reciting the first two digits.\n\nExperiment does uphold the thesis that successful NOBLE HORIZON mathematicians perceive their surroundings through means other than light.  As O21 was unable to read the document, their sense is not \"sight\" as such.  Further experimentation to determine its limits is necessary."
       },
       {
         "name": "COLD BELOW progress report",
@@ -269,6 +269,12 @@
         "id": "lab_file_clairsentience_05",
         "weight": 500,
         "text": "Dr Richardson,\nLast night, both J99 and V27 approached me with a concern.  As is consistent with NOBLE HORIZON protocol, they have been keeping a dream journal and noticed during the weekly meeting that a few nights ago they had exactly the same dream, down to the smallest details.  You can find the exact details in the weekly report but the gist of it was a giant hand reaching out of the sky and covering the entire Earth and squeezing the Earth until it cracked.  Looking back through previous journals, I found that W88 and P61 had similar dreams within the last week.  I'm still trying to track down if there was a \"patient zero\", so to speak, and if this is some kind of contagious imagery or there is some other obvious explanation, but in the meantime, I'm baffled.  NOBLE HORIZON visions are usually filtered through the individual psyche of the mathematician, and I have no explanation for why in this case multiple mathematicians would exhibit the exact same manifestation.\n\nI'm going to get to the bottom of this.  We already have bad morale after 947188 and this is not going to help.\nJohn Goldberg\nResearcher"
+      },
+      {
+        "name": "testing report N5-5519",
+        "id": "lab_file_clairsentience_06",
+        "weight": 800,
+        "text": "J99 was blindfolded and placed in a dark room, spotlit from above, and several members of security were given one dozen ping-pong balls with instructions to throw them at J99 when the signal was given.\n\nTest 1: One security guard as thrower, five seconds advance warning.  J99 avoided every single ball.\nTest 2: Three security guards as throwers, five seconds advance warning.  J99 avoided 25 balls before being grazed by one on the upper arm.\nTest 3: Three security guards as throwers, one second advance warning.  Similar results to test 2, though J99 avoided 20 balls this time.\nTest 4: Three security guards as throwers, no warning.  J99 avoided 18 balls before being hit, though their movements were notably lest coordinated than in previous tests.\nTest 5: Five security guards as throwers, no warning.  J99 avoided 8 balls before being hit.  As expected, with a high enough volume of fire the human body simply cannot move fast enough to avoid them all even if their paths are known."
       }
     ]
   },
@@ -288,7 +294,7 @@
         "name": "re: power",
         "id": "lab_file_electrokinesis_02",
         "weight": 800,
-        "text": "I did some work on your proposal to power the facility using RUBY LOOP in the event of continued disruptions over a long timescale and I can say that it's just not going to work.  Sure, a RUBY LOOP guy can keep their phone running basically forever, but it can't scale up.  We final have the data on those caloric expenditures and yes, I know they don't add up and nothing makes sense, but the \"how much they need to eat\" and the \"how much power they output\" lines do not ever cross no matter what we try.  And yes, I know you're going to bring up A80, but even though she can now throw lightning bolts like an X-man her efficiency rating on power generation is not actually that high among RUBY LOOP mathematicians.  And no, before you ask, hooking up a lightning rod and having her just blast it repeatedly wouldn't generate enough power either.  I thought of it and we did try it, but no dice.\n\nWe're going to have to hope that COBALT THORN comes through if we're stuck in here for too long."
+        "text": "I did some work on your proposal to power the facility using RUBY LOOP in the event of continued disruptions over a long timescale and I can say that it's just not going to work.  Sure, a RUBY LOOP guy can keep their phone running basically forever, but it can't scale up.  We finally have the data on those caloric expenditures and yes, I know they don't add up and nothing makes sense, but the \"how much they need to eat\" and the \"how much power they output\" lines do not ever cross no matter what we try.  And yes, I know you're going to bring up A80, but even though she can now throw lightning bolts like an X-man her efficiency rating on power generation is not actually that high among RUBY LOOP mathematicians.  And no, before you ask, hooking up a lightning rod and having her just blast it repeatedly wouldn't generate enough power either.  I thought of it and we did try it, but no dice.\n\nWe're going to have to hope that COBALT THORN comes through if we're stuck in here for too long."
       },
       {
         "name": "note on the back of a testing report",
@@ -306,8 +312,14 @@
       {
         "name": "I am the One",
         "id": "lab_file_electrokinesis_05",
-        "weight": 900,
+        "weight": 650,
         "text": "I flow through the data and watch the patterns stream around me.  I turn and choose between them.  A confidential email exchange, perhaps.  A receipt from a delivery.  A junk email for performance enhancement.  The secret plans of XEDRA management.  All is laid bare before my electronic gaze.  Passwords do not even slow me down.  I hear the voices of the satellites as they chatter in ones and zeroes.  I am a true inhabitant of the digital age, at home on the waves of the sea of information.\n\n*Handwritten below in red are the words, \"Refer I32 for psychological evaluation.\"*"
+      },
+      {
+        "name": "testing report R5-3317",
+        "id": "lab_file_electrokinesis_06",
+        "weight": 1000,
+        "text": "I32 was provided an air-gapped, recently-formatted desktop on which a series of text files containing a set of alphanumeric codes had been entered, as well as a notebook and a pen.  The desktop was not equipped with either a mouse, a keyboard, or a monitor.  Despite these limitations, I32 began writing after 23 seconds and within two minutes had transcribed the complete sequence of codes.\n\nFor the follow-up, I23 was provided with the same materials but had no physical access to the desktop.  Timing was similar to the first iteration of the experiment (22 seconds).\n\nFor a second follow-up, I32 also had no line of sight to the desktop due to it being placed in an adjacent room.  While I32 did eventually transcribe the sequence successfully, it took significantly longer (1 minute 15 seconds).  A further experiment to see if a Faraday cage or a shield of particular materials can block the effect is in the planning stage."
       }
     ]
   },
@@ -328,6 +340,18 @@
         "id": "lab_file_photokinesis_02",
         "weight": 1000,
         "text": "How does CRYPTIC FORGE control darkness?  Darkness is not a thing, there are no \"skotons\" that they could emit to cancel out existing light, but that seems to the casual observer what is happening.\n\nB81 was instructed to cancel the light within a one-meter area in the center of the testing chamber.  The lights were extinguished and blackout curtains hung over all observation windows.  The area was first exposed to candlelight (12 lumens), showing a distinct border of the area.  A flashlight (350 lumens) was trained on the area as well, with a similar effect, though the directional light from the flashlight was sufficient to demonstrate that light did not penetrate the area.  A high-powered flashlight (6000 lumens) shown from the corner illuminated most of the testing area and clearly delineated the borders of the area, as well as casting a shadow on the wall opposite of the light source.  Finally, the blackout curtains were removed and, after instructing B81 to close their eyes, a floodlight (118K lumens) was shone on the area, again to no effect.\n\nThe initial hypothesis, that CRYPTIC FORGE is somehow suppressing or allowing photons to \"jump\" through the area, is incorrect.  Assuming that conservation of energy is still in effect (since, without assuming that we have no basis to determine anything), it is instead possible that the photons are somehow absorbed by the affected area in a way that does not inhibit movement, in the same way that space seems mostly empty but large amounts of radiation are absorbed by cosmic dust.  Unfortunate that we don't have access to a particle accelerator to test various particles' interactions with the effect.\n\nI have already submitted a proposal to test CRYPTIC FORGE's ability to block microwaves, radio waves, X-rays, and other elements of the electromagnetic spectrum, and am waiting on successful procurement of the necessary equipment.\nAdam Brenner\nResearcher"
+      },
+      {
+        "name": "Note scribbled on the back of an HR memo",
+        "id": "lab_file_photokinesis_03",
+        "weight": 500,
+        "text": "I'm not sure I should be writing this down but I'm definitely not putting it on the network.  Ever since the quarantine I've been able to pick up the occasional radio signal, mostly music, some news, some hobbyists.\n\nThings are a lot worse than we're being told.  I keep hearing reports from preppers on the radio talking about rioters fighting police and the military with no regard for their safety, running screaming straight into gunfire.  And the reanimations are so widespread that they're happening basically everywhere.  Neither the police nor the military can keep up.\n\nThe brass have to know about this, so why aren't they telling us?  They're trying to maintain morale?  I have to keep practicing until I can send a signal to one of those preppers, tell them what I know.  Maybe something good can come from being stuck down here."
+      },
+      {
+        "name": "testing report C2-8850",
+        "id": "lab_file_photokinesis_04",
+        "weight": 900,
+        "text": "W20 entered the testing chamber with instructions to don the protective gear inside, and stand in front of the X-ray screen.  The X-ray technician performed the scan of W20's arms and when the film was processed, it showed nothing, exactly as it though it had hit a protective barrier.\n\nOur subsequent proposal to use a radium sample was immediately denied by W20, who stated they would never participate in such an experiment and left the room."
       }
     ]
   },
@@ -341,7 +365,7 @@
         "name": "testing report O3-5523",
         "id": "lab_file_pyrokinesis_01",
         "weight": 1000,
-        "text": "Z87 was instructed to kindle a flame above their palm, doing so successfully after approximately ten seconds of effort.  Measurements showed the temperature near the flame to exceed 200°C, though Z87 showed no discomfort despite his proximity.  Following instruction of testing authority, subject maintained the flame for 11 minutes and 38 seconds before it dissipated.  A second test showed similar results, though on this second attempt, Z87 could only maintain the flame for 7 minutes and 8 seconds.  While the fire burned with no apparent need for fuel, oxygen concentration measurements taken before, during, and after the test showed that the oxygen content of the room did decrease in line with the apparent size of the flame."
+        "text": "Z87 was instructed to kindle a flame above his palm, doing so successfully after approximately ten seconds of effort.  Measurements showed the temperature near the flame to exceed 200°C, though Z87 showed no discomfort despite his proximity.  Following instruction of testing authority, subject maintained the flame for 11 minutes and 38 seconds before it dissipated.  A second test showed similar results, though on this second attempt, Z87 could only maintain the flame for 7 minutes and 8 seconds.  While the fire burned with no apparent need for fuel, oxygen concentration measurements taken before, during, and after the test showed that the oxygen content of the room did decrease in line with the apparent size of the flame."
       },
       {
         "name": "Medicinal use of COPPER PRIME",
@@ -360,6 +384,12 @@
         "id": "lab_file_pyrokinesis_04",
         "weight": 600,
         "text": "Write down my impressions of Netherum mathematics?  How do you describe sight to a blind man?  How do you describe a symphony to a deaf person?  Well, alright, I'll try.\n\nI've heard some of the body people say that they have full awareness, like they're concentrating on every part of their body at once, but that's not what it's like for me.  It's more like focusing on something so hard you lose awareness of your surroundings.  I pick a point in space and I concentrate, and it's like I'm being sucked into it.  I just push on it.  I'm not sure how I can describe it better than that, I push on it with my mind and it starts moving, and when I'm aware of the world again, it's on fire.\n\nWorld on fire.  If I ever get to write about this, that's what I'll call the book.\n\nThe researchers ask me how I know how much energy to add, or how I concentrate, and I just know.  There's a reason we call it \"awakening.\"  I don't even need to think about it, really.  Despite the name it's not like mathematics, where you have to figure out 9 time 34 and carry the 3 and so on, it's like riding a bicycle.  Once I got used to how it worked, I can just do it.  It takes seconds, sometimes less.  I just have to put myself into the right frame of mind and the fire comes.\n\nNot sure how useful that is, but it's what it's like."
+      },
+      {
+        "name": "COPPER PRIME combat implications",
+        "id": "lab_file_pyrokinesis_05",
+        "weight": 750,
+        "text": "A common question is, why does JUNIPER GOLD have a specific combat-focused division and COPPER PRIME does not?  There are two main reasons.\n\nThe first is that fire spreads.  The use of JUNIPER GOLD poses little extra risk unless an incautious mathematician causes structural damage sufficient to induce a collapse.  Any use of COPPER PRIME can start a fire, and the ability to extinguish fires is far from universal among COPPER PRIME mathematicians.\n\nThe second is the short range.  This is a consistent problem with all mathematics, but the danger of uncontrolled COPPER PRIME usage provides an extra disadvantage.\n\nIn essence, COPPER PRIME has many of the same disadvantages of flamethrowers that led to them no longer being used in active service without few advantages to counteract this; primarily a lack of fuel requirements.  Unless the range problem is solved, military applications of COPPER PRIME will always take a secondary role behind JUNIPER GOLD."
       }
     ]
   },

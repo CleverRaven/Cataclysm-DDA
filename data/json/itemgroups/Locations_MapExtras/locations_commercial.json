@@ -438,6 +438,7 @@
       [ "textbook_robots", 1 ],
       [ "textbook_traps", 2 ],
       [ "textbook_anarch", 1 ],
+      { "item": "improvised_munition_handbook", "prob": 1 },
       [ "recipe_bows", 2 ],
       [ "recipe_arrows", 2 ],
       { "item": "extinguisher", "prob": 20, "charges": 100 },
@@ -624,7 +625,8 @@
       [ "woven_anklet", 1 ],
       { "group": "tinware", "prob": 10 },
       { "group": "costume_all_clothing", "prob": 10 },
-      [ "cheongsam", 5 ]
+      [ "cheongsam", 5 ],
+      { "group": "ammo_varmint_airgun", "prob": 10 }
     ]
   },
   {
@@ -655,6 +657,7 @@
       [ "freeze_dried_meal", 20 ],
       [ "chocolate_military", 20 ],
       { "group": "infantry_knives", "prob": 14 },
+      { "item": "varmint_airgun", "prob": 2 },
       [ "knife_rm42", 1 ],
       [ "kukri", 2 ],
       [ "knife_KABAR", 6 ],
@@ -832,6 +835,7 @@
       { "item": "trailmap", "prob": 20 },
       { "item": "touristmap", "prob": 5 },
       { "item": "restaurantmap", "prob": 5 },
+      { "item": "godco_flier", "prob": 1 },
       { "item": "magnifying_glass", "prob": 25 },
       { "item": "glasses_reading", "prob": 50 },
       { "item": "string_6", "prob": 25 },
@@ -1076,7 +1080,7 @@
       { "prob": 50, "group": "cig_box_cigarette_1_20" },
       { "item": "matches", "prob": 45, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 45, "charges": [ 1, 32 ] },
-      { "item": "rolling_paper", "prob": 10, "charges": [ 1, 30 ] },
+      { "item": "rolling_paper", "prob": 10, "count": [ 1, 30 ] },
       { "item": "bottle_glass", "prob": 50 },
       { "item": "bottle_plastic", "prob": 70 },
       { "item": "can_drink", "prob": 65 },
@@ -1264,7 +1268,7 @@
       [ "cocoa_powder", 30 ],
       [ "cocoa_powder_milk", 30 ],
       [ "powder_eggs", 10 ],
-      { "group": "egg_bird_unfert_carton_egg_10" },
+      { "group": "eggs_in_carton" },
       { "group": "vegetable_oil_bottle", "prob": 20 },
       { "item": "apple", "prob": 5, "custom-flags": [ "IRRADIATED" ] },
       { "item": "banana", "prob": 5, "custom-flags": [ "IRRADIATED" ] },
@@ -1618,6 +1622,7 @@
       [ "magnifying_glass", 5 ],
       { "item": "sewing_kit", "prob": 15, "charges": [ 0, -1 ] },
       [ "scissors", 10 ],
+      { "item": "sewing_machine", "prob": 15 },
       { "item": "gasoline_lantern", "prob": 7, "charges": [ 0, 500 ] },
       { "item": "flashlight", "prob": 25, "charges": [ 0, 300 ] },
       { "item": "hotplate", "prob": 20 },
@@ -1725,7 +1730,8 @@
     "type": "item_group",
     "//": "For s_electronics shops",
     "items": [
-      [ "cable", 95 ],
+      { "group": "cable_roll_part", "prob": 95 },
+      { "group": "copper_wire_roll_part", "prob": 60 },
       { "group": "box_of_batteries_unopened", "prob": 85 },
       [ "scrap", 70 ],
       [ "e_scrap", 95 ],
@@ -1743,7 +1749,7 @@
       [ "receiver", 5 ],
       { "item": "soldering_iron", "prob": 65 },
       { "item": "soldering_iron_portable", "prob": 65, "charges": [ 0, 50 ] },
-      [ "solder_wire", 50 ],
+      { "group": "solder_wire_spool_part", "prob": 50 },
       { "group": "glue_weak_professional", "prob": 25 },
       { "group": "glue_strong_professional", "prob": 30 },
       [ "screwdriver", 60 ],
@@ -2016,6 +2022,7 @@
       [ "awl_steel", 10 ],
       { "item": "loom_frame", "prob": 2 },
       { "item": "sewing_kit", "prob": 30, "charges": [ 0, -1 ] },
+      { "item": "sewing_machine", "prob": 30 },
       { "item": "shed_stick", "prob": 2 },
       { "item": "tailors_kit", "prob": 9, "charges": [ 0, -1 ] },
       { "item": "electric_spinwheel", "prob": 9 },
@@ -2049,11 +2056,7 @@
     "id": "farm_supply_soil_and_sand",
     "type": "item_group",
     "subtype": "collection",
-    "items": [
-      { "item": "material_sand", "prob": 50, "charges": 500, "container-item": "bag_canvas" },
-      { "group": "sandbag", "prob": 50 },
-      { "item": "material_soil", "prob": 50, "charges": 500, "container-item": "bag_canvas" }
-    ]
+    "items": [ { "group": "sandbag", "prob": 50 }, { "group": "earthbag", "prob": 50 } ]
   },
   {
     "id": "farm_supply_rocks",
@@ -2083,7 +2086,11 @@
   {
     "id": "farm_supply_quicklime_and_saltpetre",
     "type": "item_group",
-    "items": [ { "group": "quicklime_bag", "prob": 85 }, { "item": "chem_saltpetre", "prob": 15, "charges": [ 10, 50 ] } ]
+    "items": [
+      { "group": "quicklime_bag", "prob": 85 },
+      { "group": "quicklime_barrel", "prob": 20 },
+      { "group": "saltpeter_canvas_bag_part", "prob": 15 }
+    ]
   },
   {
     "id": "farm_supply_animal_feed",
@@ -2117,20 +2124,6 @@
       { "item": "survnote", "prob": 1 },
       { "item": "touristmap", "prob": 1 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "egg_bird_unfert_carton_egg_10",
-    "subtype": "collection",
-    "container-item": "carton_egg",
-    "entries": [ { "item": "egg_bird_unfert", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "antifungal_bottle_plastic_pill_prescription_1_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "antifungal", "container-item": "null", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",

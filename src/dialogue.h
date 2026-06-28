@@ -295,6 +295,10 @@ struct dialogue: public const_dialogue {
 
         std::string dynamic_line( const talk_topic &topic );
         void apply_speaker_effects( const talk_topic &the_topic );
+        // Display name for the NPC in conversation history. Uses
+        // remote_name from dialogue_window when set (intercom etc.),
+        // falls back to NPC display name, empty if not a conversation.
+        std::string speaker_name( const dialogue_window &d_win ) const;
 
         /**
          * Possible responses from the player character, filled in @ref gen_responses.

@@ -241,6 +241,14 @@ void field_type::load( const JsonObject &jo, std::string_view )
                   fallback_intensity_level.monster_spawn_group );
         optional( jao, was_loaded, "light_emitted", intensity_level.light_emitted,
                   fallback_intensity_level.light_emitted );
+        if( jao.has_array( "light_color" ) ) {
+            JsonArray jarr = jao.get_array( "light_color" );
+            intensity_level.light_color.r = jarr.get_int( 0 ) / 255.0f;
+            intensity_level.light_color.g = jarr.get_int( 1 ) / 255.0f;
+            intensity_level.light_color.b = jarr.get_int( 2 ) / 255.0f;
+        } else {
+            intensity_level.light_color = fallback_intensity_level.light_color;
+        }
         optional( jao, was_loaded, "light_override", intensity_level.local_light_override,
                   fallback_intensity_level.local_light_override );
         optional( jao, was_loaded, "translucency", intensity_level.translucency,
@@ -284,6 +292,7 @@ void field_type::load( const JsonObject &jo, std::string_view )
     field_types::load_immunity( jid, immunity_data );
 
     optional( jo, was_loaded, "immune_mtypes", immune_mtypes );
+    optional( jo, was_loaded, "block_mtypes", block_mtypes );
     optional( jo, was_loaded, "underwater_age_speedup", underwater_age_speedup, 0_turns );
     optional( jo, was_loaded, "outdoor_age_speedup", outdoor_age_speedup, 0_turns );
     optional( jo, was_loaded, "decay_amount_factor", decay_amount_factor, 0 );
@@ -347,6 +356,12 @@ void field_type::finalize()
     for( const mtype_id &m_id : immune_mtypes ) {
         if( !m_id.is_valid() ) {
             debugmsg( "Invalid mtype_id %s in immune_mtypes for field %s.", m_id.c_str(), id.c_str() );
+        }
+    }
+
+    for( const mtype_id &m_id : block_mtypes ) {
+        if( !m_id.is_valid() ) {
+            debugmsg( "Invalid mtype_id %s in block_mtypes for field %s.", m_id.c_str(), id.c_str() );
         }
     }
 

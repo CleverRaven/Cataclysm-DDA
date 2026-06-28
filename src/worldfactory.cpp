@@ -193,9 +193,12 @@ WORLD *worldfactory::make_new_world( bool show_prompt, const std::string &world_
         }
     }
 
-    for( mod_id checked_mod : retworld->active_mod_order ) {
-        if( !mman_ui->confirm_mod_compatibility( checked_mod, retworld->active_mod_order ) ) {
-            popup( _( "Unable to create new world, some active mods are incompatible." ) );
+    for( const mod_id &checked_mod : retworld->active_mod_order ) {
+        std::optional<mod_id> conflict = mman_ui->find_mod_conflict( checked_mod,
+                                         retworld->active_mod_order );
+        if( conflict ) {
+            popup( _( "Unable to create new world: %s conflicts with %s." ),
+                   checked_mod->name(), ( *conflict )->name() );
             return nullptr;
         }
     }
@@ -851,8 +854,11 @@ std::map<int, inclusive_rectangle<point>> worldfactory::draw_mod_list( const cat
 
                     }
                     mod_entry_name += string_format( _( " [%s]" ), mod_entry_id.str() );
-                    if( !mman_ui->confirm_mod_compatibility( mod_entry_id, potential_conflicts ) ) {
-                        mod_entry_name += _( " --- INCOMPATIBLE!" );
+                    std::optional<mod_id> conflict = mman_ui->find_mod_conflict( mod_entry_id,
+                                                     potential_conflicts );
+                    if( conflict ) {
+                        mod_entry_name += string_format( _( " --- conflicts with %s" ),
+                                                         ( *conflict )->name() );
                         mod_entry_color = c_pink;
                     }
                     trim_and_print( w, point( 4, iNum - start ), wwidth, mod_entry_color, mod_entry_name );
@@ -2025,10 +2031,6 @@ void WORLD::load_options( const JsonArray &options_json )
         if( opts.has_option( name ) && opts.get_option( name ).getPage() == "world_default" ) {
             WORLD_OPTIONS[ name ].setValue( value );
         }
-    }
-    // for legacy saves, try to simulate old city_size based density
-    if( WORLD_OPTIONS.count( "CITY_SPACING" ) == 0 ) {
-        WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - get_option<int>( "CITY_SIZE" ) / 3 );
     }
 }
 

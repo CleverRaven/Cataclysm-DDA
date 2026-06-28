@@ -8,7 +8,7 @@
     "description": "The president's dead and the city stretches on.  Whether you walk for 24 hours or 24 days, there is only more city.  There is no escape from this steel and concrete hell.",
     "category": "total_conversion",
     "dependencies": [ "dda" ],
-    "conflicts": [ "aftershock_exoplanet", "backrooms", "tropicata", "classic_zombies", "Isolation_Protocol", "innawood" ]
+    "conflicts": [ "aftershock_exoplanet", "backrooms", "tropicata", "classic_zombies", "Isolation_Protocol", "innawood", "no_hope" ]
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -48,16 +48,12 @@
     "scenarios": [ "evacuee" ]
   },
   {
-    "type": "EXTERNAL_OPTION",
-    "name": "MEGACITY",
-    "//": "If true, mapgen will be overwritten to place several large overlapping cities on every overmap. Intended for use only in the megacity mod, using it in other circumstances may cause strange behavior.",
-    "stype": "bool",
-    "value": true
-  },
-  {
     "type": "region_settings_city",
     "id": "mega_mega_city_settings",
     "copy-from": "default",
+    "is_megacity": true,
+    "city_size": 16,
+    "city_spacing": 0,
     "shop_radius": 200,
     "shop_sigma": 0,
     "park_radius": 0,

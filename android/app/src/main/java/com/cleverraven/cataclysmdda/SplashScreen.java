@@ -21,12 +21,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.*;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.cleverraven.cataclysmdda.CataclysmDDA_Helpers;
 
@@ -37,8 +45,8 @@ public class SplashScreen extends Activity {
 
     private AlertDialog accessibilityServicesAlert;
 
-    public CharSequence[] mSettingsNames;
-    public boolean[] mSettingsValues = { false, false, true, true };
+    public boolean[] mSettingsValues = { false, true, true };
+    private int mSystemUiModeIndex = 0;
 
     private String getVersionName() {
         try {
@@ -261,27 +269,18 @@ public class SplashScreen extends Activity {
                     }
                 }).create();
 
-            mSettingsNames = new CharSequence[] {
-                getString(R.string.softwareRendering),
-                getString(R.string.forceFullscreen),
-                getString(R.string.trapBackButton),
-                getString(R.string.nativeAndroidUI)
-            };
+            loadSettingsDefaults();
 
             settingsAlert = new AlertDialog.Builder(SplashScreen.this)
                 .setTitle(getString(R.string.settings))
-                .setMultiChoiceItems(SplashScreen.this.mSettingsNames, SplashScreen.this.mSettingsValues, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        SplashScreen.this.mSettingsValues[which] = isChecked;
-                    }})
+                .setView(createSettingsView())
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.startGame), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Software rendering", SplashScreen.this.mSettingsValues[0]).commit();
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Force fullscreen", SplashScreen.this.mSettingsValues[1]).commit();
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Trap Back button", SplashScreen.this.mSettingsValues[2]).commit();
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Native Android UI", SplashScreen.this.mSettingsValues[3]).commit();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(CataclysmDDA.PREF_SYSTEM_UI_MODE, getSelectedSystemUiMode()).commit();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Trap Back button", SplashScreen.this.mSettingsValues[1]).commit();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Native Android UI", SplashScreen.this.mSettingsValues[2]).commit();
                         SplashScreen.this.startGameActivity(false);
                         return;
                     }
@@ -292,6 +291,106 @@ public class SplashScreen extends Activity {
                         return;
                     }
                 }).create();
+        }
+
+        private void loadSettingsDefaults() {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            SplashScreen.this.mSettingsValues[0] = preferences.getBoolean("Software rendering", false);
+            SplashScreen.this.mSettingsValues[1] = preferences.getBoolean("Trap Back button", true);
+            SplashScreen.this.mSettingsValues[2] = preferences.getBoolean("Native Android UI", true);
+
+            String mode;
+            if (preferences.contains(CataclysmDDA.PREF_SYSTEM_UI_MODE)) {
+                mode = preferences.getString(
+                    CataclysmDDA.PREF_SYSTEM_UI_MODE,
+                    CataclysmDDA.SYSTEM_UI_MODE_SYSTEM_BARS);
+            } else {
+                mode = preferences.getBoolean(CataclysmDDA.PREF_FORCE_FULLSCREEN, false)
+                    ? CataclysmDDA.SYSTEM_UI_MODE_EDGE_TO_EDGE
+                    : CataclysmDDA.SYSTEM_UI_MODE_SYSTEM_BARS;
+            }
+            SplashScreen.this.mSystemUiModeIndex = systemUiModeIndex(mode);
+        }
+
+        private ScrollView createSettingsView() {
+            ScrollView scrollView = new ScrollView(SplashScreen.this);
+            LinearLayout layout = new LinearLayout(SplashScreen.this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            int padding = (int)(24 * getResources().getDisplayMetrics().density);
+            layout.setPadding(padding, 0, padding, 0);
+
+            TextView displayModeLabel = new TextView(SplashScreen.this);
+            displayModeLabel.setText(getString(R.string.androidSystemUiMode));
+            layout.addView(displayModeLabel);
+
+            RadioGroup displayModeGroup = new RadioGroup(SplashScreen.this);
+            displayModeGroup.setOrientation(RadioGroup.VERTICAL);
+            addSystemUiModeButton(displayModeGroup, 0, getString(R.string.androidSystemUiModeSystemBars));
+            addSystemUiModeButton(displayModeGroup, 1, getString(R.string.androidSystemUiModeFullscreen));
+            addSystemUiModeButton(displayModeGroup, 2, getString(R.string.androidSystemUiModeEdgeToEdge));
+            displayModeGroup.check(systemUiModeButtonId(mSystemUiModeIndex));
+            displayModeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    SplashScreen.this.mSystemUiModeIndex = systemUiModeIndexFromButtonId(checkedId);
+                }
+            });
+            layout.addView(displayModeGroup);
+
+            addBooleanSetting(layout, 0, getString(R.string.softwareRendering));
+            addBooleanSetting(layout, 1, getString(R.string.trapBackButton));
+            addBooleanSetting(layout, 2, getString(R.string.nativeAndroidUI));
+            scrollView.addView(layout, new ScrollView.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+            return scrollView;
+        }
+
+        private void addSystemUiModeButton(RadioGroup group, int id, String label) {
+            RadioButton button = new RadioButton(SplashScreen.this);
+            button.setId(systemUiModeButtonId(id));
+            button.setText(label);
+            group.addView(button, new RadioGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
+
+        private int systemUiModeButtonId(int index) {
+            return 1000 + index;
+        }
+
+        private int systemUiModeIndexFromButtonId(int buttonId) {
+            return buttonId - 1000;
+        }
+
+        private void addBooleanSetting(LinearLayout layout, final int index, String label) {
+            CheckBox checkBox = new CheckBox(SplashScreen.this);
+            checkBox.setText(label);
+            checkBox.setChecked(SplashScreen.this.mSettingsValues[index]);
+            checkBox.setOnClickListener(v -> SplashScreen.this.mSettingsValues[index] = checkBox.isChecked());
+            layout.addView(checkBox, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
+
+        private String getSelectedSystemUiMode() {
+            switch (mSystemUiModeIndex) {
+                case 1:
+                    return CataclysmDDA.SYSTEM_UI_MODE_FULLSCREEN;
+                case 2:
+                    return CataclysmDDA.SYSTEM_UI_MODE_EDGE_TO_EDGE;
+                default:
+                    return CataclysmDDA.SYSTEM_UI_MODE_SYSTEM_BARS;
+            }
+        }
+
+        private int systemUiModeIndex(String mode) {
+            if (CataclysmDDA.SYSTEM_UI_MODE_FULLSCREEN.equals(mode)) {
+                return 1;
+            } else if (CataclysmDDA.SYSTEM_UI_MODE_EDGE_TO_EDGE.equals(mode)) {
+                return 2;
+            }
+            return 0;
         }
 
         @Override

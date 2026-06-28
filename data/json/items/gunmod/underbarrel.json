@@ -613,7 +613,7 @@
     "is_visible_when_installed": true,
     "use_action": {
       "type": "transform",
-      "msg": "You turn the mounted flashlight on.",
+      "msg": "You turn on the %s.",
       "target": "mounted_flashlight_on",
       "need_charges": 1,
       "need_charges_msg": "The batteries are dead."
@@ -640,7 +640,7 @@
     "use_action": {
       "menu_text": "Turn off",
       "type": "transform",
-      "msg": "You turn the mounted flashlight off.",
+      "msg": "You turn off the %s.",
       "target": "mounted_flashlight",
       "ammo_scale": 0
     },

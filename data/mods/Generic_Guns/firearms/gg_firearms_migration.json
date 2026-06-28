@@ -498,5 +498,10 @@
     "id": [ "m26_mass_standalone" ],
     "type": "MIGRATION",
     "replace": "small_shotgun"
+  },
+  {
+    "id": [ "nl_chem_thrower" ],
+    "type": "MIGRATION",
+    "replace": "gg_nl_chem_thrower"
   }
 ]

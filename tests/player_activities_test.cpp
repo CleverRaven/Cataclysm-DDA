@@ -26,6 +26,7 @@
 #include "iuse_actor.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "mapdata.h"
 #include "monster.h"
 #include "monster_helpers.h"
@@ -52,6 +53,7 @@ static const activity_id ACT_PRYING( "ACT_PRYING" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
 
 static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_power_storage( "bio_power_storage" );
 
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_tied( "tied" );
@@ -135,6 +137,8 @@ static const ter_str_id ter_test_t_prying2( "test_t_prying2" );
 static const ter_str_id ter_test_t_prying3( "test_t_prying3" );
 static const ter_str_id ter_test_t_prying4( "test_t_prying4" );
 
+struct bionic;
+
 TEST_CASE( "safecracking", "[activity][safecracking]" )
 {
     avatar &dummy = get_avatar();
@@ -144,7 +148,8 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
 
         auto safecracking_setup = [&dummy]( int perception,
         int skill_level, bool has_proficiency ) -> void {
-            dummy.per_max = perception;
+            dummy.set_per_base( perception );
+            dummy.set_per_bonus( 0 );
             dummy.set_skill_level( skill_traps, skill_level );
 
             REQUIRE( dummy.get_per() == perception );
@@ -254,7 +259,11 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         GIVEN( "player has a stethoscope" ) {
             dummy.clear_worn();
             dummy.remove_weapon();
+            dummy.add_bionic( bio_power_storage );
+            dummy.set_power_level( dummy.get_max_power_level() );
             dummy.add_bionic( bio_ears );
+            std::optional<bionic *> bio_opt = dummy.find_bionic_by_type( bio_ears );
+            dummy.activate_bionic( **bio_opt );
             here.furn_set( safe, furn_f_safe_l );
             REQUIRE( !dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
@@ -1986,7 +1995,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
         dummy->wear_item( item( itype_test_backpack, calendar::turn ), false );
         item_location target = dummy->i_add( item( itype_test_oxytorch, calendar::turn ) );
         item_location ammo = dummy->i_add( item( itype_test_weldtank, calendar::turn ) );
-        item::reload_option opt( dummy, target, ammo );
+        item::reload_option opt( dummy, target, ammo, item::reload_option::POCKET_FALLBACK );
         return player_activity( reload_activity_actor( std::move( opt ) ) );
     },
     [] { return player_activity( safecracking_activity_actor( get_avatar().pos_bub() + tripoint_rel_ms::north ) ); },

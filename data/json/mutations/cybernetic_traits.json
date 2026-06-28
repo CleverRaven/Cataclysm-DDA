@@ -9,6 +9,17 @@
   },
   {
     "type": "mutation",
+    "id": "EXODII_WRATH",
+    "player_display": false,
+    "name": { "//~": "NO_I18N", "str": "Exodii Wrath" },
+    "points": 0,
+    "description": { "//~": "NO_I18N", "str": "Makes sure all the exodii mobs shoot you on sight." },
+    "valid": false,
+    "purifiable": false,
+    "anger_relations": [ [ "CYBORG", 95 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "CBM_Interface",
     "name": { "str": "Standard Neurobionic Interface" },
     "points": 0,
@@ -20,39 +31,301 @@
   },
   {
     "type": "mutation",
+    "id": "NL_CBM_Interface",
+    "name": { "str": "AltarOS Neurobionic Interface" },
+    "points": 0,
+    "description": "You have a matrix in your central nervous system that acts as a universal control and installation bus for compact bionic modules.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Cybernetic" ],
+    "cancels": [ "NO_CBM_INSTALLATION" ]
+  },
+  {
+    "type": "mutation",
+    "id": "Hub01_CBM_Interface",
+    "name": { "str": "Hub 01 Neurobionic Interface" },
+    "points": 0,
+    "description": "You have a matrix in your central nervous system that acts as a universal control and installation bus for compact bionic modules.  You also have a USB port installed behind your ear.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Cybernetic" ],
+    "cancels": [ "NO_CBM_INSTALLATION" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CBM_Interface_brain_lesion",
+    "name": { "str": "Minor brain lesion" },
+    "points": 0,
+    "description": "You have a minor brain lesion and some leftover metal in your brain - the remnants of removing and reinstalling a CBM interface.",
+    "valid": false,
+    "purifiable": false,
+    "starting_trait": false,
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -1 }, { "value": "DEXTERITY", "add": -1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "CBM_Interface_brain_lesion_2",
+    "name": { "str": "Major brain lesion" },
+    "points": 0,
+    "description": "You have a major brain lesion and lots of leftover metal in your brain - the remnants of removing and reinstalling a CBM interface.  Twice.  Smart move.",
+    "valid": false,
+    "purifiable": false,
+    "starting_trait": false,
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -4 }, { "value": "DEXTERITY", "add": -4 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "EXODII_CYBERFRAME_GENERIC",
+    "flags": [ "Exodii_Body", "TOUGH_FEET" ],
+    "name": { "str": "Exodii-style cyborg" },
+    "points": 0,
+    "visibility": 10,
+    "ugliness": 10,
+    "mixed_effect": true,
+    "description": "Your body has been reduced to your nervous system, sensory organs, core skeleton and musculature, and other critical internal meat-bits.  It can now only exist inside of an Exodii Cyberframe.",
+    "valid": false,
+    "purifiable": false,
+    "types": [
+      "Cyberframe",
+      "skin_tone",
+      "SCENT",
+      "ATTRACTIVENESS",
+      "SIZE",
+      "MUZZLE",
+      "SOLES",
+      "EYES",
+      "HAIR",
+      "HORNS",
+      "HANDS",
+      "LEGS",
+      "FEET",
+      "eye_color",
+      "facial_hair",
+      "hair_style",
+      "hair_color",
+      "SKIN",
+      "BODY_ARMOR",
+      "ARMOR",
+      "BODY_ARMOR_MOD",
+      "WINGS"
+    ],
+    "enchantments": [
+      {
+        "modified_bodyparts": [
+          { "lose": "arm_l" },
+          { "lose": "hand_l" },
+          { "lose": "arm_r" },
+          { "lose": "hand_r" },
+          { "lose": "leg_l" },
+          { "lose": "foot_l" },
+          { "lose": "leg_r" },
+          { "lose": "foot_r" },
+          { "lose": "torso" },
+          { "gain": "torso_bionic_basic" },
+          { "lose": "head" },
+          { "gain": "head_bionic_basic" },
+          { "lose": "eyes" },
+          { "gain": "eyes_bionic_basic" },
+          { "lose": "mouth" },
+          { "gain": "mouth_bionic_basic" }
+        ]
+      }
+    ],
+    "cancels": [ "BENDY1", "BENDY2", "BENDY3", "INTERSTICE_POSTURE", "INTERSTICE_POSTURE_2" ]
+  },
+  {
+    "type": "mutation",
+    "id": "EXODII_CYBERFRAME_LARGE",
+    "name": { "str": "Bulky Bionics" },
+    "points": 0,
+    "description": "Your Exodii Cyberframe is so large that you won't fit through very small spaces, and you cannot wear most normal-sized clothing and armor.",
+    "mixed_effect": true,
+    "valid": false,
+    "purifiable": false,
+    "flags": [ "LARGE" ],
+    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "eyes" ]
+  },
+  {
+    "type": "mutation",
     "id": "EXODII_BODY_1",
-    "flags": [ "Exodii_Body" ],
+    "flags": [ "Exodii_Body", "TOUGH_FEET", "LARGE" ],
     "name": { "str": "Exodii cyborg framework - style 1a" },
     "points": 0,
     "visibility": 4,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your brain and some of your organs are shielded in a nice tough bipedal walker frame.",
+    "description": "Your nervous system, sensory organs, and other critical internal meat-bits are shielded in an armored bipedal walker frame.  The armored plating is tough, but its bulkiness limits the sort of equipment you can wear.",
     "valid": false,
     "purifiable": false,
-    "types": [ "Cyberframe", "Cybernetic" ],
+    "types": [
+      "Cyberframe",
+      "skin_tone",
+      "SCENT",
+      "ATTRACTIVENESS",
+      "SIZE",
+      "MUZZLE",
+      "SOLES",
+      "EYES",
+      "HAIR",
+      "HORNS",
+      "HANDS",
+      "LEGS",
+      "FEET",
+      "eye_color",
+      "facial_hair",
+      "hair_style",
+      "hair_color",
+      "SKIN",
+      "BODY_ARMOR",
+      "ARMOR",
+      "BODY_ARMOR_MOD",
+      "WINGS"
+    ],
     "enchantments": [
+      { "values": [ { "value": "STRENGTH", "add": 4 }, { "value": "DEXTERITY", "add": 4 } ] },
       {
-        "values": [
-          { "value": "MAX_HP", "add": 20 },
-          { "value": "STRENGTH", "add": 4 },
-          { "value": "DEXTERITY", "add": 4 },
-          { "value": "CARRY_WEIGHT", "multiply": 2 }
+        "modified_bodyparts": [
+          { "lose": "arm_l" },
+          { "lose": "hand_l" },
+          { "gain": "arm_bionic_basic_l" },
+          { "gain": "hand_bionic_basic_l" },
+          { "lose": "arm_r" },
+          { "lose": "hand_r" },
+          { "gain": "arm_bionic_basic_r" },
+          { "gain": "hand_bionic_basic_r" },
+          { "lose": "leg_l" },
+          { "lose": "foot_l" },
+          { "gain": "leg_bionic_basic_l" },
+          { "gain": "foot_bionic_basic_l" },
+          { "lose": "leg_r" },
+          { "lose": "foot_r" },
+          { "gain": "leg_bionic_basic_r" },
+          { "gain": "foot_bionic_basic_r" },
+          { "lose": "torso" },
+          { "gain": "torso_bionic_basic" },
+          { "lose": "head" },
+          { "gain": "head_bionic_basic" },
+          { "lose": "eyes" },
+          { "gain": "eyes_bionic_basic" },
+          { "lose": "mouth" },
+          { "gain": "mouth_bionic_basic" }
         ]
       }
     ],
-    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
+    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "eyes" ],
     "armor": [
       {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
+        "parts": [
+          "torso_bionic_basic",
+          "head_bionic_basic",
+          "arm_bionic_basic_l",
+          "arm_bionic_basic_r",
+          "hand_bionic_basic_l",
+          "hand_bionic_basic_r",
+          "leg_bionic_basic_l",
+          "leg_bionic_basic_r",
+          "foot_bionic_basic_l",
+          "foot_bionic_basic_r",
+          "mouth_bionic_basic",
+          "eyes_bionic_basic"
+        ],
         "cut": 30,
         "bash": 30,
         "stab": 30,
-        "bullet": 25,
-        "acid": 25,
-        "electric": 5
+        "bullet": 25
       }
-    ]
+    ],
+    "cancels": [ "BENDY1", "BENDY2", "BENDY3", "INTERSTICE_POSTURE", "INTERSTICE_POSTURE_2" ]
+  },
+  {
+    "type": "mutation",
+    "id": "EXODII_BODY_1b",
+    "flags": [ "Exodii_Body", "TOUGH_FEET" ],
+    "name": { "str": "Exodii cyborg framework - style 1b" },
+    "points": 0,
+    "visibility": 4,
+    "ugliness": 4,
+    "mixed_effect": true,
+    "description": "Your nervous system, sensory organs, and other critical internal meat-bits are shielded in a very human-like bipedal walker frame.",
+    "valid": false,
+    "purifiable": false,
+    "types": [
+      "Cyberframe",
+      "skin_tone",
+      "SCENT",
+      "ATTRACTIVENESS",
+      "SIZE",
+      "MUZZLE",
+      "SOLES",
+      "EYES",
+      "HAIR",
+      "HORNS",
+      "HANDS",
+      "LEGS",
+      "FEET",
+      "eye_color",
+      "facial_hair",
+      "hair_style",
+      "hair_color",
+      "SKIN",
+      "BODY_ARMOR",
+      "ARMOR",
+      "BODY_ARMOR_MOD",
+      "WINGS"
+    ],
+    "enchantments": [
+      { "values": [ { "value": "STRENGTH", "add": 4 }, { "value": "DEXTERITY", "add": 4 } ] },
+      {
+        "modified_bodyparts": [
+          { "lose": "arm_l" },
+          { "lose": "hand_l" },
+          { "gain": "arm_bionic_basic_l" },
+          { "gain": "hand_bionic_basic_l" },
+          { "lose": "arm_r" },
+          { "lose": "hand_r" },
+          { "gain": "arm_bionic_basic_r" },
+          { "gain": "hand_bionic_basic_r" },
+          { "lose": "leg_l" },
+          { "lose": "foot_l" },
+          { "gain": "leg_bionic_basic_l" },
+          { "gain": "foot_bionic_basic_l" },
+          { "lose": "leg_r" },
+          { "lose": "foot_r" },
+          { "gain": "leg_bionic_basic_r" },
+          { "gain": "foot_bionic_basic_r" },
+          { "lose": "torso" },
+          { "gain": "torso_bionic_basic" },
+          { "lose": "head" },
+          { "gain": "head_bionic_basic" },
+          { "lose": "eyes" },
+          { "gain": "eyes_bionic_basic" },
+          { "lose": "mouth" },
+          { "gain": "mouth_bionic_basic" }
+        ]
+      }
+    ],
+    "armor": [
+      {
+        "parts": [
+          "torso_bionic_basic",
+          "head_bionic_basic",
+          "arm_bionic_basic_l",
+          "arm_bionic_basic_r",
+          "hand_bionic_basic_l",
+          "hand_bionic_basic_r",
+          "leg_bionic_basic_l",
+          "leg_bionic_basic_r",
+          "foot_bionic_basic_l",
+          "foot_bionic_basic_r",
+          "mouth_bionic_basic"
+        ],
+        "cut": 5,
+        "bash": 5,
+        "stab": 5,
+        "bullet": 2
+      }
+    ],
+    "cancels": [ "BENDY1", "BENDY2", "BENDY3", "INTERSTICE_POSTURE", "INTERSTICE_POSTURE_2" ]
   },
   {
     "type": "mutation",
@@ -85,9 +358,255 @@
         "bash": 15,
         "stab": 15,
         "bullet": 10,
-        "acid": 25,
         "electric": 0
       }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIONIC_ARM_BASIC_LEFT",
+    "name": { "str": "Bionic Arm (left)" },
+    "description": "Your left arm and hand have been replaced by advanced bionic prosthetics, controlled by an implanted neurobionic interface.  They more or less function like normal limbs, but they no longer bleed or feel discomfort, and are very modestly armored.  However, they cannot heal on their own and need power to operate.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "modified_bodyparts": [
+          { "lose": "arm_l" },
+          { "lose": "hand_l" },
+          { "gain": "robofac_arm_bionic_basic_l" },
+          { "gain": "robofac_hand_bionic_basic_l" }
+        ]
+      }
+    ],
+    "armor": [
+      {
+        "parts": [ "robofac_arm_bionic_basic_l", "robofac_hand_bionic_basic_l" ],
+        "cut": 5,
+        "bash": 5,
+        "stab": 5,
+        "bullet": 2
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIONIC_ARM_BASIC_RIGHT",
+    "name": { "str": "Bionic Arm (right)" },
+    "description": "Your right arm and hand have been replaced by advanced bionic prosthetics, controlled by an implanted neurobionic interface.  They more or less function like normal limbs, but they no longer bleed or feel discomfort, and are very modestly armored.  However, they cannot heal on their own and need power to operate.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "modified_bodyparts": [
+          { "lose": "arm_r" },
+          { "lose": "hand_r" },
+          { "gain": "robofac_arm_bionic_basic_r" },
+          { "gain": "robofac_hand_bionic_basic_r" }
+        ]
+      }
+    ],
+    "armor": [
+      {
+        "parts": [ "robofac_arm_bionic_basic_r", "robofac_hand_bionic_basic_r" ],
+        "cut": 5,
+        "bash": 5,
+        "stab": 5,
+        "bullet": 2
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIONIC_ARM_BASIC_BOTH",
+    "name": { "str": "Bionic Arms" },
+    "description": "Both of your arms and hands have been replaced by advanced bionic prosthetics, controlled by an implanted neurobionic interface.  They more or less function like normal limbs, but they no longer bleed or feel discomfort, and are very modestly armored.  However, they cannot heal on their own and need power to operate.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "types": [ "ARMS", "HANDS", "CLAWS" ],
+    "enchantments": [
+      {
+        "modified_bodyparts": [
+          { "lose": "arm_l" },
+          { "lose": "hand_l" },
+          { "gain": "robofac_arm_bionic_basic_l" },
+          { "gain": "robofac_hand_bionic_basic_l" },
+          { "lose": "arm_r" },
+          { "lose": "hand_r" },
+          { "gain": "robofac_arm_bionic_basic_r" },
+          { "gain": "robofac_hand_bionic_basic_r" }
+        ]
+      }
+    ],
+    "armor": [
+      {
+        "parts": [
+          "robofac_arm_bionic_basic_l",
+          "robofac_hand_bionic_basic_l",
+          "robofac_arm_bionic_basic_r",
+          "robofac_hand_bionic_basic_r"
+        ],
+        "cut": 5,
+        "bash": 5,
+        "stab": 5,
+        "bullet": 2
+      }
+    ],
+    "cancels": [
+      "BENDY2",
+      "BENDY3",
+      "SLIME_HANDS",
+      "WINGS_BIRD",
+      "ARM_FEATHERS",
+      "QUILLS",
+      "BARBS",
+      "WEBBED",
+      "PAWS",
+      "PAWS_LITTLE",
+      "PAWS_LARGE",
+      "CRUSTACEAN_CLAW",
+      "WINGS_BAT",
+      "ARM_TENTACLES",
+      "CLAWS_TENTACLE",
+      "INSECT_ARMS",
+      "INSECT_ARMS_OK",
+      "ARACHNID_ARMS",
+      "ARACHNID_ARMS_OK",
+      "NAILS",
+      "TALONS",
+      "CLAWS",
+      "CLAWS_RAT",
+      "CLAWS_ST",
+      "CLAWS_RETRACT"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIONIC_LEG_BASIC_LEFT",
+    "name": { "str": "Bionic Leg (left)" },
+    "description": "Your left leg and foot have been replaced by advanced bionic prosthetics, controlled by an implanted neurobionic interface.  They more or less function like normal limbs, but they no longer bleed or feel discomfort, and are very modestly armored.  However, they cannot heal on their own and need power to operate.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "modified_bodyparts": [
+          { "lose": "leg_l" },
+          { "lose": "foot_l" },
+          { "gain": "robofac_leg_bionic_basic_l" },
+          { "gain": "robofac_foot_bionic_basic_l" }
+        ]
+      }
+    ],
+    "armor": [
+      {
+        "parts": [ "robofac_leg_bionic_basic_l", "robofac_foot_bionic_basic_l" ],
+        "cut": 5,
+        "bash": 5,
+        "stab": 5,
+        "bullet": 2
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIONIC_LEG_BASIC_RIGHT",
+    "name": { "str": "Bionic Leg (right)" },
+    "description": "Your right leg and foot have been replaced by advanced bionic prosthetics, controlled by an implanted neurobionic interface.  They more or less function like normal limbs, but they no longer bleed or feel discomfort, and are very modestly armored.  However, they cannot heal on their own and need power to operate.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "modified_bodyparts": [
+          { "lose": "leg_r" },
+          { "lose": "foot_r" },
+          { "gain": "robofac_leg_bionic_basic_r" },
+          { "gain": "robofac_foot_bionic_basic_r" }
+        ]
+      }
+    ],
+    "armor": [
+      {
+        "parts": [ "robofac_leg_bionic_basic_r", "robofac_foot_bionic_basic_r" ],
+        "cut": 5,
+        "bash": 5,
+        "stab": 5,
+        "bullet": 2
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIONIC_LEG_BASIC_BOTH",
+    "name": { "str": "Bionic Legs" },
+    "description": "Both of your legs and feet have been replaced by advanced bionic prosthetics, controlled by an implanted neurobionic interface.  They more or less function like normal limbs, but they no longer bleed or feel discomfort, and are very modestly armored.  However, they cannot heal on their own and need power to operate.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "flags": [ "TOUGH_FEET" ],
+    "types": [ "LEGS", "FEET", "SOLES" ],
+    "enchantments": [
+      {
+        "modified_bodyparts": [
+          { "lose": "leg_l" },
+          { "lose": "foot_l" },
+          { "gain": "robofac_leg_bionic_basic_l" },
+          { "gain": "robofac_foot_bionic_basic_l" },
+          { "lose": "leg_r" },
+          { "lose": "foot_r" },
+          { "gain": "robofac_leg_bionic_basic_r" },
+          { "gain": "robofac_foot_bionic_basic_r" }
+        ]
+      }
+    ],
+    "armor": [
+      {
+        "parts": [
+          "robofac_leg_bionic_basic_l",
+          "robofac_foot_bionic_basic_l",
+          "robofac_leg_bionic_basic_r",
+          "robofac_foot_bionic_basic_r"
+        ],
+        "cut": 5,
+        "bash": 5,
+        "stab": 5,
+        "bullet": 2
+      }
+    ],
+    "cancels": [
+      "BENDY2",
+      "BENDY3",
+      "LEG_TENTACLES",
+      "LEG_TENT_BRACE",
+      "GASTROPOD_FOOT",
+      "GASTROPOD_BALANCE",
+      "INSECT_RESERVOIR",
+      "BIRD_LEGS",
+      "LEGS_BAT",
+      "CRAB_LEGS",
+      "STRONG_LEGS",
+      "ANIMAL_FEET",
+      "HOOKED_TOES",
+      "HOOVES",
+      "RABBIT_FEET",
+      "ROOTS1",
+      "ROOTS2",
+      "ROOTS3",
+      "RAP_TALONS",
+      "WEBBED_FEET",
+      "PADDED_FEET",
+      "TOUGH_FEET",
+      "BADKNEES",
+      "STRONGKNEES",
+      "REALLYBADKNEES",
+      "FLEET2",
+      "RAP_TALONS",
+      "LEGS_BAT",
+      "SCUTTLE"
     ]
   }
 ]

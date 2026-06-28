@@ -48,5 +48,105 @@
     "description": "A syringe that extends out into two tubes that snake up through the nostrils and down to the lungs in order to get the spores deep into their new home, where they can best spread through the body.",
     "price": "3 kUSD 500 USD",
     "difficulty": 0
+  },
+  {
+    "id": "xe_bio_data_shunt",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Data Shunt, basic" },
+    "description": "A compact bionic module designed for slotting in data cores that instantly teach you a proficiency or martial art.",
+    "price": "15 kUSD 500 USD",
+    "difficulty": 5
+  },
+  {
+    "id": "xe_bio_dataslot_giant_hunter",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Datacore: Giant Hunting", "str_pl": "Datacores: Giant Hunting" },
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
+    "price": "1 kUSD 500 USD",
+    "difficulty": 0
+  },
+  {
+    "id": "xe_bio_dataslot_cyborg_hunting",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Datacore: Cyborg Hunting", "str_pl": "Datacores: Cyborg Hunting" },
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
+    "price": "4 kUSD 500 USD",
+    "difficulty": 0
+  },
+  {
+    "id": "xe_bio_dataslot_migo_weakpoints",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Datacore: Mi-go Weakpoints", "str_pl": "Datacores: Mi-go Weakpoints" },
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
+    "price": "1 kUSD 500 USD",
+    "difficulty": 0
+  },
+  {
+    "id": "xe_bio_dataslot_lockpicking",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Datacore: Lockpicking", "str_pl": "Datacores: Lockpicking" },
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
+    "price": "4 kUSD 500 USD",
+    "difficulty": 0
+  },
+  {
+    "id": "xe_bio_dataslot_game_ui",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Datacore: Trap Highlight UI", "str_pl": "Datacores: Trap Highlight UI" },
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
+    "price": "1 kUSD 500 USD",
+    "difficulty": 0
+  },
+  {
+    "id": "xe_bio_dataslot_EOD",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Datacore: Trap Disposal", "str_pl": "Datacores: Trap Disposal" },
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
+    "price": "4 kUSD 500 USD",
+    "difficulty": 0
+  },
+  {
+    "id": "xe_bio_dataslot_parkour",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Datacore: Parkour", "str_pl": "Datacores: Parkour" },
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
+    "price": "1 kUSD 500 USD",
+    "difficulty": 0
+  },
+  {
+    "id": "xe_bio_dataslot_muay_thai",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Datacore: Muay Thai", "str_pl": "Datacores: Muay Thai" },
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
+    "price": "1 kUSD 500 USD",
+    "difficulty": 0
+  },
+  {
+    "id": "xe_bio_dataslot_helicopter_pilot",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Datacore: Helicopter Pilot", "str_pl": "Datacores: Helicopter Pilot" },
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
+    "price": "4 kUSD 500 USD",
+    "difficulty": 0
   }
 ]

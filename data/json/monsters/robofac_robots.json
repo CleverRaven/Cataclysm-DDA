@@ -141,7 +141,7 @@
     "id": "mon_robofac_hound",
     "type": "MONSTER",
     "name": { "str": "Hub 01 HOUND" },
-    "description": "A Hub 01 Hostile Overstimulation & Unmanned Neutralization Drone.  If reprogrammed and reloaded successfully, this quadrupedal robot will closely track you, using a taser and noise-generator to distract, disorient, and ultimately neutralize nearby enemies.",
+    "description": "A quadrupedal Hub 01 Hostile Overstimulation & Unmanned Neutralization Drone, armed with a taser and noise-generator to distract, disorient, and ultimately neutralize nearby enemies.",
     "species": [ "ROBOT" ],
     "default_faction": "robofac_spy",
     "diff": 4,

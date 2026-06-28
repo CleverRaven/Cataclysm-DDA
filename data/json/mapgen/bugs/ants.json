@@ -38,10 +38,15 @@
     "//": "slopes up to anthill entrance to be used where appropriate",
     "type": "mapgen",
     "nested_mapgen_id": "ant_up_to_surface",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
         ">>",
         ">>"
-      ], "terrain": { ">": "t_slope_up" } }
+      ],
+      "terrain": { ">": "t_slope_up" }
+    }
   },
   {
     "//": "walls of ant tunnel that can shift from side to side to make the tunnel wind",

@@ -198,7 +198,7 @@
     "type": "talk_topic",
     "dynamic_line": "Just about everyone is dead, but some people survived, right?  But just like you go around breaking into houses and taking whatever you think you need or want, well, other survivors do the same thing.  And that stack of loot you've been accumulating looks just like some random dead person's loot when it's left alone.  If some other scavenger comes around and sees that loot, and you or I or another ally isn't around to claim it, that other survivor is just going to take it.  So try to detail someone to watch your stuff - whether its at a base or in a vehicle.\n  Also, we've teamed up to better our chances of survival.  Other people are going to do the same, forming little factions just like we did.  If you open the faction manager (keybind '#'), you can see a list of all your allies, as well as all the other factions you've met so far.  Some factions are really just some guy trying to survive on his own, but other factions have dozens of members and fortified bases and such.  You might want to find some of them and try to make friends with them.",
     "responses": [
-      { "text": "Anything else  I can do in the faction manager?", "topic": "TALK_ALLY_TUTORIAL_RADIO" },
+      { "text": "Anything else I can do in the faction manager?", "topic": "TALK_ALLY_TUTORIAL_RADIO" },
       { "text": "Is there any way we can build base for our faction?", "topic": "TALK_CAMP_TUTORIAL_INTRO" }
     ]
   },

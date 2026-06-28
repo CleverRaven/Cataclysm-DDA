@@ -42,6 +42,7 @@ class move_mode
         move_mode_id id;
         std::vector<std::pair<move_mode_id, mod_id>> src;
 
+        std::map<steed_type, translation> prepare_messages;
         std::map<steed_type, translation> change_messages_success;
         std::map<steed_type, translation> change_messages_fail;
 
@@ -81,6 +82,7 @@ class move_mode
         // name: walk, run, crouch, prone
         std::string name() const;
         std::string change_message( bool success, steed_type steed ) const;
+        std::string prepare_message( steed_type steed ) const;
 
         move_mode_id cycle() const;
         move_mode_id cycle_reverse() const;

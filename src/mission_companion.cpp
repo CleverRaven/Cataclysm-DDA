@@ -176,10 +176,13 @@ static const std::string camp_upgrade_expansion_npc_string = "_faction_upgrade_e
 static const std::string caravan_commune_center_job_assign_parameter = "Assign";
 static const std::string caravan_commune_center_job_active_parameter = "Active";
 
+namespace
+{
 struct miss_data {
     std::string serialize_id;  // Serialized string for enum
     translation action;        // Optional extended UI description of task for return.
 };
+} // namespace
 namespace io
 {
 
@@ -2697,7 +2700,10 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
     for( const npc_ptr &e : available ) {
         std::string npc_desc;
         bool can_do = true;
-        if( e->mission == NPC_MISSION_GUARD_ALLY ) {
+        if( e->mission == NPC_MISSION_CAMP_RESIDENT ) {
+            //~ %1$s: npc name
+            npc_desc = string_format( pgettext( "companion", "%1$s (Camp resident)" ), e->get_name() );
+        } else if( e->mission == NPC_MISSION_GUARD_ALLY ) {
             //~ %1$s: npc name
             npc_desc = string_format( pgettext( "companion", "%1$s (Guarding)" ), e->get_name() );
         } else {

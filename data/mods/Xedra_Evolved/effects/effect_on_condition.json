@@ -104,7 +104,9 @@
     "id": "EOC_EATER_CHECK",
     "global": true,
     "recurrence": [ "12 hours", "72 hours" ],
-    "condition": { "math": [ "u_spell_count('school': 'EATER') >= 6" ] },
+    "condition": {
+      "and": [ { "math": [ "u_spell_count('school': 'EATER') >= 6" ] }, { "not": { "u_has_trait": "EATER_SIXTH_SENSE" } } ]
+    },
     "deactivate_condition": { "u_has_trait": "EATER_SIXTH_SENSE" },
     "effect": [
       {
@@ -113,5 +115,10 @@
       },
       { "u_add_trait": "EATER_SIXTH_SENSE" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "xe_test_remove_category",
+    "effect": [ { "u_lose_category": "URSINE" } ]
   }
 ]

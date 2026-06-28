@@ -93,7 +93,7 @@
       "place_items": [ { "item": "mre_accessory_pack", "x": [ 8, 13 ], "y": [ 8, 13 ], "chance": 100, "repeat": [ 5, 12 ] } ],
       "place_item": [
         { "item": "mre_package", "x": [ 8, 13 ], "y": [ 8, 13 ], "chance": 100, "repeat": [ 5, 12 ] },
-        { "item": "ash", "x": [ 10, 10 ], "y": [ 12, 12 ], "chance": 100, "repeat": [ 500, 1200 ] },
+        { "item": "ash", "x": [ 10, 10 ], "y": [ 12, 12 ], "chance": 100, "repeat": [ 50, 120 ] },
         { "item": "223_casing", "x": [ 8, 13 ], "y": [ 8, 13 ], "chance": 100, "repeat": [ 5, 60 ] },
         { "item": "30gal_drum", "x": [ 8, 13 ], "y": [ 8, 13 ], "chance": 10 },
         { "item": "gasoline", "x": [ 8, 13 ], "y": [ 8, 13 ], "chance": 10 }
@@ -109,24 +109,24 @@
       "rows": [
         "........................",
         ".||||||||||||||||||||||.",
-        ".|H  à RR|ç 5| n 0|@C@|.",
+        ".|H  à RR|ç 5| n§0|@C@|.",
         ".|H hs   ^   +    /   |.",
-        ".|s     0|   |CCCg|@C@|.",
+        ".|s   § 0|   |CCCg|@C@|.",
         ".||||||||||  ||||||||||.",
         ".|0 hr|  µ|  0|@  0ç @|.",
         ".|E hr|   + ~ |!     !|.",
-        ".|E   | < |   +      @|.",
+        ".|E   | < |§  +      @|.",
         ".||||^|||||   |@     !|.",
         ".|U +         |!     @|.",
         ".||||||||||   |!@ @! !|.",
-        ".|h s s s0|   |||||||||.",
+        ".|h s§s s0|   |||||||||.",
         ".|s h h hW|   |}   0 X|.",
-        ".|h       +   +       |.",
+        ".|h       +   +      §|.",
         ".||CCCZCCC|   |sHHHsRR|.",
         ".|0      Y|   |||||||||.",
         ".|S1OCCFCC|5      +  S|.",
         ".|||||||||||*|||+||0 S|.",
-        ".|qqqqqqG     |   |   |.",
+        ".|qqqqqqG§    |   |   |.",
         ".|          h |+|+|+|+|.",
         ".|LLLLLLG  CàC|9|9|t|t|.",
         ".||||||||||||||||||||||.",
@@ -167,7 +167,7 @@
           { "item": "grenade_can_pa120_grenades_full", "chance": 10 }
         ],
         "U": { "item": "SUS_janitors_closet", "chance": 100 },
-        "L": { "item": "milspec_arsenal_group_only_ammo", "chance": 100 },
+        "L": { "item": "milspec_arsenal_group_only_ammo", "chance": 100, "repeat": [ 2, 4 ] },
         "G": { "item": "arsenal_armor_collection", "chance": 100 },
         "E": { "item": "guns_rifle_milspec", "chance": 100 }
       },
@@ -188,7 +188,8 @@
         { "item": "stereo", "x": 19, "y": 15, "chance": 80 }
       ],
       "vehicles": { "n": { "vehicle": "hospital_bed", "status": 0 } },
-      "monster": { "~": { "monster": "mon_turret_rifle" } }
+      "monster": { "~": { "monster": "mon_turret_rifle" } },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

@@ -6,9 +6,9 @@
     "condition": { "mod_is_loaded": "innawood" },
     "effect": [
       { "math": [ "u_bonus_exp += 25" ] },
-      { "run_eocs": "EOC_on_kill_check_exp", "condition": { "mod_is_loaded": "bombastic_perks" } },
-      { "run_eocs": "EOC_perk_ma_kill_check_exp", "condition": { "mod_is_loaded": "perk_melee_system" } },
-      { "run_eocs": "EOC_on_kill_check_exp_sorcerer", "condition": { "mod_is_loaded": "sorcerer" } }
+      { "run_eocs": "EOC_innawood_bombastic_perks_bridge" },
+      { "run_eocs": "EOC_innawood_perk_melee_bridge" },
+      { "run_eocs": "EOC_innawood_sorcerer_bridge" }
     ]
   },
   {
@@ -18,9 +18,27 @@
     "condition": { "mod_is_loaded": "innawood" },
     "effect": [
       { "math": [ "u_bonus_exp += ( owed_material_tokens * 2 ) / 5" ] },
-      { "run_eocs": "EOC_on_kill_check_exp", "condition": { "mod_is_loaded": "bombastic_perks" } },
-      { "run_eocs": "EOC_perk_ma_kill_check_exp", "condition": { "mod_is_loaded": "perk_melee_system" } },
-      { "run_eocs": "EOC_on_kill_check_exp_sorcerer", "condition": { "mod_is_loaded": "sorcerer" } }
+      { "run_eocs": "EOC_innawood_bombastic_perks_bridge" },
+      { "run_eocs": "EOC_innawood_perk_melee_bridge" },
+      { "run_eocs": "EOC_innawood_sorcerer_bridge" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_innawood_bombastic_perks_bridge",
+    "//": "Overridden by mod_interactions/bombastic_perks when that mod is loaded",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_innawood_perk_melee_bridge",
+    "//": "Overridden by mod_interactions/perk_melee_system when that mod is loaded",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_innawood_sorcerer_bridge",
+    "//": "Overridden by mod_interactions/sorcerer when that mod is loaded",
+    "effect": [  ]
   }
 ]

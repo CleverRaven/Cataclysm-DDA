@@ -9,6 +9,7 @@
 #include <set>
 #include <unordered_set>
 
+#include "avatar.h"
 #include "character.h"
 #include "clzones.h"
 #include "color.h"
@@ -36,6 +37,8 @@ static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
 
 static const item_category_id item_category_ITEMS_WORN( "ITEMS_WORN" );
 static const item_category_id item_category_WEAPON_HELD( "WEAPON_HELD" );
+
+static const trait_id trait_TRADE_BACKEND( "TRADE_BACKEND" );
 
 namespace
 {
@@ -127,7 +130,9 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
 {
     _panes[_you]->add_character_items( you );
     _panes[_you]->add_nearby_items( 1 );
-    _panes[_trader]->add_character_items( trader );
+    if( !trader.has_trait( trait_TRADE_BACKEND ) ) {
+        _panes[_trader]->add_character_items( trader );
+    }
     if( trader.is_shopkeeper() ) {
         _panes[_trader]->categorize_map_items( true );
 
@@ -334,7 +339,8 @@ void trade_ui::_draw_header()
                                   format_money( std::abs( _balance ) ) );
     }
     center_print( _header_w, 2, trade_color, cost_str );
-    mvwprintz( _header_w, { 1, 3 }, c_white, _parties[_trader]->get_name() );
+    const std::string &rname = get_avatar().dialogue_remote_name;
+    mvwprintz( _header_w, { 1, 3 }, c_white, rname.empty() ? _parties[_trader]->get_name() : rname );
     right_print( _header_w, 3, 1, c_white, _( "You" ) );
     center_print( _header_w, header_size - 1, c_white,
                   string_format( _( "%s to switch panes" ),

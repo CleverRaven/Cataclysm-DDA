@@ -123,6 +123,7 @@ static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
 static const efftype_id effect_has_bag( "has_bag" );
+static const efftype_id effect_monster_locked_on( "monster_locked_on" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
@@ -938,9 +939,9 @@ bool mattack::pull_metal_weapon( monster *z )
                 z->mod_moves( -att_cost_pull );
                 int success = 100;
                 ///\Grip strength increases resistance to pull_metal_weapon special attack
-                if( foe->str_cur > min_str ) {
+                if( foe->get_str() > min_str ) {
                     ///\EFFECT_MELEE increases resistance to pull_metal_weapon special attack
-                    success = std::max( ( 100 * metal_fraction ) - ( 6 * ( foe->str_cur - 6 ) * foe->get_limb_score(
+                    success = std::max( ( 100 * metal_fraction ) - ( 6 * ( foe->get_str() - 6 ) * foe->get_limb_score(
                                             limb_score_grip ) ) - ( 6 * wp_skill ),
                                         0.0f );
                 }
@@ -1197,7 +1198,7 @@ bool mattack::smash( monster *z )
  */
 template <size_t N = 1>
 std::pair < std::array < tripoint_bub_ms, ( 2 * N + 1 ) * ( 2 * N + 1 ) >, size_t >
-find_empty_neighbors( const tripoint_bub_ms &origin )
+static find_empty_neighbors( const tripoint_bub_ms &origin )
 {
     constexpr int r = static_cast<int>( N );
 
@@ -1220,7 +1221,7 @@ find_empty_neighbors( const tripoint_bub_ms &origin )
  */
 template <size_t N = 1>
 std::pair < std::array < tripoint_bub_ms, ( 2 * N + 1 ) * ( 2 * N + 1 ) >, size_t >
-find_empty_neighbors( const Creature &c )
+static find_empty_neighbors( const Creature &c )
 {
     return find_empty_neighbors<N>( c.pos_bub() );
 }
@@ -1239,7 +1240,7 @@ static size_t get_random_index( const size_t size )
  * Get a size_t value in the closed interval [0, c.size() - 1]; a convenience to avoid messy casting.
  */
 template <typename Container>
-size_t get_random_index( const Container &c )
+static size_t get_random_index( const Container &c )
 {
     return get_random_index( c.size() );
 }
@@ -2008,8 +2009,8 @@ bool mattack::depart( monster *z )
     } else {
         add_msg_if_player_sees( *z, m_info, _( "The %s departs." ), z->name() );
     }
-    z->no_corpse_quiet = true;
-    z->no_extra_death_drops = true;
+    z->spawn_corpse = false;
+    z->death_drops = false;
     z->die( &here, nullptr );
     return true;
 }
@@ -2595,8 +2596,8 @@ bool mattack::photograph( monster *z )
             if( one_in( 3 ) ) {
                 add_msg( m_info, _( "The %s flashes a LED and departs.  Human officer on scene." ),
                          z->name() );
-                z->no_corpse_quiet = true;
-                z->no_extra_death_drops = true;
+                z->spawn_corpse = false;
+                z->death_drops = false;
                 z->die( &here, nullptr );
                 return false;
             } else {
@@ -2615,8 +2616,8 @@ bool mattack::photograph( monster *z )
             if( one_in( 4 ) ) {
                 add_msg( m_info, _( "The %s flashes a LED and departs.  Human officer on scene." ),
                          z->name() );
-                z->no_corpse_quiet = true;
-                z->no_extra_death_drops = true;
+                z->spawn_corpse = false;
+                z->death_drops = false;
                 z->die( &here, nullptr );
                 return false;
             } else {
@@ -2633,8 +2634,8 @@ bool mattack::photograph( monster *z )
             if( one_in( 3 ) ) {
                 add_msg( m_info, _( "The %s flashes a LED and departs.  SWAT's working the area." ),
                          z->name() );
-                z->no_corpse_quiet = true;
-                z->no_extra_death_drops = true;
+                z->spawn_corpse = false;
+                z->death_drops = false;
                 z->die( &here, nullptr );
                 return false;
             } else {
@@ -2650,8 +2651,8 @@ bool mattack::photograph( monster *z )
         // And you're wearing your badge
         if( player_character.is_wearing( itype_badge_marshal ) ) {
             add_msg( m_info, _( "The %s flashes a LED and departs.  The Feds got this." ), z->name() );
-            z->no_corpse_quiet = true;
-            z->no_extra_death_drops = true;
+            z->spawn_corpse = false;
+            z->death_drops = false;
             z->die( &here, nullptr );
             return false;
         }
@@ -3574,7 +3575,7 @@ bool mattack::riotbot( monster *z )
         amenu.addentry( ur_arrest, true, 'a', _( "Allow yourself to be arrested." ) );
         amenu.addentry( ur_resist, true, 'r', _( "Resist arrest!" ) );
         ///\EFFECT_INT >10 allows and increases chance whether you can feign death to avoid riot bot arrest
-        if( foe->int_cur > 12 || ( foe->int_cur > 10 && !one_in( foe->int_cur - 8 ) ) ) {
+        if( foe->get_int() > 12 || ( foe->get_int() > 10 && !one_in( foe->get_int() - 8 ) ) ) {
             amenu.addentry( ur_trick, true, 't', _( "Feign death." ) );
         }
 
@@ -3596,7 +3597,7 @@ bool mattack::riotbot( monster *z )
                                     foe->get_power_level() > bio_uncanny_dodge.obj().power_trigger &&
                                     !one_in( 3 );
             ///\EFFECT_DEX >13 allows and increases chance to slip out of handcuffs
-            const bool is_dex = foe->dex_cur > 13 && !one_in( foe->dex_cur - 11 );
+            const bool is_dex = foe->get_dex() > 13 && !one_in( foe->get_dex() - 11 );
 
             if( is_uncanny || is_dex ) {
 
@@ -3637,7 +3638,7 @@ bool mattack::riotbot( monster *z )
         if( choice == ur_trick ) {
 
             ///\EFFECT_INT >10 allows and increases chance of successful feign death
-            if( !one_in( foe->int_cur - 10 ) ) {
+            if( !one_in( foe->get_int() - 10 ) ) {
 
                 add_msg( m_good,
                          _( "You fall to the ground and feign a sudden convulsive attack.  Though you're obviously still alive, the robot cannot tell the difference between your 'attack' and a potentially fatal medical condition.  It backs off, signaling for medical help." ) );
@@ -3857,7 +3858,12 @@ bool mattack::tindalos_teleport( monster *z )
     const int distance_to_target = rl_dist( z->pos_abs(), target->pos_abs() );
     if( distance_to_target > 5 ) {
         const tripoint_bub_ms oldpos = z->pos_bub( here );
+        const bool locked_on = z->has_effect( effect_monster_locked_on );
         for( const tripoint_bub_ms &dest : here.points_in_radius( target->pos_bub( here ), 4 ) ) {
+            // Only teleports if player has been seen and locked on
+            if( !locked_on ) {
+                continue;
+            }
             if( here.is_cornerfloor( dest ) ) {
                 if( g->is_empty( dest ) ) {
                     z->setpos( here, dest );
@@ -4396,10 +4402,13 @@ bool mattack::kamikaze( monster *z )
     return true;
 }
 
+namespace
+{
 struct grenade_helper_struct {
     std::string message;
     int chance = 1;
 };
+} // namespace
 
 // Returns 0 if this should be retired, 1 if it was successful, and -1 if something went horribly wrong
 static int grenade_helper( monster *const z, Creature *const target, const int dist,
@@ -4601,7 +4610,7 @@ bool mattack::zombie_fuse( monster *z )
                                 critter->name(), z->name() );
     }
     critter->death_drops = false;
-    critter->quiet_death = true;
+    critter->death_message = false;
     critter->die( &here, z );
     return true;
 }
@@ -4640,7 +4649,7 @@ bool mattack::eat_clone( monster *z )
                             _( "An orifice on the side of %s swells and splits open, and a monstrous tongue reaches out grabbing the nearest Daitya clone and sucking it back inside the Daitya!" ),
                             z->name() );
 
-    nearest_clone->quiet_death = true;
+    nearest_clone->death_message = false;
     nearest_clone->death_drops = false;
     nearest_clone->die( &here, z );
 

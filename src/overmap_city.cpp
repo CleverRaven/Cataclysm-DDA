@@ -18,7 +18,6 @@
 #include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "omdata.h"
-#include "options.h"
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmapbuffer.h"
@@ -65,8 +64,9 @@ spawns happen at... <cue Clue music>
 20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
-    int op_city_spacing = get_option<int>( "CITY_SPACING" );
-    int op_city_size = get_option<int>( "CITY_SIZE" );
+    const region_settings_city &city_settings = settings->get_settings_city();
+    int op_city_spacing = city_settings.city_spacing;
+    int op_city_size = city_settings.city_size;
     int max_urbanity = settings->max_urban;
     if( op_city_size <= 0 ) {
         return;
@@ -134,7 +134,7 @@ void overmap::place_cities()
 
     const size_t num_cities_on_this_overmap_count = num_cities_on_this_overmap;
 
-    if( get_option<bool>( "MEGACITY" ) ) {
+    if( city_settings.is_megacity ) {
         // Clang pls. These are separate variables for legibility.
         // NOLINTNEXTLINE(cata-combine-locals-into-point)
         const int quarter_OMAPX = OMAPX / 4;
@@ -166,7 +166,7 @@ void overmap::place_cities()
     while( cities.size() < num_cities_on_this_overmap_count && !city_candidates.empty() ) {
 
         tripoint_om_omt selected_point;
-        city tmp( SNIPPET.expand( settings->get_settings_city().name_snippet ) );
+        city tmp( SNIPPET.expand( city_settings.name_snippet ) );
         tmp.pos_om = pos();
         if( use_random_cities ) {
             // randomly make some cities smaller or larger

@@ -960,5 +960,51 @@
         "+": [ [ "f_large_canvas_door", 5 ], "f_null" ]
       }
     }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "leather_tent_b_5x5_S",
+    "//": "No roof due to the ruined state.",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#####",
+        "#xxx#",
+        "#xXx#",
+        "#xxx#",
+        "##+##"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": {
+        "#": [ [ "f_large_skin_wall", 5 ], "f_null" ],
+        "X": [ [ "f_skin_center_groundsheet", 5 ], "f_null" ],
+        "x": [ [ "f_large_skin_groundsheet", 5 ], "f_null" ],
+        "+": [ [ "f_large_skin_door", 5 ], "f_null" ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "leather_tent_b_5x5_N",
+    "//": "No roof due to the ruined state.",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "##+##",
+        "#xxx#",
+        "#xXx#",
+        "#xxx#",
+        "#####"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": {
+        "#": [ [ "f_large_skin_wall", 5 ], "f_null" ],
+        "X": [ [ "f_skin_center_groundsheet", 5 ], "f_null" ],
+        "x": [ [ "f_large_skin_groundsheet", 5 ], "f_null" ],
+        "+": [ [ "f_large_skin_door", 5 ], "f_null" ]
+      }
+    }
   }
 ]

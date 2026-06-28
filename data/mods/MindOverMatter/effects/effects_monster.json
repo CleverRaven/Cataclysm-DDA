@@ -97,6 +97,24 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_monster_physical_enhancement",
+    "name": [ "Physical Enhancement" ],
+    "desc": [ "You are enhancing your strength and agility." ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ 1 ] },
+    "enchantments": [ { "melee_damage_bonus": [ { "type": "bash", "multiply": 0.1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_physical_enhancement_improved",
+    "name": [ "Physical Enhancement" ],
+    "desc": [ "You are greatly enhancing your strength and agility." ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ 2 ] },
+    "enchantments": [ { "melee_damage_bonus": [ { "type": "bash", "multiply": 0.25 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_monster_hardened_skin",
     "name": [ "Hardened Skin" ],
     "desc": [ "You are more resilient than normal." ],
@@ -416,6 +434,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_mom_tindalos_hounds_corrupted_stride",
+    "//": "Hidden affect, reduces effects of extended stride",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_tindalos_hounds_corrupted_stride_warning",
+    "name": [ "Corrupted Stride" ],
+    "desc": [ "Your Extended Stride isn't working nearly as well as it should." ],
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hound_extended_speed_bonus",
+    "name": [ "Moving Oddly" ],
+    "desc": [ "The Hound flickers as it moves." ],
+    "show_in_info": true,
+    "base_mods": { "speed_mod": [ 35 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_riftwalker_teleport",
     "name": [ "Dimensionally Unstable" ],
     "desc": [ "You feel like you're barely part of the world." ],
@@ -475,14 +515,16 @@
     "remove_message": "The feeling of weakness fades away.",
     "rating": "bad",
     "max_duration": "18 hours",
-    "base_mods": {
-      "str_mod": [ -2 ],
-      "h_mod_min": [ -2 ],
-      "h_mod_chance": [ 1 ],
-      "h_mod_chance_bot": [ 4 ],
-      "h_mod_tick": [ 500 ],
-      "healing_rate": [ 0.5 ]
-    },
+    "base_mods": { "str_mod": [ -2 ], "h_mod_min": [ -2 ], "h_mod_chance": [ 1 ], "h_mod_chance_bot": [ 4 ], "h_mod_tick": [ 500 ] },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "REGEN_HP_AWAKE", "multiply": -1 },
+          { "value": "REGEN_HP", "multiply": -0.5 },
+          { "value": "REGEN_STAMINA", "multiply": -0.15 }
+        ]
+      }
+    ],
     "vitamins": [ { "vitamin": "iron", "rate": [ [ -10, -10 ] ], "tick": [ "1 m" ] } ]
   },
   {
@@ -500,9 +542,17 @@
       "h_mod_min": [ -3 ],
       "h_mod_chance": [ 1 ],
       "h_mod_chance_bot": [ 4 ],
-      "h_mod_tick": [ 300 ],
-      "healing_rate": [ 0.25 ]
+      "h_mod_tick": [ 300 ]
     },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "REGEN_HP_AWAKE", "multiply": -1 },
+          { "value": "REGEN_HP", "multiply": -0.8 },
+          { "value": "REGEN_STAMINA", "multiply": -0.3 }
+        ]
+      }
+    ],
     "vitamins": [ { "vitamin": "iron", "rate": [ [ -10, -10 ] ], "tick": [ "1 m" ] } ]
   },
   {
