@@ -1706,7 +1706,6 @@
     "flags": [ "DECAYS_IN_AIR" ],
     "vitamins": [ [ "water_clean_scarlet_toxin", 2 ] ],
     "name": { "str_sp": "acrid water" },
-    "display_type": "BY_VOLUME",
     "description": "This looks very much like water, and you think it would quench your thirst.  Now that it's been removed from the large, scarlet body of water, you see that it's in fact slightly yellow.  It smells like a forgotten swimming pool.",
     "display_type": "BY_VOLUME",
     "container": "bottle_plastic",
