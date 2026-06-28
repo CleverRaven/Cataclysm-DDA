@@ -32,7 +32,7 @@
       },
       { "u_message": "Xedra Evolved wraiths encounter has triggered!", "type": "debug" },
       {
-        "set_string_var": "A shadow seems to pass over the waning moon.",
+        "set_string_var": "A shadow seems to pass over the remnants of the moon.",
         "target_var": { "global_val": "XE_RandEnc_Trigger_Message" },
         "i18n": true
       },
