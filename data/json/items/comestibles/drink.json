@@ -1677,7 +1677,6 @@
     "quench": 50,
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "DECAYS_IN_AIR" ],
     "name": { "str_sp": "clean water" },
-    "display_type": "BY_VOLUME",
     "description": "Fresh, clean water.  Truly the best thing to quench your thirst.",
     "display_type": "BY_VOLUME",
     "container": "bottle_plastic",
