@@ -326,7 +326,7 @@
     "id": "moisturizer",
     "category": "chems",
     "price": "3 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "80 cent",
     "name": { "str_sp": "moisturizer" },
     "material": [ "oil" ],
     "symbol": "m",
