@@ -762,11 +762,17 @@
     "quench": -10,
     "calories": 230,
     "description": "A humble but nutrient-rich legume.  They should be cooked prior to consumption, unless you're planning to plant them.",
+    "display_type": "BY_WEIGHT",
     "price": "10 cent",
     "price_postapoc": "75 cent",
     "material": [ "veggy" ],
     "volume": "125 ml",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ], [ "veggy_allergen", 1 ] ],
+    "vitamins": [
+      [ "calcium", 4 ],
+      [ "iron", 47 ],
+      [ "vitC", 7 ],
+      [ "veggy_allergen", 1 ]
+    ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "NUTRIENT_OVERRIDE", "CATTLE", "PLANTABLE_SEED", "BIRD", "RAT", "MOUSE" ],
     "plant_name": "lentils",
