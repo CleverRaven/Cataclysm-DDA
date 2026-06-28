@@ -17,11 +17,7 @@
     "material": [ "veggy" ],
     "volume": "195 ml",
     "flags": [ "EATEN_HOT", "RAW" ],
-    "vitamins": [
-      [ "vitC", 12 ],
-      [ "iron", 4 ],
-      [ "veggy_allergen", 1 ]
-    ]
+    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
