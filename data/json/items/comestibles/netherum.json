@@ -12,6 +12,7 @@
     "quench": 2,
     "calories": 46,
     "description": "A handful of strange berries picked from a plastic plant.  You're not sure if they're edible.  Nevertheless, they smell extremely pleasant.",
+    "display_type": "BY_WEIGHT",
     "price": "50 cent",
     "price_postapoc": "50 cent",
     "material": [ "fruit" ],
