@@ -1416,10 +1416,7 @@
     "copy-from": "flesh",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "name": {
-      "str": "portion of raw bone marrow",
-      "str_pl": "of raw bone marrow portions"
-    },
+    "name": { "str": "portion of raw bone marrow", "str_pl": "of raw bone marrow portions" },
     "description": "A soft, spongy substance found in bones, rich in fat.  Chock-full of good stuff and doesn't taste too bad even raw, but beware of parasites.",
     "display_type": "BY_WEIGHT",
     "weight": "60 g",
