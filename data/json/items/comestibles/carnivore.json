@@ -1919,10 +1919,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "id": "tainted_marrow",
     "category": "other",
-    "name": {
-      "str": "portion of tainted bone marrow",
-      "str_pl": "of tainted bone marrow portions"
-    },
+    "name": { "str": "portion of tainted bone marrow", "str_pl": "of tainted bone marrow portions" },
     "weight": "60 g",
     "color": "red",
     "spoils_in": "4 hours",
