@@ -7,7 +7,7 @@ Most historical earth governments crumbled or otherwise became unrecognizable du
 
 
 ### United Interstellar Coordination Agency [UICA]
-Formed relatively recently, near the discovery of the new FTL method, the United Interstellar Coordination Agency is a loose confederation of Solar Corporations, Governments, and NGOs dedicated to reclaiming and bringing most extra-solar colonies back under Earth's wing by claiming colonies for their former owners. While the UICA aims to be peaceful in these goals and offer a harmonious and smooth integration, not all colonies are willing. Due to this, the UICA mans a standing army formed through both funding from its members and other volunteers, as well as soldiers and accoutrements to aid in a smooth transition of power in colonies, and to put down rebels.
+Formed relatively recently, near the discovery of the new FTL method, the United Interstellar Coordination Agency is a loose confederation of Solar Corporations, Governments, and NGOs dedicated to reclaiming and bringing most extra-solar colonies back under Earth's wing by claiming colonies for their former owners. While the UICA aims to be peaceful in these goals and offer a harmonious and smooth integration, not all colonies are willing. Due to this, the UICA mans a standing army formed through both funding from its members and other volunteers, as well as soldiers and accouterments to aid in a smooth transition of power in colonies, and to put down rebels.
 
 To note however, members of the UICA council do not need to be either important nor powerful, they only need to hold enough of a prominent position to be able to demand a position; for example a UICA council member could simply be a small Solar Corporation or government that holds a starlifting platform built by an AI during the Hyperspace Expansion era; the starlifting platform itself is not that useful, but due to the fact it is irreplaceable, irreparable, and built by said hyper-intelligent AIs, they are given a prominent voice in the UICA.
 
@@ -15,7 +15,7 @@ The UICA in general, but especially its soldiers, are commonly referred to as 'j
 
 ### TsKBEM 
 
-Starting out as a design bureau of the Soviet Union, TsKBEM started out as a manufacturer for the USSR, designing ballistic missiles, launch vehicles, satellites, and other spacecraft. During the later years of the USSR, it started to shift towards a mixed economy, allowing TsKBEM to operate outside of the USSR for profit, and propelling it forward financially as it had a virtual monopoly on the transportation and construction of the Russian section of the ISS, with its only real competition being the United States NASA; with these factors, it was able to negotiate with the Soviet government to organize a merger between several design bureaus, including TsNII RTK. This, combined with its inflated income influx, meant that TsKBEM could afford to run it's own factories, allowing to transition from using leftover military technology, to being able to design its own tailored for other customers.
+Starting out as a design bureau of the Soviet Union, TsKBEM started out as a manufacturer for the USSR, designing ballistic missiles, launch vehicles, satellites, and other spacecraft. During the later years of the USSR, it started to shift towards a mixed economy, allowing TsKBEM to operate outside of the USSR for profit, and propelling it forward financially as it had a virtual monopoly on the transportation and construction of the Russian section of the ISS, with its only real competition being the United States NASA; with these factors, it was able to negotiate with the Soviet government to organize a merger between several design bureaus, including TsNII RTK. This, combined with its inflated income influx, meant that TsKBEM could afford to run its own factories, allowing to transition from using leftover military technology, to being able to design its own tailored for other customers.
 
 From these steps, it was quick to see that TsKBEM was propelling itself to be among the exclusive group of solar corporations; aiding in the colonization of several extrasolar colonies, supplying rockets, landers, habitats, and robots. TsKBEM was so extensive that even today, long after TsKBEM dissolved, adapted or even original TsKBEM designs can still commonly be seen within recently settled frontier worlds, where their ubiquitous design specs and relative ease of fabrication make them attractive to less fortunate colonists.
 
@@ -48,7 +48,7 @@ Mercurial Genomics (or, less commonly known as Whately Corp due to the prominenc
 
 Mercurial Genomics is known for pushing the limits of biological science with their corporate motto being "Worlds Without Boundaries", and the Whately family is known for the habit of exiling members of their family caught breaking UICA laws to remote systems.
 
-Mercurial's strange and unique uplifts continue to rake in profits across human space, both for their vanity; but also as body guards or private soldiers.
+Mercurial's strange and unique uplifts continue to rake in profits across human space, both for their vanity; but also as bodyguards or private soldiers.
 
 ### Wraitheon Industries ltd
 

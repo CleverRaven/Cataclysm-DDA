@@ -535,7 +535,7 @@
   },
   {
     "id": "electrokinetic_lightning_aura_attack_placeholder",
-    "//": "Currently galvanic aura successfully calls this spell to attack enemies.  However, it does not 'draw a line' towards the enemy, merely spawning ontop of them.  Still not fully functional.",
+    "//": "Currently galvanic aura successfully calls this spell to attack enemies.  However, it does not 'draw a line' towards the enemy, merely spawning on top of them.  Still not fully functional.",
     "type": "SPELL",
     "name": { "str": "[Ψ]Galvanic Aura Bolt", "//~": "NO_I18N" },
     "description": { "str": "Galvanic Aura attacks.  It's a bug if you have it.", "//~": "NO_I18N" },

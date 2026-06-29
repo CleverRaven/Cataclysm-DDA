@@ -148,7 +148,7 @@
     "name": { "str": "crystal of borax", "str_pl": "crystals of borax" },
     "symbol": "*",
     "color": "white",
-    "description": "A hard crystalized clump of borax.  Break it up to turn it into borax powder.",
+    "description": "A hard crystallized clump of borax.  Break it up to turn it into borax powder.",
     "material": [ "stone" ],
     "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml",

@@ -84,7 +84,7 @@
     "id": "mon_zombie_soldier_acid_1",
     "type": "MONSTER",
     "name": { "str": "bilious soldier zombie" },
-    "description": "This staggering soldier wears a burnt gasmask, now fused to its face.  Through the melted, bile-encrusted ruination of the mask protrudes some sort of hardened, fleshy proboscis, with steaming corrosive fluid leaking from the end.",
+    "description": "This staggering soldier wears a burnt gas mask, now fused to its face.  Through the melted, bile-encrusted ruination of the mask protrudes some sort of hardened, fleshy proboscis, with steaming corrosive fluid leaking from the end.",
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
     "diff": 20,

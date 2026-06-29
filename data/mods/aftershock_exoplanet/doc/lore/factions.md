@@ -12,7 +12,7 @@ UICA principally cares about making Salus IV a safer place to inhabit (and explo
 
 - Scout and help restore important planetary infrastructure
 - Destroy rogue robots and alien nests
-- Put bounties on criminals and miscellaneous anti-authority types, ( the well meaning kind or otherwise).
+- Put bounties on criminals and miscellaneous anti-authority types, ( the well-meaning kind or otherwise).
  
 Besides ample money and stipends they can offer:
 - Easy access to heavy military gear.
@@ -27,7 +27,7 @@ Valid locations that could be added:
 - Small military outposts out in the frozen wastes.
 - Manned infrastructure buildings. (Power plants, radar stations, planetary defenses, smaller spaceports)
 
-Additionally there's a single UICA space cruiser stationed in polar orbit.
+Additionally, there's a single UICA space cruiser stationed in polar orbit.
 
 ### Lore Ideas
 - Is space NATO really a good thing?
@@ -39,7 +39,7 @@ While the soviet union collapsed during the discontinuity most of its extra sola
 
 The tskbem still specializes in the construction of basic space infrastructure. With a product line that covers everything from prefab habitats and industrial infrastructure to the robots and tools required to maintain them. Most of its hardware can be weaponized with surprising ease, a quality that few dismiss as coincidental.
 
-The TSKBEM has no official presence within Salus IV. It might be possible to find some affiliated spaces or representatives  within the space port and it could be possible to place purchase orders with the tskbem from places with an internet connection. Having a stable working relationship with the faction should be difficult, and even if you manage to build one, they would remain remote and offer little in direct help. When befriended they might offer missions to:
+The TSKBEM has no official presence within Salus IV. It might be possible to find some affiliated spaces or representatives  within the spaceport, and it could be possible to place purchase orders with the tskbem from places with an internet connection. Having a stable working relationship with the faction should be difficult, and even if you manage to build one, they would remain remote and offer little in direct help. When befriended they might offer missions to:
 
 - Scout and scavenge old industrial centers for valuable parts.
 - Stealthy sabotage Corporate and UICA interests.
@@ -57,11 +57,11 @@ The TSKBEM has no specific goals to achieve within Salus IV
 - Prefab habitat modules for building faction camps.
 
 ### Bases
-The industrial fleets that comprise the TSKBEM are too big to ever bother approaching a backwater world like Salus IV.  Contact should be through faction friendly spacers in the main space port or through secret communications (take note that interstellar communications rely on packet ships so these wouldn't ever be live). 
+The industrial fleets that comprise the TSKBEM are too big to ever bother approaching a backwater world like Salus IV.  Contact should be through faction friendly spacers in the main spaceport or through secret communications (take note that interstellar communications rely on packet ships so these wouldn't ever be live). 
 
 ### Lore Ideas
 - Couldn't build communism on Earth so we'll try space.
-- These TsKBEM drones never quite worked perfectly but they'll half-work for centuries.
+- These TsKBEM drones never quite worked perfectly, but they'll half-work for centuries.
 - I hate AI posadists all my homies hate AI posadists. 
 
 ## PrepNet Phyles
