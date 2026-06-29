@@ -303,7 +303,7 @@
     "id": "memorial",
     "subtype": "collection",
     "entries": [
-      { "item": "corpse_ash", "prob": 100, "count": [ 1905, 3969 ], "entry-wrapper": "porcelain_urn" },
+      { "item": "corpse_ash", "prob": 100, "count": [ 190, 396 ], "entry-wrapper": "porcelain_urn" },
       { "item": "photo_album", "prob": 75 },
       { "item": "bouquet", "prob": 50 },
       { "item": "candle", "prob": 50, "charges": [ 1, 6 ] },
@@ -377,7 +377,7 @@
     "id": "memorial_mansion",
     "subtype": "collection",
     "entries": [
-      { "item": "corpse_ash", "prob": 100, "count": [ 1905, 3969 ], "entry-wrapper": "crystal_urn" },
+      { "item": "corpse_ash", "prob": 100, "count": [ 190, 396 ], "entry-wrapper": "crystal_urn" },
       { "item": "photo_album", "prob": 80 },
       { "item": "bouquet", "prob": 80 },
       { "item": "candlestick", "prob": 50, "count": [ 1, 6 ] },
@@ -392,7 +392,7 @@
     "id": "grave_cremains",
     "subtype": "collection",
     "entries": [
-      { "item": "corpse_ash", "prob": 100, "count": [ 1905, 3969 ], "entry-wrapper": "porcelain_urn" },
+      { "item": "corpse_ash", "prob": 100, "count": [ 190, 396 ], "entry-wrapper": "porcelain_urn" },
       { "item": "bouquet", "prob": 100 },
       {
         "distribution": [

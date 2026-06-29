@@ -195,6 +195,14 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\data\shaders\*.frag">
+      <FileType>Document</FileType>
+      <SpvOutput>%(RelativeDir)%(Filename)%(Extension).spv</SpvOutput>
+      <DxilOutput>%(RelativeDir)%(Filename)%(Extension).dxil</DxilOutput>
+      <Command>.\vcpkg_installed\x64-windows-static\x64-windows-static\tools\glslang\glslangValidator.exe --quiet -V -S frag -o %(SpvOutput) %(Identity) &amp;&amp; .\vcpkg_installed\x64-windows-static\x64-windows-static\tools\sdl3-shadercross\shadercross.exe %(SpvOutput) -s SPIRV -d DXIL -o %(DxilOutput)</Command>
+      <Outputs>%(SpvOutput);%(DxilOutput)</Outputs>
+      <AdditionalInputs>vcpkg_installed\x64-windows-static\x64-windows-static\tools\glslang\glslangValidator.exe;vcpkg_installed\x64-windows-static\x64-windows-static\tools\sdl3-shadercross\shadercross.exe;vcpkg_installed\x64-windows-static\x64-windows-static\tools\sdl3-shadercross\dxcompiler.dll</AdditionalInputs>
+      <Message>%(Identity) -^&gt; %(DxilOutput)</Message>
+      <BuildInParallel>true</BuildInParallel>
     </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

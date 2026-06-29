@@ -558,7 +558,7 @@
     "type": "item_group",
     "id": "oa_ig_ash_pile",
     "//": "for ws_regional_dump",
-    "items": [ [ "ash", 100 ] ]
+    "items": [ [ "ash", 10 ] ]
   },
   {
     "id": "fishing_items",
@@ -1513,6 +1513,7 @@
       { "item": "electrohack", "prob": 3, "charges": [ 0, 100 ] },
       { "item": "textbook_gaswarfare", "prob": 1 },
       { "item": "textbook_anarch", "prob": 3 },
+      { "item": "improvised_munition_handbook", "prob": 1 },
       { "item": "brewing_cookbook", "prob": 3 },
       { "item": "recipe_bullets", "prob": 1 },
       { "item": "knife_combat", "prob": 3 },
@@ -1928,6 +1929,7 @@
       [ "recipe_raptor", 1 ],
       [ "recipe_labchem", 1 ],
       [ "textbook_anarch", 1 ],
+      { "item": "improvised_munition_handbook", "prob": 1 },
       [ "recipe_caseless", 1 ],
       { "group": "used_laptops", "prob": 30, "contents-group": "civilian_laptop_efiles" },
       { "item": "smart_lamp", "prob": 5, "charges": [ 0, 100 ] },
@@ -2613,7 +2615,7 @@
     "id": "mil_base_ash",
     "type": "item_group",
     "//": "Remains of bodies burned in the corpse pits.",
-    "items": [ [ "ash", 35 ] ]
+    "items": [ [ "ash", 3 ] ]
   },
   {
     "id": "mil_base_bodybag",

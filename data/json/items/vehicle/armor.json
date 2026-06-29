@@ -21,7 +21,7 @@
     "category": "veh_parts",
     "name": { "str": "shock absorber" },
     "description": "A makeshift combination of springs and scrap that protects a particular section of a vehicle from the shock of impacts.  The springs can absorb a surprising amount of damage.",
-    "weight": "22540 g",
+    "weight": "20800 g",
     "volume": "3 L",
     "price": "13 USD",
     "price_postapoc": "7 USD 50 cent",

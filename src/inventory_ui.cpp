@@ -3919,7 +3919,7 @@ item_location inventory_pick_selector::execute()
                 on_input( input );
             }
         } else if( input.action == "ORGANIZE_MENU" ) {
-            u.worn.organize_items_menu();
+            u.worn.organize_items_menu( u );
             return item_location();
         } else if( input.action == "QUIT" ) {
             return item_location();
@@ -4685,17 +4685,17 @@ void inventory_multiselector::deselect_contained_items()
         for( inventory_entry *selected : col->get_entries(
         []( const inventory_entry & entry ) {
         return entry.is_item() && entry.chosen_count > 0 && entry.locations.front()->is_frozen_liquid() &&
-                   //Frozen liquids can be selected if it have the SHREDDED flag.
+                   // Frozen liquid can be selected if it has the SHREDDED flag.
                    !entry.locations.front()->has_flag( json_flag_SHREDDED ) &&
                    (
-                       ( //Frozen liquids on the map are not selectable if they can't be crushed.
+                       ( // Frozen liquids on the map are not selectable if they can't be crushed.
                            entry.locations.front().where() == item_location::type::map &&
                            !get_player_character().can_crush_frozen_liquid( entry.locations.front() ).success() ) ||
-                       ( //Weapon in hand is can selectable.
+                       ( // Weapon in hand is selectable.
                            entry.locations.front().where() == item_location::type::character &&
                            !entry.locations.front().has_parent() &&
                            entry.locations.front() != get_player_character().used_weapon() ) ||
-                       ( //Frozen liquids are unselectable if they don't have SHREDDED flag and can't be crushed in a container.
+                       ( // Frozen liquids are unselectable if they don't have SHREDDED flag and can't be crushed in a container.
                            entry.locations.front().has_parent() &&
                            entry.locations.front().where() == item_location::type::container &&
                            !get_player_character().can_crush_frozen_liquid( entry.locations.front() ).success() )

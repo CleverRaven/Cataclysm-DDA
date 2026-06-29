@@ -8,6 +8,38 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_gain_dreamdross_from_dreams",
+    "name": [ "Harvested Dreams" ],
+    "desc": [ "Your dreams were harvested by a changeling for dreamdross, and cannot be harvested for a time after." ],
+    "rating": "mixed",
+    "enchantments": [ { "mutations": [ "BADTEMPER" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_active_banquet_of_dreams",
+    "//": "Hidden effect, used to determine if a mutation is active",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_banquet_of_dreams_damage",
+    "//": "Hidden effect, used if a target has had empowered Banquet of Dreams used on them",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_stop_nether_conditions",
+    "name": [ "Dancer in the Endless Dark" ],
+    "desc": [ "You are immune to several deleterious otherworldly conditions." ],
+    "rating": "good",
+    "remove_message": "Your protection against otherworldly threats fades away.",
+    "blocks_effects": [ "taint", "tindrift", "darkness", "amigara", "teleglow", "attention", "evil" ],
+    "flags": [ "IMPERIAL_ROAD_TRAVELER" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_spring_reduce_scent",
     "name": [ "Scent of Fresh Flowers" ],
     "desc": [ "A sweet scent fills the air." ],
@@ -228,6 +260,59 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_summer_absorb_strength",
+    "name": [ "Hand of Lugh" ],
+    "desc": [ "Your strength has been absorbed." ],
+    "show_in_info": true,
+    "rating": "bad",
+    "enchantments": [
+      {
+        "condition": "u_is_monster",
+        "melee_damage_bonus": [ { "type": "bash", "multiply": -0.2 }, { "type": "cut", "multiply": -0.2 }, { "type": "stab", "multiply": -0.2 } ]
+      },
+      {
+        "condition": "u_is_character",
+        "values": [
+          {
+            "value": "STRENGTH",
+            "add": {
+              "math": [ "max( (-1 + ( u_changeling_summer_glamour_tracker / -8 ) + (u_changeling_gramarye_tracker * -0.3) ), -6)" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_absorb_strength_self",
+    "name": [ "Hand of Lugh" ],
+    "desc": [ "Your strength is empowered by that of your enemies." ],
+    "remove_message": "Your borrowed strength drains away.",
+    "show_in_info": true,
+    "rating": "good",
+    "max_duration": "2 hours",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "STRENGTH",
+            "add": {
+              "math": [ "min( (1 + ( u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') / 8 ) + (u_skill('gramarye') * 0.3) ), 6)" ]
+            }
+          }
+        ]
+      }
+    ],
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 1.1 },
+      { "limb_score": "block", "modifier": 1.1 },
+      { "limb_score": "grip", "modifier": 1.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_summer_slow_and_sweat_debuff",
     "name": [ "Sun-struck" ],
     "desc": [ "You need to sit down in the shade." ],
@@ -285,6 +370,20 @@
             "add": { "math": [ "max( ( (u_monsters_nearby('radius': 1) + u_characters_nearby('radius': 1) ) / 3), 1)" ] }
           }
         ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_stay_awake_in_sunlight",
+    "name": [ "Invigorating Sunlight" ],
+    "desc": [ "The warmth and energy of the sun washes your tiredness away." ],
+    "remove_message": "The sensation of the sun's warmth fades away.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "condition": { "and": [ "u_is_outside", { "or": [ { "is_weather": "clear" }, { "is_weather": "sunny" } ] } ] },
+        "values": [ { "value": "SLEEPINESS", "multiply": -1 } ]
       }
     ]
   },
@@ -430,6 +529,16 @@
       },
       { "condition": { "is_season": "autumn" }, "values": [ { "value": "STEALTH_MODIFIER", "add": 33 } ] }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_stop_supernatural_healing",
+    "name": [ "Malediction of the Recalcitrant Wound" ],
+    "desc": [ "Your skin itches." ],
+    "remove_message": "The itching of your skin fades.",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.667 } ] } ],
+    "flags": [ "BLOCK_SUPERNATURAL_HEALING" ]
   },
   {
     "type": "effect_type",

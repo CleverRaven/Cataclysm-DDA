@@ -36,8 +36,7 @@
     "healthy": -1,
     "price": "2 USD 75 cent",
     "price_postapoc": "1 USD",
-    "material": [ "milk", "junk" ],
-    "primary_material": "milk",
+    "material": [ { "type": "milk", "portion": 10 }, { "type": "junk", "portion": 1 } ],
     "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
@@ -63,8 +62,7 @@
     "healthy": -1,
     "price": "4 USD",
     "price_postapoc": "1 USD 50 cent",
-    "material": [ "milk", "junk" ],
-    "primary_material": "milk",
+    "material": [ { "type": "milk", "portion": 10 }, { "type": "junk", "portion": 1 } ],
     "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
@@ -85,8 +83,7 @@
     "description": "An all-natural cold beverage made with lemonade and sweeteners.  Tastes great when frozen.",
     "color": "white",
     "calories": 220,
-    "material": [ "water", "fruit" ],
-    "primary_material": "water",
+    "material": [ { "type": "water", "portion": 10 }, { "type": "fruit", "portion": 1 } ],
     "vitamins": [ [ "vitC", 6 ], [ "fruit_allergen", 1 ] ]
   },
   {
@@ -287,8 +284,7 @@
     "healthy": -1,
     "price": "2 USD 50 cent",
     "price_postapoc": "3 USD",
-    "material": [ "milk" ],
-    "primary_material": "ice_cream",
+    "material": [ { "type": "ice_cream", "portion": 10 }, { "type": "milk", "portion": 1 } ],
     "phase": "liquid",
     "//": "not technically a drink, but is quasi-liquid enough that it'd get all over everything if you carried it",
     "charges": 2,
@@ -304,8 +300,7 @@
     "description": "Government regulations dictate that since this isn't *technically* ice cream, it can be called a dairy dessert instead.  You can't really taste the difference.",
     "price": "2 USD",
     "price_postapoc": "1 USD",
-    "primary_material": "ice_cream",
-    "material": [ "milk", "junk" ],
+    "material": [ { "type": "ice_cream", "portion": 10 }, { "type": "milk", "portion": 1 }, { "type": "junk", "portion": 1 } ],
     "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
@@ -343,9 +338,8 @@
     "price": "3 USD",
     "price_postapoc": "3 USD",
     "calories": 330,
-    "primary_material": "ice_cream",
     "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
-    "material": [ "milk", "junk" ]
+    "material": [ { "type": "ice_cream", "portion": 10 }, { "type": "milk", "portion": 1 }, { "type": "junk", "portion": 1 } ]
   },
   {
     "type": "ITEM",
@@ -358,9 +352,8 @@
     "fun": 17,
     "price": "3 USD",
     "price_postapoc": "3 USD",
-    "primary_material": "ice_cream",
     "vitamins": [ [ "vitC", 6 ], [ "calcium", 8 ], [ "iron", 1 ], [ "fruit_allergen", 1 ], [ "milk_allergen", 1 ] ],
-    "material": [ "milk", "fruit" ]
+    "material": [ { "type": "ice_cream", "portion": 10 }, { "type": "milk", "portion": 1 }, { "type": "fruit", "portion": 1 } ]
   },
   {
     "type": "ITEM",
@@ -373,9 +366,8 @@
     "calories": 328,
     "price": "3 USD",
     "price_postapoc": "3 USD",
-    "primary_material": "ice_cream",
     "vitamins": [ [ "calcium", 8 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ],
-    "material": [ "milk", "egg" ]
+    "material": [ { "type": "ice_cream", "portion": 10 }, { "type": "milk", "portion": 1 }, { "type": "egg", "portion": 1 } ]
   },
   {
     "type": "ITEM",
@@ -388,9 +380,8 @@
     "price": "2 USD 75 cent",
     "price_postapoc": "1 USD",
     "weight": "80 g",
-    "primary_material": "ice_cream",
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 10 ], [ "milk_allergen", 1 ] ],
-    "material": [ "milk" ]
+    "material": [ { "type": "ice_cream", "portion": 10 }, { "type": "milk", "portion": 1 } ]
   },
   {
     "type": "ITEM",
@@ -421,8 +412,7 @@
     "price": "3 USD",
     "price_postapoc": "2 USD",
     "weight": "90 g",
-    "primary_material": "ice_cream",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ], [ "milk_allergen", 1 ] ],
-    "material": [ "milk" ]
+    "material": [ { "type": "ice_cream", "portion": 10 }, { "type": "milk", "portion": 1 } ]
   }
 ]

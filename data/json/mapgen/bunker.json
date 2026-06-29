@@ -93,7 +93,7 @@
       "place_items": [ { "item": "mre_accessory_pack", "x": [ 8, 13 ], "y": [ 8, 13 ], "chance": 100, "repeat": [ 5, 12 ] } ],
       "place_item": [
         { "item": "mre_package", "x": [ 8, 13 ], "y": [ 8, 13 ], "chance": 100, "repeat": [ 5, 12 ] },
-        { "item": "ash", "x": [ 10, 10 ], "y": [ 12, 12 ], "chance": 100, "repeat": [ 500, 1200 ] },
+        { "item": "ash", "x": [ 10, 10 ], "y": [ 12, 12 ], "chance": 100, "repeat": [ 50, 120 ] },
         { "item": "223_casing", "x": [ 8, 13 ], "y": [ 8, 13 ], "chance": 100, "repeat": [ 5, 60 ] },
         { "item": "30gal_drum", "x": [ 8, 13 ], "y": [ 8, 13 ], "chance": 10 },
         { "item": "gasoline", "x": [ 8, 13 ], "y": [ 8, 13 ], "chance": 10 }

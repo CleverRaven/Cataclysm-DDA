@@ -298,6 +298,126 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS",
+    "condition": { "not": { "u_has_effect": "effect_changeling_gain_dreamdross_from_dreams" } },
+    "effect": [
+      {
+        "if": { "not": { "u_has_effect": "effect_changeling_banquet_of_dreams_damage" } },
+        "then": [
+          {
+            "if": {
+              "or": [
+                { "npc_has_effect": "effect_changeling_active_banquet_of_dreams" },
+                {
+                  "and": [ { "npc_has_effect": "effect_changeling_temporary_psychopath" }, { "x_in_y_chance": { "x": 1, "y": 5 } } ]
+                }
+              ]
+            },
+            "then": [
+              {
+                "u_add_effect": "effect_changeling_gain_dreamdross_from_dreams",
+                "duration": { "math": [ "518400 + rand(259200) - (n_skill('gramarye') * 28800) * rng(0.66666,1.333333)" ] }
+              },
+              { "u_add_effect": "effect_changeling_banquet_of_dreams_damage", "duration": "PERMANENT" },
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS_TARGET_PSYCHOLOGICAL_DAMAGE",
+                    "effect": [
+                      {
+                        "u_roll_remainder": [
+                          "NUMB",
+                          "BADTEMPER",
+                          "SHOUT2",
+                          "CHEMIMBALANCE",
+                          "MOODSWINGS",
+                          "FORGETFUL",
+                          "ADDICTIVE",
+                          "NARCOLEPTIC",
+                          "JITTERY",
+                          "INSOMNIA",
+                          "HEAVYSLEEPER2"
+                        ],
+                        "type": "mutation"
+                      }
+                    ]
+                  }
+                ],
+                "iterations": 3
+              },
+              { "run_eocs": [ "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS_SPAWN_FEAST" ], "alpha_talker": "npc" }
+            ],
+            "else": [
+              {
+                "u_add_effect": "effect_changeling_gain_dreamdross_from_dreams",
+                "duration": { "math": [ "518400 + rand(259200) - (n_skill('gramarye') * 28800) * rng(0.66666,1.333333)" ] }
+              },
+              { "run_eocs": [ "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS_SPAWN" ], "alpha_talker": "npc" }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "u_add_effect": "effect_changeling_gain_dreamdross_from_dreams",
+            "duration": { "math": [ "518400 + rand(259200) - (n_skill('gramarye') * 28800) * rng(0.66666,1.333333)" ] }
+          },
+          { "run_eocs": [ "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS_SPAWN_LOW" ], "alpha_talker": "npc" }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "npc_message": "The mortal's dreams are fragile, evanescent things, not suitable for the harvest.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS_SPAWN",
+    "//": "We need this hack because there is no npc_spawn_item",
+    "effect": [
+      {
+        "if": { "x_in_y_chance": { "x": { "math": [ "n_skill('gramarye')" ] }, "y": 50 } },
+        "then": [
+          {
+            "u_spawn_item": "scrap_dreamdross",
+            "count": { "math": [ "(rand(4) + 1) + (rand(4) + 1)" ] },
+            "suppress_message": true
+          }
+        ],
+        "else": { "u_spawn_item": "scrap_dreamdross", "count": { "math": [ "(rand(4) + 1)" ] }, "suppress_message": true }
+      },
+      { "u_message": "You reach into the mortal's dreams and coalesce them into shining dreamdross.", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS_SPAWN_LOW",
+    "//": "We need this hack because there is no npc_spawn_item",
+    "effect": [
+      { "u_spawn_item": "scrap_dreamdross", "count": { "math": [ "rand(2)" ] }, "suppress_message": true },
+      {
+        "u_message": "You reach into the mortal's feeble dreams and pull what few scraps of dreamdross out as you can.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_GAIN_DREAMDROSS_FROM_DREAMS_SPAWN_FEAST",
+    "//": "We need this hack because there is no npc_spawn_item",
+    "effect": [
+      {
+        "u_spawn_item": "scrap_dreamdross",
+        "count": { "math": [ "(rand(4) + 4) + (rand(4) + 4) + (rand(4) + 4) + (rand(4) + 4) + (rand(4) + 4) + 12" ] },
+        "suppress_message": true
+      },
+      {
+        "u_message": "You reach into the mortal's and rip them out whole, filling both hands with a cascade of shining dreamdross.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_DISGUISE_AS_NATURE",
     "condition": "u_is_outside",
     "effect": [
@@ -1257,7 +1377,7 @@
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               { "u_add_trait": "ECHOLOCATION" },
-              { "math": [ "u_calories() /= 4" ] },
+              { "math": [ "u_calories('dont_affect_weariness': true) /= 4" ] },
               {
                 "u_message": "Your fingers lengthen as flaps of skin grow between them and as your legs shorten, you take to the air.",
                 "type": "good"
@@ -1280,7 +1400,7 @@
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
               { "u_lose_trait": "ECHOLOCATION" },
-              { "math": [ "u_calories() *= 4" ] },
+              { "math": [ "u_calories('dont_affect_weariness': true) *= 4" ] },
               { "u_lose_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               {
                 "u_message": "Your body shifts and your fingers separate as you return to your previous form.",
@@ -1319,7 +1439,7 @@
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "TURN_INTO_RAVEN_TRAITS" },
-              { "math": [ "u_calories() /= 4" ] },
+              { "math": [ "u_calories('dont_affect_weariness': true) /= 4" ] },
               {
                 "u_message": "Your body shifts and warps as your fingers extend into wings and feathers burst from your skin as you take to the air.",
                 "type": "good"
@@ -1341,7 +1461,7 @@
             "condition": { "u_has_trait": "TURN_INTO_RAVEN_TRAITS" },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
-              { "math": [ "u_calories() *= 4" ] },
+              { "math": [ "u_calories('dont_affect_weariness': true) *= 4" ] },
               { "u_lose_trait": "TURN_INTO_RAVEN_TRAITS" },
               {
                 "u_message": "Your body shifts and your feathers vanish as you return to your previous form.",
@@ -1380,7 +1500,7 @@
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "TURN_INTO_BEAR_TRAITS" },
-              { "math": [ "u_calories() *= 3" ] },
+              { "math": [ "u_calories('dont_affect_weariness': true) *= 3" ] },
               {
                 "u_message": "Your body shifts and expands as fur sprouts from your skin and your mouth and teeth lengthen.",
                 "type": "good"
@@ -1402,7 +1522,7 @@
             "condition": { "u_has_trait": "TURN_INTO_BEAR_TRAITS" },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
-              { "math": [ "u_calories() /= 3" ] },
+              { "math": [ "u_calories('dont_affect_weariness': true) /= 3" ] },
               { "u_lose_trait": "TURN_INTO_BEAR_TRAITS" },
               {
                 "u_message": "Your body shifts and contracts and you return to your humanoid form.",

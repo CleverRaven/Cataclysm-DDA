@@ -64,5 +64,17 @@
     "color": "green",
     "autonote_visibility": "none",
     "flags": [ "WILDERNESS" ]
+  },
+  {
+    "id": "mx_giant_snake_nest",
+    "type": "map_extra",
+    "name": { "str": "Giant snakes" },
+    "description": "This is the lair of a giant serpent.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_giant_snake_nest" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "s",
+    "color": "green",
+    "autonote_visibility": "details",
+    "flags": [ "WILDERNESS" ]
   }
 ]

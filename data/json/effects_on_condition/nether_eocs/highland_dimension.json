@@ -38,8 +38,14 @@
           "and": [
             { "u_is_on_terrain": "t_highland_bronze_floor" },
             { "math": [ "gate_open != 1" ] },
-            { "math": [ "u_artifact_resonance() >= 4500" ] },
-            { "u_has_worn_with_flag": "IMPERIAL_ROAD_KEY" }
+            {
+              "or": [
+                { "u_has_flag": "IMPERIAL_ROAD_TRAVELER" },
+                {
+                  "and": [ { "math": [ "u_artifact_resonance() >= 4500" ] }, { "u_has_worn_with_flag": "IMPERIAL_ROAD_KEY" } ]
+                }
+              ]
+            }
           ]
         },
         "then": [ { "mapgen_update": "conquerors_road_open" }, { "math": [ "gate_open = 1" ] } ]
@@ -55,7 +61,14 @@
     "type": "effect_on_condition",
     "id": "EOC_IMPERIAL_ROAD_LOST",
     "global": true,
-    "condition": { "and": [ { "math": [ "u_artifact_resonance() >= 4500" ] }, { "u_has_worn_with_flag": "IMPERIAL_ROAD_KEY" } ] },
+    "condition": {
+      "or": [
+        { "u_has_flag": "IMPERIAL_ROAD_TRAVELER" },
+        {
+          "and": [ { "math": [ "u_artifact_resonance() >= 4500" ] }, { "u_has_worn_with_flag": "IMPERIAL_ROAD_KEY" } ]
+        }
+      ]
+    },
     "effect": [
       {
         "if": { "not": { "current_dimension": "imperial_road" } },

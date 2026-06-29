@@ -2357,7 +2357,7 @@ int game::inventory_item_menu( item_location locThisItem,
                 case 'v':
                     if( oThisItem.is_container() ) {
                         ui_impl.reset();
-                        oThisItem.favorite_settings_menu();
+                        locThisItem.favorite_settings_menu();
                     }
                     break;
                 case 'V': {

@@ -2649,11 +2649,7 @@ std::vector<item_pocket *> outfit::grab_drop_pockets( const bodypart_id &bp )
     return pd;
 }
 
-void outfit::organize_items_menu()
+void outfit::organize_items_menu( Character &guy )
 {
-    std::vector<item *> to_organize;
-    for( item &i : worn ) {
-        to_organize.push_back( &i );
-    }
-    pocket_management_menu( _( "Inventory Organization" ), to_organize );
+    pocket_management_menu( _( "Inventory Organization" ), top_items_loc( guy ) );
 }

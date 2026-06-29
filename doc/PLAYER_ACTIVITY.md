@@ -15,8 +15,8 @@
 
 # Activities
 
-Activities are long term actions, that can be interrupted and (optionally)
-continued. This allows the avatar or an npc to react to events (like
+Activities are long-term actions, that can be interrupted and (optionally)
+continued. This allows the avatar or an NPC to react to events (like
 monsters appearing, getting hurt) while doing something that takes more
 than just one turn.
 
@@ -33,7 +33,7 @@ new activity.
 functions needed for the new actor as well as the required serialization
 functions. Don't forget to add the deserialization function of your new
 activity actor to the `deserialize_functions` map towards the bottom of
-`activity_actor.cpp`. Define `canceled` function if activity modifies
+`activity_actor.cpp`. Define the `canceled` function if the activity modifies
 some complex state that should be restored upon cancellation / interruption.
 
 4. If this activity is resumable, `override`
@@ -52,7 +52,7 @@ query to stop the activity, and strings that describe it, for example:
 
 * activity_level: Activity level of the activity, harder activities consume more calories over time. Valid values are, from easiest to most demanding of the body: `NO_EXERCISE`, `LIGHT_EXERCISE`, `MODERATE_EXERCISE`, `BRISK_EXERCISE`, `ACTIVE_EXERCISE`, `EXTRA_EXERCISE`.
 
-* interruptable (true): Can this be interrupted.  If false, then popups related
+* interruptable (true): Can this be interrupted. If false, then popups related
 to e.g. pain or seeing monsters will be suppressed.
 
 * interruptable_with_kb (true): Can this be interrupted by a key press.
@@ -63,26 +63,26 @@ letting you continue from where you left off rather than from scratch.
 * based_on: Can be 'time', 'speed', or 'neither'.
 
     * time: The amount that `player_activity::moves_left` is
-    decremented by is independent from the character's speed.
+    decremented by is independent of the character's speed.
 
     * speed: `player_activity::moves_left` may be decremented faster
     or slower, depending on the character's speed.
 
     * neither: `moves_left` will not be decremented. Thus you must
-    define a do_turn function; otherwise the activity will never end!
+    define a do_turn function; otherwise, the activity will never end!
 
 * rooted (false): If true, then during the activity, recoil is reduced,
 and plant mutants sink their roots into the ground. Should be true if the
 activity lasts longer than a few minutes, and can always be accomplished
 without moving your feet.
 
-* refuel_fires( false ): If true, the character will automatically refuel
+* refuel_fires (false): If true, the character will automatically refuel
 fires during the long activity.
 
-* auto_needs( false ) : If true, the character will automatically eat and
+* auto_needs (false): If true, the character will automatically eat and
 drink from specific auto_consume zones during long activities.
 
-* multi_activity(false): This activity will repeat until it cannot do
+* multi_activity (false): This activity will repeat until it cannot do
 any more work, used for NPC and avatar zone activities.
 
 * completion_eoc: an EOC that is run when this activity completes
@@ -110,7 +110,7 @@ There are several ways an activity can be ended:
 
     Canceling an activity prevents the `activity_actor::finish`
     function from running, and the activity does therefore not yield a
-    result. Instead, `activity_actor::canceled` is called. If activity is
+    result. Instead, `activity_actor::canceled` is called. If the activity is
     resumable, a copy of it is written to `Character::backlog`.
 
 ## Notes
@@ -131,8 +131,8 @@ as serialization functions for the data so that the activity can persist
 across save/load cycles.
 
 Be careful when storing coordinates as the activity may be carried out
-by NPCS. If its, the coordinates must be absolute not local as local
-coordinates are based on the avatars position.
+by NPCS. If it is, the coordinates must be absolute, not local as local
+coordinates are based on the avatar position.
 
 If in the `activity_actor::finish`, `player_activity::set_to_null()` is not called, the `activity_actor::finish` will be called again, or if you add more moves to `activity_actor::moves_left`, the `activity_actor::do_turn` function will also be called.
 
@@ -152,7 +152,7 @@ satisfied:
 
 - The `player_activity::moves_left` is decreased in `do_turn`
 
-- The activity is stopped in `do_turn`  (see 'Termination' above)
+- The activity is stopped in `do_turn` (see 'Termination' above)
 
 For example, `move_items_activity_actor::do_turn` will either move as
 many items as possible given the character's current moves or, if there

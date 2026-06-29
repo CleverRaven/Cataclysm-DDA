@@ -1009,9 +1009,10 @@ void fire_step_complete_distraction( const std::string &interrupt_msg,
                                      const item_location &loc )
 {
     avatar &u = get_avatar();
-    if( ( u.activity.id() == ACT_CRAFT || u.activity.id() == ACT_CRAFT_WAIT )
-        && !u.activity.targets.empty()
-        && u.activity.targets.back() == loc ) {
+    const bool activity_is_crafting = u.activity.id() == ACT_CRAFT || u.activity.id() == ACT_CRAFT_WAIT;
+    const bool we_already_craft_it = !u.activity.targets.empty() && u.activity.targets.back() == loc;
+
+    if( activity_is_crafting && we_already_craft_it ) {
         return;
     }
     if( !u.has_watch() && !u.has_alarm_clock() ) {
@@ -1686,8 +1687,8 @@ static void craft_actualize_ready( item &craft, time_point now, const item_locat
     }
     if( !wakeups_rebuilt ) {
         get_item_wakeups().rebuild_for_item( loc );
+        fire_step_complete_distraction( completion_msg, flavor_msg, loc );
     }
-    fire_step_complete_distraction( completion_msg, flavor_msg, loc );
 }
 
 void craft_resolve_overdue_passive( item &craft, time_point now, item_location &loc )

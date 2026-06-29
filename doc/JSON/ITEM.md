@@ -704,7 +704,6 @@ CBMs can be defined like this:
   { "type": "flesh", "portion": 3 }, // See Generic Item attributes for type and portion details
   { "type": "wheat", "portion": 5 }
 ],
-"primary_material": "meat",       // Overwrites generic item "material" field. Materials determine specific heat.
 "rot_spawn": {                    // Defines what creature would be spawned when this item rots away. Primarily used for eggs
   "group": "GROUP_EGG_CHICKEN",   // id of monster group that would be spawned. Cannot be used with "monster"
   "monster": "mon_moose_calf",    // id of a monster that would be spawned. Cannot be used with "group"

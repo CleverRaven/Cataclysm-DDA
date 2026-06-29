@@ -161,6 +161,7 @@
     "id": "alchemical_recipes_tier_two",
     "items": [
       { "item": "alchemy_recipe_prophets_lsd", "prob": 1 },
+      { "item": "alchemy_recipe_gold_from_lead", "prob": 1 },
       { "item": "alchemy_recipe_truckers_stamina_pills", "prob": 1 },
       { "item": "alchemy_recipe_charm_of_marzanna", "prob": 1 },
       { "item": "alchemy_recipe_spiritshow_dust", "prob": 1 },
