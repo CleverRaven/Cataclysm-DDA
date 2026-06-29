@@ -48,7 +48,7 @@
     "type": "map_extra_collection",
     "id": "forest_water",
     "copy-from": "forest_water",
-    "extend": { "extras": [ [ "mx_nest_claw_hunter", 1 ], [ "mx_nest_claw_runner", 4 ] ] }
+    "extend": { "extras": [ [ "mx_giant_snake_nest", 1 ], [ "mx_nest_claw_hunter", 1 ], [ "mx_nest_claw_runner", 4 ] ] }
   },
   {
     "type": "map_extra_collection",

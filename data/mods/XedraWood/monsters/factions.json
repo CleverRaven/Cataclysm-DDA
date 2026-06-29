@@ -79,6 +79,14 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "snakes",
+    "base_faction": "animal",
+    "neutral": [ "snakes" ],
+    "by_mood": [ "animal", "zombie_aquatic" ],
+    "hate": [ "herbivore" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "utahraptor",
     "base_faction": "predator_dino",
     "friendly": [ "utahraptor_juvenile", "utahraptor_hatchling" ]
