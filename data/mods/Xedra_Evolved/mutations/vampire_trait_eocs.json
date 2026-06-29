@@ -48,7 +48,7 @@
         "if": { "math": [ "u_vampire_just_drank_fae_blood == 1" ] },
         "then": [ { "math": [ "u_vitamin('drank_fae_blood') += 5" ] }, { "math": [ "u_vampire_just_drank_fae_blood = 0" ] } ]
       },
-      { "run_eocs": "EOC_TIER_5_REMOVE_MORALS" },
+      { "run_eocs": "EOC_TIER_4_REMOVE_MORALS" },
       {
         "if": { "and": [ { "math": [ "u_dhampir_have_ever_drunk_blood == 0" ] }, { "u_has_trait": "DHAMPIR_TRAIT" } ] },
         "then": [
@@ -2205,11 +2205,11 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TIER_5_REMOVE_MORALS",
-    "//": "When a tier 4 vampire becomes a tier 5 or when a tier 5 drinks blood, they gain the uncaring trait and lose morality-based traits such as pacifist and vegan.",
+    "id": "EOC_TIER_4_REMOVE_MORALS",
+    "//": "When a tier 3 vampire becomes a tier 4 or when a tier 4+ drinks blood, they gain the uncaring trait and lose morality-based traits such as pacifist and vegan.",
     "//2": "A vampire that somehow regain morals will keep them until the next drink.  Then the thirst will drown all worries and morals.",
-    "//3": " The message is not given upon gaining tier 5, as these EOCs have their own messages.",
-    "condition": { "u_has_trait": "BLOOD_DRINKER" },
+    "//3": " The message is not given upon gaining tier 4+, as these EOCs have their own messages.",
+    "condition": { "u_has_trait": "VAMPIRE4" },
     "effect": [
       {
         "if": { "u_has_trait": "VEGAN" },
