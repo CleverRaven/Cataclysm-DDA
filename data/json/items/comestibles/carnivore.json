@@ -1288,7 +1288,7 @@
     "price_postapoc": "25 cent",
     "quench": -4,
     "calories": 92,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 28 ],[ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 28 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "human_liver",
@@ -1409,10 +1409,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "copy-from": "lung",
     "looks_like": "offal",
-    "name": {
-      "str": "piece of raw brain",
-      "str_pl": "of raw brain pieces"
-    },
+    "name": { "str": "piece of raw brain", "str_pl": "of raw brain pieces" },
     "description": "A chunk of brain from an animal.  You wouldn't want to eat this raw…",
     "display_type": "BY_WEIGHT",
     "color": "light_gray",
