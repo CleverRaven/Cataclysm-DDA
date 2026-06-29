@@ -557,7 +557,7 @@
     "type": "item_group",
     "copy-from": "mansion_books",
     "subtype": "distribution",
-    "extend": { "entries": [ { "group": "hedge_magic_books", "prob": 5 }, { "group": "nether_sorcery_books", "prob": 3 } ] }
+    "extend": { "entries": [ { "group": "hedge_magic_books", "prob": 5 }, { "group": "nether_sorcery_books", "prob": 2 } ] }
   },
   {
     "id": "hedge_magic_books",
@@ -582,7 +582,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "nether_sorcery_grimoire_xe_nether_sorcery_cold_damage_over_time", "prob": 1 },
-      { "item": "nether_sorcery_grimoire_xe_nether_sorcery_summon_kreck_pack", "prob": 1 }
+      { "item": "nether_sorcery_grimoire_xe_nether_sorcery_summon_kreck_pack", "prob": 1 },
+      { "item": "nether_sorcery_grimoire_xe_nether_sorcery_cause_withering_damage", "prob": 1 }
     ]
   },
   {
