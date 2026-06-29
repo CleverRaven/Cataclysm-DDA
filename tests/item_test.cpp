@@ -69,7 +69,7 @@ static const itype_id itype_bag_plastic( "bag_plastic" );
 static const itype_id itype_barrel_glock_short( "barrel_glock_short" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_bottle_plastic_small( "bottle_plastic_small" );
-static const itype_id itype_butter_test( "butter_test" );
+static const itype_id itype_butter( "butter" );
 static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_chem_black_powder( "chem_black_powder" );
 static const itype_id itype_chem_muriatic_acid( "chem_muriatic_acid" );
@@ -1264,14 +1264,14 @@ TEST_CASE( "item_rotten_contents", "[item]" )
     item wrapper( itype_wrapper );
     REQUIRE( wrapper.get_category_of_contents().id == item_category_container );
 
-    item butter_rotten( itype_butter_test );
+    item butter_rotten( itype_butter );
     butter_rotten.set_relative_rot( 1.01 );
     REQUIRE( wrapper.put_in( butter_rotten, pocket_type::CONTAINER ).success() );
     REQUIRE( wrapper.put_in( butter_rotten, pocket_type::CONTAINER ).success() );
     CAPTURE( wrapper.display_name() );
     CHECK( wrapper.get_category_of_contents().id == item_category_food );
 
-    item butter( itype_butter_test );
+    item butter( itype_butter );
     butter.set_relative_rot( 0.5 );
     REQUIRE( wrapper.put_in( butter, pocket_type::CONTAINER ).success() );
     CAPTURE( wrapper.display_name() );
