@@ -403,10 +403,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "copy-from": "meat_cooked",
-    "name": {
-      "str": "large slab of uncut bacon",
-      "str_pl": "of large uncut bacon slabs"
-    },
+    "name": { "str": "large slab of uncut bacon", "str_pl": "of large uncut bacon slabs" },
     "description": "A huge slab of uncut smoked bacon.  You can eat it as is, but it would be more efficient to cut it into smaller portions with a knife.",
     "volume": "250ml",
     "calories": 1566,
@@ -423,10 +420,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "copy-from": "flesh",
-    "name": {
-      "str": "slab of raw curing porkbelly",
-      "str_pl": "of raw curing porkbelly slabs"
-    },
+    "name": { "str": "slab of raw curing porkbelly", "str_pl": "of raw curing porkbelly slabs" },
     "description": "Porkbelly in the process of becoming fully cured with salt and sugar, capable of becoming bacon.  The flavor is slowly developing at this stage, and is significantly unpleasant due to the residual salt.  Activate it once completed to make use of the final product.",
     "weight": "275 g",
     "volume": "250ml",
