@@ -36,7 +36,7 @@
     "id": "portal_storm_dungeon_teleporter",
     "copy-from": "nether_glass_impassable",
     "name": "elsewhere",
-    "sym": ",",
+    "sym": "T",
     "travel_cost_type": "basement",
     "looks_like": "nether_glass",
     "color": "black",
