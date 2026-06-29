@@ -15,7 +15,7 @@
             }
           ]
         },
-        { "not": [ { "u_has_trait": "VAMPIRE" } ] }
+        { "not": { "u_has_trait": "VAMPIRE" } }
       ]
     },
     "effect": [
