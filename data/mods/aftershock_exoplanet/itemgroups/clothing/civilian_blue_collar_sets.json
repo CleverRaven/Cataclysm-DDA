@@ -98,6 +98,21 @@
   },
   {
     "type": "item_group",
+    "id": "afs_spacer_coats",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "afs_leather_jacket", "prob": 5 },
+      { "item": "afs_bolero", "prob": 2 },
+      { "item": "afs_cyberpunk_bomber", "prob": 5 },
+      { "item": "afs_hi_vis_jacket", "prob": 80 },
+      { "item": "afs_hi_vis_vest", "prob": 50 },
+      { "item": "afs_company_jacket", "prob": 80 },
+      { "item": "vest", "prob": 30 },
+      { "item": "nanomesh_vest", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "afs_colonist_shirt",
     "subtype": "distribution",
     "entries": [

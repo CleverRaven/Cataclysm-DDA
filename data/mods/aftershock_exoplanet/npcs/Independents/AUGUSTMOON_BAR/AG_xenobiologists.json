@@ -1,0 +1,37 @@
+[
+  {
+    "id": [ "AG_XENOB_1" ],
+    "type": "talk_topic",
+    "dynamic_line": "A pair of academics are deep in conversation over a shared datapad, they wear colorful capes that would feel at home in an embassy rondure.  You absently follow their conversation from your perch at the bar, until a disagreement about the need of specimens catches your attention.",
+    "responses": [
+      { "text": "What's the argument about?", "topic": "AG_XENOB_2" },
+      { "text": "[ Don't get involved ]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "AG_XENOB_2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_male": true,
+      "yes": "Ah! You see, my esteemed colleague here is stubbornly meek!  He insists that we can learn everything we need from stool samples alone!  But I say, if we want to truly understand these alien lifeforms, we need to study them in vivo!  Live specimens, not just mud!\"  The other academic is quick to respond, \"Puh!  Nonsense!  You just have a macabre fascination with vivisection the gentleman here needs not to enable.",
+      "no": "Ah! You see, my esteemed colleague here is stubbornly meek!  He insists that we can learn everything we need from stool samples alone!  But I say, if we want to truly understand these alien lifeforms, we need to study them in vivo!  Live specimens, not just mud!\"  The other academic is quick to respond, \"Puh!  Nonsense!  You just have a macabre fascination with vivisection the lady here needs not to enable."
+    },
+    "responses": [
+      { "text": "Lets say I know a thing or two about capturing live aliens...  ", "topic": "AG_XENOB_3" },
+      { "text": "[ Just say something uncompromising and slowly walk away. ]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "AG_XENOB_3",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "afs_underworld_check(1) >= 100" ],
+      "yes": "\"Oh!  You do?  Well, perhaps you could assist us in our research then!  We would of course compensate you for your efforts.  What do you say?  Interested in a little field work?\"",
+      "no": "Hmmph.  Well, you really dont have that rugged frontiersman look\", he says, eyeing you up and down.  \"But I suppose we could use all the help we can get."
+    },
+    "responses": [ { "text": "Sure, what do you need?", "topic": "AG_XENOB_4" }, { "text": "[ Not interested ]", "topic": "TALK_DONE" } ]
+  },
+  {
+    
+  }
+]

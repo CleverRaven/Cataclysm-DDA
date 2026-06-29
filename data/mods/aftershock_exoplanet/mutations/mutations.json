@@ -11,6 +11,17 @@
   },
   {
     "type": "mutation",
+    "id": "TRADER_INVENTORY",
+    "name": { "str": "Remote Storeroom" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "description": "NPC trait for Augustmoon bar traders. It is a bug if you have it.",
+    "integrated_armor": [ "integated_storeroom" ]
+  },
+  {
+    "type": "mutation",
     "id": "BKGR_EARTH",
     "name": { "str": "Earthling" },
     "points": 0,
