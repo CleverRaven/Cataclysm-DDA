@@ -498,6 +498,9 @@ If the Exodii trust you enough they'll give you a Cyberframe
 Dimension: the Scarlet Sea
 Challenge - Labyrinth Bound
 Expanding zombie weakpoints with vitals
+Adds a couple of loading screen tips
+Some `a shadow?` attacked survivor camp mapgen
+A mission to negotiate trade between the Exodii and Free Merchants
 
 
 ## Interface:
@@ -1149,6 +1152,19 @@ XE Proficiency CBMs
 Aftershock: Add industrial habitat building.
 Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
 [XedraWood] Add magical tattoos and a profession that starts with them
+[Bombastic Perks] Add more perks
+[XedraWood] Add lizardfolk monsters
+[Xedra Evolved] Update March Lords
+[Xedra Evolved] Add unique XE random encounter EoC, point Jotunn random encounter toward it, add March Lord random encounter
+[XedraWood] Refactor random encounter EoCs to make it XedraWood unique
+[MoM] Monster psions can use Physical Enhancement
+[Xedra Evolved] Some random encounter tweaking
+[MoM] Turn telekinetic matrix crystals into artifacts
+[Xedra Evolved] Add more changeling glamours
+[Xedra Evolved] Update changeling Banquet of Dreams to allow a massive harvest at the cost of damage
+[MoM] The Hounds can twist your Extended Stride and keep up
+[Xedra Evolved] Dancer in the Endless Dark allows you to avoid notice from the shadow
+[Xedra Evolved] Add wraiths random encounter
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1299,6 +1315,8 @@ Zombie corpses aren't useful
 Stepped many many weapon recipes
 Joint Torsion Ratchet CBM doesn't allow for perpetual motion cyborgs
 Zero cost spells remain zero cost even if encumbered
+Car/motorbike batteries are no longer an obstacle
+Reduce the price of some items and adjust the spring data
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1842,6 +1860,14 @@ Uncomfortable limbs must exist
 Fix Android black screen after turning the screen off
 Batch crafts no longer vanish when an unattended step's timeout is shorter than the batch-scaled craft time
 Labyrinth treasure room terminals work, and don't crash
+Worn flotation vest won't let you drown anymore
+Fix stacking elevators to nowhere inside portal labs.
+[Xedra Evolved] Fix two March Lord bugs
+[Xedra Evolved] Fix tender animal feet
+Fixes 2 small bugs with the pooka skunk tail shapeshift
+Forbid nesting chains over 12 in AIM to prevent save corruption.
+[MoM] TELEPORT_IMMUNE monsters can't be displaced
+[Xedra Evolved] Shapeshifting into either a Raven, Bat or Bear would cause weariness to tank. This fixes that.
 
 
 ## Performance:
