@@ -8,7 +8,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "u",
     "color": "dark_gray",
-    "autonote_visibility": "none"
+    "autonote_visibility": "none",
+    "flags": [ "PORTAL_STORM_DUNGEON" ]
   },
   {
     "id": "mx_portal_ingress",
@@ -19,7 +20,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "o",
     "color": "red",
-    "autonote_visibility": "none"
+    "autonote_visibility": "none",
+    "flags": [ "PORTAL_STORM_DUNGEON" ]
   },
   {
     "id": "mx_portal_distortion_item",
@@ -30,6 +32,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "i",
     "color": "blue",
-    "autonote_visibility": "none"
+    "autonote_visibility": "none",
+    "flags": [ "PORTAL_STORM_DUNGEON" ]
   }
 ]
