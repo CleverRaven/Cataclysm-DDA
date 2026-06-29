@@ -801,7 +801,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
-    "name": { "str": "roasted bone marrow", "str_pl": "of roasted bone marrow"},
+    "name": { "str": "roasted bone marrow", "str_pl": "of roasted bone marrow" },
     "conditional_names": [ { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "Marvin marrow" } } ],
     "description": "Bone marrow, fully cooked to eliminate any parasites.  Tasty!",
     "display_type": "BY_WEIGHT",
