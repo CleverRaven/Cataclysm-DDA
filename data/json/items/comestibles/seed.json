@@ -1756,22 +1756,9 @@
     "price": "1 cent",
     "volume": "30 ml",
     "weight": "15 g",
-    "material": [
-      {
-        "type": "dried_vegetable",
-        "portion": 10
-      },
-      {
-        "type": "veggy",
-        "portion": 1
-      }
-    ],
+    "material": [ { "type": "dried_vegetable", "portion": 10 }, { "type": "veggy", "portion": 1 } ],
     "calories": 78,
-    "vitamins": [
-      [ "calcium", 2 ],
-      [ "iron", 4 ],
-      [ "veggy_allergen", 1 ]
-    ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ],
     "addiction_type": "caffeine",
     "addiction_potential": 1,
     "flags": [ "EDIBLE_FROZEN", "RAW", "NO_AUTO_CONSUME", "INEDIBLE", "NUTRIENT_OVERRIDE" ],
