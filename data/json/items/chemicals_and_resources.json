@@ -843,11 +843,7 @@
     "phase": "liquid",
     "container": "bottle_glass",
     "freezing_point": -42,
-    "drop_action": {
-      "type": "emit_actor",
-      "emits": [ "emit_acid_drop" ],
-      "scale_qty": true
-    }
+    "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
     "type": "ITEM",
