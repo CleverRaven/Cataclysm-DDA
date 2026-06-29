@@ -394,12 +394,7 @@
     "price": "6 USD 50 cent",
     "price_postapoc": "3 USD",
     "spoils_in": "14 days",
-    "vitamins": [
-      [ "vitC", 0 ],
-      [ "calcium", 3 ],
-      [ "iron", 22 ],
-      [ "meat_allergen", 1 ]
-    ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ], [ "meat_allergen", 1 ] ],
     "flags": [ "RAW" ],
     "smoking_result": "bacon_uncut"
   },
@@ -420,12 +415,7 @@
     "//": "High price to reflect the rarity and value of bacon. Note that this is three pieces of it.",
     "spoils_in": "42 days",
     "fun": 5,
-    "vitamins": [
-      [ "vitC", 0 ],
-      [ "calcium", 3 ],
-      [ "iron", 22 ],
-      [ "meat_allergen", 1 ]
-    ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_HOT", "SMOKED" ]
   },
   {
@@ -445,12 +435,7 @@
     "price_postapoc": "2 USD 50 cent",
     "spoils_in": "14 days",
     "fun": -15,
-    "vitamins": [
-      [ "vitC", 0 ],
-      [ "calcium", 0 ],
-      [ "iron", 0 ],
-      [ "meat_allergen", 1 ]
-    ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "meat_allergen", 1 ] ],,
     "flags": [ "SPAWN_ACTIVE" ],
     "countdown_interval": "8 hours",
     "revert_to": "raw_cured_fatty_meat"
@@ -571,12 +556,7 @@
     "charges": 1,
     "phase": "liquid",
     "smoking_result": "null",
-    "vitamins": [
-      [ "calcium", 2 ],
-      [ "iron", 12 ],
-      [ "meat_allergen", 1 ],
-      [ "human_flesh_vitamin", 1 ]
-    ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "id": "mutant_human_cooked",
@@ -828,13 +808,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str": "roasted bone marrow", "str_pl": "of roasted bone marrow"},
-    "conditional_names": [
-      {
-        "type": "VITAMIN",
-        "condition": "human_flesh_vitamin",
-        "name": { "str_sp": "Marvin marrow" }
-      }
-    ],
+    "conditional_names": [ { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "Marvin marrow" } } ],
     "description": "Bone marrow, fully cooked to eliminate any parasites.  Tasty!",
     "display_type": "BY_WEIGHT",
     "symbol": "%",
@@ -847,27 +821,15 @@
     "spoils_in": "1 day",
     "calories": 471,
     "fun": 5,
-    "vitamins": [
-      [ "iron", 17 ],
-      [ "meat_allergen", 1 ]
-    ]
+    "vitamins": [ [ "iron", 17 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "pepperbone",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
-    "name": {
-      "str": "roasted peppered bone marrow",
-      "str_pl": "of roasted peppered bone marrow"
-    },
-    "conditional_names": [
-      {
-        "type": "VITAMIN",
-        "condition": "human_flesh_vitamin",
-        "name": { "str_sp": "Marvin marrow" }
-      }
-    ],
+    "name": { "str": "roasted peppered bone marrow", "str_pl": "of roasted peppered bone marrow" },
+    "conditional_names": [ { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "Marvin marrow" } } ],
     "description": "Bone marrow, fully cooked to eliminate any parasites and properly seasoned with black pepper and salt.  Tasty!",
     "display_type": "BY_WEIGHT",
     "symbol": "%",
@@ -880,10 +842,7 @@
     "spoils_in": "1 day",
     "calories": 471,
     "fun": 6,
-    "vitamins": [
-      [ "iron", 17 ],
-      [ "meat_allergen", 1 ]
-    ]
+     "vitamins": [ [ "iron", 17 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "offal",
@@ -1150,10 +1109,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "copy-from": "flesh",
     "looks_like": "offal",
-    "name": {
-      "str": "piece of raw lung",
-      "str_pl": "of raw lung pieces"
-    },
+    "name": { "str": "piece of raw lung", "str_pl": "of raw lung pieces" },
     "description": "A portion of lung from an animal.  It's spongy and pink, and spoils very quickly.  It can be a delicacy if properly prepared - but if improperly prepared, it's a chewy lump of flavorless connective tissue.",
     "display_type": "BY_WEIGHT",
     "weight": "45 g",
@@ -1237,12 +1193,7 @@
     "price_postapoc": "6 cent",
     "fun": -10,
     "calories": 67,
-    "vitamins": [
-      [ "vitC", "3 mg" ],
-      [ "calcium", "2840 μg" ],
-      [ "iron", "2660 μg" ],
-      [ "meat_allergen", 1 ]
-    ],
+    "vitamins": [ [ "vitC", "3 mg" ], [ "calcium", "2840 μg" ], [ "iron", "2660 μg" ], [ "meat_allergen", 1 ] ],
     "extend": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
@@ -1337,21 +1288,13 @@
     "subtypes": [ "COMESTIBLE" ],
     "copy-from": "lung",
     "looks_like": "offal",
-    "name": {
-      "str": "piece of raw liver",
-      "str_pl": "of raw liver pieces"
-    },
+    "name": { "str": "piece of raw liver", "str_pl": "of raw liver pieces" },
     "description": "A piece of liver from an animal.  Although many dislike its texture, it's one of the more vitamin-rich parts of the animal.  It is very good in sausages, but maybe a little less appetizing when cooked on its own.",
     "display_type": "BY_WEIGHT",
     "price_postapoc": "25 cent",
     "quench": -4,
     "calories": 92,
-    "vitamins": [
-      [ "vitC", 0 ],
-      [ "calcium", 1 ],
-      [ "iron", 28 ],
-      [ "meat_allergen", 1 ]
-    ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 28 ],[ "meat_allergen", 1 ] ]
   },
   {
     "id": "human_liver",
@@ -1423,10 +1366,7 @@
     "spoils_in": "1 day",
     "calories": 471,
     "fun": -3,
-    "vitamins": [
-      [ "iron", 17 ],
-      [ "meat_allergen", 1 ]
-    ],
+    "vitamins": [ [ "iron", 17 ], [ "meat_allergen", 1 ] ],
     "flags": [ "RAW", "PREDATOR_FUN" ]
   },
   {
@@ -1486,12 +1426,7 @@
     "quench": 10,
     "parasites": 15,
     "calories": 78,
-    "vitamins": [
-      [ "vitC", 3 ],
-      [ "calcium", 0 ],
-      [ "iron", 10 ],
-      [ "meat_allergen", 1 ]
-    ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 0 ], [ "iron", 10 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "human_brain",
@@ -1565,12 +1500,7 @@
     "color": "brown",
     "price_postapoc": "25 cent",
     "calories": 54,
-    "vitamins": [
-      [ "vitC", 0 ],
-      [ "calcium", 1 ],
-      [ "iron", 25 ],
-      [ "meat_allergen", 1 ]
-    ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 25 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "human_kidney",
@@ -1634,22 +1564,14 @@
     "subtypes": [ "COMESTIBLE" ],
     "copy-from": "lung",
     "looks_like": "offal",
-    "name": {
-      "str": "piece of raw sweetbread",
-      "str_pl": "of raw sweetbread pieces"
-    },
+    "name": { "str": "piece of raw sweetbread", "str_pl": "of raw sweetbread pieces" },
     "description": "A piece of the thymus or pancreas of an animal.  These are a delicacy, if prepared properly.",
     "display_type": "BY_WEIGHT",
     "color": "brown",
     "price_postapoc": "25 cent",
     "quench": 0,
     "calories": 133,
-    "vitamins": [
-      [ "vitC", 11 ],
-      [ "calcium", 0 ],
-      [ "iron", 5 ],
-      [ "meat_allergen", 1 ]
-    ]
+    "vitamins": [ [ "vitC", 11 ], [ "calcium", 0 ], [ "iron", 5 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "human_sweetbread",
@@ -1705,12 +1627,7 @@
     "charges": 1,
     "phase": "liquid",
     "smoking_result": "null",
-    "vitamins": [
-      [ "calcium", 2 ],
-      [ "iron", 12 ],
-      [ "meat_allergen", 1 ],
-      [ "human_flesh_vitamin", 1 ]
-    ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -1797,10 +1714,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "id": "meat_tainted",
     "category": "other",
-    "name": {
-      "str": "chunk of tainted meat",
-      "str_pl": "of tainted meat chunks"
-    },
+    "name": { "str": "chunk of tainted meat", "str_pl": "of tainted meat chunks" },
     "weight": "238 g",
     "color": "red",
     "spoils_in": "4 hours",
@@ -1950,10 +1864,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "id": "fat_tainted",
     "category": "other",
-    "name": {
-      "str": "chunk of tainted fat",
-      "str_pl": "of tainted fat chunks"
-    },
+    "name": { "str": "chunk of tainted fat", "str_pl": "of tainted fat chunks" },
     "weight": "192 g",
     "color": "yellow",
     "spoils_in": "4 hours",
@@ -2434,10 +2345,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "id": "meat_mi-go",
     "category": "other",
-    "name": {
-      "str": "chunk of mi-go meat",
-      "str_pl": "of mi-go meat chunks"
-    },
+    "name": { "str": "chunk of mi-go meat", "str_pl": "of mi-go meat chunks" },
     "weight": "238 g",
     "color": "pink",
     "spoils_in": "90 days",
@@ -2494,10 +2402,7 @@
     "copy-from": "flesh",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "name": {
-      "str": "chunk of poultry meat",
-      "str_pl": "of poultry meat chunks"
-    },
+    "name": { "str": "chunk of poultry meat", "str_pl": "of poultry meat chunks" },
     "description": "A chunk of raw meat from a bird.  Dangerous to eat as-is.",
     "display_type": "BY_WEIGHT",
     "weight": "104 g",
@@ -2509,11 +2414,7 @@
     "//": "Scaled from 100g skin on, boneless, wild duck meat from USDA database",
     "fun": -18,
     "cooks_like": "meat_cooked",
-    "vitamins": [
-      [ "calcium", "5 mg" ],
-      [ "iron", "5 mg" ],
-      [ "meat_allergen", 1 ]
-    ],
+    "vitamins": [ [ "calcium", "5 mg" ], [ "iron", "5 mg" ], [ "meat_allergen", 1 ] ],
     "flags": [ "RAW", "PREDATOR_FUN" ],
     "smoking_result": "poultry_smoked"
   },
