@@ -23,10 +23,7 @@
     "type": "ITEM",
     "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "corn_kernels",
-    "name": {
-      "str": "corn kernels",
-      "str_pl": "of corn kernels"
-    },
+    "name": { "str": "corn kernels", "str_pl": "of corn kernels" },
     "weight": "60 g",
     "color": "yellow",
     "spoils_in": "5 days",
@@ -40,11 +37,7 @@
     "material": [ "veggy" ],
     "volume": "83 ml",
     "smoking_result": "dry_corn",
-    "vitamins": [
-      [ "vitC", 12 ],
-      [ "iron", 4 ],
-      [ "veggy_allergen", 1 ]
-    ],
+    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "EATEN_HOT", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "BIRD", "RAT", "MOUSE" ],
     "plant_name": "corn",
@@ -87,11 +80,7 @@
     "copy-from": "corn",
     "fun": -2,
     "description": "A popcorn cob full of popcorn kernels.  You can eat them on the cob or shell it for cooking.",
-    "use_action": {
-      "type": "consume_drug",
-      "used_up_item": "empty_corn_cob",
-      "moves": 500
-    }
+    "use_action": { "type": "consume_drug", "used_up_item": "empty_corn_cob", "moves": 500 }
   },
   {
     "type": "ITEM",
@@ -124,10 +113,7 @@
     "type": "ITEM",
     "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "kernels",
-    "name": {
-      "str": "popcorn kernels",
-      "str_pl": "of popcorn kernels"
-    },
+    "name": { "str": "popcorn kernels", "str_pl": "of popcorn kernels" },
     "weight": "45 g",
     "color": "brown",
     "container": "bag_plastic_small",
@@ -176,10 +162,7 @@
     "volume": "62 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [
-      [ "iron", 2 ],
-      [ "veggy_allergen", 1 ]
-    ]
+    "vitamins": [ [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -211,10 +194,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "wheat_stalks",
-    "name": {
-      "str": "wheat stalks",
-      "str_pl": "of wheat stalks"
-    },
+    "name": { "str": "wheat stalks", "str_pl": "of wheat stalks" },
     "comestible_type": "FOOD",
     "weight": "302 g",
     "color": "brown",
@@ -237,10 +217,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "red_winter_wheat_stalks",
-    "name": {
-      "str": "red winter wheat stalks",
-      "str_pl": "of red winter wheat stalks"
-    },
+    "name": { "str": "red winter wheat stalks", "str_pl": "of red winter wheat stalks" },
     "copy-from": "wheat_stalks",
     "description": "A sheaf of freshly-cut winter wheat, now ready for drying in a stook or smoker.",
     "//COMMENT": "This value is completely made up(by me) on the broad assumption that hardier winter crops are also less nutritious. ~10% less calories than regular wheat.",
@@ -251,21 +228,9 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "dry_wheat_stalks",
-    "name": {
-      "str": "dried wheat stalks",
-      "str_pl": "of dried wheat stalks"
-    },
+    "name": { "str": "dried wheat stalks", "str_pl": "of dried wheat stalks" },
     "comestible_type": "FOOD",
-    "material": [
-      {
-        "type": "dry_plant",
-        "portion": 10
-      },
-      {
-        "type": "veggy",
-        "portion": 1
-      }
-    ],
+    "material": [ { "type": "dry_plant", "portion": 10 }, { "type": "veggy", "portion": 1 } ],
     "weight": "273 g",
     "color": "brown",
     "symbol": ",",
@@ -284,10 +249,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "dry_winter_wheat_stalks",
-    "name": {
-      "str": "dried winter wheat stalks",
-      "str_pl": "of dried winter wheat stalks"
-    },
+    "name": { "str": "dried winter wheat stalks", "str_pl": "of dried winter wheat stalks" },
     "copy-from": "dry_wheat_stalks",
     "comestible_type": "FOOD",
     "description": "A sheaf of dried winter wheat stalks.  These will require threshing before anything can be done with them.",
@@ -298,10 +260,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_wheat",
-    "name": {
-      "str": "threshed wheat",
-      "str_pl": "of threshed wheat"
-    },
+    "name": { "str": "threshed wheat", "str_pl": "of threshed wheat" },
     "comestible_type": "FOOD",
     "material": [ "wheat" ],
     "weight": "205 g",
@@ -322,10 +281,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_winter_wheat",
-    "name": {
-      "str": "threshed winter wheat",
-      "str_pl": " of threshed winter wheat"
-    },
+    "name": { "str": "threshed winter wheat", "str_pl": " of threshed winter wheat" },
     "copy-from": "threshed_wheat",
     "comestible_type": "FOOD",
     "//COMMENT": "Continuing the trend of hardier winter wheat having ~10% less calories.",
@@ -337,22 +293,10 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "chaff",
-    "name": {
-      "str": "chaff",
-      "str_pl": "of chaff"
-    },
+    "name": { "str": "chaff", "str_pl": "of chaff" },
     "comestible_type": "FOOD",
     "category": "other",
-    "material": [
-      {
-        "type": "dry_plant",
-        "portion": 10
-      },
-      {
-        "type": "veggy",
-        "portion": 1
-      }
-    ],
+    "material": [ { "type": "dry_plant", "portion": 10 }, { "type": "veggy", "portion": 1 } ],
     "weight": "2 g",
     "color": "brown",
     "symbol": ",",
@@ -370,10 +314,7 @@
     "type": "ITEM",
     "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "wheat",
-    "name": {
-      "str": "wheat",
-      "str_pl": "of wheat"
-    },
+    "name": { "str": "wheat", "str_pl": "of wheat" },
     "weight": "203 g",
     "color": "brown",
     "comestible_type": "FOOD",
@@ -387,24 +328,9 @@
     "material": [ "wheat" ],
     "//": "These things are rock-hard and not digestible by humans, but birds and cattle can eat them just fine.",
     "volume": "250 ml",
-    "vitamins": [
-      [ "calcium", 4 ],
-      [ "iron", 40 ],
-      [ "wheat_allergen", 1 ]
-    ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 40 ], [ "wheat_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
-    "flags": [
-      "EDIBLE_FROZEN",
-      "RAW",
-      "INEDIBLE",
-      "CATTLE",
-      "PLANTABLE_SEED",
-      "CUT_HARVEST",
-      "BIRD",
-      "RAT",
-      "MOUSE",
-      "NUTRIENT_OVERRIDE"
-    ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE", "NUTRIENT_OVERRIDE" ],
     "plant_name": "wheat",
     "fruit": "wheat_stalks",
     "seeds": false,
@@ -423,10 +349,7 @@
     "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "winter_wheat",
     "//COMMENT": "This avoids copy-from on the base wheat item because that item is coded as a seed despite 'proper' wheat seeds existing. To keep things simple I've not mixed the roles like that.",
-    "name": {
-      "str": "winter wheat",
-      "str_pl": "of winter wheat"
-    },
+    "name": { "str": "winter wheat", "str_pl": "of winter wheat" },
     "weight": "203 g",
     "color": "brown",
     "comestible_type": "FOOD",
@@ -440,24 +363,9 @@
     "price_postapoc": "1 USD",
     "material": [ "wheat" ],
     "volume": "250 ml",
-    "vitamins": [
-      [ "calcium", 4 ],
-      [ "iron", 40 ],
-      [ "wheat_allergen", 1 ]
-    ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 40 ], [ "wheat_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
-    "flags": [
-      "EDIBLE_FROZEN",
-      "RAW",
-      "INEDIBLE",
-      "CATTLE",
-      "PLANTABLE_SEED",
-      "CUT_HARVEST",
-      "BIRD",
-      "RAT",
-      "MOUSE",
-      "NUTRIENT_OVERRIDE"
-    ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE", "NUTRIENT_OVERRIDE" ],
     "into": "flour",
     "recipe": "flour_mill_1_15"
   },
@@ -465,10 +373,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "barley_stalks",
-    "name": {
-      "str": "barley stalks",
-      "str_pl": "of barley stalks"
-    },
+    "name": { "str": "barley stalks", "str_pl": "of barley stalks" },
     "copy-from": "wheat_stalks",
     "description": "A sheaf of freshly-cut barley, now ready for drying in a stook or smoker.",
     "calories": 775,
@@ -478,10 +383,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "dry_barley_stalks",
-    "name": {
-      "str": "dried barley stalks",
-      "str_pl": "of dried barley stalks"
-    },
+    "name": { "str": "dried barley stalks", "str_pl": "of dried barley stalks" },
     "copy-from": "dry_wheat_stalks",
     "calories": 775,
     "description": "A sheaf of dried barley stalks.  These will require threshing before anything can be done with them."
@@ -490,10 +392,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_barley",
-    "name": {
-      "str": "threshed barley",
-      "str_pl": "of threshed barley"
-    },
+    "name": { "str": "threshed barley", "str_pl": "of threshed barley" },
     "copy-from": "threshed_wheat",
     "calories": 745,
     "description": "Barley with the chaff still mixed in.  It will have to be winnowed before it's usable."
@@ -502,10 +401,7 @@
     "type": "ITEM",
     "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "barley",
-    "name": {
-      "str": "barley",
-      "str_pl": "of barley"
-    },
+    "name": { "str": "barley", "str_pl": "of barley" },
     "weight": "211 g",
     "color": "brown",
     "comestible_type": "FOOD",
@@ -517,24 +413,9 @@
     "price_postapoc": "62 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "vitamins": [
-      [ "calcium", 6 ],
-      [ "iron", 29 ],
-      [ "veggy_allergen", 1 ]
-    ],
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
-    "flags": [
-      "EDIBLE_FROZEN",
-      "RAW",
-      "INEDIBLE",
-      "CATTLE",
-      "PLANTABLE_SEED",
-      "CUT_HARVEST",
-      "BIRD",
-      "RAT",
-      "MOUSE",
-      "NUTRIENT_OVERRIDE"
-    ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE", "NUTRIENT_OVERRIDE" ],
     "plant_name": "barley",
     "fruit": "barley_stalks",
     "seeds": false,
@@ -552,10 +433,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "oat_stalks",
-    "name": {
-      "str": "oat stalks",
-      "str_pl": "of oat stalks"
-    },
+    "name": { "str": "oat stalks", "str_pl": "of oat stalks" },
     "copy-from": "wheat_stalks",
     "description": "A sheaf of freshly-cut oats, now ready for drying in a stook or smoker.",
     "price": "12 cent",
@@ -567,10 +445,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "dry_oat_stalks",
-    "name": {
-      "str": "dried oat stalks",
-      "str_pl": "of dried oat stalks"
-    },
+    "name": { "str": "dried oat stalks", "str_pl": "of dried oat stalks" },
     "copy-from": "dry_wheat_stalks",
     "quench": -5,
     "calories": 355,
@@ -582,10 +457,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_oats",
-    "name": {
-      "str": "threshed oats",
-      "str_pl": "of threshed oats"
-    },
+    "name": { "str": "threshed oats", "str_pl": "of threshed oats" },
     "copy-from": "threshed_wheat",
     "quench": -5,
     "calories": 340,
@@ -597,10 +469,7 @@
     "type": "ITEM",
     "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "oats",
-    "name": {
-      "str": "oats",
-      "str_pl": "of oats"
-    },
+    "name": { "str": "oats", "str_pl": "of oats" },
     "display_type": "BY_WEIGHT",
     "weight": "203 g",
     "color": "brown",
@@ -613,24 +482,9 @@
     "price_postapoc": "1 USD",
     "material": [ "wheat" ],
     "volume": "250 ml",
-    "vitamins": [
-      [ "calcium", 3 ],
-      [ "iron", 20 ],
-      [ "wheat_allergen", 1 ]
-    ],
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 20 ], [ "wheat_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
-    "flags": [
-      "EDIBLE_FROZEN",
-      "RAW",
-      "INEDIBLE",
-      "CATTLE",
-      "NUTRIENT_OVERRIDE",
-      "PLANTABLE_SEED",
-      "CUT_HARVEST",
-      "BIRD",
-      "RAT",
-      "MOUSE"
-    ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "NUTRIENT_OVERRIDE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE" ],
     "plant_name": "oats",
     "fruit": "oat_stalks",
     "seeds": false,
@@ -648,10 +502,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "wild_rice_stalks",
-    "name": {
-      "str": "wild rice stalks",
-      "str_pl": "of wild rice stalks"
-    },
+    "name": { "str": "wild rice stalks", "str_pl": "of wild rice stalks" },
     "copy-from": "buckwheat_stalks",
     "quench": -5,
     "calories": 135,
@@ -664,10 +515,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "dry_wild_rice_stalks",
-    "name": {
-      "str": "dried wild rice stalks",
-      "str_pl": "of dried wild rice stalks"
-    },
+    "name": { "str": "dried wild rice stalks", "str_pl": "of dried wild rice stalks" },
     "copy-from": "dry_buckwheat_stalks",
     "quench": -5,
     "calories": 135,
@@ -679,10 +527,7 @@
     "type": "ITEM",
     "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "wild_rice",
-    "name": {
-      "str": "wild rice",
-      "str_pl": "of wild rice"
-    },
+    "name": { "str": "wild rice", "str_pl": "of wild rice" },
     "copy-from": "oats",
     "material": [ "veggy" ],
     "calories": 120,
@@ -707,10 +552,7 @@
     "type": "ITEM",
     "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "buckwheat",
-    "name": {
-      "str": "buckwheat",
-      "str_pl": "of buckwheat"
-    },
+    "name": { "str": "buckwheat", "str_pl": "of buckwheat" },
     "weight": "180 g",
     "color": "brown",
     "comestible_type": "FOOD",
@@ -722,24 +564,9 @@
     "price_postapoc": "2 USD",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "vitamins": [
-      [ "calcium", 3 ],
-      [ "iron", 22 ],
-      [ "veggy_allergen", 1 ]
-    ],
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 22 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
-    "flags": [
-      "EDIBLE_FROZEN",
-      "RAW",
-      "INEDIBLE",
-      "CATTLE",
-      "PLANTABLE_SEED",
-      "CUT_HARVEST",
-      "BIRD",
-      "RAT",
-      "MOUSE",
-      "NUTRIENT_OVERRIDE"
-    ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE", "NUTRIENT_OVERRIDE" ],
     "plant_name": "buckwheat",
     "fruit": "buckwheat_stalks",
     "seeds": false,
@@ -757,10 +584,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "canola_stalks",
-    "name": {
-      "str": "canola stalks",
-      "str_pl": "of canola stalks"
-    },
+    "name": { "str": "canola stalks", "str_pl": "of canola stalks" },
     "copy-from": "wheat_stalks",
     "weight": "171 g",
     "quench": -5,
@@ -775,10 +599,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "dry_canola_stalks",
-    "name": {
-      "str": "dried canola stalks",
-      "str_pl": "of dried canola stalks"
-    },
+    "name": { "str": "dried canola stalks", "str_pl": "of dried canola stalks" },
     "copy-from": "dry_wheat_stalks",
     "weight": "149 g",
     "quench": -5,
@@ -792,10 +613,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_canola",
-    "name": {
-      "str": "threshed canola",
-      "str_pl": "of threshed canola"
-    },
+    "name": { "str": "threshed canola", "str_pl": "of threshed canola" },
     "copy-from": "threshed_wheat",
     "weight": "134 g",
     "quench": -5,
@@ -809,10 +627,7 @@
     "type": "ITEM",
     "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "seed_canola",
-    "name": {
-      "str": "canola seeds",
-      "str_pl": "of canola seeds"
-    },
+    "name": { "str": "canola seeds", "str_pl": "of canola seeds" },
     "weight": "132 g",
     "color": "light_gray",
     "comestible_type": "FOOD",
@@ -825,25 +640,9 @@
     "price_postapoc": "1 USD 50 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "vitamins": [
-      [ "calcium", 4 ],
-      [ "iron", 47 ],
-      [ "vitC", 7 ],
-      [ "veggy_allergen", 1 ]
-    ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
-    "flags": [
-      "EDIBLE_FROZEN",
-      "RAW",
-      "INEDIBLE",
-      "NUTRIENT_OVERRIDE",
-      "CATTLE",
-      "PLANTABLE_SEED",
-      "CUT_HARVEST",
-      "BIRD",
-      "RAT",
-      "MOUSE"
-    ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "NUTRIENT_OVERRIDE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE" ],
     "plant_name": "canola",
     "fruit": "canola_stalks",
     "seeds": false,
@@ -861,10 +660,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "dry_lentil_stalks",
-    "name": {
-      "str": "dried lentil stalks",
-      "str_pl": "of dried lentil stalks"
-    },
+    "name": { "str": "dried lentil stalks", "str_pl": "of dried lentil stalks" },
     "copy-from": "dry_wheat_stalks",
     "weight": "149 g",
     "quench": -5,
@@ -878,10 +674,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_lentils",
-    "name": {
-      "str": "threshed lentils",
-      "str_pl": "of threshed lentils"
-    },
+    "name": { "str": "threshed lentils", "str_pl": "of threshed lentils" },
     "copy-from": "threshed_wheat",
     "weight": "134 g",
     "quench": -5,
@@ -895,10 +688,7 @@
     "type": "ITEM",
     "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "dry_lentils",
-    "name": {
-      "str": "dried lentils",
-      "str_pl": "of dried lentils"
-    },
+    "name": { "str": "dried lentils", "str_pl": "of dried lentils" },
     "weight": "132 g",
     "color": "light_gray",
     "container": "bag_plastic_small",
@@ -912,12 +702,7 @@
     "price_postapoc": "75 cent",
     "material": [ "veggy" ],
     "volume": "125 ml",
-    "vitamins": [
-      [ "calcium", 4 ],
-      [ "iron", 47 ],
-      [ "vitC", 7 ],
-      [ "veggy_allergen", 1 ]
-    ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "NUTRIENT_OVERRIDE", "CATTLE", "PLANTABLE_SEED", "BIRD", "RAT", "MOUSE" ],
     "plant_name": "lentils",
@@ -935,10 +720,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "buckwheat_stalks",
-    "name": {
-      "str": "buckwheat stalks",
-      "str_pl": "of buckwheat stalks"
-    },
+    "name": { "str": "buckwheat stalks", "str_pl": "of buckwheat stalks" },
     "comestible_type": "FOOD",
     "weight": "287 g",
     "color": "brown",
@@ -960,21 +742,9 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "dry_buckwheat_stalks",
-    "name": {
-      "str": "dried buckwheat stalks",
-      "str_pl": "of dried buckwheat stalks"
-    },
+    "name": { "str": "dried buckwheat stalks", "str_pl": "of dried buckwheat stalks" },
     "comestible_type": "FOOD",
-    "material": [
-      {
-        "type": "dry_plant",
-        "portion": 10
-      },
-      {
-        "type": "veggy",
-        "portion": 1
-      }
-    ],
+    "material": [ { "type": "dry_plant", "portion": 10 }, { "type": "veggy", "portion": 1 } ],
     "weight": "258 g",
     "color": "brown",
     "symbol": ",",
