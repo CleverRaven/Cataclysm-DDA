@@ -5861,7 +5861,7 @@
   {
     "id": "effect_temporary_levitation",
     "type": "effect_type",
-    "//": "Hidden effect, keeps you from falling in the portal dungeon briefly",
+    "//": "Hidden effect, keeps you from falling in the portal dungeon briefly and also prevents infinite trap teleporting",
     "name": [ "" ],
     "desc": [ "" ],
     "flags": [ "LEVITATION" ]

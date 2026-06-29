@@ -983,18 +983,7 @@
       },
       { "u_location_variable": { "context_val": "make_sure_were_at_level_0" }, "z_adjust": 0, "z_override": true },
       { "u_teleport": { "context_val": "make_sure_were_at_level_0" } },
-      {
-        "if": { "u_is_on_terrain": "t_open_air" },
-        "then": [
-          {
-            "u_location_variable": { "context_val": "portal_storm_dungeon_teleportation" },
-            "target_params": { "om_terrain": "default_portal_storm_dungeon_overmap", "min_distance": 1, "search_range": 10, "random": true },
-            "target_max_radius": 24,
-            "terrain": "t_floor_warped"
-          },
-          { "u_teleport": { "context_val": "portal_storm_dungeon_teleportation" } }
-        ]
-      },
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_TELEPORTER" },
       { "math": [ "portal_dungeon_level = 1" ] },
       { "math": [ "visited_a_portal_dungeon = 1" ] },
       { "u_message": "You are trapped in <global_val:place_name>!" },
@@ -1106,7 +1095,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_TELEPORTER",
+    "condition": { "not": { "u_has_effect": "effect_temporary_levitation" } },
     "effect": [
+      { "u_location_variable": { "context_val": "current_loc" } },
+      { "set_trap": "tr_portal_dungeon_teleporter", "location": { "context_val": "current_loc" }, "radius": 0 },
       {
         "u_location_variable": { "context_val": "portal_storm_dungeon_teleportation" },
         "target_params": {
@@ -1119,7 +1111,13 @@
         "trap": "tr_portal_dungeon_teleporter",
         "target_max_radius": 24
       },
-      { "u_teleport": { "context_val": "portal_storm_dungeon_teleportation" } }
+      { "u_add_effect": "effect_temporary_levitation", "duration": 0 },
+      { "u_teleport": { "context_val": "portal_storm_dungeon_teleportation" } },
+      {
+        "set_trap": "tr_portal_dungeon_teleporter",
+        "location": { "context_val": "portal_storm_dungeon_teleportation" },
+        "radius": 0
+      }
     ]
   },
   {
