@@ -51,7 +51,7 @@ static const itype_id itype_pine_nuts( "pine_nuts" );
 static const itype_id itype_protein_bar_evac( "protein_bar_evac" );
 static const itype_id itype_purse( "purse" );
 static const itype_id itype_rock( "rock" );
-static const itype_id itype_salt( "salt_test" );
+static const itype_id itype_salt_test( "salt_test" );
 static const itype_id itype_sauerkraut( "sauerkraut" );
 static const itype_id itype_sheet_cotton( "sheet_cotton" );
 static const itype_id itype_test_baseball( "test_baseball" );
