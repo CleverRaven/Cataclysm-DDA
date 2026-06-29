@@ -429,7 +429,7 @@
     "price_postapoc": "2 USD 50 cent",
     "spoils_in": "14 days",
     "fun": -15,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "meat_allergen", 1 ] ],,
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "meat_allergen", 1 ] ],
     "flags": [ "SPAWN_ACTIVE" ],
     "countdown_interval": "8 hours",
     "revert_to": "raw_cured_fatty_meat"
@@ -1482,10 +1482,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "copy-from": "lung",
     "looks_like": "offal",
-    "name": {
-      "str": "piece of raw kidney",
-      "str_pl": "of raw kidney pieces"
-    },
+    "name": { "str": "piece of raw kidney", "str_pl": "of raw kidney pieces" },
     "description": "A chunk of kidney from an animal.  Preparing it for cooking is a challenge unless you want the kitchen to smell strongly of urine.",
     "display_type": "BY_WEIGHT",
     "color": "brown",
@@ -1624,10 +1621,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "fat",
-    "name": {
-      "str": "chunk of fat",
-      "str_pl": "of fat chunks"
-    },
+    "name": { "str": "chunk of fat", "str_pl": "of fat chunks" },
     "weight": "22 g",
     "color": "pink",
     "spoils_in": "7 days",
