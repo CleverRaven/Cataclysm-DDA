@@ -2651,5 +2651,25 @@
     "display_field": false,
     "gas_absorption_factor": "80m",
     "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] }
+  },
+  {
+    "id": "fd_portal_cracked_mirror",
+    "type": "field_type",
+    "looks_like": "fd_fatigue",
+    "intensity_levels": [
+      {
+        "name": "cracked mirror",
+        "color": "magenta",
+        "transparent": false,
+        "monster_spawn_chance": 60,
+        "monster_spawn_count": 1,
+        "monster_spawn_radius": 1,
+        "monster_spawn_group": "GROUP_PORTAL_REFLECTIONS"
+      }
+    ],
+    "description_affix": "under",
+    "priority": 8,
+    "display_items": true,
+    "display_field": true
   }
 ]

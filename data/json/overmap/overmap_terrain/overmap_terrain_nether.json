@@ -29,6 +29,7 @@
     "looks_like": "nether_glass",
     "color": "black",
     "see_cost": "none",
+    "extras": "default_portal_storm_dungeon_extras",
     "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {

@@ -5867,6 +5867,13 @@
     "flags": [ "LEVITATION" ]
   },
   {
+    "id": "effect_portal_dungeon_multi_trigger_limiter",
+    "type": "effect_type",
+    "//": "Hidden effect, prevents infinite trap teleporting in the portal dungeon",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
     "id": "effect_portal_storm_dungeon_time_tracker",
     "type": "effect_type",
     "//": "Hidden effect, tracks how long you've been in the portal storm dungeon",

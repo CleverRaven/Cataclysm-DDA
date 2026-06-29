@@ -1095,7 +1095,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_TELEPORTER",
-    "condition": { "not": { "u_has_effect": "effect_temporary_levitation" } },
+    "condition": { "not": { "u_has_effect": "effect_portal_dungeon_multi_trigger_limiter" } },
     "effect": [
       { "u_location_variable": { "context_val": "current_loc" } },
       { "set_trap": "tr_portal_dungeon_teleporter", "location": { "context_val": "current_loc" }, "radius": 0 },
@@ -1111,7 +1111,7 @@
         "trap": "tr_portal_dungeon_teleporter",
         "target_max_radius": 24
       },
-      { "u_add_effect": "effect_temporary_levitation", "duration": 0 },
+      { "u_add_effect": "effect_portal_dungeon_multi_trigger_limiter", "duration": 0 },
       { "u_teleport": { "context_val": "portal_storm_dungeon_teleportation" } },
       {
         "set_trap": "tr_portal_dungeon_teleporter",
@@ -1149,7 +1149,9 @@
         "success_message": "The shifting halls warp and fold on themselves and turn inside out, revealing the shape of the world you know."
       },
       { "clear_dimension": "portal_storm_dungeon_dimension" },
-      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REMOVE_ITEM" }
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REMOVE_ITEM" },
+      { "math": [ "portal_dungeon_level = 0" ] },
+      { "alter_timed_events": "portal_dungeon" }
     ],
     "false_effect": { "u_message": "You feel a prickle at the edge of your senses.", "type": "bad" }
   },

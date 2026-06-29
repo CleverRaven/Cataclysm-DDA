@@ -33,7 +33,7 @@
     "forest_composition": "no_forests",
     "highways": null,
     "cities": "no_cities",
-    "map_extras": "default_portal_storm_dungeon",
+    "map_extras": "portal_storm_dungeon_extras",
     "terrain_furniture": "default_portal_storm_dungeon",
     "weather": "default_portal_storm_dungeon",
     "neighbor_connections": false,
@@ -78,7 +78,13 @@
   },
   {
     "type": "region_settings_map_extras",
-    "id": "default_portal_storm_dungeon",
-    "extras": [  ]
+    "id": "portal_storm_dungeon_extras",
+    "extras": [ "default_portal_storm_dungeon_extras" ]
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "default_portal_storm_dungeon_extras",
+    "chance": 10,
+    "extras": [ [ "mx_portal_cracked_mirror", 1 ], [ "mx_portal_ingress", 1 ], [ "mx_portal_distortion_item", 1 ] ]
   }
 ]
