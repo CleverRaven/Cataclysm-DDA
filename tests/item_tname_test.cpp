@@ -826,9 +826,9 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
     type_only.set( tname::segments::TYPE );
     SECTION( "aggregated food stats" ) {
         avatar &u = get_avatar();
-        item salt( itype_salt );
+        item salt( itype_salt_test );
         std::string const cat_food_str = salt.get_category_shallow().name_noun( 2 );
-        item pepper( itype_pepper );
+        item pepper( itype_pepper_test );
         item juniper( itype_juniper );
         item ration( itype_protein_bar_evac );
         item carrot( itype_carrot );
