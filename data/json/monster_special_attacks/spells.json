@@ -996,7 +996,7 @@
                     "if": {
                       "and": [
                         { "math": [ "portal_dungeon_level > 0" ] },
-                        { "math": [ "monsters_nearby('mon_guilt', 'location': dungeon_loc) < 1" ] }
+                        { "math": [ "u_monsters_nearby('mon_guilt', 'location': dungeon_loc) < 1" ] }
                       ]
                     },
                     "then": {
@@ -1014,7 +1014,7 @@
                     "if": {
                       "and": [
                         { "math": [ "portal_dungeon_level > 0" ] },
-                        { "math": [ "monsters_nearby('mon_sloth', 'location': dungeon_loc) < 1" ] }
+                        { "math": [ "u_monsters_nearby('mon_sloth', 'location': dungeon_loc) < 1" ] }
                       ]
                     },
                     "then": {
@@ -1040,21 +1040,6 @@
   },
   {
     "type": "SPELL",
-    "id": "mon_reflection_revive",
-    "name": { "str": "Reflection Revive", "//~": "NO_I18N" },
-    "description": { "str": "Revives the reflection.", "//~": "NO_I18N" },
-    "valid_targets": [ "self", "ground" ],
-    "max_level": 1,
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
-    "min_range": 15,
-    "max_range": 15,
-    "shape": "blast",
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_RESPAWN"
-  },
-  {
-    "type": "SPELL",
     "id": "mon_XEDRA_officer_banish",
     "name": { "str": "Officer banish", "//~": "NO_I18N" },
     "description": { "str": "Stops the haunting.", "//~": "NO_I18N" },
@@ -1067,11 +1052,6 @@
     "shape": "blast",
     "effect": "effect_on_condition",
     "effect_str": "EOC_HAUNTING_QUEUE_STOP"
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_RESPAWN",
-    "effect": [ { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ]
   },
   {
     "type": "SPELL",

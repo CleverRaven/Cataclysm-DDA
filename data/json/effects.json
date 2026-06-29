@@ -5857,5 +5857,22 @@
     "scaling_mods": { "hurt_min": [ 3 ], "vomit_tick": [ -225 ], "per_mod": [ -0.5 ], "dex_mod": [ -0.5 ], "str_mod": [ -0.5 ] },
     "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.8 }, { "limb_score": "reaction", "modifier": 0.8 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "id": "effect_temporary_levitation",
+    "type": "effect_type",
+    "//": "Hidden effect, keeps you from falling in the portal dungeon briefly",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "LEVITATION" ]
+  },
+  {
+    "id": "effect_portal_storm_dungeon_time_tracker",
+    "type": "effect_type",
+    "//": "Hidden effect, tracks how long you've been in the portal storm dungeon",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "int_decay_step": 1,
+    "int_decay_tick": 120
   }
 ]

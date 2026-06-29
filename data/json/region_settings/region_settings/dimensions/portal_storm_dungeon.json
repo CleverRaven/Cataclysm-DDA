@@ -32,7 +32,7 @@
     "forest_trails": null,
     "forest_composition": "no_forests",
     "highways": null,
-    "cities": null,
+    "cities": "no_cities",
     "map_extras": "default_portal_storm_dungeon",
     "terrain_furniture": "default_portal_storm_dungeon",
     "weather": "default_portal_storm_dungeon",
@@ -75,5 +75,10 @@
     "id": "portal_storm_dungeon_t_region_groundcover",
     "ter_id": "t_region_groundcover",
     "replace_with_terrain": [ [ "t_open_air", 1 ] ]
+  },
+  {
+    "type": "region_settings_map_extras",
+    "id": "default_portal_storm_dungeon",
+    "extras": [  ]
   }
 ]

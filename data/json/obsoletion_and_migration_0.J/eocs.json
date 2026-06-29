@@ -47,18 +47,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN",
     "global": true,
-    "condition": {
-      "and": [
-        { "math": [ "portal_dungeon_level > 0" ] },
-        {
-          "math": [
-            "monsters_nearby('mon_pale_reflection', 'mon_twisted_reflection', 'mon_dark_reflection', 'mon_better_half', 'location': dungeon_loc)",
-            "<",
-            "1"
-          ]
-        }
-      ]
-    },
+    "condition": { "math": [  ] },
     "effect": {
       "switch": { "global_val": "portal_dungeon_reflect_strength", "default": 0 },
       "cases": [
