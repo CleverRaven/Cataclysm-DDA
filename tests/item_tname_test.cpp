@@ -826,9 +826,9 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
     type_only.set( tname::segments::TYPE );
     SECTION( "aggregated food stats" ) {
         avatar &u = get_avatar();
-        item salt( itype_salt_test );
-        std::string const cat_food_str = salt.get_category_shallow().name_noun( 2 );
-        item pepper( itype_pepper_test );
+        item salt_test( itype_salt_test );
+        std::string const cat_food_str = salt_test.get_category_shallow().name_noun( 2 );
+        item pepper_test( itype_pepper_test );
         item juniper( itype_juniper );
         item ration( itype_protein_bar_evac );
         item carrot( itype_carrot );
@@ -837,13 +837,13 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
         std::string const carrots_tname = carrot.tname( 2, type_only );
 
         SECTION( "inedible" ) {
-            REQUIRE( ( salt.is_food() && pepper.is_food() && juniper.is_food() && ration.is_food() &&
+            REQUIRE( ( salt_test.is_food() && pepper.is_food() && juniper.is_food() && ration.is_food() &&
                        carrot.is_food() && sauerkraut.is_food() ) );
 
-            REQUIRE( ( u.will_eat( salt ).value() == edible_rating::INEDIBLE &&
-                       u.will_eat( pepper ).value() == edible_rating::INEDIBLE ) );
-            REQUIRE( bag.put_in( salt, pocket_type::CONTAINER ).success() );
-            REQUIRE( bag.put_in( pepper, pocket_type::CONTAINER ).success() );
+            REQUIRE( ( u.will_eat( salt_test ).value() == edible_rating::INEDIBLE &&
+                       u.will_eat( pepper_test ).value() == edible_rating::INEDIBLE ) );
+            REQUIRE( bag.put_in( salt_test, pocket_type::CONTAINER ).success() );
+            REQUIRE( bag.put_in( pepper_test, pocket_type::CONTAINER ).success() );
             CHECK( bag.tname( 1 ) == "plastic bag > 2 " + colorize( cat_food_str, c_dark_gray ) );
         }
 
