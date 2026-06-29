@@ -84,7 +84,7 @@
   {
     "type": "map_extra_collection",
     "id": "default_portal_storm_dungeon_extras",
-    "chance": 10,
+    "chance": 5,
     "extras": [ [ "mx_portal_cracked_mirror", 1 ], [ "mx_portal_ingress", 1 ], [ "mx_portal_distortion_item", 1 ] ]
   }
 ]
