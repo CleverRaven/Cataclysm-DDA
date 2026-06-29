@@ -836,7 +836,7 @@
     "spoils_in": "1 day",
     "calories": 471,
     "fun": 6,
-     "vitamins": [ [ "iron", 17 ], [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "iron", 17 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "offal",
