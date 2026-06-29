@@ -14,7 +14,7 @@
 
 static const itype_id itype_bookplate( "bookplate" );
 static const itype_id itype_bootsheath( "bootsheath" );
-static const itype_id itype_butter( "butter" );
+static const itype_id itype_butter_test( "butter_test" );
 static const itype_id itype_test_arrow_wood( "test_arrow_wood" );
 static const itype_id itype_test_quiver( "test_quiver" );
 static const itype_id itype_tunic( "tunic" );
@@ -171,9 +171,9 @@ TEST_CASE( "display_name_rotten_food", "[item][display_name][contents]" )
     clear_avatar();
 
     item wrapper( itype_wrapper );
-    item butter_std( itype_butter );
-    item butter_rot1( itype_butter );
-    item butter_rot2( itype_butter );
+    item butter_std( itype_butter_test );
+    item butter_rot1( itype_butter_test );
+    item butter_rot2( itype_butter_test );
     butter_std.set_relative_rot( 0.5 );
     butter_rot1.set_relative_rot( 1.01 );
     butter_rot2.set_relative_rot( 1.02 );
