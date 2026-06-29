@@ -837,7 +837,7 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
         std::string const carrots_tname = carrot.tname( 2, type_only );
 
         SECTION( "inedible" ) {
-            REQUIRE( ( salt_test.is_food() && pepper.is_food() && juniper.is_food() && ration.is_food() &&
+            REQUIRE( ( salt_test.is_food() && pepper_test.is_food() && juniper.is_food() && ration.is_food() &&
                        carrot.is_food() && sauerkraut.is_food() ) );
 
             REQUIRE( ( u.will_eat( salt_test ).value() == edible_rating::INEDIBLE &&
