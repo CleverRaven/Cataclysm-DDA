@@ -498,6 +498,8 @@ If the Exodii trust you enough they'll give you a Cyberframe
 Dimension: the Scarlet Sea
 Challenge - Labyrinth Bound
 Expanding zombie weakpoints with vitals
+Some `a shadow?` attacked survivor camp mapgen
+A mission to negotiate trade between the Exodii and Free Merchants
 
 
 ## Interface:
@@ -1842,6 +1844,7 @@ Uncomfortable limbs must exist
 Fix Android black screen after turning the screen off
 Batch crafts no longer vanish when an unattended step's timeout is shorter than the batch-scaled craft time
 Labyrinth treasure room terminals work, and don't crash
+Worn flotation vest won't let you drown anymore
 
 
 ## Performance:
