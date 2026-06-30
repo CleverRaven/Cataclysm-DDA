@@ -1040,6 +1040,7 @@
     "quench": -2,
     "calories": 80,
     "description": "Whole fresh eggs, dehydrated into an easy to store powder.",
+    "display_type": "BY_WEIGHT",
     "price": "70 cent",
     "price_postapoc": "46 cent",
     "material": [ { "type": "powder", "portion": 10 }, { "type": "egg", "portion": 1 } ],

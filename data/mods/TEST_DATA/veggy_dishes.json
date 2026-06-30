@@ -1,0 +1,23 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "sauerkraut_test",
+    "name": { "str_sp": "sauerkraut" },
+    "weight": "255 g",
+    "color": "green",
+    "spoils_in": "30 days",
+    "container": "jar_glass_sealed",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 2,
+    "calories": 43,
+    "description": "This crunchy, sour topping made from lettuce or cabbage is perfect for your hot dogs and hamburgers, or, if you're desperate, straight to your stomach.",
+    "price": "4 USD 50 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "vitamins": [ [ "vitC", 85 ], [ "calcium", 17 ], [ "veggy_allergen", 1 ] ],
+    "fun": -2
+  }
+]
