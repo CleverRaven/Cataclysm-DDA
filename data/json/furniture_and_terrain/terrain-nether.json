@@ -13,7 +13,7 @@
     "type": "terrain",
     "id": "t_distortion_floor",
     "name": "distorted image",
-    "description": "The landscape looks warped and distorted here, as if had been unaturally stretched above a thin membrane.",
+    "description": "The landscape looks warped and distorted here, as if had been unnaturally stretched above a thin membrane.",
     "symbol": "+",
     "color": "magenta",
     "looks_like": "fd_fatigue",

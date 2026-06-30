@@ -154,7 +154,7 @@
         "covers": [ "foot_l", "foot_r", "head", "torso", "eyes", "mouth", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ]
       }
     ],
-    "description": "A brightly colored, standard-fab pattern environmental suit for use in industrial and medical settings.  Offers good protection from chemical and radioactive hazards, but is not insulated against heat or cold.  Requires a gasmask or sealed helmet for full protection.",
+    "description": "A brightly colored, standard-fab pattern environmental suit for use in industrial and medical settings.  Offers good protection from chemical and radioactive hazards, but is not insulated against heat or cold.  Requires a gas mask or sealed helmet for full protection.",
     "use_action": {
       "type": "transform",
       "menu_text": "Wear casually",

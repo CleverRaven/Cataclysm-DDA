@@ -2623,13 +2623,13 @@
   {
     "id": "GASFILTER_SM",
     "type": "json_flag",
-    "info": "A small-sized gasmask filter.",
+    "info": "A small-sized gas mask filter.",
     "name": "filter mask cartridge"
   },
   {
     "id": "GASFILTER_MED",
     "type": "json_flag",
-    "info": "A medium-sized gasmask filter.",
+    "info": "A medium-sized gas mask filter.",
     "name": "CBRN filter canister"
   },
   {

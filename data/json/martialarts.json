@@ -45,7 +45,7 @@
       {
         "id": "buff_aikido_static2",
         "name": "Intermediate Aikido",
-        "description": "You've learned the fundamentals of Aikido.  Your movement would be familiar to any practioners in a pre-Cataclysm dojo.\n\nBlocked damage reduced by 25% of Dexterity, +1 blocking effectiveness, +1 dodge attempt.",
+        "description": "You've learned the fundamentals of Aikido.  Your movement would be familiar to any practitioners in a pre-Cataclysm dojo.\n\nBlocked damage reduced by 25% of Dexterity, +1 blocking effectiveness, +1 dodge attempt.",
         "unarmed_allowed": true,
         "melee_allowed": false,
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],

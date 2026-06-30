@@ -845,8 +845,8 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```FLAMING``` This item is on fire, you deal additional fire damage using it.
 - ```FRAGILE_MELEE``` Fragile items that fall apart easily when used as a weapon due to poor construction quality and will break into components when broken.
 - ```FRESH_GRAIN``` This item is fresh-cut grain, and can be dried in a stook.
-- ```GASFILTER_MED``` This is a medium size gas filter cartridge, that is used as magazine for various gasmasks.
-- ```GASFILTER_SM``` This is a small size gas filter cartridge, that is used as magazine for various gasmasks.
+- ```GASFILTER_MED``` This is a medium size gas filter cartridge, that is used as magazine for various gas masks.
+- ```GASFILTER_SM``` This is a small size gas filter cartridge, that is used as magazine for various gas masks.
 - ```GAS_DISCOUNT``` Discount cards for the automated gas stations.
 - ```GAS_TANK``` This item can store gases.
 - ```GEMSTONE``` This is a gemstone, and you can put it in some jewelry.
