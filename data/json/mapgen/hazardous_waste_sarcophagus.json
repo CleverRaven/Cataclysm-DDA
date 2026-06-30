@@ -358,7 +358,7 @@
           { "item": "hazardous_waste", "chance": 50 },
           { "item": "toxic_waste_mx_radioactive", "chance": 30 },
           { "item": "toxic_waste_mx_chems", "chance": 50 },
-          { "item": "nanomaterials", "chance": 3 }
+          { "item": "nanomaterial", "repeat": [ 25, 75 ], "chance": 3 }
         ]
       },
       "place_item": [ { "item": "sarcophagus_access_code", "x": 20, "y": 31 } ],
