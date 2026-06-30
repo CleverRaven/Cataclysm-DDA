@@ -1097,6 +1097,13 @@ bool melee_actor::call( monster &z ) const
                                  target->has_effect_with_flag( json_flag_CANNOT_MOVE ) ) ) {
         if( g->fling_creature( target, coord_to_angle( z.pos_bub(), target->pos_bub() ),
                                throw_strength ) ) {
+            // If we successfully fling the target that was grabbing us, remove any grabbed effects on us
+            if( z.has_flag( json_flag_GRAB ) && target->has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
+                for( const effect &eff : z.get_effects_with_flag( json_flag_GRAB ) ) {
+                    z.remove_effect( eff.get_id(), eff.get_bp() );
+                }
+            }
+
             target->add_msg_player_or_npc( msg_type, throw_msg_u,
                                            get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? throw_msg_npc : translation(),
                                            mon_name );
