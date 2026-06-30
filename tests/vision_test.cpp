@@ -826,13 +826,13 @@ TEST_CASE( "vision_vehicle_mirrors", "[shadowcasting][vision][vehicle]" )
             "66666666",
 } :
         std::vector<std::string> {
-            "44444444",
-            "44444444",
+            "64444444",
+            "64444444",
             "66666644",
             "66666644",
             "66666644",
-            "44444444",
-            "44444444",
+            "64444444",
+            "64444444",
         },
         day_time
     };
@@ -1098,7 +1098,7 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision][moncam]" )
         std::vector<std::string> {
             "4444444",
             "4444444",
-            "4444444",
+            "6444446",
             "6444446",
             "6444446",
             "6144416",
@@ -1111,8 +1111,8 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision][moncam]" )
             // active moncam can see through mirrors
             "4444444",
             "4444444",
-            "4411144",
             "6411146",
+            "6111116",
             "6111116",
             "6111116",
             "6111116",
