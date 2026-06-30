@@ -1309,7 +1309,7 @@ static void spell_description(
             std::string dot_string;
             if( spl.damage_dot( chrc ) ) {
                 //~ amount of damage per second, abbreviated
-                dot_string = string_format( _( ", %1$d/sec" ), spl.damage_dot( chrc ) );
+                dot_string = string_format( _( ", %1$.2f/sec" ), spl.damage_dot( chrc ) );
             }
             damage_string = string_format( _( "Damage: %1$s %2$s%3$s" ), spl.damage_string( chrc ),
                                            spl.damage_type_string(), dot_string );
