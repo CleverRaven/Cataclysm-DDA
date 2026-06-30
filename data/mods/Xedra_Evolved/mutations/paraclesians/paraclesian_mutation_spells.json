@@ -168,7 +168,7 @@
     "type": "SPELL",
     "name": "Weave Gossamer",
     "description": "Under the light of the moon, you can weave cotton into gossamer.",
-    "flags": [ "SOMATIC", "VERBAL", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_FAIL", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "self" ],
     "components": "spell_components_paraclesian_spell_make_gossamer",
     "caster_condition": { "and": [ { "not": "is_day" }, "u_is_outside", { "math": [ "moon_phase() != 0" ] } ] },
