@@ -3,12 +3,10 @@
 #include <algorithm>
 #include <cstddef>
 #include <memory>
-#include <set>
 #include <string>
 #include <utility>
 
 #include "calendar.h"
-#include "cata_utility.h"
 #include "character.h"
 #include "condition.h"
 #include "coordinates.h"
@@ -17,7 +15,6 @@
 #include "dialogue.h"
 #include "dialogue_helpers.h"
 #include "effect_on_condition.h"
-#include "flag.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
@@ -41,11 +38,9 @@
 #include "overmapbuffer.h"
 #include "point.h"
 #include "ret_val.h"
-#include "rng.h"
 #include "talker.h"
 #include "translations.h"
 #include "uilist.h"
-#include "value_ptr.h"
 #include "veh_appliance.h"
 
 static const activity_id ACT_MORTAR_AIMING( "ACT_MORTAR_AIMING" );
