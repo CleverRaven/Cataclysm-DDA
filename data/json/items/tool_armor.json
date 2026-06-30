@@ -684,7 +684,7 @@
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "light_battery_cell" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "medium_battery_cell" ] } ],
     "charges_per_use": 25,
     "warmth": 10,
     "material_thickness": 0.5,
