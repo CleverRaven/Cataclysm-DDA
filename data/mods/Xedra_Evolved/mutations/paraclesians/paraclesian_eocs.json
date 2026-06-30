@@ -133,19 +133,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PARACLESIAN_TURN_COTTON_TO_GOSSAMER",
-    "condition": { "and": [ { "not": "is_day" }, "u_is_outside" ] },
-    "effect": [
-      { "u_cast_spell": { "id": "paraclesian_spell_make_gossamer_real" } },
-      {
-        "u_message": "The moonlight permeates the cotton and it begins to shimmer like an opal in the sunlight.",
-        "type": "good"
-      }
-    ],
-    "false_effect": { "u_message": "You must be outdoors under the moonlight to turn cotton into gossamer." }
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_WANTS_TO_TALK",
     "eoc_type": "EVENT",
     "required_event": "character_gains_effect",
