@@ -26,5 +26,19 @@
     "symbol": "?",
     "color": "blue",
     "use_action": { "type": "learn_spell", "spells": [ "xe_nether_sorcery_summon_kreck_pack" ] }
+  },
+  {
+    "id": "nether_sorcery_grimoire_xe_nether_sorcery_cause_withering_damage",
+    "type": "ITEM",
+    "name": { "str": "Grimoire: The Withering", "str_pl": "Grimoires: The Withering" },
+    "description": "A hefty-looking tome, with an unadorned cover of dark leather.  The interior is filled with complicated instructions and some sort of formulae.",
+    "weight": "1200 g",
+    "volume": "2500 ml",
+    "price": "30 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "blue",
+    "use_action": { "type": "learn_spell", "spells": [ "xe_nether_sorcery_cause_withering_damage" ] }
   }
 ]
