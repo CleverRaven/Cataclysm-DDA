@@ -4271,6 +4271,8 @@ std::string enum_to_string<item_display_type>( item_display_type data )
             return "BY_VOLUME";
         case item_display_type::BY_LENGTH:
             return "BY_LENGTH";
+        case item_display_type::BY_VALUE:
+            return "BY_VALUE";
         case item_display_type::LAST:
             break;
     }
