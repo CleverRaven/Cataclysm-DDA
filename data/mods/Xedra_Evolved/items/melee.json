@@ -61,7 +61,7 @@
     "copy-from": "mirror_march_estoc",
     "description": "The air around this sword shimmers like the space over asphalt in summer and it seems to move of its own volition in your hands.",
     "extend": { "flags": [ "RELIC_PINK" ] },
-    "relative": { "melee_damage": { "cold": 9 } },
+    "relative": { "melee_damage": { "heat": 9 } },
     "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ATTACK_SPEED", "add": -20 } ] } ]
   },
   {
