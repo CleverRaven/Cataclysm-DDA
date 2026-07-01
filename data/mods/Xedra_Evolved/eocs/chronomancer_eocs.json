@@ -14,7 +14,8 @@
               "compare_string": [ { "context_val": "victim_type" }, "mon_tindalos", "mon_zombie_monochrome_3", "mon_lieutenant_shadow" ]
             }
           ]
-        }
+        },
+        { "not": { "u_has_trait": "VAMPIRE" } }
       ]
     },
     "effect": [
@@ -46,7 +47,8 @@
               ]
             }
           ]
-        }
+        },
+        { "not": { "u_has_trait": "VAMPIRE" } }
       ]
     },
     "effect": [
@@ -79,7 +81,8 @@
               ]
             }
           ]
-        }
+        },
+        { "not": { "u_has_trait": "VAMPIRE" } }
       ]
     },
     "effect": [
@@ -95,7 +98,7 @@
     "id": "EOC_on_kill_award_chrono_exp",
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
-    "condition": { "u_has_effect": "effect_chronomancy_field" },
+    "condition": { "and": [ { "u_has_effect": "effect_chronomancy_field" }, { "not": { "u_has_trait": "VAMPIRE" } } ] },
     "effect": [
       { "math": [ "u_vitamin('xedra_chronomancer_insight') += 1" ] },
       {
