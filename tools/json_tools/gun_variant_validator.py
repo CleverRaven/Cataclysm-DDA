@@ -181,6 +181,7 @@ BAD_COMMON_TOKENS = {
     "revolver",
     "shotgun",
     "handgun",
+    "five-shooter",
     "six-shooter",
     "SMG",
     "submachine gun",
