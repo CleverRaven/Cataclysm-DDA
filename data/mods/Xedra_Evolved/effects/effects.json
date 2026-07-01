@@ -4272,7 +4272,9 @@
     "type": "effect_type",
     "id": "effect_werewolf_gain_more_powers",
     "name": [ "Gifts of the Moon" ],
-    "desc": [ "You can unlock a new Lunar Gift.  Do so at night under the moon." ]
+    "desc": [ "You can unlock a new Lunar Gift.  Do so at night under the moon." ],
+    "apply_message": "You are ready for a new gift of the moon.",
+    "rating": "good"
   },
   {
     "type": "effect_type",
