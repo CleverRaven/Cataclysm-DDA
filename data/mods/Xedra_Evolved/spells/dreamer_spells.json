@@ -115,7 +115,7 @@
     "description": "Attempts to banish things clearly inimical to local physics back to their home dimension.",
     "teachable": false,
     "valid_targets": [ "hostile" ],
-    "effect": "attack",
+    "effect": "banishment",
     "shape": "blast",
     "targeted_monster_species": [ "NETHER" ],
     "spell_class": "DREAMER",

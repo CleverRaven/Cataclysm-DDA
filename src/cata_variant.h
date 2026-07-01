@@ -44,6 +44,7 @@ enum class cata_variant_type : int {
     character_id,
     chrono_seconds,
     debug_menu_index,
+    effect_id,
     efftype_id,
     faction_id,
     field_type_id,
