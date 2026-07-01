@@ -98,7 +98,7 @@
     "id": "EOC_on_kill_award_chrono_exp",
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
-    "condition": { "and": [ { "u_has_effect": "effect_chronomancy_field" }, { "not": [ { "u_has_trait": "VAMPIRE" } ] } ] },
+    "condition": { "and": [ { "u_has_effect": "effect_chronomancy_field" }, { "not": { "u_has_trait": "VAMPIRE" } } ] },
     "effect": [
       { "math": [ "u_vitamin('xedra_chronomancer_insight') += 1" ] },
       {
