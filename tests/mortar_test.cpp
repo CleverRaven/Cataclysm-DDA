@@ -63,13 +63,11 @@ TEST_CASE( "mortar_60mm_flight_time_scales_with_distance", "[mortar]" )
     }
 }
 
-TEST_CASE( "mortar_minimum_target_distance_scales_with_range_error", "[mortar]" )
+TEST_CASE( "mortar_minimum_target_distance_is_fixed", "[mortar]" )
 {
     const mortar_type &mortar = mortar_m224.obj();
 
-    CHECK( mortar.minimum_target_distance( 1000, 3.0 ) ==
-           MAX_VIEW_DISTANCE + 90 );
-    CHECK( mortar.minimum_target_distance( 3490, 70.0 ) == 1000 );
+    CHECK( mortar.minimum_target_distance() == MAX_VIEW_DISTANCE );
 }
 
 TEST_CASE( "mortar_location_error_projects_onto_ballistic_axes", "[mortar]" )
@@ -222,8 +220,7 @@ TEST_CASE( "mortar_fire_solution_without_creeping_uses_target_center", "[mortar]
                                           location_error, 1.0, true, false );
 
     CHECK( solution.target_distance == 1000 );
-    CHECK( solution.minimum_target_distance ==
-           mortar.minimum_target_distance( solution.target_distance, 1.0 ) );
+    CHECK( solution.minimum_target_distance == mortar.minimum_target_distance() );
     CHECK( solution.minimum_error.range == Approx( mortar.minimum_range_error( 1000 ) ) );
     CHECK( solution.minimum_error.deflection == Approx( mortar.minimum_deflection_error( 1000 ) ) );
     CHECK( solution.ballistic_error.range == Approx( solution.minimum_error.range ) );

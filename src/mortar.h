@@ -97,7 +97,7 @@ class mortar_type
         double minimum_range_error( int distance ) const;
         double minimum_deflection_error( int distance ) const;
         mortar_error minimum_error( int distance ) const;
-        int minimum_target_distance( int target_distance, double ballistic_multiplier ) const;
+        int minimum_target_distance() const;
         mortar_error combined_error( const tripoint_abs_ms &mortar_pos,
                                      const tripoint_abs_ms &target,
                                      const mortar_error &ballistic_error,

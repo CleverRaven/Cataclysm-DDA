@@ -640,11 +640,9 @@ mortar_error mortar_type::minimum_error( const int distance ) const
     return mortar_error{ minimum_range_error( distance ), minimum_deflection_error( distance ) };
 }
 
-int mortar_type::minimum_target_distance( const int target_distance,
-        const double ballistic_multiplier ) const
+int mortar_type::minimum_target_distance() const
 {
-    const double range_error = minimum_range_error( target_distance ) * ballistic_multiplier;
-    return std::min( 1000, MAX_VIEW_DISTANCE + static_cast<int>( std::ceil( range_error * 2.0 ) ) );
+    return MAX_VIEW_DISTANCE;
 }
 
 mortar_error mortar_type::combined_error( const tripoint_abs_ms &mortar_pos,
@@ -670,8 +668,7 @@ mortar_fire_solution mortar_type::make_fire_solution( const tripoint_abs_ms &mor
     mortar_fire_solution result;
     result.target_distance = rl_dist( mortar_pos, target );
     result.minimum_target_distance = round_is_high_explosive ?
-                                     minimum_target_distance( result.target_distance, total_multiplier ) :
-                                     MAX_VIEW_DISTANCE;
+                                     minimum_target_distance() : MAX_VIEW_DISTANCE;
     result.minimum_error = minimum_error( result.target_distance );
     result.ballistic_error = mortar_error{ result.minimum_error.range * total_multiplier,
                                            result.minimum_error.deflection * total_multiplier };
