@@ -10,6 +10,7 @@
 #include "debug.h"
 #include "item.h"
 #include "map_helpers.h"
+#include "messages.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "stomach.h"
@@ -40,6 +41,16 @@ void activity_schedule::do_turn( avatar &guy ) const
     if( guy.activity.moves_left < 1000 ) {
         guy.activity.moves_left = 4000;
     }
+}
+
+void action_schedule::setup( avatar & ) const
+{
+    add_msg( "Starting cycle" );
+}
+
+void action_schedule::do_turn( avatar &guy ) const
+{
+    action( guy );
 }
 
 void meal_schedule::setup( avatar &guy ) const
@@ -110,7 +121,7 @@ weariness_events do_activity( tasklist tasks, bool do_clear_avatar )
 
         // How many turn's we've been at it
         time_duration turns = 0_seconds;
-        while( turns <= task.interval && !task.instantaneous() ) {
+        while( turns < task.interval && !task.instantaneous() ) {
             // Advance a turn
             calendar::turn += 1_turns;
             turns += 1_seconds;
