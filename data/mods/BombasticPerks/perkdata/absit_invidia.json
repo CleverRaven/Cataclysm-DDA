@@ -32,7 +32,7 @@
         { "u_has_worn_with_flag": "ANTI_EVIL_EYE_GEAR" }
       ]
     },
-    "effect": [ { "u_lose_effect": "taint" } ]
+    "effect": [ { "u_lose_effect": "taint" }, { "u_lose_effect": "effect_evil_eye" } ]
   },
   {
     "id": "salt",
@@ -52,6 +52,7 @@
     "condition": { "u_has_trait": "perk_absit_invidia" },
     "effect": [
       { "u_lose_effect": "taint" },
+      { "u_lose_effect": "effect_evil_eye" },
       {
         "u_message": "You toss the salt over your shoulder and mutter under your breath the words that you remember from your childhood.",
         "type": "mixed"
