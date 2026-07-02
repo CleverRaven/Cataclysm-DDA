@@ -3,21 +3,18 @@
 #include <algorithm>
 #include <cstddef>
 #include <memory>
+#include <string>
 #include <utility>
-#include <cmath>
-#include <set>
 
-#include "ammo_effect.h"
 #include "calendar.h"
 #include "character.h"
-#include "coordinates.h"
 #include "condition.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "dialogue_helpers.h"
 #include "effect_on_condition.h"
-#include "explosion.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
@@ -26,7 +23,6 @@
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_location.h"
-#include "itype.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -34,24 +30,47 @@
 #include "mapgendata.h"
 #include "messages.h"
 #include "monster.h"
+#include "mortar.h"
 #include "mtype.h"
 #include "output.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "ret_val.h"
-#include "rng.h"
 #include "talker.h"
-#include "timed_event.h"
 #include "translations.h"
 #include "uilist.h"
-#include "value_ptr.h"
 #include "veh_appliance.h"
 
 static const activity_id ACT_MORTAR_AIMING( "ACT_MORTAR_AIMING" );
 
+static const skill_id skill_launcher( "launcher" );
+
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
+
+namespace
+{
+
+constexpr double mortar_danger_area_scale = 1.5;
+
+bool confirm_player_mortar_probable_impact_area( const mortar_type &mortar,
+        const tripoint_abs_ms &target, const tripoint_abs_ms &mortar_pos,
+        const mortar_error &ballistic_error, const tripoint_abs_ms &location_axis_from,
+        const tripoint_abs_ms &location_axis_to, const mortar_location_error &location_error,
+        const Character &gunner )
+{
+    if( !mortar.point_in_probable_impact_area( target, mortar_pos, target, ballistic_error,
+            location_axis_from, location_axis_to, location_error, gunner.pos_abs(),
+            mortar_danger_area_scale ) ) {
+        return true;
+    }
+
+    return query_yn(
+               _( "You may be inside the probable impact area for this mortar mission.  Fire anyway?" ) );
+}
+
+} // namespace
 
 void appliance_convert_examine_actor::load( const JsonObject &jo, const std::string & )
 {
@@ -328,6 +347,7 @@ std::unique_ptr<iexamine_actor> eoc_examine_actor::clone() const
 void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) const
 {
     map &here = get_map();
+    const mortar_type *mortar = mortar_type::from_furniture( here.furn( examp ).id() );
 
     dialogue d( get_talker_for( you ), nullptr );
 
@@ -336,14 +356,13 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
         return;
     }
 
-    std::vector<ammotype> expected_ammo_types = ammo_type;
-    inventory_filter_preset preset( [expected_ammo_types]( const item_location & loc ) {
-        for( ammotype desired_ammo : expected_ammo_types ) {
-            if( desired_ammo == loc->ammo_type() ) {
-                return true;
-            };
-        }
-        return false;
+    if( mortar == nullptr ) {
+        debugmsg( "Mortar examine action for %s has no matching mortar_type.",
+                  here.furn( examp ).id().c_str() );
+        return;
+    }
+    inventory_filter_preset preset( [mortar]( const item_location & loc ) {
+        return mortar->ammo() == loc->ammo_type();
     } );
     inventory_pick_selector inv_s( you, preset );
     inv_s.add_nearby_items( PICKUP_RANGE );
@@ -369,7 +388,7 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
         return;
     }
 
-    const int aim_range = range / 24;
+    const int aim_range = mortar->range() / 24;
     const tripoint_abs_omt pos_omt = project_to<coords::omt>( here.get_abs( examp ) );
     tripoint_abs_omt target = ui::omap::choose_point( "Pick a target.", pos_omt, false, aim_range );
 
@@ -377,32 +396,87 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
         return;
     }
 
-    if( rl_dist( you.pos_abs_omt(), target ) <=
-        std::ceil( static_cast<float>( MAX_VIEW_DISTANCE ) / ( 2 * SEEX ) ) ) {
-        add_msg( _( "Target is too close." ) );
+    tripoint_abs_ms target_abs_ms = project_to<coords::ms>( target );
+
+    // Aim at the center of OMT, then apply indirect-fire dispersion.
+    target_abs_ms.x() += SEEX;
+    target_abs_ms.y() += SEEY;
+    // we can have edge cases with it if, for example, we target radio tower (high building, but with small profile)
+    target_abs_ms.z() = overmap_buffer.highest_omt_point( project_to<coords::omt>( target_abs_ms ) );
+    const int launcher_skill = you.get_skill_level( skill_launcher );
+    const tripoint_abs_ms mortar_abs = here.get_abs( examp );
+    const int target_distance = rl_dist( mortar_abs, target_abs_ms );
+    if( target_distance > mortar->range() ) {
+        add_msg( _( "Target is outside the mortar's fire mission range." ) );
         return;
     }
+    const tripoint_abs_ms designated_target_abs_ms = target_abs_ms;
+    const double skill_multiplier = mortar_type::skill_accuracy_multiplier( launcher_skill );
+    const double fixed_multiplier = mortar_fixed_accuracy_multiplier( you, mortar_abs, true );
+    const double raw_total_multiplier = skill_multiplier * fixed_multiplier;
+    const double total_multiplier = mortar_type::effective_ballistic_multiplier(
+                                        raw_total_multiplier );
+    const item &round = *loc.get_item();
+    if( !round.ammo_data() ) {
+        add_msg( _( "You cannot identify that mortar round." ) );
+        return;
+    }
+    if( !mortar_round_has_impact_payload( round ) ) {
+        add_msg( _( "That round has no mortar impact payload." ) );
+        return;
+    }
+    const bool round_is_he = mortar_round_has_high_explosive_payload( round );
+    const double location_error_cep = mortar_base_location_error( you, designated_target_abs_ms );
+    const mortar_location_error location_error = mortar_make_location_error(
+                you, designated_target_abs_ms, location_error_cep );
+    const mortar_fire_solution fire_solution = mortar->make_fire_solution(
+                mortar_abs, designated_target_abs_ms, you.pos_abs(), designated_target_abs_ms,
+                you.pos_abs(), designated_target_abs_ms, location_error, total_multiplier,
+                round_is_he, false );
+    const int minimum_target_distance = fire_solution.minimum_target_distance;
+    if( target_distance <= minimum_target_distance ) {
+        if( round_is_he ) {
+            add_msg( _( "Target is too close to the mortar; minimum safe range is %d tiles." ),
+                     minimum_target_distance );
+        } else {
+            add_msg( _( "Target is too close to the mortar." ) );
+        }
+        return;
+    }
+
+    const mortar_error &minimum_error = fire_solution.minimum_error;
+    const mortar_error &ballistic_error = fire_solution.ballistic_error;
+    if( round_is_he && !confirm_player_mortar_probable_impact_area( *mortar, designated_target_abs_ms,
+            mortar_abs, ballistic_error, you.pos_abs(), designated_target_abs_ms, location_error,
+            you ) ) {
+        return;
+    }
+
+    tripoint_abs_ms aimpoint_abs_ms;
+    target_abs_ms = mortar->roll_impact( fire_solution.fire_center, mortar_abs,
+                                         you.pos_abs(), designated_target_abs_ms, location_error,
+                                         ballistic_error, &aimpoint_abs_ms );
+    add_msg_debug( debugmode::DF_EXPLOSION,
+                   "Player mortar fire: distance %d, minimum range %.2f, minimum deflection %.2f, "
+                   "skill multiplier %.2f, fixed multiplier %.2f, raw total multiplier %.2f, "
+                   "effective total multiplier %.2f, minimum target distance %d, location error %.2f:%.2f, "
+                   "HE %d, rangefinder %d, aimpoint offset %d:%d, impact offset %d:%d.",
+                   target_distance, minimum_error.range, minimum_error.deflection, skill_multiplier,
+                   fixed_multiplier, raw_total_multiplier, total_multiplier, minimum_target_distance,
+                   location_error.range, location_error.deflection,
+                   round_is_he ? 1 : 0,
+                   mortar_uses_laser_rangefinder( you, designated_target_abs_ms ) ? 1 : 0,
+                   aimpoint_abs_ms.x() - designated_target_abs_ms.x(),
+                   aimpoint_abs_ms.y() - designated_target_abs_ms.y(),
+                   target_abs_ms.x() - designated_target_abs_ms.x(),
+                   target_abs_ms.y() - designated_target_abs_ms.y() );
+
     time_duration aim_dur = aim_duration.evaluate( d );
     you.assign_activity( ACT_MORTAR_AIMING, to_moves<int>( aim_dur ) );
 
-    tripoint_abs_ms target_abs_ms = project_to<coords::ms>( target );
-
-    const int deviation = ( aim_deviation.evaluate( d ) * rl_dist( you.pos_abs(), target_abs_ms ) / 2 );
-    // aim at the center of OMT, but with some deviation
-    // we just assume mortar projectiles fall at 90 degrees, duh
-    target_abs_ms.x() += rng_float( 12 + deviation, 12 - deviation );
-    target_abs_ms.y() += rng_float( 12 + deviation, 12 - deviation );
-    // we can have edge cases with it if, for example, we target radio tower (high building, but with small profile)
-    target_abs_ms.z() = overmap_buffer.highest_omt_point( project_to<coords::omt>( target_abs_ms ) );
-
-    for( ammo_effect_str_id ammo_eff : loc.get_item()->ammo_data()->ammo->ammo_effects ) {
-        if( ammo_eff.obj().aoe_explosion_data.power > 0 ) {
-            get_timed_events().add( timed_event_type::EXPLOSION,
-                                    calendar::turn + flight_time.evaluate( d ) + aim_dur,
-                                    target_abs_ms, ammo_eff.obj().aoe_explosion_data );
-        }
-
-    }
+    const time_duration impact_delay = mortar->player_flight_time( target_distance );
+    const time_point impact_time = calendar::turn + impact_delay + aim_dur;
+    mortar_schedule_impact_payload( round, target_abs_ms, impact_time );
 
     loc->charges--;
     if( loc->charges <= 0 ) {
@@ -419,8 +493,6 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
 
 void mortar_examine_actor::load( const JsonObject &jo, const std::string &src )
 {
-    mandatory( jo, false, "ammo", ammo_type );
-    mandatory( jo, false, "range", range );
     if( jo.has_member( "condition" ) ) {
         read_condition( jo, "condition", condition, false );
         has_condition = true;
@@ -428,9 +500,7 @@ void mortar_examine_actor::load( const JsonObject &jo, const std::string &src )
     optional( jo, false, "condition_fail_msg", condition_fail_msg,
               to_translation( "You can't use this mortar." ) );
 
-    optional( jo, false, "aim_deviation", aim_deviation, 0.0f );
     optional( jo, false, "aim_duration", aim_duration, 0_seconds );
-    optional( jo, false, "flight_time", flight_time, 0_seconds );
 
     for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
         eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src ) );
@@ -439,11 +509,6 @@ void mortar_examine_actor::load( const JsonObject &jo, const std::string &src )
 
 void mortar_examine_actor::finalize() const
 {
-    for( ammotype ammo : ammo_type ) {
-        if( !ammo.is_valid() ) {
-            debugmsg( "Invalid ammo type: %s", ammo.str() );
-        }
-    }
 }
 
 std::unique_ptr<iexamine_actor> mortar_examine_actor::clone() const

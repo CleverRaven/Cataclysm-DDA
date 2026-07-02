@@ -974,6 +974,39 @@
     "//": "Based on https://www.amazon.com/dp/B0798Q79RV"
   },
   {
+    "id": "laser_rangefinder",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "tools",
+    "symbol": ";",
+    "color": "dark_gray",
+    "looks_like": "binoculars",
+    "name": { "str": "laser rangefinder" },
+    "description": "A rugged handheld laser target locator based on the 3-pound LTLM II, with integrated binocular optics and a measurement range of about 2000 meters.  Carrying a powered one helps a mortar spotter determine target location more precisely.",
+    "price": "3 kUSD",
+    "price_postapoc": "100 USD",
+    "material": [ { "type": "plastic", "portion": 6 }, { "type": "glass", "portion": 2 }, { "type": "aluminum", "portion": 1 } ],
+    "flags": [ "ZOOM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_BREAK", "ELECTRONIC" ],
+    "weight": "1360 g",
+    "volume": "1250 ml",
+    "longest_side": "18 cm",
+    "charges_per_use": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ],
+    "tool_ammo": [ "battery" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "uneven" },
+    "material_thickness": 2,
+    "armor": [ { "encumbrance": 3, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
+    "melee_damage": { "bash": 5 }
+  },
+  {
     "id": "wearable_light",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],

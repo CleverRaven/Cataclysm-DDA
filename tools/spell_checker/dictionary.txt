@@ -1145,6 +1145,7 @@ CDC
 CDDA
 CDL
 CE
+CEP
 cecaelia
 cecaelian
 Celsius
@@ -1979,6 +1980,7 @@ Eost
 Eozen
 Eozenez
 EPA
+EPLRS
 épée
 épées
 Ephesus
@@ -3154,6 +3156,7 @@ IIIA
 Ikea
 Ilan
 illinoinensis
+ILLUM
 Iltud
 Iltuda
 Ima
@@ -3957,6 +3960,7 @@ lowtop
 LR
 LSD
 ltd
+LTLM
 Lu
 Luca
 Lucas
@@ -5056,6 +5060,7 @@ otherworlds
 otherworldy
 Othniel
 Otis
+OT
 OTM
 OTMSS
 Otomo
@@ -7102,6 +7107,7 @@ tse
 tshk
 TsKBEM
 TsNIITochMash
+TSQ
 Tsu
 tsuba
 tsuka

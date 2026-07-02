@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <fstream>
 #include <map>
+#include <memory>
 #include <sstream>
 #include <string>
 #include <type_traits>
@@ -16,11 +17,13 @@
 #include "basecamp.h"
 #include "cata_io.h"
 #include "cata_path.h"
+#include "character_id.h"
 #include "city.h"
 #include "colony.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "explosion.h"
 #include "faction.h"
 #include "hash_utils.h"
 #include "horde_entity.h"
@@ -1868,6 +1871,7 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
         tripoint_abs_sm map_point;
         std::string string_id;
         std::string key;
+        explosion_data expl_data;
         submap revert;
         jo.read( "faction", faction_id );
         jo.read( "map_point", map_point );
@@ -1877,6 +1881,9 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
         jo.read( "type", type );
         jo.read( "when", when );
         jo.read( "key", key );
+        if( jo.has_object( "explosion" ) ) {
+            expl_data.deserialize( jo.get_object( "explosion" ) );
+        }
         point_sm_ms pt;
         if( jo.has_string( "revert" ) ) {
             revert.set_all_ter( ter_id( jo.get_string( "revert" ) ), true );
@@ -1902,9 +1909,43 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
                 }
             }
         }
-        get_timed_events().add( static_cast<timed_event_type>( type ), when, faction_id, map_square,
-                                strength,
-                                string_id, std::move( revert ), key );
+        timed_event event( static_cast<timed_event_type>( type ), when, faction_id, map_square,
+                           strength, string_id, std::move( revert ), key );
+        switch( event.type ) {
+            case timed_event_type::MORTAR_IMPACT_MESSAGE: {
+                event.data = std::make_unique<timed_event_target_data>();
+                jo.get_member( "target" ).read( event.get_data<timed_event_target_data>()->target, true );
+                break;
+            }
+            case timed_event_type::MORTAR_SPOTTING_FEEDBACK: {
+                event.data = std::make_unique<mortar_spotting_feedback_event_data>();
+                mortar_spotting_feedback_event_data *feedback =
+                    event.get_data<mortar_spotting_feedback_event_data>();
+                jo.get_member( "character" ).read( feedback->gunner_id, true );
+                jo.get_member( "mortar_feedback_accuracy_multiplier" ).read(
+                    feedback->accuracy_multiplier, true );
+                jo.get_member( "mortar_feedback_location_multiplier" ).read(
+                    feedback->location_multiplier, true );
+                break;
+            }
+            case timed_event_type::MORTAR_QUEUED_FIRE: {
+                event.data = std::make_unique<timed_event_character_data>();
+                jo.get_member( "character" ).read(
+                    event.get_data<timed_event_character_data>()->character, true );
+                break;
+            }
+            case timed_event_type::MORTAR_FIELD: {
+                event.data = std::make_unique<mortar_field_event_data>();
+                mortar_field_event_data *field_data = event.get_data<mortar_field_event_data>();
+                jo.get_member( "mortar_field_radius" ).read( field_data->radius, true );
+                jo.get_member( "mortar_field_age_seconds" ).read( field_data->age_seconds, true );
+                break;
+            }
+            default:
+                break;
+        }
+        event.expl_data = expl_data;
+        get_timed_events().events.emplace_back( std::move( event ) );
     }
 }
 
@@ -1998,6 +2039,71 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
         jsout.member( "type", elem.type );
         jsout.member( "when", elem.when );
         jsout.member( "key", elem.key );
+        switch( elem.type ) {
+            case timed_event_type::MORTAR_IMPACT_MESSAGE: {
+                const timed_event_target_data *target_data =
+                    elem.get_data<timed_event_target_data>();
+                if( target_data == nullptr || target_data->target.is_invalid() ) {
+                    debugmsg( "Mortar impact message event missing target payload." );
+                    break;
+                }
+                jsout.member( "target", target_data->target );
+                break;
+            }
+            case timed_event_type::MORTAR_QUEUED_FIRE: {
+                const timed_event_character_data *character_data =
+                    elem.get_data<timed_event_character_data>();
+                if( character_data == nullptr || !character_data->character.is_valid() ) {
+                    debugmsg( "Queued mortar fire event missing character payload." );
+                    break;
+                }
+                jsout.member( "character", character_data->character );
+                break;
+            }
+            case timed_event_type::MORTAR_SPOTTING_FEEDBACK: {
+                const mortar_spotting_feedback_event_data *feedback =
+                    elem.get_data<mortar_spotting_feedback_event_data>();
+                if( feedback == nullptr || !feedback->gunner_id.is_valid() ) {
+                    debugmsg( "Mortar spotting feedback event missing gunner payload." );
+                    break;
+                }
+                jsout.member( "character", feedback->gunner_id );
+                jsout.member( "mortar_feedback_accuracy_multiplier",
+                              feedback->accuracy_multiplier );
+                jsout.member( "mortar_feedback_location_multiplier",
+                              feedback->location_multiplier );
+                break;
+            }
+            case timed_event_type::MORTAR_FIELD: {
+                const mortar_field_event_data *field_data =
+                    elem.get_data<mortar_field_event_data>();
+                if( field_data == nullptr ) {
+                    debugmsg( "Mortar field event missing field payload." );
+                    break;
+                }
+                jsout.member( "mortar_field_radius", field_data->radius );
+                jsout.member( "mortar_field_age_seconds", field_data->age_seconds );
+                break;
+            }
+            default:
+                break;
+        }
+        if( elem.expl_data.power > 0.0f ) {
+            jsout.member( "explosion" );
+            jsout.start_object();
+            jsout.member( "power", elem.expl_data.power );
+            jsout.member( "distance_factor", elem.expl_data.distance_factor );
+            jsout.member( "max_noise", elem.expl_data.max_noise );
+            jsout.member( "fire", elem.expl_data.fire );
+            jsout.member( "shrapnel" );
+            jsout.start_object();
+            jsout.member( "casing_mass", elem.expl_data.shrapnel.casing_mass );
+            jsout.member( "fragment_mass", elem.expl_data.shrapnel.fragment_mass );
+            jsout.member( "recovery", elem.expl_data.shrapnel.recovery );
+            jsout.member( "drop", elem.expl_data.shrapnel.drop );
+            jsout.end_object();
+            jsout.end_object();
+        }
         if( elem.revert.is_uniform() ) {
             jsout.member( "revert", elem.revert.get_ter( point_sm_ms::zero ) );
         } else {
@@ -2229,4 +2335,3 @@ void npc::export_to( const cata_path &path ) const
         serialize( jsout );
     } );
 }
-

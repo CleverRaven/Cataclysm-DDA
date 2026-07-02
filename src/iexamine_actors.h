@@ -95,14 +95,10 @@ class eoc_examine_actor : public iexamine_actor
 class mortar_examine_actor : public iexamine_actor
 {
     private:
-        std::vector<ammotype> ammo_type;
-        int range;
         std::function<bool( const_dialogue const & )> condition;
         bool has_condition = false;
         translation condition_fail_msg;
-        dbl_or_var aim_deviation;
         duration_or_var aim_duration;
-        duration_or_var flight_time;
         std::vector<effect_on_condition_id> eocs;
 
     public:

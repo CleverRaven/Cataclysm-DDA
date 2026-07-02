@@ -32,6 +32,7 @@
 #include "line.h"
 #include "localized_comparator.h"
 #include "map.h"
+#include "math_parser_diag_value.h"
 #include "mission_companion.h"
 #include "mod_manager.h"
 #include "mtype.h"
@@ -74,6 +75,15 @@ static bool has_radio( const Character &guy )
     return guy.cache_has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
 }
 
+static bool is_assigned_mortar_gunner( const Character &guy )
+{
+    const npc *guy_npc = guy.as_npc();
+    if( guy_npc == nullptr ) {
+        return false;
+    }
+    return !guy_npc->get_value( "mortar_assignment" ).is_empty();
+}
+
 // is physically close enough to contact the beta without much hassle
 // mainly for followers
 static bool can_contact( const Character &alpha, const Character &beta )
@@ -90,6 +100,10 @@ static radio_contact_result can_radio_contact( const Character &alpha, const Cha
 {
     bool u_has_radio = has_radio( alpha );
     bool guy_has_radio = has_radio( beta );
+    if( is_assigned_mortar_gunner( beta ) && u_has_radio && guy_has_radio ) {
+        return radio_contact_result::YES;
+    }
+
     if( u_has_radio && guy_has_radio ) {
         if( !( alpha.posz() >= 0 && beta.posz() >= 0 ) &&
             !( alpha.posz() == beta.posz() ) ) {
@@ -213,8 +227,9 @@ bool faction_ui::execute()
                         talk_function::basecamp_mission( *picked_follower );
                         return true;
                     } else {
-                        get_avatar().talk_to( get_talker_for( *picked_follower ), true, false, false,
-                                              picked_follower->chatbin.talk_radio );
+                        const bool use_radio = !interactable && radio_interactable;
+                        get_avatar().talk_to( get_talker_for( *picked_follower ), use_radio, false, false,
+                                              use_radio ? picked_follower->chatbin.talk_radio : "" );
                         return true;
                     }
                 } else {

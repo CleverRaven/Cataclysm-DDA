@@ -2,7 +2,13 @@
   {
     "type": "item_group",
     "id": "ammo_can_60mm_any_full",
-    "items": [ { "group": "ammo_can_60mm_m720a1_full", "prob": 100 }, { "group": "ammo_can_60mm_m768_full", "prob": 80 } ]
+    "items": [
+      { "group": "ammo_can_60mm_m720a1_full", "prob": 100 },
+      { "group": "ammo_can_60mm_m768_full", "prob": 80 },
+      { "group": "ammo_can_60mm_m769_full", "prob": 70 },
+      { "group": "ammo_can_60mm_m722_full", "prob": 40 },
+      { "group": "ammo_can_60mm_m721_full", "prob": 30 }
+    ]
   },
   {
     "type": "item_group",
@@ -18,6 +24,24 @@
   },
   {
     "type": "item_group",
+    "id": "ammo_can_60mm_m769_full",
+    "container-item": { "item": "ammunition_can_pa124", "variant": "ammunition_can_pa124_60mm_m769_8" },
+    "items": [ { "group": "ammo_tube_60mm_m769_full", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_60mm_m722_full",
+    "container-item": { "item": "ammunition_can_pa124", "variant": "ammunition_can_pa124_60mm_m722_8" },
+    "items": [ { "group": "ammo_tube_60mm_m722_full", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_60mm_m721_full",
+    "container-item": { "item": "ammunition_can_pa124", "variant": "ammunition_can_pa124_60mm_m721_8" },
+    "items": [ { "group": "ammo_tube_60mm_m721_full", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
     "id": "ammo_tube_60mm_m720a1",
     "container-item": { "item": "ammunition_tube_mortar", "variant": "ammunition_tube_mortar_m720a1" },
     "items": [ { "item": "60mm_shell_m720a1", "charges": 1 } ]
@@ -27,5 +51,23 @@
     "id": "ammo_tube_60mm_m768_full",
     "container-item": { "item": "ammunition_tube_mortar", "variant": "ammunition_tube_mortar_m768" },
     "items": [ { "item": "60mm_shell_m768", "charges": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_tube_60mm_m769_full",
+    "container-item": { "item": "ammunition_tube_mortar", "variant": "ammunition_tube_mortar_m769" },
+    "items": [ { "item": "60mm_shell_m769", "charges": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_tube_60mm_m722_full",
+    "container-item": { "item": "ammunition_tube_mortar", "variant": "ammunition_tube_mortar_m722" },
+    "items": [ { "item": "60mm_shell_m722", "charges": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_tube_60mm_m721_full",
+    "container-item": { "item": "ammunition_tube_mortar", "variant": "ammunition_tube_mortar_m721" },
+    "items": [ { "item": "60mm_shell_m721", "charges": 1 } ]
   }
 ]

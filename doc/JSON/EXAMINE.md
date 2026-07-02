@@ -28,13 +28,9 @@
     - [`effect_on_condition`](#effect_on_condition)
       - [`effect_on_conditions`](#effect_on_conditions)
     - [`mortar`](#mortar)
-      - [`ammo`](#ammo)
-      - [`range`](#range)
       - [`condition`](#condition)
       - [`condition_fail_msg`](#condition_fail_msg)
-      - [`aim_deviation`](#aim_deviation)
       - [`aim_duration`](#aim_duration)
-      - [`flight_time`](#flight_time)
       - [`effect_on_conditions`](#effect_on_conditions-1)
       - [Example](#example-2)
 
@@ -211,15 +207,7 @@ Run all of the eocs upon being examined with u as the examiner and npc as null. 
 
 ### `mortar`
 
-#### `ammo`
-Mandatory.
-Array of strings.
-List of ammo types, that can be used in this mortar.
-
-#### `range`
-Mandatory
-Integer
-How far this mortar can shoot, in meters.
+Shoot a projectile from deployed mortar furniture.  Ammunition type, range, flight time, and dispersion are defined by the matching `mortar_type` for the examined furniture.
 
 #### `condition`
 Optional, defaults to true.
@@ -231,20 +219,10 @@ Optional, defaults to `You cannot use this mortar.`
 String.
 If `condition` is failed, the game print this message
 
-#### `aim_deviation`
-Optional, defaults to 0.
-Integer or variable object
-Percent of the distance between you and aiming point, that you may miss; aim_deviation of `0.02` when you aim 1000 meters afar would mean you can miss for 20 meters, 10 meters in either coordinate.
-
 #### `aim_duration`
 Optional, defaults to 0 seconds.
 Duration or variable object
 How long you gonna aim before actually shooting a projectile.
-
-#### `flight_time`
-Optional, defaults to 0 seconds.
-Duration or variable object
-How long the projectile gonna fly before explosion occur.
 
 #### `effect_on_conditions`
 Optional
@@ -258,10 +236,8 @@ Effect on condition, that would be fired in the end of shooting. Additional cont
 ```jsonc
     "examine_action": {
       "type": "mortar",
-      "ammo": [ "mortar_60mm" ],
       "condition": { "math": [ "u_skill('launcher') >= 1" ] },
       "condition_fail_msg": "You have absolutely no idea how to use this mortar.",
-      "range": 3490,
       "aim_duration": {
         "math": [
           "u_effect_duration('aimed_60mm') > 1",
@@ -269,8 +245,6 @@ Effect on condition, that would be fired in the end of shooting. Additional cont
           " : max(60, 190 / u_skill('launcher'))"
         ]
       },
-      "aim_deviation": { "math": [ "max(0.02, 0.1 / u_skill('launcher'))" ] },
-      "flight_time": "15 seconds",
       "effect_on_conditions": [
         {
           "id": "EOC_60MM_SHOT",

@@ -3,7 +3,7 @@
     "type": "furniture",
     "id": "f_m224_mortar",
     "name": "M224 mortar",
-    "description": "Deployed and ready to be used 60 mm mortar.  You are lucky you don't need to scavenge actual firing tables, as they are clipped tightly to the mortar itself.  However you can use it only for indirect fire, with a substantial precision loss.",
+    "description": "Deployed and ready to be used 60 mm mortar.  It can only be used for indirect fire, and accurate fire missions depend on training, observation, and fire-control data.",
     "symbol": "#",
     "color": "dark_gray",
     "move_cost_mod": 2,
@@ -24,10 +24,8 @@
     ],
     "examine_action": {
       "type": "mortar",
-      "ammo": [ "mortar_60mm" ],
       "condition": { "math": [ "u_skill('launcher') >= 1" ] },
       "condition_fail_msg": "You have absolutely no idea how to use this mortar.",
-      "range": 3490,
       "aim_duration": {
         "math": [
           "u_effect_duration('aimed_60mm') > 1",
@@ -35,8 +33,6 @@
           " : max(60, 190 / u_skill('launcher'))"
         ]
       },
-      "aim_deviation": { "math": [ "max(0.02, 0.1 / u_skill('launcher'))" ] },
-      "flight_time": "15 seconds",
       "effect_on_conditions": [
         {
           "id": "EOC_60MM_SHOT",
@@ -51,5 +47,15 @@
         }
       ]
     }
+  },
+  {
+    "type": "mortar_type",
+    "id": "m224",
+    "furniture": "f_m224_mortar",
+    "ammo": "mortar_60mm",
+    "range": 3490,
+    "npc_fire_message_delay": "10 seconds",
+    "range_error_ratio": 0.015,
+    "deflection_error_mils": 2.0
   }
 ]

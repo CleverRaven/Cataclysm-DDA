@@ -82,6 +82,7 @@
 #include "mongroup.h"
 #include "monstergenerator.h"
 #include "mood_face.h"
+#include "mortar.h"
 #include "morale_types.h"
 #include "move_mode.h"
 #include "mtype.h"
@@ -290,6 +291,7 @@ void DynamicDataLoader::initialize()
     add( "activity_type", &activity_type::load_all );
     add( "addiction_type", &add_type::load_add_types );
     add( "movement_mode", &move_mode::load_move_mode );
+    add( "mortar_type", &mortar_type::load_mortar_type );
     add( "vitamin", &vitamin::load_vitamin );
     add( "material", &materials::load );
     add( "bash_damage_profile", &bash_damage_profile::load_all );
@@ -695,6 +697,7 @@ void DynamicDataLoader::unload_data()
     mon_flag::reset();
     MonsterGenerator::generator().reset();
     MonsterGroupManager::ClearMonsterGroups();
+    mortar_type::reset();
     morale_type_data::reset();
     mutation_branch::reset_all();
     mutation_category_trait::reset();
@@ -889,6 +892,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Monster factions" ), &monfactions::finalize },
             { _( "Factions" ), &npc_factions::finalize },
             { _( "Move modes" ), &move_mode::finalize_all },
+            { _( "Mortars" ), &mortar_type::finalize_all },
             { _( "Constructions" ), &finalize_constructions },
             { _( "Crafting recipes" ), &recipe_dictionary::finalize },
             { _( "Recipe groups" ), &recipe_group::check },
@@ -1014,6 +1018,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Trap migrations" ), &trap_migrations::check },
             { _( "Bionics" ), &bionic_data::check_bionic_consistency },
             { _( "Gates" ), &gates::check },
+            { _( "Mortars" ), &mortar_type::check_consistency },
             { _( "NPC classes" ), &npc_class::check_consistency },
             { _( "Behaviors" ), &behavior::check_consistency },
             { _( "Mission types" ), &mission_type::check_consistency },

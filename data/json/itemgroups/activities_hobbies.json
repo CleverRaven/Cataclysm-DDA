@@ -201,6 +201,7 @@
       { "item": "leg_bag", "prob": 3 },
       { "item": "manual_cutting", "prob": 12 },
       { "item": "manual_launcher", "prob": 1 },
+      { "item": "manual_mortar", "prob": 1 },
       { "item": "recipe_bullets", "prob": 8 },
       { "item": "howto_traps", "prob": 16 },
       { "item": "extinguisher", "prob": 20, "charges": 100 },

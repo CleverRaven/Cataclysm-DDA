@@ -186,6 +186,7 @@ parsers = {
     "monstergroup": dummy_parser,
     "mood_face": dummy_parser,
     "morale_type": parse_morale_type,
+    "mortar_type": dummy_parser,
     "movement_mode": parse_movement_mode,
     "mutation": parse_mutation,
     "mutation_category": parse_mutation_category,

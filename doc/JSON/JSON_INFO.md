@@ -104,6 +104,7 @@ Use the `Home` key to return to the top.
     - [Harvest Drop Type](#harvest-drop-type)
     - [Weapon Category](#weapon-category)
     - [Connect group definitions](#connect-group-definitions)
+    - [Mortar Type](#mortar-type)
     - [Furniture](#furniture)
       - [`type`](#type-1)
       - [`keg_capacity`](#keg_capacity)
@@ -3264,6 +3265,38 @@ Example
     "id": "WALL"
   }
 ```
+
+### Mortar Type
+
+Mortar types define indirect-fire behavior for deployed mortar furniture.  A mortar type
+links one furniture id to one ammunition type and provides the range, flight timing, and
+dispersion parameters used by player-operated and NPC-operated mortar fire.
+
+All range and distance values are in map tiles.  Error values describe the minimum mortar
+dispersion before skill, spotting, and other fire mission modifiers are applied.
+
+```jsonc
+{
+    "type": "mortar_type",
+    "id": "m224",
+    "furniture": "f_m224_mortar",
+    "ammo": "mortar_60mm",
+    "range": 3500,
+    "npc_fire_message_delay": "10 seconds",
+    "range_error_ratio": 0.015,
+    "deflection_error_mils": 2.0
+}
+```
+
+| Field                          | Description
+|---                             |---
+| `"id"`                         | Unique id for this mortar type.
+| `"furniture"`                  | Furniture id for the deployed mortar this type controls.
+| `"ammo"`                       | Ammunition type id accepted by this mortar type, not a specific ammo item id.
+| `"range"`                      | Maximum fire mission range in tiles.
+| `"npc_fire_message_delay"`     | Time between ordering an NPC fire mission and the NPC reporting "Shot out."
+| `"range_error_ratio"`          | Optional.  Minimum range-axis error as a fraction of target distance.  Defaults to `0.015`.
+| `"deflection_error_mils"`      | Optional.  Minimum deflection-axis error in milliradians.  Defaults to `2.0`.
 
 ### Furniture
 

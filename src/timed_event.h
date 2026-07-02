@@ -3,9 +3,11 @@
 #define CATA_SRC_TIMED_EVENT_H
 
 #include <list>
+#include <memory>
 #include <string>
 
 #include "calendar.h"
+#include "character_id.h"
 #include "coordinates.h"
 #include "explosion.h"
 #include "point.h"
@@ -35,7 +37,35 @@ enum class timed_event_type : int {
     REVERT_SUBMAP,
     OVERRIDE_PLACE,
     EXPLOSION,
+    MORTAR_FIRE_MESSAGE,
+    MORTAR_IMPACT_MESSAGE,
+    MORTAR_FIELD,
+    MORTAR_SPOTTING_FEEDBACK,
+    MORTAR_QUEUED_FIRE,
     NUM_TIMED_EVENT_TYPES
+};
+
+struct timed_event_data {
+    virtual ~timed_event_data() = default;
+};
+
+struct timed_event_target_data : timed_event_data {
+    tripoint_abs_ms target = tripoint_abs_ms::invalid;
+};
+
+struct timed_event_character_data : timed_event_data {
+    character_id character;
+};
+
+struct mortar_spotting_feedback_event_data : timed_event_data {
+    character_id gunner_id;
+    double accuracy_multiplier = 1.0;
+    double location_multiplier = 1.0;
+};
+
+struct mortar_field_event_data : timed_event_data {
+    int radius = 0;
+    int age_seconds = 0;
 };
 
 struct timed_event {
@@ -54,6 +84,8 @@ struct timed_event {
     std::string string_id;
     /** key to alter this event later */
     std::string key;
+    /** Optional event-specific payload.  Handlers cast based on event type. */
+    std::unique_ptr<timed_event_data> data;
     /** specifically for EXPLOSION event */
     explosion_data expl_data;
 
@@ -62,6 +94,8 @@ struct timed_event {
                  std::string key );
     timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p, int s,
                  std::string s_id, std::string key );
+    timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p, int s,
+                 std::string s_id, tripoint_abs_ms target );
     timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p, int s,
                  std::string s_id, submap sr, std::string key );
     // i have little experience with code, but something tell me
@@ -74,6 +108,16 @@ struct timed_event {
     void actualize();
     // Every turn
     void per_turn();
+
+    template<typename T>
+    const T *get_data() const {
+        return static_cast<const T *>( data.get() );
+    }
+
+    template<typename T>
+    T *get_data() {
+        return static_cast<T *>( data.get() );
+    }
 };
 
 class timed_event_manager
@@ -98,10 +142,21 @@ class timed_event_manager
                   const tripoint_abs_ms &where, int strength, const std::string &string_id,
                   const std::string &key = "" );
         void add( timed_event_type type, const time_point &when, int faction_id,
+                  const tripoint_abs_ms &where, int strength, const std::string &string_id,
+                  const tripoint_abs_ms &target );
+        void add( timed_event_type type, const time_point &when, int faction_id,
                   const tripoint_abs_ms &where, int strength, const std::string &string_id, submap sr,
                   const std::string &key = "" );
         void add( timed_event_type type, const time_point &when, const tripoint_abs_ms &where,
                   explosion_data expl_data );
+        void add_mortar_feedback( const time_point &when, character_id gunner_id,
+                                  const tripoint_abs_ms &target, bool correction_reported,
+                                  double accuracy_multiplier, double location_multiplier );
+        void add_mortar_queued_fire( const time_point &when, character_id gunner_id,
+                                     const tripoint_abs_ms &target, int round_count );
+        void add_mortar_field( const time_point &when, const tripoint_abs_ms &where,
+                               int intensity, const std::string &field_type,
+                               int radius, int age_seconds = 0 );
         /// @returns Whether at least one element of the given type is queued.
         bool queued( timed_event_type type ) const;
         /// @returns One of the queued events of the given type, or `nullptr`
