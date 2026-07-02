@@ -3334,7 +3334,7 @@ spell &known_magic::select_spell( Character &guy )
     spell_menu.desired_bounds = {
         -1.0,
             -1.0,
-            std::clamp( float( EVEN_MINIMUM_TERM_WIDTH * ImGui::CalcTextSize( "X" ).x ), ImGui::GetMainViewport()->Size.x * 3 / 8, ImGui::GetMainViewport()->Size.x ),
+            ImGui::GetMainViewport()->Size.x,
             spell_menu_height
         };
 
