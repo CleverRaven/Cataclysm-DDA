@@ -6573,6 +6573,10 @@ double mortar_near_retarget_location_error_rate( const int perception )
 
 double mortar_shot_lost_chance( const Character &spotter, const tripoint_abs_ms &impact )
 {
+    if( !mortar_spotter_can_observe( spotter, impact ) ) {
+        return 1.0;
+    }
+
     const double perception = clamp<double>( spotter.get_per(), 1.0, 10.0 );
     double chance = 0.0;
     if( perception <= 5.0 ) {
@@ -7133,13 +7137,6 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
     const int report_mode = mortar_report_mode( you, gunner );
     const bool existing_feedback_pending = mortar_spotting_feedback_pending( gunner,
                                            *target_abs_ms );
-    const double base_feedback_accuracy_multiplier = mortar_repeat_accuracy_multiplier( mortar_data,
-            you,
-            launcher_skill, *target_abs_ms );
-    const double base_feedback_location_multiplier =
-        ( laser_rangefinder_used ? mortar_laser_rangefinder_repeat_location_multiplier : 0.5 ) *
-        ( eplrs_net_used ? mortar_eplrs_location_multiplier : 1.0 );
-
     const time_duration fire_delay = mortar_data.npc_fire_message_delay();
     const time_duration fire_for_effect_interval = mortar_fire_for_effect_shot_interval(
                 launcher_skill );
@@ -7159,10 +7156,20 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
         const int impact_message_strength = report_mode +
                                             ( shot_observed ? 0 : mortar_report_lost_offset );
         const bool no_wait_adjustment = existing_feedback_pending || i > 0;
-        const double feedback_accuracy_multiplier = mortar_feedback_multiplier(
-                    base_feedback_accuracy_multiplier, no_wait_adjustment );
-        const double feedback_location_multiplier = mortar_feedback_multiplier(
-                    base_feedback_location_multiplier, no_wait_adjustment );
+        double feedback_accuracy_multiplier = 1.0;
+        double feedback_location_multiplier = 1.0;
+        if( correction_reported ) {
+            const double base_feedback_accuracy_multiplier = mortar_repeat_accuracy_multiplier(
+                        mortar_data, you, launcher_skill, impact_abs_ms );
+            const double base_feedback_location_multiplier =
+                ( mortar_uses_laser_rangefinder( you, impact_abs_ms ) ?
+                  mortar_laser_rangefinder_repeat_location_multiplier : 0.5 ) *
+                ( eplrs_net_used ? mortar_eplrs_location_multiplier : 1.0 );
+            feedback_accuracy_multiplier = mortar_feedback_multiplier(
+                                               base_feedback_accuracy_multiplier, no_wait_adjustment );
+            feedback_location_multiplier = mortar_feedback_multiplier(
+                                               base_feedback_location_multiplier, no_wait_adjustment );
+        }
 
         add_msg_debug( debugmode::DF_NPC,
                        "Mortar fire from %s round %d/%d: distance %d, minimum range %.2f, "

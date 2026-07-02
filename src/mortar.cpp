@@ -17,9 +17,11 @@
 #include "debug.h"
 #include "explosion.h"
 #include "flag.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "itype.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -461,10 +463,48 @@ static bool mortar_has_charged_laser_rangefinder( const Character &spotter )
     } );
 }
 
+static bool mortar_spotter_has_local_los_towards( const Character &spotter,
+        const tripoint_abs_ms &target )
+{
+    map &here = get_map();
+    const tripoint_bub_ms spotter_pos = spotter.pos_bub( here );
+    if( !here.inbounds( spotter_pos ) ) {
+        return false;
+    }
+
+    const tripoint_bub_ms target_pos = here.get_bub( target );
+    tripoint_bub_ms probe = spotter_pos;
+    for( const tripoint &raw_candidate : line_to( spotter_pos.raw(), target_pos.raw() ) ) {
+        const tripoint_bub_ms candidate( raw_candidate );
+        if( rl_dist( spotter_pos, candidate ) > MAX_VIEW_DISTANCE || !here.inbounds( candidate ) ) {
+            break;
+        }
+        probe = candidate;
+    }
+
+    return probe != spotter_pos && spotter.sees( here, probe );
+}
+
+bool mortar_spotter_can_observe( const Character &spotter, const tripoint_abs_ms &target )
+{
+    map &here = get_map();
+    if( here.inbounds( target ) ) {
+        return spotter.sees( here, here.get_bub( target ) );
+    }
+
+    if( !mortar_spotter_has_local_los_towards( spotter, target ) ) {
+        return false;
+    }
+
+    const int sight_points = spotter.overmap_modified_sight_range( g->light_level( spotter.posz() ) );
+    return spotter.overmap_los( project_to<coords::omt>( target ), sight_points );
+}
+
 bool mortar_uses_laser_rangefinder( const Character &spotter, const tripoint_abs_ms &target )
 {
     return rl_dist( spotter.pos_abs(), target ) <= mortar_laser_rangefinder_range &&
-           mortar_has_charged_laser_rangefinder( spotter );
+           mortar_has_charged_laser_rangefinder( spotter ) &&
+           mortar_spotter_can_observe( spotter, target );
 }
 
 static bool mortar_has_zoom_optic( const Character &spotter )
@@ -494,6 +534,11 @@ static double mortar_soft_cap_sensor_multiplier( const double multiplier )
 double mortar_spotter_sensor_multiplier( const Character &spotter,
         const std::optional<tripoint_abs_ms> &target )
 {
+    const bool target_observable = !target || mortar_spotter_can_observe( spotter, *target );
+    if( !target_observable ) {
+        return 1.0;
+    }
+
     double multiplier = 1.0;
     if( target && mortar_uses_laser_rangefinder( spotter, *target ) ) {
         multiplier *= mortar_laser_rangefinder_sensor_multiplier;

@@ -56,6 +56,8 @@ double mortar_fixed_accuracy_multiplier( const Character &who,
         const tripoint_abs_ms &mortar_pos, bool include_weather );
 bool mortar_round_has_high_explosive_payload( const item &round );
 bool mortar_round_has_impact_payload( const item &round );
+bool mortar_spotter_can_observe( const Character &spotter,
+                                 const tripoint_abs_ms &target );
 bool mortar_uses_laser_rangefinder( const Character &spotter,
                                     const tripoint_abs_ms &target );
 double mortar_spotter_sensor_multiplier( const Character &spotter,

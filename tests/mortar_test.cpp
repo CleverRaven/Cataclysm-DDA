@@ -6,13 +6,20 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
+#include "game.h"
+#include "map.h"
+#include "map_helpers.h"
 #include "map_scale_constants.h"
 #include "mortar.h"
+#include "npc.h"
+#include "overmapbuffer.h"
 #include "point.h"
 #include "rng.h"
 #include "type_id.h"
 
 static const mortar_type_id mortar_m224( "m224" );
+static const oter_str_id oter_field( "field" );
+static const ter_str_id ter_t_wall( "t_wall" );
 
 TEST_CASE( "mortar_minimum_range_and_deflection_error", "[mortar]" )
 {
@@ -68,6 +75,32 @@ TEST_CASE( "mortar_minimum_target_distance_is_fixed", "[mortar]" )
     const mortar_type &mortar = mortar_m224.obj();
 
     CHECK( mortar.minimum_target_distance() == MAX_VIEW_DISTANCE );
+}
+
+TEST_CASE( "mortar_spotter_observation_requires_local_los", "[mortar]" )
+{
+    clear_map();
+    set_time_to_day();
+    map &here = get_map();
+    const tripoint_bub_ms spotter_pos( 60, 60, 0 );
+    standard_npc spotter( "Mortar spotter", spotter_pos, {}, 4, 8, 8, 8, 10 );
+    spotter.recalc_sight_limits();
+
+    const tripoint_abs_omt spotter_omt = spotter.pos_abs_omt();
+    for( int dx = 0; dx <= 5; ++dx ) {
+        overmap_buffer.ter_set( tripoint_abs_omt( spotter_omt.x() + dx, spotter_omt.y(),
+                                spotter_omt.z() ), oter_field.id() );
+    }
+
+    const tripoint_abs_ms target = here.get_abs( spotter_pos + tripoint(
+                                        MAX_VIEW_DISTANCE + 20, 0, 0 ) );
+    REQUIRE_FALSE( here.inbounds( target ) );
+    CHECK( mortar_spotter_can_observe( spotter, target ) );
+
+    REQUIRE( here.ter_set( spotter_pos + tripoint::east, ter_t_wall ) );
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+    CHECK_FALSE( mortar_spotter_can_observe( spotter, target ) );
 }
 
 TEST_CASE( "mortar_location_error_projects_onto_ballistic_axes", "[mortar]" )
