@@ -921,14 +921,16 @@ int item::get_pocket_size() const
         return 1;
     } else if( has_flag( flag_PALS_MEDIUM ) ) {
         return 2;
-    } else {
+    } else if( has_flag( flag_PALS_LARGE ) ) {
         return 3;
+    } else
+    return 7;
     }
 }
 
 bool item::can_attach_as_pocket() const
 {
-    return has_flag( flag_PALS_SMALL ) || has_flag( flag_PALS_MEDIUM ) || has_flag( flag_PALS_LARGE );
+    return has_flag( flag_PALS_SMALL ) || has_flag( flag_PALS_MEDIUM ) || has_flag( flag_PALS_LARGE ) || has_flag( flag_PALS_HUGE );
 }
 
 bool item::has_unrestricted_pockets() const

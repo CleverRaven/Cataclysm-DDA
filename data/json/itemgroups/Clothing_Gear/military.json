@@ -371,7 +371,8 @@
       [ "torso_bandolier_grenade", 8 ],
       [ "chem_hexamine", 3 ],
       { "item": "esbit_stove", "prob": 6, "charges": [ 0, 50 ] },
-      { "group": "full_survival_kit", "prob": 4 }
+      { "group": "full_survival_kit", "prob": 4 },
+      { "group": "mod_haz_packed", "prob": 5 }
     ]
   },
   {
@@ -385,5 +386,28 @@
       [ "legrig", 10 ],
       [ "knee_pads", 20 ]
     ]
+  },
+  {
+    "id": "hazmat_soldier_set",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "JSLIST set used for hazardous material handling.",
+    "items": [
+      { "group": "clothing_military" },
+      { "item": "helmet_army", "prob": 85 } ] },
+      { "item": "gloves_light", "prob": 60 },
+      { "group": "military_ballistic_vest", "prob": 90 },
+      { "group": "mod_haz_used", "prob": 85 },
+      { "group": "clothing_tactical_leg", "prob": 15 },
+      {
+        "distribution": [ { "group": "gasmask_in_use", "prob":90 }, { "group": "military_papr_kit", "prob": 10 } ]
+      },
+      { "item": "mod_haz_coat" },
+      { "item": "mod_haz_pants" },
+      { "item": "mod_haz_boots", "prob": 50 },
+      { "item": "mod_haz_boots", "prob": 25 },
+      { "item": "boots_combat" },
+      { "group": "clothing_watch", "prob": 5 }
+    ]
   }
-]
+}

@@ -292,6 +292,7 @@ extern const flag_id flag_PAIN_IMMUNE;
 extern const flag_id flag_PALS_SMALL;
 extern const flag_id flag_PALS_MEDIUM;
 extern const flag_id flag_PALS_LARGE;
+extern const flag_id flag_PALS_HUGE;
 extern const flag_id flag_PAPR_BLOWER;
 extern const flag_id flag_PAPR_MASK;
 extern const flag_id flag_PARTIAL_DEAF;
@@ -434,6 +435,10 @@ extern const flag_id flag_SOFT;
 extern const flag_id flag_HARD;
 extern const flag_id flag_SHREDDED;
 extern const flag_id flag_FROM_FROZEN_LIQUID;
+extern const flag_id flag_MOD_HAZ_GLOVES;
+extern const flag_id flag_MOD_HAZ_PANTS;
+extern const flag_id flag_MOD_HAZ_COAT;
+extern const flag_id flag_MOD_HAZ_BOOTS;
 /**
  * Flags: json entity with "type": "json_flag", defined in flags.json, vp_flags.json
  * Currently used by:
