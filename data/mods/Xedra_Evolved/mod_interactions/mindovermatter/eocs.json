@@ -18,5 +18,25 @@
     "condition": { "or": [ { "u_has_effect": "effect_telepathic_psi_armor" }, { "u_has_flag": "TEEPSHIELD" } ] },
     "effect": { "u_message": "You sense <npc_name> trying to enter your mind, but you repel it!", "type": "warning" },
     "false_effect": { "run_eocs": [ "EOC_STARE2" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKINESIS_RETURN_FROM_DEATH",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "u_has_effect": "effect_vita_return_from_death" },
+    "effect": [
+      {
+        "if": { "u_has_effect": "effect_xe_onryō_snp_prevented_death" },
+        "then": [
+          {
+            "u_message": "You feel your powers begin to go into overdrive before you hear a low, sinister laugh.  Then explosive pain erupts across your body and you fade into oblivion."
+          }
+        ],
+        "else": [
+          { "u_message": "As the wounds overtake you, you feel your powers go into overdrive.", "popup": true },
+          { "run_eocs": [ "EOC_VITAKINESIS_RETURN_FROM_DEATH_START" ] }
+        ]
+      }
+    ]
   }
 ]
