@@ -7,6 +7,7 @@
 #include "debug.h"
 #include "flexbuffer_json.h"
 #include "item.h"
+#include "item_factory.h"
 #include "type_id.h"
 
 namespace
@@ -65,13 +66,18 @@ void ammunition_type::check_consistency()
         const auto &id = ammo.first;
         const itype_id &at = ammo.second.default_ammotype_;
 
-        // FIXME: Remove this insane fake ammo stuff.
-        if( at.str() == "components" || at.str() == "thrown" ) {
-            continue;
+        if( !item::type_is_defined( at ) ) {
+            debugmsg( "ammo type %s has invalid default ammo %s", id.c_str(), at.c_str() );
         }
 
-        if( !at.is_empty() && !item::type_is_defined( at ) ) {
-            debugmsg( "ammo type %s has invalid default ammo %s", id.c_str(), at.c_str() );
+        // Ugly AND expensive. But a necessary step to reign in the evil of fake ammos.
+        std::vector<const itype *> items_that_use_this_ammo = Item_factory::find( [&]( const itype & t ) {
+            item maybe_ammo_user( t.get_id() );
+            return maybe_ammo_user.ammo_types().count( id );
+        } );
+
+        if( items_that_use_this_ammo.empty() ) {
+            debugmsg( "ammotype %s exists but is unused", id.c_str() );
         }
     }
 }
