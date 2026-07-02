@@ -148,7 +148,6 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
-#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "visitable.h"

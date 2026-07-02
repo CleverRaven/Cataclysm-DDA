@@ -4,7 +4,10 @@
 #include <bitset>
 #include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <limits>
+#include <memory>
+#include <set>
 #include <unordered_map>
 #include <utility>
 
@@ -12,8 +15,8 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "debug.h"
+#include "explosion.h"
 #include "flag.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "itype.h"
@@ -23,6 +26,16 @@
 #include "point.h"
 #include "rng.h"
 #include "timed_event.h"
+#include "value_ptr.h"
+
+static const itype_id itype_60mm_shell_m721( "60mm_shell_m721" );
+static const itype_id itype_laser_rangefinder( "laser_rangefinder" );
+static const itype_id itype_mortar_fire_control_tablet( "mortar_fire_control_tablet" );
+static const itype_id itype_software_mortar_fire_control( "software_mortar_fire_control" );
+
+static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
+
+static const proficiency_id proficiency_prof_mortar_operation( "prof_mortar_operation" );
 
 namespace
 {
@@ -46,15 +59,6 @@ constexpr double mortar_laser_rangefinder_sensor_multiplier = 1.8;
 constexpr double mortar_laser_rangefinder_axis_multiplier = 0.5;
 constexpr int mortar_laser_rangefinder_range = 2000;
 constexpr float mortar_he_explosion_power_threshold = 100.0f;
-
-static const itype_id itype_60mm_shell_m721( "60mm_shell_m721" );
-static const itype_id itype_laser_rangefinder( "laser_rangefinder" );
-static const itype_id itype_mortar_fire_control_tablet( "mortar_fire_control_tablet" );
-static const itype_id itype_software_mortar_fire_control( "software_mortar_fire_control" );
-
-static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
-
-static const proficiency_id proficiency_prof_mortar_operation( "prof_mortar_operation" );
 
 int interpolate_flight_seconds( const int distance, const int lower_distance,
                                 const int lower_seconds, const int upper_distance,
