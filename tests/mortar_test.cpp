@@ -22,9 +22,9 @@ TEST_CASE( "mortar_minimum_range_and_deflection_error", "[mortar]" )
     CHECK( error.range == Approx( 15.0 ) );
     CHECK( error.deflection == Approx( 2.0 ) );
 
-    error = mortar.minimum_error( 3500 );
-    CHECK( error.range == Approx( 52.5 ) );
-    CHECK( error.deflection == Approx( 7.0 ) );
+    error = mortar.minimum_error( 3490 );
+    CHECK( error.range == Approx( 52.35 ) );
+    CHECK( error.deflection == Approx( 6.98 ) );
 }
 
 TEST_CASE( "mortar_ballistic_multiplier_caps", "[mortar]" )
@@ -44,7 +44,7 @@ TEST_CASE( "mortar_60mm_flight_time_scales_with_distance", "[mortar]" )
         { 1000, 15, 25 },
         { 2000, 25, 40 },
         { 3000, 35, 50 },
-        { 3500, 35, 50 },
+        { 3490, 35, 50 },
     };
 
     for( const std::tuple<int, int, int> &bounds : expected_bounds ) {
@@ -69,7 +69,7 @@ TEST_CASE( "mortar_minimum_target_distance_scales_with_range_error", "[mortar]" 
 
     CHECK( mortar.minimum_target_distance( 1000, 3.0 ) ==
            MAX_VIEW_DISTANCE + 90 );
-    CHECK( mortar.minimum_target_distance( 3500, 70.0 ) == 1000 );
+    CHECK( mortar.minimum_target_distance( 3490, 70.0 ) == 1000 );
 }
 
 TEST_CASE( "mortar_location_error_projects_onto_ballistic_axes", "[mortar]" )
