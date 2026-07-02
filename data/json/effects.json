@@ -5184,6 +5184,18 @@
     "enchantments": [ { "values": [ { "value": "SPEED", "add": { "global_val": "portal_dungeon_slow_strength", "default": -1 } } ] } ]
   },
   {
+    "id": "effect_portal_storm_dungeon_time_tracker",
+    "//": "Hidden effect, tracks how lonig you've been in the portal storm dungeon.  Increments by 1 every minute",
+    "type": "effect_type",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "show_intensity": false,
+    "max_intensity": 250000,
+    "int_add_val": 1,
+    "int_decay_step": 1,
+    "int_decay_tick": 60
+  },
+  {
     "type": "effect_type",
     "id": "nvg_green",
     "name": [ "Night Vision Goggles (Green)" ],
@@ -5845,5 +5857,29 @@
     "scaling_mods": { "hurt_min": [ 3 ], "vomit_tick": [ -225 ], "per_mod": [ -0.5 ], "dex_mod": [ -0.5 ], "str_mod": [ -0.5 ] },
     "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.8 }, { "limb_score": "reaction", "modifier": 0.8 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "id": "effect_temporary_levitation",
+    "type": "effect_type",
+    "//": "Hidden effect, keeps you from falling in the portal dungeon briefly and also prevents infinite trap teleporting",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "LEVITATION" ]
+  },
+  {
+    "id": "effect_portal_dungeon_multi_trigger_limiter",
+    "type": "effect_type",
+    "//": "Hidden effect, prevents infinite trap teleporting in the portal dungeon",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "id": "effect_portal_storm_dungeon_time_tracker",
+    "type": "effect_type",
+    "//": "Hidden effect, tracks how long you've been in the portal storm dungeon",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "int_decay_step": 1,
+    "int_decay_tick": 120
   }
 ]

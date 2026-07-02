@@ -1,0 +1,67 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mx_portal_cracked_mirror",
+    "object": { "place_fields": [ { "field": "fd_portal_cracked_mirror", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mx_portal_ingress",
+    "object": { "place_monster": [ { "group": "GROUP_NETHER", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 2, 3 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mx_portal_distortion_item",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "place_nested": [ { "chunks": [ "11x11_portal_dungeon_distortion" ], "x": [ 0, 11 ], "y": [ 0, 11 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_portal_dungeon_distortion",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "    qqq    ",
+        "   qqqqq   ",
+        "  qqqqqqq  ",
+        " qqqqqqqqq ",
+        "qqqqqqqqqqq",
+        "qqqqq@qqqqq",
+        "qqqqqqqqqqq",
+        " qqqqqqqqq ",
+        "  qqqqqqq  ",
+        "   qqqqq   ",
+        "    qqq    "
+      ],
+      "terrain": { "@": "t_floor_warped", "q": [ [ "t_floor_warped", 50 ], [ "t_wall_warped", 50 ] ] },
+      "items": { "@": { "item": "portal_storm_dungeon_items", "chance": 100 } }
+    }
+  }
+]

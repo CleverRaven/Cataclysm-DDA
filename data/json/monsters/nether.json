@@ -1860,11 +1860,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
-    "death_function": {
-      "effect": { "id": "mon_reflection_revive", "hit_self": true },
-      "corpse_type": "NO_CORPSE",
-      "message": "The %s vanishes but you can still feel it."
-    },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s vanishes but you can still feel it." },
     "special_attacks": [
       {
         "type": "spell",
