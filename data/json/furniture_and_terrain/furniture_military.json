@@ -18,7 +18,7 @@
       "1, 415, 250, 1340",
       "2, 560, 350, 2150",
       "3, 680, 500, 2890",
-      "4, 810, 650, 3500",
+      "4, 810, 650, 3490",
       "aim deviation: 10% of total distance, decreased by laucnher skill to 2%",
       "aim duration: 16 seconds, decreased by launcher skill to 5 seconds, if you already aimed the gun properly; the first shot gonna take up to 190 secodns, decreased by launcher skill to 60 seconds"
     ],
@@ -53,7 +53,7 @@
     "id": "m224",
     "furniture": "f_m224_mortar",
     "ammo": "mortar_60mm",
-    "range": 3500,
+    "range": 3490,
     "npc_fire_message_delay": "10 seconds",
     "range_error_ratio": 0.015,
     "deflection_error_mils": 2.0
