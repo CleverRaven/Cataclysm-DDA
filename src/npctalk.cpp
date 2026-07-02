@@ -6794,7 +6794,9 @@ void assign_mortar_support_impl( npc &gunner )
     gunner.clear_committed_goal();
 
     if( ammo_transferred > 0 ) {
-        add_msg( _( "%1$s mans the mortar and takes %2$d mortar round." ),
+        add_msg( n_gettext( "%1$s mans the mortar and takes %2$d mortar round.",
+                            "%1$s mans the mortar and takes %2$d mortar rounds.",
+                            ammo_transferred ),
                  gunner.disp_name(), ammo_transferred );
     } else {
         add_msg( _( "%1$s mans the mortar, but still needs %2$s." ),
@@ -6850,13 +6852,19 @@ talk_effect_fun_t::func f_manage_mortar_ammo()
                 const int transferred = give_mortar_rounds( *gunner, *mortar->type,
                                         _( "Select mortar rounds to hand over" ) );
                 if( transferred > 0 ) {
-                    add_msg( _( "You hand %1$d mortar round to %2$s." ), transferred,
+                    add_msg( n_gettext( "You hand %1$d mortar round to %2$s.",
+                                        "You hand %1$d mortar rounds to %2$s.",
+                                        transferred ),
+                             transferred,
                              gunner->disp_name() );
                 }
             } else if( action == 1 ) {
                 const int returned = take_back_mortar_rounds( *gunner, *mortar->type );
                 if( returned > 0 ) {
-                    add_msg( _( "%1$s returns %2$d mortar round." ), gunner->disp_name(), returned );
+                    add_msg( n_gettext( "%1$s returns %2$d mortar round.",
+                                        "%1$s returns %2$d mortar rounds.",
+                                        returned ),
+                             gunner->disp_name(), returned );
                 }
             } else {
                 add_msg( _( "%1$s reports available mortar ammunition: %2$s." ),
