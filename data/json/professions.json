@@ -728,6 +728,34 @@
   },
   {
     "type": "profession",
+    "id": "remote_worker",
+    "name": "Remote Worker",
+    "description": "You made a career working from home or other remote locations. Now that paycheck no longer comes and ordered food no longer arrives at your doorstep you must face the world for what it has become.",
+    "points": 2,
+    "skills": [ { "level": 5, "name": "computer" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "backpack" },
+          { "item": "pockknife" },
+          { "item": "water_clean" },
+          { "group": "charged_smart_watch_adv" },
+          { "group": "charged_smart_phone", "contents-item": "mag_tv" },
+          { "group": "starter_wallet_full" },
+          { "group": "charged_laptop" },
+          { "group": "charged_matches" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
     "id": "video_blogger",
     "name": "Video Blogger",
     "description": "You made a career out of creating and commentating video content and posting it on various platforms.  Now most of your fans are dead, alongside your equipment.  Maybe you didn't cultivate the most practical skillset through your career, but you have learned a thing or two about troubleshooting software and getting people to listen to you.",
