@@ -508,7 +508,9 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, veh_spawn_status in
             This is to simulate the gasoline going bad after a certain period of time.
             */
             if( pt.ammo_current() == fuel_type_gasoline ) {
-                if( calendar::turn - calendar::turn_zero >= GASOLINE_SHELF_TIME ) {
+                // Add some randomness to gasoline "creation date", so that not all vehicles will have their gasoline go bad at the same time.
+                time_duration randomness = rng( 0_days, 14_days );
+                if( calendar::turn - calendar::start_of_cataclysm - randomness >= GASOLINE_SHELF_TIME ) {
                     pt.ammo_unset();
                     rng_fuel_amount( pt, fuel_type_gasoline_dead );
                 }
