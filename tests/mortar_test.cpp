@@ -100,7 +100,7 @@ TEST_CASE( "mortar_spotter_observation_requires_local_los", "[mortar]" )
     }
 
     const tripoint_abs_ms target = here.get_abs( spotter_pos + tripoint(
-                                        MAX_VIEW_DISTANCE + 20, 0, 0 ) );
+                                       MAX_VIEW_DISTANCE + 20, 0, 0 ) );
     REQUIRE_FALSE( here.inbounds( target ) );
     CHECK( mortar_spotter_can_observe( spotter, target ) );
 
