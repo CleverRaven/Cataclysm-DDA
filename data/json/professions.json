@@ -665,7 +665,7 @@
     "type": "profession",
     "id": "vagabond",
     "name": "Vagabond",
-    "description": "Circumstance left you wandering the world, alone.  Now there is nothing to go back to, even if you wanted to.  Perhaps your experience in fending for yourself will prove useful in this new world.",
+    "description": "Circumstance left you wandering the world, alone.  there is nothing to go back to, even if you wanted to.  Perhaps your experience in fending for yourself will prove useful in this new world.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 1,
     "skills": [
@@ -730,7 +730,7 @@
     "type": "profession",
     "id": "remote_worker",
     "name": "Remote Worker",
-    "description": "You made a career working from home or other remote locations. Now that paycheck no longer comes and ordered food no longer arrives at your doorstep you must face the world for what it has become.",
+    "description": "You made a career working from home or other remote locations.  Now that paycheck no longer comes and ordered food no longer arrives at your doorstep you must face the world for what it has become.",
     "points": 2,
     "skills": [ { "level": 5, "name": "computer" } ],
     "items": {
