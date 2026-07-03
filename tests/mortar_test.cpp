@@ -80,8 +80,15 @@ TEST_CASE( "mortar_minimum_target_distance_is_fixed", "[mortar]" )
 TEST_CASE( "mortar_spotter_observation_requires_local_los", "[mortar]" )
 {
     clear_map();
-    set_time_to_day();
+    calendar::turn = calendar::turn_zero + 12_hours;
+    g->reset_light_level();
     map &here = get_map();
+    get_player_character().recalc_sight_limits();
+    here.invalidate_visibility_cache();
+    here.update_visibility_cache( 0 );
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0 );
+
     const tripoint_bub_ms spotter_pos( 60, 60, 0 );
     standard_npc spotter( "Mortar spotter", spotter_pos, {}, 4, 8, 8, 8, 10 );
     spotter.recalc_sight_limits();
