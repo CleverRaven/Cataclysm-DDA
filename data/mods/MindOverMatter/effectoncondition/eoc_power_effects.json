@@ -40,6 +40,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_MATRIX_BOOST",
+    "//": "The EoCs below provide a boost to the appropriate path or relevant psychic knacks when wielding an appropriate matrix crystal",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "or": [ { "u_has_trait": "BIOKINETIC" }, { "u_has_trait": "PSYCHIC_KNACK" } ] }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_BIOKINESIS" } ] },
