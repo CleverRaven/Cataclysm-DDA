@@ -1,10 +1,13 @@
 #include <cmath>
+#include <memory>
 #include <optional>
+#include <string>
 #include <tuple>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
 #include "coordinates.h"
 #include "game.h"
 #include "map.h"
