@@ -665,7 +665,7 @@
     "type": "profession",
     "id": "vagabond",
     "name": "Vagabond",
-    "description": "Circumstance left you wandering the world, alone.  there is nothing to go back to, even if you wanted to.  Perhaps your experience in fending for yourself will prove useful in this new world.",
+    "description": "Circumstance left you wandering the world, alone.  Now there is nothing to go back to, even if you wanted to.  Perhaps your experience in fending for yourself will prove useful in this new world.",
     "npc_background": "BG_survival_story_EVACUEE",
     "points": 1,
     "skills": [
