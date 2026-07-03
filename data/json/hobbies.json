@@ -228,7 +228,7 @@
       { "level": 2, "name": "throwing" },
       { "level": 2, "name": "athletics" }
     ],
-    "proficiencies": [ "prof_gun_cleaning", "prof_wound_care", "prof_traps", "prof_auto_rifles_familiar", "prof_auto_pistols_familiar" ]
+    "proficiencies": [ "prof_gun_cleaning", "prof_wound_care", "prof_traps", "prof_auto_rifles_familiar" ]
   },
   {
     "type": "profession",
