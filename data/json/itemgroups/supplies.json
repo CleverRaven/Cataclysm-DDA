@@ -214,14 +214,14 @@
   {
     "id": "bleach_jug",
     "type": "item_group",
-    "container-item": "box_small",
+    "container-item": "jug_plastic",
     "//": "128 oz",
     "items": [ { "item": "bleach", "count": 30 } ]
   },
   {
     "id": "bleach_jug_part",
     "type": "item_group",
-    "container-item": "box_small",
+    "container-item": "jug_plastic",
     "items": [ { "item": "bleach", "count": [ 1, 30 ] } ]
   },
   {
