@@ -357,6 +357,11 @@
     "info": "This tastes <good>better</good> while <color_red>hot</color>."
   },
   {
+    "id": "HUNGER_DISRUPTION",
+    "type": "json_flag",
+    "info": "You don't know how hungry you are when you are effected by this."
+  },
+  {
     "id": "ELECTRIC_IMMUNE",
     "type": "json_flag",
     "info": "This gear <good>completely protects</good> you from <info>electric discharges</info>."
