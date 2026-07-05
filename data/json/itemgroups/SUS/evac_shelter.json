@@ -95,7 +95,7 @@
               { "group": "detergent_small_box_part", "prob": 15 },
               { "group": "borax_box_part", "prob": 15 },
               { "item": "brush", "prob": 85 },
-              { "item": "bleach", "prob": 45 },
+              { "group": "bleach_jug_part", "prob": 45 },
               { "item": "chem_washing_soda", "prob": 10 },
               { "item": "ammonia_hydroxide", "prob": 15 },
               { "item": "vinegar", "prob": 10 },
@@ -157,7 +157,7 @@
               { "group": "detergent_small_box_part", "prob": 15 },
               { "group": "borax_box_part", "prob": 15 },
               { "item": "brush", "prob": 85 },
-              { "item": "bleach", "charges": [ 1, -1 ], "prob": 45 },
+              { "group": "bleach_jug_part", "prob": 45 },
               { "item": "box_small", "prob": 5 },
               { "item": "bag_plastic", "prob": 5 },
               { "item": "bowl_plastic", "prob": 5 },
@@ -194,7 +194,7 @@
     "entries": [
       { "item": "soap", "count": [ 1, 2 ] },
       { "item": "brush", "prob": 90 },
-      { "item": "bleach", "prob": 45 },
+      { "group": "bleach_jug_part", "prob": 45 },
       { "item": "ammonia_hydroxide", "prob": 25 },
       { "item": "chem_washing_soda", "prob": 20 },
       { "item": "mirror", "prob": 12 },
@@ -212,7 +212,7 @@
     "entries": [
       { "item": "soap", "count": [ 1, 2 ], "prob": 50 },
       { "item": "brush", "prob": 45 },
-      { "item": "bleach", "prob": 20 },
+      { "group": "bleach_jug_part", "prob": 20 },
       { "item": "ammonia_hydroxide", "prob": 10 },
       { "item": "mirror", "prob": 5 },
       { "group": "used_1st_aid", "prob": 40 },
@@ -305,7 +305,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "soap", "count": [ 1, 2 ] },
-      { "item": "bleach", "prob": 45 },
+      { "group": "bleach_jug", "prob": 45 },
       { "item": "ammonia_hydroxide", "prob": 25 },
       { "item": "toilet_paper", "prob": 100, "count": [ 3, 6 ] },
       { "item": "plunger_toilet", "prob": 70 },
@@ -323,7 +323,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "soap", "prob": 50 },
-      { "item": "bleach", "prob": 20 },
+      { "group": "bleach_jug_part", "prob": 20 },
       { "item": "ammonia_hydroxide", "prob": 10 },
       { "item": "toilet_paper", "prob": 50, "count": [ 1, 2 ] },
       { "item": "plunger_toilet", "prob": 40 },

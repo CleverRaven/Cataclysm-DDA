@@ -509,7 +509,7 @@
       { "item": "denat_alcohol", "prob": 5, "charges": [ 1, -1 ] },
       { "item": "chem_methanol", "prob": 5, "charges": [ 1, -1 ] },
       { "item": "chem_washing_soda", "prob": 50, "count": [ 1, -1 ] },
-      { "item": "bleach", "prob": 75, "charges": [ 1, -1 ] },
+      { "group": "bleach_jug_part", "prob": 75 },
       { "item": "ammonia_hydroxide", "prob": 65, "charges": [ 1, -1 ] }
     ]
   },
@@ -777,7 +777,7 @@
       { "group": "cotton_ball_bag_used", "prob": 50 },
       { "group": "cotton_ball_bag_full", "prob": 5 },
       { "item": "comb_lice", "prob": 2 },
-      { "item": "bleach", "prob": 15, "charges": [ 1, -1 ] },
+      { "group": "bleach_jug_part", "prob": 15 },
       { "item": "ammonia_hydroxide", "prob": 20, "charges": [ 1, -1 ] },
       { "item": "chem_washing_soda", "prob": 10, "count": [ 1, -1 ] },
       { "group": "borax_box_part", "prob": 10 },

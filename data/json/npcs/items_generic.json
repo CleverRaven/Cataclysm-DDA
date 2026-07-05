@@ -387,7 +387,7 @@
       [ "biscuit", 3 ],
       [ "blackberries", 3 ],
       [ "blanket", 5 ],
-      [ "bleach", 5 ],
+      { "group": "bleach_jug_part", "prob": 5 },
       [ "blt", 1 ],
       [ "blueberries", 3 ],
       [ "bologna", 2 ],

@@ -1173,7 +1173,7 @@
       { "item": "chem_washing_soda", "prob": 5, "count": [ 1, -1 ] },
       [ "chem_hydrogen_peroxide", 20 ],
       [ "boots_rubber", 20 ],
-      { "item": "bleach", "prob": 20, "charges": [ 1, -1 ] },
+      { "group": "bleach_jug_part", "prob": 20 },
       { "item": "material_rocksalt", "prob": 10, "container-item": "bag_canvas" },
       [ "vinegar", 10 ],
       { "item": "lye_powder", "prob": 5, "container-item": "bag_canvas_small" },

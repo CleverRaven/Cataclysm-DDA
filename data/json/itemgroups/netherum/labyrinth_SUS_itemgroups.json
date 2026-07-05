@@ -91,7 +91,7 @@
           { "item": "disinfectant", "prob": 60 },
           { "item": "towel", "prob": 40 },
           { "item": "blood", "prob": 40 },
-          { "item": "bleach", "prob": 20, "charges": [ 6, -1 ] },
+          { "group": "bleach_jug_part", "prob": 20 },
           { "group": "saline_bottle_random", "prob": 20 },
           { "group": "cotton_ball_bag_used", "prob": 50 },
           { "item": "chem_nitric_acid", "prob": 10, "charges": [ 1, -1 ] },

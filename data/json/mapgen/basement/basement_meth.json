@@ -74,7 +74,8 @@
         { "group": "laundry", "x": 19, "y": 6, "chance": 50, "repeat": [ 1, 10 ] },
         { "group": "softdrugs", "x": [ 9, 10 ], "y": 12, "chance": 75, "repeat": [ 1, 3 ] },
         { "group": "cleaning", "x": 11, "y": 10, "chance": 90, "repeat": [ 1, 3 ] },
-        { "group": "cleaning", "x": 16, "y": 5, "chance": 90, "repeat": [ 1, 3 ] }
+        { "group": "cleaning", "x": 16, "y": 5, "chance": 90, "repeat": [ 1, 3 ] },
+        { "group": "bleach_jug_part", "x": 16, "y": 5 }
       ],
       "place_item": [
         { "x": 18, "y": 19, "item": "meth" },
@@ -84,7 +85,6 @@
         { "x": 15, "y": 5, "item": "corpse" },
         { "x": 18, "y": 19, "item": "chemistry_set" },
         { "x": 11, "y": 10, "item": "towel" },
-        { "x": 16, "y": 5, "item": "bleach" },
         { "x": 16, "y": 5, "item": "knife_small", "variant": "knife_steak" }
       ],
       "place_monster": [

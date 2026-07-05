@@ -212,6 +212,19 @@
     "items": [ { "item": "detergent", "count": [ 2, 129 ] } ]
   },
   {
+    "id": "bleach_jug",
+    "type": "item_group",
+    "container-item": "box_small",
+    "//": "128 oz",
+    "items": [ { "item": "detergent", "count": 30 } ]
+  },
+  {
+    "id": "bleach_jug_part",
+    "type": "item_group",
+    "container-item": "box_small",
+    "items": [ { "item": "detergent", "count": [ 1, 30 ] } ]
+  },
+  {
     "id": "magnesiumpowder_small_bag",
     "type": "item_group",
     "container-item": "box_small",
@@ -982,7 +995,7 @@
       { "item": "salt_water", "prob": 20, "charges": [ 1, -1 ] },
       { "group": "detergent_small_box_part", "prob": 10 },
       { "group": "borax_box_part", "prob": 10 },
-      { "item": "bleach", "prob": 10, "charges": [ 10, -1 ] },
+      { "group": "bleach_jug_part", "prob": 10 },
       { "item": "ammonia_liquid", "prob": 20, "charges": [ 6, -1 ] },
       { "item": "ammonia_hydroxide", "prob": 10, "charges": [ 10, -1 ] },
       { "prob": 10, "group": "iodine_bottle_plastic_pill_supplement_1_10" },

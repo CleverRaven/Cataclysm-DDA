@@ -1790,7 +1790,7 @@
   {
     "id": "laundromat_bleach",
     "type": "item_group",
-    "items": [ [ "bleach", 50 ] ]
+    "items": [ { "group": "bleach_jug_part", "prob": 50 } ]
   },
   {
     "id": "laundromat_containers",
