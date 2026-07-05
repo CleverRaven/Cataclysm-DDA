@@ -247,18 +247,36 @@ if (TILES)
         set(_SHADERS_STAMP ${_SHADERS_DIR}/build-${_SHADER_STAMP_TAG}.stamp)
         file(GLOB _SHADER_SOURCES "${_SHADERS_DIR}/*.frag" "${_SHADERS_DIR}/*.vert")
         find_package(Python3 COMPONENTS Interpreter REQUIRED)
-        add_custom_command(
-                OUTPUT ${_SHADERS_STAMP}
-                COMMAND ${Python3_EXECUTABLE}
-                    ${CMAKE_SOURCE_DIR}/tools/build_shaders.py
-                    --shader-dir ${_SHADERS_DIR}
-                    --formats ${CATA_SHADER_FORMATS}
-                    --stamp ${_SHADERS_STAMP}
-                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-                DEPENDS ${_SHADER_SOURCES}
+        if(VCPKG_MANIFEST_MODE AND WIN32)
+            add_custom_command(
+                    OUTPUT ${_SHADERS_STAMP}
+                    COMMAND ${CMAKE_COMMAND} -E env
+                        GLSLANG="${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/tools/glslang/glslangValidator.exe"
+                        SDL_SHADERCROSS="${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/tools/sdl3-shadercross/shadercross.exe"
+                        ${Python3_EXECUTABLE}
                         ${CMAKE_SOURCE_DIR}/tools/build_shaders.py
-                COMMENT "Compiling shader artifacts (${CATA_SHADER_FORMATS})"
-        )
+                        --shader-dir ${_SHADERS_DIR}
+                        --formats ${CATA_SHADER_FORMATS}
+                        --stamp ${_SHADERS_STAMP}
+                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                    DEPENDS ${_SHADER_SOURCES}
+                            ${CMAKE_SOURCE_DIR}/tools/build_shaders.py
+                    COMMENT "Compiling shader artifacts (${CATA_SHADER_FORMATS})"
+            )
+        else()
+            add_custom_command(
+                    OUTPUT ${_SHADERS_STAMP}
+                    COMMAND ${Python3_EXECUTABLE}
+                        ${CMAKE_SOURCE_DIR}/tools/build_shaders.py
+                        --shader-dir ${_SHADERS_DIR}
+                        --formats ${CATA_SHADER_FORMATS}
+                        --stamp ${_SHADERS_STAMP}
+                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                    DEPENDS ${_SHADER_SOURCES}
+                            ${CMAKE_SOURCE_DIR}/tools/build_shaders.py
+                    COMMENT "Compiling shader artifacts (${CATA_SHADER_FORMATS})"
+            )
+        endif()
         add_custom_target(compile_shaders ALL DEPENDS ${_SHADERS_STAMP})
         add_dependencies(cataclysm-tiles-common compile_shaders)
     endif()
