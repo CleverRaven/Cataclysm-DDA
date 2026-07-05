@@ -1419,6 +1419,7 @@
     "price": "50 cent",
     "price_postapoc": "10 cent",
     "name": { "str_sp": "detergent powder" },
+    "display_type": "BY_WEIGHT",
     "symbol": "=",
     "color": "white",
     "description": "A popular pre-Cataclysm washing powder.",
