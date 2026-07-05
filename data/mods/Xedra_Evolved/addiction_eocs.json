@@ -46,13 +46,14 @@
           "condition": { "not": { "u_has_effect": "sleep" } },
           "effect": [ { "u_message": "faewild_addiction", "snippet": true, "type": "warning" } ],
           "false_effect": [ { "u_message": "faewild_addiction_dream", "snippet": true, "type": "warning" } ]
-        }
+        },
+        { "run_eocs": [ "EOC_FAEWILD_ENNUI" ], "time_in_future": "2 seconds" }
       }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_GOBLIN_FRUIT_MOOD_CLEAR",
+    "id": "EOC_FAEWILD_ENNUI",
     "effect": [
       {
         "switch": { "math": [ "u_val('morale')" ] },
