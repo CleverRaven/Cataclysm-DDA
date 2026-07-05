@@ -181,7 +181,7 @@
     "name": [ "ælfadl" ],
     "desc": [ "The world was much more beautiful when you were closer to the Underhill." ],
     "apply_message": "The world becomes a duller place.  Do you even care if you live or die if it is in this place?",
-    "remove_message": "The colors brighten and your vision sharpens.", 
+    "remove_message": "The colors brighten and your vision sharpens.",
     "rating": "bad",
     "max_duration": "24 hours",
     "base_mods": { "per_mod": [ -1 ], "speed_mod": [ -5 ] },
