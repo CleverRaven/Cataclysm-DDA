@@ -216,13 +216,13 @@
     "type": "item_group",
     "container-item": "box_small",
     "//": "128 oz",
-    "items": [ { "item": "detergent", "count": 30 } ]
+    "items": [ { "item": "bleach", "count": 30 } ]
   },
   {
     "id": "bleach_jug_part",
     "type": "item_group",
     "container-item": "box_small",
-    "items": [ { "item": "detergent", "count": [ 1, 30 ] } ]
+    "items": [ { "item": "bleach", "count": [ 1, 30 ] } ]
   },
   {
     "id": "magnesiumpowder_small_bag",
