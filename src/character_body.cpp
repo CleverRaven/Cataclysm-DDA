@@ -1094,7 +1094,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         }
     }
     if( has_effect_with_flag( json_flag_HUNGER_DISRUPTION ) ) {
-    hunger_effect = effect_hunger_blank;
+        hunger_effect = effect_hunger_blank;
     }
     if( !has_effect( hunger_effect ) ) {
         remove_effect( effect_hunger_engorged );

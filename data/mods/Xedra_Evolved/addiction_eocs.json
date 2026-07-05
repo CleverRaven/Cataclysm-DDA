@@ -57,7 +57,6 @@
       {
         "switch": { "math": [ "u_val('morale')" ] },
         "cases": [
-
           { "case": 15, "effect": { "u_add_morale": "morale_craving_faewild", "bonus": -15, "max_bonus": 25 } },
           { "case": 25, "effect": { "u_add_morale": "morale_craving_faewild", "bonus": -25, "max_bonus": -25 } },
           { "case": 50, "effect": { "u_add_morale": "morale_craving_faewild", "bonus": -50, "max_bonus": -50 } },
