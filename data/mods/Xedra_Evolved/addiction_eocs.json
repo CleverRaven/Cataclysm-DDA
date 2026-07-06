@@ -47,7 +47,8 @@
           "effect": [ { "u_message": "faewild_addiction", "snippet": true, "type": "warning" } ],
           "false_effect": [ { "u_message": "faewild_addiction_dream", "snippet": true, "type": "warning" } ]
         }
-         }, {"run_eocs": [ "EOC_FAEWILD_ENNUI" ] }
+      },
+      { "run_eocs": [ "EOC_FAEWILD_ENNUI" ] }
     ]
   },
   {
@@ -65,6 +66,6 @@
         ]
       },
       { "u_add_effect": "faewild", "duration": "90 minutes" }
-    ] 
+    ]
   }
 ]
