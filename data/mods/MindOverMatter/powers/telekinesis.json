@@ -20,8 +20,8 @@
     "base_energy_cost": 1250,
     "final_energy_cost": 500,
     "energy_increment": -80,
-    "base_casting_time": 50,
-    "final_casting_time": 10,
+    "base_casting_time": 150,
+    "final_casting_time": 65,
     "casting_time_increment": -4,
     "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
   },
@@ -132,8 +132,8 @@
     "base_energy_cost": 1750,
     "final_energy_cost": 750,
     "energy_increment": -80,
-    "base_casting_time": 50,
-    "final_casting_time": 10,
+    "base_casting_time": 150,
+    "final_casting_time": 65,
     "casting_time_increment": -4,
     "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
   },
@@ -596,9 +596,9 @@
     "base_energy_cost": 9500,
     "final_energy_cost": 5000,
     "energy_increment": -175,
-    "base_casting_time": 80,
-    "final_casting_time": 25,
-    "casting_time_increment": -5
+    "base_casting_time": 150,
+    "final_casting_time": 65,
+    "casting_time_increment": -4
   },
   {
     "id": "telekinetic_aegis",

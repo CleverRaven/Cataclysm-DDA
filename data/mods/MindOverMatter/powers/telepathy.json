@@ -63,7 +63,7 @@
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_telepathic_psi_armor') > -1 ? 10 : max( (100 - ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) * 6.5)), 10)"
+        "u_effect_intensity('effect_telepathic_psi_armor') > -1 ? 10 : max( (200 - ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) * 6.5)), 45)"
       ]
     }
   },
