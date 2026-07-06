@@ -730,7 +730,7 @@
     "type": "profession",
     "id": "remote_worker",
     "name": "Remote Worker",
-    "description": "You made a career working from home or other remote locations. Now that paycheck no longer comes and ordered food no longer arrives at your doorstep you must face the world for what it has become, with what you managed to take from your house.",
+    "description": "You made a career working from home or other remote locations.  Now that paycheck no longer comes and ordered food no longer arrives at your doorstep you must face the world for what it has become, with what you managed to take from your house..",
     "points": 2,
     "skills": [ { "level": 5, "name": "computer" } ],
     "items": {
