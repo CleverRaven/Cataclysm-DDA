@@ -545,8 +545,8 @@ double knows_proficiency_eval( const_dialogue const &d, char scope,
 }
 
 double has_wielded_with_flag_eval( const_dialogue const &d, char scope,
-                               std::vector<diag_value> const &params,
-                               diag_kwargs const & /* kwargs */ )
+                                   std::vector<diag_value> const &params,
+                                   diag_kwargs const & /* kwargs */ )
 {
     return d.const_actor( is_beta( scope ) )
            ->wielded_with_flag( flag_id( params[0].str( d ) ) );
