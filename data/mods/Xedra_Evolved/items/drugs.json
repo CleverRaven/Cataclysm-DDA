@@ -15,7 +15,7 @@
     "stim": 20,
     "fun": 25,
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "addiction_type": "elf-addled",
+    "addiction_type": "faewild",
     "addiction_potential": 10,
     "use_action": {
       "type": "consume_drug",
