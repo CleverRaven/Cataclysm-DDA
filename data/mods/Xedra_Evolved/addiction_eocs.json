@@ -46,9 +46,8 @@
           "condition": { "not": { "u_has_effect": "sleep" } },
           "effect": [ { "u_message": "faewild_addiction", "snippet": true, "type": "warning" } ],
           "false_effect": [ { "u_message": "faewild_addiction_dream", "snippet": true, "type": "warning" } ]
-        },
-        { "run_eocs": [ "EOC_FAEWILD_ENNUI" ], "time_in_future": "2 seconds" }
-      }
+        }
+         }, {"run_eocs": [ "EOC_FAEWILD_ENNUI" ] }
     ]
   },
   {
@@ -64,7 +63,8 @@
           { "case": 75, "effect": { "u_add_morale": "morale_craving_faewild", "bonus": -75, "max_bonus": -75 } },
           { "case": 100, "effect": { "u_add_morale": "morale_craving_faewild", "bonus": -100, "max_bonus": -100 } }
         ]
-      }
-    ]
+      },
+      { "u_add_effect": "faewild", "duration": "90 minutes" }
+    ] 
   }
 ]
