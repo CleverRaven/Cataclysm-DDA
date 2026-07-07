@@ -47,7 +47,7 @@ static const itype_id itype_milkshake( "milkshake" );
 static const itype_id itype_mushroom( "mushroom" );
 static const itype_id itype_pants( "pants" );
 static const itype_id itype_pepper_test( "pepper_test" );
-static const itype_id itype_pine_nuts_test( "pine_nuts_test" );
+static const itype_id itype_pine_nuts( "pine_nuts" );
 static const itype_id itype_protein_bar_evac( "protein_bar_evac" );
 static const itype_id itype_purse( "purse" );
 static const itype_id itype_rock( "rock" );
@@ -171,7 +171,7 @@ TEST_CASE( "items_with_a_temperature_flag", "[item][tname][temperature]" )
     }
 
     GIVEN( "food that cannot melt" ) {
-        item nut( itype_pine_nuts_test );
+        item nut( itype_pine_nuts );
         REQUIRE( nut.is_food() );
         REQUIRE_FALSE( nut.has_flag( flag_MELTS ) );
 
@@ -180,7 +180,7 @@ TEST_CASE( "items_with_a_temperature_flag", "[item][tname][temperature]" )
             REQUIRE( nut.has_flag( flag_FROZEN ) );
 
             THEN( "it appears frozen" ) {
-                CHECK( nut.tname() == "pine nuts (fresh) (frozen)" );
+                CHECK( nut.tname() == "Handful of pine nuts (fresh) (frozen)" );
             }
         }
         WHEN( "cold" ) {
@@ -188,7 +188,7 @@ TEST_CASE( "items_with_a_temperature_flag", "[item][tname][temperature]" )
             REQUIRE( nut.has_flag( flag_COLD ) );
 
             THEN( "it appears cold" ) {
-                CHECK( nut.tname() == "pine nuts (fresh) (cold)" );
+                CHECK( nut.tname() == "Handful of pine nuts (fresh) (cold)" );
             }
         }
 
@@ -197,7 +197,7 @@ TEST_CASE( "items_with_a_temperature_flag", "[item][tname][temperature]" )
             REQUIRE( nut.has_flag( flag_HOT ) );
 
             THEN( "it appears hot" ) {
-                CHECK( nut.tname() == "pine nuts (fresh) (hot)" );
+                CHECK( nut.tname() == "Handful of pine nuts (fresh) (hot)" );
             }
         }
     }
