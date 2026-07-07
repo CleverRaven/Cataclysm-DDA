@@ -262,7 +262,6 @@
     "type": "ITEM",
     "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "walnut_shelled",
-    "name": { "str_sp": "shelled walnuts" },
     "name": { "str": "Handful of shelled walnuts", "str_pl": "of shelled walnuts" },
     "display_type": "BY_WEIGHT",
     "weight": "30 g",
