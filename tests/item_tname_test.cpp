@@ -47,7 +47,7 @@ static const itype_id itype_milkshake( "milkshake" );
 static const itype_id itype_mushroom( "mushroom" );
 static const itype_id itype_pants( "pants" );
 static const itype_id itype_pepper_test( "pepper_test" );
-static const itype_id itype_pine_nuts( "pine_nuts" );
+static const itype_id itype_pine_nuts_test( "pine_nuts_test" );
 static const itype_id itype_protein_bar_evac( "protein_bar_evac" );
 static const itype_id itype_purse( "purse" );
 static const itype_id itype_rock( "rock" );
@@ -171,7 +171,7 @@ TEST_CASE( "items_with_a_temperature_flag", "[item][tname][temperature]" )
     }
 
     GIVEN( "food that cannot melt" ) {
-        item nut( itype_pine_nuts );
+        item nut( itype_pine_nuts_test );
         REQUIRE( nut.is_food() );
         REQUIRE_FALSE( nut.has_flag( flag_MELTS ) );
 
