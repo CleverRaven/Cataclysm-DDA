@@ -346,7 +346,6 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "butternut_roasted",
-    "name": { "str_sp": "roasted butternuts" },
     "name": { "str": "Handful of roasted butternuts", "str_pl": "of roasted butternuts" },
     "display_type": "BY_WEIGHT",
     "copy-from": "butternut_shelled",
