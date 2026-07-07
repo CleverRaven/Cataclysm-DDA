@@ -57,7 +57,6 @@
     "quench": -3,
     "calories": 168,
     "description": "A handful of nuts from a pistachio tree, with the shells removed.",
-    "display_type": "BY_WEIGHT",
     "price": "25 cent",
     "price_postapoc": "150 cent",
     "material": [ "nut" ],
