@@ -97,7 +97,6 @@
     "quench": -3,
     "calories": 167,
     "description": "A handful of nuts from an almond tree, with the shells removed.",
-    "display_type": "BY_WEIGHT",
     "price": "25 cent",
     "price_postapoc": "150 cent",
     "material": [ "nut" ],
