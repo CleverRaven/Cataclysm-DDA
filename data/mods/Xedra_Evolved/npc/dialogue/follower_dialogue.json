@@ -1,0 +1,26 @@
+[
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [
+      {
+        "text": "Could you cast a spell for me?",
+        "topic": "TALK_FRIEND_FOLLOWER_CAST_SPELL",
+        "condition": { "npc_has_any_trait": [ "DREAMER", "EATER", "HEDGE_MAGIC", "CHANGELING_MAGIC", "XE_NETHER_SORCERY" ] }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND_FOLLOWER_CAST_SPELL" ],
+    "type": "talk_topic",
+    "dynamic_line": "Which spell did you want?",
+    "responses": [
+      {
+        "text": "Could you cast a spell for me?",
+        "topic": "TALK_FRIEND_FOLLOWER_CAST_SPELL_DREAMER_CREATE_DREAMDROSS",
+        "condition": { "and": [ { "npc_has_trait": "DREAMER" }, { "math": [ "(u_spell_level('create_dream_dross')  >= 1" ] }, { "math": [ "u_val('mana_max') >= 1000" ] } ] }
+      }
+    ]
+  }
+]
