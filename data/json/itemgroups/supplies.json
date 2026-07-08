@@ -225,6 +225,19 @@
     "items": [ { "item": "bleach", "count": [ 1, 30 ] } ]
   },
   {
+    "id": "ammonia_hydroxide_bottle_twoliter",
+    "type": "item_group",
+    "container-item": "bottle_twoliter",
+    "//": "64 oz",
+    "items": [ { "item": "ammonia_hydroxide", "count": 15 } ]
+  },
+  {
+    "id": "ammonia_hydroxide_bottle_twoliter_part",
+    "type": "item_group",
+    "container-item": "bottle_twoliter",
+    "items": [ { "item": "ammonia_hydroxide", "count": [ 1, 15 ] } ]
+  },
+  {
     "id": "magnesiumpowder_small_bag",
     "type": "item_group",
     "container-item": "box_small",
@@ -997,7 +1010,7 @@
       { "group": "borax_box_part", "prob": 10 },
       { "group": "bleach_jug_part", "prob": 10 },
       { "item": "ammonia_liquid", "prob": 20, "charges": [ 6, -1 ] },
-      { "item": "ammonia_hydroxide", "prob": 10, "charges": [ 10, -1 ] },
+      { "group": "ammonia_hydroxide_bottle_twoliter_part", "prob": 10 },
       { "prob": 10, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
       { "group": "oxy_powder_bottle_part", "prob": 10 },
       [ "ash", 5 ],
