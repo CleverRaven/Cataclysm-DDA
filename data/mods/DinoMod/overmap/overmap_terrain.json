@@ -13,7 +13,7 @@
     "id": "mass_grave_red",
     "mondensity": 2,
     "name": "mass grave",
-    "see_cost": "high",
+    "see_cost": "none",
     "sym": "R",
     "type": "overmap_terrain"
   },
