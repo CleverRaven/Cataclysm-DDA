@@ -320,7 +320,7 @@
       { "item": "holybook_biblechild_p", "prob": 2500 }
     ]
   },
-  {
+ss  {
     "id": "cookbooks",
     "type": "item_group",
     "//": "A list of all cookbooks",
