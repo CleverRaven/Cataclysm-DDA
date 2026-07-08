@@ -326,6 +326,7 @@
     "//": "A list of all cookbooks",
     "subtype": "distribution",
     "entries": [
+      { "item": "cookbook_useless", "prob": 360 },
       { "item": "baking_book", "prob": 80 },
       { "item": "winemaking_beginner", "prob": 60 },
       { "item": "dairy_book", "prob": 20 },
