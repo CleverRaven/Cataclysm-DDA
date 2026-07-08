@@ -58,7 +58,6 @@ static const item_category_id item_category_spare_parts( "spare_parts" );
 static const item_category_id item_category_tools( "tools" );
 
 static const itype_id itype_10gal_hat( "10gal_hat" );
-static const itype_id itype_ammonia_hydroxide( "ammonia_hydroxide" );
 static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_arm_warmers( "arm_warmers" );
 static const itype_id itype_armor_mc_lightplate( "armor_mc_lightplate" );
