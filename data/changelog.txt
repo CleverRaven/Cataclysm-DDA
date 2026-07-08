@@ -1152,15 +1152,6 @@ XE Proficiency CBMs
 Aftershock: Add industrial habitat building.
 Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
 [XedraWood] Add magical tattoos and a profession that starts with them
-[XedraWood] Add giant serpents, add map extra giant serpent nest
-[Xedra Evolved] Add `The Withering`, another Nether Sorcery spell
-[Xedra Evolved] Move `Weave Gossamer` to caster_condition
-[Xedra Evolved] Message for werewolves ready to learn a new moon gift
-[DinoMod] remove healthy from eggs
-Aftershock: Increase the variety of moxphores found in ruins.
-Isolation Protocol: Office levels are easier to navigate
-Adds the Lagomorph mutagen gland to extra_mut_scen
-Aftershock: Ipav patch kits and make welding goggles for sale.
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1857,14 +1848,8 @@ Batch crafts no longer vanish when an unattended step's timeout is shorter than 
 Labyrinth treasure room terminals work, and don't crash
 Worn flotation vest won't let you drown anymore
 Inventory organization crashes/freezes
-Typo fixes
 Fix fractional DoT displays
 Break monster grab if the monster was flung away
-[Xedra Evolved] Fix werewolf claw attacks
-[Xedra Evolved] fix heathaze estoc damage 
-Fix typos
-Update Nanomaterial Spawns missed from original Nanomaterial
-Fix Ruger LCR name/description/ammo capacity
 [Xedra Evolved] Lilin only attack you in the main dimension
 
 
