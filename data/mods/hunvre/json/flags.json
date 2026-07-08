@@ -3,5 +3,20 @@
     "id": "CONTRABAND",
     "type": "json_flag",
     "info": "Items with this flag are treated as contraband by the contraband scanner."
+  },
+  {
+    "id": "BELT_FRONT_BACK",
+    "type": "json_flag",
+    "info": "This item can be worn to the front or back of a belt."
+  },
+  {
+    "id": "BELT_SIDE",
+    "type": "json_flag",
+    "info": "This item can be worn to the sides a belt."
+  },
+  {
+    "id": "BELT_THIGH",
+    "type": "json_flag",
+    "info": "This item can be worn to the thigh part of a belt if it has one."
   }
 ]

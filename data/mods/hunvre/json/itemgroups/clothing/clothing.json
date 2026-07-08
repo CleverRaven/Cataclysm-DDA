@@ -1,0 +1,271 @@
+[
+  {
+    "id": "underwear_man",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "group": "underwear_bottom_male", "prob": 90 }, { "item": "null", "prob": 10 } ] },
+      { "item": "binder_top", "prob": 10 }
+    ]
+  },
+  {
+    "id": "underwear_bottom_man",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "trunks", "prob": 20 },
+      { "item": "briefs", "prob": 20 },
+      { "item": "boxer_briefs", "prob": 20 },
+      { "item": "boxers", "prob": 20 },
+      { "item": "thong", "prob": 20 }
+    ]
+  },
+  {
+    "id": "long_socks",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "long_socks" } ]
+  },
+  {
+    "id": "medium_socks",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "long_socks" }, { "item": "socks" } ]
+  },
+  {
+    "id": "short_socks",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "long_socks" }, { "item": "socks" }, { "item": "short_socks" } ]
+  },
+  {
+    "id": "shoes_and_socks",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "collection": [ { "item": "sneakers" }, { "group": "short_socks" } ] },
+      { "collection": [ { "item": "boots" }, { "group": "medium_socks" } ] },
+      { "collection": [ { "item": "high_boots" }, { "group": "long_socks" } ] }
+    ]
+  },
+  {
+    "id": "arm_underlayer",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "potential_arm_warmer" } ]
+  },
+  {
+    "id": "bra",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "sports_bra", "prob": 80 }, { "item": "bra", "prob": 20 } ]
+  },
+  {
+    "id": "underwear_bottom_woman",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bikini_panties", "prob": 20 },
+      { "item": "briefs", "prob": 20 },
+      { "item": "high_briefs", "prob": 20 },
+      { "item": "boyshorts", "prob": 20 },
+      { "item": "thong", "prob": 10 }
+    ]
+  },
+  {
+    "id": "legs_normal",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "shorts" }, { "item": "cargo_shorts" }, { "item": "pants" }, { "item": "cargo_pants" } ]
+  },
+  {
+    "id": "legs_skintight_woman",
+    "//": "Same as legs_skintight_man but with leggings",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "leggings" },
+      { "item": "thermal_pants" },
+      { "item": "compression_shorts" },
+      { "item": "compression_capris" },
+      { "item": "compression_pants" }
+    ]
+  },
+  {
+    "id": "legs_skintight_man",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "thermal_pants" },
+      { "item": "compression_shorts" },
+      { "item": "compression_capris" },
+      { "item": "compression_pants" }
+    ]
+  },
+  {
+    "id": "torso_normal",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "tank_top" }, { "item": "tshirt" }, { "item": "long_tshirt" } ]
+  },
+  {
+    "id": "torso_skintight",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "Long sleeved compression shirt" },
+      { "item": "thermal_shirt" },
+      { "collection": [ { "item": "Undershirt" }, { "group": "arm_underlayer" } ] },
+      { "collection": [ { "item": "Compression shirt" }, { "group": "arm_underlayer" } ] },
+      { "collection": [ { "item": "Sleeveless compression shirt" }, { "group": "arm_underlayer" } ] }
+    ]
+  },
+  {
+    "id": "normal_outfit_woman",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "//": "Group for separate torso and leg garments",
+        "collection": [
+          { "group": "underwear_bottom_woman" },
+          {
+            "//": "Torso",
+            "distribution": [
+              { "collection": [ { "item": "sports_bra" }, { "group": "arm_underlayer", "prob": 50 } ] },
+              { "collection": [ { "group": "bra", "prob": 50 }, { "group": "torso_skintight" } ] },
+              { "collection": [ { "group": "bra", "prob": 50 }, { "group": "torso_normal" } ] },
+              {
+                "collection": [ { "group": "bra", "prob": 50 }, { "group": "torso_skintight" }, { "group": "torso_normal" } ]
+              }
+            ]
+          },
+          {
+            "//": "Legs",
+            "distribution": [
+              { "collection": [ { "group": "legs_skintight_woman" }, { "group": "legs_normal", "prob": 100 } ] },
+              { "collection": [ { "group": "legs_skintight_woman", "prob": 100 }, { "group": "legs_normal" } ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Group for one-piece, full body, skintight garments",
+        "collection": [
+          { "item": "thermal_suit" },
+          { "group": "bra", "prob": 50 },
+          { "group": "legs_normal", "prob": 80 },
+          { "group": "torso_normal", "prob": 40 }
+        ]
+      },
+      {
+        "//": "Group for one-piece, full body, skintight and normal layer garments",
+        "collection": [ { "item": "bodyglove" } ]
+      }
+    ]
+  },
+  {
+    "id": "outfit_woman",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "outfit_normal_woman" },
+      { "group": "shoes_and_socks" },
+      { "group": "outerwear" },
+      { "group": "storage" },
+      { "group": "accessories" },
+      { "group": "armor" }
+    ]
+  },
+  {
+    "id": "outfit_man",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "outfit_normal_man" },
+      { "group": "shoes_and_socks" },
+      { "group": "outerwear" },
+      { "group": "storage" },
+      { "group": "accessories" },
+      { "group": "armor" }
+    ]
+  },
+  {
+    "id": "normal_outfit_man",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "//": "Group for separate torso and leg garments",
+        "collection": [
+          { "group": "underwear_bottom_man" },
+          {
+            "//": "Torso",
+            "distribution": [
+              { "item": "null", "prob": 50 },
+              { "group": "torso_skintight" },
+              { "group": "torso_normal_man" },
+              { "collection": [ { "group": "torso_skintight" }, { "group": "torso_normal_man" } ] }
+            ]
+          },
+          {
+            "//": "Legs",
+            "distribution": [
+              { "collection": [ { "group": "legs_skintight_man" }, { "group": "legs_normal_man", "prob": 50 } ] },
+              { "collection": [ { "group": "legs_skintight_man", "prob": 50 }, { "group": "legs_normal_man" } ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Group for one-piece, full body, skintight garments",
+        "collection": [ { "item": "thermal_suit" }, { "group": "legs_normal" }, { "group": "torso_normal", "prob": 40 } ]
+      },
+      {
+        "//": "Group for one-piece, full body, skintight and normal layer garments",
+        "collection": [ { "item": "bodyglove" } ]
+      }
+    ]
+  },
+  {
+    "id": "outerwear",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "hoodie" },
+      { "item": "poncho" },
+      { "item": "jacket" },
+      { "item": "heavy_jacket" },
+      { "item": "coat" },
+      { "item": "heavy_coat" }
+    ]
+  },
+  {
+    "id": "storage",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "safety_harness" },
+      { "item": "crossbody_bag" },
+      { "item": "backpack" },
+      { "item": "chest_bag" },
+      { "item": "day_pack" },
+      { "item": "duffel_bag" },
+      { "item": "sling_pack" },
+      { "item": "messenger_bag" },
+      { "item": "fanny_pack" }
+    ]
+  },
+  {
+    "id": "accessories",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "heavy_belt" }, { "item": "heavy_suspenders" } ]
+  },
+  {
+    "id": "safety_harness",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "safety_harness" }, { "item": "safety_harness_belt" }, { "item": "safety_harness_chest" } ]
+  }
+]
