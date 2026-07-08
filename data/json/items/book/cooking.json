@@ -724,6 +724,102 @@
     "read_fun": 1
   },
   {
+    "id": "cookbook_curry",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "name": { "str": "Curry cookbook", "str_pl": "copies of Curry cookbook" },
+    "description": "A book for making curry, the greatest of all meals.",
+    "weight": "454 g",
+    "volume": "1 L",
+    "price": "19 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "max_level": 3,
+    "intelligence": 4,
+    "time": "10 m",
+    "read_skill": "cooking",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "cookbook_curry_fifty_great",
+        "name": { "str": "50 Great Curries of India", "str_pl": "copies of 50 Great Curries of India" },
+        "description": "This best-selling cookbook contains 50 curry recipes, ranging from classics like Goa lamb vindaloo or rogan josh to less well-known ones like mango and yogurt curry.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_curry_easy_indian_curries",
+        "name": { "str": "Easy Indian Curry Recipes for Beginners", "str_pl": "copies of Easy Indian Curry Recipes for Beginners" },
+        "description": "A curry cookbook designed for first-time curry makers, including ingredient substitutions and a guide to commonly-used spices.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_curry_home_kitchens",
+        "name": { "str": "Curry: Recipes From Indian Home Kitchens", "str_pl": "copies of Curry: Recipes From Indian Home Kitchens" },
+        "description": "A curry cookbook with a variety of curries from across India.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_curry_easy_simple_guide",
+        "name": { "str":
+          "Easy Curry Cookbook: Cook Delicious Curries with this Simple Guide",
+          "str_pl": "copies of Easy Curry Cookbook: Cook Delicious Curries with this Simple Guide" },
+        "description": "A simple cookbook designed for curry beginners.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_curry_easy_indian_curries",
+        "name": { "str":
+          "The Greatest Indian Curries Ever Created!: A Cookbook of 50 Delicious Curry Recipes Direct from India",
+          "str_pl": "copies of The Greatest Indian Curries Ever Created!: A Cookbook of 50 Delicious Curry Recipes Direct from India" },
+        "description": "This cookbook contains a variety of recipes to suit any taste.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_curry_just_chicken_curries",
+        "name": { "str":
+          "No Worries, Just Chicken Curries: Over 70 incredible Indian chicken recipes",
+          "str_pl": "copies of No Worries, Just Chicken Curries: Over 70 incredible Indian chicken recipes" },
+        "description": "Not just chicken curry, this contains recipes for sauces and vegetable sides as well.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_curry_indian_restaurant_at_home",
+        "name": { "str":
+          "Indian Restaurant Curries at Home, Volume 1",
+          "str_pl": "copies of Indian Restaurant Curries at Home, Volume 1" },
+        "description": "A cookbook filled with recipes that replicate curries served in famous British restaurants.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_curry_ultimate_curry_cookbook",
+        "name": { "str":
+          "The Ultimate Curry Cookbook: Mouth-Watering and Soul Satisfying Curries",
+          "str_pl": "copies of The Ultimate Curry Cookbook: Mouth-Watering and Soul Satisfying Curries" },
+        "description": "This cookbook has 50 curry recipes from around the world, created using simple ingredients.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_curry_thai",
+        "name": { "str":
+          "Thai Curry Cookbook - Exploring Thailand’s Rich and Spicy Curry Traditions",
+          "str_pl": "copies of Thai Curry Cookbook - Exploring Thailand’s Rich and Spicy Curry Traditions" },
+        "description": "A cookbook with a variety of Thai curries, from regional specialties to street food.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_curry_thai_simple",
+        "name": { "str":
+          "The Good Old Thai Curry Cookbook: Classic Thai Recipes Featuring Red, Green, and Yellow Curries",
+          "str_pl": "copies of The Good Old Thai Curry Cookbook: Classic Thai Recipes Featuring Red, Green, and Yellow Curries" },
+        "description": "A cookbook focused on breaking down red, green, and yellow curries with step-by-step instructions.  You're not sure the cutesy names for all the curries are authentic, though.",
+        "weight": 1
+      }
+    ]
+  },
+  {
     "id": "cookbook_native",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
