@@ -414,6 +414,7 @@
     "id": "ammonia_hydroxide",
     "name": { "str_sp": "ammonia solution" },
     "material": [ "ammonia_hydroxide" ],
+    "display_type": "BY_VOLUME",
     "weight": "124 g",
     "color": "white",
     "use_action": [ "BLECH" ],
