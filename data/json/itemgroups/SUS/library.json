@@ -216,17 +216,17 @@
     "subtype": "collection",
     "entries": [
       { "item": "cookbook_useless", "count": [ 1, 10 ], "prob": 100 },
-      { "item": "mag_cooking", "count": [ 1, 10 ], "prob": 80 },
-      { "item": "cookbook", "count": [ 1, 4 ], "prob": 80 },
-      { "item": "cookbook_daintydishes", "count": [ 1, 2 ], "prob": 70 },
-      { "item": "cookbook_foodfashions", "count": [ 1, 2 ], "prob": 70 },
-      { "item": "cookbook_eatyrway", "prob": 66 },
-      { "item": "cookbook_liverforkids", "prob": 60 },
-      { "item": "cookbook_sushi", "count": [ 1, 2 ], "prob": 60 },
-      { "item": "cookbook_italian", "count": [ 1, 2 ], "prob": 60 },
-      { "item": "cookbook_mexican", "count": [ 1, 2 ], "prob": 60 },
-      { "item": "family_cookbook", "prob": 20 },
-      { "item": "scots_cookbook", "prob": 10 }
+      { "item": "mag_cooking", "count": [ 1, 10 ], "prob": 40 },
+      { "item": "cookbook", "count": [ 1, 4 ], "prob": 40 },
+      { "item": "cookbook_daintydishes", "count": [ 1, 2 ], "prob": 35 },
+      { "item": "cookbook_foodfashions", "count": [ 1, 2 ], "prob": 35 },
+      { "item": "cookbook_eatyrway", "prob": 33 },
+      { "item": "cookbook_liverforkids", "prob": 30 },
+      { "item": "cookbook_sushi", "count": [ 1, 2 ], "prob": 30 },
+      { "item": "cookbook_italian", "count": [ 1, 2 ], "prob": 30 },
+      { "item": "cookbook_mexican", "count": [ 1, 2 ], "prob": 30 },
+      { "item": "family_cookbook", "prob": 10 },
+      { "item": "scots_cookbook", "prob": 5 }
     ]
   },
   {
