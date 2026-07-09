@@ -1059,21 +1059,21 @@
       },
       { "id": "classic57", "text": "This is a copy of \"The Time Machine\" by H.G. Wells." },
       {
-        "id": "classic57",
+        "id": "classic58",
         "text": "This is a copy of several works by Edgar Allan Poe.  \"The Fall of the House of Usher\" heads the list."
       },
       {
-        "id": "classic58",
+        "id": "classic59",
         "text": "This is a copy of \"The Silmarillion\" by Tolkien.  Maybe you could bludgeon someone with it if it came to that."
       },
-      { "id": "classic59", "text": "This is a copy of \"The Turn of the Screw\" by Henry James." },
-      { "id": "classic60", "text": "This is a copy of \"The Call of the Wild\" by Jack London." },
-      { "id": "classic61", "text": "This is a copy of \"Frankenstein\" by Mary Shelley." },
+      { "id": "classic60", "text": "This is a copy of \"The Turn of the Screw\" by Henry James." },
+      { "id": "classic61", "text": "This is a copy of \"The Call of the Wild\" by Jack London." },
+      { "id": "classic62", "text": "This is a copy of \"Frankenstein\" by Mary Shelley." },
       {
-        "id": "classic62",
+        "id": "classic63",
         "text": "This is a copy of \"Tevye the Dairyman\" by Sholem Aleichem, translated into English."
       },
-      { "id": "classic62", "text": "This is a copy of \"Another Country \" by James Baldwin." }
+      { "id": "classic64", "text": "This is a copy of \"Another Country \" by James Baldwin." }
     ],
     "weight": "350 g",
     "volume": "750 ml",
