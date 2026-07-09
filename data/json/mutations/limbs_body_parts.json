@@ -1653,7 +1653,7 @@
     "opposite_part": "tentacle_lower_front_l",
     "side": "right",
     "windage_effect": "winded_tentacle",
-    "sub_parts": [ "tentacle_lower_middle_base_r", "tentacle_lower_middle_middle_r", "tentacle_lower_middle_tip_r" ],
+    "sub_parts": [ "tentacle_lower_front_base_r", "tentacle_lower_front_middle_r", "tentacle_lower_front_tip_r" ],
     "similar_bodypart": "tentacle_default_r"
   },
   {
