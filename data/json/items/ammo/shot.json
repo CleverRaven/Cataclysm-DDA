@@ -259,7 +259,6 @@
     "damage": { "damage_type": "bullet", "amount": 39 },
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ]
   },
-
   {
     "id": "shot_scrap",
     "copy-from": "shot_00",
