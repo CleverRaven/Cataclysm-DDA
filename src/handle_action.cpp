@@ -1814,6 +1814,10 @@ static void fire()
 
     const item_location weapon = you.get_wielded_item();
     // try reach weapon
+    if( !you.used_weapon() && !weapon->is_gun() ) {
+        add_msg( m_info, _( "You can't use reach attacks while forcing yourself to fight unarmed." ) );
+        return;
+    }
     if( weapon && !weapon->is_gun() && weapon->current_reach_range( you ).first > 1 ) {
         reach_attack( you );
         return;
