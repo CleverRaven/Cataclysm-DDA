@@ -702,15 +702,35 @@
           "tentacle_lower_middle_r",
           "tentacle_lower_rear_r"
         ],
-        "coverage": 55,
+        "coverage": 100,
+        "encumbrance": 7,
+        "specifically_covers": [
+          "tentacle_lower_front_base_l",
+          "tentacle_lower_middle_base_l",
+          "tentacle_lower_rear_base_l",
+          "tentacle_lower_middle_base_r",
+          "tentacle_lower_middle_base_r",
+          "tentacle_lower_rear_base_r"
+        ]
+      },
+      {
+        "covers": [
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ],
+        "coverage": 30,
         "encumbrance": 4,
         "specifically_covers": [
-          "tentacle_draped_lower_front_l",
-          "tentacle_draped_lower_middle_l",
-          "tentacle_draped_lower_rear_l",
-          "tentacle_draped_lower_front_r",
-          "tentacle_draped_lower_middle_r",
-          "tentacle_draped_lower_rear_r"
+          "tentacle_lower_front_middle_l",
+          "tentacle_lower_middle_middle_l",
+          "tentacle_lower_rear_middle_l",
+          "tentacle_lower_middle_middle_r",
+          "tentacle_lower_middle_middle_r",
+          "tentacle_lower_rear_middle_r"
         ]
       },
       { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 35, "encumbrance": 4 },
