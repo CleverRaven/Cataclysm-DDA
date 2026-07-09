@@ -1169,7 +1169,7 @@
       [ "broom", 40 ],
       [ "mop", 25 ],
       [ "mop_folded", 15 ],
-      { "item": "ammonia_hydroxide", "prob": 24, "charges": [ 1, -1 ] },
+      { "group": "ammonia_hydroxide_bottle_twoliter_part", "prob": 24 },
       { "item": "chem_washing_soda", "prob": 5, "count": [ 1, -1 ] },
       [ "chem_hydrogen_peroxide", 20 ],
       [ "boots_rubber", 20 ],

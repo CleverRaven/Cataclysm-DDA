@@ -215,17 +215,18 @@
     "//2": "This group is for a set of cooking manuals and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "mag_cooking", "count": [ 1, 10 ], "prob": 80 },
-      { "item": "cookbook", "count": [ 1, 4 ], "prob": 80 },
-      { "item": "cookbook_daintydishes", "count": [ 1, 2 ], "prob": 70 },
-      { "item": "cookbook_foodfashions", "count": [ 1, 2 ], "prob": 70 },
-      { "item": "cookbook_eatyrway", "prob": 66 },
-      { "item": "cookbook_liverforkids", "prob": 60 },
-      { "item": "cookbook_sushi", "count": [ 1, 2 ], "prob": 60 },
-      { "item": "cookbook_italian", "count": [ 1, 2 ], "prob": 60 },
-      { "item": "cookbook_mexican", "count": [ 1, 2 ], "prob": 60 },
-      { "item": "family_cookbook", "prob": 20 },
-      { "item": "scots_cookbook", "prob": 10 }
+      { "item": "cookbook_useless", "count": [ 1, 10 ], "prob": 100 },
+      { "item": "mag_cooking", "count": [ 1, 10 ], "prob": 40 },
+      { "item": "cookbook", "count": [ 1, 4 ], "prob": 40 },
+      { "item": "cookbook_daintydishes", "count": [ 1, 2 ], "prob": 35 },
+      { "item": "cookbook_foodfashions", "count": [ 1, 2 ], "prob": 35 },
+      { "item": "cookbook_eatyrway", "prob": 33 },
+      { "item": "cookbook_liverforkids", "prob": 30 },
+      { "item": "cookbook_sushi", "count": [ 1, 2 ], "prob": 30 },
+      { "item": "cookbook_italian", "count": [ 1, 2 ], "prob": 30 },
+      { "item": "cookbook_mexican", "count": [ 1, 2 ], "prob": 30 },
+      { "item": "family_cookbook", "prob": 10 },
+      { "item": "scots_cookbook", "prob": 5 }
     ]
   },
   {
@@ -468,7 +469,7 @@
       { "item": "book_anthology_sst", "prob": 2 },
       { "item": "book_anthology_bk", "prob": 2 },
       { "item": "book_anthology_cw", "prob": 2 },
-      { "item": "novel_pulp", "prob": 1 },
+      { "item": "novel_pulp", "prob": 20 },
       { "item": "novel_crime_midnight", "prob": 1 },
       { "item": "novel_crime_murdergrape", "prob": 1 }
     ]
@@ -480,7 +481,7 @@
     "//2": "This group is for a single paperback book of the western genre.",
     "subtype": "distribution",
     "entries": [
-      { "item": "novel_western", "prob": 1 },
+      { "item": "novel_western", "prob": 20 },
       { "item": "book_fict_soft_west_atwixt", "prob": 1 },
       { "item": "book_fict_soft_west_bart", "prob": 1 },
       { "item": "book_fict_soft_west_beans", "prob": 1 },
@@ -498,7 +499,7 @@
     "subtype": "distribution",
     "//3": "satire_cats and pulp_ddive are both dual genre scifi",
     "entries": [
-      { "item": "novel_scifi", "prob": 4 },
+      { "item": "novel_scifi", "prob": 30 },
       { "item": "book_fict_soft_scifi_brave", "prob": 1 },
       { "item": "book_fict_soft_scifi_f451", "prob": 1 },
       { "item": "book_fict_soft_scifi_roadp", "prob": 1 },
@@ -520,7 +521,7 @@
     "//2": "This returns a single paperback fictional sports book.",
     "subtype": "distribution",
     "entries": [
-      { "item": "novel_sports", "prob": 1 },
+      { "item": "novel_sports", "prob": 30 },
       { "item": "book_fict_soft_sports_bunt", "prob": 1 },
       { "item": "book_fict_soft_sports_tdsp", "prob": 1 },
       { "item": "book_fict_soft_sports_envy", "prob": 1 }
@@ -533,7 +534,7 @@
     "//2": "This returns a single paperback swashbuckling book.",
     "subtype": "distribution",
     "entries": [
-      { "item": "novel_swash", "prob": 1 },
+      { "item": "novel_swash", "prob": 30 },
       { "item": "book_fict_soft_swash_blkfreight", "prob": 1 },
       { "item": "book_fict_soft_swash_searovers", "prob": 1 },
       { "item": "book_fict_soft_swash_buccaneer", "prob": 1 }
@@ -546,7 +547,7 @@
     "//2": "This group is for a single paperback book of the romance genre.",
     "subtype": "distribution",
     "entries": [
-      { "item": "novel_romance", "prob": 1 },
+      { "item": "novel_romance", "prob": 30 },
       { "item": "paperback_romance_circuses", "prob": 1 },
       { "item": "paperback_romance_cloven", "prob": 1 },
       { "item": "paperback_romance_conq", "prob": 1 },
@@ -575,7 +576,7 @@
       { "item": "book_fict_soft_ya_rwya", "prob": 1 },
       { "item": "book_fict_soft_ya_sboy", "prob": 1 },
       { "item": "book_fict_soft_ya_sumv", "prob": 1 },
-      { "item": "novel_coa", "prob": 1 }
+      { "item": "novel_coa", "prob": 30 }
     ]
   },
   {
@@ -585,7 +586,7 @@
     "//2": "returns a single paperback satire novel",
     "subtype": "distribution",
     "entries": [
-      { "item": "novel_satire", "prob": 2 },
+      { "item": "novel_satire", "prob": 30 },
       { "item": "book_fict_soft_satire_hgod", "prob": 1 },
       { "item": "book_fict_soft_satire_mandm", "prob": 1 },
       { "item": "book_fict_soft_satire_catch", "prob": 1 },
@@ -600,7 +601,7 @@
     "//2": "returns a single paperback spy novel",
     "subtype": "distribution",
     "entries": [
-      { "item": "novel_spy", "prob": 2 },
+      { "item": "novel_spy", "prob": 10 },
       { "item": "novel_spy_comefly", "prob": 1 },
       { "item": "novel_spy_rocketsci", "prob": 1 }
     ]

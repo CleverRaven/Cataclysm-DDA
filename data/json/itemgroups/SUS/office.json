@@ -104,7 +104,7 @@
     "subtype": "collection",
     "entries": [
       { "group": "bleach_jug_part", "prob": 90 },
-      { "item": "ammonia_hydroxide", "prob": 75, "charges": [ 20, -1 ] },
+      { "group": "ammonia_hydroxide_bottle_twoliter_part", "prob": 75 },
       { "item": "broom", "prob": 95 },
       { "item": "mop", "prob": 60 },
       { "item": "mop_folded", "prob": 35 },

@@ -171,7 +171,22 @@
     "rating": "mixed",
     "max_duration": "30 m",
     "base_mods": { "per_mod": [ 6 ], "dex_mod": [ -2 ], "speed_mod": [ -5 ] },
+    "flags": [ "HUNGER_DISRUPTION" ],
     "blood_analysis_description": "Cross-dimensional narcotic, unexpected physics encountered"
+  },
+  {
+    "type": "effect_type",
+    "id": "elf-addled",
+    "//": "Should make the player have better perception with a worse dex but should be offset if taken with consumables that grant altered_physics.",
+    "name": [ "ælfadl" ],
+    "desc": [ "The world was much more beautiful when you were closer to the Underhill." ],
+    "apply_message": "The world becomes a duller place.  Do you even care if you live or die if it is in this place?",
+    "remove_message": "The colors brighten and your vision sharpens.",
+    "rating": "bad",
+    "max_duration": "24 hours",
+    "base_mods": { "per_mod": [ -1 ], "speed_mod": [ -5 ] },
+    "flags": [ "HUNGER_DISRUPTION" ],
+    "blood_analysis_description": "Anemia of the soul."
   },
   {
     "type": "effect_type",

@@ -757,36 +757,6 @@
     "extend": { "armor": { "psi_telepathic_damage": 120 } }
   },
   {
-    "id": "mon_yrax_delta",
-    "copy-from": "mon_yrax_delta",
-    "type": "MONSTER",
-    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
-  },
-  {
-    "id": "mon_yrax_trifacet",
-    "copy-from": "mon_yrax_trifacet",
-    "type": "MONSTER",
-    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
-  },
-  {
-    "id": "mon_yrax_apeirogon",
-    "copy-from": "mon_yrax_apeirogon",
-    "type": "MONSTER",
-    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
-  },
-  {
-    "id": "mon_yrax_sphenocorona",
-    "copy-from": "mon_yrax_sphenocorona",
-    "type": "MONSTER",
-    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
-  },
-  {
-    "id": "mon_yrax_triakis",
-    "copy-from": "mon_yrax_triakis",
-    "type": "MONSTER",
-    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
-  },
-  {
     "id": "mon_cow",
     "copy-from": "mon_cow",
     "type": "MONSTER",
