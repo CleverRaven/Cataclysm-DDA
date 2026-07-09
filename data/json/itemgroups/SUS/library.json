@@ -215,6 +215,7 @@
     "//2": "This group is for a set of cooking manuals and references.",
     "subtype": "collection",
     "entries": [
+      { "item": "cookbook_useless", "count": [ 1, 10 ], "prob": 100 },
       { "item": "mag_cooking", "count": [ 1, 10 ], "prob": 80 },
       { "item": "cookbook", "count": [ 1, 4 ], "prob": 80 },
       { "item": "cookbook_daintydishes", "count": [ 1, 2 ], "prob": 70 },
