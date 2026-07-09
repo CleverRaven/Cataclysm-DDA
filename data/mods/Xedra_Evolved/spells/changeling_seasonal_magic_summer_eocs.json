@@ -71,17 +71,19 @@
     "effect": [
       {
         "math": [
-          "u_spell_low_duration = (766.28 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 144.96) + (u_skill('gramarye') * 295.21) )"
+          "_spell_low_duration = (766.28 + (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 144.96) + (n_skill('gramarye') * 295.21) )"
         ]
       },
       {
         "math": [
-          "u_spell_high_duration = ( 1694.85 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 455.08) + (u_skill('gramarye') * 1168.05) )"
+          "_spell_high_duration = ( 1694.85 + (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 455.08) + (n_skill('gramarye') * 1168.05) )"
         ]
       },
+      { "math": [ "u_summer_spell_count = n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER')" ] },
+      { "math": [ "u_gramarye_for_spells = n_skill('gramarye')" ] },
       {
         "u_add_effect": "effect_changeling_summer_protect_from_hot_weather",
-        "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+        "duration": { "math": [ "rng(_spell_low_duration, _spell_high_duration)" ] }
       }
     ]
   },
