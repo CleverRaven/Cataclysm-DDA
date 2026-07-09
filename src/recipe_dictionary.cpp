@@ -50,6 +50,7 @@
 static const flag_id json_flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
 
 static const itype_id itype_debug_item_search( "debug_item_search" );
+static const itype_id itype_paper( "paper" );
 
 static const requirement_id requirement_data_uncraft_book( "uncraft_book" );
 
@@ -806,7 +807,7 @@ void recipe_dictionary::finalize()
 
         // books that don't already have an uncrafting recipe
         if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {
-            int pages = e->volume / 12.5_ml;
+            int pages = e->volume / itype_paper->volume;
             recipe &bk = recipe_dict.uncraft[rid];
             bk.id = rid;
             bk.result_ = id;
