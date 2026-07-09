@@ -232,7 +232,7 @@
     "description": "A shotgun shell filled with magnesium pellets or shards, used mostly as a distress flare or pyrotechnics tool.  When the round is fired, high-temperature sparks and flames shoot out of the barrel.  While looking very impressive, they present more of a fire hazard than an effective tool for lighting up hostiles.",
     "ascii_picture": "shot_dragon",
     "price": "50 cent",
-    "price_postapoc": "5 cebt",
+    "price_postapoc": "5 cent",
     "proportional": { "range": 0.5 },
     "extend": { "effects": [ "INCENDIARY", "PYROTECHNIC_DISPLAY" ] }
   },
