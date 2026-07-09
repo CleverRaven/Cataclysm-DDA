@@ -241,7 +241,7 @@
     "dynamic_line": "40,000 USD and it's all yours.",
     "responses": [
       {
-        "text": "I'll take it",
+        "text": "I'll take it.",
         "topic": "TALK_DONE",
         "effect": { "u_spend_cash": 4000000, "true_eocs": "EOC_UICA_VEHICLE_BUY" }
       },
