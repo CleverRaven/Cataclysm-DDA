@@ -67,7 +67,8 @@
     "type": "item_group",
     "id": "military_papr_kit",
     "items": [ { "item": "military_papr_mask" }, { "item": "military_papr_blower_off" }, { "group": "wrapped_gasmask_filter" } ]
-  },
+  },  
+
   {
     "type": "item_group",
     "id": "molle_papr_kit",
@@ -466,5 +467,23 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [ { "item": "oxygen_tank", "charges": 24 } ]
+  },
+  {
+    "id": "gasmask_in_use",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "A gas mask worn by somebody, likely a zombie.  Its the same as gasmask_bag_used, except the gas mask is being worn, and attachments are either worn or in the bag.",
+    "ammo": 100,
+    "items": [
+      {
+        "distribution": [
+          { "item": "mask_gas", "charges": [ 0, 100 ], "contents-group": "gasmask_inserts_in_use", "prob": 60 }
+        ]
+      },
+      {"distribution": [
+      { "group": "gasmask_inserts_stowed", "container-item": "gas_mask_pouch", "prob": 55 }
+      ]
+    }
+    ]
   }
 ]

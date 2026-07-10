@@ -92,5 +92,31 @@
       { "group": "full_1st_aid", "prob": 15 },
       { "item": "geiger_off", "prob": 15, "charges": [ 0, 100 ] }
     ]
+  },
+  {
+    "id": "mod_haz_packed",
+    "//": "Full JSLIST kit, including the decontamination wipes, which are literally alcohol wipes.  The detector tape is useless for our purposes and as such has been omitted.  Meant to be used as the contents of a bag",
+    "type":"item_group",
+    "container-item": "mod_haz_bag",
+    "entries": [ 
+      { "item": "mod_haz_coat", "container-item": "wrapping_vacuumed", "prob": 100 },
+      { "item": "mod_haz_boots", "container-item": "wrapping_vacuumed", "prob": 100 },
+      { "item": "mod_haz_pants", "container-item": "wrapping_vacuumed", "prob": 100 },
+      { "item": "mod_haz_gloves", "container-item": "wrapping_vacuumed", "prob": 100 },
+      { "item": "alcohol_wipes", "count": [ 10 ] }
+    ]
+  },
+  {
+    "id": "mod_haz_used",
+    "//": "JSLIST kit with parts missing",
+    "type":"item_group",
+    "container-item": "mod_haz_bag",
+    "entries": [ 
+      { "item": "mod_haz_coat", "container-item": "wrapping_vacuumed", "prob": 20 },
+      { "item": "mod_haz_boots", "container-item": "wrapping_vacuumed", "prob": 30 },
+      { "item": "mod_haz_pants", "container-item": "wrapping_vacuumed", "prob": 20 },
+      { "item": "mod_haz_gloves", "container-item": "wrapping_vacuumed", "prob": 50 },
+      { "item": "alcohol_wipes", "count": [ 0, 10 ] }
+    ]
   }
 ]

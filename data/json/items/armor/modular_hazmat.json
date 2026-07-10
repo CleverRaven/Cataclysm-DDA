@@ -1,0 +1,211 @@
+[
+  {
+    "id": "mod_haz_coat",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "JSLIST overcoat" },
+    "description": "A large camoflage overcoat made of a nylon cotton blend with a charcoal lining, with an integrated hood that is large enough to wear over an army helmet. It is surprisingly breathable due to the semi-permeable membrane created by the charcoal.  JSLIST stands for Joint Service Light Integrated Suit Technology, and is used by all branches of the US military to protect against biological, chemical, and radiological hazards.  Wearing the trousers, overboots, and overgloves will provide protection against radiation.  The hood is being worn, activate to lower it.",
+    "weight": "1360 g",
+    "material": [ "nylon", "cottton", "charcoal" ],
+    "volume": "750 ml",
+    "price": "50 USD",
+    "price_postapoc": "10 USD",
+    "symbol": "[",
+    "looks_like": "boots",
+    "color": "dark_gray",
+    "warmth": 15,
+    "material_thickness": 2,
+    "environmental_protection": 10,
+    "flags": [ "WATERPROOF", "RAINPROOF", "OUTER", "MUNDANE", "MOD_HAZ_COAT" ],
+    "use_action": { "type": "transform", "msg": "You lower your hood", "target": "mod_haz_coat_no_hood", "menu_text": "Lower hood" },
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": {
+          "and": [
+            { "u_has_flag": "MOD_HAZ_COAT" },
+            { "u_has_flag": "MOD_HAZ_PANTS" },
+            { "u_has_flag": "MOD_HAZ_GLOVES" },
+            { "u_has_flag": "MOD_HAZ_BOOTS" }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_mod_haz", "intensity": 1 } ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.95 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.95 },
+          { "type": "charcoal", "covered_by_mat": 100, "thickness": 0.1 }
+        ],
+        "covers": [ "torso", "head", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 10 ],
+        "breathability": "AVERAGE"
+      }
+    ]
+  },
+  {
+    "id": "mod_haz_coat_no_hood",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "JSLIST overcoat (hood off)", "str_pl": "JSLIST overcoats (hoods off)" },
+    "description": "A large camoflage overcoat made of a nylon cotton blend with a charcoal lining, with an integrated hood that is large enough to wear over an army helmet. It is surprisingly breathable due to the semi-permeable membrane created by the charcoal.  JSLIST stands for Joint Service Light Integrated Suit Technology, and is used by all branches of the US military to protect against biological, chemical, and radiological hazards.  Wearing the trousers, overboots, and overgloves will provide protection against radiation. The hood is lowered, activate it to raise it back up again.",
+    "weight": "1360 g",
+    "material": [ "nylon", "cottton", "charcoal" ],
+    "volume": "750 ml",
+    "price": "50 USD",
+    "price_postapoc": "10 USD",
+    "symbol": "[",
+    "looks_like": "boots",
+    "color": "dark_gray",
+    "warmth": 15,
+    "material_thickness": 2,
+    "environmental_protection": 10,
+    "flags": [ "WATERPROOF", "RAINPROOF", "OUTER" ],
+    "use_action": { "type": "transform", "msg": "You raise your hood", "target": "mod_haz_coat", "menu_text": "Raise hood" },
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.95 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.95 },
+          { "type": "charcoal", "covered_by_mat": 100, "thickness": 0.1 }
+        ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 10 ],
+        "breathability": "AVERAGE"
+      }
+    ]
+  },
+  {
+    "id": "mod_haz_pants",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "JSLIST trousers", "str_pl": "pairs of JSLIST trousers" },
+    "description": "A pair of camoflage pants made of a nylon cotton blend with a charcoal lining, and designed to be worn over combat pants. It is surprisingly breathable due to the semi-permeable membrane created by the charcoal.  It is part of the JSLIST MOPP (Mission Oriented Protective Posture) system, and can be worn with other parts of the system to protect against radiological hazards.",
+    "weight": "1360 g",
+    "material": [ "nylon", "cottton", "charcoal" ],
+    "volume": "750 ml",
+    "price": "20 USD",
+    "price_postapoc": "10 USD",
+    "symbol": "[",
+    "looks_like": "boots",
+    "color": "dark_gray",
+    "warmth": 10,
+    "material_thickness": 2,
+    "environmental_protection": 5,
+    "flags": [ "WATERPROOF", "RAINPROOF", "OUTER", "MOD_HAZ_PANTS" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.95 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.95 },
+          { "type": "charcoal", "covered_by_mat": 100, "thickness": 0.1 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": [ 10 ],
+        "breathability": "AVERAGE"
+      }
+    ]
+  },
+  {
+    "id": "mod_haz_boots",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "JSLIST CRBN overboots (pair)", "str_pl": "pairs of JSLIST CRBN overboots" },
+    "description": "A pair of black rubber overboots, made to be worn over combat boots.  They are part of the JSLIST MOPP (Mission Oriented Protective Posture) system, and can be worn with other parts of the system to protect against radiological hazards.",
+    "weight": "980 g",
+    "volume": "750 ml",
+    "price": "20 USD",
+    "price_postapoc": "5 USD",
+    "symbol": "[",
+    "looks_like": "boots",
+    "color": "dark_gray",
+    "warmth": 10,
+    "material_thickness": 2,
+    "environmental_protection": 5,
+    "flags": [ "WATERPROOF", "RAINPROOF", "OUTER", "MOD_HAZ_BOOTS" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2 } ],
+        "encumbrance": 10,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2 } ],
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "mod_haz_overgloves",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "JSLIST NBC gloves (pair)", "str_pl": "pairs of JSLIST NBC gloves" },
+    "description": "A pair of thick black rubber overgloves, for handling and protecting against chemical hazards.  They are part of the JSLIST MOPP (Mission Oriented Protective Posture) system, and can be worn with other parts of the system to protect against radiological hazards.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": "13 USD",
+    "price_postapoc": "3 USD",
+    "material": [ "rubber" ],
+    "symbol": "[",
+    "looks_like": "gloves_rubber",
+    "color": "black",
+    "warmth": 20,
+    "material_thickness": 2,
+    "environmental_protection": 8,
+    "flags": [ "WATERPROOF", "SOFT", "RAINPROOF", "MOD_HAZ_GLOVES", "OUTER" ],
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+  },
+  {
+    "id": "mod_haz_bag",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "JSLIST Bag" },
+    "weight": "5175 g",
+    "volume": "4.5 L",
+    "price": "45 USD",
+    "price_postapoc": "20 USD",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "duffelbag",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "33 L",
+        "max_contains_weight": "40 kg",
+        "max_item_length": "40 cm",
+        "moves": 450,
+        "watertight": true
+      }
+    ],
+    "material_thickness": 1,
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_HUGE" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "volume_encumber_modifier": 0.19,
+        "coverage": 80,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
+  }
+]
