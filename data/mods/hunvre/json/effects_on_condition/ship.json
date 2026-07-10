@@ -51,5 +51,55 @@
       { "u_location_variable": { "context_val": "bed" }, "target_params": { "om_terrain": "hab_unit", "z": 0 } },
       { "u_teleport": { "context_val": "bed" }, "force": true }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_weather",
+    "recurrence": [ "12 hours", "36 hours" ],
+    "effect": [
+      { "math": [ "_next_weather_key = round(rng(0, 2))" ] },
+      {
+        "if": { "math": [ "_next_weather_key != current_weather_key" ] },
+        "then": [
+          {
+            "switch": { "context_val": "next_weather_key" },
+            "cases": [
+              {
+                "case": 0,
+                "effect": [
+                  { "math": [ "target_temperature = from_celsius(-10 + rng(-10, 10))" ] },
+                  {
+                    "u_message": "<color_blue>*ding* Thermal anomaly detected.  Emergency heatsinks deployed.  Redirecting coolant.</color>"
+                  }
+                ]
+              },
+              {
+                "case": 1,
+                "effect": [
+                  { "math": [ "target_temperature = from_celsius(10 + rng(-10, 10))" ] },
+                  { "u_message": "<color_blue>*ding* Thermal anomaly resolved.  Temperature nominal.</color>" }
+                ]
+              },
+              {
+                "case": 2,
+                "effect": [
+                  { "math": [ "target_temperature = from_celsius(30 + rng(-10, 10))" ] },
+                  {
+                    "u_message": "<color_blue>*ding* Thermal anomaly detected.  Emergency heaters engaged.  Redirecting heat vectors.</color>"
+                  }
+                ]
+              }
+            ]
+          },
+          { "math": [ "current_weather_key = _next_weather_key" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_update_weather",
+    "recurrence": "1 minutes",
+    "effect": { "math": [ "weather('temperature') = from_celsius(rng(10, 20))" ] }
   }
 ]
