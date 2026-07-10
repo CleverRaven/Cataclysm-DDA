@@ -95,7 +95,7 @@
   {
     "type": "palette",
     "id": "standard_domestic_palette",
-    "palettes": [ "standard_domestic_palette_no_items" ],
+    "palettes": [ "standard_domestic_palette_no_items", "standard_domestic_palette_books" ],
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
     "items": {
       "a": { "item": "fireplace_fill", "chance": 30, "repeat": [ 2, 5 ] },
@@ -168,7 +168,6 @@
         { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] }
       ],
-      "R": [ { "item": "homebooks", "chance": 20, "repeat": [ 1, 4 ] }, { "item": "games", "chance": 20, "repeat": [ 1, 2 ] } ],
       "S": [ { "item": "SUS_bathroom_sink", "chance": 20 }, { "item": "SUS_bathroom_medicine", "chance": 20 } ],
       "U": [
         { "item": "home_hw", "chance": 20, "repeat": [ 1, 2 ] },
@@ -208,5 +207,95 @@
       ]
     },
     "mapping": { "÷": { "item": { "item": "doormat", "chance": 55 } } }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_palette_books",
+    "//": "Standard variant distribution for books in bookcases",
+    "//2": "",
+    "parameters": {
+      "variant_palette": {
+        "type": "palette_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "standard_domestic_palette_books_fiction_only", 1500 ],
+            [ "standard_domestic_palette_books_fiction_and_nonfiction", 700 ],
+            [ "standard_domestic_palette_books_board_games", 50 ],
+            [ "standard_domestic_palette_books_cooking", 250 ],
+            [ "standard_domestic_palette_books_tailoring", 100 ],
+            [ "standard_domestic_palette_books_electronics", 50 ],
+            [ "standard_domestic_palette_books_computers", 100 ],
+            [ "standard_domestic_palette_books_eclectic", 50 ],
+            [ "standard_domestic_palette_books_judaica", 10 ],
+            [ "standard_domestic_palette_books_martial_arts", 50 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_palette_books_fiction_only",
+    "items": {
+      "R": [ { "item": "novels", "chance": 80, "repeat": [ 4, 10 ] }, { "item": "literature", "chance": 80, "repeat": [ 4, 10 ] } ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_palette_books_fiction_and_nonfiction",
+    "items": {
+      "R": [
+        { "item": "novels", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "literature", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "SUS_book", "chance": 80, "repeat": [ 4, 10 ] },
+        { "item": "SUS_book_nonf", "chance": 80, "repeat": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_palette_books_board_games",
+    "items": {
+      "R": [
+        { "item": "novels", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "literature", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "SUS_book", "chance": 80, "repeat": [ 4, 10 ] },
+        { "item": "SUS_book_nonf", "chance": 80, "repeat": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_palette_books_computers",
+    "items": {
+      "R": [
+        { "item": "novels", "chance": 80, "repeat": [ 4, 10 ] },
+        { "item": "literature", "chance": 80, "repeat": [ 4, 10 ] },
+        { "item": "SUS_book_nonf", "chance": 80, "repeat": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_palette_books_eclectic",
+    "items": {
+      "R": [
+        { "item": "novels", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "literature", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "homebooks", "chance": 80, "repeat": [ 4, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_palette_books_martial_arts",
+    "items": {
+      "R": [
+        { "item": "novels", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "literature", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "book_martial", "chance": 5 }
+      ]
+    }
   }
 ]
