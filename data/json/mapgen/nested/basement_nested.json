@@ -2781,7 +2781,8 @@
         "C": [
           { "item": "elecsto_homapl", "chance": 30, "repeat": [ 0, 3 ] },
           { "item": "elecsto_persele", "chance": 20, "repeat": [ 0, 2 ] },
-          { "item": "elecsto_diy", "chance": 60, "repeat": [ 2, 4 ] }
+          { "item": "elecsto_diy", "chance": 60, "repeat": [ 2, 4 ] },
+          { "item": "electronicbooks", "chance": 20 }
         ],
         "f": [
           { "item": "electronics", "chance": 50, "repeat": [ 1, 2 ] },
@@ -2853,7 +2854,8 @@
         "B": [
           { "item": "SUS_tailoring_tool_drawer", "chance": 60, "repeat": [ 0, 1 ] },
           { "item": "tailorbooks", "chance": 60, "repeat": [ 0, 1 ] },
-          { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
+          { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] },
+          { "item": "tailorbooks", "chance": 25 }
         ]
       }
     }

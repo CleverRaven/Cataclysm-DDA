@@ -11,7 +11,10 @@
       { "item": "textbook_tailor", "count": [ 1, 4 ], "prob": 80 },
       { "item": "tailor_portfolio", "prob": 20 },
       { "item": "tailor_japanese", "prob": 10 },
-      { "item": "scots_tailor", "prob": 10 }
+      { "item": "scots_tailor", "prob": 10 },
+      { "item": "recipe_fauxfur", "prob": 2 },
+      { "item": "dieselpunk_tailor", "prob": 2 },
+      { "item": "tailor_japanese", "prob": 2 }
     ]
   },
   {

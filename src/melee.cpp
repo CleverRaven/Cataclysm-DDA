@@ -1122,6 +1122,10 @@ void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
             // Communicate this with a different message?
         }
 
+        const int total_stamina = enchantment_cache->modify_value(
+                                      enchant_vals::mod::MELEE_STAMINA_CONSUMPTION, get_total_melee_stamina_cost() );
+        burn_energy_arms( std::min( -50, total_stamina ) );
+
         mod_moves( forced_movecost >= 0 ? -forced_movecost : -move_cost );
         return;
     }

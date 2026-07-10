@@ -876,7 +876,11 @@
       { "item": "mag_tailor", "prob": 50 },
       { "item": "manual_tailor", "prob": 30 },
       { "item": "dieselpunk_tailor", "prob": 20 },
-      { "item": "textbook_tailor", "prob": 30 }
+      { "item": "textbook_tailor", "prob": 30 },
+      { "item": "scots_tailor", "prob": 10 },
+      { "item": "recipe_fauxfur", "prob": 10 },
+      { "item": "tailor_portfolio", "prob": 2 },
+      { "item": "tailor_japanese", "prob": 5 }
     ]
   },
   {
@@ -898,6 +902,21 @@
       { "item": "101_carpentry", "prob": 30 },
       { "item": "textbook_carpentry", "prob": 20 },
       { "item": "carpentry_book", "prob": 5 }
+    ]
+  },
+  {
+    "id": "electronicbooks",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "tailor_portfolio", "prob": 30 },
+      { "item": "mag_electronics", "prob": 50 },
+      { "item": "manual_electronics", "prob": 20 },
+      { "item": "radio_book", "prob": 15 },
+      { "item": "textbook_electronics", "prob": 10 },
+      { "item": "advanced_electronics", "prob": 5 },
+      { "item": "ic_reference_electronics", "prob": 5 },
+      { "item": "repeater_mod_guide", "prob": 5 }
     ]
   },
   {
