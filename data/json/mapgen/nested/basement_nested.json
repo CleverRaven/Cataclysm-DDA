@@ -332,7 +332,9 @@
       },
       "place_items": [
         { "item": "home_hw", "x": [ 1, 3 ], "y": 4, "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "wood_workshop", "x": 1, "y": [ 1, 4 ], "chance": 70, "repeat": [ 1, 3 ] }
+        { "item": "wood_workshop", "x": 1, "y": [ 1, 4 ], "chance": 70, "repeat": [ 1, 3 ] },
+        { "item": "carpentrybooks", "x": 2, "y": 1, "prob": 20 },
+        { "item": "carpentrybooks", "x": 3, "y": 1, "prob": 20 }
       ]
     }
   },
@@ -3393,7 +3395,7 @@
         "L": "f_table"
       },
       "items": {
-        "G": [ { "item": "wood_workshop", "chance": 90, "repeat": [ 0, 3 ] } ],
+        "G": [ { "item": "wood_workshop", "chance": 90, "repeat": [ 0, 3 ] }, { "item": "carpentrybooks", "prob": 20 } ],
         "E": [ { "item": "home_hw", "chance": 90, "repeat": [ 0, 3 ] } ]
       },
       "place_vehicles": [ { "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
@@ -3433,7 +3435,7 @@
         "L": "f_table"
       },
       "items": {
-        "G": [ { "item": "wood_workshop", "chance": 90, "repeat": [ 0, 3 ] } ],
+        "G": [ { "item": "wood_workshop", "chance": 90, "repeat": [ 0, 3 ] }, { "item": "carpentrybooks", "prob": 20 } ],
         "E": [ { "item": "home_hw", "chance": 80, "repeat": [ 0, 2 ] } ]
       },
       "place_vehicles": [ { "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
@@ -3473,7 +3475,7 @@
         "L": "f_table"
       },
       "items": {
-        "G": [ { "item": "wood_workshop", "chance": 90, "repeat": [ 0, 3 ] } ],
+        "G": [ { "item": "wood_workshop", "chance": 90, "repeat": [ 0, 3 ] }, { "item": "carpentrybooks", "prob": 20 } ],
         "E": [ { "item": "home_hw", "chance": 80, "repeat": [ 0, 2 ] } ]
       },
       "place_vehicles": [ { "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
@@ -3513,7 +3515,7 @@
         "L": "f_table"
       },
       "items": {
-        "G": [ { "item": "wood_workshop", "chance": 90, "repeat": [ 0, 3 ] } ],
+        "G": [ { "item": "wood_workshop", "chance": 90, "repeat": [ 0, 3 ] }, { "item": "carpentrybooks", "prob": 20 } ],
         "E": [ { "item": "home_hw", "chance": 80, "repeat": [ 0, 2 ] } ]
       },
       "place_vehicles": [ { "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
