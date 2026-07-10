@@ -16,6 +16,7 @@
 #include "field_type.h"
 #include "translation.h"
 #include "type_id.h"
+#include "units.h"
 
 class JsonObject;
 struct const_dialogue;
