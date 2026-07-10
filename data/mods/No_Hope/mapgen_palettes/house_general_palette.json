@@ -227,6 +227,7 @@
             [ "standard_domestic_palette_books_electronics", 50 ],
             [ "standard_domestic_palette_books_computers", 100 ],
             [ "standard_domestic_palette_books_eclectic", 50 ],
+            [ "standard_domestic_palette_books_medical", 25 ],
             [ "standard_domestic_palette_books_judaica", 10 ],
             [ "standard_domestic_palette_books_martial_arts", 50 ]
           ]
@@ -267,12 +268,49 @@
   },
   {
     "type": "palette",
+    "id": "standard_domestic_palette_books_cooking",
+    "items": {
+      "R": [
+        { "item": "novels", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "literature", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "SUS_book", "chance": 80, "repeat": [ 4, 10 ] },
+        { "item": "cookbooks", "chance": 80, "repeat": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_palette_books_tailoring",
+    "items": {
+      "R": [
+        { "item": "novels", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "literature", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "SUS_book", "chance": 80, "repeat": [ 4, 10 ] },
+        { "item": "SUS_tailoring_bookcase", "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_palette_books_electronics",
+    "items": {
+      "R": [
+        { "item": "novels", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "literature", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "SUS_book", "chance": 80, "repeat": [ 4, 10 ] },
+        { "item": "SUS_electronics_bookcase", "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "palette",
     "id": "standard_domestic_palette_books_computers",
     "items": {
       "R": [
         { "item": "novels", "chance": 80, "repeat": [ 4, 10 ] },
         { "item": "literature", "chance": 80, "repeat": [ 4, 10 ] },
-        { "item": "SUS_book_nonf", "chance": 80, "repeat": [ 2, 4 ] }
+        { "item": "SUS_book_nonf", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "SUS_computers_bookcase", "chance": 100 }
       ]
     }
   },
@@ -283,7 +321,31 @@
       "R": [
         { "item": "novels", "chance": 80, "repeat": [ 2, 4 ] },
         { "item": "literature", "chance": 80, "repeat": [ 2, 4 ] },
-        { "item": "homebooks", "chance": 80, "repeat": [ 4, 10 ] }
+        { "item": "homebooks", "chance": 80, "repeat": [ 4, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_palette_books_judaica",
+    "items": {
+      "R": [
+        { "item": "novels", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "literature", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "SUS_book", "chance": 80, "repeat": [ 3, 8 ] },
+        { "item": "book_judaica", "chance": 80, "repeat": [ 3, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_palette_books_medical",
+    "items": {
+      "R": [
+        { "item": "novels", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "literature", "chance": 80, "repeat": [ 2, 4 ] },
+        { "item": "SUS_book", "chance": 80, "repeat": [ 3, 8 ] },
+        { "item": "doctors_books", "chance": 80, "repeat": [ 2, 6 ] }
       ]
     }
   },
