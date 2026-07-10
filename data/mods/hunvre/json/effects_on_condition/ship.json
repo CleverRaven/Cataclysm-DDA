@@ -4,7 +4,10 @@
     "id": "eoc_start_storyteller",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "effect": [ { "run_eocs": [ "eoc_announcements", "eoc_oneirosis" ] } ]
+    "effect": [
+      { "run_eocs": [ "eoc_announcements", "eoc_oneirosis" ] },
+      { "math": [ "target_temperature = from_celsius(rng(10, 20))" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -100,6 +103,6 @@
     "type": "effect_on_condition",
     "id": "eoc_update_weather",
     "recurrence": "1 minutes",
-    "effect": { "math": [ "weather('temperature') = from_celsius(rng(10, 20))" ] }
+    "effect": { "math": [ "weather('temperature') = target_temperature" ] }
   }
 ]
