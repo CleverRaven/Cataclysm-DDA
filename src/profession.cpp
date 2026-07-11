@@ -10,7 +10,6 @@
 
 #include "achievement.h"
 #include "addiction.h"
-#include "avatar.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
