@@ -19,7 +19,6 @@
 
 class Character;
 class JsonObject;
-class avatar;
 class item;
 template<typename T>
 class generic_factory;
