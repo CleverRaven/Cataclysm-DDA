@@ -2174,8 +2174,7 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
-    //TODO: NPCs already get profession stuff assigned at least twice elsewhere causing issues and it all wants unifying (if not here this should be made an avatar::add_traits()
-    if( !is_npc() ) {
+    {
         for( const trait_and_var &tr : prof->get_locked_traits() ) {
             if( !has_trait( tr.trait ) ) {
                 toggle_trait_deps( tr.trait );
