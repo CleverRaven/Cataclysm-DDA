@@ -964,6 +964,13 @@ void Character::initialize( bool learn_recipes )
         learn_recipe( &r );
     }
 
+    prof->learn_spells( *this );
+
+    // Also learn spells from hobbies
+    for( const profession *profession : hobbies ) {
+        profession->learn_spells( *this );
+    }
+
     // Add hobby proficiencies
     set_proficiencies_from_hobbies();
 
@@ -1057,13 +1064,6 @@ void avatar::initialize( character_type type )
     const point_rel_om &offset = scen->get_origin_offset();
     if( offset != point_rel_om::zero ) {
         world_origin = world_origin.value_or( point_abs_om() ) + offset;
-    }
-
-    prof->learn_spells( *this );
-
-    // Also learn spells from hobbies
-    for( const profession *profession : hobbies ) {
-        profession->learn_spells( *this );
     }
 
 }
