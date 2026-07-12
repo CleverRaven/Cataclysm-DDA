@@ -1002,7 +1002,7 @@
       { "u_add_effect": "effect_portal_storm_dungeon_time_tracker", "duration": "2 days" },
       { "u_message": { "global_val": "portal_storm_voice_mood", "default": "none" }, "snippet": true },
       {
-        "u_message": "Even in this place you can faintly feel the real world, somewhere in a direction you could't name, a fragment of reality in this unearthly place.  With enough effort, you could follow the trail back to the world you left behind.",
+        "u_message": "You can faintly feel the real world, somewhere in a direction you couldn't name, a fragment of reality in this unearthly place.  With enough effort, you could follow the trail back to the world you left behind.",
         "type": "info"
       },
       { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_CRAWLING_TRACKER", "time_in_future": 60 }
