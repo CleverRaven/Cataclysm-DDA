@@ -1,0 +1,147 @@
+[
+  {
+    "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_PROCESS",
+    "type": "effect_on_condition",
+    "effect": { "open_dialogue": { "topic": "TALK_MOM_SHADOW_URGE_MACHINE" } }
+  },
+  {
+    "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECT_BIOKINETIC_CRYSTAL",
+    "type": "effect_on_condition",
+    "effect": [
+      { "set_string_var": "no", "target_var": { "u_val": "activated_shadow_urge_machine" } },
+      {
+        "u_run_inv_eocs": "manual",
+        "title": "Which crystal do you enter?",
+        "search_data": [ { "flags": [ "MATRIX_CRYSTAL_BIOKINESIS" ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECT_BIOKINETIC_CRYSTAL_SELECTED",
+            "effect": [ { "npc_set_flag": "MOM_SHADOW_URGE_CHOICE" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECTED_BIOKINETIC_CRYSTAL_CONSUME",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "flags": [ "MOM_SHADOW_URGE_CHOICE" ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECTED_BIOKINETIC_CRYSTAL_CONSUME_RUN",
+            "effect": [ "npc_die", { "set_string_var": "yes", "target_var": { "u_val": "activated_shadow_urge_machine" } } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_MOM_SHADOW_URGE_MACHINE" ],
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "u_is_on_furniture": "f_biokinetic_physiology_improver",
+        "yes": "&You sit down and activate the screen, trying to ignore your awkward positioning, and within a few moments are greeted with a login prompt.\n\n\"Project SHADOW URGE.  Enter login credentials.\"",
+        "no": "&You poke at the computer, and while it does turn on and you see a login screen for a moment, it's quickly replaced with a popup that reads:\n\n\"No occupant detected.  SHADOW URGE functions unavailable.\""
+      }
+    ],
+    "responses": [
+      {
+        "text": "Input the SHADOW URGE access codes you have.",
+        "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_KNOWN_PASS",
+        "condition": {
+          "and": [ { "u_is_on_furniture": "f_biokinetic_physiology_improver" }, { "u_has_item": "lab_file_shadow_urge_password" } ]
+        }
+      },
+      {
+        "text": "Try a random username and password.",
+        "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_RANDOM_PASS",
+        "condition": {
+          "and": [
+            { "u_is_on_furniture": "f_biokinetic_physiology_improver" },
+            { "not": { "u_has_item": "lab_file_shadow_urge_password" } }
+          ]
+        }
+      },
+      {
+        "text": "Better sit down.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_is_on_furniture": "f_biokinetic_physiology_improver" } }
+      }
+    ]
+  },
+  {
+    "id": [ "COMP_MOM_SHADOW_URGE_COMPUTER_RANDOM_PASS" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You input the first combination of username and password that comes to mind, and of course it doesn't work.  Rather than trigger a lockout due to too many attempts, you decide to come back when you have some idea what to do.",
+    "responses": [ { "text": "Log Off", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": [ "COMP_MOM_SHADOW_URGE_COMPUTER_KNOWN_PASS" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You input the access codes from the SHADOW URGE document you found and are greeted with a long text string that, from your quick skim, promises dire punishments as well as termination of employment for anyone who attempts to use the SHADOW URGE device without properly-approved experiment protocol beforehand.  Fortunately, all the HR departments are now shambling around on the surface, so you skip past it.  Following the instructions on the documents, you skip through a few menus, input at least two more access codes, and eventually arrive at what can only be the main menu.",
+    "responses": [
+      { "text": "SHADOW URGE: Improve Strength.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_STRENGTH" },
+      { "text": "SHADOW URGE: Improve Agility.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_AGILITY" },
+      { "text": "SHADOW URGE: Improve Resilience.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_RESILIENCE" },
+      { "text": "SHADOW URGE: Improve Recovery.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_RECOVERY" },
+      { "text": "Do nothing and log off", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "COMP_MOM_SHADOW_URGE_COMPUTER_MAIN_MENU" ],
+    "type": "talk_topic",
+    "dynamic_line": "&Project SHADOW URGE.  Insert catalyst and select treatment.",
+    "responses": [
+      { "text": "SHADOW URGE: Improve Strength.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_STRENGTH" },
+      { "text": "SHADOW URGE: Improve Agility.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_AGILITY" },
+      { "text": "SHADOW URGE: Improve Resilience.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_RESILIENCE" },
+      { "text": "SHADOW URGE: Improve Recovery.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_RECOVERY" },
+      { "text": "Do nothing and log off", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_STRENGTH" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You select Improve Strength and after a moment, a screen pops up with the message: \"Catalyst required.  Insert BURNT NOVEMBER matrix crystal.\"",
+    "responses": [
+      {
+        "text": "Let me see…",
+        "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_STRENGTH_FUEL",
+        "effect": [
+          {
+            "run_eocs": [
+              "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECT_BIOKINETIC_CRYSTAL",
+              "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECTED_BIOKINETIC_CRYSTAL_CONSUME"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": [ "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_STRENGTH_FUEL" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "activated_shadow_urge_machine" } ],
+      "yes": "&You sit down and activate the screen, and with in a few momments are greeted with a login prompt.\n\nProject SHADOW URGE.  Enter login credentials.",
+      "no": "&Without a BURNT NOVEMBER matrix crystal, the machine stubbornly refuses to work.  After clicking through menus a few times, you eventually give up and go back to the main menu."
+    },
+    "responses": [
+      {
+        "text": "I…",
+        "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_MAIN_MENU",
+        "condition": { "compare_string": [ "yes", { "u_val": "activated_shadow_urge_machine" } ] },
+        "effect": { "u_add_trait": "STR_UP_2" }
+      },
+      {
+        "text": "Fine, fine.",
+        "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_MAIN_MENU",
+        "condition": { "compare_string": [ "no", { "u_val": "activated_shadow_urge_machine" } ] }
+      }
+    ]
+  }
+]
