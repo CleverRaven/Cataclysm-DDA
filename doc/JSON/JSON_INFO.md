@@ -1780,7 +1780,6 @@ There are seven -resist parameters: acid, bash, chip, cut, elec, fire, and bulle
     "specific_heat_liquid": 3.7,
     "specific_heat_solid": 2.15,
     "latent_heat": 260,
-    "edible": true,
     "rotting": true,
     "resist": { "bash": 1, "cut": 1, "acid": 1, "heat": 1, "bullet": 1 },
     "chip_resist": 2,
