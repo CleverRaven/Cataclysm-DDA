@@ -775,7 +775,7 @@ void avatar_action::autoattack( avatar &you, map &m )
         return;
     }
 
-    if( !you.used_weapon() && !weapon->is_gun() ) {
+    if( weapon && !you.used_weapon() && !weapon->is_gun() ) {
         add_msg( m_info, _( "You can't use reach attacks while forcing yourself to fight unarmed." ) );
         return;
     } else {
