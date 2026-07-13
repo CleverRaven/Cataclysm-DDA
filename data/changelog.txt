@@ -501,6 +501,10 @@ Expanding zombie weakpoints with vitals
 Some `a shadow?` attacked survivor camp mapgen
 A mission to negotiate trade between the Exodii and Free Merchants
 Add display type to certain food/drink products
+Add `has_wielded_with_flag` as a jmath condition, use in MoM
+Added plurality to nuts 
+Fix typos in the description of Advanced Game Design: A Systems Approach
+Overhaul the Portal Storm dungeon
 
 
 ## Interface:
@@ -1152,6 +1156,14 @@ XE Proficiency CBMs
 Aftershock: Add industrial habitat building.
 Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
 [XedraWood] Add magical tattoos and a profession that starts with them
+[MoM] Psychic Knacks also gain bonuses from wielding matrix cryrstals
+[MoM] Increase channeling time for extremely fast powers
+[Xedra Evolved] Moons tears repair updates
+[Xedra Evolved] Add `Gremlinize` Fair Folk seasonal glamour
+[Xedra Evolved] Add Follower dialogue topic to ask them to cast spells
+[MoM] Ferals can upgrade into feral psions
+Aftershock: Better power armor durability.
+[Xedra Evolved] Fix March Lord swords' requirements + looks_like
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1303,6 +1315,12 @@ Stepped many many weapon recipes
 Joint Torsion Ratchet CBM doesn't allow for perpetual motion cyborgs
 Zero cost spells remain zero cost even if encumbered
 Kelvar is now fireproof
+Update Jorts to have the same pockets as Jeans.
+Add disassembly recipes for folded cardboard boxes
+Rebalance `homebooks` itemgroups
+Leg tentacle coverage for armor
+Sewing/electronics hobby rooms have reference books
+Carpentry books in hobby woodworking rooms
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1851,6 +1869,12 @@ Inventory organization crashes/freezes
 Fix fractional DoT displays
 Break monster grab if the monster was flung away
 [Xedra Evolved] Lilin only attack you in the main dimension
+Fix grammar in the description of the Advanced Game Design textbook
+Make reading_light rechargeable
+Fix mod random encounter removal
+Forbid reach attacks when using force unarmed
+Restores Ectothermic speed bonus in hot weather
+NPCs will now get their spells from professions and hobbies during random NPC creation
 
 
 ## Performance:
@@ -2147,6 +2171,7 @@ Upgrade vendored plf_colony and plf_list to latest upstream
 Ignore root dotfiles by default in .gitignore
 Consume crafting tools per recipe step
 Abort and quarantine tileset atlas uploads interrupted by a renderer reset
+Fix book uncrafts
 
 
 ## Build:
