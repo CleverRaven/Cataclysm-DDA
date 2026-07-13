@@ -4,11 +4,6 @@
     "//": "This is a special based on the mx_mass_grave_dino so Red spawns are unique",
     "om_terrain": "mass_grave_red",
     "weight": 250,
-    "object": { "place_nested": [ { "chunks": [ [ "mass_grave_red_dino", 20 ] ], "x": 0, "y": 0 } ] }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "mass_grave_red_dino",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
