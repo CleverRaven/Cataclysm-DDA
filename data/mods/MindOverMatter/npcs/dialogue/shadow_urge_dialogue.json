@@ -83,9 +83,13 @@
       },
       {
         "math": [
-          "_success_chance = 97 + clamp( ( ( _awakenings * -10) + (u_has_proficiency('prof_concentration_basic') * 5) + (u_has_proficiency('prof_concentration_intermediate') * 10) + (u_has_proficiency('prof_concentration_master') * 20) ), 0, 97)"
+          "_calculations = clamp( ( (_awakenings * -10) + (u_has_proficiency('prof_concentration_basic') * 5) + (u_has_proficiency('prof_concentration_intermediate') * 10) + (u_has_proficiency('prof_concentration_master') * 20) ), -90, 35)"
         ]
       },
+      { "math": [ "_success_chance = 97 + _calculations" ] },
+      { "u_message": "Awakening calculation is <context_val:awakenings>.", "type": "debug" },
+      { "u_message": "Modifier calculation is <context_val:calculations>.", "type": "debug" },
+      { "u_message": "Success chance is is <context_val:success_chance>.", "type": "debug" },
       {
         "if": { "x_in_y_chance": { "x": { "math": [ "_success_chance" ] }, "y": 100 } },
         "then": [
@@ -124,9 +128,10 @@
       },
       {
         "math": [
-          "_success_chance = 97 + clamp( ( ( _awakenings * -10) + (u_has_proficiency('prof_concentration_basic') * 5) + (u_has_proficiency('prof_concentration_intermediate') * 10) + (u_has_proficiency('prof_concentration_master') * 20) ), 0, 97)"
+          "_calculations = clamp( ( (_awakenings * -10) + (u_has_proficiency('prof_concentration_basic') * 5) + (u_has_proficiency('prof_concentration_intermediate') * 10) + (u_has_proficiency('prof_concentration_master') * 20) ), -90, 35)"
         ]
       },
+      { "math": [ "_success_chance = 97 + _calculations" ] },
       {
         "if": { "x_in_y_chance": { "x": { "math": [ "_success_chance" ] }, "y": 100 } },
         "then": [
@@ -244,7 +249,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "activated_shadow_urge_machine" } ],
-      "yes": "&You sit down and activate the screen, and with in a few momments are greeted with a login prompt.\n\nProject SHADOW URGE.  Enter login credentials.",
+      "yes": "&You insert the matrix crystal and the screen opens up what looks like X-ray results, or some other type of medical diagrams.  You only get a moment to look at it before a soft humming fills your hearing and drowns out all other sounds and darkness steals across your vision.",
       "no": "&Without a BURNT NOVEMBER matrix crystal, the machine stubbornly refuses to work.  After clicking through menus a few times, you eventually give up and go back to the main menu."
     },
     "responses": [
@@ -253,7 +258,7 @@
         "topic": "TALK_DONE",
         "condition": { "compare_string": [ "yes", { "u_val": "activated_shadow_urge_machine" } ] },
         "effect": [
-          { "math": [ "_duration = 14400 + rand(7200)" ] },
+          { "math": [ "_duration = 1" ] },
           { "u_add_effect": "effect_mom_shadow_urge_process_operation", "duration": { "math": [ "_duration" ] } },
           { "u_assign_activity": "ACT_MOM_SHADOW_URGE_GAIN_STRENGTH", "duration": { "math": [ "_duration" ] } }
         ]
@@ -290,7 +295,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "activated_shadow_urge_machine" } ],
-      "yes": "&You sit down and activate the screen, and with in a few momments are greeted with a login prompt.\n\nProject SHADOW URGE.  Enter login credentials.",
+      "yes": "&You insert the matrix crystal and the screen opens up what looks like X-ray results, or some other type of medical diagrams.  You only get a moment to look at it before a soft humming fills your hearing and drowns out all other sounds and darkness steals across your vision.",
       "no": "&Without a BURNT NOVEMBER matrix crystal, the machine stubbornly refuses to work.  After clicking through menus a few times, you eventually give up and go back to the main menu."
     },
     "responses": [
