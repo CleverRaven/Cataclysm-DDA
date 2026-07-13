@@ -7,7 +7,12 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "caster_condition": { "and": [ { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } } ] },
+    "caster_condition": {
+      "and": [
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1b" } },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } }
+      ]
+    },
     "caster_condition_fail_message": "You do not have organic limbs.",
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
@@ -99,7 +104,12 @@
     "message": "You body begins twisting in unbelievable ways.",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "caster_condition": { "and": [ { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } } ] },
+    "caster_condition": {
+      "and": [
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1b" } },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } }
+      ]
+    },
     "caster_condition_fail_message": "You do not have organic limbs.",
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
@@ -196,7 +206,12 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "caster_condition": { "and": [ { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } } ] },
+    "caster_condition": {
+      "and": [
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1b" } },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } }
+      ]
+    },
     "caster_condition_fail_message": "Your skin has mostly been replaced with metal.",
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
@@ -282,7 +297,12 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "caster_condition": { "and": [ { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } } ] },
+    "caster_condition": {
+      "and": [
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1b" } },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } }
+      ]
+    },
     "caster_condition_fail_message": "You do not have organic limbs.",
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
@@ -315,7 +335,12 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "caster_condition": { "and": [ { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } } ] },
+    "caster_condition": {
+      "and": [
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1b" } },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } }
+      ]
+    },
     "caster_condition_fail_message": "You do not have organic limbs.",
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
@@ -347,7 +372,12 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "caster_condition": { "and": [ { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } } ] },
+    "caster_condition": {
+      "and": [
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1b" } },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } }
+      ]
+    },
     "caster_condition_fail_message": "You do not have organic limbs.",
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
@@ -522,6 +552,13 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
+    "caster_condition": {
+      "and": [
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1b" } },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } }
+      ]
+    },
+    "caster_condition_fail_message": "You do not have organic limbs.",
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
@@ -552,7 +589,12 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "caster_condition": { "and": [ { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } } ] },
+    "caster_condition": {
+      "and": [
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1b" } },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } }
+      ]
+    },
     "caster_condition_fail_message": "You do not have organic limbs.",
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
@@ -584,7 +626,12 @@
     "message": "The world around you slows down to a stop.",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "caster_condition": { "and": [ { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } } ] },
+    "caster_condition": {
+      "and": [
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1b" } },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } }
+      ]
+    },
     "caster_condition_fail_message": "You do not have organic limbs.",
     "spell_class": "BIOKINETIC",
     "magic_type": "mom_psionics",
