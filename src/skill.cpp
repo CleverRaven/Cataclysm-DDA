@@ -157,6 +157,10 @@ void Skill::load_skill( const JsonObject &jsobj )
         debugmsg( "skill '%s' missing 'sort_rank' field.", ident.str() );
     }
 
+    if( jsobj.has_bool( "consumes_focus" ) ) {
+        sk.consumes_focus = jsobj.get_bool( "consumes_focus" );
+    }
+
     sk._time_to_attack = time_to_attack;
     sk._companion_combat_rank_factor = jsobj.get_int( "companion_combat_rank_factor", 0 );
     sk._companion_survival_rank_factor = jsobj.get_int( "companion_survival_rank_factor", 0 );

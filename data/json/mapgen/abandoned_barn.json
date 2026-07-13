@@ -2,7 +2,6 @@
   {
     "nested_mapgen_id": "desolatebarn_1_roof",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -38,7 +37,6 @@
     "om_terrain": "desolatebarn",
     "type": "mapgen",
     "weight": 100,
-    "method": "json",
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [
@@ -86,7 +84,6 @@
     }
   },
   {
-    "method": "json",
     "nested_mapgen_id": "desolatebarn_2_roof",
     "type": "mapgen",
     "object": {
@@ -121,7 +118,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "desolatebarn",
     "type": "mapgen",
     "weight": 100,
@@ -163,7 +159,6 @@
     }
   },
   {
-    "method": "json",
     "nested_mapgen_id": "desolatebarn_3_roof",
     "type": "mapgen",
     "object": {
@@ -198,7 +193,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "desolatebarn",
     "type": "mapgen",
     "weight": 100,
@@ -258,7 +252,6 @@
     }
   },
   {
-    "method": "json",
     "nested_mapgen_id": "desolatebarn_4_roof",
     "type": "mapgen",
     "object": {
@@ -293,7 +286,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "desolatebarn",
     "type": "mapgen",
     "weight": 100,
@@ -341,7 +333,6 @@
     }
   },
   {
-    "method": "json",
     "nested_mapgen_id": "desolatebarn_5_roof",
     "//": "barn with chance of spawning antique gun",
     "type": "mapgen",
@@ -377,7 +368,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "desolatebarn",
     "//": "barn with chance of spawning antique gun",
     "type": "mapgen",
@@ -439,7 +429,6 @@
     }
   },
   {
-    "method": "json",
     "nested_mapgen_id": "desolatebarn_6_roof",
     "//": "Barn with chance of drug stash",
     "type": "mapgen",
@@ -475,7 +464,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "desolatebarn",
     "//": "Barn with chance of drug stash",
     "type": "mapgen",
@@ -526,7 +514,6 @@
     }
   },
   {
-    "method": "json",
     "nested_mapgen_id": "desolatebarn_7_roof",
     "//": "Barn with a plant growing in it",
     "type": "mapgen",
@@ -562,7 +549,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "desolatebarn",
     "//": "Barn with a plant growing in it",
     "type": "mapgen",
@@ -616,7 +602,6 @@
     }
   },
   {
-    "method": "json",
     "nested_mapgen_id": "desolatebarn_8_roof",
     "//": "barn with a small shelter inside. NOTE: TK - high chance of a survivor spawning in this map.",
     "type": "mapgen",
@@ -652,7 +637,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "desolatebarn",
     "//": "barn with a small shelter inside. NOTE: TK - high chance of a survivor spawning in this map.",
     "type": "mapgen",
@@ -705,7 +689,6 @@
     }
   },
   {
-    "method": "json",
     "nested_mapgen_id": "desolatebarn_9_roof",
     "//": "Fairly intact barn with a well",
     "type": "mapgen",
@@ -741,7 +724,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "desolatebarn",
     "//": "Fairly intact barn with a well",
     "type": "mapgen",
@@ -801,7 +783,6 @@
     }
   },
   {
-    "method": "json",
     "nested_mapgen_id": "desolatebarn_10_roof",
     "//": "Fairly intact barn with a tractor and fenced off animal areas",
     "type": "mapgen",
@@ -837,7 +818,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "desolatebarn",
     "//": "Fairly intact barn with a tractor and fenced off animal areas",
     "type": "mapgen",

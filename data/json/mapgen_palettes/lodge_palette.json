@@ -61,7 +61,7 @@
         { "item": "manuals", "chance": 30 }
       ],
       "B": { "item": "bed", "chance": 60 },
-      "d": [ { "item": "livingroom", "chance": 40 }, { "item": "office", "chance": 40 } ],
+      "d": [ { "item": "livingroom", "chance": 40 }, { "item": "SUS_office_desk", "chance": 40 } ],
       "D": [
         { "item": "SUS_dresser_mens", "chance": 50, "repeat": [ 1, 4 ] },
         { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 4 ] }

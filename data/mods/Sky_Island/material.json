@@ -1,0 +1,10 @@
+[
+  {
+    "type": "material",
+    "id": "alien_resin_windblock",
+    "//": "Identical to regular resins but also fully blocks winds.",
+    "name": "Resin",
+    "copy-from": "alien_resin",
+    "wind_resist": 100
+  }
+]

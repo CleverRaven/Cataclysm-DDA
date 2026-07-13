@@ -356,7 +356,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "mission_flag_Uyen_Mission3", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "3" ] }
+        { "math": [ "u_counter_refugee_center_refugee_happiness += 3" ] }
       ]
     }
   }

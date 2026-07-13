@@ -31,6 +31,26 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_test_base",
+    "name": { "str_sp": "test base" },
+    "description": "base",
+    "default_faction": "player",
+    "material": [ "slime" ],
+    "symbol": "O",
+    "volume": "1 ml",
+    "weight": "1 g",
+    "hp": 1,
+    "speed": 1,
+    "special_attacks": [ { "id": "TEST_COOLDOWN" } ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_test_overwrite",
+    "copy-from": "mon_test_base",
+    "special_attacks": [ { "id": "TEST_COOLDOWN", "cooldown": 7 } ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_test_shearable",
     "copy-from": "mon_test_non_shearable",
     "name": { "str_sp": "shearable monster" },

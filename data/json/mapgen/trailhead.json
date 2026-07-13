@@ -41,7 +41,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "trailhead" ],
     "weight": 5,
     "object": {
@@ -81,7 +80,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "trailhead" ],
     "weight": 5,
     "object": {
@@ -121,7 +119,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "trailhead_outhouse_z0" ],
     "object": {
       "rows": [
@@ -157,7 +154,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "trailhead_outhouse_z1",
     "object": {
       "rows": [
@@ -192,7 +188,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "trailhead_shack_z0" ],
     "object": {
       "rows": [
@@ -234,7 +229,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "trailhead_shack_z1",
     "object": {
       "rows": [
@@ -269,7 +263,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "trailhead_sub_graffiti_snippet",
     "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "trailhead_graffiti", "x": 0, "y": 0 } ] }
   },

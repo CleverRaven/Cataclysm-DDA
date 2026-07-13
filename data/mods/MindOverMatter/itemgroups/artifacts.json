@@ -1,0 +1,256 @@
+[
+  {
+    "type": "item_group",
+    "id": "dist_matrix_crystal_artifacts",
+    "subtype": "distribution",
+    "entries": [ { "group": "biokinetic_crystal_artifact_procgen", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "biokinetic_crystal_awakening_artifact_procgen",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "group": "biokinetic_crystal_awakening_artifact_item",
+        "artifact": {
+          "procgen_id": "biokinetic_matrix_crystal_procgen",
+          "rules": { "power_level": 1250, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
+        "prob": 100
+      },
+      {
+        "group": "biokinetic_crystal_awakening_artifact_item",
+        "artifact": {
+          "procgen_id": "biokinetic_matrix_crystal_procgen",
+          "rules": { "power_level": 2500, "max_attributes": 6, "max_negative_power": -1500, "resonant": true }
+        },
+        "prob": 10
+      },
+      {
+        "group": "biokinetic_crystal_awakening_artifact_item",
+        "artifact": {
+          "procgen_id": "biokinetic_matrix_crystal_procgen",
+          "rules": { "power_level": 5000, "max_attributes": 8, "max_negative_power": -2500, "resonant": true }
+        },
+        "prob": 1
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "biokinetic_crystal_artifact_procgen",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "group": "biokinetic_crystal_artifact_item",
+        "artifact": {
+          "procgen_id": "biokinetic_crystal_procgen",
+          "rules": { "power_level": 1250, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
+        "prob": 100
+      },
+      {
+        "group": "biokinetic_crystal_artifact_item",
+        "artifact": {
+          "procgen_id": "biokinetic_crystal_procgen",
+          "rules": { "power_level": 2500, "max_attributes": 6, "max_negative_power": -1500, "resonant": true }
+        },
+        "prob": 10
+      },
+      {
+        "group": "biokinetic_crystal_artifact_item",
+        "artifact": {
+          "procgen_id": "biokinetic_crystal_procgen",
+          "rules": { "power_level": 5000, "max_attributes": 8, "max_negative_power": -2500, "resonant": true }
+        },
+        "prob": 1
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "clairsentient_crystal_awakening_artifact_procgen",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "group": "clairsentient_crystal_awakening_artifact_item",
+        "artifact": {
+          "procgen_id": "clairsentient_matrix_crystal_procgen",
+          "rules": { "power_level": 1250, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
+        "prob": 100
+      },
+      {
+        "group": "clairsentient_crystal_awakening_artifact_item",
+        "artifact": {
+          "procgen_id": "clairsentient_matrix_crystal_procgen",
+          "rules": { "power_level": 2500, "max_attributes": 6, "max_negative_power": -1500, "resonant": true }
+        },
+        "prob": 10
+      },
+      {
+        "group": "clairsentient_crystal_awakening_artifact_item",
+        "artifact": {
+          "procgen_id": "clairsentient_matrix_crystal_procgen",
+          "rules": { "power_level": 5000, "max_attributes": 8, "max_negative_power": -2500, "resonant": true }
+        },
+        "prob": 1
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "clairsentient_crystal_artifact_procgen",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "group": "clairsentient_crystal_artifact_item",
+        "artifact": {
+          "procgen_id": "clairsentient_crystal_procgen",
+          "rules": { "power_level": 1250, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
+        "prob": 100
+      },
+      {
+        "group": "clairsentient_crystal_artifact_item",
+        "artifact": {
+          "procgen_id": "clairsentient_crystal_procgen",
+          "rules": { "power_level": 2500, "max_attributes": 6, "max_negative_power": -1500, "resonant": true }
+        },
+        "prob": 10
+      },
+      {
+        "group": "clairsentient_crystal_artifact_item",
+        "artifact": {
+          "procgen_id": "clairsentient_crystal_procgen",
+          "rules": { "power_level": 5000, "max_attributes": 8, "max_negative_power": -2500, "resonant": true }
+        },
+        "prob": 1
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "electrokinetic_crystal_awakening_artifact_procgen",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "group": "electrokinetic_crystal_awakening_artifact_item",
+        "artifact": {
+          "procgen_id": "electrokinetic_matrix_crystal_procgen",
+          "rules": { "power_level": 1250, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
+        "prob": 100
+      },
+      {
+        "group": "electrokinetic_crystal_awakening_artifact_item",
+        "artifact": {
+          "procgen_id": "electrokinetic_matrix_crystal_procgen",
+          "rules": { "power_level": 2500, "max_attributes": 6, "max_negative_power": -1500, "resonant": true }
+        },
+        "prob": 10
+      },
+      {
+        "group": "electrokinetic_crystal_awakening_artifact_item",
+        "artifact": {
+          "procgen_id": "electrokinetic_matrix_crystal_procgen",
+          "rules": { "power_level": 5000, "max_attributes": 8, "max_negative_power": -2500, "resonant": true }
+        },
+        "prob": 1
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "electrokinetic_crystal_artifact_procgen",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "group": "electrokinetic_crystal_artifact_item",
+        "artifact": {
+          "procgen_id": "electrokinetic_crystal_procgen",
+          "rules": { "power_level": 1250, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
+        "prob": 100
+      },
+      {
+        "group": "electrokinetic_crystal_artifact_item",
+        "artifact": {
+          "procgen_id": "electrokinetic_crystal_procgen",
+          "rules": { "power_level": 2500, "max_attributes": 6, "max_negative_power": -1500, "resonant": true }
+        },
+        "prob": 10
+      },
+      {
+        "group": "electrokinetic_crystal_artifact_item",
+        "artifact": {
+          "procgen_id": "electrokinetic_crystal_procgen",
+          "rules": { "power_level": 5000, "max_attributes": 8, "max_negative_power": -2500, "resonant": true }
+        },
+        "prob": 1
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "photokinetic_crystal_awakening_artifact_procgen",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "group": "photokinetic_crystal_awakening_artifact_item",
+        "artifact": {
+          "procgen_id": "photokinetic_matrix_crystal_procgen",
+          "rules": { "power_level": 1250, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
+        "prob": 100
+      },
+      {
+        "group": "photokinetic_crystal_awakening_artifact_item",
+        "artifact": {
+          "procgen_id": "photokinetic_matrix_crystal_procgen",
+          "rules": { "power_level": 2500, "max_attributes": 6, "max_negative_power": -1500, "resonant": true }
+        },
+        "prob": 10
+      },
+      {
+        "group": "photokinetic_crystal_awakening_artifact_item",
+        "artifact": {
+          "procgen_id": "photokinetic_matrix_crystal_procgen",
+          "rules": { "power_level": 5000, "max_attributes": 8, "max_negative_power": -2500, "resonant": true }
+        },
+        "prob": 1
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "photokinetic_crystal_artifact_procgen",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "group": "photokinetic_crystal_artifact_item",
+        "artifact": {
+          "procgen_id": "photokinetic_crystal_procgen",
+          "rules": { "power_level": 1250, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
+        "prob": 100
+      },
+      {
+        "group": "photokinetic_crystal_artifact_item",
+        "artifact": {
+          "procgen_id": "photokinetic_crystal_procgen",
+          "rules": { "power_level": 2500, "max_attributes": 6, "max_negative_power": -1500, "resonant": true }
+        },
+        "prob": 10
+      },
+      {
+        "group": "photokinetic_crystal_artifact_item",
+        "artifact": {
+          "procgen_id": "photokinetic_crystal_procgen",
+          "rules": { "power_level": 5000, "max_attributes": 8, "max_negative_power": -2500, "resonant": true }
+        },
+        "prob": 1
+      }
+    ]
+  }
+]

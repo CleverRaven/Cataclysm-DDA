@@ -1,0 +1,9 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BALTHAZAR_CHECK_PROGRESS",
+    "//": "override, so the game would not track balthazar location progress",
+    "global": true,
+    "effect": [  ]
+  }
+]

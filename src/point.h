@@ -103,6 +103,13 @@ struct point {
      * NOLINTNEXTLINE(cata-use-named-point-constants) */
     point rotate( int turns, const point &dim = { 1, 1 } ) const;
 
+    /**
+     * Rotate point clockwise @param turns times, 90 degrees per turn,
+     * around the center of a 24x24 rectangle (i.e. a map).
+     * Equivalent to hypothetical rotate(turns,{11.5,11.5})
+     */
+    point rotate_in_map( int turns ) const;
+
     float distance( const point &rhs ) const;
     int distance_manhattan( const point &rhs ) const;
 
@@ -266,10 +273,16 @@ struct tripoint {
     }
 
     /**
-     * Rotates just the x,y component of the tripoint. See point::rotate()
+     * Rotates just the x,y component of the tripoint. @ref point::rotate()
      * NOLINTNEXTLINE(cata-use-named-point-constants) */
     tripoint rotate( int turns, const point &dim = { 1, 1 } ) const {
         return tripoint( xy().rotate( turns, dim ), z );
+    }
+
+    /**
+     * Rotates just the x,y component of the tripoint. @ref point::rotate_in_map() */
+    tripoint rotate_in_map( int turns ) const {
+        return tripoint( xy().rotate_in_map( turns ), z );
     }
 
     std::string to_string() const;
@@ -438,6 +451,10 @@ inline constexpr const std::array<point, 4> offsets = {{
 inline constexpr const std::array<point, 4> four_cardinal_directions{{
         point::west, point::east, point::north, point::south
     }};
+
+inline constexpr std::array<point, 4> four_ordinal_directions{ {
+        point::north_east, point::south_east, point::south_west, point::north_west
+    } };
 
 inline constexpr const std::array<point, 5> five_cardinal_directions{{
         point::west, point::east, point::north, point::south, point::zero

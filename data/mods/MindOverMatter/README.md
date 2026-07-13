@@ -27,7 +27,7 @@ DISADVANTAGES
 
 1) Powers use Stamina as their power source. This is also a disadvantage because every power use reduces your ability to run away.
 2) Powers have a caloric cost as well as a Stamina cost.  While eldritch magic draws on mystical components and mana, psions must rely on the reserves of their own body. This also means that long-term use during a day will deplete your weariness meter.
-3) All powers require concentration and thus are affected by Focus. It's very difficult to concentrate enough to lift a pursuing boomer if you've just fought off a grappler in close range and there's blood all around you.
+3) All powers require concentration and thus are affected by your condition: Pain, being distracted, having higher levels of Nether Attunement (q.v.), repeatly using powers in close succession, and various other factors can influence your success chance. It's very difficult to concentrate enough to lift a pursuing boomer if you've just fought off a grappler in close range and there's blood all around you.
 
 NETHER ATTUNEMENT
 

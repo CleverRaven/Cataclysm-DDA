@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "office_skyscraper_1", "office_skyscraper_2" ], [ "office_skyscraper_3", "office_skyscraper_4" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_soil",
       "rows": [
@@ -83,7 +82,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "office_skyscraper_5", "office_skyscraper_6" ], [ "office_skyscraper_7", "office_skyscraper_8" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -158,7 +156,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "office_skyscraper_apartments_111", "office_skyscraper_apartments_011" ],
       [ "office_skyscraper_apartments_101", "office_skyscraper_apartments_001" ]
@@ -226,7 +223,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "office_skyscraper_apartments_112", "office_skyscraper_apartments_012" ],
       [ "office_skyscraper_apartments_102", "office_skyscraper_apartments_002" ]
@@ -295,7 +291,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "office_skyscraper_9", "office_skyscraper_10" ], [ "office_skyscraper_11", "office_skyscraper_12" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -532,7 +527,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "office_skyscraper_9b", "office_skyscraper_10b" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -640,7 +634,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "office_skyscraper_13", "office_skyscraper_14" ], [ "office_skyscraper_15", "office_skyscraper_16" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -750,7 +743,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "office_skyscraper_17", "office_skyscraper_18" ], [ "office_skyscraper_19", "office_skyscraper_20" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

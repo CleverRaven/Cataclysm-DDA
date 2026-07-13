@@ -68,5 +68,59 @@
       { "u_message": "snippet_drained_by_lilit", "snippet": true, "type": "bad" },
       { "math": [ "u_lilin_ruach_drained_recently = 1" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_BROWNIE_IN_YOUR_FACTION_BASE",
+    "recurrence": [ "5 days", "12 days" ],
+    "condition": {
+      "and": [
+        "u_is_avatar",
+        { "u_at_om_location": "FACTION_CAMP_ANY" },
+        { "x_in_y_chance": { "x": 1, "y": 25 } },
+        { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_trait": "FAE_ENMITY" } },
+        { "not": { "compare_string": [ "yes", { "u_val": "xe_brownie_in_faction_event_has_run" } ] } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": "u_is_avatar" }, { "u_has_trait": "FAE_ENMITY" } ] },
+    "effect": [
+      {
+        "u_location_variable": { "context_val": "brownie_spawn_location" },
+        "passable_only": true,
+        "min_radius": 5,
+        "max_radius": 10,
+        "true_eocs": [
+          {
+            "id": "EOC_XE_BROWNIE_IN_YOUR_FACTION_BASE_SUCCESS",
+            "condition": { "not": { "map_is_outside": { "context_val": "brownie_spawn_location" } } },
+            "effect": [
+              {
+                "u_spawn_monster": "mon_xe_strange_event_brownie",
+                "real_count": 1,
+                "indoor_only": true,
+                "target_var": { "context_val": "brownie_spawn_location" },
+                "lifespan": 150,
+                "spawn_message": "A wizened, hairy creature suddenly appears out of thin air!"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_STRANGE_EVENT_BROWNIE_CONVERSATION",
+    "condition": { "u_has_any_trait": [ "UNKNOWING_CHANGELING_NOBLE", "UNKNOWING_CHANGELING_COMMONER_BROWNIE" ] },
+    "effect": [ "open_dialogue" ],
+    "false_effect": [
+      {
+        "u_message": "The strange creature sees you and starts before spinning around and vanishing into thin air.",
+        "type": "mixed"
+      },
+      { "u_add_trait": "XE_FACTION_CAMP_BROWNIE_BLESSING" },
+      { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } }
+    ]
   }
 ]

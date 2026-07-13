@@ -108,10 +108,67 @@
     "base_casting_time": 500
   },
   {
+    "id": "changeling_autumn_damage_plants_spell",
+    "type": "SPELL",
+    "name": "Withering Glare",
+    "description": "With a forceful gaze projecting the energies of the dying of the year, you can wither plantlife in moments.  This also applies to mobile or even sapient plants.  The glamour <color_yellow>does less damage</color> in spring.",
+    "message": "",
+    "flags": [ "NO_HANDS", "NO_LEGS", "SILENT", "NO_PROJECTILE" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 3,
+    "effect": "ter_transform",
+    "effect_str": "dead_vegetation",
+    "//": "Turns out there's already a ter_transform to kill plants so we can just borrow that",
+    "extra_effects": [ { "id": "changeling_autumn_damage_mobile_plants_spell" } ],
+    "min_range": 15,
+    "max_range": 15,
+    "base_energy_cost": {
+      "math": [ "max( ( 200 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 3) - (u_skill('deduction') * 7)), 100)" ]
+    },
+    "base_casting_time": 25
+  },
+  {
+    "id": "changeling_autumn_damage_mobile_plants_spell",
+    "type": "SPELL",
+    "name": { "str": "Withering Glare Damage Plants", "//~": "NO_I18N" },
+    "description": { "str": "The part of Withering Glare that damages mobile plants.  You shouldn't see it.", "//~": "NO_I18N" },
+    "message": "",
+    "flags": [ "NO_HANDS", "NO_LEGS", "SILENT", "NO_PROJECTILE" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 3,
+    "effect": "attack",
+    "damage_type": "biological",
+    "min_damage": {
+      "math": [
+        "( ( 15 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 1.6) + (u_skill('deduction') * 3) ) ) * (global_what_is_the_season == 1 ? 0.6 : 1)"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( ( 40 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 3.2) + (u_skill('deduction') * 7.5) ) ) * (global_what_is_the_season == 1 ? 0.4 : 1)"
+      ]
+    },
+    "min_range": 15,
+    "max_range": 15,
+    "targeted_monster_species": [ "ARVORE", "PLANT" ]
+  },
+  {
     "id": "changeling_autumn_call_mists_spell",
     "type": "SPELL",
     "name": "Autumn Mists",
-    "description": "You can draw on the mystery of misty autumn mornings and condense a thick fog out of the air, reducing the vision of everyone and hiding your movements.  Reweave the glamour to dispel it. The glamour is <color_yellow>quicker to expire</color> in summer.",
+    "description": "You can draw on the mystery of misty autumn mornings and condense a thick fog out of the air, reducing the vision of everyone and hiding your movements.  Reweave the glamour to dispel it. The glamour is <color_yellow>quicker to expire</color> in spring.",
     "message": "",
     "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_autumn",
@@ -126,12 +183,12 @@
     "effect_str": "EOC_CHANGELING_AUTUMN_CHANGE_WEATHER_DENSE_FOG",
     "min_duration": {
       "math": [
-        "( ( 45812 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 7952) + (u_skill('deduction') * 15371) ) ) * (global_what_is_the_season == 2 ? 0.6 : 1)"
+        "( ( 45812 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 7952) + (u_skill('deduction') * 15371) ) ) * (global_what_is_the_season == 1 ? 0.6 : 1)"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( 91527 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 21685) + (u_skill('deduction') * 39852) ) ) * (global_what_is_the_season == 2 ? 0.4 : 1)"
+        "( ( 91527 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 21685) + (u_skill('deduction') * 39852) ) ) * (global_what_is_the_season == 1 ? 0.4 : 1)"
       ]
     },
     "base_energy_cost": {

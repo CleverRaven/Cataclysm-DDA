@@ -3,7 +3,7 @@
     "id": "afs_plasma",
     "type": "damage_type",
     "magic_color": "pink",
-    "name": "plasma",
+    "name": { "ctxt": "damage_type", "str": "plasma" },
     "derived_from": [ "heat", 0.4 ]
   },
   {
@@ -122,7 +122,7 @@
     "type": "damage_type",
     "physical": false,
     "magic_color": "yellow",
-    "name": "telekinetic",
+    "name": { "ctxt": "damage_type", "str": "telekinetic" },
     "skill": "metaphysics",
     "derived_from": [ "bash", 0.9 ],
     "immune_flags": { "character": [ "TELEKIN_SHIELD" ], "monster": [ "TELEKIN_IMMUNE" ] },
@@ -156,7 +156,7 @@
     "type": "damage_type",
     "physical": false,
     "magic_color": "white",
-    "name": "telepathic",
+    "name": { "ctxt": "damage_type", "str": "telepathic" },
     "skill": "metaphysics",
     "immune_flags": { "character": [ "TEEPSHIELD", "PSYSHIELD_PROTECT" ], "monster": [ "TEEP_IMMUNE" ] },
     "ondamage_eocs": [ "EOC_TELEPATHIC_DAMAGE_PSYSHIELD_CHECK", "EOC_TELEPATHIC_DAMAGE_STUN_HIVE_CHANCE" ]
@@ -190,7 +190,7 @@
             "false_effect": [
               { "npc_lose_effect": "effect_psyshield_protection" },
               { "npc_cast_spell": { "id": "telepathic_self_damage", "hit_self": true } },
-              { "npc_message": "Your minds reels!", "type": "bad" }
+              { "npc_message": "Your mind reels!", "type": "bad" }
             ]
           }
         ]

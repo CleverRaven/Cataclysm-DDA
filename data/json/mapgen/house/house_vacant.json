@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "house_vacant",
     "//": "no roof, just foundation pits",
     "type": "mapgen",
@@ -41,7 +40,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "house_vacant1",
     "//": "no roof, just foundation pits",
     "type": "mapgen",
@@ -82,7 +80,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "house_vacant2",
     "//": "no roof, just foundation pits",
     "type": "mapgen",
@@ -123,7 +120,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "house_vacant3",
     "//": "no roof, just foundation pits",
     "type": "mapgen",

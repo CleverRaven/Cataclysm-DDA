@@ -503,6 +503,7 @@
     "weight": "386 kg",
     "hp": 120,
     "speed": 200,
+    "weakpoint_sets": [ "wps_animal_quadruped" ],
     "material": [ "flesh" ],
     "symbol": "M",
     "color": "brown",

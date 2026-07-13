@@ -48,8 +48,7 @@
       { "item": "maid_hat", "prob": 25 },
       { "item": "cuffs", "prob": 30 },
       { "item": "collar_playboy", "prob": 30 },
-      { "item": "bunny_ears_black", "prob": 30 },
-      { "item": "tail_bunny_playboy", "prob": 30 }
+      { "item": "bunny_ears_black", "prob": 30 }
     ]
   },
   {

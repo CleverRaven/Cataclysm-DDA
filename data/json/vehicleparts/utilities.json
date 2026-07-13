@@ -17,7 +17,7 @@
     "item": "forgerig",
     "location": "center",
     "looks_like": "f_forge_rock",
-    "name": { "str": "mounted electric forge" },
+    "name": { "str": "vehicle electric forge" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -49,7 +49,7 @@
     "item": "kilnrig",
     "location": "center",
     "looks_like": "f_kiln_empty",
-    "name": { "str": "mounted electric kiln" },
+    "name": { "str": "vehicle electric kiln" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -64,46 +64,10 @@
     "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
   },
   {
-    "id": "veh_oil_press_electric",
-    "type": "vehicle_part",
-    "name": { "str": "mounted electric oil press" },
-    "item": "oil_press_electric",
-    "description": "A heavy-duty press used to create vegetable oil from nuts or seeds.",
-    "categories": [ "utility" ],
-    "location": "center",
-    "color": "green",
-    "broken_color": "green",
-    "damage_modifier": 10,
-    "damage_reduction": { "all": 30 },
-    "durability": 200,
-    "flags": [ "OBSTACLE", "CARGO" ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 3 ] ],
-        "time": "60 m",
-        "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 5 ] ]
-      }
-    },
-    "pseudo_tools": [ { "id": "oil_press_electric" } ],
-    "size": "5 L",
-    "breaks_into": [
-      { "item": "lc_steel_lump", "count": [ 4, 7 ] },
-      { "item": "lc_steel_chunk", "count": [ 3, 6 ] },
-      { "item": "sheet_metal_small", "count": [ 4, 8 ] },
-      { "item": "scrap", "count": [ 4, 7 ] },
-      { "item": "element", "count": [ 0, 2 ] },
-      { "item": "pipe", "prob": 50 },
-      { "item": "motor_small", "prob": 25 }
-    ],
-    "variants": [ { "symbols": "Y", "symbols_broken": "x" } ]
-  },
-  {
     "id": "door_lock",
     "type": "ITEM",
     "name": { "str": "door lock set" },
-    "description": "Some wires and gears for connecting door handles and an unlocking knob to a latching mechanism, and a sturdy lock to go on the outer surface.  It is meant to be installed in a vehicle door or hatch.",
+    "description": "Some wires and gears for connecting door handles and an unlocking knob to a latching mechanism, and a sturdy lock to go on the outer surface.  If installed on a door or a hatch, this can be used to lock it.",
     "symbol": "+",
     "color": "dark_gray",
     "material": [ "steel" ],
@@ -124,7 +88,6 @@
     "durability": 50,
     "description": "Binoculars secured near the seat.",
     "item": "binoculars",
-    "location": "internal",
     "folded_volume": "500 ml",
     "flags": [ "ENHANCED_VISION", "SIMPLE_PART" ],
     "requirements": {

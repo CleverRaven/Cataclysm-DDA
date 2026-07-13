@@ -80,16 +80,15 @@ chatbin_snippets = [
 def parse_npc(json, origin):
     gender = "an"
     if "gender" in json:
-        gender = "a {}".format(json["gender"])
-    comment = json.get("//", None)
-    if "name_unique" in json:
-        write_text(json["name_unique"], origin,
-                   comment=["Unique name of {} NPC".format(gender), comment])
-    if "name_suffix" in json:
-        write_text(json["name_suffix"], origin,
-                   comment=["Name suffix of {} NPC".format(gender), comment])
+        gender = "a " + json["gender"]
+
+    comment = json.get("//")
+
+    write_text(json.get("name_unique"), origin,
+               comment=[f"Unique name of {gender} NPC", comment])
+    write_text(json.get("name_suffix"), origin,
+               comment=[f"Name suffix of {gender} NPC", comment])
+
     for snip in chatbin_snippets:
-        if snip in json:
-            write_text(json[snip], origin,
-                       comment=["Chatbin snippet {} of {} NPC"
-                                .format(snip, gender), comment])
+        write_text(json.get(snip), origin,
+                   comment=[f"Snippet '{snip}' of {gender} NPC", comment])

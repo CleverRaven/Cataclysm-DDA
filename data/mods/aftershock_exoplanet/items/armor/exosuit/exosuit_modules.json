@@ -293,7 +293,8 @@
       "msg": "You turn the lamp on high.",
       "target": "exo_flashlight_high"
     },
-    "flags": [ "LIGHT_250", "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET" ]
+    "light": 250,
+    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET" ]
   },
   {
     "id": "exo_flashlight_high",
@@ -310,7 +311,8 @@
       "msg": "You turn the heavy-duty flashlight off.",
       "target": "exo_flashlight"
     },
-    "flags": [ "LIGHT_500", "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET" ]
+    "light": 500,
+    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET" ]
   },
   {
     "id": "exo_recoil",

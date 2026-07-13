@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": [ "lab_res_8_NW" ],
     "type": "mapgen",
     "object": {
@@ -62,7 +61,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_res_8_NE" ],
     "type": "mapgen",
     "object": {
@@ -124,7 +122,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_res_8_SW" ],
     "type": "mapgen",
     "object": {
@@ -172,7 +169,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_res_8_SE" ],
     "type": "mapgen",
     "object": {

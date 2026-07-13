@@ -28,6 +28,11 @@ void morale_type_data::load_type( const JsonObject &jo, const std::string &src )
     morale_data.load( jo, src );
 }
 
+void morale_type_data::finalize_all()
+{
+    morale_data.finalize();
+}
+
 void morale_type_data::check_all()
 {
     morale_data.check();

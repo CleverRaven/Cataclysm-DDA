@@ -1,0 +1,166 @@
+[
+  {
+    "type": "weather_generator",
+    "id": "default_backrooms",
+    "copy-from": "default",
+    "base_temperature": 6.5,
+    "base_humidity": 70.0,
+    "base_pressure": 1015.0,
+    "base_wind": 3.4,
+    "base_wind_distrib_peaks": 80,
+    "base_wind_season_variation": 50,
+    "weather_black_list": [ "early_portal_storm", "portal_storm" ]
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "backrooms",
+    "chance": 30,
+    "extras": [
+      [ "mx_teleporter_node", 5000 ],
+      [ "mx_casings", 2500 ],
+      [ "mx_corpses", 2500 ],
+      [ "mx_autodoc_room", 1250 ],
+      [ "mx_collegekids", 1250 ],
+      [ "mx_spider", 1000 ],
+      [ "mx_nest_dermatik_backrooms", 1000 ],
+      [ "mx_science", 1000 ],
+      [ "mx_crater", 500 ],
+      [ "mx_nest_wasp_backrooms", 500 ],
+      [ "mx_house_wasp", 500 ],
+      [ "mx_pond", 500 ],
+      [ "mx_military", 500 ],
+      [ "mx_drugdeal", 500 ],
+      [ "mx_supplydrop", 500 ],
+      [ "mx_portal", 150 ],
+      [ "mx_portal_in", 150 ],
+      [ "mx_helicopter", 50 ],
+      [ "mx_jabberwock", 1 ]
+    ]
+  },
+  {
+    "type": "region_settings_map_extras",
+    "id": "default_backrooms",
+    "copy-from": "default",
+    "extras": [ "backrooms" ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_groundcover",
+    "ter_id": "t_region_groundcover",
+    "replace_with_terrain": [ [ "t_carpet_backrooms", 500 ], [ "t_carpet_backrooms_light", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_shrub",
+    "ter_id": "t_region_shrub",
+    "replace_with_terrain": [ [ "t_backroom_wall", 1 ], [ "t_carpet_backrooms_light", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_shrub_plains",
+    "ter_id": "t_region_shrub_plains",
+    "replace_with_terrain": [ [ "t_region_shrub", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_groundcover_urban",
+    "ter_id": "t_region_groundcover_urban",
+    "replace_with_terrain": [ [ "t_carpet_backrooms", 2 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_groundcover_forest",
+    "ter_id": "t_region_groundcover_forest",
+    "replace_with_terrain": [ [ "t_carpet_backrooms", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_groundcover_swamp",
+    "ter_id": "t_region_groundcover_swamp",
+    "replace_with_terrain": [ [ "t_carpet_backrooms", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree",
+    "ter_id": "t_region_tree",
+    "replace_with_terrain": [ [ "t_wall_b", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_groundcover_barren",
+    "ter_id": "t_region_groundcover_barren",
+    "replace_with_terrain": [ [ "t_carpet_red", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_f_region_flower",
+    "furn_id": "f_region_flower",
+    "replace_with_furniture": [ [ "f_rack_coat", 1 ], [ "f_sign_warning", 1 ], [ "f_sign", 1 ] ]
+  },
+  {
+    "type": "region_settings_terrain_furniture",
+    "id": "default_backrooms",
+    "copy-from": "default",
+    "ter_furn": [
+      "default_t_region_groundcover",
+      "default_t_region_shrub",
+      "default_t_region_shrub_plains",
+      "default_t_region_groundcover_urban",
+      "default_t_region_groundcover_forest",
+      "default_t_region_groundcover_swamp",
+      "default_t_region_tree",
+      "default_t_region_groundcover_barren",
+      "default_f_region_flower"
+    ]
+  },
+  {
+    "type": "region_settings_forest_mapgen",
+    "id": "default_backrooms",
+    "copy-from": "default",
+    "biomes": [  ]
+  },
+  {
+    "type": "region_settings",
+    "id": "default_backrooms",
+    "copy-from": "default",
+    "rivers": null,
+    "lakes": null,
+    "ocean": null,
+    "forests": null,
+    "ravines": null,
+    "forest_trails": null,
+    "forest_composition": "default_backrooms",
+    "highways": null,
+    "cities": null,
+    "map_extras": "default_backrooms",
+    "terrain_furniture": "default_backrooms",
+    "weather": "default_backrooms",
+    "neighbor_connections": false,
+    "place_roads": false,
+    "default_oter": [
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backfloorchamber_north",
+      "backfloorchamber_north",
+      "backfloorchamber_north",
+      "backfloorchamber_north",
+      "backfloorchamber_north",
+      "backfloorchamber_north",
+      "backfloorchamber_north",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border"
+    ],
+    "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
+    "feature_flag_settings": { "blacklist": [  ], "whitelist": [ "BACKROOMS" ] }
+  }
+]

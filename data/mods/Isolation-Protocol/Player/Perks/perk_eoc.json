@@ -93,24 +93,18 @@
     "condition": { "and": [ { "math": [ "u_bionic_in_melee == 1" ] }, { "u_has_trait": "iso_bionic_vampire" } ] },
     "//": "* in math is so the number before the * is kJ of bionic power restored",
     "effect": [
-      { "math": [ "u_val('power')", "+=", "1.75 * 1000000" ] },
-      { "if": { "npc_has_flag": "PUSH_VEH" }, "then": { "math": [ "u_val('power')", "+=", "50 * 1000000" ] } },
-      {
-        "if": { "npc_has_flag": "CORNERED_FIGHTER" },
-        "then": { "math": [ "u_val('power')", "+=", "0.5 * 1000000" ] }
-      },
-      {
-        "if": { "npc_has_flag": "PRIORITIZE_TARGETS" },
-        "then": { "math": [ "u_val('power')", "+=", "15 * 1000000" ] }
-      },
-      { "if": { "npc_has_flag": "DROPS_AMMO" }, "then": { "math": [ "u_val('power')", "+=", "35 * 1000000" ] } },
-      { "if": { "npc_has_flag": "STUN_IMMUNE" }, "then": { "math": [ "u_val('power')", "+=", "2 * 1000000" ] } },
-      { "if": { "npc_has_flag": "HAS_MIND" }, "then": { "math": [ "u_val('power')", "+=", "10 * 1000000" ] } },
-      { "if": { "npc_has_flag": "ELECTRIC" }, "then": { "math": [ "u_val('power')", "+=", "5 * 1000000" ] } },
-      { "if": { "npc_has_flag": "HARDTOSHOOT" }, "then": { "math": [ "u_val('power')", "+=", "20 * 1000000" ] } },
-      { "if": { "npc_has_species": "NETHER" }, "then": { "math": [ "u_val('power')", "+=", "25 * 1000000" ] } },
-      { "if": { "npc_has_species": "MIGO" }, "then": { "math": [ "u_val('power')", "+=", "20 * 1000000" ] } },
-      { "if": { "npc_has_species": "ROBOT" }, "then": { "math": [ "u_val('power')", "+=", "5 * 1000000" ] } }
+      { "math": [ "u_val('power') += 1.75 * 1000000" ] },
+      { "if": { "npc_has_flag": "PUSH_VEH" }, "then": { "math": [ "u_val('power') += 50 * 1000000" ] } },
+      { "if": { "npc_has_flag": "CORNERED_FIGHTER" }, "then": { "math": [ "u_val('power') += 0.5 * 1000000" ] } },
+      { "if": { "npc_has_flag": "PRIORITIZE_TARGETS" }, "then": { "math": [ "u_val('power') += 15 * 1000000" ] } },
+      { "if": { "npc_has_flag": "DROPS_AMMO" }, "then": { "math": [ "u_val('power') += 35 * 1000000" ] } },
+      { "if": { "npc_has_flag": "STUN_IMMUNE" }, "then": { "math": [ "u_val('power') += 2 * 1000000" ] } },
+      { "if": { "npc_has_flag": "HAS_MIND" }, "then": { "math": [ "u_val('power') += 10 * 1000000" ] } },
+      { "if": { "npc_has_flag": "ELECTRIC" }, "then": { "math": [ "u_val('power') += 5 * 1000000" ] } },
+      { "if": { "npc_has_flag": "HARDTOSHOOT" }, "then": { "math": [ "u_val('power') += 20 * 1000000" ] } },
+      { "if": { "npc_has_species": "NETHER" }, "then": { "math": [ "u_val('power') += 25 * 1000000" ] } },
+      { "if": { "npc_has_species": "MIGO" }, "then": { "math": [ "u_val('power') += 20 * 1000000" ] } },
+      { "if": { "npc_has_species": "ROBOT" }, "then": { "math": [ "u_val('power') += 5 * 1000000" ] } }
     ]
   },
   {
@@ -133,6 +127,6 @@
     "type": "effect_on_condition",
     "id": "EOC_ISO_BIONIC_VAMPIRE_POWER_RESTORE",
     "condition": { "u_has_trait": "iso_bionic_vampire" },
-    "effect": { "math": [ "u_val('power')", "+=", "500 * 1000000" ] }
+    "effect": { "math": [ "u_val('power') += 500 * 1000000" ] }
   }
 ]

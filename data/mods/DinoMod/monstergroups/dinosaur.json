@@ -79,6 +79,7 @@
       { "monster": "mon_ceratosaurus", "weight": 100, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_allosaurus", "weight": 200, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dryptosaurus", "weight": 200, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_nanotyrannus", "weight": 200, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_anzu", "weight": 100, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_saurornitholestes", "weight": 150, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_velociraptor", "weight": 150, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
@@ -179,6 +180,7 @@
       { "monster": "mon_acrocanthosaurus_hatchling", "weight": 8, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
       { "monster": "mon_siats_hatchling", "weight": 8, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dryptosaurus_hatchling", "weight": 4, "cost_multiplier": 35, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_nanotyrannus_hatchling", "weight": 4, "cost_multiplier": 35, "pack_size": [ 1, 2 ] },
       { "monster": "mon_appalachiosaurus_hatchling", "weight": 4, "cost_multiplier": 35, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gorgosaurus_hatchling", "weight": 4, "cost_multiplier": 35, "pack_size": [ 1, 2 ] },
       { "monster": "mon_albertosaurus_hatchling", "weight": 4, "cost_multiplier": 35, "pack_size": [ 1, 2 ] },
@@ -246,6 +248,7 @@
       { "monster": "mon_torvosaurus_juvenile", "weight": 4, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_allosaurus_juvenile", "weight": 8, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dryptosaurus_juvenile", "weight": 5, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_nanotyrannus_juvenile", "weight": 5, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
       { "monster": "mon_anzu_juvenile", "weight": 5, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
       { "monster": "mon_deinonychus_juvenile", "weight": 10, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
       { "monster": "mon_utahraptor_juvenile", "weight": 5, "cost_multiplier": 30 }
@@ -352,6 +355,7 @@
     "id": "GROUP_DINOSAUR_PREDATOR_SWAMP",
     "monsters": [
       { "monster": "mon_dryptosaurus", "cost_multiplier": 35 },
+      { "monster": "mon_nanotyrannus", "cost_multiplier": 35 },
       { "monster": "mon_appalachiosaurus", "cost_multiplier": 35 },
       { "monster": "mon_gorgosaurus", "cost_multiplier": 35 },
       { "monster": "mon_albertosaurus", "cost_multiplier": 35 },

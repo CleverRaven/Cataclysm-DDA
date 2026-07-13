@@ -141,5 +141,11 @@
     "type": "requirement",
     "//": "Any real, cutting weapons that can be used like an axe; large, heavy head with two sharp sides on a pole.",
     "extend": { "tools": [ [ [ "dreamforged_battleaxe", -1 ] ] ] }
+  },
+  {
+    "id": "whips",
+    "type": "requirement",
+    "//": "Any weapon that features a handle and flexible lash.",
+    "extend": { "tools": [ [ [ "salamander_flaming_summon_whip", -1 ] ] ] }
   }
 ]

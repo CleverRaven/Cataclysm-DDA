@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_shop",
     "object": {
       "fill_ter": "t_floor",
@@ -108,7 +107,7 @@
       "toilets": { "&": {  } },
       "items": {
         "&": { "item": "SUS_toilet", "chance": 50 },
-        "I": { "item": "office", "chance": 30 },
+        "I": { "item": "SUS_office_desk", "chance": 30 },
         "f": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "L": { "item": "cleaning", "chance": 30 },
         "y": { "item": "SUS_trash_floor", "chance": 20, "repeat": [ 2, 4 ] },
@@ -124,7 +123,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_shop_2ndfloor",
     "object": {
       "fill_ter": "t_floor",
@@ -187,7 +185,7 @@
       },
       "items": {
         "&": { "item": "SUS_toilet", "chance": 50 },
-        "I": { "item": "office", "chance": 30 },
+        "I": { "item": "SUS_office_desk", "chance": 30 },
         "Q": { "item": "shower", "chance": 30 },
         "S": { "item": "softdrugs", "chance": 30 },
         "@": { "item": "bed", "chance": 20, "repeat": [ 1, 2 ] },
@@ -203,13 +201,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "NPC_healer_priest",
     "object": { "mapgensize": [ 1, 1 ], "rows": [ " " ], "place_npcs": [ { "class": "healer_priest", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_shop_roof",
     "object": {
       "fill_ter": "t_flat_roof",

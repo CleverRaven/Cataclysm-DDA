@@ -13,6 +13,7 @@
 #include <tuple>
 #include <unordered_map>
 
+#include "ammo_effect.h"
 #include "anatomy.h"
 #include "body_part_set.h"
 #include "calendar.h"
@@ -82,6 +83,7 @@ static const ammo_effect_str_id ammo_effect_FOAMCRETE( "FOAMCRETE" );
 static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
 static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
 static const ammo_effect_str_id ammo_effect_LARGE_BEANBAG( "LARGE_BEANBAG" );
+static const ammo_effect_str_id ammo_effect_LIQUID( "LIQUID" );
 static const ammo_effect_str_id ammo_effect_MAGIC( "MAGIC" );
 static const ammo_effect_str_id ammo_effect_NOGIB( "NOGIB" );
 static const ammo_effect_str_id ammo_effect_NO_DAMAGE_SCALING( "NO_DAMAGE_SCALING" );
@@ -105,7 +107,6 @@ static const efftype_id effect_eff_mind_seeing_bonus_30( "eff_mind_seeing_bonus_
 static const efftype_id effect_eff_mind_seeing_bonus_5( "eff_mind_seeing_bonus_5" );
 static const efftype_id effect_eff_monster_immune_to_telepathy( "eff_monster_immune_to_telepathy" );
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
-static const efftype_id effect_invisibility( "invisibility" );
 static const efftype_id effect_knockdown( "knockdown" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -134,9 +135,12 @@ static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const json_character_flag json_flag_FREEZE_EFFECTS( "FREEZE_EFFECTS" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
+static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
+static const json_character_flag json_flag_SUPPRESS_INVISIBILITY( "SUPPRESS_INVISIBILITY" );
 static const json_character_flag json_flag_TEEPSHIELD( "TEEPSHIELD" );
+static const json_character_flag json_flag_TRUE_SEEING( "TRUE_SEEING" );
 
 static const material_id material_cotton( "cotton" );
 static const material_id material_flesh( "flesh" );
@@ -150,13 +154,9 @@ static const material_id material_veggy( "veggy" );
 static const material_id material_wood( "wood" );
 static const material_id material_wool( "wool" );
 
-static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
-static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
-
 static const species_id species_ROBOT( "ROBOT" );
 
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 const std::map<std::string, creature_size> Creature::size_map = {
     {"TINY",   creature_size::tiny},
@@ -368,7 +368,7 @@ void Creature::reset_bonuses()
     throw_resist = 0;
 }
 
-void Creature::process_turn()
+void Creature::process_turn_no_moves()
 {
     decrement_summon_timer();
     if( is_dead_state() ) {
@@ -382,6 +382,12 @@ void Creature::process_turn()
 
     // Call this in case any effects have changed our stats
     reset_stats();
+
+}
+
+void Creature::process_turn()
+{
+    process_turn_no_moves();
 
     // add an appropriate number of moves
     if( !has_effect( effect_ridden ) ) {
@@ -411,6 +417,15 @@ bool Creature::is_likely_underwater( const map &here ) const
     return is_underwater() ||
            ( has_flag( mon_flag_AQUATIC ) &&
              here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub( here ) ) );
+}
+
+bool Creature::hallucination_die( map *here, Creature *killer )
+{
+    const bool h = is_hallucination();
+    if( h ) {
+        die( here, killer );
+    }
+    return h;
 }
 
 // Detects whether a target is sapient or not (or barely sapient, since ferals count)
@@ -528,10 +543,25 @@ bool Creature::sees( const map &here, const Creature &critter ) const
         return false;
     }
 
+    // Check means to detect invisibility here
+    if( ( has_flag( json_flag_TRUE_SEEING ) || has_flag( mon_flag_TRUESIGHT ) ) &&
+        ( critter.has_flag( mon_flag_CAMOUFLAGE ) || critter.has_effect_with_flag( json_flag_INVISIBLE ) ||
+          critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) ||
+          critter.has_flag( mon_flag_PERMANENT_INVISIBILITY ) ) ) {
+        return true;
+    }
+
     // Creature has stumbled into an invisible player and is now aware of them
     if( has_effect( effect_stumbled_into_invisible ) &&
         here.has_field_at( critter_pos, field_fd_last_known ) && critter.is_avatar() ) {
         return true;
+    }
+
+    // Invisibility checked after stumbling and after invisibility detection methods
+    if( ( critter.has_effect_with_flag( json_flag_INVISIBLE ) ||
+          critter.has_flag( mon_flag_PERMANENT_INVISIBILITY ) ) &&
+        !critter.has_effect_with_flag( json_flag_SUPPRESS_INVISIBILITY ) ) {
+        return false;
     }
 
     // This check is ridiculously expensive so defer it to after everything else.
@@ -568,7 +598,6 @@ bool Creature::sees( const map &here, const Creature &critter ) const
               critter.get_size() < creature_size::medium ) ) ) ||
         ( critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) &&
           here.light_at( critter_pos ) <= lit_level::LOW ) ||
-        critter.has_effect( effect_invisibility ) ||
         ( !is_likely_underwater( here ) && critter.is_likely_underwater( here ) &&
           majority_rule( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ),
                          here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter_pos ),
@@ -982,6 +1011,21 @@ double Creature::accuracy_projectile_attack( const int &speed, const double &mis
     return missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) );
 }
 
+void projectile::apply_effects_nodamage( Creature &target, const bodypart_id &bp_hit,
+        bool soaked_through ) const
+{
+    bool is_liquid = proj_effects.count( ammo_effect_LIQUID );
+    for( const ammo_effect_str_id &proj_effect : proj_effects ) {
+        for( const on_hit_effect &on_hit_eff : proj_effect->on_hit_effects ) {
+            if( on_hit_eff.need_touch_skin && is_liquid && !soaked_through ) {
+                continue;
+            }
+            target.add_effect( on_hit_eff.effect, on_hit_eff.duration, bp_hit, false,
+                               on_hit_eff.intensity );
+        }
+    }
+}
+
 void projectile::apply_effects_damage( Creature &target, Creature *source,
                                        const dealt_damage_instance &dealt_dam, bool critical ) const
 {
@@ -1022,13 +1066,8 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
                 target.add_effect( effect_source( source ), effect_onfire, rng( 1_turns, 2_turns ) * amount,
                                    dealt_dam.bp_hit );
             }
-            if( player_character.has_trait( trait_PYROMANIA ) &&
-                !player_character.has_morale( morale_pyromania_startfire ) &&
-                player_character.sees( here, target ) ) {
-                player_character.add_msg_if_player( m_good,
-                                                    _( "You feel a surge of euphoria as flame engulfs %s!" ), target.get_name() );
-                player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
-                player_character.rem_morale( morale_pyromania_nofire );
+            if( player_character.has_unfulfilled_pyromania() ) {
+                player_character.fulfill_pyromania_sees( here, target );
             }
         }
     } else if( proj_effects.count( ammo_effect_IGNITE ) ) {
@@ -1038,13 +1077,8 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
             } else if( target.made_of_any( Creature::cmat_flesh ) ) {
                 target.add_effect( effect_source( source ), effect_onfire, 6_turns * amount, dealt_dam.bp_hit );
             }
-            if( player_character.has_trait( trait_PYROMANIA ) &&
-                !player_character.has_morale( morale_pyromania_startfire ) &&
-                player_character.sees( here, target ) ) {
-                player_character.add_msg_if_player( m_good,
-                                                    _( "You feel a surge of euphoria as flame engulfs %s!" ), target.get_name() );
-                player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
-                player_character.rem_morale( morale_pyromania_nofire );
+            if( player_character.has_unfulfilled_pyromania() ) {
+                player_character.fulfill_pyromania_sees( here, target );
             }
         }
     }
@@ -1061,11 +1095,11 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
         }
     }
 
-    if( dealt_dam.bp_hit->has_type( body_part_type::type::head ) &&
+    if( dealt_dam.bp_hit->has_type( bp_type::head ) &&
         proj_effects.count( ammo_effect_BLINDS_EYES ) ) {
         // TODO: Change this to require bp_eyes
         target.add_env_effect( effect_blind,
-                               target.get_random_body_part_of_type( body_part_type::type::sensor ), 5, rng( 3_turns, 10_turns ) );
+                               target.get_random_body_part_of_type( bp_type::sensor ), 5, rng( 3_turns, 10_turns ) );
     }
 
     if( proj_effects.count( ammo_effect_APPLY_SAP ) ) {
@@ -1383,6 +1417,20 @@ void Creature::deal_projectile_attack( map *here, Creature *source, dealt_projec
         }
     }
 
+    bool soaked_through = false;
+    if( attack.proj.proj_effects.count( ammo_effect_LIQUID ) > 0 ) {
+        if( Character *char_target = as_character() ) {
+            // clothing_wetness_mult returns the effective permeability of the armor on bp_hit
+            // as a float between 0 and 1
+            // 0 permeability means no liquid touches the skin and the damage is negated
+            // 1 permeability means all liquid touches the skin and no damage is negated
+            float permeability = char_target->worn.clothing_wetness_mult( hit_selection.bp_hit, true );
+            permeability = std::clamp( permeability, 0.0f, 1.0f );
+            soaked_through = permeability > 0;
+            impact.mult_damage( permeability );
+        }
+    }
+
     dealt_dam = deal_damage( source, hit_selection.bp_hit, impact, wp_attack_copy, *hit_selection.wp );
     // Force damage instance to match the selected body point
     dealt_dam.bp_hit = hit_selection.bp_hit;
@@ -1390,6 +1438,8 @@ void Creature::deal_projectile_attack( map *here, Creature *source, dealt_projec
     hit_selection.wp_hit = dealt_dam.wp_hit;
 
     proj.apply_effects_damage( *this, source, dealt_dam, goodhit < accuracy_critical );
+
+    proj.apply_effects_nodamage( *this, dealt_dam.bp_hit, soaked_through );
 
     int total_dam = dealt_dam.total_damage();
 
@@ -1485,13 +1535,8 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
             add_effect( source, effect_onfire, rng( 1_turns, 3_turns ), bp );
 
             Character &player_character = get_player_character();
-            if( player_character.has_trait( trait_PYROMANIA ) &&
-                !player_character.has_morale( morale_pyromania_startfire ) &&
-                player_character.sees( here, *this ) ) {
-                player_character.add_msg_if_player( m_good,
-                                                    _( "You feel a surge of euphoria as flame engulfs %s!" ), this->get_name() );
-                player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
-                player_character.rem_morale( morale_pyromania_nofire );
+            if( player_character.has_unfulfilled_pyromania() ) {
+                player_character.fulfill_pyromania_sees( here, *this );
             }
         }
     } else if( du.type == damage_electric ) {
@@ -1785,14 +1830,6 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
             const int prev_int = e.get_intensity();
             // If we do, mod the duration, factoring in the mod value
             e.mod_duration( dur * e.get_dur_add_perc() / 100 );
-            // Limit to max duration
-            if( e.get_duration() > e.get_max_duration() ) {
-                e.set_duration( e.get_max_duration() );
-            }
-            // Adding a permanent effect makes it permanent
-            if( e.is_permanent() ) {
-                e.pause_effect();
-            }
             // int_dur_factor overrides all other intensity settings
             // ...but it's handled in set_duration, so explicitly do nothing here
             if( e.get_int_dur_factor() > 0_turns ) {
@@ -1803,14 +1840,8 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
             } else if( e.get_int_add_val() != 0 ) {
                 e.mod_intensity( e.get_int_add_val(), is_avatar() );
             }
-
-            // Bound intensity by [1, max intensity]
-            if( e.get_intensity() < 1 ) {
-                add_msg_debug( debugmode::DF_CREATURE, "Bad intensity, ID: %s", e.get_id().c_str() );
-                e.set_intensity( 1 );
-            } else if( e.get_intensity() > e.get_max_intensity() ) {
-                e.set_intensity( e.get_max_intensity() );
-            }
+            // Bound new effect intensity by [1, max intensity]
+            e.clamp_intensity();
             if( e.get_intensity() != prev_int ) {
                 on_effect_int_change( eff_id, e.get_intensity(), bp );
             }
@@ -1822,23 +1853,7 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
 
         // Now we can make the new effect for application
         effect e( effect_source( source ), &type, dur, bp.id(), permanent, intensity, calendar::turn );
-        // Bound to max duration
-        if( e.get_duration() > e.get_max_duration() ) {
-            e.set_duration( e.get_max_duration() );
-        }
 
-        // Force intensity if it is duration based
-        if( e.get_int_dur_factor() != 0_turns ) {
-            const int intensity = std::ceil( e.get_duration() / e.get_int_dur_factor() );
-            e.set_intensity( std::max( 1, intensity ) );
-        }
-        // Bound new effect intensity by [1, max intensity]
-        if( e.get_intensity() < 1 ) {
-            add_msg_debug( debugmode::DF_CREATURE, "Bad intensity, ID: %s", e.get_id().c_str() );
-            e.set_intensity( 1 );
-        } else if( e.get_intensity() > e.get_max_intensity() ) {
-            e.set_intensity( e.get_max_intensity() );
-        }
         ( *effects )[eff_id][bp] = e;
         if( Character *ch = as_character() ) {
             get_event_bus().send<event_type::character_gains_effect>( ch->getID(), bp.id(), eff_id, intensity );
@@ -2470,7 +2485,7 @@ bodypart_id Creature::get_part_id( const bodypart_id &id,
     std::pair<bodypart_id, float> best = { bodypart_str_id::NULL_ID().id(), 0.0f };
     if( filter >= body_part_filter::next_best ) {
         for( const std::pair<const bodypart_str_id, bodypart> &bp : body ) {
-            for( const std::pair<const body_part_type::type, float> &mp : bp.first->limbtypes ) {
+            for( const std::pair<const bp_type, float> &mp : bp.first->limbtypes ) {
                 // if the secondary limb type matches and is better than the current
                 if( mp.first == id->primary_limb_type() && mp.second > best.second ) {
                     // give an inflated bonus if the part sides match
@@ -2897,7 +2912,7 @@ bodypart_id Creature::get_root_body_part() const
 }
 
 std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
-    body_part_type::type part_type, get_body_part_flags flags ) const
+    bp_type part_type, get_body_part_flags flags ) const
 {
     const bool only_main( flags & get_body_part_flags::only_main );
     const bool primary( flags & get_body_part_flags::primary_type );
@@ -2923,7 +2938,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
     return bodyparts;
 }
 
-bodypart_id Creature::get_random_body_part_of_type( body_part_type::type part_type ) const
+bodypart_id Creature::get_random_body_part_of_type( bp_type part_type ) const
 {
     return random_entry( get_all_body_parts_of_type( part_type ) );
 }
@@ -2971,10 +2986,10 @@ body_part_set Creature::get_drenching_body_parts( bool upper, bool mid, bool low
 
 std::vector<bodypart_id> Creature::get_ground_contact_bodyparts( bool arms_legs ) const
 {
-    std::vector<bodypart_id> arms = get_all_body_parts_of_type( body_part_type::type::arm );
-    std::vector<bodypart_id> legs = get_all_body_parts_of_type( body_part_type::type::leg );
-    std::vector<bodypart_id> hands = get_all_body_parts_of_type( body_part_type::type::hand );
-    std::vector<bodypart_id> feet = get_all_body_parts_of_type( body_part_type::type::foot );
+    std::vector<bodypart_id> arms = get_all_body_parts_of_type( bp_type::arm );
+    std::vector<bodypart_id> legs = get_all_body_parts_of_type( bp_type::leg );
+    std::vector<bodypart_id> hands = get_all_body_parts_of_type( bp_type::hand );
+    std::vector<bodypart_id> feet = get_all_body_parts_of_type( bp_type::foot );
 
     if( has_effect( effect_quadruped_full ) || has_effect( effect_quadruped_half ) ) {
         if( arms_legs == true ) {
@@ -2989,9 +3004,9 @@ std::vector<bodypart_id> Creature::get_ground_contact_bodyparts( bool arms_legs 
     } else {
         std::vector<bodypart_id> bodyparts;
         if( arms_legs == true ) {
-            bodyparts = get_all_body_parts_of_type( body_part_type::type::leg );
+            bodyparts = get_all_body_parts_of_type( bp_type::leg );
         } else {
-            bodyparts = get_all_body_parts_of_type( body_part_type::type::foot );
+            bodyparts = get_all_body_parts_of_type( bp_type::foot );
         }
         return bodyparts;
     }
@@ -3025,12 +3040,12 @@ const
     return enumerate_as_string( names );
 }
 
-int Creature::get_num_body_parts_of_type( body_part_type::type part_type ) const
+int Creature::get_num_body_parts_of_type( bp_type part_type ) const
 {
     return static_cast<int>( get_all_body_parts_of_type( part_type ).size() );
 }
 
-int Creature::get_num_broken_body_parts_of_type( body_part_type::type part_type ) const
+int Creature::get_num_broken_body_parts_of_type( bp_type part_type ) const
 {
     int ret = 0;
     for( const bodypart_id &bp : get_all_body_parts_of_type( part_type ) ) {
@@ -3419,8 +3434,7 @@ void Creature::knock_back_from( const tripoint_bub_ms &p )
     if( p == pos ) {
         return; // No effect
     }
-    if( is_hallucination() ) {
-        die( &here, nullptr );
+    if( hallucination_die( &here, nullptr ) ) {
         return;
     }
     tripoint_bub_ms to = pos;
@@ -3580,4 +3594,39 @@ std::unique_ptr<talker> get_talker_for( Creature *me )
         return std::make_unique<talker>();
     }
     return get_talker_for( *me );
+}
+
+void Creature::migrate_effects()
+{
+    std::vector<efftype_id> removed_effects;
+    effects_map new_effects;
+
+    for( const auto &[eff_id, bp_effect_map] : *effects ) {
+        const effect_migration *em = effect_migration::find_migration( eff_id );
+
+        if( em != nullptr ) {
+            if( em->id_new.has_value() ) {
+                // if new id is presented, make new bp_effect_map, nuke old one, insert new one
+                std::map<bodypart_id, effect> new_bp_effect_map;
+                for( const auto &[bp_id, eff] : bp_effect_map ) {
+                    effect new_effect( eff.get_source(), &em->id_new.value().obj(), eff.get_duration(), bp_id.id(),
+                                       eff.is_permanent(), eff.get_intensity(), eff.get_start_time() );
+                    new_bp_effect_map.emplace( bp_id, new_effect );
+                }
+
+                removed_effects.emplace_back( eff_id );
+                new_effects.emplace( em->id_new.value(), new_bp_effect_map );
+            } else {
+                // if no id_new, just nuke entire effect from character
+                removed_effects.emplace_back( eff_id );
+            }
+        }
+    }
+
+    for( const efftype_id e : removed_effects ) {
+        effects->erase( e );
+    }
+
+    effects->merge( new_effects );
+
 }

@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_trench_north",
-    "method": "json",
     "object": {
       "set": [ { "line": "terrain", "id": "t_pit", "x": 3, "x2": 20, "y": 0, "y2": 0 } ],
       "place_items": [
@@ -30,7 +29,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_trench_south",
-    "method": "json",
     "object": {
       "set": [ { "line": "terrain", "id": "t_pit", "x": 3, "x2": 20, "y": 23, "y2": 23 } ],
       "place_items": [
@@ -58,7 +56,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_trench_corner_northeast",
-    "method": "json",
     "object": {
       "set": [ { "line": "terrain", "id": "t_pit", "x": 21, "x2": 21, "y": 0, "y2": 4 } ],
       "place_items": [
@@ -73,7 +70,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_trench_corner_northwest",
-    "method": "json",
     "object": {
       "set": [ { "line": "terrain", "id": "t_pit", "x": 2, "x2": 2, "y": 0, "y2": 4 } ],
       "place_items": [
@@ -88,7 +84,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_trench_corner_southeast",
-    "method": "json",
     "object": {
       "set": [ { "line": "terrain", "id": "t_pit", "x": 21, "x2": 21, "y": 19, "y2": 23 } ],
       "place_items": [
@@ -103,7 +98,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_trench_corner_southwest",
-    "method": "json",
     "object": {
       "set": [ { "line": "terrain", "id": "t_pit", "x": 2, "x2": 2, "y": 19, "y2": 23 } ],
       "place_items": [
@@ -118,7 +112,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_trench_east",
-    "method": "json",
     "object": {
       "set": [
         { "line": "terrain", "id": "t_pit", "x": 21, "x2": 22, "y": 0, "y2": 0 },
@@ -156,7 +149,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_trench_west",
-    "method": "json",
     "object": {
       "set": [
         { "line": "terrain", "id": "t_pit", "x": 1, "x2": 2, "y": 0, "y2": 0 },

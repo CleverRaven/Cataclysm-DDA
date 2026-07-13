@@ -1,7 +1,7 @@
 [
   {
     "id": "robofac_gun",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_rifle_semi",
     "looks_like": "fn_p90",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -12,12 +12,11 @@
     "longest_side": "50 cm",
     "price": "1 kUSD 250 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "blue",
     "ammo": [ "NULL" ],
-    "extend": { "flags": [ "NO_TURRET" ] },
+    "flags": [ "NO_TURRET" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "modes": [  ],
     "dispersion": 150,
@@ -50,12 +49,11 @@
           "robofac60_123ln"
         ]
       }
-    ],
-    "melee_damage": { "bash": 12 }
+    ]
   },
   {
     "id": "xedra_gun",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_rifle_semi",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -66,12 +64,11 @@
     "longest_side": "50 cm",
     "price": "1 kUSD 250 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "blue",
     "ammo": [ "NULL" ],
-    "extend": { "flags": [ "NO_TURRET" ] },
+    "flags": [ "NO_TURRET" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "modes": [  ],
     "dispersion": 150,
@@ -89,8 +86,7 @@
       [ "stock", 1 ],
       [ "stock accessory", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xedra40", "xedra10" ] } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xedra40", "xedra10" ] } ]
   },
   {
     "id": "robofac_gun_ar",
@@ -198,39 +194,6 @@
     "range_modifier": 20,
     "overwrite_min_cycle_recoil": 81,
     "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a short barrel with \"5.7mm NATO PDW\" stamped into the metal and an integrated silencer."
-  },
-  {
-    "id": "robofac_gun_46",
-    "looks_like": "retool_ar15_300blk",
-    "//": "based off attributes of an smg with integrated silencer",
-    "weight": "500 g",
-    "volume": "500 ml",
-    "integral_volume": "250 ml",
-    "integral_weight": "500 g",
-    "integral_longest_side": "15 cm",
-    "longest_side": "40 cm",
-    "barrel_length": "432 mm",
-    "price": "500 USD",
-    "price_postapoc": "30 USD",
-    "type": "ITEM",
-    "subtypes": [ "GUNMOD" ],
-    "material": [ "steel" ],
-    "symbol": ":",
-    "color": "green",
-    "location": "bore",
-    "mod_targets": [ "robofac_gun" ],
-    "name": { "str_sp": "HWP personal 4.6x30mm configuration" },
-    "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 3 ] ],
-    "install_time": "1 m",
-    "ammo_modifier": [ "46" ],
-    "min_skills": [ [ "weapon", 1 ] ],
-    "handling_modifier": 2,
-    "loudness_modifier": -50,
-    "//2": "this gives similar attributes to other pdws",
-    "damage_modifier": { "damage_type": "bullet", "amount": 4 },
-    "range_modifier": 20,
-    "overwrite_min_cycle_recoil": 81,
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a short barrel with \"4.6x30mm PDW\" stamped into the metal and an integrated silencer."
   },
   {
     "id": "robofac_gun_dmr",
@@ -464,13 +427,12 @@
     "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "46", "57" ],
+    "ammo_type": [ "57" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "46": 40, "57": 50 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "57": 50 } } ]
   },
   {
     "id": "robofac60",
-    "looks_like": "calicomag",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
     "name": { "str": "HWP 60-round 9mm helical magazine" },

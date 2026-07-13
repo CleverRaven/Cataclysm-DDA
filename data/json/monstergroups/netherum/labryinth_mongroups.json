@@ -1,0 +1,35 @@
+[
+  {
+    "type": "monstergroup",
+    "id": "GROUP_Labyrinth_Room",
+    "//": "Monsters in rooms in a Labyrinth.  Filler.",
+    "monsters": [
+      { "monster": "mon_fleshborg_1_1", "weight": 800 },
+      { "monster": "mon_fleshborg_1_1", "weight": 100, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_fleshborg_1_1", "weight": 50, "cost_multiplier": 20, "pack_size": [ 4, 6 ] },
+      { "monster": "mon_fleshborg_1_2", "weight": 50, "cost_multiplier": 20 },
+      { "monster": "mon_star_vampire", "weight": 1, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_Labyrinth_Hallmonitors",
+    "//": "Monsters walking the catwalks in a Labyrinth.  Filler.",
+    "monsters": [
+      { "monster": "mon_fleshborg_1_1", "weight": 850 },
+      { "monster": "mon_stiltwalker_1_1", "weight": 550 },
+      { "monster": "mon_fleshborg_1_1", "weight": 100, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_fleshborg_1_1", "weight": 50, "cost_multiplier": 20, "pack_size": [ 4, 6 ] },
+      { "monster": "mon_stiltwalker_1_1", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_flying_polyp", "weight": 2, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror", "weight": 2, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 2, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_Labyrinth_Turret",
+    "//": "Monsters walking the catwalks in a Labyrinth.  Filler.",
+    "monsters": [ { "monster": "mon_labyrinth_turret_1_1", "weight": 1000 } ]
+  }
+]

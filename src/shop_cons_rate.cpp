@@ -91,9 +91,19 @@ void shopkeeper_cons_rates::load_rate( const JsonObject &jo, std::string const &
     shop_cons_rate_factory.load( jo, src );
 }
 
+void shopkeeper_cons_rates::finalize_all()
+{
+    shop_cons_rate_factory.finalize();
+}
+
 void shopkeeper_blacklist::load_blacklist( const JsonObject &jo, std::string const &src )
 {
     shop_blacklist_factory.load( jo, src );
+}
+
+void shopkeeper_blacklist::finalize_all()
+{
+    shop_blacklist_factory.finalize();
 }
 
 void shopkeeper_cons_rates::check_all()

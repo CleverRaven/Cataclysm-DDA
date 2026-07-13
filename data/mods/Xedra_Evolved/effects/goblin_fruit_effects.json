@@ -441,7 +441,6 @@
             { "u_is_on_terrain": "t_grass_long" },
             { "u_is_on_terrain": "t_bamboo" },
             { "u_is_on_terrain": "t_bamboo_harvested" },
-            { "u_is_on_terrain": "t_underbrush_harvested_winter" },
             { "u_is_on_terrain": "t_grass" },
             { "u_is_on_terrain": "t_grass_white" },
             { "u_is_on_terrain": "t_moss" },

@@ -33,7 +33,7 @@ enum class Endianness {
 class TranslationDocument
 {
     private:
-        std::shared_ptr<mmap_file> mmap_message_object;
+        std::shared_ptr<const mmap_file> mmap_message_object;
         std::size_t number_of_strings; // N
         std::size_t original_strings_table_offset; // O
         std::size_t translated_strings_table_offset; // T

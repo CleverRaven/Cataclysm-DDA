@@ -168,5 +168,39 @@
       "❻": "f_cryofluid_pump"
     },
     "liquids": { "❸": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "afs_habitat_heavy_industry_furnishing",
+    "terrain": { "p": "t_sewage_pipe" },
+    "furniture": {
+      "@": "f_bed",
+      "f": "f_workbench",
+      "y": "f_workbench",
+      "c": "f_console_broken",
+      "h": "f_chair",
+      "P": "f_water_purifier",
+      "W": "f_water_heater",
+      "A": "f_air_filter",
+      "E": "f_machinery_electronic",
+      "L": "f_machinery_light",
+      "H": "f_machinery_heavy",
+      "O": "f_ECU",
+      "T": "f_cryofluid_pump",
+      "l": "f_locker",
+      "k": "f_desk"
+    },
+    "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+    "items": {
+      "y": [ { "item": "afs_tools_electric_repair", "chance": 20, "repeat": [ 2, 5 ] } ],
+      "q": [
+        { "item": "tools_robotics", "chance": 5, "repeat": [ 2, 5 ] },
+        { "item": "afs_tools_structural_repair", "chance": 20, "repeat": [ 2, 5 ] }
+      ],
+      "k": { "item": "SUS_office_desk", "chance": 60 },
+      "l": { "item": "afs_frontier_cryo_g", "chance": 50 },
+      "@": { "item": "bed", "chance": 50 },
+      "%": { "item": "afs_tools_space_emergency" }
+    }
   }
 ]

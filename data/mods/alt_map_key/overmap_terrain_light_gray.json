@@ -330,23 +330,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "s_lightindustry_scen_00",
-      "s_lightindustry_scen_00_roof",
-      "s_lightindustry_scen_01",
-      "s_lightindustry_scen_01_roof",
-      "s_lightindustry_scen_10",
-      "s_lightindustry_scen_10_roof",
-      "s_lightindustry_scen_11",
-      "s_lightindustry_scen_11_roof"
-    ],
-    "name": "light industry",
-    "copy-from": "s_lightindustry_scen_00",
-    "sym": "L",
-    "color": "light_gray"
-  },
-  {
-    "type": "overmap_terrain",
     "id": [ "office_tower_ne", "office_tower_nw", "office_tower_sw", "office_tower_se" ],
     "copy-from": "office_tower_ne",
     "name": "office building",

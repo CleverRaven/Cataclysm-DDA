@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_crate_1",
     "//": "Places a single crate with low value junk contents",
     "object": {
@@ -17,7 +16,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_crate_1",
     "//": "Places a single crate with low value food contents",
     "object": {
@@ -33,7 +31,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_crate_2",
     "//": "Places a single crate with medium value junk contents",
     "object": {
@@ -49,7 +46,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_crate_2",
     "//": "Places a single crate with medium value food contents",
     "object": {
@@ -65,7 +61,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_crate_3",
     "//": "Places a single crate with high value junk contents",
     "object": {
@@ -81,7 +76,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_crate_3",
     "//": "Places a single crate with high value ammo contents",
     "object": {
@@ -97,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_wreckage",
     "//": "Oh no, this crate didn't survive transport.  That means it probably contained something organic :(",
     "object": {
@@ -118,7 +111,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_generic_machinery",
     "//": "Chooses some machinery that looks good in an Exodii base",
     "object": {
@@ -141,7 +133,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_botrack_1",
     "//": "An Exodii bot rack containing frames for not-yet-active bots.",
     "object": {
@@ -154,7 +145,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_worktable",
     "//": "A worktable with a chance to have some bot parts.",
     "object": {
@@ -165,7 +155,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_worktable",
     "//": "A worktable with a chance to have some metal stuff.",
     "object": {
@@ -176,7 +165,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_worktable",
     "//": "A worktable with a chance to have some metal stuff.",
     "object": {
@@ -187,7 +175,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_worktable",
     "//": "A worktable with a chance to have some welding tools and things.",
     "object": {
@@ -198,7 +185,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_generic_tank",
     "//": "A tank with some water in it.",
     "object": {
@@ -209,7 +195,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_generic_tank",
     "//": "A tank with a surprising amount of cooking oil in it.",
     "object": {
@@ -220,7 +205,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_generic_tank",
     "//": "A tank with a surprising amount of motor oil in it.",
     "object": {
@@ -231,7 +215,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_generic_tank",
     "//": "A tank with a surprising amount of alcohol in it.",
     "object": {
@@ -242,7 +225,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_generic_tank",
     "//": "A tank with a surprising amount of alcohol in it.",
     "object": {
@@ -253,7 +235,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_generic_tank",
     "//": "A tank with some spare biodiesel in it.",
     "object": {
@@ -264,7 +245,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_special_tank",
     "//": "A tank with a ton of ether in it.",
     "object": {
@@ -275,7 +255,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_special_tank",
     "//": "A tank with a ton of chloroform in it.",
     "object": {
@@ -286,7 +265,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_special_tank",
     "//": "A tank with a ton of phenol in it.",
     "object": {
@@ -297,7 +275,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_special_tank",
     "//": "A tank with a ton of formaldehyde in it.",
     "object": {
@@ -308,7 +285,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_special_tank",
     "//": "A tank with a ton of acid in it.",
     "object": {
@@ -319,7 +295,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_special_tank",
     "//": "A tank with a ton of acid in it.",
     "object": {
@@ -330,7 +305,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "exodii_special_tank",
     "//": "A tank with a ton of acid in it.",
     "object": {

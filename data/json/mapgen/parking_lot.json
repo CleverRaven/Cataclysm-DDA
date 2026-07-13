@@ -13,7 +13,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "parking_2x1_0", "parking_2x1_1" ] ],
     "object": {
       "fill_ter": "t_pavement",
@@ -48,7 +47,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "parking_3x1_0", "parking_3x1_1", "parking_3x1_2" ] ],
     "object": {
       "fill_ter": "t_pavement",
@@ -83,7 +81,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "parking_2x2_0_0", "parking_2x2_1_0" ], [ "parking_2x2_0_1", "parking_2x2_1_1" ] ],
     "object": {
       "fill_ter": "t_pavement",
@@ -142,7 +139,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_lot" ],
     "object": {
       "rows": [
@@ -178,7 +174,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_lot_no_sidewalk" ],
     "object": {
       "rows": [

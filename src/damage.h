@@ -33,6 +33,7 @@ struct damage_type {
     std::pair<damage_type_id, float> derived_from = { damage_type_id(), 0.0f };
     cata::flat_set<std::string> immune_flags;
     cata::flat_set<std::string> mon_immune_flags;
+    double bash_conversion_factor;
     nc_color magic_color;
     bool melee_only = false;
     bool physical = false;
@@ -52,11 +53,14 @@ struct damage_type {
                            double damage_taken = 0.0 ) const;
 
     static void load_damage_types( const JsonObject &jo, const std::string &src );
+    static void finalize_all();
     static void reset();
     static void check();
     void load( const JsonObject &jo, std::string_view );
     static const std::vector<damage_type> &get_all();
 };
+
+int accumulate_to_bash_damage( int so_far, const std::pair<damage_type_id, int> &dam );
 
 struct damage_info_order {
     enum class info_disp : int {

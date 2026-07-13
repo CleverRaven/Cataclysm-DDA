@@ -20,6 +20,11 @@ bool string_id<disease_type>::is_valid() const
     return disease_factory.is_valid( *this );
 }
 
+void disease_type::finalize_all()
+{
+    disease_factory.finalize();
+}
+
 void disease_type::load_disease_type( const JsonObject &jo, const std::string &src )
 {
     disease_factory.load( jo, src );

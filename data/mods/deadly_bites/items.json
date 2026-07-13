@@ -15,6 +15,7 @@
     "container": "bottle_plastic_pill_prescription",
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Reduces the effect of certain viral infections.",
       "effect_on_conditions": [ "EOC_CONSUMED_ANTIVIRAL" ]
     },

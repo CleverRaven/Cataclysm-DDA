@@ -1,3 +1,4 @@
+#include <cmath>
 #include <cstddef>
 #include <functional>
 #include <list>
@@ -29,7 +30,6 @@
 #include "item_location.h"
 #include "line.h"
 #include "magic.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"
@@ -50,11 +50,18 @@
 #include "timed_event.h"
 #include "type_id.h"
 
+#if defined(LOCALIZE)
+#include "translation_manager.h"
+#endif
+
 class recipe;
 
 static const activity_id ACT_ADD_VARIABLE_COMPLETE( "ACT_ADD_VARIABLE_COMPLETE" );
 static const activity_id ACT_ADD_VARIABLE_DURING( "ACT_ADD_VARIABLE_DURING" );
 static const activity_id ACT_GENERIC_EOC( "ACT_GENERIC_EOC" );
+
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
 
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_PURIFIABILITY_FALSE( "EOC_TEST_PURIFIABILITY_FALSE" );
@@ -172,6 +179,8 @@ static const effect_on_condition_id
 effect_on_condition_run_eocs_talker_mixes( "run_eocs_talker_mixes" );
 static const effect_on_condition_id
 effect_on_condition_run_eocs_talker_mixes_loc( "run_eocs_talker_mixes_loc" );
+static const effect_on_condition_id
+effect_on_condition_run_eocs_variable_types( "run_eocs_variable_types" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
@@ -1164,9 +1173,9 @@ TEST_CASE( "math_weapon_damage", "[eoc]" )
     for( damage_type const &dt : damage_type::get_all() ) {
         total_damage += myweapon.damage_melee( dt.id );
     }
-    int const bash_damage = myweapon.damage_melee( STATIC( damage_type_id( "bash" ) ) );
+    int const bash_damage = myweapon.damage_melee( damage_bash );
     int const gun_damage = myweapon.gun_damage().total_damage();
-    int const bullet_damage = myweapon.gun_damage().type_damage( STATIC( damage_type_id( "bullet" ) ) );
+    int const bullet_damage = myweapon.gun_damage().type_damage( damage_bullet );
 
     CAPTURE( myweapon.typeId().c_str() );
     CHECK( globvars.get_global_value( "mymelee" ) ==  total_damage );
@@ -1548,4 +1557,24 @@ TEST_CASE( "EOC_run_eocs", "[eoc]" )
     d2.set_value( "alpha_var", mon_loc );
     CHECK( effect_on_condition_run_eocs_talker_mixes_loc->activate( d2 ) );
     CHECK( globvars.get_global_value( "alpha_name" ) == zombie->get_name() );
+
+#if defined(LOCALIZE)
+    on_out_of_scope reset_loc( []() {
+        set_language( "en" );
+    } );
+    set_language( "ru" );
+    TranslationManager::GetInstance().LoadDocuments( { "./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo" } );
+#endif
+    dialogue d3( std::make_unique<talker>(), std::make_unique<talker>() );
+    effect_on_condition_run_eocs_variable_types->activate( d3 );
+    CHECK( globvars.get_global_value( "dbl_val" ) == 8 );
+    CHECK( globvars.get_global_value( "str_val" ) == "blorg" );
+#if defined(LOCALIZE)
+    CHECK( globvars.get_global_value( "i18n_val" ) == "батарейка" );
+#endif
+    CHECK( globvars.get_global_value( "tripoint_val" ) == tripoint_abs_ms( 0, 10, 0 ) );
+    CHECK( globvars.get_global_value( "math_val" ) == 3 );
+    CHECK( std::isinf( globvars.get_global_value( "inf_val" ).dbl() ) );
+    CHECK( std::isnan( globvars.get_global_value( "nan_val" ).dbl() ) );
+    CHECK( globvars.get_global_value( "copied_val" ) == "BLORG" );
 }

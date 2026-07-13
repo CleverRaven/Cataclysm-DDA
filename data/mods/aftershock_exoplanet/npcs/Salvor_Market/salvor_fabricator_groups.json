@@ -183,6 +183,7 @@
       { "item": "afs_survival_battery" },
       { "item": "multi_cooker" },
       { "item": "afs_40g_plasma_civ" },
+      { "item": "afs_shydrogen" },
       { "item": "afs_plasma_torch" }
     ]
   }

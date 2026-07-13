@@ -36,7 +36,7 @@
         "topic": "TALK_Directions_exodii_false",
         "condition": { "compare_string": [ "alternate", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
-          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance -= 1" ] },
           { "math": [ "exodii_mission_wh_chance = max( exodii_mission_wh_chance, 1 )" ] }
         ]
       }
@@ -107,7 +107,9 @@
     "goal": "MGOAL_GO_TO",
     "difficulty": 2,
     "value": 0,
-    "start": { "assign_mission_target": { "om_special": "Strange warehouse", "om_terrain": "exo_warehouse_1", "reveal_radius": 2 } },
+    "start": {
+      "assign_mission_target": { "om_special": "Strange warehouse", "om_terrain": "exo_warehouse_1", "reveal_radius": 2, "z": 0 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": ".",

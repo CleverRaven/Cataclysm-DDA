@@ -24,5 +24,14 @@
       { "value": "BONUS_DODGE", "add": -5 },
       { "value": "BONUS_BLOCK", "add": -5 }
     ]
+  },
+  {
+    "id": "ench_mom_fifth_sun_targeting_assistance",
+    "name": { "str": "Targeting assistance" },
+    "description": "Your gear relays targeting data to your weapons, reducing dispersion by 25%.",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.25 } ]
   }
 ]

@@ -5,6 +5,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "//": "Disassemble a single ammo cartridge",
     "time": "6 s",
-    "qualities": [ { "id": "PULL", "level": 1 } ]
+    "//qualities": [ { "id": "PULL", "level": 1 } ],
+    "//1": "qualities cannot be inherited, so this is what should be copied into the real recipes"
   }
 ]

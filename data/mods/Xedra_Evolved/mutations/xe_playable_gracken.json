@@ -8,12 +8,18 @@
     "points": 4,
     "proficiencies": [ "prof_traps" ],
     "recipes": [
+      "gracken_shade_arms",
       "gracken_strong_arms",
       "gracken_long_arms",
-      "gracken_shade_arms",
       "gracken_shade_hands",
       "gracken_sharp_nails",
-      "gracken_dextrous_hands"
+      "gracken_dextrous_hands",
+      "gracken_carnivorous_stomach",
+      "gracken_herbivorous_stomach",
+      "gracken_omnivorous_stomach",
+      "gracken_shade_legs",
+      "gracken_short_legs",
+      "gracken_long_legs"
     ],
     "traits": [
       "THRESH_SPECIES_GRACKEN",
@@ -40,7 +46,6 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
-    "profession": true,
     "points": 2,
     "description": "A traveler from another dimension.  A dimension of shadows with few bright lights.  Once your species matures, they gain the ability to create new alterations to their body from ingredients harvested from their kills, shadowstuff and magickal essence.",
     "types": [ "HERITAGE" ],
@@ -48,7 +53,7 @@
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
     "empathize_with": [ "GRACKEN" ],
     "no_empathize_with": [ "HUMAN" ],
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+    "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ]
   },
   {
     "type": "mutation",
@@ -249,7 +254,7 @@
     "type": "mutation",
     "id": "SHADE_DEXTROUS_HANDS",
     "name": { "str": "Shade Dextrous Hands" },
-    "description": "Your hands are humanoid but appear to be made of swirling shadows.  You sport an extra digit on every finger that improves your ability to get into tight situations..",
+    "description": "Your hands are humanoid but appear to be made of swirling shadows.  You sport an extra digit on every finger that improves your ability to get into tight situations.",
     "//": "This is the first stage crafting hands mutation.",
     "types": [ "HANDS" ],
     "prereqs": [ "SHADE_HANDS" ],
@@ -323,6 +328,15 @@
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ],
     "flags": [ "CARNIVORE_DIET" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 1 },
+          { "value": "METABOLISM", "multiply": 0.8 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "add": 500 }
+        ]
+      }
+    ],
     "vitamin_rates": [ [ "vitC", -1200 ] ]
   },
   {
@@ -336,6 +350,16 @@
     "mixed_effect": true,
     "points": 1,
     "category": [ "GRACKEN" ],
+    "flags": "HERBIVORE_DIET",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "KCAL", "multiply": 1.3 },
+          { "value": "DODGE_CHANCE", "add": 3 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "add": 1000 }
+        ]
+      }
+    ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
   },
   {
@@ -354,6 +378,7 @@
     "id": "RADIOTROPHIC",
     "name": { "str": "Radiotrophic" },
     "points": 3,
+    "purifiable": false,
     "vitamin_cost": 160,
     "description": "Your system has adapted to radiation.  While irradiated, you will convert the radiation into calories.",
     "category": [ "GRACKEN" ],

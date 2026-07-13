@@ -1,3 +1,19 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Developer FAQ](#developer-faq)
+  - [Adding stuff](#adding-stuff)
+  - [Adding a monster](#adding-a-monster)
+  - [Adding structures to the map](#adding-structures-to-the-map)
+  - [Adding a bionic](#adding-a-bionic)
+  - [How armor protection is calculated](#how-armor-protection-is-calculated)
+  - [Adding an iuse function.](#adding-an-iuse-function)
+  - [Acid resistance](#acid-resistance)
+- [FAQ](#faq)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Developer FAQ
 
 ## Adding stuff

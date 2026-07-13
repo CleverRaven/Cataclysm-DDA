@@ -3,6 +3,7 @@
 # See CPLUSPLUS-SUPPORT.html in the NDK documentation for more information
 APP_STL := c++_shared
 APP_CPPFLAGS += -std=c++17
+APP_CONLYFLAGS += -std=c17
 ifneq ($(OS),Windows_NT)
     APP_LDFLAGS += -fuse-ld=lld
 endif

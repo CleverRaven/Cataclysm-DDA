@@ -197,8 +197,8 @@ struct mutation_branch {
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;
-        // By default startingtrait = true traits can be randomly assigned, this allows that to be reversed.
-        bool random_at_chargen = true;
+        // If false, NPCs cannot receive this trait during chargen
+        bool chargen_allow_npc = true;
         bool activated     = false;
         translation activation_msg;
         // Should it activate as soon as it is gained?
@@ -256,13 +256,13 @@ struct mutation_branch {
         /**Species ignoring character with the mutation*/
         std::vector<species_id> ignored_by;
 
-        /**Map of angered species and there intensity*/
+        /**Map of angered species and their intensity*/
         std::map<species_id, int> anger_relations;
 
         std::vector<species_id> empathize_with;
         std::vector<species_id> no_empathize_with;
 
-        /**List of material required for food to be be edible*/
+        /**List of material required for food to be edible*/
         std::set<material_id> can_only_eat;
 
         /**List of healing items allowed*/

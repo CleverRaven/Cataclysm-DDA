@@ -1,0 +1,193 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [
+      [ "microlab_psi_phavian_biokinesis_mutation_lab_nw", "microlab_psi_phavian_biokinesis_mutation_lab_ne" ],
+      [ "microlab_psi_phavian_biokinesis_mutation_lab_sw", "microlab_psi_phavian_biokinesis_mutation_lab_se" ]
+    ],
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        " ||||||22||  | cc |      cc  |    |  |FFFF|6    ",
+        " |           |    2 c c  cc      F|  ||||||6 h  ",
+        " 2           |ccrr| c c          F|  2    |^    ",
+        " (  ||||||||||||||| c c c=   dd ||||||||r |6h   ",
+        " |  | htth   htth |||||||||  dh |;|;| ;|r |6    ",
+        "||  | htth   htth |Điooç Ḟ|||||||2|2|2||r |||||2",
+        " |  | htth   htth |      f|  |##|      |F =FFFF ",
+        " 2  | htth   htth ç ççç  f|  ||||||    |F =     ",
+        " |  | htth   htth ç ççç  f|  |ll|i     |F 2  cc ",
+        " |  |             |       2  |i |i     |F =  cc ",
+        "||  G||||||22||||||||||||||  ||2||||||2|||||||||",
+        "    5             2          2           Y   5  ",
+        "    5             2          2           Y   5  ",
+        "||22||||22|||||||||||||2||2||||2||||||2|     G||",
+        " |  |???  dd^dd6ddd6d|c     r|- |iiiY  |     || ",
+        "c|  |     6h d  hd hd|c cc  r|ll|      |  ||||c ",
+        "c|  |6h   dd         2  cc hc||||      |  |  =c ",
+        " |  |d               2      c|@@|2|2|2||  |  [  ",
+        "||22|||22||||||||||22|||||2|||  |;|;| ;|  |[==||",
+        "F|   |^      |    |  |ccr    =[=||||||||  | c c ",
+        "c|Y  |^      | NɃ |       c  Y  h6|       | c c ",
+        "||2((||||||  |    | ȼȼȼ   iccc  h6|       | i i ",
+        "    F| ȼȼȼ|  |////| ȼȼȼ    c     6|  |||2||     ",
+        "    c|    |  |    |      ȼȼ c|c   |  |r  F|     ",
+        "    c|    2  2  hh|      ȼȼ       |  |r  F|   c ",
+        "  6cc|ȼȼȼ |  |  66|ȼȼȼȼ         FF|  2   F|   c ",
+        "  |||||||||22|||||||||c  dd     |||22||||||     ",
+        "  |-------   --------|6  hd  rrr|6      h6|     ",
+        "  |-F   cc   c -lll -||||||22||||h      h6||||||",
+        "|||-F          2   c-|   c|  |l 2    =2===| d^= ",
+        "  |--   cc  ȼȼ -  h6-|   c|  ||||    =    | d = ",
+        "  |-F   cc  ȼȼ - h c-|c  c|     2   R=  ß |   [ ",
+        "  |-F   cc  ȼȼ -ccȼȼ-|c   2     2   R=    |   = ",
+        "  |-------22---------|||2|||||||||||||||||||||||",
+        "2||F   2 2  h6-O O O-|     |FFccFF|      Y|     ",
+        "  |F   ---  h6-O O O-|   dd|F    F| ȼȼȼȼ  |     ",
+        "  |M̃h   L(    G  O O-|   h6|      | ȼȼȼȼ  |  2  ",
+        "|||Eh LLL(    5    O-|||2||||     2     h6|  |||",
+        " |-----(((222---------|     cc    2     h6|  2  ",
+        " |-0 0 0 0   0 0 0 0 -| cc  cc    | ȼȼȼȼ  |  |  ",
+        " |-0 0 0 0   0 0 0 0 -| cc     h  | ȼȼȼȼ  |  |  ",
+        "c|-                  -|c     |6ṭcc|      ^|  |2|",
+        "||-0 0 0 0 0 0 0 0 0 -|||||||||||||55G|||||  |  ",
+        "c|-0 0 0 0 0 0 0 0 0 -|F  c      2           | c",
+        " |--------------------|F  c      2           | c",
+        " |||||||||||||||||||||||  iccc   2           | c",
+        " cccc|c   |^^|    |  cc   c      ||  |||||||||  ",
+        "    c|c   2  2    |       c c|c   |  |6hh6|cFc  "
+      ],
+      "terrain": {
+        "+": "t_door_lab_c",
+        ".": "t_metal_floor",
+        "3": "t_door_locked",
+        "2": "t_door_glass_frosted_lab_c",
+        "4": "t_door_metal_pickable",
+        "0": "t_vat",
+        "ß": "t_ascension_chamber_biokinesis",
+        "X": "t_region_shrub_decorative",
+        "P": "t_carpet_concrete_red",
+        "G": "t_card_science",
+        "5": "t_door_metal_locked",
+        "[": "t_door_glass_lab_c",
+        "-": "t_wall_metal",
+        "y": "t_pavement_y",
+        "|": "t_concrete_wall",
+        "=": "t_wall_glass_lab",
+        "(": "t_reinforced_glass_lab",
+        "e": "t_elevator",
+        "E": "t_elevator_control",
+        "<": "t_stairs_up",
+        ">": "t_stairs_down",
+        "Y": "t_strconc_floor_olight",
+        "#": "t_rock"
+      },
+      "furniture": {
+        ";": "f_toilet",
+        "~": "f_shower",
+        "@": "f_bed",
+        "6": "f_console_broken",
+        "a": "f_armchair",
+        "k": "f_cupboard",
+        "Đ": "f_dishwasher",
+        "D": "f_dresser",
+        "h": "f_chair",
+        "b": "f_bench",
+        "B": "f_bookcase",
+        "Ƀ": "f_scan_bed",
+        "c": "f_counter",
+        "ȼ": "f_counter",
+        "ç": "f_counter",
+        "E": "f_electron_microscope",
+        "M̃": "f_MS",
+        "M": "f_NMR",
+        "l": "f_locker",
+        "L": "f_lab_bench",
+        "n": "f_trashcan",
+        "N": "f_MRI",
+        "d": "f_desk",
+        "f": "f_fridge",
+        "F": "f_glass_fridge",
+        "Ḟ": "f_freezer",
+        "o": "f_oven",
+        "O": "f_utility_shelf",
+        "/": "f_curtain",
+        "U": "f_utility_shelf",
+        "i": "f_sink",
+        "r": "f_rack",
+        "?": "f_sofa",
+        "t": "f_table",
+        "R": "f_table",
+        "ṭ": "f_table",
+        "^": "f_indoor_plant",
+        "x": "f_safe_l"
+      },
+      "toilets": { ";": {  } },
+      "place_item": [
+        { "item": "phavian_psionic_control_mutations_book", "x": 28, "y": 17, "chance": 50 },
+        { "item": "phavian_psionic_control_mutations_book", "x": 23, "y": 38, "chance": 50 },
+        { "item": "phavian_psionic_control_mutations_book", "x": 9, "y": 32, "chance": 100 }
+      ],
+      "items": {
+        "d": { "item": "SUS_office_desk", "chance": 70 },
+        "B": [ { "item": "textbooks", "chance": 50 }, { "item": "manuals", "chance": 50 } ],
+        "F": [
+          { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
+          { "item": "supplies_samples_lab", "chance": 40, "repeat": [ 1, 3 ] }
+        ],
+        "U": [
+          { "item": "tools_science", "chance": 30, "repeat": [ 1, 3 ] },
+          { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 1, 3 ] },
+          { "item": "supplies_samples_lab", "chance": 10, "repeat": [ 1, 2 ] }
+        ],
+        "c": [
+          { "item": "tools_science", "chance": 30, "repeat": [ 1, 3 ] },
+          { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 1, 3 ] },
+          { "item": "supplies_samples_lab", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "lab_files_generic", "chance": 5 }
+        ],
+        "ȼ": [
+          { "item": "tools_science", "chance": 30, "repeat": [ 1, 3 ] },
+          { "item": "psi_lab_recipes_rare", "chance": 70, "repeat": [ 1, 3 ] },
+          { "item": "lab_files_generic", "chance": 5 },
+          { "item": "matrix_crystal_biokin_dust_group", "chance": 10 }
+        ],
+        "ç": [
+          { "item": "SUS_knife_drawer", "chance": 50 },
+          { "item": "SUS_utensils", "chance": 50 },
+          { "item": "SUS_cookware", "chance": 50 }
+        ],
+        "t": { "item": "mil_base_mess_hall", "chance": 40 },
+        "f": { "item": "SUS_fridge", "chance": 80 },
+        "R": [
+          { "item": "psi_lab_recipes_rare", "chance": 40, "repeat": [ 1, 3 ] },
+          { "item": "supplies_electronics", "chance": 40, "repeat": [ 1, 3 ] },
+          { "item": "matrix_crystal_biokin_dust_group", "chance": 50, "repeat": [ 2, 4 ] }
+        ],
+        "o": { "item": "SUS_oven", "chance": 50 },
+        "O": [ { "item": "mutagenic_alpha_kit", "chance": 25, "repeat": [ 1, 3 ] } ],
+        "i": { "item": "cleaning", "chance": 20 },
+        "N": { "item": "fireman_cabinet", "chance": 100 },
+        ";": { "item": "SUS_toilet", "chance": 50 }
+      },
+      "place_computers": [
+        {
+          "x": 41,
+          "y": 30,
+          "name": "Project OBSIDIAN RING access",
+          "eocs": [ "EOC_OBSIDIAN_RING_COMPUTER_BIOKINESIS_DIALOGUE" ],
+          "chat_topics": [ "COMP_OBSIDIAN_RING_COMPUTER_BIOKINESIS" ]
+        }
+      ],
+      "vendingmachines": { "V": {  } },
+      "item": { "0": { "item": "fetus" } },
+      "monster": { "T": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } } },
+      "place_monster": [
+        { "monster": "mon_mutant_biokinetic_alpha", "x": 10, "y": 9, "chance": 75 },
+        { "monster": "mon_mutant_biokinetic_alpha", "x": 35, "y": 15, "chance": 75 },
+        { "monster": "mon_mutant_biokinetic_alpha", "x": 28, "y": 31, "chance": 75 },
+        { "monster": "mon_transcendant_alpha_psion", "x": 10, "y": 28, "chance": 100 }
+      ]
+    }
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST_GLAND",
+    "effect": [
+      { "u_message": "Initial setup complete (1 if true): <u_val:setup_gland>" },
+      { "u_message": "Gland vitamin: <u_val:mutagen_gland_vitamin>" },
+      { "u_message": "Gland threshold: <u_val:mutagen_gland_threshold>" },
+      { "u_message": "Gland post-mutation cooldown (-1 if off cooldown): <u_val:recently_mutated_cooldown>hrs" },
+      { "u_message": "Gland surplus production since cooldown: <u_val:mutagen_gland_surplus>mg" },
+      { "set_string_var": "MUTAGEN_GLAND_CEPHALOPOD", "target_var": { "context_val": "trait" } },
+      {
+        "if": { "test_eoc": "EOC_IS_GLAND" },
+        "then": [
+          { "set_string_var": "CEPHALOPOD", "target_var": { "context_val": "trait" } },
+          {
+            "if": { "test_eoc": "EOC_IS_GLAND" },
+            "then": { "u_message": "EOC_IS_GLAND giving false positive" },
+            "else": { "u_message": "EOC_IS_GLAND working as intended" }
+          }
+        ],
+        "else": { "u_message": "EOC_IS_GLAND giving false negative" }
+      }
+    ]
+  }
+]

@@ -16,6 +16,27 @@
   },
   {
     "type": "weakpoint_set",
+    "id": "wps_stiltwalker",
+    "weakpoints": [
+      {
+        "id": "chink in the armor",
+        "name": "a narrow crack in the armor plating",
+        "coverage": 5,
+        "difficulty": { "melee": 7, "ranged": 10 },
+        "coverage_mult": { "point": 2 },
+        "armor_mult": { "all": 0.25 }
+      },
+      {
+        "id": "chink in the armor",
+        "name": "a softer spot in its armor plating",
+        "coverage": 15,
+        "difficulty": { "melee": 4, "ranged": 6 },
+        "armor_mult": { "bullet": 0.8, "cut": 0.9, "stab": 0.8, "bash": 0.6 }
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
     "id": "wps_nether_huntsman",
     "weakpoints": [
       {

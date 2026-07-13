@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <stddef.h>
 #include <string>
 #include <vector>
 
@@ -16,11 +17,30 @@
 
 class JsonOut;
 class JsonValue;
+class Skill;
 
 namespace catacurses
 {
 class window;
 }  // namespace catacurses
+
+///Compares two string_id by translated name
+template<typename T>
+class id_translated_name_comp
+{
+    public:
+        bool operator()( const string_id<T> &a, const string_id<T> &b ) const {
+            const std::string &a_name = a->name();
+            const std::string &b_name = b->name();
+            if( a_name == b_name ) {
+                // just in case there's a collision in translated names
+                // NOLINTNEXTLINE(cata-use-localized-sorting)
+                return a.str() < b.str();
+            }
+            // NOLINTNEXTLINE(cata-use-localized-sorting)
+            return a->name() < b->name();
+        }
+};
 
 /// <summary>
 /// diary page, to save current character progression
@@ -59,12 +79,24 @@ struct diary_page {
     /*bionics id`s the character has*/
     std::vector<bionic_id> bionics;
     /*skill id's with level the character has*/
-    std::map<skill_id, int> skillsL;
+    std::map<skill_id, int, id_translated_name_comp<Skill>> skillsL;
     /*known and learning profession id of the character*/
     std::vector<proficiency_id> known_profs;
     std::vector<proficiency_id> learning_profs;
     /*maximal power level the character has*/
     units::energy max_power_level;
+
+    virtual std::string entry_name() const;
+    virtual bool is_summary() const {
+        return false;
+    }
+};
+
+struct diary_page_summary : public diary_page {
+    std::string entry_name() const override;
+    bool is_summary() const override {
+        return true;
+    }
 };
 
 /// <summary>
@@ -99,16 +131,20 @@ class diary
         void death_entry();
 
         /*serialize and deserialize*/
-        bool store();
+        bool store() const;
         void load();
-        void serialize( std::ostream &fout );
+        void serialize( std::ostream &fout ) const;
         void deserialize( const JsonValue &jsin );
-        void serialize( JsonOut &jsout );
+        void serialize( JsonOut &jsout ) const;
 
     private:
+        void add_summary_page();
+        void open_summary_page();
+        time_accuracy time_acc() const;
+
         /*Uses editor window class to edit the text.*/
         void edit_page_ui( const std::function<catacurses::window()> &create_window );
-        /*set page to be be shown in ui*/
+        /*set page to be shown in ui*/
         int set_opened_page( int pagenum );
         /*create a new page and adds current character progression*/
         void new_page();
@@ -117,24 +153,38 @@ class diary
         /*delite current page*/
         void delete_page();
 
-        /*get opened page nummer*/
+        /*get opened page number*/
         int get_opened_page_num() const;
         /*returns a list with all pages by the its date*/
-        std::vector<std::string> get_pages_list();
+        std::vector<std::string> get_pages_list() const;
         /*returns a list with all changes compared to the previous page*/
-        std::vector<std::string> get_change_list();
+        const std::vector<std::string> &get_change_list();
         /*returns a map corresponding to the change_list with descriptions*/
-        std::map<int, std::string> get_desc_map();
+        std::map<int, std::string> &get_desc_map();
 
         /*returns pointer to current page*/
-        diary_page *get_page_ptr( int offset = 0 );
+        diary_page *get_page_ptr( int offset = 0, bool allow_summary = true );
         /*returns the text of opened page*/
         std::string get_page_text();
         /*returns text for head of page*/
-        std::string get_head_text();
+        std::string get_head_text( bool is_summary = false );
+        /*helper functions for *_changes below, adds to change_list with headers, pluralization, etc*/
+        template<typename Container, typename Fn>
+        void changes( Container diary_page::* member, Fn &&get_entry,
+                      const std::string &heading_first, const std::string &headings_first,
+                      const std::string &heading, const std::string &headings,
+                      diary_page *currpage, diary_page *prevpage );
+        template<typename Container, typename Fn>
+        void changes( Container diary_page::* member, Fn &&get_entry,
+                      const std::string &heading_first, const std::string &headings_first,
+                      const std::string &heading, const std::string &headings );
+        template<typename Container, typename Fn>
+        void changes( Container diary_page::* member, Fn &&get_entry,
+                      const std::string &heading_first, const std::string &headings_first );
         /*the following methods are used to fill the change_list and desc_map in comparison to the previous page*/
         void skill_changes();
-        void kill_changes();
+        void mon_kill_changes();
+        void npc_kill_changes();
         void trait_changes();
         void bionic_changes();
         void stat_changes();
@@ -142,9 +192,11 @@ class diary
         void mission_changes();
         void spell_changes();
 
-        /*expots the diary to a readable .txt file. If its the lastexport, its exportet to memorial otherwise its exportet to the world folder*/
+        /*exports the diary to a readable .txt file. If it's the lastexport, it's exported to memorial otherwise it's exported to the world folder*/
         void export_to_txt( bool lastexport = false );
-        /*method for adding changes to the changelist. with the possibility to connect a description*/
-        void add_to_change_list( const std::string &entry, const std::string &desc = "" );
+        /* add a change to the change list, with optional description. returns the index of the new entry.*/
+        size_t add_to_change_list( const std::string &entry, const std::string &desc = "" );
+        /* update a change in the change list, with optional description. returns the index of the new entry.*/
+        void update_change_list( size_t index, const std::string &entry, const std::string &desc = "" );
 };
 #endif // CATA_SRC_DIARY_H

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mi-go_camp1", "mi-go_camp2" ] ],
     "object": {
       "fill_ter": "t_floor_resin",
@@ -55,7 +54,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mi-go_camp1-1", "mi-go_camp2-1" ] ],
     "object": {
       "fill_ter": "t_floor_resin",
@@ -90,7 +88,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mi-go_camp2-2" ],
     "object": {
       "fill_ter": "t_floor_resin",
@@ -125,7 +122,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mi-go_camp2-3" ],
     "object": {
       "fill_ter": "t_floor_resin",

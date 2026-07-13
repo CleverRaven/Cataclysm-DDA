@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "isolated_house_farm_gunsmith" ],
     "object": {
       "fill_ter": "t_floor",
@@ -88,7 +87,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "isolated_house_farm_blacksmith" ],
     "object": {
       "fill_ter": "t_floor",
@@ -134,7 +132,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "isolated_road_field_0" ],
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -179,7 +176,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "isolated_road_field_1" ],
     "object": {
       "fill_ter": "t_region_soil",
@@ -241,7 +237,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "isolated_house_farm_roof_blacksmith", "isolated_road_field_1_roof" ] ],
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -279,7 +274,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "isolated_house_farm_roof_gunsmith",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

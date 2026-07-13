@@ -40,7 +40,7 @@
       { "item": "bra" },
       { "item": "panties" },
       { "item": "socks" },
-      { "item": "robofac_jumpsuit" },
+      { "item": "jumpsuit", "variant": "robofac" },
       { "item": "boots_steel" },
       { "item": "vest" },
       { "item": "gloves_work" }

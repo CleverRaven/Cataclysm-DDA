@@ -37,6 +37,8 @@
     "ascii_picture": "halberd",
     "description": "This is an oversized axe made from scraps of salvaged metal.  While not as versatile or durable as the boarding axe, it still packs a punch.",
     "weight": "9250 g",
+    "price": "60 USD",
+    "price_postapoc": "60 USD",
     "volume": "2750 ml",
     "longest_side": "120 cm",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],

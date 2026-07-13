@@ -6,7 +6,7 @@
     "subtypes": [ "GUN" ],
     "name": { "str": "anti-materiel rifle" },
     "ammo": [ "ammo_rifle_huge" ],
-    "description": "Large, intimidating, and overbuilt, this hefty rifle fires huge projectiles with relative precision.  Though it resembles a sniper rifle, this anti-material weapon is best suited for blinding tanks, shooting at aircraft, or destroying explosives.  It feeds from comically oversized magazines.",
+    "description": "Large, intimidating, and overbuilt, this hefty rifle fires huge projectiles with relative precision.  Though it resembles a sniper rifle, this anti-materiel weapon is best suited for blinding tanks, shooting at aircraft, or destroying explosives.  It feeds from comically oversized magazines.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -20,7 +20,7 @@
   },
   {
     "id": "rifle_huge_double",
-    "copy-from": "bfg50",
+    "copy-from": "win70_458",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "elephant rifle" },

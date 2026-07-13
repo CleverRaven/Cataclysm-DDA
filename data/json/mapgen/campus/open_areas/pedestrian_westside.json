@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "pedestrian_9_8", "pedestrian_10_8" ] ],
     "object": {
       "fill_ter": "t_concrete",
@@ -38,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "pedestrian_9_11", "pedestrian_10_11" ] ],
     "object": {
       "fill_ter": "t_concrete",

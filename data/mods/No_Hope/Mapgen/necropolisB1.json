@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_b_1", "necropolis_b_2", "necropolis_b_3" ],
@@ -66,7 +65,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_b_4", "necropolis_b_5", "necropolis_b_6" ],
@@ -135,7 +133,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_b_7", "necropolis_b_8", "necropolis_b_9" ],
@@ -208,7 +205,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_b_19", "necropolis_b_20", "necropolis_b_21" ],
@@ -288,7 +284,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_b_22", "necropolis_b_23", "necropolis_b_24" ],
@@ -359,7 +354,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_b_25", "necropolis_b_26", "necropolis_b_27" ],
@@ -433,7 +427,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_b_37", "necropolis_b_38", "necropolis_b_39" ],
@@ -508,7 +501,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_b_40", "necropolis_b_41", "necropolis_b_42" ],
@@ -578,7 +570,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_b_43", "necropolis_b_44", "necropolis_b_45" ],
@@ -648,7 +639,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_b_55", "necropolis_b_56", "necropolis_b_57" ],
@@ -721,7 +711,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_b_58", "necropolis_b_59", "necropolis_b_60" ],
@@ -791,7 +780,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_b_61", "necropolis_b_62", "necropolis_b_63" ],
@@ -859,7 +847,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [ [ "necropolis_b_73", "necropolis_b_74", "necropolis_b_75" ] ],
     "object": {
@@ -894,7 +881,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [ [ "necropolis_b_76", "necropolis_b_77", "necropolis_b_78" ] ],
     "object": {
@@ -933,7 +919,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [ [ "necropolis_b_79", "necropolis_b_80", "necropolis_b_81" ] ],
     "object": {

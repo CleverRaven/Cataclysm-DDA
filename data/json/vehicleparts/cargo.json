@@ -43,7 +43,6 @@
   {
     "type": "vehicle_part",
     "abstract": "basketlg_abstract",
-    "name": { "str": "shopping cart basket" },
     "categories": [ "cargo" ],
     "looks_like": "basketsm",
     "color": "brown",
@@ -71,13 +70,14 @@
     "copy-from": "basketlg_abstract",
     "id": "basketlg",
     "type": "vehicle_part",
+    "description": "A large wire basket from a shopping cart.",
     "variants_bases": [ { "id": "cart", "label": "Cart" } ],
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
     "id": "basketlg_external",
     "type": "vehicle_part",
-    "name": { "str": "external shopping cart basket" },
+    "name": { "str": "external wire basket" },
     "looks_like": "basketlg",
     "item": "basket",
     "location": "structure",
@@ -101,7 +101,7 @@
   {
     "type": "vehicle_part",
     "id": "basketlg_folding",
-    "name": { "str": "folding shopping cart basket" },
+    "description": "A large wire basket from a shopping cart, modified to be foldable.",
     "looks_like": "basketlg",
     "categories": [ "cargo" ],
     "color": "brown",
@@ -125,7 +125,6 @@
   {
     "type": "vehicle_part",
     "abstract": "basketsm_abstract",
-    "name": { "str": "wire bike basket" },
     "looks_like": "basketlg",
     "categories": [ "cargo" ],
     "color": "brown",
@@ -150,13 +149,14 @@
     "copy-from": "basketsm_abstract",
     "id": "basketsm",
     "type": "vehicle_part",
+    "description": "A simple bike basket.  It is small and foldable.",
     "variants_bases": [ { "id": "bike_rear", "label": "Bike Rear" }, { "id": "wheelchair", "label": "Wheelchair" } ],
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
     "id": "basketsm_external",
     "type": "vehicle_part",
-    "name": { "str": "external wire bike basket" },
+    "name": { "str": "external bike basket" },
     "looks_like": "basketsm",
     "item": "bike_basket",
     "location": "structure",
@@ -253,9 +253,8 @@
   {
     "id": "bike_rack",
     "type": "vehicle_part",
-    "name": { "str": "bike rack" },
     "item": "bike_rack",
-    "location": "anywhere",
+    "location": "on_frame",
     "categories": [ "cargo" ],
     "broken_color": "dark_gray",
     "durability": 150,
@@ -278,7 +277,6 @@
   {
     "id": "mounted_spare_tire",
     "type": "vehicle_part",
-    "name": { "str": "mounted spare tire" },
     "item": "mounted_spare_tire",
     "location": "structure",
     "categories": [ "other" ],

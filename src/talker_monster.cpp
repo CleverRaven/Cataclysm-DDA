@@ -166,7 +166,7 @@ int talker_monster_const::get_friendly() const
 
 int talker_monster_const::get_difficulty() const
 {
-    return me_mon_const->type->difficulty;
+    return me_mon_const->type->get_total_difficulty();
 }
 
 int talker_monster_const::get_size() const

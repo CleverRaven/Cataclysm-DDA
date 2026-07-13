@@ -52,10 +52,19 @@
               "min_radius": 3,
               "max_radius": 20,
               "lifespan": [ "40 seconds", "2 minutes" ]
+            },
+            {
+              "if": { "mod_is_loaded": "mindovermatter" },
+              "then": { "run_eocs": "EOC_MOM_FIFTH_SUN_ON_SEEING_YRAX_APEIROHEDRON" }
             }
           ]
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_FIFTH_SUN_ON_SEEING_YRAX_APEIROHEDRON",
+    "effect": [  ]
   }
 ]

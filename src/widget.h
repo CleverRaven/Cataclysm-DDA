@@ -223,10 +223,10 @@ struct widget_clause {
 
 // A specified variable object or math expression for use with "var": "custom".
 struct widget_custom_var {
-    dbl_or_var_part value;
-    dbl_or_var_part min;
-    dbl_or_var_part max;
-    std::pair<dbl_or_var_part, dbl_or_var_part> norm;
+    dbl_or_var::part_t value;
+    dbl_or_var::part_t min;
+    dbl_or_var::part_t max;
+    std::pair<dbl_or_var::part_t, dbl_or_var::part_t> norm;
 
     void deserialize( const JsonObject &jo );
     void set_widget_var_range( const avatar &ava, widget &wgt ) const;
@@ -323,7 +323,8 @@ class widget
         static void load_widget( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, std::string_view src );
         // Finalize anything that must wait until all widgets are loaded
-        static void finalize();
+        static void finalize_all();
+        void finalize();
         // Recursively derive _label_width for nested layouts in this widget
         static int finalize_label_width_recursive( const widget_id &id );
         // Recursively derive _separator for nested layouts in this widget

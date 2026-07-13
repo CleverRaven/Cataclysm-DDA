@@ -21,18 +21,15 @@ def transform_result(result):
 
 
 def parse_ter_furn_transform(json, origin):
-    if "fail_message" in json:
-        write_text(json["fail_message"], origin,
-                   comment="Failure message of terrain furniture transform")
-    if "terrain" in json:
-        for terrain in json["terrain"]:
-            if "message" in terrain:
-                write_text(terrain["message"], origin,
-                           comment="Message after transforming to \"{}\"".
-                           format(transform_result(terrain["result"])))
-    if "furniture" in json:
-        for furniture in json["furniture"]:
-            if "message" in furniture:
-                write_text(furniture["message"], origin,
-                           comment="Message after transforming to \"{}\""
-                           .format(transform_result(furniture["result"])))
+    write_text(json.get("fail_message"), origin,
+               comment="Failure message of terrain furniture transform")
+
+    for terrain in json.get("terrain", []):
+        write_text(terrain.get("message"), origin,
+                   comment="Message after transforming to '{}'".
+                   format(transform_result(terrain["result"])))
+
+    for furniture in json.get("furniture", []):
+        write_text(furniture.get("message"), origin,
+                   comment="Message after transforming to '{}'"
+                   .format(transform_result(furniture["result"])))

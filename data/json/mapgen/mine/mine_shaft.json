@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mine_shaft_middle", "mine_shaft_middle_east" ] ],
     "object": {
       "fill_ter": "t_soil",
@@ -36,7 +35,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mine_shaft_lower", "mine_shaft_lower_east" ] ],
     "object": {
       "fill_ter": "t_rock_floor",

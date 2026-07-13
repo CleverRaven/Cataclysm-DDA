@@ -186,18 +186,6 @@
     "entries": [ { "item": "axmc", "contents-item": "retool_axmc_308win" } ]
   },
   {
-    "id": "cz600",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [ { "item": "cz600", "contents-item": "retool_cz600_223rem" } ]
-  },
-  {
-    "id": "cz600_762",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [ { "item": "cz600", "contents-item": "retool_cz600_762" } ]
-  },
-  {
     "id": "modular_deagle_357",
     "type": "item_group",
     "subtype": "collection",

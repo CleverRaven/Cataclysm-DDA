@@ -1,0 +1,36 @@
+[
+  {
+    "type": "help",
+    "order": 0,
+    "name": "Aftershock Exoplanet: Basics",
+    "messages": [
+      "The Aftershock Exoplanet is a total conversion mod for Cataclysm: DDA.  This game takes place in the distant future on the edges of civilized space on a frozen planet named Salus IV.",
+      "In the Aftershock timeline, the Cataclysm that changed everything happened centuries ago when suddenly faster than light travel, artificial intelligence, and a variety of other sciences that relied upon a weird physics interaction between two dimensions stopped working with no warning.",
+      "It took humanity centuries to become interstellar again aftert the Discontinuity occured and there are many objects from pre-collapse civilizations that still work in now wondrous ways but can never be replicated.",
+      "Salus IV is the frozen planet that our game is set upon.  A terraforming project started before the Discontinuity but not long enough before that the terraforming process got very far.",
+      "One last thing: remember to bind the Supernatural Powers key to use your powers if you are an esper!"
+    ]
+  },
+  {
+    "type": "help",
+    "order": 1,
+    "name": "Aftershock Exoplanet: Possible Starts",
+    "messages": [
+      "You will have to start in Port Augustmoon and survive a week before you can engage in other starts on Aftershock.  Significant feedback has shown that people will often start the Challenge starts and then immediately death spiral because they don't yet understand that power and heat are the most important resources in the early game.  Port Augustmoon provides both of those in abundance which allows you to explore the world and come back when you need to.",
+      "Once you've gained some experience with Salus IV and the Aftershock activity cycle, you can experience more challenging starts where you may not have enough power or heat to survive without quick wits.",
+      "There are a variety of crashing starship starts each with their own challenges.  You can start as a genetically and cybernetically modified soldier.  Or even as an esper, who has psychic abilities."
+    ]
+  },
+  {
+    "type": "help",
+    "order": 2,
+    "name": "Aftershock Exoplanet: Suggestions",
+    "messages": [
+      "Remember to buy things that provide heat and power before you leave Port Augustmoon.",
+      "If you start as a bounty hunter in the crashed ship, your ship may have one last trick to save your life.",
+      "If you start in the crashing ship, move quickly towards the exits and don't dawdle exploring or it will be one of the fastest games you've played.",
+      "You can gain genetic modifications or esper techniques via exploring Salus IV.  However you cannot have both, one will break the other.",
+      "We hope you enjoy Aftershock: Exoplanet and if you have any ideas to add to it or bugs to report we hope to see you on Github."
+    ]
+  }
+]

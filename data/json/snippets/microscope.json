@@ -1,0 +1,93 @@
+[
+  {
+    "type": "snippet",
+    "category": "<microscope_water_murky>",
+    "text": [ "<protozoa>", "<diatom>", "<algae>", "<rotifer>", "<cyanobacteria>", "<larvae>", "<crustacean>" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<microscope_soil>",
+    "text": [ "<protozoa>", "<nematode>", "<mite>", "<fungi>" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<rotifer>",
+    "text": [
+      "a barrel-shaped animal, with a pulsating organ at its end, fringed by spinning appendage.  Its jaws closing upon a drifting speck of algae, swallowing it whole.",
+      "a colony of barrel-shaped animals attached to some debris, from time to time one of them contracts and expands its body towards a passing cloud of small colorful shapes."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<diatom>",
+    "text": [
+      "a golden spindle with a hard, transparent shell, floating silently.",
+      "a golden sphere with a hard, transparent shell, floating silently.",
+      "a golden cube with a hard, transparent shell, floating silently."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<nematode>",
+    "text": [
+      "a thin white worm, aggressively wiggling in the center of your field of view.",
+      "a thin white worm with a pulsating red growth near one of its ends, laying motionless."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<algae>",
+    "text": [
+      "a big green blob floating away, it's full of round shapes of different sizes.",
+      "some kind of green structure made of multiple compartments sticking together, each of them full of round shapes of different sizes."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<mite>",
+    "text": [
+      "a small orange orb with four pairs of legs, clumsily traversing the small pieces of soil.",
+      "an eight legged animal with an orange hue, it's body pulsing with each awkward step."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<crustacean>",
+    "text": [
+      "a dark blur among the detritus, which upon stopping turns out to be a small oval crustacean with appendages at its rear",
+      "a dark blur among the detritus, which at one point begins to shake in place before splitting into two halves of a small oval crustacean.  You can see tiny tendrils beginning to extend from the split halves."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<protozoa>",
+    "text": [
+      "a chunky translucent blob, with various lengths of limbs protruding outwards.",
+      "some kind of soft blob, its jelly-like form shifting with each stretch, it seems to be hunting smaller organisms."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<larvae>",
+    "text": [
+      "a handful of small, translucent forms with six legs each, waddling through the water.",
+      "a handful of small, translucent forms with six legs each, waddling through the water.  One of them appears to have several glowing dots inside."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<cyanobacteria>",
+    "text": [
+      "a big, straight, green shape, so long it seems to go on forever, there's some kind of repeating zigzag structure inside.",
+      "big, impossibly long green shapes bunched together, they seem to be gliding along each other."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<fungi>",
+    "text": [
+      "a huge structure made out of small transparent strands.",
+      "a huge structure made out of small transparent strands, looking closer, it appears to be full of tiny, round, colorful shapes."
+    ]
+  }
+]

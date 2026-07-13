@@ -6,7 +6,7 @@
     "category": "spare_parts",
     "name": { "str": "cold iron ingot" },
     "description": "A five-liter ingot of solid cold iron.",
-    "weight": "39365 g",
+    "weight": "37365 g",
     "volume": "5 L",
     "price": "100 USD",
     "price_postapoc": "2 USD",

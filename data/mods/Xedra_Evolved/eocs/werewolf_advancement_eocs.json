@@ -1,0 +1,479 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLVES_GAIN_XP_FROM_OUTSIDER_KILLS",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": { "and": [ { "u_has_trait": "WEREWOLF_MANA_TRAIT" }, { "not": "u_has_weapon" } ] },
+    "effect": [
+      {
+        "if": { "test_eoc": "EOC_CONDITIONS_WEREWOLF_HUNT_TARGETS" },
+        "then": [
+          { "math": [ "u_werewolf_exp += _exp" ] },
+          {
+            "if": { "math": [ "u_werewolf_exp > u_werewolf_xp_threshold" ] },
+            "then": [ { "u_add_effect": "effect_werewolf_gain_more_powers", "duration": "PERMANENT" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLVES_GAIN_MORE_POWERS_COST_UPDATER",
+    "effect": [
+      { "math": [ "u_werewolf_xp_threshold += u_werewolf_xp_threshold_updater" ] },
+      { "math": [ "u_werewolf_xp_threshold_updater += 25" ] },
+      { "u_lose_effect": "effect_werewolf_gain_more_powers" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LEARNING_MOON_GIFT_MOON_CHECK",
+    "condition": { "and": [ { "not": "is_day" }, "u_is_outside" ] },
+    "effect": [  ],
+    "false_effect": [
+      { "u_message": "You can only learn a new Gift of the Moon under the moon's light.", "type": "mixed" },
+      "u_cancel_activity"
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LEARNING_MOON_GIFT_END",
+    "condition": { "and": [ { "not": "is_day" }, "u_is_outside" ] },
+    "effect": [
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "run_eocs": "EOC_WEREWOLVES_GAIN_MORE_POWERS_COST_UPDATER" },
+      { "u_message": "You learned a new Gift of the Moon.", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLVES_GAIN_MORE_POWERS",
+    "condition": { "u_has_effect": "effect_werewolf_gain_more_powers" },
+    "effect": [
+      {
+        "if": { "and": [ { "not": "is_day" }, "u_is_outside" ] },
+        "then": {
+          "run_eoc_selector": [
+            "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE",
+            "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO",
+            "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE",
+            "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FOUR",
+            "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE",
+            "EOC_NONE"
+          ],
+          "names": [
+            "Gifts of the Moon: Level One",
+            "Gifts of the Moon: Level Two",
+            "Gifts of the Moon: Level Three",
+            "Gifts of the Moon: Level Four",
+            "Gifts of the Moon: Level Five",
+            "Not Now"
+          ],
+          "keys": [ "1", "2", "3", "4", "5", "6" ],
+          "descriptions": [
+            "Choose a level one Gift of the Moon.  This gift will take at least one hour to learn.",
+            "Choose a level two Gift of the Moon.  This gift will take at least two hours to learn",
+            "Choose a level thee Gift of the Moon.  This gift will take at least three hours to learn",
+            "Choose a level four Gift of the Moon.  This gift will take at least four hours to learn",
+            "Choose a level five Gift of the Moon.  This gift will take at least five hours to learn",
+            "Do nothing for now"
+          ]
+        },
+        "else": { "u_message": "You must be outside under the moon to learn another Gift of the Moon.", "type": "mixed" }
+      }
+    ],
+    "false_effect": [ { "u_message": "You are not get ready for another Gift of the Moon.  Continue the hunt.", "type": "mixed" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE_WEREWOLF_SMELL_NEARBY_ENEMIES",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE_WEREWOLF_NO_SCENT",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE_WEREWOLF_ILLUMINATE_TARGET",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE_WEREWOLF_FRIEND_TO_ANIMALS",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE_WEREWOLF_SMASH_TERRAIN",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE_WEREWOLF_CLIMB_IN_WOLF_FORM",
+          "EOC_WEREWOLF_LUNAR_GIFT_GO_BACK"
+        ],
+        "names": [
+          "Learn <trait_name:WEREWOLF_SMELL_NEARBY_ENEMIES>",
+          "Learn <trait_name:WEREWOLF_NO_SCENT>",
+          "Learn <trait_name:WEREWOLF_ILLUMINATE_TARGET>",
+          "Learn <trait_name:WEREWOLF_FRIEND_TO_ANIMALS>",
+          "Learn <trait_name:WEREWOLF_SMASH_TERRAIN>",
+          "Learn <trait_name:WEREWOLF_CLIMB_IN_WOLF_FORM>",
+          "Go Back."
+        ],
+        "keys": [ "1", "2", "3", "4", "5", "6", "7" ],
+        "descriptions": [
+          "<trait_name:WEREWOLF_SMELL_NEARBY_ENEMIES>\n<trait_description:WEREWOLF_SMELL_NEARBY_ENEMIES>",
+          "<trait_name:WEREWOLF_NO_SCENT>\n<trait_description:WEREWOLF_NO_SCENT>",
+          "<trait_name:WEREWOLF_ILLUMINATE_TARGET>\n<trait_description:WEREWOLF_ILLUMINATE_TARGET>",
+          "<trait_name:WEREWOLF_FRIEND_TO_ANIMALS>\n<trait_description:WEREWOLF_FRIEND_TO_ANIMALS>",
+          "<trait_name:WEREWOLF_SMASH_TERRAIN>\n<trait_description:WEREWOLF_SMASH_TERRAIN>",
+          "<trait_name:WEREWOLF_CLIMB_IN_WOLF_FORM>\n<trait_description:WEREWOLF_CLIMB_IN_WOLF_FORM>",
+          "Go back to the Gift level selection."
+        ],
+        "allow_cancel": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_GO_BACK",
+    "effect": [ { "run_eocs": "EOC_WEREWOLVES_GAIN_MORE_POWERS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE_WEREWOLF_SMELL_NEARBY_ENEMIES",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_SMELL_NEARBY_ENEMIES" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_SMELL_NEARBY_ENEMIES", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "1 hours", "1 hours 30 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE_WEREWOLF_NO_SCENT",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_NO_SCENT" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_NO_SCENT", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "1 hours", "1 hours 30 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE_WEREWOLF_ILLUMINATE_TARGET",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_ILLUMINATE_TARGET" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_ILLUMINATE_TARGET", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "1 hours", "1 hours 30 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE_WEREWOLF_FRIEND_TO_ANIMALS",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_FRIEND_TO_ANIMALS" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_FRIEND_TO_ANIMALS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "1 hours", "1 hours 30 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE_WEREWOLF_SMASH_TERRAIN",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_SMASH_TERRAIN" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_SMASH_TERRAIN", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "1 hours", "1 hours 30 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE_WEREWOLF_CLIMB_IN_WOLF_FORM",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_CLIMB_IN_WOLF_FORM" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_CLIMB_IN_WOLF_FORM", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "1 hours", "1 hours 30 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO",
+    "condition": { "math": [ "u_werewolf_exp > 700" ] },
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_SENSE_SPIRITS_AND_ALIENS",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_STUN_MACHINE",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_EXTRA_WEAKPOINT_HITS",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_FAR_JUMP",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_CAMOUFLAGE_COAT",
+          "Go Back."
+        ],
+        "names": [
+          "Learn <trait_name:WEREWOLF_SENSE_SPIRITS_AND_ALIENS>",
+          "Learn <trait_name:WEREWOLF_STUN_MACHINE>",
+          "Learn <trait_name:WEREWOLF_EXTRA_WEAKPOINT_HITS>",
+          "Learn <trait_name:WEREWOLF_FAR_JUMP>",
+          "Learn <trait_name:WEREWOLF_CAMOUFLAGE_COAT>",
+          "Go Back."
+        ],
+        "keys": [ "1", "2", "3", "4", "5", "6" ],
+        "descriptions": [
+          "<trait_name:WEREWOLF_SENSE_SPIRITS_AND_ALIENS>\n<trait_description:WEREWOLF_SENSE_SPIRITS_AND_ALIENS>",
+          "<trait_name:WEREWOLF_STUN_MACHINE>\n<trait_description:WEREWOLF_STUN_MACHINE>",
+          "<trait_name:WEREWOLF_EXTRA_WEAKPOINT_HITS>\n<trait_description:WEREWOLF_EXTRA_WEAKPOINT_HITS>",
+          "<trait_name:WEREWOLF_FAR_JUMP>\n<trait_description:WEREWOLF_FAR_JUMP>",
+          "<trait_name:WEREWOLF_CAMOUFLAGE_COAT>\n<trait_description:WEREWOLF_CAMOUFLAGE_COAT>",
+          "Go Back."
+        ],
+        "allow_cancel": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_SENSE_SPIRITS_AND_ALIENS",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_SENSE_SPIRITS_AND_ALIENS" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_SENSE_SPIRITS_AND_ALIENS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "2 hours", "3 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_STUN_MACHINE",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_STUN_MACHINE" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_STUN_MACHINE", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "2 hours", "3 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_EXTRA_WEAKPOINT_HITS",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_EXTRA_WEAKPOINT_HITS" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_EXTRA_WEAKPOINT_HITS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "2 hours", "3 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_FAR_JUMP",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_FAR_JUMP" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_FAR_JUMP", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "2 hours", "3 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_CAMOUFLAGE_COAT",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_CAMOUFLAGE_COAT" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_CAMOUFLAGE_COAT", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "2 hours", "3 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE",
+    "condition": { "math": [ "u_werewolf_exp > 2000" ] },
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_SILVER_CLAWS",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_MANA_BONUS_AFTER_KILL",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_STRENGTH_BONUS",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_BATTLE_FURY",
+          "Go Back."
+        ],
+        "names": [
+          "Learn <trait_name:WEREWOLF_SILVER_CLAWS>",
+          "Learn <trait_name:WEREWOLF_MANA_BONUS_AFTER_KILL>",
+          "Learn <trait_name:WEREWOLF_STRENGTH_BONUS>",
+          "Learn <trait_name:WEREWOLF_BATTLE_FURY>",
+          "Go Back."
+        ],
+        "keys": [ "1", "2", "3", "4", "5" ],
+        "descriptions": [
+          "<trait_name:WEREWOLF_SILVER_CLAWS>\n<trait_description:WEREWOLF_SILVER_CLAWS>",
+          "<trait_name:WEREWOLF_MANA_BONUS_AFTER_KILL>\n<trait_description:WEREWOLF_MANA_BONUS_AFTER_KILL>",
+          "<trait_name:WEREWOLF_STRENGTH_BONUS>\n<trait_description:WEREWOLF_STRENGTH_BONUS>",
+          "<trait_name:WEREWOLF_BATTLE_FURY>\n<trait_description:WEREWOLF_BATTLE_FURY>",
+          "Go Back."
+        ],
+        "allow_cancel": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_SILVER_CLAWS",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_SILVER_CLAWS" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_SILVER_CLAWS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "3 hours", "4 hours 30 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_MANA_BONUS_AFTER_KILL",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_MANA_BONUS_AFTER_KILL" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_MANA_BONUS_AFTER_KILL", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "3 hours", "4 hours 30 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_STRENGTH_BONUS",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_STRENGTH_BONUS" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_STRENGTH_BONUS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "3 hours", "4 hours 30 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_BATTLE_FURY",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_BATTLE_FURY" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_BATTLE_FURY", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "3 hours", "4 hours 30 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FOUR",
+    "condition": { "math": [ "u_werewolf_exp > 4500" ] },
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FOUR_WEREWOLF_SUPER_FAST_REGENERATION",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FOUR_WEREWOLF_SUMMON_FOG",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FOUR_WEREWOLF_MOON_ARMOR",
+          "Go Back."
+        ],
+        "names": [
+          "Learn <trait_name:WEREWOLF_SUPER_FAST_REGENERATION>",
+          "Learn <trait_name:WEREWOLF_SUMMON_FOG>",
+          "Learn <trait_name:WEREWOLF_MOON_ARMOR>",
+          "Go Back."
+        ],
+        "keys": [ "1", "2", "3", "4" ],
+        "descriptions": [
+          "<trait_name:WEREWOLF_SUPER_FAST_REGENERATION>\n<trait_description:WEREWOLF_SUPER_FAST_REGENERATION>",
+          "<trait_name:WEREWOLF_SUMMON_FOG>\n<trait_description:WEREWOLF_SUMMON_FOG>",
+          "<trait_name:WEREWOLF_MOON_ARMOR>\n<trait_description:WEREWOLF_MOON_ARMOR>",
+          "Go Back."
+        ],
+        "allow_cancel": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FOUR_WEREWOLF_SUPER_FAST_REGENERATION",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_SUPER_FAST_REGENERATION" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_SUPER_FAST_REGENERATION", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "4 hours", "6 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FOUR_WEREWOLF_SUMMON_FOG",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_SUMMON_FOG" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_SUMMON_FOG", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "4 hours", "6 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FOUR_WEREWOLF_MOON_ARMOR",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_MOON_ARMOR" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_MOON_ARMOR", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "4 hours", "6 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE",
+    "condition": { "math": [ "u_werewolf_exp > 8000" ] },
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_CLOSE_TEAR_IN_REALITY",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_WALK_THROUGH_WALLS",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_SUMMON_SHADOW_PACK",
+          "Go Back."
+        ],
+        "names": [
+          "Learn <trait_name:WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM>",
+          "Learn <trait_name:WEREWOLF_CLOSE_TEAR_IN_REALITY>",
+          "Learn <trait_name:WEREWOLF_WALK_THROUGH_WALLS>",
+          "Learn <trait_name:WEREWOLF_SUMMON_SHADOW_PACK>",
+          "Go Back."
+        ],
+        "keys": [ "1", "2", "3", "4", "5" ],
+        "descriptions": [
+          "<trait_name:WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM>\n<trait_description:WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM>",
+          "<trait_name:WEREWOLF_CLOSE_TEAR_IN_REALITY>\n<trait_description:WEREWOLF_CLOSE_TEAR_IN_REALITY>",
+          "<trait_name:WEREWOLF_WALK_THROUGH_WALLS>\n<trait_description:WEREWOLF_WALK_THROUGH_WALLS>",
+          "<trait_name:WEREWOLF_SUMMON_SHADOW_PACK>\n<trait_description:WEREWOLF_SUMMON_SHADOW_PACK>",
+          "Go Back."
+        ],
+        "allow_cancel": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "5 hours", "7 hours 30 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_CLOSE_TEAR_IN_REALITY",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_CLOSE_TEAR_IN_REALITY" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_CLOSE_TEAR_IN_REALITY", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "5 hours", "7 hours 30 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_WALK_THROUGH_WALLS",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_WALK_THROUGH_WALLS" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_WALK_THROUGH_WALLS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "5 hours", "7 hours 30 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_SUMMON_SHADOW_PACK",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_SUMMON_SHADOW_PACK" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_SUMMON_SHADOW_PACK", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "5 hours", "7 hours 30 minutes" ] }
+    ]
+  }
+]

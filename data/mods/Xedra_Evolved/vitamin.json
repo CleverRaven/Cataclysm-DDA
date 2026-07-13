@@ -114,6 +114,16 @@
     "rate": "0 m"
   },
   {
+    "id": "xedra_knowing_lies",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Knowledge of the Lies" },
+    "//": "This vitamin scales everything the player gains and suffers from reading this book.",
+    "min": 0,
+    "max": 99999,
+    "rate": "1 m"
+  },
+  {
     "id": "mutagen_earthkin",
     "type": "vitamin",
     "vit_type": "counter",
@@ -130,6 +140,17 @@
     "vit_type": "counter",
     "name": { "str": "Arvore Mutagen" },
     "excess": "mutagen_plantkin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_alchemical_plantkin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Arvore Alchemical Mutagen" },
+    "excess": "mutagen_alchemical_plantkin",
     "min": 0,
     "max": 2500,
     "rate": "1 h",

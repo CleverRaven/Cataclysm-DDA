@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "fema_housing",
     "object": {
       "fill_ter": "t_floor",
@@ -39,7 +38,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fema_housing_roof",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -74,7 +72,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "fema_military_building",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -147,7 +144,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fema_military_building_roof",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -182,7 +178,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "fema_storage",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -242,7 +237,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fema_storage_roof",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -277,7 +271,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "fema_entrance",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -320,7 +313,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fema_entrance_roof",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -355,7 +347,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "fema_bus",
     "object": {
       "fill_ter": "t_railroad_rubble",

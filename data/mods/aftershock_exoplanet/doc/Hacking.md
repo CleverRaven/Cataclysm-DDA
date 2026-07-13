@@ -24,7 +24,7 @@ To define a Hackable Furniture in Aftershock you need to give it an examine acti
             { "math": [ "_t_delay = time('20 m')" ] },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "0" },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 10, "t_radius": 0 },
               "alpha_talker": "avatar"
             }
           ]
@@ -46,7 +46,7 @@ To define a Hackable Furniture in Aftershock you need to give it an examine acti
             { "u_add_var": "hack_success_eoc", value: "EOC_Hack_Custom_Success" },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "6", "power_cost_mult": 2 },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 10, "t_radius": 6, "power_cost_mult": 2 },
               "alpha_talker": "avatar"
             }
           ]

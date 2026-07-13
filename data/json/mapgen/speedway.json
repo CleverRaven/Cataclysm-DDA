@@ -68,15 +68,15 @@
     "item": { "X": { "item": "tire_wide_or", "repeat": [ 2, 3 ] } },
     "items": {
       "b": [
-        { "item": "softdrinks_canned", "chance": 1, "repeat": [ 1, 2 ] },
+        { "item": "soda_in_small_container", "chance": 1, "repeat": [ 1, 2 ] },
         { "item": "snacks", "chance": 1, "repeat": [ 1, 2 ] },
         { "item": "jackets", "chance": 1 }
       ],
       "d": { "item": "SUS_office_desk", "chance": 33 },
       "i": { "item": "SUS_office_filing_cabinet", "chance": 25 },
-      "a": { "item": "SUS_trash_trashcan", "chance": 66, "repeat": [ 1, 3 ] },
-      "A": { "item": "SUS_trash_trashcan", "chance": 66, "repeat": [ 1, 3 ] },
-      "D": { "item": "SUS_trash_dumpster", "chance": 80, "repeat": [ 4, 8 ] },
+      "a": { "item": "SUS_trash_trashcan", "chance": 66 },
+      "A": { "item": "SUS_trash_trashcan", "chance": 66 },
+      "D": { "item": "SUS_trash_dumpster", "chance": 80 },
       "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "toilets": { "T": {  } },
@@ -91,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "speedway_0_0",
@@ -313,7 +312,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "speedway_8_1", "null" ],
       [ "speedway_8_2", "null" ],
@@ -464,7 +462,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "speedway_0_6",
@@ -512,7 +509,7 @@
         { "item": "ketchup", "x": 167, "y": 19 },
         { "item": "mustard", "x": 167, "y": 19 },
         { "group": "hotdog_fridge", "x": 167, "y": 20 },
-        { "group": "softdrinks_canned", "x": 167, "y": 21, "repeat": [ 1, 10 ] }
+        { "group": "soda_in_small_container", "x": 167, "y": 21, "repeat": [ 1, 10 ] }
       ],
       "place_monster": [
         { "group": "GROUP_VANILLA", "x": [ 48, 71 ], "y": [ 2, 23 ], "repeat": [ 2, 5 ] },
@@ -526,7 +523,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "null", "null", "speedway_8_6" ], [ "speedway_6_7", "speedway_7_7", "speedway_8_7" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -588,7 +584,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "speedway_1_7", "speedway_2_7", "speedway_3_7", "speedway_4_7", "speedway_5_7" ],
       [ "speedway_1_8", "speedway_2_8", "speedway_3_8", "speedway_4_8", "speedway_5_8" ],
@@ -682,7 +677,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "speedway_1_6_1",
@@ -735,7 +729,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "speedway_9_3_1" ], [ "speedway_9_4_1" ], [ "speedway_9_5_1" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -818,7 +811,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "speedway_5_7_1" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -853,7 +845,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "speedway_6_7_1" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -892,7 +883,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "speedway_6_7_2" ],
     "object": {
       "fill_ter": "t_tile_flat_roof",
@@ -928,7 +918,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "speedway_6_7_3" ],
     "object": {
       "rows": [

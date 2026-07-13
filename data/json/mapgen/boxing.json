@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "gym" ],
     "object": {
       "fill_ter": "t_floor",
@@ -83,7 +82,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "gym_roof",
     "object": {
       "fill_ter": "t_floor",
@@ -147,7 +145,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "gym_upper_roof",
     "object": {
       "fill_ter": "t_flat_roof",

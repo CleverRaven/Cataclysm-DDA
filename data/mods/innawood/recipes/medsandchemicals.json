@@ -184,7 +184,7 @@
     "flags": [ "BLIND_EASY" ],
     "components": [
       [ [ "bandages_birchbark", 3 ] ],
-      [ [ "chem_glycerol", 4 ], [ "lard", 1 ] ],
+      [ [ "chem_glycerol", 4 ], [ "edible_tallow", 2, "LIST" ] ],
       [ [ "garlic_clove", 6 ], [ "garlic", 1 ] ]
     ]
   },

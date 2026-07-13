@@ -62,6 +62,11 @@ void construction_categories::load( const JsonObject &jo, const std::string &src
     all_construction_categories.load( jo, src );
 }
 
+void construction_categories::finalize()
+{
+    all_construction_categories.finalize();
+}
+
 void construction_categories::reset()
 {
     all_construction_categories.reset();

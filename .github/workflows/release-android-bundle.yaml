@@ -1,0 +1,55 @@
+name: "Manual experimental Android aab bundle generator"
+on:
+  workflow_dispatch:
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  REPOSITORY_NAME: ${{ github.event.repository.name }}
+
+permissions:
+  write-all
+
+jobs:
+  release:
+    name: Build and release Android bundle
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate build variables
+        id: vars
+        run: |
+          timestamp=$(date -u "+%Y-%m-%d-%H%M")
+          echo "timestamp=$timestamp" >> $GITHUB_OUTPUT
+          echo "tag_name=cdda-experimental-aab-bundle-$timestamp" >> $GITHUB_OUTPUT
+          echo "release_name=Cataclysm-DDA experimental Android bundle $timestamp" >> $GITHUB_OUTPUT
+
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install gettext
+
+      - name: Build Android bundle
+        working-directory: ./android
+        run: |
+          echo "${{ secrets.KEYSTORE }}" > release.keystore.asc   
+          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch release.keystore.asc > app/release.keystore 
+          echo "${{ secrets.KEYSTORE_PROPERTIES }}" > keystore.properties.asc   
+          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch keystore.properties.asc > keystore.properties
+          export UPSTREAM_BUILD_NUMBER="$((11581 + ${{ github.run_number }}))"
+          chmod +x gradlew
+          ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
+          mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-android-bundle-${{ steps.vars.outputs.timestamp }}-${{ github.sha }}.aab
+
+      - name: Create GitHub release
+        run: |
+          gh release create ${{ steps.vars.outputs.tag_name }} \
+            cdda-android-bundle-${{ steps.vars.outputs.timestamp }}-${{ github.sha }}.aab \
+            --prerelease \
+            --title "${{ steps.vars.outputs.release_name }}" \
+            --target "${{ github.sha }}"

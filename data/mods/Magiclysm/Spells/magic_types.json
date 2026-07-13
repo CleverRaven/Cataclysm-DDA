@@ -1,0 +1,81 @@
+[
+  {
+    "id": "magiclysm_generic_magic",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": "NO_SPELLCASTING",
+    "cannot_cast_message": "You can't cast any of the spells you know!"
+  },
+  {
+    "id": "magiclysm_evocation_magic",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_SPELLCASTING", "NO_CASTING_EVOCATION_SPELLS" ],
+    "failure_cost_percent": 0.2,
+    "failure_chance_formula_id": "magiclysm_spell_failure_evocation_formula",
+    "cannot_cast_message": "You can't cast that spell right now!"
+  },
+  {
+    "id": "magiclysm_channeling_magic",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_SPELLCASTING", "NO_CASTING_CHANNELING_SPELLS" ],
+    "failure_cost_percent": 0.2,
+    "failure_chance_formula_id": "magiclysm_spell_failure_channeling_formula",
+    "cannot_cast_message": "You can't cast that spell right now!"
+  },
+  {
+    "id": "magiclysm_conjuration_magic",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_SPELLCASTING", "NO_CASTING_SUMMONING_SPELLS" ],
+    "failure_cost_percent": 0.2,
+    "failure_chance_formula_id": "magiclysm_spell_failure_summoning_formula",
+    "cannot_cast_message": "You can't cast that spell right now!"
+  },
+  {
+    "id": "magiclysm_enhancement_magic",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_SPELLCASTING", "NO_CASTING_ENHANCEMENT_SPELLS" ],
+    "failure_cost_percent": 0.2,
+    "failure_chance_formula_id": "magiclysm_spell_failure_enhancement_formula",
+    "cannot_cast_message": "You can't cast that spell right now!"
+  },
+  {
+    "id": "magiclysm_enervation_magic",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_SPELLCASTING", "NO_CASTING_ENERVATION_SPELLS" ],
+    "failure_cost_percent": 0.2,
+    "failure_chance_formula_id": "magiclysm_spell_failure_enervation_formula",
+    "cannot_cast_message": "You can't cast that spell right now!"
+  },
+  {
+    "id": "magiclysm_conveyance_magic",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_SPELLCASTING", "NO_CASTING_CONVEYANCE_SPELLS" ],
+    "failure_cost_percent": 0.2,
+    "failure_chance_formula_id": "magiclysm_spell_failure_conveyance_formula",
+    "cannot_cast_message": "You can't cast that spell right now!"
+  },
+  {
+    "id": "magiclysm_restoration_magic",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_SPELLCASTING", "NO_CASTING_RESTORATION_SPELLS" ],
+    "failure_cost_percent": 0.2,
+    "failure_chance_formula_id": "magiclysm_spell_failure_restoration_formula",
+    "cannot_cast_message": "You can't cast that spell right now!"
+  },
+  {
+    "id": "magiclysm_transformation_magic",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_SPELLCASTING", "NO_CASTING_TRANSFORMATION_SPELLS" ],
+    "failure_cost_percent": 0.2,
+    "failure_chance_formula_id": "magiclysm_spell_failure_transformation_formula",
+    "cannot_cast_message": "You can't cast that spell right now!"
+  }
+]

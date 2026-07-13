@@ -151,5 +151,22 @@
       { "math": [ "u_has_ravenfolk_loves_gold_update = 1" ] },
       { "u_message": "Your ravenfolk traits have been updated.", "type": "mixed" }
     ]
+  },
+  {
+    "id": "EOC_WARG_FOOD_ISNT_REAL",
+    "//": "Are you a goblin? If not are you holding Warg food? No you aren't, that's regular meat.",
+    "type": "effect_on_condition",
+    "condition": { "and": [ { "not": { "u_has_trait": "THRESH_SPECIES_GOBLIN" } }, { "u_has_item": "warg_food" } ] },
+    "effect": [
+      { "u_remove_item_with": "warg_food" },
+      { "npc_remove_item_with": "warg_food" },
+      { "u_spawn_item": "meat", "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_COLD_AURA_OFF",
+    "//": "Remove in 0.J",
+    "effect": [  ]
   }
 ]

@@ -1,3 +1,35 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [The DDA Development Process](#the-dda-development-process)
+  - [Table of Contents](#table-of-contents)
+  - [The basic concept](#the-basic-concept)
+    - [Experimental/Stable](#experimentalstable)
+      - [Why this format?](#why-this-format)
+    - [Mainline, in-repo mods, third party mods, and forks](#mainline-in-repo-mods-third-party-mods-and-forks)
+    - [Project roles](#project-roles)
+  - [FAQ for prospective contributors](#faq-for-prospective-contributors)
+    - [How can I make sure my contribution will be accepted?](#how-can-i-make-sure-my-contribution-will-be-accepted)
+      - [What if different people have different opinions of my idea?](#what-if-different-people-have-different-opinions-of-my-idea)
+      - [My idea was rejected, changed beyond recognition, or requires a lot more than I expected.](#my-idea-was-rejected-changed-beyond-recognition-or-requires-a-lot-more-than-i-expected)
+      - [Do a lot of things get merged to the project, then reverted?](#do-a-lot-of-things-get-merged-to-the-project-then-reverted)
+      - [How do I deal with a ton of comments and suggestions to my idea?](#how-do-i-deal-with-a-ton-of-comments-and-suggestions-to-my-idea)
+      - [Am I allowed to do what I want with an existing NPC/faction/feature?](#am-i-allowed-to-do-what-i-want-with-an-existing-npcfactionfeature)
+    - [Is the Discord strict?](#is-the-discord-strict)
+    - [How does player feedback affect the project's development?](#how-does-player-feedback-affect-the-projects-development)
+      - [Do we care about the players?](#do-we-care-about-the-players)
+        - [So wait, it sounds like you're just going to do whatever you want and you don't care what the players say.](#so-wait-it-sounds-like-youre-just-going-to-do-whatever-you-want-and-you-dont-care-what-the-players-say)
+  - [Supplemental Material](#supplemental-material)
+    - [A Very Brief History of DDA](#a-very-brief-history-of-dda)
+      - [Why did Kevin do this to me?](#why-did-kevin-do-this-to-me)
+    - [Realism as a design goal](#realism-as-a-design-goal)
+    - [Why did X system get worked on while the more important Y system didn't?](#why-did-x-system-get-worked-on-while-the-more-important-y-system-didnt)
+      - [Why did X system get implemented with Y, but not Z?](#why-did-x-system-get-implemented-with-y-but-not-z)
+  - [The Bottom Line](#the-bottom-line)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # The DDA Development Process
 
 **A guide for new and prospective contributors, or just for people curious about how the devs understand the project to work.**

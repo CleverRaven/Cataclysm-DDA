@@ -2,28 +2,19 @@
 #ifndef CATA_SRC_WEIGHTED_LIST_H
 #define CATA_SRC_WEIGHTED_LIST_H
 
+#include "flexbuffer_json.h"
 #include "json.h"
 #include "rng.h"
 
+#include <algorithm>
 #include <climits>
 #include <cstdlib>
 #include <functional>
 #include <sstream>
 #include <vector>
 
-template <typename W, typename T> struct weighted_object {
-    weighted_object( const T &obj, const W &weight ) : obj( obj ), weight( weight ) {}
-
-    T obj;
-    W weight;
-
-    friend bool operator==( const weighted_object &l, const weighted_object &r ) {
-        return l.obj == r.obj && l.weight == r.weight;
-    }
-};
-
-template <typename W, typename T> struct weighted_list {
-        weighted_list() : total_weight( 0 ) { }
+template <typename T, typename W> struct weighted_list {
+        weighted_list() : total_weight( 0 ) {}
 
         weighted_list( const weighted_list & ) = default;
         weighted_list( weighted_list && ) noexcept = default;
@@ -38,24 +29,49 @@ template <typename W, typename T> struct weighted_list {
          * @param weight The weight of the object.
          */
         T *add( const T &obj, const W &weight ) {
-            if( weight >= 0 ) {
+            if( weight > 0 ) {
                 objects.emplace_back( obj, weight );
                 total_weight += weight;
                 invalidate_precalc();
-                return &( objects[objects.size() - 1].obj );
+                return &( objects[objects.size() - 1].first );
             }
             return nullptr;
         }
 
-        void remove( const T &obj ) {
-            auto itr_end = std::remove_if( objects.begin(),
-            objects.end(), [&obj]( typename decltype( objects )::value_type const & itr ) {
-                return itr.obj == obj;
-            } );
-            for( decltype( itr_end ) removed = itr_end; removed != objects.end(); ++removed ) {
-                total_weight -= removed->weight;
+        T *add( const std::pair<T, W> &obj_and_weight ) {
+            return add( obj_and_weight.first, obj_and_weight.second );
+        }
+
+        /**
+        * Adds a new object to the weighted list.
+        * Does nothing if the object already exists.
+        * Returns a pointer to the added object, or nullptr if it already existed.
+        */
+        T *try_add( const T &obj, const W &weight ) {
+            if( std::find_if( objects.begin(), objects.end(),
+            [&obj]( const std::pair<T, W> &element ) {
+            return element.first == obj;
+        } ) == objects.end() ) {
+                return add( obj, weight );
             }
-            objects.erase( itr_end, objects.end() );
+            return nullptr;
+        }
+
+        T *try_add( const std::pair<T, W> &obj_and_weight ) {
+            return try_add( obj_and_weight.first, obj_and_weight.second );
+        }
+
+        void remove( const T &obj ) {
+            const auto remove_with_weight = [&obj, this]
+            ( typename decltype( objects )::value_type const & itr ) {
+                if( itr.first == obj ) {
+                    total_weight -= itr.second;
+                    return true;
+                }
+                return false;
+            };
+            objects.erase( std::remove_if( objects.begin(),
+                                           objects.end(), remove_with_weight ), objects.end() );
             invalidate_precalc();
         }
 
@@ -68,13 +84,17 @@ template <typename W, typename T> struct weighted_list {
          * @param weight The new weight of the object.
          */
         T *add_or_replace( const T &obj, const W &weight ) {
-            if( weight >= 0 ) {
+            if( weight == 0 ) {
+                remove( obj );
+                return nullptr;
+            }
+            if( weight > 0 ) {
                 invalidate_precalc();
                 for( auto &itr : objects ) {
-                    if( itr.obj == obj ) {
-                        total_weight += ( weight - itr.weight );
-                        itr.weight = weight;
-                        return &( itr.obj );
+                    if( itr.first == obj ) {
+                        total_weight += ( weight - itr.second );
+                        itr.second = weight;
+                        return &( itr.first );
                     }
                 }
 
@@ -90,7 +110,7 @@ template <typename W, typename T> struct weighted_list {
          */
         void apply( std::function<void( const T & )> func ) const {
             for( auto &itr : objects ) {
-                func( itr.obj );
+                func( itr.first );
             }
         }
 
@@ -101,7 +121,7 @@ template <typename W, typename T> struct weighted_list {
          */
         void apply( std::function<void( T & )> func ) {
             for( auto &itr : objects ) {
-                func( itr.obj );
+                func( itr.first );
             }
         }
 
@@ -112,7 +132,7 @@ template <typename W, typename T> struct weighted_list {
          */
         const T *pick( unsigned int randi ) const {
             if( total_weight > 0 ) {
-                return &( objects[pick_ent( randi )].obj );
+                return &( objects[pick_ent( randi )].first );
             } else {
                 return nullptr;
             }
@@ -129,7 +149,7 @@ template <typename W, typename T> struct weighted_list {
          */
         T *pick( unsigned int randi ) {
             if( total_weight > 0 ) {
-                return &( objects[pick_ent( randi )].obj );
+                return &( objects[pick_ent( randi )].first );
             } else {
                 return nullptr;
             }
@@ -152,9 +172,9 @@ template <typename W, typename T> struct weighted_list {
          * in the weighted list it will return 0.
          */
         W get_specific_weight( const T &obj ) const {
-            for( auto &itr : objects ) {
-                if( itr.obj == obj ) {
-                    return itr.weight;
+            for( const std::pair<T, W> &itr : objects ) {
+                if( itr.first == obj ) {
+                    return itr.second;
                 }
             }
             return 0;
@@ -171,21 +191,21 @@ template <typename W, typename T> struct weighted_list {
             return get_weight() > 0;
         }
 
-        typename std::vector<weighted_object<W, T> >::iterator begin() {
+        typename std::vector<std::pair<T, W> >::iterator begin() {
             return objects.begin();
         }
-        typename std::vector<weighted_object<W, T> >::iterator end() {
+        typename std::vector<std::pair<T, W> >::iterator end() {
             return objects.end();
         }
-        typename std::vector<weighted_object<W, T> >::const_iterator begin() const {
+        typename std::vector<std::pair<T, W> >::const_iterator begin() const {
             return objects.begin();
         }
-        typename std::vector<weighted_object<W, T> >::const_iterator end() const {
+        typename std::vector<std::pair<T, W> >::const_iterator end() const {
             return objects.end();
         }
-        typename std::vector<weighted_object<W, T> >::iterator erase(
-            typename std::vector<weighted_object<W, T> >::iterator first,
-            typename std::vector<weighted_object<W, T> >::iterator last ) {
+        typename std::vector<std::pair<T, W> >::iterator erase(
+            typename std::vector<std::pair<T, W> >::iterator first,
+            typename std::vector<std::pair<T, W> >::iterator last ) {
             invalidate_precalc();
             return objects.erase( first, last );
         }
@@ -199,8 +219,8 @@ template <typename W, typename T> struct weighted_list {
         std::string to_debug_string() const {
             std::ostringstream os;
             os << "[ ";
-            for( const weighted_object<W, T> &o : objects ) {
-                os << o.obj << ":" << o.weight << ", ";
+            for( const std::pair<T, W> &o : objects ) {
+                os << o.first << ":" << o.second << ", ";
             }
             os << "]";
             return os.str();
@@ -214,16 +234,39 @@ template <typename W, typename T> struct weighted_list {
             return !( l == r );
         }
 
+        void deserialize( const JsonValue &jv ) {
+            // this function does things in a way that makes clang-tidy unhappy
+            // CATA_DO_NOT_CHECK_SERIALIZE
+            if( jv.test_array() ) {
+                for( const JsonValue entry : jv.get_array() ) {
+                    if( entry.test_array() ) {
+                        std::pair<T, W> p;
+                        entry.read( p, true );
+                        add( p.first, p.second );
+                    } else {
+                        T val;
+                        entry.read( val );
+                        add( val, default_weight );
+                    }
+                }
+            } else {
+                jv.throw_error( "weighted list must be in format [[a, b], …]" );
+            }
+        }
+
     protected:
-        W total_weight;
-        std::vector<weighted_object<W, T> > objects;
+        W total_weight = 0;
+        W default_weight = 1;
+        std::vector<std::pair<T, W> > objects;
 
         virtual size_t pick_ent( unsigned int ) const = 0;
         virtual void invalidate_precalc() {}
 };
 
-template <typename T> struct weighted_int_list : public weighted_list<int, T> {
+template <typename T> struct weighted_int_list : public weighted_list<T, int> {
 
+        weighted_int_list() = default;
+        explicit weighted_int_list( int default_weight ) : default_weight( default_weight ) {};
         // populate the precalc_array for O(1) lookups
         void precalc() {
             precalc_array.clear();
@@ -231,7 +274,7 @@ template <typename T> struct weighted_int_list : public weighted_list<int, T> {
             precalc_array.reserve( this->total_weight );
             // weights [3,1,5] will produce vector of indices [0,0,0,1,2,2,2,2,2]
             for( size_t i = 0; i < this->objects.size(); i++ ) {
-                precalc_array.resize( precalc_array.size() + this->objects[i].weight, i );
+                precalc_array.resize( precalc_array.size() + this->objects[i].second, i );
             }
         }
 
@@ -250,7 +293,7 @@ template <typename T> struct weighted_int_list : public weighted_list<int, T> {
                 // otherwise do O(N) search through items
                 int accumulated_weight = 0;
                 for( i = 0; i < this->objects.size(); i++ ) {
-                    accumulated_weight += this->objects[i].weight;
+                    accumulated_weight += this->objects[i].second;
                     if( accumulated_weight >= picked ) {
                         break;
                     }
@@ -263,14 +306,17 @@ template <typename T> struct weighted_int_list : public weighted_list<int, T> {
             precalc_array.clear();
         }
 
+        int default_weight = 1;
         std::vector<int> precalc_array;
 };
 
 static_assert( std::is_nothrow_move_constructible_v<weighted_int_list<int>> );
 
-template <typename T> struct weighted_float_list : public weighted_list<double, T> {
+template <typename T> struct weighted_float_list : public weighted_list<T, double> {
 
         // TODO: precalc using alias method
+        weighted_float_list() = default;
+        explicit weighted_float_list( int default_weight ) : default_weight( default_weight ) {};
 
     protected:
 
@@ -279,7 +325,7 @@ template <typename T> struct weighted_float_list : public weighted_list<double, 
             double accumulated_weight = 0;
             size_t i;
             for( i = 0; i < this->objects.size(); i++ ) {
-                accumulated_weight += this->objects[i].weight;
+                accumulated_weight += this->objects[i].second;
                 if( accumulated_weight >= picked ) {
                     break;
                 }
@@ -287,22 +333,7 @@ template <typename T> struct weighted_float_list : public weighted_list<double, 
             return i;
         }
 
+        float default_weight = 1;
 };
-
-template<typename W, typename T>
-void load_weighted_list( const JsonValue &jsv, weighted_list<W, T> &list, W default_weight )
-{
-    for( const JsonValue entry : jsv.get_array() ) {
-        if( entry.test_array() ) {
-            std::pair<T, W> p;
-            entry.read( p, true );
-            list.add( p.first, p.second );
-        } else {
-            T val;
-            entry.read( val );
-            list.add( val, default_weight );
-        }
-    }
-}
 
 #endif // CATA_SRC_WEIGHTED_LIST_H

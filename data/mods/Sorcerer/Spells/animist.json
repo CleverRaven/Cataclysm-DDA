@@ -1,0 +1,26 @@
+[
+  {
+    "id": "convert_sorcerer",
+    "type": "SPELL",
+    "name": "Convert",
+    "description": "Kill an ally creature, converting its life energy into a compact rune, that you can use afterwards.",
+    "valid_targets": [ "ally" ],
+    "flags": [ "CONCENTRATE", "SOMATIC", "SILENT", "PERCENTAGE_DAMAGE" ],
+    "effect": "attack",
+    "shape": "blast",
+    "message": "",
+    "min_damage": 100,
+    "max_damage": 100,
+    "min_range": 10,
+    "max_range": 10,
+    "base_energy_cost": 250,
+    "spell_class": "ANIMIST",
+    "difficulty": 4,
+    "max_level": 10,
+    "base_casting_time": 30000,
+    "final_casting_time": 1000,
+    "casting_time_increment": -200,
+    "energy_source": "MANA",
+    "extra_effects": [ { "id": "create_rune_sorcerer", "hit_self": true } ]
+  }
+]

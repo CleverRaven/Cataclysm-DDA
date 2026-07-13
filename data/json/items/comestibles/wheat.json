@@ -57,7 +57,7 @@
     "price": "1 USD 20 cent",
     "price_postapoc": "1 USD",
     "material": [ "wheat" ],
-    "volume": "62 ml",
+    "volume": "130 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ],
     "fun": -8
@@ -177,6 +177,7 @@
     "id": "oatmeal",
     "name": { "str_sp": "oatmeal" },
     "weight": "35 g",
+    "volume": "75 ml",
     "color": "light_gray",
     "spoils_in": "360 days",
     "container": "box_small",
@@ -188,7 +189,6 @@
     "price": "87 cent",
     "price_postapoc": "12 cent",
     "material": [ "wheat" ],
-    "volume": "125 ml",
     "cooks_like": "oatmeal_cooked",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ],
@@ -582,7 +582,7 @@
     "price": "2 USD",
     "price_postapoc": "1 USD",
     "material": [ "wheat" ],
-    "volume": "500 ml",
+    "volume": "160 ml",
     "vitamins": [ [ "calcium", 1 ], [ "iron", 18 ], [ "wheat_allergen", 1 ] ],
     "flags": [ "EDIBLE_FROZEN" ]
   },

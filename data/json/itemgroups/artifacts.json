@@ -4,6 +4,7 @@
     "id": "microlab_artifacts",
     "subtype": "distribution",
     "entries": [
+      { "item": "abyss_teleport_orb", "prob": 1 },
       {
         "group": "twisted_geometry",
         "artifact": {
@@ -36,6 +37,21 @@
         "prob": 100
       },
       { "item": "resonance_measurement_device", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "art_book",
+    "subtype": "collection",
+    "entries": [
+      {
+        "item": "art_book",
+        "artifact": {
+          "procgen_id": "artifact_book",
+          "rules": { "power_level": 750, "max_attributes": 3, "max_negative_power": -1000, "resonant": true }
+        },
+        "prob": 100
+      }
     ]
   },
   {

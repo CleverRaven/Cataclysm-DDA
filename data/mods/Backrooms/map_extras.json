@@ -25,48 +25,66 @@
     "id": "mx_casings",
     "type": "map_extra",
     "copy-from": "mx_casings",
+    "min_max_zlevel": [ -3, 3 ],
     "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_corpses",
     "type": "map_extra",
     "copy-from": "mx_corpses",
+    "min_max_zlevel": [ -3, 3 ],
     "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_collegekids",
     "type": "map_extra",
     "copy-from": "mx_collegekids",
+    "min_max_zlevel": [ -3, 3 ],
     "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_spider",
     "type": "map_extra",
     "copy-from": "mx_spider",
+    "min_max_zlevel": [ -3, 3 ],
     "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
-    "id": "mx_nest_dermatik",
+    "id": "mx_nest_wasp_backrooms",
     "type": "map_extra",
-    "copy-from": "mx_nest_dermatik",
-    "extend": { "flags": [ "BACKROOMS" ] }
+    "name": { "str": "Wasp Nest" },
+    "description": "A wasp nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_wasp_backrooms" },
+    "min_max_zlevel": [ -3, 3 ],
+    "sym": "W",
+    "color": "yellow",
+    "autonote": true,
+    "flags": [ "WASP", "BACKROOMS" ]
+  },
+  {
+    "id": "mx_nest_dermatik_backrooms",
+    "type": "map_extra",
+    "name": { "str": "Dermatik Nest" },
+    "description": "A dermatik nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_dermatik_backrooms" },
+    "min_max_zlevel": [ -3, 3 ],
+    "sym": "D",
+    "color": "brown",
+    "autonote": true,
+    "flags": [ "WASP", "BACKROOMS" ]
   },
   {
     "id": "mx_science",
     "type": "map_extra",
     "copy-from": "mx_science",
+    "min_max_zlevel": [ -3, 3 ],
     "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_crater",
     "type": "map_extra",
     "copy-from": "mx_crater",
-    "extend": { "flags": [ "BACKROOMS" ] }
-  },
-  {
-    "id": "mx_nest_wasp",
-    "type": "map_extra",
-    "copy-from": "mx_nest_wasp",
+    "min_max_zlevel": [ -3, 3 ],
     "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
@@ -79,48 +97,56 @@
     "id": "mx_pond",
     "type": "map_extra",
     "copy-from": "mx_pond",
+    "min_max_zlevel": [ -3, 3 ],
     "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_military",
     "type": "map_extra",
     "copy-from": "mx_military",
+    "min_max_zlevel": [ -3, 3 ],
     "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_drugdeal",
     "type": "map_extra",
     "copy-from": "mx_drugdeal",
+    "min_max_zlevel": [ -3, 3 ],
     "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_supplydrop",
     "type": "map_extra",
     "copy-from": "mx_supplydrop",
+    "min_max_zlevel": [ -3, 3 ],
     "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_portal",
     "type": "map_extra",
     "copy-from": "mx_portal",
+    "min_max_zlevel": [ -3, 3 ],
     "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_portal_in",
     "type": "map_extra",
     "copy-from": "mx_portal_in",
+    "min_max_zlevel": [ -3, 3 ],
     "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_jabberwock",
     "type": "map_extra",
     "copy-from": "mx_jabberwock",
+    "min_max_zlevel": [ -3, 3 ],
     "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_helicopter",
     "type": "map_extra",
     "copy-from": "mx_helicopter",
+    "min_max_zlevel": [ -3, 3 ],
     "extend": { "flags": [ "BACKROOMS" ] }
   }
 ]

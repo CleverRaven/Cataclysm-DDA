@@ -10,10 +10,10 @@
     "condition": { "math": [ "u_available_exp > u_exp_to_perk" ] },
     "effect": [
       { "run_eocs": "EOC_give_perk_point" },
-      { "math": [ "u_used_exp", "+=", "u_exp_to_perk" ] },
+      { "math": [ "u_used_exp += u_exp_to_perk" ] },
       { "math": [ "u_available_exp = u_val('exp') - u_used_exp" ] },
-      { "math": [ "u_exp_to_perk", "+=", "u_exp_per_level" ] },
-      { "math": [ "u_current_level", "+=", "1" ] },
+      { "math": [ "u_exp_to_perk += u_exp_per_level" ] },
+      { "math": [ "u_current_level += 1" ] },
       { "run_eocs": "EOC_level_up_notification" }
     ]
   },

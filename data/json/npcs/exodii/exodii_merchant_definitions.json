@@ -51,7 +51,7 @@
       { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "unarmed", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "speech", "bonus": { "rng": [ 5, 8 ] } }
+      { "skill": "speech", "bonus": 10 }
     ]
   },
   {

@@ -71,7 +71,7 @@
     "type": "SPELL",
     "name": "The Evil Eye",
     "description": "Curse a single nearby target with misfortune.",
-    "message": "",
+    "message": "You glare balefully at your target and project all of your malice into your gaze",
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "SILENT", "NO_FAIL", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
@@ -79,8 +79,8 @@
     "magic_type": "xedra_magic_generic",
     "max_level": 1,
     "skill": "deduction",
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_LILIN_EVIL_EYE",
+    "effect": "attack",
+    "effect_str": "effect_evil_eye",
     "shape": "blast",
     "min_range": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 600) + 4" ] },
     "max_range": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 600) + 4" ] },
@@ -94,8 +94,8 @@
         "5000 + ( (u_vitamin('lilin_ruach_vitamin') * 19) * ((u_has_trait('LILIN_LIMB_SCORE_BONUSES_AT_NIGHT') * 0.5) + 1) * ((u_has_trait('LILIN_NIGHT_VISION') * 0.3) + 1) )"
       ]
     },
-    "energy_source": "NONE",
-    "base_energy_cost": 0,
+    "energy_source": { "type": "VITAMIN", "vitamin": "lilin_ruach_vitamin" },
+    "base_energy_cost": { "math": [ "60 * lilin_has_ruach_efficiency()" ] },
     "base_casting_time": 25,
     "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION", "SLIME" ]
   },
@@ -119,8 +119,8 @@
     "max_aoe": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 500) + 6" ] },
     "min_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 500) * (u_has_trait('THRESH_LILIN') + 1)" ] },
     "max_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 1200) * (u_has_trait('THRESH_LILIN') + 1)" ] },
-    "energy_source": "NONE",
-    "base_energy_cost": 0,
+    "energy_source": { "type": "VITAMIN", "vitamin": "lilin_ruach_vitamin" },
+    "base_energy_cost": { "math": [ "160 * lilin_has_ruach_efficiency()" ] },
     "base_casting_time": 50
   },
   {
@@ -157,6 +157,7 @@
     "spell_class": "LILIN_TRAITS",
     "magic_type": "xedra_magic_generic",
     "max_level": 1,
+    "condition": { "not": "is_day" },
     "skill": "deduction",
     "effect": "effect_on_condition",
     "effect_str": "EOC_LILIN_BLINDING_TARGET",
@@ -173,8 +174,8 @@
         "(u_vitamin('lilin_ruach_vitamin') * 2400) * (u_vitamin('lilin_ruach_vitamin') * 7.5) * (u_has_trait('THRESH_LILIN') + 1)"
       ]
     },
-    "energy_source": "NONE",
-    "base_energy_cost": 0,
+    "energy_source": { "type": "VITAMIN", "vitamin": "lilin_ruach_vitamin" },
+    "base_energy_cost": { "math": [ "120 * lilin_has_ruach_efficiency()" ] },
     "base_casting_time": 85,
     "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION", "SLIME" ]
   },
@@ -196,7 +197,8 @@
     "shape": "blast",
     "min_range": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 750) + 3" ] },
     "max_range": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 750) + 3" ] },
-    "energy_source": "NONE",
+    "energy_source": { "type": "VITAMIN", "vitamin": "lilin_ruach_vitamin" },
+    "base_energy_cost": { "math": [ "320 * lilin_has_ruach_efficiency()" ] },
     "base_casting_time": 50,
     "ignored_monster_species": [
       "ZOMBIE",
@@ -251,8 +253,8 @@
         "1500 + ( (u_vitamin('lilin_ruach_vitamin') * 24) * ( (u_has_trait('INFIMMUNE') * 0.25) + 1) * ( (u_has_trait('DISIMMUNE') * 0.25) + 1) * ( (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
       ]
     },
-    "energy_source": "NONE",
-    "base_energy_cost": 0,
+    "energy_source": { "type": "VITAMIN", "vitamin": "lilin_ruach_vitamin" },
+    "base_energy_cost": { "math": [ "240 * lilin_has_ruach_efficiency()" ] },
     "base_casting_time": 75,
     "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION", "SLIME" ]
   },
@@ -295,8 +297,8 @@
         "1500 + ( (u_vitamin('lilin_ruach_vitamin') * 9) * ( (u_has_trait('INFIMMUNE') * 0.25) + 1) * ( (u_has_trait('DISIMMUNE') * 0.25) + 1) * ( (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1))"
       ]
     },
-    "energy_source": "NONE",
-    "base_energy_cost": 0,
+    "energy_source": { "type": "VITAMIN", "vitamin": "lilin_ruach_vitamin" },
+    "base_energy_cost": { "math": [ "180 * lilin_has_ruach_efficiency()" ] },
     "base_casting_time": 25,
     "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION", "SLIME" ]
   },
@@ -312,12 +314,13 @@
     "spell_class": "LILIN_TRAITS",
     "magic_type": "xedra_magic_generic",
     "max_level": 1,
+    "condition": { "math": [ "u_val('sleepiness') > 200" ] },
     "skill": "deduction",
     "effect": "effect_on_condition",
     "effect_str": "EOC_LILIN_AVOID_SLEEP",
     "shape": "blast",
-    "energy_source": "NONE",
-    "base_energy_cost": 0,
+    "energy_source": { "type": "VITAMIN", "vitamin": "lilin_ruach_vitamin" },
+    "base_energy_cost": { "math": [ "300 * lilin_has_ruach_efficiency()" ] },
     "base_casting_time": 1500
   },
   {
@@ -346,8 +349,8 @@
         "180000 + ((u_vitamin('lilin_ruach_vitamin') / 3) * 100) + ( ( moon_phase() > 4 ? moon_phase() - 4 : (moon_phase() - 4) * -1) * 60000)"
       ]
     },
-    "energy_source": "NONE",
-    "base_energy_cost": 0,
+    "energy_source": { "type": "VITAMIN", "vitamin": "lilin_ruach_vitamin" },
+    "base_energy_cost": { "math": [ "240 * lilin_has_ruach_efficiency()" ] },
     "base_casting_time": 250
   },
   {
@@ -358,16 +361,26 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "SOMATIC" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "SOMATIC", "RANDOM_DURATION" ],
     "spell_class": "LILIN_TRAITS",
     "magic_type": "xedra_magic_generic",
     "max_level": 1,
     "skill": "deduction",
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_LILIN_SPEED_BOOST",
+    "effect": "attack",
+    "effect_str": "effect_lilin_speed_boost",
     "shape": "blast",
-    "energy_source": "NONE",
-    "base_energy_cost": 0,
+    "min_duration": {
+      "math": [
+        "(1500 + (u_has_trait('THRESH_LILIN') * 1500) + (u_vitamin('lilin_ruach_vitamin') / 0.24)) * (u_effect_intensity('effect_lilin_attribute_bonuses') > 0 ? 1.25 : 1) * (u_effect_intensity('effect_lilin_limb_score_bonuses_at_night') > 0 ? 1.25 : 1) * 0.7"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "(1500 + (u_has_trait('THRESH_LILIN') * 1500) + (u_vitamin('lilin_ruach_vitamin') / 0.24)) * (u_effect_intensity('effect_lilin_attribute_bonuses') > 0 ? 1.25 : 1) * (u_effect_intensity('effect_lilin_limb_score_bonuses_at_night') > 0 ? 1.25 : 1) * 1.3"
+      ]
+    },
+    "energy_source": { "type": "VITAMIN", "vitamin": "lilin_ruach_vitamin" },
+    "base_energy_cost": { "math": [ "360 * lilin_has_ruach_efficiency()" ] },
     "base_casting_time": 75
   },
   {
@@ -405,8 +418,8 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_LILIN_INSTANT_HEAL",
     "shape": "blast",
-    "energy_source": "NONE",
-    "base_energy_cost": 0,
+    "energy_source": { "type": "VITAMIN", "vitamin": "lilin_ruach_vitamin" },
+    "base_energy_cost": { "math": [ "1200 * lilin_has_ruach_efficiency()" ] },
     "base_casting_time": 125
   }
 ]

@@ -204,7 +204,7 @@ std::string utf8_truncate( const std::string &s, size_t length )
     return s.substr( 0, last_pos );
 }
 
-static const std::array<char, 64> base64_encoding_table = {{
+static constexpr const std::array<char, 64> base64_encoding_table = {{
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
         'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
         'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
@@ -216,32 +216,70 @@ static const std::array<char, 64> base64_encoding_table = {{
     }
 };
 
-static       std::array<char, 256> base64_decoding_table;
+static constexpr std::array<char, 256> build_base64_decoding_table()
+{
+    std::array<char, 256> ret{ 0 };
+    for( int i = 0; i < 64; i++ ) {
+        ret[static_cast<unsigned char>( base64_encoding_table[i] )] = i;
+    }
+    return ret;
+}
+
+static constexpr const std::array<char, 256> base64_decoding_table = build_base64_decoding_table();
+
 static const std::array<int, 3> mod_table = {{0, 2, 1}};
 
-static void build_base64_decoding_table()
+static std::string base64_encode_raw( std::string_view str );
+static std::string base64_decode_raw( std::string_view instr );
+
+std::string base64_encode_bitset( const std::bitset<576> &bitset_to_encode )
 {
-    static bool built = false;
-    if( !built ) {
-        for( int i = 0; i < 64; i++ ) {
-            base64_decoding_table[static_cast<unsigned char>( base64_encoding_table[i] )] = i;
+    std::string raw_bitset_data( 72, '\0' );
+    for( uint64_t i = 0; i < 9; ++i ) {
+        uint64_t bits = 0;
+        for( size_t j = 0; j < sizeof( bits ) * 8; ++j ) {
+            if( bitset_to_encode[( i * 64 ) + j] ) {
+                bits |= 1ULL << j;
+            }
         }
-        built = true;
+        memcpy( &raw_bitset_data[i * 8], &bits, sizeof( bits ) );
+    }
+    return base64_encode_raw( raw_bitset_data );
+}
+
+void base64_decode_bitset( std::string_view packed_bitset,
+                           std::bitset<576> &destination_bitset )
+{
+    if( !packed_bitset.empty() && packed_bitset[0] == '#' ) {
+        packed_bitset = packed_bitset.substr( 1 );
+    }
+    std::string decoded_string = base64_decode_raw( packed_bitset );
+    for( int i = 0; i < 9; i++ ) {
+        uint64_t bits;
+        memcpy( &bits, &decoded_string[( 8 - i ) * 8], sizeof( bits ) );
+        std::bitset<576> temp_bitset( bits );
+        destination_bitset <<= 64;
+        destination_bitset |= temp_bitset;
     }
 }
 
-std::string base64_encode( const std::string &str )
+std::string base64_encode( const std::string_view &str )
 {
     //assume it is already encoded
     if( !str.empty() && str[0] == '#' ) {
-        return str;
+        return std::string{ str };
     }
+    return "#" + base64_encode_raw( str );
+}
+
+std::string base64_encode_raw( std::string_view str )
+{
 
     int input_length = str.length();
     int output_length = 4 * ( ( input_length + 2 ) / 3 );
 
     std::string encoded_data( output_length, '\0' );
-    const unsigned char *data = reinterpret_cast<const unsigned char *>( str.c_str() );
+    const unsigned char *data = reinterpret_cast<const unsigned char *>( str.data() );
 
     for( int i = 0, j = 0; i < input_length; ) {
 
@@ -261,28 +299,25 @@ std::string base64_encode( const std::string &str )
         encoded_data[output_length - 1 - i] = '=';
     }
 
-    return "#" + encoded_data;
+    return encoded_data;
 }
 
-std::string base64_decode( const std::string &str )
+std::string base64_decode( const std::string_view &str )
 {
     // do not decode if it is not base64
-    if( str.empty() || str[0] != '#' ) {
-        return str;
+    if( str.empty() || str[0] != '#' || ( str.length() - 1 ) % 4 != 0 ) {
+        return std::string{ str };
     }
 
-    build_base64_decoding_table();
+    return base64_decode_raw( str.substr( 1 ) );
+}
 
-    std::string instr = str.substr( 1 );
-
+std::string base64_decode_raw( std::string_view instr )
+{
     int input_length = instr.length();
 
-    if( input_length % 4 != 0 ) {
-        return str;
-    }
-
     int output_length = input_length / 4 * 3;
-    const char *data = instr.c_str();
+    const char *data = instr.data();
 
     if( data[input_length - 1] == '=' ) {
         output_length--;

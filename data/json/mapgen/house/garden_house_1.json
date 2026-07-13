@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "garden_house_1_floor_1",
     "object": {
       "fill_ter": "t_floor",
@@ -89,7 +88,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "garden_house_1_floor_2",
     "object": {
       "fill_ter": "t_floor",
@@ -155,7 +153,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "garden_house_1_basement",
     "//": "Unfinished basement",
     "object": {
@@ -195,7 +192,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "garden_house_1_basement",
     "//": "rec room basement",
     "object": {
@@ -236,7 +232,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "garden_house_1_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

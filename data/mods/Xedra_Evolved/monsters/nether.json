@@ -1,0 +1,20 @@
+[
+  {
+    "id": "mon_blank",
+    "copy-from": "mon_blank",
+    "type": "MONSTER",
+    "name": { "str": "blank body", "str_pl": "blank bodies" },
+    "description": "This is some form of unnatural changeling creature; its appearance is a bland mockery of the human form.  Featureless and pale, its repugnant countenance is all the more unsettling due to its lack of eyes and distinguishing features except for a perfectly round mouth.  Adding to its unearthly appearance is the way it moves, stiff and doll-like as though it was only feigning knowing how to walk.",
+    "harvest": "harvest_blank_body"
+  },
+  {
+    "id": "mon_kreck",
+    "copy-from": "mon_kreck",
+    "type": "MONSTER",
+    "death_function": {
+      "eoc": "EOC_XE_KRECK_DEATH",
+      "corpse_type": "NO_CORPSE",
+      "message": "The %s stiffens and falls apart into fragments."
+    }
+  }
+]

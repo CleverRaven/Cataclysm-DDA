@@ -1,20 +1,21 @@
-from ..helper import get_singular_name
 from ..write_text import write_text
 
 
 def parse_material(json, origin):
-    name = get_singular_name(json["name"])
-    write_text(name, origin, comment="Name of material")
+    write_text(json["name"], origin, comment="Name of material")
 
-    if "bash_dmg_verb" in json:
-        write_text(json["bash_dmg_verb"], origin,
-                   comment="Bash damage verb of material")
+    write_text(json.get("bash_dmg_verb"), origin,
+               comment=[
+                   "Bash damage verb of material",
+                   "ex. 'Your helm is cracked!'"])
 
-    if "cut_dmg_verb" in json:
-        write_text(json["cut_dmg_verb"], origin,
-                   comment="Cut damage verb of material")
+    write_text(json.get("cut_dmg_verb"), origin,
+               comment=[
+                   "Cut damage verb of material",
+                   "ex. 'Your backpack is scratched!'"])
 
-    if "dmg_adj" in json:
-        for i in range(4):
-            write_text(json["dmg_adj"][i], origin,
-                       comment="Damage adjective of material")
+    for adj in json.get("dmg_adj", []):
+        write_text(adj, origin,
+                   comment=[
+                       "Damage adjective of material",
+                       "ex. 'dented cuirass'"])

@@ -127,7 +127,6 @@
       [ "bat_metal", 5 ],
       [ "bwirebat", 20 ],
       [ "crowbar", 5 ],
-      [ "homewrecker", 5 ],
       [ "nailboard", 25 ],
       [ "makeshift_crowbar", 35 ],
       [ "nailbat", 25 ],
@@ -232,7 +231,6 @@
     "items": [
       [ "spear_copper", 1 ],
       [ "spear_steel", 1 ],
-      [ "spear_forked", 15 ],
       [ "spear_knife", 15 ],
       [ "spear_pipe", 10 ],
       [ "spear_spike", 15 ],
@@ -268,7 +266,6 @@
       { "item": "mossberg_500", "prob": 5, "charges": [ 0, 6 ] },
       { "item": "remington_870", "prob": 5, "charges": [ 0, 5 ] },
       { "item": "ruger_1022", "prob": 15, "charges": [ 0, 10 ] },
-      { "item": "shotgun_410", "prob": 10, "charges": [ 0, 1 ] },
       { "item": "shotgun_s", "prob": 10, "charges": [ 0, 1 ] },
       { "item": "shotgun_d", "prob": 10, "charges": [ 0, 2 ] },
       { "item": "sten", "prob": 20, "charges": [ 0, 32 ] },

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backrooms_whole",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -37,7 +36,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backrooms_whole",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -73,7 +71,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backrooms_whole",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -109,7 +106,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backrooms_whole",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -145,7 +141,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backrooms_whole",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -181,7 +176,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backrooms_whole",
     "object": {
       "mapgensize": [ 24, 24 ],

@@ -43,7 +43,8 @@
     "name": "Newly-Awakened Biokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You feel in better shape than you ever have in your life, like you could run ten miles and climb a mountain and then wake up and do it again.  You'll probably need it.",
     "points": 3,
-    "traits": [ "BIOKINETIC", "BIOKIN_NEEDS" ]
+    "traits": [ "BIOKINETIC", "BIOKIN_NEEDS" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -53,7 +54,7 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can breathe underwater and twist yourself enough to squeeze through a half-closed window.  You can run five meters in less than a second and shrug off a punch like it's nothing.  You'd almost be worried you were becoming one of those rioters, except you're definitely still sane.  Right?",
     "points": 6,
     "traits": [ "BIOKINETIC", "BIOKIN_NEEDS" ],
-    "skills": [ { "level": 6, "name": "metaphysics" } ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
       { "id": "biokin_physical_enhance", "level": 11 },
       { "id": "biokin_overcome_pain", "level": 7 },
@@ -63,7 +64,8 @@
       { "id": "biokin_flexibility", "level": 9 },
       { "id": "biokin_adrenaline", "level": 4 },
       { "id": "biokin_enhance_mobility", "level": 5 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -73,7 +75,7 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can move inhumanly fast, hitting zombies before they even seem to know that you're there.  You can pull out nails with your bare hands and go out in winter without even a shirt and not feel the cold.  You're a new breed, Homo Cataclysmicus, and if anyone is equipped to survive in this new world, it's you.",
     "points": 10,
     "traits": [ "BIOKINETIC", "BIOKIN_NEEDS" ],
-    "skills": [ { "level": 11, "name": "metaphysics" } ],
+    "skills": [ { "level": 7, "name": "metaphysics" } ],
     "spells": [
       { "id": "biokin_physical_enhance", "level": 11 },
       { "id": "biokin_overcome_pain", "level": 10 },
@@ -87,16 +89,18 @@
       { "id": "biokin_hammerhand", "level": 6 },
       { "id": "biokin_reflex_enhance", "level": 10 },
       { "id": "biokin_combat_dance", "level": 4 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
     "subtype": "hobby",
     "id": "newly_clairsentient",
     "name": "Newly-Awakened Clairsentient",
-    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can read much faster and can see much better in the dark, and even in total darkness you no longer have any hesitation about moving.  At least once you avoided zombies on the other side of a wall that you didn't hear and couldn't see, but you, you just knew they were there.",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can read much faster and your senses are much sharper; you've been able to hear a zombie scratching at a front door from outside and across the street.  At least once you avoided zombies on the other side of a wall that you didn't hear and couldn't see, but you just knew they were there.  Maybe you felt the vibrations of their movement.",
     "points": 5,
-    "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ]
+    "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -106,15 +110,17 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can see auras around people that tell you what they're feeling, and you've already used it to avoid someone who was feigning being injured with the hope of stealing your gear.  You can see through walls, and tell where the best place to hit something is to take it down for good.  That last ability will definitely get plenty of use.",
     "points": 8,
     "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ],
-    "skills": [ { "level": 6, "name": "metaphysics" } ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
+      { "id": "clair_better_senses", "level": 8 },
       { "id": "clair_night_vision", "level": 6 },
       { "id": "clair_danger_sense", "level": 10 },
       { "id": "clair_speed_reading", "level": 7 },
       { "id": "clair_see_auras", "level": 8 },
-      { "id": "clair_spot_weakness", "level": 7 },
-      { "id": "clair_voyance", "level": 6 }
-    ]
+      { "id": "clair_spot_weakness", "level": 6 },
+      { "id": "clair_voyance", "level": 4 }
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -124,8 +130,9 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can finish books in a few hours and remember almost everything you read, you had to fix a bicycle a few weeks ago and even though you've never tried to do that before in your life, everything you needed to do just…came to you.  What's more, last time the Zs attacked you, you never got a scratch.  Three of them came at you at once and you dodged every attack because you could see what they were going to do before they did it.  If only you could see where you needed to go to be safe.",
     "points": 14,
     "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ],
-    "skills": [ { "level": 11, "name": "metaphysics" } ],
+    "skills": [ { "level": 7, "name": "metaphysics" } ],
     "spells": [
+      { "id": "clair_better_senses", "level": 11 },
       { "id": "clair_night_vision", "level": 6 },
       { "id": "clair_danger_sense", "level": 10 },
       { "id": "clair_speed_reading", "level": 7 },
@@ -136,7 +143,8 @@
       { "id": "clair_dodge_power", "level": 7 },
       { "id": "clair_craft_bonus", "level": 7 },
       { "id": "clair_clear_sight", "level": 5 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -145,7 +153,8 @@
     "name": "Newly-Awakened Electrokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  While running down an alleyway to escape a group of rioters, you looked back and realized you were going to get caught and then there was a deafening crash of thunder and your vision went white.  When your hearing and sight came back, the rioters were lying in a heap, some still with smoldering clothes, and you were unscathed.",
     "points": 4,
-    "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ]
+    "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -155,7 +164,7 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You an hurl lightning bolts from your hands, like some kind of superhero, and your smartphone still has a full charge even though you haven't plugged it in weeks.  Some kind of huge wasp attacked you in the woods and there was a crackle like thunder and it fell to the ground twitching.  You didn't stop to check if it would move again.",
     "points": 7,
     "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ],
-    "skills": [ { "level": 6, "name": "metaphysics" } ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
       { "id": "electrokinetic_see_electric", "level": 10 },
       { "id": "electrokinetic_shock_touch", "level": 9 },
@@ -166,7 +175,8 @@
       { "id": "electrokinetic_reduce_pain", "level": 6 },
       { "id": "electrokinetic_lightning_bolt", "level": 7 },
       { "id": "electrokinetic_speed_boost", "level": 2 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -176,7 +186,7 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You managed to drive the entire week the sky broke on a single charge in your car, and while you had to abandon it since then it got you out of the worst of the cities.  Anything that attacks you has to face your lightning and you haven't found anything yet that can withstand it.",
     "points": 11,
     "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ],
-    "skills": [ { "level": 11, "name": "metaphysics" } ],
+    "skills": [ { "level": 7, "name": "metaphysics" } ],
     "spells": [
       { "id": "electrokinetic_see_electric", "level": 11 },
       { "id": "electrokinetic_shock_touch", "level": 12 },
@@ -190,7 +200,8 @@
       { "id": "electrokinetic_speed_boost", "level": 9 },
       { "id": "electrokinetic_kill_robot", "level": 5 },
       { "id": "electrokinetic_lightning_aura", "level": 4 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -199,7 +210,8 @@
     "name": "Newly-Awakened Photokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You noticed that light seemed to bend at the will of your thoughts, when you were almost caught by a wandering horde, light slowly dimmed enough for you to hide in the shadows.  You have a sense that there's more to your newfound talents.",
     "points": 4,
-    "traits": [ "PHOTOKINETIC", "PHOTO_EYES" ]
+    "traits": [ "PHOTOKINETIC", "PHOTO_EYES" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -209,7 +221,7 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can make the air glow and fire lasers from your hands, and even sometimes hear radio signals.  You haven't heard any other survivors out there yet, but you listen for a bit every night, just in case.",
     "points": 7,
     "traits": [ "PHOTOKINETIC", "PHOTO_EYES" ],
-    "skills": [ { "level": 6, "name": "metaphysics" } ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
       { "id": "photokinetic_light_local", "level": 8 },
       { "id": "photokinetic_create_light", "level": 6 },
@@ -219,7 +231,8 @@
       { "id": "photokinetic_camouflage", "level": 6 },
       { "id": "photokinetic_rad_immunity", "level": 6 },
       { "id": "photokinetic_radio", "level": 4 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -229,7 +242,7 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  Many times a horde has passed within sight of you and simply never noticed you, and the few times they did, you just created illusions of yourself and all ran different directions.  The few stragglers were easy to sear to ash with focused light.",
     "points": 11,
     "traits": [ "PHOTOKINETIC", "PHOTO_EYES" ],
-    "skills": [ { "level": 11, "name": "metaphysics" } ],
+    "skills": [ { "level": 7, "name": "metaphysics" } ],
     "spells": [
       { "id": "photokinetic_light_local", "level": 11 },
       { "id": "photokinetic_create_light", "level": 10 },
@@ -242,7 +255,8 @@
       { "id": "photokinetic_radio", "level": 4 },
       { "id": "photokinetic_invisibility", "level": 8 },
       { "id": "photokinetic_light_flash", "level": 6 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -251,7 +265,8 @@
     "name": "Newly-Awakened Pyrokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  With just a thought, you can start a fire or make light radiate from the very air.  It's already saved your life once when you burned a zombie to ash while scavenging in a ruined house.  Sure, the house burned down too, but you'll definitely get more control as time goes on, right?",
     "points": 5,
-    "traits": [ "PYROKINETIC", "PYROKIN_ADAPTATION" ]
+    "traits": [ "PYROKINETIC", "PYROKIN_ADAPTATION" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -261,16 +276,18 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You don't even know how many zombies you've burned at this point, and keeping warm in winter certainly won't be a problem.",
     "points": 7,
     "traits": [ "PYROKINETIC", "PYROKIN_ADAPTATION" ],
-    "skills": [ { "level": 6, "name": "metaphysics" } ],
+    "skills": [ { "level": 7, "name": "metaphysics" } ],
     "spells": [
       { "id": "pyrokinetic_flash", "level": 8 },
-      { "id": "pyrokinetic_eruption", "level": 7 },
+      { "id": "pyrokinetic_intensify_flames", "level": 8 },
+      { "id": "pyrokinetic_eruption", "level": 5 },
       { "id": "pyrokinetic_call_flames", "level": 8 },
       { "id": "pyrokinetic_quell_flames", "level": 5 },
       { "id": "pyrokinetic_cloak", "level": 6 },
       { "id": "pyrokinetic_flamethrower", "level": 6 },
       { "id": "pyrokinetic_thermogenesis", "level": 6 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -278,12 +295,13 @@
     "id": "late_pyrokinetic",
     "name": "Ascended Pyrokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You are one with the flames, and they come at your command and obey your every instruction.  Zombies, mutants, aliens, stranger things--no matter what is out there, you will incinerate it and survive.",
-    "points": 7,
+    "points": 11,
     "traits": [ "PYROKINETIC", "PYROKIN_ADAPTATION" ],
-    "skills": [ { "level": 11, "name": "metaphysics" } ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
       { "id": "pyrokinetic_flash", "level": 8 },
-      { "id": "pyrokinetic_eruption", "level": 11 },
+      { "id": "pyrokinetic_intensify_flames", "level": 11 },
+      { "id": "pyrokinetic_eruption", "level": 7 },
       { "id": "pyrokinetic_call_flames", "level": 8 },
       { "id": "pyrokinetic_quell_flames", "level": 9 },
       { "id": "pyrokinetic_cloak", "level": 8 },
@@ -292,7 +310,8 @@
       { "id": "pyrokinetic_aura", "level": 6 },
       { "id": "pyrokinetic_flame_immunity", "level": 7 },
       { "id": "pyrokinetic_blast", "level": 5 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -301,7 +320,8 @@
     "name": "Newly-Awakened Telekinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can lift things with your mind.  Mostly just small things, but during the chaos a group of rioters jumped you and you hurled them off of you just by thinking about it.  This will definitely come in handy.",
     "points": 4,
-    "traits": [ "TELEKINETIC", "TELEKINETIC_GRAB_POCKETS" ]
+    "traits": [ "TELEKINETIC", "TELEKINETIC_GRAB_POCKETS" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -311,7 +331,7 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  Moving things at a distance is child's play.  You can pick up zombies and fling them away from you, shatter doors with a thought, and jump from the fifth story and land with barely a bruise.  Nothing is going to get close to you now.",
     "points": 8,
     "traits": [ "TELEKINETIC", "TELEKINETIC_GRAB_POCKETS" ],
-    "skills": [ { "level": 6, "name": "metaphysics" } ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
       { "id": "telekinetic_push", "level": 8 },
       { "id": "telekinetic_pull", "level": 6 },
@@ -320,7 +340,8 @@
       { "id": "telekinetic_momentum", "level": 10 },
       { "id": "telekinetic_hammer", "level": 6 },
       { "id": "telekinetic_shield", "level": 4 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -330,7 +351,7 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  One ton cars lift off the ground with merely a thought, bullets bounce off the air before they hit you, and you can smash whole groups of zombies to paste in seconds.  You can even fly from rooftop to rooftop, preventing gravity from affecting you by sheer force of will.",
     "points": 12,
     "traits": [ "TELEKINETIC", "TELEKINETIC_GRAB_POCKETS" ],
-    "skills": [ { "level": 11, "name": "metaphysics" } ],
+    "skills": [ { "level": 7, "name": "metaphysics" } ],
     "spells": [
       { "id": "telekinetic_push", "level": 11 },
       { "id": "telekinetic_pull", "level": 10 },
@@ -346,7 +367,8 @@
       { "id": "telekinetic_shield", "level": 7 },
       { "id": "telekinetic_explosion", "level": 6 },
       { "id": "telekinetic_levitation", "level": 4 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -355,7 +377,8 @@
     "name": "Newly-Awakened Telepath",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  The crazies were bad enough during the riots, but once you were stopped by a police officer whose bloodshot eyes told you that he wasn't going to let you off with a warning.  But you could somehow hear his thoughts, a chaotic jumble of rage and hunger and fear, you just…nudged them a little bit, and he wandered off and left you alone.  It doesn't work the same way with the zombies, but you can't have everything.",
     "points": 3,
-    "traits": [ "TELEPATH", "TELEPATHIC_SUGGESTION" ]
+    "traits": [ "TELEPATH", "TELEPATHIC_SUGGESTION" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -365,7 +388,7 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  Sure, the zombies are immune to telepathy, but those rioters aren't and neither are some of the monsters you've run into.  At least once, you managed to warn off another survivor who you knew meant to rob you.  You left him unconscious and without his weapons, and if the zombies got him, well, he shouldn't have messed with you.",
     "points": 6,
     "traits": [ "TELEPATH", "TELEPATHIC_SUGGESTION" ],
-    "skills": [ { "level": 6, "name": "metaphysics" } ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
       { "id": "telepathic_concentration", "level": 7 },
       { "id": "telepathic_mind_sense", "level": 8 },
@@ -374,7 +397,8 @@
       { "id": "telepathic_blast", "level": 6 },
       { "id": "telepathic_animal_mind_control", "level": 5 },
       { "id": "telepathic_confusion", "level": 5 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -384,7 +408,7 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  Controlling human minds is still too hard but at this point, animal minds are child's play.  A while back, some kind of mutated wolf or dog or something jumped you in the forest and after a few seconds, it was wagging its tail and jumping around like a new puppy.  You wish you still had it with you, but it died fighting off some kind of pink crustacean…thing, giving you time to run.  The bravest dog you ever had.",
     "points": 10,
     "traits": [ "TELEPATH", "TELEPATHIC_SUGGESTION" ],
-    "skills": [ { "level": 11, "name": "metaphysics" } ],
+    "skills": [ { "level": 7, "name": "metaphysics" } ],
     "spells": [
       { "id": "telepathic_concentration", "level": 10 },
       { "id": "telepathic_mind_sense", "level": 11 },
@@ -397,7 +421,8 @@
       { "id": "telepathic_invisibility", "level": 8 },
       { "id": "telepathic_blast_radius", "level": 6 },
       { "id": "telepathic_beast_taming", "level": 5 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -406,7 +431,8 @@
     "name": "Newly-Awakened Teleporter",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You were fleeing down a side street when you heard a crash above you.  You looked up and saw something hurtling through the air down toward you, you closed your eyes and wished you were anywhere but where you were, and then… you were.  Indoors, in a house near the street, and you went out the back door and made good your escape.  You're very, very good at escaping now.",
     "points": 6,
-    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ]
+    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -416,7 +442,7 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can step through walls, and once you were surrounded by a horde and looked up and a nearby rooftop and… there you were, safe and out of the zombies' line of sight.  The rule of the zombie apocalypse is \"keep moving\", and you're the best you've ever been at that.",
     "points": 10,
     "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
-    "skills": [ { "level": 6, "name": "metaphysics" } ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
       { "id": "teleport_blink", "level": 7 },
       { "id": "teleport_slow", "level": 10 },
@@ -427,7 +453,8 @@
       { "id": "teleport_farstep", "level": 5 },
       { "id": "teleport_loci_establishment", "level": 2 },
       { "id": "teleport_loci_technique", "level": 2 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -437,7 +464,7 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  No wall or door is a barrier to you and sometimes when you close your eyes you can travel to places you've already been.  Once you were surprised by a bandit and when he leveled his gun at you, you wished he was somewhere else and he just…disappeared.  Nothing can keep you down now.",
     "points": 13,
     "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
-    "skills": [ { "level": 11, "name": "metaphysics" } ],
+    "skills": [ { "level": 7, "name": "metaphysics" } ],
     "spells": [
       { "id": "teleport_blink", "level": 11 },
       { "id": "teleport_slow", "level": 12 },
@@ -453,7 +480,8 @@
       { "id": "teleport_loci_establishment", "level": 5 },
       { "id": "teleport_loci_technique", "level": 5 },
       { "id": "teleport_gateway", "level": 4 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -464,7 +492,8 @@
     "points": 5,
     "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
     "skills": [ { "level": 2, "name": "metaphysics" } ],
-    "spells": [ { "id": "teleport_gateway", "level": 3 } ]
+    "spells": [ { "id": "teleport_gateway", "level": 3 } ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -473,7 +502,8 @@
     "name": "Newly-Awakened Vitakinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You broke your leg when you got caught in a riot, and when things got really bad you were positive you were going to die.  But somehow, after only a few days your leg didn't seem to hurt nearly as much anymore.  By the end of the week you could walk on it, and by now it's like nothing ever happened.  It's not going to help you fight the zombies but it'll sure help you recover afterward.",
     "points": 3,
-    "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH" ]
+    "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -483,7 +513,7 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  Just last week you were looking in an abandoned building and fell through a weak floor.  But you barely bled, and after a few minutes lying there you picked yourself up and managed to run away from the things that came to investigate the noise.  You didn't have enough water to properly clean your wounds but it hasn't seemed to have mattered.  You're already back to normal.",
     "points": 6,
     "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH" ],
-    "skills": [ { "level": 6, "name": "metaphysics" } ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
       { "id": "vita_health_power", "level": 8 },
       { "id": "vita_slow_bleeding", "level": 8 },
@@ -493,7 +523,8 @@
       { "id": "vita_remove_poison", "level": 6 },
       { "id": "vita_sleeping_trance", "level": 5 },
       { "id": "vita_cure_disease", "level": 5 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -503,7 +534,7 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You've suffered injuries that should have killed you multiple times over by now and recovered in days every time.  You've broken your leg twice, your arm once, drank bad water that had you puking your guts out, nearly been disemboweled by some mutated thing…every single time, your powers kept you going.  Hopefully they'll see you through to the very end of all this.",
     "points": 6,
     "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH" ],
-    "skills": [ { "level": 11, "name": "metaphysics" } ],
+    "skills": [ { "level": 7, "name": "metaphysics" } ],
     "spells": [
       { "id": "vita_health_power", "level": 10 },
       { "id": "vita_slow_bleeding", "level": 9 },
@@ -517,6 +548,317 @@
       { "id": "vita_healing_trance", "level": 6 },
       { "id": "vita_blood_purge", "level": 6 },
       { "id": "vita_banish_illness", "level": 4 }
-    ]
+    ],
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_flexibility",
+    "name": "Psychic Knack (Flexibility)",
+    "description": "Before the Cataclysm you were always surprisingly flexible, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "biokin_flexibility_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_adrenaline",
+    "name": "Psychic Knack (Adrenaline Trigger)",
+    "description": "Before the Cataclysm you always had a hidden reserve of power when you needed it, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "biokin_adrenaline_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_clair_better_senses",
+    "name": "Psychic Knack (Heightened Senses)",
+    "description": "Before the Cataclysm you were more perceptive than nearly anyone you knew, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "clair_better_senses_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_clair_danger_sense",
+    "name": "Psychic Knack (Premonition)",
+    "description": "Before the Cataclysm you had a sixth sense for danger, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "clair_danger_sense_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_clair_examine_item",
+    "name": "Psychic Knack (Psychometry)",
+    "description": "Before the Cataclysm you would sometimes get strong impressions from items you touched, or have dreams about things you had bought.  Bits of their history that seemed so real, they had to have happened.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "clair_examine_item_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_clair_astral_projection",
+    "name": "Psychic Knack (Astral Projection)",
+    "description": "Before the Cataclysm you sometimes felt like you already knew unfamiliar places, like you had been there before in a dream, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 5,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "clair_astral_projection_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_electrokinetic_see_electric",
+    "name": "Psychic Knack (Spark Sight)",
+    "description": "Before the Cataclysm you always had a sense of when a line was drawing power, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "electrokinetic_see_electric_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_electrokinetic_pain_immune",
+    "name": "Psychic Knack (Analgesic Block)",
+    "description": "Before the Cataclysm you were never that strongly affected by pain, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 4,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "electrokinetic_pain_immune_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_electrokinetic_hacking_interface",
+    "name": "Psychic Knack (Hacking Interface)",
+    "description": "Before the Cataclysm computers basically always did what you wanted them to, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "electrokinetic_hacking_interface_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_photokinetic_camouflage",
+    "name": "Psychic Knack (Chameleoflage)",
+    "description": "Before the Cataclysm you sometimes seemed to just fade into the background, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "photokinetic_camouflage_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_photokinetic_hide_ugly",
+    "name": "Psychic Knack (Mirror-Mask)",
+    "description": "Before the Cataclysm people had a hard time remembering your exact appearance, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "photokinetic_hide_ugly_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_photokinetic_radio",
+    "name": "Psychic Knack (Radio Transception)",
+    "description": "Before the Cataclysm your mere presence seemed to interfere with radio broadcasts, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "photokinetic_radio_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_pyrokinetic_intensify_flames",
+    "name": "Psychic Knack (Intensify Flames)",
+    "description": "Before the Cataclysm you'd go camping sometimes, and while you were no better at starting a fire than anyone else, once you got a fire going it would always burn no matter what the conditions were.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "pyrokinetic_intensify_flames_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_pyrokinetic_flash",
+    "name": "Psychic Knack (Brilliant Flash)",
+    "description": "Before the Cataclysm you always managed to make the other guy look away first, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "pyrokinetic_flash_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_pyrokinetic_eruption",
+    "name": "Psychic Knack (Fountain of Flames)",
+    "description": "Before the Cataclysm you had an easy time starting a fire no matter the conditions, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 4,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "pyrokinetic_eruption_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_pyrokinetic_call_flames",
+    "name": "Psychic Knack (Banked Flames)",
+    "description": "Before the Cataclysm your hands never really got cold even in the harshest winter, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "pyrokinetic_call_flames_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_pyrokinetic_cloak",
+    "name": "Psychic Knack (Cloak of Warmth)",
+    "description": "Before the Cataclysm the cold never bothered you all that much, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "pyrokinetic_cloak_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_telekinetic_pull",
+    "name": "Psychic Knack (Far Hand)",
+    "description": "Before the Cataclysm you could basically always make a coin come up the way you needed to when it counted, and sometimes got lucky with autolocking doors not quite closing or things you dropped falling in just the perfect way to easily retrieve them, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "telekinetic_pull_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_telekinetic_push",
+    "name": "Psychic Knack (Force Shove)",
+    "description": "Before the Cataclysm people seemed to just move out of your way when you were in a hurry, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "telekinetic_push_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_telekinetic_slam_down",
+    "name": "Psychic Knack (Knockdown)",
+    "description": "Before the Cataclysm, the few times you got into a fight you could down your opponents with almost no effort, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "telekinetic_slam_down_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_telekinetic_wave",
+    "name": "Psychic Knack (Wave of Force)",
+    "description": "Before the Cataclysm you could move through crowds without any problem at all, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "telekinetic_wave_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_telepathic_shield",
+    "name": "Psychic Knack (Telepathic Shield)",
+    "description": "Before the Cataclysm you never had a single nightmare that you could remember, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "telepathic_shield_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_telepathic_mind_sense",
+    "name": "Psychic Knack (Sense Minds)",
+    "description": "Before the Cataclysm you always knew when someone was trying to sneak up on you, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "telepathic_mind_sense_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_telepathic_morale",
+    "name": "Psychic Knack (Mood Stabilization)",
+    "description": "Before the Cataclysm you had a knack for calming people down, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "telepathic_morale_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_telepathic_mesmerize",
+    "name": "Psychic Knack (Mesmerize)",
+    "description": "Before the Cataclysm you were always good at holding people's attention, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "telepathic_mesmerize_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_telepathic_animal_mind_control",
+    "name": "Psychic Knack (Beastmaster)",
+    "description": "Before the Cataclysm, animals always seemed to like you, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "telepathic_animal_mind_control_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_telepathic_invisibility",
+    "name": "Psychic Knack (Obscurity)",
+    "description": "Before the Cataclysm, people just overlooked you when you didn't want to be seen, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 4,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "telepathic_invisibility_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_vita_health_power",
+    "name": "Psychic Knack (Healthy Glow)",
+    "description": "Before the Cataclysm you just enjoyed good health no matter what you seemed to do, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "vita_health_power_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_vita_concentrated_healing",
+    "name": "Psychic Knack (Leukocyte Accumulation)",
+    "description": "Before the Cataclysm your injuries always seemed to heal pretty quickly, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "vita_concentrated_healing_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_vita_remove_poison",
+    "name": "Psychic Knack (Detoxification)",
+    "description": "Before the Cataclysm bee stings and poison ivy never bothered you, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "vita_remove_poison_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_vita_cure_disease",
+    "name": "Psychic Knack (Immunostimulus)",
+    "description": "Before the Cataclysm you never really seemed to get sick, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "vita_cure_disease_knack", "level": 6 } ]
   }
 ]

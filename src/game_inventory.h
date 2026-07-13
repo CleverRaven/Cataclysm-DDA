@@ -27,6 +27,11 @@ enum efile_action : int;
 using item_filter = std::function<bool( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
 
+namespace Pickup
+{
+struct pick_info;
+} // namespace Pickup
+
 /**
 * A boiled-down shortcut for inventory_selector_preset.
 * @param filter - function solely determines what is shown in the item list.
@@ -113,8 +118,12 @@ drop_locations multidrop( Character &you );
  * Otherwise, pick up items from the avatar's current location and all adjacent tiles.
  * @return A list of pairs of item_location, quantity.
  */
-drop_locations pickup( const std::optional<tripoint_bub_ms> &target = std::nullopt,
-                       const std::vector<drop_location> &selection = {} );
+drop_locations pickup( const std::set<tripoint_bub_ms> &targets = {} );
+drop_locations pickup( const std::set<tripoint_bub_ms> &targets,
+                       const std::vector<drop_location> &selection );
+drop_locations pickup( const std::set<tripoint_bub_ms> &targets,
+                       const std::vector<drop_location> &selection,
+                       Pickup::pick_info &info );
 
 drop_locations smoke_food( Character &you, units::volume total_capacity,
                            units::volume used_capacity );

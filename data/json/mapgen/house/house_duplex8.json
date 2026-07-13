@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "house_duplex8",
     "type": "mapgen",
     "object": {
@@ -55,7 +54,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_duplex8_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

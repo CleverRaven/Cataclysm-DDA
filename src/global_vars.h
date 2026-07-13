@@ -59,7 +59,7 @@ class global_variables
         void set_global_values( impl_t input ) {
             global_values = std::move( input );
         }
-        void unserialize( JsonObject &jo );
+        void unserialize( const JsonObject &jo );
         void serialize( JsonOut &jsout ) const;
 
         std::map<std::string, std::string> migrations; // NOLINT(cata-serialize)

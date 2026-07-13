@@ -61,7 +61,7 @@ struct sub_body_part_type {
 
     // the locations that are under this location
     // used with secondary locations to define what sublocations
-    // exist bellow them for things like discomfort
+    // exist below them for things like discomfort
     std::vector<sub_bodypart_str_id> locations_under;
 
     // These subparts act like this limb for armor coverage

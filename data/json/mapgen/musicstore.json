@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_music",
     "//": "Real decent place for a quick morale boost, relatively rare.",
     "object": {
@@ -96,7 +95,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_music_roof",
     "object": {
       "fill_ter": "t_flat_roof",

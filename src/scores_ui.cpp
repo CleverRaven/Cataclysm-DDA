@@ -12,7 +12,6 @@
 #include <vector>
 
 #include "achievement.h"
-#include "avatar.h"
 #include "cata_imgui.h"
 #include "color.h"
 #include "enum_traits.h"
@@ -22,7 +21,6 @@
 #include "kill_tracker.h"
 #include "localized_comparator.h"
 #include "mtype.h"
-#include "options.h"
 #include "past_games_info.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
@@ -231,15 +229,6 @@ void scores_ui_impl::draw_scores_text() const
 
 void scores_ui_impl::draw_kills_text() const
 {
-    if( get_option<bool>( "STATS_THROUGH_KILLS" ) &&
-        ImGui::CollapsingHeader( _( "Stats through kills:" ), ImGuiTreeNodeFlags_DefaultOpen ) ) {
-        ImGui::TextWrapped( _( "Total kills: %d" ), total_kills );
-        ImGui::NewLine();
-        ImGui::TextWrapped( _( "Experience: %d (%d points available)" ),
-                            get_avatar().kill_xp,
-                            get_avatar().free_upgrade_points() );
-    }
-
     if( ImGui::CollapsingHeader( string_format( _( "Monster kills (%d):" ), monster_kills ).c_str(),
                                  monster_group_collapsed ? ImGuiTreeNodeFlags_None : ImGuiTreeNodeFlags_DefaultOpen ) ) {
         if( monster_kills == 0 ) {

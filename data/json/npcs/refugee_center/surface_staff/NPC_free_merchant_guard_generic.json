@@ -36,6 +36,16 @@
         "topic": "TALK_GUARD_Boris_Mission_1"
       },
       { "text": "How did you get saddled with guard duty?", "topic": "TALK_GUARD_FM_BACKGROUND" },
+      {
+        "text": "Heard anything about an helicopter crash?",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "sunken_helicopter_tip_offer" } ] },
+            { "not": { "u_has_mission": "MISSION_FIND_SUNKEN_HELICOPTER" } }
+          ]
+        },
+        "topic": "TALK_GUARD_FM_SUNKEN_HELICOPTER_ANECDOTE"
+      },
       { "text": "Don't mind me…", "topic": "TALK_DONE" }
     ]
   },
@@ -66,5 +76,22 @@
     ],
     "speaker_effect": { "effect": { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } },
     "responses": [ { "text": "Well, thanks anyway.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_GUARD_FM_SUNKEN_HELICOPTER_ANECDOTE",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Sure yeah, I remember, I was on caravan duty when I saw it, it got caught in of those weird storms, as we started driving away I heard a big splash sound.",
+      "No, sorry…",
+      "I didn't see it myself but I heard the rumors about it, apparently it crashed somewhere nearby but I haven't seen any smoke or corpse.",
+      "Oh the helicopter?  Yeah, I tried finding the crash site around where the guy said he heard the crash but I didn't find nothing.",
+      "The crashed helicopter?  Eh, I'm pretty sure it's just a story, no one ever found anything.",
+      "Oh, yes, what a story, I almost wish I had been there to see it, almost.",
+      "Yeah I was part of the caravan that spotted it, it was headed east then when the storm broke out it got caught by some kind of creature, I heard gunshots then it started flying down rapidly, I heard it crash but I'm not sure where exactly.",
+      "Yes I was told the story by the others, I'm glad I wasn't there though, I hate those storms.",
+      "I dunno, I wasn't there but I overheard some guy talking about it.",
+      "You know how it is, people talk, I mean sure, there was one of those weird storms at the time but the helicopter story?  I don't believe it."
+    ],
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
   }
 ]

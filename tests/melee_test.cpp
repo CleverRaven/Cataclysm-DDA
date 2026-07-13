@@ -339,6 +339,17 @@ TEST_CASE( "Melee_skill_training_caps", "[melee], [melee_training_cap], [skill]"
         dude.melee_attack_abstract( zed, false, matec_id( "" ) );
         CHECK( level.knowledgeExperience( true ) == prev_xp );
     }
+    SECTION( "Using a monster as a training dummy will not cause further skill gain" ) {
+        zed.times_combatted_player = 101;
+        dude.set_skill_level( skill_melee, 0 );
+        dude.set_knowledge_level( skill_melee, 0 );
+        const int prev_xp = level.knowledgeExperience( true );
+        dude.melee_attack_abstract( zed, false, matec_id( "" ) );
+        CHECK( level.knowledgeLevel() == 0 );
+        CHECK( level.level() == 0 );
+        CHECK( level.knowledgeExperience( true ) == 0 );
+        CHECK( level.knowledgeExperience( true ) == prev_xp );
+    }
 }
 
 static void check_damage_from_test_fire( const std::string &mon_id, int expected_resist,

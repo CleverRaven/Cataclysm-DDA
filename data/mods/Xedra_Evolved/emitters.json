@@ -19,5 +19,12 @@
     "field": "fd_hot_air4",
     "intensity": 3,
     "qty": 100
+  },
+  {
+    "id": "emit_powder_of_revelation",
+    "type": "emit",
+    "field": "fd_powder_of_revelation",
+    "intensity": 1,
+    "qty": 50
   }
 ]

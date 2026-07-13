@@ -32,14 +32,9 @@
       { "item": "tac_fullhelmet_uicas" },
       { "item": "afs_military_vest" },
       { "item": "afs_combat_cryo" },
-      { "item": "afs_frontier_cryomask" },
       { "item": "afs_ammo_satchel" },
       { "item": "afs_jumpsuit_military" },
       { "item": "afs_military_cloak" },
-      { "item": "boots_combat" },
-      { "item": "gloves_tactical" },
-      { "item": "under_armor" },
-      { "item": "under_armor_shorts" },
       { "item": "holster" }
     ]
   },

@@ -1,0 +1,49 @@
+[
+  {
+    "result": "spear_stone_simple",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "sharp_rock", 1 ] ], [ [ "cordage_6", 1 ] ] ]
+  },
+  {
+    "result": "spear_stone",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "sharp_rock", 1 ] ], [ [ "cordage_6", 1 ] ] ]
+  },
+  {
+    "result": "spear_knife_superior",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "PRYING_NAIL", "level": 1 } ],
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "knife_huge", 1 ] ], [ [ "nail", 2 ] ], [ [ "string_36", 2 ] ] ]
+  },
+  {
+    "result": "spear_knife_proper",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "PRYING_NAIL", "level": 1 } ],
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "knife_huge", 1 ] ], [ [ "nail", 2 ] ], [ [ "string_36", 2 ] ] ]
+  },
+  {
+    "result": "simple_pike_pipe",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "components": [ [ [ "pipe", 4 ] ], [ [ "pipe_fittings", 4 ] ], [ [ "scrap", 12 ] ] ]
+  },
+  {
+    "result": "pike_pipe",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "25 m",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 12 ] ], [ [ "lump_cast_iron", 2 ] ] ]
+  }
+]

@@ -8,7 +8,6 @@
 #include <sstream>
 #include <unordered_map>
 
-#include "assign.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cartesian_product.h"
@@ -21,7 +20,6 @@
 #include "debug.h"
 #include "effect_on_condition.h"
 #include "enum_traits.h"
-#include "enums.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
@@ -55,8 +53,6 @@ static const itype_id itype_hotplate( "hotplate" );
 
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 
-
-recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
 int recipe::get_difficulty( const Character &crafter ) const
 {
@@ -106,6 +102,30 @@ int64_t recipe::time_to_craft_moves( const Character &guy, recipe_time_flag flag
     return time * proficiency_time_maluses( guy );
 }
 
+double batch_savings::apply( double time, int batch_size ) const
+{
+    if( const linear *lin = std::get_if<linear>( &data ) ) {
+        int reps = std::ceil( batch_size / static_cast<double>( lin->max_batch.value_or( batch_size ) ) );
+        return ( reps * lin->offset ) + ( batch_size * ( time - lin->offset ) );
+    }
+    if( const logistic *log = std::get_if<logistic>( &data ) ) {
+        if( log->rscale == 0.0f ) {
+            return time * batch_size;
+        }
+        double ret = 0.0;
+        // recipe benefits from batching, so batching scale factor needs to be calculated
+        // At batch_rsize, incremental time increase is 99.5% of batch_rscale
+        const double scale = log->rsize / 6.0f;
+        for( int x = 0; x < batch_size; x++ ) {
+            // scaled logistic function output
+            const double logf = ( 2.0 / ( 1.0 + std::exp( -( x / scale ) ) ) ) - 1.0;
+            ret += time * ( 1.0 - ( log->rscale * logf ) );
+        }
+        return ret;
+    }
+    return time * batch_size;
+}
+
 int64_t recipe::batch_time( const Character &guy, int batch, float multiplier,
                             size_t assistants ) const
 {
@@ -117,26 +137,7 @@ int64_t recipe::batch_time( const Character &guy, int batch, float multiplier,
     }
 
     const double local_time = static_cast<double>( time_to_craft_moves( guy ) ) / multiplier;
-
-    // if recipe does not benefit from batching and we have no assistants, don't do unnecessary additional calculations
-    if( batch_rscale == 0.0 && assistants == 0 ) {
-        return static_cast<int64_t>( local_time ) * batch;
-    }
-
-    double total_time = 0.0;
-    // if recipe does not benefit from batching but we do have assistants, skip calculating the batching scale factor
-    if( batch_rscale == 0.0f ) {
-        total_time = local_time * batch;
-    } else {
-        // recipe benefits from batching, so batching scale factor needs to be calculated
-        // At batch_rsize, incremental time increase is 99.5% of batch_rscale
-        const double scale = batch_rsize / 6.0f;
-        for( int x = 0; x < batch; x++ ) {
-            // scaled logistic function output
-            const double logf = ( 2.0 / ( 1.0 + std::exp( -( x / scale ) ) ) ) - 1.0;
-            total_time += local_time * ( 1.0 - ( batch_rscale * logf ) );
-        }
-    }
+    double total_time = batch_info.apply( local_time, batch );
 
     //Assistants can decrease the time for production but never less than that of one unit
     if( assistants == 1 ) {
@@ -156,10 +157,16 @@ bool recipe::has_flag( const std::string &flag_name ) const
     return flags.count( flag_name );
 }
 
-void recipe::load( const JsonObject &jo, const std::string &src )
-{
-    bool strict = src == "dda";
+struct time_duration_as_moves_reader : public generic_typed_reader<time_duration_as_moves_reader> {
+    int64_t get_next( const JsonValue &jv ) const {
+        time_duration ret;
+        jv.read( ret );
+        return to_moves<int64_t>( ret );
+    }
+};
 
+void recipe::load( const JsonObject &jo, const std::string_view src )
+{
     abstract = jo.has_string( "abstract" );
 
     const std::string type = jo.get_string( "type" );
@@ -200,6 +207,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 id = recipe_id( jo.get_string( "id" ) );
             }
         } else {
+            optional( jo, false, "name", name_ );
             id = recipe_id( result_.str() );
         }
     }
@@ -218,7 +226,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_bool( "obsolete" ) ) {
-        assign( jo, "obsolete", obsolete );
+        mandatory( jo, was_loaded, "obsolete", obsolete );
     }
 
     // If it's an obsolete recipe, we don't need any more data, skip loading
@@ -226,29 +234,30 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         return;
     }
 
-    if( jo.has_string( "time" ) ) {
-        time = to_moves<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
-                              time_duration::units ) );
-    }
-    assign( jo, "difficulty", difficulty, strict, 0, MAX_SKILL );
-    assign( jo, "flags", flags );
+    optional( jo, was_loaded, "time", time, time_duration_as_moves_reader{}, 0 );
+    optional( jo, was_loaded, "difficulty", difficulty, numeric_bound_reader<int> {0, MAX_SKILL} );
+    optional( jo, was_loaded, "flags", flags );
 
     // automatically set contained if we specify as container
-    assign( jo, "contained", contained, strict );
-    contained |= assign( jo, "container", container, strict );
+    optional( jo, was_loaded, "contained", contained, false );
+    if( jo.has_member( "container" ) ) {
+        contained = true;
+        optional( jo, was_loaded, "container", container, itype_id::NULL_ID() );
+    }
     optional( jo, false, "container_variant", container_variant );
-    assign( jo, "sealed", sealed, strict );
+    optional( jo, was_loaded, "sealed", sealed, true );
 
-    if( jo.has_array( "batch_time_factors" ) ) {
-        JsonArray batch = jo.get_array( "batch_time_factors" );
-        batch_rscale = batch.get_int( 0 ) / 100.0;
-        batch_rsize  = batch.get_int( 1 );
+    optional( jo, was_loaded, "batch_time_factors", batch_info );
+    if( batch_savings::linear *lin = std::get_if<batch_savings::linear>( &batch_info.data ) ) {
+        if( lin->offset > time ) {
+            jo.throw_error( "batch scaling time greater than recipe time" );
+        }
     }
 
-    assign( jo, "charges", charges );
-    assign( jo, "result_mult", result_mult );
+    optional( jo, was_loaded, "charges", charges );
+    optional( jo, was_loaded, "result_mult", result_mult, 1 );
 
-    assign( jo, "skill_used", skill_used, strict );
+    optional( jo, was_loaded, "skill_used", skill_used, skill_id::NULL_ID() );
 
     if( jo.has_member( "skills_required" ) ) {
         JsonArray sk = jo.get_array( "skills_required" );
@@ -273,7 +282,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     // simplified autolearn sets requirements equal to required skills at finalization
     if( jo.has_bool( "autolearn" ) ) {
-        assign( jo, "autolearn", autolearn );
+        optional( jo, was_loaded, "autolearn", autolearn, false );
 
     } else if( jo.has_array( "autolearn" ) ) {
         autolearn = true;
@@ -283,24 +292,10 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     }
 
     // Mandatory: This recipe's exertion level
-    mandatory( jo, was_loaded, "activity_level", exertion_str );
-    // Remove after 0.H
-    if( exertion_str == "fake" ) {
-        debugmsg( "Depreciated activity level \"fake\" found in recipe %s from source %s. Setting activity level to MODERATE_EXERCISE.",
-                  id.c_str(), src );
-        exertion_str = "MODERATE_EXERCISE";
-    }
-    const auto it = activity_levels_map.find( exertion_str );
-    if( it == activity_levels_map.end() ) {
-        jo.throw_error_at(
-            "activity_level", string_format( "Invalid activity level %s", exertion_str ) );
-    }
-    exertion = it->second;
+    mandatory( jo, was_loaded, "activity_level", exertion, activity_level_reader{} );
 
     // Never let the player have a debug or NPC recipe
-    if( jo.has_bool( "never_learn" ) ) {
-        assign( jo, "never_learn", never_learn );
-    }
+    optional( jo, was_loaded, "never_learn", never_learn, false );
 
     if( jo.has_member( "decomp_learn" ) ) {
         learn_by_disassembly.clear();
@@ -309,7 +304,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             if( !skill_used ) {
                 jo.throw_error( "decomp_learn specified with no skill_used" );
             }
-            assign( jo, "decomp_learn", learn_by_disassembly[skill_used] );
+            optional( jo, false, "decomp_learn", learn_by_disassembly[skill_used] );
 
         } else if( jo.has_array( "decomp_learn" ) ) {
             for( JsonArray arr : jo.get_array( "decomp_learn" ) ) {
@@ -333,15 +328,17 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         flags_to_delete = jo.get_tags<flag_id>( "delete_flags" );
     }
 
-    // recipes not specifying any external requirements inherit from their parent recipe (if any)
-    if( jo.has_string( "using" ) ) {
-        reqs_external = { { requirement_id( jo.get_string( "using" ) ), 1 } };
+    optional( jo, was_loaded, "using", reqs_external, weighted_string_id_reader<requirement_id, int> { 1 } );
 
-    } else if( jo.has_array( "using" ) ) {
-        reqs_external.clear();
-        for( JsonArray cur : jo.get_array( "using" ) ) {
-            reqs_external.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
-        }
+    bool inherited_tools = false;
+    bool inherited_qualities = false;
+    bool inherited_components = false;
+
+    if( !reqs_internal.empty() ) {
+        requirement_data r_data = reqs_internal.front().first.obj();
+        inherited_tools = !r_data.get_tools().empty();
+        inherited_qualities = !r_data.get_qualities().empty();
+        inherited_components = !r_data.get_components().empty();
     }
 
     // inline requirements are always replaced (cannot be inherited)
@@ -356,10 +353,10 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
         mandatory( jo, was_loaded, "category", category );
         mandatory( jo, was_loaded, "subcategory", subcategory );
-        assign( jo, "description", description, strict );
+        optional( jo, was_loaded, "description", description );
 
         if( jo.has_bool( "reversible" ) ) {
-            assign( jo, "reversible", reversible, strict );
+            mandatory( jo, was_loaded, "reversible", reversible );
         } else if( jo.has_object( "reversible" ) ) {
             reversible = true;
             // Convert duration to time in moves
@@ -384,10 +381,10 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             byproduct_group = item_group::load_item_group( jo.get_member( "byproduct_group" ),
                               "collection", "byproducts of recipe " + id.str() );
         }
-        assign( jo, "construction_blueprint", blueprint );
+        optional( jo, was_loaded, "construction_blueprint", blueprint );
         if( !blueprint.is_empty() ) {
-            assign( jo, "blueprint_name", bp_name );
-            assign( jo, "blueprint_parameter_names", bp_parameter_names );
+            optional( jo, was_loaded, "blueprint_name", bp_name );
+            optional( jo, was_loaded, "blueprint_parameter_names", bp_parameter_names );
             bp_resources.clear();
             for( const std::string resource : jo.get_array( "blueprint_resources" ) ) {
                 bp_resources.emplace_back( resource );
@@ -444,7 +441,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         mandatory( jo, false, "name", name_ );
         mandatory( jo, was_loaded, "category", category );
         mandatory( jo, was_loaded, "subcategory", subcategory );
-        assign( jo, "description", description, strict );
+        optional( jo, was_loaded, "description", description );
         mandatory( jo, was_loaded, "practice_data", practice_data );
 
         if( jo.has_member( "byproducts" ) ) {
@@ -467,7 +464,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         mandatory( jo, false, "name", name_ );
         mandatory( jo, was_loaded, "category", category );
         mandatory( jo, was_loaded, "subcategory", subcategory );
-        assign( jo, "description", description, strict );
+        optional( jo, was_loaded, "description", description );
         mandatory( jo, was_loaded, "nested_category_data", nested_category_data );
 
     } else {
@@ -475,8 +472,23 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     }
 
     const requirement_id req_id( "inline_" + type + "_" + id.str() );
-    requirement_data::load_requirement( jo, req_id );
+    requirement_data::load_requirement( jo, req_id, false, abstract );
     reqs_internal.emplace_back( req_id, 1 );
+
+    if( inherited_tools && !jo.has_member( "tools" ) ) {
+        debugmsg( "Recipe %s inherits from recipe that has tools, but does not have any of its own.  "
+                  "This is probably an error.", id.str() );
+    }
+
+    if( inherited_qualities && !jo.has_member( "qualities" ) ) {
+        debugmsg( "Recipe %s inherits from recipe that has qualities, but does not have any of its own.  "
+                  "This is probably an error.", id.str() );
+    }
+
+    if( inherited_components  && !jo.has_member( "components" ) ) {
+        debugmsg( "Recipe %s inherits from recipe that has components, but does not have any of its own.  "
+                  "This is probably an error.", id.str() );
+    }
 }
 
 static cata::value_ptr<parameterized_build_reqs> calculate_all_blueprint_reqs(
@@ -661,6 +673,11 @@ void recipe::finalize()
         if( skill_used ) {
             autolearn_requirements[ skill_used ] = difficulty;
         }
+    }
+
+    // ensure result name is always in front of the name for searching in crafting menu
+    if( !name_.empty() && !is_practice() && !is_nested() && result_ ) {
+        name_ = translation::to_translation( string_format( name_, result_->nname( makes_amount() ) ) );
     }
 }
 
@@ -1215,11 +1232,25 @@ std::string recipe::required_all_skills_string( const std::map<skill_id, int> &s
     return required_skills_as_string( skillList );
 }
 
+std::string batch_savings::savings_string() const
+{
+    if( const linear *lin = std::get_if<linear>( &data ) ) {
+        std::string time_saved = to_string( time_duration::from_moves<int>( lin->offset ) );
+        if( lin->max_batch.has_value() ) {
+            return string_format( _( "%s per unit to %d units" ), time_saved, lin->max_batch.value() );
+        } else {
+            return string_format( _( "%s per unit" ), time_saved );
+        }
+    }
+    if( const logistic *log = std::get_if<logistic>( &data ) ) {
+        return string_format( _( "%d%% at >%d units" ), static_cast<int>( log->rscale * 100 ), log->rsize );
+    }
+    return _( "none" );
+}
+
 std::string recipe::batch_savings_string() const
 {
-    return ( batch_rsize != 0 ) ?
-           string_format( _( "%d%% at >%d units" ), static_cast<int>( batch_rscale * 100 ), batch_rsize )
-           : _( "none" );
+    return batch_info.savings_string();
 }
 
 std::string recipe::result_name( const bool decorated ) const
@@ -1328,18 +1359,8 @@ std::function<bool( const item & )> recipe::get_component_filter(
     };
 }
 
-bool recipe::npc_can_craft( std::string &reason ) const
+bool recipe::npc_can_craft( std::string & ) const
 {
-    if( result()->phase != phase_id::SOLID ) {
-        reason = _( "Ordering NPC to craft non-solid item is currently only implemented for camps." );
-        return false;
-    }
-    for( const auto& [bp, _] : get_byproducts() ) {
-        if( bp->phase != phase_id::SOLID ) {
-            reason = _( "Ordering NPC to craft non-solid item is currently only implemented for camps." );
-            return false;
-        }
-    }
     return true;
 }
 
@@ -1548,6 +1569,40 @@ void recipe::incorporate_build_reqs()
         }
 
         reqs.consolidate( reqs_internal, reqs_external );
+    }
+}
+
+void batch_savings::deserialize( const JsonValue &jv )
+{
+    if( jv.test_array() ) {
+        JsonArray ja = jv.get_array();
+        logistic ret;
+        ja.read( 0, ret.rscale );
+        ret.rscale /= 100.0;
+        ja.read( 1, ret.rsize );
+        data = ret;
+        if( ret.rscale > 1.0 || ret.rscale <= 0.0 || ret.rsize < 1 ) {
+            jv.throw_error( "Invalid batch factors" );
+        }
+        return;
+    }
+    JsonObject jo = jv.get_object();
+    std::string mode = jo.get_string( "mode" );
+    if( mode == "linear" ) {
+        linear ret;
+        mandatory( jo, false, "setup", ret.offset, time_duration_as_moves_reader{} );
+        optional( jo, false, "max", ret.max_batch );
+        if( ret.max_batch.value_or( 1 ) < 1 ) {
+            jo.throw_error( "Invalid max value" );
+        }
+        data = ret;
+    } else if( mode == "logistic" ) {
+        logistic ret;
+        mandatory( jo, false, "percent", ret.rscale, percentile_reader{0, 100} );
+        mandatory( jo, false, "at", ret.rsize, numeric_bound_reader{1} );
+        data = ret;
+    } else {
+        jo.throw_error( string_format( "Unrecognized mode %s", mode ) );
     }
 }
 

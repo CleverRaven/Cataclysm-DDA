@@ -1,13 +1,53 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY",
-    "effect": { "u_message": "You have learned all the secrets of this level." }
+    "id": "EOC_XE_ALCHEMY_PERK_WAKE_UP_RUN",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "mental_exhaustion" } },
+        {
+          "u_has_any_trait": [ "perk_ALCHEMY1", "perk_ALCHEMY2", "perk_ALCHEMY3", "perk_ALCHEMY3_COLD_IRON", "perk_ALCHEMY4", "perk_ALCHEMY5" ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "and": [ { "u_has_trait": "perk_ALCHEMY5" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
+        "then": { "run_eocs": "EOC_ALCHEMY5" },
+        "else": {
+          "if": { "and": [ { "u_has_trait": "perk_ALCHEMY4" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
+          "then": { "run_eocs": "EOC_ALCHEMY4" },
+          "else": {
+            "if": {
+              "and": [
+                { "u_has_trait": "perk_ALCHEMY3" },
+                { "u_has_trait": "perk_ALCHEMY3_COLD_IRON" },
+                { "not": { "u_has_effect": "mental_exhaustion" } }
+              ]
+            },
+            "then": { "run_eocs": "EOC_ALCHEMY3_COLD_IRON" },
+            "else": {
+              "if": { "and": [ { "u_has_trait": "perk_ALCHEMY3" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
+              "then": { "run_eocs": "EOC_ALCHEMY3" },
+              "else": {
+                "if": { "and": [ { "u_has_trait": "perk_ALCHEMY2" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
+                "then": { "run_eocs": "EOC_ALCHEMY2" },
+                "else": { "if": { "not": { "u_has_effect": "mental_exhaustion" } }, "then": { "run_eocs": "EOC_ALCHEMY1" } }
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY",
-    "effect": { "u_message": "You learn a new secret of alchemy." }
+    "effect": {
+      "u_message": "As you wake up from vivid dreams, you realize your subconscious has revealed to you a new secret of alchemy."
+    }
   },
   {
     "type": "effect_on_condition",
@@ -17,12 +57,10 @@
       {
         "u_roll_remainder": [ "extra_str_aspirin", "blackout_rage_drink", "sixdust", "small_blessing_brigit" ],
         "type": "recipe",
-        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ],
-        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY" ]
+        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ]
       },
       { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "24 hours" }
-    ],
-    "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -39,11 +77,11 @@
         ],
         "type": "recipe",
         "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ],
-        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY" ]
+        "false_eocs": [ "EOC_ALCHEMY1" ]
       },
       { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "48 hours" }
     ],
-    "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+    "false_effect": { "run_eocs": "EOC_ALCHEMY1" }
   },
   {
     "type": "effect_on_condition",
@@ -63,11 +101,11 @@
         ],
         "type": "recipe",
         "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ],
-        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY" ]
+        "false_eocs": [ "EOC_ALCHEMY2" ]
       },
       { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "96 hours" }
     ],
-    "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+    "false_effect": { "run_eocs": "EOC_ALCHEMY2" }
   },
   {
     "type": "effect_on_condition",
@@ -84,11 +122,11 @@
         "u_roll_remainder": [ "cold_iron_knife", "cold_iron_arming_sword", "cold_iron_warhammer", "cold_iron_battleaxe", "blood_of_saints" ],
         "type": "recipe",
         "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ],
-        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY" ]
+        "false_eocs": [ "EOC_ALCHEMY3" ]
       },
       { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "96 hours" }
     ],
-    "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+    "false_effect": { "run_eocs": "EOC_ALCHEMY3" }
   },
   {
     "type": "effect_on_condition",
@@ -99,11 +137,11 @@
         "u_roll_remainder": [ "life_extension_potion", "potion_strength", "potion_dex", "hares_leap_potion", "nether_snare" ],
         "type": "recipe",
         "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ],
-        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY" ]
+        "false_eocs": [ "EOC_ALCHEMY3_COLD_IRON" ]
       },
       { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "192 hours" }
     ],
-    "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+    "false_effect": { "run_eocs": "EOC_ALCHEMY3_COLD_IRON" }
   },
   {
     "type": "effect_on_condition",
@@ -114,10 +152,10 @@
         "u_roll_remainder": [ "plant_imbuement", "earth_imbuement", "water_imbuement", "air_imbuement", "fire_imbuement", "doll_imbuement" ],
         "type": "recipe",
         "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ],
-        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY" ]
+        "false_eocs": [ "EOC_ALCHEMY4" ]
       },
       { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "384 hours" }
     ],
-    "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+    "false_effect": { "run_eocs": "EOC_ALCHEMY4" }
   }
 ]

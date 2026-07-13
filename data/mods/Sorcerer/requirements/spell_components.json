@@ -1,0 +1,17 @@
+[
+  {
+    "id": "spell_components_rune_animist",
+    "type": "requirement",
+    "components": [ [ [ "rune_animist", 1 ], [ "rune_sorcerer", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_rune_animist_3",
+    "type": "requirement",
+    "components": [ [ [ "rune_animist", 3 ], [ "rune_sorcerer", 3 ] ] ]
+  },
+  {
+    "id": "spell_components_samsara",
+    "type": "requirement",
+    "components": [ [ [ "rune_druid", 1 ], [ "rune_sorcerer", 1 ] ] ]
+  }
+]

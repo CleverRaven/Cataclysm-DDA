@@ -5,7 +5,7 @@
     "name": { "str": "Genemod: Improved Physical Capability" },
     "points": 3,
     "description": "Your strength, coordination, and sensory acuity have been increased through genemod treatments.",
-    "cancels": [ "MYOPIC", "HYPEROPIC", "BADHEARING" ],
+    "cancels": [ "MYOPIC", "HYPEROPIC", "BADHEARING", "ESPER_ADVANCEMENT_OKAY", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
     "enchantments": [
       {
         "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "DEXTERITY", "add": 2 }, { "value": "PERCEPTION", "add": 2 } ]
@@ -18,7 +18,7 @@
     "id": "AFS_MENTAL_CAPABILITY_GENEMOD",
     "name": { "str": "Genemod: Improved Mental Flexibility" },
     "points": 3,
-    "cancels": [ "FORGETFUL" ],
+    "cancels": [ "FORGETFUL", "ESPER_ADVANCEMENT_OKAY", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
     "description": "Your concentration and memorization abilities have been increased through genemod treatments.",
     "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 }, { "value": "LEARNING_FOCUS", "add": 10 } ] } ]
   },
@@ -29,7 +29,7 @@
     "points": 3,
     "description": "Your resistance to disease and infection, as well as your ability to recover from injuries, have been improved through genemod treatments.",
     "enchantments": [ { "mutations": [ "DISRESISTANT", "FASTHEALER", "INFRESIST" ] } ],
-    "cancels": [ "SLOWHEALER", "SLOWHEALER2", "SLOWHEALER3" ],
+    "cancels": [ "SLOWHEALER", "SLOWHEALER2", "SLOWHEALER3", "ESPER_ADVANCEMENT_OKAY", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
     "flags": [ "MEND_ALL" ]
   },
   {
@@ -38,7 +38,7 @@
     "name": { "str": "Genemod: Efficient System" },
     "points": 3,
     "description": "The efficiency of your metabolic processes, from the length of your sleep cycle to losing fatigue after exercise, have been improved through genemod treatments.",
-    "cancels": [ "SLEEPY", "SLEEPY2" ],
+    "cancels": [ "SLEEPY", "SLEEPY2", "ESPER_ADVANCEMENT_OKAY", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
     "enchantments": [
       {
         "values": [
@@ -57,6 +57,6 @@
     "points": 3,
     "description": "Your physical appearance has been improved through genemod treatments.",
     "enchantments": [ { "mutations": [ "BEAUTIFUL" ] } ],
-    "cancels": [ "UGLY", "DEFORMED", "DEFORMED2" ]
+    "cancels": [ "UGLY", "DEFORMED", "DEFORMED2", "ESPER_ADVANCEMENT_OKAY", "ESPER_STARTER_ADVANCEMENT_OKAY" ]
   }
 ]

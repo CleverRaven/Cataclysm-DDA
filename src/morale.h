@@ -45,6 +45,8 @@ class player_morale
         void decay( const time_duration &ticks = 1_turns );
         /** Displays morale screen */
         void display( int focus_eq, int pain_penalty, int sleepiness_penalty );
+        // dumps the containment of all points into string, for debug purposes
+        std::string to_string_writable();
         /** Returns false whether morale is inconsistent with the argument.
          *  Only permanent morale is checked */
         bool consistent_with( const player_morale &morale ) const;

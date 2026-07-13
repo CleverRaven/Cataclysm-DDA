@@ -7,7 +7,7 @@
     "description": "You're naturally quite lucky!",
     "starting_trait": true,
     "valid": false,
-    "random_at_chargen": false,
+    "chargen_allow_npc": false,
     "cancels": [ "UNLUCKY" ]
   },
   {
@@ -18,7 +18,7 @@
     "description": "You're naturally quite unlucky.",
     "starting_trait": true,
     "valid": false,
-    "random_at_chargen": false,
+    "chargen_allow_npc": false,
     "cancels": [ "LUCKY" ]
   }
 ]

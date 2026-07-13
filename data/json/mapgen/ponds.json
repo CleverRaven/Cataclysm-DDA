@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "pond_field" ],
     "object": {
       "rotation": [ 0, 3 ],
@@ -55,7 +54,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "hot_springs" ],
     "object": {
       "rotation": [ 0, 3 ],
@@ -96,17 +94,17 @@
       "furniture": {
         "]": [
           [ "f_null", 60 ],
-          [ "f_rubble_rock", 5 ],
-          [ "f_boulder_small", 2 ],
-          [ "f_boulder_medium", 1 ],
-          [ "f_boulder_large", 1 ]
+          [ "f_rubble_volc", 5 ],
+          [ "f_boulder_small_volc", 2 ],
+          [ "f_boulder_medium_volc", 1 ],
+          [ "f_boulder_large_volc", 1 ]
         ],
         "?": [
           [ "f_null", 30 ],
-          [ "f_rubble_rock", 5 ],
-          [ "f_boulder_small", 2 ],
-          [ "f_boulder_medium", 1 ],
-          [ "f_boulder_large", 1 ]
+          [ "f_rubble_volc", 5 ],
+          [ "f_boulder_small_volc", 2 ],
+          [ "f_boulder_medium_volc", 1 ],
+          [ "f_boulder_large_volc", 1 ]
         ]
       }
     }

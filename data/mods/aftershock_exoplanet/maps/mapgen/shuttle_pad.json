@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "afs_shuttle_pad_a1", "afs_shuttle_pad_a2" ] ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -42,7 +41,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "afs_shuttle_pad_a1_roof", "afs_shuttle_pad_a2_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",

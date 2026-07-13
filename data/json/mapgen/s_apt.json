@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_apt" ],
     "object": {
       "fill_ter": "t_floor",
@@ -39,6 +38,7 @@
       ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "*": [ [ "t_door_locked_interior", 5 ], [ "t_door_c", 1 ] ],
         "!": "t_region_groundcover_urban",
         "<": "t_stairs_up",
         "&": "t_window",
@@ -65,7 +65,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_apt_2ndfloor" ],
     "object": {
       "fill_ter": "t_floor",
@@ -89,7 +88,7 @@
         "o  h |A 5|===|5  +  @@o.",
         "#dII +  O|===|O f|E  d#.",
         "#|||||E 7|===|F h||||##.",
-        "#9__|R   +===*   +__8o..",
+        "#9__|R   *===*   +__8o..",
         "#8St+ sHH|===|HHs|St9#..",
         "##########===##o######..",
         "........#>=<=>#.........",
@@ -106,6 +105,7 @@
         "<": "t_stairs_up",
         ">": "t_stairs_down",
         "&": "t_window",
+        "*": [ [ "t_door_locked_interior", 5 ], [ "t_door_c", 1 ] ],
         "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "8": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
@@ -116,7 +116,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_apt_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -152,7 +151,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_apt_upper_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",

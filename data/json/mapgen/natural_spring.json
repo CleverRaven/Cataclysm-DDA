@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "natural_spring",
     "object": {
       "rotation": [ 0, 3 ],

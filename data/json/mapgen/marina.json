@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "marina_5", "marina_4", "marina_3", "marina_2", "marina_1" ],
       [ "marina_10", "marina_9", "marina_8", "marina_7", "marina_6" ],
@@ -244,7 +243,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "marina_15_roof", "marina_12_roof", "marina_11_roof" ] ],
     "type": "mapgen",
     "object": {

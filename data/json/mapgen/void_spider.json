@@ -89,7 +89,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "void_spider_lair_entrance" ],
     "object": {
       "fill_ter": "t_rock_floor_no_roof",
@@ -127,12 +126,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "void_spider_lair_entrance_shift",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "void_spider_lair_entrance_shift" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "void_spider_lair_entrance_shift",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -170,12 +167,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "void_spider_lair_corpses",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "void_spider_lair_corpses" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "void_spider_lair_corpses",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -223,12 +218,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "void_spider_lair_eggs",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "void_spider_lair_eggs" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "void_spider_lair_eggs",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -265,7 +258,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "void_spider_lair_a1", "void_spider_lair_a2" ] ],
     "object": {
       "fill_ter": "t_nether_glass_floor",

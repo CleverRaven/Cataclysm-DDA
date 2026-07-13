@@ -324,13 +324,19 @@
     "id": "mon_shadow",
     "copy-from": "mon_shadow",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE" ] }
+    "extend": { "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE" ], "armor": { "psi_photokinetic_damage": -40 } }
   },
   {
     "id": "mon_shadow_snake",
     "copy-from": "mon_shadow_snake",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE" ] }
+    "extend": { "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE" ], "armor": { "psi_photokinetic_damage": -40 } }
+  },
+  {
+    "id": "mon_darkman",
+    "copy-from": "mon_darkman",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE" ], "armor": { "psi_photokinetic_damage": -80 } }
   },
   {
     "id": "mon_thing",
@@ -385,12 +391,6 @@
     "copy-from": "mon_nether_fish",
     "type": "MONSTER",
     "extend": { "flags": [ "TEEP_IMMUNE" ] }
-  },
-  {
-    "id": "mon_teke_mouse",
-    "copy-from": "mon_teke_mouse",
-    "type": "MONSTER",
-    "extend": { "armor": { "psi_telekinetic_damage": 25 } }
   },
   {
     "id": "mon_fungaloid_tower",

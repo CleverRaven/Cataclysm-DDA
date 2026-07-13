@@ -1,3 +1,26 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Design - Gameplay](#design---gameplay)
+    - [Gameplay Table of Contents](#gameplay-table-of-contents)
+  - [Objectives](#objectives)
+  - [Game Stages and Timeline](#game-stages-and-timeline)
+      - [Game Stages and Timeline Table of Contents](#game-stages-and-timeline-table-of-contents)
+    - [Overview](#overview)
+    - ["Lone Wolf" Play Element](#lone-wolf-play-element)
+      - [Early game](#early-game)
+        - [Terrified and Wet Phase](#terrified-and-wet-phase)
+          - [New Scavenger Phase:](#new-scavenger-phase)
+        - [Wasteland Scavenger Phase](#wasteland-scavenger-phase)
+        - [Preparation/Skilled Scavenger Phase](#preparationskilled-scavenger-phase)
+        - [First Winter](#first-winter)
+      - [Mid-Game](#mid-game)
+      - [Late-Game](#late-game)
+    - ["Faction" Play Element](#faction-play-element)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Design - Gameplay
 
 ### Gameplay Table of Contents

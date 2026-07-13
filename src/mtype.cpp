@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <initializer_list>
 #include <unordered_map>
 
 #include "behavior_strategy.h"
@@ -91,6 +92,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_FIREPROOF,
             mon_flag_FIREY,
             mon_flag_FISHABLE,
+            mon_flag_FLASHBANGPROOF,
             mon_flag_FLIES,
             mon_flag_GOODHEARING,
             mon_flag_GRABS,
@@ -132,6 +134,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_PATH_AVOID_FALL,
             mon_flag_PATH_AVOID_FIRE,
             mon_flag_PAY_BOT,
+            mon_flag_PERMANENT_INVISIBILITY,
             mon_flag_PET_HARNESSABLE,
             mon_flag_PET_MOUNTABLE,
             mon_flag_PET_WONT_FOLLOW,
@@ -164,6 +167,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_SWARMS,
             mon_flag_SWIMS,
             mon_flag_TEEP_IMMUNE,
+            mon_flag_TRUESIGHT,
             mon_flag_VAMP_VIRUS,
             mon_flag_VENOM,
             mon_flag_WARM,
@@ -220,6 +224,7 @@ void set_mon_flag_ids()
     mon_flag_FIREPROOF = mon_flag_id( "FIREPROOF" );
     mon_flag_FIREY = mon_flag_id( "FIREY" );
     mon_flag_FISHABLE = mon_flag_id( "FISHABLE" );
+    mon_flag_FLASHBANGPROOF = mon_flag_id( "FLASHBANGPROOF" );
     mon_flag_FLIES = mon_flag_id( "FLIES" );
     mon_flag_GOODHEARING = mon_flag_id( "GOODHEARING" );
     mon_flag_GRABS = mon_flag_id( "GRABS" );
@@ -261,6 +266,7 @@ void set_mon_flag_ids()
     mon_flag_PATH_AVOID_FALL = mon_flag_id( "PATH_AVOID_FALL" );
     mon_flag_PATH_AVOID_FIRE = mon_flag_id( "PATH_AVOID_FIRE" );
     mon_flag_PAY_BOT = mon_flag_id( "PAY_BOT" );
+    mon_flag_PERMANENT_INVISIBILITY = mon_flag_id( "PERMANENT_INVISIBILITY" );
     mon_flag_PET_HARNESSABLE = mon_flag_id( "PET_HARNESSABLE" );
     mon_flag_PET_MOUNTABLE = mon_flag_id( "PET_MOUNTABLE" );
     mon_flag_PET_WONT_FOLLOW = mon_flag_id( "PET_WONT_FOLLOW" );
@@ -291,6 +297,7 @@ void set_mon_flag_ids()
     mon_flag_SWARMS = mon_flag_id( "SWARMS" );
     mon_flag_SWIMS = mon_flag_id( "SWIMS" );
     mon_flag_TEEP_IMMUNE = mon_flag_id( "TEEP_IMMUNE" );
+    mon_flag_TRUESIGHT = mon_flag_id( "TRUESIGHT" );
     mon_flag_VAMP_VIRUS = mon_flag_id( "VAMP_VIRUS" );
     mon_flag_VENOM = mon_flag_id( "VENOM" );
     mon_flag_WARM = mon_flag_id( "WARM" );
@@ -331,7 +338,7 @@ mtype::mtype()
     harvest = harvest_list_human;
     decay = harvest_id::NULL_ID();
     luminance = 0;
-    bash_skill = 0;
+    bash_skill = {};
 
     aggro_character = true;
 
@@ -469,6 +476,16 @@ field_type_id mtype::gibType() const
     }
     // There are other materials not listed here like steel, protoplasmic, powder, null, stone, bone
     return fd_null;
+}
+
+int mtype::get_total_difficulty() const
+{
+    return difficulty;
+}
+
+int mtype::get_difficulty_adjustment() const
+{
+    return difficulty_adjustment;
 }
 
 itype_id mtype::get_meat_itype() const
@@ -613,16 +630,16 @@ void mtype::faction_display( catacurses::window &w, const point &top_left, const
     trim_and_print( w, top_left + point( 0, ++y ), width, c_light_gray,
                     string_format( "%s: %s", colorize( _( "Senses" ), c_white ), enumerate_as_string( senses_str ) ) );
     // Abilities
-    if( has_flag( mon_flag_SWIMS ) ) {
+    if( has_flag( mon_flag_SWIMS ) || move_skills.swim.has_value() ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can swim." ) );
     }
     if( has_flag( mon_flag_FLIES ) ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can fly." ) );
     }
-    if( has_flag( mon_flag_DIGS ) ) {
+    if( has_flag( mon_flag_DIGS )   || move_skills.dig.has_value() ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can burrow underground." ) );
     }
-    if( has_flag( mon_flag_CLIMBS ) ) {
+    if( has_flag( mon_flag_CLIMBS ) || move_skills.climb.has_value() ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can climb." ) );
     }
     if( has_flag( mon_flag_GRABS ) ) {

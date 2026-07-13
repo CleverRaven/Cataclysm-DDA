@@ -39,8 +39,9 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
-#include "uilist.h"
+#include "ui_helpers.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "units.h"
 
 using namespace auto_pickup;
@@ -308,18 +309,8 @@ void user_interface::show()
     ui_adaptor ui;
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
-        const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                             TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
-
-        w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                       iOffset );
-        w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                       iOffset + point::south_east );
-        w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                iOffset + point( 1, iHeaderHeight + 1 ) );
-
-        ui.position_from_window( w_border );
+        ui_helpers::full_screen_window( ui, &w, &w_border, &w_header, nullptr,
+                                        &iContentHeight, 1, iHeaderHeight, 0 );
     };
     init_windows( ui );
     ui.on_screen_resize( init_windows );
@@ -889,8 +880,9 @@ bool player_settings::save( const bool bCharacter )
         savefile = PATH_INFO::player_base_save_path() + ".apu.json";
 
         const cata_path player_save = PATH_INFO::player_base_save_path() + ".sav";
+        const cata_path player_save_zzip = player_save + ".zzip";
         //Character not saved yet.
-        if( !file_exist( player_save ) ) {
+        if( !file_exist( player_save ) || !file_exist( player_save_zzip ) ) {
             return true;
         }
     }

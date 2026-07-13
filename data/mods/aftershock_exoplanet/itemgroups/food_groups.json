@@ -83,8 +83,10 @@
     "subtype": "distribution",
     "id": "afs_stored_meats",
     "entries": [
-      { "item": "afs_synthetic_meat", "prob": 10, "container-item": "afs_foil_bag" },
-      { "item": "afs_jerky", "prob": 40, "container-item": "afs_foil_bag" }
+      { "item": "meat", "variant": "synth", "prob": 10, "container-item": "afs_foil_bag" },
+      { "item": "fish", "variant": "synth", "prob": 10, "container-item": "afs_foil_bag" },
+      { "item": "fish", "variant": "insect", "prob": 10, "container-item": "afs_foil_bag" },
+      { "item": "jerky", "variant": "synth", "prob": 40, "container-item": "afs_foil_bag" }
     ]
   },
   {
@@ -134,7 +136,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "afs_foil_bag",
-    "entries": [ { "item": "afs_kelp", "count": 9 } ]
+    "entries": [ { "item": "kelp_sugar", "count": 9 } ]
   },
   {
     "type": "item_group",

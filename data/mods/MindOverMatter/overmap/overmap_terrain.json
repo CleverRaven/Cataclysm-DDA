@@ -7,7 +7,30 @@
     "sym": "*",
     "color": "white",
     "flags": [ "NO_ROTATE" ],
-    "see_cost": "medium"
+    "see_cost": "medium",
+    "travel_cost_type": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mom_texopapalotl_crew_shed" ],
+    "vision_levels": "isolated_building",
+    "name": "shack",
+    "sym": "C",
+    "looks_like": "cabin",
+    "color": "i_brown",
+    "see_cost": "high",
+    "travel_cost_type": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mom_texopapalotl_crew_shed_roof" ],
+    "vision_levels": "roof_or_air",
+    "name": "shack roof",
+    "sym": "C",
+    "looks_like": "cabin_roof",
+    "color": "i_brown",
+    "see_cost": "none",
+    "travel_cost_type": "field"
   },
   {
     "type": "overmap_terrain",
@@ -259,7 +282,7 @@
       "psi_phavian_lab_block5E3",
       "psi_phavian_lab_block5E4"
     ],
-    "name": "research facility, roof",
+    "name": "research facility roof",
     "sym": "l",
     "looks_like": "lab_surface_brick_block5A2",
     "vision_levels": "roof_or_air",
@@ -311,5 +334,33 @@
     "type": "overmap_terrain",
     "id": "alien_meadow_end",
     "copy-from": "alien_meadow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "microlab_psi_phavian_biokinesis_mutation_lab_nw",
+      "microlab_psi_phavian_biokinesis_mutation_lab_ne",
+      "microlab_psi_phavian_biokinesis_mutation_lab_sw",
+      "microlab_psi_phavian_biokinesis_mutation_lab_se"
+    ],
+    "copy-from": "microlab_generic",
+    "name": "science lab",
+    "sym": "L",
+    "color": "magenta",
+    "spawns": { "group": "GROUP_LAB", "population": [ 2, 10 ], "chance": 75 },
+    "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_no_meat_generic_edge" ],
+    "copy-from": "microlab_generic",
+    "name": "science lab",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_no_meat_sub_station",
+    "copy-from": "microlab_sub_station"
   }
 ]

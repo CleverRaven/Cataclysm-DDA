@@ -1,25 +1,5 @@
 [
   {
-    "id": "blotted_sun",
-    "type": "weather_type",
-    "name": "Blotted Sun",
-    "color": "dark_gray",
-    "map_color": "i_blue",
-    "sym": "%",
-    "ranged_penalty": 0,
-    "sight_penalty": 1.0,
-    "light_modifier": -145,
-    "sun_multiplier": 0.01,
-    "sound_attn": 0,
-    "debug_cause_eoc": "EOC_BLOT_THE_SUN",
-    "debug_leave_eoc": "EOC_UNBLOT_THE_SUN",
-    "dangerous": false,
-    "precip": "none",
-    "rains": false,
-    "priority": 119,
-    "condition": { "math": [ "blotted_sun == 1" ] }
-  },
-  {
     "id": "magic_weather_thick_fog",
     "type": "weather_type",
     "name": "Dense Fog",

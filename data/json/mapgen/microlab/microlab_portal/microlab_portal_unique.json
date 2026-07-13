@@ -2,13 +2,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "microlab_portal_elevator_physics_shift",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "microlab_portal_elevator_physics_shift" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
     "om_terrain": "microlab_portal_dressroom",
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -50,7 +48,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_portal_elevator" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -86,7 +83,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_portal_elevator_physics_glass" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -123,7 +119,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "microlab_portal_elevator_physics_shift",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -161,7 +156,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_portal_elevator_nether_glass" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [

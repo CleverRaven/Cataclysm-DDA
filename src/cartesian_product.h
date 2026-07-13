@@ -30,7 +30,7 @@ auto cartesian_product( const RangeOfRanges &input )
         }
 
         // Increment the iterators
-        size_t i = 0;
+        std::size_t i = 0;
         for( ; i != input.size(); ++i ) {
             auto &which_it = iterators[i];
             const auto &range = input[i];

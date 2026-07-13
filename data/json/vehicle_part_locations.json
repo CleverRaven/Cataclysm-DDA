@@ -1,0 +1,120 @@
+[
+  {
+    "type": "vehicle_part_location",
+    "id": "structure",
+    "name": "Structure",
+    "z_order": 5,
+    "list_order": 1
+  },
+  {
+    "type": "vehicle_part_location",
+    "id": "armor",
+    "name": "Armor",
+    "//": "Shouldn't be displayed (the color is used, but not the symbol)",
+    "z_order": -2,
+    "list_order": 2
+  },
+  {
+    "type": "vehicle_part_location",
+    "id": "on_roof",
+    "name": "On Roof",
+    "z_order": 9,
+    "list_order": 3
+  },
+  {
+    "type": "vehicle_part_location",
+    "id": "roof",
+    "name": "Roof",
+    "//": "Shouldn't be displayed",
+    "z_order": -1,
+    "list_order": 4
+  },
+  {
+    "type": "vehicle_part_location",
+    "id": "on_cargo",
+    "name": "On Cargo",
+    "desc": "Attached to a cargo space",
+    "z_order": 8,
+    "list_order": 6
+  },
+  {
+    "type": "vehicle_part_location",
+    "id": "center",
+    "name": "Center",
+    "desc": "Above the frame and below the roof",
+    "z_order": 7,
+    "list_order": 7
+  },
+  {
+    "type": "vehicle_part_location",
+    "id": "engine_block",
+    "name": "Engine Block",
+    "z_order": 4,
+    "list_order": 8
+  },
+  {
+    "type": "vehicle_part_location",
+    "id": "fuel_source",
+    "name": "Fuel Source",
+    "z_order": 3,
+    "list_order": 9
+  },
+  {
+    "type": "vehicle_part_location",
+    "id": "under",
+    "name": "Under",
+    "desc": "Below the frame",
+    "//": "Z order above Structure so wheels display over frames",
+    "z_order": 6,
+    "list_order": 10
+  },
+  {
+    "type": "vehicle_part_location",
+    "id": "on_battery_mount",
+    "name": "Battery Mount",
+    "z_order": 3,
+    "list_order": 11
+  },
+  {
+    "type": "vehicle_part_location",
+    "id": "on_frame",
+    "name": "On Frame",
+    "z_order": -1
+  },
+  {
+    "type": "vehicle_part_location",
+    "id": "axle",
+    "name": "Axle",
+    "z_order": -1
+  },
+  {
+    "type": "vehicle_part_location",
+    "id": "on_ceiling",
+    "name": "On Ceiling",
+    "z_order": -1
+  },
+  {
+    "type": "vehicle_part_location",
+    "id": "on_controls",
+    "name": "On Controls",
+    "z_order": -1
+  },
+  {
+    "type": "vehicle_part_location",
+    "id": "on_lockable_cargo",
+    "name": "On Lockable Cargo",
+    "z_order": -1
+  },
+  {
+    "type": "vehicle_part_location",
+    "id": "on_seat",
+    "name": "On Seat",
+    "z_order": -1
+  },
+  {
+    "type": "vehicle_part_location",
+    "id": "on_windshield",
+    "name": "On Window",
+    "z_order": -1
+  }
+]

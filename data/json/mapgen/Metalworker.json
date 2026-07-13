@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "craft_shop_1" ],
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -100,7 +99,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "craft_shop_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",

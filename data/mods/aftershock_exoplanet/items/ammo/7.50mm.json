@@ -7,7 +7,7 @@
     "description": "An intermediate bullet with an acceptable all-round performance.  Due to their role as UICA's standard issue rifle cartridge, these are ubiquitous wherever Earth makes its presence be known.",
     "weight": "12 g",
     "volume": "194 ml",
-    "price": "2 USD 80 cent",
+    "price": "70 USD 50 cent",
     "material": [ "lead" ],
     "symbol": "=",
     "color": "yellow",
@@ -18,7 +18,8 @@
     "damage": { "damage_type": "bullet", "amount": 45, "armor_penetration": 15 },
     "dispersion": 30,
     "recoil": 1500,
-    "extend": { "effects": [ "COOKOFF" ], "flags": [ "CASELESS_ROUNDS" ] }
+    "effects": [ "COOKOFF" ],
+    "flags": [ "CASELESS_ROUNDS" ]
   },
   {
     "id": "afs_7.50mm_ap_caseless",
@@ -28,7 +29,7 @@
     "description": "Armor piercing 7.50mm ammunition with a tungsten carbide penetrator.  These rounds are designed to defeat body armor and other hard targets, but have reduced stopping power against unarmored targets.",
     "weight": "12 g",
     "volume": "194 ml",
-    "price": "2 USD 80 cent",
+    "price": "94 USD 80 cent",
     "material": [ "lead" ],
     "symbol": "=",
     "color": "yellow",
@@ -39,7 +40,8 @@
     "damage": { "damage_type": "bullet", "amount": 35, "armor_penetration": 30 },
     "dispersion": 30,
     "recoil": 1500,
-    "extend": { "effects": [ "COOKOFF" ], "flags": [ "CASELESS_ROUNDS" ] }
+    "effects": [ "COOKOFF" ],
+    "flags": [ "CASELESS_ROUNDS" ]
   },
   {
     "id": "afs_7.50mm_rp",
@@ -60,7 +62,8 @@
     "damage": { "damage_type": "bullet", "amount": 12 },
     "dispersion": 60,
     "recoil": 150,
-    "extend": { "effects": [ "COOKOFF" ], "flags": [ "CASELESS_ROUNDS" ] }
+    "effects": [ "COOKOFF" ],
+    "flags": [ "CASELESS_ROUNDS" ]
   },
   {
     "id": "afs_7.50mm_smart",
@@ -80,7 +83,8 @@
     "range": 110,
     "stack_size": 1,
     "recoil": 100,
-    "effects": [ "NEVER_MISFIRES", "CASELESS_ROUNDS" ],
+    "flags": [ "CASELESS_ROUNDS" ],
+    "effects": [ "NEVER_MISFIRES" ],
     "damage": { "damage_type": "bullet", "amount": 35, "armor_penetration": 15 },
     "critical_multiplier": 10,
     "dispersion": 0

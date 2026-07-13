@@ -285,6 +285,7 @@
     "material": [ "gold", "steel" ],
     "symbol": "A",
     "aggression": 70,
+    "morale": 100,
     "aggro_character": false,
     "color": "yellow",
     "luminance": 20,

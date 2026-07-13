@@ -1,24 +1,5 @@
 [
   {
-    "id": "40_speedloader6",
-    "//": "Values copied from .44 Speedloader.",
-    "looks_like": "38_speedloader",
-    "type": "ITEM",
-    "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "10mm 6-round speedloader" },
-    "description": "This speedloader can hold 6 rounds of .40 S&W or 10mm Auto and quickly reload a compatible revolver.",
-    "weight": "28 g",
-    "volume": "25 ml",
-    "price": "15 USD",
-    "price_postapoc": "1 USD",
-    "material": [ "plastic", "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "40", "10mm" ],
-    "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 6, "10mm": 6 } } ]
-  },
-  {
     "id": "glock_20mag",
     "looks_like": "glock17_17",
     "type": "ITEM",
@@ -95,33 +76,6 @@
     "material": "steel",
     "ammo_type": [ "10mm" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "10mm": 8 } } ]
-  },
-  {
-    "id": "mp5_10_mag",
-    "looks_like": "ump45mag",
-    "type": "ITEM",
-    "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "BA10 30-round magazine" },
-    "description": "A straight 30-round box magazine for the BA10 rifle.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "mp5_10_mag",
-        "name": { "str": "MP5/10 30-round magazine" },
-        "description": "A straight 30-round box magazine for use with MP5/10s and similar 10mm MP5 clones such as the Brethren Arms BA10."
-      }
-    ],
-    "weight": "159 g",
-    "volume": "231 ml",
-    "longest_side": "227 mm",
-    "price": "49 USD 50 cent",
-    "price_postapoc": "1 USD",
-    "material": [ "plastic", "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "10mm" ],
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "10mm": 30 } } ]
   },
   {
     "id": "p220_10_mag",

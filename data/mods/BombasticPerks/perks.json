@@ -147,6 +147,15 @@
   },
   {
     "type": "mutation",
+    "id": "perk_percussive_entry",
+    "name": { "str": "Percussive Entry" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "If one kick doesn't open the door, just try another.  Or a few more.  How about another dozen or so?  You can up to double your strength for the purposes of smashing terrain; this bonus gradually increases over the course of multiple smashes."
+  },
+  {
+    "type": "mutation",
     "id": "perk_holdout_pocket",
     "name": { "str": "Holdout Pocket" },
     "points": 0,
@@ -164,6 +173,18 @@
     "valid": false,
     "description": "You're like a walking tank!  Take 5% less damage from all sources.",
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARMOR_ALL", "multiply": -0.05 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_thick_skin",
+    "name": { "str": "Thick Skin" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "All the beatings you've taken have toughened you up.  You can walk barefoot with no penalty, develop blisters in heat much more slowly, and take slightly less bash damage.",
+    "//": "The flesh material also protects against cut and bullets, so we need an enchant to do bash only",
+    "enchantments": [ { "condition": "ALWAYS", "incoming_damage_mod_post_absorbed": [ { "type": "bash", "add": -2 } ] } ],
+    "flags": [ "BARKY", "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -273,6 +294,16 @@
   },
   {
     "type": "mutation",
+    "id": "perk_animal_friend",
+    "name": { "str": "Animal Friend" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Even with everything that's happened, you still find solace in nature.  Natural animals are less likely to attack you.",
+    "flags": [ "ANIMALEMPATH" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_vengeful",
     "name": { "str": "Vengeful" },
     "points": 0,
@@ -280,6 +311,15 @@
     "valid": false,
     "description": "Oh, they're not getting away with THAT.  You do +15% damage for two turns after you're hit.",
     "enchantments": [ "perk_ench_vengeful" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_twice_shy",
+    "name": { "str": "Twice Shy" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Pain is really painful; best to avoid it.  For five turns after you are hit, you gain +1 bonus dodge and +2 dodge skill."
   },
   {
     "type": "mutation",
@@ -335,6 +375,16 @@
   },
   {
     "type": "mutation",
+    "id": "perk_reduced_falling_damage",
+    "name": { "str": "Catfall" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You always land on your feet and look graceful when doing it.  Reduce the number of stories by 1 when calculating fall damage.",
+    "flags": [ "ONE_STORY_FALL" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_grit_your_teeth",
     "name": { "str": "Grit Your Teeth" },
     "points": 0,
@@ -344,6 +394,19 @@
     "active": true,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_PERK_GRIT_YOUR_TEETH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_slippery_escape",
+    "name": { "str": "Slippery Escape" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your joints are flexible enough that you can twist out of nearly anything when given a mind, though that doesn't make it hurt any less.  At the cost of some pain, you can twist out of enemy grabs.",
+    "active": true,
+    "activated_is_setup": false,
+    "activation_msg": "You twist out of the grab with a wrench!",
+    "activated_eocs": [ "EOC_PERK_SLIPPERY_ESCAPE" ]
   },
   {
     "type": "mutation",
@@ -384,6 +447,21 @@
     "valid": false,
     "description": "You have a persistent sense of how to move around in sharp and rough terrain.  You'll never accidently snag or cut yourself on protrusions from the ground.",
     "flags": [ "ALL_TERRAIN_NAVIGATION" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_situational_uncanny_dodge",
+    "name": { "str": "Evasion" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You're so good at dodging that almost nothing can touch you as long as you're on your game.  You have passive Uncanny Dodge until you take damage, after which it takes a few minutes for you to recover your poise.",
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_effect": "effect_perk_situational_uncanny_dodge_remover" } },
+        "ench_effects": [ { "effect": "effect_perk_situational_uncanny_dodge", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -594,7 +672,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "As if the apocalypse itself wasn't enough, you are constantly looking for some trouble.  Zombies will sometimes appear out of nowhere to attack you.  Fortunately, they always appear at a good distance from you.  Activate to toggle.",
+    "description": "As if the apocalypse itself wasn't enough, you are constantly looking for some trouble.  Zombies somehow sometimes sense your presence and approach you.  Fortunately, they always appear at a good distance from you.  Activate to toggle.",
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_troubleseek_on" ],
@@ -635,6 +713,28 @@
   },
   {
     "type": "mutation",
+    "id": "perk_artifact_resonance_detection",
+    "name": { "str": "Nether Resonator" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You get a tingling feeling when you hold the objects that the Cataclysm seems to have given anomalous properties to.  Activate to determine roughly how much resonance an artifact has.",
+    "active": true,
+    "activation_msg": "You close your eyes for a moment and look for the inner hum.",
+    "activated_eocs": [ "EOC_perk_artifact_resonance_detection" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_artifact_resonance_reduction",
+    "name": { "str": "Relic Wielder" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your frequent handling of artifacts has allowed you to bleed off some of the side effects of their presence.  Your accumulated artifact resonance is reduced by 1500.",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": -1500 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_frakenstein",
     "name": { "str": "Playing God" },
     "points": 0,
@@ -657,7 +757,7 @@
   {
     "type": "mutation",
     "id": "perk_lucky_dodge",
-    "name": { "str": "Lucky dodge" },
+    "name": { "str": "Lucky Dodge" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -764,6 +864,17 @@
     "description": "You take your time when casting spells in order to get it right.  +200% cast time, -5 difficulty.  Can be toggled on or of by activating this trait.",
     "active": true,
     "activated_eocs": [ "EOC_metamagic_toggle_careful" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_metamagic_efficient",
+    "name": { "str": "Metamagic: Efficient Spell" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You can cast your spells more efficiently at the cost of a more difficult cast.  *75% casting cost, +5 difficulty.  Can be toggled on or of by activating this trait.",
+    "active": true,
+    "activated_eocs": [ "EOC_metamagic_toggle_efficient" ]
   },
   {
     "type": "mutation",
@@ -947,6 +1058,16 @@
   },
   {
     "type": "mutation",
+    "id": "perk_soup_healing",
+    "name": { "str": "Soup for the Soul" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Just like mama used to make and it tastes just as good too.  When you eat chicken noodle soup, you heal a small amount of HP on all limbs and cure any cold, flu, and poisoning you're suffering from.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_nocturnal",
     "name": { "str": "Nocturnal" },
     "points": 0,
@@ -961,6 +1082,15 @@
       { "condition": "is_day", "values": [ { "value": "SLEEPY", "add": 50 } ] },
       { "condition": { "and": [ "is_day", "u_is_outside" ] }, "values": [ { "value": "PERCEPTION", "add": -2 } ] }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_second_chance",
+    "name": { "str": "Second Chance" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Something is watching over you, though whether for good or ill you cannot tell.  The first time you suffer fatal damage, you will heal slightly, remove all pain, and gain a speed bonus, temperature immunity, and immunity to damage for a very short time.  After that expires, though, you're on your own to resolve whatever problem you're in.  This perk <color_red>only works once</color>."
   },
   {
     "type": "mutation",
@@ -1170,6 +1300,26 @@
   },
   {
     "type": "mutation",
+    "id": "perk_dexterous_speed",
+    "name": { "str": "Dexterous Speed" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You've found that you can move just a little bit quicker the more dexterous you are.  Unfortunately, this applies comes at a loss to your max carry weight.  Gain 2 speed for every point of DEX away from 8 and lose 4 kg of carry weight.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "SPEED", "add": { "math": [ "max( 0, u_val('dexterity') - 8 ) * 2" ] } } ]
+      },
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CARRY_WEIGHT", "add": { "math": [ "min( 0, 8 - u_val('dexterity') ) * 4000" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_portal_storm_mutator_bird",
     "name": { "str": "Stormwrought: Bird" },
     "points": 0,
@@ -1263,5 +1413,32 @@
         "values": [ { "value": "RANGED_ARMOR_PENETRATION", "add": 5 }, { "value": "WEAKPOINT_ACCURACY", "multiply": 3 } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_secret_closet_storage",
+    "name": { "str": "Closetland" },
+    "description": "When you were little you remember thinking that your closet was a portal to a secret realm and if you just knew the way to open the path, you could find your way through to another world.  Well, you've found the way.\n\nWhen in a closet (walls on all sides except for one closed door), activate this perk to transport you to a secret realm.  Deactivate this perk to transport you back to your entrance point.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "category": [ "perk" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND" ],
+    "processed_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_SLEEP_DEPRIVATION_COST_IN_CLOSETLAND" ],
+    "deactivated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_BACK_FROM_CLOSETLAND" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_secret_closet_teleporter_paths",
+    "name": { "str": "Closetland Paths" },
+    "description": "Your experience with Closetland has grown and you think you can find your way back to other places you've been, not just the most recent place you left from\n\nWhen in a closet, you can memorize it and, when in Closetland, return there instead of the place you left from.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "category": [ "perk" ],
+    "active": true,
+    "activated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_DIFFERENT_PATHS_OF_CLOSETLAND" ]
   }
 ]

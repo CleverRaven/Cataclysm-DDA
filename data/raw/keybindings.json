@@ -1230,6 +1230,20 @@
   },
   {
     "type": "keybinding",
+    "id": "COLLAPSE_OVERMAP_SIDEBAR_HEADERS",
+    "category": "OVERMAP",
+    "name": "Collapse all overmap sidebar headers",
+    "bindings": [ { "input_method": "keyboard_char", "key": "{" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EXPAND_OVERMAP_SIDEBAR_HEADERS",
+    "category": "OVERMAP",
+    "name": "Expand all overmap sidebar headers",
+    "bindings": [ { "input_method": "keyboard_char", "key": "}" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_EXPLORED",
     "category": "OVERMAP",
     "name": "Toggle explored",
@@ -1279,10 +1293,24 @@
   },
   {
     "type": "keybinding",
+    "id": "PRINT_NOISE_MAPS",
+    "category": "OVERMAP",
+    "name": "Print noise maps",
+    "bindings": [ { "input_method": "keyboard_any", "key": "," } ]
+  },
+  {
+    "type": "keybinding",
     "name": "View missions",
     "category": "OVERMAP",
     "id": "MISSIONS",
     "bindings": [ { "input_method": "keyboard_char", "key": "M" }, { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Define Point of Interest",
+    "category": "OVERMAP",
+    "id": "CREATE_POINT_OF_INTEREST",
+    "bindings": [ { "input_method": "keyboard_char", "key": "P" }, { "input_method": "keyboard_code", "key": "p", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -2964,43 +2992,7 @@
   },
   {
     "type": "keybinding",
-    "name": "View scent map",
-    "category": "DEFAULTMODE",
-    "id": "debug_scent"
-  },
-  {
-    "type": "keybinding",
-    "name": "View scent type",
-    "category": "DEFAULTMODE",
-    "id": "debug_scent_type"
-  },
-  {
-    "type": "keybinding",
-    "name": "View temperature map (using map font)",
-    "category": "DEFAULTMODE",
-    "id": "debug_temp"
-  },
-  {
-    "type": "keybinding",
-    "name": "View visibility map",
-    "category": "DEFAULTMODE",
-    "id": "debug_visibility"
-  },
-  {
-    "type": "keybinding",
-    "name": "View lighting map",
-    "category": "DEFAULTMODE",
-    "id": "debug_lighting"
-  },
-  {
-    "type": "keybinding",
-    "name": "View radiation map",
-    "category": "DEFAULTMODE",
-    "id": "debug_radiation"
-  },
-  {
-    "type": "keybinding",
-    "name": "Toggle hour timer",
+    "name": "Debug Toggle hour timer",
     "category": "DEFAULTMODE",
     "id": "debug_hour_timer"
   },
@@ -3647,6 +3639,28 @@
       { "input_method": "keyboard_any", "key": "x" },
       { "input_method": "keyboard_char", "key": "X" },
       { "input_method": "keyboard_code", "key": "x", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ENABLE_VEHICLE_ZONES",
+    "category": "ZONES_MANAGER",
+    "name": "Enable vehicle zones",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "c" },
+      { "input_method": "keyboard_char", "key": "C" },
+      { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DISABLE_VEHICLE_ZONES",
+    "category": "ZONES_MANAGER",
+    "name": "Disable vehicle zones",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "v" },
+      { "input_method": "keyboard_char", "key": "V" },
+      { "input_method": "keyboard_code", "key": "v", "mod": [ "shift" ] }
     ]
   },
   {

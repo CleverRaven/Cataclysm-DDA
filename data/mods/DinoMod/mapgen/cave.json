@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground" ],
     "weight": 800,
     "object": {
@@ -57,7 +56,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground" ],
     "weight": 800,
     "object": {
@@ -113,7 +111,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground" ],
     "weight": 800,
     "object": {

@@ -34,6 +34,7 @@ namespace construction_categories
 
 void load( const JsonObject &jo, const std::string &src );
 void reset();
+void finalize();
 
 const std::vector<construction_category> &get_all();
 

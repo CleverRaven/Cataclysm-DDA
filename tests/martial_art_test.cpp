@@ -11,6 +11,7 @@
 #include "character_martial_arts.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "enums.h"
 #include "item.h"
 #include "magic_enchantment.h"
 #include "map_helpers.h"
@@ -116,7 +117,7 @@ TEST_CASE( "Attack_vector_test", "[martial_arts][limb]" )
                                        false ) );
     REQUIRE( dude.evaluate_technique( tec2, target_1, dude.used_weapon(), false, false,
                                       false ) );
-    REQUIRE( dude.get_all_body_parts_of_type( body_part_type::type::tail ).empty() );
+    REQUIRE( dude.get_all_body_parts_of_type( bp_type::tail ).empty() );
 
     SECTION( "Limb requirements" ) {
         // Grow a tail, suddenly we can use it
@@ -150,7 +151,7 @@ TEST_CASE( "Attack_vector_test", "[martial_arts][limb]" )
                                          false ) );
     }
     SECTION( "Encumbrance" ) {
-        REQUIRE( dude.get_all_body_parts_of_type( body_part_type::type::tail ).empty() );
+        REQUIRE( dude.get_all_body_parts_of_type( bp_type::tail ).empty() );
         item test_eoc_armor_suit( itype_test_eoc_armor_suit );
         REQUIRE( dude.wear_item( test_eoc_armor_suit, false ) );
         CHECK( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,

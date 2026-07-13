@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_tunnel_base",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -37,7 +36,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tunnel_natural_feature_large",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -74,7 +72,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tunnel_natural_feature",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -98,7 +95,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tunnel_natural_feature",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -122,7 +118,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tunnel_natural_feature",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -146,7 +141,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tunnel_natural_feature_large",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -183,7 +177,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tunnel_natural_feature_large",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -220,7 +213,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tunnel_natural_feature_large",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -257,7 +249,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tunnel_rocks",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -271,7 +262,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_tunnel_curved_alien_ruin",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -310,7 +300,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tunnel_alienciv_ruin",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -338,7 +327,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tunnel_alienciv_ruin",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -365,7 +353,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tunnel_alienciv_ruin",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -393,7 +380,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tunnel_alienciv_ruin",
     "object": {
       "mapgensize": [ 12, 12 ],

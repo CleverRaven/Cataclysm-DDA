@@ -174,7 +174,7 @@
     "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 32 } ],
     "material_thickness": 5,
     "environmental_protection": 3,
-    "delete": { "qualities": [ "GLARE" ], "flags": [ "SUN_GLASSES" ] }
+    "delete": { "flags": [ "SUN_GLASSES" ] }
   },
   {
     "id": "helmet_black_dragon_hide",

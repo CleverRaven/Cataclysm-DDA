@@ -1,0 +1,42 @@
+[
+  {
+    "type": "vehicle_part",
+    "id": "test_enchant",
+    "name": { "str": "enchant test" },
+    "item": "test_enchant",
+    "description": "TestPart",
+    "durability": 400,
+    "categories": [ "other" ],
+    "broken_color": "dark_gray",
+    "flags": [ "NO_REPAIR" ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "using": [ [ "vehicle_screw", 1 ] ] }
+    },
+    "breaks_into": [ { "item": "black_box" } ],
+    "damage_reduction": { "all": 80 },
+    "variants": [ { "symbols": ";", "symbols_broken": "*" } ],
+    "enchantments": [
+      { "condition": "ALWAYS", "values": [ { "value": "TOTAL_WEIGHT", "multiply": -0.1 } ] },
+      { "condition": "ALWAYS", "values": [ { "value": "FUEL_USAGE", "multiply": -0.5 } ] },
+      { "condition": "ALWAYS", "values": [ { "value": "TURNING_DIFFICULTY", "add": 1.5 } ] }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "id": "test_enchant",
+    "category": "other",
+    "name": { "str": "test_enchant" },
+    "description": "An enchanted item for testing",
+    "weight": "0 g",
+    "volume": "2 L",
+    "flags": "ZERO_WEIGHT",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "melee_damage": { "bash": 4 }
+  }
+]

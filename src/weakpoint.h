@@ -89,6 +89,9 @@ struct weakpoint_effect {
     // Maybe apply an effect to the target.
     void apply_to( Creature &target, int total_damage, const weakpoint_attack &attack ) const;
     void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo ) {
+        load( jo );
+    }
 };
 
 struct weakpoint_difficulty {
@@ -97,6 +100,9 @@ struct weakpoint_difficulty {
     explicit weakpoint_difficulty( float default_value );
     float of( const weakpoint_attack &attack ) const;
     void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo ) {
+        load( jo );
+    }
 };
 
 struct weakpoint_family {
@@ -111,6 +117,9 @@ struct weakpoint_family {
 
     float modifier( const Character &attacker ) const;
     void load( const JsonValue &jsin );
+    void deserialize( const JsonValue &jsin ) {
+        load( jsin );
+    }
 };
 
 struct weakpoint_families {
@@ -127,6 +136,10 @@ struct weakpoint_families {
     void clear();
     void load( const JsonArray &ja );
     void remove( const JsonArray &ja );
+
+    void deserialize( const JsonValue &jv );
+    bool handle_extend( const JsonValue &jv );
+    bool handle_delete( const JsonValue &jv );
 };
 
 struct weakpoint {
@@ -191,6 +204,10 @@ struct weakpoints {
     void remove( const JsonArray &ja );
     void finalize();
     void check() const;
+
+    void deserialize( const JsonValue &jv );
+    bool handle_extend( const JsonValue &jv );
+    bool handle_delete( const JsonValue &jv );
 
     /********************* weakpoint_set handling ****************************/
     // load standalone JSON type

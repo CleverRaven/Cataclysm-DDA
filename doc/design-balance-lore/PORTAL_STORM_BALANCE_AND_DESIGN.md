@@ -1,3 +1,23 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Portal Storm Design](#portal-storm-design)
+  - [Ideas](#ideas)
+  - [Reminders](#reminders)
+  - [Long Term Desires](#long-term-desires)
+- [Portal Storm Balance](#portal-storm-balance)
+  - [Ire](#ire)
+  - [Passive vs Active](#passive-vs-active)
+    - [`Passive`](#passive)
+    - [`Active`](#active)
+    - [Non conforming storms](#non-conforming-storms)
+  - [Implementation](#implementation)
+    - [`EOC_PORTAL_EFFECTS_PASSIVE`](#eoc_portal_effects_passive)
+    - [`EOC_PORTAL_EFFECTS_ACTIVE`](#eoc_portal_effects_active)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Portal Storm Design
 Portal storms are otherworldly collisions. Evil and malicious entities from inexplainable spaces are pouring into our world. However this doesn't mean it's a good way to immediately kill the character.
 

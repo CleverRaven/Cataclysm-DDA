@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "PublicPond_1a", "PublicPond_1b" ] ],
     "object": {
       "predecessor_mapgen": "forest_thick",

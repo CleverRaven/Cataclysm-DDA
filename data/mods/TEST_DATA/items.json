@@ -49,7 +49,6 @@
     "volume": "60050 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -4,
     "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan",
@@ -62,8 +61,7 @@
         "max_contains_weight": "120 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "melee_damage": { "bash": 6 }
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -201,7 +199,7 @@
     "category": "spare_parts",
     "name": "TEST knotted ball of string",
     "description": "This is a ball of 100 short pieces of string, all tangled and knotted together.",
-    "weight": "600 g",
+    "weight": "500 g",
     "volume": "1000 ml",
     "price": "0 cent",
     "material": [ "cotton" ],
@@ -1003,7 +1001,8 @@
         "max_contains_weight": "1 g",
         "weight_multiplier": 0.0
       }
-    ]
+    ],
+    "extend": { "flags": [ "CAN_USE_IN_DARK" ] }
   },
   {
     "id": "test_battery_disposable",
@@ -1087,8 +1086,7 @@
         "need_charges_msg": "The smartphone's charge is too low.",
         "type": "transform"
       },
-      "CAMERA",
-      "MP3"
+      "CAMERA"
     ],
     "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ],
     "tool_ammo": [ "battery" ]
@@ -1103,7 +1101,6 @@
     "volume": "75 ml",
     "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
     "symbol": ";",
-    "use_action": [ "MP3" ],
     "charges_per_use": 1,
     "flags": [ "WATER_BREAK_ACTIVE" ],
     "pocket_data": [
@@ -1530,7 +1527,6 @@
     "name": { "str": "long waist apron" },
     "description": "A long waist apron made of cotton.",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "symbol": "[",
     "looks_like": "vest_leather",
     "volume": "1750 ml",
@@ -1796,7 +1792,7 @@
     "price_postapoc": "1 USD",
     "material": [ "fruit" ],
     "fun": 10,
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 14 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
@@ -2483,7 +2479,7 @@
     "id": "test_glock_super_long",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_handgun_semi",
     "name": { "str": "Test Glock" },
     "description": "A handgun for testing barrel lengths, based on nothing.",
     "weight": "600 g",
@@ -3562,7 +3558,7 @@
     "material": [ "fruit" ],
     "volume": "375 ml",
     "fun": 3,
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 100 ], [ "calcium", 100 ], [ "iron", 100 ], [ "fruit_allergen", 1 ] ]
   },
@@ -4955,7 +4951,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "Item that should be simpler" },
     "description": "This item should have only 1 armor entry in game since these three are identical.",
-    "weight": "1000 g",
+    "weight": "750 g",
     "volume": "1500 ml",
     "price": "50 USD",
     "price_postapoc": "50 cent",
@@ -5246,7 +5242,7 @@
     "passive_effects": [
       {
         "values": [
-          { "value": "STRENGTH", "add": 3, "multiply": 1 },
+          { "value": "STRENGTH", "add": 2, "multiply": 0.25 },
           { "value": "DEXTERITY", "add": -2 },
           { "value": "INTELLIGENCE", "add": 1, "multiply": -0.5 },
           { "value": "PERCEPTION", "add": -7 }
@@ -5421,5 +5417,185 @@
     "copy-from": "test_book",
     "name": { "str": "copiable test file" },
     "ememory_size": "1 MB"
+  },
+  {
+    "id": "test_copyfrom_base",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "base" },
+    "description": "copy-from base item",
+    "symbol": "!",
+    "color": "white",
+    "flags": [ "NO_TURRET" ],
+    "volume": "1 L",
+    "weight": "1 kg",
+    "skill": "pistol",
+    "ranged_damage": { "damage_type": "heat", "amount": 3 }
+  },
+  {
+    "id": "test_copyfrom_overwrite",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "copy-from": "test_copyfrom_base",
+    "ranged_damage": { "damage_type": "cut", "amount": 5 }
+  },
+  {
+    "type": "ITEM",
+    "id": "corpse_fake_TEST",
+    "symbol": "%",
+    "color": "white",
+    "name": { "str": "corpse fake TEST" },
+    "description": "Visualize it as your annoying neighbor, if that helps you feel better.",
+    "//COMMENT": "Roughly human sized.",
+    "volume": "75 L",
+    "flags": [ "TRADER_AVOID", "CORPSE", "TARDIS", "DAMAGE_VEHICLE_WHEELS" ],
+    "category": "corpses",
+    "copy-from": "corpse",
+    "looks_like": "corpse_generic_human",
+    "source_monster": "mon_child",
+    "material": [ "hflesh" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "corpse_fake_TEST_NODMG",
+    "copy-from": "corpse_fake_TEST",
+    "name": { "str": "corpse fake TEST NODMG" },
+    "delete": { "flags": [ "DAMAGE_VEHICLE_WHEELS" ] }
+  },
+  {
+    "type": "ITEM",
+    "id": "test_squishy_fruit",
+    "name": { "str": "test_squishy_fruit_name" },
+    "material": [ "fruit" ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
+    "weight": "4518 g",
+    "color": "green",
+    "symbol": "%",
+    "description": "Test",
+    "price": "7 USD 58 cent",
+    "price_postapoc": "2 USD",
+    "volume": "7150 ml"
+  },
+  {
+    "type": "material",
+    "id": "DOOM_MATERIAL",
+    "name": "DOOM MATERIAL LOTS CHIP RESIST",
+    "density": 1.1,
+    "specific_heat_liquid": 3.9,
+    "specific_heat_solid": 1.9,
+    "latent_heat": 290,
+    "rotting": true,
+    "conductive": true,
+    "chip_resist": 1000,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "bruised",
+    "cut_dmg_verb": "cut",
+    "resist": { "bash": 1, "cut": 1, "acid": 2, "heat": 1, "bullet": 1 }
+  },
+  {
+    "type": "ITEM",
+    "id": "test_guarantee_wheel_dmg",
+    "name": { "str": "test_guarantee_wheel_dmg_name" },
+    "material": [ "DOOM_MATERIAL" ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
+    "weight": "4518 g",
+    "color": "green",
+    "symbol": "%",
+    "description": "Test",
+    "price": "7 USD 58 cent",
+    "price_postapoc": "2 USD",
+    "volume": "7150 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "test_bodypillow_cloth_item",
+    "symbol": "[",
+    "color": "white",
+    "name": { "str": "test_bodypillow_cloth_item_name" },
+    "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily-clad version on the back.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping.",
+    "price": "15 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "cotton" ],
+    "weight": "2317 g",
+    "volume": "50 L",
+    "flags": [ "SLEEP_AID", "DAMAGE_VEHICLE_WHEELS" ],
+    "category": "other"
+  },
+  {
+    "id": "carver_off_test",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "electric carver (off)", "str_pl": "electric carvers (off)" },
+    "description": "An electric meat carver powered by cord.  It has two serrated blades that vibrate together to slice just about anything from turkey to ham… even zombies!",
+    "//": "Based on https://www.amazon.com/dp/B07CDR4KFM",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
+    "weight": "680 g",
+    "volume": "1500 ml",
+    "longest_side": "482 mm",
+    "price": "24 USD",
+    "price_postapoc": "1 cent",
+    "material": [ "steel", "plastic" ],
+    "symbol": "/",
+    "color": "yellow",
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Turn on",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_toolweapon_activate__carver",
+            "effect": {
+              "run_eocs": "EOC_toolweapon_activate",
+              "variables": {
+                "turn_cost": 0.8,
+                "transform_target": "carver_on",
+                "success_message": { "i18n": true, "str": "The electric carver's serrated blades start buzzing!" },
+                "volume": 20,
+                "failure_message": { "i18n": true, "str": "You pull the trigger, but nothing happens." }
+              }
+            }
+          }
+        ]
+      },
+      { "type": "link_up", "cable_length": 2, "charge_rate": "120 W" }
+    ],
+    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE" ],
+    "melee_damage": { "bash": 2, "cut": 8 },
+    "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "test_lamp",
+    "type": "ITEM",
+    "category": "tools",
+    "name": { "str": "test lamp" },
+    "description": "Powered by the magic of debug and testing, this very expensive lamp will emit a small amount of light for enough time to get a test done.",
+    "weight": "1438 g",
+    "volume": "1 L",
+    "price": "1 kUSD 750 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ",",
+    "color": "light_green",
+    "light": 15
+  },
+  {
+    "id": "wearable_test_lamp",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "blue",
+    "looks_like": "wearable_light_on",
+    "name": { "str": "test headlamp" },
+    "description": "A headlamp fine-tuned for testing.",
+    "price": "40 USD",
+    "price_postapoc": "15 USD",
+    "material": [ "steel", "plastic" ],
+    "light": 200,
+    "weight": "1 kg",
+    "volume": "1500 ml",
+    "material_thickness": 1,
+    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ]
   }
 ]

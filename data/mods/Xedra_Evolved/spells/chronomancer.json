@@ -63,8 +63,8 @@
   {
     "id": "xedra_chronomancer_normalize_time_loop",
     "type": "SPELL",
-    "name": "Unfreeze Time - Loop",
-    "description": "Remove a time loop.  Part of the main unfreeze spell.  Having this spell is a bug.",
+    "name": { "str": "Unfreeze Time - Loop", "//~": "NO_I18N" },
+    "description": { "str": "Remove a time loop.  Part of the main unfreeze spell.  Having this spell is a bug.", "//~": "NO_I18N" },
     "teachable": false,
     "valid_targets": [ "self", "ally", "ground", "hostile" ],
     "spell_class": "XEDRA_CHRONOMANCER",
@@ -83,8 +83,11 @@
   {
     "id": "xedra_chronomancer_normalize_time_terrain",
     "type": "SPELL",
-    "name": "Unfreeze Time - Terrain",
-    "description": "Unfreeze terrain from frozen time.  Part of the main unfreeze spell.  Having this spell is a bug.",
+    "name": { "str": "Unfreeze Time - Terrain", "//~": "NO_I18N" },
+    "description": {
+      "str": "Unfreeze terrain from frozen time.  Part of the main unfreeze spell.  Having this spell is a bug.",
+      "//~": "NO_I18N"
+    },
     "teachable": false,
     "valid_targets": [ "self", "ally", "ground", "hostile" ],
     "spell_class": "XEDRA_CHRONOMANCER",
@@ -135,8 +138,11 @@
   {
     "id": "xedra_chronomancer_entropic_burst_field",
     "type": "SPELL",
-    "name": "Entropic Burst - Fields",
-    "description": "Remove fields of frozen time.  Part of the Entropic Burst spell.  Having this spell is a bug.",
+    "name": { "str": "Entropic Burst - Fields", "//~": "NO_I18N" },
+    "description": {
+      "str": "Remove fields of frozen time.  Part of the Entropic Burst spell.  Having this spell is a bug.",
+      "//~": "NO_I18N"
+    },
     "teachable": false,
     "valid_targets": [ "self", "ally", "ground", "hostile" ],
     "spell_class": "XEDRA_CHRONOMANCER",
@@ -166,8 +172,11 @@
   {
     "id": "xedra_chronomancer_entropic_burst_effect",
     "type": "SPELL",
-    "name": "Entropic Burst - Effect",
-    "description": "Unfreeze target from frozen time.  Part of the main entropic burst spell.  Having this spell is a bug.",
+    "name": { "str": "Entropic Burst - Effect", "//~": "NO_I18N" },
+    "description": {
+      "str": "Unfreeze target from frozen time.  Part of the main entropic burst spell.  Having this spell is a bug.",
+      "//~": "NO_I18N"
+    },
     "teachable": false,
     "valid_targets": [ "self", "ally", "hostile" ],
     "spell_class": "XEDRA_CHRONOMANCER",
@@ -377,8 +386,11 @@
   {
     "id": "xedra_chronomancer_cement_time_terrain",
     "type": "SPELL",
-    "name": "Cement Time - Target",
-    "description": "Stabilize target of frozen time.  Part of the main cement spell.  Having this spell is a bug.",
+    "name": { "str": "Cement Time - Target", "//~": "NO_I18N" },
+    "description": {
+      "str": "Stabilize target of frozen time.  Part of the main cement spell.  Having this spell is a bug.",
+      "//~": "NO_I18N"
+    },
     "teachable": false,
     "valid_targets": [ "self", "ally", "hostile" ],
     "spell_class": "XEDRA_CHRONOMANCER",
@@ -540,8 +552,11 @@
   {
     "id": "xedra_chronomancer_destabilizing_strikes_attack",
     "type": "SPELL",
-    "name": "Destabilizing Strikes (T) - Attack",
-    "description": "This causes the dot when attacking targets with the destabilizing strikes buff.  Having the spell is a bug.",
+    "name": { "str": "Destabilizing Strikes (T) - Attack", "//~": "NO_I18N" },
+    "description": {
+      "str": "This causes the dot when attacking targets with the destabilizing strikes buff.  Having the spell is a bug.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "MUST_HAVE_CLASS_TO_LEARN" ],
     "effect": "attack",

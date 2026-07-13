@@ -93,12 +93,14 @@ void option_slider::load_option_sliders( const JsonObject &jo, const std::string
     option_slider_factory.load( jo, src );
 }
 
+void option_slider::finalize()
+{
+    reorder_opts();
+}
+
 void option_slider::finalize_all()
 {
-    for( const option_slider &opt : option_slider::get_all() ) {
-        option_slider &o = const_cast<option_slider &>( opt );
-        o.reorder_opts();
-    }
+    option_slider_factory.finalize();
 }
 
 void option_slider::check_consistency()
@@ -1368,7 +1370,7 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
             { "sr", R"(Српски)" },
             { "tr", R"(Türkçe)" },
             { "uk_UA", R"(Українська)" },
-            { "zh_CN", R"(中文 (天朝))" },
+            { "zh_CN", R"(中文 (中国))" },
             { "zh_TW", R"(中文 (台灣))" },
         }
     };
@@ -1531,7 +1533,18 @@ void options_manager::add_options_general()
 
         add( "AUTO_PULP_BUTCHER", page_id, to_translation( "Auto pulp or butcher" ),
              to_translation( "Action to perform when 'Auto pulp or butcher' is enabled.  Pulp: Pulp corpses you stand on.  - Pulp Adjacent: Also pulp corpses adjacent from you.  - Butcher: Butcher corpses you stand on." ),
-        { { "off", to_translation( "options", "Disabled" ) }, { "pulp", to_translation( "Pulp" ) }, { "pulp_zombie_only", to_translation( "Pulp Zombies Only" ) }, { "pulp_adjacent", to_translation( "Pulp Adjacent" ) }, { "pulp_adjacent_zombie_only", to_translation( "Pulp Adjacent Zombie Only" ) }, { "butcher", to_translation( "Butcher" ) } },
+        {
+            { "off", to_translation( "options", "Disabled" ) },
+            { "pulp", to_translation( "Pulp" ) },
+            { "pulp_zombie_only", to_translation( "Pulp Zombies Only" ) },
+            { "pulp_adjacent", to_translation( "Pulp Adjacent" ) },
+            { "pulp_adjacent_zombie_only", to_translation( "Pulp Adjacent Zombie Only" ) },
+            { "pulp_or_dismember", to_translation( "Pulp or Dismember" ) },
+            { "pulp_or_dismember_adjacent", to_translation( "Pulp or Dismember Adjacent" ) },
+            { "pulp_or_dismember_zombies_only", to_translation( "Pulp or Dismember Zombie Only" ) },
+            { "pulp_or_dismember_zombies_only_adjacent", to_translation( "Pulp or Dismember Adjacent Zombie Only" ) },
+            { "butcher", to_translation( "Butcher" ) }
+        },
         "off"
            );
 
@@ -1759,6 +1772,13 @@ void options_manager::add_options_general()
 
         get_option( "AMBIENT_SOUND_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
     } );
+
+    add_empty_line();
+
+    add( "WORLD_COMPRESSION2", "general", to_translation( "World data compression" ),
+         to_translation( "If true, new worlds store data in a compressed format." ),
+         true
+       );
 }
 
 void options_manager::add_options_interface()
@@ -1817,6 +1837,9 @@ void options_manager::add_options_interface()
             { "24h", to_translation( "24h" ) }
         },
         "12h" );
+        add( "SHOW_MONTHS", page_id, to_translation( "Show day/month" ),
+             to_translation( "Show day/month instead of season in time displays." ),
+             true );
         add( "SHOW_VITAMIN_MASS", page_id, to_translation( "Show vitamin masses" ),
              to_translation( "Display the masses of vitamins in addition to units/RDA values in item descriptions." ),
              true );
@@ -2773,45 +2796,20 @@ void options_manager::add_options_world_default()
          0.0, 100, 1.0, 0.01, COPT_ALWAYS_HIDE
        );
 
-    add_empty_line();
+    add( "SEASON_LENGTH", "world_default", translation(), translation(), 14, 127, 91,
+         COPT_ALWAYS_HIDE );
 
-    add_option_group( "world_default", Group( "spawn_time_opts", to_translation( "World time options" ),
-                      to_translation( "Options regarding the passage of time in the world." ) ),
-    [&]( const std::string & page_id ) {
-        add( "SEASON_LENGTH", page_id, to_translation( "Season length" ),
-             to_translation( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),
-             14, 127, 91
-           );
+    add( "CONSTRUCTION_SCALING", "world_default", translation(), translation(), 0, 1000, 100,
+         COPT_ALWAYS_HIDE );
 
-        add( "CONSTRUCTION_SCALING", page_id, to_translation( "Construction scaling" ),
-             to_translation( "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales construction time to match the world's season length." ),
-             0, 1000, 100
-           );
+    add( "ETERNAL_SEASON", "world_default", translation(), translation(), false, COPT_ALWAYS_HIDE );
 
-        add( "ETERNAL_SEASON", page_id, to_translation( "Eternal season" ),
-             to_translation( "If true, keep the initial season for ever." ),
-             false
-           );
-
-        add( "ETERNAL_TIME_OF_DAY", page_id, to_translation( "Day/night cycle" ),
-        to_translation( "Day/night cycle settings.  'Normal' sets a normal cycle.  'Eternal Day' sets eternal day.  'Eternal Night' sets eternal night." ), {
-            { "normal", to_translation( "Normal" ) },
-            { "day", to_translation( "Eternal Day" ) },
-            { "night", to_translation( "Eternal Night" ) },
-        }, "normal"
-           );
-    } );
-
-    add_empty_line();
+    add( "ETERNAL_TIME_OF_DAY", "world_default", translation(), translation(), "normal", 8,
+         COPT_ALWAYS_HIDE );
 
     add_option_group( "world_default", Group( "misc_worlddef_opts", to_translation( "Misc options" ),
                       to_translation( "Miscellaneous options." ) ),
     [&]( const std::string & page_id ) {
-        add( "WANDER_SPAWNS", page_id, to_translation( "Wandering hordes" ),
-             to_translation( "If true, emulates zombie hordes.  Zombies can group together into hordes, which can wander around cities and will sometimes move towards noise.  Note: the current implementation does not properly respect obstacles, so hordes can appear to walk through walls under some circumstances.  Must reset world directory after changing for it to take effect." ),
-             false
-           );
-
         add( "BLACK_ROAD", page_id, to_translation( "Surrounded start" ),
              to_translation( "If true, spawn zombies at shelters.  Makes the starting game a lot harder." ),
              false
@@ -2888,11 +2886,13 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
+#ifndef NO_STALE_DATA_WARN
     add( "WARN_ON_MODIFIED", "debug", to_translation( "Warn if file integrity check fails" ),
          to_translation( "This option controls whether the game will warn when it detects that the game's data has been modified." ),
          true );
 
     add_empty_line();
+#endif
 
     add( "SKIP_VERIFICATION", "debug", to_translation( "Skip verification step during loading" ),
          to_translation( "If enabled, this skips the JSON verification step during loading.  This may give a faster loading time, but risks JSON errors not being caught until runtime." ),
@@ -3979,7 +3979,17 @@ void options_manager::deserialize( const JsonArray &ja )
     for( JsonObject joOptions : ja ) {
         joOptions.allow_omitted_members();
 
+        // yay hardcoded list! remove after 0.J
+        std::vector<std::string> removed_options = { "DISTANCE_INITIAL_VISIBILITY", "FOV_3D_Z_RANGE",
+                                                     "INITIAL_STAT_POINTS", "INITIAL_TRAIT_POINTS", "INITIAL_SKILL_POINTS", "MAX_TRAIT_POINTS",
+                                                     "SKILL_TRAINING_SPEED", "PROFICIENCY_TRAINING_SPEED"
+                                                   };
+
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );
+
+        if( std::find( removed_options.begin(), removed_options.end(), name ) != removed_options.end() ) {
+            continue; // option was removed so we just don't do anything here.
+        }
         const std::string value = migrateOptionValue( joOptions.get_string( "name" ),
                                   joOptions.get_string( "value" ) );
 
@@ -3999,7 +4009,7 @@ std::string options_manager::migrateOptionValue( const std::string &name,
 {
     //TODO: Remove after stable after world option reserialising is added
     if( name == "MONSTER_UPGRADE_FACTOR" ) {
-        const float new_value = std::stof( val ) / 4.0f;
+        const float new_value = svtod( val ).value_or( 4.0 ) / 4.0f;
         std::ostringstream ssTemp;
         ssTemp.imbue( std::locale::classic() );
         ssTemp.precision( 2 );
@@ -4022,6 +4032,21 @@ void options_manager::update_options_cache()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
+
+    // Since these are external options they aren't loaded before the first time
+    // update_options_cache is called, so they're conditionally loaded.
+    if( ::has_option( "PLAYER_MAX_STR_VALUE" ) ) {
+        character_max_str = ::get_option<int>( "PLAYER_MAX_STR_VALUE" );
+    }
+    if( ::has_option( "PLAYER_MAX_DEX_VALUE" ) ) {
+        character_max_dex = ::get_option<int>( "PLAYER_MAX_DEX_VALUE" );
+    }
+    if( ::has_option( "PLAYER_MAX_PER_VALUE" ) ) {
+        character_max_per = ::get_option<int>( "PLAYER_MAX_PER_VALUE" );
+    }
+    if( ::has_option( "PLAYER_MAX_INT_VALUE" ) ) {
+        character_max_int = ::get_option<int>( "PLAYER_MAX_INT_VALUE" );
+    }
 
     prevent_occlusion = ::get_option<int>( "PREVENT_OCCLUSION" );
     prevent_occlusion_retract = ::get_option<bool>( "PREVENT_OCCLUSION_RETRACT" );

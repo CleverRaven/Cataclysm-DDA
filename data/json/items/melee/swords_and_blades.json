@@ -358,14 +358,14 @@
       "m203_mod",
       "m320_mod_mod",
       "m320_mod",
-      "M6_shotgun",
       "m26_mass",
       "m26_mass_mod",
       "masterkey",
       "masterkey_mod",
       "u_shotgun"
     ],
-    "install_time": "5 s"
+    "install_time": "5 s",
+    "to_hit_mod": 2
   },
   {
     "id": "knife_combat_army",
@@ -432,14 +432,14 @@
       "m203_mod",
       "m320_mod_mod",
       "m320_mod",
-      "M6_shotgun",
       "m26_mass",
       "m26_mass_mod",
       "masterkey",
       "masterkey_mod",
       "u_shotgun"
     ],
-    "install_time": "5 s"
+    "install_time": "5 s",
+    "to_hit_mod": 2
   },
   {
     "id": "knife_combat",
@@ -486,14 +486,14 @@
       "m203_mod",
       "m320_mod_mod",
       "m320_mod",
-      "M6_shotgun",
       "m26_mass",
       "m26_mass_mod",
       "masterkey",
       "masterkey_mod",
       "u_shotgun"
     ],
-    "install_time": "5 s"
+    "install_time": "5 s",
+    "to_hit_mod": 2
   },
   {
     "id": "knife_hunting",
@@ -785,6 +785,24 @@
     "melee_damage": { "stab": 10 }
   },
   {
+    "type": "ITEM",
+    "id": "glass_shiv",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": { "str": "glass shiv" },
+    "description": "A glass shard with wrapping at one end so it can be safely wielded.",
+    "material": [ { "type": "glass", "portion": 13 }, { "type": "cotton", "portion": 1 } ],
+    "weight": "193 g",
+    "price_postapoc": "10 cent",
+    "volume": "82 ml",
+    "longest_side": "15 cm",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "good" },
+    "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -18 ] ],
+    "melee_damage": { "cut": 6 }
+  },
+  {
     "id": "bone_knife",
     "name": { "str": "bone shiv" },
     "type": "ITEM",
@@ -877,32 +895,17 @@
     "melee_damage": { "cut": 21 }
   },
   {
-    "id": "survivor_machete",
+    "id": "survivor_machete_qt",
     "copy-from": "machete",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "combat machete" },
-    "description": "This common gardening tool has been customized and rebalanced to improve its performance as a weapon.",
-    "extend": { "techniques": [ "RAPID" ] },
-    "relative": {
-      "melee_damage": { "bash": 1, "cut": 2 },
-      "qualities": [ [ "BUTCHER", -5 ] ],
-      "price_postapoc": "10 USD",
-      "weight": "27 g"
-    }
-  },
-  {
-    "id": "survivor_machete_qt",
-    "copy-from": "survivor_machete",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel combat machete" },
-    "description": "This common gardening tool has been customized, rebalanced and tempered to dramatically improve its performance as a weapon.",
+    "description": "This common gardening tool has been tempered to dramatically improve its performance as a weapon.",
     "variants": [
       {
         "id": "survivor_machete_qt_standard",
         "name": { "str": "tempered steel combat machete" },
-        "description": "This common gardening tool has been customized, rebalanced and tempered to dramatically improve its performance as a weapon.",
+        "description": "This common gardening tool has been tempered to dramatically improve its performance as a weapon.",
         "color": "dark_gray",
         "weight": 1,
         "append": false
@@ -910,16 +913,17 @@
       {
         "id": "xedra_machete",
         "name": { "str": "hazardous environment blade" },
-        "description": "This black tempered steel bushcraft machete has been reinforced for use in exotic environments.  \"HE Blade\" is engraved in the steel.",
+        "description": "This black tempered steel bushcraft machete has been designed for use in exotic environments.  \"HE Blade\" is engraved in the steel.",
         "color": "dark_gray",
         "weight": 0,
         "append": false
       }
     ],
-    "looks_like": "survivor_machete",
+    "extend": { "techniques": [ "RAPID" ] },
+    "looks_like": "machete",
     "replace_materials": { "steel": "qt_steel", "wood": "kevlar" },
     "proportional": { "price_postapoc": 1.15, "price": 1.15 },
-    "relative": { "melee_damage": { "cut": 5 }, "qualities": [ [ "BUTCHER", 4 ] ], "price_postapoc": "20 USD" }
+    "relative": { "melee_damage": { "cut": 7 }, "qualities": [ [ "BUTCHER", 4 ] ], "price_postapoc": "20 USD" }
   },
   {
     "id": "machete_gimmick",
@@ -1074,6 +1078,7 @@
   {
     "id": "kukri",
     "copy-from": "mc_kukri",
+    "looks_like": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "kukri" },
@@ -1083,6 +1088,7 @@
   {
     "id": "lc_kukri",
     "copy-from": "mc_kukri",
+    "looks_like": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel kukri" },
@@ -1110,6 +1116,7 @@
     "repairs_with": [ "mc_steel" ],
     "symbol": "/",
     "color": "dark_gray",
+    "looks_like": "kukri",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE" ],
@@ -1694,6 +1701,20 @@
     "category": "weapons",
     "name": { "str": "khopesh", "str_pl": "khopeshes" },
     "description": "This ancient bronze weapon features a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.",
+    "variants": [
+      {
+        "id": "default",
+        "name": { "str": "khopesh", "str_pl": "khopeshes" },
+        "description": "This ancient bronze weapon features a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.",
+        "weight": 1
+      },
+      {
+        "id": "highlands_holy",
+        "name": { "str": "ceremonial tree sword" },
+        "description": "A curved and decorated sword fashioned from bronze, which you irreverently extracted from a holy tree.  Its been stained a deep green color from age, but it still looks sharp enough to put to use.",
+        "weight": 0
+      }
+    ],
     "weight": "750 g",
     "volume": "1750 ml",
     "longest_side": "50 cm",
@@ -1795,14 +1816,14 @@
       "m203_mod",
       "m320_mod_mod",
       "m320_mod",
-      "M6_shotgun",
       "m26_mass",
       "m26_mass_mod",
       "masterkey",
       "masterkey_mod",
       "u_shotgun"
     ],
-    "install_time": "5 s"
+    "install_time": "5 s",
+    "to_hit_mod": 3
   },
   {
     "id": "tanto",
@@ -2109,7 +2130,6 @@
     "description": "A ceremonial dagger carried by Sikh men.  This one is not particularly well-made.",
     "replace_materials": { "steel": "budget_steel" },
     "proportional": { "melee_damage": { "bash": 8, "stab": 0.24 }, "price": 0.1, "price_postapoc": 0.1 },
-    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
   {
@@ -3051,184 +3071,6 @@
     "melee_damage": { "bash": 4, "cut": 26 }
   },
   {
-    "id": "combatsaw_off",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "category": "weapons",
-    "name": { "str": "combat chainsaw (off)", "str_pl": "combat chainsaws (off)" },
-    "description": "A chainsaw that has been lightened, tuned, and extensively modified to be easier to handle as a weapon.  Unfortunately, these modifications have rendered it much less effective as a woodcutting tool.",
-    "weight": "5122 g",
-    "volume": "2250 ml",
-    "longest_side": "70 cm",
-    "price": "250 USD",
-    "price_postapoc": "30 USD",
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
-    "material": [ "steel", "plastic" ],
-    "symbol": "/",
-    "color": "light_gray",
-    "charges_per_use": 5,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 450 } } ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "menu_text": "Turn on",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_activate__combatsaw",
-          "effect": {
-            "run_eocs": "EOC_toolweapon_activate",
-            "variables": {
-              "turn_cost": "0.6",
-              "transform_target": "combatsaw_on",
-              "success_message": { "i18n": true, "str": "With a snarl, the <npc_name> screams to life!" },
-              "volume": "30",
-              "failure_message": { "i18n": true, "str": "You yank the cord, but nothing happens." }
-            }
-          }
-        }
-      ]
-    },
-    "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 8 },
-    "tool_ammo": [ "gasoline" ]
-  },
-  {
-    "id": "combatsaw_on",
-    "copy-from": "combatsaw_off",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "combat chainsaw (on)", "str_pl": "combat chainsaws (on)" },
-    "description": "This combat chainsaw is on, and is continuously draining gasoline.  Use it to turn it off.",
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "every", "balance": "neutral" },
-    "turns_per_charge": 4,
-    "charges_per_use": 0,
-    "revert_to": "combatsaw_off",
-    "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -120 ] ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "ammo_scale": 0,
-      "menu_text": "Turn off",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_deactivate__combatsaw",
-          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "combatsaw_off" } }
-        }
-      ]
-    },
-    "tick_action": {
-      "type": "effect_on_conditions",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_running__combatsaw",
-          "effect": {
-            "run_eocs": "EOC_toolweapon_running",
-            "variables": {
-              "sound_chance": "12",
-              "sound_message": { "i18n": true, "str": "Your combat chainsaw growls." },
-              "volume": "18",
-              "revert_to": "combatsaw_off"
-            }
-          }
-        }
-      ]
-    },
-    "extend": { "flags": [ "MESSY", "TRADER_AVOID", "POWERED" ] },
-    "relative": { "melee_damage": { "cut": 50 } }
-  },
-  {
-    "id": "e_combatsaw_off",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "category": "weapons",
-    "name": { "str": "electric combat chainsaw (off)", "str_pl": "electric combat chainsaws (off)" },
-    "description": "An electric chainsaw that has been lightened, tuned, and extensively modified to be easier to handle as a weapon.  Unfortunately, these modifications have rendered it much less effective as a woodcutting tool.",
-    "weight": "5122 g",
-    "volume": "2250 ml",
-    "longest_side": "70 cm",
-    "price": "250 USD",
-    "price_postapoc": "30 USD",
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
-    "material": [ "steel", "plastic" ],
-    "symbol": "/",
-    "color": "light_gray",
-    "charges_per_use": 5,
-    "use_action": {
-      "type": "effect_on_conditions",
-      "menu_text": "Turn on",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_activate__e_combatsaw",
-          "effect": {
-            "run_eocs": "EOC_toolweapon_activate",
-            "variables": {
-              "turn_cost": "0.6",
-              "transform_target": "e_combatsaw_on",
-              "success_message": { "i18n": true, "str": "With a snarl, the <npc_name> screams to life!" },
-              "volume": "30",
-              "failure_message": { "i18n": true, "str": "You flip the switch, but nothing happens." }
-            }
-          }
-        }
-      ]
-    },
-    "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "ALWAYS_TWOHAND", "FRAGILE_MELEE", "WATER_BREAK", "ELECTRONIC" ],
-    "faults": [ { "fault_group": "electronic_general" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "200 ml",
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
-    "melee_damage": { "bash": 8 },
-    "tool_ammo": [ "battery" ]
-  },
-  {
-    "id": "e_combatsaw_on",
-    "copy-from": "e_combatsaw_off",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "electric combat chainsaw (on)", "str_pl": "electric combat chainsaws (on)" },
-    "description": "This electric combat chainsaw is on, and is continuously draining power.  Use it to turn it off.",
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "every", "balance": "neutral" },
-    "power_draw": "2 kW",
-    "charges_per_use": 0,
-    "revert_to": "e_combatsaw_off",
-    "qualities": [ [ "AXE", 3 ] ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "ammo_scale": 0,
-      "menu_text": "Turn off",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_deactivate__e_combatsaw",
-          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "e_combatsaw_off" } }
-        }
-      ]
-    },
-    "tick_action": {
-      "type": "effect_on_conditions",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_running__e_combatsaw",
-          "effect": {
-            "run_eocs": "EOC_toolweapon_running",
-            "variables": {
-              "sound_chance": "12",
-              "sound_message": { "i18n": true, "str": "Your electric combat chainsaw growls." },
-              "volume": "18",
-              "revert_to": "e_combatsaw_off"
-            }
-          }
-        }
-      ]
-    },
-    "extend": { "flags": [ "MESSY", "TRADER_AVOID", "POWERED" ] },
-    "relative": { "melee_damage": { "cut": 50 } }
-  },
-  {
     "type": "ITEM",
     "id": "punch_dagger",
     "name": { "str": "punch dagger" },
@@ -3323,14 +3165,14 @@
       "m203_mod",
       "m320_mod_mod",
       "m320_mod",
-      "M6_shotgun",
       "m26_mass",
       "m26_mass_mod",
       "masterkey",
       "masterkey_mod",
       "u_shotgun"
     ],
-    "install_time": "5 s"
+    "install_time": "5 s",
+    "to_hit_mod": 3
   },
   {
     "id": "arisaka_bayonet",
@@ -3368,14 +3210,14 @@
       "m203_mod",
       "m320_mod_mod",
       "m320_mod",
-      "M6_shotgun",
       "m26_mass",
       "m26_mass_mod",
       "masterkey",
       "masterkey_mod",
       "u_shotgun"
     ],
-    "install_time": "5 s"
+    "install_time": "5 s",
+    "to_hit_mod": 3
   },
   {
     "id": "lc_talwar",

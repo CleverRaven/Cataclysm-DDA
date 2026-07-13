@@ -6,6 +6,91 @@
     "value_constraints": { "species": { "equals": [ "species_id", "MOXIE" ] } }
   },
   {
+    "id": "avatar_enters_crashed_ship",
+    "type": "event_transformation",
+    "event_transformation": "avatar_enters_oter_type",
+    "value_constraints": {
+      "oter_type_id": { "equals_any": [ "oter_type_str_id", [ "afs_crashed_cargo_shuttle", "afs_crashed_cargo_shuttle_wraitheon" ] ] }
+    }
+  },
+  {
+    "id": "num_avatar_enters_crashed_ship",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_enters_crashed_ship",
+    "description": { "str": "crashed ship visited", "str_pl": "crashed ships visited" }
+  },
+  {
+    "id": "avatar_enters_ruins",
+    "type": "event_transformation",
+    "event_transformation": "avatar_enters_oter_type",
+    "value_constraints": {
+      "oter_type_id": {
+        "equals_any": [
+          "oter_type_str_id",
+          [
+            "afs_formless_ruins_dynamic",
+            "afs_formless_ruins_aeolian",
+            "afs_formless_ruins_industrial",
+            "afs_formless_ruins_pipe"
+          ]
+        ]
+      }
+    }
+  },
+  {
+    "id": "num_avatar_enters_ruins",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_enters_ruins",
+    "description": { "str": "ruin visited", "str_pl": "ruins visited" }
+  },
+  {
+    "id": "avatar_wields_archeotech_gun",
+    "type": "event_transformation",
+    "event_transformation": "avatar_wields_item",
+    "value_constraints": { "itype": { "equals_any": [ "itype_id", [ "afs_archeotech_laspistol", "afs_electro_anomaly_rifle" ] ] } },
+    "drop_fields": [ "itype" ]
+  },
+  {
+    "id": "num_avatar_wields_archeotech_gun",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_wields_archeotech_gun"
+  },
+  {
+    "id": "avatar_max_damage",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "damage",
+    "event_transformation": "avatar_takes_damage",
+    "description": { "str_sp": "maximum damage taken in a single instant." }
+  },
+  {
+    "id": "avatar_wields_plasma_gun",
+    "type": "event_transformation",
+    "event_transformation": "avatar_wields_item",
+    "value_constraints": {
+      "itype": {
+        "equals_any": [ "itype_id", [ "afs_magnadrive_230k", "afs_pam-41", "afs_plasma_torch_gun", "afs_makeshift_fusion_gun" ] ]
+      }
+    },
+    "drop_fields": [ "itype" ]
+  },
+  {
+    "id": "num_avatar_wields_plasma_gun",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_wields_plasma_gun"
+  },
+  {
+    "id": "avatar_wields_prediscontinuity_weapon",
+    "type": "event_transformation",
+    "event_transformation": "avatar_wields_item",
+    "value_constraints": { "itype": { "equals": [ "itype_id", "crowbar" ] } },
+    "drop_fields": [ "itype" ]
+  },
+  {
     "id": "num_avatar_moxie_kills",
     "type": "event_statistic",
     "stat_type": "count",

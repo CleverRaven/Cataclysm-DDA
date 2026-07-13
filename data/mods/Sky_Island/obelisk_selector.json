@@ -75,7 +75,7 @@
         "run_eoc_selector": [ "EOC_Field_Loc_Warp", "EOC_Basement_Loc_Warp", "EOC_Rooftop_Loc_Warp", "EOC_Lab_Loc_Warp", "EOC_raidcancel" ],
         "names": [ "Target: Field", "Target: Basement", "Target: Rooftop", "Target: Science Lab", "Cancel" ],
         "keys": [ "1", "2", "3", "4", "5" ],
-        "title": "Select a Starting Location",
+        "title": "Select a starting location",
         "descriptions": [
           "Arrive in a barren field.  This usually means landing in the open wilderness, but there's always the chance you'll find yourself at an empty lot in town.",
           "Arrive inside an underground basement.  This will tend to put you somewhere in suburbia, but there are always exceptions.",

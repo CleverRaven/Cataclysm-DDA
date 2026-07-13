@@ -1,0 +1,77 @@
+[
+  {
+    "type": "palette",
+    "id": "labyrinthine_base_palette",
+    "terrain": {
+      "|": "t_nl_metal_wall",
+      "_": "t_nl_metal_floor",
+      ".": "t_nl_catwalk",
+      "!": "t_nl_metal_wall_edge",
+      "v": "t_nl_chasm",
+      "+": "t_nl_door_c",
+      "=": "t_nl_door_l",
+      "ϴ": "t_nl_catwalk",
+      "o": [ [ "t_nl_catwalk", 3 ], [ "t_nl_chasm", 1 ] ]
+    },
+    "furniture": {
+      "â": "f_autodoc",
+      "ä": "f_autodoc_couch",
+      "A": "f_scrap_antenna",
+      "b": "f_exodii_charger",
+      "B": "f_exodii_charger_cheap",
+      "c": [ [ "f_metal_crate_r", 1 ], [ "f_metal_crate_c", 3 ] ],
+      "C": [ [ "f_metal_crate_r", 9 ], [ "f_metal_crate_c", 1 ] ],
+      "¢": [ "f_metal_crate_r", "f_metal_crate_c", [ "f_null", 2 ] ],
+      "Ç": "f_control_station",
+      "d": "f_dialysis",
+      "E": "f_exodii_scanner",
+      "F": "f_curtain",
+      "l": "f_locker",
+      "L": "f_exodii_lamp",
+      "ϴ": [ [ "f_null", 75 ], [ "f_exodii_lamp", 20 ], [ "f_electrical_conduit", 5 ] ],
+      "M": "f_machinery_electronic",
+      "U": "f_utility_shelf",
+      "P": "f_exodii_pump",
+      "(": "f_electrical_conduit",
+      "Ƥ": "f_exodii_printer_large",
+      "ƥ": "f_exodii_printer_small",
+      "Ṫ": "f_metal_table",
+      "ϟ": "f_capacitor",
+      "ß": "f_metal_bench"
+    },
+    "monsters": {
+      "_": { "monster": "GROUP_Labyrinth_Room", "density": 0.00015 },
+      ".": { "monster": "GROUP_Labyrinth_Hallmonitors", "density": 0.0003 }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "labyrinthine_item_palette_utility_tier0",
+    "items": {
+      "c": { "item": "LS_SUS_crate_tier0_materials", "chance": 75 },
+      "C": { "item": "LS_SUS_crate_tier0_machineparts", "chance": 75 },
+      "U": { "item": "LS_SUS_shelf_tier0_tools", "chance": 35 },
+      "l": { "item": "LS_SUS_shelf_tier0_tools", "chance": 55 },
+      "Ṫ": { "item": "LS_SUS_table_items_workspace", "chance": 25 }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "labyrinthine_item_palette_dining_tier0",
+    "items": {
+      "c": { "item": "LS_SUS_crate_tier0_supplies", "chance": 45 },
+      "C": { "item": "LS_SUS_crate_tier0_supplies", "chance": 75 },
+      "U": { "item": "LS_SUS_shelf_tier0_food", "chance": 35 },
+      "Ṫ": { "item": "LS_SUS_table_items_mess", "chance": 25 }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "labyrinthine_item_palette_bunk_room_tier0",
+    "items": {
+      "l": { "item": "LS_SUS_bunk_room", "chance": 75 },
+      "U": { "item": "LS_SUS_bunk_room", "chance": 25 },
+      "Ṫ": { "item": "LS_SUS_table_items_mess", "chance": 35 }
+    }
+  }
+]

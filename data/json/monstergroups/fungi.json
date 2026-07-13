@@ -8,12 +8,7 @@
       { "monster": "mon_fungaloid", "weight": 400, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_shambler", "weight": 200, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_young", "weight": 200, "cost_multiplier": 0 },
-      { "monster": "mon_whisper_fungus", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_fungus", "weight": 0, "cost_multiplier": 0 },
-      { "monster": "mon_boomer_fungus", "weight": 0, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_child_fungus", "weight": 0, "cost_multiplier": 0 },
-      { "monster": "mon_fungal_wall", "weight": 0, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid_queen", "weight": 0, "cost_multiplier": 0 }
+      { "monster": "mon_whisper_fungus", "weight": 10, "cost_multiplier": 0 }
     ]
   },
   {
@@ -37,9 +32,7 @@
       { "monster": "mon_zombie_fungus", "weight": 75, "cost_multiplier": 0 },
       { "monster": "mon_boomer_fungus", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_zombie_child_fungus", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_whisper_fungus", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_fungal_hedgerow", "weight": 0, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid_tower", "weight": 0, "cost_multiplier": 0 }
+      { "monster": "mon_whisper_fungus", "weight": 10, "cost_multiplier": 0 }
     ]
   },
   {
@@ -53,8 +46,7 @@
       { "monster": "mon_zombie_fungus", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_boomer_fungus", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_zombie_child_fungus", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_whisper_fungus", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid_seeder", "weight": 0, "cost_multiplier": 0 }
+      { "monster": "mon_whisper_fungus", "weight": 10, "cost_multiplier": 0 }
     ]
   },
   {

@@ -243,7 +243,7 @@
     "//": "a general group that was probably intended to spawn in radio tower maintenance offices or similar, but currently only called as a zombie scientist drop. This needs a revamp.",
     "subtype": "distribution",
     "entries": [
-      { "group": "softdrinks_canned", "prob": 290 },
+      { "group": "soda_in_small_container", "prob": 290 },
       { "prob": 25, "group": "caffeine_bottle_plastic_pill_supplement_10" },
       { "prob": 30, "group": "maltballs_box_snack_4" },
       { "group": "tobacco_products", "prob": 141 },
@@ -280,16 +280,15 @@
       { "item": "solar_cell", "prob": 5 },
       { "item": "flyer", "prob": 10 },
       { "item": "lsd", "prob": 1, "count": [ 1, 5 ] },
-      { "item": "gum", "prob": 20, "count": [ 1, 10 ] },
-      { "item": "caff_gum", "prob": 8, "count": [ 1, 10 ] },
+      { "group": "chewing_gum_used", "prob": 20 },
+      { "group": "chewing_gum_used_caff", "prob": 8 },
       { "group": "tools_toolbox", "prob": 1 },
-      { "item": "nic_gum", "prob": 5, "count": [ 1, 10 ] },
+      { "group": "chewing_gum_used_nic", "prob": 5 },
       { "group": "toy_radio_car", "prob": 2 },
       { "item": "radiocontrol", "prob": 15, "charges": [ 0, 100 ] },
       { "item": "thermometer", "prob": 10 },
       { "item": "hygrometer", "prob": 10 },
-      { "item": "barometer", "prob": 10 },
-      { "item": "weather_reader", "prob": 1 }
+      { "item": "barometer", "prob": 10 }
     ]
   },
   {

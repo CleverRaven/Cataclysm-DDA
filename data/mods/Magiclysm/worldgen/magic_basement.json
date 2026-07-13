@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "magic_basement" ],
     "object": {
       "fill_ter": "t_carpet_green",
@@ -88,7 +87,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "magic_door_appear",
-    "method": "json",
     "object": {
       "place_terrain": [ { "ter": "t_carpet_green", "x": 12, "y": 6 } ],
       "place_furniture": [ { "furn": "f_beaded_door", "x": 12, "y": 6 } ]
@@ -109,7 +107,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "magic_door_graffiti_snippet",
     "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "magic_door_graffiti", "x": 0, "y": 0 } ] }
   },

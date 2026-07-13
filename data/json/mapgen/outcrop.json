@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "outcrop" ],
     "weight": 100,
     "object": {
@@ -39,7 +38,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "outcrop" ],
     "weight": 100,
     "object": {
@@ -77,7 +75,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "outcrop" ],
     "weight": 100,
     "object": {

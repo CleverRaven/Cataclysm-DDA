@@ -37,7 +37,7 @@
     "id": "EOC_INVENTOR_START_RECIPES",
     "eoc_type": "EVENT",
     "required_event": "game_avatar_new",
-    "condition": { "compare_string": [ "xe_inventor", { "context_val": "avatar_profession" } ] },
+    "condition": { "u_has_profession": "xe_inventor" },
     "effect": [
       { "u_roll_remainder": [ "software_math_inventor", "software_electronics_reference_inventor" ], "type": "recipe" },
       { "u_roll_remainder": [ "inventor_leg_weight", "inventor_jump_boots" ], "type": "recipe" },
@@ -49,7 +49,7 @@
     "id": "EOC_DREAMSMITH_START_RECIPES",
     "eoc_type": "EVENT",
     "required_event": "game_avatar_new",
-    "condition": { "compare_string": [ "xe_dreamsmith", { "context_val": "avatar_profession" } ] },
+    "condition": { "u_has_profession": "xe_dreamsmith" },
     "effect": [
       { "u_roll_remainder": [ "forged_dreamstuff_ingot" ], "type": "recipe" },
       { "u_roll_remainder": [ "dreamdross_bo", "dreamdross_knife", "dreamdross_club" ], "type": "recipe" },

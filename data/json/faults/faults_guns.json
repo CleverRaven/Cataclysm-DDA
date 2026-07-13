@@ -81,7 +81,7 @@
     "type": "fault",
     "fault_type": "gun_mechanical_simple",
     "name": { "str": "Double feed" },
-    "description": "Magazine of the gun tried to put two rounds in the chamber at once.",
+    "description": "The magazine of the gun tried to put two rounds in the chamber at once.",
     "item_prefix": "jammed"
   }
 ]

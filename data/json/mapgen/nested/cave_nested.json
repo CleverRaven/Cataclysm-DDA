@@ -7,7 +7,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_nw",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -29,7 +28,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_nw",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -51,7 +49,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_nw",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -73,7 +70,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_nw",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -95,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_ne",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -118,7 +113,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_ne",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -141,7 +135,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_ne",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -164,7 +157,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_ne",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -187,7 +179,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_se",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -209,7 +200,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_se",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -231,7 +221,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_se",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -253,7 +242,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_se",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -275,7 +263,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_sw",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -298,7 +285,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_sw",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -321,7 +307,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_sw",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -344,7 +329,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_sw",
     "object": {
       "mapgensize": [ 12, 12 ],

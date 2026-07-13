@@ -4,7 +4,7 @@
     "id": "EOC_XE_XE_OPERATIVE_MAGIC_SQUARES_BOOK_UNDERSTANDING",
     "eoc_type": "EVENT",
     "required_event": "game_start",
-    "condition": { "u_profession": "xe_hedge_mage_magic_squares" },
+    "condition": { "u_has_profession": "xe_hedge_mage_magic_squares" },
     "effect": [ { "math": [ "u_deciphered_spellbook_hedge_abramelin_the_mage = 1" ] } ]
   }
 ]

@@ -80,5 +80,11 @@
       { "value": "CLIMATE_CONTROL_HEAT", "add": 20 },
       { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
     ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_primal_form_protection",
+    "condition": "ALWAYS",
+    "incoming_damage_mod": [ { "type": "bash", "multiply": -0.25 }, { "type": "cut", "multiply": -0.1 } ]
   }
 ]

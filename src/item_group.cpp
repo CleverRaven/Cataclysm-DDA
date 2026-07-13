@@ -21,10 +21,10 @@
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_factory.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "make_static.h"
 #include "options.h"
 #include "pocket_type.h"
 #include "relic.h"
@@ -36,6 +36,8 @@
 
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
+
+static const flag_id json_flag_MISSION_ITEM( "MISSION_ITEM" );
 
 std::size_t Item_spawn_data::create( ItemList &list,
                                      const time_point &birthday, spawn_flags flags ) const
@@ -286,7 +288,7 @@ std::size_t Single_item_creator::create( ItemList &list,
     for( ; cnt > 0; cnt-- ) {
         if( type == S_ITEM ) {
             item itm = create_single_without_container( birthday, rec );
-            if( flags & spawn_flags::use_spawn_rate && !itm.has_flag( STATIC( flag_id( "MISSION_ITEM" ) ) ) &&
+            if( flags & spawn_flags::use_spawn_rate && !itm.has_flag( json_flag_MISSION_ITEM ) &&
                 rng_float( 0, 1 ) > spawn_rate ) {
                 continue;
             }
@@ -517,6 +519,14 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
 
     new_item.set_itype_variant( variant );
 
+    if( !faults.empty() ) {
+        for( const std::pair<fault_id, int> &f : faults ) {
+            if( x_in_y( f.second, 100 ) ) {
+                new_item.set_fault( f.first, false, false );
+            }
+        }
+    }
+
     {
         // create container here from modifier or from default to get max charges later
         std::optional<item> cont;
@@ -693,7 +703,22 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
                 new_item.put_in( it, pk_type );
             }
         }
-        if( sealed ) {
+        // sealed is true by default, but it gives nothing to seal ammunition or glue (at least yet)
+        if( sealed && new_item.is_comestible() ) {
+            // I don't like we validate sealing at itemgroup spawn
+            // but i do not see where to fit it elsewhere
+
+            bool any_sealed = false;
+            for( const item_pocket *pocket : new_item.get_contents().get_all_contained_pockets() ) {
+                if( pocket->sealable() ) {
+                    any_sealed = true;
+                    break;
+                }
+            }
+            if( !any_sealed ) {
+                debugmsg( "in %s: item %s tries to spawn sealed, but has no sealed_data to actually be sealed.",
+                          context, new_item.typeId().c_str() );
+            }
             new_item.seal();
         }
     }

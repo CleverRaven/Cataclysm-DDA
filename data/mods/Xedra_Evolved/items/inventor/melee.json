@@ -11,7 +11,7 @@
     "color": "dark_gray",
     "symbol": "/",
     "looks_like": "sledge",
-    "material": [ "steel" ],
+    "material": [ "hc_steel" ],
     "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ],
     "flags": [ "SHEATH_SPEAR", "DURABLE_MELEE", "MUNDANE", "INVENTOR_CRAFTED" ],
     "weapon_category": [ "GREAT_HAMMERS" ],
@@ -109,7 +109,7 @@
     "subtypes": [ "TOOL" ],
     "name": { "str": "megachette (extended)", "str_pl": "megachettes (extended)" },
     "description": "A completely flat, single-edged blade.  While very visually appealing, it is no less deadly.  It can be folded more times than makes sense.",
-    "replace_materials": { "mc_steel": "steel", "leather": "steel" },
+    "replace_materials": { "leather": "mc_steel" },
     "use_action": {
       "menu_text": "Fold",
       "type": "transform",
@@ -125,7 +125,7 @@
     "subtypes": [ "TOOL" ],
     "name": { "str": "binary sword" },
     "description": "A relatively heavy two-handed sword with \"100111100\" inscribed on the blade, perhaps to appear fancier than it truly is.  Still, it is a surprisingly good weapon.",
-    "replace_materials": { "qt_steel": "steel", "kevlar": "kevlar" },
+    "replace_materials": { "kevlar": "kevlar" },
     "relative": { "melee_damage": { "pure": 6 } }
   },
   {

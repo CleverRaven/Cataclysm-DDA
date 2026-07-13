@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "corpse_blood_gibs_science_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -11,7 +10,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_science",
     "object": {
       "rows": [

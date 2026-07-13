@@ -46,7 +46,7 @@
     "items": {
       "$": [ { "item": "stash_drugs_illegals", "chance": 75 }, { "item": "SUS_toilet", "chance": 50 } ],
       "Y": { "item": "mansion_safe_nogun", "chance": 100, "repeat": [ 3, 8 ] },
-      "l": { "item": "SUS_trash_trashcan", "chance": 66, "repeat": [ 1, 3 ] },
+      "l": { "item": "SUS_trash_trashcan", "chance": 66 },
       "e": { "item": "SUS_office_desk", "chance": 50 },
       "K": { "item": "unisex_coat_rack", "chance": 33, "repeat": [ 1, 3 ] },
       "i": { "item": "underwear", "chance": 100 },
@@ -137,7 +137,7 @@
               { "prob": 100, "group": "snacks" },
               { "prob": 100, "group": "groce_condiment" },
               { "prob": 50, "group": "crate_wine" },
-              { "prob": 50, "group": "softdrinks_canned" },
+              { "prob": 50, "group": "soda_in_small_container" },
               { "prob": 50, "group": "crate_kitchen" },
               { "prob": 50, "group": "behindcounter" },
               { "prob": 50, "group": "foodintincan" },

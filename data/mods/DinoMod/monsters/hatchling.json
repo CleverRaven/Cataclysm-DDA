@@ -91,6 +91,14 @@
     "upgrades": { "age_grow": 30, "into": "mon_dryptosaurus_juvenile" }
   },
   {
+    "id": "mon_nanotyrannus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_allosaurus_hatchling",
+    "name": "predator hatchling",
+    "default_faction": "nanotyrannus_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_nanotyrannus_juvenile" }
+  },
+  {
     "id": "mon_appalachiosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_dryptosaurus_hatchling",

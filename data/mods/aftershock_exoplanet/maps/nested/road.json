@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_wraitheon_droneswarm",
     "object": {
       "place_monster": [
@@ -18,7 +17,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_reaver_bandits",
     "object": {
       "place_monster": [

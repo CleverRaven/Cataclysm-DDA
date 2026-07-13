@@ -676,8 +676,6 @@ void editmap::draw_main_ui_overlay()
                     } else {
                         g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false, point_rel_ms::zero );
                     }
-                    g->draw_below_override( tripoint_bub_ms( map_p ),
-                                            tmpmap.ter( tmp_p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) );
                 }
             }
             // int: count, bool: more than 1 spawn data
@@ -743,8 +741,8 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     draw_border( w_info );
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w_info, point( 1, 0 ), c_light_gray, "< %d,%d,%d >", target.x(), target.y(),
-               target.z() );
+    mvwprintz( w_info, point( 1, 0 ), c_light_gray, "< bub_ms=%s abs_ms=%s >", target.to_string(),
+               here.get_abs( target ).to_string() );
 
     mvwputch( w_info, point( 1, off ), terrain_type.color(), terrain_type.symbol() );
     mvwprintw( w_info, point( 2, off++ ), _( "Ter: %s (%d); move cost %d" ), terrain_type.id.str(),
@@ -1224,8 +1222,8 @@ void editmap::setup_fmenu( uilist &fmenu )
 void editmap::edit_rads() const
 {
     map &here = get_map();
-    int value = 0;
-    if( query_int( value, false, _( "Set rads to?  Currently: %d" ), here.get_radiation( target ) ) ) {
+    int value = here.get_radiation( target );
+    if( query_int( value, true, _( "Set rads to?" ) ) ) {
         here.set_radiation( target, value );
     }
 }

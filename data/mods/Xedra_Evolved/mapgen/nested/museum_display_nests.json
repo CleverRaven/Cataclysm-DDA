@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_museum_display_mannequin",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -20,7 +19,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_museum_displaycase",
     "object": {
       "mapgensize": [ 1, 1 ],

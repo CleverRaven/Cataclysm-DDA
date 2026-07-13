@@ -14,7 +14,6 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "make_static.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "ret_val.h"
@@ -23,6 +22,9 @@
 
 // In JSON, "battery" is both an "ammunition_type" (ammo_types.json) and an "AMMO" (ammo.json)
 static const ammotype ammo_battery( "battery" );
+
+static const flag_id json_flag_IRREMOVABLE( "IRREMOVABLE" );
+
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_diving_flashlight_small_hipower( "diving_flashlight_small_hipower" );
 static const itype_id itype_heavy_plus_battery_cell( "heavy_plus_battery_cell" );
@@ -107,7 +109,7 @@ TEST_CASE( "battery_tool_mod_test", "[battery][mod]" )
         REQUIRE( flashlight.has_pocket_type( pocket_type::MOD ) );
 
         WHEN( "medium battery mod is installed" ) {
-            med_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
+            med_mod.set_flag( json_flag_IRREMOVABLE );
             flashlight.put_in( med_mod, pocket_type::MOD );
 
             THEN( "tool modification is successful" ) {

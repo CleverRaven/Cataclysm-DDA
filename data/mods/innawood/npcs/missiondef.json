@@ -490,7 +490,6 @@
     "//": "For MISSION_PYROMANIAC. Will spawn fire on tile where PC is standing.",
     "type": "mapgen",
     "update_mapgen_id": "MISSION_PYROMANIAC_BURN_INNAWOOD",
-    "method": "json",
     "object": {
       "place_item": [ { "item": "tinder", "x": [ 5, 20 ], "y": [ 5, 20 ], "amount": 5, "repeat": 40 } ],
       "place_fields": [ { "field": "fd_fire", "x": [ 5, 20 ], "y": [ 5, 20 ], "repeat": 40 } ]

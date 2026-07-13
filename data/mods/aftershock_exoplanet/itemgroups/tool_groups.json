@@ -38,12 +38,28 @@
     "id": "afs_tools_robot_maintenance",
     "//": "tools used for fixing robots.",
     "items": [
-      { "group": "afs_robotics_scrapgroup", "prob": 10 },
+      { "group": "afs_robotics_scrapgroup", "prob": 7 },
+      { "group": "afs_tools_circuitry_materials", "prob": 3 },
       [ "glasses_safety", 5 ],
       { "group": "afs_tools_electric_repair", "prob": 10 },
       { "group": "afs_tools_welding", "prob": 5 },
       [ "vac_mold", 5 ],
       { "group": "tools_toolbox", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_circuitry_materials",
+    "subtype": "collection",
+    "items": [
+      { "group": "afs_common_circuitry_scrapgroup", "prob": 30 },
+      { "group": "afs_common_energy_storage_scrapgroup", "prob": 10 },
+      { "group": "afs_common_material_scrapgroup", "prob": 10 },
+      [ "breadboard", 5 ],
+      [ "solder_wire", 10 ],
+      [ "circuit", 30 ],
+      [ "e_scrap", 30 ],
+      [ "cable", 50 ]
     ]
   },
   {
@@ -58,10 +74,11 @@
     "//": "Keeps your solar panels, lights and well everything going.",
     "items": [
       [ "screwdriver_set", 20 ],
-      { "group": "superglue", "prob": 30 },
+      { "group": "glue_strong_domestic", "prob": 30 },
       [ "pliers", 10 ],
       [ "multitool", 20 ],
       [ "voltmeter", 20 ],
+      [ "multimeter", 20 ],
       [ "jumper_cable", 10 ],
       [ "hd_tow_cable", 5 ],
       [ "recharge_station", 10 ],
@@ -79,6 +96,35 @@
   },
   {
     "type": "item_group",
+    "id": "afs_tools_plumbing",
+    "//": "Plumbing tools, still mostly mundane.",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [ { "item": "wrench", "prob": 70 }, { "item": "wrench_large", "prob": 20 }, { "item": "wrench_48", "prob": 10 } ],
+        "prob": 60
+      },
+      {
+        "distribution": [
+          { "item": "crowbar", "prob": 20 },
+          { "item": "claw_bar", "prob": 10 },
+          { "item": "hammer_sledge", "prob": 20 },
+          { "item": "hammer_sledge_short", "prob": 20 },
+          { "item": "hammer_sledge_engineer", "prob": 20 },
+          { "item": "hammer_sledge_heavy", "prob": 10 }
+        ],
+        "prob": 30
+      },
+      [ "pliers", 50 ],
+      [ "bucket", 10 ],
+      [ "bucket_5gal", 10 ],
+      [ "clamp", 10 ],
+      [ "sandpaper", 90 ],
+      [ "bench_vise", 15 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "afs_tools_vehicle_repair",
     "//": "Fixes up rovers, shuttlecraft, aerocraft and more. (Group stubed created for someone more knowledgable to fill)",
     "items": [ { "group": "afs_tools_structural_repair", "prob": 40 }, { "group": "afs_tools_electric_repair", "prob": 60 } ]
@@ -90,7 +136,7 @@
     "items": [
       {
         "distribution": [
-          { "group": "afs_tools_welding", "prob": 20 },
+          { "group": "afs_tools_welding", "prob": 30 },
           {
             "collection": [
               { "item": "afs_foamgun", "prob": 100, "count": [ 1, 2 ] },
@@ -103,13 +149,20 @@
               { "item": "plastic_sheet", "prob": 100, "count": [ 3, 6 ] },
               { "group": "duct_tape_roll_part", "prob": 100, "count": [ 1, 5 ] }
             ],
-            "prob": 60
+            "prob": 50
           }
         ],
-        "prob": 80
+        "prob": 70
       },
+      { "group": "tools_toolbox", "prob": 5 },
+      { "group": "afs_tools_plumbing", "prob": 15 },
       { "item": "afs_imager", "prob": 10 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_welding_paste_tube",
+    "items": [ { "item": "afs_welding_paste", "count": 280 } ]
   },
   {
     "type": "item_group",
@@ -120,7 +173,9 @@
     "items": [
       {
         "distribution": [
-          { "item": "welder", "prob": 40 },
+          { "item": "welder", "prob": 20 },
+          { "item": "squeeze_tube", "contents-group": "afs_welding_paste_tube", "prob": 20, "count": [ 1, 2 ] },
+          { "item": "welder", "prob": 20 },
           {
             "collection": [
               { "item": "oxy_torch", "prob": 100, "count": [ 1, 2 ] },
@@ -131,7 +186,7 @@
           },
           {
             "collection": [
-              { "item": "afs_40g_plasma_civ", "prob": 100, "count": [ 1, 2 ] },
+              { "item": "afs_40g_plasma_civ", "ammo-item": "afs_shydrogen", "charges": [ 16, 40 ], "prob": 100, "count": [ 1, 2 ] },
               { "item": "afs_plasma_torch", "prob": 50, "count": [ 1, 2 ] }
             ],
             "prob": 40
@@ -139,10 +194,14 @@
         ],
         "prob": 30
       },
+      { "group": "afs_tools_welding_consumable", "prob": 10, "count": [ 1, 2 ] },
       { "item": "polisher", "prob": 20 },
       { "item": "angle_grinder", "prob": 20 },
       [ "clamp", 10 ],
       [ "metal_file", 10 ],
+      [ "hacksaw", 5 ],
+      [ "saw", 5 ],
+      [ "bow_saw", 5 ],
       [ "sandpaper", 10 ],
       [ "goggles_welding", 30 ]
     ]
@@ -151,6 +210,7 @@
     "type": "item_group",
     "id": "afs_tools_welding_consumable",
     "items": [
+      { "item": "squeeze_tube", "contents-group": "afs_welding_paste_tube", "prob": 90, "count": [ 1, 2 ] },
       { "item": "welding_rod_steel", "prob": 90, "charges": [ 1000, 1600 ] },
       { "item": "welding_rod_alloy", "prob": 40, "charges": [ 1000, 1600 ] },
       { "item": "welding_wire_steel", "prob": 90, "charges": [ 1000, 1600 ] },
@@ -219,8 +279,45 @@
       { "item": "multitool", "prob": 5 },
       { "item": "screwdriver_set", "prob": 15 },
       { "item": "pliers", "prob": 5 },
-      { "group": "superglue", "prob": 5 },
+      { "group": "glue_weak_domestic", "prob": 5 },
+      { "group": "glue_strong_domestic", "prob": 5 },
       { "group": "duct_tape_roll_part", "prob": 10, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "afs_vehicle_bay_rack",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "vehicle_bay_tools", "prob": 50 }, { "group": "vehicle_bay_mats", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "vehicle_bay_tools",
+    "//": "Mechanic's tools, still mostly mundane.",
+    "subtype": "collection",
+    "items": [
+      { "group": "tools_toolbox", "prob": 5 },
+      { "group": "afs_hard_hat", "prob": 5 },
+      { "group": "afs_tools_welding", "prob": 5 },
+      { "group": "afs_tools_welding_consumable", "prob": 10 },
+      { "group": "tools_common_small", "prob": 20, "count": [ 2, 4 ] },
+      { "item": "screwdriver_set", "prob": 20 },
+      { "item": "pliers", "prob": 5 },
+      { "item": "multitool", "prob": 5 },
+      { "item": "gloves_work", "prob": 5 },
+      { "item": "glasses_safety", "prob": 5 },
+      { "item": "goggles_welding", "prob": 5 },
+      { "item": "polisher", "prob": 20 },
+      { "item": "angle_grinder", "prob": 20 },
+      [ "thread_cutting_set", 5 ],
+      [ "hand_pump", 5 ],
+      [ "jumper_cable", 10 ],
+      [ "extension_cable", 15 ],
+      [ "hd_tow_cable", 5 ],
+      [ "clamp", 5 ],
+      [ "clamp", 5 ],
+      [ "metal_file", 10 ],
+      [ "hacksaw", 5 ]
     ]
   },
   {
@@ -231,7 +328,7 @@
       { "item": "electrohack", "prob": 100 },
       {
         "collection": [
-          { "item": "afs_40g_plasma_civ", "prob": 100, "count": [ 1, 2 ] },
+          { "item": "afs_40g_plasma_civ", "ammo-item": "afs_shydrogen", "charges": [ 16, 40 ], "prob": 100, "count": [ 1, 2 ] },
           { "item": "afs_plasma_torch", "prob": 50, "count": [ 1, 2 ] }
         ],
         "prob": 20

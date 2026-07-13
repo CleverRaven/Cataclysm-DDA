@@ -60,8 +60,8 @@
     "price": "0 cent",
     "symbol": "x",
     "color": "yellow",
+    "light": 10,
     "flags": [
-      "LIGHT_10",
       "SEMITANGIBLE",
       "AURA",
       "OVERSIZE",
@@ -126,7 +126,7 @@
     "turns_per_charge": 25,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 360 } } ],
     "weight": "100 g",
-    "volume": "50 ml",
+    "volume": "150 ml",
     "price": "50 USD",
     "price_postapoc": "50 cent",
     "material": [ "leather", "veggy" ],
@@ -164,7 +164,7 @@
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.",
     "turns_per_charge": 25,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 360 } } ],
-    "weight": "100 g",
+    "weight": "45 g",
     "volume": "50 ml",
     "material": [ "leather", "veggy" ],
     "color": "green",
@@ -193,7 +193,7 @@
     "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": "Faesight Charm",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  This charm seems lifeless somehow, its energy spent.",
-    "weight": "100 g",
+    "weight": "45 g",
     "volume": "50 ml",
     "material": [ "leather", "veggy" ],
     "color": "green",
@@ -263,7 +263,6 @@
     "volume": "4 L",
     "price": "245 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "fur", "bone" ],
     "symbol": "[",
     "looks_like": "cloak_leather",
@@ -312,6 +311,7 @@
     "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Activate the charm using the magic square.",
       "effect_on_conditions": [
         {
@@ -334,6 +334,7 @@
     "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Activate the charm using the magic square.",
       "effect_on_conditions": [
         {
@@ -359,6 +360,7 @@
     "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Activate the charm using the magic square.",
       "effect_on_conditions": [
         {
@@ -381,6 +383,7 @@
     "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Activate the charm using the magic square.",
       "effect_on_conditions": [
         {
@@ -415,6 +418,7 @@
     "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Activate the charm using the magic square.",
       "effect_on_conditions": [
         {
@@ -437,6 +441,7 @@
     "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Activate the charm using the magic square.",
       "effect_on_conditions": [
         {

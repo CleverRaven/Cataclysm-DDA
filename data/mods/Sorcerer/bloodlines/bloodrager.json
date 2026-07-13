@@ -1,0 +1,16 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CASTER_BOOST_BLOODRAGER",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "u_has_trait": "SORCERER" }, { "compare_string": [ { "u_val": "power_source" }, "strength" ] } ] },
+    "effect": [
+      { "math": [ "u_temp_bloodrager_boost = floor( u_val('strength') / 2 ) - 3" ] },
+      { "math": [ "u_temp_bloodrager_boost += (u_effect_intensity('adrenaline') == 2) * 3" ] },
+      { "math": [ "u_temp_bloodrager_boost -= u_effect_intensity('redcells_anemia')" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'mod': 'magiclysm') = u_temp_bloodrager_boost" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'mod': 'sorcerer') = u_temp_bloodrager_boost" ] }
+    ]
+  }
+]

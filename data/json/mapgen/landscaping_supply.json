@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "landscapingsupplyco_1a", "landscapingsupplyco_1b" ] ],
     "object": {
       "fill_ter": "t_region_groundcover_barren",
@@ -114,7 +113,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "landscapingsupplyco_1b_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",

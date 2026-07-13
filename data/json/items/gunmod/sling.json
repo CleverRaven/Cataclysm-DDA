@@ -42,7 +42,7 @@
       "msg": "You shift the weapon to the front of your body.",
       "menu_text": "Adjust",
       "target": "shoulder_strap_front",
-      "moves": 120
+      "moves": 600
     }
   },
   {
@@ -57,7 +57,7 @@
       "msg": "You shift the weapon to the back of your body.",
       "menu_text": "Adjust",
       "target": "shoulder_strap",
-      "moves": 120
+      "moves": 600
     },
     "armor": [
       {

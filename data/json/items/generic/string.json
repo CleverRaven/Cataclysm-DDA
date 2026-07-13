@@ -23,7 +23,7 @@
     "category": "spare_parts",
     "name": { "str": "short string" },
     "description": "A 6-inch (or about 15 cm) long piece of cotton string.",
-    "weight": "6 g",
+    "weight": "5 g",
     "volume": "10ml",
     "price": "10 cent",
     "price_postapoc": "10 cent",

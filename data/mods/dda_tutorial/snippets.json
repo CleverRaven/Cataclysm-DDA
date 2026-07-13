@@ -6,7 +6,7 @@
     "text": [
       {
         "id": "LESSON_INTRO",
-        "text": "Welcome to the Cataclysm tutorial!  As you play, pop-ups like this one will appear to guide you through the basic game actions.\n\nAt any time, you can press <keybind:HELP_KEYBINDINGS> to open the <color_light_cyan>Keybindings menu</color> to view or modify the controls for the game or specific menu that you are in.\n\nPressing <keybind:POPUP_WAIT:QUIT> will close the pop-up."
+        "text": "Welcome to the Cataclysm: Dark Days Ahead tutorial!  As you play, pop-ups like this one will appear to guide you through the basic game actions.\n\nAt any time, you can press <keybind:HELP_KEYBINDINGS> to open the <color_light_cyan>Keybindings menu</color> to view or modify the controls for the game or specific menu that you are in.\n\nPressing <keybind:POPUP_WAIT:QUIT> will close the pop-up."
       },
       {
         "id": "LESSON_MOVE",
@@ -106,7 +106,7 @@
       },
       {
         "id": "LESSON_ACT_BUBBLEWRAP",
-        "text": "This thing here on the floor is a <color_light_cyan>trap</color>.  Traps are permanent until set off, and can be an important defensive tactic, particularly when sleeping in unsafe territory.  Try stepping on the bubble wrap.  Don't worry, it's harmless, but it will make some noise.  There are other types of traps that will cause varying amounts of damage or even teleport you, so watch your step carefully."
+        "text": "This thing here on the floor is a <color_light_cyan>trap</color>.  Traps are permanent until set off or disarmed, and can be an important defensive tactic, particularly when sleeping in unsafe territory.  Try stepping on the bubble wrap.  Don't worry, it's harmless, but it will make some noise.  You can attempt to disarm some traps by using <keybind:examine> while adjacent.  Disarming can carry a chance to activate the trap though so be careful!  There are other types of traps that will cause varying amounts of damage or even teleport you, so watch your step carefully."
       },
       {
         "id": "LESSON_GUN_FIRE",

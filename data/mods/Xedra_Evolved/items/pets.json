@@ -6,7 +6,7 @@
     "comestible_type": "FOOD",
     "name": { "str_sp": "purity crackers" },
     "description": "An incredibly hard cracker.  Squeezing it in your hand it feels as though your teeth might break before the cracker does.  The packaging on the side shows a tall being feeding these crackers to a horned and four legged creature.",
-    "weight": "300 g",
+    "weight": "200 g",
     "volume": "250 ml",
     "price": "1 USD",
     "price_postapoc": "25 cent",

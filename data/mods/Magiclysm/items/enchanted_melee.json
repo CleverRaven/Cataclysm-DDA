@@ -689,7 +689,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "IMPALE" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS", "SPELLCASTING_AID" ],
     "melee_damage": { "bash": 6, "stab": 21 }
   },
   {
@@ -717,7 +717,7 @@
       "need_wielding": true,
       "moves": 400
     },
-    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS", "SPELLCASTING_AID" ],
     "melee_damage": { "bash": 9, "stab": 25 }
   },
   {
@@ -738,7 +738,7 @@
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ], [ "WRENCH", 2 ], [ "WRENCH_FINE", 2 ], [ "PRYING_NAIL", 1 ] ],
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "use_action": [ "CROWBAR" ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "TRADER_AVOID", "MAGIC_FOCUS" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "TRADER_AVOID", "MAGIC_FOCUS", "SPELLCASTING_AID" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ],
     "melee_damage": { "bash": 22, "cut": 1 }
   },
@@ -760,7 +760,17 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ], [ "WRENCH", 2 ], [ "WRENCH_FINE", 2 ], [ "PRYING_NAIL", 1 ] ],
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "TRADER_AVOID", "MAGIC_FOCUS", "WATCH", "ALARMCLOCK", "NO_RELOAD", "NO_UNLOAD" ],
+    "flags": [
+      "DURABLE_MELEE",
+      "BELT_CLIP",
+      "TRADER_AVOID",
+      "MAGIC_FOCUS",
+      "SPELLCASTING_AID",
+      "WATCH",
+      "ALARMCLOCK",
+      "NO_RELOAD",
+      "NO_UNLOAD"
+    ],
     "weapon_category": [ "HOOKING_WEAPONRY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
     "charges_per_use": 1,
@@ -787,7 +797,7 @@
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS", "SPELLCASTING_AID" ],
     "melee_damage": { "bash": 29 }
   },
   {
@@ -807,7 +817,7 @@
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS", "SPELLCASTING_AID" ],
     "melee_damage": { "bash": 34 },
     "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 0.75 } ] } ]
   },
@@ -828,7 +838,7 @@
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "use_action": [ "WEATHER_TOOL" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "TRADER_AVOID", "MAGIC_FOCUS", "THERMOMETER" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "TRADER_AVOID", "MAGIC_FOCUS", "THERMOMETER", "SPELLCASTING_AID" ]
   },
   {
     "id": "rune_kelvinist_ice_adept_weapon",
@@ -853,7 +863,16 @@
       { "type": "cast_spell", "spell_id": "frost_spray", "no_fail": true, "level": 10, "need_wielding": true },
       "WEATHER_TOOL"
     ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "TRADER_AVOID", "THERMOMETER", "MAGIC_FOCUS", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [
+      "DURABLE_MELEE",
+      "SHEATH_SWORD",
+      "TRADER_AVOID",
+      "THERMOMETER",
+      "MAGIC_FOCUS",
+      "SPELLCASTING_AID",
+      "NO_UNLOAD",
+      "NO_RELOAD"
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
     "charges_per_use": 1,
     "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true },
@@ -877,7 +896,7 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -20 ] ],
     "use_action": [ "WEATHER_TOOL" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_AXE", "TRADER_AVOID", "MAGIC_FOCUS", "HYGROMETER", "BAROMETER" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_AXE", "TRADER_AVOID", "MAGIC_FOCUS", "SPELLCASTING_AID", "HYGROMETER", "BAROMETER" ],
     "melee_damage": { "bash": 21, "cut": 42 }
   },
   {
@@ -903,7 +922,17 @@
       { "type": "cast_spell", "spell_id": "lightning_bolt", "no_fail": true, "level": 7, "need_wielding": true },
       "WEATHER_TOOL"
     ],
-    "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "NO_RELOAD", "SHEATH_AXE", "TRADER_AVOID", "MAGIC_FOCUS", "HYGROMETER", "BAROMETER" ],
+    "flags": [
+      "DURABLE_MELEE",
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "SHEATH_AXE",
+      "TRADER_AVOID",
+      "MAGIC_FOCUS",
+      "SPELLCASTING_AID",
+      "HYGROMETER",
+      "BAROMETER"
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
     "charges_per_use": 1,
     "melee_damage": { "bash": 40, "cut": 27 },
@@ -926,7 +955,7 @@
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
     "weapon_category": [ "KNIVES" ],
-    "flags": [ "SHEATH_KNIFE", "MAGIC_FOCUS", "TRADER_AVOID" ],
+    "flags": [ "SHEATH_KNIFE", "MAGIC_FOCUS", "SPELLCASTING_AID", "TRADER_AVOID" ],
     "melee_damage": { "bash": 2, "stab": 13 }
   },
   {
@@ -947,7 +976,7 @@
     "weapon_category": [ "KNIVES" ],
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
-    "flags": [ "SHEATH_KNIFE", "MAGIC_FOCUS", "TRADER_AVOID" ],
+    "flags": [ "SHEATH_KNIFE", "MAGIC_FOCUS", "SPELLCASTING_AID", "TRADER_AVOID" ],
     "melee_damage": { "bash": 7, "stab": 30 },
     "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.3 } ] } ]
   },
@@ -1028,6 +1057,7 @@
       "DURABLE_MELEE",
       "TRADER_AVOID",
       "MAGIC_FOCUS",
+      "SPELLCASTING_AID",
       "POLEARM",
       "SHEATH_SPEAR",
       "REACH_ATTACK",

@@ -2,7 +2,6 @@
   {
     "//": "walls of tentacle wall that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tentacle_bounds_h",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -30,7 +29,6 @@
   {
     "//": "walls of tentacle wall that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tentacle_bounds_h1",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -58,7 +56,6 @@
   {
     "//": "walls of tentacle wall that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tentacle_bounds_h2",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -86,7 +83,6 @@
   {
     "//": "walls of tentacle wall that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tentacle_bounds_v",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -114,7 +110,6 @@
   {
     "//": "walls of tentacle wall that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tentacle_bounds_v1",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -142,7 +137,6 @@
   {
     "//": "walls of tentacle wall that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tentacle_bounds_v2",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -169,7 +163,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "corpse_tentacle_straight",
     "object": {
       "fill_ter": "t_nm_floor_flesh",
@@ -253,7 +246,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "corpse_tentacle_end",
     "object": {
       "fill_ter": "t_nm_floor_flesh",
@@ -325,7 +317,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "corpse_tentacle_curved",
     "object": {
       "fill_ter": "t_nm_floor_flesh",
@@ -419,7 +410,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "corpse_tentacle_tee",
     "object": {
       "fill_ter": "t_nm_floor_flesh",
@@ -510,7 +500,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "corpse_tentacle_four_way",
     "object": {
       "fill_ter": "t_nm_floor_flesh",

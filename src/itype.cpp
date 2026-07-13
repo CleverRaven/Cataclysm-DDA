@@ -11,7 +11,6 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "make_static.h"
 #include "map.h"
 #include "material.h"
 #include "recipe.h"
@@ -19,6 +18,8 @@
 #include "ret_val.h"
 #include "subbodypart.h"
 #include "translations.h"
+
+static const flag_id json_flag_CAN_HAVE_CHARGES( "CAN_HAVE_CHARGES" );
 
 std::string gunmod_location::name() const
 {
@@ -138,11 +139,11 @@ bool itype::has_any_quality( std::string_view quality ) const
 
 int itype::charges_default() const
 {
-    if( tool ) {
+    if( tool && tool->def_charges > 0 ) {
         return tool->def_charges;
-    } else if( comestible ) {
+    } else if( comestible && comestible->def_charges > 0 ) {
         return comestible->def_charges;
-    } else if( ammo ) {
+    } else if( ammo && ammo->def_charges > 0 ) {
         return ammo->def_charges;
     }
     return count_by_charges() ? 1 : 0;
@@ -192,6 +193,17 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
 {
     const auto iter = use_methods.find( iuse_name );
     return iter != use_methods.end() ? &iter->second : nullptr;
+}
+
+bool itype::has_tick( const std::string &iuse_name ) const
+{
+    return get_tick( iuse_name ) != nullptr;
+}
+
+const use_function *itype::get_tick( const std::string &iuse_name ) const
+{
+    const auto iter = tick_action.find( iuse_name );
+    return iter != tick_action.end() ? &iter->second : nullptr;
 }
 
 int itype::tick( Character *p, item &it, const tripoint_bub_ms &pos ) const
@@ -268,7 +280,7 @@ bool itype::can_have_charges() const
     if( gun && gun->clip > 0 ) {
         return true;
     }
-    if( has_flag( STATIC( flag_id( "CAN_HAVE_CHARGES" ) ) ) ) {
+    if( has_flag( json_flag_CAN_HAVE_CHARGES ) ) {
         return true;
     }
     return false;
@@ -282,6 +294,16 @@ bool itype::is_basic_component() const
         }
     }
     return false;
+}
+
+const std::vector<std::pair<flag_id, time_duration>> &islot_seed::get_growth_stages() const
+{
+    return growth_stages;
+}
+
+units::temperature islot_seed::get_growth_temp() const
+{
+    return growth_temp;
 }
 
 int islot_armor::avg_env_resist() const
@@ -368,7 +390,7 @@ bool armor_portion_data::should_consolidate( const armor_portion_data &l,
 int armor_portion_data::calc_encumbrance( units::mass weight, bodypart_id bp ) const
 {
     // this function takes some fixed points for mass to encumbrance and interpolates them to get results for head encumbrance
-    // TODO: Generalize this for other body parts (either with a modifier or seperated point graphs)
+    // TODO: Generalize this for other body parts (either with a modifier or separated point graphs)
     // TODO: Handle distributed weight
 
     int encumbrance = 0;
@@ -382,7 +404,7 @@ int armor_portion_data::calc_encumbrance( units::mass weight, bodypart_id bp ) c
         return 100;
     }
 
-    // get the bound bellow our given weight
+    // get the bound below our given weight
     --itt;
 
     std::map<units::mass, int>::iterator next_itt = std::next( itt );
@@ -413,7 +435,7 @@ int armor_portion_data::calc_encumbrance( units::mass weight, bodypart_id bp ) c
     // modify by flat
     encumbrance += additional_encumbrance;
 
-    // cap encumbrance at at least 1
+    // cap encumbrance at least 1
     return std::max( encumbrance, 1 );
 }
 
@@ -504,5 +526,8 @@ void item_melee_damage::deserialize( const JsonObject &jo )
 {
     damage_map = load_damage_map( jo );
     //we can do this because items are always loaded after damage types
+    // ^this is not true, objects are loaded as they are encountered, and in mod load order
+    // Being loaded in mod load order particularly is the risk here!
+    // FIXME: call finalize in the right place
     finalize();
 }

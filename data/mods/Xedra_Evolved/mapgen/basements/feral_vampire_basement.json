@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_holdout_N",
     "weight": 100,
     "object": {
@@ -28,7 +27,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_holdout_S",
     "weight": 100,
     "object": {
@@ -55,7 +53,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_holdout_E",
     "weight": 100,
     "object": {
@@ -82,7 +79,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_holdout_W",
     "weight": 100,
     "object": {
@@ -109,7 +105,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_electronics_open",
     "weight": 100,
     "object": {
@@ -177,7 +172,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_sewing_open",
     "weight": 100,
     "object": {

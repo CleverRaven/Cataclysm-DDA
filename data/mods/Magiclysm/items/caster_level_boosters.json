@@ -154,7 +154,8 @@
         "type": "transform"
       }
     ],
-    "extend": { "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "FIRESTARTER" ] }
+    "light": 8,
+    "extend": { "flags": [ "WATER_EXTINGUISH", "TRADER_AVOID", "FIRESTARTER" ] }
   },
   {
     "id": "kelvinist_booster_2",
@@ -206,7 +207,8 @@
       },
       { "type": "firestarter", "moves": 100 }
     ],
-    "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "FIRESTARTER" ]
+    "light": 10,
+    "flags": [ "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "FIRESTARTER" ]
   },
   {
     "type": "ITEM",

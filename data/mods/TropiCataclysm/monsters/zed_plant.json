@@ -120,7 +120,21 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "vision_night": 3,
     "harvest": "exempt",
-    "special_attacks": [ [ "BOOMER", 20 ], [ "scratch", 20 ] ],
+    "special_attacks": [
+      {
+        "type": "gun",
+        "move_cost": 150,
+        "cooldown": 5,
+        "id": "boomer_bile",
+        "gun_type": "boomer_head",
+        "ammo_type": "boomer_bile",
+        "fake_skills": [ [ "gun", 3 ], [ "rifle", 3 ] ],
+        "fake_dex": 10,
+        "no_ammo_sound": "Boomer tries to vomit more, but only droplets are thrown.",
+        "ranges": [ [ 0, 2, "DEFAULT" ] ]
+      },
+      [ "scratch", 20 ]
+    ],
     "death_drops": "mon_zombie_thorny_death_drops",
     "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
     "upgrades": { "half_life": 56, "into_group": "GROUP_MOSSY_BOOMER_UPGRADE" },

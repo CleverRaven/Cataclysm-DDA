@@ -9,8 +9,8 @@
     "time": "120 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [
-      [ [ "adobe_brick", 10 ] ],
-      [ [ "mortar_adobe", 1 ] ],
+      [ [ "adobe_brick", 40 ] ],
+      [ [ "mortar_adobe", 4 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "material_sand", 20 ] ]
     ],
@@ -27,8 +27,8 @@
     "time": "120 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [
-      [ [ "adobe_brick", 10 ] ],
-      [ [ "mortar_adobe", 1 ] ],
+      [ [ "adobe_brick", 40 ] ],
+      [ [ "mortar_adobe", 4 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "material_sand", 20 ] ]
     ],
@@ -258,7 +258,7 @@
       [ [ "frame_wood", 1 ] ],
       [ [ "chunk_rubber", 16 ] ],
       [ [ "glass_sheet", 2 ] ],
-      [ [ "super_glue", 2 ], [ "duct_tape", 10 ] ]
+      [ [ "glue_strong", 2 ], [ "duct_tape", 10 ] ]
     ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",

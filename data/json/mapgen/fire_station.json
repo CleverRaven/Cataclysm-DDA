@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "fire_station" ],
     "object": {
       "fill_ter": "t_floor",
@@ -92,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "fire_station_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -141,7 +139,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "fire_station_1" ],
     "object": {
       "fill_ter": "t_floor",
@@ -252,7 +249,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "fire_station_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",

@@ -1,0 +1,38 @@
+[
+  {
+    "type": "region_settings",
+    "id": "default_isolation",
+    "copy-from": "default",
+    "rivers": null,
+    "lakes": null,
+    "forests": null,
+    "highways": null,
+    "default_oter": [
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north"
+    ],
+    "feature_flag_settings": {
+      "blacklist": [ "BLOB", "BEE", "ANT", "FUNGAL", "SLIME", "TRIFFID", "MI-GO", "LAB", "CLASSIC" ],
+      "whitelist": [ "ISO_MAP" ]
+    }
+  }
+]

@@ -1,13 +1,11 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_shia",
     "object": { "place_monster": [ { "monster": "mon_shia", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_jackson",
     "object": { "place_monster": [ { "monster": "mon_zombie_jackson", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100 } ] }
   },
@@ -34,13 +32,27 @@
     "autonote": true
   },
   {
-    "type": "region_overlay",
-    "regions": [ "all" ],
-    "map_extras": {
-      "forest_thick": { "extras": { "mx_shia": 1 } },
-      "forest": { "extras": { "mx_shia": 1 } },
-      "field": { "extras": { "mx_shia": 1 } },
-      "road": { "extras": { "mx_jackson": 1 } }
-    }
+    "type": "map_extra_collection",
+    "id": "forest",
+    "copy-from": "forest",
+    "extend": { "extras": [ [ "mx_shia", 1 ] ] }
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "forest_thick",
+    "copy-from": "forest_thick",
+    "extend": { "extras": [ [ "mx_shia", 1 ] ] }
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "field",
+    "copy-from": "field",
+    "extend": { "extras": [ [ "mx_shia", 1 ] ] }
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "road",
+    "copy-from": "road",
+    "extend": { "extras": [ [ "mx_jackson", 1 ] ] }
   }
 ]

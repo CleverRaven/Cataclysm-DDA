@@ -17,7 +17,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "vision_day": 1,
     "harvest": "exempt",
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s is destroyed." },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s is destroyed!" },
     "flags": [ "IMMOBILE", "NOT_HALLUCINATION" ]
   }
 ]

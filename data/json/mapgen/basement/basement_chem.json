@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "basement_chem" ],
     "//": "matches house_29",
     "object": {
@@ -90,7 +89,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "basement_chem2",
     "//": "matches house_30",
     "object": {

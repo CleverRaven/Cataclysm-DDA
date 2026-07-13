@@ -2,7 +2,6 @@
   {
     "om_terrain": "xedra_monochrome_meadow",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fill_ter": "t_region_groundcover",
       "rows": [

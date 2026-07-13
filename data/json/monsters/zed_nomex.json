@@ -32,7 +32,7 @@
       "families": [ "prof_wp_syn_armored", "prof_wp_nat_armored" ],
       "flags": [ "ACIDPROOF", "FIREPROOF" ]
     },
-    "delete": { "special_attacks": [ "bite_humanoid" ] }
+    "delete": { "special_attacks": [ "bite" ] }
   },
   {
     "id": "mon_zombie_fireproof_grappler",

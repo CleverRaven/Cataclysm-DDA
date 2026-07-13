@@ -1,0 +1,541 @@
+[
+  {
+    "type": "relic_procgen_data",
+    "id": "biokinetic_crystal_procgen",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 3 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 4 ], "power": 25 },
+        "recharge_type": "periodic",
+        "time": [ "3 h", "24 h" ]
+      }
+    ],
+    "active_procgen_values": [
+      { "weight": 100, "spell_id": "MoM_AEA_ADRENALINE", "base_power": 250, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_REMOVE_PAIN", "base_power": 150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_ATTENTION", "base_power": -150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_VOMIT", "base_power": -50, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_STAMINA_EMPTY", "base_power": -250, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_STAMINA_BURST", "base_power": 250, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_MUTATE", "base_power": -500, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_NETHER_ATTUNEMENT", "base_power": -100, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_PHYSICAL_ENHANCEMENT", "base_power": 150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_SPEED_BURST", "base_power": 400, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_HARDEN_SKIN", "base_power": 300, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_EXTRA_CALORIE_COST", "base_power": -150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_EXTRA_MOVEMENT_EXERTION", "base_power": -50, "ench_has": "WIELD" }
+    ],
+    "passive_mult_procgen_values": [
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 1,
+        "type": "METABOLISM",
+        "increment": 0.1,
+        "power_per_increment": -50,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 1,
+        "type": "THIRST",
+        "increment": 0.1,
+        "power_per_increment": -50,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 1,
+        "type": "CARRY_WEIGHT",
+        "increment": 0.1,
+        "power_per_increment": 75,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "MAX_HP",
+        "increment": 0.1,
+        "power_per_increment": 100,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "REGEN_HP",
+        "increment": 0.1,
+        "power_per_increment": 50,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "SHOUT_NOISE",
+        "increment": 0.2,
+        "power_per_increment": 10,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.4,
+        "max_value": 0.2,
+        "type": "MOVE_COST",
+        "increment": 0.1,
+        "power_per_increment": -250,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 0.5,
+        "type": "ATTACK_SPEED",
+        "increment": 0.1,
+        "power_per_increment": -200,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.5,
+        "max_value": 1.0,
+        "type": "REGEN_STAMINA",
+        "increment": 0.1,
+        "power_per_increment": 100,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 35,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN",
+        "increment": 0.025,
+        "power_per_increment": -25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 25,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "KCAL",
+        "increment": 0.025,
+        "power_per_increment": 25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 20,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN_PENALTY_MOD_SPEED",
+        "increment": 0.025,
+        "power_per_increment": -15,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 20,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN_PENALTY_MOD_DEX",
+        "increment": 0.025,
+        "power_per_increment": -15,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 20,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN_PENALTY_MOD_STR",
+        "increment": 0.025,
+        "power_per_increment": -15,
+        "ench_has": "HELD"
+      }
+    ],
+    "passive_add_procgen_values": [
+      {
+        "weight": 100,
+        "min_value": -3,
+        "max_value": 4,
+        "type": "STRENGTH",
+        "increment": 1,
+        "power_per_increment": 250,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -3,
+        "max_value": 4,
+        "type": "DEXTERITY",
+        "increment": 1,
+        "power_per_increment": 250,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -20,
+        "max_value": 20,
+        "type": "SPEED",
+        "increment": 5,
+        "power_per_increment": 250,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -20,
+        "max_value": 50,
+        "type": "ATTACK_SPEED",
+        "increment": 5,
+        "power_per_increment": -150,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 25,
+        "min_value": -2500,
+        "max_value": 10000,
+        "type": "MAX_STAMINA",
+        "increment": 250,
+        "power_per_increment": 50,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -20000,
+        "max_value": 20000,
+        "type": "CARRY_WEIGHT",
+        "increment": 1000,
+        "power_per_increment": 25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 30,
+        "type": "CLIMATE_CONTROL_HEAT",
+        "increment": 1,
+        "power_per_increment": 50,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 30,
+        "type": "CLIMATE_CONTROL_CHILL",
+        "increment": 1,
+        "power_per_increment": 50,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 4,
+        "type": "DODGE_CHANCE",
+        "increment": 1,
+        "power_per_increment": 1000,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": 1,
+        "max_value": 1,
+        "type": "BONUS_DODGE",
+        "increment": 1,
+        "power_per_increment": 2000,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 3000,
+        "type": "MAX_STAMINA",
+        "increment": 500,
+        "power_per_increment": 500,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 10,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "MUT_INSTABILITY_MOD",
+        "increment": 1,
+        "power_per_increment": 750,
+        "ench_has": "WIELD"
+      }
+    ],
+    "type_weights": [
+      { "weight": 100, "value": "passive_enchantment_add" },
+      { "weight": 100, "value": "active_enchantment" },
+      { "weight": 100, "value": "passive_enchantment_mult" }
+    ],
+    "items": [ { "weight": 100, "item": "matrix_crystal_biokinesis_artifact" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "biokinetic_crystal_artifact_item",
+    "subtype": "distribution",
+    "items": [ [ "matrix_crystal_biokinesis_artifact", 100 ] ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "biokinetic_matrix_crystal_procgen",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 3 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 4 ], "power": 25 },
+        "recharge_type": "periodic",
+        "time": [ "3 h", "24 h" ]
+      }
+    ],
+    "passive_mult_procgen_values": [
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 1,
+        "type": "METABOLISM",
+        "increment": 0.1,
+        "power_per_increment": -50,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 1,
+        "type": "THIRST",
+        "increment": 0.1,
+        "power_per_increment": -50,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 1,
+        "type": "CARRY_WEIGHT",
+        "increment": 0.1,
+        "power_per_increment": 75,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "MAX_HP",
+        "increment": 0.1,
+        "power_per_increment": 100,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "REGEN_HP",
+        "increment": 0.1,
+        "power_per_increment": 50,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "SHOUT_NOISE",
+        "increment": 0.2,
+        "power_per_increment": 10,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.4,
+        "max_value": 0.2,
+        "type": "MOVE_COST",
+        "increment": 0.1,
+        "power_per_increment": -250,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 0.5,
+        "type": "ATTACK_SPEED",
+        "increment": 0.1,
+        "power_per_increment": -200,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.5,
+        "max_value": 1.0,
+        "type": "REGEN_STAMINA",
+        "increment": 0.1,
+        "power_per_increment": 100,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 35,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN",
+        "increment": 0.025,
+        "power_per_increment": -25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 25,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "KCAL",
+        "increment": 0.025,
+        "power_per_increment": 25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 20,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN_PENALTY_MOD_SPEED",
+        "increment": 0.025,
+        "power_per_increment": -15,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 20,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN_PENALTY_MOD_DEX",
+        "increment": 0.025,
+        "power_per_increment": -15,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 20,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN_PENALTY_MOD_STR",
+        "increment": 0.025,
+        "power_per_increment": -15,
+        "ench_has": "HELD"
+      }
+    ],
+    "passive_add_procgen_values": [
+      {
+        "weight": 100,
+        "min_value": -3,
+        "max_value": 4,
+        "type": "STRENGTH",
+        "increment": 1,
+        "power_per_increment": 250,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -3,
+        "max_value": 4,
+        "type": "DEXTERITY",
+        "increment": 1,
+        "power_per_increment": 250,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -20,
+        "max_value": 20,
+        "type": "SPEED",
+        "increment": 5,
+        "power_per_increment": 250,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -20,
+        "max_value": 50,
+        "type": "ATTACK_SPEED",
+        "increment": 5,
+        "power_per_increment": -150,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 25,
+        "min_value": -2500,
+        "max_value": 10000,
+        "type": "MAX_STAMINA",
+        "increment": 250,
+        "power_per_increment": 50,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -20000,
+        "max_value": 20000,
+        "type": "CARRY_WEIGHT",
+        "increment": 1000,
+        "power_per_increment": 25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 30,
+        "type": "CLIMATE_CONTROL_HEAT",
+        "increment": 1,
+        "power_per_increment": 50,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 30,
+        "type": "CLIMATE_CONTROL_CHILL",
+        "increment": 1,
+        "power_per_increment": 50,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 4,
+        "type": "DODGE_CHANCE",
+        "increment": 1,
+        "power_per_increment": 1000,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": 1,
+        "max_value": 1,
+        "type": "BONUS_DODGE",
+        "increment": 1,
+        "power_per_increment": 2000,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 3000,
+        "type": "MAX_STAMINA",
+        "increment": 500,
+        "power_per_increment": 500,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 10,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "MUT_INSTABILITY_MOD",
+        "increment": 1,
+        "power_per_increment": 750,
+        "ench_has": "WIELD"
+      }
+    ],
+    "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" }, { "weight": 100, "value": "passive_enchantment_mult" } ],
+    "items": [ { "weight": 100, "item": "matrix_crystal_biokinesis" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "biokinetic_crystal_awakening_artifact_item",
+    "subtype": "distribution",
+    "items": [ [ "matrix_crystal_biokinesis", 100 ] ]
+  }
+]

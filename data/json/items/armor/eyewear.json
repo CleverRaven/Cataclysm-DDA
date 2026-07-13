@@ -3,7 +3,7 @@
     "id": "eclipse_glasses",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of eclipse glasses", "str_pl": "pairs of eclipse glasses" },
+    "name": { "str_sp": "eclipse glasses" },
     "description": "A pair of cardboard-framed glasses with UV and IR-filtered lenses topped with a layer of aluminum coating.  They allow safe viewing of extremely bright and harmful sources of light, like the sun during a solar eclipse.",
     "weight": "27 g",
     "volume": "18 ml",
@@ -42,7 +42,7 @@
     "id": "fitover_sunglasses",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of fit-over sunglasses", "str_pl": "pairs of fit-over sunglasses" },
+    "name": { "str_sp": "fit-over sunglasses" },
     "description": "A pair of fit-over sunglasses designed to be worn over a pair of corrective glasses.  Good for keeping the glare out of your eyes.",
     "weight": "45 g",
     "volume": "250 ml",
@@ -62,7 +62,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "pair of ballistic glasses", "str_pl": "pairs of ballistic glasses" },
+    "name": { "str_sp": "ballistic glasses" },
     "description": "Modern tactical eyewear that protects from small projectiles and fragments.  Provides excellent protection from environmental dangers.",
     "weight": "184 g",
     "volume": "250 ml",
@@ -82,7 +82,7 @@
     "id": "glasses_bifocal",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of bifocal glasses", "str_pl": "pairs of bifocal glasses" },
+    "name": { "str_sp": "bifocal glasses" },
     "description": "A pair of bifocal glasses for those who are both near-sighted and far-sighted.  You can use them to focus sunlight.",
     "weight": "30 g",
     "volume": "250 ml",
@@ -94,28 +94,29 @@
     "color": "cyan",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
+    "//COMMENT": "Best case scenario: ~37 seconds. This video actually involves them lighting a cigarette, so that's about as good as it gets short of some scientific study. https://youtu.be/z51-ruPsupE?t=110",
+    "use_action": { "type": "firestarter", "moves": 3700, "moves_slow": 25000, "need_sunlight": true },
     "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ],
     "variant_type": "generic",
     "variants": [
       {
         "id": "glasses_bifocal_round",
-        "name": { "str": "pair of round bifocal glasses", "str_pl": "pairs of round bifocal glasses" },
+        "name": { "str_sp": "round bifocal glasses" },
         "description": "This pair has rounded lenses.",
         "weight": 10,
         "append": true
       },
       {
         "id": "glasses_bifocal_square",
-        "name": { "str": "pair of square bifocal glasses", "str_pl": "pairs of square bifocal glasses" },
+        "name": { "str_sp": "square bifocal glasses" },
         "description": "This pair has square lenses.",
         "weight": 20,
         "append": true
       },
       {
         "id": "glasses_bifocal_aviator",
-        "name": { "str": "pair of aviator bifocal glasses", "str_pl": "pairs of aviator bifocal glasses" },
+        "name": { "str_sp": "aviator bifocal glasses" },
         "description": "This pair has aviator-styled lenses.",
         "weight": 5,
         "append": true
@@ -126,7 +127,7 @@
     "id": "glasses_eye",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of eyeglasses", "str_pl": "pairs of eyeglasses" },
+    "name": { "str_sp": "eyeglasses" },
     "description": "A pair of glasses for the near-sighted.  The concave lenses diffuse the sunlight, rendering them useless for starting fires.",
     "weight": "30 g",
     "volume": "250 ml",
@@ -144,21 +145,21 @@
     "variants": [
       {
         "id": "glasses_eye_round",
-        "name": { "str": "pair of round eyeglasses", "str_pl": "pairs of round eyeglasses" },
+        "name": { "str_sp": "round eyeglasses" },
         "description": "This pair has rounded lenses.",
         "weight": 10,
         "append": true
       },
       {
         "id": "glasses_eye_square",
-        "name": { "str": "pair of square eyeglasses", "str_pl": "pairs of square eyeglasses" },
+        "name": { "str_sp": "square eyeglasses" },
         "description": "This pair has square lenses.",
         "weight": 20,
         "append": true
       },
       {
         "id": "glasses_eye_aviator",
-        "name": { "str": "pair of aviator eyeglasses", "str_pl": "pairs of aviator eyeglasses" },
+        "name": { "str_sp": "aviator eyeglasses" },
         "description": "This pair has aviator-styled lenses.",
         "weight": 5,
         "append": true
@@ -189,7 +190,7 @@
     "id": "glasses_reading",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of reading glasses", "str_pl": "pairs of reading glasses" },
+    "name": { "str_sp": "reading glasses" },
     "description": "A pair of glasses for the far-sighted.  Useless for anyone else.  You can use them to focus sunlight.",
     "ascii_picture": "glasses_reading",
     "weight": "30 g",
@@ -202,7 +203,8 @@
     "color": "cyan",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
+    "//COMMENT": "Best case scenario: ~37 seconds. This video actually involves them lighting a cigarette, so that's about as good as it gets short of some scientific study. https://youtu.be/z51-ruPsupE?t=110",
+    "use_action": { "type": "firestarter", "moves": 3700, "moves_slow": 25000, "need_sunlight": true },
     "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
@@ -210,7 +212,7 @@
     "id": "glasses_safety",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of safety glasses", "str_pl": "pairs of safety glasses" },
+    "name": { "str_sp": "safety glasses" },
     "description": "A pair of plastic glasses, used in workshops, sports, chemistry labs, and many other places.  Provides great protection from damage.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -230,7 +232,7 @@
     "id": "glass_goggles",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of glass goggles", "str_pl": "pairs of glass goggles" },
+    "name": { "str_sp": "glass goggles" },
     "description": "A pair of old-fashioned goggles with thick glass lenses, somewhat similar to those worn by the pilots of open-cockpit aircraft, but more crude looking.  Won't protect your eyes from physical harm, but can keep hazardous chemicals out.",
     "weight": "90 g",
     "volume": "250 ml",
@@ -249,7 +251,7 @@
     "id": "goggles_ski",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of ski goggles", "str_pl": "pairs of ski goggles" },
+    "name": { "str_sp": "ski goggles" },
     "description": "A large pair of goggles that completely seal off your eyes.  Provides excellent protection from environmental dangers.",
     "weight": "354 g",
     "volume": "500 ml",
@@ -270,7 +272,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "pair of welding goggles", "str_pl": "pairs of welding goggles" },
+    "name": { "str_sp": "welding goggles" },
     "description": "A dark pair of goggles.  They make seeing very difficult, but protect you from bright flashes.",
     "weight": "153 g",
     "volume": "250 ml",
@@ -291,7 +293,7 @@
     "id": "iggaak",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of snow goggles", "str_pl": "pairs of snow goggles" },
+    "name": { "str_sp": "snow goggles" },
     "description": "Eyewear carved from wood or bone, with only a thin slit to see out of.  Helps reduce glare, traditionally used by the Inuit to protect against snow blindness.",
     "weight": "70 g",
     "volume": "250 ml",
@@ -310,7 +312,7 @@
     "id": "sunglasses",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of sunglasses", "str_pl": "pairs of sunglasses" },
+    "name": { "str_sp": "sunglasses" },
     "description": "A pair of sunglasses, good for keeping the glare out of your eyes.",
     "weight": "35 g",
     "volume": "250 ml",
@@ -328,21 +330,21 @@
     "variants": [
       {
         "id": "sunglasses_round",
-        "name": { "str": "pair of round sunglasses", "str_pl": "pairs of round sunglasses" },
+        "name": { "str_sp": "round sunglasses" },
         "description": "This pair has rounded lenses.",
         "weight": 5,
         "append": true
       },
       {
         "id": "sunglasses_square",
-        "name": { "str": "pair of square sunglasses", "str_pl": "pairs of square sunglasses" },
+        "name": { "str_sp": "square sunglasses" },
         "description": "This pair has square lenses.",
         "weight": 40,
         "append": true
       },
       {
         "id": "sunglasses_aviator",
-        "name": { "str": "pair of aviators", "str_pl": "pairs of aviators" },
+        "name": { "str_sp": "aviators" },
         "description": "This pair has aviator-styled lenses.",
         "weight": 10,
         "append": true
@@ -353,7 +355,7 @@
     "id": "sunglasses_bifocal",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of bifocal sunglasses", "str_pl": "pairs of bifocal sunglasses" },
+    "name": { "str_sp": "bifocal sunglasses" },
     "description": "A pair of bifocal sunglasses for keeping the glare out of the eyes of those who are both near-sighted and far-sighted.",
     "weight": "30 g",
     "volume": "250 ml",
@@ -371,40 +373,40 @@
     "variants": [
       {
         "id": "sunglasses_bifocal_round",
-        "name": { "str": "pair of round bifocal sunglasses", "str_pl": "pairs of round bifocal sunglasses" },
+        "name": { "str_sp": "round bifocal sunglasses" },
         "description": "This pair has rounded lenses.",
         "weight": 10,
         "append": true
       },
       {
         "id": "sunglasses_bifocal_square",
-        "name": { "str": "pair of square bifocal sunglasses", "str_pl": "pairs of square bifocal sunglasses" },
+        "name": { "str_sp": "square bifocal sunglasses" },
         "description": "This pair has square lenses.",
         "weight": 20,
         "append": true
       },
       {
         "id": "sunglasses_bifocal_aviator",
-        "name": { "str": "pair of bifocal aviators", "str_pl": "pairs of bifocal aviators" },
+        "name": { "str_sp": "bifocal aviators" },
         "description": "This pair has aviator-styled lenses.",
         "weight": 5,
         "append": true
       },
       {
         "id": "transition_bifocal_round",
-        "name": { "str": "pair of round bifocal transition glasses", "str_pl": "pairs of round bifocal transition glasses" },
+        "name": { "str_sp": "round bifocal transition glasses" },
         "description": "A pair of transition bifocal glasses for those who are both near-sighted and far-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has rounded lenses.",
         "weight": 2
       },
       {
         "id": "transition_bifocal_square",
-        "name": { "str": "pair of square bifocal transition glasses", "str_pl": "pairs of square bifocal transition glasses" },
+        "name": { "str_sp": "square bifocal transition glasses" },
         "description": "A pair of transition bifocal glasses for those who are both near-sighted and far-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has square lenses.",
         "weight": 4
       },
       {
         "id": "transition_bifocal_aviator",
-        "name": { "str": "pair of bifocal transition aviators", "str_pl": "pairs of bifocal transition aviators" },
+        "name": { "str_sp": "bifocal transition aviators" },
         "description": "A pair of transition bifocal glasses for those who are both near-sighted and far-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has aviator-styled lenses.",
         "weight": 1
       }
@@ -414,7 +416,7 @@
     "id": "sunglasses_eye",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of corrective sunglasses", "str_pl": "pairs of corrective sunglasses" },
+    "name": { "str_sp": "corrective sunglasses" },
     "description": "A pair of sunglasses for keeping the glare out of the eyes of those who are near-sighted.",
     "weight": "30 g",
     "volume": "250 ml",
@@ -432,40 +434,40 @@
     "variants": [
       {
         "id": "sunglasses_corrective_round",
-        "name": { "str": "pair of round corrective sunglasses", "str_pl": "pairs of round corrective sunglasses" },
+        "name": { "str_sp": "round corrective sunglasses" },
         "description": "This pair has rounded lenses.",
         "weight": 10,
         "append": true
       },
       {
         "id": "sunglasses_corrective_square",
-        "name": { "str": "pair of square corrective sunglasses", "str_pl": "pairs of square corrective sunglasses" },
+        "name": { "str_sp": "square corrective sunglasses" },
         "description": "This pair has square lenses.",
         "weight": 20,
         "append": true
       },
       {
         "id": "sunglasses_corrective_aviator",
-        "name": { "str": "pair of corrective aviators", "str_pl": "pairs of corrective aviators" },
+        "name": { "str_sp": "corrective aviators" },
         "description": "This pair has aviator-styled lenses.",
         "weight": 5,
         "append": true
       },
       {
         "id": "transition_corrective_round",
-        "name": { "str": "pair of round corrective transition glasses", "str_pl": "pairs of round corrective transition glasses" },
+        "name": { "str_sp": "round corrective transition glasses" },
         "description": "A pair of transition glasses for the near-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has rounded lenses.",
         "weight": 2
       },
       {
         "id": "transition_corrective_square",
-        "name": { "str": "pair of square corrective transition glasses", "str_pl": "pairs of square corrective transition glasses" },
+        "name": { "str_sp": "square corrective transition glasses" },
         "description": "A pair of transition glasses for the near-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has square lenses.",
         "weight": 4
       },
       {
         "id": "transition_corrective_aviator",
-        "name": { "str": "pair of corrective transition aviators", "str_pl": "pairs of corrective transition aviators" },
+        "name": { "str_sp": "corrective transition aviators" },
         "description": "A pair of transition glasses for the near-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has aviator-styled lenses.",
         "weight": 1
       }
@@ -475,7 +477,7 @@
     "id": "sunglasses_reading",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of reading sunglasses", "str_pl": "pairs of reading sunglasses" },
+    "name": { "str_sp": "reading sunglasses" },
     "description": "A pair of sunglasses for keeping the glare out of the eyes of those who are far-sighted.  Useless for anyone else.",
     "ascii_picture": "glasses_reading",
     "weight": "30 g",
@@ -494,40 +496,40 @@
     "variants": [
       {
         "id": "sunglasses_reading_round",
-        "name": { "str": "pair of round reading sunglasses", "str_pl": "pairs of round reading sunglasses" },
+        "name": { "str_sp": "round reading sunglasses" },
         "description": "This pair has rounded lenses.",
         "weight": 10,
         "append": true
       },
       {
         "id": "sunglasses_reading_square",
-        "name": { "str": "pair of square reading sunglasses", "str_pl": "pairs of square reading sunglasses" },
+        "name": { "str_sp": "square reading sunglasses" },
         "description": "This pair has square lenses.",
         "weight": 20,
         "append": true
       },
       {
         "id": "sunglasses_reading_aviator",
-        "name": { "str": "pair of reading aviators", "str_pl": "pairs of reading aviators" },
+        "name": { "str_sp": "reading aviators" },
         "description": "This pair has aviator-styled lenses.",
         "weight": 5,
         "append": true
       },
       {
         "id": "transition_reading_round",
-        "name": { "str": "pair of round reading transition glasses", "str_pl": "pairs of round reading transition glasses" },
+        "name": { "str_sp": "round reading transition glasses" },
         "description": "A pair of glasses for the far-sighted.  Useless for anyone else.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has rounded lenses.",
         "weight": 2
       },
       {
         "id": "transition_reading_square",
-        "name": { "str": "pair of square reading transition glasses", "str_pl": "pairs of square reading transition glasses" },
+        "name": { "str_sp": "square reading transition glasses" },
         "description": "A pair of glasses for the far-sighted.  Useless for anyone else.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has square lenses.",
         "weight": 4
       },
       {
         "id": "transition_reading_aviator",
-        "name": { "str": "pair of reading transition aviators", "str_pl": "pairs of reading transition aviators" },
+        "name": { "str_sp": "reading transition aviators" },
         "description": "A pair of glasses for the far-sighted.  Useless for anyone else.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has aviator-styled lenses.",
         "weight": 1
       }

@@ -120,6 +120,7 @@ class material_type
 
         void load( const JsonObject &jsobj, std::string_view src );
         static void finalize_all();
+        void finalize();
         void check() const;
 
         material_id ident() const;

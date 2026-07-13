@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "apartments_mod_tower_110", "apartments_mod_tower_010" ],
       [ "apartments_mod_tower_100", "apartments_mod_tower_000" ]
@@ -64,7 +63,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "apartments_mod_tower_111", "apartments_mod_tower_011" ],
       [ "apartments_mod_tower_101", "apartments_mod_tower_001" ]
@@ -127,7 +125,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "apartments_mod_tower_112", "apartments_mod_tower_012" ] ],
     "//": "Levels 2 and 4",
     "object": {
@@ -163,7 +160,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "apartments_mod_tower_113", "apartments_mod_tower_013" ],
       [ "apartments_mod_tower_103", "apartments_mod_tower_003" ]
@@ -258,7 +254,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartments_mod_tower_shack_roof" ],
     "//": "Level 6",
     "object": {

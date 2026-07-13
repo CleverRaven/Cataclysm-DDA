@@ -8,7 +8,7 @@
     "description": "A tracer variant of the powerful .50 BMG round.  Tracer rounds help to keep the weapon they are fired from on target at the risk of igniting flammable substances.",
     "ascii_picture": "50_incendiary",
     "count": 10,
-    "effects": [ "INCENDIARY" ],
+    "extend": { "effects": [ "INCENDIARY" ] },
     "dispersion": 310
   },
   {

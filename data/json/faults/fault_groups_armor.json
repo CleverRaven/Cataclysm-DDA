@@ -1,0 +1,27 @@
+[
+  {
+    "type": "fault_group",
+    "id": "plate_lc",
+    "group": [ { "fault": "fault_armor_lc_dented", "weight": 100 }, { "fault": "fault_armor_lc_punctured", "weight": 5 } ]
+  },
+  {
+    "type": "fault_group",
+    "id": "plate_mc",
+    "group": [ { "fault": "fault_armor_mc_dented", "weight": 100 }, { "fault": "fault_armor_mc_punctured", "weight": 5 } ]
+  },
+  {
+    "type": "fault_group",
+    "id": "plate_hc",
+    "group": [ { "fault": "fault_armor_hc_dented", "weight": 100 }, { "fault": "fault_armor_hc_punctured", "weight": 5 } ]
+  },
+  {
+    "type": "fault_group",
+    "id": "plate_ch",
+    "group": [ { "fault": "fault_armor_ch_dented", "weight": 100 }, { "fault": "fault_armor_ch_punctured", "weight": 5 } ]
+  },
+  {
+    "type": "fault_group",
+    "id": "plate_qt",
+    "group": [ { "fault": "fault_armor_qt_dented", "weight": 100 }, { "fault": "fault_armor_qt_punctured", "weight": 5 } ]
+  }
+]

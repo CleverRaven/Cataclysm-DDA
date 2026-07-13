@@ -59,6 +59,6 @@
       "x": "f_safe_l"
     },
     "toilets": { ";": {  } },
-    "items": { "d": { "item": "office", "chance": 70 } }
+    "items": { "d": { "item": "SUS_office_desk", "chance": 70 } }
   }
 ]

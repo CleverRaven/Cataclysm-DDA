@@ -186,7 +186,7 @@
       { "proficiency": "prof_welding_basic" },
       { "proficiency": "prof_gunsmithing_improv" }
     ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 1 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "nails", 1, "LIST" ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -229,7 +229,7 @@
       ]
     ],
     "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 1 ] ], [ [ "pipe_fittings", 1 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "nails", 1, "LIST" ] ], [ [ "pipe_fittings", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -272,7 +272,7 @@
       { "proficiency": "prof_welding_basic" },
       { "proficiency": "prof_gunsmithing_improv" }
     ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "nail", 2 ] ], [ [ "scrap", 5 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "nails", 2, "LIST" ] ], [ [ "scrap", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -321,7 +321,7 @@
       { "proficiency": "prof_welding_basic" },
       { "proficiency": "prof_gunsmithing_improv" }
     ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "nail", 2 ] ], [ [ "pipe_fittings", 2 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "nails", 2, "LIST" ] ], [ [ "pipe_fittings", 2 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
     "type": "recipe",

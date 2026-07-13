@@ -4,25 +4,30 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "make_static.h"
 #include "output.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "stomach.h"
+#include "string_formatter.h"
+#include "test_data.h"
 #include "test_statistics.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+
+static const flag_id json_flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
 
 static const item_category_id item_category_drugs( "drugs" );
 static const item_category_id item_category_mutagen( "mutagen" );
@@ -214,7 +219,7 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
         item temp( recipe_obj.result() );
         const bool is_food = temp.is_food();
         const bool should_make_sense = temp.made_of_any_food_components();
-        const bool has_override = temp.has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) );
+        const bool has_override = temp.has_flag( json_flag_NUTRIENT_OVERRIDE );
         if( is_food && should_make_sense && !has_override ) {
             // Collection of kcal values of all ingredient permutations
             all_stats mystats = recipe_permutations( recipe_obj.simple_requirements().get_components(),
@@ -323,7 +328,7 @@ TEST_CASE( "effective_food_volume_and_satiety", "[character][food][satiety]" )
     // If kcal per gram > 3.0, return sqrt( 3 * kcal / gram )
     expect_ratio = std::sqrt( 3.0f * 202 / 30 );
     CHECK( u.compute_effective_food_volume_ratio( nuts ) == Approx( expect_ratio ).margin( 0.01f ) );
-    CHECK( u.compute_calories_per_effective_volume( nuts ) == 1507 );
+    CHECK( u.compute_calories_per_effective_volume( nuts ) == 1141 );
     CHECK( satiety_bar( 1507 ) == "<color_c_light_green>||||</color>." );
     REQUIRE( u.mutate_towards( trait_GOURMAND ) );
     // stomach size affects food with water...
@@ -332,8 +337,51 @@ TEST_CASE( "effective_food_volume_and_satiety", "[character][food][satiety]" )
     CHECK( satiety_bar( 1568 ) == "<color_c_green>||||</color>." );
     // but not food without water.
     CHECK( u.compute_effective_food_volume_ratio( nuts ) == Approx( expect_ratio ).margin( 0.01f ) );
-    CHECK( u.compute_calories_per_effective_volume( nuts ) == 1507 );
+    CHECK( u.compute_calories_per_effective_volume( nuts ) == 1160 );
     CHECK( satiety_bar( 1507 ) == "<color_c_light_green>||||</color>." );
+}
+
+TEST_CASE( "calorie_density_sanity_check", "[item]" )
+{
+    Character &u = get_player_character();
+    const double maximum_ratio = 5.20140; // Corresponds to ~9.02cal/g based off of tallow
+
+    std::vector<const itype *> all_items = item_controller->all();
+
+    // only allow so many failures before stopping
+    int number_of_failures = 0;
+
+    for( const itype *type : all_items ) {
+        const item target( type, calendar::turn_zero, item::solitary_tag{} );
+        const double ratio = u.compute_effective_food_volume_ratio( target );
+        if( ratio > maximum_ratio && test_data::known_bad_calorie.count( target.typeId() ) == 0 ) {
+            const double calorie_density = ( ratio * ratio ) / 3.0;
+            INFO( string_format( "%s exceeds the maximum calorie density of ~9.02cal/g with a density of %scal/g",
+                                 target.typeId().str(), calorie_density ) );
+            CHECK( false );
+            number_of_failures++;
+            if( number_of_failures > 20 ) {
+                break;
+            }
+        }
+    }
+}
+
+TEST_CASE( "calorie_density_blacklist_is_pruned", "[item]" )
+{
+    Character &u = get_player_character();
+    const double maximum_ratio = 5.20140; // Corresponds to ~9.02cal/g based off of tallow
+    for( const itype_id &bad : test_data::known_bad_calorie ) {
+        if( !bad.is_valid() ) {
+            continue;
+        }
+        const item target( bad, calendar::turn_zero, item::solitary_tag{} );
+        if( u.compute_effective_food_volume_ratio( target ) <= maximum_ratio ) {
+            INFO( string_format( "%s had its calorie density fixed, remove it from the list in data/mods/TEST_DATA/known_bad_calorie_density.json",
+                                 bad.str() ) );
+            CHECK( false );
+        }
+    }
 }
 
 // satiety_bar returns a colorized string indicating a satiety level, similar to hit point bars

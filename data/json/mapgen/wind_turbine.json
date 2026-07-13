@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "wind_turbine_ground",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -43,7 +42,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "wind_turbine_pillar",
     "object": {
       "fill_ter": "t_open_air",
@@ -85,7 +83,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "wind_turbine_pillar_platform",
     "object": {
       "fill_ter": "t_open_air",
@@ -127,7 +124,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "wind_turbine_nacelle",
     "object": {
       "fill_ter": "t_open_air",
@@ -179,7 +175,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "wind_turbine_roof",
     "object": {
       "fill_ter": "t_open_air",

@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "nested_mapgen_id": "communitygarden_1_roof",
     "type": "mapgen",
     "object": {
@@ -35,7 +34,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "communitygarden",
     "type": "mapgen",
     "object": {
@@ -94,7 +92,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "communitygarden_2",
     "type": "mapgen",
     "object": {
@@ -139,7 +136,6 @@
     }
   },
   {
-    "method": "json",
     "nested_mapgen_id": "communitygarden_3_roof",
     "type": "mapgen",
     "object": {
@@ -175,7 +171,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "communitygarden_3",
     "type": "mapgen",
     "object": {

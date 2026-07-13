@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "elf_workshop",
     "object": {
       "fill_ter": "t_metal_floor",

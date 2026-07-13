@@ -39,6 +39,7 @@ TEST_CASE( "skill_rust_occurs", "[character][skill]" )
         INFO( skill.ident().str() );
         // Rust is about 1% per day with a one day grace period
         CHECK( guy.get_skill_level( skill.ident() ) < 2.f );
+        CHECK( guy.get_skill_level( skill.ident() ) > 1.5f );
         CHECK( guy.get_knowledge_level( skill.ident() ) == 2 );
         CHECK( guy.get_skill_level_object( skill.ident() ).isRusty() );
     }

@@ -14,7 +14,7 @@
     "components": [
       [ [ "goggles_ski", 1 ], [ "goggles_swim", 1 ], [ "glasses_safety", 1 ], [ "glass_goggles", 1 ] ],
       [ [ "eclipse_glasses", 1 ], [ "glass_tinted", 3 ] ],
-      [ [ "duct_tape", 40 ], [ "medical_tape", 40 ], [ "super_glue", 2 ] ]
+      [ [ "duct_tape", 40 ], [ "medical_tape", 40 ], [ "glue_strong", 2 ] ]
     ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
   }

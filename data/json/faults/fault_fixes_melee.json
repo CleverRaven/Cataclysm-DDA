@@ -55,6 +55,17 @@
   },
   {
     "type": "fault_fix",
+    "id": "mend_staff_short_replace",
+    "name": "Replace a handle.",
+    "success_msg": "You securely install a new handle on your %s.",
+    "time": "60 m",
+    "faults_removed": [ "fault_staff_short_chipping", "fault_staff_short_cracked", "fault_staff_short_broken" ],
+    "mod_damage": -1000,
+    "mod_degradation": -100,
+    "requirements": [ { "qualities": [ { "id": "CUT", "level": 2 } ], "components": [ [ [ "2x4", 1 ], [ "stick_long", 1 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
     "id": "mend_staff_long_duct_tape",
     "name": "Duct-tape everything.",
     "success_msg": "You duct-tape your %s.",
@@ -70,9 +81,20 @@
     "name": "Glue the cracks.",
     "success_msg": "You thoroughly glue the entire %s.",
     "time": "5 m",
-    "faults_removed": [ "fault_handle_long_cracked" ],
+    "faults_removed": [ "fault_staff_long_cracked" ],
     "mod_damage": -1000,
     "mod_degradation": -20,
     "requirements": [ [ "glue_any", 25 ] ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_staff_long_replace",
+    "name": "Replace a handle.",
+    "success_msg": "You securely install a new handle on your %s.",
+    "time": "60 m",
+    "faults_removed": [ "fault_staff_long_chipping", "fault_staff_long_cracked", "fault_staff_long_broken_half", "fault_staff_long_broken" ],
+    "mod_damage": -1000,
+    "mod_degradation": -100,
+    "requirements": [ { "qualities": [ { "id": "CUT", "level": 2 } ], "components": [ [ [ "2x4", 1 ], [ "stick_long", 1 ] ] ] } ]
   }
 ]

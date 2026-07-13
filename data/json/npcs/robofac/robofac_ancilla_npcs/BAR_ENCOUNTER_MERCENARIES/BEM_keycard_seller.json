@@ -2,10 +2,7 @@
   {
     "id": [ "BEM_KEYCARD_SELLER_1", "BEM_KEYCARD_SELLER_ASK" ],
     "type": "talk_topic",
-    "dynamic_line": {
-      "gendered_line": "&You spot the mercenary at the tail end of a deal.  \"Want in on the business?  Still have a pair of ID cards looking for buyers.  Two army and two science cards left, they sell together for 4 coins or not at all.",
-      "relevant_genders": [ "npc" ]
-    },
+    "dynamic_line": "&You spot the mercenary at the tail end of a deal.  \"Want in on the business?  Still have a pair of ID cards looking for buyers.  Two army and two science cards left, they sell together for 4 coins or not at all.\"",
     "responses": [
       {
         "text": "[4 HGC] Its a deal.",
@@ -31,10 +28,10 @@
   {
     "id": "TALK_KEYCARD_SELLER_DISCOUNT_BUY",
     "type": "talk_topic",
-    "dynamic_line": "Sure whatever, two coins and its all yours.",
+    "dynamic_line": "Sure whatever, two coins and it's all yours.",
     "responses": [
       {
-        "text": "[2 HGC] Its a deal then.",
+        "text": "[2 HGC] It's a deal then.",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 2 },

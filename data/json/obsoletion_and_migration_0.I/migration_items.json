@@ -1679,13 +1679,6 @@
     "replace": "cz75mag_16rd"
   },
   {
-    "id": "mossberg_500",
-    "type": "MIGRATION",
-    "from_variant": "mossberg_500_security",
-    "replace": "benelli_tsa",
-    "variant": "mossberg_500_security"
-  },
-  {
     "id": "bottle_suppressor",
     "type": "MIGRATION",
     "replace": "filter_suppressor"
@@ -1932,7 +1925,7 @@
     "id": "superglue",
     "type": "MIGRATION",
     "replace": "small_squeeze_tube",
-    "contents": [ { "id": "super_glue", "count": 40 } ]
+    "contents": [ { "id": "glue_strong", "count": 40 } ]
   },
   {
     "id": "egg_goose_golden",
@@ -2547,8 +2540,252 @@
   },
   {
     "type": "MIGRATION",
-    "id": "gown",
-    "replace": "dress",
-    "variant": "gown"
+    "id": "dress",
+    "replace": "long_dress"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "witch_dress_short",
+    "replace": "short_dress_sleeved",
+    "variant": "witch_black"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "witch_dress_long",
+    "replace": "long_dress_sleeved",
+    "variant": "witch_black"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "witch_dress",
+    "replace": "dress_sleeved",
+    "variant": "witch_black"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sinister_gown",
+    "replace": "gown_sleeved",
+    "variant": "sinister"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sinister_dress_short",
+    "replace": "short_dress_sleeved",
+    "variant": "sinister"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "long_dress",
+    "from_variant": "gown",
+    "replace": "gown"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "robofac_jumpsuit",
+    "replace": "jumpsuit",
+    "variant": "robofac"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "balaclava_skull",
+    "replace": "balclava",
+    "variant": "skull"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mask_guy_fawkes",
+    "replace": "mask_skull",
+    "variant": "guy_fawkes"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "robofac_head_rig_ir",
+    "replace": "robofac_head_rig_nv"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "exodii_ingot_steel",
+    "replace": "exodii_ingot_lc_steel"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "clay_quern",
+    "replace": "rock_quern"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bowling_axe",
+    "replace": "hatchet"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "spear_forked",
+    "replace": "spear_spike"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "draco",
+    "replace": "aksemi"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "draco_mini",
+    "replace": "aksemi"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "draco_micro",
+    "replace": "aksemi"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "draco_9mm",
+    "replace": "rugerpcc"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ruger_charger",
+    "replace": "ruger_1022"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ruger_charger_auto",
+    "replace": "ruger_1022_auto"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "shot_he",
+    "replace": "shot_dragon"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hk_mp7",
+    "replace": "fn_p90"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hk46bigmag",
+    "replace": "fnp90mag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hk46mag",
+    "replace": "fnp90mag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_46mm",
+    "replace": "reloaded_57mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "46mm",
+    "replace": "57mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_46mm",
+    "replace": "bp_57mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "robofac_gun_46",
+    "replace": "robofac_gun_57"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "unprimed_46mm_casing",
+    "replace": "unprimed_57mm_casing"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "46mm_casing",
+    "replace": "57mm_casing"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "solarpack",
+    "replace": "folding_solar_panel_v2"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "solarpack_on",
+    "replace": "folding_solar_panel_v2"
+  },
+  {
+    "type": "MIGRATION",
+    "id": [ "bone_glue", "rubber_cement" ],
+    "replace": "glue_weak"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "super_glue",
+    "replace": "glue_strong"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "fresh_fries_j",
+    "replace": "fries"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "fresh_fries",
+    "replace": "fries"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "crude_bronze_nail",
+    "replace": "bronze_nail"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "chips2",
+    "replace": "chips"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "chips3",
+    "replace": "chips"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "lard",
+    "replace": "tallow"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mutant_human_lard",
+    "replace": "mutant_human_tallow"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mutant_lard",
+    "replace": "mutant_tallow"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "demihuman_lard",
+    "replace": "demihuman_tallow"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "human_lard",
+    "replace": "human_tallow"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cooking_oil2",
+    "replace": "cooking_oil"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tail_bunny_playboy",
+    "replace": "scrap_cotton"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sinister_dress",
+    "replace": "long_dress_sleeved",
+    "variant": "sinister"
   }
 ]

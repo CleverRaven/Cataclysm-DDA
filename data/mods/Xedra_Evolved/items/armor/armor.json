@@ -558,7 +558,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_arms",
     "material": [ "moon_tears_fine_chain" ],
-    "name": { "str": "pair of moon tears chainmail sleeves", "str_pl": "pairs of moon tears chainmail sleeves" },
+    "name": { "str": "moon tears chainmail sleeves (pair)", "str_pl": "moon tears chainmail sleeves (pairs)" },
     "description": "Moon tears chainmail arms, found in places where changeling bannermen are numerous.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
     "armor": [
       {
@@ -574,7 +574,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_arms",
-    "name": { "str": "pair of moon tears chainmail sleeves", "str_pl": "pairs of moon tears chainmail sleeves" },
+    "name": { "str": "moon tears chainmail sleeves (pair)", "str_pl": "moon tears chainmail sleeves (pairs)" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -583,7 +583,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_arms",
-    "name": { "str": "pair of moon tears chainmail sleeves", "str_pl": "pairs of moon tears chainmail sleeves" },
+    "name": { "str": "moon tears chainmail sleeves (pair)", "str_pl": "moon tears chainmail sleeves (pairs)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -593,7 +593,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_feet",
     "material": [ "moon_tears_fine_chain" ],
-    "name": { "str": "pair of moon tears chainmail chausses", "str_pl": "pairs of moon tears chainmail chausses" },
+    "name": { "str": "moon tears chainmail chausses (pair)", "str_pl": "moon tears chainmail chausses (pairs)" },
     "description": "Moon tears chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where changeling bannermen are numerous.",
     "armor": [
       {
@@ -609,7 +609,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_feet",
-    "name": { "str": "pair of moon tears chainmail chausses", "str_pl": "pairs of moon tears chainmail chausses" },
+    "name": { "str": "moon tears chainmail chausses (pair)", "str_pl": "moon tears chainmail chausses (pairs)" },
     "proportional": { "weight": 2, "volume": 2 },
     "description": "Moon tears chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where redcap aspirants are numerous.",
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -619,7 +619,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_feet",
-    "name": { "str": "pair of moon tears chainmail chausses", "str_pl": "pairs of moon tears chainmail chausses" },
+    "name": { "str": "moon tears chainmail chausses (pair)", "str_pl": "moon tears chainmail chausses (pairs)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "description": "Moon tears chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where pooka aspirants are numerous.",
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
@@ -630,7 +630,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_hands",
     "material": [ "moon_tears_fine_chain" ],
-    "name": { "str": "pair of moon tears chainmail gloves", "str_pl": "pairs of moon tears chainmail gloves" },
+    "name": { "str": "moon tears chainmail gloves (pair)", "str_pl": "moon tears chainmail gloves (pairs)" },
     "description": "Moon tears chainmail gloves that fully enclose the hand.",
     "armor": [
       {
@@ -646,7 +646,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_hands",
-    "name": { "str": "pair of moon tears chainmail gloves", "str_pl": "pairs of moon tears chainmail gloves" },
+    "name": { "str": "moon tears chainmail gloves (pair)", "str_pl": "moon tears chainmail gloves (pairs)" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -655,7 +655,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_hands",
-    "name": { "str": "pair of moon tears chainmail gloves", "str_pl": "pairs of moon tears chainmail gloves" },
+    "name": { "str": "moon tears chainmail gloves (pair)", "str_pl": "moon tears chainmail gloves (pairs)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -838,6 +838,194 @@
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
+    "id": "xl_armor_troll_moons_tears",
+    "copy-from": "xl_armor_ch_heavyplate",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "troll armor" },
+    "description": "An enormous suit of plate armor once worn by a troll, made of moon's tears almost 15 mm thick.  This would make you a walking tank, if you can move in it.",
+    "proportional": { "weight": 3, "volume": 2, "price": 0.5 },
+    "armor": [
+      {
+        "material": [
+          { "type": "moon_tears", "covered_by_mat": 95, "thickness": 14 },
+          { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 50
+      },
+      {
+        "material": [
+          { "type": "moon_tears", "covered_by_mat": 95, "thickness": 6 },
+          { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 40
+      },
+      {
+        "material": [
+          { "type": "moon_tears", "covered_by_mat": 95, "thickness": 6 },
+          { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 40
+      }
+    ]
+  },
+  {
+    "id": "xl_gauntlets_troll_moons_tears",
+    "copy-from": "qt_demi_gaunt",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "troll gauntlets (pair)" },
+    "description": "A pair of gigantic gauntlets with mail links of moon's tears protecting the fingers and palm, and plating over the back of the hand and wrist.  You could probably fit an entire child in one of these.",
+    "weight": "3500 g",
+    "volume": "2025 ml",
+    "price": "400 USD",
+    "price_postapoc": "15 USD",
+    "symbol": "[",
+    "looks_like": "fire_gauntlets",
+    "material": [ "moon_tears", "moon_tears_fine_chain" ],
+    "color": "light_gray",
+    "warmth": 15,
+    "environmental_protection": 1,
+    "flags": [ "STURDY", "OUTER", "OVERSIZE", "PREFIX_XL" ],
+    "armor": [
+      {
+        "encumbrance": 25,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
+        "material": [
+          { "type": "moon_tears", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 3 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
+        "material": [
+          { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 3 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "material": [
+          { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 3 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
+        ]
+      }
+    ],
+    "melee_damage": { "bash": 7 }
+  },
+  {
+    "id": "xl_helm_troll_moons_tears",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "troll helm" },
+    "description": "Similar to a type of helmet that was developed in the late 15th century, but on a much larger scale.  It includes a bevor to protect the neck, if your neck is as thick as a tree trunk.",
+    "weight": "7000 g",
+    "volume": "12 L",
+    "price": "740 USD",
+    "price_postapoc": "74 USD",
+    "material": [ "moon_tears" ],
+    "symbol": "o",
+    "looks_like": "helmet_sallet",
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "moon_tears", "covered_by_mat": 100, "thickness": 1.75 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      },
+      {
+        "material": [
+          { "type": "moon_tears", "covered_by_mat": 100, "thickness": 1.75 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      },
+      {
+        "material": [ { "type": "moon_tears", "covered_by_mat": 100, "thickness": 1.75 } ],
+        "covers": [ "eyes" ],
+        "coverage": 95,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "PREFIX_XL", "OVERSIZE" ],
+    "max_worn": 1,
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "xl_boots_troll_moons_tears",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "troll greaves (pair)" },
+    "description": "A pair of greaves made of shimmering fabric sandwiched between alternating strips of moon's tears, sized for a giant.",
+    "weight": "675 g",
+    "volume": "1581 ml",
+    "price": "500 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "moon_tears", "fae_cotton" ],
+    "symbol": "[",
+    "looks_like": "legguard_metal",
+    "color": "light_gray",
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "STURDY", "ABLATIVE_CHAINMAIL_LEGS", "OVERSIZE", "PREFIX_XL" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "fae_cotton", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "moon_tears", "covered_by_mat": 90, "thickness": 3 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 15,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 100,
+        "cover_vitals": 90,
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ]
+      }
+    ],
+    "copy-from": "qt_greaves_brigandine"
+  },
+  {
     "id": "dreamforged_ballistic_plate",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -968,7 +1156,7 @@
   },
   {
     "id": "dreamforged_armguard_plate",
-    "copy-from": "armguard_lightplate",
+    "copy-from": "armor_lc_armguard",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of dreamforged arm guards", "str_pl": "pairs of dreamforged arm guards" },
@@ -978,7 +1166,7 @@
     "price_postapoc": "0 cent",
     "material": [ "forged_dreamstuff" ],
     "symbol": "[",
-    "looks_like": "armguard_lightplate",
+    "looks_like": "armor_lc_armguard",
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 1.2,

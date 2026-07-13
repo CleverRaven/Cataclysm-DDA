@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "indoor_tent_5x5_S",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -19,7 +18,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "indoor_tent_5x5_E",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -37,7 +35,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "indoor_tent_5x5_N",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -55,7 +52,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "indoor_tent_5x5_W",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -73,7 +69,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Strip mall stores must be 23x by 23y, each chunk must include a back wall and storefront, and both the bottom and top row should be a sidewalk.  Use this sample as a base.  Rename it to one of the following: strip_mall_shop_a; strip_mall_shop_b; strip_mall_shop_c; strip_mall_shop_d",
     "nested_mapgen_id": "strip_mall_sample",
     "object": {
@@ -120,7 +115,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Laundromat",
     "weight": 100,
     "nested_mapgen_id": "strip_mall_shop_a",
@@ -210,7 +204,7 @@
         "&": { "item": "SUS_toilet", "chance": 50 },
         "$": { "item": "cash_register_random", "chance": 100 },
         "k": { "item": "SUS_toilet", "chance": 100 },
-        "y": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 2, 4 ] },
+        "y": { "item": "SUS_trash_trashcan", "chance": 100 },
         "t": { "item": "magazines", "chance": 25 },
         "a": [
           { "item": "laundry", "chance": 20, "repeat": [ 1, 2 ] },
@@ -244,7 +238,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Office - Insurance Agency",
     "weight": 100,
     "nested_mapgen_id": "strip_mall_shop_a",
@@ -359,7 +352,7 @@
         "F": { "item": "SUS_fridge_breakroom", "chance": 100 },
         "B": { "item": "SUS_dishes", "chance": 100 },
         "O": { "item": "SUS_silverware", "chance": 100 },
-        "z": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 100 },
         "t": { "item": "magazines", "chance": 50, "repeat": [ 1, 2 ] },
         "x": { "item": "homebooks", "chance": 75 }
       },
@@ -382,7 +375,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Clothing Store - Shoes",
     "nested_mapgen_id": "strip_mall_shop_a",
     "weight": 100,
@@ -507,7 +499,7 @@
         "d": { "item": "SUS_office_desk", "chance": 100 },
         "f": { "item": "SUS_fridge_breakroom", "chance": 75 },
         "l": { "item": "SUS_janitors_closet", "chance": 100 },
-        "y": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 2, 3 ] }
+        "y": { "item": "SUS_trash_trashcan", "chance": 100 }
       },
       "place_loot": [ { "group": "cash_register_random", "x": 17, "y": 9 }, { "group": "cash_register_random", "x": 20, "y": [ 9 ] } ],
       "place_signs": [ { "signage": "<given_name>'s Shoe Emporium", "x": 10, "y": 21 } ],
@@ -529,7 +521,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Gaming Store",
     "nested_mapgen_id": "strip_mall_shop_a",
     "weight": 100,
@@ -658,7 +649,7 @@
         "f": { "item": "SUS_fridge_breakroom", "chance": 100 },
         "l": { "item": "SUS_desks_bedroom_unisex", "chance": 50 },
         "k": { "item": "SUS_toilet", "chance": 100 },
-        "z": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 2, 3 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 100 },
         "Z": { "item": "SUS_trash_floor", "chance": 100, "repeat": [ 2, 3 ] }
       },
       "toilets": { "*": {  } },
@@ -692,7 +683,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Restaurant - Pizza, Variant 1",
     "nested_mapgen_id": "strip_mall_shop_a",
     "weight": 100,
@@ -810,7 +800,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Empty - for lease, chance for survivor's camp",
     "nested_mapgen_id": "strip_mall_shop_a",
     "weight": 100,
@@ -861,7 +850,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Survivor's camp, chance to spawn in the second EMPTY - FOR LEASE shop",
     "nested_mapgen_id": "strip_mall_camp",
     "object": {
@@ -944,7 +932,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Survivor's camp, chance to spawn in the second EMPTY - FOR LEASE shop",
     "nested_mapgen_id": "strip_mall_camp2",
     "object": {
@@ -1017,7 +1004,7 @@
         ".": { "item": "SUS_trash_floor", "chance": 5 },
         "m": { "item": "bed", "chance": 75 },
         "w": { "item": "stash_wood", "chance": 100, "repeat": [ 2, 3 ] },
-        "T": [ { "item": "bugout_food", "chance": 25 }, { "item": "guns_pistol_common", "chance": 25 } ],
+        "T": [ { "item": "bugout_food_9l", "chance": 25 }, { "item": "guns_pistol_common", "chance": 25 } ],
         "b": [
           { "item": "small_bugout", "chance": 30 },
           { "item": "medium_bugout", "chance": 20 },
@@ -1045,7 +1032,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Empty - for lease",
     "nested_mapgen_id": "strip_mall_shop_b",
     "weight": 100,
@@ -1095,7 +1081,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Salon",
     "weight": 100,
     "nested_mapgen_id": "strip_mall_shop_b",
@@ -1194,7 +1179,7 @@
         "k": { "item": "SUS_toilet", "chance": 100 },
         "l": [ { "item": "jackets", "chance": 30 }, { "item": "bags", "chance": 30 } ],
         "r": { "item": "beauty", "chance": 75, "repeat": [ 1, 4 ] },
-        "T": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 2 ] },
+        "T": { "item": "SUS_trash_trashcan", "chance": 50 },
         "u": [
           { "item": "SUS_janitors_closet", "chance": 50, "repeat": [ 1, 2 ] },
           { "item": "beauty", "chance": 50, "repeat": [ 1, 2 ] }
@@ -1221,7 +1206,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Office - Shady Hills Corporation",
     "weight": 100,
     "nested_mapgen_id": "strip_mall_shop_b",
@@ -1349,7 +1333,7 @@
         "F": { "item": "SUS_fridge_breakroom", "chance": 100 },
         "B": { "item": "SUS_dishes", "chance": 100 },
         "O": { "item": "SUS_silverware", "chance": 100 },
-        "z": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 100 },
         "e": { "item": "magazines", "chance": 100, "repeat": [ 2, 3 ] },
         "x": { "item": "homebooks", "chance": 75 }
       },
@@ -1383,7 +1367,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Lingerie and sex shop",
     "nested_mapgen_id": "strip_mall_shop_b",
     "weight": 100,
@@ -1465,9 +1448,9 @@
         "m": { "item": "underwear_womens", "chance": 100 },
         "C": { "item": "underwear_womens", "chance": 80, "repeat": [ 4, 8 ] },
         "k": { "item": "SUS_toilet", "chance": 100 },
-        "c": { "item": "ss_merch_1", "chance": 65, "repeat": [ 3, 4 ] },
-        "b": { "item": "ss_merch_2", "chance": 70, "repeat": [ 3, 4 ] },
-        "t": { "item": "ss_merch_3", "chance": 95 },
+        "c": { "item": "SUS_sex_shop_shelf", "chance": 65 },
+        "b": { "item": "SUS_commercial_shelf_porn_literature", "chance": 70, "repeat": [ 3, 4 ] },
+        "t": { "item": "sex_clothes", "chance": 95 },
         "A": { "item": "cash_register_random", "chance": 100 }
       },
       "place_signs": [
@@ -1486,7 +1469,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Electronics Store",
     "nested_mapgen_id": "strip_mall_shop_b",
     "weight": 100,
@@ -1629,7 +1611,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Book Store",
     "nested_mapgen_id": "strip_mall_shop_b",
     "weight": 100,
@@ -1757,7 +1738,7 @@
         "L": { "item": "SUS_janitors_closet", "chance": 100 },
         "$": { "item": "cash_register_random", "chance": 100 },
         "d": { "item": "SUS_office_desk", "chance": 70 },
-        "z": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 2, 3 ] }
+        "z": { "item": "SUS_trash_trashcan", "chance": 100 }
       },
       "toilets": { "*": {  } },
       "place_signs": [ { "signage": "<family_name> Family Books", "x": 10, "y": 21 } ],
@@ -1779,7 +1760,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "weight": 100,
     "//": "Furniture store, variant 1",
     "nested_mapgen_id": "strip_mall_shop_c",
@@ -1900,7 +1880,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Office - Lawyer, Variant 1",
     "weight": 100,
     "nested_mapgen_id": "strip_mall_shop_c",
@@ -2010,7 +1989,7 @@
         "F": { "item": "SUS_fridge_breakroom", "chance": 100 },
         "B": { "item": "SUS_dishes", "chance": 100 },
         "O": { "item": "SUS_silverware", "chance": 100 },
-        "z": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 100 },
         "t": { "item": "magazines", "chance": 50, "repeat": [ 1, 2 ] }
       },
       "place_signs": [ { "signage": "<family_name> & <family_name>, Attorneys At Law", "x": 10, "y": 21 } ],
@@ -2040,7 +2019,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Clothing Store - general, variant 1",
     "nested_mapgen_id": "strip_mall_shop_c",
     "weight": 100,
@@ -2068,7 +2046,7 @@
         "W..MM.............ZZ..W",
         "W.....................W",
         "W.....................W",
-        "Wi&i(i&iCC...CCi(i&i(iW",
+        "Wi&i(i&iCC..yCCi(i&i(iW",
         "||GGGGGG||#g|||GGGGGG||",
         "sssssssssssssssssssssss"
       ],
@@ -2145,6 +2123,7 @@
       },
       "toilets": { "*": {  } },
       "items": {
+        "y": { "item": "SUS_trash_trashcan_public" },
         "k": { "item": "SUS_toilet", "chance": 100 },
         "M": [
           { "item": "pants_unisex", "chance": 50, "repeat": 3 },
@@ -2196,7 +2175,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Restaurant - Ice Cream",
     "nested_mapgen_id": "strip_mall_shop_c",
     "weight": 100,
@@ -2290,7 +2268,7 @@
       "place_signs": [ { "signage": "<given_name>'s Sundae Fundae", "x": 10, "y": 21 } ],
       "items": {
         "A": { "item": "cash_register_random", "chance": 100 },
-        "y": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 1, 2 ] },
+        "y": { "item": "SUS_trash_trashcan", "chance": 100 },
         "k": { "item": "SUS_toilet", "chance": 100 },
         "O": { "item": "SUS_oven", "chance": 65 },
         "B": { "item": "SUS_dishes", "chance": 100 },
@@ -2305,7 +2283,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Camping Store",
     "nested_mapgen_id": "strip_mall_shop_c",
     "weight": 100,
@@ -2446,7 +2423,7 @@
         "f": { "item": "SUS_fridge_breakroom", "chance": 100 },
         "l": { "item": "SUS_desks_bedroom_unisex", "chance": 50 },
         "k": { "item": "SUS_toilet", "chance": 100 },
-        "z": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 2, 3 ] }
+        "z": { "item": "SUS_trash_trashcan", "chance": 100 }
       },
       "toilets": { "*": {  } },
       "place_signs": [ { "signage": "Ultimate Explorers of <city>", "x": 10, "y": 21 } ],
@@ -2475,7 +2452,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Dojo",
     "nested_mapgen_id": "strip_mall_shop_c",
     "weight": 100,
@@ -2554,7 +2530,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Furniture store, variant 2",
     "weight": 100,
     "nested_mapgen_id": "strip_mall_shop_d",
@@ -2689,7 +2664,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Office - Lawyer, Variant 2",
     "weight": 100,
     "nested_mapgen_id": "strip_mall_shop_d",
@@ -2799,7 +2773,7 @@
         "F": { "item": "SUS_fridge_breakroom", "chance": 100 },
         "B": { "item": "SUS_dishes", "chance": 100 },
         "O": { "item": "SUS_silverware", "chance": 100 },
-        "z": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 100 },
         "t": { "item": "magazines", "chance": 50, "repeat": [ 1, 2 ] },
         "x": { "item": "homebooks", "chance": 75 }
       },
@@ -2830,7 +2804,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Clothing Store - general, variant 2",
     "nested_mapgen_id": "strip_mall_shop_d",
     "weight": 100,
@@ -2845,7 +2818,7 @@
         "W```httWWWWWWDWDWDWDWDW",
         "W````ttWllWiC.........W",
         "WWLWWWWWDDWC..........W",
-        "W...............IIII..W",
+        "W.........y.....IIII..W",
         "W.....c...............W",
         "W.o..oc.........UUUU..W",
         "Wcccccc...CiC.........W",
@@ -2937,6 +2910,7 @@
       },
       "toilets": { "*": {  } },
       "items": {
+        "y": { "item": "SUS_trash_trashcan_public" },
         "k": { "item": "SUS_toilet", "chance": 100 },
         "M": [
           { "item": "pants_unisex", "chance": 50, "repeat": 3 },
@@ -2980,7 +2954,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Restaurant - Pizza, Variant 2",
     "nested_mapgen_id": "strip_mall_shop_d",
     "weight": 100,
@@ -3108,7 +3081,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Hunting Supply Store",
     "nested_mapgen_id": "strip_mall_shop_d",
     "weight": 50,
@@ -3267,7 +3239,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Fitness gym",
     "nested_mapgen_id": "strip_mall_shop_d",
     "weight": 100,
@@ -3354,7 +3325,7 @@
       "items": {
         "O": { "item": "gym", "chance": 30 },
         "c": { "item": "gym", "chance": 10 },
-        "t": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 2, 3 ] },
+        "t": { "item": "SUS_trash_trashcan", "chance": 100 },
         "d": { "item": "SUS_office_desk", "chance": 75 }
       },
       "vendingmachines": { "1": { "item_group": "vending_drink", "lootable": true }, "2": { "item_group": "vending_food", "lootable": true } },

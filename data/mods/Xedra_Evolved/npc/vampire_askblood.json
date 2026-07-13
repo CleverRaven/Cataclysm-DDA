@@ -225,8 +225,8 @@
     "global": false,
     "effect": [
       { "npc_add_effect": "feed_from_recently", "duration": "5 d" },
-      { "math": [ "n_vitamin('blood')", "-=", "400 + rand(100)" ] },
-      { "math": [ "n_vitamin('redcells')", "-=", "400 + rand(100)" ] }
+      { "math": [ "n_vitamin('blood') -= 400 + rand(100)" ] },
+      { "math": [ "n_vitamin('redcells') -= 400 + rand(100)" ] }
     ]
   },
   {
@@ -235,8 +235,8 @@
     "global": false,
     "effect": [
       { "npc_add_effect": "feed_from_recently", "duration": "10 d" },
-      { "math": [ "n_vitamin('blood')", "-=", "400 + rand(100)" ] },
-      { "math": [ "n_vitamin('redcells')", "-=", "400 + rand(100)" ] }
+      { "math": [ "n_vitamin('blood') -= 400 + rand(100)" ] },
+      { "math": [ "n_vitamin('redcells') -= 400 + rand(100)" ] }
     ]
   }
 ]

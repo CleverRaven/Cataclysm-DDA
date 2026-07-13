@@ -12,6 +12,7 @@
       { "monster": "mon_zacrocanthosaurus", "weight": 80, "cost_multiplier": 60, "starts": "24 days" },
       { "monster": "mon_ziats", "weight": 80, "cost_multiplier": 60, "starts": "24 days" },
       { "monster": "mon_zryptosaurus", "weight": 40, "cost_multiplier": 70, "starts": "12 days" },
+      { "monster": "mon_zanotyrannus", "weight": 40, "cost_multiplier": 40, "starts": "12 days" },
       { "monster": "mon_zappalachiosaurus", "weight": 40, "cost_multiplier": 70, "starts": "12 days" },
       { "monster": "mon_zorgosaurus", "weight": 40, "cost_multiplier": 70, "starts": "12 days" },
       { "monster": "mon_zalbertosaurus", "weight": 40, "cost_multiplier": 70, "starts": "12 days" },
@@ -130,6 +131,7 @@
       { "monster": "mon_zacrocanthosaurus_scorched", "weight": 80, "cost_multiplier": 60, "starts": "24 days" },
       { "monster": "mon_ziats_scorched", "weight": 80, "cost_multiplier": 60, "starts": "24 days" },
       { "monster": "mon_zryptosaurus_scorched", "weight": 40, "cost_multiplier": 70, "starts": "12 days" },
+      { "monster": "mon_zanotyrannus_scorched", "weight": 40, "cost_multiplier": 40, "starts": "12 days" },
       { "monster": "mon_zappalachiosaurus_scorched", "weight": 40, "cost_multiplier": 70, "starts": "12 days" },
       { "monster": "mon_zorgosaurus_scorched", "weight": 40, "cost_multiplier": 70, "starts": "12 days" },
       { "monster": "mon_zalbertosaurus_scorched", "weight": 40, "cost_multiplier": 70, "starts": "12 days" },
@@ -277,6 +279,15 @@
       { "monster": "mon_sryptosaurus", "weight": 400 },
       { "monster": "mon_zryptosaurus_shady", "weight": 300 },
       { "monster": "mon_zryptosaurus_brute", "weight": 300 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_zanotyrannus_UPGRADE",
+    "monsters": [
+      { "monster": "mon_sanotyrannus", "weight": 400 },
+      { "monster": "mon_zanotyrannus_shady", "weight": 300 },
+      { "monster": "mon_zanotyrannus_brute", "weight": 300 }
     ]
   },
   {
@@ -782,6 +793,7 @@
       { "monster": "mon_ztruthiomimus", "starts": "12 days" },
       { "monster": "mon_zornithomimus", "starts": "12 days" },
       { "monster": "mon_zanzu", "starts": "12 days" },
+      { "monster": "mon_zanotyrannus", "starts": "12 days" },
       { "monster": "mon_zeinonychus", "starts": "12 days" },
       { "monster": "mon_zutahraptor", "starts": "24 days" },
       { "monster": "mon_zarahsaurus", "starts": "12 days" },

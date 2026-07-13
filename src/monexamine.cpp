@@ -105,24 +105,26 @@ void bandage_animal( monster &z )
     }
     item_location wieldede_item = get_player_character().get_wielded_item();
     if( !wieldede_item ) {
-        add_msg( _( "I need to have in hand something to stop the bleeding of %s" ), z.name() );
+        add_msg( _( "You need to wield something to stop the %s's bleeding." ), z.name() );
         return;
     }
     const use_function *usage = wieldede_item.get_item()->type->get_use( "heal" );
     if( usage == nullptr ) {
-        add_msg( _( "I'm not going to stop %s bleeding with this %s " ), z.name(),
-                 wieldede_item.get_item()->display_name() );
+        //~ %1$s - item name, %2$s - animal name
+        add_msg( _( "This %1$s won't help you stop the %2$s's bleeding." ),
+                 wieldede_item.get_item()->display_name(), z.name() );
         return;
     }
     const heal_actor *actor = dynamic_cast<const heal_actor *>( usage->get_actor_ptr() );
     if( actor->bleed ) {
         z.remove_effect( effect_bleed );
         wieldede_item.remove_item();
-        add_msg( _( "The bleeding of %s stopped" ), z.name() );
+        add_msg( _( "You stop the %s's bleeding." ), z.name() );
 
     } else {
-        add_msg( _( "I'm not going to stop %s bleeding with this %s " ), z.name(),
-                 wieldede_item.get_item()->display_name() );
+        //~ %1$s - item name, %2$s - animal name
+        add_msg( _( "This %1$s won't help you stop the %2$s's bleeding." ),
+                 wieldede_item.get_item()->display_name(), z.name() );
     }
 }
 

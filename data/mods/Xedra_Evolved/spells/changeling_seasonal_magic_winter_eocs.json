@@ -254,7 +254,7 @@
       {
         "if": { "math": [ "has_var(_changeling_winter_hail_attack_location)" ] },
         "then": {
-          "if": { "not": { "map_terrain_with_flag": "INDOORS", "loc": { "context_val": "changeling_winter_hail_attack_location" } } },
+          "if": { "map_is_outside": { "context_val": "changeling_winter_hail_attack_location" } },
           "then": [
             {
               "u_cast_spell": { "id": "changeling_winter_hail_attack_spell_bash_damage" },

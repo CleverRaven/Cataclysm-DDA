@@ -1,0 +1,16 @@
+[
+  {
+    "id": "afs_shot_he",
+    "copy-from": "shot_slug",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "12 gauge explosive slug" },
+    "description": "A shotgun shell shooting a small explosive.  Banned in several states.  While an explosive from a shotgun sounds impressive, its practical applications are limited at best.  The loss in mass in order to accommodate an explosive give it much less impact force compared to traditional ammunition.  The relatively small size of the slug can only accommodate a limited amount of explosives, resulting in a fairly underwhelming explosion.  These traits make it a utility tool for damaging barriers and disrupting other explosive devices, rather than something for anti-personnel use.",
+    "ascii_picture": "shot_he",
+    "price": "30 USD",
+    "price_postapoc": "16 USD",
+    "count": 5,
+    "extend": { "effects": [ "EXPLOSIVE_HESHOT" ] },
+    "damage": { "damage_type": "bullet", "amount": 10, "armor_penetration": 0 }
+  }
+]

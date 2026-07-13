@@ -20,7 +20,9 @@
         { "item": "stick", "count": [ 5, 12 ] },
         { "item": "stick_long", "count": [ 5, 12 ] },
         { "item": "splinter", "count": [ 12, 38 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   }
 ]

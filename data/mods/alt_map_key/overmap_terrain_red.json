@@ -421,7 +421,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "outpost",
+    "id": [ "outpost", "outpost_parking" ],
     "copy-from": "outpost",
     "name": "military outpost",
     "sym": "O",

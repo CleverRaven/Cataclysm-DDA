@@ -28,6 +28,12 @@
     "modified_bodyparts": [ { "lose": "head" }, { "gain": "big_head" } ]
   },
   {
+    "id": "ENCH_DEBUG_WEIGHT_MODIFIER",
+    "type": "enchantment",
+    "condition": "ALWAYS",
+    "values": [ { "value": "WEIGHT", "multiply": -0.5 } ]
+  },
+  {
     "type": "enchantment",
     "id": "RM13",
     "condition": "ACTIVE",

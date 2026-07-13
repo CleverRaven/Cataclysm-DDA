@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "survivor_forest_camp" ],
     "object": {
       "fallback_predecessor_mapgen": "forest_thick",
@@ -176,7 +175,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "survivor_corpse",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -185,7 +183,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "survivor_creature",
     "object": {
       "mapgensize": [ 1, 1 ],

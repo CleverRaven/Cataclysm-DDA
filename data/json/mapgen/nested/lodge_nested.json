@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lodge_cannibal_15x15",
     "object": {
       "mapgensize": [ 15, 15 ],
@@ -27,7 +26,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lodge_hunting_15x15",
     "object": {
       "mapgensize": [ 15, 15 ],
@@ -53,7 +51,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lodge_pantry_15x15",
     "object": {
       "mapgensize": [ 15, 15 ],
@@ -79,7 +76,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lodge_game_6x6",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -113,7 +109,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lodge_dungeon_6x6",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -172,7 +167,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lodge_drug_6x6",
     "object": {
       "mapgensize": [ 6, 6 ],

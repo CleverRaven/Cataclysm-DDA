@@ -62,16 +62,8 @@
     },
     "nested": {
       "1": {
-        "//": "11% chance of solar, 20% chance it's v2",
-        "chunks": [
-          [ "residential_1x2_solar", 24 ],
-          [ "residential_2x2_solar", 8 ],
-          [ "residential_1x3_solar", 12 ],
-          [ "residential_1x2_solar_v2", 6 ],
-          [ "residential_2x2_solar_v2", 2 ],
-          [ "residential_1x3_solar_v2", 3 ],
-          [ "null", 440 ]
-        ]
+        "//": "12.5% chance of solar, assuming 50% of solar is 7kW, 25% is 6kW and 8kW.",
+        "chunks": [ [ "residential_6kW_solar", 31 ], [ "residential_7kW_solar", 63 ], [ "residential_8kW_solar", 31 ], [ "null", 873 ] ]
       },
       "2": { "chunks": [ [ "industrial_1x1_solar", 4 ], [ "industrial_1x1_solar_v2", 1 ] ] },
       "3": {

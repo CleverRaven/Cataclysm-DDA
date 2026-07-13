@@ -30,7 +30,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_TORRENTIAL_CHANNELING_ON",
-    "condition": { "not": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" } },
+    "condition": { "not": { "u_has_effect": "effect_mom_cascade_stone" } },
     "effect": [
       {
         "run_eocs": [
@@ -51,8 +51,20 @@
       }
     ],
     "false_effect": [
-      { "u_lose_trait": "PSI_TORRENTIAL_CHANNELING_active" },
-      { "u_message": "The cut off the overflow of Nether power.", "type": "neutral" }
+      {
+        "u_message": "No matter how you try, you cannot draw more deeply on the Nether than you already are.",
+        "type": "mixed"
+      }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_TORRENTIAL_CHANNELING_OFF",
+    "condition": { "not": { "u_has_effect": "effect_mom_cascade_stone" } },
+    "effect": [
+      { "u_lose_trait": "PSI_TORRENTIAL_CHANNELING_active" },
+      { "u_message": "You cut off the overflow of Nether power.", "type": "neutral" }
+    ],
+    "false_effect": [ { "u_message": "You attempt to cut off the flow of Nether power but it's locked open!", "type": "bad" } ]
   }
 ]

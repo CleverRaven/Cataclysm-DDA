@@ -276,9 +276,14 @@ static void make_experienced_tester( avatar &test_guy )
     REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_unarmed ) ) == 4 );
     REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_melee ) ) == 4 );
 }
+
 /*
  * A super tedious set of test cases to make sure that weapon values do not drift too far out
  * of range without anyone noticing them and adjusting them.
+ * The weapons that *must* be enumerated include anything with a DPS over 25,
+ * essentially candidates for pushing into the top tier of weapons.
+ * Additionally we want to test a bunch of misc makeshift items to get coverage of
+ * shifts in the lwer tiers of weapons.
  * Used expected_dps(), which should make actual dps because of the calculations above.
  */
 TEST_CASE( "expected_weapon_dps", "[expected][dps]" )
@@ -319,6 +324,6 @@ TEST_CASE( "expected_weapon_dps", "[expected][dps]" )
         }
         INFO( string_format( "'%s' is a weapon, but is not included in DPS tests.  Please place it in the appropriate file in data/mods/TEST_DATA/expected_dps_data.",
                              it->get_id().str() ) );
-        CHECK( calc_expected_dps( it->get_id() ) <= 5.0 );
+        CHECK( calc_expected_dps( it->get_id() ) <= 25.0 );
     }
 }

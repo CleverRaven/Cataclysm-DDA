@@ -68,7 +68,7 @@
     "max_level": 35,
     "base_casting_time": 1500,
     "base_energy_cost": 500,
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_conjuration_magic"
   },
   {
     "id": "judgement_sword",
@@ -91,7 +91,7 @@
     "difficulty": 4,
     "max_level": 35,
     "spell_class": "CRUSADER",
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_conjuration_magic"
   },
   {
     "type": "technique",

@@ -78,11 +78,6 @@
     ]
   },
   {
-    "id": "fungus_harv",
-    "type": "harvest",
-    "entries": [ { "drop": "fungus_mutated", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
-  },
-  {
     "id": "echinoderm",
     "//": "no bones or organs, copied from meatslug",
     "type": "harvest",

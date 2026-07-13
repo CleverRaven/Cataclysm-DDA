@@ -16,7 +16,7 @@
       "practice_afs_electrokinetic_personal_battery",
       "practice_afs_electrokinetic_recharge_vehicle"
     ],
-    "difficulty": 1
+    "difficulty": 10
   },
   {
     "type": "recipe",
@@ -27,13 +27,14 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_ELECTROKIN_SPARK_SIGHT",
+        "condition": { "u_has_trait": "AFS_ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "afs_electrokinetic_see_electric", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 2" ] },
@@ -51,13 +52,14 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_ELECTROKIN_SHOCK_TOUCH",
+        "condition": { "u_has_trait": "AFS_ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "afs_electrokinetic_shock_touch", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 2" ] },
@@ -75,13 +77,14 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_ELECTROKIN_ZAP_ENEMIES",
+        "condition": { "u_has_trait": "AFS_ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "afs_electrokinetic_zap_enemies", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 3" ] },
@@ -99,13 +102,14 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 3,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_ELECTRO_HACKING_INTERFACE",
+        "condition": { "u_has_trait": "AFS_ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "afs_electrokinetic_hacking_interface", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 4" ] },
@@ -123,13 +127,14 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 4,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_ELECTRO_PERSONAL_BATTERY",
+        "condition": { "u_has_trait": "AFS_ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "afs_electrokinetic_personal_battery", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 5" ] },
@@ -147,13 +152,14 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 7,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_ELECTROKIN_RECHARGE_VEHICLE",
+        "condition": { "u_has_trait": "AFS_ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "afs_electrokinetic_recharge_vehicle", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 8" ] },

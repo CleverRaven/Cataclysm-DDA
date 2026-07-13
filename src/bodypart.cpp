@@ -8,8 +8,8 @@
 #include <utility>
 #include <vector>
 
-#include "assign.h"
 #include "body_part_set.h"
+#include "calendar.h"
 #include "creature.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -21,6 +21,8 @@
 #include "pimpl.h"
 #include "rng.h"
 #include "subbodypart.h"
+#include "type_id.h"
+#include "wound.h"
 
 const bodypart_str_id body_part_arm_l( "arm_l" );
 const bodypart_str_id body_part_arm_r( "arm_r" );
@@ -71,23 +73,23 @@ std::string enum_to_string<side>( side data )
 }
 
 template<>
-std::string enum_to_string<body_part_type::type>( body_part_type::type data )
+std::string enum_to_string<bp_type>( bp_type data )
 {
     switch( data ) {
         // *INDENT-OFF*
-        case body_part_type::type::arm: return "arm";
-        case body_part_type::type::other: return "other";
-        case body_part_type::type::foot: return "foot";
-        case body_part_type::type::hand: return "hand";
-        case body_part_type::type::head: return "head";
-        case body_part_type::type::leg: return "leg";
-        case body_part_type::type::mouth: return "mouth";
-        case body_part_type::type::sensor: return "sensor";
-        case body_part_type::type::tail: return "tail";
-        case body_part_type::type::torso: return "torso";
-        case body_part_type::type::wing: return "wing";
+        case bp_type::arm: return "arm";
+        case bp_type::other: return "other";
+        case bp_type::foot: return "foot";
+        case bp_type::hand: return "hand";
+        case bp_type::head: return "head";
+        case bp_type::leg: return "leg";
+        case bp_type::mouth: return "mouth";
+        case bp_type::sensor: return "sensor";
+        case bp_type::tail: return "tail";
+        case bp_type::torso: return "torso";
+        case bp_type::wing: return "wing";
             // *INDENT-ON*
-        case body_part_type::type::num_types:
+        case bp_type::num_types:
             break;
     }
     cata_fatal( "Invalid body part type." );
@@ -146,6 +148,11 @@ bool string_id<limb_score>::is_valid() const
 void limb_score::load_limb_scores( const JsonObject &jo, const std::string &src )
 {
     limb_score_factory.load( jo, src );
+}
+
+void limb_score::finalize_all()
+{
+    limb_score_factory.finalize();
 }
 
 void limb_score::reset()
@@ -242,12 +249,12 @@ void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
     body_part_factory.load( jo, src );
 }
 
-body_part_type::type body_part_type::primary_limb_type() const
+bp_type body_part_type::primary_limb_type() const
 {
     return _primary_limb_type;
 }
 
-bool body_part_type::has_type( const body_part_type::type &type ) const
+bool body_part_type::has_type( const bp_type &type ) const
 {
     return limbtypes.count( type ) > 0;
 }
@@ -284,6 +291,21 @@ const std::vector<body_part_type> &body_part_type::get_all()
 {
     return body_part_factory.get_all();
 }
+
+class encumbrance_per_weight_reader : public generic_typed_reader<encumbrance_per_weight_reader>
+{
+    public:
+        std::pair<units::mass, int> get_next( const JsonValue &jv ) const {
+            std::pair<units::mass, int> ret;
+            if( !jv.test_object() ) {
+                jv.throw_error( "Invalid format" );
+            }
+            JsonObject entry = jv.get_object();
+            entry.read( "weight", ret.first, true );
+            entry.read( "encumbrance", ret.second, true );
+            return ret;
+        }
+};
 
 void body_part_type::load( const JsonObject &jo, std::string_view )
 {
@@ -327,21 +349,21 @@ void body_part_type::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "is_vital", is_vital, false );
     if( jo.has_array( "limb_types" ) ) {
         limbtypes.clear();
-        body_part_type::type first_type = body_part_type::type::num_types;
+        bp_type first_type = bp_type::num_types;
         bool set_first_type = true;
         for( JsonValue jval : jo.get_array( "limb_types" ) ) {
             float weight = 1.0f;
-            body_part_type::type limb_type;
+            bp_type limb_type;
             if( jval.test_array() ) {
                 JsonArray jarr = jval.get_array();
-                limb_type = io::string_to_enum<body_part_type::type>( jarr.get_string( 0 ) );
+                limb_type = io::string_to_enum<bp_type>( jarr.get_string( 0 ) );
                 weight = jarr.get_float( 1 );
                 set_first_type = false;
             } else {
-                limb_type = io::string_to_enum<body_part_type::type>( jval.get_string() );
+                limb_type = io::string_to_enum<bp_type>( jval.get_string() );
             }
             limbtypes.emplace( limb_type, weight );
-            if( first_type == body_part_type::type::num_types ) {
+            if( first_type == bp_type::num_types ) {
                 first_type = limb_type;
             }
         }
@@ -351,12 +373,12 @@ void body_part_type::load( const JsonObject &jo, std::string_view )
         }
     } else {
         limbtypes.clear();
-        body_part_type::type limb_type = {};
+        bp_type limb_type = {};
         mandatory( jo, was_loaded, "limb_type", limb_type );
         limbtypes.emplace( limb_type, 1.0f );
     }
 
-    if( _primary_limb_type == body_part_type::type::num_types ) {
+    if( _primary_limb_type == bp_type::num_types ) {
         float high = 0.f;
         for( auto &bp_type : limbtypes ) {
             if( high < bp_type.second ) {
@@ -459,18 +481,8 @@ void body_part_type::load( const JsonObject &jo, std::string_view )
 
     mandatory( jo, was_loaded, "sub_parts", sub_parts );
 
-    if( jo.has_array( "encumbrance_per_weight" ) ) {
-        const JsonArray &jarr = jo.get_array( "encumbrance_per_weight" );
-        for( const JsonObject jval : jarr ) {
-            units::mass weight = 0_gram;
-            int encumbrance = 0;
-
-            assign( jval, "weight", weight, true );
-            mandatory( jval, was_loaded, "encumbrance", encumbrance );
-
-            encumbrance_per_weight.insert( std::pair<units::mass, int>( weight, encumbrance ) );
-        }
-    }
+    optional( jo, was_loaded, "encumbrance_per_weight", encumbrance_per_weight,
+              encumbrance_per_weight_reader{} );
 }
 
 void bp_onhit_effect::load( const JsonObject &jo )
@@ -505,6 +517,14 @@ void body_part_type::finalize()
     if( !damage.empty() ) {
         unarmed_bonus = true;
     }
+
+    for( const wound_type &wd : wound_type::get_all() ) {
+        if( wd.allowed_on_bodypart( id ) ) {
+            const bp_wounds bpw = { wd.id, wd.damage_types, wd.damage_required };
+            potential_wounds.add( bpw, wd.weight );
+        }
+    }
+
     finalize_damage_map( armor.resist_vals );
 }
 
@@ -1022,6 +1042,28 @@ float bodypart::get_limb_score_max( const limb_score_id &score ) const
     return id->get_limb_score_max( score );
 }
 
+std::vector<wound> bodypart::get_wounds() const
+{
+    return wounds;
+}
+
+void bodypart::add_wound( wound &wd )
+{
+    wounds.push_back( wd );
+}
+
+void bodypart::add_wound( wound_type_id wd )
+{
+    wounds.emplace_back( wd );
+}
+
+void bodypart::update_wounds( time_duration time_passed )
+{
+    wounds.erase( std::remove_if( wounds.begin(), wounds.end(), [time_passed]( wound & wd ) {
+        return wd.update_wound( time_passed );
+    } ), wounds.end() );
+}
+
 int bodypart::get_hp_cur() const
 {
     return hp_cur;
@@ -1215,6 +1257,8 @@ void bodypart::serialize( JsonOut &json ) const
     json.member( "temp_conv", units::to_legacy_bodypart_temp( temp_conv ) );
     json.member( "frostbite_timer", frostbite_timer );
 
+    json.member( "wounds", wounds );
+
     json.end_object();
 }
 
@@ -1235,6 +1279,8 @@ void bodypart::deserialize( const JsonObject &jo )
         temp_conv = units::from_legacy_bodypart_temp( legacy_temp_conv );
     }
     jo.read( "frostbite_timer", frostbite_timer, true );
+
+    jo.read( "wounds", wounds );
 
 }
 

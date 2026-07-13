@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -41,7 +40,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -81,7 +79,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -121,7 +118,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -134,12 +130,12 @@
         " c|ku|##|-DDd  ku-|hd^= ",
         " c|u ||||-      k-| d = ",
         " c|   uku(   u  c-|   [ ",
-        "  uk   u|-k  A  u-|=[== ",
+        "  uk   u|-k  u  u-|=[== ",
         "|||k    |- ukuu  -|kuk||",
-        "          u TAu   u     ",
+        "          u Tuu   u     ",
         " kkuu    k kuAc   2     ",
         "||u|| uk|-uukuk  -|  |||",
-        "  kk|  Y|-kk Au  (  u|r ",
+        "  kk|  Y|-kk  u  (  u|r ",
         "cc  |    (k uu   ( uk|r ",
         "cc  |||||-  ddd u-|  |r ",
         "     2 r|-ku h ku-|  |r ",
@@ -164,7 +160,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -220,7 +215,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -278,7 +272,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [

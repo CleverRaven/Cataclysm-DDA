@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": "overtakenlot",
     "weight": 1000,
@@ -78,7 +77,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": "overtakenlot",
     "weight": 1000,
@@ -126,7 +124,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": "overtakenlot",
     "weight": 1000,
@@ -194,7 +191,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": "overtakenlot",
     "weight": 1000,

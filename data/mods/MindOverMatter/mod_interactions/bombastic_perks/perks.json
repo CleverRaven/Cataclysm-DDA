@@ -6,7 +6,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "This \"psychic powers\" stuff is easy, as long as nothing distracts you.  When you are concentrating on 0 powers, or have 0 pain, lower focus has a 33% lower effect on your success chance."
+    "description": "This \"psychic powers\" stuff is easy, as long as nothing distracts you.  When you are concentrating on 0 powers, or have 0 pain, you have an easier time invoking your powers."
   },
   {
     "type": "mutation",

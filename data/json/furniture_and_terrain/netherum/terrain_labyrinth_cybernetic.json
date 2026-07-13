@@ -1,0 +1,440 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_nl_obelisk_0",
+    "name": "Obelisk0",
+    "description": "Obelisk",
+    "looks_like": "f_machinery_old",
+    "symbol": "A",
+    "color": "green",
+    "coverage": 70,
+    "move_cost": -1,
+    "flags": [ "NOITEM", "NO_SCENT", "BLOCK_WIND" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_LS_Obelisk_0_have",
+          "condition": { "u_has_trait": "LS_Passcode_0" },
+          "effect": [ { "u_message": "You already know the Thief's Pass.  The obelisk is inert." } ]
+        },
+        {
+          "id": "EOC_LS_Obelisk_0_grant",
+          "condition": {
+            "and": [ { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] }, { "not": { "u_has_trait": "LS_Passcode_0" } } ]
+          },
+          "effect": [
+            {
+              "u_message": "You see a tall, olive green, metallic pillar covered in swirling patterns.  As you focus on it, you feel a burning sensation on your skin.  You have learned the Thief's Passcode.",
+              "popup": true
+            },
+            { "u_add_trait": "LS_Passcode_0" }
+          ]
+        },
+        {
+          "id": "EOC_LS_Obelisk_0_firsttime",
+          "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } },
+          "effect": [
+            {
+              "u_message": "You see a tall, olive green, metallic pillar covered in swirling patterns.  As you focus on it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of your own face, smirking; it's the 'Thief's Passcode'.  <ls_obelisk_firsttime2>",
+              "popup": true
+            },
+            { "u_add_trait": "LS_Passcode_0" },
+            { "u_add_var": "ls_had_a_passcode", "value": "yes" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_obelisk_1",
+    "copy-from": "t_nl_obelisk_0",
+    "name": "Obelisk1",
+    "description": "Obelisk",
+    "symbol": "A",
+    "color": "blue",
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_LS_Obelisk_1_have",
+          "condition": { "u_has_trait": "LS_Passcode_1" },
+          "effect": [ { "u_message": "You already know the Circle of Wings Passcode.  The obelisk is inert." } ]
+        },
+        {
+          "id": "EOC_LS_Obelisk_1_grant",
+          "condition": {
+            "and": [ { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] }, { "not": { "u_has_trait": "LS_Passcode_1" } } ]
+          },
+          "effect": [
+            {
+              "u_message": "You see a squat, angry-looking, indigo metallic pillar covered carved in relief with the image of flying birds.  As you focus on it, you feel a burning sensation on your skin.  You have learned the Circle of Wings Passcode.",
+              "popup": true
+            },
+            { "u_add_trait": "LS_Passcode_1" }
+          ]
+        },
+        {
+          "id": "EOC_LS_Obelisk_1_firsttime",
+          "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } },
+          "effect": [
+            {
+              "u_message": "You see a squat, angry-looking, indigo metallic pillar covered carved in relief with the image of flying birds.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of wings in a circle, running into themselves like an ouroboros; it's the 'Circle of Wings Passcode'.  <ls_obelisk_firsttime2>",
+              "popup": true
+            },
+            { "u_add_trait": "LS_Passcode_1" },
+            { "u_add_var": "ls_had_a_passcode", "value": "yes" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_obelisk_2",
+    "copy-from": "t_nl_obelisk_0",
+    "name": "Obelisk2",
+    "description": "Obelisk",
+    "symbol": "A",
+    "color": "yellow",
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_LS_Obelisk_2_have",
+          "condition": { "u_has_trait": "LS_Passcode_2" },
+          "effect": [ { "u_message": "You already know the Hard Nails Passcode.  The obelisk is inert." } ]
+        },
+        {
+          "id": "EOC_LS_Obelisk_2_grant",
+          "condition": {
+            "and": [ { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] }, { "not": { "u_has_trait": "LS_Passcode_2" } } ]
+          },
+          "effect": [
+            {
+              "u_message": "You see a thick, powerful, gold-burnished pillar covered in what look like deep fingernail scratches.  As you focus on it, you feel a burning sensation on your skin.  You have learned the Hard Nails Passcode.",
+              "popup": true
+            },
+            { "u_add_trait": "LS_Passcode_2" }
+          ]
+        },
+        {
+          "id": "EOC_LS_Obelisk_2_firsttime",
+          "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } },
+          "effect": [
+            {
+              "u_message": "You see a thick, powerful, gold-burnished pillar covered in what look like deep fingernail scratches.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of a hand clawing down a sheet of metal; it's the 'Hard Nails Passcode'.  <ls_obelisk_firsttime2>",
+              "popup": true
+            },
+            { "u_add_trait": "LS_Passcode_2" },
+            { "u_add_var": "ls_had_a_passcode", "value": "yes" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_obelisk_3",
+    "copy-from": "t_nl_obelisk_0",
+    "name": "Obelisk3",
+    "description": "Obelisk",
+    "symbol": "A",
+    "color": "red",
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_LS_Obelisk_3_have",
+          "condition": { "u_has_trait": "LS_Passcode_3" },
+          "effect": [ { "u_message": "You already know the Laughing Man Passcode.  The obelisk is inert." } ]
+        },
+        {
+          "id": "EOC_LS_Obelisk_3_grant",
+          "condition": {
+            "and": [ { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] }, { "not": { "u_has_trait": "LS_Passcode_3" } } ]
+          },
+          "effect": [
+            {
+              "u_message": "You see a beautiful pillar the color of roses or blood, absolutely perfect in its proportions.  As your eyes are drawn to it, you feel a burning sensation on your skin.  You have learned the Laughing Man Passcode.",
+              "popup": true
+            },
+            { "u_add_trait": "LS_Passcode_3" }
+          ]
+        },
+        {
+          "id": "EOC_LS_Obelisk_3_firsttime",
+          "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } },
+          "effect": [
+            {
+              "u_message": "You see a beautiful pillar the color of roses or blood, absolutely perfect in its proportions.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of a handsome man laughing.  At first glance it appears charming and friendly, but the longer you examine it, the more it appears to be inhumanly cold and cruel; it's the 'Laughing Man Passcode'.  <ls_obelisk_firsttime2>",
+              "popup": true
+            },
+            { "u_add_trait": "LS_Passcode_3" },
+            { "u_add_var": "ls_had_a_passcode", "value": "yes" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_door_l",
+    "name": "mysterious closed door",
+    "looks_like": "t_nl_door_c",
+    "description": "A dark door of twisted metal, etched with symbols and writing that you can't piece together.",
+    "symbol": "$",
+    "color": "blue",
+    "move_cost": -1,
+    "coverage": 100,
+    "roof": "t_nl_roof",
+    "flags": [
+      "NOITEM",
+      "CONNECT_WITH_WALL",
+      "BLOCK_WIND",
+      "SUPPORTS_ROOF",
+      "LOCKED",
+      "REDUCE_SCENT",
+      "BARRICADABLE_DOOR",
+      "OPENCLOSE_INSIDE"
+    ],
+    "prying": {
+      "result": "t_nl_door_o",
+      "message": "With great effort, you pry open the door.",
+      "prying_data": {
+        "difficulty": 22,
+        "prying_level": 3,
+        "noisy": true,
+        "failure": "You pry, but it seems like your tools will give out before the door does."
+      }
+    },
+    "oxytorch": {
+      "result": "t_nl_scrap_floor",
+      "duration": "5 m",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
+    "examine_action": "locked_object"
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_door_c",
+    "name": "mysterious closed door",
+    "looks_like": "t_door_metal_c",
+    "description": "A dark door of twisted metal, etched with symbols and writing that you can't piece together.",
+    "symbol": "$",
+    "color": "blue",
+    "move_cost": -1,
+    "coverage": 100,
+    "roof": "t_nl_roof",
+    "flags": [
+      "NOITEM",
+      "CONNECT_WITH_WALL",
+      "BLOCK_WIND",
+      "SUPPORTS_ROOF",
+      "REDUCE_SCENT",
+      "BARRICADABLE_DOOR",
+      "OPENCLOSE_INSIDE"
+    ],
+    "open": "t_nl_door_o"
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_door_o",
+    "name": "mysterious open door",
+    "looks_like": "t_door_metal_o",
+    "description": "A dark door of twisted metal, etched with symbols and writing that you can't piece together.  It has been swung open.",
+    "symbol": "/",
+    "color": "blue",
+    "move_cost": 2,
+    "coverage": 20,
+    "roof": "t_nl_roof",
+    "flags": [
+      "NOITEM",
+      "CONNECT_WITH_WALL",
+      "BLOCK_WIND",
+      "SUPPORTS_ROOF",
+      "REDUCE_SCENT",
+      "BARRICADABLE_DOOR",
+      "OPENCLOSE_INSIDE"
+    ],
+    "close": "t_nl_door_c"
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_metal_wall",
+    "name": "metallic wall",
+    "looks_like": "t_wall_metal",
+    "description": "A durable wall of ordinary looking sheet metal, at first.  Staring closer, the welds and joins seem to form strange fractal patterns.",
+    "symbol": "-",
+    "color": "cyan",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_nl_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "oxytorch": {
+      "result": "t_nl_broken_metal_floor",
+      "duration": "24 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 2, 3 ] }, { "item": "steel_chunk", "count": [ 12, 20 ] } ]
+    },
+    "bash": {
+      "str_min": 150,
+      "str_max": 400,
+      "sound": "metal wailing!",
+      "sound_fail": "clang!",
+      "ter_set": "t_nl_broken_metal_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_metal_wall_edge",
+    "name": "metallic wall",
+    "copy-from": "t_nl_metal_wall",
+    "description": "A durable wall of ordinary looking sheet metal, at first.  Staring closer, the welds and joins seem to form strange fractal patterns.",
+    "symbol": "-",
+    "color": "cyan",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 150,
+      "str_max": 400,
+      "sound": "metal wailing!",
+      "sound_fail": "clang!",
+      "ter_set": "t_nl_mist",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_scrap_wall",
+    "name": "scrap metal wall",
+    "looks_like": "t_scrap_wall",
+    "description": "A relatively simple wall made of cobbled-together scrap metal.  The wires and bolts holding it together seem to be in just slightly different configurations whenever you look back at it.",
+    "symbol": "-",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_nl_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 200,
+      "sound": "metal crying!",
+      "sound_fail": "clang!",
+      "ter_set": "t_nl_broken_metal_floor",
+      "items": [ { "item": "steel_chunk", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_metal_floor",
+    "name": "metallic floor",
+    "description": "Diamond-treaded metallic flooring.  Something seems off about the diamond tread; you keep imagining that the bumps spell out words, but when you look closer they're in very ordinary patterns.",
+    "symbol": ".",
+    "color": "light_cyan",
+    "connect_groups": "METALFLOOR",
+    "connects_to": "METALFLOOR",
+    "looks_like": "t_metal_floor",
+    "move_cost": 2,
+    "roof": "t_nl_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_nl_broken_metal_floor",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [ { "item": "steel_chunk", "count": [ 2, 4 ] }, { "item": "scrap", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_broken_metal_floor",
+    "name": "broken metal floor",
+    "description": "Something has cratered this metal flooring.  It will be difficult to move things across.  Through the cracks and dents emanates a faint eery glow.",
+    "symbol": ".",
+    "color": "light_cyan",
+    "move_cost": 2,
+    "roof": "t_nl_roof",
+    "flags": [ "TRANSPARENT", "INDOORS" ],
+    "looks_like": "t_broken_metal_floor",
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_nl_chasm",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_scrap_floor",
+    "name": "scrap metal floor",
+    "description": "A floor assembled from various scraps of metal.  Though their placement seems random, you keep seeing spots where they form faces.",
+    "symbol": ".",
+    "color": "cyan",
+    "move_cost": 2,
+    "roof": "t_nl_roof",
+    "looks_like": "t_scrap_floor",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 400,
+      "sound": "SMASH!",
+      "ter_set": "t_nl_chasm",
+      "str_min_supported": 100,
+      "items": [ { "item": "steel_chunk", "count": [ 5, 11 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_catwalk",
+    "name": "catwalk",
+    "description": "This catwalk extends over a deep chasm of swirling shadow.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "roof": "t_nl_roof",
+    "flags": [ "TRANSPARENT", "INDOORS" ],
+    "looks_like": "t_metal_floor",
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_nl_chasm",
+      "str_min": 100,
+      "str_max": 200,
+      "str_min_supported": 100,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_roof",
+    "name": "swirling metal roof",
+    "description": "A section of sturdy metal roofing that seems to swirl and twist with an unfamiliar, ever-shifting pattern.",
+    "symbol": ".",
+    "looks_like": "t_metal_roof",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
+  }
+]

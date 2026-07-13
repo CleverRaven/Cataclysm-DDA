@@ -735,7 +735,12 @@
     "material": [ "steel", "ceramic" ],
     "symbol": ",",
     "color": "cyan",
-    "use_action": { "type": "effect_on_conditions", "menu_text": "Activate", "effect_on_conditions": [ "yrax_trifacet_activation" ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "menu_text": "Activate",
+      "effect_on_conditions": [ "yrax_trifacet_activation" ]
+    },
     "flags": [ "SINGLE_USE" ]
   },
   {
@@ -752,7 +757,12 @@
     "volume": "119 L",
     "weight": "221 kg",
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "SINGLE_USE" ],
-    "use_action": { "type": "effect_on_conditions", "menu_text": "Activate", "effect_on_conditions": [ "yrax_triakis_activation" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "menu_text": "Activate",
+      "effect_on_conditions": [ "yrax_triakis_activation" ]
+    }
   },
   {
     "id": "bot_golden_monolith",
@@ -771,6 +781,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "SINGLE_USE" ],
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "menu_text": "Activate",
       "effect_on_conditions": [ "yrax_golden_monolith_activation" ]
     }
@@ -795,7 +806,12 @@
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "ALLOWS_BODY_BLOCK", "SHEATH_KNIFE", "SINGLE_USE" ],
-    "use_action": { "type": "effect_on_conditions", "menu_text": "Activate", "effect_on_conditions": [ "yrax_delta_activation" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "menu_text": "Activate",
+      "effect_on_conditions": [ "yrax_delta_activation" ]
+    }
   },
   {
     "id": "bot_lab_security_drone_GR",

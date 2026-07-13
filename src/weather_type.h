@@ -68,6 +68,8 @@ struct weather_animation_t {
     std::string get_symbol() const {
         return utf32_to_utf8( symbol );
     }
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct weather_type {

@@ -130,17 +130,6 @@
     ]
   },
   {
-    "id": "on_hand_46",
-    "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "46mm", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "46mm", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "46mm", "prob": 30, "charges": [ 88, 160 ] }
-    ]
-  },
-  {
     "id": "on_hand_8x40",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",
@@ -560,6 +549,17 @@
       { "group": "boxed_77x58_used", "prob": 100 },
       { "item": "77mm_arisaka_jsp", "charges": [ 1, 10 ], "prob": 100 },
       { "group": "boxed_77x58", "prob": 50 }
+    ]
+  },
+  {
+    "id": "on_hand_3030",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "boxed_3030_used", "prob": 100 },
+      { "item": "3030", "charges": [ 1, 10 ], "prob": 100 },
+      { "group": "boxed_3030", "prob": 50 }
     ]
   }
 ]

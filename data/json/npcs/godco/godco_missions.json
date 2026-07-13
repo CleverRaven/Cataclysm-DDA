@@ -822,7 +822,7 @@
       "advice": "All you need is a good wrench and a solar car.",
       "inquire": "Do you have the solar panel?",
       "success": "The great work is now complete.  Are you good with words, by the way?  I was thinking, maybe you should be the one to negotiate with Helena.  But whatever you do, don't accept their icons.  Our work is worth a lot more than their valueless currency.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "No electricity for us then."
     },
     "end": {
@@ -890,7 +890,7 @@
       "describe": "Get some pencils.",
       "offer": "I've been writing for a bit, and I've used up my pencils.  If you could get me thirty more, I'll give you some money.",
       "accepted": "I do appreciate it.",
-      "rejected": "I can understand that.  The offer's available if you reconsider.",
+      "rejected": "I can understand that.  The offer's still available if you reconsider.",
       "advice": "An office building should have tons.",
       "inquire": "Have you found the pencils?",
       "success": "Thank you so much!  I'll get back to work on my manuscript, I should have it ready in a month or so.",

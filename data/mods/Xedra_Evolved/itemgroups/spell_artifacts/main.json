@@ -81,7 +81,8 @@
       { "group": "xe_all_spells_high", "prob": 100 },
       { "group": "dreamer_artifact", "prob": 50 },
       { "group": "dreamsmith_artifact", "prob": 50 },
-      { "group": "inventor_creations", "prob": 50 }
+      { "group": "inventor_creations", "prob": 50 },
+      { "group": "xe_nether_cult_artifact", "prob": 25 }
     ]
   }
 ]

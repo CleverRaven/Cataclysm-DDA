@@ -4,5 +4,51 @@
     "id": "VAMPIRE_IRON_MIND",
     "copy-from": "VAMPIRE_IRON_MIND",
     "extend": { "flags": [ "TEEPSHIELD" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_XE_VAMPIRISM",
+    "condition": { "u_has_effect": "vampire_virus" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_XE_VAMPIRISM", "duration": "600 minutes" } ],
+    "false_effect": [
+      { "u_message": "You don't have any odd blood disorders.  There is no need to attempt to cure them.", "type": "mixed" }
+    ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_XE_VAMPIRISM",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_XE_VAMPIRISM_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_XE_VAMPIRISM_RESULT",
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 17
+    },
+    "effect": [
+      {
+        "if": { "not": { "u_has_trait": "VAMPIRE" } },
+        "then": [
+          { "u_message": "The odd taste in your mouth vanishes.  Maybe you're cured?", "type": "good" },
+          { "u_lose_effect": "vampire_virus" },
+          { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 60,120 )" ] }
+        ],
+        "else": [
+          {
+            "u_message": "This is the strangest disease you've ever seen.  Every time you think you eliminate it you find hidden pockets in places you've definitely cleared, almost like it's deliberately hiding and waiting until you let down your guard.  But that's impossible, isn't it?",
+            "type": "bad"
+          },
+          { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 60,120 )" ] }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 60,120 )" ] }
+    ]
   }
 ]

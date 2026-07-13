@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "central_lab_entrance" ],
     "object": {
       "predecessor_mapgen": "forest",
@@ -37,7 +36,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "central_lab_shaft" ],
     "object": {
       "fill_ter": "t_soil",
@@ -73,7 +71,6 @@
   {
     "//": "Unfinished central lab segment, someone should fill this with treasures and dangers.",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "central_lab_hq_3", "central_lab_hq_2", "central_lab_hq_1" ],
       [ "central_lab_hq_6", "central_lab_hq_5", "central_lab_hq_4" ],

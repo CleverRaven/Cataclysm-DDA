@@ -53,5 +53,23 @@
     "cut_dmg_verb": "passed through",
     "soft": true,
     "resist": { "bash": 8, "cut": 0, "acid": 8, "heat": 4, "bullet": 4 }
+  },
+  {
+    "type": "material",
+    "id": "fifth_sun_antiballistic_cloth",
+    "name": "ichcayolli",
+    "//": "meaning cotton seed",
+    "density": 1.2,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "chip_resist": 20,
+    "sheet_thickness": 1.2,
+    "breathability": "AVERAGE",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut",
+    "soft": true,
+    "resist": { "bash": 1.5, "cut": 2, "acid": 6, "heat": 2, "bullet": 5 }
   }
 ]

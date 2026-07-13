@@ -34,7 +34,6 @@
     "//": "Opens bot release if you lack a green maintenance ID card.",
     "type": "mapgen",
     "update_mapgen_id": "bots_center_garage",
-    "method": "json",
     "object": { "set": [ { "line": "terrain", "id": "t_thconc_r", "x": 1, "y": 11, "x2": 1, "y2": 12 } ] }
   },
   {
@@ -212,7 +211,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "lab_security_corridor_e",
-    "method": "json",
     "object": {
       "place_terrain": [
         { "ter": "t_thconc_r", "x": 17, "y": 4 },
@@ -225,7 +223,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "lab_security_corridor_f",
-    "method": "json",
     "object": {
       "place_terrain": [
         { "ter": "t_thconc_r", "x": 17, "y": 13 },
@@ -297,14 +294,12 @@
     "//": "Opens bot release if you lack a light green researcher ID card.",
     "type": "mapgen",
     "update_mapgen_id": "bot_release_rearcher_green",
-    "method": "json",
     "object": { "set": [ { "line": "terrain", "id": "t_thconc_r", "x": 19, "y": 15, "x2": 19, "y2": 16 } ] }
   },
   {
     "//": "Opens bot release if you lack a light green researcher ID card.",
     "type": "mapgen",
     "update_mapgen_id": "bot_release_rearcher_green_2",
-    "method": "json",
     "object": { "set": [ { "line": "terrain", "id": "t_thconc_r", "x": 4, "y": 15, "x2": 4, "y2": 16 } ] }
   },
   {
@@ -369,7 +364,6 @@
     "//": "Releases if you lack a black security ID card.",
     "type": "mapgen",
     "update_mapgen_id": "toxic_gas_corridor",
-    "method": "json",
     "object": {
       "place_fields": [
         { "field": "fd_toxic_gas", "x": 0, "y": 10, "intensity": 2, "age": 20 },
@@ -382,7 +376,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "lab_security_corridor_c",
-    "method": "json",
     "object": {
       "place_terrain": [
         { "ter": "t_thconc_r", "x": 19, "y": 8 },
@@ -395,7 +388,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "lab_security_corridor_d",
-    "method": "json",
     "object": {
       "place_terrain": [
         { "ter": "t_thconc_r", "x": 19, "y": 17 },

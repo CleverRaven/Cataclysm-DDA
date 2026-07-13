@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_park_dome_ground_floor" ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -54,7 +53,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_park_dome_2nd_floor" ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -90,7 +88,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_park_dome_roof" ],
     "object": {
       "fill_ter": "t_open_air",
@@ -125,7 +122,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_dead_plants",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -134,7 +130,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_park_dome_a",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -181,7 +176,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_park_dome_b",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -226,7 +220,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_park_dome_c",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -272,7 +265,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_park_dome_d",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -317,7 +309,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_park_dome_e",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -354,7 +345,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_park_dome_f",
     "object": {
       "mapgensize": [ 24, 24 ],

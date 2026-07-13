@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "abandoned_textile_mill_0_1", "abandoned_textile_mill_0_2", "abandoned_textile_mill_0_3" ] ],
     "object": {
       "fill_ter": "t_region_groundcover_barren",
@@ -41,7 +40,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "abandoned_textile_mill_1_1", "abandoned_textile_mill_1_2", "abandoned_textile_mill_1_3" ] ],
     "object": {
       "fill_ter": "t_open_air",
@@ -76,7 +74,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "abandoned_textile_mill_2_1", "abandoned_textile_mill_2_2", "abandoned_textile_mill_2_3" ] ],
     "object": {
       "fill_ter": "t_open_air",
@@ -111,7 +108,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "abandoned_textile_mill_3_1", "abandoned_textile_mill_3_2", "abandoned_textile_mill_3_3" ] ],
     "object": {
       "fill_ter": "t_open_air",
@@ -146,7 +142,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "abandoned_textile_mill_4_1", "abandoned_textile_mill_4_2", "abandoned_textile_mill_4_3" ] ],
     "object": {
       "fill_ter": "t_open_air",

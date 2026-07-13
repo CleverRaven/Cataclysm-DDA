@@ -1,112 +1,93 @@
 [
   {
     "type": "furniture",
-    "id": "f_region_flower",
-    "name": "this should never actually show up, it's a pseudo furniture",
-    "description": "This is pseudo-furniture and should never actually show up.  Please report this bug.",
+    "abstract": "f_region_pseudo",
+    "name": "pseudo furniture",
+    "description": "This should never actually show up, it should have been replaced with regional furniture.",
     "symbol": " ",
     "color": "black",
     "move_cost_mod": 0,
     "required_str": 0,
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "REGION_PSEUDO" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_region_flower",
+    "copy-from": "f_region_pseudo",
+    "name": "pseudo furniture",
+    "description": "This should never actually show up, it should have been replaced with regional furniture.",
+    "move_cost_mod": 0
   },
   {
     "type": "furniture",
     "id": "f_region_weed",
-    "name": "this should never actually show up, it's a pseudo furniture",
-    "description": "This is pseudo-furniture and should never actually show up.  Please report this bug.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost_mod": 0,
-    "required_str": 0,
-    "flags": [ "TRANSPARENT" ]
+    "copy-from": "f_region_pseudo",
+    "name": "pseudo furniture",
+    "description": "This should never actually show up, it should have been replaced with regional furniture.",
+    "move_cost_mod": 0
   },
   {
     "type": "furniture",
     "id": "f_region_water_plant",
-    "name": "this should never actually show up, it's a pseudo furniture",
-    "description": "This is pseudo-furniture and should never actually show up.  Please report this bug.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost_mod": 0,
-    "required_str": 0,
-    "flags": [ "TRANSPARENT" ]
+    "copy-from": "f_region_pseudo",
+    "name": "pseudo furniture",
+    "description": "This should never actually show up, it should have been replaced with regional furniture.",
+    "move_cost_mod": 0
   },
   {
     "type": "furniture",
     "id": "f_region_plain",
-    "name": "this should never actually show up, it's a pseudo furniture",
-    "description": "This is pseudo-furniture and should never actually show up.  Please report this bug.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost_mod": 0,
-    "required_str": 0,
-    "flags": [ "TRANSPARENT" ]
+    "copy-from": "f_region_pseudo",
+    "name": "pseudo furniture",
+    "description": "This should never actually show up, it should have been replaced with regional furniture.",
+    "move_cost_mod": 0
   },
   {
     "type": "furniture",
     "id": "f_region_forest",
-    "name": "this should never actually show up, it's a pseudo furniture",
-    "description": "This is pseudo-furniture and should never actually show up.  Please report this bug.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost_mod": 0,
-    "required_str": 0,
-    "flags": [ "TRANSPARENT" ]
+    "copy-from": "f_region_pseudo",
+    "name": "pseudo furniture",
+    "description": "This should never actually show up, it should have been replaced with regional furniture.",
+    "move_cost_mod": 0
   },
   {
     "type": "furniture",
     "id": "f_region_forest_dense",
-    "name": "this should never actually show up, it's a pseudo furniture",
-    "description": "This is pseudo-furniture and should never actually show up.  Please report this bug.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost_mod": 0,
-    "required_str": 0,
-    "flags": [ "TRANSPARENT" ]
+    "copy-from": "f_region_pseudo",
+    "name": "pseudo furniture",
+    "description": "This should never actually show up, it should have been replaced with regional furniture.",
+    "move_cost_mod": 0
   },
   {
     "type": "furniture",
     "id": "f_region_forest_water",
-    "name": "this should never actually show up, it's a pseudo furniture",
-    "description": "This is pseudo-furniture and should never actually show up.  Please report this bug.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost_mod": 0,
-    "required_str": 0,
-    "flags": [ "TRANSPARENT" ]
+    "copy-from": "f_region_pseudo",
+    "name": "pseudo furniture",
+    "description": "This should never actually show up, it should have been replaced with regional furniture.",
+    "move_cost_mod": 0
   },
   {
     "type": "furniture",
     "id": "f_region_flower_decorative",
-    "name": "this should never actually show up, it's a pseudo furniture",
-    "description": "This is pseudo-furniture and should never actually show up.  Please report this bug.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost_mod": 0,
-    "required_str": 0,
-    "flags": [ "TRANSPARENT" ]
+    "copy-from": "f_region_pseudo",
+    "name": "pseudo furniture",
+    "description": "This should never actually show up, it should have been replaced with regional furniture.",
+    "move_cost_mod": 0
   },
   {
     "type": "furniture",
     "id": "f_region_lake_bed",
-    "name": "this should never actually show up, it's a pseudo furniture",
-    "description": "This is pseudo-furniture and should never actually show up.  Please report this bug.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost_mod": 0,
-    "required_str": 0,
-    "flags": [ "TRANSPARENT" ]
+    "copy-from": "f_region_pseudo",
+    "name": "pseudo furniture",
+    "description": "This should never actually show up, it should have been replaced with regional furniture.",
+    "move_cost_mod": 0
   },
   {
     "type": "furniture",
     "id": "f_region_ocean_bed",
-    "name": "this should never actually show up, it's a pseudo furniture",
-    "description": "This is pseudo-furniture and should never actually show up.  Please report this bug.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost_mod": 0,
-    "required_str": 0,
-    "flags": [ "TRANSPARENT" ]
+    "copy-from": "f_region_pseudo",
+    "name": "pseudo furniture",
+    "description": "This should never actually show up, it should have been replaced with regional furniture.",
+    "move_cost_mod": 0
   }
 ]

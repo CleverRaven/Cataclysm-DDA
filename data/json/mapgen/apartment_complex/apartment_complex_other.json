@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_courtyard" ],
     "object": {
       "fill_ter": "t_region_groundcover_urban",
@@ -46,7 +45,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "apartment_complex_entrance",
@@ -113,7 +111,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_center_stairs_even_ground" ],
     "object": {
       "fill_ter": "t_floor",
@@ -148,7 +145,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_center_stairs_even" ],
     "object": {
       "fill_ter": "t_floor",
@@ -184,7 +180,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_center_stairs_odd" ],
     "object": {
       "fill_ter": "t_floor",
@@ -220,7 +215,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "apartment_complex_garage_corner",
@@ -261,7 +255,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "apartment_complex_garage_corner_inner" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -296,7 +289,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "apartment_complex_garage_corner_inner_wall" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -331,7 +323,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "apartment_complex_garage_corner_inner_wallALT" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -366,7 +357,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "apartment_complex_garage_straight", "apartment_complex_garage_straight_gate" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -415,7 +405,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "apartment_complex_garage_straight_wall", "apartment_complex_garage_straight_gate_wall" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -464,7 +453,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "apartment_complex_garage_straight_wallALT", "apartment_complex_garage_straight_gate_wallALT" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",

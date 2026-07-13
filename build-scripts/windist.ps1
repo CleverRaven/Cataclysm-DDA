@@ -6,6 +6,7 @@ mkdir bindist
 cp cataclysm-tiles.exe bindist/cataclysm-tiles.exe
 cp cataclysm-tiles.stripped.pdb bindist/cataclysm-tiles.pdb
 cp tools/format/json_formatter.exe bindist/json_formatter.exe
+cp zzip.exe bindist/zzip.exe
 
 mkdir bindist/lang
 cp -r lang/mo bindist/lang
@@ -14,4 +15,4 @@ $extras = "data", "doc", "gfx", "LICENSE.txt", "LICENSE-OFL-Terminus-Font.txt", 
 ForEach ($extra in $extras) {
 	cp -r $extra bindist
 }
-Compress-Archive -Force -Path bindist/* -DestinationPath "cataclysmdda-0.I.zip"
+Compress-Archive -Force -Path bindist/* -DestinationPath "cataclysmdda-0.J.zip"

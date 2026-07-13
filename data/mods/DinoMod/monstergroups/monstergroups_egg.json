@@ -92,6 +92,7 @@
       { "monster": "mon_acrocanthosaurus_hatchling", "weight": 8 },
       { "monster": "mon_siats_hatchling", "weight": 8 },
       { "monster": "mon_dryptosaurus_hatchling", "weight": 8 },
+      { "monster": "mon_nanotyrannus_hatchling", "weight": 8 },
       { "monster": "mon_appalachiosaurus_hatchling", "weight": 8 },
       { "monster": "mon_gorgosaurus_hatchling", "weight": 8 },
       { "monster": "mon_albertosaurus_hatchling", "weight": 8 },

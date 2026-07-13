@@ -1,0 +1,74 @@
+[
+  {
+    "id": "any_badge",
+    "type": "requirement",
+    "//": "For when a recipe calls for a badge.",
+    "components": [
+      [
+        [ "badge_fbi", 1 ],
+        [ "badge_swat", 1 ],
+        [ "badge_deputy", 1 ],
+        [ "badge_doctor", 1 ],
+        [ "badge_marshal", 1 ],
+        [ "badge_foodkid", 1 ],
+        [ "badge_detective", 1 ],
+        [ "badge_cardboard", 1 ],
+        [ "badge_detective", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "any_tiara",
+    "type": "requirement",
+    "//": "For when a recipe calls for a tiara.",
+    "components": [
+      [
+        [ "ruby_silver_tiara", 1 ],
+        [ "onyx_silver_tiara", 1 ],
+        [ "opal_gold_tiara", 1 ],
+        [ "ruby_gold_tiara", 1 ],
+        [ "onyx_gold_tiara", 1 ],
+        [ "pearl_gold_tiara", 1 ],
+        [ "opal_silver_tiara", 1 ],
+        [ "garnet_gold_tiara", 1 ],
+        [ "peridot_gold_tiara", 1 ],
+        [ "pearl_silver_tiara", 1 ],
+        [ "emerald_gold_tiara", 1 ],
+        [ "citrine_gold_tiara", 1 ],
+        [ "diamond_gold_tiara", 1 ],
+        [ "onyx_platinum_tiara", 1 ],
+        [ "ruby_platinum_tiara", 1 ],
+        [ "opal_platinum_tiara", 1 ],
+        [ "garnet_silver_tiara", 1 ],
+        [ "sapphire_gold_tiara", 1 ],
+        [ "amethyst_gold_tiara", 1 ],
+        [ "pearl_platinum_tiara", 1 ],
+        [ "citrine_silver_tiara", 1 ],
+        [ "peridot_silver_tiara", 1 ],
+        [ "emerald_silver_tiara", 1 ],
+        [ "diamond_silver_tiara", 1 ],
+        [ "blue_topaz_gold_tiara", 1 ],
+        [ "tourmaline_gold_tiara", 1 ],
+        [ "sapphire_silver_tiara", 1 ],
+        [ "aquamarine_gold_tiara", 1 ],
+        [ "garnet_platinum_tiara", 1 ],
+        [ "amethyst_silver_tiara", 1 ],
+        [ "diamond_platinum_tiara", 1 ],
+        [ "citrine_platinum_tiara", 1 ],
+        [ "alexandrite_gold_tiara", 1 ],
+        [ "emerald_platinum_tiara", 1 ],
+        [ "peridot_platinum_tiara", 1 ],
+        [ "blue_topaz_silver_tiara", 1 ],
+        [ "tourmaline_silver_tiara", 1 ],
+        [ "amethyst_platinum_tiara", 1 ],
+        [ "sapphire_platinum_tiara", 1 ],
+        [ "aquamarine_silver_tiara", 1 ],
+        [ "alexandrite_silver_tiara", 1 ],
+        [ "blue_topaz_platinum_tiara", 1 ],
+        [ "aquamarine_platinum_tiara", 1 ],
+        [ "tourmaline_platinum_tiara", 1 ],
+        [ "alexandrite_platinum_tiara", 1 ]
+      ]
+    ]
+  }
+]

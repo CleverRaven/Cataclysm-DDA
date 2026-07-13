@@ -1,7 +1,6 @@
 [
   {
     "id": "flamethrower",
-    "copy-from": "flamethrower_base",
     "looks_like": "m79",
     "type": "ITEM",
     "subtypes": [ "ARMOR", "GUN" ],
@@ -17,8 +16,17 @@
     "dispersion": 300,
     "durability": 8,
     "modes": [ [ "DEFAULT", "Jet", 1 ], [ "AUTO", "Gout", 4 ] ],
-    "extend": { "flags": [ "BELTED", "PRIMITIVE_RANGED_WEAPON", "IS_ARMOR" ] },
     "max_worn": 1,
+    "skill": "launcher",
+    "ammo": [ "flammable" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo_effects": [ "FLARE" ],
+    "reload": 4,
+    "flags": [ "NEVER_JAMS", "FIRESTARTER", "BELTED", "PRIMITIVE_RANGED_WEAPON", "IS_ARMOR" ],
+    "ammo_to_fire": 100,
+    "faults": [  ],
+    "use_action": { "type": "firestarter" },
     "valid_mod_locations": [ [ "rail mount", 1 ], [ "grip", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [
       {

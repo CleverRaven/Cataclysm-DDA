@@ -1,0 +1,48 @@
+[
+  {
+    "id": "mon_vampire_moroi",
+    "type": "MONSTER",
+    "name": { "str_sp": "moroi" },
+    "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren't for the dried blood caked around their mouth and down the front of their clothes.  The light glints against what look to be sharp fangs in their mouth.",
+    "default_faction": "vampire",
+    "bodytype": "human",
+    "species": [ "VAMPIRE", "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 90,
+    "speed": 80,
+    "material": [ "flesh" ],
+    "symbol": "M",
+    "color": "brown",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "dodge": 3,
+    "regenerates_in_dark": true,
+    "weakpoints": [
+      { "name": "the head", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
+    "families": [ "prof_wp_demihuman" ],
+    "bleed_rate": 80,
+    "vision_day": 45,
+    "vision_night": 15,
+    "harvest": "vampire",
+    "path_settings": { "max_dist": 5 },
+    "grab_strength": 20,
+    "special_attacks": [
+      {
+        "id": "bite_humanoid",
+        "cooldown": 10,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ]
+      },
+      { "id": "grab", "cooldown": 7 }
+    ],
+    "death_drops": "default_moroi_death_drops",
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "GRABS", "WARM", "BASHES", "REVIVES", "PUSH_MON" ],
+    "armor": { "bash": 15, "cut": 5, "bullet": 14, "electric": 6 }
+  }
+]

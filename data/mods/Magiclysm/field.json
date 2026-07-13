@@ -317,5 +317,65 @@
     "priority": 8,
     "half_life": "10 seconds",
     "phase": "gas"
+  },
+  {
+    "id": "fd_mana_overload",
+    "type": "field_type",
+    "display_field": true,
+    "phase": "gas",
+    "percent_spread": 5,
+    "half_life": "10 seconds",
+    "intensity_levels": [
+      {
+        "name": "shimmering air",
+        "sym": "~",
+        "color": "blue",
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "effect_mana_overload",
+            "min_duration": "15 minutes",
+            "max_duration": "45 minutes",
+            "intensity": 1,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ]
+      },
+      {
+        "name": "glittering air",
+        "sym": "~",
+        "color": "blue",
+        "dangerous": false,
+        "light_emitted": 1,
+        "effects": [
+          {
+            "effect_id": "effect_mana_overload",
+            "intensity": 2,
+            "min_duration": "2 hours",
+            "max_duration": "4 hours",
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ]
+      },
+      {
+        "name": "glowing air",
+        "sym": "~",
+        "color": "blue",
+        "dangerous": true,
+        "light_emitted": 10,
+        "effects": [
+          {
+            "effect_id": "effect_mana_overload",
+            "intensity": 3,
+            "min_duration": "12 hours",
+            "max_duration": "24 hours",
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ]
+      }
+    ]
   }
 ]

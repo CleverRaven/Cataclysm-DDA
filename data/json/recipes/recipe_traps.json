@@ -90,7 +90,7 @@
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_traps" } ],
-    "components": [ [ [ "super_glue", 1 ] ] ]
+    "components": [ [ [ "glue_strong", 1 ] ] ]
   },
   {
     "type": "recipe",

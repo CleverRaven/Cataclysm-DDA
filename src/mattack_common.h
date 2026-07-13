@@ -44,7 +44,7 @@ class mattack_actor
 struct mtype_special_attack {
     protected:
         // TODO: Remove friend
-        friend struct mtype;
+        friend struct special_attacks_reader;
         cata::clone_ptr<mattack_actor> actor;
 
     public:

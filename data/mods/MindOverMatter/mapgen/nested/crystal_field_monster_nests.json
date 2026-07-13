@@ -1,0 +1,46 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "nether_crystal_field_monsters_migo",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [
+        { "group": "GROUP_MI-GO_CAMP_OM", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "repeat": [ 4, 15 ] },
+        { "group": "GROUP_MI-GO_PSIONS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "repeat": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "nether_crystal_field_monsters_nether",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "group": "GROUP_NETHER_PORTAL", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "repeat": [ 8, 15 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "nether_crystal_field_monsters_feral_psions",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "group": "GROUP_FERAL_PSYCHIC", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "repeat": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "nether_crystal_field_monsters_mixed",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [
+        { "group": "GROUP_CRYSTAL_FIELD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "repeat": [ 10, 16 ] },
+        {
+          "group": "GROUP_CRYSTAL_FIELD_PSYCHOACTIVE",
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "chance": 100,
+          "repeat": [ 2, 5 ]
+        }
+      ]
+    }
+  }
+]

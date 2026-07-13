@@ -10,7 +10,7 @@
     "type": "talk_topic",
     "id": "TALK_PORTAL_STORM_IGNORE",
     "dynamic_line": "If that is what you think you desire.  Take care not to die before you allow yourself to be free.",
-    "responses": [ { "text": "Shut out the voice.", "topic": "TALK_DONE", "effect": { "math": [ "u_ire", "+=", "5" ] } } ]
+    "responses": [ { "text": "Shut out the voice.", "topic": "TALK_DONE", "effect": { "math": [ "u_ire += 5" ] } } ]
   },
   {
     "type": "talk_topic",

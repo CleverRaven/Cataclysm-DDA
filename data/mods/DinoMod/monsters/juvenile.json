@@ -139,6 +139,24 @@
     "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
+    "id": "mon_nanotyrannus_juvenile",
+    "type": "MONSTER",
+    "name": "nanotyrannus juvenile",
+    "description": "Large teeth, fierce eyes, and long legs to drive this juvenile forward, with claws and a feathered mullet and tail.",
+    "default_faction": "nanotyrannus_juvenile",
+    "copy-from": "mon_nanotyrannus",
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "volume": "350 L",
+    "weight": "350 kg",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 1460, "into": "mon_nanotyrannus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "dissect": "dissect_tyrant_sample_small",
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
     "id": "mon_appalachiosaurus_juvenile",
     "type": "MONSTER",
     "name": "appalachiosaurus juvenile",

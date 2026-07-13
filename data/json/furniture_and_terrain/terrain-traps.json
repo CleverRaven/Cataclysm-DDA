@@ -171,6 +171,6 @@
     "symbol": "~",
     "color": "green",
     "move_cost": 6,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM" ]
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM" ]
   }
 ]

@@ -1,3 +1,22 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Artifacts](#artifacts)
+  - [Introduction](#introduction)
+  - [Generation](#generation)
+    - [charge_types](#charge_types)
+      - [recharge_types](#recharge_types)
+      - [recharge_conditions](#recharge_conditions)
+    - [passive_add_procgen_values and passive_mult_procgen_values](#passive_add_procgen_values-and-passive_mult_procgen_values)
+      - [ench_has](#ench_has)
+    - [type_weights](#type_weights)
+    - [items](#items)
+  - [Power Level](#power-level)
+  - [Resonance](#resonance)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Artifacts
 
 ## Introduction
@@ -27,7 +46,7 @@ The procedural generation of artifacts is defined in Json. The object looks like
         "time": [ "3 h", "6 h" ]
       }
     ],
-    "active_procgen_values": [ { "weight": 100, "spell_id": "AEA_PAIN" } ],
+    "active_procgen_values": [ { "weight": 100, "spell_id": "AEA_PAIN", "ench_has": "WIELD" } ],
     "passive_add_procgen_values": [
       {
         "weight": 100,
@@ -91,6 +110,16 @@ As the names suggest, these are *passive* benefits/penalties to having the artif
 - **increment:** the increment that is used for the power multiplier
 - **power_per_increment:** the power value per increment
 - **ench_has:** where the artifact must be in inventory for the enchantment to take effect
+
+### active_procgen_values 
+
+These are active effects that require the artifact to be activated to be used.  It is possible for an artifact to randomly roll multiple **active_procgen_values** during random generation; if so, all of them activate simultaneously when the artifact is activated. No matter how many active abilities the artifact has, it only requires the number of charges specified in the **charges_per_use** parameter under **charge_types** to activate them all.
+
+- **spell_id:** the id of the spell cast when the artifact is activated. This uses the **fake_spell** template (ignoring casting time and resource cost)
+- **base_power:** the artifact power that choosing this active effect consumes (positive or negative)
+- **min_level:** the minimum possible level chosen for the spell to be cast at.  Defaults to 0 if unspecified.
+- **max_level:** the maximum possible level chosen for the spell to be cast at.  Defaults to 0 if unspecified. If max_level is higher than 0, the level is randomly determined between **min_level** and **max_level**
+- **ench_has:**: where the artifact must be in inventory in order to successfully activate it.  If there are multiple active effects with separate **ench_has** conditions, the last randomly-chosen activation condition takes precedence. 
 
 #### ench_has
 

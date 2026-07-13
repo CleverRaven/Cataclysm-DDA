@@ -1,0 +1,53 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_PERK_GRACK_PACK",
+    "effect": [
+      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+      { "u_cast_spell": { "id": "perk_GRACKEN_FRIENDSHIP_spell" }, "targeted": true }
+    ]
+  },
+  {
+    "id": "perk_GRACKEN_FRIENDSHIP_spell",
+    "type": "SPELL",
+    "name": { "str": "The Gracken Friendship Spell", "//~": "NO_I18N" },
+    "description": { "str": "Befriends Gracken with the Grack Pack perk.", "//~": "NO_I18N" },
+    "message": "You quickly display the secret hand signs and the gracken's hands blurring in response.",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "skill": "deduction",
+    "flags": [ "NO_PROJECTILE", "RECHARM", "CHARM_PET", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "extra_effects": [ { "id": "perk_GRACKEN_FRIENDSHIP_aggression" } ],
+    "effect": "charm_monster",
+    "shape": "blast",
+    "min_damage": 1000,
+    "max_damage": 1000,
+    "min_duration": 3153600000,
+    "max_duration": 3153600000,
+    "min_range": 6,
+    "max_range": 6,
+    "targeted_monster_ids": [ "mon_gracke" ]
+  },
+  {
+    "id": "perk_GRACKEN_FRIENDSHIP_aggression",
+    "type": "SPELL",
+    "name": { "str": "The Gracken Friendship Aggression Adjustments", "//~": "NO_I18N" },
+    "description": { "str": "Adjusts aggression to make gracken more likely to attack your enemies.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "skill": "deduction",
+    "flags": [ "NO_PROJECTILE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PERK_GRACKEN_FRIENDSHIP_AGGRESSION_ADJUSTMENT",
+    "shape": "blast",
+    "min_range": 6,
+    "max_range": 6,
+    "targeted_monster_ids": [ "mon_gracke" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_GRACKEN_FRIENDSHIP_AGGRESSION_ADJUSTMENT",
+    "effect": [ { "math": [ "u_val('anger') += 9" ] } ]
+  }
+]

@@ -99,7 +99,4 @@ void overmap_locations::reset()
 void overmap_locations::finalize()
 {
     locations.finalize();
-    for( const overmap_location &elem : locations.get_all() ) {
-        const_cast<overmap_location &>( elem ).finalize(); // This cast is ugly, but safe.
-    }
 }

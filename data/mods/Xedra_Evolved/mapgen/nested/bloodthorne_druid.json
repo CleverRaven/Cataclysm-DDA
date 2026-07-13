@@ -1,0 +1,141 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "roof_6x6_greenhouse_bloodthorne",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "%#++#%",
+        "%1__1%",
+        "#1__1#",
+        "#1__1#",
+        "%1__1%",
+        "%####%"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "_": "t_railroad_rubble",
+        "#": "t_reinforced_glass_shutter_open",
+        "+": "t_reinforced_door_glass_c",
+        "%": "t_reinforced_glass_shutter",
+        "$": "t_wall_glass"
+      },
+      "furniture": { "S": "f_statue" },
+      "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_mature" } },
+      "place_nested": [ { "chunks": [ "roof_6x6_greenhouse_roof" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "bloodthorne_druid_safehouse_bathroom_roof",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "    ",
+        "    ",
+        "    ",
+        "    "
+      ],
+      "terrain": { "T": "t_wood_stairs_down" },
+      "place_nested": [ { "chunks": [ "bloodthorne_druid_safehouse_bathroom_roof_z1" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "bloodthorne_druid_safehouse_bathroom_roof_z1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "----",
+        "...-",
+        "...-",
+        "...-"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "bloodthorne_druid_11x11_basement_stairs",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "        T  ",
+        "           "
+      ],
+      "terrain": { "T": "t_wood_stairs_down" },
+      "place_nested": [ { "chunks": [ "bloodthorne_druid_11x11_basement" ], "x": 0, "y": 0, "z": -1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "bloodthorne_druid_11x11_basement",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "#---------#",
+        "#-   |-tt-#",
+        "#-||+|-ct-#",
+        "#-    - t-#",
+        "#---d--  -#",
+        "#-R      -#",
+        "#-R      -#",
+        "#-RRR    -#",
+        "#------- -#",
+        "#######-T-#",
+        "#######---#"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "#": "t_soil",
+        "T": "t_wood_stairs_up",
+        "-": "t_wall_wood",
+        " ": "t_dirtfloor",
+        "|": "t_bars",
+        "+": "t_door_bar_locked",
+        "d": "t_door_c",
+        "R": "t_dirtfloor",
+        "t": "t_dirtfloor",
+        "c": "t_dirtfloor"
+      },
+      "furniture": { "R": "f_rack_wood", "t": "f_table", "c": "f_chair" },
+      "items": {
+        "R": [
+          { "item": "veggy_pickled_jar_3l_glass_sealed_12", "chance": 15, "repeat": [ 1, 2 ] },
+          { "item": "apple_canned_jar_3l_glass_sealed_24", "chance": 15 },
+          { "item": "fish_pickled_jar_3l_glass_sealed_12", "chance": 15, "repeat": [ 1, 2 ] },
+          { "item": "meat_pickled_jar_3l_glass_sealed_12", "chance": 15 },
+          { "item": "veggy_canned_jar_3l_glass_sealed_12", "chance": 15, "repeat": [ 1, 2 ] },
+          { "item": "can_tomato_jar_3l_glass_sealed_24", "chance": 15, "repeat": [ 1, 2 ] },
+          { "item": "meat_canned_jar_3l_glass_sealed_12", "chance": 15 },
+          { "item": "flour_bag_paper_full", "chance": 60, "repeat": [ 1, 2 ] },
+          { "item": "kitchen_sack", "chance": 60, "repeat": [ 0, 2 ] }
+        ]
+      },
+      "place_item": [
+        { "item": "silver_locket", "x": 7, "y": 1, "chance": 5 },
+        { "item": "vacutainer", "x": 7, "y": 2, "chance": 85 },
+        { "item": "note_snippet_bloodthorne_druid", "x": 7, "y": 1, "chance": 80 },
+        { "item": "note_snippet_bloodthorne_druid", "x": 6, "y": 1, "chance": 45 }
+      ],
+      "place_items": [ { "item": "portable_non_flashlight_light_sources", "x": 8, "y": 0 } ],
+      "place_monster": [ { "monster": "mon_vampire_feral", "x": 2, "y": 1, "chance": 70 } ]
+    }
+  }
+]

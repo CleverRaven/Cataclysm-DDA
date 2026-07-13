@@ -30,5 +30,17 @@
     "type": "TRAIT_MIGRATION",
     "id": "BIOMANCER_EAT_TONS_OF_FOOD_05",
     "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "//": "remove after 0.J",
+    "id": "COLD_AURA_OFF",
+    "trait": "BOREAL_MAGE_COLD_AURA"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "//": "remove after 0.J",
+    "id": "COLD_AURA_ON",
+    "trait": "BOREAL_MAGE_COLD_AURA"
   }
 ]

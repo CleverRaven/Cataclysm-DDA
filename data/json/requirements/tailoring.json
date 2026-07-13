@@ -58,7 +58,7 @@
     "type": "requirement",
     "//": "Shaping and attaching a rigid Kevlar plate to something, per 430 g of rigid Kevlar.  Time needed is 45 minutes per unit.",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "rigid_kevlar_plate", 1 ] ], [ [ "super_glue", 1 ] ] ]
+    "components": [ [ [ "rigid_kevlar_plate", 1 ] ], [ [ "glue_strong", 1 ] ] ]
   },
   {
     "id": "armor_kevlar_layered",
@@ -85,7 +85,7 @@
     "type": "requirement",
     "//": "Layering paper sheets, cutting holes in them, laminating them with glue, and connecting multiple of resulting plates with cordage, per 162 g of paper.  Time needed is 50 minutes per unit.",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "paper", 50 ] ], [ [ "super_glue", 4 ], [ "bone_glue", 1 ] ], [ [ "cordage_short", 2, "LIST" ] ] ]
+    "components": [ [ [ "paper", 50 ] ], [ [ "glue_strong", 4 ], [ "glue_weak", 1 ] ], [ [ "cordage_short", 2, "LIST" ] ] ]
   },
   {
     "id": "armor_wood",
@@ -98,7 +98,9 @@
     "id": "button",
     "type": "requirement",
     "//": "All kinds of clothing buttons.",
-    "components": [ [ [ "button_plastic", 1 ], [ "button_wood", 1 ], [ "button_steel", 1 ], [ "button_bronze", 1 ] ] ]
+    "components": [
+      [ [ "button_plastic", 1 ], [ "button_wood", 1 ], [ "button_steel", 1 ], [ "button_bronze", 1 ], [ "button_bone", 1 ] ]
+    ]
   },
   {
     "id": "strap_small",
@@ -440,6 +442,13 @@
     "type": "requirement",
     "//": "35g per unit. Crafting either small or patchwork leather items, per 37 g of leather; 2 g + excessive weight of material is wasted, producing leather patches as byproducts.  Time needed is usually 15 minutes per unit if hand-stitching.",
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "FABRIC_CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [ [ [ "leather", 1 ] ], [ [ "filament", 3, "LIST" ] ] ]
+  },
+  {
+    "id": "tailoring_leather_small_simple",
+    "type": "requirement",
+    "//": "35g per unit. Crafting either small or patchwork leather items, per 37 g of leather; 2 g + excessive weight of material is wasted, producing leather patches as byproducts.  Time needed is usually 15 minutes per unit if hand-stitching. Used for simpler items where precision cutting is less important.",
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ], [ [ "filament", 3, "LIST" ] ] ]
   },
   {

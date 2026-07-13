@@ -114,14 +114,14 @@
       {
         "id": "buff_bojutsu_static",
         "name": "Bōjutsu Stance",
-        "description": "A agile stance that allows your blocks to reduce incoming damage.\n\nBlocked damage reduced by 100% of Dexterity.",
+        "description": "An agile stance that allows your blocks to reduce incoming damage.\n\nBlocked damage reduced by 100% of Dexterity.",
         "melee_allowed": true,
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "dex", "scale": 1 } ]
       },
       {
         "id": "buff_bojutsu_static2",
         "name": "Skilled Striking",
-        "description": "As you get more skilled you're able to begin targeting striking points that allow more for damage.\n\nMelee skill increases bash damage cap.",
+        "description": "As you get more skilled you're able to begin targeting striking points that allow for more damage.\n\nMelee skill increases bash damage cap.",
         "melee_allowed": true,
         "melee_bash_damage_cap_bonus": true,
         "skill_requirements": [ { "name": "melee", "level": 1 } ]
@@ -241,7 +241,7 @@
       {
         "id": "buff_boxing_static",
         "name": "Boxing Stance",
-        "description": "A solid stance allows you block more damage than normal and deliver better punches.\n\n+1 accuracy, blocked damage reduced by 50% of Strength.",
+        "description": "A solid stance allows you to block more damage than normal and deliver better punches.\n\n+1 accuracy, blocked damage reduced by 50% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "block", "scaling-stat": "str", "scale": 0.5 } ]
       }
@@ -811,7 +811,7 @@
     "type": "martial_art",
     "id": "style_leopard",
     "name": { "str": "Leopard Kung Fu" },
-    "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically-planned strikes.  Dexterity determines your damage, rather than Strength and also increases your critical hit chance.",
+    "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically-planned strikes.  Dexterity determines your damage rather than Strength, and also increases your critical hit chance.",
     "initiate": [ "You prepare to pounce like a leopard.", "%s assumes a leopard-like stance." ],
     "priority": 1,
     "learn_difficulty": 10,

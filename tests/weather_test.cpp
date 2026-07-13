@@ -77,10 +77,10 @@ static year_of_weather_data collect_weather_data( unsigned seed )
     // Collect generated weather data for a single year.
     for( time_point i = begin ; i < end ; i += 1_minutes ) {
         w_point w = wgen.get_weather( tripoint_abs_ms::zero, i, seed );
-        int day = to_days<int>( time_past_new_year( i ) );
+        int day = to_days<int>( i - begin );
         int minute = to_minutes<int>( time_past_midnight( i ) );
         result.temperature[day][minute] = units::to_fahrenheit( w.temperature );
-        int hour = to_hours<int>( time_past_new_year( i ) );
+        int hour = to_hours<int>( i - begin );
         *get_weather().weather_precise = w;
         result.hourly_precip[hour] +=
             precip_mm_per_hour(
@@ -113,6 +113,7 @@ TEST_CASE( "weather_realism", "[weather]" )
 // https://gist.github.com/Kodiologist/e2f1e6685e8fd865650f97bb6a67ad07
 {
     for( unsigned int seed : seeds ) {
+        CAPTURE( seed );
         year_of_weather_data data = collect_weather_data( seed );
 
         // Check the mean absolute difference between the highs or lows
@@ -130,9 +131,11 @@ TEST_CASE( "weather_realism", "[weather]" )
         CHECK( mean_of_ranges <= 25 );
 
         // Check that summer and winter temperatures are very different.
-        size_t half = data.highs.size() / 4;
-        double summer_low = data.lows[half];
-        double winter_high = data.highs[0];
+        // 0 is the start of spring, 1/4 is the start of summer, 1/8 is halfway through
+        size_t summer_idx = 3 * data.lows.size() / 8;
+        size_t winter_idx = 7 * data.highs.size() / 8;
+        double summer_low = data.lows[summer_idx];
+        double winter_high = data.highs[winter_idx];
         {
             CAPTURE( summer_low );
             CAPTURE( winter_high );

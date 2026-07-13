@@ -1,0 +1,10 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_GAME_BEGIN_ADD_DEFAULT_CASTING_MODIFIERS_TRAIT",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "not": { "u_has_trait": "SPELLCASTING_DEFAULT_TRAIT" } },
+    "effect": [ { "u_add_trait": "SPELLCASTING_DEFAULT_TRAIT" } ]
+  }
+]

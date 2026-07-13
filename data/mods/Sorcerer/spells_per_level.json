@@ -1,0 +1,257 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_level_up_sorcerer_spell_slots_known",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "sorcerer_level_up_1",
+            "condition": { "math": [ "u_current_sorcerer_level == 1" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 2" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_2",
+            "condition": { "math": [ "u_current_sorcerer_level  ==  2" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots  =  4" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots  =  2" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_3",
+            "condition": { "math": [ "u_current_sorcerer_level == 3" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 3" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_4",
+            "condition": { "math": [ "u_current_sorcerer_level == 4" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_2_spells_known_slots = 1" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_5",
+            "condition": { "math": [ "u_current_sorcerer_level == 5" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_2_spells_known_slots = 2" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_6",
+            "condition": { "math": [ "u_current_sorcerer_level == 6" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_2_spells_known_slots = 2" ] },
+              { "math": [ "u_sorcerer_level_3_spells_known_slots = 1" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_7",
+            "condition": { "math": [ "u_current_sorcerer_level == 7" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_2_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_3_spells_known_slots = 2" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_8",
+            "condition": { "math": [ "u_current_sorcerer_level == 8" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 6" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_2_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_3_spells_known_slots = 2" ] },
+              { "math": [ "u_sorcerer_level_4_spells_known_slots = 1" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_9",
+            "condition": { "math": [ "u_current_sorcerer_level == 9" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 6" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_2_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_3_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_4_spells_known_slots = 2" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_10",
+            "condition": { "math": [ "u_current_sorcerer_level == 10" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 6" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_2_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_3_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_4_spells_known_slots = 2" ] },
+              { "math": [ "u_sorcerer_level_5_spells_known_slots = 1" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_11",
+            "condition": { "math": [ "u_current_sorcerer_level == 11" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 6" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_2_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_3_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_4_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_5_spells_known_slots = 2" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_12",
+            "condition": { "math": [ "u_current_sorcerer_level == 12" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 6" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_2_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_3_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_4_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_5_spells_known_slots = 2" ] },
+              { "math": [ "u_sorcerer_level_6_spells_known_slots = 1" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_13",
+            "condition": { "math": [ "u_current_sorcerer_level == 13" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 6" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_2_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_3_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_4_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_5_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_6_spells_known_slots = 2" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_14",
+            "condition": { "math": [ "u_current_sorcerer_level == 14" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 6" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_2_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_3_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_4_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_5_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_6_spells_known_slots = 2" ] },
+              { "math": [ "u_sorcerer_level_7_spells_known_slots = 1" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_15",
+            "condition": { "math": [ "u_current_sorcerer_level == 15" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 6" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_2_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_3_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_4_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_5_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_6_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_7_spells_known_slots = 2" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_16",
+            "condition": { "math": [ "u_current_sorcerer_level == 16" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 6" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_2_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_3_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_4_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_5_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_6_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_7_spells_known_slots = 2" ] },
+              { "math": [ "u_sorcerer_level_8_spells_known_slots = 1" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_17",
+            "condition": { "math": [ "u_current_sorcerer_level == 17" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 6" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_2_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_3_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_4_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_5_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_6_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_7_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_8_spells_known_slots = 2" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_18",
+            "condition": { "math": [ "u_current_sorcerer_level == 18" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 6" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_2_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_3_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_4_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_5_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_6_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_7_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_8_spells_known_slots = 2" ] },
+              { "math": [ "u_sorcerer_level_9_spells_known_slots = 1" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_19",
+            "condition": { "math": [ "u_current_sorcerer_level == 19" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 6" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_2_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_3_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_4_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_5_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_6_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_7_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_8_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_9_spells_known_slots = 2" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_20",
+            "condition": { "math": [ "u_current_sorcerer_level == 20" ] },
+            "effect": [
+              { "math": [ "u_sorcerer_level_0_spells_known_slots = 6" ] },
+              { "math": [ "u_sorcerer_level_1_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_2_spells_known_slots = 5" ] },
+              { "math": [ "u_sorcerer_level_3_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_4_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_5_spells_known_slots = 4" ] },
+              { "math": [ "u_sorcerer_level_6_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_7_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_8_spells_known_slots = 3" ] },
+              { "math": [ "u_sorcerer_level_9_spells_known_slots = 3" ] }
+            ]
+          },
+          {
+            "id": "sorcerer_level_up_21+",
+            "condition": { "math": [ "u_current_sorcerer_level >= 21" ] },
+            "effect": { "math": [ "u_sorcerer_level_9_spells_known_slots += 1" ] }
+          }
+        ]
+      }
+    ]
+  }
+]

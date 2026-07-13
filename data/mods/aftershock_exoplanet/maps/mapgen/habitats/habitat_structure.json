@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_modular_habitat_pillars_ground_walkway",
     "object": {
       "fill_ter": "t_region_groundcover_urban",
@@ -56,7 +55,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_modular_habitat_end_pillars_above_walkway",
     "object": {
       "fill_ter": "t_open_air",
@@ -65,14 +63,12 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_modular_habitat_pillars",
     "object": { "fill_ter": "t_open_air", "place_nested": [ { "chunks": [ "afs_modular_habitat_end_pillars" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_modular_habitat_end_pillars",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -108,7 +104,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_modular_habitat_end_pillars_ground_walkway",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -151,7 +146,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_modular_habitat_end_pillars_above_walkway",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [

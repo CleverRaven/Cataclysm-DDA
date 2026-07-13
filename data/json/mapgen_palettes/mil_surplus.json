@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "indoor_tent_3x3_N",
     "object": {
       "mapgensize": [ 3, 3 ],

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "urban_25_sewer_connector" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -35,7 +34,6 @@
     }
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -113,7 +111,6 @@
     "type": "mapgen"
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_25_3" ] ],
     "//": "diner side",
     "type": "mapgen",
@@ -154,7 +151,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_25_4" ] ],
     "type": "mapgen",
     "//": "apartment side",
@@ -221,7 +217,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_25_5", "urban_25_6" ] ],
     "type": "mapgen",
     "object": {
@@ -282,7 +277,6 @@
     }
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -342,7 +336,6 @@
     "type": "mapgen"
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_25_9", "urban_25_10" ] ],
     "type": "mapgen",
     "object": {
@@ -382,7 +375,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "urban_25_12",
     "type": "mapgen",
     "object": {

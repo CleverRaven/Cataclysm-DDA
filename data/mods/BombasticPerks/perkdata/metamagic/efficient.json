@@ -1,0 +1,31 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_toggle_efficient",
+    "condition": { "compare_string": [ "yes", { "u_val": "perk_metamagic_efficient_deactivated" } ] },
+    "effect": [
+      { "u_message": "You activate your efficient metamagic" },
+      { "u_add_var": "perk_metamagic_efficient_deactivated", "value": "no" }
+    ],
+    "false_effect": [
+      { "u_message": "You deactivate your efficient metamagic" },
+      { "u_add_var": "perk_metamagic_efficient_deactivated", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_efficient",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        { "u_has_trait": "perk_metamagic_efficient" },
+        { "not": { "compare_string": [ "yes", { "u_val": "perk_metamagic_efficient_deactivated" } ] } }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('cost', 'mod': 'magiclysm'  ) = -.25" ] },
+      { "math": [ "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm' ) = +5" ] }
+    ]
+  }
+]

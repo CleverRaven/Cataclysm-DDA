@@ -18,6 +18,13 @@
     ]
   },
   {
+    "id": "test_shopping_cart",
+    "type": "vehicle",
+    "name": "Shopping Cart",
+    "blueprint": [ "o" ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_caster_large", "basketlg#cart" ] } ]
+  },
+  {
     "id": "test_rv",
     "type": "vehicle",
     "name": "RV",
@@ -502,48 +509,33 @@
     ]
   },
   {
-    "id": "character_volume_test_car",
+    "id": "unicycle_bike_wheel",
     "type": "vehicle",
-    "name": "DEBUG volume test car DEBUG",
-    "blueprint": [
-      [ "=====" ],
-      [ "=====" ],
-      [ "=====" ],
-      [ "=====" ],
-      [ "=====" ]
-    ],
+    "name": "Unicycle with bicycle wheel",
+    "blueprint": [ "#" ],
     "parts": [
-      { "x": -1, "y": -1, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": 0, "y": -1, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": 1, "y": -1, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": -1, "y": 0, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": 0, "y": 0, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": 1, "y": 0, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": -1, "y": 1, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": 0, "y": 1, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": 1, "y": 1, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": -1, "y": 2, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": 0, "y": 2, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": 1, "y": 2, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": 2, "y": 2, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": 0, "y": -2, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": 1, "y": -2, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": 2, "y": -1, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": 2, "y": 0, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": 2, "y": 1, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": -2, "y": -1, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": -2, "y": 0, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": -2, "y": -2, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": -1, "y": -2, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": 2, "y": -2, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": -2, "y": 2, "parts": [ "frame", "aisle", "roof" ] },
-      { "x": -2, "y": 1, "parts": [ "frame", "aisle", "roof" ] }
-    ],
-    "items": [
-      { "x": 1, "y": 0, "chance": 100, "items": [ "rock_volume_test" ] },
-      { "x": -1, "y": 0, "chance": 100, "items": [ "rock_volume_test" ] },
-      { "x": 0, "y": 1, "chance": 100, "items": [ "rock_volume_test" ] },
-      { "x": 0, "y": -1, "chance": 100, "items": [ "rock_volume_test" ] }
+      { "x": 0, "y": 0, "parts": [ "folding_frame", "folding_seat", "wheel_mount_light_steerable" ] },
+      { "x": 0, "y": 0, "parts": [ "wheel_bicycle_or" ] }
+    ]
+  },
+  {
+    "id": "unicycle_normal_wheel",
+    "type": "vehicle",
+    "name": "Unicycle with normal wheel",
+    "blueprint": [ "#" ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "folding_frame", "folding_seat", "wheel_mount_medium_steerable" ] },
+      { "x": 0, "y": 0, "parts": [ "wheel" ] }
+    ]
+  },
+  {
+    "id": "unicycle_armored_wheel",
+    "type": "vehicle",
+    "name": "Unicycle with armored wheel",
+    "blueprint": [ "#" ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "folding_frame", "folding_seat", "wheel_mount_heavy_steerable" ] },
+      { "x": 0, "y": 0, "parts": [ "wheel_armor" ] }
     ]
   }
 ]

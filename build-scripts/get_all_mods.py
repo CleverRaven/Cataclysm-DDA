@@ -10,6 +10,7 @@ import json
 import os
 
 mods_this_time = []
+mods_lists = []
 
 exclusions = [
     # Tuple of (mod_id, mod_id) - these two mods will be incompatible
@@ -49,7 +50,7 @@ def add_mods(mods):
 
 
 def print_modlist(modlist, master_list):
-    print(','.join(modlist))
+    mods_lists.append(','.join(modlist))
     master_list -= set(modlist)
     modlist.clear()
 
@@ -57,13 +58,16 @@ def print_modlist(modlist, master_list):
 all_mod_dependencies = {}
 all_mod_conflicts = {}
 total_conversions = set()
+obsolete_mods = set()
 
 for info in glob.glob('data/mods/*/modinfo.json'):
     mod_info = json.load(open(info, encoding='utf-8'))
     for e in mod_info:
-        if (e["type"] == "MOD_INFO" and
-                ("obsolete" not in e or not e["obsolete"])):
+        if (e["type"] == "MOD_INFO"):
             ident = e["id"]
+            if ("obsolete" in e and e["obsolete"]):
+                obsolete_mods.add(ident)
+                continue
             all_mod_dependencies[ident] = e.get("dependencies", [])
             all_mod_conflicts[ident] = e.get("conflicts", [])
             if e["category"] == "total_conversion":
@@ -85,14 +89,15 @@ for r, d, f in os.walk('data/mods'):
         continue
     add_mods([ident])
     for mod in os.scandir(os.path.join(r, 'mod_interactions')):
+        ident = os.path.basename(mod.path)
+        if ident in obsolete_mods:
+            continue
         mods_this_time.append(os.path.basename(mod.path))
-    print(','.join(mods_this_time))
+    mods_lists.append(','.join(mods_this_time))
     mods_this_time.clear()
 
 mods_remaining = set(all_mod_dependencies)
 
-# Make sure aftershock can load by itself.
-add_mods(["aftershock"])
 print_modlist(mods_this_time, mods_remaining)
 
 while mods_remaining:
@@ -103,3 +108,6 @@ while mods_remaining:
         raise RuntimeError(
             'mods remain ({}) but none could be added'.format(mods_remaining))
     print_modlist(mods_this_time, mods_remaining)
+
+for list in sorted(mods_lists, key=len, reverse=True):
+    print(list)

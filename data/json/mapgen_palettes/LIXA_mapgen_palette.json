@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "LIXA_ground_palette",
     "terrain": {
-      "_": "t_open_air_rooved",
+      "_": "t_infinite_shaft_rooved",
       "V": "t_pavement",
       "C": "t_pavement",
       "?": "t_pavement",

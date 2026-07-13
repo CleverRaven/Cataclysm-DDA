@@ -1,3 +1,54 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Game Balance](#game-balance)
+- [Stat system scaling:](#stat-system-scaling)
+- [Skill system scaling:](#skill-system-scaling)
+- [Monster melee skill scaling:](#monster-melee-skill-scaling)
+- [Monster dodge skill scaling:](#monster-dodge-skill-scaling)
+- [Monster armor scaling:](#monster-armor-scaling)
+- [Monster melee dice size scaling:](#monster-melee-dice-size-scaling)
+- [Monster melee dice number scaling:](#monster-melee-dice-number-scaling)
+- [Monster maximum damage scaling:](#monster-maximum-damage-scaling)
+- [Monster HP scaling:](#monster-hp-scaling)
+- [Monster aggression scaling:](#monster-aggression-scaling)
+- [Monster Speed Scaling:](#monster-speed-scaling)
+- [Monster Difficulty scaling:](#monster-difficulty-scaling)
+- [Monster vision scaling:](#monster-vision-scaling)
+- [Dodge System assumptions:](#dodge-system-assumptions)
+  - [Dodge Use Cases:](#dodge-use-cases)
+- [MELEE WEAPONS:](#melee-weapons)
+  - [To-Hit Value](#to-hit-value)
+    - [Grip](#grip)
+    - [Length](#length)
+    - [Striking Surface](#striking-surface)
+    - [Balance](#balance)
+  - [Damage](#damage)
+    - [Damage per second](#damage-per-second)
+    - [Critical hits](#critical-hits)
+    - [Other factors](#other-factors)
+    - [Weapon tiers](#weapon-tiers)
+  - [Other melee balancing factors](#other-melee-balancing-factors)
+    - [Attack speed](#attack-speed)
+    - [Damage type](#damage-type)
+- [RANGE WEAPONS](#range-weapons)
+  - [Automatic Fire](#automatic-fire)
+  - [Magazines](#magazines)
+    - [Reload times](#reload-times)
+    - [Weight](#weight)
+    - [Volume](#volume)
+    - [Jam multiplier](#jam-multiplier)
+    - [Rarity](#rarity)
+  - [Archery damage](#archery-damage)
+  - [Ammo stats](#ammo-stats)
+- [LIQUIDS:](#liquids)
+- [Diamond weapons](#diamond-weapons)
+- [MUTATIONS](#mutations)
+- [Preparing Food and Water:](#preparing-food-and-water)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Game Balance
 # Stat system scaling:
 Ranges below will be using strength as the example since it's the easiest to itemize, but what the numbers mean is equivalent between all stats.

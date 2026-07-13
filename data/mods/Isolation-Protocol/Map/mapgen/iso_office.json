@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "office_up_ew",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -38,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "office_bottom_ew",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -52,7 +50,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "office_right_ns",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -89,7 +86,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "office_left_ns",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -104,7 +100,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "iso_office" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -165,7 +160,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "iso_office" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -226,7 +220,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "iso_office" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -287,7 +280,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "iso_office" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -348,7 +340,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "iso_office" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -409,7 +400,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "iso_office" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -470,7 +460,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "iso_office" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -531,7 +520,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "iso_office" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -592,7 +580,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "iso_office" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -653,7 +640,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "iso_office" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -714,7 +700,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "iso_office" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [

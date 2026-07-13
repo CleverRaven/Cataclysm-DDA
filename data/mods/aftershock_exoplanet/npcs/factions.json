@@ -11,7 +11,7 @@
     "power": 20,
     "currency": "crypto_coin",
     "//": "90 days worth of food for 1 person, at 3000kcal/day and full RDA of iron/calcium/vitC",
-    "fac_food_supply": { "calories": 270000000, "vitamins": { "iron": 8640, "calcium": 8640, "vitC": 8640 } },
+    "fac_food_supply": [ [ 0, { "calories": 270000000, "vitamins": { "iron": 8640, "calcium": 8640, "vitC": 8640 } } ] ],
     "wealth": 75000,
     "relations": {
       "free_merchants": {
@@ -94,7 +94,7 @@
       { "item": "UICA_10000d", "fixed_adj": 0 }
     ],
     "//": "Being an interplantary authority with effectively unlimited resources to draw upon, these numbers are here only as a technical limit. Vitamins are capped at ~90% of the max for a 32-bit integer and calories scaled to match.",
-    "fac_food_supply": { "calories": 62500000000000, "vitamins": { "iron": 2000000000, "calcium": 2000000000, "vitC": 2000000000 } },
+    "fac_food_supply": [ [ 0, { "calories": 62500000000000, "vitamins": { "iron": 2000000000, "calcium": 2000000000, "vitC": 2000000000 } } ] ],
     "wealth": 75000,
     "relations": {
       "your_followers": { "share public goods": true, "lets you in": true, "knows your voice": true },
@@ -195,7 +195,7 @@
     "power": 100,
     "currency": "",
     "//": "Doesn't actually have NPCs, so no camp or food supply is necessary.",
-    "fac_food_supply": { "calories": 0, "vitamins": {  } },
+    "fac_food_supply": [ [ 0, { "calories": 0, "vitamins": {  } } ] ],
     "wealth": 75000,
     "relations": {
       "free_merchants": {
@@ -282,7 +282,7 @@
     "power": 100,
     "currency": "",
     "//": "Being an interplantary enitity with effectively unlimited resources to draw upon, these numbers are here only as a technical limit. Vitamins are capped at ~90% of the max for a 32-bit integer and calories scaled to match.",
-    "fac_food_supply": { "calories": 62500000000000, "vitamins": { "iron": 2000000000, "calcium": 2000000000, "vitC": 2000000000 } },
+    "fac_food_supply": [ [ 0, { "calories": 62500000000000, "vitamins": { "iron": 2000000000, "calcium": 2000000000, "vitC": 2000000000 } } ] ],
     "wealth": 62500000000000,
     "relations": {
       "free_merchants": {
@@ -380,7 +380,7 @@
       { "item": "UICA_1000d", "fixed_adj": 0 },
       { "item": "UICA_10000d", "fixed_adj": 0 }
     ],
-    "fac_food_supply": { "calories": 62500000000000, "vitamins": { "iron": 2000000000, "calcium": 2000000000, "vitC": 2000000000 } },
+    "fac_food_supply": [ [ 0, { "calories": 62500000000000, "vitamins": { "iron": 2000000000, "calcium": 2000000000, "vitC": 2000000000 } } ] ],
     "wealth": 62500000000000,
     "relations": {
       "free_merchants": {
@@ -478,7 +478,7 @@
     "size": 15,
     "power": 20,
     "//": "Doesn't actually have *spawned* NPCs, so no camp or food supply is necessary.",
-    "fac_food_supply": { "calories": 0, "vitamins": {  } },
+    "fac_food_supply": [ [ 0, { "calories": 0, "vitamins": {  } } ] ],
     "wealth": 7500,
     "relations": {
       "free_merchants": {

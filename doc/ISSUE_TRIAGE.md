@@ -1,7 +1,21 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Why triage?](#why-triage)
+- [How does triage work?](#how-does-triage-work)
+  - [Is this a bug report or a feature request?](#is-this-a-bug-report-or-a-feature-request)
+  - [Bug priority](#bug-priority)
+  - [Bug validity](#bug-validity)
+  - [Feature request validity](#feature-request-validity)
+    - [Outcomes for invalid feature requests](#outcomes-for-invalid-feature-requests)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Why triage?
 
 Triage is a process of sanity checking and prioritizing issues. The term is adopted from medical contexts where patients are briefly examined to decide whether they need immediate care, or if their issue can wait until patients at greater risk can be handled first.
-Software issue triage is not life-or-death, but it does adress the same fundamental problem, which is that there is a limited amount of attention and skill that can be brought to bear on issues at any given time, and some issues have higher *impact* than others.
+Software issue triage is not life-or-death, but it does address the same fundamental problem, which is that there is a limited amount of attention and skill that can be brought to bear on issues at any given time, and some issues have higher *impact* than others.
 
 If issues are properly triaged, contributors with time available can focus on getting things done instead of searching through issues for something to work on and fix.
 

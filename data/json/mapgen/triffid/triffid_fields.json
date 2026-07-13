@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "triffid_field",
     "object": {
       "fallback_predecessor_mapgen": "forest",
@@ -48,7 +47,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_triffid_field_n",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -84,7 +82,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_triffid_field_ne",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -120,7 +117,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_triffid_field_e",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -156,7 +152,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_triffid_field_se",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -192,7 +187,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_triffid_field_s",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -228,7 +222,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_triffid_field_sw",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -264,7 +257,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_triffid_field_w",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -300,7 +292,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_triffid_field_nw",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -336,7 +327,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_megafernification",
     "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "megafernification", "x": 0, "y": 0 } ] }
   },

@@ -70,7 +70,7 @@
     "type": "fault_fix",
     "id": "mend_fault_fail_to_feed_manual_feed",
     "name": "Manual cycle",
-    "success_msg": "You manually cycle your %s to put round in the chamber.",
+    "success_msg": "You manually cycle your %s to put a round in the chamber.",
     "time": "10 s",
     "set_variables": { "u_know_round_in_chamber": true },
     "faults_removed": [ "fault_fail_to_feed" ]

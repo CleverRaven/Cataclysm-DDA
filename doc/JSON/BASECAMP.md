@@ -1,3 +1,27 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Basecamp](#basecamp)
+  - [Recommended reading](#recommended-reading)
+  - [Adding alternate basecamp upgrade paths](#adding-alternate-basecamp-upgrade-paths)
+  - [recipe JSONs](#recipe-jsons)
+    - [blueprint requires, provides, and excludes](#blueprint-requires-provides-and-excludes)
+    - [Sample recipe JSON](#sample-recipe-json)
+  - [mapgen update JSON](#mapgen-update-json)
+    - [Sample mapgen update JSON](#sample-mapgen-update-json)
+    - [Parametric mapgen](#parametric-mapgen)
+  - [Recipe groups](#recipe-groups)
+    - [Upgrade Paths and Expansions](#upgrade-paths-and-expansions)
+      - [Examples](#examples)
+  - [Sample basecamp upgrade path](#sample-basecamp-upgrade-path)
+  - [Modular Basecamp conventions](#modular-basecamp-conventions)
+    - [Layout](#layout)
+    - [Naming scheme](#naming-scheme)
+- [Adding basecamp expansions](#adding-basecamp-expansions)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Basecamp
 
 ## Recommended reading
@@ -106,12 +130,10 @@ the `"blueprint_provides"` of the previous upgrade missions.
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_field_camp_7",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "basecamp_large_tent_east" ], "x": 2, "y": 10 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "basecamp_large_tent_east",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -152,7 +174,6 @@ For example, suppose this was your mapgen definition:
 ```jsonc
 {
   "type": "mapgen",
-  "method": "json",
   "nested_mapgen_id": "fbmh_2_generic_room_1_1",
   "object": {
     "parameters": {

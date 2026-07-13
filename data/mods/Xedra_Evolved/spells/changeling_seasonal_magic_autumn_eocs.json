@@ -94,12 +94,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( 458.12 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 79.52) + (u_skill('deduction') * 153.71) ) ) * (global_what_is_the_season == 2 ? 0.6 : 1)"
+              "( ( 458.12 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 79.52) + (u_skill('deduction') * 153.71) ) ) * (global_what_is_the_season == 1 ? 0.6 : 1)"
             ]
           },
           {
             "math": [
-              "( ( 915.27 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 216.85) + (u_skill('deduction') * 398.52) ) ) * (global_what_is_the_season == 2 ? 0.4 : 1)"
+              "( ( 915.27 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 216.85) + (u_skill('deduction') * 398.52) ) ) * (global_what_is_the_season == 1 ? 0.4 : 1)"
             ]
           }
         ]

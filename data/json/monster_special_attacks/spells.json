@@ -583,32 +583,32 @@
     "type": "snippet",
     "category": "<random_category>",
     "text": [
-      { "text": "CHIMERA", "weight": 6 },
-      { "text": "INSECT", "weight": 2 },
-      { "text": "ALPHA", "weight": 1 },
-      { "text": "URSINE", "weight": 2 },
-      { "text": "CHIROPTERAN", "weight": 2 },
-      { "text": "BIRD", "weight": 2 },
-      { "text": "MEDICAL", "weight": 1 },
-      { "text": "LUPINE", "weight": 2 },
-      { "text": "RAT", "weight": 2 },
-      { "text": "SLIME", "weight": 1 },
-      { "text": "PLANT", "weight": 2 },
-      { "text": "BATRACHIAN", "weight": 2 },
-      { "text": "RAPTOR", "weight": 1 },
-      { "text": "MOUSE", "weight": 2 },
-      { "text": "CEPHALOPOD", "weight": 2 },
-      { "text": "ELFA", "weight": 1 },
-      { "text": "FISH", "weight": 2 },
-      { "text": "HUMAN", "weight": 1 },
-      { "text": "RABBIT", "weight": 2 },
-      { "text": "GASTROPOD", "weight": 2 },
-      { "text": "BEAST", "weight": 1 },
-      { "text": "FELINE", "weight": 1 },
-      { "text": "CATTLE", "weight": 1 },
-      { "text": "LIZARD", "weight": 1 },
-      { "text": "TROGLOBITE", "weight": 1 },
-      { "text": "CRUSTACEAN", "weight": 1 }
+      { "text": { "str": "CHIMERA", "//~": "NO_I18N" }, "weight": 6 },
+      { "text": { "str": "INSECT", "//~": "NO_I18N" }, "weight": 2 },
+      { "text": { "str": "ALPHA", "//~": "NO_I18N" }, "weight": 1 },
+      { "text": { "str": "URSINE", "//~": "NO_I18N" }, "weight": 2 },
+      { "text": { "str": "CHIROPTERAN", "//~": "NO_I18N" }, "weight": 2 },
+      { "text": { "str": "BIRD", "//~": "NO_I18N" }, "weight": 2 },
+      { "text": { "str": "MEDICAL", "//~": "NO_I18N" }, "weight": 1 },
+      { "text": { "str": "LUPINE", "//~": "NO_I18N" }, "weight": 2 },
+      { "text": { "str": "RAT", "//~": "NO_I18N" }, "weight": 2 },
+      { "text": { "str": "SLIME", "//~": "NO_I18N" }, "weight": 1 },
+      { "text": { "str": "PLANT", "//~": "NO_I18N" }, "weight": 2 },
+      { "text": { "str": "BATRACHIAN", "//~": "NO_I18N" }, "weight": 2 },
+      { "text": { "str": "RAPTOR", "//~": "NO_I18N" }, "weight": 1 },
+      { "text": { "str": "MOUSE", "//~": "NO_I18N" }, "weight": 2 },
+      { "text": { "str": "CEPHALOPOD", "//~": "NO_I18N" }, "weight": 2 },
+      { "text": { "str": "ELFA", "//~": "NO_I18N" }, "weight": 1 },
+      { "text": { "str": "FISH", "//~": "NO_I18N" }, "weight": 2 },
+      { "text": { "str": "HUMAN", "//~": "NO_I18N" }, "weight": 1 },
+      { "text": { "str": "RABBIT", "//~": "NO_I18N" }, "weight": 2 },
+      { "text": { "str": "GASTROPOD", "//~": "NO_I18N" }, "weight": 2 },
+      { "text": { "str": "BEAST", "//~": "NO_I18N" }, "weight": 1 },
+      { "text": { "str": "FELINE", "//~": "NO_I18N" }, "weight": 1 },
+      { "text": { "str": "CATTLE", "//~": "NO_I18N" }, "weight": 1 },
+      { "text": { "str": "LIZARD", "//~": "NO_I18N" }, "weight": 1 },
+      { "text": { "str": "TROGLOBITE", "//~": "NO_I18N" }, "weight": 1 },
+      { "text": { "str": "CRUSTACEAN", "//~": "NO_I18N" }, "weight": 1 }
     ]
   },
   {
@@ -670,8 +670,8 @@
     "condition": { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
     "effect": [
       { "math": [ "u_val('sleepiness') = min(u_val('sleepiness') + ps_str + 20, 1200)" ] },
-      { "math": [ "u_val('stamina')", "*=", "ps_str + 50" ] },
-      { "math": [ "u_sleep_deprivation", "+=", "time('1 minutes')" ] }
+      { "math": [ "u_val('stamina') *= ps_str + 50" ] },
+      { "math": [ "u_sleep_deprivation += time('1 minutes')" ] }
     ]
   },
   {
@@ -687,28 +687,41 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_impossible_shape_attack",
-    "condition": { "and": [ { "or": [ "u_can_see", { "u_has_flag": "BLIND" } ] }, { "math": [ "u_madness > 10" ] } ] },
+    "condition": { "and": [ "u_can_see", { "not": { "u_has_trait": "anti_shape" } } ] },
     "effect": [
-      { "u_add_effect": "nightmares", "duration": "18 hours" },
-      { "u_add_effect": "disrupted_sleep", "duration": "18 hours" },
       {
-        "u_add_morale": "morale_impossible_shape",
-        "bonus": -20,
-        "max_bonus": -60,
-        "duration": "36 hours",
-        "decay_start": "24 hours"
-      },
-      { "math": [ "u_pain()", "+=", "3" ] },
-      { "math": [ "u_madness = 0" ] },
-      {
-        "u_message": "Your mind lurches, the shapes and figures dance across your vision, you feel like your head is going to explode."
+        "if": { "math": [ "u_madness >= 10" ] },
+        "then": [
+          { "u_add_effect": "nightmares", "duration": "18 hours" },
+          { "u_add_effect": "disrupted_sleep", "duration": "18 hours" },
+          {
+            "u_add_morale": "morale_impossible_shape",
+            "bonus": -20,
+            "max_bonus": -60,
+            "duration": "36 hours",
+            "decay_start": "24 hours"
+          },
+          { "math": [ "u_pain() += 3" ] },
+          { "math": [ "u_madness = 0" ] },
+          {
+            "u_message": "Your mind lurches, the shapes and figures dance across your vision, you feel like your head is going to explode."
+          }
+        ],
+        "else": [
+          { "math": [ "u_pain() += 3" ] },
+          { "math": [ "u_madness++" ] },
+          {
+            "u_message": "You can't look away from the impossible shape, staring at it is making you feel sick, you have to get away!"
+          }
+        ]
       }
     ],
     "false_effect": [
-      { "math": [ "u_pain()", "+=", "3" ] },
-      { "math": [ "u_madness++" ] },
       {
-        "u_message": "You can't look away from the impossible shape, staring at it is making you feel sick, you have to get away!"
+        "if": "u_can_see",
+        "then": {
+          "u_message": "You could never describe its appearance, but you perceive the impossible shape as you would any other."
+        }
       }
     ]
   },
@@ -853,8 +866,8 @@
     "condition": "u_can_see",
     "effect": [
       { "u_add_effect": "nightmares", "duration": "18 hours" },
-      { "math": [ "u_pain()", "+=", "3" ] },
-      { "math": [ "u_val('stamina')", "-=", "20" ] }
+      { "math": [ "u_pain() += 3" ] },
+      { "math": [ "u_val('stamina') -= 20" ] }
     ]
   },
   {
@@ -906,7 +919,7 @@
           "effect": [
             { "u_message": "Your reflection feasts directly on your essence." },
             { "math": [ "u_val('sleepiness') = min(u_val('sleepiness') + portal_dungeon_reflect_strength, 1200)" ] },
-            { "math": [ "portal_dungeon_reflect_strength", "+=", "3" ] }
+            { "math": [ "portal_dungeon_reflect_strength += 3" ] }
           ]
         },
         {
@@ -1108,20 +1121,6 @@
   },
   {
     "type": "SPELL",
-    "id": "star_vampire_invisibility_spell",
-    "name": { "str": "star vampire invisibility", "//~": "NO_I18N" },
-    "description": { "str": "Makes the star vampire invisible", "//~": "NO_I18N" },
-    "valid_targets": [ "self" ],
-    "effect": "attack",
-    "effect_str": "invisibility",
-    "shape": "blast",
-    "message": "",
-    "min_duration": 99999999999,
-    "max_duration": 99999999999,
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ]
-  },
-  {
-    "type": "SPELL",
     "id": "sloth_attack",
     "name": { "str": "Sloth Attack", "//~": "NO_I18N" },
     "description": { "str": "Slows you.", "//~": "NO_I18N" },
@@ -1160,6 +1159,40 @@
       { "math": [ "portal_dungeon_carry_strength = max(portal_dungeon_carry_strength - 1, -75)" ] },
       { "u_add_effect": "strengthened_gravity", "duration": [ "4 hours", "6 hours" ] }
     ]
+  },
+  {
+    "id": "wraith_summon_shadow",
+    "type": "SPELL",
+    "name": { "str": "Wraith Summon Shadow", "//~": "NO_I18N" },
+    "description": { "str": "Summons hostile shadows.", "//~": "NO_I18N" },
+    "effect": "summon",
+    "effect_str": "mon_shadow",
+    "message": "",
+    "shape": "blast",
+    "valid_targets": [ "self", "ground" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "HOSTILE_SUMMON" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "min_duration": 30000,
+    "max_duration": 30000
+  },
+  {
+    "id": "wraith_apply_darkness",
+    "type": "SPELL",
+    "name": { "str": "Wraith Apply Darkness", "//~": "NO_I18N" },
+    "description": { "str": "Applies the darkness effect", "//~": "NO_I18N" },
+    "effect": "attack",
+    "effect_str": "darkness",
+    "message": "",
+    "shape": "blast",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "min_range": 35,
+    "max_range": 35,
+    "min_duration": 6000,
+    "max_duration": 6000
   },
   {
     "id": "fear_paralyze",
@@ -1298,7 +1331,31 @@
     "condition": "u_is_character",
     "effect": [
       { "u_message": "The veiled butterfly's wings move in odd ways and a strange glow envelops you!", "type": "bad" },
-      { "math": [ "u_val('rad')", "+=", "20" ] }
+      { "math": [ "u_val('rad') += 20" ] }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_zombie_summoner_summon_hordes_spell",
+    "name": { "str": "Summon Horde", "//~": "NO_I18N" },
+    "description": { "str": "Calls hordes to the player's location.", "//~": "NO_I18N" },
+    "flags": [ "NO_PROJECTILE", "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ZOMBIE_SUMMONER_SUMMON_HORDES",
+    "valid_targets": [ "hostile" ],
+    "shape": "blast",
+    "min_range": 10,
+    "max_range": 10
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ZOMBIE_SUMMONER_SUMMON_HORDES",
+    "effect": [
+      { "npc_add_effect": "effect_zombie_summoner_increase_power", "duration": 900 },
+      { "math": [ "_summon_effect = 200 + (n_effect_intensity('effect_zombie_summoner_increase_power') * 50)" ] },
+      { "message": "Summoning power is <context_val:summon_effect>.", "type": "debug" },
+      { "u_location_variable": { "context_val": "zombie_horde_target" } },
+      { "signal_hordes": { "context_val": "zombie_horde_target" }, "signal_power": { "math": [ "_summon_effect" ] } }
     ]
   }
 ]

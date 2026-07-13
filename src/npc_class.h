@@ -4,6 +4,7 @@
 
 #include <functional>
 #include <map>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -114,7 +115,8 @@ class npc_class
         item_group_id carry_override;
         item_group_id weapon_override;
 
-        translation bye_message_override;
+        // category of snippet, from which bye message should be picked, if should be replaced
+        std::optional<std::string> bye_message_override;
 
         std::map<mutation_category_id, distribution> mutation_rounds;
         trait_group::Trait_group_tag traits = trait_group::Trait_group_tag( "EMPTY_GROUP" );
@@ -157,6 +159,7 @@ class npc_class
 
         static void reset_npc_classes();
 
+        void finalize();
         static void finalize_all();
 
         static void check_consistency();

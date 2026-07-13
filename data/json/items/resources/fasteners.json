@@ -66,6 +66,15 @@
     "material": [ "wood" ]
   },
   {
+    "id": "button_bone",
+    "copy-from": "button_plastic",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "bone button" },
+    "description": "A crude bone button, usually found on very old clothing.",
+    "material": [ "bone" ]
+  },
+  {
     "id": "snapfastener_steel",
     "copy-from": "button_steel",
     "type": "ITEM",
@@ -80,7 +89,7 @@
     "category": "spare_parts",
     "name": { "str": "touch fastener" },
     "description": "A pair of cloth strips, one of which has tiny hooks and another with tiny loops.  Useful as a fastener for clothing and footwear.",
-    "weight": "2 g",
+    "weight": "1 g",
     "volume": "2 ml",
     "price": "1 USD",
     "price_postapoc": "10 cent",
@@ -105,7 +114,7 @@
     "category": "spare_parts",
     "name": { "str": "short plastic zipper" },
     "description": "A short zipper made from plastic, usually found on footwear or clothing pockets.",
-    "weight": "4 g",
+    "weight": "3 g",
     "volume": "4 ml",
     "price": "1 USD",
     "price_postapoc": "10 cent",

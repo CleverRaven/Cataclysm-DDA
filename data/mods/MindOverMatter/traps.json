@@ -42,5 +42,25 @@
         ]
       }
     ]
+  },
+  {
+    "type": "trap",
+    "id": "tr_mom_find_dead_fifth_sun_ocelopilli_trooper",
+    "name": "Dead Fifth Sun Achievement Trap",
+    "color": "dark_gray",
+    "symbol": "/",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "always_invisible": true,
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "action": "eocs",
+    "eocs": [ "EOC_MOM_FIND_DEAD_FIFTH_SUN_OCELOPILLI_TROOPER" ],
+    "trigger_message_u": ""
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_FIND_DEAD_FIFTH_SUN_OCELOPILLI_TROOPER",
+    "effect": [ { "give_achievement": "mom_find_dead_fifth_sun_ocelopilli_trooper" } ]
   }
 ]

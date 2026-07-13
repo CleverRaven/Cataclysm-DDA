@@ -131,6 +131,7 @@ static const itype_id itype_vac_mold( "vac_mold" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
+static const itype_id itype_wrench( "wrench" );
 
 static const morale_type morale_food_good( "morale_food_good" );
 
@@ -145,18 +146,19 @@ static const quality_id qual_HAMMER( "HAMMER" );
 static const quality_id qual_LEATHER_AWL( "LEATHER_AWL" );
 static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SEW( "SEW" );
+static const quality_id qual_WRENCH( "WRENCH" );
 
 static const recipe_id recipe_2byarm_guard( "2byarm_guard" );
 static const recipe_id recipe_armguard_acidchitin( "armguard_acidchitin" );
 static const recipe_id recipe_armguard_chitin( "armguard_chitin" );
 static const recipe_id recipe_armguard_larmor( "armguard_larmor" );
-static const recipe_id recipe_armguard_lightplate( "armguard_lightplate" );
 static const recipe_id recipe_armguard_metal( "armguard_metal" );
+static const recipe_id recipe_armor_hc_armguard( "armor_hc_armguard" );
 static const recipe_id recipe_balclava( "balclava" );
 static const recipe_id recipe_blanket_blanket_makeshift( "blanket_blanket_makeshift" );
 static const recipe_id recipe_brew_mead( "brew_mead" );
 static const recipe_id recipe_brew_rum( "brew_rum" );
-static const recipe_id recipe_carver_off( "carver_off" );
+static const recipe_id recipe_carver_off_test( "carver_off_test" );
 static const recipe_id recipe_cudgel_simple( "cudgel_simple" );
 static const recipe_id recipe_cudgel_slow( "cudgel_slow" );
 static const recipe_id recipe_dry_meat( "dry_meat" );
@@ -894,7 +896,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
     std::vector<item> tools;
 
     GIVEN( "recipe and required tools/materials" ) {
-        recipe_id carver( "carver_off" );
+        recipe_id carver( "carver_off_test" );
         // Uses fabrication skill
         // Requires electronics 3
         // Difficulty 4
@@ -928,8 +930,8 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             tools.push_back( soldering );
 
             THEN( "crafting succeeds, and uses charges from each tool" ) {
-                prep_craft( recipe_carver_off, tools, true, 0, false, true );
-                int turns = actually_test_craft( recipe_carver_off, INT_MAX );
+                prep_craft( recipe_carver_off_test, tools, true, 0, false, true );
+                int turns = actually_test_craft( recipe_carver_off_test, INT_MAX );
                 CAPTURE( turns );
                 CHECK( get_remaining_charges( itype_popcan_stove ) == 0 );
                 CHECK( get_remaining_charges( itype_soldering_iron_portable ) == 6 );
@@ -941,8 +943,8 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             tools.insert( tools.end(), 2, tool_with_ammo( itype_soldering_iron_portable, 5 ) );
 
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
-                prep_craft( recipe_carver_off, tools, true, 0, false, true );
-                actually_test_craft( recipe_carver_off, INT_MAX );
+                prep_craft( recipe_carver_off_test, tools, true, 0, false, true );
+                actually_test_craft( recipe_carver_off_test, INT_MAX );
                 CHECK( get_remaining_charges( itype_popcan_stove ) == 0 );
                 CHECK( get_remaining_charges( itype_soldering_iron_portable ) == 0 );
             }
@@ -966,9 +968,9 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             tools.emplace_back( UPS );
 
             THEN( "crafting succeeds, and uses charges from the UPS" ) {
-                prep_craft( recipe_carver_off, tools, true, 0, false, false );
+                prep_craft( recipe_carver_off_test, tools, true, 0, false, false );
                 // this recipe should be replaced with a test recipe that isn't impacted by changes in game recipes
-                actually_test_craft( recipe_carver_off, INT_MAX );
+                actually_test_craft( recipe_carver_off_test, INT_MAX );
                 CHECK( get_remaining_charges( itype_hotplate ) == 0 );
                 CHECK( get_remaining_charges( itype_soldering_iron_portable ) == 0 );
                 // vacuum molding takes 4 charges
@@ -994,7 +996,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             tools.push_back( ups );
 
             THEN( "crafting fails, and no charges are used" ) {
-                prep_craft( recipe_carver_off, tools, false, 0, false, false );
+                prep_craft( recipe_carver_off_test, tools, false, 0, false, false );
                 CHECK( get_remaining_charges( itype_UPS_off ) == 10 );
             }
         }
@@ -1191,7 +1193,7 @@ TEST_CASE( "total_crafting_time_with_or_without_interruption", "[crafting][time]
 }
 
 static std::map<quality_id, itype_id> quality_to_tool = {{
-        { qual_CUT, itype_pockknife }, { qual_SEW, itype_sewing_kit }, { qual_LEATHER_AWL, itype_awl_bone }, { qual_ANVIL, itype_fake_anvil }, { qual_HAMMER, itype_hammer }, { qual_SAW_M, itype_hacksaw }, { qual_CHISEL, itype_chisel }, { qual_FABRIC_CUT, itype_kevlar_shears }
+        { qual_CUT, itype_pockknife }, { qual_SEW, itype_sewing_kit }, { qual_LEATHER_AWL, itype_awl_bone }, { qual_ANVIL, itype_fake_anvil }, { qual_HAMMER, itype_hammer }, { qual_SAW_M, itype_hacksaw }, { qual_CHISEL, itype_chisel }, { qual_FABRIC_CUT, itype_kevlar_shears }, { qual_WRENCH, itype_wrench }
     }
 };
 
@@ -1338,13 +1340,13 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 5 -> 6" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_chitin, 28818, 0, true );
+            test_skill_progression( recipe_armguard_chitin, 28794, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_chitin, 23613, 50, true );
+            test_skill_progression( recipe_armguard_chitin, 23606, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_chitin, 21651, 100, true );
+            test_skill_progression( recipe_armguard_chitin, 21650, 100, true );
         }
     }
     SECTION( "lvl 6 -> 7" ) {
@@ -1360,13 +1362,13 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 7 -> 8" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_lightplate, 52138, 0, true );
+            test_skill_progression( recipe_armor_hc_armguard, 52138, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_lightplate, 42657, 50, true );
+            test_skill_progression( recipe_armor_hc_armguard, 42657, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_lightplate, 39079, 100, true );
+            test_skill_progression( recipe_armor_hc_armguard, 39079, 100, true );
         }
     }
     SECTION( "lvl 8 -> 9" ) {

@@ -60,8 +60,8 @@
     "id": "TALK_GREAT_LIBRARY_LIBRARIAN_AskedRestock",
     "type": "talk_topic",
     "dynamic_line": [
-      "It can be hard to predict the way things are now, but I am expecting new materials around <interval>.",
-      "I am expecting some new materials <interval>, hopefully some good escapism."
+      "It can be hard to predict the way things are now, but I am expecting new materials around <restock_time_point>.",
+      "I am expecting some new materials around <restock_time_point>, hopefully some good escapism."
     ],
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_Talk" },

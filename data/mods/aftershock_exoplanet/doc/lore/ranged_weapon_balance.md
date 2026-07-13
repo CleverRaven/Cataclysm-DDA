@@ -25,6 +25,7 @@ This table contains every single ranged weapon in the mod and is to be used for 
 |handheld x-ray cannon          |Obsolete   |                   |            |          |       |      |        |    |    |     |                                          |
 |shoddy laser rifle             |Obsolete   |                   |LASER CELL  |          |       |      |        |    |    |     |                                          |
 |av-22                          |LASER      |Pistol             |LASER CELL  |          |5      |      |        |    |    |3    |                                          |
+|Graf 335L                      |LASER      |Handcannon         |LASER CELL  |          |50     |      |        |    |    |1    |Very frequent overheats                   |
 |E-150b                         |LASER      |Pistol             |LASER CELL  |          |20     |      |        |20  |    |2    |                                          |
 |Izhevsk PLC-75                 |LASER      |Recoiless Rifle    |LASER CELL  |          |300    |      |        |50  |    |1    |Single shot                               |
 |Shikishma A-82 tactical laser  |LASER      |AT  Sniper         |LASER CELL  |          |45     |      |        |50  |    |3    |                                          |
@@ -126,7 +127,7 @@ The current ballistic ammo calibres currently exist in the mod:
 | Rail Rod   | Steel rail     |              90   |            40 | Cleanly defeats heavy armor, deals with vehicle armor at a  disadvantage.                                                 |
 
 To balance specialty rounds use the following rule:
-- AP ammo recieves +15 ballistic armor piercing at the cost of -10 damage.
+- AP ammo receives +15 ballistic armor piercing at the cost of -10 damage.
 - Specialty ammo has the damage of AP ammo and the armor piercing capability of the default round + whatever special effect is granted. If the specialty effect is a strong AOE AP might be reduced further.
 
 ### Lasers

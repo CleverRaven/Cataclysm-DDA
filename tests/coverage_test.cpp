@@ -317,7 +317,7 @@ TEST_CASE( "vest_with_plate_coverage", "[coverage]" )
 
 TEST_CASE( "Off_Limb_Ghost_ablative_vest", "[coverage]" )
 {
-    SECTION( "Ablative not covered seperate limb" ) {
+    SECTION( "Ablative not covered separate limb" ) {
         item full = item( itype_test_ghost_vest );
         full.force_insert_item( item( itype_test_plate_skirt_super ), pocket_type::CONTAINER );
 

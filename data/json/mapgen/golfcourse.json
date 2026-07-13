@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "golfcourse_00", "golfcourse_10", "golfcourse_20", "golfcourse_30" ],
       [ "golfcourse_01", "golfcourse_11", "golfcourse_21", "golfcourse_31" ],
@@ -128,7 +127,7 @@
         "U": [ "f_dumpster", "f_recycle_bin" ]
       },
       "items": {
-        "&": { "item": "SUS_trash_trashcan_public", "chance": 25, "repeat": 2 },
+        "&": { "item": "SUS_trash_trashcan_public", "chance": 25 },
         "v": { "item": "golf_green", "chance": 10 },
         "t": { "chance": 75, "item": "SUS_office_mess" },
         "T": { "item": "SUS_toilet", "chance": 50 }
@@ -193,7 +192,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "golfcourse_31_2ndfloor",
     "object": {
       "fill_ter": "t_floor",
@@ -264,7 +262,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "golfcourse_31_roof",
     "object": {
       "fill_ter": "t_flat_roof",

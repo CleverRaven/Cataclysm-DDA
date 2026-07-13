@@ -1,0 +1,79 @@
+[
+  {
+    "id": "bio_dangersight_eyes_non_fifth_sun",
+    "type": "bionic",
+    "name": { "str": "Dangersight Eyes" },
+    "description": "Minute quantities of matrix crystal interface with your optic nerves, allowing you to detect the presence of living beings that seek to do you harm.  Activate to toggle on.",
+    "occupied_bodyparts": [ [ "eyes", 2 ] ],
+    "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "EYESTALKS1", "EYESTALKS2" ],
+    "enchantments": [ "ench_bio_dangersight_eyes" ],
+    "act_cost": "40 J",
+    "react_cost": "15 J",
+    "time": "1 s",
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_dangersight_eyes_standard",
+    "copy-from": "bio_dangersight_eyes_non_fifth_sun",
+    "type": "bionic",
+    "name": { "str": "Ohuicatlachiyaliztimeh" },
+    "description": "Minute quantities of matrix crystal interface with your optic nerves, allowing you to detect the presence of living beings that seek to do you harm.  Activate to toggle on."
+  },
+  {
+    "id": "bio_power_storage_fifth_sun",
+    "copy-from": "bio_power_storage_mkII",
+    "type": "bionic",
+    "name": { "str": "Ikpitikayotecontli System" },
+    "capacity": "600 kJ",
+    "dupes_allowed": true,
+    "description": "A Compact Bionics Module that increases your power capacity by 600 kJ.",
+    "flags": [ "BIONIC_NPC_USABLE" ]
+  },
+  {
+    "id": "bio_metabolics_fifth_sun",
+    "type": "bionic",
+    "name": { "str": "Tlacuallichicahualiztli Transformer" },
+    "description": "Your digestive system and power supply are interconnected; bionic energy is replenished by burning calories.  Can be toggled on and off at will.",
+    "occupied_bodyparts": [ [ "torso", 20 ] ],
+    "fuel_options": [ "metabolism" ],
+    "fuel_efficiency": 0.3,
+    "time": "1 s",
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
+  },
+  {
+    "id": "bio_physical_buffs_fifth_sun",
+    "type": "bionic",
+    "name": { "str": "Teōchicāhualiztli Booster" },
+    "description": "A series of implants along your skeleton and in major muscle groups can be activated to greatly increase your strength and agility.  Activate to toggle on.",
+    "occupied_bodyparts": [ [ "head", 5 ], [ "torso", 10 ], [ "arm_l", 8 ], [ "arm_r", 8 ], [ "leg_l", 10 ], [ "leg_r", 10 ] ],
+    "mutation_conflicts": [ "LARGE", "LARGE_OK", "HUGE_OK", "HUGE", "SMALL", "SMALL2", "SMALL_OK" ],
+    "enchantments": [ "ench_bio_physical_buffs" ],
+    "act_cost": "50 J",
+    "react_cost": "50 J",
+    "time": "1 s",
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_cameleoflage_fifth_sun",
+    "type": "bionic",
+    "name": { "str": "Tapayaxitilmàtli" },
+    "description": "Implants under your skin throughout your body that bend light around you when activated, making it much harder to spot you from a distance.  While not invisibility, it can keep you unseen when it counts.  Activate to toggle on.",
+    "occupied_bodyparts": [
+      [ "torso", 8 ],
+      [ "head", 2 ],
+      [ "arm_l", 3 ],
+      [ "arm_r", 3 ],
+      [ "hand_l", 1 ],
+      [ "hand_r", 1 ],
+      [ "leg_l", 4 ],
+      [ "leg_r", 4 ],
+      [ "foot_l", 1 ],
+      [ "foot_r", 1 ]
+    ],
+    "act_cost": "400 J",
+    "react_cost": "400 J",
+    "time": "1 s",
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "STEALTH_MODIFIER", "add": 50 } ] } ],
+    "flags": [ "BIONIC_TOGGLED" ]
+  }
+]

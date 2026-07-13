@@ -208,4 +208,20 @@ std::optional<tripoint_bub_ms> random_point( const map &m,
 std::optional<tripoint_bub_ms> random_point_on_level( const map &m, int z,
         const std::function<bool( const tripoint_bub_ms & )> &predicate );
 
+// A random coordinate within a map, excluding a border
+int rng_map_coord( int border );
+template<typename Point>
+// A random point within a map, excluding a border
+Point rng_map_point( int border = 0 )
+{
+    return { rng_map_coord( border ), rng_map_coord( border ) };
+}
+// A random tripoint within a map, with a given z coordinate, excluding a border
+template<typename Tripoint>
+Tripoint rng_map_point( int border, int z )
+{
+    return { rng_map_coord( border ), rng_map_coord( border ), z };
+}
+
+
 #endif // CATA_SRC_RNG_H

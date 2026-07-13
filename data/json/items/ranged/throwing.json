@@ -154,8 +154,9 @@
     "symbol": ";",
     "color": "brown",
     "ammo_type": "thrown",
+    "thrown_damage": [ { "damage_type": "bash", "amount": 2 }, { "damage_type": "stab", "amount": 6 } ],
     "flags": [ "NOGIB" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 2, "stab": 7 }
   },
   {
     "type": "ITEM",

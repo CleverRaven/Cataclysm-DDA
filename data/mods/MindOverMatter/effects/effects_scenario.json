@@ -1,0 +1,71 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_scenario_heart_of_fire_awake_attunement_gain",
+    "name": [ "Heart of Fire" ],
+    "desc": [
+      "The flames in your heart have kindled, fueling a connection to the Nether.  Your Nether Attunement will not reduce with time."
+    ],
+    "rating": "neutral",
+    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 1, 1 ] ], "tick": [ "300 s" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_scenario_heart_of_fire_asleep_attunement_gain",
+    "name": [ "Heart of Cinders" ],
+    "desc": [
+      "The flames in your heart smolder, maintaining your connection to the Nether.  Your Nether Attunement will reduce with time, but more slowly."
+    ],
+    "rating": "neutral",
+    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 1, 1 ] ], "tick": [ "700 s" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_scenario_heart_of_fire_channeled_power_protector",
+    "//": "Hidden, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_scenario_heart_of_fire_need_to_channel",
+    "name": [ "Let the Fire Burn" ],
+    "desc": [ "The power twists inside you.  Let it out.  Let the flames rise." ],
+    "apply_message": "A fire burns within you.",
+    "rating": "bad",
+    "max_intensity": 10,
+    "int_add_val": 1,
+    "base_mods": {
+      "health_min": [ -1 ],
+      "health_chance": [ 10 ],
+      "health_tick": [ 60 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 10 ],
+      "pain_max_val": [ 20 ],
+      "pain_tick": [ 60 ]
+    },
+    "scaling_mods": { "health_chance": [ -1 ], "pain_chance": [ -1 ], "pain_max_val": [ 5 ] },
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "CLIMATE_CONTROL_CHILL",
+            "add": { "math": [ "-5 - ( u_effect_intensity('effect_scenario_heart_of_fire_need_to_channel') * 3)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_scenario_heart_of_fire_damage",
+    "name": [ "Inner Blaze", "Inner Blaze", "Inner Inferno", "Inner Inferno" ],
+    "desc": [ "You feel far too warm.", "You feel far, far too warm.", "You are burning up!", "You are burning up!" ],
+    "apply_message": "",
+    "rating": "bad",
+    "max_intensity": 5,
+    "int_add_val": 1,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 1 ], "hurt_chance": [ 20 ], "hurt_tick": [ 300 ] },
+    "scaling_mods": { "hurt_chance": [ -2 ], "hurt_tick": [ -20 ] }
+  }
+]

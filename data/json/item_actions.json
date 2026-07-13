@@ -580,14 +580,9 @@
     "name": { "str": "Mop" }
   },
   {
+    "//": "hardcoded name",
     "type": "item_action",
-    "id": "MP3",
-    "name": { "str": "Play music" }
-  },
-  {
-    "type": "item_action",
-    "id": "MP3_DEACTIVATE",
-    "name": { "str": "Turn off music" }
+    "id": "mp3"
   },
   {
     "type": "item_action",

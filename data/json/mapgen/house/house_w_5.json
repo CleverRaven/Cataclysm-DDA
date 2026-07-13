@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_w_5",
     "object": {
       "fill_ter": "t_floor",
@@ -16,7 +15,7 @@
         "..#       |||||#~~~~~~U#",
         "..#       +w|>w#~~~~~~~o",
         "..#|||||  |||+|#~~~~~~U#",
-        "..#é           *~~~~~UU#",
+        "..#é           *~~~~éUU#",
         ".%o      ||||||##~#o####",
         ".po      | &   #```````.",
         ".%o      |     o%`p[p``.",
@@ -37,6 +36,7 @@
         "£": "t_door_metal_locked",
         "U": "t_thconc_floor",
         "~": "t_thconc_floor",
+        "é": "t_thconc_floor",
         "ù": "t_region_groundcover_urban"
       },
       "furniture": { "ù": "f_region_weed" },
@@ -98,7 +98,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_w_5_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -108,7 +107,7 @@
         "      ......            ",
         "  ----------------------",
         "  -....................-",
-        "  -.X..................-",
+        "  -.X...........1......-",
         "  -....................-",
         "  -.........&..........-",
         "  -....................-",
@@ -134,7 +133,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_w_5_basement",
     "object": {
       "fill_ter": "t_thconc_floor",

@@ -484,7 +484,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water_murky" },
+    "liquid_source": { "id": "water_murky", "min_temp": 70 },
     "examine_action": "water_source"
   },
   {

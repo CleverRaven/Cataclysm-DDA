@@ -198,3 +198,32 @@ if (CURSES)
             )
         endif()
 endif ()
+
+# Zstandard
+file(GLOB ZSTD_HEADERS zstd/**/*.h)
+file(GLOB ZSTD_SOURCES zstd/common/*.c zstd/compress/*.c zstd/decompress/*.c)
+
+add_library(
+        zstd
+        STATIC
+        ${ZSTD_HEADERS}
+        ${ZSTD_SOURCES})
+
+target_include_directories(
+        zstd
+        SYSTEM
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_compile_definitions(
+        zstd
+        PUBLIC
+        ZSTD_STATIC_LINKING_ONLY
+        ZSTD_DISABLE_ASM
+        )
+
+target_link_libraries(
+        third-party
+        INTERFACE
+        zstd
+        )

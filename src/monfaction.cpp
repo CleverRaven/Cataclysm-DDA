@@ -147,6 +147,16 @@ void monfaction::populate_attitude_vec() const
     attitude_vec.shrink_to_fit();
 }
 
+void monfaction::finalize()
+{
+    // `detect_base_faction_cycle` detects a cycle that is formed by valid `base_faction` relations.
+    // it will produce a warning if cycle is detected
+    if( detect_base_faction_cycle() ) {
+        // break the cycle
+        base_faction = mfaction_str_id::NULL_ID();
+    }
+}
+
 void monfactions::finalize()
 {
     if( faction_factory.get_all().empty() ) {
@@ -156,15 +166,8 @@ void monfactions::finalize()
     if( !mfaction_str_id::NULL_ID().is_valid() ) {
         debugmsg( "MONSTER_FACTION \"sentinel\" (entry with empty name) is not found in json." );
     }
+    faction_factory.finalize();
 
-    for( const monfaction &f : faction_factory.get_all() ) {
-        // `detect_base_faction_cycle` detects a cycle that is formed by valid `base_faction` relations.
-        // it will produce a warning if cycle is detected
-        if( f.detect_base_faction_cycle() ) {
-            // break the cycle
-            const_cast<monfaction &>( f ).base_faction = mfaction_str_id::NULL_ID();
-        }
-    }
 
     // adds attitudes_map collected from all `base_faction`
     std::set<mfaction_str_id> processed;

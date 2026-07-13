@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_43" ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
@@ -27,7 +26,7 @@
         "..#FOJJ     ¶$$$ººº$$$$Ŧ",
         "..#         ¶$$$ººº$$$$Ŧ",
         "..#1        #$$$$$$$$$$Ŧ",
-        "..#23n5147  :$$$$$$$$$$Ŧ",
+        "..#23n5147é :$$$$$$$$$$Ŧ",
         "..###ooo#####ŦŦŦŦŦŦŦŦŦŦŦ",
         "........................"
       ],
@@ -45,7 +44,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_43_first_floor",
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
@@ -81,7 +79,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_43_second_floor",
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
@@ -131,7 +128,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_43_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

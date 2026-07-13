@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_gas_0_0", "s_gas_1_0" ], [ "s_gas_0_1", "s_gas_1_1" ] ],
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -126,7 +125,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_gas_0_0_roof", "s_gas_1_0_roof" ], [ "s_gas_0_1_roof", "s_gas_1_1_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -185,7 +183,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_gas_1" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -278,7 +275,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_gas_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -323,12 +319,11 @@
           "y": [ 15, 16 ]
         }
       ],
-      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 1, 2 ], "chance": 25 } ]
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 1, 2 ], "chance": 25 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_gas_rural" ],
     "//": "Rural Gas Station",
     "object": {
@@ -423,12 +418,11 @@
         { "item": "softdrugs", "x": [ 8, 8 ], "y": [ 13, 15 ], "chance": 80, "repeat": [ 1, 8 ] },
         { "item": "nested_shotgun_s", "x": 3, "y": 20, "chance": 10 }
       ],
-      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 1, 2 ], "chance": 25 } ]
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 1, 2 ], "chance": 25 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_gas_rural_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -473,7 +467,7 @@
           "y": [ 12, 17 ]
         }
       ],
-      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 1, 2 ], "chance": 25 } ]
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 1, 2 ], "chance": 25 } ]
     }
   }
 ]

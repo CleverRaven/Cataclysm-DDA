@@ -27,9 +27,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     libsdl2-image-dev libjpeg-turbo8-dev libtiff-dev libwebp-dev libzip-dev libzstd-dev \
     libsdl2-mixer-dev libflac-dev libasound2-dev libfreetype6-dev build-essential astyle ccache
 
-# [Optional] comment out this section unless you want to compile the Object Creator. Install some QT libraries
-RUN apt-get -y install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools
-
 # [Optional] comment out this section unless you want to cross-compile from Linux to Windows
 # This section should align with doc/c++/COMPILING.md#cross-compile-to-windows-from-linux
 # With the exception of the installation of packages that are already installed earlier in the Dockerfile
@@ -55,8 +52,3 @@ RUN wget https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libba
 RUN wget https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-i686-w64-mingw32.tar.gz
 RUN tar -xzf libbacktrace-x86_64-w64-mingw32.tar.gz --exclude=LICENSE -C /opt/mxe/usr/x86_64-w64-mingw32.static
 RUN tar -xzf libbacktrace-i686-w64-mingw32.tar.gz --exclude=LICENSE -C /opt/mxe/usr/i686-w64-mingw32.static
-
-#Additional steps to cross compile object_creator. comment this out if you don't want to cross-compile the object cretor
-WORKDIR /opt/mxe
-RUN make MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' qtbase
-RUN export PATH=/opt/mxe/usr/bin:$PATH

@@ -3,16 +3,30 @@
     "result": "38super_fmj",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "gun",
-    "difficulty": 5,
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 1 ] ],
-      [ [ "38super_casing", 1 ] ],
+      [ [ "unprimed_38super_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 3 ] ],
       [ [ "copper", 1 ] ]
     ]
+  },
+  {
+    "result": "38_super",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "lead", 2 ] ], [ [ "unprimed_38super_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 5 ] ] ]
+  },
+  {
+    "result": "38super_casing",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "unprimed_38super_casing", 1 ] ], [ [ "spent_smpistol_primer", 1 ] ] ]
   }
 ]

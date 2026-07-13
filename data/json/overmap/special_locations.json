@@ -2,12 +2,17 @@
   {
     "type": "overmap_location",
     "id": "field",
-    "terrains": [ "field", "meadow_core", "meadow_end" ]
+    "terrains": [ "field", "meadow_core", "meadow_end", "highlands" ]
   },
   {
     "type": "overmap_location",
     "id": "field_no_meadow",
     "terrains": [ "field" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "stream",
+    "terrains": [ "stream" ]
   },
   {
     "type": "overmap_location",
@@ -32,7 +37,7 @@
   {
     "type": "overmap_location",
     "id": "land",
-    "terrains": [ "field", "meadow_core", "meadow_end", "forest", "forest_thick", "forest_water", "forest_trail" ]
+    "terrains": [ "field", "meadow_core", "meadow_end", "forest", "forest_thick", "forest_water", "forest_trail", "highlands" ]
   },
   {
     "type": "overmap_location",
@@ -159,11 +164,6 @@
     "type": "overmap_location",
     "id": "ocean_shore",
     "terrains": [ "ocean_shore" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "potential_basement_lab_entrance",
-    "terrains": [ "basement" ]
   },
   {
     "type": "overmap_location",

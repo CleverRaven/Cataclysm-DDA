@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "triffid_grove",
     "object": {
       "fallback_predecessor_mapgen": "forest",

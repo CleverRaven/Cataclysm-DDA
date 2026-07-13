@@ -17,17 +17,22 @@
     "material_thickness": 0.5,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "head", "mouth" ] } ]
-  },
-  {
-    "id": "balaclava_skull",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "copy-from": "balclava",
-    "name": { "str": "skull balaclava" },
-    "description": "A skull-print balaclava covering the head and face, commonly used by motorcycle riders and as part of a costume.",
-    "warmth": 10,
-    "material_thickness": 0.2
+    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "head", "mouth" ] } ],
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "black balaclava" },
+        "append": true,
+        "description": "This one is black.",
+        "weight": 99
+      },
+      {
+        "id": "skull",
+        "name": { "str": "skull print balaclava" },
+        "description": "A skull-print balaclava covering the head and face, commonly used by motorcycle riders and as part of a costume.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "balaclava_cut_resistant",
@@ -36,6 +41,8 @@
     "category": "armor",
     "name": { "str": "cut-resistant balaclava" },
     "description": "A face covering that helps protect from slashes and cuts, in addition to the cold.",
+    "//": "delete balclava :) variants",
+    "variants": [  ],
     "copy-from": "balclava",
     "price": "76 USD",
     "material": [ "kevlar" ]
@@ -277,27 +284,6 @@
     ]
   },
   {
-    "id": "mask_guy_fawkes",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "category": "armor",
-    "name": { "str": "Guy Fawkes mask" },
-    "description": "Remember, remember, the fifth of November.",
-    "weight": "45 g",
-    "volume": "750 ml",
-    "price": "40 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "looks_like": "mask_hockey",
-    "color": "white",
-    "warmth": 5,
-    "material_thickness": 0.2,
-    "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes", "mouth" ] } ]
-  },
-  {
     "id": "mask_hockey",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -409,6 +395,11 @@
         "description": "It's a plastic mask of a lonely spirit.",
         "weight": 15,
         "append": true
+      },
+      {
+        "id": "guy_fawkes",
+        "name": { "str": "Guy Fawkes mask" },
+        "description": "Remember, remember, the fifth of November."
       }
     ]
   },
@@ -418,7 +409,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "white beard" },
     "description": "A fake white beard that straps over the mouth.  Perfect for your Santa costume!",
-    "weight": "200 g",
+    "weight": "75 g",
     "volume": "150 ml",
     "price": "8 USD",
     "price_postapoc": "10 cent",
@@ -438,7 +429,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "face veil" },
     "description": "A simple piece of cotton that covers your face.",
-    "weight": "160 g",
+    "weight": "50 g",
     "volume": "100 ml",
     "price": "8 USD",
     "price_postapoc": "10 cent",
@@ -542,12 +533,7 @@
     "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "head", "mouth" ] } ],
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "zombie_mask",
-        "name": { "str": "zombie mask" },
-        "description": "A flimsy leather zombie mask.  When zombies were still works of fiction.",
-        "weight": 100
-      },
+      { "id": "zombie_mask", "//": "inherit name and description from item", "weight": 100 },
       {
         "id": "chicken_mask",
         "name": { "str": "chicken mask" },

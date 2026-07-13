@@ -192,6 +192,28 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zanotyrannus_brute",
+    "name": { "str": "Nasty Nano" },
+    "copy-from": "mon_zanotyrannus",
+    "looks_like": "mon_zyrannosaurus",
+    "description": "Large jaws lifted by a long legged upright undead dinosaur body bulging with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "special_attacks": [ { "id": "bite_grab", "cooldown": 7 }, [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zappalachiosaurus_brute",
     "name": { "str": "Appalachian Anvil" },
     "copy-from": "mon_zappalachiosaurus",
@@ -1893,6 +1915,18 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zanotyrannus_shady",
+    "name": { "str": "shady nanotyrannus zombie" },
+    "copy-from": "mon_zanotyrannus",
+    "upgrades": { "half_life": 60, "into": "mon_zanotyrannus_nightstalker" },
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with feathery edges.  The head looks big and the legs look long.",
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zappalachiosaurus_shady",
     "name": { "str": "shady appalachiosaurus zombie" },
     "copy-from": "mon_zappalachiosaurus",
@@ -2308,6 +2342,27 @@
     "copy-from": "mon_zryptosaurus_shady",
     "looks_like": "mon_zryptosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bulky bipedal dinosaur with feathery edges.  The head looks big and the claws look long.",
+    "diff": 2,
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
+    "bleed_rate": 50,
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
+    "upgrades": false
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zanotyrannus_nightstalker",
+    "name": { "str": "nanotyrannus nightstalker" },
+    "copy-from": "mon_zanotyrannus_shady",
+    "looks_like": "mon_zanotyrannus_shady",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bulky bipedal dinosaur with feathery edges.  The head looks big and the legs look long.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
     "relative": {
@@ -2888,6 +2943,25 @@
     "description": "Monstrous columns of dense bone lifting large jaws full of sharp, pointed teeth dripping with black goo.",
     "hp": 80,
     "melee_dice": 4,
+    "melee_dice_sides": 7,
+    "melee_damage": [ { "damage_type": "cut", "amount": 18 } ],
+    "special_attacks": [
+      { "id": "teeth_zino_mid", "cooldown": 15 },
+      { "id": "bite_grab", "cooldown": 15 },
+      { "type": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true }
+    ],
+    "upgrades": { "half_life": 60, "into": "mon_syrannosaurus_brute" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sanotyrannus",
+    "name": { "str_sp": "skeletal nanotyrannus" },
+    "copy-from": "mon_sallosaurus",
+    "looks_like": "mon_zyrannosaurus",
+    "description": "Columns of dense bone lifting large jaws full of sharp, pointed teeth dripping with black goo.",
+    "speed": 70,
+    "hp": 60,
+    "melee_dice": 3,
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "cut", "amount": 18 } ],
     "special_attacks": [

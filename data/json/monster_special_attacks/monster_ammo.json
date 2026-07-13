@@ -1,0 +1,86 @@
+[
+  {
+    "type": "ammunition_type",
+    "id": "bile",
+    "name": "boomer bile",
+    "default": "boomer_bile"
+  },
+  {
+    "id": "boomer_bile",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "boomer bile", "//~": "NO_I18N" },
+    "description": { "str": "Boomer bile, if you see this it's a bug.", "//~": "NO_I18N" },
+    "weight": "3 g",
+    "volume": "250 ml",
+    "material": [ "water" ],
+    "symbol": "=",
+    "color": "pink",
+    "phase": "liquid",
+    "ammo_type": "bile",
+    "range": 4,
+    "count": 1,
+    "effects": [ "NEVER_MISFIRES", "BILE_JET", "BILE_STINK", "BILE_BLIND" ]
+  },
+  {
+    "id": "boomer_bile_adv",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "advanced boomer bile", "//~": "NO_I18N" },
+    "description": { "str": "Boomer bile, if you see this it's a bug.", "//~": "NO_I18N" },
+    "weight": "3 g",
+    "volume": "250 ml",
+    "material": [ "water" ],
+    "symbol": "=",
+    "color": "pink",
+    "phase": "liquid",
+    "ammo_type": "bile",
+    "range": 4,
+    "count": 1,
+    "effects": [ "NEVER_MISFIRES", "BILE_JET_ADV", "BILE_GLOW", "BILE_BOMB_ADV", "BILE_STINK", "BILE_IRRITATE", "BILE_BLIND" ]
+  },
+  {
+    "id": "BILE_BOMB",
+    "type": "ammo_effect",
+    "//": "Leaves a pool of bile on detonation",
+    "aoe": { "field_type": "fd_bile", "intensity_min": 3, "intensity_max": 3 }
+  },
+  {
+    "id": "BILE_JET",
+    "type": "ammo_effect",
+    "//": "Creates a trail of bile",
+    "trail": { "field_type": "fd_bile", "intensity_min": 1, "intensity_max": 2, "chance": 75 }
+  },
+  {
+    "id": "BILE_JET_ADV",
+    "type": "ammo_effect",
+    "//": "Creates a trail of advanced bile",
+    "trail": { "field_type": "fd_bile_adv", "intensity_min": 1, "intensity_max": 2, "chance": 75 }
+  },
+  {
+    "id": "BILE_BOMB_ADV",
+    "type": "ammo_effect",
+    "//": "Leaves a pool of advanced bile on detonation",
+    "aoe": { "field_type": "fd_bile_adv", "intensity_min": 3, "intensity_max": 3 }
+  },
+  {
+    "id": "BILE_GLOW",
+    "type": "ammo_effect",
+    "on_hit_effects": [ { "effect": "glowing", "duration": "5 m", "intensity": 1 } ]
+  },
+  {
+    "id": "BILE_STINK",
+    "type": "ammo_effect",
+    "on_hit_effects": [ { "effect": "bile_stink", "duration": "5 m", "intensity": 1, "need_touch_skin": true } ]
+  },
+  {
+    "id": "BILE_IRRITATE",
+    "type": "ammo_effect",
+    "on_hit_effects": [ { "effect": "bile_irritant", "duration": "5 m", "intensity": 1, "need_touch_skin": true } ]
+  },
+  {
+    "id": "BILE_BLIND",
+    "type": "ammo_effect",
+    "on_hit_effects": [ { "effect": "boomered", "duration": "30 s", "intensity": 1, "need_touch_skin": true } ]
+  }
+]

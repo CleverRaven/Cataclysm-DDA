@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "police_dept_u000", "police_dept_u100" ], [ "police_dept_u010", "police_dept_u110" ] ],
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -96,7 +95,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "police_dept_u001", "police_dept_u101" ], [ "police_dept_u011", "police_dept_u111" ] ],
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -199,7 +197,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "police_dept_u002", "police_dept_u102" ], [ "police_dept_u012", "police_dept_u112" ] ],
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -272,7 +269,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "police_dept_b10", "police_dept_b00" ], [ "police_dept_b11", "police_dept_b01" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -357,7 +353,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "police_dept_d100", "police_dept_d000" ], [ "police_dept_d110", "police_dept_d010" ] ],
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -469,7 +464,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "police_dept_d101", "police_dept_d001" ], [ "police_dept_d111", "police_dept_d011" ] ],
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -585,7 +579,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "police_dept_d102", "police_dept_d002" ], [ "police_dept_d112", "police_dept_d012" ] ],
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -657,7 +650,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "police_dept_skyway" ],
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -694,7 +686,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "police_dept_skyway_roof" ],
     "object": {
       "fill_ter": "t_tar_flat_roof",

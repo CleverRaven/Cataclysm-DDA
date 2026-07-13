@@ -73,6 +73,7 @@ struct nutrients {
         }
 
         nutrients operator-();
+        nutrients operator-( const nutrients &r );
 
         nutrients &operator+=( const nutrients &r );
         nutrients &operator-=( const nutrients &r );
@@ -99,6 +100,8 @@ struct nutrients {
         void deserialize( const JsonObject &jo );
 
         void clear_vitamins();
+
+        void ensure_positive();
 
     private:
         /** vitamins potentially provided by this comestible (if any) */

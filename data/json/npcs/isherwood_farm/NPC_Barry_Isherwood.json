@@ -390,19 +390,19 @@
     "dynamic_line": {
       "npc_near_om_location": "barry_mi-go_scout_tower_1",
       "range": 3,
-      "yes": "Come on, let's get out of here while we still can.  I don't want to spend any longer around here then we need too.",
+      "yes": "Come on, let's get out of here while we still can.  I don't want to spend any longer around here than we need to.",
       "no": {
         "npc_near_om_location": "barry_mi-go_scout_tower_2",
         "range": 3,
-        "yes": "Come on, let's get out of here while we still can.  I don't want to spend any longer around here then we need too.",
+        "yes": "Come on, let's get out of here while we still can.  I don't want to spend any longer around here than we need to.",
         "no": {
           "npc_near_om_location": "barry_mi-go_scout_tower_3",
           "range": 3,
-          "yes": "Come on, let's get out of here while we still can.  I don't want to spend any longer around here then we need too.",
+          "yes": "Come on, let's get out of here while we still can.  I don't want to spend any longer around here than we need to.",
           "no": {
             "npc_near_om_location": "barry_mi-go_scout_tower_4",
             "range": 3,
-            "yes": "Come on, let's get out of here while we still can.  I don't want to spend any longer around here then we need too.",
+            "yes": "Come on, let's get out of here while we still can.  I don't want to spend any longer around here than we need to.",
             "no": {
               "concatenate": [
                 "*lights up as you approach, but also looks wary.  \"",
@@ -456,7 +456,7 @@
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_TOWER_fresh2",
     "dynamic_line": "*shivers, though the room is warm, and moves his mouth wordlessly for a few seconds.  \"It's hard to remember details.  The air in that place messes with your brain, makes it all feel like some kind of dream.  Makes it so you can't fight back.  Not that I could have anyway.\"  He stares into space for a moment, then swallows hard.  \"They cut into me, over and over.  I don't think they took anything out.  They just opened me up, poked around.  I was awake for all of it, as awake as for anything else.  Sometimes I felt pain, other times they did something to me so I could feel it but it didn't hurt.  There were big, pale ones that did the cutting.\"  His voice gets increasingly detached as he speaks, and his shaking grows worse.  You're not sure it would be wise for him to go further.",
-    "speaker_effect": { "sentinel": "barry_PTSD1", "effect": { "math": [ "barry_PTSD_freakouts", "+=", "1" ] } },
+    "speaker_effect": { "sentinel": "barry_PTSD1", "effect": { "math": [ "barry_PTSD_freakouts += 1" ] } },
     "responses": [
       { "text": "[Let him continue.]", "topic": "TALK_ISHERWOOD_BARRY_TOWER_fresh3" },
       { "text": "That's enough for now, Barry.", "topic": "TALK_ISHERWOOD_BARRY_TOWER_fresh_stop" },

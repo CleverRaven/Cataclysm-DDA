@@ -1,3 +1,19 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Compilation guide for Windows (using Visual Studio and vcpkg)](#compilation-guide-for-windows-using-visual-studio-and-vcpkg)
+  - [Prerequisites:](#prerequisites)
+  - [Installation and configuration:](#installation-and-configuration)
+  - [Cloning and compilation:](#cloning-and-compilation)
+    - [Running and debugging Cataclysm](#running-and-debugging-cataclysm)
+    - [Running unit tests](#running-unit-tests)
+    - [Make a distribution](#make-a-distribution)
+    - [ccache integration](#ccache-integration)
+    - [llvm tools integration](#llvm-tools-integration)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Compilation guide for Windows (using Visual Studio and vcpkg)
 
 This guide contains steps required to allow compilation of Cataclysm-DDA on Windows using Visual Studio and vcpkg.
@@ -6,13 +22,13 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 
 ## Prerequisites:
 
-* Computer with modern Windows operating system installed (Windows 10, Windows 8.1 or Windows 7);
+* Computer with modern Windows operating system installed (Windows 10, Windows 8.1 or Windows 7 - Windows XP is not supported);
 * NTFS partition with ~15 Gb free space (~10 Gb for Visual Studio, ~1 Gb for vcpkg installation, ~3 Gb for repository and ~1 Gb for build cache);
 * Git for Windows (installer can be downloaded from [Git homepage](https://git-scm.com/));
 * Visual Studio 2019 (or 2015 Visual Studio Update 3 and above);
 * Latest version of vcpkg (see instructions on [vcpkg homepage](https://github.com/Microsoft/vcpkg)).
 
-**Note:** Windows XP is unsupported!
+**WARNING:** If you have CMake 4 or newer installed, you need to downgrade to CMake 3 eg. https://github.com/Kitware/CMake/releases/tag/v3.31.8 or a newer version of CMake 3. CMake 4 is not compatible with the version of vcpkg we use.
 
 ## Installation and configuration:
 

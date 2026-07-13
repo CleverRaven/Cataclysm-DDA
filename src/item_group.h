@@ -279,6 +279,11 @@ class Item_modifier
         std::string variant;
 
         /**
+        * add this faults to item, if possible
+        */
+        std::vector<std::pair<fault_id, int>> faults;
+
+        /**
          * Custom sub set of snippets to be randomly chosen from and then applied to the item.
          */
         std::vector<snippet_id> snippets;

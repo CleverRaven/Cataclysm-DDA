@@ -1,0 +1,68 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_SORCERER_PICK_BLOODLINE",
+    "dynamic_line": "While wizards spend their lives buried in books to understand magic, your power stems from your innately magical bloodline.  Magic is your birthright.\nInstead of studying books, you increase in power by slaying monsters.\n\nThe standard sorcerer gains a caster level bonus based on their intelligence, but some bloodlines change this.\nThat being said, what exactly is your bloodline?",
+    "responses": [
+      { "text": "Standard bloodline", "topic": "TALK_SORCERER_GAIN_BLOODLINE_STANDARD" },
+      { "text": "Bloodrager", "topic": "TALK_SORCERER_GAIN_BLOODLINE_BLOODRAGER" },
+      { "text": "Spelldancer", "topic": "TALK_SORCERER_GAIN_BLOODLINE_SPELLDANCER" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SORCERER_GAIN_BLOODLINE_STANDARD",
+    "dynamic_line": "You're a fairly standard sorcerer.  You gain no special strengths or weaknesses.\nYour caster level is boosted by your intelligence.\nYou can pick one spell to be your favoured spell.  This boosts the starting level of that spell to 3.  This does not stack with spell level increases gained from leveling up as a sorcerer.\nIs this your bloodline?",
+    "responses": [
+      {
+        "text": "Choose this bloodline",
+        "topic": "TALK_SORCERER_MENU_MAIN",
+        "effect": [
+          { "run_eocs": "EOC_level_up_sorcerer" },
+          { "math": [ "u_available_favorite_spells = 1" ] },
+          { "u_add_var": "power_source", "value": "intelligence" },
+          { "u_add_var": "bloodline", "value": "STANDARD" }
+        ]
+      },
+      { "text": "Back", "topic": "TALK_SORCERER_PICK_BLOODLINE" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SORCERER_GAIN_BLOODLINE_BLOODRAGER",
+    "dynamic_line": "Magic is in the blood of every sorcerer, but for you it's more literal.  Your magical powers surges as your blood does.\nYour caster level bonus is based off of strength instead of intelligence.  You get an extra boost during adrenaline rushes, but you take a penalty if you lose too  much blood.\nIs this your bloodline?",
+    "responses": [
+      {
+        "text": "Choose this bloodline",
+        "topic": "TALK_SORCERER_MENU_MAIN",
+        "effect": [
+          { "run_eocs": "EOC_level_up_sorcerer" },
+          { "u_add_var": "power_source", "value": "strength" },
+          { "u_add_var": "bloodline", "value": "BLOODRAGER" }
+        ]
+      },
+      { "text": "Back", "topic": "TALK_SORCERER_PICK_BLOODLINE" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SORCERER_GAIN_BLOODLINE_SPELLDANCER",
+    "dynamic_line": "As a Spelldancer, you empower your magic through dance and acrobatics.  The elegance of your movements is matched only by the power of your spells.\nYour caster level bonus is based off of effective dodge instead of intelligence.\nIs this your bloodline?",
+    "responses": [
+      {
+        "text": "Choose this bloodline",
+        "topic": "TALK_SORCERER_MENU_MAIN",
+        "effect": [
+          { "run_eocs": "EOC_level_up_sorcerer" },
+          { "u_add_var": "power_source", "value": "dodge" },
+          { "u_add_var": "bloodline", "value": "SPELLDANCER" }
+        ]
+      },
+      { "text": "Back", "topic": "TALK_SORCERER_PICK_BLOODLINE" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  }
+]

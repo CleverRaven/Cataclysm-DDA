@@ -1,0 +1,76 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "balthazar_bunker_solar_panel_row_1",
+    "object": {
+      "mapgensize": [ 21, 21 ],
+      "rows": [
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P"
+      ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "P": "f_solar_unit" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "balthazar_bunker_solar_panel_row_2",
+    "object": {
+      "mapgensize": [ 21, 21 ],
+      "rows": [
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP.."
+      ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "P": "f_solar_unit" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "balthazar_bunker_solar_panel_row_l",
+    "object": { "place_nested": [ { "chunks": [ "balthazar_bunker_solar_panel_row_1" ], "x": 3, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "balthazar_bunker_solar_panel_row_r",
+    "object": { "place_nested": [ { "chunks": [ "balthazar_bunker_solar_panel_row_2" ], "x": 0, "y": 1 } ] }
+  }
+]

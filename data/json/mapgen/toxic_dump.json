@@ -5,7 +5,7 @@
     "items": [
       { "item": "plut_slurry", "container-item": "55gal_drum", "charges": [ 2, 28 ], "prob": 5 },
       { "item": "plut_slurry_dense", "container-item": "55gal_drum", "charges": [ 1, 45 ], "prob": 2 },
-      { "item": "sewage", "container-item": "55gal_drum", "charges": [ 26, 126 ], "prob": 50 },
+      { "item": "water_sewage", "container-item": "55gal_drum", "charges": [ 26, 126 ], "prob": 50 },
       { "group": "sewer", "prob": 20 },
       { "item": "55gal_drum", "prob": 50 },
       { "item": "slime_scrap", "prob": 10 }
@@ -13,7 +13,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "toxic_dump" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -71,7 +70,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "toxic_dump_roof" ],
     "object": {
       "fill_ter": "t_thconc_floor",

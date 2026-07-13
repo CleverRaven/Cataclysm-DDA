@@ -57,7 +57,7 @@
     "id": "EOC_EXECUTION_EXTA_EFFECTS",
     "type": "effect_on_condition",
     "effect": [
-      { "math": [ "u_val('stamina')", "+=", "1200" ] },
+      { "math": [ "u_val('stamina') += 1200" ] },
       {
         "run_eocs": [
           {

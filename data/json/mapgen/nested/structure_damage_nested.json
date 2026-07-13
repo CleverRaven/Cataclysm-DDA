@@ -87,7 +87,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "carcrash_10x10_rand",
     "//": "Randomizes between the three car crash variants. The walls for the structure being damaged start at y:3.",
     "object": {
@@ -104,7 +103,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "carcrash_10x10_straight",
     "//": "Same as 8x8, but made to distribute with the diagonal variants of the same size.",
     "object": {
@@ -115,7 +113,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "carcrash_8x8_straight",
     "//": "The walls for the structure being damaged start at y:3.",
     "object": {
@@ -138,7 +135,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "carcrash_10x10_diag_fromleft",
     "//": "The walls for the structure being damaged start at y:3.",
     "object": {
@@ -163,7 +159,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "carcrash_10x10_diag_fromright",
     "//": "The walls for the structure being damaged start at y:3.",
     "object": {
@@ -188,7 +183,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "carcrash_8x8_straight_bloodcorpse",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -209,7 +203,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "carcrash_10x10_diag_fromleft_bloodcorpse",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -232,7 +225,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "carcrash_10x10_diag_fromright_bloodcorpse",
     "object": {
       "mapgensize": [ 10, 10 ],

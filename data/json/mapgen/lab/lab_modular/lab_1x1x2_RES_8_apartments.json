@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "lab_1x1x2_RES_8_apartments_upper",
     "type": "mapgen",
     "object": {
@@ -37,7 +36,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lab_1x1x2_RES_8_apartments_lower",
     "type": "mapgen",
     "object": {

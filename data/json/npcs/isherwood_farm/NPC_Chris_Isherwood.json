@@ -496,7 +496,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_THE_ISHERWOODS",
-    "dynamic_line": "Probably.  They'd want to, for sure.\"  He looks thoughtful.  \"I'm sure we could use more help, but this isn't my strong suit.  Let me think about it.  If you have any ideas, run them by me.\"",
+    "dynamic_line": "Probably.  They'd want to, for sure.\"  He looks thoughtful.  \"I'm sure we could use more help, but this isn't my strong suit.  Let me think about it.  If you have any ideas, run them by me.",
     "speaker_effect": { "sentinel": "chris_thinking_about_plan", "effect": { "math": [ "npc_timer_thinking_about_plan = time('now')" ] } },
     "responses": [
       {

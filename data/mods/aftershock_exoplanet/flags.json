@@ -39,6 +39,10 @@
     "info": "This item is capable of projecting a Riemann protective shield."
   },
   {
+    "id": "ACTIVE_CRYOSUIT",
+    "type": "json_flag"
+  },
+  {
     "id": "HIVE_MIND",
     "type": "monster_flag",
     "//": "This monster is part of a hive mind"

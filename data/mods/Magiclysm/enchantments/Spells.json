@@ -37,7 +37,6 @@
     "id": "ench_shape_of_dust",
     "has": "HELD",
     "condition": "ALWAYS",
-    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
     "emitter": "emit_eshaper_dust",
     "values": [ { "value": "BONUS_DODGE", "add": 2 } ]
   }

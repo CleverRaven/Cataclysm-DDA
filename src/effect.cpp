@@ -53,6 +53,8 @@ static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 
 std::array<double, static_cast<size_t>( mod_type::MAX )> default_modifier_values = { 0, 0 };
 
+static std::map<efftype_id, effect_migration> effect_migrations;
+
 namespace
 {
 std::map<efftype_id, effect_type> effect_types;
@@ -1081,16 +1083,10 @@ time_duration effect::get_max_duration() const
 void effect::set_duration( const time_duration &dur, bool alert )
 {
     duration = dur;
-    // Cap to max_duration
-    if( duration > eff_type->max_duration ) {
-        duration = eff_type->max_duration;
-    }
 
-    // Force intensity if it is duration based
-    if( eff_type->int_dur_factor != 0_turns ) {
-        const int intensity = std::ceil( duration / eff_type->int_dur_factor );
-        set_intensity( std::max( 1, intensity ), alert );
-    }
+    clamp_duration();
+
+    apply_int_dur_factor( alert );
 
     add_msg_debug( debugmode::DF_EFFECT, "ID: %s, Duration %s", get_id().c_str(),
                    to_string_writable( duration ) );
@@ -1102,6 +1098,11 @@ void effect::mod_duration( const time_duration &dur, bool alert )
 void effect::mult_duration( double dur, bool alert )
 {
     set_duration( duration * dur, alert );
+}
+void effect::clamp_duration()
+{
+    duration = std::min( duration, eff_type->max_duration );
+
 }
 
 static int cap_to_size( const int max, int attempt )
@@ -1213,13 +1214,9 @@ int effect::get_effective_intensity() const
 
 int effect::set_intensity( int val, bool alert )
 {
-    if( intensity < 1 ) {
-        // Fix bad intensity
-        add_msg_debug( debugmode::DF_EFFECT, "Bad intensity, ID: %s", get_id().c_str() );
-        intensity = 1;
-    }
+    clamp_intensity();
 
-    val = std::max( std::min( val, eff_type->max_intensity ), 0 );
+    val = std::clamp( val, 0, eff_type->max_intensity );
     if( val == intensity ) {
         // Nothing to change
         return intensity;
@@ -1243,9 +1240,29 @@ int effect::set_intensity( int val, bool alert )
     return intensity;
 }
 
+int effect::clamp_intensity()
+{
+    if( intensity < 1 ) {
+        add_msg_debug( debugmode::DF_CREATURE, "Bad intensity, ID: %s", eff_type->id.c_str() );
+        intensity = 1;
+    } else if( intensity > eff_type->max_intensity ) {
+        intensity = eff_type->max_intensity;
+    }
+    return intensity;
+}
+
 int effect::mod_intensity( int mod, bool alert )
 {
     return set_intensity( intensity + mod, alert );
+}
+
+int effect::apply_int_dur_factor( bool alert )
+{
+    if( eff_type->int_dur_factor != 0_turns ) {
+        const int new_intensity = std::ceil( duration / eff_type->int_dur_factor );
+        set_intensity( std::max( 1, new_intensity ), alert );
+    }
+    return intensity;
 }
 
 const std::vector<trait_id> &effect::get_resist_traits() const
@@ -1711,20 +1728,55 @@ void effect::deserialize( const JsonObject &jo )
     jo.read( "source", source );
 }
 
-std::string texitify_base_healing_power( const int power )
+void effect_migration::load( const JsonObject &jo )
 {
-    if( power == 1 ) {
-        return colorize( _( "very poor" ), c_red );
-    } else if( power == 2 ) {
-        return colorize( _( "poor" ), c_light_red );
-    } else if( power == 3 ) {
-        return colorize( _( "average" ), c_yellow );
-    } else if( power == 4 ) {
-        return colorize( _( "good" ), c_light_green );
-    } else if( power >= 5 ) {
-        return colorize( _( "great" ), c_green );
+    effect_migration migration;
+    mandatory( jo, false, "from", migration.id_old );
+    optional( jo, false, "to", migration.id_new );
+    effect_migrations.emplace( migration.id_old, migration );
+}
+
+void effect_migration::reset()
+{
+    effect_migrations.clear();
+}
+
+void effect_migration::check()
+{
+    for( const auto &[from_id, pm] : effect_migrations ) {
+        if( pm.id_new.has_value() && !pm.id_new.value().is_valid() ) {
+            debugmsg( "effect migration specifies invalid id '%s'", pm.id_new.value().str() );
+            continue;
+        }
     }
-    if( power < 1 ) {
+}
+
+const effect_migration *effect_migration::find_migration( const efftype_id &original )
+{
+    const auto migration_it = effect_migrations.find( original );
+    if( migration_it == effect_migrations.cend() ) {
+        return nullptr;
+    }
+    return &migration_it->second;
+}
+
+std::string texitify_base_healing_power( const float power )
+{
+    if( power >= 5 ) {
+        return colorize( _( "great" ), c_green );
+    } else if( power >= 4 ) {
+        return colorize( _( "good" ), c_light_green );
+    } else if( power >= 3 ) {
+        return colorize( _( "average" ), c_yellow );
+    } else if( power >= 2 ) {
+        return colorize( _( "poor" ), c_light_red );
+    } else if( power >= 1 ) {
+        return colorize( _( "very poor" ), c_red );
+    } else if( power > 0 ) {
+        return colorize( _( "awful" ), c_red );
+    }
+
+    if( power <= 0 ) {
         debugmsg( "Tried to convert zero or negative value." );
     }
     return "";

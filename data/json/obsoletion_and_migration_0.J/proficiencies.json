@@ -1,0 +1,10 @@
+[
+  {
+    "type": "proficiency_migration",
+    "from": "prof_wp_slime_basic"
+  },
+  {
+    "type": "proficiency_migration",
+    "from": "prof_wp_slime_advanced"
+  }
+]

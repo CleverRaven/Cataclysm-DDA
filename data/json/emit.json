@@ -465,5 +465,12 @@
     "field": "fd_nm_monster_gas_2",
     "intensity": 3,
     "chance": 10
+  },
+  {
+    "id": "emit_pain_field",
+    "//": "used exclusively by the crowned ones.",
+    "type": "emit",
+    "field": "fd_crowned_pain",
+    "qty": 120
   }
 ]

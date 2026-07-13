@@ -1,0 +1,7 @@
+[
+  {
+    "type": "MIGRATION",
+    "id": "fungus_mutated",
+    "replace": "veggy_tainted"
+  }
+]

@@ -1,3 +1,30 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Making and working with steel grades](#making-and-working-with-steel-grades)
+  - [Defining Steel Grades](#defining-steel-grades)
+    - [Slag](#slag)
+    - [Budget Steel](#budget-steel)
+    - [Mild Carbon Steel](#mild-carbon-steel)
+    - [Medium Carbon Steel](#medium-carbon-steel)
+    - [High Carbon Steel](#high-carbon-steel)
+    - [Case Hardened Carbon Steel](#case-hardened-carbon-steel)
+    - [Quench Tempered Carbon Steel](#quench-tempered-carbon-steel)
+- [Making Steel](#making-steel)
+    - [Tools](#tools)
+    - [Resources](#resources)
+    - [Books](#books)
+- [Scrap to swords](#scrap-to-swords)
+    - [Skills](#skills)
+    - [Time](#time)
+    - [Upgrades](#upgrades)
+    - [Case Hardening Requirements](#case-hardening-requirements)
+    - [Tempering Requirements](#tempering-requirements)
+    - [Repairing](#repairing)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Making and working with steel grades
 
 

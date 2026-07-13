@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sub_ramp_above" ],
     "object": {
       "fill_ter": "t_rock_floor_no_roof",
@@ -44,7 +43,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sub_ramp_below" ],
     "object": {
       "fill_ter": "t_rock_floor_no_roof",

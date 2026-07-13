@@ -1,3 +1,43 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Soundpacks](#soundpacks)
+  - [soundpack.txt format](#soundpacktxt-format)
+  - [JSON format](#json-format)
+    - [Sound effects](#sound-effects)
+        - [Adding variety](#adding-variety)
+    - [Preloading SFX](#preloading-sfx)
+    - [Playlists](#playlists)
+  - [Playlists List](#playlists-list)
+  - [JSON Format Sound Effects List](#json-format-sound-effects-list)
+    - [Open/close doors](#openclose-doors)
+    - [Smashing attempts and results](#smashing-attempts-and-results)
+    - [Melee](#melee)
+    - [Firearm/ranged weapon](#firearmranged-weapon)
+    - [Environmental SFX](#environmental-sfx)
+    - [Misc environmental sounds](#misc-environmental-sounds)
+    - [Ambient danger theme](#ambient-danger-theme)
+    - [Chainsaw pack](#chainsaw-pack)
+    - [Monster death and bite attacks](#monster-death-and-bite-attacks)
+    - [Player movement sfx](#player-movement-sfx)
+    - [Fatigue](#fatigue)
+    - [Player hurt](#player-hurt)
+    - [Player death and end-game](#player-death-and-end-game)
+    - [Various bionics](#various-bionics)
+    - [Various tools/traps being used](#various-toolstraps-being-used)
+    - [Various activities](#various-activities)
+    - [Musical instruments](#musical-instruments)
+    - [Various shouts and screams](#various-shouts-and-screams)
+    - [Speech](#speech)
+    - [Radio chatter](#radio-chatter)
+    - [Humming sounds of various origins](#humming-sounds-of-various-origins)
+    - [Fire](#fire)
+    - [Vehicle](#vehicle)
+    - [Miscellaneous](#miscellaneous)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Soundpacks
 
 A soundpack can be installed in the `data/sound` directory. It has to be a subdirectory that contains at least a file named `soundpack.txt`. It can include any number of json files which add any number of `sound_effect` or playlists.

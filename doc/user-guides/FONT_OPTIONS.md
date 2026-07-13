@@ -1,3 +1,18 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Configuring Fonts](#configuring-fonts)
+  - [Hinting](#hinting)
+    - [Default](#default)
+    - [Light](#light)
+    - [Auto](#auto)
+    - [NoAuto](#noauto)
+    - [None](#none)
+    - [Bitmap](#bitmap)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Configuring Fonts
 
 Fonts can be configured through changing the config/fonts.json file. This file is created with

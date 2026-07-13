@@ -80,7 +80,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "electrolysis kit" },
-    "description": "A set of wiring and electrodes for applying a direct current, usually to a liquid.  Useful for crafting.  Load with a storage battery or 12 V vehicle battery to use.",
+    "description": "A set of wiring and electrodes for applying a direct current, usually to a liquid.  Useful for crafting.  Load with a storage battery or 12V vehicle battery to use.",
     "weight": "250 g",
     "volume": "250 ml",
     "price": "10 USD",
@@ -107,7 +107,7 @@
     "weight": "1800 g",
     "volume": "2 L",
     "price": "200 USD",
-    "price_postapoc": "10 USD",
+    "price_postapoc": "2 USD",
     "material": [ "glass", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -132,7 +132,7 @@
     "weight": "3200 g",
     "volume": "1500 ml",
     "price": "200 USD",
-    "price_postapoc": "10 USD",
+    "price_postapoc": "1 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": "^",
@@ -173,7 +173,7 @@
     "weight": "3200 g",
     "volume": "1500 ml",
     "price": "200 USD",
-    "price_postapoc": "10 USD",
+    "price_postapoc": "2 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic" ],
     "symbol": ":",
@@ -214,7 +214,7 @@
     "weight": "3200 g",
     "volume": "1500 ml",
     "price": "200 USD",
-    "price_postapoc": "10 USD",
+    "price_postapoc": "50 cent",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "glass" ],
     "symbol": "^",
@@ -247,7 +247,7 @@
     "weight": "40860 g",
     "volume": "27 L",
     "price": "1 kUSD",
-    "price_postapoc": "30 USD",
+    "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "E",
@@ -270,7 +270,7 @@
     "weight": "36 kg",
     "volume": "60 L",
     "price": "5 kUSD",
-    "price_postapoc": "60 USD",
+    "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
@@ -289,7 +289,7 @@
     "weight": "181600 g",
     "volume": "240 L",
     "price": "20 kUSD",
-    "price_postapoc": "100 USD",
+    "price_postapoc": "15 USD",
     "material": [ "steel" ],
     "symbol": "E",
     "color": "dark_gray",
@@ -310,7 +310,8 @@
     "looks_like": "55gal_drum",
     "weight": "22700 g",
     "volume": "210 L",
-    "price": "200 USD",
+    "price": "100 USD",
+    "price_postapoc": "2 USD",
     "material": [ "steel" ],
     "qualities": [ [ "EXTRACT", 1 ] ]
   },
@@ -326,6 +327,7 @@
     "weight": "500 kg",
     "volume": "500 L",
     "price": "200 USD",
+    "price_postapoc": "5 USD",
     "material": [ "steel" ]
   },
   {
@@ -386,7 +388,7 @@
     "weight": "22700 g",
     "volume": "6 L",
     "price": "3 kUSD",
-    "price_postapoc": "45 USD",
+    "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "iron" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
@@ -423,7 +425,7 @@
     "weight": "27240 g",
     "volume": "8 L",
     "price": "2 kUSD 800 USD",
-    "price_postapoc": "35 USD",
+    "price_postapoc": "2 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "melee_damage": { "bash": 10 }
@@ -772,43 +774,13 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "id": "weather_reader",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "category": "tools",
-    "name": { "str": "Doppler Radar Turbo 2000" },
-    "description": "A briefcase with a built-in laptop that looks like it's from the 80s.  Its vintage monochrome monitor displays a plethora of meteorological data.  No sign of the FLDSMDFR, however.",
-    "weight": "1 kg",
-    "volume": "2500 ml",
-    "price": "2 USD",
-    "price_postapoc": "5 USD",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "charges_per_use": 5,
-    "use_action": [ "WEATHER_TOOL" ],
-    "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER", "WATER_BREAK", "ELECTRONIC" ],
-    "faults": [ { "fault_group": "electronic_general" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ],
-    "melee_damage": { "bash": 2 },
-    "tool_ammo": [ "battery" ]
-  },
-  {
     "id": "analytical_set_basic",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "basic laboratory analysis kit" },
-    "description": "A hefty kit containing some basic things you should probably not try to do precise chemistry without: a small balance scale, a spectrophotometer, a melting point apparatus, a pH meter, and a set of paper for thin layer chromatography.  This makes it a lot easier to feel confident that the chemical you've made is what you think it is.",
-    "weight": "12500 g",
+    "description": "A hefty kit containing some basic things you should probably not try to do precise chemistry without: a small balance scale, a spectrophotometer, cuvettes, a melting point apparatus, a pH meter, and a set of paper for thin layer chromatography.  This makes it a lot easier to feel confident that the chemical you've made is what you think it is.",
+    "weight": "14470 g",
     "volume": "5 L",
     "price": "250 USD",
     "price_postapoc": "10 USD",
@@ -1053,7 +1025,7 @@
     "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "microscope" },
-    "description": "A classic tool for the ages!  This hefty, durable piece of lab equipment makes small things look bigger.  Without electricity the light doesn't work, but the rest of it is surprisingly functional.  Unfortunately it's not useful for very much at the moment.",
+    "description": "A classic tool for the ages!  This hefty, durable piece of lab equipment makes small things look bigger.  When powered, it allows the user to observe various samples on a microscopic scale.",
     "weight": "2 kg",
     "volume": "3800 ml",
     "price": "30 USD",
@@ -1062,7 +1034,16 @@
     "material": [ "steel", "glass" ],
     "symbol": "G",
     "color": "white",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "charges_per_use": 1,
+    "use_action": [
+      { "type": "link_up", "cable_length": 2, "charge_rate": "10 W" },
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Observe samples",
+        "effect_on_conditions": [ "EOC_use_microscope" ]
+      }
+    ]
   },
   {
     "id": "microscope_dissecting",
@@ -1371,7 +1352,7 @@
           "condition": { "not": { "one_in_chance": 100 } },
           "effect": [
             { "u_message": "You have an intense feeling of being watched." },
-            { "math": [ "u_migo_interest_interest_migo_interest", "+=", "10" ] }
+            { "math": [ "u_migo_interest_interest_migo_interest += 10" ] }
           ]
         },
         {
@@ -1399,20 +1380,17 @@
         {
           "id": "EOC_MIGO_BIO_TECH_FOCUS",
           "condition": { "compare_string": [ "focus", { "npc_val": "mbt_f_function" } ] },
-          "effect": [
-            { "u_message": "You feel incredibly focused!" },
-            { "math": [ "u_val('focus')", "+=", "min( u_val('focus') + 30, 130)" ] }
-          ]
+          "effect": [ { "u_message": "You feel incredibly focused!" }, { "math": [ "u_val('focus') += min( u_val('focus') + 30, 130)" ] } ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_PAIN",
           "condition": { "compare_string": [ "pain", { "npc_val": "mbt_f_function" } ] },
-          "effect": [ { "u_message": "You feel your aches and pains fade away!" }, { "math": [ "u_pain()", "-=", "30" ] } ]
+          "effect": [ { "u_message": "You feel your aches and pains fade away!" }, { "math": [ "u_pain() -= 30" ] } ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_SLEEPINESS",
           "condition": { "compare_string": [ "sleepiness", { "npc_val": "mbt_f_function" } ] },
-          "effect": [ { "u_message": "You instantly feel more awake!" }, { "math": [ "u_val('sleepiness')", "-=", "30" ] } ]
+          "effect": [ { "u_message": "You instantly feel more awake!" }, { "math": [ "u_val('sleepiness') -= 30" ] } ]
         }
       ]
     }
@@ -1475,5 +1453,32 @@
     "color": "light_red",
     "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "THERMOMETER" ]
+  },
+  {
+    "id": "microscope_slide",
+    "type": "ITEM",
+    "name": { "str": "microscope slide" },
+    "//": "Includes the glass cover.",
+    "description": "A tiny, thin rectangle of glass, used to observe samples through microscopes.",
+    "material": [ "glass" ],
+    "weight": "4125 mg",
+    "volume": "2 ml",
+    "price_postapoc": "0 USD",
+    "symbol": "-",
+    "color": "light_cyan"
+  },
+  {
+    "id": "microscope_slide_water_murky",
+    "copy-from": "microscope_slide",
+    "type": "ITEM",
+    "name": { "str": "microscope slide of murky water", "str_pl": "microscope slides of murky water" },
+    "description": "A microscope slide with a sample of murky water."
+  },
+  {
+    "id": "microscope_slide_soil",
+    "copy-from": "microscope_slide",
+    "type": "ITEM",
+    "name": { "str": "microscope slide of soil", "str_pl": "microscope slides of soil" },
+    "description": "A microscope slide with a sample of soil."
   }
 ]

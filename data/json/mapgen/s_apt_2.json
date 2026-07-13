@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_apt_2" ],
     "object": {
       "fill_ter": "t_floor",
@@ -39,6 +38,7 @@
         "&": "t_window",
         "`": "t_concrete",
         "~": "t_thconc_floor",
+        "*": [ [ "t_door_locked_interior", 5 ], [ "t_door_c", 1 ] ],
         "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "6": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
@@ -74,7 +74,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_apt_2_2ndfloor" ],
     "object": {
       "fill_ter": "t_floor",
@@ -110,6 +109,7 @@
         ">": "t_stairs_down",
         "&": "t_window",
         "`": "t_open_air",
+        "*": [ [ "t_door_locked_interior", 5 ], [ "t_door_c", 1 ] ],
         "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "6": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
@@ -137,7 +137,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_apt_2_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -173,7 +172,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_apt_2_upper_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",
