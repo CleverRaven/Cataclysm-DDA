@@ -5,7 +5,6 @@
     "om_terrain": "mass_grave_red",
     "weight": 250,
     "object": {
-      "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
         "   ##  ##  ##  ##  ##   ",
