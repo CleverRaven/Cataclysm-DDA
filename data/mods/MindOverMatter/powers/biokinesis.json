@@ -153,7 +153,9 @@
         { "not": { "u_has_effect": "grabbed", "bodypart": "leg_r" } },
         { "not": { "u_has_effect": "disabled", "bodypart": "leg_l" } },
         { "not": { "u_has_effect": "disabled", "bodypart": "leg_r" } },
-        { "not": { "u_is_on_terrain_with_flag": "DEEP_WATER" } }
+        { "not": { "u_is_on_terrain_with_flag": "DEEP_WATER" } },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1b" } },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } }
       ]
     },
     "caster_condition_fail_message": "Your circumstances prevent you from moving freely right now.",
