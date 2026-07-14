@@ -60,7 +60,7 @@
       { "item": "large_stomach_sealed", "count": [ 0, 1 ], "prob": 10, "damage": [ 0, 1 ] },
       { "item": "coat_gut", "count": [ 0, 1 ], "prob": 5, "damage": [ 0, 2 ] },
       { "item": "rope_makeshift_6", "count": [ 0, 1 ], "prob": 20, "damage": [ 0, 2 ] },
-	  { "item": "rope_makeshift_30", "count": [ 0, 1 ], "prob": 10, "damage": [ 0, 1 ] }
+      { "item": "rope_makeshift_30", "count": [ 0, 1 ], "prob": 10, "damage": [ 0, 1 ] }
     ]
   },
   {
