@@ -3080,7 +3080,8 @@ void spellcasting_callback::display_spell_info( size_t index )
                sp.effect() == "effect_on_condition" ) {
         std::string psi_aoe_string_temp = _( "Power Radius" );
         std::string aoe_string_temp = _( "Spell Radius" );
-        ImGui::Text( "%s: %d", is_psi ? psi_aoe_string_temp.c_str() : aoe_string_temp.c_str(), sp.aoe( pc ) );
+        ImGui::Text( "%s: %d", is_psi ? psi_aoe_string_temp.c_str() : aoe_string_temp.c_str(),
+                     sp.aoe( pc ) );
     } else if( sp.effect() == "ter_transform" ) {
         ImGui::Text( "%s: %s", _( "Spell Radius" ), sp.aoe_string( pc ).c_str() );
     } else if( sp.effect() == "banishment" ) {
