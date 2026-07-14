@@ -3069,7 +3069,8 @@ void spellcasting_callback::display_spell_info( size_t index )
             } else if( sp.shape() == spell_shape::line ) {
                 aoe_string_temp = _( "Line Width" );
             }
-            ImGui::Text( "%s: %d %s", is_psi ? psi_aoe_string_temp.c_str() : aoe_string_temp.c_str(), sp.aoe( pc ), degree_string.c_str() );
+            ImGui::Text( "%s: %d %s", is_psi ? psi_aoe_string_temp.c_str() : aoe_string_temp.c_str(),
+                         sp.aoe( pc ), degree_string.c_str() );
         }
     } else if( sp.effect() == "short_range_teleport" ) {
         if( sp.aoe( pc ) > 0 ) {
