@@ -3060,6 +3060,7 @@ void spellcasting_callback::display_spell_info( size_t index )
     // if it's any type of attack spell, the stats are normal.
     if( sp.effect() == "attack" ) {
         if( sp.aoe( pc ) > 0 ) {
+            std::string psi_aoe_string_temp = _( "Power Radius" );
             std::string aoe_string_temp = _( "Spell Radius" );
             std::string degree_string;
             if( sp.shape() == spell_shape::cone ) {
@@ -3068,7 +3069,7 @@ void spellcasting_callback::display_spell_info( size_t index )
             } else if( sp.shape() == spell_shape::line ) {
                 aoe_string_temp = _( "Line Width" );
             }
-            ImGui::Text( "%s: %d %s", aoe_string_temp.c_str(), sp.aoe( pc ), degree_string.c_str() );
+            ImGui::Text( "%s: %d %s", is_psi ? psi_aoe_string_temp.c_str() : aoe_string_temp.c_str(), sp.aoe( pc ), degree_string.c_str() );
         }
     } else if( sp.effect() == "short_range_teleport" ) {
         if( sp.aoe( pc ) > 0 ) {
@@ -3076,7 +3077,9 @@ void spellcasting_callback::display_spell_info( size_t index )
         }
     } else if( sp.effect() == "summon" || sp.effect() == "fertilize_plant" ||
                sp.effect() == "effect_on_condition" ) {
-        ImGui::Text( "%s: %d", _( "Spell Radius" ), sp.aoe( pc ) );
+        std::string psi_aoe_string_temp = _( "Power Radius" );
+        std::string aoe_string_temp = _( "Spell Radius" );
+        ImGui::Text( "%s: %d", is_psi ? psi_aoe_string_temp.c_str() : aoe_string_temp.c_str(), sp.aoe( pc ) );
     } else if( sp.effect() == "ter_transform" ) {
         ImGui::Text( "%s: %s", _( "Spell Radius" ), sp.aoe_string( pc ).c_str() );
     } else if( sp.effect() == "banishment" ) {
