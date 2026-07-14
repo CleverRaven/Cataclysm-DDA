@@ -2149,7 +2149,7 @@
       { "drop": "demihuman_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "crowned_organ", "type": "flesh", "mass_ratio": 0.004 },
       { "drop": "crowned_monolith", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
-	  { "drop": "crowned_orifice", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "crowned_orifice", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "demihuman_fat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "bone_demihuman", "type": "bone", "mass_ratio": 0.12 },
       { "drop": "demihuman_marrow", "type": "bone", "mass_ratio": 0.005 },
