@@ -516,16 +516,16 @@
     "volume": "50 ml"
   },
   {
-	"type": "ITEM",
-	"id": "crowned_orifice",
-	"color": "gray",
-	"symbol": "n",
-	"name": { "str": "metallic stoma", "str_pl": "metallic stomata" },
-	"category": "other",
-	"price_postapoc": "0 cent",
-	"description": "A ring of metal housing a partially organic valve or sphincter, which was once connected to a bizarre digestive system.",
-	"material": [ "platinum", "flesh" ],
-	"weight": "1000 g",
-	"volume": "500 ml"
+    "type": "ITEM",
+    "id": "crowned_orifice",
+    "color": "gray",
+    "symbol": "n",
+    "name": { "str": "metallic stoma", "str_pl": "metallic stomata" },
+    "category": "other",
+    "price_postapoc": "0 cent",
+    "description": "A ring of metal housing a partially organic valve or sphincter, which was once connected to a bizarre digestive system.",
+    "material": [ "platinum", "flesh" ],
+    "weight": "1000 g",
+    "volume": "500 ml"
   }
 ]
