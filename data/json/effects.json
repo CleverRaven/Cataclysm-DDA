@@ -5862,7 +5862,9 @@
     "id": "crowned_speaking",
     "type": "effect_type",
     "name": [ "Overwhelming Thoughts" ],
-    "desc": [ "Your head throbs.  Some alien mind reached out and touched yours with the finesse and gentleness of a sledgehammer." ],
+    "desc": [
+      "Your head throbs.  Some alien mind reached out and touched yours with the finesse and gentleness of a sledgehammer."
+    ],
     "apply_message": "You feel a sudden, violent sensation of vertigo as thoughts that are not your own flood your skull.",
     "rating": "bad",
     "base_mods": {
