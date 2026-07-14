@@ -2482,5 +2482,20 @@
       "items": { " ": [ { "item": "SUS_freezer" } ] },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
+  },
+  {
+    "//": "Nest to allow bookcases to have separate book itemgroups",
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "R"
+      ],
+      "palettes": [ "standard_domestic_palette_books" ],
+      "furniture": { "R": "f_bookcase" },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
   }
 ]
