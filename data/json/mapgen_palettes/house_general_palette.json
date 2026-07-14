@@ -173,7 +173,6 @@
       "O": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "P": "f_filing_cabinet",
       "Q": "f_rack_wood",
-      "R": "f_bookcase",
       "S": "f_sink",
       "T": "f_floor_lamp",
       "U": "f_utility_shelf",
@@ -243,7 +242,8 @@
       ],
       "<": "t_wood_stairs_up",
       ">": "t_wood_stairs_down"
-    }
+    },
+    "nested": { "R": { "chunks": [ [ "domestic_bookcase_nest", 1 ] ] } }
   },
   {
     "type": "palette",
@@ -383,7 +383,7 @@
     "parameters": {
       "literature_palette": {
         "type": "palette_id",
-        "scope": "overmap_special",
+        "scope": "nest",
         "default": {
           "distribution": [
             [ "standard_domestic_palette_books_fiction_only", 1500 ],
