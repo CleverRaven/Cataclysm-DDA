@@ -1653,7 +1653,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "chem_methanol",
     "charges": 250,
-    "byproduct_group": [ { "item": "chem_ethanol", "container-item": "null", "charges": 2 } ],
+    "byproduct_group": [ { "item": "chem_ethanol", "charges": 2 } ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
@@ -2110,7 +2110,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "hi_q_distillate",
-    "byproduct_group": [ { "item": "chem_ethanol", "container-item": "null", "charges": 1 } ],
+    "byproduct_group": [ { "item": "chem_ethanol", "charges": 1 } ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -2145,7 +2145,7 @@
     "result": "hi_q_distillate",
     "id_suffix": "improvised_extraction",
     "name": "improvised %s",
-    "byproduct_group": [ { "item": "chem_ethanol", "container-item": "null", "charges": 1 } ],
+    "byproduct_group": [ { "item": "chem_ethanol", "charges": 1 } ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -2179,7 +2179,7 @@
     "result": "hi_q_distillate",
     "id_suffix": "large_extraction",
     "name": "large %s",
-    "byproduct_group": [ { "item": "chem_ethanol", "container-item": "null", "charges": 1 } ],
+    "byproduct_group": [ { "item": "chem_ethanol", "charges": 1 } ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -2214,7 +2214,7 @@
     "result": "hi_q_distillate",
     "id_suffix": "crude_extraction",
     "name": "crude %s",
-    "byproduct_group": [ { "item": "chem_ethanol", "container-item": "null", "charges": 1 } ],
+    "byproduct_group": [ { "item": "chem_ethanol", "charges": 1 } ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -2433,7 +2433,7 @@
     "byproduct_group": [
       { "item": "salt", "container-item": "null", "count": [ 80, 100 ] },
       { "item": "water_clean", "container-item": "null", "charges": 1 },
-      { "item": "chem_ethanol", "container-item": "null", "charges": [ 200, 250 ] }
+      { "item": "chem_ethanol", "charges": [ 200, 250 ] }
     ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -2504,7 +2504,7 @@
     "name": "distill %s with blood",
     "byproduct_group": [
       { "item": "water_clean", "container-item": "null", "charges": 1 },
-      { "item": "chem_ethanol", "container-item": "null", "charges": [ 200, 250 ] }
+      { "item": "chem_ethanol", "charges": [ 200, 250 ] }
     ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -2575,7 +2575,7 @@
     "name": "distill %s with blood",
     "byproduct_group": [
       { "item": "water_clean", "container-item": "null", "charges": 1 },
-      { "item": "chem_ethanol", "container-item": "null", "charges": [ 200, 250 ] }
+      { "item": "chem_ethanol", "charges": [ 200, 250 ] }
     ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
