@@ -4,6 +4,7 @@
     "//": "This is a special based on the mx_mass_grave_dino so Red spawns are unique",
     "om_terrain": "mass_grave_red",
     "weight": 250,
+    "predecessor_mapgen": "field",
     "object": {
       "rows": [
         "                        ",
