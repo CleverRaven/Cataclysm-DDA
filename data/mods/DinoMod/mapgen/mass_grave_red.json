@@ -4,8 +4,8 @@
     "//": "This is a special based on the mx_mass_grave_dino so Red spawns are unique",
     "om_terrain": "mass_grave_red",
     "weight": 250,
-    "predecessor_mapgen": "field",
     "object": {
+      "fill_ter": "t_region_groundcover",
       "rows": [
         "                        ",
         "   ##  ##  ##  ##  ##   ",
@@ -48,7 +48,7 @@
       ],
       "place_monsters": [ { "monster": "GROUP_DINOSAUR_ZOMBIE_SCORCHED", "density": 0.1, "x": [ 1, 22 ], "y": [ 1, 22 ] } ],
       "monster": { "#": { "monster": "mon_zaspletosaurus_scorched", "chance": 1 } },
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   }
 ]
