@@ -2490,9 +2490,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
-      "rows": [
-        "R"
-      ],
+      "rows": [ "R" ],
       "palettes": [ "standard_domestic_palette_books" ],
       "furniture": { "R": "f_bookcase" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
