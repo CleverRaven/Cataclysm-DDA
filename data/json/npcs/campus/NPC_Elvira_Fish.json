@@ -8,7 +8,7 @@
     "name_suffix": "Circulations",
     "class": "NC_GREAT_LIBRARY_LIBRARIAN",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_GREAT_LIBRARY_LIBRARIAN",
     "faction": "the_great_library"
   },

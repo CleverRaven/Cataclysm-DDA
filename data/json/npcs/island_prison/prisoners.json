@@ -6,7 +6,7 @@
     "name_suffix": "prisoner",
     "class": "NC_THUG_PRISONER",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_PRISONER_GENERIC",
     "faction": "prisoners"
   },
@@ -17,7 +17,7 @@
     "name_suffix": "gatekeeper",
     "class": "NC_THUG_PRISONER",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_PRISONER_GREET",
     "faction": "prisoners"
   },
@@ -28,7 +28,7 @@
     "name_suffix": "leader of prisoners",
     "class": "NC_THUG_PRISONER",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_PRISONER_LEADER_GREET",
     "faction": "prisoners",
     "mission_offered": "MISSION_PRISONER_LEADER_GET_ID_CARD"

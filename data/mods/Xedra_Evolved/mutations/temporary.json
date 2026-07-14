@@ -311,6 +311,7 @@
       "LEVITATION",
       "MUTE",
       "NO_SPELLCASTING",
+      "TOUGH_FEET",
       "TEMPORARY_SHAPESHIFT",
       "SHAPESHIFT_SIZE_TINY",
       "TEMPORARY_SHAPESHIFT_NO_HANDS"
@@ -344,7 +345,18 @@
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.6 }
         ],
         "skills": [ { "value": "dodge", "add": 4 }, { "value": "unarmed", "add": 1 } ],
-        "mutations": [ "BEAK", "BIRD_EYE", "BIRD_LEGS", "DOWN", "EAGLEEYED", "HOLLOW_BONES", "LIGHTEATER", "SCREECH", "WINGS_BIRD" ]
+        "mutations": [
+          "BEAK",
+          "TOUGH_FEET",
+          "BIRD_EYE",
+          "BIRD_LEGS",
+          "DOWN",
+          "EAGLEEYED",
+          "HOLLOW_BONES",
+          "LIGHTEATER",
+          "SCREECH",
+          "WINGS_BIRD"
+        ]
       }
     ],
     "flags": [ "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_LARGE" ]
@@ -394,6 +406,7 @@
       "LEVITATION",
       "MUTE",
       "NO_SPELLCASTING",
+      "TOUGH_FEET",
       "TEMPORARY_SHAPESHIFT",
       "SHAPESHIFT_SIZE_TINY",
       "TEMPORARY_SHAPESHIFT_NO_HANDS"

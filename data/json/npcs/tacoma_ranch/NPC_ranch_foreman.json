@@ -6,7 +6,7 @@
     "name_suffix": "Foreman",
     "class": "NC_BOUNTY_HUNTER",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_RANCH_FOREMAN",
     "mission_offered": "MISSION_RANCH_FOREMAN_1",
     "faction": "tacoma_commune"

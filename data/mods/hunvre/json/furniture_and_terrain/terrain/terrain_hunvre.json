@@ -57,7 +57,7 @@
       "items": [
         { "item": "scrap", "count": [ 1, 6 ] },
         { "item": "plastic_chunk", "count": [ 4, 8 ] },
-        { "item": "cable", "count": [ 2, 6 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "e_scrap", "count": [ 8, 12 ] }
       ]
     }

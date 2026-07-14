@@ -2722,7 +2722,7 @@ class Character : public Creature, public visitable
         /** Modifies a pain value by wounds before passing it to Creature::mod_pain() */
         int get_pain() const override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
-        int mod_pain( int npain ) override;
+        int mod_pain( int npain, bodypart_id bp = bodypart_id() ) override;
         /** Sets new intensity of pain an reacts to it */
         void set_pain( int npain ) override;
         /** Returns perceived pain (reduced with painkillers)*/

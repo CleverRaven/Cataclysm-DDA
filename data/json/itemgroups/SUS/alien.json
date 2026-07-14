@@ -132,7 +132,7 @@
           { "group": "salt_various", "prob": 100 },
           { "group": "pepper_various", "prob": 95 },
           { "group": "sugar_jar_glass_sealed_10_140", "prob": 25 },
-          { "item": "chem_saltpetre", "count": [ 2, -1 ], "prob": 10 },
+          { "group": "saltpeter_canvas_bag_part", "prob": 10 },
           { "group": "yeast_various", "prob": 30 }
         ],
         "prob": 50

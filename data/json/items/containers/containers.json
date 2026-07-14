@@ -133,8 +133,8 @@
     "category": "container",
     "name": { "str": "reusable plastic sack" },
     "looks_like": "bag_plastic",
-    "description": "A large and sturdy sack, made out of some plastic material.  Popular choice to store sand, gravel, cement, or stop some local flood.",
-    "//": "durasack woven polypropylene bags",
+    "description": "A large and sturdy sack, made out of woven polypropylene.  Popular choice to store sand, gravel, cement, or stop some local flood.",
+    "//": "woven polypropylene bags",
     "weight": "750 g",
     "volume": "1250 ml",
     "price": "85 cent",
@@ -158,7 +158,7 @@
     "subtypes": [ "BOOK" ],
     "name": { "str": "durable plastic sack, cement" },
     "looks_like": "bag_plastic",
-    "description": "A large and sturdy sack, made out plastic material.  Stores cement and has instructions on how to use it to make mortar.",
+    "description": "A large and sturdy sack, made out of woven polypropylene.  Stores cement and has instructions on how to use it to make mortar.",
     "//": "book data is used so item can work as book and provide recipes",
     "copy-from": "bag_durasack",
     "max_level": 0,
@@ -3195,7 +3195,7 @@
     "volume": "150 ml",
     "longest_side": "16 cm",
     "price": "10 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "20 cent",
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -5043,6 +5043,7 @@
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1 L",
+        "max_item_length": "30 cm",
         "max_contains_weight": "1 kg",
         "item_restriction": [ "duct_tape", "medical_tape" ],
         "volume_multiplier": 0.75
@@ -5397,11 +5398,37 @@
     "flags": [ "NO_RELOAD" ]
   },
   {
+    "id": "spool_small",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small spool" },
+    "description": "A small plastic spool designed to hold various materials.",
+    "//": "0.5 lbs or 3 ft of solder",
+    "weight": "20 g",
+    "volume": "50 ml",
+    "//2": "spool itself is 200 ml, but volume is reduced if empty",
+    "material": [ "plastic" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_volume": "200 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "50 cm",
+        "item_restriction": [ "solder_wire", "cable", "copper_wire" ],
+        "transparent": true,
+        "moves": 200
+      }
+    ]
+  },
+  {
     "id": "spool_welding",
     "type": "ITEM",
     "category": "container",
     "name": { "str": "wire spool" },
-    "description": "A large plastic spool designed to hold welding wire or solder.",
+    "description": "A large plastic spool designed to hold welding wire.",
     "weight": "400 g",
     "volume": "1600 ml",
     "material": [ "plastic" ],
@@ -5413,8 +5440,8 @@
         "rigid": false,
         "max_contains_volume": "3000 ml",
         "max_contains_weight": "6 kg",
-        "item_restriction": [ "welding_wire_steel", "welding_wire_alloy", "solder_wire" ],
-        "transparent": false,
+        "item_restriction": [ "welding_wire_steel", "welding_wire_alloy" ],
+        "transparent": true,
         "moves": 800,
         "volume_multiplier": 0.3
       }

@@ -1,0 +1,382 @@
+[
+  {
+    "type": "recipe",
+    "result": "material_quicklime",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "material_cement",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "steel_lump",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lc_steel_lump",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mc_steel_lump",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hc_steel_lump",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "qt_steel_lump",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "steel_lump_from ore",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "steel_chunk_from ore",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "scrap_from ore",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "steel_lump_smelt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "steel_chunk_smelt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "scrap_smelt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "material_aluminium_ingot_native",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "steel_lump_from_other_steel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "plastic_chunk_from chitin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pilot_light",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "water_faucet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "well_pump",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_transformer",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "motor_micro",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "motor_tiny",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "motor_small",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "vehicle_controls",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "drivebelt_makeshift",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "power_supply",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "power_supply_innawood",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battery_charger",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_hand_crank_charger",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "condensor_coil",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "evaporator_coil",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "light_minus_disposable_cell",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "filter_air_makeshift",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "goggles_welding",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battery_car_clay",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battery_clay_array",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "light_bulb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chem_muriatic_acid_by_electrolysis",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chem_black_powder",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chem_black_powder_generic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bleach",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oxy_powder",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "latex",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chunk_rubber",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lye_by_electrolysis",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chemistry_set_basic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chemistry_set",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "funnel_separation",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "thermometer",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "water_purifier",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "soldering_iron",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "soldering_iron_portable",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hotplate",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_sealer",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_vacuum_mold",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xacto",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "electric_lantern",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "flashlight",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "floodlight",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "directed_floodlight",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "car_headlight",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "car_wide_headlight",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wearable_light",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "standing_lamp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "standing_floodlight",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wooden_grip",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_flintlock",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "longrifle_flintlock",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "carbine_flintlock",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pistol_flintlock",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "carbine_flintlock_double",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "carbine_flintlock_double_from_antiques",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hand_crossbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "crossbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bullet_crossbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cannon_3in_ordnance",
+    "obsolete": true
+  }
+]

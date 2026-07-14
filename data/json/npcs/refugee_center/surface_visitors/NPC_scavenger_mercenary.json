@@ -7,7 +7,7 @@
     "age": 37,
     "class": "NC_SCAVENGER_MERC",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_SCAVENGER_MERC",
     "faction": "no_faction"
   },

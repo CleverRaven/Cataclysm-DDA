@@ -31,7 +31,7 @@
     "book_learn": [ [ "textbook_mechanics", 6 ], [ "textbook_electronics", 8 ], [ "textbook_fabrication", 8 ], [ "welding_book", 5 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "kiln", 1 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "power_supply", 2 ] ], [ [ "kiln", 1 ] ], [ [ "cable", 1 ] ] ]
   },
   {
     "type": "recipe",

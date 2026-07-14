@@ -1,10 +1,11 @@
 <resources>
 
-    <style name="AppTheme" parent="@android:style/Theme.Material.NoActionBar.Fullscreen">
+    <style name="AppTheme" parent="@android:style/Theme.Material.NoActionBar">
         <item name="android:windowBackground">@drawable/background_splash</item>
         <item name="android:colorAccent">@color/accent_material_dark</item>
         <item name="android:colorPrimary">@color/primary_material_dark</item>
         <item name="android:colorBackground">@color/background_material_dark</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
     </style>
 
     <style name="AlertDialogTheme" parent="@android:style/Theme.Material.Dialog.Alert" >

@@ -58,7 +58,6 @@ static const item_category_id item_category_spare_parts( "spare_parts" );
 static const item_category_id item_category_tools( "tools" );
 
 static const itype_id itype_10gal_hat( "10gal_hat" );
-static const itype_id itype_ammonia_hydroxide( "ammonia_hydroxide" );
 static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_arm_warmers( "arm_warmers" );
 static const itype_id itype_armor_mc_lightplate( "armor_mc_lightplate" );
@@ -73,7 +72,6 @@ static const itype_id itype_butter( "butter" );
 static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_chem_black_powder( "chem_black_powder" );
 static const itype_id itype_chem_muriatic_acid( "chem_muriatic_acid" );
-static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_duffelbag( "duffelbag" );
 static const itype_id itype_efile_photos( "efile_photos" );
 static const itype_id itype_efile_recipes( "efile_recipes" );
@@ -386,8 +384,6 @@ static void check_spawning_in_container( const itype_id &item_type )
 TEST_CASE( "items_spawn_in_their_default_containers", "[item]" )
 {
     check_spawning_in_container( itype_water );
-    check_spawning_in_container( itype_ammonia_hydroxide );
-    check_spawning_in_container( itype_detergent );
     check_spawning_in_container( itype_single_malt_whiskey );
     check_spawning_in_container( itype_rocuronium );
     check_spawning_in_container( itype_chem_muriatic_acid );

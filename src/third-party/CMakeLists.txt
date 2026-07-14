@@ -106,11 +106,14 @@ if (TILES)
                 )
         endif ()
         set(_imgui_freetype_sources "")
+        set(_imgui_freetype_libraries "")
         if (NOT ANDROID)
+            find_package(Freetype REQUIRED)
             set(_imgui_freetype_sources
                 imgui/imgui_freetype.cpp
                 imgui/imgui_freetype.h
                 )
+            set(_imgui_freetype_libraries Freetype::Freetype)
         endif ()
         add_library(
                 imgui
@@ -139,22 +142,12 @@ if (TILES)
                 ${CMAKE_CURRENT_SOURCE_DIR}
                 )
 
-        if (USE_SDL3)
-            if (NOT ANDROID)
-                target_include_directories(
-                        imgui
-                        SYSTEM
-                        PRIVATE
-                        /usr/include/freetype2
-                        )
-            endif ()
-        else ()
+        if (NOT USE_SDL3)
             target_include_directories(
                     imgui
                     SYSTEM
                     PRIVATE
                     ${SDL2_INCLUDE_DIR}/..
-                    /usr/include/freetype2
                     )
         endif ()
 
@@ -170,24 +163,24 @@ if (TILES)
             elseif (NOT DYNAMIC_LINKING)
                 target_link_libraries(imgui PUBLIC
                     $<IF:$<TARGET_EXISTS:SDL3::SDL3-static>,SDL3::SDL3-static,SDL3::SDL3>
-                    $<TARGET_NAME_IF_EXISTS:PkgConfig::Freetype>
+                    ${_imgui_freetype_libraries}
                 )
             else()
                 target_link_libraries(imgui PUBLIC
                     SDL3::SDL3
-                    freetype
+                    ${_imgui_freetype_libraries}
                 )
             endif ()
         else ()
             if (NOT DYNAMIC_LINKING)
                 target_link_libraries(imgui PUBLIC
                     SDL2::SDL2-static
-                    $<TARGET_NAME_IF_EXISTS:PkgConfig::Freetype>
+                    ${_imgui_freetype_libraries}
                 )
             else()
                 target_link_libraries(imgui PUBLIC
                     SDL2::SDL2
-                    freetype
+                    ${_imgui_freetype_libraries}
                 )
             endif ()
         endif ()

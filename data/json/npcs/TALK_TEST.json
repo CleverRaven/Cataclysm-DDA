@@ -1292,7 +1292,7 @@
     "name_suffix": "Tester",
     "class": "test_shop_class",
     "attitude": 1,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_TEST_FACTION_TRUST",
     "faction": "free_merchants"
   },
@@ -1303,7 +1303,7 @@
     "name_suffix": "Tester",
     "class": "NC_DOCTOR",
     "attitude": 1,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_TEST_START",
     "faction": "tacoma_commune",
     "talk_friend_guard": "TALK_TEST_GUARD"

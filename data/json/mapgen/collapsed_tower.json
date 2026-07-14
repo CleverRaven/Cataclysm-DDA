@@ -182,7 +182,10 @@
         "Y": "t_thconc_floor_olight",
         "p": "t_metal_floor"
       },
-      "mapping": { "r": { "item": { "item": "standard_template_construct" } }, "R": { "item": { "item": "nanomaterial" } } },
+      "mapping": {
+        "r": { "item": { "item": "standard_template_construct" } },
+        "R": { "item": { "item": "nanomaterial", "repeat": [ 25, 75 ] } }
+      },
       "items": { ";": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { ";": {  } },
       "place_items": [

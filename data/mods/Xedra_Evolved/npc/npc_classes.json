@@ -6,7 +6,7 @@
     "name_suffix": "spider victim",
     "class": "NC_NPC_XE_SPIDER_VICTIM",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_RESCUED_1",
     "faction": "no_faction"
   },
@@ -46,7 +46,7 @@
     "name_suffix": "rescued dreamer",
     "class": "NC_NPC_XE_CAPTURED_DREAMER",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_RESCUED_1",
     "faction": "no_faction"
   },

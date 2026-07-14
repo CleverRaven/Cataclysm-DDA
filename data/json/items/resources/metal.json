@@ -188,7 +188,6 @@
     "volume": "2 ml",
     "price": "50 USD",
     "price_postapoc": "1 cent",
-    "container": "bag_plastic_small",
     "material": [ "powder" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -412,6 +411,7 @@
     "symbol": "=",
     "color": "light_gray",
     "description": "A small spool of solder, useful for electronics crafting.",
+    "display_type": "BY_WEIGHT",
     "material": [ "steel" ],
     "volume": "1 ml",
     "weight": "2 g",

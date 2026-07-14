@@ -91,7 +91,7 @@
     "name_suffix": "Bone Seer",
     "class": "NC_BONE_SEER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_BONE_SEER",
     "talk_friend": "TALK_FRIEND_BONE_SEER",
     "talk_friend_guard": "TALK_FRIEND_GUARD_BONE_SEER",

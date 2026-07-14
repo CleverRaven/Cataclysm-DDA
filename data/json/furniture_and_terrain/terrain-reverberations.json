@@ -117,7 +117,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water_clean", "min_temp": 2.2 },
+    "liquid_source": { "id": "water_clean_scarlet", "min_temp": 2.2 },
     "examine_action": "water_source",
     "light_emitted": 5,
     "light_color": [ 110, 0, 0 ]
@@ -133,7 +133,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water_clean", "min_temp": 2.2 },
+    "liquid_source": { "id": "water_clean_scarlet", "min_temp": 2.2 },
     "examine_action": "water_source",
     "light_emitted": 5,
     "light_color": [ 110, 0, 0 ],

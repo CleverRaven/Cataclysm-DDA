@@ -1,0 +1,7 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PROFESSION_PATTERN_TATTOO_MOUNTAIN",
+    "effect": [ { "math": [ "u_mountain_tattoo_count = 4" ] } ]
+  }
+]

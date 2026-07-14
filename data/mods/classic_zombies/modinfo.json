@@ -9,7 +9,8 @@
     "conflicts": [ "aftershock_exoplanet", "backrooms", "desertpack", "tropicata", "innawood", "Isolation_Protocol", "no_hope" ],
     "category": "total_conversion",
     "dependencies": [ "dda" ],
-    "loading_images": [ "ddotd1.png" ]
+    "loading_images": [ "ddotd1.png" ],
+    "disable_other_loading_screens": true
   },
   {
     "type": "monster_adjustment",

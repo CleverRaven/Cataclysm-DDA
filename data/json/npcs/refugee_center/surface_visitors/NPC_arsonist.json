@@ -14,7 +14,7 @@
     "gender": "female",
     "class": "NC_ARSONIST",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "age": 24,
     "height": 165,
     "chat": "TALK_ARSONIST",

@@ -357,12 +357,13 @@ bool trapfunc::board( const tripoint_bub_ms &p, Creature *c, item * )
         return false;
     }
     map &here = get_map();
+    const std::string trap_name = here.tr_at( p ).name();
     // Only a chance to step on the board, dependent on size
     if( !x_in_y( occupied_tile_fraction( c->get_size() ), 1.0f ) ) {
         return false;
     }
-    c->add_msg_if_player( m_bad, _( "You step on a %s!" ), here.tr_at( p ).name() );
-    c->add_msg_if_npc( _( "%s steps on a %s!" ), c->disp_name( false, true ), here.tr_at( p ).name() );
+    c->add_msg_if_player( m_bad, _( "You step on a %s!" ), trap_name );
+    c->add_msg_if_npc( _( "%s steps on a %s!" ), c->disp_name( false, true ), trap_name );
     if( c->has_effect( effect_ridden ) ) {
         monster *z = c->as_monster();
         mount_step_on_trap_make_slow_give_msg( z, p );
@@ -380,9 +381,9 @@ bool trapfunc::board( const tripoint_bub_ms &p, Creature *c, item * )
         here.remove_trap( p );
         if( !c->is_avatar() ) {
             add_msg_if_player_sees( p, _( "%s destroys a %s as they move over it!" ),
-                                    c->disp_name( false, true ), here.tr_at( p ).name() );
+                                    c->disp_name( false, true ), trap_name );
         } else {
-            add_msg( _( "You destroy the %s as you step on it!" ), here.tr_at( p ).name() );
+            add_msg( _( "You destroy the %s as you step on it!" ), trap_name );
         }
     } else if( x_in_y( 40, 100 ) ) {
         // 40% chance disarm trap
@@ -397,13 +398,13 @@ bool trapfunc::caltrops( const tripoint_bub_ms &p, Creature *c, item * )
         return false;
     }
     map &here = get_map();
+    const std::string trap_name = here.tr_at( p ).name();
     // Only a chance to step on the caltrop, dependent on size
     if( !x_in_y( occupied_tile_fraction( c->get_size() ), 1.0f ) ) {
         return false;
     }
-    c->add_msg_if_player( m_bad, _( "You step on a sharp %s!" ), here.tr_at( p ).name() );
-    c->add_msg_if_npc( _( "%s steps on a sharp %s!" ), c->disp_name( false, true ),
-                       here.tr_at( p ).name() );
+    c->add_msg_if_player( m_bad, _( "You step on a sharp %s!" ), trap_name );
+    c->add_msg_if_npc( _( "%s steps on a sharp %s!" ), c->disp_name( false, true ), trap_name );
     if( c->has_effect( effect_ridden ) ) {
         monster *z = c->as_monster();
         mount_step_on_trap_make_slow_give_msg( z, p );
@@ -421,9 +422,9 @@ bool trapfunc::caltrops( const tripoint_bub_ms &p, Creature *c, item * )
         here.remove_trap( p );
         if( !c->is_avatar() ) {
             add_msg_if_player_sees( p, _( "%s destroys a %s as they move over it!" ),
-                                    c->disp_name( false, true ), here.tr_at( p ).name() );
+                                    c->disp_name( false, true ), trap_name );
         } else {
-            add_msg( _( "You destroy the %s as you step on it!" ), here.tr_at( p ).name() );
+            add_msg( _( "You destroy the %s as you step on it!" ), trap_name );
         }
     } else if( x_in_y( 20, 100 ) ) {
         // 20% chance disarm trap

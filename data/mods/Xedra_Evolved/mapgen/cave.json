@@ -104,7 +104,7 @@
       },
       "furniture": {  },
       "monster": { "K": { "monster": "mon_rat_king" }, "r": { "monster": "mon_sewer_rat" } },
-      "items": { "l": { "item": "gobag_contents", "chance": 75 } }
+      "items": { "l": { "item": "bugout_bag", "chance": 75 } }
     }
   }
 ]

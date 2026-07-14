@@ -12,6 +12,7 @@
 #include "magic_type.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "monster.h"
 #include "npc.h"
 #include "pimpl.h"

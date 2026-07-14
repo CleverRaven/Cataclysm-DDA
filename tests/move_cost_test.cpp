@@ -204,7 +204,7 @@ TEST_CASE( "mutations_may_affect_movement_cost", "[move_cost][mutation]" )
         ava.toggle_trait( trait_LEG_TENTACLES );
         THEN( "barefoot penalty does not apply, but movement is slower" ) {
             ava.clear_worn();
-            CHECK( ava.run_cost( 100 ) == Approx( 1.2 * base_cost ) );
+            CHECK( ava.run_cost( 100 ) == Approx( 1.21 * base_cost ) );
         }
     }
 

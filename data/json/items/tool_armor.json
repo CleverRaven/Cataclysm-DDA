@@ -275,43 +275,6 @@
     "flags": [ "DEAF", "OVERSIZE", "POWERARMOR_COMPATIBLE" ]
   },
   {
-    "id": "gobag",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "go bag" },
-    "description": "A huge duffel bag with a backpack attached, both packed to the gills.  Judging by the feel, a National Guardsman could have packed this to be ready for deployment.  Activate to unpack and enjoy.",
-    "weight": "18043 g",
-    "volume": "35750 ml",
-    "price": "1 kUSD",
-    "price_postapoc": "10 USD",
-    "material": [ "cotton", "plastic" ],
-    "symbol": "[",
-    "looks_like": "duffelbag",
-    "color": "green",
-    "warmth": 10,
-    "material_thickness": 3,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "use_action": { "type": "unpack", "group": "gobag_contents", "filthy_volume_threshold": "10 L" },
-    "armor": [
-      {
-        "encumbrance": 35,
-        "coverage": 100,
-        "covers": [ "torso", "arm_l", "arm_r" ],
-        "specifically_covers": [ "torso_hanging_back", "arm_shoulder_r", "arm_shoulder_l" ]
-      }
-    ]
-  },
-  {
-    "id": "personal_gobag",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "personal go bag" },
-    "description": "A huge duffel bag with a backpack attached, both packed to the gills.  You packed this to be ready for deployment.  Activate to unpack and enjoy.",
-    "looks_like": "gobag",
-    "use_action": { "type": "unpack", "group": "gobag_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
-    "copy-from": "gobag"
-  },
-  {
     "id": "leg_splint",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -721,7 +684,7 @@
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "light_battery_cell" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "medium_battery_cell" ] } ],
     "charges_per_use": 25,
     "warmth": 10,
     "material_thickness": 0.5,
@@ -2432,14 +2395,7 @@
     "material_thickness": 2,
     "environmental_protection": 3,
     "environmental_protection_with_filter": 16,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med"
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GASFILTER_MED" ], "default_magazine": "gasfilter_med" } ],
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
     "armor": [ { "encumbrance": 35, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ],
@@ -2451,7 +2407,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "name": { "str": "handmade firemask" },
-    "description": "A custom-made leather gasmask faced with Nomex.  It must be prepared before use.",
+    "description": "A custom-made leather gas mask faced with Nomex.  It must be prepared before use.",
     "weight": "686 g",
     "volume": "1250 ml",
     "price": "260 USD",
@@ -2570,14 +2526,7 @@
     "volume": "1350 ml",
     "price": "260 USD",
     "price_postapoc": "18 USD",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med"
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GASFILTER_MED" ], "default_magazine": "gasfilter_med" } ],
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
     "material": [ "leather_treated", "hard_plastic_transp", "lc_steel" ],
@@ -2637,7 +2586,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "name": { "str": "handmade half gas mask" },
-    "description": "A half-face gasmask handcrafted from treated leather.  It provides no protection for the eyes, and must be activated before use.",
+    "description": "A half-face gas mask handcrafted from treated leather.  It provides no protection for the eyes, and must be activated before use.",
     "weight": "341 g",
     "volume": "625 ml",
     "price": "200 USD",

@@ -1,6 +1,20 @@
 [
   {
     "type": "EXTERNAL_OPTION",
+    "name": "LATITUDE",
+    "//": "Sets the latitude used for sunrise/sunset times.  Set to Raleigh.",
+    "stype": "float",
+    "value": 35.787743
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LONGITUDE",
+    "//": "Sets the longitude used for sunrise/sunset times.  Set to Raleigh.",
+    "stype": "float",
+    "value": -78.644257
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "CBM_SLOTS_ENABLED",
     "//": "Used here to enable body slots for magical tattoos",
     "stype": "bool",

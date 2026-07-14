@@ -6,7 +6,7 @@
     "name_suffix": "Farmer",
     "class": "NC_HUNTER",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_RANCH_FARMER_2",
     "faction": "tacoma_commune"
   },

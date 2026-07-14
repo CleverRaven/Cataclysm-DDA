@@ -6,7 +6,7 @@
     "class": "NC_SKY_ISLAND_TRIFFID_DECOR_MERCHANT",
     "name_unique": "Triffid",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_SI_TRIFFID_DECOR_MERCHANT",
     "faction": "sky_island_traders",
     "personality": { "aggression": -10, "bravery": 5, "collector": 10, "altruism": -6 },

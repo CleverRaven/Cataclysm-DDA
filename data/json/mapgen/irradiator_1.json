@@ -60,7 +60,7 @@
       { "item": "soap", "prob": 20 },
       { "item": "towel", "prob": 20 },
       { "item": "saline", "prob": 20 },
-      { "item": "detergent", "prob": 20 },
+      { "group": "detergent_small_box", "prob": 20 },
       { "item": "mop", "prob": 10 },
       { "item": "boots_rubber", "prob": 10 },
       { "item": "gloves_rubber", "prob": 20 }

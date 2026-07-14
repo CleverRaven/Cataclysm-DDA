@@ -4,7 +4,7 @@ import json
 import os
 import polib
 
-from .message import messages, occurrences
+from .message import messages, occurrences, errors
 
 
 def process_comments(comments, origins, obsolete_paths):
@@ -119,6 +119,14 @@ def format_msg(text):
 
 
 def write_to_pot(fp, obsolete_paths=[]):
+    if errors:
+        print(">> The following plural forms conflict. Please unify them:")
+        for e in errors:
+            print("=" * 20)
+            print(e)
+        print("=" * 20)
+        exit(1)
+
     entries = []
     for (context, text) in occurrences:
         if (context, text) not in messages:

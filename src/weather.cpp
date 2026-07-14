@@ -1213,6 +1213,7 @@ units::temperature weather_manager::get_temperature( const tripoint_bub_ms &loca
         temp_mod = get_heat_radiation( location );
         temp_mod += get_convection_temperature( location );
         temp_mod += get_map().get_temperature_mod( location );
+        temp_mod += weather_id->temperature_modifier;
 
         temp += temp_mod;
     }

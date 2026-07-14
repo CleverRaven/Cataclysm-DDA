@@ -1,0 +1,64 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_SORCERY_XP_GAIN",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_any_trait": [ "FOREST_MAGIC" ] },
+        { "or": [ { "compare_string": [ "FOREST_MAGIC", { "context_val": "school" } ] } ] }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "math": [ "_success == false" ] },
+        "then": [
+          {
+            "math": [ "u_skill_exp('deduction', 'format': 'raw') += (100 * _difficulty * game_option('SKILL_TRAINING_SPEED') )" ]
+          }
+        ],
+        "else": { "math": [ "u_skill_exp('deduction', 'format': 'raw') += (20 * _difficulty * game_option('SKILL_TRAINING_SPEED') )" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_WEARINESS_COST",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_any_trait": [ "FOREST_MAGIC" ] },
+        { "or": [ { "compare_string": [ "FOREST_MAGIC", { "context_val": "school" } ] } ] }
+      ]
+    },
+    "effect": [
+      {
+        "math": [ "u_spell_weariness_cost", "=", "(12 * ( _difficulty * 0.4 ) * max( ( ( 30 - u_spell_level(_spell) ) / 30 ), 0.5) )" ]
+      },
+      {
+        "if": { "math": [ "_success != false" ] },
+        "then": [
+          { "math": [ "u_calories()", "-=", "u_spell_weariness_cost" ] },
+          { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "u_spell_weariness_cost" ] }
+        ],
+        "else": [
+          { "math": [ "u_calories()", "-=", "u_spell_weariness_cost / 5" ] },
+          { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "u_spell_weariness_cost / 5" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_THE_WISE_NO_STAFF_HARDER_SORCERY",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "not": { "u_has_wielded_with_flag": "WISE_SORCERY_AID" } },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('cost', 'school': 'FOREST_MAGIC')", "=", "0.5" ] },
+      { "math": [ "u_spellcasting_adjustment('casting_time', 'school': 'FOREST_MAGIC')", "=", "1" ] }
+    ]
+  }
+]

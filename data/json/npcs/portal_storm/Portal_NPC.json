@@ -7,7 +7,7 @@
     "gender": "male",
     "class": "NC_PORTAL_PERSON",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_PORTAL_PERSON_1",
     "faction": "no_faction"
   },

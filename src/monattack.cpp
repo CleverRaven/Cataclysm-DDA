@@ -1758,8 +1758,8 @@ bool mattack::fungus_bristle( monster *z )
 
     game_message_type msg_type = target->is_avatar() ? m_warning : m_neutral;
 
-    add_msg( msg_type, _( "The %1$s swipes at %2$s with a barbed tendril!" ), z->name(),
-             target->disp_name() );
+    add_msg_if_player_sees( *z, msg_type, _( "The %1$s swipes at %2$s with a barbed tendril!" ),
+                            z->name(), target->disp_name() );
     z->mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
 
     bodypart_id hit = target->get_random_body_part();

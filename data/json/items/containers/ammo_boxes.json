@@ -610,7 +610,7 @@
     "variants": [
       {
         "id": "270_ammo_box_100",
-        "name": { "str": ".270 Winchester ammo box", "str_pl": ".270 Winchester Springfield ammo boxes" },
+        "name": { "str": ".270 Winchester ammo box", "str_pl": ".270 Winchester ammo boxes" },
         "description": "This box holds 100 rounds of .270 Winchester ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
         "weight": 0
       }
@@ -629,7 +629,7 @@
     "variants": [
       {
         "id": "270_ammo_box_200",
-        "name": { "str": ".270 Winchester ammo box", "str_pl": ".270 Winchester Springfield ammo boxes" },
+        "name": { "str": ".270 Winchester ammo box", "str_pl": ".270 Winchester ammo boxes" },
         "description": "This box holds 200 rounds of .270 Winchester ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
         "weight": 0
       }

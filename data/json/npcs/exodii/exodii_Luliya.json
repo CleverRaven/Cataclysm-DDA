@@ -7,7 +7,7 @@
     "class": "NC_EXODII_TYPE_2_Materials",
     "name_unique": "Luliya",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_LULIYA",
     "faction": "exodii"
   },

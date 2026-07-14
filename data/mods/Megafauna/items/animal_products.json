@@ -29,7 +29,7 @@
     "quench": 9,
     "calories": 140,
     "volume": "90 ml",
-    "rot_spawn": { "group": "GROUP_EGG_AUK" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_AUK" } }
   },
   {
     "type": "ITEM",
@@ -41,7 +41,7 @@
     "quench": 14,
     "calories": 2100,
     "volume": "1800 ml",
-    "rot_spawn": { "group": "GROUP_EGG_TITANIS_WALLERI" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_TITANIS_WALLERI" } }
   },
   {
     "type": "ITEM",

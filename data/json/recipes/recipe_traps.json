@@ -76,7 +76,7 @@
     "using": [ [ "soldering_standard", 16 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "teleporter", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "solar_cell", 1 ] ], [ [ "cable", 3 ] ] ]
+    "components": [ [ [ "teleporter", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "solar_cell", 1 ] ], [ [ "cable", 1 ] ] ]
   },
   {
     "type": "recipe",

@@ -6,7 +6,7 @@
     "name_suffix": "Hub Security",
     "class": "NC_ROBOFAC_SECURITY",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_HUB_SECURITY",
     "faction": "robofac"
   },

@@ -1,15 +1,69 @@
 [
   {
     "type": "jmath_function",
-    "id": "int_to_level",
-    "num_args": 1,
-    "return": "(u_val('intelligence') * 1.5) * (_0)"
+    "id": "mom_int_to_level",
+    "num_args": 0,
+    "return": "(u_val('intelligence') * 1.5)"
   },
   {
     "type": "jmath_function",
     "id": "scaling_factor",
     "num_args": 1,
     "return": "( ( _0 + 10) / 20 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "mom_biokinesis_max_power_formula",
+    "num_args": 0,
+    "return": "mom_int_to_level() + ( u_has_wielded_with_flag('MATRIX_CRYSTAL_BIOKINESIS') ? 6 : 0 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "mom_clairsentience_max_power_formula",
+    "num_args": 0,
+    "return": "mom_int_to_level() + ( u_has_wielded_with_flag('MATRIX_CRYSTAL_CLAIRSENTIENCE') ? 6 : 0 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "mom_electrokinesis_max_power_formula",
+    "num_args": 0,
+    "return": "mom_int_to_level() + ( u_has_wielded_with_flag('MATRIX_CRYSTAL_ELECTROKINESIS') ? 6 : 0 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "mom_photokinesis_max_power_formula",
+    "num_args": 0,
+    "return": "mom_int_to_level() + ( u_has_wielded_with_flag('MATRIX_CRYSTAL_PHOTOKINESIS') ? 6 : 0 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "mom_pyrokinesis_max_power_formula",
+    "num_args": 0,
+    "return": "mom_int_to_level() + ( u_has_wielded_with_flag('MATRIX_CRYSTAL_PYROKINESIS') ? 6 : 0 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "mom_telekinesis_max_power_formula",
+    "num_args": 0,
+    "return": "mom_int_to_level() + ( u_has_wielded_with_flag('MATRIX_CRYSTAL_TELEKINESIS') ? 6 : 0 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "mom_telepathy_max_power_formula",
+    "num_args": 0,
+    "return": "mom_int_to_level() + ( u_has_wielded_with_flag('MATRIX_CRYSTAL_TELEPATHY') ? 6 : 0 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "mom_teleportation_max_power_formula",
+    "num_args": 0,
+    "return": "mom_int_to_level() + ( u_has_wielded_with_flag('MATRIX_CRYSTAL_TELEPORTATION') ? 6 : 0 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "mom_vitakinesis_max_power_formula",
+    "num_args": 0,
+    "return": "mom_int_to_level() + ( u_has_wielded_with_flag('MATRIX_CRYSTAL_VITAKINESIS') ? 6 : 0 )"
   },
   {
     "type": "jmath_function",

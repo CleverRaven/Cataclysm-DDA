@@ -542,7 +542,7 @@
         { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "processor", "count": 1 },
         { "item": "RAM", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "lens", "count": 8 },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "circuit", "count": [ 3, 8 ] },

@@ -1,11 +1,13 @@
 #include <algorithm>
 #include <climits>
+#include <cmath>
 #include <cstddef>
 #include <functional>
 #include <initializer_list>
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <string_view>
@@ -20,6 +22,7 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "flag.h"
+#include "gun_mode.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
@@ -49,6 +52,7 @@ static const ammotype ammo_test_graphite( "test_graphite" );
 static const ammotype ammo_water( "water" );
 
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
+static const gun_mode_id gun_mode_MODE_X( "MODE_X" );
 
 static const material_id material_steel( "steel" );
 
@@ -183,6 +187,35 @@ const itype *ensure_synth( const synth_spec &spec )
         t->firing_requirements.per_mode[gun_mode_DEFAULT].push_back( e );
     }
 
+    // MOD pocket so the mod-matrix cases can attach a synth mod by force-insert.
+    t->pockets.emplace_back( pocket_type::MOD );
+
+    return ct;
+}
+
+// Runtime gun-mod / tool-mod for the mod-matrix cases. configure() sets the
+// slot fields under test (gunmod->mode_modifier/firing_requirements/hide_modes,
+// or mod->consumption_mods/capacity_mods), keyed by the synth pocket ids p0..pN.
+const itype *ensure_synth_mod( const itype_id &id,
+                               const std::function<void( itype & )> &configure )
+{
+    if( item::type_is_defined( id ) ) {
+        return &*id;
+    }
+    const itype *ct = item_controller->add_runtime(
+                          id,
+                          no_translation( "synth multimag matrix mod" ),
+                          no_translation( "Runtime-built mod for matrix tests." ) );
+    itype *t = const_cast<itype *>( ct );
+    t->weight = 100_gram;
+    t->volume = 100_ml;
+    t->longest_side = 50_mm;
+    t->materials[material_steel] = 1;
+    t->mat_portion_total = 1;
+    t->using_legacy_to_hit = false;
+    t->sym = ":";
+    t->color = c_light_gray;
+    configure( *t );
     return ct;
 }
 
@@ -553,8 +586,8 @@ TEST_CASE( "multimag_matrix_fire_gun_no_invalid_or_shortage",
 
         item gun( spec.id );
         std::vector<item_pocket *> pockets = gun.get_pockets(
-        []( const item_pocket & ) {
-            return true;
+        []( const item_pocket & p ) {
+            return p.is_type( pocket_type::MAGAZINE ) || p.is_type( pocket_type::MAGAZINE_WELL );
         } );
         REQUIRE( pockets.size() == spec.pockets.size() );
         for( size_t i = 0; i < spec.pockets.size(); ++i ) {
@@ -590,8 +623,8 @@ TEST_CASE( "multimag_matrix_tool_uses_remaining_local_after_load",
         item tool( spec.id );
 
         std::vector<item_pocket *> pockets = tool.get_pockets(
-        []( const item_pocket & ) {
-            return true;
+        []( const item_pocket & p ) {
+            return p.is_type( pocket_type::MAGAZINE ) || p.is_type( pocket_type::MAGAZINE_WELL );
         } );
         REQUIRE( pockets.size() == spec.pockets.size() );
 
@@ -615,5 +648,158 @@ TEST_CASE( "multimag_matrix_tool_uses_remaining_local_after_load",
         CAPTURE( expected );
         CAPTURE( local );
         CHECK( local == expected );
+    }
+}
+
+namespace
+{
+// Live MAGAZINE-pocket charge counts in pocket order, for before/after diffs.
+std::vector<int> magazine_live_charges( const item &host )
+{
+    std::vector<int> out;
+    for( const item_pocket *p : host.get_pockets( []( const item_pocket & q ) {
+    return q.is_type( pocket_type::MAGAZINE );
+    } ) ) {
+        out.push_back( pocket_live_charges( p ) );
+    }
+    return out;
+}
+} // namespace
+
+TEST_CASE( "multimag_matrix_gunmod_mode_override_drains_modded_rate",
+           "[multimag][matrix][mod]" )
+{
+    install_all_synth_types();
+    map &here = get_map();
+    for( const synth_spec &spec : synth_registry() ) {
+        if( !spec.is_gun ) {
+            continue;
+        }
+        CAPTURE( spec.id.str() );
+        clear_avatar();
+        Character &chr = get_player_character();
+        const tripoint_bub_ms pos = chr.pos_bub( here );
+        item_location host = chr.i_add( item( spec.id ) );
+        REQUIRE( host );
+        for( size_t i = 0; i < spec.pockets.size(); ++i ) {
+            std::string api;
+            REQUIRE( load_pocket( host, static_cast<int>( i ), spec.pockets[i],
+                                  pocket_cap_for( spec.pockets[i] ), api ) );
+        }
+
+        // One mod per pocket count: adds MODE_X (qty 1 per pocket) and hides DEFAULT.
+        const itype_id mod_id( "mm_mx_modeover_" + std::to_string( spec.pockets.size() ) );
+        ensure_synth_mod( mod_id, [&]( itype & t ) {
+            t.gunmod = cata::make_value<islot_gunmod>();
+            t.gunmod->mode_modifier[gun_mode_MODE_X] =
+                gun_modifier_data( to_translation( "mode x" ), 1, std::set<std::string> {} );
+            for( size_t i = 0; i < spec.pockets.size(); ++i ) {
+                pocket_consumption_entry e;
+                e.pocket = "p" + std::to_string( i );
+                e.qty = 1;
+                t.gunmod->firing_requirements.per_mode[gun_mode_MODE_X].push_back( e );
+            }
+            t.gunmod->hide_modes.insert( gun_mode_DEFAULT );
+        } );
+        host->force_insert_item( item( mod_id ), pocket_type::MOD );
+        host->update_modified_pockets();
+
+        const std::map<gun_mode_id, gun_mode> modes = host->gun_all_modes();
+        CHECK( modes.count( gun_mode_MODE_X ) == 1 );
+        CHECK( modes.count( gun_mode_DEFAULT ) == 0 );
+
+        const std::vector<int> before = magazine_live_charges( *host );
+        const int got = host->consume_shots( gun_mode_MODE_X, 1, here, pos, &chr );
+        CHECK( got == 1 );
+        const std::vector<int> after = magazine_live_charges( *host );
+        REQUIRE( before.size() == after.size() );
+        for( size_t i = 0; i < before.size(); ++i ) {
+            CAPTURE( i, spec.pockets[i].str(), before[i], after[i] );
+            CHECK( after[i] == before[i] - 1 );  // modded rate: 1 per pocket
+        }
+    }
+}
+
+TEST_CASE( "multimag_matrix_consumption_mods_override_each_pocket",
+           "[multimag][matrix][mod]" )
+{
+    install_all_synth_types();
+    map &here = get_map();
+    for( const synth_spec &spec : synth_registry() ) {
+        CAPTURE( spec.id.str() );
+        clear_avatar();
+        Character &chr = get_player_character();
+        const tripoint_bub_ms pos = chr.pos_bub( here );
+        item_location host = chr.i_add( item( spec.id ) );
+        REQUIRE( host );
+        for( size_t i = 0; i < spec.pockets.size(); ++i ) {
+            std::string api;
+            REQUIRE( load_pocket( host, static_cast<int>( i ), spec.pockets[i],
+                                  pocket_cap_for( spec.pockets[i] ), api ) );
+        }
+
+        // Override every pocket's per-use cost to 1 via set.
+        const itype_id mod_id( "mm_mx_consume_" + std::to_string( spec.pockets.size() ) );
+        ensure_synth_mod( mod_id, [&]( itype & t ) {
+            t.mod = cata::make_value<islot_mod>();
+            for( size_t i = 0; i < spec.pockets.size(); ++i ) {
+                pocket_consumption_mod cm;
+                cm.pocket = "p" + std::to_string( i );
+                cm.set = 1;
+                t.mod->consumption_mods.push_back( cm );
+            }
+        } );
+        host->force_insert_item( item( mod_id ), pocket_type::MOD );
+        host->update_modified_pockets();
+
+        const std::vector<int> before = magazine_live_charges( *host );
+        const int got = spec.is_gun
+                        ? host->consume_shots( gun_mode_DEFAULT, 1, here, pos, &chr )
+                        : host->consume_tool_uses( 1, here, pos, &chr );
+        CHECK( got == 1 );
+        const std::vector<int> after = magazine_live_charges( *host );
+        REQUIRE( before.size() == after.size() );
+        for( size_t i = 0; i < before.size(); ++i ) {
+            CAPTURE( i, spec.pockets[i].str(), before[i], after[i] );
+            CHECK( after[i] == before[i] - 1 );  // set 1 per pocket
+        }
+    }
+}
+
+TEST_CASE( "multimag_matrix_capacity_mods_scale_integral_pockets",
+           "[multimag][matrix][mod]" )
+{
+    install_all_synth_types();
+    for( const synth_spec &spec : synth_registry() ) {
+        CAPTURE( spec.id.str() );
+        item host( spec.id );
+        std::vector<int> base;
+        for( size_t i = 0; i < spec.pockets.size(); ++i ) {
+            const item_pocket *p = host.pocket_by_id( "p" + std::to_string( i ) );
+            REQUIRE( p != nullptr );
+            base.push_back( p->ammo_capacity( spec.pockets[i] ) );
+        }
+
+        // Double only p0; siblings must keep base capacity.
+        const itype_id mod_id( "mm_mx_cap_" + std::to_string( spec.pockets.size() ) );
+        ensure_synth_mod( mod_id, [&]( itype & t ) {
+            t.mod = cata::make_value<islot_mod>();
+            pocket_capacity_mod cm;
+            cm.pocket = "p0";
+            cm.multiply = 2.0f;
+            t.mod->capacity_mods.push_back( cm );
+        } );
+        host.force_insert_item( item( mod_id ), pocket_type::MOD );
+        host.update_modified_pockets();
+
+        const item_pocket *p0 = host.pocket_by_id( "p0" );
+        REQUIRE( p0 != nullptr );
+        CHECK( p0->ammo_capacity( spec.pockets[0] ) == std::lround( base[0] * 2.0 ) );
+        for( size_t i = 1; i < spec.pockets.size(); ++i ) {
+            const item_pocket *pi = host.pocket_by_id( "p" + std::to_string( i ) );
+            REQUIRE( pi != nullptr );
+            CAPTURE( i, spec.pockets[i].str() );
+            CHECK( pi->ammo_capacity( spec.pockets[i] ) == base[i] );
+        }
     }
 }

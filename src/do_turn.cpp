@@ -525,6 +525,8 @@ bool game::do_turn()
         return turn_handler::cleanup_at_end();
     }
 
+    drain_renderer_recovery();
+
     weather_manager &weather = get_weather();
 
     // Increment game turn

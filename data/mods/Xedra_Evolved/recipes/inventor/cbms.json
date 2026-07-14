@@ -14,7 +14,7 @@
     "components": [
       [ [ "plastic_chunk", 15 ] ],
       [ [ "scrap_aluminum", 100 ] ],
-      [ [ "copper_wire", 63 ] ],
+      [ [ "copper_wire", 21 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "e_scrap", 3 ] ],
       [ [ "obsidian_rock", 5 ] ],
@@ -43,7 +43,7 @@
     "components": [
       [ [ "plastic_chunk", 15 ] ],
       [ [ "scrap_aluminum", 100 ] ],
-      [ [ "copper_wire", 35 ] ],
+      [ [ "copper_wire", 12 ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "e_scrap", 10 ] ],
       [ [ "magnet", 10 ] ],
@@ -72,7 +72,7 @@
     "components": [
       [ [ "plastic_chunk", 15 ] ],
       [ [ "scrap_aluminum", 100 ] ],
-      [ [ "copper_wire", 20 ] ],
+      [ [ "copper_wire", 7 ] ],
       [ [ "power_supply", 5 ] ],
       [ [ "lens_small", 4 ] ],
       [ [ "mirror", 3 ] ],
@@ -101,7 +101,7 @@
     "components": [
       [ [ "plastic_chunk", 15 ] ],
       [ [ "scrap_aluminum", 100 ] ],
-      [ [ "copper_wire", 50 ] ],
+      [ [ "copper_wire", 17 ] ],
       [ [ "power_supply", 5 ] ],
       [ [ "e_scrap", 2 ] ],
       [ [ "heater_gun", 1 ] ],

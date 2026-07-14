@@ -7,7 +7,7 @@
     "spoils_in": "25 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 12, "weight": 12, "calories": 12 },
-    "rot_spawn": { "monster": "mon_rhea_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_rhea_chick" } }
   },
   {
     "type": "ITEM",
@@ -16,7 +16,7 @@
     "name": { "str": "toco toucan egg" },
     "spoils_in": "9 days",
     "copy-from": "egg_crow",
-    "rot_spawn": { "monster": "mon_toucan_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_toucan_chick" } }
   },
   {
     "type": "ITEM",
@@ -25,7 +25,7 @@
     "name": { "str": "white-eyed parakeet egg" },
     "spoils_in": "13 days",
     "copy-from": "egg_bluejay",
-    "rot_spawn": { "monster": "mon_parrot_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_parrot_chick" } }
   },
   {
     "type": "ITEM",
@@ -34,7 +34,7 @@
     "name": { "str": "blue-and-yellow macaw egg" },
     "spoils_in": "13 days",
     "copy-from": "egg_crow",
-    "rot_spawn": { "monster": "mon_macaw_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_macaw_chick" } }
   },
   {
     "type": "ITEM",
@@ -42,7 +42,7 @@
     "id": "egg_finch_saffron",
     "name": { "str": "saffron finch egg" },
     "copy-from": "egg_waxwing",
-    "rot_spawn": { "monster": "mon_finch_saffron_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_finch_saffron_chick" } }
   },
   {
     "type": "ITEM",
@@ -50,7 +50,7 @@
     "id": "egg_great_kiskadee",
     "name": { "str": "great kiskadee egg" },
     "copy-from": "egg_bluejay",
-    "rot_spawn": { "monster": "mon_great_kiskadee_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_great_kiskadee_chick" } }
   },
   {
     "type": "ITEM",
@@ -58,7 +58,7 @@
     "id": "egg_rufous_hornero",
     "name": { "str": "rufous hornero egg" },
     "copy-from": "egg_waxwing",
-    "rot_spawn": { "monster": "mon_rufous_hornero_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_rufous_hornero_chick" } }
   },
   {
     "type": "ITEM",
@@ -66,7 +66,7 @@
     "id": "egg_tinamou",
     "name": { "str": "small-billed tinamou egg" },
     "copy-from": "egg_bluejay",
-    "rot_spawn": { "monster": "mon_tinamou_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_tinamou_chick" } }
   },
   {
     "type": "ITEM",
@@ -75,7 +75,7 @@
     "name": { "str": "red-legged seriema egg" },
     "spoils_in": "15 days",
     "copy-from": "egg_guinea_fowl",
-    "rot_spawn": { "monster": "mon_seriema_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_seriema_chick" } }
   },
   {
     "type": "ITEM",
@@ -84,7 +84,7 @@
     "name": { "str": "Chaco chachalaca egg" },
     "spoils_in": "12 days",
     "copy-from": "egg_crow",
-    "rot_spawn": { "monster": "mon_chachalaca_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_chachalaca_chick" } }
   },
   {
     "type": "ITEM",
@@ -93,7 +93,7 @@
     "name": { "str": "dusky-legged guan egg" },
     "spoils_in": "14 days",
     "copy-from": "egg_chicken",
-    "rot_spawn": { "monster": "mon_guan_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_guan_chick" } }
   },
   {
     "type": "ITEM",
@@ -101,7 +101,7 @@
     "id": "egg_curassow",
     "name": { "str": "bare-faced curassow egg" },
     "copy-from": "egg_crow",
-    "rot_spawn": { "monster": "mon_curassow_chick" }
+    "extend": { "rot_spawn": { "monster": "mon_curassow_chick" } }
   },
   {
     "type": "ITEM",
@@ -110,7 +110,7 @@
     "name": "snake egg",
     "copy-from": "egg_chicken",
     "description": "The egg of a tropical snake.",
-    "rot_spawn": { "group": "GROUP_EGG_CONSTRICTOR" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_CONSTRICTOR" } }
   },
   {
     "type": "ITEM",
@@ -127,7 +127,7 @@
     "name": "iguana egg",
     "copy-from": "egg_chicken",
     "description": "The egg of an iguana.",
-    "rot_spawn": { "group": "GROUP_EGG_IGUANA" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_IGUANA" } }
   },
   {
     "type": "ITEM",
@@ -136,7 +136,7 @@
     "name": "turtle egg",
     "copy-from": "egg_chicken",
     "description": "The round egg of a turtle.  It is covered in leaves.",
-    "rot_spawn": { "group": "GROUP_EGG_TURTLE" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_TURTLE" } }
   },
   {
     "type": "ITEM",
@@ -145,7 +145,7 @@
     "name": "tortoise egg",
     "copy-from": "egg_chicken",
     "description": "The round egg of a tortoise.  It is covered in dirt.",
-    "rot_spawn": { "group": "GROUP_EGG_TORTOISE" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_TORTOISE" } }
   },
   {
     "type": "ITEM",
@@ -154,7 +154,7 @@
     "name": "termite egg",
     "copy-from": "ant_egg",
     "description": "The small translucent egg of a termite.  It will grow quickly into a nymph if allowed.",
-    "rot_spawn": { "monster": "mon_termite_nymph" }
+    "extend": { "rot_spawn": { "monster": "mon_termite_nymph" } }
   },
   {
     "type": "ITEM",
@@ -219,7 +219,7 @@
     "name": { "str": "cluster of tadfish eggs", "str_pl": "clusters of tadfish eggs" },
     "copy-from": "egg_proxy_frog",
     "description": "A large clump of tadfish eggs.  Very similar to other amphibian eggs.",
-    "rot_spawn": { "group": "GROUP_EGG_TADFISH" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_TADFISH" } }
   },
   {
     "type": "ITEM",
@@ -227,7 +227,7 @@
     "id": "egg_lungfish",
     "name": { "str_sp": "lungfish roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "group": "GROUP_EGG_LUNGFISH" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_LUNGFISH" } }
   },
   {
     "type": "ITEM",
@@ -235,7 +235,7 @@
     "id": "egg_eel_electric",
     "name": { "str_sp": "electric eel roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "group": "GROUP_EGG_EEL_ELECTRIC" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_EEL_ELECTRIC" } }
   },
   {
     "type": "ITEM",
@@ -243,7 +243,7 @@
     "id": "egg_pacu",
     "name": { "str_sp": "pacu roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "group": "GROUP_EGG_PACU" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_PACU" } }
   },
   {
     "type": "ITEM",
@@ -251,7 +251,7 @@
     "id": "egg_tambaqui",
     "name": { "str_sp": "tambaqui roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "group": "GROUP_EGG_TAMBAQUI" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_TAMBAQUI" } }
   },
   {
     "type": "ITEM",
@@ -259,7 +259,7 @@
     "id": "egg_piranha",
     "name": { "str_sp": "piranha roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "group": "GROUP_EGG_PIRANHA" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_PIRANHA" } }
   },
   {
     "type": "ITEM",
@@ -267,7 +267,7 @@
     "id": "egg_arowana",
     "name": { "str_sp": "arowana roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "group": "GROUP_EGG_AROWANA" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_AROWANA" } }
   },
   {
     "type": "ITEM",
@@ -275,7 +275,7 @@
     "id": "egg_arapaima",
     "name": { "str_sp": "arapaima roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "group": "GROUP_EGG_ARAPAIMA" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_ARAPAIMA" } }
   },
   {
     "type": "ITEM",
@@ -283,7 +283,7 @@
     "id": "egg_piraiba",
     "name": { "str_sp": "piraiba roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "group": "GROUP_EGG_PIRAIBA" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_PIRAIBA" } }
   },
   {
     "type": "ITEM",
@@ -291,7 +291,7 @@
     "id": "egg_pleco",
     "name": { "str_sp": "pleco roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "group": "GROUP_EGG_PLECO" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_PLECO" } }
   },
   {
     "type": "ITEM",
@@ -300,7 +300,7 @@
     "name": { "str_sp": "gar roe" },
     "copy-from": "egg_fish",
     "//": "gar eggs seem to be poisonous to consume according to Wikipedia, but poison tag didn't seem to work on this item",
-    "rot_spawn": { "group": "GROUP_EGG_GAR" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_GAR" } }
   },
   {
     "type": "ITEM",
@@ -308,7 +308,7 @@
     "id": "egg_tucunare",
     "name": { "str_sp": "tucunaré roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "group": "GROUP_EGG_TUCUNARE" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_TUCUNARE" } }
   },
   {
     "type": "ITEM",
@@ -316,7 +316,7 @@
     "id": "egg_discus",
     "name": { "str_sp": "discus roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "group": "GROUP_EGG_DISCUS" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_DISCUS" } }
   },
   {
     "type": "ITEM",
@@ -324,7 +324,7 @@
     "id": "egg_angelfish",
     "name": { "str_sp": "angelfish roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "group": "GROUP_EGG_ANGELFISH" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_ANGELFISH" } }
   },
   {
     "type": "ITEM",
@@ -332,7 +332,7 @@
     "id": "egg_koi",
     "name": { "str_sp": "koi roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "group": "GROUP_EGG_KOI" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_KOI" } }
   },
   {
     "type": "ITEM",
@@ -340,7 +340,7 @@
     "id": "egg_tilapia",
     "name": { "str_sp": "tilapia roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "group": "GROUP_EGG_TILAPIA" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_TILAPIA" } }
   },
   {
     "type": "ITEM",
@@ -348,7 +348,7 @@
     "id": "egg_sabalo",
     "name": { "str_sp": "sabalo roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "group": "GROUP_EGG_SABALO" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_SABALO" } }
   },
   {
     "type": "ITEM",
@@ -356,7 +356,7 @@
     "id": "egg_oscar",
     "name": { "str_sp": "oscar roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "group": "GROUP_EGG_OSCAR" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_OSCAR" } }
   },
   {
     "type": "ITEM",
@@ -364,7 +364,7 @@
     "id": "egg_guapote",
     "name": { "str_sp": "guapote roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "group": "GROUP_EGG_GUAPOTE" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_GUAPOTE" } }
   },
   {
     "type": "ITEM",
@@ -372,6 +372,6 @@
     "id": "egg_mayaheros",
     "name": { "str_sp": "mayaheros roe" },
     "copy-from": "egg_fish",
-    "rot_spawn": { "group": "GROUP_EGG_MAYAHEROS" }
+    "extend": { "rot_spawn": { "group": "GROUP_EGG_MAYAHEROS" } }
   }
 ]

@@ -46,7 +46,7 @@
     "height": 182,
     "class": "NC_SALVOR_FABRICATOR",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_SALVOR_FABRICATOR",
     "faction": "UICA"
   },

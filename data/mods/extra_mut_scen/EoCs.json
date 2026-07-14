@@ -18,6 +18,7 @@
         "MUTAGEN_GLAND_FISH",
         "MUTAGEN_GLAND_GASTROPOD",
         "MUTAGEN_GLAND_INSECT",
+        "MUTAGEN_GLAND_LAGOMORPH",
         "MUTAGEN_GLAND_LIZARD",
         "MUTAGEN_GLAND_LUPINE",
         "MUTAGEN_GLAND_MEDICAL",
@@ -53,6 +54,7 @@
       { "u_lose_trait": "MUTAGEN_GLAND_FISH" },
       { "u_lose_trait": "MUTAGEN_GLAND_GASTROPOD" },
       { "u_lose_trait": "MUTAGEN_GLAND_INSECT" },
+      { "u_lose_trait": "MUTAGEN_GLAND_LAGOMORPH" },
       { "u_lose_trait": "MUTAGEN_GLAND_LIZARD" },
       { "u_lose_trait": "MUTAGEN_GLAND_LUPINE" },
       { "u_lose_trait": "MUTAGEN_GLAND_MEDICAL" },
@@ -205,6 +207,13 @@
         "then": [
           { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_insect" },
           { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_INSECT" }
+        ]
+      },
+      {
+        "if": { "u_has_trait": "MUTAGEN_GLAND_LAGOMORPH" },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_rabbit" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_RABBIT" }
         ]
       },
       {

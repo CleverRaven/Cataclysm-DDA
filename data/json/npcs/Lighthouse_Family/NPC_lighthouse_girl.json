@@ -6,7 +6,7 @@
     "gender": "female",
     "class": "NC_NONE",
     "attitude": 1,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_lighthouse_girl_start",
     "faction": "fisherman_family"
   },

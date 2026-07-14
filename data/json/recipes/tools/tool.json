@@ -558,7 +558,7 @@
       [ [ "jar_3l_glass_sealed", 8 ] ],
       [ [ "lye", 16 ] ],
       [ [ "sheet_metal", 1 ] ],
-      [ [ "cable", 400 ] ],
+      [ [ "cable", 134 ] ],
       [ [ "scrap", 16 ] ],
       [ [ "power_supply", 1 ] ]
     ]
@@ -607,7 +607,7 @@
       [ [ "sheet_metal_small", 4 ] ],
       [ [ "steel_grille", 16 ] ],
       [ [ "element", 16 ], [ "crude_heating_element", 24 ] ],
-      [ [ "cable", 50 ] ]
+      [ [ "cable", 17 ] ]
     ]
   },
   {
@@ -656,7 +656,7 @@
       [ [ "metal_tank_little", 1 ] ],
       [ [ "small_pressure_vessel", 1 ] ],
       [ [ "sheet_metal_small", 6 ] ],
-      [ [ "cable", 300 ] ],
+      [ [ "cable", 100 ] ],
       [ [ "hd_compressor", 3 ] ],
       [ [ "water", 12 ], [ "water_clean", 12 ] ],
       [ [ "power_supply", 1 ] ]
@@ -701,7 +701,7 @@
       [ [ "cotton_patchwork", 2 ] ],
       [ [ "metal_tank", 1 ] ],
       [ [ "nitrogen_membrane_filter", 1 ] ],
-      [ [ "cable", 10 ] ],
+      [ [ "cable", 4 ] ],
       [ [ "salt", 4000 ] ],
       [ [ "hd_compressor", 1 ] ],
       [ [ "filter_air", 1 ], [ "filter_air_makeshift", 1 ] ]

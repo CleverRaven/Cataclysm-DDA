@@ -1632,7 +1632,6 @@ Descartes
 descript
 desilo
 Desmodontinae
-dessicant
 destreza
 Det
 detune
@@ -4927,6 +4926,7 @@ numbnut
 numpad
 nums
 Nunez
+nurdle
 Nuz
 NV
 NVG
@@ -5685,6 +5685,7 @@ renfields
 Reno
 repairwork
 replow
+Repolymerization
 Represa
 reprime
 reptoid
@@ -7386,7 +7387,6 @@ vermontsteel
 Verne
 versa
 Versailles
-vestigal
 vewwy
 VI
 viagra

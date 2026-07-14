@@ -8,7 +8,7 @@
     "gender": "male",
     "class": "NC_ROBOFAC_SECURITY_HEAD",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "//2": "He needs unique dialogue.  But for now he's just the boss enemy of Hub 01, if the player attempts to invade the lab.",
     "chat": "TALK_HUB_SECURITY",
     "faction": "robofac"

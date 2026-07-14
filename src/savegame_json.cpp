@@ -2163,7 +2163,7 @@ void npc::load( const JsonObject &data )
 
     int misstmp = 0;
     int atttmp = 0;
-    std::string facID;
+    faction_id facID;
     std::string comp_miss_role;
     tripoint_abs_omt comp_miss_pt;
     std::string companion_mission_role;
@@ -2199,31 +2199,29 @@ void npc::load( const JsonObject &data )
 
     data.read( "assigned_camp", assigned_camp );
     data.read( "job", job );
+
+    // remove migration in 0.K
     if( data.read( "mission", misstmp ) ) {
         mission = static_cast<npc_mission>( misstmp );
-        static const std::set<npc_mission> legacy_missions = {{
-                NPC_MISSION_LEGACY_1, NPC_MISSION_LEGACY_2,
-                NPC_MISSION_LEGACY_3
-            }
-        };
+        static const std::set<npc_mission> legacy_missions = { NPC_MISSION_LEGACY_1 };
         if( legacy_missions.count( mission ) > 0 ) {
             mission = NPC_MISSION_NULL;
         }
     }
     if( data.read( "previous_mission", misstmp ) ) {
         previous_mission = static_cast<npc_mission>( misstmp );
-        static const std::set<npc_mission> legacy_missions = {{
-                NPC_MISSION_LEGACY_1, NPC_MISSION_LEGACY_2,
-                NPC_MISSION_LEGACY_3
-            }
-        };
+        static const std::set<npc_mission> legacy_missions = { NPC_MISSION_LEGACY_1 };
         if( legacy_missions.count( mission ) > 0 ) {
             previous_mission = NPC_MISSION_NULL;
         }
     }
 
     if( data.read( "my_fac", facID ) ) {
-        fac_id = faction_id( facID );
+        if( facID.is_valid() ) {
+            fac_id = facID;
+        } else {
+            fac_id = faction_id::NULL_ID();
+        }
     }
     int temp_fac_api_ver = 0;
     if( data.read( "faction_api_ver", temp_fac_api_ver ) ) {
@@ -4487,6 +4485,14 @@ void mm_submap::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
+static std::string migrate_memorized_terrain( const std::string &ter_id )
+{
+    if( auto it = ter_migrations.find( ter_str_id( ter_id ) ); it != ter_migrations.end() ) {
+        return it->second.first.str();
+    }
+    return ter_id;
+}
+
 void mm_submap::deserialize( int version, const JsonArray &ja )
 {
     size_t submap_array_idx = 0;
@@ -4504,7 +4510,7 @@ void mm_submap::deserialize( int version, const JsonArray &ja )
                 if( version < 1 ) { // legacy, remove after 0.H comes out
                     std::string id = ja_tile.get_string( 0 );
                     if( string_starts_with( id, "t_" ) ) {
-                        tile.set_ter_id( std::move( id ) );
+                        tile.set_ter_id( migrate_memorized_terrain( id ) );
                         tile.set_ter_subtile( ja_tile.get_int( 1 ) );
                         tile.set_ter_rotation( ja_tile.get_int( 2 ) );
                         tile.set_dec_id( "" );
@@ -4533,7 +4539,7 @@ void mm_submap::deserialize( int version, const JsonArray &ja )
                 } else {
                     remaining = ja_tile.get_int( 0 ) - 1;
                     tile.symbol = ja_tile.get_int( 1 );
-                    tile.set_ter_id( ja_tile.get_string( 2 ) );
+                    tile.set_ter_id( migrate_memorized_terrain( ja_tile.get_string( 2 ) ) );
                     tile.ter_subtile = ja_tile.get_int( 3 );
                     tile.ter_rotation = ja_tile.get_int( 4 );
                     if( ja_tile.size() > 5 ) {

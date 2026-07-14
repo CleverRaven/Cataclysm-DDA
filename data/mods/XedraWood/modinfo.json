@@ -6,7 +6,8 @@
     "authors": [ "StandingStorm" ],
     "maintainers": [ "StandingStorm" ],
     "description": "Expands on connection between Xedra Evolved and Innawood, turning it into a full-fledged neolithic sword and sorcery setting.",
-    "category": "content",
-    "dependencies": [ "dda", "xedra_evolved", "innawood" ]
+    "category": "total_conversion",
+    "dependencies": [ "dda", "xedra_evolved", "innawood" ],
+    "conflicts": [ "magiclysm", "generic_guns", "MA" ]
   }
 ]

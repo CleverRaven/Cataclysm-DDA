@@ -6,7 +6,7 @@
     "name_suffix": "miner",
     "class": "NC_SPIRAL_MADMAN",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_SPIRAL_MADMAN_FIRST_MEETING",
     "faction": "no_faction"
   },

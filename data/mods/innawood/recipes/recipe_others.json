@@ -32,7 +32,7 @@
     "decomp_learn": 0,
     "flags": [ "BLIND_HARD" ],
     "autolearn": true,
-    "components": [ [ [ "cable", 10 ], [ "wire", 1 ] ], [ [ "hotplate", 1 ] ], [ [ "chemistry_set_basic", 1 ] ] ]
+    "components": [ [ [ "cable", 4 ], [ "wire", 1 ] ], [ [ "hotplate", 1 ] ], [ [ "chemistry_set_basic", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -72,7 +72,7 @@
         [ "hc_wire", 2 ],
         [ "qt_wire", 2 ],
         [ "ch_wire", 2 ],
-        [ "cable", 2 ]
+        [ "cable", 1 ]
       ],
       [ [ "yarn", 1 ], [ "cotton_ball", 1 ], [ "wool_staple", 1 ] ]
     ]

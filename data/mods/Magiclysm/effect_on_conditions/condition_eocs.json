@@ -13,6 +13,11 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CONDITION_SKY_ISLAND_TRIFFID_MERCHANT",
+    "condition": { "math": [ "0 == 1" ] }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CONDITION_MAGICLYSM_ELF_WILDERNESS_EQUIVALENTS",
     "condition": {
       "or": [

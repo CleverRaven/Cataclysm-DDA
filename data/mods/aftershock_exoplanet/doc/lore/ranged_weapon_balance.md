@@ -68,7 +68,7 @@ Monster and player armor should be understood to exist in the following categori
 
 Monsters and wearable armor pieces should belong to a single armor category (no mix matching E.X. Light melee armor combined with heavy ballistic armor ), if you desire monsters to be weaker against certain attack types, you should use weakpoint sets to achieve this. Armor pieces for players and NPCs should generally be ablative, either using the energy shield functionality or by having the `FRAGILE` flag.
 
-Damage for monsters should be balanced around the armor breakpoints of the table above. A monster capable of deafeating "X" armor should be capable of dealing between 4-10 units of damage in 60% of its attacks attacks against a foe equiped with that type of armor. melee die capable of dealing more than 30 damage in a single turn shouldn't exist.
+Damage for monsters should be balanced around the armor breakpoints of the table above. A monster capable of defeating "X" armor should be capable of dealing between 4-10 units of damage in 60% of its attacks against a foe equipped with that type of armor. Melee die capable of dealing more than 30 damage in a single turn shouldn't exist.
 
 Good base die you can use for bash damage are:
 
@@ -108,7 +108,7 @@ The following should apply based on the monster type:
 
 For ease of balancing, all aftershock weapons are separated into three abstract and gamified categories: light weapons, medium weapons and heavy weapons. Where a weapon belongs among these three categories depends on its damage output and AP rating as defined on the weapon/ammo json definitions.
 
-Ideally the mod shouldn't have weapons that exist merely as stat block variations of each other, if you have a weapon idea and you can't get it to play differently from others, its better if you convert it into a variant and spawn it with some integrated gun mods.
+Ideally the mod shouldn't have weapons that exist merely as stat block variations of each other, if you have a weapon idea, and you can't get it to play differently from others, it's better if you convert it into a variant and spawn it with some integrated gun mods.
 
 ##  Weapon types
 
@@ -177,4 +177,4 @@ For light medium and heavy categories
 * Minimum reload time `600 / 1200 / 1800` moves.
 
 ### Explosive Projectiles
-Rockets, grenades, smart bombs and all sort of things that are launched and explode. They offer the highest damage per projectile and deadly AOE damage, at the cost of heavy and expensive ammunition that is generally difficult to carry in good numbers, making them too specialized for general use. After voltaics, these are the second hardest weapon types to acquire. 
+Rockets, grenades, smart bombs and all sort of things that are launched and explode. They offer the highest damage per projectile and deadly AOE damage, at the cost of heavy and expensive ammunition that is generally difficult to carry in good numbers, making them too specialized for general use. After voltaics, these are the second-hardest weapon types to acquire. 

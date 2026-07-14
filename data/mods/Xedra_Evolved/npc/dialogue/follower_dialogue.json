@@ -1,0 +1,181 @@
+[
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [
+      {
+        "text": "Could you cast a spell for me?",
+        "topic": "TALK_FRIEND_FOLLOWER_CAST_SPELL",
+        "condition": { "npc_has_any_trait": [ "DREAMER", "EATER", "HEDGE_MAGIC", "CHANGELING_MAGIC", "XE_NETHER_SORCERY" ] }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND_FOLLOWER_CAST_SPELL" ],
+    "type": "talk_topic",
+    "dynamic_line": "Which spell did you want?",
+    "responses": [
+      {
+        "text": "Could you summon some dreamdross?",
+        "topic": "TALK_FRIEND_FOLLOWER_CAST_SPELL_DREAMER_CREATE_DREAMDROSS",
+        "condition": {
+          "and": [
+            { "npc_has_trait": "DREAMER" },
+            { "math": [ "n_spell_level('create_dream_dross') >= 1" ] },
+            { "math": [ "n_val('mana_max') >= 1000" ] }
+          ]
+        }
+      },
+      {
+        "text": "Could you cure my illnesses?",
+        "topic": "TALK_FRIEND_FOLLOWER_CAST_SPELL_FAIR_FOLK_SPRING_CLEANSING",
+        "condition": {
+          "and": [
+            { "npc_has_trait": "CHANGELING_SEASONAL_MAGIC_SPRING" },
+            { "math": [ "n_spell_level('changeling_spring_prevent_bad_conditions_spell') >= 1" ] },
+            {
+              "math": [
+                "n_val('mana_max') >= max( ( 500 - (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 4) - (n_skill('gramarye') * 8)), 350)"
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "text": "Could you heal my wounds?",
+        "topic": "TALK_FRIEND_FOLLOWER_CAST_SPELL_FAIR_FOLK_NEW_GROWTH",
+        "condition": {
+          "and": [
+            { "npc_has_trait": "CHANGELING_SEASONAL_MAGIC_SPRING" },
+            "u_is_outside",
+            "npc_is_outside",
+            { "math": [ "n_spell_level('changeling_spring_healing_increase_while_outside_spell') >= 1" ] },
+            {
+              "math": [
+                "n_val('mana_max') >= max( ( 800 - (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 8) - (n_skill('gramarye') * 15)), 450)"
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "text": "Could you help me deal with these hot temperatures?",
+        "topic": "TALK_FRIEND_FOLLOWER_CAST_SPELL_FAIR_FOLK_GIFT_OF_WARM_BLOOD",
+        "condition": {
+          "and": [
+            { "npc_has_trait": "CHANGELING_SEASONAL_MAGIC_SUMMER" },
+            { "math": [ "n_spell_level('changeling_summer_protect_from_hot_weather_spell') >= 1" ] },
+            {
+              "math": [
+                "n_val('mana_max') >= max( ( 250 - (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 2) - (n_skill('gramarye') * 4.5) ), 100)"
+              ]
+            }
+          ]
+        }
+      },
+      { "text": "Never mind", "topic": "TALK_FRIEND" }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND_FOLLOWER_CAST_SPELL_DREAMER_CREATE_DREAMDROSS" ],
+    "type": "talk_topic",
+    "dynamic_line": "*<npc_name> cups <mypronoun> hands and closes <mypronoun> eyes, and over a few seconds, several fragments of shining metal slowly appear in a soft shimmering light.  <mypronoun> hands them to you.",
+    "responses": [
+      {
+        "text": "Thank you.",
+        "topic": "TALK_FRIEND",
+        "effect": [
+          { "math": [ "n_val('mana') -= 1000" ] },
+          {
+            "u_spawn_item": "scrap_dreamdross",
+            "count": { "math": [ "(n_spell_level('create_dream_dross') / 2) + 1" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND_FOLLOWER_CAST_SPELL_FAIR_FOLK_SPRING_CLEANSING" ],
+    "type": "talk_topic",
+    "dynamic_line": "*<npc_name> mutters something under <mypronoun> breath and a green glow surrounds you.",
+    "responses": [
+      {
+        "text": "Much better, thank you.",
+        "topic": "TALK_FRIEND",
+        "effect": [
+          {
+            "math": [
+              "_duration_lower_bound = ( ( 908.54 + (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 186.25) + (n_skill('gramarye') * 385.43) ) ) * (global_what_is_the_season == 3 ? 0.3 : 1)"
+            ]
+          },
+          {
+            "math": [
+              "_duration_upper_bound = ( ( 2448.00 + (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 418.35) + (n_skill('gramarye') * 985.15) ) )  * (global_what_is_the_season == 3 ? 0.2 : 1)"
+            ]
+          },
+          {
+            "math": [
+              "n_val('mana') -= max( ( 500 - (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 4) - (n_skill('gramarye') * 8)), 350)"
+            ]
+          },
+          {
+            "u_add_effect": "effect_changeling_spring_prevent_bad_conditions",
+            "duration": { "math": [ "rng(_duration_lower_bound, _duration_upper_bound)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND_FOLLOWER_CAST_SPELL_FAIR_FOLK_NEW_GROWTH" ],
+    "type": "talk_topic",
+    "dynamic_line": "*<npc_name> puts a hand on you and you feel a warmth spread across your entire body.  \"But remember, stay outside or the glamour won't work.\"",
+    "responses": [
+      {
+        "text": "Much better, thank you.",
+        "topic": "TALK_FRIEND",
+        "effect": [
+          {
+            "math": [
+              "_duration_lower_bound = ( ( 846.12 + (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 129.52) + (n_skill('gramarye') * 385.42) ) )"
+            ]
+          },
+          {
+            "math": [
+              "_duration_upper_bound = ( ( 1685.24 + (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 348.15) + (n_skill('gramarye') * 898.51) ) )"
+            ]
+          },
+          {
+            "math": [
+              "n_val('mana') -= max( ( 800 - (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 8) - (n_skill('gramarye') * 15)), 450)"
+            ]
+          },
+          {
+            "u_add_effect": "effect_changeling_spring_healing_increase_while_outside",
+            "duration": { "math": [ "rng(_duration_lower_bound, _duration_upper_bound)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND_FOLLOWER_CAST_SPELL_FAIR_FOLK_GIFT_OF_WARM_BLOOD" ],
+    "type": "talk_topic",
+    "dynamic_line": "*<npc_name> sings a few scraps of a half-familiar melody and a cool breeze blows past you.",
+    "responses": [
+      {
+        "text": "Much better, thank you.",
+        "topic": "TALK_FRIEND",
+        "effect": [
+          { "run_eocs": "EOC_CHANGELING_SUMMER_PROTECT_FROM_HOT_WEATHER", "alpha_talker": "u" },
+          {
+            "math": [
+              "n_val('mana') -= max( ( 250 - (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 2) - (n_skill('gramarye') * 4.5) ), 100)"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -104,6 +104,7 @@
     "type": "MONSTER",
     "copy-from": "mon_mi_go",
     "name": { "str": "mi-go" },
-    "upgrades": { "into_group": "GROUP_XE_MIGO_EVO", "half_life": 40 }
+    "upgrades": { "into_group": "GROUP_XE_MIGO_EVO", "half_life": 40 },
+    "extend": { "armor": { "withering_damage": 14 } }
   }
 ]

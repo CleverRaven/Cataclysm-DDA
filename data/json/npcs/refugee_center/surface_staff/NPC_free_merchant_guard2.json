@@ -6,7 +6,7 @@
     "name_suffix": "Guard",
     "class": "NC_FREE_MERCH_GUARD",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_EVAC_GUARD2",
     "faction": "free_merchants"
   },

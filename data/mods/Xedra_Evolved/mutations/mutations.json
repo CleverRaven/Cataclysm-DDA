@@ -1142,7 +1142,7 @@
     "type": "mutation",
     "id": "VAMPIRE_CARDIO_BONUS",
     "name": { "str": "Incarnadine Energy" },
-    "points": 0,
+    "points": 2,
     "description": "The stolen blood within your body provides you with a fountain of energy.  You gain a bonus to your Cardio rating.",
     "starting_trait": false,
     "purifiable": false,
@@ -1162,7 +1162,7 @@
     "type": "mutation",
     "id": "VAMPIRE_MOTION_ALARM",
     "name": { "str": "Wakeful Slumber" },
-    "points": 0,
+    "points": 2,
     "description": "Your senses are so fine they can alert you to danger even while you slumber.  Activate to cause yourself to wake up if danger approaches while you sleep.",
     "starting_trait": false,
     "purifiable": false,
@@ -1175,7 +1175,7 @@
     "type": "mutation",
     "id": "VAMPIRE_BONUS_HP",
     "name": { "str": "Fortitude of the Damned" },
-    "points": 0,
+    "points": 2,
     "description": "Your flesh is more resilient and you can suffer much more damage than a mortal before expiring.  Your hit points are increased.",
     "starting_trait": false,
     "purifiable": false,
@@ -1307,6 +1307,8 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Torpor" },
+    "cancels": [ "NARCOLEPTIC", "INSOMNIA", "HEAVYSLEEPER", "HEAVYSLEEPER2" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "multiply": -1 } ] } ],
     "description": "You can enter a deathlike stake known as torpor, in which your wounds will close faster, your fatigue will fully recover and your blood thirst will be less intense.  Be careful, though, as nothing will be able to wake you up until eight hours have passed.",
     "spells_learned": [ [ "vampire_torpor", 1 ] ]
   },
@@ -1409,7 +1411,15 @@
       { "condition": "u_has_weapon", "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 } ] },
       { "condition": { "u_is_on_terrain": "t_open_air" }, "values": [ { "value": "MOVE_COST", "multiply": -0.6 } ] }
     ],
-    "flags": [ "DRACULIN_VENOM", "LEVITATION", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
+    "flags": [
+      "DRACULIN_VENOM",
+      "TOUGH_FEET",
+      "MUTE",
+      "LEVITATION",
+      "TEMPORARY_SHAPESHIFT",
+      "SHAPESHIFT_SIZE_TINY",
+      "TEMPORARY_SHAPESHIFT_NO_HANDS"
+    ],
     "override_look": { "id": "mon_bat", "tile_category": "monster" }
   },
   {

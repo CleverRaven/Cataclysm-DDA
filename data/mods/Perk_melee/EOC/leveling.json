@@ -44,6 +44,20 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_perk_ma_avatar_new",
+    "eoc_type": "EVENT",
+    "required_event": "game_avatar_new",
+    "condition": {
+      "and": [
+        { "not": { "u_has_trait": "perk_ma_perk_menu" } },
+        { "math": [ "_is_new_game == 0" ] },
+        { "math": [ "_is_debug == 0" ] }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_give_ma_perk_menu" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_perk_ma_initialize",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
@@ -52,6 +66,14 @@
       {
         "u_message": "Martial Mastery mod is active.  Interact with the \"Practice Martial Arts\" trait from the mutation menu to learn new techniques and perks."
       },
+      { "run_eocs": "EOC_give_ma_perk_menu" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_give_ma_perk_menu",
+    "condition": { "and": [ { "not": { "u_has_trait": "perk_ma_perk_menu" } } ] },
+    "effect": [
       { "math": [ "u_ma_perks = 0" ] },
       { "math": [ "u_ma_exp_to_perk = 100" ] },
       { "math": [ "u_ma_exp_per_level = 300" ] },

@@ -1,0 +1,25 @@
+[
+  {
+    "result": "armor_lamellar_bronze",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "8 h",
+    "autolearn": true,
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "using": [ [ "cordage", 110 ], [ "fabric_leather_fur_hide", 1 ] ],
+    "components": [ [ [ "lamellae_bronze", 864 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      {
+        "proficiency": "prof_leatherworking_basic",
+        "time_multiplier": 1.15,
+        "learning_time_multiplier": 0.5,
+        "skill_penalty": 0.15
+      }
+    ]
+  }
+]

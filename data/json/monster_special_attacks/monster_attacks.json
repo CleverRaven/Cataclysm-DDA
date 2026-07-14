@@ -938,7 +938,8 @@
     "damage_max_instance": [ { "damage_type": "cut", "amount": 5 } ],
     "min_mul": 0.5,
     "max_mul": 1.5,
-    "body_parts": [ [ "leg_l", 1 ], [ "leg_r", 1 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ] ],
+    "//": "everything but torso",
+    "body_part_types": [ [ "leg", 1 ], [ "tail", 1 ], [ "wing", 1 ], [ "head", 1 ], [ "arm", 1 ] ],
     "grab": true,
     "condition": {
       "and": [
@@ -965,7 +966,8 @@
     "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ],
     "min_mul": 0.5,
     "max_mul": 1.5,
-    "body_parts": [ [ "leg_l", 1 ], [ "leg_r", 1 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ] ],
+    "//": "everything but torso",
+    "body_part_types": [ [ "leg", 1 ], [ "tail", 1 ], [ "wing", 1 ], [ "head", 1 ], [ "arm", 1 ] ],
     "grab": true,
     "condition": {
       "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "not": { "u_has_effect": "sectioned_filaments" } } ]

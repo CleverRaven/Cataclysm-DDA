@@ -203,7 +203,6 @@
     ],
     "skill": "throw",
     "ammo": [ "bone_dart" ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "clip_size": 1,
     "weight": "540 g",
     "volume": "750 ml",

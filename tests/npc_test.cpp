@@ -45,6 +45,7 @@
 #include "list.h" // IWYU pragma: keep
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "mapdata.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"

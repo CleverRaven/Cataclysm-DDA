@@ -195,6 +195,7 @@ Use the `Home` key to return to the top.
   - [`cbms`](#cbms)
   - [`traits`, `forced_traits`, `forbidden_traits`](#traits-forced_traits-forbidden_traits)
   - [`allowed_locs`](#allowed_locs)
+  - [`origin_offset`](#origin_offset)
   - [`start_name`](#start_name)
   - [`professions`](#professions)
   - [`hobbies`](#hobbies-1)
@@ -1058,6 +1059,7 @@ reference at least one body part or sub body part.
 | `hot_morale_mod`       | (_optional_) Mood effect of being too hot on this part. (default: `0`)
 | `cold_morale_mod`      | (_optional_) Mood effect of being too cold on this part. (default: `0`)
 | `squeamish_penalty`    | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
+| `pain_mod`             | (_optional_) If pain was applied to this bodypart, it is multiplied by this amount. (default: `1.0`)
 | `fire_warmth_bonus`    | (_optional_) How effectively you can warm yourself at a fire with this part. (default: `0`)
 | `temp_mod`             | (_optional array_) Intrinsic temperature modifier of the bodypart.  The first value (in the same "temperature unit" as mutations' `bodytemp_modifier`) is always applied, the second value is applied on top when the bodypart isn't overheated.
 | `feels_discomfort`     | (_optional ) Whether the limb will suffer from chafing if rigid armor is worn directly on it (default: `true`)
@@ -1756,7 +1758,6 @@ The list of possible faults, their weight and actual chances can be checked in i
 | `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108 - water.
 | `latent_heat`          | Latent heat of fusion for a material (J/g). Default 334.
 | `freezing_point`       | Freezing point of this material (C). Default 0 C ( 32 F ).
-| `edible`               | Optional boolean. Default is false.
 | `rotting`              | Optional boolean. Default is false.
 | `breathability`        | What breathability the clothes, made out of this material, would have; can be `IMPERMEABLE` (0%), `POOR` (30%), `AVERAGE` (50%), `GOOD` (80%), `MOISTURE_WICKING` (110%), `SECOND_SKIN` (140%)
 | `burn_products`        | Burning this material drop this items; array, first in array is the id of an item, and another is the number, respond for effeciency of burning - the bigger the burnable item is (by weight), and the more items there is, the bigger output; Multiple items could be returned simultaneously, like `[ [ "corpse_ash", 0.035 ], [ "glass_shard", 0.5 ] ]`,
@@ -1780,7 +1781,6 @@ There are seven -resist parameters: acid, bash, chip, cut, elec, fire, and bulle
     "specific_heat_liquid": 3.7,
     "specific_heat_solid": 2.15,
     "latent_heat": 260,
-    "edible": true,
     "rotting": true,
     "resist": { "bash": 1, "cut": 1, "acid": 1, "heat": 1, "bullet": 1 },
     "chip_resist": 2,
@@ -4146,6 +4146,18 @@ Lists of trait/mutation ids. Traits in "forbidden_traits" are forbidden and can'
 (optional, array of strings)
 
 A list of starting location ids (see start_locations.json) that can be chosen when using this scenario.
+
+## `origin_offset`
+(optional, pair of int)
+
+The number of OM (see [`POINTS_COORDINATES.md`](/doc/c++/POINTS_COORDINATES.md) for more information on OM) on the east - west and south - north axes to offset the origin of the search for the starting location.
+The first axis points east, the second axis points south.
+
+Example:
+```jsonc
+    "origin_offset": [ 10, -5 ]
+```
+This moves the search for the starting location 10 OM to the east and 5 OM to the north.
 
 ## `start_name`
 (string)

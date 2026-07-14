@@ -6,7 +6,7 @@
     "name_suffix": "DinoLab survivor",
     "class": "dm_dinolab_survivor",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_Yoshimi_1",
     "faction": "no_faction",
     "mission_offered": "MISSION_DinoLab_Yos_1"

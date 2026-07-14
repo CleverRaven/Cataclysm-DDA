@@ -703,6 +703,39 @@
   },
   {
     "type": "mutation",
+    "id": "perk_fencing_footwork",
+    "name": { "str": "Fancy Footwork" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": {
+      "str": "Ho!  Ha-Ha!  Guard!  Turn!  Parry!  Dodge!  Spin!  Ha!  Thrust!  When wielding a fencing weapon, you gain +1 bonus dodge and slightly reduced move cost on flat terrain.",
+      "//~": "The beginning of this description is a reference to the Looney Tunes short 'Robin Hood Daffy' "
+    },
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_weapon_category": "FENCING" },
+        "values": [ { "value": "BONUS_DODGE", "add": 1 }, { "value": "MOVECOST_FLATGROUND_MOD", "multiply": -0.05 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_fish_in_water",
+    "name": { "str": "Like a Fish in the Water" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "So unremarkable that there's no proverb about it.  When in deep water, your stamina regeneration is doubled, and you can swim 25% faster.",
+    "enchantments": [
+      {
+        "condition": { "and": [ { "u_is_on_terrain_with_flag": "SWIMMABLE" }, { "u_is_on_terrain_with_flag": "DEEP_WATER" } ] },
+        "values": [ { "value": "REGEN_STAMINA", "multiply": 1 }, { "value": "MOVECOST_SWIM_MOD", "multiply": -0.25 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_artifact_resonance_detection",
     "name": { "str": "Nether Resonator" },
     "points": 0,
@@ -722,6 +755,32 @@
     "valid": false,
     "description": "Your frequent handling of artifacts has allowed you to bleed off some of the side effects of their presence.  Your accumulated artifact resonance is reduced by 1500.",
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": -1500 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_artifact_resonance_exploitation",
+    "name": { "str": "Resonating Empowerment" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your frequent handling of artifacts has allowed you to redirect some of the otherworldly power they carry.  When suffering from resonance effects, you gain a variety of minor bonuses such as resistance to fire, electricity, or cold, increased dodge, or increased stamina regeneration.",
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_artifact_resonance() > 2000" ] },
+        "incoming_damage_mod": [
+          { "type": "heat", "add": { "math": [ "rand(8) + 2" ] } },
+          { "type": "electric", "add": { "math": [ "rand(8) + 2" ] } },
+          { "type": "cold", "add": { "math": [ "rand(8) + 2" ] } }
+        ],
+        "values": [
+          { "value": "BONUS_DODGE", "add": { "math": [ "rand(1)" ] } },
+          { "value": "REGEN_STAMINA", "multiply": { "math": [ "rng(0.1,0.3)" ] } },
+          { "value": "FORCEFIELD", "multiply": { "math": [ "rng(0,0.1)" ] } },
+          { "value": "MOVE_COST", "multiply": { "math": [ "rng(-0.05,0)" ] } },
+          { "value": "PAIN", "multiply": { "math": [ "rng(-0.15,0)" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -933,7 +992,10 @@
     "valid": false,
     "description": "Smoking is bad, but damn it's badass.  You deal more damage and shoot more accurately when you smoke.",
     "enchantments": [
-      { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.25 } ] },
+      {
+        "condition": { "u_has_effect": "cig" },
+        "melee_damage_bonus": [ { "type": "bash", "multiply": 0.25 }, { "type": "stab", "multiply": 0.25 }, { "type": "cut", "multiply": 0.25 } ]
+      },
       { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.25 } ] }
     ]
   },
@@ -1085,7 +1147,8 @@
             { "not": { "u_has_effect": "effect_perk_rage_against_the_unnatural_penalty" } }
           ]
         },
-        "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.35 }, { "value": "ARMOR_ALL", "multiply": -0.15 } ]
+        "melee_damage_bonus": [ { "type": "bash", "multiply": 0.35 }, { "type": "stab", "multiply": 0.35 }, { "type": "cut", "multiply": 0.35 } ],
+        "values": [ { "value": "ARMOR_ALL", "multiply": -0.15 } ]
       }
     ]
   },
@@ -1248,7 +1311,11 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "MELEE_DAMAGE", "multiply": { "math": [ "u_effect_intensity('bleed') * 0.05" ] } } ]
+        "melee_damage_bonus": [
+          { "type": "bash", "multiply": { "math": [ "u_effect_intensity('bleed') * 0.05" ] } },
+          { "type": "stab", "multiply": { "math": [ "u_effect_intensity('bleed') * 0.05" ] } },
+          { "type": "cut", "multiply": { "math": [ "u_effect_intensity('bleed') * 0.05" ] } }
+        ]
       }
     ]
   },
@@ -1546,5 +1613,31 @@
     "points": 0,
     "purifiable": false,
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "perk_soothing_the_savage_beast",
+    "name": { "str": "Soothing the Savage Beast" },
+    "description": "Disney princesses stand back!  You have learned the secret tongues of bird and beast, or at least, you can howl or chirp in such a way that they consider it an offer of friendship.  Activate this perk to charm any nearby mammals, birds, amphibians, reptiles, or fish (not insects or spiders).",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_eocs": [ "EOC_BOMBASTIC_PERKS_SOOTHING_THE_SAVAGE_BEAST" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_hive_queen",
+    "name": { "str": "Hive Queen" },
+    "description": "The insects have accepted you as one of their own.  You are neutral with eusocial insects, including giant ones, but your presence is a little unnerving to animals and people.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "anger_relations": [ [ "MAMMAL", 5 ], [ "BIRD", 5 ] ],
+    "enchantments": [
+      { "condition": { "not": { "u_has_effect": "effect_hive_queen_canceller" } }, "mutations": [ "TRAIT_HIVE_QUEEN" ] },
+      { "values": [ { "value": "SOCIAL_PERSUADE", "add": -5 }, { "value": "SOCIAL_INTIMIDATE", "add": -5 } ] }
+    ],
+    "flags": [ "ANIMALDISCORD" ]
   }
 ]

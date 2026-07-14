@@ -1628,7 +1628,7 @@
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Laser-Assisted Reading Device CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Who needs a reading lamp when you don't need your eyes?  This is a short-distance laser scanner implant which allows one to upload digital images of books straight into your brains optic lobe and language centers.  When active, one can read slightly faster, and can read in the dark.",
+    "description": "This implant serves as a reading light and a short-distance laser scanner, allowing one to upload digital images of books straight into the brain's optic lobe and language centers.  When active, one can read slightly faster, and can read in the dark.",
     "price": "2 kUSD 200 USD",
     "weight": "1000 g",
     "difficulty": 3

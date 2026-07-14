@@ -88,9 +88,8 @@
     "name": { "str": "pistol booster" },
     "description": "A set of mechanisms, that alter the action of the blocky pistol enough to make it something in-between a machine pistol and a submachine gun.",
     "flags": [ "INVENTOR_CRAFTED" ],
-    "weight": "68 g",
-    "volume": "119 ml",
-    "integral_volume": "400 ml",
+    "weight": "510 g",
+    "volume": "595 ml",
     "install_time": "60 m",
     "barrel_length": "550 mm",
     "material": [ "plastic" ],
@@ -124,10 +123,28 @@
           "57": 30,
           "9mm": 42,
           "9x18": 48,
-          "shot": 18
+          "410shot": 16
         }
       }
     ],
+    "min_skills": [ [ "weapon", 4 ], [ "deduction", 4 ] ]
+  },
+  {
+    "id": "mod_inv_pistol_double_tap",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
+    "name": { "str": "pistol double tapper" },
+    "description": "A set of mechanisms that allow the blocky pistol to shoot two rounds simultaneously.",
+    "flags": [ "INVENTOR_CRAFTED" ],
+    "weight": "68 g",
+    "volume": "119 ml",
+    "install_time": "60 m",
+    "material": [ "plastic" ],
+    "symbol": ":",
+    "color": "brown",
+    "location": "mechanism",
+    "mod_targets": [ "inventor_pistol" ],
+    "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "DOUBLE", "double", 2, [ "VOLLEY" ] ] ],
     "min_skills": [ [ "weapon", 4 ], [ "deduction", 4 ] ]
   },
   {

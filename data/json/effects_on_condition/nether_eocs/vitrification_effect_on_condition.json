@@ -182,16 +182,23 @@
       { "mapgen_update": "vitrified_sky", "target_var": { "global_val": "vitrified_sky_2" } },
       { "u_location_variable": { "u_val": "vitrifaction_entry" }, "z_adjust": 6 },
       { "u_teleport": { "u_val": "vitrifaction_entry" }, "fail_message": "Oops!", "force": true },
-      {
-        "u_message": "You arrive at the farmhouse, after what feels like an eternity.  It's not quite what you were expecting, but it's very peaceful.",
-        "type": "good",
-        "popup": true
-      },
+      { "run_eocs": "EOC_quietfarm_nearby_popup_welcome_message" },
       { "math": [ "u_vitri_vitrified = 1" ] },
       { "math": [ "u_vitri_glassed = 0" ] },
       { "math": [ "u_vitri_glass_entered = 2" ] },
       { "u_add_effect": "VITRIFYING", "duration": "PERMANENT", "intensity": { "math": [ "u_vitri_vitrified" ] } },
       { "run_eocs": "EOC_vitrified_farm_explore", "time_in_future": "1 minutes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_quietfarm_nearby_popup_welcome_message",
+    "effect": [
+      {
+        "u_message": "You arrive at the farmhouse, after what feels like an eternity.  It's not quite what you were expecting, but it's very peaceful.",
+        "type": "good",
+        "popup": true
+      }
     ]
   },
   {

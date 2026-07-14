@@ -48,7 +48,11 @@
     "no_empathize_with": [ "HUMAN" ],
     "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
     "chargen_allow_npc": false,
-    "enchantments": [ "ench_paraclesian_modern_technology_computer_ignorance", "ench_paraclesian_modern_technology_electronics_ignorance" ]
+    "enchantments": [
+      "ench_paraclesian_modern_technology_computer_ignorance",
+      "ench_paraclesian_modern_technology_electronics_ignorance",
+      { "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] }
+    ]
   },
   {
     "type": "mutation",
@@ -102,6 +106,7 @@
     "enchantments": [
       "ench_paraclesian_modern_technology_computer_ignorance",
       "ench_paraclesian_modern_technology_electronics_ignorance",
+      { "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] },
       {
         "condition": {
           "and": [
@@ -173,7 +178,11 @@
     "no_empathize_with": [ "HUMAN" ],
     "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
     "chargen_allow_npc": false,
-    "enchantments": [ "ench_paraclesian_modern_technology_computer_ignorance", "ench_paraclesian_modern_technology_electronics_ignorance" ]
+    "enchantments": [
+      "ench_paraclesian_modern_technology_computer_ignorance",
+      "ench_paraclesian_modern_technology_electronics_ignorance",
+      { "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] }
+    ]
   },
   {
     "type": "mutation",
@@ -188,6 +197,7 @@
     "enchantments": [
       "ench_paraclesian_modern_technology_computer_ignorance",
       "ench_paraclesian_modern_technology_electronics_ignorance",
+      { "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] },
       {
         "values": [
           { "value": "WEAKNESS_TO_WATER", "add": -0.000347 },
@@ -286,7 +296,8 @@
     "chargen_allow_npc": false,
     "enchantments": [
       "ench_paraclesian_homullus_modern_technology_computer_ignorance",
-      "ench_paraclesian_homullus_modern_technology_electronics_ignorance"
+      "ench_paraclesian_homullus_modern_technology_electronics_ignorance",
+      { "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] }
     ]
   },
   {
@@ -338,7 +349,11 @@
     "no_empathize_with": [ "HUMAN" ],
     "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
     "chargen_allow_npc": false,
-    "enchantments": [ "ench_paraclesian_modern_technology_computer_ignorance", "ench_paraclesian_modern_technology_electronics_ignorance" ]
+    "enchantments": [
+      "ench_paraclesian_modern_technology_computer_ignorance",
+      "ench_paraclesian_modern_technology_electronics_ignorance",
+      { "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] }
+    ]
   },
   {
     "type": "mutation",

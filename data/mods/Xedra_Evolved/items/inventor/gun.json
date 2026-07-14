@@ -819,7 +819,7 @@
       "57",
       "9mm",
       "9x18",
-      "shot"
+      "410shot"
     ],
     "dispersion": 558,
     "durability": 7,
@@ -835,7 +835,7 @@
       [ "muzzle", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT", "INVENTOR_CRAFTED" ],
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "INVENTOR_CRAFTED" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -857,7 +857,7 @@
           "57": 10,
           "9mm": 14,
           "9x18": 16,
-          "shot": 6
+          "410shot": 6
         }
       }
     ]

@@ -59,6 +59,40 @@
     "event_transformation": "avatar_wields_archeotech_gun"
   },
   {
+    "id": "avatar_kills_independent_merc",
+    "type": "event_transformation",
+    "event_type": "character_kills_character",
+    "value_constraints": {
+      "killer": { "equals_statistic": "avatar_id" },
+      "victim_class": { "equals_any": [ "string", [ "NC_AFS_SOLO", "cryo_hacker" ] ] }
+    },
+    "drop_fields": [ "killer", "victim_class" ]
+  },
+  {
+    "id": "num_avatar_independent_merc_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_kills_independent_merc",
+    "description": { "str": "independent contractor killed", "str_pl": "independent contractors killed" }
+  },
+  {
+    "id": "avatar_kills_uica_soldier",
+    "type": "event_transformation",
+    "event_type": "character_kills_character",
+    "value_constraints": {
+      "killer": { "equals_statistic": "avatar_id" },
+      "victim_class": { "equals_any": [ "string", [ "augustmoon_security", "uica_ground_officer", "uica_ground_soldier" ] ] }
+    },
+    "drop_fields": [ "killer", "victim_class" ]
+  },
+  {
+    "id": "num_avatar_uica_soldier_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_kills_uica_soldier",
+    "description": { "str": "dead cop" }
+  },
+  {
     "id": "avatar_max_damage",
     "type": "event_statistic",
     "stat_type": "maximum",

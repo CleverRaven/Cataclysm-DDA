@@ -87,6 +87,7 @@
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"
+#include "map_helpers.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "mapgen.h"
@@ -115,6 +116,7 @@
 #include "pimpl.h"
 #include "point.h"
 #include "popup.h"
+#include "proficiency.h"
 #include "recipe_dictionary.h"
 #include "relic.h"
 #include "requirements.h"
@@ -293,6 +295,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::EXPORT_SELF: return "EXPORT_SELF";
 		case debug_menu::debug_menu_index::QUICK_SETUP: return "QUICK_SETUP";
 		case debug_menu::debug_menu_index::QUICK_SETUP_FLAG_DIRTY: return "QUICK_SETUP_FLAG_DIRTY";
+		case debug_menu::debug_menu_index::QUICK_SETUP_CLEAR_MAP: return "QUICK_SETUP_CLEAR_MAP";
 		case debug_menu::debug_menu_index::TOGGLE_SETUP_MUTATION: return "TOGGLE_SETUP_MUTATION";
 		case debug_menu::debug_menu_index::NORMALIZE_BODY_STAT: return "NORMALIZE_BODY_STAT";
 		case debug_menu::debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR: return "SIX_MILLION_DOLLAR_SURVIVOR";
@@ -637,6 +640,13 @@ static int player_uilist()
 
 static void normalize_body( Character &u )
 {
+    for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
+        u.set_knowledge_level( pair.first, 0 );
+        u.set_skill_level( pair.first, 0 );
+    }
+    u.forget_all_recipes();
+    u._proficiencies->clear();
+    u.initialize( true );
     u.clear_effects();
     u.clear_morale();
     u.clear_vitamins();
@@ -1074,7 +1084,7 @@ static int map_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::KILL_AREA, true, 'a', _( "Kill in Area" ) ) },
-        { uilist_entry( debug_menu_index::KILL_NPCS, true, 'k', _( "Kill NPCs" ) ) },
+        { uilist_entry( debug_menu_index::KILL_NPCS, true, 'i', _( "Kill NPCs" ) ) },
         { uilist_entry( debug_menu_index::MAP_EDITOR, true, 'M', _( "Map editor" ) ) },
         { uilist_entry( debug_menu_index::PALETTE_VIEWER, true, 'P', _( "Palette viewer" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_WEATHER, true, 'w', _( "Change weather" ) ) },
@@ -1098,6 +1108,7 @@ static int quick_setup_uilist()
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::QUICK_SETUP, true, 'Q', _( "Quick setup…" ) ) },
         { uilist_entry( debug_menu_index::QUICK_SETUP_FLAG_DIRTY, true, 'D', _( "Quick setup and flag save as dirty" ) ) },
+        { uilist_entry( debug_menu_index::QUICK_SETUP_CLEAR_MAP, true, 'm', _( "Clear map" ) ) },
         { uilist_entry( debug_menu_index::TOGGLE_SETUP_MUTATION, true, 't', _( "Toggle debug mutations" ) ) },
         { uilist_entry( debug_menu_index::NORMALIZE_BODY_STAT, true, 'n', _( "Normalize body stats" ) ) },
         { uilist_entry( debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR, true, 'B', _( "Install ALL bionics" ) ) },
@@ -1298,7 +1309,7 @@ static void spell_description(
             std::string dot_string;
             if( spl.damage_dot( chrc ) ) {
                 //~ amount of damage per second, abbreviated
-                dot_string = string_format( _( ", %1$d/sec" ), spl.damage_dot( chrc ) );
+                dot_string = string_format( _( ", %1$.2f/sec" ), spl.damage_dot( chrc ) );
             }
             damage_string = string_format( _( "Damage: %1$s %2$s%3$s" ), spl.damage_string( chrc ),
                                            spl.damage_type_string(), dot_string );
@@ -2457,7 +2468,7 @@ static void character_edit_menu()
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "Teleport" ) );
     nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an effect" ) );
     nmenu.addentry( D_CHECK_TEMP, true, 'U', "%s", _( "Print temperature" ) );
-    nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attack" ) );
+    nmenu.addentry( D_ASTHMA, true, 'K', "%s", _( "Cause asthma attack" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit missions (WARNING: Unstable!)" ) );
     nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print vars to file" ) );
     nmenu.addentry( D_WRITE_EOCS, true, 'W', "%s",
@@ -2917,7 +2928,7 @@ static void faction_edit_menu()
     nmenu.addentry( D_POWER, true, 'p', "%s", _( "Set power" ) );
     nmenu.addentry( D_FOOD, true, 'f', "%s", _( "Set food supply" ) );
     nmenu.addentry( D_OPINION, true, 'o', "%s", _( "Set opinions" ) );
-    nmenu.addentry( D_KNOWN, true, 'k', "%s", _( "Toggle Known by you" ) );
+    nmenu.addentry( D_KNOWN, true, 'n', "%s", _( "Toggle Known by you" ) );
     nmenu.addentry( D_LONE, true, 'l', "%s", _( "Toggle Lone wolf" ) );
     nmenu.addentry( D_THIEF, true, 't', "%s", _( "Reset steal mode" ) );
 
@@ -4760,6 +4771,12 @@ const std::vector<debug_action_entry> &all_actions()
             debug_menu_index::QUICK_SETUP_FLAG_DIRTY, translate_marker( "Quick setup (dirty)" ), "quick setup dirty", "Game", []()
             {
                 do_debug_quick_setup( true );
+            }
+        },
+        {
+            debug_menu_index::QUICK_SETUP_CLEAR_MAP, translate_marker( "Clear map" ), "Clear map", "Game", []()
+            {
+                clear_map( -OVERMAP_DEPTH, OVERMAP_HEIGHT );
             }
         },
         {

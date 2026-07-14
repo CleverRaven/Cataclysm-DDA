@@ -7,7 +7,7 @@
     "name_suffix": "assistant",
     "class": "NC_HUB01_JFarrier",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "HUB01_JFarrier_Intro",
     "faction": "robofac"
   },

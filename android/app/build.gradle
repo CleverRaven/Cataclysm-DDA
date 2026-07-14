@@ -138,14 +138,14 @@ def assetsDir = 'src/main/assets'
 def assetsDirWindows = 'src/main/assetsWinHost'
 
 def sdl3Aars = [
-    [name: 'SDL3',        version: '3.4.8', repo: 'SDL',
-     zipSha256: 'c4c23cec585cb99ea626625dc06b421933dd78733b3841628d86be1c13ab16c6'],
+    [name: 'SDL3',        version: '3.4.10', repo: 'SDL',
+     zipSha256: 'f676e29b1b4eb990e24862b6af5f327379dc496c9f5f3e3f48ab75837f95844e'],
     [name: 'SDL3_image',  version: '3.4.4', repo: 'SDL_image',
      zipSha256: 'a0d1e27d4529c2bbc3e4ac72d2e6c0dd474b32cfe2586d22c4228a34224d1f57'],
     [name: 'SDL3_ttf',    version: '3.2.2', repo: 'SDL_ttf',
      zipSha256: '48e534daf88eec5c7f0c95fa6ca0e8a5f38f5fc7276824573131cebc403ee14c'],
-    [name: 'SDL3_mixer',  version: '3.2.2', repo: 'SDL_mixer',
-     zipSha256: 'bc9684da3d36eb6df7c5f645493dcdaa847822b8613aefadc889e1f8614427f3'],
+    [name: 'SDL3_mixer',  version: '3.2.4', repo: 'SDL_mixer',
+     zipSha256: 'b7f9f1ee5162a0492e71941f2cbdc50ec256ef15c0e995ca72c7e519eebd810d'],
 ]
 
 task fetchSdl3Aars {
@@ -480,8 +480,8 @@ sourceSets {
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     implementation files(
-        'libs/SDL3-3.4.8.aar',
+        'libs/SDL3-3.4.10.aar',
         'libs/SDL3_image-3.4.4.aar',
         'libs/SDL3_ttf-3.2.2.aar',
-        'libs/SDL3_mixer-3.2.2.aar')
+        'libs/SDL3_mixer-3.2.4.aar')
 }

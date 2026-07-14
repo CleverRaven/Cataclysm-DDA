@@ -48,7 +48,7 @@
       [ [ "flux_comp_gen", 1 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "antenna", 1 ] ],
-      [ [ "cable", 20 ] ]
+      [ [ "cable", 7 ] ]
     ]
   },
   {

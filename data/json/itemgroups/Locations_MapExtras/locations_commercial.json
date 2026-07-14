@@ -438,6 +438,7 @@
       [ "textbook_robots", 1 ],
       [ "textbook_traps", 2 ],
       [ "textbook_anarch", 1 ],
+      { "item": "improvised_munition_handbook", "prob": 1 },
       [ "recipe_bows", 2 ],
       [ "recipe_arrows", 2 ],
       { "item": "extinguisher", "prob": 20, "charges": 100 },
@@ -1731,7 +1732,8 @@
     "type": "item_group",
     "//": "For s_electronics shops",
     "items": [
-      [ "cable", 95 ],
+      { "group": "cable_roll_part", "prob": 95 },
+      { "group": "copper_wire_roll_part", "prob": 60 },
       { "group": "box_of_batteries_unopened", "prob": 85 },
       [ "scrap", 70 ],
       [ "e_scrap", 95 ],
@@ -1749,7 +1751,7 @@
       [ "receiver", 5 ],
       { "item": "soldering_iron", "prob": 65 },
       { "item": "soldering_iron_portable", "prob": 65, "charges": [ 0, 50 ] },
-      [ "solder_wire", 50 ],
+      { "group": "solder_wire_spool_part", "prob": 50 },
       { "group": "glue_weak_professional", "prob": 25 },
       { "group": "glue_strong_professional", "prob": 30 },
       [ "screwdriver", 60 ],
@@ -1790,7 +1792,7 @@
   {
     "id": "laundromat_bleach",
     "type": "item_group",
-    "items": [ [ "bleach", 50 ] ]
+    "items": [ { "group": "bleach_jug_part", "prob": 50 } ]
   },
   {
     "id": "laundromat_containers",
@@ -2056,11 +2058,7 @@
     "id": "farm_supply_soil_and_sand",
     "type": "item_group",
     "subtype": "collection",
-    "items": [
-      { "item": "material_sand", "prob": 50, "count": 500, "container-item": "bag_canvas" },
-      { "group": "sandbag", "prob": 50 },
-      { "item": "material_soil", "prob": 50, "count": 500, "container-item": "bag_canvas" }
-    ]
+    "items": [ { "group": "sandbag", "prob": 50 }, { "group": "earthbag", "prob": 50 } ]
   },
   {
     "id": "farm_supply_rocks",
@@ -2090,7 +2088,11 @@
   {
     "id": "farm_supply_quicklime_and_saltpetre",
     "type": "item_group",
-    "items": [ { "group": "quicklime_bag", "prob": 85 }, { "item": "chem_saltpetre", "prob": 15, "count": [ 10, 50 ] } ]
+    "items": [
+      { "group": "quicklime_bag", "prob": 85 },
+      { "group": "quicklime_barrel", "prob": 20 },
+      { "group": "saltpeter_canvas_bag_part", "prob": 15 }
+    ]
   },
   {
     "id": "farm_supply_animal_feed",

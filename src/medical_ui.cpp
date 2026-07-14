@@ -267,10 +267,21 @@ std::string medical_ui::get_limb_wounds( const bodypart_id &part ) const
                 detail_str +=
                     string_format( "%s - %s\n", colorize( wd.type->get_name(), c_cyan ), wd.type->get_description() );
             } else {
+
+                std::string limb_score_output = "limb scores applied:\n";
+                for( const wound_limb_score &s : wd.type->get_limb_scores() ) {
+                    limb_score_output += string_format( "%s: %.3f\n", s.score.str(), s.value );
+                }
+
                 detail_str +=
-                    string_format( "wound: %s - %s (healing time %s, healing percentage %.3f%%, gives pain: %d)\n",
-                                   colorize( wd.type->get_name(), c_cyan ), wd.type->get_description(),
-                                   to_string( wd.get_healing_time() ), wd.healing_percentage(), wd.get_pain() );
+                    string_format( "wound: %s - %s\nhealing time %s\nhealing percentage %.3f%%\ngives pain: %d\n%s\n",
+                                   colorize( wd.type->get_name(), c_cyan ),
+                                   wd.type->get_description(),
+                                   to_string( wd.get_healing_time() ),
+                                   wd.healing_percentage(),
+                                   wd.get_pain(),
+                                   limb_score_output
+                                 );
             }
         }
     }
@@ -304,7 +315,7 @@ std::string medical_ui::get_limb_scores_and_modifiers( const bodypart_id &part )
             continue;
         }
 
-        float injury_score = bp->get_limb_score( *you, sc.getId(), 0, 0, 1 );
+        float injury_score = bp->get_limb_score( *you, sc.getId() );
         float max_score = part->get_limb_score( sc.getId() );
 
         if( injury_score < max_score ) {

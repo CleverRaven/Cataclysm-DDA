@@ -10,6 +10,7 @@ const int CHARACTER_CREATOR_TAB_COUNT = 7;
 const int CHARACTER_CREATOR_SUMMARY_LINES = 5;
 const ImGuiTableFlags_ CHARACTER_CREATOR_TABLE_FLAGS = ImGuiTableFlags_ScrollY;
 const translation CHARACTER_CREATOR_UILIST_ALL = to_translation( "ALL" );
+const translation CHARACTER_CREATOR_TRAITS_COSMETIC = to_translation( "COSMETIC" );
 const translation CHARACTER_CREATOR_TRAITS_POSITIVE = to_translation( "POSITIVE" );
 const translation CHARACTER_CREATOR_TRAITS_NEGATIVE = to_translation( "NEGATIVE" );
 const translation CHARACTER_CREATOR_TRAITS_NEUTRAL = to_translation( "NEUTRAL" );

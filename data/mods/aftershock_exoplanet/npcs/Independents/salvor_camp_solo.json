@@ -6,7 +6,7 @@
     "name_suffix": "mercenary",
     "class": "NC_AFS_SOLO",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_SALVOR_CAMP_SOLO",
     "faction": "independents"
   },

@@ -8,7 +8,7 @@
     "gender": "male",
     "class": "NC_ISHERWOOD_LUKE",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "age": 16,
     "height": 181,
     "str": 8,

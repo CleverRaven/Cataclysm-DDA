@@ -643,7 +643,8 @@
   {
     "type": "overmap_terrain",
     "id": [ "last_mage_on_earth_shelter" ],
-    "copy-from": "lmoe_under"
+    "copy-from": "lmoe_under",
+    "spawns": {  }
   },
   {
     "type": "overmap_terrain",

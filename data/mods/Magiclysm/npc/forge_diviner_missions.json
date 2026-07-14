@@ -427,9 +427,14 @@
     "difficulty": 0,
     "value": 0,
     "description": "The diviner told you that there would be the corpse of a Lovecraftian horror here.",
-    "destination": "corpse_surface",
+    "destination": "corpse_tentacle_surface_entry",
     "start": {
-      "assign_mission_target": { "om_terrain": "corpse_surface", "om_special": "nether_monster_corpse", "reveal_radius": 2, "cant_see": true }
+      "assign_mission_target": {
+        "om_terrain": "corpse_tentacle_surface_entry",
+        "om_special": "nether_monster_corpse",
+        "reveal_radius": 2,
+        "cant_see": true
+      }
     }
   }
 ]

@@ -1,0 +1,205 @@
+[
+  {
+    "type": "mutation",
+    "id": "LIZARDFOLK_BUILD",
+    "name": { "str": "Lizardfolk" },
+    "types": [ "HERITAGE" ],
+    "purifiable": false,
+    "mixed_effect": true,
+    "points": 1,
+    "visibility": 3,
+    "ugliness": 0,
+    "description": "Lizardfolk are taller, stronger, and more resilient than humans but not much thicker and are surprisingly fast for their size (+1 STR, +1 DEX).  Also, they are carnivorous.",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVECOST_SWIM_MOD", "multiply": -0.1 },
+          { "value": "STRENGTH", "add": 1 },
+          { "value": "DEXTERITY", "add": 1 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 0.25 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.05 },
+          { "value": "MAX_HP", "multiply": 0.2 }
+        ]
+      }
+    ],
+    "vitamin_rates": [ [ "vitC", -1200 ] ],
+    "flags": [ "HERITAGE", "CARNIVORE_DIET", "LARGE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LIZARDFOLK_NO_HAIR",
+    "name": { "str": "Lizardfolk No Hair Or Beard", "//~": "NO_I18N" },
+    "description": { "str": "Removes all hair and beard if you're a lizardfolk.  You shouldn't see this.", "//~": "NO_I18N" },
+    "points": 0,
+    "purifiable": false,
+    "player_display": false,
+    "mixed_effect": true,
+    "cancels": [
+      "hair_beaded",
+      "hair_body_length",
+      "hair_braid",
+      "hair_bun",
+      "hair_buzzcut",
+      "hair_crewcut",
+      "hair_curls",
+      "hair_detective",
+      "hair_extremely_long",
+      "hair_fro",
+      "hair_long",
+      "hair_long_mohawk",
+      "hair_long_over_eye",
+      "hair_medium",
+      "hair_messy",
+      "hair_modern",
+      "hair_mohawk",
+      "hair_mullet",
+      "hair_ponytail",
+      "hair_puff",
+      "hair_punk_long",
+      "hair_short",
+      "hair_short_no_fringe",
+      "hair_short_over_eye",
+      "hair_super_princess",
+      "hair_twintails",
+      "hair_very_long",
+      "natural_hair_growth",
+      "FACIAL_HAIR_GOATEE",
+      "FACIAL_HAIR_CIRCLE",
+      "FACIAL_HAIR_ROYALE",
+      "FACIAL_HAIR_ANCHOR",
+      "FACIAL_HAIR_SHORTBOXED",
+      "FACIAL_HAIR_CHEVRON",
+      "FACIAL_HAIR_3DAYSTUBBLE",
+      "FACIAL_HAIR_HORSESHOE",
+      "FACIAL_HAIR_MUSTACHE",
+      "FACIAL_HAIR_MUTTONCHOPS",
+      "FACIAL_HAIR_GUNSLINGER",
+      "FACIAL_HAIR_CHIN_STRIP",
+      "FACIAL_HAIR_CHIN_CURTAIN",
+      "FACIAL_HAIR_CHIN_STRAP",
+      "FACIAL_HAIR_BEARD",
+      "FACIAL_HAIR_BEARD_LONG",
+      "FACIAL_HAIR_BEARD_VERY_LONG",
+      "FACIAL_HAIR_HANDLEBAR",
+      "FACIAL_HAIR_NECKBEARD",
+      "FACIAL_HAIR_PENCIL",
+      "FACIAL_HAIR_SHENANDOAH",
+      "FACIAL_HAIR_SIDEBURNS",
+      "FACIAL_HAIR_SOUL_PATCH",
+      "FACIAL_HAIR_TOOTHBRUSH",
+      "FACIAL_HAIR_VANDYKE",
+      "FACIAL_HAIR_WALRUS",
+      "FACIAL_HAIR_ZAPPA"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEBBED_LIZ_FEET",
+    "name": { "str": "Lizardfolk Feet" },
+    "//": "Alternate so webbed hands are not a prerequisite",
+    "points": 1,
+    "types": [ "FEET" ],
+    "description": "Your feet are heavily webbed, with three large scaled toes and a dewclaw in the back, allowing you to swim faster.  However, your feet are not designed for human footwear.",
+    "restricts_gear": [ "foot_l", "foot_r" ],
+    "flags": [ "WEBBED_FEET", "TOUGH_FEET" ],
+    "wet_protection": [ { "part": "foot_l", "good": 6 }, { "part": "foot_r", "good": 6 } ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEBBED_LIZ_HANDS",
+    "name": { "str": "Lizardfolk Hands" },
+    "description": "Your hands are heavily webbed, causing problems with gloves.  However, you can swim much faster.  Slightly decreases wet penalties.",
+    "types": [ "HANDS" ],
+    "points": 0,
+    "mixed_effect": true,
+    "vitamin_cost": 60,
+    "visibility": 3,
+    "ugliness": 2,
+    "flags": [ "WEBBED_HANDS" ],
+    "encumbrance_covered": [ [ "hand_l", 50 ], [ "hand_r", 50 ] ],
+    "wet_protection": [ { "part": "hand_l", "good": 3 }, { "part": "hand_r", "good": 3 } ]
+  },
+  {
+    "type": "mutation",
+    "id": "STRONGER_RESISTWARM_LIZ",
+    "name": { "str": "High Heat Tolerance" },
+    "description": "Used to the warmth of the swamps as you are, you are little bothered by heat.",
+    "types": [ "ACCLIMATIZATION" ],
+    "points": 3,
+    "valid": false,
+    "vitamin_cost": 160,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "COLDBLOOD4_LIZ",
+    "flags": [ "ECTOTHERM" ],
+    "name": { "str": "Ectothermia" },
+    "points": -3,
+    "description": "Your body is permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  All this and you need even more food to maintain your energy.",
+    "purifiable": false,
+    "types": [ "METABOLISM" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "METABOLISM", "multiply": 0.5 },
+          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "INFRARED_LIZ",
+    "name": { "str": "Heatsight" },
+    "description": "Your eyes are capable of sensing the heat of your prey.  And anyone else, if necessary.",
+    "points": 5,
+    "vitamin_cost": 210,
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PRED_LIZ",
+    "name": { "str": "Scalefolk Mindset" },
+    "description": "While not completely predatory, the lizardfolk are generally not particularly invested in the welfare of warmbloods.  Their death does not affect you greatly, and your ability to maintain combat skills is enhanced.",
+    "points": 2,
+    "purifiable": false,
+    "types": [ "PREDATION" ],
+    "flags": [ "PRED2" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "COMBAT_CATCHUP", "multiply": 1.5 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUZZLE_LONG_LIZ",
+    "name": { "str": "Lizardfolk Muzzle" },
+    "points": 0,
+    "visibility": 8,
+    "ugliness": 8,
+    "mixed_effect": true,
+    "description": "Your face and jaws are those of a predatory lizard, with a set of sharp teeth to go with them.  They look NASTY--as do the bite wounds they can inflict--but prevent wearing mouthgear.",
+    "types": [ "MUZZLE" ],
+    "restricts_gear": [ "mouth" ],
+    "social_modifiers": { "intimidate": 10 },
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_long" } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "REGEN_LIZARDFOLK",
+    "name": { "str": "Reptilian Healing" },
+    "description": "Your broken limbs mend themselves without significant difficulty in addition to your already-quick healing.  You do not require splints for broken limbs.",
+    "cancels": [ "ROT1", "ROT2", "ROT3" ],
+    "points": 5,
+    "purifiable": false,
+    "vitamin_cost": 210,
+    "flags": [ "MEND_ALL" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MENDING_MODIFIER", "multiply": 19 },
+          { "value": "REGEN_HP", "multiply": 0.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.2 }
+        ]
+      }
+    ]
+  }
+]

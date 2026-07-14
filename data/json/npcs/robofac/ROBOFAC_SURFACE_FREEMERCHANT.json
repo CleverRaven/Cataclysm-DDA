@@ -6,7 +6,7 @@
     "name_suffix": "Free Merchant",
     "class": "NC_ROBOFAC_FREE_MERCHANT",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_ROBOFAC_FREE_MERCHANT",
     "faction": "free_merchants"
   },

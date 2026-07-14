@@ -6,7 +6,7 @@
     "name_suffix": "Guard",
     "class": "NC_CAMPUS_GUARD",
     "attitude": 0,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_CAMP_GUARD",
     "faction": "the_great_library"
   },

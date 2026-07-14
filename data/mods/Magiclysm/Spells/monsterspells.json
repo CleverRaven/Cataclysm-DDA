@@ -94,6 +94,25 @@
     "max_aoe": 6
   },
   {
+    "id": "summon_forgehounds",
+    "type": "SPELL",
+    "name": { "str": "forgehounds", "//~": "NO_I18N" },
+    "description": { "str": "Summons forgehounds.", "//~": "NO_I18N" },
+    "valid_targets": [ "ground" ],
+    "flags": [ "HOSTILE_SUMMON", "PERMANENT" ],
+    "effect": "summon",
+    "effect_str": "mon_forgehounds",
+    "shape": "blast",
+    "max_level": 1,
+    "base_casting_time": 10,
+    "min_range": 20,
+    "max_range": 20,
+    "min_damage": 3,
+    "max_damage": 3,
+    "min_aoe": 6,
+    "max_aoe": 6
+  },
+  {
     "type": "SPELL",
     "id": "teleport_charge",
     "name": { "str": "Teleport Charge", "//~": "NO_I18N" },

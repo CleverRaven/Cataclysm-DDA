@@ -128,7 +128,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_bio_nl_blood_factory",
-    "condition": { "math": [ "u_vitamin('blood') < 0" ] },
-    "effect": [ { "math": [ "u_vitamin('blood') += 2" ] }, { "math": [ "u_calories() -= 3" ] } ]
+    "effect": [
+      {
+        "if": { "math": [ "u_vitamin('redcells') < -1" ] },
+        "then": [ { "math": [ "u_vitamin('redcells') += 2" ] }, { "math": [ "u_calories() -= 2" ] } ]
+      },
+      {
+        "if": { "math": [ "u_vitamin('blood') < -1" ] },
+        "then": [ { "math": [ "u_vitamin('blood') += 2" ] }, { "math": [ "u_calories() -= 2" ] } ]
+      }
+    ]
   }
 ]

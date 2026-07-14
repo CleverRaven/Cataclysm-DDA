@@ -19,13 +19,15 @@
   {
     "id": "mon_zombie_survivor_no_weakpoints",
     "type": "MONSTER",
-    "name": { "str_sp": "zombie survivor test only" },
-    "description": "This zombie survivor is for testing purposes only.",
+    "name": { "str_sp": "zombie survivor test only", "//~": "NO_I18N" },
+    "description": { "str": "This zombie survivor is for testing purposes only.", "//~": "NO_I18N" },
     "copy-from": "mon_zombie_survivor",
     "speed": 90,
     "dodge": 3,
     "special_attacks": [ [ "SHRIEK", 20 ], { "id": "bite_humanoid", "cooldown": 5, "min_mul": 1 }, { "id": "grab", "cooldown": 7 } ],
-    "delete": { "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_light_armor", "wps_humanoid_open_helmet" ] }
+    "delete": {
+      "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_light_armor", "wps_humanoid_open_helmet" ]
+    }
   },
   {
     "id": "mon_zombie_paramilitary",
@@ -35,7 +37,7 @@
     "copy-from": "mon_zombie_survivor",
     "looks_like": "mon_zombie_survivor",
     "armor": { "bash": 10, "cut": 22, "bullet": 15, "electric": 2 },
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
+    "extend": { "weakpoint_sets": [ "wps_humanoid_light_armor", "wps_humanoid_open_helmet" ] },
     "death_drops": "mon_zombie_paramilitary_death_drops"
   },
   {
@@ -50,7 +52,7 @@
     "melee_skill": 9,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_full_helmet" ],
+    "extend": { "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_full_helmet" ] },
     "death_drops": "mon_zombie_survivor_elite_death_drops",
     "armor": { "acid": 4, "bash": 15, "cut": 25, "stab": 18, "bullet": 20, "electric": 4 }
   }

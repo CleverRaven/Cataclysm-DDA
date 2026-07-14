@@ -26,7 +26,7 @@
         { "item": "scrap", "count": [ 4, 6 ] },
         { "item": "plastic_chunk", "count": [ 1, 2 ] },
         { "item": "circuit", "count": 1 },
-        { "item": "cable", "count": [ 10, 15 ] },
+        { "item": "cable", "count": [ 4, 5 ] },
         { "item": "power_supply", "prob": 50 },
         { "item": "antenna", "count": 2 },
         { "item": "pipe", "count": 1 },
@@ -52,7 +52,7 @@
       "items": [
         { "item": "scrap", "count": [ 4, 6 ] },
         { "item": "plastic_chunk", "count": [ 4, 12 ] },
-        { "item": "cable", "count": [ 10, 15 ] },
+        { "item": "cable", "count": [ 4, 5 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "power_supply", "prob": 50 }
       ]
@@ -89,7 +89,7 @@
     "required_str": 8,
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
-      "items": [ { "item": "pipe", "count": 6 }, { "item": "lc_steel_chunk", "count": 2 }, { "item": "cable", "count": 10 } ]
+      "items": [ { "item": "pipe", "count": 6 }, { "item": "lc_steel_chunk", "count": 2 }, { "item": "cable", "count": 4 } ]
     },
     "bash": {
       "str_min": 6,
@@ -99,7 +99,7 @@
       "items": [
         { "item": "pipe", "count": [ 1, 6 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "cable", "count": [ 2, 6 ] }
+        { "item": "cable", "count": [ 1, 3 ] }
       ]
     }
   },

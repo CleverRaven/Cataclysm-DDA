@@ -117,7 +117,7 @@
     "components": [
       [ [ "plastic_chunk", 4 ] ],
       [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
-      [ [ "cable", 10 ] ],
+      [ [ "cable", 4 ] ],
       [ [ "amplifier", 1 ] ]
     ],
     "byproducts": [ [ "sheet_nylon_patchwork", 6 ], [ "scrap_nylon", 2 ] ]

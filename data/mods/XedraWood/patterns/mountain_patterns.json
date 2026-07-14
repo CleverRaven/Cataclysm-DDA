@@ -1,0 +1,133 @@
+[
+  {
+    "id": "mountain_tattoo_one",
+    "type": "bionic",
+    "name": { "str": "Roots of the Mountain" },
+    "description": "The first element of the mountain pattern, a series of stylized boulders and trees on the upper legs.  It makes your limbs more resilient, providing them with extra armor.",
+    "occupied_bodyparts": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "protec": [
+      [ "arm_l", { "bash": 4, "cut": 2 } ],
+      [ "arm_r", { "bash": 4, "cut": 2 } ],
+      [ "hand_l", { "bash": 4, "cut": 2 } ],
+      [ "hand_r", { "bash": 4, "cut": 2 } ],
+      [ "leg_l", { "bash": 4, "cut": 2 } ],
+      [ "leg_r", { "bash": 4, "cut": 2 } ],
+      [ "foot_l", { "bash": 4, "cut": 2 } ],
+      [ "foor_r", { "bash": 4, "cut": 2 } ]
+    ]
+  },
+  {
+    "id": "mountain_tattoo_two",
+    "type": "bionic",
+    "name": { "str": "Base of the Mountain" },
+    "description": "The second element of the mountain pattern, the lower paths and foothills of a mountain on the lower back.  When activated, your unarmed attacks hit harder.  The damage increases as you complete more of the mountain pattern.",
+    "act_cost": "50 J",
+    "react_cost": "35 J",
+    "time": "1 s",
+    "occupied_bodyparts": [ [ "torso", 10 ] ],
+    "required_bionic": "mountain_tattoo_one",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "activated_eocs": [ "EOC_MOUNTAIN_TWO_ON" ],
+    "deactivated_eocs": [ "EOC_MOUNTAIN_TWO_OFF" ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "math": [ "u_mountain_tattoo_two_active", "==", "1" ] }, { "not": "u_has_weapon" } ] },
+        "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "4 + (u_mountain_tattoo_count * 2)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOUNTAIN_TWO_ON",
+    "effect": { "math": [ "u_mountain_tattoo_two_active", "=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOUNTAIN_TWO_OFF",
+    "effect": { "math": [ "u_mountain_tattoo_two_active", "=", "0" ] }
+  },
+  {
+    "id": "mountain_tattoo_three",
+    "type": "bionic",
+    "name": { "str": "Slopes of the Mountain" },
+    "description": "The third element of the mountain pattern, the pathways up the mountain past forest glens and rushing streams, taking up the rest of the lower back.  When activated, you cannot be knocked back, dazed, stunned, or downed.",
+    "act_cost": "125 J",
+    "react_cost": "125 J",
+    "time": "1 s",
+    "occupied_bodyparts": [ [ "torso", 15 ] ],
+    "required_bionic": "mountain_tattoo_two",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [ { "value": "KNOCKBACK_RESIST", "add": 100 }, { "value": "KNOCKDOWN_RESIST", "add": 100 } ],
+        "ench_effects": [ { "effect": "effect_mountain_tattoo_three", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "id": "mountain_tattoo_four",
+    "type": "bionic",
+    "name": { "str": "The Caverns Beneath the Mountain" },
+    "description": "The fourth element of the mountain pattern, the fantastic caverns and hidden grottos depicted on the legs.  You regain anima when underground, proportional to your depth beneath the earth, and have even more armor on your limbs.",
+    "occupied_bodyparts": [ [ "leg_l", 8 ], [ "leg_r", 8 ] ],
+    "required_bionic": "mountain_tattoo_three",
+    "protec": [
+      [ "arm_l", { "bash": 4, "cut": 2 } ],
+      [ "arm_r", { "bash": 4, "cut": 2 } ],
+      [ "hand_l", { "bash": 4, "cut": 2 } ],
+      [ "hand_r", { "bash": 4, "cut": 2 } ],
+      [ "leg_l", { "bash": 4, "cut": 2 } ],
+      [ "leg_r", { "bash": 4, "cut": 2 } ],
+      [ "foot_l", { "bash": 4, "cut": 2 } ],
+      [ "foor_r", { "bash": 4, "cut": 2 } ]
+    ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z')", "<=", "-1" ] } ] },
+        "values": [ { "value": "POWER_TRICKLE", "add": { "math": [ "u_val('pos_z') * -10" ] } } ]
+      }
+    ]
+  },
+  {
+    "id": "mountain_tattoo_five",
+    "type": "bionic",
+    "name": { "str": "The Heights of the Mountain" },
+    "description": "The fifth element of the mountain pattern, the areas above the tree line and the unmelting snows depicted on the upper back.  Your stamina is increased by 50%, and you may activate this element to regenerate stamina at 5x normal speed.",
+    "act_cost": "450 J",
+    "react_cost": "450 J",
+    "time": "1 s",
+    "occupied_bodyparts": [ [ "torso", 20 ] ],
+    "required_bionic": "mountain_tattoo_four",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [
+      { "condition": "ALWAYS", "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 0.5 } ] },
+      { "condition": "ACTIVE", "values": [ { "value": "REGEN_STAMINA", "multiply": 4 } ] }
+    ]
+  },
+  {
+    "id": "mountain_tattoo_six",
+    "type": "bionic",
+    "name": { "str": "The Crown of the Mountain" },
+    "description": "The sixth element of the mountain pattern, the lofty summit beneath the sky.  You may activate this element to turn your skin into stone, slowing you slightly but greatly increasing your resilience",
+    "act_cost": "195 J",
+    "react_cost": "195 J",
+    "time": "1 s",
+    "occupied_bodyparts": [ [ "torso", 25 ] ],
+    "required_bionic": "mountain_tattoo_five",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "activated_eocs": [ "EOC_MOUNTAIN_SIX_ON" ],
+    "deactivated_eocs": [ "EOC_MOUNTAIN_SIX_OFF" ],
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "SPEED", "multiply": -0.1 } ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOUNTAIN_SIX_ON",
+    "effect": { "u_spawn_item": "item_mountain_tattoo_six", "force_equip": true, "suppress_message": true }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOUNTAIN_SIX_OFF",
+    "effect": { "u_remove_item_with": "item_mountain_tattoo_six" }
+  }
+]

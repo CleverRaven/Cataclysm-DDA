@@ -1,0 +1,44 @@
+[
+  {
+    "id": "effect_xedrawood_hedge_magic_spirit_quest_completed",
+    "type": "effect_type",
+    "name": [ "Underwent Spirit-Quest" ],
+    "desc": [
+      "You underwent a quest to the Unseen World and your spirit is depleted.  You cannot use either the lesser or greater mysteries until it recovers."
+    ],
+    "apply_message": "",
+    "remove_message": "Your spirit has recovered from your quest.",
+    "rating": "mixed",
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": -999 } ] } ],
+    "flags": [ "NO_HEDGE_MAGICK" ]
+  },
+  {
+    "id": "effect_xedrawood_hedge_magic_spirit_questing",
+    "type": "effect_type",
+    "name": [ "Spirit-Questing" ],
+    "desc": [ "You are questing in the spirit world." ],
+    "rating": "mixed",
+    "flags": [ "BLIND", "DEAF" ]
+  },
+  {
+    "id": "effect_xedrawood_hedge_magic_spirit_questing_hallu_tracker",
+    "//": "hidden effect, used as a tracker",
+    "type": "effect_type",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "id": "effect_xedrawood_hedge_magic_spirit_questing_thirst_tracker",
+    "//": "hidden effect, used as a tracker",
+    "type": "effect_type",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "id": "effect_xedrawood_hedge_magic_spirit_questing_hunger_tracker",
+    "//": "hidden effect, used as a tracker",
+    "type": "effect_type",
+    "name": [ "" ],
+    "desc": [ "" ]
+  }
+]

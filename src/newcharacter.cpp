@@ -964,6 +964,13 @@ void Character::initialize( bool learn_recipes )
         learn_recipe( &r );
     }
 
+    prof->learn_spells( *this );
+
+    // Also learn spells from hobbies
+    for( const profession *profession : hobbies ) {
+        profession->learn_spells( *this );
+    }
+
     // Add hobby proficiencies
     set_proficiencies_from_hobbies();
 
@@ -1047,17 +1054,16 @@ void avatar::initialize( character_type type )
         starting_pets.push_back( elem );
     }
 
-    if( get_scenario()->vehicle() != vproto_id::NULL_ID() ) {
-        starting_vehicle = get_scenario()->vehicle();
+    const scenario *scen = get_scenario();
+    if( scen->vehicle() != vproto_id::NULL_ID() ) {
+        starting_vehicle = scen->vehicle();
     } else {
         starting_vehicle = prof->vehicle();
     }
 
-    prof->learn_spells( *this );
-
-    // Also learn spells from hobbies
-    for( const profession *profession : hobbies ) {
-        profession->learn_spells( *this );
+    const point_rel_om &offset = scen->get_origin_offset();
+    if( offset != point_rel_om::zero ) {
+        world_origin = world_origin.value_or( point_abs_om() ) + offset;
     }
 
 }
@@ -2168,8 +2174,7 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
-    //TODO: NPCs already get profession stuff assigned at least twice elsewhere causing issues and it all wants unifying (if not here this should be made an avatar::add_traits()
-    if( !is_npc() ) {
+    {
         for( const trait_and_var &tr : prof->get_locked_traits() ) {
             if( !has_trait( tr.trait ) ) {
                 toggle_trait_deps( tr.trait );
@@ -2509,7 +2514,11 @@ void character_creator_ui::setup_new_uilist()
                         if( key == CHARACTER_CREATOR_TRAITS_NEGATIVE.translated() && entry_trait->points < 0 ) {
                             return true;
                         }
-                        if( key == CHARACTER_CREATOR_TRAITS_NEUTRAL.translated() && entry_trait->points == 0 ) {
+                        if( key == CHARACTER_CREATOR_TRAITS_NEUTRAL.translated() && entry_trait->points == 0 &&
+                            !entry_trait->vanity ) {
+                            return true;
+                        }
+                        if( key == CHARACTER_CREATOR_TRAITS_COSMETIC.translated() && entry_trait->vanity ) {
                             return true;
                         }
                     }
@@ -2524,6 +2533,8 @@ void character_creator_ui::setup_new_uilist()
                                           CHARACTER_CREATOR_TRAITS_NEGATIVE.translated() );
                 new_uilist->add_category( CHARACTER_CREATOR_TRAITS_NEUTRAL.translated(),
                                           CHARACTER_CREATOR_TRAITS_NEUTRAL.translated() );
+                new_uilist->add_category( CHARACTER_CREATOR_TRAITS_COSMETIC.translated(),
+                                          CHARACTER_CREATOR_TRAITS_COSMETIC.translated() );
                 break;
             }
             case CHARCREATOR_SKILLS: {
@@ -2869,9 +2880,11 @@ bool character_creator_ui::display()
 
     while( !cc_uistate.finished_character_creator ) {
 
+        input_context &current_tab_input = get_current_tab_input();
+        input_context::scoped_activation active_tab_context( current_tab_input );
+
         ui_manager::redraw();
         std::shared_ptr<uilist> current_tab_uilist = get_current_tab_uilist();
-        input_context &current_tab_input = get_current_tab_input();
         if( current_tab_uilist ) {
             cc_uilist_current = current_tab_uilist->create_or_get_ui();
             if( current_tab_uilist->query_setup() ) {

@@ -6,7 +6,7 @@
     "name_suffix": "Caravan Merchant",
     "class": "NC_CARAVAN_MERCHANT",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_CARAVAN_MERCHANT_1",
     "faction": "free_merchants"
   },
@@ -17,7 +17,7 @@
     "name_suffix": "Caravan Guard",
     "class": "NC_CARAVAN_GUARD",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_CARAVAN_GUARD_A1",
     "faction": "free_merchants"
   },
@@ -28,7 +28,7 @@
     "name_suffix": "Caravan Guard",
     "class": "NC_CARAVAN_GUARD",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_CARAVAN_GUARD_B",
     "faction": "free_merchants"
   },

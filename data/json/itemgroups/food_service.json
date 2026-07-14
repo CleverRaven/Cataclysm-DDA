@@ -354,9 +354,9 @@
     "items": [
       [ "towel", 15 ],
       { "item": "soap", "prob": 15, "charges": [ 1, 10 ] },
-      { "item": "detergent", "prob": 10, "count": [ 1, 20 ] },
-      { "item": "chem_borax", "prob": 10, "count": [ 100, 500 ] },
-      { "item": "bleach", "prob": 15, "charges": [ 1, -1 ] },
+      { "group": "detergent_small_box_part", "prob": 10 },
+      { "group": "borax_box_part", "prob": 10 },
+      { "group": "bleach_jug_part", "prob": 15 },
       [ "broom", 13 ],
       { "item": "fursuit", "variant": "dinosuit", "prob": 7 },
       [ "hat_ball", 19 ],
@@ -488,11 +488,11 @@
       { "item": "hat_ball", "prob": 25 },
       { "item": "towel", "prob": 10 },
       { "item": "soap", "prob": 8, "charges": [ 1, 10 ] },
-      { "item": "detergent", "prob": 4, "count": [ 1, 20 ] },
-      { "item": "chem_borax", "prob": 4, "count": [ 100, 500 ] },
+      { "group": "detergent_small_box_part", "prob": 4 },
+      { "group": "borax_box_part", "prob": 4 },
       { "item": "cotton_patchwork", "prob": 15 },
       { "item": "broom", "prob": 8 },
-      { "item": "bleach", "prob": 8, "charges": [ 1, -1 ] },
+      { "group": "bleach_jug_part", "prob": 8 },
       { "item": "hotplate", "prob": 1 },
       { "item": "vinegar", "charges": [ 1, -1 ], "prob": 3 }
     ]
@@ -600,10 +600,10 @@
       { "item": "sm_extinguisher", "prob": 40, "charges": 10 },
       { "item": "towel", "prob": 40 },
       { "item": "soap", "prob": 30, "charges": [ 1, 10 ] },
-      { "item": "detergent", "prob": 15, "count": [ 1, 20 ] },
-      { "item": "chem_borax", "prob": 15, "count": [ 100, 500 ] },
+      { "group": "detergent_small_box_part", "prob": 15 },
+      { "group": "borax_box_part", "prob": 15 },
       { "item": "cotton_patchwork", "prob": 30 },
-      { "item": "bleach", "prob": 30, "charges": [ 1, -1 ] },
+      { "group": "bleach_jug_part", "prob": 30 },
       { "item": "vinegar", "prob": 30, "charges": [ 1, -1 ] },
       { "item": "backpack", "prob": 5 }
     ]

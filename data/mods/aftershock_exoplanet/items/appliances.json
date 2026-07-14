@@ -63,7 +63,7 @@
     "flags": [ "CARGO", "OBSTACLE", "RECHARGE", "COVERED", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "breaks_into": [
       { "item": "plastic_chunk", "count": [ 3, 5 ] },
-      { "item": "cable", "count": [ 1, 4 ] },
+      { "item": "cable", "count": [ 1, 2 ] },
       { "item": "e_scrap", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 2, 5 ] }
     ],
@@ -107,7 +107,7 @@
     "bonus": 200,
     "damage_modifier": 10,
     "breaks_into": [
-      { "item": "cable", "count": [ 1, 4 ] },
+      { "item": "cable", "count": [ 1, 2 ] },
       { "item": "lc_steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],

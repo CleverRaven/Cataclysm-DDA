@@ -21,6 +21,7 @@
     "grab_strength": 70,
     "vision_day": 10,
     "vision_night": 10,
+    "bleed_rate": 0,
     "special_attacks": [
       {
         "id": "ranged_pull",
@@ -52,8 +53,9 @@
       }
     ],
     "dodge": 2,
-    "death_function": { "message": "The %s rots into nothingness in moments.", "corpse_type": "NO_CORPSE" },
-    "flags": [ "HEARS", "GOODHEARING", "IMMOBILE", "NOHEAD", "HARDTOSHOOT", "GRABS", "PLASTIC" ],
-    "armor": { "bash": 18, "stab": 10, "electric": 3, "bullet": 50 }
+    "death_function": { "message": "The %s collapses into a heap of wood and leaves.", "corpse_type": "NO_CORPSE" },
+    "flags": [ "HEARS", "GOODHEARING", "IMMOBILE", "NOHEAD", "HARDTOSHOOT", "GRABS", "PLASTIC", "BULLETPROOF" ],
+    "armor": { "bash": 18, "stab": 10, "electric": 3 },
+    "death_drops": "tanglevine_death_drops"
   }
 ]

@@ -164,7 +164,10 @@
     "global": true,
     "condition": { "is_weather": "dust_storm" },
     "deactivate_condition": { "not": { "is_weather": "dust_storm" } },
-    "effect": [ { "u_message": "Dust", "type": "bad" }, { "u_set_field": "fd_dust_storm", "outdoor_only": true, "intensity": 3 } ]
+    "effect": [
+      { "u_message": "Dust", "type": "bad" },
+      { "u_set_field": "fd_dust_storm", "outdoor_only": true, "intensity": 3, "radius": 150 }
+    ]
   },
   {
     "type": "effect_on_condition",

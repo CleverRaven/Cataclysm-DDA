@@ -8,7 +8,7 @@
     "age": 25,
     "class": "NC_BOUNTY_HUNTER",
     "attitude": 3,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_FRIEND",
     "faction": "your_followers"
   },
@@ -21,7 +21,7 @@
     "age": 27,
     "class": "NC_BOUNTY_HUNTER",
     "attitude": 3,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_FRIEND",
     "faction": "your_followers"
   },
@@ -34,7 +34,7 @@
     "age": 26,
     "class": "NC_BOUNTY_HUNTER",
     "attitude": 3,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_FRIEND",
     "faction": "your_followers"
   },
@@ -47,7 +47,7 @@
     "age": 23,
     "class": "NC_BOUNTY_HUNTER",
     "attitude": 3,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_FRIEND",
     "faction": "your_followers"
   },
@@ -60,7 +60,7 @@
     "age": 80,
     "class": "NC_BOUNTY_HUNTER",
     "attitude": 3,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_FRIEND",
     "faction": "your_followers"
   },
@@ -69,7 +69,7 @@
     "id": "follower_mercenary",
     "class": "NC_BOUNTY_HUNTER",
     "attitude": 3,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_FRIEND",
     "faction": "your_followers"
   },
@@ -78,7 +78,7 @@
     "id": "random_survivor",
     "class": "NC_SCAVENGER",
     "attitude": 1,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_NPC_DEFENSE_WANDERER",
     "faction": "no_faction"
   },
@@ -87,7 +87,7 @@
     "id": "random_survivor_nefarious",
     "class": "NC_SCAVENGER",
     "attitude": 1,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_MUG",
     "faction": "no_faction"
   },
@@ -98,7 +98,7 @@
     "name_suffix": "raider",
     "class": "NC_SCAVENGER",
     "attitude": 10,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_DONE",
     "faction": "hells_raiders"
   },
@@ -109,7 +109,7 @@
     "name_suffix": "merchant",
     "class": "NC_DM_MERCHANT",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_DM_MERCHANT",
     "faction": "free_merchants",
     "per": -20,

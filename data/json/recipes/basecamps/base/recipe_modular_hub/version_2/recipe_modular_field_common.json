@@ -466,7 +466,7 @@
       [ [ "circuit", 4 ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "amplifier", 2 ] ],
-      [ [ "cable", 80 ] ],
+      [ [ "cable", 27 ] ],
       [ [ "motor_small", 1 ], [ "motor_tiny", 2 ] ]
     ],
     "check_blueprint_needs": false

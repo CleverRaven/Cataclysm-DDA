@@ -213,7 +213,7 @@
       [ [ "chunk_rubber", 30 ] ],
       [ [ "clay_pot_flower", 30 ], [ "plastic_pot_flower", 30 ] ],
       [ [ "tempered_glass_sheet", 8 ] ],
-      [ [ "cable", 30 ] ]
+      [ [ "cable", 10 ] ]
     ]
   },
   {
@@ -286,7 +286,7 @@
       [ [ "chunk_rubber", 30 ] ],
       [ [ "clay_pot_flower", 30 ], [ "plastic_pot_flower", 30 ] ],
       [ [ "tempered_glass_sheet", 8 ] ],
-      [ [ "cable", 30 ] ]
+      [ [ "cable", 10 ] ]
     ]
   },
   {

@@ -850,7 +850,7 @@
       "items": [
         { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
         { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
-        { "item": "cable", "count": [ 4, 6 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "small_lcd_screen", "count": [ 1, 2 ] },
         { "item": "afs_material_1", "count": [ 2, 4 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
@@ -866,7 +866,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_null",
       "items": [
-        { "item": "cable", "count": [ 2, 6 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "plastic_chunk", "count": [ 6, 10 ] },
         { "item": "afs_energy_storage_2", "count": [ 0, 2 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
@@ -1141,7 +1141,7 @@
       "items": [
         { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
         { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
-        { "item": "cable", "count": [ 4, 6 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "small_lcd_screen", "count": [ 1, 2 ] },
         { "item": "afs_material_1", "count": [ 2, 4 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
@@ -1157,7 +1157,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_null",
       "items": [
-        { "item": "cable", "count": [ 2, 6 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "plastic_chunk", "count": [ 6, 10 ] },
         { "item": "afs_energy_storage_2", "count": [ 0, 2 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },

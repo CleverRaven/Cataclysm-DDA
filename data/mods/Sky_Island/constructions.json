@@ -68,7 +68,7 @@
     "category": "OTHER",
     "required_skills": [ [ "fabrication", 6 ], [ "electronics", 3 ] ],
     "time": "120 m",
-    "components": [ [ [ "nail", 10 ] ], [ [ "cable", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "circuit", 1 ] ] ],
+    "components": [ [ [ "nail", 10 ] ], [ [ "cable", 1 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "circuit", 1 ] ] ],
     "pre_terrain": "f_sofa",
     "post_terrain": "f_autodoc_couch",
     "activity_level": "LIGHT_EXERCISE"

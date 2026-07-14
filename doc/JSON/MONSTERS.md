@@ -433,7 +433,7 @@ Field              | Description
 ---                | ---
 `effect`           | The effect type.
 `effect_on_conditions` | Array of EoCs that would be run. `u_` is attacker (if presented, use `has_alpha` condition for safety), `npc_` is victim. See EFFECT_ON_CONDITION.md for more information
-`chance`           | The probability of causing the effect.
+`chance`           | The probability of causing the effect. Default 100%
 `duration`         | The duration of the effect. Either a (min, max) pair or a single value.
 `permanent`        | Whether the effect is permanent.
 `intensity`        | The intensity of the effect. Either a (min, max) pair or a single value.

@@ -72,7 +72,8 @@
           "not": { "u_has_any_trait": [ "ELVEN_BUILD", "DWARVEN_BUILD", "GOBLIN_BUILD", "RAVENFOLK_BUILD", "LIZARDFOLK_BUILD" ] }
         },
         { "not": { "test_eoc": "EOC_MAGICLYSM_GAME_START_HUMANS_ARE_HUMAN_MOM_CONDITIONS" } },
-        { "not": { "test_eoc": "EOC_MAGICLYSM_GAME_START_HUMANS_ARE_HUMAN_XE_CONDITIONS" } }
+        { "not": { "test_eoc": "EOC_MAGICLYSM_GAME_START_HUMANS_ARE_HUMAN_XE_CONDITIONS" } },
+        { "not": { "test_eoc": "EOC_CONDITION_SKY_ISLAND_TRIFFID_MERCHANT" } }
       ]
     },
     "deactivate_condition": {

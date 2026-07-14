@@ -263,19 +263,8 @@ overmap::~overmap() = default;
 
 void overmap::populate( overmap_special_batch &enabled_specials )
 {
-    try {
-        open( enabled_specials );
-    } catch( const std::exception &err ) {
-        debugmsg( "overmap (%d,%d) failed to load: %s", loc.x(), loc.y(), err.what() );
-    }
-}
 
-void overmap::populate()
-{
     const region_settings_feature_flag &overmap_feature_flag = settings->overmap_feature_flag;
-    overmap_special_batch enabled_specials = overmap_specials::get_default_batch( loc,
-            settings->get_settings_city().city_size );
-
     const bool should_blacklist = !overmap_feature_flag.blacklist.empty();
     const bool should_whitelist = !overmap_feature_flag.whitelist.empty();
 
@@ -305,7 +294,17 @@ void overmap::populate()
             }
         }
     }
+    try {
+        open( enabled_specials );
+    } catch( const std::exception &err ) {
+        debugmsg( "overmap (%d,%d) failed to load: %s", loc.x(), loc.y(), err.what() );
+    }
+}
 
+void overmap::populate()
+{
+    overmap_special_batch enabled_specials = overmap_specials::get_default_batch( loc,
+            settings->get_settings_city().city_size );
     populate( enabled_specials );
 }
 

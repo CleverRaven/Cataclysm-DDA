@@ -283,6 +283,9 @@ struct body_part_type {
         float bmi_encumbrance_scalar = 0;
         float smash_efficiency = 0.5f;
 
+        // if this bodypart is hit, pain amount is multiplied by this
+        float pain_mod = 1.f;
+
         //Morale parameters
         float hot_morale_mod = 0.0f;
         float cold_morale_mod = 0.0f;
@@ -463,7 +466,7 @@ class bodypart
         std::vector<wound> wounds;
 
         // adjust any limb "value" based on how wounded the limb is. scaled to 0-75%
-        float wound_adjusted_limb_value( float val ) const;
+        float wound_adjusted_limb_value( float val, const limb_score_id &score ) const;
         // Same idea as for wounds, though not all scores get this applied. Should be applied after wounds.
         float encumb_adjusted_limb_value( const Creature &mon, float val ) const;
         // If the limb score is affected by a skill, adjust it by the skill's level (used for swimming)

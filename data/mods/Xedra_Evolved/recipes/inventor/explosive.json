@@ -12,7 +12,7 @@
       { "proficiency": "prof_plasticworking", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "components": [
-      [ [ "cable", 3 ] ],
+      [ [ "cable", 1 ] ],
       [ [ "scrap_aluminum", 5 ] ],
       [ [ "e_scrap", 2 ] ],
       [ [ "power_supply", 4 ] ],

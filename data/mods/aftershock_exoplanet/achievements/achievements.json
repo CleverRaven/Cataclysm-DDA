@@ -31,6 +31,36 @@
     ]
   },
   {
+    "id": "afs_achievement_kill_100_uica_soldiers",
+    "type": "achievement",
+    "name": { "str": "Disposition Matrix" },
+    "description": "It is a necessary part of what we do.  We won't wake up in 10 years time and magically find a galaxy full of friends and 'welcome back' signs.\n<color_c_dark_gray> - unknown member of Chancellor's Haaland administration, recorded c2392.",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_uica_soldier_kills",
+        "is": ">=",
+        "target": 10,
+        "description": "Eliminate 10 UICA soldiers.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "afs_achievement_kill_independent_merc",
+    "type": "achievement",
+    "name": { "str": "Rules of Engagement" },
+    "description": "Frei en lefdet.\n<color_c_dark_gray>  - common saying between mercenaries.",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_independent_merc_kills",
+        "is": ">=",
+        "target": 1,
+        "description": "Eliminate another mercenary.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
     "id": "afs_achievement_crashed_spaceship",
     "type": "achievement",
     "name": { "str": "Falling Star" },

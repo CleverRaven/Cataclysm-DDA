@@ -8,7 +8,7 @@
     "name_suffix": "Merchant",
     "class": "NC_FREE_MERCHANTS_MERCHANT",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_FREE_MERCHANTS_MERCHANT",
     "mission_offered": "MISSION_FREE_MERCHANTS_EVAC_1",
     "faction": "free_merchants"

@@ -109,7 +109,7 @@
     "components": [
       [ [ "fire_brick", 40 ] ],
       [ [ "cu_pipe", 4 ] ],
-      [ [ "cable", 12 ] ],
+      [ [ "cable", 4 ] ],
       [ [ "pipe", 4 ] ],
       [ [ "clamp", 1 ] ],
       [ [ "motor_tiny", 1 ] ],

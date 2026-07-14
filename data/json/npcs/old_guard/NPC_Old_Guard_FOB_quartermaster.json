@@ -6,7 +6,7 @@
     "name_suffix": "Quartermaster",
     "class": "NC_SOLDIER_QMASTER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_SOLDIER_QMASTER",
     "mission_offered": "MISSION_FREE_MERCHANTS_EVAC_1",
     "faction": "old_guard"

@@ -1108,7 +1108,7 @@
     "name": { "str": "Air Filtration System" },
     "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
     "occupied_bodyparts": [ [ "torso", 5 ], [ "mouth", 1 ] ],
-    "env_protec": [ [ "mouth", 15 ] ],
+    "passive_pseudo_items": [ "internal_bio_purifier" ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -1760,13 +1760,17 @@
     "//": "Only found in netherum labyrinth",
     "type": "bionic",
     "name": { "str": "Laser-Assisted Reading Device" },
-    "description": "Who needs a reading lamp when you don't need your eyes?  Your head has a short-distance laser scanner implant, allowing you to upload digital images of books straight into your brains optic lobe and language centers.  When active, you read slightly faster, and can read in the dark.",
+    "description": "Your head is implanted with a low-power reading light and a short-distance laser scanner, allowing you to upload digital images of books straight into your brain's optic lobe and language centers.  When active, you read slightly faster, and can read in the dark.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "active_flags": [ "READ_IN_DARKNESS" ],
-    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "READING_SPEED_MULTIPLIER", "multiply": -0.1 } ] } ],
-    "act_cost": "1 J",
-    "react_cost": "1 J",
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [ { "value": "READING_SPEED_MULTIPLIER", "multiply": -0.2 }, { "value": "LUMINATION", "add": 10 } ]
+      }
+    ],
+    "act_cost": "2 J",
+    "react_cost": "2 J",
     "time": "1 s"
   },
   {
@@ -1862,9 +1866,9 @@
       { "mutations": [ "EXODII_CYBERFRAME_LARGE" ] }
     ],
     "protec": [
-      [ "head_bionic_basic", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
-      [ "mouth_bionic_basic", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
-      [ "torso_bionic_basic", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ]
+      [ "head_bionic_basic", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30 } ],
+      [ "mouth_bionic_basic", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30 } ],
+      [ "torso_bionic_basic", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30 } ]
     ]
   },
   {
@@ -1876,8 +1880,8 @@
     "replaced_bodyparts": [ "leg_l", "foot_l" ],
     "enchantments": [ { "modified_bodyparts": [ { "gain": "leg_bionic_basic_l" }, { "gain": "foot_bionic_basic_l" } ] } ],
     "protec": [
-      [ "leg_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
-      [ "foot_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ]
+      [ "leg_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30 } ],
+      [ "foot_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30 } ]
     ]
   },
   {
@@ -1889,8 +1893,8 @@
     "replaced_bodyparts": [ "leg_r", "foot_r" ],
     "enchantments": [ { "modified_bodyparts": [ { "gain": "leg_bionic_basic_r" }, { "gain": "foot_bionic_basic_r" } ] } ],
     "protec": [
-      [ "leg_bionic_basic_r", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
-      [ "foot_bionic_basic_r", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ]
+      [ "leg_bionic_basic_r", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30 } ],
+      [ "foot_bionic_basic_r", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30 } ]
     ]
   },
   {
@@ -1904,7 +1908,7 @@
       { "modified_bodyparts": [ { "gain": "bionic_treads_leg" } ] },
       { "values": [ { "value": "MOVECOST_OBSTACLE_MOD", "multiply": 6 } ] }
     ],
-    "protec": [ [ "bionic_treads_leg", { "bash": 20, "cut": 20, "bullet": 15, "stab": 20, "acid": 30 } ] ]
+    "protec": [ [ "bionic_treads_leg", { "bash": 20, "cut": 20, "bullet": 15, "stab": 20 } ] ]
   },
   {
     "id": "bio_exodii_arm_bionic_basic_armored_left",
@@ -1915,8 +1919,8 @@
     "replaced_bodyparts": [ "arm_l", "hand_l" ],
     "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_bionic_basic_l" }, { "gain": "hand_bionic_basic_l" } ] } ],
     "protec": [
-      [ "arm_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
-      [ "hand_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ]
+      [ "arm_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30 } ],
+      [ "hand_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30 } ]
     ]
   },
   {
@@ -1928,8 +1932,8 @@
     "replaced_bodyparts": [ "arm_r", "hand_r" ],
     "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_bionic_basic_r" }, { "gain": "hand_bionic_basic_r" } ] } ],
     "protec": [
-      [ "arm_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
-      [ "hand_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ]
+      [ "arm_bionic_basic_r", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30 } ],
+      [ "hand_bionic_basic_r", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30 } ]
     ]
   },
   {
@@ -1940,9 +1944,9 @@
     "cant_remove_reason": "Cyberframes cannot be removed, only swapped via specialized surgery.  Removing it would kill you.",
     "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "DEXTERITY", "add": 4 } ] } ],
     "protec": [
-      [ "head_bionic_basic", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
-      [ "mouth_bionic_basic", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
-      [ "torso_bionic_basic", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ]
+      [ "head_bionic_basic", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5 } ],
+      [ "mouth_bionic_basic", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5 } ],
+      [ "torso_bionic_basic", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5 } ]
     ]
   },
   {
@@ -1954,8 +1958,8 @@
     "replaced_bodyparts": [ "leg_l", "foot_l" ],
     "enchantments": [ { "modified_bodyparts": [ { "gain": "leg_bionic_basic_l" }, { "gain": "foot_bionic_basic_l" } ] } ],
     "protec": [
-      [ "leg_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
-      [ "foot_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ]
+      [ "leg_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5 } ],
+      [ "foot_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5 } ]
     ]
   },
   {
@@ -1967,8 +1971,8 @@
     "replaced_bodyparts": [ "leg_r", "foot_r" ],
     "enchantments": [ { "modified_bodyparts": [ { "gain": "leg_bionic_basic_r" }, { "gain": "foot_bionic_basic_r" } ] } ],
     "protec": [
-      [ "leg_bionic_basic_r", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
-      [ "foot_bionic_basic_r", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ]
+      [ "leg_bionic_basic_r", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5 } ],
+      [ "foot_bionic_basic_r", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5 } ]
     ]
   },
   {
@@ -1980,8 +1984,8 @@
     "replaced_bodyparts": [ "arm_l", "hand_l" ],
     "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_bionic_basic_l" }, { "gain": "hand_bionic_basic_l" } ] } ],
     "protec": [
-      [ "arm_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
-      [ "hand_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ]
+      [ "arm_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5 } ],
+      [ "hand_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5 } ]
     ]
   },
   {
@@ -1993,8 +1997,8 @@
     "replaced_bodyparts": [ "arm_r", "hand_r" ],
     "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_bionic_basic_r" }, { "gain": "hand_bionic_basic_r" } ] } ],
     "protec": [
-      [ "arm_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
-      [ "hand_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ]
+      [ "arm_bionic_basic_r", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5 } ],
+      [ "hand_bionic_basic_r", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5 } ]
     ]
   },
   {

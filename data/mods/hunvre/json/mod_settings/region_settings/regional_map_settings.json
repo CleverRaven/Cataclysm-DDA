@@ -58,7 +58,8 @@
       [ "hab_unit_central_building_z1", 1 ],
       [ "hab_unit_central_building_z2", 1 ],
       [ "hab_unit_central_building_z3", 2 ],
-      [ "store_unit_z1", 6 ]
+      [ "store_unit_z1", 6 ],
+      [ "recycling_plant_building", 1 ]
     ],
     "parks": [ [ "park_unit_building", 1 ] ],
     "shops": [ [ "shop_unit_building", 1 ] ]

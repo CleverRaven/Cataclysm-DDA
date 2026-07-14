@@ -44,5 +44,12 @@
     "field": "fd_kreck_death_debris",
     "intensity": 1,
     "qty": 2
+  },
+  {
+    "id": "emit_shoggoth_dissolution",
+    "type": "emit",
+    "field": "fd_shoggoth_dissolution",
+    "intensity": 1,
+    "qty": 7
   }
 ]

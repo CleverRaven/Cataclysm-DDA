@@ -984,6 +984,14 @@
   },
   {
     "type": "trap",
+    "id": "tr_portal_dungeon_teleporter",
+    "name": "elsewhere",
+    "copy-from": "tr_swirling_vortex",
+    "trap_radius": 0,
+    "eocs": [ "EOC_PORTAL_STORM_DUNGEON_TELEPORTER" ]
+  },
+  {
+    "type": "trap",
     "id": "tr_portal_dungeon_exit",
     "name": "hole to outside",
     "copy-from": "tr_swirling_vortex",
@@ -1007,7 +1015,7 @@
     "visibility": 6,
     "avoidance": 8,
     "difficulty": 0,
-    "action": "glass",
+    "action": "caltrops",
     "drops": [ "nm_teeth" ],
     "vehicle_data": { "sound_volume": 10, "sound": "Crunch!" }
   },
@@ -1022,7 +1030,7 @@
     "visibility": 6,
     "avoidance": 6,
     "difficulty": 0,
-    "action": "caltrops_glass",
+    "action": "caltrops",
     "drops": [ "caltrops_teeth" ],
     "vehicle_data": { "damage": 600 }
   },

@@ -1131,6 +1131,22 @@ std::vector<std::string> monster::extended_description() const
                                        type->speed_desc );
     tmp.emplace_back( speed_desc );
 
+    // Print "taming" food information
+    if( !type->petfood.food.empty() ) {
+        tmp.emplace_back( colorize( _( "Seems to be familiar with people and could be tamed with:" ),
+                                    c_light_blue ) );
+
+        for( std::string food_category : type->petfood.food ) {
+            std::vector<const itype *> food_items = Item_factory::find( [&]( const itype & t ) {
+                return t.use_methods.count( "PETFOOD" ) && t.comestible &&
+                       t.comestible->petfood.count( food_category );
+            } );
+            for( const itype *food_item_type : food_items ) {
+                tmp.emplace_back( colorize( food_item_type->nname( 1 ), c_white ) );
+            }
+        }
+    }
+
     tmp.emplace_back( "--" );
     tmp.emplace_back( string_format( "<dark>%s</dark>", type->get_description() ) );
     tmp.emplace_back( "--" );
@@ -1261,14 +1277,22 @@ std::vector<std::string> monster::extended_description() const
             tmp.emplace_back( "Lifespan end time: n/a <color_yellow>(indefinite)</color>" );
         }
 
+        if( !type->weakpoints.weakpoint_list.empty() ) {
+            tmp.emplace_back( colorize( "weakpoints:", c_white ) );
+            for( const weakpoint &wp : type->weakpoints.weakpoint_list ) {
+                tmp.emplace_back( string_format( "%s - coverage %.3f", wp.id, wp.coverage ) );
+            }
+        }
+
         const std::vector<std::reference_wrapper<const effect>> all_effects = get_effects();
         if( !all_effects.empty() ) {
             tmp.emplace_back( "Applied effects:" );
             for( const effect &eff : all_effects ) {
                 const std::string is_permanent = eff.is_permanent() ? "(permanent)" : "";
-                tmp.emplace_back( string_format( "%s (%s) %s", eff.get_id().c_str(),
-                                                 to_string_writable( eff.get_duration() ).c_str(),
-                                                 is_permanent.c_str() ) );
+                tmp.emplace_back( string_format( "%s [%d] (%s) %s", eff.get_id().c_str(),
+                                                 eff.get_intensity(),
+                                                 to_string_writable( eff.get_duration() ),
+                                                 is_permanent ) );
             }
         }
     }

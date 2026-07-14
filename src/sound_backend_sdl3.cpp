@@ -9,6 +9,7 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 #include <mutex>
 #include <ostream>
 #include <string>
@@ -69,6 +70,7 @@ std::vector<oneshot_entry> g_oneshots;
 // Music generation token: bump on every play_music / stop_music so
 // superseded stopped callbacks no-op.
 std::atomic<uint32_t> g_music_generation{0};
+std::vector<std::unique_ptr<uint32_t>> g_music_generation_tokens;
 
 const char *tag_for_group( sfx::group g )
 {
@@ -103,7 +105,7 @@ void oneshot_stopped_cb( void *userdata, MIX_Track *track )
     // while still holding internal references; MIX_DestroyTrack from
     // inside the callback is UB. Mark the entry stopped and let poll()
     // reap on the main thread.
-    std::lock_guard<std::mutex> lock( g_oneshots_mutex );
+    std::scoped_lock lock( g_oneshots_mutex );
     for( oneshot_entry &e : g_oneshots ) {
         if( e.track == track ) {
             e.stopped = true;
@@ -114,8 +116,8 @@ void oneshot_stopped_cb( void *userdata, MIX_Track *track )
 
 void music_stopped_cb( void *userdata, MIX_Track * /*track*/ )
 {
-    const uint32_t captured = static_cast<uint32_t>( reinterpret_cast<uintptr_t>( userdata ) );
-    if( captured != g_music_generation.load() ) {
+    const uint32_t *const captured = static_cast<const uint32_t *>( userdata );
+    if( captured == nullptr || *captured != g_music_generation.load() ) {
         return;
     }
     if( g_music_finished_cb != nullptr ) {
@@ -210,7 +212,7 @@ void shutdown()
     // holding g_oneshots_mutex deadlocks against the mixer thread.
     std::vector<MIX_Track *> to_destroy;
     {
-        std::lock_guard<std::mutex> lock( g_oneshots_mutex );
+        std::scoped_lock lock( g_oneshots_mutex );
         for( const oneshot_entry &o : g_oneshots ) {
             to_destroy.push_back( o.track );
         }
@@ -224,6 +226,7 @@ void shutdown()
         MIX_DestroyTrack( g_music_track );
         g_music_track = nullptr;
     }
+    g_music_generation_tokens.clear();
     if( g_mixer != nullptr ) {
         MIX_DestroyMixer( g_mixer );
         g_mixer = nullptr;
@@ -346,7 +349,7 @@ void play_oneshot( sfx_audio *a, const play_opts &opts )
     MIX_SetTrackAudio( track, a->audio );
     MIX_SetTrackStoppedCallback( track, oneshot_stopped_cb, nullptr );
     {
-        std::lock_guard<std::mutex> lock( g_oneshots_mutex );
+        std::scoped_lock lock( g_oneshots_mutex );
         g_oneshots.push_back( { track, opts.pitch } );
     }
     configure_and_play( track, opts );
@@ -467,7 +470,7 @@ float last_oneshot_frequency_ratio()
     // MIX_* while holding g_oneshots_mutex deadlocks against the mixer thread.
     MIX_Track *track = nullptr;
     {
-        std::lock_guard<std::mutex> lock( g_oneshots_mutex );
+        std::scoped_lock lock( g_oneshots_mutex );
         if( g_oneshots.empty() ) {
             return 0.0f;
         }
@@ -550,7 +553,7 @@ void poll()
     std::vector<MIX_Track *> to_destroy;
     std::vector<std::pair<MIX_Track *, float>> to_retune;
     {
-        std::lock_guard<std::mutex> lock( g_oneshots_mutex );
+        std::scoped_lock lock( g_oneshots_mutex );
         for( auto it = g_oneshots.begin(); it != g_oneshots.end(); ) {
             if( it->stopped ) {
                 to_destroy.push_back( it->track );
@@ -580,9 +583,10 @@ bool play_music( music_source *m, int loops, int fade_in_ms )
         return false;
     }
     const uint32_t new_gen = ++g_music_generation;
+    g_music_generation_tokens.emplace_back( std::make_unique<uint32_t>( new_gen ) );
     MIX_SetTrackAudio( g_music_track, m->audio );
     MIX_SetTrackStoppedCallback( g_music_track, music_stopped_cb,
-                                 reinterpret_cast<void *>( static_cast<uintptr_t>( new_gen ) ) );
+                                 g_music_generation_tokens.back().get() );
 
     SDL_PropertiesID props = SDL_CreateProperties();
     if( loops != 0 ) {

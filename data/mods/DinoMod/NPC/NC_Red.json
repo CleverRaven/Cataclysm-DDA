@@ -5,7 +5,7 @@
     "name_unique": { "ctxt": "NPC Name", "str": "Red" },
     "class": "NC_SOLDIER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_OLD_GUARD_RED",
     "faction": "old_guard",
     "mission_offered": [ "MISSION_OLD_GUARD_DINO_1" ]

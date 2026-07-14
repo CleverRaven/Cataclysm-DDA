@@ -1454,7 +1454,7 @@ void veh_interact::calc_overview( map &here )
                     }
                     right_print( w, y, offset, pt_ammo_cur->color,
                                  string_format( fmtstring, specials, pt_ammo_cur->nname( 1 ),
-                                                pt_ammo_cur->count_or_volume_or_weight_prefix( pt.ammo_remaining() ) ) );
+                                                pt_ammo_cur->item_measure_prefix( pt.ammo_remaining() ) ) );
                 } else {
                     if( pt.is_leaking() ) {
                         std::string outputstr = str_cat( leak_marker, "      ", leak_marker );

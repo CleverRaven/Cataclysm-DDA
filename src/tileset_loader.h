@@ -53,11 +53,18 @@ class tileset_cache::loader
 
         int tile_atlas_width = 0;
 
+        // Wrap a freshly created atlas texture in a shared handle whose
+        // deleter skips SDL_DestroyTexture while abandon_gate is set.
+        static std::shared_ptr<SDL_Texture> make_gated_atlas_texture(
+            SDL_Texture_Ptr tex, atlas_replay_quarantine::gate abandon_gate );
+
         void copy_surface_to_texture( const SDL_Surface_Ptr &surf, const point &offset,
                                       std::vector<texture> &target,
-                                      const std::vector<SDL_Rect> &opaque_bounds );
+                                      const std::vector<SDL_Rect> &opaque_bounds,
+                                      const atlas_replay_quarantine::gate &abandon_gate );
         void create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas, const point &offset,
-                                              const tile_value_targets &targets );
+                                              const tile_value_targets &targets,
+                                              const atlas_replay_quarantine::gate &abandon_gate );
 
         void process_variations_after_loading( weighted_int_list<std::vector<int>> &v ) const;
 
@@ -92,12 +99,15 @@ class tileset_cache::loader
         // Load layering data from json.
         void load_layers( const JsonObject &config );
 
-        // Upload one atlas: split to renderer-sized chunks, apply color
-        // keying, emit all six filter variants. Mutates loader sprite-state
-        // from the descriptor.
-        void upload_one_atlas( const atlas_replay_descriptor &desc,
-                               const tile_value_targets &targets,
-                               bool pump_events );
+        // Upload one atlas: split into renderer-sized chunks, color-key, emit all
+        // six filter variants, mutating loader sprite-state from the descriptor.
+        // Polls before each chunk; on interrupt returns the reason with targets
+        // partly filled for the caller to quarantine.
+        atlas_upload_interrupt upload_one_atlas( const atlas_replay_descriptor &desc,
+                const tile_value_targets &targets,
+                bool pump_events,
+                const atlas_replay_quarantine::gate &abandon_gate,
+                const atlas_upload_poll &poll );
 
     public:
         loader( tileset &ts, const SDL_Renderer_Ptr &r, std::string memory_map_mode )
@@ -106,20 +116,32 @@ class tileset_cache::loader
         // tileset_id matches the option string. precheck only loads metadata
         // (tile dimensions). pump_events handles window events / refreshes
         // the screen during the upload pass. terrain marks this as an
-        // overmap/terrain tileset.
-        void load( const std::string &tileset_id, bool precheck, bool pump_events = false,
-                   bool terrain = false );
+        // overmap/terrain tileset. poll is consulted between atlas chunks; on
+        // interrupt the candidate textures move into *quarantine and the reason
+        // is returned without committing to ts. The generations are recorded on
+        // the uploaded bundle for the cache staleness check.
+        atlas_upload_interrupt load( const std::string &tileset_id, bool precheck,
+                                     bool pump_events = false, bool terrain = false,
+                                     uint64_t renderer_instance_generation = 0,
+                                     uint64_t gpu_textures_generation = 0,
+                                     const atlas_upload_poll &poll = {},
+                                     atlas_replay_quarantine *quarantine = nullptr );
 
         // Upload every descriptor and regenerate the default highlight when
         // active. Builds candidate vectors and swaps them into ts on full
         // success; ts is unchanged on failure. Stamps the upload generations
         // onto the bundle so a later cache lookup can spot a stale upload.
-        static void upload_atlases( tileset &ts, const SDL_Renderer_Ptr &renderer,
-                                    const std::string &memory_map_mode,
-                                    const std::vector<atlas_replay_descriptor> &descriptors,
-                                    uint64_t renderer_instance_generation,
-                                    uint64_t gpu_textures_generation,
-                                    bool pump_events );
+        // poll is consulted between chunks; on interrupt the candidate
+        // textures are moved into *quarantine and the reason is returned, ts
+        // untouched. A default (empty) poll never interrupts.
+        static atlas_upload_interrupt upload_atlases( tileset &ts, const SDL_Renderer_Ptr &renderer,
+                const std::string &memory_map_mode,
+                const std::vector<atlas_replay_descriptor> &descriptors,
+                uint64_t renderer_instance_generation,
+                uint64_t gpu_textures_generation,
+                bool pump_events,
+                const atlas_upload_poll &poll = {},
+                atlas_replay_quarantine *quarantine = nullptr );
 };
 
 #endif // CATA_SRC_TILESET_LOADER_H

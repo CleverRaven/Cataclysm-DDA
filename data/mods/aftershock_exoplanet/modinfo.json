@@ -21,7 +21,8 @@
       "MA",
       "no_hope"
     ],
-    "loading_images": [ "aftershock.png" ]
+    "loading_images": [ "aftershock.png" ],
+    "disable_other_loading_screens": true
   },
   {
     "type": "EXTERNAL_OPTION",

@@ -21,7 +21,7 @@
       [ [ "30gal_drum", 3 ] ],
       [ [ "filter_air", 1 ], [ "filter_air_makeshift", 1 ] ],
       [ [ "well_pump", 2 ] ],
-      [ [ "cable", 40 ] ],
+      [ [ "cable", 14 ] ],
       [ [ "frame", 1 ] ],
       [ [ "steel_plate", 8 ] ],
       [ [ "water", 150 ], [ "water_clean", 150 ] ]
@@ -44,7 +44,7 @@
     "using": [ [ "soldering_standard", 4 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "cable", 4 ] ], [ [ "makeshift_transformer", 1 ] ] ]
+    "components": [ [ [ "cable", 2 ] ], [ [ "makeshift_transformer", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -63,6 +63,6 @@
     "using": [ [ "soldering_standard", 4 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "cable", 30 ] ], [ [ "makeshift_transformer", 4 ] ] ]
+    "components": [ [ [ "cable", 10 ] ], [ [ "makeshift_transformer", 4 ] ] ]
   }
 ]

@@ -771,19 +771,42 @@
   },
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
     "result": "cheese_powder",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "charges": 4,
-    "time": "20 m",
-    "batch_time_factors": [ 67, 5 ],
+    "charges": 2,
     "autolearn": true,
-    "tools": [ [ [ "dehydrating_heat", 13, "LIST" ] ] ],
     "//": "120-132g of stuff depending on cheese type",
-    "components": [ [ [ "cheese", 4 ], [ "cheese_hard", 4 ] ] ]
+    "components": [ [ [ "cheese", 5 ], [ "cheese_hard", 3 ] ] ],
+    "steps": [
+      {
+        "name": "Cut it into small pieces",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "batch_time_factors": [ 25, 3 ],
+        "qualities": [ { "id": "CUT", "level": 2 } ]
+      },
+      {
+        "name": "Dehydrate it",
+        "time": "6 h",
+        "//": "dehydrating cheese is done in low temperature and is a long process",
+        "activity_level": "NO_EXERCISE",
+        "tools": [ [ [ "dehydrating_heat", 13, "LIST" ] ] ],
+        "batch_time_factors": [ 98, 2 ],
+        "attention": "unattended",
+        "unattend_message": "Cheese dehydration is complete."
+      },
+      {
+        "name": "Grind it",
+        "time": "1 m",
+        "activity_level": "NO_EXERCISE",
+        "tools": [ [ [ "food_processor", 25 ] ] ],
+        "batch_time_factors": [ 50, 3 ],
+        "attention": "unattended"
+      }
+    ]
   },
   {
     "type": "recipe",
@@ -837,19 +860,39 @@
   {
     "result": "protein_powder",
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
     "id_suffix": "with_from_food_processor",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 4,
-    "charges": 4,
-    "time": "9 m",
-    "batch_time_factors": [ 83, 3 ],
+    "charges": 8,
     "autolearn": true,
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "food_processor", 20 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 2 ], [ "dry_lobster", 2 ], [ "dry_poultry", 2 ] ] ]
+    "components": [
+      [
+        [ "dry_meat", 2 ],
+        [ "dry_fish", 2 ],
+        [ "dry_lobster", 2 ],
+        [ "dry_poultry", 2 ],
+        [ "dry_froglegs", 8 ],
+        [ "jerky", 1 ]
+      ]
+    ],
+    "steps": [
+      {
+        "name": "Gather resources and start the process",
+        "time": "20 s",
+        "activity_level": "LIGHT_EXERCISE",
+        "batch_time_factors": [ 50, 3 ]
+      },
+      {
+        "name": "Grind it",
+        "time": "2 m",
+        "activity_level": "NO_EXERCISE",
+        "tools": [ [ [ "food_processor", 50 ] ] ],
+        "batch_time_factors": [ 50, 3 ],
+        "attention": "unattended"
+      }
+    ]
   },
   {
     "type": "recipe",

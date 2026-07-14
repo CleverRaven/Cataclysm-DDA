@@ -311,7 +311,7 @@ In order to assign missions to NPCs, the first step is to find that NPC's defini
   "name_suffix": "beggar",
   "class": "NC_BEGGAR_2",
   "attitude": 0,
-  "mission": 7,
+  "mission": "GUARD",
   "chat": "TALK_REFUGEE_BEGGAR_2",
   "faction": "lobby_beggars"
 },

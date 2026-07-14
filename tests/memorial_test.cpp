@@ -128,7 +128,7 @@ TEST_CASE( "memorials", "[memorial]" )
 
     check_memorial<event_type::character_kills_character>(
         m, b, "Killed an innocent person, victim_name, in cold blood and felt terrible "
-        "afterwards.", ch, ch2, "victim_name" );
+        "afterwards.", ch, ch2, "victim_name", "victim_class" );
 
     check_memorial<event_type::character_kills_monster>(
         m, b, "Killed a Kevlar hulk.", ch, mon, 0 );

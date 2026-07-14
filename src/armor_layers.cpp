@@ -684,6 +684,7 @@ void outfit::sort_armor( Character &guy )
     ctxt.register_action( "EQUIP_ARMOR" );
     ctxt.register_action( "EQUIP_ARMOR_HERE" );
     ctxt.register_action( "REMOVE_ARMOR" );
+    ctxt.register_action( "TOGGLE_FAVORITE" );
     ctxt.register_action( "USAGE_HELP" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
@@ -1138,6 +1139,11 @@ void outfit::sort_armor( Character &guy )
                     return;
                 }
             }
+        } else if( action == "TOGGLE_FAVORITE" ) {
+            if( leftListIndex < leftListSize ) {
+                item &item_to_toggle = *tmp_worn[leftListIndex];
+                item_to_toggle.set_favorite( !item_to_toggle.is_favorite );
+            }
         } else if( action == "ASSIGN_INVLETS" ) {
             // prompt first before doing this (yes, yes, more popups...)
             if( query_yn( _( "Reassign inventory letters for armor?" ) ) ) {
@@ -1193,6 +1199,8 @@ void outfit::sort_armor( Character &guy )
                                ctxt.get_desc( "EQUIP_ARMOR_HERE" ) ),
                 string_format( _( "[<color_yellow>%s</color>] to remove selected item.\n" ),
                                ctxt.get_desc( "REMOVE_ARMOR" ) ),
+                string_format( _( "[<color_yellow>%s</color>] to toggle item as favorite.\n" ),
+                               ctxt.get_desc( "TOGGLE_FAVORITE" ) ),
                 "\n",
                 _( "Encumbrance explanation:\n" ),
                 _( "<color_light_gray>The first number is the summed encumbrance from all clothing on that bodypart."

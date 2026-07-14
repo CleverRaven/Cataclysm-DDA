@@ -22,7 +22,7 @@
         [ "helmet_football", 1 ]
       ],
       [ [ "magnetron", 1 ] ],
-      [ [ "copper_wire", 5 ] ],
+      [ [ "copper_wire", 2 ] ],
       [ [ "power_supply", 1 ] ]
     ],
     "time": "7 h",
@@ -95,7 +95,7 @@
     ],
     "components": [
       [ [ "boots_combat", 1 ], [ "boots_hiking", 1 ] ],
-      [ [ "cable", 10 ] ],
+      [ [ "cable", 4 ] ],
       [ [ "spring_plate", 2 ] ],
       [ [ "e_scrap", 2 ] ],
       [ [ "power_supply", 4 ] ]
@@ -124,7 +124,7 @@
       [ [ "scrap_aluminum", 35 ] ],
       [ [ "tool_belt", 1 ], [ "police_belt", 1 ], [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "seatbelt", 1 ] ],
       [ [ "fuse", 4 ] ],
-      [ [ "cable", 150 ] ],
+      [ [ "cable", 50 ] ],
       [ [ "e_scrap", 1 ] ],
       [ [ "antenna", 3 ] ],
       [ [ "power_supply", 1 ] ]
@@ -153,7 +153,7 @@
     ],
     "components": [
       [ [ "scrap_aluminum", 30 ] ],
-      [ [ "cable", 10 ] ],
+      [ [ "cable", 4 ] ],
       [ [ "e_scrap", 2 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "ai_module", 1 ] ],
@@ -247,7 +247,7 @@
       { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
       { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "components": [ [ [ "cable", 10 ] ], [ [ "scrap_aluminum", 50 ] ], [ [ "e_scrap", 2 ] ], [ [ "power_supply", 4 ] ] ],
+    "components": [ [ [ "cable", 4 ] ], [ [ "scrap_aluminum", 50 ] ], [ [ "e_scrap", 2 ] ], [ [ "power_supply", 4 ] ] ],
     "time": "7 h",
     "skill_used": "deduction",
     "difficulty": 4,
@@ -268,7 +268,7 @@
       { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
       { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "components": [ [ [ "cable", 10 ] ], [ [ "scrap_aluminum", 10 ] ], [ [ "e_scrap", 5 ] ], [ [ "power_supply", 4 ] ] ],
+    "components": [ [ [ "cable", 4 ] ], [ [ "scrap_aluminum", 10 ] ], [ [ "e_scrap", 5 ] ], [ [ "power_supply", 4 ] ] ],
     "time": "7 h",
     "skill_used": "deduction",
     "difficulty": 4,
@@ -290,7 +290,7 @@
       { "proficiency": "prof_plasticworking", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "components": [
-      [ [ "cable", 120 ] ],
+      [ [ "cable", 40 ] ],
       [ [ "scrap_aluminum", 20 ] ],
       [ [ "e_scrap", 2 ] ],
       [ [ "power_supply", 4 ] ],
@@ -342,7 +342,7 @@
     ],
     "components": [
       [ [ "scrap_aluminum", 500 ] ],
-      [ [ "cable", 200 ] ],
+      [ [ "cable", 67 ] ],
       [ [ "motor_micro", 10 ] ],
       [ [ "pipe", 6 ] ],
       [ [ "scrap", 50 ] ],
@@ -375,7 +375,7 @@
       { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "components": [
-      [ [ "cable", 120 ] ],
+      [ [ "cable", 40 ] ],
       [ [ "teleporter", 2 ] ],
       [ [ "e_scrap", 2 ] ],
       [ [ "power_supply", 4 ] ],

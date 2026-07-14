@@ -22,6 +22,14 @@
   },
   {
     "type": "SPECIES",
+    "id": "FOREST_SPIRIT",
+    "description": "a magical being of the forest",
+    "flags": [ "NEVER_WANDER", "PATH_AVOID_FIRE" ],
+    "fear_triggers": [ "FIRE" ],
+    "bleeds": "fd_blood_veggy"
+  },
+  {
+    "type": "SPECIES",
     "id": "UNDEAD",
     "description": "a creature animated by necromancy",
     "flags": [ "DRACULIN_IMMUNE" ]

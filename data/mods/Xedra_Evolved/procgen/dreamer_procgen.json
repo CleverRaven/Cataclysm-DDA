@@ -27,6 +27,8 @@
       { "weight": 40, "spell_id": "XAEA_line", "base_power": 250 },
       { "weight": 40, "spell_id": "XAEA_hologram_summon", "base_power": 250 },
       { "weight": 40, "spell_id": "XAEA_electric_emit", "base_power": 250 },
+      { "weight": 4, "spell_id": "damage_transfer", "base_power": 500 },
+      { "weight": 3, "spell_id": "fire_teleport", "base_power": 750 },
       { "weight": 30, "spell_id": "XAEA_mod_moves", "base_power": 250 },
       { "weight": 20, "spell_id": "XAEA_motion_vision", "base_power": 250 }
     ],

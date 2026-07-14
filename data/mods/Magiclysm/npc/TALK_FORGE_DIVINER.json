@@ -7,9 +7,10 @@
     "name_suffix": "Diviner",
     "class": "NC_FORGE_LORD_DIVINER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "gender": "female",
     "chat": "TALK_FORGE_LORD_DIVINER",
+    "death_eocs": [ "EOC_DEATH_FORGE_LORD" ],
     "faction": "forge_lords"
   },
   {

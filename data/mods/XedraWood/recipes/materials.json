@@ -1,0 +1,56 @@
+[
+  {
+    "result": "sheet_metal_bronze",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "smelting_standard", 47100 ] ],
+    "steps": [
+      { "name": "Gather resources and start the process", "time": "1 m", "activity_level": "LIGHT_EXERCISE" },
+      {
+        "name": "Let it melt",
+        "time": "1 h",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "unattend_message": "The metal for the sheet is melted and is ready for the mold."
+      },
+      { "name": "Pour it into the mold", "time": "2 m", "activity_level": "MODERATE_EXERCISE" },
+      {
+        "name": "Allow the metal to cool",
+        "time": "1 h 30 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "unattend_message": "The metal is cooling in the mold."
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "lamellae_bronze",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "components": [ [ [ "sheet_metal_bronze", 1 ] ] ],
+    "result_mult": 20,
+    "steps": [
+      {
+        "name": "Drilling holes",
+        "time": "20 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "qualities": [ { "id": "DRILL", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Sawing the pieces out",
+        "time": "30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
+        "proficiencies": [ { "proficiency": "prof_metalworking" } ]
+      }
+    ]
+  }
+]

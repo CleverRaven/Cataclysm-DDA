@@ -526,10 +526,17 @@
   },
   {
     "type": "item_group",
-    "id": "protein_bar_box_small",
+    "id": "full_box_of_evacuation_protein_bar",
     "subtype": "collection",
     "container-item": "box_small",
     "entries": [ { "item": "protein_bar_evac", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "box_of_evacuation_protein_bar",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "protein_bar_evac", "count": [ 1, 12 ] } ]
   },
   {
     "type": "item_group",

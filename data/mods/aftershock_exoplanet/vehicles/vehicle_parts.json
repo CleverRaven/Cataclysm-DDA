@@ -103,7 +103,7 @@
       { "item": "lc_steel_lump", "count": [ 2, 4 ] },
       { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 4 ] },
-      { "item": "cable", "count": [ 5, 20 ] },
+      { "item": "cable", "count": [ 2, 7 ] },
       { "item": "RAM", "count": [ 1, 4 ] },
       { "item": "e_scrap", "count": [ 3, 8 ] }
     ],

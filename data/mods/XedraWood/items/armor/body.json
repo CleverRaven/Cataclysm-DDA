@@ -1,0 +1,12 @@
+[
+  {
+    "id": "armor_lamellar_bronze",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "armor_lamellar_lc",
+    "material": [ "bronze" ],
+    "name": { "str": "bronze lamellar cuirass", "str_pl": "bronze lamellar cuirasses" },
+    "description": "A cuirass made of small strips of bronze laced together, heavier but more protective than leather.",
+    "replace_materials": { "lc_steel": "bronze" }
+  }
+]

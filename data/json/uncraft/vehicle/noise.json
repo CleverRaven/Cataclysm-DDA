@@ -18,7 +18,7 @@
     "time": "20 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 10 ] ],
-    "components": [ [ [ "power_supply", 1 ] ], [ [ "cable", 40 ] ], [ [ "e_scrap", 7 ] ], [ [ "scrap", 12 ] ], [ [ "beeper", 1 ] ] ]
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "cable", 14 ] ], [ [ "e_scrap", 7 ] ], [ [ "scrap", 12 ] ], [ [ "beeper", 1 ] ] ]
   },
   {
     "type": "uncraft",
@@ -29,6 +29,6 @@
     "time": "20 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 10 ] ],
-    "components": [ [ [ "power_supply", 1 ] ], [ [ "cable", 20 ] ], [ [ "e_scrap", 5 ] ], [ [ "scrap", 15 ] ], [ [ "beeper", 1 ] ] ]
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "cable", 7 ] ], [ [ "e_scrap", 5 ] ], [ [ "scrap", 15 ] ], [ [ "beeper", 1 ] ] ]
   }
 ]

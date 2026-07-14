@@ -1,0 +1,33 @@
+[
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_species_lizardfolk",
+    "name": "Lizardfolk (Species)",
+    "description": "You are one of the Scaled Ones, called \"lizardfolk\" by the warmbloods.  You keep mostly to yourselves in the swamps, hunting and fishing as you've always done, but something is happening in the world now and you've left your tribe to find out just what it is.",
+    "points": 4,
+    "skills": [ { "level": 2, "name": "swimming" } ],
+    "traits": [
+      "LIZARDFOLK_BUILD",
+      "SCALES",
+      "MEMBRANE",
+      "COLDBLOOD4_LIZ",
+      "STRONGER_RESISTWARM_LIZ",
+      "FORKED_TONGUE",
+      "HISS",
+      "ANTIJUNK",
+      "TAIL_THICK",
+      "LIZ_EYE",
+      "INFRARED_LIZ",
+      "REGEN_LIZARDFOLK",
+      "MUZZLE_LONG_LIZ",
+      "WEBBED_LIZ_FEET",
+      "WEBBED_LIZ_HANDS",
+      "TALONS",
+      "FANGS",
+      "SLIT_NOSTRILS",
+      "PRED_LIZ"
+    ],
+    "chargen_allow_npc": false
+  }
+]

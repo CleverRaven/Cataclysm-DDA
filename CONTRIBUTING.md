@@ -33,7 +33,7 @@
 
 # Contribute
 
-**Opening a new issue?** Please read [ISSUES.md](../ISSUES.md) first.
+**Opening a new issue?** Please read [ISSUES.md](./ISSUES.md) first.
 
 **Want an introductory guide for creating game content?** You might want to
 read the [Guide to adding new content to CDDA for first time
@@ -62,7 +62,7 @@ editor such as [Notepad++](https://notepad-plus-plus.org/).
 
 ## All PRs must have a "Summary" section
 
-Summary is a *mandatory* one-line description of your change that will be extracted and added to [the project changelog](../data/changelog.txt).
+Summary is a *mandatory* one-line description of your change that will be extracted and added to [the project changelog](./data/changelog.txt).
 If the summary is invalid, your PR is unable to get merged.
 
 The format is:
@@ -88,7 +88,7 @@ Or, if you want it treated as a minor tweak that doesn't appear in the changelog
 None
 ```
 
-See [the Changelog Guidelines](../doc/CHANGELOG_GUIDELINES.md) for explanations of the categories.
+See [the Changelog Guidelines](./doc/CHANGELOG_GUIDELINES.md) for explanations of the categories.
 
 ## Contributing via GitHub
 
@@ -103,18 +103,18 @@ There are a couple of guidelines we suggest sticking to (see [#Example Workflow]
 ## Code Style
 
 Code style is enforced across the codebase by `astyle`.
-See [CODE_STYLE](../doc/c++/CODE_STYLE.md) for details.
+See [CODE_STYLE](./doc/c++/CODE_STYLE.md) for details.
 
 ## Translations
 
 The translation of Cataclysm: DDA is done using Transifex.
 Look at the [translation project](https://explore.transifex.com/cataclysm-dda-translators/cataclysm-dda/) for an up-to-date list of supported languages.
 
-See [TRANSLATING.md](../doc/TRANSLATING.md) for more information:
+See [TRANSLATING.md](./doc/TRANSLATING.md) for more information:
 
-* [For translators](../doc/TRANSLATING.md#translators)
-* [For developers](../doc/TRANSLATING.md#developers)
-* [For maintainers](../doc/TRANSLATING.md#maintainers)
+* [For translators](./doc/TRANSLATING.md#translators)
+* [For developers](./doc/TRANSLATING.md#developers)
+* [For maintainers](./doc/TRANSLATING.md#maintainers)
 
 ## Doxygen Comments
 
@@ -307,7 +307,7 @@ When your PR should close an issue, please include [closing keywords](https://he
 
 ## Tooling support
 
-Various tools are available to help you keep your contributions conforming to the appropriate style. See [DEVELOPER_TOOLING.md](../doc/c++/DEVELOPER_TOOLING.md) for more details.
+Various tools are available to help you keep your contributions conforming to the appropriate style. See [DEVELOPER_TOOLING.md](./doc/c++/DEVELOPER_TOOLING.md) for more details.
 
 ## Advanced Techniques
 
@@ -380,9 +380,9 @@ The test took 41.772 seconds
 
 It is recommended to habitually invoke make like ``make YOUR BUILD OPTIONS && make check``.
 
-If you're working with Visual Studio (and don't have `make`), see [Visual Studio-specific advice](../doc/c++/COMPILING-VS-VCPKG.md#running-unit-tests).
+If you're working with Visual Studio (and don't have `make`), see [Visual Studio-specific advice](./doc/c++/COMPILING-VS-VCPKG.md#running-unit-tests).
 
-If you want/need to add a test, see [TESTING.md](../doc/c++/TESTING.md)
+If you want/need to add a test, see [TESTING.md](./doc/c++/TESTING.md)
 
 ## In-game testing, test environment and the debug menu
 
@@ -458,4 +458,4 @@ git reset upstream/master
 git push --repo=origin --force
 ```
 
-For more frequently asked questions, see the [developer FAQ](../doc/DEVELOPER_FAQ.md).
+For more frequently asked questions, see the [developer FAQ](./doc/DEVELOPER_FAQ.md).

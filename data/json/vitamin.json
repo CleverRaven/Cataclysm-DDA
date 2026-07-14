@@ -684,5 +684,17 @@
     "rate": "24 s",
     "//2": "TODO: update effect so vitamin excess scales correctly",
     "disease_excess": [ [ 1, 1000 ], [ 1001, 2000 ], [ 2001, 3000 ], [ 3001, 4000 ], [ 4001, 10000 ] ]
+  },
+  {
+    "id": "water_clean_scarlet_toxin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Dissolved trace bromide" },
+    "excess": "effect_scarlet_water",
+    "min": 0,
+    "max": 8,
+    "rate": "30 m",
+    "flags": [ "NO_DISPLAY" ],
+    "disease_excess": [ [ 1, 2 ], [ 3, 4 ], [ 4, 5 ], [ 5, 6 ], [ 7, 8 ] ]
   }
 ]

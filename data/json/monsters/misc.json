@@ -92,18 +92,11 @@
     "grab_strength": 100
   },
   {
-    "id": "mon_debug_grabber_left",
+    "id": "mon_debug_grabber_head",
     "type": "MONSTER",
     "copy-from": "mon_debug_grabber",
-    "description": { "str": "This grab testing monster has a strange fascination with your left arm.", "//~": "NO_I18N" },
-    "special_attacks": [ { "id": "grab", "cooldown": 0, "move_cost": 0, "body_parts": [ [ "arm_l", 3 ] ] } ]
-  },
-  {
-    "id": "mon_debug_grabber_right",
-    "type": "MONSTER",
-    "copy-from": "mon_debug_grabber",
-    "description": { "str": "This grab testing monster has a strange fascination with your right arm.", "//~": "NO_I18N" },
-    "special_attacks": [ { "id": "grab", "cooldown": 0, "move_cost": 0, "body_parts": [ [ "arm_r", 1 ] ] } ]
+    "description": { "str": "This grab testing monster has a strange fascination with your head.", "//~": "NO_I18N" },
+    "special_attacks": [ { "id": "grab", "cooldown": 0, "move_cost": 0, "body_part_types": [ [ "head", 3 ] ] } ]
   },
   {
     "id": "mon_debug_puller_weak",

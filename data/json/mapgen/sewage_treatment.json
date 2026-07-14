@@ -125,7 +125,10 @@
     "items": [
       { "item": "bleach", "container-item": "55gal_drum", "charges": [ 10, 126 ], "prob": 50 },
       { "item": "chem_sulphuric_acid", "container-item": "55gal_drum", "charges": [ 2, 50 ], "prob": 20 },
-      { "item": "material_quicklime", "container-item": "55gal_drum", "count": [ 2, 50 ], "prob": 20 },
+      {
+        "collection": [ { "group": "quicklime_barrel", "prob": 40, "count": [ 1, 2 ] }, { "group": "quicklime_barrel_part" } ],
+        "prob": 60
+      },
       { "item": "55gal_drum", "prob": 50 }
     ]
   },

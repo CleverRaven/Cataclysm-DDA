@@ -5,6 +5,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "abstract mutagen flavor", "//~": "NO_I18N" },
     "description": "A rare substance of uncertain origins.  Causes you to mutate.",
+    "display_type": "BY_VOLUME",
     "price": "2500 USD",
     "price_postapoc": "50 cent",
     "//": "Not commercially traded, in case there was any question.",

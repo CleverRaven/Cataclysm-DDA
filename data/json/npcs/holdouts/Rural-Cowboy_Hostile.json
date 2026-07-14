@@ -6,7 +6,7 @@
     "class": "NC_COWBOY",
     "attitude": 0,
     "name_suffix": "Survivor cowboy",
-    "mission": 1,
+    "mission": "NULL",
     "chat": "TALK_COWBOYHO_MAIN",
     "faction": "no_faction"
   },

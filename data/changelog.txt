@@ -233,6 +233,9 @@ Bionic limbs cannot be mended with splints, but can be repaired from 0
 More nuanced Hub 01-Exodii full cyborg aggression
 Charged tools can be used on unattended crafting steps
 Unattended liquid crafts wait for you to pour them
+Crafting faults
+Allows spawns offset from the origin like the beach, or deep in the forests to the west
+Gun and tool mods can retune multimag host consumption, firing modes, and pocket capacity
 
 
 ## Content:
@@ -494,6 +497,10 @@ The Exodii can turn you into a full-blown cyborg
 If the Exodii trust you enough they'll give you a Cyberframe
 Dimension: the Scarlet Sea
 Challenge - Labyrinth Bound
+Expanding zombie weakpoints with vitals
+Some `a shadow?` attacked survivor camp mapgen
+A mission to negotiate trade between the Exodii and Free Merchants
+Add display type to certain food/drink products
 
 
 ## Interface:
@@ -1144,6 +1151,7 @@ XE Proficiency CBMs
 [BPerks/MM/Sorc] XP mods can level up more than once at a time
 Aftershock: Add industrial habitat building.
 Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
+[XedraWood] Add magical tattoos and a profession that starts with them
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1293,6 +1301,8 @@ Nobody wants to cooperate with psychopaths
 Zombie corpses aren't useful
 Stepped many many weapon recipes
 Joint Torsion Ratchet CBM doesn't allow for perpetual motion cyborgs
+Zero cost spells remain zero cost even if encumbered
+Kelvar is now fireproof
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1833,6 +1843,14 @@ Aftershock: Plasma degrades armors
 Stop spamming player log when NPCs are hot
 Stop ref center guard EOCs from firing in alternate dimensions
 Uncomfortable limbs must exist
+Fix Android black screen after turning the screen off
+Batch crafts no longer vanish when an unattended step's timeout is shorter than the batch-scaled craft time
+Labyrinth treasure room terminals work, and don't crash
+Worn flotation vest won't let you drown anymore
+Inventory organization crashes/freezes
+Fix fractional DoT displays
+Break monster grab if the monster was flung away
+[Xedra Evolved] Lilin only attack you in the main dimension
 
 
 ## Performance:
@@ -1878,6 +1896,8 @@ Save map size by not serializing unnecessary item components.
 Skip lightmap rebuild on idle frames
 Speedup highway placement by caching expensive math
 Speed up spawning item groups into containers
+Crafting optimizations
+Fix n^3 deserialization bug by not trying to stack unstackable items
 
 
 ## Infrastructure:
@@ -2126,6 +2146,7 @@ Vendor plf colony/list verbatim under src/third-party
 Upgrade vendored plf_colony and plf_list to latest upstream
 Ignore root dotfiles by default in .gitignore
 Consume crafting tools per recipe step
+Abort and quarantine tileset atlas uploads interrupted by a renderer reset
 
 
 ## Build:
@@ -2162,7 +2183,7 @@ Fix maybe-uninitialized warning in unseal_and_spill_test
 Cache vcpkg installed packages in MSVC CI
 Build instruction and files for Visual Studio Code
 Demote GCC 16 -Wsfinae-incomplete to warning
-Fix SDL3 release artifacts for Linux, macOS, Windows
+Proper SDL support
 Migrate Android to SDL3 via CMake + prefab AAR; drop SDL2 customs; bump buildkit
 
 

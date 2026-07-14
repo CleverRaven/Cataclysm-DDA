@@ -105,6 +105,9 @@
       "tools": [
         [
           [ "mirror_march_estoc", -1 ],
+          [ "spring_lord_estoc", -1 ],
+          [ "summer_lord_estoc", -1 ],
+          [ "autumn_lord_estoc", -1 ],
           [ "winter_lord_estoc", -1 ],
           [ "dreamforged_longsword", -1 ],
           [ "dreamforged_katana", -1 ],
@@ -127,6 +130,9 @@
       "tools": [
         [
           [ "mirror_march_estoc", -1 ],
+          [ "spring_lord_estoc", -1 ],
+          [ "summer_lord_estoc", -1 ],
+          [ "autumn_lord_estoc", -1 ],
           [ "winter_lord_estoc", -1 ],
           [ "dreamforged_estoc", -1 ],
           [ "dreamforged_broadsword", -1 ],

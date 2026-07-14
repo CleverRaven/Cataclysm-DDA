@@ -296,5 +296,27 @@
     "description": "CBM which replaces your right leg with a bionic counterpart.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "enchantments": [ "TEST_ENCH_BIONIC_LEG_R" ]
+  },
+  {
+    "id": "test_bio_purifier",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Air Filtration System CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "An advanced filtration system that is implanted in the user's trachea.  If toxins or airborne diseases find their way into the windpipe, the filter will attempt to remove them.",
+    "price": "4 kUSD 500 USD",
+    "price_postapoc": "60 USD",
+    "weight": "100 g",
+    "difficulty": 4
+  },
+  {
+    "id": "test_bio_purifier",
+    "type": "bionic",
+    "name": { "str": "Air Filtration System" },
+    "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
+    "occupied_bodyparts": [ [ "torso", 5 ], [ "mouth", 1 ] ],
+    "env_protec": [ [ "mouth", 15 ] ],
+    "flags": [ "BIONIC_NPC_USABLE" ]
   }
 ]

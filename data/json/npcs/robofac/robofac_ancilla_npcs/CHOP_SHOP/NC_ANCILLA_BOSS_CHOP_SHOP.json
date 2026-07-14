@@ -6,7 +6,7 @@
     "name_suffix": "Hub Mercenary",
     "class": "NC_ANCILLA_BOSS_CHOP_SHOP",
     "attitude": 1,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "NC_ANCILLA_BOSS_CHOP_SHOP",
     "faction": "robofac_auxiliaries_chop_shop"
   },

@@ -44,7 +44,7 @@
       [ [ "hard_steel_armor", 10 ] ],
       [ [ "sheet_metal_small", 40 ] ],
       [ [ "motor_small", 1 ] ],
-      [ [ "cable", 10 ] ],
+      [ [ "cable", 4 ] ],
       [ [ "omnicamera", 1 ] ],
       [ [ "betavoltaic", 20 ] ]
     ]

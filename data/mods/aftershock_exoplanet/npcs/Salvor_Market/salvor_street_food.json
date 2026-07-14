@@ -32,7 +32,7 @@
     "height": 160,
     "class": "NC_SALVOR_STREET_FOOD",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "NC_SALVOR_STREET_FOOD",
     "faction": "UICA"
   },

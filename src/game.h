@@ -1034,9 +1034,9 @@ class game
         void print_fields_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                                 int &line );
         void print_terrain_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                                 std::string_view area_name, int column, int &line );
+                                 std::string_view area_name, int column, int &line, bool visible );
         void print_furniture_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
-                                   int &line );
+                                   int &line, bool visible );
         void print_trap_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                               int &line );
         void print_part_con_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,

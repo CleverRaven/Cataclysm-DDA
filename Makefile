@@ -425,6 +425,9 @@ endif
 STRIP = $(CROSS)strip
 RC  = $(CROSS)windres
 AR  = $(CROSS)ar
+CXX_TARGET_MACHINE := $(shell $(CXX) -dumpmachine 2>/dev/null)
+# -mcx16 is an x86 compiler flag and breaks ARM/aarch64 builds.
+CX16_TARGETS := x86_64% i686%
 
 LDFLAGS += $(PROFILE)
 
@@ -773,6 +776,24 @@ endif
 
 PKG_CONFIG = $(CROSS)pkg-config
 
+# Utility targets should not require desktop SDL dependencies just because CI
+# exported SDL3=1 for build jobs.
+NO_SDL_GOALS = clean clean-lang clean-tests distclean localization lang/mo_built.stamp
+ifneq ($(MAKECMDGOALS),)
+  ifeq ($(filter-out $(NO_SDL_GOALS),$(MAKECMDGOALS)),)
+    override SDL3 = 0
+    override SDL = 0
+    override TILES = 0
+    override SOUND = 0
+  endif
+endif
+
+ifeq ($(TILES), 1)
+  ifeq ($(origin SDL3), undefined)
+    SDL3 = 1
+  endif
+endif
+
 ifeq ($(SDL3), 1)
   SDL = 1
   TILES = 1
@@ -1023,18 +1044,30 @@ else
 endif
 
 ifeq ($(TARGETSYSTEM),LINUX)
-  CFLAGS += -mcx16
-  CXXFLAGS += -mcx16
+  ifneq ($(filter $(CX16_TARGETS),$(CXX_TARGET_MACHINE)),)
+    CFLAGS += -mcx16
+    CXXFLAGS += -mcx16
+  endif
   BINDIST_EXTRAS += cataclysm-launcher
+  ifeq ($(SDL3),1)
+    # bundle-sdl3-linux.sh fills bindist/lib/; RUNPATH=$$ORIGIN/lib lets
+    # the binary resolve bundled libs without the launcher.
+    LDFLAGS += -Wl,-rpath,'$$ORIGIN/lib'
+    BUNDLE_SDL3_LINUX = 1
+  endif
   ifneq ("$(wildcard LICENSE-SDL.txt)","")
-    ifeq ($(SDL3),1)
-      SDL_solibs = $(shell ldd $(TARGET) | awk '/libSDL3/ {print $$3}')
-    else
+    ifneq ($(SDL3),1)
       SDL_solibs = $(shell ldd $(TARGET) | grep libSDL2-2\.0 | cut -d ' ' -f 3)
+      INSTALL_EXTRAS += $(SDL_solibs)
     endif
-    INSTALL_EXTRAS += $(SDL_solibs)
     BINDIST_EXTRAS += LICENSE-SDL.txt
     ifeq ($(SDL3),1)
+      ifneq ("$(wildcard LICENSE-SDL3_image.txt)","")
+        BINDIST_EXTRAS += LICENSE-SDL3_image.txt
+      endif
+      ifneq ("$(wildcard LICENSE-SDL3_ttf.txt)","")
+        BINDIST_EXTRAS += LICENSE-SDL3_ttf.txt
+      endif
       ifneq ("$(wildcard LICENSE-SDL3_mixer.txt)","")
         BINDIST_EXTRAS += LICENSE-SDL3_mixer.txt
       endif
@@ -1047,8 +1080,10 @@ ifeq ($(TARGETSYSTEM),LINUX)
 endif
 
 ifeq ($(TARGETSYSTEM),CYGWIN)
-  CFLAGS += -mcx16
-  CXXFLAGS += -mcx16
+  ifneq ($(filter $(CX16_TARGETS),$(CXX_TARGET_MACHINE)),)
+    CFLAGS += -mcx16
+    CXXFLAGS += -mcx16
+  endif
   BINDIST_EXTRAS += cataclysm-launcher
   DEFINES += -D_GLIBCXX_USE_C99_MATH_TR1
 endif
@@ -1510,6 +1545,11 @@ ifdef OSXCROSS
 	rm Cataclysm-uncompressed.dmg
 else
 	plutil -convert binary1 Cataclysm.app/Contents/Info.plist
+ifeq ($(SDL3), 1)
+	# Sign AFTER plutil rewrites Info.plist; signing earlier would be
+	# invalidated by the plist edit. dmgbuild does not modify the bundle.
+	bash build-scripts/codesign-macos.sh $(APPTARGETDIR)
+endif  # ifeq ($(SDL3), 1)
 	dmgbuild -s build-data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
 endif
 
@@ -1521,6 +1561,9 @@ $(BINDIST): distclean version $(TARGET) $(ZZIP_BIN) $(L10N) $(BINDIST_EXTRAS) $(
 	$(foreach lib,$(INSTALL_EXTRAS),install --strip $(lib) $(BINDIST_DIR);)
 ifdef LANGUAGES
 	cp -R --parents lang/mo $(BINDIST_DIR)
+endif
+ifeq ($(BUNDLE_SDL3_LINUX),1)
+	bash build-scripts/bundle-sdl3-linux.sh $(BINDIST_DIR) $(BINDIST_DIR)/$(notdir $(TARGET))
 endif
 	$(BINDIST_CMD)
 

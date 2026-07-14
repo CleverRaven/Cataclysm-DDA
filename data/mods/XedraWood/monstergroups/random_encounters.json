@@ -1,0 +1,10 @@
+[
+  {
+    "type": "monstergroup",
+    "id": "GROUP_LIZARDFOLK_RANDENC",
+    "monsters": [
+      { "group": "GROUP_LIZARDFOLK_HUNTING_BAND_NONHOSTILE", "weight": 150, "pack_size": [ 4, 6 ] },
+      { "group": "GROUP_LIZARDFOLK_HUNTING_BAND_HOSTILE", "weight": 150, "pack_size": [ 4, 6 ] }
+    ]
+  }
+]

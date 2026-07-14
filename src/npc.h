@@ -170,16 +170,13 @@ enum npc_mission : int {
     NPC_MISSION_LEGACY_1,
     NPC_MISSION_SHELTER, // Stay in shelter, introduce player to game
     NPC_MISSION_SHOPKEEP, // Stay still unless combat or something and sell stuff
-
-    NPC_MISSION_LEGACY_2,
-    NPC_MISSION_LEGACY_3,
-
     NPC_MISSION_GUARD_ALLY, // Assigns an allied NPC to guard a position
     NPC_MISSION_GUARD, // Assigns a non-allied NPC to remain in place
     NPC_MISSION_GUARD_PATROL, // Assigns a non-allied NPC to guard and investigate
     NPC_MISSION_ACTIVITY, // Perform a player_activity until it is complete
     NPC_MISSION_TRAVELLING,
-    NPC_MISSION_CAMP_RESIDENT // Attached to camp, works jobs + has free time
+    NPC_MISSION_CAMP_RESIDENT, // Attached to camp, works jobs + has free time
+    NPC_MISSION_LAST
 };
 
 struct npc_companion_mission {

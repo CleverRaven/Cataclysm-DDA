@@ -6,7 +6,7 @@
     "name_suffix": "Carpenter",
     "class": "NC_HUNTER",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_RANCH_CONSTRUCTION_1",
     "faction": "tacoma_commune"
   },

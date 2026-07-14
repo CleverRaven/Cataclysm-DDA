@@ -215,6 +215,20 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "afs_modular_greenhouse",
+      "afs_modular_greenhouse_moxie",
+      "afs_modular_greenhouse_algae",
+      "afs_modular_greenhouse_slurry",
+      "afs_modular_greenhouse_hydro"
+    ],
+    "copy-from": "generic_city_building",
+    "name": "biotechnical flats",
+    "sym": "^",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "afs_astrobiology_lab_n1", "afs_astrobiology_lab_n2" ],
     "name": "astrobiology lab",
     "spawns": { "group": "GROUP_ZOMBIE", "population": [ 2, 5 ], "chance": 80 },

@@ -5,7 +5,7 @@
     "name_unique": "Lady Boann",
     "class": "xe_fae_noblewoman_boann",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_BOANN_INTRO",
     "mission_offered": "MISSION_BRING_BOANN_JABBERWOCK_HEART",
     "gender": "female"

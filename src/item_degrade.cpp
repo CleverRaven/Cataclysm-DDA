@@ -34,6 +34,7 @@
 #include "fault.h"
 #include "fire.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
@@ -62,8 +63,6 @@
 
 static const item_category_id item_category_drugs( "drugs" );
 static const item_category_id item_category_food( "food" );
-
-class JsonObject;
 
 namespace item_internal
 {
@@ -1469,10 +1468,22 @@ void item::set_birthday( const time_point &bday )
     this->bday = std::max( calendar::turn_zero, bday );
 }
 
+void rot_spawn_data::load( const JsonObject &jo, bool was_loaded )
+{
+    optional( jo, was_loaded, "monster", rot_spawn_monster, mtype_id::NULL_ID() );
+    optional( jo, was_loaded, "group", rot_spawn_group, mongroup_id::NULL_ID() );
+    optional( jo, was_loaded, "chance", rot_spawn_chance );
+    optional( jo, was_loaded, "amount", rot_spawn_monster_amount, { 1, 1 } );
+}
+
+bool rot_spawn_data::handle_extend( const JsonValue &jv )
+{
+    JsonObject jo = jv.get_object();
+    load( jo, true );
+    return true;
+}
+
 void rot_spawn_data::deserialize( const JsonObject &jo )
 {
-    optional( jo, false, "monster", rot_spawn_monster, mtype_id::NULL_ID() );
-    optional( jo, false, "group", rot_spawn_group, mongroup_id::NULL_ID() );
-    optional( jo, false, "chance", rot_spawn_chance );
-    optional( jo, false, "amount", rot_spawn_monster_amount, {1, 1} );
+    load( jo, false );
 }

@@ -116,9 +116,16 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DREAMS_OR_NIGHTMARES_GRACKEN_AND_FAE",
+    "//": "This only gives the vampire-caused messages to fae that can gain a new trait through dreaming, as they still can dream but can't gain anything from it until they're cured.",
     "condition": { "u_has_trait": "GRACKEN" },
     "effect": [ { "u_message": "gracken_wake_up", "snippet": true, "type": "neutral" } ],
-    "false_effect": [ { "u_message": "fae_wake_up", "snippet": true, "type": "neutral" } ]
+    "false_effect": [
+      {
+        "if": { "and": [ { "math": [ "u_changeling_advancement_dreams_counter >= 1" ] }, { "u_has_trait": "VAMPIRE" } ] },
+        "then": { "u_message": "vampire_infected_fae_wake_up", "snippet": true, "type": "bad" },
+        "else": { "u_message": "fae_wake_up", "snippet": true, "type": "neutral" }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -200,5 +207,19 @@
       { "math": [ "dream_counter = 1" ] },
       { "run_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DREAM_CLASS_XP",
+    "condition": { "one_in_chance": 2 },
+    "effect": [ { "run_eocs": "EOC_DREAM_CRAFTS", "time_in_future": 1 } ],
+    "false_effect": [ { "run_eocs": "EOC_XE_GOT_A_SPELL_LVL", "time_in_future": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DREAM_CRAFTS",
+    "condition": { "or": [ { "u_has_trait": "DREAMSMITH" }, { "u_has_trait": "INVENTOR" } ] },
+    "effect": [ { "run_eocs": "EOC_DREAMSMITHS_SCORE_TRAIN", "time_in_future": 1 } ],
+    "false_effect": [ { "run_eocs": "EOC_XE_GOT_A_SPELL_LVL", "time_in_future": 1 } ]
   }
 ]

@@ -25,6 +25,7 @@
 #include "iuse_actor.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "monster.h"
 #include "point.h"
 #include "projectile.h"

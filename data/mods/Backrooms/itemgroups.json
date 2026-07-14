@@ -811,7 +811,7 @@
       [ "recipe_chimera", 1 ],
       [ "recipe_labchem", 1 ],
       { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },
-      [ "solder_wire", 70 ],
+      { "group": "solder_wire_spool_part", "prob": 70 },
       [ "textbook_weapwest", 2 ],
       [ "textbook_weparabic", 2 ],
       [ "textbook_weapeast", 2 ],

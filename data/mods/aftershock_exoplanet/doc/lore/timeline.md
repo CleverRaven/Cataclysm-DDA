@@ -6,7 +6,7 @@ Most historical records of the Early Space Age existed in digital archives and d
 
 Most of this information is considered largely irrelevant to the majority of the population, Most spacers live in places and situations far-removed from historical Earth, and only well-learned academics and the occasional eccentric care enough to know the gritty details.
 
-Its safe to assume that the mod timeline split from ours somewhere during the early XX century, but the fragmented historical record makes it impossible to determine how or when things started to deviate.
+It's safe to assume that the mod timeline split from ours somewhere during the early XX century, but the fragmented historical record makes it impossible to determine how or when things started to deviate.
 
 ### The Hyperspace Expansion (2080-2152)
 Orbiting Space telescopes discover a seemingly stable spatial property that allows the hyper-luminal transfer of information. Starting a golden century of unheard political social and technological advancement that is unlikely to ever be replicated.  
@@ -14,7 +14,7 @@ Orbiting Space telescopes discover a seemingly stable spatial property that allo
 - 2105 The Soviet Union launches its first jump-capable factory fleet, in an all too ambitious plan to create an interstellar civilization. Other nations are quick to follow, and generally more successful on their colonization endeavors.
 - 2110 Incredibly powerful strong AI systems are created by leveraging the principles of FTL communication.
 - 2115 An unknown concern of biotechnology companies buys the exploration rights of Salus IV, quoting interest in studying the native lifeforms.
-- 2140 Exponential growth in the capabilities of Hypercomms AI leads to unheard advances in all levels of human existence, although little of these transformations manage to assert themselves outside of the solar system before the discontinuity happens.
+- 2140 Exponential growth in the capabilities of Hypercomms AI leads to unheard advances in all levels of human existence, although little of these transformations manage to assert themselves outside the solar system before the discontinuity happens.
 
 ### The discontinuity (2152- 2375)
 
@@ -39,5 +39,5 @@ Under a much more stable solar political reality, the Ganymede project successfu
 - 2425 Internal political friction within UICA leads to a suspension of official reclamation efforts. Although by this date only the systems in the very fringes of human space remain uncontacted. The Salus system among these.
 - 2428 A minor exploration company arrives to the Salus system. It confirms the total collapse of Hyperspace Expansion era colony within Salus IV, and in accordance with UICA reclamation protocols the rightful owners of the colony: The Whately Corporation, are contacted to pay the survey fee and reclaim the system.
 - 2429 Uninterested in actively developing the Salus system, The Whately Corporation begins leasing development and exploitation permits and allows the establishment of minor UICA outposts within Salus IV.
-- 2429 Salus IV is quarantined. Rumors about the well preserved ruins and exotic bio-weapons circulate and garner limited interest between scavengers in nearby sectors.
+- 2429 Salus IV is quarantined. Rumors about the well-preserved ruins and exotic bioweapons circulate and garner limited interest between scavengers in nearby sectors.
 - 2430 The player accidentally or deliberately lands on Salus IV.

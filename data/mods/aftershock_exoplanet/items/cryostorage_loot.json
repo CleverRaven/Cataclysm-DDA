@@ -57,6 +57,15 @@
   },
   {
     "type": "ITEM",
+    "id": "afs_cryo_moxie_coral",
+    "copy-from": "cryo_storage_loot",
+    "color": "red",
+    "name": { "str_sp": "diseased coral sample" },
+    "description": "A white polyp extracted from a mutant colony.  Appears to have been the result of failed genetic engineering experiments.",
+    "price": "750 USD"
+  },
+  {
+    "type": "ITEM",
     "id": "afs_cryo_migo_brain",
     "copy-from": "cryo_storage_loot",
     "color": "red",

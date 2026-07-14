@@ -1,0 +1,526 @@
+[
+  {
+    "id": [ "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations" ],
+    "type": "talk_topic",
+    "//": "exodii_FM_antagonized tracks the deal itself - at max value it fails totally.  exodii_FM_annoyed tracks reward - above 3, and you don't get a reward.  exodii_FM_balance tracks who gives the reward and its magnitude - negative favors exodii and positive favors FM.",
+    "dynamic_line": "&You boot up the strange TV-radio device.  There is a sharp squeal from the device as the screen, first covered in only static, blips into life.  After a moment, the image on the screen wobbles and Rubik appears, offering a stiff bow.  You hold the screen up so Smokes can see it.",
+    "speaker_effect": { "effect": { "math": [ "exodii_FM_balance = 0" ] } },
+    "responses": [
+      {
+        "text": "[Neutral] Introduce Rubik and Smokes to each other, then give them the floor.  Offer occasional help translating.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_2"
+      },
+      {
+        "text": "[Antagonize] Introduce Rubik as an alien and compare the Exodii to a few \"unfriendly\" robots from your Earth's popular culture.  \"So, they're sort of like the Borg, the Terminator, those machines from The Matrix, you know, that kind of thing…\"",
+        "trial": { "type": "PERSUADE", "difficulty": 15 },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_2",
+          "effect": [
+            { "u_message": "You succeed in antagonizing both parties.", "popup": true },
+            { "math": [ "exodii_FM_antagonized += 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [ { "u_message": "Your fail to antagonize them.", "popup": true }, { "math": [ "exodii_FM_annoyed += 1" ] } ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_2"
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_2" ],
+    "type": "talk_topic",
+    "dynamic_line": "&Rubik explains they are primarily looking for plastics, metals, and media.  Rubik and Smokes start to talk about the nature of the trade.  Guaranteed shipments?  First right of refusal?  What about prices for bulk goods?",
+    "responses": [
+      {
+        "text": "[Neutral] Sit quietly and let them negotiate.  Offer occasional help translating.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_3"
+      },
+      {
+        "text": "[Favor Exodii] Point out that the Exodii's needs are predictable and simple.  \"They need a lot of things other survivors may not buy.\"",
+        "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_3",
+          "effect": [
+            { "u_message": "You feel that the deal favors the Exodii a bit more.", "popup": true },
+            { "math": [ "exodii_FM_balance -= 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [
+            { "u_message": "Your attempts at swaying the negotiation annoys both parties.", "popup": true },
+            { "if": { "one_in_chance": 2 }, "then": { "math": [ "exodii_FM_antagonized += 1" ] } },
+            { "math": [ "exodii_FM_annoyed += 1" ] }
+          ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_3"
+        }
+      },
+      {
+        "text": "[Favor Merchants] Remind Rubik that the Free Merchants are taking on the risk of the shipments, and need to stick around Earth even if the Exodii leave.  \"I think thats worth a small premium, no?\"",
+        "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_3",
+          "effect": [
+            { "u_message": "You feel that the deal favors the Free Merchants a bit more.", "popup": true },
+            { "math": [ "exodii_FM_balance += 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [
+            { "u_message": "Your attempts at swaying the negotiation annoys both parties.", "popup": true },
+            { "if": { "one_in_chance": 2 }, "then": { "math": [ "exodii_FM_antagonized += 1" ] } },
+            { "math": [ "exodii_FM_annoyed += 1" ] }
+          ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_3"
+        }
+      },
+      {
+        "text": "[Antagonize] Rush them.  \"Let's get to it!  A quick deal is a good deal.  Do you want to trade, or not?\"",
+        "trial": { "type": "PERSUADE", "difficulty": 15 },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_3",
+          "effect": [
+            { "u_message": "You succeed in antagonizing both parties.", "popup": true },
+            { "math": [ "exodii_FM_antagonized += 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [ { "u_message": "Your fail to antagonize them.", "popup": true }, { "math": [ "exodii_FM_annoyed += 1" ] } ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_3"
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_3" ],
+    "type": "talk_topic",
+    "dynamic_line": "&Smokes and Rubik start to discuss what exactly the Exodii have to offer.  Rubik first offers up firearms, hefting one of their zombie hunting rifles into the frame…",
+    "responses": [
+      {
+        "text": "[Neutral] Sit quietly and let them negotiate.  Offer occasional help translating.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_4"
+      },
+      {
+        "text": "[Favor Exodii] Explain to Smokes the unique nature of the firearms you have seen.  \"They're really well tuned for taking down a <zombie>.\"",
+        "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_4",
+          "effect": [
+            { "u_message": "You feel that the deal favors the Exodii a bit more.", "popup": true },
+            { "math": [ "exodii_FM_balance -= 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [
+            { "u_message": "Your attempts at swaying the negotiation annoys both parties.", "popup": true },
+            { "if": { "one_in_chance": 2 }, "then": { "math": [ "exodii_FM_antagonized += 1" ] } },
+            { "math": [ "exodii_FM_annoyed += 1" ] }
+          ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_4"
+        }
+      },
+      {
+        "text": "[Favor Merchants] Remind Rubik & Smokes that these firearms use ammunition not from this world.  \"They're great guns, but be sure to work ammunition into the deal.\"",
+        "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_4",
+          "effect": [
+            { "u_message": "You feel that the deal favors the Free Merchants a bit more.", "popup": true },
+            { "math": [ "exodii_FM_balance += 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [
+            { "u_message": "Your attempts at swaying the negotiation annoys both parties.", "popup": true },
+            { "if": { "one_in_chance": 2 }, "then": { "math": [ "exodii_FM_antagonized += 1" ] } },
+            { "math": [ "exodii_FM_annoyed += 1" ] }
+          ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_4"
+        }
+      },
+      {
+        "text": "[Antagonize] Look knowingly at Smokes.  \"They have a LOT of guns.  And they know how to use them.\"",
+        "trial": { "type": "PERSUADE", "difficulty": 15 },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_4",
+          "effect": [
+            { "u_message": "You succeed in antagonizing both parties.", "popup": true },
+            { "math": [ "exodii_FM_antagonized += 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [ { "u_message": "Your fail to antagonize them.", "popup": true }, { "math": [ "exodii_FM_annoyed += 1" ] } ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_4"
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_4" ],
+    "type": "talk_topic",
+    "dynamic_line": "&Rubik moves on to medical services and starts to explain the nature of their medical robots.  Smokes talks a bit about the Old Guard and a medical doctor stationed at the center…",
+    "responses": [
+      {
+        "text": "[Neutral] Sit quietly and let them negotiate.  Offer occasional help translating.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_5"
+      },
+      {
+        "text": "[Favor Exodii] Explain to Smokes the miraculous nature of their medical technology, and how it's definitely worth the price for access to it.",
+        "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_5",
+          "effect": [
+            { "u_message": "You feel that the deal favors the Exodii a bit more.", "popup": true },
+            { "math": [ "exodii_FM_balance -= 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [
+            { "u_message": "Your attempts at swaying the negotiation annoys both parties.", "popup": true },
+            { "if": { "one_in_chance": 2 }, "then": { "math": [ "exodii_FM_antagonized += 1" ] } },
+            { "math": [ "exodii_FM_annoyed += 1" ] }
+          ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_5"
+        }
+      },
+      {
+        "text": "[Favor Merchants] Encourage Smokes to negotiate a medical robot be installed at the Evacuee Center.",
+        "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_5",
+          "effect": [
+            {
+              "u_message": "Rubik agrees to selling the Free Merchants a medical robot.  You feel that the deal favors the Free Merchants a bit more.",
+              "popup": true
+            },
+            { "math": [ "exodii_FM_balance -= 1" ] },
+            { "math": [ "exodii_FM_autodoc = 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [
+            { "u_message": "Your attempts at swaying the negotiation annoys both parties.", "popup": true },
+            { "if": { "one_in_chance": 2 }, "then": { "math": [ "exodii_FM_antagonized += 1" ] } },
+            { "math": [ "exodii_FM_annoyed += 1" ] }
+          ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_5"
+        }
+      },
+      {
+        "text": "[Antagonize] Undermine the negotiation by bringing up Hub 01.  \"Actually, Smokes, those Hub 01 people you trade with have some pretty advanced tech, or at least it seems like they do.  Maybe this isn't worth being part of the deal.\"",
+        "condition": { "math": [ "free_merchants_hub_trade_route == 1" ] },
+        "trial": { "type": "PERSUADE", "difficulty": 15 },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_5",
+          "effect": [
+            { "u_message": "You succeed in antagonizing both parties.", "popup": true },
+            { "math": [ "exodii_FM_antagonized += 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [ { "u_message": "Your fail to antagonize them.", "popup": true }, { "math": [ "exodii_FM_annoyed += 1" ] } ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_5"
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_5" ],
+    "type": "talk_topic",
+    "dynamic_line": "&There is a lull in the discussion as Smokes and Rubik quietly consider everything on the table.",
+    "responses": [
+      {
+        "text": "[Neutral] Let them move at their own pace.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_6"
+      },
+      {
+        "text": "[Favor Exodii] Whisper to Smokes: \"Listen, I know these guys.  Sweeten the deal as a gesture of good will, and things will go well for you.\"",
+        "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_6",
+          "effect": [
+            { "u_message": "You feel that the deal favors the Exodii a bit more.", "popup": true },
+            { "math": [ "exodii_FM_balance -= 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [
+            { "u_message": "Your attempts at swaying the negotiation annoys both parties.", "popup": true },
+            { "if": { "one_in_chance": 2 }, "then": { "math": [ "exodii_FM_antagonized += 1" ] } },
+            { "math": [ "exodii_FM_annoyed += 1" ] }
+          ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_6"
+        }
+      },
+      {
+        "text": "[Favor Merchants] Whisper to Smokes and encourage him to ask for a bit more.",
+        "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_6",
+          "effect": [
+            { "u_message": "You feel that the deal favors the Free Merchants a bit more.", "popup": true },
+            { "math": [ "exodii_FM_balance += 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [
+            { "u_message": "Your attempts at swaying the negotiation annoys both parties.", "popup": true },
+            { "if": { "one_in_chance": 2 }, "then": { "math": [ "exodii_FM_antagonized += 1" ] } },
+            { "math": [ "exodii_FM_annoyed += 1" ] }
+          ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_6"
+        }
+      },
+      {
+        "text": "[Antagonize] Rush them along - don't give them time to think.",
+        "trial": { "type": "PERSUADE", "difficulty": 15 },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_6",
+          "effect": [
+            { "u_message": "You succeed in antagonizing both parties.", "popup": true },
+            { "math": [ "exodii_FM_antagonized += 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [ { "u_message": "Your fail to antagonize them.", "popup": true }, { "math": [ "exodii_FM_annoyed += 1" ] } ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_6"
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_6" ],
+    "type": "talk_topic",
+    "dynamic_line": "&After a quiet moment, the discussion moves on to the nature of the caravans.  The Free Merchants will want to set up an encampment near the Exodii's butte…",
+    "responses": [
+      {
+        "text": "[Neutral] Sit quietly and let them negotiate.  Offer occasional help translating.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_7"
+      },
+      {
+        "text": "[Favor Exodii] Suggest deliveries be managed through a nearby camp, rather than something more permanent.  Whisper to Smokes: \"Outside of the Exodii's protection, but also outside of their influence\".",
+        "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_7",
+          "effect": [
+            { "u_message": "You feel that the deal favors the Exodii a bit more.", "popup": true },
+            { "math": [ "exodii_FM_balance -= 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [
+            { "u_message": "Your attempts at swaying the negotiation annoys both parties.", "popup": true },
+            { "if": { "one_in_chance": 2 }, "then": { "math": [ "exodii_FM_antagonized += 1" ] } },
+            { "math": [ "exodii_FM_annoyed += 1" ] }
+          ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_7"
+        }
+      },
+      {
+        "text": "[Favor Merchants] Subtly hint to Smokes that they could probably negotiate protection, or a fortified structure for the Free Merchants.",
+        "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_7",
+          "effect": [
+            {
+              "u_message": "Rubik agrees that the Free Merchants can take over a nearby Exodii warehouse.  You feel that the deal favors the Free Merchants a bit more.",
+              "popup": true
+            },
+            { "math": [ "exodii_FM_balance += 1" ] },
+            { "math": [ "exodii_FM_butte_building = 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [
+            { "u_message": "Your attempts at swaying the negotiation annoys both parties.", "popup": true },
+            { "if": { "one_in_chance": 2 }, "then": { "math": [ "exodii_FM_antagonized += 1" ] } },
+            { "math": [ "exodii_FM_annoyed += 1" ] }
+          ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_7"
+        }
+      },
+      {
+        "text": "[Antagonize] Hype up how far away and dangerous it is to trade with the Exodii.  \"Think carefully on this.  It's really nasty over there.  Shame they couldn't set up somewhere else!\"",
+        "trial": { "type": "PERSUADE", "difficulty": 15 },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_7",
+          "effect": [
+            { "u_message": "You succeed in antagonizing both parties.", "popup": true },
+            { "math": [ "exodii_FM_antagonized += 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [ { "u_message": "Your fail to antagonize them.", "popup": true }, { "math": [ "exodii_FM_annoyed += 1" ] } ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_7"
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_7" ],
+    "type": "talk_topic",
+    "dynamic_line": "&Rubik broaches the topic of recruitment & CBM interfaces…",
+    "responses": [
+      {
+        "text": "[Neutral] Sit quietly and let them negotiate.  Offer occasional help translating.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_8"
+      },
+      {
+        "text": "[Favor Exodii] Talk about the benefits of CBMs.",
+        "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_8",
+          "effect": [
+            { "u_message": "You feel that the deal favors the Exodii a bit more.", "popup": true },
+            { "math": [ "exodii_FM_balance -= 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [
+            { "u_message": "Your attempts at swaying the negotiation annoys both parties.", "popup": true },
+            { "if": { "one_in_chance": 2 }, "then": { "math": [ "exodii_FM_antagonized += 1" ] } },
+            { "math": [ "exodii_FM_annoyed += 1" ] }
+          ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_8"
+        }
+      },
+      {
+        "text": "[Favor Merchants] Point out that the Exodii are asking for access to people, which should be negotiated like anything else.  \"Rubik, maybe it's worth sweetening the deal some, if you're going to be courting some of their people.\"",
+        "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 3 ] ] },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_8",
+          "effect": [
+            { "u_message": "You feel that the deal favors the Free Merchants a bit more.", "popup": true },
+            { "math": [ "exodii_FM_balance += 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [
+            { "u_message": "Your attempts at swaying the negotiation annoys both parties.", "popup": true },
+            { "if": { "one_in_chance": 2 }, "then": { "math": [ "exodii_FM_antagonized += 1" ] } },
+            { "math": [ "exodii_FM_annoyed += 1" ] }
+          ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_8"
+        }
+      },
+      {
+        "text": "[Antagonize] Make a mocking, robotic voice: \"Hahaha, we will add your biological and technological distinctiveness to our own!\"",
+        "trial": { "type": "PERSUADE", "difficulty": 15 },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_8",
+          "effect": [
+            { "u_message": "You succeed in antagonizing both parties.", "popup": true },
+            { "math": [ "exodii_FM_antagonized += 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [ { "u_message": "Your fail to antagonize them.", "popup": true }, { "math": [ "exodii_FM_annoyed += 1" ] } ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_8"
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_8" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The negotiation is coming to an end…",
+    "responses": [
+      {
+        "text": "[Neutral] Let them finish, and offer occasional help translating.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_DONE"
+      },
+      {
+        "text": "[Antagonize] Well, that went way worse than I expected!  Smoke, Rubik, I don't think we have a deal here.",
+        "trial": { "type": "PERSUADE", "difficulty": 15 },
+        "success": {
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_DONE",
+          "effect": [
+            { "u_message": "You succeed in antagonizing both parties.", "popup": true },
+            { "math": [ "exodii_FM_antagonized += 1" ] }
+          ]
+        },
+        "failure": {
+          "effect": [ { "u_message": "Your fail to antagonize them.", "popup": true }, { "math": [ "exodii_FM_annoyed += 1" ] } ],
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_DONE"
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_DONE" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "exodii_FM_antagonized >= 5" ],
+      "yes": "&Rubik unceremoniously shuts off the the screen, leaving nothing but static.  Smokes leans back in his chair, wiping his brow.  \"Well, that didn't go well.  Something tells me it isn't gonna work out, and it's for the best.\"",
+      "no": {
+        "math": [ "exodii_FM_annoyed >= 3" ],
+        "yes": "&Rubik and Smokes finish their negotiation and agree to a complex set of terms.  Caravans will begin in about a week.  Rubik offers a stiff bow over the screen before it switches to static.  Smokes leans back, offering an easy smile.  \"Well, didn't expect that today, but that went well.  You were, uh, well, let's just say I think you should stick to scavenging, yeah?\"",
+        "no": "&Rubik and Smokes finish their negotiation and agree to a complex set of terms.  Caravans will begin in about a week.  Rubik offers a stiff bow over the screen before it switches to static.  Smokes leans back, offering an easy smile.  \"Well, didn't expect that today - negotiations with, well, whatever they are - but that went well.  I appreciate you.  Not sure we would've come to a deal without someone to do a bit of translating.\""
+      }
+    },
+    "responses": [
+      {
+        "text": "Yeah, it's definitely for the best.  See you around.  Maybe.",
+        "condition": { "math": [ "exodii_FM_antagonized >= 5" ] },
+        "effect": { "math": [ "exodii_FM_negotiation_failed = 1" ] },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Hm.  See you around, I guess.",
+        "condition": { "and": [ { "not": { "math": [ "exodii_FM_antagonized >= 5" ] } }, { "math": [ "exodii_FM_annoyed >= 3" ] } ] },
+        "effect": [
+          { "math": [ "exodii_FM_negotiation_success = 1" ] },
+          { "run_eocs": "EOC_EXODII_FM_UPDATES", "time_in_future": "6 days" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Glad to be of service.  I better get back to the Exodii.  See you around.",
+        "condition": {
+          "and": [
+            { "not": { "math": [ "exodii_FM_antagonized >= 5" ] } },
+            { "not": { "math": [ "exodii_FM_annoyed >= 3" ] } },
+            { "math": [ "exodii_FM_balance <= 0" ] }
+          ]
+        },
+        "effect": [
+          { "math": [ "exodii_FM_negotiation_success = 1" ] },
+          { "run_eocs": "EOC_EXODII_FM_UPDATES", "time_in_future": "6 days" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Glad to be of service.  Seems the deal went pretty well for you, yeah?",
+        "condition": {
+          "and": [
+            { "not": { "math": [ "exodii_FM_antagonized >= 5" ] } },
+            { "not": { "math": [ "exodii_FM_annoyed >= 3" ] } },
+            { "math": [ "exodii_FM_balance > 0" ] }
+          ]
+        },
+        "effect": [
+          { "math": [ "exodii_FM_negotiation_success = 1" ] },
+          { "run_eocs": "EOC_EXODII_FM_UPDATES", "time_in_future": "6 days" }
+        ],
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_FAVORS_MERCHANTS"
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_FAVORS_MERCHANTS" ],
+    "type": "talk_topic",
+    "dynamic_line": "&Smokes rubs his chin thoughtfully.  \"Yeah, it did, in no small part to you, I think.  How about I repay the favor?  You have anything in mind?\"",
+    "responses": [
+      {
+        "text": "[$100 credit] Some store credit would do nicely.",
+        "effect": [ { "u_spend_cash": -10000 }, "start_trade" ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Happy to help.  Just remember I'm a friend to the Center, yeah?",
+        "effect": [ { "u_add_faction_trust": 5 } ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  }
+]

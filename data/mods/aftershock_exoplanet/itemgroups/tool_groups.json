@@ -56,7 +56,7 @@
       { "group": "afs_common_energy_storage_scrapgroup", "prob": 10 },
       { "group": "afs_common_material_scrapgroup", "prob": 10 },
       [ "breadboard", 5 ],
-      [ "solder_wire", 10 ],
+      { "group": "solder_wire_spool_part", "prob": 10 },
       [ "circuit", 30 ],
       [ "e_scrap", 30 ],
       [ "cable", 50 ]
@@ -90,7 +90,7 @@
       { "group": "writing_utensils", "prob": 10 },
       { "item": "soldering_iron", "prob": 30 },
       { "item": "soldering_iron_portable", "prob": 30, "charges": [ 0, 50 ] },
-      { "item": "solder_wire", "prob": 30 },
+      { "group": "solder_wire_spool_part", "prob": 30 },
       { "group": "duct_tape_roll_part", "prob": 30, "count": [ 1, 2 ] }
     ]
   },
