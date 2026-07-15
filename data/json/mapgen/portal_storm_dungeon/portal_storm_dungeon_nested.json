@@ -125,11 +125,11 @@
         "---------------",
         "---------------",
         "----       ----",
+        "----   S   ----",
+        "---- S   S  ----",
         "----       ----",
-        "----       ----",
-        "----       ----",
-        "----       ----",
-        "----       ----",
+        "---- S   S ----",
+        "----   S   ----",
         "----       ----",
         "------- -------",
         "------- -------",
@@ -137,8 +137,36 @@
         "------- -------"
       ],
       "palettes": [ "portal_storm_dungeon_palette" ],
-      "terrain": { "B": "t_floor_warped", "T": "t_floor_warped", "C": "t_floor_warped" },
-      "furniture": { "B": "f_vitrified_bookcase", "T": "f_vitrified_table", "C": "f_vitrified_chair" },
+      "terrain": { "S": "t_floor_warped" },
+      "nested": { "S": { "chunks": [ [ "statue_portal_dungeon_1x1", 1 ], [ "null", 1 ] ] } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "portal_dungeon_15x15_vault",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "---------------",
+        "---------------",
+        "---------------",
+        "---------------",
+        "----       ----",
+        "----   S   ----",
+        "---- S   S  ----",
+        "----       ----",
+        "---- S   S ----",
+        "----   S   ----",
+        "----       ----",
+        "------- -------",
+        "------- -------",
+        "------- -------",
+        "------- -------"
+      ],
+      "palettes": [ "portal_storm_dungeon_palette" ],
+      "terrain": { "S": "t_floor_warped" },
+      "nested": { "S": { "chunks": [ [ "statue_portal_dungeon_1x1", 1 ], [ "null", 1 ] ] } },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -178,6 +206,16 @@
       "items": { "c": { "item": "bed", "chance": 100 } },
       "item": { "F": { "item": "pot", "chance": 100 } },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "statue_portal_dungeon_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "X" ],
+      "furniture": { "X": [ "f_glassedbody_2", "f_glassedbody_11", "f_glassedbody_12", "f_glassedbody_13" ] }
     }
   }
 ]
