@@ -57,7 +57,50 @@
         "L": "t_floor_warped",
         "K": "t_floor_warped",
         "C": "t_floor_warped",
-        "S": ""
+        "S": "t_floor_warped"
+      },
+      "furniture": {
+        "B": "f_vitrified_bed",
+        "D": "f_vitrified_dresser",
+        "L": "f_vitrified_floor_lamp",
+        "K": "f_vitrified_desk",
+        "T": "f_vitrified_table",
+        "C": "f_vitrified_chair",
+        "S": "f_vitrified_sofa"
+      },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "portal_dungeon_15x15_vault",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "---------------",
+        "---------------",
+        "---------------",
+        "---------------",
+        "----BB     ----",
+        "----K BB   ----",
+        "----C K BB ----",
+        "----  C K  ----",
+        "----D   C  ----",
+        "----  D    ----",
+        "----    D  ----",
+        "------- -------",
+        "------- -------",
+        "------- -------",
+        "------- -------"
+      ],
+      "palettes": [ "portal_storm_dungeon_palette" ],
+      "terrain": {
+        "B": "t_floor_warped",
+        "D": "t_floor_warped",
+        "L": "t_floor_warped",
+        "K": "t_floor_warped",
+        "C": "t_floor_warped",
+        "S": "t_floor_warped"
       },
       "furniture": {
         "B": "f_vitrified_bed",
