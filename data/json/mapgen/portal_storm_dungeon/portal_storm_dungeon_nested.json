@@ -1,0 +1,140 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "portal_dungeon_15x15_vault",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "---------------",
+        "---------------",
+        "---------------",
+        "---------------",
+        "----       ----",
+        "----  BBB  ----",
+        "----       ----",
+        "---- CTTC  ----",
+        "----  TT   ----",
+        "----  C    ----",
+        "----       ----",
+        "------- -------",
+        "------- -------",
+        "------- -------",
+        "------- -------"
+      ],
+      "palettes": [ "portal_storm_dungeon_palette" ],
+      "terrain": { "B": "t_floor_warped", "T": "t_floor_warped", "C": "t_floor_warped" },
+      "furniture": { "B": "f_vitrified_bookcase", "T": "f_vitrified_table", "C": "f_vitrified_chair" },
+      "items": { "B": { "item": "art_book", "chance": 5 } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "portal_dungeon_15x15_vault",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "---------------",
+        "---------------",
+        "---------------",
+        "---------------",
+        "----       ----",
+        "---- BB    ----",
+        "---- K  L  ----",
+        "---- C  S  ----",
+        "----    S  ----",
+        "---- D TS  ----",
+        "----       ----",
+        "------- -------",
+        "------- -------",
+        "------- -------",
+        "------- -------"
+      ],
+      "palettes": [ "portal_storm_dungeon_palette" ],
+      "terrain": {
+        "B": "t_floor_warped",
+        "D": "t_floor_warped",
+        "L": "t_floor_warped",
+        "K": "t_floor_warped",
+        "C": "t_floor_warped",
+        "S": ""
+      },
+      "furniture": {
+        "B": "f_vitrified_bed",
+        "D": "f_vitrified_dresser",
+        "L": "f_vitrified_floor_lamp",
+        "K": "f_vitrified_desk",
+        "T": "f_vitrified_table",
+        "C": "f_vitrified_chair",
+        "S": "f_vitrified_sofa"
+      },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "portal_dungeon_15x15_vault",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "---------------",
+        "---------------",
+        "---------------",
+        "---------------",
+        "----       ----",
+        "----       ----",
+        "----       ----",
+        "----       ----",
+        "----       ----",
+        "----       ----",
+        "----       ----",
+        "------- -------",
+        "------- -------",
+        "------- -------",
+        "------- -------"
+      ],
+      "palettes": [ "portal_storm_dungeon_palette" ],
+      "terrain": { "B": "t_floor_warped", "T": "t_floor_warped", "C": "t_floor_warped" },
+      "furniture": { "B": "f_vitrified_bookcase", "T": "f_vitrified_table", "C": "f_vitrified_chair" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "portal_dungeon_15x15_vault",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               "
+      ],
+      "palettes": [ "portal_storm_dungeon_palette" ],
+      "terrain": {
+        ".": "t_dirt",
+        "r": "t_carpet_red_outdoor",
+        "#": "t_dirt",
+        "x": "t_dirt",
+        "c": "t_dirt",
+        "F": "t_pit_shallow",
+        "o": "t_wood_sunshade_pole"
+      },
+      "furniture": { "#": "f_skin_wall", "+": "f_skin_door", "x": "f_crate_o", "t": "f_table", "h": "f_chair", "F": "f_firering" },
+      "items": { "c": { "item": "bed", "chance": 100 } },
+      "item": { "F": { "item": "pot", "chance": 100 } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]
