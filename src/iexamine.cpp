@@ -7513,86 +7513,91 @@ void iexamine::invalid( Character &/*you*/, const tripoint_bub_ms &examp )
  */
 iexamine_functions iexamine_functions_from_string( const std::string &function_name )
 {
-    static const std::map<std::string, iexamine_examine_function> function_map = {{
-            { "none", &iexamine::none },
-            { "deployed_furniture", &iexamine::deployed_furniture },
-            { "change_appearance", &iexamine::change_appearance },
-            { "genemill", &iexamine::genemill },
-            { "nanofab", &iexamine::nanofab },
-            { "gaspump", &iexamine::gaspump },
-            { "atm", &iexamine::atm },
-            { "vending", &iexamine::vending },
-            { "elevator", &iexamine::elevator },
-            { "controls_gate", &iexamine::controls_gate },
-            { "cardreader_robofac", &iexamine::cardreader_robofac },
-            { "cardreader_fp", &iexamine::cardreader_foodplace },
-            { "intercom", &iexamine::intercom },
-            { "intercom_balthazar", &iexamine::intercom_balthazar },
-            { "rubble", &iexamine::rubble },
-            { "chainfence", &iexamine::chainfence },
-            { "bars", &iexamine::bars },
-            { "portable_structure", &iexamine::portable_structure },
-            { "pit", &iexamine::pit },
-            { "pit_covered", &iexamine::pit_covered },
-            { "thin_ice", &iexamine::thin_ice },
-            { "safe", &iexamine::safe },
-            { "bulletin_board", &iexamine::bulletin_board },
-            { "pedestal_wyrm", &iexamine::pedestal_wyrm },
-            { "pedestal_temple", &iexamine::pedestal_temple },
-            { "door_peephole", &iexamine::door_peephole },
-            { "fswitch", &iexamine::fswitch },
-            { "flower_poppy", &iexamine::flower_poppy },
-            { "flower_cactus", &iexamine::flower_cactus },
-            { "fungus", &iexamine::fungus },
-            { "flower_dahlia", &iexamine::flower_dahlia },
-            { "flower_marloss", &iexamine::flower_marloss },
-            { "dirtmound", &iexamine::dirtmound },
-            { "aggie_plant", &iexamine::aggie_plant },
-            { "fvat_empty", &iexamine::fvat_empty },
-            { "fvat_full", &iexamine::fvat_full },
-            { "compost_empty", &iexamine::compost_empty },
-            { "compost_full", &iexamine::compost_full },
-            { "keg", &iexamine::keg },
-            { "harvest_furn_nectar", &iexamine::harvest_furn_nectar },
-            { "harvest_furn", &iexamine::harvest_furn },
-            { "harvest_ter_nectar", &iexamine::harvest_ter_nectar },
-            { "harvest_ter", &iexamine::harvest_ter },
-            { "clear_overgrown", &iexamine::clear_overgrown },
-            { "harvest_plant_ex", &iexamine::harvest_plant_ex },
-            { "harvested_plant", &iexamine::harvested_plant },
-            { "shrub_marloss", &iexamine::shrub_marloss },
-            { "translocator", &iexamine::translocator },
-            { "tree_marloss", &iexamine::tree_marloss },
-            { "tree_hickory", &iexamine::tree_hickory },
-            { "tree_maple", &iexamine::tree_maple },
-            { "tree_maple_tapped", &iexamine::tree_maple_tapped },
-            { "shrub_wildveggies", &iexamine::shrub_wildveggies },
-            { "water_source", &iexamine::water_source },
-            { "finite_water_source", &iexamine::finite_water_source },
-            { "reload_furniture", &iexamine::reload_furniture },
-            { "curtains", &iexamine::curtains },
-            { "sign", &iexamine::sign },
-            { "pay_gas", &iexamine::pay_gas },
-            { "gunsafe_el", &iexamine::gunsafe_el },
-            { "locked_object", &iexamine::locked_object },
-            { "locked_object_pickable", &iexamine::locked_object_pickable },
-            { "kiln_empty", &iexamine::kiln_empty },
-            { "kiln_full", &iexamine::kiln_full },
-            { "stook_empty", &iexamine::stook_empty },
-            { "stook_full", &iexamine::stook_full },
-            { "arcfurnace_empty", &iexamine::arcfurnace_empty },
-            { "arcfurnace_full", &iexamine::arcfurnace_full },
-            { "autoclave_empty", &iexamine::autoclave_empty },
-            { "autoclave_full", &iexamine::autoclave_full },
-            { "fireplace", &iexamine::fireplace },
-            { "ledge", &iexamine::ledge },
-            { "autodoc", &iexamine::autodoc },
-            { "quern_examine", &iexamine::quern_examine },
-            { "smoker_options", &iexamine::smoker_options },
-            { "open_safe", &iexamine::open_safe },
-            { "workbench", &iexamine::workbench },
-            { "workout", &iexamine::workout },
-            { "invalid", &iexamine::invalid },
+    struct function_data {
+        translation name;
+        iexamine_examine_function function;
+    };
+
+    static const std::map<std::string, function_data> function_map = {{
+            { "none", { no_translation( "none" ), &iexamine::none } },
+            { "deployed_furniture", { to_translation( "Take down or deploy furniture" ), &iexamine::deployed_furniture } },
+            { "change_appearance", { to_translation( "Change your appearance" ), &iexamine::change_appearance } },
+            { "genemill", { to_translation( "Use genemill" ), &iexamine::genemill } },
+            { "nanofab", { to_translation( "Use nanofab" ), &iexamine::nanofab } },
+            { "gaspump", { to_translation( "Use gas pump" ), &iexamine::gaspump } },
+            { "atm", { to_translation( "Use ATM" ), &iexamine::atm } },
+            { "vending", { to_translation( "Use vending machine" ), &iexamine::vending } },
+            { "elevator", { to_translation( "Use elevator" ), &iexamine::elevator } },
+            { "controls_gate", { to_translation( "Use control gate" ), &iexamine::controls_gate } },
+            { "cardreader_robofac", { to_translation( "Use card reader" ), &iexamine::cardreader_robofac } },
+            { "cardreader_fp", { to_translation( "Use card reader" ), &iexamine::cardreader_foodplace } },
+            { "intercom", { to_translation( "Use intercom" ), &iexamine::intercom } },
+            { "intercom_balthazar", { to_translation( "Use intercom" ), &iexamine::intercom_balthazar } },
+            { "rubble", { to_translation( "Clear rubble" ), &iexamine::rubble } },
+            { "chainfence", { to_translation( "Hop over" ), &iexamine::chainfence } },
+            { "bars", { to_translation( "Try to slip through the bars" ), &iexamine::bars } },
+            { "portable_structure", { to_translation( "Take down" ), &iexamine::portable_structure } },
+            { "pit", { to_translation( "Cover the pit" ), &iexamine::pit } },
+            { "pit_covered", { to_translation( "Uncover the pit" ), &iexamine::pit_covered } },
+            { "thin_ice", { to_translation( "Check the thickness of ice" ), &iexamine::thin_ice } },
+            { "safe", { to_translation( "Attempt to crack a safe" ), &iexamine::safe } },
+            { "bulletin_board", { to_translation( "Arrange tasks of faction camp" ), &iexamine::bulletin_board } },
+            { "pedestal_wyrm", { to_translation( "Interact with pedestal" ), &iexamine::pedestal_wyrm } },
+            { "pedestal_temple", { to_translation( "Interact with pedestal" ), &iexamine::pedestal_temple } },
+            { "door_peephole", { to_translation( "Use a peephole" ), &iexamine::door_peephole } },
+            { "fswitch", { to_translation( "Flip the switch" ), &iexamine::fswitch } },
+            { "flower_poppy", { to_translation( "Pick the poppy" ), &iexamine::flower_poppy } },
+            { "flower_cactus", { to_translation( "Pick the cactus" ), &iexamine::flower_cactus } },
+            { "fungus", { to_translation( "Touch the fungus" ), &iexamine::fungus } },
+            { "flower_dahlia", { to_translation( "Check the dahlia" ), &iexamine::flower_dahlia } },
+            { "flower_marloss", { to_translation( "Pick the marloss flower" ), &iexamine::flower_marloss } },
+            { "dirtmound", { to_translation( "Plant seeds" ), &iexamine::dirtmound } },
+            { "aggie_plant", { to_translation( "Harvest plants" ), &iexamine::aggie_plant } },
+            { "fvat_empty", { to_translation( "Use fermenting vat (empty)" ), &iexamine::fvat_empty } },
+            { "fvat_full", { to_translation( "Use fermenting vat (full)" ), &iexamine::fvat_full } },
+            { "compost_empty", { to_translation( "Use composter (empty)" ), &iexamine::compost_empty } },
+            { "compost_full", { to_translation( "Use composter (full)" ), &iexamine::compost_full } },
+            { "keg", { to_translation( "Use keg" ), &iexamine::keg } },
+            { "harvest_furn_nectar", { to_translation( "Harvest nectar" ), &iexamine::harvest_furn_nectar } },
+            { "harvest_furn", { to_translation( "Harvest" ), &iexamine::harvest_furn } },
+            { "harvest_ter_nectar", { to_translation( "Harvest nectar" ), &iexamine::harvest_ter_nectar } },
+            { "harvest_ter", { to_translation( "Harvest" ), &iexamine::harvest_ter } },
+            { "clear_overgrown", { to_translation( "Clear overgrown plants" ), &iexamine::clear_overgrown } },
+            { "harvest_plant_ex", { to_translation( "Harvest" ), &iexamine::harvest_plant_ex } },
+            { "harvested_plant", { to_translation( "Harvest" ), &iexamine::harvested_plant } },
+            { "shrub_marloss", { to_translation( "Pick marloss bush" ), &iexamine::shrub_marloss } },
+            { "translocator", { to_translation( "Use translocator" ), &iexamine::translocator } },
+            { "tree_marloss", { to_translation( "Pick marloss tree" ), &iexamine::tree_marloss } },
+            { "tree_hickory", { to_translation( "Pick hickory tree" ), &iexamine::tree_hickory } },
+            { "tree_maple", { to_translation( "Tap the maple tree" ), &iexamine::tree_maple } },
+            { "tree_maple_tapped", { to_translation( "Harvest maple sap" ), &iexamine::tree_maple_tapped } },
+            { "shrub_wildveggies", { to_translation( "Harvest wild veggies" ), &iexamine::shrub_wildveggies } },
+            { "water_source", { to_translation( "Use provided liquid" ), &iexamine::water_source } },
+            { "finite_water_source", { to_translation( "Use provided liquid" ), &iexamine::finite_water_source } },
+            { "reload_furniture", { to_translation( "Reload" ), &iexamine::reload_furniture } },
+            { "curtains", { to_translation( "Use curtains" ), &iexamine::curtains } },
+            { "sign", { to_translation( "Read sign" ), &iexamine::sign } },
+            { "pay_gas", { to_translation( "Pay for fuel" ), &iexamine::pay_gas } },
+            { "gunsafe_el", { to_translation( "Try to hack e-safe" ), &iexamine::gunsafe_el } },
+            { "locked_object", { to_translation( "Try to open" ), &iexamine::locked_object } },
+            { "locked_object_pickable", { to_translation( "Try to lockpick" ), &iexamine::locked_object_pickable } },
+            { "kiln_empty", { to_translation( "Use kiln (empty)" ), &iexamine::kiln_empty } },
+            { "kiln_full", { to_translation( "Use kiln (full)" ), &iexamine::kiln_full } },
+            { "stook_empty", { to_translation( "Use stook" ), &iexamine::stook_empty } },
+            { "stook_full", { to_translation( "Use stook" ), &iexamine::stook_full } },
+            { "arcfurnace_empty", { to_translation( "Use arc furnace (empty)" ), &iexamine::arcfurnace_empty } },
+            { "arcfurnace_full", { to_translation( "Use arc furnace (full)" ), &iexamine::arcfurnace_full } },
+            { "autoclave_empty", { to_translation( "Use autoclave (empty)" ), &iexamine::autoclave_empty } },
+            { "autoclave_full", { to_translation( "Use autoclave (full)" ), &iexamine::autoclave_full } },
+            { "fireplace", { to_translation( "Set some fire" ), &iexamine::fireplace } },
+            { "ledge", { to_translation( "Check the ledge" ), &iexamine::ledge } },
+            { "autodoc", { to_translation( "Use autodoc" ), &iexamine::autodoc } },
+            { "quern_examine", { to_translation( "Use quern" ), &iexamine::quern_examine } },
+            { "smoker_options", { to_translation( "Use smoker" ), &iexamine::smoker_options } },
+            { "open_safe", { to_translation( "Open the safe" ), &iexamine::open_safe } },
+            { "workbench", { to_translation( "Craft something" ), &iexamine::workbench } },
+            { "workout", { to_translation( "Workout" ), &iexamine::workout } },
+            { "invalid", { no_translation( "invalid" ), &iexamine::invalid } },
         }
     };
 
@@ -7606,21 +7611,21 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
 
     auto iter = function_map.find( function_name );
     if( iter != function_map.end() ) {
-        iexamine_examine_function func = iter->second;
+        function_data func = iter->second;
         if( function_name == "none" ) {
-            return iexamine_functions{&iexamine::always_false, func};
+            return iexamine_functions{&iexamine::always_false, func.function, func.name};
         } else if( function_name == "invalid" ) {
-            return iexamine_functions{&iexamine::false_and_debugmsg, func};
+            return iexamine_functions{&iexamine::false_and_debugmsg, func.function, func.name};
         } else if( harvestable_functions.find( function_name ) != harvestable_functions.end() ) {
-            return iexamine_functions{&iexamine::harvestable_now, func};
+            return iexamine_functions{&iexamine::harvestable_now, func.function, func.name};
         } else {
-            return iexamine_functions{&iexamine::always_true, func};
+            return iexamine_functions{&iexamine::always_true, func.function, func.name};
         }
     }
 
     //No match found
     debugmsg( "Could not find an iexamine function matching '%s'!", function_name );
-    return iexamine_functions{&iexamine::always_false, &iexamine::none};
+    return iexamine_functions{&iexamine::always_false, &iexamine::none, no_translation( "invalid" ) };
 }
 
 void iexamine::practice_survival_while_foraging( Character &who )

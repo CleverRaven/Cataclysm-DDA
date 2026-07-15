@@ -2256,7 +2256,7 @@
     "id": "tentacle_lower_rear_base_r",
     "type": "sub_body_part",
     "max_coverage": 30,
-    "parent": "tentacle_lower_rear_l",
+    "parent": "tentacle_lower_rear_r",
     "side": "left",
     "opposite": "tentacle_lower_rear_base_r",
     "name_multiple": "rear tentacle bases",

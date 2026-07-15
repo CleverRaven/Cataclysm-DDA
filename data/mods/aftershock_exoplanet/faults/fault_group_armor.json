@@ -3,5 +3,10 @@
     "type": "fault_group",
     "id": "carbide_armor",
     "group": [ { "fault": "fault_armor_carbide", "weight": 100 }, { "fault": "fault_armor_carbide_bad", "weight": 5 } ]
+  },
+  {
+    "type": "fault_group",
+    "id": "afs_steel_armor",
+    "group": [ { "fault": "afs_fault_armor_steel", "weight": 100 }, { "fault": "afs_fault_armor_steel_bad", "weight": 5 } ]
   }
 ]

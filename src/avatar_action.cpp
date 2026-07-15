@@ -775,7 +775,12 @@ void avatar_action::autoattack( avatar &you, map &m )
         return;
     }
 
-    you.reach_attack( best.pos_bub() );
+    if( weapon && !you.used_weapon() && !weapon->is_gun() ) {
+        add_msg( m_info, _( "You can't use reach attacks while forcing yourself to fight unarmed." ) );
+        return;
+    } else {
+        you.reach_attack( best.pos_bub() );
+    }
 }
 
 // TODO: Move data/functions related to targeting out of game class

@@ -803,5 +803,77 @@
     "type": "MONSTER",
     "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
     "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
+  },
+  {
+    "id": "mon_feral_human_crowbar",
+    "copy-from": "mon_feral_human_crowbar",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_human_pipe",
+    "copy-from": "mon_feral_human_pipe",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_human_axe",
+    "copy-from": "mon_feral_human_axe",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_human_tool",
+    "copy-from": "mon_feral_human_tool",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_cop",
+    "copy-from": "mon_feral_cop",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_survivalist",
+    "copy-from": "mon_feral_survivalist",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_militia",
+    "copy-from": "mon_feral_militia",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_prepper_knife",
+    "copy-from": "mon_feral_prepper_knife",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_prepper_mace",
+    "copy-from": "mon_feral_prepper_mace",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_jackboot",
+    "copy-from": "mon_feral_jackboot",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_soldier",
+    "copy-from": "mon_feral_soldier",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_sapien_spear",
+    "copy-from": "mon_feral_sapien_spear",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE_HIGHER_ODDS" }
   }
 ]

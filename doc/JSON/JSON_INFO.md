@@ -1757,7 +1757,6 @@ The list of possible faults, their weight and actual chances can be checked in i
 | `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108 - water.
 | `latent_heat`          | Latent heat of fusion for a material (J/g). Default 334.
 | `freezing_point`       | Freezing point of this material (C). Default 0 C ( 32 F ).
-| `edible`               | Optional boolean. Default is false.
 | `rotting`              | Optional boolean. Default is false.
 | `breathability`        | What breathability the clothes, made out of this material, would have; can be `IMPERMEABLE` (0%), `POOR` (30%), `AVERAGE` (50%), `GOOD` (80%), `MOISTURE_WICKING` (110%), `SECOND_SKIN` (140%)
 | `burn_products`        | Burning this material drop this items; array, first in array is the id of an item, and another is the number, respond for effeciency of burning - the bigger the burnable item is (by weight), and the more items there is, the bigger output; Multiple items could be returned simultaneously, like `[ [ "corpse_ash", 0.035 ], [ "glass_shard", 0.5 ] ]`,
@@ -1781,7 +1780,6 @@ There are seven -resist parameters: acid, bash, chip, cut, elec, fire, and bulle
     "specific_heat_liquid": 3.7,
     "specific_heat_solid": 2.15,
     "latent_heat": 260,
-    "edible": true,
     "rotting": true,
     "resist": { "bash": 1, "cut": 1, "acid": 1, "heat": 1, "bullet": 1 },
     "chip_resist": 2,

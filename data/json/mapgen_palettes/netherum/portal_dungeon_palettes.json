@@ -1,0 +1,21 @@
+[
+  {
+    "type": "palette",
+    "id": "portal_storm_palette",
+    "terrain": { "0": "t_floor_warped", "1": "t_wall_warped", "a": "t_grass_alien", "G": "t_grass" }
+  },
+  {
+    "type": "palette",
+    "id": "portal_storm_dungeon_palette",
+    "terrain": {
+      " ": [ [ "t_floor_warped", 95 ], [ "t_floor_warped_light", 5 ] ],
+      "-": "t_wall_warped",
+      "!": "t_floor_warped",
+      "@": "t_floor_warped",
+      "o": [ [ "t_floor_warped", 75 ], [ "t_wall_warped", 25 ] ],
+      "O": [ [ "t_floor_warped", 25 ], [ "t_wall_warped", 75 ] ],
+      "Q": [ [ "t_floor_warped", 20 ], [ "t_wall_warped", 100 ] ],
+      "q": [ [ "t_floor_warped", 50 ], [ "t_wall_warped", 50 ] ]
+    }
+  }
+]

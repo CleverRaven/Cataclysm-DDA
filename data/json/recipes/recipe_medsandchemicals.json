@@ -1653,7 +1653,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "chem_methanol",
     "charges": 250,
-    "byproduct_group": [ { "item": "chem_ethanol", "container-item": "null", "charges": 2 } ],
+    "byproduct_group": [ { "item": "chem_ethanol", "container-item": "null", "charges": 500 } ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
@@ -2110,7 +2110,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "hi_q_distillate",
-    "byproduct_group": [ { "item": "chem_ethanol", "container-item": "null", "charges": 1 } ],
+    "byproduct_group": [ { "item": "chem_ethanol", "container-item": "null", "charges": 250 } ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -2137,7 +2137,7 @@
       [ [ "filter_paper_quantitative", 2 ] ],
       [ [ "gasket_plastic_set", 1 ] ]
     ],
-    "components": [ [ [ "weed", 7 ] ], [ [ "chem_ethanol", 9 ] ] ]
+    "components": [ [ [ "weed", 7 ] ], [ [ "chem_ethanol", 2250 ] ] ]
   },
   {
     "type": "recipe",
@@ -2145,7 +2145,7 @@
     "result": "hi_q_distillate",
     "id_suffix": "improvised_extraction",
     "name": "improvised %s",
-    "byproduct_group": [ { "item": "chem_ethanol", "container-item": "null", "charges": 1 } ],
+    "byproduct_group": [ { "item": "chem_ethanol", "container-item": "null", "charges": 250 } ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -2171,7 +2171,7 @@
       [ [ "filter_paper_qualitative", 2 ] ],
       [ [ "filter_paper_quantitative", 2 ] ]
     ],
-    "components": [ [ [ "weed", 8 ] ], [ [ "chem_ethanol", 9 ] ] ]
+    "components": [ [ [ "weed", 8 ] ], [ [ "chem_ethanol", 2250 ] ] ]
   },
   {
     "type": "recipe",
@@ -2179,7 +2179,7 @@
     "result": "hi_q_distillate",
     "id_suffix": "large_extraction",
     "name": "large %s",
-    "byproduct_group": [ { "item": "chem_ethanol", "container-item": "null", "charges": 1 } ],
+    "byproduct_group": [ { "item": "chem_ethanol", "container-item": "null", "charges": 250 } ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -2206,7 +2206,7 @@
       [ [ "filter_paper_quantitative", 2 ] ],
       [ [ "gasket_plastic_set", 1 ] ]
     ],
-    "components": [ [ [ "weed", 10 ] ], [ [ "chem_ethanol", 9 ] ] ]
+    "components": [ [ [ "weed", 10 ] ], [ [ "chem_ethanol", 2250 ] ] ]
   },
   {
     "type": "recipe",
@@ -2214,7 +2214,7 @@
     "result": "hi_q_distillate",
     "id_suffix": "crude_extraction",
     "name": "crude %s",
-    "byproduct_group": [ { "item": "chem_ethanol", "container-item": "null", "charges": 1 } ],
+    "byproduct_group": [ { "item": "chem_ethanol", "container-item": "null", "charges": 250 } ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -2248,7 +2248,7 @@
       [ [ "filter_paper_qualitative", 2 ] ],
       [ [ "filter_paper_quantitative", 2 ] ]
     ],
-    "components": [ [ [ "weed", 10 ] ], [ [ "chem_ethanol", 20 ] ] ]
+    "components": [ [ [ "weed", 10 ] ], [ [ "chem_ethanol", 5000 ] ] ]
   },
   {
     "type": "recipe",
