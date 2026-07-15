@@ -6010,11 +6010,15 @@ talk_effect_fun_t::func f_die_advanced( const JsonObject &jo, std::string_view m
     return [remove_corpse, supress_message, is_npc]( dialogue const & d ) {
         map &here = get_map();
 
-        Creature *cr = d.actor( is_npc )->get_creature();
-
-        cr->death_message = supress_message.has_value() ? !supress_message.value() : cr->death_message;
-        cr->spawn_corpse = remove_corpse.has_value() ? !remove_corpse.value() : cr->spawn_corpse;
-        cr->death_drops = remove_corpse.has_value() ? !remove_corpse.value() : cr->death_drops;
+        if( d.actor( is_npc )->get_monster() ) {
+            monster &mon = *d.actor( is_npc )->get_monster();
+            mon.death_drops = remove_corpse.has_value() ? !remove_corpse.value() : mon.death_drops;
+            mon.quiet_death = supress_message.has_value() ? supress_message.value() : mon.quiet_death;
+        } else if( d.actor( is_npc )->get_npc() ) {
+            npc &guy_npc = *d.actor( is_npc )->get_npc();
+            guy_npc.spawn_corpse = remove_corpse.has_value() ? !remove_corpse.value() : guy_npc.spawn_corpse;
+            guy_npc.quiet_death = supress_message.has_value() ? supress_message.value() : guy_npc.quiet_death;
+        }
 
         d.actor( is_npc )->die( &here );
     };
@@ -7811,8 +7815,8 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                     if( lifespan.value() > 0_seconds ) {
                         spawned->set_summon_time( lifespan.value() );
                         // Temporary monsters shouldn't drop items unless told to
-                        spawned->death_drops = temporary_drop_items;
-                        spawned->spawn_corpse = temporary_drop_items;
+                        spawned->no_extra_death_drops = !temporary_drop_items;
+                        spawned->no_corpse_quiet = !temporary_drop_items;
                     }
                 }
             }

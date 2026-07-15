@@ -115,14 +115,19 @@ void Character::try_remove_bear_trap()
             }
         }
     } else {
-        if( can_escape_trap( 100 ) ) {
-            remove_effect( effect_beartrap );
-            here.spawn_item( pos_bub(), itype_beartrap );
-            add_msg_player_or_npc( m_good, _( "You free yourself from the bear trap!" ),
-                                   _( "<npcname> frees themselves from the bear trap!" ) );
-        } else {
-            add_msg_if_player( m_bad,
-                               _( "You try to free yourself from the bear trap, but can't get loose!" ) );
+        // If we were caught in several bear traps at once, conduct a separate attempt to free for each one
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            if( has_effect( effect_beartrap, bp ) ) {
+                if( can_escape_trap( 100 ) ) {
+                    remove_effect( effect_beartrap, bp );
+                    here.spawn_item( pos_bub(), itype_beartrap );
+                    add_msg_player_or_npc( m_good, _( "You free yourself from the bear trap!" ),
+                                           _( "<npcname> frees themselves from the bear trap!" ) );
+                } else {
+                    add_msg_if_player( m_bad,
+                                       _( "You try to free yourself from the bear trap, but can't get loose!" ) );
+                }
+            }
         }
     }
 }

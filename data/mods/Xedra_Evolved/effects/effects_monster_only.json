@@ -54,5 +54,43 @@
     "name": [ "Red-Handed Rage" ],
     "desc": [ "" ],
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_viridian_cuirass",
+    "name": [ "Viridian Cuirass" ],
+    "desc": [ "" ],
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [
+          { "type": "bash", "add": 15 },
+          { "type": "stab", "add": 8 },
+          { "type": "cut", "add": 10 },
+          { "type": "bullet", "add": 10 }
+        ]
+      },
+      {
+        "condition": { "not": { "is_season": "autumn" } },
+        "incoming_damage_mod": [ { "type": "cold", "multiply": -0.5 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_swirl_of_autumn_leaves",
+    "name": [ "Swirl of Autumn Leaves" ],
+    "desc": [ "" ],
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "RANGE_DODGE", "add": 0.45 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_a_fire_in_the_blood",
+    "name": [ "A Fire in the Blood" ],
+    "desc": [ "" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ 2 ] }
   }
 ]

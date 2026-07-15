@@ -3,19 +3,19 @@
     "type": "MONSTER",
     "id": "mon_tindalos",
     "copy-from": "mon_tindalos",
-    "extend": { "flags": [ "STABILIZED_TIMELINE" ] }
+    "extend": { "flags": [ "STABILIZED_TIMELINE", "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_hound_tindalos",
     "copy-from": "mon_hound_tindalos",
-    "extend": { "flags": [ "STABILIZED_TIMELINE" ] }
+    "extend": { "flags": [ "STABILIZED_TIMELINE", "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_lieutenant_shadow",
     "copy-from": "mon_lieutenant_shadow",
-    "extend": { "flags": [ "STABILIZED_TIMELINE" ] }
+    "extend": { "flags": [ "STABILIZED_TIMELINE", "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
   },
   {
     "id": "mon_bear_cub",
@@ -157,57 +157,973 @@
   {
     "id": "mon_zombie_child_base",
     "type": "MONSTER",
-    "name": { "str": "zombie child", "str_pl": "zombie children" },
-    "description": "It was only a child, and little is different about it now aside from the hungry look in its eyes.  You'd be hard-pressed to not feel like you were killing an actual child by putting it down.",
-    "copy-from": "mon_zombie_base",
-    "proportional": { "volume": 0.5, "weight": 0.5 },
-    "hp": 40,
-    "speed": 65,
-    "symbol": "z",
-    "melee_skill": 2,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "dodge": 2,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_child_body", "wps_humanoid_head_big" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_child" ],
-    "vision_day": 30,
-    "special_attacks": [
-      { "id": "bite_humanoid", "attack_upper": false, "cooldown": 5 },
-      { "id": "scratch", "attack_upper": false, "cooldown": 15 }
-    ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items_pockets", 65 ] ],
-      "//": "default zombie children clothing (always), additional items from child_items_pockets (sometimes)"
-    },
-    "harvest": "zombie_child",
-    "burn_into": "mon_zombie_child_scorched",
-    "fungalize_into": "mon_zombie_child_dusted",
-    "upgrades": { "half_life": 120, "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE" },
-    "extend": { "weakpoint_sets": [ "wps_humanoid_child_body", "wps_humanoid_head_big" ], "families": [ "prof_wp_child" ] },
-    "delete": { "flags": [ "PUSH_MON" ] }
+    "copy-from": "mon_zombie_child_base",
+    "harvest": "zombie_child"
   },
   {
     "id": "mon_zombie_runner",
     "type": "MONSTER",
-    "name": { "str": "zombie runner" },
-    "description": "This recently-risen body moves quickly, darting its head back and forth and gnawing at its hands.",
-    "copy-from": "mon_zombie_base",
-    "speed": 105,
-    "color": "brown_white",
-    "melee_dice": 4,
-    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "dodge": 1,
-    "special_attacks": [
-      { "id": "grab" },
-      { "id": "scratch_humanoid", "cooldown": 10 },
-      {
-        "id": "bite_humanoid",
-        "cooldown": 5,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.7 } ]
-      }
-    ],
-    "upgrades": { "half_life": 140, "into": "mon_zombie_hunter" },
-    "fungalize_into": "mon_zombie_runner_dusted",
+    "copy-from": "mon_zombie_runner",
     "harvest": "zombie_runner"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_broken_cyborg",
+    "copy-from": "mon_broken_cyborg",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_prototype_cyborg",
+    "copy-from": "mon_prototype_cyborg",
+    "extend": { "armor": { "withering_damage": 6 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_exodii_worker",
+    "copy-from": "mon_exodii_worker",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_exodii_quad",
+    "copy-from": "mon_exodii_quad",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zomborg",
+    "copy-from": "mon_zomborg",
+    "extend": { "withering_damage": 15 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zomborg_devourer",
+    "copy-from": "mon_zomborg_devourer",
+    "extend": { "armor": { "withering_damage": 30 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_secubot",
+    "copy-from": "mon_secubot",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_talon_m202a1",
+    "copy-from": "mon_talon_m202a1",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_secubot_america",
+    "copy-from": "mon_secubot_america",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skitterbot",
+    "copy-from": "mon_skitterbot",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_science_bot",
+    "copy-from": "mon_science_bot",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_robofac_prototype",
+    "copy-from": "mon_robofac_prototype",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_dispatch",
+    "copy-from": "mon_dispatch",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_dispatch_military",
+    "copy-from": "mon_dispatch_military",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "abstract": "base_drone",
+    "copy-from": "base_drone",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "exodii_sniper_drone",
+    "copy-from": "exodii_sniper_drone",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_fungus",
+    "copy-from": "mon_zombie_fungus",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_gasbag_fungus",
+    "copy-from": "mon_zombie_gasbag_fungus",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_smoker_fungus",
+    "copy-from": "mon_zombie_smoker_fungus",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton_fungus",
+    "copy-from": "mon_skeleton_fungus",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton_brute_fungus",
+    "copy-from": "mon_skeleton_brute_fungus",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton_hulk_fungus",
+    "copy-from": "mon_skeleton_hulk_fungus",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_child_fungus",
+    "copy-from": "mon_zombie_child_fungus",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_boomer_fungus",
+    "copy-from": "mon_boomer_fungus",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fungal_wretch",
+    "copy-from": "mon_fungal_wretch",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fungal_raptor",
+    "copy-from": "mon_fungal_raptor",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_runner_fungal",
+    "copy-from": "mon_zombie_runner_fungal",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_rot_fungal",
+    "copy-from": "mon_zombie_rot_fungal",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_tough_fungal",
+    "copy-from": "mon_zombie_tough_fungal",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_crawler_fungal",
+    "copy-from": "mon_zombie_crawler_fungal",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_fat_fungus",
+    "copy-from": "mon_zombie_fat_fungus",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_beekeeper_fungal",
+    "copy-from": "mon_beekeeper_fungal",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_fungus_acidic",
+    "copy-from": "mon_zombie_fungus_acidic",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_dog_fungus",
+    "copy-from": "mon_zombie_dog_fungus",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zoose_fungus",
+    "copy-from": "mon_zoose_fungus",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zougar_fungus",
+    "copy-from": "mon_zougar_fungus",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_horse_fungus",
+    "copy-from": "mon_zombie_horse_fungus",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ziger_fungus",
+    "copy-from": "mon_ziger_fungus",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zeer_fungus",
+    "copy-from": "mon_zeer_fungus",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zeindeer_fungus",
+    "copy-from": "mon_zeindeer_fungus",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fleshy_shambler",
+    "copy-from": "mon_fleshy_shambler",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_flesh_golem",
+    "copy-from": "mon_flesh_golem",
+    "extend": { "armor": { "withering_damage": 12 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_jabberwock",
+    "copy-from": "mon_jabberwock",
+    "extend": { "armor": { "withering_damage": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_lab_security_drone_GM",
+    "copy-from": "mon_lab_security_drone_GM",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_lab_security_drone_YM",
+    "copy-from": "mon_lab_security_drone_YM",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_lab_security_drone_BM",
+    "copy-from": "mon_lab_security_drone_BM",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_lab_security_drone_BM2",
+    "copy-from": "mon_lab_security_drone_BM2",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_lab_security_drone_GR",
+    "copy-from": "mon_lab_security_drone_GR",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mech_recon",
+    "copy-from": "mon_mech_recon",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mech_combat",
+    "copy-from": "mon_mech_combat",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mech_lifter",
+    "copy-from": "mon_mech_lifter",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mi_go_slaver",
+    "copy-from": "mon_mi_go_slaver",
+    "extend": { "armor": { "withering_damage": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mi_go_surgeon",
+    "copy-from": "mon_mi_go_surgeon",
+    "extend": { "armor": { "withering_damage": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mi_go_guard",
+    "copy-from": "mon_mi_go_guard",
+    "extend": { "armor": { "withering_damage": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mi_go_myrmidon",
+    "copy-from": "mon_mi_go_myrmidon",
+    "extend": { "armor": { "withering_damage": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mi_go_captured",
+    "copy-from": "mon_mi_go_captured",
+    "extend": { "armor": { "withering_damage": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mi_go_scout",
+    "copy-from": "mon_mi_go_scout",
+    "extend": { "armor": { "withering_damage": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_amigara_horror",
+    "copy-from": "mon_amigara_horror",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_shrapnel_swarm",
+    "copy-from": "mon_shrapnel_swarm",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_structural_spur",
+    "copy-from": "mon_structural_spur",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_void_spider",
+    "copy-from": "mon_void_spider",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_void_spider_maw",
+    "copy-from": "mon_void_spider_maw",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_void_spider_limb",
+    "copy-from": "mon_void_spider_limb",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_void_spider_spiderling",
+    "copy-from": "mon_void_spider_spiderling",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_darkman",
+    "copy-from": "mon_darkman",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_flying_polyp",
+    "copy-from": "mon_flying_polyp",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_star_vampire",
+    "copy-from": "mon_star_vampire",
+    "extend": { "armor": { "withering_damage": 18 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_star_vampire_coiling",
+    "copy-from": "mon_star_vampire_coiling",
+    "extend": { "armor": { "withering_damage": 18 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_hunting_horror",
+    "copy-from": "mon_hunting_horror",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_shadow",
+    "copy-from": "mon_shadow",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_shadow_snake",
+    "copy-from": "mon_shadow_snake",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_thing",
+    "copy-from": "mon_thing",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_vortex",
+    "copy-from": "mon_vortex",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_shifting_mass",
+    "copy-from": "mon_shifting_mass",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_impossible_shape",
+    "copy-from": "mon_impossible_shape",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_absence",
+    "copy-from": "mon_absence",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_flatlander",
+    "copy-from": "mon_flatlander",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_memory",
+    "copy-from": "mon_memory",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_swarm_structure",
+    "copy-from": "mon_swarm_structure",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_twisting_blade",
+    "copy-from": "mon_twisting_blade",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_archunk_weak",
+    "copy-from": "mon_archunk_weak",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_archunk_medium",
+    "copy-from": "mon_archunk_weak",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_archunk_strong",
+    "copy-from": "mon_archunk_weak",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_pale_reflection",
+    "copy-from": "mon_twisting_blade",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_tainted_shadow",
+    "copy-from": "mon_tainted_shadow",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_robofac_laserturret_mk1",
+    "copy-from": "mon_robofac_laserturret_mk1",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_robofac_camspy",
+    "copy-from": "mon_robofac_camspy",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_robofac_skittergun",
+    "copy-from": "mon_robofac_skittergun",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_blob",
+    "copy-from": "mon_blob",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_blob_brain",
+    "copy-from": "mon_blob_brain",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_blob_large",
+    "copy-from": "mon_blob_large",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_blob_small",
+    "copy-from": "mon_blob_small",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_gelatin",
+    "copy-from": "mon_gelatin",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_player_blob",
+    "copy-from": "mon_player_blob",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_slime_ocularium",
+    "copy-from": "mon_slime_ocularium",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_turret",
+    "copy-from": "mon_turret",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_turret_searchlight",
+    "copy-from": "mon_turret_searchlight",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_turret_bmg",
+    "copy-from": "mon_turret_bmg",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_turret_rifle",
+    "copy-from": "mon_turret_rifle",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_crows_m240",
+    "copy-from": "mon_crows_m240",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_turret_riot",
+    "copy-from": "mon_turret_riot",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_turret_speaker",
+    "copy-from": "mon_turret_speaker",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_exodii_turret",
+    "copy-from": "mon_exodii_turret",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_turret_artisans",
+    "copy-from": "mon_turret_artisans",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_grocerybot",
+    "copy-from": "mon_grocerybot",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_grocerybot_busted",
+    "copy-from": "mon_grocerybot_busted",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_hazmatbot",
+    "copy-from": "mon_hazmatbot",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_nursebot",
+    "copy-from": "mon_nursebot",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_nursebot_defective",
+    "copy-from": "mon_nursebot_defective",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_yrax_trifacet",
+    "copy-from": "mon_yrax_trifacet",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_yrax_sphenocorona",
+    "copy-from": "mon_yrax_sphenocorona",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_golden_monolith",
+    "copy-from": "mon_golden_monolith",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_yrax_apeirogon",
+    "copy-from": "mon_yrax_apeirogon",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_yrax_delta",
+    "copy-from": "mon_yrax_delta",
+    "extend": { "flags": [ "WITHERINGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_dog_skeleton",
+    "copy-from": "mon_dog_skeleton",
+    "extend": { "armor": { "withering_damage": 16 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_dog_skeleton_brute",
+    "copy-from": "mon_dog_skeleton_brute",
+    "extend": { "armor": { "withering_damage": 22 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wolf_skeleton",
+    "copy-from": "mon_wolf_skeleton",
+    "extend": { "armor": { "withering_damage": 16 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombear_skeleton",
+    "copy-from": "mon_zombear_skeleton",
+    "extend": { "armor": { "withering_damage": 16 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_horse_white",
+    "copy-from": "mon_zombie_horse_white",
+    "extend": { "armor": { "withering_damage": 16 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_horse_pale",
+    "copy-from": "mon_zombie_horse_pale",
+    "extend": { "armor": { "withering_damage": 16 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_snotgobbler",
+    "copy-from": "mon_zombie_snotgobbler",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_sproglodyte",
+    "copy-from": "mon_zombie_sproglodyte",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_wretch",
+    "copy-from": "mon_zombie_wretch",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton_master",
+    "copy-from": "mon_skeleton_master",
+    "extend": { "armor": { "withering_damage": 16 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton_necro",
+    "copy-from": "mon_skeleton_necro",
+    "extend": { "armor": { "withering_damage": 16 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_boomer",
+    "copy-from": "mon_boomer",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_boomer_huge",
+    "copy-from": "mon_boomer_huge",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_gasbag",
+    "copy-from": "mon_zombie_gasbag",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_relax_gasbag",
+    "copy-from": "mon_zombie_relax_gasbag",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_tear_gasbag",
+    "copy-from": "mon_zombie_tear_gasbag",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_boomer_glutton",
+    "copy-from": "mon_boomer_glutton",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_boomer_claymore",
+    "copy-from": "mon_boomer_claymore",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_rust",
+    "copy-from": "mon_zombie_rust",
+    "extend": { "armor": { "withering_damage": 12 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_shell",
+    "copy-from": "mon_zombie_shell",
+    "extend": { "armor": { "withering_damage": 12 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_plated",
+    "copy-from": "mon_zombie_plated",
+    "extend": { "armor": { "withering_damage": 12 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_urchin",
+    "copy-from": "mon_zombie_urchin",
+    "extend": { "armor": { "withering_damage": 12 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_hammer_hands",
+    "copy-from": "mon_zombie_hammer_hands",
+    "extend": { "armor": { "withering_damage": 12 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_devourer",
+    "copy-from": "mon_devourer",
+    "extend": { "armor": { "withering_damage": 22 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_gasbag_immobile",
+    "copy-from": "mon_zombie_gasbag_immobile",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_gasbag_crawler",
+    "copy-from": "mon_zombie_gasbag_crawler",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_gasbag_impaler",
+    "copy-from": "mon_zombie_gasbag_impaler",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_phase_skulker",
+    "copy-from": "mon_zombie_phase_skulker",
+    "extend": { "armor": { "withering_damage": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_phase_shrike",
+    "copy-from": "mon_zombie_phase_shrike",
+    "extend": { "armor": { "withering_damage": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_frog_mother",
+    "copy-from": "mon_frog_mother",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_brainless",
+    "copy-from": "mon_zombie_brainless",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_afs_headless_horror",
+    "copy-from": "mon_afs_headless_horror",
+    "extend": { "armor": { "withering_damage": 22 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_grue",
+    "copy-from": "mon_zombie_grue",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_ears",
+    "copy-from": "mon_zombie_ears",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_nemesis",
+    "copy-from": "mon_zombie_nemesis",
+    "extend": { "armor": { "withering_damage": 22 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_master",
+    "copy-from": "mon_zombie_master",
+    "extend": { "armor": { "withering_damage": 22 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_necro",
+    "copy-from": "mon_zombie_necro",
+    "extend": { "armor": { "withering_damage": 22 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_necro_boomer",
+    "copy-from": "mon_zombie_necro_boomer",
+    "extend": { "armor": { "withering_damage": 16 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_shady",
+    "copy-from": "mon_zombie_shady",
+    "extend": { "armor": { "withering_damage": 8, "xe_shadow_damage": 12 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_skull",
+    "copy-from": "mon_zombie_skull",
+    "extend": { "armor": { "withering_damage": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton",
+    "copy-from": "mon_skeleton",
+    "extend": { "armor": { "withering_damage": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton_brute",
+    "copy-from": "mon_skeleton_brute",
+    "extend": { "armor": { "withering_damage": 22 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton_electric",
+    "copy-from": "mon_skeleton_electric",
+    "extend": { "armor": { "withering_damage": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton_hulk",
+    "copy-from": "mon_skeleton_hulk",
+    "extend": { "armor": { "withering_damage": 30 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_kevlar_2",
+    "copy-from": "mon_zombie_kevlar_2",
+    "extend": { "armor": { "withering_damage": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton_medical",
+    "copy-from": "mon_skeleton_medical",
+    "extend": { "armor": { "withering_damage": 14 } }
   }
 ]

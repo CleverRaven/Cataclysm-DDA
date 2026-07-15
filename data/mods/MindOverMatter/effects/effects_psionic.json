@@ -2149,7 +2149,6 @@
     "decay_messages": [ [ "You are sinking despite your best efforts.", "bad" ], [ "You wobble briefly downward before recovering.", "bad" ] ],
     "rating": "good",
     "max_duration": "7 days",
-    "max_intensity": 34,
     "flags": [ "LEVITATION", "CLIMB_FLYING", "ITEM_WATERPROOFING", "WATERWALKING" ]
   },
   {
@@ -2462,7 +2461,8 @@
         "condition": {
           "and": [
             { "not": { "u_has_effect": "effect_clair_astral_projection" } },
-            { "not": { "u_has_effect": "effect_biokin_perfected_motion" } }
+            { "not": { "u_has_effect": "effect_biokin_perfected_motion" } },
+            { "not": { "u_has_effect": "effect_mom_tindalos_hounds_corrupted_stride" } }
           ]
         },
         "values": [
@@ -2471,6 +2471,11 @@
             "multiply": { "math": [ "max( ( ( ( u_spell_level('teleport_stride') * -0.02 ) - 0.05 ) * psionic_power_modifiers() ), -0.6)" ] }
           }
         ]
+      },
+      {
+        "condition": { "u_has_effect": "effect_mom_tindalos_hounds_corrupted_stride" },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.05 } ],
+        "ench_effects": [ { "effect": "effect_mom_tindalos_hounds_corrupted_stride_warning", "intensity": 1 } ]
       }
     ],
     "flags": [ "MUSCLE_VEH_BOOST" ]

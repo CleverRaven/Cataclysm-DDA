@@ -1190,9 +1190,9 @@ const item &item::legacy_front() const
     return contents.legacy_front();
 }
 
-void item::favorite_settings_menu()
+void item::favorite_settings_menu( item_location il )
 {
-    contents.favorite_settings_menu( this );
+    contents.favorite_settings_menu( std::move( il ) );
 }
 
 void item::combine( const item_contents &read_input, bool convert )

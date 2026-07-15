@@ -394,7 +394,7 @@
   {
     "id": "mon_stiltwalker_1_1",
     "type": "MONSTER",
-    "name": { "str": "Stiltwalker" },
+    "name": { "str": "stiltwalker" },
     "description": "This lanky, quadrupedal entity has a loosely humanoid torso, towering high over the ground on long bladed legs.  Its body is covered in what looks like fur made of rusting, metallic wire, and its face is a polished, hollow mask with holes where the mouth and eyes should be.",
     "volume": "100 L",
     "weight": "317 kg",

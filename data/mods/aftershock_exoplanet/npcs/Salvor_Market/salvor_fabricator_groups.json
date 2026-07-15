@@ -128,7 +128,7 @@
       { "item": "hammer_sledge_short", "prob": 20 },
       { "item": "e_tool", "prob": 10 },
       { "item": "afs_plasma_torch", "prob": 40 },
-      { "item": "goggles_welding", "prob": 40, "count": [ 1, 2 ] }
+      { "item": "goggles_welding", "prob": 90, "count": [ 1, 2 ] }
     ]
   },
   {
@@ -178,6 +178,7 @@
     "//": "Just a group for all aftershock tools she sells, prevents her marking them up to oblivion.",
     "items": [
       { "item": "afs_battery_charger" },
+      { "item": "afs_ipav_patch_kit" },
       { "item": "afs_survival_heater" },
       { "item": "afs_tripod_light" },
       { "item": "afs_survival_battery" },

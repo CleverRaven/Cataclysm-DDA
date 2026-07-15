@@ -113,5 +113,23 @@
         "message": "The plant's buds swell, fruiting and growing.  Before you even lower your hands, it's ripe and ready for the harvest."
       }
     ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_changeling_winter_close_the_reality_tear",
+    "field": [
+      {
+        "result": "fd_null",
+        "valid_field": [ "fd_fatigue" ],
+        "message": "The edges of the swirling wound in reality crack like ice over new fallen snow, and then the entire portal shatters into shards of nothingness."
+      }
+    ],
+    "trap": [
+      {
+        "result": "tr_null",
+        "valid_trap": [ "tr_portal" ],
+        "message": "The edges of the swirling wound in reality crack like ice over new fallen snow, and then the entire portal shatters into shards of nothingness."
+      }
+    ]
   }
 ]

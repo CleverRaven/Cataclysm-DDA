@@ -8,7 +8,12 @@
     "category": "total_conversion",
     "dependencies": [ "dda" ],
     "path": "json/",
-    "loading_images": [ "hunvre_loading_screen.png" ],
+    "loading_images": [
+      "hunvre_loading_screen.png",
+      "hunvre_loading_screen_1.png",
+      "hunvre_loading_screen_2.png",
+      "hunvre_loading_screen_3.png"
+    ],
     "disable_other_loading_screens": true
   }
 ]

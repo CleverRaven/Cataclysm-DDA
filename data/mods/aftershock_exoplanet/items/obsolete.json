@@ -58,5 +58,101 @@
     "//": "remove after 0.J",
     "id": "xllegpouch_large",
     "replace": "legpouch_large"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.K",
+    "id": "destroyed_exo_torso_steel",
+    "replace": "exo_torso_steel"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.K",
+    "id": "damaged_exo_torso_steel",
+    "replace": "exo_torso_steel"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.K",
+    "id": "destroyed_exo_torso_vcc",
+    "replace": "exo_torso_vcc"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.K",
+    "id": "damaged_exo_torso_vcc",
+    "replace": "exo_torso_vcc"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.K",
+    "id": "destroyed_exo_leg_steel",
+    "replace": "exo_leg_steel"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.K",
+    "id": "damaged_exo_leg_steel",
+    "replace": "exo_leg_steel"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.K",
+    "id": "destroyed_exo_leg_vcc",
+    "replace": "exo_leg_vcc"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.K",
+    "id": "damaged_exo_leg_vcc",
+    "replace": "exo_leg_vcc"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.K",
+    "id": "destroyed_exo_helmet_steel",
+    "replace": "exo_helmet_steel"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.K",
+    "id": "damaged_exo_helmet_steel",
+    "replace": "exo_helmet_steel"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.K",
+    "id": "destroyed_exo_helmet_vcc",
+    "replace": "exo_helmet_vcc"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.K",
+    "id": "damaged_exo_helmet_vcc",
+    "replace": "exo_helmet_vcc"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.K",
+    "id": "destroyed_exo_arm_steel",
+    "replace": "exo_arm_steel"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.K",
+    "id": "damaged_exo_arm_steel",
+    "replace": "exo_arm_steel"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.K",
+    "id": "destroyed_exo_arm_vcc",
+    "replace": "exo_arm_vcc"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.K",
+    "id": "damaged_exo_arm_vcc",
+    "replace": "exo_arm_vcc"
   }
 ]

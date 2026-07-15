@@ -177,6 +177,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ACTIVE_CLOAKING``` While active, drains UPS to provide invisibility.
 - ```ALARMCLOCK``` Has an alarm-clock feature.
 - ```ALLOWS_GASTROPOD_FOOT``` You can wear this item even if you have a gastropod foot instead of human legs.
+- ```ALLOWS_LEG_TENTACLES``` You can wear this item even if you have cephalopod tentacles instead of human legs.
 - ```ALLOWS_NATURAL_ATTACKS``` Doesn't prevent any natural attacks or similar benefits from mutations, fingertip razors, etc., like most items covering the relevant body part would.
 - ```ALLOWS_TAIL``` You can wear this leg-covering item even if you have a tail
 - ```ALLOWS_TALONS``` People with talon mutations still can wear this armor, that cover feet.
@@ -845,8 +846,8 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```FLAMING``` This item is on fire, you deal additional fire damage using it.
 - ```FRAGILE_MELEE``` Fragile items that fall apart easily when used as a weapon due to poor construction quality and will break into components when broken.
 - ```FRESH_GRAIN``` This item is fresh-cut grain, and can be dried in a stook.
-- ```GASFILTER_MED``` This is a medium size gas filter cartridge, that is used as magazine for various gasmasks.
-- ```GASFILTER_SM``` This is a small size gas filter cartridge, that is used as magazine for various gasmasks.
+- ```GASFILTER_MED``` This is a medium size gas filter cartridge, that is used as magazine for various gas masks.
+- ```GASFILTER_SM``` This is a small size gas filter cartridge, that is used as magazine for various gas masks.
 - ```GAS_DISCOUNT``` Discount cards for the automated gas stations.
 - ```GAS_TANK``` This item can store gases.
 - ```GEMSTONE``` This is a gemstone, and you can put it in some jewelry.

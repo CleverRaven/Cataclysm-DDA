@@ -293,6 +293,22 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "category": "artifacts",
+    "id": "matrix_crystal_telekinesis_artifact",
+    "name": { "str_sp": "strange crystal, yellow" },
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing red light in its depths.  Holding it, you feel lighter.",
+    "color": "yellow",
+    "symbol": "+",
+    "volume": "10 ml",
+    "weight": "150 g",
+    "longest_side": "21 mm",
+    "material": [ "nether_crystal" ],
+    "looks_like": "matrix_crystal_telekinesis",
+    "flags": [ "MATRIX_CRYSTAL_TELEKINESIS", "RELIC_PINK" ]
+  },
+  {
+    "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_telepathy",
     "name": { "str_sp": "strange crystal, white" },

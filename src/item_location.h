@@ -115,7 +115,7 @@ class item_location
         /** returns the character whose inventory contains this item, nullptr if none **/
         Character *carrier() const;
 
-        /** returns the character whose inventory contains this item, nullptr if none **/
+        /** returns the vehicle whose inventory contains this item, nullptr if none **/
         const vehicle_cursor *veh_cursor() const;
 
         /** returns true if the item is in the inventory of the given character **/
@@ -190,6 +190,11 @@ class item_location
         * @param strict_boiling True if containers must be empty to have BOIL quality
         */
         int get_quality( const std::string &quality, bool strict_boiling ) const;
+
+        /**
+         * Open a menu for the player to set pocket favorite settings for the pockets in the item's item_contents.
+         */
+        void favorite_settings_menu();
 
     private:
         class impl;

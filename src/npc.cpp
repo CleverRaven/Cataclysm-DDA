@@ -3287,7 +3287,7 @@ void npc::die( map *here, Creature *nkiller )
     dead = true;
     Character::die( here, nkiller );
 
-    if( death_message ) {
+    if( !quiet_death ) {
         if( is_hallucination() || lifespan_end ) {
             add_msg_if_player_sees( *this, _( "%s disappears." ), get_name().c_str() );
             return;

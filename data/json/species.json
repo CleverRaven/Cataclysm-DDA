@@ -203,6 +203,11 @@
   },
   {
     "type": "SPECIES",
+    "id": "YRAX",
+    "description": "an extradimensional construct"
+  },
+  {
+    "type": "SPECIES",
     "id": "HORROR",
     "description": "a horror"
   },

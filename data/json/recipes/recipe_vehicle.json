@@ -362,7 +362,7 @@
     "autolearn": true,
     "//": "75cm weld",
     "using": [ [ "welding_standard", 75 ] ],
-    "components": [ [ [ "steel_plate", 1 ] ], [ [ "spring", 3 ] ] ]
+    "components": [ [ [ "steel_plate", 1 ] ], [ [ "spring", 4 ] ] ]
   },
   {
     "result": "tearer",

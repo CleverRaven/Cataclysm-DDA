@@ -515,7 +515,7 @@
     "volume": "15 L",
     "price": "90 USD",
     "price_postapoc": "12 USD 50 cent",
-    "material": [ "leather" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",

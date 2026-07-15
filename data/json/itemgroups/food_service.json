@@ -356,7 +356,7 @@
       { "item": "soap", "prob": 15, "charges": [ 1, 10 ] },
       { "group": "detergent_small_box_part", "prob": 10 },
       { "group": "borax_box_part", "prob": 10 },
-      { "item": "bleach", "prob": 15, "charges": [ 1, -1 ] },
+      { "group": "bleach_jug_part", "prob": 15 },
       [ "broom", 13 ],
       { "item": "fursuit", "variant": "dinosuit", "prob": 7 },
       [ "hat_ball", 19 ],
@@ -492,7 +492,7 @@
       { "group": "borax_box_part", "prob": 4 },
       { "item": "cotton_patchwork", "prob": 15 },
       { "item": "broom", "prob": 8 },
-      { "item": "bleach", "prob": 8, "charges": [ 1, -1 ] },
+      { "group": "bleach_jug_part", "prob": 8 },
       { "item": "hotplate", "prob": 1 },
       { "item": "vinegar", "charges": [ 1, -1 ], "prob": 3 }
     ]
@@ -603,7 +603,7 @@
       { "group": "detergent_small_box_part", "prob": 15 },
       { "group": "borax_box_part", "prob": 15 },
       { "item": "cotton_patchwork", "prob": 30 },
-      { "item": "bleach", "prob": 30, "charges": [ 1, -1 ] },
+      { "group": "bleach_jug_part", "prob": 30 },
       { "item": "vinegar", "prob": 30, "charges": [ 1, -1 ] },
       { "item": "backpack", "prob": 5 }
     ]

@@ -17,6 +17,7 @@
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "mattack_common.h"
 #include "messages.h"
 #include "monster.h"

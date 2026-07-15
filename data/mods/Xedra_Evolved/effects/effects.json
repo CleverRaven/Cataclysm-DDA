@@ -171,7 +171,22 @@
     "rating": "mixed",
     "max_duration": "30 m",
     "base_mods": { "per_mod": [ 6 ], "dex_mod": [ -2 ], "speed_mod": [ -5 ] },
+    "flags": [ "HUNGER_DISRUPTION" ],
     "blood_analysis_description": "Cross-dimensional narcotic, unexpected physics encountered"
+  },
+  {
+    "type": "effect_type",
+    "id": "elf-addled",
+    "//": "Should make the player have better perception with a worse dex but should be offset if taken with consumables that grant altered_physics.",
+    "name": [ "ælfadl" ],
+    "desc": [ "The world was much more beautiful when you were closer to the Underhill." ],
+    "apply_message": "The world becomes a duller place.  Do you even care if you live or die if it is in this place?",
+    "remove_message": "The colors brighten and your vision sharpens.",
+    "rating": "bad",
+    "max_duration": "24 hours",
+    "base_mods": { "per_mod": [ -1 ], "speed_mod": [ -5 ] },
+    "flags": [ "HUNGER_DISRUPTION" ],
+    "blood_analysis_description": "Anemia of the soul."
   },
   {
     "type": "effect_type",
@@ -4272,7 +4287,9 @@
     "type": "effect_type",
     "id": "effect_werewolf_gain_more_powers",
     "name": [ "Gifts of the Moon" ],
-    "desc": [ "You can unlock a new Lunar Gift.  Do so at night under the moon." ]
+    "desc": [ "You can unlock a new Lunar Gift.  Do so at night under the moon." ],
+    "apply_message": "You are ready for a new gift of the moon.",
+    "rating": "good"
   },
   {
     "type": "effect_type",
@@ -4448,5 +4465,14 @@
     ],
     "max_intensity": 10,
     "rating": "mixed"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_withering_healing_down",
+    "name": [ "Withered" ],
+    "desc": [ { "str": "You feel strangely enervated." } ],
+    "rating": "bad",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.5 } ] } ]
   }
 ]

@@ -101,6 +101,7 @@ static const json_character_flag json_flag_COLDBLOOD3( "COLDBLOOD3" );
 static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const json_character_flag json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
+static const json_character_flag json_flag_HUNGER_DISRUPTION( "HUNGER_DISRUPTION" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
@@ -1091,6 +1092,9 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         } else {
             hunger_effect = effect_hunger_very_hungry;
         }
+    }
+    if( has_effect_with_flag( json_flag_HUNGER_DISRUPTION ) ) {
+        hunger_effect = effect_hunger_blank;
     }
     if( !has_effect( hunger_effect ) ) {
         remove_effect( effect_hunger_engorged );

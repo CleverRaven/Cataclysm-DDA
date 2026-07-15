@@ -2362,7 +2362,14 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .on_submit( [this] { display_effects(); } );
     }
 
-    if( ( is_locked || has_security_working( *here ) ) && controls_here ) {
+    bool has_immobilizer = false;
+    for( const vehicle_part *vp : vp_parts ) {
+        if( vp->has_fault_flag( "IMMOBILIZER" ) ) {
+            has_immobilizer = true;
+        }
+    }
+
+    if( ( is_locked || has_immobilizer ) && controls_here ) {
         if( player_inside ) {
             ///\EFFECT_MECHANICS speeds up vehicle hotwiring
             const float skill = std::max( 1.0f, get_player_character().get_skill_level( skill_mechanics ) );

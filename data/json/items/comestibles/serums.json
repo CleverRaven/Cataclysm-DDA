@@ -5,6 +5,7 @@
     "category": "drugs",
     "name": { "str_sp": "48x-\"Locutus\"" },
     "description": "Little, sealed ampule with some white, semi-transparent liquid of unknown origin.  Label on it says \"48x-\"Locutus\"\", whatever that means.",
+    "display_type": "BY_VOLUME",
     "weight": "7 g",
     "volume": "10 ml",
     "material": [ "alien_liquid" ],

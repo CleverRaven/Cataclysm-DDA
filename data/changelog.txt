@@ -235,6 +235,7 @@ Charged tools can be used on unattended crafting steps
 Unattended liquid crafts wait for you to pour them
 Crafting faults
 Allows spawns offset from the origin like the beach, or deep in the forests to the west
+Gun and tool mods can retune multimag host consumption, firing modes, and pocket capacity
 
 
 ## Content:
@@ -497,6 +498,10 @@ If the Exodii trust you enough they'll give you a Cyberframe
 Dimension: the Scarlet Sea
 Challenge - Labyrinth Bound
 Expanding zombie weakpoints with vitals
+Some `a shadow?` attacked survivor camp mapgen
+A mission to negotiate trade between the Exodii and Free Merchants
+Add display type to certain food/drink products
+Overhaul the Portal Storm dungeon
 
 
 ## Interface:
@@ -1147,6 +1152,8 @@ XE Proficiency CBMs
 [BPerks/MM/Sorc] XP mods can level up more than once at a time
 Aftershock: Add industrial habitat building.
 Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
+[XedraWood] Add magical tattoos and a profession that starts with them
+[Xedra Evolved] Add Follower dialogue topic to ask them to cast spells
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1296,6 +1303,8 @@ Nobody wants to cooperate with psychopaths
 Zombie corpses aren't useful
 Stepped many many weapon recipes
 Joint Torsion Ratchet CBM doesn't allow for perpetual motion cyborgs
+Zero cost spells remain zero cost even if encumbered
+Kelvar is now fireproof
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1837,6 +1846,14 @@ Stop spamming player log when NPCs are hot
 Stop ref center guard EOCs from firing in alternate dimensions
 Uncomfortable limbs must exist
 Fix Android black screen after turning the screen off
+Batch crafts no longer vanish when an unattended step's timeout is shorter than the batch-scaled craft time
+Labyrinth treasure room terminals work, and don't crash
+Worn flotation vest won't let you drown anymore
+Inventory organization crashes/freezes
+Fix fractional DoT displays
+Break monster grab if the monster was flung away
+[Xedra Evolved] Lilin only attack you in the main dimension
+NPCs will now get their spells from professions and hobbies during random NPC creation
 
 
 ## Performance:

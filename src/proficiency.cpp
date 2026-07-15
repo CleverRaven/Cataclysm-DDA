@@ -263,6 +263,12 @@ learning_proficiency &proficiency_set::fetch_learning( const proficiency_id &tar
     return learning[0];
 }
 
+void proficiency_set::clear()
+{
+    known.clear();
+    learning.clear();
+}
+
 std::vector<display_proficiency> proficiency_set::display() const
 {
     // The proficiencies are sorted by whether or not you know them

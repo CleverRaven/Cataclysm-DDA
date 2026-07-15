@@ -205,5 +205,10 @@
     "type": "overmap_location",
     "id": "string_dimension_plane_core",
     "terrains": [ "string_dimension_plane_core" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "portal_storm_dungeon",
+    "terrains": [ "default_portal_storm_dungeon_overmap" ]
   }
 ]

@@ -438,6 +438,7 @@
       [ "textbook_robots", 1 ],
       [ "textbook_traps", 2 ],
       [ "textbook_anarch", 1 ],
+      { "item": "improvised_munition_handbook", "prob": 1 },
       [ "recipe_bows", 2 ],
       [ "recipe_arrows", 2 ],
       { "item": "extinguisher", "prob": 20, "charges": 100 },
@@ -1789,7 +1790,7 @@
   {
     "id": "laundromat_bleach",
     "type": "item_group",
-    "items": [ [ "bleach", 50 ] ]
+    "items": [ { "group": "bleach_jug_part", "prob": 50 } ]
   },
   {
     "id": "laundromat_containers",

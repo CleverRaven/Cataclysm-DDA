@@ -23,6 +23,7 @@
     "id": "mon_shoggoth",
     "copy-from": "mon_shoggoth",
     "type": "MONSTER",
+    "extend": { "flags": [ "WITHERINGPROOF", "SHADOW_MONSTER_IMMUNE" ] },
     "death_function": {
       "eoc": "EOC_XE_SHOGGOTH_DEATH",
       "corpse_type": "NO_CORPSE",

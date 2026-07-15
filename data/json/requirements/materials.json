@@ -468,7 +468,7 @@
         [ "lamp_oil", 200 ],
         [ "motor_oil", 200 ],
         [ "salt_water", 5 ],
-        [ "ash", 50 ],
+        [ "ash", 5 ],
         [ "tin", 50 ]
       ]
     ]

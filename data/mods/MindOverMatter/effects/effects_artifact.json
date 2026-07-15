@@ -114,6 +114,20 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_mom_artifact_levitation",
+    "name": [ "Levitation" ],
+    "desc": [ "You are floating in defiance of gravity." ],
+    "apply_message": "",
+    "remove_message": "Your feet touch the ground once again.",
+    "decay_messages": [ [ "You are sinking despite your best efforts.", "bad" ], [ "You wobble briefly downward before recovering.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "max_intensity": 50,
+    "int_dur_factor": "5 s",
+    "flags": [ "LEVITATION", "CLIMB_FLYING", "ITEM_WATERPROOFING", "WATERWALKING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_mom_artifact_slow",
     "name": [ "Stutterstepping" ],
     "desc": [ "Your steps aren't taking you as far as your eyes tell you they should." ],

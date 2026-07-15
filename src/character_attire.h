@@ -251,7 +251,7 @@ class outfit
         std::list<item> remove_items_with( Character &guy,
                                            const std::function<bool( const item & )> &filter, int &count );
 
-        void organize_items_menu();
+        void organize_items_menu( Character &guy );
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &jo );

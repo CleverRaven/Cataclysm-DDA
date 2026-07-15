@@ -123,6 +123,16 @@
         },
         [ "BIO_OP_DISARM", 15 ],
         {
+          "id": "psi_biokin_guard_physical_enhancement",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_physical_enhancement_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_physical_enhancement" } } ]
+          },
+          "monster_message": "%1$s clenches their fists and shakes open their hands."
+        },
+        {
           "id": "bio_op_takedown",
           "cooldown": { "math": [ "5 + rand(10)" ] },
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }

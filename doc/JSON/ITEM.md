@@ -704,7 +704,6 @@ CBMs can be defined like this:
   { "type": "flesh", "portion": 3 }, // See Generic Item attributes for type and portion details
   { "type": "wheat", "portion": 5 }
 ],
-"primary_material": "meat",       // Overwrites generic item "material" field. Materials determine specific heat.
 "rot_spawn": {                    // Defines what creature would be spawned when this item rots away. Primarily used for eggs
   "group": "GROUP_EGG_CHICKEN",   // id of monster group that would be spawned. Cannot be used with "monster"
   "monster": "mon_moose_calf",    // id of a monster that would be spawned. Cannot be used with "group"
@@ -1348,6 +1347,15 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "type": "delayed_transform",  // Like transform, but it will only transform when the item has a certain age
   "transform_age": 600,         // The minimal age of the item. Items that are younger won't transform. In turns (60 turns = 1 minute)
   "not_ready_msg": "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough
+},
+"use_action": {
+  "type": "repair_item",                            // Place NPC of specific class on the map
+  "item_action_type": "repair_fabric",              // Possible options are "repair_fabric" and "repair_metal"
+  "materials": [ "iron", "cotton", "candyfloss" ],  // Array of material types that the item can repair
+  "skill": "swimming",                              // The skill used for repairing
+  "tool_quality": 0,                                // Integer, used in the formula "( 10 + 2 * skill - 2 * difficulty + tool_quality / 5.0f ) / 100.0f" to determine success
+  "cost_scaling": 0.1,                              // Unknown
+  "move_cost": 100                                  // How many move points the action takes
 },
 "use_action": {
   "type": "firestarter",  // Start a fire, like with a lighter.

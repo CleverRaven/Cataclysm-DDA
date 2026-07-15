@@ -1,0 +1,10 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "portal_storm_dungeon_teleporter",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "portal_storm_dungeon_teleporter" } ],
+    "locations": [ "portal_storm_dungeon" ],
+    "occurrences": [ 50, 75 ],
+    "flags": [ "PORTAL_STORM_DUNGEON", "EXTRADIMENSIONAL" ]
+  }
+]

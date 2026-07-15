@@ -3,7 +3,7 @@ import re
 from .message import Message, messages, occurrences, errors
 
 
-tag_pattern = re.compile(r'^<[a-zA-Z0-9_!?.-]*>$')
+tag_pattern = re.compile(r'^<[a-zA-Z0-9_!?:.-]*>$')
 
 
 def is_tag(text):

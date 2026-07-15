@@ -1631,7 +1631,6 @@ Descartes
 descript
 desilo
 Desmodontinae
-dessicant
 destreza
 Det
 detune
@@ -7382,7 +7381,6 @@ vermontsteel
 Verne
 versa
 Versailles
-vestigal
 vewwy
 VI
 viagra

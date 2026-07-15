@@ -567,6 +567,14 @@ class monster : public Creature
         // Names of mission monsters fused with this monster
         std::vector<std::string> mission_fused;
         const mtype *type;
+        // If true, don't spawn loot items as part of death.
+        bool no_extra_death_drops = false;
+        // If true, monster dies quietly and leaves no corpse.
+        bool no_corpse_quiet = false;
+        // Turned to false for simulating monsters during distant missions so they don't drop in sight.
+        bool death_drops = true;
+        // If true, sound and message is suppressed for monster death.
+        bool quiet_death = false;
         bool is_dead() const;
         bool made_footstep = false;
         //if we are a nemesis monster from the 'hunted' trait
@@ -625,7 +633,6 @@ class monster : public Creature
         std::map<std::string, mon_special_attack, std::less<>> special_attacks;
         std::optional<tripoint_abs_ms> goal;
         bool dead = false;
-
         /** Normal upgrades **/
         int next_upgrade_time();
         bool upgrades = false;

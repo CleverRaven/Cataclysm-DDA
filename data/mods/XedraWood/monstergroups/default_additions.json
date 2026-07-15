@@ -94,6 +94,8 @@
         "starts": "360 days",
         "conditions": [ "WINTER" ]
       },
+      { "monster": "mon_rattlesnake_big", "weight": 15 },
+      { "monster": "mon_rattlesnake_giant", "weight": 7, "cost_multiplier": 2 },
       { "monster": "mon_claw_runner", "weight": 9, "cost_multiplier": 4 },
       { "monster": "mon_claw_runner", "weight": 3, "cost_multiplier": 4, "pack_size": [ 2, 5 ] },
       { "monster": "mon_claw_hunter", "weight": 3, "cost_multiplier": 30 },
@@ -120,6 +122,8 @@
         "starts": "360 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
+      { "monster": "mon_rattlesnake_big", "weight": 30 },
+      { "monster": "mon_rattlesnake_giant", "weight": 25, "cost_multiplier": 2 },
       { "monster": "mon_claw_runner", "weight": 15, "cost_multiplier": 4 },
       { "monster": "mon_claw_runner", "weight": 5, "cost_multiplier": 4, "pack_size": [ 2, 5 ] },
       { "monster": "mon_claw_hunter", "weight": 6, "cost_multiplier": 30 },
@@ -142,6 +146,19 @@
     "id": "GROUP_FOREST_SPIRIT",
     "default": "mon_null",
     "monsters": [ { "monster": "mon_dryad", "weight": 200 }, { "monster": "mon_dryad", "weight": 25, "pack_size": [ 2, 3 ] } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_LIZARDFOLK_HUNTING_BAND_NONHOSTILE",
+    "monsters": [ { "monster": "mon_lizardfolk_warrior", "weight": 1 }, { "monster": "mon_lizardfolk_hunter", "weight": 3 } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_LIZARDFOLK_HUNTING_BAND_HOSTILE",
+    "monsters": [
+      { "monster": "mon_lizardfolk_warrior_hostile", "weight": 1 },
+      { "monster": "mon_lizardfolk_hunter_hostile", "weight": 3 }
+    ]
   },
   {
     "type": "monstergroup",

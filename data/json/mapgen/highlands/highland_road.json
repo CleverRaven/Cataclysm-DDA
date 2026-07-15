@@ -27,6 +27,12 @@
           "x": 0,
           "y": 0
         },
+        {
+          "chunks": [ [ "null", 60 ], [ "imperial_road_decor", 15 ] ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "east": "nether_glass_imperial_road_north" }
+        },
         { "chunks": [ "24x24_highland_road_ruins_east" ], "x": 0, "y": 0, "neighbors": { "east": "highland_ruins" } },
         { "chunks": [ "24x24_highland_road_ruins_west" ], "x": 0, "y": 0, "neighbors": { "west": "highland_ruins" } }
       ]

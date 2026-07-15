@@ -901,7 +901,7 @@
     "categories": [ "energy" ],
     "looks_like": "battery_car",
     "color": "red",
-    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "flags": [ "APPLIANCE" ],
     "description": "A car battery wired into a static power grid.",
     "item": "battery_car",
     "breaks_into": [
@@ -922,7 +922,7 @@
     "categories": [ "energy" ],
     "looks_like": "battery_motorbike",
     "color": "red",
-    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "flags": [ "APPLIANCE" ],
     "description": "A motorbike battery wired into a static power grid.",
     "item": "battery_motorbike",
     "breaks_into": [
@@ -943,7 +943,7 @@
     "categories": [ "energy" ],
     "looks_like": "battery_motorbike_small",
     "color": "red",
-    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "flags": [ "APPLIANCE" ],
     "description": "A small motorbike battery wired into a static power grid.",
     "item": "battery_motorbike_small",
     "breaks_into": [

@@ -224,13 +224,6 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_test_no_drop",
-    "copy-from": "mon_test_zombie",
-    "name": { "str": "zombie" },
-    "death_drops": {  }
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_test_bovine",
     "name": { "str_sp": "monster producing cattle samples when dissected" },
     "description": "An 8-legged beast of rugged greenish skin.",

@@ -8,5 +8,15 @@
     "id": "SHADOW_MONSTER_IMMUNE",
     "type": "monster_flag",
     "//": "Immune to shadow damage"
+  },
+  {
+    "id": "WITHERING_IMMUNE",
+    "type": "json_flag",
+    "//": "Immune to withering damage"
+  },
+  {
+    "id": "WITHERINGPROOF",
+    "type": "monster_flag",
+    "//": "Immune to withering damage"
   }
 ]

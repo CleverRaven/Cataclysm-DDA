@@ -21,13 +21,13 @@ The following table lists the currently planned/implemented scrap categories and
 | `Biomaterial`     | monomeric slurry     | micellular growth medium | artificial muscle fibers   | self healing polymers     | autologous totipotent tissue culture |
 | `Heat Transfer`   | conductive thermoplastic | supercritical coolant | carbon-lattice heatsink   | fermionic nanoribbon   | maxwellian entropic chirality generator |
 
-Note that more categories can be added, and that it inst necessary for a category to encompass the five tiers, although its better if they do.
+Note that more categories can be added, and that it isn't necessary for a category to encompass the five tiers, although it's better if they do.
 
 ## Scrap Tiers Briefly Explained
 
 ### Tier 1
 
-Tier 1 scrap is plentiful, and can be easily found even when you aren't specifically looking for it.  It might be dropped by defeating common enemies, or by disassembling common household objects.  Ideally Tier 1 scrap is mostly used as a filler component in more advanced recipes. Things that might be crafted using only this tier of scrap must be single-use and not very effective, and should  see little use outside of the early game.For example
+Tier 1 scrap is plentiful, and can be easily found even when you aren't specifically looking for it.  It might be dropped by defeating common enemies, or by disassembling common household objects.  Ideally Tier 1 scrap is mostly used as a filler component in more advanced recipes. Things that might be crafted using only this tier of scrap must be single-use and not very effective, and should  see little use outside of the early game. For example:
 
 - Makeshift ammunition of all kinds, that might risk damaging your gun.
 - Weak grenades with very limited range.
@@ -36,21 +36,21 @@ Tier 1 scrap is plentiful, and can be easily found even when you aren't specific
 
 Tier 2 scrap remains common, but requires some measure of effort to acquire. Perhaps it spawns only in certain locations or requires specialized tools and skills to extract.  This scrap might be used to craft disposable tools and weapons or to make decent quality ammunition and explosives. For example:
 
-- Bulky, makeshift version of an UPS with very limited charge capacity.
+- Bulky, makeshift version of a UPS with very limited charge capacity.
 - A rail gun/laser that works only for a limited number of shots before melting.
 - A grenade that emits a low range electric field.
 
 ### Tier 3
 
-Much like tier 2 above, this type of scrap is common, but is only meant to spawn in locations that might prove dangerous to a mid-game characters.  Additionally, it should always need tools and skills to extract.  Tier 3 scrap might be used to craft  basic rechargeable tools, mid-quality weapons and exotic ammunition and grenades.  For example:
+Much like tier 2 above, this type of scrap is common, but is only meant to spawn in locations that might prove dangerous to a mid-game characters.  Additionally, it should always need tools and skills to extract.  Tier 3 scrap might be used to craft  basic rechargeable tools, mid-quality weapons and exotic ammunition and grenades. For example:
 
 - UPS
-- Non relaodable charge packs for Laser Weapons
+- Non-reloadable charge packs for Laser Weapons
 - Shoddy laser Rifle
 
 ### Tier 4
 
-This tier of scrap is properly uncommon, it spawns should be limited to the 'boss rooms' of mid-game and to end-game dungeons, and should prove challenging to acquire.  It might be used to craft tools that provide great convenience in the non combat aspects of the game, single use items that grant very powerful abilities and good quality weapons. For Example
+This tier of scrap is properly uncommon, it spawns should be limited to the 'boss rooms' of mid-game and to end-game dungeons, and should prove challenging to acquire.  It might be used to craft tools that provide great convenience in the non combat aspects of the game, single use items that grant very powerful abilities and good quality weapons. For example:
 
 - Most utility bionics.
 - Laser Weapons.

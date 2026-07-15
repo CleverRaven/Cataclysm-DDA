@@ -291,21 +291,175 @@
     "id": "mon_hound_tindalos",
     "copy-from": "mon_hound_tindalos",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ], "armor": { "psi_telekinetic_damage": 50 } },
+    "extend": {
+      "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ],
+      "armor": { "psi_telekinetic_damage": 50 },
+      "special_attacks": [
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "hound_tindalos_maintain_speed",
+          "cooldown": 1,
+          "move_cost": 1,
+          "range": 60,
+          "damage_max_instance": [ { "damage_type": "biological", "amount": 0 } ],
+          "dodgeable": false,
+          "blockable": false,
+          "condition": {
+            "and": [ { "npc_has_effect": "effect_teleport_stride" }, { "not": { "u_has_effect": "effect_hound_extended_speed_bonus" } } ]
+          },
+          "eoc": [ "EOC_MOM_HOUND_SPEED_ADJUSTMENT" ],
+          "hit_dmg_u": "",
+          "hit_dmg_npc": "",
+          "miss_msg_u": "",
+          "miss_msg_npc": "",
+          "no_dmg_msg_u": "",
+          "no_dmg_msg_npc": ""
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "hound_tindalos_lose_speed",
+          "cooldown": 1,
+          "move_cost": 1,
+          "range": 60,
+          "damage_max_instance": [ { "damage_type": "biological", "amount": 0 } ],
+          "dodgeable": false,
+          "blockable": false,
+          "condition": {
+            "and": [ { "not": { "npc_has_effect": "effect_teleport_stride" } }, { "u_has_effect": "effect_hound_extended_speed_bonus" } ]
+          },
+          "eoc": [ "EOC_MOM_HOUND_SPEED_ADJUSTMENT" ],
+          "hit_dmg_u": "",
+          "hit_dmg_npc": "",
+          "miss_msg_u": "",
+          "miss_msg_npc": "",
+          "no_dmg_msg_u": "",
+          "no_dmg_msg_npc": ""
+        }
+      ]
+    },
     "attack_effs": [ { "id": "effect_teleporting_lock", "duration": [ 5, 60 ], "chance": 50 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_HOUND_SPEED_ADJUSTMENT",
+    "condition": { "not": { "u_has_effect": "effect_hound_extended_speed_bonus" } },
+    "effect": [
+      { "u_add_effect": "effect_hound_extended_speed_bonus", "duration": "5 minutes" },
+      { "npc_add_effect": "effect_mom_tindalos_hounds_corrupted_stride", "duration": "5 minutes" }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_hound_extended_speed_bonus" },
+      { "npc_lose_effect": "effect_mom_tindalos_hounds_corrupted_stride" }
+    ]
   },
   {
     "id": "mon_hound_tindalos_afterimage",
     "copy-from": "mon_hound_tindalos_afterimage",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ], "armor": { "psi_telekinetic_damage": 50 } },
+    "extend": {
+      "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ],
+      "armor": { "psi_telekinetic_damage": 50 },
+      "special_attacks": [
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "hound_tindalos_maintain_speed",
+          "cooldown": 1,
+          "move_cost": 1,
+          "range": 60,
+          "damage_max_instance": [ { "damage_type": "biological", "amount": 0 } ],
+          "dodgeable": false,
+          "blockable": false,
+          "condition": {
+            "and": [ { "npc_has_effect": "effect_teleport_stride" }, { "not": { "u_has_effect": "effect_hound_extended_speed_bonus" } } ]
+          },
+          "eoc": [ "EOC_MOM_HOUND_SPEED_ADJUSTMENT" ],
+          "hit_dmg_u": "",
+          "hit_dmg_npc": "",
+          "miss_msg_u": "",
+          "miss_msg_npc": "",
+          "no_dmg_msg_u": "",
+          "no_dmg_msg_npc": ""
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "hound_tindalos_lose_speed",
+          "cooldown": 1,
+          "move_cost": 1,
+          "range": 60,
+          "damage_max_instance": [ { "damage_type": "biological", "amount": 0 } ],
+          "dodgeable": false,
+          "blockable": false,
+          "condition": {
+            "and": [ { "not": { "npc_has_effect": "effect_teleport_stride" } }, { "u_has_effect": "effect_hound_extended_speed_bonus" } ]
+          },
+          "eoc": [ "EOC_MOM_HOUND_SPEED_ADJUSTMENT" ],
+          "hit_dmg_u": "",
+          "hit_dmg_npc": "",
+          "miss_msg_u": "",
+          "miss_msg_npc": "",
+          "no_dmg_msg_u": "",
+          "no_dmg_msg_npc": ""
+        }
+      ]
+    },
     "attack_effs": [ { "id": "effect_teleporting_lock", "duration": [ 5, 60 ], "chance": 50 } ]
   },
   {
     "id": "mon_tindalos",
     "copy-from": "mon_tindalos",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ], "armor": { "psi_telekinetic_damage": 50 } },
+    "extend": {
+      "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ],
+      "armor": { "psi_telekinetic_damage": 50 },
+      "special_attacks": [
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "hound_tindalos_maintain_speed",
+          "cooldown": 1,
+          "move_cost": 1,
+          "range": 60,
+          "damage_max_instance": [ { "damage_type": "biological", "amount": 0 } ],
+          "dodgeable": false,
+          "blockable": false,
+          "condition": {
+            "and": [ { "npc_has_effect": "effect_teleport_stride" }, { "not": { "u_has_effect": "effect_hound_extended_speed_bonus" } } ]
+          },
+          "eoc": [ "EOC_MOM_HOUND_SPEED_ADJUSTMENT" ],
+          "hit_dmg_u": "",
+          "hit_dmg_npc": "",
+          "miss_msg_u": "",
+          "miss_msg_npc": "",
+          "no_dmg_msg_u": "",
+          "no_dmg_msg_npc": ""
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "hound_tindalos_lose_speed",
+          "cooldown": 1,
+          "move_cost": 1,
+          "range": 60,
+          "damage_max_instance": [ { "damage_type": "biological", "amount": 0 } ],
+          "dodgeable": false,
+          "blockable": false,
+          "condition": {
+            "and": [ { "not": { "npc_has_effect": "effect_teleport_stride" } }, { "u_has_effect": "effect_hound_extended_speed_bonus" } ]
+          },
+          "eoc": [ "EOC_MOM_HOUND_SPEED_ADJUSTMENT" ],
+          "hit_dmg_u": "",
+          "hit_dmg_npc": "",
+          "miss_msg_u": "",
+          "miss_msg_npc": "",
+          "no_dmg_msg_u": "",
+          "no_dmg_msg_npc": ""
+        }
+      ]
+    },
     "attack_effs": [ { "id": "effect_teleporting_lock", "duration": [ 5, 60 ], "chance": 50 } ]
   },
   {
@@ -603,36 +757,6 @@
     "extend": { "armor": { "psi_telepathic_damage": 120 } }
   },
   {
-    "id": "mon_yrax_delta",
-    "copy-from": "mon_yrax_delta",
-    "type": "MONSTER",
-    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
-  },
-  {
-    "id": "mon_yrax_trifacet",
-    "copy-from": "mon_yrax_trifacet",
-    "type": "MONSTER",
-    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
-  },
-  {
-    "id": "mon_yrax_apeirogon",
-    "copy-from": "mon_yrax_apeirogon",
-    "type": "MONSTER",
-    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
-  },
-  {
-    "id": "mon_yrax_sphenocorona",
-    "copy-from": "mon_yrax_sphenocorona",
-    "type": "MONSTER",
-    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
-  },
-  {
-    "id": "mon_yrax_triakis",
-    "copy-from": "mon_yrax_triakis",
-    "type": "MONSTER",
-    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
-  },
-  {
     "id": "mon_cow",
     "copy-from": "mon_cow",
     "type": "MONSTER",
@@ -679,5 +803,77 @@
     "type": "MONSTER",
     "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
     "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
+  },
+  {
+    "id": "mon_feral_human_crowbar",
+    "copy-from": "mon_feral_human_crowbar",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_human_pipe",
+    "copy-from": "mon_feral_human_pipe",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_human_axe",
+    "copy-from": "mon_feral_human_axe",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_human_tool",
+    "copy-from": "mon_feral_human_tool",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_cop",
+    "copy-from": "mon_feral_cop",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_survivalist",
+    "copy-from": "mon_feral_survivalist",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_militia",
+    "copy-from": "mon_feral_militia",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_prepper_knife",
+    "copy-from": "mon_feral_prepper_knife",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_prepper_mace",
+    "copy-from": "mon_feral_prepper_mace",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_jackboot",
+    "copy-from": "mon_feral_jackboot",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_soldier",
+    "copy-from": "mon_feral_soldier",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_sapien_spear",
+    "copy-from": "mon_feral_sapien_spear",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE_HIGHER_ODDS" }
   }
 ]

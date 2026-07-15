@@ -404,6 +404,31 @@
   },
   {
     "type": "mutation",
+    "id": "CHANGELING_GAIN_DREAMDROSS_FROM_MORTAL_DREAMS",
+    "name": { "str": "Banquet of Dreams" },
+    "points": 2,
+    "description": "The Fair Folk rely on mortal dreams for power, and this glamour is one of the ways they harvest them.  When woven over a sleeping mortal, some of the power of their dreams coalesces as a shimmering metallic substance called dreamdross.  Activate to increase the intensity, drawing out far more dreamdross but causing permanent damage to the target's dreams.",
+    "category": [
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "purifiable": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You get ready to rip as much power from mortal dreams as you can.",
+    "spells_learned": [ [ "changeling_gain_dreamdross_from_dreams", 1 ] ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "ench_effects": [ { "effect": "effect_changeling_active_banquet_of_dreams", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "CHANGELING_NOBLE_CURE_BAD_CONDITIONS",
     "name": { "str": "Lights of Imbolc" },
     "points": 2,
@@ -1858,6 +1883,30 @@
       "THRESH_FAIR_FOLK_COMMONER_TROW"
     ],
     "spells_learned": [ [ "changeling_invisibility_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_STOP_NETHER_CONDITIONS",
+    "name": { "str": "Dancers in the Endless Dark" },
+    "points": 8,
+    "purifiable": false,
+    "description": "The Fair Folk dance across realities, avoiding the notice of the vast and timeless forces that overshadow existence.  This glamour will protect you from a variety of deleterious otherworldly afflictions.  It must be applied before exposure.",
+    "prereqs": [ "CHANGELING_INVISIBILITY" ],
+    "category": [
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "threshreq": [
+      "THRESH_FAIR_FOLK_NOBLE",
+      "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
+      "THRESH_FAIR_FOLK_COMMONER_POOKA",
+      "THRESH_FAIR_FOLK_COMMONER_SELKIE",
+      "THRESH_FAIR_FOLK_COMMONER_TROW"
+    ],
+    "spells_learned": [ [ "changeling_stop_nether_conditions_spell", 1 ] ]
   },
   {
     "type": "mutation",

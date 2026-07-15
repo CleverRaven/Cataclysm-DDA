@@ -107,7 +107,7 @@
           { "value": "LEARNING_FOCUS", "add": -10 },
           { "value": "OBTAIN_COST_MULTIPLIER", "multiply": 2 }
         ],
-        "mutations": [ "WEREWOLF_HEAD", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
+        "mutations": [ "WEREWOLF_HEAD", "TAIL_FLUFFY", "LUPINE_FUR", "ANIMAL_FEET", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
       },
       {
         "condition": { "and": [ { "not": "is_day" }, { "math": [ "moon_phase() == 4" ] } ] },

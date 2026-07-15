@@ -95,7 +95,7 @@
       { "group": "alchemy_mutagen_samples", "prob": 5 },
       { "item": "scrap_dreamdross", "prob": 50, "count": [ 1, 4 ] },
       { "item": "water_clean", "prob": 90, "charges": [ 1, -1 ], "container-item": "bottle_plastic", "sealed": false },
-      { "item": "bleach", "prob": 20, "charges": [ 1, -1 ] },
+      { "group": "bleach_jug_part", "prob": 20 },
       { "item": "chem_washing_soda", "prob": 15, "count": [ 1, -1 ] },
       { "item": "chem_baking_soda", "prob": 25, "count": [ 1, -1 ] },
       { "item": "chem_ethanol", "prob": 40, "charges": [ 250, -1 ] },
@@ -161,6 +161,7 @@
     "id": "alchemical_recipes_tier_two",
     "items": [
       { "item": "alchemy_recipe_prophets_lsd", "prob": 1 },
+      { "item": "alchemy_recipe_gold_from_lead", "prob": 1 },
       { "item": "alchemy_recipe_truckers_stamina_pills", "prob": 1 },
       { "item": "alchemy_recipe_charm_of_marzanna", "prob": 1 },
       { "item": "alchemy_recipe_spiritshow_dust", "prob": 1 },

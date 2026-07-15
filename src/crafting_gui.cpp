@@ -1315,8 +1315,9 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 ImGui::TextColored( cataimgui::imvec4_from_color( c_white ), "%s",
                                     _( "Byproducts:" ) );
                 for( const auto &[bp_id, bp_count] : cached_byproducts ) {
+                    const int bp_c = bp_count * batch_size;
                     ImGui::BulletText( "%s", string_format( "%s x%d",
-                                                            item::nname( bp_id, bp_count ), bp_count ).c_str() );
+                                                            item::nname( bp_id, bp_c ), bp_c ).c_str() );
                 }
             }
 

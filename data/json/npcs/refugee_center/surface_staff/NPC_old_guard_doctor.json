@@ -44,6 +44,18 @@
       { "text": "Heard anything about the outside world?", "topic": "TALK_SCIENCE_REP_WORLD" },
       { "text": "Can I trade for supplies?", "topic": "TALK_SCIENCE_REP_ASK_TRADE" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
+      {
+        "text": "Can I you help me with bionic implants?",
+        "condition": {
+          "and": [
+            { "math": [ "FM_exodii_autodoc_placed == 1" ] },
+            {
+              "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" }, { "u_has_trait": "Hub01_CBM_Interface" } ]
+            }
+          ]
+        },
+        "topic": "TALK_SCIENCE_REP_CBM"
+      },
       { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
@@ -85,6 +97,40 @@
     "type": "talk_topic",
     "dynamic_line": "We can't.  There's nothing we can spare to sell and I've got no budget to buy from you.  I don't suppose you want to donate?",
     "responses": [ { "text": "…", "topic": "TALK_SCIENCE_REP" } ]
+  },
+  {
+    "id": "TALK_SCIENCE_REP_CBM",
+    "type": "talk_topic",
+    "dynamic_line": "You've got one of those interfaces?  Sure.  Let me fire up the robot.",
+    "responses": [
+      {
+        "text": "Would you be able to help me install a bionic implant?",
+        "condition": {
+          "and": [
+            { "math": [ "FM_exodii_autodoc_placed == 1" ] },
+            {
+              "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" }, { "u_has_trait": "Hub01_CBM_Interface" } ]
+            }
+          ]
+        },
+        "topic": "TALK_DONE",
+        "effect": "bionic_install"
+      },
+      {
+        "text": "Would you be able to take out one of my bionic implants?",
+        "condition": {
+          "and": [
+            { "math": [ "FM_exodii_autodoc_placed == 1" ] },
+            {
+              "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" }, { "u_has_trait": "Hub01_CBM_Interface" } ]
+            }
+          ]
+        },
+        "topic": "TALK_DONE",
+        "effect": "bionic_remove"
+      },
+      { "text": "Never mind…", "topic": "TALK_SCIENCE_REP" }
+    ]
   },
   {
     "id": "MISSION_SCIENCE_REP_1",

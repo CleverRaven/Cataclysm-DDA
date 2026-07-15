@@ -1,5 +1,140 @@
 [
   {
+    "id": "cookbook_useless",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "name": { "str": "The Generic Cookbook", "str_pl": "copies of The Generic Cookbook" },
+    "description": "Just your standard cookbook filled with recipes that you could almost certainly come up with on your own.",
+    "copy-from": "book_nonf_soft_tpl",
+    "symbol": "?",
+    "looks_like": "cookbook",
+    "color": "red",
+    "required_level": 0,
+    "max_level": 2,
+    "intelligence": 4,
+    "time": "10 m",
+    "read_skill": "cooking",
+    "read_fun": 0,
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "cookbook_useless_main_salads",
+        "name": { "str": "Main Course Salads", "str_pl": "copies of Main Course Salads" },
+        "description": "A classic cookbook filled with recipes for hearty salads.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_useless_cook_everything",
+        "name": { "str": "How to Cook Everything", "str_pl": "copies of How to Cook Everything" },
+        "description": "An introductory cookbook containing a few simple recipes from every type of cuisine.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_useless_simple_food",
+        "name": { "str": "The Art of Simple Food", "str_pl": "copies of The Art of Simple Food" },
+        "description": "A cookbook with a variety of recipes, mostly focusing on vegetables.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_useless_better_homes_gardens",
+        "name": { "str": "The Better Homes & Gardens Cook Book", "str_pl": "copies of The Better Homes & Gardens Cook Book" },
+        "description": "Its red and white cover famous across America, this cookbook contains recipes for all sorts of staple foods.",
+        "weight": 2
+      },
+      {
+        "id": "cookbook_useless_sad_bastard",
+        "name": {
+          "str": "The Sad Bastard Cookbook: Food You Can Make So You Don't Die",
+          "str_pl": "copies of The Sad Bastard Cookbook: Food You Can Make So You Don't Die"
+        },
+        "description": "When your cooking is limited to 'microwave TV dinners', you need a book like this to elevate you to boiling water without burning it.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_useless_boil_water",
+        "name": { "str": "How to Boil Water", "str_pl": "copies of How to Boil Water" },
+        "description": "A cookbook for a complete beginner who's probably never turned a stove on before.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_useless_everyday_cook",
+        "name": { "str": "EveryDayCook: A Cookbook", "str_pl": "copies of EveryDayCook: A Cookbook" },
+        "description": "A cookbook with simple recipes, organized by time of day and meal rather than type of food.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_useless_dont_feel_like_cooking",
+        "name": {
+          "str": "What to Cook When You Don't Feel Like Cooking",
+          "str_pl": "copies of What to Cook When You Don't Feel Like Cooking"
+        },
+        "description": "Based on a popular blog, this book focuses on using minimal ingredients to make simple recipes.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_useless_college_cookbook_beginners",
+        "name": { "str": "College Cookbook for Beginners", "str_pl": "copies of College Cookbook for Beginners" },
+        "description": "A cookbook for students finally unleashed into their own kitchens.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_useless_super_easy_cookbook_beginners",
+        "name": {
+          "str": "Super Easy Cookbook for Beginners: 5-Ingredient Recipes and Essential Techniques to Get You Started in the Kitchen",
+          "str_pl": "copies of Super Easy Cookbook for Beginners: 5-Ingredient Recipes and Essential Techniques to Get You Started in the Kitchen"
+        },
+        "description": "A cookbook for beginners focused on recipes that only require five ingredients.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_useless_five_ingredients_bro",
+        "name": {
+          "str": "5 Ingredients, Bro! A No-Stress Cookbook for Teens",
+          "str_pl": "copies of 5 Ingredients, Bro! A No-Stress Cookbook for Teens"
+        },
+        "description": "A cookbook for beginners focused on recipes that only require five ingredients, designed for teenagers.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_useless_the_beginners_cookbook_easy_delicious",
+        "name": {
+          "str": "The Beginner's Cookbook: Simple - Easy - Delicious",
+          "str_pl": "copies of The Beginner's Cookbook: Simple - Easy - Delicious"
+        },
+        "description": "A cookbook with a variety of simple recipes like pizza, roast chicken, and risotto.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_useless_five_ingredient_college",
+        "name": {
+          "str": "The 5-Ingredient College Cookbook: Recipes to Survive the Next Four Years",
+          "str_pl": "copies of The 5-Ingredient College Cookbook: Recipes to Survive the Next Four Years"
+        },
+        "description": "Another of the 'five-ingredient' genre of cookbooks, this one focused on college students.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_useless_the_beginners_cookbook_easy_delicious",
+        "name": {
+          "str": "Quick and Delicious: 100 Recipes to Cook in 30 Minutes or Less",
+          "str_pl": "copies of Quick and Delicious: 100 Recipes to Cook in 30 Minutes or Less"
+        },
+        "description": "Gordon Ramsey's cookbook of simple recipes you can make with things you (hopefully) already have in your kitchen.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_useless_complete_for_beginners",
+        "name": {
+          "str": "The Complete Cookbook for Beginners : Essential Skills and Step-by-Step Techniques",
+          "str_pl": "copies of The Complete Cookbook for Beginners : Essential Skills and Step-by-Step Techniques"
+        },
+        "description": "A cookbook with 101 simple recipes, including tips for setting up a kitchen.",
+        "weight": 1
+      }
+    ]
+  },
+  {
     "id": "brewing_cookbook",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
@@ -598,6 +733,105 @@
     "looks_like": "cookbook",
     "melee_damage": { "bash": 7 },
     "read_fun": 1
+  },
+  {
+    "id": "cookbook_curry",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "name": { "str": "Curry cookbook", "str_pl": "copies of Curry cookbook" },
+    "description": "A book for making curry, the greatest of all meals.",
+    "copy-from": "book_nonf_soft_tpl",
+    "symbol": "?",
+    "color": "green",
+    "max_level": 3,
+    "intelligence": 4,
+    "time": "10 m",
+    "read_skill": "cooking",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "cookbook_curry_fifty_great",
+        "name": { "str": "50 Great Curries of India", "str_pl": "copies of 50 Great Curries of India" },
+        "description": "This best-selling cookbook contains 50 curry recipes, ranging from classics like Goa lamb vindaloo or rogan josh to less well-known ones like mango and yogurt curry.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_curry_easy_indian_curries",
+        "name": { "str": "Easy Indian Curry Recipes for Beginners", "str_pl": "copies of Easy Indian Curry Recipes for Beginners" },
+        "description": "A curry cookbook designed for first-time curry makers, including ingredient substitutions and a guide to commonly-used spices.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_curry_home_kitchens",
+        "name": { "str": "Curry: Recipes From Indian Home Kitchens", "str_pl": "copies of Curry: Recipes From Indian Home Kitchens" },
+        "description": "A curry cookbook with a variety of curries from across India.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_curry_easy_simple_guide",
+        "name": {
+          "str": "Easy Curry Cookbook: Cook Delicious Curries with this Simple Guide",
+          "str_pl": "copies of Easy Curry Cookbook: Cook Delicious Curries with this Simple Guide"
+        },
+        "description": "A simple cookbook designed for curry beginners.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_curry_easy_indian_curries",
+        "name": {
+          "str": "The Greatest Indian Curries Ever Created!: A Cookbook of 50 Delicious Curry Recipes Direct from India",
+          "str_pl": "copies of The Greatest Indian Curries Ever Created!: A Cookbook of 50 Delicious Curry Recipes Direct from India"
+        },
+        "description": "This cookbook contains a variety of recipes to suit any taste.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_curry_just_chicken_curries",
+        "name": {
+          "str": "No Worries, Just Chicken Curries: Over 70 incredible Indian chicken recipes",
+          "str_pl": "copies of No Worries, Just Chicken Curries: Over 70 incredible Indian chicken recipes"
+        },
+        "description": "Not just chicken curry, this contains recipes for sauces and vegetable sides as well.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_curry_indian_restaurant_at_home",
+        "name": {
+          "str": "Indian Restaurant Curries at Home, Volume 1",
+          "str_pl": "copies of Indian Restaurant Curries at Home, Volume 1"
+        },
+        "description": "A cookbook filled with recipes that replicate curries served in famous British restaurants.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_curry_ultimate_curry_cookbook",
+        "name": {
+          "str": "The Ultimate Curry Cookbook: Mouth-Watering and Soul Satisfying Curries",
+          "str_pl": "copies of The Ultimate Curry Cookbook: Mouth-Watering and Soul Satisfying Curries"
+        },
+        "description": "This cookbook has 50 curry recipes from around the world, created using simple ingredients.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_curry_thai",
+        "name": {
+          "str": "Thai Curry Cookbook - Exploring Thailand’s Rich and Spicy Curry Traditions",
+          "str_pl": "copies of Thai Curry Cookbook - Exploring Thailand’s Rich and Spicy Curry Traditions"
+        },
+        "description": "A cookbook with a variety of Thai curries, from regional specialties to street food.",
+        "weight": 1
+      },
+      {
+        "id": "cookbook_curry_thai_simple",
+        "name": {
+          "str": "The Good Old Thai Curry Cookbook: Classic Thai Recipes Featuring Red, Green, and Yellow Curries",
+          "str_pl": "copies of The Good Old Thai Curry Cookbook: Classic Thai Recipes Featuring Red, Green, and Yellow Curries"
+        },
+        "description": "A cookbook focused on breaking down red, green, and yellow curries with step-by-step instructions.  You're not sure the cutesy names for all the curries are authentic, though.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "cookbook_native",

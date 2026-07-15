@@ -45,7 +45,7 @@
       {
         "id": "buff_aikido_static2",
         "name": "Intermediate Aikido",
-        "description": "You've learned the fundamentals of Aikido.  Your movement would be familiar to any practioners in a pre-Cataclysm dojo.\n\nBlocked damage reduced by 25% of Dexterity, +1 blocking effectiveness, +1 dodge attempt.",
+        "description": "You've learned the fundamentals of Aikido.  Your movement would be familiar to any practitioners in a pre-Cataclysm dojo.\n\nBlocked damage reduced by 25% of Dexterity, +1 blocking effectiveness, +1 dodge attempt.",
         "unarmed_allowed": true,
         "melee_allowed": false,
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
@@ -1348,7 +1348,7 @@
   {
     "type": "martial_art",
     "id": "style_tai_chi",
-    "name": { "str": "Tai Chi" },
+    "name": { "str": "Tai Chi Chuan" },
     "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.  Pausing for a moment enables powerful palm strike techniques.",
     "initiate": [ "You settle into a gentle stance and prepare to defend yourself.", "%s settles into a gentle stance." ],
     "priority": 1,

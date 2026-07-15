@@ -3045,7 +3045,7 @@
       {
         "values": [
           { "value": "METABOLISM", "multiply": -0.5 },
-          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } }
+          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod_bipolar(65, 0.5)" ] } }
         ]
       }
     ]

@@ -1201,6 +1201,53 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_fencing_footwork" } },
+        "text": "Gain [<trait_name:perk_fencing_footwork>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_fencing_footwork>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_fencing_footwork>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_fencing_footwork", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have melee 5, dexterity 10, and fencing weapon proficiency",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [
+                { "math": [ "u_skill('melee') >= 5" ] },
+                { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus') >= 10" ] },
+                { "math": [ "u_proficiency('prof_fencing_weapons_pro', 'format': 'percent') >= 100" ] }
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_fish_in_water" } },
+        "text": "Gain [<trait_name:perk_fish_in_water>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_fish_in_water>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_fish_in_water>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_fish_in_water", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have athletics 4",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('swimming') >= 4" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_artifact_resonance_detection" } },
         "text": "Gain [<trait_name:perk_artifact_resonance_detection>]",
         "effect": [
@@ -1230,11 +1277,46 @@
           },
           { "set_string_var": "perk_artifact_resonance_reduction", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have <trait_name:perk_artifact_resonance_detection>",
+            "set_string_var": "Must have <trait_name:perk_artifact_resonance_detection>.  Cannot have <trait_name:perk_artifact_resonance_exploitation>",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_artifact_resonance_detection" } }
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [
+                { "u_has_trait": "perk_artifact_resonance_detection" },
+                { "not": { "u_has_trait": "perk_artifact_resonance_exploitation" } }
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_artifact_resonance_exploitation" } },
+        "text": "Gain [<trait_name:perk_artifact_resonance_exploitation>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_artifact_resonance_exploitation>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_artifact_resonance_exploitation>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_artifact_resonance_exploitation", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have <trait_name:perk_artifact_resonance_detection>.  Cannot have <trait_name:perk_artifact_resonance_reduction>",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [
+                { "u_has_trait": "perk_artifact_resonance_detection" },
+                { "not": { "u_has_trait": "perk_artifact_resonance_reduction" } }
+              ]
+            }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -2278,6 +2360,56 @@
           {
             "set_condition": "perk_condition",
             "condition": { "and": [ { "math": [ "u_skill('cooking') >= 4" ] }, { "math": [ "u_skill('chemistry') >= 5" ] } ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_soothing_the_savage_beast" } },
+        "text": "Gain [<trait_name:perk_soothing_the_savage_beast>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_soothing_the_savage_beast>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_soothing_the_savage_beast>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_soothing_the_savage_beast", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires social 4 and survival 8.  Must not have <trait_name:perk_hive_queen>",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [
+                { "math": [ "u_skill('speech') >= 4" ] },
+                { "math": [ "u_skill('survival') >= 8" ] },
+                { "not": { "u_has_trait": "perk_hive_queen" } }
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_hive_queen" } },
+        "text": "Gain [<trait_name:perk_hive_queen>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_hive_queen>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_hive_queen>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_hive_queen", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires social 9.  Must not have <trait_name:perk_soothing_the_savage_beast>",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "math": [ "u_skill('speech') >= 9" ] }, { "not": { "u_has_trait": "perk_soothing_the_savage_beast" } } ] }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"

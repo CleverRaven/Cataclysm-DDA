@@ -129,6 +129,30 @@
     "dynamic_line": [ "What's on your mind?", "Lay it on me.", "Alright, shoot.", "Something on your mind?" ],
     "responses": [
       {
+        "text": "I'm here on behalf of a group called the Exodii.  They're interested in establishing trade.",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_MEET_FREE_MERCHANTS" },
+            { "u_has_item": "exodii_portable_tv" },
+            { "math": [ "exodii_FM_negotiation_failed != 1" ] },
+            { "math": [ "exodii_FM_negotiation_success != 1" ] }
+          ]
+        },
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants"
+      },
+      {
+        "text": "I'm here on behalf of a group called the Exodii.  They're interested in establishing trade.  Except I seem to have forgotten the radio I was supposed to bring.  I'll come back later.",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_MEET_FREE_MERCHANTS" },
+            { "not": { "u_has_item": "exodii_portable_tv" } },
+            { "math": [ "exodii_FM_negotiation_failed != 1" ] },
+            { "math": [ "exodii_FM_negotiation_success != 1" ] }
+          ]
+        },
+        "topic": "TALK_DONE"
+      },
+      {
         "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you offer any help?",
         "condition": {
           "and": [
@@ -394,6 +418,66 @@
         "text": "Well, how about 300 merch for 10 liters of…",
         "effect": { "u_spawn_item": "trade_writ" },
         "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_trait": "EXODII_CYBERFRAME_GENERIC",
+      "yes": "Well, from taking a look at you, I can only guess what these Exodii are all about.  But trade's trade, so tell me more.",
+      "no": "Exodii?  Tell me more."
+    },
+    "responses": [
+      {
+        "text": "[Boot up the Exodii TV-radio] Maybe it's best if their representative does the talking.  We'll call them on this screen.  They sort of speak English, and I can try and translate back and forth.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations"
+      },
+      {
+        "text": "I mean, just look at me!  They're cyborgs from another dimension.  They turn humans and maybe other beings into cyborgs, and jump from here to there, dodging cataclysms like ours.  And they're very interested in trade.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_2",
+        "condition": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" },
+        "effect": { "u_add_faction_trust": 1 }
+      },
+      {
+        "text": "They are a race of inter-dimensional beings.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_2",
+        "effect": { "u_add_faction_trust": 2 }
+      },
+      {
+        "text": "They are a race of inter-dimensional beings that use a mix of futuristic and ancient technology, the latter being mostly due to their last landing place being an ancient battlefield of some sort.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  While their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
+        "condition": { "compare_string": [ "yes", { "u_val": "u_talk_exodii_about_medieval_stock" } ] },
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_2",
+        "effect": { "u_add_faction_trust": 3 }
+      },
+      {
+        "text": "They are a race of inter-dimensional beings.  These guys are more metal than man in my opinion - they use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        "condition": { "compare_string": [ "yes", { "u_val": "u_know_exodii_purpose2" } ] },
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_2",
+        "effect": { "u_add_faction_trust": 4 }
+      },
+      {
+        "text": "They are a race of inter-dimensional beings that use a mix of futuristic and ancient technology, the latter being mostly due to their last landing place being an ancient battlefield of some sort.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  However their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "u_know_exodii_purpose2" } ] },
+            { "compare_string": [ "yes", { "u_val": "u_talk_exodii_about_medieval_stock" } ] }
+          ]
+        },
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_2",
+        "effect": { "u_add_faction_trust": 5 }
+      }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_2",
+    "type": "talk_topic",
+    "dynamic_line": "Well, that's a lot to take in.  What do they want?",
+    "responses": [
+      {
+        "text": "[Boot up the Exodii TV-radio] Maybe it's best if their representative does the talking.  We'll call them on this screen.  They sort of speak English, and I can try and translate back and forth.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations"
       }
     ]
   },

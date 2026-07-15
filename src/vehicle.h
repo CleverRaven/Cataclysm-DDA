@@ -461,7 +461,6 @@ struct vehicle_part {
         point_rel_ms mount;
 
         /** mount translated to face.dir [0] and turn_dir [1] */
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
         std::array<tripoint_rel_ms, 2> precalc = { { tripoint_rel_ms( -1, -1, 0 ), tripoint_rel_ms( -1, -1, 0 ) } };
 
         /** temporarily held projected position */

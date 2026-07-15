@@ -2474,5 +2474,28 @@
     "environmental_protection": 16,
     "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL" ],
     "armor": [ { "covers": [ "mouth", "muzzle", "beak" ], "coverage": 100, "encumbrance": 0 } ]
+  },
+  {
+    "id": "item_portal_storm_dimension_returner",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "fragment of reality" },
+    "description": "You can leave this place, if you want.  Focus on the world you left behind in the storm.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "bone" ],
+    "symbol": "V",
+    "color": "dark_gray",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "AURA", "PADDED", "NO_SALVAGE" ],
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "description": "Return.  Return.  Return.  Return.",
+        "effect_on_conditions": [ "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN" ]
+      }
+    ]
   }
 ]
