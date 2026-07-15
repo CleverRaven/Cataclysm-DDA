@@ -2406,7 +2406,10 @@
       "furniture": { "P": "f_filing_cabinet" },
       "items": {
         "H": { "item": "bed", "chance": 15 },
-        "R": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] }, { "item": "homebooks", "chance": 75, "repeat": [ 1, 3 ] } ]
+        "R": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "SUS_domestic_bookshelf", "chance": 75, "repeat": [ 1, 3 ] }
+        ]
       }
     }
   },
@@ -2426,7 +2429,10 @@
       "palettes": [ "standard_domestic_palette" ],
       "furniture": { "P": "f_filing_cabinet", "!": "f_shredder" },
       "items": {
-        "R": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] }, { "item": "homebooks", "chance": 75, "repeat": [ 1, 3 ] } ]
+        "R": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "SUS_domestic_bookshelf", "chance": 75, "repeat": [ 1, 2 ] }
+        ]
       }
     }
   },
@@ -2447,7 +2453,10 @@
       "furniture": { "P": "f_filing_cabinet" },
       "items": {
         "H": { "item": "bed", "chance": 15 },
-        "R": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] }, { "item": "homebooks", "chance": 75, "repeat": [ 1, 3 ] } ]
+        "R": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "SUS_domestic_bookshelf", "chance": 75, "repeat": [ 1, 2 ] }
+        ]
       }
     }
   },
@@ -2467,7 +2476,10 @@
       "palettes": [ "standard_domestic_palette" ],
       "furniture": { "P": "f_filing_cabinet", "!": "f_shredder" },
       "items": {
-        "R": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] }, { "item": "homebooks", "chance": 75, "repeat": [ 1, 3 ] } ]
+        "R": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "SUS_domestic_bookshelf", "chance": 45, "repeat": [ 1, 2 ] }
+        ]
       }
     }
   },
