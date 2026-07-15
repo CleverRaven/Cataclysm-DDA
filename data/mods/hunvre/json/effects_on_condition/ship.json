@@ -6,32 +6,15 @@
     "required_event": "game_begin",
     "effect": [
       { "run_eocs": [ "eoc_announcements", "eoc_oneirosis" ] },
-      { "math": [ "target_temperature = from_celsius(rng(10, 20))" ] }
+      { "math": [ "blackout = false" ] },
+      { "math": [ "current_temperature = 10" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "eoc_announcements",
     "recurrence": [ "30 minutes", "90 minutes" ],
-    "effect": [ { "run_eocs": [ "eoc_switch_lights" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "eoc_switch_lights",
-    "condition": { "math": [ "rng(0, 12) == 0" ] },
-    "effect": {
-      "if": { "math": [ "lights_are_off == 0" ] },
-      "then": [
-        { "custom_light_level": 0, "length": "9999 days", "key": "lights_off" },
-        { "math": [ "lights_are_off = 1" ] },
-        { "u_message": "\"Multiple grid failures detected.  Blackouts expected in multiple sectors.\"" }
-      ],
-      "else": [
-        { "alter_timed_events": "lights_off" },
-        { "math": [ "lights_are_off = 0" ] },
-        { "u_message": "The lights turn back on." }
-      ]
-    }
+    "effect": [  ]
   },
   {
     "type": "effect_on_condition",
@@ -57,52 +40,49 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "eoc_weather",
-    "recurrence": [ "12 hours", "36 hours" ],
+    "id": "eoc_hunvre_blackout",
+    "recurrence": [ "12 hours", "48 hours" ],
     "effect": [
-      { "math": [ "_next_weather_key = round(rng(0, 2))" ] },
       {
-        "if": { "math": [ "_next_weather_key != current_weather_key" ] },
+        "if": { "math": [ "blackout == true" ] },
         "then": [
+          { "math": [ "blackout = false" ] },
           {
-            "switch": { "context_val": "next_weather_key" },
-            "cases": [
-              {
-                "case": 0,
-                "effect": [
-                  { "math": [ "target_temperature = from_celsius(-10 + rng(-10, 10))" ] },
-                  {
-                    "u_message": "<color_blue>*ding* Thermal anomaly detected.  Emergency heatsinks deployed.  Redirecting coolant.</color>"
-                  }
-                ]
-              },
-              {
-                "case": 1,
-                "effect": [
-                  { "math": [ "target_temperature = from_celsius(10 + rng(-10, 10))" ] },
-                  { "u_message": "<color_blue>*ding* Thermal anomaly resolved.  Temperature nominal.</color>" }
-                ]
-              },
-              {
-                "case": 2,
-                "effect": [
-                  { "math": [ "target_temperature = from_celsius(30 + rng(-10, 10))" ] },
-                  {
-                    "u_message": "<color_blue>*ding* Thermal anomaly detected.  Emergency heaters engaged.  Redirecting heat vectors.</color>"
-                  }
-                ]
-              }
-            ]
-          },
-          { "math": [ "current_weather_key = _next_weather_key" ] }
+            "u_message": "<color_light_blue>*ding* \"Attention, residents of the local sector: Power has been RESTORED, we apologize for any inconvenience, and thank you for your understanding.\"</color>"
+          }
+        ],
+        "else": [
+          { "math": [ "blackout = true" ] },
+          {
+            "u_message": "<color_light_blue>*ding* \"Attention, residents of the local sector: Power grid FAILURE imminent, we apologize for any inconvenience, and thank you for your understanding.\"</color>"
+          }
         ]
-      }
+      },
+      "next_weather"
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "eoc_update_weather",
-    "recurrence": "1 minutes",
-    "effect": { "math": [ "weather('temperature') = target_temperature" ] }
+    "id": "eoc_hunvre_weather",
+    "recurrence": [ "12 hours", "48 hours" ],
+    "effect": [
+      { "math": [ "_previous_temperature = current_temperature" ] },
+      { "math": [ "current_temperature = clamp(current_temperature + (rand(1) == 0 ? 10 : -10), -20, 30)" ] },
+      {
+        "if": { "math": [ "_previous_temperature != current_temperature" ] },
+        "then": [
+          {
+            "if": { "math": [ "_previous_temperature > current_temperature" ] },
+            "then": {
+              "u_message": "<color_light_blue>*ding* \"Attention, residents of the local sector: Due to active thermal balancing you may experience a temporary DECLINE in the ambient temperature, we apologize for any inconvenience, and thank you for your understanding.\"</color>"
+            },
+            "else": {
+              "u_message": "<color_light_blue>*ding* \"Attention, residents of the local sector: Due to active thermal balancing you may experience a temporary RISE in the ambient temperature, we apologize for any inconvenience, and thank you for your understanding.\"</color>"
+            }
+          },
+          "next_weather"
+        ]
+      }
+    ]
   }
 ]
