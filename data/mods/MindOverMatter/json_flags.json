@@ -116,5 +116,9 @@
   {
     "id": "FIFTH_SUN_TECHNOLOGY",
     "type": "json_flag"
+  },
+  {
+    "id": "MOM_SHADOW_URGE_CHOICE",
+    "type": "json_flag"
   }
 ]

@@ -2406,7 +2406,10 @@
       "furniture": { "P": "f_filing_cabinet" },
       "items": {
         "H": { "item": "bed", "chance": 15 },
-        "R": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] }, { "item": "homebooks", "chance": 75, "repeat": [ 1, 3 ] } ]
+        "R": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "SUS_domestic_bookshelf", "chance": 75, "repeat": [ 1, 3 ] }
+        ]
       }
     }
   },
@@ -2426,7 +2429,10 @@
       "palettes": [ "standard_domestic_palette" ],
       "furniture": { "P": "f_filing_cabinet", "!": "f_shredder" },
       "items": {
-        "R": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] }, { "item": "homebooks", "chance": 75, "repeat": [ 1, 3 ] } ]
+        "R": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "SUS_domestic_bookshelf", "chance": 75, "repeat": [ 1, 2 ] }
+        ]
       }
     }
   },
@@ -2447,7 +2453,10 @@
       "furniture": { "P": "f_filing_cabinet" },
       "items": {
         "H": { "item": "bed", "chance": 15 },
-        "R": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] }, { "item": "homebooks", "chance": 75, "repeat": [ 1, 3 ] } ]
+        "R": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "SUS_domestic_bookshelf", "chance": 75, "repeat": [ 1, 2 ] }
+        ]
       }
     }
   },
@@ -2467,7 +2476,10 @@
       "palettes": [ "standard_domestic_palette" ],
       "furniture": { "P": "f_filing_cabinet", "!": "f_shredder" },
       "items": {
-        "R": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] }, { "item": "homebooks", "chance": 75, "repeat": [ 1, 3 ] } ]
+        "R": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "SUS_domestic_bookshelf", "chance": 45, "repeat": [ 1, 2 ] }
+        ]
       }
     }
   },
@@ -2480,6 +2492,221 @@
       "rotation": [ 0, 3 ],
       "furniture": { " ": "f_freezer" },
       "items": { " ": [ { "item": "SUS_freezer" } ] },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest_fiction",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "R" ],
+      "furniture": { "R": "f_bookcase" },
+      "items": { "R": [ { "item": "SUS_domestic_bookshelf", "chance": 100, "repeat": [ 1, 3 ] } ] },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest_fiction_and_nonfiction",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "R" ],
+      "furniture": { "R": "f_bookcase" },
+      "items": {
+        "R": [
+          { "item": "SUS_domestic_bookshelf", "chance": 100, "repeat": [ 1, 3 ] },
+          { "item": "SUS_book_nonf_no_zines", "chance": 80, "repeat": [ 2, 4 ] }
+        ]
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest_literature_enthusiast",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "R" ],
+      "furniture": { "R": "f_bookcase" },
+      "items": {
+        "R": [
+          { "item": "SUS_domestic_bookshelf", "chance": 100, "repeat": [ 1, 2 ] },
+          { "item": "literature", "chance": 80, "repeat": [ 4, 10 ] },
+          { "item": "SUS_book_nonf_no_zines", "chance": 80, "repeat": [ 2, 4 ] }
+        ]
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest_board_games",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "R" ],
+      "furniture": { "R": "f_bookcase" },
+      "items": {
+        "R": [
+          { "item": "SUS_domestic_bookshelf", "chance": 100 },
+          { "item": "games", "chance": 80, "repeat": [ 2, 6 ] },
+          { "item": "SUS_book_nonf_no_zines", "chance": 80, "repeat": [ 2, 4 ] }
+        ]
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest_cookbooks",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "R" ],
+      "furniture": { "R": "f_bookcase" },
+      "items": {
+        "R": [
+          { "item": "SUS_domestic_bookshelf", "chance": 100, "repeat": [ 1, 2 ] },
+          { "item": "cookbooks", "chance": 80, "repeat": [ 2, 4 ] }
+        ]
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest_tailoring",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "R" ],
+      "furniture": { "R": "f_bookcase" },
+      "items": {
+        "R": [
+          { "item": "SUS_domestic_bookshelf", "chance": 100, "repeat": [ 1, 2 ] },
+          { "item": "SUS_tailoring_bookcase", "chance": 100 }
+        ]
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest_electronics",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "R" ],
+      "furniture": { "R": "f_bookcase" },
+      "items": {
+        "R": [
+          { "item": "SUS_domestic_bookshelf", "chance": 100, "repeat": [ 1, 2 ] },
+          { "item": "SUS_book_nonf_no_zines", "chance": 80, "repeat": [ 2, 4 ] },
+          { "item": "SUS_electronics_bookcase", "chance": 100 }
+        ]
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest_computers",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "R" ],
+      "furniture": { "R": "f_bookcase" },
+      "items": {
+        "R": [
+          { "item": "SUS_domestic_bookshelf", "chance": 100, "repeat": [ 1, 2 ] },
+          { "item": "SUS_book_nonf_no_zines", "chance": 80, "repeat": [ 2, 4 ] },
+          { "item": "SUS_computers_bookcase", "chance": 100 }
+        ]
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest_eclectic",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "R" ],
+      "furniture": { "R": "f_bookcase" },
+      "items": {
+        "R": [ { "item": "SUS_domestic_bookshelf", "chance": 100 }, { "item": "homebooks", "chance": 80, "repeat": [ 4, 12 ] } ]
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest_judaica",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "R" ],
+      "furniture": { "R": "f_bookcase" },
+      "items": {
+        "R": [
+          { "item": "SUS_domestic_bookshelf", "chance": 100, "repeat": [ 1, 2 ] },
+          { "item": "literature", "chance": 80, "repeat": [ 2, 4 ] },
+          { "item": "book_judaica", "chance": 80, "repeat": [ 3, 6 ] }
+        ]
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest_medical",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "R" ],
+      "furniture": { "R": "f_bookcase" },
+      "items": {
+        "R": [
+          { "item": "SUS_domestic_bookshelf", "chance": 100, "repeat": [ 1, 2 ] },
+          { "item": "doctors_books", "chance": 80, "repeat": [ 2, 6 ] }
+        ]
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest_esoterica",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "R" ],
+      "furniture": { "R": "f_bookcase" },
+      "items": {
+        "R": [
+          { "item": "SUS_domestic_bookshelf", "chance": 100, "repeat": [ 1, 2 ] },
+          { "item": "esoteric_books", "chance": 80, "repeat": [ 2, 5 ] }
+        ]
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest_martial_arts",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "R" ],
+      "furniture": { "R": "f_bookcase" },
+      "items": {
+        "R": [ { "item": "SUS_domestic_bookshelf", "chance": 100, "repeat": [ 1, 2 ] }, { "item": "book_martial", "chance": 80 } ]
+      },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   }

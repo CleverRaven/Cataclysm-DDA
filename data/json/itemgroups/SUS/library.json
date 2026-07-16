@@ -659,6 +659,14 @@
     ]
   },
   {
+    "id": "SUS_book_nonf_no_zines",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a single nonfiction printed material, excluding magazines.",
+    "subtype": "distribution",
+    "entries": [ { "group": "SUS_book_nonf_hard", "prob": 3 }, { "group": "SUS_book_nonf_soft", "prob": 3 } ]
+  },
+  {
     "id": "SUS_book_nonf_hard",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",

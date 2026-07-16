@@ -270,7 +270,7 @@
     "entries": [
       { "group": "biokinetic_matrix_crystals_group", "prob": 1 },
       { "item": "matrix_crystal_drained", "prob": 4 },
-      { "item": "matrix_crystal_vitakinesis", "prob": 1 }
+      { "group": "vitakinetic_matrix_crystals_group", "prob": 1 }
     ]
   },
   {
