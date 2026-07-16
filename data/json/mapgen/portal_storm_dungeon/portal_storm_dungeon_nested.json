@@ -9,8 +9,8 @@
         "---------------",
         "---------------",
         "---------------",
-        "----B     B----",
-        "---- B   B ----",
+        "----B  B  B----",
+        "---- B B B ----",
         "----  B B  ----",
         "----BBB BBB----",
         "----  B B  ----",
@@ -24,7 +24,7 @@
       "palettes": [ "portal_storm_dungeon_palette" ],
       "terrain": { "B": "t_floor_warped" },
       "furniture": { "B": "f_vitrified_bookcase" },
-      "items": { "B": { "item": "art_book", "chance": 3 } },
+      "items": { "B": { "item": "art_book", "chance": 2 } },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -86,7 +86,8 @@
         "L": "t_floor_warped",
         "K": "t_floor_warped",
         "C": "t_floor_warped",
-        "S": "t_floor_warped"
+        "S": "t_floor_warped",
+        "T": "t_floor_warped"
       },
       "furniture": {
         "B": "f_vitrified_bed",
@@ -155,7 +156,7 @@
         "---------------",
         "----       ----",
         "----   S   ----",
-        "---- S   S  ----",
+        "---- S   S ----",
         "----       ----",
         "---- S   S ----",
         "----   S   ----",
@@ -188,7 +189,7 @@
         "--- TT   TT ---",
         "--- TT   TT ---",
         "--- S     S ---",
-        "---        ---",
+        "---         ---",
         "------- -------",
         "------- -------",
         "------- -------"
