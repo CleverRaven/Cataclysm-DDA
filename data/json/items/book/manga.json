@@ -22,7 +22,7 @@
     "copy-from": "book_fic_manga",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
-    "name": { "str": "One Piece volume", "str_pl": "One Piece volumes" },
+    "name": { "str": "One Piece volume" },
     "description": "A volume of \"One Piece\", about one boy's quest to become the next legendary Pirate King."
   },
   {
@@ -30,7 +30,7 @@
     "copy-from": "book_fic_manga",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
-    "name": { "str": "Dragon Ball volume", "str_pl": "Dragon Ball volumes" },
+    "name": { "str": "Dragon Ball volume" },
     "description": "A volume of \"Dragon Ball\", a retelling of the Chinese classic \"Journey to the West\" with aliens and martial arts tournaments thrown into the mix."
   },
   {
@@ -38,7 +38,7 @@
     "copy-from": "book_fic_manga",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
-    "name": { "str": "Naruto volume", "str_pl": "Naruto volumes" },
+    "name": { "str": "Naruto volume" },
     "description": "A volume of \"Naruto\", the story of a hidden village of ninjas and one boy with a powerful spirit sealed inside his body."
   },
   {
@@ -46,7 +46,7 @@
     "copy-from": "book_fic_manga",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
-    "name": { "str": "Hunter x Hunter volume", "str_pl": "Hunter x Hunter volumes" },
+    "name": { "str": "Hunter x Hunter volume" },
     "description": "A volume of \"Hunter x Hunter\", the story of a boy following in his father's footsteps to become a \"Hunter\" and travel the world to find the rare, the hidden, the bizarre, and the inexplicable."
   },
   {
@@ -54,7 +54,7 @@
     "copy-from": "book_fic_manga",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
-    "name": { "str": "Demon Slayer volume", "str_pl": "Demon Slayer volumes" },
+    "name": { "str": "Demon Slayer volume" },
     "description": "A volume of \"Demon Slayer\", the story of a boy's attempts to free his sister from a demonic curse."
   },
   {
@@ -62,7 +62,7 @@
     "copy-from": "book_fic_manga",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
-    "name": { "str": "Jujutsu Kaisen volume", "str_pl": "Jujutsu Kaisen volumes" },
+    "name": { "str": "Jujutsu Kaisen volume" },
     "description": "A volume of \"Jujutsu Kaisen\", the story of hidden societies of warring sorcerers."
   },
   {
@@ -70,7 +70,7 @@
     "copy-from": "book_fic_manga",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
-    "name": { "str": "Bleach volume", "str_pl": "Bleach volumes" },
+    "name": { "str": "Bleach volume" },
     "description": "A volume of \"Bleach\", the story of a high-school boy who can see ghosts and is forced to join a group of warriors battling against malevolent spirits."
   },
   {
@@ -78,7 +78,7 @@
     "copy-from": "book_fic_manga",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
-    "name": { "str": "JoJo's Bizarre Adventure volume", "str_pl": "JoJo's Bizarre Adventure volumes" },
+    "name": { "str": "JoJo's Bizarre Adventure volume" },
     "description": "A volume of \"JoJo's Bizarre Adventure\", the story of the Joestar family and their struggle against the vampire Dio Brando, using martial arts and supernatural powers named after Western rock bands."
   },
   {
@@ -86,7 +86,7 @@
     "copy-from": "book_fic_manga",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
-    "name": { "str": "Captain Tsubasa volume", "str_pl": "Captain Tsubasa volumes" },
+    "name": { "str": "Captain Tsubasa volume" },
     "description": "A volume of \"Captain Tsubasa\", the story of Tsubasa Oozora's rise from a soccer-obsessed primary schooler to the captain of a national team."
   },
   {
@@ -94,7 +94,7 @@
     "copy-from": "book_fic_manga",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
-    "name": { "str": "Gintama volume", "str_pl": "Gintama volumes" },
+    "name": { "str": "Gintama volume" },
     "description": "A volume of \"Gintama\", the story of a samurai doing odd jobs during the Edo period in a Japan that's been conquered by aliens."
   },
   {
@@ -102,7 +102,7 @@
     "copy-from": "book_fic_manga",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
-    "name": { "str": "Fairy Tail volume", "str_pl": "Fairy Tail volumes" },
+    "name": { "str": "Fairy Tail volume" },
     "description": "A volume of \"Fairy Tail\", the story of a woman who joins a wizard's guild called \"Fairy Tail\" and their conflict with rival wizard's guilds."
   },
   {
@@ -110,7 +110,7 @@
     "copy-from": "book_fic_manga",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
-    "name": { "str": "Berserk volume", "str_pl": "Berserk volumes" },
+    "name": { "str": "Berserk volume" },
     "description": "A volume of \"Berserk\", the story of a wandering warrior and his quest for vengeance that's formed part of the inspiration for basically every work of dark fantasy written in the last forty years."
   }
 ]
