@@ -179,6 +179,35 @@
       "rows": [
         "---------------",
         "---------------",
+        "---------------",
+        "---         ---",
+        "--- S     S ---",
+        "--- TT   TT ---",
+        "--- TT   TT ---",
+        "---STTS STTS---",
+        "--- TT   TT ---",
+        "--- TT   TT ---",
+        "--- S     S ---",
+        "---        ---",
+        "------- -------",
+        "------- -------",
+        "------- -------"
+      ],
+      "palettes": [ "portal_storm_dungeon_palette" ],
+      "terrain": { "T": "t_floor_warped", "S": "t_floor_warped" },
+      "furniture": { "T": "f_vitrified_table", "C": "f_vitrified_chair" },
+      "nested": { "S": { "chunks": [ [ "statue_portal_dungeon_1x1", 1 ], [ "null", 1 ] ] } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "portal_dungeon_15x15_vault",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "---------------",
+        "---------------",
         "--  CC   CC  --",
         "-- C   CC  C --",
         "--C   C     C--",
@@ -196,6 +225,7 @@
       "palettes": [ "portal_storm_dungeon_palette" ],
       "terrain": { "T": "t_floor_warped", "C": "t_floor_warped" },
       "furniture": { "T": "f_vitrified_table", "C": "f_vitrified_chair" },
+      "items": { "T": { "item": "ps_artifact_strong", "chance": 33 } },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
