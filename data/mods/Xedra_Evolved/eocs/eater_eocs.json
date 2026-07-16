@@ -14,5 +14,16 @@
     "false_effect": [
       { "u_message": "You shiver as the night closes in…", "type": "bad", "popup": true, "popup_w_interrupt_query": true }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WAKEUP_NETHER_HUNTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "and": [ { "event_statistic('num_avatar_nether_kills') >= 100" }, { "u_has_trait": "EATER" } ] },
+    "effect": [
+      { "math": [ "u_proficiency('prof_abnegation', 'format': 'percent', 'direct': true) += 5" ] },
+      { "u_message": "You gain a certainty that the things you've killed never belonged here at all."}
+    ]
   }
 ]
