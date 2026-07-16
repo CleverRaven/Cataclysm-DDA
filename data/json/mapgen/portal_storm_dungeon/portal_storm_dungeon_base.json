@@ -201,7 +201,7 @@
   {
     "type": "mapgen",
     "om_terrain": [ "default_portal_storm_dungeon_overmap" ],
-    "weight": 500,
+    "weight": 600,
     "object": {
       "rows": [
         "--Q----Q---oo-------Q---",
@@ -236,7 +236,7 @@
   {
     "type": "mapgen",
     "om_terrain": [ "default_portal_storm_dungeon_overmap" ],
-    "weight": 150,
+    "weight": 350,
     "object": {
       "rows": [
         "--Q----Q---oo-------Q---",

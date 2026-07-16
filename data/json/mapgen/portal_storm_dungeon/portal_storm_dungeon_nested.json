@@ -9,6 +9,35 @@
         "---------------",
         "---------------",
         "---------------",
+        "----B     B----",
+        "---- B   B ----",
+        "----  B B  ----",
+        "----BBB BBB----",
+        "----  B B  ----",
+        "---- B B B ----",
+        "----B  B  B----",
+        "------- -------",
+        "------- -------",
+        "------- -------",
+        "------- -------"
+      ],
+      "palettes": [ "portal_storm_dungeon_palette" ],
+      "terrain": { "B": "t_floor_warped" },
+      "furniture": { "B": "f_vitrified_bookcase" },
+      "items": { "B": { "item": "art_book", "chance": 3 } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "portal_dungeon_15x15_vault",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "---------------",
+        "---------------",
+        "---------------",
+        "---------------",
         "----       ----",
         "----  BBB  ----",
         "----       ----",
@@ -24,7 +53,7 @@
       "palettes": [ "portal_storm_dungeon_palette" ],
       "terrain": { "B": "t_floor_warped", "T": "t_floor_warped", "C": "t_floor_warped" },
       "furniture": { "B": "f_vitrified_bookcase", "T": "f_vitrified_table", "C": "f_vitrified_chair" },
-      "items": { "B": { "item": "art_book", "chance": 5 } },
+      "items": { "B": { "item": "art_book", "chance": 33 } },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -165,47 +194,8 @@
         "------- -------"
       ],
       "palettes": [ "portal_storm_dungeon_palette" ],
-      "terrain": { "B": "t_floor_warped", "T": "t_floor_warped", "C": "t_floor_warped" },
-      "furniture": { "B": "f_vitrified_bookcase", "T": "f_vitrified_table", "C": "f_vitrified_chair" },
-      "items": { "B": { "item": "art_book", "chance": 5 } },
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "portal_dungeon_15x15_vault",
-    "object": {
-      "mapgensize": [ 15, 15 ],
-      "rows": [
-        "               ",
-        "               ",
-        "               ",
-        "               ",
-        "               ",
-        "               ",
-        "               ",
-        "               ",
-        "               ",
-        "               ",
-        "               ",
-        "               ",
-        "               ",
-        "               ",
-        "               "
-      ],
-      "palettes": [ "portal_storm_dungeon_palette" ],
-      "terrain": {
-        ".": "t_dirt",
-        "r": "t_carpet_red_outdoor",
-        "#": "t_dirt",
-        "x": "t_dirt",
-        "c": "t_dirt",
-        "F": "t_pit_shallow",
-        "o": "t_wood_sunshade_pole"
-      },
-      "furniture": { "#": "f_skin_wall", "+": "f_skin_door", "x": "f_crate_o", "t": "f_table", "h": "f_chair", "F": "f_firering" },
-      "items": { "c": { "item": "bed", "chance": 100 } },
-      "item": { "F": { "item": "pot", "chance": 100 } },
+      "terrain": { "T": "t_floor_warped", "C": "t_floor_warped" },
+      "furniture": { "T": "f_vitrified_table", "C": "f_vitrified_chair" },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -217,7 +207,15 @@
       "rotation": [ 0, 3 ],
       "rows": [ "X" ],
       "furniture": {
-        "X": [ "f_glassedbody_2", "f_glassedbody_9", "f_glassedbody_11", "f_glassedbody_12", "f_glassedbody_13", "f_glassedbody_14" ]
+        "X": [
+          "f_glassedbody_2",
+          "f_glassedbody_9",
+          "f_glassedbody_11",
+          "f_glassedbody_12",
+          "f_glassedbody_13",
+          "f_glassedbody_14",
+          "f_glassedbody_15"
+        ]
       }
     }
   }
