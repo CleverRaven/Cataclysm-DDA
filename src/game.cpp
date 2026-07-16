@@ -4142,7 +4142,7 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
                 break;
             }
             targ->setpos( here, traj[i] );
-            if( here.has_flag( ter_furn_flag::TFLAG_LIQUID, targ_pos ) && !targ->can_drown() &&
+            if( here.has_flag( ter_furn_flag::TFLAG_LIQUID, targ_pos ) && targ->can_drown() &&
                 !targ->is_dead() ) {
                 targ->die( &here, nullptr );
                 if( u.sees( here, *targ ) ) {
