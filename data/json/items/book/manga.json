@@ -3,7 +3,7 @@
     "id": "book_fic_manga",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
-    "name": { "str": "manga volume", "str_pl": "manga volumes" },
+    "name": { "str": "manga volume" },
     "description": "A small book of comics from Japan, with adventurers in another world, schoolkids enjoying the last days of summer, giant robots, or men yelling as they power up their attacks.",
     "weight": "200 g",
     "volume": "350 ml",
