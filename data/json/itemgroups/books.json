@@ -1026,6 +1026,25 @@
     "entries": [ { "item": "book_judaica_hardcover", "prob": 5 }, { "item": "book_judaica_softcover", "prob": 3 } ]
   },
   {
+    "id": "book_manga",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "book_fic_manga", "prob": 100 },
+      { "item": "book_fic_manga_one_piece", "prob": 3 },
+      { "item": "book_fic_manga_dragon_ball", "prob": 2 },
+      { "item": "book_fic_manga_naruto", "prob": 2 },
+      { "item": "book_fic_manga_hunter_x_hunter", "prob": 2 },
+      { "item": "book_fic_manga_demon_slayer", "prob": 2 },
+      { "item": "book_fic_manga_jujutsu_kaisen", "prob": 2 },
+      { "item": "book_fic_manga_bleach", "prob": 2 },
+      { "item": "book_fic_manga_jojo", "prob": 2 },
+      { "item": "book_fic_manga_captain_tsubasa", "prob": 1 },
+      { "item": "book_fic_manga_gintama", "prob": 1 },
+      { "item": "book_fic_manga_berserk", "prob": 1 }
+    ]
+  },
+  {
     "id": "newspaper",
     "type": "item_group",
     "subtype": "distribution",
