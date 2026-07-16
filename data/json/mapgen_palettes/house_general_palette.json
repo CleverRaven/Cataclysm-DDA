@@ -851,9 +851,7 @@
         { "item": "SUS_trash_hardware", "chance": 33, "repeat": [ 2, 5 ] }
       ],
       "R": [
-        { "item": "novels", "chance": 40, "repeat": [ 1, 4 ] },
-        { "item": "homebooks", "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "literature", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "homebooks", "chance": 5, "repeat": [ 1, 2 ] },
         { "item": "games", "chance": 20, "repeat": [ 2, 3 ] },
         { "item": "mail", "chance": 25, "repeat": [ 1, 3 ] }
       ],
@@ -969,9 +967,7 @@
         { "item": "SUS_trash_hardware", "chance": 33, "repeat": [ 2, 5 ] }
       ],
       "R": [
-        { "item": "novels", "chance": 40, "repeat": [ 1, 4 ] },
-        { "item": "homebooks", "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "literature", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "homebooks", "chance": 5, "repeat": [ 1, 2 ] },
         { "item": "games", "chance": 20, "repeat": [ 2, 3 ] },
         { "item": "mail", "chance": 25, "repeat": [ 1, 3 ] }
       ],
