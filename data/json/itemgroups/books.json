@@ -402,6 +402,9 @@
       { "item": "book_nonf_hard_history_modern", "prob": 10 },
       { "item": "book_nonf_hard_photography_book", "prob": 5 },
       { "item": "book_nonf_hard_self_help", "prob": 8 },
+      { "item": "book_nonf_hard_true_crime", "prob": 10 },
+      { "item": "book_nonf_hard_popular_science", "prob": 5 },
+      { "item": "book_nonf_hard_business_strategy", "prob": 5 },
       { "item": "essay_book", "prob": 5 }
     ]
   },

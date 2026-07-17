@@ -63,6 +63,33 @@
     "copy-from": "book_nonf_hard_homemk_tpl"
   },
   {
+    "id": "book_nonf_hard_true_crime",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "true crime book", "str_pl": "copies of a true crime book" },
+    "description": "Part history, part biography, the story of a real crime and the people affected by it.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_popular_science",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "popular science book", "str_pl": "copies of a popular science book" },
+    "description": "The entire history of the universe in a single book, or perhaps a book-length examination of an atom or the water cycle.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_business_strategy",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "business strategy book", "str_pl": "copies of a business strategy book" },
+    "description": "A book about analyzing business trends to keep hitting your KPIs and make sure your SMART goals are aligned with your overall framework.  Basically useless now.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
     "id": "book_nonf_hard_homemk_anythingcan",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
