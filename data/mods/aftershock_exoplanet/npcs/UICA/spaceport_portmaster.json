@@ -14,8 +14,8 @@
     "type": "talk_topic",
     "dynamic_line": "Do you want to book passage back to the station?",
     "responses": [
-      { "text": "That's why I'm here", "topic": "TALK_SPACEPORT_PORTMASTER_UP" },
-      { "text": "Not right now", "topic": "TALK_DONE" }
+      { "text": "That's why I'm here.", "topic": "TALK_SPACEPORT_PORTMASTER_UP" },
+      { "text": "Not right now.", "topic": "TALK_DONE" }
     ]
   },
   {
