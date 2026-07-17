@@ -390,6 +390,13 @@
     ]
   },
   {
+    "id": "nonfiction_hardback_fluff",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "This represents nonfiction hardback books that are not immediately useful to the survivor.",
+    "entries": [ { "item": "book_nonf_hard_biography_living", "prob": 10 }, { "item": "book_nonf_hard_biography_dead", "prob": 8 } ]
+  },
+  {
     "id": "kids_books",
     "type": "item_group",
     "subtype": "distribution",
