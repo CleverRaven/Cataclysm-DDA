@@ -2816,7 +2816,7 @@
       { "prob": 35, "group": "cornbread_in_bag" },
       { "prob": 25, "group": "yeast_bag_plastic" },
       { "prob": 20, "group": "sugar_various" },
-      [ "chem_ethanol", 5 ]
+      { "group": "ethanol_bottle_liter_part", "prob": 5 }
     ]
   },
   {

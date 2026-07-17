@@ -38,6 +38,7 @@
         "%/////////////////////%/",
         "%%%%%%%%%%%%%%%%%%%%%%%/"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ],
       "palettes": [ "farm_house" ]
     }
   },
@@ -72,6 +73,7 @@
         "%/////////////////////%/",
         "%%%%%%%%%%%%%%%%%%%%%%%/"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ],
       "palettes": [ "farm_house" ]
     }
   },

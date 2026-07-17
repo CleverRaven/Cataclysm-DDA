@@ -98,7 +98,7 @@
       { "group": "bleach_jug_part", "prob": 20 },
       { "item": "chem_washing_soda", "prob": 15, "count": [ 1, -1 ] },
       { "item": "chem_baking_soda", "prob": 25, "count": [ 1, -1 ] },
-      { "item": "chem_ethanol", "prob": 40, "charges": [ 250, -1 ] },
+      { "group": "ethanol_bottle_liter_part", "prob": 40 },
       { "item": "chem_nitric_acid", "prob": 5, "charges": [ 1, -1 ] },
       { "group": "manganesedioxide_small_bottle_part", "prob": 5 },
       { "item": "chem_sulphur", "prob": 25, "count": [ 1, -1 ] },

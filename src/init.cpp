@@ -95,6 +95,7 @@
 #include "overmap_connection.h"
 #include "overmap_location.h"
 #include "overmap_map_data_cache.h"
+#include "overmap_worldgen.h"
 #include "profession.h"
 #include "profession_group.h"
 #include "proficiency.h"
@@ -440,6 +441,8 @@ void DynamicDataLoader::initialize()
     add( "map_extra_collection",
          &map_extra_collection::load_map_extra_collection );
     add( "region_settings", &region_settings::load_region_settings );
+    add( "dimension", &dimension_world::load_dimensions );
+    add( "dimension_region_layout", &dimension_region_layout::load_dimension_regions );
 
     add( "ITEM_BLACKLIST", []( const JsonObject & jo ) {
         item_controller->load_item_blacklist( jo );
@@ -827,6 +830,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Crafting Categories" ), &crafting_category::finalize_all },
             { _( "Damage Types" ), &damage_type::finalize_all },
             { _( "Damage info orders" ), &damage_info_order::finalize_all },
+            { _( "Dimensions" ), &dimension_world::finalize_all },
             { _( "Diseases" ), &disease_type::finalize_all },
             { _( "Weather types" ), &weather_types::finalize_all },
             { _( "Weather generators" ), &weather_generator::finalize_all },

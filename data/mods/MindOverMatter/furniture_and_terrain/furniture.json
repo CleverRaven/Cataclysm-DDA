@@ -91,6 +91,7 @@
     "move_cost_mod": 1,
     "coverage": 25,
     "required_str": 13,
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_PROCESS" ] },
     "deconstruct": {
       "items": [
         { "item": "processor", "count": [ 1, 2 ] },

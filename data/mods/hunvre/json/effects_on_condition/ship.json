@@ -4,31 +4,17 @@
     "id": "eoc_start_storyteller",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "effect": [ { "run_eocs": [ "eoc_announcements", "eoc_oneirosis" ] } ]
+    "effect": [
+      { "run_eocs": [ "eoc_announcements", "eoc_oneirosis" ] },
+      { "math": [ "blackout = false" ] },
+      { "math": [ "current_temperature = 10" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "eoc_announcements",
     "recurrence": [ "30 minutes", "90 minutes" ],
-    "effect": [ { "run_eocs": [ "eoc_switch_lights" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "eoc_switch_lights",
-    "condition": { "math": [ "rng(0, 12) == 0" ] },
-    "effect": {
-      "if": { "math": [ "lights_are_off == 0" ] },
-      "then": [
-        { "custom_light_level": 0, "length": "9999 days", "key": "lights_off" },
-        { "math": [ "lights_are_off = 1" ] },
-        { "u_message": "\"Multiple grid failures detected.  Blackouts expected in multiple sectors.\"" }
-      ],
-      "else": [
-        { "alter_timed_events": "lights_off" },
-        { "math": [ "lights_are_off = 0" ] },
-        { "u_message": "The lights turn back on." }
-      ]
-    }
+    "effect": [  ]
   },
   {
     "type": "effect_on_condition",
@@ -50,6 +36,53 @@
     "effect": [
       { "u_location_variable": { "context_val": "bed" }, "target_params": { "om_terrain": "hab_unit", "z": 0 } },
       { "u_teleport": { "context_val": "bed" }, "force": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_hunvre_blackout",
+    "recurrence": [ "12 hours", "48 hours" ],
+    "effect": [
+      {
+        "if": { "math": [ "blackout == true" ] },
+        "then": [
+          { "math": [ "blackout = false" ] },
+          {
+            "u_message": "<color_light_blue>*ding* \"Attention, residents of the local sector: Power has been RESTORED, we apologize for any inconvenience, and thank you for your understanding.\"</color>"
+          }
+        ],
+        "else": [
+          { "math": [ "blackout = true" ] },
+          {
+            "u_message": "<color_light_blue>*ding* \"Attention, residents of the local sector: Power grid FAILURE imminent, we apologize for any inconvenience, and thank you for your understanding.\"</color>"
+          }
+        ]
+      },
+      "next_weather"
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_hunvre_weather",
+    "recurrence": [ "12 hours", "48 hours" ],
+    "effect": [
+      { "math": [ "_previous_temperature = current_temperature" ] },
+      { "math": [ "current_temperature = clamp(current_temperature + (rand(1) == 0 ? 10 : -10), -20, 30)" ] },
+      {
+        "if": { "math": [ "_previous_temperature != current_temperature" ] },
+        "then": [
+          {
+            "if": { "math": [ "_previous_temperature > current_temperature" ] },
+            "then": {
+              "u_message": "<color_light_blue>*ding* \"Attention, residents of the local sector: Due to active thermal balancing you may experience a temporary DECLINE in the ambient temperature, we apologize for any inconvenience, and thank you for your understanding.\"</color>"
+            },
+            "else": {
+              "u_message": "<color_light_blue>*ding* \"Attention, residents of the local sector: Due to active thermal balancing you may experience a temporary RISE in the ambient temperature, we apologize for any inconvenience, and thank you for your understanding.\"</color>"
+            }
+          },
+          "next_weather"
+        ]
+      }
     ]
   }
 ]

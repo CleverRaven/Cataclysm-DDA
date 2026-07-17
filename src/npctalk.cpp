@@ -4695,7 +4695,7 @@ talk_effect_fun_t::func f_dimension_name( const JsonObject &jo, std::string_view
     std::string var_name = var.name;
 
     return [var_name, type]( dialogue & d ) {
-        write_var_value( type, var_name, &d, g->get_dimension_prefix() );
+        write_var_value( type, var_name, &d, g->get_dimension_prefix().str() );
     };
 }
 
@@ -8271,13 +8271,11 @@ talk_effect_fun_t::func f_travel_to_dimension( const JsonObject &jo, std::string
 
 
     return [fail_message, success_message, dimension_prefix, npc_travel_filter, target_location,
-                  npc_travel_radius, item_travel_radius, region_type_var, take_vehicle]( dialogue const & d ) {
+                  npc_travel_radius, item_travel_radius, take_vehicle]( dialogue const & d ) {
         Creature *teleporter = d.actor( false )->get_creature();
         if( teleporter ) {
-            std::string region_type = region_type_var.evaluate( d );
-            std::string prefix = dimension_prefix.evaluate( d );
-            std::string temp_dimension_prefix = ( prefix == "default" ) ? "" : prefix;
-            if( temp_dimension_prefix != g->get_dimension_prefix() ) {
+            dimension_id prefix( dimension_prefix.evaluate( d ) );
+            if( prefix != g->get_dimension_prefix() && prefix.is_valid() ) {
                 std::vector<npc *> travellers;
                 std::string filter = npc_travel_filter.evaluate( d );
                 int radius = npc_travel_radius.evaluate( d );
@@ -8326,7 +8324,7 @@ talk_effect_fun_t::func f_travel_to_dimension( const JsonObject &jo, std::string
                     veh = &vp_here->vehicle();
                 }
                 // returns False if fail
-                if( g->travel_to_dimension( prefix, region_type, travellers, items, center, veh ) ) {
+                if( g->travel_to_dimension( prefix, travellers, items, center, veh ) ) {
                     teleporter->add_msg_if_player( success_message.evaluate( d ) );
                 } else {
                     teleporter->add_msg_if_player( fail_message.evaluate( d ) );

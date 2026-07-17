@@ -415,16 +415,16 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "group": "magazines", "prob": 400 },
-      { "group": "novels", "prob": 2700 },
+      { "group": "magazines", "prob": 980 },
+      { "group": "novels", "prob": 1224 },
       { "group": "kids_books", "prob": 350 },
-      { "group": "SUS_book_fict_soft_ya", "prob": 250 },
-      { "group": "cookbooks", "prob": 750 },
+      { "group": "SUS_book_fict_soft_ya", "prob": 350 },
+      { "group": "cookbooks", "prob": 400 },
       { "group": "book_martial", "prob": 4 },
       { "group": "religious_books", "prob": 250 },
-      { "group": "literature", "prob": 1500 },
+      { "group": "literature", "prob": 30 },
       { "group": "SUS_book_nonf_hard_homemk", "prob": 26 },
-      { "group": "SUS_book_nonf_soft", "prob": 20 },
+      { "group": "SUS_book_nonf_soft", "prob": 150 },
       { "group": "SUS_book_nonf_hard_dodge", "prob": 20 },
       { "group": "catalyic_cracking_items", "prob": 2 },
       { "item": "manual_speech", "prob": 50 },
@@ -1018,6 +1018,12 @@
       { "item": "fun_survival", "prob": 10 },
       { "item": "mag_archery", "prob": 20 }
     ]
+  },
+  {
+    "id": "book_judaica",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "book_judaica_hardcover", "prob": 5 }, { "item": "book_judaica_softcover", "prob": 3 } ]
   },
   {
     "id": "newspaper",

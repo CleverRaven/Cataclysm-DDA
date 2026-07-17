@@ -7,7 +7,8 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "autolearn": true,
-    "using": [ [ "smelting_standard", 47100 ] ],
+    "using": [ [ "smelting_standard", 180 ] ],
+    "components": [ [ [ "scrap_bronze", 1 ] ] ],
     "steps": [
       { "name": "Gather resources and start the process", "time": "1 m", "activity_level": "LIGHT_EXERCISE" },
       {
@@ -34,6 +35,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 3,
+    "autolearn": true,
     "components": [ [ [ "sheet_metal_bronze", 1 ] ] ],
     "result_mult": 20,
     "steps": [

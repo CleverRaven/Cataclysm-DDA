@@ -50,5 +50,45 @@
     "based_on": "time",
     "can_resume": false,
     "completion_eoc": "ACT_PSI_TELEPATH_MENTAL_ENGINEERING_FINISH"
+  },
+  {
+    "id": "ACT_MOM_SHADOW_URGE_GAIN_STRENGTH",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "undergoing the SHADOW URGE process",
+    "based_on": "time",
+    "can_resume": false,
+    "interruptable": false,
+    "completion_eoc": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_STRENGTH_FINALIZATION"
+  },
+  {
+    "id": "ACT_MOM_SHADOW_URGE_GAIN_AGILITY",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "undergoing the SHADOW URGE process",
+    "based_on": "time",
+    "can_resume": false,
+    "interruptable": false,
+    "completion_eoc": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_AGILITY_FINALIZATION"
+  },
+  {
+    "id": "ACT_MOM_SHADOW_URGE_GAIN_RESILIENCE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "undergoing the SHADOW URGE process",
+    "based_on": "time",
+    "can_resume": false,
+    "interruptable": false,
+    "completion_eoc": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_RESILIENCE_FINALIZATION"
+  },
+  {
+    "id": "ACT_MOM_SHADOW_URGE_GAIN_RECOVERY",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "undergoing the SHADOW URGE process",
+    "based_on": "time",
+    "can_resume": false,
+    "interruptable": false,
+    "completion_eoc": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_RECOVERY_FINALIZATION"
   }
 ]

@@ -273,6 +273,7 @@ void overmap_global_state::clear()
     unique_special_count.clear();
     unique_special_decks.clear();
     highway_intersections.clear();
+    placed_regions.clear();
     overmap_count = 0;
     major_river_count = 0;
 }
