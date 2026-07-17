@@ -65,7 +65,7 @@
         "attention": "unattended"
       }
     ],
-    "components": [ [ [ "water", 4 ] ], [ [ "pur_tablets", 1 ] ] ]
+    "components": [ [ [ "water", 4 ] ], [ [ "pur_tablets", 1 ], [ "bleach", 1 ] ] ]
   },
   {
     "type": "recipe",
