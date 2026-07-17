@@ -191,7 +191,7 @@
     "effect": [
       { "u_message": "Zworunk.", "popup": true },
       {
-        "u_travel_to_dimension": "",
+        "u_travel_to_dimension": "default",
         "npc_travel_radius": 0,
         "npc_travel_filter": "none",
         "fail_message": "You feel a prickle at the edge of your senses.",
@@ -1346,7 +1346,7 @@
     "effect": [
       { "u_message": "Zworunk.", "popup": true },
       {
-        "u_travel_to_dimension": "",
+        "u_travel_to_dimension": "default",
         "npc_travel_radius": 0,
         "npc_travel_filter": "none",
         "fail_message": "You feel a prickle at the edge of your senses.",
