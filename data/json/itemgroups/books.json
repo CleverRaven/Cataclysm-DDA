@@ -405,6 +405,11 @@
       { "item": "book_nonf_hard_true_crime", "prob": 10 },
       { "item": "book_nonf_hard_popular_science", "prob": 5 },
       { "item": "book_nonf_hard_business_strategy", "prob": 5 },
+      { "item": "book_nonf_hard_language_learning", "prob": 2 },
+      { "item": "book_nonf_hard_religion", "prob": 3 },
+      { "item": "book_nonf_hard_travelogue", "prob": 4 },
+      { "item": "book_nonf_hard_parenting", "prob": 4 },
+      { "item": "book_nonf_hard_humor", "prob": 3 },
       { "item": "essay_book", "prob": 5 }
     ]
   },

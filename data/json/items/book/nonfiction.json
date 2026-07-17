@@ -85,9 +85,55 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "business strategy book", "str_pl": "copies of a business strategy book" },
-    "description": "A book about analyzing business trends to keep hitting your KPIs and make sure your SMART goals are aligned with your overall framework.  Basically useless now.",
+    "description": "A book about analyzing business trends to keep hitting your KPIs and make sure your SMART goals are aligned with your overall strategic framework.  Basically useless now.",
     "weight": "1334 g",
     "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_language_learning",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "language learning book", "str_pl": "copies of a language learning book" },
+    "description": "A hardcover book dedicated to learning a new language.  If only the zombies could talk.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_religion",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "religion book", "str_pl": "copies of a religion book" },
+    "description": "A book about religion, not a religious book.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_travelogue",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "travelogue", "str_pl": "copies of a travelogue" },
+    "description": "Stories about traveling to a far-off place, meeting new people, and eating new foods.  The kind of things you'll never be able to do again.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_parenting",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "parenting book", "str_pl": "copies of a parenting book" },
+    "description": "A book about raising children, including proper ways to punish them for breaking boundaries, making sure they're well-adjusted and happy, and equipping them with the skills they need to survive in the world.  That last part is a little outdated now.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_humor",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "humorous book", "str_pl": "copies of a humorous book" },
+    "description": "A book entirely written to make the reader laugh.  Honestly it's exactly what you need right now.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl",
+    "relative": { "fun": 4 }
   },
   {
     "id": "book_nonf_hard_homemk_anythingcan",
