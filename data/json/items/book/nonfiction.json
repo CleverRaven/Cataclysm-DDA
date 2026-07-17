@@ -69,7 +69,8 @@
     "name": { "str": "true crime book", "str_pl": "copies of a true crime book" },
     "description": "Part history, part biography, the story of a real crime and the people affected by it.",
     "weight": "1334 g",
-    "copy-from": "book_nonf_hard_homemk_tpl"
+    "copy-from": "book_nonf_hard_homemk_tpl",
+    "relative": { "fun": 2 }
   },
   {
     "id": "book_nonf_hard_popular_science",
@@ -87,7 +88,8 @@
     "name": { "str": "business strategy book", "str_pl": "copies of a business strategy book" },
     "description": "A book about analyzing business trends to keep hitting your KPIs and make sure your SMART goals are aligned with your overall strategic framework.  Basically useless now.",
     "weight": "1334 g",
-    "copy-from": "book_nonf_hard_homemk_tpl"
+    "copy-from": "book_nonf_hard_homemk_tpl",
+    "relative": { "fun": -2 }
   },
   {
     "id": "book_nonf_hard_language_learning",
@@ -114,7 +116,8 @@
     "name": { "str": "travelogue", "str_pl": "copies of a travelogue" },
     "description": "Stories about traveling to a far-off place, meeting new people, and eating new foods.  The kind of things you'll never be able to do again.",
     "weight": "1334 g",
-    "copy-from": "book_nonf_hard_homemk_tpl"
+    "copy-from": "book_nonf_hard_homemk_tpl",
+    "relative": { "fun": 1 }
   },
   {
     "id": "book_nonf_hard_parenting",
