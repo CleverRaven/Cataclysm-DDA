@@ -25,6 +25,7 @@
     "remove_message": "You feel your enhanced strength fade away, but you stomach still feels odd.",
     "rating": "mixed",
     "//": "Focus for learning is set at 15 regardless of actual displayed focus",
+    "//2": "Once blood pressure is a possible stat, Noonien should raise your blood pressure and the crash should lower it",
     "removes_effects": [
       "hunger_engorged",
       "hunger_full",
@@ -60,7 +61,8 @@
       { "condition": { "u_has_trait": "SLOWHEALER" }, "values": [ { "value": "REGEN_HP", "multiply": -0.65 } ] },
       { "condition": { "u_has_trait": "SLOWHEALER2" }, "values": [ { "value": "REGEN_HP", "multiply": -0.23 } ] },
       { "condition": { "u_has_trait": "SLOWHEALER3" }, "values": [ { "value": "REGEN_HP", "multiply": -0.05 } ] }
-    ]
+    ],
+    "flags": [ "CANNOT_GAIN_WEARINESS" ]
   },
   {
     "type": "effect_type",
