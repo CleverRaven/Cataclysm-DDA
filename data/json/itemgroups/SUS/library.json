@@ -673,6 +673,7 @@
     "//2": "Returns a single nonfiction book that is hard bound.  Note that this may or may not be a skill training book.",
     "subtype": "distribution",
     "entries": [
+      { "group": "nonfiction_hardback_fluff", "prob": 350 },
       { "group": "SUS_book_nonf_hard_dodge", "prob": 10 },
       { "group": "SUS_book_nonf_hard_spirit", "prob": 10 },
       { "group": "SUS_book_nonf_hard_homemk", "prob": 10 },
