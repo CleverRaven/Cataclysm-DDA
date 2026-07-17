@@ -1170,7 +1170,7 @@
           {
             "if": { "u_has_trait": "awayfromhome" },
             "then": {
-              "u_travel_to_dimension": "dimension_sky_island_mission",
+              "u_travel_to_dimension": { "global_val": "sky_island_target_region_settings" },
               "fail_message": "You feel a prickle at the edge of your senses.",
               "success_message": "The shifting halls warp and fold on themselves and turn inside out, revealing the world below."
             },
