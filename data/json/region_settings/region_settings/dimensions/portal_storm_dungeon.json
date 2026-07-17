@@ -22,7 +22,7 @@
   },
   {
     "type": "dimension",
-    "id": "default_portal_storm_dungeon",
+    "id": "portal_storm_dungeon_dimension",
     "region_layout": "default_portal_storm_dungeon"
   },
   {
