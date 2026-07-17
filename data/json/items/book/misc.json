@@ -1601,5 +1601,50 @@
     "intelligence": 4,
     "time": "10 m",
     "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "european_comic",
+    "copy-from": "mag_comic",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "european comic" },
+    "description": "A comic book in the franco-belgian format, large, fully colored with a hard cover.",
+    "variants": [
+      {
+        "id": "generic",
+        "description": "<european_comic_possible_title>",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 5
+      },
+      {
+        "id": "tintin",
+        "name": { "str": "the adventures of Tintin" },
+        "description": "This album is part of the Adventures of Tintin series, it narrates the adventures of a young reporter called Tintin, his dog Snowy and his friends, particularly Captain Haddock, as they travel across the world solving mysteries, uncovering conspiracies, and foiling criminals.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "asterix",
+        "name": { "str": "asterix" },
+        "description": "This album is part of the Asterix series about the eponymous gaulish warrior, his friend Obelix and his dog Idefix, holding out against the roman invaders thanks to a magic potion giving them supernatural strength.",
+        "append": true,
+        "weight": 2
+      },
+      {
+        "id": "lucky_luke",
+        "name": { "str": "lucky luke" },
+        "description": "This album is part of the Lucky Luke series, they're stories about a cowboy named Lucky Luke, \"the man who shoots faster than his shadow,\" and his horse Jolly Jumper bringing justice across the far west.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "smurfs",
+        "name": { "str": "the smurfs" },
+        "description": "This album is part of the Smurfs series, which is about a community of tiny blue creatures called Smurfs who live in a hidden village deep in the forest led by Papa Smurf",
+        "append": true,
+        "weight": 1
+      }
+    ]
   }
 ]
