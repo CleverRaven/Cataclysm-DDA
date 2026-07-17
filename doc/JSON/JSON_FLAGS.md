@@ -369,6 +369,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```CANNOT_ATTACK``` A creature with this flag cannot attack (includes spellcasting).
 - ```CANNOT_CHANGE_TEMPERATURE``` A creature with this flag cannot change body temperature.
 - ```CANNOT_GAIN_EFFECTS``` A creature with this effect flag cannot gain effects.
+- ```CANNOT_GAIN_WEARINESS``` A character with this flag always has Fresh weariness. Weariness is still tracked in the background and accurately set when the flag wears off.
 - ```CANNOT_MOVE``` A creature with this flag cannot move.
 - ```CANNOT_TAKE_DAMAGE``` A creature with this flag cannot take any damage.
 - ```CANNOT_USE_COMPUTERS``` A creature with this flag cannot activate a computer terminal or use various computer functions (e.g. saving ebooks or reading efiles).
