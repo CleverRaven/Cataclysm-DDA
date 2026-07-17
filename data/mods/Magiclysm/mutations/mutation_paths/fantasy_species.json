@@ -897,6 +897,7 @@
     "types": [ "WINGS" ],
     "strict_threshreq": true,
     "restricts_gear": [ "torso" ],
+    "allowed_items": [ "ALLOWS_WINGS" ],
     "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "wing_ravenfolk_l" }, { "gain": "wing_ravenfolk_r" } ] } ],
     "allow_soft_gear": true,
     "active": true,

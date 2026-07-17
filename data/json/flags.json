@@ -117,6 +117,14 @@
     "type": "json_flag"
   },
   {
+    "id": "ALLOWS_WING_ARMS",
+    "type": "json_flag"
+  },
+  {
+    "id": "ALLOWS_WINGS",
+    "type": "json_flag"
+  },
+  {
     "id": "ALLOWS_TALONS",
     "type": "json_flag"
   },
