@@ -1304,7 +1304,7 @@ void Character::update_health()
 int Character::weariness() const
 {
     // if we're magically inexhaustable or something, weariness is 0.
-    if( has_flag( json_flag_CANNOT_GAIN_WEARINESS) ) {
+    if( has_flag( json_flag_CANNOT_GAIN_WEARINESS ) ) {
         return 0;
     } else {
         return activity_history.weariness();
