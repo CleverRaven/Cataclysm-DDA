@@ -4,7 +4,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "biography (living person)", "str_pl": "copies of a biography (living person)" },
-    "description": "A biography of a living person.  Well, living at the time this was written.  You'd be willing to bet they're shambling around looking for brains at the moment.",
+    "description": "A biography of a living person.  Well, living at the time it was written.  You'd be willing to bet they're shambling around looking for brains at the moment.",
     "weight": "1334 g",
     "copy-from": "book_nonf_hard_homemk_tpl"
   },
@@ -13,7 +13,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "biography (deceased person)", "str_pl": "copies of a biography (deceased person)" },
-    "description": "A biography of someone who has already passed away.  At least they were lucky enough to live before the Catalcysm happened.",
+    "description": "A biography of someone who has already passed away.  At least they were lucky enough to live before the Cataclysm happened.",
     "weight": "1334 g",
     "copy-from": "book_nonf_hard_homemk_tpl"
   },
