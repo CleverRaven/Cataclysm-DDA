@@ -259,9 +259,9 @@ static const json_character_flag
 json_flag_MYOPIC_IN_LIGHT_SUPERNATURAL( "MYOPIC_IN_LIGHT_SUPERNATURAL" );
 static const json_character_flag json_flag_MYOPIC_SUPERNATURAL( "MYOPIC_SUPERNATURAL" );
 static const json_character_flag json_flag_NIGHT_VISION( "NIGHT_VISION" );
-static const json_character_flag json_flag_NO_WING_GLIDING( "NO_WING_GLIDING" );
 static const json_character_flag json_flag_NON_THRESH( "NON_THRESH" );
 static const json_character_flag json_flag_NVG_GREEN( "NVG_GREEN" );
+static const json_character_flag json_flag_NO_WING_GLIDING( "NO_WING_GLIDING" );
 static const json_character_flag json_flag_PHASE_MOVEMENT( "PHASE_MOVEMENT" );
 static const json_character_flag json_flag_PLANTBLOOD( "PLANTBLOOD" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
