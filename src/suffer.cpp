@@ -122,7 +122,6 @@ static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 
 static const json_character_flag json_flag_ALBINO( "ALBINO" );
-static const json_character_flag json_flag_CANNOT_GAIN_WEARINESS( "CANNOT_GAIN_WEARINESS" );
 static const json_character_flag json_flag_DAYFEAR( "DAYFEAR" );
 static const json_character_flag json_flag_ETHEREAL( "ETHEREAL" );
 static const json_character_flag json_flag_GILLS( "GILLS" );
@@ -1423,12 +1422,7 @@ static void apply_weary_message( const Character &you, int level, int old )
 }
 
 static void apply_weariness( Character &you, int level, int old )
-{
-    // Skip all this if for some reason you cannot gain weariness
-    if( you.has_flag( json_flag_CANNOT_GAIN_WEARINESS )  ) {
-        return;
-    }
-      
+{   
     // Exertion cannot be negative!
     if( level < 0 || old < 0 ) {
         debugmsg( "Attempted to apply weariness to character with negative ( new: %d old: %d ) weariness",

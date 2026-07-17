@@ -165,6 +165,7 @@ static const json_character_flag json_flag_BIONIC_SHOCKPROOF( "BIONIC_SHOCKPROOF
 static const json_character_flag json_flag_BLIND( "BLIND" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
+static const json_character_flag json_flag_CANNOT_GAIN_WEARINESS( "CANNOT_GAIN_WEARINESS" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_HEAL_OVERRIDE( "HEAL_OVERRIDE" );
@@ -1302,7 +1303,12 @@ void Character::update_health()
 
 int Character::weariness() const
 {
+if( has_flag( json_flag_CANNOT_GAIN_WEARINESS) ) { 
+    return 0;
+} else {
+
     return activity_history.weariness();
+}
 }
 
 int Character::weary_threshold() const
