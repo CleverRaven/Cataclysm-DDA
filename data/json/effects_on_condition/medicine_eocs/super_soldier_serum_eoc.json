@@ -25,6 +25,17 @@
     "remove_message": "You feel your enhanced strength fade away, but you stomach still feels odd.",
     "rating": "mixed",
     "//": "Focus for learning is set at 15 regardless of actual displayed focus",
+    "removes_effects": [
+      "hunger_engorged",
+      "hunger_full",
+      "hunger_satisfied",
+      "hunger_blank",
+      "hunger_hungry",
+      "hunger_very_hungry",
+      "hunger_near_starving",
+      "hunger_starving",
+      "hunger_famished"
+    ],
     "enchantments": [
       {
         "values": [
