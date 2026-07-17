@@ -63,12 +63,38 @@
     "color": "white",
     "warmth": 10,
     "material_thickness": 0.1,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
     "armor": [
       {
         "encumbrance": 15,
         "coverage": 100,
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [
+          "leg_l",
+          "leg_r",
+          "torso",
+          "arm_l",
+          "arm_r",
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "tail",
+          "gastropod_foot",
+          "hoof_r",
+          "hoof_l",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r",
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ]
       }
     ]
   },
@@ -89,12 +115,38 @@
     "warmth": 50,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
     "armor": [
       {
         "encumbrance": 35,
         "coverage": 100,
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [
+          "leg_l",
+          "leg_r",
+          "torso",
+          "arm_l",
+          "arm_r",
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "tail",
+          "gastropod_foot",
+          "hoof_r",
+          "hoof_l",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r",
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ]
       }
     ],
     "//": "Based on https://www.amazon.com/dp/B091DZVHX7 with the assumed material thickness of 0.8cm",
@@ -168,12 +220,38 @@
     "color": "blue",
     "warmth": 60,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
     "armor": [
       {
         "encumbrance": 50,
         "coverage": 100,
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [
+          "leg_l",
+          "leg_r",
+          "torso",
+          "arm_l",
+          "arm_r",
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "tail",
+          "gastropod_foot",
+          "hoof_r",
+          "hoof_l",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r",
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ]
       }
     ],
     "//": "Based vaguely on https://www.amazon.com/BETU-Weighted-Blanket-Blankets-Factory/dp/B08N66D947 the 60x80 12lb version.",
@@ -205,12 +283,38 @@
     "warmth": 70,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
     "armor": [
       {
         "encumbrance": 45,
         "coverage": 100,
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [
+          "leg_l",
+          "leg_r",
+          "torso",
+          "arm_l",
+          "arm_r",
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "tail",
+          "gastropod_foot",
+          "hoof_r",
+          "hoof_l",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r",
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ]
       }
     ]
   },
@@ -231,12 +335,38 @@
     "warmth": 80,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
     "armor": [
       {
         "encumbrance": 55,
         "coverage": 100,
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [
+          "leg_l",
+          "leg_r",
+          "torso",
+          "arm_l",
+          "arm_r",
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "tail",
+          "gastropod_foot",
+          "hoof_r",
+          "hoof_l",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r",
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ]
       }
     ]
   },
@@ -256,13 +386,39 @@
     "warmth": 75,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
     "looks_like": "down_blanket",
     "armor": [
       {
         "encumbrance": 40,
         "coverage": 100,
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [
+          "leg_l",
+          "leg_r",
+          "torso",
+          "arm_l",
+          "arm_r",
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "tail",
+          "gastropod_foot",
+          "hoof_r",
+          "hoof_l",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r",
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ]
       }
     ]
   },
@@ -279,7 +435,33 @@
       {
         "encumbrance": 50,
         "coverage": 100,
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [
+          "leg_l",
+          "leg_r",
+          "torso",
+          "arm_l",
+          "arm_r",
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "tail",
+          "gastropod_foot",
+          "hoof_r",
+          "hoof_l",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r",
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ]
       }
     ]
   },
@@ -298,7 +480,7 @@
     "//": "https://www.lomo.co.uk/products/emergency-foil-blanket-sliver-10-pack/",
     "weight": "50 g",
     "volume": "200 ml",
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "SOFT" ],
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "SOFT", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
     "warmth": 50,
     "environmental_protection": 1,
     "material_thickness": 0.01,
@@ -306,7 +488,33 @@
       {
         "encumbrance": 50,
         "coverage": 90,
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [
+          "leg_l",
+          "leg_r",
+          "torso",
+          "arm_l",
+          "arm_r",
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "tail",
+          "gastropod_foot",
+          "hoof_r",
+          "hoof_l",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r",
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ]
       }
     ]
   },
@@ -327,7 +535,7 @@
     "warmth": 80,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER" ],
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
     "use_action": {
       "menu_text": "Roll up",
       "type": "transform",
@@ -338,7 +546,31 @@
       {
         "encumbrance": 80,
         "coverage": 100,
-        "covers": [ "torso", "head", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [
+          "leg_l",
+          "leg_r",
+          "torso",
+          "arm_l",
+          "arm_r",
+          "hand_l",
+          "hand_r",
+          "head",
+          "foot_l",
+          "foot_r",
+          "mouth",
+          "tail",
+          "gastropod_foot",
+          "beak",
+          "muzzle",
+          "hoof_r",
+          "hoof_l",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r"
+        ]
       }
     ]
   },
@@ -359,12 +591,38 @@
     "warmth": 30,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER", "SOFT" ],
+    "flags": [ "OVERSIZE", "OUTER", "SOFT", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
     "armor": [
       {
         "encumbrance": 80,
         "coverage": 100,
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [
+          "leg_l",
+          "leg_r",
+          "torso",
+          "arm_l",
+          "arm_r",
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "tail",
+          "gastropod_foot",
+          "hoof_r",
+          "hoof_l",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r",
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ]
       }
     ]
   },
@@ -384,12 +642,38 @@
     "color": "white",
     "warmth": 10,
     "material_thickness": 0.1,
-    "flags": [ "OVERSIZE", "OUTER" ],
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
     "armor": [
       {
         "encumbrance": 15,
         "coverage": 100,
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [
+          "leg_l",
+          "leg_r",
+          "torso",
+          "arm_l",
+          "arm_r",
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "tail",
+          "gastropod_foot",
+          "hoof_r",
+          "hoof_l",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r",
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ]
       }
     ]
   },
@@ -409,12 +693,38 @@
     "color": "white",
     "warmth": 20,
     "material_thickness": 0.1,
-    "flags": [ "OVERSIZE", "OUTER" ],
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
     "armor": [
       {
         "encumbrance": 30,
         "coverage": 100,
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [
+          "leg_l",
+          "leg_r",
+          "torso",
+          "arm_l",
+          "arm_r",
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "tail",
+          "gastropod_foot",
+          "hoof_r",
+          "hoof_l",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r",
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ]
       }
     ]
   }
