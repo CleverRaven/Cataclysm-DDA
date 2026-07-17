@@ -1422,7 +1422,7 @@ static void apply_weary_message( const Character &you, int level, int old )
 }
 
 static void apply_weariness( Character &you, int level, int old )
-{   
+{
     // Exertion cannot be negative!
     if( level < 0 || old < 0 ) {
         debugmsg( "Attempted to apply weariness to character with negative ( new: %d old: %d ) weariness",
