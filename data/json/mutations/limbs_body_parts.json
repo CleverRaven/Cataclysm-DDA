@@ -1128,7 +1128,7 @@
   },
   {
     "id": "wing_l",
-    "//": "These exist for mod wings that are independent, like butterfly or insect wings, or ravenfolk or black dragon wings in Magiclysm, to use as a similar_bodypart for gear coverage",
+    "//": "These exist for wings that are independent, like butterfly or insect wings, or ravenfolk or black dragon wings in Magiclysm, to use as a similar_bodypart for gear coverage",
     "type": "body_part",
     "name": "left wing",
     "name_multiple": "left wings",
