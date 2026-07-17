@@ -52,7 +52,8 @@
     "description": "A hardbound book containing a set of very impressive photographs of animals you'll never see and places you'll never be able to go to.",
     "weight": "3016 g",
     "volume": "2000 ml",
-    "copy-from": "book_nonf_hard_homemk_tpl"
+    "copy-from": "book_nonf_hard_homemk_tpl",
+    "relative": { "fun": 2 }
   },
   {
     "id": "book_nonf_hard_self_help",
