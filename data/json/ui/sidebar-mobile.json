@@ -1449,6 +1449,12 @@
         "text": { "str": "XXXX", "//~": "NO_I18N" },
         "color": "i_red",
         "condition": { "u_has_effect": "hunger_famished" }
+      },
+      {
+        "id": "noonien_serum",
+        "text": "????",
+        "color": "light_gray",
+        "condition": { "u_has_effect": "super_soldier_serum_main" }
       }
     ],
     "type": "widget"
