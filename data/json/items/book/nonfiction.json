@@ -18,6 +18,51 @@
     "copy-from": "book_nonf_hard_homemk_tpl"
   },
   {
+    "id": "book_nonf_hard_autobiography",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "autobiography", "str_pl": "copies of an autobiography" },
+    "description": "A biography of someone written by that very same someone.  Hopefully it's not too self-aggrandizing.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_history_ancient",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "history book (ancient)", "str_pl": "copies of a history book (ancient)" },
+    "description": "A real and true accounting of actual historical events, or at least the common understanding of those events.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_history_modern",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "history book (modern)", "str_pl": "copies of a history book (modern)" },
+    "description": "A history book about events that living people can still remember.  You might think this would make it easier to write about, but you would be wrong.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_photography_book",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "photography collection", "str_pl": "copies of a photography collection" },
+    "description": "A hardbound book containing a set of very impressive photographs of animals you'll never see and places you'll never be able to go to.",
+    "weight": "3016 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_self_help",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "self-help book", "str_pl": "copies of a self-help book" },
+    "description": "A book to help you sleep better, increase your productivity, finally accomplish those life goals, or attain psychological satisfaction.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
     "id": "book_nonf_hard_homemk_anythingcan",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],

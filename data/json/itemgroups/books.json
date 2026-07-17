@@ -397,6 +397,11 @@
     "entries": [
       { "item": "book_nonf_hard_biography_living", "prob": 10 },
       { "item": "book_nonf_hard_biography_dead", "prob": 8 },
+      { "item": "book_nonf_hard_autobiography", "prob": 6 },
+      { "item": "book_nonf_hard_history_ancient", "prob": 5 },
+      { "item": "book_nonf_hard_history_modern", "prob": 10 },
+      { "item": "book_nonf_hard_photography_book", "prob": 5 },
+      { "item": "book_nonf_hard_self_help", "prob": 8 },
       { "item": "essay_book", "prob": 5 }
     ]
   },
