@@ -1213,7 +1213,7 @@
       { "group": "novels", "prob": 100, "count": [ 7, 21 ] },
       { "group": "kids_books", "prob": 15, "count": [ 3, 7 ] },
       { "group": "literature", "prob": 100, "count": [ 2, 5 ] },
-      { "item": "european_comic", "prob": 1, "count": [ 8, 16 ] }
+      { "item": "european_comic", "prob": 1 }
     ]
   },
   {
