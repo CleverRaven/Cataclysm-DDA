@@ -372,5 +372,52 @@
     "purifiable": false,
     "types": [ "Cybernetic" ],
     "cancels": [ "NO_CBM_INSTALLATION" ]
+  },
+  {
+    "type": "mutation",
+    "id": "STRONG_LEGS_MOM",
+    "name": { "str": "Strong Legs" },
+    "description": "Your legs have gained muscle mass to propel you across any terrain.",
+    "types": [ "LEGS" ],
+    "points": 1,
+    "vitamin_cost": 60,
+    "visibility": 1,
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.12 } ] } ]
+  },
+  {
+    "id": "WEAK_MOM",
+    "type": "mutation",
+    "name": { "str": "Weak" },
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": -1 } ] } ],
+    "points": -1,
+    "description": "Your body is unnaturally weak.  -1 Strength.",
+    "types": [ "STR" ]
+  },
+  {
+    "id": "WEAK_MOM_2",
+    "type": "mutation",
+    "name": { "str": "Very Weak" },
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": -2 } ] } ],
+    "points": -1,
+    "description": "Your body is unnaturally very weak.  -2 Strength.",
+    "types": [ "STR" ]
+  },
+  {
+    "id": "CLUMSY_MOM",
+    "type": "mutation",
+    "name": { "str": "Fumbling" },
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -1 } ] } ],
+    "points": -1,
+    "description": "Your movements are unnaturally awkward.  -1 Dexterity.",
+    "types": [ "STR" ]
+  },
+  {
+    "id": "CLUMSY_MOM_2",
+    "type": "mutation",
+    "name": { "str": "Weak" },
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -2 } ] } ],
+    "points": -1,
+    "description": "Your  movements are unnaturally very awkward.  -2 Dexterity.",
+    "types": [ "STR" ]
   }
 ]

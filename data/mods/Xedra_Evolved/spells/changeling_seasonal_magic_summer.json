@@ -111,7 +111,7 @@
     "max_level": 1,
     "shape": "blast",
     "difficulty": 3,
-    "effect": "effect_on_condition",
+    "effect": "attack",
     "effect_str": "EOC_CHANGELING_SUMMER_PROTECT_FROM_HOT_WEATHER",
     "min_range": 10,
     "min_duration": {
@@ -121,7 +121,9 @@
       "math": [ "169485 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 45508) + (u_skill('gramarye') * 116805)" ]
     },
     "base_energy_cost": {
-      "math": [ "max( ( 250 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 2) - (u_skill('gramarye') * 2)), 100)" ]
+      "math": [
+        "max( ( 250 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 2) - (u_skill('gramarye') * 4.5) ), 100)"
+      ]
     },
     "base_casting_time": 50
   },

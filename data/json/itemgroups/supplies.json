@@ -238,6 +238,19 @@
     "items": [ { "item": "ammonia_hydroxide", "count": [ 1, 15 ] } ]
   },
   {
+    "id": "ethanol_bottle_liter",
+    "type": "item_group",
+    "container-item": "bottle_liter",
+    "//": "32 oz",
+    "items": [ { "item": "chem_ethanol", "count": 950 } ]
+  },
+  {
+    "id": "ethanol_bottle_liter_part",
+    "type": "item_group",
+    "container-item": "bottle_liter",
+    "items": [ { "item": "chem_ethanol", "count": [ 15, 950 ] } ]
+  },
+  {
     "id": "magnesiumpowder_small_bag",
     "type": "item_group",
     "container-item": "box_small",
@@ -1068,10 +1081,10 @@
       { "item": "polycarbonate_sheet", "prob": 7, "count": [ 1, 30 ] },
       { "prob": 10, "group": "salt_bag_plastic" },
       { "prob": 10, "group": "sugar_bag_plastic" },
-      { "item": "chem_ethanol", "prob": 10, "charges": [ 250, -1 ] },
+      { "group": "ethanol_bottle_liter_part", "prob": 10 },
       [ "oxygen_cylinder", 8 ],
       { "prob": 16, "group": "chem_citric_acid_bottle_glass_100_inf" },
-      { "item": "chem_ethanol", "prob": 10, "charges": [ 250, -1 ] },
+      { "group": "ethanol_bottle_liter_part", "prob": 10 },
       { "item": "chem_turpentine", "prob": 10, "charges": [ 20, -1 ] }
     ]
   },
@@ -1139,7 +1152,7 @@
     "type": "item_group",
     "//": "Combustible fuels within their default containers",
     "items": [
-      [ "chem_ethanol", 10 ],
+      { "group": "ethanol_bottle_liter_part", "prob": 10 },
       [ "denat_alcohol", 12 ],
       [ "denat_alcohol", 8 ],
       [ "chem_methanol", 10 ],

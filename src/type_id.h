@@ -85,6 +85,12 @@ using damage_type_id = string_id<damage_type>;
 struct damage_info_order;
 using damage_info_order_id = string_id<damage_info_order>;
 
+class dimension_world;
+using dimension_id = string_id<dimension_world>;
+
+class dimension_region_layout;
+using dimension_region_layout_id = string_id<dimension_region_layout>;
+
 class disease_type;
 using diseasetype_id = string_id<disease_type>;
 

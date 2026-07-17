@@ -11,7 +11,10 @@
       { "item": "textbook_tailor", "count": [ 1, 4 ], "prob": 80 },
       { "item": "tailor_portfolio", "prob": 20 },
       { "item": "tailor_japanese", "prob": 10 },
-      { "item": "scots_tailor", "prob": 10 }
+      { "item": "scots_tailor", "prob": 10 },
+      { "item": "recipe_fauxfur", "prob": 2 },
+      { "item": "dieselpunk_tailor", "prob": 2 },
+      { "item": "tailor_japanese", "prob": 2 }
     ]
   },
   {
@@ -654,6 +657,14 @@
       { "group": "SUS_book_nonf_soft", "prob": 3 },
       { "group": "SUS_book_nonf_zine", "prob": 1 }
     ]
+  },
+  {
+    "id": "SUS_book_nonf_no_zines",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a single nonfiction printed material, excluding magazines.",
+    "subtype": "distribution",
+    "entries": [ { "group": "SUS_book_nonf_hard", "prob": 3 }, { "group": "SUS_book_nonf_soft", "prob": 3 } ]
   },
   {
     "id": "SUS_book_nonf_hard",

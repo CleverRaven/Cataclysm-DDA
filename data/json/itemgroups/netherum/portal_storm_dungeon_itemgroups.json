@@ -1,0 +1,12 @@
+[
+  {
+    "type": "item_group",
+    "id": "portal_storm_dungeon_items",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "unstable_rift", "prob": 1 },
+      { "item": "escape_stone", "prob": 1 },
+      { "item": "calming_stone", "prob": 1 }
+    ]
+  }
+]
