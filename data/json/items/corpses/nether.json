@@ -62,7 +62,7 @@
     "type": "ITEM",
     "id": "dead_solar_beetle_radiosphere",
     "name": { "str": "giant solar beetle corpse" },
-    "description": "A huge corpse of a beetle-like insect, with its elytra wide open. The ribbed abdomen is entirely reflective. Heavily damaged by elements.",
+    "description": "A huge corpse of a beetle-like insect, with its elytra wide open. The ribbed abdomen is entirely reflective. Heavily damaged by elements. ",
     "symbol": "B",
     "color": "light_blue",
     "category": "corpses",
