@@ -114,16 +114,16 @@
     "items": [ { "item": "chem_potassium_chloride", "count": [ 2, 355 ] } ]
   },
   {
-    "id": "potassiumhydroxide_small_bottle",
+    "id": "potassiumhydroxide_small_bag",
     "type": "item_group",
-    "container-item": "bottle_plastic_355ml",
-    "items": [ { "item": "chem_potassium_hydroxide", "count": 250 } ]
+    "container-item": "bag_plastic_small",
+    "items": [ { "item": "chem_potassium_hydroxide", "count": 355 } ]
   },
   {
-    "id": "potassiumhydroxide_small_bottle_part",
+    "id": "potassiumhydroxide_small_bag_part",
     "type": "item_group",
-    "container-item": "bottle_plastic_355ml",
-    "items": [ { "item": "chem_potassium_hydroxide", "count": [ 2, 250 ] } ]
+    "container-item": "bag_plastic_small",
+    "items": [ { "item": "chem_potassium_hydroxide", "count": [ 2, 355 ] } ]
   },
   {
     "id": "redphosphorus_small_bottle",
