@@ -1174,7 +1174,7 @@
     "heading": "r. wing",
     "hp_bar_ui_text": "R WING",
     "main_part": "wing_r",
-    "opposite_part": "wing_ravenfolk_l",
+    "opposite_part": "wing_l",
     "limb_types": "wing",
     "limb_scores": [ [ "reaction", 0.1 ] ],
     "side": "right",
