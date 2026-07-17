@@ -491,6 +491,11 @@
     "restriction": "Item must be some kind of strapped additional plating"
   },
   {
+    "id": "NO_WING_GLIDING",
+    "type": "json_flag",
+    "info": "This item <bad>prevents using wings to glide</bad>."
+  },
+  {
     "id": "COLD_IMMUNE",
     "type": "json_flag",
     "info": "This gear <good>completely protects</good> you from <info>low temperatures</info>."
