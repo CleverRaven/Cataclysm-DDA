@@ -756,8 +756,7 @@
     "material": [ "dense_powder" ],
     "volume": "1 ml",
     "weight": "2120 mg",
-    "//": "density: 2.12 g/cm3 (25 °C)",
-    "container": "bottle_plastic_small"
+    "//": "density: 2.12 g/cm3 (25 °C)"
   },
   {
     "type": "ITEM",
