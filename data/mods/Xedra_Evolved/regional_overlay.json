@@ -15,13 +15,13 @@
     "type": "map_extra_collection",
     "id": "forest",
     "copy-from": "forest",
-    "extend": { "extras": [ [ "mx_goblin_fruits", 25 ], [ "mx_ring_of_mushrooms", 15 ] ] }
+    "extend": { "extras": [ [ "mx_goblin_fruits", 25 ], [ "mx_ozma_statue", 5 ], [ "mx_ring_of_mushrooms", 15 ] ] }
   },
   {
     "type": "map_extra_collection",
     "id": "forest_thick",
     "copy-from": "forest_thick",
-    "extend": { "extras": [ [ "mx_goblin_fruits", 30 ], [ "mx_ring_of_mushrooms", 20 ] ] }
+    "extend": { "extras": [ [ "mx_goblin_fruits", 30 ], [ "mx_ozma_statue", 5 ], [ "mx_ring_of_mushrooms", 20 ] ] }
   },
   {
     "type": "map_extra_collection",
@@ -47,6 +47,7 @@
         [ "mx_pond_forest_undine", 75 ],
         [ "mx_pond_forest_undine_ierde", 75 ],
         [ "mx_ring_of_mushrooms", 30 ],
+        [ "mx_ozma_statue", 5 ],
         [ "mx_goblin_fruits", 15 ]
       ]
     }

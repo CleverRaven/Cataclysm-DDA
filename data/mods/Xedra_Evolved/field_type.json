@@ -506,7 +506,7 @@
         "concentration": 1,
         "effects": [
           {
-            "effect_id": "effect_docile",
+            "effect_id": "ozmas_peace",
             "body_part": "mouth",
             "intensity": 2,
             "min_duration": "2 minutes",
@@ -525,7 +525,7 @@
         "concentration": 2,
         "effects": [
           {
-            "effect_id": "effect_docile",
+            "effect_id": "ozmas_peace",
             "body_part": "mouth",
             "intensity": 5,
             "min_duration": "3 minutes",
@@ -539,16 +539,16 @@
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": "80m",
-    "percent_spread": 30,
+    "percent_spread": 60,
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
     "immunity_data": { "flags": [ "INHALED_TOXIN_IMMUNE" ], "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
-    "half_life": "10 minutes",
+    "half_life": "30 minutes",
     "phase": "gas",
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_pollen_arvore_weaken"
-  },
+  }
 ]
