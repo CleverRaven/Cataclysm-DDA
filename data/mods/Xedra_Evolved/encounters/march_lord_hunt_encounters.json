@@ -9,7 +9,7 @@
     "effect": [
       {
         "set_condition": "random_enc_condition",
-        "condition": { "and": [ "is_day", { "current_dimension": "" }, { "is_weather": "fog" } ] }
+        "condition": { "and": [ "is_day", { "current_dimension": "default" }, { "is_weather": "fog" } ] }
       },
       { "u_message": "Xedra Evolved March Lord hunt encounter has triggered!", "type": "debug" },
       {
