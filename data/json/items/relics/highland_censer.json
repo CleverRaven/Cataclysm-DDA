@@ -155,7 +155,7 @@
         "if": { "math": [ "(u_artifact_resonance() > 2500)" ] },
         "then": [
           { "run_eocs": "EOC_PORTAL_STORM_WARN_OR_CAUSE_RECURRING" },
-          { "if": { "current_dimension": "" }, "then": [ { "math": [ "ps_str = ps_base_str - 1" ] } ] },
+          { "if": { "current_dimension": "default" }, "then": [ { "math": [ "ps_str = ps_base_str - 1" ] } ] },
           { "u_set_field": "fd_incense", "radius": 2 }
         ],
         "else": [ { "u_set_field": "fd_incense", "radius": 2 } ]

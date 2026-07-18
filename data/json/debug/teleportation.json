@@ -5,7 +5,7 @@
     "//": "Example EOC that shifts a vehicle to the test dimension",
     "effect": [
       {
-        "if": { "current_dimension": "" },
+        "if": { "current_dimension": "default" },
         "then": { "set_string_var": "test", "target_var": { "u_val": "destination_dimension" } },
         "else": { "set_string_var": "", "target_var": { "u_val": "destination_dimension" } }
       },
@@ -16,7 +16,7 @@
         "success_message": "In a flash of light the surroundings outside the Perambulator are changed!."
       },
       { "u_message": { "u_val": "destination_dimension" } },
-      { "if": { "current_dimension": "" }, "then": { "u_message": "home sweet home" } }
+      { "if": { "current_dimension": "default" }, "then": { "u_message": "home sweet home" } }
     ]
   },
   {
