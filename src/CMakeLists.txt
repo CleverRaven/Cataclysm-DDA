@@ -220,11 +220,17 @@ if (TILES)
         file(GLOB _SHADER_SOURCES "${_SHADERS_DIR}/*.frag" "${_SHADERS_DIR}/*.vert")
         find_package(Python3 COMPONENTS Interpreter REQUIRED)
         if(VCPKG_MANIFEST_MODE AND WIN32)
+            set(GLSLANG
+            "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/tools/glslang/glslangValidator.exe"
+            )
+            set(SDL_SHADERCROSS
+            "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/tools/sdl3-shadercross/shadercross.exe"
+            )
             add_custom_command(
                     OUTPUT ${_SHADERS_STAMP}
                     COMMAND ${CMAKE_COMMAND} -E env
-                        GLSLANG="${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/tools/glslang/glslangValidator.exe"
-                        SDL_SHADERCROSS="${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/tools/sdl3-shadercross/shadercross.exe"
+                        GLSLANG="${GLSLANG}"
+                        SDL_SHADERCROSS="${SDL_SHADERCROSS}"
                         ${Python3_EXECUTABLE}
                         ${CMAKE_SOURCE_DIR}/tools/build_shaders.py
                         --shader-dir ${_SHADERS_DIR}
