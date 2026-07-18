@@ -47,7 +47,8 @@
         { "chunks": [ "old_guard_red_soldier_spawn" ], "x": [ 1 ], "y": [ 1 ] },
         { "chunks": [ "old_guard_red_soldier_spawn" ], "x": [ 5 ], "y": [ 1 ] },
         { "chunks": [ "old_guard_red_soldier_spawn" ], "x": [ 1 ], "y": [ 6 ] },
-        { "chunks": [ "old_guard_red_soldier_spawn" ], "x": [ 5 ], "y": [ 6 ] } ]
+        { "chunks": [ "old_guard_red_soldier_spawn" ], "x": [ 5 ], "y": [ 6 ] } 
+      ]
     }
   }
 ]
