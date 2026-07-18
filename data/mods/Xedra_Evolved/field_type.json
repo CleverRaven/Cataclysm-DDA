@@ -502,6 +502,9 @@
         "name": "pollen cloud",
         "sym": "8",
         "dangerous": true,
+        "color": "light_green",
+        "light_emitted": 60,
+        "light_color": [ 80, 240, 150 ],
         "translucency": 1,
         "concentration": 1,
         "effects": [
@@ -520,6 +523,8 @@
       {
         "name": "pollen cloud",
         "color": "light_green",
+        "light_emitted": 60,
+        "light_color": [ 80, 240, 150 ],
         "transparent": false,
         "translucency": 10,
         "concentration": 2,
