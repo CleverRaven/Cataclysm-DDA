@@ -26,6 +26,13 @@
     "name": { "str": "Pointed Ears" },
     "description": "Your upper earlobes have grown noticeably higher.  Fortunately, they don't get in the way of your headgear, much.  Unfortunately, they also don't seem to help your hearing any.",
     "types": [ "EARS" ],
+    "category": [
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
     "points": 0,
     "vitamin_cost": 80,
     "visibility": 4,
