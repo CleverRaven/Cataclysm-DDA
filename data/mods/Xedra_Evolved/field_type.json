@@ -493,5 +493,67 @@
     "display_items": true,
     "display_field": true,
     "looks_like": "fd_dust"
+  },
+  {
+    "id": "fd_emerald_poppy_pollen",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "pollen cloud",
+        "sym": "8",
+        "dangerous": true,
+        "color": "light_green",
+        "light_emitted": 60,
+        "light_color": [ 80, 240, 150 ],
+        "translucency": 1,
+        "concentration": 1,
+        "effects": [
+          {
+            "effect_id": "ozmas_peace",
+            "body_part": "mouth",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel peace from inhaling the pollen cloud.",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "pollen cloud",
+        "color": "light_green",
+        "light_emitted": 60,
+        "light_color": [ 80, 240, 150 ],
+        "transparent": false,
+        "translucency": 10,
+        "concentration": 2,
+        "effects": [
+          {
+            "effect_id": "ozmas_peace",
+            "body_part": "mouth",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel peace from inhaling the pollen cloud.",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": "80m",
+    "percent_spread": 60,
+    "outdoor_age_speedup": "3 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "flags": [ "INHALED_TOXIN_IMMUNE" ], "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+    "priority": 8,
+    "half_life": "30 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_pollen_arvore_weaken"
   }
 ]

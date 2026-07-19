@@ -1,6 +1,19 @@
 [
   {
     "type": "effect_type",
+    "id": "ozmas_peace",
+    "name": [ { "str": "A desolation called Peace" } ],
+    "desc": [ { "str": "Ubi solitudinem faciunt, pacem appelant", "//~": "NO_I18N" } ],
+    "apply_message": "A deep and abiding calm settles upon you.",
+    "remove_message": "The Pax is no more.",
+    "base_mods": { "hit_mod": [ -20 ], "bash_mod": [ -20 ] },
+    "max_duration": "30 m",
+    "max_intensity": 5,
+    "int_dur_factor": "5 s",
+    "miss_messages": [ [ "Peace be upon thee, whether you want it or not.", 1 ] ]
+  },
+  {
+    "type": "effect_type",
     "id": "curevamp",
     "removes_effects": [ "vampire_virus" ],
     "max_duration": "72 h"
