@@ -31,6 +31,12 @@
   },
   {
     "type": "SPECIES",
+    "id": "MARCH_LORD",
+    "description": "one of the warlords from under the hill",
+    "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "IERDE",
     "description": "an earth elemental spirit",
     "fear_triggers": [ "HURT" ]

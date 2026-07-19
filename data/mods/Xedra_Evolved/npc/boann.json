@@ -594,7 +594,7 @@
   {
     "id": "TALK_KILL_TWO_MARCH_LORDS_ADVICE",
     "type": "talk_topic",
-    "dynamic_line": "They are fearsome opponents but lack long-range attacks.  You can find them in the border patrol offices with their soldiers.",
+    "dynamic_line": "They are fearsome opponents and have warriors at their command but lack long-range attacks.  You can find them in the border patrol offices or during one of their rare hunts amidst the mists.",
     "responses": [
       {
         "text": "I'll do it.",
