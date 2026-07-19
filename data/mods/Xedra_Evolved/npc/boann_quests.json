@@ -38,7 +38,7 @@
     "id": "MISSION_KILL_TWO_MARCH_LORDS_FOR_BOANN",
     "type": "mission_definition",
     "name": { "str": "Kill two March lords in my name" },
-    "goal": "MGOAL_KILL_MONSTER_TYPE",
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
     "monster_species": "MARCH_LORD",
     "monster_kill_goal": 2,
     "difficulty": 8,
