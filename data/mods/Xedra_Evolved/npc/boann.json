@@ -184,22 +184,22 @@
         "topic": "TALK_KILL_DREAMFORGED_AUTOMATON_ADVICE"
       },
       {
-        "text": "I'd like some advice about the triffid heart",
+        "text": "I'd like some advice about the triffid heart.",
         "condition": { "u_has_mission": "MISSION_GET_TRIFFID_HEART_FOR_BOANN" },
         "topic": "TALK_GET_TRIFFID_HEART_ADVICE"
       },
       {
-        "text": "I'd like some advice about the titan stag beetle",
+        "text": "I'd like some advice about the titan stag beetle.",
         "condition": { "u_has_mission": "MISSION_KILL_TITAN_BEETLE_FOR_BOANN" },
         "topic": "TALK_KILL_TITAN_BEETLE_ADVICE"
       },
       {
-        "text": "I'd like some advice about the shadow and its piece",
+        "text": "I'd like some advice about the shadow and its piece.",
         "condition": { "u_has_mission": "MISSION_GET_SHADOW_SINGULARITY_PIECE_FOR_BOANN" },
         "topic": "TALK_GET_SHADOW_SINGULARITY_PIECE_ADVICE"
       },
       {
-        "text": "I'd like some advice about the star-crowned hound",
+        "text": "I'd like some advice about the star-crowned hound.",
         "condition": { "u_has_mission": "MISSION_KILL_STAR_CROWN_HOUND_FOR_BOANN" },
         "topic": "TALK_KILL_STAR_CROWN_HOUND_ADVICE"
       },
@@ -250,7 +250,7 @@
         "topic": "TALK_KILL_FIVE_MI_GO_GUARDS_COMPLETED"
       },
       {
-        "text": "I'm back and I killed the armored centipede",
+        "text": "I'm back and I killed the armored centipede.",
         "condition": { "compare_string": [ "yes", { "u_val": "killed_armored_centipede_for_boann" } ] },
         "effect": [
           { "u_spawn_item": "boann_insignia", "count": 1 },
@@ -289,7 +289,7 @@
         "topic": "TALK_GET_TRIFFID_HEART_COMPLETED"
       },
       {
-        "text": "I'm back and I killed the titan stag beetle",
+        "text": "I'm back and I killed the titan stag beetle.",
         "condition": { "compare_string": [ "yes", { "u_val": "killed_titan_beetle_for_boann" } ] },
         "effect": [
           { "u_spawn_item": "väinämöinens_kantele", "count": 1 },
@@ -314,7 +314,7 @@
         "topic": "TALK_GET_SHADOW_SINGULARITY_PIECE_COMPLETED"
       },
       {
-        "text": "I'm back and I killed the star-crowned hound",
+        "text": "I'm back and I killed the star-crowned hound.",
         "condition": { "compare_string": [ "yes", { "u_val": "killed_star_crown_hound_for_boann" } ] },
         "effect": [
           { "u_spawn_item": "dream_attuning_necklace", "count": 1 },

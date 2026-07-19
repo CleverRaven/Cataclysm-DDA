@@ -297,7 +297,7 @@
       { "item": "chem_nitric_acid", "prob": 15, "charges": [ 1, -1 ] },
       { "item": "chem_muriatic_acid", "prob": 20, "charges": [ 1, -1 ] },
       { "group": "potassiumchloride_small_bottle_part", "prob": 5 },
-      { "item": "chem_potassium_hydroxide", "prob": 10, "count": [ 100, -1 ] },
+      { "group": "potassiumhydroxide_small_bottle_part", "prob": 10 },
       { "item": "chem_zinc_oxide", "prob": 10, "count": [ 100, -1 ] },
       { "group": "chromiumoxide_small_bottle_part", "prob": 10 },
       { "group": "zincpowder_small_bottle_part", "prob": 10 },

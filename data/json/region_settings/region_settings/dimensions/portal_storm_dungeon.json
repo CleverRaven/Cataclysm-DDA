@@ -21,6 +21,17 @@
     "ravine_depth": -9
   },
   {
+    "type": "dimension",
+    "id": "portal_storm_dungeon_dimension",
+    "region_layout": "default_portal_storm_dungeon"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "default_portal_storm_dungeon",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "default_portal_storm_dungeon"
+  },
+  {
     "type": "region_settings",
     "id": "default_portal_storm_dungeon",
     "copy-from": "default",

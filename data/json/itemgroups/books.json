@@ -390,6 +390,30 @@
     ]
   },
   {
+    "id": "nonfiction_hardback_fluff",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "This represents nonfiction hardback books that are not immediately useful to the survivor.",
+    "entries": [
+      { "item": "book_nonf_hard_biography_living", "prob": 10 },
+      { "item": "book_nonf_hard_biography_dead", "prob": 8 },
+      { "item": "book_nonf_hard_autobiography", "prob": 6 },
+      { "item": "book_nonf_hard_history_ancient", "prob": 5 },
+      { "item": "book_nonf_hard_history_modern", "prob": 10 },
+      { "item": "book_nonf_hard_photography_book", "prob": 5 },
+      { "item": "book_nonf_hard_self_help", "prob": 8 },
+      { "item": "book_nonf_hard_true_crime", "prob": 10 },
+      { "item": "book_nonf_hard_popular_science", "prob": 5 },
+      { "item": "book_nonf_hard_business_strategy", "prob": 5 },
+      { "item": "book_nonf_hard_language_learning", "prob": 2 },
+      { "item": "book_nonf_hard_religion", "prob": 3 },
+      { "item": "book_nonf_hard_travelogue", "prob": 4 },
+      { "item": "book_nonf_hard_parenting", "prob": 4 },
+      { "item": "book_nonf_hard_humor", "prob": 3 },
+      { "item": "essay_book", "prob": 5 }
+    ]
+  },
+  {
     "id": "kids_books",
     "type": "item_group",
     "subtype": "distribution",

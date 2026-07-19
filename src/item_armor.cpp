@@ -505,6 +505,9 @@ int item::get_avg_encumber( const Character &p, encumber_flags flags ) const
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() ) {
             for( const bodypart_str_id &limb : entry.covers.value() ) {
+                if( !p.has_part( limb ) ) {
+                    continue;
+                }
                 int encumber = get_encumber( p, bodypart_id( limb ), flags );
                 if( encumber ) {
                     avg_encumber += encumber;

@@ -52,7 +52,7 @@
     "effect": [
       { "u_add_effect": "blind", "duration": 0 },
       {
-        "u_travel_to_dimension": "",
+        "u_travel_to_dimension": "default",
         "npc_travel_radius": 0,
         "npc_travel_filter": "none",
         "fail_message": "Nothing seems to change.",
@@ -121,7 +121,7 @@
     "effect": [
       { "u_add_effect": "blind", "duration": 0 },
       {
-        "u_travel_to_dimension": "",
+        "u_travel_to_dimension": "default",
         "npc_travel_radius": 0,
         "npc_travel_filter": "none",
         "fail_message": "Nothing seems to change.",
