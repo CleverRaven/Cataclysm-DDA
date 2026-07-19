@@ -58,7 +58,11 @@
           ]
         }
       },
-      { "text": "You keep looking at my ears?", "topic": "TALK_LIAM_CHANGELING", "condition":{ "u_has_trait": "CHANGELING_EARS" } },
+      {
+        "text": "You keep looking at my ears?",
+        "topic": "TALK_LIAM_CHANGELING",
+        "condition": { "u_has_trait": "CHANGELING_EARS" }
+      },
       { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
       { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
