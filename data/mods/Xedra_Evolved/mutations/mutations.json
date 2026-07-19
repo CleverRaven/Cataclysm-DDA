@@ -1985,7 +1985,7 @@
     "//2": "This enchantment removes the effect if the vampire is outside at day.",
     "enchantments": [
       {
-        "condition": { "and": [ "is_day", "u_is_outside", { "not": { "is_weather": "blotted_sun " } } ] },
+        "condition": { "and": [ "is_day", "u_is_outside" ] },
         "ench_effects": [ { "effect": "effect_vampire_lose_invisible_in_dark", "intensity": 1 } ]
       }
     ]
