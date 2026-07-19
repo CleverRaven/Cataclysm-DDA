@@ -4,7 +4,7 @@
     "id": "head_dragonfly",
     "//": "Head replacement.  TOgether with the eye replacement superhuman reaction score, raised but still suboptimal vision score (getting used to it), a large target.",
     "name": "dragonfly head",
-    "accusative": { "ctxt": "bodypart_accusative", "str": "dragonfly eyes" },
+    "accusative": { "ctxt": "bodypart_accusative", "str": "dragonfly head" },
     "hp_bar_ui_text": "DRGFL HEAD",
     "heading": "d. head",
     "heading_multiple": "d. head",
