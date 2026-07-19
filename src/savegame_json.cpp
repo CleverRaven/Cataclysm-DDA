@@ -150,6 +150,8 @@ static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 static const damage_type_id damage_cut( "cut" );
 
+static const dimension_id dimension_world_default( "default" );
+
 static const efftype_id effect_riding( "riding" );
 
 static const itype_id fuel_type_battery( "battery" );
@@ -4098,11 +4100,12 @@ void mission::deserialize( const JsonObject &jo )
         target.y() = ja.get_int( 1 );
     }
 
+
     if( jo.has_string( "dimension" ) ) {
-        dimension = jo.get_string( "dimension" );
+        dimension = dimension_id( jo.get_string( "dimension" ) );
     } else {
         // dimension is set as the main one
-        dimension = "";
+        dimension = dimension_world_default;
     }
 
     if( jo.has_string( "follow_up" ) ) {

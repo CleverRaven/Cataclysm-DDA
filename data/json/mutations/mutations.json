@@ -203,7 +203,7 @@
     "points": -4,
     "purifiable": true,
     "vitamin_cost": 240,
-    "enchantments": [ { "condition": { "current_dimension": "" }, "values": [ { "value": "ARTIFACT_RESONANCE", "add": 1250 } ] } ]
+    "enchantments": [ { "condition": { "current_dimension": "default" }, "values": [ { "value": "ARTIFACT_RESONANCE", "add": 1250 } ] } ]
   },
   {
     "type": "mutation",

@@ -49,6 +49,8 @@
 #include "weather.h"
 #include "weather_type.h"
 
+static const dimension_id dimension_world_default( "default" );
+
 static const efftype_id effect_haslight( "haslight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_quadruped_full( "quadruped_full" );
@@ -95,9 +97,9 @@ static light_color_rgb cached_twilight_color()
     return cached_color;
 }
 
-light_color_rgb dawn_dusk_color_for_lightmap( std::string_view dimension )
+light_color_rgb dawn_dusk_color_for_lightmap( dimension_id dimension )
 {
-    if( !dimension.empty() ) {
+    if( dimension != dimension_world_default ) {
         return {};
     }
     return cached_twilight_color();

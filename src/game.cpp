@@ -255,6 +255,8 @@ static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_stab( "stab" );
 
+static const dimension_id dimension_world_default( "default" );
+
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
@@ -467,7 +469,8 @@ game::game() :
     next_mission_id( 1 ),
     next_item_uid( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
-    last_mouse_edge_scroll( std::chrono::steady_clock::now() )
+    last_mouse_edge_scroll( std::chrono::steady_clock::now() ),
+    dimension_prefix( dimension_world_default )
 {
     current_map.set( &m );
     first_redraw_since_waiting_started = true;
@@ -785,8 +788,9 @@ bool game::start_game()
     get_safemode().load_global();
 
     init_autosave();
-    //Needs to be explicitly cleared so a previously loaded world state doesn't leak into the new game
-    dimension_prefix.clear();
+    //Needs to be explicitly reset so a previously loaded world state doesn't leak into the new game
+    dimension_prefix = dimension_world_default;
+    overmap_buffer.init_region_layout();
 
     background_pane background;
     static_popup popup;
@@ -795,7 +799,6 @@ bool game::start_game()
     refresh_display();
 
     load_master();
-    overmap_buffer.current_region_type = "default";
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
     // Make sure the items are added after the calendar is started
@@ -826,6 +829,7 @@ bool game::start_game()
 
             MAPBUFFER.clear();
             overmap_buffer.clear();
+            overmap_buffer.init_region_layout();
 
             if( !query_yn(
                     _( "Try again?\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
@@ -4142,7 +4146,7 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
                 break;
             }
             targ->setpos( here, traj[i] );
-            if( here.has_flag( ter_furn_flag::TFLAG_LIQUID, targ_pos ) && !targ->can_drown() &&
+            if( here.has_flag( ter_furn_flag::TFLAG_LIQUID, targ_pos ) && targ->can_drown() &&
                 !targ->is_dead() ) {
                 targ->die( &here, nullptr );
                 if( u.sees( here, *targ ) ) {
@@ -9733,8 +9737,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     cata_event_dispatch::avatar_moves( old_abs_pos, u, here );
 }
 
-bool game::travel_to_dimension( const std::string &new_prefix,
-                                const std::string &region_type,
+bool game::travel_to_dimension( dimension_id dimension_destination,
                                 const std::vector<npc *> &npc_travellers,
                                 const std::vector<item_location> &item_travellers,
                                 const std::optional<tripoint_bub_ms> item_travellers_location,
@@ -9804,19 +9807,11 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     here.rebuild_vehicle_level_caches();
     // Inputting an empty string to the text input EOC fails
     // so i'm using 'default' as empty/main dimension
-    std::string old_prefix = dimension_prefix;
-    if( new_prefix != "default" ) {
-        dimension_prefix = new_prefix;
-    } else {
-        dimension_prefix.clear();
-    }
+    dimension_id previous_dimension = dimension_prefix;
+    dimension_prefix = dimension_destination;
     // Load in data specific to the dimension (like weather)
-    if( !load_dimension_data() ) {
-        // dimension data file not found/created yet
+    load_dimension_data();
 
-        // Only allow `region_type` input for new dimensions.
-        overmap_buffer.current_region_type = region_type;
-    }
     // Clear the immediate game area around the player
     MAPBUFFER.clear();
     // hack to prevent crashes from temperature checks
@@ -9824,6 +9819,7 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     swapping_dimensions = true;
     // Clear the overmap
     overmap_buffer.clear();
+    overmap_buffer.init_region_layout();
     // load/create new overmap
     overmap &new_om = overmap_buffer.get( project_to<coords::om>( player.pos_abs().xy() ) );
     // insert travelled NPCs
@@ -9862,7 +9858,7 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     weather.set_nextweather( calendar::turn );
     update_overmap_seen();
     if( undo_shift ) {
-        travel_to_dimension( old_prefix, region_type, npc_travellers, {}, std::nullopt, veh );
+        travel_to_dimension( previous_dimension, npc_travellers, {}, std::nullopt, veh );
         if( !place_items.empty() ) {
             tripoint_bub_ms item_center = item_travellers_location.value_or( player.pos_bub( here ) );
             for( const item &it : place_items ) {
@@ -9871,7 +9867,8 @@ bool game::travel_to_dimension( const std::string &new_prefix,
         }
     }
     game::mon_info_update();
-    get_event_bus().send<event_type::dimension_travel>( player.getID(), old_prefix, dimension_prefix );
+    get_event_bus().send<event_type::dimension_travel>( player.getID(), previous_dimension,
+            dimension_prefix );
     return true;
 }
 

@@ -251,6 +251,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::OM_TELEPORT_COORDINATES: return "OM_TELEPORT_COORDINATES";
         case debug_menu::debug_menu_index::OM_TELEPORT_CITY: return "OM_TELEPORT_CITY";
         case debug_menu::debug_menu_index::PRINT_OVERMAPS: return "PRINT_OVERMAP";
+        case debug_menu::debug_menu_index::PRINT_REGION_LAYOUT: return "PRINT_REGION_LAYOUT";
         case debug_menu::debug_menu_index::TRAIT_GROUP: return "TRAIT_GROUP";
         case debug_menu::debug_menu_index::ENABLE_ACHIEVEMENTS: return "ENABLE_ACHIEVEMENTS";
         case debug_menu::debug_menu_index::UNLOCK_ALL: return "UNLOCK_ALL";
@@ -1097,7 +1098,8 @@ static int map_uilist()
         { uilist_entry( debug_menu_index::OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
         { uilist_entry( debug_menu_index::MAP_EXTRA, true, 'm', _( "Spawn map extra" ) ) },
         { uilist_entry( debug_menu_index::NESTED_MAPGEN, true, 'n', _( "Spawn nested mapgen" ) ) },
-        { uilist_entry( debug_menu_index::PRINT_OVERMAPS, true, 'v', _( "Print overmaps" ) ) }
+        { uilist_entry( debug_menu_index::PRINT_OVERMAPS, true, 'v', _( "Print overmaps" ) ) },
+        { uilist_entry( debug_menu_index::PRINT_REGION_LAYOUT, true, 'r', _( "Print region layout" ) ) }
     };
 
     return uilist( _( "Map…" ), uilist_initializer );
@@ -4469,6 +4471,12 @@ const std::vector<debug_action_entry> &all_actions()
             debug_menu_index::PRINT_OVERMAPS, translate_marker( "Print overmaps" ), "overmap print dump", "Map", []()
             {
                 print_overmaps();
+            }
+        },
+        {
+            debug_menu_index::PRINT_REGION_LAYOUT, translate_marker( "Print region layout" ), "overmap region layout dump", "Map", []()
+            {
+                overmap_buffer.print_region_layout();
             }
         },
 

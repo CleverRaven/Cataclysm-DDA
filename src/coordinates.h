@@ -1158,6 +1158,54 @@ std::vector<coords::coord_point_ib<Point, Origin, Scale>>
     return closest_points_first( loc, 0, max_dist );
 }
 
+// construct a maximum point using the maximum value of every dimension from a set of points
+template<typename Point, coords::origin Origin, coords::scale Scale>
+coords::coord_point_ob<Point, Origin, Scale> construct_max( const
+        std::vector< coords::coord_point_ob<Point, Origin, Scale>> &locs )
+{
+    if( locs.empty() ) {
+        return coords::coord_point_ob<Point, Origin, Scale>();
+    }
+    coords::coord_point_ob<Point, Origin, Scale> constructed_max( locs.begin()->x(), locs.begin()->y(),
+            locs.begin()->z() );
+    for( const coords::coord_point_ob<Point, Origin, Scale> &p : locs ) {
+        if( p.x() > constructed_max.x() ) {
+            constructed_max.x() = p.x();
+        }
+        if( p.y() > constructed_max.y() ) {
+            constructed_max.y() = p.y();
+        }
+        if( p.z() > constructed_max.z() ) {
+            constructed_max.z() = p.z();
+        }
+    }
+    return constructed_max;
+}
+
+// construct a minimum point using the minimum value of every dimension from a set of points
+template<typename Point, coords::origin Origin, coords::scale Scale>
+coords::coord_point_ob<Point, Origin, Scale> construct_min( const
+        std::vector< coords::coord_point_ob<Point, Origin, Scale>> &locs )
+{
+    if( locs.empty() ) {
+        return coords::coord_point_ob<Point, Origin, Scale>();
+    }
+    coords::coord_point_ob<Point, Origin, Scale> constructed_min( locs.begin()->x(), locs.begin()->y(),
+            locs.begin()->z() );
+    for( const coords::coord_point_ob<Point, Origin, Scale> &p : locs ) {
+        if( p.x() < constructed_min.x() ) {
+            constructed_min.x() = p.x();
+        }
+        if( p.y() < constructed_min.y() ) {
+            constructed_min.y() = p.y();
+        }
+        if( p.z() < constructed_min.z() ) {
+            constructed_min.z() = p.z();
+        }
+    }
+    return constructed_min;
+}
+
 /* find appropriate subdivided coordinates for absolute tile coordinate.
  * This is less obvious than one might think, for negative coordinates, so this
  * was created to give a definitive answer.

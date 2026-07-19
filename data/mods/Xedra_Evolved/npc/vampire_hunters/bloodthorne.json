@@ -192,7 +192,7 @@
       "I must warn you before we start.  Your weakened body and your potent vampirism mean that the heartvines will cause severe damage to your body.  You could die from the procedure.  Are you sure you want to do this?"
     ],
     "responses": [
-      { "text": "I will find another way", "topic": "TALK_DONE" },
+      { "text": "I will find another way.", "topic": "TALK_DONE" },
       {
         "text": "Do it.  <color_red>This might literally kill you.</color>",
         "topic": "TALK_DONE",

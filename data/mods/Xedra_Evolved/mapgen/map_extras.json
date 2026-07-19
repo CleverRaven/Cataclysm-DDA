@@ -310,7 +310,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "E",
     "color": "light_green",
-    "autonote_visibility": "same_tile"
+    "autonote_visibility": "details"
   },
   {
     "type": "mapgen",
@@ -896,5 +896,145 @@
     "color": "dark_gray_red",
     "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
+  },
+  {
+    "id": "mx_ozma_statue",
+    "type": "map_extra",
+    "name": { "str": "a statue surrounded by emerald poppies" },
+    "description": "A ruined statue surrounded by emerald poppies.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_ozma_statue" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "m",
+    "color": "light_green",
+    "autonote_visibility": "none",
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mx_ozma_statue",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_nested": [ { "chunks": [ "poppy_ring_chunk" ], "x": [ 2, 8 ], "y": [ 2, 8 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "poppy_ring_chunk",
+    "weight": 1000,
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        " S,S ",
+        "S,,,S",
+        ",,@,,",
+        "S,,,S",
+        " S,S "
+      ],
+      "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], " ": "t_null" },
+      "furniture": { "S": "f_ozma_poppy", "@": "t_statue_fae_ozymandius" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "poppy_ring_chunk",
+    "weight": 600,
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        " S,S ",
+        "S,,,S",
+        ",,@,,",
+        "S,,,S",
+        " S,S "
+      ],
+      "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], " ": "t_null" },
+      "furniture": { "S": "f_ozma_poppy", "@": "t_statue_fae_ozymandius" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_monster": [ { "group": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 75, "repeat": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "poppy_ring_chunk",
+    "weight": 500,
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "      S,S      ",
+        "    S,,,,,S    ",
+        "  S,,,,,,,,,S  ",
+        "  ,,,,,,,,,,,  ",
+        " S,,,,,,,,,,,S ",
+        " ,,,,,,,,,,,,, ",
+        "S,,,,,,,,,,,,,S",
+        ",,,,,,,@,,,,,,,",
+        "S,,,,,,,,,,,,,S",
+        " ,,,,,,,,,,,,, ",
+        " S,,,,,,,,,,,S ",
+        "  ,,,,,,,,,,,  ",
+        "  S,,,,,,,,,S  ",
+        "    S,,,,,S    ",
+        "      S,S      "
+      ],
+      "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], " ": "t_null" },
+      "furniture": { "S": "f_ozma_poppy", "@": "t_statue_fae_ozymandius" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "poppy_ring_chunk",
+    "weight": 200,
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "      S,S      ",
+        "    S,,,,,S    ",
+        "  S,,,,,,,,,S  ",
+        "  ,,,,,,,,,,,  ",
+        " S,,,,,,,,,,,S ",
+        " ,,,,,,,,,,,,, ",
+        "S,,,,,,,,,,,,,S",
+        ",,,,,,,@,,,,,,,",
+        "S,,,,,,,,,,,,,S",
+        " ,,,,,,,,,,,,, ",
+        " S,,,,,,,,,,,S ",
+        "  ,,,,,,,,,,,  ",
+        "  S,,,,,,,,,S  ",
+        "    S,,,,,S    ",
+        "      S,S      "
+      ],
+      "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], " ": "t_null" },
+      "furniture": { "S": "f_ozma_poppy", "@": "t_statue_fae_ozymandius" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_monster": [ { "group": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 0, 14 ], "y": [ 0, 14 ], "chance": 75, "repeat": [ 7, 15 ] } ]
+    }
   }
 ]

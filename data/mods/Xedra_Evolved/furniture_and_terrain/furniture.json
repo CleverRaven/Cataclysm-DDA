@@ -1,6 +1,25 @@
 [
   {
     "type": "furniture",
+    "id": "t_statue_fae_ozymandius",
+    "name": "broken statue",
+    "description": "All that remains of this previously grand statue are a pair of feet and a set of broken wings.",
+    "looks_like": "f_statue",
+    "copy-from": "f_statue",
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "rock", "count": [ 10, 14 ] },
+        { "item": "rock_large", "count": 2 },
+        { "item": "pebble", "count": [ 4, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_golden_monolith",
     "name": "golden monolith",
     "//": "The golden monolith produces mist that summons changelings, basically the equivalent of a tear in reality.",
