@@ -71,7 +71,7 @@
       {
         "text": "I don't know where it came from but during the Cataclysm it was like the veil was lifted from my eyes and I suddenly realized I'd never been from here.  But I don't really know where I'm from just yet.",
         "topic": "TALK_Liam_SOCIAL",
-        "condition": { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" }
+        "condition": { "and": [ { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" }, { "not": { "u_has_trait": "THRESH_FAIR_FOLK_NOBLE" } } ] }
       },
       {
         "text": "I never really felt like I belonged but now I know the truth, I am one of the aristocracy of the Fae and I must find my way back home to our courts!",
