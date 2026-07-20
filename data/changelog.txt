@@ -236,6 +236,7 @@ Unattended liquid crafts wait for you to pour them
 Crafting faults
 Allows spawns offset from the origin like the beach, or deep in the forests to the west
 Gun and tool mods can retune multimag host consumption, firing modes, and pocket capacity
+Psi powers display `power radius` instead of `spell radius` in the powers UI
 
 
 ## Content:
@@ -1305,6 +1306,7 @@ Stepped many many weapon recipes
 Joint Torsion Ratchet CBM doesn't allow for perpetual motion cyborgs
 Zero cost spells remain zero cost even if encumbered
 Kelvar is now fireproof
+Add some more fluff nonfiction hardbacks
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1854,7 +1856,7 @@ Fix fractional DoT displays
 Break monster grab if the monster was flung away
 [Xedra Evolved] Lilin only attack you in the main dimension
 NPCs will now get their spells from professions and hobbies during random NPC creation
-
+Fix surroundings menu scrolling
 
 ## Performance:
 Slightly fewer allocations in npc::process_turn
@@ -2150,6 +2152,7 @@ Upgrade vendored plf_colony and plf_list to latest upstream
 Ignore root dotfiles by default in .gitignore
 Consume crafting tools per recipe step
 Abort and quarantine tileset atlas uploads interrupted by a renderer reset
+generic factory dimensions, multi-region support
 
 
 ## Build:
