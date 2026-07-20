@@ -291,12 +291,12 @@
       [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
+      [ "stock mount", 1 ],
       [ "stock accessory", 2 ],
-      [ "underbarrel", 1 ]
+      [ "underbarrel mount", 1 ]
     ],
     "barrel_volume": "250 ml",
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiminimag" ] } ]
@@ -451,12 +451,12 @@
       [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
+      [ "stock mount", 1 ],
       [ "stock accessory", 2 ],
-      [ "underbarrel", 1 ]
+      [ "underbarrel mount", 1 ]
     ],
     "min_cycle_recoil": 80000,
     "default_mods": [ "ree_33_tripod", "rifle_scope" ],
