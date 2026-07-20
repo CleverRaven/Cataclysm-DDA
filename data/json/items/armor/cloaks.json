@@ -2299,21 +2299,6 @@
         ]
       },
       {
-        "encumbrance": 5,
-        "coverage": 65,
-        "covers": [
-          "torso",
-          "arm_l",
-          "arm_r",
-          "arm_wing_bat_l",
-          "arm_wing_bat_r",
-          "arm_wing_bird_l",
-          "arm_wing_bird_r",
-          "wing_l",
-          "wing_r"
-        ]
-      },
-      {
         "covers": [ "leg_l", "leg_r", "gastropod_foot", "tail" ],
         "coverage": 65,
         "encumbrance": 5,
