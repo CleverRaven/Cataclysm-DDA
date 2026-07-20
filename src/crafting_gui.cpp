@@ -461,6 +461,7 @@ class crafting_ui_impl : public cataimgui::window
         bool pending_enter_batch = false;
         bool pending_exit_batch = false;
         bool need_scroll_to_selected = false;
+        bool need_scroll_to_selected_recipe_details = false;
 
         // One-frame flags: force ImGui to select a specific tab, then clear.
         // Set on programmatic tab changes (PREV_TAB/NEXT_TAB/LEFT/RIGHT).
@@ -925,6 +926,10 @@ bool crafting_ui_impl::nav_clickable( const char *label, nc_color col )
 {
     int idx = info_nav_active ? info_nav_count : -1;
     info_nav_count++;
+    if( need_scroll_to_selected_recipe_details && info_nav_cursor == idx ) {
+        ImGui::SetScrollHereY();
+        need_scroll_to_selected_recipe_details = false;
+    }
     return clickable_text( label, col, idx,
                            info_nav_active ? info_nav_cursor : -1,
                            info_nav_active ? info_nav_activated : -1 );
@@ -2491,8 +2496,10 @@ void crafting_ui_impl::process_action( const std::string &action_in,
         if( action == "DOWN" ) {
             info_nav_cursor = std::min( info_nav_cursor + 1,
                                         std::max( 0, info_nav_count - 1 ) );
+            need_scroll_to_selected_recipe_details = true;
         } else if( action == "UP" ) {
             info_nav_cursor = std::max( info_nav_cursor - 1, 0 );
+            need_scroll_to_selected_recipe_details = true;
         } else if( action == "CONFIRM" ) {
             info_nav_activated = info_nav_cursor;
         } else if( action == "TOGGLE_INFO_NAV" || action == "QUIT" ) {
