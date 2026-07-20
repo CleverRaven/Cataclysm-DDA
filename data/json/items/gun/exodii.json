@@ -284,7 +284,7 @@
     "ammo": [ "123ln" ],
     "dispersion": 100,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "burst", 2 ] ],
-     "valid_mod_locations": [
+    "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
