@@ -2571,7 +2571,7 @@
           {
             "value": "BLEEDING_RATE",
             "multiply": {
-              "math": [ "clamp( ( ( ( u_spell_level('vita_slow_bleeding') * -0.03 ) + -0.33 ) * psionic_power_modifiers() ), -0.99, 0)" ]
+              "math": [ "clamp( ( ( ( u_spell_level('vita_slow_bleeding') * -0.03 ) + -0.15 ) * psionic_power_modifiers() ), -0.99, 0)" ]
             }
           },
           {
