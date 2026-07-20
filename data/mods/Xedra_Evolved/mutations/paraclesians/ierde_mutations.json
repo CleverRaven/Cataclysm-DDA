@@ -508,7 +508,7 @@
     "purifiable": false,
     "changes_to": [ "IERDE_STOP_BLEEDING" ],
     "prereqs": [ "IERDE_HEAL_FASTER_UNDERGROUND" ],
-    "flags": [ "BLEEDSLOW2" ],
+    "enchantments": [ { "values": [ { "value": "BLEEDING_RATE", "multiply": -0.666 } ] } ],
     "//": "Ideally there'd be a flag to let them bleed oil, but there doesn't currently seem to be"
   },
   {

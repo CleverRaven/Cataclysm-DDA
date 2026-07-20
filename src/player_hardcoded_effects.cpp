@@ -31,6 +31,7 @@
 #include "input.h"
 #include "item.h"
 #include "item_location.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -350,7 +351,8 @@ static void eff_fun_bleed( Character &u, effect &it )
 
     if( ( !tourniquet || one_in( prof_bonus ) ) && u.activity.id() != ACT_FIRSTAID ) {
         // Prolonged hemorrhage is a significant risk for developing anemia
-        float bleeding_mod = u.calculate_by_enchantment( intense, enchant_vals::mod::BLEEDING_RATE );
+        // The BLEEDING_RATE enchant only reduces the amount of actual blood you lose, not the pain or severity of the wound
+        int bleeding_mod = u.calculate_by_enchantment( intense, enchant_vals::mod::BLEEDING_RATE );
         u.vitamin_mod( vitamin_redcells, -bleeding_mod );
         u.vitamin_mod( vitamin_blood, -bleeding_mod );
         if( one_in( 400 / intense ) ) {

@@ -710,27 +710,7 @@
     "type": "effect_on_condition",
     "id": "EOC_STAR_VAMPIRE_FANGED_DRINK_BLOOD",
     "condition": { "math": [ "_damage > 0" ] },
-    "effect": [
-      { "math": [ "_star_vampire_amount_drained", "=", "rng(250,650)" ] },
-      {
-        "if": { "npc_has_flag": "BLEEDSLOW2" },
-        "then": [
-          { "math": [ "n_vitamin('blood') -= _star_vampire_amount_drained / 3" ] },
-          { "math": [ "n_vitamin('redcells') -= _star_vampire_amount_drained / 3" ] }
-        ],
-        "else": {
-          "if": { "npc_has_flag": "BLEEDSLOW" },
-          "then": [
-            { "math": [ "n_vitamin('blood') -= _star_vampire_amount_drained / 1.5" ] },
-            { "math": [ "n_vitamin('redcells') -= _star_vampire_amount_drained / 1.5" ] }
-          ],
-          "else": [
-            { "math": [ "n_vitamin('blood') -= _star_vampire_amount_drained" ] },
-            { "math": [ "n_vitamin('redcells') -= _star_vampire_amount_drained" ] }
-          ]
-        }
-      }
-    ]
+    "effect": [ { "math": [ "_star_vampire_amount_drained", "=", "rng(250,650)" ] } ]
   },
   {
     "id": "mon_star_vampire_coiling",
@@ -802,27 +782,7 @@
     "type": "effect_on_condition",
     "id": "EOC_STAR_VAMPIRE_COILING_DRINK_BLOOD",
     "condition": { "math": [ "_damage > 0" ] },
-    "effect": [
-      { "math": [ "_star_vampire_amount_drained", "=", "rng(125,325)" ] },
-      {
-        "if": { "npc_has_flag": "BLEEDSLOW2" },
-        "then": [
-          { "math": [ "n_vitamin('blood') -= _star_vampire_amount_drained / 3" ] },
-          { "math": [ "n_vitamin('redcells') -= _star_vampire_amount_drained / 3" ] }
-        ],
-        "else": {
-          "if": { "npc_has_flag": "BLEEDSLOW" },
-          "then": [
-            { "math": [ "n_vitamin('blood') -= _star_vampire_amount_drained / 1.5" ] },
-            { "math": [ "n_vitamin('redcells') -= _star_vampire_amount_drained / 1.5" ] }
-          ],
-          "else": [
-            { "math": [ "n_vitamin('blood') -= _star_vampire_amount_drained" ] },
-            { "math": [ "n_vitamin('redcells') -= _star_vampire_amount_drained" ] }
-          ]
-        }
-      }
-    ]
+    "effect": [ { "math": [ "_star_vampire_amount_drained", "=", "rng(125,325)" ] } ]
   },
   {
     "id": "mon_unseen_hunter",
