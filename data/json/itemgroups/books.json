@@ -1194,7 +1194,7 @@
       { "item": "european_comic", "count": [ 1, 48 ], "variant": "lucky_luke", "prob": 3 },
       { "item": "european_comic", "count": [ 1, 16 ], "variant": "smurfs", "prob": 3 },
       { "item": "european_comic", "count": [ 1, 16 ], "variant": "dungeon", "prob": 1 },
-      { "item": "european_comic", "count": [ 1, 16 ], "variant": "metabarons", "prob": 1 }
+      { "item": "european_comic", "count": [ 1, 8 ], "variant": "metabarons", "prob": 1 }
     ]
   }
 ]
