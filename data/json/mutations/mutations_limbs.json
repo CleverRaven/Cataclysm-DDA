@@ -1465,5 +1465,22 @@
     "flags": [ "PSEUDOPOD_GRASP" ],
     "encumbrance_always": [ [ "hand_l", 20 ], [ "hand_r", 20 ] ],
     "//": "Didn't integrate-ize tentacle rakes because they are hardcoded, waiting for limb rework."
+  },
+  {
+    "type": "mutation",
+    "id": "HEAD_INSECT",
+    "name": { "str": "Dragonfly Head" },
+    "types": [ "HEAD" ],
+    "prereqs": [ "COMPOUND_EYES" ],
+    "prereqs2": [ "CHITIN2", "CHITIN2_MOLTED" ],
+    "points": 2,
+    "description": "You remember having tiny, unassuming eyes condemned into cramped slits in your face.  No more.  Since your last molt your eyes take up most of your head, giving you inhuman reaction speed at the cost of fine vision.  You wouldn't want to cover up too much of the view, however.",
+    "category": [ "INSECT" ],
+    "threshreq": [ "THRESH_INSECT" ],
+    "purifiable": false,
+    "vitamin_cost": 500,
+    "visibility": 10,
+    "restricts_gear": [ "head" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "head" }, { "gain": "head_dragonfly" } ] } ]
   }
 ]

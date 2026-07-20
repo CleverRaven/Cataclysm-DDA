@@ -1,6 +1,115 @@
 [
   {
     "type": "body_part",
+    "id": "head_dragonfly",
+    "//": "Head replacement.  TOgether with the eye replacement superhuman reaction score, raised but still suboptimal vision score (getting used to it), a large target.",
+    "name": "dragonfly head",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "dragonfly head" },
+    "hp_bar_ui_text": "DRGFL HEAD",
+    "heading": "d. head",
+    "heading_multiple": "d. head",
+    "limb_types": [ "head" ],
+    "encumbrance_text": "Your vision is impaired!",
+    "hit_size": 7,
+    "is_vital": true,
+    "hit_difficulty": 1.6,
+    "main_part": "head_dragonfly",
+    "connected_to": "head_dragonfly",
+    "opposite_part": "head_dragonfly",
+    "side": "both",
+    "limb_scores": [ [ "reaction", 0.9 ], [ "balance", 0.4 ] ],
+    "encumbrance_threshold": 0,
+    "encumbrance_limit": 75,
+    "//2": "Squeamish is because your head is mostly eye.  Yuck!!",
+    "squeamish_penalty": 30,
+    "base_hp": 50,
+    "ugliness": 10,
+    "drench_capacity": 700,
+    "ugliness_mandatory": 6,
+    "bionic_slots": 12,
+    "armor": { "cut": 3 },
+    "sub_parts": [
+      "head_dragonfly_forehead",
+      "head_dragonfly_crown",
+      "head_dragonfly_nape",
+      "head_dragonfly_throat",
+      "head_dragonfly_ear_r",
+      "head_dragonfly_ear_l"
+    ],
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 30,
+        "max_duration": 960
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1.5,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1200
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1,
+        "duration": 60,
+        "duration_dmg_scaling": 60
+      },
+      {
+        "id": "stunned",
+        "dmg_type": "bash",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 5,
+        "chance": 10,
+        "chance_dmg_scaling": 10,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5,
+        "max_duration": 4
+      },
+      {
+        "id": "stunned",
+        "dmg_threshold": 30,
+        "dmg_scale_increment": 10,
+        "chance": 10,
+        "chance_dmg_scaling": 10,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5,
+        "max_duration": 4
+      },
+      {
+        "id": "blind",
+        "dmg_threshold": 3,
+        "dmg_scale_increment": 3,
+        "chance": 25,
+        "chance_dmg_scaling": 5,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5,
+        "max_duration": 12
+      }
+    ],
+    "//3": "encumbrance per weight increased 10% over human head",
+    "encumbrance_per_weight": [
+      { "weight": "1 mg", "encumbrance": 1 },
+      { "weight": "300 g", "encumbrance": 4 },
+      { "weight": "800 g", "encumbrance": 9 },
+      { "weight": "1300 g", "encumbrance": 22 },
+      { "weight": "1600 g", "encumbrance": 33 },
+      { "weight": "2200 g", "encumbrance": 55 },
+      { "weight": "5600 g", "encumbrance": 88 },
+      { "weight": "10000 g", "encumbrance": 176 }
+    ],
+    "flags": [ "SEESLEEP", "LIMB_UPPER" ]
+  },
+  {
+    "type": "body_part",
     "id": "eyes_bulging",
     "name": "bulging eyes",
     "accusative": { "ctxt": "bodypart_accusative", "str": "bulging eyes" },

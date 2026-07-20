@@ -1,5 +1,59 @@
 [
   {
+    "id": "head_dragonfly_forehead",
+    "type": "sub_body_part",
+    "name": "gigantic compound eye (forehead)",
+    "parent": "head_dragonfly",
+    "max_coverage": 20,
+    "side": "both"
+  },
+  {
+    "id": "head_dragonfly_crown",
+    "type": "sub_body_part",
+    "name": "gigantic compound eye (crown)",
+    "parent": "head_dragonfly",
+    "max_coverage": 20,
+    "side": "both"
+  },
+  {
+    "id": "head_dragonfly_nape",
+    "type": "sub_body_part",
+    "name": "nape",
+    "parent": "head_dragonfly",
+    "max_coverage": 20,
+    "similar_bodypart": "head_nape",
+    "side": "both"
+  },
+  {
+    "id": "head_dragonfly_throat",
+    "type": "sub_body_part",
+    "name": "throat",
+    "parent": "head_dragonfly",
+    "max_coverage": 20,
+    "similar_bodypart": "head_throat",
+    "side": "both"
+  },
+  {
+    "id": "head_dragonfly_ear_l",
+    "type": "sub_body_part",
+    "name": "left ear",
+    "name_multiple": "ears",
+    "parent": "head_dragonfly",
+    "max_coverage": 10,
+    "side": "left",
+    "opposite": "head_dragonfly_ear_r"
+  },
+  {
+    "id": "head_dragonfly_ear_r",
+    "type": "sub_body_part",
+    "name": "right ear",
+    "name_multiple": "ears",
+    "parent": "head_dragonfly",
+    "max_coverage": 10,
+    "side": "right",
+    "opposite": "head_dragonfly_ear_l"
+  },
+  {
     "id": "eyes_bulging_l",
     "type": "sub_body_part",
     "max_coverage": 50,
