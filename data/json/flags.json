@@ -3084,5 +3084,10 @@
     "id": "ROBOFAC_LENS_HELMET",
     "type": "json_flag",
     "info": "This item allows you to wear Hub 01 LENS accessories."
+  },
+  {
+    "id": "CANNOT_GAIN_WEARINESS",
+    "type": "json_flag",
+    "info": "You have a seemingly inexhaustible supply of energy."
   }
 ]

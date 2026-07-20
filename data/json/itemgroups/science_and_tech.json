@@ -362,8 +362,8 @@
   {
     "type": "item_group",
     "id": "mutagen_or_serum_kit",
-    "//": "odds of serum kit is so low for there is only one at this moment, would be very reperative.  TODO increase odds to get serum once there would be more of them.",
-    "items": [ { "group": "mutagen_kits", "prob": 100 }, { "group": "serum_kits", "prob": 15 } ]
+    "//": "odds of serum kit is so low for there is only two at this moment, would be very reperative.  TODO increase odds to get serum once there would be more of them.",
+    "items": [ { "group": "mutagen_kits", "prob": 100 }, { "group": "serum_kits", "prob": 30 } ]
   },
   {
     "type": "item_group",
@@ -531,7 +531,7 @@
   {
     "type": "item_group",
     "id": "serum_kits",
-    "items": [ { "group": "regen_serum_kit", "prob": 100 } ]
+    "items": [ { "group": "regen_serum_kit", "prob": 1 }, { "group": "super_soldier_serum_kit", "prob": 1 } ]
   },
   {
     "type": "item_group",
@@ -540,9 +540,21 @@
     "subtype": "collection",
     "items": [
       { "item": "syringe", "prob": 100, "count": 1 },
-      { "item": "serum_regen", "prob": 100, "count": 1 },
-      { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
-      { "item": "lab_file_serum_testing", "prob": 100 }
+      { "item": "serum_regen", "prob": 100, "count": [ 8, 12 ] },
+      { "item": "bubblewrap", "prob": 100, "count": [ 12, 20 ] },
+      { "item": "lab_file_serum_testing", "prob": 100, "variant": "lab_file_serum_testing_regen" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "super_soldier_serum_kit",
+    "container-item": "box_small_plastic",
+    "subtype": "collection",
+    "items": [
+      { "item": "syringe", "prob": 100, "count": 1 },
+      { "item": "serum_super_soldier", "prob": 100, "count": [ 8, 12 ] },
+      { "item": "bubblewrap", "prob": 100, "count": [ 12, 20 ] },
+      { "item": "lab_file_serum_testing", "prob": 100, "variant": "lab_file_serum_testing_super_soldier" }
     ]
   },
   {
