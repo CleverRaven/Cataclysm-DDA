@@ -1617,7 +1617,7 @@
       { "id": "generic", "weight": 2 },
       {
         "id": "tintin",
-        "name": { "str": "the adventures of Tintin", "str_pl": "the adventures of Tintin comics" },
+        "name": { "str": "the adventures of tintin", "str_pl": "the adventures of tintin comics" },
         "description": "This album is part of the Adventures of Tintin series, which is about a young reporter called Tintin, his dog Snowy and his friends, particularly Captain Haddock, as they travel across the world solving mysteries, uncovering conspiracies, and foiling criminals.",
         "append": true,
         "weight": 5
