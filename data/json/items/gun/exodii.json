@@ -444,7 +444,7 @@
     "ammo": [ "33naval" ],
     "range": 100,
     "dispersion": 130,
-     "valid_mod_locations": [
+    "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
