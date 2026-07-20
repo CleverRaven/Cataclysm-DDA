@@ -1277,7 +1277,6 @@
     "name": "left wing talons",
     "name_multiple": "wing talons",
     "side": "left",
-    "similar_bodypart": "hand_fingers_l",
     "opposite": "arm_wing_bird_fingers_r",
     "max_coverage": 5
   },
@@ -1288,7 +1287,6 @@
     "name": "right wing shoulder",
     "name_multiple": "wing shoulders",
     "side": "right",
-    "similar_bodypart": "arm_shoulder_r",
     "opposite": "arm_wing_bird_shoulder_l",
     "max_coverage": 15
   },
@@ -1329,7 +1327,6 @@
     "name": "right wing talons",
     "name_multiple": "wing talons",
     "side": "right",
-    "similar_bodypart": "hand_fingers_r",
     "opposite": "arm_wing_bird_fingers_l",
     "max_coverage": 5
   },
@@ -1469,7 +1466,6 @@
     "name": "left wing talons",
     "name_multiple": "wing talons",
     "side": "left",
-    "similar_bodypart": "hand_fingers_l",
     "opposite": "arm_wing_bat_fingers_r",
     "max_coverage": 5
   },
@@ -1521,7 +1517,6 @@
     "name": "right wing talons",
     "name_multiple": "wing talons",
     "side": "right",
-    "similar_bodypart": "hand_fingers_r",
     "opposite": "arm_wing_bat_fingers_l",
     "max_coverage": 5
   },
