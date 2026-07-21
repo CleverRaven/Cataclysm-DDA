@@ -161,6 +161,8 @@ std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
 namespace talk_effect_fun
 {
 void add_mortar_adjustment_downtime( npc &gunner );
+bool fire_scheduled_mortar( npc &gunner, const mortar_type_id &mortar_id,
+                            const tripoint_abs_ms &mortar_pos, const itype_id &ammo_id );
 void fire_queued_mortar( npc &gunner, const tripoint_abs_ms &target, int round_count );
 } // namespace talk_effect_fun
 

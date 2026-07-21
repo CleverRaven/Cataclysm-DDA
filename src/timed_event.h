@@ -57,6 +57,19 @@ struct timed_event_character_data : timed_event_data {
     character_id character;
 };
 
+struct mortar_fire_event_data : timed_event_data {
+    character_id gunner_id;
+    tripoint_abs_ms mortar_pos = tripoint_abs_ms::invalid;
+    tripoint_abs_ms target = tripoint_abs_ms::invalid;
+    std::string mortar_type;
+    std::string ammo_id;
+    int flight_seconds = 0;
+    int impact_message_strength = 0;
+    bool correction_reported = false;
+    double feedback_accuracy_multiplier = 1.0;
+    double feedback_location_multiplier = 1.0;
+};
+
 struct mortar_spotting_feedback_event_data : timed_event_data {
     character_id gunner_id;
     double accuracy_multiplier = 1.0;
@@ -149,6 +162,9 @@ class timed_event_manager
                   const std::string &key = "" );
         void add( timed_event_type type, const time_point &when, const tripoint_abs_ms &where,
                   explosion_data expl_data );
+        void add_mortar_fire( const time_point &when, const tripoint_abs_ms &impact,
+                              const std::string &gunner_name, const std::string &key,
+                              const mortar_fire_event_data &fire_data );
         void add_mortar_feedback( const time_point &when, character_id gunner_id,
                                   const tripoint_abs_ms &target, bool correction_reported,
                                   double accuracy_multiplier, double location_multiplier );

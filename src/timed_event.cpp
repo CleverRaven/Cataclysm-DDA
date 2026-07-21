@@ -20,6 +20,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "game.h"
+#include "item.h"
 #include "line.h"
 #include "magic.h"
 #include "map.h"
@@ -34,6 +35,7 @@
 #include "memorial_logger.h"
 #include "messages.h"
 #include "monster.h"
+#include "mortar.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "rng.h"
@@ -388,13 +390,62 @@ void timed_event::actualize()
         }
         break;
 
-        case timed_event_type::MORTAR_FIRE_MESSAGE:
+        case timed_event_type::MORTAR_FIRE_MESSAGE: {
+            const mortar_fire_event_data *fire_data = get_data<mortar_fire_event_data>();
+            if( fire_data == nullptr ) {
+                if( string_id.empty() ) {
+                    add_msg( m_info, _( "Over the radio, you hear, \"Shot out.\"" ) );
+                } else {
+                    add_msg( m_info, _( "Over the radio, %s reports, \"Shot out.\"" ), string_id );
+                }
+                break;
+            }
+            npc *gunner = fire_data->gunner_id.is_valid() ? g->find_npc( fire_data->gunner_id ) :
+                          nullptr;
+            const mortar_type_id mortar_id( fire_data->mortar_type );
+            const itype_id ammo_id( fire_data->ammo_id );
+            if( !mortar_id.is_valid() || !ammo_id.is_valid() ) {
+                add_msg_debug( debugmode::DF_NPC,
+                               "Scheduled mortar fire canceled: mortar or ammunition type is invalid." );
+                break;
+            }
+            const item round( ammo_id, calendar::turn );
+            if( !mortar_round_has_impact_payload( round ) ) {
+                add_msg_debug( debugmode::DF_NPC,
+                               "Scheduled mortar fire canceled: ammunition has no impact payload." );
+                break;
+            }
+            if( gunner == nullptr ||
+                !talk_effect_fun::fire_scheduled_mortar( *gunner, mortar_id,
+                        fire_data->mortar_pos, ammo_id ) ) {
+                add_msg_debug( debugmode::DF_NPC,
+                               "Scheduled mortar fire canceled: gunner or assignment is no longer valid." );
+                break;
+            }
+            const time_point impact_time = calendar::turn +
+                                           time_duration::from_seconds( fire_data->flight_seconds );
+            if( !mortar_schedule_impact_payload( round, map_square, impact_time ) ) {
+                add_msg_debug( debugmode::DF_NPC,
+                               "Scheduled mortar fire canceled: ammunition has no impact payload." );
+                break;
+            }
+            const time_point impact_message_time = impact_time + 1_seconds;
+            get_timed_events().add( timed_event_type::MORTAR_IMPACT_MESSAGE,
+                                    impact_message_time, -1, map_square,
+                                    fire_data->impact_message_strength, string_id,
+                                    fire_data->target );
+            get_timed_events().add_mortar_feedback( impact_message_time, fire_data->gunner_id,
+                                                    fire_data->target,
+                                                    fire_data->correction_reported,
+                                                    fire_data->feedback_accuracy_multiplier,
+                                                    fire_data->feedback_location_multiplier );
             if( string_id.empty() ) {
                 add_msg( m_info, _( "Over the radio, you hear, \"Shot out.\"" ) );
             } else {
                 add_msg( m_info, _( "Over the radio, %s reports, \"Shot out.\"" ), string_id );
             }
-            break;
+        }
+        break;
 
         case timed_event_type::MORTAR_IMPACT_MESSAGE: {
             const bool in_bubble = here.inbounds( map_square );
@@ -685,6 +736,15 @@ void timed_event_manager::add( timed_event_type type, const time_point &when,
                                const tripoint_abs_ms &where, const explosion_data expl_data )
 {
     events.emplace_back( type, when, where, expl_data );
+}
+
+void timed_event_manager::add_mortar_fire( const time_point &when,
+        const tripoint_abs_ms &impact, const std::string &gunner_name, const std::string &key,
+        const mortar_fire_event_data &fire_data )
+{
+    events.emplace_back( timed_event_type::MORTAR_FIRE_MESSAGE, when, -1, impact, -1,
+                         gunner_name, key );
+    events.back().data = std::make_unique<mortar_fire_event_data>( fire_data );
 }
 
 void timed_event_manager::add_mortar_feedback( const time_point &when,

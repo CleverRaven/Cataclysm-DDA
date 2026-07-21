@@ -161,6 +161,7 @@
 class recipe_subset;
 
 static const activity_id ACT_AIM( "ACT_AIM" );
+static const activity_id ACT_MAN_MORTAR( "ACT_MAN_MORTAR" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_TARGET_PRACTICE( "ACT_TARGET_PRACTICE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
@@ -6193,34 +6194,39 @@ bool select_mortar_ammo_auto_switch( npc &gunner, const mortar_type &mortar,
     return true;
 }
 
+std::optional<item> take_cached_mortar_round( npc &gunner, const mortar_type &mortar,
+        const itype_id &ammo_id )
+{
+    const int count = mortar_ammo_count( gunner, ammo_id );
+    if( count <= 0 ) {
+        return std::nullopt;
+    }
+    item round( ammo_id, calendar::turn );
+    if( !is_mortar_round_for_type( round, mortar ) ) {
+        set_mortar_ammo_count( gunner, ammo_id, 0 );
+        return std::nullopt;
+    }
+    set_mortar_ammo_count( gunner, ammo_id, count - 1 );
+    const std::optional<itype_id> selected = stored_selected_mortar_ammo( gunner );
+    if( count == 1 && selected && *selected == ammo_id ) {
+        select_mortar_ammo_auto_switch( gunner, mortar, ammo_id, true );
+    }
+    return round;
+}
+
 std::optional<item> take_cached_mortar_round( npc &gunner, const mortar_type &mortar )
 {
     std::optional<itype_id> selected = stored_selected_mortar_ammo( gunner );
     if( !selected ) {
         return std::nullopt;
     }
-    int count = mortar_ammo_count( gunner, *selected );
-    if( count <= 0 ) {
+    if( mortar_ammo_count( gunner, *selected ) <= 0 ) {
         if( !select_mortar_ammo_auto_switch( gunner, mortar, *selected, false ) ) {
             return std::nullopt;
         }
         selected = stored_selected_mortar_ammo( gunner );
-        count = selected ? mortar_ammo_count( gunner, *selected ) : 0;
     }
-    if( selected && count > 0 ) {
-        item round( *selected, calendar::turn );
-        if( !is_mortar_round_for_type( round, mortar ) ) {
-            set_mortar_ammo_count( gunner, *selected, 0 );
-            return std::nullopt;
-        }
-        set_mortar_ammo_count( gunner, *selected, count - 1 );
-        if( count == 1 ) {
-            select_mortar_ammo_auto_switch( gunner, mortar, *selected, true );
-        }
-        return round;
-    }
-
-    return std::nullopt;
+    return selected ? take_cached_mortar_round( gunner, mortar, *selected ) : std::nullopt;
 }
 
 void cache_physical_mortar_rounds( npc &gunner, const mortar_type &mortar )
@@ -7079,6 +7085,14 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
             *stored_creeping_axis_to :
             mortar_make_creeping_axis_to( *target_abs_ms, you.pos_abs(), mortar_abs );
 
+    const std::optional<itype_id> original_selected_ammo = stored_selected_mortar_ammo( gunner );
+    const auto restore_selected_ammo = [&gunner, &original_selected_ammo]() {
+        if( original_selected_ammo ) {
+            set_selected_mortar_ammo( gunner, *original_selected_ammo );
+        } else {
+            gunner.remove_value( "mortar_selected_ammo" );
+        }
+    };
     std::optional<item> round = take_mortar_round( gunner, mortar_data );
     if( !round ) {
         if( total_mortar_ammo_count( gunner, mortar_data ) > 0 ) {
@@ -7093,11 +7107,13 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
     if( !round->ammo_data() ) {
         add_msg( _( "%s cannot identify that mortar round." ), gunner.disp_name() );
         add_mortar_ammo( gunner, *round, 1 );
+        restore_selected_ammo();
         return;
     }
     if( !mortar_round_has_impact_payload( *round ) ) {
         add_msg( _( "That round has no mortar impact payload." ) );
         add_mortar_ammo( gunner, *round, 1 );
+        restore_selected_ammo();
         return;
     }
     const bool round_is_he = mortar_round_has_high_explosive_payload( *round );
@@ -7115,6 +7131,7 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
             add_msg( _( "Target is too close to the mortar." ) );
         }
         add_mortar_ammo( gunner, *round, 1 );
+        restore_selected_ammo();
         return;
     }
     std::vector<item> rounds;
@@ -7145,6 +7162,7 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
     }
     if( round_collection_failed ) {
         return_mortar_rounds( gunner, rounds );
+        restore_selected_ammo();
         return;
     }
 
@@ -7158,6 +7176,7 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
             mortar_abs,
             ballistic_error, location_axis_from, location_axis_to, location_error, you, gunner ) ) {
         return_mortar_rounds( gunner, rounds );
+        restore_selected_ammo();
         return;
     }
     bool eplrs_net_used = eplrs_net_available;
@@ -7236,30 +7255,28 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
         const time_duration fire_offset = fire_for_effect_interval * static_cast<int>( i );
         const time_point fire_time = calendar::turn + fire_delay + fire_offset;
         const time_duration flight_time = mortar_data.npc_flight_time( target_distance );
-        const time_point impact_time = fire_time + flight_time;
-        const time_point impact_message_time = impact_time + 1_seconds;
-        if( !mortar_schedule_impact_payload( current_round, impact_abs_ms, impact_time ) ) {
-            add_msg( _( "That round has no mortar impact payload." ) );
-            add_mortar_ammo( gunner, current_round, 1 );
-            continue;
-        }
         if( !first_flight_time ) {
             first_flight_time = flight_time;
         }
 
-        get_timed_events().add( timed_event_type::MORTAR_FIRE_MESSAGE, fire_time, -1,
-                                impact_abs_ms, -1, gunner.disp_name(),
-                                mortar_fire_event_key( gunner ) );
-        get_timed_events().add( timed_event_type::MORTAR_IMPACT_MESSAGE, impact_message_time,
-                                -1, impact_abs_ms, impact_message_strength,
-                                gunner.disp_name(), *target_abs_ms );
-        get_timed_events().add_mortar_feedback( impact_message_time, gunner.getID(),
-                                                *target_abs_ms, correction_reported,
-                                                feedback_accuracy_multiplier,
-                                                feedback_location_multiplier );
+        mortar_fire_event_data fire_data;
+        fire_data.gunner_id = gunner.getID();
+        fire_data.mortar_pos = mortar_abs;
+        fire_data.target = *target_abs_ms;
+        fire_data.mortar_type = mortar_data.id.str();
+        fire_data.ammo_id = current_round.typeId().str();
+        fire_data.flight_seconds = to_seconds<int>( flight_time );
+        fire_data.impact_message_strength = impact_message_strength;
+        fire_data.correction_reported = correction_reported;
+        fire_data.feedback_accuracy_multiplier = feedback_accuracy_multiplier;
+        fire_data.feedback_location_multiplier = feedback_location_multiplier;
+        get_timed_events().add_mortar_fire( fire_time, impact_abs_ms, gunner.disp_name(),
+                                            mortar_fire_event_key( gunner ), fire_data );
         any_scheduled = true;
         ++scheduled_rounds;
     }
+    return_mortar_rounds( gunner, rounds );
+    restore_selected_ammo();
     if( !any_scheduled ) {
         return;
     }
@@ -7282,10 +7299,6 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
         set_mortar_location_error( gunner, location_error_cep );
         set_mortar_last_spot_observed( gunner, false );
     }
-    for( int i = 0; i < scheduled_rounds; ++i ) {
-        practice_mortar_shot( gunner );
-    }
-
     const int heading = mortar_heading_degrees( gunner.pos_abs(), you.pos_abs() );
     const std::string heading_text = string_format( "%03d", heading );
     const int shot_seconds = to_seconds<int>( mortar_data.npc_fire_message_delay() );
@@ -10175,6 +10188,32 @@ void add_mortar_adjustment_downtime( npc &gunner )
                    "Mortar adjustment downtime for %s: added %d seconds, ready in %d turns.",
                    gunner.disp_name(), to_seconds<int>( downtime ),
                    to_turns<int>( new_ready_at - calendar::turn ) );
+}
+
+bool fire_scheduled_mortar( npc &gunner, const mortar_type_id &mortar_id,
+                            const tripoint_abs_ms &mortar_pos, const itype_id &ammo_id )
+{
+    if( gunner.is_dead() || !gunner.is_player_ally() || gunner.activity.id() != ACT_MAN_MORTAR ||
+        !mortar_id.is_valid() || !ammo_id.is_valid() ) {
+        return false;
+    }
+    const std::optional<assigned_mortar> assignment = get_assigned_mortar( gunner );
+    if( !assignment || assignment->pos != mortar_pos || assignment->type->id != mortar_id ||
+        rl_dist( gunner.pos_abs(), mortar_pos ) > 1 ) {
+        return false;
+    }
+    if( gunner.get_skill_level( skill_launcher ) < mortar_type::minimum_launcher_skill() ) {
+        return false;
+    }
+
+    cache_physical_mortar_rounds( gunner, *assignment->type );
+    if( !take_cached_mortar_round( gunner, *assignment->type, ammo_id ) ) {
+        add_msg( _( "%1$s reports they no longer have the selected %2$s ready." ),
+                 gunner.disp_name(), item( ammo_id, calendar::turn ).tname() );
+        return false;
+    }
+    practice_mortar_shot( gunner );
+    return true;
 }
 
 void fire_queued_mortar( npc &gunner, const tripoint_abs_ms &target, const int round_count )

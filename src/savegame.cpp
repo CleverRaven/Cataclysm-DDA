@@ -1916,6 +1916,27 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
         timed_event event( static_cast<timed_event_type>( type ), when, faction_id, map_square,
                            strength, string_id, std::move( revert ), key );
         switch( event.type ) {
+            case timed_event_type::MORTAR_FIRE_MESSAGE: {
+                if( !jo.has_member( "mortar_fire_gunner" ) ) {
+                    break;
+                }
+                event.data = std::make_unique<mortar_fire_event_data>();
+                mortar_fire_event_data *fire_data = event.get_data<mortar_fire_event_data>();
+                jo.get_member( "mortar_fire_gunner" ).read( fire_data->gunner_id, true );
+                jo.get_member( "mortar_fire_pos" ).read( fire_data->mortar_pos, true );
+                jo.get_member( "mortar_fire_target" ).read( fire_data->target, true );
+                jo.read( "mortar_fire_type", fire_data->mortar_type );
+                jo.read( "mortar_fire_ammo", fire_data->ammo_id );
+                jo.read( "mortar_fire_flight_seconds", fire_data->flight_seconds );
+                jo.read( "mortar_fire_impact_message_strength",
+                         fire_data->impact_message_strength );
+                jo.read( "mortar_fire_correction_reported", fire_data->correction_reported );
+                jo.read( "mortar_fire_feedback_accuracy_multiplier",
+                         fire_data->feedback_accuracy_multiplier );
+                jo.read( "mortar_fire_feedback_location_multiplier",
+                         fire_data->feedback_location_multiplier );
+                break;
+            }
             case timed_event_type::MORTAR_IMPACT_MESSAGE: {
                 event.data = std::make_unique<timed_event_target_data>();
                 jo.get_member( "target" ).read( event.get_data<timed_event_target_data>()->target, true );
@@ -2042,6 +2063,28 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
         jsout.member( "when", elem.when );
         jsout.member( "key", elem.key );
         switch( elem.type ) {
+            case timed_event_type::MORTAR_FIRE_MESSAGE: {
+                const mortar_fire_event_data *fire_data =
+                    elem.get_data<mortar_fire_event_data>();
+                if( fire_data == nullptr ) {
+                    break;
+                }
+                jsout.member( "mortar_fire_gunner", fire_data->gunner_id );
+                jsout.member( "mortar_fire_pos", fire_data->mortar_pos );
+                jsout.member( "mortar_fire_target", fire_data->target );
+                jsout.member( "mortar_fire_type", fire_data->mortar_type );
+                jsout.member( "mortar_fire_ammo", fire_data->ammo_id );
+                jsout.member( "mortar_fire_flight_seconds", fire_data->flight_seconds );
+                jsout.member( "mortar_fire_impact_message_strength",
+                              fire_data->impact_message_strength );
+                jsout.member( "mortar_fire_correction_reported",
+                              fire_data->correction_reported );
+                jsout.member( "mortar_fire_feedback_accuracy_multiplier",
+                              fire_data->feedback_accuracy_multiplier );
+                jsout.member( "mortar_fire_feedback_location_multiplier",
+                              fire_data->feedback_location_multiplier );
+                break;
+            }
             case timed_event_type::MORTAR_IMPACT_MESSAGE: {
                 const timed_event_target_data *target_data =
                     elem.get_data<timed_event_target_data>();
