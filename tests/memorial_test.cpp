@@ -19,6 +19,7 @@
 #include "event_bus.h"
 #include "filesystem.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "memorial_logger.h"
 #include "monster.h"
 #include "mutation.h"
