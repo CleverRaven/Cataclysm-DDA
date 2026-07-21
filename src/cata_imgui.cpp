@@ -1,4 +1,5 @@
 #include "cata_imgui.h"
+#include "cursesport.h" // Import ability to get the scale factor
 
 #include <cmath>
 
@@ -626,6 +627,13 @@ void cataimgui::client::process_input( void *input, int display_buffer_w, int di
         ( void )display_buffer_w;
         ( void )display_buffer_h;
         ImGui_ImplSDL3_ProcessEvent( evt );
+        const int sf = get_scaling_factor();
+        if( sf > 1 && ( evt->type == CATA_MOUSEMOTION || evt->type == CATA_MOUSEBUTTONDOWN ) ) {
+            ImGuiIO &io = ImGui::GetIO();
+            if( ImGui::IsMousePosValid( &io.MousePos ) ) {
+                io.AddMousePosEvent( io.MousePos.x / sf, io.MousePos.y / sf );
+            }
+        }
     }
 }
 
