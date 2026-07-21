@@ -1147,6 +1147,17 @@ SDL_Point window_to_display_buffer_coords( SDL_Point window_pt )
         static_cast<int>( static_cast<int64_t>( window_pt.y - dstrect.y ) * buf_h / dstrect.h )
     };
 #else
+#if SDL_MAJOR_VERSION >= 3
+    // Use the SDL provided translation of scaling and casting for SDL3 builds
+    if( renderer ) {
+        float rx = 0.0f;
+        float ry = 0.0f;
+        if( SDL_RenderCoordinatesFromWindow( renderer.get(),
+                static_cast<float>( window_pt.x ), static_cast<float>( window_pt.y ), &rx, &ry ) ) {
+            return SDL_Point{ static_cast<int>( rx ), static_cast<int>( ry ) };
+        }
+    }
+#endif    
     int win_w = 0;
     int win_h = 0;
     GetWindowSize( window.get(), &win_w, &win_h );
