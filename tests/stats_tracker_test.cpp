@@ -21,13 +21,13 @@
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "json_loader.h"
+#include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "map_scale_constants.h"
 #include "monster.h"
 #include "options_helpers.h"
 #include "point.h"
 #include "stats_tracker.h"
-
-#include "map_helpers.h"
 #include "type_id.h"
 
 static const event_statistic_id event_statistic_avatar_damage_taken( "avatar_damage_taken" );

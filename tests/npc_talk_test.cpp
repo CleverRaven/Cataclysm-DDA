@@ -32,6 +32,7 @@
 #include "magic.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "math_parser_diag_value.h"
 #include "messages.h"
 #include "mission.h"
