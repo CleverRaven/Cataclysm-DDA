@@ -3,5 +3,38 @@
     "type": "effect_on_condition",
     "id": "EOC_iso_chasm",
     "effect": [ { "u_message": "You fell forever into the dark chasm…", "popup": true }, "u_die" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_talk_iso_crafter",
+    "effect": [ { "open_dialogue": { "topic": "ISO_CRAFTER_INTRO" } } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "ISO_CRAFTER_INTRO",
+    "dynamic_line": "Advanced Recycling and Manufacturing Oroboros - Version EXPERIMENTAL 1.12.0\nDESIGNATION: Armorer\n\nALEXANDRIA database: 100% uptime\nProduction Datareader: Operational\nDisassembly Module: Operational\nPrinter Array: Operational\nCalibration Sensor Array: Operational\n\n>",
+    "responses": [
+      { "text": ">Help", "topic": "ISO_CRAFTER_HELP" },
+	  { "text": ">Upload", "topic": "ISO_CRAFTER_UPLOAD" },
+	  { "text": ">Quit", "topic": "TALK_DONE" },
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "ISO_CRAFTER_HELP",
+    "dynamic_line": "The Advanced Recycling and Manufacturing Oroboros is a universal printer, fed by discs of condensed material. The Armorer model is the first and presently only model of this experimental technology, tailored for the uses of DARPA and affiliated organizations.\n\nUnneeded equipment can be fed into the slot labeled INPUT, and material of similar use are bonded at the molecular level and condensed into discs to be provided through the OUTPUT. Material Discs can be used to manufacture equipment in the same process.",
+    "responses": [
+      { "text": ">Return", "topic": "ISO_CRAFTER_INTRO" },
+	  { "text": ">Quit", "topic": "TALK_DONE" },
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "ISO_CRAFTER_UPLOAD",
+    "dynamic_line": "",
+    "responses": [
+      { "text": ">Return", "topic": "ISO_CRAFTER_INTRO" },
+	  { "text": ">Quit", "topic": "TALK_DONE" },
+    ]
   }
 ]
