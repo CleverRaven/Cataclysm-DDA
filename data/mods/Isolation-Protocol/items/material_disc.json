@@ -1,0 +1,51 @@
+[
+  {
+    "type": "ITEM",
+    "id": "iso_material_disc_abstract",
+    "symbol": "H",
+    "material": "aluminum",
+    "color": "black",
+    "weight": "10g",
+    "volume": "4ml",
+    "name": { "str": "abstract material disc" },
+    "description": { "str": "Abstract material disc.", "//~": "NO_I18N" },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "iso_material_disc_ammo",
+    "copy-from": "iso_material_disc_abstract",
+    "color": "yellow",
+    "weight": "100g",
+    "name": { "str": "material disc - munition" },
+    "description": { "str": "A palm-sized, dense block of brass, copper, smokeless powder, RDX, or similar materials.\n\nThis could be used to manufacture <color_green>ammunition</color> at the Oroboros." },
+  },
+  {
+    "type": "ITEM",
+    "id": "iso_material_disc_ammo_small",
+    "copy-from": "iso_material_disc_abstract",
+    "symbol": "h",
+    "color": "yellow",
+    "weight": "20g",
+    "name": { "str": "material disc - munition (small)" },
+    "description": { "str": "A small, dense block of brass, copper, smokeless powder, RDX, or similar materials.\n\nThis could be used to manufacture <color_green>ammunition</color> at the Oroboros." },
+  },
+  {
+    "type": "ITEM",
+    "id": "iso_material_disc_basic",
+    "copy-from": "iso_material_disc_abstract",
+    "color": "light_gray",
+    "weight": "200g",
+    "name": { "str": "material disc - basic" },
+    "description": { "str": "A palm-sized, dense block of steel, aluminum, various alloys, or similar materials.\n\nThis could be used to manufacture <color_green>weapons and tools</color> at the Oroboros." },
+  },
+  {
+    "type": "ITEM",
+    "id": "iso_material_disc_quality",
+    "copy-from": "iso_material_disc_abstract",
+    "color": "dark_gray",
+    "weight": "500g",
+    "name": { "str": "material disc - quality" },
+    "description": { "str": "A palm-sized, very dense block of titanium, high-grade steel, or similar advanced materials.\n\nThis could be used to manufacture <color_green>potent weapons and specialized equipment</color> at the Oroboros." },
+  }
+]
