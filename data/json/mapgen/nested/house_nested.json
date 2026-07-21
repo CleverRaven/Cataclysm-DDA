@@ -2718,7 +2718,9 @@
       "rotation": [ 0, 3 ],
       "rows": [ "R" ],
       "furniture": { "R": "f_bookcase" },
-      "R": [ { "item": "SUS_domestic_bookshelf", "chance": 100, "repeat": [ 1, 2 ] }, { "group": "european_comics_collection" } ],
+      "items": {
+        "R": [ { "item": "SUS_domestic_bookshelf", "chance": 100, "repeat": [ 1, 2 ] }, { "group": "european_comics_collection" } ]
+      },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   }
