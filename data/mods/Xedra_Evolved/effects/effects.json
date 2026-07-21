@@ -1788,10 +1788,9 @@
           { "type": "cut", "multiply": -0.3 },
           { "type": "bullet", "multiply": -0.3 }
         ],
-        "values": [ { "value": "MOVE_COST", "multiply": 0.1 } ]
+        "values": [ { "value": "MOVE_COST", "multiply": 0.1 }, { "value": "BLEEDING_RATE", "multiply": -0.333 } ]
       }
-    ],
-    "flags": [ "BLEEDSLOW1" ]
+    ]
   },
   {
     "type": "effect_type",

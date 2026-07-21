@@ -1708,7 +1708,7 @@
     "desc": [ "You bleed less than normal." ],
     "rating": "good",
     "max_duration": 25200,
-    "flags": [ "BLEEDSLOW" ]
+    "enchantments": [ { "values": [ { "value": "BLEEDING_RATE", "multiply": -0.333 } ] } ]
   },
   {
     "type": "effect_type",
@@ -1717,7 +1717,7 @@
     "desc": [ "You bleed much less than normal." ],
     "rating": "good",
     "max_duration": 25200,
-    "flags": [ "BLEEDSLOW2" ]
+    "enchantments": [ { "values": [ { "value": "BLEEDING_RATE", "multiply": -0.666 } ] } ]
   },
   {
     "type": "effect_type",
