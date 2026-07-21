@@ -4002,35 +4002,10 @@ int npc::clear_mortar_support( const bool notify )
 {
     const diag_value assignment = get_value( "mortar_assignment" );
     const diag_value stored_types = get_value( "mortar_ammo_types" );
-    if( assignment.is_empty() && stored_types.is_empty() ) {
+    const bool drop_rounds = is_active();
+    const int released_rounds = talk_effect_fun::release_mortar_ammo( *this, drop_rounds );
+    if( assignment.is_empty() && stored_types.is_empty() && released_rounds == 0 ) {
         return 0;
-    }
-
-    int dropped_rounds = 0;
-    map &here = get_map();
-    if( !stored_types.is_empty() ) {
-        for( const diag_value &stored_type : stored_types.array() ) {
-            const std::string &ammo_type = stored_type.str();
-            if( ammo_type.empty() ) {
-                continue;
-            }
-            const diag_value stored_count = get_value( "mortar_ammo_" + ammo_type );
-            const int count = std::max( 0, static_cast<int>( stored_count.dbl() ) );
-            if( count > 0 ) {
-                const itype_id ammo_id( ammo_type );
-                if( ammo_id.is_valid() ) {
-                    here.add_item_or_charges( pos_bub( here ), item( ammo_id, calendar::turn, count ) );
-                    dropped_rounds += count;
-                }
-            }
-            remove_value( "mortar_ammo_" + ammo_type );
-        }
-    }
-
-    std::list<item> physical_ammo = remove_items_with( mortar_type::is_mortar_round );
-    for( item &round : physical_ammo ) {
-        dropped_rounds += round.count_by_charges() ? round.charges : 1;
-        here.add_item_or_charges( pos_bub( here ), std::move( round ) );
     }
 
     remove_value( "mortar_assignment" );
@@ -4045,13 +4020,20 @@ int npc::clear_mortar_support( const bool notify )
     remove_value( "mortar_selected_ammo" );
     remove_value( "mortar_ammo_types" );
 
-    if( notify && dropped_rounds > 0 ) {
-        add_msg( n_gettext( "%1$s stops manning the mortar and drops %2$d mortar round.",
-                            "%1$s stops manning the mortar and drops %2$d mortar rounds.",
-                            dropped_rounds ),
-                 disp_name(), dropped_rounds );
+    if( notify && released_rounds > 0 ) {
+        if( drop_rounds ) {
+            add_msg( n_gettext( "%1$s stops manning the mortar and drops %2$d mortar round.",
+                                "%1$s stops manning the mortar and drops %2$d mortar rounds.",
+                                released_rounds ),
+                     disp_name(), released_rounds );
+        } else {
+            add_msg( n_gettext( "%1$s stops manning the mortar and keeps %2$d mortar round.",
+                                "%1$s stops manning the mortar and keeps %2$d mortar rounds.",
+                                released_rounds ),
+                     disp_name(), released_rounds );
+        }
     }
-    return dropped_rounds;
+    return released_rounds;
 }
 
 bool npc::has_activity() const

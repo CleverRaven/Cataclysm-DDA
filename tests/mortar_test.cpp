@@ -10,19 +10,71 @@
 #include "character.h"
 #include "coordinates.h"
 #include "game.h"
+#include "inventory.h"
+#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_scale_constants.h"
+#include "math_parser_diag_value.h"
 #include "mortar.h"
 #include "npc.h"
+#include "npctalk.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "rng.h"
 #include "type_id.h"
 
 static const mortar_type_id mortar_m224( "m224" );
+static const itype_id itype_60mm_shell_m720a1( "60mm_shell_m720a1" );
 static const oter_str_id oter_field( "field" );
 static const ter_str_id ter_t_wall( "t_wall" );
+
+TEST_CASE( "mortar_support_ammo_release_preserves_inventory", "[mortar]" )
+{
+    standard_npc gunner( "Mortar gunner", tripoint_bub_ms::zero, {}, 4, 8, 8, 8, 10 );
+    item issued_round( itype_60mm_shell_m720a1, calendar::turn );
+    issued_round.set_var( "mortar_support_ammo", true );
+    issued_round.set_var( "test_mortar_identity", "issued" );
+    item personal_round( itype_60mm_shell_m720a1, calendar::turn );
+    personal_round.set_var( "test_mortar_identity", "personal" );
+    gunner.inv->add_item( std::move( issued_round ), false, true, false );
+    gunner.inv->add_item( std::move( personal_round ), false, true, false );
+
+    CHECK( talk_effect_fun::release_mortar_ammo( gunner, false ) == 1 );
+
+    int round_count = 0;
+    gunner.visit_items( [&round_count]( item *it, item * ) {
+        if( it->typeId() == itype_60mm_shell_m720a1 ) {
+            round_count += it->count_by_charges() ? it->charges : 1;
+            CHECK_FALSE( it->has_var( "mortar_support_ammo" ) );
+            CHECK_FALSE( it->get_var( "test_mortar_identity" ).empty() );
+        }
+        return VisitResponse::NEXT;
+    } );
+    CHECK( round_count == 2 );
+}
+
+TEST_CASE( "legacy_mortar_support_ammo_is_migrated", "[mortar]" )
+{
+    standard_npc gunner( "Mortar gunner", tripoint_bub_ms::zero, {}, 4, 8, 8, 8, 10 );
+    diag_array ammo_types;
+    ammo_types.emplace_back( itype_60mm_shell_m720a1.str() );
+    gunner.set_value( "mortar_ammo_types", ammo_types );
+    gunner.set_value( "mortar_ammo_" + itype_60mm_shell_m720a1.str(), 2 );
+
+    CHECK( talk_effect_fun::release_mortar_ammo( gunner, false ) == 2 );
+    CHECK( gunner.get_value( "mortar_ammo_types" ).is_empty() );
+    CHECK( gunner.get_value( "mortar_ammo_" + itype_60mm_shell_m720a1.str() ).is_empty() );
+
+    int round_count = 0;
+    gunner.visit_items( [&round_count]( item *it, item * ) {
+        if( it->typeId() == itype_60mm_shell_m720a1 ) {
+            round_count += it->count_by_charges() ? it->charges : 1;
+        }
+        return VisitResponse::NEXT;
+    } );
+    CHECK( round_count == 2 );
+}
 
 TEST_CASE( "mortar_minimum_range_and_deflection_error", "[mortar]" )
 {
