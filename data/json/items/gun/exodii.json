@@ -294,8 +294,8 @@
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "stock mount", 1 ],
       [ "stock accessory", 2 ],
+      [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "barrel_volume": "250 ml",
@@ -454,8 +454,8 @@
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "stock mount", 1 ],
       [ "stock accessory", 2 ],
+      [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "min_cycle_recoil": 80000,
