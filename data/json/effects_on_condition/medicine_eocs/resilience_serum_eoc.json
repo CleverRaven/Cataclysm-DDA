@@ -70,7 +70,8 @@
           { "type": "bullet", "multiply": -0.2 }
         ],
         "mutations": [ "INFRESIST" ]
-      }
+      },
+      { "values": [ { "value": "BLEEDING_RATE", "multiply": -0.8 } ] }
     ]
   }
 ]
