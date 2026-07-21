@@ -1,4 +1,5 @@
 #include "cata_imgui.h"
+#include "cursesport.h" // Import ability to get the scale factor
 
 #include <cmath>
 
@@ -665,7 +666,22 @@ void cataimgui::client::process_input( void *input, int display_buffer_w, int di
         ( void )display_buffer_w;
         ( void )display_buffer_h;
 #if SDL_MAJOR_VERSION >= 3
-        ImGui_ImplSDL3_ProcessEvent( evt );
+        // Make use of the scale factor to make this part take input with consideration of scale
+        SDL_Event imgui_ev = *evt;
+        const int sf = get_scaling_factor();
+        if( sf > 1 ) {
+            if( imgui_ev.type == CATA_MOUSEMOTION ) {
+                imgui_ev.motion.x /= sf;
+                imgui_ev.motion.y /= sf;
+            } else if( imgui_ev.type == CATA_MOUSEBUTTONDOWN || imgui_ev.type == CATA_MOUSEBUTTONUP ) {
+                imgui_ev.button.x /= sf;
+                imgui_ev.button.y /= sf;
+            } else if( imgui_ev.type == CATA_MOUSEWHEEL ) {
+                imgui_ev.wheel.mouse_x /= sf;
+                imgui_ev.wheel.mouse_y /= sf;
+            }
+        }
+        ImGui_ImplSDL3_ProcessEvent( &imgui_ev );
 #else
         // Coordinates already converted to display_buffer space by
         // convert_event_to_display_buffer_coords in the event pump.
