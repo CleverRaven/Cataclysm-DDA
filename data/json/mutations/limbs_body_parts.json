@@ -1236,6 +1236,60 @@
     "sub_parts": [ "vine_sublimb_ll" ]
   },
   {
+    "id": "wing_l",
+    "//": "These exist for wings that are independent, like butterfly or insect wings, or ravenfolk or black dragon wings in Magiclysm, to use as a similar_bodypart for gear coverage",
+    "type": "body_part",
+    "name": "left wing",
+    "name_multiple": "left wings",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "left wing" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "left wings" },
+    "heading": "l. wing",
+    "heading_multiple": "wings",
+    "encumbrance_text": "Melee combat is hampered, and you won't be able to use your wings to glide.",
+    "hp_bar_ui_text": "L WING",
+    "main_part": "wing_l",
+    "connected_to": "torso",
+    "opposite_part": "wing_r",
+    "conditional_flags": [ "WING_ARMS", "LIMB_UPPER" ],
+    "encumbrance_limit": 5,
+    "hit_size": 20,
+    "hit_difficulty": 1.2,
+    "is_limb": true,
+    "is_vital": false,
+    "limb_types": "wing",
+    "base_hp": 45,
+    "health_limit": 15,
+    "mend_rate": 0.75,
+    "hot_morale_mod": 1.0,
+    "cold_morale_mod": 0.2,
+    "squeamish_penalty": 20,
+    "drench_capacity": 400,
+    "bionic_slots": 0,
+    "limb_scores": [ [ "reaction", 0.1 ] ],
+    "smash_message": "You buffet the %s with your wing.",
+    "techniques": [ "tech_wing_slap" ],
+    "side": "left",
+    "sub_parts": [ "wing_shoulder_l", "wing_upper_l", "wing_joint_l", "wing_lower_l" ],
+    "unarmed_damage": [ { "damage_type": "bash", "amount": 0 } ]
+  },
+  {
+    "id": "wing_r",
+    "type": "body_part",
+    "copy-from": "wing_l",
+    "name": "right wing",
+    "name_multiple": "right wings",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "right wing" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "right wings" },
+    "heading": "r. wing",
+    "hp_bar_ui_text": "R WING",
+    "main_part": "wing_r",
+    "opposite_part": "wing_l",
+    "limb_types": "wing",
+    "limb_scores": [ [ "reaction", 0.1 ] ],
+    "side": "right",
+    "sub_parts": [ "wing_shoulder_r", "wing_upper_r", "wing_joint_r", "wing_lower_r" ]
+  },
+  {
     "id": "wing_butterfly_l",
     "type": "body_part",
     "name": "left wing",
@@ -1268,7 +1322,8 @@
     "limb_scores": [ [ "reaction", -0.07 ] ],
     "smash_message": "You buffet the %s with your wing.",
     "side": "left",
-    "sub_parts": [ "wing_butterfly_basal_l", "wing_butterfly_forewing_l", "wing_butterfly_hindwing_l" ]
+    "sub_parts": [ "wing_butterfly_basal_l", "wing_butterfly_forewing_l", "wing_butterfly_hindwing_l" ],
+    "similar_bodypart": "wing_l"
   },
   {
     "id": "wing_butterfly_r",
@@ -1285,7 +1340,8 @@
     "limb_types": "wing",
     "limb_scores": [ [ "reaction", -0.07 ] ],
     "side": "right",
-    "sub_parts": [ "wing_butterfly_basal_r", "wing_butterfly_forewing_r", "wing_butterfly_hindwing_r" ]
+    "sub_parts": [ "wing_butterfly_basal_r", "wing_butterfly_forewing_r", "wing_butterfly_hindwing_r" ],
+    "similar_bodypart": "wing_r"
   },
   {
     "id": "wing_insect_l",
@@ -1320,7 +1376,8 @@
     "drying_rate": 2,
     "smash_message": "You buffet the %s with your wing.",
     "side": "left",
-    "sub_parts": [ "wing_insect_costal_margin_l", "wing_insect_posterior_margin_l", "wing_insect_apex_l" ]
+    "sub_parts": [ "wing_insect_costal_margin_l", "wing_insect_posterior_margin_l", "wing_insect_apex_l" ],
+    "similar_bodypart": "wing_l"
   },
   {
     "id": "wing_insect_r",
@@ -1336,7 +1393,8 @@
     "opposite_part": "wing_insect_l",
     "limb_types": "wing",
     "side": "right",
-    "sub_parts": [ "wing_insect_costal_margin_r", "wing_insect_posterior_margin_r", "wing_insect_apex_r" ]
+    "sub_parts": [ "wing_insect_costal_margin_r", "wing_insect_posterior_margin_r", "wing_insect_apex_r" ],
+    "similar_bodypart": "wing_r"
   },
   {
     "id": "gastropod_foot",

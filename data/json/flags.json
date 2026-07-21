@@ -117,6 +117,14 @@
     "type": "json_flag"
   },
   {
+    "id": "ALLOWS_WING_ARMS",
+    "type": "json_flag"
+  },
+  {
+    "id": "ALLOWS_WINGS",
+    "type": "json_flag"
+  },
+  {
     "id": "ALLOWS_TALONS",
     "type": "json_flag"
   },
@@ -489,6 +497,11 @@
     "type": "json_flag",
     "info": "This item is wearable over some armors as an extra layer of plating.",
     "restriction": "Item must be some kind of strapped additional plating"
+  },
+  {
+    "id": "NO_WING_GLIDING",
+    "type": "json_flag",
+    "info": "This item <bad>prevents using wings to glide</bad>."
   },
   {
     "id": "COLD_IMMUNE",
