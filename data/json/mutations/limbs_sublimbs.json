@@ -1331,7 +1331,6 @@
     "name": "left wing talons",
     "name_multiple": "wing talons",
     "side": "left",
-    "similar_bodypart": "hand_fingers_l",
     "opposite": "arm_wing_bird_fingers_r",
     "max_coverage": 5
   },
@@ -1342,7 +1341,6 @@
     "name": "right wing shoulder",
     "name_multiple": "wing shoulders",
     "side": "right",
-    "similar_bodypart": "arm_shoulder_r",
     "opposite": "arm_wing_bird_shoulder_l",
     "max_coverage": 15
   },
@@ -1383,7 +1381,6 @@
     "name": "right wing talons",
     "name_multiple": "wing talons",
     "side": "right",
-    "similar_bodypart": "hand_fingers_r",
     "opposite": "arm_wing_bird_fingers_l",
     "max_coverage": 5
   },
@@ -1523,7 +1520,6 @@
     "name": "left wing talons",
     "name_multiple": "wing talons",
     "side": "left",
-    "similar_bodypart": "hand_fingers_l",
     "opposite": "arm_wing_bat_fingers_r",
     "max_coverage": 5
   },
@@ -1575,7 +1571,6 @@
     "name": "right wing talons",
     "name_multiple": "wing talons",
     "side": "right",
-    "similar_bodypart": "hand_fingers_r",
     "opposite": "arm_wing_bat_fingers_l",
     "max_coverage": 5
   },
@@ -1768,6 +1763,86 @@
     "opposite": "vine_sublimb_lr",
     "name_multiple": "vines",
     "name": "vine"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_shoulder_l",
+    "parent": "wing_l",
+    "name": "left wing shoulder",
+    "name_multiple": "wing shoulders",
+    "side": 1,
+    "opposite": "wing_shoulder_r",
+    "max_coverage": 15
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_shoulder_r",
+    "parent": "wing_r",
+    "name": "right wing shoulder",
+    "name_multiple": "wing shoulders",
+    "side": 2,
+    "opposite": "wing_shoulder_l",
+    "max_coverage": 15
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_upper_l",
+    "parent": "wing_l",
+    "name": "left upper wing",
+    "name_multiple": "upper wings",
+    "side": 1,
+    "opposite": "wing_upper_r",
+    "max_coverage": 30
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_upper_r",
+    "parent": "wing_r",
+    "name": "right upper wing",
+    "name_multiple": "upper wings",
+    "side": 2,
+    "opposite": "wing_upper_l",
+    "max_coverage": 30
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_joint_l",
+    "parent": "wing_l",
+    "name": "left wing joint",
+    "name_multiple": "wing joints",
+    "side": 1,
+    "opposite": "wing_joint_r",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_joint_r",
+    "parent": "wing_r",
+    "name": "right wing joint",
+    "name_multiple": "wing joints",
+    "side": 2,
+    "opposite": "wing_joint_l",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_lower_l",
+    "parent": "wing_l",
+    "name": "lower left wings",
+    "name_multiple": "lower wing",
+    "side": 1,
+    "opposite": "wing_lower_r",
+    "max_coverage": 45
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_lower_r",
+    "parent": "wing_r",
+    "name": "lower right wing",
+    "name_multiple": "lower wings",
+    "side": 2,
+    "opposite": "wing_lower_l",
+    "max_coverage": 45
   },
   {
     "type": "sub_body_part",

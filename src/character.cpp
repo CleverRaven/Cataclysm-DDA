@@ -260,6 +260,7 @@ json_flag_MYOPIC_IN_LIGHT_SUPERNATURAL( "MYOPIC_IN_LIGHT_SUPERNATURAL" );
 static const json_character_flag json_flag_MYOPIC_SUPERNATURAL( "MYOPIC_SUPERNATURAL" );
 static const json_character_flag json_flag_NIGHT_VISION( "NIGHT_VISION" );
 static const json_character_flag json_flag_NON_THRESH( "NON_THRESH" );
+static const json_character_flag json_flag_NO_WING_GLIDING( "NO_WING_GLIDING" );
 static const json_character_flag json_flag_NVG_GREEN( "NVG_GREEN" );
 static const json_character_flag json_flag_PHASE_MOVEMENT( "PHASE_MOVEMENT" );
 static const json_character_flag json_flag_PLANTBLOOD( "PLANTBLOOD" );
@@ -7914,8 +7915,8 @@ bool Character::can_fly()
     if( has_flag( json_flag_GLIDE ) ) {
         return true;
     }
-    // TODO: Remove grandfathering traits in after Limb Stuff
-    if( count_flag( json_flag_WINGS_2 ) >= 2 || count_flag( json_flag_WING_ARMS ) >= 2 ) {
+    if( ( count_flag( json_flag_WINGS_2 ) >= 2 || count_flag( json_flag_WING_ARMS ) >= 2 ) &&
+        !worn_with_flag( json_flag_NO_WING_GLIDING ) ) {
 
         if( 100 * weight_carried() / weight_capacity() > 50 ) {
             return false;
