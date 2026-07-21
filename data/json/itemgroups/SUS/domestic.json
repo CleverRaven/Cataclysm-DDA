@@ -1212,8 +1212,7 @@
     "entries": [
       { "group": "novels", "prob": 100, "count": [ 7, 21 ] },
       { "group": "kids_books", "prob": 15, "count": [ 3, 7 ] },
-      { "group": "literature", "prob": 100, "count": [ 2, 5 ] },
-      { "group": "european_comics_collection", "prob": 1 }
+      { "group": "literature", "prob": 100, "count": [ 2, 5 ] }
     ]
   },
   {
