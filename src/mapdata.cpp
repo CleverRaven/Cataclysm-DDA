@@ -1232,6 +1232,11 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
     }
 
     // this certainly need some cleanup, leverage it to generic factory or something
+    if( jo.has_member( "examine_action" ) ) {
+        examine_func.clear();
+        examine_actor.clear();
+    }
+
     if( jo.has_string( "examine_action" ) ) {
         examine_func.emplace_back( iexamine_functions_from_string( jo.get_string( "examine_action" ) ) );
     } else if( jo.has_object( "examine_action" ) ) {
