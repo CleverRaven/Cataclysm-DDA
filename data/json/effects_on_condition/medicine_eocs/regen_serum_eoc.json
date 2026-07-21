@@ -71,8 +71,7 @@
           { "value": "VOMIT_MUL", "multiply": 1 }
         ]
       }
-    ],
-    flags: [ "HUNGER_DISRUPTION" ] 
+    ]
   },
   {
     "type": "effect_type",

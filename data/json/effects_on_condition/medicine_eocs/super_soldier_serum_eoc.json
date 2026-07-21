@@ -30,7 +30,6 @@
       "hunger_engorged",
       "hunger_full",
       "hunger_satisfied",
-      "hunger_blank",
       "hunger_hungry",
       "hunger_very_hungry",
       "hunger_near_starving",
@@ -52,7 +51,8 @@
           { "value": "PAIN_PENALTY_MOD_SPEED", "multiply": -0.6 },
           { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -0.5 },
           { "value": "LEARNING_FOCUS", "add": { "math": [ "clamp( ( ( (u_val('focus') - 15) * -1) ), -200, 0)" ] } }
-        ]
+        ],
+        flags: [ "HUNGER_DISRUPTION" ]
       },
       {
         "condition": { "not": { "u_has_any_trait": [ "SLOWHEALER", "SLOWHEALER2", "SLOWHEALER3" ] } },
