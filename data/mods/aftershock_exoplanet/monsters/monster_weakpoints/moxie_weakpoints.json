@@ -1,0 +1,21 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "afs_wps_moxie_infested",
+    "weakpoints": [
+      {
+        "id": "afs_wps_moxie_infested_upper_body",
+        "name": "the upper body",
+        "coverage": 65,
+        "effects": [
+          {
+            "effect_on_conditions": [ "EOC_AFS_SPAWN_PARASITE" ],
+            "chance": 100,
+            "message": "One of the parasites is dislodged by the blow.",
+            "damage_required": [ 2, 100 ]
+          }
+        ]
+      }
+    ]
+  }
+]

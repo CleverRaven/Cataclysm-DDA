@@ -398,7 +398,7 @@
     "description": "Nearly seven feet tall and whip thin, this warlord of the border realm of the Nether is clothed in silks and silvery tightly woven chainmail.  It glares at you and an ethereal sword manifests in its hand.",
     "default_faction": "changeling",
     "bodytype": "human",
-    "species": [ "CHANGELING", "CHANGELING_NOBLE" ],
+    "species": [ "CHANGELING", "CHANGELING_NOBLE", "MARCH_LORD" ],
     "categories": [ "XE_CLASSIC" ],
     "volume": "72500 ml",
     "weight": "91500 g",
@@ -515,7 +515,8 @@
         "monster_message": "%1$s gestures and heat-haze shimmers around them for a moment."
       }
     ],
-    "death_drops": "changeling_lord_summer_death_drops"
+    "death_drops": "changeling_lord_summer_death_drops",
+    "luminance": 5000
   },
   {
     "type": "MONSTER",

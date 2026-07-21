@@ -103,8 +103,8 @@
     "//2": "This group is for a typical janitors closet with cleaning chemicals and tools.",
     "subtype": "collection",
     "entries": [
-      { "item": "bleach", "prob": 90, "charges": [ 20, -1 ] },
-      { "item": "ammonia_hydroxide", "prob": 75, "charges": [ 20, -1 ] },
+      { "group": "bleach_jug_part", "prob": 90 },
+      { "group": "ammonia_hydroxide_bottle_twoliter_part", "prob": 75 },
       { "item": "broom", "prob": 95 },
       { "item": "mop", "prob": 60 },
       { "item": "mop_folded", "prob": 35 },

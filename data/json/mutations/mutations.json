@@ -203,7 +203,7 @@
     "points": -4,
     "purifiable": true,
     "vitamin_cost": 240,
-    "enchantments": [ { "condition": { "current_dimension": "" }, "values": [ { "value": "ARTIFACT_RESONANCE", "add": 1250 } ] } ]
+    "enchantments": [ { "condition": { "current_dimension": "default" }, "values": [ { "value": "ARTIFACT_RESONANCE", "add": 1250 } ] } ]
   },
   {
     "type": "mutation",
@@ -3045,7 +3045,7 @@
       {
         "values": [
           { "value": "METABOLISM", "multiply": -0.5 },
-          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } }
+          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod_bipolar(65, 0.5)" ] } }
         ]
       }
     ]

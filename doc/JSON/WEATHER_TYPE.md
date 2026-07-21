@@ -14,6 +14,7 @@ Each weather type is a type of weather that occurs, and what causes it. The only
 | `ranged_penalty`     | Penalty to ranged attacks.                                                                       |
 | `sight_penalty`      | Penalty to per-square visibility, applied in transparency map.                                   |
 | `light_modifier`     | modification to ambient light.                                                                   |
+| `temperature_modifier` | additive modifier to ambient temperature above ground.                                         |
 | `sound_attn`         | Sound attenuation of a given weather type.                                                       |
 | `dangerous`          | If true, our activity gets interrupted.                                                          |
 | `precip`             | Amount of associated precipitation. Valid values are: none, very_light, light and heavy          |
@@ -47,6 +48,7 @@ Each weather type is a type of weather that occurs, and what causes it. The only
     "ranged_penalty": 4,
     "sight_penalty": 1.25,
     "light_modifier": -45,
+    "temperature_modifier": "-30 C",
     "sound_attn": 8,
     "dangerous": false,
     "precip": "heavy",

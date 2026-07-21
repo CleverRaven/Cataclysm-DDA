@@ -728,6 +728,31 @@
   },
   {
     "type": "profession",
+    "id": "obsolete_academic",
+    "name": "Obsolete Academic",
+    "description": "Be it algebraic structures or the social lives of finches, you devoted your life to lecturing others on something that won't keep you warm, intact, or fed in the coming days.",
+    "npc_background": "BG_survival_story_EVACUEE",
+    "points": 1,
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "backpack" },
+          { "item": "book_binder" },
+          { "item": "red_pen", "ammo-item": "red_pen_ink", "charges": 100 },
+          { "group": "charged_smart_phone", "contents-item": "guidebook" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "traits": [ "GOODMEMORY", "DISORGANIZED", "INATTENTIVE", "BOOMING_VOICE" ]
+  },
+  {
+    "type": "profession",
     "id": "video_blogger",
     "name": "Video Blogger",
     "description": "You made a career out of creating and commentating video content and posting it on various platforms.  Now most of your fans are dead, alongside your equipment.  Maybe you didn't cultivate the most practical skillset through your career, but you have learned a thing or two about troubleshooting software and getting people to listen to you.",

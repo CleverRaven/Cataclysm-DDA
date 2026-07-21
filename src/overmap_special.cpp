@@ -77,7 +77,9 @@ void overmap_specials::check_consistency()
     []( size_t sum, const overmap_special & elem ) {
         size_t min_occur = static_cast<size_t>( std::max( elem.get_constraints().occurrences.min, 0 ) );
         const bool unique = elem.has_flag( "OVERMAP_UNIQUE" ) || elem.has_flag( "GLOBALLY_UNIQUE" );
-        return sum + ( unique ? 0 : min_occur );
+        //: Don't check EXTRADIMENSIONAL specials, which by definition don't spawn in the main dimension
+        const bool extradimensional = elem.has_flag( "EXTRADIMENSIONAL" );
+        return sum + ( unique || extradimensional ? 0 : min_occur );
     } );
 
     if( actual_count > max_count ) {

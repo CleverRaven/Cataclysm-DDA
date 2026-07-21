@@ -1567,9 +1567,9 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         // Kevlar cat harness, for reasons
         // material:layered_kevlar, thickness:2
         // 1.5/2/5 bash/cut/bullet x 2 thickness
-        // 5/3/10 acid/fire/env
+        // 5/40/10 acid/fire/env
         item meower_armor( itype_test_meower_armor );
-        expected_armor_values( meower_armor, 3, 4, 3.2, 10, 5, 3, 10 );
+        expected_armor_values( meower_armor, 3, 4, 3.2, 10, 5, 40, 10 );
 
         const std::string info = item_info_str( meower_armor, protection );
         const std::string header_str = "<color_c_white>Protection</color>:\n";
@@ -1577,7 +1577,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         const std::string cut_str = "  Cut: <color_c_yellow>4.00</color>\n";
         const std::string ballistic_str = "  Ballistic: <color_c_yellow>10.00</color>\n";
         const std::string acid_str = "  Acid: <color_c_yellow>5.00</color>\n";
-        const std::string fire_str = "  Fire: <color_c_yellow>3.00</color>\n";
+        const std::string fire_str = "  Fire: <color_c_yellow>40.00</color>\n";
         const std::string env_str = "  Environmental: <color_c_yellow>10</color>\n";
         size_t pos = 0;
         test_string( info, header_str, pos );

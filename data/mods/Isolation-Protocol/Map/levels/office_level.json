@@ -38,27 +38,25 @@
         "south": { "id": "office_to_office", "type": "available" },
         "west": { "id": "office_to_office", "type": "available" }
       },
-      "office": {
+      "office": { "overmap": "iso_office", "north": { "id": "office_to_office" }, "south": { "id": "office_to_office" } },
+      "office_3way": {
         "overmap": "iso_office",
-        "north": { "id": "office_to_office", "alternatives": [ "office_to_office" ] },
-        "east": { "id": "office_to_office", "alternatives": [ "office_to_office" ] },
-        "south": { "id": "office_to_office", "alternatives": [ "office_to_office" ] },
-        "west": { "id": "office_to_office", "alternatives": [ "office_to_office" ] }
+        "north": { "id": "office_to_office" },
+        "east": { "id": "office_to_office" },
+        "south": { "id": "office_to_office" }
       },
       "iso_elevator": {
         "overmap": "iso_elevator_office",
         "above": "duct_to_surface",
-        "north": { "id": "office_to_office", "type": "available", "alternatives": [ "office_to_office" ] },
-        "east": { "id": "office_to_office", "type": "available", "alternatives": [ "office_to_office" ] },
-        "south": { "id": "office_to_office", "type": "available", "alternatives": [ "office_to_office" ] },
-        "west": { "id": "office_to_office", "type": "available", "alternatives": [ "office_to_office" ] }
+        "north": { "id": "office_to_office", "type": "available" },
+        "east": { "id": "office_to_office", "type": "available" },
+        "south": { "id": "office_to_office", "type": "available" },
+        "west": { "id": "office_to_office", "type": "available" }
       },
       "iso_next_level_elevator": {
         "overmap": "iso_elevator_office_next",
-        "north": { "id": "office_to_office", "type": "available", "alternatives": [ "office_to_office" ] },
-        "east": { "id": "office_to_office", "type": "available", "alternatives": [ "office_to_office" ] },
-        "south": { "id": "office_to_office", "type": "available", "alternatives": [ "office_to_office" ] },
-        "west": { "id": "office_to_office", "type": "available", "alternatives": [ "office_to_office" ] }
+        "north": { "id": "office_to_office", "type": "available" },
+        "south": { "id": "office_to_office", "type": "available" }
       }
     },
     "root": "surface",
@@ -69,13 +67,18 @@
           "chunk": [
             { "overmap": "iso_elevator", "pos": [ 0, 0, 0 ] },
             { "overmap": "office", "pos": [ 0, 1, 0 ] },
-            { "overmap": "office", "pos": [ 1, 1, 0 ] },
-            { "overmap": "office", "pos": [ 1, 0, 0 ] }
+            { "overmap": "office", "pos": [ 0, -1, 0 ] },
+            { "overmap": "office", "pos": [ -1, 0, 0 ], "rot": "west" },
+            { "overmap": "office", "pos": [ 1, 0, 0 ], "rot": "east" }
           ],
           "max": 1
         }
       ],
-      [ { "overmap": "office", "max": 15 } ],
+      [
+        { "overmap": "office", "max": 10 },
+        { "overmap": "office_3way", "max": { "poisson": 4, "bounds": [ 2, 8 ] } }
+      ],
+      [ { "overmap": "office", "max": 10 } ],
       [ { "overmap": "iso_next_level_elevator", "max": 2 } ],
       [ { "overmap": "closing_chunk", "weight": 1 } ]
     ]

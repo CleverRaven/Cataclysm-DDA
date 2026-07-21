@@ -1367,8 +1367,8 @@ static bool add_summoned_mon( const tripoint_bub_ms &pos, const time_duration &t
     if( !permanent ) {
         spawned_mon.set_summon_time( time );
     }
-    spawned_mon.death_drops = sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
-    spawned_mon.spawn_corpse = !sp.has_flag( spell_flag::NO_CORPSE_QUIET );
+    spawned_mon.no_extra_death_drops = !sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
+    spawned_mon.no_corpse_quiet = sp.has_flag( spell_flag::NO_CORPSE_QUIET );
     spawned_mon.set_summoner( &caster );
     return true;
 }
@@ -2087,7 +2087,7 @@ void spell_effect::slime_split_on_death( const spell &sp, Creature &caster,
                     const int used_mass = std::min( mass, slime_id->speed - 15 );
                     mass -= used_mass;
                     blob->set_speed_base( used_mass );
-                    blob->death_drops = sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
+                    blob->no_extra_death_drops = !sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
                     summoned_slimes.push_back( mon.get() );
                     if( mass < mon_blob_small->speed / 2 ) {
                         break;

@@ -1349,6 +1349,15 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "not_ready_msg": "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough
 },
 "use_action": {
+  "type": "repair_item",                            // Place NPC of specific class on the map
+  "item_action_type": "repair_fabric",              // Possible options are "repair_fabric" and "repair_metal"
+  "materials": [ "iron", "cotton", "candyfloss" ],  // Array of material types that the item can repair
+  "skill": "swimming",                              // The skill used for repairing
+  "tool_quality": 0,                                // Integer, used in the formula "( 10 + 2 * skill - 2 * difficulty + tool_quality / 5.0f ) / 100.0f" to determine success
+  "cost_scaling": 0.1,                              // Unknown
+  "move_cost": 100                                  // How many move points the action takes
+},
+"use_action": {
   "type": "firestarter",  // Start a fire, like with a lighter.
   "moves": 15,            // Number of moves it takes to start the fire. This is reduced by survival skill
   "moves_slow": 1500,     // Number of moves it takes to start a fire on something that is difficult to ignite. This is reduced by survival skill

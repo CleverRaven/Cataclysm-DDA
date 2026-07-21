@@ -37,7 +37,7 @@
         [ "arm", 2 ],
         [ "leg", 2 ]
       ],
-      [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
+      [ [ "bleach", 250 ], [ "oxy_powder", 200 ] ],
       [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
@@ -1105,7 +1105,7 @@
     "//": "requires more human samples than comparable mutagen as you are trying to identify specific differences from your mutated anatomy than from baseline humans.",
     "components": [
       [ [ "mutagen", 2 ] ],
-      [ [ "bleach", 3 ], [ "oxy_powder", 300 ] ],
+      [ [ "bleach", 375 ], [ "oxy_powder", 300 ] ],
       [ [ "human_sample", 2 ] ],
       [ [ "ammonia_liquid", 2 ], [ "lye_powder", 200 ] ]
     ],

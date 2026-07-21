@@ -214,7 +214,7 @@
         "values": [
           {
             "value": "CLIMATE_CONTROL_CHILL",
-            "add": { "math": [ "10 + (u_summer_spell_count * 2) + (u_deduction_for_spells * 4)" ] }
+            "add": { "math": [ "10 + (u_summer_spell_count * 2) + (u_gramarye_for_spells * 4)" ] }
           }
         ]
       }

@@ -44,7 +44,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_RandEnc_remove",
+    "id": "EOC_XedraWood_RandEnc_remove",
     "recurrence": 200,
     "global": true,
     "condition": {

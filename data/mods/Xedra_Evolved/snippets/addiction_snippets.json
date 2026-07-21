@@ -58,5 +58,38 @@
         "text": "You lounge in sunny glades, eating lotus blossoms while others frolic through the breeze.  You wake feeling calmer than normal and go back to less pleasant sleep."
       }
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "faewild_addiction",
+    "text": [
+      { "id": "faewild_addiction_1", "text": "You taste the magic, both bitter and sweet as if you had just dosed up." },
+      {
+        "id": "faewild_addiction_2",
+        "text": "If you take some faewild now, the world will be brighter, your focus sharper, your odds of survival… higher."
+      },
+      {
+        "id": "faewild_addiction_3",
+        "text": "Once upon a time, there was a brave and stalwart knight, he partook of the dust of the faeries and knew peace everlong."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "faewild_addiction_dream",
+    "text": [
+      {
+        "id": "faewild_addiction_dream_1",
+        "text": "You wake up to the sounds of music outside of the house you are in.  When you exit the house, it is still the dead of night, but you can see a house across the way, well lit and open with people moving between the open doors.  Your dead relatives find you at the buffet and berate you for eating the food and drinking the drink at this party."
+      },
+      {
+        "id": "faewild_addiction_dream_2",
+        "text": "Hope is dead, it rode alone up to the gates of Hell.  It was crushed in a mass of people.  You were pushed away to the edges of the crowd.  The last you saw was hope pulled down screaming.  Nothing will ever have meaning again."
+      },
+      {
+        "id": "faewild_addiction_dream_3",
+        "text": "An otherworldly lover takes your heart, your passion, your desire.  Clad in diaphonous clothing, they take what you both want of you but soon you wake and realize you are alone in an empty bear's den."
+      }
+    ]
   }
 ]

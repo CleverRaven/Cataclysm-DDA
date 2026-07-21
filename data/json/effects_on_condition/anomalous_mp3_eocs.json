@@ -29,7 +29,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_MP3_REVERBERATION_REVERBERATION_LISTENER",
-    "condition": { "not": { "current_dimension": "" } },
+    "condition": { "not": { "current_dimension": "default" } },
     "effect": [
       { "dimension_name": { "context_val": "dim_name" } },
       {

@@ -34,5 +34,38 @@
         }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FAEWILD_ADDICTION",
+    "condition": { "math": [ "rand(800) <= addiction_rational(800, 20, u_addiction_intensity('faewild'))" ] },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_FAEWILD_ADDICTION_SNIPPET_TYPE",
+          "condition": { "not": { "u_has_effect": "sleep" } },
+          "effect": [ { "u_message": "faewild_addiction", "snippet": true, "type": "warning" } ],
+          "false_effect": [ { "u_message": "faewild_addiction_dream", "snippet": true, "type": "warning" } ]
+        }
+      },
+      { "run_eocs": [ "EOC_FAEWILD_ENNUI" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FAEWILD_ENNUI",
+    "effect": [
+      {
+        "switch": { "math": [ "u_val('morale')" ] },
+        "cases": [
+          { "case": 15, "effect": { "u_add_morale": "morale_craving_faewild", "bonus": -15, "max_bonus": 25 } },
+          { "case": 25, "effect": { "u_add_morale": "morale_craving_faewild", "bonus": -25, "max_bonus": -25 } },
+          { "case": 50, "effect": { "u_add_morale": "morale_craving_faewild", "bonus": -50, "max_bonus": -50 } },
+          { "case": 75, "effect": { "u_add_morale": "morale_craving_faewild", "bonus": -75, "max_bonus": -75 } },
+          { "case": 100, "effect": { "u_add_morale": "morale_craving_faewild", "bonus": -100, "max_bonus": -100 } }
+        ]
+      },
+      { "u_add_effect": "faewild", "duration": "90 minutes" }
+    ]
   }
 ]

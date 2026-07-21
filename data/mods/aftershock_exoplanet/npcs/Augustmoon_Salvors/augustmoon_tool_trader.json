@@ -46,6 +46,8 @@
       { "item": "g_shovel", "count": 1 },
       { "item": "water_purifier", "count": 1 },
       { "item": "afs_40g_plasma_civ", "count": [ 2, 5 ] },
+      { "item": "afs_ipav_patch_kit", "count": [ 1, 2 ] },
+      { "item": "goggles_welding", "count": 1 },
       { "item": "afs_heavy_suit_battery_cell", "count": [ 2, 5 ] },
       { "group": "afs_tools_welding_consumable", "count": [ 6, 8 ] },
       { "group": "pur_tablets_bottle_plastic_small_50", "count": [ 1, 2 ] },

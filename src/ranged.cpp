@@ -200,7 +200,7 @@ static const std::set<material_id> ferric = { material_iron, material_steel, mat
 // Maximum duration of aim-and-fire loop, in turns
 static constexpr int AIF_DURATION_LIMIT = 10;
 
-static projectile make_gun_projectile( const item &gun );
+static projectile make_gun_projectile( const item &gun, Character &guy );
 static int time_to_attack( const Character &p, const itype &firing );
 static int RAS_time( const Character &p, const item_location &loc );
 /**
@@ -1210,7 +1210,7 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
         // get ammo_id in gun for event character_ranged_attacks_monster. If no ammo, use itype_id::NULL_ID()
         itype_id projectile_use_ammo_id = gun.has_ammo_data() ? gun.ammo_data()->get_id() :
                                           itype_id::NULL_ID();
-        projectile proj = make_gun_projectile( gun );
+        projectile proj = make_gun_projectile( gun, *this );
 
         for( damage_unit &elem : proj.impact.damage_units ) {
             elem.amount = enchantment_cache->modify_value( enchant_vals::mod::RANGED_DAMAGE, elem.amount );
@@ -2406,14 +2406,14 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
     return aim_types;
 }
 
-static projectile make_gun_projectile( const item &gun )
+static projectile make_gun_projectile( const item &gun, Character &guy )
 {
     projectile proj;
     proj.speed  = 1000;
     proj.impact = gun.gun_damage();
     proj.shot_impact = gun.gun_damage( true, true );
 
-    proj.range = gun.gun_range();
+    proj.range = gun.gun_range( &guy );
     proj.proj_effects = gun.ammo_effects();
 
     if( gun.has_ammo_data() && gun.ammo_data()->phase == phase_id::LIQUID ) {

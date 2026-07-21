@@ -176,6 +176,13 @@
         "description": "\n\n<serum_testing_regen>",
         "append": true,
         "expand_snippets": true
+      },
+      {
+        "id": "lab_file_serum_testing_super_soldier",
+        "//": "inherit name from item",
+        "description": "\n\n<serum_testing_super_soldier>",
+        "append": true,
+        "expand_snippets": true
       }
     ],
     "copy-from": "file"

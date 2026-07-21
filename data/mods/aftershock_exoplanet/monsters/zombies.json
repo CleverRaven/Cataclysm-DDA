@@ -190,7 +190,7 @@
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 100,
-    "speed": 115,
+    "speed": 90,
     "material": [ "flesh" ],
     "symbol": "A",
     "color": "red",
@@ -282,6 +282,46 @@
       "FILTHY"
     ],
     "armor": { "bash": 15, "cut": 20, "bullet": 30, "afs_laser": 10 }
+  },
+  {
+    "id": "mon_moxie_infested",
+    "type": "MONSTER",
+    "name": { "str": "infested MoxPhore" },
+    "description": "Alien creatures burrow into the arms and upper torso of this walking corpse, constantly gnawing at the regenerating flesh.",
+    "default_faction": "moxie",
+    "bodytype": "human",
+    "species": [ "MOXIE" ],
+    "diff": 5,
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 80,
+    "speed": 80,
+    "material": [ "flesh" ],
+    "symbol": "Q",
+    "color": "red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 4,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "dodge": 2,
+    "vision_day": 40,
+    "regenerates": 1,
+    "harvest": "frost_human",
+    "death_drops": "default_moxie_human_death_drops",
+    "special_attacks": [
+      { "type": "bite", "cooldown": 5 },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 6 } ] }
+    ],
+    "weakpoint_sets": [ "afs_wps_moxie_infested" ],
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 },
+    "death_function": {
+      "eoc": "EOC_AFS_SPAWN_PARASITE",
+      "corpse_type": "NO_CORPSE",
+      "message": "One last parasite scuttles out of the corpse."
+    }
   },
   {
     "id": "mon_moxie_regenerator",

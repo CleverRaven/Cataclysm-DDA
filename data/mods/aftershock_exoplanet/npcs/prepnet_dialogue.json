@@ -70,7 +70,7 @@
     "responses": [
       { "text": "I can pay.", "topic": "TALK_PrepNet_gardener_ask_food_bribe" },
       { "text": "What do you need done?", "topic": "TALK_MISSION_LIST" },
-      { "text": "Well I'm heading out then", "topic": "TALK_DONE" }
+      { "text": "Well I'm heading out then.", "topic": "TALK_DONE" }
     ]
   },
   {

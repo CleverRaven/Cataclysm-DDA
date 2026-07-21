@@ -675,7 +675,7 @@
         { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
         "is_day",
         "u_is_outside",
-        { "not": { "is_weather": "blotted_sun" } }
+        { "not": { "u_has_effect": "vampire_blind_the_sun" } }
       ]
     },
     "effect": [
@@ -694,7 +694,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
-        { "or": [ { "not": "is_day" }, { "not": "u_is_outside" }, { "is_weather": "blotted_sun" } ] }
+        { "or": [ { "not": "is_day" }, { "not": "u_is_outside" }, { "u_has_effect": "vampire_blind_the_sun" } ] }
       ]
     },
     "effect": [ { "u_lose_effect": "effect_slain_by_the_sun" }, { "u_lose_effect": "effect_slain_by_the_sun_limiter" } ]
@@ -737,7 +737,7 @@
         { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
         "is_day",
         "u_is_outside",
-        { "not": { "is_weather": "blotted_sun" } }
+        { "not": { "u_has_effect": "vampire_blind_the_sun" } }
       ]
     },
     "effect": [ { "run_eocs": "EOC_VAMPIRE_ANATHEMA_BURN_IN_SUNLIGHT_CONTINUAL" } ]
@@ -2935,7 +2935,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_INVISIBLE_IN_DARK",
-    "condition": { "not": { "and": [ "is_day", "u_is_outside", { "not": { "is_weather": "blotted_sun" } } ] } },
+    "condition": { "not": { "and": [ "is_day", "u_is_outside", { "not": { "u_has_effect": "vampire_blind_the_sun" } } ] } },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.25" ] } },
       { "math": [ "u_vitamin('human_blood_vitamin') -= 300" ] },
@@ -2955,12 +2955,7 @@
     "id": "EOC_VAMPIRE_HEAL_IN_DARK",
     "//": "Heals and reduces bleeding and pain every minute while away from the sun if the player has the trait.",
     "recurrence": 60,
-    "condition": {
-      "and": [
-        { "u_has_trait": "VAMPIRE_HEAL_IN_DARK" },
-        { "not": { "and": [ "is_day", "u_is_outside", { "not": { "is_weather": "blotted_sun" } } ] } }
-      ]
-    },
+    "condition": { "and": [ { "u_has_trait": "VAMPIRE_HEAL_IN_DARK" }, { "not": { "and": [ "is_day", "u_is_outside" ] } } ] },
     "deactivate_condition": { "not": { "u_has_trait": "VAMPIRE_HEAL_IN_DARK" } },
     "effect": [
       { "if": { "math": [ "u_pain() >= 1" ] }, "then": { "math": [ "u_pain() -= 3" ] } },

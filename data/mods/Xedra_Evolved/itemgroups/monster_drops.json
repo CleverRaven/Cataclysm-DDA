@@ -75,6 +75,7 @@
       { "group": "bannerman_armor", "prob": 100, "damage": [ 2, 5 ] },
       { "group": "pendant_necklaces_silver", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },
+      { "item": "hammer_fey_smith", "prob": 2 },
       { "group": "bannerman_weapons", "prob": 100, "damage": [ 2, 5 ] },
       { "item": "baldric", "prob": 100 },
       { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
@@ -221,6 +222,7 @@
       },
       { "group": "bannerman_armor", "prob": 100, "damage": [ 0, 4 ] },
       { "group": "pendant_necklaces_silver", "prob": 5 },
+      { "item": "hammer_fey_smith", "prob": 2 },
       { "item": "baldric", "prob": 100 },
       { "item": "purity_crackers", "prob": 10 },
       { "item": "golden_bridle", "prob": 5 },

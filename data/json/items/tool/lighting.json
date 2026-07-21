@@ -849,13 +849,16 @@
     "color": "white",
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ],
     "charges_per_use": 1,
-    "use_action": {
-      "target": "reading_light_on",
-      "msg": "You turn on the %s.",
-      "need_charges": 1,
-      "need_charges_msg": "The batteries are dead.",
-      "type": "transform"
-    },
+    "use_action": [
+      {
+        "target": "reading_light_on",
+        "msg": "You turn on the %s.",
+        "need_charges": 1,
+        "need_charges_msg": "The batteries are dead.",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 2, "charge_rate": "2 W" }
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 13 } } ],
     "tool_ammo": [ "battery" ]
   },
@@ -868,13 +871,16 @@
     "description": "A little clip-on LED light, meant for reading books in the dark.  This one is turned on.",
     "power_draw": "46 mW",
     "revert_to": "reading_light",
-    "use_action": {
-      "ammo_scale": 0,
-      "target": "reading_light",
-      "msg": "You turn off the %s.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    },
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "reading_light",
+        "msg": "You turn off the %s.",
+        "menu_text": "Turn off",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 2, "charge_rate": "2 W" }
+    ],
     "light": 15,
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "CHARGEDIM", "SPAWN_ACTIVE" ]
   },

@@ -524,10 +524,10 @@ struct map_data_common_t {
         translation name_;
 
         // Hardcoded examination function; what happens when the terrain/furniture is examined
-        iexamine_functions examine_func;
+        std::vector<iexamine_functions> examine_func;
 
         // Data-driven examine actor
-        cata::clone_ptr<iexamine_actor> examine_actor;
+        std::vector<cata::clone_ptr<iexamine_actor>> examine_actor;
 
     private:
         std::set<std::string> flags; // string flags which possibly refer to what's documented above.
@@ -553,9 +553,11 @@ struct map_data_common_t {
         std::array<int, NUM_SEASONS> symbol_;
 
         bool can_examine( const tripoint_bub_ms &examp ) const;
+        // checks if it has corresponding examine_func
         bool has_examine( iexamine_examine_function func ) const;
+        // checks if it has corresponding examine_actor
         bool has_examine( const std::string &action ) const;
-        void set_examine( iexamine_functions func );
+        void set_examine( const iexamine_functions &func );
         void examine( Character &, const tripoint_bub_ms & ) const;
 
         int light_emitted = 0;

@@ -143,7 +143,7 @@
     "type": "SPELL",
     "name": "Spring Cleansing",
     "description": "Like a house after a long winter, this glamour removes impurities in the target's body, curing them of poison or disease and preventing them from reoccurring while it lasts.  The glamour's duration is <color_yellow>greatly reduced</color> in the autumn.",
-    "message": "",
+    "message": "You mutter a few words backwards and as you gesture, a soft green glow surrounds your target.",
     "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_spring",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
@@ -455,6 +455,8 @@
     "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_spring",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "caster_condition": "u_is_outside",
+    "caster_condition_fail_message": "You must be outside to weave this glamour.",
     "valid_targets": [ "self", "ally" ],
     "teachable": false,
     "skill": "gramarye",
@@ -467,12 +469,12 @@
     "min_range": 10,
     "min_duration": {
       "math": [
-        "( ( 84612 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 12952) + (u_skill('gramarye') * 18542) ) )"
+        "( ( 84612 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 12952) + (u_skill('gramarye') * 38542) ) )"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( 168524 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 34815) + (u_skill('gramarye') * 49851) ) )"
+        "( ( 168524 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 34815) + (u_skill('gramarye') * 89851) ) )"
       ]
     },
     "base_energy_cost": {

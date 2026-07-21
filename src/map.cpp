@@ -2619,8 +2619,14 @@ void map::kill_creature( const tripoint_bub_ms &p, bool remove_corpse )
     Creature *tmp_critter = get_creature_tracker().creature_at( get_abs( p ), true );
     if( tmp_critter && !tmp_critter->is_avatar() ) {
         if( remove_corpse ) {
-            tmp_critter->death_drops = false;
-            tmp_critter->spawn_corpse = false;
+            if( monster *mon = tmp_critter->as_monster(); mon != nullptr ) {
+                mon->death_drops = false;
+                mon->no_corpse_quiet = true;
+
+            } else if( npc *npc = tmp_critter->as_npc(); npc != nullptr ) {
+                npc->death_drops = false;
+                npc->quiet_death = true;
+            }
         }
         tmp_critter->die( this, nullptr );
     }

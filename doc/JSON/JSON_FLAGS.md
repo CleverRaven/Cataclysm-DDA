@@ -177,9 +177,12 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ACTIVE_CLOAKING``` While active, drains UPS to provide invisibility.
 - ```ALARMCLOCK``` Has an alarm-clock feature.
 - ```ALLOWS_GASTROPOD_FOOT``` You can wear this item even if you have a gastropod foot instead of human legs.
+- ```ALLOWS_LEG_TENTACLES``` You can wear this item even if you have cephalopod tentacles instead of human legs.
 - ```ALLOWS_NATURAL_ATTACKS``` Doesn't prevent any natural attacks or similar benefits from mutations, fingertip razors, etc., like most items covering the relevant body part would.
 - ```ALLOWS_TAIL``` You can wear this leg-covering item even if you have a tail
 - ```ALLOWS_TALONS``` People with talon mutations still can wear this armor, that cover feet.
+- ```ALLOWS_WING_ARMS``` People whose arms have turned into wings can still wear this armor.
+- ```ALLOWS_WINGS``` People with independent wings growing from their backs can still wear this armor.
 - ```AURA``` This item goes in the outer aura layer, intended for metaphysical effects.
 - ```BAROMETER``` This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure).
 - ```BELTED``` Layer for backpacks and things worn over outerwear.
@@ -218,6 +221,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NORMAL``` Items worn like normal clothing.  This is assumed as default.
 - ```NO_TAKEOFF``` Item with that flag can't be taken off.
 - ```NO_WEAR_EFFECT``` This gear doesn't provide any effects when worn (most jewelry).
+- ```NO_WING_GLIDING``` This gear prevents using your wings to glide when worn
 - ```OUTER```  Outer garment layer.
 - ```OVERSIZE``` Can always be worn no matter what encumbrance/mutations/bionics/etc, but prevents any other clothing being worn over this.
 - ```PADDED``` This armor counts as comfortable even if none of the specific materials are soft.
@@ -368,6 +372,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```CANNOT_ATTACK``` A creature with this flag cannot attack (includes spellcasting).
 - ```CANNOT_CHANGE_TEMPERATURE``` A creature with this flag cannot change body temperature.
 - ```CANNOT_GAIN_EFFECTS``` A creature with this effect flag cannot gain effects.
+- ```CANNOT_GAIN_WEARINESS``` A character with this flag always has Fresh weariness. Weariness is still tracked in the background and accurately set when the flag wears off.
 - ```CANNOT_MOVE``` A creature with this flag cannot move.
 - ```CANNOT_TAKE_DAMAGE``` A creature with this flag cannot take any damage.
 - ```CANNOT_USE_COMPUTERS``` A creature with this flag cannot activate a computer terminal or use various computer functions (e.g. saving ebooks or reading efiles).

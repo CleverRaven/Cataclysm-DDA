@@ -133,8 +133,8 @@
     "category": "container",
     "name": { "str": "reusable plastic sack" },
     "looks_like": "bag_plastic",
-    "description": "A large and sturdy sack, made out of some plastic material.  Popular choice to store sand, gravel, cement, or stop some local flood.",
-    "//": "durasack woven polypropylene bags",
+    "description": "A large and sturdy sack, made out of woven polypropylene.  Popular choice to store sand, gravel, cement, or stop some local flood.",
+    "//": "woven polypropylene bags",
     "weight": "750 g",
     "volume": "1250 ml",
     "price": "85 cent",
@@ -158,7 +158,7 @@
     "subtypes": [ "BOOK" ],
     "name": { "str": "durable plastic sack, cement" },
     "looks_like": "bag_plastic",
-    "description": "A large and sturdy sack, made out plastic material.  Stores cement and has instructions on how to use it to make mortar.",
+    "description": "A large and sturdy sack, made out of woven polypropylene.  Stores cement and has instructions on how to use it to make mortar.",
     "//": "book data is used so item can work as book and provide recipes",
     "copy-from": "bag_durasack",
     "max_level": 0,
@@ -1030,6 +1030,35 @@
       }
     ],
     "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "bottle_liter",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "medium plastic bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "32 oz, or roughly 1-liter plastic bottle that can hold variety of liquids.",
+    "weight": "25 g",
+    "volume": "1188 ml",
+    "longest_side": "25 cm",
+    "price": "15 cent",
+    "price_postapoc": "1 cent",
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "1 L",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 400
+      }
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "bottle_twoliter",

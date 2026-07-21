@@ -70,6 +70,9 @@ static const ammotype ammo_battery( "battery" );
 
 static const damage_type_id damage_bash( "bash" );
 
+static const dimension_id
+dimension_world_netherum_labyrinth_safehouse( "netherum_labyrinth_safehouse" );
+
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_tied( "tied" );
 
@@ -1616,8 +1619,7 @@ void vehicle::use_mws( map &here, int p )
 
 void vehicle::use_nl_boiler( map &here, int p )
 {
-    std::string dimension_prefix = g->get_dimension_prefix();
-    if( dimension_prefix == "netherum_labyrinth_safehouse" ) {
+    if( g->get_dimension_prefix() == dimension_world_netherum_labyrinth_safehouse ) {
         vehicle_part &vp = parts[p];
         vehicle_stack items = get_items( vp );
 
@@ -2362,7 +2364,14 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .on_submit( [this] { display_effects(); } );
     }
 
-    if( ( is_locked || has_security_working( *here ) ) && controls_here ) {
+    bool has_immobilizer = false;
+    for( const vehicle_part *vp : vp_parts ) {
+        if( vp->has_fault_flag( "IMMOBILIZER" ) ) {
+            has_immobilizer = true;
+        }
+    }
+
+    if( ( is_locked || has_immobilizer ) && controls_here ) {
         if( player_inside ) {
             ///\EFFECT_MECHANICS speeds up vehicle hotwiring
             const float skill = std::max( 1.0f, get_player_character().get_skill_level( skill_mechanics ) );

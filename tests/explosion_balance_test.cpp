@@ -121,7 +121,7 @@ static void check_lethality( const itype_id &explosive_id, const int range, floa
             num_subjects++;
             num_subjects_this_time++;
             monster &new_monster = spawn_test_monster( "mon_zombie", monster_position );
-            new_monster.death_drops = false;
+            new_monster.no_extra_death_drops = true;
         }
         // Set off an explosion
         item grenade( explosive_id );

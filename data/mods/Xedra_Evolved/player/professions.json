@@ -110,8 +110,7 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    },
-    "chargen_allow_npc": false
+    }
   },
   {
     "type": "profession",
@@ -638,8 +637,7 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    },
-    "chargen_allow_npc": false
+    }
   },
   {
     "type": "profession",
