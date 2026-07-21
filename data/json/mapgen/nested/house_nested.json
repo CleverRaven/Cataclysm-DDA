@@ -2719,7 +2719,7 @@
       "rows": [ "R" ],
       "furniture": { "R": "f_bookcase" },
       "items": {
-        "R": [ { "item": "SUS_domestic_bookshelf", "chance": 100, "repeat": [ 1, 2 ] }, { "group": "european_comics_collection" } ]
+        "R": [ { "item": "SUS_domestic_bookshelf", "chance": 100, "repeat": [ 1, 2 ] }, { "item": "european_comics_collection" } ]
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
