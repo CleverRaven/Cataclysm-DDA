@@ -1598,6 +1598,20 @@ std::string trim( std::string_view s )
     } );
 }
 
+template<typename Predicate>
+static std::string rtrim( std::string_view s, Predicate pred )
+{
+    auto wsend = std::find_if_not( s.crbegin(), s.crend(), pred );
+    return std::string( s.begin(), wsend.base() );
+}
+
+std::string rtrim( std::string_view s )
+{
+    return rtrim( s, []( int c ) {
+        return isspace( c );
+    } );
+}
+
 std::string trim_trailing_punctuations( std::string_view s )
 {
     std::u32string u32s = utf8_to_utf32( s );

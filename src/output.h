@@ -631,6 +631,8 @@ char rand_char();
 
 // Remove spaces from the start and the end of a string.
 std::string trim( std::string_view s );
+// Remove spaces from the end of a string.
+std::string rtrim( std::string_view s );
 // Removes trailing periods and exclamation marks.
 std::string trim_trailing_punctuations( std::string_view s );
 // Removes all punctuation except underscore.
