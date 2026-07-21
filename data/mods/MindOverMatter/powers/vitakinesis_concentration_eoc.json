@@ -6,7 +6,7 @@
     "effect": [
       { "u_message": "You feel a warmth throughout your entire body.", "type": "good" },
       { "u_add_effect": "effect_vitakin_slow_bleeding", "duration": "PERMANENT" },
-      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_VITAKIN_SLOW_BLEEDING_SWITCHER" ] },
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
       {
         "run_eocs": "EOC_VITAKIN_SLOW_BLEEDING_DRAIN",
         "time_in_future": [
@@ -16,18 +16,6 @@
       }
     ],
     "false_effect": [ { "run_eocs": "EOC_VITAKIN_REMOVE_SLOW_BLEEDING" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_SLOW_BLEEDING_SWITCHER",
-    "effect": {
-      "switch": { "math": [ "u_spell_level('vita_slow_bleeding')" ] },
-      "cases": [
-        { "case": 0, "effect": { "u_add_effect": "effect_vitakin_slow_bleeding_01", "duration": "PERMANENT" } },
-        { "case": 8, "effect": { "u_add_effect": "effect_vitakin_slow_bleeding_02", "duration": "PERMANENT" } },
-        { "case": 16, "effect": { "u_add_effect": "effect_vitakin_slow_bleeding_03", "duration": "PERMANENT" } }
-      ]
-    }
   },
   {
     "type": "effect_on_condition",

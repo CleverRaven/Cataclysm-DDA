@@ -226,7 +226,7 @@
           "EOC_return_heal"
         ]
       },
-      { "clear_dimension": "dimension_sky_island_mission" },
+      { "clear_dimension": { "global_val": "sky_island_target_region_settings" } },
       {
         "if": { "math": [ "skyisland_merchant_stall == 1" ] },
         "then": { "run_eocs": "EOC_SKY_ISLAND_RANDOM_MERCHANTS" }
