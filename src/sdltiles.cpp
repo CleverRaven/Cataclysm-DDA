@@ -1018,11 +1018,11 @@ SDL_Point window_to_display_buffer_coords( SDL_Point window_pt )
         float rx = 0.0f;
         float ry = 0.0f;
         if( SDL_RenderCoordinatesFromWindow( renderer.get(),
-                static_cast<float>( window_pt.x ), static_cast<float>( window_pt.y ), &rx, &ry ) ) {
+                                             static_cast<float>( window_pt.x ), static_cast<float>( window_pt.y ), &rx, &ry ) ) {
             return SDL_Point{ static_cast<int>( rx ), static_cast<int>( ry ) };
         }
     }
-#endif    
+#endif
     int win_w = 0;
     int win_h = 0;
     GetWindowSize( window.get(), &win_w, &win_h );
