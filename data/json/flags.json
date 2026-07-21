@@ -2792,16 +2792,6 @@
     "info": "This clothing is able to <info>accommodate even mutated anatomy</info>."
   },
   {
-    "id": "BLEEDSLOW",
-    "type": "json_flag",
-    "info": "The character bleeds slower than normal, losing blood at 2/3rds the normal rate."
-  },
-  {
-    "id": "BLEEDSLOW2",
-    "type": "json_flag",
-    "info": "The character bleeds even slower than normal, losing blood at 1/3rd the normal rate."
-  },
-  {
     "id": "PSEUDOPOD_GRASP",
     "type": "json_flag",
     "//": "Removes some penalties for melee attacks made while prone or crouching."

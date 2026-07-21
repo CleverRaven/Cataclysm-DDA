@@ -31,6 +31,7 @@
 #include "input.h"
 #include "item.h"
 #include "item_location.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -120,8 +121,6 @@ static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
-static const json_character_flag json_flag_BLEEDSLOW( "BLEEDSLOW" );
-static const json_character_flag json_flag_BLEEDSLOW2( "BLEEDSLOW2" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
@@ -352,16 +351,10 @@ static void eff_fun_bleed( Character &u, effect &it )
 
     if( ( !tourniquet || one_in( prof_bonus ) ) && u.activity.id() != ACT_FIRSTAID ) {
         // Prolonged hemorrhage is a significant risk for developing anemia
-        if( u.has_flag( json_flag_BLEEDSLOW2 ) ) {
-            u.vitamin_mod( vitamin_redcells, -( intense / 3 ) );
-            u.vitamin_mod( vitamin_blood, -( intense / 3 ) );
-        } else if( u.has_flag( json_flag_BLEEDSLOW ) ) {
-            u.vitamin_mod( vitamin_redcells, -( intense / 1.5 ) );
-            u.vitamin_mod( vitamin_blood, -( intense / 1.5 ) );
-        } else {
-            u.vitamin_mod( vitamin_redcells, -intense );
-            u.vitamin_mod( vitamin_blood, -intense );
-        }
+        // The BLEEDING_RATE enchant only reduces the amount of actual blood you lose, not the pain or severity of the wound
+        int bleeding_mod = u.calculate_by_enchantment( intense, enchant_vals::mod::BLEEDING_RATE );
+        u.vitamin_mod( vitamin_redcells, -bleeding_mod );
+        u.vitamin_mod( vitamin_blood, -bleeding_mod );
         if( one_in( 400 / intense ) ) {
             u.mod_pain( 1 );
         }
