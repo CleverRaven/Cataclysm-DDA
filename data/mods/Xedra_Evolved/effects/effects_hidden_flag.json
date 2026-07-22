@@ -70,5 +70,14 @@
     "desc": [ "" ],
     "rating": "good",
     "flags": [ "BLOCK_HUGE_ATTACKS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_hidden_hunger",
+    "//": "Hidden effect, used to hide hunger",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "flags": [ "HUNGER_DISRUPTION" ]
   }
 ]
