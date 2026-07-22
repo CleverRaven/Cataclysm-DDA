@@ -1808,8 +1808,21 @@ bool veh_interact::can_remove_part( map &here, int idx, const Character &you )
         nmsg += string_format(
                     _( "<color_white>Removing the %1$s will yield:</color>\n> %2$s\n" ),
                     sel_vehicle_part->name(), result_of_removal.display_name() );
+
+        std::map<item, int> unique_salvageable_items;
         for( const item &it : sel_vehicle_part->get_salvageable() ) {
-            nmsg += "> " + it.display_name() + "\n";
+            unique_salvageable_items[ it ] += 1;
+        }
+
+        std::map<item, int>::iterator it;
+        for( it = unique_salvageable_items.begin(); it != unique_salvageable_items.end(); it++ ) {
+            nmsg += "> ";
+
+            if( it->second > 1 ) {
+                nmsg += std::to_string( it->second ) + " ";
+            }
+
+            nmsg += it->first.display_name( it->second ) + "\n";
         }
     }
 
