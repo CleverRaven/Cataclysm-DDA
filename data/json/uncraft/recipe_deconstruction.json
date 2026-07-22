@@ -8059,5 +8059,13 @@
     "time": "4 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "meat_tainted", 6 ] ], [ [ "bone_tainted", 3 ] ], [ [ "sinew", 2 ] ] ]
-  }
+  },
+  {
+    "result": "family_cookbook",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "5 s",
+    "components": [ [ [ "book_binder", 1 ] ], [ [ "paper", 400 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
 ]
