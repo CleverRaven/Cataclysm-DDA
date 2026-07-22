@@ -90,6 +90,7 @@ class mortar_type
         void load( const JsonObject &jo, std::string_view src );
 
         const furn_str_id &furniture() const;
+        bool is_deployed_at( const tripoint_abs_ms &pos ) const;
         const ammotype &ammo() const;
         int range() const;
         time_duration player_flight_time( int distance ) const;

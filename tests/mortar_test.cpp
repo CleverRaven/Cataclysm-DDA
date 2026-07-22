@@ -89,6 +89,22 @@ TEST_CASE( "mortar_minimum_range_and_deflection_error", "[mortar]" )
     CHECK( error.deflection == Approx( 6.98 ) );
 }
 
+TEST_CASE( "mortar_deployment_matches_furniture", "[mortar]" )
+{
+    clear_map();
+    map &here = get_map();
+    const mortar_type &mortar = mortar_m224.obj();
+    const tripoint_bub_ms pos( 60, 60, 0 );
+    const tripoint_abs_ms abs_pos = here.get_abs( pos );
+
+    here.furn_set( pos, furn_str_id::NULL_ID() );
+    CHECK_FALSE( mortar.is_deployed_at( abs_pos ) );
+    here.furn_set( pos, mortar.furniture() );
+    CHECK( mortar.is_deployed_at( abs_pos ) );
+    here.furn_set( pos, furn_str_id::NULL_ID() );
+    CHECK_FALSE( mortar.is_deployed_at( abs_pos ) );
+}
+
 TEST_CASE( "mortar_ballistic_multiplier_caps", "[mortar]" )
 {
     CHECK( mortar_type::effective_ballistic_multiplier( 9.0 ) == Approx( 9.0 ) );

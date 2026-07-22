@@ -6351,22 +6351,26 @@ std::optional<assigned_mortar> get_assigned_mortar( const npc &gunner )
     if( assignment.is_empty() ) {
         return std::nullopt;
     }
-    const std::string &mortar_type = assignment.str();
-    if( mortar_type.empty() ) {
+    if( !assignment.is_str() ) {
         return std::nullopt;
     }
-    const mortar_type_id mortar_id( mortar_type );
+    const std::string &mortar_type_name = assignment.str();
+    if( mortar_type_name.empty() ) {
+        return std::nullopt;
+    }
+    const mortar_type_id mortar_id( mortar_type_name );
     const diag_value assignment_pos = gunner.get_value( "mortar_assignment_pos" );
-    if( !mortar_id.is_valid() || assignment_pos.is_empty() ) {
+    if( !mortar_id.is_valid() || !assignment_pos.is_tripoint() ) {
         return std::nullopt;
     }
     const tripoint_abs_ms pos = assignment_pos.tripoint();
-    if( !assignment_pos.is_tripoint() ) {
+    const mortar_type &mortar = mortar_id.obj();
+    if( !mortar.is_deployed_at( pos ) ) {
         return std::nullopt;
     }
     return assigned_mortar{
         pos,
-        &mortar_id.obj()
+        &mortar
     };
 }
 
