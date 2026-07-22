@@ -2726,5 +2726,19 @@
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest_european_comics",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "R" ],
+      "furniture": { "R": "f_bookcase" },
+      "items": {
+        "R": [ { "item": "SUS_domestic_bookshelf", "chance": 100, "repeat": [ 1, 2 ] }, { "item": "european_comics_collection" } ]
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
   }
 ]

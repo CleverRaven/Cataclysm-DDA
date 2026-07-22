@@ -476,6 +476,7 @@
       { "item": "manual_archery", "prob": 7 },
       { "item": "bronze_mag", "prob": 6 },
       { "item": "recipe_fauxfur", "prob": 6 },
+      { "item": "european_comic", "prob": 5 },
       { "item": "dieselpunk_tailor", "prob": 5 },
       { "item": "book_judaica_hardcover", "prob": 5 },
       { "item": "book_judaica_softcover", "prob": 5 },
@@ -1224,5 +1225,19 @@
     "//2": "TO DO: crime bulletins, wanted criminals/suspects/fugitives, community notifications, etc.",
     "subtype": "collection",
     "entries": [ { "group": "missing_poster_human", "prob": 100 } ]
+  },
+  {
+    "id": "european_comics_collection",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "european_comic", "count": [ 1, 16 ], "variant": "generic", "prob": 2 },
+      { "item": "european_comic", "count": [ 1, 24 ], "variant": "tintin", "prob": 5 },
+      { "item": "european_comic", "count": [ 1, 24 ], "variant": "asterix", "prob": 4 },
+      { "item": "european_comic", "count": [ 1, 48 ], "variant": "lucky_luke", "prob": 3 },
+      { "item": "european_comic", "count": [ 1, 16 ], "variant": "smurfs", "prob": 3 },
+      { "item": "european_comic", "count": [ 1, 16 ], "variant": "dungeon", "prob": 1 },
+      { "item": "european_comic", "count": [ 1, 8 ], "variant": "metabarons", "prob": 1 }
+    ]
   }
 ]
