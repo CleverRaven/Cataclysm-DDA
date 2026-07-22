@@ -384,6 +384,7 @@ assistive
 asswagon
 asswipe
 Asterios
+asterix
 astrodon
 astrodons
 astrolaspis
@@ -3135,6 +3136,7 @@ ichthys
 ick
 iconical
 ICs
+idefix
 idolators
 IDW
 IDWs
@@ -3936,6 +3938,7 @@ Lorence
 Lorentz
 Los
 Losouarn
+lothar
 Lottie
 Lou
 Louan
@@ -4944,6 +4947,7 @@ Oakley
 Oan
 Oanez
 Oates
+obelix
 Obrez
 obscura
 Oceania
@@ -5682,6 +5686,7 @@ renfields
 Reno
 repairwork
 replow
+Repo
 Repolymerization
 Represa
 reprime
@@ -6343,6 +6348,8 @@ smokable
 smoothbores
 smoots
 SMR
+smurf
+smurfs
 Smythe
 snakelet
 snakelets
@@ -6953,6 +6960,7 @@ Timorese
 Tinamidae
 Tindalos
 tink
+tintin
 Tipperary
 tiramisù
 tireplate

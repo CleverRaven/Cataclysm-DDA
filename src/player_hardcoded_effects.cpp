@@ -123,6 +123,7 @@ static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+static const json_character_flag json_flag_PAUSE_INFECTIONS( "PAUSE_INFECTIONS" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
@@ -1557,8 +1558,13 @@ void Character::hardcoded_effects( effect &it )
             }
         }
         if( !recovered ) {
-            // Death happens
-            if( dur > 1_days ) {
+            // PAUSE_INFECTIONS means you cannot die and you have plenty of time when it wears off
+            if( has_flag( json_flag_PAUSE_INFECTIONS ) ) {
+                if( dur > 6_hours ) {
+                    it.mod_duration( -1_turns );
+                }
+            } else if( dur > 1_days ) {
+                // Death happens
                 add_msg_if_player( m_bad, _( "You succumb to the infection." ) );
                 get_event_bus().send<event_type::dies_of_infection>( getID() );
                 set_all_parts_hp_cur( 0 );

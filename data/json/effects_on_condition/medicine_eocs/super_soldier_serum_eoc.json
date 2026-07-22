@@ -30,7 +30,6 @@
       "hunger_engorged",
       "hunger_full",
       "hunger_satisfied",
-      "hunger_blank",
       "hunger_hungry",
       "hunger_very_hungry",
       "hunger_near_starving",
@@ -62,7 +61,7 @@
       { "condition": { "u_has_trait": "SLOWHEALER2" }, "values": [ { "value": "REGEN_HP", "multiply": -0.23 } ] },
       { "condition": { "u_has_trait": "SLOWHEALER3" }, "values": [ { "value": "REGEN_HP", "multiply": -0.05 } ] }
     ],
-    "flags": [ "CANNOT_GAIN_WEARINESS" ]
+    "flags": [ "CANNOT_GAIN_WEARINESS", "HUNGER_DISRUPTION" ]
   },
   {
     "type": "effect_type",

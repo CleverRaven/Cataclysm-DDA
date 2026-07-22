@@ -1601,5 +1601,62 @@
     "intelligence": 4,
     "time": "10 m",
     "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "european_comic",
+    "copy-from": "mag_comic",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "european comic" },
+    "description": "A comic book in the franco-belgian format, large, fully colored with a hard cover.",
+    "weight": "330 g",
+    "volume": "280 ml",
+    "longest_side": "32 cm",
+    "time": "30 m",
+    "variants": [
+      { "id": "generic", "weight": 2 },
+      {
+        "id": "tintin",
+        "name": { "str": "the adventures of tintin", "str_pl": "the adventures of tintin comics" },
+        "description": "This album is part of the Adventures of Tintin series, which is about a young reporter called Tintin, his dog Snowy and his friends, particularly Captain Haddock, as they travel across the world solving mysteries, uncovering conspiracies, and foiling criminals.",
+        "append": true,
+        "weight": 5
+      },
+      {
+        "id": "asterix",
+        "name": { "str": "asterix", "str_pl": "asterix comics" },
+        "description": "This album is part of the Asterix series, which is about the eponymous gaulish warrior, his friend Obelix and his dog Idefix, holding out against the roman invaders thanks to a magic potion giving them supernatural strength.",
+        "append": true,
+        "weight": 4
+      },
+      {
+        "id": "lucky_luke",
+        "name": { "str": "lucky luke", "str_pl": "lucky luke comics" },
+        "description": "This album is part of the Lucky Luke series, which is about a cowboy named Lucky Luke, \"the man who shoots faster than his shadow,\" and his horse Jolly Jumper bringing justice across the far west.",
+        "append": true,
+        "weight": 3
+      },
+      {
+        "id": "smurfs",
+        "name": { "str": "the smurfs", "str_pl": "the smurfs comics" },
+        "description": "This album is part of the Smurfs series, which is about a community of tiny blue creatures called Smurfs who live in a hidden village deep in the forest led by Papa Smurf",
+        "append": true,
+        "weight": 3
+      },
+      {
+        "id": "dungeon",
+        "name": { "str": "dungeon", "str_pl": "dungeon comics" },
+        "description": "This album is part of the Dungeon series, which is mainly about the adventures of Herbert the duck and Marvin the dragon working for the \"dungeon\", a business establishment where heroes come in search of adventure and treasure and invariably die.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "metabarons",
+        "name": { "str": "the saga of the meta-barons", "str_pl": "the saga of the meta-barons comics" },
+        "description": "This album is part of the saga of the meta-barons series, which is about a dynasty of space warriors called the meta-barons, the narration is made by a duo of quirky robots, Tonto and Lothar, as they chronicle the life of each of them.",
+        "append": true,
+        "weight": 1
+      }
+    ]
   }
 ]
