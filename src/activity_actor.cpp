@@ -97,6 +97,7 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "mortar.h"
 #include "mtype.h"
 #include "npc.h"
 #include "npc_opinion.h"
@@ -13477,31 +13478,32 @@ void man_mortar_activity_actor::do_turn( player_activity &act, Character &who )
         return;
     }
     npc &gunner = dynamic_cast<npc &>( who );
-    if( gunner.get_value( "mortar_assignment" ).is_empty() ) {
-        act.set_to_null();
+    const auto stop_manning = [&gunner]() {
         gunner.revert_after_activity();
+    };
+    const diag_value assignment = gunner.get_value( "mortar_assignment" );
+    if( !assignment.is_str() || !mortar_type.is_valid() ||
+        assignment.str() != mortar_type.str() ) {
+        stop_manning();
         return;
     }
     map &here = get_map();
     const diag_value assignment_pos = gunner.get_value( "mortar_assignment_pos" );
-    if( assignment_pos.is_empty() ) {
-        act.set_to_null();
-        gunner.revert_after_activity();
+    if( !assignment_pos.is_tripoint() ) {
+        stop_manning();
         return;
     }
     const tripoint_abs_ms assigned_mortar_pos = assignment_pos.tripoint();
-    if( !assignment_pos.is_tripoint() ) {
-        act.set_to_null();
-        gunner.revert_after_activity();
+    if( assigned_mortar_pos != mortar_pos || !here.inbounds( assigned_mortar_pos ) ||
+        !mortar_type.obj().is_deployed_at( assigned_mortar_pos ) ) {
+        stop_manning();
         return;
     }
-    mortar_pos = assigned_mortar_pos;
     const tripoint_bub_ms mortar_bub = here.get_bub( assigned_mortar_pos );
     if( rl_dist( gunner.pos_bub( here ), mortar_bub ) > 1 ) {
         const std::vector<tripoint_bub_ms> route = route_adjacent( who, mortar_bub );
         if( route.empty() ) {
-            act.set_to_null();
-            gunner.revert_after_activity();
+            stop_manning();
             return;
         }
         who.activity = player_activity();

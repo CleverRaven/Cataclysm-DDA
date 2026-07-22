@@ -645,6 +645,19 @@ const furn_str_id &mortar_type::furniture() const
     return furniture_;
 }
 
+bool mortar_type::is_deployed_at( const tripoint_abs_ms &pos ) const
+{
+    map &here = get_map();
+    if( here.inbounds( pos ) ) {
+        return here.furn( here.get_bub( pos ) ).id() == furniture_;
+    }
+
+    map remote_map;
+    remote_map.load( project_to<coords::sm>( pos ), false );
+    return remote_map.inbounds( pos ) &&
+           remote_map.furn( remote_map.get_bub( pos ) ).id() == furniture_;
+}
+
 const ammotype &mortar_type::ammo() const
 {
     return ammo_;
