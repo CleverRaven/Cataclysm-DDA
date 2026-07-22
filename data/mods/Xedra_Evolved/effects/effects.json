@@ -677,7 +677,8 @@
     "id": "effect_dhampir_the_blood_is_the_life",
     "//": "Hidden--prevents gaining blood when using The Blood is the Life",
     "name": [ "" ],
-    "desc": [ "" ]
+    "desc": [ "" ],
+    "flags": [ "HUNGER_DISRUPTION" ]
   },
   {
     "type": "effect_type",

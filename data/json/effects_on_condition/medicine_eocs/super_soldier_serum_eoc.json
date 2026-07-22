@@ -51,8 +51,7 @@
           { "value": "PAIN_PENALTY_MOD_SPEED", "multiply": -0.6 },
           { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -0.5 },
           { "value": "LEARNING_FOCUS", "add": { "math": [ "clamp( ( ( (u_val('focus') - 15) * -1) ), -200, 0)" ] } }
-        ],
-        "flags": [ "HUNGER_DISRUPTION" ]
+        ]
       },
       {
         "condition": { "not": { "u_has_any_trait": [ "SLOWHEALER", "SLOWHEALER2", "SLOWHEALER3" ] } },
@@ -62,7 +61,7 @@
       { "condition": { "u_has_trait": "SLOWHEALER2" }, "values": [ { "value": "REGEN_HP", "multiply": -0.23 } ] },
       { "condition": { "u_has_trait": "SLOWHEALER3" }, "values": [ { "value": "REGEN_HP", "multiply": -0.05 } ] }
     ],
-    "flags": [ "CANNOT_GAIN_WEARINESS" ]
+    "flags": [ "CANNOT_GAIN_WEARINESS", "HUNGER_DISRUPTION" ]
   },
   {
     "type": "effect_type",
