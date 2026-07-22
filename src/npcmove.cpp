@@ -1909,7 +1909,6 @@ void npc::move()
                     action = address_needs();
                 }
             } else if( is_executor_goal( new_goal ) ) {
-                add_msg_debug( debugmode::DF_NPC_NEEDS, "executor function triggered=%s", new_goal );
                 const need_result result = execute_need_goal( new_goal );
                 if( result == need_result::progressed && activity ) {
                     // Undo attitude/mission change from assign_activity.
