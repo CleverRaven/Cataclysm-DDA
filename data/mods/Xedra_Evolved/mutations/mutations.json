@@ -387,7 +387,7 @@
         "ench_effects": [ { "effect": "effect_dhampir_the_blood_is_the_life", "intensity": 1 } ]
       }
     ],
-    active_flags": [ "HUNGER_DISRUPTION" ],  
+    "active_flags": [ "HUNGER_DISRUPTION" ]
   },
   {
     "type": "mutation",

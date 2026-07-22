@@ -52,7 +52,7 @@
           { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -0.5 },
           { "value": "LEARNING_FOCUS", "add": { "math": [ "clamp( ( ( (u_val('focus') - 15) * -1) ), -200, 0)" ] } }
         ],
-        flags: [ "HUNGER_DISRUPTION" ]
+        "flags": [ "HUNGER_DISRUPTION" ]
       },
       {
         "condition": { "not": { "u_has_any_trait": [ "SLOWHEALER", "SLOWHEALER2", "SLOWHEALER3" ] } },
