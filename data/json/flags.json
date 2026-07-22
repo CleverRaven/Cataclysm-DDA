@@ -2776,6 +2776,11 @@
     "info": "If you're invisible, now you're not"
   },
   {
+    "id": "PAUSE_INFECTIONS",
+    "type": "json_flag",
+    "info": "If you're invisible, now you're not"
+  },
+  {
     "id": "ANIMALEMPATH2",
     "type": "json_flag",
     "info": "The character is intensely liked by natural animals."
