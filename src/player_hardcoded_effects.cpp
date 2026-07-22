@@ -1561,7 +1561,7 @@ void Character::hardcoded_effects( effect &it )
             // PAUSE_INFECTIONS means you cannot die and you have plenty of time when it wears off
             if( has_flag( json_flag_PAUSE_INFECTIONS ) ) {
                 if( dur > 6_hours ) {
-                     it.mod_duration( -1_turns );
+                    it.mod_duration( -1_turns );
                 }
             } else if( dur > 1_days ) {
                 // Death happens
