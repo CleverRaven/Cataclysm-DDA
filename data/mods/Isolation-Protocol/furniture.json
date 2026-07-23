@@ -84,6 +84,6 @@
     "coverage": 50,
     "roof": "t_flat_roof",
     "connect_groups": "INDOORFLOOR",
-    "flags": [ "NOITEM", "INDOORS" ],
+    "flags": [ "NOITEM", "INDOORS" ]
   },
 ]

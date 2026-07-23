@@ -19,7 +19,7 @@
       { "item": "px4mag_20rd", "prob": 60 },
       { "item": "usp9mag", "prob": 500 },
       { "item": "usp9mag_18rd", "prob": 50 },
-      { "item": "p226mag_15rd_9x19mm", "prob": 500 }
+      { "item": "p226mag_15rd_9x19mm", "prob": 500 },
       { "item": "p320mag_17rd_9x19mm", "prob": 500 },
       { "item": "p320mag_21rd_9x19mm", "prob": 100 },
       { "item": "bhp9mag_13rd", "prob": 500 },
