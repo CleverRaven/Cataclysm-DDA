@@ -4,11 +4,15 @@
 #include "cuboid_rectangle.h"
 #include "point.h"
 #include "type_id.h"
+#include "units.h"
+#include "weighted_list.h"
 
 #include <memory>
 #include <string>
 #include <string_view>
 #include <unordered_map>
+#include <unordered_set>
+#include <vector>
 
 class JsonObject;
 template <typename T> struct enum_traits;
@@ -19,7 +23,7 @@ enum class regions_generation_mode : int {
     UNIFORM = 0, // DYNAMIC; single-region
     MANUAL_VORONOI = 1, // STATIC; plot region points with JSON, where a voronoi diagram is generated from the points
     RANDOM = 2, // DYNAMIC; each overmap generated picks a random region from the provided set of regions
-    EIGHTHS = 3, // DYNAMIC; divides world map into 8 cardinal/ordinal areas, each of which has a region
+    ANGLES = 3, // DYNAMIC; divides world map into equal pie-chart-like sectors
     last = 4
 };
 
@@ -36,6 +40,25 @@ struct region_voronoi_point {
     void deserialize( const JsonObject &jo );
 };
 
+// a set of points accompanied by a set of regions
+// different generation modes have different usages; not all use `region_points`
+struct region_point_set {
+    // to-generate region points read from JSON
+    std::unordered_set<tripoint_abs_om> region_points;
+    // providing weights is optional
+    weighted_int_list<region_settings_id> regions_weighted;
+    // if true, removes a region from the weighted list when selected
+    // if `regions` is empty, defaults to `default_region`
+    bool remove_region = false;
+    // fallback for region placement
+    region_settings_id default_region;
+    // maximum distance from specified point
+    int region_point_variance = 0;
+
+    // resolves the point set, mapping regions to points
+    std::vector<region_voronoi_point> resolve() const;
+    void deserialize( const JsonObject &jo );
+};
 
 // defines properties of an in-game dimension
 // its name is solely to distinguish from a generic `dimension`
@@ -118,6 +141,35 @@ class dimension_region_layout_generator_uniform : public dimension_region_layout
         void deserialize( const JsonObject &jo ) override;
 };
 
+class dimension_region_layout_generator_manual : public dimension_region_layout_static
+{
+        std::vector<region_point_set> region_point_sets;
+    public:
+        void generate_entire_layout( Region_map &placed_regions,
+                                     const tripoint_abs_om &current_om ) override;
+        void deserialize( const JsonObject &jo ) override;
+};
+
+class dimension_region_layout_generator_random : public dimension_region_layout_dynamic
+{
+        weighted_int_list<region_settings_id> random_regions;
+    public:
+        void generate_dynamic( Region_map &placed_regions, const tripoint_abs_om &current_om ) override;
+        void deserialize( const JsonObject &jo ) override;
+};
+
+class dimension_region_layout_generator_angles : public dimension_region_layout_dynamic
+{
+        // these should be loaded in order
+        std::vector<region_settings_id> angles_regions;
+        units::angle angles_offset = 0_degrees;
+    public:
+        void generate_dynamic( Region_map &placed_regions, const tripoint_abs_om &current_om ) override;
+        void deserialize( const JsonObject &jo ) override;
+        int get_sector_count() const {
+            return static_cast<int>( angles_regions.size() );
+        }
+};
 
 /*
 * reads JSON data used to generate a dimension's region map
