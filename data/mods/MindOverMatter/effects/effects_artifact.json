@@ -128,6 +128,61 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_mom_artifact_mind_sight_container",
+    "//": "This exists so you only actually get the artifact mind sight when wielding the artifact",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_TELEPATHY" },
+        "ench_effects": [ { "effect": "effect_mom_artifact_mind_sight", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_mind_sight",
+    "name": [ "Mind Sight" ],
+    "desc": [ "You can sense nearby minds." ],
+    "apply_message": "",
+    "rating": "good",
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_TELEPATHY" },
+        "special_vision": [
+          {
+            "condition": { "test_eoc": "EOC_CONDITION_HAS_MIND" },
+            "distance": 15,
+            "descriptions": [ { "id": "sense_minds", "symbol": "?", "color": "c_white", "text": "You sense something sapient here." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_telepathic_shield_container",
+    "//": "This exists so you only actually get the artifact telepathic shield when wielding the artifact",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_TELEPATHY" },
+        "ench_effects": [ { "effect": "effect_mom_artifact_telepathic_shield", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_telepathic_shield",
+    "name": [ "Telepathic Shield Sight" ],
+    "desc": [ "You mind is a guarded fortress." ],
+    "apply_message": "",
+    "rating": "good",
+    "flags": [ "TEEPSHIELD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_mom_artifact_slow",
     "name": [ "Stutterstepping" ],
     "desc": [ "Your steps aren't taking you as far as your eyes tell you they should." ],
