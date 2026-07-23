@@ -41,7 +41,13 @@
         "dodgeable": false,
         "uncanny_dodgeable": true,
         "blockable": false,
-        "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "NO_PSIONICS" } },
+            { "not": { "npc_has_flag": "TELEKIN_SHIELD" } },
+            { "not": { "npc_has_flag": "TELEKIN_PUSH_PULL_IMMUNE" } }
+          ]
+        },
         "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
         "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
         "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
