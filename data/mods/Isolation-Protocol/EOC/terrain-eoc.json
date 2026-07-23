@@ -16,7 +16,7 @@
     "responses": [
       { "text": ">Help", "topic": "ISO_CRAFTER_HELP" },
 	  { "text": ">Upload", "topic": "ISO_CRAFTER_UPLOAD" },
-	  { "text": ">Quit", "topic": "TALK_DONE" },
+	  { "text": ">Quit", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -25,7 +25,7 @@
     "dynamic_line": "The Advanced Recycling and Manufacturing Oroboros is a universal printer, fed by discs of condensed material. The Armorer model is the first and presently only model of this experimental technology, tailored for the uses of DARPA and affiliated organizations.\n\nUnneeded equipment can be fed into the slot labeled INPUT, and material of similar use are bonded at the molecular level and condensed into discs to be provided through the OUTPUT. Material Discs can be used to manufacture equipment in the same process.",
     "responses": [
       { "text": ">Return", "topic": "ISO_CRAFTER_INTRO" },
-	  { "text": ">Quit", "topic": "TALK_DONE" },
+	  { "text": ">Quit", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -34,7 +34,7 @@
     "dynamic_line": "",
     "responses": [
       { "text": ">Return", "topic": "ISO_CRAFTER_INTRO" },
-	  { "text": ">Quit", "topic": "TALK_DONE" },
+	  { "text": ">Quit", "topic": "TALK_DONE" }
     ]
   }
 ]

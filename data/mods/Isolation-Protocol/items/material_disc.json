@@ -18,7 +18,7 @@
     "color": "yellow",
     "weight": "100g",
     "name": { "str": "material disc - munition" },
-    "description": { "str": "A palm-sized, dense block of brass, copper, smokeless powder, RDX, or similar materials.\n\nThis could be used to manufacture <color_green>ammunition</color> at the Oroboros." },
+    "description": { "str": "A palm-sized, dense block of brass, copper, smokeless powder, RDX, or similar materials.\n\nThis could be used to manufacture <color_green>ammunition</color> at the Oroboros." }
   },
   {
     "type": "ITEM",
@@ -28,7 +28,7 @@
     "color": "yellow",
     "weight": "20g",
     "name": { "str": "material disc - munition (small)" },
-    "description": { "str": "A small, dense block of brass, copper, smokeless powder, RDX, or similar materials.\n\nThis could be used to manufacture <color_green>ammunition</color> at the Oroboros." },
+    "description": { "str": "A small, dense block of brass, copper, smokeless powder, RDX, or similar materials.\n\nThis could be used to manufacture <color_green>ammunition</color> at the Oroboros." }
   },
   {
     "type": "ITEM",
@@ -37,7 +37,7 @@
     "color": "light_gray",
     "weight": "200g",
     "name": { "str": "material disc - basic" },
-    "description": { "str": "A palm-sized, dense block of steel, aluminum, various alloys, or similar materials.\n\nThis could be used to manufacture <color_green>weapons and tools</color> at the Oroboros." },
+    "description": { "str": "A palm-sized, dense block of steel, aluminum, various alloys, or similar materials.\n\nThis could be used to manufacture <color_green>weapons and tools</color> at the Oroboros." }
   },
   {
     "type": "ITEM",
@@ -46,6 +46,6 @@
     "color": "dark_gray",
     "weight": "500g",
     "name": { "str": "material disc - quality" },
-    "description": { "str": "A palm-sized, very dense block of titanium, high-grade steel, or similar advanced materials.\n\nThis could be used to manufacture <color_green>potent weapons and specialized equipment</color> at the Oroboros." },
+    "description": { "str": "A palm-sized, very dense block of titanium, high-grade steel, or similar advanced materials.\n\nThis could be used to manufacture <color_green>potent weapons and specialized equipment</color> at the Oroboros." }
   }
 ]
