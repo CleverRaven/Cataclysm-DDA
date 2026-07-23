@@ -32,11 +32,11 @@
 #include "line.h"
 #include "localized_comparator.h"
 #include "map.h"
-#include "math_parser_diag_value.h"
 #include "mission_companion.h"
 #include "mod_manager.h"
 #include "mtype.h"
 #include "npc.h"
+#include "npctalk.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -78,10 +78,7 @@ static bool has_radio( const Character &guy )
 static bool is_assigned_mortar_gunner( const Character &guy )
 {
     const npc *guy_npc = guy.as_npc();
-    if( guy_npc == nullptr ) {
-        return false;
-    }
-    return !guy_npc->get_value( "mortar_assignment" ).is_empty();
+    return guy_npc != nullptr && talk_effect_fun::is_manning_mortar( *guy_npc );
 }
 
 // is physically close enough to contact the beta without much hassle
