@@ -10248,6 +10248,11 @@ static void toggle_mortar_adjustment( npc &gunner )
 namespace talk_effect_fun
 {
 
+bool is_manning_mortar( const npc &gunner )
+{
+    return gunner.activity.id() == ACT_MAN_MORTAR && get_assigned_mortar( gunner ).has_value();
+}
+
 int release_mortar_ammo( npc &gunner, const bool drop )
 {
     return release_mortar_ammo_impl( gunner, drop );
