@@ -1694,7 +1694,7 @@ std::optional<int> iuse::radio_mod( Character *p, item *, const tripoint_bub_ms 
     return 1;
 }
 
-std::optional<int> iuse::radio_call( Character *p, item *, const tripoint_bub_ms & )
+std::optional<int> iuse::radio_call( Character *p, item *it, const tripoint_bub_ms & )
 {
     if( !p->is_avatar() ) {
         return std::nullopt;
@@ -1702,8 +1702,7 @@ std::optional<int> iuse::radio_call( Character *p, item *, const tripoint_bub_ms
 
     faction_ui ui;
     ui.set_selected_tab( tab_mode::TAB_FOLLOWERS );
-    ui.execute();
-    return 1;
+    return ui.execute() ? it->ammo_required() : 0;
 }
 
 std::optional<int> iuse::remove_all_mods( Character *p, item *, const tripoint_bub_ms & )
