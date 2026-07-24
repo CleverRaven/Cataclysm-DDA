@@ -6,6 +6,7 @@
     "global": true,
     "run_for_npcs": false,
     "condition": { "math": [ "XE_RandEnc == 0" ] },
+    "//": "Disabled until rework of creature_remove to avoid leaving corpses behind",
     "effect": [
       {
         "set_condition": "random_enc_condition",
