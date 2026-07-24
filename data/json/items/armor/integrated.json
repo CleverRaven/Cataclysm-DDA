@@ -1030,15 +1030,17 @@
     "symbol": ";",
     "color": "dark_gray",
     "warmth": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE" ],
+    "techniques": [ "FANGS_SPIDER_BITE", "FANGS_BITE_NATURAL", "FANGS_BITE_CRIT" ],
+    "flags": [ "INTEGRATED", "PROVIDES_TECHNIQUES", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "mouth" ],
         "coverage": 40,
-        "encumbrance": 3
+        "encumbrance": 0
       }
-    ]
+    ],
+    "melee_damage": { "stab": 12 }
   },
   {
     "id": "integrated_fangs_spider",
@@ -1055,15 +1057,17 @@
     "symbol": ";",
     "color": "brown",
     "warmth": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED" ],
+    "techniques": [ "FANGS_SPIDER_BITE", "FANGS_BITE_NATURAL", "FANGS_BITE_CRIT" ],
+    "flags": [ "INTEGRATED", "PROVIDES_TECHNIQUES", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "mouth" ],
         "coverage": 40,
-        "encumbrance": 5
+        "encumbrance": 0
       }
-    ]
+    ],
+    "melee_damage": { "stab": 15 }
   },
   {
     "id": "integrated_chitin",
