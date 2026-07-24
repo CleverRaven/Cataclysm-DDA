@@ -28,7 +28,7 @@
       { "group": "mil_surplus", "prob": 15 },
       { "group": "default_zombie_items_bags", "prob": 15 },
       { "group": "default_zombie_items_pockets", "prob": 15 },
-      { "item": "cash_card", "charges": [ 25000, 100000 ] },
+      { "item": "credit_card" },
       {
         "distribution": [ { "group": "full_survival_kit", "damage": [ 1, 4 ] }, { "group": "used_survival_kit", "damage": [ 1, 4 ] } ],
         "prob": 5
@@ -180,7 +180,7 @@
           { "group": "mil_surplus", "prob": 6 }
         ]
       },
-      { "item": "cash_card", "charges": [ 50000, 150000 ] }
+      { "item": "credit_card" }
     ]
   },
   {
