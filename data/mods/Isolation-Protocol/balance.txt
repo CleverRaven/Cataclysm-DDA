@@ -6,13 +6,5 @@ In the future, I would like to see little challenge areas, loot locations, or mo
 -M9 (feral security guard, zombie security guard drop)
 
 Random drops from zombies
-(Drops from "guns_pistol_common_everyday_carry" inside "default_zombie_death_drops")
--Glock 17, Glock 19, Glock 26, Glock 34, Glock 43, Glock 43x, Glock 48, P365, M9, Px4 Storm, Hi Power 9mm, Walther PPQ 9, Hi Power C-9, CZ75, Walther CCP, M18, M11, M17, P226, SP2022, USP 9, Walther P38, SIG Mosquito, SR22, Walther P22, Ruger LCR 22, Ruger mk 4, 1911-22, Glock 44, SW 617, Glock 21, Glock 30, Glock 36, M1911, Hi Point JHP, USP 45, Walther PPQ 45, Ruger LCP, Hi Point 380, SW Bodyguard, Glock 42, Glock 22, Glock 23, Glock 27, Px4 .40, Hi Power .40, Hi Point JCP, SW619, RP67, Colt Python, Chiappa Rhino, Ruger LCR .38, SW 642, SW Model 10, SW 629, Colt Anaconda 6, Colt Anaconda 4, Glock 40, M1911-10, P220, XDM, EAA Witness, Glock 20, Glock 29, Ruger 57, Walther PPK, Taurus Judge, Colt Single Action Army, M1911-38 super
-
-(Drops from "bugout_bag" inside "default_zombie_death_drops")
--Marlin 9a, Ruger 10/22, Rossi Gallery, AR-15 .22, Rossi Rio Bravo, Henry Golden Boy, Marlin 60, Savage Rascal, MP-15 .22, AR-15 .223, Ruger Mini, CZ Bren 2, Kel-Tec RDB .223, MDRX .223 Civilian, SL8 semi, SIG SG556, FN Scar-16s, IWI Tavor X95, MP-15 .223, AR-10, FN Scar-17s, M1A, Kel-Tec RFB, FN FAL, HK G3, AK308, Steyr Scout, Remington 700 .308, HK USC .45, SKS, AK semi, MK47, AR-15 7.62, Ruger PCC, Kel-Tec Sub 2000, Browning BLR, Remington 700 30-06, Ruger M77, Garand, M1903, Uberti 1873, Rossi R92 .357, Henry Big Boy, Rossi R92 .44, Winchester 30-30, Marlin 336 30-30, Mosin M44, Mosin 1891/30, Century Arms PSL, Remington 700 .270, Weatherby mk5, Ruger Precision Rifle, Winchester Model 70, Hi Point 3895, AR-15 .300blk, 1874 Sharps, Marlin 1895, M1 Carbine, Lee Enfield mk4, Lee Enfield mk3, Barrett MRAD SMR, Savage 112, AR-15 .450, Ruger ARR, AR-15 .50, FN PS90, AK-74, Arisaka Type 99, Arisaka Type 99 Sniper (bugout_gun and bugout_long_gun, which includes guns_pistol_common, guns_rifle_common, guns_shotgun_common)
-
-##### Ammo Used
-
-(Ammo)
-.22, .223, .308, .45ACP, 7.62, 9mm, 30-06, .357, .44, 30-30, 7.62R, .270 Win, .300 WinMag, .380, .300blk, 45-70, .30 Carbine, .303 British, .338 Lapua, .450 Bushmaster, .50 Beowulf, 5.7mm, 5.45, 7mm Arisaka, .38, .38 Super, .40, 10mm, .460, .45 Colt
+-"guns_pistol_common_everyday_carry" inside "default_zombie_death_drops"
+-"bugout_bag" inside "default_zombie_death_drops"
