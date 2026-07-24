@@ -198,7 +198,7 @@
     "rating": "bad",
     "max_duration": "24 hours",
     "base_mods": { "per_mod": [ -1 ], "speed_mod": [ -5 ] },
-    "flags": [ "HUNGER_DISRUPTION" ],
+    "flags": [ "HUNGER_DISRUPTION", "TRUE_SEEING" ],
     "blood_analysis_description": "Anemia of the soul."
   },
   {
