@@ -26,6 +26,7 @@
 
 static const mortar_type_id mortar_m224( "m224" );
 static const itype_id itype_60mm_shell_m720a1( "60mm_shell_m720a1" );
+static const itype_id itype_rock( "rock" );
 static const oter_str_id oter_field( "field" );
 static const ter_str_id ter_t_wall( "t_wall" );
 
@@ -87,6 +88,13 @@ TEST_CASE( "mortar_minimum_range_and_deflection_error", "[mortar]" )
     error = mortar.minimum_error( 3490 );
     CHECK( error.range == Approx( 52.35 ) );
     CHECK( error.deflection == Approx( 6.98 ) );
+}
+
+TEST_CASE( "mortar_impact_payload_rejects_non_ammunition", "[mortar]" )
+{
+    const item non_ammunition( itype_rock, calendar::turn );
+    CHECK_FALSE( mortar_schedule_impact_payload( non_ammunition, tripoint_abs_ms::zero,
+                 calendar::turn ) );
 }
 
 TEST_CASE( "mortar_deployment_matches_furniture", "[mortar]" )
