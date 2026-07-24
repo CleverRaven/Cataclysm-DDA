@@ -6406,10 +6406,21 @@ std::string mortar_fire_event_key( const npc &gunner )
     return string_format( "mortar_fire_%d", gunner.getID().get_value() );
 }
 
+std::string mortar_queued_fire_event_key( const npc &gunner )
+{
+    return string_format( "mortar_queued_fire_%d", gunner.getID().get_value() );
+}
+
 bool mortar_fire_order_pending( const npc &gunner )
 {
     return get_timed_events().get( timed_event_type::MORTAR_FIRE_MESSAGE,
                                    mortar_fire_event_key( gunner ) ) != nullptr;
+}
+
+bool mortar_queued_fire_order_pending( const npc &gunner )
+{
+    return get_timed_events().get( timed_event_type::MORTAR_QUEUED_FIRE,
+                                   mortar_queued_fire_event_key( gunner ) ) != nullptr;
 }
 
 time_point mortar_adjustment_ready_at( const npc &gunner )
@@ -7027,7 +7038,8 @@ void queue_mortar_fire_order( const npc &gunner, const tripoint_abs_ms &target,
                               const int round_count,
                               const time_point &when )
 {
-    get_timed_events().add_mortar_queued_fire( when, gunner.getID(), target, round_count );
+    get_timed_events().add_mortar_queued_fire( when, gunner.getID(), target, round_count,
+            mortar_queued_fire_event_key( gunner ) );
     add_msg_debug( debugmode::DF_NPC,
                    "Queued mortar fire order for %s: target %d:%d:%d, rounds %d, due in %d turns.",
                    gunner.disp_name(), target.x(), target.y(), target.z(), round_count,
@@ -7055,6 +7067,10 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
     }
     const bool adjustment_pending = mortar_adjustment_ready_at( gunner ) > calendar::turn;
     const bool fire_order_pending = mortar_fire_order_pending( gunner );
+    if( mortar_queued_fire_order_pending( gunner ) && !from_queue ) {
+        add_msg( _( "%s already has a mortar fire mission queued." ), gunner.disp_name() );
+        return;
+    }
     if( fire_order_pending && !adjustment_pending && !from_queue ) {
         add_msg( _( "%s is still preparing the previous mortar fire mission." ), gunner.disp_name() );
         return;

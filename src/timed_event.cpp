@@ -764,10 +764,11 @@ void timed_event_manager::add_mortar_feedback( const time_point &when,
 }
 
 void timed_event_manager::add_mortar_queued_fire( const time_point &when,
-        const character_id gunner_id, const tripoint_abs_ms &target, const int round_count )
+        const character_id gunner_id, const tripoint_abs_ms &target, const int round_count,
+        const std::string &key )
 {
     events.emplace_back( timed_event_type::MORTAR_QUEUED_FIRE, when, -1, target,
-                         std::max( 1, round_count ), "" );
+                         std::max( 1, round_count ), key );
     timed_event &event = events.back();
     event.data = std::make_unique<timed_event_character_data>();
     event.get_data<timed_event_character_data>()->character = gunner_id;
