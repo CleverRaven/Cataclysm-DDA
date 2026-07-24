@@ -607,7 +607,11 @@ bool mortar_schedule_impact_payload( const item &round, const tripoint_abs_ms &i
                                              illumination_duration );
         scheduled = true;
     }
-    for( const ammo_effect_str_id &ammo_eff : round.ammo_data()->ammo->ammo_effects ) {
+    const itype *ammo_data = round.ammo_data();
+    if( ammo_data == nullptr ) {
+        return scheduled;
+    }
+    for( const ammo_effect_str_id &ammo_eff : ammo_data->ammo->ammo_effects ) {
         const ammo_effect &effect = ammo_eff.obj();
         if( effect.aoe_explosion_data.power > 0 ) {
             get_timed_events().add( timed_event_type::EXPLOSION,
