@@ -169,7 +169,8 @@ class timed_event_manager
                                   const tripoint_abs_ms &target, bool correction_reported,
                                   double accuracy_multiplier, double location_multiplier );
         void add_mortar_queued_fire( const time_point &when, character_id gunner_id,
-                                     const tripoint_abs_ms &target, int round_count );
+                                     const tripoint_abs_ms &target, int round_count,
+                                     const std::string &key );
         void add_mortar_field( const time_point &when, const tripoint_abs_ms &where,
                                int intensity, const std::string &field_type,
                                int radius, int age_seconds = 0 );
