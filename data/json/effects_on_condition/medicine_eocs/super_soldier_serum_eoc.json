@@ -12,6 +12,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_APPLY_SUPER_SOLDIER_SERUM_CRASH",
+    "condition": { "not": { "u_has_effect": "super_soldier_serum_crash" } },
     "effect": [ { "u_add_effect": "super_soldier_serum_crash", "duration": [ "2 d", "3 d" ] } ]
   },
   {
@@ -34,7 +35,8 @@
       "hunger_very_hungry",
       "hunger_near_starving",
       "hunger_starving",
-      "hunger_famished"
+      "hunger_famished",
+      "super_soldier_serum_crash"
     ],
     "enchantments": [
       {
@@ -66,8 +68,8 @@
   {
     "type": "effect_type",
     "id": "super_soldier_serum_crash",
-    "name": [ "" ],
-    "desc": [ "" ],
+    "name": [ "Injected Serum Crash" ],
+    "desc": [ "Your enhanced strength has faded away, your body aches, and you're having a hard time concentrating." ],
     "apply_message": "",
     "remove_message": "",
     "enchantments": [

@@ -22,6 +22,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_APPLY_REGEN_SERUM_CRASH",
+    "condition": { "not": { "u_has_effect": "regen_serum_crash_fatigue" } },
     "effect": [ { "u_add_effect": "regen_serum_crash_fatigue", "duration": [ "5 d", "10 d" ] } ]
   },
   {
@@ -58,6 +59,7 @@
     "remove_message": "You feel your rapid regeneration fade away, but you still feel sick.",
     "rating": "mixed",
     "flags": [ "MEND_ALL" ],
+    "removes_effects": [ "regen_serum_crash_fatigue" ],
     "enchantments": [
       {
         "values": [
