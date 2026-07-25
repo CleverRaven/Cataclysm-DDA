@@ -46,7 +46,7 @@
       { "math": [ "lengthofthisraid = 0" ] },
       { "math": [ "currentpulselength = sicknessintervals" ] },
       {
-        "if": { "mod_is_loaded": [ "backrooms" ] },
+        "if": { "mod_is_loaded": "backrooms" },
         "then": [
           { "math": [ "missiondistancemax = 10" ] },
           { "math": [ "missiondistancemin = 5" ] },
@@ -72,7 +72,7 @@
       { "math": [ "lengthofthisraid = 1" ] },
       { "math": [ "currentpulselength = sicknessintervals * 2" ] },
       {
-        "if": { "mod_is_loaded": [ "backrooms" ] },
+        "if": { "mod_is_loaded": "backrooms" },
         "then": [
           { "math": [ "missiondistancemax = 20" ] },
           { "math": [ "missiondistancemin = 10" ] },
@@ -98,7 +98,7 @@
       { "math": [ "lengthofthisraid = 2" ] },
       { "math": [ "currentpulselength = sicknessintervals * 3" ] },
       {
-        "if": { "mod_is_loaded": [ "backrooms" ] },
+        "if": { "mod_is_loaded": "backrooms" },
         "then": [
           { "math": [ "missiondistancemax = 30" ] },
           { "math": [ "missiondistancemin = 15" ] },
