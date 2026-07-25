@@ -3,19 +3,13 @@
     "type": "effect_on_condition",
     "id": "EOC_Random_Loc_Extract",
     "//": "Picks a random location to place the extract based on the player's unlocked difficulty.",
-    "effect": [
-      { "run_eocs": "EOC_set_target_terrain" },
-      { "run_eocs": "EOC_extract_location" }
-    ]
+    "effect": [ { "run_eocs": "EOC_set_target_terrain" }, { "run_eocs": "EOC_extract_location" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_Random_Loc_Mission",
     "//": "Picks a random location to place the missions based on the player's unlocked difficulty.",
-    "effect": [
-      { "run_eocs":  "EOC_set_target_terrain" },
-      { "run_eocs":  "EOC_mission_location" }
-    ]
+    "effect": [ { "run_eocs": "EOC_set_target_terrain" }, { "run_eocs": "EOC_mission_location" } ]
   },
   {
     "type": "effect_on_condition",

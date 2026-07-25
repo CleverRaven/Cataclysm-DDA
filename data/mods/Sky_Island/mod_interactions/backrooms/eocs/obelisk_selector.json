@@ -8,10 +8,7 @@
         "names": [ "Target: Level 0", "Cancel" ],
         "keys": [ "1", "2" ],
         "title": "Select a starting location",
-        "descriptions": [
-          "Arrive in the boundless monotone yellow space of level 0.",
-          "Stay on the island for now."
-        ]
+        "descriptions": [ "Arrive in the boundless monotone yellow space of level 0.", "Stay on the island for now." ]
       }
     ]
   },
@@ -20,10 +17,7 @@
     "id": "EOC_Level0_Loc_Warp",
     "//": "Picks a random location in level 0 and activates the actual teleport EOC.",
     "effect": [
-      {
-        "set_string_var": "backrooms_level_0",
-        "target_var": { "global_val": "sky_island_target_region_settings" }
-      },
+      { "set_string_var": "backrooms_level_0", "target_var": { "global_val": "sky_island_target_region_settings" } },
       { "run_eocs": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT" },
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
