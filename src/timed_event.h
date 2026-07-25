@@ -124,12 +124,12 @@ struct timed_event {
 
     template<typename T>
     const T *get_data() const {
-        return static_cast<const T *>( data.get() );
+        return dynamic_cast<const T *>( data.get() );
     }
 
     template<typename T>
     T *get_data() {
-        return static_cast<T *>( data.get() );
+        return dynamic_cast<T *>( data.get() );
     }
 };
 
