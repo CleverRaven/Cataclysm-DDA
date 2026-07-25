@@ -28,6 +28,7 @@
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
+          "om_terrain": "backfloorchamber",
           "search_range": 200,
           "min_distance": 0,
           "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
