@@ -2778,7 +2778,12 @@
   {
     "id": "PAUSE_INFECTIONS",
     "type": "json_flag",
-    "info": "If you're invisible, now you're not"
+    "info": "Prevents all infections from progressing to death, though does not relieve symptoms"
+  },
+  {
+    "id": "PAUSE_BODYPART_INFECTION",
+    "type": "json_flag",
+    "info": "Prevents infection on a bodypart with this flag from progressing to death, though does not relieve symptoms"
   },
   {
     "id": "ANIMALEMPATH2",

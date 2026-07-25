@@ -2639,7 +2639,8 @@
     "show_intensity": false,
     "max_duration": "7 days",
     "base_mods": { "healing_rate": [ 20 ], "healing_head": [ 100 ], "healing_torso": [ 100 ] },
-    "scaling_mods": { "healing_rate": [ 6 ] }
+    "scaling_mods": { "healing_rate": [ 6 ] },
+    "flags": [ "PAUSE_BODYPART_INFECTION" ]
   },
   {
     "type": "effect_type",
