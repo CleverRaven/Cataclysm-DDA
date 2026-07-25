@@ -957,7 +957,7 @@
         " S,S "
       ],
       "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], " ": "t_null" },
-      "furniture": { "S": "f_ozma_poppy", "@": "t_statue_fae_ozymandius" },
+      "furniture": { "S": "f_ozma_poppy", "@": "f_statue_fae_ozymandius" },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -975,7 +975,7 @@
         " S,S "
       ],
       "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], " ": "t_null" },
-      "furniture": { "S": "f_ozma_poppy", "@": "t_statue_fae_ozymandius" },
+      "furniture": { "S": "f_ozma_poppy", "@": "f_statue_fae_ozymandius" },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monster": [ { "group": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 75, "repeat": [ 3, 5 ] } ]
     }
@@ -1004,7 +1004,7 @@
         "      S,S      "
       ],
       "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], " ": "t_null" },
-      "furniture": { "S": "f_ozma_poppy", "@": "t_statue_fae_ozymandius" },
+      "furniture": { "S": "f_ozma_poppy", "@": "f_statue_fae_ozymandius" },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -1032,7 +1032,7 @@
         "      S,S      "
       ],
       "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], " ": "t_null" },
-      "furniture": { "S": "f_ozma_poppy", "@": "t_statue_fae_ozymandius" },
+      "furniture": { "S": "f_ozma_poppy", "@": "f_statue_fae_ozymandius" },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monster": [ { "group": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 0, 14 ], "y": [ 0, 14 ], "chance": 75, "repeat": [ 7, 15 ] } ]
     }
