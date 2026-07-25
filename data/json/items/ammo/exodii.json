@@ -41,7 +41,7 @@
     "subtypes": [ "AMMO" ],
     "copy-from": "3006fmj",
     "name": { "str_sp": "12.3ln AP" },
-    "description": "Placeholder"
+    "description": "Placeholder",
     "ammo_type": "123ln",
     "relative": { "damage": { "damage_type": "bullet", "amount": -4 } },
     "casing": "123ln_casing"
