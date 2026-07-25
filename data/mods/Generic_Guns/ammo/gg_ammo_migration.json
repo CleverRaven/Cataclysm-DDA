@@ -295,7 +295,8 @@
     "type": "MIGRATION",
     "replace": "bp_rifle_ball_foreign"
   },
-  {"id": [ "123ln_ap" ],
+  {
+    "id": [ "123ln_ap" ],
     "type": "MIGRATION",
     "replace": "rifle_AP_foreign"
   },
