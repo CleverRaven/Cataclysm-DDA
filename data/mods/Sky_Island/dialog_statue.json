@@ -176,7 +176,11 @@
       {
         "text": "Unlock Start Location: Basements",
         "condition": {
-          "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_basementsunlock" } }, { "math": [ "basementsunlocked == 0" ] } ]
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_basementsunlock" } },
+            { "math": [ "basementsunlocked == 0" ] },
+            { "not": { "mod_is_loaded": "backrooms" } }
+          ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_basementsunlock" } ],
         "topic": "SKYISLAND_UPGRADES_RAIDS"
@@ -187,7 +191,8 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_roofsunlock" } },
             { "math": [ "roofsunlocked == 0" ] },
-            { "math": [ "islandrank >= 2" ] }
+            { "math": [ "islandrank >= 2" ] },
+            { "not": { "mod_is_loaded": "backrooms" } }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_roofsunlock" } ],
@@ -199,7 +204,8 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_labsunlock" } },
             { "math": [ "labsunlocked == 0" ] },
-            { "math": [ "islandrank >= 4" ] }
+            { "math": [ "islandrank >= 4" ] },
+            { "not": { "mod_is_loaded": "backrooms" } }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_labsunlock" } ],
@@ -268,7 +274,8 @@
             { "math": [ "bonusmissions >= 5" ] },
             { "math": [ "hardestmissions > 0" ] },
             { "math": [ "bonuspulses >= 6" ] },
-            { "math": [ "islandrank >= 4" ] }
+            { "math": [ "islandrank >= 4" ] },
+            { "not": { "mod_is_loaded": "backrooms" } }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_challenge_mode" } ],

@@ -45,10 +45,21 @@
     "effect": [
       { "math": [ "lengthofthisraid = 0" ] },
       { "math": [ "currentpulselength = sicknessintervals" ] },
-      { "math": [ "missiondistancemax = 30" ] },
-      { "math": [ "missiondistancemin = 5" ] },
-      { "math": [ "exfildistancemax = 35" ] },
-      { "math": [ "exfildistancemin = 5" ] },
+      {
+        "if": { "mod_is_loaded": [ "backrooms" ] },
+        "then": [
+          { "math": [ "missiondistancemax = 10" ] },
+          { "math": [ "missiondistancemin = 5" ] },
+          { "math": [ "exfildistancemax = 12" ] },
+          { "math": [ "exfildistancemin = 5" ] }
+        ],
+        "else": [
+          { "math": [ "missiondistancemax = 30" ] },
+          { "math": [ "missiondistancemin = 5" ] },
+          { "math": [ "exfildistancemax = 35" ] },
+          { "math": [ "exfildistancemin = 5" ] }
+        ]
+      },
       { "run_eocs": [ "EOC_warp_choose_locale" ] }
     ]
   },
@@ -60,10 +71,21 @@
     "effect": [
       { "math": [ "lengthofthisraid = 1" ] },
       { "math": [ "currentpulselength = sicknessintervals * 2" ] },
-      { "math": [ "missiondistancemax = 60" ] },
-      { "math": [ "missiondistancemin = 20" ] },
-      { "math": [ "exfildistancemax = 90" ] },
-      { "math": [ "exfildistancemin = 30" ] },
+      {
+        "if": { "mod_is_loaded": [ "backrooms" ] },
+        "then": [
+          { "math": [ "missiondistancemax = 20" ] },
+          { "math": [ "missiondistancemin = 10" ] },
+          { "math": [ "exfildistancemax = 30" ] },
+          { "math": [ "exfildistancemin = 10" ] }
+        ],
+        "else": [
+          { "math": [ "missiondistancemax = 60" ] },
+          { "math": [ "missiondistancemin = 20" ] },
+          { "math": [ "exfildistancemax = 90" ] },
+          { "math": [ "exfildistancemin = 30" ] }
+        ]
+      },
       { "run_eocs": [ "EOC_warp_choose_locale" ] }
     ]
   },
@@ -75,10 +97,21 @@
     "effect": [
       { "math": [ "lengthofthisraid = 2" ] },
       { "math": [ "currentpulselength = sicknessintervals * 3" ] },
-      { "math": [ "missiondistancemax = 80" ] },
-      { "math": [ "missiondistancemin = 30" ] },
-      { "math": [ "exfildistancemax = 160" ] },
-      { "math": [ "exfildistancemin = 50" ] },
+      {
+        "if": { "mod_is_loaded": [ "backrooms" ] },
+        "then": [
+          { "math": [ "missiondistancemax = 30" ] },
+          { "math": [ "missiondistancemin = 15" ] },
+          { "math": [ "exfildistancemax = 50" ] },
+          { "math": [ "exfildistancemin = 20" ] }
+        ],
+        "else": [
+          { "math": [ "missiondistancemax = 80" ] },
+          { "math": [ "missiondistancemin = 30" ] },
+          { "math": [ "exfildistancemax = 160" ] },
+          { "math": [ "exfildistancemin = 50" ] }
+        ]
+      },
       { "run_eocs": [ "EOC_warp_choose_locale" ] }
     ]
   },

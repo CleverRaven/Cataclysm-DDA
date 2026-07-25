@@ -4,13 +4,8 @@
     "id": "EOC_Random_Loc_Extract",
     "//": "Picks a random location to place the extract based on the player's unlocked difficulty.",
     "effect": [
-      {
-        "weighted_list_eocs": [
-          [ "EOC_Location1e", { "global_val": "target_fields_weight", "default": 15 } ],
-          [ "EOC_Location2e", { "global_val": "target_forests_weight", "default": 0 } ],
-          [ "EOC_Location3e", { "global_val": "target_houses_weight", "default": 0 } ]
-        ]
-      }
+      { "run_eocs": "EOC_set_target_terrain" },
+      { "run_eocs": "EOC_extract_location" }
     ]
   },
   {
@@ -18,14 +13,41 @@
     "id": "EOC_Random_Loc_Mission",
     "//": "Picks a random location to place the missions based on the player's unlocked difficulty.",
     "effect": [
+      { "run_eocs":  "EOC_set_target_terrain" },
+      { "run_eocs":  "EOC_mission_location" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_set_target_terrain",
+    "effect": [
       {
-        "weighted_list_eocs": [
-          [ "EOC_Location1m", { "global_val": "target_fields_weight", "default": 15 } ],
-          [ "EOC_Location2m", { "global_val": "target_forests_weight", "default": 0 } ],
-          [ "EOC_Location3m", { "global_val": "target_houses_weight", "default": 0 } ]
-        ]
+        "if": { "mod_is_loaded": "backrooms" },
+        "then": { "set_string_var": "backfloorchamber", "target_var": { "global_val": "sky_island_target_terrain" } },
+        "else": {
+          "weighted_list_eocs": [
+            [ "EOC_set_target_terrain_field", { "global_val": "target_fields_weight", "default": 15 } ],
+            [ "EOC_set_target_terrain_forest", { "global_val": "target_forests_weight", "default": 0 } ],
+            [ "EOC_set_target_terrain_house", { "global_val": "target_houses_weight", "default": 0 } ]
+          ]
+        }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_set_target_terrain_field",
+    "effect": [ { "set_string_var": "field", "target_var": { "global_val": "sky_island_target_terrain" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_set_target_terrain_forest",
+    "effect": [ { "set_string_var": "forest", "target_var": { "global_val": "sky_island_target_terrain" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_set_target_terrain_house",
+    "effect": [ { "set_string_var": "house", "target_var": { "global_val": "sky_island_target_terrain" } } ]
   },
   {
     "type": "effect_on_condition",
@@ -196,13 +218,13 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_Location1e",
-    "//": "Picks a random field.",
+    "id": "EOC_extract_location",
+    "//": "Picks a random location of terrain specified by global_val sky_island_target_terrain, for extract.",
     "effect": [
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
-          "om_terrain": "field",
+          "om_terrain": { "global_val": "sky_island_target_terrain" },
           "om_terrain_match_type": "CONTAINS",
           "search_range": { "global_val": "exfildistancemax", "default": 30 },
           "min_distance": { "global_val": "exfildistancemin", "default": 5 },
@@ -215,51 +237,13 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_Location2e",
-    "//": "Picks a random forest.",
+    "id": "EOC_mission_location",
+    "//": "Picks a random location of terrain specified by global_val sky_island_target_terrain, for mission.",
     "effect": [
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
-          "om_terrain": "forest",
-          "om_terrain_match_type": "CONTAINS",
-          "search_range": { "global_val": "exfildistancemax", "default": 30 },
-          "min_distance": { "global_val": "exfildistancemin", "default": 5 },
-          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
-          "z": 0,
-          "random": true
-        }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_Location3e",
-    "//": "Picks a random house.",
-    "effect": [
-      {
-        "u_location_variable": { "global_val": "OM_missionspot" },
-        "target_params": {
-          "om_terrain": "house",
-          "om_terrain_match_type": "CONTAINS",
-          "search_range": { "global_val": "exfildistancemax", "default": 30 },
-          "min_distance": { "global_val": "exfildistancemin", "default": 5 },
-          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
-          "z": 0,
-          "random": true
-        }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_Location1m",
-    "//": "Picks a random field.",
-    "effect": [
-      {
-        "u_location_variable": { "global_val": "OM_missionspot" },
-        "target_params": {
-          "om_terrain": "field",
+          "om_terrain": { "global_val": "sky_island_target_terrain" },
           "om_terrain_match_type": "CONTAINS",
           "search_range": { "global_val": "missiondistancemax", "default": 30 },
           "min_distance": { "global_val": "missiondistancemin", "default": 5 },
@@ -269,46 +253,6 @@
         }
       },
       { "math": [ "total_difficulty_bonus = lengthofthisraid" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_Location2m",
-    "//": "Picks a random forest.",
-    "effect": [
-      {
-        "u_location_variable": { "global_val": "OM_missionspot" },
-        "target_params": {
-          "om_terrain": "forest",
-          "om_terrain_match_type": "CONTAINS",
-          "search_range": { "global_val": "missiondistancemax", "default": 30 },
-          "min_distance": { "global_val": "missiondistancemin", "default": 5 },
-          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
-          "z": 0,
-          "random": true
-        }
-      },
-      { "math": [ "total_difficulty_bonus = lengthofthisraid" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_Location3m",
-    "//": "Picks a random house.",
-    "effect": [
-      {
-        "u_location_variable": { "global_val": "OM_missionspot" },
-        "target_params": {
-          "om_terrain": "house",
-          "om_terrain_match_type": "CONTAINS",
-          "search_range": { "global_val": "missiondistancemax", "default": 30 },
-          "min_distance": { "global_val": "missiondistancemin", "default": 5 },
-          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
-          "z": 0,
-          "random": true
-        }
-      },
-      { "math": [ "total_difficulty_bonus = lengthofthisraid + 1" ] }
     ]
   },
   {

@@ -1,0 +1,13 @@
+[
+  {
+    "type": "dimension",
+    "id": "backrooms_level_0",
+    "region_layout": "backrooms_level_0"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "backrooms_level_0",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "default_backrooms"
+  }
+]
