@@ -444,7 +444,8 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```ONE_STORY_FALL``` You can slow your fall, effectively reducing the height of it by 1 level.
 - ```PAIN_IMMUNE``` Character don't feel pain.
 - ```PARAIMMUNE``` You are immune to parasites.
-- ```PAUSE_INFECTIONS``` Infections cannot kill you while you have this flag
+- ```PAUSE_BODYPART_INFECTION``` Infections on the bodypart that has an effect with this flag cannot kill you
+- ```PAUSE_INFECTIONS``` Infections on any bodypart cannot kill you while you have this flag
 - ```PHASE_MOVEMENT``` DEBUG. Completely ignores all impassable tiles, gravity checks, etc. and forces movement anyway.
 - ```PLANTBLOOD``` Your body drip veggy blood if wounded.
 - ```PORTAL_PROOF``` You are immune to personal portal storm effects.
