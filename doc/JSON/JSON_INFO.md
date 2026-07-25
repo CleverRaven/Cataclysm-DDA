@@ -3280,8 +3280,14 @@ dispersion before skill, spotting, and other fire mission modifiers are applied.
     "id": "m224",
     "furniture": "f_m224_mortar",
     "ammo": "mortar_60mm",
-    "range": 3500,
+    "range": 3490,
     "npc_fire_message_delay": "10 seconds",
+    "flight_time": [
+      { "distance": 500, "minimum": "10 seconds", "maximum": "20 seconds" },
+      { "distance": 1000, "minimum": "15 seconds", "maximum": "25 seconds" },
+      { "distance": 2000, "minimum": "25 seconds", "maximum": "40 seconds" },
+      { "distance": 3000, "minimum": "35 seconds", "maximum": "50 seconds" }
+    ],
     "range_error_ratio": 0.015,
     "deflection_error_mils": 2.0
 }
@@ -3294,6 +3300,7 @@ dispersion before skill, spotting, and other fire mission modifiers are applied.
 | `"ammo"`                       | Ammunition type id accepted by this mortar type, not a specific ammo item id.
 | `"range"`                      | Maximum fire mission range in tiles.
 | `"npc_fire_message_delay"`     | Time between ordering an NPC fire mission and the NPC reporting "Shot out."
+| `"flight_time"`                | Ordered distance breakpoints with minimum and maximum projectile flight times.  Values are linearly interpolated between breakpoints and clamped outside them.
 | `"range_error_ratio"`          | Optional.  Minimum range-axis error as a fraction of target distance.  Defaults to `0.015`.
 | `"deflection_error_mils"`      | Optional.  Minimum deflection-axis error in milliradians.  Defaults to `2.0`.
 

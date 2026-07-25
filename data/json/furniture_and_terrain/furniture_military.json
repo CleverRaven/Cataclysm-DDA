@@ -55,6 +55,12 @@
     "ammo": "mortar_60mm",
     "range": 3490,
     "npc_fire_message_delay": "10 seconds",
+    "flight_time": [
+      { "distance": 500, "minimum": "10 seconds", "maximum": "20 seconds" },
+      { "distance": 1000, "minimum": "15 seconds", "maximum": "25 seconds" },
+      { "distance": 2000, "minimum": "25 seconds", "maximum": "40 seconds" },
+      { "distance": 3000, "minimum": "35 seconds", "maximum": "50 seconds" }
+    ],
     "range_error_ratio": 0.015,
     "deflection_error_mils": 2.0
   }

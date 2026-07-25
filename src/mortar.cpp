@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <functional>
+#include <iterator>
 #include <limits>
 #include <memory>
 #include <set>
@@ -61,49 +62,6 @@ constexpr double mortar_laser_rangefinder_sensor_multiplier = 1.8;
 constexpr double mortar_laser_rangefinder_axis_multiplier = 0.5;
 constexpr int mortar_laser_rangefinder_range = 2000;
 constexpr float mortar_he_explosion_power_threshold = 100.0f;
-
-int interpolate_flight_seconds( const int distance, const int lower_distance,
-                                const int lower_seconds, const int upper_distance,
-                                const int upper_seconds )
-{
-    const double range_fraction = static_cast<double>( distance - lower_distance ) /
-                                  ( upper_distance - lower_distance );
-    return static_cast<int>( std::round( lower_seconds +
-                                         ( upper_seconds - lower_seconds ) * range_fraction ) );
-}
-
-std::pair<int, int> mortar_60mm_flight_time_bounds( const int distance )
-{
-    const int clamped_distance = std::max( 0, distance );
-    if( clamped_distance <= 500 ) {
-        return { 10, 20 };
-    }
-    if( clamped_distance <= 1000 ) {
-        return {
-            interpolate_flight_seconds( clamped_distance, 500, 10, 1000, 15 ),
-            interpolate_flight_seconds( clamped_distance, 500, 20, 1000, 25 )
-        };
-    }
-    if( clamped_distance <= 2000 ) {
-        return {
-            interpolate_flight_seconds( clamped_distance, 1000, 15, 2000, 25 ),
-            interpolate_flight_seconds( clamped_distance, 1000, 25, 2000, 40 )
-        };
-    }
-    if( clamped_distance <= 3000 ) {
-        return {
-            interpolate_flight_seconds( clamped_distance, 2000, 25, 3000, 35 ),
-            interpolate_flight_seconds( clamped_distance, 2000, 40, 3000, 50 )
-        };
-    }
-    return { 35, 50 };
-}
-
-time_duration mortar_60mm_flight_time( const int distance )
-{
-    const std::pair<int, int> bounds = mortar_60mm_flight_time_bounds( distance );
-    return time_duration::from_seconds( rng( bounds.first, bounds.second ) );
-}
 
 std::pair<double, double> axis_unit( const tripoint_abs_ms &axis_from,
                                      const tripoint_abs_ms &axis_to )
@@ -248,6 +206,19 @@ void mortar_type::check_consistency()
         }
         if( mortar.range_ <= 0 ) {
             debugmsg( "Mortar type %s has invalid range %d.", mortar.id.c_str(), mortar.range_ );
+        }
+        if( mortar.flight_time_.empty() ) {
+            debugmsg( "Mortar type %s has no flight time data.", mortar.id.c_str() );
+        } else {
+            int previous_distance = 0;
+            for( const mortar_flight_time &flight_time : mortar.flight_time_ ) {
+                if( flight_time.distance <= previous_distance || flight_time.minimum <= 0_seconds ||
+                    flight_time.maximum < flight_time.minimum ) {
+                    debugmsg( "Mortar type %s has invalid flight time data.", mortar.id.c_str() );
+                    break;
+                }
+                previous_distance = flight_time.distance;
+            }
         }
         if( mortar.range_error_ratio_ <= 0.0 || mortar.deflection_error_mils_ <= 0.0 ) {
             debugmsg( "Mortar type %s has invalid CEP values.", mortar.id.c_str() );
@@ -639,6 +610,18 @@ void mortar_type::load( const JsonObject &jo, std::string_view )
     mandatory( jo, was_loaded, "ammo", ammo_ );
     mandatory( jo, was_loaded, "range", range_, positive_int );
     mandatory( jo, was_loaded, "npc_fire_message_delay", npc_fire_message_delay_ );
+    if( jo.has_array( "flight_time" ) ) {
+        flight_time_.clear();
+        for( JsonObject entry : jo.get_array( "flight_time" ) ) {
+            mortar_flight_time flight_time;
+            mandatory( entry, false, "distance", flight_time.distance, positive_int );
+            mandatory( entry, false, "minimum", flight_time.minimum );
+            mandatory( entry, false, "maximum", flight_time.maximum );
+            flight_time_.emplace_back( flight_time );
+        }
+    } else if( !was_loaded ) {
+        jo.throw_error( "missing mandatory member \"flight_time\"" );
+    }
     optional( jo, was_loaded, "range_error_ratio", range_error_ratio_, positive_double, 0.015 );
     optional( jo, was_loaded, "deflection_error_mils", deflection_error_mils_, positive_double, 2.0 );
     was_loaded = true;
@@ -674,7 +657,7 @@ int mortar_type::range() const
 
 time_duration mortar_type::player_flight_time( const int distance ) const
 {
-    return mortar_60mm_flight_time( distance );
+    return flight_time( distance );
 }
 
 time_duration mortar_type::npc_fire_message_delay() const
@@ -684,7 +667,34 @@ time_duration mortar_type::npc_fire_message_delay() const
 
 time_duration mortar_type::npc_flight_time( const int distance ) const
 {
-    return mortar_60mm_flight_time( distance );
+    return flight_time( distance );
+}
+
+time_duration mortar_type::flight_time( const int distance ) const
+{
+    if( flight_time_.empty() ) {
+        return 0_seconds;
+    }
+    const int clamped_distance = std::max( 0, distance );
+    const auto upper = std::lower_bound( flight_time_.begin(), flight_time_.end(), clamped_distance,
+    []( const mortar_flight_time & entry, const int value ) {
+        return entry.distance < value;
+    } );
+    if( upper == flight_time_.begin() ) {
+        return rng( upper->minimum, upper->maximum );
+    }
+    if( upper == flight_time_.end() ) {
+        return rng( flight_time_.back().minimum, flight_time_.back().maximum );
+    }
+
+    const mortar_flight_time &lower = *std::prev( upper );
+    const double fraction = static_cast<double>( clamped_distance - lower.distance ) /
+                            ( upper->distance - lower.distance );
+    const int minimum_seconds = static_cast<int>( std::round( to_seconds<int>( lower.minimum ) +
+                                to_seconds<int>( upper->minimum - lower.minimum ) * fraction ) );
+    const int maximum_seconds = static_cast<int>( std::round( to_seconds<int>( lower.maximum ) +
+                                to_seconds<int>( upper->maximum - lower.maximum ) * fraction ) );
+    return time_duration::from_seconds( rng( minimum_seconds, maximum_seconds ) );
 }
 
 double mortar_type::minimum_range_error( const int distance ) const

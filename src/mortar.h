@@ -44,6 +44,12 @@ struct mortar_fire_solution {
     std::optional<mortar_creeping_solution> creeping_solution;
 };
 
+struct mortar_flight_time {
+    int distance = 0;
+    time_duration minimum = 0_seconds;
+    time_duration maximum = 0_seconds;
+};
+
 int mortar_heading_degrees( const tripoint_abs_ms &from, const tripoint_abs_ms &to );
 tripoint_abs_ms mortar_make_creeping_axis_to( const tripoint_abs_ms &target,
         const tripoint_abs_ms &spotter_pos, const tripoint_abs_ms &mortar_pos );
@@ -155,8 +161,11 @@ class mortar_type
         ammotype ammo_;
         int range_ = 0;
         time_duration npc_fire_message_delay_ = 0_seconds;
+        std::vector<mortar_flight_time> flight_time_;
         double range_error_ratio_ = 0.015;
         double deflection_error_mils_ = 2.0;
+
+        time_duration flight_time( int distance ) const;
 };
 
 #endif // CATA_SRC_MORTAR_H
