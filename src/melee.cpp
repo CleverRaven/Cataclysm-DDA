@@ -981,7 +981,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     add_msg_debug( debugmode::DF_MELEE, "Stamina burn base/total (capped at -50): %d/%d", base_stam,
                    total_stam + deft_bonus );
     // Weariness handling - 1 / the value, because it returns what % of the normal speed
-    // FORGET_UR_TIRED is defined in game_constants.h
+    // ADRENALINE is defined in game_constants.h
     const float weary_mult = std::max( ADRENALINE * exertion_adjusted_move_multiplier( EXTRA_EXERCISE ), 1.0f );
     mod_moves( forced_movecost >= 0 ? -forced_movecost : -move_cost * ( 1 / weary_mult ) );
     // trigger martial arts on-attack effects

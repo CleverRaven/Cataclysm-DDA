@@ -174,11 +174,7 @@ const std::map<float, std::string> activity_levels_str_map = {
  * allow faster-than-usual actions under any circumstances.
  * .8 approximately decreases the light and extra maluses by one level.
  */
-<<<<<<< HEAD
-   constexpr float ADRENALINE = 1.0f;
-=======
-constexpr float FORGET_UR_TIRED = 0.6f;
->>>>>>> 469c2c0ab8f7bf60edb384509fa2230111595a4f
+constexpr float ADRENALINE = 1.0f;
 
 
 // these are the lower bounds of each of the weight classes, determined by the amount of BMI coming from stored calories (fat)
