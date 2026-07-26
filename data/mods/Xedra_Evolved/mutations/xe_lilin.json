@@ -281,6 +281,20 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_RESIST_INFECTIONS_CURE_DISEASE",
+    "name": {
+      "//~": "This is a reference to Deuteronomy 28:59.  Note that it's not a positive statement in context",
+      "str": "Make Thy Plagues Wonderful"
+    },
+    "points": 4,
+    "purifiable": false,
+    "description": "With your power over plague comes the ability to alleviate sickness as well.  You may touch a target and cure minor illnesses as well as pause any infections they have in their tracks.  While this power is in effect, the target gains a bonus to their chance of recovery.",
+    "prereqs": [ "LILIN_AOE_LINE_DISEASE" ],
+    "category": [ "LILIN" ],
+    "spells_learned": [ [ "lilin_resist_infections_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_DISEASE_ENHANCEMENT_DAMAGE",
     "name": { "str": "Devoured by Pestilence" },
     "points": 6,

@@ -3236,6 +3236,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_resist_infections",
+    "name": [ "Make Thy Plagues Wonderful" ],
+    "desc": [ "You are immune to minor diseases and any infections you have are recovering more easily." ],
+    "removes_effects": [ "common_cold", "pre_common_cold", "flu", "pre_flu" ],
+    "flags": [ "PAUSE_INFECTIONS", "INFECTION_RECOVERY" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_attack_warning_cooldown",
     "//": "Hidden effect, used as a blocker",
     "name": [ "" ],
