@@ -831,6 +831,23 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "ammo_type": "components",
+    "id": "steel_penetrator",
+    "category": "chems",
+    "price": "1 USD",
+    "price_postapoc": "2 USD",
+    "name": { "str_sp": "steel penetrator" },
+    "display_type": "BY_WEIGHT",
+    "symbol": "=",
+    "color": "dark_gray",
+    "description": "A steel penetrator used in armour piercing ammunition.",
+    "material": [ "steel" ],
+    "volume": "1 ml",
+    "weight": "5 g",}
+  },
+  {
+    "type": "ITEM",
     "id": "gunpowder_artillery",
     "copy-from": "gunpowder",
     "price": "30 USD",
