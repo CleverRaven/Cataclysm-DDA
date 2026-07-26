@@ -1660,7 +1660,7 @@
     "//": "Skill level bumped up cause its armour piercing, recipe needs some fixing but ap uncrafts/recipies are kinda broken currently.",
     "charges": 1,
     "reversible": { "time": "5 s" },
-    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 2 ] ],
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 1 ] ],
     "//1": "3200 mg gunpowder rounded to 32 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
