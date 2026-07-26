@@ -436,7 +436,7 @@
     "type": "MONSTER",
     "copy-from": "mon_dog_pup",
     "name": { "str": "wyrmhound puppy", "str_pl": "wyrmhound puppies" },
-    "description": "A heavily mutated small dog. Almost all of its fur has been replaced by scales, and it has no ears.  Its eyes are an unsettling yellow color.",
+    "description": "A heavily mutated small dog.  Almost all of its fur has been replaced by scales, and it has no ears.  Its eyes are an unsettling yellow color.",
     "default_faction": "dog",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
