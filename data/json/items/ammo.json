@@ -844,7 +844,7 @@
     "description": "A steel penetrator used in armour piercing ammunition.",
     "material": [ "steel" ],
     "volume": "1 ml",
-    "weight": "5 g"}
+    "weight": "5 g"
   },
   {
     "type": "ITEM",
