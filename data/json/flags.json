@@ -2731,6 +2731,11 @@
     "info": "You are immune to gaseous toxins"
   },
   {
+    "id": "INFECTION_RECOVERY",
+    "type": "json_flag",
+    "info": "You have greater odds to recover from infections (equivalent to taking antibiotics)"
+  },
+  {
     "id": "TREE_COMMUNION_PLUS",
     "type": "json_flag",
     "info": "You gain greatly enhanced effects from the Mycorrhizal Communion mutation"
