@@ -5942,18 +5942,7 @@ bool is_mortar_round_for_type( const item &it, const mortar_type &mortar )
     return it.ammo_type() == mortar.ammo();
 }
 
-std::string mortar_ammo_count_key( const itype_id &ammo_id )
-{
-    return "mortar_ammo_" + ammo_id.str();
-}
-
 constexpr std::string_view mortar_support_ammo_var = "mortar_support_ammo";
-
-int legacy_mortar_ammo_count( const npc &gunner, const itype_id &ammo_id )
-{
-    const diag_value stored_count = gunner.get_value( mortar_ammo_count_key( ammo_id ) );
-    return std::max( 0, static_cast<int>( stored_count.dbl() ) );
-}
 
 int physical_mortar_ammo_count( const npc &gunner, const itype_id &ammo_id,
                                 const bool player_issued_only = false )
@@ -5970,8 +5959,7 @@ int physical_mortar_ammo_count( const npc &gunner, const itype_id &ammo_id,
 
 int mortar_ammo_count( const npc &gunner, const itype_id &ammo_id )
 {
-    return physical_mortar_ammo_count( gunner, ammo_id ) +
-           legacy_mortar_ammo_count( gunner, ammo_id );
+    return physical_mortar_ammo_count( gunner, ammo_id );
 }
 
 std::optional<itype_id> stored_selected_mortar_ammo( const npc &gunner )
@@ -5996,22 +5984,6 @@ void set_selected_mortar_ammo( npc &gunner, const itype_id &ammo_id )
     gunner.set_value( "mortar_selected_ammo", ammo_id.str() );
 }
 
-std::vector<std::string> legacy_mortar_ammo_types( const npc &gunner )
-{
-    std::vector<std::string> result;
-    const diag_value stored_types = gunner.get_value( "mortar_ammo_types" );
-    if( stored_types.is_empty() ) {
-        return result;
-    }
-    for( const diag_value &ammo_type : stored_types.array() ) {
-        const std::string &ammo_id = ammo_type.str();
-        if( !ammo_id.empty() ) {
-            result.emplace_back( ammo_id );
-        }
-    }
-    return result;
-}
-
 std::vector<itype_id> mortar_ammo_types( const npc &gunner,
                                         const bool player_issued_only = false )
 {
@@ -6024,13 +5996,6 @@ std::vector<itype_id> mortar_ammo_types( const npc &gunner,
         }
         return VisitResponse::NEXT;
     } );
-    for( const std::string &legacy_type : legacy_mortar_ammo_types( gunner ) ) {
-        const itype_id ammo_id( legacy_type );
-        if( ammo_id.is_valid() && legacy_mortar_ammo_count( gunner, ammo_id ) > 0 &&
-            std::find( result.begin(), result.end(), ammo_id ) == result.end() ) {
-            result.emplace_back( ammo_id );
-        }
-    }
     return result;
 }
 
@@ -6041,28 +6006,6 @@ void store_mortar_round( npc &gunner, item round )
     }
     gunner.clear_inventory_search_cache();
     gunner.invalidate_inventory_validity_cache();
-}
-
-void migrate_legacy_mortar_ammo( npc &gunner )
-{
-    for( const std::string &legacy_type : legacy_mortar_ammo_types( gunner ) ) {
-        const itype_id ammo_id( legacy_type );
-        const int count = ammo_id.is_valid() ? legacy_mortar_ammo_count( gunner, ammo_id ) : 0;
-        if( count > 0 ) {
-            item round( ammo_id, calendar::turn );
-            round.set_var( std::string( mortar_support_ammo_var ), true );
-            if( round.count_by_charges() ) {
-                round.charges = count;
-                store_mortar_round( gunner, std::move( round ) );
-            } else {
-                for( int i = 0; i < count; ++i ) {
-                    store_mortar_round( gunner, round );
-                }
-            }
-        }
-        gunner.remove_value( mortar_ammo_count_key( ammo_id ) );
-    }
-    gunner.remove_value( "mortar_ammo_types" );
 }
 
 void return_mortar_rounds( npc &gunner, std::vector<item> &rounds )
@@ -6121,7 +6064,6 @@ std::optional<item> take_handover_item( item_location &loc, const int requested_
 int give_mortar_rounds( npc &gunner, const mortar_type &mortar, const std::string &title,
                         const bool quiet = false )
 {
-    migrate_legacy_mortar_ammo( gunner );
     int transferred = 0;
     drop_locations selected_rounds = select_nearby_handover_items( [&mortar]( const item & it ) {
         return is_mortar_round_for_type( it, mortar );
@@ -6164,7 +6106,6 @@ int total_mortar_ammo_count( const npc &gunner, const mortar_type &mortar )
 
 int take_back_mortar_rounds( npc &gunner, const mortar_type &mortar )
 {
-    migrate_legacy_mortar_ammo( gunner );
     std::vector<itype_id> ammo_types;
     for( const itype_id &ammo_id : mortar_ammo_types( gunner, true ) ) {
         if( is_mortar_round_for_type( item( ammo_id, calendar::turn ), mortar ) ) {
@@ -6253,7 +6194,6 @@ bool select_mortar_ammo_auto_switch( npc &gunner, const mortar_type &mortar,
 std::optional<item> take_cached_mortar_round( npc &gunner, const mortar_type &mortar,
         const itype_id &ammo_id )
 {
-    migrate_legacy_mortar_ammo( gunner );
     for( item_location &loc : gunner.cache_get_items_with( ammo_id ) ) {
         if( !loc || !is_mortar_round_for_type( *loc, mortar ) ) {
             continue;
@@ -6290,7 +6230,6 @@ std::optional<item> take_cached_mortar_round( npc &gunner, const mortar_type &mo
 
 std::optional<item> take_mortar_round( npc &gunner, const mortar_type &mortar )
 {
-    migrate_legacy_mortar_ammo( gunner );
     if( std::optional<item> round = take_cached_mortar_round( gunner, mortar ) ) {
         return round;
     }
@@ -6316,7 +6255,6 @@ std::vector<itype_id> available_mortar_ammo_types( const npc &gunner, const mort
 
 int release_mortar_ammo_impl( npc &gunner, const bool drop )
 {
-    migrate_legacy_mortar_ammo( gunner );
     int released = 0;
     if( drop ) {
         std::list<item> rounds = gunner.remove_items_with( []( const item &it ) {
@@ -7472,7 +7410,6 @@ void report_mortar_support_impl( npc &gunner )
         return;
     }
 
-    migrate_legacy_mortar_ammo( gunner );
     const int total_ammo = total_mortar_ammo_count( gunner, *mortar->type );
     if( total_ammo <= 0 ) {
         add_msg( _( "%1$s reports that they have no %2$s ready." ),
@@ -7536,7 +7473,6 @@ void select_mortar_ammo_impl( npc &gunner )
         return;
     }
 
-    migrate_legacy_mortar_ammo( gunner );
     const std::vector<itype_id> ammo_types = available_mortar_ammo_types( gunner, *mortar->type );
     if( ammo_types.empty() ) {
         add_msg( _( "%1$s reports that they have no %2$s." ), gunner.disp_name(),
@@ -10310,7 +10246,6 @@ bool fire_scheduled_mortar( npc &gunner, const mortar_type_id &mortar_id,
         return false;
     }
 
-    migrate_legacy_mortar_ammo( gunner );
     if( !take_cached_mortar_round( gunner, *assignment->type, ammo_id ) ) {
         add_msg( _( "%1$s reports they no longer have the selected %2$s ready." ),
                  gunner.disp_name(), item( ammo_id, calendar::turn ).tname() );
