@@ -4001,10 +4001,9 @@ void npc::set_mission( npc_mission new_mission )
 int npc::clear_mortar_support( const bool notify )
 {
     const diag_value assignment = get_value( "mortar_assignment" );
-    const diag_value stored_types = get_value( "mortar_ammo_types" );
     const bool drop_rounds = is_active();
     const int released_rounds = talk_effect_fun::release_mortar_ammo( *this, drop_rounds );
-    if( assignment.is_empty() && stored_types.is_empty() && released_rounds == 0 ) {
+    if( assignment.is_empty() && released_rounds == 0 ) {
         return 0;
     }
 
@@ -4018,7 +4017,6 @@ int npc::clear_mortar_support( const bool notify )
     remove_value( "mortar_adjustment_tactic" );
     remove_value( "mortar_creeping_axis_to" );
     remove_value( "mortar_selected_ammo" );
-    remove_value( "mortar_ammo_types" );
 
     if( notify && released_rounds > 0 ) {
         if( drop_rounds ) {
