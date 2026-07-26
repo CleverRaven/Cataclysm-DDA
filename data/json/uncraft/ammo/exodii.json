@@ -32,7 +32,6 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 s",
-    "//": "delete this when the ap uncrafts are fixed",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 1 ] ],
