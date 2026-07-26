@@ -982,7 +982,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                    total_stam + deft_bonus );
     // Weariness handling - 1 / the value, because it returns what % of the normal speed
     // FORGET_UR_TIRED is defined in game_constants.h
-    const float weary_mult = std::max( FORGET_UR_TIRED * exertion_adjusted_move_multiplier( EXTRA_EXERCISE ), 1.0f );
+    const float weary_mult = std::max( ADRENALINE * exertion_adjusted_move_multiplier( EXTRA_EXERCISE ), 1.0f );
     mod_moves( forced_movecost >= 0 ? -forced_movecost : -move_cost * ( 1 / weary_mult ) );
     // trigger martial arts on-attack effects
     martial_arts_data->ma_onattack_effects( *this );
