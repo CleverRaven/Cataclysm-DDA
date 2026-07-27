@@ -1914,7 +1914,7 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
         switch( event.type ) {
             case timed_event_type::MORTAR_FIRE_MESSAGE: {
                 if( !jo.has_member( "mortar_fire_gunner" ) ) {
-                    break;
+                    continue;
                 }
                 event.data = std::make_unique<mortar_fire_event_data>();
                 mortar_fire_event_data *fire_data = event.get_data<mortar_fire_event_data>();
@@ -1926,7 +1926,6 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
                 jo.read( "mortar_fire_flight_seconds", fire_data->flight_seconds );
                 jo.read( "mortar_fire_impact_message_strength",
                          fire_data->impact_message_strength );
-                jo.read( "mortar_fire_correction_reported", fire_data->correction_reported );
                 jo.read( "mortar_fire_feedback_accuracy_multiplier",
                          fire_data->feedback_accuracy_multiplier );
                 jo.read( "mortar_fire_feedback_location_multiplier",
@@ -1934,19 +1933,17 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
                 break;
             }
             case timed_event_type::MORTAR_IMPACT_MESSAGE: {
-                event.data = std::make_unique<timed_event_target_data>();
-                jo.get_member( "target" ).read( event.get_data<timed_event_target_data>()->target, true );
-                break;
-            }
-            case timed_event_type::MORTAR_SPOTTING_FEEDBACK: {
-                event.data = std::make_unique<mortar_spotting_feedback_event_data>();
-                mortar_spotting_feedback_event_data *feedback =
-                    event.get_data<mortar_spotting_feedback_event_data>();
-                jo.get_member( "character" ).read( feedback->gunner_id, true );
+                if( !jo.has_member( "target" ) || !jo.has_member( "character" ) ) {
+                    continue;
+                }
+                event.data = std::make_unique<mortar_impact_event_data>();
+                mortar_impact_event_data *impact = event.get_data<mortar_impact_event_data>();
+                jo.get_member( "target" ).read( impact->target, true );
+                jo.get_member( "character" ).read( impact->gunner_id, true );
                 jo.get_member( "mortar_feedback_accuracy_multiplier" ).read(
-                    feedback->accuracy_multiplier, true );
+                    impact->accuracy_multiplier, true );
                 jo.get_member( "mortar_feedback_location_multiplier" ).read(
-                    feedback->location_multiplier, true );
+                    impact->location_multiplier, true );
                 break;
             }
             case timed_event_type::MORTAR_QUEUED_FIRE: {
@@ -2075,8 +2072,6 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
                 jsout.member( "mortar_fire_flight_seconds", fire_data->flight_seconds );
                 jsout.member( "mortar_fire_impact_message_strength",
                               fire_data->impact_message_strength );
-                jsout.member( "mortar_fire_correction_reported",
-                              fire_data->correction_reported );
                 jsout.member( "mortar_fire_feedback_accuracy_multiplier",
                               fire_data->feedback_accuracy_multiplier );
                 jsout.member( "mortar_fire_feedback_location_multiplier",
@@ -2084,13 +2079,19 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
                 break;
             }
             case timed_event_type::MORTAR_IMPACT_MESSAGE: {
-                const timed_event_target_data *target_data =
-                    elem.get_data<timed_event_target_data>();
-                if( target_data == nullptr || target_data->target.is_invalid() ) {
-                    debugmsg( "Mortar impact message event missing target payload." );
+                const mortar_impact_event_data *impact =
+                    elem.get_data<mortar_impact_event_data>();
+                if( impact == nullptr || impact->target.is_invalid() ||
+                    !impact->gunner_id.is_valid() ) {
+                    debugmsg( "Mortar impact event missing payload." );
                     break;
                 }
-                jsout.member( "target", target_data->target );
+                jsout.member( "target", impact->target );
+                jsout.member( "character", impact->gunner_id );
+                jsout.member( "mortar_feedback_accuracy_multiplier",
+                              impact->accuracy_multiplier );
+                jsout.member( "mortar_feedback_location_multiplier",
+                              impact->location_multiplier );
                 break;
             }
             case timed_event_type::MORTAR_QUEUED_FIRE: {
@@ -2101,20 +2102,6 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
                     break;
                 }
                 jsout.member( "character", character_data->character );
-                break;
-            }
-            case timed_event_type::MORTAR_SPOTTING_FEEDBACK: {
-                const mortar_spotting_feedback_event_data *feedback =
-                    elem.get_data<mortar_spotting_feedback_event_data>();
-                if( feedback == nullptr || !feedback->gunner_id.is_valid() ) {
-                    debugmsg( "Mortar spotting feedback event missing gunner payload." );
-                    break;
-                }
-                jsout.member( "character", feedback->gunner_id );
-                jsout.member( "mortar_feedback_accuracy_multiplier",
-                              feedback->accuracy_multiplier );
-                jsout.member( "mortar_feedback_location_multiplier",
-                              feedback->location_multiplier );
                 break;
             }
             case timed_event_type::MORTAR_FIELD: {

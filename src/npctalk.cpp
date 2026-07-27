@@ -6305,13 +6305,12 @@ void set_mortar_adjustment_ready_at( npc &gunner, const time_point &ready_at )
 bool mortar_spotting_feedback_pending( const npc &gunner, const tripoint_abs_ms &target )
 {
     for( const timed_event &event : get_timed_events().get_all() ) {
-        if( event.type != timed_event_type::MORTAR_SPOTTING_FEEDBACK ||
-            event.map_square != target ) {
+        if( event.type != timed_event_type::MORTAR_IMPACT_MESSAGE ) {
             continue;
         }
-        const mortar_spotting_feedback_event_data *feedback =
-            event.get_data<mortar_spotting_feedback_event_data>();
-        if( feedback != nullptr && feedback->gunner_id == gunner.getID() ) {
+        const mortar_impact_event_data *impact = event.get_data<mortar_impact_event_data>();
+        if( impact != nullptr && impact->gunner_id == gunner.getID() &&
+            impact->target == target ) {
             return true;
         }
     }
@@ -7148,7 +7147,6 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
         fire_data.ammo_id = round.typeId().str();
         fire_data.flight_seconds = to_seconds<int>( flight_time );
         fire_data.impact_message_strength = impact_message_strength;
-        fire_data.correction_reported = correction_reported;
         fire_data.feedback_accuracy_multiplier = feedback_accuracy_multiplier;
         fire_data.feedback_location_multiplier = feedback_location_multiplier;
         get_timed_events().add_mortar_fire( fire_time, impact_abs_ms, gunner.disp_name(),
