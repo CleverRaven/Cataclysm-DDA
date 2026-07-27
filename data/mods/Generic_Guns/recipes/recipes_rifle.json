@@ -98,7 +98,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "bp_rifle_AP",
-    "components": [ [ [ [ "chem_black_powder", 12 ] ] ] ]
+    "components": [ [ [ "chem_black_powder", 12 ] ] ]
   },
   {
     "result": "bp_rifle_ball",
