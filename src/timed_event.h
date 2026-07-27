@@ -40,17 +40,12 @@ enum class timed_event_type : int {
     MORTAR_FIRE_MESSAGE,
     MORTAR_IMPACT_MESSAGE,
     MORTAR_FIELD,
-    MORTAR_SPOTTING_FEEDBACK,
     MORTAR_QUEUED_FIRE,
     NUM_TIMED_EVENT_TYPES
 };
 
 struct timed_event_data {
     virtual ~timed_event_data() = default;
-};
-
-struct timed_event_target_data : timed_event_data {
-    tripoint_abs_ms target = tripoint_abs_ms::invalid;
 };
 
 struct timed_event_character_data : timed_event_data {
@@ -65,13 +60,13 @@ struct mortar_fire_event_data : timed_event_data {
     std::string ammo_id;
     int flight_seconds = 0;
     int impact_message_strength = 0;
-    bool correction_reported = false;
     double feedback_accuracy_multiplier = 1.0;
     double feedback_location_multiplier = 1.0;
 };
 
-struct mortar_spotting_feedback_event_data : timed_event_data {
+struct mortar_impact_event_data : timed_event_data {
     character_id gunner_id;
+    tripoint_abs_ms target = tripoint_abs_ms::invalid;
     double accuracy_multiplier = 1.0;
     double location_multiplier = 1.0;
 };
@@ -107,8 +102,6 @@ struct timed_event {
                  std::string key );
     timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p, int s,
                  std::string s_id, std::string key );
-    timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p, int s,
-                 std::string s_id, tripoint_abs_ms target );
     timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p, int s,
                  std::string s_id, submap sr, std::string key );
     // i have little experience with code, but something tell me
@@ -155,9 +148,6 @@ class timed_event_manager
                   const tripoint_abs_ms &where, int strength, const std::string &string_id,
                   const std::string &key = "" );
         void add( timed_event_type type, const time_point &when, int faction_id,
-                  const tripoint_abs_ms &where, int strength, const std::string &string_id,
-                  const tripoint_abs_ms &target );
-        void add( timed_event_type type, const time_point &when, int faction_id,
                   const tripoint_abs_ms &where, int strength, const std::string &string_id, submap sr,
                   const std::string &key = "" );
         void add( timed_event_type type, const time_point &when, const tripoint_abs_ms &where,
@@ -165,9 +155,9 @@ class timed_event_manager
         void add_mortar_fire( const time_point &when, const tripoint_abs_ms &impact,
                               const std::string &gunner_name, const std::string &key,
                               const mortar_fire_event_data &fire_data );
-        void add_mortar_feedback( const time_point &when, character_id gunner_id,
-                                  const tripoint_abs_ms &target, bool correction_reported,
-                                  double accuracy_multiplier, double location_multiplier );
+        void add_mortar_impact( const time_point &when, const tripoint_abs_ms &impact,
+                                const std::string &gunner_name, int strength,
+                                const mortar_impact_event_data &impact_data );
         void add_mortar_queued_fire( const time_point &when, character_id gunner_id,
                                      const tripoint_abs_ms &target, int round_count,
                                      const std::string &key );
