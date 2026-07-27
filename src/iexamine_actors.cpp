@@ -432,12 +432,11 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
     const mortar_fire_solution fire_solution = mortar->make_fire_solution(
                 mortar_abs, designated_target_abs_ms, you.pos_abs(), designated_target_abs_ms,
                 you.pos_abs(), designated_target_abs_ms, location_error, total_multiplier,
-                round_is_he, false );
-    const int minimum_target_distance = fire_solution.minimum_target_distance;
-    if( target_distance <= minimum_target_distance ) {
+                false );
+    if( target_distance <= MAX_VIEW_DISTANCE ) {
         if( round_is_he ) {
             add_msg( _( "Target is too close to the mortar; minimum safe range is %d tiles." ),
-                     minimum_target_distance );
+                     MAX_VIEW_DISTANCE );
         } else {
             add_msg( _( "Target is too close to the mortar." ) );
         }
@@ -462,7 +461,7 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
                    "effective total multiplier %.2f, minimum target distance %d, location error %.2f:%.2f, "
                    "HE %d, rangefinder %d, aimpoint offset %d:%d, impact offset %d:%d.",
                    target_distance, minimum_error.range, minimum_error.deflection, skill_multiplier,
-                   fixed_multiplier, raw_total_multiplier, total_multiplier, minimum_target_distance,
+                   fixed_multiplier, raw_total_multiplier, total_multiplier, MAX_VIEW_DISTANCE,
                    location_error.range, location_error.deflection,
                    round_is_he ? 1 : 0,
                    mortar_uses_laser_rangefinder( you, designated_target_abs_ms ) ? 1 : 0,
