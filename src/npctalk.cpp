@@ -5983,10 +5983,10 @@ void set_selected_mortar_ammo( npc &gunner, const itype_id &ammo_id )
 }
 
 std::vector<itype_id> mortar_ammo_types( const npc &gunner,
-                                        const bool player_issued_only = false )
+        const bool player_issued_only = false )
 {
     std::vector<itype_id> result;
-    gunner.visit_items( [&result, player_issued_only]( item *it, item * ) {
+    gunner.visit_items( [&result, player_issued_only]( item * it, item * ) {
         if( mortar_type::is_mortar_round( *it ) &&
             ( !player_issued_only || it->has_var( mortar_support_ammo_var ) ) &&
             std::find( result.begin(), result.end(), it->typeId() ) == result.end() ) {
@@ -6122,7 +6122,7 @@ int take_back_mortar_rounds( npc &gunner, const mortar_type &mortar )
 
     const itype_id ammo_id = ammo_types[menu.ret];
     const std::optional<itype_id> selected = stored_selected_mortar_ammo( gunner );
-    std::list<item> returned_rounds = gunner.remove_items_with( [ammo_id]( const item &it ) {
+    std::list<item> returned_rounds = gunner.remove_items_with( [ammo_id]( const item & it ) {
         return it.typeId() == ammo_id && it.has_var( mortar_support_ammo_var );
     } );
     if( returned_rounds.empty() ) {
@@ -6179,7 +6179,7 @@ int release_mortar_ammo_impl( npc &gunner, const bool drop )
 {
     int released = 0;
     if( drop ) {
-        std::list<item> rounds = gunner.remove_items_with( []( const item &it ) {
+        std::list<item> rounds = gunner.remove_items_with( []( const item & it ) {
             return mortar_type::is_mortar_round( it ) && it.has_var( mortar_support_ammo_var );
         } );
         map &here = get_map();
@@ -6189,7 +6189,7 @@ int release_mortar_ammo_impl( npc &gunner, const bool drop )
             here.add_item_or_charges( gunner.pos_bub( here ), std::move( round ) );
         }
     } else {
-        gunner.visit_items( [&released]( item *it, item * ) {
+        gunner.visit_items( [&released]( item * it, item * ) {
             if( mortar_type::is_mortar_round( *it ) && it->has_var( mortar_support_ammo_var ) ) {
                 released += it->count_by_charges() ? it->charges : 1;
                 it->erase_var( std::string( mortar_support_ammo_var ) );

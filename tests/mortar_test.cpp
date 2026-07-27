@@ -23,9 +23,9 @@
 #include "rng.h"
 #include "type_id.h"
 
-static const mortar_type_id mortar_m224( "m224" );
 static const itype_id itype_60mm_shell_m720a1( "60mm_shell_m720a1" );
 static const itype_id itype_rock( "rock" );
+static const mortar_type_id mortar_m224( "m224" );
 static const oter_str_id oter_field( "field" );
 static const ter_str_id ter_t_wall( "t_wall" );
 
@@ -43,7 +43,7 @@ TEST_CASE( "mortar_support_ammo_release_preserves_inventory", "[mortar]" )
     CHECK( talk_effect_fun::release_mortar_ammo( gunner, false ) == 1 );
 
     int round_count = 0;
-    gunner.visit_items( [&round_count]( item *it, item * ) {
+    gunner.visit_items( [&round_count]( item * it, item * ) {
         if( it->typeId() == itype_60mm_shell_m720a1 ) {
             round_count += it->count_by_charges() ? it->charges : 1;
             CHECK_FALSE( it->has_var( "mortar_support_ammo" ) );
