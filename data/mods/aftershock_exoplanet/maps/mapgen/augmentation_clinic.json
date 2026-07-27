@@ -193,7 +193,7 @@
         "t": "f_metal_table",
         "c": "f_armchair",
         "f": "f_filing_cabinet",
-        "?": "f_autodoc",
+        "?": [ [ "f_autodoc", 3 ], [ "f_autodoc_super", 1 ] ],
         "L": "f_locker",
         "/": "f_autodoc_couch",
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
