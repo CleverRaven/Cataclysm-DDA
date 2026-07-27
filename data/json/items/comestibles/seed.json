@@ -2014,7 +2014,7 @@
     "name": { "str_sp": "brussels sprout seeds" },
     "description": "Some brussels sprout seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "plant_name": "brussels_sprout",
+    "plant_name": "brussels sprout",
     "fruit": "brussels_sprout_stalk",
     "seeds": false,
     "byproducts": [ "withered" ],

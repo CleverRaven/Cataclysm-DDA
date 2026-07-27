@@ -142,7 +142,7 @@
       {
         "id": "ruger_1022_auto",
         "name": { "str": "full-auto Ruger 10/22 rifle" },
-        "description": "A Ruger 10/22 modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective while still being controllable"
+        "description": "A Ruger 10/22 modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective while still being controllable."
       }
     ],
     "price_postapoc": "15 USD",

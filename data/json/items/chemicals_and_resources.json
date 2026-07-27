@@ -953,7 +953,7 @@
   {
     "type": "ITEM",
     "id": "plutonium",
-    "name": { "str_sp": "chunk of plutonium" },
+    "name": { "str": "chunk of plutonium", "str_pl": "chunks of plutonium" },
     "category": "chems",
     "//0": "Plutonium is about 5000 USD/gram",
     "price": "4950 kUSD",
@@ -969,7 +969,7 @@
   {
     "type": "ITEM",
     "id": "uranium",
-    "name": { "str_sp": "chunk of uranium" },
+    "name": { "str": "chunk of uranium", "str_pl": "chunks of uranium" },
     "category": "chems",
     "//0": "Uranium is about 40 USD/kg",
     "price": "38 USD 12 cent",
@@ -1208,7 +1208,7 @@
     "category": "chems",
     "price": "5 USD",
     "price_postapoc": "5 USD",
-    "name": { "str_sp": "chunk of improvised rocket fuel" },
+    "name": { "str": "chunk of improvised rocket fuel", "str_pl": "chunk of improvised rocket fuel" },
     "symbol": "=",
     "color": "white",
     "description": "A chunk of a zinc powder-and-sulfur mixture, mixed with superglue to form a solid, that can be used as an impromptu rocket fuel.",
