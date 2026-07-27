@@ -50,11 +50,7 @@
     "charges": 2,
     "book_learn": [ [ "recipe_bullets", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 2 } ],
-    "components": [
-      [
-        [ "scrap", 1 ]
-      ]
-    ]
+    "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
