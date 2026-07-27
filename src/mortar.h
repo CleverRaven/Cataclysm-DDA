@@ -35,8 +35,6 @@ struct mortar_creeping_solution {
 };
 
 struct mortar_fire_solution {
-    int target_distance = 0;
-    int minimum_target_distance = 0;
     mortar_error minimum_error;
     mortar_error ballistic_error;
     mortar_error reported_error;
@@ -106,7 +104,6 @@ class mortar_type
         double minimum_range_error( int distance ) const;
         double minimum_deflection_error( int distance ) const;
         mortar_error minimum_error( int distance ) const;
-        int minimum_target_distance() const;
         mortar_error combined_error( const tripoint_abs_ms &mortar_pos,
                                      const tripoint_abs_ms &target,
                                      const mortar_error &ballistic_error,
@@ -119,8 +116,7 @@ class mortar_type
                 const tripoint_abs_ms &location_axis_from,
                 const tripoint_abs_ms &location_axis_to,
                 const mortar_location_error &location_error,
-                double total_multiplier, bool round_is_high_explosive,
-                bool use_creeping_adjustment ) const;
+                double total_multiplier, bool use_creeping_adjustment ) const;
         tripoint_abs_ms clamp_fire_center_to_range( const tripoint_abs_ms &mortar_pos,
                 const tripoint_abs_ms &fire_center, const tripoint_abs_ms &fallback_axis_to,
                 int minimum_target_distance ) const;
@@ -128,8 +124,7 @@ class mortar_type
         tripoint_abs_ms apply_dispersion( const tripoint_abs_ms &target,
                                           const tripoint_abs_ms &axis_from,
                                           const tripoint_abs_ms &axis_to,
-                                          const mortar_error &error,
-                                          double *deflection_error = nullptr ) const;
+                                          const mortar_error &error ) const;
         tripoint_abs_ms apply_location_error( const tripoint_abs_ms &target,
                                               const tripoint_abs_ms &axis_from,
                                               const tripoint_abs_ms &axis_to,

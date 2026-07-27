@@ -107,11 +107,6 @@ static std::optional<tripoint_abs_ms> mortar_gunner_target( const npc &gunner )
     return mortar_target;
 }
 
-static void set_mortar_last_spot_observed( npc &gunner, const bool observed )
-{
-    gunner.set_value( "mortar_last_spot_observed", observed ? 1 : 0 );
-}
-
 static double get_mortar_gunner_value( const npc &gunner, const std::string &key,
                                        const double fallback )
 {
@@ -512,7 +507,6 @@ void timed_event::actualize()
             }
 
             const bool correction_reported = strength > 0;
-            set_mortar_last_spot_observed( *gunner, correction_reported );
             if( !correction_reported ) {
                 add_msg_debug( debugmode::DF_NPC,
                                "Mortar spotting feedback for %s: no correction reported.",

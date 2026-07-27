@@ -126,13 +126,6 @@ TEST_CASE( "mortar_60mm_flight_time_scales_with_distance", "[mortar]" )
     }
 }
 
-TEST_CASE( "mortar_minimum_target_distance_is_fixed", "[mortar]" )
-{
-    const mortar_type &mortar = mortar_m224.obj();
-
-    CHECK( mortar.minimum_target_distance() == MAX_VIEW_DISTANCE );
-}
-
 TEST_CASE( "mortar_spotter_observation_requires_local_los", "[mortar]" )
 {
     clear_map();
@@ -313,16 +306,8 @@ TEST_CASE( "mortar_fire_solution_without_creeping_uses_target_center", "[mortar]
 
     const mortar_fire_solution solution = mortar.make_fire_solution( mortar_pos, target,
                                           spotter_pos, creeping_axis_to, spotter_pos, target,
-                                          location_error, 1.0, true, false );
+                                          location_error, 1.0, false );
 
-    CHECK( solution.target_distance == 1000 );
-    CHECK( solution.minimum_target_distance == mortar.minimum_target_distance() );
-    CHECK( solution.minimum_error.range == Approx( mortar.minimum_range_error( 1000 ) ) );
-    CHECK( solution.minimum_error.deflection == Approx( mortar.minimum_deflection_error( 1000 ) ) );
-    CHECK( solution.ballistic_error.range == Approx( solution.minimum_error.range ) );
-    CHECK( solution.ballistic_error.deflection == Approx( solution.minimum_error.deflection ) );
-    CHECK( solution.reported_error.range == Approx( solution.ballistic_error.range ) );
-    CHECK( solution.reported_error.deflection == Approx( solution.ballistic_error.deflection ) );
     CHECK( solution.fire_center == target );
     CHECK_FALSE( solution.creeping_solution );
 }
@@ -338,13 +323,12 @@ TEST_CASE( "mortar_fire_solution_clamps_creeping_center_to_valid_range", "[morta
 
     const mortar_fire_solution solution = mortar.make_fire_solution( mortar_pos, target,
                                           spotter_pos, creeping_axis_to, spotter_pos, target,
-                                          location_error, 1.0, true, true );
+                                          location_error, 1.0, true );
 
     REQUIRE( solution.creeping_solution );
     CHECK( solution.creeping_solution->range_limited );
     CHECK( rl_dist( mortar_pos, solution.fire_center ) <= mortar.range() );
-    CHECK( rl_dist( mortar_pos, solution.fire_center ) >
-           solution.minimum_target_distance );
+    CHECK( rl_dist( mortar_pos, solution.fire_center ) > MAX_VIEW_DISTANCE );
 }
 
 TEST_CASE( "mortar_creeping_adjustment_scales_danger_close_offset", "[mortar]" )

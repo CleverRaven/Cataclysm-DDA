@@ -712,11 +712,6 @@ mortar_error mortar_type::minimum_error( const int distance ) const
     return mortar_error{ minimum_range_error( distance ), minimum_deflection_error( distance ) };
 }
 
-int mortar_type::minimum_target_distance() const
-{
-    return MAX_VIEW_DISTANCE;
-}
-
 mortar_error mortar_type::combined_error( const tripoint_abs_ms &mortar_pos,
         const tripoint_abs_ms &target, const mortar_error &ballistic_error,
         const tripoint_abs_ms &location_axis_from,
@@ -735,13 +730,10 @@ mortar_fire_solution mortar_type::make_fire_solution( const tripoint_abs_ms &mor
         const tripoint_abs_ms &location_axis_from,
         const tripoint_abs_ms &location_axis_to,
         const mortar_location_error &location_error, const double total_multiplier,
-        const bool round_is_high_explosive, const bool use_creeping_adjustment ) const
+        const bool use_creeping_adjustment ) const
 {
     mortar_fire_solution result;
-    result.target_distance = rl_dist( mortar_pos, target );
-    result.minimum_target_distance = round_is_high_explosive ?
-                                     minimum_target_distance() : MAX_VIEW_DISTANCE;
-    result.minimum_error = minimum_error( result.target_distance );
+    result.minimum_error = minimum_error( rl_dist( mortar_pos, target ) );
     result.ballistic_error = mortar_error{ result.minimum_error.range * total_multiplier,
                                            result.minimum_error.deflection * total_multiplier };
     result.reported_error = combined_error( mortar_pos, target, result.ballistic_error,
@@ -753,7 +745,7 @@ mortar_fire_solution mortar_type::make_fire_solution( const tripoint_abs_ms &mor
                                    creeping_axis_to, spotter_pos, result.reported_error );
         const tripoint_abs_ms unclamped_fire_center = result.creeping_solution->center;
         result.fire_center = clamp_fire_center_to_range( mortar_pos, unclamped_fire_center,
-                             target, result.minimum_target_distance );
+                             target, MAX_VIEW_DISTANCE );
         if( result.fire_center != unclamped_fire_center ) {
             result.creeping_solution->center = result.fire_center;
             result.creeping_solution->offset_heading = mortar_heading_degrees( target,
@@ -835,11 +827,8 @@ double mortar_type::repeat_cep_multiplier( const int launcher_skill ) const
 
 tripoint_abs_ms mortar_type::apply_dispersion( const tripoint_abs_ms &target,
         const tripoint_abs_ms &axis_from, const tripoint_abs_ms &axis_to,
-        const mortar_error &error, double *deflection_error ) const
+        const mortar_error &error ) const
 {
-    if( deflection_error != nullptr ) {
-        *deflection_error = error.deflection;
-    }
     const tripoint_abs_ms impact = apply_axis_dispersion(
                                        target, axis_from, axis_to,
                                        error.range / one_dimensional_probable_error_sigma_factor,

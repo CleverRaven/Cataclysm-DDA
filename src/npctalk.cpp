@@ -6461,11 +6461,6 @@ double mortar_ammo_change_accuracy_penalty( const npc &gunner )
     return std::max( 0.0, 15.0 - gunner.get_skill_level( skill_launcher ) ) / 20.0;
 }
 
-void set_mortar_last_spot_observed( npc &gunner, const bool observed )
-{
-    gunner.set_value( "mortar_last_spot_observed", observed ? 1 : 0 );
-}
-
 double mortar_perception_spotting_factor( const int perception )
 {
     if( perception <= 1 ) {
@@ -6738,7 +6733,6 @@ void assign_mortar_support_impl( npc &gunner )
     gunner.remove_value( "mortar_creeping_axis_to" );
     set_mortar_accuracy_multiplier( gunner,
                                     mortar_type::skill_accuracy_multiplier( gunner.get_skill_level( skill_launcher ) ) );
-    set_mortar_last_spot_observed( gunner, true );
     gunner.assign_activity( man_mortar_activity_actor( mortar_abs, mortar->type->id ) );
     g->add_npc_follower( gunner.getID() );
     gunner.chatbin.first_topic = gunner.chatbin.talk_friend;
@@ -6937,7 +6931,6 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
     }
 
     const int max_range_ms = mortar_data.range();
-    map &here = get_map();
     std::optional<tripoint_abs_ms> target_abs_ms;
     const std::optional<tripoint_abs_ms> previous_target = get_mortar_last_target( gunner );
     const int launcher_skill = gunner.get_skill_level( skill_launcher );
@@ -6957,37 +6950,17 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
         }
         target_abs_ms = previous_target;
     } else {
-        const int targeting_method = uilist( _( "Designate mortar target how?" ), {
-            _( "Visible local square" ), _( "Overmap tile" )
-        } );
-        if( targeting_method < 0 ) {
+        const int max_range_omt = max_range_ms / ( 2 * SEEX );
+        const tripoint_abs_omt mortar_omt = project_to<coords::omt>( mortar_abs );
+        const tripoint_abs_omt target_omt = ui::omap::choose_point( _( "Pick a mortar target." ),
+                                            mortar_omt, false, max_range_omt );
+        if( target_omt == tripoint_abs_omt::invalid ) {
             return;
         }
-
-        if( targeting_method == 0 ) {
-            add_msg( m_info, _( "Designate a visible square for the mortar strike." ) );
-            const std::optional<tripoint_bub_ms> target_bub = g->look_around();
-            if( !target_bub ) {
-                return;
-            }
-            if( !you.sees( here, *target_bub ) ) {
-                add_msg( _( "You need line of sight to designate that square." ) );
-                return;
-            }
-            target_abs_ms = here.get_abs( *target_bub );
-        } else {
-            const int max_range_omt = max_range_ms / ( 2 * SEEX );
-            const tripoint_abs_omt mortar_omt = project_to<coords::omt>( mortar_abs );
-            const tripoint_abs_omt target_omt = ui::omap::choose_point( _( "Pick a mortar target." ),
-                                                mortar_omt, false, max_range_omt );
-            if( target_omt == tripoint_abs_omt::invalid ) {
-                return;
-            }
-            target_abs_ms = project_to<coords::ms>( target_omt );
-            target_abs_ms->x() += SEEX;
-            target_abs_ms->y() += SEEY;
-            target_abs_ms->z() = overmap_buffer.highest_omt_point( target_omt );
-        }
+        target_abs_ms = project_to<coords::ms>( target_omt );
+        target_abs_ms->x() += SEEX;
+        target_abs_ms->y() += SEEY;
+        target_abs_ms->z() = overmap_buffer.highest_omt_point( target_omt );
     }
 
     const int target_distance = rl_dist( mortar_abs, *target_abs_ms );
@@ -7069,13 +7042,11 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
     const mortar_fire_solution fire_solution = mortar_data.make_fire_solution(
                 mortar_abs, *target_abs_ms, you.pos_abs(), selected_creeping_axis_to,
                 location_axis_from, location_axis_to, location_error, total_multiplier,
-                round_is_he,
                 get_mortar_adjustment_tactic( gunner ) == mortar_adjustment_tactic::creeping );
-    const int minimum_target_distance = fire_solution.minimum_target_distance;
-    if( target_distance <= minimum_target_distance ) {
+    if( target_distance <= MAX_VIEW_DISTANCE ) {
         if( round_is_he ) {
             add_msg( _( "Target is too close to the mortar; minimum safe range is %d tiles." ),
-                     minimum_target_distance );
+                     MAX_VIEW_DISTANCE );
         } else {
             add_msg( _( "Target is too close to the mortar." ) );
         }
@@ -7109,9 +7080,7 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
     const time_duration fire_delay = mortar_data.npc_fire_message_delay();
     const time_duration fire_for_effect_interval = mortar_fire_for_effect_shot_interval(
                 launcher_skill );
-    bool any_scheduled = false;
-    int scheduled_rounds = 0;
-    std::optional<time_duration> first_flight_time;
+    const time_duration flight_time = mortar_data.npc_flight_time( target_distance );
     for( int i = 0; i < round_count; ++i ) {
         tripoint_abs_ms aimpoint_abs_ms;
         const tripoint_abs_ms impact_abs_ms = mortar_data.roll_impact( fire_center_abs_ms,
@@ -7148,7 +7117,7 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
                        "impact offset %d:%d.",
                        gunner.disp_name(), i + 1, round_count, target_distance, minimum_error.range,
                        minimum_error.deflection, accuracy_multiplier, fixed_multiplier,
-                       raw_total_multiplier, total_multiplier, minimum_target_distance,
+                       raw_total_multiplier, total_multiplier, MAX_VIEW_DISTANCE,
                        location_error.range, location_error.deflection,
                        round_is_he ? 1 : 0,
                        laser_rangefinder_used ? 1 : 0,
@@ -7168,12 +7137,8 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
                        correction_reported ? 1 : 0, feedback_accuracy_multiplier,
                        feedback_location_multiplier );
 
-        const time_duration fire_offset = fire_for_effect_interval * static_cast<int>( i );
+        const time_duration fire_offset = fire_for_effect_interval * i;
         const time_point fire_time = calendar::turn + fire_delay + fire_offset;
-        const time_duration flight_time = mortar_data.npc_flight_time( target_distance );
-        if( !first_flight_time ) {
-            first_flight_time = flight_time;
-        }
 
         mortar_fire_event_data fire_data;
         fire_data.gunner_id = gunner.getID();
@@ -7188,11 +7153,6 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
         fire_data.feedback_location_multiplier = feedback_location_multiplier;
         get_timed_events().add_mortar_fire( fire_time, impact_abs_ms, gunner.disp_name(),
                                             mortar_fire_event_key( gunner ), fire_data );
-        any_scheduled = true;
-        ++scheduled_rounds;
-    }
-    if( !any_scheduled ) {
-        return;
     }
 
     if( creeping_solution ) {
@@ -7211,12 +7171,11 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
     if( !repeat_mission ) {
         set_mortar_accuracy_multiplier( gunner, accuracy_multiplier );
         set_mortar_location_error( gunner, location_error_cep );
-        set_mortar_last_spot_observed( gunner, false );
     }
     const int heading = mortar_heading_degrees( gunner.pos_abs(), you.pos_abs() );
     const std::string heading_text = string_format( "%03d", heading );
     const int shot_seconds = to_seconds<int>( mortar_data.npc_fire_message_delay() );
-    const int splash_seconds = shot_seconds + to_seconds<int>( *first_flight_time );
+    const int splash_seconds = shot_seconds + to_seconds<int>( flight_time );
     const mortar_error &reported_error = fire_solution.reported_error;
     if( creeping_solution ) {
         const std::string offset_heading_text = string_format( "%03d",
