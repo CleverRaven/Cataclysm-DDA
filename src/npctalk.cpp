@@ -7170,8 +7170,6 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
         set_mortar_accuracy_multiplier( gunner, accuracy_multiplier );
         set_mortar_location_error( gunner, location_error_cep );
     }
-    const int heading = mortar_heading_degrees( gunner.pos_abs(), you.pos_abs() );
-    const std::string heading_text = string_format( "%03d", heading );
     const int shot_seconds = to_seconds<int>( mortar_data.npc_fire_message_delay() );
     const int splash_seconds = shot_seconds + to_seconds<int>( flight_time );
     const mortar_error &reported_error = fire_solution.reported_error;
@@ -7194,51 +7192,10 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
                      gunner.disp_name(), offset_heading_text, offset_multiplier_text );
         }
     }
-    if( launcher_skill >= 5 ) {
-        if( eplrs_net_used && laser_rangefinder_used ) {
-            add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted; EPLRS net and laser rangefinder linked.  OT direction %2$s; probable range/normal-to-range error %3$d by %4$d tiles.  Shot in %5$d, splash in %6$d.\"" ),
-                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
-                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
-                     splash_seconds );
-        } else if( eplrs_net_used ) {
-            add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted; EPLRS net linked.  OT direction %2$s; probable range/normal-to-range error %3$d by %4$d tiles.  Shot in %5$d, splash in %6$d.\"" ),
-                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
-                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
-                     splash_seconds );
-        } else if( laser_rangefinder_used ) {
-            add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted; laser rangefinder linked.  OT direction %2$s; probable range/normal-to-range error %3$d by %4$d tiles.  Shot in %5$d, splash in %6$d.\"" ),
-                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
-                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
-                     splash_seconds );
-        } else {
-            add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted.  OT direction %2$s; probable range/normal-to-range error %3$d by %4$d tiles.  Shot in %5$d, splash in %6$d.\"" ),
-                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
-                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
-                     splash_seconds );
-        }
-    } else {
-        if( eplrs_net_used && laser_rangefinder_used ) {
-            add_msg( _( "You give the fire mission.  %1$s reports EPLRS net and laser rangefinder linked, expected heading %2$s degrees, and probable range/normal-to-range error about %3$d by %4$d tiles.  Shot expected in %5$d seconds; impact in %6$d seconds." ),
-                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
-                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
-                     splash_seconds );
-        } else if( eplrs_net_used ) {
-            add_msg( _( "You give the fire mission.  %1$s reports EPLRS net linked, expected heading %2$s degrees, and probable range/normal-to-range error about %3$d by %4$d tiles.  Shot expected in %5$d seconds; impact in %6$d seconds." ),
-                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
-                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
-                     splash_seconds );
-        } else if( laser_rangefinder_used ) {
-            add_msg( _( "You give the fire mission.  %1$s reports laser rangefinder linked, expected heading %2$s degrees, and probable range/normal-to-range error about %3$d by %4$d tiles.  Shot expected in %5$d seconds; impact in %6$d seconds." ),
-                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
-                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
-                     splash_seconds );
-        } else {
-            add_msg( _( "You give the fire mission.  %1$s reports expected heading %2$s degrees and probable range/normal-to-range error about %3$d by %4$d tiles.  Shot expected in %5$d seconds; impact in %6$d seconds." ),
-                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
-                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
-                     splash_seconds );
-        }
-    }
+    add_msg( _( "You give the fire mission.  %1$s reports probable range/normal-to-range error about %2$d by %3$d tiles.  Shot expected in %4$d seconds; impact in %5$d seconds." ),
+             gunner.disp_name(), static_cast<int>( std::round( reported_error.range ) ),
+             static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
+             splash_seconds );
 }
 
 void report_mortar_support_impl( npc &gunner )
