@@ -35,7 +35,7 @@
     "volume": "1100 ml",
     "longest_side": "23 cm",
     "price": "19 USD 99 cent",
-    "price_postapoc": "3 USD 50 cent",
+    "price_postapoc": "1 USD 50 cent",
     "material": [ "paper", "cardboard" ],
     "copy-from": "book_fict_tpl",
     "melee_damage": { "bash": 2 }
@@ -50,7 +50,7 @@
     "volume": "662 ml",
     "longest_side": "18 cm",
     "price": "7 USD 99 cent",
-    "price_postapoc": "2 USD 50 cent",
+    "price_postapoc": "1 USD 50 cent",
     "material": [ "paper" ],
     "flags": [  ],
     "copy-from": "book_fict_tpl",
@@ -73,8 +73,8 @@
     "description": "Template for hard bound nonfiction book.",
     "weight": "1 kg",
     "volume": "1100 ml",
-    "price": "14 USD 50 cent",
-    "price_postapoc": "29 USD",
+    "price": "29 USD 50 cent",
+    "price_postapoc": "1 USD 50 cent",
     "material": [ "paper", "cardboard" ],
     "chapters": 18,
     "copy-from": "book_nonf_tpl",
@@ -88,8 +88,8 @@
     "description": "Template for a paperback nonfiction book.",
     "weight": "460 g",
     "volume": "500 ml",
-    "price": "9 USD 90 cent",
-    "price_postapoc": "27 USD",
+    "price": "27 USD 90 cent",
+    "price_postapoc": "1 USD 90 cent",
     "material": [ "paper" ],
     "chapters": 18,
     "copy-from": "book_nonf_tpl",
@@ -103,7 +103,7 @@
     "description": "This is a template for pulp books.  Which really all ought to be paperbacks, right?",
     "looks_like": "novel_pulp",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "intelligence": -1, "chapters": -2, "fun": 1, "price": "-200 cent" }
+    "relative": { "intelligence": -1, "chapters": -2, "fun": 1, "price": "-90 cent" }
   },
   {
     "abstract": "book_fict_soft_scifi_tpl",
@@ -131,7 +131,7 @@
     "description": "This is a template for books about homemaking, style, home decor, and home economics.",
     "weight": "1100 g",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "intelligence": -1, "price_postapoc": "-16 USD", "chapters": 2 }
+    "relative": { "intelligence": -1, "price_postapoc": "-50 cent", "chapters": 2 }
   },
   {
     "abstract": "book_nonf_hard_cook_tpl",
@@ -176,7 +176,7 @@
     "description": "This is a template for books about philosophy.",
     "time": "36 m",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "price": "5 USD", "price_postapoc": "-25 USD", "intelligence": 3 },
+    "relative": { "price": "5 USD", "price_postapoc": "-50 cent", "intelligence": 3 },
     "read_fun": 1
   },
   {
@@ -187,7 +187,7 @@
     "description": "This is a template for paperbacks about philosophy.",
     "time": "36 m",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "price": "4 USD", "price_postapoc": "-26 USD", "intelligence": 3 },
+    "relative": { "price": "4 USD", "price_postapoc": "-50 cent", "intelligence": 3 },
     "read_fun": 1
   },
   {
@@ -244,8 +244,8 @@
     "description": "An ordinary paperback book.  Or is it?  Is that a glimmer of higher truth?",
     "weight": "371 g",
     "volume": "700 ml",
-    "price": "7 USD 50 cent",
-    "price_postapoc": "29 USD",
+    "price": "29 USD 50 cent",
+    "price_postapoc": "1 USD 50 cent",
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "story_book",
