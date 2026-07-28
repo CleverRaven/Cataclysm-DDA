@@ -599,10 +599,10 @@ static const std::set<weapon_category_id> &wielded_weapon_categories( const Char
     return unarmed;
 }
 
-void Character::reduce_moves_from_attack(int forced_movecost, int move_cost)
+void Character::reduce_moves_from_attack( int forced_movecost, int move_cost )
 {
     // Weariness handling - 1 / the value, because it returns what % of the normal speed
-    // Set the % move speed to the smaller of the modified speed or 100%, to avoid 
+    // Set the % move speed to the smaller of the modified speed or 100%, to avoid
     // accelerating baseline attack speed if using a non-1 value for EXTRA_EXERCISE
     const float weary_mult = std::min( combat_speed_modifier *
                                        exertion_adjusted_move_multiplier(
