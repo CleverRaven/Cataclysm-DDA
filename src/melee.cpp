@@ -982,9 +982,10 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                    total_stam + deft_bonus );
     // Weariness handling - 1 / the value, because it returns what % of the normal speed
     // Set the % move speed penalty to the smaller of the modified speed or 100%, to avoid changing baseline attack speed
-    const float weary_mult = 1 / std::min( get_option<float>( "COMBAT_SPEED_MODIFIER" ) * exertion_adjusted_move_multiplier(
-                                           EXTRA_EXERCISE ),
-                                       1.0f );
+    const float weary_mult = 1 / std::min( get_option<float>( "COMBAT_SPEED_MODIFIER" ) *
+                                           exertion_adjusted_move_multiplier(
+                                                   EXTRA_EXERCISE ),
+                                           1.0f );
     mod_moves( forced_movecost >= 0 ? -forced_movecost : -move_cost * ( 1 / weary_mult ) );
     // trigger martial arts on-attack effects
     martial_arts_data->ma_onattack_effects( *this );
