@@ -992,7 +992,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     burn_energy_arms( std::min( -50, total_stam + deft_bonus ) );
     add_msg_debug( debugmode::DF_MELEE, "Stamina burn base/total (capped at -50): %d/%d", base_stam,
                    total_stam + deft_bonus );
-    reduce_moves_from_attack(forced_movecost, move_cost);
+    reduce_moves_from_attack( forced_movecost, move_cost );
     // trigger martial arts on-attack effects
     martial_arts_data->ma_onattack_effects( *this );
     // some things (shattering weapons) can harm the attacking creature.
