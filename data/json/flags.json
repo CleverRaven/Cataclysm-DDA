@@ -2827,6 +2827,11 @@
     "//": "This character goes down on all fours when they crouch, if their hands are free.  Used for paw mutations."
   },
   {
+    "id": "THRESH_ALLOWS_QUADRUPEDAL_MOVEMENT",
+    "type": "json_flag",
+    "//": "Wether your threshold mutation enables quadrupedal movement."
+  },
+  {
     "id": "QUADRUPED_RUN",
     "type": "json_flag",
     "//": "This character can run or crouch on all fours if they have QUADRUPED_CROUCH, and gains the natural_stance effect.  Used for paw mutations."

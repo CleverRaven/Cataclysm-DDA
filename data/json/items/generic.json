@@ -2970,7 +2970,7 @@
     "color": "yellow",
     "name": { "str": "credit card" },
     "ascii_picture": "cashcard",
-    "description": "A plastic card used to purchase goods and services.  It's useless now",
+    "description": "A plastic card used to purchase goods and services.  It's useless now.",
     "price": "10 USD",
     "extend": { "flags": [ "TRADER_AVOID" ] }
   },

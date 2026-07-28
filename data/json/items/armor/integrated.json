@@ -1122,9 +1122,9 @@
       },
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.5 } ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "muzzle" ],
         "coverage": 85,
-        "encumbrance": 1
+        "encumbrance": 0
       }
     ]
   },
@@ -1159,7 +1159,7 @@
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 2.8 } ],
-        "covers": [ "head" ],
+        "covers": [ "head", "head_dragonfly" ],
         "coverage": 95,
         "encumbrance": 5
       },
@@ -1255,7 +1255,7 @@
     "armor": [
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 1.4 } ],
-        "covers": [ "head" ],
+        "covers": [ "head", "head_dragonfly" ],
         "coverage": 95,
         "encumbrance": 3
       },
@@ -1351,7 +1351,7 @@
     "armor": [
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4 } ],
-        "covers": [ "head" ],
+        "covers": [ "head", "head_dragonfly" ],
         "coverage": 95,
         "encumbrance": 12
       },
@@ -1426,7 +1426,7 @@
     "armor": [
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2 } ],
-        "covers": [ "head" ],
+        "covers": [ "head", "head_dragonfly" ],
         "coverage": 95,
         "encumbrance": 9
       },
@@ -1540,7 +1540,7 @@
     "armor": [
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4.5 } ],
-        "covers": [ "head" ],
+        "covers": [ "head", "head_dragonfly" ],
         "coverage": 95,
         "encumbrance": 15
       },
@@ -1626,7 +1626,7 @@
     "armor": [
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.2 } ],
-        "covers": [ "head" ],
+        "covers": [ "head", "head_dragonfly" ],
         "coverage": 95,
         "encumbrance": 10
       },
