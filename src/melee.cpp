@@ -1077,7 +1077,7 @@ void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
 
     // Weariness handling
     // 1 / mult because mult is the percent penalty, in the form 1.0 == 100%
-    // Penalty cannot be less than 100% because then that would be a bonus.
+    // mult cannot be less than 100% because then that would be a bonus.
     const float weary_mult = 1 / std::min( COMBAT_SPEED_MODIFIER * exertion_adjusted_move_multiplier(
                                            EXTRA_EXERCISE ),
                                        1.0f );
