@@ -1080,10 +1080,10 @@ void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
     // Weariness handling
     // 1 / mult because mult is the percent penalty, in the form 1.0 == 100%
     // mult cannot be less than 100% because then that would be a bonus.
-    const float weary_mult = 1.0f / std::min ( combat_speed_modifier *
-                                           exertion_adjusted_move_multiplier(
-                                                   EXTRA_EXERCISE ),
-                                           1.0f );
+    const float weary_mult = 1.0f / std::min( combat_speed_modifier *
+                             exertion_adjusted_move_multiplier(
+                                 EXTRA_EXERCISE ),
+                             1.0f );
     int move_cost = attack_speed( weapon ) * weary_mult;
     float skill = std::min( 10.0f, get_skill_level( skill_melee ) );
     int t = 0;
