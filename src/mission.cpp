@@ -827,7 +827,10 @@ int mission::get_kills_remaining()
             return std::max( kills, 0 );
         }
         case MGOAL_KILL_MONSTERS:
-            return monster_kill_goal;
+            if ( monster_kill_goal == -1 ) {
+                return -1;
+            }
+            return monster_kill_goal + 1;
     }
     return -1;
 }

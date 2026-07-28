@@ -357,7 +357,7 @@ class mission
         bool has_kill_count() const;
         /**
          * Returns the number of kills remaining for this mission.
-         * A value of -1 means the creatures have not yet been generated.
+         * A value of -1 means the creatures have not yet been generated or are all killed.
          */
         int get_kills_remaining();
         /**

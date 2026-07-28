@@ -460,13 +460,10 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
     }
     if ( miss->has_kill_count() ) {
         int kills = miss->get_kills_remaining();
-        std::string kills_string;
-        if( kills == -1 ) {
-            kills_string = _( "Not Discovered Yet" );
-        } else {
-            kills_string = std::to_string( kills );
+        if( kills > -1 ) {
+            draw_label_with_value( _( "Kills Remaining:" ), std::to_string( kills ) );
         }
-        draw_label_with_value( _( "Kills Remaining:" ), kills_string );
+        
     }
     dimension_id mission_dimension = miss->get_dimension();
     // If dimension isn't the default one

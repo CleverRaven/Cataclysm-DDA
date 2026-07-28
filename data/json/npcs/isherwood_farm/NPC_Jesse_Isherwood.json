@@ -219,7 +219,7 @@
     "id": "MISSION_ISHERWOOD_JESSE_2",
     "type": "mission_definition",
     "name": { "str": "Kill monsters" },
-    "goal": "MGOAL_KILL_MONSTER",
+    "goal": "MGOAL_KILL_MONSTERS",
     "difficulty": 8,
     "value": 80000,
     "start": {
