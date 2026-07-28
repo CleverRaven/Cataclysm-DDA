@@ -599,6 +599,18 @@ static const std::set<weapon_category_id> &wielded_weapon_categories( const Char
     return unarmed;
 }
 
+void Character::reduce_moves_from_attack(int forced_movecost, int move_cost)
+{
+    // Weariness handling - 1 / the value, because it returns what % of the normal speed
+    // Set the % move speed to the smaller of the modified speed or 100%, to avoid 
+    // accelerating baseline attack speed if using a non-1 value for EXTRA_EXERCISE
+    const float weary_mult = std::min( combat_speed_modifier *
+                                       exertion_adjusted_move_multiplier(
+                                           EXTRA_EXERCISE ),
+                                       1.0f );
+    mod_moves( forced_movecost >= 0 ? -forced_movecost : -move_cost * ( 1 / weary_mult ) );
+}
+
 bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                                        const matec_id &force_technique,
                                        bool allow_unarmed, int forced_movecost )
@@ -977,17 +989,10 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             practice_proficiency( prof, 1_seconds );
         }
     }
-
     burn_energy_arms( std::min( -50, total_stam + deft_bonus ) );
     add_msg_debug( debugmode::DF_MELEE, "Stamina burn base/total (capped at -50): %d/%d", base_stam,
                    total_stam + deft_bonus );
-    // Weariness handling - 1 / the value, because it returns what % of the normal speed
-    // Set the % move speed to the smaller of the modified speed or 100%, to avoid accelerating baseline attack speed
-    const float weary_mult = std::min( combat_speed_modifier *
-                                       exertion_adjusted_move_multiplier(
-                                           EXTRA_EXERCISE ),
-                                       1.0f );
-    mod_moves( forced_movecost >= 0 ? -forced_movecost : -move_cost * ( 1 / weary_mult ) );
+    reduce_moves_from_attack(forced_movecost, move_cost);
     // trigger martial arts on-attack effects
     martial_arts_data->ma_onattack_effects( *this );
     // some things (shattering weapons) can harm the attacking creature.
@@ -1077,14 +1082,7 @@ void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
     // Max out recoil
     recoil = MAX_RECOIL;
 
-    // Weariness handling
-    // 1 / mult because mult is the percent penalty, in the form 1.0 == 100%
-    // mult cannot be less than 100% because then that would be a bonus.
-    const float weary_mult = 1.0f / std::min( combat_speed_modifier *
-                             exertion_adjusted_move_multiplier(
-                                 EXTRA_EXERCISE ),
-                             1.0f );
-    int move_cost = attack_speed( weapon ) * weary_mult;
+    int move_cost = attack_speed( weapon );
     float skill = std::min( 10.0f, get_skill_level( skill_melee ) );
     int t = 0;
     map &here = get_map();
@@ -1116,8 +1114,8 @@ void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
             /** @ARM_STR increases bash effects when reach attacking past something */
             here.bash( path_point, get_arm_str() + weapon.damage_melee( damage_bash ) );
             handle_melee_wear( get_wielded_item() );
-            mod_moves( forced_movecost >= 0 ? -forced_movecost : -move_cost );
-            return;
+	    reduce_moves_from_attack(forced_movecost, move_cost );
+	    return;
         }
     }
 
@@ -1135,7 +1133,7 @@ void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
                                       enchant_vals::mod::MELEE_STAMINA_CONSUMPTION, get_total_melee_stamina_cost() );
         burn_energy_arms( std::min( -50, total_stamina ) );
 
-        mod_moves( forced_movecost >= 0 ? -forced_movecost : -move_cost );
+	reduce_moves_from_attack(forced_movecost, move_cost );
         return;
     }
 
