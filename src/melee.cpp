@@ -1133,7 +1133,7 @@ void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
                                       enchant_vals::mod::MELEE_STAMINA_CONSUMPTION, get_total_melee_stamina_cost() );
         burn_energy_arms( std::min( -50, total_stamina ) );
 
-	reduce_moves_from_attack(forced_movecost, move_cost );
+        reduce_moves_from_attack( forced_movecost, move_cost );
         return;
     }
 
