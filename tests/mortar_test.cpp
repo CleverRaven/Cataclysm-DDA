@@ -1,8 +1,10 @@
 #include <cmath>
+#include <functional>
 #include <memory>
 #include <optional>
 #include <string>
 #include <tuple>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
@@ -19,9 +21,11 @@
 #include "npc.h"
 #include "npctalk.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "point.h"
 #include "rng.h"
 #include "type_id.h"
+#include "visitable.h"
 
 static const itype_id itype_60mm_shell_m720a1( "60mm_shell_m720a1" );
 static const itype_id itype_rock( "rock" );
