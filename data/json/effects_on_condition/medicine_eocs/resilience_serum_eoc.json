@@ -1,0 +1,138 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SERUM_RESILIENCE",
+    "effect": [
+      { "u_consume_item": { "context_val": "id" } },
+      { "math": [ "_serum_duration = rng(time('1 d'), time('2 d'))" ] },
+      { "u_add_effect": "resilience_serum_main", "duration": { "context_val": "serum_duration" } },
+      { "run_eocs": "EOC_APPLY_RESILIENCE_SERUM_CRASH", "time_in_future": { "context_val": "serum_duration" } },
+      {
+        "if": { "math": [ "u_effect_intensity('resilience_serum_main') <= 1" ] },
+        "then": { "run_eocs": "EOC_SERUM_RESILIENCE_PERIODIC_SIDE_EFFECTS", "time_in_future": [ "30 minutes", "90 minutes" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_APPLY_RESILIENCE_SERUM_CRASH",
+    "condition": { "not": { "u_has_effect": "resilience_serum_crash" } },
+    "effect": [
+      { "u_add_effect": "resilience_serum_crash", "duration": [ "1 d", "2 d" ] },
+      { "math": [ "u_pain() += (5 + rand(20) )" ] },
+      { "run_eocs": "EOC_RESILIENCE_SERUM_CRASH_RANDOM_PARALYSIS", "time_in_future": [ "2 hours", "5 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SERUM_RESILIENCE_PERIODIC_SIDE_EFFECTS",
+    "//": "This would be better done with intermittent_activation but intermittent_activation can't take place within a random range",
+    "condition": { "u_has_effect": "resilience_serum_main" },
+    "effect": [
+      {
+        "switch": { "math": [ "rand(10)" ] },
+        "cases": [
+          {
+            "case": 8,
+            "effect": [ { "u_add_effect": "resilience_serum_side_effect_jittery", "duration": { "math": [ "3600 + rand(3600)" ] } } ]
+          },
+          {
+            "case": 9,
+            "effect": [ { "u_add_effect": "resilience_serum_side_effect_badmood", "duration": { "math": [ "3600 + rand(3600)" ] } } ]
+          },
+          {
+            "case": 10,
+            "effect": [ { "u_add_effect": "resilience_serum_side_effect_hallucinations", "duration": { "math": [ "3600 + rand(3600)" ] } } ]
+          }
+        ]
+      },
+      { "run_eocs": "EOC_SERUM_RESILIENCE_PERIODIC_SIDE_EFFECTS", "time_in_future": [ "30 minutes", "90 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RESILIENCE_SERUM_CRASH_RANDOM_PARALYSIS",
+    "//": "This would be better done with intermittent_activation but intermittent_activation can't take place within a random range",
+    "condition": { "u_has_effect": "resilience_serum_crash" },
+    "effect": [
+      {
+        "if": { "x_in_y_chance": { "x": 1, "y": 2 } },
+        "then": [
+          { "u_add_effect": "resilience_serum_side_effect_downed", "duration": [ "1 seconds", "3 seconds" ] },
+          { "run_eocs": "EOC_RESILIENCE_SERUM_CRASH_RANDOM_PARALYSIS", "time_in_future": [ "2 hours", "5 hours" ] }
+        ],
+        "else": { "run_eocs": "EOC_RESILIENCE_SERUM_CRASH_RANDOM_PARALYSIS", "time_in_future": [ "2 hours", "5 hours" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "resilience_serum_main",
+    "name": [ "Injected 16x-\"Armus\"" ],
+    "desc": [ "You just took a shot of that strange vial you found.  You feel invincible." ],
+    "apply_message": "Without hesitation, you draw the liquid from the ampule, smack it a bit to release any air, and inject it right into a vein, hoping it won't kill you.",
+    "remove_message": "You feel increased resilience fade away with a sudden stab of pain.",
+    "rating": "mixed",
+    "//": "Intensity currently only exists to prevent multiple copies of the side effects EoC from firing",
+    "max_intensity": 100,
+    "int_add_val": 1,
+    "show_intensity": false,
+    "//2": "Once blood clotting is a thing that can happen, repeated doses of Armus should cause it",
+    "removes_effects": [ "resilience_serum_crash" ],
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.75 },
+          { "type": "cut", "multiply": -0.666 },
+          { "type": "stab", "multiply": -0.5 },
+          { "type": "bullet", "multiply": -0.2 }
+        ],
+        "mutations": [ "INFRESIST" ]
+      },
+      { "values": [ { "value": "BLEEDING_RATE", "multiply": -0.8 } ] }
+    ],
+    "flags": [ "PAUSE_INFECTIONS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "resilience_serum_side_effect_jittery",
+    "//": "Hidden effect, provides the Jittery trait",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [ { "mutations": [ "JITTERY" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "resilience_serum_side_effect_badmood",
+    "//": "Hidden effect, provides the Bad Temper trait",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [ { "mutations": [ "BADTEMPER" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "resilience_serum_side_effect_hallucinations",
+    "//": "Hidden effect, provides the Kaluptic Psychosis trait",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [ { "mutations": [ "SCHIZOPHRENIC" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "resilience_serum_side_effect_downed",
+    "//": "Hidden effect, causes temporary paralysis",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [ { "ench_effects": [ { "effect": "downed", "intensity": 1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "resilience_serum_crash",
+    "name": [ "Injected Serum Crash" ],
+    "desc": [ "Your enhanced resilience has faded away, your skin is flushed, and everything hurts." ],
+    "apply_message": "",
+    "remove_message": "",
+    "base_mods": { "pain_min": [ 5 ], "pain_max": [ 15 ], "pain_chance": [ 8 ], "pain_tick": [ 1800 ] },
+    "enchantments": [ { "values": [ { "value": "BLEEDING_RATE", "multiply": 0.75 } ] } ]
+  }
+]

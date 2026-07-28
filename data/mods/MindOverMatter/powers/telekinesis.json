@@ -23,7 +23,7 @@
     "base_casting_time": 150,
     "final_casting_time": 65,
     "casting_time_increment": -4,
-    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "telekinetic_item_pull_real",
@@ -135,7 +135,7 @@
     "base_casting_time": 150,
     "final_casting_time": 65,
     "casting_time_increment": -4,
-    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "telekinetic_force_shove_real",
@@ -234,7 +234,7 @@
     "base_casting_time": 75,
     "final_casting_time": 30,
     "casting_time_increment": -3,
-    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "telekinetic_momentum",

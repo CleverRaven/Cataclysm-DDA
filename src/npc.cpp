@@ -4115,7 +4115,7 @@ npc_follower_rules::npc_follower_rules()
 
     clear_flag( ally_rule::allow_pick_up );
     clear_flag( ally_rule::allow_bash );
-    clear_flag( ally_rule::allow_sleep );
+    set_flag( ally_rule::allow_sleep );
     set_flag( ally_rule::allow_complain );
     set_flag( ally_rule::allow_pulp );
     set_flag( ally_rule::close_doors );

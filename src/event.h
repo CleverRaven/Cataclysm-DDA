@@ -621,8 +621,8 @@ template<>
 struct event_spec<event_type::dimension_travel> {
     static constexpr std::array<event_field, 3> fields = {{
             { "character", cata_variant_type::character_id },
-            { "from_dimension", cata_variant_type::string },
-            { "to_dimension", cata_variant_type::string },
+            { "from_dimension", cata_variant_type::dimension_id },
+            { "to_dimension", cata_variant_type::dimension_id },
         }
     };
 };

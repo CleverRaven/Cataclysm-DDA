@@ -9,8 +9,10 @@
     "id": "portal_storm_dungeon_palette",
     "terrain": {
       " ": [ [ "t_floor_warped", 95 ], [ "t_floor_warped_light", 5 ] ],
+      "_": [ [ "t_floor_warped", 1 ], [ "t_open_air", 1 ] ],
       "-": "t_wall_warped",
       "!": "t_floor_warped",
+      "~": "t_open_air",
       "@": "t_floor_warped",
       "o": [ [ "t_floor_warped", 75 ], [ "t_wall_warped", 25 ] ],
       "O": [ [ "t_floor_warped", 25 ], [ "t_wall_warped", 75 ] ],

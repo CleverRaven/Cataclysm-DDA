@@ -1032,6 +1032,35 @@
     "melee_damage": { "bash": 1 }
   },
   {
+    "id": "bottle_liter",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "medium plastic bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "32 oz, or roughly 1-liter plastic bottle that can hold variety of liquids.",
+    "weight": "25 g",
+    "volume": "1188 ml",
+    "longest_side": "25 cm",
+    "price": "15 cent",
+    "price_postapoc": "1 cent",
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "1 L",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 400
+      }
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
     "id": "bottle_twoliter",
     "type": "ITEM",
     "category": "container",

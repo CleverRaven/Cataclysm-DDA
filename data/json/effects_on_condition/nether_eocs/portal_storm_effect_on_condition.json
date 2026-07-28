@@ -18,7 +18,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE_RECURRING",
     "recurrence": [ { "global_val": "ps_min_woc", "default": "5 days" }, { "global_val": "ps_max_woc", "default": "18 days" } ],
-    "condition": { "current_dimension": "" },
+    "condition": { "current_dimension": "default" },
     "global": true,
     "effect": { "run_eocs": "EOC_CAUSE_EARLY_PORTAL_STORM" },
     "false_effect": { "run_eocs": [ "EOC_WORSEN_PORTAL_STORM" ] }
@@ -669,7 +669,6 @@
       {
         "u_travel_to_dimension": "highlands",
         "npc_travel_radius": 0,
-        "region_type": "highlands",
         "npc_travel_filter": "none",
         "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
         "success_message": "Your surroundings warp and fold before reforming into a strange landscape."
@@ -689,7 +688,7 @@
     "id": "EOC_PORTAL_HIGHLANDS_RETURN",
     "effect": [
       {
-        "u_travel_to_dimension": "",
+        "u_travel_to_dimension": "default",
         "npc_travel_radius": 0,
         "npc_travel_filter": "none",
         "fail_message": "Nothing seems to change.",
@@ -975,7 +974,6 @@
       { "u_add_effect": "effect_temporary_levitation", "duration": 0 },
       {
         "u_travel_to_dimension": "portal_storm_dungeon_dimension",
-        "region_type": "default_portal_storm_dungeon",
         "npc_travel_radius": 0,
         "npc_travel_filter": "none",
         "fail_message": "Nothing seems to change.",
@@ -1172,12 +1170,12 @@
           {
             "if": { "u_has_trait": "awayfromhome" },
             "then": {
-              "u_travel_to_dimension": "dimension_sky_island_mission",
+              "u_travel_to_dimension": { "global_val": "sky_island_target_region_settings" },
               "fail_message": "You feel a prickle at the edge of your senses.",
               "success_message": "The shifting halls warp and fold on themselves and turn inside out, revealing the world below."
             },
             "else": {
-              "u_travel_to_dimension": "",
+              "u_travel_to_dimension": "default",
               "npc_travel_radius": 0,
               "npc_travel_filter": "none",
               "fail_message": "You feel a prickle at the edge of your senses.",
@@ -1186,7 +1184,7 @@
           }
         ],
         "else": {
-          "u_travel_to_dimension": "",
+          "u_travel_to_dimension": "default",
           "npc_travel_radius": 0,
           "npc_travel_filter": "none",
           "fail_message": "You feel a prickle at the edge of your senses.",

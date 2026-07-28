@@ -1,9 +1,17 @@
 # Dimensions
-Dimensions are stored within a save folder, they are mostly disconnected from the "main" dimension, aka the dimension stored above `/dimensions` folder. 
-When travelling between them, you aren't travelling as much as you are "switching" which dimension data folder is loaded right now.
+Dimensions are defined in `json\region_settings\region_settings\dimensions\dimensions.json` like so:
+```json
+{
+	"type": "dimension",
+	"id": "default",
+	"region_layout": "default"
+}
+```
 
-There's almost no distinction between creating a dimension and loading into it. `u_travel_to_dimension` will just create a dimension if the ID you gave it doesn't correspond to an existing dimension.
-The one exception is `region_type`, you're only allowed to change a dimension's `region_settings` object when creating a new dimension. If you're loading into an already existing dimension, the `region_type` variable in `u_travel_to_dimension` will be ignored.  
+Currently they only specify a [region_layout](REGION_LAYOUT.MD).
+
+Dimensions are stored within a save folder, they are mostly disconnected from the "main" dimension, aka the dimension stored above `/dimensions` folder.
+When travelling between them, you aren't travelling as much as you are "switching" which dimension data folder is loaded right now. There's almost no distinction between creating a dimension and loading into it. 
 
 By design, you aren't allowed to alter world data of unloaded dimensions. Meaning you can't place down structures in unloaded dimensions, place down NPCs, assign missions requiring a location inside the dimension, you can't even view the unloaded dimensions on an in-game map.
 
@@ -45,24 +53,14 @@ Travel to dimension `test`, take any item within 3 tiles of your avatar with you
 
 If you pass a location variable in `target_location`, the function will use that as the center point for where to get items from and where to place items after the shift.
 ```jsonc
-{ "u_travel_to_dimension": "test", "item_travel_radius": 3, "region_type": "default", "target_location": { "u_val": "debug_loc" } }
+{ "u_travel_to_dimension": "test", "item_travel_radius": 3, "target_location": { "u_val": "debug_loc" } }
 ```
 
 All of the items transferred as part of the shift will be placed on the player's location, or `target_location` if set. Any items that do not fit in that tile will spill outwards from that point until all of them can be placed.
 
-## Region Settings
-
-When generating a new dimension, you have the option to supply a [region_settings](REGION_SETTINGS.md) object which the dimension will use to generate it's terrain.
-
-Creating a new dimension `test_dimension` with the `region_settings` object with id `test`.
-```jsonc
-{"u_travel_to_dimension":"test_dimension","region_type":"test"}
-```
-
-If travelling to an already created dimension, the `region_type` variable won't change the dimension's `region_settings` object. If you want that, you need to `clear_dimension` the dimension first.
 ## Cleanup
 
-If you're going for a temporary dimension or maybe you want the overworld terrain to be regenerated. You can use `clear_dimension` EOC func.
+If you want the overworld terrain to be regenerated, you can use the `clear_dimension` EOC function:
 
 ```jsonc
 {"clear_dimension":"test"}

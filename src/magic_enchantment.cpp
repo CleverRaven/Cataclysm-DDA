@@ -173,6 +173,7 @@ namespace io
             case enchant_vals::mod::STAMINA_REGEN_MOD: return "STAMINA_REGEN_MOD";
             case enchant_vals::mod::MOVEMENT_EXERTION_MODIFIER: return "MOVEMENT_EXERTION_MODIFIER";
             case enchant_vals::mod::WEAKPOINT_ACCURACY: return "WEAKPOINT_ACCURACY";
+            case enchant_vals::mod::BLEEDING_RATE: return "BLEEDING_RATE";
             case enchant_vals::mod::WEIGHT: return "WEIGHT";
             case enchant_vals::mod::MOTION_ALARM: return "MOTION_ALARM";
             case enchant_vals::mod::TOTAL_WEIGHT: return "TOTAL_WEIGHT";

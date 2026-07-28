@@ -248,13 +248,7 @@ tripoint displace( cube_direction d )
 // *** BEGIN overmap FUNCTIONS ***
 overmap::overmap( const point_abs_om &p ) : loc( p )
 {
-    const region_settings_id region_type( overmap_buffer.current_region_type );
-    if( overmap_buffer.current_region_type == "default" || !region_type.is_valid() ) {
-        const region_settings_id default_settings = overmap_buffer.get_default_settings( p ).id;
-        settings = default_settings;
-    } else {
-        settings = region_type;
-    }
+    settings = overmap_buffer.get_overmap_region( tripoint_abs_om( p, 0 ) );
     init_layers();
     hordes.set_location( loc );
 }

@@ -168,8 +168,7 @@
     "//2": "This group is for a messy junk drawer.  The idea is that it should be filled with random crud, much of it obvious trash.  Like you might find in the home of someone with a small hoarding problem.",
     "subtype": "collection",
     "entries": [
-      { "item": "cash_card", "count": [ 1, 3 ], "charges": [ 1, 1150 ] },
-      { "item": "cash_card", "count": [ 1, 4 ], "charges": 0 },
+      { "item": "credit_card", "count": [ 1, 4 ] },
       { "item": "lighter", "prob": 90, "charges": [ 0, 2 ] },
       { "group": "bag_garbage_box_part", "prob": 95 },
       { "item": "bottle_opener", "prob": 90 },
@@ -1211,9 +1210,8 @@
     "subtype": "collection",
     "entries": [
       { "group": "novels", "prob": 100, "count": [ 7, 21 ] },
-      { "group": "kids_books", "prob": 33, "count": [ 3, 7 ] },
-      { "group": "literature", "prob": 100, "count": [ 2, 5 ] },
-      { "group": "homebooks", "count": [ 6, 19 ], "prob": 100 }
+      { "group": "kids_books", "prob": 15, "count": [ 3, 7 ] },
+      { "group": "literature", "prob": 100, "count": [ 2, 5 ] }
     ]
   },
   {

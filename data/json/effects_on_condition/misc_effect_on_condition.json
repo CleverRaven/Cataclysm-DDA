@@ -298,7 +298,7 @@
     "run_for_npcs": true,
     "condition": {
       "and": [
-        { "current_dimension": "" },
+        { "current_dimension": "default" },
         "u_is_outside",
         "u_can_see",
         { "test_eoc": "EOC_CONDITION_XE_SUNRISE_MORALE_OVERRIDES" }
@@ -373,7 +373,12 @@
     "global": true,
     "run_for_npcs": true,
     "condition": {
-      "and": [ { "current_dimension": "" }, "u_is_outside", "u_can_see", { "test_eoc": "EOC_CONDITION_XE_SUNSET_MORALE_OVERRIDES" } ]
+      "and": [
+        { "current_dimension": "default" },
+        "u_is_outside",
+        "u_can_see",
+        { "test_eoc": "EOC_CONDITION_XE_SUNSET_MORALE_OVERRIDES" }
+      ]
     },
     "effect": [
       {

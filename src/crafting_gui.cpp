@@ -461,6 +461,7 @@ class crafting_ui_impl : public cataimgui::window
         bool pending_enter_batch = false;
         bool pending_exit_batch = false;
         bool need_scroll_to_selected = false;
+        bool need_scroll_to_selected_recipe_details = false;
 
         // One-frame flags: force ImGui to select a specific tab, then clear.
         // Set on programmatic tab changes (PREV_TAB/NEXT_TAB/LEFT/RIGHT).
@@ -925,6 +926,10 @@ bool crafting_ui_impl::nav_clickable( const char *label, nc_color col )
 {
     int idx = info_nav_active ? info_nav_count : -1;
     info_nav_count++;
+    if( need_scroll_to_selected_recipe_details && info_nav_cursor == idx ) {
+        ImGui::SetScrollHereY();
+        need_scroll_to_selected_recipe_details = false;
+    }
     return clickable_text( label, col, idx,
                            info_nav_active ? info_nav_cursor : -1,
                            info_nav_active ? info_nav_activated : -1 );
@@ -1050,8 +1055,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
                     if( text_w < region_w ) {
                         ImGui::SetCursorPosX( ImGui::GetCursorPosX() + ( region_w - text_w ) / 2.f );
                     }
-                    ImGui::TextColored( cataimgui::imvec4_from_color( c_dark_gray ), "%s",
-                                        source_text.c_str() );
+                    cataimgui::draw_colored_text( source_text, c_dark_gray, region_w );
                 }
             }
 
@@ -1141,7 +1145,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 if( line_w < region_w ) {
                     ImGui::SetCursorPosX( ImGui::GetCursorPosX() + ( region_w - line_w ) / 2.f );
                 }
-                cataimgui::draw_colored_text( colored, c_light_gray );
+                cataimgui::draw_colored_text( colored, c_light_gray, region_w );
             }
         }
 
@@ -1152,7 +1156,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
             if( line_w < region_w ) {
                 ImGui::SetCursorPosX( ImGui::GetCursorPosX() + ( region_w - line_w ) / 2.f );
             }
-            cataimgui::draw_colored_text( lighting_str, c_red );
+            cataimgui::draw_colored_text( lighting_str, c_red, region_w );
         }
         ImGui::Separator();
 
@@ -1211,7 +1215,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
             if( !savings.empty() ) {
                 cataimgui::draw_colored_text(
                     string_format( _( "Batch time savings: %s" ),
-                                   colorize( savings, c_cyan ) ), c_light_gray );
+                                   colorize( savings, c_cyan ) ), c_light_gray, region_w );
             }
         }
 
@@ -1991,21 +1995,16 @@ void crafting_ui_impl::draw_requirement_tools( const requirement_data &req,
         }
         ImGui::TextColored( cataimgui::imvec4_from_color( c_white ), "  \u2022 " );
         ImGui::SameLine( 0, 0 );
-        bool first = true;
+        std::vector<std::string> req;
         for( const quality_requirement &qr : qual_alts ) {
-            if( !first ) {
-                ImGui::SameLine( 0, 0 );
-                ImGui::TextColored( cataimgui::imvec4_from_color( c_white ), " %s ",
-                                    _( "OR" ) );
-                ImGui::SameLine( 0, 0 );
-            }
-            first = false;
             nc_color col = qr.has( crafting_inv, return_true<item>, 1 ) ? c_green :
                            ( any_has ? c_dark_gray : c_red );
-            ImGui::TextColored( cataimgui::imvec4_from_color( col ), "%s",
-                                qr.to_string( 1 ).c_str() );
+            req.emplace_back( colorize( qr.to_string( 1 ), col ) );
         }
-        ImGui::Dummy( ImVec2( 0, 0 ) );
+        const float avail_width = ImGui::GetContentRegionAvail().x;
+        ImGui::BeginGroup();
+        cataimgui::draw_colored_text( string_join( req, _( " OR " ) ), avail_width );
+        ImGui::EndGroup();
     }
 
     // Tool groups -- bullet per group, with named req labels and expand/collapse
@@ -2491,8 +2490,10 @@ void crafting_ui_impl::process_action( const std::string &action_in,
         if( action == "DOWN" ) {
             info_nav_cursor = std::min( info_nav_cursor + 1,
                                         std::max( 0, info_nav_count - 1 ) );
+            need_scroll_to_selected_recipe_details = true;
         } else if( action == "UP" ) {
             info_nav_cursor = std::max( info_nav_cursor - 1, 0 );
+            need_scroll_to_selected_recipe_details = true;
         } else if( action == "CONFIRM" ) {
             info_nav_activated = info_nav_cursor;
         } else if( action == "TOGGLE_INFO_NAV" || action == "QUIT" ) {

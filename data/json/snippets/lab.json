@@ -318,6 +318,16 @@
   },
   {
     "type": "snippet",
+    "category": "<serum_testing_super_soldier>",
+    "text": [
+      {
+        "id": "serum_testing_super_soldier_1",
+        "text": "Inject subject with 10 ml of 29x-\"Noonien\" compound\nPhysical activity regimen: standard US Armed Forces Army Fitness Test\nResults: Subject, previously in the 60% percentile for AFT results, placed in the 99% percentile on three consecutive days of taking the test.  On the fourth day, subject complained of muscle soreness and was placed under observation and ordered to perform only light activity the following day.  On the fifth day, subject expressed eagerness to try again and once again scored in the 99% percentile.  However, a physical examination following the testing period revealed a sprained ankle; the subject repeatedly expressed a wish to continue trying and that there was no need for medical treatment.  Subject was placed on light activity for the remainder of the observation period.\nLong term effects: on the first day the subject did not eat at all.  Following a continued disinterest in eating they were placed on a standard diet on following days, modified to a high-calorie diet when they continually left meals unfinished.  Recipients of 29x-\"Noonien\" will been strict dietary instructions to obtain proper nutrition.  Seven days after initial application of 29x-\"Noonien\", subject complained of serious ankle pain and requested painkillers, which were provided."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "lab_notes",
     "text": [
       "We've had to remind the groups that the trams that have been completed for inter-facility shipments are not for personal use, no matter how long it's been since they've seen their significant others.  Receiving says their stockrooms are a mess because of all the frivolous shipments.  Don't people know better about office romances anyways?",

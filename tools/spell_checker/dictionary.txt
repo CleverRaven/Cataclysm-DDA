@@ -335,6 +335,7 @@ armguards
 Armitage
 armormaking
 armorsmithing
+Armus
 aromantic
 arowana
 arowanas
@@ -383,6 +384,7 @@ assistive
 asswagon
 asswipe
 Asterios
+asterix
 astrodon
 astrodons
 astrolaspis
@@ -3136,6 +3138,7 @@ ichthys
 ick
 iconical
 ICs
+idefix
 idolators
 IDW
 IDWs
@@ -3938,6 +3941,7 @@ Lorence
 Lorentz
 Los
 Losouarn
+lothar
 Lottie
 Lou
 Louan
@@ -4876,6 +4880,7 @@ nonsedated
 nonvalid
 nonverbally
 noob
+Noonien
 noosphere
 nopal
 nopales
@@ -4946,6 +4951,7 @@ Oakley
 Oan
 Oanez
 Oates
+obelix
 Obrez
 obscura
 Oceania
@@ -5685,6 +5691,7 @@ renfields
 Reno
 repairwork
 replow
+Repo
 Repolymerization
 Represa
 reprime
@@ -6346,6 +6353,8 @@ smokable
 smoothbores
 smoots
 SMR
+smurf
+smurfs
 Smythe
 snakelet
 snakelets
@@ -6956,6 +6965,7 @@ Timorese
 Tinamidae
 Tindalos
 tink
+tintin
 Tipperary
 tiramisù
 tireplate

@@ -716,7 +716,7 @@ std::string mission::get_description() const
     return type->description.translated();
 }
 
-std::string mission::get_dimension() const
+dimension_id mission::get_dimension() const
 {
     return dimension;
 }
@@ -809,7 +809,7 @@ void mission::set_deadline( time_point new_deadline )
     deadline = new_deadline;
 }
 
-void mission::set_dimension( const std::string &dimension_prefix )
+void mission::set_dimension( dimension_id dimension_prefix )
 {
     dimension = dimension_prefix;
 }

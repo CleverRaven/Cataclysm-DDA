@@ -4,7 +4,7 @@
     "type": "ITEM",
     "category": "drugs",
     "name": { "str_sp": "48x-\"Locutus\"" },
-    "description": "Little, sealed ampule with some white, semi-transparent liquid of unknown origin.  Label on it says \"48x-\"Locutus\"\", whatever that means.",
+    "description": "A little, sealed ampule with some white, semi-transparent liquid of unknown origin.  The label on it says \"48x-\"Locutus\"\", whatever that means.",
     "display_type": "BY_VOLUME",
     "weight": "7 g",
     "volume": "10 ml",
@@ -21,6 +21,60 @@
           {
             "id": "EOC_RUN_SERUM_REGEN",
             "effect": { "run_eocs": "EOC_SERUM_GENERIFIED", "variables": { "eoc": "EOC_SERUM_REGEN" } }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "serum_super_soldier",
+    "type": "ITEM",
+    "category": "drugs",
+    "name": { "str_sp": "29x-\"Noonien\"" },
+    "description": "A little, sealed ampule with some reddish, semi-transparent liquid of unknown origin.  The label on it says \"29x-\"Noonien\"\", whatever that means.",
+    "display_type": "BY_VOLUME",
+    "weight": "7 g",
+    "volume": "10 ml",
+    "material": [ "alien_liquid" ],
+    "symbol": "[",
+    "color": "red",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "consume": true,
+        "menu_text": "Inject",
+        "description": "Inject the liquid.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_RUN_SERUM_SUPER_SOLDIER",
+            "effect": { "run_eocs": "EOC_SERUM_GENERIFIED", "variables": { "eoc": "EOC_SERUM_SUPER_SOLDIER" } }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "serum_resilience",
+    "type": "ITEM",
+    "category": "drugs",
+    "name": { "str_sp": "16x-\"Armus\"" },
+    "description": "A little, sealed ampule with some grayish, semi-transparent liquid of unknown origin.  The label on it says \"16x-\"Armus\"\", whatever that means.",
+    "display_type": "BY_VOLUME",
+    "weight": "7 g",
+    "volume": "10 ml",
+    "material": [ "alien_liquid" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "consume": true,
+        "menu_text": "Inject",
+        "description": "Inject the liquid.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_RUN_SERUM_RESILIENCE",
+            "effect": { "run_eocs": "EOC_SERUM_GENERIFIED", "variables": { "eoc": "EOC_SERUM_RESILIENCE" } }
           }
         ]
       }
