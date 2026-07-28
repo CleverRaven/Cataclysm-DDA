@@ -1114,8 +1114,8 @@ void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
             /** @ARM_STR increases bash effects when reach attacking past something */
             here.bash( path_point, get_arm_str() + weapon.damage_melee( damage_bash ) );
             handle_melee_wear( get_wielded_item() );
-	    reduce_moves_from_attack(forced_movecost, move_cost );
-	    return;
+            reduce_moves_from_attack( forced_movecost, move_cost );
+            return;
         }
     }
 
