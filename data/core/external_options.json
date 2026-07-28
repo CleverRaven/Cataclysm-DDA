@@ -1,8 +1,8 @@
 [
   {
     "type": "EXTERNAL_OPTION",
-    "name": "COMBAT_SPEED_MULTIPLIER",
-    "//": "Multiplicatively increases combat speed to a maximum of 1, mitigating weary maluses. Bigger is faster.",
+    "name": "COMBAT_SPEED_MODIFIER",
+    "//": "Multiplicatively mitigates weary maluses. Bigger is faster. 2 is twice as fast, to a max of your non-weary speed.",
     "stype": "float",
     "value": 1
   },

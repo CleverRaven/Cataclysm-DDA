@@ -21,6 +21,7 @@
 #include "bionics.h"
 #include "body_part_set.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -213,12 +214,6 @@ bool Character::unarmed_attack() const
 {
     const item_location weap = used_weapon();
     return !weap;
-}
-
-int COMBAT_SPEED_MODIFIER() const
-{
-    const COMBAT_SPEED_MODIFIER_CACHE = get_option<float>( "COMBAT_SPEED_MODIFIER" );
-    return COMBAT_SPEED_MODIFIER_CACHE;
 }
 
 bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
@@ -987,8 +982,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     add_msg_debug( debugmode::DF_MELEE, "Stamina burn base/total (capped at -50): %d/%d", base_stam,
                    total_stam + deft_bonus );
     // Weariness handling - 1 / the value, because it returns what % of the normal speed
-    // Set the % move speed penalty to the smaller of the modified speed or 100%, to avoid changing baseline attack speed
-    const float weary_mult = 1 / std::min( COMBAT_SPEED_MODIFIER() *
+    // Set the % move speed to the smaller of the modified speed or 100%, to avoid accelerating baseline attack speed
+    const float weary_mult = std::min( combat_speed_modifier *
                                            exertion_adjusted_move_multiplier(
                                                    EXTRA_EXERCISE ),
                                            1.0f );
@@ -1085,7 +1080,7 @@ void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
     // Weariness handling
     // 1 / mult because mult is the percent penalty, in the form 1.0 == 100%
     // mult cannot be less than 100% because then that would be a bonus.
-    const float weary_mult = 1 / std::min ( COMBAT_SPEED_MODIFIER() *
+    const float weary_mult = 1.0f / std::min ( combat_speed_modifier *
                                            exertion_adjusted_move_multiplier(
                                                    EXTRA_EXERCISE ),
                                            1.0f );
