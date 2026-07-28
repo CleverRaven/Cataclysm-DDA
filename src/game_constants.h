@@ -168,15 +168,6 @@ const std::map<float, std::string> activity_levels_str_map = {
     { EXTRA_EXERCISE, "EXTRA_EXERCISE" }
 };
 
-/* Decreases the effect of weary maluses on combat actions.
- * Works multiplicatively.
- * Does not decrease weariness gains, and doesn't
- * allow faster-than-usual actions under any circumstances.
- * .8 approximately decreases the light and extra maluses by one level.
- */
-constexpr float ADRENALINE = 1.0f;
-
-
 // these are the lower bounds of each of the weight classes, determined by the amount of BMI coming from stored calories (fat)
 namespace character_weight_category
 {

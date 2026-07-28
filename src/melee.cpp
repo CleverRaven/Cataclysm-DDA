@@ -982,7 +982,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                    total_stam + deft_bonus );
     // Weariness handling - 1 / the value, because it returns what % of the normal speed
     // Set the % move speed penalty to the smaller of the modified speed or 100%, to avoid changing baseline attack speed
-    const float weary_mult = 1 / std::min( COMBAT_SPEED_MODIFIER * exertion_adjusted_move_multiplier(
+    const float weary_mult = 1 / std::min( get_option<float>( "COMBAT_SPEED_MODIFIER" ) * exertion_adjusted_move_multiplier(
                                            EXTRA_EXERCISE ),
                                        1.0f );
     mod_moves( forced_movecost >= 0 ? -forced_movecost : -move_cost * ( 1 / weary_mult ) );
@@ -1078,7 +1078,7 @@ void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
     // Weariness handling
     // 1 / mult because mult is the percent penalty, in the form 1.0 == 100%
     // mult cannot be less than 100% because then that would be a bonus.
-    const float weary_mult = 1 / std::min( COMBAT_SPEED_MODIFIER * exertion_adjusted_move_multiplier(
+    const float weary_mult = 1 / std::min( get_option<float>( "COMBAT_SPEED_MODIFIER" ) * exertion_adjusted_move_multiplier(
                                            EXTRA_EXERCISE ),
                                        1.0f );
     int move_cost = attack_speed( weapon ) * weary_mult;
