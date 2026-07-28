@@ -192,7 +192,7 @@
     "id": "MISSION_ISHERWOOD_JESSE_1",
     "type": "mission_definition",
     "name": { "str": "Kill wolves" },
-    "goal": "MGOAL_KILL_MONSTER",
+    "goal": "MGOAL_KILL_MONSTERS",
     "difficulty": 5,
     "value": 50000,
     "followup": "MISSION_ISHERWOOD_JESSE_2",

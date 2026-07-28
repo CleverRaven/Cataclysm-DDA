@@ -352,6 +352,15 @@ class mission
             monster_kill_goal++;
         };
         /**
+         * Returns whether this mission should display a kill count
+         */
+        bool has_kill_count() const;
+        /**
+         * Returns the number of kills remaining for this mission.
+         * A value of -1 means the creatures have not yet been generated.
+         */
+        int get_kills_remaining();
+        /**
          * Whether the mission is assigned to a player character. If not, the mission is free and
          * can be assigned.
          */
