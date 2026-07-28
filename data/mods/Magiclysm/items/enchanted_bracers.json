@@ -16,8 +16,8 @@
     "warmth": 10,
     "material_thickness": 5,
     "flags": [ "OUTER", "STURDY", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
-    "armor": [ 
-      { 
+    "armor": [
+      {
         "covers": [ "arm_l", "arm_r" ],
         "encumbrance": 3,
         "coverage": 95,
