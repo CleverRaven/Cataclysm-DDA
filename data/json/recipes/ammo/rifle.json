@@ -322,7 +322,7 @@
     "charges": 1,
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 2 ], [ "ammo_3006", 1 ] ],
-    "//": "3175 mg gunpowder rounded to 32 100 mg 'pieces'",
+    "//": "3175 mg gunpowder rounded to 32 100 mg 'pieces' bweh",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "gunpowder_rifle", 32 ], [ "gunpowder_large_rifle", 32 ] ], [ [ "scrap", 1 ] ], [ [ "copper", 2 ] ] ]
   },
