@@ -281,7 +281,7 @@
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "faults": [ { "fault_group": "handle_long", "weight_mult": 2 }, { "fault_group": "spearhead" } ],
     "weapon_category": [ "SPEARS" ],
-    "melee_damage": { "bash": 4, "stab": 21 }
+    "melee_damage": { "bash": 4, "stab": 20 }
   },
   {
     "type": "ITEM",
