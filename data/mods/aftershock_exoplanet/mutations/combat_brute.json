@@ -54,7 +54,7 @@
     "type": "mutation",
     "id": "AFS_GOOD_HEAD",
     "name": { "str": "Intra-Cranial Padding" },
-    "description": "Internal bladders of cerebrospinal fluid better protect your brain from trauma and concussions.  You cannot be stunned in melee, and your head is more resistant than normal.  The reduced brain volume has slight effects on your intelligence and learning ability.",
+    "description": "Internal bladders of cerebrospinal fluid better protect your brain from trauma and concussions.  You cannot be stunned in melee, and your head is more resistant than normal.  The reduced brain volume has slightly deleterious effects on your intelligence and learning ability.",
     "category": [ "COMBAT_BRUTE" ],
     "points": 1,
     "integrated_armor": [ "integrated_cranial_padding" ],
