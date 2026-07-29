@@ -366,7 +366,7 @@
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
     "name": { "str": "under-folding stock (folded)", "str_pl": "under-folding stocks (folded)" },
-    "description": "A light wire-framed stock with a push button release catch on the side  which allows it to fold and be stored away under the weapon's receiver.  It is currently folded underneath the weapon's chassis, making it more difficult to control.",
+    "description": "A light wire-framed stock with a push button release catch on the side which allows it to fold and be stored away under the weapon's receiver.  It is currently folded underneath the weapon's chassis, making it more difficult to control.",
     "copy-from": "under_folding_stock",
     "use_action": {
       "type": "transform",
