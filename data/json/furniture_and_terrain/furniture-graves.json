@@ -64,6 +64,43 @@
   },
   {
     "type": "furniture",
+    "id": "f_imperial_sarcophagus",
+    "name": "royal sarcophagus",
+    "description": "An army of ossified figures marches across the four sides of this massive stone coffin, their procession led by a regal figure whose features are obscured by a veil.  The lid is firmly sealed, and whatever lies within is inaccessible.",
+    "copy-from": "f_highland_sarcophagus",
+    "light_emitted": 120,
+    "color": "yellow",
+    "bash": {
+      "str_min": 20,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "furn_set": "f_imperial_sarcophagus_o",
+      "items": [ { "item": "rock", "count": [ 2, 7 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_imperial_sarcophagus_o",
+    "name": "broken royal sarcophagus",
+    "description": "Pieces of the stone reliefs are scattered across the floor, and the lid has been shattered to allow access to the interior.",
+    "copy-from": "f_highland_sarcophagus_o",
+    "color": "yellow",
+    "bash": {
+      "str_min": 20,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "furn_set": "f_imperial_sarcophagus_o",
+      "items": [
+        { "item": "rock", "count": [ 12, 40 ] },
+        { "item": "silver_small", "count": [ 4, 12 ] },
+        { "item": "gold_small", "count": [ 4, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_grave_head",
     "name": "headstone",
     "description": "A large slab of stone, engraved with information on the deceased individual buried beneath.  While only a solemn reminder of the uncountable losses of the Cataclysm, a proper final resting place grants an odd sense of peace.",
