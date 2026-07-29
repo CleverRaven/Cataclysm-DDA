@@ -130,7 +130,7 @@
     "subtype": "hobby",
     "id": "afs_origin_tribal_hobby",
     "name": "(Origin) Rediscovered Tribal",
-    "description": "During the centuries of the discontinuity, several nominally-habitable worlds maintained human life but lost all technologically advanced civilization. Even today, most of them remain \"underdeveloped\", wether that be due to lack of resources or because they serve as convenient stores of cheap labor.\n\nYou were born on one of these worlds, and after being Shanghaied into a cargo hauling crew, you've somehow ended up on the hell that is Salus IV.  At least you have some experience surviving outside of what these spacers call 'civilization'.",
+    "description": "During the centuries of the discontinuity, several nominally-habitable worlds maintained human life but lost all technologically advanced civilization.  Even today, most of them remain \"underdeveloped\", wether that be due to lack of resources or because they serve as convenient stores of cheap labor.\n\nYou were born on one of these worlds, and after being Shanghaied into a cargo hauling crew, you've somehow ended up on the hell that is Salus IV.  At least you have some experience surviving outside of what these spacers call 'civilization'.",
     "points": 0,
     "traits": [ "BKGR_REDISCOVERED_TRIBAL", "SLOWREADER" ],
     "proficiencies": [ "prof_polearms_familiar", "prof_butchering_adv", "prof_skinning_basic", "prof_plasticworking", "prof_carving" ],

@@ -65,7 +65,7 @@
     "id": "BKGR_REDISCOVERED_TRIBAL",
     "name": { "str": "Rediscovered Tribal" },
     "copy-from": "AFS_BKGR_ABSTRACT",
-    "description": "During the centuries of the discontinuity, several nominally-habitable worlds maintained human life but lost all technologically advanced civilization. Even today, most of them remain \"underdeveloped\" you were born in one such world."
+    "description": "During the centuries of the discontinuity, several nominally-habitable worlds maintained human life but lost all technologically advanced civilization.  Even today, most of them remain \"underdeveloped\" you were born in one such world."
   },
   {
     "type": "mutation",

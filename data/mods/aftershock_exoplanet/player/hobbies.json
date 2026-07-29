@@ -14,7 +14,7 @@
     "subtype": "hobby",
     "id": "mundane_survival",
     "name": "Mundane Survival",
-    "description": "You know how to survive within interstellar civilization, know basic safety protocols, and theres little chance of you ever opening an airlock by mistake.",
+    "description": "You know how to survive within interstellar civilization, know basic safety protocols, and there's little chance of you ever opening an airlock by mistake.",
     "points": 1,
     "skills": [
       { "level": 1, "name": "computers" },

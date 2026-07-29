@@ -217,7 +217,7 @@
     "type": "profession",
     "id": "afs_vatgrown_bodyguard",
     "name": "Vatgrown Bodyguard",
-    "description": "You were born a perfectly engineered bodyguard, grown in a corporate blacksite and given nothing to live for but your client.  Tha arrangement, however did not last.",
+    "description": "You were born a perfectly engineered bodyguard, grown in a corporate blacksite and given nothing to live for but your client.  That arrangement, however did not last.",
     "points": 3,
     "starting_cash": 1120000,
     "traits": [ "AFS_BRUTAL_STRENGTH", "SLOWREADER", "LIGHTWEIGHT", "ORIGIN_BACKGROUND" ],
@@ -292,7 +292,7 @@
     "type": "profession",
     "id": "afs_holo_fighter",
     "name": "Infiltrator",
-    "description": "Touring the frontier in search of intelligence and sabotage contracts may not be the most glamorous mercenary work, but pays well and keeps you out of the backstabbing in the corporate core.  ",
+    "description": "Touring the frontier in search of intelligence and sabotage contracts may not be the most glamorous mercenary work, but pays well and keeps you out of the backstabbing in the corporate core.",
     "points": 8,
     "starting_cash": 2600000,
     "skills": [
