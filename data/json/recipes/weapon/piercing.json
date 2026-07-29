@@ -2530,7 +2530,7 @@
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ],
     "steps": [
       {
-        "name": "Heating and cutting steel for  blade and tang",
+        "name": "Heating and cutting steel for blade and tang",
         "time": "30 m",
         "activity_level": "BRISK_EXERCISE",
         "using": [ [ "hotcut_any", 1 ] ],
