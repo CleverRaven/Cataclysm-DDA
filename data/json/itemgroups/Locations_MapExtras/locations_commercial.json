@@ -484,6 +484,7 @@
       [ "briefcase", 5 ],
       [ "puller", 5 ],
       [ "press", 5 ],
+      [ "arbor_press", 5 ],
       [ "vac_sealer", 10 ],
       [ "gasoline_lantern", 5 ],
       [ "electric_lantern", 8 ],

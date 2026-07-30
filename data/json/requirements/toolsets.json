@@ -8,7 +8,8 @@
       [ [ "fire", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ],
       [ [ "tongs", -1 ] ],
       [ [ "tape_measure", -1 ] ],
-      [ [ "swage", -1 ] ]
+      [ [ "swage", -1 ] ],
+      [ [ "arbor_press", -1 ] ]
     ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ]
   },
