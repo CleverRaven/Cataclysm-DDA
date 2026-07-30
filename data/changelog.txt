@@ -507,7 +507,6 @@ A mission to negotiate trade between the Exodii and Free Merchants
 Add display type to certain food/drink products
 Overhaul the Portal Storm dungeon
 Add super-soldier serum, 29x-"Noonien"
-Add dragonfly head mutation for Insect
 Add enchantment to modify bleeding rate
 Add european comics
 Add crashed XEDRA serum transport truck map extras
@@ -1166,14 +1165,6 @@ Aftershock: Add industrial habitat building.
 Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
 [XedraWood] Add magical tattoos and a profession that starts with them
 [Xedra Evolved] Add Follower dialogue topic to ask them to cast spells
-[XE] Fix Boann's march lord killing mission
-[XE] Remove leftover checks for obsoleted blotted sun weather.
-[DinoMod] Make NPC Red unique
-Poppy-bud drug recipes are autolearned in Innawoods
-[MoM] Convert telepathic matrix crystals to artifacts
-[MoM] Switch Telekinetic Push./Pull from SPECIES to a flag
-[Xedra Evolved] Faewild allows you to see invisible creatures
-[Xedra Evolved] Disable Wild Hunt random encounter for now
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1327,10 +1318,6 @@ Zero cost spells remain zero cost even if encumbered
 Kelvar is now fireproof
 Add some more fluff nonfiction hardbacks
 Exodii traders dont accept currencies
-Add cloak and blanket coverage for wings, wearing something over your wings stops you from gliding
-Adjusts recently added Shockwave 590S Shotgun and pocket of Breacher Load Bearing Vest
-Add non-book book nests
-Update Mandibles and Folding Fangs to use technique bites
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1881,11 +1868,7 @@ Break monster grab if the monster was flung away
 [Xedra Evolved] Lilin only attack you in the main dimension
 NPCs will now get their spells from professions and hobbies during random NPC creation
 Fix surroundings menu scrolling
-Double map range and hint for Alonso mission
-Remove ASCII art & bodygraph empty lines
 Pocket options: allow interacting with a pocket with hidden contents (fixes crashes too)
-Fix duplicate and missing dialogs for Luke/Carlos Isherwood
-Fix the valid mod locations of the exodii naval gun and zombie hunting rifle by adding them back
 Allow NPCs to sleep during free_time
 NPCs default to allow_sleep ally rule
 Display multiple like items in car part removal on the same line with a count
