@@ -9,7 +9,8 @@
       [ [ "tongs", -1 ] ],
       [ [ "tape_measure", -1 ] ],
       [ [ "swage", -1 ] ],
-      [ [ "arbor_press", -1 ] ]
+      [ [ "arbor_press", -1 ] ],
+      [ [ "ppe_gloves", -1 ] ]
     ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ]
   },
