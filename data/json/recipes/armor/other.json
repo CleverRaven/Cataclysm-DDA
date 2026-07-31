@@ -133,7 +133,7 @@
     "time": "85 m",
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork_simple", 33 ] ],
-    "components": [ [ [ "down_feather", 160 ] ] ],
+    "components": [ [ [ "down_feather", 10 ] ] ],
     "byproducts": [ [ "scrap_cotton", 2 ] ]
   },
   {
