@@ -67,12 +67,6 @@
   {
     "type": "item_group",
     "subtype": "distribution",
-    "id": "123ln_loose",
-    "items": [ { "item": "123ln", "charges": [ 1, 10 ], "prob": 7 }, { "item": "123ln_ap", "charges": [ 1, 10 ], "prob": 3 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "distribution",
     "id": "308_loose",
     "items": [ { "item": "308", "charges": [ 1, 10 ], "prob": 7 }, { "item": "762_51", "charges": [ 1, 10 ], "prob": 3 } ]
   },
