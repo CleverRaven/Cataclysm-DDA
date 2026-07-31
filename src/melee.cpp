@@ -1331,8 +1331,8 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
                                         damage_instance &di, bool average, const item &weap,
                                         const attack_vector_id &attack_vector, const sub_bodypart_str_id &contact, float crit_mod )
 {
-    // FIXME: Hardcoded damage type
-    float dmg = dt == damage_bash ? 0.f : u.mabuff_damage_bonus( dt ) + weap.damage_melee( dt );
+    float dmg = u.mabuff_damage_bonus( dt ) + weap.damage_melee( dt );
+    float dmg_mul = 1.0f;
     bool unarmed = !attack_vector->weapon;
     int arpen = 0;
 
@@ -1340,6 +1340,30 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
 
     if( u.has_active_bionic( bio_cqb ) ) {
         skill = BIO_CQB_LEVEL;
+    }
+
+    // FIXME: Hardcoded damage type effects (bash)
+    if( dt == damage_bash ) {
+        /** @ARM_STR increases bashing damage */
+        /** @EFFECT_STR increases bashing damage */
+        dmg += u.bonus_damage( !average );
+        /** @EFFECT_BASHING caps bash damage with bashing weapons */
+        float bash_cap = 2 * u.get_arm_str() + 2 * skill;
+
+        /** Martial arts can increase bash cap by melee skill. */
+        if( u.is_melee_bash_damage_cap_bonus() ) {
+            bash_cap += u.get_skill_level( skill_melee );
+        }
+        if( bash_cap < dmg && !weap.is_null() ) {
+            // If damage goes over cap due to low stats/skills,
+            // scale the post-armor damage down halfway between damage and cap
+            dmg_mul *= ( 1.0f + ( bash_cap / dmg ) ) / 2.0f;
+        }
+
+        /** @ARM_STR boosts low cap on bashing damage */
+        const float low_cap = std::min( 1.0f, u.get_arm_str() / 20.0f );
+        const float bash_min = low_cap * dmg;
+        dmg = average ? ( bash_min + dmg ) * 0.5f : rng_float( bash_min, dmg );
     }
 
     if( unarmed && !u.natural_attack_restricted_on( contact ) ) {
@@ -1352,27 +1376,11 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
             arpen += contact->parent->unarmed_arpen( dt );
         }
     }
-    /** @ARM_STR increases bashing damage */
-    float stat_bonus = u.bonus_damage( !average );
-    stat_bonus += u.mabuff_damage_bonus( dt );
-    /** @EFFECT_STR increases bashing damage */
-    float weap_dam = weap.damage_melee( dt ) + stat_bonus;
-    /** @EFFECT_BASHING caps bash damage with bashing weapons */
-    float bash_cap = 2 * u.get_arm_str() + 2 * skill;
 
-    // FIXME: Hardcoded damage type effects (bash)
-    if( dt != damage_bash && dmg <= 0 ) {
+    if( dmg <= 0 ) {
         return; // No negative damage!
-    } else if( dt == damage_bash ) {
-        float melee_bonus = u.get_skill_level( skill_melee );
-
-        /** Martial arts can increase bash cap by melee skill. */
-        if( u.is_melee_bash_damage_cap_bonus() ) {
-            bash_cap += melee_bonus;
-        }
     }
 
-    float dmg_mul = 1.0f;
     // FIXME: Hardcoded damage type effects (stab)
     if( dt == damage_stab ) {
         // 66%, 76%, 86%, 96%, 106%, 116%, 122%, 128%, 134%, 140%
@@ -1389,21 +1397,6 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
         } else {
             dmg_mul *= 0.96 + 0.04 * skill;
         }
-    }
-
-    // FIXME: Hardcoded damage type effects (bash)
-    if( dt == damage_bash ) {
-        if( bash_cap < weap_dam && !weap.is_null() ) {
-            // If damage goes over cap due to low stats/skills,
-            // scale the post-armor damage down halfway between damage and cap
-            dmg_mul *= ( 1.0f + ( bash_cap / weap_dam ) ) / 2.0f;
-        }
-
-        /** @ARM_STR boosts low cap on bashing damage */
-        const float low_cap = std::min( 1.0f, u.get_arm_str() / 20.0f );
-        const float bash_min = low_cap * weap_dam;
-        weap_dam = average ? ( bash_min + weap_dam ) * 0.5f : rng_float( bash_min, weap_dam );
-        dmg += weap_dam;
     }
 
     dmg_mul *= u.mabuff_damage_mult( dt );
