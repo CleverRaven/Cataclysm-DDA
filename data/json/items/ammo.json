@@ -713,14 +713,14 @@
     "category": "spare_parts",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "name": { "str": "down feather" },
+    "name": { "str": "handful of down feathers", "str_pl": "handfuls of down feather" },
     "symbol": "=",
     "color": "brown",
-    "description": "A fluffy down feather from a bird.  Useful for making cozy bedclothes.",
+    "description": "A handful of fluffy down feather from a bird.  Useful for making cozy bedclothes.",
     "material": [ "down_feathers" ],
     "flags": [ "NO_SALVAGE" ],
-    "volume": "1 ml",
-    "weight": "1 mg"
+    "volume": "102 ml",
+    "weight": "102 mg"
   },
   {
     "type": "ITEM",
