@@ -41,7 +41,7 @@
     "subtypes": [ "AMMO" ],
     "copy-from": "3006fmj",
     "name": { "str_sp": "12.3ln AP" },
-    "description": "Placeholder",
+    "description": "In some alternate universe, the 12.3ln cartridge was introduced in Romania in the wake of the second Carpathian conflict.  This is the armor piercing variant, and it is the ammo that is preferred by exodii snipers or individuals using the PS md. 71z.",
     "ammo_type": "123ln",
     "relative": { "damage": { "damage_type": "bullet", "amount": -4 } },
     "casing": "123ln_casing"
