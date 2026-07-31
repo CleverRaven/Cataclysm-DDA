@@ -2,7 +2,7 @@
   {
     "id": "bullet_forming",
     "type": "requirement",
-    "//": "This is a mess in need of fixing. Forming bullets from raw materials.",
+    "//": "Forming bullets from raw materials.",
     "tools": [
       [ [ "press", -1 ] ],
       [ [ "fire", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ],
@@ -10,7 +10,7 @@
       [ [ "tape_measure", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "arbor_press", -1 ] ],
-      [ [ "ppe_gloves", -1 ] ]
+      [ [ [ "gloves_medical", -1 ], [ "gloves_rubber", -1 ], [ "entry_suit", -1 ], [ "hazmat_suit", -1 ] ] ]
     ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ]
   },

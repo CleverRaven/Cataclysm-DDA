@@ -60,7 +60,7 @@
     "longest_side": "29 cm",
     "price": "300 USD",
     "price_postapoc": "10 USD",
-    "material": [ "cast_iron", "plastic" ],
+    "material": [ "iron", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
     "melee_damage": { "bash": 10 }
