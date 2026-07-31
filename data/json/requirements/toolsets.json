@@ -10,7 +10,7 @@
       [ [ "tape_measure", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "arbor_press", -1 ] ],
-      [ [ [ "gloves_medical", -1 ], [ "gloves_rubber", -1 ], [ "entry_suit", -1 ], [ "hazmat_suit", -1 ] ] ]
+      [ [ "gloves_medical", -1 ], [ "gloves_rubber", -1 ], [ "entry_suit", -1 ], [ "hazmat_suit", -1 ] ]
     ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ]
   },
