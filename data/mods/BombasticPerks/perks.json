@@ -714,7 +714,7 @@
     },
     "enchantments": [
       {
-        "condition": { "u_has_wielded_with_weapon_category": "FENCING" },
+        "condition": { "u_has_wielded_with_weapon_category": "FENCING_WEAPONRY" },
         "values": [ { "value": "BONUS_DODGE", "add": 1 }, { "value": "MOVECOST_FLATGROUND_MOD", "multiply": -0.05 } ]
       }
     ]
