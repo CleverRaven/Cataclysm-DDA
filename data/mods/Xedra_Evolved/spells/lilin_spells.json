@@ -158,26 +158,43 @@
     "magic_type": "xedra_magic_generic",
     "max_level": 1,
     "caster_condition": { "not": "is_day" },
+    "caster_condition_fail_message": "You cannot use Dwelling in Deep Darkness during the day.",
     "skill": "deduction",
     "effect": "effect_on_condition",
     "effect_str": "EOC_LILIN_BLINDING_TARGET",
     "shape": "blast",
     "min_range": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 600) + 5" ] },
     "max_range": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 600) + 5" ] },
-    "min_duration": {
-      "math": [
-        "(u_vitamin('lilin_ruach_vitamin') * 800) * (u_vitamin('lilin_ruach_vitamin') * 3) * (u_has_trait('THRESH_LILIN') + 1)"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "(u_vitamin('lilin_ruach_vitamin') * 2400) * (u_vitamin('lilin_ruach_vitamin') * 7.5) * (u_has_trait('THRESH_LILIN') + 1)"
-      ]
-    },
+    "min_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 800) * (u_has_trait('THRESH_LILIN') + 1)" ] },
+    "max_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 2400) * (u_has_trait('THRESH_LILIN') + 1)" ] },
     "energy_source": { "type": "VITAMIN", "vitamin": "lilin_ruach_vitamin" },
     "base_energy_cost": { "math": [ "120 * lilin_has_ruach_efficiency()" ] },
     "base_casting_time": 85,
     "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION", "SLIME" ]
+  },
+  {
+    "id": "lilin_resist_infections_spell",
+    "type": "SPELL",
+    "name": "Make Thy Plagues Wonderful",
+    "description": "Touch a target and cure minor illnesses as well as pause any infections they have in their tracks.  While this power is in effect, the target gains a bonus to their chance of recovery.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "self", "hostile" ],
+    "flags": [ "SILENT", "NO_FAIL", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "spell_class": "LILIN_TRAITS",
+    "magic_type": "xedra_magic_generic",
+    "max_level": 1,
+    "skill": "deduction",
+    "effect": "attack",
+    "effect_str": "effect_lilin_resist_infections",
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 2400) * (u_has_trait('THRESH_LILIN') + 1)" ] },
+    "max_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 5100) * (u_has_trait('THRESH_LILIN') + 1)" ] },
+    "energy_source": { "type": "VITAMIN", "vitamin": "lilin_ruach_vitamin" },
+    "base_energy_cost": { "math": [ "240 * lilin_has_ruach_efficiency()" ] },
+    "base_casting_time": 250
   },
   {
     "id": "lilin_mesmerize_target_spell",
@@ -315,6 +332,7 @@
     "magic_type": "xedra_magic_generic",
     "max_level": 1,
     "caster_condition": { "math": [ "u_val('sleepiness') > 200" ] },
+    "caster_condition_fail_message": "You aren't sleepy",
     "skill": "deduction",
     "effect": "effect_on_condition",
     "effect_str": "EOC_LILIN_AVOID_SLEEP",
