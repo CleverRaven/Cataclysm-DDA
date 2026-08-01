@@ -19,6 +19,7 @@
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -30,6 +31,7 @@
 #include "debug.h"
 #include "display.h"
 #include "enums.h"
+#include "faction.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
 #include "game.h"
@@ -53,6 +55,7 @@
 #include "npctrade.h"
 #include "options.h"
 #include "output.h"
+#include "overmapbuffer.h"
 #include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -2500,7 +2503,24 @@ drop_locations game_menus::inv::multidrop( Character &you )
     inventory_drop_selector inv_s( you, preset );
 
     inv_s.add_character_items( you );
-    inv_s.set_title( _( "Multidrop" ) );
+    std::string warning;
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( you.pos_abs_omt().xy() );
+    if( bcp ) {
+        if( basecamp *actual_camp = *bcp; actual_camp ) {
+            if( !actual_camp->allowed_access_by( you, true ) ) {
+                warning = string_format(
+                              _( "<color_red>WARNING:</color> Items dropped now will be owned by %s!  You are in their territory." ),
+                              actual_camp->get_owner()->get_name() );
+                popup( warning );
+            }
+        }
+    }
+    if( warning.empty() ) {
+        inv_s.set_title( _( "Multidrop" ) );
+    } else {
+        //~The string substituted here is an entire sentence warning that dropped items will be forfeited.
+        inv_s.set_title( string_format( _( "Multidrop.  %s" ), warning ) );
+    }
     inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
 
     if( inv_s.empty() ) {
