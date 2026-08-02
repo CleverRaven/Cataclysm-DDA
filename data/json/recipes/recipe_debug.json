@@ -59,11 +59,7 @@
     "qualities": [ { "id": "AXE", "level": 1 } ],
     "components": [ [ [ "stick", 1 ] ] ],
     "//": "Sorry, but I was too lazy to make it extendable :^)",
-    "character_resources": {
-      "mana":1000,
-      "stamina": 1000,
-      "blood": 1000
-    }
+    "character_resources": { "mana": 1000, "stamina": 1000, "blood": 1000 }
   },
   {
     "id": "character_resources_test_prac_1",
