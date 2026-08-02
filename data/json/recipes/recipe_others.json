@@ -2530,14 +2530,7 @@
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
-    "components": [ 
-      [
-	[ "bag_zipper", 1 ]
-      ],
-      [ 
-        [ "lc_wire", 1 ]
-      ]
-    ]
+    "components": [ [ [ "bag_zipper", 1 ] ], [ [ "lc_wire", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2570,14 +2563,7 @@
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
-    "components": [ 
-      [
-	[ "bag_zipper", 1 ]
-      ],
-      [ 
-        [ "mc_wire", 1 ]
-      ]
-    ]
+    "components": [ [ [ "bag_zipper", 1 ] ], [ [ "mc_wire", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2610,14 +2596,7 @@
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
-    "components": [ 
-      [
-	[ "bag_zipper", 1 ]
-      ],
-      [ 
-        [ "hc_wire", 1 ]
-      ]
-    ]
+    "components": [ [ [ "bag_zipper", 1 ] ], [ [ "hc_wire", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2650,14 +2629,7 @@
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
-    "components": [ 
-      [
-	[ "bag_zipper", 1 ]
-      ],
-      [ 
-        [ "ch_wire", 1 ]
-      ]
-    ]
+    "components": [ [ [ "bag_zipper", 1 ] ], [ [ "ch_wire", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2690,14 +2662,7 @@
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
-    "components": [ 
-      [
-	[ "bag_zipper", 1 ]
-      ], 
-      [ 
-        [ "qt_wire", 1 ]
-      ]
-    ]
+    "components": [ [ [ "bag_zipper", 1 ] ], [ [ "qt_wire", 1 ] ] ]
   },
   {
     "type": "recipe",
