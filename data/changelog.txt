@@ -237,6 +237,9 @@ Crafting faults
 Allows spawns offset from the origin like the beach, or deep in the forests to the west
 Gun and tool mods can retune multimag host consumption, firing modes, and pocket capacity
 Psi powers display `power radius` instead of `spell radius` in the powers UI
+Document HUNGER_DISRUPTION flag, apply in appropriate places 
+Add the `PAUSE_INFECTIONS` flag
+Add PAUSE_BODYPART_INFECTION flag, use in MoM
 
 
 ## Content:
@@ -503,6 +506,12 @@ Some `a shadow?` attacked survivor camp mapgen
 A mission to negotiate trade between the Exodii and Free Merchants
 Add display type to certain food/drink products
 Overhaul the Portal Storm dungeon
+Add super-soldier serum, 29x-"Noonien"
+Add enchantment to modify bleeding rate
+Add european comics
+Add crashed XEDRA serum transport truck map extras
+Add serum `16x-"Armus"`
+Add `wyrmhound` mutant dogs
 
 
 ## Interface:
@@ -667,6 +676,7 @@ Migrate popups in vehicle interaction menu to ImGui
 Update to ImGui 1.91.9b
 Move appliance infobox to imgui
 Display some items by volume, weight or length instead of count
+Fix Crafting GUI text wrapping & don't offscreen recipe detail selection (`SPACE`)
 
 
 ## Mods:
@@ -1307,6 +1317,7 @@ Joint Torsion Ratchet CBM doesn't allow for perpetual motion cyborgs
 Zero cost spells remain zero cost even if encumbered
 Kelvar is now fireproof
 Add some more fluff nonfiction hardbacks
+Exodii traders dont accept currencies
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1857,6 +1868,10 @@ Break monster grab if the monster was flung away
 [Xedra Evolved] Lilin only attack you in the main dimension
 NPCs will now get their spells from professions and hobbies during random NPC creation
 Fix surroundings menu scrolling
+Pocket options: allow interacting with a pocket with hidden contents (fixes crashes too)
+Allow NPCs to sleep during free_time
+NPCs default to allow_sleep ally rule
+Display multiple like items in car part removal on the same line with a count
 
 ## Performance:
 Slightly fewer allocations in npc::process_turn
@@ -2153,6 +2168,7 @@ Ignore root dotfiles by default in .gitignore
 Consume crafting tools per recipe step
 Abort and quarantine tileset atlas uploads interrupted by a renderer reset
 generic factory dimensions, multi-region support
+more region layouts + Voronoi library
 
 
 ## Build:

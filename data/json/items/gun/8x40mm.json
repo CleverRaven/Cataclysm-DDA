@@ -31,7 +31,6 @@
     "durability": 9,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
@@ -78,15 +77,7 @@
     "barrel_volume": "750 ml",
     "default_mods": [ "suppressor" ],
     "built_in_mods": [ "riv_scope" ],
-    "valid_mod_locations": [
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "underbarrel", 1 ]
-    ],
+    "valid_mod_locations": [ [ "mechanism", 2 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "underbarrel", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_10_mag", "8x40_25_mag" ] } ],
     "melee_damage": { "bash": 10 }
   },
@@ -122,7 +113,6 @@
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
@@ -165,7 +155,6 @@
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "valid_mod_locations": [
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],

@@ -192,7 +192,7 @@ Coordinate: \"x'(0->179) y'(0->179)\" or \"x'(0->179) y'(0->179) z\"
                 retInfoR = info_map(args.range)
 
             else:
-                print("Invalid format for range, use --help  to view usage")
+                print("Invalid format for range, use --help to view usage")
                 sys.exit(1)
 
             retInfoF = info_map(args.format)
