@@ -896,7 +896,7 @@ bool player_settings::save( const bool bCharacter )
         const cata_path player_save = PATH_INFO::player_base_save_path() + ".sav";
         const cata_path player_save_zzip = player_save + zzip_suffix;
         //Character not saved yet.
-        if( !file_exist( player_save ) || !file_exist( player_save_zzip ) ) {
+        if( !file_exist( player_save ) && !file_exist( player_save_zzip ) ) {
             return true;
         }
     }

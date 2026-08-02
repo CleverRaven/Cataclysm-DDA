@@ -913,30 +913,6 @@
   },
   {
     "type": "mutation",
-    "id": "DISRESISTANT",
-    "copy-from": "DISRESISTANT",
-    "extend": { "category": [ "MIGO" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "DISIMMUNE",
-    "copy-from": "DISIMMUNE",
-    "extend": { "category": [ "MIGO" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "INFRESIST",
-    "copy-from": "INFRESIST",
-    "extend": { "category": [ "MIGO" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "INFIMMUNE",
-    "copy-from": "INFIMMUNE",
-    "extend": { "category": [ "MIGO" ] }
-  },
-  {
-    "type": "mutation",
     "id": "PARAIMMUNE",
     "copy-from": "PARAIMMUNE",
     "extend": { "category": [ "MIGO" ] }

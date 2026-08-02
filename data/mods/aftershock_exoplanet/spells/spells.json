@@ -256,7 +256,7 @@
     "id": "spell_electric_chain",
     "type": "SPELL",
     "name": { "str": "Superconductive Arc", "//~": "NO_I18N" },
-    "description": { "str": "Your  weapon arcs electricity to a nearby target.", "//~": "NO_I18N" },
+    "description": { "str": "Your weapon arcs electricity to a nearby target.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "line",
     "valid_targets": [ "hostile", "ground" ],

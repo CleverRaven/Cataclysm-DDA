@@ -770,7 +770,7 @@
     "id": "ap_solar_panel_v2",
     "name": { "str": "small advanced solar panel" },
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
-    "description": "A  small, high-performance solar panel, mounted on a frame and ready to power other appliances.",
+    "description": "A small, high-performance solar panel, mounted on a frame and ready to power other appliances.",
     "copy-from": "solar_panel_v2",
     "proportional": { "epower": 1.2 },
     "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
