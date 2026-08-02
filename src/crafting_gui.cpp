@@ -518,6 +518,7 @@ class crafting_ui_impl : public cataimgui::window
         void draw_components( const requirement_data &req, const inventory &inv,
                               const std::function<bool( const item & )> &filter,
                               int batch_size );
+        void draw_character_resources( const recipe &recp, int batch_size ) const;
         void draw_item_info_panel();
         void draw_status_header();
         void draw_hidden_count();
@@ -1279,8 +1280,11 @@ void crafting_ui_impl::draw_recipe_info_panel()
         }
 
         // --- Recipe ---
-        const bool has_recipe_content = !recp.is_nested() &&
-                                        ( !recp.simple_requirements().is_empty() || recp.has_steps() );
+        const bool has_recipe_content = !recp.is_nested() && (
+                                            !recp.simple_requirements().is_empty() ||
+                                            recp.has_steps() ||
+                                            !recp.get_character_resources().empty()
+                                        );
         if( has_recipe_content ) {
             ImGui::NewLine();
             {
@@ -1430,6 +1434,8 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 draw_requirement_tools( recp.simple_requirements(), crafting_inv,
                                         batch_size, 0 );
             }
+
+            draw_character_resources( recp, batch_size );
 
             // Helpers who know this recipe
             if( !crafter->knows_recipe( &recp ) ) {
@@ -1968,6 +1974,25 @@ void crafting_ui_impl::draw_components( const requirement_data &req,
             }
         }
         ImGui::Dummy( ImVec2( 0, 0 ) );
+    }
+}
+
+void crafting_ui_impl::draw_character_resources( const recipe &recp, const int batch_size ) const
+{
+    if( recp.get_character_resources().empty() ) {
+        return;
+    }
+
+    ImGui::TextColored( cataimgui::imvec4_from_color( c_white ), "%s", _( "Character resources:" ) );
+    for( const auto &[resource, amount] : recp.get_character_resources() ) {
+        const int total = amount * batch_size;
+        const bool enough = crafter->craft_character_resource_available( resource ) >= total;
+        const nc_color color = enough ? c_white : c_yellow;
+        const char *name = resource == "mana" ? _( "mana" ) :
+                           resource == "stamina" ? _( "stamina" ) :
+                           resource == "blood" ?  _( "blood" ) :
+                           "<-error->";
+        ImGui::TextColored( cataimgui::imvec4_from_color( color ), "  \u2022 %d %s", total, name );
     }
 }
 

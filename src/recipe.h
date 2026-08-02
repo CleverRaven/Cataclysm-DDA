@@ -236,6 +236,11 @@ class recipe
             return id;
         }
 
+        /** Returns the character resource costs required to complete this recipe. */
+        const std::map<std::string, int> &get_character_resources() const {
+            return character_resources;
+        }
+
         bool is_blacklisted() const {
             return requirements_.is_blacklisted();
         }
@@ -272,6 +277,8 @@ class recipe
         std::pair<int, time_duration> morale_modifier;
         skill_id skill_used;
         std::map<skill_id, int> required_skills;
+        /** Character resource costs required to complete this recipe */
+        std::map<std::string, int> character_resources;
         // For step recipes, use get_proficiencies() instead -- this field is empty.
         std::vector<recipe_proficiency> proficiencies;
 

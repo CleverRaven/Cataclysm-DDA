@@ -352,6 +352,22 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "difficulty", difficulty, numeric_bound_reader<int> {0, MAX_SKILL} );
     optional( jo, was_loaded, "flags", flags );
 
+    if( jo.has_object( "character_resources" ) ) {
+        character_resources.clear();
+        for( const JsonMember resource : jo.get_object( "character_resources" ) ) {
+            const std::string resource_id = resource.name();
+            if( resource_id != "mana" && resource_id != "stamina" && resource_id != "blood" ) {
+                jo.throw_error_at( "character_resources",
+                                   string_format( "unknown character resource '%s'", resource_id ) );
+            }
+            const int amount = resource.get_int();
+            if( amount < 0 ) {
+                jo.throw_error_at( "character_resources", "character resource costs must not be negative" );
+            }
+            character_resources[resource_id] = amount;
+        }
+    }
+
     // automatically set contained if we specify as container
     optional( jo, was_loaded, "contained", contained, false );
     if( jo.has_member( "container" ) ) {
