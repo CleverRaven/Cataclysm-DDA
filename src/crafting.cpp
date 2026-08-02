@@ -53,6 +53,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "line.h"
+#include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -3792,6 +3793,82 @@ bool Character::verify_step_tools( item &craft, int step_idx,
             craft.set_tools_to_continue( false );
             return false;
         }
+    }
+    return true;
+}
+
+int Character::craft_character_resource_available( const std::string &resource ) const
+{
+    static const vitamin_id vitamin_blood( "blood" );
+    // Stage 4 hypovolemia begins below -20000 blood units.
+    static constexpr int minimum_blood = -20000;
+
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return std::numeric_limits<int>::max();
+    }
+    if( resource == "mana" ) {
+        return magic->available_mana();
+    }
+    if( resource == "stamina" ) {
+        return get_stamina();
+    }
+    if( resource == "blood" ) {
+        return std::max( 0, vitamin_get( vitamin_blood ) - minimum_blood );
+    }
+    return 0;
+}
+
+bool Character::craft_consume_character_resources( item &craft, int target_progress, bool consume )
+{
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return true;
+    }
+    const recipe &rec = craft.get_making();
+    if( rec.get_character_resources().empty() ) {
+        return true;
+    }
+
+    static const vitamin_id vitamin_blood( "blood" );
+    const int batch = craft.get_making_batch_size();
+    target_progress = std::clamp( target_progress, 0, 10000000 );
+    std::map<std::string, int> debits;
+
+    for( const auto &[resource, base_cost] : rec.get_character_resources() ) {
+        const int64_t total_cost = static_cast<int64_t>( base_cost ) * batch;
+        const int target_cost = target_progress >= 10000000 ? total_cost :
+                                total_cost * target_progress / 10000000;
+        const std::string var = "craft_resource_" + resource;
+        const int consumed = static_cast<int>( craft.get_var( var, 0.0 ) );
+        const int debit = std::max( 0, target_cost - consumed );
+        if( debit > craft_character_resource_available( resource ) ) {
+            const char *name = resource == "mana" ? _( "mana" ) :
+                               resource == "stamina" ? _( "stamina" ) : _( "blood" );
+            add_msg_player_or_npc(
+                _( "You don't have enough %s to continue crafting." ),
+                _( "<npcname> doesn't have enough %s to continue crafting." ),
+                name );
+            return false;
+        }
+        debits.emplace( resource, debit );
+    }
+
+    if( !consume ) {
+        return true;
+    }
+
+    for( const auto &[resource, debit] : debits ) {
+        if( debit == 0 ) {
+            continue;
+        }
+        if( resource == "mana" ) {
+            magic->mod_mana( *this, -debit );
+        } else if( resource == "stamina" ) {
+            mod_stamina( -debit );
+        } else if( resource == "blood" ) {
+            vitamin_mod( vitamin_blood, -debit );
+        }
+        const std::string var = "craft_resource_" + resource;
+        craft.set_var( var, static_cast<int>( craft.get_var( var, 0.0 ) ) + debit );
     }
     return true;
 }

@@ -1,0 +1,83 @@
+[
+  {
+    "result": "arrow_wood",
+    "id_suffix": "character_resources_test_1",
+    "name": "%s (100 mana test)",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "charges": 10,
+    "time": "2 h",
+    "autolearn": false,
+    "qualities": [ { "id": "AXE", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ] ] ],
+    "//": "'mana' | 'stamina' | 'blood': number",
+    "character_resources": { "mana": 100 }
+  },
+  {
+    "result": "arrow_wood",
+    "id_suffix": "character_resources_test_2",
+    "name": "%s (1000 mana test)",
+    "type": "recipe",
+    "copy-from": "arrow_wood_character_resources_test_1",
+    "qualities": [ { "id": "AXE", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ] ] ],
+    "//": "Sorry, but I was too lazy to make it extendable :^)",
+    "character_resources": { "mana": 1000 }
+  },
+  {
+    "result": "arrow_wood",
+    "id_suffix": "character_resources_test_3",
+    "name": "%s (5000 mana test)",
+    "type": "recipe",
+    "copy-from": "arrow_wood_character_resources_test_1",
+    "qualities": [ { "id": "AXE", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ] ] ],
+    "//": "Sorry, but I was too lazy to make it extendable :^)",
+    "character_resources": { "mana": 5000 }
+  },
+  {
+    "result": "arrow_wood",
+    "id_suffix": "character_resources_test_4",
+    "name": "%s (10000 blood test)",
+    "type": "recipe",
+    "copy-from": "arrow_wood_character_resources_test_1",
+    "qualities": [ { "id": "AXE", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ] ] ],
+    "//": "Sorry, but I was too lazy to make it extendable :^)",
+    "character_resources": { "blood": 10000 }
+  },
+  {
+    "result": "arrow_wood",
+    "id_suffix": "character_resources_test_5",
+    "name": "%s (1000 all resources test)",
+    "type": "recipe",
+    "copy-from": "arrow_wood_character_resources_test_1",
+    "qualities": [ { "id": "AXE", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ] ] ],
+    "//": "Sorry, but I was too lazy to make it extendable :^)",
+    "character_resources": {
+      "mana":1000,
+      "stamina": 1000,
+      "blood": 1000
+    }
+  },
+  {
+    "id": "character_resources_test_prac_1",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_ATHLETICS",
+    "name": "stamina consume test (5000)",
+    "description": "Test character resource consumption during a practice recipe.",
+    "skill_used": "swimming",
+    "time": "5 m",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
+    "flags": [ "BLIND_EASY" ],
+    "autolearn": false,
+    "character_resources": { "stamina": 5000 }
+  }
+]
