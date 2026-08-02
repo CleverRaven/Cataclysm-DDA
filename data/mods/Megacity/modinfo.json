@@ -12,7 +12,7 @@
   },
   {
     "type": "dimension",
-    "id": "Default",
+    "id": "default",
     "region_layout": "default"
   },
   {
@@ -32,6 +32,10 @@
     "id": "Evac Shelter",
     "copy-from": "Evac Shelter",
     "//COMMENT": "Oops! Not so unused now, are you? Well we need to spawn somewhere, so this will have to do. For now.",
+    "occurrences": [ 0, 1 ],
+    "locations": [ "land" ],
+    "city_distance": [ 0, 10 ],
+    "city_sizes": [ 0, -1 ],
     "extend": { "flags": [ "FAKE_UNUSED_FLAG" ] }
   },
   {
