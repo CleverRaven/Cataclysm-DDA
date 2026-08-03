@@ -24,7 +24,6 @@
 #include "activity_tracker.h"
 #include "body_part_set.h"
 #include "bodypart.h"
-#include "bonuses.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character_attire.h"
