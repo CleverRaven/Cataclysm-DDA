@@ -15,6 +15,7 @@
 #include <vector>
 
 #include "build_reqs.h"
+#include "bonuses.h"
 #include "calendar.h"
 #include "crafting_enums.h"
 #include "proficiency.h"
@@ -52,6 +53,19 @@ struct enum_traits<recipe_time_flag> {
 template<>
 struct enum_traits<recipe_filter_flags> {
     static constexpr bool is_flag_enum = true;
+};
+
+
+// Inclusive minimum and maximum values for one character stat requirement.
+struct character_stat_requirement {
+    // Inclusive minimum value, or no lower bound when unset.
+    std::optional<int> min;
+    // Inclusive maximum value, or no upper bound when unset.
+    std::optional<int> max;
+    // Returns true if the supplied value satisfies both configured bounds.
+    bool is_met( int value ) const {
+        return ( !min || value >= *min ) && ( !max || value <= *max );
+    }
 };
 
 struct recipe_proficiency {
@@ -286,6 +300,13 @@ class recipe
 
         std::set<flag_id> flags_to_delete; // Flags to delete from the resultant item.
 
+        // Returns true if the character satisfies all configured stat requirements.
+        bool character_meets_requirements( const Character &character ) const;
+        // Returns true if the recipe has any character stat requirements.
+        bool has_character_requirements() const;
+        // Returns the character stat requirements configured for this recipe.
+        const std::map<scaling_stat, character_stat_requirement> &get_character_requirements() const;
+
         // Create a string list to describe the skill requirements for this recipe
         // Format: skill_name(level/amount), skill_name(level/amount)
         // Character object (if provided) used to color levels
@@ -461,6 +482,9 @@ class recipe
 
         /** Requires specified inline with the recipe (and replaced upon inheritance) */
         std::vector<std::pair<requirement_id, int>> reqs_internal;
+
+        /** Character stat requirements. */
+        std::map<scaling_stat, character_stat_requirement> character_requirements_;
 
         /** Combined requirements cached when recipe finalized */
         requirement_data requirements_;

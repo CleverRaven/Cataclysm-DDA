@@ -24,6 +24,7 @@
 #include "activity_tracker.h"
 #include "body_part_set.h"
 #include "bodypart.h"
+#include "bonuses.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character_attire.h"
@@ -592,6 +593,9 @@ class Character : public Creature, public visitable
         int get_dex_bonus() const;
         int get_per_bonus() const;
         int get_int_bonus() const;
+
+        // Returns the current value of one of the four primary character stats: str, dex, int, or per.
+        int get_primary_stat_value( scaling_stat stat ) const;
 
         /** Cache variables to store stamina use info
         *   these will be updated when the player's limb makeup changes

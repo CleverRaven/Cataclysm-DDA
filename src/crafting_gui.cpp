@@ -20,6 +20,7 @@
 #include <utility>
 #include <vector>
 
+#include "bonuses.h"
 #include "calendar.h"
 #include "cata_imgui.h"
 #include "cata_utility.h"
@@ -76,6 +77,47 @@ namespace
 {
 
 generic_factory<crafting_category> craft_cat_list( "recipe_category" );
+
+constexpr std::array character_requirement_display_order = { STAT_STR, STAT_DEX, STAT_INT, STAT_PER };
+
+std::string character_stat_name( const scaling_stat stat )
+{
+    switch( stat ) {
+        case STAT_STR:
+            return _( "strength" );
+        case STAT_DEX:
+            return _( "dexterity" );
+        case STAT_INT:
+            return _( "intelligence" );
+        case STAT_PER:
+            return _( "perception" );
+        default:
+            return "<-error->";
+    }
+}
+
+std::string character_requirement_text( const scaling_stat stat,
+                                        const character_stat_requirement &requirement,
+                                        int current,
+                                        const bool is_met )
+{
+    const std::string name = character_stat_name( stat );
+    std::string text;
+    if( requirement.min && requirement.max ) {
+        text = string_format( "%s %d..%d", name, *requirement.min, *requirement.max );
+    } else if( requirement.min ) {
+        text = string_format( "%s %d", name, *requirement.min );
+    } else {
+        text = string_format( "%s ≤%d", name, *requirement.max );
+    }
+
+    if( !is_met ) {
+        //~ Shown after an unmet crafting stat requirement. %1$s: stat name, %2$d: current stat value
+        text += string_format( _( " (current %1$s %2$d)" ), name, current );
+    }
+
+    return text;
+}
 
 } // namespace
 
@@ -1279,8 +1321,10 @@ void crafting_ui_impl::draw_recipe_info_panel()
         }
 
         // --- Recipe ---
-        const bool has_recipe_content = !recp.is_nested() &&
-                                        ( !recp.simple_requirements().is_empty() || recp.has_steps() );
+        const bool has_recipe_content = !recp.is_nested() && (
+                                            recp.has_character_requirements() ||
+                                            !recp.simple_requirements().is_empty() ||
+                                            recp.has_steps() );
         if( has_recipe_content ) {
             ImGui::NewLine();
             {
@@ -1303,6 +1347,25 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 ImGui::TextColored( cataimgui::imvec4_from_color( c_white ),
                                     "%s", step.name.translated().c_str() );
                 ImGui::NewLine();
+            }
+
+            if( recp.has_character_requirements() ) {
+                //~ Header shown above a recipe's required primary character stats.
+                ImGui::TextColored( cataimgui::imvec4_from_color( c_white ), "%s", _( "Character requirements:" ) );
+                const auto &requirements = recp.get_character_requirements();
+                for( const scaling_stat stat : character_requirement_display_order ) {
+                    const auto found = requirements.find( stat );
+                    if( found == requirements.end() ) {
+                        continue;
+                    }
+                    const character_stat_requirement &requirement = found->second;
+                    const int value = crafter->get_primary_stat_value( stat );
+                    const bool is_met = requirement.is_met( value );
+                    const nc_color color = is_met ? c_green : c_red;
+                    const std::string text = character_requirement_text( stat, requirement, value, is_met );
+                    ImGui::TextColored( cataimgui::imvec4_from_color( color ), "\u2022  %s", text.c_str() );
+                }
+                ImGui::Spacing();
             }
 
             // Components (always recipe-level)

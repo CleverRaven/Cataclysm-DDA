@@ -40,6 +40,12 @@ Crafting recipes are defined as a JSON object with the following fields:
 "delete_flags": [ "CANNIBALISM" ], // Optional (default: empty list). Flags specified here will be removed from the resultant item upon crafting. This will override flag inheritance, but *will not* delete flags that are part of the item type itself.
 "skill_used": "fabrication", // Skill trained and used for success checks
 "skills_required": [["survival", 1], ["throw", 2]], // Skills required to unlock recipe
+"character_requirements": { // Optional final character stat values required to craft the recipe.
+  "str": 9, // Integer is an alias for { "min": 9 }
+  "dex": { "min": 6 },
+  "int": { "min": 4, "max": 10 },
+  "per": { "max": 12 }
+},
 "book_learn": {	             // (optional) Books that this recipe can be learned from.
     "textbook_anarch" : {    // ID of the book the recipe can be learned from
         "skill_level" : 7,   // Skill level at which it can be learned
@@ -119,9 +125,28 @@ Crafting recipes are defined as a JSON object with the following fields:
 ]
 ```
 
+#### `character_requirements`
+
+`character_requirements` optionally restricts a recipe to characters whose current final primary stat values satisfy the configured bounds. The supported members are `str`, `dex`, `int`, and `per`. Final values include all modifiers currently affecting the character.
+
+Each member can be written as an integer or as an object containing `min`, `max`, or both:
+
+```jsonc
+"character_requirements": {
+  "str": 9,                         // Equivalent to { "min": 9 }.
+  "dex": { "min": 6 },
+  "int": { "min": 4, "max": 10 }, // Both bounds are inclusive.
+  "per": { "max": 12 }             // The maximum is inclusive.
+}
+```
+
+A bound of `0` is valid but has no effect. A stat entry whose configured bounds are all zero is ignored. The recipe cannot be started while any effective bound is unmet.
+
+When a recipe with `copy-from` defines `character_requirements`, the entire inherited object is replaced. Members omitted from the child object are not inherited individually.
+
 #### `batch_time_factors`
 
-`batch_time_factors supports several formats, with two different scaling functions.
+`batch_time_factors` supports several formats, with two different scaling functions.
 
 Logistic scaling provides savings of some percent once the batch reaches a certain size.
 ```jsonc

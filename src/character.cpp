@@ -17,6 +17,7 @@
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "addiction.h"
+#include "bonuses.h"
 #include "clone_ptr.h"
 #include "anatomy.h"
 #include "avatar.h"
@@ -3280,6 +3281,22 @@ int Character::get_per_bonus() const
 int Character::get_int_bonus() const
 {
     return int_bonus;
+}
+
+int Character::get_primary_stat_value( const scaling_stat stat ) const
+{
+    switch( stat ) {
+        case STAT_STR:
+            return get_str();
+        case STAT_DEX:
+            return get_dex();
+        case STAT_INT:
+            return get_int();
+        case STAT_PER:
+            return get_per();
+        default:
+            cata_fatal( "Invalid primary character stat" );
+    }
 }
 
 int Character::get_enchantment_speed_bonus() const

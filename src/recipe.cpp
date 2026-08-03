@@ -1,6 +1,7 @@
 #include "recipe.h"
 
 #include <algorithm>
+#include <array>
 #include <climits>
 #include <cmath>
 #include <initializer_list>
@@ -10,6 +11,7 @@
 #include <sstream>
 #include <unordered_map>
 
+#include "bonuses.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cartesian_product.h"
@@ -60,6 +62,20 @@ static const morale_type morale_fun_craft( "morale_fun_craft" );
 static const morale_type morale_shitty_craft( "morale_shitty_craft" );
 
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
+
+namespace
+{
+
+constexpr std::array<std::pair<std::string_view, scaling_stat>, 4> character_requirement_members
+= { {
+        { "str", STAT_STR },
+        { "dex", STAT_DEX },
+        { "int", STAT_INT },
+        { "per", STAT_PER }
+    }
+};
+
+} // namespace
 
 
 std::string recipe::get_description( const Character &crafter ) const
@@ -233,6 +249,42 @@ bool recipe::has_flag( const std::string &flag_name ) const
     return flags.count( flag_name );
 }
 
+static character_stat_requirement load_character_stat_requirement( const JsonObject &parent,
+        const std::string_view &member )
+{
+    const JsonValue value = parent.get_member( member );
+    character_stat_requirement requirement;
+    if( value.test_int() ) {
+        requirement.min = value.get_int();
+    } else {
+        if( !value.test_object() ) {
+            parent.throw_error_at( member, "character requirement must be an integer or an object" );
+        }
+
+        const JsonObject range = value.get_object();
+        if( !range.has_member( "min" ) && !range.has_member( "max" ) ) {
+            range.throw_error( "character requirement object must contain min or max" );
+        }
+        if( range.has_member( "min" ) ) {
+            requirement.min = range.get_int( "min" );
+        }
+        if( range.has_member( "max" ) ) {
+            requirement.max = range.get_int( "max" );
+        }
+    }
+
+    if( requirement.min && *requirement.min == 0 ) {
+        requirement.min.reset();
+    }
+    if( requirement.max && *requirement.max == 0 ) {
+        requirement.max.reset();
+    }
+    if( requirement.min && requirement.max && *requirement.min > *requirement.max ) {
+        parent.throw_error_at( member, "character requirement min cannot exceed max" );
+    }
+    return requirement;
+}
+
 void recipe::load( const JsonObject &jo, const std::string_view src )
 {
     abstract = jo.has_string( "abstract" );
@@ -391,6 +443,20 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
         } else {
             // single requirement
             required_skills[skill_id( sk.get_string( 0 ) )] = sk.get_int( 1 );
+        }
+    }
+
+    if( jo.has_member( "character_requirements" ) ) {
+        character_requirements_.clear();
+        JsonObject requirements = jo.get_object( "character_requirements" );
+        for( const auto &[member, stat] : character_requirement_members ) {
+            if( !requirements.has_member( member ) ) {
+                continue;
+            }
+            character_stat_requirement requirement = load_character_stat_requirement( requirements, member );
+            if( requirement.min || requirement.max ) {
+                character_requirements_.emplace( stat, requirement );
+            }
         }
     }
 
@@ -1728,6 +1794,26 @@ static std::string required_skills_as_string( const std::vector<std::pair<skill_
     [&]( const std::pair<skill_id, int> &skill ) {
         return string_format( "<color_white>%s (%d)</color>", skill.first->name(), skill.second );
     } );
+}
+
+bool recipe::character_meets_requirements( const Character &character ) const
+{
+    for( const auto &[stat, requirement] : character_requirements_ ) {
+        if( !requirement.is_met( character.get_primary_stat_value( stat ) ) ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool recipe::has_character_requirements() const
+{
+    return !character_requirements_.empty();
+}
+
+const std::map<scaling_stat, character_stat_requirement> &recipe::get_character_requirements() const
+{
+    return character_requirements_;
 }
 
 std::string recipe::primary_skill_string( const Character &c ) const
