@@ -4395,7 +4395,7 @@ int get_auto_consume_moves( Character &you, const bool food )
 
                 // checks for any installed fluid tanks on the whole car with liquid in them
                 for( const vpart_reference &vp_fluid_tank :
-                    vp->vehicle().get_avail_parts( "FLUIDTANK" ) ) {
+                     vp->vehicle().get_avail_parts( "FLUIDTANK" ) ) {
                     item_location i_loc =
                         vp->vehicle().part_base( vp_fluid_tank.part_index() );
                     visit_item_contents( i_loc, visit );
