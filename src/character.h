@@ -86,6 +86,8 @@ class ui_adaptor;
 class vehicle;
 class vpart_reference;
 
+enum scaling_stat : int;
+
 namespace catacurses
 {
 class window;
