@@ -545,7 +545,6 @@
       { "item": "microwave", "prob": 90 },
       { "item": "food_processor", "prob": 70 },
       { "item": "waffleiron", "prob": 45 },
-      { "item": "multi_cooker", "prob": 25 },
       { "item": "pastaextruder", "prob": 10 },
       { "item": "dehydrator", "prob": 10 },
       { "item": "hotplate", "prob": 10 },
