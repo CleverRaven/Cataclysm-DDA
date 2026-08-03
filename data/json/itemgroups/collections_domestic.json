@@ -127,7 +127,6 @@
       { "item": "dehydrator", "prob": 10 },
       { "item": "hotplate", "prob": 10 },
       [ "clock", 10 ],
-      { "item": "multi_cooker", "prob": 5 },
       { "item": "char_smoker", "prob": 5, "charges": [ 0, -1 ] },
       [ "can_sealer", 2 ],
       [ "oil_press_manual", 2 ],

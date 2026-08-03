@@ -415,7 +415,6 @@
       [ "toaster", 20 ],
       [ "television", 20 ],
       [ "microwave", 20 ],
-      [ "multi_cooker", 1 ],
       [ "waffleiron", 25 ],
       [ "radio", 15 ]
     ]
@@ -438,7 +437,6 @@
       [ "toaster", 20 ],
       [ "television", 20 ],
       [ "microwave", 20 ],
-      [ "multi_cooker", 1 ],
       [ "pan", 25 ],
       [ "dutch_oven", 5 ],
       [ "waffleiron", 25 ],
@@ -686,7 +684,6 @@
       { "item": "dehydrator", "prob": 5 },
       { "item": "food_processor", "prob": 5 },
       { "item": "hotplate", "prob": 5 },
-      { "item": "multi_cooker", "prob": 5 },
       { "item": "vac_sealer", "prob": 5 }
     ]
   },
