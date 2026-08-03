@@ -17,7 +17,6 @@
 #include "build_reqs.h"
 #include "calendar.h"
 #include "crafting_enums.h"
-#include "magic_type.h"
 #include "proficiency.h"
 #include "requirements.h"
 #include "translation.h"
@@ -33,6 +32,8 @@ class item_components;
 class read_only_visitable;
 class recipe;
 template <typename E> struct enum_traits;
+
+enum magic_energy_type : int;
 
 enum class recipe_filter_flags : int {
     none = 0,
