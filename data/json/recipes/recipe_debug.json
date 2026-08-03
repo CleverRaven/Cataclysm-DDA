@@ -14,7 +14,6 @@
     "autolearn": false,
     "qualities": [ { "id": "AXE", "level": 1 } ],
     "components": [ [ [ "stick", 1 ] ] ],
-    "//": "'mana' | 'stamina' | 'blood': number",
     "character_resources": { "mana": 100 }
   },
   {
@@ -48,7 +47,7 @@
     "qualities": [ { "id": "AXE", "level": 1 } ],
     "components": [ [ [ "stick", 1 ] ] ],
     "//": "Sorry, but I was too lazy to make it extendable :^)",
-    "character_resources": { "blood": 10000 }
+    "character_resources": { "vitamins": [ { "vitamin": "blood", "value": 10000, "safe_level": -20000 } ] }
   },
   {
     "result": "arrow_wood",
@@ -59,7 +58,19 @@
     "qualities": [ { "id": "AXE", "level": 1 } ],
     "components": [ [ [ "stick", 1 ] ] ],
     "//": "Sorry, but I was too lazy to make it extendable :^)",
-    "character_resources": { "mana": 1000, "stamina": 1000, "blood": 1000 }
+    "character_resources": {
+      "//": "Comment test",
+      "mana": 1000,
+      "stamina": 1000,
+      "vitamins": [
+        {
+          "vitamin": "blood",
+          "value": 10000,
+          "//": "Stage 4 hypovolemia begins below -20000 blood units.",
+          "safe_level": -20000
+        }
+      ]
+    }
   },
   {
     "id": "character_resources_test_prac_1",

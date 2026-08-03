@@ -353,18 +353,46 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "flags", flags );
 
     if( jo.has_object( "character_resources" ) ) {
-        character_resources.clear();
+        character_resources = character_resource_costs();
         for( const JsonMember resource : jo.get_object( "character_resources" ) ) {
             const std::string resource_id = resource.name();
-            if( resource_id != "mana" && resource_id != "stamina" && resource_id != "blood" ) {
+            if( string_starts_with( resource_id, "//" ) ) {
+                continue;
+            }
+
+            if( resource_id == "mana" || resource_id == "stamina" ) {
+                const magic_energy_type e_type = resource_id == "mana" ? magic_energy_type::mana :
+                                                 resource_id == "stamina" ? magic_energy_type::stamina :
+                                                 magic_energy_type::none;
+                const int amount = resource.get_int();
+                if( amount < 0 ) {
+                    jo.throw_error_at( "character_resources",
+                                       "character resource costs must not be negative" );
+                }
+                character_resources.energy[e_type] = amount;
+            } else if( resource_id == "vitamins" ) {
+                std::set<vitamin_id> loaded_vitamins;
+                for( JsonObject vitamin_jo : resource.get_array() ) {
+                    vitamin_resource_cost cost;
+                    cost.vitamin = vitamin_id( vitamin_jo.get_string( "vitamin" ) );
+                    cost.value = vitamin_jo.get_int( "value" );
+                    if( cost.value < 0 ) {
+                        vitamin_jo.throw_error_at( "value",
+                                                   "vitamin resource costs must not be negative" );
+                    }
+                    if( vitamin_jo.has_int( "safe_level" ) ) {
+                        cost.safe_level = vitamin_jo.get_int( "safe_level" );
+                    }
+                    if( !loaded_vitamins.insert( cost.vitamin ).second ) {
+                        vitamin_jo.throw_error_at( "vitamin",
+                                                   "duplicate vitamin character resource" );
+                    }
+                    character_resources.vitamins.emplace_back( cost );
+                }
+            } else {
                 jo.throw_error_at( "character_resources",
                                    string_format( "unknown character resource '%s'", resource_id ) );
             }
-            const int amount = resource.get_int();
-            if( amount < 0 ) {
-                jo.throw_error_at( "character_resources", "character resource costs must not be negative" );
-            }
-            character_resources[resource_id] = amount;
         }
     }
 

@@ -17,6 +17,7 @@
 #include "build_reqs.h"
 #include "calendar.h"
 #include "crafting_enums.h"
+#include "magic_type.h"
 #include "proficiency.h"
 #include "requirements.h"
 #include "translation.h"
@@ -65,6 +66,22 @@ struct recipe_proficiency {
 
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
+};
+
+
+struct vitamin_resource_cost {
+    vitamin_id vitamin;
+    int value = 0;
+    std::optional<int> safe_level;
+};
+
+struct character_resource_costs {
+    std::map<magic_energy_type, int> energy;
+    std::vector<vitamin_resource_cost> vitamins;
+
+    bool empty() const {
+        return energy.empty() && vitamins.empty();
+    }
 };
 
 struct book_recipe_data {
@@ -237,7 +254,7 @@ class recipe
         }
 
         /** Returns the character resource costs required to complete this recipe. */
-        const std::map<std::string, int> &get_character_resources() const {
+        const character_resource_costs &get_character_resources() const {
             return character_resources;
         }
 
@@ -278,7 +295,7 @@ class recipe
         skill_id skill_used;
         std::map<skill_id, int> required_skills;
         /** Character resource costs required to complete this recipe */
-        std::map<std::string, int> character_resources;
+        character_resource_costs character_resources;
         // For step recipes, use get_proficiencies() instead -- this field is empty.
         std::vector<recipe_proficiency> proficiencies;
 

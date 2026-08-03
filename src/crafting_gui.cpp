@@ -66,6 +66,7 @@
 #include "ui_manager.h"
 #include "uilist.h"
 #include "uistate.h"
+#include "vitamin.h"
 
 static const efftype_id effect_contacts( "contacts" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
@@ -1979,20 +1980,25 @@ void crafting_ui_impl::draw_components( const requirement_data &req,
 
 void crafting_ui_impl::draw_character_resources( const recipe &recp, const int batch_size ) const
 {
-    if( recp.get_character_resources().empty() ) {
+    const character_resource_costs &resources = recp.get_character_resources();
+    if( resources.empty() ) {
         return;
     }
 
     ImGui::TextColored( cataimgui::imvec4_from_color( c_white ), "%s", _( "Character resources:" ) );
-    for( const auto &[resource, amount] : recp.get_character_resources() ) {
+    for( const auto &[resource, amount] : resources.energy ) {
         const int total = amount * batch_size;
         const bool enough = crafter->craft_character_resource_available( resource ) >= total;
         const nc_color color = enough ? c_white : c_yellow;
-        const char *name = resource == "mana" ? _( "mana" ) :
-                           resource == "stamina" ? _( "stamina" ) :
-                           resource == "blood" ?  _( "blood" ) :
-                           "<-error->";
+        const char *name = resource == magic_energy_type::mana ? _( "mana" ) : _( "stamina" );
         ImGui::TextColored( cataimgui::imvec4_from_color( color ), "  \u2022 %d %s", total, name );
+    }
+    for( const vitamin_resource_cost &resource : resources.vitamins ) {
+        const int total = resource.value * batch_size;
+        const bool enough = crafter->craft_vitamin_available( resource ) >= total;
+        const nc_color color = enough ? c_white : c_yellow;
+        const std::string name = resource.vitamin.obj().name();
+        ImGui::TextColored( cataimgui::imvec4_from_color( color ), "  \u2022 %d %s", total, name.c_str() );
     }
 }
 

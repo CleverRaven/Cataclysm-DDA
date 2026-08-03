@@ -88,6 +88,7 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "vitamin.h"
 #include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -3797,25 +3798,37 @@ bool Character::verify_step_tools( item &craft, int step_idx,
     return true;
 }
 
-int Character::craft_character_resource_available( const std::string &resource ) const
+int Character::craft_character_resource_available( const magic_energy_type resource ) const
 {
-    static const vitamin_id vitamin_blood( "blood" );
-    // Stage 4 hypovolemia begins below -20000 blood units.
-    static constexpr int minimum_blood = -20000;
-
     if( has_trait( trait_DEBUG_HS ) ) {
         return std::numeric_limits<int>::max();
     }
-    if( resource == "mana" ) {
-        return magic->available_mana();
+    switch( resource ) {
+        case magic_energy_type::mana:
+            return magic->available_mana();
+        case magic_energy_type::stamina:
+            return get_stamina();
+        default:
+            return 0;
     }
-    if( resource == "stamina" ) {
-        return get_stamina();
+}
+
+int Character::craft_vitamin_available( const vitamin_resource_cost &resource ) const
+{
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return std::numeric_limits<int>::max();
     }
-    if( resource == "blood" ) {
-        return std::max( 0, vitamin_get( vitamin_blood ) - minimum_blood );
-    }
-    return 0;
+    const int minimum = resource.safe_level.value_or( resource.vitamin.obj().min() );
+    return std::max( 0, vitamin_get( resource.vitamin ) - minimum );
+}
+
+static int craft_resource_debit_for_progress( const item &craft, const std::string &var,
+        const int base_cost, const int batch, const int target_progress )
+{
+    const int64_t total_cost = static_cast<int64_t>( base_cost ) * batch;
+    const int64_t target_cost = total_cost * target_progress / 10000000;
+    const int consumed = static_cast<int>( craft.get_var( var, 0.0 ) );
+    return static_cast<int>( std::max<int64_t>( 0, target_cost - consumed ) );
 }
 
 bool Character::craft_consume_character_resources( item &craft, int target_progress, bool consume )
@@ -3823,53 +3836,86 @@ bool Character::craft_consume_character_resources( item &craft, int target_progr
     if( has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
-    const recipe &rec = craft.get_making();
-    if( rec.get_character_resources().empty() ) {
+
+    const character_resource_costs &resources = craft.get_making().get_character_resources();
+    if( resources.empty() ) {
         return true;
     }
 
-    static const vitamin_id vitamin_blood( "blood" );
     const int batch = craft.get_making_batch_size();
     target_progress = std::clamp( target_progress, 0, 10000000 );
-    std::map<std::string, int> debits;
 
-    for( const auto &[resource, base_cost] : rec.get_character_resources() ) {
-        const int64_t total_cost = static_cast<int64_t>( base_cost ) * batch;
-        const int target_cost = target_progress >= 10000000 ? total_cost :
-                                total_cost * target_progress / 10000000;
-        const std::string var = "craft_resource_" + resource;
-        const int consumed = static_cast<int>( craft.get_var( var, 0.0 ) );
-        const int debit = std::max( 0, target_cost - consumed );
+    std::map<magic_energy_type, int> energy_debits;
+    std::map<vitamin_id, int> vitamin_debits;
+
+    for( const auto &[resource, base_cost] : resources.energy ) {
+        const std::string var = "craft_resource_" + io::enum_to_string( resource );
+        const int debit = craft_resource_debit_for_progress( craft, var, base_cost, batch,
+                          target_progress );
         if( debit > craft_character_resource_available( resource ) ) {
-            const char *name = resource == "mana" ? _( "mana" ) :
-                               resource == "stamina" ? _( "stamina" ) : _( "blood" );
+            const char *resource_name = resource == magic_energy_type::mana
+                                        ? _( "mana" )
+                                        : _( "stamina" );
             add_msg_player_or_npc(
                 _( "You don't have enough %s to continue crafting." ),
                 _( "<npcname> doesn't have enough %s to continue crafting." ),
-                name );
+                resource_name );
             return false;
         }
-        debits.emplace( resource, debit );
+        energy_debits.emplace( resource, debit );
+    }
+
+    for( const vitamin_resource_cost &resource : resources.vitamins ) {
+        const std::string var = "craft_vitamin_" + resource.vitamin.str();
+        const int debit = craft_resource_debit_for_progress( craft, var, resource.value, batch,
+                          target_progress );
+        if( debit > craft_vitamin_available( resource ) ) {
+            add_msg_player_or_npc(
+                _( "You don't have enough %s to continue crafting." ),
+                _( "<npcname> doesn't have enough %s to continue crafting." ),
+                resource.vitamin.obj().name() );
+            return false;
+        }
+        vitamin_debits.emplace( resource.vitamin, debit );
     }
 
     if( !consume ) {
         return true;
     }
 
-    for( const auto &[resource, debit] : debits ) {
-        if( debit == 0 ) {
+    for( const auto &[resource, debit] : energy_debits ) {
+        if( debit <= 0 ) {
             continue;
         }
-        if( resource == "mana" ) {
-            magic->mod_mana( *this, -debit );
-        } else if( resource == "stamina" ) {
-            mod_stamina( -debit );
-        } else if( resource == "blood" ) {
-            vitamin_mod( vitamin_blood, -debit );
+
+        switch( resource ) {
+            case magic_energy_type::mana:
+                magic->mod_mana( *this, -debit );
+                break;
+            case magic_energy_type::stamina:
+                mod_stamina( -debit );
+                break;
+            default:
+                continue;
         }
-        const std::string var = "craft_resource_" + resource;
-        craft.set_var( var, static_cast<int>( craft.get_var( var, 0.0 ) ) + debit );
+
+        const std::string var = "craft_resource_" + io::enum_to_string( resource );
+        const int consumed = static_cast<int>( craft.get_var( var, 0.0 ) );
+        craft.set_var( var, consumed + debit );
     }
+
+    for( const auto &[vitamin, debit] : vitamin_debits ) {
+        if( debit <= 0 ) {
+            continue;
+        }
+
+        vitamin_mod( vitamin, -debit );
+
+        const std::string var = "craft_vitamin_" + vitamin.str();
+        const int consumed = static_cast<int>( craft.get_var( var, 0.0 ) );
+        craft.set_var( var, consumed + debit );
+    }
+
     return true;
 }
 
