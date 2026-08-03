@@ -110,6 +110,7 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
+static const itype_id itype_water_faucet( "water_faucet" );
 static const itype_id itype_welder( "welder" );
 
 static const quality_id qual_AXE( "AXE" );
@@ -139,8 +140,6 @@ static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
-
-static const itype_id itype_water_faucet( "water_faucet" );
 
 static const zone_type_id zone_type_( "" );
 static const zone_type_id zone_type_AUTO_DRINK( "AUTO_DRINK" );
