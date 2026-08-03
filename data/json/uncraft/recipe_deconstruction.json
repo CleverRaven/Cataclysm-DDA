@@ -3398,25 +3398,6 @@
     ]
   },
   {
-    "result": "multi_cooker",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "electronics",
-    "time": "1 h 15 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "processor", 1 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "cable", 3 ] ],
-      [ [ "element", 4 ] ],
-      [ [ "amplifier", 1 ] ],
-      [ [ "power_supply", 4 ] ],
-      [ [ "plastic_chunk", 12 ] ],
-      [ [ "e_scrap", 4 ] ],
-      [ [ "scrap", 10 ] ]
-    ]
-  },
-  {
     "result": "silver_necklace",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
