@@ -1957,6 +1957,10 @@ units::mass item::weight( bool include_contents, bool integral ) const
         return 0_gram;
     }
 
+    if( has_flag( flag_id( "TAXIDERMY" ) ) && get_mtype() != nullptr ) {
+        return get_mtype()->weight * 0.1;
+    }
+
     const uint64_t hot = combined_hot_flags();
 
     // Items that don't drop aren't really there, they're items just for ease of implementation
@@ -2216,6 +2220,10 @@ units::volume item::volume( bool integral, bool ignore_contents, int charges_in_
 
     if( is_corpse() ) {
         return corpse_volume( corpse );
+    }
+
+    if( has_flag( flag_id( "TAXIDERMY" ) ) && get_mtype() != nullptr ) {
+        return get_mtype()->volume;
     }
 
     if( is_craft() ) {
