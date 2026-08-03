@@ -3823,7 +3823,7 @@ int Character::craft_vitamin_available( const vitamin_resource_cost &resource ) 
     return std::max( 0, vitamin_get( resource.vitamin ) - minimum );
 }
 
-static int craft_resource_debit_for_progress( const item &craft, const std::string &var,
+static int craft_resource_debit_for_progress( const item &craft, const std::string_view &var,
         const int base_cost, const int batch, const int target_progress )
 {
     const int64_t total_cost = static_cast<int64_t>( base_cost ) * batch;
