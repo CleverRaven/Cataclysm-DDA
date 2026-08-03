@@ -140,6 +140,8 @@ static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 
+static const itype_id itype_water_faucet( "water_faucet" );
+
 static const zone_type_id zone_type_( "" );
 static const zone_type_id zone_type_AUTO_DRINK( "AUTO_DRINK" );
 static const zone_type_id zone_type_AUTO_EAT( "AUTO_EAT" );
@@ -4387,6 +4389,18 @@ int get_auto_consume_moves( Character &you, const bool food )
                     visit_item_contents( i_loc, visit );
                 }
             }
+
+            // checks if we have a faucet we can drink from on the tile
+            if( vp.part_with_tool( here, itype_water_faucet ) ) {
+
+                // checks for any installed fluid tanks on the whole car with liquid in them
+                for( const vpart_reference &vp_fluid_tank :
+                    vp->vehicle().get_avail_parts( "FLUIDTANK" ) ) {
+                    item_location i_loc =
+                        vp->vehicle().part_base( vp_fluid_tank.part_index() );
+                    visit_item_contents( i_loc, visit );
+                    }
+                }
         } else {
             for( item &it : here.i_at( here.get_bub( loc ) ) ) {
                 item_location i_loc( map_cursor( loc ), &it );
