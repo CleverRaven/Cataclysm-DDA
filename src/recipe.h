@@ -17,7 +17,6 @@
 #include "build_reqs.h"
 #include "calendar.h"
 #include "crafting_enums.h"
-#include "magic_type.h"
 #include "proficiency.h"
 #include "requirements.h"
 #include "translation.h"

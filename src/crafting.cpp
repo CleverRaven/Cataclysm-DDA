@@ -55,6 +55,7 @@
 #include "line.h"
 #include "magic.h"
 #include "magic_enchantment.h"
+#include "magic_type.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -88,8 +89,8 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
-#include "vitamin.h"
 #include "visitable.h"
+#include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
 
