@@ -15,7 +15,6 @@
 #include <vector>
 
 #include "build_reqs.h"
-#include "bonuses.h"
 #include "calendar.h"
 #include "crafting_enums.h"
 #include "proficiency.h"

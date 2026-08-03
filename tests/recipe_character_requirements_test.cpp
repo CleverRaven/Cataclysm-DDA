@@ -7,6 +7,7 @@
 #include "bonuses.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "flexbuffer_json.h"
 #include "json_loader.h"
 #include "player_helpers.h"
 #include "recipe.h"
