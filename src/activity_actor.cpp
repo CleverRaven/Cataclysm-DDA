@@ -3484,7 +3484,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
             here.ter_set( target, new_ter_type );
         }
         sounds::sound( target, 5, sounds::sound_t::combat, _( "Click!" ),
-                   true, "tool", "lockpick_success" );
+                    true, "tool", "lockpick_success" );
         who.add_msg_if_player( m_good, open_message );
     } else if( furn_type == furn_f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
         who.add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
@@ -3498,7 +3498,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
             destroy = true;
         } else {
         sounds::sound( target, 5, sounds::sound_t::combat, _( "Crrk!" ),
-                                true, "tool", "lockpick_damage" );
+                    true, "tool", "lockpick_damage" );
             who.add_msg_if_player( m_bad,
                                    _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
         }
