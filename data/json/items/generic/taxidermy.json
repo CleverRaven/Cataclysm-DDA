@@ -1,7 +1,8 @@
 [
   {
     "id": "TAXIDERMY",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "Marks item as a taxidermy specimen."
   },
   {
     "id": "taxidermy_specimen",
