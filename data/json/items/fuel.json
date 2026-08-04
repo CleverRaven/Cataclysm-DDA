@@ -143,6 +143,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "description": "Vegetable oil- or animal fat-based diesel fuel consisting of long-chain alkyl (methyl, ethyl, or propyl) esters.",
+    "ammo_type": "diesel",
     "price": "30 cent",
     "price_postapoc": "60 cent"
   },
