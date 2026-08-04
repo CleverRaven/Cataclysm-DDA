@@ -123,7 +123,7 @@ static const itype_id itype_efile_recipes( "efile_recipes" );
 static const itype_id itype_joint_lit( "joint_lit" );
 static const itype_id itype_stock_none( "stock_none" );
 
-static const flag_id flag_taxidermy( "TAXIDERMY" );
+static const flag_id json_flag_TAXIDERMY( "TAXIDERMY" );
 
 static const material_id material_wool( "wool" );
 
