@@ -110,6 +110,7 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
+static const itype_id itype_water_faucet( "water_faucet" );
 static const itype_id itype_welder( "welder" );
 
 static const quality_id qual_AXE( "AXE" );
@@ -4384,6 +4385,18 @@ int get_auto_consume_moves( Character &you, const bool food )
             if( const std::optional<vpart_reference> vp_cargo = vp.cargo() ) {
                 for( item &it : vp_cargo->items() ) {
                     item_location i_loc( vehicle_cursor( vp->vehicle(), vp->part_index() ), &it );
+                    visit_item_contents( i_loc, visit );
+                }
+            }
+
+            // checks if we have a faucet we can drink from on the tile
+            if( vp.part_with_tool( here, itype_water_faucet ) ) {
+
+                // checks for any installed fluid tanks on the whole car with liquid in them
+                for( const vpart_reference &vp_fluid_tank :
+                     vp->vehicle().get_avail_parts( "FLUIDTANK" ) ) {
+                    item_location i_loc =
+                        vp->vehicle().part_base( vp_fluid_tank.part_index() );
                     visit_item_contents( i_loc, visit );
                 }
             }
