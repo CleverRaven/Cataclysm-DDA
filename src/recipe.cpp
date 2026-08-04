@@ -34,6 +34,7 @@
 #include "item_tname.h"
 #include "itype.h"
 #include "json.h"
+#include "magic_type.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "mapgen_parameter.h"

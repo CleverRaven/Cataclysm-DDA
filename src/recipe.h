@@ -33,7 +33,7 @@ class read_only_visitable;
 class recipe;
 template <typename E> struct enum_traits;
 
-enum magic_energy_type : int;
+enum class magic_energy_type : int;
 
 enum class recipe_filter_flags : int {
     none = 0,

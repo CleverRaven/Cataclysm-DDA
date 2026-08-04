@@ -46,6 +46,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "localized_comparator.h"
+#include "magic_type.h"
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
