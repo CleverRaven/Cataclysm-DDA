@@ -304,6 +304,7 @@
     "//": "This fault is meant for batons.",
     "//1": "Ideally this would make it so you can't retract it anymore, this is not possible currently.",
     "fault_type": "mechanical_damage",
+    "name": { "str": "Broken handle" },
     "description": "The handle of the %s has seperated from the shaft, rendering it nigh unusable."
   },
   {
@@ -312,8 +313,9 @@
     "copy-from": "fault_handle_broken",
     "//": "This fault is meant for tonfas.",
     "fault_type": "mechanical_damage",
+    "name": { "str": "Broken handle" },
     "description": "The handle of the %s has broken off.",
-    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.4 } ]
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.6 } ]
   },
   {
     "type": "fault",
@@ -321,7 +323,7 @@
     "//": "This fault is meant for tonfas.",
     "fault_type": "mechanical_damage",
     "name": { "str": "Broken" },
-    "description": "The %s is completely broken.",
-    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.2 } ]
+    "description": "The %s is broken in half.",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.1 } ]
   }
 ]
