@@ -1005,11 +1005,11 @@
     ]
   },
   {
-     "id": "enchanted_necklaces",
-     "type": "item_group",
-     "//": "all enchanted necklaces",
-     "subtype": "collection",
-     "items": [
+    "id": "enchanted_necklaces",
+    "type": "item_group",
+    "//": "all enchanted necklaces",
+    "subtype": "collection",
+    "items": [
       { "item": "periapt_health", "prob": 20 },
       { "item": "periapt_proof_against_poison", "prob": 10 },
       { "item": "periapt_wound_closure", "prob": 5 }

@@ -2020,7 +2020,23 @@
     "//": "Hidden effect, makes the periapt of health block diseases and infection",
     "name": [ "" ],
     "desc": [ "" ],
-    "removes_effects": [ "nausea", "bite", "infected", "spores", "fungus", "dermatik", "pre_common_cold", "pre_flu", "common_cold", "flu", "tetanus", "asthma", "tapeworm", "brainworms", "bloodworms" ]
+    "removes_effects": [
+      "nausea",
+      "bite",
+      "infected",
+      "spores",
+      "fungus",
+      "dermatik",
+      "pre_common_cold",
+      "pre_flu",
+      "common_cold",
+      "flu",
+      "tetanus",
+      "asthma",
+      "tapeworm",
+      "brainworms",
+      "bloodworms"
+    ]
   },
   {
     "type": "effect_type",
@@ -2028,7 +2044,17 @@
     "//": "Hidden effect, makes the periapt of proof against poison prevent poisons",
     "name": [ "" ],
     "desc": [ "" ],
-    "removes_effects": [ "poison", "badpoison", "tpollen", "venom_dmg", "venom_weaken", "venom_blind", "venom_pain", "foodpoison", "paralyzepoison" ]
+    "removes_effects": [
+      "poison",
+      "badpoison",
+      "tpollen",
+      "venom_dmg",
+      "venom_weaken",
+      "venom_blind",
+      "venom_pain",
+      "foodpoison",
+      "paralyzepoison"
+    ]
   },
   {
     "type": "effect_type",
