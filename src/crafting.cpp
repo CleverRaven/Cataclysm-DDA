@@ -13,6 +13,7 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -35,6 +36,7 @@
 #include "debug.h"
 #include "dialogue.h"
 #include "effect_on_condition.h"
+#include "enum_conversions.h"
 #include "enum_traits.h"
 #include "enums.h"
 #include "faction.h"

@@ -79,6 +79,7 @@
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vpart_range.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
