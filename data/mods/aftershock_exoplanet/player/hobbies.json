@@ -17,7 +17,7 @@
     "description": "You know how to survive within interstellar civilization, know basic safety protocols, and there's little chance of you ever opening an airlock by mistake.",
     "points": 1,
     "skills": [
-      { "level": 1, "name": "computers" },
+      { "level": 1, "name": "computer" },
       { "level": 1, "name": "cooking" },
       { "level": 1, "name": "firstaid" },
       { "level": 1, "name": "electronics" }

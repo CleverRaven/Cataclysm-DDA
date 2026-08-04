@@ -108,25 +108,6 @@
   },
   {
     "type": "profession",
-    "id": "afs_origin_vatgrown_bodyguard",
-    "subtype": "hobby",
-    "name": "(Origin) Vatgrown Bodyguard",
-    "description": "You were born a perfectly engineered bodyguard, grew up in a militarized corporate blacksite and where given nothing to live for but your client.  That arrangement, however, did not last.",
-    "points": 0,
-    "traits": [ "AFS_BRUTAL_STRENGTH", "SLOWREADER", "LIGHTWEIGHT" ],
-    "proficiencies": [ "prof_unarmed_familiar", "prof_knives_familiar" ],
-    "skills": [
-      { "level": 3, "name": "unarmed" },
-      { "level": 3, "name": "stabbing" },
-      { "level": 3, "name": "gun" },
-      { "level": 3, "name": "pistol" },
-      { "level": 2, "name": "melee" },
-      { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "firstaid" }
-    ]
-  },
-  {
-    "type": "profession",
     "subtype": "hobby",
     "id": "afs_origin_tribal_hobby",
     "name": "(Origin) Rediscovered Tribal",
@@ -139,7 +120,7 @@
       { "level": 1, "name": "firstaid" },
       { "level": 3, "name": "cooking" },
       { "level": 2, "name": "unarmed" },
-      { "level": 6, "name": "throwing" },
+      { "level": 6, "name": "throw" },
       { "level": 3, "name": "melee" },
       { "level": 3, "name": "stabbing" }
     ]
