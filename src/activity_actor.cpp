@@ -3491,8 +3491,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         here.furn_set( target, furn_f_gunsafe_mj );
     } else if( lock_roll > ( 1.5 * pick_roll ) ) {
         if( it->inc_damage() ) {
-        sounds::sound( target, 5, sounds::sound_t::combat, _( "Snap!" ),
-                    true, "tool", "lockpick_break" );
+            sounds::sound( target, 5, sounds::sound_t::combat, _( "Snap!" ),
+                           true, "tool", "lockpick_break" );
             who.add_msg_if_player( m_bad,
                                    _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
             destroy = true;
