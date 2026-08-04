@@ -1070,13 +1070,15 @@ void destroy_the_carcass( const butchery_data &bd, Character &you )
     const mtype *corpse = corpse_item.get_mtype();
 
 if( action == butcher_type::TAXIDERMY ) {
+        static const itype_id itype_taxidermy_specimen( "taxidermy_specimen" );
         item specimen( itype_taxidermy_specimen, calendar::turn );
         specimen.set_mtype( corpse );
         here.add_item_or_charges( corpse_pos, specimen );
 
         butchery_drops_harvest( bd, you );
 
-        add_msg( m_good, _( "You carefully preserve the skin and stuff the corpse into a taxidermy specimen." ) );
+        add_msg( m_good,
+                 _( "You carefully preserve the skin and stuff the corpse into a taxidermy specimen." ) );
         target.remove_item();
         return;
     }
