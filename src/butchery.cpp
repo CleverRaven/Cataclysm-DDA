@@ -1068,8 +1068,9 @@ void destroy_the_carcass( const butchery_data &bd, Character &you )
     item &corpse_item = *target;
     const mtype *corpse = corpse_item.get_mtype();
 
-    if( action == butcher_type::TAXIDERMY ) {
-        item specimen( itype_id( "taxidermy_specimen" ), calendar::turn );
+if( action == butcher_type::TAXIDERMY ) {
+        static const itype_id itype_taxidermy_specimen( "taxidermy_specimen" );
+        item specimen( itype_taxidermy_specimen, calendar::turn );
         specimen.set_mtype( corpse );
         here.add_item_or_charges( corpse_pos, specimen );
 
@@ -1437,7 +1438,7 @@ std::optional<butcher_type> butcher_submenu( const std::vector<map_stack::iterat
                         + progress_str( butcher_type::TAXIDERMY ),
                         time_or_disabledreason( butcher_type::TAXIDERMY ),
                         wrap60( string_format( "%s  %s",
-                                _( "Preserve and stuff the corpse to create a realistic taxidermy specimen. "
+                                _( "Preserve and stuff the corpse to create a realistic taxidermy specimen.  "
                                    "Harvests internal meat and organs while creating a lifelike statue." ),
                                 msgFactor ) ) );
     smenu.query();

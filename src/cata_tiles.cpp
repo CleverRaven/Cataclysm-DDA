@@ -3560,7 +3560,8 @@ bool cata_tiles::draw_field_or_item( const tripoint_bub_ms &p, const lit_level l
             }
             if( it_type && !it_id.is_null() ) {
 
-                bool is_taxidermy = ( !it_overridden && tile.get_uppermost_item().has_flag( flag_id( "TAXIDERMY" ) ) );
+                static const flag_id flag_taxidermy( "TAXIDERMY" );
+                bool is_taxidermy = ( !it_overridden && tile.get_uppermost_item().has_flag( flag_taxidermy ) );
 
                 std::string disp_id;
                 TILE_CATEGORY cat = TILE_CATEGORY::ITEM;

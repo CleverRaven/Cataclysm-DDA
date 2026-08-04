@@ -1957,7 +1957,8 @@ units::mass item::weight( bool include_contents, bool integral ) const
         return 0_gram;
     }
 
-    if( has_flag( flag_id( "TAXIDERMY" ) ) && get_mtype() != nullptr ) {
+    static const flag_id flag_taxidermy( "TAXIDERMY" );
+    if( has_flag( flag_taxidermy ) && get_mtype() != nullptr ) {
         return get_mtype()->weight * 0.1;
     }
 
@@ -2222,7 +2223,8 @@ units::volume item::volume( bool integral, bool ignore_contents, int charges_in_
         return corpse_volume( corpse );
     }
 
-    if( has_flag( flag_id( "TAXIDERMY" ) ) && get_mtype() != nullptr ) {
+    static const flag_id flag_taxidermy( "TAXIDERMY" );
+    if( has_flag( flag_taxidermy ) && get_mtype() != nullptr ) {
         return get_mtype()->volume;
     }
 
