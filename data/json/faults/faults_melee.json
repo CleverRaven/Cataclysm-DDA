@@ -260,7 +260,7 @@
     "fault_type": "mechanical_damage",
     "name": { "str": "Broken handle" },
     "degradation_mod": 50,
-    "description": "The handle of the %s has completely broken and seperated from the %s.",
+    "description": "The handle of the %s has completely broken and separated from the %s.",
     "item_suffix": "no handle",
     "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.1 } ]
   },
@@ -305,7 +305,7 @@
     "//1": "Ideally this would make it so you can't retract it anymore, this is not possible currently.",
     "fault_type": "mechanical_damage",
     "name": { "str": "Broken handle" },
-    "description": "The handle of the %s has seperated from the shaft, rendering it nigh unusable."
+    "description": "The handle of the %s has separated from the shaft, rendering it nigh unusable."
   },
   {
     "type": "fault",
