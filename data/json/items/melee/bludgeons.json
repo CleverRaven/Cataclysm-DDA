@@ -166,7 +166,8 @@
     "use_action": { "menu_text": "Expand", "type": "transform", "target": "baton-extended", "msg": "You snap open your baton." },
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "price": "229 USD",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "faults": [ { "fault_group": "batons" } ]
   },
   {
     "type": "ITEM",
@@ -1627,7 +1628,8 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "price": "300 USD",
     "price_postapoc": "7 USD 50 cent",
-    "melee_damage": { "bash": 14 }
+    "melee_damage": { "bash": 14 },
+    "faults": [ { "fault_group": "batons" } ]
   },
   {
     "type": "ITEM",
@@ -1647,7 +1649,8 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price": "300 USD",
     "price_postapoc": "7 USD 50 cent",
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "faults": [ { "fault_group": "batons" } ]
   },
   {
     "type": "ITEM",
