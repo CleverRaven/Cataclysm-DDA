@@ -1355,6 +1355,110 @@ TEST_CASE( "craft_resolve_overdue_passive_chains_preserve_wall_time",
     }
 }
 
+TEST_CASE( "chained_unattended_step_stays_live_without_resolvable_crafter",
+           "[craft][attention][overdue][chain]" )
+{
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+
+    item ingredient( itype_2x4, calendar::turn );
+    item placed( &recipe_cudgel_test_consecutive_unattended.obj(), 1, ingredient );
+    item &on_map = here.add_item( origin, placed );
+    REQUIRE( on_map.is_craft() );
+
+    // Cure A (idx 1) in flight with Cure B (idx 2) unattended behind it, so
+    // closing Cure A has to chain into another passive step.
+    on_map.set_current_step( 1 );
+    on_map.set_passive_started_at( calendar::turn );
+    on_map.set_ready_at( calendar::turn + 10_minutes );
+    on_map.set_passive_start_counter( 2500000 );
+    on_map.set_passive_end_counter( 5000000 );
+    on_map.set_step_plans( std::vector<attention_plan>( 4 ) );
+    // Crafter cannot be looked up: an NPC that left the bubble, or a craft
+    // that never got a crafter stamped onto it.
+    on_map.set_crafter_id( character_id() );
+    REQUIRE_FALSE( on_map.get_crafter_id().is_valid() );
+
+    item_location loc( map_cursor( here.get_abs( origin ) ), &on_map );
+
+    GIVEN( "an overdue unattended step whose crafter cannot be resolved" ) {
+        WHEN( "the ready dispatch runs" ) {
+            craft_actualize_scheduled( on_map, item_wakeup_kind::ready_check,
+                                       calendar::turn + 10_minutes, loc );
+            REQUIRE( loc.get_item() != nullptr );
+
+            THEN( "the craft still carries a completion deadline" ) {
+                CAPTURE( on_map.get_current_step() );
+                CHECK( on_map.get_ready_at() != calendar::before_time_starts );
+            }
+
+            // Equal bounds switch the tname projection off, which pins the
+            // displayed percentage to the step that just closed.
+            THEN( "progress bounds still span a range" ) {
+                CAPTURE( on_map.get_current_step() );
+                CAPTURE( on_map.get_passive_start_counter() );
+                CAPTURE( on_map.get_passive_end_counter() );
+                CHECK( on_map.get_passive_end_counter() >
+                       on_map.get_passive_start_counter() );
+            }
+
+            THEN( "waiting out the remaining passive time reaches the active step" ) {
+                craft_resolve_overdue_passive( on_map, calendar::turn + 3_hours, loc );
+                REQUIRE( loc.get_item() != nullptr );
+                CHECK( on_map.get_current_step() == 3 );
+            }
+        }
+    }
+}
+
+TEST_CASE( "chained_unattended_step_holds_for_absent_npc_crafter",
+           "[craft][attention][overdue][chain]" )
+{
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+
+    item ingredient( itype_2x4, calendar::turn );
+    item placed( &recipe_cudgel_test_consecutive_unattended.obj(), 1, ingredient );
+    item &on_map = here.add_item( origin, placed );
+    REQUIRE( on_map.is_craft() );
+
+    on_map.set_current_step( 1 );
+    on_map.set_passive_started_at( calendar::turn );
+    on_map.set_ready_at( calendar::turn + 10_minutes );
+    on_map.set_passive_start_counter( 2500000 );
+    on_map.set_passive_end_counter( 5000000 );
+    on_map.set_step_plans( std::vector<attention_plan>( 4 ) );
+    // A recorded crafter who is not the avatar and is not a loaded NPC: an
+    // NPC that walked out of the reality bubble mid-craft.
+    const character_id absent_npc( u.getID().get_value() + 1000 );
+    on_map.set_crafter_id( absent_npc );
+    REQUIRE( on_map.get_crafter_id().is_valid() );
+
+    item_location loc( map_cursor( here.get_abs( origin ) ), &on_map );
+
+    GIVEN( "an overdue unattended step whose crafter is an absent NPC" ) {
+        WHEN( "the ready dispatch runs" ) {
+            craft_actualize_scheduled( on_map, item_wakeup_kind::ready_check,
+                                       calendar::turn + 10_minutes, loc );
+            REQUIRE( loc.get_item() != nullptr );
+
+            THEN( "the step is held rather than advanced" ) {
+                CHECK( on_map.get_current_step() == 1 );
+            }
+
+            THEN( "a retry deadline keeps the craft reachable" ) {
+                CHECK( on_map.get_ready_at() == calendar::turn + 11_minutes );
+            }
+        }
+    }
+}
+
 TEST_CASE( "craft_actualize_ready_fail_at_precedes_ready",
            "[craft][attention][overdue][fail]" )
 {
