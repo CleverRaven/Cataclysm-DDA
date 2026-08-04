@@ -3497,8 +3497,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
                                    _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
             destroy = true;
         } else {
-        sounds::sound( target, 5, sounds::sound_t::combat, _( "Crrk!" ),
-                    true, "tool", "lockpick_damage" );
+            sounds::sound( target, 5, sounds::sound_t::combat, _( "Crrk!" ),
+                           true, "tool", "lockpick_damage" );
             who.add_msg_if_player( m_bad,
                                    _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
         }
