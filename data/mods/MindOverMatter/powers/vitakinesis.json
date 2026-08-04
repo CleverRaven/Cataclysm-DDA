@@ -429,6 +429,36 @@
     "max_duration": 200
   },
   {
+    "id": "vita_increased_hp",
+    "type": "SPELL",
+    "name": "[Ψ]Durability (C)",
+    "description": "Increase your overall resilience against damage, allowing you to continue functioning for longer in the face of injury.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "mom_vitakinesis_max_power_formula()" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_INCREASED_HP_INITIATE",
+    "shape": "blast",
+    "min_duration": { "math": [ "( ( u_spell_level('vita_increased_hp') * 28165) + 108450) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( ( u_spell_level('vita_increased_hp') * 68196) + 290842) * psionic_power_modifiers()" ] },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_vita_increase_hp') > -1 ? 0 : max( (6500 - ( u_spell_level('vita_increased_hp') * 150) ), 3250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_vita_increased_hp') > -1 ? 10 : max( (125 - ( u_spell_level('vita_increased_hp') * 6)), 50)"
+      ]
+    }
+  },
+  {
     "id": "vita_healing_trance",
     "type": "SPELL",
     "name": "[Ψ]Revitalizing Meditation",
@@ -543,7 +573,7 @@
     "difficulty": 7,
     "max_level": { "math": [ "mom_vitakinesis_max_power_formula()" ] },
     "effect": "effect_on_condition",
-    "effect_str": "EOC_VITAKIN_NO_NEED_FOR_SLEEP",
+    "effect_str": "EOC_VITAKIN_NO_NEED_FOR_SLEEP_INITIATE",
     "min_duration": { "math": [ "( ( u_spell_level('vita_no_need_for_sleep') * 34000) + 195000) * psionic_power_modifiers()" ] },
     "max_duration": { "math": [ "( ( u_spell_level('vita_no_need_for_sleep') * 79000) + 418000) * psionic_power_modifiers()" ] },
     "base_energy_cost": 9500,
