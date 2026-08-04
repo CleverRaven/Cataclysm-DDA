@@ -19,6 +19,7 @@
       "practice_vita_sleeping_trance",
       "practice_vita_cure_disease",
       "practice_vita_stop_infection",
+      "practice_vita_increased_hp",
       "practice_vita_purge_rads",
       "practice_vita_healing_trance",
       "practice_vita_attack_touch",
@@ -562,6 +563,65 @@
     "condition": {
       "and": [
         { "compare_string": [ "vita_stop_infection", { "u_val": "latest_studied_power_name" } ] },
+        { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: durability",
+    "id": "practice_vita_increased_hp",
+    "description": "Contemplate your powers and improve your durability against debilitating injury.\n\nPower Difficulty: 5\n\nCurrent Power Level: <u_spell_level:vita_stop_infection>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
+    ],
+    "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_VITAKIN_INCREASED_HP",
+        "condition": { "u_has_trait": "VITAKINETIC" },
+        "effect": [
+          { "set_string_var": "vita_increased_hp", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
+          {
+            "if": { "math": [ "u_spell_level('vita_increased_hp') >= 1" ] },
+            "then": { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] },
+            "else": [
+              { "run_eocs": [ "EOC_PSI_STUDYING_POWER_INITIAL_SETUP", "EOC_PSI_PRACTICE_FOCUS_MOD" ] },
+              {
+                "run_eocs": "EOC_PRACTICE_VITAKIN_INCREASED_HP_LEARNING",
+                "time_in_future": [
+                  { "math": [ "learn_new_power_lower_time_bound(u_latest_studied_power_difficulty)" ] },
+                  { "math": [ "learn_new_power_upper_time_bound(u_latest_studied_power_difficulty)" ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_VITAKIN_INCREASED_HP_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "vita_increased_hp", { "u_val": "latest_studied_power_name" } ] },
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
