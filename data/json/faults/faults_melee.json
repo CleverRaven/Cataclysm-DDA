@@ -250,7 +250,7 @@
     "name": { "str": "Collapsed" },
     "degradation_mod": 50,
     "description": "The %s has collapsed, a part of the once hollow bat is now touching inside of it due to heavy bending.  It is usable still but significantly less effective.",
-    "item_suffix": "bent",
+    "item_suffix": "collapsed",
     "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.5 } ]
   },
   {
@@ -263,5 +263,46 @@
     "description": "The handle of the %s has completely broken and seperated from the %s.",
     "item_suffix": "no handle",
     "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.1 } ]
+  },
+  {
+    "type": "fault",
+    "copy-from": "fault_aluminum_bat_bent",
+    "id": "fault_baton_bent",
+    "//0": "This fault is meant for batons.",
+    "//1": "Ideally this would make it so you can't retract it anymore, this is not possible currently.",
+    "fault_type": "mechanical_damage",
+    "description": "The shaft of the %s has been bent.",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.7 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_baton_bent_tip",
+    "//": "This fault is meant for batons.",
+    "//1": "Ideally this would make it so you can't retract it anymore, maybe, this is not possible currently.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Bent tip" },
+    "degradation_mod": 50,
+    "description": "The tip of the %s has been bent.",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.7 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_baton_broken_tip",
+    "//": "This fault is meant for batons.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Broken tip" },
+    "degradation_mod": 50,
+    "description": "The tip of the %s has broken off",
+    "block_faults": [ "fault_baton_bent_tip" ],
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.5 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_baton_handle_broken",
+    "copy-from": "fault_handle_broken",
+    "//": "This fault is meant for batons.",
+    "//1": "Ideally this would make it so you can't retract it anymore, this is not possible currently.",
+    "fault_type": "mechanical_damage",
+    "description": "The handle of the %s has seperated from the shaft, rendering it nigh unusable."
   }
 ]

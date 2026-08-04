@@ -110,5 +110,16 @@
       { "fault": "fault_aluminum_bat_bent_heavy", "weight": 50 },
       { "fault": "fault_aluminum_bat_handle_broken", "weight": 10 }
     ]
+  },
+  {
+    "type": "fault_group",
+    "id": "batons",
+    "//": "Mechanical damage of a baton",
+    "group": [
+      { "fault": "fault_baton_bent", "weight": 60 },
+      { "fault": "fault_baton_bent_tip", "weight": 100 },
+      { "fault": "fault_baton_broken_tip", "weight": 30 },
+      { "fault": "fault_baton_handle_broken", "weight": 10 }
+    ]
   }
 ]
