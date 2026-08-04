@@ -120,6 +120,7 @@
     "volume": "1750 ml",
     "price": "160 USD",
     "melee_damage": { "bash": 22 },
+    "faults": [ { "fault_group": "aluminum_bat" } ],
     "weapon_category": [ "MACES" ]
   },
   {
