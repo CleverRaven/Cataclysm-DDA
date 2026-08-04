@@ -121,5 +121,11 @@
       { "fault": "fault_baton_broken_tip", "weight": 30 },
       { "fault": "fault_baton_handle_broken", "weight": 10 }
     ]
+  },
+  {
+    "type": "fault_group",
+    "id": "tonfas",
+    "//": "Mechanical damage of a tonfa",
+    "group": [ { "fault": "fault_tonfa_handle_broken", "weight": 70 }, { "fault": "fault_tonfa_broken", "weight": 30 } ]
   }
 ]

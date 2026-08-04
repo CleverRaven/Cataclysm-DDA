@@ -1860,6 +1860,7 @@
       }
     ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "tonfas" } ],
     "weapon_category": [ "BATONS" ],
     "pocket_data": [
       {
@@ -1909,6 +1910,7 @@
     "material": [ "plastic" ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "tonfas" } ],
     "weapon_category": [ "BATONS" ],
     "volume": "2 L",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "good" },
