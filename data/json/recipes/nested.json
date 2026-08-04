@@ -6891,7 +6891,7 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": "12.3ln ammo",
     "description": "Recipes related to reloading 12.3ln ammo.",
-    "nested_category_data": [ "reloaded_123ln", "bp_123ln" ]
+    "nested_category_data": [ "reloaded_123ln", "bp_123ln", "reloaded_123ln_ap", "bp_123ln_ap" ]
   },
   {
     "id": "nested_50beowulf",
