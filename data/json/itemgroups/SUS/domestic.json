@@ -438,6 +438,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "wine_glass", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "shot_glass", "prob": 50, "count": [ 2, 4 ] },
       { "item": "bowl_pewter", "prob": 50, "count": [ 1, 4 ] },
       { "item": "ceramic_cup", "prob": 75, "count": [ 1, 4 ] },
       { "item": "glass", "count": [ 1, 6 ] },
@@ -544,7 +545,6 @@
       { "item": "microwave", "prob": 90 },
       { "item": "food_processor", "prob": 70 },
       { "item": "waffleiron", "prob": 45 },
-      { "item": "multi_cooker", "prob": 25 },
       { "item": "pastaextruder", "prob": 10 },
       { "item": "dehydrator", "prob": 10 },
       { "item": "hotplate", "prob": 10 },

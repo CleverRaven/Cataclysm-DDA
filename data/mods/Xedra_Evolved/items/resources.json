@@ -31,21 +31,17 @@
   {
     "id": "scrap_moon_tears",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "scrap moon tears", "str_pl": "scraps of moon tears" },
     "description": "A bulky assortment of small bits of scrap moon tears, useful for forging into ingots and wire.",
     "weight": "5 g",
-    "volume": "25 ml",
-    "price": "5 USD",
-    "price_postapoc": "10 cent",
-    "count": 2,
-    "stack_size": 10,
+    "volume": "3 ml",
+    "price": "2 USD 50 cent",
+    "price_postapoc": "5 cent",
     "//": "Density 2g/ml.",
     "material": [ "moon_tears" ],
     "symbol": ",",
-    "color": "light_gray",
-    "ammo_type": "components"
+    "color": "light_gray"
   },
   {
     "id": "water",
@@ -94,18 +90,14 @@
   {
     "id": "chunk_shadowstuff",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "chunk shadowstuff", "str_pl": "scraps of shadowstuff" },
     "description": "A bulky assortment of larger bits of scrap shadowstuff, possibly useful in ephemeral crafting.",
     "weight": "2000 mg",
-    "volume": "250 ml",
-    "price": "5 USD",
-    "price_postapoc": "10 cent",
-    "count": 2,
-    "stack_size": 10,
+    "volume": "125 ml",
+    "price": "2 USD 50 cent",
+    "price_postapoc": "5 cent",
     "material": [ "shadowstuff" ],
-    "ammo_type": "components",
     "symbol": ",",
     "color": "light_gray"
   },
@@ -131,7 +123,6 @@
   {
     "id": "dreamdross_lump",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "lump of dreamdross", "str_pl": "lumps of dreamdross" },
     "description": "A heavy formed piece of dreamdross.  Useful for some crafting recipes.",
@@ -142,7 +133,6 @@
     "material": [ "dreamstuff" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo_type": "components",
     "melee_damage": { "bash": 12 }
   },
   {

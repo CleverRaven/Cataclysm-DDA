@@ -574,48 +574,6 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "id": "multi_cooker",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "multi-cooker" },
-    "description": "A professional-grade multi-cooker, with a short electric cord.  Its multitude of settings and features promise to handle any sort of cooking, from parboiling potatoes to cooking curry to popping popcorn.  There's no manual, but you're sure you can work it out.",
-    "weight": "11339 g",
-    "volume": "3750 ml",
-    "price": "200 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "red",
-    "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
-    "faults": [ { "fault_group": "electronic_general" } ],
-    "power_draw": "100 W",
-    "qualities": [ [ "CONTAIN", 1 ] ],
-    "tick_action": "MULTICOOKER_TICK",
-    "use_action": [ "MULTICOOKER", { "type": "link_up", "cable_length": 2, "charge_rate": "1000 W" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "watertight": true,
-        "rigid": true,
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "4 kg",
-        "max_item_length": "35 cm",
-        "moves": 50
-      }
-    ],
-    "tool_ammo": [ "battery" ]
-  },
-  {
-    "id": "multi_cooker_filled",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "copy-from": "multi_cooker",
-    "name": { "str": "multi-cooker - cooking", "str_pl": "multi-cookers - cooking" },
-    "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  There is a dish cooking inside it.",
-    "delete": { "qualities": [ "CONTAIN" ] }
-  },
-  {
     "id": "oil_cooker",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
