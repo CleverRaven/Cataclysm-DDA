@@ -43,7 +43,7 @@
     "id": "BKGR_CORPORATE",
     "copy-from": "AFS_BKGR_ABSTRACT",
     "name": { "str": "Corporate Aspirant" },
-    "description": "You were born and raised within a corporate creche, were your every action was monitored to asses your value."
+    "description": "You were born and raised within a corporate creche, where your every action was monitored to asses your value."
   },
   {
     "type": "mutation",
