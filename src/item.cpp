@@ -123,6 +123,8 @@ static const itype_id itype_efile_recipes( "efile_recipes" );
 static const itype_id itype_joint_lit( "joint_lit" );
 static const itype_id itype_stock_none( "stock_none" );
 
+static const flag_id flag_taxidermy( "TAXIDERMY" );
+
 static const material_id material_wool( "wool" );
 
 static const mtype_id mon_human( "mon_human" );
@@ -1957,7 +1959,6 @@ units::mass item::weight( bool include_contents, bool integral ) const
         return 0_gram;
     }
 
-    static const flag_id flag_taxidermy( "TAXIDERMY" );
     if( has_flag( flag_taxidermy ) && get_mtype() != nullptr ) {
         return get_mtype()->weight * 0.1;
     }
@@ -2223,7 +2224,7 @@ units::volume item::volume( bool integral, bool ignore_contents, int charges_in_
         return corpse_volume( corpse );
     }
 
-    static const flag_id flag_taxidermy( "TAXIDERMY" );
+
     if( has_flag( flag_taxidermy ) && get_mtype() != nullptr ) {
         return get_mtype()->volume;
     }

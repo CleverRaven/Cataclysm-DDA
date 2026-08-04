@@ -98,6 +98,8 @@ static const itype_id itype_corpse( "corpse" );
 
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 
+static const flag_id flag_taxidermy( "TAXIDERMY" );
+
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
@@ -3559,9 +3561,7 @@ bool cata_tiles::draw_field_or_item( const tripoint_bub_ms &p, const lit_level l
                 it_type = nullptr;
             }
             if( it_type && !it_id.is_null() ) {
-
-                static const flag_id flag_taxidermy( "TAXIDERMY" );
-                bool is_taxidermy = ( !it_overridden && tile.get_uppermost_item().has_flag( flag_taxidermy ) );
+                bool is_taxidermy = !it_overridden && tile.get_uppermost_item().has_flag( flag_taxidermy );
 
                 std::string disp_id;
                 TILE_CATEGORY cat = TILE_CATEGORY::ITEM;

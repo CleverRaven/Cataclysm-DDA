@@ -66,6 +66,7 @@ static const harvest_drop_type_id harvest_drop_offal( "offal" );
 static const harvest_drop_type_id harvest_drop_skin( "skin" );
 
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
+static const itype_id itype_taxidermy_specimen( "taxidermy_specimen" );
 
 static const json_character_flag json_flag_INSTANT_BLEED( "INSTANT_BLEED" );
 
@@ -1069,7 +1070,6 @@ void destroy_the_carcass( const butchery_data &bd, Character &you )
     const mtype *corpse = corpse_item.get_mtype();
 
 if( action == butcher_type::TAXIDERMY ) {
-        static const itype_id itype_taxidermy_specimen( "taxidermy_specimen" );
         item specimen( itype_taxidermy_specimen, calendar::turn );
         specimen.set_mtype( corpse );
         here.add_item_or_charges( corpse_pos, specimen );
