@@ -271,6 +271,7 @@
     "//0": "This fault is meant for batons.",
     "//1": "Ideally this would make it so you can't retract it anymore, this is not possible currently.",
     "fault_type": "mechanical_damage",
+    "name": { "str": "Bent" },
     "description": "The shaft of the %s has been bent.",
     "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.7 } ]
   },
