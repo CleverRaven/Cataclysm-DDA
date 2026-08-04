@@ -1069,7 +1069,7 @@ void destroy_the_carcass( const butchery_data &bd, Character &you )
     item &corpse_item = *target;
     const mtype *corpse = corpse_item.get_mtype();
 
-if( action == butcher_type::TAXIDERMY ) {
+    if( action == butcher_type::TAXIDERMY ) {
         item specimen( itype_taxidermy_specimen, calendar::turn );
         specimen.set_mtype( corpse );
         here.add_item_or_charges( corpse_pos, specimen );
