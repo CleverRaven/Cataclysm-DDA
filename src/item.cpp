@@ -102,6 +102,8 @@ static const efftype_id effect_weed_high( "weed_high" );
 
 static const fault_id fault_emp_reboot( "fault_emp_reboot" );
 
+static const flag_id json_flag_TAXIDERMY( "TAXIDERMY" );
+
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
 static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
@@ -121,7 +123,6 @@ static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_efile_photos( "efile_photos" );
 static const itype_id itype_efile_recipes( "efile_recipes" );
 static const itype_id itype_joint_lit( "joint_lit" );
-static const flag_id json_flag_TAXIDERMY( "TAXIDERMY" );
 static const itype_id itype_stock_none( "stock_none" );
 
 static const material_id material_wool( "wool" );
