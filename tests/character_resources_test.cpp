@@ -1,6 +1,7 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "item.h"
+#include "json_loader.h"
 #include "magic.h"
 #include "magic_type.h"
 #include "player_helpers.h"
