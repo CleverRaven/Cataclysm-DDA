@@ -1,11 +1,21 @@
+#include <map>
+#include <memory>
+#include <optional>
+#include <string>
+#include <vector>
+
 #include "avatar.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "flexbuffer_json.h"
 #include "item.h"
 #include "json_loader.h"
 #include "magic.h"
 #include "magic_type.h"
+#include "pimpl.h"
 #include "player_helpers.h"
 #include "recipe.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "vitamin.h"
 
