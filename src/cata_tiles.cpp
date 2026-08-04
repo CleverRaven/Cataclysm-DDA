@@ -94,9 +94,9 @@
 
 static const efftype_id effect_ridden( "ridden" );
 
-static const itype_id itype_corpse( "corpse" );
-
 static const flag_id json_flag_TAXIDERMY( "TAXIDERMY" );
+
+static const itype_id itype_corpse( "corpse" );
 
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 
