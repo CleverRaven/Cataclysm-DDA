@@ -1240,7 +1240,7 @@
       { "item": "european_comic", "count": [ 1, 8 ], "variant": "metabarons", "prob": 1 }
     ]
   },
-{
+  {
     "type": "item_group",
     "id": "classic_literature",
     "subtype": "distribution",
@@ -1336,7 +1336,4 @@
       { "item": "the_divine_comedy", "prob": 10 }
     ]
   }
-
-
 ]
-
