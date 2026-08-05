@@ -49,6 +49,7 @@
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "dialogue_helpers.h"
+#include "dialogue_imgui.h"
 #include "dialogue_win.h"
 #include "effect_on_condition.h"
 #include "enum_conversions.h"
@@ -1694,32 +1695,8 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
     } else {
         d.add_topic( debug_topic );
     }
-    dialogue_window d_win;
-    d_win.is_computer = is_computer;
-    d_win.is_not_conversation = is_not_conversation;
-    if( !remote_name.empty() ) {
-        d_win.is_remote = true;
-        d_win.remote_name = remote_name;
-    }
-    // Main dialogue loop
-    do {
-        d.actor( true )->update_missions( d.missions_assigned );
-        const talk_topic next = d.opt( d_win, d.topic_stack.back() );
-        if( next.id == "TALK_NONE" ) {
-            int cat = topic_category( d.topic_stack.back() );
-            do {
-                d.topic_stack.pop_back();
-            } while( cat != -1 && topic_category( d.topic_stack.back() ) == cat );
-        }
-        if( next.id == "TALK_DONE" || d.topic_stack.empty() ) {
-            d.actor( true )->say( bye_message( d.actor( true )->get_npc() ) );
-            d.done = true;
-        } else if( next.id != "TALK_NONE" ) {
-            d.add_topic( next );
-        }
-    } while( !d.done );
-    dialogue_remote_name.clear();
-
+    dialogue_imgui d_img( &d );
+    d_img.draw_dialogue_imgui( is_computer, is_not_conversation, remote_name );
     if( activity.id() == ACT_AIM && !has_weapon() ) {
         cancel_activity();
         // don't query certain activities that are started from dialogue
@@ -1737,6 +1714,17 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
 }
 
 std::string dialogue::speaker_name( const dialogue_window &d_win ) const
+{
+    if( d_win.is_not_conversation ) {
+        return "";
+    }
+    if( !d_win.remote_name.empty() ) {
+        return d_win.remote_name;
+    }
+    return actor( true )->disp_name();
+}
+
+std::string dialogue::speaker_name( const dialogue_imgui_impl &d_win ) const
 {
     if( d_win.is_not_conversation ) {
         return "";
@@ -2971,6 +2959,181 @@ const talk_topic &special_talk( const std::string &action )
 
     static const talk_topic no_topic = talk_topic( "TALK_NONE" );
     return no_topic;
+}
+
+talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &topic )
+{
+    // Construct full line
+    std::string challenge = dynamic_line( topic );
+    gen_responses( topic );
+
+    // Put quotes around challenge (unless it's an action)
+    if( challenge[0] != '*' && challenge[0] != '&' ) {
+        challenge = string_format( _( "\"%s\"" ), challenge );
+    }
+
+    // Parse any tags in challenge
+    if( actor( true )->get_npc() ) {
+        parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(), *this,
+                    topic.item_type );
+    } else {
+        parse_tags( challenge, *actor( false )->get_character(), *actor( false )->get_character(), *this,
+                    topic.item_type );
+    }
+    challenge = uppercase_first_letter( challenge );
+
+    if( challenge[0] == '&' ) {
+        // No name prepended!
+        challenge = challenge.substr( 1 );
+        d_img.add_to_history( challenge );
+    } else if( challenge[0] == '*' ) {
+        // Prepend name
+        challenge = string_format( pgettext( "npc does something", "%s %s" ),
+                                   speaker_name( d_img ),
+                                   challenge.substr( 1 ) );
+        d_img.add_to_history( challenge );
+    } else {
+        npc *npc_actor = actor( true )->get_npc();
+        d_img.add_to_history( challenge, speaker_name( d_img ),
+                              npc_actor ? npc_actor->basic_symbol_color() : c_red );
+    }
+    /* FIXME
+    if( debug_mode ) {
+        std::vector<std::string> dynamic_line_debug = build_debug_info( d_win, topic );
+        for( auto &line : dynamic_line_debug ) {
+            d_win.add_to_history( line );
+        }
+    }
+    */
+    apply_speaker_effects( topic );
+
+    if( responses.empty() ) {
+        debugmsg( "No dialogue responses" );
+        return talk_topic( "TALK_NONE" );
+    }
+
+    input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "DEBUG_DIALOGUE_DL_CONDITIONAL" );
+    ctxt.register_action( "DEBUG_DIALOGUE_RESP_CONDITIONAL" );
+    ctxt.register_action( "DEBUG_DIALOGUE_DL_EFFECT" );
+    ctxt.register_action( "DEBUG_DIALOGUE_RESP_EFFECT" );
+    ctxt.register_action( "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" );
+    ctxt.register_action( "QUIT" );
+    std::vector<talk_data> response_lines;
+    std::vector<input_event> response_hotkeys;
+    const auto generate_response_lines = [&]() {
+#if defined(__ANDROID__)
+        ctxt.get_registered_manual_keys().clear();
+#endif
+        const hotkey_queue &queue = hotkey_queue::alphabets();
+        response_lines.clear();
+        response_hotkeys.clear();
+        input_event evt = ctxt.first_unassigned_hotkey( queue );
+        for( talk_response &response : responses ) {
+            const talk_data &td = response.create_option_line( *this, evt, d_img.is_computer );
+            response_lines.emplace_back( td );
+            response_hotkeys.emplace_back( evt );
+#if defined(__ANDROID__)
+            ctxt.register_manual_key( evt.get_first_input(), td.text );
+#endif
+            evt = ctxt.next_unassigned_hotkey( queue, evt );
+        }
+        d_img.set_responses( response_lines );
+    };
+    generate_response_lines();
+
+    size_t response_ind = response_hotkeys.size();
+    bool okay;
+    do {
+        std::string action;
+        do {
+            /* FIXME
+            if( debug_mode ) {
+                d_win.set_responses_debug( build_debug_info( d_win, topic, d_win.sel_response ) );
+                d_win.debug_topic_name = topic.id;
+            }
+            */
+            ui_manager::redraw();
+            input_event evt;
+            action = ctxt.handle_input();
+            evt = ctxt.get_raw_input();
+            if( evt.type == input_event_t::error || evt.type == input_event_t::timeout ) {
+                continue;
+            }
+            talk_topic st = special_talk( action );
+            if( st.id != "TALK_NONE" ) {
+                return st;
+            }
+            if( action == "HELP_KEYBINDINGS" ) {
+                // Reallocate hotkeys as keybindings may have changed
+                generate_response_lines();
+            } else if( action == "CONFIRM" ) {
+                // FIXME
+                response_ind = 0;
+                //response condition must be reverified since non-selectable responses can be displayed
+                if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
+                        !debug_mode ) ) {
+                    action = "NONE";
+                }
+                /* FIXME
+                } else if( action == "DEBUG_DIALOGUE_DL_CONDITIONAL" ) {
+                    d_win.show_dynamic_line_conditionals = !d_win.show_dynamic_line_conditionals;
+                } else if( action == "DEBUG_DIALOGUE_RESP_CONDITIONAL" ) {
+                    d_win.show_response_conditionals = !d_win.show_response_conditionals;
+                } else if( action == "DEBUG_DIALOGUE_DL_EFFECT" ) {
+                    d_win.show_dynamic_line_effects = !d_win.show_dynamic_line_effects;
+                } else if( action == "DEBUG_DIALOGUE_RESP_EFFECT" ) {
+                    d_win.show_response_effects = !d_win.show_response_effects;
+                } else if( action == "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" ) {
+                    d_win.show_all_responses = !d_win.show_all_responses;
+                    if( debug_mode ) {
+                        this->debug_ignore_conditionals = !this->debug_ignore_conditionals;
+                        gen_responses( topic );
+                        generate_response_lines();
+                    }
+                    */
+            } else if( action == "ANY_INPUT" ) {
+                // Check real hotkeys; equivalent functionally to CONFIRM
+                const auto hotkey_it = std::find( response_hotkeys.begin(),
+                                                  response_hotkeys.end(), evt );
+                response_ind = std::distance( response_hotkeys.begin(), hotkey_it );
+                if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
+                        !debug_mode ) ) {
+                    action = "NONE";
+                }
+            } else if( action == "QUIT" ) {
+                response_ind = get_best_quit_response();
+            }
+        } while( response_ind >= response_hotkeys.size() ||
+                 ( action != "ANY_INPUT" && action != "QUIT" && action != "CONFIRM" ) );
+        okay = true;
+        std::set<dialogue_consequence> consequences = responses[response_ind].get_consequences( *this );
+        if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
+            okay = query_yn( _( "You may be attacked!  Proceed?" ) );
+        } else if( consequences.count( dialogue_consequence::helpless ) > 0 ) {
+            okay = query_yn( _( "You'll be helpless!  Proceed?" ) );
+        }
+    } while( !okay );
+
+    d_img.add_to_history( response_lines[response_ind].text, _( "You" ), c_light_blue );
+
+    talk_response chosen = responses[response_ind];
+    if( chosen.mission_selected != nullptr ) {
+        actor( true )->select_mission( chosen.mission_selected );
+    }
+
+    // We can't set both skill and style or training will bug out
+    // TODO: Allow setting both skill and style
+    actor( true )->store_chosen_training( chosen.skill, chosen.style, chosen.dialogue_spell,
+                                          chosen.proficiency );
+    const bool success = chosen.trial.roll( *this );
+    talk_effect_t const &effects = success ? chosen.success : chosen.failure;
+    talk_topic ret_topic =  effects.apply( *this );
+    talk_effect_t::update_missions( *this );
+    return ret_topic;
 }
 
 talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
