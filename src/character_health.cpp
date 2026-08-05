@@ -2600,16 +2600,16 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
             num_limbs++;
         }
         const int dam_per_part = dam / num_limbs;
-        for ( const bodypart_id &bp : get_all_body_parts() ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
             if( bp->main_part ) {
-                mod_part_hp_cur( bp, -dam_per_part);
+                mod_part_hp_cur( bp, -dam_per_part );
             }
         }
-        
-    } else { 
+
+    } else {
         mod_part_hp_cur( part_to_damage, - dam_to_bodypart );
     }
-    
+
     if( source ) {
         cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart,
                         part_to_damage.id(), pain );
