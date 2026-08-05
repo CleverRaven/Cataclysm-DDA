@@ -2,8 +2,24 @@
   {
     "id": "bullet_forming",
     "type": "requirement",
-    "//": "Forming of bullets from raw materials",
-    "tools": [ [ [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ] ]
+    "//": "Forming bullets from raw materials.",
+    "tools": [
+      [ [ "press", -1 ] ],
+      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ],
+      [ [ "tongs", -1 ] ],
+      [ [ "tape_measure", -1 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "arbor_press", -1 ] ],
+      [ [ "gloves_medical", -1 ], [ "gloves_rubber", -1 ], [ "entry_suit", -1 ], [ "hazmat_suit", -1 ] ],
+      [
+        [ "crucible", -1 ],
+        [ "crucible_clay", -1 ],
+        [ "iron_pot", -1 ],
+        [ "pan", -1 ],
+        [ "pot_makeshift", -1 ],
+        [ "pressure_cooker", -1 ]
+      ]
+    ]
   },
   {
     "id": "shot_forming",
