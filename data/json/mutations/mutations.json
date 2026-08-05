@@ -6918,7 +6918,11 @@
           { "lose": "eyes" },
           { "gain": "eyes_slime" },
           { "lose": "torso" },
-          { "gain": "torso_slime" }
+          { "gain": "torso_slime" },
+          { "lose": "arm_l" },
+          { "gain": "arm_slime_l" },
+          { "lose": "hand_l" },
+          { "gain": "hand_slime_l" }
         ]
       }
     ],
