@@ -2865,6 +2865,32 @@
     "similar_bodypart": "leg_lower_r"
   },
   {
+    "id": "leg_slime_draped_l",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "leg_slime_l",
+    "side": "left",
+    "secondary": true,
+    "opposite": "leg_slime_draped_r",
+    "name_multiple": "pseudopods (draped)",
+    "name": "pseudopod (draped)",
+    "locations_under": [ "leg_slime_hip_l", "leg_slime_upper_l" ],
+    "similar_bodypart": "leg_draped_l"
+  },
+  {
+    "id": "leg_slime_draped_r",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "leg_slime_r",
+    "side": "right",
+    "secondary": true,
+    "opposite": "leg_slime_draped_l",
+    "name_multiple": "pseudopods (draped)",
+    "name": "pseudopod (draped)",
+    "locations_under": [ "leg_slime_hip_r", "leg_slime_upper_r" ],
+    "similar_bodypart": "leg_draped_r"
+  },
+  {
     "type": "sub_body_part",
     "id": "foot_slime_sole_l",
     "copy-from": "foot_sole_l",
