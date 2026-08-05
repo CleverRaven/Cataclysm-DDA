@@ -6916,7 +6916,9 @@
           { "lose": "mouth" },
           { "gain": "mouth_slime" },
           { "lose": "eyes" },
-          { "gain": "eyes_slime" }
+          { "gain": "eyes_slime" },
+          { "lose": "torso" },
+          { "gain": "torso_slime" }
         ]
       }
     ],

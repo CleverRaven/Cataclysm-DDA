@@ -354,6 +354,20 @@
     "name": "right eye"
   },
   {
+    "id": "eyes_slime_left",
+    "copy-from": "eyes_left",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "similar_bodypart": "eyes_left"
+  },
+  {
+    "id": "eyes_slime_right",
+    "copy-from": "eyes_right",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "similar_bodypart": "eyes_right"
+  },
+  {
     "id": "muzzle_lips",
     "type": "sub_body_part",
     "max_coverage": 25,
@@ -784,6 +798,34 @@
     "opposite": "sub_limb_debug",
     "side": "both",
     "name": "bottom"
+  },
+  {
+    "id": "mouth_slime_lips",
+    "copy-from": "mouth_lips",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "similar_bodypart": "mouth_lips"
+  },
+  {
+    "id": "mouth_slime_nose",
+    "copy-from": "mouth_nose",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "similar_bodypart": "mouth_nose"
+  },
+  {
+    "id": "mouth_slime_cheeks",
+    "copy-from": "mouth_cheeks",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "similar_bodypart": "mouth_cheeks"
+  },
+  {
+    "id": "mouth_slime_chin",
+    "copy-from": "mouth__chin",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "similar_bodypart": "mouth_chin"
   },
   {
     "id": "torso_slime_upper",
