@@ -85,6 +85,22 @@
     "components": [ [ [ "chem_black_powder", 12 ] ] ]
   },
   {
+    "result": "reloaded_rifle_AP_foreign",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "reloaded_rifle_AP",
+    "components": [
+      [ [ "gunpowder", 12 ], [ "gunpowder_magnum_pistol", 12 ], [ "gunpowder_rifle", 12 ], [ "gunpowder_large_rifle", 12 ] ]
+    ]
+  },
+  {
+    "result": "bp_rifle_AP_foreign",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "bp_rifle_AP",
+    "components": [ [ [ "chem_black_powder", 12 ] ] ]
+  },
+  {
     "result": "bp_rifle_ball",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

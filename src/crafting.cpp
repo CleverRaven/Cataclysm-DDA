@@ -1679,18 +1679,31 @@ static void craft_actualize_ready( item &craft, time_point now, const item_locat
     // Stamp consecutive unattended step at the just-consumed ready_at so a
     // chain catches up without losing wall-clock between them.
     const time_point step_end = craft.get_ready_at();
-    advance_passive_step( craft );
-    const int new_idx = craft.get_current_step();
-    bool wakeups_rebuilt = false;
-    if( new_idx < static_cast<int>( rec.steps().size() ) &&
-        rec.steps()[new_idx].attention == step_attention::unattended ) {
-        Character *next_crafter = resolve_crafter( craft.get_crafter_id() );
-        if( next_crafter != nullptr ) {
-            craft_stamp_passive_entry( craft, *next_crafter, step_end, loc );
-            wakeups_rebuilt = true;
+    // Resolve the next step's crafter before advancing: advance_passive_step
+    // clears every deadline and counter bound, so advancing into a passive step
+    // that cannot be stamped strands the craft with nothing left to wake it.
+    const int next_idx = step_idx + 1;
+    const bool next_is_passive = next_idx < static_cast<int>( rec.steps().size() ) &&
+                                 rec.steps()[next_idx].attention == step_attention::unattended;
+    Character *next_crafter = nullptr;
+    if( next_is_passive ) {
+        next_crafter = resolve_crafter( craft.get_crafter_id() );
+        if( next_crafter == nullptr && !craft.get_crafter_id().is_valid() ) {
+            // A craft with no crafter recorded can only be the avatar's.
+            next_crafter = &get_avatar();
+            craft.set_crafter_id( next_crafter->getID() );
+        }
+        if( next_crafter == nullptr ) {
+            // An NPC crafter outside the bubble: poll until they are reachable.
+            craft.set_ready_at( now + 1_minutes );
+            get_item_wakeups().rebuild_for_item( loc );
+            return;
         }
     }
-    if( !wakeups_rebuilt ) {
+    advance_passive_step( craft );
+    if( next_is_passive ) {
+        craft_stamp_passive_entry( craft, *next_crafter, step_end, loc );
+    } else {
         get_item_wakeups().rebuild_for_item( loc );
         fire_step_complete_distraction( completion_msg, flavor_msg, loc );
     }
