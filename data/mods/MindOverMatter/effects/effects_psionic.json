@@ -2648,9 +2648,29 @@
     "name": [ "Immunostimulated" ],
     "desc": [ "You are not going to get sick.  You absolutely refuse.  And if you do, you're going to get better." ],
     "apply_message": "",
-    "remove_message": "",
+    "remove_message": "You cough once.",
     "rating": "good",
     "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_increase_hp",
+    "name": [ "Durability" ],
+    "desc": [ "You are more resilient against damage." ],
+    "apply_message": "",
+    "remove_message": "The feeling of resilience fades away.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MAX_HP",
+            "multiply": { "math": [ "( ( u_spell_level('vita_increased_hp') * 0.02 ) + 0.15 ) * psionic_power_modifiers()" ] }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",

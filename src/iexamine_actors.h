@@ -108,6 +108,7 @@ class mortar_examine_actor : public iexamine_actor
     public:
         explicit mortar_examine_actor( const std::string &type = "mortar" ): iexamine_actor( type ) {}
 
+        std::vector<ammotype> get_ammotypes() const;
         void load( const JsonObject &jo, const std::string &src ) override;
         void call( Character &you, const tripoint_bub_ms &examp ) const override;
         void finalize() const override;
