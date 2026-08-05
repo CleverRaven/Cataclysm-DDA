@@ -1,5 +1,4 @@
 #include <map>
-#include <optional>
 #include <string>
 #include <string_view>
 
@@ -16,13 +15,29 @@
 namespace
 {
 
-recipe load_test_recipe( const std::string_view character_requirements,
-                         const std::string_view id_suffix = "character_requirements_test" )
+const recipe_id
+recipe_cudgel_character_requirements_child_clear( "cudgel_character_requirements_child_clear" );
+const recipe_id
+recipe_cudgel_character_requirements_child_inherit( "cudgel_character_requirements_child_inherit" );
+const recipe_id
+recipe_cudgel_character_requirements_child_replace( "cudgel_character_requirements_child_replace" );
+const recipe_id
+recipe_cudgel_character_requirements_control( "cudgel_character_requirements_control" );
+const recipe_id
+recipe_cudgel_character_requirements_mixed( "cudgel_character_requirements_mixed" );
+const recipe_id
+recipe_cudgel_character_requirements_restricted( "cudgel_character_requirements_restricted" );
+const recipe_id
+recipe_cudgel_character_requirements_zero_bounds( "cudgel_character_requirements_zero_bounds" );
+const recipe_id
+recipe_cudgel_character_requirements_zero_entries( "cudgel_character_requirements_zero_entries" );
+
+recipe load_invalid_test_recipe( const std::string_view character_requirements )
 {
     const std::string json = string_format( R"({
         "type": "recipe",
         "result": "cudgel",
-        "id_suffix": "%s",
+        "id_suffix": "invalid_character_requirements_test",
         "category": "CC_WEAPON",
         "subcategory": "CSC_WEAPON_BASHING",
         "skill_used": "fabrication",
@@ -30,57 +45,10 @@ recipe load_test_recipe( const std::string_view character_requirements,
         "time": "1 s",
         "activity_level": "LIGHT_EXERCISE",
         "character_requirements": %s
-    })", std::string( id_suffix ), std::string( character_requirements ) );
+    })", std::string( character_requirements ) );
 
     const JsonObject jo = json_loader::from_string( json );
     recipe result;
-    result.load( jo, "dda" );
-    return result;
-}
-
-recipe load_test_recipe_without_character_requirements(
-    const std::string_view id_suffix = "no_character_requirements_test" )
-{
-    const std::string json = string_format( R"({
-        "type": "recipe",
-        "result": "cudgel",
-        "id_suffix": "%s",
-        "category": "CC_WEAPON",
-        "subcategory": "CSC_WEAPON_BASHING",
-        "skill_used": "fabrication",
-        "difficulty": 0,
-        "activity_level": "LIGHT_EXERCISE",
-        "time": "1 s"
-    })", std::string( id_suffix ) );
-
-    const JsonObject jo = json_loader::from_string( json );
-    recipe result;
-    result.load( jo, "dda" );
-    return result;
-}
-
-// Simulate copy-from by loading the base and child JSON onto the same object.
-// This matches recipe_dictionary::load() behavior.
-recipe load_base_then_child( const std::string_view base_requirements,
-                             const std::optional<std::string_view> &child_requirements )
-{
-    recipe result = load_test_recipe( base_requirements, "character_requirements_base_test" );
-    result.was_loaded = true;
-
-    std::string child_json = R"({
-        "type": "recipe",
-        "result": "cudgel",
-        "id_suffix": "character_requirements_child_test",
-        "copy-from": "cudgel_character_requirements_base_test"
-    )";
-    if( child_requirements ) {
-        child_json += string_format( R"(, "character_requirements": %s)",
-                                     std::string( *child_requirements ) );
-    }
-    child_json += '}';
-
-    const JsonObject jo = json_loader::from_string( child_json );
-    jo.allow_omitted_members();
     result.load( jo, "dda" );
     return result;
 }
@@ -140,12 +108,7 @@ TEST_CASE( "character stat requirement bounds are inclusive",
 TEST_CASE( "recipe character requirements load from supported JSON forms",
            "[recipe][character_requirements][json]" )
 {
-    const recipe result = load_test_recipe( R"({
-        "str": 9,
-        "dex": { "min": 6 },
-        "int": { "min": 4, "max": 10 },
-        "per": { "max": 12 }
-    })" );
+    const recipe &result = recipe_cudgel_character_requirements_mixed.obj();
 
     REQUIRE( result.has_character_requirements() );
     const std::map<scaling_stat, character_stat_requirement> &requirements =
@@ -169,22 +132,14 @@ TEST_CASE( "zero character requirement bounds have no effect",
            "[recipe][character_requirements][json]" )
 {
     SECTION( "all zero entries are discarded" ) {
-        const recipe result = load_test_recipe( R"({
-            "str": 0,
-            "dex": { "min": 0 },
-            "int": { "max": 0 },
-            "per": { "min": 0, "max": 0 }
-        })" );
+        const recipe &result = recipe_cudgel_character_requirements_zero_entries.obj();
 
         CHECK_FALSE( result.has_character_requirements() );
         CHECK( result.get_character_requirements().empty() );
     }
 
     SECTION( "zero removes only its own bound" ) {
-        const recipe result = load_test_recipe( R"({
-            "str": { "min": 0, "max": 10 },
-            "dex": { "min": 5, "max": 0 }
-        })" );
+        const recipe &result = recipe_cudgel_character_requirements_zero_bounds.obj();
 
         const auto &requirements = result.get_character_requirements();
         REQUIRE( requirements.size() == 2 );
@@ -200,8 +155,7 @@ TEST_CASE( "recipe character requirements inheritance",
            "[recipe][character_requirements][json][copy-from]" )
 {
     SECTION( "omitting the field preserves inherited requirements" ) {
-        const recipe result = load_base_then_child(
-                                  R"({ "str": 9, "dex": 6 })", std::nullopt );
+        const recipe &result = recipe_cudgel_character_requirements_child_inherit.obj();
 
         const auto &requirements = result.get_character_requirements();
         REQUIRE( requirements.size() == 2 );
@@ -210,9 +164,7 @@ TEST_CASE( "recipe character requirements inheritance",
     }
 
     SECTION( "defining the field replaces all inherited requirements" ) {
-        const recipe result = load_base_then_child(
-                                  R"({ "str": 9, "dex": 6 })",
-                                  R"({ "per": 12 })" );
+        const recipe &result = recipe_cudgel_character_requirements_child_replace.obj();
 
         const auto &requirements = result.get_character_requirements();
         REQUIRE( requirements.size() == 1 );
@@ -222,8 +174,7 @@ TEST_CASE( "recipe character requirements inheritance",
     }
 
     SECTION( "an empty object clears all inherited requirements" ) {
-        const recipe result = load_base_then_child(
-                                  R"({ "str": 9, "dex": 6 })", R"({})" );
+        const recipe &result = recipe_cudgel_character_requirements_child_clear.obj();
 
         CHECK_FALSE( result.has_character_requirements() );
         CHECK( result.get_character_requirements().empty() );
@@ -235,20 +186,20 @@ TEST_CASE( "invalid recipe character requirements are rejected",
 {
     SECTION( "minimum exceeds maximum" ) {
         CHECK_THROWS_AS(
-            load_test_recipe( R"({ "str": { "min": 10, "max": 5 } })" ),
+            load_invalid_test_recipe( R"({ "str": { "min": 10, "max": 5 } })" ),
             JsonError );
     }
 
     SECTION( "range object has no bounds" ) {
-        CHECK_THROWS_AS( load_test_recipe( R"({ "str": {} })" ), JsonError );
+        CHECK_THROWS_AS( load_invalid_test_recipe( R"({ "str": {} })" ), JsonError );
     }
 
     SECTION( "stat requirement has unsupported type" ) {
-        CHECK_THROWS_AS( load_test_recipe( R"({ "str": "high" })" ), JsonError );
+        CHECK_THROWS_AS( load_invalid_test_recipe( R"({ "str": "high" })" ), JsonError );
     }
 
     SECTION( "character requirements field is not an object" ) {
-        CHECK_THROWS_AS( load_test_recipe( R"([])" ), JsonError );
+        CHECK_THROWS_AS( load_invalid_test_recipe( R"([])" ), JsonError );
     }
 }
 
@@ -259,12 +210,7 @@ TEST_CASE( "recipe character requirements use final primary stat values",
     clear_character( character );
     set_primary_stats( character, 8, 6, 10, 12 );
 
-    const recipe result = load_test_recipe( R"({
-        "str": 9,
-        "dex": { "min": 6 },
-        "int": { "min": 4, "max": 10 },
-        "per": { "max": 12 }
-    })" );
+    const recipe &result = recipe_cudgel_character_requirements_mixed.obj();
 
     SECTION( "an unmet minimum rejects the character" ) {
         CHECK_FALSE( result.character_meets_requirements( character ) );
@@ -300,10 +246,8 @@ TEST_CASE( "character requirements affect craft start availability",
     clear_character( character );
     set_primary_stats( character, 8, 8, 8, 8 );
 
-    recipe control = load_test_recipe_without_character_requirements();
-    recipe restricted = load_test_recipe( R"({ "str": 9 })" );
-    control.finalize();
-    restricted.finalize();
+    const recipe &control = recipe_cudgel_character_requirements_control.obj();
+    const recipe &restricted = recipe_cudgel_character_requirements_restricted.obj();
 
     // Verify that the synthetic recipe itself is otherwise startable.  This keeps a failure
     // in unrelated crafting prerequisites separate from the character requirement assertion.
