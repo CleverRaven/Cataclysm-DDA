@@ -1038,8 +1038,19 @@
     }
   },
   {
+    "id": "mx_XE_XEDRA_mutagen_transport",
+    "type": "map_extra",
+    "name": { "str": "TCL Truck" },
+    "description": "A crash Trans-Coast Logistics truck.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_XE_XEDRA_mutagen_transport" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "T",
+    "color": "yellow",
+    "flags": [ "CLASSIC" ]
+  },
+  {
     "type": "mapgen",
-    "update_mapgen_id": "mx_XEDRA_mutagen_transport",
+    "update_mapgen_id": "mx_XE_XEDRA_mutagen_transport",
     "object": {
       "place_vehicles": [ { "vehicle": "armored_car_xedra_tcl", "x": 7, "y": 15, "chance": 100, "status": 1, "rotation": 0 } ],
       "place_monster": [
