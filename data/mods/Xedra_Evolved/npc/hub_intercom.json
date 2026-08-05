@@ -1,0 +1,97 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_INTERCOM",
+    "insert_before_standard_exits": true,
+    "dynamic_line": {
+      "u_is_wearing": "badge_zebra",
+      "yes": "Our cameras identified that you're wearing a zebra badge.  Are you a federal agent?"
+    },
+    "responses": [
+      {
+        "text": "Have we met before?",
+        "topic": "TALK_PERCHANCE_WE_HAVE",
+        "effect": "npc_thankful",
+        "opinion": { "trust": 20, "value": 20 },
+        "condition": {
+          "and": [
+            { "u_is_wearing": "badge_zebra" },
+            {
+              "or": [
+                { "compare_string": [ "xe_inventor", { "context_val": "avatar_profession" } ] },
+                { "compare_string": [ "xe_dreamsmith", { "context_val": "avatar_profession" } ] },
+                { "compare_string": [ "xe_eater", { "context_val": "avatar_profession" } ] },
+                { "compare_string": [ "xe_dreamer", { "context_val": "avatar_profession" } ] }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "text": "Where else would I get all this hardware?",
+        "topic": "TALK_OFFWORLD_TEAM",
+        "condition": {
+          "and": [
+            { "u_is_wearing": "badge_zebra" },
+            {
+              "or": [
+                { "compare_string": [ "xe_jotunn_hunter", { "context_val": "avatar_profession" } ] },
+                { "compare_string": [ "xe_specter", { "context_val": "avatar_profession" } ] },
+                { "compare_string": [ "xe_troll_slayer", { "context_val": "avatar_profession" } ] }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "text": "Yeah, I'm a Marshal, and I require access to this facility!",
+        "topic": "TALK_SPY_ROBOFAC",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": {
+          "and": [ { "u_is_wearing": "badge_zebra" }, { "compare_string": [ "spy", { "context_val": "avatar_profession" } ] } ]
+        }
+      },
+      {
+        "text": "Yeah, I'm a agent.  Scan me.",
+        "topic": "TALK_AGENT_ROBOFAC",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": {
+          "and": [
+            { "u_is_wearing": "badge_zebra" },
+            { "compare_string": [ "zebra_investigator", { "context_val": "avatar_profession" } ] }
+          ]
+        }
+      },
+      {
+        "text": "Oh yeah, I've been an agent for years…  You guys should be glad that I'm here now.",
+        "topic": "TALK_FAKER",
+        "effect": "npc_thankful",
+        "opinion": { "trust": 20, "value": 20 },
+        "condition": {
+          "and": [
+            { "u_is_wearing": "badge_zebra" },
+            {
+              "not": [
+                { "compare_string": [ "xe_inventor", { "context_val": "avatar_profession" } ] },
+                { "compare_string": [ "xe_dreamsmith", { "context_val": "avatar_profession" } ] },
+                { "compare_string": [ "xe_eater", { "context_val": "avatar_profession" } ] },
+                { "compare_string": [ "xe_dreamer", { "context_val": "avatar_profession" } ] },
+                { "compare_string": [ "zebra_investigator", { "context_val": "avatar_profession" } ] },
+                { "compare_string": [ "spy", { "context_val": "avatar_profession" } ] },
+                { "compare_string": [ "xe_jotunn_hunter", { "context_val": "avatar_profession" } ] },
+                { "compare_string": [ "xe_troll_slayer", { "context_val": "avatar_profession" } ] },
+                { "compare_string": [ "xe_specter", { "context_val": "avatar_profession" } ] }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "text": "…",
+        "topic": "TALK_WOULDNT_WEAR_THAT",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": { "u_is_wearing": "badge_zebra" }
+      }
+    ]
+  }
+]
