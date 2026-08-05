@@ -19,9 +19,7 @@
     "id_suffix": "character_resources_child",
     "copy-from": "cudgel_character_resources_base",
     "components": [ [ [ "stick", 1 ] ] ],
-    "character_resources": {
-      "vitamins": [ { "vitamin": "blood", "value": 10000, "safe_level": -20000 } ]
-    }
+    "character_resources": { "vitamins": [ { "vitamin": "blood", "value": 10000, "safe_level": -20000 } ] }
   },
   {
     "type": "recipe",
@@ -35,10 +33,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "never_learn": true,
     "components": [ [ [ "stick", 1 ] ] ],
-    "character_resources": {
-      "mana": 1000,
-      "stamina": 1000,
-      "vitamins": [ { "vitamin": "blood", "value": 10000, "safe_level": -20000 } ]
-    }
+    "character_resources": { "mana": 1000, "stamina": 1000, "vitamins": [ { "vitamin": "blood", "value": 10000, "safe_level": -20000 } ] }
   }
 ]
