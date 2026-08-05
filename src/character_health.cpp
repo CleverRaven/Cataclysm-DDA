@@ -167,6 +167,7 @@ static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_CANNOT_GAIN_WEARINESS( "CANNOT_GAIN_WEARINESS" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
+static const json_character_flag json_flag_DISTRIBUTED_DAMAGE( "DISTRIBUTED_DAMAGE" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_HEAL_OVERRIDE( "HEAL_OVERRIDE" );
 static const json_character_flag json_flag_NO_BODY_HEAT( "NO_BODY_HEAT" );
@@ -2590,7 +2591,25 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
 
     const int dam_to_bodypart = std::min( dam, get_part_hp_cur( part_to_damage ) );
 
-    mod_part_hp_cur( part_to_damage, - dam_to_bodypart );
+    if( has_flag( json_flag_DISTRIBUTED_DAMAGE ) ) {
+        int num_limbs = 0; // number of limbs
+        for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+            if( elem.first == bodypart_str_id::NULL_ID() ) {
+                continue;
+            }
+            num_limbs++;
+        }
+        const int dam_per_part = dam / num_limbs;
+        for ( const bodypart_id &bp : get_all_body_parts() ) {
+            if( bp->main_part ) {
+                mod_part_hp_cur( bp, -dam_per_part);
+            }
+        }
+        
+    } else { 
+        mod_part_hp_cur( part_to_damage, - dam_to_bodypart );
+    }
+    
     if( source ) {
         cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart,
                         part_to_damage.id(), pain );

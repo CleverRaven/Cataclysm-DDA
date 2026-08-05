@@ -6907,7 +6907,8 @@
     "thirst": true,
     "visibility": 10,
     "ugliness": 10,
-    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 } ] } ],
+    "flags": [ "DISTRIBUTED_DAMAGE" ]
   },
   {
     "type": "mutation",
