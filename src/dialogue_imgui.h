@@ -1,104 +1,49 @@
 #pragma once
-#ifndef CATA_SRC_DIALOGUE_WIN_H
-#define CATA_SRC_DIALOGUE_WIN_H
+#ifndef CATA_SRC_DIALOGUE_IMGUI_H
+#define CATA_SRC_DIALOGUE_IMGUI_H
 
 #include <memory>
 #include <string>
 #include <tuple>
 #include <vector>
 
+#include "cata_imgui.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "imgui/imgui.h"
 #include "output.h"
 
 class input_context;
-class ui_adaptor;
 
-struct talk_data {
-    nc_color color;
-    std::string hotkey_desc;
-    std::string text;
-    multiline_list_entry get_entry() const;
+class dialogue_imgui
+{
+        friend class dialogue_imgui_impl;
+    public:
+        void draw_dialogue_imgui();
 };
 
-/**
- * NPC conversation dialogue window.
- */
-class dialogue_window
+class dialogue_imgui_impl : public cataimgui::window
 {
     public:
-        dialogue_window();
-        void resize( ui_adaptor &ui );
-        void draw( const std::string &npc_name );
+        std::string last_action;
+        explicit dialogue_imgui_impl() : cataimgui::window( _( "Dialogue" ),
+                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav |
+                    ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoTitleBar ) {
+        }
 
-        void handle_scrolling( std::string &action, input_context &ctxt );
-
-        /** Adds a message to the conversation history. */
-        void add_to_history( const std::string &text );
-        /** Adds a message to the conversation history for a given speaker. */
-        void add_to_history( const std::string &text, const std::string &speaker_name,
-                             nc_color speaker_color );
-        /** Adds a separator to the conversation history. */
-        void add_history_separator();
-
-        void set_responses( const std::vector<talk_data> &responses );
-
-        void set_up_scrolling( input_context &ctxt ) const;
-
-        /** sets debug info to draw for a response */
-        void set_responses_debug( const std::vector<std::string> &responses );
-
-        /** Unhighlights all messages. */
-        void clear_history_highlights();
-        bool is_computer = false;
-        bool is_not_conversation = false;
-        // Remote conversation (intercom, radio). Hides physical-presence
-        // actions (Look at, Assess, etc.) but keeps normal dialogue style.
-        // If remote_name is set, it replaces the NPC name in the header.
-        bool is_remote = false;
-        std::string remote_name;
-        bool show_dynamic_line_conditionals = true;
-        bool show_dynamic_line_effects = true;
-        bool show_response_conditionals = true;
-        bool show_response_effects = true;
-        //copy of dialogue::show_all_responses
-        bool show_all_responses = false;
-        int sel_response = 0;
-        std::string debug_topic_name;
     private:
-        catacurses::window d_win;
-        catacurses::window history_win;
-        catacurses::window resp_win;
+        float window_width = std::clamp( float( str_width_to_pixels( EVEN_MINIMUM_TERM_WIDTH ) ),
+                                         ImGui::GetMainViewport()->Size.x / 2,
+                                         ImGui::GetMainViewport()->Size.x );
+        float window_height = std::clamp( float( str_height_to_pixels( EVEN_MINIMUM_TERM_HEIGHT ) ),
+                                          ImGui::GetMainViewport()->Size.y / 2,
+                                          ImGui::GetMainViewport()->Size.y );
 
-        struct history_message {
-            inline history_message( nc_color c, const std::string &t ) : color( c ), text( t ) {}
+        void draw_dialogue_sidebar() const;
+        void draw_dialogue_history() const;
+        void draw_dialogue_responses() const;
 
-            nc_color color; // Text color when highlighted
-            std::string text;
-        };
-
-        void add_to_history( const std::string &text, nc_color color );
-
-        /**
-         * This contains the exchanged words, it is basically like the global message log.
-         *
-         * Each responses of the player character and the NPC are added as are information about
-         * what each of them does (e.g. the npc drops their weapon).
-         * This will be displayed in the dialog window and should already be translated.
-         */
-        std::vector<history_message> history;
-        std::unique_ptr<scrolling_text_view> history_view;
-        bool update_history_view = true;
-        /** Number of history messages to highlight. */
-        int num_lines_highlighted;
-        /** Stored responses (hotkey, lines) */
-        std::vector<std::tuple<std::string, std::vector<std::string>>> folded_txt;
-        std::vector<int> folded_heights;
-        std::unique_ptr<multiline_list> responses_list;
-        std::vector<std::string> responses_debug;
-
-        nc_color default_color() const;
-        void print_header( const std::string &name ) const;
+    protected:
+        void draw_controls() override;
 };
-#endif // CATA_SRC_DIALOGUE_WIN_H
-
+#endif // CATA_SRC_DIALOGUE_IMGUI_H

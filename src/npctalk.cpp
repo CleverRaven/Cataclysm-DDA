@@ -49,6 +49,7 @@
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "dialogue_helpers.h"
+#include "dialogue_imgui.h"
 #include "dialogue_win.h"
 #include "effect_on_condition.h"
 #include "enum_conversions.h"
@@ -1694,6 +1695,8 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
     } else {
         d.add_topic( debug_topic );
     }
+    dialogue_imgui d_win2;
+    d_win2.draw_dialogue_imgui();
     dialogue_window d_win;
     d_win.is_computer = is_computer;
     d_win.is_not_conversation = is_not_conversation;
