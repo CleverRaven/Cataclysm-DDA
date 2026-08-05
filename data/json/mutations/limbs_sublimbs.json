@@ -54,6 +54,48 @@
     "opposite": "head_dragonfly_ear_l"
   },
   {
+    "id": "head_slime_forehead",
+    "copy-from": "head_forehead",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "similar_bodypart": "head_forehead"
+  },
+  {
+    "id": "head_slime_crown",
+    "copy-from": "head_crown",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "similar_bodypart": "head_crown"
+  },
+  {
+    "id": "head_slime_nape",
+    "copy-from": "head_nape",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "similar_bodypart": "head_nape"
+  },
+  {
+    "id": "head_slime_throat",
+    "copy-from": "head_throat",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "similar_bodypart": "head_throat"
+  },
+  {
+    "id": "head_slime_ear_r",
+    "copy-from": "head_ear_r",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "similar_bodypart": "head_ear_r"
+  },
+  {
+    "id": "head_slime_ear_l",
+    "copy-from": "head_ear_l",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "similar_bodypart": "head_ear_l"
+  },
+  {
     "id": "eyes_bulging_l",
     "type": "sub_body_part",
     "max_coverage": 50,
@@ -742,6 +784,48 @@
     "opposite": "sub_limb_debug",
     "side": "both",
     "name": "bottom"
+  },
+  {
+    "id": "torso_slime_upper",
+    "copy-from": "torso_upper",
+    "type": "sub_body_part",
+    "parent": "torso_slime",
+    "similar_bodypart": "torso_upper"
+  },
+  {
+    "id": "torso_slime_neck",
+    "copy-from": "torso_neck",
+    "type": "sub_body_part",
+    "parent": "torso_slime",
+    "similar_bodypart": "torso_neck"
+  },
+  {
+    "id": "torso_slime_lower",
+    "copy-from": "torso_lower",
+    "type": "sub_body_part",
+    "parent": "torso_slime",
+    "similar_bodypart": "torso_lower"
+  },
+  {
+    "id": "torso_slime_hanging_front",
+    "copy-from": "torso_hanging_front",
+    "type": "sub_body_part",
+    "parent": "torso_slime",
+    "similar_bodypart": "torso_hanging_front"
+  },
+  {
+    "id": "torso_slime_hanging_back",
+    "copy-from": "torso_hanging_back",
+    "type": "sub_body_part",
+    "parent": "torso_slime",
+    "similar_bodypart": "torso_hanging_back"
+  },
+  {
+    "id": "torso_slime_waist",
+    "copy-from": "torso_waist",
+    "type": "sub_body_part",
+    "parent": "torso_slime",
+    "similar_bodypart": "torso_waist"
   },
   {
     "id": "crustacean_pincer_wrist_r",

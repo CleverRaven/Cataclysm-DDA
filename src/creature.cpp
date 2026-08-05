@@ -1295,7 +1295,6 @@ void Creature::messaging_projectile_attack( const Creature *source,
                                                body_part_name_accusative( hit_selection.bp_hit ),
                                                total_damage );
             }
-            add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ) );
         } else if( source != nullptr ) {
             if( source->is_avatar() ) {
                 //player hits monster ranged

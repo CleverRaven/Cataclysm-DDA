@@ -6907,7 +6907,19 @@
     "thirst": true,
     "visibility": 10,
     "ugliness": 10,
-    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 } ] } ],
+    "enchantments": [
+      { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 } ] },
+      {
+        "modified_bodyparts": [
+          { "lose": "head" },
+          { "gain": "head_slime" },
+          { "lose": "mouth" },
+          { "gain": "mouth_slime" },
+          { "lose": "eyes" },
+          { "gain": "eyes_slime" }
+        ]
+      }
+    ],
     "flags": [ "DISTRIBUTED_DAMAGE" ]
   },
   {
