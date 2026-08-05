@@ -2655,7 +2655,7 @@
   {
     "type": "effect_type",
     "id": "effect_vita_increase_hp",
-    "name": [ "Durability" ],
+    "name": [ "Augmented Durability" ],
     "desc": [ "You are more resilient against damage." ],
     "apply_message": "",
     "remove_message": "The feeling of resilience fades away.",
