@@ -1,11 +1,13 @@
 #include <map>
-#include <optional>
+#include <string>
+
 #include "avatar.h"
 #include "bonuses.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "player_helpers.h"
 #include "recipe.h"
+#include "type_id.h"
 
 static const recipe_id
 recipe_cudgel_character_requirements_all_stats( "cudgel_character_requirements_all_stats" );
