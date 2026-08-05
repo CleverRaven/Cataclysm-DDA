@@ -9,7 +9,7 @@
     "type": "map_extra_collection",
     "id": "road",
     "copy-from": "road",
-    "extend": { "extras": [ [ "mx_golden_monolith", 15 ] ] }
+    "extend": { "extras": [ [ "mx_golden_monolith", 15 ], [ "mx_XE_XEDRA_mutagen_transport", 3 ] ] }
   },
   {
     "type": "map_extra_collection",
