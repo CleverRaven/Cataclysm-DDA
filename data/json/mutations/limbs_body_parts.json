@@ -377,7 +377,8 @@
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
     "bionic_slots": 0,
-    "sub_parts": [ "eyes_slime_left", "eyes_slime_right" ]
+    "sub_parts": [ "eyes_slime_left", "eyes_slime_right" ],
+    "similar_bodypart": "eyes"
   },
   {
     "id": "muzzle",
@@ -626,7 +627,7 @@
     "heading_multiple": "mouth?",
     "encumbrance_text": "",
     "main_part": "head_slime",
-    "opposite_part": "mouth?",
+    "opposite_part": "mouth_slime",
     "hit_size": 0.5,
     "hit_difficulty": 1.15,
     "limb_types": "mouth",
@@ -642,7 +643,8 @@
     "flags": [ "LIMB_UPPER" ],
     "sub_parts": [ "mouth_slime_lips", "mouth_slime_nose", "mouth_slime_cheeks", "mouth_slime_chin" ],
     "bmi_encumbrance_threshold": 10,
-    "bmi_encumbrance_scalar": 0.75
+    "bmi_encumbrance_scalar": 0.75,
+    "similar_bodypart": "mouth"
   },
   {
     "id": "torso_slime",
@@ -734,7 +736,8 @@
       "torso_slime_hanging_front",
       "torso_slime_hanging_back",
       "torso_slime_waist"
-    ]
+    ],
+    "similar_bodypart": "torso"
   },
   {
     "id": "crustacean_pincer_r",
@@ -1150,7 +1153,8 @@
         "max_duration": 1800
       }
     ],
-    "sub_parts": [ "arm_slime_shoulder_l", "arm_slime_upper_l", "arm_slime_elbow_l", "arm_slime_lower_l" ]
+    "sub_parts": [ "arm_slime_shoulder_l", "arm_slime_upper_l", "arm_slime_elbow_l", "arm_slime_lower_l" ],
+    "similar_bodypart": "arm_l"
   },
   {
     "id": "arm_slime_r",
@@ -1160,7 +1164,8 @@
     "connected_to": "torso_slime",
     "opposite_part": "arm_slime_l",
     "side": "right",
-    "sub_parts": [ "arm_slime_shoulder_r", "arm_slime_upper_r", "arm_slime_elbow_r", "arm_slime_lower_r" ]
+    "sub_parts": [ "arm_slime_shoulder_r", "arm_slime_upper_r", "arm_slime_elbow_r", "arm_slime_lower_r" ],
+    "similar_bodypart": "arm_r"
   },
   {
     "id": "hand_slime_l",
@@ -1190,7 +1195,8 @@
     "sub_parts": [ "hand_slime_wrist_l", "hand_slime_palm_l", "hand_slime_back_l", "hand_slime_fingers_l" ],
     "bmi_encumbrance_threshold": 20,
     "bmi_encumbrance_scalar": 0.15,
-    "unarmed_damage": [ { "damage_type": "bash", "amount": -2 } ]
+    "unarmed_damage": [ { "damage_type": "bash", "amount": -2 } ],
+    "similar_bodypart": "hand_l"
   },
   {
     "id": "hand_slime_r",
@@ -1199,7 +1205,8 @@
     "main_part": "arm_slime_r",
     "opposite_part": "hand_slime_l",
     "side": "right",
-    "sub_parts": [ "hand_slime_wrist_r", "hand_slime_palm_r", "hand_slime_back_r", "hand_slime_fingers_r" ]
+    "sub_parts": [ "hand_slime_wrist_r", "hand_slime_palm_r", "hand_slime_back_r", "hand_slime_fingers_r" ],
+    "similar_bodypart": "hand_r"
   },
   {
     "id": "paw_default_l",

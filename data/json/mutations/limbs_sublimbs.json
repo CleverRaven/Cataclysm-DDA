@@ -822,7 +822,7 @@
   },
   {
     "id": "mouth_slime_chin",
-    "copy-from": "mouth__chin",
+    "copy-from": "mouth_chin",
     "type": "sub_body_part",
     "parent": "head_slime",
     "similar_bodypart": "mouth_chin"

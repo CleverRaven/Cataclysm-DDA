@@ -6922,7 +6922,11 @@
           { "lose": "arm_l" },
           { "gain": "arm_slime_l" },
           { "lose": "hand_l" },
-          { "gain": "hand_slime_l" }
+          { "gain": "hand_slime_l" },
+          { "lose": "arm_r" },
+          { "gain": "arm_slime_r" },
+          { "lose": "hand_r" },
+          { "gain": "hand_slime_r" }
         ]
       }
     ],
