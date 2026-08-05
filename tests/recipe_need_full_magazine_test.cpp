@@ -15,9 +15,12 @@ static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
 static const itype_id itype_rock( "rock" );
 static const itype_id itype_stick( "stick" );
 
-static const recipe_id recipe_ordinary_stick_and_battery( "test_rock_ordinary_stick_and_battery" );
-static const recipe_id recipe_ordinary_stick_and_rock( "test_rock_ordinary_stick_and_rock" );
-static const recipe_id recipe_need_full_magazine_mixed( "test_rock_need_full_magazine_mixed" );
+static const recipe_id
+recipe_test_rock_ordinary_stick_and_battery( "test_rock_ordinary_stick_and_battery" );
+static const recipe_id
+recipe_test_rock_ordinary_stick_and_rock( "test_rock_ordinary_stick_and_rock" );
+static const recipe_id
+recipe_test_rock_need_full_magazine_mixed( "test_rock_need_full_magazine_mixed" );
 
 static const skill_id skill_fabrication( "fabrication" );
 
@@ -50,7 +53,8 @@ TEST_CASE( "ordinary_recipes_do_not_require_full_magazines", "[recipe][component
         guy.i_add( battery );
         guy.invalidate_crafting_inventory();
 
-        CHECK( guy.can_start_craft( &recipe_ordinary_stick_and_battery.obj(), recipe_filter_flags::none,
+        CHECK( guy.can_start_craft( &recipe_test_rock_ordinary_stick_and_battery.obj(),
+                                    recipe_filter_flags::none,
                                     1 ) );
     }
 
@@ -60,7 +64,8 @@ TEST_CASE( "ordinary_recipes_do_not_require_full_magazines", "[recipe][component
         guy.i_add( item( itype_rock ) );
         guy.invalidate_crafting_inventory();
 
-        CHECK( guy.can_start_craft( &recipe_ordinary_stick_and_rock.obj(), recipe_filter_flags::none, 1 ) );
+        CHECK( guy.can_start_craft( &recipe_test_rock_ordinary_stick_and_rock.obj(),
+                                    recipe_filter_flags::none, 1 ) );
     }
 }
 
@@ -77,7 +82,7 @@ TEST_CASE( "NEED_FULL_MAGAZINE_only_filters_magazine_components", "[recipe][comp
         guy.i_add( battery_with_charge( capacity ) );
         guy.invalidate_crafting_inventory();
 
-        CHECK( guy.can_start_craft( &recipe_need_full_magazine_mixed.obj(),
+        CHECK( guy.can_start_craft( &recipe_test_rock_need_full_magazine_mixed.obj(),
                                     recipe_filter_flags::none, 1 ) );
     }
 
@@ -85,7 +90,7 @@ TEST_CASE( "NEED_FULL_MAGAZINE_only_filters_magazine_components", "[recipe][comp
         guy.i_add( battery_with_charge( capacity / 2 ) );
         guy.invalidate_crafting_inventory();
 
-        CHECK_FALSE( guy.can_start_craft( &recipe_need_full_magazine_mixed.obj(),
+        CHECK_FALSE( guy.can_start_craft( &recipe_test_rock_need_full_magazine_mixed.obj(),
                                           recipe_filter_flags::none, 1 ) );
     }
 
@@ -93,7 +98,7 @@ TEST_CASE( "NEED_FULL_MAGAZINE_only_filters_magazine_components", "[recipe][comp
         guy.i_add( battery_with_charge( 0 ) );
         guy.invalidate_crafting_inventory();
 
-        CHECK_FALSE( guy.can_start_craft( &recipe_need_full_magazine_mixed.obj(),
+        CHECK_FALSE( guy.can_start_craft( &recipe_test_rock_need_full_magazine_mixed.obj(),
                                           recipe_filter_flags::none, 1 ) );
     }
 }
