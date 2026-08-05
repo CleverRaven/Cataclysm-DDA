@@ -138,6 +138,18 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_wp_bear",
+    "category": "prof_weakpoint",
+    "name": { "str": "Bear Anatomy" },
+    "description": "You are familiar with the anatomy of bears and ways of putting them down easier.",
+    "required_proficiencies": [ "prof_intro_biology" ],
+    "can_learn": true,
+    "time_to_learn": "6 h",
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": -2
+  },
+  {
+    "type": "proficiency",
     "id": "prof_wp_basic_bug",
     "category": "prof_weakpoint",
     "name": { "str": "Invertebrate Biology" },
