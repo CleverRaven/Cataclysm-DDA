@@ -717,7 +717,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "The Epic Of Gilgamesh", "str_pl": "copies of The Epic Of Gilgamesh" },
-    "description": "This is a copy of \"The Epic of Gilgamesh\" by Anonymous. Your eyes get comically round when you touch it."
+    "description": "This is a copy of \"The Epic of Gilgamesh\" by Anonymous.  Your eyes get comically round when you touch it."
   },
   {
     "id": "the_iliad",
