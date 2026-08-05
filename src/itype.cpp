@@ -11,6 +11,7 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
+#include "item_group.h"
 #include "map.h"
 #include "material.h"
 #include "recipe.h"
@@ -84,6 +85,17 @@ std::string enum_to_string<itype_variant_kind>( itype_variant_kind data )
     return "";
 }
 } // namespace io
+
+std::list<itype_id> islot_comestible::get_seasonings() const
+{
+    std::list<itype_id> ret;
+    for( const item_group_id &group : seasonings ) {
+        for( const itype *seasoning : item_group::every_possible_item_from( group ) ) {
+            ret.push_back( seasoning->id );
+        }
+    }
+    return ret;
+}
 
 const material_type &itype::get_base_material() const
 {
