@@ -260,7 +260,7 @@
     "fault_type": "mechanical_damage",
     "name": { "str": "Broken handle" },
     "degradation_mod": 50,
-    "description": "The handle of the %s has completely broken and separated from the %s.",
+    "description": "The handle of the %1$s has completely broken and separated from it.",
     "item_suffix": "no handle",
     "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.1 } ]
   },
