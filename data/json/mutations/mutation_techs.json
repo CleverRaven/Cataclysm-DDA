@@ -539,6 +539,16 @@
   },
   {
     "type": "technique",
+    "id": "TECH_SLIME_KICK",
+    "name": "Kick",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "messages": [ "You smash %s", "<npcname> smashes %s" ],
+    "description": "A basic slime kick",
+    "attack_vectors": [ "vector_slime_kick" ]
+  },
+  {
+    "type": "technique",
     "id": "TECH_CRAB_PUNCH",
     "//": "This is just base punch for crabs",
     "name": "Punch",

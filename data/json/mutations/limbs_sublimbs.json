@@ -2801,6 +2801,150 @@
     "locations_under": [ "tentacle_lower_rear_base_r", "tentacle_lower_rear_middle_r" ]
   },
   {
+    "type": "sub_body_part",
+    "id": "leg_slime_hip_l",
+    "copy-from": "leg_hip_l",
+    "parent": "leg_slime_l",
+    "opposite": "leg_slime_hip_r",
+    "similar_bodypart": "leg_hip_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_slime_upper_l",
+    "copy-from": "leg_upper_l",
+    "parent": "leg_slime_l",
+    "opposite": "leg_slime_upper_r",
+    "similar_bodypart": "leg_upper_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_slime_knee_l",
+    "copy-from": "leg_knee_l",
+    "parent": "leg_slime_l",
+    "opposite": "leg_slime_knee_r",
+    "similar_bodypart": "leg_knee_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_slime_lower_l",
+    "copy-from": "leg_lower_l",
+    "parent": "leg_slime_l",
+    "opposite": "leg_slime_lower_r",
+    "similar_bodypart": "leg_lower_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_slime_hip_r",
+    "copy-from": "leg_hip_r",
+    "parent": "leg_slime_r",
+    "opposite": "leg_slime_hip_l",
+    "similar_bodypart": "leg_hip_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_slime_upper_r",
+    "copy-from": "leg_upper_r",
+    "parent": "leg_slime_r",
+    "opposite": "leg_slime_upper_l",
+    "similar_bodypart": "leg_upper_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_slime_knee_r",
+    "copy-from": "leg_knee_r",
+    "parent": "leg_slime_r",
+    "opposite": "leg_slime_knee_l",
+    "similar_bodypart": "leg_knee_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_slime_lower_r",
+    "copy-from": "leg_lower_r",
+    "parent": "leg_slime_r",
+    "opposite": "leg_slime_lower_l",
+    "similar_bodypart": "leg_lower_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_sole_l",
+    "copy-from": "foot_sole_l",
+    "parent": "foot_slime_l",
+    "opposite": "foot_slime_sole_r",
+    "similar_bodypart": "foot_sole_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_arch_l",
+    "copy-from": "foot_arch_l",
+    "parent": "foot_slime_l",
+    "opposite": "foot_slime_arch_r",
+    "similar_bodypart": "foot_arch_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_toes_l",
+    "copy-from": "foot_toes_l",
+    "parent": "foot_slime_l",
+    "opposite": "foot_slime_toes_r",
+    "similar_bodypart": "foot_toes_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_ankle_l",
+    "copy-from": "foot_ankle_l",
+    "parent": "foot_slime_l",
+    "opposite": "foot_slime_ankle_r",
+    "similar_bodypart": "foot_ankle_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_heel_l",
+    "copy-from": "foot_heel_l",
+    "parent": "foot_slime_l",
+    "opposite": "foot_slime_heel_r",
+    "similar_bodypart": "foot_heel_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_sole_r",
+    "copy-from": "foot_sole_r",
+    "parent": "foot_slime_r",
+    "opposite": "foot_slime_sole_l",
+    "similar_bodypart": "foot_sole_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_arch_r",
+    "copy-from": "foot_arch_r",
+    "parent": "foot_slime_r",
+    "opposite": "foot_slime_arch_l",
+    "similar_bodypart": "foot_arch_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_toes_r",
+    "copy-from": "foot_toes_r",
+    "parent": "foot_slime_r",
+    "opposite": "foot_slime_toes_l",
+    "similar_bodypart": "foot_toes_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_ankle_r",
+    "copy-from": "foot_ankle_r",
+    "parent": "foot_slime_r",
+    "opposite": "foot_slime_ankle_l",
+    "similar_bodypart": "foot_ankle_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_heel_r",
+    "copy-from": "foot_heel_r",
+    "parent": "foot_slime_r",
+    "opposite": "foot_slime_heel_l",
+    "similar_bodypart": "foot_heel_r"
+  },
+  {
     "id": "hoof_sole_l",
     "type": "sub_body_part",
     "max_coverage": 30,

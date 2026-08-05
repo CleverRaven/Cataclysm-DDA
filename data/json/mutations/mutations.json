@@ -6926,7 +6926,15 @@
           { "lose": "arm_r" },
           { "gain": "arm_slime_r" },
           { "lose": "hand_r" },
-          { "gain": "hand_slime_r" }
+          { "gain": "hand_slime_r" },
+          { "lose": "leg_l" },
+          { "gain": "leg_slime_l" },
+          { "lose": "foot_l" },
+          { "gain": "foot_slime_l" },
+          { "lose": "leg_r" },
+          { "gain": "leg_slime_r" },
+          { "lose": "foot_r" },
+          { "gain": "foot_slime_r" }
         ]
       }
     ],
