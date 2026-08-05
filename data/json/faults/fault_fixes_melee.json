@@ -121,10 +121,10 @@
   },
   {
     "type": "fault_fix",
-    "id": "mend_steel_staff_bent_hand_straightening",
-    "name": "Straighten by hand",
+    "id": "mend_pipe_shaft_replace",
+    "name": "Replace",
     "success_msg": "You successfully replace the pipe shaft of your %s.",
-    "time": "5 m",
+    "time": "50 m",
     "faults_removed": [ "fault_pipe_shaft_broken" ],
     "mod_damage": -1000,
     "mod_degradation": -100,
