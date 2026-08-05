@@ -30,6 +30,7 @@
 * dialogue::opt will load the data into a dialogue_window UI
 */
 
+class dialogue_imgui_impl;
 class JsonArray;
 class JsonObject;
 class martialart;
@@ -282,6 +283,7 @@ struct dialogue: public const_dialogue {
         std::vector<talk_topic> topic_stack;
 
         talk_topic opt( dialogue_window &d_win, const talk_topic &topic );
+        talk_topic opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &topic );
         dialogue() = default;
         ~dialogue() = default;
         dialogue( const dialogue &d );
@@ -299,6 +301,7 @@ struct dialogue: public const_dialogue {
         // remote_name from dialogue_window when set (intercom etc.),
         // falls back to NPC display name, empty if not a conversation.
         std::string speaker_name( const dialogue_window &d_win ) const;
+        std::string speaker_name( const dialogue_imgui_impl &d_img ) const;
 
         /**
          * Possible responses from the player character, filled in @ref gen_responses.
