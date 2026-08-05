@@ -1100,7 +1100,7 @@
     "name_multiple": "pseudopods",
     "accusative": { "ctxt": "bodypart_accusative", "str": "pseudopod" },
     "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "pseudopods" },
-    "heading": "PSPOD",
+    "heading": "pseudopod",
     "heading_multiple": "pseudopods",
     "encumbrance_text": "",
     "encumbrance_threshold": 0,
