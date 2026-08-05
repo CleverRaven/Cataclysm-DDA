@@ -1,0 +1,74 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SERUM_LEARNING",
+    "effect": [
+      { "u_consume_item": { "context_val": "id" } },
+      { "math": [ "_serum_duration = rng(time('12 h'), time('24 h'))" ] },
+      { "u_add_effect": "learning_serum_main", "duration": { "context_val": "serum_duration" } },
+      { "u_add_effect": "learning_serum_crash", "duration": { "math": [ "_serum_duration * rng(0.1, 0.25)" ] } },
+      {
+        "if": { "math": [ "u_effect_intensity('learning_serum_main') <= 1" ] },
+        "then": { "run_eocs": "EOC_SERUM_LEARNING_HALLUCINATION_CHANCE", "time_in_future": [ "30 minutes", "90 minutes" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_APPLY_LEARNING_SERUM_CRASH",
+    "condition": { "not": { "u_has_effect": "regen_serum_crash_fatigue" } },
+    "effect": [ { "u_add_effect": "regen_serum_crash_fatigue", "duration": [ "5 d", "10 d" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SERUM_LEARNING_HALLUCINATION_CHANCE",
+    "condition": { "u_has_any_effect": [ "learning_serum_main", "learning_serum_crash" ] },
+    "effect": [
+      {
+        "switch": { "math": [ "rand(3)" ] },
+        "cases": [
+          {
+            "case": 3,
+            "effect": [ { "u_add_effect": "resilience_serum_side_effect_hallucinations", "duration": { "math": [ "1800 + rand(1800)" ] } } ]
+          }
+        ]
+      },
+      { "run_eocs": "EOC_SERUM_LEARNING_HALLUCINATION_CHANCE", "time_in_future": [ "30 minutes", "90 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "learning_serum_main",
+    "name": [ "Injected 76x-\"Lore\"" ],
+    "desc": [
+      "You just took a shot of some weird stuff.  You feel sleepy, nauseous, and generally weak, but your wounds are closing up at an unnatural pace."
+    ],
+    "apply_message": "Without hesitation, you draw the liquid from the ampule, smack it a bit to release any air, and inject it right into a vein, hoping it won't kill you.",
+    "remove_message": "Your thoughts slow gradually and the world seems .",
+    "rating": "mixed",
+    "max_intensity": 100,
+    "int_add_val": 1,
+    "show_intensity": false,
+    "removes_effects": [ "learning_serum_crash" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "PERCEPTION", "add": { "math": [ "3 + min( (u_effect_intensity('learning_serum_main') ), 5)" ] } },
+          { "value": "LEARNING_FOCUS", "add": { "math": [ "u_val('focus') < 60 ? ( 60 - u_val('focus') ) : 0" ] } },
+          { "value": "SLEEPY", "add": -1000 }
+        ]
+      }
+    ],
+    "flags": [ "MYOPIC_IN_LIGHT" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "learning_serum_crash",
+    "name": [ "Injected Serum Crash" ],
+    "desc": [ "Your enhanced focus has faded away, light seems too bright, and you're pretty tired." ],
+    "apply_message": "",
+    "remove_message": "",
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS", "multiply": 0.25 }, { "value": "LEARNING_FOCUS", "add": -25 } ] } ],
+    "flags": [ "MYOPIC_IN_LIGHT" ]
+  }
+]
