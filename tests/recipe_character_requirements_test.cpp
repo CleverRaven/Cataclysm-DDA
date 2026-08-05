@@ -1,4 +1,5 @@
 #include <map>
+#include <optional>
 #include "avatar.h"
 #include "bonuses.h"
 #include "cata_catch.h"
