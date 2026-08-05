@@ -16,7 +16,7 @@
     "result": "cudgel",
     "id_suffix": "character_requirements_child_clear",
     "copy-from": "cudgel_character_requirements_base",
-    "character_requirements": {}
+    "character_requirements": {  }
   },
   {
     "type": "recipe",
@@ -52,12 +52,7 @@
     "difficulty": 0,
     "time": "1 s",
     "activity_level": "LIGHT_EXERCISE",
-    "character_requirements": {
-      "str": 9,
-      "dex": { "min": 6 },
-      "int": { "min": 4, "max": 10 },
-      "per": { "max": 12 }
-    }
+    "character_requirements": { "str": 9, "dex": { "min": 6 }, "int": { "min": 4, "max": 10 }, "per": { "max": 12 } }
   },
   {
     "type": "recipe",
@@ -81,10 +76,7 @@
     "difficulty": 0,
     "time": "1 s",
     "activity_level": "LIGHT_EXERCISE",
-    "character_requirements": {
-      "str": { "min": 0, "max": 10 },
-      "dex": { "min": 5, "max": 0 }
-    }
+    "character_requirements": { "str": { "min": 0, "max": 10 }, "dex": { "min": 5, "max": 0 } }
   },
   {
     "type": "recipe",
@@ -96,11 +88,6 @@
     "difficulty": 0,
     "time": "1 s",
     "activity_level": "LIGHT_EXERCISE",
-    "character_requirements": {
-      "str": 0,
-      "dex": { "min": 0 },
-      "int": { "max": 0 },
-      "per": { "min": 0, "max": 0 }
-    }
+    "character_requirements": { "str": 0, "dex": { "min": 0 }, "int": { "max": 0 }, "per": { "min": 0, "max": 0 } }
   }
 ]
