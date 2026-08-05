@@ -45,14 +45,14 @@
   {
     "type": "recipe",
     "result": "cudgel",
-    "id_suffix": "character_requirements_mixed",
+    "id_suffix": "character_requirements_all_stats",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
     "difficulty": 0,
     "time": "1 s",
     "activity_level": "LIGHT_EXERCISE",
-    "character_requirements": { "str": 9, "dex": { "min": 6 }, "int": { "min": 4, "max": 10 }, "per": { "max": 12 } }
+    "character_requirements": { "str": 9, "dex": 6, "int": 4, "per": 12 }
   },
   {
     "type": "recipe",
@@ -69,18 +69,6 @@
   {
     "type": "recipe",
     "result": "cudgel",
-    "id_suffix": "character_requirements_zero_bounds",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_BASHING",
-    "skill_used": "fabrication",
-    "difficulty": 0,
-    "time": "1 s",
-    "activity_level": "LIGHT_EXERCISE",
-    "character_requirements": { "str": { "min": 0, "max": 10 }, "dex": { "min": 5, "max": 0 } }
-  },
-  {
-    "type": "recipe",
-    "result": "cudgel",
     "id_suffix": "character_requirements_zero_entries",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -88,6 +76,6 @@
     "difficulty": 0,
     "time": "1 s",
     "activity_level": "LIGHT_EXERCISE",
-    "character_requirements": { "str": 0, "dex": { "min": 0 }, "int": { "max": 0 }, "per": { "min": 0, "max": 0 } }
+    "character_requirements": { "str": 0, "dex": 0, "int": 0, "per": 0 }
   }
 ]

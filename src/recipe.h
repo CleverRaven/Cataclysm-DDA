@@ -57,18 +57,6 @@ struct enum_traits<recipe_filter_flags> {
 };
 
 
-// Inclusive minimum and maximum values for one character stat requirement.
-struct character_stat_requirement {
-    // Inclusive minimum value, or no lower bound when unset.
-    std::optional<int> min;
-    // Inclusive maximum value, or no upper bound when unset.
-    std::optional<int> max;
-    // Returns true if the supplied value satisfies both configured bounds.
-    bool is_met( int value ) const {
-        return ( !min || value >= *min ) && ( !max || value <= *max );
-    }
-};
-
 struct recipe_proficiency {
     proficiency_id id;
     bool _skill_penalty_assigned = false;
@@ -306,7 +294,7 @@ class recipe
         // Returns true if the recipe has any character stat requirements.
         bool has_character_requirements() const;
         // Returns the character stat requirements configured for this recipe.
-        const std::map<scaling_stat, character_stat_requirement> &get_character_requirements() const;
+        const std::map<scaling_stat, int> &get_character_requirements() const;
 
         // Create a string list to describe the skill requirements for this recipe
         // Format: skill_name(level/amount), skill_name(level/amount)
@@ -485,7 +473,7 @@ class recipe
         std::vector<std::pair<requirement_id, int>> reqs_internal;
 
         /** Character stat requirements. */
-        std::map<scaling_stat, character_stat_requirement> character_requirements_;
+        std::map<scaling_stat, int> character_requirements_;
 
         /** Combined requirements cached when recipe finalized */
         requirement_data requirements_;
