@@ -2799,10 +2799,15 @@ bool cata_tiles::draw_sprite_at(
 
     if( rotate_sprite ) {
         if( rota == -1 ) {
-            // flip horizontally
+            // We want to flip horizontally
+            // SDL_FLIP_HORIZONTAL did not seem to work on SDL3
+            // Use negative destination width instead
+            SDL_Rect flipped_dst = destination;
+            flipped_dst.x += flipped_dst.w;
+            flipped_dst.w = -flipped_dst.w;
             ret = sprite_tex->render_copy_ex(
-                      renderer, &destination, 0, nullptr,
-                      static_cast<CataFlipMode>( SDL_FLIP_HORIZONTAL ) );
+                      renderer, &flipped_dst, 0, nullptr,
+                      SDL_FLIP_NONE );
         } else {
             switch( rota % 4 ) {
                 default:
