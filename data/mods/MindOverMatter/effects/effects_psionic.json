@@ -2658,7 +2658,7 @@
     "name": [ "Durability" ],
     "desc": [ "You are more resilient against damage." ],
     "apply_message": "",
-    "remove_message": "The feeling of resilence fades away.",
+    "remove_message": "The feeling of resilience fades away.",
     "rating": "good",
     "max_duration": "7 days",
     "enchantments": [

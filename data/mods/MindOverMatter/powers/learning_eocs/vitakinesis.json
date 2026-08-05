@@ -237,7 +237,7 @@
       { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_vita_increased_hp" },
       {
-        "u_message": "Use of your powers has led to an insight.  You can already increase your general level of health and focus your body's healing energies on particular locations.  You could probably incrase your overall resilience, requiring much larger injuries to completely incapacitate you, if you can figure out the proper technique.",
+        "u_message": "Use of your powers has led to an insight.  You can already increase your general level of health and focus your body's healing energies on particular locations.  You could probably increase your overall resilience, requiring much larger injuries to completely incapacitate you, if you can figure out the proper technique.",
         "popup": true
       }
     ]
