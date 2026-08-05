@@ -1,94 +1,28 @@
 #include <map>
 #include <memory>
 #include <optional>
-#include <string>
 #include <vector>
 
 #include "avatar.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "flexbuffer_json.h"
 #include "item.h"
-#include "json_loader.h"
 #include "magic.h"
 #include "magic_type.h"
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "recipe.h"
-#include "string_formatter.h"
 #include "type_id.h"
 #include "vitamin.h"
 
 static const itype_id itype_stick( "stick" );
+
+static const recipe_id
+recipe_cudgel_character_resources_child( "cudgel_character_resources_child" );
+static const recipe_id
+recipe_cudgel_character_resources_combined( "cudgel_character_resources_combined" );
+
 static const vitamin_id vitamin_blood( "blood" );
-
-static recipe load_test_recipe( const std::string &character_resources )
-{
-    const std::string json = string_format( R"({
-        "type": "recipe",
-        "result": "cudgel",
-        "id_suffix": "character_resources_test",
-        "category": "CC_WEAPON",
-        "subcategory": "CSC_WEAPON_BASHING",
-        "skill_used": "fabrication",
-        "difficulty": 0,
-        "time": "1 m",
-        "activity_level": "MODERATE_EXERCISE",
-        "components": [ [ [ "stick", 1 ] ] ],
-        "character_resources": %s
-    })", character_resources );
-
-    const JsonObject jo = json_loader::from_string( json );
-    recipe result;
-    result.load( jo, "dda" );
-    result.finalize();
-    return result;
-}
-
-static recipe load_base_then_child( const std::string &base_resources,
-                                    const std::string &child_resources )
-{
-    recipe result;
-
-    {
-        const std::string json = string_format( R"({
-            "type": "recipe",
-            "result": "cudgel",
-            "id_suffix": "character_resources_base",
-            "category": "CC_WEAPON",
-            "subcategory": "CSC_WEAPON_BASHING",
-            "skill_used": "fabrication",
-            "difficulty": 0,
-            "time": "1 m",
-            "activity_level": "MODERATE_EXERCISE",
-            "components": [ [ [ "stick", 1 ] ] ],
-            "character_resources": %s
-        })", base_resources );
-
-        const JsonObject jo = json_loader::from_string( json );
-        jo.allow_omitted_members();
-        result.load( jo, "dda" );
-    }
-
-    result.was_loaded = true;
-
-    {
-        const std::string json = string_format( R"({
-            "type": "recipe",
-            "result": "cudgel",
-            "id_suffix": "character_resources_child",
-            "components": [ [ [ "stick", 1 ] ] ],
-            "character_resources": %s
-        })", child_resources );
-
-        const JsonObject jo = json_loader::from_string( json );
-        jo.allow_omitted_members();
-        result.load( jo, "dda" );
-    }
-
-    result.finalize();
-    return result;
-}
 
 static void set_vitamin_level( Character &who, const vitamin_id &vitamin, int value )
 {
@@ -105,11 +39,7 @@ TEST_CASE( "recipe_character_resources_load_and_replace_inherited_costs",
            "[recipe][crafting][character_resources]" )
 {
     SECTION( "different resource kinds can be combined" ) {
-        const recipe rec = load_test_recipe( R"({
-            "mana": 1000,
-            "stamina": 1000,
-            "vitamins": [ { "vitamin": "blood", "value": 10000, "safe_level": -20000 } ]
-        })" );
+        const recipe &rec = recipe_cudgel_character_resources_combined.obj();
 
         const character_resource_costs &resources = rec.get_character_resources();
 
@@ -125,10 +55,7 @@ TEST_CASE( "recipe_character_resources_load_and_replace_inherited_costs",
     }
 
     SECTION( "a child object replaces the entire inherited resource block" ) {
-        const recipe rec = load_base_then_child(
-                               R"({ "mana": 100, "stamina": 200 })",
-                               R"({ "vitamins": [ { "vitamin": "blood", "value": 10000, "safe_level": -20000 } ] })"
-                           );
+        const recipe &rec = recipe_cudgel_character_resources_child.obj();
 
         const character_resource_costs &resources = rec.get_character_resources();
 
@@ -147,11 +74,7 @@ TEST_CASE( "craft_character_resources_follow_progress_and_batch_size",
     avatar &you = get_avatar();
     clear_avatar();
 
-    const recipe rec = load_test_recipe( R"({
-        "mana": 1000,
-        "stamina": 1000,
-        "vitamins": [ { "vitamin": "blood", "value": 10000, "safe_level": -20000 } ]
-    })" );
+    const recipe &rec = recipe_cudgel_character_resources_combined.obj();
 
     const int initial_mana = you.magic->max_mana( you );
     const int initial_stamina = you.get_stamina_max();
@@ -193,11 +116,7 @@ TEST_CASE( "craft_character_resource_debits_are_atomic",
     avatar &you = get_avatar();
     clear_avatar();
 
-    const recipe rec = load_test_recipe( R"({
-        "mana": 1000,
-        "stamina": 1000,
-        "vitamins": [ { "vitamin": "blood", "value": 10000, "safe_level": -20000 } ]
-    })" );
+    const recipe &rec = recipe_cudgel_character_resources_combined.obj();
 
     you.magic->set_mana( 1000 );
     you.set_stamina( 999 );
