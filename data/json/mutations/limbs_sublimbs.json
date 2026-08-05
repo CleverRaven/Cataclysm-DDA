@@ -58,6 +58,7 @@
     "copy-from": "head_forehead",
     "type": "sub_body_part",
     "parent": "head_slime",
+    "opposite": "head_slime_forehead",
     "similar_bodypart": "head_forehead"
   },
   {
@@ -65,6 +66,7 @@
     "copy-from": "head_crown",
     "type": "sub_body_part",
     "parent": "head_slime",
+    "opposite": "head_slime_crown",
     "similar_bodypart": "head_crown"
   },
   {
@@ -72,6 +74,7 @@
     "copy-from": "head_nape",
     "type": "sub_body_part",
     "parent": "head_slime",
+    "opposite": "head_slime_nape",
     "similar_bodypart": "head_nape"
   },
   {
@@ -79,6 +82,7 @@
     "copy-from": "head_throat",
     "type": "sub_body_part",
     "parent": "head_slime",
+    "opposite": "head_slime_throat",
     "similar_bodypart": "head_throat"
   },
   {
@@ -86,6 +90,7 @@
     "copy-from": "head_ear_r",
     "type": "sub_body_part",
     "parent": "head_slime",
+    "opposite": "head_slime_ear_l",
     "similar_bodypart": "head_ear_r"
   },
   {
@@ -93,6 +98,7 @@
     "copy-from": "head_ear_l",
     "type": "sub_body_part",
     "parent": "head_slime",
+    "opposite": "head_slime_ear_r",
     "similar_bodypart": "head_ear_l"
   },
   {

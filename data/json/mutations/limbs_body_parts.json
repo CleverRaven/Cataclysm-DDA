@@ -116,7 +116,7 @@
     "hp_bar_ui_text": "PSPOD",
     "heading": "pseudopod",
     "heading_multiple": "pseudopod",
-    "limb_types": [ "head" ],
+    "limb_types": "head",
     "encumbrance_text": "",
     "hit_size": 4,
     "hit_difficulty": 1.2,
