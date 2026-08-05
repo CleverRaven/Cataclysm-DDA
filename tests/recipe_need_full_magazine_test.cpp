@@ -16,12 +16,11 @@ static const itype_id itype_rock( "rock" );
 static const itype_id itype_stick( "stick" );
 
 static const recipe_id
+recipe_test_rock_need_full_magazine_mixed( "test_rock_need_full_magazine_mixed" );
+static const recipe_id
 recipe_test_rock_ordinary_stick_and_battery( "test_rock_ordinary_stick_and_battery" );
 static const recipe_id
 recipe_test_rock_ordinary_stick_and_rock( "test_rock_ordinary_stick_and_rock" );
-static const recipe_id
-recipe_test_rock_need_full_magazine_mixed( "test_rock_need_full_magazine_mixed" );
-
 static const skill_id skill_fabrication( "fabrication" );
 
 static item battery_with_charge( const int charges )
