@@ -1881,7 +1881,7 @@
       {
         "values": [
           { "value": "SKILL_RUST_RESIST", "multiply": -0.34 },
-          { "value": "THEORETICAL_SKILL_CATCHUP_BONUS", "multiply": 0.15 }
+          { "value": "THEORETICAL_SKILL_CATCHUP_BONUS", "multiply": 0.25 }
         ]
       }
     ]
@@ -1901,7 +1901,7 @@
       {
         "values": [
           { "value": "SKILL_RUST_RESIST", "multiply": 0.33 },
-          { "value": "THEORETICAL_SKILL_CATCHUP_BONUS", "multiply": -0.15 }
+          { "value": "THEORETICAL_SKILL_CATCHUP_BONUS", "multiply": -0.25 }
         ]
       }
     ]
