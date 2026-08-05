@@ -347,7 +347,7 @@
         "name": "Boiling",
         "time": "9 m",
         "//": "When overcooked, sugar caramelises before it's burnt",
-        "time_max": "14 m",
+        "max_time": "14 m",
         "activity_level": "NO_EXERCISE",
         "qualities": [ { "id": "BOIL", "level": 1 } ],
         "tools": [ [ [ "water_boiling_heat", 7, "LIST" ] ] ],
