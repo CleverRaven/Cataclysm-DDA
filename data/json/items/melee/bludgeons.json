@@ -1954,6 +1954,7 @@
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -39 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "SHEATH_AXE", "ALWAYS_TWOHAND" ],
+    "faults": [ { "fault_group": "ax_sheets" } ],
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
     "melee_damage": { "bash": 18, "cut": 24 }
   },

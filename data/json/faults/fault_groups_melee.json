@@ -108,7 +108,7 @@
     "group": [
       { "fault": "fault_aluminum_bat_bent", "weight": 100 },
       { "fault": "fault_aluminum_bat_bent_heavy", "weight": 50 },
-      { "fault": "fault_aluminum_bat_handle_broken", "weight": 10 }
+      { "fault": "fault_aluminum_bat_handle_broken", "weight": 20 }
     ]
   },
   {
@@ -116,8 +116,8 @@
     "id": "batons",
     "//": "Mechanical damage of a baton",
     "group": [
-      { "fault": "fault_baton_bent", "weight": 60 },
       { "fault": "fault_baton_bent_tip", "weight": 100 },
+      { "fault": "fault_baton_bent", "weight": 60 },
       { "fault": "fault_baton_broken_tip", "weight": 30 },
       { "fault": "fault_baton_handle_broken", "weight": 10 }
     ]
@@ -127,5 +127,16 @@
     "id": "tonfas",
     "//": "Mechanical damage of a tonfa",
     "group": [ { "fault": "fault_tonfa_handle_broken", "weight": 70 }, { "fault": "fault_tonfa_broken", "weight": 30 } ]
+  },
+  {
+    "type": "fault_group",
+    "id": "ax_sheets",
+    "//": "Mechanical damage of a baton",
+    "group": [
+      { "fault": "fault_blade_rolled_edge", "weight": 100 },
+      { "fault": "fault_pipe_shaft_bent", "weight": 60 },
+      { "fault": "fault_pipe_shaft_broken", "weight": 40 },
+      { "fault": "fault_sheets_detached", "weight": 20 }
+    ]
   }
 ]

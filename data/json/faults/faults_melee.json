@@ -314,6 +314,7 @@
     "//": "This fault is meant for tonfas.",
     "fault_type": "mechanical_damage",
     "name": { "str": "Broken handle" },
+    "degradation_mod": 60,
     "description": "The handle of the %s has broken off.",
     "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.6 } ]
   },
@@ -325,5 +326,36 @@
     "name": { "str": "Broken" },
     "description": "The %s is broken in half.",
     "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.1 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_pipe_shaft_broken",
+    "//": "This fault is meant for the ax_sheets variants.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Broken shaft" },
+    "degradation_mod": 100,
+    "description": "The pipe shaft of the %s has broken in half, you can still weild by holding onto the second pipe though, albeit it's very awkward and unwealdy.",
+    "item_suffix": "broken shaft",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.4 }, { "damage_id": "cut", "multiply": 0.4 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_pipe_shaft_bent",
+    "//": "This fault is meant for the ax_sheets variants.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Bent shaft" },
+    "degradation_mod": 20,
+    "description": "The pipe shaft of the %s has bent.",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.8 }, { "damage_id": "cut", "multiply": 0.8 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_sheets_detached",
+    "//": "This fault is meant for the ax_sheets variants.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Detached sheets" },
+    "degradation_mod": 100,
+    "description": "The sheets of the %s have detached from the pipe shaft.",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.5 }, { "damage_id": "cut", "multiply": 0 } ]
   }
 ]

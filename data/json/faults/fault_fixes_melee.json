@@ -118,5 +118,16 @@
     "mod_damage": -1000,
     "mod_degradation": -25,
     "requirements": [ { "qualities": [ { "id": "VISE", "level": 1 } ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_steel_staff_bent_hand_straightening",
+    "name": "Straighten by hand",
+    "success_msg": "You successfully replace the pipe shaft of your %s.",
+    "time": "5 m",
+    "faults_removed": [ "fault_pipe_shaft_broken" ],
+    "mod_damage": -1000,
+    "mod_degradation": -100,
+    "requirements": [ { "components": [ [ [ "pipe", 1 ] ], [ [ "pipe_fittings", 1 ] ] ] } ]
   }
 ]
