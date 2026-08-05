@@ -79,6 +79,26 @@
   },
   {
     "type": "recipe",
+    "result": "cannon_shot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fishspear",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pebble_clay",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "spear_wood",
     "obsolete": true
   },
@@ -252,6 +272,70 @@
   {
     "type": "recipe",
     "result": "arrow_wood_heavy",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "nested_blunderbuss",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blun_slug",
+    "id_suffix": "using_lead",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blun_lead_shot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blun_flechette",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blun_shot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blun_shot",
+    "id_suffix": "using_big_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "410shot_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_scrap",
+    "id_suffix": "with_dowel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shot_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_shot_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_shot_scrap",
+    "id_suffix": "with dowel",
     "obsolete": true
   }
 ]

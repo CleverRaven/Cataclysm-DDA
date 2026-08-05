@@ -139,6 +139,12 @@ std::string itype::item_measure_prefix( unsigned int quantity ) const
     } else if( display_type == item_display_type::BY_LENGTH ) {
         // Note: item::length() has some special cases where this might not work well!
         return length_to_string( longest_side * quantity, true );
+    } else if( display_type == item_display_type::BY_VALUE ) {
+        // If this turns out to be a performance issue we should look into caching CAPITALISM like other externals
+        units::money total_value =
+            get_option<bool>( "CAPITALISM" ) ? price * quantity : price_post * quantity;
+        //~This is a monetary dollar value, like '$12.11' or '$0.47'.
+        return string_format( _( "$%.2f" ), static_cast<double>( units::to_cent( total_value ) ) / 100 );
     }
     return std::to_string( quantity );
 }
