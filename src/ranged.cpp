@@ -1854,7 +1854,7 @@ static void do_aim( Character &you, const item &relevant, const Target_attribute
                     const double min_recoil )
 {
     const aim_mods_cache aim_cache = you.gen_aim_mods_cache( relevant );
-    const double aim_amount = you.calculate_by_enchantment( you.aim_per_move( relevant, you.recoil, target, aim_cache ), enchant_vals::mod::AIMING_SPEED );
+    const double aim_amount = you.aim_per_move( relevant, you.recoil, target, aim_cache );
     if( aim_amount > 0 && you.recoil > min_recoil ) {
         // Increase aim at the cost of moves
         you.mod_moves( -1 );
@@ -2050,7 +2050,8 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
 
     // predict how long it'll take to reach from current recoil
     // to the ui's selected default aim mode threshold.
-    const recoil_prediction aim_to_selected = predict_recoil( you, weapon, target,
+    
+    recoil_prediction aim_to_selected = predict_recoil( you, weapon, target,
             ui.get_sight_dispersion(), ui.get_selected_aim_type(), you.recoil );
 
     const double selected_steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
