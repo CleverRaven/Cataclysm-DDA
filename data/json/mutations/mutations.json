@@ -203,7 +203,7 @@
     "points": -4,
     "purifiable": true,
     "vitamin_cost": 240,
-    "enchantments": [ { "condition": { "current_dimension": "" }, "values": [ { "value": "ARTIFACT_RESONANCE", "add": 1250 } ] } ]
+    "enchantments": [ { "condition": { "current_dimension": "default" }, "values": [ { "value": "ARTIFACT_RESONANCE", "add": 1250 } ] } ]
   },
   {
     "type": "mutation",
@@ -2337,7 +2337,8 @@
     "threshold_substitutes": [ "THRESH_CHIMERA" ],
     "points": 1,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "THRESH_ALLOWS_QUADRUPEDAL_MOVEMENT" ]
   },
   {
     "type": "mutation",
@@ -2427,7 +2428,8 @@
     "threshold_substitutes": [ "THRESH_CHIMERA" ],
     "points": 1,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "THRESH_ALLOWS_QUADRUPEDAL_MOVEMENT" ]
   },
   {
     "type": "mutation",
@@ -2471,7 +2473,8 @@
     "threshold": true,
     "points": 1,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "THRESH_ALLOWS_QUADRUPEDAL_MOVEMENT" ]
   },
   {
     "type": "mutation",
@@ -2556,7 +2559,8 @@
     "threshold_substitutes": [ "THRESH_CHIMERA" ],
     "points": 1,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "THRESH_ALLOWS_QUADRUPEDAL_MOVEMENT" ]
   },
   {
     "type": "mutation",
@@ -3045,7 +3049,7 @@
       {
         "values": [
           { "value": "METABOLISM", "multiply": -0.5 },
-          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } }
+          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod_bipolar(65, 0.5)" ] } }
         ]
       }
     ]
@@ -6038,14 +6042,6 @@
     "ugliness": 6,
     "provided_qualities": { "BUTCHER": 4 },
     "integrated_armor": [ "integrated_mandibles" ],
-    "attacks": {
-      "attack_text_u": "You bite %s with your fangs!",
-      "attack_text_npc": "%1$s bites %2$s with their fangs!",
-      "blocker_mutations": [ "FANGS_SPIDER" ],
-      "body_part": "mouth",
-      "chance": 22,
-      "base_damage": { "damage_type": "cut", "amount": 12 }
-    },
     "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": -0.5 } ] } ],
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ]
   },
@@ -6094,14 +6090,6 @@
     "visibility": 6,
     "ugliness": 6,
     "integrated_armor": [ "integrated_fangs_spider" ],
-    "attacks": {
-      "attack_text_u": "You bite %s with your fangs!",
-      "attack_text_npc": "%1$s bites %2$s with their fangs!",
-      "blocker_mutations": [ "MANDIBLES" ],
-      "body_part": "mouth",
-      "chance": 22,
-      "base_damage": { "damage_type": "stab", "amount": 15 }
-    },
     "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": 1 } ] } ],
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ]
   },

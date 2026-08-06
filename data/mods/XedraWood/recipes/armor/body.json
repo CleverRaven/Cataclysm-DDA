@@ -21,5 +21,20 @@
         "skill_penalty": 0.15
       }
     ]
+  },
+  {
+    "result": "armor_lamellar_bronze",
+    "type": "recipe",
+    "id_suffix": "repair",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "cordage", 6 ] ],
+    "components": [ [ [ "lamellae_bronze", 18 ] ], [ [ "armor_lamellar_bronze", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   }
 ]

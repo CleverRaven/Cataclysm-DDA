@@ -66,12 +66,17 @@ pacman -Su
 
 4. Install packages required for compilation:
 
--> Windows 7, 8, 8.1
+-> Windows 7, 8, 8.1 (With SDL2)
 ```bash
 pacman -S git make ncurses-devel gettext-devel mingw-w64-x86_64-{astyle,ccache,cmake,gcc,libmad,libwebp,pkgconf,SDL2,libzip,libavif} mingw-w64-x86_64-SDL2_{image,mixer,ttf}
 ```
 
--> Windows 10 and later
+-> Windows 10 and later (With SDL3)
+```bash
+pacman -S git make ncurses-devel gettext-devel mingw-w64-ucrt-x86_64-{astyle,ccache,cmake,freetype,gcc,libmad,libwebp,pkgconf,sdl3,libzip,libavif} mingw-w64-ucrt-x86_64-sdl3-{image,mixer,ttf} zlib-devel
+```
+
+-> Windows 10 and later (With SDL2)
 ```bash
 pacman -S git make ncurses-devel gettext-devel mingw-w64-ucrt-x86_64-{astyle,ccache,cmake,freetype,gcc,libmad,libwebp,pkgconf,SDL2,libzip,libavif} mingw-w64-ucrt-x86_64-SDL2_{image,mixer,ttf} zlib-devel
 ```
@@ -95,12 +100,14 @@ git clone https://github.com/CleverRaven/Cataclysm-DDA.git ./Cataclysm-DDA
 
 ```bash
 cd Cataclysm-DDA
-make -j$((`nproc`+0)) CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 SDL=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 TESTS=0
+make -j$((`nproc`+0)) CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 SDL3=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 TESTS=0
 ```
 
 You will receive warnings about unterminated character constants; they do not impact the compilation as far as this writer is aware.
 
 This will compile a release version with Sound and Tiles support and all localization languages, skipping checks and tests, and using ccache for build acceleration. You can use other switches, but `MSYS2=1`, `DYNAMIC_LINKING=1` and probably `RELEASE=1` are required to compile without issues.
+
+It is now using `SDL3` flag to determine wether to use `SDL2` or `SDL3`, it is set to `SDL3=1` by default when you don't pass in this parameter, you can set it to `SDL3=0` to use SDL2 instead.
 
 **Note:** See `COMPILING-CMAKE.md` section [`CMake Build for MSYS2 (MinGW)`](COMPILING-CMAKE.md#cmake-build-for-msys2-mingw) for using the CMake build system.
 

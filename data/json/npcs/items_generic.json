@@ -360,6 +360,7 @@
       [ "armguard_hard", 3 ],
       [ "atomic_survival", 1 ],
       [ "ammonia_hydroxide", 5 ],
+      { "group": "ammonia_hydroxide_bottle_twoliter_part", "prob": 5 },
       [ "apple", 2 ],
       [ "apple_cider", 2 ],
       [ "apricot", 2 ],

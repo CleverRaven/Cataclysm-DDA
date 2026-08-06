@@ -908,7 +908,13 @@
           "uncanny_dodgeable": true,
           "blockable": false,
           "effects_require_dmg": false,
-          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "npc_has_flag": "TELEKIN_SHIELD" } },
+              { "not": { "npc_has_flag": "TELEKIN_PUSH_PULL_IMMUNE" } }
+            ]
+          },
           "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
           "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
           "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
@@ -935,7 +941,7 @@
     "name": "feral mindhand",
     "description": "This feral human moves quickly across uneven terrain and, when you look more closely, you see that they are floating just above the ground.  The air around them is distorted strangely, like looking through the surface of water.",
     "copy-from": "mon_feral_psion_default",
-    "species": [ "FERAL", "TELEKIN_PUSHPULL_NULL" ],
+    "species": [ "FERAL" ],
     "color": "yellow",
     "symbol": "@",
     "melee_damage": [ { "damage_type": "bash", "amount": 4 } ],
@@ -988,7 +994,13 @@
           "dodgeable": false,
           "uncanny_dodgeable": true,
           "blockable": false,
-          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "npc_has_flag": "TELEKIN_SHIELD" } },
+              { "not": { "npc_has_flag": "TELEKIN_PUSH_PULL_IMMUNE" } }
+            ]
+          },
           "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
           "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
           "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
@@ -1025,7 +1037,7 @@
     "name": "unstoppable force",
     "description": "Hovering half a meter off the ground, this feral human is surrounded by a whirling cloud of rock, dust, splintered wood, and various household objects.  As they move, the ground occasionally shakes.",
     "copy-from": "mon_feral_psion_default",
-    "species": [ "FERAL", "TELEKIN_PUSHPULL_NULL" ],
+    "species": [ "FERAL" ],
     "color": "yellow",
     "symbol": "@",
     "melee_damage": [ { "damage_type": "bash", "amount": 8 } ],
@@ -1077,7 +1089,13 @@
           "dodgeable": false,
           "uncanny_dodgeable": true,
           "blockable": false,
-          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "npc_has_flag": "TELEKIN_SHIELD" } },
+              { "not": { "npc_has_flag": "TELEKIN_PUSH_PULL_IMMUNE" } }
+            ]
+          },
           "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
           "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
           "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",

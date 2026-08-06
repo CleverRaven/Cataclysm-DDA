@@ -147,25 +147,7 @@
     },
     "effect": [
       { "math": [ "_vampire_amount_drained", "=", "400 + rand(100)" ] },
-      { "u_add_effect": "star_vampire_blood_drank", "duration": 30 },
-      {
-        "if": { "npc_has_flag": "BLEEDSLOW2" },
-        "then": [
-          { "math": [ "n_vitamin('blood') -= _vampire_amount_drained / 3" ] },
-          { "math": [ "n_vitamin('redcells') -= _vampire_amount_drained / 3" ] }
-        ],
-        "else": {
-          "if": { "npc_has_flag": "BLEEDSLOW" },
-          "then": [
-            { "math": [ "n_vitamin('blood') -= _vampire_amount_drained / 1.5" ] },
-            { "math": [ "n_vitamin('redcells') -= _vampire_amount_drained / 1.5" ] }
-          ],
-          "else": [
-            { "math": [ "n_vitamin('blood') -= _vampire_amount_drained" ] },
-            { "math": [ "n_vitamin('redcells') -= _vampire_amount_drained" ] }
-          ]
-        }
-      }
+      { "u_add_effect": "star_vampire_blood_drank", "duration": 30 }
     ]
   },
   {
@@ -1239,24 +1221,6 @@
           { "math": [ "n_vitamin('redcells') -= _arion_amount_drained" ] },
           { "math": [ "n_vitamin('human_blood_vitamin') -= _arion_amount_drained" ] }
         ]
-      },
-      {
-        "if": { "npc_has_flag": "BLEEDSLOW2" },
-        "then": [
-          { "math": [ "n_vitamin('blood') -= _arion_amount_drained / 3" ] },
-          { "math": [ "n_vitamin('redcells') -= _arion_amount_drained / 3" ] }
-        ],
-        "else": {
-          "if": { "npc_has_flag": "BLEEDSLOW" },
-          "then": [
-            { "math": [ "n_vitamin('blood') -= _arion_amount_drained / 1.5" ] },
-            { "math": [ "n_vitamin('redcells') -= _arion_amount_drained / 1.5" ] }
-          ],
-          "else": [
-            { "math": [ "n_vitamin('blood') -= _arion_amount_drained" ] },
-            { "math": [ "n_vitamin('redcells') -= _arion_amount_drained" ] }
-          ]
-        }
       }
     ]
   }

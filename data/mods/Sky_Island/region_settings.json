@@ -7,10 +7,32 @@
     "//1": "Can be used in the future for other islands to find in the home dimension?"
   },
   {
+    "type": "dimension",
+    "id": "dimension_sky_island_region",
+    "region_layout": "dimension_sky_island_region"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "dimension_sky_island_region",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "dimension_sky_island_region"
+  },
+  {
     "type": "region_settings",
     "id": "dimension_sky_island_region",
     "copy-from": "default",
     "feature_flag_settings": { "extend": { "blacklist": [ "SKY_ISLAND", "SKY_ISLAND_NO_RAID_SPAWN" ] } }
+  },
+  {
+    "type": "dimension",
+    "id": "default",
+    "region_layout": "default_skyisland"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "default_skyisland",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "default_skyisland"
   },
   {
     "type": "weather_generator",
@@ -72,6 +94,17 @@
     }
   },
   {
+    "type": "dimension",
+    "id": "sky_island_raid_region_hot",
+    "region_layout": "sky_island_raid_region_hot"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "sky_island_raid_region_hot",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "sky_island_raid_region_hot"
+  },
+  {
     "type": "weather_generator",
     "id": "sky_island_raid_weather_hot",
     "copy-from": "default",
@@ -86,6 +119,17 @@
     "id": "sky_island_raid_region_hot",
     "copy-from": "dimension_sky_island_region",
     "weather": "sky_island_raid_weather_hot"
+  },
+  {
+    "type": "dimension",
+    "id": "sky_island_raid_region_cold",
+    "region_layout": "sky_island_raid_region_cold"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "sky_island_raid_region_cold",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "sky_island_raid_region_cold"
   },
   {
     "type": "weather_generator",
@@ -107,6 +151,17 @@
     "id": "MEGACITY_FLAG",
     "type": "json_flag",
     "name": ""
+  },
+  {
+    "type": "dimension",
+    "id": "sky_island_raid_region_mega_city",
+    "region_layout": "sky_island_raid_region_mega_city"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "sky_island_raid_region_mega_city",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "sky_island_raid_region_mega_city"
   },
   {
     "type": "region_settings",

@@ -155,6 +155,8 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->load_core_data();
     g->load_world_modfiles();
 
+    overmap_buffer.init_region_layout();
+
     get_avatar() = avatar();
     get_avatar().create( character_type::NOW );
     get_avatar().setID( g->assign_npc_id(), false );

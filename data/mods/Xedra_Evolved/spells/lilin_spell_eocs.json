@@ -247,6 +247,7 @@
     "//2": "Vitamins do not check for quantity because there's no hypervitaminosis.  If that gets re-added, this will need to be revisited",
     "condition": "u_is_character",
     "effect": [
+      { "npc_add_effect": "effect_xe_hidden_hunger", "duration": [ "90 minutes", "180 minutes" ] },
       {
         "if": { "math": [ "n_calories()", "<=", "118000" ] },
         "then": { "math": [ "n_calories('dont_affect_weariness': true) += rng(200,300)" ] }
@@ -277,6 +278,7 @@
           ]
         },
         "then": [
+          { "npc_add_effect": "effect_xe_hidden_hunger", "duration": [ "90 minutes", "180 minutes" ] },
           {
             "if": { "math": [ "n_calories()", "<=", "118000" ] },
             "then": { "math": [ "n_calories('dont_affect_weariness': true) += rng(200,300)" ] }
@@ -292,6 +294,7 @@
         "else": {
           "if": { "or": [ { "u_has_species": "PLANT" }, { "u_has_species": "MIGO" } ] },
           "then": [
+            { "npc_add_effect": "effect_xe_hidden_hunger", "duration": [ "90 minutes", "180 minutes" ] },
             {
               "if": { "math": [ "n_calories()", "<=", "118000" ] },
               "then": { "math": [ "n_calories('dont_affect_weariness': true) += rng(0,250)" ] }

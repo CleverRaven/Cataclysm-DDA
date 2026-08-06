@@ -37,7 +37,7 @@
     "dynamic_line": "Ha ha ha, no.  Though there is Old Guard somewhere around here if you have any questions relating to what the government is up to.",
     "responses": [
       { "text": "Oh, okay.", "topic": "TALK_EVAC_GUARD1" },
-      { "text": "Oh, okay.  I'll go look for him", "topic": "TALK_DONE" }
+      { "text": "Oh, okay.  I'll go look for him.", "topic": "TALK_DONE" }
     ]
   },
   {

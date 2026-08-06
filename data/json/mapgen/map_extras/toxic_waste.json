@@ -19,7 +19,7 @@
       { "item": "chem_acetone", "container-item": "55gal_drum", "charges": [ 1, 32 ], "prob": 10 },
       { "item": "chem_toluene", "container-item": "55gal_drum", "charges": [ 1, 16 ], "prob": 5 },
       { "item": "chem_glycerol", "container-item": "55gal_drum", "charges": [ 1, 32 ], "prob": 5 },
-      { "item": "chem_ethanol", "container-item": "55gal_drum", "charges": [ 1, 100 ], "prob": 20 },
+      { "item": "chem_ethanol", "container-item": "55gal_drum", "charges": [ 20, 90000 ], "prob": 20 },
       { "item": "methed_alcohol", "container-item": "55gal_drum", "charges": [ 1, 32 ], "prob": 10 },
       { "item": "chem_methanol", "container-item": "55gal_drum", "charges": [ 1, 16 ], "prob": 10 },
       { "item": "diesel", "container-item": "55gal_drum", "charges": [ 1, 52 ], "prob": 15 },

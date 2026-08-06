@@ -842,7 +842,6 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "RAIN_PROTECT", "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weapon_category": [ "FENCING_WEAPONRY" ],
     "use_action": { "menu_text": "Collapse", "type": "transform", "target": "teleumbrella", "msg": "You collapse your umbrella." },
     "melee_damage": { "bash": 6, "stab": 4 }
   },
@@ -946,7 +945,6 @@
     "color": "magenta",
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "RAIN_PROTECT", "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weapon_category": [ "FENCING_WEAPONRY" ],
     "melee_damage": { "bash": 6, "stab": 4 }
   },
   {

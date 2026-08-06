@@ -101,12 +101,7 @@ void temperature_delta::deserialize( const JsonValue &jv )
     if( jv.test_int() ) {
         *this = from_legacy_bodypart_temp_delta( jv.get_int() );
     } else {
-        // gross
-        std::optional<double> v = svtod( jv.get_string() );
-        if( !v.has_value() ) {
-            jv.throw_error( "Invalid double" );
-        }
-        *this = from_kelvin_delta( v.value() );
+        *this = read_from_json_string( jv, units::temperature_delta_units );
     }
 }
 

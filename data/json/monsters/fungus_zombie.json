@@ -1107,7 +1107,7 @@
   {
     "id": "mon_zombie_horse_fungus",
     "type": "MONSTER",
-    "name": { "str": " rotten fungal horse" },
+    "name": { "str": "rotten fungal horse" },
     "description": "This hulking horse-figure seems to re-learn galloping with every step, as large fungi cling and sprout off of its mane.  It travels towards anything moving, even though in the center of each eye lies multiple fungal blooms.",
     "copy-from": "mon_zombie_horse",
     "default_faction": "fungus",

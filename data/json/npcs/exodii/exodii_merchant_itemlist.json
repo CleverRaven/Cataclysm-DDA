@@ -814,5 +814,21 @@
       { "item": "bp_shot_scrap", "prob": 1 },
       { "item": "wax_slug", "prob": 1 }
     ]
+  },
+  {
+    "id": "exodii_do_not_buy_currency_blacklist",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Due to jumps making currency from the last world worthless, the Exodii prefers to directly barter for what they want or need.",
+    "//2": "This should include all currencies used by post-cataclysm groups.",
+    "entries": [
+      { "item": "FMCNote", "prob": 1 },
+      { "item": "money_strap_FMCNote", "prob": 1 },
+      { "item": "money_bundle_FMCNote", "prob": 1 },
+      { "item": "RobofacCoin", "prob": 1 },
+      { "item": "FlatCoin", "prob": 1 },
+      { "item": "signed_chit", "prob": 1 },
+      { "item": "icon", "prob": 1 }
+    ]
   }
 ]

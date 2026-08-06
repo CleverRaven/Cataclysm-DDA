@@ -26,6 +26,9 @@
 #include "vpart_range.h"
 #include "weather_type.h"
 
+static const dimension_id dimension_world_default( "default" );
+static const dimension_id dimension_world_nether( "nether" );
+
 static const field_type_str_id field_fd_test_green_glow( "fd_test_green_glow" );
 static const ter_str_id ter_t_brick_wall( "t_brick_wall" );
 static const ter_str_id ter_t_door_o( "t_door_o" );
@@ -948,11 +951,11 @@ TEST_CASE( "no_dawn_dusk_tint_in_alternate_dimension", "[light_color][dawn_dusk]
     g->reset_light_level();
 
     // Default dimension: should produce tint
-    const light_color_rgb default_dim = dawn_dusk_color_for_lightmap( "" );
+    const light_color_rgb default_dim = dawn_dusk_color_for_lightmap( dimension_world_default );
     CHECK( default_dim.is_colored() );
     CHECK( default_dim.r > 0.0f );
 
     // Alternate dimension: no tint
-    const light_color_rgb nether = dawn_dusk_color_for_lightmap( "nether" );
+    const light_color_rgb nether = dawn_dusk_color_for_lightmap( dimension_world_nether );
     CHECK_FALSE( nether.is_colored() );
 }

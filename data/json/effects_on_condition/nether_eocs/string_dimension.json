@@ -13,7 +13,6 @@
       {
         "u_travel_to_dimension": "string_dimension",
         "npc_travel_radius": 0,
-        "region_type": "string_dimension",
         "npc_travel_filter": "none",
         "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
         "success_message": "Your surroundings warp and fold into an ever-expanding plane of light."
@@ -89,7 +88,7 @@
     },
     "effect": [
       {
-        "u_travel_to_dimension": "",
+        "u_travel_to_dimension": "default",
         "npc_travel_radius": 0,
         "npc_travel_filter": "none",
         "fail_message": "You feel a prickle at the edge of your senses.",
@@ -220,12 +219,7 @@
     "id": "EOC_STRING_DIMENSION_PORTAL_TO_KA_STRUCTURE",
     "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
-      {
-        "u_travel_to_dimension": "string_dimension_ka",
-        "npc_travel_radius": 0,
-        "region_type": "string_dimension_ka",
-        "npc_travel_filter": "none"
-      },
+      { "u_travel_to_dimension": "string_dimension_ka", "npc_travel_radius": 0, "npc_travel_filter": "none" },
       {
         "u_location_variable": { "context_val": "string_dimension_floor_portal_enclosure" },
         "target_params": { "om_terrain": "string_dimension_ka_facility_x4y0z0", "om_special": "string_dimension_ka_facility" },
@@ -248,7 +242,6 @@
       {
         "u_travel_to_dimension": "string_dimension",
         "npc_travel_radius": 0,
-        "region_type": "string_dimension",
         "npc_travel_filter": "none",
         "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
         "success_message": "Your surroundings warp and fold into an ever-expanding plane of light."

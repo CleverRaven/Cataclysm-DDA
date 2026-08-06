@@ -281,7 +281,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_winter_wheat",
-    "name": { "str": "threshed winter wheat", "str_pl": " of threshed winter wheat" },
+    "name": { "str": "threshed winter wheat", "str_pl": "of threshed winter wheat" },
     "copy-from": "threshed_wheat",
     "comestible_type": "FOOD",
     "//COMMENT": "Continuing the trend of hardier winter wheat having ~10% less calories.",

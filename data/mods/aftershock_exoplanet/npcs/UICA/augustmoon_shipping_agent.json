@@ -62,7 +62,7 @@
           "and": [ { "not": { "math": [ "has_var(know_spaceport)" ] } }, { "not": { "math": [ "has_var(u_augustmoon_kit)" ] } } ]
         }
       },
-      { "text": "Not right now", "topic": "TALK_DONE" }
+      { "text": "Not right now.", "topic": "TALK_DONE" }
     ]
   },
   {

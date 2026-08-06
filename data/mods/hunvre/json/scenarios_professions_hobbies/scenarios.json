@@ -11,6 +11,6 @@
     "distance_initial_visibility": 0,
     "flags": [ "LONE_START" ],
     "start_of_cataclysm": { "hour": 0, "day": 1, "season": "spring", "year": 1 },
-    "start_of_game": { "hour": 0, "day": 1, "season": "spring", "year": 1 }
+    "start_of_game": { "hour": 12, "day": 1, "season": "spring", "year": 1 }
   }
 ]

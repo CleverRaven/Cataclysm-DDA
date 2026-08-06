@@ -425,7 +425,7 @@
     "final_casting_time": 30,
     "casting_time_increment": -2.5,
     "targeted_monster_species": [ "CYBORG", "ROBOT", "ROBOT_FLYING" ],
-    "ignored_monster_species": [ "PSI_NULL", "YRAX_CONSTRUCT" ]
+    "ignored_monster_species": [ "PSI_NULL", "YRAX" ]
   },
   {
     "id": "electrokinetic_kill_robot_sparks",
@@ -448,7 +448,7 @@
     "sound_type": "combat",
     "sound_description": "zzzzaaaaaapp!",
     "targeted_monster_species": [ "CYBORG", "ROBOT", "ROBOT_FLYING" ],
-    "ignored_monster_species": [ "YRAX_CONSTRUCT", "PSI_NULL" ]
+    "ignored_monster_species": [ "YRAX", "PSI_NULL" ]
   },
   {
     "id": "electrokinetic_robot_interface",

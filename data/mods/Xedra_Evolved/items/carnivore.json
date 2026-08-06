@@ -6,9 +6,11 @@
     "copy-from": "offal",
     "name": { "str_sp": "nether organs" },
     "snippet_category": "fae_organs_desc",
-    "description": "These organs came from a beast from the nether.",
+    "description": "These organs came from a beast from the Underhill.",
     "looks_like": "offal",
     "parasites": 0,
+    "addiction_type": "faewild",
+    "addiction_potential": 5,
     "proportional": { "price": 0.1, "calories": 0.65 },
     "vitamins": [ [ "underhill_essence", 25 ] ]
   },
@@ -32,6 +34,8 @@
     "description": "A carefully folded raw skin harvested from a fur-bearing animal from a specific region of the Nether.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
     "price": "3 USD 30 cent",
     "price_postapoc": "1 USD",
+    "addiction_type": "faewild",
+    "addiction_potential": 3,
     "vitamins": [ [ "underhill_essence", 15 ] ],
     "material": [ "fae_fur", "fae_flesh" ],
     "fun": -24
@@ -53,6 +57,8 @@
     "healthy": -1,
     "parasites": 0,
     "fun": -10,
+    "addiction_type": "faewild",
+    "addiction_potential": 3,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "underhill_essence", 15 ] ],
     "flags": [ "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
@@ -67,6 +73,8 @@
     "description": "This is a tiny scrap of edible meat from a fae beast.  It's not much, but it'll do in a pinch.",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
     "smoking_result": "null",
+    "addiction_type": "faewild",
+    "addiction_potential": 1,
     "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "underhill_essence", 2 ] ]
   },
   {

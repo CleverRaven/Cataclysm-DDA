@@ -677,7 +677,7 @@ conditional_t::func current_dimension( const JsonObject &jo, std::string_view me
 {
     str_or_var dimension_prefix = get_str_or_var( jo.get_member( member ), member, true );
     return [dimension_prefix]( const_dialogue const & d ) {
-        return ( g->get_dimension_prefix() == dimension_prefix.evaluate( d ) );
+        return ( g->get_dimension_prefix() == dimension_id( dimension_prefix.evaluate( d ) ) );
     };
 }
 

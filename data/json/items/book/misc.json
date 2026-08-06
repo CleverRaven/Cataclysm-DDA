@@ -1023,7 +1023,7 @@
         "id": "classic28",
         "text": "This is a hardcover copy of \"The Gates Have Opened\" by Arianna Methusalah.  You feel like you've read this before, but can't remember where.  Something about the book fills you with unease."
       },
-      { "id": "classic29", "text": "This is a copy of \"The Count of Monte Cristo\" by Dumas." },
+      { "id": "classic29", "text": "This is a copy of \"The Count of Monte Cristo\" by Alexandre Dumas." },
       { "id": "classic30", "text": "This is a copy of \"The Secret Garden\" by Frances Burnett." },
       { "id": "classic31", "text": "This is a copy of \"Lieutenant Hornblower\" by C.S. Forester." },
       { "id": "classic32", "text": "This is a copy of \"Master and Commander\" by Patrick O'Brian." },
@@ -1048,7 +1048,32 @@
       { "id": "classic51", "text": "This is a copy of \"The Canterbury Tales\" by Geoffrey Chaucer." },
       { "id": "classic52", "text": "This is a copy of \"Harold, the Last of the Saxons\" by Edward Bulwer-Lytton." },
       { "id": "classic53", "text": "This is a copy of \"Mr Midshipman Easy\" by Frederick Marryat." },
-      { "id": "classic54", "text": "This is a copy of \"Peter Simple\" by Frederick Marryat." }
+      { "id": "classic54", "text": "This is a copy of \"Peter Simple\" by Frederick Marryat." },
+      {
+        "id": "classic55",
+        "text": "A paperback copy of \"The Three Musketeers\" by Alexandre Dumas, the gravitas somewhat spoiled by being the glossy movie tie-in version."
+      },
+      {
+        "id": "classic56",
+        "text": "This is a copy of \"The Life and Opinions of Tristram Shandy, Gentleman\" by Laurence Sterne."
+      },
+      { "id": "classic57", "text": "This is a copy of \"The Time Machine\" by H.G. Wells." },
+      {
+        "id": "classic58",
+        "text": "This is a copy of several works by Edgar Allan Poe.  \"The Fall of the House of Usher\" heads the list."
+      },
+      {
+        "id": "classic59",
+        "text": "This is a copy of \"The Silmarillion\" by Tolkien.  Maybe you could bludgeon someone with it if it came to that."
+      },
+      { "id": "classic60", "text": "This is a copy of \"The Turn of the Screw\" by Henry James." },
+      { "id": "classic61", "text": "This is a copy of \"The Call of the Wild\" by Jack London." },
+      { "id": "classic62", "text": "This is a copy of \"Frankenstein\" by Mary Shelley." },
+      {
+        "id": "classic63",
+        "text": "This is a copy of \"Tevye the Dairyman\" by Sholem Aleichem, translated into English."
+      },
+      { "id": "classic64", "text": "This is a copy of \"Another Country \" by James Baldwin." }
     ],
     "weight": "350 g",
     "volume": "750 ml",
@@ -1576,5 +1601,62 @@
     "intelligence": 4,
     "time": "10 m",
     "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "european_comic",
+    "copy-from": "mag_comic",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "european comic" },
+    "description": "A comic book in the franco-belgian format, large, fully colored with a hard cover.",
+    "weight": "330 g",
+    "volume": "280 ml",
+    "longest_side": "32 cm",
+    "time": "30 m",
+    "variants": [
+      { "id": "generic", "weight": 2 },
+      {
+        "id": "tintin",
+        "name": { "str": "the adventures of tintin", "str_pl": "the adventures of tintin comics" },
+        "description": "This album is part of the Adventures of Tintin series, which is about a young reporter called Tintin, his dog Snowy and his friends, particularly Captain Haddock, as they travel across the world solving mysteries, uncovering conspiracies, and foiling criminals.",
+        "append": true,
+        "weight": 5
+      },
+      {
+        "id": "asterix",
+        "name": { "str": "asterix", "str_pl": "asterix comics" },
+        "description": "This album is part of the Asterix series, which is about the eponymous gaulish warrior, his friend Obelix and his dog Idefix, holding out against the roman invaders thanks to a magic potion giving them supernatural strength.",
+        "append": true,
+        "weight": 4
+      },
+      {
+        "id": "lucky_luke",
+        "name": { "str": "lucky luke", "str_pl": "lucky luke comics" },
+        "description": "This album is part of the Lucky Luke series, which is about a cowboy named Lucky Luke, \"the man who shoots faster than his shadow,\" and his horse Jolly Jumper bringing justice across the far west.",
+        "append": true,
+        "weight": 3
+      },
+      {
+        "id": "smurfs",
+        "name": { "str": "the smurfs", "str_pl": "the smurfs comics" },
+        "description": "This album is part of the Smurfs series, which is about a community of tiny blue creatures called Smurfs who live in a hidden village deep in the forest led by Papa Smurf",
+        "append": true,
+        "weight": 3
+      },
+      {
+        "id": "dungeon",
+        "name": { "str": "dungeon", "str_pl": "dungeon comics" },
+        "description": "This album is part of the Dungeon series, which is mainly about the adventures of Herbert the duck and Marvin the dragon working for the \"dungeon\", a business establishment where heroes come in search of adventure and treasure and invariably die.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "metabarons",
+        "name": { "str": "the saga of the meta-barons", "str_pl": "the saga of the meta-barons comics" },
+        "description": "This album is part of the saga of the meta-barons series, which is about a dynasty of space warriors called the meta-barons, the narration is made by a duo of quirky robots, Tonto and Lothar, as they chronicle the life of each of them.",
+        "append": true,
+        "weight": 1
+      }
+    ]
   }
 ]

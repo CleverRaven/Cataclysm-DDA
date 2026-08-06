@@ -70,6 +70,9 @@ static const ammotype ammo_battery( "battery" );
 
 static const damage_type_id damage_bash( "bash" );
 
+static const dimension_id
+dimension_world_netherum_labyrinth_safehouse( "netherum_labyrinth_safehouse" );
+
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_tied( "tied" );
 
@@ -1616,8 +1619,7 @@ void vehicle::use_mws( map &here, int p )
 
 void vehicle::use_nl_boiler( map &here, int p )
 {
-    std::string dimension_prefix = g->get_dimension_prefix();
-    if( dimension_prefix == "netherum_labyrinth_safehouse" ) {
+    if( g->get_dimension_prefix() == dimension_world_netherum_labyrinth_safehouse ) {
         vehicle_part &vp = parts[p];
         vehicle_stack items = get_items( vp );
 

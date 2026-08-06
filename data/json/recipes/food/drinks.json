@@ -70,6 +70,33 @@
   {
     "type": "recipe",
     "result": "water_clean",
+    "category": "CC_FOOD",
+    "id_suffix": "using_bleach",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "charges": 10,
+    "autolearn": true,
+    "flags": [ "BLIND_EASY" ],
+    "steps": [
+      {
+        "name": "Mixing and shaking",
+        "time": "10 m",
+        "batch_time_factors": { "mode": "linear", "setup": "10 m" },
+        "activity_level": "MODERATE_EXERCISE"
+      },
+      {
+        "name": "Purifying",
+        "time": "40 m",
+        "batch_time_factors": { "mode": "linear", "setup": "40 m" },
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended"
+      }
+    ],
+    "components": [ [ [ "water", 10 ] ], [ [ "bleach", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "water_clean",
     "copy-from": "herbal_tea_from_tea_bag",
     "id_suffix": "using_tablets_from_murky_water",
     "category": "CC_FOOD",

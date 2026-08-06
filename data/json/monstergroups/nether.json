@@ -166,5 +166,14 @@
       { "monster": "mon_nether_fish", "weight": 300, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_nether_leech", "weight": 100, "cost_multiplier": 3, "pack_size": [ 3, 5 ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_PORTAL_REFLECTIONS",
+    "monsters": [
+      { "monster": "mon_pale_reflection", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_twisted_reflection", "weight": 300 },
+      { "monster": "mon_dark_reflection", "weight": 100 }
+    ]
   }
 ]

@@ -292,7 +292,7 @@
     "copy-from": "mon_hound_tindalos",
     "type": "MONSTER",
     "extend": {
-      "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ],
+      "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE", "TELEKIN_PUSH_PULL_IMMUNE" ],
       "armor": { "psi_telekinetic_damage": 50 },
       "special_attacks": [
         {
@@ -359,7 +359,7 @@
     "copy-from": "mon_hound_tindalos_afterimage",
     "type": "MONSTER",
     "extend": {
-      "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ],
+      "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE", "TELEKIN_PUSH_PULL_IMMUNE" ],
       "armor": { "psi_telekinetic_damage": 50 },
       "special_attacks": [
         {
@@ -413,7 +413,7 @@
     "copy-from": "mon_tindalos",
     "type": "MONSTER",
     "extend": {
-      "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ],
+      "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE", "TELEKIN_PUSH_PULL_IMMUNE" ],
       "armor": { "psi_telekinetic_damage": 50 },
       "special_attacks": [
         {
@@ -478,19 +478,28 @@
     "id": "mon_shadow",
     "copy-from": "mon_shadow",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE" ], "armor": { "psi_photokinetic_damage": -40 } }
+    "extend": {
+      "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE", "TELEKIN_PUSH_PULL_IMMUNE" ],
+      "armor": { "psi_photokinetic_damage": -40 }
+    }
   },
   {
     "id": "mon_shadow_snake",
     "copy-from": "mon_shadow_snake",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE" ], "armor": { "psi_photokinetic_damage": -40 } }
+    "extend": {
+      "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE", "TELEKIN_PUSH_PULL_IMMUNE" ],
+      "armor": { "psi_photokinetic_damage": -40 }
+    }
   },
   {
     "id": "mon_darkman",
     "copy-from": "mon_darkman",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE" ], "armor": { "psi_photokinetic_damage": -80 } }
+    "extend": {
+      "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE", "TELEKIN_PUSH_PULL_IMMUNE" ],
+      "armor": { "psi_photokinetic_damage": -80 }
+    }
   },
   {
     "id": "mon_lieutenant_shadow",
@@ -757,36 +766,6 @@
     "extend": { "armor": { "psi_telepathic_damage": 120 } }
   },
   {
-    "id": "mon_yrax_delta",
-    "copy-from": "mon_yrax_delta",
-    "type": "MONSTER",
-    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
-  },
-  {
-    "id": "mon_yrax_trifacet",
-    "copy-from": "mon_yrax_trifacet",
-    "type": "MONSTER",
-    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
-  },
-  {
-    "id": "mon_yrax_apeirogon",
-    "copy-from": "mon_yrax_apeirogon",
-    "type": "MONSTER",
-    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
-  },
-  {
-    "id": "mon_yrax_sphenocorona",
-    "copy-from": "mon_yrax_sphenocorona",
-    "type": "MONSTER",
-    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
-  },
-  {
-    "id": "mon_yrax_triakis",
-    "copy-from": "mon_yrax_triakis",
-    "type": "MONSTER",
-    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
-  },
-  {
     "id": "mon_cow",
     "copy-from": "mon_cow",
     "type": "MONSTER",
@@ -796,42 +775,114 @@
     "id": "mon_eigenspectre_1",
     "copy-from": "mon_eigenspectre_1",
     "type": "MONSTER",
-    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
-    "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
+    "species": [ "NETHER_EMANATION" ],
+    "extend": { "flags": [ "TELEKIN_IMMUNE", "TELEKIN_PUSH_PULL_IMMUNE" ] }
   },
   {
     "id": "mon_eigenspectre_2",
     "copy-from": "mon_eigenspectre_2",
     "type": "MONSTER",
-    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
-    "extend": { "flags": [ "PHOTOKIN_MONSTER_IMMUNE", "TELEKIN_IMMUNE" ] }
+    "species": [ "NETHER_EMANATION" ],
+    "extend": { "flags": [ "PHOTOKIN_MONSTER_IMMUNE", "TELEKIN_IMMUNE", "TELEKIN_PUSH_PULL_IMMUNE" ] }
   },
   {
     "id": "mon_eigenspectre_3",
     "copy-from": "mon_eigenspectre_3",
     "type": "MONSTER",
-    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
-    "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
+    "species": [ "NETHER_EMANATION" ],
+    "extend": { "flags": [ "TELEKIN_IMMUNE", "TELEKIN_PUSH_PULL_IMMUNE" ] }
   },
   {
     "id": "mon_eigenspectre_3_echo",
     "copy-from": "mon_eigenspectre_3_echo",
     "type": "MONSTER",
-    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
-    "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
+    "species": [ "NETHER_EMANATION" ],
+    "extend": { "flags": [ "TELEKIN_IMMUNE", "TELEKIN_PUSH_PULL_IMMUNE" ] }
   },
   {
     "id": "mon_eigenspectre_4",
     "copy-from": "mon_eigenspectre_4",
     "type": "MONSTER",
-    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
-    "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
+    "species": [ "NETHER_EMANATION" ],
+    "extend": { "flags": [ "TELEKIN_IMMUNE", "TELEKIN_PUSH_PULL_IMMUNE" ] }
   },
   {
     "id": "mon_living_vector",
     "copy-from": "mon_living_vector",
     "type": "MONSTER",
-    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
-    "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
+    "species": [ "NETHER_EMANATION" ],
+    "extend": { "flags": [ "TELEKIN_IMMUNE", "TELEKIN_PUSH_PULL_IMMUNE" ] }
+  },
+  {
+    "id": "mon_feral_human_crowbar",
+    "copy-from": "mon_feral_human_crowbar",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_human_pipe",
+    "copy-from": "mon_feral_human_pipe",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_human_axe",
+    "copy-from": "mon_feral_human_axe",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_human_tool",
+    "copy-from": "mon_feral_human_tool",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_cop",
+    "copy-from": "mon_feral_cop",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_survivalist",
+    "copy-from": "mon_feral_survivalist",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_militia",
+    "copy-from": "mon_feral_militia",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_prepper_knife",
+    "copy-from": "mon_feral_prepper_knife",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_prepper_mace",
+    "copy-from": "mon_feral_prepper_mace",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_jackboot",
+    "copy-from": "mon_feral_jackboot",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_soldier",
+    "copy-from": "mon_feral_soldier",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE" }
+  },
+  {
+    "id": "mon_feral_sapien_spear",
+    "copy-from": "mon_feral_sapien_spear",
+    "type": "MONSTER",
+    "upgrades": { "half_life": 360, "into_group": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE_HIGHER_ODDS" }
   }
 ]

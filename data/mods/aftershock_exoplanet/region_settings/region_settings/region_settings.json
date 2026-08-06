@@ -44,8 +44,10 @@
     "park_sigma": 80,
     "houses": [
       [ "afs_city_ruinfield", 400 ],
-      [ "afs_formless_ruins_dynamic", 600 ],
-      [ "afs_house_1", 300 ],
+      [ "bio_tech_flats_1", 600 ],
+      [ "bio_tech_flats_2", 100 ],
+      [ "bio_tech_flats_3", 100 ],
+      [ "bio_tech_flats_4", 100 ],
       [ "afs_habitat_block_1", 200 ],
       [ "afs_habitat_block_2", 100 ],
       [ "afs_habitat_block_3", 200 ]
@@ -53,6 +55,7 @@
     "parks": [ [ "afs_city_ruinfield", 70 ], [ "afs_shuttle_pad", 10 ], [ "afs_enclosed_park", 30 ], [ "afs_vehicle_bay", 50 ] ],
     "shops": [
       [ "afs_augmentation_clinic_1", 400 ],
+      [ "afs_house_1", 300 ],
       [ "afs_gene_clinic_1", 400 ],
       [ "afs_astrobiology_lab", 400 ],
       [ "afs_general_store_1", 400 ],
