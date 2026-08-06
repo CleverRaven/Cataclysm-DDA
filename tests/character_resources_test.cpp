@@ -1,4 +1,3 @@
-#include <map>
 #include <memory>
 #include <optional>
 #include <string>
@@ -9,7 +8,6 @@
 #include "character.h"
 #include "item.h"
 #include "magic.h"
-#include "magic_type.h"
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "recipe.h"
@@ -44,9 +42,8 @@ TEST_CASE( "recipe_character_resources_load_and_replace_inherited_costs",
 
         const character_resource_costs &resources = rec.get_character_resources();
 
-        REQUIRE( resources.energy.size() == 2 );
-        CHECK( resources.energy.at( magic_energy_type::mana ) == 1000 );
-        CHECK( resources.energy.at( magic_energy_type::stamina ) == 1000 );
+        CHECK( resources.mana == 1000 );
+        CHECK( resources.stamina == 1000 );
 
         REQUIRE( resources.vitamins.size() == 1 );
         CHECK( resources.vitamins.front().vitamin == vitamin_blood );
@@ -60,7 +57,8 @@ TEST_CASE( "recipe_character_resources_load_and_replace_inherited_costs",
 
         const character_resource_costs &resources = rec.get_character_resources();
 
-        CHECK( resources.energy.empty() );
+        CHECK( resources.mana == 0 );
+        CHECK( resources.stamina == 0 );
         REQUIRE( resources.vitamins.size() == 1 );
         CHECK( resources.vitamins.front().vitamin == vitamin_blood );
         CHECK( resources.vitamins.front().value == 10000 );

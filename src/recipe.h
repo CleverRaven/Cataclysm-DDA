@@ -74,15 +74,20 @@ struct vitamin_resource_cost {
     vitamin_id vitamin;
     int value = 0;
     std::optional<int> safe_level;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct character_resource_costs {
-    std::map<magic_energy_type, int> energy;
+    int mana = 0;
+    int stamina = 0;
     std::vector<vitamin_resource_cost> vitamins;
 
     bool empty() const {
-        return energy.empty() && vitamins.empty();
+        return mana == 0 && stamina == 0 && vitamins.empty();
     }
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct book_recipe_data {

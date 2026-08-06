@@ -1987,19 +1987,25 @@ void crafting_ui_impl::draw_character_resources( const recipe &recp, const int b
     }
 
     ImGui::TextColored( cataimgui::imvec4_from_color( c_white ), "%s", _( "Character resources:" ) );
-    for( const auto &[resource, amount] : resources.energy ) {
+
+    const auto draw_resource = [&]( const int amount, const int available, const std::string & name ) {
+        if( amount == 0 ) {
+            return;
+        }
         const int total = amount * batch_size;
-        const bool enough = crafter->craft_character_resource_available( resource ) >= total;
-        const nc_color color = enough ? c_white : c_yellow;
-        const char *name = resource == magic_energy_type::mana ? _( "mana" ) : _( "stamina" );
-        ImGui::TextColored( cataimgui::imvec4_from_color( color ), "  \u2022 %d %s", total, name );
-    }
+        const nc_color color = available >= total ? c_white : c_yellow;
+        ImGui::TextColored( cataimgui::imvec4_from_color( color ), "  \u2022 %d %s", total,
+                            name.c_str() );
+    };
+
+    draw_resource( resources.mana,
+                   crafter->craft_character_resource_available( magic_energy_type::mana ), _( "mana" ) );
+    draw_resource( resources.stamina,
+                   crafter->craft_character_resource_available( magic_energy_type::stamina ), _( "stamina" ) );
+
     for( const vitamin_resource_cost &resource : resources.vitamins ) {
-        const int total = resource.value * batch_size;
-        const bool enough = crafter->craft_vitamin_available( resource ) >= total;
-        const nc_color color = enough ? c_white : c_yellow;
-        const std::string name = resource.vitamin.obj().name();
-        ImGui::TextColored( cataimgui::imvec4_from_color( color ), "  \u2022 %d %s", total, name.c_str() );
+        draw_resource( resource.value, crafter->craft_vitamin_available( resource ),
+                       resource.vitamin.obj().name() );
     }
 }
 

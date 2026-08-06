@@ -7,6 +7,7 @@
 #include <memory>
 #include <numeric>
 #include <optional>
+#include <set>
 #include <sstream>
 #include <unordered_map>
 
@@ -353,49 +354,7 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "difficulty", difficulty, numeric_bound_reader<int> {0, MAX_SKILL} );
     optional( jo, was_loaded, "flags", flags );
 
-    if( jo.has_object( "character_resources" ) ) {
-        character_resources = character_resource_costs();
-        for( const JsonMember resource : jo.get_object( "character_resources" ) ) {
-            const std::string resource_id = resource.name();
-            if( string_starts_with( resource_id, "//" ) ) {
-                continue;
-            }
-
-            if( resource_id == "mana" || resource_id == "stamina" ) {
-                const magic_energy_type e_type = resource_id == "mana" ? magic_energy_type::mana :
-                                                 resource_id == "stamina" ? magic_energy_type::stamina :
-                                                 magic_energy_type::none;
-                const int amount = resource.get_int();
-                if( amount < 0 ) {
-                    jo.throw_error_at( "character_resources",
-                                       "character resource costs must not be negative" );
-                }
-                character_resources.energy[e_type] = amount;
-            } else if( resource_id == "vitamins" ) {
-                std::set<vitamin_id> loaded_vitamins;
-                for( JsonObject vitamin_jo : resource.get_array() ) {
-                    vitamin_resource_cost cost;
-                    cost.vitamin = vitamin_id( vitamin_jo.get_string( "vitamin" ) );
-                    cost.value = vitamin_jo.get_int( "value" );
-                    if( cost.value < 0 ) {
-                        vitamin_jo.throw_error_at( "value",
-                                                   "vitamin resource costs must not be negative" );
-                    }
-                    if( vitamin_jo.has_int( "safe_level" ) ) {
-                        cost.safe_level = vitamin_jo.get_int( "safe_level" );
-                    }
-                    if( !loaded_vitamins.insert( cost.vitamin ).second ) {
-                        vitamin_jo.throw_error_at( "vitamin",
-                                                   "duplicate vitamin character resource" );
-                    }
-                    character_resources.vitamins.emplace_back( cost );
-                }
-            } else {
-                jo.throw_error_at( "character_resources",
-                                   string_format( "unknown character resource '%s'", resource_id ) );
-            }
-        }
-    }
+    optional( jo, was_loaded, "character_resources", character_resources );
 
     // automatically set contained if we specify as container
     optional( jo, was_loaded, "contained", contained, false );
@@ -2233,6 +2192,30 @@ void batch_savings::deserialize( const JsonValue &jv )
         data = ret;
     } else {
         jo.throw_error( string_format( "Unrecognized mode %s", mode ) );
+    }
+}
+
+void vitamin_resource_cost::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "vitamin", vitamin );
+    mandatory( jo, false, "value", value, numeric_bound_reader<int> { 0 } );
+    optional( jo, false, "safe_level", safe_level );
+}
+
+void character_resource_costs::deserialize( const JsonObject &jo )
+{
+    *this = {};
+
+    optional( jo, false, "mana", mana, numeric_bound_reader<int> { 0 } );
+    optional( jo, false, "stamina", stamina, numeric_bound_reader<int> { 0 } );
+    optional( jo, false, "vitamins", vitamins );
+
+    std::set<vitamin_id> loaded_vitamins;
+    for( const vitamin_resource_cost &resource : vitamins ) {
+        if( !loaded_vitamins.insert( resource.vitamin ).second ) {
+            jo.throw_error( string_format( "duplicate vitamin character resource '%s'",
+                                           resource.vitamin.str() ) );
+        }
     }
 }
 

@@ -3861,78 +3861,75 @@ bool Character::craft_consume_character_resources( item &craft, int target_progr
     const int batch = craft.get_making_batch_size();
     target_progress = std::clamp( target_progress, 0, 10000000 );
 
-    std::map<magic_energy_type, int> energy_debits;
-    std::map<vitamin_id, int> vitamin_debits;
+    const auto process_resource = [&]( const int base_cost, const int available,
+                                       const std::string & var,
+    const std::string & resource_name, const bool apply, const auto & consume_resource ) {
+        if( base_cost == 0 ) {
+            return true;
+        }
 
-    for( const auto &[resource, base_cost] : resources.energy ) {
-        const std::string var = "craft_resource_" + io::enum_to_string( resource );
         const int debit = craft_resource_debit_for_progress( craft, var, base_cost, batch,
                           target_progress );
-        if( debit > craft_character_resource_available( resource ) ) {
-            const char *resource_name = resource == magic_energy_type::mana
-                                        ? _( "mana" )
-                                        : _( "stamina" );
+        if( !apply ) {
+            if( debit <= available ) {
+                return true;
+            }
+
             add_msg_player_or_npc(
                 _( "You don't have enough %s to continue crafting." ),
                 _( "<npcname> doesn't have enough %s to continue crafting." ),
                 resource_name );
             return false;
         }
-        energy_debits.emplace( resource, debit );
-    }
 
-    for( const vitamin_resource_cost &resource : resources.vitamins ) {
-        const std::string var = "craft_vitamin_" + resource.vitamin.str();
-        const int debit = craft_resource_debit_for_progress( craft, var, resource.value, batch,
-                          target_progress );
-        if( debit > craft_vitamin_available( resource ) ) {
-            add_msg_player_or_npc(
-                _( "You don't have enough %s to continue crafting." ),
-                _( "<npcname> doesn't have enough %s to continue crafting." ),
-                resource.vitamin.obj().name() );
+        if( debit > 0 ) {
+            consume_resource( debit );
+            const int consumed = static_cast<int>( craft.get_var( var, 0.0 ) );
+            craft.set_var( var, consumed + debit );
+        }
+        return true;
+    };
+
+    const auto process_energy_resource = [&]( const int amount, const magic_energy_type resource,
+    const char *resource_name, const bool apply, const auto & consume_resource ) {
+        return process_resource( amount, craft_character_resource_available( resource ),
+                                 "craft_resource_" + io::enum_to_string( resource ), resource_name, apply,
+                                 consume_resource );
+    };
+
+    const auto process_resources = [&]( const bool apply ) {
+        if( !process_energy_resource( resources.mana, magic_energy_type::mana, _( "mana" ), apply,
+        [&]( const int debit ) {
+        magic->mod_mana( *this, -debit );
+        } ) ) {
             return false;
         }
-        vitamin_debits.emplace( resource.vitamin, debit );
-    }
 
-    if( !consume ) {
+        if( !process_energy_resource( resources.stamina, magic_energy_type::stamina, _( "stamina" ),
+        apply, [&]( const int debit ) {
+        mod_stamina( -debit );
+        } ) ) {
+            return false;
+        }
+
+        for( const vitamin_resource_cost &resource : resources.vitamins ) {
+            if( !process_resource( resource.value, craft_vitamin_available( resource ),
+                                   "craft_vitamin_" + resource.vitamin.str(),
+            resource.vitamin.obj().name(), apply, [&]( const int debit ) {
+            vitamin_mod( resource.vitamin, -debit );
+            } ) ) {
+                return false;
+            }
+        }
+
         return true;
+    };
+
+    if( !process_resources( false ) ) {
+        return false;
     }
 
-    for( const auto &[resource, debit] : energy_debits ) {
-        if( debit <= 0 ) {
-            continue;
-        }
-
-        switch( resource ) {
-            case magic_energy_type::mana:
-                magic->mod_mana( *this, -debit );
-                break;
-            case magic_energy_type::stamina:
-                mod_stamina( -debit );
-                break;
-            default:
-                continue;
-        }
-
-        const std::string var = "craft_resource_" + io::enum_to_string( resource );
-        const int consumed = static_cast<int>( craft.get_var( var, 0.0 ) );
-        craft.set_var( var, consumed + debit );
-    }
-
-    for( const auto &[vitamin, debit] : vitamin_debits ) {
-        if( debit <= 0 ) {
-            continue;
-        }
-
-        vitamin_mod( vitamin, -debit );
-
-        const std::string var = "craft_vitamin_" + vitamin.str();
-        const int consumed = static_cast<int>( craft.get_var( var, 0.0 ) );
-        craft.set_var( var, consumed + debit );
-    }
-
-    return true;
+    return !consume || process_resources( true );
 }
 
 bool Character::craft_consume_step_tools( item &craft, const crafting_cost_context *cost_ctx )
