@@ -21,6 +21,7 @@
 class JsonObject;
 class item;
 template <typename T> class generic_factory;
+template <typename E> struct enum_traits;
 
 namespace faults
 {
@@ -37,6 +38,19 @@ std::vector<fault_id> all_of_type( const std::string &type );
 const fault_id &random_of_type( const std::string &type );
 const fault_id &random_of_type_item_has( const item &it, const std::string &type );
 } // namespace faults
+
+enum class fault_severity : int {
+    none,
+    minor,
+    major,
+    critical,
+    last
+};
+
+template<>
+struct enum_traits<fault_severity> {
+    static constexpr auto last = fault_severity::last;
+};
 
 class fault_fix
 {
@@ -81,6 +95,7 @@ class fault
         std::string item_suffix() const;
         std::string message() const;
         std::string color() const;
+        fault_severity severity() const;
         double price_mod() const;
         // having this faults adds this much of temporary (will be removed when fault is fixed) degradation
         int degradation_mod() const;
@@ -114,6 +129,7 @@ class fault
         translation item_suffix_;
         translation message_;
         std::string color_;
+        fault_severity severity_ = fault_severity::none;
         std::set<fault_fix_id> fixes;
         std::set<std::string> flags;
         std::set<fault_id> block_faults;

@@ -1194,6 +1194,30 @@ const std::string &item::symbol() const
     return type->sym;
 }
 
+nc_color item::get_fault_color( const nc_color base_color ) const
+{
+    auto severity = fault_severity::none;
+    for( const fault_id &fault : faults ) {
+        severity = std::max( severity, fault->severity() );
+        if( severity == fault_severity::critical ) {
+            break;
+        }
+    }
+
+    switch( severity ) {
+        case fault_severity::none:
+            return base_color;
+        case fault_severity::minor:
+            return c_light_red;
+        case fault_severity::major:
+            return red_background( c_black );
+        case fault_severity::critical:
+            return yellow_background( c_yellow );
+        default:
+            return base_color;
+    }
+}
+
 nc_color item::color_in_inventory( const Character *const ch ) const
 {
     const Character &player_character = ch ? *ch : get_player_character();
@@ -1380,7 +1404,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
             ret = c_light_red;
         }
     }
-    return ret;
+    return get_fault_color( ret );
 }
 
 void item::handle_pickup_ownership( Character &c )

@@ -450,6 +450,10 @@ class item : public visitable
          */
         nc_color color_in_inventory( const Character *ch = nullptr ) const;
         /**
+         * Returns the base color, overridden when this item has a fault with a defined severity.
+         */
+        nc_color get_fault_color( nc_color base_color ) const;
+        /**
          * Return the (translated) item name.
          * @param quantity used for translation to the proper plural form of the name, e.g.
          * returns "rock" for quantity 1 and "rocks" for quantity > 0.
