@@ -36,6 +36,6 @@
   {
     "type": "effect_on_condition",
     "id": "scenario_xe_permanent_ominous_fog",
-    "effect": [ { "math": [ "xe_weather_ominous_fog_scenario == 1" ] } ]
+    "effect": [ { "math": [ "xe_weather_ominous_fog_scenario = 1" ] } ]
   }
 ]
