@@ -55,6 +55,10 @@
         "values": [
           { "value": "PERCEPTION", "add": { "math": [ "3 + min( (u_effect_intensity('learning_serum_main') ), 5)" ] } },
           { "value": "LEARNING_FOCUS", "add": { "math": [ "u_val('focus') < 60 ? ( 60 - u_val('focus') ) : 0" ] } },
+          {
+            "value": "THEORETICAL_SKILL_CATCHUP_BONUS",
+            "multiply": { "math": [ "0.5 + min( (u_effect_intensity('learning_serum_main') * 0.1 ), 1)" ] }
+          },
           { "value": "SLEEPY", "add": -1000 }
         ]
       },
