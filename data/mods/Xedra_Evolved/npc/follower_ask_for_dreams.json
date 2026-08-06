@@ -80,7 +80,7 @@
   {
     "id": "TALK_PRODUCE_DREAMDROSS",
     "type": "talk_topic",
-    "dynamic_line": "Here's some dreamdross as you asked.",
+    "dynamic_line": "*<npc_name> cups <mypronoun> hands and closes <mypronoun> eyes, and over a few seconds, several fragments of shining metal slowly appear in a soft shimmering light.  <mypronoun> hands them to you.",
     "responses": [
       {
         "text": "[Ask them to produce more dreamdross]",
