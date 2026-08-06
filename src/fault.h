@@ -49,7 +49,7 @@ enum class fault_severity : int {
 
 template<>
 struct enum_traits<fault_severity> {
-    static constexpr auto last = fault_severity::last;
+    static constexpr fault_severity last = fault_severity::last;
 };
 
 class fault_fix

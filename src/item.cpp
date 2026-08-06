@@ -1196,7 +1196,7 @@ const std::string &item::symbol() const
 
 nc_color item::get_fault_color( const nc_color base_color ) const
 {
-    auto severity = fault_severity::none;
+    fault_severity severity = fault_severity::none;
     for( const fault_id &fault : faults ) {
         severity = std::max( severity, fault->severity() );
         if( severity == fault_severity::critical ) {
