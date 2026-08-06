@@ -1,6 +1,6 @@
 [
   {
-    "id": [ "TALK_FRIEND" ],
+    "id": [ "TALK_FRIEND", "TALK_FRIEND_Liam", "TALK_FRIEND_Luo" ],
     "type": "talk_topic",
     "insert_before_standard_exits": true,
     "responses": [
