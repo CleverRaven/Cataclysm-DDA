@@ -12,17 +12,17 @@
 static const ammotype ammo_38( "38" );
 static const ammotype ammo_9mm( "9mm" );
 
+static const fault_id fault_blade_cracked( "fault_blade_cracked" );
+static const fault_id fault_fail_to_feed( "fault_fail_to_feed" );
+static const fault_id fault_overheat_melting( "fault_overheat_melting" );
+static const fault_id fault_overheat_venting( "fault_overheat_venting" );
+
 static const itype_id itype_38_special( "38_special" );
 static const itype_id itype_9mm( "9mm" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_glock_19( "glock_19" );
 static const itype_id itype_glockmag( "glockmag" );
 static const itype_id itype_sw_619( "sw_619" );
-
-static const fault_id fault_blade_cracked( "fault_blade_cracked" );
-static const fault_id fault_fail_to_feed( "fault_fail_to_feed" );
-static const fault_id fault_overheat_melting( "fault_overheat_melting" );
-static const fault_id fault_overheat_venting( "fault_overheat_venting" );
 
 static void prepare_avatar( avatar &u )
 {
