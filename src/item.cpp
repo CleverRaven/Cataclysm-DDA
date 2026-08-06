@@ -1404,7 +1404,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
             ret = c_light_red;
         }
     }
-    return get_fault_color( ret );
+    return ret;
 }
 
 void item::handle_pickup_ownership( Character &c )
@@ -1551,20 +1551,35 @@ void item::update_prefix_suffix_flags( const flag_id &f )
     }
 }
 
-std::string item::tname( unsigned int quantity, bool with_prefix ) const
+std::string item::tname( unsigned int quantity, bool with_prefix, bool color_faults ) const
 {
-    return tname( quantity, with_prefix ? tname::default_tname : tname::unprefixed_tname );
+    return tname( quantity, with_prefix ? tname::default_tname : tname::unprefixed_tname,
+                  color_faults );
 }
 
-std::string item::tname( unsigned int quantity, tname::segment_bitset const &segments ) const
+std::string item::tname( unsigned int quantity, const tname::segment_bitset &segments,
+                         bool color_faults ) const
 {
     std::string ret;
+    size_t fault_color_start = 0;
 
     for( tname::segments idx : tname::get_tname_set() ) {
         if( !segments[idx] ) {
             continue;
         }
         ret += tname::print_segment( idx, *this, quantity, segments );
+
+        if( idx == tname::segments::DURABILITY ) {
+            fault_color_start = ret.size();
+        }
+    }
+
+    if( color_faults ) {
+        const nc_color fault_color = get_fault_color( c_white );
+        if( fault_color != c_white ) {
+            ret = ret.substr( 0, fault_color_start ) +
+                  colorize( ret.substr( fault_color_start ), fault_color );
+        }
     }
 
     if( item_vars.find( "item_note" ) != item_vars.end() ) {
@@ -1596,9 +1611,9 @@ std::string item::display_money( unsigned int quantity, unsigned int total,
     }
 }
 
-std::string item::display_name( unsigned int quantity ) const
+std::string item::display_name( unsigned int quantity, bool color_faults ) const
 {
-    std::string name = tname( quantity );
+    std::string name = tname( quantity, tname::default_tname, color_faults );
     std::string sidetxt;
     std::string amt;
     std::string cable;

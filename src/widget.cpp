@@ -24,8 +24,6 @@
 #include "enum_conversions.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "item.h"
-#include "item_location.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "npc.h"
@@ -1220,7 +1218,6 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
     bool apply_color = true;
     // Don't bother updating the widget's height by default
     bool update_height = false;
-    const item *fault_color_source = nullptr;
     // Some helper display:: functions do their own internal colorization of the string.
     // For those, desc.first is the already-colorized string, and apply_color is set to false.
     switch( _var ) {
@@ -1347,20 +1344,16 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             desc = display::weather_text_color( ava );
             break;
         case widget_var::wielding_text:
-            desc.first = ava.weapname();
-            fault_color_source = ava.get_wielded_item().get_item();
+            desc.first = ava.weapname( true );
             break;
         case widget_var::wielding_simple_text:
-            desc.first = ava.weapname_simple();
-            fault_color_source = ava.get_wielded_item().get_item();
+            desc.first = ava.weapname_simple( true );
             break;
         case widget_var::wielding_mode_text:
             desc.first = ava.weapname_mode();
-            fault_color_source = ava.get_wielded_item().get_item();
             break;
         case widget_var::wielding_ammo_text:
             desc.first = ava.weapname_ammo();
-            fault_color_source = ava.get_wielded_item().get_item();
             break;
         case widget_var::wind_text:
             desc = display::wind_text_color( ava );
@@ -1387,12 +1380,10 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         _height = _height_max; // reset height
     }
     // Colorize if applicable
-    nc_color color = _colors.empty() ? desc.second : _colors.front();
-    if( fault_color_source != nullptr ) {
-        color = fault_color_source->get_fault_color( color );
-    }
-    if( !_colors.empty() || apply_color ) {
-        ret += colorize( desc.first, color );
+    if( !_colors.empty() ) {
+        ret += colorize( desc.first, _colors.front() );
+    } else if( apply_color ) {
+        ret += colorize( desc.first, desc.second );
     } else {
         ret += desc.first;
     }

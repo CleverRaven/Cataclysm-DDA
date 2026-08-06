@@ -1553,9 +1553,9 @@ bool Character::unwield()
     return true;
 }
 
-std::string Character::weapname() const
+std::string Character::weapname( bool color_faults ) const
 {
-    std::string name = weapname_simple();
+    std::string name = weapname_simple( color_faults );
     const std::string mode = weapname_mode();
     const std::string ammo = weapname_ammo();
 
@@ -1569,7 +1569,7 @@ std::string Character::weapname() const
     return name;
 }
 
-std::string Character::weapname_simple() const
+std::string Character::weapname_simple( bool color_faults ) const
 {
     //To make wield state consistent, gun_nam; when calling tname, is disabling 'with_collapsed' flag
     if( weapon.is_gun() ) {
@@ -1577,13 +1577,14 @@ std::string Character::weapname_simple() const
         const bool no_mode = !current_mode.target;
         tname::segment_bitset segs( tname::default_tname );
         segs.reset( tname::segments::TAGS );
-        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname( 1, segs );
+        std::string gun_name = no_mode ? weapon.display_name( 1, color_faults ) :
+                               current_mode->tname( 1, segs, color_faults );
         return gun_name;
 
     } else if( !is_armed() ) {
         return _( "fists" );
     } else {
-        return weapon.tname();
+        return weapon.tname( 1, tname::default_tname, color_faults );
     }
 }
 
