@@ -25,6 +25,7 @@
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
+#include "item_location.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "npc.h"
