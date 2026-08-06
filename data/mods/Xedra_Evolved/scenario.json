@@ -160,6 +160,7 @@
       "sloc_bikeshop",
       "sloc_petstore"
     ],
+    "requirement": "achievement_survive_28_days",
     "eoc": [ "scenario_xe_permanent_ominous_fog" ],
     "flags": [ "LONE_START" ]
   }
