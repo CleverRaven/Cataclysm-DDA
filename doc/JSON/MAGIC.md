@@ -1094,6 +1094,7 @@ Character status value  | Description
 `STOMACH_SIZE_MULTIPLIER`   | Changes how much food you can consume at once. `"add": 1000` adds 1 L to stomach size
 `STRENGTH`              | Affects the strength stat. Formula for all stat affecting enchantments are `(base_stat + enchantment_addition) * (enchantment_multiplier + 1)`. Str 8 with enchantment `add 2, multiply 1` result in `(8+2) * (1+1) = 10 * 2 =` 20 str
 `SWEAT_MULTIPLIER`      | Affects how much your body can sweat. Affects all bodyparts at once. Since it's a percent, using `multiply` is recommended.
+`THEORETICAL_SKILL_CATCHUP_BONUS` | Affects how quickly practical skill catches up to theoretical skill. The default value this modifies is 2, so `add` is extremely powerful.
 `THIRST`                | 
 `THROW_STR`             | Increases your strength for throwing purposes. Not limited by your throwing skill (you still throw it as precise as your skill allows you, just further). Only additive. Rule of thumb: one additional point of strength allow you to throw 113 g object 10 tiles further, or 1130 g object 1 tile further, limited by [ str * 3 + skill ]. Full calculations are in Character::throw_range
 `THROW_DAMAGE`          | Increases the damage of any thrown projectile. `add` adds this amount of damage to the projectile as bash damage, `multiply` would increase all projectile damage, not only bash type.
