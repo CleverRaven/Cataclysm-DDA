@@ -70,7 +70,7 @@
         "if": { "and": [ "u_can_see", "u_is_outside" ] },
         "then": [
           {
-            "u_message": "The fog shrouds everything, muffling sounds and making it almost impossible to distinguish anything in the distance.  You have a bad feelinga about this.",
+            "u_message": "The fog shrouds everything, muffling sounds and making it almost impossible to distinguish anything in the distance.  You have a bad feeling about this.",
             "type": "info"
           }
         ]
