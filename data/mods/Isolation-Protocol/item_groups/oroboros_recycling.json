@@ -1,0 +1,66 @@
+[
+  {
+    "type": "item_group",
+    "id": "iso_crafter_weapon_recyclable_small",
+    "//": "Pistols and pistol-caliber rifles without much armor penetration or standout damage",
+    "items": [
+        { "group": "guns_pistol_common_display_9mm", "prob": 74 },
+        { "group": "guns_rifle_common_display_9mm", "prob": 74 },
+        { "group": "guns_pistol_common_display_22", "prob": 64 },
+        { "group": "guns_rifle_common_display_22", "prob": 10 },
+        { "group": "guns_pistol_common_display_45acp", "prob": 20 },
+        { "group": "guns_rifle_common_display_45acp", "prob": 20 },
+        { "group": "guns_pistol_common_display_380", "prob": 28 },
+        { "group": "guns_pistol_rifle_display_380", "prob": 28 },
+        { "group": "guns_pistol_common_display_40", "prob": 19 },
+        { "group": "guns_pistol_common_display_357mag", "prob": 12 },
+        { "group": "guns_pistol_common_display_38", "prob": 11 },
+        { "group": "guns_pistol_common_display_44", "prob": 1 },
+        { "group": "guns_pistol_rifle_display_44", "prob": 1 },
+        { "group": "guns_pistol_common_display_10mm", "prob": 1 },
+        { "group": "guns_pistol_common_display_32", "prob": 1 },
+        { "group": "guns_pistol_common_display_45colt", "prob": 1 },
+        { "group": "guns_pistol_common_display_38super", "prob": 1 }
+      ]
+  },
+  {
+    "type": "item_group",
+    "id": "iso_crafter_weapon_recyclable_medium",
+    "//": "Pistols with armor penetration or standout damage, most rifles and shotguns",
+    "items": [
+        { "group": "guns_pistol_common_display_57", "prob": 2 },
+        { "group": "guns_pistol_common_display_460", "prob": 2 },
+        { "item": "bfr", "prob": 4 },
+        { "item": "raging_bull", "prob": 4 },
+        { "item": "sw_500", "prob": 7 },
+        { "group": "modular_deagle_50", "prob": 2 },
+        { "group": "guns_rifle_common_display_223", "prob": 2 },
+        { "group": "guns_rifle_common_display_762", "prob": 2 },
+        { "group": "guns_rifle_common_display_3006", "prob": 149 },
+        { "group": "guns_rifle_common_display_357", "prob": 108 },
+        { "group": "guns_rifle_common_display_44", "prob": 81 },
+        { "group": "guns_rifle_common_display_3030", "prob": 76 },
+        { "group": "guns_rifle_common_display_762R", "prob": 70 },
+        { "group": "guns_rifle_common_display_270win", "prob": 57 },
+        { "group": "guns_rifle_common_display_300winmag", "prob": 57 },
+        { "group": "guns_rifle_common_display_300blk", "prob": 57 },
+        { "group": "guns_rifle_common_display_4570", "prob": 18 },
+        { "group": "guns_rifle_common_display_30carbine", "prob": 17 },
+        { "group": "guns_rifle_common_display_303", "prob": 16 },
+        { "group": "guns_rifle_common_display_338", "prob": 14 },
+        { "group": "guns_rifle_common_display_57", "prob": 3 },
+        { "group": "guns_rifle_common_display_545", "prob": 3 },
+        { "group": "guns_rifle_common_display_7mm_arisaka", "prob": 2 },
+        { "group": "guns_shotgun_common_display", "prob": 2 }
+      ]
+  },
+  {
+    "type": "item_group",
+    "id": "iso_crafter_weapon_recyclable_large",
+    "//": "Powerful rifles, effective automatic weapons",
+    "items": [
+        { "group": "guns_rifle_common_display_450", "prob": 2 },
+        { "group": "guns_rifle_common_display_50beowulf", "prob": 2 },
+      ]
+  },
+]
