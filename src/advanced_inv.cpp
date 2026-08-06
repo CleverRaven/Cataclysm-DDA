@@ -46,6 +46,7 @@
 #include "item_category.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_tname.h"
 #include "itype.h"
 #include "localized_comparator.h"
 #include "map.h"
