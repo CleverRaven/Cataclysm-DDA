@@ -43,6 +43,7 @@ enum class mod : int {
     INTELLIGENCE,
     SPEED,
     ATTACK_SPEED, // affects attack speed of item even if it's not the one you're wielding
+    AIMING_SPEED,
     MOVE_COST,
     METABOLISM,
     MAX_MANA,

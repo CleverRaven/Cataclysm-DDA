@@ -1854,7 +1854,7 @@ static void do_aim( Character &you, const item &relevant, const Target_attribute
                     const double min_recoil )
 {
     const aim_mods_cache aim_cache = you.gen_aim_mods_cache( relevant );
-    const double aim_amount = you.aim_per_move( relevant, you.recoil, target, aim_cache );
+    const double aim_amount = you.calculate_by_enchantment( you.aim_per_move( relevant, you.recoil, target, aim_cache ), enchant_vals::mod::AIMING_SPEED );
     if( aim_amount > 0 && you.recoil > min_recoil ) {
         // Increase aim at the cost of moves
         you.mod_moves( -1 );
