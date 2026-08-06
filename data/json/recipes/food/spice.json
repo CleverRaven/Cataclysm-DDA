@@ -337,17 +337,25 @@
   },
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
     "result": "sugar",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
-    "time": "9 m",
     "autolearn": true,
-    "batch_time_factors": [ 20, 1 ],
+    "steps": [
+      {
+        "name": "Boiling",
+        "time": "9 m",
+        "//": "When overcooked, sugar caramelises before it's burnt",
+        "max_time": "14 m",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ { "id": "BOIL", "level": 1 } ],
+        "tools": [ [ [ "water_boiling_heat", 7, "LIST" ] ] ],
+        "batch_time_factors": [ 20, 1 ],
+        "attention": "unattended"
+      }
+    ],
     "charges": 10,
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "sweet_water", 1 ] ] ]
   },
   {
