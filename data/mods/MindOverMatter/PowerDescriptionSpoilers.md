@@ -1737,7 +1737,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Prerequisites*: Immunostimulus 7<br />
 </details>
 <details>
-<summary><h3>Durability (C)</h3></summary>
+<summary><h3>Augment Durability (C)</h3></summary>
 
 *Difficulty*: 5<br />
 *Target*: Self<br />
