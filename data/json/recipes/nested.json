@@ -6921,10 +6921,7 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".338 Lapua Magnum ammo",
     "description": "Recipes related to reloading .338 Lapua Magnum ammo.",
-    "nested_category_data": [
-      "reloaded_338lapua_hpbt",
-      "bp_338lapua_hpbt"
-    ]
+    "nested_category_data": [ "reloaded_338lapua_hpbt", "bp_338lapua_hpbt" ]
   },
   {
     "id": "nested_3030",
