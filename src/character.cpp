@@ -1096,7 +1096,6 @@ double Character::aim_per_move( const item &gun, double recoil,
     // Never improve by more than the currently used sights permit.
     aim_speed = std::min( aim_speed, recoil - limit );
 
-    // Finally, adjust for the AIMING_SPEED enchant
     return aim_speed = calculate_by_enchantment( aim_speed, enchant_vals::mod::AIMING_SPEED );
 }
 
