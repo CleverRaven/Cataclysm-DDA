@@ -334,7 +334,7 @@
     "fault_type": "mechanical_damage",
     "name": { "str": "Broken shaft" },
     "degradation_mod": 100,
-    "description": "The pipe shaft of the %1$s has broken in half, you can still weild by holding onto the second pipe though, albeit it's very awkward and unwealdy.",
+    "description": "The pipe shaft of the %1$s has broken in half, you can still wield by holding onto the second pipe though, albeit it's very awkward and unwieldy.",
     "item_suffix": "broken shaft",
     "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.4 }, { "damage_id": "cut", "multiply": 0.4 } ]
   },
