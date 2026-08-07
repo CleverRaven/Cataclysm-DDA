@@ -46,6 +46,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "localized_comparator.h"
+#include "magic_type.h"
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
@@ -66,6 +67,7 @@
 #include "ui_manager.h"
 #include "uilist.h"
 #include "uistate.h"
+#include "vitamin.h"
 
 static const efftype_id effect_contacts( "contacts" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
@@ -520,6 +522,7 @@ class crafting_ui_impl : public cataimgui::window
                               const std::function<bool( const item & )> &filter,
                               int batch_size,
                               bool need_full_magazine );
+        void draw_character_resources( const recipe &recp, int batch_size ) const;
         void draw_item_info_panel();
         void draw_status_header();
         void draw_hidden_count();
@@ -1281,8 +1284,11 @@ void crafting_ui_impl::draw_recipe_info_panel()
         }
 
         // --- Recipe ---
-        const bool has_recipe_content = !recp.is_nested() &&
-                                        ( !recp.simple_requirements().is_empty() || recp.has_steps() );
+        const bool has_recipe_content = !recp.is_nested() && (
+                                            !recp.simple_requirements().is_empty() ||
+                                            recp.has_steps() ||
+                                            !recp.get_character_resources().empty()
+                                        );
         if( has_recipe_content ) {
             ImGui::NewLine();
             {
@@ -1433,6 +1439,8 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 draw_requirement_tools( recp.simple_requirements(), crafting_inv,
                                         batch_size, 0 );
             }
+
+            draw_character_resources( recp, batch_size );
 
             // Helpers who know this recipe
             if( !crafter->knows_recipe( &recp ) ) {
@@ -1983,6 +1991,36 @@ void crafting_ui_impl::draw_components( const requirement_data &req,
             }
         }
         ImGui::Dummy( ImVec2( 0, 0 ) );
+    }
+}
+
+void crafting_ui_impl::draw_character_resources( const recipe &recp, const int batch_size ) const
+{
+    const character_resource_costs &resources = recp.get_character_resources();
+    if( resources.empty() ) {
+        return;
+    }
+
+    ImGui::TextColored( cataimgui::imvec4_from_color( c_white ), "%s", _( "Character resources:" ) );
+
+    const auto draw_resource = [&]( const int amount, const int available, const std::string & name ) {
+        if( amount == 0 ) {
+            return;
+        }
+        const int total = amount * batch_size;
+        const nc_color color = available >= total ? c_white : c_yellow;
+        ImGui::TextColored( cataimgui::imvec4_from_color( color ), "  \u2022 %d %s", total,
+                            name.c_str() );
+    };
+
+    draw_resource( resources.mana,
+                   crafter->craft_character_resource_available( magic_energy_type::mana ), _( "mana" ) );
+    draw_resource( resources.stamina,
+                   crafter->craft_character_resource_available( magic_energy_type::stamina ), _( "stamina" ) );
+
+    for( const vitamin_resource_cost &resource : resources.vitamins ) {
+        draw_resource( resource.value, crafter->craft_vitamin_available( resource ),
+                       resource.vitamin.obj().name() );
     }
 }
 

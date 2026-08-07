@@ -7,6 +7,7 @@
 #include <memory>
 #include <numeric>
 #include <optional>
+#include <set>
 #include <sstream>
 #include <unordered_map>
 
@@ -351,6 +352,8 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
 
     optional( jo, was_loaded, "difficulty", difficulty, numeric_bound_reader<int> {0, MAX_SKILL} );
     optional( jo, was_loaded, "flags", flags );
+
+    optional( jo, was_loaded, "character_resources", character_resources );
 
     // automatically set contained if we specify as container
     optional( jo, was_loaded, "contained", contained, false );
@@ -2189,6 +2192,30 @@ void batch_savings::deserialize( const JsonValue &jv )
         data = ret;
     } else {
         jo.throw_error( string_format( "Unrecognized mode %s", mode ) );
+    }
+}
+
+void vitamin_resource_cost::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "vitamin", vitamin );
+    mandatory( jo, false, "value", value, numeric_bound_reader<int> { 0 } );
+    optional( jo, false, "safe_level", safe_level );
+}
+
+void character_resource_costs::deserialize( const JsonObject &jo )
+{
+    *this = {};
+
+    optional( jo, false, "mana", mana, numeric_bound_reader<int> { 0 } );
+    optional( jo, false, "stamina", stamina, numeric_bound_reader<int> { 0 } );
+    optional( jo, false, "vitamins", vitamins );
+
+    std::set<vitamin_id> loaded_vitamins;
+    for( const vitamin_resource_cost &resource : vitamins ) {
+        if( !loaded_vitamins.insert( resource.vitamin ).second ) {
+            jo.throw_error( string_format( "duplicate vitamin character resource '%s'",
+                                           resource.vitamin.str() ) );
+        }
     }
 }
 

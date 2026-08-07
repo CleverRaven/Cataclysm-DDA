@@ -67,6 +67,27 @@ struct recipe_proficiency {
     void deserialize( const JsonObject &jo );
 };
 
+
+struct vitamin_resource_cost {
+    vitamin_id vitamin;
+    int value = 0;
+    std::optional<int> safe_level;
+
+    void deserialize( const JsonObject &jo );
+};
+
+struct character_resource_costs {
+    int mana = 0;
+    int stamina = 0;
+    std::vector<vitamin_resource_cost> vitamins;
+
+    bool empty() const {
+        return mana == 0 && stamina == 0 && vitamins.empty();
+    }
+
+    void deserialize( const JsonObject &jo );
+};
+
 struct book_recipe_data {
     int skill_req = -1;
     std::optional<translation> alt_name = std::nullopt;
@@ -236,6 +257,11 @@ class recipe
             return id;
         }
 
+        /** Returns the character resource costs required to complete this recipe. */
+        const character_resource_costs &get_character_resources() const {
+            return character_resources;
+        }
+
         bool is_blacklisted() const {
             return requirements_.is_blacklisted();
         }
@@ -272,6 +298,8 @@ class recipe
         std::pair<int, time_duration> morale_modifier;
         skill_id skill_used;
         std::map<skill_id, int> required_skills;
+        /** Character resource costs required to complete this recipe */
+        character_resource_costs character_resources;
         // For step recipes, use get_proficiencies() instead -- this field is empty.
         std::vector<recipe_proficiency> proficiencies;
 
