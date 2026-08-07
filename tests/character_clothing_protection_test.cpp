@@ -1,17 +1,18 @@
 #include <map>
+#include <optional>
 
 #include "avatar.h"
 #include "bodypart.h"
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
-#include "character.h"
 #include "coordinates.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_iterator.h"
 #include "options_helpers.h"
-#include "point.h"
 #include "player_helpers.h"
+#include "point.h"
 #include "type_id.h"
 #include "units.h"
 #include "weather.h"
