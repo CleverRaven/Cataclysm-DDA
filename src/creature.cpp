@@ -1290,7 +1290,7 @@ void Creature::messaging_projectile_attack( const Creature *source,
             //~ Hit message. 2$d is damage value.
                 add_msg_if_player( m_bad, _( "You were hit for %2$d total damage." ) );
             } else {
-            //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
+                //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
                 add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
                                    body_part_name_accusative( hit_selection.bp_hit ),
                                    total_damage );
