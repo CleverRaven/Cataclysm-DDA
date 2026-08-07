@@ -120,6 +120,7 @@
     "volume": "1750 ml",
     "price": "160 USD",
     "melee_damage": { "bash": 22 },
+    "faults": [ { "fault_group": "aluminum_bat" } ],
     "weapon_category": [ "MACES" ]
   },
   {
@@ -165,7 +166,8 @@
     "use_action": { "menu_text": "Expand", "type": "transform", "target": "baton-extended", "msg": "You snap open your baton." },
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "price": "229 USD",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "faults": [ { "fault_group": "batons" } ]
   },
   {
     "type": "ITEM",
@@ -1626,7 +1628,8 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "price": "300 USD",
     "price_postapoc": "7 USD 50 cent",
-    "melee_damage": { "bash": 14 }
+    "melee_damage": { "bash": 14 },
+    "faults": [ { "fault_group": "batons" } ]
   },
   {
     "type": "ITEM",
@@ -1646,7 +1649,8 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price": "300 USD",
     "price_postapoc": "7 USD 50 cent",
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "faults": [ { "fault_group": "batons" } ]
   },
   {
     "type": "ITEM",
@@ -1856,6 +1860,7 @@
       }
     ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "tonfas" } ],
     "weapon_category": [ "BATONS" ],
     "pocket_data": [
       {
@@ -1905,6 +1910,7 @@
     "material": [ "plastic" ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "tonfas" } ],
     "weapon_category": [ "BATONS" ],
     "volume": "2 L",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "good" },
@@ -1948,6 +1954,7 @@
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -39 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "SHEATH_AXE", "ALWAYS_TWOHAND" ],
+    "faults": [ { "fault_group": "ax_sheets" } ],
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
     "melee_damage": { "bash": 18, "cut": 24 }
   },

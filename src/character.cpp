@@ -1094,7 +1094,9 @@ double Character::aim_per_move( const item &gun, double recoil,
     aim_speed = std::max( aim_speed, MIN_RECOIL_IMPROVEMENT );
 
     // Never improve by more than the currently used sights permit.
-    return std::min( aim_speed, recoil - limit );
+    aim_speed = std::min( aim_speed, recoil - limit );
+
+    return calculate_by_enchantment( aim_speed, enchant_vals::mod::AIMING_SPEED );
 }
 
 void Character::mod_free_dodges( int added )
