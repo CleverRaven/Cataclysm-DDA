@@ -165,7 +165,7 @@ static const json_character_flag json_flag_BIONIC_SHOCKPROOF( "BIONIC_SHOCKPROOF
 static const json_character_flag json_flag_BLIND( "BLIND" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_CANNOT_GAIN_WEARINESS( "CANNOT_GAIN_WEARINESS" );
-static const json_character_flag json_flag_CANNOT_SLEEP( "CANNOT_SLEEP");
+static const json_character_flag json_flag_CANNOT_SLEEP( "CANNOT_SLEEP" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
