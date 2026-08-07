@@ -5413,7 +5413,7 @@ void Character::fall_asleep( const time_duration &duration )
             cancel_activity();
         }
     }
-    if( !has_flag( json_flag_CANNOT_SLEEP ) ) {
+    if( has_flag( json_flag_CANNOT_SLEEP ) ) {
         add_msg_if_player( m_info, _( "You cannot sleep!" ) );
         cancel_activity();
     } else {
