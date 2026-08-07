@@ -1770,7 +1770,7 @@ void Character::check_needs_extremes()
                 add_effect( effect_lack_sleep, 30_minutes + 1_turns );
             }
             /** @EFFECT_INT slightly decreases occurrence of short naps when exhausted */
-            if( one_in( 100 + get_int() ) && !has_flag( json_flag_CANNOT_SLEEP) ) {
+            if( one_in( 100 + get_int() ) && !has_flag( json_flag_CANNOT_SLEEP ) ) {
                 fall_asleep( 30_seconds );
             }
         } else if( get_sleepiness() >= sleepiness_levels::DEAD_TIRED &&
