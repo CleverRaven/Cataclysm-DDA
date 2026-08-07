@@ -1874,7 +1874,6 @@ Pocket options: allow interacting with a pocket with hidden contents (fixes cras
 Allow NPCs to sleep during free_time
 NPCs default to allow_sleep ally rule
 Display multiple like items in car part removal on the same line with a count
-Megacity world generation fix
 Scared NPCs don't turn hostile
 Preserve character-specific auto-pickup rules between sessions
 
