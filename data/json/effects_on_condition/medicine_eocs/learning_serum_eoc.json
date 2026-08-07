@@ -100,7 +100,7 @@
         }
       }
     ],
-    "flags": [ "MYOPIC_IN_LIGHT" ]
+    "flags": [ "MYOPIC_IN_LIGHT", "CANNOT_SLEEP" ]
   },
   {
     "type": "effect_type",
