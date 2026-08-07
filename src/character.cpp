@@ -7002,7 +7002,8 @@ void Character::stagger()
     }
 }
 
-bool Character::can_sleep() {
+bool Character::can_sleep()
+{
 
     if( has_flag( json_flag_CANNOT_SLEEP ) ) {
         // Sleep ain't happening
