@@ -1397,7 +1397,7 @@
               }
             ],
             "false_effect": [
-              { "u_message": "You don't have enough blood to activate cloak of shadows.", "type": "bad" },
+              { "u_message": "You don't have enough blood to activate your cloak of shadows.", "type": "bad" },
               { "run_eocs": "EOC_VAMPIRIC_STEALTH_BONUS_deactivate_future", "time_in_future": 0 }
             ]
           }
