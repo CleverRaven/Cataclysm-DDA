@@ -509,6 +509,36 @@
     "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
     "//2": "This group always has a chance of being the result, regardless of mission type.",
     "monsters": [
+      {
+        "monster": "mon_null", 
+        "weight": 20
+        "conditions": [ "WINTER" ]
+      },
+      {
+        "monster": "mon_null", 
+        "weight": 5,
+        "starts": "14 days"
+      },
+      {
+        "monster": "mon_null", 
+        "weight": 5,
+        "starts": "28 days"
+      },
+      {
+        "monster": "mon_null", 
+        "weight": 5,
+        "starts": "90 days"
+      },
+      {
+        "monster": "mon_null", 
+        "weight": 5,
+        "starts": "180 days"
+      },
+      {
+        "monster": "mon_null", 
+        "weight": 5,
+        "starts": "365 days"
+      },
       { "group": "GROUP_BEAVER", "weight": 10 },
       { "monster": "mon_fox_red", "weight": 10 },
       { "monster": "mon_fox_gray", "weight": 10 },
@@ -524,6 +554,36 @@
     "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
     "//2": "This group can only be picked from when the trapping mission is used, in addition to GROUP_CAMP_HUNTING.",
     "monsters": [
+      {
+        "monster": "mon_null", 
+        "weight": 40
+        "conditions": [ "WINTER" ]
+      },
+      {
+        "monster": "mon_null", 
+        "weight": 10,
+        "starts": "14 days"
+      },
+      {
+        "monster": "mon_null", 
+        "weight": 10,
+        "starts": "28 days"
+      },
+      {
+        "monster": "mon_null", 
+        "weight": 10,
+        "starts": "90 days"
+      },
+      {
+        "monster": "mon_null", 
+        "weight": 10,
+        "starts": "180 days"
+      },
+      {
+        "monster": "mon_null", 
+        "weight": 10,
+        "starts": "365 days"
+      },
       { "monster": "mon_black_rat", "weight": 40 },
       { "monster": "mon_chipmunk", "weight": 30 },
       { "monster": "mon_groundhog", "weight": 30 },
@@ -543,6 +603,36 @@
     "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
     "//2": "This group can only be picked from when the hunt large animals mission is used, in addition to GROUP_CAMP_HUNTING.",
     "monsters": [
+      {
+        "monster": "mon_null", 
+        "weight": 5
+        "conditions": [ "WINTER" ]
+      },
+      {
+        "monster": "mon_null", 
+        "weight": 2,
+        "starts": "14 days"
+      },
+      {
+        "monster": "mon_null", 
+        "weight": 3,
+        "starts": "28 days"
+      },
+      {
+        "monster": "mon_null", 
+        "weight": 3,
+        "starts": "90 days"
+      },
+      {
+        "monster": "mon_null", 
+        "weight": 5,
+        "starts": "180 days"
+      },
+      {
+        "monster": "mon_null", 
+        "weight": 5,
+        "starts": "365 days"
+      },
       { "monster": "mon_grouse", "weight": 2 },
       { "monster": "mon_pheasant", "weight": 2 },
       { "monster": "mon_turkey", "weight": 10 },
