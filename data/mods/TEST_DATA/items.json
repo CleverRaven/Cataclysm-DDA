@@ -6402,5 +6402,20 @@
       { "id": "direct", "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 40 } }
     ],
     "consumption_per_use": [ { "pocket": "well", "qty": 5 }, { "pocket": "direct", "qty": 3 } ]
+  },
+  {
+    "id": "test_protective_clothing",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": "TEST protective clothing",
+    "description": "Clothing for testing protection from environmental effects.",
+    "weight": "100 g",
+    "volume": "500 ml",
+    "material": [ "test_protective_clothing_material" ],
+    "symbol": "[",
+    "color": "white",
+    "material_thickness": 1,
+    "flags": [ "WATERPROOF" ],
+    "armor": [ { "coverage": 100, "covers": [ "torso" ] } ]
   }
 ]

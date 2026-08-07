@@ -400,10 +400,6 @@ void wet_character( Character &target, int amount )
     if( !calendar::once_every( 6_seconds ) ) {
         return;
     }
-    std::map<bodypart_id, std::vector<const item *>> clothing_map;
-    for( const bodypart_id &bp : target.get_all_body_parts() ) {
-        clothing_map.emplace( bp, std::vector<const item *>() );
-    }
     std::map<bodypart_id, int> warmth_bp = target.worn.warmth( target );
     const int warmth_delay = warmth_bp[body_part_torso] * 0.8 +
                              warmth_bp[body_part_head] * 0.2;

@@ -709,41 +709,17 @@ std::pair<int, int> Character::climate_control_strength() const
     return { power_heat, power_chill };
 }
 
-std::map<bodypart_id, int> Character::get_wind_resistance( const std::map <bodypart_id,
-        std::vector<const item *>> &clothing_map ) const
+std::map<bodypart_id, int> Character::get_wind_resistance() const
 {
-
-    std::map<bodypart_id, int> ret;
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        ret.emplace( bp, 0 );
-    }
-    bool in_shell = has_active_mutation( trait_SHELL2 ) ||
-                    has_active_mutation( trait_SHELL3 );
+    std::map<bodypart_id, int> ret = worn.wind_resistance( *this );
+    const bool in_shell = has_active_mutation( trait_SHELL2 ) ||
+                          has_active_mutation( trait_SHELL3 );
     // Your shell provides complete wind protection if you're inside it
-    if( in_shell ) { // NOLINT(bugprone-branch-clone)
+    if( in_shell ) {
         for( std::pair<const bodypart_id, int> &this_bp : ret ) {
             this_bp.second = 100;
         }
-        return ret;
     }
-
-    for( const std::pair<const bodypart_id, std::vector<const item *>> &on_bp : clothing_map ) {
-        const bodypart_id &bp = on_bp.first;
-
-        int coverage = 0;
-        float totalExposed = 1.0f;
-        int penalty = 100;
-
-        for( const item *it : on_bp.second ) {
-            const item &i = *it;
-            penalty = 100 - i.wind_resist();
-            coverage = std::max( 0, i.get_coverage( bp ) - penalty );
-            totalExposed *= ( 1.0 - coverage / 100.0 ); // Coverage is between 0 and 1?
-        }
-
-        ret[bp] = 100 - totalExposed * 100;
-    }
-
     return ret;
 }
 
