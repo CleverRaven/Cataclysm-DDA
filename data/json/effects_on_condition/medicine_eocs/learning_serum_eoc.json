@@ -44,7 +44,7 @@
       "You just took a shot of some weird stuff.  You feel sleepy, nauseous, and generally weak, but your wounds are closing up at an unnatural pace."
     ],
     "apply_message": "Without hesitation, you draw the liquid from the ampule, smack it a bit to release any air, and inject it right into a vein, hoping it won't kill you.",
-    "remove_message": "Your thoughts slow gradually and the world seems .",
+    "remove_message": "Your thoughts slow gradually.",
     "rating": "mixed",
     "max_intensity": 100,
     "int_add_val": 1,
@@ -59,7 +59,8 @@
             "value": "THEORETICAL_SKILL_CATCHUP_BONUS",
             "multiply": { "math": [ "0.5 + min( (u_effect_intensity('learning_serum_main') * 0.1 ), 1)" ] }
           },
-          { "value": "SLEEPY", "add": -1000 }
+          { "value": "SLEEPY", "add": -1000 },
+          { "value": "METABOLISM", "multiply": 0.2 }
         ]
       },
       {
@@ -67,12 +68,35 @@
         "ench_effects": [ { "effect": "learning_serum_light_pain", "intensity": 1 } ]
       },
       {
-        "condition": {  },
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "(u_monsters_nearby('radius': 35, 'attitude': 'hostile') + u_characters_nearby('radius': 35, 'attitude': 'not_allies') ) > 0"
+              ]
+            }
+          ]
+        },
         "intermittent_activation": {
           "effects": [
             { "frequency": "7 seconds", "spell_effects": [ { "id": "learning_serum_time_slow_perception_spell" } ] },
             { "frequency": "19 seconds", "spell_effects": [ { "id": "learning_serum_time_slow_perception_spell" } ] }
           ]
+        }
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "(u_monsters_nearby('radius': 35, 'attitude': 'hostile') + u_characters_nearby('radius': 35, 'attitude': 'not_allies') ) > 0"
+              ]
+            },
+            { "math": [ "u_effect_intensity('learning_serum_main') >= 3" ] }
+          ]
+        },
+        "intermittent_activation": {
+          "effects": [ { "frequency": "13 seconds", "spell_effects": [ { "id": "learning_serum_time_slow_perception_spell" } ] } ]
         }
       }
     ],
@@ -119,7 +143,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LEARNING_SERUM_SLOW_TIME_EFFECT",
-    "condition": { "not": { "u_has_effect": "regen_serum_slow_time" } },
+    "condition": { "and": [ { "x_in_y_chance": { "x": 1, "y": 5 } }, { "not": { "u_has_effect": "regen_serum_slow_time" } } ] },
     "effect": [ { "u_add_effect": "regen_serum_slow_time", "duration": [ "3 s", "10 s" ] } ]
   },
   {
