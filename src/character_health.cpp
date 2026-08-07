@@ -1739,7 +1739,8 @@ void Character::check_needs_extremes()
 
     // Check if we're falling asleep, unless we're sleeping
     if( get_sleepiness() >= sleepiness_levels::EXHAUSTED + 25 && !in_sleep_state() ) {
-        if( get_sleepiness() >= sleepiness_levels::MASSIVE_SLEEPINESS && !has_flag( json_flag_CANNOT_SLEEP ) ) {
+        if( get_sleepiness() >= sleepiness_levels::MASSIVE_SLEEPINESS &&
+            !has_flag( json_flag_CANNOT_SLEEP ) ) {
             add_msg_if_player( m_bad, _( "Survivor sleep now." ) );
             get_event_bus().send<event_type::falls_asleep_from_exhaustion>( getID() );
             mod_sleepiness( -10 );
