@@ -7002,10 +7002,10 @@ void Character::stagger()
     }
 }
 
-bool Character::can_sleep()
-{
-    if( has_effect( effect_meth ) ) {
-        // Sleep ain't happening until that meth wears off completely.
+bool Character::can_sleep() {
+
+    if( has_flag( json_flag_CANNOT_SLEEP ) ) {
+        // Sleep ain't happening
         return false;
     }
 

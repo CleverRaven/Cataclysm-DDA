@@ -1877,6 +1877,7 @@
     "mixed_effect": true,
     "starting_trait": true,
     "valid": false,
+    "flags": [ "CANNOT_SLEEP" ],
     "enchantments": [
       {
         "values": [
