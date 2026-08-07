@@ -747,7 +747,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Complete",
     "type": "talk_topic",
-    "dynamic_line": { "//~": "Give me a second, and I'll bring them here.", "str": "Gimme spek, 'n  fetch 'em 'ere." },
+    "dynamic_line": { "//~": "Give me a second, and I'll bring them here.", "str": "Gimme spek, 'n fetch 'em 'ere." },
     "responses": [
       {
         "text": "Of course, it is time for us to talk.",

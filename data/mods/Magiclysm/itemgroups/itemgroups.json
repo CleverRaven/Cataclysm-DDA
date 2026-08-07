@@ -1157,7 +1157,7 @@
   },
   {
     "id": "enchanted_worn_items",
-    "//": "A distribution of wearable magical items for  loot areas like dressers, wardrobes, coat racks.",
+    "//": "A distribution of wearable magical items for loot areas like dressers, wardrobes, coat racks.",
     "type": "item_group",
     "subtype": "distribution",
     "items": [

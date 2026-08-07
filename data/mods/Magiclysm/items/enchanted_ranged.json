@@ -45,7 +45,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "M47A1 Techno-Medusa", "str_pl": "M47A1 Techno-Medusae" },
-    "description": "A magically-enhanced update to the Phillips & Rodgers' M47 Medusa, a  multi-caliber revolver aimed at survivalists.  While Technomancy improves the reliability with smaller cartridges, it is not as accurate as dedicated caliber revolvers due to freebore.",
+    "description": "A magically-enhanced update to the Phillips & Rodgers' M47 Medusa, a multi-caliber revolver aimed at survivalists.  While Technomancy improves the reliability with smaller cartridges, it is not as accurate as dedicated caliber revolvers due to freebore.",
     "weight": "1333 g",
     "volume": "450 ml",
     "longest_side": "25 cm",

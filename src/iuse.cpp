@@ -7558,6 +7558,7 @@ static bool multicooker_hallu( Character &p )
 
 }
 
+// Remove after 0.J.
 std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub_ms &pos )
 {
     map &here = get_map();
@@ -7858,6 +7859,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
     return 0;
 }
 
+// Remove after 0.J
 std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoint_bub_ms &pos )
 {
     map &here = get_map();

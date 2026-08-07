@@ -122,6 +122,7 @@ static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
+static const json_character_flag json_flag_INFECTION_RECOVERY( "INFECTION_RECOVERY" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_PAUSE_BODYPART_INFECTION( "PAUSE_BODYPART_INFECTION" );
 static const json_character_flag json_flag_PAUSE_INFECTIONS( "PAUSE_INFECTIONS" );
@@ -1535,6 +1536,9 @@ void Character::hardcoded_effects( effect &it )
                 recover_factor -= get_effect_dur( effect_recover ) / 1_hours;
             }
             if( has_trait( trait_INFRESIST ) ) {
+                recover_factor += 200;
+            }
+            if( has_flag( json_flag_INFECTION_RECOVERY ) ) {
                 recover_factor += 200;
             }
             if( has_effect( effect_panacea ) ) {

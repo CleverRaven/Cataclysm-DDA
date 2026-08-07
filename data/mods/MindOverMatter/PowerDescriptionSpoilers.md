@@ -1737,6 +1737,17 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Prerequisites*: Immunostimulus 7<br />
 </details>
 <details>
+<summary><h3>Augment Durability (C)</h3></summary>
+
+*Difficulty*: 5<br />
+*Target*: Self<br />
+*Duration*: 18 minutes and 4 seconds to 48 minutes and 28 seconds, plus 4 minutes and 41 seconds to 11 minutes and 21 seconds per power level<br />
+*Stamina Cost*: 6500, minus 125 per level to a minimum of 3250<br />
+*Channeling Time*: 125 moves, minus 6 moves per level to a minimum of 50<br />
+*Effects*: Increase the psion's resilience against damage before suffering catastrophic injury; this power increases total HP.  It has no effect on healing times or the amount of pain injuries cause.<br />
+*Prerequisites*: Healthy Glow 10, Leukocyte Accumulation 8<br />
+</details>
+<details>
 <summary><h3>Revitalizing Meditation</h3></summary>
 
 *Difficulty*: 6<br />

@@ -7,7 +7,7 @@
     "name": "Unknowing Changeling, Noble (Species)",
     "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  Your parents were the nobility of the Fair Folk, the great lords and ladies who traveled in spider-silk carriages on roads built of moonbeams and danced the unending nights away before leading fantastic armies in battle the next morning.  When the Cataclysm hit, your parents' slumbering power asserted itself, giving you access to a portion of their fae magick.  Hopefully it will help you survive.",
     "points": 4,
-    "traits": [ "ELFA_EARS", "CHANGELING_MAGIC", "UNKNOWING_CHANGELING_NOBLE" ],
+    "traits": [ "CHANGELING_EARS", "CHANGELING_MAGIC", "UNKNOWING_CHANGELING_NOBLE" ],
     "chargen_allow_npc": false
   },
   {
@@ -17,8 +17,26 @@
     "name": "Unknowing Changeling, Commoner (Species)",
     "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  Your parents come from the common masses of the Fair Folk, the pooka, redcaps, hobgoblins, trow, pixies, knockers, selkies, or any of the myriad of others.  When the Cataclysm hit, your parents' slumbering power asserted itself, revealing your heritage and giving you access to a portion of their fae magick.  Hopefully it will help you survive.",
     "points": 4,
-    "traits": [ "FAIR_FOLK_COMMONER_SELECTOR", "CHANGELING_MAGIC", "ELFA_EARS" ],
+    "traits": [ "FAIR_FOLK_COMMONER_SELECTOR", "CHANGELING_MAGIC", "CHANGELING_EARS" ],
     "chargen_allow_npc": false
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_EARS",
+    "name": { "str": "Pointed Ears" },
+    "description": "Your upper earlobes have grown noticeably higher.  Fortunately, they don't get in the way of your headgear, much.  Unfortunately, they also don't seem to help your hearing any.",
+    "types": [ "EARS" ],
+    "category": [
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "points": 0,
+    "vitamin_cost": 80,
+    "visibility": 4,
+    "ugliness": 1
   },
   {
     "type": "mutation",
