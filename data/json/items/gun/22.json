@@ -277,6 +277,7 @@
     "dispersion": 400,
     "valid_mod_locations": [
       [ "barrel", 1 ],
+      [ "barrel threading", 1 ],
       [ "brass catcher", 1 ],
       [ "mechanism", 2 ],
       [ "rail mount", 1 ],
