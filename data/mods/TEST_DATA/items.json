@@ -6415,7 +6415,14 @@
     "symbol": "[",
     "color": "white",
     "material_thickness": 1,
+    "environmental_protection": 10,
     "flags": [ "WATERPROOF" ],
-    "armor": [ { "coverage": 100, "covers": [ "torso" ] } ]
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "material": [ { "type": "test_protective_clothing_material", "covered_by_mat": 100, "thickness": 1 } ]
+      }
+    ]
   }
 ]
