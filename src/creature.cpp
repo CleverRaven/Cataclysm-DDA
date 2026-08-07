@@ -1288,7 +1288,7 @@ void Creature::messaging_projectile_attack( const Creature *source,
         } else if( is_avatar() ) {
             //monster hits player ranged
             //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.  If you have DISTRIBUTED_DAMAGE, don't print bodypart--you're hit everywhere
-            if( has_flag (json_flag_DISTRIBUTED_DAMAGE) ) {
+            if( has_flag( json_flag_DISTRIBUTED_DAMAGE ) ) {
                 add_msg_if_player( m_bad, _( "You were hit for %2$d total damage." ) );
             } else {
                 add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
