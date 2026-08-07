@@ -55,6 +55,9 @@ constexpr int VEHICLE_HANDLING_PENALTY = 80;
 // Amount by which to charge an item for each unit of plutonium cell.
 constexpr int PLUTONIUM_CHARGES = 500;
 
+// Maximum shelf time for E10 ethanol-gasoline blend. After this time gasoline engines won't start at all on this fuel.
+constexpr time_duration GASOLINE_SHELF_TIME = 180_days;
+
 // "Natural" damage nullification for durable veh parts, even if no damage reduction is defined
 constexpr int VEH_PART_DMG_REDUCTION_FROM_DURABILITY_CAP = 20;
 
