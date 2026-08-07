@@ -1,8 +1,8 @@
 [
   {
-    "abstract": "abstract_garment_basic_variants",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
+    "abstract": "abstract_garment_basic_variants",
     "name": { "str_sp": "abstract garment with basic variants" },
     "description": "Abstract garment with solid color variants.  If you see this it's a bug, please report.",
     "variants": [
@@ -74,10 +74,10 @@
     ]
   },
   {
-    "abstract": "abstract_garment_advanced_variants",
-    "copy-from": "abstract_garment_basic_variants",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
+    "abstract": "abstract_garment_advanced_variants",
+    "copy-from": "abstract_garment_basic_variants",
     "name": { "str_sp": "abstract garment with advanced variants" },
     "description": "Abstract garment with advanced variants on top of the basic ones.  If you see this it's a bug, please report.",
     "extend": {
