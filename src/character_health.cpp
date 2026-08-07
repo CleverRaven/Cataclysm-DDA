@@ -1824,7 +1824,7 @@ void Character::check_needs_extremes()
 
             // Stimulants can be used to stay awake a while longer, but after a while you'll just collapse.
             bool can_pass_out = ( ( get_stim() < 30 && sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) ||
-                                sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR) && !has_flag( json_flag_CANNOT_SLEEP);
+                                  sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR ) && !has_flag( json_flag_CANNOT_SLEEP );
 
             if( can_pass_out && calendar::once_every( 10_minutes ) ) {
                 /** @EFFECT_PER slightly increases resilience against passing out from sleep deprivation */
