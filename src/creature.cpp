@@ -1,5 +1,3 @@
-#include "creature.h"
-
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -24,6 +22,7 @@
 #include "character_attire.h"
 #include "character_id.h"
 #include "color.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
