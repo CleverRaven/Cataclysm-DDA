@@ -6344,6 +6344,14 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
             }
 
             if( craft.get_passive_started_at() == calendar::before_time_starts ) {
+                // Unattended steps cannot draw resources from the crafter over time, so consume
+                // the remaining character resource cost before the passive work begins.
+                if( !crafter.craft_consume_character_resources( craft, 10000000 ) ) {
+                    craft.erase_var( "crafter" );
+                    crafter.cancel_activity();
+                    return;
+                }
+
                 craft_stamp_passive_entry( craft, crafter, calendar::turn, craft_item );
                 mode_ = derive_mode();
                 // Back-dated entry can leave alarm and/or ready already due.
@@ -6484,8 +6492,20 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
             return;
         }
     }
+
+    // Check `character_resources` before charging tools, then apply the validated debit.
+    if( !crafter.craft_consume_character_resources( craft, craft.item_counter, false ) ) {
+        rewind_turn();
+        return;
+    }
+
     // Charge shortfall rewinds the turn before any skill gain.
     if( !crafter.craft_consume_step_tools( craft, &cached_cost_ctx ) ) {
+        rewind_turn();
+        return;
+    }
+
+    if( !crafter.craft_consume_character_resources( craft, craft.item_counter ) ) {
         rewind_turn();
         return;
     }
