@@ -2640,7 +2640,8 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
     }
 
     // We already played the sounds, just handle applying effects now
-    iuse::make_music( p, p->pos_bub( *here ), volume, morale_effect, /*play_sounds=*/false );
+    // TODO: migrate back to make_music(), but avoid re-introducing #88074.
+    iuse::play_music( p, p->pos_bub( *here ), volume, morale_effect, /*play_sounds=*/false );
 
     return 0;
 }
