@@ -134,6 +134,7 @@ static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_CANNOT_GAIN_EFFECTS( "CANNOT_GAIN_EFFECTS" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
+static const json_character_flag json_flag_DISTRIBUTED_DAMAGE( "DISTRIBUTED_DAMAGE" );
 static const json_character_flag json_flag_FREEZE_EFFECTS( "FREEZE_EFFECTS" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
@@ -1286,10 +1287,14 @@ void Creature::messaging_projectile_attack( const Creature *source,
             }
         } else if( is_avatar() ) {
             //monster hits player ranged
-            //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
-            add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
-                               body_part_name_accusative( hit_selection.bp_hit ),
-                               total_damage );
+            //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.  If you have DISTRIBUTED_DAMAGE, don't print bodypart--you're hit everywhere
+            if( has_flag( json_flag_DISTRIBUTED_DAMAGE ) ) {
+                add_msg_if_player( m_bad, _( "You were hit for %2$d total damage." ) );
+            } else {
+                add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
+                                   body_part_name_accusative( hit_selection.bp_hit ),
+                                   total_damage );
+            }
         } else if( source != nullptr ) {
             if( source->is_avatar() ) {
                 //player hits monster ranged

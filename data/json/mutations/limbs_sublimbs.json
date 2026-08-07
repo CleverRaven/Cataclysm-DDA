@@ -54,6 +54,54 @@
     "opposite": "head_dragonfly_ear_l"
   },
   {
+    "id": "head_slime_forehead",
+    "copy-from": "head_forehead",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "opposite": "head_slime_forehead",
+    "similar_bodypart": "head_forehead"
+  },
+  {
+    "id": "head_slime_crown",
+    "copy-from": "head_crown",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "opposite": "head_slime_crown",
+    "similar_bodypart": "head_crown"
+  },
+  {
+    "id": "head_slime_nape",
+    "copy-from": "head_nape",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "opposite": "head_slime_nape",
+    "similar_bodypart": "head_nape"
+  },
+  {
+    "id": "head_slime_throat",
+    "copy-from": "head_throat",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "opposite": "head_slime_throat",
+    "similar_bodypart": "head_throat"
+  },
+  {
+    "id": "head_slime_ear_r",
+    "copy-from": "head_ear_r",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "opposite": "head_slime_ear_l",
+    "similar_bodypart": "head_ear_r"
+  },
+  {
+    "id": "head_slime_ear_l",
+    "copy-from": "head_ear_l",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "opposite": "head_slime_ear_r",
+    "similar_bodypart": "head_ear_l"
+  },
+  {
     "id": "eyes_bulging_l",
     "type": "sub_body_part",
     "max_coverage": 50,
@@ -310,6 +358,20 @@
     "opposite": "eyes_compound_left",
     "name_multiple": "eyes",
     "name": "right eye"
+  },
+  {
+    "id": "eyes_slime_left",
+    "copy-from": "eyes_left",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "similar_bodypart": "eyes_left"
+  },
+  {
+    "id": "eyes_slime_right",
+    "copy-from": "eyes_right",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "similar_bodypart": "eyes_right"
   },
   {
     "id": "muzzle_lips",
@@ -742,6 +804,76 @@
     "opposite": "sub_limb_debug",
     "side": "both",
     "name": "bottom"
+  },
+  {
+    "id": "mouth_slime_lips",
+    "copy-from": "mouth_lips",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "similar_bodypart": "mouth_lips"
+  },
+  {
+    "id": "mouth_slime_nose",
+    "copy-from": "mouth_nose",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "similar_bodypart": "mouth_nose"
+  },
+  {
+    "id": "mouth_slime_cheeks",
+    "copy-from": "mouth_cheeks",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "similar_bodypart": "mouth_cheeks"
+  },
+  {
+    "id": "mouth_slime_chin",
+    "copy-from": "mouth_chin",
+    "type": "sub_body_part",
+    "parent": "head_slime",
+    "similar_bodypart": "mouth_chin"
+  },
+  {
+    "id": "torso_slime_upper",
+    "copy-from": "torso_upper",
+    "type": "sub_body_part",
+    "parent": "torso_slime",
+    "similar_bodypart": "torso_upper"
+  },
+  {
+    "id": "torso_slime_neck",
+    "copy-from": "torso_neck",
+    "type": "sub_body_part",
+    "parent": "torso_slime",
+    "similar_bodypart": "torso_neck"
+  },
+  {
+    "id": "torso_slime_lower",
+    "copy-from": "torso_lower",
+    "type": "sub_body_part",
+    "parent": "torso_slime",
+    "similar_bodypart": "torso_lower"
+  },
+  {
+    "id": "torso_slime_hanging_front",
+    "copy-from": "torso_hanging_front",
+    "type": "sub_body_part",
+    "parent": "torso_slime",
+    "similar_bodypart": "torso_hanging_front"
+  },
+  {
+    "id": "torso_slime_hanging_back",
+    "copy-from": "torso_hanging_back",
+    "type": "sub_body_part",
+    "parent": "torso_slime",
+    "similar_bodypart": "torso_hanging_back"
+  },
+  {
+    "id": "torso_slime_waist",
+    "copy-from": "torso_waist",
+    "type": "sub_body_part",
+    "parent": "torso_slime",
+    "similar_bodypart": "torso_waist"
   },
   {
     "id": "crustacean_pincer_wrist_r",
@@ -1725,6 +1857,134 @@
     "name": "right terminus"
   },
   {
+    "type": "sub_body_part",
+    "id": "arm_slime_shoulder_l",
+    "copy-from": "arm_shoulder_l",
+    "parent": "arm_slime_l",
+    "opposite": "arm_slime_shoulder_r",
+    "similar_bodypart": "arm_shoulder_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_slime_upper_l",
+    "copy-from": "arm_upper_l",
+    "parent": "arm_slime_l",
+    "opposite": "arm_slime_upper_r",
+    "similar_bodypart": "arm_upper_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_slime_elbow_l",
+    "copy-from": "arm_elbow_l",
+    "parent": "arm_slime_l",
+    "opposite": "arm_slime_elbow_r",
+    "similar_bodypart": "arm_elbow_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_slime_lower_l",
+    "copy-from": "arm_lower_l",
+    "parent": "arm_slime_l",
+    "opposite": "arm_slime_lower_r",
+    "similar_bodypart": "arm_lower_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_slime_shoulder_r",
+    "copy-from": "arm_shoulder_r",
+    "parent": "arm_slime_r",
+    "opposite": "arm_slime_shoulder_l",
+    "similar_bodypart": "arm_shoulder_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_slime_upper_r",
+    "copy-from": "arm_upper_r",
+    "parent": "arm_slime_r",
+    "opposite": "arm_slime_upper_l",
+    "similar_bodypart": "arm_upper_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_slime_elbow_r",
+    "copy-from": "arm_elbow_r",
+    "parent": "arm_slime_r",
+    "opposite": "arm_slime_elbow_l",
+    "similar_bodypart": "arm_elbow_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_slime_lower_r",
+    "copy-from": "arm_lower_r",
+    "parent": "arm_slime_r",
+    "opposite": "arm_slime_lower_l",
+    "similar_bodypart": "arm_lower_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "hand_slime_wrist_l",
+    "copy-from": "hand_wrist_l",
+    "parent": "hand_slime_l",
+    "opposite": "hand_slime_wrist_r",
+    "similar_bodypart": "hand_wrist_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "hand_slime_palm_l",
+    "copy-from": "hand_palm_l",
+    "parent": "hand_slime_l",
+    "opposite": "hand_slime_palm_r",
+    "similar_bodypart": "hand_palm_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "hand_slime_back_l",
+    "copy-from": "hand_back_l",
+    "parent": "hand_slime_l",
+    "opposite": "hand_slime_back_r",
+    "similar_bodypart": "hand_back_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "hand_slime_fingers_l",
+    "copy-from": "hand_fingers_l",
+    "parent": "hand_slime_l",
+    "opposite": "hand_slime_fingers_r",
+    "similar_bodypart": "hand_fingers_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "hand_slime_wrist_r",
+    "copy-from": "hand_wrist_r",
+    "parent": "hand_slime_r",
+    "opposite": "hand_slime_wrist_l",
+    "similar_bodypart": "hand_wrist_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "hand_slime_palm_r",
+    "copy-from": "hand_palm_r",
+    "parent": "hand_slime_r",
+    "opposite": "hand_slime_palm_l",
+    "similar_bodypart": "hand_palm_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "hand_slime_back_r",
+    "copy-from": "hand_back_r",
+    "parent": "hand_slime_r",
+    "opposite": "hand_slime_back_l",
+    "similar_bodypart": "hand_back_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "hand_slime_fingers_r",
+    "copy-from": "hand_fingers_r",
+    "parent": "hand_slime_r",
+    "opposite": "hand_slime_fingers_l",
+    "similar_bodypart": "hand_fingers_r"
+  },
+  {
     "id": "vine_sublimb_ur",
     "type": "sub_body_part",
     "max_coverage": 100,
@@ -2545,6 +2805,176 @@
     "name_multiple": "right middle tentacles (draped)",
     "name": "right middle tentacles (draped)",
     "locations_under": [ "tentacle_lower_rear_base_r", "tentacle_lower_rear_middle_r" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_slime_hip_l",
+    "copy-from": "leg_hip_l",
+    "parent": "leg_slime_l",
+    "opposite": "leg_slime_hip_r",
+    "similar_bodypart": "leg_hip_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_slime_upper_l",
+    "copy-from": "leg_upper_l",
+    "parent": "leg_slime_l",
+    "opposite": "leg_slime_upper_r",
+    "similar_bodypart": "leg_upper_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_slime_knee_l",
+    "copy-from": "leg_knee_l",
+    "parent": "leg_slime_l",
+    "opposite": "leg_slime_knee_r",
+    "similar_bodypart": "leg_knee_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_slime_lower_l",
+    "copy-from": "leg_lower_l",
+    "parent": "leg_slime_l",
+    "opposite": "leg_slime_lower_r",
+    "similar_bodypart": "leg_lower_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_slime_hip_r",
+    "copy-from": "leg_hip_r",
+    "parent": "leg_slime_r",
+    "opposite": "leg_slime_hip_l",
+    "similar_bodypart": "leg_hip_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_slime_upper_r",
+    "copy-from": "leg_upper_r",
+    "parent": "leg_slime_r",
+    "opposite": "leg_slime_upper_l",
+    "similar_bodypart": "leg_upper_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_slime_knee_r",
+    "copy-from": "leg_knee_r",
+    "parent": "leg_slime_r",
+    "opposite": "leg_slime_knee_l",
+    "similar_bodypart": "leg_knee_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_slime_lower_r",
+    "copy-from": "leg_lower_r",
+    "parent": "leg_slime_r",
+    "opposite": "leg_slime_lower_l",
+    "similar_bodypart": "leg_lower_r"
+  },
+  {
+    "id": "leg_slime_draped_l",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "leg_slime_l",
+    "side": "left",
+    "secondary": true,
+    "opposite": "leg_slime_draped_r",
+    "name_multiple": "pseudopods (draped)",
+    "name": "pseudopod (draped)",
+    "locations_under": [ "leg_slime_hip_l", "leg_slime_upper_l" ],
+    "similar_bodypart": "leg_draped_l"
+  },
+  {
+    "id": "leg_slime_draped_r",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "leg_slime_r",
+    "side": "right",
+    "secondary": true,
+    "opposite": "leg_slime_draped_l",
+    "name_multiple": "pseudopods (draped)",
+    "name": "pseudopod (draped)",
+    "locations_under": [ "leg_slime_hip_r", "leg_slime_upper_r" ],
+    "similar_bodypart": "leg_draped_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_sole_l",
+    "copy-from": "foot_sole_l",
+    "parent": "foot_slime_l",
+    "opposite": "foot_slime_sole_r",
+    "similar_bodypart": "foot_sole_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_arch_l",
+    "copy-from": "foot_arch_l",
+    "parent": "foot_slime_l",
+    "opposite": "foot_slime_arch_r",
+    "similar_bodypart": "foot_arch_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_toes_l",
+    "copy-from": "foot_toes_l",
+    "parent": "foot_slime_l",
+    "opposite": "foot_slime_toes_r",
+    "similar_bodypart": "foot_toes_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_ankle_l",
+    "copy-from": "foot_ankle_l",
+    "parent": "foot_slime_l",
+    "opposite": "foot_slime_ankle_r",
+    "similar_bodypart": "foot_ankle_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_heel_l",
+    "copy-from": "foot_heel_l",
+    "parent": "foot_slime_l",
+    "opposite": "foot_slime_heel_r",
+    "similar_bodypart": "foot_heel_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_sole_r",
+    "copy-from": "foot_sole_r",
+    "parent": "foot_slime_r",
+    "opposite": "foot_slime_sole_l",
+    "similar_bodypart": "foot_sole_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_arch_r",
+    "copy-from": "foot_arch_r",
+    "parent": "foot_slime_r",
+    "opposite": "foot_slime_arch_l",
+    "similar_bodypart": "foot_arch_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_toes_r",
+    "copy-from": "foot_toes_r",
+    "parent": "foot_slime_r",
+    "opposite": "foot_slime_toes_l",
+    "similar_bodypart": "foot_toes_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_ankle_r",
+    "copy-from": "foot_ankle_r",
+    "parent": "foot_slime_r",
+    "opposite": "foot_slime_ankle_l",
+    "similar_bodypart": "foot_ankle_r"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_slime_heel_r",
+    "copy-from": "foot_heel_r",
+    "parent": "foot_slime_r",
+    "opposite": "foot_slime_heel_l",
+    "similar_bodypart": "foot_heel_r"
   },
   {
     "id": "hoof_sole_l",
