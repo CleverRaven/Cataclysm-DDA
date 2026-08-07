@@ -513,7 +513,6 @@ Add crashed XEDRA serum transport truck map extras
 Add serum `16x-"Armus"`
 Add `wyrmhound` mutant dogs
 Highland Crypts
-Add INFECTION_RECOVERY flag, use in XE
 
 
 ## Interface:
@@ -1167,10 +1166,7 @@ Aftershock: Add industrial habitat building.
 Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
 [XedraWood] Add magical tattoos and a profession that starts with them
 [Xedra Evolved] Add Follower dialogue topic to ask them to cast spells
-"Generalize the threshold requirement for quadrupedal movement.h
-[MoM] Make survivor palette extension actually extend
-[Magiclysm] Update Magical Bracers
-Aftershock: Project Sobek Genetech
+[Aftershock] Project Sobek Genetech
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1324,8 +1320,6 @@ Zero cost spells remain zero cost even if encumbered
 Kelvar is now fireproof
 Add some more fluff nonfiction hardbacks
 Exodii traders dont accept currencies
-Update pits not to be killing machines
-Knife spears need adjustments
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1880,15 +1874,9 @@ Pocket options: allow interacting with a pocket with hidden contents (fixes cras
 Allow NPCs to sleep during free_time
 NPCs default to allow_sleep ally rule
 Display multiple like items in car part removal on the same line with a count
-[MoM] Fix being able to throw zombie nulls
-Fix epicuticle blocking bite attacks, chitin covers dragonfly head
 Megacity world generation fix
-Fixed field typo in zed_acid.json file
-Fix typos
 Scared NPCs don't turn hostile
-Bombastic Perks: Fix fancy footwork
 Preserve character-specific auto-pickup rules between sessions
-Add shot glass spawns to house loot and gift shops
 
 ## Performance:
 Slightly fewer allocations in npc::process_turn
