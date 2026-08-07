@@ -49,8 +49,6 @@
 #include "weather.h"
 #include "weather_gen.h"
 
-class item;
-
 static const addiction_id addiction_nicotine( "nicotine" );
 
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
