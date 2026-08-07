@@ -43,6 +43,7 @@ enum class mod : int {
     INTELLIGENCE,
     SPEED,
     ATTACK_SPEED, // affects attack speed of item even if it's not the one you're wielding
+    AIMING_SPEED,
     MOVE_COST,
     METABOLISM,
     MAX_MANA,
@@ -118,6 +119,7 @@ enum class mod : int {
     RECOIL_MODIFIER, //affects recoil when shooting a gun
     ITEM_ATTACK_SPEED,
     EQUIPMENT_DAMAGE_CHANCE,
+    THEORETICAL_SKILL_CATCHUP_BONUS,
     CLIMATE_CONTROL_HEAT,
     CLIMATE_CONTROL_CHILL,
     COMBAT_CATCHUP,
