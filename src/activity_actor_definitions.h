@@ -4006,6 +4006,39 @@ class find_mount_activity_actor : public activity_actor
 };
 
 /**
+* NPC-only activity to keep a follower assigned to an indirect fire mortar.
+*/
+class man_mortar_activity_actor : public activity_actor
+{
+    public:
+        man_mortar_activity_actor() = default;
+        man_mortar_activity_actor( const tripoint_abs_ms &assigned_mortar_pos,
+                                   const mortar_type_id &mortar_type_id ) :
+            mortar_pos( assigned_mortar_pos ), mortar_type( mortar_type_id ) {}
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &, Character & ) override {};
+        void canceled( player_activity &, Character &who ) override;
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_MAN_MORTAR( "ACT_MAN_MORTAR" );
+            return ACT_MAN_MORTAR;
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<man_mortar_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        tripoint_abs_ms mortar_pos = tripoint_abs_ms::zero;
+        mortar_type_id mortar_type;
+};
+
+/**
 * Wait (do nothing) for a given duration (indefinitely by default)
 */
 class wait_activity_actor : public activity_actor

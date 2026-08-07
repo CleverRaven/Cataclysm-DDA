@@ -177,6 +177,38 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "laser_rangefinder",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 3 ],
+    "difficulty": 7,
+    "time": "90 m",
+    "decomp_learn": 6,
+    "book_learn": [ [ "advanced_electronics", 6 ], [ "textbook_electronics", 6 ], [ "recipe_lab_elec", 6 ] ],
+    "using": [ [ "soldering_standard", 30 ], [ "plastic_molding", 8 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking" },
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_elec_semiconductors" }
+    ],
+    "components": [
+      [ [ "binoculars", 1 ] ],
+      [ [ "laser_sight", 1 ], [ "rail_laser_sight", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "receiver", 1 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "cable", 12 ] ],
+      [ [ "plastic_chunk", 6 ] ],
+      [ [ "scrap_aluminum", 3 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "electrohack",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",

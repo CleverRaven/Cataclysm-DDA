@@ -51,6 +51,11 @@
         "effect": "reveal_stats"
       },
       { "text": "Please go to this location.", "topic": "TALK_GOTO_LOCATION", "effect": "goto_location" },
+      {
+        "text": "Mortar fire support.",
+        "condition": { "math": [ "has_var(n_mortar_assignment)" ] },
+        "topic": "TALK_NPC_MORTAR_SUPPORT"
+      },
       { "text": "There's something I want you to do.", "topic": "TALK_ALLY_ORDERS" },
       { "text": "I just wanted to talk for a bit.", "topic": "TALK_ALLY_SOCIAL" },
       { "text": "Can you help me understand something?  (HELP/TUTORIAL)", "topic": "TALK_ALLY_TUTORIAL" },
@@ -66,6 +71,51 @@
         "effect": "return_to_camp_duties"
       },
       { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NPC_MORTAR_SUPPORT",
+    "type": "talk_topic",
+    "dynamic_line": { "is_by_radio": "Mortar radio is open.  What do you need?", "no": "Mortar support is ready.  What do you need?" },
+    "responses": [
+      {
+        "text": "Fire a mortar round at a target I mark.",
+        "condition": { "math": [ "has_var(n_mortar_assignment)" ] },
+        "topic": "TALK_DONE",
+        "effect": "request_mortar_fire"
+      },
+      {
+        "text": "Repeat the last mortar fire mission.",
+        "condition": { "and": [ { "math": [ "has_var(n_mortar_assignment)" ] }, { "math": [ "has_var(n_mortar_target)" ] } ] },
+        "topic": "TALK_DONE",
+        "effect": "request_mortar_repeat_fire"
+      },
+      {
+        "text": "Fire for effect.",
+        "condition": { "and": [ { "math": [ "has_var(n_mortar_assignment)" ] }, { "math": [ "has_var(n_mortar_target)" ] } ] },
+        "topic": "TALK_DONE",
+        "effect": "request_mortar_fire_for_effect"
+      },
+      {
+        "text": "Switch mortar adjustment tactic.",
+        "condition": { "math": [ "has_var(n_mortar_assignment)" ] },
+        "topic": "TALK_DONE",
+        "effect": "toggle_mortar_adjustment"
+      },
+      {
+        "text": "Select mortar ammunition.",
+        "condition": { "math": [ "has_var(n_mortar_assignment)" ] },
+        "topic": "TALK_DONE",
+        "effect": "select_mortar_ammo"
+      },
+      {
+        "text": "Report mortar ammunition.",
+        "condition": { "math": [ "has_var(n_mortar_assignment)" ] },
+        "topic": "TALK_DONE",
+        "effect": "report_mortar_support"
+      },
+      { "text": "Back.", "topic": "TALK_NONE" },
       { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
   },
@@ -412,6 +462,18 @@
         "topic": "TALK_DONE",
         "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
         "effect": "do_craft"
+      },
+      {
+        "text": "Manage mortar ammunition.",
+        "condition": { "and": [ { "not": "is_by_radio" }, { "math": [ "has_var(n_mortar_assignment)" ] } ] },
+        "topic": "TALK_DONE",
+        "effect": "manage_mortar_ammo"
+      },
+      {
+        "text": "Man the nearby mortar and take these rounds.",
+        "condition": { "and": [ { "not": "is_by_radio" }, { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "topic": "TALK_DONE",
+        "effect": "assign_mortar"
       }
     ]
   },
