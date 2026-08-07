@@ -2050,9 +2050,9 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
 
     // predict how long it'll take to reach from current recoil
     // to the ui's selected default aim mode threshold.
-    
+
     recoil_prediction aim_to_selected = predict_recoil( you, weapon, target,
-            ui.get_sight_dispersion(), ui.get_selected_aim_type(), you.recoil );
+                                        ui.get_sight_dispersion(), ui.get_selected_aim_type(), you.recoil );
 
     const double selected_steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
 
