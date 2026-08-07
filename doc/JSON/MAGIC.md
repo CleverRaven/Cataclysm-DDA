@@ -991,6 +991,7 @@ The following is a list of possible enchantment `values`:
 
 Character status value  | Description
 ---                     |---
+`AIMING_SPEED`          | Affects the speed at which you aim ranged weapons. `"multiply": 1` means you aim twice as quickly.
 `ARMOR_ALL`             | Gives this amount of protection against any damage type except one with "no_resist": true. For more precise changes use incoming_damage_mod or item_armor_bonus
 `ARTIFACT_RESONANCE`    | Affects the level of artifact resonance you have, which causes various hardcoded penalties as it rises (note: only add works, not multiply).
 `ATTACK_NOISE`          | Affects the amount of noise you make while melee attacking.
