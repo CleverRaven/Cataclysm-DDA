@@ -970,7 +970,7 @@
           },
           {
             "value": "AIMING_SPEED",
-            "multiply": { "math": [ "min( ( ( ( u_spell_level('clair_ranged_enhance') * 0.025) + 0.1) * psionic_power_modifiers() ), 0.75)" ] }
+            "multiply": { "math": [ "min( ( ( ( u_spell_level('clair_ranged_enhance') * 0.025) + 0.1) * psionic_power_modifiers() ), 5)" ] }
           }
         ]
       },
