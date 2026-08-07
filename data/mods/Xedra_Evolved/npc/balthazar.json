@@ -1,0 +1,99 @@
+[
+  {
+    "id": "TALK_BALTHAZAR_INTERCOM_MAIN",
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "condition": { "math": [ "balthazar_power = 60" ] },
+    "responses": [
+      {
+        "text": "You've got a pretty nice setup here.  You have any paid work for survivors?",
+        "topic": "TALK_BALTHAZAR_WORK"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_START_BALTHAZAR_COUNTERS",
+    "//": "Initialize counters for balthazar at start of game",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "global": true,
+    "effect": [
+      { "math": [ "balthazar_power = 35" ] },
+      { "math": [ "balthazar_daily_power_gain = rand(2) - 1" ] },
+      { "run_eocs": "EOC_DAILY_BALTHAZAR_POWER" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_WORK",
+    "type": "talk_topic",
+    "//": "This mission may eventually be moved in the quest chain to a spot that makes more sense.  When completed it will enable Balthazar to begin creating an army prototype borgs out of unwilling survivors.",
+    "dynamic_line": "Now that this area is secured we can look to improving our situation.  I'm still working on getting out of this bunker, but while I work on that I've got some tasks you can complete.  My team was part of an operation that setup a factory nearby to mass produce a specialty tool to improve survival rates in this Cataclysm.",
+    "responses": [
+      {
+        "text": "What kind of tool can improve survival rates against the undead?",
+        "topic": "TALK_BALTHAZAR_OPERATION_REVENANT_DAWN"
+      },
+      { "text": "Walk away.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_OPERATION_REVENANT_DAWN",
+    "type": "talk_topic",
+    "//": "Lies, damn lies and statistics",
+    "dynamic_line": "The military started mass producing prototype cybernetic modules for combat resuscitation, so that fallen soldiers could extract themselves back to medevac for treatment.  If we can get that factory online we can start implanting them in worthy survivors so we can hopefully begin to turn the tide.  I'll need you to take this transmitter to the factory, install it in the servers and then turn on the power.  IF YOU TURN ON THE POWER FIRST, THE SELF DEFENSE PROTOCOLS WILL INITIALIZE AND YOU WILL BE KILLED.",
+    "responses": [
+      {
+        "text": "Alright, I'll see what I can gather.",
+        "topic": "TALK_BALTHAZAR_ACCEPTED_MISSION_OPERATION_REVENANT_DAWN",
+        "effect": { "assign_mission": "MISSION_OPERATION_REVENANT_DAWN" }
+      },
+      { "text": "What's in it for me?", "topic": "TALK_OPERATION_REVENANT_DAWN_REWARD" },
+      { "text": "Walk away.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_OPERATION_REVENANT_DAWN_REWARD",
+    "type": "talk_topic",
+    "//": "Lies, damn lies and statistics",
+    "dynamic_line": "Your reward for completing this mission?  Well in addition to first steps in retaking this region for humanity there is a robot here we can use to install the Onryō SNP system in you.  You'll be the first hero to use it to save humanity, also it makes you very hard to kill.",
+    "responses": [
+      {
+        "text": "Makes sense.  I'll take that reward.",
+        "topic": "TALK_BALTHAZAR_MEET_ACCEPTED_MISSION_OPERATION_REVENANT_DAWN",
+        "effect": { "assign_mission": "MISSION_OPERATION_REVENANT_DAWN" }
+      },
+      { "text": "Walk away.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_MEET_ACCEPTED_MISSION_OPERATION_REVENANT_DAWN",
+    "type": "talk_topic",
+    "//": "Lies, damn lies and statistics",
+    "dynamic_line": "Let's get this factory online and start improving our odds!",
+    "responses": [ { "text": "Let's do it!", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_OPERATION_REVENANT_DAWN",
+    "type": "mission_definition",
+    "name": "Operation Revenant Dawn",
+    "description": "Bunkerguy needs you to take a transmitter to a special factory and install it in the server farm and then turn on the power.  This will bring the factory online under our control.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "math": [ "factory_online = 2" ] },
+    "difficulty": 1,
+    "value": 1000,
+    "end": { "effect": [ { "run_eocs": "EOC_BALTHAZAR_SET_UP_REVENANT_FACTORY" } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Install the transmitter in the server farm on the second floor.  Then go to the basement and turn on the backup power.",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "If you turn on the power first, the defense protocols will turn on and I won't be able to stop them.",
+      "inquire": "We can't create regional security until we complete this",
+      "success": "…",
+      "success_lie": "How's the factory project going?",
+      "failure": "You shouldn't fail me, human."
+    }
+  }
+]
