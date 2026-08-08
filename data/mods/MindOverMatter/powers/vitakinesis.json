@@ -431,7 +431,7 @@
   {
     "id": "vita_increased_hp",
     "type": "SPELL",
-    "name": "[Ψ]Durability (C)",
+    "name": "[Ψ]Augment Durability (C)",
     "description": "Increase your overall resilience against damage, allowing you to continue functioning for longer in the face of injury.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,

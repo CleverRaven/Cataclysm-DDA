@@ -7,6 +7,7 @@
   - [Practice recipes](#practice-recipes)
   - [Nested recipes](#nested-recipes)
   - [Recipe requirements](#recipe-requirements)
+  - [Character resource costs](#character-resource-costs)
   - [Defining common requirements](#defining-common-requirements)
   - [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
 - [Item disassembly](#item-disassembly)
@@ -122,7 +123,18 @@ Crafting recipes are defined as a JSON object with the following fields:
 "component_blacklist": [     // List of item types that don't get added to result item components. Reversible recipes won't recover these and comestibles will not include them in calorie calculations.
   "item_a",
   "item_b"
-]
+],
+"character_resources": {    // Optional character resources consumed while crafting. Costs scale linearly with batch size.
+  "mana": 100,              // Mana consumed per crafted unit.
+  "stamina": 500,           // Stamina consumed per crafted unit.
+  "vitamins": [             // Vitamins consumed per crafted unit.
+    {
+      "vitamin": "blood",  // Vitamin id.
+      "value": 1000,        // Amount consumed.
+      "safe_level": -20000  // Optional minimum level the craft may reduce this vitamin to.
+    }
+  ]
+}
 ```
 
 #### `character_requirements`
@@ -434,6 +446,55 @@ And to bind the grip onto the javelin, some sinew or thread should be required, 
 *Note*: Related to "NO_RECOVER", some items such as "superglue" and "duct_tape" have an
 "UNRECOVERABLE" flag on the item itself, indicating they can never be reclaimed when disassembling.
 See [JSON_FLAGS.md](JSON_FLAGS.md) for how to use this and other item flags.
+
+
+## Character resource costs
+
+Recipes and practice recipes may use the optional `character_resources` object to consume
+resources directly from the crafting character.  Supported resources are mana, stamina, and any
+vitamin id.
+
+```jsonc
+"character_resources": {
+  "mana": 100,
+  "stamina": 500,
+  "vitamins": [
+    {
+      "vitamin": "blood",
+      "value": 1000,
+      "safe_level": -20000
+    }
+  ]
+}
+```
+
+`mana` and `stamina` are non-negative integer costs.  Each entry in `vitamins` has these
+fields:
+
+- `vitamin`: the vitamin id to consume.
+- `value`: a non-negative integer cost.
+- `safe_level`: optional integer minimum.  The recipe cannot reduce that vitamin below this
+  value.  If omitted, the vitamin's defined minimum is used.
+
+A vitamin may appear only once in the array.  Unknown character resource names, negative costs,
+and duplicate vitamin entries are JSON errors.
+
+Character resource costs are authored per crafted unit and scale linearly with batch size.  Batch
+time reductions do not discount them.  During an active craft, resources are consumed gradually in
+proportion to progress.  Previously paid portions are tracked on the in-progress craft, so pausing
+or resuming does not charge them again.
+
+Before each debit, all character resource costs due at the current progress are checked together.
+If any one resource is unavailable, none of them are consumed for that progress update and crafting
+cannot continue.  Stamina may be reduced to zero.  A vitamin cannot be reduced below its applicable
+minimum.
+
+When an unattended recipe step begins, the remaining character resource cost for the whole craft is
+consumed immediately because the crafter is no longer present to pay it over time.  If the remaining
+cost is unavailable, the unattended step does not begin.
+
+When a recipe using `copy-from` defines its own `character_resources` object, that object
+replaces the inherited character resource costs rather than merging with them.
 
 ## Defining common requirements
 

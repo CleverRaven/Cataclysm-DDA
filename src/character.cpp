@@ -203,7 +203,6 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_mech_recon_vision( "mech_recon_vision" );
 static const efftype_id effect_melatonin( "melatonin" );
-static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -238,6 +237,7 @@ static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_CANNOT_CHANGE_TEMPERATURE( "CANNOT_CHANGE_TEMPERATURE" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
+static const json_character_flag json_flag_CANNOT_SLEEP( "CANNOT_SLEEP" );
 static const json_character_flag json_flag_CLAIRVOYANCE( "CLAIRVOYANCE" );
 static const json_character_flag json_flag_CLAIRVOYANCE_PLUS( "CLAIRVOYANCE_PLUS" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
@@ -1095,7 +1095,9 @@ double Character::aim_per_move( const item &gun, double recoil,
     aim_speed = std::max( aim_speed, MIN_RECOIL_IMPROVEMENT );
 
     // Never improve by more than the currently used sights permit.
-    return std::min( aim_speed, recoil - limit );
+    aim_speed = std::min( aim_speed, recoil - limit );
+
+    return calculate_by_enchantment( aim_speed, enchant_vals::mod::AIMING_SPEED );
 }
 
 void Character::mod_free_dodges( int added )
@@ -2532,6 +2534,8 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
     // but perception also plays a role, representing both memory/attentiveness and catching on to how
     // the two apply to each other.
     float catchup_modifier = 1.0f + ( 2.0f * get_int() + get_per() ) / 24.0f; // 2 for an average person
+    catchup_modifier = calculate_by_enchantment( catchup_modifier,
+                       enchant_vals::mod::THEORETICAL_SKILL_CATCHUP_BONUS );
     float knowledge_modifier = 1.0f + get_int() /
                                40.0f; // 1.2 for an average person, always a bit higher than base amount
 
@@ -5426,8 +5430,13 @@ void Character::fall_asleep( const time_duration &duration )
             cancel_activity();
         }
     }
-    add_effect( effect_sleep, duration );
-    get_event_bus().send<event_type::character_falls_asleep>( getID(), to_seconds<int>( duration ) );
+    if( has_flag( json_flag_CANNOT_SLEEP ) ) {
+        add_msg_if_player( m_info, _( "You cannot sleep!" ) );
+        cancel_activity();
+    } else {
+        add_effect( effect_sleep, duration );
+        get_event_bus().send<event_type::character_falls_asleep>( getID(), to_seconds<int>( duration ) );
+    }
 }
 
 std::map<bodypart_id, int> Character::bonus_item_warmth() const
@@ -7011,8 +7020,9 @@ void Character::stagger()
 
 bool Character::can_sleep()
 {
-    if( has_effect( effect_meth ) ) {
-        // Sleep ain't happening until that meth wears off completely.
+
+    if( has_flag( json_flag_CANNOT_SLEEP ) ) {
+        // Sleep ain't happening
         return false;
     }
 

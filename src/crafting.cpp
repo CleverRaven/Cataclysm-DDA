@@ -13,6 +13,7 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -35,6 +36,7 @@
 #include "debug.h"
 #include "dialogue.h"
 #include "effect_on_condition.h"
+#include "enum_conversions.h"
 #include "enum_traits.h"
 #include "enums.h"
 #include "faction.h"
@@ -53,7 +55,9 @@
 #include "itype.h"
 #include "iuse.h"
 #include "line.h"
+#include "magic.h"
 #include "magic_enchantment.h"
+#include "magic_type.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -88,6 +92,7 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
+#include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
 
@@ -3809,6 +3814,124 @@ bool Character::verify_step_tools( item &craft, int step_idx,
         }
     }
     return true;
+}
+
+int Character::craft_character_resource_available( const magic_energy_type resource ) const
+{
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return std::numeric_limits<int>::max();
+    }
+    switch( resource ) {
+        case magic_energy_type::mana:
+            return magic->available_mana();
+        case magic_energy_type::stamina:
+            return get_stamina();
+        default:
+            return 0;
+    }
+}
+
+int Character::craft_vitamin_available( const vitamin_resource_cost &resource ) const
+{
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return std::numeric_limits<int>::max();
+    }
+    const int minimum = resource.safe_level.value_or( resource.vitamin.obj().min() );
+    return std::max( 0, vitamin_get( resource.vitamin ) - minimum );
+}
+
+static int craft_resource_debit_for_progress( const item &craft, const std::string_view &var,
+        const int base_cost, const int batch, const int target_progress )
+{
+    const int64_t total_cost = static_cast<int64_t>( base_cost ) * batch;
+    const int64_t target_cost = total_cost * target_progress / 10000000;
+    const int consumed = static_cast<int>( craft.get_var( var, 0.0 ) );
+    return static_cast<int>( std::max<int64_t>( 0, target_cost - consumed ) );
+}
+
+bool Character::craft_consume_character_resources( item &craft, int target_progress, bool consume )
+{
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return true;
+    }
+
+    const character_resource_costs &resources = craft.get_making().get_character_resources();
+    if( resources.empty() ) {
+        return true;
+    }
+
+    const int batch = craft.get_making_batch_size();
+    target_progress = std::clamp( target_progress, 0, 10000000 );
+
+    const auto process_resource = [&]( const int base_cost, const int available,
+                                       const std::string & var,
+    const std::string & resource_name, const bool apply, const auto & consume_resource ) {
+        if( base_cost == 0 ) {
+            return true;
+        }
+
+        const int debit = craft_resource_debit_for_progress( craft, var, base_cost, batch,
+                          target_progress );
+        if( !apply ) {
+            if( debit <= available ) {
+                return true;
+            }
+
+            add_msg_player_or_npc(
+                _( "You don't have enough %s to continue crafting." ),
+                _( "<npcname> doesn't have enough %s to continue crafting." ),
+                resource_name );
+            return false;
+        }
+
+        if( debit > 0 ) {
+            consume_resource( debit );
+            const int consumed = static_cast<int>( craft.get_var( var, 0.0 ) );
+            craft.set_var( var, consumed + debit );
+        }
+        return true;
+    };
+
+    const auto process_energy_resource = [&]( const int amount, const magic_energy_type resource,
+    const char *resource_name, const bool apply, const auto & consume_resource ) {
+        return process_resource( amount, craft_character_resource_available( resource ),
+                                 "craft_resource_" + io::enum_to_string( resource ), resource_name, apply,
+                                 consume_resource );
+    };
+
+    const auto process_resources = [&]( const bool apply ) {
+        if( !process_energy_resource( resources.mana, magic_energy_type::mana, _( "mana" ), apply,
+        [&]( const int debit ) {
+        magic->mod_mana( *this, -debit );
+        } ) ) {
+            return false;
+        }
+
+        if( !process_energy_resource( resources.stamina, magic_energy_type::stamina, _( "stamina" ),
+        apply, [&]( const int debit ) {
+        mod_stamina( -debit );
+        } ) ) {
+            return false;
+        }
+
+        for( const vitamin_resource_cost &resource : resources.vitamins ) {
+            if( !process_resource( resource.value, craft_vitamin_available( resource ),
+                                   "craft_vitamin_" + resource.vitamin.str(),
+            resource.vitamin.obj().name(), apply, [&]( const int debit ) {
+            vitamin_mod( resource.vitamin, -debit );
+            } ) ) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    if( !process_resources( false ) ) {
+        return false;
+    }
+
+    return !consume || process_resources( true );
 }
 
 bool Character::craft_consume_step_tools( item &craft, const crafting_cost_context *cost_ctx )

@@ -118,5 +118,16 @@
     "mod_damage": -1000,
     "mod_degradation": -25,
     "requirements": [ { "qualities": [ { "id": "VISE", "level": 1 } ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_pipe_shaft_replace",
+    "name": "Replace",
+    "success_msg": "You successfully replace the pipe shaft of your %s.",
+    "time": "50 m",
+    "faults_removed": [ "fault_pipe_shaft_broken" ],
+    "mod_damage": -1000,
+    "mod_degradation": -100,
+    "requirements": [ { "components": [ [ [ "pipe", 1 ] ], [ [ "pipe_fittings", 1 ] ] ] } ]
   }
 ]
