@@ -177,6 +177,7 @@
     "time": "36 m",
     "copy-from": "book_nonf_hard_tpl",
     "relative": { "price": "5 USD", "price_postapoc": "-50 cent", "intelligence": 3 },
+    "chapters": 44,
     "read_fun": 1
   },
   {
@@ -188,6 +189,7 @@
     "time": "36 m",
     "copy-from": "book_nonf_soft_tpl",
     "relative": { "price": "4 USD", "price_postapoc": "-50 cent", "intelligence": 3 },
+    "chapters": 44,
     "read_fun": 1
   },
   {

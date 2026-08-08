@@ -1742,7 +1742,7 @@
       { "item": "teleumbrella", "prob": 20 },
       { "item": "essay_book", "prob": 6 },
       { "item": "poetry_book", "prob": 6 },
-      { "item": "philosophy_book", "prob": 2 },
+      { "group": "philosophy_books", "prob": 2 },
       { "item": "survivormap", "prob": 1 },
       { "group": "religious_books", "prob": 38 },
       { "item": "folding_poncho", "prob": 1 },
@@ -1782,7 +1782,7 @@
       { "group": "tefillin_sets", "prob": 10 },
       { "item": "essay_book", "prob": 6 },
       { "item": "poetry_book", "prob": 6 },
-      { "item": "philosophy_book", "prob": 5 },
+      { "group": "philosophy_books", "prob": 5 },
       { "group": "newspaper", "prob": 25 },
       { "item": "survivormap", "prob": 1 },
       { "group": "brochures", "prob": 10 },
@@ -1813,7 +1813,7 @@
       { "item": "essay_book", "prob": 25 },
       { "item": "poetry_book", "prob": 15 },
       { "group": "literature", "prob": 35 },
-      { "item": "philosophy_book", "prob": 25 }
+      { "group": "philosophy_books", "prob": 25 }
     ]
   },
   {

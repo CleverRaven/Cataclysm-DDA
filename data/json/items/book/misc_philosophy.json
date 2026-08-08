@@ -5,151 +5,6 @@
     "subtypes": [ "BOOK" ],
     "name": { "str": "book of philosophy", "str_pl": "books of philosophy" },
     "description": "A deep discussion of morality with an emphasis on epistemology and logic.",
-    "snippet_category": [
-      {
-        "id": "philosophy1",
-        "text": "This is a copy of Nietzsche's \"Beyond Good and Evil\".  Its cover is dog-eared and creased."
-      },
-      {
-        "id": "philosophy2",
-        "text": "This is a copy of \"The Unique and Its Property\" by Max Stirner.  A modern translation by Wolfi Landstreicher."
-      },
-      {
-        "id": "philosophy4",
-        "text": "A large, extended version of \"Madness and Civilization\" by Michel Foucault.  The cover features a striking image of a Panopticonic Prison."
-      },
-      {
-        "id": "philosophy5",
-        "text": "This is a copy of \"The Postmodern Condition: A Report on Knowledge\" by Lyotard."
-      },
-      {
-        "id": "philosophy6",
-        "text": "A collection of texts and essays by Jacques Derrida.  Its pages are loose and yellowed - you should probably handle it with care."
-      },
-      {
-        "id": "philosophy7",
-        "text": "This is a copy of \"Society of the Spectacle\" by Guy Debord.  Its cover shows rows of adults staring placidly into a screen."
-      },
-      {
-        "id": "philosophy8",
-        "text": "This is a split copy of both \"An Ethic of Sexual Difference\" and \"This Sex Which Is Not One\" by Luce Irigaray."
-      },
-      {
-        "id": "philosophy9",
-        "text": "This is a copy of Baudrillard's \"Simulation and Simulacra\".  The cover contains an image of a man holding a colored pill in each hand, with the caption \"Welcome to the Desert of the Real.\".  You think you've seen this movie."
-      },
-      {
-        "id": "philosophy10",
-        "text": "This is a small, pocket version of Sartre's \"Existentialism and Humanism\".  It looks to have been used as a coaster in a past life."
-      },
-      {
-        "id": "philosophy11",
-        "text": "This is a copy of \"Practical Ethics\" by Peter Singer.  From the local university press."
-      },
-      {
-        "id": "philosophy12",
-        "text": "This is a photocopied spiral-bound copy of \"Industrial Society and Its Future\" by 'Freedom Club'.  The original looks to have been written on a typewriter before being copied."
-      },
-      {
-        "id": "philosophy13",
-        "text": "This is a copy of \"Industrial Society and Its Future\" by Ted Kaczynski.  Its cover is an image of a hand-crafted wooden box filled with wiring and an ominous looking metal tube.  Provocative."
-      },
-      { "id": "philosophy14", "text": "This is a small reader on Hegel's Dialectics." },
-      {
-        "id": "philosophy15",
-        "text": "This is a copy of \"The State and Revolution\" by Vladimir Lenin.  In English, thankfully."
-      },
-      { "id": "philosophy16", "text": "This is a copy of \"In Defense of Marxism\" by Leon Trotsky." },
-      {
-        "id": "philosophy17",
-        "text": "This is a copy of \"Steal This Book\" by Abbie Hoffman.  There is a security tag on the back cover.  It appears to still be active."
-      },
-      {
-        "id": "philosophy18",
-        "text": "This is a copy of \"Walden: Or Life In The Woods\" by Henry David Thoreau.  It contains a dried and pressed leaf as a bookmark."
-      },
-      {
-        "id": "philosophy19",
-        "text": "This is a copy of \"The Female Eunuch\" by Germaine Greer.  A child has scribbled over the contents page in red crayon."
-      },
-      { "id": "philosophy20", "text": "This is a copy of \"An Introduction to Metaphysics\" by Bergson." },
-      {
-        "id": "philosophy21",
-        "text": "This is a copy of \"The Four Fundamental Concepts of Psychoanalysis\" by Jacques Lacan."
-      },
-      { "id": "philosophy22", "text": "This is a copy of Machiavelli's \"The Prince\".  With intro by Q. Skinner." },
-      { "id": "philosophy23", "text": "This is a copy of \"The Revolution of Everyday Life\" by Raoul Vaneigem." },
-      {
-        "id": "philosophy24",
-        "text": "This is a pocket copy of \"An Essay on Liberation\" by Herbert Marcuse.  The cover contains an image of a pelican."
-      },
-      { "id": "philosophy25", "text": "This is a copy of \"Either-Or\" by Søren Kierkegaard." },
-      { "id": "philosophy26", "text": "This is a copy of \"Allegory of the Cave\" by Plato." },
-      { "id": "philosophy27", "text": "This is a copy of \"Leviathan\" by Thomas Hobbes." },
-      { "id": "philosophy28", "text": "This is a copy of \"Critique Of Pure Reason\" by Immanuel Kant." },
-      { "id": "philosophy29", "text": "This is a copy of \"Principles of Philosophy\" by René Descartes." },
-      {
-        "id": "philosophy30",
-        "text": "This is a copy of both \"On the Genealogy of Morality\" and \"The Gay Science\" by Friederich Nietzsche."
-      },
-      {
-        "id": "philosophy31",
-        "text": "This is a copy of \"The Myth of Sisyphus\", and other essays, by Albert Camus.  The cover depicts a bare-chested man and a large boulder."
-      },
-      {
-        "id": "philosophy32",
-        "text": "This is a copy of \"The Sickness Unto Death\" by Søren Kierkegaard.  The pages are dotted with post-it notes."
-      },
-      {
-        "id": "philosophy33",
-        "text": "This is a copy of \"The Defence of Terrorism\" by Leon Trotsky.  Despite the title, it does not actually appear to be defending terrorism."
-      },
-      {
-        "id": "philosophy34",
-        "text": "This is a copy of \"Enquiry Concerning Political Justice\" by William Godwin.  This thick book is filled with antiquated phrases."
-      },
-      {
-        "id": "philosophy35",
-        "text": "This is a copy of \"The Abolition of Work and Other Essays\" by Bob Black.  It is likely that \"The Abolition of Work\" is the most famous essay in this book."
-      },
-      {
-        "id": "philosophy36",
-        "text": "This is a copy of \"What is Property?\" by Pierre-Joseph Proudhon.  It looks like this book has a surprisingly long track record of owners."
-      },
-      {
-        "id": "philosophy37",
-        "text": "This is a copy of \"The Conquest of Bread\" by Peter Kropotkin.  There is a picture of an old philosopher with magnificent beard, instead of bread, on the cover."
-      },
-      {
-        "id": "philosophy38",
-        "text": "This is a copy of \"The Trouble with Being Born\" by Emil Cioran.  This book might have been printed decades before the Cataclysm since the cover is quite weathered."
-      },
-      {
-        "id": "philosophy39",
-        "text": "This is a copy of \"The World as Will and Representation\" by Arthur Schopenhauer.  It contains a few undecipherable notes and scribbles."
-      },
-      {
-        "id": "philosophy40",
-        "text": "This is a copy of \"Up-Wingers: A Futurist Manifesto\" by FM-2030.  It seems that the author's real name is Fereidoun M. Esfandiary."
-      },
-      {
-        "id": "philosophy41",
-        "text": "This is a copy of \"The Bastiat Collection\", a large collection of essays by Frederic Bastiat."
-      },
-      {
-        "id": "philosophy42",
-        "text": "This is a copy of \"Anarchy, State, and Utopia\" by Robert Nozick, one of the most influential books of modern libertarianism."
-      },
-      {
-        "id": "philosophy43",
-        "text": "This is a copy of \"Socialism\" by Ludwig von Mises, a critical examination of socialism."
-      },
-      {
-        "id": "philosophy44",
-        "text": "This is a copy of \"The ABC of Communism\" by Nikolai Bukharin, one of the most influential books of early Marxism-Leninism."
-      },
-      { "id": "philosophy45", "text": "This is a copy of \"Anti-Capitalist Mentality\" by Ludwig von Mises." }
-    ],
     "chapters": 44,
     "copy-from": "book_nonf_soft_phil_tpl"
   },
@@ -207,5 +62,1008 @@
     "price": "34 USD",
     "price_postapoc": "50 cent",
     "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_beyond_good_and_evil",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Beyond Good and Evil", "str_pl": "copies of Beyond Good and Evil" },
+    "description": "This is a copy of Nietzsche's \"Beyond Good and Evil\". Its cover is dog-eared and creased.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_unique_and_its_property",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Unique and Its Property", "str_pl": "copies of The Unique and Its Property" },
+    "description": "This is a copy of \"The Unique and Its Property\" by Max Stirner. A modern translation by Wolfi Landstreicher.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_madness_and_civilization",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Madness and Civilization", "str_pl": "copies of Madness and Civilization" },
+    "description": "A large, extended version of \"Madness and Civilization\" by Michel Foucault. The cover features a striking image of a Panopticonic Prison.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_postmodern_condition",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Postmodern Condition", "str_pl": "copies of The Postmodern Condition" },
+    "description": "This is a copy of \"The Postmodern Condition: A Report on Knowledge\" by Lyotard.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_derrida_essays",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Jacques Derrida Essays", "str_pl": "copies of Jacques Derrida Essays" },
+    "description": "A collection of texts and essays by Jacques Derrida. Its pages are loose and yellowed - you should probably handle it with care.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_society_of_the_spectacle",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Society of the Spectacle", "str_pl": "copies of Society of the Spectacle" },
+    "description": "This is a copy of \"Society of the Spectacle\" by Guy Debord. Its cover shows rows of adults staring placidly into a screen.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_irigaray_collection",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "An Ethic of Sexual Difference", "str_pl": "copies of An Ethic of Sexual Difference" },
+    "description": "This is a split copy of both \"An Ethic of Sexual Difference\" and \"This Sex Which Is Not One\" by Luce Irigaray.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_simulacra_and_simulation",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Simulacra and Simulation", "str_pl": "copies of Simulacra and Simulation" },
+    "description": "This is a copy of Baudrillard's \"Simulation and Simulacra\". The cover contains an image of a man holding a colored pill in each hand, with the caption \"Welcome to the Desert of the Real.\". You think you've seen this movie.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_existentialism_and_humanism",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Existentialism and Humanism", "str_pl": "copies of Existentialism and Humanism" },
+    "description": "This is a small, pocket version of Sartre's \"Existentialism and Humanism\". It looks to have been used as a coaster in a past life.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_practical_ethics",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Practical Ethics", "str_pl": "copies of Practical Ethics" },
+    "description": "This is a copy of \"Practical Ethics\" by Peter Singer. From the local university press.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_industrial_society_spiral",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Industrial Society and Its Future (Spiral-bound)", "str_pl": "copies of Industrial Society and Its Future" },
+    "description": "This is a photocopied spiral-bound copy of \"Industrial Society and Its Future\" by 'Freedom Club'. The original looks to have been written on a typewriter before being copied.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_industrial_society_kaczynski",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Industrial Society and Its Future", "str_pl": "copies of Industrial Society and Its Future" },
+    "description": "This is a copy of \"Industrial Society and Its Future\" by Ted Kaczynski. Its cover is an image of a hand-crafted wooden box filled with wiring and an ominous looking metal tube. Provocative.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_hegel_dialectic_reader",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Reader on Hegel's Dialectics", "str_pl": "readers on Hegel's Dialectics" },
+    "description": "This is a small reader on Hegel's Dialectics.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_state_and_revolution",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The State and Revolution", "str_pl": "copies of The State and Revolution" },
+    "description": "This is a copy of \"The State and Revolution\" by Vladimir Lenin. In English, thankfully.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_in_defense_of_marxism",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "In Defense of Marxism", "str_pl": "copies of In Defense of Marxism" },
+    "description": "This is a copy of \"In Defense of Marxism\" by Leon Trotsky.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_steal_this_book",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Steal This Book", "str_pl": "copies of Steal This Book" },
+    "description": "This is a copy of \"Steal This Book\" by Abbie Hoffman. There is a security tag on the back cover. It appears to still be active.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_walden",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Walden: Or Life In The Woods", "str_pl": "copies of Walden" },
+    "description": "This is a copy of \"Walden: Or Life In The Woods\" by Henry David Thoreau. It contains a dried and pressed leaf as a bookmark.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_female_eunuch",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Female Eunuch", "str_pl": "copies of The Female Eunuch" },
+    "description": "This is a copy of \"The Female Eunuch\" by Germaine Greer. A child has scribbled over the contents page in red crayon.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_intro_to_metaphysics",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "An Introduction to Metaphysics", "str_pl": "copies of An Introduction to Metaphysics" },
+    "description": "This is a copy of \"An Introduction to Metaphysics\" by Bergson.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_four_concepts_psychoanalysis",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Four Fundamental Concepts of Psychoanalysis", "str_pl": "copies of Psychoanalysis Concepts" },
+    "description": "This is a copy of \"The Four Fundamental Concepts of Psychoanalysis\" by Jacques Lacan.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_the_prince",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Prince", "str_pl": "copies of The Prince" },
+    "description": "This is a copy of Machiavelli's \"The Prince\". With intro by Q. Skinner.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_revolution_of_everyday_life",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Revolution of Everyday Life", "str_pl": "copies of The Revolution of Everyday Life" },
+    "description": "This is a copy of \"The Revolution of Everyday Life\" by Raoul Vaneigem.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_essay_on_liberation",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "An Essay on Liberation", "str_pl": "copies of An Essay on Liberation" },
+    "description": "This is a pocket copy of \"An Essay on Liberation\" by Herbert Marcuse. The cover contains an image of a pelican.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_either_or",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Either/Or", "str_pl": "copies of Either/Or" },
+    "description": "This is a copy of \"Either-Or\" by Søren Kierkegaard.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_allegory_of_the_cave",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Allegory of the Cave", "str_pl": "copies of Allegory of the Cave" },
+    "description": "This is a copy of \"Allegory of the Cave\" by Plato.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_leviathan",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Leviathan", "str_pl": "copies of Leviathan" },
+    "description": "This is a copy of \"Leviathan\" by Thomas Hobbes.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_critique_of_pure_reason",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Critique Of Pure Reason", "str_pl": "copies of Critique Of Pure Reason" },
+    "description": "This is a copy of \"Critique Of Pure Reason\" by Immanuel Kant.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_principles_of_philosophy",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Principles of Philosophy", "str_pl": "copies of Principles of Philosophy" },
+    "description": "This is a copy of \"Principles of Philosophy\" by René Descartes.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_genealogy_morality_gay_science",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "On the Genealogy of Morality and The Gay Science", "str_pl": "copies of Nietzsche Collection" },
+    "description": "This is a copy of both \"On the Genealogy of Morality\" and \"The Gay Science\" by Friederich Nietzsche.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_myth_of_sisyphus",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Myth of Sisyphus", "str_pl": "copies of The Myth of Sisyphus" },
+    "description": "This is a copy of \"The Myth of Sisyphus\", and other essays, by Albert Camus. The cover depicts a bare-chested man and a large boulder.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_sickness_unto_death",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Sickness Unto Death", "str_pl": "copies of The Sickness Unto Death" },
+    "description": "This is a copy of \"The Sickness Unto Death\" by Søren Kierkegaard. The pages are dotted with post-it notes.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_defence_of_terrorism",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Defence of Terrorism", "str_pl": "copies of The Defence of Terrorism" },
+    "description": "This is a copy of \"The Defence of Terrorism\" by Leon Trotsky. Despite the title, it does not actually appear to be defending terrorism.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_enquiry_political_justice",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Enquiry Concerning Political Justice", "str_pl": "copies of Enquiry Concerning Political Justice" },
+    "description": "This is a copy of \"Enquiry Concerning Political Justice\" by William Godwin. This thick book is filled with antiquated phrases.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_abolition_of_work",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Abolition of Work and Other Essays", "str_pl": "copies of The Abolition of Work" },
+    "description": "This is a copy of \"The Abolition of Work and Other Essays\" by Bob Black. It is likely that \"The Abolition of Work\" is the most famous essay in this book.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_what_is_property",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "What is Property?", "str_pl": "copies of What is Property?" },
+    "description": "This is a copy of \"What is Property?\" by Pierre-Joseph Proudhon. It looks like this book has a surprisingly long track record of owners.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_conquest_of_bread",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Conquest of Bread", "str_pl": "copies of The Conquest of Bread" },
+    "description": "This is a copy of \"The Conquest of Bread\" by Peter Kropotkin. There is a picture of an old philosopher with magnificent beard, instead of bread, on the cover.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_trouble_with_being_born",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Trouble with Being Born", "str_pl": "copies of The Trouble with Being Born" },
+    "description": "This is a copy of \"The Trouble with Being Born\" by Emil Cioran. This book might have been printed decades before the Cataclysm since the cover is quite weathered.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_world_as_will_and_representation",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The World as Will and Representation", "str_pl": "copies of The World as Will and Representation" },
+    "description": "This is a copy of \"The World as Will and Representation\" by Arthur Schopenhauer. It contains a few undecipherable notes and scribbles.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_up_wingers",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Up-Wingers: A Futurist Manifesto", "str_pl": "copies of Up-Wingers" },
+    "description": "This is a copy of \"Up-Wingers: A Futurist Manifesto\" by FM-2030. It seems that the author's real name is Fereidoun M. Esfandiary.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_bastiat_collection",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Bastiat Collection", "str_pl": "copies of The Bastiat Collection" },
+    "description": "This is a copy of \"The Bastiat Collection\", a large collection of essays by Frederic Bastiat.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_anarchy_state_and_utopia",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Anarchy, State, and Utopia", "str_pl": "copies of Anarchy, State, and Utopia" },
+    "description": "This is a copy of \"Anarchy, State, and Utopia\" by Robert Nozick, one of the most influential books of modern libertarianism.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_socialism_mises",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Socialism", "str_pl": "copies of Socialism" },
+    "description": "This is a copy of \"Socialism\" by Ludwig von Mises, a critical examination of socialism.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_abc_of_communism",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The ABC of Communism", "str_pl": "copies of The ABC of Communism" },
+    "description": "This is a copy of \"The ABC of Communism\" by Nikolai Bukharin, one of the most influential books of early Marxism-Leninism.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_anti_capitalist_mentality",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Anti-Capitalist Mentality", "str_pl": "copies of Anti-Capitalist Mentality" },
+    "description": "This is a copy of \"Anti-Capitalist Mentality\" by Ludwig von Mises.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_pensees",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Pensées", "str_pl": "copies of Pensées" },
+    "description": "This is a copy of \"Pensées\" by Blaise Pascal.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_tractatus_logico_philosophicus",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Tractatus Logico-Philosophicus", "str_pl": "copies of Tractatus Logico-Philosophicus" },
+    "description": "This is a copy of \"Tractatus Logico-Philosophicus\" by Ludwig Wittgenstein.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_dialogues_concerning_natural_religion",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Dialogues Concerning Natural Religion", "str_pl": "copies of Dialogues Concerning Natural Religion" },
+    "description": "This is a copy of \"Dialogues Concerning Natural Religion\" by David Hume.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_meditations_on_first_philosophy",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Meditations on First Philosophy", "str_pl": "copies of Meditations on First Philosophy" },
+    "description": "This is a copy of \"Meditations on First Philosophy\" by Rene Descartes.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_nicomachean_ethics",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Nicomachean Ethics", "str_pl": "copies of The Nicomachean Ethics" },
+    "description": "This is a copy of \"The Nicomachean Ethics\" by Aristotle.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_analects_confucius",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Analects", "str_pl": "copies of Analects" },
+    "description": "This is a copy of \"Analects\" by Confucius.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_confessions_augustine",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Confessions", "str_pl": "copies of Confessions" },
+    "description": "This is a copy of \"Confessions\" by Augustine.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_tractatus_theologico_politicus",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Tractatus Theologico-Politicus", "str_pl": "copies of Tractatus Theologico-Politicus" },
+    "description": "This is a copy of \"Tractatus Theologico Politicus\" by Baruch de Spinoza.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_being_and_time",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Being and Time", "str_pl": "copies of Being and Time" },
+    "description": "This is a copy of \"Being and Time\" by Martin Heidegger.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_structure_of_scientific_revolutions",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Structure of Scientific Revolutions", "str_pl": "copies of The Structure of Scientific Revolutions" },
+    "description": "This is a copy of \"The Structure of Scientific Revolutions\" by Thomas Kuhn.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_tao_te_ching",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Tao Te Ching", "str_pl": "copies of Tao Te Ching" },
+    "description": "This is a copy of \"Tao Te Ching\" by Lao Tsu.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_discourses_of_epictetus",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Discourses of Epictetus", "str_pl": "copies of Discourses of Epictetus" },
+    "description": "This is a copy of \"Discourses Of Epictetus\" by Epictetus.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_phaedo",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Phaedo", "str_pl": "copies of Phaedo" },
+    "description": "This is a copy of \"Phaedo\" by Plato.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_de_rerum_natura",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "De Rerum Natura", "str_pl": "copies of De Rerum Natura" },
+    "description": "This is a copy of \"De Rerum Natura\" by Lucretius.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_das_kapital",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Das Kapital", "str_pl": "copies of Das Kapital" },
+    "description": "This is a copy of \"Das Kapital\" by Karl Marx.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_on_the_ends_of_good_and_evil",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "On the Ends of Good and Evil", "str_pl": "copies of On the Ends of Good and Evil" },
+    "description": "This is a copy of \"On The Ends Of Good And Evil\" by Marcus Tullius Cicero.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_utilitarianism",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Utilitarianism", "str_pl": "copies of Utilitarianism" },
+    "description": "This is a copy of \"Utilitarianism\" by John Stuart Mill.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_open_society_and_its_enemies",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Open Society and Its Enemies", "str_pl": "copies of The Open Society and Its Enemies" },
+    "description": "This is a copy of \"The Open Society and Its Enemies\" by Karl Popper.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_discipline_and_punish",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Discipline and Punish", "str_pl": "copies of Discipline and Punish" },
+    "description": "This is a copy of \"Discipline and Punish\" by Michel Foucault.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_city_of_god",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The City of God", "str_pl": "copies of The City of God" },
+    "description": "This is a copy of \"The City of God\" by Augustine.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_on_being_and_essence",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "On Being and Essence", "str_pl": "copies of On Being and Essence" },
+    "description": "This is a copy of \"On Being And Essence\" by Thomas Aquinas.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_two_treatises_of_government",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Two Treatises of Government", "str_pl": "copies of Two Treatises of Government" },
+    "description": "This is a copy of \"Two Treatises of Government\" by John Locke.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_spirit_of_the_laws",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Spirit of the Laws", "str_pl": "copies of The Spirit of the Laws" },
+    "description": "This is a copy of \"The Spirit Of The Laws\" by Montesquieu.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_enquiry_concerning_human_understanding",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "An Enquiry Concerning Human Understanding", "str_pl": "copies of An Enquiry Concerning Human Understanding" },
+    "description": "This is a copy of \"An Enquiry Concerning Human Understanding\" by David Hume.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_emile_rousseau",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Émile", "str_pl": "copies of Émile" },
+    "description": "This is a copy of \"Émile\" by Jean-Jacques Rousseau.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_phenomenology_of_mind",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Phenomenology of Mind", "str_pl": "copies of Phenomenology of Mind" },
+    "description": "This is a copy of \"Phenomenology of Mind\" by G. W. F. Hegel.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_critique_of_judgment",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Critique of Judgment", "str_pl": "copies of Critique of Judgment" },
+    "description": "This is a copy of \"Critique of Judgment\" by Immanuel Kant.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_vindication_rights_of_woman",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "A Vindication of the Rights of Woman", "str_pl": "copies of A Vindication of the Rights of Woman" },
+    "description": "This is a copy of \"A Vindication of the Rights of Woman\" by Mary Wollstonecraft.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_room_of_ones_own",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "A Room of One's Own", "str_pl": "copies of A Room of One's Own" },
+    "description": "This is a copy of \"A Room of One's Own\" by Virginia Woolf.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_essay_concerning_human_understanding",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "An Essay Concerning Human Understanding", "str_pl": "copies of An Essay Concerning Human Understanding" },
+    "description": "This is a copy of \"An Essay Concerning Human Understanding\" by John Locke.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_origins_of_totalitarianism",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Origins of Totalitarianism", "str_pl": "copies of The Origins of Totalitarianism" },
+    "description": "This is a copy of \"The Origins of Totalitarianism\" by Hannah Arendt.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_thus_spake_zarathustra",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Thus Spake Zarathustra", "str_pl": "copies of Thus Spake Zarathustra" },
+    "description": "This is a copy of \"Thus Spake Zarathustra\" by Friedrich Nietzsche.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_pragmatism_james",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Pragmatism", "str_pl": "copies of Pragmatism" },
+    "description": "This is a copy of \"Pragmatism\" by William James.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_logic_and_knowledge",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Logic and Knowledge", "str_pl": "copies of Logic and Knowledge" },
+    "description": "This is a copy of \"Logic And Knowledge\" by Bertrand Russell.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_consolation_of_philosophy",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Consolation of Philosophy", "str_pl": "copies of The Consolation of Philosophy" },
+    "description": "This is a copy of \"The Consolation of Philosophy\" by Anicius Manlius Severinus Boethius.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_anti_machiavel",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Anti-Machiavel", "str_pl": "copies of Anti-Machiavel" },
+    "description": "This is a copy of \"Anti-Machiavel\" by Frederick the Great.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_letters_from_a_stoic",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Letters from a Stoic", "str_pl": "copies of Letters from a Stoic" },
+    "description": "This is a copy of \"Letters from a Stoic\" by Seneca.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_meditations_marcus_aurelius",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Meditations", "str_pl": "copies of Meditations" },
+    "description": "This is a copy of \"Meditations\" by Marcus Aurelius.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_republic_plato",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Republic", "str_pl": "copies of Republic" },
+    "description": "This is a copy of \"Republic\" by Plato.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_metaphysics_aristotle",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Metaphysics", "str_pl": "copies of Metaphysics" },
+    "description": "This is a copy of \"Metaphysics\" by Aristotle.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_essays_montaigne",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Essays", "str_pl": "copies of Essays" },
+    "description": "This is a copy of \"Essays\" by Michel de Montaigne.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_discourse_on_the_method",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Discourse on the Method", "str_pl": "copies of Discourse on the Method" },
+    "description": "This is a copy of \"Discourse on the Method\" by Rene Descartes.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_ethics_spinoza",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Ethics", "str_pl": "copies of Ethics" },
+    "description": "This is a copy of \"Ethics\" by Baruch Spinoza.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_monadology_leibniz",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Monadology", "str_pl": "copies of Monadology" },
+    "description": "This is a copy of \"Monadology\" by Gottfried Wilhelm Leibniz.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_philosophical_investigations",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Philosophical Investigations", "str_pl": "copies of Philosophical Investigations" },
+    "description": "This is a copy of \"Philosophical Investigations\" by Ludwig Wittgenstein.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_principles_of_human_knowledge",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": {
+      "str": "A Treatise Concerning the Principles of Human Knowledge",
+      "str_pl": "copies of Principles of Human Knowledge"
+    },
+    "description": "This is a copy of \"A Treatise Concerning the Principles of Human Knowledge\" by George Berkeley.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_communist_manifesto",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Communist Manifesto", "str_pl": "copies of The Communist Manifesto" },
+    "description": "This is a copy of \"The Communist Manifesto\" by Karl Marx and Friedrich Engels.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_fear_and_trembling",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Fear and Trembling", "str_pl": "copies of Fear and Trembling" },
+    "description": "This is a copy of \"Fear and Trembling\" by Søren Kierkegaard.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_second_sex",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Second Sex", "str_pl": "copies of The Second Sex" },
+    "description": "This is a copy of \"The Second Sex\" by Simone de Beauvoir.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_on_liberty_mill",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "On Liberty", "str_pl": "copies of On Liberty" },
+    "description": "This is a copy of \"On Liberty\" by John Stuart Mill.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_logical_investigations_husserl",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Logical Investigations", "str_pl": "copies of Logical Investigations" },
+    "description": "This is a copy of \"Logical Investigations\" by Edmund Husserl.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_theory_of_justice",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "A Theory of Justice", "str_pl": "copies of A Theory of Justice" },
+    "description": "This is a copy of \"A Theory of Justice\" by John Rawls.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_enneads_plotinus",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Enneads", "str_pl": "copies of Enneads" },
+    "description": "This is a copy of \"Enneads\" by Plotinus.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_logic_of_scientific_discovery",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Logic of Scientific Discovery", "str_pl": "copies of The Logic of Scientific Discovery" },
+    "description": "This is a copy of \"The Logic of Scientific Discovery\" by Karl Popper.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_proslogion_anselm",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Proslogion", "str_pl": "copies of Proslogion" },
+    "description": "This is a copy of \"Proslogion\" by Anselm of Canterbury.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_order_of_things",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Order of Things", "str_pl": "copies of The Order of Things" },
+    "description": "This is a copy of \"The Order of Things\" by Michel Foucault.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_guide_for_the_perplexed",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Guide for the Perplexed", "str_pl": "copies of The Guide for the Perplexed" },
+    "description": "This is a copy of \"The Guide for the Perplexed\" by Maimonides.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_dialectic_of_enlightenment",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Dialectic of Enlightenment", "str_pl": "copies of Dialectic of Enlightenment" },
+    "description": "This is a copy of \"Dialectic of Enlightenment\" by Theodor Adorno and Max Horkheimer.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_critique_of_practical_reason",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Critique of Practical Reason", "str_pl": "copies of Critique of Practical Reason" },
+    "description": "This is a copy of \"Critique of Practical Reason\" by Immanuel Kant.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_illuminations_benjamin",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Illuminations", "str_pl": "copies of Illuminations" },
+    "description": "This is a copy of \"Illuminations\" by Walter Benjamin.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_phenomenology_of_perception",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Phenomenology of Perception", "str_pl": "copies of Phenomenology of Perception" },
+    "description": "This is a copy of \"Phenomenology of Perception\" by Maurice Merleau-Ponty.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_social_contract_rousseau",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Social Contract", "str_pl": "copies of The Social Contract" },
+    "description": "This is a copy of \"The Social Contract\" by Jean-Jacques Rousseau.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_truth_and_method",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Truth and Method", "str_pl": "copies of Truth and Method" },
+    "description": "This is a copy of \"Truth and Method\" by Hans-Georg Gadamer.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_totality_and_infinity",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Totality and Infinity", "str_pl": "copies of Totality and Infinity" },
+    "description": "This is a copy of \"Totality and Infinity\" by Emmanuel Levinas.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_second_treatise_of_government",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Second Treatise of Government", "str_pl": "copies of Second Treatise of Government" },
+    "description": "This is a copy of \"Second Treatise of Government\" by John Locke.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_of_grammatology",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Of Grammatology", "str_pl": "copies of Of Grammatology" },
+    "description": "This is a copy of \"Of Grammatology\" by Jacques Derrida.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_anti_oedipus",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Anti-Oedipus", "str_pl": "copies of Anti-Oedipus" },
+    "description": "This is a copy of \"Anti-Oedipus\" by Gilles Deleuze and Félix Guattari.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_theory_of_communicative_action",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Theory of Communicative Action", "str_pl": "copies of The Theory of Communicative Action" },
+    "description": "This is a copy of \"The Theory of Communicative Action\" by Jürgen Habermas.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_foundations_of_arithmetic",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Foundations of Arithmetic", "str_pl": "copies of The Foundations of Arithmetic" },
+    "description": "This is a copy of \"The Foundations of Arithmetic\" by Gottlob Frege.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_crito_plato",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Crito", "str_pl": "copies of Crito" },
+    "description": "This is a copy of \"Crito\" by Plato.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_from_a_logical_point_of_view",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "From a Logical Point of View", "str_pl": "copies of From a Logical Point of View" },
+    "description": "This is a copy of \"From a Logical Point of View\" by Willard Van Orman Quine.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_history_of_western_philosophy",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "A History of Western Philosophy", "str_pl": "copies of A History of Western Philosophy" },
+    "description": "This is a copy of \"A History of Western Philosophy\" by Bertrand Russell.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_naming_and_necessity",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Naming and Necessity", "str_pl": "copies of Naming and Necessity" },
+    "description": "This is a copy of \"Naming and Necessity\" by Saul Kripke.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_view_from_nowhere",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The View from Nowhere", "str_pl": "copies of The View from Nowhere" },
+    "description": "This is a copy of \"The View from Nowhere\" by Thomas Nagel.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_politics_aristotle",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Politics", "str_pl": "copies of Politics" },
+    "description": "This is a copy of \"Politics\" by Aristotle.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_sublime_object_of_ideology",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Sublime Object of Ideology", "str_pl": "copies of The Sublime Object of Ideology" },
+    "description": "This is a copy of \"The Sublime Object of Ideology\" by Slavoj Žižek.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_capitalist_realism",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Capitalist Realism", "str_pl": "copies of Capitalist Realism" },
+    "description": "This is a copy of \"Capitalist Realism\" by Mark Fisher.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_soft_phil_burnout_society",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Burnout Society", "str_pl": "copies of The Burnout Society" },
+    "description": "This is a copy of \"The Burnout Society\" by Byung-Chul Han.",
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_democracy_in_america",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Democracy in America", "str_pl": "copies of Democracy in America" },
+    "description": "This is a copy of \"Democracy in America\" by Alexis de Tocqueville.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_wealth_of_nations",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "The Wealth of Nations", "str_pl": "copies of The Wealth of Nations" },
+    "description": "This is a copy of \"The Wealth of Nations\" by Adam Smith.",
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_summa_theologica",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "Summa Theologica", "str_pl": "copies of Summa Theologica" },
+    "description": "This is a copy of \"Summa Theologica\" by Saint Thomas Aquinas.",
+    "copy-from": "book_nonf_hard_phil_tpl"
   }
 ]
