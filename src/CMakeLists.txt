@@ -224,18 +224,19 @@ if (TILES)
                 set(_SPV "${_SHADERS_DIR}/${_filename}.spv")
                 set(_DXIL "${_SHADERS_DIR}/${_filename}.dxil")
                 list(APPEND COMPILED_SHADERS "${_DXIL}" "${_SPV}")
+                set(VCPKG_TOOLS_DIR "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/tools")
                 add_custom_command(
                     OUTPUT "${_DXIL}"
                     MAIN_DEPENDENCY "${_SPV}"
                     COMMAND
-            "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/tools/sdl3-shadercross/shadercross.exe"
+                        "${VCPKG_TOOLS_DIR}/sdl3-shadercross/shadercross.exe"
                         "${_SPV}" -s SPIRV -d DXIL -o "${_DXIL}"
                 )
                 add_custom_command(
                     OUTPUT "${_SPV}"
                     MAIN_DEPENDENCY ${SHADER}
                     COMMAND
-            "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/tools/glslang/glslangValidator.exe"
+                        "${VCPKG_TOOLS_DIR}/glslang/glslangValidator.exe"
                         --quiet -V -S frag -o "${_SPV}" "${SHADER}"
                 )
             endforeach()
