@@ -42,6 +42,19 @@ class activity_schedule : public schedule
         }
 };
 
+class action_schedule : public schedule
+{
+        std::function<void( avatar & )> action;
+    public:
+        void setup( avatar &guy ) const override;
+        void do_turn( avatar &guy ) const override;
+
+        action_schedule( std::function<void( avatar & )> p_action,
+                         const time_duration &ticks ) : action( p_action ) {
+            interval = ticks;
+        }
+};
+
 class meal_schedule : public schedule
 {
         itype_id food;
