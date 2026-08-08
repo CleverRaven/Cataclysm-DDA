@@ -96,6 +96,7 @@ struct pick_info;
 } // namespace Pickup
 
 enum action_id : int;
+enum class magic_energy_type : int;
 enum class recipe_filter_flags : int;
 enum class steed_type : int;
 enum npc_attitude : int;
@@ -107,6 +108,7 @@ struct dealt_projectile_attack;
 /// @brief Item slot used to apply modifications from food and meds
 struct islot_comestible;
 struct item_comp;
+struct vitamin_resource_cost;
 struct itype;
 struct mutation_branch;
 struct mutation_category_trait;
@@ -3848,6 +3850,16 @@ class Character : public Creature, public visitable
          *  When cost_ctx is supplied, it is reused for step budgets instead of
          *  recomputing crafting_cost_context::for_recipe. */
         bool craft_consume_step_tools( item &craft, const crafting_cost_context *cost_ctx = nullptr );
+        /** Checks whether the character can pay the recipe's resource cost up to
+         *  target_progress and, if requested, consumes the required difference. */
+        bool craft_consume_character_resources( item &craft, int target_progress, bool consume = true );
+        /** Returns the amount of the specified character resource currently available
+         *  for crafting without crossing its minimum allowed threshold. */
+        int craft_character_resource_available( magic_energy_type resource ) const;
+        /** Returns the amount of the specified vitamin currently available for crafting
+         *  without reducing it below the requested safe level, or the vitamin minimum
+         *  when no explicit level is provided. */
+        int craft_vitamin_available( const vitamin_resource_cost &resource ) const;
         /** Advance the active unattended step's tool consumption to match its
          *  wall-clock progress.  Returns false (consuming nothing) if charges are short. */
         bool craft_consume_passive_step_tools( item &craft, time_point now, const item_location &loc );

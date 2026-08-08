@@ -3794,7 +3794,8 @@
       "sleepiness_tick": [ 9 ],
       "stamina_min": [ 8 ]
     },
-    "blood_analysis_description": "Methamphetamines"
+    "blood_analysis_description": "Methamphetamines",
+    "flags": [ "CANNOT_SLEEP" ]
   },
   {
     "type": "effect_type",
