@@ -1329,6 +1329,20 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
                              entry );
         }
         {
+            const mission_id miss_id = { Camp_Milk_Animals, "", {}, base_dir };
+            entry = _( "Notes:\n"
+                       "Assign an idle camp companion to harvest milk from "
+                       "any tamed, milkable livestock stationed nearby.\n"
+                       "Requirements:\n"
+                       "> Empty liquid containers must be located in your "
+                       "camp food or storage zones.\n"
+                       "Effects:\n"
+                       "> Automatically fills empty bottles/bags with raw milk "
+                       "and returns them to the camp zones." );
+
+            mission_key.add( { miss_id, false }, _( "Milk Local Livestock" ), entry );
+        }
+        {
             const mission_id miss_id = { Camp_Determine_Leadership, "", {}, base_dir };
             entry = string_format( _( "Notes:\n"
                                       "Choose a new leader for your faction.\n"
@@ -1546,6 +1560,10 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
     switch( miss_id.id.id ) {
         case Camp_Distribute_Food:
             distribute_food();
+            break;
+
+        case Camp_Milk_Animals:
+            milk_animals();
             break;
 
         case Camp_Determine_Leadership:
@@ -6208,4 +6226,117 @@ bool survive_random_encounter( npc &comp, std::string &situation, int favor, int
         }
     }
     return true;
+}
+
+bool basecamp::milk_animals()
+{
+    // 1. Zone Validation (Copying distribute_food pattern)
+    if( !validate_sort_points() ) {
+        popup( _( "You do not have a valid camp storage zone. Aborting…" ) );
+        return false;
+    }
+
+    map &here = get_map();
+    zone_manager &mgr = zone_manager::get_manager();
+    const tripoint_abs_ms &abspos = get_dumping_spot();
+
+    // 2. Gather all food/storage zones near the camp's center
+    const std::unordered_set<tripoint_abs_ms> &z_food = mgr.get_near( zone_type_CAMP_FOOD, abspos,
+            MAX_VIEW_DISTANCE, nullptr, get_owner() );
+
+    std::vector<item *> empty_containers;
+
+    // 3. Loop through every map tile inside those designated zones to find bottles/bags
+    for( const tripoint_abs_ms &p_food_stock_abs : z_food ) {
+        const tripoint_bub_ms p_food_stock = here.get_bub( p_food_stock_abs );
+        map_stack items = here.i_at( p_food_stock );
+
+        for( item &it : items ) {
+            // Check if the item is an empty glass bottle or zipper bag
+            if( it.typeId() == itype_id( "bottle_glass" ) || it.typeId() == itype_id( "zipper_bag" ) ) {
+                if( it.is_container() && it.is_container_empty() ) {
+                    empty_containers.push_back( &it );
+                }
+            }
+        }
+    }
+
+    // 4. Verification check for empty containers
+    if( empty_containers.empty() ) {
+        popup( _( "Your companions couldn't find any empty glass bottles or zipper bags in the camp food zone!" ) );
+        return false;
+    }
+
+    // 5. Query the game manager instance for nearby tamed cows
+    std::vector<monster *> milkable_cows;
+
+    for( Creature &critter : g->all_creatures() ) {
+        monster *mon = dynamic_cast<monster *>( &critter );
+        if( mon ) {
+            if( mon->type->id == mtype_id( "mon_cow" ) && mon->friendly != 0 ) {
+                milkable_cows.push_back( mon );
+            }
+        }
+    }
+
+    // 6. Verification check for located livestock
+    if( milkable_cows.empty() ) {
+        popup( _( "Your companions scouted the camp but couldn't find any tamed cows nearby!" ) );
+        return false;
+    }
+
+    int milk_bottles_filled = 0;
+
+    // 7. Loop through every empty container we found on the floor
+    for( item *target_bottle : empty_containers ) {
+        bool container_processed = false;
+
+        // Try to fill this specific bottle using any available nearby cow
+        for( monster *cow : milkable_cows ) {
+            if( container_processed ) {
+                break;
+            }
+
+            if( !cow->type->starting_ammo.empty() ) {
+                itype_id milked_item = cow->type->starting_ammo.begin()->first;
+
+                // Find the cow's ammo mapping reference
+                auto milkable_ammo = cow->ammo.find( milked_item );
+                if( milkable_ammo != cow->ammo.end() && milkable_ammo->second > 0 ) {
+
+                    // Build the fresh milk fluid item
+                    item milk_fluid( milked_item, calendar::turn );
+
+                    // Inject the milk into the bottle pocket (Fixed standalone pocket_type syntax)
+                    target_bottle->put_in( milk_fluid, pocket_type::CONTAINER );
+
+                    // Consume 1 charge of milk from the cow's 39 rounds pool
+                    milkable_ammo->second--;
+                    milk_bottles_filled++;
+
+                    // Flag that this bottle is successfully taken care of
+                    container_processed = true;
+                }
+            }
+        }
+
+        // If we processed all cows and they are completely empty of milk, stop the outer loop
+        if( !container_processed ) {
+            break;
+        }
+    }
+
+    // 8. Output final summary results to the player screen
+    if( milk_bottles_filled > 0 ) {
+        popup( string_format(
+                   _( "Task Complete! Your camp companions successfully milked the livestock and placed %d bottles of raw milk in your food storage larders." ),
+                   milk_bottles_filled ) );
+
+        // Force the local map viewport to redraw so the newly filled bottles visually appear on the floor
+        here.invalidate_map_cache( here.get_abs_sub().z() );
+        return true;
+    } else {
+        popup( _( "The livestock didn't have any milk ready to be harvested today." ) );
+        return false;
+    }
 }
