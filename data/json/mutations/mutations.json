@@ -1870,28 +1870,41 @@
     "type": "mutation",
     "id": "GOODMEMORY",
     "name": { "str": "Good Memory" },
-    "description": "You have an exceptional memory, and find it easy to remember things.  However, you don't benefit as much as other people from dropping a subject for a while and will thus end up learning slower.",
+    "description": "You have an exceptional memory, and find it easy to remember things.  This makes it easier to apply your theoretical knowledge when learning skills.  However, you don't benefit as much as other people from dropping a subject for a while and will thus end up learning slower.",
     "types": [ "MEMORY" ],
     "cancels": [ "FORGETFUL" ],
     "points": 0,
     "mixed_effect": true,
     "starting_trait": true,
     "valid": false,
-    "enchantments": [ { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": -0.34 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SKILL_RUST_RESIST", "multiply": -0.34 },
+          { "value": "THEORETICAL_SKILL_CATCHUP_BONUS", "multiply": 0.25 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
     "id": "FORGETFUL",
     "name": { "str": "Forgetful" },
-    "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you have trouble keeping your story straight when lying.",
+    "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual, it's harder for you to apply your book-learning to the real world, and you have trouble keeping your story straight when lying.",
     "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT", "RABBIT" ],
     "types": [ "MEMORY" ],
-    "points": 0,
-    "mixed_effect": true,
+    "points": -2,
     "starting_trait": true,
     "vitamin_cost": 160,
     "social_modifiers": { "lie": -5 },
-    "enchantments": [ { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": 0.33 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SKILL_RUST_RESIST", "multiply": 0.33 },
+          { "value": "THEORETICAL_SKILL_CATCHUP_BONUS", "multiply": -0.25 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -6907,7 +6920,8 @@
     "thirst": true,
     "visibility": 10,
     "ugliness": 10,
-    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 } ] } ],
+    "flags": [ "DISTRIBUTED_DAMAGE" ]
   },
   {
     "type": "mutation",
