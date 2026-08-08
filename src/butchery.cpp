@@ -66,6 +66,7 @@ static const harvest_drop_type_id harvest_drop_offal( "offal" );
 static const harvest_drop_type_id harvest_drop_skin( "skin" );
 
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
+static const itype_id itype_taxidermy_specimen( "taxidermy_specimen" );
 
 static const json_character_flag json_flag_INSTANT_BLEED( "INSTANT_BLEED" );
 
@@ -98,6 +99,7 @@ namespace io
         case butcher_type::QUARTER: return "QUARTER";
         case butcher_type::QUICK: return "QUICK";
         case butcher_type::SKIN: return "SKIN";
+        case butcher_type::TAXIDERMY: return "TAXIDERMY";
         case butcher_type::NUM_TYPES: break;
         }
         cata_fatal( "Invalid valid_target" );
@@ -449,6 +451,7 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
             }
             break;
         case butcher_type::DISSECT:
+        case butcher_type::TAXIDERMY:
             time_to_cut *= 6;
             break;
         case butcher_type::NUM_TYPES:
@@ -1065,6 +1068,20 @@ void destroy_the_carcass( const butchery_data &bd, Character &you )
     const butcher_type action = bd.b_type;
     item &corpse_item = *target;
     const mtype *corpse = corpse_item.get_mtype();
+
+    if( action == butcher_type::TAXIDERMY ) {
+        item specimen( itype_taxidermy_specimen, calendar::turn );
+        specimen.set_mtype( corpse );
+        here.add_item_or_charges( corpse_pos, specimen );
+
+        butchery_drops_harvest( bd, you );
+
+        add_msg( m_good,
+                 _( "You carefully preserve the skin and stuff the corpse into a taxidermy specimen." ) );
+        target.remove_item();
+        return;
+    }
+
     const field_type_id type_blood = corpse->bloodType();
     const field_type_id type_gib = corpse->gibType();
 
@@ -1106,6 +1123,7 @@ void destroy_the_carcass( const butchery_data &bd, Character &you )
 
     //end messages and effects
     switch( action ) {
+        case butcher_type::TAXIDERMY:
         case butcher_type::QUARTER:
             break;
         case butcher_type::QUICK:
@@ -1415,6 +1433,15 @@ std::optional<butcher_type> butcher_submenu( const std::vector<map_stack::iterat
                                    "corpse, and consumes a lot of time.  Your medical knowledge "
                                    "is most useful here." ),
                                 msgFactorD, dissect_wp_hint ) ) );
+    smenu.addentry_col( static_cast<int>( butcher_type::TAXIDERMY ),
+                        is_enabled( butcher_type::TAXIDERMY ),
+                        't', _( "Taxidermy corpse" )
+                        + progress_str( butcher_type::TAXIDERMY ),
+                        time_or_disabledreason( butcher_type::TAXIDERMY ),
+                        wrap60( string_format( "%s  %s",
+                                _( "Preserve and stuff the corpse to create a realistic taxidermy specimen.  "
+                                   "Harvests internal meat and organs while creating a lifelike statue." ),
+                                msgFactor ) ) );
     smenu.query();
     switch( smenu.ret ) {
         case static_cast<int>( butcher_type::QUICK ):
@@ -1440,6 +1467,9 @@ std::optional<butcher_type> butcher_submenu( const std::vector<map_stack::iterat
             break;
         case static_cast<int>( butcher_type::DISSECT ):
             return butcher_type::DISSECT;
+            break;
+        case static_cast<int>( butcher_type::TAXIDERMY ):
+            return butcher_type::TAXIDERMY;
             break;
         default:
             return std::nullopt;

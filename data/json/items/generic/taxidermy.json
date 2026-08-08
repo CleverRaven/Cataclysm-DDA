@@ -1,0 +1,20 @@
+[
+  {
+    "id": "TAXIDERMY",
+    "type": "json_flag",
+    "info": "Marks item as a taxidermy specimen."
+  },
+  {
+    "id": "taxidermy_specimen",
+    "type": "ITEM",
+    "category": "other",
+    "name": "taxidermy specimen",
+    "description": "A stuffed, preserved specimen of a creature.  It looks eerily lifelike.",
+    "material": [ "flesh", "leather" ],
+    "weight": "5 kg",
+    "volume": "5 L",
+    "symbol": "s",
+    "color": "light_gray",
+    "flags": [ "TAXIDERMY" ]
+  }
+]
