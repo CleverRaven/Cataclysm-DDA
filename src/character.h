@@ -1268,9 +1268,9 @@ class Character : public Creature, public visitable
         bool unwield();
 
         /** Get the formatted name of the currently wielded item (if any) with current gun mode (if gun) */
-        std::string weapname() const;
+        std::string weapname( bool color_faults = false ) const;
         /** Get the formatted name of the currently wielded item (if any) without current gun mode and ammo */
-        std::string weapname_simple() const;
+        std::string weapname_simple( bool color_faults = false ) const;
         /** Get the formatted current gun mode (if gun) */
         std::string weapname_mode() const;
         /** Get the formatted current ammo (if gun) */
