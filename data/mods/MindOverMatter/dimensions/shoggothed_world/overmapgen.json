@@ -1,0 +1,19 @@
+[
+  {
+    "type": "overmap_location",
+    "id": "mom_shoggothed_world",
+    "terrains": [ "mom_shoggothed_world_default" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mom_shoggothed_world_default",
+    "copy-from": "generic_open_land",
+    "name": "desolation",
+    "sym": ".",
+    "travel_cost_type": "field",
+    "looks_like": "field",
+    "color": "brown",
+    "see_cost": "none",
+    "flags": [ "NO_ROTATE" ]
+  }
+]
