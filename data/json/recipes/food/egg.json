@@ -271,7 +271,7 @@
         "batch_time_factors": [ 80, 4 ],
         "attention": "unattended",
         "//2": "At 15 minutes the egg white becomes rubbery and the yoke becomes dry, but at 2 hours the egg becomes inedible",
-        "max_time": "15 m"
+        "max_time": "2 h"
       }
     ],
     "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "eggs_reptile", 1, "LIST" ] ] ]
