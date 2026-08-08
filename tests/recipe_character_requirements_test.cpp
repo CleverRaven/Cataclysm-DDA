@@ -37,7 +37,7 @@ static void set_primary_stats( Character &character, const int str, const int de
     character.set_per_bonus( 0 );
 }
 
-TEST_CASE( "recipe character requirements load as minimum stat values",
+TEST_CASE( "recipe_character_requirements_load_as_minimum_stat_values",
            "[recipe][character_requirements][json]" )
 {
     const recipe &result = recipe_cudgel_character_requirements_all_stats.obj();
@@ -52,7 +52,7 @@ TEST_CASE( "recipe character requirements load as minimum stat values",
     CHECK( requirements.at( STAT_PER ) == 12 );
 }
 
-TEST_CASE( "zero character requirements have no effect",
+TEST_CASE( "zero_character_requirements_have_no_effect",
            "[recipe][character_requirements][json]" )
 {
     const recipe &result = recipe_cudgel_character_requirements_zero_entries.obj();
@@ -61,7 +61,7 @@ TEST_CASE( "zero character requirements have no effect",
     CHECK( result.get_character_requirements().empty() );
 }
 
-TEST_CASE( "recipe character requirements inheritance",
+TEST_CASE( "recipe_character_requirements_inheritance",
            "[recipe][character_requirements][json][copy-from]" )
 {
     SECTION( "omitting the field preserves inherited requirements" ) {
@@ -91,7 +91,7 @@ TEST_CASE( "recipe character requirements inheritance",
     }
 }
 
-TEST_CASE( "recipe character requirements use final primary stat values",
+TEST_CASE( "recipe_character_requirements_use_final_primary_stat_values",
            "[recipe][character_requirements][character]" )
 {
     avatar &character = get_avatar();
@@ -118,7 +118,7 @@ TEST_CASE( "recipe character requirements use final primary stat values",
     }
 }
 
-TEST_CASE( "character requirements affect craft start availability",
+TEST_CASE( "character_requirements_affect_craft_start_availability",
            "[recipe][character_requirements][crafting]" )
 {
     avatar &character = get_avatar();
