@@ -1148,24 +1148,6 @@
     "components": [ [ [ "red_phosphorous_small", 3 ] ] ]
   },
   {
-    "result": "matchhead_45colt_jhp",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "skills_required": [ "gun", 3 ],
-    "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 0 ], [ "recipe_bullets", 0 ] ],
-    "charges": 1,
-    "reversible": { "time": "5 s" },
-    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 5 ], [ "ammo_45colt", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "red_phosphorous_small", 5 ] ], [ [ "copper", 2 ] ] ]
-  },
-  {
     "result": "matchhead_50ae_fmj",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
