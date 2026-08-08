@@ -15,7 +15,7 @@
     "phase": "liquid",
     "volume": "25 ml",
     "weight": "1250 mg",
-    "ammo_type": "components",
+    "ammo_type": "FAKE_NO_SHOOTING_generic_liquid",
     "count": 10
   },
   {

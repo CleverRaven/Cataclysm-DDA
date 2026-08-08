@@ -2521,6 +2521,11 @@
     "info": "You burn in the sunlight like a vampire, but not quite as badly."
   },
   {
+    "id": "DISTRIBUTED_DAMAGE",
+    "type": "json_flag",
+    "info": "Damage you take is split evenly between your limbs"
+  },
+  {
     "id": "SHREDDED",
     "type": "json_flag",
     "info": "This is a small fragment."

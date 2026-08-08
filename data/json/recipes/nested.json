@@ -6710,9 +6710,9 @@
     "activity_level": "NO_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
-    "name": ".223/5.56x45mm ammo",
-    "description": "Recipes related to reloading .223/5.56x45mm ammo.",
-    "nested_category_data": [ "reloaded_223", "bp_223", "reloaded_556", "reloaded_556_incendiary", "bp_556", "bp_556_incendiary" ]
+    "name": ".223 ammo",
+    "description": "Recipes related to reloading .223 ammo.",
+    "nested_category_data": [ "reloaded_223", "bp_223" ]
   },
   {
     "id": "nested_270",
@@ -6891,7 +6891,7 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": "12.3ln ammo",
     "description": "Recipes related to reloading 12.3ln ammo.",
-    "nested_category_data": [ "reloaded_123ln", "bp_123ln" ]
+    "nested_category_data": [ "reloaded_123ln", "bp_123ln", "reloaded_123ln_ap", "bp_123ln_ap" ]
   },
   {
     "id": "nested_50beowulf",
@@ -6921,14 +6921,7 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".338 Lapua Magnum ammo",
     "description": "Recipes related to reloading .338 Lapua Magnum ammo.",
-    "nested_category_data": [
-      "reloaded_338lapua_hpbt",
-      "reloaded_338lapua_fmjbt",
-      "reloaded_338lapua_api",
-      "bp_338lapua_hpbt",
-      "bp_338lapua_fmjbt",
-      "bp_338lapua_api"
-    ]
+    "nested_category_data": [ "reloaded_338lapua_hpbt", "bp_338lapua_hpbt" ]
   },
   {
     "id": "nested_3030",

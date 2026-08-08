@@ -818,7 +818,7 @@
     "volume": "250 ml",
     "weight": "190 g",
     "material": [ "acetone" ],
-    "ammo_type": "components",
+    "ammo_type": "FAKE_NO_SHOOTING_generic_liquid",
     "phase": "liquid",
     "container": "bottle_glass"
   },
@@ -862,11 +862,10 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "cac2powder",
     "category": "chems",
-    "price": "2 USD",
-    "price_postapoc": "5 USD",
+    "price": "2 cent",
+    "price_postapoc": "5 cent",
     "name": { "str_sp": "calcium carbide premix powder" },
     "symbol": "=",
     "color": "dark_gray",
@@ -877,10 +876,8 @@
     "//2": "1 mole CaO equiv. of quicklime: 56.0774g, 16.78ml if solid chunk",
     "//3": "3 moles C equiv. of coal_lump (anthracite, 90% carbon): (3×12.011/0.9) = 40.03667g, 26.69ml if solid chunk",
     "//4": "56.0774 + 40.0367 = 96.1141g (100 units); 16.78 + 26.69 = 43.47ml, round to 50 due to powder form",
-    "volume": "50 ml",
-    "weight": "961 mg",
-    "ammo_type": "components",
-    "count": 100
+    "volume": "1 ml",
+    "weight": "961 mg"
   },
   {
     "type": "ITEM",
@@ -946,7 +943,7 @@
     "description": "Concentrated hydrogen peroxide is a powerful oxidant, violently decomposing in contact with most reducing agents.  Can be used as rocket fuel or to make high explosives.  Causes severe burns to any organic matter and may ignite it on contact.",
     "volume": "250 ml",
     "weight": "325 g",
-    "ammo_type": "components",
+    "ammo_type": "FAKE_NO_SHOOTING_generic_liquid",
     "phase": "liquid",
     "container": "bottle_glass"
   },
@@ -1073,7 +1070,7 @@
     "volume": "250 ml",
     "weight": "262 g",
     "material": [ "acid" ],
-    "ammo_type": "components",
+    "ammo_type": "FAKE_NO_SHOOTING_generic_liquid",
     "phase": "liquid",
     "container": "bottle_glass"
   },
@@ -1090,7 +1087,7 @@
     "description": "Formaldehyde, here dissolved in water, was widely used before the Cataclysm as a precursor to production of many chemicals and materials and as an embalming agent.  Easily identifiable by its pungent odor.  Terribly toxic, carcinogenic, and volatile.",
     "volume": "250 ml",
     "weight": "300 g",
-    "ammo_type": "components",
+    "ammo_type": "FAKE_NO_SHOOTING_generic_liquid",
     "phase": "liquid",
     "container": "bottle_glass"
   },
@@ -1944,7 +1941,7 @@
     "volume": "5 ml",
     "count": 10,
     "stack_size": 1,
-    "ammo_type": "components",
+    "ammo_type": "FAKE_NO_SHOOTING_generic_liquid",
     "container": "test_tube",
     "symbol": ";",
     "color": "light_green"
@@ -1962,7 +1959,7 @@
     "id": "rocuronium",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "ammo_type": "components",
+    "ammo_type": "FAKE_NO_SHOOTING_generic_liquid",
     "category": "chems",
     "name": { "str_sp": "rocuronium" },
     "description": "Rocuronium bromide, a fast-acting muscle relaxant.  Used primarily in emergency medicine because of its relative stability, it can serve as a component of a balanced anesthesia in a pinch.",
@@ -2109,7 +2106,7 @@
     "//": "density: 0.76–4.20 g/cm3 according to Google, I'm going with the middle ground",
     "price": "9 USD 36 cent",
     "price_postapoc": "4 USD",
-    "ammo_type": "components",
+    "ammo_type": "FAKE_NO_SHOOTING_generic_liquid",
     "stack_size": 10,
     "phase": "liquid",
     "container": "squeeze_tube",
@@ -2229,7 +2226,7 @@
     "id": "glue_weak",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "ammo_type": "components",
+    "ammo_type": "FAKE_NO_SHOOTING_generic_liquid",
     "category": "spare_parts",
     "//": "Represents all glues that can withstand <1800 psi of tensile strength, such as PVA, bone glue and rubber cement.",
     "//1": "1 charge of weak glue should cover an area of 5mm^2",

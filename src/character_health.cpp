@@ -165,8 +165,10 @@ static const json_character_flag json_flag_BIONIC_SHOCKPROOF( "BIONIC_SHOCKPROOF
 static const json_character_flag json_flag_BLIND( "BLIND" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_CANNOT_GAIN_WEARINESS( "CANNOT_GAIN_WEARINESS" );
+static const json_character_flag json_flag_CANNOT_SLEEP( "CANNOT_SLEEP" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
+static const json_character_flag json_flag_DISTRIBUTED_DAMAGE( "DISTRIBUTED_DAMAGE" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_HEAL_OVERRIDE( "HEAL_OVERRIDE" );
 static const json_character_flag json_flag_NO_BODY_HEAT( "NO_BODY_HEAT" );
@@ -1738,7 +1740,8 @@ void Character::check_needs_extremes()
 
     // Check if we're falling asleep, unless we're sleeping
     if( get_sleepiness() >= sleepiness_levels::EXHAUSTED + 25 && !in_sleep_state() ) {
-        if( get_sleepiness() >= sleepiness_levels::MASSIVE_SLEEPINESS ) {
+        if( get_sleepiness() >= sleepiness_levels::MASSIVE_SLEEPINESS &&
+            !has_flag( json_flag_CANNOT_SLEEP ) ) {
             add_msg_if_player( m_bad, _( "Survivor sleep now." ) );
             get_event_bus().send<event_type::falls_asleep_from_exhaustion>( getID() );
             mod_sleepiness( -10 );
@@ -1769,7 +1772,7 @@ void Character::check_needs_extremes()
                 add_effect( effect_lack_sleep, 30_minutes + 1_turns );
             }
             /** @EFFECT_INT slightly decreases occurrence of short naps when exhausted */
-            if( one_in( 100 + get_int() ) ) {
+            if( one_in( 100 + get_int() ) && !has_flag( json_flag_CANNOT_SLEEP ) ) {
                 fall_asleep( 30_seconds );
             }
         } else if( get_sleepiness() >= sleepiness_levels::DEAD_TIRED &&
@@ -1817,13 +1820,14 @@ void Character::check_needs_extremes()
             // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + get_int()) at lethal sleep deprivation)
             // Note: these can coexist with sleepiness-related microsleeps
             /** @EFFECT_INT slightly decreases occurrence of short naps when sleep deprived */
-            if( one_in( static_cast<int>( sleep_deprivation_pct * 75 ) + get_int() ) ) {
+            if( one_in( static_cast<int>( sleep_deprivation_pct * 75 ) + get_int() ) &&
+                !has_flag( json_flag_CANNOT_SLEEP ) ) {
                 fall_asleep( 30_seconds );
             }
 
             // Stimulants can be used to stay awake a while longer, but after a while you'll just collapse.
-            bool can_pass_out = ( get_stim() < 30 && sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) ||
-                                sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR;
+            bool can_pass_out = ( ( get_stim() < 30 && sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) ||
+                                  sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR ) && !has_flag( json_flag_CANNOT_SLEEP );
 
             if( can_pass_out && calendar::once_every( 10_minutes ) ) {
                 /** @EFFECT_PER slightly increases resilience against passing out from sleep deprivation */
@@ -2590,7 +2594,25 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
 
     const int dam_to_bodypart = std::min( dam, get_part_hp_cur( part_to_damage ) );
 
-    mod_part_hp_cur( part_to_damage, - dam_to_bodypart );
+    if( has_flag( json_flag_DISTRIBUTED_DAMAGE ) ) {
+        int num_limbs = 0; // number of limbs
+        for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+            if( elem.first == bodypart_str_id::NULL_ID() ) {
+                continue;
+            }
+            num_limbs++;
+        }
+        const int dam_per_part = dam / num_limbs;
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            if( bp->main_part ) {
+                mod_part_hp_cur( bp, -dam_per_part );
+            }
+        }
+
+    } else {
+        mod_part_hp_cur( part_to_damage, - dam_to_bodypart );
+    }
+
     if( source ) {
         cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart,
                         part_to_damage.id(), pain );

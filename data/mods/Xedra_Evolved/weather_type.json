@@ -150,5 +150,36 @@
     "sound_category": "thunder",
     "priority": 119,
     "condition": { "math": [ "magic_weather_lightning == 1" ] }
+  },
+  {
+    "id": "xe_weather_ominous_fog",
+    "type": "weather_type",
+    "name": "Ominous Fog",
+    "color": "light_gray",
+    "map_color": "dark_gray_white",
+    "sym": "~",
+    "sun_sym": "⛆",
+    "ranged_penalty": 9,
+    "sight_penalty": 2.6,
+    "light_modifier": -40,
+    "sun_multiplier": 0.02,
+    "light_multiplier": 0.5,
+    "sound_attn": 6,
+    "dangerous": true,
+    "precip": "none",
+    "rains": false,
+    "sound_category": "silent",
+    "priority": 121,
+    "condition": {
+      "or": [ { "math": [ "xe_weather_ominous_fog_scenario == 1" ] }, { "math": [ "xe_weather_ominous_fog_active == 1" ] } ]
+    },
+    "passive_effects": [
+      {
+        "effect_id": "effect_xe_weather_ominous_fog_monster_buff",
+        "intensity": 1,
+        "min_duration": "2 seconds",
+        "max_duration": "2 seconds"
+      }
+    ]
   }
 ]

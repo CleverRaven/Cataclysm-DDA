@@ -115,6 +115,7 @@ availability::availability( Character &_crafter, const recipe *r, int batch_size
                                 || crafter.get_knowledge_level( rec->skill_used )
                                 >= static_cast<int>( rec->get_difficulty( crafter ) * 0.8f );
     has_proficiencies = r->character_has_required_proficiencies( crafter );
+    const bool meets_character_requirements = r->character_meets_requirements( crafter );
     std::string reason;
     craft_flags flag = camp_crafting ? craft_flags::none : craft_flags::start_only;
 
@@ -124,6 +125,7 @@ availability::availability( Character &_crafter, const recipe *r, int batch_size
         can_craft = check_can_craft_nested( _crafter, *r );
     } else {
         can_craft = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
+                    meets_character_requirements &&
                     req.can_make_with_inventory( inv, all_items_filter, batch_size, flag );
     }
     would_use_rotten = !req.can_make_with_inventory( inv, no_rotten_filter, batch_size,
@@ -134,6 +136,7 @@ availability::availability( Character &_crafter, const recipe *r, int batch_size
     is_nested_category = r->is_nested();
     const requirement_data &simple_req = r->simple_requirements();
     apparently_craftable = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
+                           meets_character_requirements &&
                            simple_req.can_make_with_inventory( inv, all_items_filter, batch_size, flag );
     for( const auto &[skill, skill_lvl] : r->required_skills ) {
         if( crafter.get_skill_level( skill ) < skill_lvl ) {
