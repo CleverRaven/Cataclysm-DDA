@@ -693,6 +693,7 @@ CBMs can be defined like this:
 "tool" : "apparatus",       // Tool required to be eaten/drank
 "charges" : 4,              // Number of uses when spawned
 "stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
+"seasonings": [ "seasonings_universal", "seasonings_meat" ],  // Item groups that define what items will be automatically consumed alongside this item automatically. Defaults to "seasonings_universal" if undefined.
 "fun" : 50                  // Morale effects when used
 "freezing_point": 32,       // (Optional) Temperature in C at which item freezes, default is water (32F/0C)
 "cooks_like": "meat_cooked",         // (Optional) If the item is used in a recipe, replaces it with its cooks_like
