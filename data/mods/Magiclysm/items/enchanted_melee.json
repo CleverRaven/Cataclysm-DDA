@@ -1111,6 +1111,7 @@
       "NO_RELOAD",
       "NO_UNLOAD"
     ],
+    "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "blade_general" } ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
     "charges_per_use": 1,
