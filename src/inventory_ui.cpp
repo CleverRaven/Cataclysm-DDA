@@ -118,7 +118,7 @@ item_name_t &get_cached_name( item const *it )
     if( iter == item_name_cache.end() ) {
         return item_name_cache
                .emplace( it, item_name_t{ remove_color_tags( it->tname( 1, tname::tname_sort_key ) ),
-                                          remove_color_tags( it->tname( 1, true ) ),
+                                          remove_color_tags( it->tname( 1, tname::unprefixed_tname, true ) ),
                                           it->aggregated_contents().count } )
                .first->second;
     }
@@ -789,10 +789,10 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
     } else if( entry.is_collation_header() && entry.any_item()->count_by_charges() ) {
         item temp( *entry.any_item() );
         temp.charges = entry.get_total_charges();
-        disp_name = temp.display_name();
+        disp_name = temp.display_name( 1, true );
         count = 1;
     } else {
-        disp_name = entry.any_item()->display_name( count );
+        disp_name = entry.any_item()->display_name( count, true );
     }
 
     return ( count > 1 ) ? string_format( "%s %s",
@@ -4272,7 +4272,8 @@ void inventory_selector::action_examine( const item_location &sitem )
     vThisItem.insert( vThisItem.begin(),
     { {}, string_format( _( "Location: %s" ), sitem.describe( &u ) ) } );
 
-    item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy );
+    item_info_data data( sitem->tname( 1, tname::unprefixed_tname, true ), sitem->type_name(),
+                         vThisItem, vDummy );
     data.handle_scrolling = true;
     data.arrow_scrolling = true;
     int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
@@ -5155,7 +5156,9 @@ void inventory_examiner::draw_item_details( const item_location &sitem )
 
     sitem->info( true, vThisItem );
 
-    item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy, examine_window_scroll );
+    item_info_data data( sitem->tname( 1, tname::unprefixed_tname, true ), sitem->type_name(),
+                         vThisItem, vDummy,
+                         examine_window_scroll );
     data.without_getch = true;
 
     draw_item_info( w_examine, data );
