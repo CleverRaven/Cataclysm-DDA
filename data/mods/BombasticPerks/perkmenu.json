@@ -2142,6 +2142,34 @@
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_gunslinger" } },
+        "text": "Gain [<trait_name:perk_gunslinger>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_gunslinger>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_gunslinger>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_gunslinger", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires perk level 12, marksmanship 7, and handguns 7",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [
+                { "math": [ "u_skill('gun') >= 7" ] },
+                { "math": [ "u_skill('pistol') >= 7" ] },
+                { "math": [ "u_current_level >= 12" ] }
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_skeleton" } },
         "text": "Gain [<trait_name:perk_skeleton>]",
         "effect": [
