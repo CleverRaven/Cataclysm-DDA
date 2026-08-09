@@ -867,14 +867,6 @@
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
-    "id": "book_nonf_hard_phil_guide_for_the_perplexed",
-    "type": "ITEM",
-    "subtypes": [ "BOOK" ],
-    "name": { "str": "The Guide for the Perplexed", "str_pl": "copies of The Guide for the Perplexed" },
-    "description": "This is a copy of \"The Guide for the Perplexed\" by Maimonides.",
-    "copy-from": "book_nonf_hard_phil_tpl"
-  },
-  {
     "id": "book_nonf_hard_phil_dialectic_of_enlightenment",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
