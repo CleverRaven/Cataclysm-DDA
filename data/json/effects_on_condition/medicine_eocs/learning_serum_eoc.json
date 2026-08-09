@@ -6,7 +6,7 @@
       { "u_consume_item": { "context_val": "id" } },
       { "math": [ "_serum_duration = rng(time('12 h'), time('24 h'))" ] },
       { "u_add_effect": "learning_serum_main", "duration": { "context_val": "serum_duration" } },
-      { "u_add_effect": "learning_serum_crash", "duration": { "math": [ "_serum_duration * rng(0.1, 0.25)" ] } },
+      { "run_eocs": "EOC_APPLY_LEARNING_SERUM_CRASH", "time_in_future": { "context_val": "serum_duration" } },
       {
         "if": { "math": [ "u_effect_intensity('learning_serum_main') <= 1" ] },
         "then": { "run_eocs": "EOC_SERUM_LEARNING_HALLUCINATION_CHANCE", "time_in_future": [ "30 minutes", "90 minutes" ] }
@@ -16,8 +16,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_APPLY_LEARNING_SERUM_CRASH",
-    "condition": { "not": { "u_has_effect": "regen_serum_crash_fatigue" } },
-    "effect": [ { "u_add_effect": "regen_serum_crash_fatigue", "duration": [ "5 d", "10 d" ] } ]
+    "condition": { "not": { "u_has_effect": "learning_serum_crash" } },
+    "effect": [ { "u_add_effect": "learning_serum_crash", "duration": [ "3 h", "6 h" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -126,7 +126,7 @@
     "desc": [ "" ],
     "apply_message": "",
     "remove_message": "",
-    "base_mods": { "pain_min": [ 5 ], "pain_max": [ 15 ], "pain_chance": [ 4 ], "pain_tick": [ 60 ] }
+    "base_mods": { "pain_min": [ 5 ], "pain_max": [ 15 ], "pain_chance": [ 4 ], "pain_tick": [ 120 ] }
   },
   {
     "id": "learning_serum_time_slow_perception_spell",
