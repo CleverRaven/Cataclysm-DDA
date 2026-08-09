@@ -633,7 +633,8 @@ bool Character::can_make( const recipe *r, int batch_size ) const
         return false;
     }
 
-    if( !r->character_has_required_proficiencies( *this ) ) {
+    if( !r->character_has_required_proficiencies( *this ) ||
+        !r->character_meets_requirements( *this ) ) {
         return false;
     }
 
@@ -648,7 +649,8 @@ bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags,
         return false;
     }
 
-    if( !rec->character_has_required_proficiencies( *this ) ) {
+    if( !rec->character_has_required_proficiencies( *this ) ||
+        !rec->character_meets_requirements( *this ) ) {
         return false;
     }
 
