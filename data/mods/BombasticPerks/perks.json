@@ -1216,6 +1216,18 @@
   },
   {
     "type": "mutation",
+    "id": "perk_gunslinger",
+    "name": { "str": "Gunslinger" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "I do not aim with my hand.  He who aims with his hand has…uh, you forget what comes next.  When using pistols, you aim 75% faster.",
+    "enchantments": [
+      { "condition": { "u_has_wielded_with_skill": "pistol" }, "values": [ { "value": "AIMING_SPEED", "multiply": 0.75 } ] }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_ascetic_empowerment",
     "name": { "str": "Ascetic Empowerment" },
     "points": 0,
