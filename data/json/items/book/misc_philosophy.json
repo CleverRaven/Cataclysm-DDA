@@ -163,7 +163,7 @@
     "id": "book_nonf_soft_phil_hegel_dialectic_reader",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
-    "name": { "str": "Reader on Hegel's Dialectics", "str_pl": "readers on Hegel's Dialectics" },
+    "name": { "str": "Reader on Hegel's Dialectics", "str_pl": "copies Hegel's Dialectics" },
     "description": "This is a small reader on Hegel's Dialectics.",
     "copy-from": "book_nonf_soft_phil_tpl"
   },
