@@ -1357,7 +1357,7 @@
       { "item": "book_nonf_soft_phil_existentialism_and_humanism", "prob": 10 },
       { "item": "book_nonf_hard_phil_practical_ethics", "prob": 10 },
       { "item": "book_nonf_soft_phil_industrial_society_spiral", "prob": 10 },
-      { "item": "book_nonf_hard_phil_industrial_society_kaczynski", "prob": 10 },
+      { "item": "book_nonf_hard_phil_industrial_society_kaczynski", "prob": 3 },
       { "item": "book_nonf_soft_phil_hegel_dialectic_reader", "prob": 10 },
       { "item": "book_nonf_hard_phil_state_and_revolution", "prob": 10 },
       { "item": "book_nonf_hard_phil_in_defense_of_marxism", "prob": 10 },
