@@ -48,6 +48,7 @@
   {
     "id": "camping_lighting_electric",
     "type": "item_group",
+    "subtype": "distribution",
     "copy-from": "camping_lighting_electric",
     "extend": { "entries": [ { "item": "afs_atomic_light", "prob": 1 } ] }
   },
