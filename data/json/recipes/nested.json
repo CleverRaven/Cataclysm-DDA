@@ -6432,16 +6432,7 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": "9x19mm ammo",
     "description": "Recipes related to reloading 9x19mm ammo.",
-    "nested_category_data": [
-      "reloaded_9mmfmj",
-      "reloaded_9mm",
-      "reloaded_9mmP",
-      "reloaded_9mmP2",
-      "bp_9mmfmj",
-      "bp_9mm",
-      "matchhead_9mmfmj",
-      "matchhead_9mm"
-    ]
+    "nested_category_data": [ "reloaded_9mmfmj", "bp_9mmfmj", "matchhead_9mmfmj" ]
   },
   {
     "id": "nested_40sw",
@@ -6451,7 +6442,7 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".40 S&W ammo",
     "description": "Recipes related to reloading .40 S&W ammo.",
-    "nested_category_data": [ "reloaded_40sw", "reloaded_40fmj", "bp_40fmj", "bp_40sw", "matchhead_40fmj", "matchhead_40sw" ]
+    "nested_category_data": [ "reloaded_40fmj", "bp_40fmj", "matchhead_40fmj" ]
   },
   {
     "id": "nested_32acp",
@@ -6461,7 +6452,7 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".32 ACP ammo",
     "description": "Recipes related to reloading .32 ACP ammo.",
-    "nested_category_data": [ "reloaded_32_acp", "reloaded_32_acp_jhp", "bp_32_acp", "bp_32_acp_jhp", "matchhead_32_acp", "matchhead_32_acp_jhp" ]
+    "nested_category_data": [ "reloaded_32_acp", "bp_32_acp", "matchhead_32_acp" ]
   },
   {
     "id": "nested_38_special",
@@ -6471,15 +6462,7 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".38 Special ammo",
     "description": "Recipes related to reloading .38 Special ammo.",
-    "nested_category_data": [
-      "reloaded_38_fmj",
-      "reloaded_38_special",
-      "reloaded_38_special_p",
-      "bp_38_fmj",
-      "bp_38_special",
-      "matchhead_38_fmj",
-      "matchhead_38_special"
-    ]
+    "nested_category_data": [ "reloaded_38_fmj", "bp_38_fmj", "matchhead_38_fmj" ]
   },
   {
     "id": "nested_38_super",
@@ -6489,14 +6472,7 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".38 Super ammo",
     "description": "Recipes related to reloading .38 Super ammo.",
-    "nested_category_data": [
-      "reloaded_38super_fmj",
-      "reloaded_38_super",
-      "bp_38super_fmj",
-      "bp_38super",
-      "matchhead_38_super_fmj",
-      "matchhead_38_super"
-    ]
+    "nested_category_data": [ "reloaded_38super_fmj", "bp_38super_fmj", "matchhead_38_super_fmj" ]
   },
   {
     "id": "nested_44_magnum",
@@ -6506,7 +6482,7 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".44 Magnum ammo",
     "description": "Recipes related to reloading .44 Magnum ammo.",
-    "nested_category_data": [ "reloaded_44fmj", "reloaded_44magnum", "bp_44fmj", "bp_44magnum" ]
+    "nested_category_data": [ "reloaded_44fmj", "bp_44fmj" ]
   },
   {
     "id": "nested_45_acp",
@@ -6516,15 +6492,7 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".45 ACP ammo",
     "description": "Recipes related to reloading .45 ACP ammo.",
-    "nested_category_data": [
-      "reloaded_45_acp",
-      "reloaded_45_jhp",
-      "reloaded_45_super",
-      "bp_45_acp",
-      "bp_45_jhp",
-      "matchhead_45_acp",
-      "matchhead_45_jhp"
-    ]
+    "nested_category_data": [ "reloaded_45_acp", "bp_45_acp", "matchhead_45_acp" ]
   },
   {
     "id": "nested_500_s&w",
@@ -6544,7 +6512,7 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".50 AE ammo",
     "description": "Recipes related to reloading .50 AE ammo.",
-    "nested_category_data": [ "reloaded_50ae_fmj", "reloaded_50ae_jhp", "bp_50ae_fmj", "bp_50ae_jhp", "matchhead_50ae_fmj", "matchhead_50ae_jhp" ]
+    "nested_category_data": [ "reloaded_50ae_fmj", "bp_50ae_fmj", "matchhead_50ae_fmj" ]
   },
   {
     "id": "nested_762_25",
@@ -6564,15 +6532,7 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": "9x18mm ammo",
     "description": "Recipes related to reloading 9x18mm ammo.",
-    "nested_category_data": [
-      "reloaded_9x18mmfmj",
-      "reloaded_9x18mm",
-      "reloaded_9x18mmP2",
-      "bp_9x18mmfmj",
-      "bp_9x18mm",
-      "matchhead_9x18mmfmj",
-      "matchhead_9x18mm"
-    ]
+    "nested_category_data": [ "reloaded_9x18mmfmj", "reloaded_9x18mm", "bp_9x18mmfmj", "bp_9x18mm", "matchhead_9x18mmfmj", "matchhead_9x18mm" ]
   },
   {
     "id": "nested_380_acp",
@@ -6582,15 +6542,7 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".380 ACP ammo",
     "description": "Recipes related to reloading .380 ACP ammo.",
-    "nested_category_data": [
-      "reloaded_380_FMJ",
-      "reloaded_380_JHP",
-      "reloaded_380_p",
-      "bp_380_FMJ",
-      "bp_380_JHP",
-      "matchhead_380_FMJ",
-      "matchhead_380_JHP"
-    ]
+    "nested_category_data": [ "reloaded_380_FMJ", "reloaded_380_p", "bp_380_FMJ", "matchhead_380_FMJ" ]
   },
   {
     "id": "nested_57",
@@ -6610,14 +6562,7 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".357 SIG ammo",
     "description": "Recipes related to reloading .357 SIG ammo.",
-    "nested_category_data": [
-      "reloaded_357sig_fmj",
-      "reloaded_357sig_jhp",
-      "bp_357sig_fmj",
-      "bp_357sig_jhp",
-      "matchhead_357sig_fmj",
-      "matchhead_357sig_jhp"
-    ]
+    "nested_category_data": [ "reloaded_357sig_fmj", "bp_357sig_fmj", "matchhead_357sig_fmj" ]
   },
   {
     "id": "nested_357_magnum",
@@ -6627,14 +6572,7 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".357 Magnum ammo",
     "description": "Recipes related to reloading .357 Magnum ammo.",
-    "nested_category_data": [
-      "reloaded_357mag_fmj",
-      "reloaded_357mag_jhp",
-      "bp_357mag_fmj",
-      "bp_357mag_jhp",
-      "matchhead_357mag_fmj",
-      "matchhead_357mag_jhp"
-    ]
+    "nested_category_data": [ "reloaded_357mag_fmj", "bp_357mag_fmj", "matchhead_357mag_fmj" ]
   },
   {
     "id": "nested_10mm",
@@ -6644,15 +6582,7 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": "10mm Auto ammo",
     "description": "Recipes related to reloading 10mm Auto ammo.",
-    "nested_category_data": [
-      "reloaded_10mm_fmj",
-      "reloaded_10mm_jhp",
-      "reloaded_10mmP",
-      "bp_10mm_fmj",
-      "bp_10mm_jhp",
-      "matchhead_10mm_fmj",
-      "matchhead_10mm_jhp"
-    ]
+    "nested_category_data": [ "reloaded_10mm_fmj", "reloaded_10mmP", "bp_10mm_fmj", "matchhead_10mm_fmj" ]
   },
   {
     "id": "nested_454",
@@ -6674,13 +6604,10 @@
     "description": "Recipes related to reloading .45 Colt ammo.",
     "nested_category_data": [
       "reloaded_45colt_fmj",
-      "reloaded_45colt_jhp",
       "reloaded_45colt_cowboy",
       "bp_45colt_fmj",
-      "bp_45colt_jhp",
       "bp_45colt_cowboy",
       "matchhead_45colt_fmj",
-      "matchhead_45colt_jhp",
       "matchhead_45colt_cowboy"
     ]
   },
@@ -6692,7 +6619,7 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".460 S&W Magnum ammo",
     "description": "Recipes related to reloading .460 S&W ammo.",
-    "nested_category_data": [ "reloaded_460sw", "reloaded_460sw_jhp" ]
+    "nested_category_data": [ "reloaded_460sw" ]
   },
   {
     "id": "nested_22lr",
@@ -6725,16 +6652,6 @@
     "nested_category_data": [ "reloaded_270win_jsp", "reloaded_270win_fmj", "bp_270win_jsp", "bp_270win_fmj" ]
   },
   {
-    "id": "nested_300winmag",
-    "type": "nested_category",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_RIFLE",
-    "name": ".300 Winchester Magnum ammo",
-    "description": "Recipes related to reloading .300 Winchester Magnum ammo.",
-    "nested_category_data": [ "reloaded_300_winmag", "bp_300_winmag" ]
-  },
-  {
     "id": "nested_3006",
     "type": "nested_category",
     "activity_level": "NO_EXERCISE",
@@ -6762,10 +6679,6 @@
     "name": ".308/7.62x51mm ammo",
     "description": "Recipes related to reloading .308/7.62x51mm ammo.",
     "nested_category_data": [
-      "reloaded_308",
-      "reloaded_308_from_762x51",
-      "bp_308",
-      "bp_308_from_762x51",
       "reloaded_762_51",
       "reloaded_762_51_from_308",
       "reloaded_762_51_incendiary",
@@ -6794,7 +6707,7 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".50 BMG ammo",
     "description": "Recipes related to reloading .50 BMG ammo.",
-    "nested_category_data": [ "reloaded_50bmg", "reloaded_50_incendiary", "reloaded_50ss", "bp_50match", "bp_50_incendiary", "bp_50ss" ]
+    "nested_category_data": [ "reloaded_50bmg", "reloaded_50_incendiary", "bp_50match", "bp_50_incendiary" ]
   },
   {
     "id": "nested_545",
@@ -6814,7 +6727,7 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".300 AAC Blackout ammo",
     "description": "Recipes related to reloading .300 AAC Blackout ammo.",
-    "nested_category_data": [ "reloaded_300blk", "reloaded_300blk_ss", "bp_300blk", "bp_300blk_ss" ]
+    "nested_category_data": [ "reloaded_300blk", "bp_300blk" ]
   },
   {
     "id": "nested_458",
@@ -6844,7 +6757,7 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": "7.62x39mm ammo",
     "description": "Recipes related to reloading 7.62x39mm ammo.",
-    "nested_category_data": [ "reloaded_762_m87", "reloaded_762_jhp", "bp_762_m87", "bp_762_jhp" ]
+    "nested_category_data": [ "reloaded_762_m87", "bp_762_m87" ]
   },
   {
     "id": "nested_303",
@@ -6854,7 +6767,7 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".303 British ammo",
     "description": "Recipes related to reloading .303 British ammo.",
-    "nested_category_data": [ "reloaded_303", "reloaded_303fmj", "reloaded_303sp", "bp_303", "bp_303fmj", "bp_303sp" ]
+    "nested_category_data": [ "reloaded_303fmj", "reloaded_303sp", "bp_303fmj", "bp_303sp" ]
   },
   {
     "id": "nested_77_arisaka",
@@ -6912,16 +6825,6 @@
     "name": ".450 Bushmaster ammo",
     "description": "Recipes related to reloading .450 Bushmaster ammo.",
     "nested_category_data": [ "reloaded_450_ftx", "reloaded_450_penetrator", "bp_450_ftx", "bp_450_penetrator" ]
-  },
-  {
-    "id": "nested_338",
-    "type": "nested_category",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_RIFLE",
-    "name": ".338 Lapua Magnum ammo",
-    "description": "Recipes related to reloading .338 Lapua Magnum ammo.",
-    "nested_category_data": [ "reloaded_338lapua_hpbt", "bp_338lapua_hpbt" ]
   },
   {
     "id": "nested_3030",
