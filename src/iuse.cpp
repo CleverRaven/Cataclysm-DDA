@@ -3701,8 +3701,8 @@ static std::string get_music_description()
     return _( "a sweet guitar solo!" );
 }
 
-static make_play_music_impl( Character *p, const tripoint_bub_ms &source, const int volume,
-                             const int max_morale, bool play_sounds, bool make_music )
+static void make_play_music_impl( Character *p, const tripoint_bub_ms &source, const int volume,
+                                  const int max_morale, bool play_sounds, bool make_music )
 {
     std::string sound = "music";
 
