@@ -3701,8 +3701,8 @@ static std::string get_music_description()
     return _( "a sweet guitar solo!" );
 }
 
-void iuse::play_music( Character *p, const tripoint_bub_ms &source, const int volume,
-                       const int max_morale, bool play_sounds )
+static make_play_music_impl( Character *p, const tripoint_bub_ms &source, const int volume,
+                             const int max_morale, bool play_sounds, bool make_music )
 {
     std::string sound = "music";
 
@@ -3710,9 +3710,14 @@ void iuse::play_music( Character *p, const tripoint_bub_ms &source, const int vo
         return p && p->can_hear( source, volume ) && !p->in_sleep_state();
     };
 
-    auto lambda_add_music_effects = [&max_morale, &volume]( Character & guy ) {
+    auto lambda_add_music_effects = [&source, &max_morale, &volume, make_music]( Character & guy ) {
         guy.add_effect( effect_music, 1_turns );
-        guy.add_morale( morale_music, 1, max_morale, 5_minutes, 2_minutes, true );
+        // Studies show that satisfaction from playing musical instruments outlasts emotional impact of listening to music.
+        if (make_music && guy.pos_bub() == source) {
+            guy.add_morale( morale_music, 1, max_morale, 2_hours, 30_minutes, true );
+        } else {
+            guy.add_morale( morale_music, 1, max_morale, 5_minutes, 2_minutes, true );
+        }
         // mp3 player reduces hearing
         if( volume == 0 ) {
             guy.add_effect( effect_earphones, 1_turns );
@@ -3750,22 +3755,16 @@ void iuse::play_music( Character *p, const tripoint_bub_ms &source, const int vo
     }
 }
 
+void iuse::play_music( Character *p, const tripoint_bub_ms &source, const int volume,
+                       const int max_morale, bool play_sounds )
+{
+    make_play_music_impl(p, source, volume, max_morale, play_sounds, /*make_music=*/false);
+}
+
 void iuse::make_music( Character *p, const tripoint_bub_ms &source, int volume, int max_morale,
                        bool play_sounds )
 {
-    //I've mirrored playing music which is really more like listening to music.  Studies show that satisfaction from playing musical instruments outlasts emotional impact of listening to music.
-    if( play_sounds ) {
-        sounds::sound( source, volume, sounds::sound_t::music, _( "music" ), false, "music", "music" );
-    }
-    if( ! p || !p->can_hear( source, volume ) ) {
-        return;
-    }
-    p->add_effect( effect_music, 1_turns );
-    if( max_morale > 0 ) {
-        p->add_morale( morale_music, 1, max_morale, 2_hours, 30_minutes );
-    } else if( max_morale < 0 ) {
-        p->add_morale( morale_music, -1, max_morale, 2_hours, 30_minutes );
-    }
+    make_play_music_impl(p, source, volume, max_morale, play_sounds, /*make_music=*/true);
 }
 
 std::optional<int> iuse::mp3_on( Character *p, item *it, const tripoint_bub_ms &pos )
