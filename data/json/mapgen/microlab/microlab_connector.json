@@ -80,9 +80,7 @@
           "name": "Metro computer",
           "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 3,
-          "options": [
-            { "name": "Check Subway Status", "security": 5, "action": "map_subway" }
-          ],
+          "options": [ { "name": "Check Subway Status", "security": 5, "action": "map_subway" } ],
           "failures": [ { "action": "manhacks" }, { "action": "secubots" } ]
         }
       }
