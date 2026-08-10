@@ -3713,7 +3713,7 @@ static make_play_music_impl( Character *p, const tripoint_bub_ms &source, const 
     auto lambda_add_music_effects = [&source, &max_morale, &volume, make_music]( Character & guy ) {
         guy.add_effect( effect_music, 1_turns );
         // Studies show that satisfaction from playing musical instruments outlasts emotional impact of listening to music.
-        if (make_music && guy.pos_bub() == source) {
+        if( make_music && guy.pos_bub() == source ) {
             guy.add_morale( morale_music, 1, max_morale, 2_hours, 30_minutes, true );
         } else {
             guy.add_morale( morale_music, 1, max_morale, 5_minutes, 2_minutes, true );
