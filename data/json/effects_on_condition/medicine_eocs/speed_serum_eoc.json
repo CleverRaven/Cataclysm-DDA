@@ -49,8 +49,8 @@
         ],
         "values": [
           { "value": "MOVE_COST", "multiply": -0.1 },
-          { "value": "ATTACK_SPEED", "multiply": -0.25 },
-          { "value": "AIMING_SPEED", "multiply": 0.5 },
+          { "value": "ATTACK_SPEED", "multiply": -0.33 },
+          { "value": "AIMING_SPEED", "multiply": 0.8 },
           { "value": "PAIN", "multiply": 0.333 },
           { "value": "EXTRA_ELEC_PAIN", "multiply": 1 },
           { "value": "PAIN_PENALTY_MOD_STR", "multiply": 0.4 },
