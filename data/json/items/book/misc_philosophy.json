@@ -68,7 +68,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "Beyond Good and Evil", "str_pl": "copies of Beyond Good and Evil" },
-    "description": "This is a copy of Nietzsche's \"Beyond Good and Evil\". Its cover is dog-eared and creased.",
+    "description": "This is a copy of Nietzsche's \"Beyond Good and Evil\".  Its cover is dog-eared and creased.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -76,7 +76,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "The Unique and Its Property", "str_pl": "copies of The Unique and Its Property" },
-    "description": "This is a copy of \"The Unique and Its Property\" by Max Stirner. A modern translation by Wolfi Landstreicher.",
+    "description": "This is a copy of \"The Unique and Its Property\" by Max Stirner.  A modern translation by Wolfi Landstreicher.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -84,7 +84,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "Madness and Civilization", "str_pl": "copies of Madness and Civilization" },
-    "description": "A large, extended version of \"Madness and Civilization\" by Michel Foucault. The cover features a striking image of a Panopticonic Prison.",
+    "description": "A large, extended version of \"Madness and Civilization\" by Michel Foucault.  The cover features a striking image of a Panopticonic Prison.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -100,7 +100,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "Jacques Derrida Essays", "str_pl": "copies of Jacques Derrida Essays" },
-    "description": "A collection of texts and essays by Jacques Derrida. Its pages are loose and yellowed - you should probably handle it with care.",
+    "description": "A collection of texts and essays by Jacques Derrida.  Its pages are loose and yellowed - you should probably handle it with care.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -108,7 +108,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "Society of the Spectacle", "str_pl": "copies of Society of the Spectacle" },
-    "description": "This is a copy of \"Society of the Spectacle\" by Guy Debord. Its cover shows rows of adults staring placidly into a screen.",
+    "description": "This is a copy of \"Society of the Spectacle\" by Guy Debord.  Its cover shows rows of adults staring placidly into a screen.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -124,7 +124,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "Simulacra and Simulation", "str_pl": "copies of Simulacra and Simulation" },
-    "description": "This is a copy of Baudrillard's \"Simulation and Simulacra\". The cover contains an image of a man holding a colored pill in each hand, with the caption \"Welcome to the Desert of the Real.\". You think you've seen this movie.",
+    "description": "This is a copy of Baudrillard's \"Simulation and Simulacra\".  The cover contains an image of a man holding a colored pill in each hand, with the caption \"Welcome to the Desert of the Real.\".  You think you've seen this movie.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -132,7 +132,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "Existentialism and Humanism", "str_pl": "copies of Existentialism and Humanism" },
-    "description": "This is a small, pocket version of Sartre's \"Existentialism and Humanism\". It looks to have been used as a coaster in a past life.",
+    "description": "This is a small, pocket version of Sartre's \"Existentialism and Humanism\".  It looks to have been used as a coaster in a past life.",
     "copy-from": "book_nonf_soft_phil_tpl"
   },
   {
@@ -140,7 +140,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "Practical Ethics", "str_pl": "copies of Practical Ethics" },
-    "description": "This is a copy of \"Practical Ethics\" by Peter Singer. From the local university press.",
+    "description": "This is a copy of \"Practical Ethics\" by Peter Singer.  From the local university press.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -148,7 +148,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "Industrial Society and Its Future (Spiral-bound)", "str_pl": "copies of Industrial Society and Its Future" },
-    "description": "This is a photocopied spiral-bound copy of \"Industrial Society and Its Future\" by 'Freedom Club'. The original looks to have been written on a typewriter before being copied.",
+    "description": "This is a photocopied spiral-bound copy of \"Industrial Society and Its Future\" by 'Freedom Club'.  The original looks to have been written on a typewriter before being copied.",
     "copy-from": "book_nonf_soft_phil_tpl"
   },
   {
@@ -156,7 +156,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "Industrial Society and Its Future", "str_pl": "copies of Industrial Society and Its Future" },
-    "description": "This is a copy of \"Industrial Society and Its Future\" by Ted Kaczynski. Its cover is an image of a hand-crafted wooden box filled with wiring and an ominous looking metal tube. Provocative.",
+    "description": "This is a copy of \"Industrial Society and Its Future\" by Ted Kaczynski.  Its cover is an image of a hand-crafted wooden box filled with wiring and an ominous looking metal tube.  Provocative.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -172,7 +172,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "The State and Revolution", "str_pl": "copies of The State and Revolution" },
-    "description": "This is a copy of \"The State and Revolution\" by Vladimir Lenin. In English, thankfully.",
+    "description": "This is a copy of \"The State and Revolution\" by Vladimir Lenin.  In English, thankfully.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -188,7 +188,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "Steal This Book", "str_pl": "copies of Steal This Book" },
-    "description": "This is a copy of \"Steal This Book\" by Abbie Hoffman. There is a security tag on the back cover. It appears to still be active.",
+    "description": "This is a copy of \"Steal This Book\" by Abbie Hoffman.  There is a security tag on the back cover.  It appears to still be active.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -196,7 +196,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "Walden: Or Life In The Woods", "str_pl": "copies of Walden" },
-    "description": "This is a copy of \"Walden: Or Life In The Woods\" by Henry David Thoreau. It contains a dried and pressed leaf as a bookmark.",
+    "description": "This is a copy of \"Walden: Or Life In The Woods\" by Henry David Thoreau.  It contains a dried and pressed leaf as a bookmark.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -204,7 +204,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "The Female Eunuch", "str_pl": "copies of The Female Eunuch" },
-    "description": "This is a copy of \"The Female Eunuch\" by Germaine Greer. A child has scribbled over the contents page in red crayon.",
+    "description": "This is a copy of \"The Female Eunuch\" by Germaine Greer.  A child has scribbled over the contents page in red crayon.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -228,7 +228,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "The Prince", "str_pl": "copies of The Prince" },
-    "description": "This is a copy of Machiavelli's \"The Prince\". With intro by Q. Skinner.",
+    "description": "This is a copy of Machiavelli's \"The Prince\".  With intro by Q. Skinner.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -244,7 +244,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "An Essay on Liberation", "str_pl": "copies of An Essay on Liberation" },
-    "description": "This is a pocket copy of \"An Essay on Liberation\" by Herbert Marcuse. The cover contains an image of a pelican.",
+    "description": "This is a pocket copy of \"An Essay on Liberation\" by Herbert Marcuse.  The cover contains an image of a pelican.",
     "copy-from": "book_nonf_soft_phil_tpl"
   },
   {
@@ -300,7 +300,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "The Myth of Sisyphus", "str_pl": "copies of The Myth of Sisyphus" },
-    "description": "This is a copy of \"The Myth of Sisyphus\", and other essays, by Albert Camus. The cover depicts a bare-chested man and a large boulder.",
+    "description": "This is a copy of \"The Myth of Sisyphus\", and other essays, by Albert Camus.  The cover depicts a bare-chested man and a large boulder.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -308,7 +308,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "The Sickness Unto Death", "str_pl": "copies of The Sickness Unto Death" },
-    "description": "This is a copy of \"The Sickness Unto Death\" by Søren Kierkegaard. The pages are dotted with post-it notes.",
+    "description": "This is a copy of \"The Sickness Unto Death\" by Søren Kierkegaard.  The pages are dotted with post-it notes.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -316,7 +316,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "The Defence of Terrorism", "str_pl": "copies of The Defence of Terrorism" },
-    "description": "This is a copy of \"The Defence of Terrorism\" by Leon Trotsky. Despite the title, it does not actually appear to be defending terrorism.",
+    "description": "This is a copy of \"The Defence of Terrorism\" by Leon Trotsky.  Despite the title, it does not actually appear to be defending terrorism.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -324,7 +324,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "Enquiry Concerning Political Justice", "str_pl": "copies of Enquiry Concerning Political Justice" },
-    "description": "This is a copy of \"Enquiry Concerning Political Justice\" by William Godwin. This thick book is filled with antiquated phrases.",
+    "description": "This is a copy of \"Enquiry Concerning Political Justice\" by William Godwin.  This thick book is filled with antiquated phrases.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -332,7 +332,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "The Abolition of Work and Other Essays", "str_pl": "copies of The Abolition of Work" },
-    "description": "This is a copy of \"The Abolition of Work and Other Essays\" by Bob Black. It is likely that \"The Abolition of Work\" is the most famous essay in this book.",
+    "description": "This is a copy of \"The Abolition of Work and Other Essays\" by Bob Black.  It is likely that \"The Abolition of Work\" is the most famous essay in this book.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -340,7 +340,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "What is Property?", "str_pl": "copies of What is Property?" },
-    "description": "This is a copy of \"What is Property?\" by Pierre-Joseph Proudhon. It looks like this book has a surprisingly long track record of owners.",
+    "description": "This is a copy of \"What is Property?\" by Pierre-Joseph Proudhon.  It looks like this book has a surprisingly long track record of owners.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -348,7 +348,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "The Conquest of Bread", "str_pl": "copies of The Conquest of Bread" },
-    "description": "This is a copy of \"The Conquest of Bread\" by Peter Kropotkin. There is a picture of an old philosopher with magnificent beard, instead of bread, on the cover.",
+    "description": "This is a copy of \"The Conquest of Bread\" by Peter Kropotkin.  There is a picture of an old philosopher with magnificent beard, instead of bread, on the cover.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -356,7 +356,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "The Trouble with Being Born", "str_pl": "copies of The Trouble with Being Born" },
-    "description": "This is a copy of \"The Trouble with Being Born\" by Emil Cioran. This book might have been printed decades before the Cataclysm since the cover is quite weathered.",
+    "description": "This is a copy of \"The Trouble with Being Born\" by Emil Cioran.  This book might have been printed decades before the Cataclysm since the cover is quite weathered.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -364,7 +364,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "The World as Will and Representation", "str_pl": "copies of The World as Will and Representation" },
-    "description": "This is a copy of \"The World as Will and Representation\" by Arthur Schopenhauer. It contains a few undecipherable notes and scribbles.",
+    "description": "This is a copy of \"The World as Will and Representation\" by Arthur Schopenhauer.  It contains a few undecipherable notes and scribbles.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -372,7 +372,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "name": { "str": "Up-Wingers: A Futurist Manifesto", "str_pl": "copies of Up-Wingers" },
-    "description": "This is a copy of \"Up-Wingers: A Futurist Manifesto\" by FM-2030. It seems that the author's real name is Fereidoun M. Esfandiary.",
+    "description": "This is a copy of \"Up-Wingers: A Futurist Manifesto\" by FM-2030.  It seems that the author's real name is Fereidoun M. Esfandiary.",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
