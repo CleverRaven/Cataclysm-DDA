@@ -5,7 +5,6 @@
 #include <memory>
 #include <optional>
 #include <set>
-#include <cstddef> // std::size_t
 #include <string>
 #include <unordered_map>
 #include <utility>
