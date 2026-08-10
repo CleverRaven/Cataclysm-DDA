@@ -21,6 +21,7 @@
 #include "flag.h"
 #include "flat_set.h"
 #include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "input.h"
 #include "pickup.h"
@@ -2247,12 +2248,8 @@ void inventory_selector::add_vehicle_items( const tripoint_bub_ms &target, bool 
     }, add_efiles );
 }
 
-void inventory_selector::add_vehicle_tank_items( int radius )
+void inventory_selector::add_vehicle_tank_items()
 {
-    if( radius < 0 ) {
-        return;
-    }
-
     map &here = get_map();
     const tripoint_bub_ms origin = u.pos_bub();
     const optional_vpart_position current_vp = here.veh_at( origin );
@@ -2290,11 +2287,11 @@ void inventory_selector::add_vehicle_tank_items( int radius )
     }
 
     // For other nearby vehicles, only expose tanks whose tile is reachable and within the normal
-    // inventory search radius, and only if a water faucet belonging to the same vehicle is also
-    // reachable within that radius.  This naturally includes one-tile vehicles and appliances.
+    // pickup range, and only if a water faucet belonging to the same vehicle is also reachable
+    // within that range.  This naturally includes one-tile vehicles and appliances.
     std::vector<std::pair<vehicle *, int>> nearby_tanks;
     std::unordered_set<vehicle *> vehicles_with_faucet;
-    for( const tripoint_bub_ms &pos : closest_points_first( origin, radius ) ) {
+    for( const tripoint_bub_ms &pos : closest_points_first( origin, PICKUP_RANGE ) ) {
         if( pos != origin &&
             !here.clear_path( origin, pos, rl_dist( origin, pos ), 1, 100 ) ) {
             continue;
