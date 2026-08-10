@@ -5,7 +5,7 @@
 #include <memory>
 #include <optional>
 #include <set>
-#include <stddef.h> /* size_t */
+#include <cstddef> // std::size_t
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -682,7 +682,7 @@ TEST_CASE( "consume_inventory_finds_nearby_vehicle_tanks", "[inventory][vehicle]
         veh->part( far_tank ).ammo_set( itype_water_clean, 10 );
         // Empty the in-range tank so only the out-of-range tank could be offered.
         for( const vpart_reference &vpr : veh->get_all_parts() ) {
-            if( vpr.part_index() != static_cast<size_t>( far_tank ) && vpr.part().contains_liquid() ) {
+            if( vpr.part_index() != static_cast<std::size_t>( far_tank ) && vpr.part().contains_liquid() ) {
                 vpr.part().ammo_unset();
             }
         }
