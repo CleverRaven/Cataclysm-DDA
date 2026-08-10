@@ -3758,7 +3758,7 @@ static make_play_music_impl( Character *p, const tripoint_bub_ms &source, const 
 void iuse::play_music( Character *p, const tripoint_bub_ms &source, const int volume,
                        const int max_morale, bool play_sounds )
 {
-    make_play_music_impl(p, source, volume, max_morale, play_sounds, /*make_music=*/false);
+    make_play_music_impl( p, source, volume, max_morale, play_sounds, /*make_music=*/false );
 }
 
 void iuse::make_music( Character *p, const tripoint_bub_ms &source, int volume, int max_morale,
