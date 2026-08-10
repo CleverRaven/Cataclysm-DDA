@@ -460,7 +460,7 @@
     "items": [
       { "group": "coins", "prob": 40 },
       [ "collector_book", 40 ],
-      { "group": "classic_literature", "prob": 40 },
+      [ "classic_literature", 40 ],
       [ "american_flag", 40 ],
       [ "family_photo", 40 ],
       [ "bronze_medal", 20 ],
