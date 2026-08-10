@@ -192,6 +192,7 @@ Add european comics
 Add crashed XEDRA serum transport truck map extras
 Add serum `16x-"Armus"`
 Add `wyrmhound` mutant dogs
+Highland Crypts
 
 
 ## Interface:
@@ -334,6 +335,7 @@ Aftershock: Add industrial habitat building.
 Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
 [XedraWood] Add magical tattoos and a profession that starts with them
 [Xedra Evolved] Add Follower dialogue topic to ask them to cast spells
+[Aftershock] Project Sobek Genetech
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -582,6 +584,8 @@ Pocket options: allow interacting with a pocket with hidden contents (fixes cras
 Allow NPCs to sleep during free_time
 NPCs default to allow_sleep ally rule
 Display multiple like items in car part removal on the same line with a count
+Scared NPCs don't turn hostile
+Preserve character-specific auto-pickup rules between sessions
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
