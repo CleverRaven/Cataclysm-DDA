@@ -36,7 +36,7 @@
         "special_vision": [
           {
             "condition": { "test_eoc": "EOC_IS_ELECTRIC" },
-            "distance": 4,
+            "distance": 5,
             "descriptions": [
               {
                 "id": "electric_creature_sense",
@@ -51,6 +51,7 @@
           { "value": "MOVE_COST", "multiply": -0.1 },
           { "value": "ATTACK_SPEED", "multiply": -0.33 },
           { "value": "AIMING_SPEED", "multiply": 0.8 },
+          { "value": "CARDIO_MULTIPLIER", "multiply": 0.2 },
           { "value": "PAIN", "multiply": 0.333 },
           { "value": "EXTRA_ELEC_PAIN", "multiply": 1 },
           { "value": "PAIN_PENALTY_MOD_STR", "multiply": 0.4 },
@@ -58,7 +59,7 @@
           { "value": "PAIN_PENALTY_MOD_INT", "multiply": 0.4 },
           { "value": "PAIN_PENALTY_MOD_PER", "multiply": 0.4 },
           { "value": "PAIN_PENALTY_MOD_SPEED", "multiply": 0.4 },
-          { "value": "REGEN_STAMINA", "multiply": -0.2 },
+          { "value": "SLEEPY", "add": -25 },
           { "value": "KCAL", "multiply": -0.15 }
         ]
       },
