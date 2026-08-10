@@ -6532,7 +6532,15 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": "9x18mm ammo",
     "description": "Recipes related to reloading 9x18mm ammo.",
-    "nested_category_data": [ "reloaded_9x18mmfmj", "reloaded_9x18mm", "bp_9x18mmfmj", "bp_9x18mm", "matchhead_9x18mmfmj", "matchhead_9x18mm" ]
+    "nested_category_data": [
+      "reloaded_9x18mmfmj",
+      "reloaded_9x18mm",
+      "reloaded_9x18mmP2",
+      "bp_9x18mmfmj",
+      "bp_9x18mm",
+      "matchhead_9x18mmfmj",
+      "matchhead_9x18mm"
+    ]
   },
   {
     "id": "nested_380_acp",
