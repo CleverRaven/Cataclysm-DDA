@@ -8,24 +8,14 @@
     "autolearn": true,
     "steps": [
       {
-        "name": "Boil and stir",
-        "time": "3 m",
-        "//": "Pasta needs to be constantly seperated until they stop sticking together",
-        "activity_level": "NO_EXERCISE",
-        "qualities": [ { "id": "COOK", "level": 3 } ],
-        "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ]
-      },
-      {
-        "name": "Boiling",
-        "time": "7 m",
+        "name": "Stir While Boiling",
+        "time": "10 m",
         "//": "There are ways to cook pasta that don't require boiling the water, and they are a lot more efficient, so this uses surface_heat",
         "//1": "pasta by weight is 5u flour, + heating the water (2u)",
+        "//2": "Pasta needs to be constantly seperated until they stop sticking together.",
         "activity_level": "NO_EXERCISE",
         "qualities": [ { "id": "COOK", "level": 3 } ],
-        "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-        "attention": "unattended",
-        "//2": "Rough estimation of pasta becoming fluffy before changing to mushy",
-        "max_time": "12 m"
+        "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ]
       }
     ],
     "components": [
