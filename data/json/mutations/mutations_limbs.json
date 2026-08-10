@@ -1050,7 +1050,7 @@
     "id": "WEBBED_FEET",
     "name": { "str": "Webbed Feet" },
     "description": "Your feet are heavily webbed, allowing you to swim faster if you aren't wearing footwear.",
-    "category": [ "LIZARD", "FISH", "SLIME", "BATRACHIAN" ],
+    "category": [ "LIZARD", "FISH", "BATRACHIAN" ],
     "types": [ "FEET" ],
     "prereqs": [ "WEBBED" ],
     "points": 1,
