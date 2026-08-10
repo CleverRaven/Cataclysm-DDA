@@ -1,6 +1,6 @@
 [
   {
-    "id": [ "TALK_FRIEND" ],
+    "id": [ "TALK_FRIEND", "TALK_FRIEND_Liam", "TALK_FRIEND_Luo" ],
     "type": "talk_topic",
     "insert_before_standard_exits": true,
     "responses": [
@@ -16,17 +16,6 @@
     "type": "talk_topic",
     "dynamic_line": "Which spell did you want?",
     "responses": [
-      {
-        "text": "Could you summon some dreamdross?",
-        "topic": "TALK_FRIEND_FOLLOWER_CAST_SPELL_DREAMER_CREATE_DREAMDROSS",
-        "condition": {
-          "and": [
-            { "npc_has_trait": "DREAMER" },
-            { "math": [ "n_spell_level('create_dream_dross') >= 1" ] },
-            { "math": [ "n_val('mana_max') >= 1000" ] }
-          ]
-        }
-      },
       {
         "text": "Could you cure my illnesses?",
         "topic": "TALK_FRIEND_FOLLOWER_CAST_SPELL_FAIR_FOLK_SPRING_CLEANSING",
@@ -75,24 +64,6 @@
         }
       },
       { "text": "Never mind", "topic": "TALK_FRIEND" }
-    ]
-  },
-  {
-    "id": [ "TALK_FRIEND_FOLLOWER_CAST_SPELL_DREAMER_CREATE_DREAMDROSS" ],
-    "type": "talk_topic",
-    "dynamic_line": "*<npc_name> cups <mypronoun> hands and closes <mypronoun> eyes, and over a few seconds, several fragments of shining metal slowly appear in a soft shimmering light.  <mypronoun> hands them to you.",
-    "responses": [
-      {
-        "text": "Thank you.",
-        "topic": "TALK_FRIEND",
-        "effect": [
-          { "math": [ "n_val('mana') -= 1000" ] },
-          {
-            "u_spawn_item": "scrap_dreamdross",
-            "count": { "math": [ "(n_spell_level('create_dream_dross') / 2) + 1" ] }
-          }
-        ]
-      }
     ]
   },
   {
