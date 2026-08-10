@@ -669,6 +669,17 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         info.emplace_back( "FOOD", _( "Other contents: " ), effect_vits );
     }
 
+    std::list<itype_id>all_seasonings = get_comestible()->get_seasonings();
+    if( !all_seasonings.empty() ) {
+        std::vector<std::string> seasoning_types;
+        seasoning_types.reserve( all_seasonings.size() );
+        for( const itype_id seasoning_type : all_seasonings ) {
+            seasoning_types.push_back( seasoning_type->nname( 1 ) );
+        }
+        info.emplace_back( "FOOD", _( "Could be seasoned with: " ),
+                           enumerate_lcsorted_with_limit( seasoning_types ) );
+    }
+
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::FOOD_ALLERGEN )

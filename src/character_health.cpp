@@ -2142,7 +2142,7 @@ void Character::set_rad( int new_rad )
 
 void Character::mod_rad( int mod )
 {
-    if( has_flag( json_flag_NO_RADIATION ) ) {
+    if( mod > 0 && has_flag( json_flag_NO_RADIATION ) ) {
         return;
     }
     set_rad( std::max( 0, get_rad() + mod ) );
