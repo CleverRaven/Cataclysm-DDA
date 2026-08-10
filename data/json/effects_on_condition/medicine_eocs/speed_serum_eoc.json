@@ -51,14 +51,15 @@
           { "value": "MOVE_COST", "multiply": -0.1 },
           { "value": "ATTACK_SPEED", "multiply": -0.25 },
           { "value": "AIMING_SPEED", "multiply": 0.5 },
-          { "value": "PAIN", "multiply": 0.33 },
+          { "value": "PAIN", "multiply": 0.333 },
           { "value": "EXTRA_ELEC_PAIN", "multiply": 1 },
           { "value": "PAIN_PENALTY_MOD_STR", "multiply": 0.4 },
           { "value": "PAIN_PENALTY_MOD_DEX", "multiply": 0.4 },
           { "value": "PAIN_PENALTY_MOD_INT", "multiply": 0.4 },
           { "value": "PAIN_PENALTY_MOD_PER", "multiply": 0.4 },
           { "value": "PAIN_PENALTY_MOD_SPEED", "multiply": 0.4 },
-          { "value": "REGEN_STAMINA", "multiply": -0.2 }
+          { "value": "REGEN_STAMINA", "multiply": -0.2 },
+          { "value": "KCAL", "multiply": -0.15 }
         ]
       },
       {
