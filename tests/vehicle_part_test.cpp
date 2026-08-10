@@ -5,6 +5,7 @@
 #include <memory>
 #include <optional>
 #include <set>
+#include <stddef.h> /* size_t */
 #include <string>
 #include <unordered_map>
 #include <utility>
