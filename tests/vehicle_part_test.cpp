@@ -16,6 +16,7 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "inventory.h"
+#include "inventory_ui.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -67,6 +68,7 @@ static const vpart_id vpart_frame( "frame" );
 static const vpart_id vpart_halfboard( "halfboard" );
 static const vpart_id vpart_small_storage_battery( "small_storage_battery" );
 static const vpart_id vpart_tank_test( "tank_test" );
+static const vpart_id vpart_water_faucet( "water_faucet" );
 
 static const vproto_id vehicle_prototype_none( "none" );
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
@@ -589,5 +591,149 @@ TEST_CASE( "check_capacity_fueltype_handling", "[vehicle]" )
             CHECK( !!item::find_type( vp.ammo_current() )->ammo );
             CHECK( vp.ammo_capacity( item::find_type( vp.ammo_current() )->ammo->type ) == 240 );
         }
+    }
+}
+
+TEST_CASE( "consume_inventory_finds_nearby_vehicle_tanks", "[inventory][vehicle][consume]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    clear_vehicles();
+    map &here = get_map();
+    Character &character = get_player_character();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    character.setpos( here, origin );
+
+    const auto add_test_vehicle = [&]( const tripoint_bub_ms & pos, bool faucet,
+    bool appliance = false ) {
+        vehicle *veh = here.add_vehicle( vehicle_prototype_none, pos, 0_degrees, 0,
+                                         veh_spawn_status::UNDAMAGED );
+        REQUIRE( veh != nullptr );
+        REQUIRE( veh->install_part( here, point_rel_ms::zero, vpart_frame ) >= 0 );
+        const int tank_index = veh->install_part( here, point_rel_ms::zero, vpart_tank_test );
+        REQUIRE( tank_index >= 0 );
+        veh->part( tank_index ).ammo_set( itype_water_clean, 10 );
+        if( faucet ) {
+            REQUIRE( veh->install_part( here, point_rel_ms::zero, vpart_water_faucet ) >= 0 );
+        }
+        if( appliance ) {
+            veh->add_tag( "APPLIANCE" );
+        }
+        veh->refresh();
+        here.add_vehicle_to_cache( veh );
+        return veh;
+    };
+
+    SECTION( "nearby vehicle tank and faucet are available" ) {
+        add_test_vehicle( origin + tripoint::east, true );
+        inventory_selector selector( character );
+        selector.add_vehicle_tank_items( 1 );
+        CHECK( selector.item_entry_count() == 1 );
+    }
+
+    SECTION( "one-tile appliance tank and faucet are available" ) {
+        vehicle *veh = add_test_vehicle( origin + tripoint::east, true, true );
+        REQUIRE( veh->is_appliance() );
+        inventory_selector selector( character );
+        selector.add_vehicle_tank_items( 1 );
+        CHECK( selector.item_entry_count() == 1 );
+    }
+
+    SECTION( "attached faucet tool exposes nearby appliance tank" ) {
+        vehicle *veh = add_test_vehicle( origin + tripoint::east, false, true );
+        REQUIRE( veh->is_appliance() );
+
+        vehicle_part *tank = nullptr;
+        for( const vpart_reference &vpr : veh->get_all_parts() ) {
+            if( vpr.part().contains_liquid() ) {
+                tank = &vpr.part();
+                break;
+            }
+        }
+        REQUIRE( tank != nullptr );
+        veh->get_tools( *tank ).emplace_back( itype_water_faucet, calendar::turn_zero );
+
+        inventory_selector selector( character );
+        selector.add_vehicle_tank_items( 1 );
+        CHECK( selector.item_entry_count() == 1 );
+    }
+
+    SECTION( "nearby tank without faucet is unavailable" ) {
+        add_test_vehicle( origin + tripoint::east, false );
+        inventory_selector selector( character );
+        selector.add_vehicle_tank_items( 1 );
+        CHECK( selector.item_entry_count() == 0 );
+    }
+
+    SECTION( "faucet on another vehicle does not expose tank" ) {
+        add_test_vehicle( origin + tripoint::east, false );
+        add_test_vehicle( origin + tripoint::south, true );
+        inventory_selector selector( character );
+        selector.add_vehicle_tank_items( 1 );
+        CHECK( selector.item_entry_count() == 1 );
+    }
+
+    SECTION( "nearby tank must itself be within radius" ) {
+        vehicle *veh = add_test_vehicle( origin + tripoint::east, true );
+        REQUIRE( veh->install_part( here, point_rel_ms::east, vpart_frame ) >= 0 );
+        const int far_tank = veh->install_part( here, point_rel_ms::east, vpart_tank_test );
+        REQUIRE( far_tank >= 0 );
+        veh->part( far_tank ).ammo_set( itype_water_clean, 10 );
+        // Empty the in-range tank so only the out-of-range tank could be offered.
+        for( const vpart_reference &vpr : veh->get_all_parts() ) {
+            if( vpr.part_index() != static_cast<size_t>( far_tank ) && vpr.part().contains_liquid() ) {
+                vpr.part().ammo_unset();
+            }
+        }
+        veh->refresh();
+        here.add_vehicle_to_cache( veh );
+
+        inventory_selector selector( character );
+        selector.add_vehicle_tank_items( 1 );
+        CHECK( selector.item_entry_count() == 0 );
+    }
+
+    SECTION( "nearby faucet must itself be within radius" ) {
+        vehicle *veh = add_test_vehicle( origin + tripoint::east, false );
+        REQUIRE( veh->install_part( here, point_rel_ms::east, vpart_frame ) >= 0 );
+        REQUIRE( veh->install_part( here, point_rel_ms::east, vpart_water_faucet ) >= 0 );
+        veh->refresh();
+        here.add_vehicle_to_cache( veh );
+
+        inventory_selector selector( character );
+        selector.add_vehicle_tank_items( 1 );
+        CHECK( selector.item_entry_count() == 0 );
+    }
+
+    SECTION( "nearby tank behind an obstacle is unavailable" ) {
+        add_test_vehicle( origin + tripoint( 2, 0, 0 ), true );
+        here.ter_set( origin + tripoint::east, ter_id( "t_wall" ) );
+
+        inventory_selector selector( character );
+        selector.add_vehicle_tank_items( 2 );
+        CHECK( selector.item_entry_count() == 0 );
+    }
+
+    SECTION( "current vehicle keeps access to all tanks through its own nearby faucet" ) {
+        vehicle *veh = add_test_vehicle( origin, true );
+        REQUIRE( veh->install_part( here, point_rel_ms::east, vpart_frame ) >= 0 );
+        REQUIRE( veh->install_part( here, point_rel_ms( 2, 0 ), vpart_frame ) >= 0 );
+        const int far_tank = veh->install_part( here, point_rel_ms( 2, 0 ), vpart_tank_test );
+        REQUIRE( far_tank >= 0 );
+        veh->part( far_tank ).ammo_set( itype_water_clean, 10 );
+        veh->refresh();
+        here.add_vehicle_to_cache( veh );
+
+        inventory_selector selector( character );
+        selector.add_vehicle_tank_items( 1 );
+        CHECK( selector.item_entry_count() == 2 );
+    }
+    SECTION( "vehicle under character still uses its own faucet only" ) {
+        add_test_vehicle( origin, false );
+        add_test_vehicle( origin + tripoint::east, true );
+        inventory_selector selector( character );
+        selector.add_vehicle_tank_items( 1 );
+        // The adjacent faucet must not expose the tank under the character.
+        CHECK( selector.item_entry_count() == 1 );
     }
 }
