@@ -3764,7 +3764,7 @@ void iuse::play_music( Character *p, const tripoint_bub_ms &source, const int vo
 void iuse::make_music( Character *p, const tripoint_bub_ms &source, int volume, int max_morale,
                        bool play_sounds )
 {
-    make_play_music_impl(p, source, volume, max_morale, play_sounds, /*make_music=*/true);
+    make_play_music_impl( p, source, volume, max_morale, play_sounds, /*make_music=*/true );
 }
 
 std::optional<int> iuse::mp3_on( Character *p, item *it, const tripoint_bub_ms &pos )
