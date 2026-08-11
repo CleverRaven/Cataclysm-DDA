@@ -162,7 +162,7 @@
     "copy-from": "storage_battery",
     "type": "ITEM",
     "name": { "str": "portable power station", "str_pl": "portable power stations" },
-    "description": "A ready-to-deploy portable rechargable battery unit that comes with an inverter for powering home appliances and outlet ports for your electronic devices.  Useful for camping, power outage, and surviving the apocalypse.",
+    "description": "A ready-to-deploy portable rechargeable battery unit that comes with an inverter for powering home appliances and outlet ports for your electronic devices.  Useful for camping, power outage, and surviving the apocalypse.",
     "ascii_picture": "small_storage_battery",
     "weight": "9000 g",
     "volume": "10 L",
