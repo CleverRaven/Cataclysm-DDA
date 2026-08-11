@@ -201,11 +201,11 @@ Add european comics
 Add crashed XEDRA serum transport truck map extras
 Add serum `16x-"Armus"`
 Add `wyrmhound` mutant dogs
-Add 12.3ln AP
 Add `THEORETICAL_SKILL_CATCHUP_BONUS` enchantment
-Replaced the abstract “classic book” with real books.
 Add AIMING_SPEED enchant
 Add CANNOT_SLEEP flag
+Highland Crypts
+
 
 
 ## Interface:
@@ -349,16 +349,9 @@ Aftershock: Add industrial habitat building.
 Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
 [XedraWood] Add magical tattoos and a profession that starts with them
 [Xedra Evolved] Add Follower dialogue topic to ask them to cast spells
-Innawoods progression fix
-[alt-map-key] Add new overmap terrain
 Aftershock: Origin Hobbies
-[Xedra Evolved] Add crashed TCL truck containing possible mutagen
-[MoM] Add Durability vitakinetic power
-[MoM] Change Durability power to Augment Durability
-[Xedra Evolved] Add Ominous Fog weather event
-[MoM] Clairsentient power Marksman's Eye uses AIMING_SPEED instead of DISPERTION enchant
 [Xedra Evolved] Challenge Scenario - The Fog
-[Bombastic Perks] Add Gunslinger perk
+[Aftershock] Project Sobek Genetech
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -612,12 +605,9 @@ Pocket options: allow interacting with a pocket with hidden contents (fixes cras
 Allow NPCs to sleep during free_time
 NPCs default to allow_sleep ally rule
 Display multiple like items in car part removal on the same line with a count
-Recognize screen-lit laptops during advanced smartphone recovery
-Skirts have overflowing env protection
 Unattended crafts no longer stall forever when their crafter is unreachable
-Smaller chainmail links
-[MoM] Fix Mood Stabilization knack description
-Fix NEED_FULL_MAGAZINE rejecting ordinary recipe components
+Scared NPCs don't turn hostile
+Preserve character-specific auto-pickup rules between sessions
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
