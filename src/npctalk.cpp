@@ -2961,7 +2961,8 @@ const talk_topic &special_talk( const std::string &action )
     return no_topic;
 }
 
-talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &topic )
+talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &topic,
+                                input_context &ctxt )
 {
     // Construct full line
     std::string challenge = dynamic_line( topic );
@@ -3012,16 +3013,6 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
         return talk_topic( "TALK_NONE" );
     }
 
-    input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_action( "DEBUG_DIALOGUE_DL_CONDITIONAL" );
-    ctxt.register_action( "DEBUG_DIALOGUE_RESP_CONDITIONAL" );
-    ctxt.register_action( "DEBUG_DIALOGUE_DL_EFFECT" );
-    ctxt.register_action( "DEBUG_DIALOGUE_RESP_EFFECT" );
-    ctxt.register_action( "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" );
-    ctxt.register_action( "QUIT" );
     std::vector<talk_data> response_lines;
     std::vector<input_event> response_hotkeys;
     const auto generate_response_lines = [&]() {
@@ -3056,16 +3047,13 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
                 d_win.debug_topic_name = topic.id;
             }
             */
+            // For reasons unclear to me, we must manually invalidate and redraw the windows here, or else they will stack up.
+            ui_manager::invalidate_all_ui_adaptors();
             ui_manager::redraw();
-            input_event evt;
             action = ctxt.handle_input();
-            evt = ctxt.get_raw_input();
+            input_event evt = ctxt.get_raw_input();
             if( evt.type == input_event_t::error || evt.type == input_event_t::timeout ) {
                 continue;
-            }
-            talk_topic st = special_talk( action );
-            if( st.id != "TALK_NONE" ) {
-                return st;
             }
             if( action == "HELP_KEYBINDINGS" ) {
                 // Reallocate hotkeys as keybindings may have changed

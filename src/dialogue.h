@@ -283,7 +283,7 @@ struct dialogue: public const_dialogue {
         std::vector<talk_topic> topic_stack;
 
         talk_topic opt( dialogue_window &d_win, const talk_topic &topic );
-        talk_topic opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &topic );
+        talk_topic opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &topic, input_context &ctxt );
         dialogue() = default;
         ~dialogue() = default;
         dialogue( const dialogue &d );
