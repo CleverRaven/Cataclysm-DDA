@@ -26,9 +26,9 @@ std::list<std::pair<item_location, int>> select_items(
         const std::vector<item_stack::iterator> &from, const tripoint_bub_ms &location );
 /**
  * The currently-active set of auto-pickup rules, in a form that allows quick
- * lookup. When this is filled (by @ref auto_pickup::create_rule()), every
- * item existing in the game that matches a rule (either white- or blacklist)
- * is added as the key, with rule_state::WHITELISTED or rule_state::BLACKLISTED as the values.
+ * lookup. When this is filled, items that match a rule are stored with
+ * rule_state::WHITELISTED or rule_state::BLACKLISTED. Items checked in detail
+ * that match no rule may be stored with rule_state::NONE.
  */
 class cache : public std::unordered_map<std::string, rule_state>
 {
@@ -128,6 +128,8 @@ class player_settings : public base_settings
 
     public:
         ~player_settings() override = default;
+        using base_settings::check_item;
+        rule_state check_item( const item &it );
         void create_rule( const item *it );
         bool has_rule( const item *it );
         void add_rule( const item *it, bool include );

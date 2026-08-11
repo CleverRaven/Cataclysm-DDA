@@ -1,25 +1,32 @@
 #include <algorithm>
+#include <chrono>
+#include <cstddef>
 #include <functional>
 #include <list>
 #include <map>
 #include <optional>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "auto_pickup.h"
+#include "avatar_action.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "clzones.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "item.h"
+#include "item_factory.h"
 #include "item_location.h"
 #include "item_stack.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
 #include "options.h"
+#include "options_helpers.h"
 #include "pickup.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
@@ -59,6 +66,9 @@ static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_wrapper( "wrapper" );
 
 static const pocket_type pocket_type_container = pocket_type::CONTAINER;
+
+static const faction_id faction_your_followers( "your_followers" );
+static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 
 namespace
 {
@@ -213,6 +223,224 @@ static void clear_everything()
     options.get_option( "AUTO_PICKUP_WEIGHT_LIMIT" ).setValue( "0" );
     options.get_option( "AUTO_PICKUP_VOLUME_LIMIT" ).setValue( "0" );
     options.get_option( "AUTO_PICKUP_OWNED" ).setValue( "false" );
+}
+
+// Hidden by tag [.]
+// Measure adjacent auto-pickup cost with many distinct nearby item types and rules.
+TEST_CASE( "adjacent_auto_pickup_diverse_items_performance", "[.][performance][autopickup]" )
+{
+    avatar &they = get_avatar();
+    map &here = get_map();
+    clear_everything();
+    zone_manager &zones = zone_manager::get_manager();
+    zones.clear();
+
+    override_option auto_pickup( "AUTO_PICKUP", "true" );
+    override_option auto_pickup_adjacent( "AUTO_PICKUP_ADJACENT", "true" );
+    override_option auto_pickup_safemode( "AUTO_PICKUP_SAFEMODE", "false" );
+    override_option auto_features( "AUTO_FEATURES", "false" );
+
+    auto_pickup::player_settings &rules = get_auto_pickup();
+    const std::vector<itype_id> rule_item_types = {
+        itype_1l_bronze, itype_aspirin, itype_backpack, itype_bag_body_bag,
+        itype_bag_plastic, itype_battery, itype_bottle_plastic,
+        itype_bottle_plastic_pill_prescription, itype_box_cigarette, itype_box_small,
+        itype_can_medium, itype_can_tuna, itype_candy2, itype_candycigarette,
+        itype_cig, itype_codeine, itype_corpse, itype_diving_flashlight_small_hipower,
+        itype_light_battery_cell, itype_meat_canned, itype_money_five, itype_money_one,
+        itype_money_ten, itype_storage_battery
+    };
+    std::set<itype_id> rule_types;
+    for( const itype_id &type : rule_item_types ) {
+        item rule_item( type, calendar::turn );
+        rules.add_rule( &rule_item, true );
+        rule_types.insert( type );
+    }
+
+    // Use many different item types rather than copies of one type.  select_items() skips
+    // repeated adjacent entries with the same itype_id after the first failed pickup check,
+    // which makes a huge pile of one item unrealistically cheap compared to a loot stockpile.
+    constexpr int distinct_items_per_tile = 2000;
+    std::vector<itype_id> pile_types;
+    pile_types.reserve( distinct_items_per_tile );
+    std::set<std::string> pile_names;
+    for( const itype *type : item_controller->all() ) {
+        if( static_cast<int>( pile_types.size() ) >= distinct_items_per_tile ) {
+            break;
+        }
+        if( type == nullptr || type->id.is_null() || rule_types.count( type->id ) != 0 ) {
+            continue;
+        }
+
+        item candidate( type->id, calendar::turn );
+        if( candidate.is_null() || candidate.made_of( phase_id::LIQUID ) ||
+            candidate.has_temperature() || candidate.is_corpse() ) {
+            continue;
+        }
+        if( !pile_names.insert( candidate.tname( 1, false ) ).second ) {
+            continue;
+        }
+        pile_types.push_back( type->id );
+    }
+    REQUIRE( static_cast<int>( pile_types.size() ) == distinct_items_per_tile );
+
+    // Fill the union of the 3x3 neighborhoods around both step endpoints.  This keeps the
+    // workload comparable for the forward (cold cache), backward (warm cache), and final
+    // auto-pickup-disabled step.
+    const tripoint_bub_ms start = they.pos_bub();
+    const tripoint_bub_ms destination = start + tripoint_rel_ms{ 1, 0, 0 };
+    constexpr int pile_tiles = 12;
+    int populated_tiles = 0;
+    for( int x = -1; x <= 2; ++x ) {
+        for( int y = -1; y <= 1; ++y ) {
+            const tripoint_bub_ms pile = start + tripoint_rel_ms{ x, y, 0 };
+            for( const itype_id &type : pile_types ) {
+                here.add_item( pile, item( type, calendar::turn ) );
+            }
+            REQUIRE( here.i_at( pile ).size() == distinct_items_per_tile );
+            ++populated_tiles;
+        }
+    }
+    REQUIRE( populated_tiles == pile_tiles );
+
+    const auto timed_step = [&]( const tripoint_rel_ms & delta ) {
+        they.set_moves( 1000 );
+        const auto before = std::chrono::steady_clock::now();
+        REQUIRE( avatar_action::move( they, here, delta ) );
+        const auto after = std::chrono::steady_clock::now();
+        return std::chrono::duration_cast<std::chrono::microseconds>( after - before ).count();
+    };
+
+    const auto cold_enabled_us = timed_step( tripoint_rel_ms{ 1, 0, 0 } );
+    REQUIRE( they.pos_bub() == destination );
+
+    const auto warm_enabled_us = timed_step( tripoint_rel_ms{ -1, 0, 0 } );
+    REQUIRE( they.pos_bub() == start );
+
+    const tripoint_abs_ms zone_start = here.get_abs( start + tripoint_rel_ms{ -1, -1, 0 } );
+    const tripoint_abs_ms zone_end = here.get_abs( start + tripoint_rel_ms{ 2, 1, 0 } );
+    zones.add( "test no auto pickup", zone_type_NO_AUTO_PICKUP, faction_your_followers, false, true,
+               zone_start, zone_end, nullptr, true );
+    for( int x = -1; x <= 2; ++x ) {
+        for( int y = -1; y <= 1; ++y ) {
+            REQUIRE( zones.has( zone_type_NO_AUTO_PICKUP,
+                                here.get_abs( start + tripoint_rel_ms{ x, y, 0 } ) ) );
+        }
+    }
+
+    const auto no_auto_pickup_zone_us = timed_step( tripoint_rel_ms{ 1, 0, 0 } );
+    REQUIRE( they.pos_bub() == destination );
+
+    zones.clear();
+    get_options().get_option( "AUTO_PICKUP" ).setValue( "false" );
+    const auto disabled_us = timed_step( tripoint_rel_ms{ -1, 0, 0 } );
+    REQUIRE( they.pos_bub() == start );
+
+    const double cold_slowdown = disabled_us > 0 ? static_cast<double>( cold_enabled_us ) /
+                                 static_cast<double>( disabled_us ) : 0.0;
+    const double warm_slowdown = disabled_us > 0 ? static_cast<double>( warm_enabled_us ) /
+                                 static_cast<double>( disabled_us ) : 0.0;
+    const double zone_slowdown = disabled_us > 0 ? static_cast<double>( no_auto_pickup_zone_us ) /
+                                 static_cast<double>( disabled_us ) : 0.0;
+    const double zone_vs_warm = warm_enabled_us > 0 ? static_cast<double>( no_auto_pickup_zone_us ) /
+                                static_cast<double>( warm_enabled_us ) : 0.0;
+
+    // Break down the steady-state auto-pickup cost over the same 3x3 neighborhood scanned by
+    // a single adjacent auto-pickup step.
+    const auto measure_us = []( const auto & operation ) {
+        const auto before = std::chrono::steady_clock::now();
+        operation();
+        const auto after = std::chrono::steady_clock::now();
+        return std::chrono::duration_cast<std::chrono::microseconds>( after - before ).count();
+    };
+
+    constexpr int scanned_tiles = 9;
+    std::vector<std::vector<item_stack::iterator>> scanned_items;
+    scanned_items.reserve( scanned_tiles );
+    size_t scanned_item_count = 0;
+    const auto traversal_us = measure_us( [&] {
+        for( int x = -1; x <= 1; ++x )
+        {
+            for( int y = -1; y <= 1; ++y ) {
+                const tripoint_bub_ms pile = start + tripoint_rel_ms{ x, y, 0 };
+                map_stack map_items = here.i_at( pile );
+                std::vector<item_stack::iterator> items;
+                items.reserve( map_items.size() );
+                for( item_stack::iterator it = map_items.begin(); it != map_items.end(); ++it ) {
+                    items.push_back( it );
+                }
+                scanned_item_count += items.size();
+                scanned_items.push_back( std::move( items ) );
+            }
+        }
+    } );
+    REQUIRE( scanned_items.size() == static_cast<size_t>( scanned_tiles ) );
+    REQUIRE( scanned_item_count == static_cast<size_t>( distinct_items_per_tile * scanned_tiles ) );
+
+    std::vector<std::string> item_names;
+    item_names.reserve( scanned_item_count );
+    size_t item_name_bytes = 0;
+    const auto tname_us = measure_us( [&] {
+        for( const std::vector<item_stack::iterator> &tile : scanned_items )
+        {
+            for( const item_stack::iterator &it : tile ) {
+                item_names.push_back( it->tname( 1, false ) );
+                item_name_bytes += item_names.back().size();
+            }
+        }
+    } );
+
+    size_t cached_rule_matches = 0;
+    const auto check_item_us = measure_us( [&] {
+        for( const std::string &name : item_names )
+        {
+            if( rules.check_item( name ) != rule_state::NONE ) {
+                ++cached_rule_matches;
+            }
+        }
+    } );
+
+    // This is the expensive fallback used by get_autopickup_rule() after check_item() misses.
+    // NONE results are not inserted into map_items, so the same unmatched item name reaches
+    // create_rule() again on the next adjacent auto-pickup scan.
+    const auto create_rule_us = measure_us( [&] {
+        for( const std::vector<item_stack::iterator> &tile : scanned_items )
+        {
+            for( const item_stack::iterator &it : tile ) {
+                rules.create_rule( & *it );
+            }
+        }
+    } );
+
+    size_t selected_item_count = 0;
+    const auto select_items_us = measure_us( [&] {
+        int tile_index = 0;
+        for( int x = -1; x <= 1; ++x )
+        {
+            for( int y = -1; y <= 1; ++y ) {
+                const tripoint_bub_ms pile = start + tripoint_rel_ms{ x, y, 0 };
+                selected_item_count +=
+                    auto_pickup::select_items( scanned_items[tile_index], pile ).size();
+                ++tile_index;
+            }
+        }
+    } );
+
+    INFO( "adjacent auto-pickup decomposition over " << scanned_item_count << " items on "
+          << scanned_tiles << " scanned tiles: map traversal " << traversal_us << " us, tname "
+          << tname_us << " us (" << item_name_bytes << " bytes), cached check_item "
+          << check_item_us << " us (" << cached_rule_matches << " matches), create_rule fallback "
+          << create_rule_us << " us, full select_items " << select_items_us << " us ("
+          << selected_item_count << " selected)" );
+
+    INFO( "adjacent auto-pickup step with " << distinct_items_per_tile << " distinct item types on "
+          << pile_tiles << " tiles (" << distinct_items_per_tile * pile_tiles << " items total, "
+          << rule_item_types.size() << " rules): cold enabled " << cold_enabled_us
+          << " us, warm enabled " << warm_enabled_us << " us, NO_AUTO_PICKUP zone "
+          << no_auto_pickup_zone_us << " us, disabled " << disabled_us
+          << " us, cold slowdown " << cold_slowdown << "x, warm slowdown " << warm_slowdown
+          << "x, zone slowdown " << zone_slowdown << "x, zone/warm " << zone_vs_warm << 'x' );
+    SUCCEED();
 }
 
 TEST_CASE( "auto_pickup_should_recognize_container_content", "[autopickup][item]" )
@@ -592,6 +820,24 @@ TEST_CASE( "auto_pickup_should_consider_item_ownership", "[autopickup][item]" )
             }
         }
     }
+}
+
+TEST_CASE( "auto_pickup_item_rule_cache", "[autopickup][item]" )
+{
+    clear_everything();
+    auto_pickup::player_settings &rules = get_auto_pickup();
+    item marble( itype_marble );
+
+    CHECK( rules.check_item( marble ) == rule_state::NONE );
+
+    rules.add_rule( &marble, true );
+    CHECK( rules.check_item( marble ) == rule_state::WHITELISTED );
+
+    rules.remove_rule( &marble );
+    CHECK( rules.check_item( marble ) == rule_state::NONE );
+
+    rules.add_rule( &marble, false );
+    CHECK( rules.check_item( marble ) == rule_state::BLACKLISTED );
 }
 
 TEST_CASE( "auto_pickup_should_not_implicitly_pickup_corpses", "[autopickup][item]" )
