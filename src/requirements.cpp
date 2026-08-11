@@ -53,6 +53,7 @@ static const itype_id itype_press( "press" );
 static const itype_id itype_welder( "welder" );
 static const itype_id itype_welder_crude( "welder_crude" );
 
+static const quality_id qual_BOIL( "BOIL" );
 static const quality_id qual_CUT( "CUT" );
 static const quality_id qual_GLARE( "GLARE" );
 static const quality_id qual_KNIT( "KNIT" );
@@ -67,6 +68,48 @@ static std::map<requirement_id, requirement_data> requirements_all;
 static bool a_satisfies_b( const quality_requirement &a, const quality_requirement &b );
 static bool a_satisfies_b( const std::vector<quality_requirement> &a,
                            const std::vector<quality_requirement> &b );
+
+int quality_for_crafter( const item &it, const quality_id &qual, const Character *who,
+                         const bool strict_boiling )
+{
+    // Matches item::get_quality_nonrecursive: BOIL counts only while empty.
+    if( strict_boiling && qual == qual_BOIL && !it.empty_container() ) {
+        return INT_MIN;
+    }
+
+    int result = INT_MIN;
+    const auto qit = it.type->qualities.find( qual );
+    if( qit != it.type->qualities.end() ) {
+        result = qit->second.level;
+    }
+    if( !it.type->charged_qualities.empty() && it.ammo_sufficient( who ) ) {
+        const auto cit = it.type->charged_qualities.find( qual );
+        if( cit != it.type->charged_qualities.end() ) {
+            result = std::max( result, cit->second.level );
+        }
+    }
+    return result;
+}
+
+int provider_quality_level( const item &cand, const quality_id &id, const Character *who,
+                            const bool strict_boiling )
+{
+    int best = quality_for_crafter( cand, id, who, strict_boiling );
+
+    // Non-CONTAINER pockets only: a fitted magazine is part of the tool, a stored
+    // screwdriver is not part of the backpack.
+    for( int pk = 0; pk < static_cast<int>( pocket_type::LAST ); ++pk ) {
+        const pocket_type pk_type = static_cast<pocket_type>( pk );
+        if( pk_type == pocket_type::CONTAINER ) {
+            continue;
+        }
+        for( const item *nested : cand.all_items_ptr( pk_type ) ) {
+            best = std::max( best, quality_for_crafter( *nested, id, who, strict_boiling ) );
+        }
+    }
+
+    return best;
+}
 
 /** @relates string_id */
 template<>
