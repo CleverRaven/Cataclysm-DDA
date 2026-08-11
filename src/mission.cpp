@@ -9,6 +9,7 @@
 #include <numeric>
 #include <set>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 
 #include "avatar.h"
@@ -22,7 +23,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
-#include "item_stack.h"
 #include "kill_tracker.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -125,10 +125,95 @@ void mission::add_existing( const mission &m )
     world_missions[ m.uid ] = m;
 }
 
+namespace
+{
+
+std::unordered_set<itype_id> find_item_mission_targets()
+{
+    std::unordered_set<itype_id> result;
+    for( const auto &e : world_missions ) {
+        const mission &miss = e.second;
+        if( miss.in_progress() && !miss.get_npc_id().is_valid() &&
+            miss.get_type().goal == MGOAL_FIND_ITEM ) {
+            result.insert( miss.get_item_id() );
+        }
+    }
+    return result;
+}
+
+std::unordered_set<itype_id> present_mission_items( const std::unordered_set<itype_id> &targets )
+{
+    std::unordered_set<itype_id> result;
+    std::unordered_set<itype_id> software_targets;
+    for( const itype_id &target : targets ) {
+        if( item( target ).is_software() ) {
+            software_targets.insert( target );
+        }
+    }
+
+    avatar &player_character = get_avatar();
+    player_character.visit_items( [&]( item * it, item * ) {
+        if( targets.count( it->typeId() ) != 0 ) {
+            result.insert( it->typeId() );
+        }
+        return VisitResponse::NEXT;
+    } );
+    for( const itype_id &target : software_targets ) {
+        if( player_character.count_softwares( target ) > 0 ) {
+            result.insert( target );
+        }
+    }
+
+    if( result.size() == targets.size() ) {
+        return result;
+    }
+
+    get_map().for_each_visible_item( player_character.pos_bub(), 5, &player_character,
+    [&]( const item & it ) {
+        it.visit_items( [&]( item * child, item * ) {
+            if( targets.count( child->typeId() ) != 0 ) {
+                result.insert( child->typeId() );
+            }
+            return VisitResponse::NEXT;
+        } );
+        for( const item *soft : it.softwares() ) {
+            if( software_targets.count( soft->typeId() ) != 0 ) {
+                result.insert( soft->typeId() );
+            }
+        }
+    } );
+    return result;
+}
+
+} // namespace
+
 void mission::process_all()
 {
+    avatar &player_character = get_avatar();
+    const std::unordered_set<itype_id> targets = find_item_mission_targets();
+
+    // Activity blocks MGOAL_FIND_ITEM before it searches any items.
+    const bool use_item_filter = !targets.empty() && !player_character.activity;
+    const std::unordered_set<itype_id> present = use_item_filter ? present_mission_items( targets ) :
+            std::unordered_set<itype_id>();
+    bool item_filter_valid = use_item_filter;
+
     for( auto &e : world_missions ) {
-        e.second.process();
+        mission &miss = e.second;
+        const bool was_in_progress = miss.in_progress();
+        const bool can_skip_item_check = item_filter_valid && was_in_progress &&
+                                         !miss.get_npc_id().is_valid() &&
+                                         miss.get_type().goal == MGOAL_FIND_ITEM &&
+                                         ( !miss.has_deadline() || calendar::turn <= miss.get_deadline() ) &&
+                                         present.count( miss.get_item_id() ) == 0;
+        if( !can_skip_item_check ) {
+            miss.process();
+        }
+
+        // Mission end effects can change the inventory used by later checks.
+        if( was_in_progress && !miss.in_progress() ) {
+            item_filter_valid = false;
+        }
     }
 }
 
@@ -534,39 +619,26 @@ bool mission::is_complete( const character_id &_npc_id ) const
             int found_quantity = 0;
             bool charges = item_sought.count_by_charges();
             bool software = item_sought.is_software();
-            auto count_items = [this, &found_quantity, &player_character, charges, software]( item_stack &&
-            items ) {
-                for( const item &i : items ) {
-                    if( !i.is_owned_by( player_character, true ) ) {
-                        continue;
-                    }
-                    if( software ) {
-                        for( const item *soft : i.softwares() ) {
-                            if( soft->typeId() == type->item_id ) {
-                                found_quantity ++;
-                            }
+            auto count_item = [this, &found_quantity, charges, software]( const item & i ) {
+                if( software ) {
+                    for( const item *soft : i.softwares() ) {
+                        if( soft->typeId() == type->item_id ) {
+                            found_quantity++;
                         }
                     }
-                    if( charges ) {
-                        found_quantity += i.charges_of( type->item_id, item_count - found_quantity );
-                    } else {
-                        found_quantity += i.amount_of( type->item_id, false, item_count - found_quantity );
-                    }
+                }
+                if( charges ) {
+                    found_quantity += i.charges_of( type->item_id, item_count - found_quantity );
+                } else {
+                    found_quantity += i.amount_of( type->item_id, false, item_count - found_quantity );
                 }
             };
-            for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 5 ) ) {
-                if( player_character.sees( here, p ) ) {
-                    if( here.has_items( p ) && here.accessible_items( p ) ) {
-                        count_items( here.i_at( p ) );
-                    }
-                    if( const std::optional<vpart_reference> ovp = here.veh_at( p ).cargo() ) {
-                        count_items( ovp->items() );
-                    }
-                    if( found_quantity >= item_count ) {
-                        break;
-                    }
+            here.for_each_visible_item( player_character.pos_bub(), 5, &player_character,
+            [&]( const item & it ) {
+                if( found_quantity < item_count ) {
+                    count_item( it );
                 }
-            }
+            } );
             if( software ) {
                 found_quantity += player_character.count_softwares( type->item_id );
             }
