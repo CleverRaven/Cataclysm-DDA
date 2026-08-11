@@ -393,6 +393,9 @@ requirement_data requirement_data::operator*( unsigned scalar ) const
             e.count = std::max( e.count * static_cast<int>( scalar ), -1 );
         }
     }
+    // A presence tool carries a negative count, which the clamp leaves at -1: a scaled
+    // requirement demands one provider whatever the entry asked for.  A group that needs
+    // two of something has to ask through a quality with an amount.
     for( auto &group : res.tools ) {
         for( tool_comp &e : group ) {
             e.count = std::max( e.count * static_cast<int>( scalar ), -1 );
@@ -827,7 +830,8 @@ void requirement_data::reset()
     requirements_all.clear();
 }
 
-std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col,
+std::vector<std::string> requirement_data::get_folded_components_list( const Character *actor,
+        int width, nc_color col,
         const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
         int batch,
         std::string_view hilite, requirement_display_flags flags ) const
@@ -839,20 +843,20 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
     out_buffer.push_back( colorize( _( "Components required:" ), col ) );
 
     std::vector<std::string> folded_buffer =
-        get_folded_list( width, crafting_inv, filter, components, batch, hilite, flags );
+        get_folded_list( actor, width, crafting_inv, filter, components, batch, hilite, flags );
     out_buffer.insert( out_buffer.end(), folded_buffer.begin(), folded_buffer.end() );
 
     return out_buffer;
 }
 
 template<typename T>
-std::vector<std::string> requirement_data::get_folded_list( int width,
+std::vector<std::string> requirement_data::get_folded_list( const Character *actor, int width,
         const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
         const std::vector< std::vector<T> > &objs, int batch, std::string_view hilite,
         requirement_display_flags flags ) const
 {
-    // hack: ensure 'cached' availability is up to date
-    can_make_with_inventory( crafting_inv, filter );
+    // Refresh the cached availability.
+    can_make_with_inventory( actor, crafting_inv, filter );
 
     const bool no_unavailable =
         static_cast<bool>( flags & requirement_display_flags::no_unavailable );
@@ -864,7 +868,7 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
         std::vector<std::string> list_as_string_unavailable;
         std::vector<std::string> buffer_has;
         for( const T &component : comp_list ) {
-            nc_color color = component.get_color( has_one, crafting_inv, filter, batch );
+            nc_color color = component.get_color( actor, has_one, crafting_inv, filter, batch );
             const std::string color_tag = get_tag_from_color( color );
             int qty = 0;
             if( component.get_component_type() == component_type::ITEM ) {
@@ -885,7 +889,7 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
                 color = yellow_background( color );
             }
 
-            if( component.has( crafting_inv, filter, batch ) ) {
+            if( component.has( actor, crafting_inv, filter, batch ) ) {
                 list_as_string.push_back( colorize( text, color ) );
             } else if( !no_unavailable ) {
                 list_as_string_unavailable.push_back( colorize( text, color ) );
@@ -914,7 +918,8 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
     return out_buffer;
 }
 
-std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_color col,
+std::vector<std::string> requirement_data::get_folded_tools_list( const Character *actor, int width,
+        nc_color col,
         const read_only_visitable &crafting_inv, int batch ) const
 {
     std::vector<std::string> output_buffer;
@@ -925,45 +930,46 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
         return output_buffer;
     }
 
-    std::vector<std::string> folded_qualities = get_folded_list( width, crafting_inv, return_true<item>,
-            qualities );
+    std::vector<std::string> folded_qualities = get_folded_list( actor, width, crafting_inv,
+            return_true<item>, qualities );
     output_buffer.insert( output_buffer.end(), folded_qualities.begin(), folded_qualities.end() );
 
-    std::vector<std::string> folded_tools = get_folded_list( width, crafting_inv, return_true<item>,
-                                            tools,
-                                            batch );
+    std::vector<std::string> folded_tools = get_folded_list( actor, width, crafting_inv,
+                                            return_true<item>, tools, batch );
     output_buffer.insert( output_buffer.end(), folded_tools.begin(), folded_tools.end() );
     return output_buffer;
 }
 
-bool requirement_data::can_make_with_inventory( const read_only_visitable &crafting_inv,
+bool requirement_data::can_make_with_inventory( const Character *actor,
+        const read_only_visitable &crafting_inv,
         const std::function<bool( const item & )> &filter, int batch, craft_flags flags,
         bool restrict_volume ) const
 {
-    // probably need a crafter instead of avatar?
-    if( get_player_character().has_trait( trait_DEBUG_HS ) ) {
+    // Debug hammerspace belongs to a character, so a query with no actor has none.
+    if( actor != nullptr && actor->has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
     bool retval = true;
     // All functions must be called to update the available settings in the components.
-    if( !has_comps( crafting_inv, qualities, return_true<item> ) ) {
+    if( !has_comps( actor, crafting_inv, qualities, return_true<item> ) ) {
         retval = false;
     }
-    if( !has_comps( crafting_inv, tools, return_true<item>, batch, flags ) ) {
+    if( !has_comps( actor, crafting_inv, tools, return_true<item>, batch, flags ) ) {
         retval = false;
     }
-    if( !has_comps( crafting_inv, components, filter, batch ) ) {
+    if( !has_comps( actor, crafting_inv, components, filter, batch ) ) {
         retval = false;
     }
-    if( !check_enough_materials( crafting_inv, filter, batch, restrict_volume ) ) {
+    if( !check_enough_materials( actor, crafting_inv, filter, batch, restrict_volume ) ) {
         retval = false;
     }
     return retval;
 }
 
 template<typename T>
-bool requirement_data::has_comps( const read_only_visitable &crafting_inv,
+bool requirement_data::has_comps( const Character *actor,
+                                  const read_only_visitable &crafting_inv,
                                   const std::vector< std::vector<T> > &vec,
                                   const std::function<bool( const item & )> &filter,
                                   int batch, craft_flags flags )
@@ -978,7 +984,7 @@ bool requirement_data::has_comps( const read_only_visitable &crafting_inv,
         };
 
         for( const T &tool : set_of_tools ) {
-            if( tool.has( crafting_inv, filter, batch, flags, use_ups ) ) {
+            if( tool.has( actor, crafting_inv, filter, batch, flags, use_ups ) ) {
                 tool.available = available_status::a_true;
             } else {
                 // Trying to track down why the crafting tests are failing?
@@ -1005,21 +1011,25 @@ bool requirement_data::has_comps( const read_only_visitable &crafting_inv,
 }
 
 bool quality_requirement::has(
+    const Character *actor,
     const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &, int,
     craft_flags, const std::function<void( int )> & ) const
 {
-    // probably need a crafter instead of avatar?
-    if( get_player_character().has_trait( trait_DEBUG_HS ) ) {
+    if( actor != nullptr && actor->has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
-    return crafting_inv.has_quality( type, level, count ) ||
-           get_player_character().has_quality( type, level, count );
+    // Intrinsic only: has_quality also walks the actor's items, which crafting_inv has
+    // already filtered.  A disjunction rather than a sum of the two counts, since a pseudo
+    // item is reachable from both sides and would be counted twice.
+    return crafting_inv.has_provider_quality( type, level, count, actor ) ||
+           ( actor != nullptr && actor->has_intrinsic_quality( type, level, count ) );
 }
 
-nc_color quality_requirement::get_color( bool has_one, const read_only_visitable &,
+nc_color quality_requirement::get_color( const Character *actor, bool has_one,
+        const read_only_visitable &,
         const std::function<bool( const item & )> &, int ) const
 {
-    if( get_player_character().has_trait( trait_DEBUG_HS ) ||
+    if( ( actor != nullptr && actor->has_trait( trait_DEBUG_HS ) ) ||
         available == available_status::a_true ) {
         return c_green;
     }
@@ -1027,11 +1037,12 @@ nc_color quality_requirement::get_color( bool has_one, const read_only_visitable
 }
 
 bool tool_comp::has(
-    const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
+    const Character *actor, const read_only_visitable &crafting_inv,
+    const std::function<bool( const item & )> &filter,
     int batch,
     craft_flags flags, const std::function<void( int )> &visitor ) const
 {
-    if( get_player_character().has_trait( trait_DEBUG_HS ) ) {
+    if( actor != nullptr && actor->has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
     if( !by_charges() ) {
@@ -1056,23 +1067,25 @@ bool tool_comp::has(
     }
 }
 
-nc_color tool_comp::get_color( bool has_one, const read_only_visitable &crafting_inv,
+nc_color tool_comp::get_color( const Character *actor, bool has_one,
+                               const read_only_visitable &crafting_inv,
                                const std::function<bool( const item & )> &filter, int batch ) const
 {
     if( available == available_status::a_insufficient ) {
         return c_brown;
-    } else if( has( crafting_inv, filter, batch ) ) {
+    } else if( has( actor, crafting_inv, filter, batch ) ) {
         return c_green;
     }
     return has_one ? c_dark_gray : c_red;
 }
 
 bool item_comp::has(
-    const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
+    const Character *actor, const read_only_visitable &crafting_inv,
+    const std::function<bool( const item & )> &filter,
     int batch,
     craft_flags, const std::function<void( int )> & ) const
 {
-    if( get_player_character().has_trait( trait_DEBUG_HS ) ) {
+    if( actor != nullptr && actor->has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
     const int cnt = std::abs( count ) * batch;
@@ -1083,12 +1096,13 @@ bool item_comp::has(
     }
 }
 
-nc_color item_comp::get_color( bool has_one, const read_only_visitable &crafting_inv,
+nc_color item_comp::get_color( const Character *actor, bool has_one,
+                               const read_only_visitable &crafting_inv,
                                const std::function<bool( const item & )> &filter, int batch ) const
 {
     if( available == available_status::a_insufficient ) {
         return c_brown;
-    } else if( has( crafting_inv, filter, batch ) ) {
+    } else if( has( actor, crafting_inv, filter, batch ) ) {
         const inventory *inv = static_cast<const inventory *>( &crafting_inv );
         // Will use non-empty liquid container
         if( std::any_of( type->pockets.begin(), type->pockets.end(), []( const pocket_data & d ) {
@@ -1100,7 +1114,7 @@ nc_color item_comp::get_color( bool has_one, const read_only_visitable &crafting
             return c_magenta;
         }
         // Will use favorited component
-        if( !has( crafting_inv, [&filter]( const item & it ) {
+        if( !has( actor, crafting_inv, [&filter]( const item & it ) {
         return filter( it ) && !it.is_favorite;
         }, batch ) ) {
             return c_pink;
@@ -1125,7 +1139,8 @@ const T *requirement_data::find_by_type( const std::vector< std::vector<T> > &ve
     return nullptr;
 }
 
-bool requirement_data::check_enough_materials( const read_only_visitable &crafting_inv,
+bool requirement_data::check_enough_materials( const Character *actor,
+        const read_only_visitable &crafting_inv,
         const std::function<bool( const item & )> &filter, int batch, bool restrict_volume ) const
 {
     bool retval = true;
@@ -1134,7 +1149,7 @@ bool requirement_data::check_enough_materials( const read_only_visitable &crafti
         bool atleast_one_available = false;
         units::volume max_volume_of_this_comp_choice = 0_ml;
         for( const item_comp &comp : component_choices ) {
-            if( check_enough_materials( comp, crafting_inv, filter, batch ) ) {
+            if( check_enough_materials( actor, comp, crafting_inv, filter, batch ) ) {
                 // we need different calculations depending on whether or not the item uses charges...
                 const double relative_amount = comp.type->count_by_charges() ?
                                                static_cast<double>( comp.count ) / static_cast<double>( comp.type->stack_size ) : comp.count;
@@ -1159,7 +1174,7 @@ bool requirement_data::check_enough_materials( const read_only_visitable &crafti
     return retval;
 }
 
-bool requirement_data::check_enough_materials( const item_comp &comp,
+bool requirement_data::check_enough_materials( const Character *actor, const item_comp &comp,
         const read_only_visitable &crafting_inv,
         const std::function<bool( const item & )> &filter, int batch ) const
 {
@@ -1188,7 +1203,8 @@ bool requirement_data::check_enough_materials( const item_comp &comp,
         const item_comp i_tmp( comp.type, cnt + tc );
         const tool_comp t_tmp( comp.type, -( cnt + tc ) ); // not by charges!
         // batch factor is explicitly 1, because it's already included in the count.
-        if( !i_tmp.has( crafting_inv, filter, 1 ) && !t_tmp.has( crafting_inv, filter, 1 ) ) {
+        if( !i_tmp.has( actor, crafting_inv, filter, 1 ) &&
+            !t_tmp.has( actor, crafting_inv, filter, 1 ) ) {
             comp.available = available_status::a_insufficient;
         }
     }
@@ -1200,7 +1216,8 @@ bool requirement_data::check_enough_materials( const item_comp &comp,
         }
         // This item can be used for the quality requirement, same as above for specific
         // tools applies.
-        if( !crafting_inv.has_quality( qr->type, qr->level, qr->count + std::abs( comp.count ) ) ) {
+        if( !crafting_inv.has_provider_quality( qr->type, qr->level,
+                                                qr->count + std::abs( comp.count ), actor ) ) {
             comp.available = available_status::a_insufficient;
         }
     }
@@ -1799,22 +1816,24 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
 }
 
 bool deduped_requirement_data::can_make_with_inventory(
+    const Character *actor,
     const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
     int batch, craft_flags flags ) const
 {
     return std::any_of( alternatives().begin(), alternatives().end(),
     [&]( const requirement_data & alt ) {
-        return alt.can_make_with_inventory( crafting_inv, filter, batch, flags );
+        return alt.can_make_with_inventory( actor, crafting_inv, filter, batch, flags );
     } );
 }
 
 std::vector<const requirement_data *> deduped_requirement_data::feasible_alternatives(
-    const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
+    const Character *actor, const read_only_visitable &crafting_inv,
+    const std::function<bool( const item & )> &filter,
     int batch, craft_flags flags ) const
 {
     std::vector<const requirement_data *> result;
     for( const requirement_data &req : alternatives() ) {
-        if( req.can_make_with_inventory( crafting_inv, filter, batch, flags ) ) {
+        if( req.can_make_with_inventory( actor, crafting_inv, filter, batch, flags ) ) {
             result.push_back( &req );
         }
     }
@@ -1834,6 +1853,6 @@ const requirement_data *deduped_requirement_data::select_alternative(
     int batch, craft_flags flags ) const
 {
     const std::vector<const requirement_data *> all_reqs =
-        feasible_alternatives( inv, filter, batch, flags );
+        feasible_alternatives( &crafter, inv, filter, batch, flags );
     return crafter.select_requirements( all_reqs, 1, inv, filter );
 }

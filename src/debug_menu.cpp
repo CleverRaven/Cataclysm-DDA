@@ -1416,11 +1416,11 @@ static void spell_description(
 
     if( spl.has_components() ) {
         if( !spl.components().get_components().empty() ) {
-            print_vec_string( spl.components().get_folded_components_list( width - 2, gray,
+            print_vec_string( spl.components().get_folded_components_list( &chrc, width - 2, gray,
                               chrc.crafting_inventory(), return_true<item> ) );
         }
         if( !( spl.components().get_tools().empty() && spl.components().get_qualities().empty() ) ) {
-            print_vec_string( spl.components().get_folded_tools_list( width - 2, gray,
+            print_vec_string( spl.components().get_folded_tools_list( &chrc, width - 2, gray,
                               chrc.crafting_inventory() ) );
         }
     }
