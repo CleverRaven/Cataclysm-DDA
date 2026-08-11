@@ -408,7 +408,7 @@ struct dialogue: public const_dialogue {
         * @param responses: true = responses, false = dynamic line
         * @param do_response: if > -1, which response to get data for
         */
-        std::vector<std::string> build_debug_info( const dialogue_window &d_win, const talk_topic &topic,
+        std::vector<std::string> build_debug_info( dialogue_imgui_impl &d_img, const talk_topic &topic,
                 int do_response = -1 );
 };
 
