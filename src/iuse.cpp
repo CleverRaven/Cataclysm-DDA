@@ -3762,9 +3762,9 @@ void iuse::make_music( Character *p, const tripoint_bub_ms &source, int volume, 
     }
     p->add_effect( effect_music, 1_turns );
     if( max_morale > 0 ) {
-        p->add_morale( morale_music, 1, max_morale, 2_hours, 30_minutes );
+        p->add_morale( morale_music, 1, max_morale, 2_hours, 30_minutes, true );
     } else if( max_morale < 0 ) {
-        p->add_morale( morale_music, -1, max_morale, 2_hours, 30_minutes );
+        p->add_morale( morale_music, -1, max_morale, 2_hours, 30_minutes, true );
     }
 }
 
