@@ -27,6 +27,7 @@
 #include "enums.h"
 #include "fault.h"
 #include "flag.h"
+#include "flat_set.h"
 #include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -1025,6 +1026,70 @@ int item::get_warmth( const bodypart_id &bp ) const
 
     return warmth;
 }
+
+void item::get_warmth_by_bodypart( std::vector<std::pair<bodypart_id, int>> &result ) const
+{
+    result.clear();
+    const islot_armor *armor = find_armor_data();
+    if( armor == nullptr ) {
+        return;
+    }
+
+    body_part_set covered_bodyparts;
+    iterate_covered_body_parts_internal( get_side(), [&]( const bodypart_str_id & bp ) {
+        covered_bodyparts.set( bp );
+    }, false );
+
+    const int warmth_val = get_warmth();
+    result.reserve( covered_bodyparts.count() );
+    const auto find_result = [&]( const bodypart_id & bp ) {
+        return std::find_if( result.begin(), result.end(), [&]( const auto & entry ) {
+            return entry.first == bp;
+        } );
+    };
+    for( const bodypart_str_id &bp : covered_bodyparts ) {
+        result.emplace_back( bp.id(), has_sublocations() ? 0 : warmth_val );
+    }
+
+    if( has_sublocations() ) {
+        cata::flat_set<sub_bodypart_str_id> covered_sub_bodyparts;
+        iterate_covered_sub_body_parts_internal( get_side(), [&]( const sub_bodypart_str_id & sbp ) {
+            covered_sub_bodyparts.insert( sbp );
+        }, false );
+
+        for( const sub_bodypart_str_id &sbp : covered_sub_bodyparts ) {
+            const bodypart_id bp = sbp->parent.id();
+            const auto entry = find_result( bp );
+            if( entry != result.end() ) {
+                entry->second += sbp->max_coverage;
+            }
+        }
+
+        for( auto &entry : result ) {
+            entry.second = std::round( warmth_val * entry.second / 100.0f );
+        }
+    }
+
+    if( is_ablative() ) {
+        std::vector<std::pair<bodypart_id, int>> ablative_warmth;
+        for( const item_pocket *pocket : contents.get_ablative_pockets() ) {
+            if( pocket->empty() ) {
+                continue;
+            }
+            pocket->front().get_warmth_by_bodypart( ablative_warmth );
+            for( const auto &[bp, warmth] : ablative_warmth ) {
+                if( !covered_bodyparts.test( bp.id() ) ) {
+                    continue;
+                }
+                const auto entry = find_result( bp );
+                if( entry != result.end() ) {
+                    entry->second += warmth;
+                }
+            }
+        }
+    }
+}
+
 
 units::volume item::get_pet_armor_max_vol() const
 {

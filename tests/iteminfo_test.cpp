@@ -805,6 +805,22 @@ static void verify_item_coverage( const item &i, const std::map<bodypart_id, int
     }
 }
 
+static void verify_item_warmth_by_bodypart( const item &i )
+{
+    CAPTURE( i.typeId() );
+    std::vector<std::pair<bodypart_id, int>> warmth_by_bodypart;
+    i.get_warmth_by_bodypart( warmth_by_bodypart );
+    for( const bodypart_id &bp : bodyparts_to_check() ) {
+        CAPTURE( bp.id() );
+        const auto found = std::find_if( warmth_by_bodypart.begin(), warmth_by_bodypart.end(),
+        [&]( const auto & entry ) {
+            return entry.first == bp;
+        } );
+        const int warmth = found == warmth_by_bodypart.end() ? 0 : found->second;
+        CHECK( warmth == i.get_warmth( bp ) );
+    }
+}
+
 static void verify_item_encumbrance( const item &i, item::encumber_flags flags, int average,
                                      const std::map<bodypart_id, int> &expected )
 {
@@ -814,6 +830,17 @@ static void verify_item_encumbrance( const item &i, item::encumber_flags flags, 
         CAPTURE( bp.id() );
         REQUIRE( i.get_encumber( get_player_character(), bp, flags ) == expected.at( bp ) );
     }
+}
+
+TEST_CASE( "warmth_by_bodypart_matches_single_bodypart_queries", "[iteminfo][armor][warmth]" )
+{
+    item splint( itype_id( "arm_splint" ) );
+
+    REQUIRE( splint.set_side( side::LEFT ) );
+    verify_item_warmth_by_bodypart( splint );
+
+    REQUIRE( splint.set_side( side::RIGHT ) );
+    verify_item_warmth_by_bodypart( splint );
 }
 
 // Related JSON fields:
@@ -1079,6 +1106,7 @@ TEST_CASE( "armor_coverage_warmth_and_encumbrance", "[iteminfo][armor][coverage]
         };
         REQUIRE( faux_fur_suit.get_avg_coverage() == 75 );
         REQUIRE( faux_fur_suit.get_warmth() == 5 );
+        verify_item_warmth_by_bodypart( faux_fur_suit );
         CHECK( item_info_str( faux_fur_suit, cov_warm_suit )
                ==
                "--\n"
@@ -1164,6 +1192,7 @@ TEST_CASE( "armor_coverage_warmth_and_encumbrance", "[iteminfo][armor][coverage]
         std::vector<iteminfo_parts> cov_warm_super_tank = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
         REQUIRE( super_tank_top.get_avg_coverage() == 100 );
         REQUIRE( super_tank_top.get_warmth() == 20 );
+        verify_item_warmth_by_bodypart( super_tank_top );
         CHECK( item_info_str( super_tank_top, cov_warm_super_tank )
                ==
                "--\n"
@@ -1317,6 +1346,7 @@ TEST_CASE( "helmet_with_pockets_stats", "[iteminfo][armor][protection]" )
         //warmth stats: 5 (hat's warmth) * 0.4 (hat's body part coverage)
         CHECK( hh.get_warmth( bp_head ) == 2 );
         CHECK( hh.get_warmth( bp_eyes ) == 0 );
+        verify_item_warmth_by_bodypart( hh );
     }
 
 
@@ -1331,6 +1361,7 @@ TEST_CASE( "helmet_with_pockets_stats", "[iteminfo][armor][protection]" )
         THEN( "warmth should not change" ) {
             CHECK( hh.get_warmth( bp_head ) == 2 );
             CHECK( hh.get_warmth( bp_eyes ) == 0 );
+            verify_item_warmth_by_bodypart( hh );
         }
         THEN( "breathbility should be 0" ) {
             CHECK( hh.breathability( bp_eyes ) == 0 );
@@ -1343,6 +1374,7 @@ TEST_CASE( "helmet_with_pockets_stats", "[iteminfo][armor][protection]" )
             CHECK( nape_protector.get_warmth( bp_head ) == 2 );
             //2 (base warmth) + 4 (nape's warmth) * 0.4 (nape's body part coverage)
             CHECK( hh.get_warmth( bp_head ) == 4 );
+            verify_item_warmth_by_bodypart( hh );
         }
         WHEN( "adding ear muffs to the helmet" ) {
             item ear_muffs( itype_attachable_ear_muffs );
@@ -1350,6 +1382,7 @@ TEST_CASE( "helmet_with_pockets_stats", "[iteminfo][armor][protection]" )
             THEN( "head's warmth should be increased even more" ) {
                 CHECK( ear_muffs.get_warmth( bp_head ) == 2 );
                 CHECK( hh.get_warmth( bp_head ) == 6 );
+                verify_item_warmth_by_bodypart( hh );
             }
         }
     }

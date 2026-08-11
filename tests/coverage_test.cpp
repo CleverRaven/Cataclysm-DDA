@@ -1,3 +1,4 @@
+#include <chrono>
 #include <memory>
 #include <set>
 #include <string>
@@ -329,3 +330,105 @@ TEST_CASE( "Off_Limb_Ghost_ablative_vest", "[coverage]" )
     }
 }
 
+
+// Hidden by tag [.]
+// Break down the clothing coverage work performed by body temperature updates.
+TEST_CASE( "body_temperature_clothing_coverage_performance", "[.][performance][bodytemp]" )
+{
+    standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
+    clear_character( dude, true );
+
+    static const itype_id itype_test_consolidate( "test_consolidate" );
+    constexpr int worn_item_count = 20;
+    bool all_worn = true;
+    for( int i = 0; i < worn_item_count; ++i ) {
+        all_worn &= static_cast<bool>(
+                        dude.worn.wear_item( dude, item( itype_test_consolidate ),
+                                             false, false, false, true ) );
+    }
+    REQUIRE( all_worn );
+    REQUIRE( dude.worn.size() == worn_item_count );
+
+    const std::vector<bodypart_id> body_parts = dude.get_all_body_parts();
+    REQUIRE_FALSE( body_parts.empty() );
+
+    std::vector<const item *> worn_items;
+    dude.worn.inv_dump( worn_items );
+    REQUIRE( worn_items.size() == worn_item_count );
+
+    const auto measure_us = []( const auto & operation ) {
+        const auto before = std::chrono::steady_clock::now();
+        operation();
+        const auto after = std::chrono::steady_clock::now();
+        return std::chrono::duration_cast<std::chrono::microseconds>( after - before ).count();
+    };
+
+    constexpr int direct_iterations = 2000;
+    long long covers_checksum = 0;
+    const auto covers_us = measure_us( [&] {
+        for( int iteration = 0; iteration < direct_iterations; ++iteration )
+        {
+            for( const bodypart_id &bp : body_parts ) {
+                for( const item *clothing : worn_items ) {
+                    covers_checksum += clothing->covers( bp );
+                }
+            }
+        }
+    } );
+
+    long long warmth_checksum = 0;
+    const auto get_warmth_us = measure_us( [&] {
+        for( int iteration = 0; iteration < direct_iterations; ++iteration )
+        {
+            for( const bodypart_id &bp : body_parts ) {
+                for( const item *clothing : worn_items ) {
+                    warmth_checksum += clothing->get_warmth( bp );
+                }
+            }
+        }
+    } );
+
+    constexpr int aggregate_iterations = 2000;
+    long long outfit_warmth_checksum = 0;
+    const auto outfit_warmth_us = measure_us( [&] {
+        for( int iteration = 0; iteration < aggregate_iterations; ++iteration )
+        {
+            for( const auto &entry : dude.worn.warmth( dude ) ) {
+                outfit_warmth_checksum += entry.second;
+            }
+        }
+    } );
+
+    long long wind_checksum = 0;
+    const auto wind_resistance_us = measure_us( [&] {
+        for( int iteration = 0; iteration < aggregate_iterations; ++iteration )
+        {
+            for( const auto &entry : dude.worn.wind_resistance( dude ) ) {
+                wind_checksum += entry.second;
+            }
+        }
+    } );
+
+    constexpr int bodytemp_iterations = 200;
+    const auto update_bodytemp_us = measure_us( [&] {
+        for( int iteration = 0; iteration < bodytemp_iterations; ++iteration )
+        {
+            dude.update_bodytemp();
+        }
+    } );
+
+
+    INFO( "worn items: " << worn_item_count << ", body parts: " << body_parts.size() );
+    INFO( "covers(bp), " << direct_iterations << " iterations: " << covers_us << " us" );
+    INFO( "get_warmth(bp), " << direct_iterations << " iterations: " << get_warmth_us << " us" );
+    INFO( "outfit::warmth, " << aggregate_iterations << " iterations: " << outfit_warmth_us << " us" );
+    INFO( "outfit::wind_resistance, " << aggregate_iterations << " iterations: "
+          << wind_resistance_us << " us" );
+    INFO( "Character::update_bodytemp, " << bodytemp_iterations << " iterations: "
+          << update_bodytemp_us << " us" );
+
+    CHECK( covers_checksum > 0 );
+    CHECK( warmth_checksum > 0 );
+    CHECK( outfit_warmth_checksum > 0 );
+    CHECK( wind_checksum >= 0 );
+}
