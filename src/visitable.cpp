@@ -250,6 +250,11 @@ bool Character::has_quality( const quality_id &qual, int level, int qty ) const
     return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
 }
 
+bool Character::has_intrinsic_quality( const quality_id &qual, int level, int qty ) const
+{
+    return static_cast<int>( intrinsic_quality_sources( qual, level ).size() ) >= qty;
+}
+
 bool read_only_visitable::has_tools( const itype_id &it, int quantity,
                                      const std::function<bool( const item & )> &filter ) const
 {
