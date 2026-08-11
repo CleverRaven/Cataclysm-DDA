@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstddef>
 #include <map>
 #include <memory>

@@ -12,6 +12,7 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
 #include "coordinates.h"
 #include "damage.h"
 #include "dispersion.h"

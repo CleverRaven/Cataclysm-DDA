@@ -33,8 +33,7 @@
 #include "point.h"
 #include "requirements.h"
 #include "talker.h"
-#include "vehicle.h"
-#include "vpart_position.h"
+#include "visitable.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
