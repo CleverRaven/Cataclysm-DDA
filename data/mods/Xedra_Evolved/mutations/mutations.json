@@ -1286,6 +1286,14 @@
       {
         "condition": { "test_eoc": "EOC_CONDITION_XE_VAMPIRE_AVOID_BURNING_IN_SUNLIGHT" },
         "ench_effects": [ { "effect": "effect_vampire_burn_to_death_in_sunlight", "intensity": 1 } ]
+      },
+      {
+        "condition": "is_day",
+        "ench_effects": [ { "value": "SLEEPINESS", "multiply": 96 }, { "effect": "effect_vampire_sunlight_slumber", "intensity": 1 } ]
+      },
+      {
+        "condition": { "not": "is_day" },
+        "ench_effects": [ { "value": "SLEEPINESS", "multiply": -1 }, { "effect": "effect_vampire_cannot_sleep_at_night", "intensity": 1 } ]
       }
     ]
   },
