@@ -137,7 +137,7 @@
     "purifiable": false,
     "description": "Let out a piercing cry, disorienting both enemies and allies nearby.",
     "prereqs": [ "LILIN_THE_EVIL_EYE" ],
-    "prereqs2": [ "LILIN_NIGHT_VISION" ],
+    "prereqs2": [ "LILIN_NIGHT_VISION", "LILIN_NIGHT_VISION_UPGRADE" ],
     "category": [ "LILIN" ],
     "spells_learned": [ [ "lilin_aoe_daze_spell", 1 ] ]
   },
@@ -576,7 +576,7 @@
     "points": 4,
     "purifiable": false,
     "prereqs": [ "LILIN_GAIN_MORE_FOCUS" ],
-    "prereqs2": [ "LILIN_NIGHT_VISION" ],
+    "prereqs2": [ "LILIN_NIGHT_VISION", "LILIN_NIGHT_VISION_UPGRADE" ],
     "category": [ "LILIN" ],
     "enchantments": [
       {
@@ -767,7 +767,7 @@
   {
     "type": "mutation",
     "id": "LILIN_READ_CRAFT_IN_DARKNESS",
-    "name": { "//~": "This is a reference to Psalms 139:12", "str": "The Night Shines Like the Day" },
+    "name": { "//~": "This is a reference to Psalms 139:12", "str": "The Darkness is not Dark to You" },
     "description": "You have adapted so well to the night that it doesn't hinder your actions at all.  You can read and craft in any light levels.",
     "points": 4,
     "purifiable": false,
@@ -779,20 +779,23 @@
   {
     "type": "mutation",
     "id": "LILIN_NIGHT_VISION_UPGRADE",
-    "name": { "//~": "This is a reference to Psalms 139:12", "str": "The Darkness is not Dark to You" },
-    "description": "Your eyes have fully adapted to the darkness, allowing you to see as well in the dark as humans see in the light.",
+    "name": { "//~": "This is a reference to Psalms 139:12", "str": "The Night Shines Like the Day" },
+    "description": "Your eyes have fully adapted to the darkness, allowing you to see as well in the dark as humans see in the light.  However, the light of the sun is dazzling now.",
     "points": 7,
+    "mixed_effect": true,
     "purifiable": false,
     "prereqs": [ "LILIN_NIGHT_VISION" ],
     "prereqs2": [ "LILIN_READ_CRAFT_IN_DARKNESS" ],
     "category": [ "LILIN" ],
+    "threshreq": [ "THRESH_LILIN" ],
     "enchantments": [
       { "values": [ { "value": "NIGHT_VIS", "add": 250 } ] },
       {
         "condition": { "not": "is_day" },
         "values": [ { "value": "OVERMAP_SIGHT", "add": { "math": [ "6 + u_val('perception')" ] } } ]
       }
-    ]
+    ],
+    "flags": [ "MYOPIC_IN_LIGHT_SUPERNATURAL" ]
   },
   {
     "type": "mutation",
