@@ -9,17 +9,14 @@
 #include <utility>
 #include <vector>
 
-#include "clone_ptr.h"
 #include "debug.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "iexamine.h"
-#include "iexamine_actors.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "mapdata.h"
+#include "mortar.h"
 #include "type_id.h"
 #include "value_ptr.h"
 #include "worldfactory.h"
@@ -146,38 +143,12 @@ void ammunition_type::check_consistency()
                    ( t.mod && t.mod->ammo_modifier.count( id ) );
         } );
 
-        // Horrible terrain iteration to check if there's any mortars firing this.
-        for( const ter_t &some_ter_furn : mapdata::terrain_data.get_all() ) {
-            if( some_ter_furn.has_examine( "mortar" ) ) {
-                for( auto &examiner : some_ter_furn.get_examine() ) {
-                    mortar_examine_actor *actor = dynamic_cast<mortar_examine_actor *>( examiner.get() );
-                    if( actor ) {
-                        for( const ammotype &some_ammo : actor->get_ammotypes() ) {
-                            if( some_ammo == id ) {
-                                // These IDs are never dereferenced, so it's fine.
-                                shoots_this_ammo.push_back( &*itype_id::NULL_ID() );
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // Guess what? We get to do it again with furniture.
-        for( const furn_t &some_ter_furn : mapdata::furniture_data.get_all() ) {
-            if( some_ter_furn.has_examine( "mortar" ) ) {
-                for( auto &examiner : some_ter_furn.get_examine() ) {
-                    mortar_examine_actor *actor = dynamic_cast<mortar_examine_actor *>( examiner.get() );
-                    if( actor ) {
-                        for( const ammotype &some_ammo : actor->get_ammotypes() ) {
-                            if( some_ammo == id ) {
-                                shoots_this_ammo.push_back( &*itype_id::NULL_ID() );
-                                break;
-                            }
-                        }
-                    }
-                }
+        // Mortars are furniture, so their ammo comes from mortar_type.
+        for( const mortar_type &mortar : mortar_type::get_all() ) {
+            if( mortar.ammo() == id ) {
+                // These IDs are never dereferenced, so it's fine.
+                shoots_this_ammo.push_back( &*itype_id::NULL_ID() );
+                break;
             }
         }
 
