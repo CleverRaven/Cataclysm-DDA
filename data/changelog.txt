@@ -100,6 +100,15 @@ Psi powers display `power radius` instead of `spell radius` in the powers UI
 Document HUNGER_DISRUPTION flag, apply in appropriate places 
 Add the `PAUSE_INFECTIONS` flag
 Add PAUSE_BODYPART_INFECTION flag, use in MoM
+Makes it so that if an auto drink zone is placed on a faucet, it will enable you to auto drink form it
+made salt crafting recipe unattended
+Made wood ash an unattended crafting recipe
+Made sugar from sweetened water recipe unattended
+Add Distributed damage flag, apply to slime and to XE's sylph and undine elemental forms
+Allow crafting recipes to consume character resources
+Add character stat requirements to crafting recipes
+unattended step for boiled egg recipe
+Food revolution: Spices and seasonings
 
 
 ## Content:
@@ -192,7 +201,11 @@ Add european comics
 Add crashed XEDRA serum transport truck map extras
 Add serum `16x-"Armus"`
 Add `wyrmhound` mutant dogs
+Add `THEORETICAL_SKILL_CATCHUP_BONUS` enchantment
+Add AIMING_SPEED enchant
+Add CANNOT_SLEEP flag
 Highland Crypts
+
 
 
 ## Interface:
@@ -244,6 +257,7 @@ Update to ImGui 1.91.9b
 Move appliance infobox to imgui
 Display some items by volume, weight or length instead of count
 Fix Crafting GUI text wrapping & don't offscreen recipe detail selection (`SPACE`)
+Show item fault severity with inventory and sidebar colors
 
 
 ## Mods:
@@ -335,6 +349,8 @@ Aftershock: Add industrial habitat building.
 Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
 [XedraWood] Add magical tattoos and a profession that starts with them
 [Xedra Evolved] Add Follower dialogue topic to ask them to cast spells
+Aftershock: Origin Hobbies
+[Xedra Evolved] Challenge Scenario - The Fog
 [Aftershock] Project Sobek Genetech
 
 ## Balance:
@@ -392,6 +408,11 @@ Zero cost spells remain zero cost even if encumbered
 Kelvar is now fireproof
 Add some more fluff nonfiction hardbacks
 Exodii traders dont accept currencies
+Remove reloads for some ap ammo
+Add more tools and requirements to reloading ammo
+Deadly bears and how to hurt them
+Add faults to melee weapons lacking them
+Add faults to mainly magyclism melee weapons
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -584,6 +605,7 @@ Pocket options: allow interacting with a pocket with hidden contents (fixes cras
 Allow NPCs to sleep during free_time
 NPCs default to allow_sleep ally rule
 Display multiple like items in car part removal on the same line with a count
+Unattended crafts no longer stall forever when their crafter is unreachable
 Scared NPCs don't turn hostile
 Preserve character-specific auto-pickup rules between sessions
 
