@@ -3433,10 +3433,8 @@
         ]
       },
       {
-      "condition": { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
-      "values": [
-        { "value": "MOVE_COST", "multiply": -0.5 }
-      ]
+        "condition": { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
       }
     ]
   },
