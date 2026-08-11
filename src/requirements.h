@@ -105,12 +105,12 @@ struct tool_comp : public component {
 
     void load( const JsonValue &value );
     void dump( JsonOut &jsout ) const;
-    bool has( const read_only_visitable &crafting_inv,
+    bool has( const Character *actor, const read_only_visitable &crafting_inv,
               const std::function<bool( const item & )> &filter,
               int batch = 1, craft_flags = craft_flags::none,
               const std::function<void( int )> &visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
-    nc_color get_color( bool has_one, const read_only_visitable &crafting_inv,
+    nc_color get_color( const Character *actor, bool has_one, const read_only_visitable &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
     bool by_charges() const;
     component_type get_component_type() const {
@@ -124,12 +124,12 @@ struct item_comp : public component {
 
     void load( const JsonValue &value );
     void dump( JsonOut &jsout ) const;
-    bool has( const read_only_visitable &crafting_inv,
+    bool has( const Character *actor, const read_only_visitable &crafting_inv,
               const std::function<bool( const item & )> &filter,
               int batch = 1, craft_flags = craft_flags::none,
               const std::function<void( int )> &visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
-    nc_color get_color( bool has_one, const read_only_visitable &crafting_inv,
+    nc_color get_color( const Character *actor, bool has_one, const read_only_visitable &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
     component_type get_component_type() const {
         return component_type::ITEM;
@@ -164,14 +164,14 @@ struct quality_requirement {
 
     void load( const JsonValue &value );
     void dump( JsonOut &jsout ) const;
-    bool has( const read_only_visitable &crafting_inv,
+    bool has( const Character *actor, const read_only_visitable &crafting_inv,
               const std::function<bool( const item & )> &filter,
               int = 0, craft_flags = craft_flags::none,
               const std::function<void( int )> &visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     std::string to_colored_string() const;
     void check_consistency( const std::string &display_name ) const;
-    nc_color get_color( bool has_one, const read_only_visitable &crafting_inv,
+    nc_color get_color( const Character *actor, bool has_one, const read_only_visitable &crafting_inv,
                         const std::function<bool( const item & )> &filter, int = 0 ) const;
     component_type get_component_type() const {
         return component_type::QUALITY;
@@ -359,23 +359,29 @@ struct requirement_data {
          * @param filter should be recipe::get_component_filter() if used with a recipe
          * or is_crafting_component otherwise.
          */
-        bool can_make_with_inventory( const read_only_visitable &crafting_inv,
+        // `actor` is the character whose capabilities the answer is about, or null when
+        // there is none, as when a camp builds from its own stock.  A null actor
+        // contributes no intrinsic qualities and no debug hammerspace.
+        bool can_make_with_inventory( const Character *actor,
+                                      const read_only_visitable &crafting_inv,
                                       const std::function<bool( const item & )> &filter, int batch = 1,
                                       craft_flags = craft_flags::none, bool restrict_volume = true ) const;
         /**
          * Returns true if there are enough item_comp in the crafting_inv for this recipe.
          * @param filter should be recipe::get_component_filter() if used with a recipe, as above.
          */
-        bool check_enough_materials( const item_comp &comp, const read_only_visitable &crafting_inv,
+        bool check_enough_materials( const Character *actor, const item_comp &comp,
+                                     const read_only_visitable &crafting_inv,
                                      const std::function<bool( const item & )> &filter, int batch = 1 ) const;
 
         /** @param filter see @ref can_make_with_inventory */
-        std::vector<std::string> get_folded_components_list( int width, nc_color col,
+        std::vector<std::string> get_folded_components_list( const Character *actor, int width,
+                nc_color col,
                 const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
                 int batch = 1, std::string_view hilite = {},
                 requirement_display_flags = requirement_display_flags::none ) const;
 
-        std::vector<std::string> get_folded_tools_list( int width, nc_color col,
+        std::vector<std::string> get_folded_tools_list( const Character *actor, int width, nc_color col,
                 const read_only_visitable &crafting_inv, int batch = 1 ) const;
 
         /**
@@ -416,7 +422,8 @@ struct requirement_data {
 
         bool blacklisted = false;
 
-        bool check_enough_materials( const read_only_visitable &crafting_inv,
+        bool check_enough_materials( const Character *actor,
+                                     const read_only_visitable &crafting_inv,
                                      const std::function<bool( const item & )> &filter, int batch = 1,
                                      bool restrict_volume = true ) const;
 
@@ -432,13 +439,14 @@ struct requirement_data {
         static std::string print_missing_objs( const std::string &header,
                                                const std::vector< std::vector<T> > &objs );
         template<typename T>
-        static bool has_comps(
-            const read_only_visitable &crafting_inv, const std::vector< std::vector<T> > &vec,
-            const std::function<bool( const item & )> &filter, int batch = 1,
-            craft_flags = craft_flags::none );
+        static bool has_comps( const Character *actor,
+                               const read_only_visitable &crafting_inv, const std::vector< std::vector<T> > &vec,
+                               const std::function<bool( const item & )> &filter, int batch = 1,
+                               craft_flags = craft_flags::none );
 
         template<typename T>
-        std::vector<std::string> get_folded_list( int width, const read_only_visitable &crafting_inv,
+        std::vector<std::string> get_folded_list( const Character *actor, int width,
+                const read_only_visitable &crafting_inv,
                 const std::function<bool( const item & )> &filter,
                 const std::vector< std::vector<T> > &objs, int batch = 1,
                 std::string_view hilite = {},
@@ -488,7 +496,8 @@ class deduped_requirement_data
         }
 
         std::vector<const requirement_data *> feasible_alternatives(
-            const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
+            const Character *actor, const read_only_visitable &crafting_inv,
+            const std::function<bool( const item & )> &filter,
             int batch = 1, craft_flags = craft_flags::none ) const;
 
         const requirement_data *select_alternative(
@@ -500,6 +509,7 @@ class deduped_requirement_data
             int batch = 1, craft_flags = craft_flags::none ) const;
 
         bool can_make_with_inventory(
+            const Character *actor,
             const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
             int batch = 1, craft_flags = craft_flags::none ) const;
 
