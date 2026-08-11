@@ -4,6 +4,7 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <memory>
 #include <optional>
 #include <set>
 #include <string>
@@ -11,8 +12,8 @@
 #include <vector>
 
 #include "auto_pickup.h"
-#include "avatar_action.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "clzones.h"
@@ -22,6 +23,7 @@
 #include "item_factory.h"
 #include "item_location.h"
 #include "item_stack.h"
+#include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
@@ -30,6 +32,7 @@
 #include "pickup.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
+#include "point.h"
 #include "rng.h"
 #include "type_id.h"
 

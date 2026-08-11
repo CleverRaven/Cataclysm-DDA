@@ -1,7 +1,10 @@
 #include <chrono>
+#include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "ballistics.h"

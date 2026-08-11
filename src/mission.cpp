@@ -25,7 +25,6 @@
 #include "item_group.h"
 #include "kill_tracker.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "monster.h"
 #include "npc.h"
 #include "omdata.h"
