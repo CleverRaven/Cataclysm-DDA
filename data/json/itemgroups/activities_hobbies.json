@@ -551,7 +551,7 @@
     "type": "item_group",
     "id": "camping_powergen",
     "subtype": "collection",
-    "entries": [ { "item": "folding_solar_panel", "prob": 5 } ]
+    "entries": [ { "item": "folding_solar_panel", "prob": 5 }, { "item": "power_station_portable", "prob": 85 } ]
   },
   {
     "type": "item_group",
