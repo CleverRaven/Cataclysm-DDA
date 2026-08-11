@@ -194,6 +194,7 @@ void dialogue_imgui::draw_dialogue_imgui( bool is_computer, bool is_not_conversa
     input_context ctxt( "DIALOGUE" );
     dialogue_imgui_impl p_impl( conversation, is_computer, is_not_conversation, remote_name );
 
+    // All of these keys end up being captured/used in dialogue::opt_imgui().
     ctxt.register_updown();
     ctxt.register_action( "CONFIRM", to_translation( "Select dialogue option" ) );
     ctxt.register_action( "ANY_INPUT" );
@@ -225,6 +226,7 @@ void dialogue_imgui::draw_dialogue_imgui( bool is_computer, bool is_not_conversa
             conversation->add_topic( next );
         }
 
+        // Currently unused, will likely be needed to handle scrolling of history
         p_impl.last_action = ctxt.handle_input();
 
         if( p_impl.last_action == "QUIT" || !p_impl.get_is_open() ) {
@@ -366,10 +368,27 @@ void dialogue_imgui_impl::set_responses( const std::vector<talk_data> &responses
 
 void dialogue_imgui_impl::draw_responses() const
 {
+    // Head it with the topic ID, if needed
+    if( debug_mode ) {
+        cataimgui::draw_colored_text( "talk_topic: " + debug_topic_name );
+    }
+
     for( const talk_data &talk : response_list ) {
         cataimgui::draw_colored_text( formatted_hotkey( talk.hotkey_desc, talk.color ) );
         ImGui::SameLine();
         cataimgui::TextColoredParagraph( talk.color, talk.text );
         ImGui::NewLine();
     }
+
+    // Show effects, etc
+    if( debug_mode ) {
+        for( const std::string &dbg_info : responses_debug ) {
+            cataimgui::TextColoredParagraph( c_yellow, dbg_info );
+        }
+    }
+}
+
+void dialogue_imgui_impl::set_responses_debug( const std::vector<std::string> &responses )
+{
+    responses_debug = responses;
 }

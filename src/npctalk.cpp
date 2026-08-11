@@ -3041,12 +3041,11 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
     do {
         std::string action;
         do {
-            /* FIXME
             if( debug_mode ) {
-                d_win.set_responses_debug( build_debug_info( d_win, topic, d_win.sel_response ) );
-                d_win.debug_topic_name = topic.id;
+                // FIXME: Dummy selected response being sent
+                d_img.set_responses_debug( build_debug_info( d_img, topic, 0 ) );
+                d_img.debug_topic_name = topic.id;
             }
-            */
             // For reasons unclear to me, we must manually invalidate and redraw the windows here, or else they will stack up.
             ui_manager::invalidate_all_ui_adaptors();
             ui_manager::redraw();
@@ -3059,30 +3058,28 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
                 // Reallocate hotkeys as keybindings may have changed
                 generate_response_lines();
             } else if( action == "CONFIRM" ) {
-                // FIXME
+                // FIXME. This is for navigating up and down and selecting an option with arrow keys
                 response_ind = 0;
                 //response condition must be reverified since non-selectable responses can be displayed
                 if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
                         !debug_mode ) ) {
                     action = "NONE";
                 }
-                /* FIXME
-                } else if( action == "DEBUG_DIALOGUE_DL_CONDITIONAL" ) {
-                    d_win.show_dynamic_line_conditionals = !d_win.show_dynamic_line_conditionals;
-                } else if( action == "DEBUG_DIALOGUE_RESP_CONDITIONAL" ) {
-                    d_win.show_response_conditionals = !d_win.show_response_conditionals;
-                } else if( action == "DEBUG_DIALOGUE_DL_EFFECT" ) {
-                    d_win.show_dynamic_line_effects = !d_win.show_dynamic_line_effects;
-                } else if( action == "DEBUG_DIALOGUE_RESP_EFFECT" ) {
-                    d_win.show_response_effects = !d_win.show_response_effects;
-                } else if( action == "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" ) {
-                    d_win.show_all_responses = !d_win.show_all_responses;
-                    if( debug_mode ) {
-                        this->debug_ignore_conditionals = !this->debug_ignore_conditionals;
-                        gen_responses( topic );
-                        generate_response_lines();
-                    }
-                    */
+            } else if( action == "DEBUG_DIALOGUE_DL_CONDITIONAL" ) {
+                d_img.show_dynamic_line_conditionals = !d_img.show_dynamic_line_conditionals;
+            } else if( action == "DEBUG_DIALOGUE_RESP_CONDITIONAL" ) {
+                d_img.show_response_conditionals = !d_img.show_response_conditionals;
+            } else if( action == "DEBUG_DIALOGUE_DL_EFFECT" ) {
+                d_img.show_dynamic_line_effects = !d_img.show_dynamic_line_effects;
+            } else if( action == "DEBUG_DIALOGUE_RESP_EFFECT" ) {
+                d_img.show_response_effects = !d_img.show_response_effects;
+            } else if( action == "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" ) {
+                d_img.show_all_responses = !d_img.show_all_responses;
+                if( debug_mode ) {
+                    this->debug_ignore_conditionals = !this->debug_ignore_conditionals;
+                    gen_responses( topic );
+                    generate_response_lines();
+                }
             } else if( action == "ANY_INPUT" ) {
                 // Check real hotkeys; equivalent functionally to CONFIRM
                 const auto hotkey_it = std::find( response_hotkeys.begin(),
@@ -3171,7 +3168,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
                               npc_actor ? npc_actor->basic_symbol_color() : c_red );
     }
     if( debug_mode ) {
-        std::vector<std::string> dynamic_line_debug = build_debug_info( d_win, topic );
+        std::vector<std::string> dynamic_line_debug = {};
         for( auto &line : dynamic_line_debug ) {
             d_win.add_to_history( line );
         }
@@ -3227,7 +3224,6 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         std::string action;
         do {
             if( debug_mode ) {
-                d_win.set_responses_debug( build_debug_info( d_win, topic, d_win.sel_response ) );
                 d_win.debug_topic_name = topic.id;
             }
             ui_manager::redraw();
@@ -3383,7 +3379,7 @@ void get_raw_debug_fields( const JsonObject &jo, std::map<std::string, std::stri
 }
 
 
-std::vector<std::string> dialogue::build_debug_info( const dialogue_window &d_win,
+std::vector<std::string> dialogue::build_debug_info( dialogue_imgui_impl &d_img,
         const talk_topic &topic, int do_response )
 {
     std::vector<std::string> debug_output;
@@ -3397,7 +3393,7 @@ std::vector<std::string> dialogue::build_debug_info( const dialogue_window &d_wi
 
         talk_response &actual_response = responses[do_response];
         std::map<std::string, std::string> &debug_info = actual_response.debug_info;
-        if( d_win.show_response_conditionals ) {
+        if( d_img.show_response_conditionals ) {
             if( actual_response.condition && debug_info.find( "condition" ) != debug_info.end() ) {
                 debug_output.emplace_back( std::string( "Conditional: [" ) + ( actual_response.condition(
                                                *this ) ? colorize( "true", c_light_green ) : colorize( "false",
@@ -3407,7 +3403,7 @@ std::vector<std::string> dialogue::build_debug_info( const dialogue_window &d_wi
             }
         }
         if( debug_info.find( "trial" ) != debug_info.end() ) {
-            if( d_win.show_response_conditionals ) {
+            if( d_img.show_response_conditionals ) {
                 if( actual_response.trial.condition ) {
                     debug_output.emplace_back( std::string( "Trial: [" ) + ( actual_response.trial.condition(
                                                    *this ) ? colorize( "true", c_light_green ) : colorize( "false",
@@ -3416,12 +3412,12 @@ std::vector<std::string> dialogue::build_debug_info( const dialogue_window &d_wi
                     debug_output.emplace_back( "Trial: " + debug_info["trial"] );
                 }
             }
-            if( d_win.show_response_effects ) {
+            if( d_img.show_response_effects ) {
                 debug_output.emplace_back( colorize( "Success: ", c_green ) + debug_info["success"] );
                 debug_output.emplace_back( colorize( "Failure: ", c_red ) + debug_info["failure"] );
             }
         }
-        if( d_win.show_response_effects ) {
+        if( d_img.show_response_effects ) {
             if( debug_info.find( "effect" ) != debug_info.end() ) {
                 debug_output.emplace_back( "Effect: " + debug_info["effect"] );
             } else {
@@ -3436,24 +3432,24 @@ std::vector<std::string> dialogue::build_debug_info( const dialogue_window &d_wi
         for( json_dynamic_line_effect eff : speaker_effects ) {
             std::map<std::string, std::string> &debug_info = eff.debug_info;
             std::string eff_count_str = std::to_string( eff_count );
-            if( debug_info.find( "condition" ) != debug_info.end() && d_win.show_dynamic_line_conditionals ) {
+            if( debug_info.find( "condition" ) != debug_info.end() && d_img.show_dynamic_line_conditionals ) {
                 debug_output.emplace_back( colorize( "CND" + eff_count_str + std::string( ": [" ),
                                                      c_yellow ) + ( eff.test_condition(
                                                              *this ) ? colorize( "true", c_light_green ) : colorize( "false",
                                                                      c_light_red ) ) + std::string( "] - " ) + colorize( debug_info["condition"], c_yellow ) );
                 added_cond = true;
             }
-            if( debug_info.find( "effect" ) != debug_info.end() && d_win.show_dynamic_line_effects ) {
+            if( debug_info.find( "effect" ) != debug_info.end() && d_img.show_dynamic_line_effects ) {
                 debug_output.emplace_back( colorize( "EFF" + eff_count_str + ": " + debug_info["effect"],
                                                      c_yellow ) );
                 added_eff = true;
             }
             eff_count++;
         }
-        if( !added_cond && d_win.show_dynamic_line_conditionals ) {
+        if( !added_cond && d_img.show_dynamic_line_conditionals ) {
             debug_output.emplace_back( colorize( "No conditionals", c_yellow ) );
         }
-        if( !added_eff && d_win.show_dynamic_line_effects ) {
+        if( !added_eff && d_img.show_dynamic_line_effects ) {
             debug_output.emplace_back( colorize( "No effects", c_yellow ) );
         }
     }

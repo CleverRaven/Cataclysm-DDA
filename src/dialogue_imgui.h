@@ -59,6 +59,8 @@ class dialogue_imgui_impl : public cataimgui::window
 
         std::vector<talk_data> response_list;
 
+        std::vector<std::string> responses_debug;
+
         // Public for now, access should be set properly later (friend class dialogue?)
     public:
         /** Adds a message to the conversation history. */
@@ -68,6 +70,8 @@ class dialogue_imgui_impl : public cataimgui::window
                              nc_color speaker_color );
         void add_to_history( const std::string &text, nc_color color );
 
+        std::string debug_topic_name;
+
         bool is_computer = false;
         bool is_not_conversation = false;
         // Remote conversation (intercom, radio). Hides physical-presence
@@ -76,6 +80,15 @@ class dialogue_imgui_impl : public cataimgui::window
         bool is_remote = false;
         std::string remote_name;
         void set_responses( const std::vector<talk_data> &responses );
+        void set_responses_debug( const std::vector<std::string> &responses );
+
+        bool show_dynamic_line_conditionals = true;
+        bool show_dynamic_line_effects = true;
+        bool show_response_conditionals = true;
+        bool show_response_effects = true;
+        //copy of dialogue::show_all_responses
+        bool show_all_responses = false;
+
     private:
         void draw_history() const;
         void draw_responses() const;
@@ -87,7 +100,7 @@ class dialogue_imgui_impl : public cataimgui::window
         dialogue *conversation;
 
     protected:
-		cataimgui::bounds get_bounds() override;
+        cataimgui::bounds get_bounds() override;
         void draw_controls() override;
 };
 #endif // CATA_SRC_DIALOGUE_IMGUI_H
