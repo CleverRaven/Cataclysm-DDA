@@ -2,14 +2,12 @@
 #ifndef CATA_SRC_DIALOGUE_IMGUI_H
 #define CATA_SRC_DIALOGUE_IMGUI_H
 
-#include <algorithm>
 #include <string>
 #include <vector>
 
 #include "cata_imgui.h"
 #include "color.h"
 #include "dialogue_win.h"
-#include "game_constants.h"
 #include "imgui/imgui.h"
 #include "panels.h"
 #include "translations.h"

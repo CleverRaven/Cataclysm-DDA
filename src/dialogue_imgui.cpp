@@ -13,6 +13,7 @@
 #include "input_context.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "output.h"
 #include "string_formatter.h"
 #include "talker.h"
 #include "text.h"
@@ -194,8 +195,13 @@ void dialogue_imgui::draw_dialogue_imgui( bool is_computer, bool is_not_conversa
     dialogue_imgui_impl p_impl( conversation, is_computer, is_not_conversation, remote_name );
 
     ctxt.register_updown();
-    ctxt.register_action( "SELECT" );
     ctxt.register_action( "CONFIRM", to_translation( "Select dialogue option" ) );
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "DEBUG_DIALOGUE_DL_CONDITIONAL" );
+    ctxt.register_action( "DEBUG_DIALOGUE_RESP_CONDITIONAL" );
+    ctxt.register_action( "DEBUG_DIALOGUE_DL_EFFECT" );
+    ctxt.register_action( "DEBUG_DIALOGUE_RESP_EFFECT" );
+    ctxt.register_action( "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
 
@@ -205,7 +211,7 @@ void dialogue_imgui::draw_dialogue_imgui( bool is_computer, bool is_not_conversa
         ui_manager::redraw_invalidated();
 
         conversation->actor( true )->update_missions( conversation->missions_assigned );
-        const talk_topic next = conversation->opt_imgui( p_impl, conversation->topic_stack.back() );
+        const talk_topic next = conversation->opt_imgui( p_impl, conversation->topic_stack.back(), ctxt );
         if( next.id == "TALK_NONE" ) {
             int cat = topic_category( conversation->topic_stack.back() );
             do {
