@@ -1230,7 +1230,11 @@
     "id": "supplies_metal_precious",
     "type": "item_group",
     "//": "Metals of significant economic value before the Cataclysm",
-    "items": [ [ "gold_small", 100 ], [ "silver_small", 100 ] ]
+    "items": [
+      { "item": "gold_small", "prob": 100, "count": [ 50, 150 ] },
+      { "item": "silver_small", "prob": 100, "count": [ 50, 150 ] },
+      { "item": "platinum_small", "prob": 100, "count": [ 50, 150 ] }
+    ]
   },
   {
     "id": "supplies_mechanics",
