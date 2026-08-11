@@ -3023,8 +3023,12 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
         response_lines.clear();
         response_hotkeys.clear();
         input_event evt = ctxt.first_unassigned_hotkey( queue );
-        for( talk_response &response : responses ) {
-            const talk_data &td = response.create_option_line( *this, evt, d_img.is_computer );
+        for( int i = 0; i < responses.size(); i++ ) {
+            talk_response &response = responses[i];
+            talk_data td = response.create_option_line( *this, evt, d_img.is_computer );
+            if( d_img.sel_response == i ) {
+                td.hotkey_desc += " >>>";
+            }
             response_lines.emplace_back( td );
             response_hotkeys.emplace_back( evt );
 #if defined(__ANDROID__)
@@ -3036,16 +3040,20 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
     };
     generate_response_lines();
 
+
+    // Re-init everytime we get here (new topic, new selections, don't try to preserve old selection)
+    d_img.sel_response = 0;
     size_t response_ind = response_hotkeys.size();
     bool okay;
     do {
         std::string action;
         do {
             if( debug_mode ) {
-                // FIXME: Dummy selected response being sent
-                d_img.set_responses_debug( build_debug_info( d_img, topic, 0 ) );
+                d_img.set_responses_debug( build_debug_info( d_img, topic, d_img.sel_response ) );
                 d_img.debug_topic_name = topic.id;
             }
+            // Indicators for what line is selected are part of the response string, so let's regen them.
+            generate_response_lines();
             // For reasons unclear to me, we must manually invalidate and redraw the windows here, or else they will stack up.
             ui_manager::invalidate_all_ui_adaptors();
             ui_manager::redraw();
@@ -3057,9 +3065,12 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
             if( action == "HELP_KEYBINDINGS" ) {
                 // Reallocate hotkeys as keybindings may have changed
                 generate_response_lines();
+            } else if( action == "DOWN" ) {
+                d_img.sel_response++;
+            } else if( action == "UP" ) {
+                d_img.sel_response--;
             } else if( action == "CONFIRM" ) {
-                // FIXME. This is for navigating up and down and selecting an option with arrow keys
-                response_ind = 0;
+                response_ind = d_img.sel_response;
                 //response condition must be reverified since non-selectable responses can be displayed
                 if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
                         !debug_mode ) ) {
@@ -3092,6 +3103,14 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
             } else if( action == "QUIT" ) {
                 response_ind = get_best_quit_response();
             }
+
+            // Clamp sel_response (There is probably a better existing way to do this, but it's simple so I'm just reimplementing)
+            if( d_img.sel_response >= static_cast<int>( response_hotkeys.size() ) ) {
+                d_img.sel_response = static_cast<int>( response_hotkeys.size() - 1 );
+            } else if( d_img.sel_response < 0 ) {
+                d_img.sel_response = 0;
+            }
+
         } while( response_ind >= response_hotkeys.size() ||
                  ( action != "ANY_INPUT" && action != "QUIT" && action != "CONFIRM" ) );
         okay = true;

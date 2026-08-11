@@ -89,6 +89,8 @@ class dialogue_imgui_impl : public cataimgui::window
         //copy of dialogue::show_all_responses
         bool show_all_responses = false;
 
+        int sel_response = 0;
+
     private:
         void draw_history() const;
         void draw_responses() const;

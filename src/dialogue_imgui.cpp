@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "cata_imgui.h"
+#include "debug.h"
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "dialogue_win.h"
@@ -164,7 +165,6 @@ static std::string bye_message( const npc *npc_actor )
 void dialogue_imgui_impl::draw_controls()
 {
     ImGui::SetWindowSize( ImVec2( window_width, window_height ), ImGuiCond_Once );
-    ImGui::SetWindowPos( ImVec2( 0, 0 ) );
     draw_dialogue_sidebar();
     // Draw history on the "same line" as the sidebar, but to the right.
     ImGui::SameLine();
@@ -278,6 +278,7 @@ void dialogue_imgui_impl::draw_dialogue_sidebar() const
 
         // Wielding/Wearing/Visible mutations
         ImGui::NewLine();
+        ImGui::NewLine();
         // FIXME: Temporary color for contrast
         if( conversation->actor( false )->can_see() ) {
             cataimgui::TextColoredParagraph( c_blue, conversation->actor( true )->short_description() );
@@ -288,15 +289,18 @@ void dialogue_imgui_impl::draw_dialogue_sidebar() const
 
         // Stats estimate
         ImGui::NewLine();
+        ImGui::NewLine();
         // FIXME: Temporary color for contrast
         cataimgui::TextColoredParagraph( c_red,
                                          conversation->actor( true )->evaluation_by( *conversation->actor( false ) ) );
         // Personality traits
         ImGui::NewLine();
+        ImGui::NewLine();
         // FIXME: Temporary color for contrast
         cataimgui::TextColoredParagraph( c_pink, conversation->actor( true )->view_personality_traits() );
 
         // Opinions of player
+        ImGui::NewLine();
         ImGui::NewLine();
         // FIXME: Temporary color for contrast
         cataimgui::TextColoredParagraph( c_yellow, conversation->actor( true )->opinion_text() );
