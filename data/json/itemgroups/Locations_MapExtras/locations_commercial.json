@@ -1715,6 +1715,7 @@
       { "item": "toaster", "prob": 65 },
       { "item": "mess_kit", "prob": 25 },
       { "item": "hotplate", "prob": 30 },
+      { "item": "power_station_portable", "prob": 40 },
       { "item": "hotplate_induction", "prob": 3 },
       { "item": "coffeemaker", "prob": 45 },
       { "item": "water_purifier", "prob": 15 },
