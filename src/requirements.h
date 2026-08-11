@@ -56,6 +56,16 @@ struct quality {
     static void finalize_all();
 };
 
+// Charged qualities resolve against `who` rather than the avatar.
+int quality_for_crafter( const item &it, const quality_id &qual, const Character *who,
+                         bool strict_boiling );
+
+// What the candidate supplies in its own right: itself plus non-CONTAINER pockets, but
+// nothing merely stored inside it.  A null `who` means no character-owned power, so a
+// charged quality still draws on linked vehicle power but not on a UPS or bionic charge.
+int provider_quality_level( const item &cand, const quality_id &id, const Character *who,
+                            bool strict_boiling );
+
 struct component {
     itype_id type = itype_id::NULL_ID();
     int count = 0;
