@@ -169,7 +169,7 @@
     "volume": "10 L",
     "price": "600 USD",
     "price_postapoc": "10 USD",
-    "capacity": 4000
+    "capacity": 4000,
     "use_action": { "type": "deploy_appliance", "base": "power_station_portable" },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 4000 } } ]
   }
