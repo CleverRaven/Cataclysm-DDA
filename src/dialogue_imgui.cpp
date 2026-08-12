@@ -18,14 +18,13 @@
 #include "string_formatter.h"
 #include "talker.h"
 #include "text.h"
-#include "text_snippets.h"
 #include "translation.h"
 #include "ui_manager.h"
 
 /*
 * This is roughly what the window should look like at full layout.
 * I've annotated the various parts to make it easier for you to identify what's doing each thing.
-* Each of the entries in capital letters is a child window with its own dedicated draw function.
+* Each of the entries in capital letters(except HORIZON) is a child window with its own dedicated draw function.
 *
 * The HORIZON line is the midway point between the DIALOGUE_HISTORY and DIALOGUE_RESPONSES child windows.
 * See horizontal_separator_pos_y() for more.
@@ -50,11 +49,6 @@
 *
 */
 
-// HORRIBLE HACK ALERT 3, THE OUT-OF-ORDER ONE: Dunno how this is handled let's just copy it for now
-snippet_library SNIPPET2;
-
-// HORRIBLE HACK ALERT: This function is copied wholesale from npctalk.cpp, just until I can get the window working.
-// Then we'll need to remove this hack and figure out how to organize all this crap.
 static int topic_category( const talk_topic &the_topic )
 {
     const std::string &topic = the_topic.id;
@@ -137,30 +131,6 @@ static int topic_category( const talk_topic &the_topic )
         return 99;
     }
     return -1; // Not grouped with other topics
-}
-
-// HORRIBLE HACK ALERT 2: This function is copied wholesale from npctalk.cpp, see previous hack.
-static std::string bye_message( const npc *npc_actor )
-{
-    // some dialogues do not have beta actor
-    if( !npc_actor ) {
-        return "";
-    }
-    const std::optional<std::string> bye_snippet = npc_actor->myclass->bye_message_override;
-    // if no bye_snippet, use default bye snippet
-    if( !bye_snippet.has_value() ) {
-        return npc_actor->chat_snippets().snip_bye.translated();
-    }
-    // if null, we want npc to mute bye message
-    // snippet categories do not have their own type,
-    // therefore do not have type::NULL_ID(), so check it against plain string
-    if( bye_snippet.value() == "null" ) {
-        return "";
-    }
-    const std::optional<translation> &bye_message = SNIPPET2.random_from_category(
-                bye_snippet.value() );
-    return bye_message.value_or( no_translation( string_format( "No snippet value for %s",
-                                 bye_snippet.value() ) ) ).translated();
 }
 
 static float border_size()
@@ -251,7 +221,8 @@ void dialogue_imgui::draw_dialogue_imgui( bool is_computer, bool is_not_conversa
             } while( cat != -1 && topic_category( conversation->topic_stack.back() ) == cat );
         }
         if( next.id == "TALK_DONE" || conversation->topic_stack.empty() ) {
-            conversation->actor( true )->say( bye_message( conversation->actor( true )->get_npc() ) );
+            conversation->actor( true )->say(
+                dialog_helper::bye_message( conversation->actor( true )->get_npc() ) );
             conversation->done = true;
         } else if( next.id != "TALK_NONE" ) {
             conversation->add_topic( next );
