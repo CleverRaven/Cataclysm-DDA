@@ -2989,7 +2989,7 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
         response_lines.clear();
         response_hotkeys.clear();
         input_event evt = ctxt.first_unassigned_hotkey( queue );
-        for( int i = 0; i < responses.size(); i++ ) {
+        for( int i = 0; i < static_cast<int>( responses.size() ); i++ ) {
             talk_response &response = responses[i];
             talk_data td = response.create_option_line( *this, evt, d_img.is_computer );
             if( d_img.sel_response == i ) {
@@ -3042,6 +3042,14 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
                         !debug_mode ) ) {
                     action = "NONE";
                 }
+            } else if( action == "END" ) {
+                d_img.scroll_to = cataimgui::scroll::page_down;
+            } else if( action == "HOME" ) {
+                d_img.scroll_to = cataimgui::scroll::page_up;
+            } else if( action == "PAGE_UP" ) {
+                d_img.scroll_to = cataimgui::scroll::line_up;
+            } else if( action == "PAGE_DOWN" ) {
+                d_img.scroll_to = cataimgui::scroll::line_down;
             } else if( action == "DEBUG_DIALOGUE_DL_CONDITIONAL" ) {
                 d_img.show_dynamic_line_conditionals = !d_img.show_dynamic_line_conditionals;
             } else if( action == "DEBUG_DIALOGUE_RESP_CONDITIONAL" ) {
