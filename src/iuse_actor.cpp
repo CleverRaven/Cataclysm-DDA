@@ -195,6 +195,17 @@ item_location form_loc_recursive( T &loc, item &it )
 template item_location form_loc_recursive<Character>( Character &loc, item &it );
 template item_location form_loc_recursive<npc>( npc &loc, item &it );
 
+template<>
+item_location form_loc_recursive( item_location &loc, item &it )
+{
+    item *parent = loc->find_parent( it );
+    if( parent != nullptr ) {
+        return item_location( form_loc_recursive( loc, *parent ), &it );
+    }
+
+    return item_location( loc, &it );
+}
+
 static std::optional<item_location> try_form_loc( Character &you, map *here,
         const tripoint_bub_ms &p, item &it )
 {
