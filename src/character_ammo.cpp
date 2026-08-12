@@ -17,6 +17,7 @@
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
+#include "magic_enchantment.h"
 #include "pocket_type.h"
 #include "type_id.h"
 #include "units.h"
