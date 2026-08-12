@@ -70,7 +70,7 @@ struct talk_data {
 namespace dialog_helper
 {
 std::string bye_message( const npc *npc_actor );
-} // namespace dialogue
+} // namespace dialog_helper
 
 /**
  * If not TALK_TRIAL_NONE, it defines how to decide whether the responses succeeds (e.g. the

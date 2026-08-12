@@ -70,13 +70,6 @@ int OVERMAP_LEGEND_WIDTH;
 
 scrollingcombattext SCT;
 
-// Mouseover selection delays to keep different types of scrolling from fighting
-// Currently used by multiline_list
-static const std::chrono::duration<int, std::milli> base_mouse_delay =
-    std::chrono::milliseconds( 100 );
-static const std::chrono::duration<int, std::milli> scrollwheel_delay =
-    std::chrono::milliseconds( 500 );
-
 std::string string_from_int( const catacurses::chtype ch )
 {
     catacurses::chtype charcode = ch;

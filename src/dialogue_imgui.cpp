@@ -1,7 +1,7 @@
 #include "dialogue_imgui.h"
 
 #include <algorithm>
-#include <optional>
+#include <imgui/imgui_internal.h>
 #include <string>
 #include <unordered_set>
 #include <vector>
@@ -9,11 +9,8 @@
 #include "cata_imgui.h"
 #include "debug.h"
 #include "dialogue.h"
-#include "dialogue_chatbin.h"
 #include "imgui/imgui.h"
 #include "input_context.h"
-#include "npc.h"
-#include "npc_class.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "talker.h"
@@ -141,15 +138,16 @@ static float border_size()
 // This is the midway point between the DIALOGUE_HISTORY and DIALOGUE_RESPONSES child windows.
 static float horizontal_separator_pos_y( const float window_height )
 {
-    return ( window_height * 0.6 );
+    return window_height * 0.6;
 }
 
 float dialogue_imgui_impl::sidebar_width() const
 {
     const int num_characters_line_in_ASCII_portrait = 28; // Known fact
     const int num_characters_width = num_characters_line_in_ASCII_portrait + 4; // Add some padding
-    // Portraits are supposed to be 128x128, so 140 gives us some breathing room
-    const float min_width = std::max( 140.0f, num_characters_width * ImGui::CalcTextSize( "0" ).x );
+    // Portraits are supposed to be 128x128. The extra size is to account for borders and any small padding cases we may have overlooked etc
+    const float min_width = std::max( 128.0f + border_size() * 4,
+                                      num_characters_width * ImGui::CalcTextSize( "0" ).x );
     const float max_width = window_width * 0.3;
     const float actual_width = std::max( min_width, max_width );
     return actual_width;
@@ -164,6 +162,13 @@ float dialogue_imgui_impl::dialogue_window_width() const
 
 void dialogue_imgui_impl::draw_controls()
 {
+    // We might be trading (non-imgui screen).
+    // Toggled on/off in dialogue::opt_imgui().
+    if( hide_ui ) {
+        ImGuiWindow *w = ImGui::GetCurrentWindowRead();
+        ImGui::SetWindowHiddenAndSkipItemsForCurrentFrame( w );
+    }
+
     ImGui::SetWindowSize( ImVec2( window_width, window_height ), ImGuiCond_Once );
     draw_dialogue_sidebar();
     ImGui::SetNextWindowPos( ImVec2( sidebar_width() + border_size() * 3,
@@ -226,13 +231,6 @@ void dialogue_imgui::draw_dialogue_imgui( bool is_computer, bool is_not_conversa
             conversation->done = true;
         } else if( next.id != "TALK_NONE" ) {
             conversation->add_topic( next );
-        }
-
-        // Currently unused, will likely be needed to handle scrolling of history
-        p_impl.last_action = ctxt.handle_input();
-
-        if( p_impl.last_action == "QUIT" || !p_impl.get_is_open() ) {
-            break;
         }
     }
 }
