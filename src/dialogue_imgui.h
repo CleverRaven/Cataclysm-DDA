@@ -101,6 +101,9 @@ class dialogue_imgui_impl : public cataimgui::window
         void draw_dialogue_responses() const;
         dialogue *conversation;
 
+        float sidebar_width() const;
+        float dialogue_window_width() const;
+
     protected:
         cataimgui::bounds get_bounds() override;
         void draw_controls() override;
