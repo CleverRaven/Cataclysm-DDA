@@ -1720,7 +1720,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "bronze khopesh", "str_pl": "bronze khopeshes" },
-    "description": "A cheap, yellow-colored replica of an ancient bronze weapon with a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region..  The sword is quite worn, and bent at an odd angle.",
+    "description": "A cheap, yellow-colored replica of an ancient bronze weapon with a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.  The sword is quite worn, and bent at an odd angle.",
     "proportional": { "melee_damage": { "cut": 0 }, "price_postapoc": 0.1, "price": 0.1 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
