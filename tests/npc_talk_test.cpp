@@ -17,7 +17,6 @@
 #include "coordinates.h"
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
-#include "dialogue_win.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"

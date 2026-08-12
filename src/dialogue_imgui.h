@@ -7,7 +7,7 @@
 
 #include "cata_imgui.h"
 #include "color.h"
-#include "dialogue_win.h"
+#include "dialogue.h"
 #include "imgui/imgui.h"
 #include "panels.h"
 #include "translations.h"
