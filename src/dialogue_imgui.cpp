@@ -1,5 +1,6 @@
 #include "dialogue_imgui.h"
 
+#include <algorithm>
 #include <optional>
 #include <string>
 #include <unordered_set>
@@ -179,7 +180,7 @@ float dialogue_imgui_impl::sidebar_width() const
     const int num_characters_width = num_characters_line_in_ASCII_portrait + 4; // Add some padding
     // Portraits are supposed to be 128x128, so 140 gives us some breathing room
     const float min_width = std::max( 140.0f, num_characters_width * ImGui::CalcTextSize( "0" ).x );
-    const float max_width = window_width * 0.29; // Using the current hacked value
+    const float max_width = window_width * 0.3;
     const float actual_width = std::max( min_width, max_width );
     return actual_width;
 }
@@ -223,6 +224,10 @@ void dialogue_imgui::draw_dialogue_imgui( bool is_computer, bool is_not_conversa
     // All of these keys end up being captured/used in dialogue::opt_imgui().
     ctxt.register_updown();
     ctxt.register_action( "CONFIRM", to_translation( "Select dialogue option" ) );
+    ctxt.register_action( "HOME", to_translation( "Scroll dialogue history down (entire page)" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Scroll dialogue history down (one line)" ) );
+    ctxt.register_action( "END", to_translation( "Scroll dialogue history up (entire page)" ) );
+    ctxt.register_action( "PAGE_UP", to_translation( "Scroll dialogue history up (one line)" ) );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "DEBUG_DIALOGUE_DL_CONDITIONAL" );
     ctxt.register_action( "DEBUG_DIALOGUE_RESP_CONDITIONAL" );
@@ -325,7 +330,7 @@ void dialogue_imgui_impl::draw_dialogue_sidebar() const
     ImGui::PopStyleVar();
 }
 
-void dialogue_imgui_impl::draw_dialogue_history() const
+void dialogue_imgui_impl::draw_dialogue_history()
 {
 
     ImGui::PushStyleVar( ImGuiStyleVar_ChildBorderSize, border_size() );
@@ -333,6 +338,7 @@ void dialogue_imgui_impl::draw_dialogue_history() const
     ImVec2 child_size = {dialogue_window_width(), ( horizontal_separator_pos_y( window_height ) - border_size() * 2 )};
     if( ImGui::BeginChild( "##DIALOGUE_HISTORY", child_size, child_flags ) ) {
         draw_history();
+        cataimgui::set_scroll( scroll_to );
     }
     ImGui::EndChild();
     ImGui::PopStyleVar();

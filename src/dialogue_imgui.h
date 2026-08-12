@@ -12,8 +12,6 @@
 #include "panels.h"
 #include "translations.h"
 
-struct dialogue;
-
 class dialogue_imgui
 {
         friend class dialogue_imgui_impl;
@@ -91,13 +89,15 @@ class dialogue_imgui_impl : public cataimgui::window
 
         int sel_response = 0;
 
+        cataimgui::scroll scroll_to = cataimgui::scroll::none;
+
     private:
         void draw_history() const;
         void draw_responses() const;
         nc_color default_color() const;
 
         void draw_dialogue_sidebar() const;
-        void draw_dialogue_history() const;
+        void draw_dialogue_history();
         void draw_dialogue_responses() const;
         dialogue *conversation;
 
