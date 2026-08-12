@@ -133,47 +133,24 @@ if (TILES)
                 ${CMAKE_CURRENT_SOURCE_DIR}
                 )
 
-        if (NOT USE_SDL3)
-            target_include_directories(
-                    imgui
-                    SYSTEM
-                    PRIVATE
-                    ${SDL2_INCLUDE_DIR}/..
-                    )
-        endif ()
-
         target_compile_options(
                 imgui
                 PRIVATE
                 -w
                 )
 
-        if (USE_SDL3)
-            if (ANDROID)
-                target_link_libraries(imgui PUBLIC SDL3::SDL3)
-            elseif (NOT DYNAMIC_LINKING)
-                target_link_libraries(imgui PUBLIC
-                    $<IF:$<TARGET_EXISTS:SDL3::SDL3-static>,SDL3::SDL3-static,SDL3::SDL3>
-                    ${_imgui_freetype_libraries}
-                )
-            else()
-                target_link_libraries(imgui PUBLIC
-                    SDL3::SDL3
-                    ${_imgui_freetype_libraries}
-                )
-            endif ()
-        else ()
-            if (NOT DYNAMIC_LINKING)
-                target_link_libraries(imgui PUBLIC
-                    SDL2::SDL2-static
-                    ${_imgui_freetype_libraries}
-                )
-            else()
-                target_link_libraries(imgui PUBLIC
-                    SDL2::SDL2
-                    ${_imgui_freetype_libraries}
-                )
-            endif ()
+        if (ANDROID)
+            target_link_libraries(imgui PUBLIC SDL3::SDL3)
+        elseif (NOT DYNAMIC_LINKING)
+            target_link_libraries(imgui PUBLIC
+                $<IF:$<TARGET_EXISTS:SDL3::SDL3-static>,SDL3::SDL3-static,SDL3::SDL3>
+                ${_imgui_freetype_libraries}
+            )
+        else()
+            target_link_libraries(imgui PUBLIC
+                SDL3::SDL3
+                ${_imgui_freetype_libraries}
+            )
         endif ()
 
 
