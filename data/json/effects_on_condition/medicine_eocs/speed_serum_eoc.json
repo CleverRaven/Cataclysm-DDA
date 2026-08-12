@@ -20,6 +20,58 @@
     "effect": [ { "u_add_effect": "speed_serum_crash", "duration": [ "1 d", "2 d" ] } ]
   },
   {
+    "type": "effect_on_condition",
+    "id": "EOC_SERUM_SPEED_PERIODIC_SIDE_EFFECTS",
+    "condition": { "u_has_effect": "speed_serum_main" },
+    "effect": [
+      { "run_eocs": "EOC_SERUM_SPEED_PERIODIC_SIDE_EFFECTS", "time_in_future": [ "25 minutes", "65 minutes" ] },
+      {
+        "if": { "not": { "u_has_effect": "valium" } },
+        "then": {
+          "switch": { "math": [ "rand(5)" ] },
+          "cases": [
+            {
+              "case": 4,
+              "effect": {
+                "if": {
+                  "and": [
+                    "u_has_weapon",
+                    { "not": { "u_has_effect": "sleep" } },
+                    {
+                      "math": [
+                        "(u_limb_score('grip', 'type': 'hand') + (rand(u_val('dexterity') ) * 0.1) + (u_has_trait('CLUMSY') * -0.2) + (u_effect_intensity('shakes') > -1 ? -0.2 : 0) + (u_has_trait('DEFT') * 0.1) ) < 0.6"
+                      ]
+                    }
+                  ]
+                },
+                "then": [  ]
+              }
+            },
+            {
+              "case": 5,
+              "effect": {
+                "if": {
+                  "and": [
+                    { "not": { "u_has_effect": "sleep" } },
+                    {
+                      "math": [
+                        "(u_limb_score('balance') + (rand(u_val('dexterity') ) * 0.1) + (u_has_trait('BADKNEES') * -0.1) + (u_has_trait('REALLYBADKNEES') * -0.4) ) < 0.6"
+                      ]
+                    }
+                  ]
+                },
+                "then": [
+                  { "u_add_effect": "downed", "duration": 5 },
+                  { "u_message": "Your legs twitch and you fall to the ground!", "type": "bad" }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
     "type": "effect_type",
     "id": "speed_serum_main",
     "name": [ "Injected 51x-\"Landru\"" ],
@@ -52,6 +104,7 @@
           { "value": "MOVE_COST", "multiply": -0.1 },
           { "value": "ATTACK_SPEED", "multiply": -0.33 },
           { "value": "AIMING_SPEED", "multiply": 0.8 },
+          { "value": "RELOADING_SPEED", "multiply": -0.5 },
           { "value": "CARDIO_MULTIPLIER", "multiply": 0.2 },
           { "value": "PAIN", "multiply": 0.333 },
           { "value": "EXTRA_ELEC_PAIN", "multiply": 1 },
@@ -77,6 +130,14 @@
     "desc": [ "The world seems jittery and moving too quickly, your stomach hurts, and you're very tired." ],
     "apply_message": "",
     "remove_message": "",
-    "enchantments": [ { "values": [ { "value": "KCAL", "multiply": -0.15 }, { "value": "SLEEPINESS_REGEN", "multiply": -0.3333 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "EXTRA_ELEC_PAIN", "multiply": 1 },
+          { "value": "KCAL", "multiply": -0.15 },
+          { "value": "SLEEPINESS_REGEN", "multiply": -0.3333 }
+        ]
+      }
+    ]
   }
 ]
