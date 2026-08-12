@@ -205,6 +205,16 @@ std::unique_ptr<talker> get_talker_for( item_location &it );
 std::unique_ptr<const_talker> get_const_talker_for( const item_location &it );
 std::unique_ptr<talker> get_talker_for( item_location *it );
 
+namespace std
+{
+template <>
+struct hash<item_location> {
+    std::size_t operator()( const item_location &it ) const noexcept {
+        return static_cast<size_t>( it.where() );
+    }
+};
+} // namespace std
+
 struct item_locator_hint;
 
 // Resolve an item by its uid, starting from the hint.  Returns invalid
