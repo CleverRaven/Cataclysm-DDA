@@ -27,6 +27,9 @@
 * I've annotated the various parts to make it easier for you to identify what's doing each thing.
 * Each of the entries in capital letters is a child window with its own dedicated draw function.
 *
+* The HORIZON line is the midway point between the DIALOGUE_HISTORY and DIALOGUE_RESPONSES child windows.
+* See horizontal_separator_pos_y() for more.
+*
 *         ---------------------------------------
 *         | SIDEBAR  |  DIALOGUE HISTORY        |
 *         |(Portrait)|                          |
@@ -37,7 +40,7 @@
 *         |(Vis Mut) |                          |
 *         |          |                          |
 *         |(Stats)   |                          |
-*         |(Traits)  | -------------------------|
+*         |(Traits)  |--------HORIZON-----------|
 *         |          |  DIALOGUE RESPONSES      |
 *         |(Opinions)|                          |
 *         |          |                          |
@@ -160,20 +163,44 @@ static std::string bye_message( const npc *npc_actor )
                                  bye_snippet.value() ) ) ).translated();
 }
 
+static float border_size()
+{
+    return 4.0f;
+}
 
+// This is the midway point between the DIALOGUE_HISTORY and DIALOGUE_RESPONSES child windows.
+static float horizontal_separator_pos_y( const float window_height )
+{
+    return ( window_height * 0.6 );
+}
+
+float dialogue_imgui_impl::sidebar_width() const
+{
+    const int num_characters_line_in_ASCII_portrait = 28; // Known fact
+    const int num_characters_width = num_characters_line_in_ASCII_portrait + 4; // Add some padding
+    // Portraits are supposed to be 128x128, so 140 gives us some breathing room
+    const float min_width = std::max( 140.0f, num_characters_width * ImGui::CalcTextSize( "0" ).x );
+    const float max_width = window_width * 0.29; // Using the current hacked value
+    const float actual_width = std::max( min_width, max_width );
+    return actual_width;
+}
+
+float dialogue_imgui_impl::dialogue_window_width() const
+{
+    // Two child windows side by side with 4 total borders, plus an extra border's worth of space to not let everything feel cramped.
+    const float total_horizontal_padding = border_size() * 5;
+    return ImGui::GetWindowSize().x - sidebar_width() - total_horizontal_padding;
+}
 
 void dialogue_imgui_impl::draw_controls()
 {
     ImGui::SetWindowSize( ImVec2( window_width, window_height ), ImGuiCond_Once );
     draw_dialogue_sidebar();
-    // Draw history on the "same line" as the sidebar, but to the right.
-    ImGui::SameLine();
-    // Now that we have the position, we need to save it...
-    ImVec2 topleft_dialogue_non_sidebar = ImGui::GetCursorScreenPos();
+    ImGui::SetNextWindowPos( ImVec2( sidebar_width() + border_size() * 3,
+                                     border_size() * 2 ) );
     draw_dialogue_history();
-    // In order to place this next child correctly we use the saved position and offset the window.
-    topleft_dialogue_non_sidebar.y += window_height * 0.6;
-    ImGui::SetNextWindowPos( topleft_dialogue_non_sidebar );
+    ImGui::SetNextWindowPos( ImVec2( sidebar_width() + border_size() * 3,
+                                     horizontal_separator_pos_y( window_height ) + border_size() * 2 ) );
     draw_dialogue_responses();
 }
 
@@ -237,22 +264,11 @@ void dialogue_imgui::draw_dialogue_imgui( bool is_computer, bool is_not_conversa
 
 void dialogue_imgui_impl::draw_dialogue_sidebar() const
 {
-    ImGui::PushStyleVar( ImGuiStyleVar_ChildBorderSize, 4.0f );
+    ImGui::PushStyleVar( ImGuiStyleVar_ChildBorderSize, border_size() );
     ImGuiChildFlags child_flags = ImGuiChildFlags_Borders;
-    /*
-    * FIXME: Sidebar width should have a minimum size of 140 pixels or so. The portraits are expected to be 128x128, this allows enough space for padding and borders as well
-    * Assuming we use my ASCII portrait below, then the size needs to be a minimum of its width ( 28 * fontwidth)
-    * So, something like this:
-    *
-    * const int num_characters_line_in_ASCII_portrait = 28; // Known fact
-    * const int num_characters_width = num_characters_line_in_ASCII_portrait + 4; // Add some padding
-    * const float min_width = std::max( 140.0f, num_characters_width * ImGui::GetFontSize().x);
-    * const float max_width = window_width * 0.29; // Using the current hacked value
-    * const float actual_width = std::max ( min_width, max_width);
-    *
-    */
-    if( ImGui::BeginChild( "##DIALOGUE_SIDEBAR", ImVec2( window_width * 0.29, window_height * 0.95 ),
-                           child_flags ) ) {
+    ImVec2 child_size = {sidebar_width(), ImGui::GetWindowHeight() - ( border_size() * 2 )};
+    // TODO: Some of these (portrait, name) want to be centered.
+    if( ImGui::BeginChild( "##DIALOGUE_SIDEBAR", child_size, child_flags ) ) {
         // This is a masterpiece, especially with the double backslashes to escape it. Anybody who disagrees is automatically sentenced to 10 months of converting windows to Dear ImGui.
         // -Renech "The Greatest" CDDA
         std::string my_beautiful_NPC_ASCII_portait = string_format(
@@ -313,10 +329,10 @@ void dialogue_imgui_impl::draw_dialogue_sidebar() const
 void dialogue_imgui_impl::draw_dialogue_history() const
 {
 
-    ImGui::PushStyleVar( ImGuiStyleVar_ChildBorderSize, 4.0f );
+    ImGui::PushStyleVar( ImGuiStyleVar_ChildBorderSize, border_size() );
     ImGuiChildFlags child_flags = ImGuiChildFlags_Borders;
-    if( ImGui::BeginChild( "##DIALOGUE_HISTORY", ImVec2( window_width * 0.68,
-                           ( window_height * 0.59 ) ), child_flags ) ) {
+    ImVec2 child_size = {dialogue_window_width(), ( horizontal_separator_pos_y( window_height ) - border_size() * 2 )};
+    if( ImGui::BeginChild( "##DIALOGUE_HISTORY", child_size, child_flags ) ) {
         draw_history();
     }
     ImGui::EndChild();
@@ -325,10 +341,10 @@ void dialogue_imgui_impl::draw_dialogue_history() const
 
 void dialogue_imgui_impl::draw_dialogue_responses() const
 {
-    ImGui::PushStyleVar( ImGuiStyleVar_ChildBorderSize, 4.0f );
+    ImGui::PushStyleVar( ImGuiStyleVar_ChildBorderSize, border_size() );
     ImGuiChildFlags child_flags = ImGuiChildFlags_Borders;
-    if( ImGui::BeginChild( "##DIALOGUE_RESPONSES", ImVec2( window_width * 0.68,
-                           ( window_height * 0.38 ) ), child_flags ) ) {
+    ImVec2 child_size = {dialogue_window_width(), ( window_height - horizontal_separator_pos_y( window_height ) - border_size() * 2 )};
+    if( ImGui::BeginChild( "##DIALOGUE_RESPONSES", child_size, child_flags ) ) {
         draw_responses();
     }
     ImGui::EndChild();
