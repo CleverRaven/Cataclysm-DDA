@@ -205,13 +205,10 @@ jobs:
         ZSTD_CLEVEL: 17
         CMAKE: ${{ matrix.cmake }}
         COMPILER: ${{ matrix.compiler }}
-        MXE_TARGET: ${{ matrix.mxe_target }}
-        WINE: ${{ matrix.wine }}
         ANDROID: ${{ matrix.android }}
         OS: ${{ matrix.os }}
         TILES: ${{ matrix.tiles }}
         SOUND: ${{ matrix.sound }}
-        SDL3: ${{ matrix.sdl3 }}
         LOCALIZE: ${{ matrix.localize }}
         MODS: ${{ matrix.mods }}
         SANITIZE: ${{ matrix.sanitize }}
