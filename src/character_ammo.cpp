@@ -223,8 +223,10 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
         mv -= get_str() * 20;
     }
 
-    return std::max( static_cast<int>( std::round( mv * get_modifier(
+    mv = std::max( static_cast<int>( std::round( mv * get_modifier(
                                            character_modifier_reloading_move_mod ) ) ), 25 );
+
+    return calculate_by_enchantment( mv, enchant_vals::mod::RELOADING_SPEED );
 }
 
 std::vector<item_location> Character::find_reloadables()
