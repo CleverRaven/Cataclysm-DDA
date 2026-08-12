@@ -27,7 +27,6 @@ class dialogue_imgui
 class dialogue_imgui_impl : public cataimgui::window
 {
     public:
-        std::string last_action;
         explicit dialogue_imgui_impl( dialogue *conversation, bool is_computer, bool is_not_conversation,
                                       const std::string &remote_name ) : cataimgui::window( _( "Dialogue" ),
                                                   ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav |
@@ -90,6 +89,8 @@ class dialogue_imgui_impl : public cataimgui::window
         int sel_response = 0;
 
         cataimgui::scroll scroll_to = cataimgui::scroll::none;
+
+        bool hide_ui = false;
 
     private:
         void draw_history() const;

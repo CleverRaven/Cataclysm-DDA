@@ -29,6 +29,7 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_imgui.h"
 #include "cata_lazy.h"
 #include "cata_path.h"
 #include "cata_utility.h"
@@ -1708,13 +1709,13 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
     }
 }
 
-std::string dialogue::speaker_name( const dialogue_imgui_impl &d_win ) const
+std::string dialogue::speaker_name( const dialogue_imgui_impl &d_img ) const
 {
-    if( d_win.is_not_conversation ) {
+    if( d_img.is_not_conversation ) {
         return "";
     }
-    if( !d_win.remote_name.empty() ) {
-        return d_win.remote_name;
+    if( !d_img.remote_name.empty() ) {
+        return d_img.remote_name;
     }
     return actor( true )->disp_name();
 }
@@ -2920,6 +2921,8 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
     };
     generate_response_lines();
 
+    // HACK: We might have hidden the UI on the last frame. Let's go ahead and unhide it now.
+    d_img.hide_ui = false;
 
     // Re-init everytime we get here (new topic, new selections, don't try to preserve old selection)
     d_img.sel_response = 0;
@@ -3023,6 +3026,14 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
                                           chosen.proficiency );
     const bool success = chosen.trial.roll( *this );
     talk_effect_t const &effects = success ? chosen.success : chosen.failure;
+
+    // HACK: We don't know what effects just happened! We might be trading! Let's go ahead and hide the UI, just in case.
+    // If we *aren't* trading, the next frame this function will just un-hide itself.
+    // But if we're in the trade menu, un-hiding only gets called when we're back to talking! Easy.
+    d_img.hide_ui = true;
+    ui_manager::invalidate_all_ui_adaptors();
+    ui_manager::redraw();
+
     talk_topic ret_topic =  effects.apply( *this );
     talk_effect_t::update_missions( *this );
     return ret_topic;
