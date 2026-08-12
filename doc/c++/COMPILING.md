@@ -261,6 +261,13 @@ Run:
 
 ## Cross-compile to Windows from Linux
 
+> **The MXE cross-compile is unsupported.** Its CI job was removed on
+> 2024-12-11 in commit `39a3e408e4` (PR #78495), and SDL2 support has since been
+> removed from the code base. MXE packages sdl3, sdl3_image and sdl3_ttf but no
+> sdl3_mixer, so a sound build is out and nobody has tried the rest. The scripts
+> and the section below are kept deliberately, in the state they bit-rotted
+> into, for anyone who wants to revive the path.
+
 To cross-compile to Windows from Linux, you will need MXE, which changes your `make` command slightly. These instructions were written from Ubuntu 20.04, but should be applicable to any Debian-based environment. Please adjust all package manager instructions to match your environment.
 
 Dependencies:
@@ -280,7 +287,7 @@ cd ~/src
 git clone https://github.com/CleverRaven/Cataclysm-DDA.git
 git clone https://github.com/mxe/mxe.git
 cd mxe
-make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' MXE_PLUGIN_DIRS=plugins/gcc11 sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
+make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' MXE_PLUGIN_DIRS=plugins/gcc11 gettext
 cd ../libbacktrace/
 wget https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-x86_64-w64-mingw32.tar.gz
 wget https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-i686-w64-mingw32.tar.gz
@@ -303,16 +310,9 @@ This is to ensure that the variables for the `make` command will not get reset a
 
 ### Building (SDL)
 
-These MXE instructions build the SDL2 fallback. SDL3 cross-compilation requires equivalent SDL3, SDL3_image, SDL3_ttf, SDL3_mixer, and shader toolchain packages.
-
-    cd ~/src/Cataclysm-DDA
-
-Run one of the following commands based on your targeted environment:
-
-```bash
-make -j$((`nproc`+0)) CROSS="${PLATFORM_32}" TILES=1 SOUND=1 SDL3=0 RELEASE=1 LOCALIZE=1 bindist
-make -j$((`nproc`+0)) CROSS="${PLATFORM_64}" TILES=1 SOUND=1 SDL3=0 RELEASE=1 LOCALIZE=1 bindist
-```
+Untested. MXE packages sdl3, sdl3_image and sdl3_ttf, so the pieces for a
+no-sound tiles cross-build exist, but nobody has built CDDA against them. There
+is no sdl3_mixer package, so `SOUND=1` needs one added upstream in MXE first.
 
 
 <!-- Building ncurses for Windows is a nonstarter, so the directions were removed. -->
