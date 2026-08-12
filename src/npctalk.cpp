@@ -480,8 +480,6 @@ struct item_search_data {
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-static int topic_category( const talk_topic &the_topic );
-
 static bool friendly_teacher( const Character &student, const Character &teacher )
 {
     return ( student.is_npc() && teacher.is_avatar() ) ||
@@ -1641,7 +1639,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     }
 }
 
-static std::string bye_message( const npc *npc_actor )
+std::string dialog_helper::bye_message( const npc *npc_actor )
 {
     // some dialogues do not have beta actor
     if( !npc_actor ) {
@@ -1819,7 +1817,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic )
     }
 
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
-        return bye_message( actor( true )->get_npc() );
+        return dialog_helper::bye_message( actor( true )->get_npc() );
     } else if( topic == "TALK_TRAIN" ) {
         if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );
@@ -2299,90 +2297,6 @@ bool talk_trial::roll( dialogue &d ) const
         }
     }
     return success;
-}
-
-int topic_category( const talk_topic &the_topic )
-{
-    const std::string &topic = the_topic.id;
-    // TODO: ideally, this would be a property of the topic itself.
-    // How this works: each category has a set of topics that belong to it, each set is checked
-    // for the given topic and if a set contains, the category number is returned.
-    static const std::unordered_set<std::string> topic_1 = { {
-            "TALK_MISSION_START", "TALK_MISSION_DESCRIBE", "TALK_MISSION_OFFER",
-            "TALK_MISSION_ACCEPTED", "TALK_MISSION_REJECTED", "TALK_MISSION_ADVICE",
-            "TALK_MISSION_INQUIRE", "TALK_MISSION_SUCCESS", "TALK_MISSION_SUCCESS_LIE",
-            "TALK_MISSION_FAILURE", "TALK_MISSION_REWARD", "TALK_MISSION_END",
-            "TALK_MISSION_DESCRIBE_URGENT"
-        }
-    };
-    if( topic_1.count( topic ) > 0 ) {
-        return 1;
-    }
-    static const std::unordered_set<std::string> topic_2 = { {
-            "TALK_SHARE_EQUIPMENT", "TALK_GIVE_EQUIPMENT", "TALK_DENY_EQUIPMENT"
-        }
-    };
-    if( topic_2.count( topic ) > 0 ) {
-        return 2;
-    }
-    static const std::unordered_set<std::string> topic_3 = { {
-            "TALK_SUGGEST_FOLLOW", "TALK_AGREE_FOLLOW", "TALK_DENY_FOLLOW",
-        }
-    };
-    if( topic_3.count( topic ) > 0 ) {
-        return 3;
-    }
-    static const std::unordered_set<std::string> topic_4 = { {
-            "TALK_COMBAT_ENGAGEMENT",
-        }
-    };
-    if( topic_4.count( topic ) > 0 ) {
-        return 4;
-    }
-    static const std::unordered_set<std::string> topic_5 = { {
-            "TALK_COMBAT_COMMANDS",
-        }
-    };
-    if( topic_5.count( topic ) > 0 ) {
-        return 5;
-    }
-    static const std::unordered_set<std::string> topic_6 = { {
-            "TALK_TRAIN", "TALK_TRAIN_START", "TALK_TRAIN_FORCE",
-            "TALK_TRAIN_NPC_START", "TALK_TRAIN_NPC_FORCE"
-        }
-    };
-    if( topic_6.count( topic ) > 0 ) {
-        return 6;
-    }
-    static const std::unordered_set<std::string> topic_7 = { {
-            "TALK_MISC_RULES",
-        }
-    };
-    if( topic_7.count( topic ) > 0 ) {
-        return 7;
-    }
-    static const std::unordered_set<std::string> topic_8 = { {
-            "TALK_AIM_RULES",
-        }
-    };
-    if( topic_8.count( topic ) > 0 ) {
-        return 8;
-    }
-    static const std::unordered_set<std::string> topic_9 = { {
-            "TALK_FRIEND", "TALK_GIVE_ITEM", "TALK_USE_ITEM",
-        }
-    };
-    if( topic_9.count( topic ) > 0 ) {
-        return 9;
-    }
-    static const std::unordered_set<std::string> topic_99 = { {
-            "TALK_SIZE_UP", "TALK_ASSESS_PERSON", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT"
-        }
-    };
-    if( topic_99.count( topic ) > 0 ) {
-        return 99;
-    }
-    return -1; // Not grouped with other topics
 }
 
 static std::string faction_or_fallback( const_talker const &guy )

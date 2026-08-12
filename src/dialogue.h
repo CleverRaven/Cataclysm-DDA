@@ -67,6 +67,11 @@ struct talk_data {
     std::string text;
 };
 
+namespace dialog_helper
+{
+std::string bye_message( const npc *npc_actor );
+} // namespace dialogue
+
 /**
  * If not TALK_TRIAL_NONE, it defines how to decide whether the responses succeeds (e.g. the
  * NPC believes the lie). The difficulty is a 0...100 percent chance of success (!), 100 means
