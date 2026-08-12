@@ -699,7 +699,11 @@ ifeq ($(NATIVE), emscripten)
   endif
 
   # Flags that are common across compile and link phases.
-  EMCC_COMMON_FLAGS = -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sSDL2_IMAGE_FORMATS=['png'] -fexceptions
+  # The SDL2 emscripten ports this used to request are gone. Emscripten ships an
+  # SDL3 port (3.4.2) and SDL3_ttf, but no SDL3_image or SDL3_mixer, so how to
+  # build tiles here is an open question. This target cannot currently produce a
+  # working build; the rest of the emscripten plumbing is kept as it bit-rotted.
+  EMCC_COMMON_FLAGS = -fexceptions
 
   ifneq ($(RELEASE), 1)
     EMCC_COMMON_FLAGS += -g
