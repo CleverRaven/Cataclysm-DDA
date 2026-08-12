@@ -72,9 +72,9 @@ class client
 {
         std::vector<int> cata_input_trail;
 #ifndef TUI
-        // Backend-active latches for the platform (SDL2/SDL3) and
-        // renderer (SDLRenderer2/3) ImGui backends. Guard the wrappers
-        // so partial teardown + retry is idempotent.
+        // Backend-active latches for the platform and renderer ImGui
+        // backends. Guard the wrappers so partial teardown + retry is
+        // idempotent.
         bool platform_backend_active_ = false;
         bool renderer_backend_active_ = false;
 #endif

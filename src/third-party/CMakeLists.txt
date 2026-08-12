@@ -90,21 +90,12 @@ target_link_libraries(
 
 # ImGUI
 if (TILES)
-        if (USE_SDL3)
-            set(_imgui_backend_sources
-                imgui/imgui_impl_sdl3.cpp
-                imgui/imgui_impl_sdl3.h
-                imgui/imgui_impl_sdlrenderer3.cpp
-                imgui/imgui_impl_sdlrenderer3.h
-                )
-        else ()
-            set(_imgui_backend_sources
-                imgui/imgui_impl_sdl2.cpp
-                imgui/imgui_impl_sdl2.h
-                imgui/imgui_impl_sdlrenderer2.cpp
-                imgui/imgui_impl_sdlrenderer2.h
-                )
-        endif ()
+        set(_imgui_backend_sources
+            imgui/imgui_impl_sdl3.cpp
+            imgui/imgui_impl_sdl3.h
+            imgui/imgui_impl_sdlrenderer3.cpp
+            imgui/imgui_impl_sdlrenderer3.h
+            )
         set(_imgui_freetype_sources "")
         set(_imgui_freetype_libraries "")
         if (NOT ANDROID)
