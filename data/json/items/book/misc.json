@@ -949,6 +949,149 @@
   {
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
+    "id": "classic_literature",
+    "name": { "str": "book of classic literature", "str_pl": "books of classic literature" },
+    "description": "A book of classic literature, timeless and enjoyable but a bit dense to read.",
+    "snippet_category": [
+      { "id": "classic1", "text": "This is a copy of Dickens' \"Bleak House\"." },
+      { "id": "classic2", "text": "This is a copy of \"Great Expectations\" by Charles Dickens." },
+      { "id": "classic3", "text": "This is a copy of William Shinderling's \"Under the Beech Trees\"." },
+      {
+        "id": "classic4",
+        "text": "This is a collection of three Jane Austen novels: \"Pride and Prejudice\", \"Sense and Sensibility\", and \"Emma\"."
+      },
+      { "id": "classic5", "text": "This is a well-worn paperback copy of \"Lord of the Flies\"." },
+      { "id": "classic6", "text": "This is a copy of \"To Kill a Mockingbird\" by Harper Lee." },
+      { "id": "classic7", "text": "This is a copy of F. Scott Fitzgerald's \"The Great Gatsby.\"" },
+      { "id": "classic8", "text": "This is a copy of Michael Abanaderly's lesser-known work, \"He Walks\"." },
+      { "id": "classic9", "text": "This is a collection of several vintage science fiction stories by Ray Bradbury." },
+      { "id": "classic10", "text": "This is a copy of \"The Adventures of Tom Sawyer\" by Mark Twain." },
+      { "id": "classic11", "text": "This is an illustrated copy of \"Innocents Abroad\" by Mark Twain." },
+      {
+        "id": "classic12",
+        "text": "This is a copy of Bram Stoker's \"Dracula\", with scholarly commentary in the margins."
+      },
+      {
+        "id": "classic13",
+        "text": "This is a large print copy of Tolstoy's \"War and Peace\".  It might make a decent improvised weapon."
+      },
+      {
+        "id": "classic14",
+        "text": "This is a paperback copy of the well-known classic \"Dark Days Ahead\", by K. G. Ranade.  There are scrawled margin notes all over it, apparently the workings of a confused and feverish mind."
+      },
+      {
+        "id": "classic15",
+        "text": "This is a copy of \"Jane Eyre\".  The cover art is quite out of place, making it look more like a dime-store romance novel."
+      },
+      {
+        "id": "classic16",
+        "text": "This is a perfectly preserved hardcover copy of \"The Gunslinger\" by Stephen King, autographed by the author.  It contains a certificate of authenticity pronouncing it to be a first edition."
+      },
+      {
+        "id": "classic17",
+        "text": "This paperback copy of \"Wuthering Heights\" has a large coffee stain on the first page."
+      },
+      {
+        "id": "classic18",
+        "text": "This is a hardbound copy of \"Lady Chatterly's Lover\", by D. H. Lawrence.  It has some very explicit illustrations."
+      },
+      {
+        "id": "classic19",
+        "text": "This is a hardbound copy of \"The Catcher in the Rye.\".  It has some very nicely done illustrations."
+      },
+      {
+        "id": "classic20",
+        "text": "This is a collection of classic renaissance era stories, headlined by \"Don Quixote\"."
+      },
+      { "id": "classic21", "text": "This is a paperback copy of \"The Fellowship of the Ring\" by Tolkien." },
+      { "id": "classic22", "text": "This is a paperback copy of \"The Two Towers\" by Tolkien." },
+      { "id": "classic23", "text": "This is a paperback copy of \"The Return of the King\" by Tolkien." },
+      {
+        "id": "classic24",
+        "text": "This is a hardbound collection of George Orwell's works, including \"1984\" and \"Animal Farm\" as well as many of his less infamous titles."
+      },
+      {
+        "id": "classic25",
+        "text": "This is a paperback copy of \"Little Women\" by Louisa May Alcott.  It appears to have been read a great many times."
+      },
+      { "id": "classic26", "text": "This is a paperback copy of \"Of Mice and Men\" by Steinbeck." },
+      {
+        "id": "classic27",
+        "text": "This is a hefty hardcover copy of \"Run and Run Again\" by Finn Calpay.  There is a lengthy forward about the controversy around the book's release."
+      },
+      {
+        "id": "classic28",
+        "text": "This is a hardcover copy of \"The Gates Have Opened\" by Arianna Methusalah.  You feel like you've read this before, but can't remember where.  Something about the book fills you with unease."
+      },
+      { "id": "classic29", "text": "This is a copy of \"The Count of Monte Cristo\" by Alexandre Dumas." },
+      { "id": "classic30", "text": "This is a copy of \"The Secret Garden\" by Frances Burnett." },
+      { "id": "classic31", "text": "This is a copy of \"Lieutenant Hornblower\" by C.S. Forester." },
+      { "id": "classic32", "text": "This is a copy of \"Master and Commander\" by Patrick O'Brian." },
+      { "id": "classic33", "text": "This is a copy of \"The Warden\" by Anthony Trollope." },
+      { "id": "classic34", "text": "This is a copy of \"The Far Side of the World\" by Patrick O'Brian." },
+      { "id": "classic35", "text": "This is a copy of \"HMS Surprise\" by Patrick O'Brian." },
+      { "id": "classic36", "text": "This is a copy of \"Barchester Towers\" by Anthony Trollope." },
+      { "id": "classic37", "text": "This is a copy of \"The Land Ironclads\" by H.G. Wells." },
+      { "id": "classic38", "text": "This is a copy of \"The Great Boer War\" by Arthur Conan Doyle." },
+      { "id": "classic39", "text": "This is a copy of \"The Crime of the Congo\" by Arthur Conan Doyle." },
+      { "id": "classic40", "text": "This is a copy of \"The Parasite\" by Arthur Conan Doyle." },
+      { "id": "classic41", "text": "This is a copy of \"By Stroke of Sword\" by Andrew Balfour." },
+      { "id": "classic42", "text": "This is a copy of \"The Secret Agent\" by Joseph Conrad." },
+      { "id": "classic43", "text": "This is a copy of \"Lord Jim\" by Joseph Conrad." },
+      { "id": "classic44", "text": "This is a copy of \"Vanity Fair\" by William Makepeace Thackeray." },
+      { "id": "classic45", "text": "This is a copy of \"The Luck of Barry Lyndon\" by William Makepeace Thackeray." },
+      { "id": "classic46", "text": "This is a copy of \"North and South\" by Elizabeth Gaskell." },
+      { "id": "classic47", "text": "This is a copy of \"The Mayor of Casterbridge\" by Thomas Hardy." },
+      { "id": "classic48", "text": "This is a copy of \"Wessex Tales\" by Thomas Hardy." },
+      { "id": "classic49", "text": "This is a copy of \"Far from the Madding Crowd\" by Thomas Hardy." },
+      { "id": "classic50", "text": "This is a copy of \"Captains Courageous\" by Rudyard Kipling." },
+      { "id": "classic51", "text": "This is a copy of \"The Canterbury Tales\" by Geoffrey Chaucer." },
+      { "id": "classic52", "text": "This is a copy of \"Harold, the Last of the Saxons\" by Edward Bulwer-Lytton." },
+      { "id": "classic53", "text": "This is a copy of \"Mr Midshipman Easy\" by Frederick Marryat." },
+      { "id": "classic54", "text": "This is a copy of \"Peter Simple\" by Frederick Marryat." },
+      {
+        "id": "classic55",
+        "text": "A paperback copy of \"The Three Musketeers\" by Alexandre Dumas, the gravitas somewhat spoiled by being the glossy movie tie-in version."
+      },
+      {
+        "id": "classic56",
+        "text": "This is a copy of \"The Life and Opinions of Tristram Shandy, Gentleman\" by Laurence Sterne."
+      },
+      { "id": "classic57", "text": "This is a copy of \"The Time Machine\" by H.G. Wells." },
+      {
+        "id": "classic58",
+        "text": "This is a copy of several works by Edgar Allan Poe.  \"The Fall of the House of Usher\" heads the list."
+      },
+      {
+        "id": "classic59",
+        "text": "This is a copy of \"The Silmarillion\" by Tolkien.  Maybe you could bludgeon someone with it if it came to that."
+      },
+      { "id": "classic60", "text": "This is a copy of \"The Turn of the Screw\" by Henry James." },
+      { "id": "classic61", "text": "This is a copy of \"The Call of the Wild\" by Jack London." },
+      { "id": "classic62", "text": "This is a copy of \"Frankenstein\" by Mary Shelley." },
+      {
+        "id": "classic63",
+        "text": "This is a copy of \"Tevye the Dairyman\" by Sholem Aleichem, translated into English."
+      },
+      { "id": "classic64", "text": "This is a copy of \"Another Country \" by James Baldwin." }
+    ],
+    "weight": "350 g",
+    "volume": "750 ml",
+    "price": "20 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "paper" ],
+    "looks_like": "tall_tales",
+    "color": "light_blue",
+    "symbol": "?",
+    "intelligence": 7,
+    "time": "28 m",
+    "chapters": 40,
+    "generic": true,
+    "read_fun": 3
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "collector_book",
     "name": { "str": "collector's edition book" },
     "description": "A unique, valuable book that has been kept as a collector's item.",

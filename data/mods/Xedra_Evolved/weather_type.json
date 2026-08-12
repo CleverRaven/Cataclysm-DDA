@@ -170,7 +170,9 @@
     "rains": false,
     "sound_category": "silent",
     "priority": 121,
-    "condition": { "math": [ "xe_weather_ominous_fog_active == 1" ] },
+    "condition": {
+      "or": [ { "math": [ "xe_weather_ominous_fog_scenario == 1" ] }, { "math": [ "xe_weather_ominous_fog_active == 1" ] } ]
+    },
     "passive_effects": [
       {
         "effect_id": "effect_xe_weather_ominous_fog_monster_buff",
