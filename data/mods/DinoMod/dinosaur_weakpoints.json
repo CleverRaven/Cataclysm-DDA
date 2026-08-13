@@ -143,7 +143,7 @@
   {
     "type": "weakpoint_set",
     "id": "wps_sauropod_leg",
-     "//": "Adult sauropod leg, no special armor, must be badly hurt or destroyed to expose the rest of the dino",
+    "//": "Adult sauropod leg, no special armor, must be badly hurt or destroyed to expose the rest of the dino",
     "weakpoints": [
       {
         "name": "the leg",
