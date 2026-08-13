@@ -468,6 +468,7 @@
     "items": [
       { "x": 0, "y": 0, "chance": 5, "items": [ "id_military" ] },
       { "x": -2, "y": 2, "chance": 15, "item_groups": [ "fuel_jp8" ] },
+      { "x": -2, "y": 1, "chance": 25, "item_groups": [ "military_eplrs_net_control_station" ] },
       { "x": -2, "y": 1, "chance": 7, "item_groups": [ "military_standard_sniper_rifles" ] }
     ]
   },
@@ -553,6 +554,7 @@
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 5, "items": [ "id_military" ] },
+      { "x": -2, "y": 1, "chance": 25, "item_groups": [ "military_eplrs_net_control_station" ] },
       { "x": -2, "y": 0, "chance": 5, "item_groups": [ "fuel_jp8" ] }
     ]
   },
@@ -639,6 +641,7 @@
     "items": [
       { "x": 0, "y": 0, "chance": 5, "items": [ "id_military" ] },
       { "x": -2, "y": 0, "chance": 5, "item_groups": [ "fuel_jp8" ] },
+      { "x": -2, "y": 1, "chance": 25, "item_groups": [ "military_eplrs_net_control_station" ] },
       { "x": -2, "y": 2, "chance": 50, "items": [ "atgm_heat" ] },
       { "x": -2, "y": 2, "chance": 50, "items": [ "atgm_heat" ] },
       { "x": -2, "y": 2, "chance": 50, "items": [ "atgm_heat" ] }
@@ -743,6 +746,7 @@
       { "x": 0, "y": 1, "chance": 3, "item_groups": [ "mil_food_nodrugs" ] },
       { "x": 0, "y": 1, "chance": 2, "item_groups": [ "mil_accessories" ] },
       { "x": 0, "y": 2, "chance": 2, "item_groups": [ "mil_accessories" ] },
+      { "x": 0, "y": 2, "chance": 10, "item_groups": [ "military_eplrs_net_control_station" ] },
       { "x": 0, "y": 2, "chance": 2, "item_groups": [ "gunmod_milspec" ] }
     ]
   },
@@ -845,6 +849,7 @@
       { "x": 0, "y": 1, "chance": 3, "item_groups": [ "mil_food_nodrugs" ] },
       { "x": 0, "y": 1, "chance": 2, "item_groups": [ "mil_accessories" ] },
       { "x": 0, "y": 2, "chance": 2, "item_groups": [ "mil_accessories" ] },
+      { "x": 0, "y": 2, "chance": 10, "item_groups": [ "military_eplrs_net_control_station" ] },
       { "x": 0, "y": 2, "chance": 2, "item_groups": [ "gunmod_milspec" ] }
     ]
   },

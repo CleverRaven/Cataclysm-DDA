@@ -49,6 +49,16 @@
     "ememory_size": "64 MB"
   },
   {
+    "id": "software_mortar_fire_control",
+    "copy-from": "abstract_software",
+    "type": "ITEM",
+    "name": { "str_sp": "mortar fire-control software" },
+    "description": "A compact fire-control package with mortar ballistic tables, correction worksheets, and mission planning tools.",
+    "price": "120 USD",
+    "price_postapoc": "15 USD",
+    "ememory_size": "512 MB"
+  },
+  {
     "id": "software_blood_data",
     "copy-from": "abstract_software",
     "type": "ITEM",

@@ -115,6 +115,28 @@
     "max_level": 3,
     "intelligence": 4,
     "time": "18 m",
-    "read_skill": "launcher"
+    "read_skill": "launcher",
+    "proficiencies": [ { "proficiency": "prof_mortar_operation", "time_factor": 0.65, "fail_factor": 0.35 } ]
+  },
+  {
+    "id": "manual_mortar",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "name": { "str": "FM 23-90 Mortars", "str_pl": "copies of FM 23-90 Mortars" },
+    "description": "A U.S. Army field manual covering mortar crew duties, firing tables, fire commands, and target adjustment procedures.",
+    "weight": "620 g",
+    "volume": "850 ml",
+    "price": "18 USD",
+    "price_postapoc": "22 USD",
+    "material": [ "paper", "cardboard" ],
+    "symbol": "?",
+    "color": "green",
+    "looks_like": "manual_launcher",
+    "max_level": 4,
+    "intelligence": 4,
+    "time": "18 m",
+    "read_skill": "launcher",
+    "proficiencies": [ { "proficiency": "prof_mortar_operation", "time_factor": 0.5, "fail_factor": 0.25 } ]
   }
 ]

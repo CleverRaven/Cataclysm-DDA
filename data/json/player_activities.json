@@ -1143,5 +1143,13 @@
     "activity_level": "NO_EXERCISE",
     "based_on": "speed",
     "verb": "aiming the artillery"
+  },
+  {
+    "id": "ACT_MAN_MORTAR",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "based_on": "neither",
+    "rooted": true,
+    "verb": "manning a mortar"
   }
 ]

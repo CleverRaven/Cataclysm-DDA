@@ -301,6 +301,34 @@
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "WATER_BREAK", "ELECTRONIC", "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
+    "id": "mortar_fire_control_tablet",
+    "copy-from": "abstract_tablet",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "rugged mortar fire-control tablet" },
+    "description": "A military ruggedized tablet loaded with mortar fire-control software and firing tables.  The casing is bulky, shock-resistant, and sealed against field abuse.",
+    "weight": "600 g",
+    "volume": "650 ml",
+    "longest_side": "250 mm",
+    "price": "1 kUSD",
+    "price_postapoc": "75 USD",
+    "material": [ { "type": "plastic", "portion": 3 }, { "type": "steel", "portion": 1 } ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "use_action": [ "E_FILE_DEVICE", { "type": "link_up", "cable_length": 4, "charge_rate": "15 W" } ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 200 } },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0,
+        "ememory_max": "8 GB"
+      }
+    ]
+  },
+  {
     "id": "usb_drive",
     "copy-from": "abstract_usb_drive",
     "type": "ITEM",

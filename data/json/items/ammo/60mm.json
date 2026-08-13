@@ -48,5 +48,64 @@
     "price": "600 USD",
     "extend": { "effects": [ "EXPLOSIVE_60mmHE2" ] },
     "delete": { "effects": [ "EXPLOSIVE_60mmHE" ] }
+  },
+  {
+    "id": "60mm_shell_m769",
+    "copy-from": "60mm_shell_m720a1",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "practice mortar shell" },
+    "description": "A full-range 60mm M769 practice mortar cartridge, ballistically matched to high-explosive rounds but loaded with only a spotting charge.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "60mm_shell_m769",
+        "name": { "str": "M769 60mm mortar shell (practice)", "str_pl": "M769 60mm mortar shells (practice)" },
+        "description": "A full-range 60mm M769 practice mortar cartridge, ballistically matched to high-explosive rounds but loaded with only a spotting charge."
+      }
+    ],
+    "price": "120 USD",
+    "price_postapoc": "3 USD",
+    "extend": { "effects": [ "EXPLOSIVE_60mm_PRACTICE" ] },
+    "delete": { "effects": [ "EXPLOSIVE_60mmHE" ] }
+  },
+  {
+    "id": "60mm_shell_m722",
+    "copy-from": "60mm_shell_m720a1",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "smoke mortar shell" },
+    "description": "A 60mm M722 white smoke mortar cartridge, used to screen movement or mark targets at full mortar range.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "60mm_shell_m722",
+        "name": { "str": "M722 60mm mortar shell (smoke)", "str_pl": "M722 60mm mortar shells (smoke)" },
+        "description": "A 60mm M722 white smoke mortar cartridge, used to screen movement or mark targets at full mortar range."
+      }
+    ],
+    "price": "300 USD",
+    "price_postapoc": "8 USD",
+    "extend": { "effects": [ "EXPLOSIVE_60mm_PRACTICE", "SMOKE_BIG" ] },
+    "delete": { "effects": [ "EXPLOSIVE_60mmHE" ] }
+  },
+  {
+    "id": "60mm_shell_m721",
+    "copy-from": "60mm_shell_m720a1",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "illumination mortar shell" },
+    "description": "A 60mm M721 illumination mortar cartridge, deploying a parachute flare over the target area.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "60mm_shell_m721",
+        "name": { "str": "M721 60mm mortar shell (illumination)", "str_pl": "M721 60mm mortar shells (illumination)" },
+        "description": "A 60mm M721 illumination mortar cartridge, deploying a parachute flare over the target area."
+      }
+    ],
+    "price": "350 USD",
+    "price_postapoc": "9 USD",
+    "delete": { "effects": [ "EXPLOSIVE_60mmHE" ] }
   }
 ]

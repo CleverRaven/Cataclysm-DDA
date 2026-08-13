@@ -97,6 +97,7 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "mortar.h"
 #include "mtype.h"
 #include "npc.h"
 #include "npc_opinion.h"
@@ -199,6 +200,7 @@ static const activity_id ACT_INVOKE_ITEM( "ACT_INVOKE_ITEM" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
 static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
+static const activity_id ACT_MAN_MORTAR( "ACT_MAN_MORTAR" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
@@ -13485,6 +13487,84 @@ std::unique_ptr<activity_actor> find_mount_activity_actor::deserialize( JsonValu
     return find_mount_activity_actor().clone();
 }
 
+void man_mortar_activity_actor::start( player_activity &act, Character &who )
+{
+    if( !who.is_npc() ) {
+        act.set_to_null();
+        return;
+    }
+    act.moves_total = calendar::INDEFINITELY_LONG;
+    act.moves_left = calendar::INDEFINITELY_LONG;
+}
+
+void man_mortar_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( !who.is_npc() ) {
+        act.set_to_null();
+        return;
+    }
+    npc &gunner = dynamic_cast<npc &>( who );
+    const auto stop_manning = [&gunner]() {
+        gunner.revert_after_activity();
+    };
+    const diag_value assignment = gunner.get_value( "mortar_assignment" );
+    if( !assignment.is_str() || !mortar_type.is_valid() ||
+        assignment.str() != mortar_type.str() ) {
+        stop_manning();
+        return;
+    }
+    map &here = get_map();
+    const diag_value assignment_pos = gunner.get_value( "mortar_assignment_pos" );
+    if( !assignment_pos.is_tripoint() ) {
+        stop_manning();
+        return;
+    }
+    const tripoint_abs_ms assigned_mortar_pos = assignment_pos.tripoint();
+    if( assigned_mortar_pos != mortar_pos || !here.inbounds( assigned_mortar_pos ) ||
+        !mortar_type.obj().is_deployed_at( assigned_mortar_pos ) ) {
+        stop_manning();
+        return;
+    }
+    const tripoint_bub_ms mortar_bub = here.get_bub( assigned_mortar_pos );
+    if( rl_dist( gunner.pos_bub( here ), mortar_bub ) > 1 ) {
+        const std::vector<tripoint_bub_ms> route = route_adjacent( who, mortar_bub );
+        if( route.empty() ) {
+            stop_manning();
+            return;
+        }
+        who.activity = player_activity();
+        who.set_destination( route, player_activity( man_mortar_activity_actor( assigned_mortar_pos,
+                             mortar_type ) ) );
+        return;
+    }
+    gunner.pause();
+    act.moves_left = calendar::INDEFINITELY_LONG;
+}
+
+void man_mortar_activity_actor::canceled( player_activity &, Character &who )
+{
+    if( who.is_npc() ) {
+        dynamic_cast<npc &>( who ).clear_mortar_support( true );
+    }
+}
+
+void man_mortar_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "mortar_type", mortar_type.str() );
+    jsout.member( "mortar_pos", mortar_pos );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> man_mortar_activity_actor::deserialize( JsonValue &jsin )
+{
+    JsonObject data = jsin.get_object();
+    man_mortar_activity_actor actor;
+    actor.mortar_type = mortar_type_id( data.get_string( "mortar_type" ) );
+    data.read( "mortar_pos", actor.mortar_pos );
+    return actor.clone();
+}
+
 void wait_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( initial_wait_time );
@@ -14977,6 +15057,7 @@ deserialize_functions = {
     { ACT_JACKHAMMER, &jackhammer_activity_actor::deserialize },
     { ACT_LOCKPICK, &lockpick_activity_actor::deserialize },
     { ACT_LONGSALVAGE, &longsalvage_activity_actor::deserialize },
+    { ACT_MAN_MORTAR, &man_mortar_activity_actor::deserialize },
     { ACT_MEDITATE, &meditate_activity_actor::deserialize },
     { ACT_MEND_ITEM, &mend_item_activity_actor::deserialize },
     { ACT_MIGRATION_CANCEL, &migration_cancel_activity_actor::deserialize },

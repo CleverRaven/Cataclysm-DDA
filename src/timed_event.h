@@ -3,9 +3,11 @@
 #define CATA_SRC_TIMED_EVENT_H
 
 #include <list>
+#include <memory>
 #include <string>
 
 #include "calendar.h"
+#include "character_id.h"
 #include "coordinates.h"
 #include "explosion.h"
 #include "point.h"
@@ -35,7 +37,43 @@ enum class timed_event_type : int {
     REVERT_SUBMAP,
     OVERRIDE_PLACE,
     EXPLOSION,
+    MORTAR_FIRE_MESSAGE,
+    MORTAR_IMPACT_MESSAGE,
+    MORTAR_FIELD,
+    MORTAR_QUEUED_FIRE,
     NUM_TIMED_EVENT_TYPES
+};
+
+struct timed_event_data {
+    virtual ~timed_event_data() = default;
+};
+
+struct timed_event_character_data : timed_event_data {
+    character_id character;
+};
+
+struct mortar_fire_event_data : timed_event_data {
+    character_id gunner_id;
+    tripoint_abs_ms mortar_pos = tripoint_abs_ms::invalid;
+    tripoint_abs_ms target = tripoint_abs_ms::invalid;
+    std::string mortar_type;
+    std::string ammo_id;
+    int flight_seconds = 0;
+    int impact_message_strength = 0;
+    double feedback_accuracy_multiplier = 1.0;
+    double feedback_location_multiplier = 1.0;
+};
+
+struct mortar_impact_event_data : timed_event_data {
+    character_id gunner_id;
+    tripoint_abs_ms target = tripoint_abs_ms::invalid;
+    double accuracy_multiplier = 1.0;
+    double location_multiplier = 1.0;
+};
+
+struct mortar_field_event_data : timed_event_data {
+    int radius = 0;
+    int age_seconds = 0;
 };
 
 struct timed_event {
@@ -54,6 +92,8 @@ struct timed_event {
     std::string string_id;
     /** key to alter this event later */
     std::string key;
+    /** Optional event-specific payload.  Handlers cast based on event type. */
+    std::unique_ptr<timed_event_data> data;
     /** specifically for EXPLOSION event */
     explosion_data expl_data;
 
@@ -74,6 +114,16 @@ struct timed_event {
     void actualize();
     // Every turn
     void per_turn();
+
+    template<typename T>
+    const T *get_data() const {
+        return dynamic_cast<const T *>( data.get() );
+    }
+
+    template<typename T>
+    T *get_data() {
+        return dynamic_cast<T *>( data.get() );
+    }
 };
 
 class timed_event_manager
@@ -102,6 +152,18 @@ class timed_event_manager
                   const std::string &key = "" );
         void add( timed_event_type type, const time_point &when, const tripoint_abs_ms &where,
                   explosion_data expl_data );
+        void add_mortar_fire( const time_point &when, const tripoint_abs_ms &impact,
+                              const std::string &gunner_name, const std::string &key,
+                              const mortar_fire_event_data &fire_data );
+        void add_mortar_impact( const time_point &when, const tripoint_abs_ms &impact,
+                                const std::string &gunner_name, int strength,
+                                const mortar_impact_event_data &impact_data );
+        void add_mortar_queued_fire( const time_point &when, character_id gunner_id,
+                                     const tripoint_abs_ms &target, int round_count,
+                                     const std::string &key );
+        void add_mortar_field( const time_point &when, const tripoint_abs_ms &where,
+                               int intensity, const std::string &field_type,
+                               int radius, int age_seconds = 0 );
         /// @returns Whether at least one element of the given type is queued.
         bool queued( timed_event_type type ) const;
         /// @returns One of the queued events of the given type, or `nullptr`

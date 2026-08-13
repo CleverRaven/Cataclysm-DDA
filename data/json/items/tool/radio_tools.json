@@ -174,7 +174,7 @@
     "charges_per_use": 1,
     "flags": [ "TWO_WAY_RADIO", "WATER_BREAK", "ELECTRONIC" ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "5 W" } ],
+    "use_action": [ "RADIO_CALL", { "type": "link_up", "cable_length": 3, "charge_rate": "5 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -184,6 +184,35 @@
       }
     ],
     "melee_damage": { "bash": 6 },
+    "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "eplrs_net_control_station",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "AN/TSQ-158(V)4 EPLRS net control station" },
+    "description": "A rugged tactical radio and position-location terminal used to manage Enhanced Position Location Reporting System nets.  It can function as a two-way radio, and paired units carried by a mortar spotter and mortar operator give both parties precise shared position data for indirect fire.",
+    "weight": "4 kg",
+    "volume": "6 L",
+    "longest_side": "42 cm",
+    "price": "15 kUSD",
+    "price_postapoc": "350 USD",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "charges_per_use": 2,
+    "flags": [ "TWO_WAY_RADIO", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "use_action": [ "RADIO_CALL", { "type": "link_up", "cable_length": 4, "charge_rate": "20 W" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "melee_damage": { "bash": 8 },
     "tool_ammo": [ "battery" ]
   },
   {
