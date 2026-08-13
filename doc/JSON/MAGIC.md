@@ -1078,6 +1078,7 @@ Character status value  | Description
 `REGEN_HP_AWAKE`        | Affects the rate you recover hp when you do not sleep. Default value is 0, meaning if this enchantment is not specified, character can not regenerate hp when awake. Negative value causes character to lost HP over time when awake. Since it's a percent, using `multiply` is recommended; `multiply: 0.2` would make character able to regenerate at 20% of it's default regen
 `REGEN_MANA`            | 
 `REGEN_STAMINA`         | 
+`RELOADING_SPEED`       | Affects the speed at which you reload ranged weapons. `"multiply": 1` means reloading takes twice the time.
 `SCENT_MASK`            | Amount added to your scent target scent value (default 500, assigned by `scent_intensity` mutation field); `"add": 100` makes character a bit more smelly
 `SHOUT_NOISE`           | Changes how loud your shouts are (default 10)
 `SHOUT_NOISE_STR_MULT`  | Modifies the `shout_multiplier`, that affect how much your strength affects noise level (default 2, meaning one point of strength adds 2 units of noise )

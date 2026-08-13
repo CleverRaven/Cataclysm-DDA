@@ -6,7 +6,6 @@
       { "u_consume_item": { "context_val": "id" } },
       { "math": [ "_serum_duration = rng(time('1 d'), time('2 d'))" ] },
       { "u_add_effect": "resilience_serum_main", "duration": { "context_val": "serum_duration" } },
-      { "run_eocs": "EOC_APPLY_RESILIENCE_SERUM_CRASH", "time_in_future": { "context_val": "serum_duration" } },
       {
         "if": { "math": [ "u_effect_intensity('resilience_serum_main') <= 1" ] },
         "then": { "run_eocs": "EOC_SERUM_RESILIENCE_PERIODIC_SIDE_EFFECTS", "time_in_future": [ "30 minutes", "90 minutes" ] }
@@ -16,12 +15,20 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_APPLY_RESILIENCE_SERUM_CRASH",
-    "condition": { "not": { "u_has_effect": "resilience_serum_crash" } },
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "and": [ { "compare_string": [ "resilience_serum_main", { "context_val": "effect" } ] } ] },
     "effect": [
-      { "u_add_effect": "resilience_serum_crash", "duration": [ "1 d", "2 d" ] },
+      { "run_eocs": "EOC_APPLY_RESILIENCE_SERUM_CRASH_2", "time_in_future": 1 },
       { "math": [ "u_pain() += (5 + rand(20) )" ] },
       { "run_eocs": "EOC_RESILIENCE_SERUM_CRASH_RANDOM_PARALYSIS", "time_in_future": [ "2 hours", "5 hours" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_APPLY_RESILIENCE_SERUM_CRASH_2",
+    "//": "This is necessary because character_loses_effect triggers before the effect is actually removed",
+    "effect": { "u_add_effect": "resilience_serum_crash", "duration": [ "1 d", "2 d" ] }
   },
   {
     "type": "effect_on_condition",
@@ -77,6 +84,7 @@
     "max_intensity": 100,
     "int_add_val": 1,
     "show_intensity": false,
+    "dur_add_perc": 25,
     "//2": "Once blood clotting is a thing that can happen, repeated doses of Armus should cause it",
     "removes_effects": [ "resilience_serum_crash" ],
     "enchantments": [

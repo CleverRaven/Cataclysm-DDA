@@ -5882,5 +5882,14 @@
     "desc": [ "" ],
     "int_decay_step": 1,
     "int_decay_tick": 120
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_zero_manip",
+    "//": "Hidden effect, sets manip to 0 so you drop what you're holding",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "limb_score_mods": [ { "limb_score": "manip", "modifier": 0 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]
