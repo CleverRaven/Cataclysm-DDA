@@ -2986,7 +2986,7 @@
     "id": "mon_sauropod_leg",
     "type": "MONSTER",
     "name": { "str": "sauropod leg" },
-    "description": "A huge fleshy appendage holding up a much larger dinosaur. Looks very heavy.",
+    "description": "A huge fleshy appendage holding up a much larger dinosaur.  Looks very heavy.",
     "copy-from": "mon_apatosaurus",
     "symbol": "(",
     "hp": 200,
