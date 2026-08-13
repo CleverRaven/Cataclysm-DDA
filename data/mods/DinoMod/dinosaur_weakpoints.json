@@ -136,14 +136,40 @@
             "damage_required": [ 26, 100 ]
           }
         ]
-      },
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_sauropod_leg",
+    "weakpoints": [
       {
         "name": "the leg",
+        "crit_mult": { "all": 0.5 },
+        "difficulty": { "ranged": 4, "melee": 2 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 50, 100 ] } ],
+        "coverage": 8
+      },
+      {
+        "name": "the foot",
         "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
+        "armor_mult": { "physical": 1.2 },
         "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
-        "coverage": 8
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 20, 50 ] } ],
+        "coverage": 1
+      },
+      {
+        "name": "the knee",
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "ranged": 6 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 20, 50 ] },
+          { "effect": "downed", "chance": 33, "message": "The %s is knocked down!", "damage_required": [ 50, 100 ] }
+        ],
+        "coverage": 1
       }
     ]
   },
