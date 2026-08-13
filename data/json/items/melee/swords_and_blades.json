@@ -1104,7 +1104,11 @@
     "qualities": [ [ "CUT", 2 ], [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE" ],
     "weapon_category": [ "SHORT_SWORDS" ],
-    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 }, { "fault_group": "bladed_weapon_craft_failures" } ],
+    "faults": [
+      { "fault_group": "handle_short" },
+      { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "bladed_weapon_craft_failures" }
+    ],
     "melee_damage": { "cut": 20 }
   },
   {
