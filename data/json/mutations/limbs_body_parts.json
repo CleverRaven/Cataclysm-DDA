@@ -1168,7 +1168,7 @@
     "similar_bodypart": "arm_r"
   },
   {
-    "id": "hand_slime_l",
+    "id": "hand_slime_complete_l",
     "type": "body_part",
     "name": "pseudopod tip",
     "name_multiple": "pseudopod tips",
@@ -1178,34 +1178,44 @@
     "heading_multiple": "pseudopods",
     "encumbrance_text": "",
     "main_part": "arm_slime_l",
-    "opposite_part": "hand_slime_r",
+    "opposite_part": "hand_slime_complete_r",
     "hit_size": 1.5,
     "hit_difficulty": 1.1,
     "limb_types": "hand",
     "side": "left",
-    "techniques": [ "TECH_SLIME_PUNCH" ],
+    "techniques": [ "TECH_SLIME_COMPLETE_PUNCH" ],
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
-    "fire_warmth_bonus": 1500,
+    "fire_warmth_bonus": 5,
     "squeamish_penalty": 0,
     "base_hp": 60,
     "drench_capacity": 1500,
     "smash_message": "You smash the %s with your pseudopod.",
     "bionic_slots": 0,
-    "sub_parts": [ "hand_slime_wrist_l", "hand_slime_palm_l", "hand_slime_back_l", "hand_slime_fingers_l" ],
+    "sub_parts": [
+      "hand_slime_complete_wrist_l",
+      "hand_slime_complete_palm_l",
+      "hand_slime_complete_back_l",
+      "hand_slime_complete_fingers_l"
+    ],
     "bmi_encumbrance_threshold": 20,
     "bmi_encumbrance_scalar": 0.15,
-    "unarmed_damage": [ { "damage_type": "bash", "amount": -2 } ],
+    "unarmed_damage": [ { "damage_type": "bash", "amount": -2 }, { "damage_type": "acid", "amount": 4 } ],
     "similar_bodypart": "hand_l"
   },
   {
-    "id": "hand_slime_r",
+    "id": "hand_slime_complete_r",
     "type": "body_part",
-    "copy-from": "hand_slime_l",
+    "copy-from": "hand_slime_complete_l",
     "main_part": "arm_slime_r",
-    "opposite_part": "hand_slime_l",
+    "opposite_part": "hand_slime_complete_l",
     "side": "right",
-    "sub_parts": [ "hand_slime_wrist_r", "hand_slime_palm_r", "hand_slime_back_r", "hand_slime_fingers_r" ],
+    "sub_parts": [
+      "hand_slime_complete_wrist_r",
+      "hand_slime_complete_palm_r",
+      "hand_slime_complete_back_r",
+      "hand_slime_complete_fingers_r"
+    ],
     "similar_bodypart": "hand_r"
   },
   {

@@ -1922,66 +1922,66 @@
   },
   {
     "type": "sub_body_part",
-    "id": "hand_slime_wrist_l",
+    "id": "hand_slime_complete_wrist_l",
     "copy-from": "hand_wrist_l",
-    "parent": "hand_slime_l",
-    "opposite": "hand_slime_wrist_r",
+    "parent": "hand_slime_complete_l",
+    "opposite": "hand_slime_complete_wrist_r",
     "similar_bodypart": "hand_wrist_l"
   },
   {
     "type": "sub_body_part",
-    "id": "hand_slime_palm_l",
+    "id": "hand_slime_complete_palm_l",
     "copy-from": "hand_palm_l",
-    "parent": "hand_slime_l",
-    "opposite": "hand_slime_palm_r",
+    "parent": "hand_slime_complete_l",
+    "opposite": "hand_slime_complete_palm_r",
     "similar_bodypart": "hand_palm_l"
   },
   {
     "type": "sub_body_part",
-    "id": "hand_slime_back_l",
+    "id": "hand_slime_complete_back_l",
     "copy-from": "hand_back_l",
-    "parent": "hand_slime_l",
-    "opposite": "hand_slime_back_r",
+    "parent": "hand_slime_complete_l",
+    "opposite": "hand_slime_complete_back_r",
     "similar_bodypart": "hand_back_l"
   },
   {
     "type": "sub_body_part",
-    "id": "hand_slime_fingers_l",
+    "id": "hand_slime_complete_fingers_l",
     "copy-from": "hand_fingers_l",
-    "parent": "hand_slime_l",
-    "opposite": "hand_slime_fingers_r",
+    "parent": "hand_slime_complete_l",
+    "opposite": "hand_slime_complete_fingers_r",
     "similar_bodypart": "hand_fingers_l"
   },
   {
     "type": "sub_body_part",
-    "id": "hand_slime_wrist_r",
+    "id": "hand_slime_complete_wrist_r",
     "copy-from": "hand_wrist_r",
-    "parent": "hand_slime_r",
-    "opposite": "hand_slime_wrist_l",
+    "parent": "hand_slime_complete_r",
+    "opposite": "hand_slime_wrist_complete_l",
     "similar_bodypart": "hand_wrist_r"
   },
   {
     "type": "sub_body_part",
-    "id": "hand_slime_palm_r",
+    "id": "hand_slime_complete_palm_r",
     "copy-from": "hand_palm_r",
-    "parent": "hand_slime_r",
-    "opposite": "hand_slime_palm_l",
+    "parent": "hand_slime_complete_r",
+    "opposite": "hand_slime_complete_palm_l",
     "similar_bodypart": "hand_palm_r"
   },
   {
     "type": "sub_body_part",
-    "id": "hand_slime_back_r",
+    "id": "hand_slime_complete_back_r",
     "copy-from": "hand_back_r",
-    "parent": "hand_slime_r",
-    "opposite": "hand_slime_back_l",
+    "parent": "hand_slime_complete_r",
+    "opposite": "hand_slime_complete_back_l",
     "similar_bodypart": "hand_back_r"
   },
   {
     "type": "sub_body_part",
-    "id": "hand_slime_fingers_r",
+    "id": "hand_slime_complete_fingers_r",
     "copy-from": "hand_fingers_r",
-    "parent": "hand_slime_r",
-    "opposite": "hand_slime_fingers_l",
+    "parent": "hand_slime_complete_r",
+    "opposite": "hand_slime_complete_fingers_l",
     "similar_bodypart": "hand_fingers_r"
   },
   {

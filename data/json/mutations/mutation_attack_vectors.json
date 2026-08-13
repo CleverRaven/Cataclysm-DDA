@@ -64,8 +64,8 @@
   {
     "type": "attack_vector",
     "id": "vector_slime_punch",
-    "limbs": [ "hand_slime_l", "hand_slime_r" ],
-    "contact_area": [ "hand_slime_fingers_l", "hand_slime_fingers_r" ]
+    "limbs": [ "hand_slime_complete_l", "hand_slime_complete_r" ],
+    "contact_area": [ "hand_slime_complete_fingers_l", "hand_slime_complete_fingers_r" ]
   },
   {
     "type": "attack_vector",
