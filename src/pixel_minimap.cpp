@@ -187,8 +187,12 @@ void pixel_minimap::build_batches( const tripoint_bub_ms &center )
         std::max( static_cast<int>( projector->get_tile_size().y *tf_.scale_y *
                                     settings.beacon_size / 2 ), 2 )
     };
-    const float scaled_w = pixel_size.x * tf_.scale_x;
-    const float scaled_h = pixel_size.y * tf_.scale_y;
+    // Modes that leave a gap between tiles get one constant size. Deriving
+    // each extent from the next tile's edge would spread the fractional
+    // pitch across a mix of sizes, which reads as banding.
+    const bool fills_cell = pixel_size == projector->get_tile_size();
+    const int fixed_w = std::max( 1, static_cast<int>( std::lround( pixel_size.x * tf_.scale_x ) ) );
+    const int fixed_h = std::max( 1, static_cast<int>( std::lround( pixel_size.y * tf_.scale_y ) ) );
 
     for( int y = 0; y < total_tiles_count.y; y++ ) {
         for( int x = 0; x < total_tiles_count.x; x++ ) {
@@ -219,20 +223,25 @@ void pixel_minimap::build_batches( const tripoint_bub_ms &center )
             color = adjust_color_brightness( color, settings.brightness );
 
             const point pos = projector->get_tile_pos( { x, y }, total_tiles_count );
-            terrain_batch_.append_quad( tf_.origin_x + tf_.scale_x * pos.x,
-                                        tf_.origin_y + tf_.scale_y * pos.y,
-                                        scaled_w, scaled_h, to_fcolor( color ) );
+            const point origin_px( snap_to_pixel( tf_.origin_x, tf_.scale_x, pos.x ),
+                                   snap_to_pixel( tf_.origin_y, tf_.scale_y, pos.y ) );
+            const point extent_px(
+                fills_cell ? std::max( 1, snap_to_pixel( tf_.origin_x, tf_.scale_x,
+                                       pos.x + pixel_size.x ) - origin_px.x )
+                : fixed_w,
+                fills_cell ? std::max( 1, snap_to_pixel( tf_.origin_y, tf_.scale_y,
+                                       pos.y + pixel_size.y ) - origin_px.y )
+                : fixed_h );
+            terrain_batch_.append_quad( origin_px.x, origin_px.y,
+                                        extent_px.x, extent_px.y, to_fcolor( color ) );
 
             Creature *critter = creatures.creature_at( p, true );
             if( critter != nullptr && get_player_view().sees( m, *critter ) ) {
                 if( indicator_length > 0 ) {
                     has_blinking_beacons_ = true;
                 }
-                const SDL_Rect critter_rect = SDL_Rect{
-                    static_cast<int>( tf_.origin_x + tf_.scale_x * pos.x ),
-                    static_cast<int>( tf_.origin_y + tf_.scale_y * pos.y ),
-                    beacon_size.x, beacon_size.y
-                };
+                const SDL_Rect critter_rect = SDL_Rect{ origin_px.x, origin_px.y,
+                                                        beacon_size.x, beacon_size.y };
                 append_beacon( beacon_batch_, critter_rect,
                                get_critter_color( critter, flicker, mixture ),
                                beacon_edge_divisor );
