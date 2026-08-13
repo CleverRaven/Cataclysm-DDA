@@ -70,7 +70,7 @@ const SDL_Renderer_Ptr &get_sdl_renderer();
 // keep the clear request armed for a later frame.
 bool clear_sdl_window();
 // Returns the main game window. Needed by text input wrappers and other
-// SDL3 APIs that require an explicit window parameter.
+// SDL APIs that require an explicit window parameter.
 SDL_Window *get_sdl_window();
 // Dimensions of the terminal-sized display_buffer (logical game pixels),
 // queried from the SDL texture. Differs from window output under SCALING_FACTOR
@@ -91,12 +91,10 @@ namespace cata_shader
 class variant_pass;
 } // namespace cata_shader
 
-#if SDL_MAJOR_VERSION >= 3
 // Process-lifetime variant_pass owned alongside the renderer (WinCreate to
 // WinDestroy). One shared handle so a renderer recreate updates a single pass,
 // not per-context copies.
 cata_shader::variant_pass *get_shared_variant_pass();
-#endif
 
 // True while the active scope failed to bind the buffer target. Per-scope;
 // consult before drawing so nothing paints onto an unknown SDL target.
