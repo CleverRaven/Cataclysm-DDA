@@ -9,6 +9,7 @@
 // IWYU pragma: end_exports
 
 #include <atomic>
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <vector>
@@ -233,6 +234,13 @@ void RenderCopyEx( const SDL_Renderer_Ptr &renderer, SDL_Texture *texture,
                    const SDL_Rect *srcrect, const SDL_Rect *dstrect,
                    double angle, const SDL_Point *center, CataFlipMode flip );
 void RenderSetClipRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect );
+// Untextured per-vertex-color triangles. SDL permits the null texture/uv
+// pair, and untextured geometry blends with the renderer draw blend mode.
+void RenderGeometryRaw( const SDL_Renderer_Ptr &renderer,
+                        const float *xy, int xy_stride,
+                        const SDL_FColor *color, int color_stride,
+                        int num_vertices,
+                        const Uint32 *indices, int num_indices );
 void RenderGetClipRect( const SDL_Renderer_Ptr &renderer, SDL_Rect *rect );
 bool RenderIsClipEnabled( const SDL_Renderer_Ptr &renderer );
 int BlitSurface( const SDL_Surface_Ptr &src, const SDL_Rect *srcrect,
@@ -284,7 +292,8 @@ void RenderGetViewport( const SDL_Renderer_Ptr &renderer, SDL_Rect *rect );
 // since the input pipeline runs against the window target, not the buffer.
 void RenderSetLogicalSize( const SDL_Renderer_Ptr &renderer, int w, int h );
 void RenderSetScale( const SDL_Renderer_Ptr &renderer, float scaleX, float scaleY );
-// SDL_RenderReadPixels returns an SDL_Surface*; the wrapper copies data out.
+// SDL_RenderReadPixels returns an SDL_Surface*; the wrapper converts it to
+// the requested format and copies data out.
 bool RenderReadPixels( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect,
                        Uint32 format, void *pixels, int pitch );
 void GetRendererOutputSize( const SDL_Renderer_Ptr &renderer, int *w, int *h );
