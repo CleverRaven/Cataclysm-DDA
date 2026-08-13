@@ -1405,7 +1405,11 @@
     "weapon_category": [ "LONG_THRUSTING_SWORDS" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 }, { "fault_group": "bladed_weapon_craft_failures" } ],
+    "faults": [
+      { "fault_group": "handle_short" },
+      { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "bladed_weapon_craft_failures" }
+    ],
     "melee_damage": { "bash": 11, "stab": 36 }
   },
   {
