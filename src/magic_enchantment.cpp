@@ -69,6 +69,7 @@ namespace io
             case enchant_vals::mod::SPEED: return "SPEED";
             case enchant_vals::mod::ATTACK_SPEED: return "ATTACK_SPEED";
             case enchant_vals::mod::AIMING_SPEED: return "AIMING_SPEED";
+            case enchant_vals::mod::RELOADING_SPEED: return "RELOADING_SPEED";
             case enchant_vals::mod::MOVE_COST: return "MOVE_COST";
             case enchant_vals::mod::METABOLISM: return "METABOLISM";
             case enchant_vals::mod::MAX_MANA: return "MAX_MANA";

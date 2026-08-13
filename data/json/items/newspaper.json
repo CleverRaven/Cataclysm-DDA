@@ -197,6 +197,13 @@
         "description": "\n\n<serum_testing_learning>",
         "append": true,
         "expand_snippets": true
+      },
+      {
+        "id": "lab_file_serum_testing_speed",
+        "//": "inherit name from item",
+        "description": "\n\n<serum_testing_speed>",
+        "append": true,
+        "expand_snippets": true
       }
     ],
     "copy-from": "file"
