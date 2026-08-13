@@ -75,7 +75,10 @@
           { "item": "gear_survival", "chance": 40, "repeat": 2 }
         ],
         "B": { "item": "bed", "chance": 80 },
-        "b": [ { "item": "homebooks", "chance": 80, "repeat": [ 1, 12 ] }, { "item": "survivor_matrix_crystal_recipes", "chance": 4 } ],
+        "b": [
+          { "item": "homebooks", "chance": 80, "repeat": [ 1, 12 ] },
+          { "item": "survivor_matrix_crystal_recipes", "chance": 4 }
+        ],
         "k": { "item": "oa_ig_sb_water", "chance": 90 },
         "R": [ { "item": "lmoe_guns", "chance": 80 }, { "item": "ammo_common_boxed", "chance": 5, "repeat": [ 3, 7 ] } ],
         "T": [ { "item": "dining", "chance": 30 }, { "item": "dist_matrix_crystals_50_50", "chance": 5 } ],
