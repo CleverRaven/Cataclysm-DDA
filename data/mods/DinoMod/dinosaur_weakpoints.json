@@ -75,6 +75,7 @@
   {
     "type": "weakpoint_set",
     "id": "wps_sauropod_body",
+    "//": "Adult sauropod body, no special armor, far above where a normal human can harm it unless downed",
     "weakpoints": [
       {
         "name": "the head",
@@ -142,6 +143,7 @@
   {
     "type": "weakpoint_set",
     "id": "wps_sauropod_leg",
+     "//": "Adult sauropod leg, no special armor, must be badly hurt or destroyed to expose the rest of the dino",
     "weakpoints": [
       {
         "name": "the leg",
