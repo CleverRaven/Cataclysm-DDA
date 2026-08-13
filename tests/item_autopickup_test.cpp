@@ -1,28 +1,39 @@
 #include <algorithm>
+#include <chrono>
+#include <cstddef>
 #include <functional>
 #include <list>
 #include <map>
+#include <memory>
 #include <optional>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "auto_pickup.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "clzones.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "item.h"
+#include "item_factory.h"
 #include "item_location.h"
 #include "item_stack.h"
+#include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
 #include "options.h"
+#include "options_helpers.h"
+#include "performance_test_helpers.h"
 #include "pickup.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
+#include "point.h"
 #include "rng.h"
 #include "type_id.h"
 
@@ -59,6 +70,9 @@ static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_wrapper( "wrapper" );
 
 static const pocket_type pocket_type_container = pocket_type::CONTAINER;
+
+static const faction_id faction_your_followers( "your_followers" );
+static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 
 namespace
 {
@@ -213,6 +227,174 @@ static void clear_everything()
     options.get_option( "AUTO_PICKUP_WEIGHT_LIMIT" ).setValue( "0" );
     options.get_option( "AUTO_PICKUP_VOLUME_LIMIT" ).setValue( "0" );
     options.get_option( "AUTO_PICKUP_OWNED" ).setValue( "false" );
+}
+
+TEST_CASE( "adjacent_auto_pickup_diverse_items_performance", "[.][performance][autopickup]" )
+{
+    avatar &dude = get_avatar();
+    map &here = get_map();
+    clear_everything();
+    zone_manager &zones = zone_manager::get_manager();
+    zones.clear();
+
+    override_option auto_pickup( "AUTO_PICKUP", "true" );
+    override_option auto_pickup_adjacent( "AUTO_PICKUP_ADJACENT", "true" );
+    override_option auto_pickup_safemode( "AUTO_PICKUP_SAFEMODE", "false" );
+    override_option auto_features( "AUTO_FEATURES", "false" );
+
+    auto_pickup::player_settings &rules = get_auto_pickup();
+    const std::vector<itype_id> rule_item_types = {
+        itype_1l_bronze, itype_aspirin, itype_backpack, itype_bag_body_bag,
+        itype_bag_plastic, itype_battery, itype_bottle_plastic,
+        itype_bottle_plastic_pill_prescription, itype_box_cigarette, itype_box_small,
+        itype_can_medium, itype_can_tuna, itype_candy2, itype_candycigarette,
+        itype_cig, itype_codeine, itype_corpse, itype_diving_flashlight_small_hipower,
+        itype_light_battery_cell, itype_meat_canned, itype_money_five, itype_money_one,
+        itype_money_ten, itype_storage_battery,
+    };
+    std::set<itype_id> rule_types;
+    for( const itype_id &type : rule_item_types ) {
+        item rule_item( type, calendar::turn );
+        rules.add_rule( &rule_item, true );
+        rule_types.insert( type );
+    }
+
+    constexpr int distinct_items_per_tile = 2000;
+
+    std::vector<itype_id> types_to_place;
+    types_to_place.reserve( distinct_items_per_tile );
+    std::set<std::string> used_names;
+    for( const itype *type : item_controller->all() ) {
+        if( static_cast<int>( types_to_place.size() ) >= distinct_items_per_tile ) {
+            break;
+        }
+        if( type == nullptr || type->id.is_null() || rule_types.count( type->id ) != 0 ) {
+            continue;
+        }
+
+        item candidate( type->id, calendar::turn );
+        if( candidate.is_null() ||
+            candidate.made_of( phase_id::LIQUID ) ||
+            candidate.has_temperature() ||
+            candidate.is_corpse()
+          ) {
+            continue;
+        }
+        if( !used_names.insert( candidate.tname( 1, false ) ).second ) {
+            continue;
+        }
+        types_to_place.push_back( type->id );
+    }
+    REQUIRE( static_cast<int>( types_to_place.size() ) == distinct_items_per_tile );
+
+    const tripoint_bub_ms start = dude.pos_bub();
+    const tripoint_bub_ms destination = start + tripoint_rel_ms{ 1, 0, 0 };
+    for( int x = -1; x <= 2; ++x ) {
+        for( int y = -1; y <= 1; ++y ) {
+            const tripoint_bub_ms pile = start + tripoint_rel_ms{ x, y, 0 };
+            for( const itype_id &type : types_to_place ) {
+                here.add_item( pile, item( type, calendar::turn ) );
+            }
+        }
+    }
+
+    const auto measure_step_us = [&]( const tripoint_rel_ms & delta ) {
+        dude.set_moves( 1000 );
+        return measure_us( [&] {
+            const bool moved = avatar_action::move( dude, here, delta );
+            REQUIRE( moved );
+        } );
+    };
+
+    const auto cold_enabled_us = measure_step_us( tripoint_rel_ms{ 1, 0, 0 } );
+    REQUIRE( dude.pos_bub() == destination );
+    std::cout << "Cold step time: " << cold_enabled_us << "us" << std::endl;
+
+    const auto warm_enabled_us = measure_step_us( tripoint_rel_ms{ -1, 0, 0 } );
+    REQUIRE( dude.pos_bub() == start );
+    std::cout << "Warm step time: " << warm_enabled_us << "us" << std::endl;
+
+    const tripoint_abs_ms zone_start = here.get_abs( start + tripoint_rel_ms{ -1, -1, 0 } );
+    const tripoint_abs_ms zone_end = here.get_abs( start + tripoint_rel_ms{ 2, 1, 0 } );
+    zones.add( "test no auto pickup", zone_type_NO_AUTO_PICKUP, faction_your_followers, false, true,
+               zone_start, zone_end, nullptr, true );
+
+    const auto no_auto_pickup_zone_us = measure_step_us( tripoint_rel_ms{ 1, 0, 0 } );
+    REQUIRE( dude.pos_bub() == destination );
+    std::cout << "NO_AUTO_PICKUP step time: " << no_auto_pickup_zone_us << "us" << std::endl;
+    zones.clear();
+
+    get_options().get_option( "AUTO_PICKUP" ).setValue( "false" );
+    const auto disabled_us = measure_step_us( tripoint_rel_ms{ -1, 0, 0 } );
+    REQUIRE( dude.pos_bub() == start );
+    std::cout << "Disabled AUTO_PICKUP step time: " << disabled_us << "us" << std::endl;
+
+    std::vector<std::vector<item_stack::iterator>> items_per_tile;
+    items_per_tile.reserve( 9 );
+    size_t scanned_item_count = 0;
+    for( int x = -1; x <= 1; ++x ) {
+        for( int y = -1; y <= 1; ++y ) {
+            map_stack pile_items = here.i_at( start + tripoint_rel_ms{ x, y, 0 } );
+            items_per_tile.emplace_back();
+            auto &pile = items_per_tile.back();
+            pile.reserve( pile_items.size() );
+            for( auto it = pile_items.begin(); it != pile_items.end(); ++it ) {
+                pile.push_back( it );
+            }
+            scanned_item_count += pile.size();
+        }
+    }
+
+    std::vector<std::string> item_names;
+    item_names.reserve( scanned_item_count );
+    const auto tname_us = measure_us( [&] {
+        for( const std::vector<item_stack::iterator> &items : items_per_tile )
+        {
+            for( const item_stack::iterator &item : items ) {
+                item_names.push_back( item->tname( 1, false ) );
+            }
+        }
+    } );
+    std::cout << "item::tname(1,false): " << tname_us << "us" << std::endl;
+
+    size_t cached_rule_matches = 0;
+    const auto check_item_us = measure_us( [&] {
+        for( const std::string &name : item_names )
+        {
+            if( rules.check_item( name ) != rule_state::NONE ) {
+                ++cached_rule_matches;
+            }
+        }
+    } );
+    std::cout << "rule_state::check_item(name): " << cached_rule_matches << " matches, " <<
+              check_item_us << "us" << std::endl;
+
+    const auto create_rule_fallback_us = measure_us( [&] {
+        for( const std::vector<item_stack::iterator> &items : items_per_tile )
+        {
+            for( const item_stack::iterator &item : items ) {
+                rules.create_rule( & *item );
+            }
+        }
+    } );
+    std::cout << "rule_state::create_rule(i): " << create_rule_fallback_us << std::endl;
+
+    size_t selected_item_count = 0;
+    const auto select_items_us = measure_us( [&] {
+        int tile_index = 0;
+        for( int x = -1; x <= 1; ++x )
+        {
+            for( int y = -1; y <= 1; ++y ) {
+                const tripoint_bub_ms point = start + tripoint_rel_ms{ x, y, 0 };
+                selected_item_count += auto_pickup::select_items( items_per_tile[tile_index], point ).size();
+                ++tile_index;
+            }
+        }
+    } );
+    std::cout << "auto_pickup::select_items(items,point): " << selected_item_count << " selected, " <<
+              select_items_us << "us" << std::endl;
+
+    SUCCEED();
 }
 
 TEST_CASE( "auto_pickup_should_recognize_container_content", "[autopickup][item]" )
@@ -592,6 +774,24 @@ TEST_CASE( "auto_pickup_should_consider_item_ownership", "[autopickup][item]" )
             }
         }
     }
+}
+
+TEST_CASE( "auto_pickup_item_rule_cache", "[autopickup][item]" )
+{
+    clear_everything();
+    auto_pickup::player_settings &rules = get_auto_pickup();
+    item marble( itype_marble );
+
+    CHECK( rules.check_item( marble ) == rule_state::NONE );
+
+    rules.add_rule( &marble, true );
+    CHECK( rules.check_item( marble ) == rule_state::WHITELISTED );
+
+    rules.remove_rule( &marble );
+    CHECK( rules.check_item( marble ) == rule_state::NONE );
+
+    rules.add_rule( &marble, false );
+    CHECK( rules.check_item( marble ) == rule_state::BLACKLISTED );
 }
 
 TEST_CASE( "auto_pickup_should_not_implicitly_pickup_corpses", "[autopickup][item]" )
