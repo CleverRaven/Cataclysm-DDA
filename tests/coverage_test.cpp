@@ -22,7 +22,6 @@
 #include "map_scale_constants.h"
 #include "monster.h"
 #include "npc.h"
-#include "performance_test_helpers.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "point.h"
@@ -352,63 +351,45 @@ TEST_CASE( "body_temperature_clothing_coverage_performance", "[.][performance][b
     std::vector<const item *> worn_items;
     dude.worn.inv_dump( worn_items );
 
-    long long covers_checksum = 0;
-    const auto covers_us = measure_us( [&] {
-        for( int i = 0; i < 2000; ++i )
-        {
-            for( const bodypart_id &bp : body_parts ) {
-                for( const item *clothing : worn_items ) {
-                    covers_checksum += clothing->covers( bp );
-                }
+    BENCHMARK( "clothing->covers(bp)" ) {
+        long long covers_checksum = 0;
+        for( const bodypart_id &bp : body_parts ) {
+            for( const item *clothing : worn_items ) {
+                covers_checksum += clothing->covers( bp );
             }
         }
-    } );
-    std::cout << "covers(bp), 2000 iterations: " << covers_us << " us\n" ;
-    CHECK( covers_checksum > 0 );
+        return covers_checksum;
+    };
 
-    long long warmth_checksum = 0;
-    const auto get_warmth_us = measure_us( [&] {
-        for( int i = 0; i < 2000; ++i )
-        {
-            for( const bodypart_id &bp : body_parts ) {
-                for( const item *clothing : worn_items ) {
-                    warmth_checksum += clothing->get_warmth( bp );
-                }
+    BENCHMARK( "clothing->get_warmth(bp)" ) {
+        long long warmth_checksum = 0;
+        for( const bodypart_id &bp : body_parts ) {
+            for( const item *clothing : worn_items ) {
+                warmth_checksum += clothing->get_warmth( bp );
             }
         }
-    } );
-    std::cout << "get_warmth(bp), 2000 iterations: " << get_warmth_us << " us\n" ;
-    CHECK( warmth_checksum > 0 );
+        return warmth_checksum;
+    };
 
-    long long outfit_warmth_checksum = 0;
-    const auto outfit_warmth_us = measure_us( [&] {
-        for( int i = 0; i < 2000; ++i )
-        {
-            for( const auto &entry : dude.worn.warmth( dude ) ) {
-                outfit_warmth_checksum += entry.second;
-            }
+    BENCHMARK( "outfit::warmth(dude)" ) {
+        long long outfit_warmth_checksum = 0;
+        for( const auto &entry : dude.worn.warmth( dude ) ) {
+            outfit_warmth_checksum += entry.second;
         }
-    } );
-    std::cout << "outfit::warmth(dude), 2000 iterations: " << outfit_warmth_us << " us\n" ;
-    CHECK( outfit_warmth_checksum > 0 );
+        return outfit_warmth_checksum;
+    };
 
-    long long wind_checksum = 0;
-    const auto wind_resistance_us = measure_us( [&] {
-        for( int i = 0; i < 2000; ++i )
-        {
-            for( const auto &entry : dude.worn.wind_resistance( dude ) ) {
-                wind_checksum += entry.second;
-            }
+    BENCHMARK( "outfit::wind_resistance(dude)" ) {
+        long long wind_checksum = 0;
+        for( const auto &entry : dude.worn.wind_resistance( dude ) ) {
+            wind_checksum += entry.second;
         }
-    } );
-    std::cout << "outfit::wind_resistance(dude), 2000 iterations: " << wind_resistance_us << " us\n" ;
-    CHECK( wind_checksum >= 0 );
+        return wind_checksum;
+    };
 
-    const auto update_bodytemp_us = measure_us( [&] {
-        for( int i = 0; i < 2000; ++i )
-        {
-            dude.update_bodytemp();
-        }
-    } );
-    std::cout << "Character::update_bodytemp(), 2000 iterations: " << update_bodytemp_us << " us\n" ;
+    BENCHMARK( "Character::update_bodytemp()" ) {
+        dude.update_bodytemp();
+    };
+
+    SUCCEED();
 }

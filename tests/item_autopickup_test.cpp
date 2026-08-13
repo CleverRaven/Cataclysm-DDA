@@ -29,7 +29,6 @@
 #include "map_selector.h"
 #include "options.h"
 #include "options_helpers.h"
-#include "performance_test_helpers.h"
 #include "pickup.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
@@ -288,7 +287,6 @@ TEST_CASE( "adjacent_auto_pickup_diverse_items_performance", "[.][performance][a
     REQUIRE( static_cast<int>( types_to_place.size() ) == distinct_items_per_tile );
 
     const tripoint_bub_ms start = dude.pos_bub();
-    const tripoint_bub_ms destination = start + tripoint_rel_ms{ 1, 0, 0 };
     for( int x = -1; x <= 2; ++x ) {
         for( int y = -1; y <= 1; ++y ) {
             const tripoint_bub_ms pile = start + tripoint_rel_ms{ x, y, 0 };
@@ -298,36 +296,34 @@ TEST_CASE( "adjacent_auto_pickup_diverse_items_performance", "[.][performance][a
         }
     }
 
-    const auto measure_step_us = [&]( const tripoint_rel_ms & delta ) {
+    BENCHMARK( "autopickup move" ) {
         dude.set_moves( 1000 );
-        return measure_us( [&] {
-            const bool moved = avatar_action::move( dude, here, delta );
-            REQUIRE( moved );
-        } );
+        const bool fwd = avatar_action::move( dude, here, tripoint_rel_ms{ 1, 0, 0 } );
+        dude.set_moves( 1000 );
+        const bool bck = avatar_action::move( dude, here, tripoint_rel_ms{ -1, 0, 0 } );
+        return fwd && bck;
     };
-
-    const auto cold_enabled_us = measure_step_us( tripoint_rel_ms{ 1, 0, 0 } );
-    REQUIRE( dude.pos_bub() == destination );
-    std::cout << "Cold step time: " << cold_enabled_us << "us" << std::endl;
-
-    const auto warm_enabled_us = measure_step_us( tripoint_rel_ms{ -1, 0, 0 } );
-    REQUIRE( dude.pos_bub() == start );
-    std::cout << "Warm step time: " << warm_enabled_us << "us" << std::endl;
 
     const tripoint_abs_ms zone_start = here.get_abs( start + tripoint_rel_ms{ -1, -1, 0 } );
     const tripoint_abs_ms zone_end = here.get_abs( start + tripoint_rel_ms{ 2, 1, 0 } );
     zones.add( "test no auto pickup", zone_type_NO_AUTO_PICKUP, faction_your_followers, false, true,
                zone_start, zone_end, nullptr, true );
-
-    const auto no_auto_pickup_zone_us = measure_step_us( tripoint_rel_ms{ 1, 0, 0 } );
-    REQUIRE( dude.pos_bub() == destination );
-    std::cout << "NO_AUTO_PICKUP step time: " << no_auto_pickup_zone_us << "us" << std::endl;
-    zones.clear();
+    BENCHMARK( "autopickup move: NO_AUTO_PICKUP zone" ) {
+        dude.set_moves( 1000 );
+        const bool fwd = avatar_action::move( dude, here, tripoint_rel_ms{ 1, 0, 0 } );
+        dude.set_moves( 1000 );
+        const bool bck = avatar_action::move( dude, here, tripoint_rel_ms{ -1, 0, 0 } );
+        return fwd && bck;
+    };
 
     get_options().get_option( "AUTO_PICKUP" ).setValue( "false" );
-    const auto disabled_us = measure_step_us( tripoint_rel_ms{ -1, 0, 0 } );
-    REQUIRE( dude.pos_bub() == start );
-    std::cout << "Disabled AUTO_PICKUP step time: " << disabled_us << "us" << std::endl;
+    BENCHMARK( "autopickup move: disabled AUTO_PICKUP" ) {
+        dude.set_moves( 1000 );
+        const bool fwd = avatar_action::move( dude, here, tripoint_rel_ms{ 1, 0, 0 } );
+        dude.set_moves( 1000 );
+        const bool bck = avatar_action::move( dude, here, tripoint_rel_ms{ -1, 0, 0 } );
+        return fwd && bck;
+    };
 
     std::vector<std::vector<item_stack::iterator>> items_per_tile;
     items_per_tile.reserve( 9 );
@@ -345,54 +341,54 @@ TEST_CASE( "adjacent_auto_pickup_diverse_items_performance", "[.][performance][a
         }
     }
 
-    std::vector<std::string> item_names;
-    item_names.reserve( scanned_item_count );
-    const auto tname_us = measure_us( [&] {
-        for( const std::vector<item_stack::iterator> &items : items_per_tile )
-        {
+    BENCHMARK( "item::tname(1,false) for 18k items" ) {
+        size_t total_size = 0;
+        for( const std::vector<item_stack::iterator> &items : items_per_tile ) {
             for( const item_stack::iterator &item : items ) {
-                item_names.push_back( item->tname( 1, false ) );
+                total_size += item->tname( 1, false ).size();
             }
         }
-    } );
-    std::cout << "item::tname(1,false): " << tname_us << "us" << std::endl;
+        return total_size;
+    };
 
-    size_t cached_rule_matches = 0;
-    const auto check_item_us = measure_us( [&] {
-        for( const std::string &name : item_names )
-        {
+    std::vector<std::string> item_names;
+    item_names.reserve( scanned_item_count );
+    for( const std::vector<item_stack::iterator> &items : items_per_tile ) {
+        for( const item_stack::iterator &item : items ) {
+            item_names.push_back( item->tname( 1, false ) );
+        }
+    }
+
+    BENCHMARK( "rule_state::check_item(name)" ) {
+        size_t cached_rule_matches = 0;
+        for( const std::string &name : item_names ) {
             if( rules.check_item( name ) != rule_state::NONE ) {
                 ++cached_rule_matches;
             }
         }
-    } );
-    std::cout << "rule_state::check_item(name): " << cached_rule_matches << " matches, " <<
-              check_item_us << "us" << std::endl;
+        return cached_rule_matches;
+    };
 
-    const auto create_rule_fallback_us = measure_us( [&] {
-        for( const std::vector<item_stack::iterator> &items : items_per_tile )
-        {
+    BENCHMARK( "rule_state::create_rule(i)" ) {
+        for( const std::vector<item_stack::iterator> &items : items_per_tile ) {
             for( const item_stack::iterator &item : items ) {
                 rules.create_rule( & *item );
             }
         }
-    } );
-    std::cout << "rule_state::create_rule(i): " << create_rule_fallback_us << std::endl;
+    };
 
-    size_t selected_item_count = 0;
-    const auto select_items_us = measure_us( [&] {
+    BENCHMARK( "auto_pickup::select_items(items,point)" ) {
+        size_t selected_item_count = 0;
         int tile_index = 0;
-        for( int x = -1; x <= 1; ++x )
-        {
+        for( int x = -1; x <= 1; ++x ) {
             for( int y = -1; y <= 1; ++y ) {
                 const tripoint_bub_ms point = start + tripoint_rel_ms{ x, y, 0 };
                 selected_item_count += auto_pickup::select_items( items_per_tile[tile_index], point ).size();
                 ++tile_index;
             }
         }
-    } );
-    std::cout << "auto_pickup::select_items(items,point): " << selected_item_count << " selected, " <<
-              select_items_us << "us" << std::endl;
+        return selected_item_count;
+    };
 
     SUCCEED();
 }

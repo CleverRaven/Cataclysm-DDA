@@ -12,7 +12,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "mission.h"
-#include "performance_test_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
@@ -261,8 +260,9 @@ TEST_CASE( "automatic_find_item_mission_batch_performance", "[.][performance][mi
         assign_test_find_item_mission( dude );
     }
 
-    const auto process_all_us = measure_us( [] {
+    BENCHMARK( "missing find-item mission" ) {
         mission::process_all();
-    } );
-    INFO( "100 missing find-item missions: " << process_all_us << " us" );
+    };
+
+    SUCCEED();
 }
