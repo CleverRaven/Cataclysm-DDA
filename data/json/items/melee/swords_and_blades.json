@@ -1783,7 +1783,11 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
-    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 }, { "fault_group": "bladed_weapon_craft_failures" } ],
+    "faults": [
+      { "fault_group": "handle_short" },
+      { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "bladed_weapon_craft_failures" }
+    ],
     "melee_damage": { "bash": 9, "cut": 28 }
   },
   {
