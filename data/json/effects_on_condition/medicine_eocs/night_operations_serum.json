@@ -1,0 +1,25 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SERUM_NIGHT_OPS",
+    "effect": [
+      { "u_consume_item": { "context_val": "id" } },
+      { "math": [ "_serum_duration = rng(time('6 h'), time('12 h'))" ] },
+      { "u_add_effect": "night_ops_serum_main", "duration": { "context_val": "serum_duration" } },
+      {
+        "if": { "math": [ "u_effect_intensity('resilience_serum_main') <= 1" ] },
+        "then": { "run_eocs": "EOC_SERUM_RESILIENCE_PERIODIC_SIDE_EFFECTS", "time_in_future": [ "30 minutes", "90 minutes" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_APPLY_RESILIENCE_SERUM_CRASH",
+    "condition": { "not": { "u_has_effect": "resilience_serum_crash" } },
+    "effect": [
+      { "u_add_effect": "resilience_serum_crash", "duration": [ "1 d", "2 d" ] },
+      { "math": [ "u_pain() += (5 + rand(20) )" ] },
+      { "run_eocs": "EOC_RESILIENCE_SERUM_CRASH_RANDOM_PARALYSIS", "time_in_future": [ "2 hours", "5 hours" ] }
+    ]
+  }
+]
