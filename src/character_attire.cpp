@@ -1958,6 +1958,24 @@ std::map<bodypart_id, int> outfit::warmth( const Character &guy ) const
     return total_warmth;
 }
 
+std::map<bodypart_id, int> outfit::wind_resistance( const Character &guy ) const
+{
+    std::map<bodypart_id, int> ret;
+    for( const bodypart_id &bp : guy.get_all_body_parts() ) {
+        float total_exposed = 1.0f;
+        for( const item &clothing : worn ) {
+            if( !clothing.covers( bp ) ) {
+                continue;
+            }
+            const int penalty = 100 - clothing.wind_resist();
+            const int coverage = std::max( 0, clothing.get_coverage( bp ) - penalty );
+            total_exposed *= 1.0f - coverage / 100.0f;
+        }
+        ret[bp] = 100 - total_exposed * 100;
+    }
+    return ret;
+}
+
 std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy ) const
 {
     // get all rigid body parts to begin with

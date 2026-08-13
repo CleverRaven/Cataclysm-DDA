@@ -961,7 +961,6 @@
     "remove_message": "The world lurches as apparent distances snap back into place.",
     "rating": "good",
     "max_duration": "7 days",
-    "max_intensity": 46,
     "enchantments": [
       {
         "values": [
@@ -970,8 +969,8 @@
             "add": { "math": [ "( ( u_spell_level('clair_ranged_enhance') * 0.25 ) + 1 ) * psionic_power_modifiers()" ] }
           },
           {
-            "value": "WEAPON_DISPERSION",
-            "multiply": { "math": [ "max( ( ( u_spell_level('clair_ranged_enhance') * -0.025) * psionic_power_modifiers() ),-0.6)" ] }
+            "value": "AIMING_SPEED",
+            "multiply": { "math": [ "min( ( ( ( u_spell_level('clair_ranged_enhance') * 0.025) + 0.1) * psionic_power_modifiers() ), 5)" ] }
           }
         ]
       },
@@ -2648,9 +2647,29 @@
     "name": [ "Immunostimulated" ],
     "desc": [ "You are not going to get sick.  You absolutely refuse.  And if you do, you're going to get better." ],
     "apply_message": "",
-    "remove_message": "",
+    "remove_message": "You cough once.",
     "rating": "good",
     "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_increase_hp",
+    "name": [ "Augmented Durability" ],
+    "desc": [ "You are more resilient against damage." ],
+    "apply_message": "",
+    "remove_message": "The feeling of resilience fades away.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MAX_HP",
+            "multiply": { "math": [ "( ( u_spell_level('vita_increased_hp') * 0.02 ) + 0.15 ) * psionic_power_modifiers()" ] }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
