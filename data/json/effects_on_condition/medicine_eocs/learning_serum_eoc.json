@@ -16,7 +16,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_APPLY_LEARNING_SERUM_CRASH",
-    "condition": { "not": { "u_has_effect": "learning_serum_crash" } },
+    "condition": { "and": [ { "compare_string": [ "learning_serum_main", { "context_val": "effect" } ] } ] },
     "effect": [ { "u_add_effect": "learning_serum_crash", "duration": [ "3 h", "6 h" ] } ]
   },
   {
