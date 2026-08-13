@@ -18,30 +18,18 @@
       { "run_eocs": "EOC_REGEN_SERUM_MUT_REJECTION", "time_in_future": [ "1 h", "6 h" ] }
     ]
   },
-
-   {
-    "//": "This ensures the effect dissapears if the player gets hit in combat or the antiseptic wears off",
-    "type": "effect_on_condition",
-    "id": "EOC_AFS_MEDIGEL_REMOVE",
-    "eoc_type": "EVENT",
-    "required_event": "character_loses_effect",
-    "condition": {
-      "and": [
-        { "compare_string": [ "disinfected", { "context_val": "effect" } ] },
-        { "u_has_effect": "afs_medigel_eff", "bodypart": { "context_val": "bodypart" } }
-      ]
-    },
-    "effect": [ { "u_lose_effect": "afs_medigel_eff", "target_part": { "context_val": "bodypart" } } ]
-  },
   {
     "type": "effect_on_condition",
     "id": "EOC_APPLY_REGEN_SERUM_CRASH",
+    "eoc_type": "EVENT",
     "required_event": "character_loses_effect",
-    "condition": {
-      "and": [
-        { "compare_string": [ "regen_serum_main", { "context_val": "effect" } ] }
-      ]
-    },
+    "condition": { "and": [ { "compare_string": [ "regen_serum_main", { "context_val": "effect" } ] } ] },
+    "effect": [ { "run_eocs": "EOC_APPLY_REGEN_SERUM_CRASH_2", "time_in_future": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_APPLY_REGEN_SERUM_CRASH_2",
+    "//": "This is necessary because character_loses_effect triggers before the effect is actually removed",
     "effect": [ { "u_add_effect": "regen_serum_crash_fatigue", "duration": [ "5 d", "10 d" ] } ]
   },
   {
