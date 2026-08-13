@@ -1,4 +1,3 @@
-#include <chrono>
 #include <functional>
 #include <memory>
 #include <string>
@@ -13,7 +12,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "mission.h"
-
 #include "performance_test_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
