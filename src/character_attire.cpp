@@ -1943,6 +1943,9 @@ std::map<bodypart_id, int> outfit::warmth( const Character &guy ) const
     for( const item &clothing : worn ) {
         clothing.get_warmth_by_bodypart( item_warmth_by_bodypart );
         for( const auto &[bp, item_warmth] : item_warmth_by_bodypart ) {
+            if( !guy.has_part( bp ) ) {
+                continue;
+            }
             double warmth_val = item_warmth;
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
