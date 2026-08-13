@@ -21,7 +21,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_APPLY_REGEN_SERUM_CRASH_2",
+    "id": "EOC_APPLY_SPEED_SERUM_CRASH_2",
     "//": "This is necessary because character_loses_effect triggers before the effect is actually removed",
     "effect": [ { "u_add_effect": "speed_serum_crash", "duration": [ "1 d", "2 d" ] } ]
   },
