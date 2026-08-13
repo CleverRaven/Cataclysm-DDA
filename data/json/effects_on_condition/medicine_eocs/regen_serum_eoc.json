@@ -67,6 +67,7 @@
     "rating": "mixed",
     "flags": [ "MEND_ALL" ],
     "removes_effects": [ "regen_serum_crash_fatigue" ],
+    "dur_add_perc": 33,
     "enchantments": [
       {
         "values": [

@@ -46,6 +46,7 @@
       "hunger_famished",
       "super_soldier_serum_crash"
     ],
+    "dur_add_perc": 5,
     "enchantments": [
       {
         "values": [
