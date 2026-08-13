@@ -212,6 +212,27 @@ TEST_CASE( "minimap_transform_screen_mapping", "[tiles][pixel_minimap]" )
     }
 }
 
+TEST_CASE( "minimap_snap_to_pixel_tiles_without_gaps", "[tiles][pixel_minimap]" )
+{
+    // A fractional scale must not open gaps or overlaps between tiles.
+    const float origin = 5.0f;
+    const float scale = 1.2146f;
+    const int tile = 3;
+    const int tiles = 40;
+
+    int sum = 0;
+    for( int i = 0; i < tiles; ++i ) {
+        const int x0 = snap_to_pixel( origin, scale, i * tile );
+        const int x1 = snap_to_pixel( origin, scale, ( i + 1 ) * tile );
+        CAPTURE( i, x0, x1 );
+        CHECK( x1 > x0 );
+        sum += x1 - x0;
+    }
+    const int span = snap_to_pixel( origin, scale, tiles * tile )
+                     - snap_to_pixel( origin, scale, 0 );
+    CHECK( sum == span );
+}
+
 TEST_CASE( "minimap_render_geometry_raw_smoke", "[tiles][pixel_minimap]" )
 {
     // A logged SDL error fails the run under the renderer test policy, so

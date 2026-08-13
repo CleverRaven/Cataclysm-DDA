@@ -3,6 +3,7 @@
 #include "pixel_minimap_geometry.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
 #include <iterator>
 
@@ -100,6 +101,11 @@ minimap_transform compute_minimap_transform( const point &native,
         tf.origin_y = tf.dest_rect.y - std::max( d.y, 0 );
     }
     return tf;
+}
+
+int snap_to_pixel( const float origin, const float scale, const int native )
+{
+    return static_cast<int>( std::lround( origin + scale * native ) );
 }
 
 void append_beacon( minimap_vertex_batch &batch, const SDL_Rect &rect,

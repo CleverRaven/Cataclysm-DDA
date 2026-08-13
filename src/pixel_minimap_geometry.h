@@ -49,6 +49,9 @@ struct minimap_transform {
 minimap_transform compute_minimap_transform( const point &native,
         const SDL_Rect &screen_rect, bool scale_to_fit );
 
+// Screen pixel for a native-space coordinate on one axis.
+int snap_to_pixel( float origin, float scale, int native );
+
 // One 1x1 quad per diamond pixel; outline pixels are darkened by edge_divisor.
 void append_beacon( minimap_vertex_batch &batch, const SDL_Rect &rect,
                     const SDL_Color &color, int edge_divisor );
