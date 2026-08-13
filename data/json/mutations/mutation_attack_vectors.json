@@ -63,6 +63,12 @@
   },
   {
     "type": "attack_vector",
+    "id": "vector_slime_punch",
+    "limbs": [ "hand_slime_complete_l", "hand_slime_complete_r" ],
+    "contact_area": [ "hand_slime_complete_fingers_l", "hand_slime_complete_fingers_r" ]
+  },
+  {
+    "type": "attack_vector",
     "id": "vector_broad_paw_punch",
     "limbs": [ "paw_broad_l", "paw_broad_r" ],
     "contact_area": [ "paw_broad_fingers_l", "paw_broad_fingers_r" ]
@@ -109,6 +115,24 @@
     "id": "vector_avian_talons",
     "limbs": [ "avian_talon_l", "avian_talon_r" ],
     "contact_area": [ "avian_talon_talons_l", "avian_talon_talons_r", "avian_talon_bottom_l", "avian_talon_bottom_r" ],
+    "limb_req": [ [ "leg", 2 ] ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_slime_kick",
+    "limbs": [ "foot_slime_l", "foot_slime_r" ],
+    "contact_area": [
+      "foot_slime_sole_l",
+      "foot_slime_arch_l",
+      "foot_slime_toes_l",
+      "foot_slime_ankle_l",
+      "foot_slime_heel_l",
+      "foot_slime_sole_r",
+      "foot_slime_arch_r",
+      "foot_slime_toes_r",
+      "foot_slime_ankle_r",
+      "foot_slime_heel_r"
+    ],
     "limb_req": [ [ "leg", 2 ] ]
   },
   {
