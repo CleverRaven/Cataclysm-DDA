@@ -232,8 +232,11 @@
     "vitamin_cost": 60,
     "visibility": 5,
     "ugliness": 4,
-    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "acid", "add": 3 } ] } ],
-    "wet_protection": [ { "part": "hand_l", "good": 5 }, { "part": "hand_r", "good": 5 } ]
+    "enchantments": [
+      {
+        "modified_bodyparts": [ { "lose": "hand_l" }, { "lose": "hand_r" }, { "gain": "hand_slime_l" }, { "gain": "hand_slime_r" } ]
+      }
+    ]
   },
   {
     "type": "mutation",

@@ -529,6 +529,16 @@
   },
   {
     "type": "technique",
+    "id": "TECH_SLIME_PUNCH",
+    "name": "Punch",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "messages": [ "You punch %s", "<npcname> punch %s" ],
+    "description": "A basic gooey punch",
+    "attack_vectors": [ "vector_slime_punch" ]
+  },
+  {
+    "type": "technique",
     "id": "TECH_CRAB_PUNCH",
     "//": "This is just base punch for crabs",
     "name": "Punch",
