@@ -82,8 +82,8 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_xe_full_vampire_serum_immune",
-    "//": "Hidden effect, makes full vampires unable to use serums",
+    "id": "effect_xe_nonhuman_super_soldier_serum_immune",
+    "//": "Hidden effect, makes full vampires and shapeshifters unable to use serums",
     "name": [ "" ],
     "desc": [ "" ],
     "removes_effects": [
