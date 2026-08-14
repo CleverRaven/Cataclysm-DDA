@@ -179,17 +179,14 @@ void pixel_minimap::build_batches( const tripoint_bub_ms &center )
 
     const point_rel_ms start( center.x() - total_tiles_count.x / 2,
                               center.y() - total_tiles_count.y / 2 );
-    // Beacon size is computed in screen space so beacons keep their
-    // proportion to the map under scale_to_fit.
+    // Scaled so beacons keep their proportion to the map under scale_to_fit.
     const point beacon_size = {
         std::max( static_cast<int>( projector->get_tile_size().x *tf_.scale_x *
                                     settings.beacon_size / 2 ), 2 ),
         std::max( static_cast<int>( projector->get_tile_size().y *tf_.scale_y *
                                     settings.beacon_size / 2 ), 2 )
     };
-    // Modes that leave a gap between tiles get one constant size. Deriving
-    // each extent from the next tile's edge would spread the fractional
-    // pitch across a mix of sizes, which reads as banding.
+    // A constant size, or the fractional pitch lands as a mix of sizes and bands.
     const bool fills_cell = pixel_size == projector->get_tile_size();
     const int fixed_w = std::max( 1, static_cast<int>( std::lround( pixel_size.x * tf_.scale_x ) ) );
     const int fixed_h = std::max( 1, static_cast<int>( std::lround( pixel_size.y * tf_.scale_y ) ) );
@@ -204,7 +201,6 @@ void pixel_minimap::build_batches( const tripoint_bub_ms &center )
             const lit_level lighting = access_cache.visibility_cache[p.x()][p.y()];
             if( lighting == lit_level::BLANK || lighting == lit_level::DARK ) {
                 // TODO: Map memory?
-                // The background fill in present() already covers these.
                 continue;
             }
 
@@ -252,10 +248,22 @@ void pixel_minimap::build_batches( const tripoint_bub_ms &center )
 
 void pixel_minimap::present()
 {
+    const bool had_clip = RenderIsClipEnabled( renderer );
+    SDL_Rect prior_clip = { 0, 0, 0, 0 };
+    if( had_clip ) {
+        RenderGetClipRect( renderer, &prior_clip );
+    }
+    // A caller may already be clipping to something narrower than the
+    // minimap rect, so draw within both.
+    SDL_Rect clip = tf_.dest_rect;
+    if( had_clip && !GetRectIntersection( prior_clip, tf_.dest_rect, clip ) ) {
+        return;
+    }
+
     SDL_BlendMode prior_blend = SDL_BLENDMODE_NONE;
     GetRenderDrawBlendMode( renderer, prior_blend );
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
-    RenderSetClipRect( renderer, &tf_.dest_rect );
+    RenderSetClipRect( renderer, &clip );
 
     geometry->rect( renderer, tf_.dest_rect,
                     SDL_Color{ static_cast<Uint8>( pixel_minimap_r ),
@@ -265,7 +273,7 @@ void pixel_minimap::present()
     render_batch( renderer, terrain_batch_ );
     render_batch( renderer, beacon_batch_ );
 
-    RenderSetClipRect( renderer, nullptr );
+    RenderSetClipRect( renderer, had_clip ? &prior_clip : nullptr );
     SetRenderDrawBlendMode( renderer, prior_blend );
 }
 

@@ -89,7 +89,6 @@ TEST_CASE( "minimap_batch_index_invariants", "[tiles][pixel_minimap]" )
         }
     }
     GIVEN( "a batch pushed past the 16-bit vertex limit" ) {
-        // 16500 quads is 66000 vertices, past the 16-bit index range.
         minimap_vertex_batch batch;
         for( int i = 0; i < 16500; ++i ) {
             const int col = i % 256;
@@ -124,7 +123,6 @@ TEST_CASE( "minimap_to_fcolor_converts_channels", "[tiles][pixel_minimap]" )
 TEST_CASE( "minimap_beacon_pixel_pattern", "[tiles][pixel_minimap]" )
 {
     GIVEN( "the beacon diamond for rect {10, 20, w=2, h=2}, edge divisor 3" ) {
-        // 13 pixels total for w = h = 2, 8 of them on the edge.
         minimap_vertex_batch batch;
         append_beacon( batch, SDL_Rect{ 10, 20, 2, 2 },
                        SDL_Color{ 210, 90, 30, 255 }, 3 );

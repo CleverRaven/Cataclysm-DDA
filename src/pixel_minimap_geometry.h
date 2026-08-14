@@ -11,8 +11,7 @@
 struct point;
 
 // CPU-side vertex accumulator for one untextured SDL_RenderGeometryRaw
-// call. Terrain alone peaks at 58564 vertices (121x121 tiles x 4), and
-// beacons push the total past the 16-bit index range, so indices are 32-bit.
+// call. A beacon-heavy frame exceeds 65535 vertices, hence 32-bit indices.
 class minimap_vertex_batch
 {
     public:
@@ -35,9 +34,8 @@ class minimap_vertex_batch
 SDL_FColor to_fcolor( const SDL_Color &color );
 
 // The screen mapping of the minimap: screen = origin + scale * native,
-// per axis, clipped to dest_rect. scale_x and scale_y are computed
-// independently because fit_rect_inside truncates width and height to int
-// separately; a shared scale would underdraw one axis.
+// per axis, clipped to dest_rect. Axis scales differ because
+// fit_rect_inside truncates each axis separately.
 struct minimap_transform {
     SDL_Rect dest_rect = { 0, 0, 0, 0 };
     float origin_x = 0.0f;

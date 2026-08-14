@@ -242,6 +242,8 @@ void RenderGeometryRaw( const SDL_Renderer_Ptr &renderer,
                         int num_vertices,
                         const Uint32 *indices, int num_indices );
 void RenderGetClipRect( const SDL_Renderer_Ptr &renderer, SDL_Rect *rect );
+// Returns whether the intersection is non-empty. result is written either way.
+bool GetRectIntersection( const SDL_Rect &a, const SDL_Rect &b, SDL_Rect &result );
 bool RenderIsClipEnabled( const SDL_Renderer_Ptr &renderer );
 int BlitSurface( const SDL_Surface_Ptr &src, const SDL_Rect *srcrect,
                  const SDL_Surface_Ptr &dst, SDL_Rect *dstrect );
