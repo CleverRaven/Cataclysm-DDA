@@ -64,7 +64,7 @@
           { "value": "HEARING_MULT", "multiply": 1 },
           { "value": "MAX_STAMINA", "multiply": 1 },
           { "value": "SLEEPINESS", "multiply": -1 },
-          { "value": "STAMINA_REGEN_MOD", "add": -0.5 },
+          { "value": "STAMINA_REGEN_MOD", "add": -0.45 },
           { "value": "THIRST", "multiply": 0.2 },
           { "value": "SCENT_MASK", "add": 350 }
         ]
