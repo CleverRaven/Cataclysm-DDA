@@ -63,6 +63,12 @@
   },
   {
     "type": "attack_vector",
+    "id": "vector_slime_punch",
+    "limbs": [ "hand_slime_l", "hand_slime_r" ],
+    "contact_area": [ "hand_slime_fingers_l", "hand_slime_fingers_r" ]
+  },
+  {
+    "type": "attack_vector",
     "id": "vector_broad_paw_punch",
     "limbs": [ "paw_broad_l", "paw_broad_r" ],
     "contact_area": [ "paw_broad_fingers_l", "paw_broad_fingers_r" ]
