@@ -143,7 +143,14 @@
         "condition": { "math": [ "Boann_Quests_Completed < 10" ] }
       },
       {
-        "condition": { "and": [ { "mod_is_loaded": "mindovermatter" }, { "or": [ { "math": [ "jmath_telepathy_knacks_combined_level() > 10" ] }, { "u_has_trait": "TELEPATH" } ] } ] },
+        "condition": {
+          "and": [
+            { "mod_is_loaded": "mindovermatter" },
+            {
+              "or": [ { "math": [ "jmath_telepathy_knacks_combined_level() > 10" ] }, { "u_has_trait": "TELEPATH" } ]
+            }
+          ]
+        },
         "text": "[Telepathy] *Read <npc_name>'s mind*",
         "topic": "TALK_BOANN_SCAN"
       },
@@ -337,7 +344,7 @@
     "type": "talk_topic",
     "dynamic_line": "&A well erupts as you approach.  Its waters chasing you through the forest, through the valley, across the plain and down onto the beach.  At the last moment you dive to the side and the rushing waters smash into the ocean.  Locked in a terminal embrace, the river can no longer pursue you for your hubris.",
     "responses": [
-      { "text": "*Withdraw from <npc_name>'s mind*.", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "*Withdraw from <npc_name>'s mind*.", "topic": "TALK_BOANN_1" },
       {
         "text": "[Telepathy] *Go deeper*.",
         "topic": "TALK_BOANN_DEEP_SCAN",
@@ -353,7 +360,7 @@
     "dynamic_line": "&An explosion of light and sound inside of your mind.  Your own powers rebound inside of your brain, shorting out neurons, blood vessels breaking their banks.",
     "responses": [
       {
-        "text": "*Withdraw from Rubik's mind*.",
+        "text": "*Withdraw from <npc_name>’s mind*.",
         "topic": "TALK_BOANN_POST_SCAN",
         "effect": [ { "u_deal_damage": "psi_telepathic_damage", "amount": 20, "bodypart": "head" } ]
       }
