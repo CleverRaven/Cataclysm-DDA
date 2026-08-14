@@ -100,6 +100,22 @@
   {
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
+    "id": "alchemy_recipe_abyssal_coffee",
+    "copy-from": "schematics_generic",
+    "looks_like": "spell_scroll",
+    "name": { "str_sp": "scribbled recipe (abyssal_coffee)" },
+    "description": "An handwritten set of notes detailing an alchemical recipe for…the perfect cup of coffee?  Whoever wrote this seems like they knew way more about coffee than you could learn even with a lifetime of research.",
+    "required_level": 2,
+    "max_level": 2,
+    "intelligence": 10,
+    "time": "45 m",
+    "symbol": "ç",
+    "color": "light_green",
+    "read_skill": "cooking"
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "alchemy_recipe_charm_of_marzanna",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
