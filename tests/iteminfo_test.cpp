@@ -45,8 +45,8 @@ static const damage_type_id damage_stab( "stab" );
 
 static const enchantment_id enchantment_ENCH_TEST_ALT_ARMS( "ENCH_TEST_ALT_ARMS" );
 
-static const itype_id itype_attachable_ear_muffs( "attachable_ear_muffs" );
 static const itype_id itype_arm_splint( "arm_splint" );
+static const itype_id itype_attachable_ear_muffs( "attachable_ear_muffs" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_ballistic_vest_esapi( "ballistic_vest_esapi" );
 static const itype_id itype_battery( "battery" );

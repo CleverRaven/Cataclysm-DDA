@@ -35,6 +35,7 @@
 #include "rng.h"
 #include "type_id.h"
 
+static const faction_id faction_your_followers( "your_followers" );
 static const itype_id itype_1l_bronze( "1l_bronze" );
 static const itype_id itype_aspirin( "aspirin" );
 static const itype_id itype_backpack( "backpack" );
@@ -66,7 +67,6 @@ static const itype_id itype_storage_battery( "storage_battery" );
 static const itype_id itype_wallet_leather( "wallet_leather" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_wrapper( "wrapper" );
-static const faction_id faction_your_followers( "your_followers" );
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 
 static const pocket_type pocket_type_container = pocket_type::CONTAINER;
