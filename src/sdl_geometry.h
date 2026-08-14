@@ -51,27 +51,6 @@ class DefaultGeometryRenderer : public GeometryRenderer
                    const SDL_Color &color ) const override;
 };
 
-/// Implementation of a GeometryRenderer using color modulated textures if
-/// possible, falling back to DefaultGeometryRenderer otherwise.
-class ColorModulatedGeometryRenderer: public DefaultGeometryRenderer
-{
-    public:
-        explicit ColorModulatedGeometryRenderer( const SDL_Renderer_Ptr &renderer );
-
-        void rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
-                   const SDL_Color &color ) const override;
-
-        void release_gpu_resources() override;
-        void rebuild_for_renderer( const SDL_Renderer_Ptr &renderer ) override;
-    private:
-        // Build the 1x1 white modulation texture against `renderer` and
-        // verify color modulation is supported; leaves tex null on failure
-        // so rect() falls back to DefaultGeometryRenderer.
-        void build_texture( const SDL_Renderer_Ptr &renderer );
-
-        SDL_Texture_Ptr tex;
-};
-
 #endif // TILES
 
 #endif // CATA_SRC_SDL_GEOMETRY_H

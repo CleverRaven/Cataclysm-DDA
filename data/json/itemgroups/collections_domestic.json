@@ -1131,7 +1131,7 @@
       { "group": "coins", "prob": 40 },
       [ "trailmap", 30 ],
       [ "collector_book", 40 ],
-      { "group": "classic_literature", "prob": 40 },
+      [ "classic_literature", 40 ],
       [ "bronze_medal", 20 ],
       [ "silver_medal", 15 ],
       [ "gold_medal", 10 ],

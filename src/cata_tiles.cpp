@@ -174,7 +174,6 @@ auto simple_point_hash = []( const point &p )
 
 } // namespace
 
-#if SDL_MAJOR_VERSION >= 3
 // Translate (lit_level, use_night_vision_tiles) to the variant_kind enum the
 // GPU shader path consumes. Mirrors the atlas-variant branch in
 // draw_sprite_at; keep them in lockstep when one moves.
@@ -193,7 +192,6 @@ cata_shader::variant_kind compute_variant_kind( lit_level ll, bool use_nv_tiles 
     }
     return cata_shader::variant_kind::NORMAL;
 }
-#endif
 
 static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMsg )
 {
@@ -278,12 +276,10 @@ void cata_tiles::on_options_changed()
 {
     memory_map_mode = get_option <std::string>( "MEMORY_MAP_MODE" );
 
-#if SDL_MAJOR_VERSION >= 3
     if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
         vp->select_memory_preset(
             cata_shader::memory_preset_from_option_value( memory_map_mode ) );
     }
-#endif
 
     pixel_minimap_settings settings;
 
@@ -1154,10 +1150,9 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
             // dawn/dusk light, etc). Tint eligibility and color were precomputed
             // in the per-tile prepass above; row_tinted holds only eligible tiles.
             if( !row_tinted.empty() ) {
-#if SDL_MAJOR_VERSION >= 3
                 // Sprite rendering can leave a variant shader bound across same-variant
                 // runs. The tint overlay is plain renderer geometry/copy work, so it must
-                // start from null GPU render state or SDL3 may apply the sprite shader to
+                // start from null GPU render state or SDL may apply the sprite shader to
                 // only part of a row depending on which sprite path was hit first.
                 if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
                     if( !vp->flush() ) {
@@ -1166,7 +1161,6 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                             "cata_tiles::draw: variant_pass flush failed before tint overlay; renderer in undefined state" );
                     }
                 }
-#endif
                 const int zlev_base = ( cur_zlevel - center.z() ) * zlevel_height;
                 if( iso ) {
                     // Iso: flat tint rect over the tile footprint (unchanged
@@ -1233,11 +1227,8 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
 
                         // Phase 1: build the silhouette mask.
                         {
-                            scoped_render_target mask_scope( renderer, tint_mask_tex.get()
-#if SDL_MAJOR_VERSION >= 3
-                                                             , get_shared_variant_pass()
-#endif
-                                                           );
+                            scoped_render_target mask_scope( renderer, tint_mask_tex.get(),
+                                                             get_shared_variant_pass() );
                             if( !mask_scope.is_valid() ) {
                                 // variant_pass may have failed to unbind; later
                                 // target switches would cross with shader bound.
@@ -1326,12 +1317,9 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                             const SDL_Color tc = { tp->com.tint_color.r, tp->com.tint_color.g,
                                                    tp->com.tint_color.b, tp->com.tint_color.a
                                                  };
-#if SDL_MAJOR_VERSION >= 3
-                            // SDL3's straight-alpha draw-color modulation renders the fill
-                            // dimmer than SDL2 for the same alpha. Composite as a premultiplied
-                            // source to keep the additive look: out = tint*a + dst*(1-a).
-                            // SDL_BLENDMODE_BLEND_PREMULTIPLIED is SDL3-only; the SDL2 geometry
-                            // helper already produces the expected intensity.
+                            // Straight-alpha draw-color modulation renders the fill dimmer
+                            // than the expected additive look for the same alpha. Composite
+                            // as a premultiplied source instead: out = tint*a + dst*(1-a).
                             const Uint8 a = tc.a;
                             SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND_PREMULTIPLIED );
                             SetRenderDrawColor( renderer,
@@ -1340,9 +1328,6 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                                                 static_cast<Uint8>( tc.b * a / 255 ),
                                                 a );
                             RenderFillRect( renderer, &tile_rect );
-#else
-                            geometry->rect( renderer, tile_rect, tc );
-#endif
                             continue;
                         }
 
@@ -1557,7 +1542,6 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     }
 
     RenderSetClipRect( renderer, nullptr );
-#if SDL_MAJOR_VERSION >= 3
     // Unbind any GPU render state held across sprite batches so ImGui or the
     // next-frame draws see clean state. On flush failure the bind boundary
     // forbids a target switch: abort the unbind, latch recovery, and throw.
@@ -1569,7 +1553,6 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                 "cata_tiles::draw: variant_pass flush failed at end of frame; renderer in undefined state" );
         }
     }
-#endif
 }
 
 void cata_tiles::set_draw_cache_dirty()
@@ -2670,7 +2653,6 @@ bool cata_tiles::draw_sprite_at(
     const texture *sprite_tex = tileset_ptr->get_tile( sprite_index );
 
     bool shader_bound = false;
-#if SDL_MAJOR_VERSION >= 3
     // Try the GPU shader variant first. On success the main atlas drives
     // the render and the variant transform happens per-pixel in the
     // fragment shader. On unsupported variant (NORMAL, custom MEMORY
@@ -2687,7 +2669,6 @@ bool cata_tiles::draw_sprite_at(
         }
         shader_bound = ( br == cata_shader::variant_pass::begin_result::bound );
     }
-#endif
 
     //use night vision colors when in use
     //then use low light tile if available
@@ -2869,10 +2850,8 @@ bool cata_tiles::draw_sprite_at(
     }
 
     printErrorIf( ret != 0, "SDL_RenderCopyEx() failed" );
-#if SDL_MAJOR_VERSION >= 3
     // variant_pass unbinds on frame-end flush; nothing to do per-sprite.
     ( void )shader_bound;
-#endif
     // this reference passes all the way back up the call chain back to
     // cata_tiles::draw() here.draw_points_cache[z][row][col].com.height_3d
     // where we are accumulating the height of every sprite stacked up in a tile

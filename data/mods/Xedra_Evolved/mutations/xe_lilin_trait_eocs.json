@@ -44,7 +44,8 @@
               { "u_message": "You rend the illusions around yourself to tatters.", "type": "neutral" },
               { "u_lose_trait": "BEAUTIFUL3" },
               { "u_lose_effect": "effect_lilin_temporary_glorious" }
-            ]
+            ],
+            "false_effect": { "u_lose_effect": "effect_lilin_temporary_glorious" }
           }
         ]
       }
@@ -90,7 +91,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_TEMPORARY_GLORIOUS_processed",
-    "condition": { "and": [ { "u_has_trait": "BEAUTIFUL3" }, { "u_has_effect": "effect_lilin_temporary_glorious" } ] },
+    "condition": { "u_has_effect": "effect_lilin_temporary_glorious" },
     "effect": [
       {
         "if": { "and": [ "u_is_outside", "is_day" ] },
@@ -392,6 +393,7 @@
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "1.5" ] } },
               { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 480 * lilin_has_ruach_efficiency()" ] },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "LILIN_WAR_OWL_FORM_TRAITS" },
               { "u_add_trait": "LILIN_WAR_OWL_FORM_LEAPER" },
               { "math": [ "u_calories('dont_affect_weariness': true) *= 1.5" ] },
@@ -418,6 +420,7 @@
               { "u_message": "Your wings, feathers, and talons all vanish as you return to your human form.", "type": "neutral" },
               { "u_lose_trait": "LILIN_WAR_OWL_FORM_TRAITS" },
               { "u_lose_trait": "LILIN_WAR_OWL_FORM_LEAPER" },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" },
               { "math": [ "u_calories('dont_affect_weariness': true) /= 1.5" ] }
             ]
           }

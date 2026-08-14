@@ -1,0 +1,21 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "seasonings_universal",
+    "items": [  ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "seasonings_meat",
+    "//COMMENT": "Stuff you would put on a meat-only dish, like a steak. Yes I know putting ketchup on a steak is heretical, but plenty of people do it, so I put it in here.",
+    "items": [
+      { "item": "pepper" },
+      { "item": "ketchup" },
+      { "item": "salt" },
+      { "item": "wild_herbs" },
+      { "item": "seasoning_salt" }
+    ]
+  }
+]

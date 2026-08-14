@@ -1316,5 +1316,26 @@
     "size": "200 L",
     "requirements": { "removal": { "time": "5 s" } },
     "variants": [ { "symbols": "&", "symbols_broken": "-" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_bulk_liquid_tank",
+    "name": { "str": "bulk liquid tank" },
+    "looks_like": "f_storage_tank",
+    "categories": [ "utility" ],
+    "color": "light_gray",
+    "broken_color": "dark_gray",
+    "location": "structure",
+    "damage_modifier": 80,
+    "durability": 400,
+    "description": "A stationary bank of interconnected steel tanks holding up to 600 liters of liquid.  Its electric heater can be switched on to keep the contents from freezing, while attached plumbing equipment can provide convenient access or purification.",
+    "item": "bulk_liquid_tank",
+    "epower": "-200 W",
+    "flags": [ "APPLIANCE", "FLUIDTANK", "HEATED_TANK", "ENABLED_DRAINS_EPOWER", "OBSTACLE", "VEH_TOOLS" ],
+    "allowed_tools": [ "water_faucet", "water_purifier" ],
+    "requirements": { "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "repair_welding_standard", 10 ] ] } },
+    "breaks_into": [ { "item": "metal_tank", "count": [ 4, 8 ], "damage": 4 }, { "item": "nuts_bolts", "count": [ 5, 15 ] } ],
+    "damage_reduction": { "all": 30, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   }
 ]

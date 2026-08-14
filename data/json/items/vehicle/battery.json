@@ -156,5 +156,21 @@
     "price": "10 USD",
     "price_postapoc": "5 USD",
     "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "power_station_portable",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "copy-from": "storage_battery",
+    "name": { "str": "portable power station" },
+    "description": "A ready-to-deploy portable rechargeable battery unit that comes with an inverter for powering home appliances and outlet ports for your electronic devices.  Useful for camping, power outage, and surviving the apocalypse.",
+    "ascii_picture": "small_storage_battery",
+    "weight": "8500 g",
+    "volume": "10 L",
+    "price": "600 USD",
+    "price_postapoc": "10 USD",
+    "capacity": 4000,
+    "use_action": { "type": "deploy_appliance", "base": "power_station_portable" },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 4000 } } ]
   }
 ]
