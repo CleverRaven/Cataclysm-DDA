@@ -1196,6 +1196,94 @@
     "similar_bodypart": "paw_default_fingers_r"
   },
   {
+    "id": "hand_slime_wrist_l",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "hand_slime_l",
+    "side": "left",
+    "opposite": "hand_slime_wrist_r",
+    "name_multiple": "wrists",
+    "name": "left wrist",
+    "similar_bodypart": "hand_wrist_l"
+  },
+  {
+    "id": "hand_slime_palm_l",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "hand_slime_l",
+    "side": "left",
+    "opposite": "hand_slime_palm_r",
+    "name_multiple": "palms",
+    "name": "left palm",
+    "similar_bodypart": "hand_palm_l"
+  },
+  {
+    "id": "hand_slime_back_l",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "hand_slime_l",
+    "side": "left",
+    "opposite": "hand_slime_back_r",
+    "name_multiple": "back of hands",
+    "name": "left back of hand",
+    "similar_bodypart": "hand_back_l"
+  },
+  {
+    "id": "hand_slime_fingers_l",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "hand_slime_l",
+    "side": "left",
+    "opposite": "hand_slime_fingers_r",
+    "name_multiple": "fingers",
+    "name": "left fingers",
+    "similar_bodypart": "hand_fingers_l"
+  },
+  {
+    "id": "hand_slime_wrist_r",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "hand_slime_r",
+    "side": "right",
+    "opposite": "hand_slime_palm_l",
+    "name_multiple": "wrists",
+    "name": "right wrist",
+    "similar_bodypart": "hand_wrist_r"
+  },
+  {
+    "id": "hand_slime_palm_r",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "hand_slime_r",
+    "side": "right",
+    "opposite": "hand_slime_palm_l",
+    "name_multiple": "palms",
+    "name": "right palm",
+    "similar_bodypart": "hand_palm_r"
+  },
+  {
+    "id": "hand_slime_back_r",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "hand_slime_r",
+    "side": "right",
+    "opposite": "hand_slime_back_l",
+    "name_multiple": "back of hands",
+    "name": "right back of hand",
+    "similar_bodypart": "hand_back_r"
+  },
+  {
+    "id": "hand_slime_fingers_r",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "hand_slime_r",
+    "side": "right",
+    "opposite": "hand_slime_fingers_l",
+    "name_multiple": "fingers",
+    "name": "right fingers",
+    "similar_bodypart": "hand_fingers_r"
+  },
+  {
     "type": "sub_body_part",
     "id": "arm_feathers_shoulder_l",
     "name": "left feathered shoulder",
