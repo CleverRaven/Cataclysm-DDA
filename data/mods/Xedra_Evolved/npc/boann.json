@@ -370,12 +370,7 @@
     "id": [ "TALK_BOANN_POST_SCAN" ],
     "type": "talk_topic",
     "dynamic_line": "The laws of hospitality extend further than one might think.",
-    "responses": [
-      {
-        "text": "&Wiping blood from your nose, you wonder if maybe just maybe gods are real.",
-        "topic": "TALK_BOANN_1"
-      }
-    ]
+    "responses": [ { "text": "&Wiping blood from your nose, you wonder if maybe just maybe gods are real.", "topic": "TALK_BOANN_1" } ]
   },
   {
     "type": "talk_topic",
