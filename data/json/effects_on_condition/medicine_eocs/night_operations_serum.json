@@ -54,38 +54,52 @@
     "show_intensity": false,
     "dur_add_perc": 5,
     "removes_effects": [ "night_ops_serum_crash" ],
-    "base_mods": { "vomit_chance": [ 50 ], "vomit_tick": [ 300 ] },
+    "base_mods": {
+      "perspiration_min": [ 1 ],
+      "perspiration_tick": [ 300 ],
+      "perspiration_chance": [ 6 ],
+      "vomit_chance": [ 50 ],
+      "vomit_tick": [ 300 ]
+    },
     "enchantments": [
       {
         "values": [
           { "value": "NIGHT_VIS", "add": 20 },
+          { "value": "HEARING_MULT", "multiply": 1 },
           { "value": "MAX_STAMINA", "multiply": 1 },
-          { "value": "STAMINA_REGEN_MOD", "add": -0.5 }
+          { "value": "SLEEPINESS", "multiply": -1 },
+          { "value": "STAMINA_REGEN_MOD", "add": -0.5 },
+          { "value": "THIRST", "multiply": 0.2 },
+          { "value": "SCENT_MASK", "add": 350 }
         ]
       },
       {
         "condition": { "math": [ "u_val('fine_detail_vision_mod') >= 4" ] },
         "values": [ { "value": "STEALTH_MODIFIER", "add": 50 } ]
-      }
+      },
+      { "condition": { "not": "is_day" }, "values": [ { "value": "OVERMAP_SIGHT", "add": 6 } ] }
     ],
-    "flags": [ "MYOPIC_IN_LIGHT" ]
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.9 } ],
+    "//": "Mute is supposed to represent acute laryngitis.  Allowing communication through whispering would be better",
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "MYOPIC_IN_LIGHT", "MUTE" ]
   },
   {
     "type": "effect_type",
-    "id": "speed_serum_crash",
+    "id": "night_ops_serum_crash",
     "name": [ "Injected Serum Crash" ],
-    "desc": [ "The world seems jittery and moving too quickly, your stomach hurts, and you're very tired." ],
+    "desc": [ "The light hurts your eyes and the shadows seem extra dark.  Who knows what could be in there?" ],
     "apply_message": "",
     "remove_message": "",
-    "enchantments": [
-      {
-        "values": [
-          { "value": "EXTRA_ELEC_PAIN", "multiply": 1 },
-          { "value": "KCAL", "multiply": -0.15 },
-          { "value": "SLEEPINESS_REGEN", "multiply": -0.3333 }
-        ]
-      }
-    ],
+    "base_mods": {
+      "perspiration_min": [ 1 ],
+      "perspiration_tick": [ 300 ],
+      "perspiration_chance": [ 6 ],
+      "blood_pressure_tick": [ 250 ],
+      "blood_pressure_chance": [ 5 ],
+      "blood_pressure_min": [ -3 ],
+      "blood_pressure_max_val": [ -2500 ]
+    },
+    "enchantments": [ { "values": [ { "value": "SCENT_MASK", "add": 350 }, { "value": "STAMINA_REGEN_MOD", "add": -0.5 } ] } ],
     "flags": [ "MYOPIC_IN_LIGHT", "SUNBURN" ]
   },
   {
