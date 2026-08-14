@@ -4,6 +4,7 @@
 #include <string>
 
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "cached_options.h"
 #include "character.h"
 #include "color.h"
@@ -47,6 +48,13 @@ struct minimap_probe_fixture {
         GetRendererOutputSize( get_sdl_renderer(), &out_w, &out_h );
         available_ = out_w >= 242 && out_h >= 242;
 
+        // Left at zero the background is transparent and never reaches the
+        // target, so a probe cannot tell it from an unpainted pixel.
+        pixel_minimap_r = 0x00;
+        pixel_minimap_g = 0x00;
+        pixel_minimap_b = 0xFF;
+        pixel_minimap_a = 0xFF;
+
         clear_avatar();
         // Each BDD section re-enters the fixture; drop the previous
         // section's spawns or spawn_test_monster refuses the tile.
@@ -78,9 +86,27 @@ struct minimap_probe_fixture {
                | static_cast<Uint32>( c.b );
     }
 
+    static SDL_Color clear_to_sentinel() {
+        const SDL_Color sentinel = { 0xFF, 0x00, 0xFF, 0xFF };
+        SetRenderDrawColor( get_sdl_renderer(), sentinel.r, sentinel.g, sentinel.b, sentinel.a );
+        RenderClear( get_sdl_renderer() );
+        return sentinel;
+    }
+
+    static SDL_Color background_color() {
+        return SDL_Color{ static_cast<Uint8>( pixel_minimap_r ),
+                          static_cast<Uint8>( pixel_minimap_g ),
+                          static_cast<Uint8>( pixel_minimap_b ),
+                          static_cast<Uint8>( pixel_minimap_a ) };
+    }
+
     software_render_fixture fx_;
     GeometryRenderer_Ptr geometry_ = std::make_unique<DefaultGeometryRenderer>();
     bool available_ = false;
+    restore_on_out_of_scope<int> restore_bg_r_{ pixel_minimap_r };
+    restore_on_out_of_scope<int> restore_bg_g_{ pixel_minimap_g };
+    restore_on_out_of_scope<int> restore_bg_b_{ pixel_minimap_b };
+    restore_on_out_of_scope<int> restore_bg_a_{ pixel_minimap_a };
 };
 
 // 242x242 rect over the 121-tile window: tile size 2, no fit scaling, no
@@ -109,6 +135,7 @@ TEST_CASE( "pixel_minimap_draws_terrain_and_background", "[tiles][pixel_minimap]
         return;
     }
     GIVEN( "a lit grass map and an ortho minimap drawn at tile size 2" ) {
+        const SDL_Color sentinel = minimap_probe_fixture::clear_to_sentinel();
         pixel_minimap minimap( get_sdl_renderer(), fx.geometry_ );
         minimap.set_settings( pixel_minimap_settings() );
         const tripoint_bub_ms center = get_player_character().pos_bub();
@@ -116,12 +143,17 @@ TEST_CASE( "pixel_minimap_draws_terrain_and_background", "[tiles][pixel_minimap]
 
         minimap.draw( minimap_rect, center );
 
-        WHEN( "a pixel of a lit tile away from the player is read back" ) {
-            const tripoint_bub_ms probe_tile = center + tripoint( 3, 0, 0 );
+        WHEN( "a pixel of the player's own tile is read back" ) {
+            // The fixture lights only a small patch, and the tile under the
+            // player is the one guaranteed to be in it.
+            const tripoint_bub_ms probe_tile = center;
             const point px = window_tile_to_pixel( map_tile_to_window_tile( probe_tile, center ) );
             THEN( "it matches the terrain color, not the background" ) {
                 const SDL_Color expected = adjust_color_brightness(
                                                curses_color_to_SDL( ter_t_grass->color() ), 100 );
+                CHECK( fx.probe_rgb( px ) != minimap_probe_fixture::rgb_of( sentinel ) );
+                CHECK( fx.probe_rgb( px )
+                       != minimap_probe_fixture::rgb_of( minimap_probe_fixture::background_color() ) );
                 CHECK( fx.probe_rgb( px ) == minimap_probe_fixture::rgb_of( expected ) );
             }
         }
@@ -133,13 +165,9 @@ TEST_CASE( "pixel_minimap_draws_terrain_and_background", "[tiles][pixel_minimap]
             const point px = window_tile_to_pixel(
                                  map_tile_to_window_tile( oob_tile, east_center ) );
             THEN( "the out-of-bounds tile shows the minimap background color" ) {
-                const SDL_Color expected = {
-                    static_cast<Uint8>( pixel_minimap_r ),
-                    static_cast<Uint8>( pixel_minimap_g ),
-                    static_cast<Uint8>( pixel_minimap_b ),
-                    static_cast<Uint8>( pixel_minimap_a )
-                };
-                CHECK( fx.probe_rgb( px ) == minimap_probe_fixture::rgb_of( expected ) );
+                CHECK( fx.probe_rgb( px ) != minimap_probe_fixture::rgb_of( sentinel ) );
+                CHECK( fx.probe_rgb( px )
+                       == minimap_probe_fixture::rgb_of( minimap_probe_fixture::background_color() ) );
             }
         }
     }
@@ -191,6 +219,45 @@ TEST_CASE( "pixel_minimap_beacons_and_blink_flag", "[tiles][pixel_minimap]" )
                 CHECK( minimap.has_blinking_beacons() );
             }
         }
+    }
+}
+
+TEST_CASE( "pixel_minimap_respects_caller_clip", "[tiles][pixel_minimap]" )
+{
+    minimap_probe_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    GIVEN( "a caller clip covering part of the drawn area" ) {
+        const SDL_Color sentinel = minimap_probe_fixture::clear_to_sentinel();
+        const SDL_Rect caller_clip = { 116, 116, 6, 10 };
+        RenderSetClipRect( get_sdl_renderer(), &caller_clip );
+
+        pixel_minimap minimap( get_sdl_renderer(), fx.geometry_ );
+        minimap.set_settings( pixel_minimap_settings() );
+
+        WHEN( "the minimap draws" ) {
+            minimap.draw( minimap_rect, get_player_character().pos_bub() );
+            THEN( "a pixel inside the clip is painted" ) {
+                CHECK( fx.probe_rgb( point( 118, 116 ) )
+                       != minimap_probe_fixture::rgb_of( sentinel ) );
+            }
+            THEN( "a pixel outside the clip is untouched" ) {
+                CHECK( fx.probe_rgb( point( 124, 116 ) )
+                       == minimap_probe_fixture::rgb_of( sentinel ) );
+            }
+            THEN( "the caller clip is still in effect afterwards" ) {
+                REQUIRE( RenderIsClipEnabled( get_sdl_renderer() ) );
+                SDL_Rect after = { 0, 0, 0, 0 };
+                RenderGetClipRect( get_sdl_renderer(), &after );
+                CHECK( after.x == caller_clip.x );
+                CHECK( after.y == caller_clip.y );
+                CHECK( after.w == caller_clip.w );
+                CHECK( after.h == caller_clip.h );
+            }
+        }
+        RenderSetClipRect( get_sdl_renderer(), nullptr );
     }
 }
 

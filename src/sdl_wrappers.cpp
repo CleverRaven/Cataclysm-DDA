@@ -507,6 +507,11 @@ void RenderGeometryRaw( const SDL_Renderer_Ptr &renderer,
                   "SDL_RenderGeometryRaw failed" );
 }
 
+bool GetRectIntersection( const SDL_Rect &a, const SDL_Rect &b, SDL_Rect &result )
+{
+    return SDL_GetRectIntersection( &a, &b, &result );
+}
+
 void RenderGetClipRect( const SDL_Renderer_Ptr &renderer, SDL_Rect *const rect )
 {
     if( !renderer ) {
