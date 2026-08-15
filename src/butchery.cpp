@@ -1030,7 +1030,7 @@ if( action == butcher_type::SKIN && mt.harvest->has_entry_type( harvest_drop_ski
         }
     }
 
-if( action == butcher_type::TAXIDERMY ) {
+    if( action == butcher_type::TAXIDERMY ) {
         you.practice_proficiency( proficiency_prof_taxidermy, moves_total * 0.25 );
         you.practice( skill_survival, std::max( 0, practice ), 6 );
     }
