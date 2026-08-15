@@ -453,7 +453,7 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
             break;
         case butcher_type::DISSECT:
         case butcher_type::TAXIDERMY:
-            time_to_cut *= 6;
+            time_to_cut *= 18;
             break;
         case butcher_type::NUM_TYPES:
             debugmsg( "ERROR: Invalid butcher_type" );
@@ -493,9 +493,9 @@ if( action == butcher_type::SKIN ) {
         time_to_cut *= 1 + prof_skin_penalty;
     }
 
-    if( action == butcher_type::TAXIDERMY ) {
+if( action == butcher_type::TAXIDERMY ) {
         double taxidermy_prof = you.get_proficiency_practice( proficiency_prof_taxidermy );
-        double prof_taxidermy_penalty = penalty_big * ( 1.0 - taxidermy_prof );
+        double prof_taxidermy_penalty = 2.5 * ( 1.0 - taxidermy_prof );
         time_to_cut *= ( 1.0 + prof_taxidermy_penalty + prof_skin_penalty );
     }
 
