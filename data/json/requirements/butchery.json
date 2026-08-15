@@ -81,5 +81,27 @@
     "id": "bleed_small",
     "type": "requirement",
     "qualities": [ { "id": "CUT", "level": 2 } ]
+  },
+  {
+    "id": "taxidermy_small_req",
+    "type": "requirement",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 }, { "id": "PLIERS", "level": 1 } ],
+    "components": [
+      [ [ "salt", 30 ], [ "saline", 60 ], [ "vinegar", 30 ], [ "alcohol", 30 ] ],
+      [ [ "wire", 1 ], [ "wire_copper", 1 ] ],
+      [ [ "cotton_patch", 2 ], [ "rag", 2 ], [ "straw", 10 ], [ "felt_patch", 2 ] ],
+      [ [ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ] ]
+    ]
+  },
+  {
+    "id": "taxidermy_large_req",
+    "type": "requirement",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "PLIERS", "level": 1 } ],
+    "components": [
+      [ [ "salt", 150 ], [ "saline", 300 ], [ "vinegar", 150 ], [ "alcohol", 150 ] ],
+      [ [ "wire", 4 ], [ "wire_copper", 4 ] ],
+      [ [ "spray_canister_expanding_foam", 1 ], [ "straw", 50 ], [ "cotton_patch", 10 ], [ "rag", 10 ] ],
+      [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ] ]
+    ]
   }
 ]

@@ -77,6 +77,7 @@ static const proficiency_id proficiency_prof_butchering_basic( "prof_butchering_
 static const proficiency_id proficiency_prof_dissect_humans( "prof_dissect_humans" );
 static const proficiency_id proficiency_prof_skinning_adv( "prof_skinning_adv" );
 static const proficiency_id proficiency_prof_skinning_basic( "prof_skinning_basic" );
+static const proficiency_id proficiency_prof_taxidermy( "prof_taxidermy" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
@@ -488,8 +489,14 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
         time_to_cut *= 1 + prof_butch_penalty;
     }
 
-    if( action == butcher_type::SKIN ) {
+if( action == butcher_type::SKIN ) {
         time_to_cut *= 1 + prof_skin_penalty;
+    }
+
+    if( action == butcher_type::TAXIDERMY ) {
+        double taxidermy_prof = you.get_proficiency_practice( proficiency_prof_taxidermy );
+        double prof_taxidermy_penalty = penalty_big * ( 1.0 - taxidermy_prof );
+        time_to_cut *= ( 1.0 + prof_taxidermy_penalty + prof_skin_penalty );
     }
 
     time_to_cut *= ( 1.0f - ( get_player_character().get_num_crafting_helpers( 3 ) / 10.0f ) );
@@ -729,8 +736,12 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
             roll /= 2;
         }
 
-        if( ( corpse_item.has_flag( flag_SKINNED ) || corpse_item.has_flag( flag_QUARTERED ) ) &&
+if( ( corpse_item.has_flag( flag_SKINNED ) || corpse_item.has_flag( flag_QUARTERED ) ) &&
             entry.type == harvest_drop_skin ) {
+            continue;
+        }
+
+        if( action == butcher_type::TAXIDERMY && entry.type == harvest_drop_skin ) {
             continue;
         }
 
@@ -1010,13 +1021,18 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
         }
     }
 
-    if( action == butcher_type::SKIN && mt.harvest->has_entry_type( harvest_drop_skin ) ) {
+if( action == butcher_type::SKIN && mt.harvest->has_entry_type( harvest_drop_skin ) ) {
         // 70% of butchery, 15% skinning, 15% another activities
         if( you.has_proficiency( proficiency_prof_skinning_basic ) ) {
             you.practice_proficiency( proficiency_prof_skinning_adv, moves_total );
         } else {
             you.practice_proficiency( proficiency_prof_skinning_basic, moves_total );
         }
+    }
+
+    if( action == butcher_type::TAXIDERMY ) {
+        you.practice_proficiency( proficiency_prof_taxidermy, moves_total );
+        you.practice( skill_survival, std::max( 0, practice ), 6 );
     }
 
     // after this point, if there was a liquid handling from the harvest,
@@ -1069,7 +1085,12 @@ void destroy_the_carcass( const butchery_data &bd, Character &you )
     item &corpse_item = *target;
     const mtype *corpse = corpse_item.get_mtype();
 
-    if( action == butcher_type::TAXIDERMY ) {
+if( action == butcher_type::TAXIDERMY ) {
+        const requirement_id butchery_requirement = bd.req;
+        for( const std::vector<item_comp> &comp_options : butchery_requirement->get_components() ) {
+            you.consume_items( comp_options );
+        }
+
         item specimen( itype_taxidermy_specimen, calendar::turn );
         specimen.set_mtype( corpse );
         here.add_item_or_charges( corpse_pos, specimen );
@@ -1077,7 +1098,7 @@ void destroy_the_carcass( const butchery_data &bd, Character &you )
         butchery_drops_harvest( bd, you );
 
         add_msg( m_good,
-                 _( "You carefully preserve the skin and stuff the corpse into a taxidermy specimen." ) );
+                 _( "You carefully preserve the skin and mount the corpse into a taxidermy specimen." ) );
         target.remove_item();
         return;
     }

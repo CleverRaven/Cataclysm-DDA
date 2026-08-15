@@ -36,5 +36,17 @@
     "can_learn": true,
     "time_to_learn": "25 h",
     "required_proficiencies": [ "prof_skinning_basic" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_taxidermy",
+    "name": { "str": "Taxidermy" },
+    "category": "prof_butchering",
+    "description": "You know how to properly skin, treat, mount, and preserve animal specimens so they look lifelike and will not rot over time.",
+    "can_learn": true,
+    "default_time_multiplier": 2.5,
+    "default_fail_multiplier": 2.0,
+    "time_to_learn": "20 h",
+    "required_proficiencies": [ "prof_skinning_basic" ]
   }
 ]

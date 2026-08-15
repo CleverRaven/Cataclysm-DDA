@@ -13,7 +13,7 @@
           "FULL": "butchery_small",
           "QUICK": "butchery_small",
           "BLEED": "bleed_small",
-          "TAXIDERMY": "butchery_small"
+          "TAXIDERMY": "taxidermy_small_req"
         },
         {
           "FIELD_DRESS": "field_dress",
@@ -24,7 +24,7 @@
           "FULL": "butchery_small",
           "QUICK": "butchery_small",
           "BLEED": "bleed_small",
-          "TAXIDERMY": "butchery_small"
+          "TAXIDERMY": "taxidermy_small_req"
         },
         {
           "FIELD_DRESS": "field_dress",
@@ -35,7 +35,7 @@
           "FULL": "butchery_small",
           "QUICK": "butchery_small",
           "BLEED": "bleed_small",
-          "TAXIDERMY": "butchery_small"
+          "TAXIDERMY": "taxidermy_small_req"
         },
         {
           "FIELD_DRESS": "field_dress",
@@ -46,7 +46,7 @@
           "FULL": "full_butchery_large",
           "QUICK": "butchery_large",
           "BLEED": "bleed_large",
-          "TAXIDERMY": "butchery_large"
+          "TAXIDERMY": "taxidermy_large_req"
         },
         {
           "FIELD_DRESS": "field_dress",
@@ -57,7 +57,7 @@
           "FULL": "full_butchery_large",
           "QUICK": "butchery_large",
           "BLEED": "bleed_large",
-          "TAXIDERMY": "butchery_large"
+          "TAXIDERMY": "taxidermy_large_req"
         }
       ],
       "1.2": [
@@ -70,7 +70,7 @@
           "FULL": "butchery_small_no_surface",
           "QUICK": "butchery_small_no_surface",
           "BLEED": "bleed_small",
-          "TAXIDERMY": "butchery_small_no_surface"
+          "TAXIDERMY": "taxidermy_small_req"
         },
         {
           "FIELD_DRESS": "field_dress_no_surface",
@@ -81,7 +81,7 @@
           "FULL": "butchery_small_no_surface",
           "QUICK": "butchery_small_no_surface",
           "BLEED": "bleed_small",
-          "TAXIDERMY": "butchery_small_no_surface"
+          "TAXIDERMY": "taxidermy_small_req"
         },
         {
           "FIELD_DRESS": "field_dress_no_surface",
@@ -92,7 +92,7 @@
           "FULL": "butchery_small_no_surface",
           "QUICK": "butchery_small_no_surface",
           "BLEED": "bleed_small",
-          "TAXIDERMY": "butchery_small_no_surface"
+          "TAXIDERMY": "taxidermy_small_req"
         },
         {
           "FIELD_DRESS": "field_dress_no_surface",
@@ -103,7 +103,7 @@
           "FULL": "full_butchery_large_no_surface",
           "QUICK": "butchery_large_no_surface",
           "BLEED": "bleed_large",
-          "TAXIDERMY": "butchery_large_no_surface"
+          "TAXIDERMY": "taxidermy_large_req"
         },
         {
           "FIELD_DRESS": "field_dress_no_surface",
@@ -114,7 +114,7 @@
           "FULL": "full_butchery_large_no_surface",
           "QUICK": "butchery_large_no_surface",
           "BLEED": "bleed_large",
-          "TAXIDERMY": "butchery_large_no_surface"
+          "TAXIDERMY": "taxidermy_large_req"
         }
       ]
     }
