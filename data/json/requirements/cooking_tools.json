@@ -33,6 +33,13 @@
     ]
   },
   {
+    "id": "surface_heat_inbuilt_timer",
+    "type": "requirement",
+    "name": "Heat source with inbuilt timer",
+    "//": "Same as surface heat, but only ones that come with timers and can evenly heat food.",
+    "tools": [ [ [ "microwave", 25 ], [ "oven", 125 ] ] ]
+  },
+  {
     "id": "smoking_heat",
     "type": "requirement",
     "name": "Smoking heat",
@@ -103,6 +110,13 @@
         [ "fake_solar_cooker", -1 ]
       ]
     ]
+  },
+  {
+    "id": "water_boiling_heat_inbuilt_timer",
+    "type": "requirement",
+    "name": "Boiling heat with inbuilt timer",
+    "//": "Same as water boiling heat, but only ones that come with timers and won't make all the liquid over boil out.",
+    "tools": [ [ [ "coffeemaker", 125 ] ] ]
   },
   {
     "id": "canning_acid_large",
