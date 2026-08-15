@@ -1021,7 +1021,7 @@ if( ( corpse_item.has_flag( flag_SKINNED ) || corpse_item.has_flag( flag_QUARTER
         }
     }
 
-if( action == butcher_type::SKIN && mt.harvest->has_entry_type( harvest_drop_skin ) ) {
+    if( action == butcher_type::SKIN && mt.harvest->has_entry_type( harvest_drop_skin ) ) {
         // 70% of butchery, 15% skinning, 15% another activities
         if( you.has_proficiency( proficiency_prof_skinning_basic ) ) {
             you.practice_proficiency( proficiency_prof_skinning_adv, moves_total );
