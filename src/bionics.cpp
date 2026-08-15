@@ -1966,7 +1966,7 @@ bool Character::has_enough_anesth( const itype &cbm, Character &patient ) const
     const requirement_data req_anesth = *requirement_data_anesthetic *
                                         cbm.bionic->difficulty * 2 * weight;
 
-    return req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component );
+    return req_anesth.can_make_with_inventory( this, crafting_inventory(), is_crafting_component );
 }
 
 bool Character::has_enough_anesth( const itype &cbm ) const
@@ -1978,7 +1978,7 @@ bool Character::has_enough_anesth( const itype &cbm ) const
     const int weight = units::to_kilogram( bodyweight() ) / 10;
     const requirement_data req_anesth = *requirement_data_anesthetic *
                                         cbm.bionic->difficulty * 2 * weight;
-    if( !req_anesth.can_make_with_inventory( crafting_inventory(),
+    if( !req_anesth.can_make_with_inventory( this, crafting_inventory(),
             is_crafting_component ) ) {
         std::string buffer = _( "You don't have enough anesthetic to perform the installation." );
         buffer += "\n";
@@ -2009,7 +2009,7 @@ bool Character::has_installation_requirement( const bionic_id &bid ) const
         return false;
     }
 
-    if( !bid->installation_requirement->can_make_with_inventory( crafting_inventory(),
+    if( !bid->installation_requirement->can_make_with_inventory( this, crafting_inventory(),
             is_crafting_component ) ) {
         std::string buffer = _( "You don't have the required components to perform the installation." );
         buffer += "\n";
