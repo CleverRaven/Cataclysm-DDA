@@ -489,7 +489,7 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
         time_to_cut *= 1 + prof_butch_penalty;
     }
 
-if( action == butcher_type::SKIN ) {
+    if( action == butcher_type::SKIN ) {
         time_to_cut *= 1 + prof_skin_penalty;
     }
 
