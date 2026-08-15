@@ -736,7 +736,7 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
             roll /= 2;
         }
 
-if( ( corpse_item.has_flag( flag_SKINNED ) || corpse_item.has_flag( flag_QUARTERED ) ) &&
+        if( ( corpse_item.has_flag( flag_SKINNED ) || corpse_item.has_flag( flag_QUARTERED ) ) &&
             entry.type == harvest_drop_skin ) {
             continue;
         }
