@@ -2066,7 +2066,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "Hema gambeson" },
+    "name": { "str": "HEMA gambeson" },
     "description": "A thick cloth jacket intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thick nylon with padded foam inserts, this armor is designed to protect you during HEMA competitions.",
     "weight": "1587 g",
     "volume": "7250 ml",
@@ -2087,13 +2087,13 @@
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 12
+        "encumbrance": 14
       },
       {
         "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 1.75 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": 14,
+        "encumbrance": 12,
         "//warmth": 35,
         "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_lower_l", "arm_lower_r" ]
       },
