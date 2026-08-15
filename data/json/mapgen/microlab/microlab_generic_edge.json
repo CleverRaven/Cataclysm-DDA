@@ -42,8 +42,22 @@
     "object": {
       "fill_ter": "t_strconc_floor",
       "place_nested": [
-        { "chunks": [ "microlab_generic_edge_tile" ], "x": 0, "y": 0 },
         {
+          "chunks": [
+            [ "microlab_generic_edge_tile", 75 ],
+            [
+              {
+                "switch": { "param": "labtype", "fallback": "microlab_generic" },
+                "cases": { "microlab_meat": "microlab_generic_edge_tile", "microlab_generic": "microlab_generic_edge_tile" }
+              },
+              25
+            ]
+          ],
+          "x": 0,
+          "y": 0
+        },
+        {
+          "//": "These chunks are analoguos to mapgen_extras",
           "chunks": [
             {
               "switch": { "param": "labtype", "fallback": "microlab_generic" },
@@ -53,7 +67,17 @@
           "x": 0,
           "y": 0
         },
-        { "chunks": [ { "param": "unique_foe", "fallback": "mnm_more_density" } ], "x": 0, "y": 0 },
+        {
+          "chunks": [
+            {
+              "switch": { "param": "labtype", "fallback": "microlab_generic" },
+              "cases": { "microlab_meat": "microlab_meat_unique_foe", "microlab_generic": "microlab_unique_foe" }
+            },
+            25
+          ],
+          "x": 0,
+          "y": 0
+        },
         { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab" } },
         { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
         { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab" } },
@@ -76,7 +100,7 @@
           "chance": 80,
           "x": [ 0, 23 ],
           "y": [ 0, 23 ],
-          "repeat": [ 1, 5 ]
+          "repeat": [ 2, 7 ]
         }
       ]
     }
