@@ -40,6 +40,12 @@
         "text": { "str": "Extreme", "ctxt": "activity description" },
         "color": "red",
         "condition": { "math": [ "u_val('activity_level') == 5" ] }
+      },
+      {
+        "id": "combat",
+        "text": { "str": "Combat", "ctxt": "activity description" },
+        "color": "red",
+        "condition": { "math": [ "u_val('activity_level') == 500" ] }
       }
     ]
   },
