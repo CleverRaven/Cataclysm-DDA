@@ -493,7 +493,7 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
         time_to_cut *= 1 + prof_skin_penalty;
     }
 
-if( action == butcher_type::TAXIDERMY ) {
+    if( action == butcher_type::TAXIDERMY ) {
         double taxidermy_prof = you.get_proficiency_practice( proficiency_prof_taxidermy );
         double prof_taxidermy_penalty = 2.5 * ( 1.0 - taxidermy_prof );
         time_to_cut *= ( 1.0 + prof_taxidermy_penalty + prof_skin_penalty );
