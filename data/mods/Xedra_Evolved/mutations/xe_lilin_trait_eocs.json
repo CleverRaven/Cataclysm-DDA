@@ -542,7 +542,8 @@
           "bleed",
           "blind",
           "deaf",
-          "grabbed"
+          "grabbed",
+          "tpollen"
         ]
       },
       { "u_add_effect": "lilit_prevent_death_escape", "duration": 15 },
