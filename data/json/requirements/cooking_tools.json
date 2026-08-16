@@ -33,11 +33,11 @@
     ]
   },
   {
-    "id": "surface_heat_inbuilt_timer",
+    "id": "surface_heat_and_timer",
     "type": "requirement",
     "name": "Heat source with inbuilt timer",
     "//": "Same as surface heat, but only ones that come with timers and can evenly heat food.",
-    "tools": [ [ [ "hotplate_induction", 25 ], [ "hotplate", 35 ], [ "microwave", 25 ], [ "oven", 125 ] ] ]
+    "tools": [ [ [ "hotplate_induction", 25 ], [ "microwave", 25 ], [ "oven", 125 ] ] ]
   },
   {
     "id": "smoking_heat",
@@ -112,11 +112,11 @@
     ]
   },
   {
-    "id": "water_boiling_heat_inbuilt_timer",
+    "id": "water_boiling_heat_and_timer",
     "type": "requirement",
     "name": "Boiling heat with inbuilt timer",
     "//": "Same as water boiling heat, but only ones that come with timers and won't make all the liquid over boil out.",
-    "tools": [ [ [ "hotplate_induction", 125 ], [ "hotplate", 200 ], [ "microwave", 250 ], [ "coffeemaker", 125 ] ] ]
+    "tools": [ [ [ "hotplate_induction", 125 ], [ "microwave", 250 ], [ "coffeemaker", 125 ] ] ]
   },
   {
     "id": "canning_acid_large",
