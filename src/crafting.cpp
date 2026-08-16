@@ -107,9 +107,7 @@ static const furn_str_id furn_f_fake_bench_hands( "f_fake_bench_hands" );
 static const furn_str_id furn_f_ground_crafting_spot( "f_ground_crafting_spot" );
 
 static const itype_id itype_disassembly( "disassembly" );
-static const itype_id itype_pickaxe( "pickaxe" );
 static const itype_id itype_plut_cell( "plut_cell" );
-static const itype_id itype_shovel( "shovel" );
 
 static const json_character_flag json_flag_CRAFT_IN_DARKNESS( "CRAFT_IN_DARKNESS" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
@@ -123,8 +121,7 @@ static const quality_id qual_BOIL( "BOIL" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
 
-static const trait_id trait_BURROW( "BURROW" );
-static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
+
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
@@ -639,7 +636,7 @@ bool Character::can_make( const recipe *r, int batch_size ) const
     }
 
     return r->deduped_requirements().can_make_with_inventory(
-               crafting_inv, r->get_component_filter(), batch_size );
+               this, crafting_inv, r->get_component_filter(), batch_size );
 }
 
 bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags,
@@ -656,7 +653,7 @@ bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags,
 
     const inventory &inv = crafting_inventory();
     return rec->deduped_requirements().can_make_with_inventory(
-               inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only );
+               this, inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only );
 }
 
 const inventory &Character::crafting_inventory( bool clear_path ) const
@@ -712,13 +709,8 @@ const inventory &Character::crafting_inventory( map *here, const tripoint_bub_ms
     }
     crafting_cache.crafting_inventory->replace_liq_container_count( tmp_liq_list, true );
 
-    for( const item *i : get_pseudo_items() ) {
-        *crafting_cache.crafting_inventory += *i;
-    }
-
-    if( has_trait( trait_BURROW ) || has_trait( trait_BURROWLARGE ) ) {
-        *crafting_cache.crafting_inventory += item( itype_pickaxe, calendar::turn );
-        *crafting_cache.crafting_inventory += item( itype_shovel, calendar::turn );
+    for( const item &i : crafting_pseudo_items() ) {
+        *crafting_cache.crafting_inventory += i;
     }
 
     crafting_cache.valid = true;
@@ -1284,7 +1276,7 @@ static bool env_qualities_satisfied_for_step( const recipe_step &step, const ite
     for( const std::vector<quality_requirement> &group : quals ) {
         bool group_ok = false;
         for( const quality_requirement &q : group ) {
-            if( q.has( inv, return_true<item> ) ) {
+            if( q.has( src.present_char, inv, return_true<item> ) ) {
                 group_ok = true;
                 break;
             }
@@ -2699,7 +2691,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
         // continue_reqs are for all batches at once
         const int batch_size = 1;
 
-        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), std_filter, batch_size ) ) {
+        if( !continue_reqs.can_make_with_inventory( this, crafting_inventory(), std_filter, batch_size ) ) {
             if( is_avatar() ) {
                 std::string buffer = _( "You don't have the required components to continue crafting!" );
                 buffer += "\n";
@@ -2718,7 +2710,8 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
             return false;
         }
 
-        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), no_rotten_filter, batch_size ) ) {
+        if( !continue_reqs.can_make_with_inventory( this, crafting_inventory(), no_rotten_filter,
+                batch_size ) ) {
             if( !query_yn( _( "Some components required to continue are rotten.\n"
                               "Continue crafting anyway?" ) ) ) {
                 return false;
@@ -2726,7 +2719,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
             use_rotten_filter = false;
         }
 
-        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), no_favorite_filter,
+        if( !continue_reqs.can_make_with_inventory( this, crafting_inventory(), no_favorite_filter,
                 batch_size ) ) {
             if( !query_yn( _( "Some components required to continue are favorite.\n"
                               "Continue crafting anyway?" ) ) ) {
@@ -2803,7 +2796,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
                 std::vector<std::vector<quality_requirement>>(),
                 std::vector<std::vector<item_comp>>() );
 
-        if( !tool_continue_reqs.can_make_with_inventory( crafting_inventory(), return_true<item> ) ) {
+        if( !tool_continue_reqs.can_make_with_inventory( this, crafting_inventory(), return_true<item> ) ) {
             if( is_avatar() ) {
                 std::string buffer = _( "You don't have the necessary tools to continue crafting!" );
                 buffer += "\n";
@@ -2922,7 +2915,7 @@ const requirement_data *Character::select_requirements(
         // Write with a large width and then just re-join the lines, because
         // uilist does its own wrapping and we want to rely on that.
         std::vector<std::string> component_lines =
-            req->get_folded_components_list( TERMX - 4, c_light_gray, inv, filter, batch, "",
+            req->get_folded_components_list( this, TERMX - 4, c_light_gray, inv, filter, batch, "",
                                              requirement_display_flags::no_unavailable );
         menu.addentry_desc( "", string_join( component_lines, "\n" ) );
     }
@@ -4125,7 +4118,7 @@ ret_val<void> Character::can_disassemble( const item &obj, const read_only_visit
 
     for( const auto &opts : dis.get_qualities() ) {
         for( const quality_requirement &qual : opts ) {
-            if( !qual.has( inv, return_true<item> ) ) {
+            if( !qual.has( this, inv, return_true<item> ) ) {
                 // Here should be no dot at the end of the string as 'to_string()' provides it.
                 return ret_val<void>::make_failure( _( "You need %s" ), qual.to_string() );
             }

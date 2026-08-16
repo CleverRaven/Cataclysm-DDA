@@ -359,7 +359,8 @@
           "HOLLOW_BONES",
           "LIGHTEATER",
           "SCREECH",
-          "WINGS_STRIX"
+          "WINGS_STRIX",
+          "STRIX_SKIN"
         ]
       }
     ],
@@ -377,6 +378,17 @@
     "purifiable": false,
     "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "wing_strix_l" }, { "gain": "wing_strix_r" } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "STRIX_SKIN",
+    "name": { "str": "Strix's Skin", "//~": "NO_I18N" },
+    "points": 98,
+    "description": { "str": "This exists only to carry a sprite ID", "//~": "NO_I18N" },
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false
   },
   {
     "type": "mutation",
