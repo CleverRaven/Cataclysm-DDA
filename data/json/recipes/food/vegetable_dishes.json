@@ -518,6 +518,7 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "autolearn": true,
+    "//": "potatoes microwave in about 3-7 minutes, faster if diced.  even just cutting it in half makes a big difference",
     "steps": [
       {
         "name": "Preparing",
@@ -529,7 +530,6 @@
       {
         "name": "Baking",
         "time": "14 m",
-        "//": "potatoes microwave in about 3-7 minutes, faster if diced.  even just cutting it in half makes a big difference",
         "activity_level": "NO_EXERCISE",
         "qualities": [ { "id": "OVEN", "level": 1 } ],
         "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ]
@@ -540,17 +540,18 @@
   {
     "type": "recipe",
     "result": "potato_baked",
-    "name": "%s using timer-controlled appliances",
-    "id_suffix": "timer_controlled_baking",
+    "name": "%s using timer appliances",
+    "id_suffix": "timer_appliance",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 1,
     "autolearn": true,
+    "//": "baked potatoes made with appliances that can switch themselves off when the timer runs out",
     "steps": [
       {
         "name": "Preparing",
-        "//": "slicing/dicing potatoes",
+        "//": "crudely slicing/dicing potatoes",
         "time": "1 m",
         "activity_level": "LIGHT_EXERCISE",
         "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -559,10 +560,9 @@
       {
         "name": "Baking",
         "time": "14 m",
-        "//": "potatoes microwave in about 3-7 minutes, faster if diced.  even just cutting it in half makes a big difference",
         "activity_level": "NO_EXERCISE",
         "qualities": [ { "id": "OVEN", "level": 1 } ],
-        "tools": [ [ [ "surface_heat_inbuilt_timer", 10, "LIST" ] ] ],
+        "tools": [ [ [ "surface_heat_and_timer", 10, "LIST" ] ] ],
         "attention": "unattended"
       }
     ],
@@ -600,19 +600,61 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "carrot_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": "10 m",
     "autolearn": true,
     "//": "Carrot crudely chopped (so it cooks faster) and roasted on a skewer, the carrot needs some time to cook and soften up so batch-making these, aka having multiple batches of carrots roast simultaneously, is way more efficient",
-    "qualities": [ { "id": "COOK", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "batch_time_factors": [ 90, 1 ],
-    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+    "steps": [
+      {
+        "name": "Preparing",
+        "time": "1 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "CUT", "level": 1 } ],
+        "proficiencies": [ { "proficiency": "prof_food_prep" } ]
+      },
+      {
+        "name": "Roasting",
+        "time": "9 m",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ { "id": "COOK", "level": 1 } ],
+        "batch_time_factors": [ 90, 1 ],
+        "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ]
+      }
+    ],
+    "components": [ [ [ "carrot", 1 ], [ "carrot_wild", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "carrot_roasted",
+    "name": "%s using timer appliances",
+    "id_suffix": "timer_appliance",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "autolearn": true,
+    "//": "Crudely chopped, oven-baked carrots. It uses appliances that can switch themselves off when the timer runs out",
+    "steps": [
+      {
+        "name": "Preparing",
+        "time": "1 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "CUT", "level": 1 } ],
+        "proficiencies": [ { "proficiency": "prof_food_prep" } ]
+      },
+      {
+        "name": "Baking",
+        "time": "9 m",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ { "id": "OVEN", "level": 1 } ],
+        "batch_time_factors": [ 90, 1 ],
+        "tools": [ [ [ "surface_heat_and_timer", 2, "LIST" ] ] ],
+        "attention": "unattended"
+      }
+    ],
     "components": [ [ [ "carrot", 1 ], [ "carrot_wild", 1 ] ] ]
   },
   {
