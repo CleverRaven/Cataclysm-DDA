@@ -5503,7 +5503,7 @@
     "type": "ITEM",
     "category": "container",
     "name": { "str": "six-bottle box", "str_pl": "six-bottle boxes" },
-    "description": "An open-top cardboard box with a handle, usually used to carry six beverage bottles.",
+    "description": "An open-top cardboard box, featuring a handle and six partitioned slots meant for small beverage bottles.",
     "looks_like": "box_small",
     "weight": "50 g",
     "volume": "3500 ml",
