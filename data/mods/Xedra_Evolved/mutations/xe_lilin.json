@@ -648,10 +648,11 @@
     "type": "mutation",
     "id": "LILIN_REDUCED_NEEDS_WITH_RUACH",
     "name": { "//~": "This is a reference to Proverbs 25:16", "str": "Eating Drops of Honey" },
-    "description": "When filled with ruach, no other food or drink compares.  The more ruach you have, the less mundane hunger or thirst troubles you.",
+    "description": "When filled with ruach, no other food or drink compares.  The more ruach you have, the less mundane hunger or thirst troubles you.  However, mortal foods are no longer as satisfying, and you do not gain as many calories from them.",
     "points": 6,
     "starting_trait": false,
     "purifiable": false,
+    "mixed_effect": true,
     "changes_to": [ "LILIN_REDUCED_NEEDS_WITH_RUACH_AND_KCAL_DRAIN" ],
     "prereqs": [ "LILIN_ATTRIBUTE_BONUSES" ],
     "prereqs2": [ "LILIN_DRAIN_RUACH_DISTANCE", "LILIN_DRAIN_RUACH_LONG_DISTANCE" ],
@@ -662,7 +663,8 @@
         "values": [
           { "value": "HUNGER", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } },
           { "value": "THIRST", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } },
-          { "value": "METABOLISM", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } }
+          { "value": "METABOLISM", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } },
+          { "value": "KCAL", "multiply": -0.333 }
         ]
       }
     ]
@@ -874,10 +876,11 @@
     "type": "mutation",
     "id": "LILIN_REDUCED_NEEDS_WITH_RUACH_AND_KCAL_DRAIN",
     "name": { "//~": "This is a reference to Exodus 16:12", "str": "Eating Meat at Twilight" },
-    "description": "When filled with ruach, no other food or drink compares.  The more ruach you have, the less mundane hunger or thirst troubles you.  In addition, drinking ruach from your victims assuages your hunger and thirst.",
+    "description": "When filled with ruach, no other food or drink compares.  The more ruach you have, the less mundane hunger or thirst troubles you.  In addition, drinking ruach from your victims assuages your hunger and thirst.  However, mortal foods are no longer as satisfying, and you do not gain as many calories from them.",
     "points": 6,
     "starting_trait": false,
     "purifiable": false,
+    "mixed_effect": true,
     "prereqs": [ "LILIN_REDUCED_NEEDS_WITH_RUACH" ],
     "prereqs2": [ "LILIN_BONUS_HEALING_ACTIVE" ],
     "category": [ "LILIN" ],
@@ -888,7 +891,8 @@
         "values": [
           { "value": "HUNGER", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } },
           { "value": "THIRST", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } },
-          { "value": "METABOLISM", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } }
+          { "value": "METABOLISM", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } },
+          { "value": "KCAL", "multiply": -0.333 }
         ]
       }
     ]
