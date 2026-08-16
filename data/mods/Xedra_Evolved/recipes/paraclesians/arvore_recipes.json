@@ -538,7 +538,7 @@
     "type": "recipe",
     "name": "treesung shortbow",
     "id": "create_shortbow_treesung",
-    "description": "Use your magick to turn treesung wood into a short bow made of living wood and a thin vine.\n\nYou must know <color_yellow>4 Arvore spells</color> and have at least <color_yellow>350 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a self bow made of living wood and a thin vine.\n\nYou must know <color_yellow>4 Arvore spells</color> and have at least <color_yellow>350 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
