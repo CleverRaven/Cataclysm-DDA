@@ -4119,7 +4119,9 @@ void options_manager::update_options_cache()
     if( ::has_option( "PLAYER_MAX_INT_VALUE" ) ) {
         character_max_int = ::get_option<int>( "PLAYER_MAX_INT_VALUE" );
     }
-
+    if( ::has_option( "COMBAT_SPEED_MODIFIER" ) ) {
+        combat_speed_modifier = ::get_option<float>( "COMBAT_SPEED_MODIFIER" );
+    }
     prevent_occlusion = ::get_option<int>( "PREVENT_OCCLUSION" );
     prevent_occlusion_retract = ::get_option<bool>( "PREVENT_OCCLUSION_RETRACT" );
     prevent_occlusion_transp = ::get_option<bool>( "PREVENT_OCCLUSION_TRANSP" );
