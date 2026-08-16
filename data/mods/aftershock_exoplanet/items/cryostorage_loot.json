@@ -52,7 +52,7 @@
     "copy-from": "cryo_storage_loot",
     "color": "red",
     "name": { "str_sp": "experimental seedlings" },
-    "description": "Violet seedlings frozen mid germination.  Serial numbers have been engraved on their small leaves, but they don't look like any agricultural product you can recognize",
+    "description": "Violet seedlings frozen mid germination.  Serial numbers have been engraved on their small leaves, but they don't look like any agricultural product you can recognize.",
     "price": "1500 USD"
   },
   {

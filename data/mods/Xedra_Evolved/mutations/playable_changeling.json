@@ -67,7 +67,7 @@
     "id": "CHANGELING_COURT_SUMMER",
     "name": { "str": "Summer Court" },
     "points": 1,
-    "description": "You are a member of the Summer Court, sometimes called the Seelie Court, the faeries recognized as benevolent by mortals.  Or, at least, the faeries who are slightly less likely to levy a generational curses on those who wrong them.",
+    "description": "You are a member of the Summer Court, sometimes called the Seelie Court, the faeries recognized as benevolent by mortals.  Or, at least, the faeries who are slightly less likely to levy generational curses on those who wrong them.",
     "valid": false,
     "purifiable": false,
     "profession": true,
