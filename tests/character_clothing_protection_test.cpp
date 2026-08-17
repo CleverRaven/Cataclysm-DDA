@@ -1,11 +1,15 @@
+#include <functional>
 #include <map>
 #include <optional>
+#include <string>
 
 #include "avatar.h"
 #include "bodypart.h"
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
+#include "character_attire.h"
 #include "coordinates.h"
+#include "debug.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -19,7 +23,27 @@
 #include "weather_type.h"
 
 static const damage_type_id damage_heat( "heat" );
+static const itype_id itype_test_extra_bodypart_clothing( "test_extra_bodypart_clothing" );
 static const itype_id itype_test_protective_clothing( "test_protective_clothing" );
+
+TEST_CASE( "clothing_warmth_ignores_absent_body_parts", "[character][clothing][warmth]" )
+{
+    avatar &dummy = get_avatar();
+    clear_character( dummy );
+
+    const bodypart_id tail_long( "tail_long" );
+    REQUIRE_FALSE( dummy.has_part( tail_long ) );
+    dummy.wear_item( item( itype_test_extra_bodypart_clothing ), false );
+
+    std::map<bodypart_id, int> warmth;
+    const std::string debug_message = capture_debugmsg_during( [&] {
+        warmth = dummy.worn.warmth( dummy );
+    } );
+
+    CHECK( debug_message.empty() );
+    CHECK( warmth.at( body_part_torso ) == 20 );
+    CHECK( warmth.count( tail_long ) == 0 );
+}
 
 TEST_CASE( "worn_clothing_provides_wind_resistance", "[character][clothing][wind]" )
 {

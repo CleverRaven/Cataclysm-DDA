@@ -794,6 +794,14 @@ class map
                                       const std::function<void( const item & )> &fn );
 
         /**
+         * Visit items on visible, accessible tiles and in vehicle cargo within @p radius.
+         * If @p ch is set, only items owned by that character are visited.
+         */
+        void for_each_visible_item( const tripoint_bub_ms &center, int radius,
+                                    const Character *ch,
+                                    const std::function<void( const item & )> &fn );
+
+        /**
          * Calculate next search points surrounding the current position.
          * Points closer to the target come first.
          * This method leads to straighter lines and prevents weird looking movements away from the target.

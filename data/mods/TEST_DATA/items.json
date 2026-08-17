@@ -6404,6 +6404,20 @@
     "consumption_per_use": [ { "pocket": "well", "qty": 5 }, { "pocket": "direct", "qty": 3 } ]
   },
   {
+    "id": "test_extra_bodypart_clothing",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": "TEST extra bodypart clothing",
+    "description": "Clothing for testing coverage of body parts the wearer may not have.",
+    "weight": "100 g",
+    "volume": "500 ml",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "white",
+    "warmth": 20,
+    "armor": [ { "coverage": 100, "covers": [ "torso", "tail_long" ] } ]
+  },
+  {
     "id": "test_protective_clothing",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
