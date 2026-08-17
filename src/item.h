@@ -2354,6 +2354,8 @@ class item : public visitable
         int get_warmth() const;
         /** Returns the warmth on the body part of the item on a specific bp. */
         int get_warmth( const bodypart_id &bp ) const;
+        /** Clears and fills @p result with the warmth provided by this item for each covered body part. */
+        void get_warmth_by_bodypart( std::vector<std::pair<bodypart_id, int>> &result ) const;
         /**
          * Returns the @ref islot_armor::thickness value, or 0 for non-armor. Thickness is are
          * relative value that affects the items resistance against bash / cutting / bullet damage.
