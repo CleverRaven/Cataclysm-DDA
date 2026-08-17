@@ -58,6 +58,17 @@
     "show_intensity": false,
     "dur_add_perc": 10,
     "removes_effects": [ "learning_serum_crash" ],
+    "base_mods": {
+      "blood_pressure_tick": [ 100 ],
+      "blood_pressure_chance": [ 5 ],
+      "blood_pressure_min": [ 5 ],
+      "blood_pressure_max_val": [ 1000 ],
+      "heart_rate_tick": [ 200 ],
+      "heart_rate_min": [ 2 ],
+      "heart_rate_chance": [ 5 ],
+      "heart_rate_max_val": [ 150 ]
+    },
+    "scaling_mods": { "heart_rate_min": [ 1 ] },
     "enchantments": [
       {
         "values": [

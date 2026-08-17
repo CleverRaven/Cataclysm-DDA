@@ -16,7 +16,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_APPLY_SPEED_SERUM_CRASH",
-    "condition": { "not": { "u_has_effect": "speed_serum_crash" } },
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "and": [ { "compare_string": [ "speed_serum_main", { "context_val": "effect" } ] } ] },
     "effect": [ { "run_eocs": "EOC_APPLY_SPEED_SERUM_CRASH_2", "time_in_future": 1 } ]
   },
   {
@@ -92,8 +94,21 @@
     "int_add_val": 1,
     "show_intensity": false,
     "dur_add_perc": 10,
-    "removes_effects": [ "speed_serum_crash" ],
-    "//": "Once accelerated heart rate is actually tracked, this should cause it",
+    "removes_effects": [ "speed_serum_crash", "stim_overdose" ],
+    "base_mods": {
+      "stim_tick": [ 60 ],
+      "stim_chance": [ 5 ],
+      "stim_min": [ 2 ],
+      "stim_max_val": [ 45 ],
+      "heart_rate_tick": [ 200 ],
+      "heart_rate_min": [ 2 ],
+      "heart_rate_chance": [ 5 ],
+      "heart_rate_max_val": [ 150 ],
+      "respiratory_rate_tick": [ 180 ],
+      "respiratory_rate_min": [ 1 ],
+      "respiratory_rate_chance": [ 7 ],
+      "respiratory_rate_max_val": [ 45 ]
+    },
     "enchantments": [
       {
         "special_vision": [
@@ -140,6 +155,16 @@
     "desc": [ "The world seems jittery and moving too quickly, your stomach hurts, and you're very tired." ],
     "apply_message": "",
     "remove_message": "",
+    "base_mods": {
+      "heart_rate_tick": [ 200 ],
+      "heart_rate_min": [ -1 ],
+      "heart_rate_chance": [ 10 ],
+      "heart_rate_min_val": [ 50 ],
+      "respiratory_rate_tick": [ 180 ],
+      "respiratory_rate_min": [ -1 ],
+      "respiratory_rate_chance": [ 13 ],
+      "respiratory_rate_min_val": [ 15 ]
+    },
     "enchantments": [
       {
         "values": [
