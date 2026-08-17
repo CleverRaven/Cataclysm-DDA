@@ -58,11 +58,13 @@
 #include "monster.h"
 #include "morale.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "overmapbuffer.h"
 #include "pickup.h"
 #include "pimpl.h"
 #include "pocket_type.h"
 #include "profession.h"
+#include "requirements.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "subbodypart.h"
@@ -91,6 +93,8 @@ static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_fire( "fire" );
+static const itype_id itype_pickaxe( "pickaxe" );
+static const itype_id itype_shovel( "shovel" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
@@ -100,6 +104,8 @@ static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 
+static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 void Character::handle_contents_changed( const std::vector<item_location> &containers )
@@ -1074,6 +1080,114 @@ std::vector<const item *> Character::get_pseudo_items() const
         pseudo_items_valid = true;
     }
     return pseudo_items;
+}
+
+std::vector<item> Character::crafting_pseudo_items() const
+{
+    const std::vector<const item *> pseudo_items = get_pseudo_items();
+    std::vector<item> ret;
+    ret.reserve( pseudo_items.size() + 2 );
+    for( const item *pseudo : pseudo_items ) {
+        ret.push_back( *pseudo );
+    }
+    if( has_trait( trait_BURROW ) || has_trait( trait_BURROWLARGE ) ) {
+        ret.emplace_back( itype_pickaxe, calendar::turn );
+        ret.emplace_back( itype_shovel, calendar::turn );
+    }
+    return ret;
+}
+
+std::vector<intrinsic_quality_source> Character::intrinsic_quality_sources(
+    const quality_id &qual, int level ) const
+{
+    std::vector<intrinsic_quality_source> ret;
+
+    for( const bionic &bio : *my_bionics ) {
+        int index = 0;
+        // What the bionic actually exposes, which is what a crafting inventory would hold.
+        // The weapon has its own arm below, where the direct route reaches it whether or
+        // not the bionic is on.
+        for( const item *pseudo : bio.get_available_pseudo_items( false ) ) {
+            // Crafter-aware, or a charged quality resolves through the avatar.
+            const int supplied = provider_quality_level( *pseudo, qual, this,
+                                 false );
+            if( supplied >= level ) {
+                intrinsic_quality_source src;
+                src.owner = intrinsic_quality_source::owner_kind::bionic;
+                src.bio_uid = bio.get_uid();
+                src.slot = intrinsic_quality_source::slot_kind::pseudo;
+                src.slot_index = index;
+                src.level = supplied;
+                ret.push_back( src );
+            }
+            ++index;
+        }
+        const item weapon = bio.get_weapon();
+        if( !weapon.is_null() ) {
+            const int supplied = provider_quality_level( weapon, qual, this,
+                                 false );
+            if( supplied >= level ) {
+                intrinsic_quality_source src;
+                src.owner = intrinsic_quality_source::owner_kind::bionic;
+                src.bio_uid = bio.get_uid();
+                src.slot = intrinsic_quality_source::slot_kind::bionic_weapon;
+                src.level = supplied;
+                ret.push_back( src );
+            }
+        }
+    }
+
+    if( has_trait( trait_BURROW ) || has_trait( trait_BURROWLARGE ) ) {
+        int index = 0;
+        for( const itype_id &dig : {
+                 itype_pickaxe, itype_shovel
+             } ) {
+            const int supplied = provider_quality_level(
+                                     item( dig, calendar::turn ), qual, this, false );
+            if( supplied >= level ) {
+                intrinsic_quality_source src;
+                src.owner = intrinsic_quality_source::owner_kind::mutation;
+                // One logical pair however many digging traits are present, matching the
+                // single pair crafting_pseudo_items exposes; with both traits the
+                // attribution is deliberately the first one.
+                src.mut = has_trait( trait_BURROW ) ? trait_BURROW : trait_BURROWLARGE;
+                src.slot = intrinsic_quality_source::slot_kind::trait_item;
+                src.slot_index = index;
+                src.level = supplied;
+                ret.push_back( src );
+            }
+            ++index;
+        }
+    }
+
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        const auto &q = mut->provided_qualities.find( qual );
+        if( q != mut->provided_qualities.end() && q->second >= level ) {
+            intrinsic_quality_source src;
+            src.owner = intrinsic_quality_source::owner_kind::mutation;
+            src.mut = mut;
+            src.slot = intrinsic_quality_source::slot_kind::itemless;
+            src.level = q->second;
+            ret.push_back( src );
+        }
+    }
+
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        for( const bp_qualities_provided &bp_q : bp->qualities ) {
+            if( bp_q.quality == qual && bp_q.level >= level &&
+                float( get_part_hp_cur( bp ) ) / float( get_part_hp_max( bp ) ) >=
+                bp_q.disable_percent ) {
+                intrinsic_quality_source src;
+                src.owner = intrinsic_quality_source::owner_kind::body_part;
+                src.bp = bp.id();
+                src.slot = intrinsic_quality_source::slot_kind::itemless;
+                src.level = bp_q.level;
+                ret.push_back( src );
+            }
+        }
+    }
+
+    return ret;
 }
 
 std::list<item> Character::remove_worn_items_with( const std::function<bool( item & )> &filter )
