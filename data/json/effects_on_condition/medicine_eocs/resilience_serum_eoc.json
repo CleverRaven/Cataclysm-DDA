@@ -140,7 +140,20 @@
     "desc": [ "Your enhanced resilience has faded away, your skin is flushed, and everything hurts." ],
     "apply_message": "",
     "remove_message": "",
-    "base_mods": { "pain_min": [ 5 ], "pain_max": [ 15 ], "pain_chance": [ 8 ], "pain_tick": [ 1800 ] },
+    "base_mods": {
+      "pain_min": [ 5 ],
+      "pain_max": [ 15 ],
+      "pain_chance": [ 8 ],
+      "pain_tick": [ 1800 ],
+      "blood_pressure_tick": [ 100 ],
+      "blood_pressure_chance": [ 5 ],
+      "blood_pressure_min": [ 5 ],
+      "blood_pressure_max_val": [ 1500 ],
+      "heart_rate_tick": [ 200 ],
+      "heart_rate_min": [ 2 ],
+      "heart_rate_chance": [ 5 ],
+      "heart_rate_max_val": [ 125 ]
+    },
     "enchantments": [ { "values": [ { "value": "BLEEDING_RATE", "multiply": 0.75 } ] } ]
   }
 ]

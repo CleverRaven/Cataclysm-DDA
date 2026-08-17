@@ -47,6 +47,12 @@
       "super_soldier_serum_crash"
     ],
     "dur_add_perc": 5,
+    "base_mods": {
+      "blood_pressure_tick": [ 100 ],
+      "blood_pressure_chance": [ 5 ],
+      "blood_pressure_min": [ 5 ],
+      "blood_pressure_max_val": [ 2500 ]
+    },
     "enchantments": [
       {
         "values": [
@@ -81,6 +87,12 @@
     "desc": [ "Your enhanced strength has faded away, your body aches, and you're having a hard time concentrating." ],
     "apply_message": "",
     "remove_message": "",
+    "base_mods": {
+      "blood_pressure_tick": [ 100 ],
+      "blood_pressure_chance": [ 5 ],
+      "blood_pressure_min": [ -5 ],
+      "blood_pressure_max_val": [ -2500 ]
+    },
     "enchantments": [
       {
         "values": [
