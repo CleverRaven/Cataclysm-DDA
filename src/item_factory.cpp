@@ -161,6 +161,7 @@ static const item_category_id item_category_veh_parts( "veh_parts" );
 static const item_category_id item_category_weapons( "weapons" );
 
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
+static const item_group_id Item_spawn_data_seasonings_universal( "seasonings_universal" );
 
 static const itype_id itype_debug_backpack( "debug_backpack" );
 
@@ -3766,6 +3767,7 @@ void islot_comestible::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "petfood", petfood, string_reader{} );
     optional( jo, was_loaded, "monotony_penalty", monotony_penalty, -1 );
     optional( jo, was_loaded, "calories", default_nutrition.calories );
+    optional( jo, was_loaded, "seasonings", seasonings, {Item_spawn_data_seasonings_universal} );
 
     optional( jo, was_loaded, "contamination", contamination,
               weighted_string_id_reader<diseasetype_id, float> { 1.0f } );

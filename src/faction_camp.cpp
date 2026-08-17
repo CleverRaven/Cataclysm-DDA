@@ -1924,8 +1924,8 @@ void basecamp::start_upgrade( const mission_id &miss_id )
     const requirement_data &reqs = bld_reqs.consolidated_reqs;
 
     //Stop upgrade if you don't have materials
-    if( reqs.can_make_with_inventory( _inv, making.get_component_filter(), 1, craft_flags::none,
-                                      false ) ) {
+    if( reqs.can_make_with_inventory( nullptr, _inv, making.get_component_filter(), 1,
+                                      craft_flags::none, false ) ) {
         bool must_feed = !making.has_flag( "NO_FOOD_REQ" );
 
         basecamp_action_components components( making, miss_id.mapgen_args, 1, *this );
@@ -2697,7 +2697,7 @@ void basecamp::start_fortifications( const mission_id &miss_id, float exertion_l
     if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( total_time, build_time,
                    travel_time, dist, trips, need_food ) ) ) {
         return;
-    } else if( !making.deduped_requirements().can_make_with_inventory( _inv,
+    } else if( !making.deduped_requirements().can_make_with_inventory( nullptr, _inv,
                making.get_component_filter(), ( fortify_om.size() * 2 ) - 2 ) ) {
         popup( _( "You don't have the material to build the fortification." ) );
         return;
@@ -4639,7 +4639,7 @@ int basecamp::recipe_batch_max( const recipe &making ) const
                                                  max_batch + batch_size ) );
             int food_req = time_to_food( work_days );
             bool can_make = making.deduped_requirements().can_make_with_inventory(
-                                _inv, making.get_component_filter(), max_batch + batch_size );
+                                nullptr, _inv, making.get_component_filter(), max_batch + batch_size );
             if( can_make && fac()->food_supply().kcal() > food_req ) {
                 max_batch += batch_size;
             } else {
@@ -5279,8 +5279,8 @@ std::string basecamp::craft_description( const recipe_id &itm )
     std::vector<std::string> component_print_buffer;
     int pane = FULL_SCREEN_WIDTH;
     const requirement_data &req = making.simple_requirements();
-    auto tools = req.get_folded_tools_list( pane, c_white, _inv, 1 );
-    auto comps = req.get_folded_components_list( pane, c_white, _inv,
+    auto tools = req.get_folded_tools_list( nullptr, pane, c_white, _inv, 1 );
+    auto comps = req.get_folded_components_list( nullptr, pane, c_white, _inv,
                  making.get_component_filter(), 1 );
 
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );

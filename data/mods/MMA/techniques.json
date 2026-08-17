@@ -309,7 +309,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.5 },
       { "stat": "damage", "type": "stab", "scale": 1.5 }
     ],
-    "attack_vectors": [ "vector_null", "vector_punch" ]
+    "attack_vectors": [ "vector_null", "vector_punch", "vector_slime_punch", "vector_paw_rat_punch", "vector_little_paw_punch" ]
   },
   {
     "type": "technique",
@@ -326,7 +326,7 @@
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
     ],
-    "attack_vectors": [ "vector_null", "vector_punch" ]
+    "attack_vectors": [ "vector_null", "vector_punch", "vector_slime_punch", "vector_paw_rat_punch", "vector_little_paw_punch" ]
   },
   {
     "type": "technique",
@@ -367,7 +367,17 @@
     "unarmed_allowed": true,
     "crit_ok": true,
     "flat_bonuses": [ { "stat": "hit", "scale": 5.0 } ],
-    "attack_vectors": [ "vector_punch", "vector_foot_toes", "vector_avian_talons", "vector_hoof_kick", "vector_headbutt", "vector_shoulder" ]
+    "attack_vectors": [
+      "vector_punch",
+      "vector_slime_punch",
+      "vector_paw_rat_punch",
+      "vector_little_paw_punch",
+      "vector_foot_toes",
+      "vector_avian_talons",
+      "vector_hoof_kick",
+      "vector_headbutt",
+      "vector_shoulder"
+    ]
   },
   {
     "type": "technique",
@@ -424,7 +434,7 @@
     },
     "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
     "stun_dur": 1,
-    "attack_vectors": [ "vector_null", "vector_punch" ]
+    "attack_vectors": [ "vector_null", "vector_punch", "vector_slime_punch", "vector_paw_rat_punch", "vector_little_paw_punch" ]
   },
   {
     "type": "technique",
@@ -614,7 +624,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.3 },
       { "stat": "damage", "type": "stab", "scale": 1.3 }
     ],
-    "attack_vectors": [ "vector_null", "vector_punch" ]
+    "attack_vectors": [ "vector_null", "vector_punch", "vector_slime_punch", "vector_paw_rat_punch", "vector_little_paw_punch" ]
   },
   {
     "type": "technique",

@@ -37,6 +37,7 @@
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_components.h"
@@ -1225,6 +1226,21 @@ static bool eat( item &food, Character &you, bool force )
         }
     }
 
+    item *seasoning = nullptr;
+    inventory inv;
+    inv.form_from_map( you.pos_bub(), PICKUP_RANGE, &you, true, true );
+    for( itype_id seasoning_type : food.get_comestible()->get_seasonings() ) {
+        inv.visit_items( [&]( item * e, const item * ) {
+            if( e->typeId() == seasoning_type ) {
+                // Always pick the last valid seasoning we find.
+                // TODO: More than one seasoning? Picking the 'best' seasoning instead of the first?
+                seasoning = e;
+                return VisitResponse::ABORT;
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+
     if( amorphous ) {
         you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
                                    food.tname() );
@@ -1238,8 +1254,15 @@ static bool eat( item &food, Character &you, bool force )
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), tname );
             add_msg( _( "You drink your %s (rotten)." ), tname );
         } else {
-            you.add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ),
-                                       food.tname() );
+            if( seasoning ) {
+                //~Position 1: A food item (e.g. coffee). Position 2: A seasoning or additive(e.g. milk). "You drink your coffee with milk."
+                you.add_msg_player_or_npc( _( "You drink your %1$s with %2$s." ),
+                                           _( "<npcname> drinks a %1$s with %2$s." ),
+                                           food.tname(), seasoning->tname() );
+            } else {
+                you.add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ),
+                                           food.tname() );
+            }
         }
     } else if( chew ) {
         if( you.is_avatar() && you.schizo_symptoms( 50 ) && !spoiled && food.goes_bad() &&
@@ -1250,8 +1273,15 @@ static bool eat( item &food, Character &you, bool force )
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), tname );
             add_msg( _( "You eat your %s (rotten)." ), tname );
         } else {
-            you.add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
-                                       food.tname() );
+            if( seasoning ) {
+                //~Position 1: A food item (e.g. steak). Position 2: A seasoning or additive(e.g. black pepper). "You eat your steak with black pepper."
+                you.add_msg_player_or_npc( _( "You eat your %1$s with %2$s." ),
+                                           _( "<npcname> eats a %1$s with %2$s." ),
+                                           food.tname(), seasoning->tname() );
+            } else {
+                you.add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
+                                           food.tname() );
+            }
         }
     }
 
@@ -1323,6 +1353,20 @@ static bool eat( item &food, Character &you, bool force )
     }
 
     you.consumption_history.emplace_back( food );
+    if( seasoning && you.consume_effects( *seasoning ) ) {
+        you.consumption_history.emplace_back( *seasoning );
+        map &here = get_map();
+        int left_to_use = 1;
+        // FIXME: Does not necessarily consume the exact seasoning item we have a pointer to!
+        if( seasoning->count_by_charges() ) {
+            here.use_charges( you.pos_bub(), PICKUP_RANGE, seasoning->typeId(), left_to_use );
+        } else {
+            here.use_amount( you.pos_bub(), PICKUP_RANGE, seasoning->typeId(), left_to_use );
+        }
+        if( left_to_use > 0 ) {
+            debugmsg( "Failed to consume seasoning %s during consumption", seasoning->typeId().c_str() );
+        }
+    }
     // Clean out consumption_history so it doesn't get bigger than needed.
     while( you.consumption_history.front().time < calendar::turn - 2_days ) {
         you.consumption_history.pop_front();

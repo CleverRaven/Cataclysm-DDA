@@ -612,12 +612,14 @@ second time.
 
 There are mapping files in `tools/iwyu` intended to help IWYU pick the right
 headers.  Mostly they should be fairly obvious, but the SDL mappings might
-warrant further explanation.  We want to force most SDL includes to go via
-`sdl_wrappers.h`, because that handles the platform-dependence issues (the
-include paths are different on Windows).  There are a couple of exceptions
-(`SDL_version.h` and `SDL_mixer.h`).  The former is because `main.cpp` can't
-include all SDL headers, because they `#define WinMain`.  All the mappings in
-`sdl.imp` are designed to make this happen.
+warrant further explanation.  `sdl.imp` maps the individual SDL headers onto
+the `<SDL3/SDL.h>` umbrella, so IWYU asks for one include rather than a dozen
+internal ones.  Project code reaches that umbrella through `sdl_wrappers.h`,
+which exports it along with SDL_image and SDL_ttf.  Two headers are public in
+the mapping instead: `SDL_version.h` and `SDL_stdinc.h`, so that a caller
+needing only version numbers or the allocator hooks can include them directly
+without pulling in the whole of SDL.  `sdl_version_wrappers.h` and
+`cata_allocator.cpp` do exactly that.
 
 We have to use IWYU pragmas in some situations.  Some of the reasons are:
 

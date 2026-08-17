@@ -23,9 +23,9 @@ RUN if [ "${REINSTALL_CMAKE_VERSION_FROM_SOURCE}" != "none" ]; then \
 
 # [Optional] Uncomment this section to install additional packages.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends libsdl2-dev libsdl2-ttf-dev libharfbuzz-dev \
-    libsdl2-image-dev libjpeg-turbo8-dev libtiff-dev libwebp-dev libzip-dev libzstd-dev \
-    libsdl2-mixer-dev libflac-dev libasound2-dev libfreetype6-dev build-essential astyle ccache
+    && apt-get -y install --no-install-recommends libncursesw5-dev libharfbuzz-dev \
+    libjpeg-turbo8-dev libtiff-dev libwebp-dev libzip-dev libzstd-dev \
+    libflac-dev libasound2-dev libfreetype6-dev build-essential astyle ccache
 
 # [Optional] comment out this section unless you want to cross-compile from Linux to Windows
 # This section should align with doc/c++/COMPILING.md#cross-compile-to-windows-from-linux
@@ -44,9 +44,11 @@ WORKDIR /opt/mxe
 
 # because of https://github.com/mxe/mxe/issues/2659, we have to link python 3 to python
 RUN ln /usr/bin/python3 /usr/bin/python
-# Builds windows version of SDL2 which is required to later cross-compile CDDA.
+# SDL2 support was removed. MXE does package sdl3, sdl3_image and sdl3_ttf, but
+# no sdl3_mixer, and nobody has tried a tiles cross-build on them yet, so only
+# gettext is built here.
 RUN make -j4 MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' \
-    MXE_PLUGIN_DIRS=plugins/gcc12 sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
+    MXE_PLUGIN_DIRS=plugins/gcc12 gettext
 WORKDIR /opt/libbacktrace
 RUN wget https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-x86_64-w64-mingw32.tar.gz
 RUN wget https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-i686-w64-mingw32.tar.gz

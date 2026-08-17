@@ -12,8 +12,16 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_APPLY_SUPER_SOLDIER_SERUM_CRASH",
-    "condition": { "not": { "u_has_effect": "super_soldier_serum_crash" } },
-    "effect": [ { "u_add_effect": "super_soldier_serum_crash", "duration": [ "2 d", "3 d" ] } ]
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "and": [ { "compare_string": [ "super_soldier_serum_main", { "context_val": "effect" } ] } ] },
+    "effect": [ { "run_eocs": "EOC_APPLY_SUPER_SOLDIER_SERUM_CRASH_2", "time_in_future": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_APPLY_SUPER_SOLDIER_SERUM_CRASH_2",
+    "//": "This is necessary because character_loses_effect triggers before the effect is actually removed",
+    "effect": { "u_add_effect": "super_soldier_serum_crash", "duration": [ "2 d", "3 d" ] }
   },
   {
     "type": "effect_type",
@@ -38,6 +46,13 @@
       "hunger_famished",
       "super_soldier_serum_crash"
     ],
+    "dur_add_perc": 5,
+    "base_mods": {
+      "blood_pressure_tick": [ 100 ],
+      "blood_pressure_chance": [ 5 ],
+      "blood_pressure_min": [ 5 ],
+      "blood_pressure_max_val": [ 2500 ]
+    },
     "enchantments": [
       {
         "values": [
@@ -72,6 +87,12 @@
     "desc": [ "Your enhanced strength has faded away, your body aches, and you're having a hard time concentrating." ],
     "apply_message": "",
     "remove_message": "",
+    "base_mods": {
+      "blood_pressure_tick": [ 100 ],
+      "blood_pressure_chance": [ 5 ],
+      "blood_pressure_min": [ -5 ],
+      "blood_pressure_max_val": [ -2500 ]
+    },
     "enchantments": [
       {
         "values": [

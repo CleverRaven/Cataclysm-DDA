@@ -263,13 +263,8 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
 #include "sdltiles.h"
 #include "sdl_wrappers.h"
 #include "font_loader.h"
-#if SDL_MAJOR_VERSION >= 3
 #include <imgui/imgui_impl_sdl3.h>
 #include <imgui/imgui_impl_sdlrenderer3.h>
-#else
-#include <imgui/imgui_impl_sdl2.h>
-#include <imgui/imgui_impl_sdlrenderer2.h>
-#endif
 
 static bool clear_screen = false;
 
@@ -319,11 +314,7 @@ void cataimgui::client::init_platform_backend()
     if( platform_backend_active_ ) {
         return;
     }
-#if SDL_MAJOR_VERSION >= 3
     ImGui_ImplSDL3_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
-#else
-    ImGui_ImplSDL2_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
-#endif
     platform_backend_active_ = true;
 }
 
@@ -332,11 +323,7 @@ void cataimgui::client::init_renderer_backend()
     if( renderer_backend_active_ ) {
         return;
     }
-#if SDL_MAJOR_VERSION >= 3
     ImGui_ImplSDLRenderer3_Init( sdl_renderer.get() );
-#else
-    ImGui_ImplSDLRenderer2_Init( sdl_renderer.get() );
-#endif
     renderer_backend_active_ = true;
 }
 
@@ -345,11 +332,7 @@ void cataimgui::client::shutdown_renderer_backend()
     if( !renderer_backend_active_ ) {
         return;
     }
-#if SDL_MAJOR_VERSION >= 3
     ImGui_ImplSDLRenderer3_Shutdown();
-#else
-    ImGui_ImplSDLRenderer2_Shutdown();
-#endif
     renderer_backend_active_ = false;
 }
 
@@ -358,11 +341,7 @@ void cataimgui::client::shutdown_platform_backend()
     if( !platform_backend_active_ ) {
         return;
     }
-#if SDL_MAJOR_VERSION >= 3
     ImGui_ImplSDL3_Shutdown();
-#else
-    ImGui_ImplSDL2_Shutdown();
-#endif
     platform_backend_active_ = false;
 }
 
@@ -371,11 +350,7 @@ void cataimgui::client::destroy_backend_device_objects() const
     if( !renderer_backend_active_ ) {
         return;
     }
-#if SDL_MAJOR_VERSION >= 3
     ImGui_ImplSDLRenderer3_DestroyDeviceObjects();
-#else
-    ImGui_ImplSDLRenderer2_DestroyDeviceObjects();
-#endif
 }
 
 #if defined(__clang__) || defined(__GNUC__)
@@ -567,26 +542,16 @@ void cataimgui::client::new_frame( int display_buffer_w, int display_buffer_h )
 #if 0 and not TUI
     if( freetype_test.PreNewFrame() ) {
         // REUPLOAD FONT TEXTURE TO GPU
-#if SDL_MAJOR_VERSION >= 3
         ImGui_ImplSDLRenderer3_DestroyDeviceObjects();
         ImGui_ImplSDLRenderer3_CreateDeviceObjects();
-#else
-        ImGui_ImplSDLRenderer2_DestroyDeviceObjects();
-        ImGui_ImplSDLRenderer2_CreateDeviceObjects();
-#endif
     }
 #endif
     if( clear_screen && clear_sdl_window() ) {
         // Keep the request armed if the clear was deferred by a queued recovery.
         clear_screen = false;
     }
-#if SDL_MAJOR_VERSION >= 3
     ImGui_ImplSDLRenderer3_NewFrame();
     ImGui_ImplSDL3_NewFrame();
-#else
-    ImGui_ImplSDLRenderer2_NewFrame();
-    ImGui_ImplSDL2_NewFrame();
-#endif
 
     // ImGui draws into display_buffer, whose size differs from the window under
     // SCALING_FACTOR or android letterboxing. Prefer the caller's dims; fall
@@ -618,11 +583,7 @@ void cataimgui::client::end_frame()
     // A watcher write can land after the outer-boundary drain passed but before
     // this paint. The draw list is finalized; skip only the backend paint.
     if( !renderer_should_abort_frame() ) {
-#if SDL_MAJOR_VERSION >= 3
         ImGui_ImplSDLRenderer3_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
-#else
-        ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
-#endif
     }
     ImGuiIO &io = ImGui::GetIO();
     for( const int &code : cata_input_trail ) {
@@ -664,13 +625,7 @@ void cataimgui::client::process_input( void *input, int display_buffer_w, int di
         }
         ( void )display_buffer_w;
         ( void )display_buffer_h;
-#if SDL_MAJOR_VERSION >= 3
         ImGui_ImplSDL3_ProcessEvent( evt );
-#else
-        // Coordinates already converted to display_buffer space by
-        // convert_event_to_display_buffer_coords in the event pump.
-        ImGui_ImplSDL2_ProcessEvent( evt );
-#endif
     }
 }
 

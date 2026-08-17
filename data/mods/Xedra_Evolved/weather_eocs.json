@@ -37,7 +37,14 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_OMINOUS_FOG_WEATHER",
     "recurrence": [ "14 days", "28 days" ],
-    "condition": { "and": [ { "current_dimension": "default" }, { "x_in_y_chance": { "x": 1, "y": 5 } } ] },
+    "condition": {
+      "and": [
+        { "math": [ "xe_weather_ominous_fog_scenario != 1" ] },
+        { "current_dimension": "default" },
+        { "x_in_y_chance": { "x": 1, "y": 5 } }
+      ]
+    },
+    "deactivate_condition": { "math": [ "xe_weather_ominous_fog_scenario == 1" ] },
     "global": true,
     "effect": { "run_eocs": "EOC_XE_CAUSE_OMINOUS_FOG_WEATHER_WARNING" }
   },

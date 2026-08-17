@@ -128,7 +128,8 @@
     "effect": [
       { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_SPRING" },
       { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] },
-      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] }
+      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] },
+      { "u_learn_recipe": "prac_gramarye_changeling" }
     ]
   },
   {
@@ -138,7 +139,8 @@
     "effect": [
       { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_SUMMER" },
       { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] },
-      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] }
+      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] },
+      { "u_learn_recipe": "prac_gramarye_changeling" }
     ]
   },
   {
@@ -148,7 +150,8 @@
     "effect": [
       { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_AUTUMN" },
       { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] },
-      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] }
+      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] },
+      { "u_learn_recipe": "prac_gramarye_changeling" }
     ]
   },
   {
@@ -158,7 +161,8 @@
     "effect": [
       { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_WINTER" },
       { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] },
-      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] }
+      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] },
+      { "u_learn_recipe": "prac_gramarye_changeling" }
     ]
   },
   {
