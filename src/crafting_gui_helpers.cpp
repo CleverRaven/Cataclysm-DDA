@@ -126,18 +126,19 @@ availability::availability( Character &_crafter, const recipe *r, int batch_size
     } else {
         can_craft = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
                     meets_character_requirements &&
-                    req.can_make_with_inventory( inv, all_items_filter, batch_size, flag );
+                    req.can_make_with_inventory( &crafter, inv, all_items_filter, batch_size, flag );
     }
-    would_use_rotten = !req.can_make_with_inventory( inv, no_rotten_filter, batch_size,
+    would_use_rotten = !req.can_make_with_inventory( &crafter, inv, no_rotten_filter, batch_size,
                        flag );
-    would_use_favorite = !req.can_make_with_inventory( inv, no_favorite_filter, batch_size,
+    would_use_favorite = !req.can_make_with_inventory( &crafter, inv, no_favorite_filter, batch_size,
                          flag );
     useless_practice = r->is_practice() && cannot_gain_skill_or_prof( crafter, *r );
     is_nested_category = r->is_nested();
     const requirement_data &simple_req = r->simple_requirements();
     apparently_craftable = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
                            meets_character_requirements &&
-                           simple_req.can_make_with_inventory( inv, all_items_filter, batch_size, flag );
+                           simple_req.can_make_with_inventory( &crafter, inv, all_items_filter,
+                                   batch_size, flag );
     for( const auto &[skill, skill_lvl] : r->required_skills ) {
         if( crafter.get_skill_level( skill ) < skill_lvl ) {
             has_all_skills = false;
@@ -428,9 +429,9 @@ std::vector<std::string> recipe_info(
     if( !recp.is_nested() ) {
         const requirement_data &req = recp.simple_requirements();
         const std::vector<std::string> tools = req.get_folded_tools_list(
-                fold_width, color, crafting_inv, batch_size );
+                &guy, fold_width, color, crafting_inv, batch_size );
         const std::vector<std::string> comps = req.get_folded_components_list(
-                fold_width, color, crafting_inv, recp.get_component_filter(), batch_size, qry_comps );
+                &guy, fold_width, color, crafting_inv, recp.get_component_filter(), batch_size, qry_comps );
         result.insert( result.end(), tools.begin(), tools.end() );
         result.insert( result.end(), comps.begin(), comps.end() );
     }

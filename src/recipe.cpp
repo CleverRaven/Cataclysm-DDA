@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <array>
-#include <climits>
 #include <cmath>
 #include <initializer_list>
 #include <memory>
@@ -46,6 +45,7 @@
 #include "output.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
+#include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id_utils.h"
@@ -1553,26 +1553,6 @@ double recipe::step_budget_moves( const Character &guy, size_t step_idx, int bat
     return s.batch_info.apply( t, batch );
 }
 
-// Crafter-aware quality level check for a single item.
-// Mirrors item::get_quality_nonrecursive but uses the given crafter for
-// charged_qualities instead of get_player_character().
-static int get_quality_for_crafter( const item &it, const quality_id &qual,
-                                    const Character &crafter )
-{
-    int result = INT_MIN;
-    auto qit = it.type->qualities.find( qual );
-    if( qit != it.type->qualities.end() ) {
-        result = qit->second.level;
-    }
-    if( !it.type->charged_qualities.empty() && it.ammo_sufficient( &crafter ) ) {
-        auto cit = it.type->charged_qualities.find( qual );
-        if( cit != it.type->charged_qualities.end() ) {
-            result = std::max( result, cit->second.level );
-        }
-    }
-    return result;
-}
-
 float best_quality_speed_modifier( const read_only_visitable &inv,
                                    const Character &crafter,
                                    const quality_id &qual, int level )
@@ -1580,9 +1560,8 @@ float best_quality_speed_modifier( const read_only_visitable &inv,
     bool found = false;
     float best = 1.0f;
     inv.visit_items( [&]( item * e, item * ) {
-        // Use crafter-aware qualification, not get_quality() which
-        // uses get_player_character() for charged qualities.
-        if( get_quality_for_crafter( *e, qual, crafter ) >= level ) {
+        // Crafter-aware: a charged quality otherwise resolves through the avatar.
+        if( provider_quality_level( *e, qual, &crafter, false ) >= level ) {
             float s = e->get_quality_speed( qual, level, &crafter );
             if( !found || s < best ) {
                 best = s;
@@ -1591,8 +1570,9 @@ float best_quality_speed_modifier( const read_only_visitable &inv,
         }
         return VisitResponse::NEXT;
     } );
-    // Character-provided qualities (bionics, mutations) have no speed modifier.
-    if( !found && crafter.has_quality( qual, level ) ) {
+    // Character-provided qualities (bionics, mutations) have no speed modifier.  Items
+    // reach this through the inventory alone.
+    if( !found && crafter.has_intrinsic_quality( qual, level ) ) {
         return 1.0f;
     }
     return best;
@@ -1612,9 +1592,10 @@ std::vector<float> compute_tool_speeds( const recipe &rec, const Character &craf
             bool found = false;
             float best_in_group = 1.0f;
             for( const quality_requirement &alt : group ) {
-                // Crafter-aware qualification check (no get_player_character leak)
+                // The inventory is the whole item pool; the crafter contributes only
+                // what no item can supply.
                 if( !inv.has_quality( alt.type, alt.level, alt.count ) &&
-                    !crafter.has_quality( alt.type, alt.level, alt.count ) ) {
+                    !crafter.has_intrinsic_quality( alt.type, alt.level, alt.count ) ) {
                     continue;
                 }
                 float s = best_quality_speed_modifier( inv, crafter, alt.type, alt.level );

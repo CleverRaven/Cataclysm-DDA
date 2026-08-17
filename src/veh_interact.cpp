@@ -378,7 +378,8 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
 {
     Character &player_character = get_player_character();
     const inventory &inv = player_character.crafting_inventory();
-    bool ok = reqs.can_make_with_inventory( inv, is_crafting_component, 1, craft_flags::none, false );
+    bool ok = reqs.can_make_with_inventory( &player_character, inv, is_crafting_component, 1,
+                                            craft_flags::none, false );
 
     msg += _( "<color_white>Time required:</color>\n" );
     msg += "> " + to_string_approx( time ) + "\n";
@@ -398,12 +399,12 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
         msg += string_format( "> %1$s%2$s</color>", status_color( true ), _( "NONE" ) ) + "\n";
     }
 
-    auto comps = reqs.get_folded_components_list( getmaxx( w_msg ) - 2, c_white, inv,
+    auto comps = reqs.get_folded_components_list( &player_character, getmaxx( w_msg ) - 2, c_white, inv,
                  is_crafting_component );
     for( const std::string &line : comps ) {
         msg += line + "\n";
     }
-    auto tools = reqs.get_folded_tools_list( getmaxx( w_msg ) - 2, c_white, inv );
+    auto tools = reqs.get_folded_tools_list( &player_character, getmaxx( w_msg ) - 2, c_white, inv );
     for( const std::string &line : tools ) {
         msg += line + "\n";
     }
@@ -2177,7 +2178,8 @@ int veh_interact::part_at( const point_rel_ms &d )
 bool veh_interact::can_potentially_install( const vpart_info &vpart )
 {
     bool engine_reqs_met = true;
-    bool can_make = vpart.install_requirements().can_make_with_inventory( *crafting_inv,
+    bool can_make = vpart.install_requirements().can_make_with_inventory( &get_player_character(),
+                    *crafting_inv,
                     is_crafting_component, 1, craft_flags::none, false );
     bool hammerspace = get_player_character().has_trait( trait_DEBUG_HS );
 
