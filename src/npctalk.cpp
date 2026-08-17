@@ -3554,6 +3554,34 @@ talk_effect_fun_t::func f_remove_category( const JsonObject &jo,
     };
 }
 
+talk_effect_fun_t::func f_remove_mutation_type( const JsonObject &jo,
+        std::string_view member,
+        std::string_view,
+        bool is_npc )
+{
+    str_or_var type = get_str_or_var( jo.get_member( member ), member, true );
+
+    return [is_npc, type]( dialogue const & d ) {
+        Character *ch = d.actor( is_npc )->get_character();
+
+        const std::string type_id = type.evaluate( d );
+
+        std::vector<trait_id> to_remove;
+
+        for( const trait_id &mut : ch->get_mutations() ) {
+            const mutation_branch &branch = mut.obj();
+
+            if( branch.types.count( type_id ) > 0 ) {
+                to_remove.push_back( mut );
+            }
+        }
+
+        for( const trait_id &mut : to_remove ) {
+            ch->unset_mutation( mut );
+        }
+    };
+}
+
 talk_effect_fun_t::func f_learn_martial_art( const JsonObject &jo, std::string_view member,
         std::string_view, bool is_npc )
 {
@@ -8367,6 +8395,7 @@ parsers = {
     { "u_add_trait", "npc_add_trait", jarg::member, &talk_effect_fun::f_add_trait },
     { "u_lose_trait", "npc_lose_trait", jarg::member, &talk_effect_fun::f_remove_trait },
     { "u_lose_category", "npc_lose_category", jarg::member, &talk_effect_fun::f_remove_category },
+    { "u_lose_mutation_type", "npc_lose_mutation_type", jarg::member, &talk_effect_fun::f_remove_mutation_type },
     { "u_deactivate_trait", "npc_deactivate_trait", jarg::member, &talk_effect_fun::f_deactivate_trait },
     { "u_activate_trait", "npc_activate_trait", jarg::member, &talk_effect_fun::f_activate_trait },
     { "u_mutate", "npc_mutate", jarg::member | jarg::array, &talk_effect_fun::f_mutate },

@@ -36,27 +36,30 @@
     "false_effect": [ { "u_message": "You are already have Gracken arms.", "type": "neutral" } ]
   },
   {
-    "id": "gracken_strong_arms",
-    "copy-from": "gracken_improvement_general",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str_sp": "Gracken Strong Arms" },
-    "looks_like": "offal",
-    "description": "An organ that allows a mature Gracken to convert their arms to a stronger form.",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "consume": true,
-      "description": "You graft this organ onto your body replacing whatever was there before.",
-      "effect_on_conditions": [ "strong_arms" ]
-    }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "strong_arms",
-    "condition": { "not": { "u_has_trait": "SHADE_STRONG_ARMS" } },
-    "effect": [ { "u_message": "You exchanged your previous arms for this." }, { "u_add_trait": "SHADE_STRONG_ARMS" } ],
-    "false_effect": [ { "u_message": "You are already have strong arms.", "type": "neutral" } ]
-  },
+  "id": "gracken_strong_arms",
+  "copy-from": "gracken_improvement_general",
+  "type": "ITEM",
+  "subtypes": [ "TOOL" ],
+  "name": { "str_sp": "Gracken Strong Arms" },
+  "looks_like": "offal",
+  "description": "An organ that allows a mature Gracken to convert their arms to a stronger form.",
+  "use_action": {
+    "type": "effect_on_conditions",
+    "consume": true,
+    "description": "You graft this organ onto your body replacing whatever was there before.",
+    "effect_on_conditions": [
+      {
+        "run_eocs": {
+          "id": "EOC_GRACKEN_REPLACE_MUTATION",
+          "variables": {
+            "mutation_type": "ARMS",
+            "mutation_id": "SHADE_STRONG_ARMS"
+          }
+        }
+      }
+    ]
+  }
+},
   {
     "id": "gracken_long_arms",
     "copy-from": "gracken_improvement_general",
