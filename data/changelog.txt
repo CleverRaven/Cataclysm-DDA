@@ -109,6 +109,9 @@ Allow crafting recipes to consume character resources
 Add character stat requirements to crafting recipes
 unattended step for boiled egg recipe
 Food revolution: Spices and seasonings
+Add a heated bulk liquid tank appliance and allow consuming from nearby vehicle tanks
+add steps to boiled noodle recipe
+Allow future contributors to easily tune weary maluses in combat
 
 
 ## Content:
@@ -205,6 +208,11 @@ Add `THEORETICAL_SKILL_CATCHUP_BONUS` enchantment
 Add AIMING_SPEED enchant
 Add CANNOT_SLEEP flag
 Highland Crypts
+Add 76x-"Lore" serum
+Bundle of typo and other weird stuff corrected
+Add serum 51x-'Landru' 
+Slime hands is now a bodypart
+[Hunvre] Start adding Hunvre-specific clothing, part 1: Underwear and socks
 
 
 
@@ -258,6 +266,7 @@ Move appliance infobox to imgui
 Display some items by volume, weight or length instead of count
 Fix Crafting GUI text wrapping & don't offscreen recipe detail selection (`SPACE`)
 Show item fault severity with inventory and sidebar colors
+Migrate dialogue window to imgui
 
 
 ## Mods:
@@ -352,6 +361,14 @@ Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
 Aftershock: Origin Hobbies
 [Xedra Evolved] Challenge Scenario - The Fog
 [Aftershock] Project Sobek Genetech
+[Xedra Evolved] Add `gramarye` practice recipe
+added new Magiclysm <-> Bombastic Perks interaction
+[Xedra Evolved] Lilit touch / other edits
+[MoM] Survivor bunker variant
+[Xedra Evolved] Add abyssal coffee alchemy recipe
+[Bombastic Perks] Small Gunslinger edit
+[Xedra Evolved] Add Strix Skin mutation
+[Xedra Evolved] Lilit can't get as much nourishment from mortal foods later
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -413,6 +430,8 @@ Add more tools and requirements to reloading ammo
 Deadly bears and how to hurt them
 Add faults to melee weapons lacking them
 Add faults to mainly magyclism melee weapons
+Add a bit better way to see subways
+Added crafting faults to all craftable steel sword-like weapons
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -608,6 +627,12 @@ Display multiple like items in car part removal on the same line with a count
 Unattended crafts no longer stall forever when their crafter is unreachable
 Scared NPCs don't turn hostile
 Preserve character-specific auto-pickup rules between sessions
+Allow radiation recovery while protected by NO_RADIATION
+Fix clothing wind resistance calculation
+Fix precious metal spawns after de-charging update
+Swap serum crash to `character_loses_effect`
+Requirement checks judge the character being checked instead of the player
+Fix TCL trap mapgen error
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -756,6 +781,7 @@ Build instruction and files for Visual Studio Code
 Demote GCC 16 -Wsfinae-incomplete to warning
 Proper SDL support
 Migrate Android to SDL3 via CMake + prefab AAR; drop SDL2 customs; bump buildkit
+Remove SDL2 support
 
 
 ## I18N and A11Y:
