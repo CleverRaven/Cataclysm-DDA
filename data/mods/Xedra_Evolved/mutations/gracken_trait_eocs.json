@@ -1,15 +1,11 @@
 [
   {
-  "type": "effect_on_condition",
-  "id": "EOC_GRACKEN_REPLACE_MUTATION",
-  "effect": [
-    {
-      "u_remove_mutation_type": { "context_val": "mutation_type" }
-    },
-    {
-      "u_add_trait": { "context_val": "mutation_id" }
-    }
-  ]
+    "type": "effect_on_condition",
+    "id": "EOC_GRACKEN_REPLACE_MUTATION",
+    "effect": [
+      { "u_remove_mutation_type": { "context_val": "mutation_type" } },
+      { "u_add_trait": { "context_val": "mutation_id" } }
+    ]
   },
   {
     "type": "effect_on_condition",
