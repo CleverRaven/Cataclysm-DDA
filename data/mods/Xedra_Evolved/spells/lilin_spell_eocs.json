@@ -162,20 +162,25 @@
         "duration": [ "72 h", "72 h" ]
       },
       {
-        "if": "u_is_character",
+        "if": { "and": [ "u_is_character", { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 2" ] } ] },
         "then": [
-          { "math": [ "u_npc_fear() += 1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] },
           {
             "if": {
-              "and": [ { "math": [ "rand(1) == 1" ] }, { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 1" ] } ]
+              "and": [ { "math": [ "rand(2) == 2" ] }, { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 1" ] } ]
             },
-            "then": { "math": [ "u_npc_trust() -= 1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
+            "then": { "math": [ "u_npc_fear() += 1" ] }
           },
           {
             "if": {
-              "and": [ { "math": [ "rand(2) == 2" ] }, { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 2" ] } ]
+              "and": [ { "math": [ "rand(2) == 2" ] }, { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 3" ] } ]
             },
-            "then": { "math": [ "u_npc_value() -= 1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
+            "then": { "math": [ "u_npc_trust() -= 1" ] }
+          },
+          {
+            "if": {
+              "and": [ { "math": [ "rand(2) == 2" ] }, { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 5" ] } ]
+            },
+            "then": { "math": [ "u_npc_value() -= 1" ] }
           },
           {
             "u_deal_damage": "biological",
@@ -223,13 +228,18 @@
           }
         ],
         "else": [
-          { "math": [ "u_val('morale') -= 5 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 5)" ] },
           {
-            "u_deal_damage": "biological",
-            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 1.5 )- 3), 0 )" ] }
+            "if": { "and": [ "u_is_monster", { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 2" ] } ] },
+            "then": [
+              { "math": [ "u_val('morale') -= 5 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 3)" ] },
+              {
+                "u_deal_damage": "biological",
+                "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 1.5 )- 3), 0 )" ] }
+              }
+            ]
           },
           {
-            "if": { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 4" ] },
+            "if": { "and": [ "u_is_monster", { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 4" ] } ] },
             "then": {
               "u_add_effect": "staggered",
               "intensity": 1,

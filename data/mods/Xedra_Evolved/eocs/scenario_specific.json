@@ -32,5 +32,10 @@
       { "math": [ "u_werewolf_give_xp_value = 1" ] },
       { "math": [ "u_werewolf_give_xp_updater_value = 1" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_xe_permanent_ominous_fog",
+    "effect": [ { "math": [ "xe_weather_ominous_fog_scenario = 1" ] } ]
   }
 ]

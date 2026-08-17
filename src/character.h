@@ -86,6 +86,8 @@ class ui_adaptor;
 class vehicle;
 class vpart_reference;
 
+enum scaling_stat : int;
+
 namespace catacurses
 {
 class window;
@@ -96,6 +98,7 @@ struct pick_info;
 } // namespace Pickup
 
 enum action_id : int;
+enum class magic_energy_type : int;
 enum class recipe_filter_flags : int;
 enum class steed_type : int;
 enum npc_attitude : int;
@@ -107,6 +110,7 @@ struct dealt_projectile_attack;
 /// @brief Item slot used to apply modifications from food and meds
 struct islot_comestible;
 struct item_comp;
+struct vitamin_resource_cost;
 struct itype;
 struct mutation_branch;
 struct mutation_category_trait;
@@ -497,6 +501,25 @@ struct run_cost_effect {
 
 nutrients default_character_compute_effective_nutrients( const item &comest );
 
+// One innate provider of one quality.  Slots are structural, so toggling a bionic
+// changes how an occurrence is found and never which occurrence it is.
+struct intrinsic_quality_source {
+    enum class owner_kind : uint8_t { bionic, mutation, body_part, last };
+    // `trait_item` is the hard-coded digging pair, the only trait-derived item there is:
+    // the mutation type carries provided_qualities and no item field, so every other
+    // mutation occurrence is itemless.
+    enum class slot_kind : uint8_t { pseudo, bionic_weapon, trait_item, itemless, last };
+
+    owner_kind owner = owner_kind::last;
+    bionic_uid bio_uid = 0;
+    trait_id mut;
+    bodypart_str_id bp;
+
+    slot_kind slot = slot_kind::last;
+    int slot_index = -1;
+    int level = 0;
+};
+
 class Character : public Creature, public visitable
 {
     public:
@@ -592,6 +615,9 @@ class Character : public Creature, public visitable
         int get_dex_bonus() const;
         int get_per_bonus() const;
         int get_int_bonus() const;
+
+        // Returns the current value of one of the four primary character stats: str, dex, int, or per.
+        int get_primary_stat_value( scaling_stat stat ) const;
 
         /** Cache variables to store stamina use info
         *   these will be updated when the player's limb makeup changes
@@ -1001,8 +1027,7 @@ class Character : public Creature, public visitable
         std::pair<int, int> climate_control_strength() const;
 
         /** Returns wind resistance provided by armor, etc **/
-        std::map<bodypart_id, int> get_wind_resistance( const
-                std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const;
+        std::map<bodypart_id, int> get_wind_resistance() const;
 
         /** Returns true if the player isn't able to see */
         bool is_blind() const;
@@ -1162,7 +1187,7 @@ class Character : public Creature, public visitable
                            bool allow_unarmed = true, int forced_movecost = -1 );
         bool melee_attack_abstract( Creature &t, bool allow_special, const matec_id &force_technique,
                                     bool allow_unarmed = true, int forced_movecost = -1 );
-
+        void reduce_moves_from_attack( int forced_movecost, int move_cost );
         /** Handles reach melee attacks */
         bool can_reach_attack( const Creature &target ) const;
         void reach_attack( const tripoint_bub_ms &p, int forced_movecost = -1 );
@@ -1266,9 +1291,9 @@ class Character : public Creature, public visitable
         bool unwield();
 
         /** Get the formatted name of the currently wielded item (if any) with current gun mode (if gun) */
-        std::string weapname() const;
+        std::string weapname( bool color_faults = false ) const;
         /** Get the formatted name of the currently wielded item (if any) without current gun mode and ammo */
-        std::string weapname_simple() const;
+        std::string weapname_simple( bool color_faults = false ) const;
         /** Get the formatted current gun mode (if gun) */
         std::string weapname_mode() const;
         /** Get the formatted current ammo (if gun) */
@@ -1737,6 +1762,9 @@ class Character : public Creature, public visitable
         bool activate_bionic( bionic &bio, bool eff_only = false, bool *close_bionics_ui = nullptr );
         std::vector<bionic_id> get_bionics() const;
         std::vector<const item *> get_pseudo_items() const;
+        // Innate items a craft can draw: exposed pseudo items plus the hard-coded
+        // digging pair.
+        std::vector<item> crafting_pseudo_items() const;
         void invalidate_pseudo_items();
         /** Finds the highest UID for installed bionics and caches the next valid UID **/
         void update_last_bionic_uid() const;
@@ -3209,8 +3237,7 @@ class Character : public Creature, public visitable
         int get_env_resist( bodypart_id bp ) const override;
         /** Returns overall resistance to given type on the bod part */
         int get_armor_type( const damage_type_id &dt, bodypart_id bp ) const override;
-        std::map<bodypart_id, int> get_all_armor_type( const damage_type_id &dt,
-                const std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const;
+        std::map<bodypart_id, int> get_all_armor_type( const damage_type_id &dt ) const;
 
         int get_stim() const;
         void set_stim( int new_stim );
@@ -3850,6 +3877,16 @@ class Character : public Creature, public visitable
          *  When cost_ctx is supplied, it is reused for step budgets instead of
          *  recomputing crafting_cost_context::for_recipe. */
         bool craft_consume_step_tools( item &craft, const crafting_cost_context *cost_ctx = nullptr );
+        /** Checks whether the character can pay the recipe's resource cost up to
+         *  target_progress and, if requested, consumes the required difference. */
+        bool craft_consume_character_resources( item &craft, int target_progress, bool consume = true );
+        /** Returns the amount of the specified character resource currently available
+         *  for crafting without crossing its minimum allowed threshold. */
+        int craft_character_resource_available( magic_energy_type resource ) const;
+        /** Returns the amount of the specified vitamin currently available for crafting
+         *  without reducing it below the requested safe level, or the vitamin minimum
+         *  when no explicit level is provided. */
+        int craft_vitamin_available( const vitamin_resource_cost &resource ) const;
         /** Advance the active unattended step's tool consumption to match its
          *  wall-clock progress.  Returns false (consuming nothing) if charges are short. */
         bool craft_consume_passive_step_tools( item &craft, time_point now, const item_location &loc );
@@ -4016,6 +4053,12 @@ class Character : public Creature, public visitable
 
         // inherited from visitable
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;
+        // Discovery, capacity and revalidation all count through this one enumeration,
+        // so they cannot disagree about how many innate providers exist.
+        std::vector<intrinsic_quality_source> intrinsic_quality_sources(
+            const quality_id &qual, int level ) const;
+        // No item walk, unlike has_quality.
+        bool has_intrinsic_quality( const quality_id &qual, int level = 1, int qty = 1 ) const;
         int max_quality( const quality_id &qual ) const override;
         int max_quality( const quality_id &qual, int radius ) const;
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const

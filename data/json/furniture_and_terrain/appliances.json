@@ -725,7 +725,7 @@
     "description": "A small solar panel, mounted on a frame and ready to power other appliances.",
     "copy-from": "solar_panel",
     "proportional": { "epower": 1.2 },
-    "requirements": { "install": {  }, "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
+    "requirements": { "install": {  }, "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_1", 1 ] ] } },
     "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
   },
   {
@@ -739,7 +739,7 @@
     "proportional": { "epower": 4.8 },
     "requirements": {
       "install": {  },
-      "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
       "repair": {
         "skills": [ [ "electronics", 6 ] ],
         "time": "120 m",
@@ -762,7 +762,7 @@
     "description": "A reinforced solar panel, mounted on a frame and ready to power other appliances.",
     "copy-from": "reinforced_solar_panel",
     "proportional": { "epower": 1.2 },
-    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
+    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_1", 1 ] ] } },
     "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
   },
   {
@@ -773,7 +773,7 @@
     "description": "A small, high-performance solar panel, mounted on a frame and ready to power other appliances.",
     "copy-from": "solar_panel_v2",
     "proportional": { "epower": 1.2 },
-    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
+    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_1", 1 ] ] } },
     "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
   },
   {
@@ -786,7 +786,7 @@
     "proportional": { "epower": 4.8 },
     "requirements": {
       "install": {  },
-      "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
       "repair": {
         "skills": [ [ "electronics", 8 ] ],
         "time": "150 m",
@@ -808,7 +808,7 @@
     "description": "A high-performance reinforced solar panel, mounted on a frame and ready to power other appliances.",
     "copy-from": "reinforced_solar_panel_v2",
     "proportional": { "epower": 1.2 },
-    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
+    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_1", 1 ] ] } },
     "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
   },
   {
@@ -1316,5 +1316,26 @@
     "size": "200 L",
     "requirements": { "removal": { "time": "5 s" } },
     "variants": [ { "symbols": "&", "symbols_broken": "-" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_bulk_liquid_tank",
+    "name": { "str": "bulk liquid tank" },
+    "looks_like": "f_storage_tank",
+    "categories": [ "utility" ],
+    "color": "light_gray",
+    "broken_color": "dark_gray",
+    "location": "structure",
+    "damage_modifier": 80,
+    "durability": 400,
+    "description": "A stationary bank of interconnected steel tanks holding up to 600 liters of liquid.  Its electric heater can be switched on to keep the contents from freezing, while attached plumbing equipment can provide convenient access or purification.",
+    "item": "bulk_liquid_tank",
+    "epower": "-200 W",
+    "flags": [ "APPLIANCE", "FLUIDTANK", "HEATED_TANK", "ENABLED_DRAINS_EPOWER", "OBSTACLE", "VEH_TOOLS" ],
+    "allowed_tools": [ "water_faucet", "water_purifier" ],
+    "requirements": { "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "repair_welding_standard", 10 ] ] } },
+    "breaks_into": [ { "item": "metal_tank", "count": [ 4, 8 ], "damage": 4 }, { "item": "nuts_bolts", "count": [ 5, 15 ] } ],
+    "damage_reduction": { "all": 30, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   }
 ]
