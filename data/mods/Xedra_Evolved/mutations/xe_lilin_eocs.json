@@ -363,7 +363,7 @@
     "id": "EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE_NPC",
     "effect": [
       { 
-        "if": { "and": [ { "math": [ "u_health() <= -185" ] }, { "x_in_y_chance": { "x": 1, "y": 5 } } ] },
+        "if": { "and": [ { "math": [ "u_health() <= -185" ] }, { "u_has_any_effect": [ "common_cold", "influenza", "tetanus", "rat_bite_fever", "infected", "asthma" ] }, { "x_in_y_chance": { "x": 1, "y": 5 } } ] },
         "then": [ "u_die": ]
       },
       { 
