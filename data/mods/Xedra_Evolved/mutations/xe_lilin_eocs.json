@@ -354,8 +354,8 @@
     "id": "EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE",
     "condition": { "math": [ "u_characters_nearby('radius': 30 ) > 0" ] }
     "effect": [
-      { "u_run_npc_eocs": [ "EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE_NPC" ], "npc_range": 10, "npc_must_see": false },
-      { "u_run_npc_eocs": [ "EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE_NPC" ], "npc_range": 30, "npc_must_see": true }
+      { "u_run_npc_eocs": [ "EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE_NPC" ], "npc_range": 10, "npc_must_see": false, "z_min" -4, "z_max": 3 },
+      { "u_run_npc_eocs": [ "EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE_NPC" ], "npc_range": 30, "npc_must_see": true, "z_min" -4, "z_max": 3 }
     ]
   },
   {
@@ -367,21 +367,21 @@
         "then": [ "u_die": ]
       },
       { 
-        "if": { "and": [ { "u_has_effect": "pre_flu" }, { "x_in_y_chance": { "x": { "math": [ "1 + u_health() <= -0 ? 1 : 0" ] }, "y": 3 } } ] },
+        "if": { "and": [ { "u_has_effect": "pre_flu" }, { "x_in_y_chance": { "x": { "math": [ "1 + u_health() <= -0 ? 1 : 0" ] }, "y": { "math": [ "3 + (u_has_trait('DISRESISTANT') * 3) + (u_has_flag('NO_DISEASE') * 1000)" ] } } } ] },
         "then": [
           { "u_lose_effect": "pre_flu" },
           { "u_add_effect": "influenza", "duration": [ "4 days", "12 days" ] }
         ]
       },
       { 
-        "if": { "and": [ { "u_has_effect": "pre_common_cold" }, { "x_in_y_chance": { "x": { "math": [ "1 + u_health() <= -0 ? 1 : 0" ] }, "y": 3 } } ] },
+        "if": { "and": [ { "u_has_effect": "pre_common_cold" }, { "x_in_y_chance": { "x": { "math": [ "1 + u_health() <= -0 ? 1 : 0" ] }, "y": { "math": [ "3 + (u_has_trait('DISRESISTANT') * 3) + (u_has_flag('NO_DISEASE') * 1000)" ] } } } ] },
         "then": [
           { "u_lose_effect": "pre_common_cold" },
           { "u_add_effect": "common_cold", "duration": [ "4 days", "12 days" ] }
         ]
       },
       { 
-        "if": { "and": [ { "not": { "u_has_any_effect": [ "pre_common_cold", "common_cold", "pre_flu", "influenza" ] } }, { "x_in_y_chance": { "x": { "math": [ "1 + u_health() <= 0 ? 1 : 0 + u_health() <= -100 ? 1 : 0 + u_health() <= -150 ? 1 : 0 + u_health() <= -175 ? 1 : 0" ] }, "y": 6 } } ] },
+        "if": { "and": [ { "not": { "u_has_any_effect": [ "pre_common_cold", "common_cold", "pre_flu", "influenza" ] } }, { "x_in_y_chance": { "x": { "math": [ "1 + u_health() <= 0 ? 1 : 0 + u_health() <= -100 ? 1 : 0 + u_health() <= -150 ? 1 : 0 + u_health() <= -175 ? 1 : 0" ] }, "y": { "math": [ "6 + (u_has_trait('DISRESISTANT') * 6) + (u_has_flag('NO_DISEASE') * 5000)" ] } } } ] },
         "then": [
           { 
             "if": { "math": [ "rand(1) == 1" ] },
