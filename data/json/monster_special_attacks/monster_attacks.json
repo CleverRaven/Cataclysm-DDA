@@ -1109,14 +1109,5 @@
     "id": "eoc_discover_zomborg",
     "condition": { "and": [ "player_see_u", { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_exodii_seen_zomborg" } ] } } ] },
     "effect": { "npc_add_var": "dialogue_exodii_seen_zomborg", "value": "yes" }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "eoc_zomborg_check",
-    "effect": {
-      "if": { "compare_string": [ "yes", { "u_val": "dialogue_exodii_seen_zomborg" } ] },
-      "then": { "message": "NOTICED" },
-      "else": { "message": "NOT NOTICED" }
-    }
   }
 ]
