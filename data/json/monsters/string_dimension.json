@@ -158,7 +158,8 @@
       { "id": "longswipe" },
       { "id": "cut_throat" },
       { "id": "smash", "throw_strength": 72 },
-      { "id": "hulk_wide_swing", "accuracy": 9 }
+      { "id": "hulk_wide_swing", "accuracy": 9 },
+      { "id": "zomborg_discovery_attack", "cooldown": 1 }
     ],
     "weakpoint_sets": [ "wps_humanoid_full_helmet" ],
     "weakpoints": [
