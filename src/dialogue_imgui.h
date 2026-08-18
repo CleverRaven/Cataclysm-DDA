@@ -30,7 +30,8 @@ class dialogue_imgui_impl : public cataimgui::window
         explicit dialogue_imgui_impl( dialogue *conversation, bool is_computer, bool is_not_conversation,
                                       const std::string &remote_name ) : cataimgui::window( _( "Dialogue" ),
                                                   ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav |
-                                                  ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoTitleBar ),
+                                                  ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollWithMouse |
+                                                  ImGuiWindowFlags_NoFocusOnAppearing ),
             is_computer( is_computer ),
             is_not_conversation( is_not_conversation ),
             remote_name( remote_name ),
@@ -91,14 +92,16 @@ class dialogue_imgui_impl : public cataimgui::window
 
         bool hide_ui = false;
 
+        bool user_clicked_response_button = false;
+
     private:
         void draw_history() const;
-        void draw_responses() const;
+        void draw_responses();
         nc_color default_color() const;
 
         void draw_dialogue_sidebar() const;
         void draw_dialogue_history();
-        void draw_dialogue_responses() const;
+        void draw_dialogue_responses();
         dialogue *conversation;
 
         float sidebar_width() const;

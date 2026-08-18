@@ -2905,7 +2905,8 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
         response_lines.clear();
         response_hotkeys.clear();
         input_event evt = ctxt.first_unassigned_hotkey( queue );
-        for( int i = 0; i < static_cast<int>( responses.size() ); i++ ) {
+        const int num_responses = responses.size();
+        for( int i = 0; i < num_responses; i++ ) {
             talk_response &response = responses[i];
             const talk_data &td = response.create_option_line( *this, evt, d_img.is_computer );
             response_lines.emplace_back( td );
@@ -2937,6 +2938,19 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
             ui_manager::invalidate_all_ui_adaptors();
             ui_manager::redraw();
             action = ctxt.handle_input();
+
+            // Mouse click is an input type that would result in a continue, so we need to set our action before that.
+            if( action == "CONFIRM" || d_img.user_clicked_response_button ) {
+                action = "CONFIRM"; // If we actually did click, harmless otherwise.
+                d_img.user_clicked_response_button = false;
+                response_ind = d_img.sel_response;
+                //response condition must be reverified since non-selectable responses can be displayed
+                if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
+                        !debug_mode ) ) {
+                    action = "NONE";
+                }
+            }
+
             input_event evt = ctxt.get_raw_input();
             if( evt.type == input_event_t::error || evt.type == input_event_t::timeout ) {
                 continue;
@@ -2948,13 +2962,6 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
                 d_img.sel_response++;
             } else if( action == "UP" ) {
                 d_img.sel_response--;
-            } else if( action == "CONFIRM" ) {
-                response_ind = d_img.sel_response;
-                //response condition must be reverified since non-selectable responses can be displayed
-                if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
-                        !debug_mode ) ) {
-                    action = "NONE";
-                }
             } else if( action == "END" ) {
                 d_img.scroll_to = cataimgui::scroll::page_down;
             } else if( action == "HOME" ) {

@@ -308,7 +308,7 @@ void dialogue_imgui_impl::draw_dialogue_history()
     ImGui::PopStyleVar();
 }
 
-void dialogue_imgui_impl::draw_dialogue_responses() const
+void dialogue_imgui_impl::draw_dialogue_responses()
 {
     ImGui::PushStyleVar( ImGuiStyleVar_ChildBorderSize, border_size() );
     ImGuiChildFlags child_flags = ImGuiChildFlags_Borders;
@@ -355,25 +355,57 @@ void dialogue_imgui_impl::set_responses( const std::vector<talk_data> &responses
     response_list = responses;
 }
 
-void dialogue_imgui_impl::draw_responses() const
+void dialogue_imgui_impl::draw_responses()
 {
     // Head it with the topic ID, if needed
     if( debug_mode ) {
         cataimgui::draw_colored_text( "talk_topic: " + debug_topic_name );
     }
 
+    // Sentinel value. Just used for automatic scrolling.
+    static int prev_response = 0;
+
+    // We do our own selection highlighting, and this easily desyncs. So let's make sure it stays hidden.
+    ImGui::SetNavCursorVisible( false );
+
+    // Each response line is comprised of three main parts: Selection indicator, hotkey, and selection text.
+    // To keep things simple we print in that order too.
     for( int i = 0; i < static_cast<int>( response_list.size() ); i++ ) {
         const talk_data &talk = response_list[i];
+
+        // Selection indicator
         if( sel_response == i ) {
             cataimgui::draw_colored_text( ">>>>>", c_yellow );
+            if( prev_response != sel_response ) {
+                // This automatically scrolls us up or down to make sure the button stays in view.
+                ImGui::SetKeyboardFocusHere();
+                prev_response = sel_response;
+            }
         } else {
             // This should be the same width as the arrows up above, to align with non-selected lines.
             cataimgui::draw_colored_text( "     " );
         }
+
         ImGui::SameLine();
+
+        // Hotkey
         cataimgui::draw_colored_text( formatted_hotkey( talk.hotkey_desc, talk.color ) );
+
         ImGui::SameLine();
-        cataimgui::TextColoredParagraph( talk.color, talk.text );
+
+        // Selection text
+        const bool should_color_button = talk.color != c_white; // White is default and unreadable.
+        if( should_color_button ) {
+            ImGui::PushStyleColor( ImGuiCol_Button, talk.color );
+        }
+        if( ImGui::Button( talk.text.c_str() ) ) {
+            sel_response = i;
+            // Handled in dialogue::opt_imgui() with all other inputs.
+            user_clicked_response_button = true;
+        }
+        if( should_color_button ) {
+            ImGui::PopStyleColor();
+        }
         ImGui::NewLine();
     }
 
