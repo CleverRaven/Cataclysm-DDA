@@ -44,22 +44,26 @@
   "looks_like": "offal",
   "description": "An organ that allows a mature Gracken to convert their arms to a stronger form.",
   "use_action": {
-    "type": "effect_on_conditions",
-    "consume": true,
-    "description": "You graft this organ onto your body replacing whatever was there before.",
-    "effect_on_conditions": [
-      {
-        "run_eocs": {
-          "id": "EOC_GRACKEN_REPLACE_MUTATION",
-          "variables": {
+      "type": "effect_on_conditions",
+      "menu_text": "Replace arms",
+      "consume": true,
+      "effect_on_conditions": [
+        {
+          "id": "EOC_GRACKEN_STRONG_ARMS",
+          "effect": {
+            "run_eocs": "EOC_GRACKEN_REPLACE_MUTATION",
+            "condition": { "not": { "u_has_trait": "SHADE_STRONG_ARMS" } },
+            "variables": {
             "mutation_type": "ARMS",
-            "mutation_id": "SHADE_STRONG_ARMS"
+            "mutation_id": "SHADE_STRONG_ARMS",
+            "success_message": { "i18n": true, "str": "You exchanged your previous arms for this." },
+              "failure_message": { "i18n": true, "str": "You can't exactly transform your arms into the same thing they already are." }
+            }
           }
         }
-      }
-    ]
-  }
-},
+      ]
+    }
+  },
   {
     "id": "gracken_long_arms",
     "copy-from": "gracken_improvement_general",
