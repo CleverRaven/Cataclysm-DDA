@@ -2878,15 +2878,16 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
         npc *npc_actor = actor( true )->get_npc();
         d_img.add_to_history( challenge, speaker_name( d_img ),
                               npc_actor ? npc_actor->basic_symbol_color() : c_red );
+        // Empty line for padding. This is right after either a NPC greeting the player, or them responding to a player's message.
+        // So padding here keeps messages grouped into reasonable blocks.
+        d_img.add_to_history( "" );
     }
-    /* FIXME
     if( debug_mode ) {
-        std::vector<std::string> dynamic_line_debug = build_debug_info( d_win, topic );
+        std::vector<std::string> dynamic_line_debug = build_debug_info( d_img, topic );
         for( auto &line : dynamic_line_debug ) {
-            d_win.add_to_history( line );
+            d_img.add_to_history( line );
         }
     }
-    */
     apply_speaker_effects( topic );
 
     if( responses.empty() ) {
@@ -2906,10 +2907,7 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
         input_event evt = ctxt.first_unassigned_hotkey( queue );
         for( int i = 0; i < static_cast<int>( responses.size() ); i++ ) {
             talk_response &response = responses[i];
-            talk_data td = response.create_option_line( *this, evt, d_img.is_computer );
-            if( d_img.sel_response == i ) {
-                td.hotkey_desc += " >>>";
-            }
+            const talk_data &td = response.create_option_line( *this, evt, d_img.is_computer );
             response_lines.emplace_back( td );
             response_hotkeys.emplace_back( evt );
 #if defined(__ANDROID__)
@@ -2935,8 +2933,6 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
                 d_img.set_responses_debug( build_debug_info( d_img, topic, d_img.sel_response ) );
                 d_img.debug_topic_name = topic.id;
             }
-            // Indicators for what line is selected are part of the response string, so let's regen them.
-            generate_response_lines();
             // For reasons unclear to me, we must manually invalidate and redraw the windows here, or else they will stack up.
             ui_manager::invalidate_all_ui_adaptors();
             ui_manager::redraw();
@@ -3014,6 +3010,9 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
     } while( !okay );
 
     d_img.add_to_history( response_lines[response_ind].text, _( "You" ), c_light_blue );
+
+    // We just advanced the conversation, let's make sure we can see what they said.
+    d_img.scroll_to = cataimgui::scroll::end;
 
     talk_response chosen = responses[response_ind];
     if( chosen.mission_selected != nullptr ) {

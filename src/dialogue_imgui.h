@@ -58,7 +58,6 @@ class dialogue_imgui_impl : public cataimgui::window
 
         std::vector<std::string> responses_debug;
 
-        // Public for now, access should be set properly later (friend class dialogue?)
     public:
         /** Adds a message to the conversation history. */
         void add_to_history( const std::string &text );
