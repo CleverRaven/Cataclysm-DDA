@@ -36,14 +36,14 @@
     "false_effect": [ { "u_message": "You are already have Gracken arms.", "type": "neutral" } ]
   },
   {
-  "id": "gracken_strong_arms",
-  "copy-from": "gracken_improvement_general",
-  "type": "ITEM",
-  "subtypes": [ "TOOL" ],
-  "name": { "str_sp": "Gracken Strong Arms" },
-  "looks_like": "offal",
-  "description": "An organ that allows a mature Gracken to convert their arms to a stronger form.",
-  "use_action": {
+    "id": "gracken_strong_arms",
+    "copy-from": "gracken_improvement_general",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str_sp": "Gracken Strong Arms" },
+    "looks_like": "offal",
+    "description": "An organ that allows a mature Gracken to convert their arms to a stronger form.",
+    "use_action": {
       "type": "effect_on_conditions",
       "menu_text": "Replace arms",
       "consume": true,
@@ -54,9 +54,9 @@
             "run_eocs": "EOC_GRACKEN_REPLACE_MUTATION",
             "condition": { "not": { "u_has_trait": "SHADE_STRONG_ARMS" } },
             "variables": {
-            "mutation_type": "ARMS",
-            "mutation_id": "SHADE_STRONG_ARMS",
-            "success_message": { "i18n": true, "str": "You exchanged your previous arms for this." },
+              "mutation_type": "ARMS",
+              "mutation_id": "SHADE_STRONG_ARMS",
+              "success_message": { "i18n": true, "str": "You exchanged your previous arms for this." },
               "failure_message": { "i18n": true, "str": "You can't exactly transform your arms into the same thing they already are." }
             }
           }
