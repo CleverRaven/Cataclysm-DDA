@@ -1,5 +1,4 @@
 #include "cata_imgui.h"
-#include "cursesport.h" // Import ability to get the scale factor
 
 #include <cmath>
 
@@ -610,10 +609,13 @@ bool cataimgui::clear_pending()
     return clear_screen;
 }
 
-void cataimgui::client::process_input( void *input, int display_buffer_w, int display_buffer_h )
+void cataimgui::client::process_input( void *input, int display_buffer_w, int display_buffer_h, int scaling_factor )
 {
     if( any_window_shown() ) {
         const SDL_Event *evt = static_cast<const SDL_Event *>( input );
+        if( !evt ) {
+            return;
+        }
         bool no_mouse = ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_NoMouse;
         if( no_mouse ) {
             switch( evt->type ) {
@@ -626,14 +628,21 @@ void cataimgui::client::process_input( void *input, int display_buffer_w, int di
         }
         ( void )display_buffer_w;
         ( void )display_buffer_h;
-        ImGui_ImplSDL3_ProcessEvent( evt );
-        const int sf = get_scaling_factor();
-        if( sf > 1 && ( evt->type == CATA_MOUSEMOTION || evt->type == CATA_MOUSEBUTTONDOWN ) ) {
-            ImGuiIO &io = ImGui::GetIO();
-            if( ImGui::IsMousePosValid( &io.MousePos ) ) {
-                io.AddMousePosEvent( io.MousePos.x / sf, io.MousePos.y / sf );
+
+        SDL_Event imgui_ev = *evt;
+        if( scaling_factor > 1 ) {
+            if( imgui_ev.type == CATA_MOUSEMOTION ) {
+                imgui_ev.motion.x /= scaling_factor;
+                imgui_ev.motion.y /= scaling_factor;
+            } else if( imgui_ev.type == CATA_MOUSEBUTTONDOWN || imgui_ev.type == CATA_MOUSEBUTTONUP ) {
+                imgui_ev.button.x /= scaling_factor;
+                imgui_ev.button.y /= scaling_factor;
+            } else if( imgui_ev.type == CATA_MOUSEWHEEL ) {
+                imgui_ev.wheel.mouse_x /= scaling_factor;
+                imgui_ev.wheel.mouse_y /= scaling_factor;
             }
         }
+        ImGui_ImplSDL3_ProcessEvent( &imgui_ev );
     }
 }
 

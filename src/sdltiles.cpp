@@ -5298,7 +5298,7 @@ static void CheckMessages()
         // shortcut and joystick hit-tests see the same domain SDL emitted.
         SDL_Event ev_display = ev;
         convert_event_to_display_buffer_coords( &ev_display );
-        imclient->process_input( &ev_display, imgui_buf_w, imgui_buf_h );
+        imclient->process_input( &ev_display, imgui_buf_w, imgui_buf_h, scaling_factor );
 
         // Window events are delivered as top-level event types.
         // IsWindowEvent/GetWindowEventID normalize across versions.
