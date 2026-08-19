@@ -312,7 +312,7 @@
     "id": "oven_tool",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "oven", "str_pl": "ovens" },
+    "name": { "str": "oven" },
     "copy-from": "fake_appliance_tool",
     "charges_per_use": 25,
     "charged_qualities": [ { "id": "OVEN", "level": 2 }, { "id": "TEMPER", "level": 1 } ]
