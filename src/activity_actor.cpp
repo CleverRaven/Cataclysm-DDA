@@ -3483,16 +3483,22 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         } else {
             here.ter_set( target, new_ter_type );
         }
+        sounds::sound( target, 5, sounds::sound_t::combat, _( "Click!" ),
+                       true, "tool", "lockpick_success" );
         who.add_msg_if_player( m_good, open_message );
     } else if( furn_type == furn_f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
         who.add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
         here.furn_set( target, furn_f_gunsafe_mj );
     } else if( lock_roll > ( 1.5 * pick_roll ) ) {
         if( it->inc_damage() ) {
+            sounds::sound( target, 5, sounds::sound_t::combat, _( "Snap!" ),
+                           true, "tool", "lockpick_break" );
             who.add_msg_if_player( m_bad,
                                    _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
             destroy = true;
         } else {
+            sounds::sound( target, 5, sounds::sound_t::combat, _( "Crrk!" ),
+                           true, "tool", "lockpick_damage" );
             who.add_msg_if_player( m_bad,
                                    _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
         }
@@ -6338,6 +6344,14 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
             }
 
             if( craft.get_passive_started_at() == calendar::before_time_starts ) {
+                // Unattended steps cannot draw resources from the crafter over time, so consume
+                // the remaining character resource cost before the passive work begins.
+                if( !crafter.craft_consume_character_resources( craft, 10000000 ) ) {
+                    craft.erase_var( "crafter" );
+                    crafter.cancel_activity();
+                    return;
+                }
+
                 craft_stamp_passive_entry( craft, crafter, calendar::turn, craft_item );
                 mode_ = derive_mode();
                 // Back-dated entry can leave alarm and/or ready already due.
@@ -6478,8 +6492,20 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
             return;
         }
     }
+
+    // Check `character_resources` before charging tools, then apply the validated debit.
+    if( !crafter.craft_consume_character_resources( craft, craft.item_counter, false ) ) {
+        rewind_turn();
+        return;
+    }
+
     // Charge shortfall rewinds the turn before any skill gain.
     if( !crafter.craft_consume_step_tools( craft, &cached_cost_ctx ) ) {
+        rewind_turn();
+        return;
+    }
+
+    if( !crafter.craft_consume_character_resources( craft, craft.item_counter ) ) {
         rewind_turn();
         return;
     }
@@ -10615,7 +10641,7 @@ void mend_item_activity_actor::finish( player_activity &act, Character &who )
     const fault_fix &fix = *mending_method;
     const requirement_data &reqs = fix.get_requirements();
     const inventory &inv = who.crafting_inventory();
-    if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
+    if( !reqs.can_make_with_inventory( &who, inv, is_crafting_component ) ) {
         add_msg( m_info, _( "You are currently unable to mend the %s." ), target.tname() );
         return;
     }
@@ -10717,7 +10743,7 @@ void fix_wound_activity_actor::finish( player_activity &act, Character &who )
     const wound_fix &fix = *mending_method;
     const requirement_data &reqs = fix.get_requirements();
     const inventory &inv = who.crafting_inventory();
-    if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
+    if( !reqs.can_make_with_inventory( &who, inv, is_crafting_component ) ) {
         add_msg( m_info, _( "You are currently unable to heal the %s." ), healed_bp->name.translated() );
         return;
     }
@@ -11372,7 +11398,8 @@ void vehicle_activity_actor::complete_vehicle( player_activity &act, Character &
         case VEHICLE_INSTALL: {
             const inventory &inv = you.crafting_inventory();
             const requirement_data reqs = vpinfo.install_requirements();
-            if( !reqs.can_make_with_inventory( inv, is_crafting_component, 1, craft_flags::none, false ) ) {
+            if( !reqs.can_make_with_inventory( &you, inv, is_crafting_component, 1, craft_flags::none,
+                                               false ) ) {
                 you.add_msg_player_or_npc( m_info,
                                            _( "You don't meet the requirements to install the %s." ),
                                            _( "<npcname> doesn't meet the requirements to install the %s." ),
@@ -11527,7 +11554,7 @@ void vehicle_activity_actor::complete_vehicle( player_activity &act, Character &
             const bool smash_remove = vpi.has_flag( "SMASH_REMOVE" );
             const inventory &inv = you.crafting_inventory();
             const requirement_data &reqs = vpi.removal_requirements();
-            if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
+            if( !reqs.can_make_with_inventory( &you, inv, is_crafting_component ) ) {
                 //~  1$s is the vehicle part name
                 add_msg( m_info, _( "You don't meet the requirements to remove the %1$s." ), vpi.name() );
                 break;
@@ -13209,7 +13236,8 @@ void butchery_activity_actor::calculate_butchery_data( Character &you, butchery_
     const mtype &corpse = *target.get_item()->get_mtype();
 
     std::pair<float, requirement_id> butchery_reqs =
-        corpse.harvest->get_butchery_requirements().get_fastest_requirements( you.crafting_inventory(),
+        corpse.harvest->get_butchery_requirements().get_fastest_requirements( &you,
+                you.crafting_inventory(),
                 corpse.size, this_bd.b_type );
     this_bd.req_speed_bonus = butchery_reqs.first;
     this_bd.req = butchery_reqs.second;

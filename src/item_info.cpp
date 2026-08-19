@@ -669,6 +669,17 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         info.emplace_back( "FOOD", _( "Other contents: " ), effect_vits );
     }
 
+    std::list<itype_id>all_seasonings = get_comestible()->get_seasonings();
+    if( !all_seasonings.empty() ) {
+        std::vector<std::string> seasoning_types;
+        seasoning_types.reserve( all_seasonings.size() );
+        for( const itype_id seasoning_type : all_seasonings ) {
+            seasoning_types.push_back( seasoning_type->nname( 1 ) );
+        }
+        info.emplace_back( "FOOD", _( "Could be seasoned with: " ),
+                           enumerate_lcsorted_with_limit( seasoning_types ) );
+    }
+
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::FOOD_ALLERGEN )
@@ -3954,8 +3965,9 @@ static bool can_craft_recipe( const recipe *r, const inventory &crafting_inv )
     if( can_craft_recipe_cache.count( r ) > 0 ) {
         return can_craft_recipe_cache.at( r );
     }
-    can_craft_recipe_cache[r] = r->deduped_requirements().can_make_with_inventory( crafting_inv,
-                                r->get_component_filter() );
+    can_craft_recipe_cache[r] = r->deduped_requirements().can_make_with_inventory(
+                                    &get_player_character(), crafting_inv,
+                                    r->get_component_filter() );
     return can_craft_recipe_cache.at( r );
 }
 

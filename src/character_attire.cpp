@@ -1936,26 +1936,53 @@ int outfit::get_env_resist( bodypart_id bp ) const
 
 std::map<bodypart_id, int> outfit::warmth( const Character &guy ) const
 {
+    const std::vector<bodypart_id> bodyparts = guy.get_all_body_parts();
     std::map<bodypart_id, int> total_warmth;
-    for( const bodypart_id &bp : guy.get_all_body_parts() ) {
-        double warmth_val = 0.0;
-        const float wetness_pct = guy.get_part_wetness_percentage( bp );
-        for( const item &clothing : worn ) {
-            if( !clothing.covers( bp ) ) {
+    std::vector<std::pair<bodypart_id, int>> item_warmth_by_bodypart;
+    item_warmth_by_bodypart.reserve( bodyparts.size() );
+    for( const item &clothing : worn ) {
+        clothing.get_warmth_by_bodypart( item_warmth_by_bodypart );
+        for( const auto &[bp, item_warmth] : item_warmth_by_bodypart ) {
+            if( !guy.has_part( bp ) ) {
                 continue;
             }
-            warmth_val = clothing.get_warmth( bp );
+            double warmth_val = item_warmth;
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
             if( !clothing.made_of( material_wool ) ) {
-                warmth_val *= 1.0 - 0.66 * wetness_pct;
+                warmth_val *= 1.0 - 0.66 * guy.get_part_wetness_percentage( bp );
             }
 
-            total_warmth[bp] += warmth_val;
+            total_warmth[bp] += static_cast<int>( warmth_val );
         }
+    }
+    for( const bodypart_id &bp : bodyparts ) {
         total_warmth[bp] += guy.get_effect_int( effect_heating_bionic, bp );
     }
     return total_warmth;
+}
+
+std::map<bodypart_id, int> outfit::wind_resistance( const Character &guy ) const
+{
+    const std::vector<bodypart_id> bodyparts = guy.get_all_body_parts();
+    std::vector<float> exposed_by_bodypart( bodyparts.size(), 1.0f );
+    for( const item &clothing : worn ) {
+        const body_part_set covered_bodyparts = clothing.get_covered_body_parts();
+        const int penalty = 100 - clothing.wind_resist();
+        for( std::size_t i = 0; i < bodyparts.size(); ++i ) {
+            const bodypart_id &bp = bodyparts[i];
+            if( !covered_bodyparts.test( bp.id() ) ) {
+                continue;
+            }
+            const int coverage = std::max( 0, clothing.get_coverage( bp ) - penalty );
+            exposed_by_bodypart[i] *= 1.0f - static_cast<float>( coverage ) / 100.0f;
+        }
+    }
+    std::map<bodypart_id, int> ret;
+    for( std::size_t i = 0; i < bodyparts.size(); ++i ) {
+        ret[bodyparts[i]] = static_cast<int>( 100 - exposed_by_bodypart[i] * 100 );
+    }
+    return ret;
 }
 
 std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy ) const

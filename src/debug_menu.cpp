@@ -37,7 +37,7 @@
 #include "calendar.h"
 #include "calendar_ui.h"
 #include "cata_path.h"
-#if defined(TILES) && defined(USE_SDL3)
+#if defined(TILES)
 #include "cata_shader.h"
 #endif
 #include "cata_utility.h"
@@ -1009,7 +1009,7 @@ static int info_uilist()
         { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
         { uilist_entry( debug_menu_index::WRITE_CITY_LIST, true, 'C', _( "Write city list to cities.output" ) ) },
         { uilist_entry( debug_menu_index::IMGUI_DEMO, true, 'u', _( "Open ImGui demo screen" ) ) },
-#if defined(TILES) && defined(USE_SDL3)
+#if defined(TILES)
         { uilist_entry( debug_menu_index::RELOAD_GPU_SHADERS, true, 'P', _( "Reload GPU shaders" ) ) },
 #endif
     };
@@ -1416,11 +1416,11 @@ static void spell_description(
 
     if( spl.has_components() ) {
         if( !spl.components().get_components().empty() ) {
-            print_vec_string( spl.components().get_folded_components_list( width - 2, gray,
+            print_vec_string( spl.components().get_folded_components_list( &chrc, width - 2, gray,
                               chrc.crafting_inventory(), return_true<item> ) );
         }
         if( !( spl.components().get_tools().empty() && spl.components().get_qualities().empty() ) ) {
-            print_vec_string( spl.components().get_folded_tools_list( width - 2, gray,
+            print_vec_string( spl.components().get_folded_tools_list( &chrc, width - 2, gray,
                               chrc.crafting_inventory() ) );
         }
     }
@@ -4900,9 +4900,9 @@ const std::vector<debug_action_entry> &all_actions()
             }
         },
         {
-            debug_menu_index::RELOAD_GPU_SHADERS, translate_marker( "Reload GPU shaders" ), "reload gpu shaders sdl3", "Game", []()
+            debug_menu_index::RELOAD_GPU_SHADERS, translate_marker( "Reload GPU shaders" ), "reload gpu shaders", "Game", []()
             {
-#if defined(TILES) && defined(USE_SDL3)
+#if defined(TILES)
                 cata_shader::request_reprobe();
                 add_msg( _( "GPU shaders will reload on next frame." ) );
 #endif

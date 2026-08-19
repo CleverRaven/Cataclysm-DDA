@@ -1,4 +1,4 @@
-#if defined(SDL_SOUND) && defined(USE_SDL3)
+#if defined(SDL_SOUND)
 
 #include "sound_backend.h"
 
@@ -136,8 +136,8 @@ float volume_to_gain( int vol )
     return static_cast<float>( vol ) / 128.0f;
 }
 
-// SDL2 Mix_SetPosition distance semantics: 0 = closest (max volume),
-// 255 = farthest (muted). Linear attenuation.
+// Distance semantics inherited from Mix_SetPosition: 0 = closest (max
+// volume), 255 = farthest (muted). Linear attenuation.
 float distance_to_scale( int distance )
 {
     if( distance <= 0 ) {
@@ -529,7 +529,7 @@ void fade_group( sfx::group g, int ms )
             MIX_StopTrack( t, 0 );
         } else {
             // Skip if already fading; re-issuing MIX_StopTrack resets
-            // the fade countdown on SDL3 and would stall the fade.
+            // the fade countdown and would stall the fade.
             if( MIX_GetTrackFadeFrames( t ) != 0 ) {
                 continue;
             }
@@ -631,4 +631,4 @@ bool is_music_playing()
 
 } // namespace sound_backend
 
-#endif // SDL_SOUND && USE_SDL3
+#endif // SDL_SOUND

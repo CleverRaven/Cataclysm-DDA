@@ -74,7 +74,7 @@
     "condition_desc": "* Only works on target of <info>similar or bigger</info> size",
     "messages": [ "You send %s reeling", "<npcname> sends %s reeling" ],
     "description": "Down 4 turns, knockback 3 tiles, 250% damage, 140% move, crit only, min 3 melee",
-    "attack_vectors": [ "vector_null", "vector_punch" ]
+    "attack_vectors": [ "vector_null", "vector_punch", "vector_slime_punch", "vector_paw_rat_punch", "vector_little_paw_punch" ]
   },
   {
     "type": "technique",

@@ -6402,5 +6402,116 @@
       { "id": "direct", "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 40 } }
     ],
     "consumption_per_use": [ { "pocket": "well", "qty": 5 }, { "pocket": "direct", "qty": 3 } ]
+  },
+  {
+    "id": "test_extra_bodypart_clothing",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": "TEST extra bodypart clothing",
+    "description": "Clothing for testing coverage of body parts the wearer may not have.",
+    "weight": "100 g",
+    "volume": "500 ml",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "white",
+    "warmth": 20,
+    "armor": [ { "coverage": 100, "covers": [ "torso", "tail_long" ] } ]
+  },
+  {
+    "id": "test_protective_clothing",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": "TEST protective clothing",
+    "description": "Clothing for testing protection from environmental effects.",
+    "weight": "100 g",
+    "volume": "500 ml",
+    "material": [ "test_protective_clothing_material" ],
+    "symbol": "[",
+    "color": "white",
+    "material_thickness": 1,
+    "environmental_protection": 10,
+    "flags": [ "WATERPROOF" ],
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "material": [ { "type": "test_protective_clothing_material", "covered_by_mat": 100, "thickness": 1 } ]
+      }
+    ]
+  },
+  {
+    "//": "Craft reservation fixtures.  These use the isolated TEST_RESERVE_* qualities so a test's provider set is exactly what it placed, with no core item contributing.",
+    "id": "test_reserve_tool_a",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "test reservation tool A" },
+    "description": "Supplies TEST_RESERVE_A and nothing else.  The interchangeable provider for equivalence class tests.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "TEST_RESERVE_A", 1 ] ]
+  },
+  {
+    "//": "A charge-counted item that also supplies a quality.  One stack must count as one provider, not one provider per charge.",
+    "id": "test_reserve_charge_stack",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "test reservation charge stack" },
+    "description": "A charge-counted item that supplies TEST_RESERVE_A.",
+    "weight": "1 g",
+    "volume": "10 ml",
+    "material": [ "steel" ],
+    "symbol": "=",
+    "color": "light_gray",
+    "count": 100,
+    "stack_size": 100,
+    "ammo_type": "battery",
+    "qualities": [ [ "TEST_RESERVE_A", 1 ] ]
+  },
+  {
+    "//": "Bionic pseudo items for test_bio_reserve_two_pseudo.  Two distinct items both supplying TEST_RESERVE_A, so one source is two occurrences.",
+    "id": "test_reserve_bionic_tool_1",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "test reservation bionic tool 1" },
+    "description": "First pseudo tool of the two-item test bionic.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "TEST_RESERVE_A", 1 ] ],
+    "flags": [ "PSEUDO" ]
+  },
+  {
+    "//": "Weapon of test_bio_reserve_weapon.  It is reachable directly and as a pseudo item once powered, so the two routes are one occurrence.",
+    "id": "test_reserve_bionic_weapon",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "test reservation bionic weapon" },
+    "description": "Weapon pseudo item of the weapon test bionic.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "TEST_RESERVE_B", 1 ] ],
+    "flags": [ "PSEUDO" ]
+  },
+  {
+    "id": "test_reserve_bionic_tool_2",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "test reservation bionic tool 2" },
+    "description": "Second pseudo tool of the two-item test bionic.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "TEST_RESERVE_A", 1 ] ],
+    "flags": [ "PSEUDO" ]
   }
 ]

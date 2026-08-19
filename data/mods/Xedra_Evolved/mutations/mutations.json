@@ -1280,7 +1280,8 @@
       {
         "ench_effects": [
           { "effect": "effect_vampire_immune_to_classic_zombification", "intensity": 1 },
-          { "effect": "effect_dhampir_corpselike_pallor_pale", "intensity": 1 }
+          { "effect": "effect_dhampir_corpselike_pallor_pale", "intensity": 1 },
+          { "effect": "effect_xe_nonhuman_super_soldier_serum_immune", "intensity": 1 }
         ]
       },
       {

@@ -531,6 +531,7 @@ void Pickup::pick_info::serialize( JsonOut &jsout ) const
     jsout.member( "src_pos", src_pos );
     jsout.member( "src_container", src_container );
     jsout.member( "dst", dst );
+    jsout.member( "highlight", highlight );
     jsout.member( "extra_moves_per_distance", extra_moves_per_distance );
     jsout.member( "picked_up_volume", picked_up_volume );
     jsout.member( "max_volume", max_volume );
@@ -548,6 +549,7 @@ void Pickup::pick_info::deserialize( const JsonObject &jsobj )
     jsobj.read( "src_pos", src_pos );
     jsobj.read( "src_container", src_container );
     jsobj.read( "dst", dst );
+    jsobj.read( "highlight", highlight );
     jsobj.read( "extra_moves_per_distance", extra_moves_per_distance );
     jsobj.read( "picked_up_volume", picked_up_volume );
     jsobj.read( "max_volume", max_volume );

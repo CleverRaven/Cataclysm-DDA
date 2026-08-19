@@ -492,5 +492,29 @@
     "weight": "140 kg",
     "price": "1 kUSD",
     "price_postapoc": "10 USD"
+  },
+  {
+    "type": "ITEM",
+    "id": "bulk_liquid_tank",
+    "category": "container",
+    "looks_like": "f_storage_tank",
+    "name": { "str": "disconnected bulk liquid tank" },
+    "description": "A heavy rack of ten interconnected steel tanks providing 600 liters of liquid storage.  It is built for stationary use, includes electric heating to keep its contents from freezing, and can accept plumbing equipment once placed as an appliance.",
+    "weight": "61244 g",
+    "volume": "650 L",
+    "longest_side": "200 cm",
+    "material": [ "steel" ],
+    "symbol": "O",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "600 L",
+        "max_contains_weight": "1200 kg"
+      }
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   }
 ]

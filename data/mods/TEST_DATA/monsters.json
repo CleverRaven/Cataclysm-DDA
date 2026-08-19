@@ -578,7 +578,8 @@
     "name": { "str": "black bear" },
     "copy-from": "mon_bear",
     "extend": { "weakpoint_sets": [ "wps_test_headshot1" ] },
-    "delete": { "weakpoint_sets": [ "wps_animal_quadruped", "wps_vital_organs", "wps_eyes" ] }
+    "delete": { "weakpoint_sets": [ "wps_animal_quadruped", "wps_vital_organs", "wps_eyes" ] },
+    "armor": { "bash": 2, "electric": 1 }
   },
   {
     "id": "test_mon_moose",
