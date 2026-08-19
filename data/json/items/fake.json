@@ -314,7 +314,7 @@
     "subtypes": [ "TOOL" ],
     "name": { "str": "oven" },
     "copy-from": "fake_appliance_tool",
-    "charges_per_use": 25,
+    "power_draw": "3 kW",
     "charged_qualities": [ { "id": "OVEN", "level": 2 }, { "id": "TEMPER", "level": 1 } ]
   },
   {
