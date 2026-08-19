@@ -28,13 +28,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_GRACKEN_SHADE_ARMS",
-          "effect": {
-            "run_eocs": "EOC_GRACKEN_REPLACE_MUTATION",
-            "variables": {
-              "mutation_type": "ARMS",
-              "mutation_id": "SHADE_ARMS"
-            }
-          }
+          "effect": { "run_eocs": "EOC_GRACKEN_REPLACE_MUTATION", "variables": { "mutation_type": "ARMS", "mutation_id": "SHADE_ARMS" } }
         }
       ]
     }
@@ -56,10 +50,7 @@
           "id": "EOC_GRACKEN_STRONG_ARMS",
           "effect": {
             "run_eocs": "EOC_GRACKEN_REPLACE_MUTATION",
-            "variables": {
-              "mutation_type": "ARMS",
-              "mutation_id": "SHADE_STRONG_ARMS"
-            }
+            "variables": { "mutation_type": "ARMS", "mutation_id": "SHADE_STRONG_ARMS" }
           }
         }
       ]
@@ -82,10 +73,7 @@
           "id": "EOC_GRACKEN_LONG_ARMS",
           "effect": {
             "run_eocs": "EOC_GRACKEN_REPLACE_MUTATION",
-            "variables": {
-              "mutation_type": "ARMS",
-              "mutation_id": "SHADE_LONG_ARMS"
-            }
+            "variables": { "mutation_type": "ARMS", "mutation_id": "SHADE_LONG_ARMS" }
           }
         }
       ]
@@ -106,13 +94,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_GRACKEN_SHADE_HANDS",
-          "effect": {
-            "run_eocs": "EOC_GRACKEN_REPLACE_MUTATION",
-            "variables": {
-              "mutation_type": "HANDS",
-              "mutation_id": "SHADE_HANDS"
-            }
-          }
+          "effect": { "run_eocs": "EOC_GRACKEN_REPLACE_MUTATION", "variables": { "mutation_type": "HANDS", "mutation_id": "SHADE_HANDS" } }
         }
       ]
     }
@@ -134,10 +116,7 @@
           "id": "EOC_GRACKEN_SHARP_NAILS",
           "effect": {
             "run_eocs": "EOC_GRACKEN_REPLACE_MUTATION",
-            "variables": {
-              "mutation_type": "HANDS",
-              "mutation_id": "SHADE_SHARP_NAILS"
-            }
+            "variables": { "mutation_type": "HANDS", "mutation_id": "SHADE_SHARP_NAILS" }
           }
         }
       ]
@@ -160,10 +139,7 @@
           "id": "EOC_GRACKEN_DEXTROUS_HANDS",
           "effect": {
             "run_eocs": "EOC_GRACKEN_REPLACE_MUTATION",
-            "variables": {
-              "mutation_type": "HANDS",
-              "mutation_id": "SHADE_DEXTROUS_HANDS"
-            }
+            "variables": { "mutation_type": "HANDS", "mutation_id": "SHADE_DEXTROUS_HANDS" }
           }
         }
       ]
@@ -262,13 +238,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_GRACKEN_SHADE_LEGS",
-          "effect": {
-            "run_eocs": "EOC_GRACKEN_REPLACE_MUTATION",
-            "variables": {
-              "mutation_type": "ARMS",
-              "mutation_id": "SHADE_LEGS"
-            }
-          }
+          "effect": { "run_eocs": "EOC_GRACKEN_REPLACE_MUTATION", "variables": { "mutation_type": "ARMS", "mutation_id": "SHADE_LEGS" } }
         }
       ]
     }
@@ -290,10 +260,7 @@
           "id": "EOC_GRACKEN_SHORT_LEGS",
           "effect": {
             "run_eocs": "EOC_GRACKEN_REPLACE_MUTATION",
-            "variables": {
-              "mutation_type": "LEGS",
-              "mutation_id": "SHADE_SHORT_LEGS"
-            }
+            "variables": { "mutation_type": "LEGS", "mutation_id": "SHADE_SHORT_LEGS" }
           }
         }
       ]
@@ -316,10 +283,7 @@
           "id": "EOC_GRACKEN_LONG_LEGS",
           "effect": {
             "run_eocs": "EOC_GRACKEN_REPLACE_MUTATION",
-            "variables": {
-              "mutation_type": "LEGS",
-              "mutation_id": "SHADE_LONG_LEGS"
-            }
+            "variables": { "mutation_type": "LEGS", "mutation_id": "SHADE_LONG_LEGS" }
           }
         }
       ]
