@@ -5,6 +5,7 @@
     "effect": [
       { "u_consume_item": { "context_val": "id" } },
       { "math": [ "_serum_duration = rng(time('1 d'), time('2 d'))" ] },
+      { "math": [ "_serum_duration *= serum_duration_adjustments()" ] },
       { "u_add_effect": "resilience_serum_main", "duration": { "context_val": "serum_duration" } },
       {
         "if": { "math": [ "u_effect_intensity('resilience_serum_main') <= 1" ] },

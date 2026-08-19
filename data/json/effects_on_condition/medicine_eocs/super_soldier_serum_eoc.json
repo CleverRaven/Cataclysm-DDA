@@ -5,8 +5,8 @@
     "effect": [
       { "u_consume_item": { "context_val": "id" } },
       { "math": [ "_serum_duration = rng(time('7 d'), time('8 d'))" ] },
-      { "u_add_effect": "super_soldier_serum_main", "duration": { "context_val": "serum_duration" } },
-      { "run_eocs": "EOC_APPLY_SUPER_SOLDIER_SERUM_CRASH", "time_in_future": { "context_val": "serum_duration" } }
+      { "math": [ "_serum_duration *= serum_duration_adjustments()" ] },
+      { "u_add_effect": "super_soldier_serum_main", "duration": { "context_val": "serum_duration" } }
     ]
   },
   {
@@ -34,7 +34,6 @@
     "remove_message": "You feel your enhanced strength fade away, but your stomach still feels odd.",
     "rating": "mixed",
     "//": "Focus for learning is set at 15 regardless of actual displayed focus",
-    "//2": "Once blood pressure is a possible stat, Noonien should raise your blood pressure and the crash should lower it",
     "removes_effects": [
       "hunger_engorged",
       "hunger_full",
