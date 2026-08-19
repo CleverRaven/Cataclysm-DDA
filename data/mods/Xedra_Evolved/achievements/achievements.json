@@ -293,5 +293,75 @@
         "description": "Enter a Border Patrol Office"
       }
     ]
+  },
+  {
+    "id": "avchievement_gains_changeling_trait_noble",
+    "type": "achievement",
+    "name": "A perfect cabinet of oddities.",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "THRESH_FAIR_FOLK_NOBLE" ],
+        "description": "You have joined the courts of your Sidhe kin.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "avchievement_gains_changeling_trait_brownie",
+    "type": "achievement",
+    "name": "The last helpmeet.",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
+        "description": "Will you stay here easing the troubles and travails of mankind into its final dusk?  Or will you find hearths beyond this homeworld.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "avchievement_gains_changeling_trait_pooka",
+    "type": "achievement",
+    "name": "Prankster at the end of the world.",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "THRESH_FAIR_FOLK_COMMONER_POOKA" ],
+        "description": "A unbroken trail alternating between feet and paws.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "avchievement_gains_changeling_trait_selkie",
+    "type": "achievement",
+    "name": "No one swims only in the shallow water.",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "THRESH_FAIR_FOLK_COMMONER_SELKIE" ],
+        "description": "Do you choose land or water?",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "avchievement_gains_changeling_trait_trow",
+    "type": "achievement",
+    "name": "Carved from the Mountain.",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "THRESH_FAIR_FOLK_COMMONER_TROW" ],
+        "description": "Where you stand, none shall pass without your leave.",
+        "visible": "when_achievement_completed"
+      }
+    ]
   }
 ]
