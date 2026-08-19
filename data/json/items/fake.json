@@ -314,7 +314,8 @@
     "subtypes": [ "TOOL" ],
     "name": { "str": "oven" },
     "copy-from": "fake_appliance_tool",
-    "power_draw": "3 kW",
+    "//": "charges_per_use was kept to prevent qualities from always being avaliable to the player",
+    "charges_per_use": 25,
     "charged_qualities": [ { "id": "OVEN", "level": 2 }, { "id": "TEMPER", "level": 1 } ]
   },
   {
