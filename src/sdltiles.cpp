@@ -1012,7 +1012,6 @@ SDL_Point window_to_display_buffer_coords( SDL_Point window_pt )
         static_cast<int>( static_cast<int64_t>( window_pt.y - dstrect.y ) * buf_h / dstrect.h )
     };
 #else
-#if SDL_MAJOR_VERSION >= 3
     // Use the SDL provided translation of scaling and casting for SDL3 builds
     if( renderer ) {
         float rx = 0.0f;
@@ -1022,25 +1021,7 @@ SDL_Point window_to_display_buffer_coords( SDL_Point window_pt )
             return SDL_Point{ static_cast<int>( rx ), static_cast<int>( ry ) };
         }
     }
-#endif
-    int win_w = 0;
-    int win_h = 0;
-    GetWindowSize( window.get(), &win_w, &win_h );
-    const point draw = compute_drawable_dims();
-    const SDL_Rect dst = get_display_buffer_render_rect();
-    if( win_w <= 0 || win_h <= 0 || draw.x <= 0 || draw.y <= 0 || dst.w <= 0 || dst.h <= 0 ) {
-        return window_pt;
-    }
-    // Invert the present rect: logical coords to drawable px, then through the
-    // rect to buffer px. Points past it land in the border.
-    const point p{
-        static_cast<int>( static_cast<int64_t>( window_pt.x ) * draw.x / win_w ),
-        static_cast<int>( static_cast<int64_t>( window_pt.y ) * draw.y / win_h )
-    };
-    return SDL_Point{
-        static_cast<int>( static_cast<int64_t>( p.x - dst.x ) * buf_w / dst.w ),
-        static_cast<int>( static_cast<int64_t>( p.y - dst.y ) * buf_h / dst.h )
-    };
+    return window_pt;
 #endif
 }
 
