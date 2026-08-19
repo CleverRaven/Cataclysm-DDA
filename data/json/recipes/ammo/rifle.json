@@ -321,10 +321,10 @@
     "book_learn": [ [ "recipe_bullets", 0 ], [ "mag_rifle", 0 ] ],
     "charges": 1,
     "reversible": { "time": "5 s" },
-    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 2 ], [ "ammo_3006", 1 ] ],
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_3006", 1 ] ],
     "//": "3175 mg gunpowder rounded to 32 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "gunpowder_rifle", 32 ], [ "gunpowder_large_rifle", 32 ] ], [ [ "scrap", 1 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "gunpowder_rifle", 32 ], [ "gunpowder_large_rifle", 32 ] ], [ [ "3006_steel_core", 1 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_3006_incendiary",
@@ -399,9 +399,9 @@
     "book_learn": [ [ "recipe_bullets", 0 ], [ "mag_rifle", 0 ] ],
     "charges": 1,
     "reversible": { "time": "5 s" },
-    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 2 ], [ "ammo_3006", 1 ] ],
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_3006", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "chem_black_powder", 32 ] ], [ [ "scrap", 1 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "chem_black_powder", 32 ] ], [ [ "3006_steel_core", 1 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_3006_incendiary",
@@ -1478,14 +1478,15 @@
     "//": "Skill level bumped up cause its armour piercing, recipe needs some fixing but ap uncrafts/recipies are kinda broken currently.",
     "charges": 1,
     "reversible": { "time": "5 s" },
-    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 1 ] ],
+    "using": [ [ "bullet_forming", 12 ] ],
     "//1": "3200 mg gunpowder rounded to 32 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "unprimed_123ln_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 32 ], [ "gunpowder_large_rifle", 32 ] ],
-      [ [ "copper", 2 ] ]
+      [ [ "copper", 1 ] ],
+      [ [ "123_steel_core", 1 ] ]
     ]
   },
   {
@@ -1502,13 +1503,14 @@
     "book_learn": [ [ "recipe_bullets", 2 ] ],
     "charges": 1,
     "reversible": { "time": "5 s" },
-    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 1 ] ],
+    "using": [ [ "bullet_forming", 12 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "unprimed_123ln_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "chem_black_powder", 32 ] ],
-      [ [ "copper", 2 ] ]
+      [ [ "copper", 1 ] ],
+      [ [ "123_steel_core", 1 ] ]
     ]
   },
   {

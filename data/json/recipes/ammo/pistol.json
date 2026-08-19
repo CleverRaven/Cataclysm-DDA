@@ -311,7 +311,7 @@
     "book_learn": [ [ "manual_pistol", 0 ], [ "recipe_bullets", 0 ] ],
     "charges": 1,
     "reversible": { "time": "5 s" },
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "using": [ [ "bullet_forming", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "unprimed_9x18mm_casing", 1 ] ],
@@ -334,13 +334,14 @@
     "book_learn": [ [ "manual_pistol", 0 ], [ "recipe_bullets", 0 ] ],
     "charges": 1,
     "reversible": { "time": "5 s" },
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "using": [ [ "bullet_forming", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "unprimed_9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "chem_black_powder", 4 ] ],
-      [ [ "copper", 1 ] ]
+      [ [ "copper", 1 ] ],
+      [ [ "9x18_steel_core", 1 ] ]
     ]
   },
   {
@@ -1347,14 +1348,15 @@
     "book_learn": [ [ "manual_pistol", 0 ], [ "recipe_bullets", 0 ] ],
     "charges": 1,
     "reversible": { "time": "5 s" },
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "using": [ [ "bullet_forming", 2 ] ],
     "//": "401 mg gunpowder rounded to 4 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "unprimed_9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 4 ], [ "gunpowder_shotgun", 4 ] ],
-      [ [ "copper", 1 ] ]
+      [ [ "copper", 1 ] ],
+      [ [ "9x18_steel_core", 1 ] ]
     ]
   },
   {
