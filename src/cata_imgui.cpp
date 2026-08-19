@@ -610,7 +610,8 @@ bool cataimgui::clear_pending()
     return clear_screen;
 }
 
-void cataimgui::client::process_input( void *input, int display_buffer_w, int display_buffer_h, int scaling_factor )
+void cataimgui::client::process_input( void *input, int display_buffer_w, int display_buffer_h,
+                                       int scaling_factor )
 {
     if( any_window_shown() ) {
         const SDL_Event *evt = static_cast<const SDL_Event *>( input );
