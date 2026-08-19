@@ -439,6 +439,7 @@ Each sub-generator object has the following fields:
 |    Field              |                                           Description                                 |
 | --------------------- | ------------------------------------------------------------------------------------- |
 | `type`                | Required.  One of the types listed below.                                             |
+| `ter_furn_transform_used` | Used only if `type` is `ter_furn_transform`.                                      |
 | `attempts`            | Number of times this effect is attempted.  Default 0.                                 |
 | `chance`              | Per-attempt probability.  Meaning varies by type (see below).  Default 0.             |
 | `min_intensity`       | Minimum intensity for the effect.  Default 0.                                         |
@@ -493,6 +494,7 @@ falls through to the original per-OMT fresh-roll behavior.  No migration needed.
 | `add_fire`        | Places fire fields.  Chance is computed from `scaling_days_end` (fires stop spawning after that many days since the cataclysm).  `min_intensity`/`max_intensity` control fire strength.  `chance` must be 0 (it is derived internally). |
 | `pre_burn`        | Replaces an entire OMT with burnt terrain variants -- walls become `t_wall_burnt`, floors become `t_floor_burnt`, furniture and items are destroyed.  Chance is computed from `scaling_days_start`/`scaling_days_end` and intensity.  Stairs (GOES_UP/GOES_DOWN) are preserved.  `chance` must be 0 (it is derived internally). |
 | `place_blood`     | Places blood streaks, pools, and splatter.  `chance` is permille [0-1000] per attempt.  Outdoor blood fades over 30 days. |
+| `ter_furn_transform`  | Applies `ter_furn_transform_used` on every tile in map |
 | `aftershock_ruin`  | Runs the Aftershock ruin generator.  All numeric fields are ignored. |
 
 ### Built-in generators
