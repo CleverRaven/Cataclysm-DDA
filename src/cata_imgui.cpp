@@ -175,7 +175,7 @@ void cataimgui::client::set_alloced_pair_count( short count )
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
-void cataimgui::client::process_input( void *input, int display_buffer_w, int display_buffer_h )
+void cataimgui::client::process_input( void *input, int display_buffer_w, int display_buffer_h, int /*scaling_factor*/ )
 {
     // TUI input is in cell coordinates from ncurses; no display-buffer
     // pixel scaling.
