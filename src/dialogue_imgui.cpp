@@ -120,13 +120,6 @@ static int topic_category( const talk_topic &the_topic )
     if( topic_9.count( topic ) > 0 ) {
         return 9;
     }
-    static const std::unordered_set<std::string> topic_99 = { {
-            "TALK_SIZE_UP", "TALK_ASSESS_PERSON", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT"
-        }
-    };
-    if( topic_99.count( topic ) > 0 ) {
-        return 99;
-    }
     return -1; // Not grouped with other topics
 }
 
@@ -153,6 +146,8 @@ float dialogue_imgui_impl::sidebar_width() const
     return actual_width;
 }
 
+// Width for just the history/responses children (they use the same width).
+// Not to be confused with `window_width` which is a class variable for the entire parent window's width.
 float dialogue_imgui_impl::dialogue_window_width() const
 {
     // Two child windows side by side with 4 total borders, plus an extra border's worth of space to not let everything feel cramped.
@@ -268,7 +263,7 @@ void dialogue_imgui_impl::draw_dialogue_sidebar() const
         // Wielding/Wearing/Visible mutations
         ImGui::NewLine();
         ImGui::NewLine();
-        // FIXME: Temporary color for contrast
+        // Color for contrast
         if( conversation->actor( false )->can_see() ) {
             cataimgui::TextColoredParagraph( c_blue, conversation->actor( true )->short_description() );
         } else {
@@ -279,19 +274,19 @@ void dialogue_imgui_impl::draw_dialogue_sidebar() const
         // Stats estimate
         ImGui::NewLine();
         ImGui::NewLine();
-        // FIXME: Temporary color for contrast
+        // Color for contrast
         cataimgui::TextColoredParagraph( c_red,
                                          conversation->actor( true )->evaluation_by( *conversation->actor( false ) ) );
         // Personality traits
         ImGui::NewLine();
         ImGui::NewLine();
-        // FIXME: Temporary color for contrast
+        // Color for contrast
         cataimgui::TextColoredParagraph( c_pink, conversation->actor( true )->view_personality_traits() );
 
         // Opinions of player
         ImGui::NewLine();
         ImGui::NewLine();
-        // FIXME: Temporary color for contrast
+        // Color for contrast
         cataimgui::TextColoredParagraph( c_yellow, conversation->actor( true )->opinion_text() );
 
     }
@@ -307,13 +302,13 @@ void dialogue_imgui_impl::draw_dialogue_history()
     ImVec2 child_size = {dialogue_window_width(), ( horizontal_separator_pos_y( window_height ) - border_size() * 2 )};
     if( ImGui::BeginChild( "##DIALOGUE_HISTORY", child_size, child_flags ) ) {
         draw_history();
-        cataimgui::set_scroll( scroll_to );
+        set_scroll( scroll_to );
     }
     ImGui::EndChild();
     ImGui::PopStyleVar();
 }
 
-void dialogue_imgui_impl::draw_dialogue_responses() const
+void dialogue_imgui_impl::draw_dialogue_responses()
 {
     ImGui::PushStyleVar( ImGuiStyleVar_ChildBorderSize, border_size() );
     ImGuiChildFlags child_flags = ImGuiChildFlags_Borders;
@@ -360,17 +355,57 @@ void dialogue_imgui_impl::set_responses( const std::vector<talk_data> &responses
     response_list = responses;
 }
 
-void dialogue_imgui_impl::draw_responses() const
+void dialogue_imgui_impl::draw_responses()
 {
     // Head it with the topic ID, if needed
     if( debug_mode ) {
         cataimgui::draw_colored_text( "talk_topic: " + debug_topic_name );
     }
 
-    for( const talk_data &talk : response_list ) {
-        cataimgui::draw_colored_text( formatted_hotkey( talk.hotkey_desc, talk.color ) );
+    // Sentinel value. Just used for automatic scrolling.
+    static int prev_response = 0;
+
+    // We do our own selection highlighting, and this easily desyncs. So let's make sure it stays hidden.
+    ImGui::SetNavCursorVisible( false );
+
+    // Each response line is comprised of three main parts: Selection indicator, hotkey, and selection text.
+    // To keep things simple we print in that order too.
+    for( int i = 0; i < static_cast<int>( response_list.size() ); i++ ) {
+        const talk_data &talk = response_list[i];
+
+        // Selection indicator
+        if( sel_response == i ) {
+            cataimgui::draw_colored_text( ">>>>>", c_yellow );
+            if( prev_response != sel_response ) {
+                // This automatically scrolls us up or down to make sure the button stays in view.
+                ImGui::SetKeyboardFocusHere();
+                prev_response = sel_response;
+            }
+        } else {
+            // This should be the same width as the arrows up above, to align with non-selected lines.
+            cataimgui::draw_colored_text( "     " );
+        }
+
         ImGui::SameLine();
-        cataimgui::TextColoredParagraph( talk.color, talk.text );
+
+        // Hotkey
+        cataimgui::draw_colored_text( formatted_hotkey( talk.hotkey_desc, talk.color ) );
+
+        ImGui::SameLine();
+
+        // Selection text
+        const bool should_color_button = talk.color != c_white; // White is default and unreadable.
+        if( should_color_button ) {
+            ImGui::PushStyleColor( ImGuiCol_Button, talk.color );
+        }
+        if( ImGui::Button( talk.text.c_str() ) ) {
+            sel_response = i;
+            // Handled in dialogue::opt_imgui() with all other inputs.
+            user_clicked_response_button = true;
+        }
+        if( should_color_button ) {
+            ImGui::PopStyleColor();
+        }
         ImGui::NewLine();
     }
 
@@ -378,6 +413,7 @@ void dialogue_imgui_impl::draw_responses() const
     if( debug_mode ) {
         for( const std::string &dbg_info : responses_debug ) {
             cataimgui::TextColoredParagraph( c_yellow, dbg_info );
+            ImGui::NewLine();
         }
     }
 }

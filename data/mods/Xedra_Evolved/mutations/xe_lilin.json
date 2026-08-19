@@ -28,7 +28,8 @@
           { "value": "INTELLIGENCE", "add": -2 },
           { "value": "PERCEPTION", "add": -2 }
         ]
-      }
+      },
+      { "ench_effects": [ { "effect": "effect_xe_nonhuman_super_soldier_serum_immune", "intensity": 1 } ] }
     ]
   },
   {

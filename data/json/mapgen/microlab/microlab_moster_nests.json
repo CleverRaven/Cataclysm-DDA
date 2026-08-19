@@ -1,5 +1,66 @@
 [
   {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_unique_foe",
+    "object": {
+      "parameters": {
+        "unique_foe": {
+          "type": "nested_mapgen_id",
+          "default": {
+            "distribution": [
+              [ "mnm_more_density", 10 ],
+              [ "mnm_acid_zombies", 10 ],
+              [ "mnm_hunter_zombies", 10 ],
+              [ "mnm_rust_zombies", 10 ],
+              [ "mnm_phase_zombies", 10 ],
+              [ "mnm_raptor_zombies", 10 ],
+              [ "mnm_robots", 10 ],
+              [ "mnm_mutants", 10 ],
+              [ "mnm_wasps", 10 ],
+              [ "mnm_leech_plants", 10 ],
+              [ "mnm_slimes", 10 ],
+              [ "mnm_shadows", 10 ],
+              [ "mnm_vampire", 10 ],
+              [ "mnm_triffids", 5 ],
+              [ "mnm_fungaloids", 10 ],
+              [ "mnm_migo", 10 ],
+              [ "mnm_tindalos", 2 ],
+              [ "mnm_yrax", 2 ]
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [ { "chunks": [ { "param": "unique_foe", "fallback": "mnm_more_density" } ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_meat_unique_foe",
+    "object": {
+      "parameters": {
+        "unique_foe_meat": {
+          "type": "nested_mapgen_id",
+          "default": {
+            "distribution": [
+              [ "mnm_acid_zombies", 10 ],
+              [ "mnm_rust_zombies", 10 ],
+              [ "mnm_robots", 10 ],
+              [ "mnm_leech_plants", 10 ],
+              [ "mnm_slimes", 10 ],
+              [ "mnm_shadows", 10 ],
+              [ "mnm_triffids", 5 ],
+              [ "mnm_migo", 10 ],
+              [ "mnm_yrax", 2 ]
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [ { "chunks": [ { "param": "unique_foe_meat", "fallback": "mnm_more_density" } ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
     "type": "ter_furn_transform",
     "id": "microlab_triffidize",
     "terrain": [ { "result": [ "t_strconc_floor", [ "t_region_groundcover_forest", 3 ] ], "valid_terrain": [ "t_strconc_floor" ] } ]
