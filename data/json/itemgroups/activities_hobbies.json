@@ -155,7 +155,7 @@
   {
     "id": "helmet_bike_modified",
     "type": "item_group",
-    "subtype": "collection",
+    "subtype": "distribution",
     "container-item": "helmet_bike",
     "items": [ { "item": "plastic_chin_guard", "prob": 50 }, { "item": "shield_visor", "prob": 10 } ]
   },
@@ -242,7 +242,7 @@
     "type": "item_group",
     "id": "camping",
     "//": "camping stuff.",
-    "subtype": "collection",
+    "subtype": "distribution",
     "entries": [
       { "group": "camping_bag_large", "prob": 50 },
       { "group": "camping_bag_small", "prob": 30 },
@@ -319,7 +319,7 @@
   {
     "type": "item_group",
     "id": "camping_manuals",
-    "subtype": "collection",
+    "subtype": "distribution",
     "entries": [
       { "item": "mag_survival", "prob": 40 },
       { "item": "textbook_survival", "prob": 20 },
@@ -521,7 +521,7 @@
   {
     "type": "item_group",
     "id": "camping_fishing",
-    "subtype": "collection",
+    "subtype": "distribution",
     "entries": [ { "group": "tools_fishingrods_portable", "prob": 20 }, { "item": "fishing_waders", "prob": 12 } ]
   },
   {
@@ -550,13 +550,13 @@
   {
     "type": "item_group",
     "id": "camping_powergen",
-    "subtype": "collection",
+    "subtype": "distribution",
     "entries": [ { "item": "folding_solar_panel", "prob": 5 }, { "item": "power_station_portable", "prob": 85 } ]
   },
   {
     "type": "item_group",
     "id": "camping_tool",
-    "subtype": "collection",
+    "subtype": "distribution",
     "entries": [
       { "item": "thermometer", "prob": 3 },
       { "item": "hygrometer", "prob": 3 },
@@ -586,7 +586,7 @@
         ],
         "prob": 30
       },
-      { "item": "thread", "prob": 40, "count": [ 100, 500 ] },
+      { "item": "thread", "prob": 40, "count": [ 2, 10 ] },
       { "group": "pur_tablets_bottle_plastic_small_1_50", "prob": 10 },
       { "distribution": [ { "item": "umbrella", "prob": 47 }, { "item": "teleumbrella", "prob": 3 } ], "prob": 30 },
       {
