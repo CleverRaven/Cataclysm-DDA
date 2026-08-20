@@ -83,7 +83,7 @@
         { "group": "SUS_trash_trashcan", "chance": 80, "x": [ 4, 18 ], "y": [ 14, 16 ] },
         { "group": "cash_register_random", "x": 10, "y": 5 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE_FAT_BASE", "chance": 1, "x": [ 4, 9 ], "y": [ 5, 13 ] } ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "chance": 1, "x": [ 4, 9 ], "y": [ 5, 13 ] } ],
       "place_fields": [
         { "field": "fd_blood", "x": [ 4, 7 ], "y": [ 5, 12 ], "repeat": [ 8, 12 ] },
         { "field": "fd_gibs_flesh", "x": [ 4, 7 ], "y": [ 5, 12 ], "repeat": [ 1, 5 ] },
@@ -267,7 +267,7 @@
         { "group": "cleaning", "chance": 80, "x": 19, "y": 13, "repeat": [ 1, 2 ] },
         { "group": "cash_register_random", "x": [ 4, 11 ], "y": 9 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE_FAT_BASE", "chance": 1, "x": [ 4, 9 ], "y": [ 5, 13 ] } ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "chance": 1, "x": [ 4, 9 ], "y": [ 5, 13 ] } ],
       "place_fields": [
         { "field": "fd_blood", "x": [ 5, 8 ], "y": [ 12, 14 ], "repeat": [ 8, 12 ] },
         { "field": "fd_gibs_flesh", "x": [ 5, 8 ], "y": [ 12, 15 ], "repeat": [ 1, 5 ] }
