@@ -360,7 +360,7 @@
     "dynamic_line": "&An explosion of light and sound inside of your mind.  Your own powers rebound inside of your brain, shorting out neurons, blood vessels breaking their banks.",
     "responses": [
       {
-        "text": "*Withdraw from <npc_name>’s mind*.",
+        "text": "*Withdraw from <npc_name>'s mind*.",
         "topic": "TALK_BOANN_POST_SCAN",
         "effect": [ { "u_deal_damage": "psi_telepathic_damage", "amount": 20, "bodypart": "head" } ]
       }
