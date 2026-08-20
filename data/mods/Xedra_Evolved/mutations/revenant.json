@@ -13,6 +13,13 @@
     "chargen_allow_npc": false,
     "enchantments": [
       {
+        "special_vision": [
+          {
+            "condition": { "npc_has_trait": "XE_REVENANT_SENSING_TRAIT" },
+            "distance": 60,
+            "descriptions": [ { "id": "vampire_sense", "symbol": "@", "color": "c_white", "text": "You sense the target of your vengeance here." } ]
+          }
+        ],
         "values": [
           { "value": "CLIMATE_CONTROL_HEAT", "add": 9999 },
           { "value": "KCAL", "multiply": -100 },
@@ -72,7 +79,19 @@
       "STOP_SLEEP_DEPRIVATION",
       "WALK_UNDERWATER",
       "BLOCK_SUPERNATURAL_HEALING",
-      "CANNOT_CONSUME_DRUGS"
+      "CANNOT_CONSUME_DRUGS",
+      "HUNGER_DISRUPTION"
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "XE_REVENANT_SENSING_TRAIT",
+    "name": { "str": "Revenant Sense", "//~": "NO_I18N" },
+    "description": { "str": "This exists so the revenant can sense their target", "//~": "NO_I18N" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "chargen_allow_npc": false
   }
 ]
