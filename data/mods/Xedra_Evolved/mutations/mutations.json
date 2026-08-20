@@ -1515,7 +1515,8 @@
           { "value": "VITAMIN_ABSORB_MOD", "multiply": -100 },
           { "value": "HUNGER", "multiply": -1 },
           { "value": "THIRST", "multiply": -1 },
-          { "value": "METABOLISM", "multiply": -1 }
+          { "value": "METABOLISM", "multiply": -1 },
+          { "value": "STAMINA_REGEN_MOD", "multiply": -0.333 }
         ]
       },
       {
