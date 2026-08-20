@@ -30,7 +30,8 @@
           { "value": "METABOLISM", "multiply": -1 },
           { "value": "CARDIO_MULTIPLIER", "multiply": 4 },
           { "value": "DISINFECTANT_BONUS", "multiply": -1 },
-          { "value": "BANDAGE_BONUS", "multiply": -1 }
+          { "value": "BANDAGE_BONUS", "multiply": -1 },
+          { "value": "NIGHT_VIS", "add": 8 }
         ],
         "incoming_damage_mod": [
           { "type": "bash", "add": -5 },
