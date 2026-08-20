@@ -535,11 +535,6 @@
   },
   {
     "type": "monstergroup",
-    "id": "GROUP_ZOMBIE_FAT_BASE",
-    "monsters": [ { "monster": "mon_zombie_fat", "cost_multiplier": 2 } ]
-  },
-  {
-    "type": "monstergroup",
     "id": "GROUP_SCHOOL",
     "//": "School monster spawns.",
     "monsters": [
