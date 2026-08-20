@@ -176,6 +176,7 @@
     "professions": [ "xedra_revenant_prof" ],
     "flags": [ "LONE_START" ],
     "reveal_locale": false,
+    "requirement": "achievement_kill_1000_monsters",
     "missions": [ "MISSION_REVENANT_VENGEANCE" ],
     "forced_traits": [ "XE_REVENANT_TRAITS" ]
   }
