@@ -11,6 +11,7 @@
     "visibility": 30,
     "ugliness": 30,
     "chargen_allow_npc": false,
+    "anger_relations": [ [ "FERAL", -120 ] ],
     "enchantments": [
       {
         "special_vision": [
