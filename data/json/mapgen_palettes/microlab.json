@@ -163,7 +163,7 @@
       "c": [
         { "item": "tools_science", "chance": 30, "repeat": [ 1, 3 ] },
         { "item": "drugs_pharmacy", "chance": 70, "repeat": [ 1, 3 ] },
-        { "item": "drugs_rare", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "drugs_rare", "chance": 5, "repeat": [ 1, 2 ] },
         { "item": "lab_files_generic", "chance": 5 }
       ],
       "R": [
