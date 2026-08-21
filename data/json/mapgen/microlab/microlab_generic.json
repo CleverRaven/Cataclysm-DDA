@@ -11,7 +11,11 @@
             [
               {
                 "switch": { "param": "labtype", "fallback": "microlab_generic" },
-                "cases": { "microlab_meat": "microlab_generic_special_tile", "microlab_generic": "microlab_generic_special_tile" }
+                "cases": {
+                  "microlab_meat": "microlab_generic_special_tile",
+                  "microlab_serum": "microlab_serum_special_tile",
+                  "microlab_generic": "microlab_generic_special_tile"
+                }
               },
               25
             ]
@@ -35,7 +39,11 @@
           "chunks": [
             {
               "switch": { "param": "labtype", "fallback": "microlab_generic" },
-              "cases": { "microlab_meat": "microlab_meat_unique_foe", "microlab_generic": "microlab_unique_foe" }
+              "cases": {
+                "microlab_meat": "microlab_meat_unique_foe",
+                "microlab_serum": "microlab_serum_unique_foe",
+                "microlab_generic": "microlab_unique_foe"
+              }
             }
           ],
           "x": 0,
@@ -50,7 +58,7 @@
         {
           "group": {
             "switch": { "param": "labtype", "fallback": "microlab_generic" },
-            "cases": { "microlab_meat": "GROUP_MEATLAB", "microlab_generic": "GROUP_MICROLAB" }
+            "cases": { "microlab_meat": "GROUP_MEATLAB", "microlab_serum": "GROUP_MICROLAB", "microlab_generic": "GROUP_MICROLAB" }
           },
           "chance": 80,
           "x": [ 0, 23 ],
