@@ -27,6 +27,13 @@
     "use_action": { "type": "ammobelt", "belt": "belt308" }
   },
   {
+    "id": "ammolink68x51",
+    "copy-from": "ammolink",
+    "type": "ITEM",
+    "name": { "str": "6.8x51mm ammo belt linkage" },
+    "use_action": { "type": "ammobelt", "belt": "belt68x51" }
+  },
+  {
     "id": "ammolink40mm",
     "copy-from": "ammolink",
     "type": "ITEM",

@@ -472,6 +472,13 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "790 ml", "max_contains_weight": "2 kg", "rigid": true } ]
   },
   {
+    "id": "68x51_ammo_box_20",
+    "copy-from": "308_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": "6.8x51mm ammo box", "str_pl": "6.8x51mm ammo boxes" },
+    "description": "A small, plain cardboard box that can hold 20 rounds of 6.8x51mm ammunition."
+  },
+  {
     "id": "38_ammo_box_20",
     "copy-from": "9mm_ammo_box_20",
     "type": "ITEM",
