@@ -307,7 +307,6 @@
     "autolearn": true,
     "difficulty": 3,
     "charges": 17,
-    "tools": [ [ [ "fake_lathe", 120 ] ] ],
     "components": [ [ [ "small_hc_steel_bar_round", 1 ] ] ],
     "byproducts": [ [ "scrap metal", 33 ] ],
     "steps": [
@@ -318,14 +317,16 @@
         "proficiencies": [
           { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
           { "proficiency": "prof_machining_basic", "time_multiplier": 1.5, "skill_penalty": 0.5 }
-        ]
+        ],
+        "tools": [ [ [ "fake_lathe", 25 ] ] ]
       },
       {
         "name": "Cut the stock into 17 bullets",
         "time": "40 m",
         "activity_level": "LIGHT_EXERCISE",
         "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_metalworking", "time_multiplier": 1.5 } ]
+        "proficiencies": [ { "proficiency": "prof_metalworking", "time_multiplier": 1.5 } ],
+        "tools": [ [ [ "tape_measure", -1 ] ] ]
       },
       {
         "name": "Smooth out each bullet",
@@ -340,7 +341,8 @@
         "proficiencies": [
           { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
           { "proficiency": "prof_machining_basic", "time_multiplier": 2, "skill_penalty": 0.7 }
-        ]
+        ],
+        "tools": [ [ [ "fake_lathe", 40 ] ] ]
       }
     ]
   },
@@ -364,14 +366,16 @@
         "proficiencies": [
           { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
           { "proficiency": "prof_machining_basic", "time_multiplier": 1.5, "skill_penalty": 0.5 }
-        ]
+        ],
+        "tools": [ [ [ "fake_lathe", 20 ] ], [ [ "tape_measure", -1 ] ] ]
       },
       {
         "name": "Cut the stock into 8 bullets",
         "time": "30 m",
         "activity_level": "LIGHT_EXERCISE",
         "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_metalworking", "time_multiplier": 1.5 } ]
+        "proficiencies": [ { "proficiency": "prof_metalworking", "time_multiplier": 1.5 } ],
+        "tools": [ [ [ "tape_measure", -1 ] ] ]
       },
       {
         "name": "Smooth out each bullet",
@@ -386,7 +390,8 @@
         "proficiencies": [
           { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
           { "proficiency": "prof_machining_basic", "time_multiplier": 2, "skill_penalty": 0.7 }
-        ]
+        ],
+        "tools": [ [ [ "fake_lathe", 40 ] ], [ [ "tape_measure", -1 ] ] ]
       }
     ]
   },
@@ -411,14 +416,16 @@
         "proficiencies": [
           { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
           { "proficiency": "prof_machining_basic", "time_multiplier": 1.5, "skill_penalty": 0.5 }
-        ]
+        ],
+        "tools": [ [ [ "fake_lathe", 20 ] ], [ [ "tape_measure", -1 ] ] ]
       },
       {
         "name": "Cut the stock into 8 bullets",
         "time": "30 m",
         "activity_level": "LIGHT_EXERCISE",
         "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_metalworking", "time_multiplier": 1.5 } ]
+        "proficiencies": [ { "proficiency": "prof_metalworking", "time_multiplier": 1.5 } ],
+        "tools": [ [ [ "tape_measure", -1 ] ] ]
       },
       {
         "name": "Smooth out each bullet",
@@ -433,7 +440,8 @@
         "proficiencies": [
           { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
           { "proficiency": "prof_machining_basic", "time_multiplier": 2, "skill_penalty": 0.7 }
-        ]
+        ],
+        "tools": [ [ [ "fake_lathe", 40 ] ], [ [ "tape_measure", -1 ] ] ]
       }
     ]
   }
