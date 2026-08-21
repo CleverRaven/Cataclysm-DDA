@@ -405,7 +405,6 @@
     "charges": 8,
     "components": [ [ [ "small_hc_steel_bar_round", 1 ] ] ],
     "byproducts": [ [ "scrap metal", 32 ] ],
-    "activity_level": "LIGHT_EXERCISE",
     "steps": [
       {
         "name": "Lathe the bar to size",
