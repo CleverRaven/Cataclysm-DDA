@@ -174,6 +174,17 @@ struct enum_traits<ot_match_type> {
     static constexpr ot_match_type last = ot_match_type::num_ot_match_type;
 };
 
+using accessor_flags = int;
+
+enum accessor_flags_ {
+    Access_None                       = 0,           // You probably don't want to use this!
+    Access_Inventory                  = 1 << 0,      // Only character's inventory
+    Access_Map_Around                 = 1 << 1,      // Items in radius PICKUP_RANGE around character
+    Access_Map_All                    = 1 << 2,      // Everything on the map (z-level/flood fill?)
+    Access_Vehicle                    = 1 << 3,      // Everything on vehicles owned by that guy's faction
+    Access_EVERYTHING                 = 1 << 4       // All of the above
+};
+
 enum class special_game_type : int {
     NONE = 0,
     TUTORIAL,

@@ -5560,6 +5560,71 @@ void map::set_temperature_mod( const tripoint_bub_ms &p,
 
     current_submap->set_temperature_mod( new_temperature_mod );
 }
+
+std::unordered_set<item_location> map::all_items( Character &who, accessor_flags flags )
+{
+    auto always_true = []( const item & ) {
+        return true;
+    };
+
+    return all_items( always_true, who, flags );
+}
+
+std::unordered_set<item_location> map::all_items( const std::function<bool( const item & )> &filter,
+        Character &who, accessor_flags flags )
+{
+    std::unordered_set<item_location> ret;
+
+    if( flags & Access_Inventory )  {
+        for( item_location &it : who.all_items_loc() ) {
+            if( filter( *it ) ) {
+                ret.emplace( it );
+            }
+        }
+    }
+
+    if( flags & Access_Map_All || flags & Access_EVERYTHING )  {
+        for( const tripoint_bub_ms &pt : points_on_zlevel( who.posz() ) ) {
+            for( item &it : i_at( pt ) ) {
+                if( filter( it ) ) {
+                    item_location there( map_cursor( pt ), &it );
+                    ret.emplace( there );
+                }
+                // TODO: Items inside of these items?!
+            }
+        }
+    } else if( flags & Access_Map_Around )  {
+        for( const tripoint_bub_ms &pt : points_in_radius( who.pos_bub(), PICKUP_RANGE ) ) {
+            for( item &it : i_at( pt ) ) {
+                if( filter( it ) ) {
+                    item_location there( map_cursor( pt ), &it );
+                    ret.emplace( there );
+                }
+                // TODO: Items inside of these items?!
+            }
+        }
+    }
+
+    if( flags & Access_Vehicle || flags & Access_EVERYTHING )  {
+        for( wrapped_vehicle &v : get_vehicles() ) {
+            vehicle *veh = v.v;
+            if( veh ) {
+                for( vpart_reference vp : veh->get_all_parts() ) {
+                    for( item &it : veh->get_items( vp.part() ) ) {
+                        if( filter( it ) ) {
+                            item_location there( vehicle_cursor( *veh, vp.part_index() ), &it );
+                            ret.emplace( there );
+                        }
+                        // TODO: Items inside of these items?!
+                    }
+                }
+            }
+        }
+    }
+
+    return ret;
+}
+
 // Items: 3D
 
 map_stack map::i_at( const tripoint_bub_ms &p )
