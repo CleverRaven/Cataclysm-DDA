@@ -308,7 +308,7 @@
     "difficulty": 3,
     "charges": 17,
     "components": [ [ [ "small_hc_steel_bar_round", 1 ] ] ],
-    "byproducts": [ [ "scrap metal", 33 ] ],
+    "byproducts": [ [ "scrap", 33 ] ],
     "steps": [
       {
         "name": "Lathe the bar to size",
@@ -356,7 +356,7 @@
     "difficulty": 3,
     "charges": 8,
     "components": [ [ [ "small_hc_steel_bar_round", 1 ] ] ],
-    "byproducts": [ [ "scrap metal", 32 ] ],
+    "byproducts": [ [ "scrap", 32 ] ],
     "steps": [
       {
         "name": "Lathe the bar to size",
@@ -404,7 +404,7 @@
     "difficulty": 3,
     "charges": 8,
     "components": [ [ [ "small_hc_steel_bar_round", 1 ] ] ],
-    "byproducts": [ [ "scrap metal", 32 ] ],
+    "byproducts": [ [ "scrap", 32 ] ],
     "steps": [
       {
         "name": "Lathe the bar to size",
