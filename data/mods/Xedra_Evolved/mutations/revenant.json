@@ -12,6 +12,7 @@
     "ugliness": 30,
     "chargen_allow_npc": false,
     "anger_relations": [ [ "FERAL", -120 ] ],
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR", "VAMPIRE" ],
     "enchantments": [
       {
         "special_vision": [
@@ -34,6 +35,7 @@
           { "value": "BANDAGE_BONUS", "multiply": -1 },
           { "value": "NIGHT_VIS", "add": 8 }
         ],
+        "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ],
         "incoming_damage_mod": [
           { "type": "bash", "add": -5 },
           { "type": "bash", "multiply": -0.5 },
@@ -58,7 +60,8 @@
           "DISIMMUNE",
           "PARAIMMUNE",
           "NOHEAL",
-          "TOUGH_FEET"
+          "TOUGH_FEET",
+          "DREAMLESS"
         ]
       },
       {
