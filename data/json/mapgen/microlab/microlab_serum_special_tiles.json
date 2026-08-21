@@ -31,9 +31,10 @@
         "  c c|c   |22|    |cc   "
       ],
       "palettes": [ "microlab_serum" ],
-      "terrain": { "G": "t_card_science", "£": "f_lab_bench", "H": "f_stool" },
+      "terrain": { "G": "t_card_science" },
+      "furniture": { "£": "f_lab_bench", "H": "f_stool" },
       "items": {
-        "f": { "item": "serum_kits", "chance": 70, "repeat": [ 1, 3 ] },
+        "f": { "item": "serum_kits", "chance": 45, "repeat": [ 1, 2 ] },
         "£": { "item": "mundane_science", "chance": 55, "repeat": [ 1, 4 ] }
       },
       "monster": { "M": { "monster": "mon_secubot" } },
