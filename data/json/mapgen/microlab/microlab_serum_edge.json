@@ -30,7 +30,7 @@
         "   cc  cc 2  |c  ccccc  ",
         "          |  |          "
       ],
-      "palettes": [ "microlab" ]
+      "palettes": [ "microlab_serum" ]
     }
   },
   {
@@ -64,7 +64,7 @@
         "   cc  cc |  |c  ccccc  ",
         "          |  5          "
       ],
-      "palettes": [ "microlab" ]
+      "palettes": [ "microlab_serum" ]
     }
   },
   {
@@ -98,7 +98,7 @@
         "    c|  ll|  |ll   |c   ",
         "     ||||||  |||||||    "
       ],
-      "palettes": [ "microlab" ]
+      "palettes": [ "microlab_serum" ]
     }
   },
   {
@@ -132,7 +132,7 @@
         " c  c|    2  2  FF|UU   ",
         "     |    |  |    |     "
       ],
-      "palettes": [ "microlab" ]
+      "palettes": [ "microlab_serum" ]
     }
   },
   {
@@ -166,7 +166,7 @@
         " c  c|    2  2    F|c   ",
         "     |    |  |    ||    "
       ],
-      "palettes": [ "microlab" ]
+      "palettes": [ "microlab_serum" ]
     }
   },
   {
@@ -200,7 +200,7 @@
         "  U||||||||  |@D  t|U   ",
         "     ||||||  |||||||    "
       ],
-      "palettes": [ "microlab" ]
+      "palettes": [ "microlab_serum" ]
     }
   },
   {
@@ -234,7 +234,7 @@
         " c   UUUcc|  |@D  t|U   ",
         "   ||||||||  |||||||    "
       ],
-      "palettes": [ "microlab" ]
+      "palettes": [ "microlab_serum" ]
     }
   },
   {
@@ -268,7 +268,7 @@
         " c   |cc c|  |     |U   ",
         "     |    |  |||||||    "
       ],
-      "palettes": [ "microlab" ]
+      "palettes": [ "microlab_serum" ]
     }
   },
   {
@@ -302,7 +302,7 @@
         "   2 c|U U|  |FFFFF|U   ",
         "   |      |  |||||||    "
       ],
-      "palettes": [ "microlab" ]
+      "palettes": [ "microlab_serum" ]
     }
   },
   {
@@ -336,7 +336,7 @@
         "     |U  U|  |FFFFF|U   ",
         "     |    |  |||||||    "
       ],
-      "palettes": [ "microlab" ]
+      "palettes": [ "microlab_serum" ]
     }
   },
   {
@@ -370,7 +370,7 @@
         "    i|U  U|  |^BBB^|U   ",
         "     |    |  |||||||    "
       ],
-      "palettes": [ "microlab" ]
+      "palettes": [ "microlab_serum" ]
     }
   },
   {
@@ -404,7 +404,7 @@
         "    i|U  U|  |^BBB^|U   ",
         "     |    |  |||||||    "
       ],
-      "palettes": [ "microlab" ]
+      "palettes": [ "microlab_serum" ]
     }
   }
 ]

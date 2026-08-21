@@ -197,7 +197,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "microlab_generic_surface_connector", "microlab_ratkin_surface_connector", "microlab_serum_surface_connector" ],
+    "om_terrain": [ "microlab_generic_surface_connector", "microlab_ratkin_surface_connector" ],
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -244,11 +244,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [
-      "microlab_generic_vent_shaft_connector",
-      "microlab_ratkin_vent_shaft_connector",
-      "microlab_serum_vent_shaft_connector"
-    ],
+    "om_terrain": [ "microlab_generic_vent_shaft_connector", "microlab_ratkin_vent_shaft_connector" ],
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [

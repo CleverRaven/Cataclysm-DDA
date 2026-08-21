@@ -26,38 +26,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "microlab_serum",
-    "copy-from": "microlab_generic",
-    "name": "science lab",
-    "sym": "L",
-    "color": "magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "microlab_serum_edge",
-    "copy-from": "microlab_generic_edge",
-    "name": "science lab",
-    "sym": "L",
-    "color": "magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "microlab_serum_surface_connector",
-    "copy-from": "microlab_generic_surface_connector",
-    "name": "science lab",
-    "sym": "L",
-    "color": "magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "microlab_serum_vent_shaft_connector",
-    "copy-from": "microlab_generic_vent_shaft_connector",
-    "name": "science lab",
-    "sym": "L",
-    "color": "magenta"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "microlab_sub_station",
     "vision_levels": "underground_stone",
     "name": "subway station?",

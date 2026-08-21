@@ -28,7 +28,7 @@
           "chunks": [
             {
               "switch": { "param": "labtype", "fallback": "microlab_generic" },
-              "cases": { "microlab_meat": "micolab_meat_pools", "microlab_generic": "null" }
+              "cases": { "microlab_meat": "micolab_meat_pools", "microlab_serum": "null", "microlab_generic": "null" }
             }
           ],
           "x": 0,
@@ -58,7 +58,7 @@
         {
           "group": {
             "switch": { "param": "labtype", "fallback": "microlab_generic" },
-            "cases": { "microlab_meat": "GROUP_MEATLAB", "microlab_serum": "GROUP_MICROLAB", "microlab_generic": "GROUP_MICROLAB" }
+            "cases": { "microlab_meat": "GROUP_MEATLAB", "microlab_serum": "GROUP_SERUM_LAB", "microlab_generic": "GROUP_MICROLAB" }
           },
           "chance": 80,
           "x": [ 0, 23 ],
