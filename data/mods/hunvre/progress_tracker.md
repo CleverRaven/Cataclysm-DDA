@@ -20,14 +20,14 @@ The "May get added" segment is stuff that I'm thinking about but either I'm not 
 - [ ] **Map** - Habitations for the poor/rich
 - [ ] **Map** - Shops
 - [ ] **Map** - Bar
-- [ ] **Map** - Elevator topside-downside
+- [x] **Map** - Elevator topside-downside
 - [ ] **Feature** - Spacewalking
 
 ## Medium Priority
 
 - [ ] **Feature** - Random encounter system for NPCs
 - [ ] **Feature** - Survivor community
-- [ ] **Item** - Hunvre-specific civil clothes
+- [x] **Item** - Hunvre-specific civil clothes
 - [ ] **Item** - Hunvre-specific foods
 - [ ] **Feature** - Improvements to the "hacking system"
 
@@ -36,7 +36,7 @@ The "May get added" segment is stuff that I'm thinking about but either I'm not 
 - [ ] **Map** - More apartments layouts
 - [ ] **Map** - More restaurants layouts
 - [ ] **Monster** - More monsters
-- [ ] **Feature** - More random environmental change events (similar to the lights randomly turning on and off)
+- [x] **Feature** - More random environmental change events (similar to the lights randomly turning on and off)
 
 
 ## May get added

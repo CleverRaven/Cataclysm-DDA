@@ -1,9 +1,7 @@
 #include "cursesdef.h" // IWYU pragma: associated
 #include "sdltiles.h" // IWYU pragma: associated
 
-#if SDL_MAJOR_VERSION >= 3
 #include "cata_shader.h"
-#endif
 #include "cuboid_rectangle.h"
 #include "point.h"
 
@@ -29,15 +27,6 @@
 #include <stdexcept>
 #include <type_traits>
 #include <vector>
-#ifndef USE_SDL3
-#if defined(_MSC_VER) && defined(USE_VCPKG)
-#   include <SDL2/SDL_syswm.h>
-#else
-#ifdef _WIN32
-#   include <SDL_syswm.h>
-#endif
-#endif
-#endif
 
 #include "avatar.h"
 #include "cached_options.h"
@@ -146,9 +135,7 @@ static SDL_Renderer_Ptr renderer;
 static Uint32 pixel_format = SDL_PIXELFORMAT_UNKNOWN;
 static SDL_Texture_Ptr display_buffer;
 static GeometryRenderer_Ptr geometry;
-#if SDL_MAJOR_VERSION >= 3
 static std::unique_ptr<cata_shader::variant_pass> shared_variant_pass;
-#endif
 #if defined(__ANDROID__)
 static SDL_Texture_Ptr touch_joystick;
 #endif
@@ -197,18 +184,10 @@ bool clear_sdl_window()
 
 static void InitSDL()
 {
-#if SDL_MAJOR_VERSION >= 3
     int init_flags = SDL_INIT_VIDEO;
-#else
-    int init_flags = SDL_INIT_VIDEO | SDL_INIT_TIMER;
-#endif
 #if defined(SDL_SOUND)
     init_flags |= SDL_INIT_AUDIO;
 #endif
-#if SDL_MAJOR_VERSION < 3
-    int ret;
-#endif
-
 #if defined(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING)
     // Requires SDL 2.0.5. Disables thread naming so that gdb works correctly
     // with the game.
@@ -237,36 +216,12 @@ static void InitSDL()
     SDL_SetHint( SDL_HINT_APP_NAME, _( "Cataclysm: Dark Days Ahead" ) );
 #endif
 
-#if defined(__linux__) && SDL_MAJOR_VERSION < 3
-    // https://bugzilla.libsdl.org/show_bug.cgi?id=3472#c5
-    if( SDL_COMPILEDVERSION == SDL_VERSIONNUM( 2, 0, 5 ) ) {
-        const char *xmod = getenv( "XMODIFIERS" );
-        if( xmod && strstr( xmod, "@im=ibus" ) != nullptr ) {
-            setenv( "XMODIFIERS", "@im=none", 1 );
-        }
-    }
-#endif
-
-#if SDL_MAJOR_VERSION >= 3
     throwErrorIf( !SDL_Init( init_flags ), "SDL_Init failed" );
     throwErrorIf( !TTF_Init(), "TTF_Init failed" );
-    // SDL3_image: IMG_Init removed; loading functions init on demand.
-#else
-    ret = SDL_Init( init_flags );
-    throwErrorIf( ret != 0, "SDL_Init failed" );
+    // There is no IMG_Init; the loading functions initialize on demand.
 
-    ret = TTF_Init();
-    throwErrorIf( ret != 0, "TTF_Init failed" );
-
-    // cata_tiles won't be able to load the tiles, but the normal SDL
-    // code will display fine.
-    ret = IMG_Init( IMG_INIT_PNG );
-    printErrorIf( ( ret & IMG_INIT_PNG ) != IMG_INIT_PNG,
-                  "IMG_Init failed to initialize PNG support, tiles won't work" );
-#endif
-
-    //SDL2 has no functionality for INPUT_DELAY, we would have to query it manually, which is expensive
-    //SDL2 instead uses the OS's Input Delay.
+    // SDL has no INPUT_DELAY functionality; querying it manually is
+    // expensive, so the OS input delay is used instead.
 
     if( atexit( SDL_Quit ) ) {
         debugmsg( "atexit failed to register SDL_Quit" );
@@ -353,11 +308,7 @@ static bool SetupRenderTarget()
     if( printErrorIf( !staged, "Failed to create window buffer" ) ) {
         return false;
     }
-#if SDL_MAJOR_VERSION >= 3
     cata_shader::variant_pass *vp = get_shared_variant_pass();
-#else
-    cata_shader::variant_pass *vp = nullptr;
-#endif
     {
         const bind_result r = permanent_render_target_bind( renderer, staged.get(), vp );
         if( r == bind_result::failed_in_switch ) {
@@ -422,8 +373,8 @@ void refresh_mouse_config()
     }
 }
 
-#if SDL_MAJOR_VERSION >= 3 && defined(_WIN32)
-// True if data/shaders contains .spv but no .dxil. Used to bias the SDL3 GPU
+#if defined(_WIN32)
+// True if data/shaders contains .spv but no .dxil. Used to bias the GPU
 // device toward Vulkan when a local Windows build skipped SDL_shadercross
 // install (which would have produced DXIL for the D3D12 backend) but
 // glslangValidator still produced SPIR-V.
@@ -466,7 +417,6 @@ static SDL_Renderer_Ptr create_game_renderer( const std::string &renderer_name, 
 // direct3d_mode from the prior renderer choice.
 static void detect_renderer_backend()
 {
-#if SDL_MAJOR_VERSION >= 3
     direct3d_mode = false;
     const SDL_PropertiesID props = SDL_GetRendererProperties( renderer.get() );
     const char *actual_name = props != 0
@@ -476,7 +426,6 @@ static void detect_renderer_backend()
     if( actual_name && std::string( actual_name ).find( "direct3d" ) != std::string::npos ) {
         direct3d_mode = true;
     }
-#endif
 }
 
 // Pick the geometry renderer matching the live renderer's capabilities:
@@ -486,19 +435,11 @@ static void rebuild_geometry_strategy( bool software_renderer )
 {
     DebugLog( D_INFO, DC_ALL ) << "USE_COLOR_MODULATED_TEXTURES is set to " <<
                                get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" );
-#if SDL_MAJOR_VERSION >= 3
     ( void )software_renderer;
-    // SDL3 batches RenderFillRect efficiently and the modulated texture path
+    // The renderer batches RenderFillRect efficiently and the modulated path
     // blends differently from a plain fill (it breaks the per-frame clear), so
     // the saved option value is ignored and the default renderer is always used.
     geometry = std::make_unique<DefaultGeometryRenderer>();
-#else
-    if( get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) && !software_renderer ) {
-        geometry = std::make_unique<ColorModulatedGeometryRenderer>( renderer );
-    } else {
-        geometry = std::make_unique<DefaultGeometryRenderer>();
-    }
-#endif
 }
 
 // The renderer event watch may run off the main thread (SDL calls watches on the
@@ -507,29 +448,18 @@ static void rebuild_geometry_strategy( bool software_renderer )
 // filtered to the game window; mobile lifecycle events carry no window id.
 static Uint32 renderer_watch_window_id = 0;
 
-#if SDL_MAJOR_VERSION >= 3
 static bool SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
-#else
-static int SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
-#endif
 {
     renderer_resource_coordinator *coord =
         static_cast<renderer_resource_coordinator *>( userdata );
     switch( event->type ) {
         case CATA_RENDER_TARGETS_RESET:
-#if SDL_MAJOR_VERSION >= 3
             if( event->render.windowID == renderer_watch_window_id ) {
-#endif
                 coord->request_recovery( renderer_recovery_severity::targets_reset );
-#if SDL_MAJOR_VERSION >= 3
             }
-#endif
             break;
         case CATA_RENDER_DEVICE_RESET:
-#if SDL_MAJOR_VERSION >= 3
-            if( event->render.windowID == renderer_watch_window_id )
-#endif
-            {
+            if( event->render.windowID == renderer_watch_window_id ) {
 #if defined(__ANDROID__)
                 // SDL emits this only after the preserved EGL context fails to
                 // restore and it allocates a replacement context, leaving the
@@ -540,13 +470,11 @@ static int SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
 #endif
             }
             break;
-#if SDL_MAJOR_VERSION >= 3
         case CATA_RENDER_DEVICE_LOST:
             if( event->render.windowID == renderer_watch_window_id ) {
                 coord->request_recovery( renderer_recovery_severity::device_lost );
             }
             break;
-#endif
 #if defined(__ANDROID__)
         case CATA_APP_DIDENTERFOREGROUND:
             // Severity is a hint; the lifecycle epoch is the durable signal that
@@ -560,31 +488,16 @@ static int SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
             coord->notify_lifecycle( lifecycle_state::paused );
             break;
 #endif
-#if SDL_MAJOR_VERSION >= 3
         case CATA_WINDOWEVENT_RESIZED:
         case CATA_WINDOWEVENT_PIXEL_SIZE_CHANGED:
             if( event->window.windowID == renderer_watch_window_id ) {
                 coord->notify_resize();
             }
             break;
-#else
-        case SDL_WINDOWEVENT:
-            // SDL2 delivers resize as a window sub-event under one umbrella type.
-            if( event->window.windowID == renderer_watch_window_id
-                && ( event->window.event == CATA_WINDOWEVENT_RESIZED
-                     || event->window.event == CATA_WINDOWEVENT_PIXEL_SIZE_CHANGED ) ) {
-                coord->notify_resize();
-            }
-            break;
-#endif
         default:
             break;
     }
-#if SDL_MAJOR_VERSION >= 3
     return true;
-#else
-    return 0;
-#endif
 }
 
 //Registers, creates, and shows the Window!!
@@ -678,40 +591,22 @@ static void WinCreate()
     throwErrorIf( pixel_format == SDL_PIXELFORMAT_UNKNOWN, "SDL_GetWindowPixelFormat failed" );
 
 #if !defined(__ANDROID__)
-#if defined(USE_SDL3)
-    // Under SDL3 the GPU renderer is the only one that supports
-    // SDL_SetGPURenderState. Drive selection through SDL_HINT_RENDER_DRIVER
-    // (comma-list with platform-appropriate fallbacks) rather than the
-    // saved RENDERER option, which predates SDL3 and may name a renderer
-    // that no longer exists. Power users can still override at the SDL
-    // layer via SDL_RENDER_DRIVER environment variable (env > SDL_SetHint).
+    // The GPU renderer is the only one that supports SDL_SetGPURenderState.
+    // Drive selection through SDL_HINT_RENDER_DRIVER (comma-list with
+    // platform-appropriate fallbacks) rather than the saved RENDERER option,
+    // which may name a renderer that no longer exists. Power
+    // users can still override at the SDL layer via the SDL_RENDER_DRIVER
+    // environment variable (env > SDL_SetHint).
     bool software_renderer = false;
     std::string renderer_name;
-#else
-    bool software_renderer = get_option<std::string>( "RENDERER" ).empty();
-    std::string renderer_name;
-    if( software_renderer ) {
-        renderer_name = "software";
-    } else {
-        renderer_name = get_option<std::string>( "RENDERER" );
-    }
-
-    if( renderer_name == "direct3d" ) {
-        direct3d_mode = true;
-    }
-#endif
 #else
     bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
     std::string renderer_name = software_renderer ? "software" : "";
 #endif
 
-#if SDL_MAJOR_VERSION < 3
-    // SDL3: batching is always on.
-    SDL_SetHint( SDL_HINT_RENDER_BATCHING, get_option<bool>( "RENDER_BATCHING" ) ? "1" : "0" );
-#else
 #  if defined(_WIN32)
     SDL_SetHint( SDL_HINT_RENDER_DRIVER, "gpu,direct3d12,direct3d11,opengl" );
-    // Bias the SDL3 GPU device toward Vulkan when the install only has
+    // Bias the GPU device toward Vulkan when the install only has
     // SPIR-V artifacts (e.g. a local dev build that skipped SDL_shadercross
     // install and so never produced DXIL). Vulkan consumes SPIR-V; D3D12
     // would not load these. SDL falls through to D3D12 via the comma-list
@@ -720,13 +615,12 @@ static void WinCreate()
         && !SDL_GetHint( SDL_HINT_GPU_DRIVER )
         && only_spirv_shader_artifacts_present() ) {
         SDL_SetHint( SDL_HINT_GPU_DRIVER, "vulkan" );
-        dbg( D_INFO ) << "Only SPIR-V shader artifacts present; biasing SDL3 "
+        dbg( D_INFO ) << "Only SPIR-V shader artifacts present; biasing the "
                       "GPU device toward Vulkan.";
     }
 #  else
     SDL_SetHint( SDL_HINT_RENDER_DRIVER, "gpu,opengl" );
 #  endif
-#endif
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
@@ -747,13 +641,6 @@ static void WinCreate()
     }
 
     if( software_renderer ) {
-#if !defined(USE_SDL3)
-        // FRAMEBUFFER_ACCEL is hidden under SDL3 (the option is the SDL2
-        // software-renderer toggle); don't consume the stored value there.
-        if( get_option<bool>( "FRAMEBUFFER_ACCEL" ) ) {
-            SDL_SetHint( SDL_HINT_FRAMEBUFFER_ACCELERATION, "1" );
-        }
-#endif
         renderer = create_game_renderer( {}, true );
         throwErrorIf( !renderer, "Failed to initialize software renderer" );
         throwErrorIf( !SetupRenderTarget(),
@@ -790,9 +677,7 @@ static void WinCreate()
 
     rebuild_geometry_strategy( software_renderer );
 
-#if SDL_MAJOR_VERSION >= 3
     shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
-#endif
 
     imclient = std::make_unique<cataimgui::client>( renderer, window, geometry );
 
@@ -801,24 +686,16 @@ static void WinCreate()
     // Register before the cold-start tileset upload so a reset or mobile
     // lifecycle event during bootstrap is not lost.
     renderer_watch_window_id = SDL_GetWindowID( ::window.get() );
-#if SDL_MAJOR_VERSION >= 3
     if( !SDL_AddEventWatch( renderer_event_watch, &renderer_coordinator ) ) {
         DebugLog( D_ERROR, DC_ALL ) << "Failed to register renderer event watch: " << SDL_GetError();
     }
-#else
-    SDL_AddEventWatch( renderer_event_watch, &renderer_coordinator );
-#endif
 }
 
 static void WinDestroy()
 {
     // Unregister before SDL teardown. The remove does not join an in-flight
     // callback, but the process-lifetime coordinator outlives it.
-#if SDL_MAJOR_VERSION >= 3
     SDL_RemoveEventWatch( renderer_event_watch, &renderer_coordinator );
-#else
-    SDL_DelEventWatch( renderer_event_watch, &renderer_coordinator );
-#endif
 #if defined(__ANDROID__)
     touch_joystick.reset();
 #endif
@@ -827,9 +704,7 @@ static void WinDestroy()
     tilecontext.reset();
     gamepad::quit();
     geometry.reset();
-#if SDL_MAJOR_VERSION >= 3
     shared_variant_pass.reset();
-#endif
     display_buffer.reset();
     renderer.reset();
     ::window.reset();
@@ -941,14 +816,12 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
     // the whole window; with ANDROID_RENDER_SAFE_AREA the system safe area is used
     // instead so the game stays clear of the camera cutout and other unsafe edges.
     SDL_Rect bounds{ 0, 0, WindowWidth, WindowHeight };
-#if SDL_MAJOR_VERSION >= 3
     if( get_option<bool>( "ANDROID_RENDER_SAFE_AREA" ) ) {
         SDL_Rect safe;
         if( SDL_GetWindowSafeArea( ::window.get(), &safe ) && safe.w > 0 && safe.h > 0 ) {
             bounds = safe;
         }
     }
-#endif
 
     // Reserve the on-screen shortcut strip along the bottom unless it overlaps.
     // Keep at least one row so the aspect math never divides by a zero height.
@@ -1020,11 +893,7 @@ void refresh_display()
     // Present from the window target. The buffer stays unbound; draw paths
     // re-bind it next frame. Go through the pass-aware helper so variant_pass
     // can flush before the switch.
-#if SDL_MAJOR_VERSION >= 3
     cata_shader::variant_pass *present_vp = get_shared_variant_pass();
-#else
-    cata_shader::variant_pass *present_vp = nullptr;
-#endif
     {
         const bind_result r = permanent_render_target_bind( renderer, nullptr, present_vp );
         if( r == bind_result::failed_in_switch ) {
@@ -1102,7 +971,6 @@ void get_display_buffer_dims( int *w, int *h )
     int buf_w = 0;
     int buf_h = 0;
     if( display_buffer ) {
-#if SDL_MAJOR_VERSION >= 3
         SDL_PropertiesID props = SDL_GetTextureProperties( display_buffer.get() );
         if( props ) {
             buf_w = static_cast<int>( SDL_GetNumberProperty( props,
@@ -1110,9 +978,6 @@ void get_display_buffer_dims( int *w, int *h )
             buf_h = static_cast<int>( SDL_GetNumberProperty( props,
                                       SDL_PROP_TEXTURE_HEIGHT_NUMBER, 0 ) );
         }
-#else
-        SDL_QueryTexture( display_buffer.get(), nullptr, nullptr, &buf_w, &buf_h );
-#endif
     }
     if( w ) {
         *w = buf_w;
@@ -1175,41 +1040,25 @@ void convert_event_to_display_buffer_coords( SDL_Event *event )
     }
     switch( event->type ) {
         case CATA_MOUSEMOTION: {
-#if SDL_MAJOR_VERSION >= 3
             SDL_Point pt { static_cast<int>( event->motion.x ), static_cast<int>( event->motion.y ) };
             const SDL_Point conv = window_to_display_buffer_coords( pt );
             event->motion.x = static_cast<float>( conv.x );
             event->motion.y = static_cast<float>( conv.y );
-#else
-            SDL_Point pt { event->motion.x, event->motion.y };
-            const SDL_Point conv = window_to_display_buffer_coords( pt );
-            event->motion.x = conv.x;
-            event->motion.y = conv.y;
-#endif
             break;
         }
         case CATA_MOUSEBUTTONDOWN:
         case CATA_MOUSEBUTTONUP: {
-#if SDL_MAJOR_VERSION >= 3
             SDL_Point pt { static_cast<int>( event->button.x ), static_cast<int>( event->button.y ) };
             const SDL_Point conv = window_to_display_buffer_coords( pt );
             event->button.x = static_cast<float>( conv.x );
             event->button.y = static_cast<float>( conv.y );
-#else
-            SDL_Point pt { event->button.x, event->button.y };
-            const SDL_Point conv = window_to_display_buffer_coords( pt );
-            event->button.x = conv.x;
-            event->button.y = conv.y;
-#endif
             break;
         }
         case CATA_MOUSEWHEEL: {
-#if SDL_MAJOR_VERSION >= 3
             SDL_Point pt { static_cast<int>( event->wheel.mouse_x ), static_cast<int>( event->wheel.mouse_y ) };
             const SDL_Point conv = window_to_display_buffer_coords( pt );
             event->wheel.mouse_x = static_cast<float>( conv.x );
             event->wheel.mouse_y = static_cast<float>( conv.y );
-#endif
             break;
         }
         default:
@@ -1217,12 +1066,10 @@ void convert_event_to_display_buffer_coords( SDL_Event *event )
     }
 }
 
-#if SDL_MAJOR_VERSION >= 3
 cata_shader::variant_pass *get_shared_variant_pass()
 {
     return shared_variant_pass.get();
 }
-#endif
 
 namespace
 {
@@ -1297,11 +1144,7 @@ display_buffer_draw_scope::display_buffer_draw_scope( const bool allow_during_re
         // rebuilds the renderer.
         return;
     }
-#if SDL_MAJOR_VERSION >= 3
     cata_shader::variant_pass *vp = get_shared_variant_pass();
-#else
-    cata_shader::variant_pass *vp = nullptr;
-#endif
     const bind_result r = permanent_render_target_bind( renderer, display_buffer.get(), vp );
     if( r == bind_result::failed_in_switch ) {
         // Boundary undefined: latch recovery so this and later scopes refuse.
@@ -1341,11 +1184,7 @@ display_buffer_draw_scope::~display_buffer_draw_scope()
         // -- another switch on the undefined renderer would deepen corruption.
         return;
     }
-#if SDL_MAJOR_VERSION >= 3
     cata_shader::variant_pass *vp = get_shared_variant_pass();
-#else
-    cata_shader::variant_pass *vp = nullptr;
-#endif
     if( permanent_render_target_bind( renderer, nullptr, vp )
         == bind_result::failed_in_switch ) {
         // Boundary undefined: latch so later scopes refuse until rebuild.
@@ -1369,15 +1208,11 @@ void clear_window_area( const catacurses::window &win_ )
                     win->width * fontwidth, win->height * fontheight, color_as_sdl( catacurses::black ) );
 }
 
-// Shared variant_pass pointer for the pass-aware target binds, or null on
-// SDL2 where there is no shader pass.
+// Shared variant_pass pointer for the pass-aware target binds, or null when
+// no shader pass is active.
 static cata_shader::variant_pass *shared_variant_pass_or_null()
 {
-#if SDL_MAJOR_VERSION >= 3
     return get_shared_variant_pass();
-#else
-    return nullptr;
-#endif
 }
 
 // Renderer-resource coordinator: recovery recipes and the drain state
@@ -1643,7 +1478,6 @@ recipe_result renderer_resource_coordinator::recipe_targets_reset()
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-#if SDL_MAJOR_VERSION >= 3
     if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
         if( !vp->flush() ) {
             // An undefined shader boundary must escalate before any further
@@ -1651,7 +1485,6 @@ recipe_result renderer_resource_coordinator::recipe_targets_reset()
             return { recipe_outcome::restart_required, renderer_recovery_severity::device_lost };
         }
     }
-#endif
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
@@ -1685,13 +1518,11 @@ recipe_result renderer_resource_coordinator::recipe_device_reset()
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-#if SDL_MAJOR_VERSION >= 3
     if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
         if( !vp->flush() ) {
             return { recipe_outcome::restart_required, renderer_recovery_severity::device_lost };
         }
     }
-#endif
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
@@ -1743,29 +1574,25 @@ recipe_result renderer_resource_coordinator::recipe_device_reset()
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-#if SDL_MAJOR_VERSION >= 3
     if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
         vp->release_gpu_resources();
     }
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-#endif
     if( imclient ) {
         imclient->destroy_backend_device_objects();
     }
-    // SDL3 documents a device reset as invalidating every texture, so cached
+    // A device reset is documented as invalidating every texture, so cached
     // atlas bundles are rejected by the texture-generation bump and replayed
     // explicitly below over every live tileset.
     ++gpu_textures_generation_;
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-#if SDL_MAJOR_VERSION >= 3
     if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
         vp->rebind_renderer( renderer.get() );
     }
-#endif
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
@@ -1849,11 +1676,9 @@ bool renderer_resource_coordinator::install_renderer_with_fallback()
         if( check_pause_abort() ) {
             return false;
         }
-#if SDL_MAJOR_VERSION >= 3
         if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
             vp->rebind_renderer( renderer.get() );
         }
-#endif
         if( check_pause_abort() ) {
             return false;
         }
@@ -1884,13 +1709,11 @@ recipe_result renderer_resource_coordinator::recipe_device_lost()
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-#if SDL_MAJOR_VERSION >= 3
     if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
         if( !vp->flush() ) {
             vp->force_abandon_gpu_resources();
         }
     }
-#endif
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
@@ -1941,11 +1764,9 @@ recipe_result renderer_resource_coordinator::recipe_device_lost()
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-#if SDL_MAJOR_VERSION >= 3
     if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
         vp->release_gpu_resources();
     }
-#endif
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
@@ -2168,24 +1989,12 @@ static struct {
 // environment API to be seen at video-subsystem init.
 static void set_videodriver_env( const char *const value )
 {
-#if SDL_MAJOR_VERSION >= 3
     SDL_SetEnvironmentVariable( SDL_GetEnvironment(), "SDL_VIDEODRIVER", value, true );
-#else
-    SDL_setenv( "SDL_VIDEODRIVER", value, 1 );
-#endif
 }
 
 static void clear_videodriver_env()
 {
-#if SDL_MAJOR_VERSION >= 3
     SDL_UnsetEnvironmentVariable( SDL_GetEnvironment(), "SDL_VIDEODRIVER" );
-#elif defined(_WIN32)
-    // SDL2 has no unset; an empty value still counts as defined, so drop the
-    // variable through the C runtime, which SDL2's SDL_getenv reads directly.
-    _putenv_s( "SDL_VIDEODRIVER", "" );
-#else
-    unsetenv( "SDL_VIDEODRIVER" );
-#endif
 }
 
 static void restore_videodriver_env()
@@ -2240,11 +2049,7 @@ bool renderer_recovery_test_support::setup_software_renderer()
 
     test_fixture_acquired_video = !SDL_WasInit( SDL_INIT_VIDEO );
     if( test_fixture_acquired_video ) {
-#if SDL_MAJOR_VERSION >= 3
         const bool inited = SDL_InitSubSystem( SDL_INIT_VIDEO );
-#else
-        const bool inited = SDL_InitSubSystem( SDL_INIT_VIDEO ) == 0;
-#endif
         if( !inited ) {
             test_fixture_acquired_video = false;
             restore_videodriver_env();
@@ -2278,9 +2083,7 @@ bool renderer_recovery_test_support::setup_software_renderer()
     }
     detect_renderer_backend();
     pixel_format = SDL_PIXELFORMAT_ARGB8888;
-#if SDL_MAJOR_VERSION >= 3
     shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
-#endif
     geometry = std::make_unique<DefaultGeometryRenderer>();
     if( !SetupRenderTarget() ) {
         teardown_software_renderer();
@@ -2306,9 +2109,7 @@ void renderer_recovery_test_support::teardown_software_renderer()
     display_buffer_scope_recovery_required = false;
     reset_coordinator();
     geometry.reset();
-#if SDL_MAJOR_VERSION >= 3
     shared_variant_pass.reset();
-#endif
     display_buffer.reset();
     renderer.reset();
     window.reset();
@@ -3496,7 +3297,6 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     }
 
     RenderSetClipRect( renderer, nullptr );
-#if SDL_MAJOR_VERSION >= 3
     // Flush failure means the shader bind boundary forbids a target switch:
     // abort the scope's unbind, latch recovery, and throw to unwind
     // curses_drawwindow instead of drawing terrain overlays on a dead renderer.
@@ -3508,7 +3308,6 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 "cata_tiles::draw_om: variant_pass flush failed at end of frame; renderer in undefined state" );
         }
     }
-#endif
 }
 
 static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset,
@@ -4095,7 +3894,7 @@ static int sdl_keysym_to_curses( const CataKeysym &keysym )
 
 static int sdl_keypad_scancode_to_keycode( SDL_Scancode scancode )
 {
-    // SDL3 reports keypad digits as regular digit key values. The scancode
+    // Keypad digits are reported as regular digit key values. The scancode
     // still preserves keypad identity, including repeat events on macOS.
     switch( scancode ) {
         case SDL_SCANCODE_KP_DIVIDE:
@@ -5509,7 +5308,7 @@ static void CheckMessages()
         convert_event_to_display_buffer_coords( &ev_display );
         imclient->process_input( &ev_display, imgui_buf_w, imgui_buf_h );
 
-        // Window events: SDL3 flattens the SDL_WINDOWEVENT+subtype to top-level events.
+        // Window events are delivered as top-level event types.
         // IsWindowEvent/GetWindowEventID normalize across versions.
         if( IsWindowEvent( ev ) ) {
             switch( GetWindowEventID( ev ) ) {
@@ -5561,14 +5360,12 @@ static void CheckMessages()
                 case CATA_WINDOWEVENT_EXPOSED:
                     needupdate = true;
                     break;
-#if SDL_MAJOR_VERSION >= 3
                 case CATA_WINDOWEVENT_SAFE_AREA_CHANGED:
                     // The safe area feeds the android render rect, so repaint to
                     // pick up the new bounds when a cutout or inset changes.
                     needupdate = true;
                     ui_manager::redraw_invalidated();
                     break;
-#endif
 #if defined(__ANDROID__)
                 case CATA_WINDOWEVENT_RESTORED:
                     needs_sdl_surface_visibility_refresh = true;
@@ -6132,7 +5929,6 @@ int projected_window_height()
 // Measures scaling factor for high-dpi displays
 static std::pair<float, float> get_display_scale( int display_index )
 {
-#if SDL_VERSION_ATLEAST(2,26,0)
     SDL_Window_Ptr probe = CreateGameWindow( "probe", display_index, 16, 16,
                            CATA_WINDOW_HIDDEN | CATA_WINDOW_HIGH_DPI );
     if( !probe ) {
@@ -6150,10 +5946,6 @@ static std::pair<float, float> get_display_scale( int display_index )
     float scale_w = lw ? static_cast<float>( pw ) / static_cast<float>( lw ) : 1.0f;
     float scale_h = lh ? static_cast<float>( ph ) / static_cast<float>( lh ) : 1.0f;
     return std::make_pair( scale_w, scale_h );
-#else
-    ( void )display_index; // avoid unused parameter lint
-    return std::make_pair( 1.0f, 1.0f );
-#endif
 }
 
 static void init_term_size_and_scaling_factor()
@@ -6829,16 +6621,9 @@ bool save_screenshot( const std::string &file_path )
 #ifdef _WIN32
 HWND getWindowHandle()
 {
-#if SDL_MAJOR_VERSION >= 3
     return static_cast<HWND>( SDL_GetPointerProperty(
                                   SDL_GetWindowProperties( ::window.get() ),
                                   SDL_PROP_WINDOW_WIN32_HWND_POINTER, nullptr ) );
-#else
-    SDL_SysWMinfo info;
-    SDL_VERSION( &info.version );
-    SDL_GetWindowWMInfo( ::window.get(), &info );
-    return info.info.win.window;
-#endif
 }
 #endif
 

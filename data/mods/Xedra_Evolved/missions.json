@@ -175,5 +175,38 @@
       "success_lie": "",
       "failure": ""
     }
+  },
+  {
+    "id": "MISSION_REVENANT_VENGEANCE",
+    "type": "mission_definition",
+    "name": { "str": "Vengeance Shall Be Mine" },
+    "description": "Your murderer is out there, and you will find them.",
+    "goal": "MGOAL_ASSASSINATE",
+    "//": "TODO: If we ever get narrower search ranges than 'circular' make this further away",
+    "difficulty": 4,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "bandit_camp",
+        "om_terrain_match_type": "CONTAINS",
+        "reveal_radius": 1,
+        "min_distance": 540,
+        "search_range": 1500,
+        "random": true
+      },
+      "update_mapgen": { "place_npcs": [ { "class": "bandit_revenant", "x": [ 7, 22 ], "y": [ 6, 19 ], "target": true } ] }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "if": {
+            "u_query": "Your murderer lies dead.  Your terrible thirst for vengeance is sated.  Berefit of the urge driving you on, you feel yourself falling backwards into the embrace of death.  Do you let yourself go?",
+            "default": true
+          },
+          "then": "u_die"
+        }
+      ]
+    }
   }
 ]

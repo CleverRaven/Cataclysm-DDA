@@ -109,6 +109,7 @@ Allow crafting recipes to consume character resources
 Add character stat requirements to crafting recipes
 unattended step for boiled egg recipe
 Food revolution: Spices and seasonings
+Allow future contributors to easily tune weary maluses in combat
 
 
 ## Content:
@@ -258,6 +259,7 @@ Move appliance infobox to imgui
 Display some items by volume, weight or length instead of count
 Fix Crafting GUI text wrapping & don't offscreen recipe detail selection (`SPACE`)
 Show item fault severity with inventory and sidebar colors
+Migrate dialogue window to imgui
 
 
 ## Mods:
@@ -608,6 +610,7 @@ Display multiple like items in car part removal on the same line with a count
 Unattended crafts no longer stall forever when their crafter is unreachable
 Scared NPCs don't turn hostile
 Preserve character-specific auto-pickup rules between sessions
+Requirement checks judge the character being checked instead of the player
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -756,6 +759,7 @@ Build instruction and files for Visual Studio Code
 Demote GCC 16 -Wsfinae-incomplete to warning
 Proper SDL support
 Migrate Android to SDL3 via CMake + prefab AAR; drop SDL2 customs; bump buildkit
+Remove SDL2 support
 
 
 ## I18N and A11Y:

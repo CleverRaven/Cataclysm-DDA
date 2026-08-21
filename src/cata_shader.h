@@ -4,6 +4,11 @@
 
 #if defined(TILES)
 
+#include <array>
+#include <memory>
+#include <optional>
+#include <string>
+
 #include "sdl_wrappers.h"
 
 namespace cata_shader
@@ -11,25 +16,10 @@ namespace cata_shader
 
 // Forces the next variant_pass::try_begin to drop cached shader artifacts
 // and re-run the activation probe. Used to pick up freshly rebuilt
-// .spv/.dxil/.msl without restarting. No-op on SDL2 / non-GPU renderer.
+// .spv/.dxil/.msl without restarting. No-op on a non-GPU renderer.
 void request_reprobe();
 bool reprobe_requested();
 void clear_reprobe();
-
-} // namespace cata_shader
-
-// SDL_SetGPURenderState and the SDL_GPU* surface this header wraps were added
-// in SDL 3.4.0 and have no SDL2 counterpart. The class types below are
-// SDL3-only.
-#if SDL_MAJOR_VERSION >= 3
-
-#include <array>
-#include <memory>
-#include <optional>
-#include <string>
-
-namespace cata_shader
-{
 
 // Sprite-variant kinds for the GPU shader path. NORMAL has no shader and
 // uses the atlas directly. MEMORY dispatches by the selected memory_preset
@@ -111,7 +101,7 @@ class shader
 };
 
 // RAII over SDL_GPURenderState *. Lifetime is tied to the SDL_Renderer that
-// created the state. SDL3 destroys it via SDL_DestroyGPURenderState(state)
+// created the state. SDL destroys it via SDL_DestroyGPURenderState(state)
 // (single-arg, no renderer reference; the state retains its renderer link).
 class render_state
 {
@@ -153,7 +143,7 @@ class render_state
 
 // Owns one SDL_GPUShader + SDL_GPURenderState per supported variant and
 // brackets bind/unbind around per-sprite draws. SDL_SetGPURenderStateFragmentUniforms
-// is not used: per-call uploads leak host memory on the SDL3 GPU renderer
+// is not used: per-call uploads leak host memory on the GPU renderer
 // without recycling, so each variant gets its own state and the dispatch
 // is a state switch rather than a uniform mutation.
 //
@@ -263,8 +253,6 @@ class variant_pass
 };
 
 } // namespace cata_shader
-
-#endif // SDL_MAJOR_VERSION >= 3
 
 #endif // TILES
 

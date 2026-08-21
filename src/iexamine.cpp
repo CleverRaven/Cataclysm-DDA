@@ -657,7 +657,7 @@ void iexamine::nanofab( Character &you, const tripoint_bub_ms &examp )
         new_item.set_flag( flag_NANOFAB_REPAIR );
     }
 
-    if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
+    if( !reqs.can_make_with_inventory( &you, you.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
         return;
     }
@@ -3436,7 +3436,7 @@ void iexamine::autoclave_empty( Character &you, const tripoint_bub_ms &examp )
     }
     requirement_data reqs = *requirement_data_autoclave;
 
-    if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
+    if( !reqs.can_make_with_inventory( &you, you.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
         return;
     }

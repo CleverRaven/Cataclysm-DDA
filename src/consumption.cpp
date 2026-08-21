@@ -123,6 +123,7 @@ static const itype_id itype_syringe( "syringe" );
 
 static const json_character_flag json_flag_BLOODFEEDER( "BLOODFEEDER" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
+static const json_character_flag json_flag_CANNOT_CONSUME_DRUGS( "CANNOT_CONSUME_DRUGS" );
 static const json_character_flag json_flag_CARNIVORE_DIET( "CARNIVORE_DIET" );
 static const json_character_flag json_flag_HEMOVORE( "HEMOVORE" );
 static const json_character_flag json_flag_HERBIVORE_DIET( "HERBIVORE_DIET" );
@@ -907,6 +908,9 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     }
 
     const use_function *consume_drug = food.type->get_use( "consume_drug" );
+    if( has_flag( json_flag_CANNOT_CONSUME_DRUGS ) ) {
+        return ret_val<edible_rating>::make_failure( _( "That would have no effect on you." ) );
+    }
     if( consume_drug != nullptr ) { //its a drug)
         const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                 ( consume_drug->get_actor_ptr() );
