@@ -126,7 +126,7 @@
           { "item": "tools_science", "chance": 10, "repeat": [ 1, 3 ] },
           { "item": "drugs_analgesic", "chance": 10, "repeat": [ 1, 3 ] },
           { "item": "lab_files_generic", "chance": 5 },
-          { "itme": "serum_kits", "chance": 10 }
+          { "item": "serum_kits", "chance": 10 }
         ],
         "Ƒ": [ { "item": "" } ]
       },
