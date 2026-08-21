@@ -355,7 +355,6 @@
     "autolearn": true,
     "difficulty": 3,
     "charges": 8,
-    "tools": [ [ [ "fake_lathe", 120 ] ] ],
     "components": [ [ [ "small_hc_steel_bar_round", 1 ] ] ],
     "byproducts": [ [ "scrap metal", 32 ] ],
     "steps": [
@@ -404,7 +403,6 @@
     "autolearn": true,
     "difficulty": 3,
     "charges": 8,
-    "tools": [ [ [ "fake_lathe", 120 ] ] ],
     "components": [ [ [ "small_hc_steel_bar_round", 1 ] ] ],
     "byproducts": [ [ "scrap metal", 32 ] ],
     "activity_level": "LIGHT_EXERCISE",
