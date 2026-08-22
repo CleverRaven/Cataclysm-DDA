@@ -1,76 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "microlab_generic" ],
-    "object": {
-      "fill_ter": "t_strconc_floor",
-      "place_nested": [
-        {
-          "chunks": [
-            [ "microlab_generic_tile", 75 ],
-            [
-              {
-                "switch": { "param": "labtype", "fallback": "microlab_generic" },
-                "cases": {
-                  "microlab_meat": "microlab_generic_special_tile",
-                  "microlab_serum": "microlab_serum_special_tile",
-                  "microlab_generic": "microlab_generic_special_tile"
-                }
-              },
-              25
-            ]
-          ],
-          "x": 0,
-          "y": 0
-        },
-        {
-          "//": "These chunks are analogous to mapgen_extras",
-          "chunks": [
-            {
-              "switch": { "param": "labtype", "fallback": "microlab_generic" },
-              "cases": { "microlab_meat": "micolab_meat_pools", "microlab_serum": "null", "microlab_generic": "null" }
-            }
-          ],
-          "x": 0,
-          "y": 0
-        },
-        {
-          "//": "These chunks spawn theme-specific monsters.",
-          "chunks": [
-            {
-              "switch": { "param": "labtype", "fallback": "microlab_generic" },
-              "cases": {
-                "microlab_meat": "microlab_meat_unique_foe",
-                "microlab_serum": "microlab_serum_unique_foe",
-                "microlab_generic": "microlab_unique_foe"
-              }
-            }
-          ],
-          "x": 0,
-          "y": 0
-        },
-        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
-        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
-        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
-        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
-      ],
-      "place_monster": [
-        {
-          "group": {
-            "switch": { "param": "labtype", "fallback": "microlab_generic" },
-            "cases": { "microlab_meat": "GROUP_MEATLAB", "microlab_serum": "GROUP_SERUM_LAB", "microlab_generic": "GROUP_MICROLAB" }
-          },
-          "chance": 80,
-          "x": [ 0, 23 ],
-          "y": [ 0, 23 ],
-          "repeat": [ 2, 7 ]
-        }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_serum_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -99,14 +30,14 @@
         "   cc  cc |  |c  ccccc  ",
         "          |22|          "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_serum" ],
       "items": { "l": { "item": "cleaning", "chance": 50, "repeat": [ 1, 3 ] } },
       "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_serum_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -135,14 +66,14 @@
         "   cc  cc |  |c  ccccc  ",
         "          |22|          "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_serum" ],
       "items": { "l": { "item": "cleaning", "chance": 50, "repeat": [ 1, 3 ] } },
       "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_serum_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -171,13 +102,13 @@
         "  c      6|  |||2||     ",
         "  c c|c   |22|    | c c "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_serum" ],
       "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_serum_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -206,13 +137,13 @@
         "  c      6|  |||||||||  ",
         "  c c|c   |22|6hh6|cc   "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_serum" ],
       "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_serum_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -241,14 +172,14 @@
         "  c      ||  |||||||||  ",
         "  c c|c   |  |6hh6|cFc  "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_serum" ],
       "monster": { "T": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } } },
       "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_serum_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -277,7 +208,7 @@
         "  c      c||||||||||||  ",
         "    c|c   |^^|6hh6|cFc  "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_serum" ],
       "furniture": { "X": "f_crate_c" },
       "terrain": { "W": "t_gates_mech_control_lab" },
       "items": { "X": { "item": "tools_science", "repeat": [ 2, 6 ] } },
@@ -286,7 +217,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_serum_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -315,13 +246,13 @@
         " cFFc|cccc|^^|cccc|     ",
         "     2    |  2    |     "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_serum" ],
       "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_serum_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -350,13 +281,13 @@
         "    c|cccc|  | ccc  ccc ",
         "    c|    |  |          "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_serum" ],
       "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_serum_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -385,13 +316,13 @@
         "     |cccc|  | ccc  ccc ",
         "     |    |  |          "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_serum" ],
       "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_serum_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -420,13 +351,13 @@
         "    c| ccc|  | ccc  ccc ",
         "    c|    |  |          "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_serum" ],
       "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_serum_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -455,13 +386,13 @@
         "     |ccc |  |2(((|F cc ",
         "   cc|    |  |    |     "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_serum" ],
       "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_serum_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -490,13 +421,13 @@
         " ccc |c   2  |2(((|F cc ",
         "     |c   |  |    |     "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_serum" ],
       "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_serum_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -525,7 +456,7 @@
         " ccc |c   2  |FFcc|F cc ",
         "     |c   |  |    |     "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_serum" ],
       "terrain": { "G": "t_card_science" },
       "monster": {
         "T": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } },
@@ -536,7 +467,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_serum_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -565,13 +496,13 @@
         " cccc|cccc|  |    | ccc ",
         "    c|c   2  5    2     "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_serum" ],
       "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_serum_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -600,7 +531,7 @@
         "  66 |    |  |c66c|ccc  ",
         "     |    |  |    |     "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_serum" ],
       "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   }
