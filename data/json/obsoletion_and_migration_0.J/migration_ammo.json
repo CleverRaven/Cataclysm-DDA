@@ -1,0 +1,322 @@
+[
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_338lapua_api",
+    "replace": "338lapua_api"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_338lapua_api",
+    "replace": "338lapua_api"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_338lapua_fmjbt",
+    "replace": "338lapua_fmjbt"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_338lapua_fmjbt",
+    "replace": "338lapua_fmjbt"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_556",
+    "replace": "556"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_556",
+    "replace": "556"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_556_incendiary",
+    "replace": "556_incendiary"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_556_incendiary",
+    "replace": "556_incendiary"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_545_ap",
+    "replace": "545_ap"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_545_ap",
+    "replace": "545_ap"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_10mm_jhp",
+    "replace": "10mm_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_10mm_jhp",
+    "replace": "10mm_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_300_winmag",
+    "replace": "300_winmag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_300_winmag",
+    "replace": "300_winmag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_300blk",
+    "replace": "300blk"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_300blk",
+    "replace": "300blk"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_300blk_ss",
+    "replace": "300blk_ss"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_300blk_ss",
+    "replace": "300blk_ss"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_303",
+    "replace": "303_bthp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_303",
+    "replace": "303_bthp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_32_acp_jhp",
+    "replace": "32_acp_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_32_acp_jhp",
+    "replace": "32_acp_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_338lapua_hpbt",
+    "replace": "338lapua_hpbt"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_338lapua_hpbt",
+    "replace": "338lapua_hpbt"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_357mag_jhp",
+    "replace": "357mag_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_357mag_jhp",
+    "replace": "357mag_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_357sig_jhp",
+    "replace": "357sig_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_357sig_jhp",
+    "replace": "357sig_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_380_JHP",
+    "replace": "380_JHP"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_380_JHP",
+    "replace": "380_JHP"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_38_special",
+    "replace": "38_special"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_38_special",
+    "replace": "38_special"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_38super",
+    "replace": "38_super"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_38_super",
+    "replace": "38_super"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_40sw",
+    "replace": "40sw"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_40sw",
+    "replace": "40sw"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_44magnum",
+    "replace": "44magnum"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_44magnum",
+    "replace": "44magnum"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_45_jhp",
+    "replace": "45_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_45_jhp",
+    "replace": "45_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_45colt_jhp",
+    "replace": "45colt_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_45colt_jhp",
+    "replace": "45colt_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_50ae_jhp",
+    "replace": "50ae_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_50ae_jhp",
+    "replace": "50ae_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_762_jhp",
+    "replace": "762_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_762_jhp",
+    "replace": "762_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_9mm",
+    "replace": "9mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_9mm",
+    "replace": "9mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_9mmP",
+    "replace": "9mmP"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_9mmP2",
+    "replace": "9mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_45_super",
+    "replace": "45_super"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_38_special_p",
+    "replace": "38_special_p"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_380_p",
+    "replace": "380_p"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "matchead_10mm_jhp",
+    "replace": "10mm_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "matchead_32_acp_jhp",
+    "replace": "32_acp_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "matchead_357mag_jhp",
+    "replace": "357mag_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "matchead_357sig_jhp",
+    "replace": "357sig_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "matchead_380_JHP",
+    "replace": "380_JHP"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "matchead_38_super",
+    "replace": "38_super"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "matchead_40sw",
+    "replace": "40sw"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "matchead_45_jhp",
+    "replace": "45_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "matchead_45colt_jhp",
+    "replace": "45colt_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "matchead_50ae_jhp",
+    "replace": "50ae_jhp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "matchead_9mm",
+    "replace": "9mm"
+  }
+]
