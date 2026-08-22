@@ -309,6 +309,16 @@
     "tool_ammo": [ "battery" ]
   },
   {
+    "id": "oven_tool",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "oven" },
+    "copy-from": "fake_appliance_tool",
+    "//": "charges_per_use was kept to prevent qualities from always being avaliable to the player",
+    "charges_per_use": 25,
+    "charged_qualities": [ { "id": "OVEN", "level": 2 }, { "id": "TEMPER", "level": 1 } ]
+  },
+  {
     "id": "drill_press_tool",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
