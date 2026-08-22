@@ -191,7 +191,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "AN/TSQ-158(V)4 EPLRS net control station" },
-    "description": "A rugged tactical radio and position-location terminal used to manage Enhanced Position Location Reporting System nets.  It can function as a two-way radio, and paired units carried by a mortar spotter and mortar operator give both parties precise shared position data for indirect fire.",
+    "description": "A rugged tactical radio and position-location terminal used by the US military.  It can function as a two-way radio. Alternatively, it can increase accuracy when both a mortar operator and spotter have it.",
     "weight": "4 kg",
     "volume": "6 L",
     "longest_side": "42 cm",

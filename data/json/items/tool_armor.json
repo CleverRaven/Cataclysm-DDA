@@ -982,7 +982,7 @@
     "color": "dark_gray",
     "looks_like": "binoculars",
     "name": { "str": "laser rangefinder" },
-    "description": "A rugged handheld laser target locator based on the 3-pound LTLM II, with integrated binocular optics and a measurement range of about 2000 meters.  Carrying a powered one helps a mortar spotter determine target location more precisely.",
+    "description": "A rugged handheld laser target locator based on the LTLM II, with integrated binocular optics and a measurement range of about 2000 meters. Having an active unit helps a mortar spotter call in more precise adjustments.",
     "price": "3 kUSD",
     "price_postapoc": "100 USD",
     "material": [ { "type": "plastic", "portion": 6 }, { "type": "glass", "portion": 2 }, { "type": "aluminum", "portion": 1 } ],
