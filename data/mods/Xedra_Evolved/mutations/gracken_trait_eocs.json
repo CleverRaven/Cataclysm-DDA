@@ -9,9 +9,7 @@
       { "u_message": "You exchanged your previous organ successfully." }
     ],
     "false_effect": [
-      {
-        "u_message": "You destroyed the organ trying to merge it into your body."
-      }
+      { "u_message": "You destroyed the organ trying to merge it into your body." }
     ]
   },
   {
