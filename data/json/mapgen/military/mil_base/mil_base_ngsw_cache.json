@@ -1,55 +1,69 @@
 [
   {
-    "type": "mapgen",
-    "nested_mapgen_id": "mil_base_rifle_cache_m4",
-    "object": {
-      "mapgensize": [ 96, 96 ],
-      "place_loot": [
-        { "group": "modular_m4a1", "x": 12, "y": [ 9, 11 ], "magazine": 100, "chance": 75, "repeat": 30 },
-        { "item": "stanag30", "x": 12, "y": 12, "chance": 75, "repeat": 80 },
-        { "item": "stanag50", "x": 12, "y": 12, "chance": 75, "repeat": 20 },
-        { "group": "ammo_can_223_any_full", "x": 14, "y": [ 9, 12 ], "chance": 75, "repeat": 20 },
-        { "group": "modular_m4a1", "x": 16, "y": [ 9, 11 ], "magazine": 100, "chance": 75, "repeat": 36 },
-        { "item": "stanag30", "x": 16, "y": 12, "chance": 75, "repeat": 100 },
-        { "group": "ammo_can_223_any_full", "x": 18, "y": [ 9, 12 ], "chance": 75, "repeat": 20 }
-      ]
+    "type": "palette",
+    "id": "mil_base_ngsw_cache_shelves",
+    "terrain": {
+      "R": "t_thconc_floor",
+      "N": "t_thconc_floor",
+      "P": "t_thconc_floor",
+      "K": "t_thconc_floor",
+      "E": "t_thconc_floor",
+      "F": "t_thconc_floor",
+      "L": "t_thconc_floor"
+    },
+    "furniture": {
+      "R": "f_utility_shelf",
+      "N": "f_utility_shelf",
+      "P": "f_utility_shelf",
+      "K": "f_utility_shelf",
+      "E": "f_utility_shelf",
+      "F": "f_utility_shelf",
+      "L": "f_utility_shelf"
     }
   },
   {
-    "type": "mapgen",
-    "nested_mapgen_id": "mil_base_rifle_cache_m7",
-    "object": {
-      "mapgensize": [ 96, 96 ],
-      "place_loot": [
-        { "group": "issued_m7", "x": 12, "y": [ 9, 11 ], "chance": 75, "repeat": 30 },
-        { "item": "m7_mag", "x": 12, "y": 12, "chance": 75, "repeat": 100 },
-        { "group": "ammo_can_68_any_full", "x": 14, "y": [ 9, 12 ], "chance": 75, "repeat": 20 },
-        { "group": "issued_m7", "x": 16, "y": [ 9, 11 ], "chance": 75, "repeat": 36 },
-        { "item": "m7_mag", "x": 16, "y": 12, "chance": 75, "repeat": 100 },
-        { "group": "ammo_can_68_any_full", "x": 18, "y": [ 9, 12 ], "chance": 75, "repeat": 20 }
-      ]
+    "type": "palette",
+    "id": "mil_base_rifle_cache_m4",
+    "items": {
+      "R": {
+        "item": { "subtype": "collection", "magazine": 100, "entries": [ { "group": "modular_m4a1" } ] },
+        "chance": 75,
+        "repeat": 10
+      },
+      "N": { "item": "ammo_can_223_any_full", "chance": 75, "repeat": 5 },
+      "P": {
+        "item": { "subtype": "collection", "magazine": 100, "entries": [ { "group": "modular_m4a1" } ] },
+        "chance": 75,
+        "repeat": 12
+      }
+    },
+    "item": {
+      "K": [ { "item": "stanag30", "chance": 75, "repeat": 80 }, { "item": "stanag50", "chance": 75, "repeat": 20 } ],
+      "E": { "item": "stanag30", "chance": 75, "repeat": 100 }
     }
   },
   {
-    "type": "mapgen",
-    "nested_mapgen_id": "mil_base_lmg_cache_m249",
-    "object": {
-      "mapgensize": [ 96, 96 ],
-      "place_loot": [
-        { "item": "m249", "x": 20, "y": 9, "chance": 75, "repeat": 6 },
-        { "group": "ammo_can_223_mg_any_full", "x": 22, "y": 9, "chance": 75, "repeat": 5 }
-      ]
-    }
+    "type": "palette",
+    "id": "mil_base_rifle_cache_m7",
+    "items": {
+      "R": { "item": "issued_m7", "chance": 75, "repeat": 10 },
+      "N": { "item": "ammo_can_68_any_full", "chance": 75, "repeat": 5 },
+      "P": { "item": "issued_m7", "chance": 75, "repeat": 12 }
+    },
+    "item": { "K": { "item": "m7_mag", "chance": 75, "repeat": 100 }, "E": { "item": "m7_mag", "chance": 75, "repeat": 100 } }
   },
   {
-    "type": "mapgen",
-    "nested_mapgen_id": "mil_base_lmg_cache_m250",
-    "object": {
-      "mapgensize": [ 96, 96 ],
-      "place_loot": [
-        { "group": "issued_m250", "x": 20, "y": 9, "chance": 75, "repeat": 6 },
-        { "group": "ammo_can_68_mg_any_full", "x": 22, "y": 9, "chance": 75, "repeat": 5 }
-      ]
+    "type": "palette",
+    "id": "mil_base_lmg_cache_m249",
+    "items": { "L": { "item": "ammo_can_223_mg_any_full", "chance": 75, "repeat": 5 } },
+    "item": { "F": { "item": "m249", "chance": 75, "repeat": 6 } }
+  },
+  {
+    "type": "palette",
+    "id": "mil_base_lmg_cache_m250",
+    "items": {
+      "F": { "item": "issued_m250", "chance": 75, "repeat": 6 },
+      "L": { "item": "ammo_can_68_mg_any_full", "chance": 75, "repeat": 5 }
     }
   }
 ]
