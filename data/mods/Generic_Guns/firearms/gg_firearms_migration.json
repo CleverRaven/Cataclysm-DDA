@@ -243,6 +243,7 @@
       "m27_assault_rifle",
       "modular_m16_auto_rifle",
       "m16_auto_rifle",
+      "m7",
       "scar_h",
       "scar_h_mk20",
       "scar_l",
@@ -273,7 +274,7 @@
     "replace": "rifle_huge_hmg"
   },
   {
-    "id": [ "m134", "m249", "m240", "m60", "rm614_lmg" ],
+    "id": [ "m134", "m249", "m250", "m240", "m60", "rm614_lmg" ],
     "type": "MIGRATION",
     "replace": "rifle_lmg"
   },

@@ -222,7 +222,7 @@
     "replace": "pistol_tiny_mag"
   },
   {
-    "id": [ "belt223", "belt308" ],
+    "id": [ "belt223", "belt308", "belt68x51" ],
     "type": "MIGRATION",
     "replace": "rifle_belt"
   },
@@ -283,6 +283,7 @@
       "scarhmag_30rd",
       "scarhmag",
       "scarhmag_10",
+      "m7_mag",
       "hk417mag_20rd",
       "ar10mag_20rd",
       "ar10mag_10rd",

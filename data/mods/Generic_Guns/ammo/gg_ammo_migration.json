@@ -275,7 +275,10 @@
       "8mm_jhp",
       "30carbine",
       "30carbine_jsp",
-      "3030"
+      "3030",
+      "xm1168",
+      "xm1186",
+      "xm1188"
     ],
     "type": "MIGRATION",
     "replace": "rifle_ball"
@@ -391,6 +394,7 @@
       "762_51",
       "762_51_incendiary",
       "762_51_m993",
+      "xm1184",
       "8mm_caseless",
       "8mm_hvp"
     ],
