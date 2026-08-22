@@ -194,6 +194,7 @@ SHORT_COMMON_TOKENS = {
     "AK",  # Common name for a gun family
     "FN",  # Common name for a manufacturer
     "G3",  # Common name for a certain gun
+    "M7",  # Common name for a certain gun
     "M9",  # Common name for a certain gun
 }
 TYPE_DESCRIPTORS = [
