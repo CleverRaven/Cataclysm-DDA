@@ -55,7 +55,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": "6.8x51mm XM1168 prototype" },
-    "description": "An early general-purpose cartridge from the 6.8x51mm weapon.",
+    "description": "An early general-purpose 6.8x51mm cartridge.",
     "price": "8 USD",
     "price_postapoc": "20 USD",
     "range": 53,
