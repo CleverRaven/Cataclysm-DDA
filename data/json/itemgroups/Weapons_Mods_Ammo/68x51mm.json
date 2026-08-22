@@ -37,13 +37,15 @@
     "id": "issued_m7",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "item": "m7", "charges": 0, "magazine": 100, "contents-group": "issued_ngsw_mods" } ]
+    "magazine": 100,
+    "items": [ { "item": "m7", "charges": 0, "contents-group": "issued_ngsw_mods" } ]
   },
   {
     "id": "issued_m250",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "item": "m250", "charges": 0, "magazine": 100, "contents-group": "issued_ngsw_mods" } ]
+    "magazine": 100,
+    "items": [ { "item": "m250", "charges": 0, "contents-group": "issued_ngsw_mods" } ]
   },
   {
     "id": "nested_m7",
