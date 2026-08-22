@@ -131,6 +131,7 @@
         { "not": { "math": [ "has_var(u_dialogue_exodii_seen_jotunn)" ] } }
       ]
     },
+    "deactivate_condition": { "math": [ "has_var(u_dialogue_exodii_seen_jotunn)" ] }
     "effect": [ { "u_add_var": "dialogue_exodii_seen_jotunn", "value": "yes" } ]
   }
 ]
