@@ -147,10 +147,10 @@
     ]
   },
     {
-    "id": "sauropod_control",
+    "id": "zauropod_control",
     "type": "SPELL",
-    "name": { "str": "Sauropod control", "//~": "NO_I18N" },
-    "description": { "str": "Sauropods control themselves using this one.", "//~": "NO_I18N" },
+    "name": { "str": "Zauropod control", "//~": "NO_I18N" },
+    "description": { "str": "Zauropods control themselves using this one.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
@@ -158,11 +158,11 @@
     "max_range": 1,
     "message": "",
     "effect": "effect_on_condition",
-    "effect_str": "EOC_SAUROPOD_CONTROL"
+    "effect_str": "EOC_ZAUROPOD_CONTROL"
   },
   {
     "type": "SPELL",
-    "id": "sauropod_hurt_self",
+    "id": "zauropod_hurt_self",
     "name": { "str": "Wretch Hurt Self", "//~": "NO_I18N" },
     "description": { "str": "Hurts yourself.", "//~": "NO_I18N" },
     "flags": [ "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
