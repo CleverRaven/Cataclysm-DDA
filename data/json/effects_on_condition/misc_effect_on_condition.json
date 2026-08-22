@@ -132,6 +132,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_discover_zomborg",
+    "condition": { "and": [ { "math": [ "u_monsters_nearby('mon_zomborg', 'radius': 60, 'attitude': 'both') >= 1" ] }, { "not": { "math": [ "has_var(dialogue_exodii_seen_zomborg)" ] } } ] },
+    "effect": [ { "u_add_var": "dialogue_exodii_seen_zomborg", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "add_effect",
     "effect": { "u_add_effect": { "context_val": "effect" }, "duration": { "context_val": "duration" } }
   },
