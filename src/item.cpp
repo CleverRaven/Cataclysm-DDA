@@ -102,6 +102,8 @@ static const efftype_id effect_weed_high( "weed_high" );
 
 static const fault_id fault_emp_reboot( "fault_emp_reboot" );
 
+static const flag_id json_flag_TAXIDERMY( "TAXIDERMY" );
+
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
 static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
@@ -1996,6 +1998,10 @@ units::mass item::weight( bool include_contents, bool integral ) const
         return 0_gram;
     }
 
+    if( has_flag( json_flag_TAXIDERMY ) && get_mtype() != nullptr ) {
+        return get_mtype()->weight * 0.1;
+    }
+
     const uint64_t hot = combined_hot_flags();
 
     // Items that don't drop aren't really there, they're items just for ease of implementation
@@ -2255,6 +2261,11 @@ units::volume item::volume( bool integral, bool ignore_contents, int charges_in_
 
     if( is_corpse() ) {
         return corpse_volume( corpse );
+    }
+
+
+    if( has_flag( json_flag_TAXIDERMY ) && get_mtype() != nullptr ) {
+        return get_mtype()->volume;
     }
 
     if( is_craft() ) {

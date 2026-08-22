@@ -66,6 +66,7 @@ static const harvest_drop_type_id harvest_drop_offal( "offal" );
 static const harvest_drop_type_id harvest_drop_skin( "skin" );
 
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
+static const itype_id itype_taxidermy_specimen( "taxidermy_specimen" );
 
 static const json_character_flag json_flag_INSTANT_BLEED( "INSTANT_BLEED" );
 
@@ -76,6 +77,7 @@ static const proficiency_id proficiency_prof_butchering_basic( "prof_butchering_
 static const proficiency_id proficiency_prof_dissect_humans( "prof_dissect_humans" );
 static const proficiency_id proficiency_prof_skinning_adv( "prof_skinning_adv" );
 static const proficiency_id proficiency_prof_skinning_basic( "prof_skinning_basic" );
+static const proficiency_id proficiency_prof_taxidermy( "prof_taxidermy" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
@@ -98,6 +100,7 @@ namespace io
         case butcher_type::QUARTER: return "QUARTER";
         case butcher_type::QUICK: return "QUICK";
         case butcher_type::SKIN: return "SKIN";
+        case butcher_type::TAXIDERMY: return "TAXIDERMY";
         case butcher_type::NUM_TYPES: break;
         }
         cata_fatal( "Invalid valid_target" );
@@ -450,7 +453,8 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
             }
             break;
         case butcher_type::DISSECT:
-            time_to_cut *= 6;
+        case butcher_type::TAXIDERMY:
+            time_to_cut *= 18;
             break;
         case butcher_type::NUM_TYPES:
             debugmsg( "ERROR: Invalid butcher_type" );
@@ -488,6 +492,12 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
 
     if( action == butcher_type::SKIN ) {
         time_to_cut *= 1 + prof_skin_penalty;
+    }
+
+    if( action == butcher_type::TAXIDERMY ) {
+        double taxidermy_prof = you.get_proficiency_practice( proficiency_prof_taxidermy );
+        double prof_taxidermy_penalty = 2.5 * ( 1.0 - taxidermy_prof );
+        time_to_cut *= ( 1.0 + prof_taxidermy_penalty + prof_skin_penalty );
     }
 
     time_to_cut *= ( 1.0f - ( get_player_character().get_num_crafting_helpers( 3 ) / 10.0f ) );
@@ -729,6 +739,10 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
 
         if( ( corpse_item.has_flag( flag_SKINNED ) || corpse_item.has_flag( flag_QUARTERED ) ) &&
             entry.type == harvest_drop_skin ) {
+            continue;
+        }
+
+        if( action == butcher_type::TAXIDERMY && entry.type == harvest_drop_skin ) {
             continue;
         }
 
@@ -1017,6 +1031,11 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
         }
     }
 
+    if( action == butcher_type::TAXIDERMY ) {
+        you.practice_proficiency( proficiency_prof_taxidermy, moves_total * 0.25 );
+        you.practice( skill_survival, std::max( 0, practice ), 6 );
+    }
+
     // after this point, if there was a liquid handling from the harvest,
     // and the liquid handling was interrupted, then the activity was canceled,
     // therefore operations on this activity's targets and values may be invalidated.
@@ -1066,6 +1085,25 @@ void destroy_the_carcass( const butchery_data &bd, Character &you )
     const butcher_type action = bd.b_type;
     item &corpse_item = *target;
     const mtype *corpse = corpse_item.get_mtype();
+
+    if( action == butcher_type::TAXIDERMY ) {
+        const requirement_id butchery_requirement = bd.req;
+        for( const std::vector<item_comp> &comp_options : butchery_requirement->get_components() ) {
+            you.consume_items( comp_options );
+        }
+
+        item specimen( itype_taxidermy_specimen, calendar::turn );
+        specimen.set_mtype( corpse );
+        here.add_item_or_charges( corpse_pos, specimen );
+
+        butchery_drops_harvest( bd, you );
+
+        add_msg( m_good,
+                 _( "You carefully preserve the skin and mount the corpse into a taxidermy specimen." ) );
+        target.remove_item();
+        return;
+    }
+
     const field_type_id type_blood = corpse->bloodType();
     const field_type_id type_gib = corpse->gibType();
 
@@ -1107,6 +1145,7 @@ void destroy_the_carcass( const butchery_data &bd, Character &you )
 
     //end messages and effects
     switch( action ) {
+        case butcher_type::TAXIDERMY:
         case butcher_type::QUARTER:
             break;
         case butcher_type::QUICK:
@@ -1416,6 +1455,15 @@ std::optional<butcher_type> butcher_submenu( const std::vector<map_stack::iterat
                                    "corpse, and consumes a lot of time.  Your medical knowledge "
                                    "is most useful here." ),
                                 msgFactorD, dissect_wp_hint ) ) );
+    smenu.addentry_col( static_cast<int>( butcher_type::TAXIDERMY ),
+                        is_enabled( butcher_type::TAXIDERMY ),
+                        't', _( "Taxidermy corpse" )
+                        + progress_str( butcher_type::TAXIDERMY ),
+                        time_or_disabledreason( butcher_type::TAXIDERMY ),
+                        wrap60( string_format( "%s  %s",
+                                _( "Preserve and stuff the corpse to create a realistic taxidermy specimen.  "
+                                   "Harvests internal meat and organs while creating a lifelike statue." ),
+                                msgFactor ) ) );
     smenu.query();
     switch( smenu.ret ) {
         case static_cast<int>( butcher_type::QUICK ):
@@ -1441,6 +1489,9 @@ std::optional<butcher_type> butcher_submenu( const std::vector<map_stack::iterat
             break;
         case static_cast<int>( butcher_type::DISSECT ):
             return butcher_type::DISSECT;
+            break;
+        case static_cast<int>( butcher_type::TAXIDERMY ):
+            return butcher_type::TAXIDERMY;
             break;
         default:
             return std::nullopt;
