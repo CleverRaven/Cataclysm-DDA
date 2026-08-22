@@ -256,6 +256,8 @@
       { "item": "sl8", "prob": 20, "charges": 0 },
       { "item": "win70_458", "prob": 15 },
       { "item": "sig_assault_rifle", "prob": 4, "charges": 0 },
+      { "item": "m7", "prob": 2, "charges": 0 },
+      { "item": "m250", "prob": 1, "charges": 0 },
       { "item": "aksemi", "prob": 100, "charges": 0 }
     ]
   },
@@ -307,7 +309,8 @@
     "//": "Military specification rifles only ever found at military sites.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
-      { "group": "nested_m4_carbine", "prob": 200 },
+      { "group": "nested_m4_carbine", "prob": 180 },
+      { "group": "nested_m7", "prob": 20 },
       { "group": "nested_h&k416a5", "prob": 50 },
       { "group": "nested_m107a1", "prob": 3 },
       { "group": "nested_m134", "prob": 10 },
@@ -316,7 +319,8 @@
       { "group": "nested_tac338", "prob": 5 },
       { "group": "nested_m2010", "prob": 20 },
       { "group": "nested_m240", "prob": 15 },
-      { "group": "nested_m249", "prob": 25 },
+      { "group": "nested_m249", "prob": 21 },
+      { "group": "nested_m250", "prob": 4 },
       { "group": "nested_m27iar", "prob": 50 },
       { "group": "nested_m60", "prob": 15 },
       { "group": "nested_scar_l", "prob": 50 },

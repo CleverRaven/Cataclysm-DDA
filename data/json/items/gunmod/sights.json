@@ -179,6 +179,69 @@
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
   },
   {
+    "id": "xm157",
+    "looks_like": "rifle_scope",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "GUNMOD" ],
+    "name": { "str": "XM157 fire control" },
+    "description": "A rugged 1-8x variable-power optic with an etched reticle.  A battery powers its integrated rangefinder, sensors and ballistic computer, activate it to use its assisted aiming feature, increasing precision.",
+    "weight": "1211 g",
+    "volume": "900 ml",
+    "longest_side": "267 mm",
+    "price": "12 kUSD",
+    "price_postapoc": "50 USD",
+    "material": [ "aluminum", "plastic", "glass" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "sights",
+    "mod_targets": [ "rifle", "crossbow", "launcher", "shotgun" ],
+    "install_time": "5 m",
+    "sight_dispersion": 0,
+    "aim_speed_modifier": 3,
+    "field_of_view": 480,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
+    "charges_per_use": 1,
+    "is_visible_when_installed": true,
+    "flags": [ "DISABLE_SIGHTS", "ZOOM" ],
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Activate fire control",
+      "msg": "You activate the XM157's fire-control suite.",
+      "target": "xm157_on",
+      "need_charges": 1,
+      "need_charges_msg": "The batteries are dead."
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ],
+    "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "xm157_on",
+    "copy-from": "xm157",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "GUNMOD" ],
+    "name": { "str": "XM157 fire control (active)", "str_pl": "XM157 fire controls (active)" },
+    "mod_targets": [ "m7", "m250" ],
+    "dispersion_modifier": -45,
+    "aim_speed_modifier": 12,
+    "power_draw": "500 mW",
+    "revert_to": "xm157",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Deactivate fire control",
+      "msg": "You deactivate the XM157's fire-control suite.",
+      "target": "xm157",
+      "ammo_scale": 0
+    },
+    "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ] }
+  },
+  {
     "id": "rifle_scope_high_end_mount",
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],

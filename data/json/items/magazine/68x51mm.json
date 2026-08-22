@@ -1,0 +1,35 @@
+[
+  {
+    "id": "m7_mag",
+    "looks_like": "scarhmag",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "M7 20-round magazine" },
+    "description": "A lightweight 20-round box magazine for the M7 rifle.",
+    "weight": "160 g",
+    "volume": "350 ml",
+    "longest_side": "165 mm",
+    "price": "55 USD",
+    "price_postapoc": "6 USD",
+    "material": [ "steel", "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "68x51" ],
+    "default_ammo": "xm1186",
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "68x51": 20 } } ]
+  },
+  {
+    "id": "belt68x51",
+    "copy-from": "magazine_belt",
+    "looks_like": "belt308",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "6.8x51mm ammo belt" },
+    "ammo_type": [ "68x51" ],
+    "capacity": 500,
+    "default_ammo": "xm1186",
+    "linkage": "ammolink68x51",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "68x51": 500 } } ]
+  }
+]

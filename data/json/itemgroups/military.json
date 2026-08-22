@@ -4,7 +4,8 @@
     "id": "military_standard_assault_rifles",
     "subtype": "distribution",
     "entries": [
-      { "group": "modular_m4a1", "prob": 88, "charges": [ 0, 30 ], "contents-group": "issued_carbine_mods" },
+      { "group": "modular_m4a1", "prob": 79, "charges": [ 0, 30 ], "contents-group": "issued_carbine_mods" },
+      { "item": "m7", "prob": 9, "charges": [ 0, 20 ], "contents-group": "issued_ngsw_mods" },
       { "group": "m27iar", "prob": 10, "charges": [ 0, 30 ] },
       { "group": "m38dmr", "prob": 1, "charges": [ 0, 30 ] },
       { "item": "modular_m16a4", "prob": 2, "charges": [ 0, 30 ], "contents-group": "issued_slings" }
@@ -411,7 +412,10 @@
     "type": "item_group",
     "id": "military_standard_lmgs",
     "subtype": "distribution",
-    "entries": [ { "item": "m249", "prob": 100, "charges": [ 0, 200 ] } ]
+    "entries": [
+      { "item": "m249", "prob": 85, "charges": [ 0, 200 ] },
+      { "item": "m250", "prob": 15, "charges": [ 0, 200 ], "contents-group": "issued_ngsw_mods" }
+    ]
   },
   {
     "type": "item_group",

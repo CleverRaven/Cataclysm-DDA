@@ -195,22 +195,58 @@ item_location form_loc_recursive( T &loc, item &it )
 template item_location form_loc_recursive<Character>( Character &loc, item &it );
 template item_location form_loc_recursive<npc>( npc &loc, item &it );
 
+template<typename T>
+static std::optional<item_location> try_form_gunmod_loc( T &loc, item &it )
+{
+    item *host = nullptr;
+    loc.visit_items( [&]( item * candidate, item * ) {
+        if( candidate ) {
+            for( item *mod : candidate->gunmods() ) {
+                if( mod == &it ) {
+                    host = candidate;
+                    return VisitResponse::ABORT;
+                }
+            }
+        }
+        return VisitResponse::NEXT;
+    } );
+    if( host ) {
+        return item_location( form_loc_recursive( loc, *host ), &it );
+    }
+    return std::nullopt;
+}
+
 static std::optional<item_location> try_form_loc( Character &you, map *here,
         const tripoint_bub_ms &p, item &it )
 {
     if( you.has_item( it ) ) {
         return form_loc_recursive( you, it );
     }
+    if( it.is_gunmod() ) {
+        if( std::optional<item_location> gunmod_loc = try_form_gunmod_loc( you, it ) ) {
+            return gunmod_loc;
+        }
+    }
     if( here ) {
         map_cursor mc( here, p );
         if( mc.has_item( it ) ) {
             return form_loc_recursive( mc, it );
+        }
+        if( it.is_gunmod() ) {
+            if( std::optional<item_location> gunmod_loc = try_form_gunmod_loc( mc, it ) ) {
+                return gunmod_loc;
+            }
         }
         const optional_vpart_position vp = here->veh_at( p );
         if( vp ) {
             vehicle_cursor vc( vp->vehicle(), vp->part_index() );
             if( vc.has_item( it ) ) {
                 return form_loc_recursive( vc, it );
+            }
+            if( it.is_gunmod() ) {
+                if( std::optional<item_location> gunmod_loc = try_form_gunmod_loc( vc, it ) ) {
+                    return gunmod_loc;
+                }
             }
         }
     }
@@ -236,6 +272,26 @@ static ret_val<void> transform_fits_parent_pocket( const Character &p, const ite
                 const_cast<Character &>( p ), here, pos, const_cast<item &>( it ) );
     if( !loc || !loc->has_parent() ) {
         return ret_val<void>::make_success();
+    }
+
+    const item_location immediate_parent = loc->parent_item();
+    const item_pocket *immediate_parent_pocket = immediate_parent ?
+            immediate_parent->contained_where( it ) : nullptr;
+    if( immediate_parent_pocket && immediate_parent_pocket->is_type( pocket_type::MOD ) &&
+        immediate_parent && immediate_parent->is_gun() && result.is_gunmod() ) {
+        item gun_without_original_mod = *immediate_parent;
+        bool removed_original_mod = false;
+        gun_without_original_mod.get_contents().remove_items_if( [&]( item & candidate ) {
+            if( !removed_original_mod && candidate.typeId() == it.typeId() ) {
+                removed_original_mod = true;
+                return true;
+            }
+            return false;
+        } );
+        const ret_val<void> compatible = gun_without_original_mod.is_gunmod_compatible( result );
+        if( !compatible.success() ) {
+            return compatible;
+        }
     }
 
     units::mass result_weight = result.weight();

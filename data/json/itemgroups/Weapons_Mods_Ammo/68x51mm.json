@@ -1,0 +1,131 @@
+[
+  {
+    "id": "boxed_68x51",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "68x51_ammo_box_20",
+    "items": [
+      { "item": "xm1188", "charges": 20, "prob": 88 },
+      { "item": "xm1186", "charges": 20, "prob": 11 },
+      { "item": "xm1168", "charges": 20, "prob": 1 }
+    ]
+  },
+  {
+    "id": "boxed_68x51_military",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "68x51_ammo_box_20",
+    "items": [
+      { "item": "xm1186", "charges": 20, "prob": 8 },
+      { "item": "xm1184", "charges": 20, "prob": 1 },
+      { "item": "xm1188", "charges": 20, "prob": 2 },
+      { "item": "xm1168", "charges": 20, "prob": 1 }
+    ]
+  },
+  {
+    "id": "on_hand_68x51",
+    "type": "item_group",
+    "subtype": "collection",
+    "ammo": 100,
+    "items": [
+      { "group": "boxed_68x51_military" },
+      { "group": "boxed_68x51_military", "prob": 50 },
+      { "item": "xm1186", "charges": [ 10, 40 ], "prob": 50 }
+    ]
+  },
+  {
+    "id": "issued_m7",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "items": [ { "item": "m7", "charges": 0, "contents-group": "issued_ngsw_mods" } ]
+  },
+  {
+    "id": "issued_m250",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "items": [ { "item": "m250", "charges": 0, "contents-group": "issued_ngsw_mods" } ]
+  },
+  {
+    "id": "nested_m7",
+    "type": "item_group",
+    "subtype": "collection",
+    "ammo": 100,
+    "items": [
+      { "item": "m7", "charges": [ 0, 20 ], "contents-group": "issued_ngsw_mods" },
+      { "item": "m7_mag" },
+      { "item": "m7_mag", "prob": 50 },
+      { "group": "on_hand_68x51" }
+    ]
+  },
+  {
+    "id": "nested_m250",
+    "type": "item_group",
+    "subtype": "collection",
+    "ammo": 100,
+    "items": [ { "item": "m250", "charges": [ 0, 100 ], "contents-group": "issued_ngsw_mods" }, { "group": "on_hand_68x51" } ]
+  },
+  {
+    "id": "ammo_can_68_any_full",
+    "type": "item_group",
+    "container-item": "ammunition_can_50",
+    "items": [
+      { "item": "xm1186", "charges": 400, "prob": 8 },
+      { "item": "xm1184", "charges": 400, "prob": 1 },
+      { "item": "xm1188", "charges": 400, "prob": 2 }
+    ]
+  },
+  {
+    "id": "ammo_can_68_mg_any_full",
+    "type": "item_group",
+    "container-item": "ammunition_can_30",
+    "items": [ { "group": "belt68_xm1186_200", "prob": 8 }, { "group": "belt68_xm1184_200", "prob": 1 } ]
+  },
+  {
+    "id": "belt68_xm1186_200",
+    "type": "item_group",
+    "container-item": "belt68x51",
+    "items": [ { "item": "xm1186", "charges": 200 } ]
+  },
+  {
+    "id": "belt68_xm1184_200",
+    "type": "item_group",
+    "container-item": "belt68x51",
+    "items": [ { "item": "xm1184", "charges": 200 } ]
+  },
+  {
+    "id": "milspec_arsenal_68_rifle_gun&mags&cans",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "milspec_arsenal_68_rifle_gun&mags" }, { "group": "ammo_can_68_any_full", "count": [ 1, 4 ] } ]
+  },
+  {
+    "id": "milspec_arsenal_68_rifle_gun&mags",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "issued_m7", "count": [ 1, 2 ] },
+      { "group": "issued_m7", "count": [ 1, 2 ], "prob": 40 },
+      { "group": "issued_m7", "count": [ 1, 2 ], "prob": 10 },
+      { "item": "m7_mag", "count": [ 2, 6 ] }
+    ]
+  },
+  {
+    "id": "milspec_arsenal_68_mg_gun&mags&cans",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "milspec_arsenal_68_mg_gun&mags" }, { "group": "ammo_can_68_mg_any_full", "count": [ 1, 4 ] } ]
+  },
+  {
+    "id": "milspec_arsenal_68_mg_gun&mags",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "issued_m250" },
+      { "group": "issued_m250", "prob": 40 },
+      { "group": "issued_m250", "prob": 10 },
+      { "group": "belt68_xm1186_200", "count": [ 1, 3 ] }
+    ]
+  }
+]
