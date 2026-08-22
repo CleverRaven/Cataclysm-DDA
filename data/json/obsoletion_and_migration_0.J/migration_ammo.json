@@ -92,12 +92,12 @@
   {
     "type": "MIGRATION",
     "id": "reloaded_303",
-    "replace": "303"
+    "replace": "303_bthp"
   },
   {
     "type": "MIGRATION",
     "id": "bp_303",
-    "replace": "303"
+    "replace": "303_bthp"
   },
   {
     "type": "MIGRATION",
@@ -142,12 +142,12 @@
   {
     "type": "MIGRATION",
     "id": "bp_380_JHP",
-    "replace": "380_jhp"
+    "replace": "380_JHP"
   },
   {
     "type": "MIGRATION",
     "id": "reloaded_380_JHP",
-    "replace": "380_jhp"
+    "replace": "380_JHP"
   },
   {
     "type": "MIGRATION",
@@ -271,8 +271,8 @@
   },
   {
     "type": "MIGRATION",
-    "id": "matchead_acp_jhp",
-    "replace": "acp_jhp"
+    "id": "matchead_32_acp_jhp",
+    "replace": "32_acp_jhp"
   },
   {
     "type": "MIGRATION",
