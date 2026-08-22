@@ -133,6 +133,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_discover_zomborg",
+    "recurrence": 8,
     "condition": {
       "and": [
         { "math": [ "u_monsters_nearby('mon_zomborg', 'radius': 60, 'attitude': 'both') >= 1" ] },
