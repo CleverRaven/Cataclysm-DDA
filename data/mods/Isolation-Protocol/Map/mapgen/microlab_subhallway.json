@@ -37,7 +37,11 @@
           "chunks": [
             {
               "switch": { "param": "labtype", "fallback": "microlab_generic" },
-              "cases": { "microlab_meat": "microlab_meat_unique_foe", "microlab_generic": "microlab_unique_foe" }
+              "cases": {
+                "microlab_meat": "microlab_meat_unique_foe",
+                "microlab_serum": "microlab_serum_unique_foe",
+                "microlab_generic": "microlab_unique_foe"
+              }
             }
           ],
           "x": 0,
@@ -84,7 +88,11 @@
           "chunks": [
             {
               "switch": { "param": "labtype", "fallback": "microlab_generic" },
-              "cases": { "microlab_meat": "microlab_meat_unique_foe", "microlab_generic": "microlab_unique_foe" }
+              "cases": {
+                "microlab_meat": "microlab_meat_unique_foe",
+                "microlab_serum": "microlab_serum_unique_foe",
+                "microlab_generic": "microlab_unique_foe"
+              }
             }
           ],
           "x": 0,
@@ -131,7 +139,11 @@
           "chunks": [
             {
               "switch": { "param": "labtype", "fallback": "microlab_generic" },
-              "cases": { "microlab_meat": "microlab_meat_unique_foe", "microlab_generic": "microlab_unique_foe" }
+              "cases": {
+                "microlab_meat": "microlab_meat_unique_foe",
+                "microlab_serum": "microlab_serum_unique_foe",
+                "microlab_generic": "microlab_unique_foe"
+              }
             }
           ],
           "x": 0,

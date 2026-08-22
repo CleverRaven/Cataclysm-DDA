@@ -1,0 +1,148 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_serum_special_tile",
+    "//": "lower weight until we have more special options",
+    "weight": 750,
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        " cc  |   c|  |c  c|r    ",
+        " cc  |   c|  |c  c|r  c ",
+        "     | h 6|  2    2   c ",
+        " dd  |==|||22||||||6h   ",
+        " hd  |tt|--  -----|6    ",
+        "|||22||||-   -fYf-||||||",
+        " c|  |##|-dd -f f-|hd^= ",
+        " c|  ||||-h  -f f-| d = ",
+        " c|    c|-G55-f f-|   [ ",
+        "  2    c|-   --2--|   = ",
+        "|||    c|-       -||||||",
+        "       ?|-Y  cc c-|     ",
+        "       ?|-   cc c-|     ",
+        "||2||||||-£   M c-|  |||",
+        "       r|-£H    c-|  |r ",
+        "cc  c  r|-£     Y-|  |r ",
+        "cc  c rr|-£ H - h-|  |r ",
+        "       r|-££££-dd-|  |r ",
+        "||||||rr|---------|  |||",
+        "     ||||||||||||||  |c ",
+        "  c      6|          |c ",
+        "  iccc   6|          2  ",
+        "  c      6|  ||22|||||  ",
+        "  c c|c   |22|    |cc   "
+      ],
+      "palettes": [ "microlab_serum" ],
+      "terrain": { "G": "t_card_science" },
+      "furniture": { "£": "f_lab_bench", "H": "f_stool" },
+      "items": {
+        "f": { "item": "serum_kits", "chance": 45, "repeat": [ 1, 2 ] },
+        "£": { "item": "mundane_science", "chance": 55, "repeat": [ 1, 4 ] }
+      },
+      "monster": { "M": { "monster": "mon_secubot" } },
+      "place_monsters": [ { "monster": "GROUP_SERUM_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_serum_special_tile",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "     | cc |  | cc |     ",
+        "     2    2  2    | c c ",
+        "   F|||||||  |||||||c c ",
+        "   F|§ ( Г|22|Г ( Á|c c ",
+        "   F|¢ 2        2 ¢|    ",
+        "|||||||| |||||| ||||  ||",
+        "  66|§ ( [ ni₵| ( Á|    ",
+        "    |¢ 2 |    | 2 ¢|  c ",
+        "  cc|||| |;₵ ~| ||||  c ",
+        "    |§ ( |||||| ( Á|    ",
+        "2((||¢ 2        2 ¢|||2|",
+        "    ||||((|22|((||||    ",
+        "    |              |    ",
+        "2((|| d6d  cc  d6d ||2||",
+        "   c|  h   cc   h  |c   ",
+        " c c| d6d  cc  d6d |c c ",
+        " c c|  h   cc   h  |c c ",
+        "   c|              |F   ",
+        "|||||dh h     h  hd|||2|",
+        "c66c|d6d6d    6dd6d|cc  ",
+        " c c|||||||22|||||||    ",
+        " c cc(ccc |  |FFFF|  cc ",
+        " c        2  ||22||  cc ",
+        "     (    |  |    |     "
+      ],
+      "palettes": [ "microlab_serum" ],
+      "furniture": { "¢": "f_counter", "₵": "f_counter" },
+      "items": {
+        "§": { "item": "hospital_bed", "chance": 60 },
+        "Á": { "item": "hospital_bed", "chance": 60 },
+        "¢": { "item": "drugs_heal_simple", "chance": 50, "repeat": [ 1, 3 ] },
+        "Г": { "item": "full_1st_aid", "chance": 65, "repeat": [ 1, 3 ] }
+      },
+      "place_monsters": [ { "monster": "GROUP_SERUM_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ],
+      "vehicles": {
+        "§": { "vehicle": "hospital_bed", "rotation": [ 180 ] },
+        "Á": { "vehicle": "hospital_bed", "rotation": [ 0 ] },
+        "Г": { "vehicle": "medical_cart", "rotation": 0 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_serum_special_tile",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "^|FFF|c  c|  |c  c|     ",
+        " ||||||||||  |||||||||| ",
+        " |D      D|  |^^^^|ccc| ",
+        " |§      Á|       2   2 ",
+        "^|D   Г   2       |   | ",
+        "||§      Á|  |2(((||||||",
+        "r|       D|  |  ȼ | ƑƑ| ",
+        "r|||||2||||  |  6 |   | ",
+        "r|l  | | l|  |  cc| dh| ",
+        " |l  | 2 l|  |    2 d | ",
+        "2||||||||||22|Ц   ||||||",
+        "           YY|    |Ƒ  |^",
+        "           YY|    2 dh|^",
+        "|||||2||||||||Ц   |Ƒ  ||",
+        " |        |₵      ||||| ",
+        " | cc  cc |₵      |Ƒ  | ",
+        " | cc  cc |₵      2 dh|t",
+        " |     cc |₵   Г  |Ƒ  | ",
+        "||     cc |||2|||2||||||",
+        " |2|||    |   Г|      | ",
+        " |   |dh d|dh  2   $M | ",
+        " 2   |dddd|d6d |      | ",
+        " |||||||||||||||||||||| ",
+        "     |ttt |^^| cc |     "
+      ],
+      "palettes": [ "microlab" ],
+      "furniture": { "M": "f_MRI", "$": "f_scan_bed", "ȼ": "f_counter_gate_c", "₵": "f_counter", "Ƒ": "f_filing_cabinet" },
+      "items": {
+        "§": { "item": "hospital_bed", "chance": 60 },
+        "Á": { "item": "hospital_bed", "chance": 60 },
+        "Г": { "item": "full_1st_aid", "chance": 65, "repeat": [ 1, 3 ] },
+        "₵": [
+          { "item": "tools_science", "chance": 10, "repeat": [ 1, 3 ] },
+          { "item": "drugs_analgesic", "chance": 10, "repeat": [ 1, 3 ] },
+          { "item": "lab_files_generic", "chance": 5 },
+          { "item": "serum_kits", "chance": 10 }
+        ],
+        "Ƒ": [ { "item": "SUS_office_filing_cabinet", "chance": 90, "repeat": [ 1, 2 ] } ]
+      },
+      "place_loot": [ { "item": "anesthetic_kit", "x": 20, "y": 15, "ammo": 100 } ],
+      "place_monsters": [ { "monster": "GROUP_SERUM_LAB", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ],
+      "vehicles": {
+        "§": { "vehicle": "hospital_bed", "rotation": [ 180 ] },
+        "Ц": { "vehicle": "hospital_bed", "rotation": [ 90 ] },
+        "Á": { "vehicle": "hospital_bed", "rotation": [ 0 ] },
+        "Г": { "vehicle": "medical_cart", "rotation": 0 }
+      }
+    }
+  }
+]
