@@ -125,7 +125,12 @@
     "type": "effect_on_condition",
     "id": "EOC_discover_jotunn",
     "recurrence": 8,
-    "condition": { "and": [ { "math": [ "u_monsters_nearby('mon_exodii_quad_jotunn', 'radius': 60, 'attitude': 'both') >= 1" ] }, { "not": { "math": [ "has_var(u_dialogue_exodii_seen_jotunn)" ] } } ] },
+    "condition": {
+      "and": [
+        { "math": [ "u_monsters_nearby('mon_exodii_quad_jotunn', 'radius': 60, 'attitude': 'both') >= 1" ] },
+        { "not": { "math": [ "has_var(u_dialogue_exodii_seen_jotunn)" ] } }
+      ]
+    },
     "effect": [ { "u_add_var": "dialogue_exodii_seen_jotunn", "value": "yes" } ]
   }
 ]
