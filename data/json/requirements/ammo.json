@@ -163,15 +163,7 @@
         [ "556", -1 ],
         [ "556_incendiary", -1 ],
         [ "bp_223", -1 ],
-        [ "bp_556", -1 ],
-        [ "bp_556_incendiary", -1 ],
-        [ "reloaded_223", -1 ],
-        [ "reloaded_556", -1 ],
-        [ "reloaded_556_incendiary", -1 ],
-        [ "300blk", -1 ],
-        [ "300blk_ss", -1 ],
-        [ "bp_300blk", -1 ],
-        [ "reloaded_300blk", -1 ]
+        [ "reloaded_223", -1 ]
       ]
     ]
   },

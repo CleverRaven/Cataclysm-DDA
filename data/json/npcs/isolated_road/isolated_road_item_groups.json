@@ -170,7 +170,6 @@
       { "item": "reloaded_shot_00", "prob": 2 },
       { "item": "reloaded_3006", "prob": 1 },
       { "item": "reloaded_762_m87", "prob": 3 },
-      { "item": "reloaded_556", "prob": 3 },
       { "item": "reloaded_545", "prob": 3 },
       { "item": "reloaded_762_51", "prob": 1 }
     ]
