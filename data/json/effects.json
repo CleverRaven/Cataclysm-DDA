@@ -5891,5 +5891,22 @@
     "desc": [ "" ],
     "limb_score_mods": [ { "limb_score": "manip", "modifier": 0 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mon_feral_serum_user_armus",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "mixed",
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.75 },
+          { "type": "cut", "multiply": -0.666 },
+          { "type": "stab", "multiply": -0.5 },
+          { "type": "bullet", "multiply": -0.2 }
+        ]
+      }
+    ]
   }
 ]
