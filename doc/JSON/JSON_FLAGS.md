@@ -369,6 +369,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```CANNIBAL``` Butcher humans, eat foods with the `CANNIBALISM` and `STRICT_HUMANITARIANISM` flags without a morale penalty.
 - ```CANNOT_ATTACK``` A creature with this flag cannot attack (includes spellcasting).
 - ```CANNOT_CHANGE_TEMPERATURE``` A creature with this flag cannot change body temperature.
+- ```CANNOT_CONSUME_DRUGS``` A creature with this flag cannot use items with the `consume_drug` use_action.
 - ```CANNOT_GAIN_EFFECTS``` A creature with this effect flag cannot gain effects.
 - ```CANNOT_GAIN_WEARINESS``` A character with this flag always has Fresh weariness. Weariness is still tracked in the background and accurately set when the flag wears off.
 - ```CANNOT_MOVE``` A creature with this flag cannot move.
