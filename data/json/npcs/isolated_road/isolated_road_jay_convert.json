@@ -601,13 +601,6 @@
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {
-        "text": "[$0.16, <item_name:reloaded_380_p>]",
-        "show_always": true,
-        "condition": { "math": [ "u_number_artisans_gunsmith_credit >= 16 / 2" ] },
-        "effect": { "run_eocs": "EOC_gunsmith_target", "variables": { "item": "reloaded_380_p", "coeff": 16 } },
-        "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
-      },
-      {
         "text": "[$0.33, <item_name:reloaded_57mm>]",
         "show_always": true,
         "condition": { "math": [ "u_number_artisans_gunsmith_credit >= 33 / 2" ] },
@@ -629,24 +622,10 @@
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {
-        "text": "[$0.22, <item_name:reloaded_38_special>]",
-        "show_always": true,
-        "condition": { "math": [ "u_number_artisans_gunsmith_credit >= 22 / 2" ] },
-        "effect": { "run_eocs": "EOC_gunsmith_target", "variables": { "item": "reloaded_38_special", "coeff": 22 } },
-        "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
-      },
-      {
         "text": "[$0.24, <item_name:reloaded_38_fmj>]",
         "show_always": true,
         "condition": { "math": [ "u_number_artisans_gunsmith_credit >= 24 / 2" ] },
         "effect": { "run_eocs": "EOC_gunsmith_target", "variables": { "item": "reloaded_38_fmj", "coeff": 24 } },
-        "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
-      },
-      {
-        "text": "[$0.26, <item_name:reloaded_38_special_p>]",
-        "show_always": true,
-        "condition": { "math": [ "u_number_artisans_gunsmith_credit >= 26 / 2" ] },
-        "effect": { "run_eocs": "EOC_gunsmith_target", "variables": { "item": "reloaded_38_special_p", "coeff": 26 } },
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {

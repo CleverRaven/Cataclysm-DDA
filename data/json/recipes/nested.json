@@ -6550,7 +6550,7 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".380 ACP ammo",
     "description": "Recipes related to reloading .380 ACP ammo.",
-    "nested_category_data": [ "reloaded_380_FMJ", "reloaded_380_p", "bp_380_FMJ", "matchhead_380_FMJ" ]
+    "nested_category_data": [ "reloaded_380_FMJ", "bp_380_FMJ", "matchhead_380_FMJ" ]
   },
   {
     "id": "nested_57",
