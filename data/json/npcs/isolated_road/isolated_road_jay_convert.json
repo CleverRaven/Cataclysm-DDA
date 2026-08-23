@@ -664,13 +664,6 @@
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {
-        "text": "[$0.55, <item_name:reloaded_300_winmag>]",
-        "show_always": true,
-        "condition": { "math": [ "u_number_artisans_gunsmith_credit >= 55 / 2" ] },
-        "effect": { "run_eocs": "EOC_gunsmith_target", "variables": { "item": "reloaded_300_winmag", "coeff": 55 } },
-        "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
-      },
-      {
         "text": "[$0.52, <item_name:reloaded_3006_jsp>]",
         "show_always": true,
         "condition": { "math": [ "u_number_artisans_gunsmith_credit >= 52 / 2" ] },
