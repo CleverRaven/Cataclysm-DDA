@@ -29,6 +29,8 @@
 #include "vpart_position.h"
 #include "weather.h"
 
+static const activity_id ACT_MAN_MORTAR( "ACT_MAN_MORTAR" );
+
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
@@ -371,11 +373,13 @@ status_t character_oracle_t::displaced_from_post( std::string_view ) const
 status_t character_oracle_t::on_shift( std::string_view ) const
 {
     const npc *n = dynamic_cast<const npc *>( subject );
-    if( !n || !n->get_guard_post() || !n->myclass.is_valid() ) {
+    if( !n || n->is_walking_with() ) {
         return status_t::failure;
     }
-    // Player-attached state suspends duty; mirrors has_sound_alerts.
-    if( n->is_walking_with() ) {
+    if( n->activity.id() == ACT_MAN_MORTAR ) {
+        return status_t::running;
+    }
+    if( !n->get_guard_post() || !n->myclass.is_valid() ) {
         return status_t::failure;
     }
     const auto &[start, end] = n->myclass.obj().get_work_hours();
@@ -389,11 +393,16 @@ float character_oracle_t::duty_urgency( std::string_view ) const
     if( !n ) {
         return 0.0f;
     }
-    std::optional<tripoint_abs_ms> gp = n->get_guard_post();
-    if( !gp || !n->myclass.is_valid() ) {
+    if( n->is_walking_with() ) {
         return 0.0f;
     }
-    if( n->is_walking_with() ) {
+    if( n->activity.id() == ACT_MAN_MORTAR ) {
+        // Manning a mortar is an active duty post, equivalent to a guard
+        // standing at their post.  Severe needs can still override it.
+        return 0.45f;
+    }
+    std::optional<tripoint_abs_ms> gp = n->get_guard_post();
+    if( !gp || !n->myclass.is_valid() ) {
         return 0.0f;
     }
     const auto &[start, end] = n->myclass.obj().get_work_hours();

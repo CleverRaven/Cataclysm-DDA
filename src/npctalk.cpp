@@ -6234,6 +6234,21 @@ std::optional<assigned_mortar> get_assigned_mortar( const npc &gunner )
     };
 }
 
+bool mortar_operator_available( const npc &gunner )
+{
+    return !gunner.is_dead() && !gunner.in_sleep_state() &&
+           !gunner.has_effect( effect_narcosis );
+}
+
+bool require_mortar_operator_available( const npc &gunner )
+{
+    if( mortar_operator_available( gunner ) ) {
+        return true;
+    }
+    add_msg( _( "%s is unable to operate the mortar right now." ), gunner.disp_name() );
+    return false;
+}
+
 npc *mortar_primary_operator_at( const npc &requester, const tripoint_abs_ms &mortar_pos )
 {
     for( npc *candidate : g->get_npcs_if( [&requester]( const npc & guy ) {
@@ -6912,6 +6927,12 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
         add_msg( _( "%s has not been assigned to a mortar." ), gunner.disp_name() );
         return;
     }
+    if( !mortar_operator_available( gunner ) ) {
+        if( !from_queue ) {
+            require_mortar_operator_available( gunner );
+        }
+        return;
+    }
     const tripoint_abs_ms &mortar_abs = mortar->pos;
     const mortar_type &mortar_data = *mortar->type;
     if( rl_dist( gunner.pos_abs_omt(), project_to<coords::omt>( mortar_abs ) ) > 1 ) {
@@ -7200,6 +7221,9 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
 
 void report_mortar_support_impl( npc &gunner )
 {
+    if( !require_mortar_operator_available( gunner ) ) {
+        return;
+    }
     const std::optional<assigned_mortar> mortar = get_assigned_mortar( gunner );
     if( !mortar ) {
         add_msg( _( "%s has not been assigned to a mortar." ), gunner.disp_name() );
@@ -7221,6 +7245,9 @@ void report_mortar_support_impl( npc &gunner )
 
 void toggle_mortar_adjustment_impl( npc &gunner )
 {
+    if( !require_mortar_operator_available( gunner ) ) {
+        return;
+    }
     const std::optional<assigned_mortar> mortar = get_assigned_mortar( gunner );
     if( !mortar ) {
         add_msg( _( "%s has not been assigned to a mortar." ), gunner.disp_name() );
@@ -7263,6 +7290,9 @@ void toggle_mortar_adjustment_impl( npc &gunner )
 
 void select_mortar_ammo_impl( npc &gunner )
 {
+    if( !require_mortar_operator_available( gunner ) ) {
+        return;
+    }
     const std::optional<assigned_mortar> mortar = get_assigned_mortar( gunner );
     if( !mortar ) {
         add_msg( _( "%s has not been assigned to a mortar." ), gunner.disp_name() );
@@ -7329,6 +7359,9 @@ talk_effect_fun_t::func f_request_mortar_repeat_fire()
 
 void request_mortar_fire_for_effect_impl( npc &gunner )
 {
+    if( !require_mortar_operator_available( gunner ) ) {
+        return;
+    }
     const std::optional<assigned_mortar> mortar = get_assigned_mortar( gunner );
     if( !mortar ) {
         add_msg( _( "%s has not been assigned to a mortar." ), gunner.disp_name() );
@@ -10029,7 +10062,8 @@ void add_mortar_adjustment_downtime( npc &gunner )
 bool fire_scheduled_mortar( npc &gunner, const mortar_type_id &mortar_id,
                             const tripoint_abs_ms &mortar_pos, const itype_id &ammo_id )
 {
-    if( gunner.is_dead() || !gunner.is_player_ally() || gunner.activity.id() != ACT_MAN_MORTAR ||
+    if( !mortar_operator_available( gunner ) || !gunner.is_player_ally() ||
+        gunner.activity.id() != ACT_MAN_MORTAR ||
         !mortar_id.is_valid() || !ammo_id.is_valid() ) {
         return false;
     }

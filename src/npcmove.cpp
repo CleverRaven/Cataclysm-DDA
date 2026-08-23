@@ -121,6 +121,7 @@ static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
+static const activity_id ACT_MAN_MORTAR( "ACT_MAN_MORTAR" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
@@ -1861,10 +1862,14 @@ void npc::move()
             } else if( new_goal == "goto_ordered_position" ) {
                 action = npc_goto_to_this_pos;
             } else if( new_goal == "hold_position" ) {
-                action = address_needs( NPC_DANGER_VERY_LOW + 1 );
-                if( action == npc_undecided ) {
-                    // Otherwise legacy cascade overrides BT's duty decision.
-                    action = npc_pause;
+                if( activity.id() == ACT_MAN_MORTAR ) {
+                    action = npc_player_activity;
+                } else {
+                    action = address_needs( NPC_DANGER_VERY_LOW + 1 );
+                    if( action == npc_undecided ) {
+                        // Otherwise legacy cascade overrides BT's duty decision.
+                        action = npc_pause;
+                    }
                 }
             } else if( new_goal == "camp_work" ) {
                 last_job_scan = calendar::turn;
