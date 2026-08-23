@@ -169,6 +169,12 @@
   },
   {
     "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"You're safe now, I've found you.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
     "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"You mean it's not just parroting us?\"",
     "volume": 20
