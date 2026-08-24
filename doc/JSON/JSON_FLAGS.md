@@ -1796,6 +1796,7 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```SHOCK_ABSORBER``` This part protects non-frame parts on the same tile from shock damage from collisions.  It doesn't provide protect against direct impacts or other attacks.
 - ```SIMPLE_PART``` This part can be installed or removed from that otherwise prevent modification.
 - ```SMASH_REMOVE``` When you remove this part, instead of getting the item back, you will get the bash results.
+- ```SNOWPLOW``` Bodies struck by this part are shoved off to the side instead of being thrown forwards, and the collision costs the vehicle far less of its speed.  How far to the side, and how cheap the collision is, is set by `collision_deflection`.
 - ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight.  Has a 1/4 chance of being broken on car generation.
 - ```SPACE_HEATER``` There is separate command to toggle this part.
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
