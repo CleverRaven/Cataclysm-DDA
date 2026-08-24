@@ -611,13 +611,12 @@
       {
         "type": "monster_attack",
         "attack_type": "melee",
-        "id": "feral_weapon_pipe",
+        "id": "feral_weapon_pipe_mace",
         "cooldown": 1,
         "move_cost": 80,
-        "accuracy": 3,
-        "//": "Feral melee skill + weapon's to hit, so 3+0=3",
+        "accuracy": 2,
         "//2": "all melee damage is decreased by 10% with assumption it is at least `|/` broken",
-        "damage_max_instance": [ { "damage_type": "bash", "amount": 9 } ],
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 18 } ],
         "condition": { "test_eoc": "is_disarmed" },
         "hit_dmg_u": "%1$s hits your %2$s with a pipe!",
         "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a pipe!",
@@ -671,5 +670,60 @@
     "type": "effect_on_condition",
     "id": "EOC_FERAL_ARMUS_TAKE_ARMUS",
     "effect": { "u_add_effect": "effect_mon_feral_serum_user_armus", "duration": "1 days" }
+  },
+  {
+    "id": "mon_feral_serum_user_landru",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_pipe",
+    "name": { "str": "feral test subject" },
+    "description": "With bloodshot eyes and a ripped orange jumpsuit, this obviously-feral human wanders among the undead.  Their movements are uncanny, almost like an old-fashioned camera film that's been sped up.  All of their motions are jerky and unfocused but they make them at blinding speed.",
+    "speed": 110,
+    "extend": { "special_attacks": [ { "id": "feral_weapon_pipe", "move_cost": 55 } ] },
+    "death_drops": {
+      "subtype": "collection",
+      "items": [ { "item": "serum_speed", "prob": 30, "count": [ 1, 3 ] }, { "group": "feral_humans_death_drops_pipe", "prob": 100 } ]
+    }
+  },
+  {
+    "id": "mon_feral_serum_user_lore",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_pipe",
+    "name": { "str": "feral test subject" },
+    "description": "Despite their bloodshot eyes, this feral exhibits a level of awareness not seen among most of their fellows.  Their eyes purposefully scan their surroundings for danger, they carry a homemade spear, and they wear a set of armor they've cobbled together from bits of riot armor and lab supplies.  The remnants of an orange jumpsuit are visible under their improvised armor.",
+    "dodge": 3,
+    "vision_day": 50,
+    "special_attacks": [ [ "PARROT_AT_DANGER", 0 ], { "id": "feral_weapon_spear_knife" } ],
+    "zombify_into": "mon_zombie_survivor",
+    "extend": {
+      "flags": [ "PRIORITIZE_TARGETS" ],
+      "weakpoint_sets": [ "wps_humanoid_body_armor" ],
+      "families": [ "prof_wp_syn_armored" ]
+    },
+    "armor": { "bash": 9, "cut": 14, "acid": 4, "bullet": 18 },
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "serum_learning", "prob": 30, "count": [ 1, 3 ] },
+        { "group": "feral_humans_death_drops_pipe", "prob": 100 }
+      ]
+    }
+  },
+  {
+    "id": "mon_feral_serum_user_anaximander",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_pipe",
+    "name": { "str": "feral test subject" },
+    "description": "In light, this feral is clearly visible but they blend into the darkness like a ghost, despite the orange jumpsuit they still wear.  They don't seem to have any problems seeing in the dark either.",
+    "//": "No PARROT since Anaximander makes you silent",
+    "special_attacks": [ { "id": "feral_weapon_pipe" } ],
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
+    "vision_night": 15,
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "serum_night_operations", "prob": 30, "count": [ 1, 3 ] },
+        { "group": "feral_humans_death_drops_pipe", "prob": 100 }
+      ]
+    }
   }
 ]
