@@ -110,7 +110,6 @@ Add character stat requirements to crafting recipes
 unattended step for boiled egg recipe
 Food revolution: Spices and seasonings
 Allow future contributors to easily tune weary maluses in combat
-Remove Mutation Type
 
 
 ## Content:
@@ -207,12 +206,7 @@ Add `THEORETICAL_SKILL_CATCHUP_BONUS` enchantment
 Add AIMING_SPEED enchant
 Add CANNOT_SLEEP flag
 Highland Crypts
-Add serum 09x-"Anaximander"
-Flesh-raptors are living beings
-Another typo batch fix
-[Hunvre] Adding Hunvre-specific clothing, part 2: Shoes
 Add serum-specific microlabs
-Now the titles of the books match their descriptions.
 
 
 
@@ -361,13 +355,8 @@ Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
 Aftershock: Origin Hobbies
 [Xedra Evolved] Challenge Scenario - The Fog
 [Aftershock] Project Sobek Genetech
-[Xedra Evolved] serum duration adjustments
-[DinoMod] sauropod rework 2
-[Xedra Evolved] As you gain more lilin powers, mortals near you are increasingly likely to fall ill
 [Xedra Evolved] Challenge Scenario - Undying Vengeance
-Add periapts to magiclysm
 You cannot `consume_drugs` if you have `TEMPORARY_SHAPESHIFT_NO_HANDS`
-Give the dreamdross rapier and dreamer dagger fallback sprites via looks_like
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -429,7 +418,6 @@ Add more tools and requirements to reloading ammo
 Deadly bears and how to hurt them
 Add faults to melee weapons lacking them
 Add faults to mainly magyclism melee weapons
-Remove jhp reloads
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -626,10 +614,6 @@ Unattended crafts no longer stall forever when their crafter is unreachable
 Scared NPCs don't turn hostile
 Preserve character-specific auto-pickup rules between sessions
 Requirement checks judge the character being checked instead of the player
-[Xedra Evolved] Add `"u_prevent_death"` to the Lilin prevent death EoC
-Add dedicated box for six pack bottles itemgroup
-Liam goes back to guarding on NPC activity order
-Solar cells are no longer half a meter long
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
