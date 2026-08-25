@@ -402,6 +402,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "category": [ "LILIN" ],
     "integrated_armor": [ "integrated_talons" ]
   },
   {
