@@ -15,5 +15,23 @@
     "symbol": "]",
     "color": "light_cyan",
     "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "v_snowplow_item",
+    "type": "ITEM",
+    "category": "veh_parts",
+    "name": { "str": "snowplow blade" },
+    "description": "One section of a municipal plow blade: a metre of curved steel moldboard on its share of the push frame, painted safety yellow under years of road salt.  Several are bolted up side by side to span the front of a truck.",
+    "//": "One tile of blade; five span a truck for a ~375 kg assembly.  Moldboard is a medium carbon steel, push frame ordinary structural.",
+    "weight": "75000 g",
+    "volume": "110 L",
+    "longest_side": "150 cm",
+    "price": "450 USD",
+    "price_postapoc": "8 USD",
+    "material": [ "mc_steel", "lc_steel" ],
+    "symbol": "/",
+    "color": "yellow",
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 12 }
   }
 ]

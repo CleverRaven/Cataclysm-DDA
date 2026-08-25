@@ -302,5 +302,40 @@
     },
     "breaks_into": [ { "item": "splinter", "count": [ 3, 7 ] } ],
     "damage_reduction": { "all": 0 }
+  },
+  {
+    "type": "vehicle_part",
+    "copy-from": "ram_blaze",
+    "id": "snowplow",
+    "name": { "str": "snowplow blade" },
+    "categories": [ "utility", "warfare" ],
+    "item": "v_snowplow_item",
+    "color": "yellow",
+    "broken_color": "brown",
+    "damage_modifier": 40,
+    "collision_deflection": 60,
+    "durability": 500,
+    "description": "A metre of steel moldboard, raked well back from the direction of travel and hung low at the front of the vehicle.  Mount a row of them to span its width.  Rather than hitting things head on it throws them off to the side, so the vehicle keeps most of its momentum instead of bogging down.  It doesn't hit hard, though; whatever it shoves aside will get straight back up.",
+    "//": "moldboard on a push frame, bolted and welded along two edges = 200 cm weld to install.",
+    "extend": { "flags": [ "SNOWPLOW" ] },
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 4 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 4 ] ]
+      },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 5 ] ] }
+    },
+    "breaks_into": [
+      { "item": "mc_steel_lump", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
+      { "item": "scrap", "count": [ 4, 8 ] }
+    ],
+    "damage_reduction": { "all": 30 }
   }
 ]
