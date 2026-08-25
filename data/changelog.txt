@@ -206,6 +206,7 @@ Add `THEORETICAL_SKILL_CATCHUP_BONUS` enchantment
 Add AIMING_SPEED enchant
 Add CANNOT_SLEEP flag
 Highland Crypts
+Add serum-specific microlabs
 
 
 
@@ -354,6 +355,8 @@ Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
 Aftershock: Origin Hobbies
 [Xedra Evolved] Challenge Scenario - The Fog
 [Aftershock] Project Sobek Genetech
+[Xedra Evolved] Challenge Scenario - Undying Vengeance
+You cannot `consume_drugs` if you have `TEMPORARY_SHAPESHIFT_NO_HANDS`
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -627,6 +630,7 @@ Speedup highway placement by caching expensive math
 Speed up spawning item groups into containers
 Crafting optimizations
 Fix n^3 deserialization bug by not trying to stack unstackable items
+Improve several per-turn performance bottlenecks
 
 
 ## Infrastructure:
