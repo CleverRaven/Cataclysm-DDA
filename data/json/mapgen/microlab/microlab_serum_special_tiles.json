@@ -154,14 +154,14 @@
         "    |              | cc ",
         "   F|              | cc ",
         "   F|  |(((||(((|  | cc ",
-        "   F|  (~~~~~~~~(  |    ",
-        "|||||  (~~~~~~~~(  |22||",
-        "  66|  (~~~~~~~~(  |    ",
-        "    |  |~~~~~~~~|  |  c ",
-        "  cc|  |~~~~~~~~|  |  c ",
-        "    |  (~~~~~~~~(  |    ",
-        "2((||  (~~~~~~~~(  ||2||",
-        "   2   (~~|55|~~(  2    ",
+        "   F|  (%%%%%%%%(  |    ",
+        "|||||  (%%%%%%%%(  |22||",
+        "  66|  (%%%%%%%%(  |    ",
+        "    |  |%%%%%%%%|  |  c ",
+        "  cc|  |%%%%%%%%|  |  c ",
+        "    |  (%%%%%%%%(  |    ",
+        "2((||  (%%%%%%%%(  ||2||",
+        "   2   (%%|55|%%(  2    ",
         "   2   |((|  |((|  2    ",
         "2((||     |55G     ||2||",
         "   c|l  6d    d6  c|c   ",
@@ -177,16 +177,18 @@
       ],
       "palettes": [ "microlab" ],
       "//": "Lack of mi-go here is deliberate--this is a XEDRA experiment of using resin pods, not them trying to make mi-go comfortable in their home environment or something",
-      "terrain": { "G": "t_card_science", "~": [ [ "t_floor_resin", 50 ], [ "t_wall_resin", 1 ] ] },
-      "furniture": { "~": [ [ "f_null", 50 ], [ "f_alien_gasper", 2 ], [ "f_alien_tendril", 1 ], [ "f_alien_zapper", 1 ] ] },
-      "l": [
-        { "item": "hazmat_suits", "chance": 95, "repeat": [ 1, 2 ] },
-        { "item": "hazmat_masks", "chance": 95, "repeat": [ 1, 2 ] }
-      ],
+      "terrain": { "G": "t_card_science", "%": [ [ "t_floor_resin", 50 ], [ "t_wall_resin", 1 ] ] },
+      "furniture": { "%": [ [ "f_null", 50 ], [ "f_alien_gasper", 2 ], [ "f_alien_tendril", 1 ], [ "f_alien_zapper", 1 ] ] },
+      "items": {
+        "l": [
+          { "item": "hazmat_suits", "chance": 95, "repeat": [ 1, 2 ] },
+          { "item": "hazmat_masks", "chance": 95, "repeat": [ 1, 2 ] }
+        ]
+      },
       "place_monsters": [
-        { "monster": "GROUP_SERUM_LAB", "chance": 2, "x": [ 2, 6 ], "y": [ 2, 21 ], "repeat": [ 1, 3 ] },
-        { "monster": "GROUP_SERUM_LAB", "chance": 2, "x": [ 18, 22 ], "y": [ 2, 21 ], "repeat": [ 1, 3 ] },
-        { "monster": "GROUP_SERUM_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 14, 21 ], "repeat": [ 1, 3 ] }
+        { "monster": "GROUP_SERUM_LAB", "chance": 2, "x": [ 2, 5 ], "y": [ 2, 21 ], "repeat": [ 1, 3 ] },
+        { "monster": "GROUP_SERUM_LAB", "chance": 2, "x": [ 19, 23 ], "y": [ 2, 21 ], "repeat": [ 1, 3 ] },
+        { "monster": "GROUP_SERUM_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 15, 21 ], "repeat": [ 1, 3 ] }
       ]
     }
   },
@@ -199,14 +201,14 @@
         "     | cc |  | cc |     ",
         "     2    2  2    | c c ",
         "   F|||||||  |||||||c c ",
-        "   F|m 5  |22|0c6c0|c c ",
-        "   F|(((  (  |     |    ",
-        "|||||m 5  (  |((2((|  ||",
+        "   F|  5  |22|6ccc6|c c ",
+        "   F|(((  (  |h   h|    ",
+        "|||||  5  (  |((2((|  ||",
         "  66|(((  (       c|    ",
-        "    |m 5  (       6|  c ",
+        "    |  5  (       6|  c ",
         "  cc||||  |((((   c|  c ",
         "    |  2  5   (    |    ",
-        "2((||2||((|  m(    ||2||",
+        "2((||2||((|   (    ||2||",
         "   2      (((((    2    ",
         "   2               2    ",
         "2((||              ||2||",
@@ -215,7 +217,7 @@
         " c c|  h         h |c c ",
         "   c|              |F   ",
         "|||||              |||2|",
-        "c66c|FFFFFF  |ccccc|cc  ",
+        "c66c|ccccc|  |ccccc|cc  ",
         " c c|||||||22|||||||    ",
         " c cc(ccc |  |FFFF|  cc ",
         " c        2  ||22||  cc ",
@@ -223,6 +225,12 @@
       ],
       "palettes": [ "microlab" ],
       "monsters": { "m": { "monster": "GROUP_MI-GO_BASE_COMMON" }, "M": { "monster": "GROUP_MI-GO_BASE_BOSS" } },
+      "place_monster": [
+        { "group": "GROUP_MI-GO_BASE_COMMON", "x": 5, "y": 3, "chance": 90 },
+        { "group": "GROUP_MI-GO_BASE_COMMON", "x": 5, "y": 5, "chance": 90 },
+        { "group": "GROUP_MI-GO_BASE_COMMON", "x": 5, "y": 7, "chance": 90 },
+        { "group": "GROUP_MI-GO_BASE_BOSS", "x": 12, "y": 10, "chance": 75 }
+      ],
       "place_monsters": [ { "monster": "GROUP_SERUM_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ]
     }
   }
