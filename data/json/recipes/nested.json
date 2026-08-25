@@ -7047,6 +7047,6 @@
     "subcategory": "CSC_AMMO_COMPONENTS",
     "name": "steel cores",
     "description": "Recipes for creating steel cores for making ap ammo.",
-    "nested_category_data": [ "9x18_steel_core", "3006_steel_core", "123_steel_core" ]
+    "nested_category_data": [ "9x18_steel_core", "3006_steel_core", "123_steel_core", "545_steel_core" ]
   }
 ]

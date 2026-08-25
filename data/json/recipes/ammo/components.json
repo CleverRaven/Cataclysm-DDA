@@ -441,5 +441,53 @@
         "tools": [ [ [ "fake_lathe", 40 ] ], [ [ "tape_measure", -1 ] ] ]
       }
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "545_steel_core",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "autolearn": true,
+    "difficulty": 3,
+    "charges": 12,
+    "components": [ [ [ "small_hc_steel_bar_round", 1 ] ] ],
+    "byproducts": [ [ "scrap", 32 ] ],
+    "steps": [
+      {
+        "name": "Lathe the bar to size",
+        "time": "35 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [
+          { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
+          { "proficiency": "prof_machining_basic", "time_multiplier": 1.5, "skill_penalty": 0.5 }
+        ],
+        "tools": [ [ [ "fake_lathe", 20 ] ], [ [ "tape_measure", -1 ] ] ]
+      },
+      {
+        "name": "Cut the stock into 12 bullets",
+        "time": "30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
+        "proficiencies": [ { "proficiency": "prof_metalworking", "time_multiplier": 1.5 } ],
+        "tools": [ [ [ "tape_measure", -1 ] ] ]
+      },
+      {
+        "name": "Smooth out each bullet",
+        "time": "40 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 2 } ]
+      },
+      {
+        "name": "Machine each bullet into a bullet shape",
+        "time": "80 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [
+          { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
+          { "proficiency": "prof_machining_basic", "time_multiplier": 2, "skill_penalty": 0.7 }
+        ],
+        "tools": [ [ [ "fake_lathe", 50 ] ], [ [ "tape_measure", -1 ] ] ]
+      }
+    ]
   }
 ]
