@@ -403,7 +403,8 @@
     "purifiable": false,
     "valid": false,
     "category": [ "LILIN" ],
-    "integrated_armor": [ "integrated_talons" ]
+    "integrated_armor": [ "integrated_talons" ],
+    "delete": { "prereqs": [ "NAILS" ] }
   },
   {
     "type": "mutation",
