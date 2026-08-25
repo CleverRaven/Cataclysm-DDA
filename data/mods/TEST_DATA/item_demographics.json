@@ -235,20 +235,7 @@
         {
           "type": "9mm",
           "weight": 209,
-          "items": {
-            "9mm": 1,
-            "9mmfmj": 1,
-            "9mmP": 1,
-            "9mmP2": 1,
-            "bp_9mm": 1,
-            "bp_9mmfmj": 1,
-            "matchhead_9mm": 1,
-            "matchhead_9mmfmj": 1,
-            "reloaded_9mm": 1,
-            "reloaded_9mmfmj": 1,
-            "reloaded_9mmP": 1,
-            "reloaded_9mmP2": 1
-          }
+          "items": { "9mm": 1, "9mmfmj": 1, "9mmP": 1, "9mmP2": 1, "bp_9mmfmj": 1, "matchhead_9mmfmj": 1, "reloaded_9mmfmj": 1 }
         },
         {
           "type": "22",
