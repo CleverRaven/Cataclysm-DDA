@@ -163,8 +163,7 @@
     "//": "repacked ammo that the gunsmith will trade to start",
     "subtype": "distribution",
     "entries": [
-      { "item": "reloaded_9mm", "prob": 1 },
-      { "item": "reloaded_44magnum", "prob": 1 },
+      { "item": "reloaded_44fmj", "prob": 1 },
       { "item": "reloaded_45_acp", "prob": 1 },
       { "item": "reloaded_57mm", "prob": 1 },
       { "item": "reloaded_shot_00", "prob": 2 },

@@ -201,12 +201,8 @@
         [ "9mmfmj", -1 ],
         [ "9mmP", -1 ],
         [ "9mmP2", -1 ],
-        [ "bp_9mm", -1 ],
         [ "bp_9mmfmj", -1 ],
-        [ "reloaded_9mm", -1 ],
-        [ "reloaded_9mmfmj", -1 ],
-        [ "reloaded_9mmP", -1 ],
-        [ "reloaded_9mmP2", -1 ]
+        [ "reloaded_9mmfmj", -1 ]
       ]
     ]
   },
@@ -223,9 +219,7 @@
         [ "40fmj", -1 ],
         [ "40sw", -1 ],
         [ "bp_40fmj", -1 ],
-        [ "bp_40sw", -1 ],
         [ "reloaded_40fmj", -1 ],
-        [ "reloaded_40sw", -1 ],
         [ "357sig_fmj", -1 ],
         [ "357sig_jhp", -1 ],
         [ "reloaded_357sig_fmj", -1 ]
@@ -244,10 +238,7 @@
         [ "45_jhp", -1 ],
         [ "45_super", -1 ],
         [ "bp_45_acp", -1 ],
-        [ "bp_45_jhp", -1 ],
-        [ "reloaded_45_acp", -1 ],
-        [ "reloaded_45_jhp", -1 ],
-        [ "reloaded_45_super", -1 ]
+        [ "reloaded_45_acp", -1 ]
       ]
     ]
   },
@@ -284,7 +275,6 @@
         [ "unprimed_762_casing", -1 ],
         [ "762_jhp", -1 ],
         [ "762_m87", -1 ],
-        [ "reloaded_762_jhp", -1 ],
         [ "reloaded_762_m87", -1 ]
       ]
     ]

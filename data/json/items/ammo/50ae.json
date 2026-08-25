@@ -82,41 +82,6 @@
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -8 } }
   },
   {
-    "id": "reloaded_50ae_jhp",
-    "copy-from": "50ae_jhp",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".50 AE JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_50ae_fmj",
-    "copy-from": "50ae_fmj",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".50 AE FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "bp_50ae_jhp",
-    "copy-from": "50ae_jhp",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".50 AE JHP, black powder" },
-    "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
-      "recoil": 0.76,
-      "dispersion": 1.2
-    },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
     "id": "bp_50ae_fmj",
     "copy-from": "50ae_fmj",
     "type": "ITEM",
@@ -130,16 +95,6 @@
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "matchhead_50ae_jhp",
-    "copy-from": "bp_50ae_jhp",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".50 AE JHP, matchhead powder" },
-    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
-    "looks_like": "bp_50ae_jhp",
-    "extend": { "effects": [ "MATCHHEAD" ] }
   },
   {
     "id": "matchhead_50ae_fmj",
