@@ -246,10 +246,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
 
     // Berserk creatures cannot voluntarily move farther away from visible hostiles.
     if( you.has_effect( effect_berserk ) ) {
-        bool chasing = false;
+        bool retreating = false;
 
-        get_creature_tracker().for_each_reachable( you, [ &chasing ]( Creature * critter ) {
-            if( chasing || critter == &you ) {
+        get_creature_tracker().for_each_reachable( you, [&]( Creature * critter ) {
+            if( retreating || critter == &you ) {
                 return;
             }
 
@@ -264,13 +264,12 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
             const int current_dist = rl_dist( you_pos, critter->pos_bub() );
             const int new_dist = rl_dist( dest_loc, critter->pos_bub() );
 
-            if( new_dist < current_dist ) {
-                chasing = true;
-                break;
+            if( new_dist > current_dist ) {
+                retreating = true;
             }
         } );
 
-        if( !chasing ) {
+        if( retreating ) {
             add_msg( m_info, _( "You are too enraged to retreat!" ) );
             return false;
         }
