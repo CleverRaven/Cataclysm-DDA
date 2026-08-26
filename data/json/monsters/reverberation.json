@@ -1,0 +1,37 @@
+[
+  {
+    "id": "mon_beetle_solar_reverberation",
+    "type": "MONSTER",
+    "name": { "str": "giant solar beetle" },
+    "description": "Giant beetle with a glistening blue shell, it seems disinterested in you.",
+    "copy-from": "mon_diving_beetle_small",
+    "default_faction": "beetle_solar",
+    "move_skills": { "swim": 0 },
+    "material": [ "iflesh", "plastic", "glass" ],
+    "color": "light_blue",
+    "aggression": -100,
+    "morale": 0,
+    "melee_skill": 2,
+    "dodge": 1,
+    "vision_night": 4,
+    "harvest": "arachnid_beetle",
+    "dissect": "dissect_insect_sample_single",
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
+    "anger_triggers": [  ],
+    "fear_triggers": [ "FIRE", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "extend": { "flags": [ "PATH_AVOID_DANGER", "PATH_AVOID_FALL" ] },
+    "delete": { "flags": [ "WATER_CAMOUFLAGE" ] },
+    "armor": { "bash": 7, "cut": 9, "bullet": 10, "electric": 2 }
+  },
+  {
+    "id": "mon_beetle_solar_starving_reverberation",
+    "type": "MONSTER",
+    "name": { "str": "malnourished giant solar beetle" },
+    "description": "Giant beetle with a glistening blue shell. It's elytra is open wide, under it the visible organs appear shrivelled up. It seems disinterested in anything but light. ",
+    "copy-from": "mon_beetle_solar_reverberation",
+    "hp": 30,
+    "harvest": "arachnid_beetle",
+    "dissect": "dissect_insect_sample_single",
+    "extend": { "flags": [ "IMMOBILE" ] }
+  }
+]
