@@ -738,7 +738,7 @@
     "id": "effect_changeling_winter_cut_off_fey_nature",
     "name": [ "The Soul of Iron" ],
     "desc": [ "Your fey powers are cut off, like they're trapped behind a wall of glass." ],
-    "remove_message": "The glass wall cutting off your fey powers shatters into dust.",
+    "remove_message": "The glass wall cutting off your fey powers shatters into glittering shards.",
     "rating": "mixed",
     "removes_effects": [
       "effect_xe_iron_intolerance_wearing_steel_tier_1",
