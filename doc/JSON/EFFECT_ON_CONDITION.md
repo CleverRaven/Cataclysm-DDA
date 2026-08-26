@@ -2590,8 +2590,8 @@ NPC run EoCs, provided by this effect; can work outside of reality bubble
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
 | "u_run_npc_eocs"/ "npc_run_npc_eocs" | **mandatory** | array of eocs | EoCs that would be run by NPCs |
-| "unique_ids" | optional | string, [variable objects](#variable-object) or array | id of NPCs that would be affected; lack of ids make effect run EoC on every NPC in your reality bubble, if `"local": true`, and to every NPC in the world, if `"local": false`; unique ID of every npc is specified in mapgen, using `npcs` or `place_npcs` |
-| "local" | optional | boolean | default false; if true, the effect is run for every NPC in the world; if false, effect is run only to NPC in your reality bubble |
+| "unique_ids" | optional | string, [variable objects](#variable-object) or array | id of NPCs that would be affected; lack of ids make effect run EoC on every NPC in your reality bubble if `"local": true`, and to every NPC in the world if `"local": false`; unique ID of every npc is specified in mapgen, using `npcs` or `place_npcs` |
+| "local" | optional | boolean | default false; if true, the effect is run for every NPC in your reality bubble; if false, effect is run for every NPC in the world |
 | "npc_range" | optional | int or [variable object](#variable-object) | if used and neither 'z_min' nor 'z_max' is specified, only NPC having the same z position as the player in this range are affected |
 | "z_min" | optional | int or [variable object](#variable-object) | if used, only NPC'z position >= z_min are affected |
 | "z_max" | optional | int or [variable object](#variable-object) | if used, only NPC'z position <= z_max are affected |

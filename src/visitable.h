@@ -63,6 +63,12 @@ class read_only_visitable
         /** Returns true if instance has amount (or more) items of at least quality level */
         virtual bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const;
 
+        // Counts distinct providers: a container is not credited for a tool inside it and
+        // a charge stack counts once.  `who` decides charged qualities and may be null,
+        // which drops character-owned power.
+        bool has_provider_quality( const quality_id &qual, int level, int qty,
+                                   const Character *who ) const;
+
         /** Return maximum tool quality level provided by instance or INT_MIN if not found */
         virtual int max_quality( const quality_id &qual ) const;
 

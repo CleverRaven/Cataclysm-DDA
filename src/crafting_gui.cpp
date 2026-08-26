@@ -1918,7 +1918,7 @@ void crafting_ui_impl::draw_components( const requirement_data &req,
     }
 
     // Ensure availability cache is fresh
-    req.can_make_with_inventory( crafting_inv, filter );
+    req.can_make_with_inventory( &get_player_character(), crafting_inv, filter );
 
     // Compute how many of a given component the player has on hand
     const auto avail_count = [&crafting_inv, &filter]( const item_comp & ic ) -> int {
@@ -1955,12 +1955,12 @@ void crafting_ui_impl::draw_components( const requirement_data &req,
         bool any_available = false;
         for( const item_comp &ic : comp_alts ) {
             sorted_alts.push_back( &ic );
-            if( ic.has( crafting_inv, filter, batch_size ) ) {
+            if( ic.has( &get_player_character(), crafting_inv, filter, batch_size ) ) {
                 any_available = true;
             }
         }
         const auto comp_rank = [&]( const item_comp * ic ) -> int {
-            if( ic->has( crafting_inv, filter, batch_size ) )
+            if( ic->has( &get_player_character(), crafting_inv, filter, batch_size ) )
             {
                 return 0;
             }
@@ -1986,7 +1986,8 @@ void crafting_ui_impl::draw_components( const requirement_data &req,
                 if( i == 1 ) {
                     ImGui::Indent( indent );
                 }
-                nc_color col = ic->get_color( any_available, crafting_inv, filter, batch_size );
+                nc_color col = ic->get_color( &get_player_character(), any_available, crafting_inv, filter,
+                                              batch_size );
                 ImGui::TextColored( cataimgui::imvec4_from_color( col ), "%s",
                                     component_text( *ic, avail_count( *ic ) ).c_str() );
             }
@@ -2027,7 +2028,9 @@ void crafting_ui_impl::draw_components( const requirement_data &req,
                                         _( " or " ) );
                     ImGui::SameLine( 0, 0 );
                 }
-                nc_color col = sorted_alts[i]->get_color( any_available, crafting_inv, filter, batch_size );
+                nc_color col = sorted_alts[i]->get_color( &get_player_character(), any_available, crafting_inv,
+                               filter,
+                               batch_size );
                 ImGui::TextColored( cataimgui::imvec4_from_color( col ), "%s",
                                     component_text( *sorted_alts[i], avail_count( *sorted_alts[i] ) ).c_str() );
             }
@@ -2092,7 +2095,7 @@ void crafting_ui_impl::draw_requirement_tools( const requirement_data &req,
     for( const auto &qual_alts : qual_groups ) {
         bool any_has = false;
         for( const quality_requirement &qr : qual_alts ) {
-            if( qr.has( crafting_inv, return_true<item>, 1 ) ) {
+            if( qr.has( &get_player_character(), crafting_inv, return_true<item>, 1 ) ) {
                 any_has = true;
                 break;
             }
@@ -2101,7 +2104,7 @@ void crafting_ui_impl::draw_requirement_tools( const requirement_data &req,
         ImGui::SameLine( 0, 0 );
         std::vector<std::string> req;
         for( const quality_requirement &qr : qual_alts ) {
-            nc_color col = qr.has( crafting_inv, return_true<item>, 1 ) ? c_green :
+            nc_color col = qr.has( &get_player_character(), crafting_inv, return_true<item>, 1 ) ? c_green :
                            ( any_has ? c_dark_gray : c_red );
             req.emplace_back( colorize( qr.to_string( 1 ), col ) );
         }
@@ -2130,14 +2133,14 @@ void crafting_ui_impl::draw_requirement_tools( const requirement_data &req,
         for( const tool_comp &tc : alts ) {
             if( seen.insert( tc.type ).second ) {
                 unique_alts.push_back( &tc );
-                if( tc.has( crafting_inv, return_true<item>, batch_size ) ) {
+                if( tc.has( &get_player_character(), crafting_inv, return_true<item>, batch_size ) ) {
                     any_available = true;
                 }
             }
         }
         std::stable_partition( unique_alts.begin(), unique_alts.end(),
         [&]( const tool_comp * tc ) {
-            return tc->has( crafting_inv, return_true<item>, batch_size );
+            return tc->has( &get_player_character(), crafting_inv, return_true<item>, batch_size );
         } );
 
         // Label
@@ -2150,7 +2153,8 @@ void crafting_ui_impl::draw_requirement_tools( const requirement_data &req,
             float indent = ImGui::CalcTextSize( "      " ).x;
             ImGui::Indent( indent );
             for( const tool_comp *tc : unique_alts ) {
-                nc_color col = tc->has( crafting_inv, return_true<item>, batch_size ) ? c_green :
+                nc_color col = tc->has( &get_player_character(), crafting_inv, return_true<item>,
+                                        batch_size ) ? c_green :
                                ( any_available ? c_dark_gray : c_red );
                 ImGui::TextColored( cataimgui::imvec4_from_color( col ), "%s",
                                     tc->to_string( batch_size ).c_str() );
@@ -2197,7 +2201,8 @@ void crafting_ui_impl::draw_requirement_tools( const requirement_data &req,
                     ImGui::SameLine( 0, 0 );
                 }
                 const tool_comp *tc = unique_alts[i];
-                nc_color col = tc->has( crafting_inv, return_true<item>, batch_size ) ? c_green :
+                nc_color col = tc->has( &get_player_character(), crafting_inv, return_true<item>,
+                                        batch_size ) ? c_green :
                                ( any_available ? c_dark_gray : c_red );
                 ImGui::TextColored( cataimgui::imvec4_from_color( col ), "%s",
                                     tc->to_string( batch_size ).c_str() );
@@ -3012,7 +3017,7 @@ int choose_crafter( const std::vector<Character *> &crafting_group, int crafter_
             std::vector<std::string> reasons;
 
             bool has_stuff = rec->deduped_requirements().can_make_with_inventory(
-                                 chara->crafting_inventory(), rec->get_component_filter( recipe_filter_flags::none ), 1,
+                                 chara, chara->crafting_inventory(), rec->get_component_filter( recipe_filter_flags::none ), 1,
                                  craft_flags::start_only );
             if( !has_stuff ) {
                 reasons.emplace_back( _( "stuff" ) );
@@ -3211,7 +3216,7 @@ static void prioritize_components( const recipe &recipe, Character &crafter )
             std::string nname = item::nname( i_comp.type, 1 );
             int filter_pos = uistate.list_item_priority.find( nname );
             bool enough_materials = req.check_enough_materials(
-                                        i_comp, crafting_inv, recipe.get_component_filter(), 1
+                                        &crafter, i_comp, crafting_inv, recipe.get_component_filter(), 1
                                     );
             if( filter_pos == -1 && !enough_materials ) {
                 new_filters_count++;

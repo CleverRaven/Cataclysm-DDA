@@ -767,7 +767,9 @@ void cataimgui::set_scroll( scroll &s )
             scroll_px_begin = 0;
             break;
         case scroll::end:
-            scroll_px_begin = ImGui::GetScrollMaxY();
+            // We can't rely on setting the next frame's scroll position with the current frame's window size. (We might have changed it!)
+            // So just set scroll to max and let imgui clamp us.
+            scroll_px_begin = INT_MAX;
             break;
         case scroll::line_up:
             scroll_px = -line_height;

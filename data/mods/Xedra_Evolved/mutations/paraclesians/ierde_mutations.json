@@ -795,7 +795,8 @@
       "SUFFOCATION_IMMUNE",
       "INHALED_TOXIN_IMMUNE",
       "MYCUS_IMMUNE",
-      "GILLS"
+      "GILLS",
+      "CANNOT_CONSUME_DRUGS"
     ]
   },
   {

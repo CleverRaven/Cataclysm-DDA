@@ -22,6 +22,7 @@ int pixel_minimap_r;
 int pixel_minimap_g;
 int pixel_minimap_b;
 int pixel_minimap_a;
+float combat_speed_modifier;
 
 namespace cata::options
 {
