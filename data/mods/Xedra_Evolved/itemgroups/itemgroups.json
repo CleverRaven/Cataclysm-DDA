@@ -150,6 +150,16 @@
     ]
   },
   {
+    "id": "xed_office_dreamdross",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "scrap_dreamdross", "prob": 250, "count": [ 3, 20 ] },
+      { "item": "dreamdross_lump", "prob": 25, "count": [ 1, 2 ] },
+      { "item": "forged_dreamstuff_ingot", "prob": 1 }
+    ]
+  },
+  {
     "id": "deduction_books",
     "type": "item_group",
     "//": "Lies should only spawn by hand in specific mapgen, not randomly",

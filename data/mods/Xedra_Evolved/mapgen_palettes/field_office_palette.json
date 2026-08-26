@@ -91,7 +91,7 @@
         { "item": "xed_office", "chance": 40, "repeat": [ 1, 2 ] },
         { "item": "xed_cubical_office", "chance": 40, "repeat": [ 1, 2 ] },
         { "item": "xed_notes", "chance": 20 },
-        { "item": "dreamdross", "chance": 3, "count": [ 3, 15 ] }
+        { "item": "xed_office_dreamdross", "chance": 3 }
       ],
       "e": [
         { "item": "SUS_fridge", "chance": 70, "repeat": [ 1, 3 ] },
