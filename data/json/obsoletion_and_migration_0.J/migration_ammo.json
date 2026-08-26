@@ -41,16 +41,6 @@
   },
   {
     "type": "MIGRATION",
-    "id": "reloaded_545_ap",
-    "replace": "545_ap"
-  },
-  {
-    "type": "MIGRATION",
-    "id": "bp_545_ap",
-    "replace": "545_ap"
-  },
-  {
-    "type": "MIGRATION",
     "id": "reloaded_10mm_jhp",
     "replace": "10mm_jhp"
   },
