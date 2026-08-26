@@ -14,7 +14,7 @@
     "melee_skill": 2,
     "dodge": 1,
     "vision_night": 4,
-    "harvest": "arachnid_beetle",
+    "harvest": "arachnid_beetle_solar",
     "dissect": "dissect_insect_sample_single",
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
     "anger_triggers": [  ],
@@ -30,8 +30,6 @@
     "description": "Giant beetle with a glistening blue shell. It's elytra is open wide, under it the visible organs appear shrivelled up. It seems disinterested in anything but light. ",
     "copy-from": "mon_beetle_solar_reverberation",
     "hp": 30,
-    "harvest": "arachnid_beetle",
-    "dissect": "dissect_insect_sample_single",
     "extend": { "flags": [ "IMMOBILE" ] }
   }
 ]
