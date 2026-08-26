@@ -6,7 +6,7 @@
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
     "name": { "str": "exosuit combat underlayer" },
-    "description": "A form-fitting suit meant to be worn by an Cuachic warrior when in their armor.  Although not a requirement for the operation the Pochetecpatl battle suit, it features haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor.  It's mostly made of ichcayolli to provide additional protection to the wearer.",
+    "description": "A form-fitting suit meant to be worn by a Cuachic warrior when in their armor.  Although not a requirement for the operation of the Pochetecpatl battle suit, it features haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor.  It's mostly made of ichcayolli to provide additional protection to the wearer.",
     "weight": "610 g",
     "volume": "3500 ml",
     "color": "brown",
@@ -54,7 +54,7 @@
       }
     ],
     "warmth": 10,
-    "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT", "FRAGILE" ],
+    "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT", "FRAGILE", "FIFTH_SUN_TECHNOLOGY" ],
     "passive_effects": [  ]
   },
   {
@@ -74,13 +74,12 @@
       "msg": "You deactivate your %s.",
       "target": "fifth_sun_combat_underlayer"
     },
-    "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] }
   },
   {
     "id": "fifth_sun_cuachic_exosuit",
     "type": "TOOL_ARMOR",
     "name": { "str": "Pochetecpatl battle suit" },
-    "//~": "Classical Nahuatl for \"Smoke Knife\"",
     "description": "A set of Pochetecpatl power armor, the standard operating armor of the Cuachic warrior.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the head, torso, power supply, back, arms, and legs.",
     "weight": "45 kg",
     "volume": "140 L",
@@ -400,8 +399,18 @@
       }
     ],
     "ammo": "battery",
-    "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "MUNDANE", "DEAF", "TARDIS" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
+    "flags": [
+      "STURDY",
+      "WATERPROOF",
+      "ELECTRIC_IMMUNE",
+      "COMBAT_TOGGLEABLE",
+      "OUTER",
+      "MUNDANE",
+      "DEAF",
+      "TARDIS",
+      "FIFTH_SUN_TECHNOLOGY"
+    ],
+    "relic_data": { "passive_effects": [ { "id": "ench_fifth_sun_exo_strength" } ] },
     "use_action": [
       {
         "target": "modular_exosuit_on",

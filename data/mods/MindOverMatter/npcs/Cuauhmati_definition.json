@@ -36,6 +36,7 @@
     "proficiencies": [ "prof_concentration_basic", "prof_concentration_intermediate", "prof_unarmed_familiar", "prof_unarmed_pro" ],
     "traits": [
       { "trait": "SKIN_MEDIUM", "prob": 100 },
+      { "trait": "FIFTH_SUN_PEOPLE", "prob": 100 },
       { "trait": "hair_bald", "prob": 100 },
       { "trait": "eye_color", "variant": "gray", "prob": 100 }
     ],
@@ -51,6 +52,7 @@
       { "id": "electrokinetic_see_electric", "level": 8 },
       { "id": "electrokinetic_shock_touch", "level": 8 },
       { "id": "electrokinetic_zap_enemies", "level": 6 },
+      { "id": "electrokinetic_melee_attacks", "level": 10 },
       { "id": "electrokinetic_hacking_interface", "level": 4 },
       { "id": "electrokinetic_personal_battery", "level": 10 },
       { "id": "electrokinetic_reduce_pain", "level": 8 },
