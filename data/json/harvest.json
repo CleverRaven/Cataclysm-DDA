@@ -1436,7 +1436,8 @@
       { "drop": "plastic_chunk", "type": "bone", "mass_ratio": 0.2 },
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.005 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.03 },
-      { "drop": "glass_shard", "type": "bone", "mass_ratio": 0.3 }
+      { "drop": "glass_shard", "type": "bone", "mass_ratio": 0.3 },
+      { "drop": "solar_cell", "type": "bone", "base_num": [ 0, 8 ], "scale_num": [ 0.5, 1 ], "max": 16 }
     ]
   },
   {
