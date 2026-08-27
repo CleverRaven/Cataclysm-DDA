@@ -363,5 +363,14 @@
         "visible": "when_achievement_completed"
       }
     ]
+  },
+  {
+    "id": "achievement_xe_complete_revenant_mission",
+    "type": "achievement",
+    "name": "Rerisen Revengeance.",
+    "description": "Kill your murderer as a revenant",
+    "manually_given": true,
+    "requirements": [  ],
+    "hidden_by": [ "achievement_xe_complete_revenant_mission" ]
   }
 ]
