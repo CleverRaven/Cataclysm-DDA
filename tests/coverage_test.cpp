@@ -1,6 +1,9 @@
+#include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "ballistics.h"
@@ -8,6 +11,7 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
 #include "coordinates.h"
 #include "damage.h"
 #include "dispersion.h"
@@ -37,6 +41,7 @@ static const flag_id json_flag_FILTHY( "FILTHY" );
 static const itype_id itype_ballistic_vest_esapi( "ballistic_vest_esapi" );
 static const itype_id itype_face_shield( "face_shield" );
 static const itype_id itype_hat_hard( "hat_hard" );
+static const itype_id itype_test_consolidate( "test_consolidate" );
 static const itype_id itype_test_ghost_vest( "test_ghost_vest" );
 static const itype_id itype_test_hazmat_suit( "test_hazmat_suit" );
 static const itype_id itype_test_hazmat_suit_nomelee( "test_hazmat_suit_nomelee" );
@@ -329,3 +334,61 @@ TEST_CASE( "Off_Limb_Ghost_ablative_vest", "[coverage]" )
     }
 }
 
+TEST_CASE( "body_temperature_clothing_coverage_performance", "[.][performance][bodytemp]" )
+{
+    standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
+    clear_character( dude, true );
+
+    bool all_worn = true;
+    for( int i = 0; i < 20; ++i ) {
+        all_worn &= static_cast<bool>( dude.worn.wear_item( dude, item( itype_test_consolidate ), false,
+                                       false, false, true ) );
+    }
+    REQUIRE( all_worn );
+
+    const std::vector<bodypart_id> body_parts = dude.get_all_body_parts();
+    std::vector<const item *> worn_items;
+    dude.worn.inv_dump( worn_items );
+
+    BENCHMARK( "clothing->covers(bp)" ) {
+        long long covers_checksum = 0;
+        for( const bodypart_id &bp : body_parts ) {
+            for( const item *clothing : worn_items ) {
+                covers_checksum += clothing->covers( bp );
+            }
+        }
+        return covers_checksum;
+    };
+
+    BENCHMARK( "clothing->get_warmth(bp)" ) {
+        long long warmth_checksum = 0;
+        for( const bodypart_id &bp : body_parts ) {
+            for( const item *clothing : worn_items ) {
+                warmth_checksum += clothing->get_warmth( bp );
+            }
+        }
+        return warmth_checksum;
+    };
+
+    BENCHMARK( "outfit::warmth(dude)" ) {
+        long long outfit_warmth_checksum = 0;
+        for( const auto &entry : dude.worn.warmth( dude ) ) {
+            outfit_warmth_checksum += entry.second;
+        }
+        return outfit_warmth_checksum;
+    };
+
+    BENCHMARK( "outfit::wind_resistance(dude)" ) {
+        long long wind_checksum = 0;
+        for( const auto &entry : dude.worn.wind_resistance( dude ) ) {
+            wind_checksum += entry.second;
+        }
+        return wind_checksum;
+    };
+
+    BENCHMARK( "Character::update_bodytemp()" ) {
+        dude.update_bodytemp();
+    };
+
+    SUCCEED();
+}

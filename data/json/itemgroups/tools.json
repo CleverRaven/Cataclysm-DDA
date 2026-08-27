@@ -208,6 +208,7 @@
       { "item": "portable_generator", "prob": 5 },
       [ "jumper_cable_heavy", 2 ],
       [ "lug_wrench", 20 ],
+      [ "arbor_press", 20 ],
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],
       [ "belt_grinder", 20 ],
@@ -633,7 +634,8 @@
       { "group": "tools_blacksmith", "prob": 50 },
       { "item": "large_repairkit", "prob": 50, "charges": [ 0, 500 ] },
       [ "puller", 100 ],
-      [ "press", 100 ]
+      [ "press", 100 ],
+      [ "arbor_press", 100 ]
     ]
   },
   {

@@ -3762,9 +3762,9 @@ void iuse::make_music( Character *p, const tripoint_bub_ms &source, int volume, 
     }
     p->add_effect( effect_music, 1_turns );
     if( max_morale > 0 ) {
-        p->add_morale( morale_music, 1, max_morale, 2_hours, 30_minutes );
+        p->add_morale( morale_music, 1, max_morale, 2_hours, 30_minutes, true );
     } else if( max_morale < 0 ) {
-        p->add_morale( morale_music, -1, max_morale, 2_hours, 30_minutes );
+        p->add_morale( morale_music, -1, max_morale, 2_hours, 30_minutes, true );
     }
 }
 
@@ -7558,6 +7558,7 @@ static bool multicooker_hallu( Character &p )
 
 }
 
+// Remove after 0.J.
 std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub_ms &pos )
 {
     map &here = get_map();
@@ -7728,7 +7729,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
                 for( const recipe * const &rec : recipes_to_add ) {
                     dishes.push_back( rec );
                     const bool can_make = rec->deduped_requirements().can_make_with_inventory(
-                                              crafting_inv, rec->get_component_filter() );
+                                              p, crafting_inv, rec->get_component_filter() );
                     dmenu.addentry( counter++, can_make, -1, rec->result_name( /*decorated=*/true ) );
                 }
             }
@@ -7858,6 +7859,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
     return 0;
 }
 
+// Remove after 0.J
 std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoint_bub_ms &pos )
 {
     map &here = get_map();

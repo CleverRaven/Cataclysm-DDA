@@ -215,96 +215,26 @@
   },
   {
     "type": "profession",
-    "id": "afs_atomic_pitchman",
-    "name": { "male": "Atomic Pitchman", "female": "Atomic Pitchwoman" },
-    "description": "You were hired to market Rivtech's products through TV and were on your way to the studio when the bombs hit.  You now enter the end of the world with nothing but the snazzy clothes on your back and a bunch of plutonium-powered toys.",
-    "points": 3,
-    "starting_cash": 1120000,
-    "skills": [ { "level": 1, "name": "speech" } ],
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "dress_shirt" },
-          { "item": "pants" },
-          { "item": "dress_shoes" },
-          { "item": "socks" },
-          { "item": "mbag" },
-          { "item": "afs_atomic_smartphone" },
-          { "item": "afs_atomic_light_off" },
-          { "item": "afs_atomic_lamp_off" },
-          { "item": "afs_atompot" },
-          { "item": "energy_drink_atomic" }
-        ]
-      },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
-  },
-  {
-    "type": "profession",
-    "id": "afs_planar_frontiersman",
-    "name": { "male": "Planar Frontiersman", "female": "Planar Frontierswoman" },
-    "description": "When the Cataclysm came, you were getting into your gear, prepared for the first manned entrance through a stabilized portal in the lab - just a quick five-minute scouting trip.  You were the last one left in the room when the portal snapped shut and all hell broke loose.  Now that you know what was on the other end, maybe that was a mercy.",
-    "points": 4,
-    "starting_cash": 1120000,
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "socks" },
-          { "item": "afs_calorie_pill" },
-          { "item": "afs_atomic_smartphone" },
-          { "item": "undershirt" },
-          { "item": "dump_pouch" },
-          { "item": "water_clean", "container-item": "camelbak" },
-          { "item": "crowbar", "custom-flags": [ "auto_wield" ] },
-          { "item": "phase_immersion_suit" },
-          { "item": "dimensional_anchor", "ammo-item": "medium_battery_cell", "charges": 5000 }
-        ]
-      },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "boy_shorts" } ] }
-    }
-  },
-  {
-    "type": "profession",
     "id": "afs_vatgrown_bodyguard",
     "name": "Vatgrown Bodyguard",
-    "description": "Grown in some corporate laboratory to provide the perfect bodyguard, with nothing to live for but your client.  The Cataclysm ignored social strata and somehow you outlived your master.  Now no one knows the conditioning words to force your obedience.  While the world burns, you get your first taste of life.",
+    "description": "You were born a perfectly engineered bodyguard, grown in a corporate blacksite and given nothing to live for but your client.  That arrangement, however did not last.",
     "points": 3,
     "starting_cash": 1120000,
     "traits": [ "AFS_BRUTAL_STRENGTH", "SLOWREADER", "LIGHTWEIGHT" ],
     "proficiencies": [ "prof_unarmed_familiar", "prof_knives_familiar" ],
-    "skills": [ { "level": 2, "name": "unarmed" }, { "level": 2, "name": "stabbing" } ],
+    "skills": [
+      { "level": 3, "name": "unarmed" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "pistol" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "firstaid" }
+    ],
     "items": {
       "both": { "entries": [ { "item": "suit" }, { "item": "dress_shoes" }, { "item": "bootsheath" }, { "item": "ceramic_knife" } ] },
       "male": { "entries": [ { "item": "briefs" }, { "item": "undershirt" } ] },
       "female": { "entries": [ { "item": "boy_shorts" }, { "item": "bra" } ] }
-    }
-  },
-  {
-    "type": "profession",
-    "id": "afs_cbm_engineer",
-    "name": "CBM Engineer",
-    "description": "You worked as a technician in a sterile, high-security facility concerned with the fabrication of bionic implants.  The final evacuation order caught you in the middle of your 16 hour extended shift, and you barely managed to escape the building, tools in hand.",
-    "points": 2,
-    "starting_cash": 1120000,
-    "skills": [ { "level": 4, "name": "electronics" } ],
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "coat_lab" },
-          { "item": "gloves_medical" },
-          { "item": "longshirt" },
-          { "item": "afs_complete_bionic_toolkit" },
-          { "item": "socks" },
-          { "item": "boots" },
-          { "item": "backpack" },
-          { "item": "jeans" },
-          { "item": "mask_dust", "variant": "white_mask_dust" }
-        ]
-      },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -315,7 +245,14 @@
     "points": 8,
     "starting_cash": 200000000,
     "CBMs": [ "bio_batteries", "bio_power_storage_mkII", "bio_eye_enhancer", "bio_int_enhancer", "bio_memory", "bio_cable" ],
-    "traits": [ "FLIMSY3", "SLOWHEALER3", "AFS_MENTAL_CAPABILITY_GENEMOD", "AFS_RECOVERY_CAPABILITY_GENEMOD", "CBM_Interface" ],
+    "traits": [
+      "FLIMSY3",
+      "SLOWHEALER3",
+      "AFS_MENTAL_CAPABILITY_GENEMOD",
+      "AFS_RECOVERY_CAPABILITY_GENEMOD",
+      "CBM_Interface",
+      "BKGR_UPPER_CLASS"
+    ],
     "pets": [ { "name": "afs_mon_sentinel_lx", "amount": 2 } ],
     "skills": [ { "level": 6, "name": "speech" }, { "level": 6, "name": "computer" } ],
     "items": {
@@ -362,8 +299,8 @@
   {
     "type": "profession",
     "id": "afs_holo_fighter",
-    "name": "Corporate Infiltrator",
-    "description": "A spy and mercenary at the direct service of the Solar Corporations.  Touring the frontier in search of intelligence gathering and sabotage contracts.  Equipped with a set of irreplaceable holographic technology that borders on the miraculous.",
+    "name": "Infiltrator",
+    "description": "Touring the frontier in search of intelligence and sabotage contracts may not be the most glamorous mercenary work, but pays well and keeps you out of the backstabbing in the corporate core.",
     "points": 8,
     "starting_cash": 2600000,
     "skills": [
@@ -403,29 +340,6 @@
           { "item": "afs_5x50heavy" }
         ]
       }
-    }
-  },
-  {
-    "type": "profession",
-    "id": "afs_affluent_executive",
-    "name": "Assistant Sub-Executive",
-    "description": "Through a lifetime of hard work, dedication, boot-licking and immense luck, you achieved the almost impossible, and were promoted from an indentured clerk to a minor managerial position.  Although you were still an expendable peon among the ranks of the corporation, you earned numbers most people could only dream of, and you savored it.",
-    "points": 2,
-    "starting_cash": 200000000,
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "tux" },
-          { "item": "dress_shoes" },
-          { "item": "socks" },
-          { "item": "gold_watch" },
-          { "item": "undershirt" },
-          { "item": "gasdiscount_platinum" },
-          { "group": "charged_smart_phone" }
-        ]
-      },
-      "male": { "entries": [ { "item": "briefs" }, { "item": "collarpin" }, { "item": "diamond_ring" } ] },
-      "female": { "entries": [ { "item": "boy_shorts" }, { "item": "sports_bra" }, { "item": "hairpin" }, { "item": "pearl_collar" } ] }
     }
   },
   {
@@ -570,7 +484,7 @@
       "both": {
         "entries": [
           { "item": "jumpsuit" },
-          { "item": "hazmat_suit" },
+          { "item": "afs_hazard_suit" },
           { "item": "mask_gas" },
           { "item": "socks" },
           { "item": "molle_pack" },

@@ -48,6 +48,23 @@
   },
   {
     "type": "SPELL",
+    "id": "MoM_AEA_PSI_STUN",
+    "name": { "str": "MoM Artifact Psi Stunned", "//~": "NO_I18N" },
+    "description": { "str": "Causes the artifact to stun you briefly.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "skill": "metaphysics",
+    "effect": "attack",
+    "effect_str": "psi_stunned",
+    "shape": "blast",
+    "base_casting_time": 100,
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "min_duration": 100,
+    "max_duration": 400,
+    "message": "",
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
+  },
+  {
+    "type": "SPELL",
     "id": "MoM_AEA_ATTENTION",
     "name": { "str": "MoM Artifact Attention" },
     "description": "You're not quite sure what you did, but something is watching you for it.",
@@ -646,7 +663,8 @@
     "effect_str": "EOC_AEA_TELEKIN_WAVE_TARGETS",
     "shape": "blast",
     "min_aoe": 1,
-    "max_aoe": 3
+    "max_aoe": 3,
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -691,7 +709,8 @@
     "min_aoe": 3,
     "max_aoe": 7,
     "min_duration": 300,
-    "max_duration": 700
+    "max_duration": 700,
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   },
   {
     "type": "SPELL",
@@ -705,7 +724,8 @@
     "shape": "blast",
     "min_duration": 500,
     "max_duration": 1900,
-    "base_casting_time": 50
+    "base_casting_time": 50,
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   },
   {
     "id": "MoM_AEA_AEGIS",
@@ -719,7 +739,102 @@
     "effect_str": "effect_telekinetic_aegis",
     "shape": "blast",
     "min_duration": 200,
-    "max_duration": 500
+    "max_duration": 500,
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
+  },
+  {
+    "id": "MoM_AEA_MIND_SIGHT",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Artifact Mind Sight", "//~": "NO_I18N" },
+    "description": { "str": "Lets you see nearby sapient minds.", "//~": "NO_I18N" },
+    "message": "Your senses expand.",
+    "valid_targets": [ "self" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_mom_artifact_mind_sight_container",
+    "shape": "blast",
+    "min_duration": 135810,
+    "max_duration": 394813,
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
+  },
+  {
+    "id": "MoM_AEA_TEEP_SHIELD",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Artifact Telepathic Shield", "//~": "NO_I18N" },
+    "description": { "str": "Gives you a telepathic shield.", "//~": "NO_I18N" },
+    "message": "For just a moment you hear a low hum in your mind.",
+    "valid_targets": [ "self" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_mom_artifact_telepathic_shield_container",
+    "shape": "blast",
+    "min_duration": 61842,
+    "max_duration": 142841,
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
+  },
+  {
+    "id": "MoM_AEA_PSYCHIC_SCREAM",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Artifact Psychic Scream", "//~": "NO_I18N" },
+    "description": { "str": "Unleashes an uncontrolled psychic scream", "//~": "NO_I18N" },
+    "message": "You hear loud static in the back of your mind.",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "skill": "metaphysics",
+    "flags": [
+      "PSIONIC",
+      "SILENT",
+      "RANDOM_DAMAGE",
+      "NO_HANDS",
+      "NO_EXPLOSION_SFX",
+      "NO_LEGS",
+      "PERCENTAGE_DAMAGE",
+      "RANDOM_AOE",
+      "IGNORE_WALLS"
+    ],
+    "effect": "attack",
+    "extra_effects": [ { "id": "telepathic_blast_radius_guaranteed", "hit_self": false } ],
+    "shape": "blast",
+    "damage_type": "psi_telepathic_damage",
+    "min_damage": 4,
+    "max_damage": 11,
+    "min_aoe": 6,
+    "max_aoe": 10,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "MoM_AEA_FEAR_AURA",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Artifact Fear Aura", "//~": "NO_I18N" },
+    "description": { "str": "Reduces Morale on all targets in the area", "//~": "NO_I18N" },
+    "message": "A chill runs down your spine.",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_EXPLOSION_SFX", "NO_LEGS", "RANDOM_AOE", "IGNORE_WALLS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MoM_AEA_FEAR_AURA",
+    "shape": "blast",
+    "min_damage": 4,
+    "max_damage": 11,
+    "min_aoe": 6,
+    "max_aoe": 10,
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ],
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MoM_AEA_FEAR_AURA",
+    "condition": "has_alpha",
+    "effect": [
+      {
+        "if": { "and": [ { "not": { "u_has_flag": "TEEP_IMMUNE" } }, { "not": { "u_has_flag": "TEEPSHIELD" } } ] },
+        "then": [
+          { "u_add_effect": "psi_stunned", "duration": { "math": [ "1 + rand(4)" ] } },
+          { "math": [ "u_val('morale') -= (20 + rand(40) )" ] }
+        ]
+      }
+    ]
   },
   {
     "type": "SPELL",
@@ -734,7 +849,8 @@
     "max_aoe": 5,
     "aoe_increment": 0.25,
     "min_range": 10,
-    "base_casting_time": 50
+    "base_casting_time": 50,
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   },
   {
     "type": "SPELL",
@@ -748,7 +864,8 @@
     "shape": "blast",
     "min_aoe": 6,
     "max_aoe": 12,
-    "base_casting_time": 50
+    "base_casting_time": 50,
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   },
   {
     "type": "SPELL",
@@ -760,7 +877,8 @@
     "effect_str": "EOC_NETHER_EFFECT_APPLY_TELEPORT_MISJUMP",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "shape": "blast",
-    "base_casting_time": 50
+    "base_casting_time": 50,
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   },
   {
     "type": "SPELL",
@@ -777,7 +895,8 @@
     "field_id": "fd_tear_in_reality_temporary",
     "field_chance": 1,
     "min_field_intensity": 2,
-    "max_field_intensity": 2
+    "max_field_intensity": 2,
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   },
   {
     "type": "SPELL",
@@ -791,7 +910,8 @@
     "base_casting_time": 100,
     "min_damage": -5,
     "max_damage": -10,
-    "message": "You feel healed."
+    "message": "You feel healed.",
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   },
   {
     "type": "SPELL",
@@ -806,7 +926,8 @@
     "base_casting_time": 100,
     "min_damage": 50,
     "max_damage": 300,
-    "message": "Your tiredness fall away."
+    "message": "Your tiredness falls away.",
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   },
   {
     "type": "SPELL",
@@ -826,7 +947,8 @@
     "max_duration": 6000,
     "min_aoe": 4,
     "max_aoe": 10,
-    "message": "A ripple in the air washes out from you."
+    "message": "A ripple in the air washes out from you.",
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   },
   {
     "type": "SPELL",
@@ -839,7 +961,8 @@
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
     "base_casting_time": 100,
-    "message": "You hear the roar of blood through your veins."
+    "message": "You hear the roar of blood through your veins.",
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -862,7 +985,8 @@
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
     "base_casting_time": 100,
-    "message": "You skin flushes."
+    "message": "You skin flushes.",
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -882,6 +1006,7 @@
     "base_casting_time": 100,
     "min_duration": 720000,
     "max_duration": 2880000,
-    "message": "Your skin crawls."
+    "message": "Your skin crawls.",
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   }
 ]

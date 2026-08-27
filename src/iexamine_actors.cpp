@@ -446,6 +446,11 @@ void mortar_examine_actor::finalize() const
     }
 }
 
+std::vector<ammotype> mortar_examine_actor::get_ammotypes() const
+{
+    return ammo_type;
+}
+
 std::unique_ptr<iexamine_actor> mortar_examine_actor::clone() const
 {
     return std::make_unique<mortar_examine_actor>( *this );

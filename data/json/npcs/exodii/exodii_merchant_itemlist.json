@@ -158,6 +158,7 @@
         ]
       },
       { "item": "123ln", "container-item": "box_small", "prob": 60, "count": [ 2, 4 ], "sealed": true },
+      { "item": "123ln_ap", "container-item": "box_small", "prob": 30, "count": [ 2, 4 ], "sealed": true },
       { "item": "273x110sluglight", "container-item": "box_small", "prob": 40, "count": [ 3, 4 ], "sealed": true },
       { "item": "273x44trainer", "container-item": "box_small", "prob": 30, "count": [ 3, 5 ], "sealed": true },
       { "item": "273x110flock", "container-item": "box_small", "prob": 10, "count": [ 1, 2 ], "sealed": true },

@@ -14,6 +14,35 @@
     "variants": [  ]
   },
   {
+    "id": "higlands_funeral_crown",
+    "copy-from": "crown_golden",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "funeral crown" },
+    "description": "A golden circlet adorned with filigree leaves and pearls.  The remnants of a white silk veil remain attached to the crown.",
+    "variants": [  ]
+  },
+  {
+    "id": "highland_funeral_mask",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "funeral mask" },
+    "description": "A serene visage carved from a large piece of ivory.  Its internal surface is completely smooth, and adorned with a a series of concentric bronze rings and grooves.  You could wear it over your face, but it lacks any way to see or comfortably breathe through it.",
+    "weight": "750 g",
+    "volume": "750 ml",
+    "price": "40 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "material": [ "stone" ],
+    "symbol": "[",
+    "color": "green",
+    "warmth": 5,
+    "material_thickness": 0.2,
+    "environmental_protection": 1,
+    "flags": [ "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 40, "coverage": 95, "covers": [ "eyes", "mouth" ] } ]
+  },
+  {
     "id": "highland_medallion",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -105,6 +134,16 @@
         "id": "empire",
         "description": "White towers rise from a jagged coastline, in a heavily geometric pattern that repeats across the entire shroud.",
         "weight": 500
+      },
+      {
+        "id": "noble",
+        "description": "A single tower pierces the heavens, its base obscured by swirling clouds.  Heraldic banners have been embroidered to serve as the scene's backdrop, and a large opal has been sewn into the fabric to represent the sun.",
+        "weight": 0
+      },
+      {
+        "id": "guardian",
+        "description": "A cream colored shroud, embroidered with a single, large eye.  The iris is deep blue, and its pupil is a small, black gem.",
+        "weight": 0
       },
       {
         "id": "tindalos",

@@ -1,6 +1,25 @@
 [
   {
     "type": "item_group",
+    "id": "highland_tomb_revenant",
+    "subtype": "collection",
+    "entries": [
+      { "item": "highland_shroud", "variant": "guardian" },
+      {
+        "item": "art_dagger",
+        "artifact": {
+          "procgen_id": "cult",
+          "rules": { "power_level": 750, "max_attributes": 3, "max_negative_power": -500, "resonant": true }
+        },
+        "prob": 100
+      },
+      { "item": "gold_ring", "count": [ 2, 8 ] },
+      { "group": "bracelets_gold", "count": [ 4, 12 ] },
+      { "item": "higlands_funeral_crown" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "highland_sarcophagus_common",
     "subtype": "collection",
     "items": [
@@ -17,6 +36,38 @@
       { "item": "highland_white_incense", "prob": 10, "count": [ 1, 2 ], "container-item": "bowl_clay" },
       { "item": "highland_blue_incense", "prob": 10, "count": [ 1, 2 ], "container-item": "bowl_clay" },
       { "item": "highland_golden_incense", "prob": 10, "count": [ 1, 2 ], "container-item": "bowl_clay" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "highland_sarcophagus_imperial",
+    "subtype": "collection",
+    "items": [
+      { "item": "skull_human" },
+      { "item": "bone_human", "count": [ 20, 40 ] },
+      { "item": "coin_highlands" },
+      { "item": "highland_shroud", "variant": "noble" },
+      { "item": "higlands_funeral_crown" },
+      {
+        "item": "highland_funeral_mask",
+        "artifact": {
+          "procgen_id": "cult",
+          "rules": { "power_level": 1250, "max_attributes": 3, "max_negative_power": -1000, "resonant": true }
+        },
+        "prob": 100
+      },
+      {
+        "item": "art_book",
+        "artifact": {
+          "procgen_id": "artifact_book",
+          "rules": { "power_level": 750, "max_attributes": 3, "max_negative_power": -500, "resonant": true }
+        },
+        "variant": "stars",
+        "prob": 100
+      },
+      { "item": "highland_medallion", "variant": "faith" },
+      { "item": "highland_purple_incense", "count": [ 1, 2 ], "container-item": "bowl_clay" },
+      { "item": "highland_golden_incense", "count": [ 1, 2 ], "container-item": "bowl_clay" }
     ]
   }
 ]

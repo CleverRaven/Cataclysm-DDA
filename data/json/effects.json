@@ -3411,11 +3411,11 @@
   {
     "type": "effect_type",
     "id": "dermatik_visible",
-    "name": [ "Wriggling Skin", "Crawling Lump", "Distended Flesh" ],
+    "name": [ "Wriggling Skin", "Fed Upon", "Faint" ],
     "desc": [
-      "You can feel something wriggling beneath the skin…",
-      "There's a small lump under your skin, it shifts and writhes with a life of its own…",
-      "An area of your flesh bulges unnaturally, stretched by the presence of something inside.  It feels like it's desperately trying to push its way out…"
+      "Maggots the size of eggs roil beneath your skin.",
+      "Rippling bulges traverse your stomach.  If you strain your ears, you can hear the larvae slurping at your intestines.",
+      "Thick, black bruises run from where the dermatik stung you to the center of your chest.  You think you hear the pupae gnawing at your ribcage, and it sounds like rest.  Perhaps you should sit and listen to it for a while."
     ],
     "rating": "bad",
     "max_intensity": 3,
@@ -3794,7 +3794,8 @@
       "sleepiness_tick": [ 9 ],
       "stamina_min": [ 8 ]
     },
-    "blood_analysis_description": "Methamphetamines"
+    "blood_analysis_description": "Methamphetamines",
+    "flags": [ "CANNOT_SLEEP" ]
   },
   {
     "type": "effect_type",
@@ -5881,5 +5882,31 @@
     "desc": [ "" ],
     "int_decay_step": 1,
     "int_decay_tick": 120
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_zero_manip",
+    "//": "Hidden effect, sets manip to 0 so you drop what you're holding",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "limb_score_mods": [ { "limb_score": "manip", "modifier": 0 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mon_feral_serum_user_armus",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "mixed",
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.75 },
+          { "type": "cut", "multiply": -0.666 },
+          { "type": "stab", "multiply": -0.5 },
+          { "type": "bullet", "multiply": -0.2 }
+        ]
+      }
+    ]
   }
 ]

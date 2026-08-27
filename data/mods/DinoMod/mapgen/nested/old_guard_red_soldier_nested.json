@@ -1,0 +1,7 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "old_guard_red_soldier_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "old_guard_red_soldier", "x": 0, "y": 0 } ] }
+  }
+]

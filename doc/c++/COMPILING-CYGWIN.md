@@ -19,6 +19,11 @@ These instructions were written using 64-bit Windows 7 and the 64-bit version of
 
 Due to slow environment setup and execution of the resulting binary, compilation using MSYS2 is preferred.
 
+> **The SDL3 steps below are unverified.** They were reconstructed from the
+> upstream Cygwin package listings after SDL2 support was removed, and have not
+> been run on a Cygwin host. If you follow them, please report what worked so
+> this note can be dropped.
+
 ## Prerequisites:
 
 * 64-bit version of Windows 7, 8, 8.1, or 10
@@ -59,10 +64,49 @@ chmod 755 /bin/apt-cyg
 3. Install packages required for compilation:
 
 ```bash
-apt-cyg install astyle ccache gcc-g++ gettext-devel git libiconv-devel libintl-devel libSDL2_image-devel libSDL2_mixer-devel libSDL2_ttf-devel make xinit
+apt-cyg install astyle ccache cmake gcc-g++ gettext-devel git libiconv-devel libintl-devel libSDL3-devel make pkg-config xinit
 ```
 
 You will see messages saying packages are already installed, as well as Cygwin installing packages you didn't ask for; this is the result of Cygwin's package manager automatically resolving dependencies.
+
+4. Build the SDL3 satellite libraries from source:
+
+Cygwin packages the SDL3 core library (`libSDL3-devel`) but not `SDL3_image`,
+`SDL3_ttf` or `SDL3_mixer`, so those three have to be built against it. The
+versions below are the ones CI uses; `.github/actions/setup-sdl3-stack/action.yml`
+carries the same pins and the full option list.
+
+```bash
+mkdir -p ~/src && cd ~/src
+
+git clone --depth 1 --branch release-3.4.4 https://github.com/libsdl-org/SDL_image.git
+cmake -S SDL_image -B SDL_image-build -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON \
+    -DSDLIMAGE_VENDORED=OFF -DSDLIMAGE_PNG=ON -DSDLIMAGE_JPG=ON \
+    -DSDLIMAGE_AVIF=OFF -DSDLIMAGE_JXL=OFF -DSDLIMAGE_TIF=OFF -DSDLIMAGE_WEBP=OFF
+cmake --build SDL_image-build -j"$(nproc)" && cmake --install SDL_image-build
+
+git clone --depth 1 --branch release-3.2.2 https://github.com/libsdl-org/SDL_ttf.git
+cmake -S SDL_ttf -B SDL_ttf-build -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON \
+    -DSDLTTF_VENDORED=OFF -DSDLTTF_PLUTOSVG=OFF
+cmake --build SDL_ttf-build -j"$(nproc)" && cmake --install SDL_ttf-build
+```
+
+Only build SDL3_mixer if you want `SOUND=1`:
+
+```bash
+cd ~/src
+git clone --depth 1 --branch release-3.2.4 https://github.com/libsdl-org/SDL_mixer.git
+cmake -S SDL_mixer -B SDL_mixer-build -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON \
+    -DSDLMIXER_VENDORED=OFF -DSDLMIXER_FLAC=ON -DSDLMIXER_MP3=ON \
+    -DSDLMIXER_OPUS=OFF -DSDLMIXER_MOD=OFF -DSDLMIXER_MIDI=OFF -DSDLMIXER_GME=OFF
+cmake --build SDL_mixer-build -j"$(nproc)" && cmake --install SDL_mixer-build
+```
+
+Each library needs its own codec headers installed first. Add the matching
+`-devel` packages with `apt-cyg` if CMake reports one missing.
 
 ## Cloning and compilation:
 
@@ -81,12 +125,12 @@ cd Cataclysm-DDA
 2. Compile:
 
 ```bash
-make CCACHE=1 RELEASE=1 CYGWIN=1 DYNAMIC_LINKING=1 SDL=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 BACKTRACE=0 TESTS=0
+make CCACHE=1 RELEASE=1 CYGWIN=1 DYNAMIC_LINKING=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 BACKTRACE=0 TESTS=0
 ```
 
 You will receive warnings about unterminated character constants; they do not impact the compilation as far as this writer is aware.
 
-This will compile release version with Sound and Tiles support and all localization languages, skipping checks and tests and using ccache for faster build. You can use other switches, but `Cygwin=1`, `DYNAMIC_LINKING=1` and probably `RELEASE=1` are required to compile without issues.
+This will compile release version with Sound and Tiles support and all localization languages, skipping checks and tests and using ccache for faster build. You can use other switches, but `CYGWIN=1`, `DYNAMIC_LINKING=1` and probably `RELEASE=1` are required to compile without issues. `TILES=1` implies SDL3; there is no SDL2 fallback.
 
 ## Running:
 

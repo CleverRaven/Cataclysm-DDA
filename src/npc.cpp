@@ -2737,7 +2737,8 @@ bool npc::is_minion() const
 
 bool npc::guaranteed_hostile() const
 {
-    return attitude_to( get_player_character() ) == Attitude::HOSTILE || is_enemy() ||
+    return ( attitude_to( get_player_character() ) == Attitude::HOSTILE ) ||
+           is_enemy() ||
            ( my_fac && my_fac->likes_u < -10 );
 }
 
@@ -2786,7 +2787,7 @@ bool npc::is_leader() const
 
 bool npc::is_enemy() const
 {
-    return attitude == NPCATT_KILL || attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP;
+    return attitude == NPCATT_KILL || attitude == NPCATT_FLEE;
 }
 
 bool npc::is_stationary( bool include_guards ) const
@@ -4067,7 +4068,7 @@ npc_follower_rules::npc_follower_rules()
 
     clear_flag( ally_rule::allow_pick_up );
     clear_flag( ally_rule::allow_bash );
-    clear_flag( ally_rule::allow_sleep );
+    set_flag( ally_rule::allow_sleep );
     set_flag( ally_rule::allow_complain );
     set_flag( ally_rule::allow_pulp );
     set_flag( ally_rule::close_doors );

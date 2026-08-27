@@ -1,5 +1,6 @@
 #include <functional>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "avatar.h"
@@ -17,6 +18,7 @@
 
 static const itype_id itype_test_rock( "test_rock" );
 
+static const mission_type_id mission_TEST_MISSION_FIND_ITEM( "TEST_MISSION_FIND_ITEM" );
 static const mission_type_id mission_TEST_MISSION_GOAL_CONDITION1( "TEST_MISSION_GOAL_CONDITION1" );
 static const mission_type_id mission_TEST_MISSION_GOAL_CONDITION2( "TEST_MISSION_GOAL_CONDITION2" );
 
@@ -189,4 +191,78 @@ TEST_CASE( "mission_goal_condition_test", "[mission]" )
             }
         }
     }
+}
+
+namespace
+{
+
+mission *assign_test_find_item_mission( avatar &dude )
+{
+    mission *m = mission::reserve_new( mission_TEST_MISSION_FIND_ITEM, character_id() );
+    if( m->get_assigned_player_id() == dude.getID() ) {
+        m->set_assigned_player_id( character_id( -2 ) );
+    }
+    m->assign( dude );
+    return m;
+}
+
+} // namespace
+
+TEST_CASE( "automatic_find_item_mission_batch_processing", "[mission]" )
+{
+    avatar &dude = get_avatar();
+    map &here = get_map();
+    clear_character( dude, true );
+    clear_map();
+    dude.reset_all_missions();
+    mission::clear_all();
+
+    SECTION( "missing item does not complete the mission" ) {
+        const mission *m = assign_test_find_item_mission( dude );
+        mission::process_all();
+        CHECK( m->in_progress() );
+    }
+
+    SECTION( "item in character inventory completes the mission" ) {
+        const mission *m = assign_test_find_item_mission( dude );
+        item rock( itype_test_rock );
+        dude.wield( rock );
+        mission::process_all();
+        CHECK_FALSE( m->in_progress() );
+    }
+
+    SECTION( "nearby item completes the mission" ) {
+        const mission *m = assign_test_find_item_mission( dude );
+        here.add_item( dude.pos_bub() + tripoint_rel_ms::east, item( itype_test_rock ) );
+        mission::process_all();
+        CHECK_FALSE( m->in_progress() );
+    }
+
+    SECTION( "one item cannot complete two missions" ) {
+        const mission *first = assign_test_find_item_mission( dude );
+        const mission *second = assign_test_find_item_mission( dude );
+        item rock( itype_test_rock );
+        dude.wield( rock );
+        mission::process_all();
+        CHECK( first->in_progress() != second->in_progress() );
+    }
+}
+
+TEST_CASE( "automatic_find_item_mission_batch_performance", "[.][performance][mission]" )
+{
+    avatar &dude = get_avatar();
+    clear_character( dude, true );
+    clear_map();
+    dude.reset_all_missions();
+    mission::clear_all();
+
+    for( int i = 0; i < 100; ++i ) {
+        assign_test_find_item_mission( dude );
+    }
+
+    BENCHMARK( "missing find-item mission" ) {
+        mission::process_all();
+    };
+
+    SUCCEED();
 }

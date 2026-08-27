@@ -31,6 +31,7 @@
 #include "input.h"
 #include "item.h"
 #include "item_location.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -120,10 +121,11 @@ static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
-static const json_character_flag json_flag_BLEEDSLOW( "BLEEDSLOW" );
-static const json_character_flag json_flag_BLEEDSLOW2( "BLEEDSLOW2" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
+static const json_character_flag json_flag_INFECTION_RECOVERY( "INFECTION_RECOVERY" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+static const json_character_flag json_flag_PAUSE_BODYPART_INFECTION( "PAUSE_BODYPART_INFECTION" );
+static const json_character_flag json_flag_PAUSE_INFECTIONS( "PAUSE_INFECTIONS" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
@@ -352,16 +354,10 @@ static void eff_fun_bleed( Character &u, effect &it )
 
     if( ( !tourniquet || one_in( prof_bonus ) ) && u.activity.id() != ACT_FIRSTAID ) {
         // Prolonged hemorrhage is a significant risk for developing anemia
-        if( u.has_flag( json_flag_BLEEDSLOW2 ) ) {
-            u.vitamin_mod( vitamin_redcells, -( intense / 3 ) );
-            u.vitamin_mod( vitamin_blood, -( intense / 3 ) );
-        } else if( u.has_flag( json_flag_BLEEDSLOW ) ) {
-            u.vitamin_mod( vitamin_redcells, -( intense / 1.5 ) );
-            u.vitamin_mod( vitamin_blood, -( intense / 1.5 ) );
-        } else {
-            u.vitamin_mod( vitamin_redcells, -intense );
-            u.vitamin_mod( vitamin_blood, -intense );
-        }
+        // The BLEEDING_RATE enchant only reduces the amount of actual blood you lose, not the pain or severity of the wound
+        int bleeding_mod = u.calculate_by_enchantment( intense, enchant_vals::mod::BLEEDING_RATE );
+        u.vitamin_mod( vitamin_redcells, -bleeding_mod );
+        u.vitamin_mod( vitamin_blood, -bleeding_mod );
         if( one_in( 400 / intense ) ) {
             u.mod_pain( 1 );
         }
@@ -1542,6 +1538,9 @@ void Character::hardcoded_effects( effect &it )
             if( has_trait( trait_INFRESIST ) ) {
                 recover_factor += 200;
             }
+            if( has_flag( json_flag_INFECTION_RECOVERY ) ) {
+                recover_factor += 200;
+            }
             if( has_effect( effect_panacea ) ) {
                 recover_factor = 5184000;
             } else if( has_effect( effect_strong_antibiotic ) ) {
@@ -1564,8 +1563,25 @@ void Character::hardcoded_effects( effect &it )
             }
         }
         if( !recovered ) {
-            // Death happens
-            if( dur > 1_days ) {
+            // PAUSE_INFECTIONS means you cannot die and you have plenty of time when it wears off
+            // PAUSE_BODYPART_INFECTION is the same but only if it's on the same bodypart as the infection
+            bool paused_infections = has_flag( json_flag_PAUSE_INFECTIONS );
+            if( !paused_infections ) {
+                if( bp != bodypart_str_id::NULL_ID() ) {
+                    for( const effect &eff : get_effects_from_bp( bp ) ) {
+                        if( eff.has_flag( json_flag_PAUSE_BODYPART_INFECTION ) ) {
+                            paused_infections = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if( paused_infections ) {
+                if( dur > 6_hours ) {
+                    it.mod_duration( -1_turns );
+                }
+            } else if( dur > 1_days ) {
+                // Death happens
                 add_msg_if_player( m_bad, _( "You succumb to the infection." ) );
                 get_event_bus().send<event_type::dies_of_infection>( getID() );
                 set_all_parts_hp_cur( 0 );

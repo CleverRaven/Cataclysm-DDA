@@ -46,10 +46,11 @@
     }
   },
   {
-    "id": "camping",
+    "id": "camping_lighting_electric",
     "type": "item_group",
-    "copy-from": "camping",
-    "extend": { "items": [ [ "afs_atomic_light", 1 ] ] }
+    "subtype": "distribution",
+    "copy-from": "camping_lighting_electric",
+    "extend": { "entries": [ { "item": "afs_atomic_light", "prob": 1 } ] }
   },
   {
     "id": "drugdealer",

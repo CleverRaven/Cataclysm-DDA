@@ -168,8 +168,7 @@
     "//2": "This group is for a messy junk drawer.  The idea is that it should be filled with random crud, much of it obvious trash.  Like you might find in the home of someone with a small hoarding problem.",
     "subtype": "collection",
     "entries": [
-      { "item": "cash_card", "count": [ 1, 3 ], "charges": [ 1, 1150 ] },
-      { "item": "cash_card", "count": [ 1, 4 ], "charges": 0 },
+      { "item": "credit_card", "count": [ 1, 4 ] },
       { "item": "lighter", "prob": 90, "charges": [ 0, 2 ] },
       { "group": "bag_garbage_box_part", "prob": 95 },
       { "item": "bottle_opener", "prob": 90 },
@@ -439,6 +438,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "wine_glass", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "shot_glass", "prob": 50, "count": [ 2, 4 ] },
       { "item": "bowl_pewter", "prob": 50, "count": [ 1, 4 ] },
       { "item": "ceramic_cup", "prob": 75, "count": [ 1, 4 ] },
       { "item": "glass", "count": [ 1, 6 ] },
@@ -545,7 +545,6 @@
       { "item": "microwave", "prob": 90 },
       { "item": "food_processor", "prob": 70 },
       { "item": "waffleiron", "prob": 45 },
-      { "item": "multi_cooker", "prob": 25 },
       { "item": "pastaextruder", "prob": 10 },
       { "item": "dehydrator", "prob": 10 },
       { "item": "hotplate", "prob": 10 },

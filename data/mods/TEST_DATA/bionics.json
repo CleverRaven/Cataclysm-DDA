@@ -318,5 +318,40 @@
     "occupied_bodyparts": [ [ "torso", 5 ], [ "mouth", 1 ] ],
     "env_protec": [ [ "mouth", 15 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
+  },
+  {
+    "//": "Craft reservation fixture: one source exposing two distinct pseudo items that both supply TEST_RESERVE_A, so one bionic satisfies a quality requirement asking for two.  bio_tools does the same in core data.",
+    "id": "test_bio_reserve_two_pseudo",
+    "type": "bionic",
+    "name": { "str": "Reservation Test Dual Toolset" },
+    "description": "Test bionic exposing two distinct pseudo tools of the same quality.",
+    "occupied_bodyparts": [ [ "torso", 4 ] ],
+    "passive_pseudo_items": [ "test_reserve_bionic_tool_1", "test_reserve_bionic_tool_2" ],
+    "included": true,
+    "//2": "not actually included, this is a trick to not have to add an item version."
+  },
+  {
+    "//": "Craft reservation fixture: a pseudo tool the bionic exposes only while it is on, so availability follows the toggle rather than the install.",
+    "id": "test_bio_reserve_toggled_pseudo",
+    "type": "bionic",
+    "name": { "str": "Reservation Test Toggled Toolset" },
+    "description": "Test bionic exposing a pseudo tool only while powered.",
+    "occupied_bodyparts": [ [ "torso", 4 ] ],
+    "toggled_pseudo_items": [ "test_reserve_bionic_tool_1" ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "included": true,
+    "//2": "not actually included, this is a trick to not have to add an item version."
+  },
+  {
+    "//": "Craft reservation fixture: a weapon reachable directly and, once powered, as an exposed pseudo item.  One occurrence either way.",
+    "id": "test_bio_reserve_weapon",
+    "type": "bionic",
+    "name": { "str": "Reservation Test Weapon Bionic" },
+    "description": "Test bionic whose weapon supplies a quality.",
+    "occupied_bodyparts": [ [ "arm_r", 4 ] ],
+    "fake_weapon": "test_reserve_bionic_weapon",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON" ],
+    "included": true,
+    "//2": "not actually included, this is a trick to not have to add an item version."
   }
 ]

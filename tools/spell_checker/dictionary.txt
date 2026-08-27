@@ -187,6 +187,7 @@ An
 Anáhuac
 ananassa
 Anatolia
+Anaximander
 anchisaurus
 Ancien
 Andean
@@ -335,6 +336,7 @@ armguards
 Armitage
 armormaking
 armorsmithing
+Armus
 aromantic
 arowana
 arowanas
@@ -383,6 +385,7 @@ assistive
 asswagon
 asswipe
 Asterios
+asterix
 astrodon
 astrodons
 astrolaspis
@@ -3134,6 +3137,7 @@ ichthys
 ick
 iconical
 ICs
+idefix
 idolators
 IDW
 IDWs
@@ -3726,6 +3730,7 @@ Landborn
 landline
 Landough
 landrover
+Landru
 landshark
 Landstreicher
 Landwenn
@@ -3935,6 +3940,7 @@ Lorence
 Lorentz
 Los
 Losouarn
+lothar
 Lottie
 Lou
 Louan
@@ -4943,6 +4949,7 @@ Oakley
 Oan
 Oanez
 Oates
+obelix
 Obrez
 obscura
 Oceania
@@ -5238,8 +5245,10 @@ Peran
 Percy
 Perenez
 perforators
+periapt
 periapta
 periaptas
+periapts
 Perioù
 peripheric
 Perlezennn
@@ -5681,6 +5690,7 @@ renfields
 Reno
 repairwork
 replow
+Repo
 Repolymerization
 Represa
 reprime
@@ -6342,6 +6352,8 @@ smokable
 smoothbores
 smoots
 SMR
+smurf
+smurfs
 Smythe
 snakelet
 snakelets
@@ -6952,6 +6964,7 @@ Timorese
 Tinamidae
 Tindalos
 tink
+tintin
 Tipperary
 tiramisù
 tireplate

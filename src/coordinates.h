@@ -18,7 +18,9 @@
 #include "coords_fwd.h"  // IWYU pragma: export
 #include "cuboid_rectangle.h"
 #include "debug.h"
+#include "jc_voronoi/jc_voronoi.h"
 #include "line.h"  // IWYU pragma: keep
+#include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "point.h"
 
@@ -1204,6 +1206,81 @@ coords::coord_point_ob<Point, Origin, Scale> construct_min( const
         }
     }
     return constructed_min;
+}
+
+// converts a JCV point to a CATA point
+template<typename Point, coords::origin Origin, coords::scale Scale>
+coords::coord_point_ob<Point, Origin, Scale> jcv_to_cata_point( const jcv_point &loc )
+{
+    return coords::coord_point_ob<Point, Origin, Scale>( static_cast<int>( loc.x ),
+            static_cast<int>( loc.y ) );
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+coords::coord_point_ib<Point, Origin, Scale> jcv_to_cata_point( const jcv_point &loc )
+{
+    return jcv_to_cata_point<coords::coord_point_ib<Point, Origin, Scale>>( loc );
+}
+
+// returns whether a single point `loc` is in the inclusive triangle defined by points `t0 -> t1 -> t2`
+// barycentric coordinate solution obtained from https://stackoverflow.com/a/14382692,
+// which itself was derived from https://en.wikipedia.org/wiki/Barycentric_coordinate_system
+template<typename Point, coords::origin Origin, coords::scale Scale>
+bool point_in_triangle_2d( const coords::coord_point_ob<Point, Origin, Scale> &loc,
+                           const coords::coord_point_ob<Point, Origin, Scale> &t0,
+                           const coords::coord_point_ob<Point, Origin, Scale> &t1,
+                           const coords::coord_point_ob<Point, Origin, Scale> &t2 )
+{
+    const float area = 0.5f * ( -t1.y() * t2.x() + t0.y() * ( -t1.x() + t2.x() ) + t0.x() *
+                                ( t1.y() - t2.y() ) + t1.x() * t2.y() );
+    const float s = 1.0f / ( 2.0f * area ) * ( t0.y() * t2.x() - t0.x() * t2.y() +
+                    ( t2.y() - t0.y() ) * loc.x() + ( t0.x() - t2.x() ) * loc.y() );
+    const float t = 1.0f / ( 2.0f * area ) * ( t0.x() * t1.y() - t0.y() * t1.x() +
+                    ( t0.y() - t1.y() ) * loc.x() + ( t1.x() - t0.x() ) * loc.y() );
+    constexpr float positive_float_threshold = -0.001f; // what constitutes a "positive number"
+    return s >= positive_float_threshold && t >= positive_float_threshold &&
+           1.0f - s - t >= positive_float_threshold;
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+bool point_in_triangle_2d( const coords::coord_point_ib<Point, Origin, Scale> &loc,
+                           const coords::coord_point_ib<Point, Origin, Scale> &t0,
+                           const coords::coord_point_ib<Point, Origin, Scale> &t1,
+                           const coords::coord_point_ib<Point, Origin, Scale> &t2 )
+{
+    return point_in_triangle_2d( loc, t0, t1, t2 );
+}
+
+// returns ALL points in the inclusive triangle defined by points `t0 -> t1 -> t2`
+template<typename Point, coords::origin Origin, coords::scale Scale>
+std::vector<coords::coord_point_ob<Point, Origin, Scale>>
+        points_in_triangle_2d( const coords::coord_point_ob<Point, Origin, Scale> &t0,
+                               const coords::coord_point_ob<Point, Origin, Scale> &t1,
+                               const coords::coord_point_ob<Point, Origin, Scale> &t2 )
+{
+
+    const std::vector < coords::coord_point_ob<Point, Origin, Scale>> triangle_bounds = { t0, t1, t2 };
+    std::vector < coords::coord_point_ob<Point, Origin, Scale>> inside_triangle_points;
+
+    coords::coord_point_ob<Point, Origin, Scale> min_bound = construct_min( triangle_bounds );
+    coords::coord_point_ob<Point, Origin, Scale> max_bound = construct_max( triangle_bounds );
+
+    tripoint_range< coords::coord_point_ob<Point, Origin, Scale>> bounds( min_bound, max_bound );
+    for( const coords::coord_point_ob<Point, Origin, Scale> &p : bounds ) {
+        if( point_in_triangle_2d( p, t0, t1, t2 ) ) {
+            inside_triangle_points.emplace_back( p );
+        }
+    }
+    return inside_triangle_points;
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+bool points_in_triangle_2d(
+    const coords::coord_point_ib<Point, Origin, Scale> &t0,
+    const coords::coord_point_ib<Point, Origin, Scale> &t1,
+    const coords::coord_point_ib<Point, Origin, Scale> &t2 )
+{
+    return points_in_triangle_2d( t0, t1, t2 );
 }
 
 /* find appropriate subdivided coordinates for absolute tile coordinate.

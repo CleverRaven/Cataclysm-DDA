@@ -7,7 +7,7 @@
     "copy-from": "mon_feral_psion_default",
     "//": "This is supposed to be a rare boss kind of monster, with both telepathic and telekinetic abililites, but no tougher than a normal zombie.",
     "default_faction": "science",
-    "species": [ "FERAL", "TELEKIN_PUSHPULL_NULL" ],
+    "species": [ "FERAL" ],
     "symbol": "@",
     "color": "magenta",
     "death_drops": "feral_scientists_death_drops_psychic",

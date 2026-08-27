@@ -184,7 +184,7 @@
     "rating": "mixed",
     "max_duration": "30 m",
     "base_mods": { "per_mod": [ 6 ], "dex_mod": [ -2 ], "speed_mod": [ -5 ] },
-    "flags": [ "HUNGER_DISRUPTION" ],
+    "flags": [ "HUNGER_DISRUPTION", "TRUE_SEEING" ],
     "blood_analysis_description": "Cross-dimensional narcotic, unexpected physics encountered"
   },
   {
@@ -198,7 +198,7 @@
     "rating": "bad",
     "max_duration": "24 hours",
     "base_mods": { "per_mod": [ -1 ], "speed_mod": [ -5 ] },
-    "flags": [ "HUNGER_DISRUPTION" ],
+    "flags": [ "HUNGER_DISRUPTION", "TRUE_SEEING" ],
     "blood_analysis_description": "Anemia of the soul."
   },
   {
@@ -677,7 +677,8 @@
     "id": "effect_dhampir_the_blood_is_the_life",
     "//": "Hidden--prevents gaining blood when using The Blood is the Life",
     "name": [ "" ],
-    "desc": [ "" ]
+    "desc": [ "" ],
+    "flags": [ "HUNGER_DISRUPTION" ]
   },
   {
     "type": "effect_type",
@@ -1788,10 +1789,9 @@
           { "type": "cut", "multiply": -0.3 },
           { "type": "bullet", "multiply": -0.3 }
         ],
-        "values": [ { "value": "MOVE_COST", "multiply": 0.1 } ]
+        "values": [ { "value": "MOVE_COST", "multiply": 0.1 }, { "value": "BLEEDING_RATE", "multiply": -0.333 } ]
       }
-    ],
-    "flags": [ "BLEEDSLOW1" ]
+    ]
   },
   {
     "type": "effect_type",
@@ -2217,7 +2217,7 @@
     "remove_message": "Your body regains its solidity.",
     "rating": "good",
     "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.8 }, { "value": "EVASION", "add": 1 } ] } ],
-    "flags": [ "ETHEREAL", "INVISIBLE", "LEVITATION", "CLIMB_FLYING", "INHALED_TOXIN_IMMUNE", "MYCUS_IMMUNE" ]
+    "flags": [ "ETHEREAL", "INVISIBLE", "LEVITATION", "CLIMB_FLYING", "DISTRIBUTED_DAMAGE", "INHALED_TOXIN_IMMUNE", "MYCUS_IMMUNE" ]
   },
   {
     "type": "effect_type",
@@ -3236,6 +3236,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_resist_infections",
+    "name": [ "Make Thy Plagues Wonderful" ],
+    "desc": [ "You are immune to minor diseases and any infections you have are recovering more easily." ],
+    "removes_effects": [ "common_cold", "pre_common_cold", "flu", "pre_flu" ],
+    "flags": [ "PAUSE_INFECTIONS", "INFECTION_RECOVERY" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_attack_warning_cooldown",
     "//": "Hidden effect, used as a blocker",
     "name": [ "" ],
@@ -3418,12 +3426,15 @@
     "enchantments": [
       {
         "values": [
-          { "value": "MOVE_COST", "multiply": -0.5 },
           { "value": "ATTACK_SPEED", "multiply": -0.66 },
           { "value": "BONUS_DODGE", "add": 1 },
           { "value": "DODGE_CHANCE", "add": { "math": [ "2 + (u_has_trait('THRESH_LILIN') * 2)" ] } },
           { "value": "RANGE_DODGE", "add": { "math": [ "0.25 + (u_has_trait('THRESH_LILIN') * 0.25)" ] } }
         ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
       }
     ]
   },

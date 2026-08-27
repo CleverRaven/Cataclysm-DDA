@@ -106,9 +106,12 @@
   },
   {
     "type": "item_group",
-    "id": "camping",
-    "copy-from": "camping",
-    "extend": { "items": [ [ "grahmcrackers", 200 ], [ "marshmallow", 100 ], [ "smores", 100 ] ] }
+    "id": "camping_cooking",
+    "subtype": "collection",
+    "copy-from": "camping_cooking",
+    "extend": {
+      "entries": [ { "item": "grahmcrackers", "prob": 200 }, { "item": "marshmallow", "prob": 100 }, { "item": "smores", "prob": 100 } ]
+    }
   },
   {
     "type": "item_group",
