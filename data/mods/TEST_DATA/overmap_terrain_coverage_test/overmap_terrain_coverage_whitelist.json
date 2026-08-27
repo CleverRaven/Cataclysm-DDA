@@ -109,7 +109,8 @@
       "helipad.*",
       "fort_\\d.*",
       "forge_.*",
-      "aenor_paddock.*"
+      "aenor_paddock.*",
+      "field_office_.*"
     ]
   }
 ]
