@@ -1,0 +1,24 @@
+[
+{
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "pine_nuts_test",
+    "name": { "str_sp": "pine nuts" },
+    "weight": "15 g",
+    "color": "brown",
+    "spoils_in": "45 days",
+    "container": "bag_plastic_small",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -1,
+    "calories": 101,
+    "description": "A handful of tasty, crunchy nuts from a pinecone.",
+    "price": "17 cent",
+    "price_postapoc": "75 cent",
+    "material": [ "nut" ],
+    "volume": "31 ml",
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
+    "vitamins": [ [ "iron", 5 ], [ "nut_allergen", 1 ] ],
+    "fun": 2
+  }
+]

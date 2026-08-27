@@ -158,6 +158,7 @@
         ]
       },
       { "item": "123ln", "container-item": "box_small", "prob": 60, "count": [ 2, 4 ], "sealed": true },
+      { "item": "123ln_ap", "container-item": "box_small", "prob": 30, "count": [ 2, 4 ], "sealed": true },
       { "item": "273x110sluglight", "container-item": "box_small", "prob": 40, "count": [ 3, 4 ], "sealed": true },
       { "item": "273x44trainer", "container-item": "box_small", "prob": 30, "count": [ 3, 5 ], "sealed": true },
       { "item": "273x110flock", "container-item": "box_small", "prob": 10, "count": [ 1, 2 ], "sealed": true },
@@ -813,6 +814,22 @@
       { "item": "shot_scrap", "prob": 1 },
       { "item": "bp_shot_scrap", "prob": 1 },
       { "item": "wax_slug", "prob": 1 }
+    ]
+  },
+  {
+    "id": "exodii_do_not_buy_currency_blacklist",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Due to jumps making currency from the last world worthless, the Exodii prefers to directly barter for what they want or need.",
+    "//2": "This should include all currencies used by post-cataclysm groups.",
+    "entries": [
+      { "item": "FMCNote", "prob": 1 },
+      { "item": "money_strap_FMCNote", "prob": 1 },
+      { "item": "money_bundle_FMCNote", "prob": 1 },
+      { "item": "RobofacCoin", "prob": 1 },
+      { "item": "FlatCoin", "prob": 1 },
+      { "item": "signed_chit", "prob": 1 },
+      { "item": "icon", "prob": 1 }
     ]
   }
 ]

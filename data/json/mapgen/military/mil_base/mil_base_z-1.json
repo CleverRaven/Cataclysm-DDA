@@ -340,8 +340,8 @@
       "furniture": { "B": "f_bench" },
       "terrain": { "B": "t_thconc_floor" },
       "place_loot": [
-        { "item": "detergent", "x": [ 12, 13 ], "y": 7, "chance": 75, "repeat": [ 25, 50 ] },
-        { "item": "bleach", "x": [ 14, 15 ], "y": 7, "chance": 75, "repeat": [ 25, 50 ] },
+        { "group": "detergent_small_box_part", "x": [ 12, 13 ], "y": 7, "chance": 75 },
+        { "group": "bleach_jug_part", "x": [ 14, 15 ], "y": 7, "chance": 75 },
         { "item": "sheet", "x": 17, "y": [ 15, 16 ], "chance": 75, "repeat": [ 50, 100 ] },
         { "item": "towel", "x": 17, "y": [ 17, 18 ], "chance": 75, "repeat": [ 50, 100 ] }
       ],

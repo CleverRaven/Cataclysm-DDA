@@ -128,7 +128,8 @@
     "effect": [
       { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_SPRING" },
       { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] },
-      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] }
+      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] },
+      { "u_learn_recipe": "prac_gramarye_changeling" }
     ]
   },
   {
@@ -138,7 +139,8 @@
     "effect": [
       { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_SUMMER" },
       { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] },
-      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] }
+      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] },
+      { "u_learn_recipe": "prac_gramarye_changeling" }
     ]
   },
   {
@@ -148,7 +150,8 @@
     "effect": [
       { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_AUTUMN" },
       { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] },
-      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] }
+      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] },
+      { "u_learn_recipe": "prac_gramarye_changeling" }
     ]
   },
   {
@@ -158,7 +161,8 @@
     "effect": [
       { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_WINTER" },
       { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] },
-      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] }
+      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] },
+      { "u_learn_recipe": "prac_gramarye_changeling" }
     ]
   },
   {
@@ -736,7 +740,8 @@
         "u_roll_remainder": [
           "changeling_summer_fire_melee_damage_spell",
           "changeling_summer_jump_distance_spell",
-          "changeling_summer_protect_from_hot_weather_spell"
+          "changeling_summer_protect_from_hot_weather_spell",
+          "changeling_summer_absorb_strength_spell"
         ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
@@ -843,7 +848,11 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_2",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_autumn_damage_plants_spell", "changeling_autumn_call_mists_spell" ],
+        "u_roll_remainder": [
+          "changeling_autumn_damage_plants_spell",
+          "changeling_autumn_call_mists_spell",
+          "changeling_autumn_harm_and_stun_robots_spell"
+        ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
@@ -856,7 +865,11 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_3",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_autumn_protection_from_ranged_spell", "changeling_autumn_scare_humans_spell" ],
+        "u_roll_remainder": [
+          "changeling_autumn_protection_from_ranged_spell",
+          "changeling_autumn_scare_humans_spell",
+          "changeling_autumn_stop_supernatural_healing_spell"
+        ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
@@ -886,7 +899,7 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_5",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_autumn_time_fells_mighty_warrior" ],
+        "u_roll_remainder": [ "changeling_autumn_time_fells_mighty_warrior", "changeling_autumn_giant_withering_aoe_spell" ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
@@ -982,7 +995,7 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_4",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_winter_hail_attack_spell" ],
+        "u_roll_remainder": [ "changeling_winter_hail_attack_spell", "changeling_winter_close_the_reality_tear_spell" ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],

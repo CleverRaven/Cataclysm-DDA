@@ -466,6 +466,24 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
+    "id": "exodii_portable_tv",
+    "//": "Based on Panasonic Ranger 505",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "Exodii TV-radio" },
+    "material": [ "plastic", "aluminum" ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "symbol": ",",
+    "color": "light_green",
+    "description": "This looks like a travel TV from the 1970s, styled to resemble military field equipment.  The bulbous CRT is encased in a drab plastic shell with an oversized carrying handle.  The switches and chunky tuning controls look like they were salvaged from an abandoned Cold War command center.  A single camera lens is visible above the screen, slightly off center.",
+    "price": "1 USD",
+    "price_postapoc": "1 cent",
+    "weight": "3600 g",
+    "volume": "15360 ml",
+    "longest_side": "32 cm",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "electrohack",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],

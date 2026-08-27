@@ -2649,11 +2649,6 @@
   },
   {
     "type": "MIGRATION",
-    "id": "shot_he",
-    "replace": "shot_dragon"
-  },
-  {
-    "type": "MIGRATION",
     "id": "hk_mp7",
     "replace": "fn_p90"
   },

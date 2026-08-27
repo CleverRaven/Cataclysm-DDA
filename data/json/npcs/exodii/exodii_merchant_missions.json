@@ -96,6 +96,33 @@
     }
   },
   {
+    "id": "EXODII_MISSION_MEET_FREE_MERCHANTS",
+    "name": {
+      "str": "Go to the Refugee Center and negotiate a trade deal between the Free Merchants and the Exodii.  Don't forget to take the Exodii \"talk-rad talk-vid\"."
+    },
+    "type": "mission_definition",
+    "goal": "MGOAL_NULL",
+    "destination": "evac_center_18",
+    "start": {
+      "assign_mission_target": { "om_terrain": "evac_center_18", "om_special": "evac_center", "reveal_radius": 4, "random": false }
+    },
+    "end": { "effect": [ { "u_add_var": "mission_completed_exodii_mission_meet_free_merchants", "value": "yes" } ] },
+    "difficulty": 5,
+    "value": 2,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "",
+      "offer": "",
+      "accepted": "",
+      "rejected": "",
+      "advice": "",
+      "inquire": "",
+      "success": "",
+      "success_lie": "",
+      "failure": ""
+    }
+  },
+  {
     "id": "EXODII_MISSION_STRING_DIMENSION_EXODII",
     "name": { "str": "Download data from the other-dimension Exodii node" },
     "type": "mission_definition",
@@ -624,7 +651,7 @@
     ]
   },
   {
-    "id": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_truth",
+    "id": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_truth",
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "Alas.  You're a mercenary, so you'll act like a mercenary.  But you better remember that the Exodii also remember.",
@@ -1128,6 +1155,273 @@
         "topic": "TALK_DONE"
       }
     ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_4_intro",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Well, as it were, things are going well.  In fact, we've started doing some good deals, and not just with you.  And we've become aware of a group that calls themselves the Free Merchants.  We need a human from this earth to talk to them, so that maybe we can set up some more organized trade, with the time we have left on this rock.  We're willing to pay you to make introductions.  Interested?",
+      "str": "&Rubik lets out a rather comfortable chuckle from their speakers, and slaps their robotic belly.  \"Well, well, things are goin' swell.  Us'n've started right an' proper jelly, and not wi' just you neither.  By the by we've come ken of some monicks themselves the \"Free Merchants,\" as it were.  Lots'o'scrap.  Stuff we like and need.  Need us a person'o'this'land t'parlay with'em, see if mayhap we can set up finer trade betwixt, for the good hours in the sun we've left here, 'least.  Us'nlll stand ye a mighty tidy reward for introductions.  What say, fruit gum?"
+    },
+    "responses": [
+      {
+        "text": "So you want me to introduce you to the Free Merchants?  Sure, why not.  I'll do it.",
+        "condition": {
+          "or": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] },
+            { "compare_string": [ "yes", { "u_val": "exodii_told_u_about_free_merchants" } ] }
+          ]
+        },
+        "effect": { "assign_mission": "EXODII_MISSION_MEET_FREE_MERCHANTS" },
+        "topic": "TALK_EXODII_MERCHANT_mission_4_accepted"
+      },
+      {
+        "text": "Who are the Free Merchants?",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "exodii_told_u_about_free_merchants" } ] } }
+          ]
+        },
+        "effect": { "u_add_var": "exodii_told_u_about_free_merchants", "value": "yes" },
+        "topic": "TALK_EXODII_MERCHANT_mission_4_who"
+      },
+      { "text": "So, why can't an Exodii do this?  Why me?", "topic": "TALK_EXODII_MERCHANT_mission_4_explain" },
+      {
+        "text": "Don't you think my new cyborg body might be a problem?",
+        "condition": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" },
+        "topic": "TALK_EXODII_MERCHANT_mission_4_explain_cyborg"
+      },
+      { "text": "Maybe some other time.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_4_who",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Merchants held up in some sort of large building.  They're proper traders as far as I can tell.  To have caravans so soon after the end times speaks something to their ingenuity, but maybe should also inspire caution.  They're smart, but maybe conniving.  Either way, they're not secretive like that bunker, so that's good",
+      "str": "Mongers holed up in some great clunk of a buildin'.  Proper traders, far as ol' Rubik can tell.  To run a caravan so soon past the dyin'o'the'world, that speaks a mite to their grit an' know-how, but mayhaps it'd be wise to keep one eye sharp, too.  Keen as a tack, but maybe slippery ta'boot.  Either way, they be ain't secret.  Not hidin' behind crete n' iron like the bunker-folk.  So that's a fair mercy."
+    },
+    "responses": [
+      {
+        "text": "So you want me to introduce you to the Free Merchants?  Sure, why not.  I'll do it.",
+        "condition": {
+          "or": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] },
+            { "compare_string": [ "yes", { "u_val": "exodii_told_u_about_free_merchants" } ] }
+          ]
+        },
+        "effect": { "assign_mission": "EXODII_MISSION_MEET_FREE_MERCHANTS" },
+        "topic": "TALK_EXODII_MERCHANT_mission_4_accepted"
+      },
+      {
+        "text": "Don't you think my new cyborg body might be a problem?",
+        "condition": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" },
+        "topic": "TALK_EXODII_MERCHANT_mission_4_explain_cyborg"
+      },
+      { "text": "Maybe some other time.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_4_explain",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Well, I think it's obvious that someone people might be intimidated by our cybernetic enhancements. Rightfully so.  Might even think we're part of the Enemy.  You, though?  Normal, by their standards.  I think we stand a better chance.",
+      "str": "Well an' surely, some folk'll take a mightly long squint at the bright'n'steelies on me an' feel a MITE uneasy, aye?  And rightly so, an I'm ken.  Might even reckon us kin'o'the Enemy.  But you?  By their reckonin', yer ordinary.  Normal.  Regular clap.  Gives us a finer chance, I'd razz."
+    },
+    "responses": [
+      {
+        "text": "So you want me to introduce you to the Free Merchants?  Sure, why not.  I'll do it.",
+        "condition": {
+          "or": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] },
+            { "compare_string": [ "yes", { "u_val": "exodii_told_u_about_free_merchants" } ] }
+          ]
+        },
+        "effect": { "assign_mission": "EXODII_MISSION_MEET_FREE_MERCHANTS" },
+        "topic": "TALK_EXODII_MERCHANT_mission_4_accepted"
+      },
+      {
+        "text": "Don't you think my new cyborg body might be a problem?",
+        "condition": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" },
+        "topic": "TALK_EXODII_MERCHANT_mission_4_explain_cyborg"
+      },
+      { "text": "Maybe some other time.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_4_explain_cyborg",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Well, correct, these days we look a lot alike, being cyborgs and all.  But you speak normal English for this Earth, not Anglic like me.  Lower chance they mistake us for the Enemy, or something like that.",
+      "str": "Well an' surely, these days ye an' ol' Rubik look near alike, what with the whole cyborgin' an' all.  But ye parley THEIR, or rather YOUR Anglic, not mine.  Less chance they wrongly ken us for mates o' the Enemy or summit."
+    },
+    "responses": [
+      {
+        "text": "So you want me to introduce you to the Free Merchants?  Sure, why not.  I'll do it.",
+        "condition": {
+          "or": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] },
+            { "compare_string": [ "yes", { "u_val": "exodii_told_u_about_free_merchants" } ] }
+          ]
+        },
+        "effect": { "assign_mission": "EXODII_MISSION_MEET_FREE_MERCHANTS" },
+        "topic": "TALK_EXODII_MERCHANT_mission_4_accepted"
+      },
+      { "text": "Maybe some other time.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_4_accepted",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Excellent.  I'll give you a radio.  Take it to them, make introductions, and help me with translating, now that you've hopefully starting to understand me.",
+      "str": "Aye, alright.  Good.  I'll give ye a chitchat - a talk-rad talk-vid.  Take it t'them, make the introductions, and mayhaps lend a mite o' translating, now ye've hopefully started kennin' ol' Rubik's yark."
+    },
+    "responses": [
+      {
+        "text": "[Take the device] Will do, Rubik.",
+        "condition": { "math": [ "u_skill('social') < 3" ] },
+        "effect": { "u_spawn_item": "exodii_portable_tv" },
+        "topic": "TALK_EXODII_MERCHANT_mission_4_accepted_0-2"
+      },
+      {
+        "text": "[Take the device] Will do, Rubik.",
+        "condition": { "and": [ { "math": [ "u_skill('social') > 2" ] }, { "math": [ "u_skill('social') < 5" ] } ] },
+        "effect": { "u_spawn_item": "exodii_portable_tv" },
+        "topic": "TALK_EXODII_MERCHANT_mission_4_accepted_3-4"
+      },
+      {
+        "text": "[Take the device] Will do, Rubik.",
+        "condition": { "and": [ { "math": [ "u_skill('social') > 4" ] }, { "math": [ "u_skill('social') < 7" ] } ] },
+        "effect": { "u_spawn_item": "exodii_portable_tv" },
+        "topic": "TALK_EXODII_MERCHANT_mission_4_accepted_5-6"
+      },
+      {
+        "text": "[Take the device] Will do, Rubik.",
+        "condition": { "and": [ { "math": [ "u_skill('social') > 6" ] }, { "math": [ "u_skill('social') < 9" ] } ] },
+        "effect": { "u_spawn_item": "exodii_portable_tv" },
+        "topic": "TALK_EXODII_MERCHANT_mission_4_accepted_7-8"
+      },
+      {
+        "text": "[Take the device] Will do, Rubik.",
+        "condition": { "math": [ "u_skill('social') > 8" ] },
+        "effect": { "u_spawn_item": "exodii_portable_tv" },
+        "topic": "TALK_EXODII_MERCHANT_mission_4_accepted_9-10"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_4_accepted_0-2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Remember, we picked you because you speak this Earth's English.  But I know you're no negotiator.  Beyond that, well, our expectations are low.  No offense.  Take it slow.  Five minutes of polite conversation will exceed my expectations.  Try not to cause any sort of real problems, please?",
+      "str": "Keep keen.  We chose ye' cause ye' speak their Anglic.  But ol' Rubik knows yer' no parley barley.  Beyond that, well… let's call this an experiment in optimism.  Go easy, aye?  Five minutes'o polite conversation an ye'll exceed expectation.  Try not t'cause any real problems, aye?"
+    },
+    "responses": [ { "text": "Right.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_4_accepted_3-4",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Remember, you're introducting traders, not making threats.  If they start backing away while taking, try smiling.  If that makes it work, stop smiling.  You've clearly got some sense.  Follow it.  Try not to cause any incidents.",
+      "str": "Remember yer a trader not a threater.  If folk back away, try smilin'.  If they don't like that, stop.  Ye' got a pinch of sense.  Follow it.  Try not t'cause any incidents, aye?"
+    },
+    "responses": [ { "text": "Right.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_4_accepted_5-6",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "You're good enough with people.  Better than most surivivors.  Keep it friendly, don't mention the Enemy, and don't make expensive promises, please.",
+      "str": "Ye've decent enough people-sense.  Better'an most scavvers.  Keep the yark friendly, don't menton the Enemy, an' try not t'promise anything too expensive, aye?"
+    },
+    "responses": [ { "text": "Right.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_4_accepted_7-8",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "I can tell you're good at this, and I trust you more than I should.  If you get us a good deal, I'll owe you.",
+      "str": "Got more faith'in'ye than Ol' Rubik mayhaps should.  If these Free Merchants leave thinkin' us'n are respectable traders instead'a vagabonds, ol' Rubik'll owe ye a favor.  And I don't say that lightly, aye?"
+    },
+    "responses": [ { "text": "Right.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_4_accepted_9-10",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "I know you're good at this.  Sometimes I forget you're just a survivor, and not some sort of diplomat.  Try not to do better than I would do, yeah?",
+      "str": "&\"Tell ye' true, I often forget ye're a scavver and not some sorta' treat-an'-sweety.  Do try not t'negotiate a bettter deal than ol' Rubik woul've got 'imself, aye?\"  Rubik chuckles."
+    },
+    "responses": [ { "text": "Right.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_4_complete",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//": "&Rubik chuckles and nods, leaning against the counter.  \"Aye, you did use a big favor.  What do you say about your reward?\"  Rubik reaches into the desk in front of them and pulls out a tiny, green-glowing CRT, scrolling rapidly down a list you cannot understand, they click on an option, and some complex robot schematics come on screen.\n\n\"How would you like to be attached to a suitcase like mine?\" Rubik taps their metal torso. \"This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.\"\n\n\"Think on it, and make a decision.\"",
+      "str": "&Rubik chuckles and nods, leaning against the counter.  \"Aye, ye did us'n a fine turn.  What say ye for reward?\"  Rubik reaches into the desk in front of them and pulls out a tiny, green-glowing CRT, scrolling rapidly down a list you cannot understand, they click on an option, and some complex robot schematics come on screen.\n\n\"How'd ye like ta'be cut inta' this sort'o crowded space?\"  Rubik taps their metal torso.  \"This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\"\n\n\"Think on it, decide on a last.\""
+    },
+    "responses": [
+      {
+        "text": "[Integrate your body into an Exodii Cyberframe] A robotic body I'll need to keep constantly powered?  Why not?  I'm ready.",
+        "effect": [
+          { "u_add_faction_trust": 5 },
+          {
+            "u_location_variable": { "u_val": "exodii_autodoc_couch_loc" },
+            "target_params": { "om_terrain": "exodii_base_x2y1z1", "om_special": "exodii_base" },
+            "furniture": "f_autodoc_couch",
+            "target_max_radius": 250
+          },
+          { "u_teleport": { "u_val": "exodii_autodoc_couch_loc" } }
+        ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe"
+      },
+      {
+        "text": "[$2500 in store credit] How about store credit instead?",
+        "effect": [ { "u_spend_cash": -250000 }, "start_trade" ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I don't need anything.  Just keep in mind that I'm always on your side, yeah?",
+        "effect": [ { "u_add_faction_trust": 4 } ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_4_complete_partial",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//": "Indeed, they succeeded.  And yes, I know you rried.  That's how it goes, sometimes.  Have a look around the shop and choose a reward.",
+      "str": "Aye, they did indeed.  And aye, ye clearly tried.  That's the way'o'things.  Have a look about, tell me what ye like."
+    },
+    "responses": [
+      {
+        "text": "[$1000 in store credit] How about store credit instead?",
+        "effect": [ { "u_add_faction_trust": -4 }, { "u_spend_cash": -100000 }, "start_trade" ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I don't need anything.  Just keep in mind that I'm always on your side, yeah?",
+        "effect": [ { "u_add_faction_trust": 4 } ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_4_complete_failed",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//": "Indeed, they failed.  That's how it goes, sometimes.  Maybe it's for the best.  Time will tell.",
+      "str": "Aye, failed they did.  That's the way'o'things.  Mayhaps for the best.  Time'll tell."
+    },
+    "responses": [ { "text": "Later, Rubik.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_String_Dimension_Exodii_Mission_Offer1",

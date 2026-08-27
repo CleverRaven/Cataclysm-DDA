@@ -128,7 +128,7 @@
     "description": "You can cause just enough change in a machine to confuse the rigid requirements of its programming, stunning it.",
     "message": "The machine stops in its tracks.",
     "teachable": false,
-    "valid_targets": [ "self" ],
+    "valid_targets": [ "ally", "hostile" ],
     "spell_class": "WEREWOLF_SPELLS",
     "magic_type": "xe_werewolf_powers",
     "skill": "deduction",
@@ -151,7 +151,8 @@
     "max_range": { "math": [ "15 + min( (werewolf_tier_four_traits() * 1) + (werewolf_tier_five_traits() * 2),20)" ] },
     "base_energy_cost": 150,
     "base_casting_time": 50,
-    "targeted_monster_species": [ "ROBOT", "ROBOT_FLYING", "CYBORG" ]
+    "targeted_monster_species": [ "ROBOT", "ROBOT_FLYING", "CYBORG" ],
+    "ignored_monster_species": [ "YRAX" ]
   },
   {
     "id": "xe_werewolf_summon_fog_spell",

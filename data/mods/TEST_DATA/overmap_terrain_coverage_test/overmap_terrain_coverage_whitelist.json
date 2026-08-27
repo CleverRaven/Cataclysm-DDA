@@ -19,9 +19,19 @@
       "ravine_floor_edge",
       "standing_stones_highlands",
       "highlands",
+      "highland_crypt_above",
+      "highland_crypt_surface",
+      "highland_crypt_small",
+      "highland_crypt_royal",
+      "highland_crypt_royal_1",
       "highland_crossroads_temple",
       "highland_crossroads_temple_above",
       "highland_crossroads_temple_above2",
+      "highland_ruins",
+      "conquerors_road",
+      "conquerors_road_top",
+      "conquerors_road_above",
+      "conquerors_road_above_1",
       "highland_road",
       "nether_glass_imperial_road",
       "ruined_tower_highlands_basement",
@@ -39,6 +49,8 @@
       "scarlet_sea.*",
       "scarlet_scrap_metal_spire",
       "netherum_labyrinth_sparkling_chasm",
+      "default_portal_storm_dungeon_overmap",
+      "portal_storm_dungeon_teleporter",
       "rock_border",
       "s_restaurant_deserted_test",
       "gunshow_0",
@@ -97,7 +109,8 @@
       "helipad.*",
       "fort_\\d.*",
       "forge_.*",
-      "aenor_paddock.*"
+      "aenor_paddock.*",
+      "field_office_.*"
     ]
   }
 ]

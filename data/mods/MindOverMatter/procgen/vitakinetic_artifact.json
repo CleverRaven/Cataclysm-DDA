@@ -48,6 +48,15 @@
       {
         "weight": 75,
         "min_value": -0.5,
+        "max_value": 0.3,
+        "type": "BLEEDING_RATE",
+        "increment": -0.1,
+        "power_per_increment": 50,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 75,
+        "min_value": -0.5,
         "max_value": 2,
         "type": "DISINFECTANT_BONUS",
         "increment": 0.1,
@@ -226,6 +235,15 @@
         "type": "BLEED_STOP_BONUS",
         "increment": 0.1,
         "power_per_increment": 25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 75,
+        "min_value": -0.5,
+        "max_value": 0.3,
+        "type": "BLEEDING_RATE",
+        "increment": -0.1,
+        "power_per_increment": 50,
         "ench_has": "HELD"
       },
       {

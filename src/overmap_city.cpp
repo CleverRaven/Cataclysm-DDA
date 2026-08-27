@@ -53,15 +53,15 @@ static pf::directed_path<point_om_omt> straight_path( const point_om_omt &source
 }
 
 /*: the root is overmap::place_cities()
-20:50 <kevingranade>: which is at overmap.cpp:1355 or so
-20:51 <kevingranade>: the key is cs = rng(4, 17), setting the "size" of the city
-20:51 <kevingranade>: which is roughly it's radius in overmap tiles
-20:52 <kevingranade>: then later overmap::place_mongroups() is called
-20:52 <kevingranade>: which creates a mongroup with radius city_size * 2.5 and population city_size * 80
-20:53 <kevingranade>: tadaa
+20:50 <mayagranade>: which is at overmap.cpp:1355 or so
+20:51 <mayagranade>: the key is cs = rng(4, 17), setting the "size" of the city
+20:51 <mayagranade>: which is roughly it's radius in overmap tiles
+20:52 <mayagranade>: then later overmap::place_mongroups() is called
+20:52 <mayagranade>: which creates a mongroup with radius city_size * 2.5 and population city_size * 80
+20:53 <mayagranade>: tadaa
 
 spawns happen at... <cue Clue music>
-20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
+20:56 <mayagranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
     const region_settings_city &city_settings = settings->get_settings_city();

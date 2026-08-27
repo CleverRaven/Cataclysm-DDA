@@ -1,0 +1,24 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "butter_test",
+    "name": { "str_sp": "butter" },
+    "weight": "14180 mg",
+    "color": "yellow",
+    "spoils_in": "14 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -1,
+    "calories": 101,
+    "container": "wrapper",
+    "description": "A yellow stick of milkfat and milk solids, usually made from cow's milk.",
+    "price": "9 cent",
+    "price_postapoc": "23 cent",
+    "material": [ "milk" ],
+    "volume": "15 ml",
+    "flags": [ "NO_AUTO_CONSUME" ],
+    "fun": -7,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
+  }
+]

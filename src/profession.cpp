@@ -10,7 +10,6 @@
 
 #include "achievement.h"
 #include "addiction.h"
-#include "avatar.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
@@ -823,12 +822,12 @@ std::map<spell_id, int> profession::spells() const
     return _starting_spells;
 }
 
-void profession::learn_spells( avatar &you ) const
+void profession::learn_spells( Character &you ) const
 {
-    for( const std::pair<const spell_id, int> &spell_pair : spells() ) {
-        you.magic->learn_spell( spell_pair.first, you, true );
-        spell &sp = you.magic->get_spell( spell_pair.first );
-        while( sp.get_level() < spell_pair.second && !sp.is_max_level( you ) ) {
+    for( const auto &[spell_id, level] : spells() ) {
+        you.magic->learn_spell( spell_id, you, true );
+        spell &sp = you.magic->get_spell( spell_id );
+        while( sp.get_level() < level && !sp.is_max_level( you ) ) {
             sp.gain_level( you );
         }
     }

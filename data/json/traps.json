@@ -555,7 +555,7 @@
     "flags": [ "ECHOLOCATION_DETECTABLE", "PIT" ],
     "symbol": "0",
     "visibility": 0,
-    "avoidance": 8,
+    "avoidance": 99,
     "difficulty": 99,
     "action": "pit",
     "vehicle_data": { "damage": 500 }
@@ -601,7 +601,7 @@
     "flags": [ "ECHOLOCATION_DETECTABLE", "PIT" ],
     "symbol": "0",
     "visibility": 0,
-    "avoidance": 8,
+    "avoidance": 99,
     "difficulty": 99,
     "action": "pit_spikes",
     "vehicle_data": { "damage": 500 }
@@ -833,7 +833,7 @@
     "memorial_female": { "ctxt": "memorial_female", "str": "Fell into a pit filled with glass shards." },
     "symbol": "0",
     "visibility": 0,
-    "avoidance": 8,
+    "avoidance": 99,
     "difficulty": 99,
     "flags": [ "PIT", "ECHOLOCATION_DETECTABLE" ],
     "action": "pit_glass",
@@ -981,6 +981,14 @@
     "id": "tr_portal_dungeon_entrance",
     "copy-from": "tr_swirling_vortex",
     "eocs": [ "EOC_PORTAL_STORM_DUNGEON" ]
+  },
+  {
+    "type": "trap",
+    "id": "tr_portal_dungeon_teleporter",
+    "name": "elsewhere",
+    "copy-from": "tr_swirling_vortex",
+    "trap_radius": 0,
+    "eocs": [ "EOC_PORTAL_STORM_DUNGEON_TELEPORTER" ]
   },
   {
     "type": "trap",

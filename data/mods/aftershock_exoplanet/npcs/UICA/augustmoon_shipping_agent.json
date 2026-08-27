@@ -62,7 +62,7 @@
           "and": [ { "not": { "math": [ "has_var(know_spaceport)" ] } }, { "not": { "math": [ "has_var(u_augustmoon_kit)" ] } } ]
         }
       },
-      { "text": "Not right now", "topic": "TALK_DONE" }
+      { "text": "Not right now.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -115,7 +115,7 @@
       { "item": "afs_frontier_cryo", "custom-flags": [ "FIT" ] },
       { "item": "backpack" },
       { "item": "afs_thermos" },
-      { "item": "multi_cooker" },
+      { "item": "military_mess_kit" },
       { "item": "afs_seyfert_84K", "container-item": "holster" },
       { "item": "afs_10mm_caseless_FMJ" }
     ]

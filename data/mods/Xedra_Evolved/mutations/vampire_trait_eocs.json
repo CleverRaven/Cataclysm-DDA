@@ -48,7 +48,7 @@
         "if": { "math": [ "u_vampire_just_drank_fae_blood == 1" ] },
         "then": [ { "math": [ "u_vitamin('drank_fae_blood') += 5" ] }, { "math": [ "u_vampire_just_drank_fae_blood = 0" ] } ]
       },
-      { "run_eocs": "EOC_TIER_5_REMOVE_MORALS" },
+      { "run_eocs": "EOC_TIER_4_REMOVE_MORALS" },
       {
         "if": { "and": [ { "math": [ "u_dhampir_have_ever_drunk_blood == 0" ] }, { "u_has_trait": "DHAMPIR_TRAIT" } ] },
         "then": [
@@ -675,7 +675,7 @@
         { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
         "is_day",
         "u_is_outside",
-        { "not": { "is_weather": "blotted_sun" } }
+        { "not": { "u_has_effect": "vampire_blind_the_sun" } }
       ]
     },
     "effect": [
@@ -694,7 +694,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
-        { "or": [ { "not": "is_day" }, { "not": "u_is_outside" }, { "is_weather": "blotted_sun" } ] }
+        { "or": [ { "not": "is_day" }, { "not": "u_is_outside" }, { "u_has_effect": "vampire_blind_the_sun" } ] }
       ]
     },
     "effect": [ { "u_lose_effect": "effect_slain_by_the_sun" }, { "u_lose_effect": "effect_slain_by_the_sun_limiter" } ]
@@ -737,7 +737,7 @@
         { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
         "is_day",
         "u_is_outside",
-        { "not": { "is_weather": "blotted_sun" } }
+        { "not": { "u_has_effect": "vampire_blind_the_sun" } }
       ]
     },
     "effect": [ { "run_eocs": "EOC_VAMPIRE_ANATHEMA_BURN_IN_SUNLIGHT_CONTINUAL" } ]
@@ -1397,7 +1397,7 @@
               }
             ],
             "false_effect": [
-              { "u_message": "You don't have enough blood to activate cloak of shadows.", "type": "bad" },
+              { "u_message": "You don't have enough blood to activate your cloak of shadows.", "type": "bad" },
               { "run_eocs": "EOC_VAMPIRIC_STEALTH_BONUS_deactivate_future", "time_in_future": 0 }
             ]
           }
@@ -2205,11 +2205,11 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TIER_5_REMOVE_MORALS",
-    "//": "When a tier 4 vampire becomes a tier 5 or when a tier 5 drinks blood, they gain the uncaring trait and lose morality-based traits such as pacifist and vegan.",
+    "id": "EOC_TIER_4_REMOVE_MORALS",
+    "//": "When a tier 3 vampire becomes a tier 4 or when a tier 4+ drinks blood, they gain the uncaring trait and lose morality-based traits such as pacifist and vegan.",
     "//2": "A vampire that somehow regain morals will keep them until the next drink.  Then the thirst will drown all worries and morals.",
-    "//3": " The message is not given upon gaining tier 5, as these EOCs have their own messages.",
-    "condition": { "u_has_trait": "BLOOD_DRINKER" },
+    "//3": " The message is not given upon gaining tier 4+, as these EOCs have their own messages.",
+    "condition": { "u_has_trait": "VAMPIRE4" },
     "effect": [
       {
         "if": { "u_has_trait": "VEGAN" },
@@ -2935,7 +2935,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_INVISIBLE_IN_DARK",
-    "condition": { "not": { "and": [ "is_day", "u_is_outside", { "not": { "is_weather": "blotted_sun" } } ] } },
+    "condition": { "not": { "and": [ "is_day", "u_is_outside", { "not": { "u_has_effect": "vampire_blind_the_sun" } } ] } },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.25" ] } },
       { "math": [ "u_vitamin('human_blood_vitamin') -= 300" ] },
@@ -2955,12 +2955,7 @@
     "id": "EOC_VAMPIRE_HEAL_IN_DARK",
     "//": "Heals and reduces bleeding and pain every minute while away from the sun if the player has the trait.",
     "recurrence": 60,
-    "condition": {
-      "and": [
-        { "u_has_trait": "VAMPIRE_HEAL_IN_DARK" },
-        { "not": { "and": [ "is_day", "u_is_outside", { "not": { "is_weather": "blotted_sun" } } ] } }
-      ]
-    },
+    "condition": { "and": [ { "u_has_trait": "VAMPIRE_HEAL_IN_DARK" }, { "not": { "and": [ "is_day", "u_is_outside" ] } } ] },
     "deactivate_condition": { "not": { "u_has_trait": "VAMPIRE_HEAL_IN_DARK" } },
     "effect": [
       { "if": { "math": [ "u_pain() >= 1" ] }, "then": { "math": [ "u_pain() -= 3" ] } },

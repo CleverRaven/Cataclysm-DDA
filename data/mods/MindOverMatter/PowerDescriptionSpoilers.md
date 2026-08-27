@@ -305,7 +305,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 3 minutes and 30 seconds to 10 minutes and 40 seconds, plus 8 seconds to 25 seconds per level<br />
 *Stamina Cost*: 4500, minus 135 per level to a minimum of 2250<br />
 *Channeling Time*: 200 moves, minus 6 moves per level to a minimum of 125<br />
-*Effects*: Increase the psion's range with ranged weapons by 1 square per 4 power levels, reduces weapon dispersion by 2.5% per power level to a maximum of 60%, and increases your chance to hit weakpoints with ranged weapons by 10% plus 8% per power level.<br />
+*Effects*: Increase the psion's range with ranged weapons by 1 square per 4 power levels, increases aiming speed by 10% plus 2.5% per power level, and increases your chance to hit weakpoints with ranged weapons by 10% plus 8% per power level.<br />
 *Prerequisites*: Discern Weakness 7<br />
 </details>
 <details>
@@ -1033,7 +1033,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Target*: The items in a space up to 3 squares away plus 0.9 squares per power level<br />
 *Duration*: Instant<br />
 *Stamina Cost*: 1250, minus 80 per level to a minimum of 500<br />
-*Channeling Time*: 50 moves, minus 4 moves per level to a minimum of 10<br />
+*Channeling Time*: 150 moves, minus 4 moves per level to a minimum of 65<br />
 *Effects*: The psion reaches out and pulls a set of items toward or away from them, moving it 1 to 4 squares plus 0.4 to 0.9 squares per power level.<br />
 *Prerequisites*: Starting power<br />
 </details>
@@ -1044,7 +1044,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Target*: One enemy, ally, or the items in a space up to 2 squares away plus 0.9 squares per power level<br />
 *Duration*: Instant<br />
 *Stamina Cost*: 1750, minus 80 per level to a minimum of 750<br />
-*Channeling Time*: 50 moves, minus 4 moves per level to a minimum of 10<br />
+*Channeling Time*: 150 moves, minus 4 moves per level to a minimum of 65<br />
 *Effects*: The psion attempts to shove a single target either to them or in a chosen direction. The distance is based on the ratio of the target's weight to the psion's power level (modified by Intelligence and Nether Attunement as usual).  By default, the formula is (power level * 25 kg) * Intelligence modifier * Nether Attunement modifier, divided by the target's weight in kg. If this is 1 or higher, the target is hurled 1 square for every 0.5 above 1 the ratio is. If it is below one, there is still a chance to knock the target over (chance is weight ratio * 100 in percentage; a weight ratio of 0.678 has a 67.8% chance of causing knockdown).<br />
 *Prerequisites*: Starting power<br />
 </details>
@@ -1198,7 +1198,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Target*: One target in a space up to 2 squares away plus 0.9 squares per power level<br />
 *Duration*: Instant<br />
 *Stamina Cost*: 9500, minus 175 per level to a minimum of 5000<br />
-*Channeling Time*: 80 moves, minus 5 moves per level to a minimum of 25<br />/>
+*Channeling Time*: 150 moves, minus 5 moves per level to a minimum of 65<br />/>
 *Effects*: Like Force Shove, but on a much greater scale, the psion hurls a single target either to them or in a chosen direction. The distance is based on the ratio of the target's weight to the psion's power level (modified by Intelligence and Nether Attunement as usual).  By default, the formula is (power level * 150 kg) * Intelligence modifier * Nether Attunement modifier, plus 100 kg, divided by the target's weight in kg. If this is 1 or higher, the target is hurled 1 square for every 0.5 above 1 the ratio is. If it is below one, there is still a chance to knock the target over (chance is weight ratio * 1000 in percentage; a weight ratio of 0.952 has a 95.2% chance of causing knockdown).<br />
 *Prerequisites*: Force Shove 15 *or* Far Hand 15, Momentum Alteration 10, Lift Vehicle 6<br />
 </details>
@@ -1260,7 +1260,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Target*: Self<br />
 *Duration*: 3 minutes to 12 minutes, plus 15 to 36 seconds per power level<br />
 *Stamina Cost*: 2500, minus 125 per level to a minimum of 500<br />
-*Channeling Time*: 100 moves, minus 6.5 moves per level to a minimum of 10<br />
+*Channeling Time*: 200 moves, minus 6.5 moves per level to a minimum of 45<br />
 *Effects*: Place a shield over the psion's mind, preventing telepathic assault and also rendering the psion immune to the attacks of flaming eyes and the personal effects of portal storms. The psion is immune to telepathic damage and most telepathy-related effects while this power is active.<br />
 *Prerequisites*: Concentration Trance 5<br />
 </details>
@@ -1645,7 +1645,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 4 minutes and 50 seconds to 19 minutes and 34 seconds, plus 18 seconds to 2 minutes and 43 seconds per power level<br />
 *Stamina Cost*: 2500, minus 95 per level to a minimum of 1250<br />
 *Channeling Time*: 200 moves, minus 6.5 moves per level to a minimum of 50<br />
-*Effects*: Increases the coagulation rate of blood, slowing bleeding.  From level 1 through 7, bleeding is slowed by a third. From level 8 through 15, bleeding is slowed by two thirds. At level 16 or above, bleeding is slowed by two thirds, or prevented entirely if inflicted when the power is active. In addition, all power levels increase the effectiveness of any attempt to stop bleeding by 15%, plus 5% per power level.<br />
+*Effects*: Increases the coagulation rate of blood, slowing bleeding by 15% plus 3% per power level to a maximum of 99%. In addition, all power levels increase the effectiveness of any attempt to stop bleeding by 15%, plus 5% per power level.<br />
 *Prerequisites*: Starting power<br />
 </details>
 <details>
@@ -1735,6 +1735,17 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Channeling Time*: 350 moves, minus 14 moves per level to a minimum of 125<br />
 *Effects*: The psion encourages their immune system to focus entirely on their wounds for a brief period. From level 1 to 5, the power has "bite": 0.5, "disinfectant_power": 1, "infect": 0.4. From level 6 to 11, the power has "bite": 0.7, "disinfectant_power": 2, "infect": 0.6. At level 12 or above, the power has "bite": 0.9, "disinfectant_power": 3, "infect": 0.8.<br />
 *Prerequisites*: Immunostimulus 7<br />
+</details>
+<details>
+<summary><h3>Augment Durability (C)</h3></summary>
+
+*Difficulty*: 5<br />
+*Target*: Self<br />
+*Duration*: 18 minutes and 4 seconds to 48 minutes and 28 seconds, plus 4 minutes and 41 seconds to 11 minutes and 21 seconds per power level<br />
+*Stamina Cost*: 6500, minus 125 per level to a minimum of 3250<br />
+*Channeling Time*: 125 moves, minus 6 moves per level to a minimum of 50<br />
+*Effects*: Increase the psion's resilience against damage before suffering catastrophic injury; this power increases total HP.  It has no effect on healing times or the amount of pain injuries cause.<br />
+*Prerequisites*: Healthy Glow 10, Leukocyte Accumulation 8<br />
 </details>
 <details>
 <summary><h3>Revitalizing Meditation</h3></summary>

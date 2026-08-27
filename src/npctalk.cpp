@@ -28,7 +28,9 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
+#include "cata_imgui.h"
 #include "cata_lazy.h"
 #include "cata_path.h"
 #include "cata_utility.h"
@@ -49,7 +51,7 @@
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "dialogue_helpers.h"
-#include "dialogue_win.h"
+#include "dialogue_imgui.h"
 #include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enum_traits.h"
@@ -479,10 +481,6 @@ struct item_search_data {
 } // namespace
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
-static int topic_category( const talk_topic &the_topic );
-
-static const talk_topic &special_talk( const std::string &action );
 
 static bool friendly_teacher( const Character &student, const Character &teacher )
 {
@@ -1643,7 +1641,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     }
 }
 
-static std::string bye_message( const npc *npc_actor )
+std::string dialog_helper::bye_message( const npc *npc_actor )
 {
     // some dialogues do not have beta actor
     if( !npc_actor ) {
@@ -1694,32 +1692,8 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
     } else {
         d.add_topic( debug_topic );
     }
-    dialogue_window d_win;
-    d_win.is_computer = is_computer;
-    d_win.is_not_conversation = is_not_conversation;
-    if( !remote_name.empty() ) {
-        d_win.is_remote = true;
-        d_win.remote_name = remote_name;
-    }
-    // Main dialogue loop
-    do {
-        d.actor( true )->update_missions( d.missions_assigned );
-        const talk_topic next = d.opt( d_win, d.topic_stack.back() );
-        if( next.id == "TALK_NONE" ) {
-            int cat = topic_category( d.topic_stack.back() );
-            do {
-                d.topic_stack.pop_back();
-            } while( cat != -1 && topic_category( d.topic_stack.back() ) == cat );
-        }
-        if( next.id == "TALK_DONE" || d.topic_stack.empty() ) {
-            d.actor( true )->say( bye_message( d.actor( true )->get_npc() ) );
-            d.done = true;
-        } else if( next.id != "TALK_NONE" ) {
-            d.add_topic( next );
-        }
-    } while( !d.done );
-    dialogue_remote_name.clear();
-
+    dialogue_imgui d_img( &d );
+    d_img.draw_dialogue_imgui( is_computer, is_not_conversation, remote_name );
     if( activity.id() == ACT_AIM && !has_weapon() ) {
         cancel_activity();
         // don't query certain activities that are started from dialogue
@@ -1736,13 +1710,13 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
     }
 }
 
-std::string dialogue::speaker_name( const dialogue_window &d_win ) const
+std::string dialogue::speaker_name( const dialogue_imgui_impl &d_img ) const
 {
-    if( d_win.is_not_conversation ) {
+    if( d_img.is_not_conversation ) {
         return "";
     }
-    if( !d_win.remote_name.empty() ) {
-        return d_win.remote_name;
+    if( !d_img.remote_name.empty() ) {
+        return d_img.remote_name;
     }
     return actor( true )->disp_name();
 }
@@ -1845,7 +1819,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic )
     }
 
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
-        return bye_message( actor( true )->get_npc() );
+        return dialog_helper::bye_message( actor( true )->get_npc() );
     } else if( topic == "TALK_TRAIN" ) {
         if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );
@@ -2325,90 +2299,6 @@ bool talk_trial::roll( dialogue &d ) const
         }
     }
     return success;
-}
-
-int topic_category( const talk_topic &the_topic )
-{
-    const std::string &topic = the_topic.id;
-    // TODO: ideally, this would be a property of the topic itself.
-    // How this works: each category has a set of topics that belong to it, each set is checked
-    // for the given topic and if a set contains, the category number is returned.
-    static const std::unordered_set<std::string> topic_1 = { {
-            "TALK_MISSION_START", "TALK_MISSION_DESCRIBE", "TALK_MISSION_OFFER",
-            "TALK_MISSION_ACCEPTED", "TALK_MISSION_REJECTED", "TALK_MISSION_ADVICE",
-            "TALK_MISSION_INQUIRE", "TALK_MISSION_SUCCESS", "TALK_MISSION_SUCCESS_LIE",
-            "TALK_MISSION_FAILURE", "TALK_MISSION_REWARD", "TALK_MISSION_END",
-            "TALK_MISSION_DESCRIBE_URGENT"
-        }
-    };
-    if( topic_1.count( topic ) > 0 ) {
-        return 1;
-    }
-    static const std::unordered_set<std::string> topic_2 = { {
-            "TALK_SHARE_EQUIPMENT", "TALK_GIVE_EQUIPMENT", "TALK_DENY_EQUIPMENT"
-        }
-    };
-    if( topic_2.count( topic ) > 0 ) {
-        return 2;
-    }
-    static const std::unordered_set<std::string> topic_3 = { {
-            "TALK_SUGGEST_FOLLOW", "TALK_AGREE_FOLLOW", "TALK_DENY_FOLLOW",
-        }
-    };
-    if( topic_3.count( topic ) > 0 ) {
-        return 3;
-    }
-    static const std::unordered_set<std::string> topic_4 = { {
-            "TALK_COMBAT_ENGAGEMENT",
-        }
-    };
-    if( topic_4.count( topic ) > 0 ) {
-        return 4;
-    }
-    static const std::unordered_set<std::string> topic_5 = { {
-            "TALK_COMBAT_COMMANDS",
-        }
-    };
-    if( topic_5.count( topic ) > 0 ) {
-        return 5;
-    }
-    static const std::unordered_set<std::string> topic_6 = { {
-            "TALK_TRAIN", "TALK_TRAIN_START", "TALK_TRAIN_FORCE",
-            "TALK_TRAIN_NPC_START", "TALK_TRAIN_NPC_FORCE"
-        }
-    };
-    if( topic_6.count( topic ) > 0 ) {
-        return 6;
-    }
-    static const std::unordered_set<std::string> topic_7 = { {
-            "TALK_MISC_RULES",
-        }
-    };
-    if( topic_7.count( topic ) > 0 ) {
-        return 7;
-    }
-    static const std::unordered_set<std::string> topic_8 = { {
-            "TALK_AIM_RULES",
-        }
-    };
-    if( topic_8.count( topic ) > 0 ) {
-        return 8;
-    }
-    static const std::unordered_set<std::string> topic_9 = { {
-            "TALK_FRIEND", "TALK_GIVE_ITEM", "TALK_USE_ITEM",
-        }
-    };
-    if( topic_9.count( topic ) > 0 ) {
-        return 9;
-    }
-    static const std::unordered_set<std::string> topic_99 = { {
-            "TALK_SIZE_UP", "TALK_ASSESS_PERSON", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT"
-        }
-    };
-    if( topic_99.count( topic ) > 0 ) {
-        return 99;
-    }
-    return -1; // Not grouped with other topics
 }
 
 static std::string faction_or_fallback( const_talker const &guy )
@@ -2953,37 +2843,9 @@ dialogue_consequence talk_effect_t::get_consequence( dialogue const &d ) const
     return guaranteed_consequence;
 }
 
-const talk_topic &special_talk( const std::string &action )
+talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &topic,
+                                input_context &ctxt )
 {
-    static const std::map<std::string, talk_topic> key_map = {{
-            { "LOOK_AT", talk_topic( "TALK_LOOK_AT" ) },
-            { "SIZE_UP_STATS", talk_topic( "TALK_SIZE_UP" ) },
-            { "ASSESS_PERSONALITY", talk_topic( "TALK_ASSESS_PERSON" ) },
-            { "CHECK_OPINION", talk_topic( "TALK_OPINION" ) },
-            { "YELL", talk_topic( "TALK_SHOUT" ) },
-        }
-    };
-
-    const auto iter = key_map.find( action );
-    if( iter != key_map.end() ) {
-        return iter->second;
-    }
-
-    static const talk_topic no_topic = talk_topic( "TALK_NONE" );
-    return no_topic;
-}
-
-talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
-{
-    d_win.add_history_separator();
-
-    ui_adaptor ui;
-    const auto resize_cb = [&]( ui_adaptor & ui ) {
-        d_win.resize( ui );
-    };
-    ui.on_screen_resize( resize_cb );
-    resize_cb( ui );
-
     // Construct full line
     std::string challenge = dynamic_line( topic );
     gen_responses( topic );
@@ -3003,26 +2865,28 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     }
     challenge = uppercase_first_letter( challenge );
 
-    d_win.clear_history_highlights();
     if( challenge[0] == '&' ) {
         // No name prepended!
         challenge = challenge.substr( 1 );
-        d_win.add_to_history( challenge );
+        d_img.add_to_history( challenge );
     } else if( challenge[0] == '*' ) {
         // Prepend name
         challenge = string_format( pgettext( "npc does something", "%s %s" ),
-                                   speaker_name( d_win ),
+                                   speaker_name( d_img ),
                                    challenge.substr( 1 ) );
-        d_win.add_to_history( challenge );
+        d_img.add_to_history( challenge );
     } else {
         npc *npc_actor = actor( true )->get_npc();
-        d_win.add_to_history( challenge, speaker_name( d_win ),
+        d_img.add_to_history( challenge, speaker_name( d_img ),
                               npc_actor ? npc_actor->basic_symbol_color() : c_red );
+        // Empty line for padding. This is right after either a NPC greeting the player, or them responding to a player's message.
+        // So padding here keeps messages grouped into reasonable blocks.
+        d_img.add_to_history( "" );
     }
     if( debug_mode ) {
-        std::vector<std::string> dynamic_line_debug = build_debug_info( d_win, topic );
+        std::vector<std::string> dynamic_line_debug = build_debug_info( d_img, topic );
         for( auto &line : dynamic_line_debug ) {
-            d_win.add_to_history( line );
+            d_img.add_to_history( line );
         }
     }
     apply_speaker_effects( topic );
@@ -3032,17 +2896,6 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         return talk_topic( "TALK_NONE" );
     }
 
-    input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
-    d_win.set_up_scrolling( ctxt );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_action( "DEBUG_DIALOGUE_DL_CONDITIONAL" );
-    ctxt.register_action( "DEBUG_DIALOGUE_RESP_CONDITIONAL" );
-    ctxt.register_action( "DEBUG_DIALOGUE_DL_EFFECT" );
-    ctxt.register_action( "DEBUG_DIALOGUE_RESP_EFFECT" );
-    ctxt.register_action( "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" );
-    ctxt.register_action( "QUIT" );
     std::vector<talk_data> response_lines;
     std::vector<input_event> response_hotkeys;
     const auto generate_response_lines = [&]() {
@@ -3053,8 +2906,10 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         response_lines.clear();
         response_hotkeys.clear();
         input_event evt = ctxt.first_unassigned_hotkey( queue );
-        for( talk_response &response : responses ) {
-            const talk_data &td = response.create_option_line( *this, evt, d_win.is_computer );
+        const int num_responses = responses.size();
+        for( int i = 0; i < num_responses; i++ ) {
+            talk_response &response = responses[i];
+            const talk_data &td = response.create_option_line( *this, evt, d_img.is_computer );
             response_lines.emplace_back( td );
             response_hotkeys.emplace_back( evt );
 #if defined(__ANDROID__)
@@ -3062,55 +2917,70 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 #endif
             evt = ctxt.next_unassigned_hotkey( queue, evt );
         }
-        d_win.set_responses( response_lines );
+        d_img.set_responses( response_lines );
     };
     generate_response_lines();
 
-    ui.on_redraw( [&]( const ui_adaptor & ) {
-        d_win.draw( speaker_name( d_win ) );
-    } );
+    // HACK: We might have hidden the UI on the last frame. Let's go ahead and unhide it now.
+    d_img.hide_ui = false;
 
+    // Re-init everytime we get here (new topic, new selections, don't try to preserve old selection)
+    d_img.sel_response = 0;
     size_t response_ind = response_hotkeys.size();
     bool okay;
     do {
         std::string action;
         do {
             if( debug_mode ) {
-                d_win.set_responses_debug( build_debug_info( d_win, topic, d_win.sel_response ) );
-                d_win.debug_topic_name = topic.id;
+                d_img.set_responses_debug( build_debug_info( d_img, topic, d_img.sel_response ) );
+                d_img.debug_topic_name = topic.id;
             }
+            // For reasons unclear to me, we must manually invalidate and redraw the windows here, or else they will stack up.
+            ui_manager::invalidate_all_ui_adaptors();
             ui_manager::redraw();
-            input_event evt;
             action = ctxt.handle_input();
-            evt = ctxt.get_raw_input();
-            if( evt.type == input_event_t::error || evt.type == input_event_t::timeout ) {
-                continue;
-            }
-            d_win.handle_scrolling( action, ctxt );
-            talk_topic st = special_talk( action );
-            if( st.id != "TALK_NONE" ) {
-                return st;
-            }
-            if( action == "HELP_KEYBINDINGS" ) {
-                // Reallocate hotkeys as keybindings may have changed
-                generate_response_lines();
-            } else if( action == "CONFIRM" ) {
-                response_ind = d_win.sel_response;
+
+            // Mouse click is an input type that would result in a continue, so we need to set our action before that.
+            if( action == "CONFIRM" || d_img.user_clicked_response_button ) {
+                action = "CONFIRM"; // If we actually did click, harmless otherwise.
+                d_img.user_clicked_response_button = false;
+                response_ind = d_img.sel_response;
                 //response condition must be reverified since non-selectable responses can be displayed
                 if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
                         !debug_mode ) ) {
                     action = "NONE";
                 }
+            }
+
+            input_event evt = ctxt.get_raw_input();
+            if( evt.type == input_event_t::error || evt.type == input_event_t::timeout ) {
+                continue;
+            }
+            if( action == "HELP_KEYBINDINGS" ) {
+                // Reallocate hotkeys as keybindings may have changed
+                generate_response_lines();
+            } else if( action == "DOWN" ) {
+                d_img.sel_response++;
+            } else if( action == "UP" ) {
+                d_img.sel_response--;
+            } else if( action == "END" ) {
+                d_img.scroll_to = cataimgui::scroll::page_down;
+            } else if( action == "HOME" ) {
+                d_img.scroll_to = cataimgui::scroll::page_up;
+            } else if( action == "PAGE_UP" ) {
+                d_img.scroll_to = cataimgui::scroll::line_up;
+            } else if( action == "PAGE_DOWN" ) {
+                d_img.scroll_to = cataimgui::scroll::line_down;
             } else if( action == "DEBUG_DIALOGUE_DL_CONDITIONAL" ) {
-                d_win.show_dynamic_line_conditionals = !d_win.show_dynamic_line_conditionals;
+                d_img.show_dynamic_line_conditionals = !d_img.show_dynamic_line_conditionals;
             } else if( action == "DEBUG_DIALOGUE_RESP_CONDITIONAL" ) {
-                d_win.show_response_conditionals = !d_win.show_response_conditionals;
+                d_img.show_response_conditionals = !d_img.show_response_conditionals;
             } else if( action == "DEBUG_DIALOGUE_DL_EFFECT" ) {
-                d_win.show_dynamic_line_effects = !d_win.show_dynamic_line_effects;
+                d_img.show_dynamic_line_effects = !d_img.show_dynamic_line_effects;
             } else if( action == "DEBUG_DIALOGUE_RESP_EFFECT" ) {
-                d_win.show_response_effects = !d_win.show_response_effects;
+                d_img.show_response_effects = !d_img.show_response_effects;
             } else if( action == "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" ) {
-                d_win.show_all_responses = !d_win.show_all_responses;
+                d_img.show_all_responses = !d_img.show_all_responses;
                 if( debug_mode ) {
                     this->debug_ignore_conditionals = !this->debug_ignore_conditionals;
                     gen_responses( topic );
@@ -3128,6 +2998,14 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
             } else if( action == "QUIT" ) {
                 response_ind = get_best_quit_response();
             }
+
+            // Clamp sel_response (There is probably a better existing way to do this, but it's simple so I'm just reimplementing)
+            if( d_img.sel_response >= static_cast<int>( response_hotkeys.size() ) ) {
+                d_img.sel_response = static_cast<int>( response_hotkeys.size() - 1 );
+            } else if( d_img.sel_response < 0 ) {
+                d_img.sel_response = 0;
+            }
+
         } while( response_ind >= response_hotkeys.size() ||
                  ( action != "ANY_INPUT" && action != "QUIT" && action != "CONFIRM" ) );
         okay = true;
@@ -3139,8 +3017,10 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         }
     } while( !okay );
 
-    d_win.add_history_separator();
-    d_win.add_to_history( response_lines[response_ind].text, _( "You" ), c_light_blue );
+    d_img.add_to_history( response_lines[response_ind].text, _( "You" ), c_light_blue );
+
+    // We just advanced the conversation, let's make sure we can see what they said.
+    d_img.scroll_to = cataimgui::scroll::end;
 
     talk_response chosen = responses[response_ind];
     if( chosen.mission_selected != nullptr ) {
@@ -3153,6 +3033,14 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
                                           chosen.proficiency );
     const bool success = chosen.trial.roll( *this );
     talk_effect_t const &effects = success ? chosen.success : chosen.failure;
+
+    // HACK: We don't know what effects just happened! We might be trading! Let's go ahead and hide the UI, just in case.
+    // If we *aren't* trading, the next frame this function will just un-hide itself.
+    // But if we're in the trade menu, un-hiding only gets called when we're back to talking! Easy.
+    d_img.hide_ui = true;
+    ui_manager::invalidate_all_ui_adaptors();
+    ui_manager::redraw();
+
     talk_topic ret_topic =  effects.apply( *this );
     talk_effect_t::update_missions( *this );
     return ret_topic;
@@ -3232,7 +3120,7 @@ void get_raw_debug_fields( const JsonObject &jo, std::map<std::string, std::stri
 }
 
 
-std::vector<std::string> dialogue::build_debug_info( const dialogue_window &d_win,
+std::vector<std::string> dialogue::build_debug_info( dialogue_imgui_impl &d_img,
         const talk_topic &topic, int do_response )
 {
     std::vector<std::string> debug_output;
@@ -3246,7 +3134,7 @@ std::vector<std::string> dialogue::build_debug_info( const dialogue_window &d_wi
 
         talk_response &actual_response = responses[do_response];
         std::map<std::string, std::string> &debug_info = actual_response.debug_info;
-        if( d_win.show_response_conditionals ) {
+        if( d_img.show_response_conditionals ) {
             if( actual_response.condition && debug_info.find( "condition" ) != debug_info.end() ) {
                 debug_output.emplace_back( std::string( "Conditional: [" ) + ( actual_response.condition(
                                                *this ) ? colorize( "true", c_light_green ) : colorize( "false",
@@ -3256,7 +3144,7 @@ std::vector<std::string> dialogue::build_debug_info( const dialogue_window &d_wi
             }
         }
         if( debug_info.find( "trial" ) != debug_info.end() ) {
-            if( d_win.show_response_conditionals ) {
+            if( d_img.show_response_conditionals ) {
                 if( actual_response.trial.condition ) {
                     debug_output.emplace_back( std::string( "Trial: [" ) + ( actual_response.trial.condition(
                                                    *this ) ? colorize( "true", c_light_green ) : colorize( "false",
@@ -3265,12 +3153,12 @@ std::vector<std::string> dialogue::build_debug_info( const dialogue_window &d_wi
                     debug_output.emplace_back( "Trial: " + debug_info["trial"] );
                 }
             }
-            if( d_win.show_response_effects ) {
+            if( d_img.show_response_effects ) {
                 debug_output.emplace_back( colorize( "Success: ", c_green ) + debug_info["success"] );
                 debug_output.emplace_back( colorize( "Failure: ", c_red ) + debug_info["failure"] );
             }
         }
-        if( d_win.show_response_effects ) {
+        if( d_img.show_response_effects ) {
             if( debug_info.find( "effect" ) != debug_info.end() ) {
                 debug_output.emplace_back( "Effect: " + debug_info["effect"] );
             } else {
@@ -3285,24 +3173,24 @@ std::vector<std::string> dialogue::build_debug_info( const dialogue_window &d_wi
         for( json_dynamic_line_effect eff : speaker_effects ) {
             std::map<std::string, std::string> &debug_info = eff.debug_info;
             std::string eff_count_str = std::to_string( eff_count );
-            if( debug_info.find( "condition" ) != debug_info.end() && d_win.show_dynamic_line_conditionals ) {
+            if( debug_info.find( "condition" ) != debug_info.end() && d_img.show_dynamic_line_conditionals ) {
                 debug_output.emplace_back( colorize( "CND" + eff_count_str + std::string( ": [" ),
                                                      c_yellow ) + ( eff.test_condition(
                                                              *this ) ? colorize( "true", c_light_green ) : colorize( "false",
                                                                      c_light_red ) ) + std::string( "] - " ) + colorize( debug_info["condition"], c_yellow ) );
                 added_cond = true;
             }
-            if( debug_info.find( "effect" ) != debug_info.end() && d_win.show_dynamic_line_effects ) {
+            if( debug_info.find( "effect" ) != debug_info.end() && d_img.show_dynamic_line_effects ) {
                 debug_output.emplace_back( colorize( "EFF" + eff_count_str + ": " + debug_info["effect"],
                                                      c_yellow ) );
                 added_eff = true;
             }
             eff_count++;
         }
-        if( !added_cond && d_win.show_dynamic_line_conditionals ) {
+        if( !added_cond && d_img.show_dynamic_line_conditionals ) {
             debug_output.emplace_back( colorize( "No conditionals", c_yellow ) );
         }
-        if( !added_eff && d_win.show_dynamic_line_effects ) {
+        if( !added_eff && d_img.show_dynamic_line_effects ) {
             debug_output.emplace_back( colorize( "No effects", c_yellow ) );
         }
     }
@@ -3663,6 +3551,34 @@ talk_effect_fun_t::func f_remove_category( const JsonObject &jo,
             if( std::find( branch.category.begin(),
                            branch.category.end(),
                            cat_id ) != branch.category.end() ) {
+                to_remove.push_back( mut );
+            }
+        }
+
+        for( const trait_id &mut : to_remove ) {
+            ch->unset_mutation( mut );
+        }
+    };
+}
+
+talk_effect_fun_t::func f_remove_mutation_type( const JsonObject &jo,
+        std::string_view member,
+        std::string_view,
+        bool is_npc )
+{
+    str_or_var type = get_str_or_var( jo.get_member( member ), member, true );
+
+    return [is_npc, type]( dialogue const & d ) {
+        Character *ch = d.actor( is_npc )->get_character();
+
+        const std::string type_id = type.evaluate( d );
+
+        std::vector<trait_id> to_remove;
+
+        for( const trait_id &mut : ch->get_mutations() ) {
+            const mutation_branch &branch = mut.obj();
+
+            if( branch.types.count( type_id ) > 0 ) {
                 to_remove.push_back( mut );
             }
         }
@@ -4695,7 +4611,7 @@ talk_effect_fun_t::func f_dimension_name( const JsonObject &jo, std::string_view
     std::string var_name = var.name;
 
     return [var_name, type]( dialogue & d ) {
-        write_var_value( type, var_name, &d, g->get_dimension_prefix() );
+        write_var_value( type, var_name, &d, g->get_dimension_prefix().str() );
     };
 }
 
@@ -6010,11 +5926,15 @@ talk_effect_fun_t::func f_die_advanced( const JsonObject &jo, std::string_view m
     return [remove_corpse, supress_message, is_npc]( dialogue const & d ) {
         map &here = get_map();
 
-        Creature *cr = d.actor( is_npc )->get_creature();
-
-        cr->death_message = supress_message.has_value() ? !supress_message.value() : cr->death_message;
-        cr->spawn_corpse = remove_corpse.has_value() ? !remove_corpse.value() : cr->spawn_corpse;
-        cr->death_drops = remove_corpse.has_value() ? !remove_corpse.value() : cr->death_drops;
+        if( d.actor( is_npc )->get_monster() ) {
+            monster &mon = *d.actor( is_npc )->get_monster();
+            mon.death_drops = remove_corpse.has_value() ? !remove_corpse.value() : mon.death_drops;
+            mon.quiet_death = supress_message.has_value() ? supress_message.value() : mon.quiet_death;
+        } else if( d.actor( is_npc )->get_npc() ) {
+            npc &guy_npc = *d.actor( is_npc )->get_npc();
+            guy_npc.spawn_corpse = remove_corpse.has_value() ? !remove_corpse.value() : guy_npc.spawn_corpse;
+            guy_npc.quiet_death = supress_message.has_value() ? supress_message.value() : guy_npc.quiet_death;
+        }
 
         d.actor( is_npc )->die( &here );
     };
@@ -6733,6 +6653,25 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
 
     translation title = to_translation( "Select an option." );
     jo.read( "title", title );
+
+    // Selector dialog can't be initialized in tests, so either cancel or activate first eoc
+    if( test_mode ) {
+        return [eocs, context, allow_cancel]( dialogue & d ) {
+            if( allow_cancel ) {
+                return;
+            }
+
+            dialogue newDialog( d );
+            if( !context.empty() ) {
+                for( const auto &val : context[0] ) {
+                    newDialog.set_value( val.first, val.second.evaluate( d ) );
+                }
+            }
+            const effect_on_condition_id first_eoc =
+                eocs[0].var ? effect_on_condition_id( eocs[0].var->evaluate( d ) ) : eocs[0].id;
+            first_eoc->activate( newDialog );
+        };
+    }
 
     return [eocs, context, title, eoc_names, eoc_keys, eoc_descriptions,
           hide_failing, allow_cancel, hilight_disabled]( dialogue & d ) {
@@ -7811,8 +7750,8 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                     if( lifespan.value() > 0_seconds ) {
                         spawned->set_summon_time( lifespan.value() );
                         // Temporary monsters shouldn't drop items unless told to
-                        spawned->death_drops = temporary_drop_items;
-                        spawned->spawn_corpse = temporary_drop_items;
+                        spawned->no_extra_death_drops = !temporary_drop_items;
+                        spawned->no_corpse_quiet = !temporary_drop_items;
                     }
                 }
             }
@@ -8267,13 +8206,11 @@ talk_effect_fun_t::func f_travel_to_dimension( const JsonObject &jo, std::string
 
 
     return [fail_message, success_message, dimension_prefix, npc_travel_filter, target_location,
-                  npc_travel_radius, item_travel_radius, region_type_var, take_vehicle]( dialogue const & d ) {
+                  npc_travel_radius, item_travel_radius, take_vehicle]( dialogue const & d ) {
         Creature *teleporter = d.actor( false )->get_creature();
         if( teleporter ) {
-            std::string region_type = region_type_var.evaluate( d );
-            std::string prefix = dimension_prefix.evaluate( d );
-            std::string temp_dimension_prefix = ( prefix == "default" ) ? "" : prefix;
-            if( temp_dimension_prefix != g->get_dimension_prefix() ) {
+            dimension_id prefix( dimension_prefix.evaluate( d ) );
+            if( prefix != g->get_dimension_prefix() && prefix.is_valid() ) {
                 std::vector<npc *> travellers;
                 std::string filter = npc_travel_filter.evaluate( d );
                 int radius = npc_travel_radius.evaluate( d );
@@ -8322,7 +8259,7 @@ talk_effect_fun_t::func f_travel_to_dimension( const JsonObject &jo, std::string
                     veh = &vp_here->vehicle();
                 }
                 // returns False if fail
-                if( g->travel_to_dimension( prefix, region_type, travellers, items, center, veh ) ) {
+                if( g->travel_to_dimension( prefix, travellers, items, center, veh ) ) {
                     teleporter->add_msg_if_player( success_message.evaluate( d ) );
                 } else {
                     teleporter->add_msg_if_player( fail_message.evaluate( d ) );
@@ -8484,6 +8421,7 @@ parsers = {
     { "u_add_trait", "npc_add_trait", jarg::member, &talk_effect_fun::f_add_trait },
     { "u_lose_trait", "npc_lose_trait", jarg::member, &talk_effect_fun::f_remove_trait },
     { "u_lose_category", "npc_lose_category", jarg::member, &talk_effect_fun::f_remove_category },
+    { "u_lose_mutation_type", "npc_lose_mutation_type", jarg::member, &talk_effect_fun::f_remove_mutation_type },
     { "u_deactivate_trait", "npc_deactivate_trait", jarg::member, &talk_effect_fun::f_deactivate_trait },
     { "u_activate_trait", "npc_activate_trait", jarg::member, &talk_effect_fun::f_activate_trait },
     { "u_mutate", "npc_mutate", jarg::member | jarg::array, &talk_effect_fun::f_mutate },

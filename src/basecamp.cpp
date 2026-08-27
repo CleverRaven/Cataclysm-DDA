@@ -256,8 +256,8 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, const map
 
     std::vector<std::string> component_print_buffer;
     const int pane = FULL_SCREEN_WIDTH;
-    const auto tools = reqs->get_folded_tools_list( pane, c_white, _inv, 1 );
-    const auto comps = reqs->get_folded_components_list( pane, c_white, _inv,
+    const auto tools = reqs->get_folded_tools_list( nullptr, pane, c_white, _inv, 1 );
+    const auto comps = reqs->get_folded_components_list( nullptr, pane, c_white, _inv,
                        making.get_component_filter(), 1 );
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
@@ -410,7 +410,8 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point_rel_omt 
                 const mapgen_arguments &args = args_and_reqs.first;
                 const requirement_data &reqs = args_and_reqs.second.consolidated_reqs;
                 bool can_make =
-                    reqs.can_make_with_inventory( _inv, recp.get_component_filter(), 1, craft_flags::none, false );
+                    reqs.can_make_with_inventory( nullptr, _inv, recp.get_component_filter(), 1, craft_flags::none,
+                                                  false );
                 ret_data.push_back( { bldg, args, recp.blueprint_name(), can_make, in_progress } );
             }
         }

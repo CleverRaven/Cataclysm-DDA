@@ -30,7 +30,7 @@
     "relative": { "melee_skill": 2, "melee_dice": 1, "melee_dice_sides": -2, "dodge": 2 },
     "symbol": "@",
     "color": "pink",
-    "melee_damage": [ { "damage_type": "bash", "amount": 3 } ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 1 } ],
     "death_drops": "feral_humans_death_drops_bio",
     "zombify_into": "mon_zombie_survivor",
     "upgrades": { "half_life": 180, "into": "mon_feral_human_bio2" },
@@ -43,7 +43,17 @@
           "cooldown": { "math": [ "7 + rand(14)" ] },
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
         },
-        [ "BIO_OP_DISARM", 10 ]
+        [ "BIO_OP_DISARM", 10 ],
+        {
+          "id": "psi_biokin_physical_enhancement",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_physical_enhancement_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_physical_enhancement" } } ]
+          },
+          "monster_message": "%1$s clenches their fists and shakes open their hands."
+        }
       ]
     }
   },
@@ -56,7 +66,7 @@
     "relative": { "melee_skill": 4, "melee_dice": 1, "dodge": 4 },
     "color": "pink",
     "symbol": "@",
-    "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 3 } ],
     "attack_cost": 80,
     "death_drops": "feral_humans_death_drops_bio",
     "zombify_into": "mon_zombie_survivor",
@@ -75,6 +85,16 @@
           "id": "bio_op_takedown",
           "cooldown": { "math": [ "7 + rand(14)" ] },
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
+        },
+        {
+          "id": "psi_biokin2_physical_enhancement",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_physical_enhancement_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_physical_enhancement" } } ]
+          },
+          "monster_message": "%1$s clenches their fists and shakes open their hands."
         },
         {
           "id": "psi_biokin2_hardened_skin",
@@ -108,7 +128,7 @@
     "relative": { "melee_skill": 6, "melee_dice": 1, "dodge": 6 },
     "color": "pink",
     "symbol": "@",
-    "melee_damage": [ { "damage_type": "bash", "amount": 8 } ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
     "attack_cost": 75,
     "death_drops": "feral_humans_death_drops_bio",
     "zombify_into": "mon_zombie_survivor",
@@ -142,6 +162,19 @@
           "condition": {
             "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } } ]
           }
+        },
+        {
+          "id": "psi_biokin3_physical_enhancement",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_physical_enhancement_improved_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "u_has_effect": "effect_monster_physical_enhancement_improved" } }
+            ]
+          },
+          "monster_message": "%1$s clenches their fists and shakes open their hands."
         },
         {
           "id": "psi_biokin3_hardened_skin",
@@ -875,7 +908,13 @@
           "uncanny_dodgeable": true,
           "blockable": false,
           "effects_require_dmg": false,
-          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "npc_has_flag": "TELEKIN_SHIELD" } },
+              { "not": { "npc_has_flag": "TELEKIN_PUSH_PULL_IMMUNE" } }
+            ]
+          },
           "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
           "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
           "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
@@ -902,7 +941,7 @@
     "name": "feral mindhand",
     "description": "This feral human moves quickly across uneven terrain and, when you look more closely, you see that they are floating just above the ground.  The air around them is distorted strangely, like looking through the surface of water.",
     "copy-from": "mon_feral_psion_default",
-    "species": [ "FERAL", "TELEKIN_PUSHPULL_NULL" ],
+    "species": [ "FERAL" ],
     "color": "yellow",
     "symbol": "@",
     "melee_damage": [ { "damage_type": "bash", "amount": 4 } ],
@@ -955,7 +994,13 @@
           "dodgeable": false,
           "uncanny_dodgeable": true,
           "blockable": false,
-          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "npc_has_flag": "TELEKIN_SHIELD" } },
+              { "not": { "npc_has_flag": "TELEKIN_PUSH_PULL_IMMUNE" } }
+            ]
+          },
           "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
           "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
           "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
@@ -992,7 +1037,7 @@
     "name": "unstoppable force",
     "description": "Hovering half a meter off the ground, this feral human is surrounded by a whirling cloud of rock, dust, splintered wood, and various household objects.  As they move, the ground occasionally shakes.",
     "copy-from": "mon_feral_psion_default",
-    "species": [ "FERAL", "TELEKIN_PUSHPULL_NULL" ],
+    "species": [ "FERAL" ],
     "color": "yellow",
     "symbol": "@",
     "melee_damage": [ { "damage_type": "bash", "amount": 8 } ],
@@ -1044,7 +1089,13 @@
           "dodgeable": false,
           "uncanny_dodgeable": true,
           "blockable": false,
-          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "npc_has_flag": "TELEKIN_SHIELD" } },
+              { "not": { "npc_has_flag": "TELEKIN_PUSH_PULL_IMMUNE" } }
+            ]
+          },
           "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
           "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
           "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
@@ -1539,8 +1590,7 @@
     "name": "feral mender",
     "description": "Other than the intense expression, this feral human looks to be the picture of health.  They could have starred in a healthcare advertisement before the Cataclysm.  Only the jagged bit of wood clutched like a club indicates something is wrong.",
     "copy-from": "mon_feral_psion_default",
-    "proportional": { "hp": 1.2 },
-    "//": "HP and regeneration due to vitakinetic powers",
+    "//": "Regeneration due to vitakinetic powers",
     "material": [ "flesh" ],
     "color": "green",
     "symbol": "@",

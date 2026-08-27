@@ -250,7 +250,7 @@
         "....|---M-M--hh--b|,,,,.",
         "....|------------bw,,,,,",
         "....|--MMM-------b|.,,,,",
-        "....|------M|||w+||..,,,",
+        "....|{-----M|||w+||..,,,",
         "....|------t|x.,,,,.,,,,",
         "....|-tBBB-h|x,,U,,,,,,.",
         "....||w|||w||x.,,,,9,,..",
@@ -288,8 +288,10 @@
         ".": [ [ "f_null", 59 ], [ "f_thistle", 1 ] ],
         ",": [ [ "f_null", 59 ], [ "f_thistle", 1 ] ],
         "x": "f_bench",
-        "M": [ "f_crate_c", "f_cardboard_box" ]
-      }
+        "M": [ "f_crate_c", "f_cardboard_box" ],
+        "{": "f_bookcase"
+      },
+      "place_items": [ { "item": "novels", "x": 5, "y": 9, "chance": 100, "repeat": [ 2, 5 ], "faction": "isherwood_family" } ]
     }
   },
   {

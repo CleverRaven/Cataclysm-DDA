@@ -3,6 +3,7 @@
     "type": "fault",
     "id": "fault_blade_rolled_edge",
     "fault_type": "mechanical_damage",
+    "severity": "minor",
     "name": { "str": "Rolled edge" },
     "description": "Edge of the blade got rolled, making it harder to cut.",
     "melee_damage_mod": [ { "damage_id": "cut", "multiply": 0.8 } ]
@@ -11,6 +12,7 @@
     "type": "fault",
     "id": "fault_blade_chipped",
     "fault_type": "mechanical_damage",
+    "severity": "minor",
     "name": { "str": "Chipped edge" },
     "description": "The small piece of blade edge was broken off, making it much duller.",
     "melee_damage_mod": [ { "damage_id": "cut", "multiply": 0.8 } ]
@@ -19,6 +21,7 @@
     "type": "fault",
     "id": "interior_cracks",
     "fault_type": "crafting_defect",
+    "severity": "minor",
     "name": { "str": "Interior cracks" },
     "description": "Although this weapon appears to have been constructed properly, there are voids and damage below the surface.",
     "//COMMENT": "Later this should be a hidden fault and increase the likelihood of damage-type faults appearing.",
@@ -28,6 +31,7 @@
     "type": "fault",
     "id": "limp_edge",
     "fault_type": "crafting_defect",
+    "severity": "critical",
     "name": { "str": "Limp edge" },
     "description": "You've made a curved sword.  Very curved.",
     "melee_damage_mod": [ { "damage_id": "cut", "multiply": 0.1 } ]
@@ -36,6 +40,7 @@
     "type": "fault",
     "id": "fault_blade_cracked",
     "fault_type": "mechanical_damage",
+    "severity": "major",
     "name": { "str": "Crack" },
     "degradation_mod": 50,
     "description": "There is a deep crack on the blade.  A sure sign that the entire sword will break apart sooner or later.  Any attempt to repair it would only further damage the blade, so the days for this %s are numbered."
@@ -44,6 +49,7 @@
     "type": "fault",
     "id": "fault_blade_broken_half",
     "fault_type": "mechanical_damage",
+    "severity": "critical",
     "name": { "str": "Broken blade" },
     "melee_damage_mod": [
       { "damage_id": "cut", "multiply": 0.65 },
@@ -58,6 +64,7 @@
     "type": "fault",
     "id": "fault_blade_broken",
     "fault_type": "mechanical_damage",
+    "severity": "critical",
     "name": { "str": "Broken blade" },
     "melee_damage_mod": [
       { "damage_id": "cut", "multiply": 0.1 },
@@ -79,6 +86,7 @@
     "type": "fault",
     "id": "fault_blade_broken_tip",
     "fault_type": "mechanical_damage",
+    "severity": "major",
     "name": { "str": "Broken tip" },
     "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.6 } ],
     "block_faults": [ "fault_blade_bent_tip" ],
@@ -88,6 +96,7 @@
     "type": "fault",
     "id": "fault_blade_bent_tip",
     "fault_type": "mechanical_damage",
+    "severity": "major",
     "name": { "str": "Bent tip" },
     "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.4 } ],
     "description": "The tip of the blade you could use to thrust rolled into a spiral."
@@ -96,6 +105,7 @@
     "type": "fault",
     "id": "fault_spearhead_fracture",
     "fault_type": "mechanical_damage",
+    "severity": "minor",
     "name": { "str": "Tip fracture" },
     "description": "The tip of %s snapped off, making the thrusts weaker.",
     "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.8 } ]
@@ -104,6 +114,7 @@
     "type": "fault",
     "id": "fault_spearhead_warped",
     "fault_type": "mechanical_damage",
+    "severity": "minor",
     "name": { "str": "Tip warp" },
     "description": "The tip of %s started to warp, making the thrusts weaker.",
     "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.8 } ]
@@ -112,6 +123,7 @@
     "type": "fault",
     "id": "fault_spearhead_chipping",
     "fault_type": "mechanical_damage",
+    "severity": "minor",
     "name": { "str": "Tip chipping" },
     "description": "Small pieces of %s started to chip off, making the thrusts less damaging.",
     "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.9 } ]
@@ -120,6 +132,7 @@
     "type": "fault",
     "id": "fault_spearhead_bent_socket",
     "fault_type": "mechanical_damage",
+    "severity": "major",
     "name": { "str": "Bent socket" },
     "description": "The %s's socket was bent off, making the tip not lined with a shaft, and making the weapon very hard to thrust properly.",
     "item_suffix": "bent",
@@ -129,6 +142,7 @@
     "type": "fault",
     "id": "fault_spearhead_broken",
     "fault_type": "mechanical_damage",
+    "severity": "critical",
     "name": { "str": "Broken head" },
     "description": "The head of %s is completely broken.  The only way to repair such damage is to make a new one.",
     "block_faults": [ "fault_spearhead_fracture", "fault_spearhead_warped", "fault_spearhead_chipping", "fault_spearhead_bent_socket" ],
@@ -142,6 +156,7 @@
     "//": "staff faults are just handle faults, but for weapon that is entirely made of handle, like sticks, staffs and 2-by-sword variations",
     "//2": "`short` is less than 120 cm, `long` is 120+ cm",
     "fault_type": "mechanical_damage",
+    "severity": "minor",
     "name": { "str": "Chipping" },
     "description": "Small pieces of %s are chipping off."
   },
@@ -150,6 +165,7 @@
     "id": "fault_staff_short_cracked",
     "copy-from": "fault_handle_cracked",
     "fault_type": "mechanical_damage",
+    "severity": "major",
     "name": { "str": "Cracks" },
     "degradation_mod": 50,
     "description": "There is a nasty crack on this %s.  Better to fix it before the entire thing snaps in half!"
@@ -159,6 +175,7 @@
     "id": "fault_staff_short_broken",
     "copy-from": "fault_handle_broken",
     "fault_type": "mechanical_damage",
+    "severity": "critical",
     "name": { "str": "Broken" },
     "description": "The entire %s just snapped, leaving only long splinters.",
     "item_suffix": "broken",
@@ -170,6 +187,7 @@
     "id": "fault_staff_long_chipping",
     "copy-from": "fault_handle_long_chipping",
     "fault_type": "mechanical_damage",
+    "severity": "minor",
     "name": { "str": "Chipping" },
     "description": "Small pieces of %s are chipping off."
   },
@@ -178,6 +196,7 @@
     "id": "fault_staff_long_cracked",
     "copy-from": "fault_handle_long_cracked",
     "fault_type": "mechanical_damage",
+    "severity": "major",
     "name": { "str": "Cracks" },
     "description": "There is a nasty crack on this %s.  Better to fix it before the entire shaft snaps in half!"
   },
@@ -186,6 +205,7 @@
     "id": "fault_staff_long_broken_half",
     "copy-from": "fault_handle_long_broken_half",
     "fault_type": "mechanical_damage",
+    "severity": "major",
     "name": { "str": "Broken" },
     "description": "This %s is snapped in half.  You still can use it, albeit much less effectively.",
     "block_faults": [ "fault_staff_long_chipping", "fault_staff_long_cracked" ],
@@ -196,6 +216,7 @@
     "id": "fault_staff_long_broken",
     "copy-from": "fault_handle_long_broken",
     "fault_type": "mechanical_damage",
+    "severity": "critical",
     "name": { "str": "Broken" },
     "description": "This %s is completely broken.",
     "block_faults": [ "fault_staff_long_chipping", "fault_staff_long_cracked", "fault_staff_long_broken_half" ],
@@ -206,6 +227,7 @@
     "id": "fault_steel_pipe_staff_bent",
     "//": "This fault is meant for weapons that have a long handle made out of steel pipes (120cm +) (so mostly spear type weapons)",
     "fault_type": "mechanical_damage",
+    "severity": "major",
     "name": { "str": "Bent" },
     "degradation_mod": 50,
     "description": "The %s has been bent.",
@@ -220,6 +242,7 @@
     "type": "fault",
     "id": "fault_steel_pipe_staff_bent_heavy",
     "fault_type": "mechanical_damage",
+    "severity": "critical",
     "name": { "str": "Heavily bent" },
     "description": "The %s has been heavily bent.",
     "block_faults": [ "fault_steel_pipe_staff_bent" ],
@@ -230,5 +253,162 @@
       { "damage_id": "bash", "multiply": 0.2 }
     ],
     "affected_by_degradation": true
+  },
+  {
+    "type": "fault",
+    "id": "fault_aluminum_bat_bent",
+    "//": "This fault is meant for aluminum bats.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Bent" },
+    "degradation_mod": 20,
+    "description": "The %s has been bent.",
+    "item_suffix": "bent",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.8 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_aluminum_bat_bent_heavy",
+    "//": "This fault is meant for aluminum bats.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Collapsed" },
+    "degradation_mod": 50,
+    "description": "The %1$s has collapsed, a part of the once hollow bat is now touching inside of it due to heavy bending.  It is usable still but significantly less effective.",
+    "item_suffix": "collapsed",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.5 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_aluminum_bat_handle_broken",
+    "//": "This fault is meant for aluminum bats.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Broken handle" },
+    "degradation_mod": 50,
+    "description": "The handle of the %1$s has completely broken and separated from it.",
+    "item_suffix": "no handle",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.1 } ]
+  },
+  {
+    "type": "fault",
+    "copy-from": "fault_aluminum_bat_bent",
+    "id": "fault_baton_bent",
+    "//0": "This fault is meant for batons.",
+    "//1": "Ideally this would make it so you can't retract it anymore, this is not possible currently.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Bent" },
+    "description": "The shaft of the %1$s has been bent.",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.7 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_baton_bent_tip",
+    "//": "This fault is meant for batons.",
+    "//1": "Ideally this would make it so you can't retract it anymore, maybe, this is not possible currently.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Bent tip" },
+    "degradation_mod": 50,
+    "description": "The tip of the %1$s has been bent.",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.7 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_baton_broken_tip",
+    "//": "This fault is meant for batons.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Broken tip" },
+    "degradation_mod": 50,
+    "description": "The tip of the %1$s has broken off",
+    "block_faults": [ "fault_baton_bent_tip" ],
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.5 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_baton_handle_broken",
+    "copy-from": "fault_handle_broken",
+    "//": "This fault is meant for batons.",
+    "//1": "Ideally this would make it so you can't retract it anymore, this is not possible currently.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Broken handle" },
+    "description": "The handle of the %1$s has separated from the shaft, rendering it nigh unusable."
+  },
+  {
+    "type": "fault",
+    "id": "fault_tonfa_handle_broken",
+    "copy-from": "fault_handle_broken",
+    "//": "This fault is meant for tonfas.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Broken handle" },
+    "degradation_mod": 60,
+    "description": "The handle of the %1$s has broken off.",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.6 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_tonfa_broken",
+    "//": "This fault is meant for tonfas.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Broken" },
+    "description": "The %1$s is broken in half.",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.1 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_pipe_shaft_broken",
+    "//": "This fault is meant for the ax_sheets variants.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Broken shaft" },
+    "degradation_mod": 100,
+    "description": "The pipe shaft of the %1$s has broken in half, you can still wield by holding onto the second pipe though, albeit it's very awkward and unwieldy.",
+    "item_suffix": "broken shaft",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.4 }, { "damage_id": "cut", "multiply": 0.4 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_sheets_detached",
+    "//": "This fault is meant for the ax_sheets variants.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Detached sheets" },
+    "degradation_mod": 100,
+    "description": "The sheets of the %1$s have detached from the pipe shaft.",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.5 }, { "damage_id": "cut", "multiply": 0 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_ripped_thong",
+    "//": "This fault is meant for bullwhips.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Ripped thong" },
+    "degradation_mod": 100,
+    "description": "The thong of the %1$s has ripped in half due to repeated use.",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.4 }, { "damage_id": "cut", "multiply": 0.3 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_ripped_tip",
+    "//": "This fault is meant for bullwhips.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Ripped tip" },
+    "degradation_mod": 40,
+    "description": "The tip of the %1$s has ripped off.",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.8 }, { "damage_id": "cut", "multiply": 0.9 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_shattered",
+    "//": "This fault is meant for knuckles.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Shattered" },
+    "degradation_mod": 100,
+    "description": "The %1$s has shattered.",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.2 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_cracked",
+    "//": "This fault is meant for knuckles.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Shattered" },
+    "degradation_mod": 40,
+    "description": "The %1$s is cracked.",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.8 } ]
   }
 ]

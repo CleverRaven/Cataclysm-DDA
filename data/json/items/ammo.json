@@ -326,7 +326,7 @@
     "id": "moisturizer",
     "category": "chems",
     "price": "3 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "80 cent",
     "name": { "str_sp": "moisturizer" },
     "material": [ "oil" ],
     "symbol": "m",
@@ -441,7 +441,7 @@
     "material": [ "paper" ],
     "weight": "1 g",
     "volume": "100ml",
-    "ammo_type": "components",
+    "ammo_type": "rolling_paper",
     "stack_size": 200,
     "count": 30,
     "flags": [ "UNRECOVERABLE" ]
@@ -495,13 +495,13 @@
     "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
     "volume": "5 ml",
     "weight": "20 g",
+    "//COMMENT": "It may not be safe to remove this ammo_type! On first glance it looks unused, but some C++ code assumes it is an ammotype. Possibly only relevant for aftershock.",
     "ammo_type": "plutonium",
     "count": 5,
     "effects": [ "COOKOFF" ]
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "uran_cell",
     "category": "spare_parts",
     "price": "50 USD",
@@ -514,10 +514,7 @@
     "material": [ "uran_cell" ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
     "volume": "2 ml",
-    "weight": "38 g",
-    "ammo_type": "uranium",
-    "count": 1,
-    "effects": [ "COOKOFF" ]
+    "weight": "38 g"
   },
   {
     "type": "ITEM",
@@ -534,7 +531,7 @@
     "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
     "volume": "25 ml",
     "weight": "495 g",
-    "ammo_type": "reactor_slurry",
+    "ammo_type": "FAKE_NO_SHOOTING_generic_liquid",
     "phase": "liquid",
     "count": 1
   },
@@ -553,7 +550,7 @@
     "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
     "volume": "25 ml",
     "weight": "255 g",
-    "ammo_type": "reactor_slurry",
+    "ammo_type": "FAKE_NO_SHOOTING_generic_liquid",
     "phase": "liquid",
     "count": 1
   },
@@ -704,8 +701,8 @@
     "description": "A feather from a bird.  Useful for fletching arrows.",
     "material": [ "cotton" ],
     "flags": [ "NO_SALVAGE" ],
-    "volume": "1 ml",
-    "weight": "10 mg"
+    "volume": "50 ml",
+    "weight": "500 mg"
   },
   {
     "type": "ITEM",
@@ -713,14 +710,14 @@
     "category": "spare_parts",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "name": { "str": "down feather" },
+    "name": { "str": "handful of down feathers", "str_pl": "handfuls of down feather" },
     "symbol": "=",
     "color": "brown",
-    "description": "A fluffy down feather from a bird.  Useful for making cozy bedclothes.",
+    "description": "A handful of fluffy down feather from a bird.  Useful for making cozy bedclothes.",
     "material": [ "down_feathers" ],
     "flags": [ "NO_SALVAGE" ],
-    "volume": "1 ml",
-    "weight": "1 mg"
+    "volume": "102 ml",
+    "weight": "102 mg"
   },
   {
     "type": "ITEM",
@@ -765,7 +762,7 @@
   {
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "ammo_type": "components",
+    "ammo_type": "gunpowder",
     "id": "gunpowder",
     "category": "chems",
     "price": "5 USD",
@@ -787,6 +784,8 @@
   {
     "type": "ITEM",
     "id": "gunpowder_shotgun",
+    "subtypes": [ "AMMO" ],
+    "ammo_type": "gunpowder_shotgun",
     "copy-from": "gunpowder",
     "price": "30 USD",
     "price_postapoc": "25 USD",
@@ -796,6 +795,8 @@
   {
     "type": "ITEM",
     "id": "gunpowder_pistol",
+    "subtypes": [ "AMMO" ],
+    "ammo_type": "gunpowder_pistol",
     "copy-from": "gunpowder",
     "price": "30 USD",
     "price_postapoc": "25 USD",
@@ -805,6 +806,8 @@
   {
     "type": "ITEM",
     "id": "gunpowder_magnum_pistol",
+    "subtypes": [ "AMMO" ],
+    "ammo_type": "gunpowder_magnum_pistol",
     "copy-from": "gunpowder",
     "price": "30 USD",
     "price_postapoc": "25 USD",
@@ -814,6 +817,8 @@
   {
     "type": "ITEM",
     "id": "gunpowder_rifle",
+    "subtypes": [ "AMMO" ],
+    "ammo_type": "gunpowder_rifle",
     "copy-from": "gunpowder",
     "price": "30 USD",
     "price_postapoc": "25 USD",
@@ -823,6 +828,8 @@
   {
     "type": "ITEM",
     "id": "gunpowder_large_rifle",
+    "subtypes": [ "AMMO" ],
+    "ammo_type": "gunpowder_large_rifle",
     "copy-from": "gunpowder",
     "price": "30 USD",
     "price_postapoc": "25 USD",
@@ -832,6 +839,8 @@
   {
     "type": "ITEM",
     "id": "gunpowder_artillery",
+    "subtypes": [ "AMMO" ],
+    "ammo_type": "gunpowder_artillery",
     "copy-from": "gunpowder",
     "price": "30 USD",
     "price_postapoc": "25 USD",
@@ -874,7 +883,7 @@
     "id": "shotgun_primer",
     "category": "spare_parts",
     "price": "30 USD",
-    "price_postapoc": "20 USD",
+    "price_postapoc": "10 cent",
     "name": { "str": "shotgun primer" },
     "symbol": "=",
     "color": "dark_gray",
@@ -890,7 +899,7 @@
     "id": "smpistol_primer",
     "category": "spare_parts",
     "price": "40 USD",
-    "price_postapoc": "10 USD",
+    "price_postapoc": "5 cent",
     "name": { "str": "small pistol primer" },
     "symbol": "=",
     "color": "dark_gray",
@@ -906,7 +915,7 @@
     "id": "lgpistol_primer",
     "category": "spare_parts",
     "price": "60 USD",
-    "price_postapoc": "20 USD",
+    "price_postapoc": "10 cent",
     "name": { "str": "large pistol primer" },
     "symbol": "=",
     "color": "dark_gray",
@@ -922,7 +931,7 @@
     "id": "smrifle_primer",
     "category": "spare_parts",
     "price": "60 USD",
-    "price_postapoc": "10 USD",
+    "price_postapoc": "5 cent",
     "name": { "str": "small rifle primer" },
     "symbol": "=",
     "color": "dark_gray",
@@ -938,7 +947,7 @@
     "id": "lgrifle_primer",
     "category": "spare_parts",
     "price": "80 USD",
-    "price_postapoc": "20 USD",
+    "price_postapoc": "10 cent",
     "name": { "str": "large rifle primer" },
     "symbol": "=",
     "color": "dark_gray",
@@ -1299,7 +1308,7 @@
     "phase": "liquid",
     "volume": "30 ml",
     "weight": "1 g",
-    "ammo_type": "components",
+    "ammo_type": "FAKE_NO_SHOOTING_generic_liquid",
     "count": 30
   },
   {
@@ -1427,34 +1436,17 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "id": "chain_link",
-    "category": "spare_parts",
-    "price": "1 USD 50 cent",
-    "price_postapoc": "50 cent",
-    "name": { "str": "chain link" },
-    "symbol": "=",
-    "color": "light_gray",
-    "description": "A set of small metal rings, suitable for constructing chainmail.",
-    "material": [ "iron" ],
-    "volume": "250 ml",
-    "weight": "320 mg",
-    "ammo_type": "components",
-    "count": 425
-  },
-  {
-    "type": "ITEM",
     "id": "lc_chain_link",
     "category": "spare_parts",
-    "//": "link weighs 1/3 gram or so, make 425 per 150 gram wire to account for loss",
+    "//": "link weighs 1/3 gram or so, make 425 links per 150 gram wire to account for loss",
     "price": "1 USD 50 cent",
     "price_postapoc": "50 cent",
     "name": { "str": "mild steel chain link" },
     "symbol": "=",
     "color": "light_gray",
-    "description": "A set of small metal rings, suitable for constructing chainmail.",
+    "description": "A small metal ring, suitable for constructing chainmail.",
     "material": [ "lc_steel" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "320 mg"
   },
   {

@@ -1110,8 +1110,8 @@ bool spell::can_cast( const Character &guy ) const
     }
 
     if( !type->spell_components.is_empty() &&
-        !type->spell_components->can_make_with_inventory( guy.crafting_inventory( guy.pos_bub(), 0, false ),
-                return_true<item> ) ) {
+        !type->spell_components->can_make_with_inventory( &guy,
+                guy.crafting_inventory( guy.pos_bub(), 0, false ), return_true<item> ) ) {
         return false;
     }
 
@@ -1163,7 +1163,7 @@ bool spell::check_if_component_in_hand( Character &guy ) const
     const requirement_data &spell_components = type->spell_components.obj();
 
     if( guy.has_weapon() ) {
-        if( spell_components.can_make_with_inventory( *guy.get_wielded_item(), return_true<item> ) ) {
+        if( spell_components.can_make_with_inventory( &guy, *guy.get_wielded_item(), return_true<item> ) ) {
             return true;
         }
     }
@@ -3057,10 +3057,11 @@ void spellcasting_callback::display_spell_info( size_t index )
     std::string range = sp.range( pc ) <= 0 ? _( "self" ) : std::to_string( sp.range( pc ) );
     ImGui::Text( "%s: %s", _( "Range" ), range.c_str() );
 
+    std::string aoe_string_temp = is_psi ? _( "Power Radius" ) : _( "Spell Radius" );
+
     // if it's any type of attack spell, the stats are normal.
     if( sp.effect() == "attack" ) {
         if( sp.aoe( pc ) > 0 ) {
-            std::string aoe_string_temp = _( "Spell Radius" );
             std::string degree_string;
             if( sp.shape() == spell_shape::cone ) {
                 aoe_string_temp = _( "Cone Arc" );
@@ -3076,12 +3077,12 @@ void spellcasting_callback::display_spell_info( size_t index )
         }
     } else if( sp.effect() == "summon" || sp.effect() == "fertilize_plant" ||
                sp.effect() == "effect_on_condition" ) {
-        ImGui::Text( "%s: %d", _( "Spell Radius" ), sp.aoe( pc ) );
+        ImGui::Text( "%s: %d", aoe_string_temp.c_str(), sp.aoe( pc ) );
     } else if( sp.effect() == "ter_transform" ) {
-        ImGui::Text( "%s: %s", _( "Spell Radius" ), sp.aoe_string( pc ).c_str() );
+        ImGui::Text( "%s: %s", aoe_string_temp.c_str(), sp.aoe_string( pc ).c_str() );
     } else if( sp.effect() == "banishment" ) {
         if( sp.aoe( pc ) > 0 ) {
-            ImGui::Text( _( "Spell Radius: %d" ), sp.aoe( pc ) );
+            ImGui::Text( _( "%s: %d" ), aoe_string_temp.c_str(), sp.aoe( pc ) );
         }
     }
 
@@ -3174,14 +3175,14 @@ void spellcasting_callback::display_spell_info( size_t index )
         ImGui::NewLine();
         if( !sp.components().get_components().empty() ) {
             for( const std::string &line : sp.components().get_folded_components_list(
-                     0, c_light_gray, pc.crafting_inventory( pc.pos_bub(), 0, false ), return_true<item> ) ) {
+                     &pc, 0, c_light_gray, pc.crafting_inventory( pc.pos_bub(), 0, false ), return_true<item> ) ) {
                 cataimgui::TextColoredParagraph( c_white, line );
                 ImGui::NewLine();
             }
         }
         if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
             for( const std::string &line : sp.components().get_folded_tools_list(
-                     0, c_light_gray, pc.crafting_inventory( pc.pos_bub(), 0, false ) ) ) {
+                     &pc, 0, c_light_gray, pc.crafting_inventory( pc.pos_bub(), 0, false ) ) ) {
                 cataimgui::TextColoredParagraph( c_white, line );
                 ImGui::NewLine();
             }

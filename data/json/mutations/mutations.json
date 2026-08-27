@@ -203,7 +203,7 @@
     "points": -4,
     "purifiable": true,
     "vitamin_cost": 240,
-    "enchantments": [ { "condition": { "current_dimension": "" }, "values": [ { "value": "ARTIFACT_RESONANCE", "add": 1250 } ] } ]
+    "enchantments": [ { "condition": { "current_dimension": "default" }, "values": [ { "value": "ARTIFACT_RESONANCE", "add": 1250 } ] } ]
   },
   {
     "type": "mutation",
@@ -1660,6 +1660,7 @@
     "points": -3,
     "starting_trait": true,
     "chargen_allow_npc": false,
+    "purifiable": false,
     "vitamin_cost": 160
   },
   {
@@ -1870,28 +1871,41 @@
     "type": "mutation",
     "id": "GOODMEMORY",
     "name": { "str": "Good Memory" },
-    "description": "You have an exceptional memory, and find it easy to remember things.  However, you don't benefit as much as other people from dropping a subject for a while and will thus end up learning slower.",
+    "description": "You have an exceptional memory, and find it easy to remember things.  This makes it easier to apply your theoretical knowledge when learning skills.  However, you don't benefit as much as other people from dropping a subject for a while and will thus end up learning slower.",
     "types": [ "MEMORY" ],
     "cancels": [ "FORGETFUL" ],
     "points": 0,
     "mixed_effect": true,
     "starting_trait": true,
     "valid": false,
-    "enchantments": [ { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": -0.34 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SKILL_RUST_RESIST", "multiply": -0.34 },
+          { "value": "THEORETICAL_SKILL_CATCHUP_BONUS", "multiply": 0.25 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
     "id": "FORGETFUL",
     "name": { "str": "Forgetful" },
-    "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you have trouble keeping your story straight when lying.",
+    "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual, it's harder for you to apply your book-learning to the real world, and you have trouble keeping your story straight when lying.",
     "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT", "RABBIT" ],
     "types": [ "MEMORY" ],
-    "points": 0,
-    "mixed_effect": true,
+    "points": -2,
     "starting_trait": true,
     "vitamin_cost": 160,
     "social_modifiers": { "lie": -5 },
-    "enchantments": [ { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": 0.33 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SKILL_RUST_RESIST", "multiply": 0.33 },
+          { "value": "THEORETICAL_SKILL_CATCHUP_BONUS", "multiply": -0.25 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -2337,7 +2351,8 @@
     "threshold_substitutes": [ "THRESH_CHIMERA" ],
     "points": 1,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "THRESH_ALLOWS_QUADRUPEDAL_MOVEMENT" ]
   },
   {
     "type": "mutation",
@@ -2427,7 +2442,8 @@
     "threshold_substitutes": [ "THRESH_CHIMERA" ],
     "points": 1,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "THRESH_ALLOWS_QUADRUPEDAL_MOVEMENT" ]
   },
   {
     "type": "mutation",
@@ -2471,7 +2487,8 @@
     "threshold": true,
     "points": 1,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "THRESH_ALLOWS_QUADRUPEDAL_MOVEMENT" ]
   },
   {
     "type": "mutation",
@@ -2556,7 +2573,8 @@
     "threshold_substitutes": [ "THRESH_CHIMERA" ],
     "points": 1,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "THRESH_ALLOWS_QUADRUPEDAL_MOVEMENT" ]
   },
   {
     "type": "mutation",
@@ -3045,7 +3063,7 @@
       {
         "values": [
           { "value": "METABOLISM", "multiply": -0.5 },
-          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } }
+          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod_bipolar(65, 0.5)" ] } }
         ]
       }
     ]
@@ -6038,14 +6056,6 @@
     "ugliness": 6,
     "provided_qualities": { "BUTCHER": 4 },
     "integrated_armor": [ "integrated_mandibles" ],
-    "attacks": {
-      "attack_text_u": "You bite %s with your fangs!",
-      "attack_text_npc": "%1$s bites %2$s with their fangs!",
-      "blocker_mutations": [ "FANGS_SPIDER" ],
-      "body_part": "mouth",
-      "chance": 22,
-      "base_damage": { "damage_type": "cut", "amount": 12 }
-    },
     "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": -0.5 } ] } ],
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ]
   },
@@ -6094,14 +6104,6 @@
     "visibility": 6,
     "ugliness": 6,
     "integrated_armor": [ "integrated_fangs_spider" ],
-    "attacks": {
-      "attack_text_u": "You bite %s with your fangs!",
-      "attack_text_npc": "%1$s bites %2$s with their fangs!",
-      "blocker_mutations": [ "MANDIBLES" ],
-      "body_part": "mouth",
-      "chance": 22,
-      "base_damage": { "damage_type": "stab", "amount": 15 }
-    },
     "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": 1 } ] } ],
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ]
   },
@@ -6373,6 +6375,7 @@
     "category": [ "MEDICAL" ],
     "points": 0,
     "vitamin_cost": 60,
+    "purifiable": false,
     "transform": { "target": "HYDE", "msg_transform": "The anger overtakes you!", "active": false, "moves": 10 },
     "triggers": [
       [
@@ -6405,6 +6408,7 @@
     "valid": false,
     "visibility": 8,
     "ugliness": 8,
+    "purifiable": false,
     "transform": { "target": "JEKYLL", "msg_transform": "The anger subsides.", "active": false, "moves": 10 },
     "social_modifiers": { "intimidate": 4 },
     "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 3 }, { "value": "INTELLIGENCE", "add": -8 } ] } ],
@@ -6517,6 +6521,7 @@
     "changes_to": [ "CENOBITE" ],
     "threshreq": [ "THRESH_MEDICAL" ],
     "points": 4,
+    "purifiable": false,
     "vitamin_cost": 160,
     "visibility": 3,
     "ugliness": 2,
@@ -6560,6 +6565,7 @@
     "threshreq": [ "THRESH_MEDICAL" ],
     "points": 2,
     "vitamin_cost": 160,
+    "purifiable": false,
     "flags": [ "PAIN_IMMUNE" ],
     "//": "MASOCHIST_MED, CENOBITE, and NOPAIN don't cancel each other.  By design.  Poor painless people..."
   },
@@ -6612,6 +6618,7 @@
     "threshreq": [ "THRESH_MEDICAL", "THRESH_CHIMERA" ],
     "points": -1,
     "mixed_effect": true,
+    "purifiable": false,
     "vitamin_cost": 60,
     "//": "name courtesy of wiktionary's Greek for 'mutate'.  Greek-speakers, feel free to correct the term"
   },
@@ -6919,7 +6926,8 @@
     "thirst": true,
     "visibility": 10,
     "ugliness": 10,
-    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 } ] } ],
+    "flags": [ "DISTRIBUTED_DAMAGE" ]
   },
   {
     "type": "mutation",

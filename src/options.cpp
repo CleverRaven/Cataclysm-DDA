@@ -2741,17 +2741,12 @@ void options_manager::add_options_graphics()
             }
         }
 #   endif
-        // SDL3 drives renderer selection through SDL_HINT_RENDER_DRIVER; the
+        // Renderer selection is driven through SDL_HINT_RENDER_DRIVER; the
         // saved RENDERER value is ignored at startup but the option ID is
         // retained so configs from existing worlds still parse.
-#   if defined(USE_SDL3)
-        const options_manager::copt_hide_t renderer_hide = COPT_ALWAYS_HIDE;
-#   else
-        const options_manager::copt_hide_t renderer_hide = COPT_CURSES_HIDE;
-#   endif
         add( "RENDERER", page_id, to_translation( "Renderer" ),
              to_translation( "Set which renderer to use.  Requires restart." ), renderer_list,
-             default_renderer, renderer_hide );
+             default_renderer, COPT_ALWAYS_HIDE );
 #   endif
 
 #else
@@ -2763,44 +2758,26 @@ void options_manager::add_options_graphics()
            );
 #endif
 
-#if defined(SDL_HINT_RENDER_BATCHING)
-        add( "RENDER_BATCHING", page_id, to_translation( "Allow render batching" ),
-             to_translation( "If true, use render batching for 2D render API to make it more efficient.  Requires restart." ),
-             true, COPT_CURSES_HIDE
-           );
-#endif
-        // FRAMEBUFFER_ACCEL only meaningful for the SDL2 software renderer
-        // path; under SDL3 the renderer is hidden and software fallback is
-        // automatic, so the option is hidden too.
-#if defined(USE_SDL3)
-        const options_manager::copt_hide_t framebuffer_accel_hide = COPT_ALWAYS_HIDE;
-#else
-        const options_manager::copt_hide_t framebuffer_accel_hide = COPT_CURSES_HIDE;
-#endif
+        // The renderer is hidden and the software fallback is automatic, so
+        // this option is hidden too; the ID is retained so existing configs
+        // still parse.
         add( "FRAMEBUFFER_ACCEL", page_id, to_translation( "Software framebuffer acceleration" ),
              to_translation( "If true, use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
-             false, framebuffer_accel_hide
+             false, COPT_ALWAYS_HIDE
            );
 
 #if defined(__ANDROID__)
         get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
-#elif !defined(USE_SDL3)
-        get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "RENDERER", "software" );
 #endif
 
-        // Color-modulated textures are an SDL2-era speed-up that replaces
-        // RenderFillRect with a stretched 1x1 texture. Under SDL3 the renderer
-        // batches fills efficiently and the texture path blends differently, so
-        // the saved value is ignored at startup and the option is hidden; the ID
-        // is retained so existing configs still parse.
-#if defined(USE_SDL3)
-        const options_manager::copt_hide_t color_modulated_hide = COPT_ALWAYS_HIDE;
-#else
-        const options_manager::copt_hide_t color_modulated_hide = COPT_CURSES_HIDE;
-#endif
+        // Color-modulated textures replaced RenderFillRect with a stretched
+        // 1x1 texture. The renderer now batches fills efficiently and the
+        // texture path blends differently, so the saved value is ignored at
+        // startup and the option is hidden; the ID is retained so existing
+        // configs still parse.
         add( "USE_COLOR_MODULATED_TEXTURES", page_id, to_translation( "Use color modulated textures" ),
              to_translation( "If true, tries to use color modulated textures to speed-up ASCII drawing.  Requires restart." ),
-             false, color_modulated_hide
+             false, COPT_ALWAYS_HIDE
            );
 
         add( "SCALING_MODE", page_id, to_translation( "Scaling mode" ),
@@ -4142,7 +4119,9 @@ void options_manager::update_options_cache()
     if( ::has_option( "PLAYER_MAX_INT_VALUE" ) ) {
         character_max_int = ::get_option<int>( "PLAYER_MAX_INT_VALUE" );
     }
-
+    if( ::has_option( "COMBAT_SPEED_MODIFIER" ) ) {
+        combat_speed_modifier = ::get_option<float>( "COMBAT_SPEED_MODIFIER" );
+    }
     prevent_occlusion = ::get_option<int>( "PREVENT_OCCLUSION" );
     prevent_occlusion_retract = ::get_option<bool>( "PREVENT_OCCLUSION_RETRACT" );
     prevent_occlusion_transp = ::get_option<bool>( "PREVENT_OCCLUSION_TRANSP" );

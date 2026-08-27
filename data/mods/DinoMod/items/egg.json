@@ -11,7 +11,6 @@
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,
-    "healthy": 1,
     "calories": 2600,
     "description": "Pale, round egg laid by a dinosaur.",
     "price": "125 cent",

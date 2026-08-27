@@ -49,8 +49,6 @@
 #include "weather.h"
 #include "weather_gen.h"
 
-class item;
-
 static const addiction_id addiction_nicotine( "nicotine" );
 
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
@@ -101,6 +99,7 @@ static const json_character_flag json_flag_COLDBLOOD3( "COLDBLOOD3" );
 static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const json_character_flag json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
+static const json_character_flag json_flag_HUNGER_DISRUPTION( "HUNGER_DISRUPTION" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
@@ -440,8 +439,8 @@ void Character::update_bodytemp()
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( pos_abs_omt() );
     bool sheltered = g->is_sheltered( pos_bub() );
-    int bp_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
-                                            pos_abs(), weather_man.winddirection, sheltered );
+    const int windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
+                          pos_abs(), weather_man.winddirection, sheltered );
     // Let's cache this not to check it for every bodyparts
     const bool has_bark = has_flag( json_flag_BARKY );
     const bool has_sleep = has_effect( effect_sleep );
@@ -505,10 +504,6 @@ void Character::update_bodytemp()
     const int radiation_blister_count = h_radiation > 44_C_delta ? static_cast<int>( std::sqrt(
                                             units::to_fahrenheit_delta( h_radiation - 44_C_delta ) ) ) : 0;
 
-    std::map<bodypart_id, std::vector<const item *>> clothing_map;
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        clothing_map.emplace( bp, std::vector<const item *>() );
-    }
     // fat insulates and increases total heat production of body, but it should have a diminishing effect.
     // at 5 over healthy bmi (obese), it is ~5 warmth, at 20 over healthy bmi (morbid obesity) it is ~12 warmth
     // effects start to kick in halfway through overweightness
@@ -516,7 +511,7 @@ void Character::update_bodytemp()
             ( get_bmi_fat() - 8.0f ) ) );
     std::map<bodypart_id, int> warmth_per_bp = worn.warmth( *this );
     std::map<bodypart_id, int> bonus_warmth_per_bp = bonus_item_warmth();
-    std::map<bodypart_id, int> wind_res_per_bp = get_wind_resistance( clothing_map );
+    std::map<bodypart_id, int> wind_res_per_bp = get_wind_resistance();
     // We might not use this at all, so leave it empty
     // If we do need to use it, we'll initialize it (once) there
     std::map<bodypart_id, int> fire_armor_per_bp;
@@ -540,8 +535,8 @@ void Character::update_bodytemp()
                 bonus_warmth_per_bp[bp];
         // WINDCHILL
 
-        bp_windpower = static_cast<int>( static_cast<float>( bp_windpower ) *
-                                         ( 1 - wind_res_per_bp[bp] / 100.0 ) );
+        const int bp_windpower = static_cast<int>( static_cast<float>( windpower ) *
+                                 ( 1 - wind_res_per_bp[bp] / 100.0 ) );
         // Calculate windchill
         units::temperature_delta windchill = get_local_windchill( player_local_temp,
                                              get_local_humidity( weather.humidity, get_weather().weather_id, sheltered ),
@@ -605,7 +600,7 @@ void Character::update_bodytemp()
             blister_count -= 20;
         }
         if( fire_armor_per_bp.empty() && blister_count > 0 ) {
-            fire_armor_per_bp = get_all_armor_type( damage_heat, clothing_map );
+            fire_armor_per_bp = get_all_armor_type( damage_heat );
         }
         if( blister_count - fire_armor_per_bp[bp] > 0 ) {
             add_effect( effect_blisters, 1_turns, bp );
@@ -1091,6 +1086,9 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         } else {
             hunger_effect = effect_hunger_very_hungry;
         }
+    }
+    if( has_effect_with_flag( json_flag_HUNGER_DISRUPTION ) ) {
+        hunger_effect = effect_hunger_blank;
     }
     if( !has_effect( hunger_effect ) ) {
         remove_effect( effect_hunger_engorged );

@@ -93,7 +93,7 @@
         { "item": "splinter", "count": [ 3, 6 ] },
         { "item": "sheet_cotton", "count": [ 1, 2 ] },
         { "item": "cotton_patchwork", "count": [ 10, 15 ] },
-        { "item": "down_feather", "count": [ 45, 55 ] },
+        { "item": "down_feather", "count": [ 5, 9 ] },
         { "item": "scrap", "count": [ 10, 20 ] }
       ],
       "hit_field": [ "fd_dust", 2 ],
@@ -129,7 +129,7 @@
         { "item": "splinter", "count": [ 8, 15 ] },
         { "item": "sheet_cotton", "count": [ 2, 3 ] },
         { "item": "cotton_patchwork", "count": [ 12, 14 ] },
-        { "item": "down_feather", "count": [ 90, 110 ] },
+        { "item": "down_feather", "count": [ 10, 13 ] },
         { "item": "scrap", "count": [ 20, 40 ] }
       ],
       "hit_field": [ "fd_dust", 2 ],

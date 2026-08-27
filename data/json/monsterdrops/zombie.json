@@ -134,7 +134,7 @@
     "id": "zed_dust",
     "subtype": "collection",
     "entries": [
-      { "item": "corpse_ash", "count": [ 25, 35 ] },
+      { "item": "corpse_ash", "count": [ 2, 3 ] },
       { "item": "skull_human_tainted", "prob": 40, "damage": [ 1, 3 ] },
       { "item": "bone_tainted", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 3 ] }
     ]

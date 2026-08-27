@@ -1,0 +1,113 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_XE_Wraiths_On_Dark_Nights",
+    "recurrence": 69480,
+    "global": true,
+    "run_for_npcs": false,
+    "condition": { "math": [ "XE_RandEnc == 0" ] },
+    "effect": [
+      {
+        "set_condition": "random_enc_condition",
+        "condition": {
+          "and": [
+            { "not": "is_day" },
+            {
+              "or": [ { "math": [ "moon_phase() == 0" ] }, { "math": [ "moon_phase() == 1" ] }, { "math": [ "moon_phase() == 7" ] } ]
+            },
+            { "not": { "is_weather": "weather_light_drizzle" } },
+            { "not": { "is_weather": "weather_drizzle" } },
+            { "not": { "is_weather": "weather_rain" } },
+            { "not": { "is_weather": "weather_rainstorm" } },
+            { "not": { "is_weather": "weather_thunder" } },
+            { "not": { "is_weather": "weather_lightning" } },
+            { "not": { "is_weather": "magic_weather_light_drizzle" } },
+            { "not": { "is_weather": "magic_weather_drizzle" } },
+            { "not": { "is_weather": "magic_weather_rain" } },
+            { "not": { "is_weather": "magic_weather_rainstorm" } },
+            { "not": { "is_weather": "magic_weather_thunder" } },
+            { "not": { "is_weather": "magic_weather_lightning" } }
+          ]
+        }
+      },
+      { "u_message": "Xedra Evolved wraiths encounter has triggered!", "type": "debug" },
+      {
+        "set_string_var": "A shadow seems to pass over the remnants of the moon.",
+        "target_var": { "global_val": "XE_RandEnc_Trigger_Message" },
+        "i18n": true
+      },
+      {
+        "set_condition": "XE_random_enc_trigger_message_condition",
+        "condition": {
+          "and": [
+            "u_is_outside",
+            { "or": [ { "math": [ "moon_phase() == 1" ] }, { "math": [ "moon_phase() == 7" ] } ] },
+            { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] }
+          ]
+        }
+      },
+      {
+        "switch": { "math": [ "rand(2)" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": [
+              {
+                "run_eocs": "EOC_XE_RandEnc",
+                "variables": {
+                  "omt": "field",
+                  "map_update": "nest_RandEnc_XE_Wraiths_On_Dark_Nights",
+                  "map_removal": "nest_RandEnc_XE_Wraiths_On_Dark_Nights_remove",
+                  "chance": 15,
+                  "days_till_spawn": 0
+                }
+              }
+            ]
+          },
+          {
+            "case": 1,
+            "effect": [
+              {
+                "run_eocs": "EOC_XE_RandEnc",
+                "variables": {
+                  "omt": "forest",
+                  "map_update": "nest_RandEnc_XE_Wraiths_On_Dark_Nights",
+                  "map_removal": "nest_RandEnc_XE_Wraiths_On_Dark_Nights_remove",
+                  "chance": 20,
+                  "days_till_spawn": 0
+                }
+              }
+            ]
+          },
+          {
+            "case": 2,
+            "effect": [
+              {
+                "run_eocs": "EOC_XE_RandEnc",
+                "variables": {
+                  "omt": "forest_water",
+                  "map_update": "nest_RandEnc_XE_Wraiths_On_Dark_Nights",
+                  "map_removal": "nest_RandEnc_XE_Wraiths_On_Dark_Nights_remove",
+                  "chance": 20,
+                  "days_till_spawn": 0
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "nest_RandEnc_XE_Wraiths_On_Dark_Nights",
+    "//": "Adds a random encounter at this field",
+    "object": { "place_monster": [ { "monster": "mon_darkman", "x": [ 6, 14 ], "y": [ 6, 14 ], "repeat": [ 2, 3 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "nest_RandEnc_XE_Wraiths_On_Dark_Nights_remove",
+    "//": "removes a random encounter at the field",
+    "object": { "set": [ { "square": "creature_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 } ] }
+  }
+]

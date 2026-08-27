@@ -232,8 +232,11 @@
     "vitamin_cost": 60,
     "visibility": 5,
     "ugliness": 4,
-    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "acid", "add": 3 } ] } ],
-    "wet_protection": [ { "part": "hand_l", "good": 5 }, { "part": "hand_r", "good": 5 } ]
+    "enchantments": [
+      {
+        "modified_bodyparts": [ { "lose": "hand_l" }, { "lose": "hand_r" }, { "gain": "hand_slime_l" }, { "gain": "hand_slime_r" } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -391,7 +394,7 @@
     "id": "WEBBED",
     "name": { "str": "Webbed Hands" },
     "description": "Your hands are heavily webbed, reducing your Dexterity by 1 and causing problems with gloves.  However, you can swim much faster.  Slightly decreases wet penalties.",
-    "category": [ "LIZARD", "FISH", "SLIME", "BATRACHIAN", "CHIROPTERAN", "CHIMERA", "BEAST" ],
+    "category": [ "LIZARD", "FISH", "BATRACHIAN", "CHIROPTERAN", "CHIMERA", "BEAST" ],
     "types": [ "HANDS" ],
     "leads_to": [ "WEBBED_FEET" ],
     "changes_to": [ "ARMS_BAT" ],
@@ -637,6 +640,7 @@
     "visibility": 9,
     "ugliness": 4,
     "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "allowed_items": [ "ALLOWS_WING_ARMS" ],
     "enchantments": [
       {
         "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_LEFT" } },
@@ -677,6 +681,7 @@
     "visibility": 4,
     "ugliness": 2,
     "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "allowed_items": [ "ALLOWS_WING_ARMS" ],
     "enchantments": [
       {
         "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_LEFT" } },
@@ -705,6 +710,7 @@
     "ugliness": -2,
     "flags": [ "WINGS_1" ],
     "restricts_gear": [ "torso" ],
+    "allowed_items": [ "ALLOWS_WINGS" ],
     "social_modifiers": { "lie": 15, "persuade": 5, "intimidate": -20 },
     "enchantments": [
       { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "wing_butterfly_l" }, { "gain": "wing_butterfly_r" } ] },
@@ -730,6 +736,7 @@
     "stamina": true,
     "time": "1 s",
     "restricts_gear": [ "torso" ],
+    "allowed_items": [ "ALLOWS_WINGS" ],
     "//": "We apply WINGS_INSECT_active as a mutation because there are sound penalties with custom messages hard-coded to its id.",
     "enchantments": [
       { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "wing_insect_l" }, { "gain": "wing_insect_r" } ] },
@@ -1046,7 +1053,7 @@
     "id": "WEBBED_FEET",
     "name": { "str": "Webbed Feet" },
     "description": "Your feet are heavily webbed, allowing you to swim faster if you aren't wearing footwear.",
-    "category": [ "LIZARD", "FISH", "SLIME", "BATRACHIAN" ],
+    "category": [ "LIZARD", "FISH", "BATRACHIAN" ],
     "types": [ "FEET" ],
     "prereqs": [ "WEBBED" ],
     "points": 1,
@@ -1465,5 +1472,22 @@
     "flags": [ "PSEUDOPOD_GRASP" ],
     "encumbrance_always": [ [ "hand_l", 20 ], [ "hand_r", 20 ] ],
     "//": "Didn't integrate-ize tentacle rakes because they are hardcoded, waiting for limb rework."
+  },
+  {
+    "type": "mutation",
+    "id": "HEAD_INSECT",
+    "name": { "str": "Dragonfly Head" },
+    "types": [ "HEAD" ],
+    "prereqs": [ "COMPOUND_EYES" ],
+    "prereqs2": [ "CHITIN2", "CHITIN2_MOLTED" ],
+    "points": 2,
+    "description": "You remember having tiny, unassuming eyes condemned into cramped slits in your face.  No more.  Since your last molt your eyes take up most of your head, giving you inhuman reaction speed at the cost of fine vision.  You wouldn't want to cover up too much of the view, however.",
+    "category": [ "INSECT" ],
+    "threshreq": [ "THRESH_INSECT" ],
+    "purifiable": false,
+    "vitamin_cost": 500,
+    "visibility": 10,
+    "restricts_gear": [ "head" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "head" }, { "gain": "head_dragonfly" } ] } ]
   }
 ]

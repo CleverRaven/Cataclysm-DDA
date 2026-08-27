@@ -39,7 +39,12 @@
       [ "mutagen_ursine", 2 ]
     ],
     "flags": [ "MEND_ALL", "HERITAGE", "NO_CBM_INSTALLATION" ],
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 0.25 }, { "value": "REGEN_HP_AWAKE", "multiply": 0.1 } ] } ],
+    "enchantments": [
+      {
+        "values": [ { "value": "REGEN_HP", "multiply": 0.25 }, { "value": "REGEN_HP_AWAKE", "multiply": 0.1 } ],
+        "ench_effects": [ { "effect": "effect_xe_nonhuman_super_soldier_serum_immune", "intensity": 1 } ]
+      }
+    ],
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR", "CHAOTIC", "CHAOTIC_BAD" ],
     "chargen_allow_npc": false
   },
@@ -107,7 +112,7 @@
           { "value": "LEARNING_FOCUS", "add": -10 },
           { "value": "OBTAIN_COST_MULTIPLIER", "multiply": 2 }
         ],
-        "mutations": [ "WEREWOLF_HEAD", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
+        "mutations": [ "WEREWOLF_HEAD", "TAIL_FLUFFY", "LUPINE_FUR", "ANIMAL_FEET", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
       },
       {
         "condition": { "and": [ { "not": "is_day" }, { "math": [ "moon_phase() == 4" ] } ] },

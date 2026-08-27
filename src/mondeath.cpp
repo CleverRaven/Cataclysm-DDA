@@ -43,7 +43,11 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 
 item_location mdeath::normal( map *here, monster &z )
 {
-    if( z.death_message && !z.has_flag( mon_flag_QUIETDEATH ) ) {
+    if( z.no_corpse_quiet ) {
+        return {};
+    }
+
+    if( !z.quiet_death && !z.has_flag( mon_flag_QUIETDEATH ) ) {
         if( z.type->in_species( species_ZOMBIE ) && get_map().inbounds( z.pos_abs() ) ) {
             sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos_bub() ) );
         }
@@ -52,7 +56,7 @@ item_location mdeath::normal( map *here, monster &z )
         add_msg_if_player_sees( z, m_good, _( "The %s dies!" ), z.name() );
     }
 
-    if( z.spawn_corpse ) {
+    if( z.death_drops ) {
         const int max_hp = std::max( z.get_hp_max(), 1 );
         const float overflow_damage = std::max( -z.get_hp(), 0 );
         const float corpse_damage = 2.5 * overflow_damage / max_hp;
@@ -203,7 +207,7 @@ void mdeath::disappear( monster &z )
 void mdeath::broken( map *here, monster &z )
 {
     // Bail out if flagged (simulates eyebot flying away)
-    if( !z.spawn_corpse ) {
+    if( z.no_corpse_quiet ) {
         return;
     }
     std::string item_id;

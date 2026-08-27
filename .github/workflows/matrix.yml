@@ -121,7 +121,7 @@ jobs:
             pch: 1
             archive-success: basic-build
             dont_skip_data_only_changes: 1
-            mods: --mods=magiclysm
+            mods: magiclysm|xedra_evolved
             title: Basic Build and Test (Clang oldest supported, Ubuntu, Curses)
             ccache_limit: 4.5G
             ccache_key: linux-llvm-13
@@ -133,16 +133,14 @@ jobs:
             pch: 0
             tiles: 1
             sound: 1
-            sdl3: 1
             localize: 1
-            title: macOS 15, Apple Clang 17, Tiles, Sound, SDL3
+            title: macOS 15, Apple Clang 17, Tiles, Sound
             ccache_limit: 12G
             ccache_key: macos-llvm-17-sdl3
 
           - title: Android x64 (build only)
             os: ubuntu-latest
             android: arm64
-            sdl3: 1
 
           - compiler: g++-9
             os: ubuntu-24.04
@@ -166,7 +164,6 @@ jobs:
             cmake: 0
             tiles: 1
             sound: 0
-            sdl3: 1
             localize: 1
             native: linux64
             pch: 1
@@ -193,7 +190,6 @@ jobs:
             cmake: 1
             tiles: 1
             sound: 1
-            sdl3: 1
             localize: 0
             native: linux64
             sanitize: undefined
@@ -209,13 +205,10 @@ jobs:
         ZSTD_CLEVEL: 17
         CMAKE: ${{ matrix.cmake }}
         COMPILER: ${{ matrix.compiler }}
-        MXE_TARGET: ${{ matrix.mxe_target }}
-        WINE: ${{ matrix.wine }}
         ANDROID: ${{ matrix.android }}
         OS: ${{ matrix.os }}
         TILES: ${{ matrix.tiles }}
         SOUND: ${{ matrix.sound }}
-        SDL3: ${{ matrix.sdl3 }}
         LOCALIZE: ${{ matrix.localize }}
         MODS: ${{ matrix.mods }}
         SANITIZE: ${{ matrix.sanitize }}
@@ -258,13 +251,13 @@ jobs:
       with:
         persist-credentials: false
     - name: download prebuilt shader artifacts
-      if: ${{ env.SKIP == 'false' && matrix.tiles == 1 && matrix.sdl3 == 1 }}
+      if: ${{ env.SKIP == 'false' && matrix.tiles == 1 }}
       uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
       with:
         name: cdda-shaders
         path: data/shaders
     - name: mark shader artifacts fresh
-      if: ${{ env.SKIP == 'false' && matrix.tiles == 1 && matrix.sdl3 == 1 }}
+      if: ${{ env.SKIP == 'false' && matrix.tiles == 1 }}
       run: |
           touch data/shaders/build-*.stamp data/shaders/*.spv data/shaders/*.dxil data/shaders/*.msl
     - name: install dependencies (ubuntu)
@@ -274,7 +267,7 @@ jobs:
           sudo apt-get install libncursesw5-dev ccache gettext parallel ${{ matrix.extra_package }}
           sudo locale-gen en_US.UTF-8 de_DE.UTF-8
     - name: setup SDL3 stack (ubuntu)
-      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 && matrix.sdl3 == 1 }}
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 }}
       uses: ./.github/actions/setup-sdl3-stack
       with:
         cache-key: sdl3-stack-strict-sdl-3.4.10-image-3.4.4-ttf-3.2.2-mixer-3.2.4-ubuntu-24.04-v2
@@ -291,7 +284,7 @@ jobs:
       run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel
     - name: install SDL3 dependencies (mac)
-      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 == 1 }}
+      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' && matrix.tiles == 1 }}
       run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes \
               brew install pkgconf sdl3 sdl3_image sdl3_ttf sdl3_mixer

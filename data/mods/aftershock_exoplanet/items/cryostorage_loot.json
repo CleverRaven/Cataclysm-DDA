@@ -52,8 +52,17 @@
     "copy-from": "cryo_storage_loot",
     "color": "red",
     "name": { "str_sp": "experimental seedlings" },
-    "description": "Violet seedlings frozen mid germination.  Serial numbers have been engraved on their small leaves, but they don't look like any agricultural product you can recognize",
+    "description": "Violet seedlings frozen mid germination.  Serial numbers have been engraved on their small leaves, but they don't look like any agricultural product you can recognize.",
     "price": "1500 USD"
+  },
+  {
+    "type": "ITEM",
+    "id": "afs_cryo_moxie_coral",
+    "copy-from": "cryo_storage_loot",
+    "color": "red",
+    "name": { "str_sp": "diseased coral sample" },
+    "description": "A white polyp extracted from a mutant colony.  Appears to have been the result of failed genetic engineering experiments.",
+    "price": "750 USD"
   },
   {
     "type": "ITEM",

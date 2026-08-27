@@ -521,7 +521,7 @@ struct item_source_ref {
 };
 } // namespace
 
-debug_console::debug_console() : cataimgui::window( _( "Debug console" ) )
+debug_console::debug_console() : cataimgui::window( "Debug console" )
 {
     // cataimgui::window::draw() calls BringWindowToDisplayFront each frame
     // when is_on_top, which sorts combo popups behind the console and
@@ -808,7 +808,7 @@ void debug_console::execute()
                     const double v = m.eval( d );
                     pending_eval_result = string_format( "%g", v );
                 } else {
-                    pending_eval_result = _( "parse error" );
+                    pending_eval_result = "parse error";
                     pending_eval_ok = false;
                 }
             } catch( const std::exception &e ) {
@@ -1029,13 +1029,13 @@ void debug_console::draw_controls()
 
         const ImVec2 avail = ImGui::GetContentRegionAvail();
         ImGui::Dummy( ImVec2( 0.0f, avail.y * 0.30f ) );
-        const char *msg = _( "Debug mode is off." );
+        const char *msg = "Debug mode is off.";
         const ImVec2 sz = ImGui::CalcTextSize( msg );
         ImGui::SetCursorPosX( ( avail.x - sz.x ) * 0.5f );
         ImGui::TextColored( ImVec4( 0.95f, 0.7f, 0.4f, 1.0f ), "%s", msg );
 
         ImGui::Dummy( ImVec2( 0.0f, ImGui::GetStyle().ItemSpacing.y ) );
-        const std::string flavor = _( flavors[disclaimer_idx] );
+        const std::string flavor = flavors[disclaimer_idx];
         const float wrap_w = avail.x * 0.7f;
         // CalcTextSize with the wrap width returns the wrapped block size;
         // using that to position centers the block as a whole.
@@ -1047,7 +1047,7 @@ void debug_console::draw_controls()
         ImGui::PopTextWrapPos();
 
         ImGui::Dummy( ImVec2( 0.0f, ImGui::GetStyle().ItemSpacing.y * 2.0f ) );
-        const char *btn = _( "Enable debug mode" );
+        const char *btn = "Enable debug mode";
         const ImVec2 btn_sz = ImGui::CalcTextSize( btn );
         const float btn_w = btn_sz.x + ImGui::GetStyle().FramePadding.x * 2.0f;
         ImGui::SetCursorPosX( ( avail.x - btn_w ) * 0.5f );
@@ -1059,7 +1059,7 @@ void debug_console::draw_controls()
         // Right-aligned debug-mode toggle, kept away from the omnibox.
         omni_->draw( *this );
         ImGui::SameLine();
-        const char *off_btn = _( "Debug: ON" );
+        const char *off_btn = "Debug: ON";
         const float bw = ImGui::CalcTextSize( off_btn ).x
                          + ImGui::GetStyle().FramePadding.x * 4.0f;
         ImGui::SameLine( ImGui::GetContentRegionAvail().x
@@ -1071,7 +1071,7 @@ void debug_console::draw_controls()
         }
         ImGui::PopStyleColor( 2 );
         if( ImGui::IsItemHovered() ) {
-            ImGui::SetTooltip( "%s", _( "Turn debug mode off" ) );
+            ImGui::SetTooltip( "%s", "Turn debug mode off" );
         }
         if( ImGui::BeginTabBar( "debug_console_tabs" ) ) {
             draw_tab_views();
@@ -1108,7 +1108,7 @@ void step_controller::draw_footer()
     avatar &you = get_avatar();
     speed_idx = std::clamp( speed_idx, 0, static_cast<int>( speeds.size() ) - 1 );
 
-    if( ImGui::Button( _( "Step" ) ) ) {
+    if( ImGui::Button( "Step" ) ) {
         ff_hp_baseline = you.get_hp();
         pending_steps = 1;
         // Force immediate tick on next loop iteration regardless of slider.
@@ -1116,10 +1116,10 @@ void step_controller::draw_footer()
     }
     if( ImGui::IsItemHovered() ) {
         ImGui::SetTooltip( "%s",
-                           _( "Advance one turn at current speed" ) );
+                           "Advance one turn at current speed" );
     }
     ImGui::SameLine();
-    const char *play_label = playing ? _( "Pause" ) : _( "Play" );
+    const char *play_label = playing ? "Pause" : "Play";
     if( ImGui::Button( play_label ) ) {
         playing = !playing;
         if( playing ) {
@@ -1129,7 +1129,7 @@ void step_controller::draw_footer()
     }
     if( ImGui::IsItemHovered() ) {
         ImGui::SetTooltip( "%s",
-                           _( "Run turns continuously at current speed" ) );
+                           "Run turns continuously at current speed" );
     }
     ImGui::SameLine();
     ImGui::SetNextItemWidth( 220.0f );
@@ -1138,28 +1138,28 @@ void step_controller::draw_footer()
                       speeds[speed_idx].label );
     if( ImGui::IsItemHovered() ) {
         ImGui::SetTooltip( "%s",
-                           _( "Turns per real second for Play and Step" ) );
+                           "Turns per real second for Play and Step" );
     }
 
     ImGui::SameLine();
     if( playing ) {
-        ImGui::TextColored( ImVec4( 1.0f, 0.7f, 0.4f, 1.0f ), "%s", _( "PLAYING" ) );
+        ImGui::TextColored( ImVec4( 1.0f, 0.7f, 0.4f, 1.0f ), "%s", "PLAYING" );
     } else if( pending_steps > 0 ) {
         ImGui::TextDisabled( "%d", pending_steps );
     } else {
-        ImGui::TextColored( ImVec4( 0.6f, 0.9f, 0.6f, 1.0f ), "%s", _( "PAUSED" ) );
+        ImGui::TextColored( ImVec4( 0.6f, 0.9f, 0.6f, 1.0f ), "%s", "PAUSED" );
     }
 
-    ImGui::Checkbox( _( "Stop on new log entry" ), &ff_stop_on_dbg_msg );
+    ImGui::Checkbox( "Stop on new log entry", &ff_stop_on_dbg_msg );
     if( ImGui::IsItemHovered() ) {
         ImGui::SetTooltip( "%s",
-                           _( "Halts Play/Step whenever a captured trace line lands this turn" ) );
+                           "Halts Play/Step whenever a captured trace line lands this turn" );
     }
     ImGui::SameLine();
-    ImGui::Checkbox( _( "Stop on player damage" ), &ff_stop_on_dmg );
+    ImGui::Checkbox( "Stop on player damage", &ff_stop_on_dmg );
     if( ImGui::IsItemHovered() ) {
         ImGui::SetTooltip( "%s",
-                           _( "Stop Play/Step when player HP drops" ) );
+                           "Stop Play/Step when player HP drops" );
     }
 }
 
@@ -1170,19 +1170,19 @@ void omnibox_state::draw( debug_console &host )
         ImGui::SetKeyboardFocusHere();
         focus_request = false;
     }
-    ImGui::InputTextWithHint( "##omnibox", _( "Search actions" ), &query );
+    ImGui::InputTextWithHint( "##omnibox", "Search actions", &query );
     ImGui::SameLine();
-    if( ImGui::SmallButton( _( "Clear##omnibox_clear" ) ) ) {
+    if( ImGui::SmallButton( "Clear##omnibox_clear" ) ) {
         query.clear();
     }
     if( ImGui::IsItemHovered() ) {
-        ImGui::SetTooltip( "%s", _( "Clear the search query" ) );
+        ImGui::SetTooltip( "%s", "Clear the search query" );
     }
     ImGui::SameLine();
-    ImGui::Checkbox( _( "Activate" ), &activate_on_select );
+    ImGui::Checkbox( "Activate", &activate_on_select );
     if( ImGui::IsItemHovered() ) {
         ImGui::SetTooltip( "%s",
-                           _( "On: click runs action.  Off: jumps to its tab" ) );
+                           "On: click runs action.  Off: jumps to its tab" );
     }
     if( query.empty() ) {
         cached_query.clear();
@@ -1210,7 +1210,7 @@ void omnibox_state::draw( debug_console &host )
     for( int i = 0; i < limit; i++ ) {
         const int score = cached_hits[i].first;
         const debug_action_entry &e = *cached_hits[i].second;
-        std::string label = std::string( _( e.label ) ) + "##om" + std::to_string( i );
+        std::string label = std::string( e.label ) + "##om" + std::to_string( i );
         if( ImGui::Selectable( label.c_str() ) ) {
             if( activate_on_select ) {
                 host.defer_action( e.id );
@@ -1224,7 +1224,7 @@ void omnibox_state::draw( debug_console &host )
                 // inline control to pulse. Surface that explicitly so the
                 // user isn't waiting for a highlight that will never appear.
                 if( e.jump_only ) {
-                    jump_only_label = _( e.label );
+                    jump_only_label = e.label;
                 } else {
                     jump_only_label.clear();
                 }
@@ -1237,7 +1237,7 @@ void omnibox_state::draw( debug_console &host )
         ImGui::TextDisabled( "[%s] %d", e.category, score );
     }
     if( total_hits > limit ) {
-        ImGui::TextDisabled( _( "(%d more matches)" ), total_hits - limit );
+        ImGui::TextDisabled( "(%d more matches)", total_hits - limit );
     }
     // jump_only follow-up message stays visible for the same window as the
     // highlight pulse. After the window expires, clear it.
@@ -1245,7 +1245,7 @@ void omnibox_state::draw( debug_console &host )
         if( ImGui::GetFrameCount() < highlight_until_frame ) {
             ImGui::TextColored( ImVec4( 0.95f, 0.85f, 0.45f, 1.0f ), "%s",
                                 string_format(
-                                    _( "Jumped to tab; \"%s\" opens a dialog and has no inline control to highlight." ),
+                                    "Jumped to tab; \"%s\" opens a dialog and has no inline control to highlight.",
                                     jump_only_label ).c_str() );
         } else {
             jump_only_label.clear();
@@ -1268,12 +1268,12 @@ static void draw_action_tooltip( const debug_action_entry &e )
 {
     ImGui::BeginTooltip();
     if( e.tooltip != nullptr && e.tooltip[0] != '\0' ) {
-        ImGui::TextUnformatted( _( e.tooltip ) );
+        ImGui::TextUnformatted( e.tooltip );
     } else {
         ImGui::TextColored( ImVec4( 1.0f, 0.85f, 0.35f, 1.0f ), "%s",
-                            _( e.label ) );
+                            e.label );
         ImGui::TextColored( ImVec4( 0.7f, 0.7f, 1.0f, 1.0f ),
-                            _( "Category: %s" ), e.category );
+                            "Category: %s", e.category );
     }
     ImGui::EndTooltip();
 }
@@ -1281,7 +1281,7 @@ static void draw_action_tooltip( const debug_action_entry &e )
 bool debug_console::debug_button( debug_menu_index action )
 {
     const debug_action_entry *e = find_action( action );
-    const char *label = e != nullptr ? _( e->label ) : "?";
+    const char *label = e != nullptr ? e->label : "?";
     return debug_button_with_label( label, action );
 }
 
@@ -1320,12 +1320,12 @@ void debug_console::confirm_button( const char *label, const char *popup_id,
     }
     if( ImGui::BeginPopupModal( popup_id, nullptr, ImGuiWindowFlags_AlwaysAutoResize ) ) {
         ImGui::TextUnformatted( prompt );
-        if( ImGui::Button( _( "Confirm" ) ) ) {
+        if( ImGui::Button( "Confirm" ) ) {
             defer_action( action );
             ImGui::CloseCurrentPopup();
         }
         ImGui::SameLine();
-        if( ImGui::Button( _( "Cancel" ) ) ) {
+        if( ImGui::Button( "Cancel" ) ) {
             ImGui::CloseCurrentPopup();
         }
         ImGui::EndPopup();
@@ -1354,22 +1354,22 @@ void debug_console::export_bar( const std::string &name,
                                 const std::function<std::string()> &build_json )
 {
     ImGui::PushID( name.c_str() );
-    if( ImGui::SmallButton( _( "Copy MD" ) ) ) {
+    if( ImGui::SmallButton( "Copy MD" ) ) {
         const std::string md = build_md();
         ImGui::SetClipboardText( md.c_str() );
     }
     if( ImGui::IsItemHovered() ) {
         ImGui::SetTooltip( "%s",
-                           _( "Copy table as Markdown" ) );
+                           "Copy table as Markdown" );
     }
     ImGui::SameLine();
-    if( ImGui::SmallButton( _( "Copy JSON" ) ) ) {
+    if( ImGui::SmallButton( "Copy JSON" ) ) {
         const std::string js = build_json();
         ImGui::SetClipboardText( js.c_str() );
     }
     if( ImGui::IsItemHovered() ) {
         ImGui::SetTooltip( "%s",
-                           _( "Copy table as JSON" ) );
+                           "Copy table as JSON" );
     }
     ImGui::SameLine();
     ImGui::TextDisabled( "%s", name.c_str() );
@@ -1495,7 +1495,7 @@ void debug_console::save_persisted_state() const
         }
 
         jo.end_object();
-    }, _( "debug console state" ) );
+    }, "debug console state" );
 
     // ImGui ini blob: column widths/sort, splitter sizes, popup positions,
     // per-window pos/size for non-console surfaces. Plain text.
@@ -1504,7 +1504,7 @@ void debug_console::save_persisted_state() const
     if( ini_data != nullptr && ini_size > 0 ) {
         write_to_file( persist_imgui_path(), [&]( std::ostream & fout ) {
             fout.write( ini_data, ini_size );
-        }, _( "debug console imgui state" ) );
+        }, "debug console imgui state" );
     }
 }
 
@@ -1517,12 +1517,12 @@ void open_console()
 
 const char *tab_spawn_view::label() const
 {
-    return _( "Spawn" );
+    return "Spawn";
 }
 
 void tab_spawn_view::draw_body( debug_console &host )
 {
-    framed_section( "s_items", _( "Items" ), [&]() {
+    framed_section( "s_items", "Items", [&]() {
         host.debug_button( debug_menu_index::WISH );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::SPAWN_ITEM_GROUP );
@@ -1532,7 +1532,7 @@ void tab_spawn_view::draw_body( debug_console &host )
         host.debug_button( debug_menu_index::SPAWN_CLAIRVOYANCE );
     } );
 
-    framed_section( "s_creatures", _( "Creatures" ), [&]() {
+    framed_section( "s_creatures", "Creatures", [&]() {
         host.debug_button( debug_menu_index::SPAWN_MON );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::SPAWN_HORDE );
@@ -1546,7 +1546,7 @@ void tab_spawn_view::draw_body( debug_console &host )
         host.debug_button( debug_menu_index::SPAWN_OM_NPC );
     } );
 
-    framed_section( "s_vehicles", _( "Vehicles" ), [&]() {
+    framed_section( "s_vehicles", "Vehicles", [&]() {
         host.debug_button( debug_menu_index::SPAWN_VEHICLE );
     } );
 }
@@ -1554,18 +1554,18 @@ void tab_spawn_view::draw_body( debug_console &host )
 
 const char *tab_game_view::label() const
 {
-    return _( "Game" );
+    return "Game";
 }
 
 void tab_game_view::draw_body( debug_console &host )
 {
-    framed_section( "g_unlock", _( "Unlock" ), [&]() {
+    framed_section( "g_unlock", "Unlock", [&]() {
         host.debug_button( debug_menu_index::ENABLE_ACHIEVEMENTS );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::UNLOCK_ALL );
     } );
 
-    framed_section( "g_quick", _( "Quick setup" ), [&]() {
+    framed_section( "g_quick", "Quick setup", [&]() {
         host.debug_button( debug_menu_index::QUICK_SETUP );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::QUICK_SETUP_FLAG_DIRTY );
@@ -1575,7 +1575,7 @@ void tab_game_view::draw_body( debug_console &host )
         host.debug_button( debug_menu_index::NORMALIZE_BODY_STAT );
     } );
 
-    framed_section( "g_save", _( "Save / load" ), [&]() {
+    framed_section( "g_save", "Save / load", [&]() {
         host.debug_button( debug_menu_index::SAVE_SCREENSHOT );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::GAME_REPORT );
@@ -1587,7 +1587,7 @@ void tab_game_view::draw_body( debug_console &host )
         host.debug_button( debug_menu_index::QUIT_NOSAVE );
     } );
 
-    framed_section( "g_debug", _( "Debug" ), [&]() {
+    framed_section( "g_debug", "Debug", [&]() {
         host.debug_button( debug_menu_index::SHOW_MSG );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::CRASH_GAME );
@@ -1601,12 +1601,12 @@ void tab_game_view::draw_body( debug_console &host )
 
 const char *tab_map_view::label() const
 {
-    return _( "Map" );
+    return "Map";
 }
 
 void tab_map_view::draw_body( debug_console &host )
 {
-    framed_section( "m_tp", _( "Teleport" ), [&]() {
+    framed_section( "m_tp", "Teleport", [&]() {
         host.debug_button( debug_menu_index::SHORT_TELEPORT );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::LONG_TELEPORT );
@@ -1618,7 +1618,7 @@ void tab_map_view::draw_body( debug_console &host )
         host.debug_button( debug_menu_index::OM_TELEPORT_CITY );
     } );
 
-    framed_section( "m_edit", _( "Editing" ), [&]() {
+    framed_section( "m_edit", "Editing", [&]() {
         host.debug_button( debug_menu_index::MAP_EDITOR );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::OM_EDITOR );
@@ -1630,7 +1630,7 @@ void tab_map_view::draw_body( debug_console &host )
         host.debug_button( debug_menu_index::NESTED_MAPGEN );
     } );
 
-    framed_section( "m_env", _( "Environment" ), [&]() {
+    framed_section( "m_env", "Environment", [&]() {
         host.debug_button( debug_menu_index::CHANGE_WEATHER );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::CHANGE_TIME );
@@ -1655,9 +1655,9 @@ void tab_map_view::draw_body( debug_console &host )
                 }
             }
             ImGui::SetNextItemWidth( 80 );
-            if( ImGui::BeginCombo( _( "Wind dir" ),
-                                   combo_idx < 8 ? dirs[combo_idx].label : _( "Auto" ) ) ) {
-                if( ImGui::Selectable( _( "Auto" ), combo_idx == 8 ) ) {
+            if( ImGui::BeginCombo( "Wind dir",
+                                   combo_idx < 8 ? dirs[combo_idx].label : "Auto" ) ) {
+                if( ImGui::Selectable( "Auto", combo_idx == 8 ) ) {
                     weather.wind_direction_override.reset();
                     weather.set_nextweather( calendar::turn );
                 }
@@ -1674,19 +1674,19 @@ void tab_map_view::draw_body( debug_console &host )
             int wspeed = weather.windspeed_override.value_or( weather.windspeed );
             bool has_override = weather.windspeed_override.has_value();
             ImGui::SetNextItemWidth( 120 );
-            if( ImGui::SliderInt( _( "Wind spd" ), &wspeed, 0, 100 ) ) {
+            if( ImGui::SliderInt( "Wind spd", &wspeed, 0, 100 ) ) {
                 weather.windspeed_override = wspeed;
                 weather.set_nextweather( calendar::turn );
             }
             if( has_override ) {
                 ImGui::SameLine();
-                if( ImGui::SmallButton( _( "Reset##wind" ) ) ) {
+                if( ImGui::SmallButton( "Reset##wind" ) ) {
                     weather.windspeed_override.reset();
                     weather.set_nextweather( calendar::turn );
                 }
                 if( ImGui::IsItemHovered() ) {
                     ImGui::SetTooltip( "%s",
-                                       _( "Restore generator-driven wind speed" ) );
+                                       "Restore generator-driven wind speed" );
                 }
             }
         }
@@ -1694,7 +1694,7 @@ void tab_map_view::draw_body( debug_console &host )
         {
             weather_manager &weather = get_weather();
             bool has_forced = weather.forced_temperature.has_value();
-            if( ImGui::Checkbox( _( "Force temp" ), &has_forced ) ) {
+            if( ImGui::Checkbox( "Force temp", &has_forced ) ) {
                 if( !has_forced ) {
                     weather.forced_temperature.reset();
                 } else {
@@ -1705,24 +1705,24 @@ void tab_map_view::draw_body( debug_console &host )
                 ImGui::SameLine();
                 int temp_c = static_cast<int>( units::to_celsius( *weather.forced_temperature ) );
                 ImGui::SetNextItemWidth( 80 );
-                if( ImGui::InputInt( _( "C##temp" ), &temp_c ) ) {
+                if( ImGui::InputInt( "C##temp", &temp_c ) ) {
                     weather.forced_temperature = units::from_celsius( temp_c );
                 }
             }
         }
     } );
 
-    framed_section( "m_actions", _( "Actions" ), [&]() {
-        host.confirm_button( _( "Kill in area" ), "confirm_kill_area",
-                             _( "Kill every creature in selected area?  Cannot undo." ),
+    framed_section( "m_actions", "Actions", [&]() {
+        host.confirm_button( "Kill in area", "confirm_kill_area",
+                             "Kill every creature in selected area?  Cannot undo.",
                              debug_menu_index::KILL_AREA );
         ImGui::SameLine();
-        host.confirm_button( _( "Kill NPCs" ), "confirm_kill_npcs",
-                             _( "Kill every NPC on the loaded map?  Cannot undo." ),
+        host.confirm_button( "Kill NPCs", "confirm_kill_npcs",
+                             "Kill every NPC on the loaded map?  Cannot undo.",
                              debug_menu_index::KILL_NPCS );
         ImGui::SameLine();
-        host.confirm_button( _( "Kill monsters" ), "confirm_kill_mons",
-                             _( "Kill every monster on the loaded map?  Cannot undo." ),
+        host.confirm_button( "Kill monsters", "confirm_kill_mons",
+                             "Kill every monster on the loaded map?  Cannot undo.",
                              debug_menu_index::KILL_MONS );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::GEN_SOUND );
@@ -1730,7 +1730,7 @@ void tab_map_view::draw_body( debug_console &host )
         host.debug_button( debug_menu_index::PRINT_OVERMAPS );
     } );
 
-    framed_section( "m_overlay_om", _( "Overmap overlays" ), [&]() {
+    framed_section( "m_overlay_om", "Overmap overlays", [&]() {
         host.debug_button( debug_menu_index::DISPLAY_HORDES );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::DISPLAY_WEATHER );
@@ -1738,9 +1738,9 @@ void tab_map_view::draw_body( debug_console &host )
         host.debug_button( debug_menu_index::DISPLAY_SCENTS );
     } );
 
-    framed_section( "m_overlay_local", _( "Local display overlays" ), [&]() {
+    framed_section( "m_overlay_local", "Local display overlays", [&]() {
         ImGui::TextDisabled( "%s",
-                             _( "Mutually exclusive: enabling one disables the others." ) );
+                             "Mutually exclusive: enabling one disables the others." );
         game &g_ref = *g;
         // pulse_idx maps each ACTION_DISPLAY_* overlay to its matching
         // debug_menu_index, so an omnibox jump to e.g. "Scent type" can
@@ -1754,21 +1754,21 @@ void tab_map_view::draw_body( debug_console &host )
             }
             ImGui::SameLine();
         };
-        overlay_checkbox( _( "Scent" ), ACTION_DISPLAY_SCENT,
+        overlay_checkbox( "Scent", ACTION_DISPLAY_SCENT,
                           debug_menu_index::DISPLAY_SCENTS_LOCAL );
-        overlay_checkbox( _( "Scent type" ), ACTION_DISPLAY_SCENT_TYPE,
+        overlay_checkbox( "Scent type", ACTION_DISPLAY_SCENT_TYPE,
                           debug_menu_index::DISPLAY_SCENTS_TYPE_LOCAL );
-        overlay_checkbox( _( "Temperature" ), ACTION_DISPLAY_TEMPERATURE,
+        overlay_checkbox( "Temperature", ACTION_DISPLAY_TEMPERATURE,
                           debug_menu_index::DISPLAY_TEMP );
-        overlay_checkbox( _( "Snow depth" ), ACTION_DISPLAY_SNOW_DEPTH,
+        overlay_checkbox( "Snow depth", ACTION_DISPLAY_SNOW_DEPTH,
                           debug_menu_index::DISPLAY_SNOW_DEPTH );
-        overlay_checkbox( _( "Vehicle AI" ), ACTION_DISPLAY_VEHICLE_AI,
+        overlay_checkbox( "Vehicle AI", ACTION_DISPLAY_VEHICLE_AI,
                           debug_menu_index::DISPLAY_VEHICLE_AI );
-        overlay_checkbox( _( "Radiation" ), ACTION_DISPLAY_RADIATION,
+        overlay_checkbox( "Radiation", ACTION_DISPLAY_RADIATION,
                           debug_menu_index::DISPLAY_RADIATION );
-        overlay_checkbox( _( "Transparency" ), ACTION_DISPLAY_TRANSPARENCY,
+        overlay_checkbox( "Transparency", ACTION_DISPLAY_TRANSPARENCY,
                           debug_menu_index::DISPLAY_TRANSPARENCY );
-        overlay_checkbox( _( "NPC attack" ), ACTION_DISPLAY_NPC_ATTACK_POTENTIAL,
+        overlay_checkbox( "NPC attack", ACTION_DISPLAY_NPC_ATTACK_POTENTIAL,
                           debug_menu_index::DISPLAY_NPC_ATTACK );
         ImGui::NewLine();
 
@@ -1777,7 +1777,7 @@ void tab_map_view::draw_body( debug_console &host )
         host.debug_button( debug_menu_index::DISPLAY_LIGHTING );
         ImGui::SameLine();
         bool npc_path = g_ref.debug_pathfinding;
-        if( ImGui::Checkbox( _( "NPC paths" ), &npc_path ) ) {
+        if( ImGui::Checkbox( "NPC paths", &npc_path ) ) {
             g_ref.debug_pathfinding = npc_path;
         }
         ImGui::SameLine();
@@ -1790,12 +1790,12 @@ void tab_map_view::draw_body( debug_console &host )
 
 const char *tab_vehicle_view::label() const
 {
-    return _( "Vehicle" );
+    return "Vehicle";
 }
 
 void tab_vehicle_view::draw_body( debug_console &host )
 {
-    framed_section( "v_actions", _( "Vehicle actions" ), [&]() {
+    framed_section( "v_actions", "Vehicle actions", [&]() {
         host.debug_button( debug_menu_index::VEHICLE_BATTERY_CHARGE );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::VEHICLE_DELETE );
@@ -1805,35 +1805,35 @@ void tab_vehicle_view::draw_body( debug_console &host )
         host.debug_button( debug_menu_index::VEHICLE_EFFECTS );
     } );
 
-    framed_section( "v_current", _( "Current vehicle" ), [&]() {
+    framed_section( "v_current", "Current vehicle", [&]() {
         std::optional<current_vehicle_ref> cv = current_vehicle_for_avatar();
         if( !cv ) {
-            ImGui::TextDisabled( "%s", _( "(not in vehicle)" ) );
+            ImGui::TextDisabled( "%s", "(not in vehicle)" );
             return;
         }
         vehicle *v = cv->v;
         map &m = *cv->m;
 
-        label_value( _( "Name" ), "%s", v->name.c_str() );
+        label_value( "Name", "%s", v->name.c_str() );
         ImGui::SameLine( 0, 20.0f );
-        label_value( _( "Velocity" ), "%d", v->velocity );
+        label_value( "Velocity", "%d", v->velocity );
         ImGui::SameLine( 0, 20.0f );
-        label_value( _( "Battery" ), "%d",
+        label_value( "Battery", "%d",
                      static_cast<int>( v->battery_left( m ) ) );
         ImGui::SameLine();
         add_monitor_button( "veh_mon_current", "veh:" + v->name,
                             snap::vehicle_under_avatar() );
 
-        label_value( _( "Wheel area" ), "%d", v->wheel_area() );
+        label_value( "Wheel area", "%d", v->wheel_area() );
         ImGui::SameLine( 0, 20.0f );
-        label_value( _( "Wheel config" ), "%s",
-                     v->valid_wheel_config( m ) ? _( "valid" ) : _( "invalid" ) );
+        label_value( "Wheel config", "%s",
+                     v->valid_wheel_config( m ) ? "valid" : "invalid" );
     } );
 
-    framed_section( "v_parts", _( "Parts" ), [&]() {
+    framed_section( "v_parts", "Parts", [&]() {
         std::optional<current_vehicle_ref> cv = current_vehicle_for_avatar();
         if( !cv ) {
-            ImGui::TextDisabled( "%s", _( "(not in vehicle)" ) );
+            ImGui::TextDisabled( "%s", "(not in vehicle)" );
             return;
         }
         vehicle *v = cv->v;
@@ -1848,13 +1848,13 @@ void tab_vehicle_view::draw_body( debug_console &host )
                                ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg |
                                ImGuiTableFlags_Borders | ImGuiTableFlags_SizingStretchProp,
                                ImVec2( 0.0f, fit_table_height( visible, 280.0f ) ) ) ) {
-            fit_col( _( "#" ) );
-            fit_col( _( "Mount" ) );
-            ImGui::TableSetupColumn( _( "Name" ) );
-            fit_col( _( "Status" ) );
-            fit_col( _( "Broken" ) );
-            fit_col( _( "On" ) );
-            fit_col( _( "Fuel" ) );
+            fit_col( "#" );
+            fit_col( "Mount" );
+            ImGui::TableSetupColumn( "Name" );
+            fit_col( "Status" );
+            fit_col( "Broken" );
+            fit_col( "On" );
+            fit_col( "Fuel" );
             ImGui::TableSetupScrollFreeze( 0, 1 );
             ImGui::TableHeadersRow();
             for( const vpart_reference &vp : parts ) {
@@ -1872,12 +1872,12 @@ void tab_vehicle_view::draw_body( debug_console &host )
                 ImGui::TableNextColumn();
                 if( part.is_broken() ) {
                     ImGui::TextColored( ImVec4( 0.95f, 0.5f, 0.5f, 1.0f ),
-                                        "%s", _( "yes" ) );
+                                        "%s", "yes" );
                 } else {
-                    ImGui::TextDisabled( "%s", _( "no" ) );
+                    ImGui::TextDisabled( "%s", "no" );
                 }
                 ImGui::TableNextColumn();
-                ImGui::TextUnformatted( part.enabled ? _( "on" ) : _( "off" ) );
+                ImGui::TextUnformatted( part.enabled ? "on" : "off" );
                 ImGui::TableNextColumn();
                 const itype_id fuel = part.fuel_current();
                 if( fuel.is_null() ) {
@@ -1891,16 +1891,16 @@ void tab_vehicle_view::draw_body( debug_console &host )
         }
     } );
 
-    framed_section( "v_effects", _( "Active effects" ), [&]() {
+    framed_section( "v_effects", "Active effects", [&]() {
         std::optional<current_vehicle_ref> cv = current_vehicle_for_avatar();
         if( !cv ) {
-            ImGui::TextDisabled( "%s", _( "(not in vehicle)" ) );
+            ImGui::TextDisabled( "%s", "(not in vehicle)" );
             return;
         }
         vehicle *v = cv->v;
         const std::vector<std::reference_wrapper<const effect>> effs = v->get_effects();
         if( effs.empty() ) {
-            ImGui::TextDisabled( "%s", _( "(none)" ) );
+            ImGui::TextDisabled( "%s", "(none)" );
             return;
         }
         for( const effect &e : effs ) {
@@ -1916,7 +1916,7 @@ void tab_vehicle_view::draw_body( debug_console &host )
 
 const char *tab_tiles_view::label() const
 {
-    return _( "Tiles" );
+    return "Tiles";
 }
 
 void tab_tiles_view::load_state( const JsonObject &nested )
@@ -1934,7 +1934,7 @@ void tab_tiles_view::draw_body( debug_console &host )
     avatar &you = get_avatar();
     map &here = get_map();
 
-    ImGui::TextUnformatted( _( "Tile coords (x,y,z) -- empty = avatar position" ) );
+    ImGui::TextUnformatted( "Tile coords (x,y,z -- empty = avatar position)" );
     ImGui::SetNextItemWidth( 200 );
     ImGui::InputText( "##tile_coord", &tile_coord_input );
 
@@ -1976,7 +1976,7 @@ void tab_tiles_view::draw_body( debug_console &host )
 
     if( parse_error ) {
         ImGui::TextColored( ImVec4( 1.0f, 0.4f, 0.4f, 1.0f ),
-                            "%s", _( "Invalid coords: expected x,y,z" ) );
+                            "%s", "Invalid coords: expected x,y,z" );
     }
     ImGui::Text( "Target: %s", target.to_string().c_str() );
     ImGui::SameLine();
@@ -2138,29 +2138,29 @@ void tab_tiles_view::draw_body( debug_console &host )
     host.export_bar( "tile", build_md, build_json );
 
     // Inline summary: compact label / value rows.
-    framed_section( "tile_basic", _( "Basics" ), [&]() {
-        label_value( _( "Position" ), "%s", target.to_string().c_str() );
+    framed_section( "tile_basic", "Basics", [&]() {
+        label_value( "Position", "%s", target.to_string().c_str() );
         ImGui::SameLine( 0, 20.0f );
-        label_value( _( "Move cost" ), "%d", move_cost );
+        label_value( "Move cost", "%d", move_cost );
         ImGui::SameLine( 0, 20.0f );
-        label_value( _( "Light" ), "%d", light_at );
-        label_value( _( "Terrain" ), "%s", ter.id().str().c_str() );
+        label_value( "Light", "%d", light_at );
+        label_value( "Terrain", "%s", ter.id().str().c_str() );
         if( !ter_flags.empty() ) {
             ImGui::TextDisabled( "  flags: %s", join( ter_flags, ", " ).c_str() );
         }
-        label_value( _( "Furniture" ), "%s", furn.id().str().c_str() );
+        label_value( "Furniture", "%s", furn.id().str().c_str() );
         if( !furn_flags.empty() ) {
             ImGui::TextDisabled( "  flags: %s", join( furn_flags, ", " ).c_str() );
         }
-        label_value( _( "Trap" ), "%s",
+        label_value( "Trap", "%s",
                      tr.id != trap_str_id::NULL_ID() ? tr.id.str().c_str() : "none" );
-        label_value( _( "Creature" ), "%s",
+        label_value( "Creature", "%s",
                      creature_here ? creature_here->get_name().c_str() : "none" );
     } );
 
-    framed_section( "tile_fields", _( "Fields" ), [&]() {
+    framed_section( "tile_fields", "Fields", [&]() {
         if( field_rows.empty() ) {
-            ImGui::TextDisabled( "%s", _( "(none)" ) );
+            ImGui::TextDisabled( "%s", "(none)" );
         } else {
             for( const auto &fp : field_rows ) {
                 ImGui::BulletText( "%s  (intensity %d)", fp.first.c_str(), fp.second );
@@ -2168,9 +2168,9 @@ void tab_tiles_view::draw_body( debug_console &host )
         }
     } );
 
-    framed_section( "tile_items", _( "Items on tile" ), [&]() {
+    framed_section( "tile_items", "Items on tile", [&]() {
         if( item_summary.empty() ) {
-            ImGui::TextDisabled( "%s", _( "(none)" ) );
+            ImGui::TextDisabled( "%s", "(none)" );
         } else {
             for( const auto &is : item_summary ) {
                 ImGui::BulletText( "%d x %s", is.second, is.first.c_str() );
@@ -2182,12 +2182,12 @@ void tab_tiles_view::draw_body( debug_console &host )
 
 const char *tab_player_view::label() const
 {
-    return _( "Player" );
+    return "Player";
 }
 
 void render_char_stats( Character &ch )
 {
-    framed_section( "p_stats", _( "Stats" ), [&]() {
+    framed_section( "p_stats", "Stats", [&]() {
         scalar_slider_table( "p_stats", {
             {
                 "STR", 1, 30, [&] { return ch.get_str_base(); }, [&]( int v )
@@ -2219,7 +2219,7 @@ void render_char_stats( Character &ch )
 
 void render_char_vitals( Character &ch )
 {
-    framed_section( "p_vitals", _( "Vitals" ), [&]() {
+    framed_section( "p_vitals", "Vitals", [&]() {
         add_monitor_button( "vitals_mon", ch.get_name() + ":vitals",
                             snap::char_vitals( ch.getID() ) );
         scalar_slider_table( "p_vitals", {
@@ -2265,9 +2265,9 @@ void render_char_vitals( Character &ch )
 
 void render_char_metabolism( Character &ch )
 {
-    framed_section( "p_metab", _( "Metabolism" ), [&]() {
+    framed_section( "p_metab", "Metabolism", [&]() {
         ImGui::Text( "%s", string_format(
-                         _( "Hunger: %d  Thirst: %d  kcal: %d/%d  BMI: %.1f  BMR: %d" ),
+                         "Hunger: %d  Thirst: %d  kcal: %d/%d  BMI: %.1f  BMR: %d",
                          ch.get_hunger(), ch.get_thirst(),
                          ch.get_stored_kcal(), ch.get_healthy_kcal(),
                          ch.get_bmi_fat(), ch.get_bmr() ).c_str() );
@@ -2275,7 +2275,7 @@ void render_char_metabolism( Character &ch )
         add_monitor_button( "p_metab_mon", ch.get_name() + ":metabolism",
                             snap::char_metabolism( ch.getID() ) );
         ImGui::Text( "%s", string_format(
-                         _( "Stomach: %d/%d mL, %d kcal  |  Guts: %d/%d mL, %d kcal" ),
+                         "Stomach: %d/%d mL, %d kcal  |  Guts: %d/%d mL, %d kcal",
                          units::to_milliliter( ch.stomach.contains() ),
                          units::to_milliliter( ch.stomach.capacity( ch ) ),
                          ch.stomach.get_calories(),
@@ -2290,7 +2290,7 @@ void render_char_metabolism( Character &ch )
 
 void render_char_skills( Character &ch, character_edit_state &st )
 {
-    if( !ImGui::CollapsingHeader( _( "Skills##p_skills" ) ) ) {
+    if( !ImGui::CollapsingHeader( "Skills##p_skills" ) ) {
         return;
     }
     ImGui::Indent();
@@ -2298,38 +2298,38 @@ void render_char_skills( Character &ch, character_edit_state &st )
     ImGui::SetNextItemWidth( slider_w );
     ImGui::SliderInt( "Set all theory##bulk", &st.bulk_theory, 0, 10 );
     ImGui::SameLine();
-    if( ImGui::SmallButton( _( "Apply##bulk_th" ) ) ) {
+    if( ImGui::SmallButton( "Apply##bulk_th" ) ) {
         for( const Skill &sk : Skill::skills ) {
             ch.set_knowledge_level( sk.ident(), st.bulk_theory );
         }
     }
     if( ImGui::IsItemHovered() ) {
         ImGui::SetTooltip( "%s",
-                           _( "Set the theory (knowledge) level of every skill to the slider value" ) );
+                           "Set the theory (knowledge level of every skill to the slider value)" );
     }
     ImGui::SameLine();
     ImGui::SetNextItemWidth( slider_w );
     ImGui::SliderInt( "Set all practice##bulk", &st.bulk_practice, 0, 10 );
     ImGui::SameLine();
-    if( ImGui::SmallButton( _( "Apply##bulk_pr" ) ) ) {
+    if( ImGui::SmallButton( "Apply##bulk_pr" ) ) {
         for( const Skill &sk : Skill::skills ) {
             ch.set_skill_level( sk.ident(), st.bulk_practice );
         }
     }
     if( ImGui::IsItemHovered() ) {
         ImGui::SetTooltip( "%s",
-                           _( "Set the practice level of every skill to the slider value" ) );
+                           "Set the practice level of every skill to the slider value" );
     }
     ImGui::Separator();
     if( ImGui::BeginTable( "p_skills_table", 4,
                            ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders |
                            ImGuiTableFlags_SizingStretchProp ) ) {
-        ImGui::TableSetupColumn( _( "Skill" ), ImGuiTableColumnFlags_WidthStretch );
+        ImGui::TableSetupColumn( "Skill", ImGuiTableColumnFlags_WidthStretch );
         // Slider cells have no intrinsic width; pin a fixed column so they
         // don't collapse to the header.
-        ImGui::TableSetupColumn( _( "Theory" ), ImGuiTableColumnFlags_WidthFixed, 200.0f );
-        ImGui::TableSetupColumn( _( "Practice" ), ImGuiTableColumnFlags_WidthFixed, 200.0f );
-        fit_col( _( "+M" ) );
+        ImGui::TableSetupColumn( "Theory", ImGuiTableColumnFlags_WidthFixed, 200.0f );
+        ImGui::TableSetupColumn( "Practice", ImGuiTableColumnFlags_WidthFixed, 200.0f );
+        fit_col( "+M" );
         ImGui::TableHeadersRow();
         for( const Skill &sk : Skill::skills ) {
             const skill_id &sid = sk.ident();
@@ -2361,14 +2361,14 @@ void render_char_skills( Character &ch, character_edit_state &st )
 
 void render_char_proficiencies( Character &ch, character_edit_state &st )
 {
-    if( !ImGui::CollapsingHeader( _( "Proficiencies##p_profs" ) ) ) {
+    if( !ImGui::CollapsingHeader( "Proficiencies##p_profs" ) ) {
         return;
     }
     ImGui::Indent();
     ImGui::SetNextItemWidth( 220.0f );
-    ImGui::InputTextWithHint( "##prof_filter", _( "filter" ), &st.prof_filter );
+    ImGui::InputTextWithHint( "##prof_filter", "filter", &st.prof_filter );
     ImGui::SameLine();
-    if( ImGui::SmallButton( _( "Learn all##profs" ) ) ) {
+    if( ImGui::SmallButton( "Learn all##profs" ) ) {
         for( const proficiency &pr : proficiency::get_all() ) {
             if( !ch.has_proficiency( pr.prof_id() ) ) {
                 ch.add_proficiency( pr.prof_id(), true );
@@ -2377,17 +2377,17 @@ void render_char_proficiencies( Character &ch, character_edit_state &st )
     }
     if( ImGui::IsItemHovered() ) {
         ImGui::SetTooltip( "%s",
-                           _( "Mark every loaded proficiency as learned, bypassing prerequisite chains" ) );
+                           "Mark every loaded proficiency as learned, bypassing prerequisite chains" );
     }
     ImGui::SameLine();
-    if( ImGui::SmallButton( _( "Forget all##profs" ) ) ) {
+    if( ImGui::SmallButton( "Forget all##profs" ) ) {
         for( const proficiency_id &pid : ch.known_proficiencies() ) {
             ch.lose_proficiency( pid, true );
         }
     }
     if( ImGui::IsItemHovered() ) {
         ImGui::SetTooltip( "%s",
-                           _( "Drop every proficiency this character currently knows" ) );
+                           "Drop every proficiency this character currently knows" );
     }
     const std::vector<proficiency> &all_profs = proficiency::get_all();
     std::vector<const proficiency *> filtered;
@@ -2410,10 +2410,10 @@ void render_char_proficiencies( Character &ch, character_edit_state &st )
                                              st.prof_filter ),
                                      static_cast<uint64_t>( ch.getID().get_value() ) );
         setup_columns<const proficiency *>( "p_profs_table", key, {
-            { _( "Name" ), colw::stretch },
-            { _( "Known" ), colw::fit },
-            { _( "Progress" ), colw::widget, {}, 220.0f },
-            { _( "+M" ), colw::widget, {}, 40.0f },
+            { "Name", colw::stretch },
+            { "Known", colw::fit },
+            { "Progress", colw::widget, {}, 220.0f },
+            { "+M", colw::widget, {}, 40.0f },
         }, filtered );
         ImGui::TableSetupScrollFreeze( 0, 1 );
         ImGui::TableHeadersRow();
@@ -2437,7 +2437,7 @@ void render_char_proficiencies( Character &ch, character_edit_state &st )
                 }
                 ImGui::TableNextColumn();
                 if( known ) {
-                    ImGui::TextDisabled( "%s", _( "learned" ) );
+                    ImGui::TextDisabled( "%s", "learned" );
                 } else {
                     const int max_turns = to_turns<int>( pr.time_to_learn() );
                     const int cur_turns = to_turns<int>(
@@ -2474,7 +2474,7 @@ void tab_player_view::draw_body( debug_console &host )
     render_char_vitals( you );
     render_char_metabolism( you );
 
-    framed_section( "p_char", _( "Character" ), [&]() {
+    framed_section( "p_char", "Character", [&]() {
         host.debug_button( debug_menu_index::EDIT_PLAYER );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::MUTATE );
@@ -2489,7 +2489,7 @@ void tab_player_view::draw_body( debug_console &host )
     render_char_skills( you, char_edit );
     render_char_proficiencies( you, char_edit );
 
-    framed_section( "p_recipes", _( "Recipes / items" ), [&]() {
+    framed_section( "p_recipes", "Recipes / items", [&]() {
         host.debug_button( debug_menu_index::UNLOCK_RECIPES );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::FORGET_ALL_RECIPES );
@@ -2497,7 +2497,7 @@ void tab_player_view::draw_body( debug_console &host )
         host.debug_button( debug_menu_index::FORGET_ALL_ITEMS );
     } );
 
-    framed_section( "p_health", _( "Health" ), [&]() {
+    framed_section( "p_health", "Health", [&]() {
         host.debug_button( debug_menu_index::DAMAGE_SELF );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::BLEED_SELF );
@@ -2505,7 +2505,7 @@ void tab_player_view::draw_body( debug_console &host )
         host.debug_button( debug_menu_index::SET_AUTOMOVE );
     } );
 
-    framed_section( "p_npcs", _( "NPCs" ), [&]() {
+    framed_section( "p_npcs", "NPCs", [&]() {
         host.debug_button( debug_menu_index::CONTROL_NPC );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::IMPORT_FOLLOWER );
@@ -2519,7 +2519,7 @@ void tab_player_view::draw_body( debug_console &host )
 
 const char *tab_creatures_view::label() const
 {
-    return _( "Creatures" );
+    return "Creatures";
 }
 
 void tab_creatures_view::load_state( const JsonObject &nested )
@@ -2539,15 +2539,16 @@ void tab_creatures_view::save_state( JsonOut &jo ) const
 void tab_creatures_view::draw_body( debug_console &host )
 {
     ImGui::SetNextItemWidth( 240 );
-    ImGui::InputText( _( "Filter##creatures" ), &creature_filter );
+    ImGui::InputText( "Filter##creatures", &creature_filter );
     ImGui::SameLine();
-    ImGui::Checkbox( _( "Bubble only" ), &filter_within_bubble );
+    ImGui::Checkbox( "Bubble only", &filter_within_bubble );
 
     avatar &you = get_avatar();
     map &here = get_map();
     const tripoint_bub_ms apos = you.pos_bub( here );
 
     struct row_data {
+        // type of creature (npc, mon, you (ie avatar))
         std::string kind;
         std::string name;
         std::string type_id;
@@ -2697,28 +2698,28 @@ void tab_creatures_view::draw_body( debug_console &host )
                                              rows.size() ), creature_filter );
         const std::vector<colspec<row_data>> specs = {
             {
-                _( "Kind" ), colw::fit, []( const row_data & r )
+                "Kind", colw::fit, []( const row_data & r )
                 {
                     return r.kind;
                 }
             },
-            { _( "Name" ), colw::stretch },
-            { _( "Type" ), colw::fit, []( const row_data & r ) { return r.type_id; }, 0.0f, 1.0f, 0.25f },
-            { _( "Faction" ), colw::fit, []( const row_data & r ) { return r.faction; }, 0.0f, 1.0f, 0.2f },
+            { "Name", colw::stretch },
+            { "Type", colw::fit, []( const row_data & r ) { return r.type_id; }, 0.0f, 1.0f, 0.25f },
+            { "Faction", colw::fit, []( const row_data & r ) { return r.faction; }, 0.0f, 1.0f, 0.2f },
             {
-                _( "HP" ), colw::fit, []( const row_data & r )
+                "HP", colw::fit, []( const row_data & r )
                 {
                     return string_format( "%d/%d", r.hp, r.hp_max );
                 }
             },
             {
-                _( "Dist" ), colw::fit, []( const row_data & r )
+                "Dist", colw::fit, []( const row_data & r )
                 {
                     return std::to_string( r.dist );
                 }
             },
-            { _( "Pos" ), colw::fit, []( const row_data & r ) { return r.pos; }, 0.0f, 1.0f, 0.25f },
-            { _( "+M" ), colw::widget, {}, 40.0f },
+            { "Pos", colw::fit, []( const row_data & r ) { return r.pos; }, 0.0f, 1.0f, 0.25f },
+            { "+M", colw::widget, {}, 40.0f },
         };
         setup_columns<row_data>( "creatures_table", key, specs, rows );
         ImGui::TableSetupScrollFreeze( 0, 1 );
@@ -2761,7 +2762,7 @@ void tab_creatures_view::draw_body( debug_console &host )
     }
 
     ImGui::SeparatorText( creature_selected_id.empty()
-                          ? _( "Select a creature to inspect" )
+                          ? "Select a creature to inspect"
                           : creature_selected_id.c_str() );
     if( creature_selected_id.empty() ) {
         return;
@@ -2803,31 +2804,31 @@ void tab_creatures_view::draw_body( debug_console &host )
     }
 
     if( !sel ) {
-        ImGui::TextDisabled( "%s", _( "(no longer present)" ) );
+        ImGui::TextDisabled( "%s", "(no longer present)" );
         return;
     }
 
     kv_panel( "creature_details", [&]() {
-        kv_row( _( "name" ), sel->get_name() );
-        kv_row( _( "pos" ), sel->pos_bub( here ).to_string() );
-        kv_row( _( "hp" ), string_format( "%d / %d", sel->get_hp(),
-                                          sel->get_hp_max() ) );
+        kv_row( "name", sel->get_name() );
+        kv_row( "pos", sel->pos_bub( here ).to_string() );
+        kv_row( "hp", string_format( "%d / %d", sel->get_hp(),
+                                     sel->get_hp_max() ) );
         if( sel_mon ) {
-            kv_row( _( "type" ), sel_mon->type->id.str() );
-            kv_row( _( "faction" ), sel_mon->faction.id().str() );
-            kv_row( _( "speed" ), std::to_string( sel_mon->get_speed() ) );
-            kv_row( _( "morale" ), std::to_string( sel_mon->morale ) );
-            kv_row( _( "anger" ), std::to_string( sel_mon->anger ) );
+            kv_row( "type", sel_mon->type->id.str() );
+            kv_row( "faction", sel_mon->faction.id().str() );
+            kv_row( "speed", std::to_string( sel_mon->get_speed() ) );
+            kv_row( "morale", std::to_string( sel_mon->morale ) );
+            kv_row( "anger", std::to_string( sel_mon->anger ) );
         }
         if( sel_npc ) {
-            kv_row( _( "char id" ),
+            kv_row( "char id",
                     std::to_string( sel_npc->getID().get_value() ) );
-            kv_row( _( "faction" ),
+            kv_row( "faction",
                     sel_npc->get_faction() ? sel_npc->get_faction()->id.str()
                     : std::string( "?" ) );
-            kv_row( _( "attitude" ),
+            kv_row( "attitude",
                     std::to_string( static_cast<int>( sel_npc->get_attitude() ) ) );
-            kv_row( _( "likes/respects/trusts" ),
+            kv_row( "likes/respects/trusts",
                     string_format( "%d / %d / %d",
                                    sel_npc->op_of_u.trust,
                                    sel_npc->op_of_u.value,
@@ -2838,7 +2839,7 @@ void tab_creatures_view::draw_body( debug_console &host )
     // Heal/Kill/Teleport act on a non-avatar target. The avatar uses the
     // Player tab's Health controls and must not be Kill-able from here.
     if( sel_mon || sel_npc ) {
-        if( ImGui::Button( _( "Heal##cr" ) ) ) {
+        if( ImGui::Button( "Heal##cr" ) ) {
             if( sel_mon ) {
                 sel_mon->set_hp( sel_mon->get_hp_max() );
             } else if( sel_npc ) {
@@ -2847,53 +2848,53 @@ void tab_creatures_view::draw_body( debug_console &host )
         }
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "Restore the selected creature to full HP" ) );
+                               "Restore the selected creature to full HP" );
         }
         ImGui::SameLine();
-        if( ImGui::Button( _( "Kill##cr" ) ) ) {
+        if( ImGui::Button( "Kill##cr" ) ) {
             sel->die( &here, nullptr );
         }
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "Kill the selected creature with no killer attribution" ) );
+                               "Kill the selected creature with no killer attribution" );
         }
         ImGui::SameLine();
-        if( ImGui::Button( _( "Teleport here##cr" ) ) ) {
+        if( ImGui::Button( "Teleport here##cr" ) ) {
             sel->setpos( here, apos );
         }
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "Move the selected creature to the avatar's tile" ) );
+                               "Move the selected creature to the avatar's tile" );
         }
         if( sel_npc ) {
             ImGui::SameLine();
-            if( ImGui::Button( _( "Control NPC##cr" ) ) ) {
+            if( ImGui::Button( "Control NPC##cr" ) ) {
                 host.defer_action( debug_menu_index::CONTROL_NPC );
             }
             if( ImGui::IsItemHovered() ) {
                 ImGui::SetTooltip( "%s",
-                                   _( "Launch the legacy Control NPC menu (this NPC may not be preselected)" ) );
+                                   "Launch the legacy Control NPC menu (this NPC may not be preselected)" );
             }
         }
     }
 
-    if( ImGui::CollapsingHeader( _( "Description##cr" ) ) ) {
+    if( ImGui::CollapsingHeader( "Description##cr" ) ) {
         const std::vector<std::string> desc = sel->extended_description();
         for( const std::string &line : desc ) {
             cataimgui::draw_colored_text( line, c_white );
         }
     }
 
-    if( ImGui::CollapsingHeader( _( "Effects##cr" ) ) ) {
+    if( ImGui::CollapsingHeader( "Effects##cr" ) ) {
         const std::vector<std::reference_wrapper<const effect>> effs = sel->get_effects();
         if( effs.empty() ) {
-            ImGui::TextDisabled( "%s", _( "(none)" ) );
+            ImGui::TextDisabled( "%s", "(none)" );
         } else if( ImGui::BeginTable( "cr_effects", 3,
                                       ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders |
                                       ImGuiTableFlags_SizingStretchProp ) ) {
-            ImGui::TableSetupColumn( _( "Effect" ), ImGuiTableColumnFlags_WidthStretch );
-            fit_col( _( "Intensity" ) );
-            fit_col( _( "Bodypart" ) );
+            ImGui::TableSetupColumn( "Effect", ImGuiTableColumnFlags_WidthStretch );
+            fit_col( "Intensity" );
+            fit_col( "Bodypart" );
             ImGui::TableHeadersRow();
             for( const effect &e : effs ) {
                 ImGui::TableNextRow();
@@ -2908,33 +2909,33 @@ void tab_creatures_view::draw_body( debug_console &host )
         }
     }
 
-    if( sel_mon && ImGui::CollapsingHeader( _( "Monster type##cr" ) ) ) {
+    if( sel_mon && ImGui::CollapsingHeader( "Monster type##cr" ) ) {
         const mtype &mt = *sel_mon->type;
         kv_panel( "cr_mtype", [&]() {
-            kv_row( _( "id" ), mt.id.str() );
-            kv_row( _( "size" ), std::to_string( static_cast<int>( mt.size ) ) );
-            kv_row( _( "difficulty" ),
+            kv_row( "id", mt.id.str() );
+            kv_row( "size", std::to_string( static_cast<int>( mt.size ) ) );
+            kv_row( "difficulty",
                     std::to_string( mt.get_total_difficulty() ) );
-            kv_row( _( "base_speed" ), std::to_string( mt.speed ) );
-            kv_row( _( "hp_max" ), std::to_string( mt.hp ) );
-            kv_row( _( "morale_default" ), std::to_string( mt.morale ) );
-            kv_row( _( "agro_default" ), std::to_string( mt.agro ) );
-            kv_row( _( "vision_day/night" ),
+            kv_row( "base_speed", std::to_string( mt.speed ) );
+            kv_row( "hp_max", std::to_string( mt.hp ) );
+            kv_row( "morale_default", std::to_string( mt.morale ) );
+            kv_row( "agro_default", std::to_string( mt.agro ) );
+            kv_row( "vision_day/night",
                     string_format( "%d / %d", mt.vision_day, mt.vision_night ) );
         } );
     }
 
-    if( sel_mon && ImGui::CollapsingHeader( _( "Monster inventory##cr" ) ) ) {
-        if( ImGui::SmallButton( _( "Show in Items tab##mon" ) ) ) {
+    if( sel_mon && ImGui::CollapsingHeader( "Monster inventory##cr" ) ) {
+        if( ImGui::SmallButton( "Show in Items tab##mon" ) ) {
             host.show_items_for_monster( sel_mon->type->id.str(),
                                          sel_mon->pos_bub( here ) );
         }
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "Show this monster.s inventory in Items tab" ) );
+                               "Show this monster.s inventory in Items tab" );
         }
         if( sel_mon->inv.empty() ) {
-            ImGui::TextDisabled( "%s", _( "(empty)" ) );
+            ImGui::TextDisabled( "%s", "(empty)" );
         } else {
             for( const item &it : sel_mon->inv ) {
                 ImGui::Bullet();
@@ -2953,21 +2954,21 @@ void tab_creatures_view::draw_body( debug_console &host )
         render_char_proficiencies( *sel_char, char_edit );
     }
 
-    if( sel_npc && ImGui::CollapsingHeader( _( "NPC inventory##cr" ) ) ) {
-        if( ImGui::SmallButton( _( "Show in Items tab##npc" ) ) ) {
+    if( sel_npc && ImGui::CollapsingHeader( "NPC inventory##cr" ) ) {
+        if( ImGui::SmallButton( "Show in Items tab##npc" ) ) {
             host.show_items_for_npc( sel_npc->getID() );
         }
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "Show this NPC.s inventory in Items tab" ) );
+                               "Show this NPC.s inventory in Items tab" );
         }
         const item_location wielded = sel_npc->get_wielded_item();
         if( wielded ) {
-            ImGui::TextDisabled( "%s", _( "wielded:" ) );
+            ImGui::TextDisabled( "%s", "wielded:" );
             ImGui::SameLine();
             cataimgui::draw_colored_text( wielded->tname(), c_white );
         } else {
-            ImGui::TextDisabled( "%s", _( "(empty hands)" ) );
+            ImGui::TextDisabled( "%s", "(empty hands)" );
         }
         const std::vector<item_location> all = sel_npc->all_items_loc();
         ImGui::TextDisabled( "%d carried", static_cast<int>( all.size() ) );
@@ -2983,7 +2984,7 @@ void tab_creatures_view::draw_body( debug_console &host )
 
 const char *tab_items_view::label() const
 {
-    return _( "Items" );
+    return "Items";
 }
 
 void tab_items_view::load_state( const JsonObject &nested )
@@ -3040,14 +3041,14 @@ void tab_items_view::draw_body( debug_console &host )
     {
         item_source_ref avatar_ref;
         avatar_ref.k = item_source_ref::kind::avatar;
-        sources.push_back( { avatar_ref.to_string(), _( "Avatar (carried)" ) } );
+        sources.push_back( { avatar_ref.to_string(), "Avatar (carried)" } );
     }
     {
         item_source_ref tile_ref;
         tile_ref.k = item_source_ref::kind::tile_current;
         sources.push_back( {
             tile_ref.to_string(),
-            string_format( _( "Tile (current) @ %s" ), apos.to_string() )
+            string_format( "Tile (current @ %s)", apos.to_string() )
         } );
     }
     for( npc &n : g->all_npcs() ) {
@@ -3091,17 +3092,17 @@ void tab_items_view::draw_body( debug_console &host )
         selected.reset();
         cur_src_idx = 0;
     }
-    framed_section( "items_spawn", _( "Spawn" ), [&]() {
+    framed_section( "items_spawn", "Spawn", [&]() {
         host.debug_button( debug_menu_index::WISH );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::SPAWN_ITEM_GROUP );
     } );
 
-    framed_section( "items_src", _( "Source" ), [&]() {
+    framed_section( "items_src", "Source", [&]() {
         if( reverted_from_source.has_value() ) {
             ImGui::TextColored( ImVec4( 0.95f, 0.7f, 0.4f, 1.0f ), "%s",
                                 string_format(
-                                    _( "Previous source \"%s\" no longer present; reverted to Avatar." ),
+                                    "Previous source \"%s\" no longer present; reverted to Avatar.",
                                     *reverted_from_source ).c_str() );
         }
         ImGui::SetNextItemWidth( 360.0f );
@@ -3122,8 +3123,8 @@ void tab_items_view::draw_body( debug_console &host )
         }
         ImGui::SameLine();
         ImGui::SetNextItemWidth( -1.0f );
-        ImGui::InputTextWithHint( _( "Filter##items" ),
-                                  _( "name / type id / category" ), &item_filter );
+        ImGui::InputTextWithHint( "Filter##items",
+                                  "name / type id / category", &item_filter );
     } );
 
     // Snapshot rows up front: keeps the table renderer iterating a stable
@@ -3316,7 +3317,7 @@ void tab_items_view::draw_body( debug_console &host )
         export_rows( host, "items", sources[cur_src_idx].label, rows, cols );
     }
 
-    label_value( _( "Items" ), "%d", static_cast<int>( rows.size() ) );
+    label_value( "Items", "%d", static_cast<int>( rows.size() ) );
 
     // Resolve the typed selection to a row index for this frame. Stays -1
     // when the pick exists but no matching row is currently visible (filtered
@@ -3347,46 +3348,46 @@ void tab_items_view::draw_body( debug_console &host )
         const uint64_t key = lk_str( lk_str( lk_mix( 0u, rows.size() ),
                                              items_source ), item_filter );
         const std::vector<colspec<item_row>> specs = {
-            { _( "Name" ), colw::stretch },
-            { _( "Type" ), colw::fit, []( const item_row & r ) { return r.type_id; }, 0.0f, 1.0f, 0.25f },
+            {  "Name", colw::stretch },
+            {  "Type", colw::fit, []( const item_row & r ) { return r.type_id; }, 0.0f, 1.0f, 0.25f },
             {
-                _( "Cat" ), colw::fit, []( const item_row & r )
+                "Cat", colw::fit, []( const item_row & r )
                 {
                     return r.category;
                 }
             },
-            { _( "Where" ), colw::fit, []( const item_row & r ) { return r.location; }, 0.0f, 1.0f, 0.25f },
+            {  "Where", colw::fit, []( const item_row & r ) { return r.location; }, 0.0f, 1.0f, 0.25f },
             {
-                _( "n" ), colw::fit, []( const item_row & r )
+                "n", colw::fit, []( const item_row & r )
                 {
                     return std::to_string( r.count );
                 }
             },
             {
-                _( "Chg" ), colw::fit, []( const item_row & r )
+                "Chg", colw::fit, []( const item_row & r )
                 {
                     return r.charges >= 0 ? std::to_string( r.charges ) : std::string( "-" );
                 }
             },
             {
-                _( "Dmg" ), colw::fit, []( const item_row & r )
+                "Dmg", colw::fit, []( const item_row & r )
                 {
                     return r.damage > 0 ? std::to_string( r.damage ) : std::string( "0" );
                 }
             },
             {
-                _( "Wt(g)" ), colw::fit, []( const item_row & r )
+                "Wt(g)", colw::fit, []( const item_row & r )
                 {
                     return std::to_string( r.weight_g );
                 }
             },
             {
-                _( "Vol(mL)" ), colw::fit, []( const item_row & r )
+                "Vol(mL)", colw::fit, []( const item_row & r )
                 {
                     return std::to_string( r.volume_ml );
                 }
             },
-            { _( "+M" ), colw::widget, {}, 40.0f },
+            {  "+M", colw::widget, {}, 40.0f },
         };
         setup_columns<item_row>( "items_table", key, specs, rows );
         ImGui::TableSetupScrollFreeze( 0, 1 );
@@ -3408,10 +3409,10 @@ void tab_items_view::draw_body( debug_console &host )
                     selected_row_idx = i;
                 }
                 if( ImGui::BeginPopupContextItem( "item_ctx" ) ) {
-                    if( ImGui::MenuItem( _( "Copy type id" ) ) ) {
+                    if( ImGui::MenuItem( "Copy type id" ) ) {
                         ImGui::SetClipboardText( r.type_id.c_str() );
                     }
-                    if( ImGui::MenuItem( _( "Copy full name" ) ) ) {
+                    if( ImGui::MenuItem( "Copy full name" ) ) {
                         ImGui::SetClipboardText( r.plain.c_str() );
                     }
                     ImGui::EndPopup();
@@ -3467,18 +3468,18 @@ void tab_items_view::draw_body( debug_console &host )
                            ImGuiTableFlags_SizingStretchProp ) ) {
         ImGui::TableSetupColumn( "k", ImGuiTableColumnFlags_WidthFixed, 140.0f );
         ImGui::TableSetupColumn( "v" );
-        kv_row( _( "name" ), r.plain );
-        kv_row( _( "type" ), r.type_id );
-        kv_row( _( "category" ), r.category );
-        kv_row( _( "material" ), r.material );
-        kv_row( _( "where" ), r.location );
-        kv_row( _( "count" ), std::to_string( r.count ) );
+        kv_row( "name", r.plain );
+        kv_row( "type", r.type_id );
+        kv_row( "category", r.category );
+        kv_row( "material", r.material );
+        kv_row( "where", r.location );
+        kv_row( "count", std::to_string( r.count ) );
         if( r.charges >= 0 ) {
-            kv_row( _( "charges" ), std::to_string( r.charges ) );
+            kv_row( "charges", std::to_string( r.charges ) );
         }
-        kv_row( _( "damage" ), std::to_string( r.damage ) );
-        kv_row( _( "weight (g)" ), std::to_string( r.weight_g ) );
-        kv_row( _( "volume (mL)" ), std::to_string( r.volume_ml ) );
+        kv_row( "damage", std::to_string( r.damage ) );
+        kv_row( "weight (g)", std::to_string( r.weight_g ) );
+        kv_row( "volume (mL)", std::to_string( r.volume_ml ) );
         if( !r.flags.empty() ) {
             std::string fl;
             for( size_t i = 0; i < r.flags.size(); i++ ) {
@@ -3487,23 +3488,23 @@ void tab_items_view::draw_body( debug_console &host )
                 }
                 fl += r.flags[i];
             }
-            kv_row( _( "flags" ), fl );
+            kv_row( "flags", fl );
         }
         ImGui::EndTable();
     }
-    if( ImGui::Button( _( "Copy type id##it" ) ) ) {
+    if( ImGui::Button( "Copy type id##it" ) ) {
         ImGui::SetClipboardText( r.type_id.c_str() );
     }
     if( ImGui::IsItemHovered() ) {
         ImGui::SetTooltip( "%s",
-                           _( "Copy this item's itype_id to the clipboard" ) );
+                           "Copy this item's itype_id to the clipboard" );
     }
 }
 
 
 const char *tab_eoc_view::label() const
 {
-    return _( "EOC" );
+    return "EOC";
 }
 
 void tab_eoc_view::load_state( const JsonObject &nested )
@@ -3558,18 +3559,18 @@ void tab_eoc_view::draw_eval_panel( debug_console &host )
         eval_ok = rv->ok;
     }
 
-    ImGui::SeparatorText( _( "Eval" ) );
+    ImGui::SeparatorText( "Eval" );
 
     if( ImGui::SmallButton( "+##eval_fn_pop" ) ) {
         ImGui::OpenPopup( "eval_func_popup" );
     }
     if( ImGui::IsItemHovered() ) {
         ImGui::SetTooltip( "%s",
-                           _( "Insert a function template at the end of the input" ) );
+                           "Insert a function template at the end of the input" );
     }
     if( ImGui::BeginPopup( "eval_func_popup" ) ) {
         ImGui::SetNextItemWidth( 220.0f );
-        ImGui::InputTextWithHint( "##eval_func_filter", _( "filter" ),
+        ImGui::InputTextWithHint( "##eval_func_filter", "filter",
                                   &func_filter );
         ImGui::Separator();
         auto matches = [&]( std::string_view name ) {
@@ -3649,20 +3650,20 @@ void tab_eoc_view::draw_eval_panel( debug_console &host )
     ImGui::SetNextItemWidth( -200.0f );
     const bool entered = ImGui::InputTextWithHint(
                              "##eval_expr",
-                             _( "expression, e.g. 1 + u_skill('cooking')" ),
+                             "expression, e.g. 1 + u_skill('cooking')",
                              &eval_expr,
                              ImGuiInputTextFlags_EnterReturnsTrue );
     ImGui::SameLine();
-    const bool clicked = ImGui::Button( _( "Eval##eoc_eval" ) );
+    const bool clicked = ImGui::Button( "Eval##eoc_eval" );
     if( ImGui::IsItemHovered() ) {
         ImGui::SetTooltip( "%s",
-                           _( "Evaluate expression in avatar dialogue" ) );
+                           "Evaluate expression in avatar dialogue" );
     }
     ImGui::SameLine();
-    ImGui::Checkbox( _( "auto/turn" ), &eval_auto );
+    ImGui::Checkbox( "auto/turn", &eval_auto );
     if( ImGui::IsItemHovered() ) {
         ImGui::SetTooltip( "%s",
-                           _( "Re-evaluate the expression every game turn" ) );
+                           "Re-evaluate the expression every game turn" );
     }
 
     const int now_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
@@ -3685,12 +3686,12 @@ void tab_eoc_view::draw_eval_panel( debug_console &host )
 
 void tab_eoc_view::draw_eoc_browser( debug_console &host )
 {
-    ImGui::SeparatorText( _( "Browser" ) );
+    ImGui::SeparatorText( "Browser" );
     const std::vector<effect_on_condition> &all_eocs = effect_on_conditions::get_all();
 
     // Filters
     ImGui::SetNextItemWidth( 200 );
-    ImGui::InputText( _( "Filter##eocs" ), &eoc_filter );
+    ImGui::InputText( "Filter##eocs", &eoc_filter );
     ImGui::SameLine();
 
     static const char *const type_names[] = {
@@ -3699,7 +3700,7 @@ void tab_eoc_view::draw_eoc_browser( debug_console &host )
     };
     ImGui::SetNextItemWidth( 120 );
     const char *cur_type = eoc_type_filter < 0 ? "all" : type_names[eoc_type_filter + 1];
-    if( ImGui::BeginCombo( _( "Type##eoc" ), cur_type ) ) {
+    if( ImGui::BeginCombo( "Type##eoc", cur_type ) ) {
         if( ImGui::Selectable( "all", eoc_type_filter < 0 ) ) {
             eoc_type_filter = -1;
         }
@@ -3792,16 +3793,16 @@ void tab_eoc_view::draw_eoc_browser( debug_console &host )
                                              eoc_filter ),
                                      std::to_string( eoc_type_filter ) );
         const std::vector<colspec<int>> specs = {
-            { _( "ID" ), colw::stretch, {}, 0.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_DefaultSort },
+            { "ID", colw::stretch, {}, 0.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_DefaultSort },
             {
-                _( "Type" ), colw::fit, [&]( const int &i )
+                "Type", colw::fit, [&]( const int &i )
                 {
                     return std::string( eoc_type_name( all_eocs[i].type ) );
                 }
             },
-            { _( "Src mod" ), colw::fit, [&]( const int &i ) { return all_eocs[i].src.empty() ? std::string() : all_eocs[i].src.front().second.str(); }, 0.0f, 1.0f, 0.25f },
+            { "Src mod", colw::fit, [&]( const int &i ) { return all_eocs[i].src.empty() ? std::string() : all_eocs[i].src.front().second.str(); }, 0.0f, 1.0f, 0.25f },
             {
-                _( "Status" ), colw::fit, [&]( const int &i )
+                "Status", colw::fit, [&]( const int &i )
                 {
                     const std::string &id = all_eocs[i].id.str();
                     return queued_ids.count( id ) ? std::string( "queued" ) : inactive_ids.count(
@@ -3809,14 +3810,14 @@ void tab_eoc_view::draw_eoc_browser( debug_console &host )
                 }
             },
             {
-                _( "Next fire" ), colw::fit, [&]( const int &i )
+                "Next fire", colw::fit, [&]( const int &i )
                 {
                     const auto it = queued_times.find( all_eocs[i].id.str() );
                     return it != queued_times.end() ? to_string( it->second - calendar::turn ) : std::string();
                 }
             },
-            { _( "Run" ), colw::widget, {}, 50.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_NoSort },
-            { _( "Mon" ), colw::widget, {}, 50.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_NoSort },
+            { "Run", colw::widget, {}, 50.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_NoSort },
+            { "Mon", colw::widget, {}, 50.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_NoSort },
         };
         setup_columns<int>( "eocs", key, specs, filtered, true );
         ImGui::TableSetupScrollFreeze( 0, 1 );
@@ -3893,7 +3894,7 @@ void tab_eoc_view::draw_eoc_browser( debug_console &host )
                     eoc_selected_id = id_str;
                 }
                 if( ImGui::BeginPopupContextItem( ( "eoc_ctx_" + id_str ).c_str() ) ) {
-                    if( ImGui::MenuItem( _( "Copy id" ) ) ) {
+                    if( ImGui::MenuItem( "Copy id" ) ) {
                         ImGui::SetClipboardText( id_str.c_str() );
                     }
                     ImGui::EndPopup();
@@ -3930,7 +3931,7 @@ void tab_eoc_view::draw_eoc_browser( debug_console &host )
                 }
                 if( ImGui::IsItemHovered() ) {
                     ImGui::SetTooltip( "%s",
-                                       _( "Trigger this EOC immediately with the avatar as alpha talker" ) );
+                                       "Trigger this EOC immediately with the avatar as alpha talker" );
                 }
                 ImGui::PopID();
 
@@ -3939,7 +3940,7 @@ void tab_eoc_view::draw_eoc_browser( debug_console &host )
                 const bool mon_clicked = ImGui::SmallButton( "+M" );
                 if( ImGui::IsItemHovered() ) {
                     ImGui::SetTooltip( "%s",
-                                       _( "Monitor this EOC (Trace > Monitors)" ) );
+                                       "Monitor this EOC (Trace > Monitors)" );
                 }
                 if( mon_clicked ) {
                     add_eoc_monitor( id_str );
@@ -3951,7 +3952,7 @@ void tab_eoc_view::draw_eoc_browser( debug_console &host )
     }
 
     ImGui::SeparatorText( eoc_selected_id.empty()
-                          ? _( "Select an EOC to inspect" )
+                          ? "Select an EOC to inspect"
                           : eoc_selected_id.c_str() );
     if( !eoc_selected_id.empty() ) {
         const effect_on_condition *sel = nullptr;
@@ -3962,19 +3963,19 @@ void tab_eoc_view::draw_eoc_browser( debug_console &host )
             }
         }
         if( !sel ) {
-            ImGui::TextDisabled( "%s", _( "(no longer loaded)" ) );
+            ImGui::TextDisabled( "%s", "(no longer loaded)" );
         } else {
             kv_panel( "eoc_details", [&]() {
-                kv_row( _( "type" ), eoc_type_name( sel->type ) );
-                kv_row( _( "global" ), sel->global ? "true" : "false" );
-                kv_row( _( "run_for_npcs" ), sel->run_for_npcs ? "true" : "false" );
-                kv_row( _( "has_condition" ), sel->has_condition ? "true" : "false" );
-                kv_row( _( "has_deactivate_condition" ),
+                kv_row( "type", eoc_type_name( sel->type ) );
+                kv_row( "global", sel->global ? "true" : "false" );
+                kv_row( "run_for_npcs", sel->run_for_npcs ? "true" : "false" );
+                kv_row( "has_condition", sel->has_condition ? "true" : "false" );
+                kv_row( "has_deactivate_condition",
                         sel->has_deactivate_condition ? "true" : "false" );
-                kv_row( _( "has_false_effect" ),
+                kv_row( "has_false_effect",
                         sel->has_false_effect ? "true" : "false" );
                 if( sel->type == eoc_type::EVENT ) {
-                    kv_row( _( "required_event" ),
+                    kv_row( "required_event",
                             io::enum_to_string<event_type>( sel->required_event ) );
                 }
                 std::string src_chain;
@@ -3984,35 +3985,35 @@ void tab_eoc_view::draw_eoc_browser( debug_console &host )
                     }
                     src_chain += pr.second.str();
                 }
-                kv_row( _( "src" ), src_chain );
+                kv_row( "src", src_chain );
                 auto it = queued_times.find( eoc_selected_id );
                 if( it != queued_times.end() ) {
-                    kv_row( _( "next fire" ),
+                    kv_row( "next fire",
                             to_string( it->second - calendar::turn ) );
                 }
             } );
 
-            if( ImGui::Button( _( "Trigger now##eoc_det" ) ) ) {
+            if( ImGui::Button( "Trigger now##eoc_det" ) ) {
                 host.defer_eoc( effect_on_condition_id( eoc_selected_id ) );
             }
             if( ImGui::IsItemHovered() ) {
                 ImGui::SetTooltip( "%s",
-                                   _( "Trigger this EOC immediately with the avatar as alpha talker" ) );
+                                   "Trigger this EOC immediately with the avatar as alpha talker" );
             }
             ImGui::SameLine();
-            if( ImGui::Button( _( "+Monitor##eoc_det" ) ) ) {
+            if( ImGui::Button( "+Monitor##eoc_det" ) ) {
                 add_eoc_monitor( eoc_selected_id );
             }
             if( ImGui::IsItemHovered() ) {
                 ImGui::SetTooltip( "%s",
-                                   _( "Monitor this EOC and mute the raw feed" ) );
+                                   "Monitor this EOC and mute the raw feed" );
             }
             ImGui::SameLine();
-            if( ImGui::Button( _( "Copy id##eoc_det" ) ) ) {
+            if( ImGui::Button( "Copy id##eoc_det" ) ) {
                 ImGui::SetClipboardText( eoc_selected_id.c_str() );
             }
             if( ImGui::IsItemHovered() ) {
-                ImGui::SetTooltip( "%s", _( "Copy the EOC id to the clipboard" ) );
+                ImGui::SetTooltip( "%s", "Copy the EOC id to the clipboard" );
             }
         }
     }
@@ -4021,7 +4022,7 @@ void tab_eoc_view::draw_eoc_browser( debug_console &host )
 
 const char *tab_data_view::label() const
 {
-    return _( "Data" );
+    return "Data";
 }
 
 namespace
@@ -4152,13 +4153,13 @@ void draw_edit_val( std::string &val, dv_types &type )
     std::string hint;
     switch( type ) {
         case dv_types::DOUBLE:
-            hint = _( "value (number)" );
+            hint = "value (number)";
             break;
         case dv_types::STRING:
-            hint = _( "value (text)" );
+            hint = "value (text)";
             break;
         case dv_types::TRIPOINT:
-            hint = _( "(x,y,z)" );
+            hint = "(x,y,z)";
             break;
         case dv_types::last:
             break;
@@ -4195,12 +4196,12 @@ static void draw_var_table( const char *table_id,
     if( can_edit ) {
         ImGui::PushID( table_id );
         ImGui::SetNextItemWidth( 160.0f );
-        ImGui::InputTextWithHint( "##new_var_key", _( "new key" ), &state.new_key );
+        ImGui::InputTextWithHint( "##new_var_key", "new key", &state.new_key );
         ImGui::SameLine();
         draw_edit_val( state.new_val, state.new_var_type );
         ImGui::SameLine();
         ImGui::BeginDisabled( state.new_key.empty() );
-        if( ImGui::SmallButton( _( "Add##var" ) ) ) {
+        if( ImGui::SmallButton( "Add##var" ) ) {
             diag_value parsed = parse_value( state.new_val, state.new_var_type );
             if( !parsed.is_empty() ) {
                 writer.write( state.new_key, parsed );
@@ -4209,14 +4210,14 @@ static void draw_var_table( const char *table_id,
             }
         }
         if( ImGui::IsItemHovered() ) {
-            ImGui::SetTooltip( "%s", _( "Create variable from key + value" ) );
+            ImGui::SetTooltip( "%s", "Create variable from key + value" );
         }
         ImGui::EndDisabled();
         ImGui::PopID();
     }
 
     if( vars.empty() ) {
-        ImGui::TextUnformatted( _( "No variables." ) );
+        ImGui::TextUnformatted( "No variables." );
         return;
     }
 
@@ -4250,25 +4251,25 @@ static void draw_var_table( const char *table_id,
         }
 
         std::vector<colspec<var_row>> specs = {
-            { _( "Key" ), colw::stretch, {}, 0.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_DefaultSort },
+            { "Key", colw::stretch, {}, 0.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_DefaultSort },
             {
-                _( "Type" ), colw::fit, []( const var_row & r )
+                "Type", colw::fit, []( const var_row & r )
                 {
                     const diag_value &v = r->second;
                     return std::string( v.is_dbl() ? "dbl" : v.is_str() ? "str" :
                                         v.is_array() ? "arr" : v.is_tripoint() ? "pos" : "?" );
                 }
             },
-            { _( "Value" ), colw::fit, []( const var_row & r ) { return r->second.to_string( true ); }, 0.0f, 1.0f, 0.25f },
+            { "Value", colw::fit, []( const var_row & r ) { return r->second.to_string( true ); }, 0.0f, 1.0f, 0.25f },
             {
-                _( "As Duration" ), colw::fit, []( const var_row & r )
+                "As Duration", colw::fit, []( const var_row & r )
                 {
                     return r->second.is_dbl() ? to_string( time_duration::from_turns( r->second.dbl() ) ) :
                     std::string();
                 }, 0.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_NoSort
             },
             {
-                _( "As Timepoint" ), colw::fit, []( const var_row & r )
+                "As Timepoint", colw::fit, []( const var_row & r )
                 {
                     return r->second.is_dbl() ? to_string( calendar::turn_zero + time_duration::from_turns(
                             r->second.dbl() ) ) : std::string();
@@ -4276,7 +4277,7 @@ static void draw_var_table( const char *table_id,
             },
         };
         if( can_monitor ) {
-            specs.push_back( { _( "Mon" ), colw::widget, {}, 40.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_NoSort } );
+            specs.push_back( { "Mon", colw::widget, {}, 40.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_NoSort } );
         }
         const uint64_t key = lk_mix( lk_str( lk_mix( 0u, rows.size() ), filter ),
                                      can_monitor ? 1u : 0u );
@@ -4336,18 +4337,18 @@ static void draw_var_table( const char *table_id,
                 ImGui::SetClipboardText( ( key + "=" + val.to_string( true ) ).c_str() );
             }
             if( ImGui::BeginPopupContextItem( "var_ctx" ) ) {
-                if( ImGui::MenuItem( _( "Copy key" ) ) ) {
+                if( ImGui::MenuItem( "Copy key" ) ) {
                     ImGui::SetClipboardText( key.c_str() );
                 }
-                if( ImGui::MenuItem( _( "Copy value" ) ) ) {
+                if( ImGui::MenuItem( "Copy value" ) ) {
                     ImGui::SetClipboardText( val.to_string( true ).c_str() );
                 }
-                if( ImGui::MenuItem( _( "Copy key=value" ) ) ) {
+                if( ImGui::MenuItem( "Copy key=value" ) ) {
                     ImGui::SetClipboardText(
                         ( key + "=" + val.to_string( true ) ).c_str() );
                 }
                 if( can_edit ) {
-                    if( ImGui::MenuItem( _( "Edit value" ) ) ) {
+                    if( ImGui::MenuItem( "Edit value" ) ) {
                         edit_table = table_id;
                         edit_key = key;
                         edit_buf = val.to_string( true );
@@ -4362,7 +4363,7 @@ static void draw_var_table( const char *table_id,
                 }
                 if( can_delete ) {
                     ImGui::Separator();
-                    if( ImGui::MenuItem( _( "Delete" ) ) ) {
+                    if( ImGui::MenuItem( "Delete" ) ) {
                         // Defer erase: key and val alias the map node that
                         // erase would free while this row still renders.
                         to_erase = key;
@@ -4402,7 +4403,7 @@ static void draw_var_table( const char *table_id,
                 const bool var_mon_clicked = ImGui::SmallButton( "+M" );
                 if( ImGui::IsItemHovered() ) {
                     ImGui::SetTooltip( "%s",
-                                       _( "Monitor this variable (Trace > Monitors)" ) );
+                                       "Monitor this variable (Trace > Monitors)" );
                 }
                 if( var_mon_clicked ) {
                     std::string key_copy = key;
@@ -4439,7 +4440,7 @@ static void draw_var_table( const char *table_id,
                                     ImGuiWindowFlags_AlwaysAutoResize ) ) {
             ImGui::TextDisabled( "%s", edit_key.c_str() );
             draw_edit_val( edit_buf, state.edit_type );
-            if( ImGui::Button( _( "Save##var_edit" ) ) ) {
+            if( ImGui::Button( "Save##var_edit" ) ) {
                 diag_value parsed = parse_value( edit_buf, state.edit_type );
                 if( !parsed.is_empty() ) {
                     writer.write( edit_key, parsed );
@@ -4450,7 +4451,7 @@ static void draw_var_table( const char *table_id,
                 }
             }
             ImGui::SameLine();
-            if( ImGui::Button( _( "Cancel##var_edit" ) ) ) {
+            if( ImGui::Button( "Cancel##var_edit" ) ) {
                 edit_table.clear();
                 edit_key.clear();
                 edit_buf.clear();
@@ -4473,7 +4474,7 @@ void tab_data_view::save_state( JsonOut &jo ) const
 
 void tab_data_view::draw_body( debug_console &host )
 {
-    framed_section( "data_edit", _( "Edit & inspect" ), [&]() {
+    framed_section( "data_edit", "Edit & inspect", [&]() {
         host.debug_button( debug_menu_index::EDIT_GLOBAL_VARS );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::ACTIVATE_EOC );
@@ -4482,12 +4483,12 @@ void tab_data_view::draw_body( debug_console &host )
         ImGui::SameLine();
         host.debug_button( debug_menu_index::TALK_TOPIC );
         ImGui::SameLine();
-        host.debug_button_with_label( _( "Mut categories" ), debug_menu_index::SHOW_MUT_CAT );
+        host.debug_button_with_label( "Mut categories", debug_menu_index::SHOW_MUT_CAT );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::PRINT_NPC_MAGIC );
     } );
 
-    framed_section( "data_tests", _( "Tests & benchmarks" ), [&]() {
+    framed_section( "data_tests", "Tests & benchmarks", [&]() {
         host.debug_button( debug_menu_index::TEST_IT_GROUP );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::TRAIT_GROUP );
@@ -4499,7 +4500,7 @@ void tab_data_view::draw_body( debug_console &host )
         host.debug_button( debug_menu_index::TEST_WEATHER );
     } );
 
-    framed_section( "data_export", _( "Export & print" ), [&]() {
+    framed_section( "data_export", "Export & print", [&]() {
         host.debug_button( debug_menu_index::WRITE_GLOBAL_EOCS );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::WRITE_GLOBAL_VARS );
@@ -4508,9 +4509,9 @@ void tab_data_view::draw_body( debug_console &host )
         ImGui::SameLine();
         host.debug_button( debug_menu_index::WRITE_CITY_LIST );
         ImGui::SameLine();
-        host.debug_button_with_label( _( "Effect list" ), debug_menu_index::GENERATE_EFFECT_LIST );
+        host.debug_button_with_label( "Effect list", debug_menu_index::GENERATE_EFFECT_LIST );
         ImGui::SameLine();
-        host.debug_button_with_label( _( "Faction info" ), debug_menu_index::PRINT_FACTION_INFO );
+        host.debug_button_with_label( "Faction info", debug_menu_index::PRINT_FACTION_INFO );
     } );
 
     draw_game_state_panel();
@@ -4522,20 +4523,20 @@ void tab_data_view::draw_body( debug_console &host )
 
 void tab_data_view::draw_game_state_panel()
 {
-    if( !ImGui::CollapsingHeader( _( "Game state" ), ImGuiTreeNodeFlags_DefaultOpen ) ) {
+    if( !ImGui::CollapsingHeader( "Game state", ImGuiTreeNodeFlags_DefaultOpen ) ) {
         return;
     }
 
     const avatar &player_character = get_avatar();
     const map &here = get_map();
 
-    label_value( _( "Turn" ), "%d",
+    label_value( "Turn", "%d",
                  to_turns<int>( calendar::turn - calendar::turn_zero ) );
     ImGui::SameLine( 0, 20.0f );
-    label_value( _( "Position" ), "%s",
+    label_value( "Position", "%s",
                  player_character.pos_bub( here ).to_string().c_str() );
     ImGui::SameLine( 0, 20.0f );
-    label_value( _( "Submap" ), "%s",
+    label_value( "Submap", "%s",
                  here.get_abs_sub().to_string().c_str() );
     ImGui::SameLine();
     add_monitor_button( "gs_pos_mon", "avatar:pos", snap::avatar_pos() );
@@ -4551,12 +4552,12 @@ void tab_data_view::draw_game_state_panel()
         []( const std::pair<std::string, int> &a, const std::pair<std::string, int> &b ) {
             return a.second > b.second;
         } );
-        ImGui::Text( "%s", string_format( _( "Creatures: %d total" ),
+        ImGui::Text( "%s", string_format( "Creatures: %d total",
                                           g->num_creatures() ).c_str() );
         ImGui::SameLine();
         add_monitor_button( "gs_creatures_mon", "world:creature_count",
                             snap::world_creature_count() );
-        if( !sorted_creatures.empty() && ImGui::TreeNode( _( "Breakdown" ) ) ) {
+        if( !sorted_creatures.empty() && ImGui::TreeNode( "Breakdown" ) ) {
             for( const auto &[name, count] : sorted_creatures ) {
                 ImGui::Text( "  %d x %s", count, name.c_str() );
             }
@@ -4572,12 +4573,12 @@ void tab_data_view::draw_game_state_panel()
                                    guy.pos_bub( here ).to_string() );
             npc_count++;
         }
-        ImGui::Text( "%s", string_format( _( "NPCs: %d" ), npc_count ).c_str() );
+        ImGui::Text( "%s", string_format( "NPCs: %d", npc_count ).c_str() );
         ImGui::SameLine();
         add_monitor_button( "gs_npcs_mon", "world:npc_count",
                             snap::world_npc_count() );
         if( npc_count > 0 && ImGui::TreeNode(
-                string_format( _( "Roster##npcs_tree" ) ).c_str() ) ) {
+                string_format( "Roster##npcs_tree" ).c_str() ) ) {
             for( const auto &[name, pos] : npc_info ) {
                 ImGui::Text( "  %s @ %s", name.c_str(), pos.c_str() );
             }
@@ -4588,15 +4589,15 @@ void tab_data_view::draw_game_state_panel()
 
 void tab_data_view::draw_var_browser( debug_console &/*host*/ )
 {
-    if( !ImGui::CollapsingHeader( _( "Variables" ) ) ) {
+    if( !ImGui::CollapsingHeader( "Variables" ) ) {
         return;
     }
 
 
     ImGui::SetNextItemWidth( 200 );
-    ImGui::InputText( _( "Filter##vars" ), &var_browser.filter );
+    ImGui::InputText( "Filter##vars", &var_browser.filter );
     ImGui::SameLine();
-    if( ImGui::SmallButton( _( "Copy all##vars" ) ) ) {
+    if( ImGui::SmallButton( "Copy all##vars" ) ) {
         std::string clipboard;
         for( const auto &[key, val] : get_globals().get_global_values() ) {
             clipboard += key + ";" + val.to_string( true ) + "\n";
@@ -4605,7 +4606,7 @@ void tab_data_view::draw_var_browser( debug_console &/*host*/ )
     }
     if( ImGui::IsItemHovered() ) {
         ImGui::SetTooltip( "%s",
-                           _( "Copy all global variables to clipboard" ) );
+                           "Copy all global variables to clipboard" );
     }
 
     auto global_provider = []( const std::string & k ) -> std::string {
@@ -4640,7 +4641,7 @@ void tab_data_view::draw_var_browser( debug_console &/*host*/ )
         }
     };
 
-    if( ImGui::TreeNodeEx( _( "Global" ), ImGuiTreeNodeFlags_DefaultOpen ) ) {
+    if( ImGui::TreeNodeEx( "Global", ImGuiTreeNodeFlags_DefaultOpen ) ) {
         draw_var_table( "global_vars", get_globals().get_global_values(),
                         150.0f, "global", global_provider, global_writer, var_browser );
         ImGui::TreePop();
@@ -4648,7 +4649,7 @@ void tab_data_view::draw_var_browser( debug_console &/*host*/ )
 
     avatar &player_character = get_avatar();
     {
-        std::string label = string_format( _( "Avatar (%s)" ),
+        std::string label = string_format( "Avatar (%s)",
                                            player_character.get_name() );
         if( ImGui::TreeNode( label.c_str() ) ) {
             draw_var_table( "avatar_vars", player_character.get_values(),
@@ -4723,21 +4724,21 @@ void tab_data_view::draw_var_browser( debug_console &/*host*/ )
 void tab_data_view::draw_timed_events_table()
 {
     const std::list<timed_event> &events = get_timed_events().get_all();
-    std::string header = string_format( _( "Timed Events (%d)##timed_events_header" ),
+    std::string header = string_format( "Timed Events (%d)##timed_events_header",
                                         static_cast<int>( events.size() ) );
     if( !ImGui::CollapsingHeader( header.c_str() ) ) {
         return;
     }
 
     ImGui::SetNextItemWidth( 200.0f );
-    ImGui::InputTextWithHint( "##te_filter", _( "Filter (key or type)" ),
+    ImGui::InputTextWithHint( "##te_filter", "Filter (key or type)",
                               &timed_events.filter );
     ImGui::SameLine();
     add_monitor_button( "te_count_mon", "world:timed_event_count",
                         snap::world_timed_event_count() );
 
     if( events.empty() ) {
-        ImGui::TextUnformatted( _( "No timed events." ) );
+        ImGui::TextUnformatted( "No timed events." );
         return;
     }
 
@@ -4763,22 +4764,22 @@ void tab_data_view::draw_timed_events_table()
                                        static_cast<int>( rows.size() ), 240.0f ) ) ) ) {
         const uint64_t key = lk_str( lk_mix( 0u, rows.size() ), timed_events.filter );
         const std::vector<colspec<const timed_event *>> specs = {
-            { _( "When" ), colw::fit, []( const timed_event *const & te ) { return to_string( te->when ); }, 0.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_DefaultSort },
+            { "When", colw::fit, []( const timed_event *const & te ) { return to_string( te->when ); }, 0.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_DefaultSort },
             {
-                _( "Type" ), colw::fit, []( const timed_event *const & te )
+                "Type", colw::fit, []( const timed_event *const & te )
                 {
                     return std::string( timed_event_type_name( te->type ) );
                 }
             },
-            { _( "Key" ), colw::stretch },
+            { "Key", colw::stretch },
             {
-                _( "Strength" ), colw::fit, []( const timed_event *const & te )
+                "Strength", colw::fit, []( const timed_event *const & te )
                 {
                     return std::to_string( te->strength );
                 }
             },
             {
-                _( "Faction" ), colw::fit, []( const timed_event *const & te )
+                "Faction", colw::fit, []( const timed_event *const & te )
                 {
                     return std::to_string( te->faction_id );
                 }
@@ -4840,10 +4841,10 @@ void tab_data_view::draw_timed_events_table()
                 ImGui::SetClipboardText( te->key.c_str() );
             }
             if( ImGui::BeginPopupContextItem( "te_ctx" ) ) {
-                if( ImGui::MenuItem( _( "Copy key" ) ) ) {
+                if( ImGui::MenuItem( "Copy key" ) ) {
                     ImGui::SetClipboardText( te->key.c_str() );
                 }
-                if( ImGui::MenuItem( _( "Copy summary" ) ) ) {
+                if( ImGui::MenuItem( "Copy summary" ) ) {
                     ImGui::SetClipboardText( string_format(
                                                  "when=%s type=%s key=%s strength=%d faction=%d",
                                                  to_string( te->when ),
@@ -4870,7 +4871,7 @@ void tab_data_view::draw_item_wakeups_table()
 {
     const std::vector<scheduled_wakeup_info> rows = get_item_wakeups().dump();
     std::string header = string_format(
-                             _( "Item wakeups (%d)##item_wakeups_header" ),
+                             "Item wakeups (%d)##item_wakeups_header",
                              static_cast<int>( rows.size() ) );
     if( !ImGui::CollapsingHeader( header.c_str() ) ) {
         return;
@@ -4923,7 +4924,7 @@ void tab_data_view::draw_item_wakeups_table()
     };
     const char *cur_kind = item_wakeups.kind_filter < 0 ? "all"
                            : kind_choices[item_wakeups.kind_filter + 1];
-    if( ImGui::BeginCombo( _( "Kind##iw" ), cur_kind ) ) {
+    if( ImGui::BeginCombo( "Kind##iw", cur_kind ) ) {
         if( ImGui::Selectable( "all", item_wakeups.kind_filter < 0 ) ) {
             item_wakeups.kind_filter = -1;
         }
@@ -4937,14 +4938,14 @@ void tab_data_view::draw_item_wakeups_table()
     }
     ImGui::SameLine();
     ImGui::SetNextItemWidth( 200.0f );
-    ImGui::InputTextWithHint( "##iw_filter", _( "Filter (uid or hint)" ),
+    ImGui::InputTextWithHint( "##iw_filter", "Filter (uid or hint)",
                               &item_wakeups.filter );
     ImGui::SameLine();
     add_monitor_button( "iw_count_mon", "world:item_wakeup_count",
                         snap::world_item_wakeup_count() );
 
     if( rows.empty() ) {
-        ImGui::TextUnformatted( _( "No scheduled item wakeups." ) );
+        ImGui::TextUnformatted( "No scheduled item wakeups." );
         const item_wakeup_manager::stats s0 = get_item_wakeups().get_stats();
         ImGui::TextDisabled( "pending=%d  stale=%d  dup=%d  dropped=%d",
                              s0.total_pending, s0.stale_resolution,
@@ -4981,30 +4982,30 @@ void tab_data_view::draw_item_wakeups_table()
                                      static_cast<uint64_t>( item_wakeups.kind_filter ) );
         const std::vector<colspec<const scheduled_wakeup_info *>> specs = {
             {
-                _( "When" ), colw::fit, []( const scheduled_wakeup_info *const & w )
+                "When", colw::fit, []( const scheduled_wakeup_info *const & w )
                 {
                     return to_string( w->when );
                 }
             },
             {
-                _( "In" ), colw::fit, []( const scheduled_wakeup_info *const & w )
+                "In", colw::fit, []( const scheduled_wakeup_info *const & w )
                 {
                     return to_string( w->when - calendar::turn );
                 }
             },
             {
-                _( "UID" ), colw::fit, []( const scheduled_wakeup_info *const & w )
+                "UID", colw::fit, []( const scheduled_wakeup_info *const & w )
                 {
                     return std::to_string( w->uid );
                 }
             },
             {
-                _( "Kind" ), colw::fit, [&]( const scheduled_wakeup_info *const & w )
+                "Kind", colw::fit, [&]( const scheduled_wakeup_info *const & w )
                 {
                     return std::string( kind_name( w->kind ) );
                 }
             },
-            { _( "Where" ), colw::stretch },
+            { "Where", colw::stretch },
         };
         setup_columns<const scheduled_wakeup_info *>( "item_wakeups", key, specs, filtered );
         ImGui::TableSetupScrollFreeze( 0, 1 );
@@ -5027,14 +5028,14 @@ void tab_data_view::draw_item_wakeups_table()
                     ImGui::SetClipboardText( std::to_string( w.uid ).c_str() );
                 }
                 if( ImGui::BeginPopupContextItem( "iw_ctx" ) ) {
-                    if( ImGui::MenuItem( _( "Copy UID" ) ) ) {
+                    if( ImGui::MenuItem( "Copy UID" ) ) {
                         ImGui::SetClipboardText( std::to_string( w.uid ).c_str() );
                     }
-                    if( ImGui::MenuItem( _( "Copy where" ) ) ) {
+                    if( ImGui::MenuItem( "Copy where" ) ) {
                         ImGui::SetClipboardText( hint_text( w.hint ).c_str() );
                     }
                     ImGui::Separator();
-                    if( ImGui::MenuItem( _( "Cancel wakeup" ) ) ) {
+                    if( ImGui::MenuItem( "Cancel wakeup" ) ) {
                         get_item_wakeups().cancel( w.uid, w.kind );
                     }
                     ImGui::EndPopup();
@@ -5062,18 +5063,18 @@ void tab_data_view::draw_item_wakeups_table()
 void tab_data_view::draw_faction_browser()
 {
     const auto &factions = g->faction_manager_ptr->all();
-    std::string header = string_format( _( "Factions (%d)##factions_header" ),
+    std::string header = string_format( "Factions (%d##factions_header)",
                                         static_cast<int>( factions.size() ) );
     if( !ImGui::CollapsingHeader( header.c_str() ) ) {
         return;
     }
 
     ImGui::SetNextItemWidth( 200.0f );
-    ImGui::InputTextWithHint( "##fac_filter", _( "Filter (id or name)" ),
+    ImGui::InputTextWithHint( "##fac_filter", "Filter (id or name)",
                               &faction_browser.filter );
     ImGui::SameLine();
     ImGui::TextDisabled( "%s",
-                         _( "Right-click row to copy or edit relations" ) );
+                         "Right-click row to copy or edit relations" );
 
     std::vector<std::pair<faction_id, const faction *>> rows;
     rows.reserve( factions.size() );
@@ -5098,34 +5099,34 @@ void tab_data_view::draw_faction_browser()
                                        static_cast<int>( rows.size() ), 240.0f ) ) ) ) {
         const uint64_t key = lk_str( lk_mix( 0u, rows.size() ), faction_browser.filter );
         const std::vector<colspec<faction_pair>> specs = {
-            { _( "ID" ), colw::fit, []( const faction_pair & r ) { return r.first.str(); }, 0.0f, 1.0f, 0.25f, ImGuiTableColumnFlags_DefaultSort },
-            { _( "Name" ), colw::stretch },
+            { "ID", colw::fit, []( const faction_pair & r ) { return r.first.str(); }, 0.0f, 1.0f, 0.25f, ImGuiTableColumnFlags_DefaultSort },
+            { "Name", colw::stretch },
             {
-                _( "Likes" ), colw::fit, []( const faction_pair & r )
+                "Likes", colw::fit, []( const faction_pair & r )
                 {
                     return std::to_string( r.second->likes_u );
                 }
             },
             {
-                _( "Respect" ), colw::fit, []( const faction_pair & r )
+                "Respect", colw::fit, []( const faction_pair & r )
                 {
                     return std::to_string( r.second->respects_u );
                 }
             },
             {
-                _( "Trust" ), colw::fit, []( const faction_pair & r )
+                "Trust", colw::fit, []( const faction_pair & r )
                 {
                     return std::to_string( r.second->trusts_u );
                 }
             },
             {
-                _( "Size" ), colw::fit, []( const faction_pair & r )
+                "Size", colw::fit, []( const faction_pair & r )
                 {
                     return std::to_string( r.second->size );
                 }
             },
-            { _( "Food" ), colw::fit, []( const faction_pair & r ) { return r.second->food_supply_text(); }, 0.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_NoSort },
-            { _( "+M" ), colw::widget, {}, 40.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_NoSort },
+            { "Food", colw::fit, []( const faction_pair & r ) { return r.second->food_supply_text(); }, 0.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_NoSort },
+            { "+M", colw::widget, {}, 40.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_NoSort },
         };
         setup_columns<faction_pair>( "factions", key, specs, rows, true );
         ImGui::TableSetupScrollFreeze( 0, 1 );
@@ -5184,21 +5185,21 @@ void tab_data_view::draw_faction_browser()
                 ImGui::SetClipboardText( fid.str().c_str() );
             }
             if( ImGui::BeginPopupContextItem( "fac_ctx" ) ) {
-                if( ImGui::MenuItem( _( "Copy id" ) ) ) {
+                if( ImGui::MenuItem( "Copy id" ) ) {
                     ImGui::SetClipboardText( fid.str().c_str() );
                 }
-                if( ImGui::MenuItem( _( "Copy name" ) ) ) {
+                if( ImGui::MenuItem( "Copy name" ) ) {
                     ImGui::SetClipboardText( fac.get_name().c_str() );
                 }
                 ImGui::Separator();
-                if( ImGui::MenuItem( _( "Edit relations" ) ) ) {
+                if( ImGui::MenuItem( "Edit relations" ) ) {
                     faction_browser.edit_fid = fid;
                     faction_browser.edit_likes = fac.likes_u;
                     faction_browser.edit_respects = fac.respects_u;
                     faction_browser.edit_trusts = fac.trusts_u;
                     ImGui::OpenPopup( "fac_edit_popup" );
                 }
-                if( ImGui::MenuItem( _( "Reset relations to 0" ) ) ) {
+                if( ImGui::MenuItem( "Reset relations to 0" ) ) {
                     if( faction *f = g->faction_manager_ptr->get( fid, false ) ) {
                         f->likes_u = 0;
                         f->respects_u = 0;
@@ -5235,12 +5236,12 @@ void tab_data_view::draw_faction_browser()
                                     ImGuiWindowFlags_AlwaysAutoResize ) ) {
             ImGui::TextDisabled( "%s", faction_browser.edit_fid.str().c_str() );
             ImGui::SetNextItemWidth( 220.0f );
-            ImGui::InputInt( _( "Likes##fac_edit" ), &faction_browser.edit_likes );
+            ImGui::InputInt( "Likes##fac_edit", &faction_browser.edit_likes );
             ImGui::SetNextItemWidth( 220.0f );
-            ImGui::InputInt( _( "Respect##fac_edit" ), &faction_browser.edit_respects );
+            ImGui::InputInt( "Respect##fac_edit", &faction_browser.edit_respects );
             ImGui::SetNextItemWidth( 220.0f );
-            ImGui::InputInt( _( "Trust##fac_edit" ), &faction_browser.edit_trusts );
-            if( ImGui::Button( _( "Save##fac_edit" ) ) ) {
+            ImGui::InputInt( "Trust##fac_edit", &faction_browser.edit_trusts );
+            if( ImGui::Button( "Save##fac_edit" ) ) {
                 if( faction *f = g->faction_manager_ptr->get( faction_browser.edit_fid,
                                  false ) ) {
                     f->likes_u = faction_browser.edit_likes;
@@ -5251,7 +5252,7 @@ void tab_data_view::draw_faction_browser()
                 ImGui::CloseCurrentPopup();
             }
             ImGui::SameLine();
-            if( ImGui::Button( _( "Cancel##fac_edit" ) ) ) {
+            if( ImGui::Button( "Cancel##fac_edit" ) ) {
                 faction_browser.edit_fid = faction_id::NULL_ID();
                 ImGui::CloseCurrentPopup();
             }
@@ -5263,7 +5264,7 @@ void tab_data_view::draw_faction_browser()
 
 const char *tab_trace_view::label() const
 {
-    return _( "Trace" );
+    return "Trace";
 }
 
 void tab_trace_view::load_state( const JsonObject &nested )
@@ -5309,38 +5310,38 @@ void tab_trace_view::draw_body( debug_console &host )
     capture_settings &s = cap.settings();
 
     // Collapsed by default so the entries feed below gets most of the height.
-    if( ImGui::CollapsingHeader( _( "Capture##trace" ) ) ) {
+    if( ImGui::CollapsingHeader( "Capture##trace" ) ) {
         ImGui::PushID( "trace_capture" );
         ImGui::Indent();
-        ImGui::Checkbox( _( "Capture" ), &s.main_enabled );
+        ImGui::Checkbox( "Capture", &s.main_enabled );
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "Main capture gate (off freezes everything)" ) );
+                               "Main capture gate (off freezes everything)" );
         }
         ImGui::SameLine();
         ImGui::TextDisabled( "|" );
         ImGui::SameLine();
         ImGui::BeginDisabled( !s.main_enabled );
-        ImGui::Checkbox( _( "add_msg_debug" ), &s.add_msg_debug_capture );
+        ImGui::Checkbox( "add_msg_debug", &s.add_msg_debug_capture );
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "Capture add_msg_debug lines (needs debug_mode + filters)" ) );
+                               "Capture add_msg_debug lines (needs debug_mode + filters)" );
         }
         ImGui::SameLine();
         const std::string filt_preview = string_format(
-                                             _( "filters: %d / %d" ),
+                                             "filters: %d / %d",
                                              static_cast<int>( debugmode::enabled_filters.size() ),
                                              static_cast<int>( debugmode::DF_LAST ) );
         ImGui::SetNextItemWidth( 180.0f );
         if( ImGui::BeginCombo( "##dbgf_combo", filt_preview.c_str() ) ) {
-            if( ImGui::SmallButton( _( "All##dbgf" ) ) ) {
+            if( ImGui::SmallButton( "All##dbgf" ) ) {
                 for( int i = 0; i < static_cast<int>( debugmode::DF_LAST ); i++ ) {
                     debugmode::enabled_filters.insert(
                         static_cast<debugmode::debug_filter>( i ) );
                 }
             }
             ImGui::SameLine();
-            if( ImGui::SmallButton( _( "None##dbgf" ) ) ) {
+            if( ImGui::SmallButton( "None##dbgf" ) ) {
                 debugmode::enabled_filters.clear();
             }
             ImGui::Separator();
@@ -5360,30 +5361,30 @@ void tab_trace_view::draw_body( debug_console &host )
         }
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "Per-category gate for add_msg_debug emission" ) );
+                               "Per-category gate for add_msg_debug emission" );
         }
         ImGui::SameLine();
-        ImGui::Checkbox( _( "event_bus" ), &s.event_bus_capture );
+        ImGui::Checkbox( "event_bus", &s.event_bus_capture );
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "Capture every event_bus emission (no per-category gate)" ) );
+                               "Capture every event_bus emission (no per-category gate)" );
         }
         ImGui::SameLine();
-        ImGui::Checkbox( _( "EOC fire trace" ), &s.eoc_trace_capture );
+        ImGui::Checkbox( "EOC fire trace", &s.eoc_trace_capture );
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "Capture EOC activations with success, depth and timing" ) );
+                               "Capture EOC activations with success, depth and timing" );
         }
         if( !debug_mode ) {
             ImGui::TextColored( ImVec4( 0.95f, 0.7f, 0.4f, 1.0f ), "%s",
-                                _( "Debug mode off; add_msg_debug capture inert" ) );
+                                "Debug mode off; add_msg_debug capture inert" );
         }
 
         ImGui::Spacing();
-        ImGui::Checkbox( _( "Store on disk" ), &s.trace_file.enabled );
+        ImGui::Checkbox( "Store on disk", &s.trace_file.enabled );
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "Mirror every captured line to a file on disk" ) );
+                               "Mirror every captured line to a file on disk" );
         }
         ImGui::SameLine();
         const char *const fmt_items[] = { "JSONL", "CSV" };
@@ -5411,28 +5412,28 @@ void tab_trace_view::draw_body( debug_console &host )
         }
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "On-disk format (auto-renames extension)" ) );
+                               "On-disk format (auto-renames extension)" );
         }
         ImGui::SameLine();
         ImGui::SetNextItemWidth( 240.0f );
-        ImGui::InputTextWithHint( "##jsonl_path", _( "path" ), &s.trace_file.path );
+        ImGui::InputTextWithHint( "##jsonl_path", "path", &s.trace_file.path );
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "Output path (relative to game working directory)" ) );
+                               "Output path (relative to game working directory)" );
         }
         ImGui::SameLine();
-        ImGui::Checkbox( _( "auto-flush" ), &s.trace_file.auto_flush );
+        ImGui::Checkbox( "auto-flush", &s.trace_file.auto_flush );
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "Auto-flush each batch (off keeps buffered)" ) );
+                               "Auto-flush each batch (off keeps buffered)" );
         }
         ImGui::SameLine();
-        if( ImGui::SmallButton( _( "Flush" ) ) ) {
+        if( ImGui::SmallButton( "Flush" ) ) {
             cap.flush_trace_file();
         }
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "Flush pending lines to disk now" ) );
+                               "Flush pending lines to disk now" );
         }
 
         ImGui::Spacing();
@@ -5443,11 +5444,11 @@ void tab_trace_view::draw_body( debug_console &host )
             cap.resize_log_ring( static_cast<size_t>( log_n ) );
         }
         ImGui::SameLine();
-        if( ImGui::SmallButton( _( "Clr##log" ) ) ) {
+        if( ImGui::SmallButton( "Clr##log" ) ) {
             cap.clear_logs();
         }
         if( ImGui::IsItemHovered() ) {
-            ImGui::SetTooltip( "%s", _( "Drop every entry from the captured-log ring" ) );
+            ImGui::SetTooltip( "%s", "Drop every entry from the captured-log ring" );
         }
         ImGui::SameLine();
         int ev_n = static_cast<int>( s.event_ring_size );
@@ -5456,11 +5457,11 @@ void tab_trace_view::draw_body( debug_console &host )
             cap.resize_event_ring( static_cast<size_t>( ev_n ) );
         }
         ImGui::SameLine();
-        if( ImGui::SmallButton( _( "Clr##ev" ) ) ) {
+        if( ImGui::SmallButton( "Clr##ev" ) ) {
             cap.clear_events();
         }
         if( ImGui::IsItemHovered() ) {
-            ImGui::SetTooltip( "%s", _( "Drop every entry from the captured-event ring" ) );
+            ImGui::SetTooltip( "%s", "Drop every entry from the captured-event ring" );
         }
         ImGui::SameLine();
         int eoc_n = static_cast<int>( s.eoc_trace_ring_size );
@@ -5469,18 +5470,18 @@ void tab_trace_view::draw_body( debug_console &host )
             cap.resize_eoc_trace_ring( static_cast<size_t>( eoc_n ) );
         }
         ImGui::SameLine();
-        if( ImGui::SmallButton( _( "Clr##eoc" ) ) ) {
+        if( ImGui::SmallButton( "Clr##eoc" ) ) {
             cap.clear_eoc_traces();
         }
         if( ImGui::IsItemHovered() ) {
-            ImGui::SetTooltip( "%s", _( "Drop every entry from the captured-EOC-trace ring" ) );
+            ImGui::SetTooltip( "%s", "Drop every entry from the captured-EOC-trace ring" );
         }
 
         ImGui::EndDisabled();
 
         const size_t mon_count = cap.monitors().size();
         const std::string mon_header = string_format(
-                                           _( "Monitors (%d)##cap_mon_header" ),
+                                           "Monitors (%d)##cap_mon_header",
                                            static_cast<int>( mon_count ) );
         ImGui::SetNextItemOpen( mon_count > 0, ImGuiCond_Once );
         if( ImGui::CollapsingHeader( mon_header.c_str() ) ) {
@@ -5490,35 +5491,35 @@ void tab_trace_view::draw_body( debug_console &host )
         ImGui::PopID();
     }
 
-    framed_section( "trace_view", _( "View" ), [&]() {
-        ImGui::Checkbox( _( "Log" ), &trace_show_log );
+    framed_section( "trace_view", "View", [&]() {
+        ImGui::Checkbox( "Log", &trace_show_log );
         if( ImGui::IsItemHovered() ) {
-            ImGui::SetTooltip( "%s", _( "Show captured debug log lines in the feed" ) );
+            ImGui::SetTooltip( "%s", "Show captured debug log lines in the feed" );
         }
         ImGui::SameLine();
-        ImGui::Checkbox( _( "Event" ), &trace_show_event );
+        ImGui::Checkbox( "Event", &trace_show_event );
         if( ImGui::IsItemHovered() ) {
-            ImGui::SetTooltip( "%s", _( "Show captured event_bus events in the feed" ) );
+            ImGui::SetTooltip( "%s", "Show captured event_bus events in the feed" );
         }
         ImGui::SameLine();
         bool eoc_visible = host.eoc_trace_visible();
-        if( ImGui::Checkbox( _( "EOC" ), &eoc_visible ) ) {
+        if( ImGui::Checkbox( "EOC", &eoc_visible ) ) {
             host.set_eoc_trace_visible( eoc_visible );
         }
         if( ImGui::IsItemHovered() ) {
-            ImGui::SetTooltip( "%s", _( "Show captured EOC fire traces in the feed" ) );
+            ImGui::SetTooltip( "%s", "Show captured EOC fire traces in the feed" );
         }
         ImGui::SameLine();
-        ImGui::Checkbox( _( "Monitor" ), &trace_show_monitor );
+        ImGui::Checkbox( "Monitor", &trace_show_monitor );
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "Show monitor snapshots in the feed (independent from the Log toggle)" ) );
+                               "Show monitor snapshots in the feed (independent from the Log toggle)" );
         }
         ImGui::SameLine();
-        ImGui::Checkbox( _( "Auto-scroll" ), &trace_autoscroll );
+        ImGui::Checkbox( "Auto-scroll", &trace_autoscroll );
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "Snap to bottom on new rows (disable to read history)" ) );
+                               "Snap to bottom on new rows (disable to read history)" );
         }
         ImGui::SameLine();
         int active_cats = 0;
@@ -5528,15 +5529,15 @@ void tab_trace_view::draw_body( debug_console &host )
             }
         }
         const std::string cat_preview = string_format(
-                                            _( "cats: %d / %d" ), active_cats,
+                                            "cats: %d / %d", active_cats,
                                             static_cast<int>( debugmode::DF_LAST ) );
         ImGui::SetNextItemWidth( 160.0f );
         if( ImGui::BeginCombo( "##trace_cats_combo", cat_preview.c_str() ) ) {
-            if( ImGui::SmallButton( _( "All##trace_cat_all" ) ) ) {
+            if( ImGui::SmallButton( "All##trace_cat_all" ) ) {
                 log_category_mask.set();
             }
             ImGui::SameLine();
-            if( ImGui::SmallButton( _( "None##trace_cat_none" ) ) ) {
+            if( ImGui::SmallButton( "None##trace_cat_none" ) ) {
                 log_category_mask.reset();
             }
             ImGui::Separator();
@@ -5552,11 +5553,11 @@ void tab_trace_view::draw_body( debug_console &host )
         }
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "Display-side category gate (capture is not affected)" ) );
+                               "Display-side category gate (capture is not affected)" );
         }
         ImGui::SameLine();
         ImGui::SetNextItemWidth( -1.0f );
-        ImGui::InputTextWithHint( "##trace_filter", _( "filter (label or body)" ),
+        ImGui::InputTextWithHint( "##trace_filter", "filter (label or body)",
                                   &trace_filter );
     } );
 
@@ -5678,7 +5679,7 @@ void tab_trace_view::draw_body( debug_console &host )
         export_rows( host, "trace", "trace", rows, cols );
     }
 
-    label_value( _( "Entries" ), "%d", static_cast<int>( rows.size() ) );
+    label_value( "Entries", "%d", static_cast<int>( rows.size() ) );
 
     if( ImGui::BeginTable( "trace_feed", 4,
                            ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg |
@@ -5692,19 +5693,19 @@ void tab_trace_view::draw_body( debug_console &host )
         key = lk_str( key, trace_filter );
         const std::vector<colspec<trace_row>> specs = {
             {
-                _( "Turn" ), colw::fit, []( const trace_row & r )
+                "Turn", colw::fit, []( const trace_row & r )
                 {
                     return std::to_string( r.turn );
                 }
             },
             {
-                _( "Src" ), colw::fit, []( const trace_row & r )
+                "Src", colw::fit, []( const trace_row & r )
                 {
                     return std::string( source_names[r.source] );
                 }
             },
-            { _( "Label" ), colw::fit, []( const trace_row & r ) { return r.label; }, 0.0f, 1.0f, 0.25f },
-            { _( "Detail" ), colw::stretch },
+            { "Label", colw::fit, []( const trace_row & r ) { return r.label; }, 0.0f, 1.0f, 0.25f },
+            { "Detail", colw::stretch },
         };
         setup_columns<trace_row>( "trace_feed", key, specs, rows );
         ImGui::TableSetupScrollFreeze( 0, 1 );
@@ -5747,7 +5748,7 @@ void tab_trace_view::draw_monitors_body()
                             "Snapshots fire every turn / on change / manually and are written to the "
                             "Trace tab under the DF_MONITOR category (and JSONL when enabled)." ) );
 
-    ImGui::SeparatorText( _( "Add monitor" ) );
+    ImGui::SeparatorText( "Add monitor" );
 
     // Table-driven dispatch: each entry carries the combo label, input
     // hint, optional validator, and snap-closure factory.
@@ -5763,7 +5764,7 @@ void tab_trace_view::draw_monitors_body()
         combo_labels.push_back( e.label );
     }
     ImGui::SetNextItemWidth( 320 );
-    ImGui::Combo( _( "Target##mon_target" ), &monitor_target_type,
+    ImGui::Combo( "Target##mon_target", &monitor_target_type,
                   combo_labels.data(), n_targets );
 
     const monitor_target_entry &target = targets[monitor_target_type];
@@ -5771,12 +5772,12 @@ void tab_trace_view::draw_monitors_body()
 
     ImGui::SetNextItemWidth( 240 );
     ImGui::InputTextWithHint( "##mon_input",
-                              needs_input ? target.hint : _( "(no input)" ),
+                              needs_input ? target.hint : "(no input)",
                               &monitor_target_input,
                               needs_input ? 0 : ImGuiInputTextFlags_ReadOnly );
     ImGui::SameLine();
     ImGui::SetNextItemWidth( 200 );
-    ImGui::InputTextWithHint( "##mon_label", _( "label…" ), &monitor_label );
+    ImGui::InputTextWithHint( "##mon_label", "label…", &monitor_label );
     ImGui::SameLine();
     static const char *const mode_labels[] = { "every_turn", "on_change", "manual" };
     ImGui::SetNextItemWidth( 100 );
@@ -5788,7 +5789,7 @@ void tab_trace_view::draw_monitors_body()
                              target.validate( monitor_target_input );
     ImGui::BeginDisabled( monitor_label.empty() || !input_present ||
                           !input_valid );
-    const bool add_clicked = ImGui::Button( _( "Add" ) );
+    const bool add_clicked = ImGui::Button( "Add" );
     ImGui::EndDisabled();
     if( add_clicked ) {
         const monitor_mode mode = static_cast<monitor_mode>( monitor_mode_idx );
@@ -5801,20 +5802,20 @@ void tab_trace_view::draw_monitors_body()
         }
     }
 
-    ImGui::SeparatorText( _( "Active monitors" ) );
+    ImGui::SeparatorText( "Active monitors" );
     std::vector<monitor_entry> &mons = debug_capture::instance().monitors();
     if( mons.empty() ) {
-        ImGui::TextDisabled( "%s", _( "(none)" ) );
+        ImGui::TextDisabled( "%s", "(none)" );
     } else if( ImGui::BeginTable( "monitors_table", 6,
                                   ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders |
                                   ImGuiTableFlags_Resizable |
                                   ImGuiTableFlags_SizingStretchProp ) ) {
-        fit_col( _( "On" ) );
-        ImGui::TableSetupColumn( _( "Label" ) );
-        fit_col( _( "Mode" ) );
-        ImGui::TableSetupColumn( _( "Last snapshot" ) );
-        fit_col( _( "Snap" ) );
-        fit_col( _( "Remove" ) );
+        fit_col( "On" );
+        ImGui::TableSetupColumn( "Label" );
+        fit_col( "Mode" );
+        ImGui::TableSetupColumn( "Last snapshot" );
+        fit_col( "Snap" );
+        fit_col( "Remove" );
         ImGui::TableHeadersRow();
         int remove_id = -1;
         int snap_id = -1;
@@ -5844,7 +5845,7 @@ void tab_trace_view::draw_monitors_body()
             }
             if( ImGui::IsItemHovered() ) {
                 ImGui::SetTooltip( "%s",
-                                   _( "Take a snapshot of this monitor right now and log it" ) );
+                                   "Take a snapshot of this monitor right now and log it" );
             }
             ImGui::TableNextColumn();
             if( ImGui::SmallButton( "Remove" ) ) {
@@ -5852,7 +5853,7 @@ void tab_trace_view::draw_monitors_body()
             }
             if( ImGui::IsItemHovered() ) {
                 ImGui::SetTooltip( "%s",
-                                   _( "Delete this monitor permanently from the registry" ) );
+                                   "Delete this monitor permanently from the registry" );
             }
             ImGui::PopID();
         }
@@ -5955,7 +5956,7 @@ void add_monitor_button( const char *id, const std::string &label,
     const bool clicked = ImGui::SmallButton( "+M" );
     if( ImGui::IsItemHovered() ) {
         ImGui::SetTooltip( "%s",
-                           _( "Add monitor (visible in Trace > Monitors)" ) );
+                           "Add monitor (visible in Trace > Monitors)" );
     }
     if( clicked ) {
         debug_capture::instance().add_monitor( label, std::move( snap ), mode );

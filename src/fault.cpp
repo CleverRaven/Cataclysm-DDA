@@ -10,6 +10,27 @@
 #include "requirements.h"
 #include "rng.h"
 
+namespace io
+{
+template<>
+std::string enum_to_string<fault_severity>( fault_severity severity )
+{
+    switch( severity ) {
+        case fault_severity::none:
+            return "none";
+        case fault_severity::minor:
+            return "minor";
+        case fault_severity::major:
+            return "major";
+        case fault_severity::critical:
+            return "critical";
+        case fault_severity::last:
+            break;
+    }
+    cata_fatal( "Invalid fault_severity" );
+}
+} // namespace io
+
 namespace
 {
 
@@ -228,6 +249,11 @@ std::string fault::type() const
     return type_;
 }
 
+fault_severity fault::severity() const
+{
+    return severity_;
+}
+
 bool fault::has_flag( const std::string &flag ) const
 {
     return flags.count( flag );
@@ -252,6 +278,7 @@ void fault::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "item_suffix", item_suffix_ );
     optional( jo, was_loaded, "message", message_ );
     optional( jo, was_loaded, "color", color_, "bad" );
+    optional( jo, was_loaded, "severity", severity_, fault_severity::none );
     optional( jo, was_loaded, "fault_type", type_ );
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "block_faults", block_faults );

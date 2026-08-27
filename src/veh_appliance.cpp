@@ -552,7 +552,7 @@ void veh_app_interact::remove( map &here )
     Character &you = get_player_character();
     const inventory &inv = you.crafting_inventory();
     std::string msg;
-    bool can_remove = reqs.can_make_with_inventory( inv, is_crafting_component );
+    bool can_remove = reqs.can_make_with_inventory( &you, inv, is_crafting_component );
     if( !can_remove ) {
         msg += _( "Insufficient components/tools!\n" );
         msg += reqs.list_missing();

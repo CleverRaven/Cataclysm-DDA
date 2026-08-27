@@ -12,7 +12,7 @@
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 1,
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": { "math": [ "mom_telepathy_max_power_formula()" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEPATH_CONCENTRATION_INITIATE",
     "shape": "blast",
@@ -45,7 +45,7 @@
     "effect_str": "EOC_TELEPATH_SHIELD_INITIATE",
     "shape": "blast",
     "difficulty": 2,
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": { "math": [ "mom_telepathy_max_power_formula()" ] },
     "min_duration": {
       "math": [
         "( ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) * 1500) + 18000) * psionic_power_modifiers()"
@@ -63,7 +63,7 @@
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_telepathic_psi_armor') > -1 ? 10 : max( (100 - ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) * 6.5)), 10)"
+        "u_effect_intensity('effect_telepathic_psi_armor') > -1 ? 10 : max( (200 - ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) * 6.5)), 45)"
       ]
     }
   },
@@ -83,7 +83,7 @@
     "effect_str": "EOC_TELEPATH_SENSE_MINDS_INITIATE",
     "shape": "blast",
     "difficulty": 2,
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": { "math": [ "mom_telepathy_max_power_formula()" ] },
     "min_duration": {
       "math": [
         "( ( (u_spell_level('telepathic_mind_sense') + u_spell_level('telepathic_mind_sense_knack') ) * 2600) + 9000) * psionic_power_modifiers()"
@@ -114,7 +114,7 @@
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "difficulty": 3,
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": { "math": [ "mom_telepathy_max_power_formula()" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEPATH_MESMERIZE",
     "shape": "blast",
@@ -150,7 +150,7 @@
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 3,
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": { "math": [ "mom_telepathy_max_power_formula()" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEPATH_MORALE_INITIATE",
     "shape": "blast",
@@ -215,7 +215,7 @@
       "PERCENTAGE_DAMAGE"
     ],
     "difficulty": 4,
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": { "math": [ "mom_telepathy_max_power_formula()" ] },
     "effect": "attack",
     "shape": "blast",
     "damage_type": "psi_telepathic_damage",
@@ -256,7 +256,7 @@
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "NO_PROJECTILE", "SILENT", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 4,
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": { "math": [ "mom_telepathy_max_power_formula()" ] },
     "effect": "charm_monster",
     "shape": "blast",
     "damage_type": "psi_telepathic_damage",
@@ -319,7 +319,7 @@
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "NO_PROJECTILE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 5,
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": { "math": [ "mom_telepathy_max_power_formula()" ] },
     "effect": "attack",
     "effect_str": "psi_stunned",
     "extra_effects": [ { "id": "telepathic_confusion_blind", "hit_self": false, "max_level": 20 } ],
@@ -348,7 +348,7 @@
     "teachable": false,
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "NO_PROJECTILE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": { "math": [ "mom_telepathy_max_power_formula()" ] },
     "effect": "attack",
     "effect_str": "psi_blind",
     "damage_type": "psi_telepathic_damage",
@@ -371,7 +371,7 @@
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "difficulty": 6,
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": { "math": [ "mom_telepathy_max_power_formula()" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEPATH_PRIMAL_TERROR",
     "shape": "blast",
@@ -410,7 +410,7 @@
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 6,
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": { "math": [ "mom_telepathy_max_power_formula()" ] },
     "effect": "attack",
     "effect_str": "telepathic_ignorance",
     "extra_effects": [ { "id": "telepathic_invisibility_self", "hit_self": true } ],
@@ -483,7 +483,7 @@
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "RANDOM_DAMAGE", "NO_HANDS", "NO_EXPLOSION_SFX", "NO_LEGS", "PERCENTAGE_DAMAGE", "IGNORE_WALLS" ],
     "difficulty": 7,
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": { "math": [ "mom_telepathy_max_power_formula()" ] },
     "effect": "attack",
     "extra_effects": [ { "id": "telepathic_blast_radius_guaranteed", "hit_self": false } ],
     "shape": "blast",
@@ -522,7 +522,7 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_EXPLOSION_SFX", "IGNORE_WALLS" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": { "math": [ "mom_telepathy_max_power_formula()" ] },
     "effect": "attack",
     "shape": "blast",
     "damage_type": "psi_telepathic_damage",
@@ -548,7 +548,7 @@
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "NO_PROJECTILE", "RECHARM", "CHARM_PET", "SILENT", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 7,
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": { "math": [ "mom_telepathy_max_power_formula()" ] },
     "effect": "charm_monster",
     "shape": "blast",
     "min_damage": { "math": [ "( (u_spell_level('telepathic_beast_taming') * 15) + 200) * psionic_power_modifiers()" ] },
@@ -588,7 +588,7 @@
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "NO_PROJECTILE", "SILENT", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 8,
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": { "math": [ "mom_telepathy_max_power_formula()" ] },
     "effect": "charm_monster",
     "shape": "blast",
     "damage_type": "psi_telepathic_damage",
@@ -630,7 +630,7 @@
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 9,
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": { "math": [ "mom_telepathy_max_power_formula()" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEPATH_NETWORK_ALLY_CHECK",
     "shape": "blast",

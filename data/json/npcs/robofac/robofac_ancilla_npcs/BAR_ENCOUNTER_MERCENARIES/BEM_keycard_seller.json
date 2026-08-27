@@ -21,7 +21,7 @@
         "success": { "topic": "TALK_KEYCARD_SELLER_DISCOUNT_BUY" },
         "failure": { "topic": "TALK_KEYCARD_SELLER_NO_DISCOUNTS" }
       },
-      { "text": "Huh where do you get those from", "topic": "BEM_KEYCARD_SELLER_ASK" },
+      { "text": "Huh, where did you get those from?", "topic": "BEM_KEYCARD_SELLER_ASK" },
       { "text": "Sorry, not interested.", "topic": "TALK_DONE" }
     ]
   },

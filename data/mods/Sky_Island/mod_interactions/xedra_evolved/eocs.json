@@ -94,6 +94,7 @@
       { "u_forget_recipe": "upgradekey_vampire4" },
       { "u_add_trait": "VAMPIRE4" },
       { "run_eocs": "EOC_REMOVE_DREAM_MAGIC" },
+      { "run_eocs": [ "EOC_TIER_4_REMOVE_MORALS" ] },
       { "run_eocs": "EOC_REMOVE_NON_VAMPIRE_SUPERNATURAL" },
       { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
       { "u_add_effect": "vampire_virus_ascendant", "intensity": 1, "duration": "PERMANENT" },
@@ -135,7 +136,6 @@
     "effect": [
       { "u_remove_item_with": "upgradekey_vampire5" },
       { "u_forget_recipe": "upgradekey_vampire5" },
-      { "run_eocs": [ "EOC_TIER_5_REMOVE_MORALS" ] },
       { "u_add_trait": "BLOOD_DRINKER" },
       { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
       { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },

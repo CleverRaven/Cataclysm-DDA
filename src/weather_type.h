@@ -16,6 +16,7 @@
 #include "field_type.h"
 #include "translation.h"
 #include "type_id.h"
+#include "units.h"
 
 class JsonObject;
 struct const_dialogue;
@@ -95,6 +96,8 @@ struct weather_type {
         float sight_penalty = 0.0f;
         // Modification to ambient light.
         int light_modifier = 0;
+        // Increases or decreases average temperature when this weather is active
+        units::temperature_delta temperature_modifier = 0_K_delta;
         // Multiplier to ambient light.
         float light_multiplier = 1.f;
         // Multiplier to radiation from Sun.

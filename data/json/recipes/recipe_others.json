@@ -26,7 +26,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ [ [ "cotton_patchwork", 6 ] ], [ [ "down_feather", 40 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 6 ] ], [ [ "down_feather", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -40,7 +40,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ [ [ "cotton_patchwork", 60 ] ], [ [ "down_feather", 1160 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 60 ] ], [ [ "down_feather", 15 ] ] ]
   },
   {
     "type": "recipe",
@@ -1616,7 +1616,7 @@
       [ [ "nuts_bolts", 8 ] ],
       [ [ "30gal_barrel", 1 ] ]
     ],
-    "//2": "The component list is by no means perfect - this craft still generates ~7.2kg of mass. I can't, however, improve it without adding nonexistant components to the recipe, so I think this is an acceptable state of things."
+    "//2": "The component list is by no means perfect - this craft still generates ~7.2kg of mass. I can't, however, improve it without adding nonexistent components to the recipe, so I think this is an acceptable state of things."
   },
   {
     "type": "recipe",

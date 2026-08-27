@@ -7,7 +7,7 @@
     "name": "Unknowing Changeling, Noble (Species)",
     "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  Your parents were the nobility of the Fair Folk, the great lords and ladies who traveled in spider-silk carriages on roads built of moonbeams and danced the unending nights away before leading fantastic armies in battle the next morning.  When the Cataclysm hit, your parents' slumbering power asserted itself, giving you access to a portion of their fae magick.  Hopefully it will help you survive.",
     "points": 4,
-    "traits": [ "ELFA_EARS", "CHANGELING_MAGIC", "UNKNOWING_CHANGELING_NOBLE" ],
+    "traits": [ "CHANGELING_EARS", "CHANGELING_MAGIC", "UNKNOWING_CHANGELING_NOBLE" ],
     "chargen_allow_npc": false
   },
   {
@@ -17,8 +17,26 @@
     "name": "Unknowing Changeling, Commoner (Species)",
     "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  Your parents come from the common masses of the Fair Folk, the pooka, redcaps, hobgoblins, trow, pixies, knockers, selkies, or any of the myriad of others.  When the Cataclysm hit, your parents' slumbering power asserted itself, revealing your heritage and giving you access to a portion of their fae magick.  Hopefully it will help you survive.",
     "points": 4,
-    "traits": [ "FAIR_FOLK_COMMONER_SELECTOR", "CHANGELING_MAGIC", "ELFA_EARS" ],
+    "traits": [ "FAIR_FOLK_COMMONER_SELECTOR", "CHANGELING_MAGIC", "CHANGELING_EARS" ],
     "chargen_allow_npc": false
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_EARS",
+    "name": { "str": "Pointed Ears" },
+    "description": "Your upper earlobes have grown noticeably higher.  Fortunately, they don't get in the way of your headgear, much.  Unfortunately, they also don't seem to help your hearing any.",
+    "types": [ "EARS" ],
+    "category": [
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "points": 0,
+    "vitamin_cost": 80,
+    "visibility": 4,
+    "ugliness": 1
   },
   {
     "type": "mutation",
@@ -29,7 +47,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.6 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.6 } ] }, { "mutations": [ "IRON_ALLERGY" ] } ]
   },
   {
     "type": "mutation",
@@ -49,7 +67,7 @@
     "id": "CHANGELING_COURT_SUMMER",
     "name": { "str": "Summer Court" },
     "points": 1,
-    "description": "You are a member of the Summer Court, sometimes called the Seelie Court, the faeries recognized as benevolent by mortals.  Or, at least, the faeries who are slightly less likely to levy a generational curses on those who wrong them.",
+    "description": "You are a member of the Summer Court, sometimes called the Seelie Court, the faeries recognized as benevolent by mortals.  Or, at least, the faeries who are slightly less likely to levy generational curses on those who wrong them.",
     "valid": false,
     "purifiable": false,
     "profession": true,
@@ -241,7 +259,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.25 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.25 } ] }, { "mutations": [ "IRON_ALLERGY" ] } ]
   },
   {
     "type": "mutation",
@@ -272,7 +290,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.3 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.3 } ] }, { "mutations": [ "IRON_ALLERGY" ] } ]
   },
   {
     "type": "mutation",
@@ -303,7 +321,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.2 } ] }, { "mutations": [ "IRON_ALLERGY" ] } ]
   },
   {
     "type": "mutation",
@@ -334,7 +352,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.1 } ] }, { "mutations": [ "IRON_ALLERGY" ] } ]
   },
   {
     "type": "mutation",
@@ -401,6 +419,31 @@
         "LILIN"
       ]
     }
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_GAIN_DREAMDROSS_FROM_MORTAL_DREAMS",
+    "name": { "str": "Banquet of Dreams" },
+    "points": 2,
+    "description": "The Fair Folk rely on mortal dreams for power, and this glamour is one of the ways they harvest them.  When woven over a sleeping mortal, some of the power of their dreams coalesces as a shimmering metallic substance called dreamdross.  Activate to increase the intensity, drawing out far more dreamdross but causing permanent damage to the target's dreams.",
+    "category": [
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "purifiable": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You get ready to rip as much power from mortal dreams as you can.",
+    "spells_learned": [ [ "changeling_gain_dreamdross_from_dreams", 1 ] ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "ench_effects": [ { "effect": "effect_changeling_active_banquet_of_dreams", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -1858,6 +1901,30 @@
       "THRESH_FAIR_FOLK_COMMONER_TROW"
     ],
     "spells_learned": [ [ "changeling_invisibility_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_STOP_NETHER_CONDITIONS",
+    "name": { "str": "Dancers in the Endless Dark" },
+    "points": 8,
+    "purifiable": false,
+    "description": "The Fair Folk dance across realities, avoiding the notice of the vast and timeless forces that overshadow existence.  This glamour will protect you from a variety of deleterious otherworldly afflictions.  It must be applied before exposure.",
+    "prereqs": [ "CHANGELING_INVISIBILITY" ],
+    "category": [
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "threshreq": [
+      "THRESH_FAIR_FOLK_NOBLE",
+      "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
+      "THRESH_FAIR_FOLK_COMMONER_POOKA",
+      "THRESH_FAIR_FOLK_COMMONER_SELKIE",
+      "THRESH_FAIR_FOLK_COMMONER_TROW"
+    ],
+    "spells_learned": [ [ "changeling_stop_nether_conditions_spell", 1 ] ]
   },
   {
     "type": "mutation",

@@ -1627,6 +1627,8 @@ class npc : public Character
         // times their opinion has increased from chatting, upper bounds on 'forgiveness'
         int opinion_values_raised = 0;
         bool hallucination = false; // If true, NPC is an hallucination
+        bool spawn_corpse = true;
+        bool quiet_death = false; // supress messages about death
         std::vector<npc_need> needs;
         std::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.

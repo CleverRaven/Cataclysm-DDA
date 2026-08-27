@@ -62,7 +62,7 @@
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Exodii battle rifle large pan magazine" },
-    "description": "An even more enormous magazine than the 60-round magazine, this beast of a pan magazine boasts a capacity of 153 rounds.  While impressive in capacity, it's reliability is questionable and its portability is non-existant.  It saw some vehicle use near the end of the 3rd Carpathian war and was a bit further refined after that, but never saw much widescale adoption.  The Exodii however care little about portability, and scraped up every last one they could find.",
+    "description": "An even more enormous magazine than the 60-round magazine, this beast of a pan magazine boasts a capacity of 153 rounds.  While impressive in capacity, it's reliability is questionable and its portability is nonexistent.  It saw some vehicle use near the end of the 3rd Carpathian war and was a bit further refined after that, but never saw much widescale adoption.  The Exodii however care little about portability, and scraped up every last one they could find.",
     "weight": "1700 g",
     "volume": "3500 ml",
     "longest_side": "270 mm",
@@ -81,7 +81,7 @@
       {
         "id": "exodiiBRmag_153",
         "name": { "str": "PA md. 68 Exodii 153-round magazine" },
-        "description": "An even more enormous magazine than the 60-round magazine, this beast of a pan magazine boasts a capacity of 153 rounds.  While impressive in capacity, it's reliability is questionable and its portability is non-existant.  It saw some vehicle use near the end of the 3rd Carpathian war and was a bit further refined after that, but never saw much widescale adoption.  The Exodii however care little about portability, and scraped up every last one they could find."
+        "description": "An even more enormous magazine than the 60-round magazine, this beast of a pan magazine boasts a capacity of 153 rounds.  While impressive in capacity, it's reliability is questionable and its portability is nonexistent.  It saw some vehicle use near the end of the 3rd Carpathian war and was a bit further refined after that, but never saw much widescale adoption.  The Exodii however care little about portability, and scraped up every last one they could find."
       }
     ]
   },

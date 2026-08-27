@@ -66,6 +66,7 @@
     "type": "shopkeeper_blacklist",
     "id": "rubik_shopkeep_blacklist",
     "entries": [
+      { "group": "exodii_do_not_buy_currency_blacklist", "message": "Will not accept currency" },
       { "group": "exodii_do_not_buy_ammo_blacklist" },
       { "category": "clothing" },
       { "group": "SUS_bathroom_sink" },

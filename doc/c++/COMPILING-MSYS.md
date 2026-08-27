@@ -66,15 +66,12 @@ pacman -Su
 
 4. Install packages required for compilation:
 
--> Windows 7, 8, 8.1
 ```bash
-pacman -S git make ncurses-devel gettext-devel mingw-w64-x86_64-{astyle,ccache,cmake,gcc,libmad,libwebp,pkgconf,SDL2,libzip,libavif} mingw-w64-x86_64-SDL2_{image,mixer,ttf}
+pacman -S git make ncurses-devel gettext-devel mingw-w64-ucrt-x86_64-{astyle,ccache,cmake,freetype,gcc,libmad,libwebp,pkgconf,sdl3,libzip,libavif} mingw-w64-ucrt-x86_64-sdl3-{image,mixer,ttf} zlib-devel
 ```
 
--> Windows 10 and later
-```bash
-pacman -S git make ncurses-devel gettext-devel mingw-w64-ucrt-x86_64-{astyle,ccache,cmake,freetype,gcc,libmad,libwebp,pkgconf,SDL2,libzip,libavif} mingw-w64-ucrt-x86_64-SDL2_{image,mixer,ttf} zlib-devel
-```
+**Note:** The tiles build needs SDL3 >= 3.4.0, so a Windows version that the
+UCRT64 packages support is required.
 
 5. Close MSYS2.
 
@@ -95,7 +92,7 @@ git clone https://github.com/CleverRaven/Cataclysm-DDA.git ./Cataclysm-DDA
 
 ```bash
 cd Cataclysm-DDA
-make -j$((`nproc`+0)) CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 SDL=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 TESTS=0
+make -j$((`nproc`+0)) CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 TESTS=0
 ```
 
 You will receive warnings about unterminated character constants; they do not impact the compilation as far as this writer is aware.

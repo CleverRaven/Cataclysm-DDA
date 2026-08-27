@@ -286,7 +286,7 @@
     "id": "EOC_observe_water_murky",
     "condition": { "u_has_item": "microscope_slide_water_murky" },
     "effect": {
-      "u_message": "You place the slide on the stage, adjust the light and focus the lens, you manage to see  <microscope_water_murky>"
+      "u_message": "You place the slide on the stage, adjust the light and focus the lens, you manage to see <microscope_water_murky>"
     }
   },
   {

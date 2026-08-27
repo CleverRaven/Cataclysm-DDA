@@ -1,6 +1,19 @@
 [
   {
     "type": "effect_type",
+    "id": "ozmas_peace",
+    "name": [ { "str": "A desolation called Peace" } ],
+    "desc": [ { "str": "Ubi solitudinem faciunt, pacem appelant", "//~": "NO_I18N" } ],
+    "apply_message": "A deep and abiding calm settles upon you.",
+    "remove_message": "The Pax is no more.",
+    "base_mods": { "hit_mod": [ -20 ], "bash_mod": [ -20 ] },
+    "max_duration": "30 m",
+    "max_intensity": 5,
+    "int_dur_factor": "5 s",
+    "miss_messages": [ [ "Peace be upon thee, whether you want it or not.", 1 ] ]
+  },
+  {
+    "type": "effect_type",
     "id": "curevamp",
     "removes_effects": [ "vampire_virus" ],
     "max_duration": "72 h"
@@ -171,7 +184,22 @@
     "rating": "mixed",
     "max_duration": "30 m",
     "base_mods": { "per_mod": [ 6 ], "dex_mod": [ -2 ], "speed_mod": [ -5 ] },
+    "flags": [ "HUNGER_DISRUPTION", "TRUE_SEEING" ],
     "blood_analysis_description": "Cross-dimensional narcotic, unexpected physics encountered"
+  },
+  {
+    "type": "effect_type",
+    "id": "elf-addled",
+    "//": "Should make the player have better perception with a worse dex but should be offset if taken with consumables that grant altered_physics.",
+    "name": [ "ælfadl" ],
+    "desc": [ "The world was much more beautiful when you were closer to the Underhill." ],
+    "apply_message": "The world becomes a duller place.  Do you even care if you live or die if it is in this place?",
+    "remove_message": "The colors brighten and your vision sharpens.",
+    "rating": "bad",
+    "max_duration": "24 hours",
+    "base_mods": { "per_mod": [ -1 ], "speed_mod": [ -5 ] },
+    "flags": [ "HUNGER_DISRUPTION", "TRUE_SEEING" ],
+    "blood_analysis_description": "Anemia of the soul."
   },
   {
     "type": "effect_type",
@@ -649,7 +677,8 @@
     "id": "effect_dhampir_the_blood_is_the_life",
     "//": "Hidden--prevents gaining blood when using The Blood is the Life",
     "name": [ "" ],
-    "desc": [ "" ]
+    "desc": [ "" ],
+    "flags": [ "HUNGER_DISRUPTION" ]
   },
   {
     "type": "effect_type",
@@ -1760,10 +1789,9 @@
           { "type": "cut", "multiply": -0.3 },
           { "type": "bullet", "multiply": -0.3 }
         ],
-        "values": [ { "value": "MOVE_COST", "multiply": 0.1 } ]
+        "values": [ { "value": "MOVE_COST", "multiply": 0.1 }, { "value": "BLEEDING_RATE", "multiply": -0.333 } ]
       }
-    ],
-    "flags": [ "BLEEDSLOW1" ]
+    ]
   },
   {
     "type": "effect_type",
@@ -2189,7 +2217,7 @@
     "remove_message": "Your body regains its solidity.",
     "rating": "good",
     "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.8 }, { "value": "EVASION", "add": 1 } ] } ],
-    "flags": [ "ETHEREAL", "INVISIBLE", "LEVITATION", "CLIMB_FLYING", "INHALED_TOXIN_IMMUNE", "MYCUS_IMMUNE" ]
+    "flags": [ "ETHEREAL", "INVISIBLE", "LEVITATION", "CLIMB_FLYING", "DISTRIBUTED_DAMAGE", "INHALED_TOXIN_IMMUNE", "MYCUS_IMMUNE" ]
   },
   {
     "type": "effect_type",
@@ -3208,6 +3236,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_resist_infections",
+    "name": [ "Make Thy Plagues Wonderful" ],
+    "desc": [ "You are immune to minor diseases and any infections you have are recovering more easily." ],
+    "removes_effects": [ "common_cold", "pre_common_cold", "flu", "pre_flu" ],
+    "flags": [ "PAUSE_INFECTIONS", "INFECTION_RECOVERY" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_attack_warning_cooldown",
     "//": "Hidden effect, used as a blocker",
     "name": [ "" ],
@@ -3390,12 +3426,15 @@
     "enchantments": [
       {
         "values": [
-          { "value": "MOVE_COST", "multiply": -0.5 },
           { "value": "ATTACK_SPEED", "multiply": -0.66 },
           { "value": "BONUS_DODGE", "add": 1 },
           { "value": "DODGE_CHANCE", "add": { "math": [ "2 + (u_has_trait('THRESH_LILIN') * 2)" ] } },
           { "value": "RANGE_DODGE", "add": { "math": [ "0.25 + (u_has_trait('THRESH_LILIN') * 0.25)" ] } }
         ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
       }
     ]
   },
@@ -4272,7 +4311,9 @@
     "type": "effect_type",
     "id": "effect_werewolf_gain_more_powers",
     "name": [ "Gifts of the Moon" ],
-    "desc": [ "You can unlock a new Lunar Gift.  Do so at night under the moon." ]
+    "desc": [ "You can unlock a new Lunar Gift.  Do so at night under the moon." ],
+    "apply_message": "You are ready for a new gift of the moon.",
+    "rating": "good"
   },
   {
     "type": "effect_type",

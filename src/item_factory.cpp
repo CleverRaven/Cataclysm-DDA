@@ -161,6 +161,7 @@ static const item_category_id item_category_veh_parts( "veh_parts" );
 static const item_category_id item_category_weapons( "weapons" );
 
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
+static const item_group_id Item_spawn_data_seasonings_universal( "seasonings_universal" );
 
 static const itype_id itype_debug_backpack( "debug_backpack" );
 
@@ -509,13 +510,6 @@ void Item_factory::finalize_pre( itype &obj )
         // The value here is in kcal, but is stored as simply calories
         obj.comestible->default_nutrition.calories *= 1000;
         obj.comestible->default_nutrition.finalize_vitamins();
-
-        if( !obj.comestible->primary_material.is_null() ) {
-            obj.materials.clear();
-            obj.materials.emplace( obj.comestible->primary_material, 1 );
-            obj.mat_portion_total = 1;
-            obj.default_mat = obj.comestible->primary_material;
-        }
 
         bool is_not_boring = false;
         float specific_heat_solid = 0.0f;
@@ -3773,10 +3767,10 @@ void islot_comestible::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "petfood", petfood, string_reader{} );
     optional( jo, was_loaded, "monotony_penalty", monotony_penalty, -1 );
     optional( jo, was_loaded, "calories", default_nutrition.calories );
+    optional( jo, was_loaded, "seasonings", seasonings, {Item_spawn_data_seasonings_universal} );
 
     optional( jo, was_loaded, "contamination", contamination,
               weighted_string_id_reader<diseasetype_id, float> { 1.0f } );
-    optional( jo, was_loaded, "primary_material", primary_material, material_id::NULL_ID() );
     optional( jo, was_loaded, "vitamins", default_nutrition.vitamins_,
               vitamins_reader {} );
     optional( jo, was_loaded, "addiction_potential", default_addict_potential );

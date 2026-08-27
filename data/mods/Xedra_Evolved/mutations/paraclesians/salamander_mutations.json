@@ -410,7 +410,7 @@
     "id": "SALAMANDER_HEALTH_FOR_MANA",
     "name": { "str": "Burning New Wood" },
     "points": 6,
-    "description": "In times of extreme need, the Salamander can fuel their powers with their own body.  Activate this to restore mana at the cost of health.",
+    "description": "In times of extreme need, the Salamander can fuel their powers with their own body.  Activate this to restore mana at the cost of HP.",
     "prereqs": [ "SALAMANDER_BIGGER_STOMACH", "SALAMANDER_BIGGER_STOMACH2" ],
     "prereqs2": [ "SALAMANDER_SKIN_1", "SALAMANDER_SKIN_2", "SALAMANDER_SKIN_3" ],
     "category": [ "SALAMANDER" ],
@@ -795,7 +795,8 @@
     "override_look": { "id": "fd_nuke_gas", "tile_category": "field" },
     "category": [ "SALAMANDER" ],
     "purifiable": false,
-    "threshreq": [ "THRESH_SALAMANDER" ]
+    "threshreq": [ "THRESH_SALAMANDER" ],
+    "flags": [ "CANNOT_CONSUME_DRUGS" ]
   },
   {
     "type": "mutation",

@@ -669,6 +669,17 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         info.emplace_back( "FOOD", _( "Other contents: " ), effect_vits );
     }
 
+    std::list<itype_id>all_seasonings = get_comestible()->get_seasonings();
+    if( !all_seasonings.empty() ) {
+        std::vector<std::string> seasoning_types;
+        seasoning_types.reserve( all_seasonings.size() );
+        for( const itype_id seasoning_type : all_seasonings ) {
+            seasoning_types.push_back( seasoning_type->nname( 1 ) );
+        }
+        info.emplace_back( "FOOD", _( "Could be seasoned with: " ),
+                           enumerate_lcsorted_with_limit( seasoning_types ) );
+    }
+
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::FOOD_ALLERGEN )
@@ -2414,7 +2425,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         auto bg_cb = [this]( const bodygraph_part * bgp, const std::string & sym ) {
             if( !bgp ) {
-                return colorize( sym, bodygraph_full_body_iteminfo->fill_color );
+                return sym;  // it's " "
             }
             std::set<sub_bodypart_id> grp{ bgp->sub_bodyparts.begin(), bgp->sub_bodyparts.end() };
             for( const bodypart_id &bid : bgp->bodyparts ) {
@@ -2444,7 +2455,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         std::vector<std::string> bg_lines = get_bodygraph_lines( get_player_character(), bg_cb,
                                             bodygraph_full_body_iteminfo );
         for( const std::string &line : bg_lines ) {
-            info.emplace_back( "ARMOR", line, iteminfo::is_art );
+            info.emplace_back( "ARMOR", rtrim( line ), iteminfo::is_art );
         }
         insert_separation_line( info );
     }
@@ -3954,8 +3965,9 @@ static bool can_craft_recipe( const recipe *r, const inventory &crafting_inv )
     if( can_craft_recipe_cache.count( r ) > 0 ) {
         return can_craft_recipe_cache.at( r );
     }
-    can_craft_recipe_cache[r] = r->deduped_requirements().can_make_with_inventory( crafting_inv,
-                                r->get_component_filter() );
+    can_craft_recipe_cache[r] = r->deduped_requirements().can_make_with_inventory(
+                                    &get_player_character(), crafting_inv,
+                                    r->get_component_filter() );
     return can_craft_recipe_cache.at( r );
 }
 
@@ -4305,7 +4317,7 @@ void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query * /
     if( art.is_valid() ) {
         insert_separation_line( info );
         for( const std::string &line : art->picture ) {
-            info.emplace_back( "DESCRIPTION", line, iteminfo::is_art );
+            info.emplace_back( "DESCRIPTION", rtrim( line ), iteminfo::is_art );
         }
     }
 }

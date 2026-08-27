@@ -22,5 +22,12 @@
     "id": "data_core_install",
     "type": "requirement",
     "tools": [ [ "data_core_slots" ] ]
+  },
+  {
+    "id": "fey_smithing_tools",
+    "type": "requirement",
+    "//": "Copy of bronzesmithing_tools but requires non-iron hammering instead of hammering",
+    "qualities": [ { "id": "FEY_HAMMER", "level": 2 }, { "id": "ANVIL", "level": 2 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   }
 ]

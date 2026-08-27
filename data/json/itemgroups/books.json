@@ -321,6 +321,36 @@
     ]
   },
   {
+    "id": "cookbooks",
+    "type": "item_group",
+    "//": "A list of all cookbooks",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "cookbook_useless", "prob": 360 },
+      { "item": "baking_book", "prob": 80 },
+      { "item": "winemaking_beginner", "prob": 60 },
+      { "item": "dairy_book", "prob": 20 },
+      { "item": "cookbook_sushi", "prob": 15 },
+      { "item": "cookbook_daintydishes", "prob": 15 },
+      { "item": "cookbook_liverforkids", "prob": 15 },
+      { "item": "cookbook_eatyrway", "prob": 15 },
+      { "item": "cookbook_mexican", "prob": 10 },
+      { "item": "cookbook_foodfashions", "prob": 10 },
+      { "item": "cookbook_indian", "prob": 10 },
+      { "item": "cookbook_curry", "prob": 10 },
+      { "item": "scots_cookbook", "prob": 8 },
+      { "item": "fermenting_book", "prob": 8 },
+      { "item": "cookbook_native", "prob": 5 },
+      { "item": "cookbook_turkish", "prob": 5 },
+      { "item": "vacuum_sealing", "prob": 5 },
+      { "item": "vinegar_maker", "prob": 4 },
+      { "item": "distilling_cookbook", "prob": 3 },
+      { "item": "offalcooking", "prob": 2 },
+      { "item": "cookbook_bloodforgood", "prob": 2 },
+      { "item": "cookbook_human", "prob": 1 }
+    ]
+  },
+  {
     "id": "novels",
     "type": "item_group",
     "subtype": "distribution",
@@ -360,6 +390,30 @@
     ]
   },
   {
+    "id": "nonfiction_hardback_fluff",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "This represents nonfiction hardback books that are not immediately useful to the survivor.",
+    "entries": [
+      { "item": "book_nonf_hard_biography_living", "prob": 10 },
+      { "item": "book_nonf_hard_biography_dead", "prob": 8 },
+      { "item": "book_nonf_hard_autobiography", "prob": 6 },
+      { "item": "book_nonf_hard_history_ancient", "prob": 5 },
+      { "item": "book_nonf_hard_history_modern", "prob": 10 },
+      { "item": "book_nonf_hard_photography_book", "prob": 5 },
+      { "item": "book_nonf_hard_self_help", "prob": 8 },
+      { "item": "book_nonf_hard_true_crime", "prob": 10 },
+      { "item": "book_nonf_hard_popular_science", "prob": 5 },
+      { "item": "book_nonf_hard_business_strategy", "prob": 5 },
+      { "item": "book_nonf_hard_language_learning", "prob": 2 },
+      { "item": "book_nonf_hard_religion", "prob": 3 },
+      { "item": "book_nonf_hard_travelogue", "prob": 4 },
+      { "item": "book_nonf_hard_parenting", "prob": 4 },
+      { "item": "book_nonf_hard_humor", "prob": 3 },
+      { "item": "essay_book", "prob": 5 }
+    ]
+  },
+  {
     "id": "kids_books",
     "type": "item_group",
     "subtype": "distribution",
@@ -386,18 +440,17 @@
     "subtype": "distribution",
     "entries": [
       { "group": "magazines", "prob": 980 },
-      { "group": "novels", "prob": 624 },
-      { "group": "kids_books", "prob": 50 },
-      { "group": "SUS_book_fict_soft_ya", "prob": 50 },
+      { "group": "novels", "prob": 1224 },
+      { "group": "kids_books", "prob": 350 },
+      { "group": "SUS_book_fict_soft_ya", "prob": 350 },
+      { "group": "cookbooks", "prob": 400 },
       { "group": "book_martial", "prob": 4 },
-      { "group": "religious_books", "prob": 40 },
+      { "group": "religious_books", "prob": 250 },
       { "group": "literature", "prob": 30 },
       { "group": "SUS_book_nonf_hard_homemk", "prob": 26 },
-      { "group": "SUS_book_nonf_soft", "prob": 20 },
+      { "group": "SUS_book_nonf_soft", "prob": 150 },
       { "group": "SUS_book_nonf_hard_dodge", "prob": 20 },
       { "group": "catalyic_cracking_items", "prob": 2 },
-      { "item": "baking_book", "prob": 80 },
-      { "item": "winemaking_beginner", "prob": 60 },
       { "item": "manual_speech", "prob": 50 },
       { "item": "manual_business", "prob": 40 },
       { "item": "manual_first_aid", "prob": 40 },
@@ -409,36 +462,24 @@
       { "item": "webbasics_computer", "prob": 20 },
       { "item": "hackerman_computer", "prob": 20 },
       { "item": "manual_electronics", "prob": 20 },
-      { "item": "dairy_book", "prob": 20 },
-      { "item": "vacuum_sealing", "prob": 20 },
       { "item": "manual_tailor", "prob": 15 },
-      { "item": "cookbook_sushi", "prob": 15 },
-      { "item": "cookbook_daintydishes", "prob": 15 },
-      { "item": "cookbook_liverforkids", "prob": 15 },
-      { "item": "cookbook_eatyrway", "prob": 15 },
       { "item": "book_archery", "prob": 12 },
       { "item": "preserving_juice", "prob": 10 },
-      { "item": "cookbook_foodfashions", "prob": 10 },
-      { "item": "cookbook_indian", "prob": 10 },
       { "item": "sweets_book", "prob": 10 },
-      { "item": "cookbook_mexican", "prob": 10 },
       { "item": "recipe_bows", "prob": 10 },
       { "item": "recipe_arrows", "prob": 10 },
       { "item": "decoy_anarch", "prob": 10 },
-      { "item": "scots_cookbook", "prob": 8 },
       { "item": "scots_tailor", "prob": 8 },
       { "item": "phonebook", "prob": 8 },
-      { "item": "fermenting_book", "prob": 8 },
       { "item": "computer_science", "prob": 8 },
       { "item": "book_icef", "prob": 8 },
       { "item": "manual_archery", "prob": 7 },
       { "item": "bronze_mag", "prob": 6 },
       { "item": "recipe_fauxfur", "prob": 6 },
+      { "item": "european_comic", "prob": 5 },
       { "item": "dieselpunk_tailor", "prob": 5 },
       { "item": "book_judaica_hardcover", "prob": 5 },
       { "item": "book_judaica_softcover", "prob": 5 },
-      { "item": "cookbook_native", "prob": 5 },
-      { "item": "cookbook_turkish", "prob": 5 },
       { "item": "arduino_experiments", "prob": 5 },
       { "item": "ZSG", "prob": 5 },
       { "item": "jewelry_book", "prob": 4 },
@@ -451,16 +492,12 @@
       { "item": "carpentry_book", "prob": 4 },
       { "item": "brewing_cookbook", "prob": 4 },
       { "item": "recipe_augs", "prob": 4 },
-      { "item": "vinegar_maker", "prob": 4 },
-      { "item": "distilling_cookbook", "prob": 3 },
       { "item": "textbook_extraction", "prob": 2 },
-      { "item": "offalcooking", "prob": 2 },
       { "item": "dnd_handbook", "prob": 2 },
-      { "item": "cookbook_bloodforgood", "prob": 2 },
       { "item": "atomic_survival", "prob": 1 },
       { "item": "textbook_anarch", "prob": 1 },
+      { "item": "improvised_munition_handbook", "prob": 1 },
       { "item": "book_pneumatics", "prob": 1 },
-      { "item": "cookbook_human", "prob": 1 },
       { "item": "theater_props", "prob": 1 }
     ]
   },
@@ -601,6 +638,7 @@
       { "item": "pocket_firstaid", "prob": 4 },
       { "item": "pocket_survival", "prob": 2 },
       { "item": "textbook_anarch", "prob": 1 },
+      { "item": "improvised_munition_handbook", "prob": 1 },
       { "item": "textbook_survival", "prob": 8 },
       { "item": "modern_tanner", "prob": 4 },
       { "item": "manual_survival", "prob": 3 },
@@ -863,7 +901,11 @@
       { "item": "mag_tailor", "prob": 50 },
       { "item": "manual_tailor", "prob": 30 },
       { "item": "dieselpunk_tailor", "prob": 20 },
-      { "item": "textbook_tailor", "prob": 30 }
+      { "item": "textbook_tailor", "prob": 30 },
+      { "item": "scots_tailor", "prob": 10 },
+      { "item": "recipe_fauxfur", "prob": 10 },
+      { "item": "tailor_portfolio", "prob": 2 },
+      { "item": "tailor_japanese", "prob": 5 }
     ]
   },
   {
@@ -885,6 +927,21 @@
       { "item": "101_carpentry", "prob": 30 },
       { "item": "textbook_carpentry", "prob": 20 },
       { "item": "carpentry_book", "prob": 5 }
+    ]
+  },
+  {
+    "id": "electronicbooks",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "tailor_portfolio", "prob": 30 },
+      { "item": "mag_electronics", "prob": 50 },
+      { "item": "manual_electronics", "prob": 20 },
+      { "item": "radio_book", "prob": 15 },
+      { "item": "textbook_electronics", "prob": 10 },
+      { "item": "advanced_electronics", "prob": 5 },
+      { "item": "ic_reference_electronics", "prob": 5 },
+      { "item": "repeater_mod_guide", "prob": 5 }
     ]
   },
   {
@@ -985,6 +1042,31 @@
       { "item": "mag_traps", "prob": 20 },
       { "item": "fun_survival", "prob": 10 },
       { "item": "mag_archery", "prob": 20 }
+    ]
+  },
+  {
+    "id": "book_judaica",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "book_judaica_hardcover", "prob": 5 }, { "item": "book_judaica_softcover", "prob": 3 } ]
+  },
+  {
+    "id": "book_manga",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "book_fic_manga", "prob": 100 },
+      { "item": "book_fic_manga_one_piece", "prob": 3 },
+      { "item": "book_fic_manga_dragon_ball", "prob": 2 },
+      { "item": "book_fic_manga_naruto", "prob": 2 },
+      { "item": "book_fic_manga_hunter_x_hunter", "prob": 2 },
+      { "item": "book_fic_manga_demon_slayer", "prob": 2 },
+      { "item": "book_fic_manga_jujutsu_kaisen", "prob": 2 },
+      { "item": "book_fic_manga_bleach", "prob": 2 },
+      { "item": "book_fic_manga_jojo", "prob": 2 },
+      { "item": "book_fic_manga_captain_tsubasa", "prob": 1 },
+      { "item": "book_fic_manga_gintama", "prob": 1 },
+      { "item": "book_fic_manga_berserk", "prob": 1 }
     ]
   },
   {
@@ -1143,5 +1225,19 @@
     "//2": "TO DO: crime bulletins, wanted criminals/suspects/fugitives, community notifications, etc.",
     "subtype": "collection",
     "entries": [ { "group": "missing_poster_human", "prob": 100 } ]
+  },
+  {
+    "id": "european_comics_collection",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "european_comic", "count": [ 1, 16 ], "variant": "generic", "prob": 2 },
+      { "item": "european_comic", "count": [ 1, 24 ], "variant": "tintin", "prob": 5 },
+      { "item": "european_comic", "count": [ 1, 24 ], "variant": "asterix", "prob": 4 },
+      { "item": "european_comic", "count": [ 1, 48 ], "variant": "lucky_luke", "prob": 3 },
+      { "item": "european_comic", "count": [ 1, 16 ], "variant": "smurfs", "prob": 3 },
+      { "item": "european_comic", "count": [ 1, 16 ], "variant": "dungeon", "prob": 1 },
+      { "item": "european_comic", "count": [ 1, 8 ], "variant": "metabarons", "prob": 1 }
+    ]
   }
 ]

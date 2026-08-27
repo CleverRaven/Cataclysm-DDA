@@ -16,6 +16,16 @@
   },
   {
     "type": "overmap_special",
+    "id": "mass_grave_red",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "mass_grave_red_north" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 10, -1 ],
+    "occurrences": [ 5, 100 ],
+    "flags": [ "WILDERNESS", "GLOBALLY_UNIQUE", "MAN_MADE" ],
+    "rotate": false
+  },
+  {
+    "type": "overmap_special",
     "id": "4x4_DinoLab_surface",
     "overmaps": [
       { "point": [ 2, 1, 1 ], "overmap": "microlab_DinoLab_surface_roof_north" },

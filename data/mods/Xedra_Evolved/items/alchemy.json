@@ -20,8 +20,7 @@
     "description": "An incredibly alcoholic and caffeinated drink.  This probably isn't healthy.",
     "price": "1 USD 70 cent",
     "price_postapoc": "50 cent",
-    "material": [ "alcohol" ],
-    "primary_material": "water",
+    "material": [ { "type": "water", "portion": 10 }, { "type": "alcohol", "portion": 1 } ],
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
@@ -119,6 +118,27 @@
       "activation_message": "You swallow a couple of the large green pills.",
       "vitamins": [ [ "cheval", 1000 ] ]
     }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "abyssal_coffee",
+    "looks_like": "coffee",
+    "copy-from": "coffee",
+    "name": { "str_sp": "abyssal coffee" },
+    "description": "The morning ritual of the pre-apocalyptic world, created from coffee cherries through a complex process of seed removal, roasting, grinding, and brewing.  Well, that's true for regular coffee, but this doesn't look regular.  It's so coffee is so dark it seems to dim the light around it and its aroma fills the entire room.",
+    "price": "100 USD",
+    "price_postapoc": "3 USD50 cent",
+    "fun": 0,
+    "consumption_effect_on_conditions": [ "EOC_DRINK_ABYSSAL_COFFEE" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRINK_ABYSSAL_COFFEE",
+    "effect": [
+      { "u_message": "You drink the coffee.  It may be the most bitter thing you've ever drunk.", "type": "info" },
+      { "u_add_effect": "effect_xe_abyssal_coffee", "duration": "6 h" }
+    ]
   },
   {
     "id": "nether_snare",

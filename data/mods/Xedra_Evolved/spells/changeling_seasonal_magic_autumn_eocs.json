@@ -1,6 +1,12 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_XE_CHANGELING_SET_YRAX_ATTENTION_VARIABLE",
+    "//": "You didn't technically meet an apeirohedron but if you're shutting down yrax drones with faerie magick you're going to get their attention all the same",
+    "effect": [ { "npc_add_var": "general_yrax_u_met_apeirohedra", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_AUTUMN_TOUCH_OF_FRAILTY",
     "effect": [
       {
