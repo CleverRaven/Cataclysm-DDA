@@ -123,7 +123,8 @@
       "NO_BREATHE",
       "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "UNBREAKABLE_MORALE"
     ],
     "armor": { "bash": 19, "cut": 27, "bullet": 22, "electric": 6 }
   },
@@ -140,9 +141,12 @@
     "weight": "81500 g",
     "hp": 60,
     "speed": 100,
+    "material": [ "water" ],
+    "symbol": "D",
+    "color": "cyan",
     "aggression": 30,
     "morale": 100,
-    "melee_skill": 3,
+    "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cold", "amount": 12 } ],
@@ -151,6 +155,7 @@
     "vision_night": 5,
     "bleed_rate": 0,
     "emit_fields": [ { "emit_id": "emit_cold_air4_blast", "delay": "2 s" } ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s shatters into frozen shards!" },
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "flags": [
@@ -165,7 +170,8 @@
       "PRIORITIZE_TARGETS",
       "CORNERED_FIGHTER",
       "COLDPROOF",
-      "BIOLOGICALPROOF"
+      "BIOLOGICALPROOF",
+      "UNBREAKABLE_MORALE"
     ],
     "armor": { "bash": -20, "cut": 35, "stab": 35, "bullet": 3 }
   }

@@ -570,6 +570,10 @@
   {
     "type": "monstergroup",
     "id": "GROUP_XE_SPIRE_DEMONS",
-    "monsters": [ { "monster": "mon_tentacle_daemon", "weight": 20 }, { "monster": "mon_spined_daemon", "weight": 2 } ]
+    "monsters": [
+      { "monster": "mon_tentacle_daemon", "weight": 20 },
+      { "monster": "mon_frozen_daemon", "weight": 10 },
+      { "monster": "mon_spined_daemon", "weight": 2 }
+    ]
   }
 ]
