@@ -47,10 +47,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [
-      { "values": [ { "value": "MAX_MANA", "multiply": 0.6 } ] }
-      { "mutations": [ "IRON_ALLERGY" ]
-    ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.6 } ] }, { "mutations": [ "IRON_ALLERGY" ] } ]
   },
   {
     "type": "mutation",
@@ -262,10 +259,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [
-      { "values": [ { "value": "MAX_MANA", "multiply": 0.25 } ] },
-      { "mutations": [ "IRON_ALLERGY" ]
-    ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.25 } ] }, { "mutations": [ "IRON_ALLERGY" ] } ]
   },
   {
     "type": "mutation",
@@ -296,10 +290,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [
-      { "values": [ { "value": "MAX_MANA", "multiply": 0.3 } ] },
-      { "mutations": [ "IRON_ALLERGY" ]
-    ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.3 } ] }, { "mutations": [ "IRON_ALLERGY" ] } ]
   },
   {
     "type": "mutation",
@@ -330,10 +321,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [
-      { "values": [ { "value": "MAX_MANA", "multiply": 0.2 } ] },
-      { "mutations": [ "IRON_ALLERGY" ]
-    ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.2 } ] }, { "mutations": [ "IRON_ALLERGY" ] } ]
   },
   {
     "type": "mutation",
@@ -364,10 +352,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [
-      { "values": [ { "value": "MAX_MANA", "multiply": 0.1 } ] },
-      { "mutations": [ "IRON_ALLERGY" ]
-    ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.1 } ] }, { "mutations": [ "IRON_ALLERGY" ] } ]
   },
   {
     "type": "mutation",
