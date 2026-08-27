@@ -66,10 +66,10 @@
     "symbol": "B",
     "color": "light_blue",
     "category": "corpses",
-    "material": [ "chitin", "glass", "plastic" ],
+    "material": [ "glass", "plastic", "steel" ],
     "price_postapoc": "0 USD",
-    "volume": "62500 ml",
-    "weight": "80100 g",
+    "volume": "31250 ml",
+    "weight": "40050 g",
     "flags": [ "TRADER_AVOID" ]
   }
 ]
