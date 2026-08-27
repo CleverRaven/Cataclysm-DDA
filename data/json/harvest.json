@@ -1427,6 +1427,7 @@
   {
     "id": "arachnid_beetle_solar",
     "type": "harvest",
+    "message": "<solar_beetle_harvest>",
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.06 },
