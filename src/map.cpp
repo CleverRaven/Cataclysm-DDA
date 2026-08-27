@@ -6262,7 +6262,8 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_void_spider_lair, calendar::turn_zero ) );
                 }
                 if( trig_dist( veh_position, closest_portal_storm_dungeon ) <= 10 ) {
-                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_portal_storm_dungeon, calendar::turn_zero ) );
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_portal_storm_dungeon,
+                                                      calendar::turn_zero ) );
                 }
                 if( trig_dist( veh_position, closest_inner_cabins_open_land ) <= 10 ) {
                     if( trig_dist( veh_position, closest_inner_cabins_home_cabin ) <= 10 ) {
