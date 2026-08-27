@@ -289,7 +289,7 @@
     "volume": "1400 ml",
     "price": "19 USD 50 cent",
     "price_postapoc": "5 USD",
-    "material": [ { "type": "leather", "portion": 10 }, { "type": "paper", "portion": 90 } ],
+    "material": [ { "type": "plastic", "portion": 10 }, { "type": "paper", "portion": 90 } ],
     "symbol": "?",
     "color": "light_gray",
     "looks_like": "cookbook",
