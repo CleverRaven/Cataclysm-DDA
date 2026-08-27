@@ -4713,9 +4713,9 @@ void basecamp::make_corpse_from_group( const std::vector<MonsterGroupResult> &gr
 {
     for( const MonsterGroupResult &monster : group ) {
         const mtype_id target = monster.id;
-        
+
         // This prevents followers from bringing back human corpses if a null is rolled on the hunting mongroups
-        if ( target == mtype_id::NULL_ID() ) {
+        if( target == mtype_id::NULL_ID() ) {
             return;
         }
         item result = item::make_corpse( target, calendar::turn, "" );
