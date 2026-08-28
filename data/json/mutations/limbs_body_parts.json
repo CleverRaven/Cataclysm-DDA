@@ -1726,7 +1726,7 @@
     "opposite_part": "tentacle_lower_front_r",
     "hit_size": 7,
     "hit_difficulty": 0.6,
-    "limb_types": "leg",
+    "limb_types": [ [ "leg", 1.0 ], [ "foot", 0.2 ] ],
     "limb_scores": [
       [ "manip", 0.05, 0.1 ],
       [ "move_speed", 0.125 ],
