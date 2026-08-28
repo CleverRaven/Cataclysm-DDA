@@ -38,7 +38,9 @@
       { "monster": "mon_kreck", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_gracke", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_blank", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_nether_huntsman", "weight": 100, "cost_multiplier": 0 }
+      { "monster": "mon_nether_huntsman", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_beetle_solar_starving_reverberation", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_beetle_solar_reverberation", "weight": 100, "cost_multiplier": 0 }
     ]
   },
   {
@@ -58,7 +60,8 @@
       { "monster": "mon_kreck", "weight": 210, "cost_multiplier": 0 },
       { "monster": "mon_gozu", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_shoggoth", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_nether_huntsman", "weight": 15, "cost_multiplier": 0 }
+      { "monster": "mon_nether_huntsman", "weight": 15, "cost_multiplier": 0 },
+      { "monster": "mon_beetle_solar_reverberation", "weight": 100, "cost_multiplier": 0 }
     ]
   },
   {
