@@ -30,6 +30,7 @@
     "description": "Giant beetle-like robot with a scratched blue plastic shell, the exterior of its open elytra is covered with curved solar panels.  Despite weak attempts, it can't move.",
     "melee_skill": 0,
     "dodge": 0,
+    "harvest": "arachnid_beetle_solar_starving",
     "copy-from": "mon_beetle_solar_reverberation",
     "hp": 30,
     "extend": { "flags": [ "IMMOBILE" ] }
