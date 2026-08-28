@@ -6775,7 +6775,7 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": "7.7x58mm Arisaka ammo",
     "description": "Recipes related to reloading 7.7x58mm Arisaka ammo.",
-    "nested_category_data": [ "reloaded_77mm_arisaka_jsp", "bp_77mm_arisaka_jsp", "reloaded_303sp", "bp_303", "bp_303fmj", "bp_303sp" ]
+    "nested_category_data": [ "reloaded_77mm_arisaka_jsp", "bp_77mm_arisaka_jsp", "reloaded_303sp", "bp_303fmj", "bp_303sp" ]
   },
   {
     "id": "nested_30carbine",

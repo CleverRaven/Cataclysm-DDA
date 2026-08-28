@@ -285,7 +285,7 @@
         {
           "type": "762",
           "weight": 34,
-          "items": { "762_jhp": 1, "762_m87": 1, "bp_762_jhp": 1, "bp_762_m87": 1, "reloaded_762_jhp": 1, "reloaded_762_m87": 1 }
+          "items": { "762_jhp": 1, "762_m87": 1, "bp_762_m87": 1, "reloaded_762_m87": 1 }
         },
         {
           "type": "357mag",
@@ -334,24 +334,9 @@
         {
           "type": "38",
           "weight": 19,
-          "items": {
-            "38_fmj": 1,
-            "38_special": 1,
-            "38_special_p": 1,
-            "bp_38_fmj": 1,
-            "bp_38_special": 1,
-            "matchhead_38_fmj": 1,
-            "matchhead_38_special": 1,
-            "reloaded_38_fmj": 1,
-            "reloaded_38_special": 1,
-            "reloaded_38_special_p": 1
-          }
+          "items": { "38_fmj": 1, "38_special": 1, "38_special_p": 1, "bp_38_fmj": 1, "matchhead_38_fmj": 1, "reloaded_38_fmj": 1 }
         },
-        {
-          "type": "44",
-          "weight": 15,
-          "items": { "44fmj": 1, "44magnum": 1, "bp_44fmj": 1, "bp_44magnum": 1, "reloaded_44fmj": 1, "reloaded_44magnum": 1 }
-        },
+        { "type": "44", "weight": 15, "items": { "44fmj": 1, "44magnum": 1, "bp_44fmj": 1, "reloaded_44fmj": 1 } },
         {
           "type": "3006",
           "weight": 8,
@@ -376,11 +361,8 @@
           "items": {
             "reloaded_45colt_fmj": 1,
             "45colt_jhp": 1,
-            "reloaded_45colt_jhp": 1,
             "bp_45colt_fmj": 1,
             "matchhead_45colt_fmj": 1,
-            "bp_45colt_jhp": 1,
-            "matchhead_45colt_jhp": 1,
             "45colt_cowboy": 1,
             "bp_45colt_cowboy": 1,
             "matchhead_45colt_cowboy": 1,
@@ -433,21 +415,11 @@
           "weight": 1,
           "items": { "123ln": 1, "bp_123ln": 1, "reloaded_123ln": 1, "123ln_ap": 1, "bp_123ln_ap": 1, "reloaded_123ln_ap": 1 }
         },
-        { "type": "300", "weight": 1, "items": { "300_winmag": 1, "bp_300_winmag": 1, "reloaded_300_winmag": 1 } },
+        { "type": "300", "weight": 1, "items": { "300_winmag": 1 } },
         {
           "type": "303",
           "weight": 1,
-          "items": {
-            "303_bthp": 1,
-            "303_fmjbt": 1,
-            "303_sp": 1,
-            "bp_303": 1,
-            "bp_303fmj": 1,
-            "bp_303sp": 1,
-            "reloaded_303": 1,
-            "reloaded_303fmj": 1,
-            "reloaded_303sp": 1
-          }
+          "items": { "303_bthp": 1, "303_fmjbt": 1, "303_sp": 1, "bp_303fmj": 1, "bp_303sp": 1, "reloaded_303fmj": 1, "reloaded_303sp": 1 }
         },
         {
           "type": "30carbine",
