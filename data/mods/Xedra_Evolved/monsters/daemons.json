@@ -77,7 +77,7 @@
     "id": "mon_spined_daemon",
     "type": "MONSTER",
     "name": { "str": "spined daemon" },
-    "description": "A mass of spined chitin and muscle, this creature stalks on four clawed legs with a lashing tail behind, but from where its head should be, a torso erupts.  The actual head is insectile, with a massive pair of mandibles and a set of compound eyes, but the torso has two reptilian arms. Each arm splits at the elbow into a pair of forearms, ending with vicious claws.",
+    "description": "A mass of spined chitin and muscle, this creature stalks on four clawed legs with a lashing tail behind, but from where its head should be, a torso erupts.  The actual head is insectile, with a massive pair of mandibles and a set of compound eyes, but the torso has two reptilian arms.  Each arm splits at the elbow into a pair of forearms, ending with vicious claws.",
     "default_faction": "xe_daemon",
     "bodytype": "horse",
     "species": [ "NETHER" ],
