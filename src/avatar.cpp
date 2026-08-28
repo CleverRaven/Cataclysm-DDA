@@ -130,6 +130,7 @@ static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
+static const trait_id trait_SORCERER( "SORCERER" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
@@ -503,10 +504,14 @@ bool avatar::read( item_location &book, item_location ereader )
     // spells are handled in a different place
     // src/iuse_actor.cpp -> learn_spell_actor::use
     if( book->get_use( "learn_spell" ) ) {
-        book->get_use( "learn_spell" )->call( this, *book, pos_bub() );
-        return true;
+    if( has_trait( trait_SORCERER ) ) {
+        add_msg( m_info, _( "Sorcerers cannot learn spells from books or scrolls." ) );
+        return false;
     }
 
+    book->get_use( "learn_spell" )->call( this, *book, pos_bub() );
+    return true;
+}
     bool continuous = false;
     const time_duration time_taken = time_to_read( *book, *reader );
     add_msg_debug( debugmode::DF_ACT_READ, "avatar::read time_taken = %s",
