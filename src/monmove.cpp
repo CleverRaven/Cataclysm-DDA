@@ -55,6 +55,7 @@
 #include "vehicle.h"
 #include "viewer.h"
 #include "vpart_position.h"
+#include "weather.h"
 
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
