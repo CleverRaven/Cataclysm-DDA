@@ -61,3 +61,5 @@ jobs:
             lang/po
             lang/mo
             src/lang_stats.inc
+            data/credits
+            data/motd
