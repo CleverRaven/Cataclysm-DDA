@@ -8,6 +8,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 #include <vector>
 
 #include "color.h"
@@ -88,12 +89,16 @@ craft_confirm_result can_start_craft(
 //   3. Higher difficulty first
 //   4. Alphabetical by result_name()
 //   5. Longer craft time first (tiebreaker)
+// name_cache memoizes result_name() across the whole sort. Without it the
+// alphabetical tie-break constructs a temporary item and calls tname() twice per
+// *comparison*, i.e. O(n log n) item constructions for a single category.
 bool recipe_sort_compare(
     const recipe *a, const recipe *b,
     const availability &avail_a, const availability &avail_b,
     const Character &crafter, const crafting_cost_context &ctx,
     bool a_read, bool b_read,
-    bool unread_first );
+    bool unread_first,
+    std::unordered_map<const recipe *, std::string> &name_cache );
 
 // Builds the recipe info text for the crafting menu info panel.
 // Returns pre-folded lines at the given fold_width.

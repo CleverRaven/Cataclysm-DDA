@@ -5,6 +5,7 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "avatar.h"
@@ -335,6 +336,18 @@ TEST_CASE( "can_start_craft_ok_at_midday", "[crafting][gui]" )
 }
 
 
+// recipe_sort_compare() takes a result_name() memo shared across a whole sort.
+// These tests compare a single pair at a time, so each call gets a fresh cache.
+static bool sort_compare( const recipe *a, const recipe *b,
+                          const availability &avail_a, const availability &avail_b,
+                          const Character &crafter, const crafting_cost_context &ctx,
+                          bool a_read, bool b_read, bool unread_first )
+{
+    std::unordered_map<const recipe *, std::string> name_cache;
+    return recipe_sort_compare( a, b, avail_a, avail_b, crafter, ctx,
+                                a_read, b_read, unread_first, name_cache );
+}
+
 TEST_CASE( "recipe_sort_craftable_before_uncraftable", "[crafting][gui]" )
 {
     Character &guy = setup_character();
@@ -355,10 +368,10 @@ TEST_CASE( "recipe_sort_craftable_before_uncraftable", "[crafting][gui]" )
     availability avail_no( guy, &rec );
     CHECK_FALSE( avail_no.can_craft );
 
-    CHECK( recipe_sort_compare( &rec, &rec, avail_yes, avail_no, guy, {},
-                                true, true, false ) );
-    CHECK_FALSE( recipe_sort_compare( &rec, &rec, avail_no, avail_yes, guy, {},
-                                      true, true, false ) );
+    CHECK( sort_compare( &rec, &rec, avail_yes, avail_no, guy, {},
+                         true, true, false ) );
+    CHECK_FALSE( sort_compare( &rec, &rec, avail_no, avail_yes, guy, {},
+                               true, true, false ) );
 }
 
 TEST_CASE( "recipe_sort_by_difficulty", "[crafting][gui]" )
@@ -376,8 +389,8 @@ TEST_CASE( "recipe_sort_by_difficulty", "[crafting][gui]" )
     availability avail_easy( guy, &rec_easy );
 
     // Higher difficulty sorts first (existing behavior: b->difficulty < a->difficulty)
-    CHECK( recipe_sort_compare( &rec_hard, &rec_easy, avail_hard, avail_easy, guy, {},
-                                true, true, false ) );
+    CHECK( sort_compare( &rec_hard, &rec_easy, avail_hard, avail_easy, guy, {},
+                         true, true, false ) );
 }
 
 TEST_CASE( "recipe_sort_by_name", "[crafting][gui]" )
@@ -396,10 +409,10 @@ TEST_CASE( "recipe_sort_by_name", "[crafting][gui]" )
     availability avail_meat( guy, &rec_meat );
 
     // "cooked meat" < "cudgel" alphabetically
-    CHECK( recipe_sort_compare( &rec_meat, &rec_cudgel, avail_meat, avail_cudgel, guy, {},
-                                true, true, false ) );
-    CHECK_FALSE( recipe_sort_compare( &rec_cudgel, &rec_meat, avail_cudgel, avail_meat, guy, {},
-                                      true, true, false ) );
+    CHECK( sort_compare( &rec_meat, &rec_cudgel, avail_meat, avail_cudgel, guy, {},
+                         true, true, false ) );
+    CHECK_FALSE( sort_compare( &rec_cudgel, &rec_meat, avail_cudgel, avail_meat, guy, {},
+                               true, true, false ) );
 }
 
 TEST_CASE( "recipe_sort_by_craft_time_tiebreaker", "[crafting][gui]" )
@@ -416,8 +429,8 @@ TEST_CASE( "recipe_sort_by_craft_time_tiebreaker", "[crafting][gui]" )
     availability avail_slow( guy, &rec_slow );
 
     // Same name, same difficulty -> longer craft time sorts first
-    CHECK( recipe_sort_compare( &rec_slow, &rec_fast, avail_slow, avail_fast, guy, {},
-                                true, true, false ) );
+    CHECK( sort_compare( &rec_slow, &rec_fast, avail_slow, avail_fast, guy, {},
+                         true, true, false ) );
 }
 
 TEST_CASE( "recipe_sort_unread_first", "[crafting][gui]" )
@@ -432,11 +445,11 @@ TEST_CASE( "recipe_sort_unread_first", "[crafting][gui]" )
     availability avail( guy, &rec );
 
     // a_read=false (unread), b_read=true (read), unread_first=true -> a sorts before b
-    CHECK( recipe_sort_compare( &rec, &rec, avail, avail, guy, {},
-                                false, true, true ) );
+    CHECK( sort_compare( &rec, &rec, avail, avail, guy, {},
+                         false, true, true ) );
     // a_read=true (read), b_read=false (unread) -> b should sort first, so a < b is false
-    CHECK_FALSE( recipe_sort_compare( &rec, &rec, avail, avail, guy, {},
-                                      true, false, true ) );
+    CHECK_FALSE( sort_compare( &rec, &rec, avail, avail, guy, {},
+                               true, false, true ) );
 }
 
 TEST_CASE( "recipe_sort_unread_disabled", "[crafting][gui]" )
@@ -457,8 +470,8 @@ TEST_CASE( "recipe_sort_unread_disabled", "[crafting][gui]" )
     availability avail_no( guy, &rec );
 
     // unread_first=false: read state ignored, craftability dominates
-    CHECK( recipe_sort_compare( &rec, &rec, avail_yes, avail_no, guy, {},
-                                true, false, false ) );
+    CHECK( sort_compare( &rec, &rec, avail_yes, avail_no, guy, {},
+                         true, false, false ) );
 }
 
 // Helper: join vector of strings for substring searching
