@@ -88,7 +88,9 @@
       "reloaded_5x50dart",
       "reloaded_9mmfmj",
       "reloaded_9x18mmfmj",
-      "reloaded_9x18mmP2"
+      "reloaded_9x18mm",
+      "reloaded_9x18mmP2",
+      "reloaded_762_25"
     ],
     "type": "MIGRATION",
     "replace": "reloaded_pistol_ball"
@@ -108,7 +110,9 @@
       "bp_45_acp",
       "bp_57mm",
       "bp_9mmfmj",
-      "bp_9x18mmfmj"
+      "bp_9x18mmfmj",
+      "bp_9x18mm",
+      "bp_762_25"
     ],
     "type": "MIGRATION",
     "replace": "bp_pistol_ball"
@@ -127,8 +131,10 @@
       "matchhead_45colt_cowboy",
       "matchhead_9mmfmj",
       "matchhead_9x18mmfmj",
+      "matchhead_9x18mm",
       "matchhead_357mag_fmj",
-      "matchhead_50ae_fmj"
+      "matchhead_50ae_fmj",
+      "matchhead_762_25"
     ],
     "type": "MIGRATION",
     "replace": "matchhead_pistol_ball"
@@ -153,32 +159,22 @@
     "replace": "pistol_jhp"
   },
   {
-    "id": [ "357mag_fmj", "44fmj", "50ae_fmj" ],
+    "id": [ "357mag_fmj", "44fmj", "50ae_fmj", "500_Magnum", "454_Casull" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_ball"
   },
   {
-    "id": [ "reloaded_357mag_fmj", "reloaded_44fmj", "reloaded_50ae_fmj" ],
+    "id": [ "reloaded_357mag_fmj", "reloaded_44fmj", "reloaded_50ae_fmj", "reloaded_500_Magnum", "reloaded_454_Casull" ],
     "type": "MIGRATION",
     "replace": "reloaded_pistol_magnum_ball"
   },
   {
-    "id": [ "bp_357mag_fmj", "bp_44fmj", "bp_50ae_fmj" ],
+    "id": [ "bp_357mag_fmj", "bp_44fmj", "bp_50ae_fmj", "bp_500_Magnum", "bp_454_Casull" ],
     "type": "MIGRATION",
     "replace": "bp_pistol_magnum_ball"
   },
   {
-    "id": [
-      "357mag_jhp",
-      "44magnum",
-      "454_Casull",
-      "500_Magnum",
-      "50ae_jhp",
-      "460sw",
-      "460sw_jhp",
-      "reloaded_460sw",
-      "reloaded_460sw_jhp"
-    ],
+    "id": [ "357mag_jhp", "44magnum", "50ae_jhp", "460sw", "460sw_jhp", "reloaded_460sw", "reloaded_460sw_jhp" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_jhp"
   },
