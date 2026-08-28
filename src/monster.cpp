@@ -2151,7 +2151,7 @@ bool monster::is_dead_state() const
     return hp <= 0;
 }
 
-bool monster::block_hit( Creature *source, bodypart_id &, damage_instance &dam )
+bool monster::block_hit( Creature *, bodypart_id &, damage_instance &dam )
 {
     if( blocks_left <= 0 ) {
         return false;
