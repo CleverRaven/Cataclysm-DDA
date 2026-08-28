@@ -1802,8 +1802,9 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
 
         // snow
         int snowcost = 0;
-        if( where == to && here.is_outside( pos_bub() ) && !here.is_roofed( pos_bub() ) && !terrain.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) &&
-            !terrain.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER )  ) {
+        if( where == to && here.is_outside( pos_bub() ) && !here.is_roofed( pos_bub() ) &&
+            !terrain.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) &&
+            !terrain.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER ) ) {
             const double snow_mm = get_weather().get_snow_depth_mm( pos_abs_omt() );
             if( snow_mm >= 100 && !has_flag( json_flag_FLIES ) && !has_flag( json_flag_SNOWWALKING ) ) {
                 snowcost = snow_mm >= 500 ? 4 : ( snow_mm >= 250 ? 2 : 1 );
