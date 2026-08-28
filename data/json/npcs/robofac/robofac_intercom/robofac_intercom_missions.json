@@ -507,7 +507,8 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_3_ADVICE_Location",
     "type": "talk_topic",
-    "dynamic_line": "I don't believe I'm cleared to-\"  You hear brief chatter.  \"Apologies; I was mistaken.  The manufacturer was, technically speaking, kept secret from the public.  As a result, it operated using an office tower as a front, and was located underground.  An elevator in the back of the building led to the basement, but it was likely destroyed in the damage - as a result, you will need to find a way down yourself.  While there were stairs as well, it's highly likely that they have been destroyed.\"\n\n\"We advise bringing a way to safely enter and exit the lower level; a grappling hook would work well for this purpose.  Given the damage, the elevator shaft itself probably remains intact, and would be your likeliest point of entry to the underground portion of the building."
+    "//": "Restore previous dialogue if we ever get multi-story rappelling. If so, make sure to leave at least one elevator as the teleporting elevator trap",
+    "dynamic_line": "I don't believe I'm cleared to-\"  You hear brief chatter.  \"Apologies; I was mistaken.  The manufacturer was, technically speaking, kept secret from the public.  As a result, it operated using an office tower as a front, and was located underground.  An elevator in the back of the building led to the basement, but it was likely destroyed in the damage and the shaft may well be inaccessible - as a result, you will need to find a way down yourself.  There is a maintenance staircase in the compound, which may provide a means of entry should you be able to find an access card on the premises."
   },
   {
     "id": [
