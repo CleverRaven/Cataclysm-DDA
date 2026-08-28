@@ -1802,7 +1802,7 @@
     "category": "spare_parts",
     "name": { "str_sp": "5.45 steel core" },
     "description": "A stainless steel core that has been machined on a lathe by a survivor.  This one is meant to be used to reload a 5.45 bullet.",
-    "weight": "1 g",
+    "weight": "2 g",
     "volume": "2 ml",
     "price": "10 USD",
     "//0": "Price will be a complete guestimation, this wouldn't be worth that much to survivors because its not really worth it to handload ap bullets or bullets in general. Volume is derived from ~8g/ml steel density.",
