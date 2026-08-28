@@ -3585,10 +3585,14 @@ static void draw_spellbook_info( const spell_type &sp )
         ImGui::TableHeadersRow();
 
         const auto row = [&]( const std::string & label, const dbl_or_var & min_d,
-        const dbl_or_var & inc_d, const dbl_or_var & max_d, bool check_minmax = false ) {
-            const int min = static_cast<int>( min_d.evaluate( d ) );
-            const float inc = static_cast<float>( inc_d.evaluate( d ) );
-            const int max = static_cast<int>( max_d.evaluate( d ) );
+                              const dbl_or_var & inc_d, const dbl_or_var & max_d, bool check_minmax = false,
+        bool absolute = false ) {
+            const int min = absolute ? std::abs( static_cast<int>( min_d.evaluate( d ) ) ) : static_cast<int>
+                            ( min_d.evaluate( d ) );
+            const float inc = absolute ? std::abs( static_cast<float>( inc_d.evaluate(
+                    d ) ) ) : static_cast<float>( inc_d.evaluate( d ) );
+            const int max = absolute ? std::abs( static_cast<int>( max_d.evaluate( d ) ) ) : static_cast<int>
+                            ( max_d.evaluate( d ) );
             if( check_minmax && ( min == 0 || max == 0 ) ) {
                 return;
             }
@@ -3604,19 +3608,28 @@ static void draw_spellbook_info( const spell_type &sp )
         };
 
         if( !damage_string.empty() ) {
+            if( damage_string == _( "Damage" ) && ( sp.min_damage.evaluate( d ) < 0 ||
+                                                    sp.max_damage.evaluate( d ) < 0 ) ) {
+                damage_string = _( "Healing" );
+            }
             if( fake_spell.has_flag( spell_flag::RANDOM_DAMAGE ) ) {
                 ImGui::TableNextRow();
                 ImGui::TableNextColumn();
                 ImGui::TextColored( c_light_gray, "%s", damage_string.c_str() );
                 ImGui::TableNextColumn();
-                ImGui::TextColored( c_light_green, "%d-%d", static_cast<int>( sp.min_damage.evaluate( d ) ),
-                                    static_cast<int>( sp.max_damage.evaluate( d ) ) );
+                ImGui::TextColored( c_light_green, "%d-%d",
+                                    static_cast<int>( std::abs( sp.min_damage.evaluate( d ) ) ),
+                                    std::abs( static_cast<int>( sp.max_damage.evaluate( d ) ) ) );
                 ImGui::TableNextColumn();
                 const std::pair<float, float> increment = sp.calculate_damage_increment();
-                ImGui::TextColored( c_light_green, "%.2f - %.2f", increment.first, increment.second );
+                ImGui::TextColored( c_light_green, "%.2f - %.2f", std::min( std::abs( increment.first ),
+                                    std::abs( increment.second ) ), std::max( std::abs( increment.first ),
+                                            std::abs( increment.second ) ) );
                 ImGui::TableNextColumn();
                 const std::pair<int, int> max_damage = sp.damage_at_max_level();
-                ImGui::TextColored( c_light_green, "%d-%d", max_damage.first, max_damage.second );
+                ImGui::TextColored( c_light_green, "%d-%d", std::min( std::abs( max_damage.first ),
+                                    std::abs( max_damage.second ) ), std::max( std::abs( max_damage.first ),
+                                            std::abs( max_damage.second ) ) );
             } else {
                 row( damage_string, sp.min_damage, sp.damage_increment, sp.max_damage, true );
             }
