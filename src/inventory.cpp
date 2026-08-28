@@ -256,6 +256,7 @@ void inventory::clear()
     max_empty_liq_cont.clear();
     binned = false;
     qualities_cache.clear();
+    provider_qualities_cache.clear();
 }
 
 void inventory::push_back( const std::list<item> &newits )
@@ -1080,12 +1081,12 @@ units::volume inventory::volume_without( const std::map<const item *, int> &with
 int inventory::count_item( const itype_id &item_type ) const
 {
     int num = 0;
-    const itype_bin bin = get_binned_items();
-    if( bin.find( item_type ) == bin.end() ) {
+    const itype_bin &bin = get_binned_items();
+    const auto iter = bin.find( item_type );
+    if( iter == bin.end() ) {
         return num;
     }
-    const std::list<const item *> items = get_binned_items().find( item_type )->second;
-    for( const item *it : items ) {
+    for( const item *it : iter->second ) {
         num += it->count();
     }
     return num;

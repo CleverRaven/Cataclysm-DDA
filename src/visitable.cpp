@@ -194,6 +194,49 @@ bool inventory::has_quality( const quality_id &qual, int level, int qty ) const
 }
 
 /** @relates visitable */
+bool inventory::has_provider_quality( const quality_id &qual, int level, int qty,
+                                      const Character *who ) const
+{
+    // Mirrors inventory::has_quality above: walk one representative item per stack
+    // and scale by the stack size, then memoize the answer. The generic
+    // read_only_visitable implementation visits every item individually through two
+    // std::function indirections, which dominates the crafting menu once a large
+    // pile of items is in reach.
+    const provider_quality_query query{ qual, level, qty, who };
+    const auto cached = provider_qualities_cache.find( query );
+    if( cached != provider_qualities_cache.end() ) {
+        return cached->second;
+    }
+
+    const std::function<int( const item & )> measure = [&qual, who]( const item & it ) {
+        return provider_quality_level( it, qual, who, true );
+    };
+    const std::function<int( const item & )> tally = []( const item & ) {
+        return 1;
+    };
+
+    int res = 0;
+    bool found = false;
+    for( const std::list<item> &stack : this->items ) {
+        const int per_item = has_quality_internal( stack.front(), qual, level, qty, measure, tally );
+        if( per_item > 0 ) {
+            // Clamped in 64 bits: only the comparison against qty matters, and a large
+            // stack could otherwise overflow the multiplication.
+            const long long scaled = static_cast<long long>( per_item ) *
+                                     static_cast<long long>( stack.size() );
+            res = static_cast<int>( std::min<long long>( qty, res + scaled ) );
+        }
+        if( res >= qty ) {
+            found = true;
+            break;
+        }
+    }
+
+    provider_qualities_cache[query] = found;
+    return found;
+}
+
+/** @relates visitable */
 bool vehicle_selector::has_quality( const quality_id &qual, int level, int qty ) const
 {
     for( const vehicle_cursor &cursor : *this ) {

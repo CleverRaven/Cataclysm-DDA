@@ -111,6 +111,25 @@ struct quality_query {
     }
 };
 
+// As quality_query, but provider counting also depends on the character asking:
+// charged qualities are gated on that character's power/ammo.
+struct provider_quality_query {
+    quality_id qual;
+    int level;
+    int count;
+    const Character *who;
+
+    bool operator==( const provider_quality_query &other ) const {
+        return qual == other.qual && level == other.level && count == other.count &&
+               who == other.who;
+    }
+
+    bool operator<( const provider_quality_query &other ) const {
+        return std::tie( qual, level, count, who ) <
+               std::tie( other.qual, other.level, other.count, other.who );
+    }
+};
+
 class inventory : public visitable
 {
     public:
@@ -265,6 +284,8 @@ class inventory : public visitable
 
         // inherited from `visitable`
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;
+        bool has_provider_quality( const quality_id &qual, int level, int qty,
+                                   const Character *who ) const override;
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
         override;
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
@@ -306,6 +327,7 @@ class inventory : public visitable
         mutable itype_bin binned_items;
 
         mutable std::map<quality_query, bool> qualities_cache;
+        mutable std::map<provider_quality_query, bool> provider_qualities_cache;
 };
 
 #endif // CATA_SRC_INVENTORY_H
