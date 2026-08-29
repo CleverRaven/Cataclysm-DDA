@@ -224,7 +224,7 @@
       { "monster": "mon_feral_inventor_stormcaller", "weight": 15 },
       { "monster": "mon_feral_inventor_spider_drones", "weight": 10 }
     ]
-  }
+  },
   {
     "type": "monstergroup",
     "id": "GROUP_FERAL_AGENTS",
