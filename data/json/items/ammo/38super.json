@@ -65,16 +65,6 @@
     "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -4 } }
   },
   {
-    "id": "reloaded_38_super",
-    "copy-from": "38_super",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".38 Super JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
     "id": "reloaded_38super_fmj",
     "copy-from": "38super_fmj",
     "type": "ITEM",
@@ -98,32 +88,6 @@
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "bp_38super",
-    "copy-from": "38_super",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".38 Super JHP, black powder" },
-    "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
-      "recoil": 0.76,
-      "dispersion": 1.2
-    },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "matchhead_38_super",
-    "copy-from": "bp_38super",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
-    "name": { "str_sp": ".38 Super JHP, matchhead powder" },
-    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
-    "looks_like": "bp_30carbine",
-    "extend": { "effects": [ "MATCHHEAD" ] }
   },
   {
     "id": "matchhead_38_super_fmj",

@@ -235,20 +235,7 @@
         {
           "type": "9mm",
           "weight": 209,
-          "items": {
-            "9mm": 1,
-            "9mmfmj": 1,
-            "9mmP": 1,
-            "9mmP2": 1,
-            "bp_9mm": 1,
-            "bp_9mmfmj": 1,
-            "matchhead_9mm": 1,
-            "matchhead_9mmfmj": 1,
-            "reloaded_9mm": 1,
-            "reloaded_9mmfmj": 1,
-            "reloaded_9mmP": 1,
-            "reloaded_9mmP2": 1
-          }
+          "items": { "9mm": 1, "9mmfmj": 1, "9mmP": 1, "9mmP2": 1, "bp_9mmfmj": 1, "matchhead_9mmfmj": 1, "reloaded_9mmfmj": 1 }
         },
         {
           "type": "22",
@@ -277,77 +264,33 @@
             "556_mk262": 1,
             "556_mk318": 1,
             "bp_223": 1,
-            "bp_556": 1,
-            "bp_556_incendiary": 1,
-            "reloaded_223": 1,
-            "reloaded_556": 1,
-            "reloaded_556_incendiary": 1
+            "reloaded_223": 1
           }
         },
         {
           "type": "45",
           "weight": 49,
-          "items": {
-            "45_acp": 1,
-            "45_jhp": 1,
-            "45_super": 1,
-            "bp_45_acp": 1,
-            "bp_45_jhp": 1,
-            "matchhead_45_acp": 1,
-            "matchhead_45_jhp": 1,
-            "reloaded_45_acp": 1,
-            "reloaded_45_jhp": 1,
-            "reloaded_45_super": 1
-          }
+          "items": { "45_acp": 1, "45_jhp": 1, "45_super": 1, "bp_45_acp": 1, "matchhead_45_acp": 1, "reloaded_45_acp": 1 }
         },
         {
           "type": "380",
           "weight": 48,
-          "items": {
-            "380_FMJ": 1,
-            "380_JHP": 1,
-            "380_p": 1,
-            "bp_380_FMJ": 1,
-            "bp_380_JHP": 1,
-            "matchhead_380_FMJ": 1,
-            "matchhead_380_JHP": 1,
-            "reloaded_380_FMJ": 1,
-            "reloaded_380_JHP": 1,
-            "reloaded_380_p": 1
-          }
+          "items": { "380_FMJ": 1, "380_JHP": 1, "380_p": 1, "bp_380_FMJ": 1, "matchhead_380_FMJ": 1, "reloaded_380_FMJ": 1 }
         },
         {
           "type": "40",
           "weight": 40,
-          "items": {
-            "40fmj": 1,
-            "40sw": 1,
-            "bp_40fmj": 1,
-            "bp_40sw": 1,
-            "matchhead_40fmj": 1,
-            "matchhead_40sw": 1,
-            "reloaded_40fmj": 1,
-            "reloaded_40sw": 1
-          }
+          "items": { "40fmj": 1, "40sw": 1, "bp_40fmj": 1, "matchhead_40fmj": 1, "reloaded_40fmj": 1 }
         },
         {
           "type": "762",
           "weight": 34,
-          "items": { "762_jhp": 1, "762_m87": 1, "bp_762_jhp": 1, "bp_762_m87": 1, "reloaded_762_jhp": 1, "reloaded_762_m87": 1 }
+          "items": { "762_jhp": 1, "762_m87": 1, "bp_762_m87": 1, "reloaded_762_m87": 1 }
         },
         {
           "type": "357mag",
           "weight": 34,
-          "items": {
-            "357mag_fmj": 1,
-            "357mag_jhp": 1,
-            "bp_357mag_fmj": 1,
-            "bp_357mag_jhp": 1,
-            "matchhead_357mag_fmj": 1,
-            "matchhead_357mag_jhp": 1,
-            "reloaded_357mag_fmj": 1,
-            "reloaded_357mag_jhp": 1
-          }
+          "items": { "357mag_fmj": 1, "357mag_jhp": 1, "bp_357mag_fmj": 1, "matchhead_357mag_fmj": 1, "reloaded_357mag_fmj": 1 }
         },
         {
           "type": "shot",
@@ -391,24 +334,9 @@
         {
           "type": "38",
           "weight": 19,
-          "items": {
-            "38_fmj": 1,
-            "38_special": 1,
-            "38_special_p": 1,
-            "bp_38_fmj": 1,
-            "bp_38_special": 1,
-            "matchhead_38_fmj": 1,
-            "matchhead_38_special": 1,
-            "reloaded_38_fmj": 1,
-            "reloaded_38_special": 1,
-            "reloaded_38_special_p": 1
-          }
+          "items": { "38_fmj": 1, "38_special": 1, "38_special_p": 1, "bp_38_fmj": 1, "matchhead_38_fmj": 1, "reloaded_38_fmj": 1 }
         },
-        {
-          "type": "44",
-          "weight": 15,
-          "items": { "44fmj": 1, "44magnum": 1, "bp_44fmj": 1, "bp_44magnum": 1, "reloaded_44fmj": 1, "reloaded_44magnum": 1 }
-        },
+        { "type": "44", "weight": 15, "items": { "44fmj": 1, "44magnum": 1, "bp_44fmj": 1, "reloaded_44fmj": 1 } },
         {
           "type": "3006",
           "weight": 8,
@@ -433,11 +361,8 @@
           "items": {
             "reloaded_45colt_fmj": 1,
             "45colt_jhp": 1,
-            "reloaded_45colt_jhp": 1,
             "bp_45colt_fmj": 1,
             "matchhead_45colt_fmj": 1,
-            "bp_45colt_jhp": 1,
-            "matchhead_45colt_jhp": 1,
             "45colt_cowboy": 1,
             "bp_45colt_cowboy": 1,
             "matchhead_45colt_cowboy": 1,
@@ -460,10 +385,7 @@
             "bp_10mm_fmj": 1,
             "matchhead_10mm_fmj": 1,
             "reloaded_10mm_fmj": 1,
-            "10mm_jhp": 1,
-            "bp_10mm_jhp": 1,
-            "matchhead_10mm_jhp": 1,
-            "reloaded_10mm_jhp": 1
+            "10mm_jhp": 1
           }
         },
         {
@@ -488,22 +410,16 @@
             "410shot_bird": 1
           }
         },
-        { "type": "123ln", "weight": 1, "items": { "123ln": 1, "bp_123ln": 1, "reloaded_123ln": 1 } },
-        { "type": "300", "weight": 1, "items": { "300_winmag": 1, "bp_300_winmag": 1, "reloaded_300_winmag": 1 } },
+        {
+          "type": "123ln",
+          "weight": 1,
+          "items": { "123ln": 1, "bp_123ln": 1, "reloaded_123ln": 1, "123ln_ap": 1, "bp_123ln_ap": 1, "reloaded_123ln_ap": 1 }
+        },
+        { "type": "300", "weight": 1, "items": { "300_winmag": 1 } },
         {
           "type": "303",
           "weight": 1,
-          "items": {
-            "303_bthp": 1,
-            "303_fmjbt": 1,
-            "303_sp": 1,
-            "bp_303": 1,
-            "bp_303fmj": 1,
-            "bp_303sp": 1,
-            "reloaded_303": 1,
-            "reloaded_303fmj": 1,
-            "reloaded_303sp": 1
-          }
+          "items": { "303_bthp": 1, "303_fmjbt": 1, "303_sp": 1, "bp_303fmj": 1, "bp_303sp": 1, "reloaded_303fmj": 1, "reloaded_303sp": 1 }
         },
         {
           "type": "30carbine",
@@ -524,49 +440,17 @@
           "weight": 1,
           "items": { "32_acp": 1, "bp_32_acp": 1, "matchhead_32_acp": 1, "reloaded_32_acp": 1 }
         },
-        {
-          "type": "338lapua",
-          "weight": 1,
-          "items": {
-            "338lapua_api": 1,
-            "338lapua_fmjbt": 1,
-            "338lapua_hpbt": 1,
-            "bp_338lapua_api": 1,
-            "bp_338lapua_fmjbt": 1,
-            "bp_338lapua_hpbt": 1,
-            "reloaded_338lapua_api": 1,
-            "reloaded_338lapua_fmjbt": 1,
-            "reloaded_338lapua_hpbt": 1
-          }
-        },
+        { "type": "338lapua", "weight": 1, "items": { "338lapua_api": 1, "338lapua_fmjbt": 1, "338lapua_hpbt": 1 } },
         {
           "type": "357sig",
           "weight": 1,
-          "items": {
-            "357sig_fmj": 1,
-            "357sig_jhp": 1,
-            "bp_357sig_fmj": 1,
-            "bp_357sig_jhp": 1,
-            "matchhead_357sig_fmj": 1,
-            "matchhead_357sig_jhp": 1,
-            "reloaded_357sig_fmj": 1,
-            "reloaded_357sig_jhp": 1
-          }
+          "items": { "357sig_fmj": 1, "357sig_jhp": 1, "bp_357sig_fmj": 1, "matchhead_357sig_fmj": 1, "reloaded_357sig_fmj": 1 }
         },
         { "type": "36paper", "weight": 1, "items": { "36navy": 1 } },
         {
           "type": "38super",
           "weight": 1,
-          "items": {
-            "38_super": 1,
-            "38super_fmj": 1,
-            "reloaded_38_super": 1,
-            "reloaded_38super_fmj": 1,
-            "bp_38super_fmj": 1,
-            "matchhead_38_super_fmj": 1,
-            "bp_38super": 1,
-            "matchhead_38_super": 1
-          }
+          "items": { "38_super": 1, "38super_fmj": 1, "reloaded_38super_fmj": 1, "bp_38super_fmj": 1, "matchhead_38_super_fmj": 1 }
         },
         {
           "type": "40x46mm",
@@ -641,11 +525,7 @@
           "weight": 1,
           "items": { "8mm_caseless": 1, "8mm_civilian": 1, "8mm_fmj": 1, "8mm_hvp": 1, "8mm_inc": 1, "8mm_jhp": 1 }
         },
-        {
-          "type": "300blk",
-          "weight": 1,
-          "items": { "300blk": 1, "300blk_ss": 1, "bp_300blk": 1, "reloaded_300blk": 1 }
-        },
+        { "type": "300blk", "weight": 1, "items": { "300blk": 1, "300blk_ss": 1 } },
         {
           "type": "9x18",
           "weight": 1,
