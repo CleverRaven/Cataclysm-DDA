@@ -8280,7 +8280,12 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
     if( u.is_hauling() && ( !here.can_put_items( dest_loc ) ||
                             here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc ) ||
                             vp1 ) ) {
-        u.stop_hauling();
+        // returns false if not automoving in the first place
+        if( cancel_auto_move( *u.as_character(), _( "You're about to stop hauling!" ) ) ) {
+            return point_rel_sm::zero;
+        } else {
+            u.stop_hauling();
+        }
     }
     u.setpos( here, dest_loc );
     if( u.is_mounted() ) {
