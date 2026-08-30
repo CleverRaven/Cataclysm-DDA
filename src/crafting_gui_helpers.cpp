@@ -1003,26 +1003,17 @@ recipe_list_data build_recipe_list(
     if( skip_hidden_filter ) {
         result.entries = std::move( picking );
     } else {
+        result.num_hidden = 0;
         for( const recipe *r : picking ) {
             if( uistate.hidden_recipes.find( r->ident() ) != uistate.hidden_recipes.end() ) {
+                result.num_hidden++;
                 continue;
             }
-            // Hide nested groups with no available child recipes
-            if( r->is_nested() ) {
-                bool has_child = false;
-                for( const recipe_id &child : r->nested_category_data ) {
-                    if( available_recipes.contains( &child.obj() ) ) {
-                        has_child = true;
-                        break;
-                    }
-                }
-                if( !has_child ) {
-                    continue;
-                }
+            if( r->is_nested() && !available_recipes.has_available_child( r ) ) {
+                continue;
             }
             result.entries.push_back( r );
         }
-        result.num_hidden = picking.size() - result.entries.size();
     }
 
     // Cache availability on first display
