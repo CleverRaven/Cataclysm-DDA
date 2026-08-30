@@ -2368,7 +2368,7 @@
     "type": "terrain",
     "id": "t_ossuary_wall_half",
     "looks_like": "t_rock_wall_half",
-    "name": "field stone half-wall",
+    "name": "ossuary half-wall",
     "description": "A somewhat sturdy half-height wall made of bones, skulls, rocks, and dirt.  Just rocks fitted together with soil for mortar.",
     "symbol": "#",
     "color": "light_gray",
@@ -2406,7 +2406,7 @@
     "type": "terrain",
     "id": "t_ossuary_pillar",
     "copy-from": "t_column",
-    "name": "pillar",
+    "name": "ossuary pillar",
     "description": "A pillar of bones and skulls arranged around a log with dirt. Mostly decorative, but can still be used as a column."
     "bash": {
       "str_min": 30,
