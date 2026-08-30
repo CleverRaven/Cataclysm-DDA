@@ -2,12 +2,22 @@
   {
     "type": "overmap_location",
     "id": "land",
-    "terrains": [ "field", "afs_aeolian_plain", "forest", "forest_thick", "forest_water", "forest_trail" ]
+    "terrains": [ "field", "afs_aeolian_plain", "forest", "forest_thick", "forest_water", "forest_trail", "glacial_field" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "field",
+    "terrains": [ "field", "glacial_field" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "wilderness",
+    "terrains": [ "forest", "forest_thick", "field", "forest_trail", "glacial_field" ]
   },
   {
     "type": "overmap_location",
     "id": "base_land",
-    "terrains": [ "field", "forest", "forest_thick", "forest_water" ]
+    "terrains": [ "field", "forest", "forest_thick", "forest_water", "glacial_field" ]
   },
   {
     "type": "overmap_location",

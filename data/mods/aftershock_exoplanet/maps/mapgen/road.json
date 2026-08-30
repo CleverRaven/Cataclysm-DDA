@@ -3,7 +3,7 @@
     "type": "mapgen",
     "om_terrain": [ "road_straight" ],
     "object": {
-      "predecessor_mapgen": "field",
+      "predecessor_mapgen": "glacial_field",
       "rows": [
         "  .................1..  ",
         "  1..................   ",
@@ -39,7 +39,7 @@
     "type": "mapgen",
     "om_terrain": [ "road_end" ],
     "object": {
-      "predecessor_mapgen": "field",
+      "predecessor_mapgen": "glacial_field",
       "rows": [
         "                        ",
         "    ................    ",
@@ -75,7 +75,7 @@
     "type": "mapgen",
     "om_terrain": [ "road_curved" ],
     "object": {
-      "predecessor_mapgen": "field",
+      "predecessor_mapgen": "glacial_field",
       "rows": [
         "                        ",
         "                        ",
@@ -111,7 +111,7 @@
     "type": "mapgen",
     "om_terrain": [ "road_tee" ],
     "object": {
-      "predecessor_mapgen": "field",
+      "predecessor_mapgen": "glacial_field",
       "rows": [
         "                        ",
         "                        ",
@@ -150,7 +150,7 @@
     "type": "mapgen",
     "om_terrain": [ "road_nesw_manhole" ],
     "object": {
-      "predecessor_mapgen": "field",
+      "predecessor_mapgen": "glacial_field",
       "rows": [
         "2 ..........2........   ",
         "  ....................  ",
@@ -199,7 +199,7 @@
     "om_terrain": [ "road_four_way" ],
     "weight": 100000,
     "object": {
-      "predecessor_mapgen": "field",
+      "predecessor_mapgen": "glacial_field",
       "rows": [
         "2 ..........2........   ",
         "  ....................  ",

@@ -9,7 +9,7 @@
     "om_terrain": "afs_formless_ruins_industrial",
     "weight": 5,
     "object": {
-      "predecessor_mapgen": "field",
+      "predecessor_mapgen": "glacial_field",
       "place_nested": [
         { "chunks": [ "afs_formless_ruins_industrial_base" ], "x": 0, "y": 0 },
         { "chunks": [ [ "null", 45 ], [ "formless_piping", 45 ] ], "x": 0, "y": 0 },
@@ -27,7 +27,7 @@
     "om_terrain": "afs_formless_ruins_industrial",
     "weight": 1,
     "object": {
-      "predecessor_mapgen": "field",
+      "predecessor_mapgen": "glacial_field",
       "place_nested": [
         { "chunks": [ [ "afs_formless_reactor", 45 ], [ "afs_formless_manufab", 45 ] ], "x": 0, "y": 0 },
         { "chunks": [ "afs_ruin_pollution" ], "x": 0, "y": 0 }
