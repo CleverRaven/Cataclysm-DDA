@@ -2359,7 +2359,7 @@
       "ter_set": "t_null",
       "items": [
         { "item": "field_stone", "count": [ 100, 250 ] },
-        { "item": "bone", "count": [ 200, 400 ] },
+        { "item": "bone_tainted", "count": [ 200, 400 ] },
         { "item": "dirt", "count": [ 100, 250 ] }
       ]
     }
@@ -2397,7 +2397,7 @@
       "ter_set": "t_null",
       "items": [
         { "item": "field_stone", "count": [ 100, 250 ] },
-        { "item": "bone", "count": [ 200, 400 ] },
+        { "item": "bone_tainted", "count": [ 200, 400 ] },
         { "item": "dirt", "count": [ 100, 250 ] }
       ]
     }
@@ -2416,7 +2416,7 @@
       "ter_set": "t_null",
       "items": [
         { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "bone", "count": [ 200, 400 ] },
+        { "item": "bone_tainted", "count": [ 200, 400 ] },
         { "item": "dirt", "count": [ 100, 250 ] }
       ]
     }
