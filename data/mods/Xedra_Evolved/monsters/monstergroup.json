@@ -580,7 +580,10 @@
   {
     "type": "monstergroup",
     "id": "GROUP_LAB_SURFACE",
-    "monsters": [ { "monster": "mon_zombie_oa_agent", "weight": 20, "cost_multiplier": 5 }, { "group": "GROUP_FERAL_DREAMERS", "weight": 5, "cost_multiplier": 50 } ]
+    "monsters": [
+      { "monster": "mon_zombie_oa_agent", "weight": 20, "cost_multiplier": 5 },
+      { "group": "GROUP_FERAL_DREAMERS", "weight": 5, "cost_multiplier": 50 }
+    ]
   },
   {
     "type": "monstergroup",
