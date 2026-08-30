@@ -440,7 +440,7 @@
     "replace": "rifle_huge_ball"
   },
   {
-    "id": [ "reloaded_50_incendiary", "reloaded_458wm", "reloaded_50bmg" ],
+    "id": [ "reloaded_50_incendiary", "reloaded_458wm", "reloaded_50bmg", "reloaded_50bmgfmj" ],
     "type": "MIGRATION",
     "replace": "reloaded_rifle_huge_ball"
   },
@@ -460,7 +460,7 @@
     "replace": "bp_rifle_huge_AP"
   },
   {
-    "id": [ "bp_50_incendiary", "bp_458wm", "bp_50match" ],
+    "id": [ "bp_50_incendiary", "bp_458wm", "bp_50match", "bp_50bmgfmj" ],
     "type": "MIGRATION",
     "replace": "bp_rifle_huge_ball"
   },
