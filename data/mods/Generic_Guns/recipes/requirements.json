@@ -45,19 +45,19 @@
     "id": "req_penetrator_rifle",
     "type": "requirement",
     "//": "Components required for barrier/armor penetrators",
-    "components": [ [ "rifle_steel_core", 1 ] ]
+    "components": [ [ [ "rifle_steel_core", 1 ] ] ]
   },
   {
     "id": "req_penetrator_rifle_huge",
     "type": "requirement",
     "//": "Components required for barrier/armor penetrators",
-    "components": [ [ "rifle_huge_steel_core", 1 ] ]
+    "components": [ [ [ "rifle_huge_steel_core", 1 ] ] ]
   },
   {
     "id": "req_penetrator_rifle_alien",
     "type": "requirement",
     "//": "Components required for barrier/armor penetrators",
-    "components": [ [ "rifle_alien_steel_core", 1 ] ]
+    "components": [ [ [ "rifle_alien_steel_core", 1 ] ] ]
   },
   {
     "id": "req_junk",
