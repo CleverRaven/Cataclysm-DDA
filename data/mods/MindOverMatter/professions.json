@@ -16,7 +16,7 @@
           { "item": "mbag" },
           { "item": "water_clean" },
           { "item": "wristwatch" },
-          { "item": "matrix_crystal_coruscating" },
+          { "group": "clairsentient_matrix_crystals_group" },
           { "group": "charged_smart_phone" },
           { "group": "charged_matches" }
         ]
