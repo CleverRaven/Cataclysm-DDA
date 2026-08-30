@@ -158,7 +158,7 @@
         "prob": 15
       },
       { "item": "hd_tow_cable", "prob": 5 },
-      { "distribution": [ { "group": "claw_bar", "prob": 5 }, { "group": "crowbar", "prob": 15 } ], "prob": 15 },
+      { "distribution": [ { "item": "claw_bar", "prob": 5 }, { "item": "crowbar", "prob": 15 } ], "prob": 15 },
       { "item": "thermometer", "prob": 5 },
       { "item": "multitool", "prob": 10 },
       { "item": "recharge_station", "prob": 10 },
