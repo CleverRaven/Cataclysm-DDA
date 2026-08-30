@@ -2407,7 +2407,7 @@
     "id": "t_ossuary_pillar",
     "copy-from": "t_column",
     "name": "ossuary pillar",
-    "description": "A pillar of bones and skulls arranged around a log with dirt. Mostly decorative, but can still be used as a column.",
+    "description": "A pillar of bones and skulls arranged around a log with dirt.  Mostly decorative, but can still be used as a column.",
     "bash": {
       "str_min": 30,
       "str_max": 120,
