@@ -141,9 +141,9 @@
       { "item": "tin_snips", "prob": 10 },
       {
         "distribution": [
-          { "group": "wrench", "prob": 20 },
-          { "group": "wrench_small", "prob": 20 },
-          { "group": "socket_wrench_set", "prob": 20 }
+          { "item": "wrench", "prob": 20 },
+          { "item": "wrench_small", "prob": 20 },
+          { "item": "socket_wrench_set", "prob": 20 }
         ],
         "prob": 20
       },
