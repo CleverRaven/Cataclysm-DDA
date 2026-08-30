@@ -1450,7 +1450,12 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
-    "components": [ [ [ "log", 1 ] ], [ [ "skull_human_tainted", 160 ], [ "skull_human", 160 ] ], [ [ "bone", 320 ], [ "bone_tainted", 320 ] ], [ [ "material_soil", 125 ] ] ],
+    "components": [
+      [ [ "log", 1 ] ],
+      [ [ "skull_human_tainted", 160 ], [ "skull_human", 160 ] ],
+      [ [ "bone", 320 ], [ "bone_tainted", 320 ] ],
+      [ [ "material_soil", 125 ] ]
+    ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_ossuary_pillar"
   }
