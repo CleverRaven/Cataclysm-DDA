@@ -2360,7 +2360,7 @@
       "items": [
         { "item": "field_stone", "count": [ 100, 250 ] },
         { "item": "bone_tainted", "count": [ 200, 400 ] },
-        { "item": "dirt", "count": [ 100, 250 ] }
+        { "item": "material_soil", "count": [ 100, 250 ] }
       ]
     }
   },
@@ -2398,7 +2398,7 @@
       "items": [
         { "item": "field_stone", "count": [ 100, 250 ] },
         { "item": "bone_tainted", "count": [ 200, 400 ] },
-        { "item": "dirt", "count": [ 100, 250 ] }
+        { "item": "material_soil", "count": [ 100, 250 ] }
       ]
     }
   },
@@ -2417,7 +2417,7 @@
       "items": [
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "bone_tainted", "count": [ 200, 400 ] },
-        { "item": "dirt", "count": [ 100, 250 ] }
+        { "item": "material_soil", "count": [ 100, 250 ] }
       ]
     }
   }
