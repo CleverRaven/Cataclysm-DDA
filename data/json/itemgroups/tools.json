@@ -263,7 +263,7 @@
       { "group": "tools_earthworking", "prob": 100 },
       { "group": "tools_electronics", "prob": 20 },
       { "group": "tools_lighting_industrial", "prob": 100 },
-      { "group": "tools_mechanic", "prob": 20 },
+      { "group": "tools_mechanic", "prob": 2 },
       { "group": "tools_plumbing", "prob": 20 },
       { "item": "portable_generator", "prob": 5 },
       { "item": "char_smoker", "prob": 5, "charges": [ 0, 300 ] }
