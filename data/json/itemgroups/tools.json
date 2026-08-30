@@ -113,7 +113,7 @@
   {
     "id": "tools_common_small",
     "type": "item_group",
-    "subtype": "distribution",
+    "subtype": "collection",
     "//": "Common household tools that are small enough to fit in a bag",
     "entries": [
       { "item": "hacksaw", "prob": 50 },
