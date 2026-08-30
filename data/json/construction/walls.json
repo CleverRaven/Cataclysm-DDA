@@ -1416,7 +1416,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
-    "components": [ [ [ "field_stone", 125 ], [ "rock", 40 ] ], [ [ "skull_human_tainted", 160 ], [ "skull_human", 160 ] ], [ [ "bone", 320 ], [ "bone_tainted", 320 ] ], [ [ "soil", 125 ] ] ],
+    "components": [ [ [ "field_stone", 125 ], [ "rock", 40 ] ], [ [ "skull_human_tainted", 160 ], [ "skull_human", 160 ] ], [ [ "bone", 320 ], [ "bone_tainted", 320 ] ], [ [ "material_soil", 125 ] ] ],
     "pre_terrain": "check_empty",
     "post_terrain": "t_ossuary_wall_half"
   },
@@ -1428,19 +1428,19 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
-    "components": [ [ [ "field_stone", 125 ], [ "rock", 40 ] ], [ [ "skull_human_tainted", 160 ], [ "skull_human", 160 ] ], [ [ "bone", 320 ], [ "bone_tainted", 320 ] ], [ [ "soil", 125 ] ] ],
+    "components": [ [ [ "field_stone", 125 ], [ "rock", 40 ] ], [ [ "skull_human_tainted", 160 ], [ "skull_human", 160 ] ], [ [ "bone", 320 ], [ "bone_tainted", 320 ] ], [ [ "material_soil", 125 ] ] ],
     "pre_terrain": "t_ossuary_wall_half",
     "post_terrain": "t_ossuary_wall"
   },
   {
     "type": "construction",
-    "id": "constr_ossuary_column",
-    "group": "build_ossuary_column",
+    "id": "constr_ossuary_pillar",
+    "group": "build_ossuary_pillar",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
-    "components": [ [ [ "log", 1 ] ], [ [ "skull", 160 ] ], [ [ "bone", 320 ] ], [ [ "soil", 125 ] ] ],
+    "components": [ [ [ "log", 1 ] ], [ [ "skull", 160 ] ], [ [ "bone", 320 ] ], [ [ "material_soil", 125 ] ] ],
     "pre_terrain": "check_empty",
     "post_terrain": "t_ossuary_column"
   }
