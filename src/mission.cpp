@@ -874,6 +874,37 @@ bool mission::has_generic_rewards() const
     return type->has_generic_rewards;
 }
 
+bool mission::has_kill_count() const
+{
+    switch( type->goal ) {
+        case MGOAL_KILL_MONSTER_TYPE:
+        case MGOAL_KILL_MONSTER_SPEC:
+        case MGOAL_KILL_MONSTERS:
+            return true;
+    }
+    return false;
+}
+
+int mission::get_kills_remaining()
+{
+    switch( type->goal ) {
+        case MGOAL_KILL_MONSTER_TYPE: {
+            int kills = kill_count_to_reach - g->get_kill_tracker().kill_count( monster_type );
+            return std::max( kills, 0 );
+        }
+        case MGOAL_KILL_MONSTER_SPEC: {
+            int kills = kill_count_to_reach - g->get_kill_tracker().kill_count( monster_species );
+            return std::max( kills, 0 );
+        }
+        case MGOAL_KILL_MONSTERS:
+            if( monster_kill_goal == -1 ) {
+                return -1;
+            }
+            return monster_kill_goal + 1;
+    }
+    return -1;
+}
+
 void mission::set_deadline( time_point new_deadline )
 {
     deadline = new_deadline;
