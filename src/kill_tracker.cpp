@@ -41,28 +41,24 @@ int kill_tracker::kill_count( const species_id &spec ) const
     return result;
 }
 
-int kill_tracker::guilt_kill_count( const mtype_id &mon ) const
+int kill_tracker::guilt_kill_count() const
 {
     int count = 0;
-    mon_flag_id flag;
-    // NOTE: GUILT_HUMAN is not used here! See Character::apply_murder_penalties()
-    if( mon->has_flag( mon_flag_GUILT_ANIMAL ) ) {
-        flag = mon_flag_GUILT_ANIMAL;
-    } else if( mon->has_flag( mon_flag_GUILT_CHILD ) ) {
-        flag = mon_flag_GUILT_CHILD;
-    } else if( mon->has_flag( mon_flag_GUILT_OTHERS ) ) {
-        flag = mon_flag_GUILT_OTHERS;
-    } else { // worst case scenario when no guilt flags are found
-        auto noflag = kills.find( mon );
-        if( noflag != kills.end() ) {
-            return noflag->second;
+    std::vector<mon_flag_id> guilt_flags = {
+        mon_flag_GUILT_ANIMAL,
+        mon_flag_GUILT_CHILD,
+        mon_flag_GUILT_HUMAN,
+        mon_flag_GUILT_OTHERS
+    };
+    for( mon_flag_id &flag : guilt_flags ) {
+        for( const auto &it : kills ) {
+            if( it.first->has_flag( flag ) ) {
+                count += it.second;
+            }
         }
     }
-    for( const auto &it : kills ) {
-        if( it.first->has_flag( flag ) ) {
-            count += it.second;
-        }
-    }
+    // Human kills always count for deadening purposes, even if the kill itself didn't trigger guilt.
+    count += static_cast<int>( npc_kills.size() );
     return count;
 }
 

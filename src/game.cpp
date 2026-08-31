@@ -1303,6 +1303,11 @@ const kill_tracker &game::get_kill_tracker() const
     return *kill_tracker_ptr;
 }
 
+void game::clear_kill_tracker() const
+{
+    kill_tracker_ptr->clear();
+}
+
 void game::create_starting_npcs()
 {
     //We don't want more than one starting npc per starting location

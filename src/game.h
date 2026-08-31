@@ -639,6 +639,7 @@ class game
         void reload_npcs();
         void remove_npc( character_id const &id );
         const kill_tracker &get_kill_tracker() const;
+        void clear_kill_tracker() const;
         stats_tracker &stats();
         achievements_tracker &achievements();
         /** Add follower id to set of followers. */

@@ -21,6 +21,7 @@
 #include "item.h"
 #include "localized_comparator.h"
 #include "morale_types.h"
+#include "options.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
@@ -526,7 +527,8 @@ void player_morale::decay( const time_duration &ticks )
     invalidate();
 }
 
-void player_morale::display( int focus_eq, int pain_penalty, int sleepiness_penalty )
+void player_morale::display( int focus_eq, int pain_penalty, int sleepiness_penalty,
+                             Character &who )
 {
     /*calculates the percent contributions of the morale points,
      * must be done before anything else in this method
@@ -705,12 +707,23 @@ void player_morale::display( int focus_eq, int pain_penalty, int sleepiness_pena
     }
 
     std::vector<morale_line> bottom_lines;
-    bottom_lines.reserve( 3 ); // We need at least 3 lines.
+    bottom_lines.reserve( 6 ); // We need 6 lines for everything.
     bottom_lines.emplace_back( morale_line::separation_line {} );
     bottom_lines.emplace_back(
-        _( "Total morale:" ), get_level(),
+        // NOTE: We can't use morale_level() directly here, but must access it through the getter. Otherwise, we aren't accounting for possible modifiers.
+        _( "Total morale:" ), who.get_morale_level(),
         morale_line::number_format::signed_or_dash,
         morale_line::line_color::green_gray_red
+    );
+    std::string deaden_display_msg = _( "Deadened.  All morale modified to:" );
+    if( get_option<bool>( "CRAZY" ) ) {
+        //~This is for the crazy cataclysm mod, it is an off-beat display message for how "deadened" a Character's psyche is. It tracks whether the character "gives a shit".
+        deaden_display_msg = _( "Shits given:" );
+    }
+    bottom_lines.emplace_back(
+        deaden_display_msg, ( who.get_modifier_for_ALL_morale() * 100.0 ),
+        morale_line::number_format::percent,
+        morale_line::line_color::normal
     );
     if( pain_penalty != 0 ) {
         bottom_lines.emplace_back(

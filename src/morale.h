@@ -11,6 +11,7 @@
 #include "calendar.h"
 #include "type_id.h"
 
+class Character;
 class JsonObject;
 class JsonOut;
 class item;
@@ -44,7 +45,7 @@ class player_morale
         /** Ticks down morale counters and removes them */
         void decay( const time_duration &ticks = 1_turns );
         /** Displays morale screen */
-        void display( int focus_eq, int pain_penalty, int sleepiness_penalty );
+        void display( int focus_eq, int pain_penalty, int sleepiness_penalty, Character &who );
         // dumps the containment of all points into string, for debug purposes
         std::string to_string_writable();
         /** Returns false whether morale is inconsistent with the argument.
