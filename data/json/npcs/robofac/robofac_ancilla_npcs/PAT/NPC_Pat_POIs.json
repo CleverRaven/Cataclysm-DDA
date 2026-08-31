@@ -466,6 +466,18 @@
     ]
   },
   {
+    "id": "TALK_ROBOFAC_MERC_PAT_POI_lost_signal_portal_storm_dungeon",
+    "type": "talk_topic",
+    "dynamic_line": "Well that's a real mind-fahk.  Think ya' go can go back?  Doesn't seem too fahkin' wise, but I guess it wasn't so wise in the first place, anyhow.",
+    "responses": [
+      {
+        "text": "[shrug at Pat]",
+        "topic": "TALK_ROBOFAC_MERC_PAT",
+        "effect": { "math": [ "robofac_pat_lost_signal_portal_storm_dungeon = 0" ] }
+      }
+    ]
+  },
+  {
     "id": "TALK_ROBOFAC_MERC_PAT_POI_lost_signal_highlands",
     "type": "talk_topic",
     "dynamic_line": "That's straight freakin' nuts.  But.  You were theah long enough for me to get some good data from ya' rangefindah and othah instruments.  Theah's definitely some man-made shit theah, but I didn't pick up a single other radio signal or anythin' of the sort.  Dunno what to make'a that.",

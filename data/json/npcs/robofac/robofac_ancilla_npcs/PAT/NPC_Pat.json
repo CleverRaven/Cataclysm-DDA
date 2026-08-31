@@ -451,7 +451,8 @@
             { "math": [ "robofac_pat_lost_signal_radiosphere == 1" ] },
             { "math": [ "robofac_pat_lost_signal_spider_dimension == 1" ] },
             { "math": [ "robofac_pat_lost_signal_cabin_reverb == 1" ] },
-            { "math": [ "robofac_pat_lost_signal_labyrinth == 1" ] }
+            { "math": [ "robofac_pat_lost_signal_labyrinth == 1" ] },
+            { "math": [ "robofac_pat_lost_signal_portal_storm_dungeon == 1" ] }
           ]
         }
       },
@@ -640,6 +641,11 @@
         "text": "I was standing in a bit of water during a portal storm, and next thing I know, I found myself in some sort of field?  Stretched as far as the eye could see.",
         "topic": "TALK_ROBOFAC_MERC_PAT_POI_lost_signal_highlands",
         "condition": { "math": [ "robofac_pat_lost_signal_highlands == 1" ] }
+      },
+      {
+        "text": "During the storm, something…  spoke to me…  and took me there.  It's hard to explain.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_POI_lost_signal_portal_storm_dungeon",
+        "condition": { "math": [ "robofac_pat_lost_signal_portal_storm_dungeon == 1" ] }
       },
       {
         "text": "I got tangled up in these webs, and then all of a sudden I'm in some sort of cavern, with the biggest spider I've ever seen.",

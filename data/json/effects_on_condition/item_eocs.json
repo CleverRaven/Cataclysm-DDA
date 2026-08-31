@@ -42,7 +42,8 @@
         { "u_near_om_location": "radiosphere_radio_tower_top", "range": 10 },
         { "u_near_om_location": "mine_spiral_finale_s", "range": 10 },
         { "u_near_om_location": "string_dimension_crossroads", "range": 10 },
-        { "u_near_om_location": "inner_cabins", "range": 10 }
+        { "u_near_om_location": "inner_cabins", "range": 10 },
+        { "u_near_om_location": "default_portal_storm_dungeon_overmap", "range": 10 }
       ]
     },
     "effect": {
@@ -352,7 +353,8 @@
             { "npc_near_om_location": "radio_tower_reverberation_mp3", "range": 3 },
             { "npc_near_om_location": "string_dimension_crossroads", "range": 3 },
             { "npc_near_om_location": "mine_spiral_finale_s", "range": 3 },
-            { "npc_near_om_location": "void_spider_lair", "range": 3 }
+            { "npc_near_om_location": "void_spider_lair", "range": 3 },
+            { "npc_near_om_location": "default_portal_storm_dungeon_overmap", "range": 3 }
           ]
         }
       ]
@@ -590,6 +592,19 @@
           { "u_message": "Your comm is filled with static and your HUD glitches.", "popup": true },
           { "u_add_var": "robofac_pat_saw_spider_dimension", "value": "yes" },
           { "math": [ "robofac_pat_lost_signal_spider_dimension = 1" ] }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "default_portal_storm_dungeon_overmap", "range": 3 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_portal_storm_dungeon" } ] } }
+          ]
+        },
+        "then": [
+          { "u_message": "Your comm is filled with static and your HUD glitches.", "popup": true },
+          { "u_add_var": "robofac_pat_saw_portal_storm_dungeon", "value": "yes" },
+          { "math": [ "robofac_pat_lost_signal_portal_storm_dungeon = 1" ] }
         ]
       }
     ]
