@@ -35,7 +35,7 @@
     "type": "ITEM",
     "id": "afs_material_5",
     "copy-from": "afs_scrap_5",
-    "name": { "str": "shaped tyrium" },
+    "name": { "str_sp": "shaped tyrium" },
     "description": "A fragment of the continuum lies here, frozen and crystallized into violet metal.  Most likely it will lie here for eternity, forever unchanging.",
     "looks_like": "scrap"
   }
