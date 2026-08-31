@@ -59,7 +59,6 @@ static const itype_id itype_dress_shirt( "dress_shirt" );
 static const itype_id itype_face_shield( "face_shield" );
 static const itype_id itype_hat_hard( "hat_hard" );
 static const itype_id itype_heavy_battery_cell( "heavy_battery_cell" );
-static const itype_id itype_icecream( "icecream" );
 static const itype_id itype_iodine( "iodine" );
 static const itype_id itype_match( "match" );
 static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
@@ -98,6 +97,7 @@ static const itype_id itype_test_gum( "test_gum" );
 static const itype_id itype_test_halligan( "test_halligan" );
 static const itype_id itype_test_hallu_nutmeg( "test_hallu_nutmeg" );
 static const itype_id itype_test_hazmat_suit( "test_hazmat_suit" );
+static const itype_id itype_test_item_info_repair_tool( "test_item_info_repair_tool" );
 static const itype_id itype_test_jack_small( "test_jack_small" );
 static const itype_id itype_test_jug_plastic( "test_jug_plastic" );
 static const itype_id itype_test_longshirt( "test_longshirt" );
@@ -105,6 +105,7 @@ static const itype_id itype_test_matches( "test_matches" );
 static const itype_id itype_test_meower_armor( "test_meower_armor" );
 static const itype_id itype_test_multimag_gun_integral_ammo( "test_multimag_gun_integral_ammo" );
 static const itype_id itype_test_nuclear_carafe( "test_nuclear_carafe" );
+static const itype_id itype_test_nutrient_info_item( "test_nutrient_info_item" );
 static const itype_id itype_test_pants_faux_fur( "test_pants_faux_fur" );
 static const itype_id itype_test_pine_nuts( "test_pine_nuts" );
 static const itype_id itype_test_pipe( "test_pipe" );
@@ -2150,36 +2151,31 @@ TEST_CASE( "nutrients_in_food", "[iteminfo][food]" )
 {
     clear_avatar();
 
-    item ice_cream( itype_icecream );
+    item test_item( itype_test_nutrient_info_item );
 
     SECTION( "fixed nutrient values in regular item" ) {
-        CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_NUTRITION, iteminfo_parts::FOOD_QUENCH } )
+        CHECK( item_info_str( test_item, { iteminfo_parts::FOOD_NUTRITION } )
                ==
                "--\n"
-               "<color_c_white>Calories (kcal)</color>: <color_c_yellow>325</color>"
-               "  Quench: <color_c_yellow>0</color>\n" );
-        // Values end up rounded slightly
-        CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
+               "<color_c_white>Calories (kcal)</color>: <color_c_yellow>100</color>" );
+        CHECK( item_info_str( test_item, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
-               "Vitamins (RDA): 83 mg Calcium (8%)\n" );
+               "Vitamins (RDA): 1 g Calcium (100%)\n" );
     }
 
     SECTION( "nutrient ranges for recipe exemplars", "[iteminfo]" ) {
-        ice_cream.set_var( "recipe_exemplar", "icecream" );
+        test_item.set_var( "recipe_exemplar", "test_nutrient_info_item" );
 
-        CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_NUTRITION, iteminfo_parts::FOOD_QUENCH } )
+        CHECK( item_info_str( test_item, { iteminfo_parts::FOOD_NUTRITION } )
                ==
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "<color_c_white>Calories (kcal)</color>:"
-               " <color_c_yellow>53</color>-<color_c_yellow>465</color>"
-               "  Quench: <color_c_yellow>0</color>\n" );
-        // Values end up rounded slightly
-        CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
+               " <color_c_yellow>100</color>-<color_c_yellow>200</color>" );
+        CHECK( item_info_str( test_item, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-               "Vitamins (RDA): 63-323 mg Calcium (6-32%), 0-20 mg Iron (0-109%),"
-               " and 0-45 mg Vitamin C (0-50%)\n" );
+               "Vitamins (RDA): 1-2 g Calcium (100-200%)\n" );
     }
 }
 
@@ -2737,16 +2733,16 @@ TEST_CASE( "repairable_and_with_what_tools", "[iteminfo][repair]" )
 {
     clear_avatar();
 
-    item halligan( itype_test_halligan );
+    item test_repair_item( itype_test_item_info_repair_tool );
     item hazmat( itype_test_hazmat_suit );
     item rock( itype_test_rock );
 
     std::vector<iteminfo_parts> repaired = { iteminfo_parts::DESCRIPTION_REPAIREDWITH };
 
-    CHECK( item_info_str( halligan, repaired ) ==
+    CHECK( item_info_str( test_repair_item, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using integrated welder, arc welder, makeshift arc welder, or high-temperature welding kit.\n"
-           "<color_c_white>With</color> <color_c_cyan>chunk of steel</color>.\n"
+           "<color_c_white>Repair</color> using TEST item info repair tool.\n"
+           "<color_c_white>With</color> <color_c_cyan>TEST repair item</color>.\n"
          );
 
     // FIXME: Use an item that can only be repaired by test tools
