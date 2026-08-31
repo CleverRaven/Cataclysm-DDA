@@ -477,8 +477,8 @@
     "autolearn": true,
     "batch_time_factors": [ 30, 1 ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "almond_shelled", 2 ] ], [ [ "water_clean", 3 ] ] ],
-    "charges": 3
+    "components": [ [ [ "almond_shelled", 2 ] ], [ [ "water_clean", 1 ] ] ],
+    "charges": 1
   },
   {
     "type": "recipe",
@@ -495,8 +495,8 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "almond_shelled", 2 ] ], [ [ "water_clean", 3 ] ] ],
-    "charges": 3
+    "components": [ [ [ "almond_shelled", 2 ] ], [ [ "water_clean", 1 ] ] ],
+    "charges": 1
   },
   {
     "type": "recipe",
