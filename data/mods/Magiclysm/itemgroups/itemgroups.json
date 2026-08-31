@@ -133,6 +133,7 @@
   {
     "type": "item_group",
     "id": "tools_medical",
+    "subtype": "collection",
     "copy-from": "tools_medical",
     "extend": {
       "entries": [
