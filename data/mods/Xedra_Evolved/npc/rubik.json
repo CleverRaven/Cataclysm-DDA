@@ -25,7 +25,7 @@
       "//~": "We brought out the armored forces early on this journey.  Specifically since this world hosts not just the undead but people who hunted us in other worlds.",
       "str": "Four-by-twos woke afore the dawn this green and blue.  Us un's prefer to duck and dive but this mudball's filth kicked it off afore our landing."
     },
-    "responses": [ { "text": "Oh well yeah, damn the man then I guess.", "topic": "TALK_EXODII_MERCHANT_Talk" } ]
+    "responses": [ { "text": "Wait you are at war with someone here?.", "topic": "TALK_EXODII_MERCHANT_Talk" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_XEDRA",
