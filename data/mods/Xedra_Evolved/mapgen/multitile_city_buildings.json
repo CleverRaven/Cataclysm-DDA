@@ -90,8 +90,8 @@
       { "point": [ 0, 1, 10 ], "overmap": "crystalline_spire_sw_north" },
       { "point": [ 1, 1, 10 ], "overmap": "crystalline_spire_se_north" }
     ],
-    "spawns": { "group": "GROUP_XE_SPIRE_DEMONS", "population": [ 500, 1750 ], "radius": [ 1, 30 ] },
-    "city_sizes": [ 15, -1 ],
+    "spawns": { "group": "GROUP_XE_SPIRE_DEMONS", "population": [ 500, 1500 ], "radius": [ 1, 30 ] },
+    "city_sizes": [ 25, -1 ],
     "flags": [ "GLOBALLY_UNIQUE", "MAN_MADE", "CLASSIC" ]
   }
 ]
