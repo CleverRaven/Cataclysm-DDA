@@ -152,7 +152,7 @@
     "melee_combat_info": { "order": 999905, "show_type": false },
     "ablative_info": { "order": 999905, "show_type": false }
   },
-{
+  {
     "id": "xe_void_damage",
     "type": "damage_type",
     "physical": false,

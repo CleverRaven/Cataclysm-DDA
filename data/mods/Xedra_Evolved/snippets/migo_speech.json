@@ -27,6 +27,7 @@
     "type": "speech",
     "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_mi_go_humanoid" ],
     "sound": "\"Welcome to the Mi-go family, children of Earth!  Soon our biologies will mingle unto the death of the stars!\"",
+    "volume": 20
   },
   {
     "type": "speech",
