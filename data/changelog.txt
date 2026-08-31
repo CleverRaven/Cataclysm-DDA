@@ -110,6 +110,8 @@ Add character stat requirements to crafting recipes
 unattended step for boiled egg recipe
 Food revolution: Spices and seasonings
 Allow future contributors to easily tune weary maluses in combat
+Monsters can block attacks for reduced damage
+Pat & the HEW system can recognize new portal storm dungeon
 
 
 ## Content:
@@ -207,6 +209,10 @@ Add AIMING_SPEED enchant
 Add CANNOT_SLEEP flag
 Highland Crypts
 Add serum-specific microlabs
+Add "serum ferals" to serum labs
+Add two more special tiles to serum labs
+Shillelagh needs smoke
+adding solar beetles to radiosphere and refitting its layout a bit
 
 
 
@@ -261,6 +267,7 @@ Display some items by volume, weight or length instead of count
 Fix Crafting GUI text wrapping & don't offscreen recipe detail selection (`SPACE`)
 Show item fault severity with inventory and sidebar colors
 Migrate dialogue window to imgui
+Migrate appliance rename popup to ImGui
 
 
 ## Mods:
@@ -357,6 +364,11 @@ Aftershock: Origin Hobbies
 [Aftershock] Project Sobek Genetech
 [Xedra Evolved] Challenge Scenario - Undying Vengeance
 You cannot `consume_drugs` if you have `TEMPORARY_SHAPESHIFT_NO_HANDS`
+[Xedra Evolved] Add dreamdross scraps to XE border patrol office desks
+[Xedra Evolved] Add achievement for beating the Undying Vengeance challenge
+[Xedra Evolved] Crossing the threshold as a changeling gives you a worse Iron Allergy
+Add HIDDEN_SPELL flag to some mod spells
+[Xedra Evolved] Add globally unique Crystalline Spine city building
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -418,6 +430,10 @@ Add more tools and requirements to reloading ammo
 Deadly bears and how to hurt them
 Add faults to melee weapons lacking them
 Add faults to mainly magyclism melee weapons
+Change ammo related prices
+Faction camp hunting has an extra chance to return nothing based on time since the Cataclysm (and winter)
+Fix recipes for oatmeal, soymilk, tofu
+make cattail jelly lighter, and mostly water
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -614,6 +630,11 @@ Unattended crafts no longer stall forever when their crafter is unreachable
 Scared NPCs don't turn hostile
 Preserve character-specific auto-pickup rules between sessions
 Requirement checks judge the character being checked instead of the player
+Add category to TALONS_STRIX
+[Xedra Evolved] Fix Tempered Steel and Changelings
+Fix tentacle  foot crash
+Fix monsters not being slowed by snow
+Uncraft Recipe for Bathazar's CROWS II
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -764,6 +785,7 @@ Demote GCC 16 -Wsfinae-incomplete to warning
 Proper SDL support
 Migrate Android to SDL3 via CMake + prefab AAR; drop SDL2 customs; bump buildkit
 Remove SDL2 support
+Run tests in CI for multiple sets of mods
 
 
 ## I18N and A11Y:
