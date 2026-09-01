@@ -50,10 +50,11 @@ int kill_tracker::guilt_kill_count() const
         mon_flag_GUILT_HUMAN,
         mon_flag_GUILT_OTHERS
     };
-    for( mon_flag_id &flag : guilt_flags ) {
-        for( const auto &it : kills ) {
+    for( const auto &it : kills ) {
+        for( mon_flag_id &flag : guilt_flags ) {
             if( it.first->has_flag( flag ) ) {
                 count += it.second;
+                break;
             }
         }
     }
