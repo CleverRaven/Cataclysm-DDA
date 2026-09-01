@@ -335,7 +335,7 @@
       { "point": [ 0, 0, 2 ], "overmap": "urban_dd_6_south" }
     ],
     "locations": [ "land" ],
-    "city_sizes": [ 25, -1 ],
+    "city_sizes": [ 45, -1 ],
     "flags": [ "CLASSIC" ]
   },
   {
