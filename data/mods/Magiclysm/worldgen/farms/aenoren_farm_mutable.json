@@ -27,7 +27,7 @@
     "id": "aenoren_farm_mutable",
     "subtype": "mutable",
     "locations": [ "forest_without_trail", "field", "open_air" ],
-    "city_distance": [ 10, -5 ],
+    "city_distance": [ 20, -5 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 15, 100 ],
     "flags": [ "CLASSIC", "MAN_MADE", "FARM", "OVERMAP_UNIQUE" ],
