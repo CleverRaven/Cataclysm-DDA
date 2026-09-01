@@ -84,6 +84,7 @@
     "type": "speech",
     "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_mi_go_humanoid" ],
     "sound": "\"Have you considered ceasing to break the laws granting us rights and responsibility over the remains of human civilization and it's peoples?\"",
+    "volume": 20
   },
   {
     "type": "speech",
