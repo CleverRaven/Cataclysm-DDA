@@ -2,75 +2,91 @@
   {
     "id": "tools_blacksmith",
     "type": "item_group",
+    "subtype": "collection",
     "//": "Tools commonly used by blacksmiths",
-    "items": [
-      [ "anvil", 30 ],
-      [ "anvil_crude", 10 ],
-      [ "chisel", 90 ],
-      [ "crucible", 30 ],
-      [ "swage", 60 ],
-      [ "drift", 70 ],
+    "entries": [
+      { "distribution": [ { "item": "anvil" }, { "item": "anvil_crude" } ], "prob": 30 },
+      { "item": "chisel", "prob": 90 },
+      { "item": "crucible", "prob": 30 },
+      { "item": "swage", "prob": 60 },
+      { "item": "drift", "prob": 70 },
       { "group": "graphite_small_bottle_part", "prob": 70 },
       { "group": "borax_box_part", "prob": 90 },
-      [ "metal_file", 90 ],
-      [ "hotcut", 90 ],
-      [ "metalworking_tongs", 90 ],
-      [ "hammer", 90 ],
-      [ "sandpaper", 90 ],
-      [ "belt_grinder", 50 ]
+      { "item": "metal_file", "prob": 90 },
+      { "item": "hotcut", "prob": 90 },
+      { "item": "metalworking_tongs", "prob": 90 },
+      { "item": "hammer", "prob": 90 },
+      { "item": "sandpaper", "prob": 90 },
+      { "item": "belt_grinder", "prob": 50 }
     ]
   },
   {
     "id": "tools_carpentry",
     "type": "item_group",
+    "subtype": "collection",
     "//": "Portable tools used for carpentry",
-    "items": [
+    "entries": [
       { "group": "tools_common", "prob": 100 },
       { "item": "circsaw_off", "prob": 100, "charges": [ 0, 500 ] },
-      { "item": "cordless_drill", "prob": 80, "charges": [ 0, 500 ] },
-      { "item": "corded_powerdrill", "prob": 80 },
+      {
+        "distribution": [
+          { "item": "cordless_drill", "prob": 80, "charges": [ 0, 500 ] },
+          { "item": "corded_powerdrill", "prob": 80 },
+          { "item": "hand_drill", "prob": 20 }
+        ],
+        "prob": 80
+      },
       { "item": "reciprocating_saw", "prob": 80, "charges": [ 0, 500 ] },
       { "item": "cordless_impact_wrench", "prob": 20, "charges": [ 0, 500 ] },
-      [ "hand_drill", 20 ],
       { "item": "nailgun", "prob": 100, "charges": [ 0, 20 ] },
-      [ "chisel", 10 ],
-      { "group": "tools_toolbox", "prob": 12 },
-      { "group": "tools_workshop", "prob": 3 },
+      { "item": "chisel", "prob": 10 },
+      {
+        "distribution": [ { "group": "tools_toolbox", "prob": 12 }, { "group": "tools_workshop", "prob": 5 } ],
+        "prob": 20
+      },
       { "item": "tape_measure", "prob": 100 },
-      [ "sandpaper", 100 ]
+      { "item": "sandpaper", "prob": 100 }
     ]
   },
   {
     "id": "tools_luthier",
     "type": "item_group",
+    "subtype": "collection",
     "//": "Portable tools used for luthier",
-    "items": [
+    "entries": [
       { "item": "luthier_toolset", "prob": 100 },
       { "item": "tonewood", "prob": 100, "count": [ 1, 6 ] },
       { "item": "tuning_pegs", "prob": 100, "count": [ 5, 15 ] },
       { "item": "qt_wire", "prob": 100, "count": [ 1, 3 ] },
-      [ "hand_drill", 20 ],
+      { "item": "hand_drill", "prob": 20 },
       { "group": "glue_strong_professional" },
-      [ "chisel", 10 ],
-      [ "sandpaper", 100 ]
+      { "item": "chisel", "prob": 10 },
+      { "item": "sandpaper", "prob": 100 }
     ]
   },
   {
     "id": "tools_construction",
     "type": "item_group",
+    "subtype": "collection",
     "//": "Industrial machinery used for construction",
-    "items": [
-      { "item": "kiln", "prob": 80 },
+    "entries": [
       { "item": "con_mix_foldable", "prob": 120 },
-      { "item": "elec_jackhammer", "prob": 40, "charges": [ 0, 6600 ] },
       { "item": "reciprocating_saw", "prob": 80, "charges": [ 0, 500 ] },
       { "item": "cordless_impact_wrench", "prob": 20, "charges": [ 0, 500 ] },
-      [ "metal_smoother", 90 ],
-      { "item": "jackhammer", "prob": 40, "charges": [ 0, 1200 ] },
+      { "item": "metal_smoother", "prob": 90 },
       { "group": "graphite_small_bottle_part", "prob": 10 },
-      { "group": "tools_toolbox", "prob": 20 },
-      { "group": "tools_workshop", "prob": 5 },
-      [ "recharge_station", 10 ],
+      {
+        "distribution": [
+          { "item": "elec_jackhammer", "prob": 40, "charges": [ 0, 6600 ] },
+          { "item": "jackhammer", "prob": 40, "charges": [ 0, 1200 ] }
+        ],
+        "prob": 40
+      },
+      {
+        "distribution": [ { "group": "tools_toolbox", "prob": 20 }, { "group": "tools_workshop", "prob": 5 } ],
+        "prob": 20
+      },
+      { "item": "recharge_station", "prob": 10 },
       { "item": "angle_grinder", "prob": 30, "charges": [ 0, 500 ] },
       { "item": "grinder_cutoff_disc", "prob": 15 },
       { "item": "grinder_metal_grinding_disc", "prob": 15 }
@@ -79,58 +95,77 @@
   {
     "id": "tools_common",
     "type": "item_group",
+    "subtype": "collection",
     "//": "Common household tools",
-    "items": [
-      [ "bucket", 5 ],
+    "entries": [
+      { "distribution": [ { "item": "bucket", "prob": 5 }, { "item": "bucket_5gal", "prob": 5 } ], "prob": 5 },
+      { "distribution": [ { "item": "jerrycan", "prob": 10 }, { "item": "jerrycan_big", "prob": 10 } ], "prob": 10 },
       { "item": "tape_measure", "prob": 25 },
-      [ "bucket_5gal", 5 ],
-      [ "funnel", 50 ],
-      [ "rake", 15 ],
-      [ "rake_plastic", 25 ],
-      [ "aluminum_stepladder", 5 ],
-      [ "machete", 10 ],
-      [ "brush_handaxe", 5 ],
+      { "item": "funnel", "prob": 20 },
+      { "distribution": [ { "item": "rake", "prob": 15 }, { "item": "rake_plastic", "prob": 25 } ], "prob": 20 },
+      { "item": "aluminum_stepladder", "prob": 5 },
+      { "distribution": [ { "item": "machete", "prob": 10 }, { "item": "brush_handaxe", "prob": 5 } ], "prob": 15 },
       { "item": "misc_repairkit", "prob": 25 },
-      [ "saw", 60 ],
-      { "item": "bow_saw", "prob": 50 },
-      { "group": "tools_common_small", "prob": 500 }
+      { "distribution": [ { "item": "saw", "prob": 60 }, { "item": "bow_saw", "prob": 50 } ], "prob": 40 },
+      { "group": "tools_common_small", "prob": 50 }
     ]
   },
   {
     "id": "tools_common_small",
     "type": "item_group",
+    "subtype": "collection",
     "//": "Common household tools that are small enough to fit in a bag",
-    "items": [
-      [ "hacksaw", 50 ],
-      [ "hammer", 80 ],
-      [ "pliers", 60 ],
-      [ "big_pliers", 2 ],
-      [ "screwdriver", 100 ],
-      [ "screwdriver_set", 50 ],
-      [ "socket_screwdriver_set", 10 ],
-      { "group": "duct_tape_roll_part", "prob": 10 },
-      { "group": "glue_weak_domestic", "prob": 5 },
-      { "group": "glue_strong_domestic", "prob": 5 },
-      [ "tin_snips", 10 ],
-      [ "wrench", 20 ],
-      [ "wrench_small", 20 ],
-      [ "hand_pump", 10 ],
-      [ "socket_wrench_set", 20 ],
-      [ "pliers_locking", 20 ],
-      [ "xacto", 40 ],
-      [ "jumper_cable", 10 ],
-      [ "extension_cable", 15 ],
-      [ "hd_tow_cable", 5 ],
-      [ "claw_bar", 2 ],
-      [ "crowbar", 10 ],
-      [ "thermometer", 5 ],
-      [ "multitool", 10 ],
-      [ "recharge_station", 10 ],
-      [ "hand_crank_charger", 25 ],
+    "entries": [
+      { "item": "hacksaw", "prob": 50 },
+      { "item": "hammer", "prob": 80 },
+      {
+        "distribution": [ { "item": "pliers", "prob": 60 }, { "item": "pliers_locking", "prob": 20 }, { "item": "big_pliers", "prob": 2 } ],
+        "prob": 40
+      },
+      {
+        "distribution": [
+          { "item": "screwdriver", "prob": 80 },
+          { "item": "screwdriver_set", "prob": 50 },
+          { "item": "socket_screwdriver_set", "prob": 10 }
+        ],
+        "prob": 80
+      },
+      {
+        "distribution": [
+          { "group": "duct_tape_roll_part", "prob": 10 },
+          { "group": "glue_weak_domestic", "prob": 5 },
+          { "group": "glue_strong_domestic", "prob": 5 }
+        ],
+        "prob": 10
+      },
+      { "item": "tin_snips", "prob": 10 },
+      {
+        "distribution": [
+          { "item": "wrench", "prob": 20 },
+          { "item": "wrench_small", "prob": 20 },
+          { "item": "socket_wrench_set", "prob": 20 }
+        ],
+        "prob": 20
+      },
+      { "item": "hand_pump", "prob": 10 },
+      { "item": "xacto", "prob": 40 },
+      {
+        "distribution": [
+          { "item": "jumper_cable", "prob": 5 },
+          { "item": "extension_cable", "prob": 15 },
+          { "item": "jumper_cable_heavy", "prob": 2 }
+        ],
+        "prob": 15
+      },
+      { "item": "hd_tow_cable", "prob": 5 },
+      { "distribution": [ { "item": "claw_bar", "prob": 5 }, { "item": "crowbar", "prob": 15 } ], "prob": 15 },
+      { "item": "thermometer", "prob": 5 },
+      { "item": "multitool", "prob": 10 },
+      { "item": "recharge_station", "prob": 10 },
       { "group": "graphite_small_bottle_part", "prob": 10 },
-      [ "metal_file", 10 ],
-      [ "clamp", 10 ],
-      [ "sandpaper", 80 ],
+      { "item": "metal_file", "prob": 10 },
+      { "item": "clamp", "prob": 10 },
+      { "item": "sandpaper", "prob": 80 },
       { "group": "writing_utensils", "prob": 5 },
       { "group": "soldering_supplies", "prob": 50 },
       { "item": "tape_measure", "prob": 40 }
@@ -143,18 +178,31 @@
     "subtype": "collection",
     "container-item": "toolbox_empty",
     "on_overflow": "discard",
-    "items": [
-      [ "hammer", 80 ],
-      [ "screwdriver_set", 65 ],
-      [ "pliers_locking", 40 ],
-      [ "wrench", 50 ],
-      [ "wrench_small", 25 ],
-      [ "hand_pump", 1 ],
-      [ "funnel", 50 ],
-      [ "metal_file", 40 ],
+    "entries": [
+      { "item": "hammer", "prob": 80 },
+      {
+        "distribution": [
+          { "item": "screwdriver", "prob": 80 },
+          { "item": "screwdriver_set", "prob": 50 },
+          { "item": "socket_screwdriver_set", "prob": 10 }
+        ],
+        "prob": 65
+      },
+      { "item": "pliers_locking", "prob": 40 },
+      {
+        "distribution": [
+          { "item": "wrench", "prob": 20 },
+          { "item": "wrench_small", "prob": 20 },
+          { "item": "socket_wrench_set", "prob": 20 }
+        ],
+        "prob": 20
+      },
+      { "item": "hand_pump", "prob": 1 },
+      { "item": "funnel", "prob": 20 },
+      { "item": "metal_file", "prob": 40 },
       { "group": "graphite_small_bottle_part", "prob": 50 },
       { "item": "tape_measure", "prob": 70 },
-      [ "sandpaper", 65 ]
+      { "item": "sandpaper", "prob": 65 }
     ]
   },
   {
@@ -164,228 +212,276 @@
     "subtype": "collection",
     "container-item": "toolbox_workshop_empty",
     "on_overflow": "discard",
-    "items": [
-      [ "hammer", 80 ],
-      [ "screwdriver_set", 65 ],
-      [ "pliers_locking", 40 ],
-      [ "big_pliers", 5 ],
-      [ "wrench", 75 ],
-      [ "wrench_large", 20 ],
-      [ "socket_wrench_set", 20 ],
-      [ "funnel", 50 ],
-      [ "metal_file", 40 ],
-      [ "sandpaper", 65 ],
+    "entries": [
+      { "item": "hammer", "prob": 80 },
+      { "item": "screwdriver_set", "prob": 65 },
+      { "item": "pliers_locking", "prob": 40 },
+      { "item": "big_pliers", "prob": 5 },
+      {
+        "distribution": [
+          { "item": "wrench", "prob": 75 },
+          { "item": "wrench_small", "prob": 20 },
+          { "item": "socket_wrench_set", "prob": 20 }
+        ],
+        "prob": 60
+      },
+      { "item": "funnel", "prob": 50 },
+      { "item": "metal_file", "prob": 40 },
+      { "item": "sandpaper", "prob": 65 },
       { "item": "tape_measure", "prob": 90 },
-      [ "hacksaw", 30 ],
-      [ "saw", 65 ],
-      { "item": "bow_saw", "prob": 40 },
+      { "distribution": [ { "item": "saw", "prob": 65 }, { "item": "bow_saw", "prob": 40 } ], "prob": 40 },
+      {
+        "distribution": [ { "item": "reciprocating_saw", "prob": 20, "charges": [ 0, 500 ] }, { "item": "hacksaw", "prob": 30 } ],
+        "prob": 40
+      },
       { "group": "graphite_small_bottle_part", "prob": 30 },
-      [ "pin_reamer", 18 ],
-      [ "clamp", 30 ],
-      [ "boxcutter", 20 ],
+      { "item": "pin_reamer", "prob": 18 },
+      { "item": "clamp", "prob": 30 },
+      { "item": "boxcutter", "prob": 20 },
       { "item": "nailgun", "prob": 15, "charges": [ 0, 20 ] },
       { "item": "circsaw_off", "prob": 25, "charges": [ 0, 500 ] },
-      { "item": "reciprocating_saw", "prob": 20, "charges": [ 0, 500 ] },
-      { "item": "cordless_impact_wrench", "prob": 10, "charges": [ 0, 500 ] },
-      { "item": "cordless_drill", "prob": 20, "charges": [ 0, 500 ] },
-      { "item": "corded_powerdrill", "prob": 20 }
+      {
+        "distribution": [
+          { "item": "cordless_impact_wrench", "prob": 10, "charges": [ 0, 500 ] },
+          { "item": "cordless_drill", "prob": 20, "charges": [ 0, 500 ] },
+          { "item": "corded_powerdrill", "prob": 20 }
+        ],
+        "prob": 20
+      }
     ]
   },
   {
     "id": "tools_general",
     "type": "item_group",
+    "subtype": "distribution",
     "//": "Common tools you might find in a hardware store or in a shop.",
     "//2": "More professional/rare than tools_common; less likely to be in a home basement.",
-    "items": [
+    "entries": [
       { "group": "tools_common", "prob": 100 },
       { "group": "tools_construction", "prob": 50 },
       { "group": "tools_carpentry", "prob": 100 },
       { "group": "tools_earthworking", "prob": 100 },
       { "group": "tools_electronics", "prob": 20 },
       { "group": "tools_lighting_industrial", "prob": 100 },
-      { "group": "tools_mechanic", "prob": 20 },
+      { "group": "tools_mechanic", "prob": 2 },
       { "group": "tools_plumbing", "prob": 20 },
       { "item": "portable_generator", "prob": 5 },
-      [ "jumper_cable_heavy", 2 ],
-      [ "lug_wrench", 20 ],
-      [ "arbor_press", 20 ],
-      [ "jerrycan", 10 ],
-      [ "jerrycan_big", 10 ],
-      [ "belt_grinder", 20 ],
-      { "item": "char_smoker", "prob": 5, "charges": [ 0, 300 ] },
-      { "item": "dehydrator", "prob": 5 },
-      [ "tourist_table", 1 ],
-      [ "vac_mold", 10 ],
-      [ "brush_handaxe", 15 ],
-      [ "brush_axe", 5 ],
-      [ "brush_pole", 5 ],
-      [ "polycarbonate_sheet", 50 ],
-      [ "sandpaper", 50 ],
-      [ "plastic_sheet", 50 ],
-      [ "shovel_snow", 10 ],
-      [ "shovel_snow_plastic", 15 ],
-      [ "hose_garden", 20 ],
-      [ "big_pliers", 10 ],
-      [ "heavy_crowbar", 10 ],
-      [ "bench_vise", 15 ]
+      { "item": "char_smoker", "prob": 5, "charges": [ 0, 300 ] }
     ]
   },
   {
     "id": "tools_hunting",
     "type": "item_group",
+    "subtype": "collection",
     "//": "Gear that hunters take on hunting trips.",
-    "items": [
-      [ "binoculars", 15 ],
-      [ "canteen", 25 ],
-      [ "e_tool", 20 ],
-      { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
-      { "item": "heavy_flashlight", "prob": 15, "charges": [ 0, 300 ] },
-      { "item": "goggles_nv", "prob": 5, "charges": [ 0, 100 ] },
-      { "item": "goggles_ir", "prob": 2, "charges": [ 0, 100 ] },
-      [ "gaiter_boot", 5 ],
-      [ "gaiter_boot_heavy", 5 ],
-      [ "hand_crank_charger", 15 ],
+    "entries": [
+      { "item": "binoculars", "prob": 15 },
+      { "item": "canteen", "prob": 25 },
+      { "item": "e_tool", "prob": 20 },
+      {
+        "distribution": [
+          { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
+          { "item": "heavy_flashlight", "prob": 15, "charges": [ 0, 300 ] }
+        ],
+        "prob": 20
+      },
+      {
+        "distribution": [
+          { "item": "goggles_nv", "prob": 5, "charges": [ 0, 100 ] },
+          { "item": "goggles_ir", "prob": 2, "charges": [ 0, 100 ] }
+        ],
+        "prob": 2
+      },
+      {
+        "distribution": [ { "item": "gaiter_boot", "prob": 5 }, { "item": "gaiter_boot_heavy", "prob": 5 } ],
+        "prob": 5
+      },
+      { "item": "hand_crank_charger", "prob": 15 },
       { "item": "handflare", "prob": 20, "charges": 300 },
-      [ "hatchet", 10 ],
+      { "item": "hatchet", "prob": 10 },
       { "item": "portable_generator", "prob": 5 },
-      [ "storage_line", 5 ],
-      [ "knife_folding", 25 ],
-      [ "knife_hunting", 10 ],
-      { "group": "knife_rambo_cont", "prob": 10 },
-      [ "knife_swissarmy", 10 ],
+      { "item": "tourist_table", "prob": 1 },
+      { "item": "storage_line", "prob": 5 },
+      {
+        "distribution": [ { "item": "knife_hunting", "prob": 10 }, { "group": "knife_rambo_cont", "prob": 10 } ],
+        "prob": 25
+      },
       { "item": "mess_kit", "prob": 20 },
-      [ "multitool", 10 ],
-      [ "pockknife", 30 ],
+      { "item": "multitool", "prob": 10 },
+      {
+        "distribution": [
+          { "item": "pockknife", "prob": 30 },
+          { "item": "knife_folding", "prob": 25 },
+          { "item": "utility_knife_folding", "prob": 2 },
+          { "item": "knife_swissarmy", "prob": 10 }
+        ],
+        "prob": 25
+      },
       { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_50" },
-      { "item": "ref_lighter", "prob": 20, "charges": [ 0, 50 ] },
-      [ "rope_30", 20 ],
-      [ "flint_steel", 10 ],
-      { "item": "tinderbox", "prob": 10, "charges": [ 0, 100 ] },
-      [ "lifestraw", 4 ],
-      [ "chem_hexamine", 10 ],
-      [ "light_snare_kit", 8 ],
+      {
+        "distribution": [
+          { "item": "ref_lighter", "prob": 20, "charges": [ 0, 50 ] },
+          { "item": "flint_steel", "prob": 10 },
+          { "item": "tinderbox", "prob": 5, "charges": [ 0, 100 ] }
+        ],
+        "prob": 30
+      },
+      { "item": "rope_30", "prob": 20 },
+      { "item": "lifestraw", "prob": 4 },
+      { "item": "chem_hexamine", "prob": 10 },
+      { "item": "light_snare_kit", "prob": 8 },
       { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
       { "item": "teargas_sprayer", "prob": 15, "charges": 10 },
       { "group": "book_mag_surv", "prob": 10 },
       { "group": "vfw_books", "prob": 20 },
-      [ "camping_multitool", 2 ],
-      [ "utility_knife_folding", 2 ]
+      { "item": "camping_multitool", "prob": 2 }
     ]
   },
   {
     "id": "tools_earthworking",
     "type": "item_group",
+    "subtype": "collection",
     "//": "Portable tools for earthworking or farming",
-    "items": [
-      [ "ax", 80 ],
-      [ "bucket_5gal", 40 ],
-      { "item": "chainsaw_off", "prob": 30, "charges": [ 0, 450 ] },
-      { "item": "elec_chainsaw_off", "prob": 30, "charges": [ 0, 500 ] },
-      { "item": "polesaw_off", "prob": 10, "charges": [ 0, 450 ] },
-      [ "g_shovel", 40 ],
-      [ "hand_drill", 20 ],
-      [ "hoe", 60 ],
-      [ "pickaxe", 80 ],
-      [ "pitchfork", 60 ],
+    "entries": [
+      { "item": "ax", "prob": 80 },
+      { "item": "bucket_5gal", "prob": 40 },
+      {
+        "distribution": [
+          { "item": "chainsaw_off", "prob": 30, "charges": [ 0, 450 ] },
+          { "item": "elec_chainsaw_off", "prob": 30, "charges": [ 0, 500 ] },
+          { "item": "polesaw_off", "prob": 10, "charges": [ 0, 450 ] }
+        ],
+        "prob": 20
+      },
+      { "item": "g_shovel", "prob": 40 },
+      { "item": "hand_drill", "prob": 20 },
+      { "item": "hoe", "prob": 60 },
+      { "item": "pickaxe", "prob": 80 },
+      { "item": "pitchfork", "prob": 60 },
       { "item": "trimmer_off", "prob": 20, "charges": [ 0, 600 ] },
-      [ "scythe", 40 ],
-      [ "shovel", 120 ],
-      [ "sickle", 40 ],
-      [ "machete", 25 ],
-      [ "brush_handaxe", 15 ],
-      [ "brush_axe", 10 ],
-      [ "brush_pole", 5 ],
-      [ "rake", 20 ],
-      [ "rake_plastic", 40 ],
-      [ "shovel_snow", 20 ],
-      [ "shovel_snow_plastic", 40 ],
-      [ "shears", 40 ],
-      [ "forged_shears", 40 ]
+      { "item": "scythe", "prob": 40 },
+      { "item": "shovel", "prob": 120 },
+      { "item": "sickle", "prob": 40 },
+      { "item": "machete", "prob": 25 },
+      { "item": "hose_garden", "prob": 20 },
+      {
+        "distribution": [ { "item": "brush_handaxe", "prob": 15 }, { "item": "brush_axe", "prob": 10 }, { "item": "brush_pole", "prob": 5 } ],
+        "prob": 15
+      },
+      { "distribution": [ { "item": "rake", "prob": 20 }, { "item": "rake_plastic", "prob": 40 } ], "prob": 30 },
+      {
+        "distribution": [ { "item": "shovel_snow", "prob": 20 }, { "item": "shovel_snow_plastic", "prob": 40 } ],
+        "prob": 30
+      },
+      { "distribution": [ { "item": "shears", "prob": 40 }, { "item": "forged_shears", "prob": 40 } ], "prob": 40 }
     ]
   },
   {
     "id": "tools_plumbing",
     "type": "item_group",
+    "subtype": "collection",
     "//": "Portable tools for plumbing and pipefitting",
-    "items": [
-      { "group": "tools_common_small", "prob": 100 },
-      [ "wrench", 200 ],
-      [ "wrench_large", 50 ],
-      [ "wrench_48", 50 ],
-      [ "big_pliers", 10 ],
-      [ "claw_bar", 2 ],
-      [ "crowbar", 10 ],
-      [ "pliers", 200 ],
-      [ "bucket", 50 ],
-      [ "bucket_5gal", 50 ],
-      [ "mop", 60 ],
-      [ "mop_folded", 40 ],
-      [ "shovel", 40 ],
-      [ "hammer_sledge", 10 ],
-      [ "hammer_sledge_short", 20 ],
-      [ "hammer_sledge_engineer", 20 ],
-      [ "hammer_sledge_heavy", 10 ],
+    "entries": [
+      {
+        "distribution": [ { "item": "wrench", "prob": 200 }, { "item": "wrench_large", "prob": 50 }, { "item": "wrench_48", "prob": 50 } ],
+        "prob": 100
+      },
+      { "distribution": [ { "item": "big_pliers", "prob": 10 }, { "item": "pliers", "prob": 200 } ], "prob": 90 },
+      { "distribution": [ { "item": "claw_bar", "prob": 2 }, { "item": "crowbar", "prob": 10 } ], "prob": 10 },
+      { "distribution": [ { "item": "bucket", "prob": 50 }, { "item": "bucket_5gal", "prob": 50 } ], "prob": 50 },
+      { "distribution": [ { "item": "mop", "prob": 60 }, { "item": "mop_folded", "prob": 40 } ], "prob": 50 },
+      { "item": "shovel", "prob": 40 },
+      {
+        "distribution": [
+          { "item": "hammer_sledge", "prob": 10 },
+          { "item": "hammer_sledge_short", "prob": 20 },
+          { "item": "hammer_sledge_engineer", "prob": 20 },
+          { "item": "hammer_sledge_heavy", "prob": 10 }
+        ],
+        "prob": 20
+      },
       { "item": "spray_can", "prob": 100, "charges": [ 0, 10 ] },
       { "item": "permanent_marker", "prob": 50, "charges": [ 0, 500 ] },
-      [ "funnel", 200 ],
-      [ "hand_drill", 10 ],
-      [ "vac_mold", 10 ],
-      [ "polycarbonate_sheet", 50 ],
-      [ "boltcutters", 150 ],
-      [ "tin_snips", 30 ],
-      { "item": "flashlight", "prob": 100, "charges": [ 0, 300 ] },
-      { "item": "heavy_flashlight", "prob": 60, "charges": [ 0, 300 ] },
-      [ "magnifying_glass", 20 ],
-      { "item": "soldering_iron", "prob": 150 },
-      { "item": "soldering_iron_portable", "prob": 150, "charges": [ 0, 50 ] },
+      { "item": "funnel", "prob": 200 },
+      { "item": "vac_mold", "prob": 10 },
+      { "item": "polycarbonate_sheet", "prob": 50 },
+      { "item": "boltcutters", "prob": 150 },
+      { "item": "tin_snips", "prob": 30 },
+      {
+        "distribution": [
+          { "item": "flashlight", "prob": 100, "charges": [ 0, 300 ] },
+          { "item": "heavy_flashlight", "prob": 60, "charges": [ 0, 300 ] }
+        ],
+        "prob": 100
+      },
+      { "item": "magnifying_glass", "prob": 20 },
+      {
+        "distribution": [ { "item": "soldering_iron", "prob": 150 }, { "item": "soldering_iron_portable", "prob": 150, "charges": [ 0, 50 ] } ],
+        "prob": 150
+      },
       { "item": "reciprocating_saw", "prob": 50, "charges": [ 0, 500 ] },
-      { "item": "cordless_drill", "prob": 100, "charges": [ 0, 500 ] },
-      [ "pin_reamer", 30 ],
+      {
+        "distribution": [ { "item": "cordless_drill", "prob": 100, "charges": [ 0, 500 ] }, { "item": "hand_drill", "prob": 10 } ],
+        "prob": 100
+      },
+      { "item": "pin_reamer", "prob": 30 },
       { "group": "graphite_small_bottle_part", "prob": 30 },
-      [ "clamp", 10 ],
-      [ "sandpaper", 90 ],
-      [ "bench_vise", 15 ]
+      { "item": "clamp", "prob": 10 },
+      { "item": "sandpaper", "prob": 90 },
+      { "item": "bench_vise", "prob": 15 }
     ]
   },
   {
     "id": "tools_electronics",
     "type": "item_group",
+    "subtype": "collection",
     "//": "Portable tools used by electricians and for electronics repair",
-    "items": [
-      { "group": "tools_common_small", "prob": 100 },
+    "entries": [
       { "item": "soldering_iron", "prob": 100 },
       { "item": "soldering_iron_portable", "prob": 100, "charges": [ 0, 50 ] },
-      [ "magnifying_glass", 100 ],
+      { "item": "magnifying_glass", "prob": 100 },
       { "item": "voltmeter", "prob": 10 },
       { "item": "multimeter", "prob": 100, "charges": [ 0, 100 ] },
-      [ "recharge_station", 10 ],
-      [ "vac_mold", 10 ],
-      [ "polycarbonate_sheet", 50 ],
-      [ "hand_crank_charger", 40 ]
+      { "item": "recharge_station", "prob": 10 },
+      { "item": "vac_mold", "prob": 10 },
+      { "item": "polycarbonate_sheet", "prob": 50 },
+      { "item": "hand_crank_charger", "prob": 4 }
     ]
   },
   {
     "id": "tools_entry",
     "type": "item_group",
+    "subtype": "collection",
     "//": "Tools used for forcing entry into a building",
-    "items": [
-      [ "boltcutters", 30 ],
-      [ "crowbar", 50 ],
-      [ "claw_bar", 25 ],
-      [ "hammer_sledge", 5 ],
-      [ "hammer_sledge_short", 5 ],
-      [ "hammer_sledge_engineer", 10 ],
-      [ "halligan", 10 ],
-      [ "pike_pole", 10 ],
-      [ "ny_hook", 10 ],
-      [ "heavy_crowbar", 10 ]
+    "entries": [
+      { "item": "boltcutters", "prob": 30 },
+      {
+        "distribution": [
+          { "item": "crowbar", "prob": 50 },
+          { "item": "claw_bar", "prob": 25 },
+          { "item": "halligan", "prob": 10 },
+          { "item": "ny_hook", "prob": 10 },
+          { "item": "heavy_crowbar", "prob": 10 }
+        ],
+        "prob": 60
+      },
+      {
+        "distribution": [
+          { "item": "hammer_sledge", "prob": 10 },
+          { "item": "hammer_sledge_short", "prob": 20 },
+          { "item": "hammer_sledge_heavy", "prob": 10 }
+        ],
+        "prob": 20
+      },
+      { "item": "pike_pole", "prob": 10 }
     ]
   },
   {
     "id": "tools_home",
     "type": "item_group",
+    "subtype": "distribution",
     "//": "Tools commonly found in the home or other domestic settings",
-    "items": [
+    "entries": [
       { "group": "tools_common", "prob": 100 },
       { "group": "tools_lighting", "prob": 50 },
       { "group": "tools_tailor", "prob": 50 },
@@ -396,14 +492,12 @@
   {
     "id": "tools_mechanic",
     "type": "item_group",
+    "subtype": "collection",
     "//": "Equipment of any size commonly used by engineers and mechanics",
     "ammo": 100,
-    "items": [
-      [ "jack", 80 ],
-      [ "lug_wrench", 80 ],
-      [ "jack_small", 80 ],
-      [ "vac_mold", 10 ],
-      [ "polycarbonate_sheet", 50 ],
+    "entries": [
+      { "distribution": [ { "item": "jack", "prob": 80 }, { "item": "jack_small", "prob": 80 } ], "prob": 80 },
+      { "item": "lug_wrench", "prob": 80 },
       {
         "collection": [
           { "item": "oxy_torch", "prob": 100 },
@@ -424,7 +518,7 @@
         ],
         "prob": 80
       },
-      [ "oxy_torch", 60 ],
+      { "item": "oxy_torch", "prob": 60 },
       { "item": "weldtank", "prob": 60, "count": [ 1, 2 ] },
       { "item": "smallweldtank", "prob": 60, "count": [ 1, 3 ] },
       { "item": "tinyweldtank", "prob": 60, "count": [ 1, 3 ] },
@@ -446,28 +540,30 @@
           { "item": "brazing_rod_alloy", "prob": 5, "count": [ 400, 1200 ], "entry-wrapper": "tube_welding_rod" }
         ]
       },
-      [ "clamp", 10 ],
-      [ "goggles_welding", 80 ],
-      [ "welding_papr_helmet", 40 ],
+      { "item": "clamp", "prob": 10 },
+      { "item": "goggles_welding", "prob": 80 },
+      { "item": "welding_papr_helmet", "prob": 40 },
       { "group": "papr_kit", "prob": 20 },
-      [ "thread_cutting_set", 40 ],
+      { "item": "thread_cutting_set", "prob": 40 },
       { "group": "graphite_small_bottle_part", "prob": 40 }
     ]
   },
   {
     "id": "tools_tire",
     "type": "item_group",
+    "subtype": "collection",
     "//": "Equipment mostly used in tire shops",
     "ammo": 100,
-    "items": [
+    "entries": [
       { "item": "jack", "prob": 100 },
       { "item": "lug_wrench", "prob": 80 },
       { "item": "jack_small", "prob": 80 },
       { "group": "graphite_small_bottle_part", "prob": 50 },
       { "item": "compressor", "prob": 40 },
-      { "group": "tools_toolbox", "prob": 80 },
-      { "group": "tools_workshop", "prob": 70 },
-      { "group": "tools_general", "prob": 60 }
+      {
+        "distribution": [ { "group": "tools_toolbox", "prob": 80 }, { "group": "tools_workshop", "prob": 70 } ],
+        "prob": 80
+      }
     ]
   },
   {
@@ -475,7 +571,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "survival_kit_box",
-    "items": [
+    "entries": [
       { "item": "knife_folding" },
       { "item": "flint_steel" },
       { "item": "whistle_multitool" },
@@ -490,7 +586,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "survival_kit_box",
-    "items": [
+    "entries": [
       { "item": "knife_folding", "prob": 40 },
       { "item": "flint_steel", "prob": 50 },
       { "item": "whistle_multitool", "prob": 70 },
@@ -537,7 +633,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "1st_aid_box",
-    "items": [
+    "entries": [
       { "group": "medical_tape_roll_part" },
       { "group": "bottle_otc_painkiller_10" },
       { "item": "disinfectant" },
@@ -554,7 +650,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ipok",
-    "items": [
+    "entries": [
       { "item": "medical_gauze", "count": 3 },
       { "item": "bandages", "count": 1 },
       { "item": "gloves_medical" },
@@ -566,7 +662,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "1st_aid_box",
-    "items": [
+    "entries": [
       { "group": "medical_tape_roll_part", "prob": 70 },
       { "group": "bottle_otc_painkiller_0_10" },
       { "item": "disinfectant", "charges": [ 0, 5 ] },
@@ -581,14 +677,15 @@
   {
     "id": "tools_medical",
     "type": "item_group",
+    "subtype": "collection",
     "//": "Portable medical equipment for doctors and paramedics (excludes consumables)",
-    "items": [
-      [ "scalpel", 50 ],
-      [ "scissors_medical", 100 ],
-      [ "stethoscope", 50 ],
-      [ "syringe", 50 ],
-      [ "thermometer", 50 ],
-      [ "vacutainer", 50 ]
+    "entries": [
+      { "item": "scalpel", "prob": 50 },
+      { "item": "scissors_medical", "prob": 100 },
+      { "item": "stethoscope", "prob": 50 },
+      { "item": "syringe", "prob": 50 },
+      { "item": "thermometer", "prob": 50 },
+      { "item": "vacutainer", "prob": 50 }
     ]
   },
   {
@@ -596,7 +693,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ifak_pouch",
-    "items": [
+    "entries": [
       { "group": "medical_tape_roll_part" },
       { "item": "tourniquet_upper" },
       { "group": "quikclot_bag_plastic_5" },
@@ -613,7 +710,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ifak_pouch",
-    "items": [
+    "entries": [
       { "group": "medical_tape_roll_part", "prob": 20 },
       { "item": "tourniquet_upper", "prob": 20 },
       { "group": "quikclot_bag_plastic_0_5" },
@@ -628,21 +725,21 @@
   {
     "id": "tools_gunsmith",
     "type": "item_group",
+    "subtype": "collection",
     "//": "Tools used for working with guns and ammo",
-    "items": [
-      { "group": "tools_common", "prob": 50 },
-      { "group": "tools_blacksmith", "prob": 50 },
+    "entries": [
       { "item": "large_repairkit", "prob": 50, "charges": [ 0, 500 ] },
-      [ "puller", 100 ],
-      [ "press", 100 ],
-      [ "arbor_press", 100 ]
+      { "item": "puller", "prob": 100 },
+      { "item": "press", "prob": 100 },
+      { "item": "arbor_press", "prob": 100 }
     ]
   },
   {
     "id": "tools_lighting",
     "type": "item_group",
+    "subtype": "distribution",
     "//": "Light sources balanced according to rarity",
-    "items": [
+    "entries": [
       { "item": "candle", "prob": 70, "charges": [ 0, 100 ] },
       { "item": "electric_lantern", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "handflare", "prob": 50, "charges": 300 },
@@ -658,8 +755,9 @@
   {
     "id": "tools_lighting_industrial",
     "type": "item_group",
+    "subtype": "collection",
     "//": "Light sources used as industrial working equipment.",
-    "items": [
+    "entries": [
       { "item": "flashlight", "prob": 100, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "wearable_light", "prob": 60, "charges": [ 0, 100 ] }
@@ -668,154 +766,185 @@
   {
     "id": "tools_survival",
     "type": "item_group",
+    "subtype": "collection",
     "//": "Practical, small and light-weight tools for survival excluding camping gear.",
-    "items": [
-      [ "binoculars", 30 ],
-      [ "canteen", 15 ],
-      [ "e_tool", 10 ],
-      [ "flaregun", 20 ],
+    "entries": [
+      { "item": "binoculars", "prob": 30 },
+      { "item": "canteen", "prob": 15 },
+      { "item": "e_tool", "prob": 10 },
+      { "collection": [ { "item": "flaregun" }, { "item": "signal_flare", "count": [ 1, 3 ] } ], "prob": 20 },
       { "item": "handflare", "prob": 20, "charges": 300 },
-      [ "hatchet", 10 ],
-      [ "knife_hunting", 10 ],
-      { "group": "knife_rambo_cont", "prob": 10 },
-      [ "knife_swissarmy", 5 ],
-      [ "knife_trench", 10 ],
+      { "item": "hatchet", "prob": 10 },
+      {
+        "distribution": [
+          { "item": "knife_hunting", "prob": 10 },
+          { "group": "knife_rambo_cont", "prob": 10 },
+          { "item": "knife_swissarmy", "prob": 5 },
+          { "item": "knife_trench", "prob": 10 }
+        ],
+        "prob": 10
+      },
       { "item": "mess_kit", "prob": 20 },
       { "item": "portable_stove", "prob": 2, "container-item": "nylon_bag", "sealed": false },
-      [ "multitool", 5 ],
-      [ "pockknife", 50 ],
-      [ "knife_folding", 30 ],
+      { "item": "multitool", "prob": 5 },
+      {
+        "distribution": [
+          { "item": "pockknife", "prob": 50 },
+          { "item": "knife_folding", "prob": 30 },
+          { "item": "utility_knife_folding", "prob": 2 }
+        ],
+        "prob": 50
+      },
       { "prob": 10, "group": "pur_tablets_bottle_plastic_small_75_100" },
       { "item": "ref_lighter", "prob": 20, "charges": [ 0, 50 ] },
       {
         "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 350, 400 ] } ],
         "prob": 5
       },
-      [ "signal_flare", 20 ],
       { "item": "sm_extinguisher", "prob": 20, "charges": 10 },
-      [ "whistle", 20 ],
-      [ "hand_crank_charger", 15 ],
-      [ "flint_steel", 5 ],
+      { "item": "whistle", "prob": 20 },
+      { "item": "hand_crank_charger", "prob": 15 },
+      { "item": "flint_steel", "prob": 5 },
       { "item": "tinderbox", "prob": 2, "charges": [ 0, 100 ] },
-      [ "whistle_multitool", 1 ],
-      [ "chem_hexamine", 10 ],
+      { "item": "whistle_multitool", "prob": 1 },
+      { "item": "chem_hexamine", "prob": 10 },
       { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
-      [ "horse_tack", 3 ],
-      [ "saddlebag", 5 ],
-      [ "lifestraw", 3 ],
-      [ "light_snare_kit", 3 ],
+      { "item": "lifestraw", "prob": 3 },
+      { "item": "light_snare_kit", "prob": 3 },
       { "item": "propane_lantern", "prob": 15, "charges": [ 2000, 3000 ] },
       { "item": "propane_cooker", "prob": 15, "charges": [ 2000, 3000 ] },
-      [ "camping_multitool", 2 ],
-      [ "utility_knife_folding", 2 ]
+      { "item": "camping_multitool", "prob": 2 }
     ]
   },
   {
     "id": "tools_tailor",
     "type": "item_group",
-    "items": [
-      [ "awl_steel", 60 ],
+    "subtype": "collection",
+    "entries": [
+      { "item": "awl_steel", "prob": 60 },
       { "item": "loom_frame", "prob": 5 },
-      [ "needle_curved", 30 ],
-      [ "vac_mold", 10 ],
-      [ "polycarbonate_sheet", 50 ],
-      [ "scissors", 1000 ],
-      { "item": "sewing_kit", "prob": 120, "charges": [ 0, -1 ] },
+      { "item": "needle_curved", "prob": 30 },
+      { "item": "scissors", "prob": 1000 },
+      {
+        "distribution": [
+          { "item": "sewing_kit", "prob": 120, "charges": [ 0, -1 ] },
+          { "item": "tailors_kit", "prob": 10, "charges": [ 0, -1 ] }
+        ],
+        "prob": 100
+      },
       { "item": "sewing_machine", "prob": 120 },
       { "item": "shed_stick", "prob": 5 },
-      { "item": "tailors_kit", "prob": 10, "charges": [ 0, -1 ] },
       { "item": "electric_spinwheel", "prob": 10 },
-      [ "knitting_needles", 20 ],
-      [ "kevlar_shears", 100 ]
+      { "item": "knitting_needles", "prob": 40 },
+      { "item": "kevlar_shears", "prob": 60 }
     ]
   },
   {
     "id": "tools_commercial_tailor",
     "type": "item_group",
-    "items": [
-      [ "awl_steel", 150 ],
-      [ "needle_curved", 30 ],
-      [ "scissors", 1000 ],
-      { "item": "sewing_kit", "prob": 10, "charges": [ 0, -1 ] },
+    "subtype": "collection",
+    "entries": [
+      { "item": "awl_steel", "prob": 150 },
+      { "item": "needle_curved", "prob": 30 },
+      { "item": "scissors", "prob": 1000 },
+      {
+        "distribution": [
+          { "item": "sewing_kit", "prob": 120, "charges": [ 0, -1 ] },
+          { "item": "tailors_kit", "prob": 10, "charges": [ 0, -1 ] }
+        ],
+        "prob": 100
+      },
       { "item": "sewing_machine", "prob": 120 },
-      { "item": "tailors_kit", "prob": 120, "charges": [ 0, -1 ] },
-      [ "kevlar_shears", 40 ]
+      { "item": "kevlar_shears", "prob": 40 }
     ]
   },
   {
     "type": "item_group",
     "id": "tools_science",
+    "subtype": "collection",
     "//": "tools and equipment you might find on lab benches of nearly any lab.",
-    "items": [
-      { "item": "chemistry_set", "prob": 5 },
-      [ "chemistry_set_basic", 2 ],
-      [ "analytical_set_basic", 5 ],
-      [ "spectrophotometer", 5 ],
-      [ "balance_small", 5 ],
-      [ "cuvettes", 5 ],
+    "entries": [
+      { "distribution": [ { "item": "chemistry_set", "prob": 5 }, { "item": "chemistry_set_basic", "prob": 2 } ], "prob": 10 },
+      { "item": "analytical_set_basic", "prob": 5 },
+      { "item": "spectrophotometer", "prob": 5 },
+      { "item": "balance_small", "prob": 5 },
+      { "item": "cuvettes", "prob": 5 },
       { "item": "ph_meter", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "voltmeter", "prob": 5 },
       { "item": "multimeter", "prob": 5, "charges": [ 0, 100 ] },
-      [ "melting_point", 5 ],
-      [ "vortex", 5 ],
+      { "item": "melting_point", "prob": 5 },
+      { "item": "vortex", "prob": 5 },
       { "item": "hotplate_induction", "prob": 5 },
-      [ "jar_glass_sealed", 5 ],
-      [ "jar_3l_glass_sealed", 5 ],
-      [ "magnifying_glass", 5 ],
-      [ "thermometer", 5 ],
+      {
+        "distribution": [ { "item": "jar_glass_sealed", "prob": 5 }, { "item": "jar_3l_glass_sealed", "prob": 5 } ],
+        "prob": 10
+      },
+      { "item": "magnifying_glass", "prob": 5 },
+      { "item": "thermometer", "prob": 5 },
       { "item": "geiger_off", "prob": 3, "charges": [ 0, 100 ] },
-      [ "hygrometer", 3 ],
-      [ "barometer", 3 ],
-      [ "sextant", 1 ],
-      { "item": "camera", "prob": 2, "charges": [ 0, 150 ] },
-      { "item": "camera", "container-item": "camera_bag", "prob": 1, "charges": [ 0, 150 ] },
-      [ "flask_glass", 10 ],
-      [ "bottle_glass", 10 ],
-      [ "thermos", 5 ],
-      [ "test_tube", 10 ],
-      [ "glass_tube_small", 5 ],
-      [ "funnel", 10 ],
-      [ "hose", 5 ],
-      [ "steel_grille", 5 ],
-      [ "coat_lab", 5 ],
-      [ "gloves_medical", 5 ],
-      [ "mask_dust", 5 ],
-      { "item": "mask_filter", "prob": 5, "charges": [ 0, 100 ] },
-      { "item": "gasfilter_sm", "prob": 5, "charges": [ 0, 100 ] },
-      { "item": "mask_gas_half", "prob": 5, "charges": [ 0, 100 ] },
-      [ "glasses_safety", 3 ],
-      [ "goggles_chem", 7 ],
+      { "item": "hygrometer", "prob": 3 },
+      { "item": "barometer", "prob": 3 },
+      {
+        "distribution": [
+          { "item": "camera", "prob": 2, "charges": [ 0, 150 ] },
+          { "item": "camera", "container-item": "camera_bag", "prob": 1, "charges": [ 0, 150 ] }
+        ],
+        "prob": 2
+      },
+      { "item": "flask_glass", "count": [ 1, 3 ], "prob": 10 },
+      { "item": "bottle_glass", "count": [ 1, 3 ], "prob": 10 },
+      { "item": "thermos", "prob": 5 },
+      { "item": "test_tube", "count": [ 1, 5 ], "prob": 10 },
+      { "item": "glass_tube_small", "count": [ 1, 10 ], "prob": 5 },
+      { "item": "funnel", "prob": 10 },
+      { "item": "hose", "prob": 5 },
+      { "item": "steel_grille", "prob": 5 },
+      { "item": "coat_lab", "prob": 5 },
+      { "item": "gloves_medical", "prob": 5 },
+      { "item": "mask_dust", "prob": 5 },
+      {
+        "distribution": [
+          { "item": "mask_filter", "prob": 5, "charges": [ 0, 100 ] },
+          { "item": "gasfilter_sm", "prob": 5, "charges": [ 0, 100 ] },
+          { "item": "mask_gas_half", "prob": 5, "charges": [ 0, 100 ] }
+        ],
+        "prob": 10
+      },
+      {
+        "distribution": [ { "item": "glasses_safety", "prob": 3 }, { "item": "goggles_chem", "prob": 7 } ],
+        "prob": 10
+      },
       { "item": "UPS_OFF", "prob": 3, "charges": [ 0, 1000 ] },
-      [ "microscope", 5 ],
+      { "item": "microscope", "prob": 5 },
       { "item": "microscope_slide", "prob": 5, "count": [ 0, 20 ] },
-      [ "microscope_dissecting", 5 ],
-      [ "funnel_separation", 3 ],
+      { "item": "microscope_dissecting", "prob": 5 },
+      { "item": "funnel_separation", "prob": 3 },
       { "item": "filter_paper_qualitative", "prob": 3, "charges": [ 10, -1 ] },
       { "item": "filter_paper_quantitative", "prob": 3, "charges": [ 10, -1 ] },
-      [ "burette", 3 ],
-      [ "rotovap", 3 ],
-      [ "still_lab", 3 ],
-      [ "gelbox", 5 ],
-      [ "microcentrifuge", 5 ],
-      [ "ketene_lamp", 1 ],
-      [ "stopcock", 3 ],
-      [ "beaker", 5 ],
-      [ "gradcylinder", 5 ],
+      { "item": "burette", "prob": 3 },
+      { "item": "rotovap", "prob": 3 },
+      { "item": "still_lab", "prob": 3 },
+      { "item": "gelbox", "prob": 5 },
+      { "item": "microcentrifuge", "prob": 5 },
+      { "item": "ketene_lamp", "prob": 1 },
+      { "item": "stopcock", "prob": 3 },
+      { "item": "beaker", "prob": 5 },
+      { "item": "gradcylinder", "prob": 5 },
       { "item": "petri_dish", "prob": 5 },
-      [ "rack_test_tube", 5 ],
-      [ "test_tube_micro", 5 ],
-      [ "rack_test_tube_micro", 5 ],
-      [ "stand_ring", 5 ],
-      [ "stand_ring_clamps", 5 ],
-      [ "syringe", 4 ],
-      [ "xacto", 4 ],
+      { "item": "rack_test_tube", "prob": 5 },
+      { "item": "test_tube_micro", "prob": 5 },
+      { "item": "rack_test_tube_micro", "prob": 5 },
+      { "item": "stand_ring", "prob": 5 },
+      { "item": "stand_ring_clamps", "prob": 5 },
+      { "item": "syringe", "prob": 4 },
+      { "item": "xacto", "prob": 4 },
       { "group": "cotton_ball_bag_used", "prob": 4 },
       { "group": "papr_kit", "prob": 5 },
-      [ "papr_half_mask", 5 ],
+      { "item": "papr_half_mask", "prob": 5 },
       { "group": "cotton_ball_bag_full", "prob": 2 },
       { "group": "box_of_batteries_random", "prob": 25 },
       { "group": "ammo_heavy_batteries_full", "prob": 25 },
-      [ "acetylene_machine", 1 ],
+      { "item": "acetylene_machine", "prob": 1 },
       { "group": "writing_utensils", "prob": 5 }
     ]
   },
@@ -824,7 +953,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "rc_car_box",
-    "items": [
+    "entries": [
       { "item": "radiocontrol" },
       { "item": "light_minus_battery_cell", "charges": 50, "count": 3 },
       { "item": "radio_car" },
@@ -837,7 +966,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "ammo": 100,
-    "items": [
+    "entries": [
       { "item": "extinguisher", "prob": 35 },
       { "item": "sm_extinguisher", "prob": 35 },
       {
@@ -855,30 +984,30 @@
   {
     "type": "item_group",
     "id": "tools_robotics",
+    "subtype": "collection",
     "//": "tools and equipment you might find on robotics laboratories, like LIXA or Hub01",
-    "items": [
-      [ "recipe_lab_elec", 4 ],
+    "entries": [
+      { "item": "recipe_lab_elec", "prob": 4 },
       { "item": "UPS_OFF", "prob": 6, "charges": [ 0, 1000 ] },
-      [ "file", 10 ],
+      { "item": "file", "prob": 10 },
       { "item": "smart_lamp", "prob": 2, "charges": [ 0, 100 ] },
-      [ "bot_grenade_hack", 2 ],
-      [ "teleporter", 1 ],
+      { "item": "bot_grenade_hack", "prob": 2 },
       { "group": "used_laptops", "prob": 4, "contents-group": "efiles_science" },
       { "item": "plut_cell", "prob": 4, "charges": [ 1, 5 ] },
       { "group": "glue_weak_domestic", "prob": 15 },
       { "group": "glue_strong_domestic", "prob": 15 },
       { "group": "graphite_small_bottle_part", "prob": 30 },
-      [ "pliers", 10 ],
-      [ "tin_snips", 10 ],
+      { "item": "pliers", "prob": 10 },
+      { "item": "tin_snips", "prob": 10 },
       { "item": "matches", "prob": 10, "charges": [ 1, 20 ] },
-      [ "glasses_safety", 20 ],
-      [ "vac_mold", 10 ],
-      [ "polycarbonate_sheet", 50 ],
+      { "item": "glasses_safety", "prob": 20 },
+      { "item": "vac_mold", "prob": 10 },
+      { "item": "polycarbonate_sheet", "prob": 50 },
       { "group": "duct_tape_roll_part", "prob": 8 },
       { "item": "misc_repairkit", "prob": 15 },
       { "item": "welder", "prob": 10 },
       { "group": "papr_kit", "prob": 5 },
-      [ "welding_papr_helmet", 5 ],
+      { "item": "welding_papr_helmet", "prob": 5 },
       { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },
       {
         "distribution": [
@@ -893,56 +1022,60 @@
       { "item": "soldering_iron", "prob": 8 },
       { "item": "soldering_iron_portable", "prob": 8, "charges": [ 0, 50 ] },
       { "item": "extinguisher", "prob": 10, "charges": 100 },
-      [ "magnifying_glass", 10 ],
-      [ "multitool", 20 ],
-      [ "vac_mold", 2 ],
-      [ "screwdriver_set", 20 ],
-      [ "socket_screwdriver_set", 20 ],
+      { "item": "magnifying_glass", "prob": 10 },
+      { "item": "multitool", "prob": 20 },
+      { "item": "vac_mold", "prob": 2 },
+      { "item": "screwdriver_set", "prob": 20 },
+      { "item": "socket_screwdriver_set", "prob": 20 },
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
-      [ "memory_card_science", 40 ],
-      [ "lanyard", 1 ],
-      { "item": "camera_pro", "prob": 1, "charges": [ 0, 150 ] },
-      { "item": "camera_pro", "container-item": "camera_bag", "prob": 1, "charges": [ 0, 150 ] },
-      [ "element", 5 ],
+      { "item": "memory_card_science", "prob": 40 },
+      {
+        "distribution": [
+          { "item": "camera_pro", "prob": 1, "charges": [ 0, 150 ] },
+          { "item": "camera_pro", "container-item": "camera_bag", "prob": 1, "charges": [ 0, 150 ] }
+        ],
+        "prob": 1
+      },
+      { "item": "element", "prob": 5 },
       { "group": "batteries" },
-      [ "goggles_welding", 20 ],
+      { "item": "goggles_welding", "prob": 20 },
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
       { "group": "tools_toolbox", "prob": 5 },
-      [ "tool_belt", 10 ],
-      [ "clamp", 10 ],
-      [ "wrench", 10 ],
-      [ "socket_wrench_set", 10 ],
-      [ "bench_vise", 15 ],
+      { "item": "tool_belt", "prob": 10 },
+      { "item": "clamp", "prob": 10 },
+      { "item": "wrench", "prob": 10 },
+      { "item": "socket_wrench_set", "prob": 10 },
+      { "item": "bench_vise", "prob": 15 },
       { "group": "writing_utensils", "prob": 5 }
     ]
   },
   {
     "id": "hand_tools",
     "type": "item_group",
-    "items": [
+    "subtype": "collection",
+    "entries": [
       { "item": "flashlight", "prob": 35, "charges": [ 0, 300 ] },
-      [ "wrench", 50 ],
-      [ "hammer", 40 ],
-      [ "saw", 50 ],
+      { "item": "wrench", "prob": 50 },
+      { "item": "hammer", "prob": 40 },
+      { "item": "saw", "prob": 50 },
       { "item": "bow_saw", "prob": 40 },
-      [ "ax", 20 ],
-      [ "machete", 15 ],
-      [ "brush_handaxe", 5 ],
-      [ "hacksaw", 50 ],
-      [ "chipper", 60 ],
-      [ "boltcutters", 50 ],
-      [ "tin_snips", 50 ],
-      [ "screwdriver", 35 ],
-      [ "pin_reamer", 10 ],
-      [ "metal_file", 10 ],
-      [ "clamp", 20 ],
-      [ "bench_vise", 30 ]
+      { "item": "ax", "prob": 20 },
+      { "item": "machete", "prob": 15 },
+      { "item": "brush_handaxe", "prob": 5 },
+      { "item": "hacksaw", "prob": 50 },
+      { "item": "chipper", "prob": 60 },
+      { "item": "screwdriver", "prob": 35 },
+      { "item": "pin_reamer", "prob": 10 },
+      { "item": "metal_file", "prob": 10 },
+      { "item": "clamp", "prob": 20 },
+      { "item": "bench_vise", "prob": 30 }
     ]
   },
   {
     "id": "power_tools",
     "type": "item_group",
-    "items": [
+    "subtype": "distribution",
+    "entries": [
       { "item": "chainsaw_off", "prob": 10, "charges": [ 0, 450 ] },
       { "item": "polesaw_off", "prob": 10, "charges": [ 0, 450 ] },
       { "item": "elec_chainsaw_off", "prob": 10, "charges": [ 0, 500 ] },
@@ -968,15 +1101,16 @@
   {
     "id": "tools_tree_cutting",
     "type": "item_group",
+    "subtype": "distribution",
     "//": "Axes and saws.",
-    "items": [
-      [ "ax", 100 ],
+    "entries": [
+      { "item": "ax", "prob": 100 },
       { "item": "chainsaw_off", "prob": 80, "charges": [ 0, 400 ] },
       { "item": "polesaw_off", "prob": 75, "charges": [ 0, 400 ] },
-      [ "saw", 100 ],
+      { "item": "saw", "prob": 100 },
       { "item": "bow_saw", "prob": 80 },
       { "item": "circsaw_off", "prob": 50, "charges": [ 0, 500 ] },
-      [ "circsaw_blade", 10 ],
+      { "item": "circsaw_blade", "prob": 10 },
       { "item": "elec_chainsaw_off", "prob": 35, "charges": [ 0, 500 ] },
       { "item": "elec_chainsaw_cord_off", "prob": 35 }
     ]
@@ -986,7 +1120,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "//": "Commercially available fishing rods",
-    "items": [
+    "entries": [
       { "item": "fishing_rod_professional", "prob": 2 },
       { "item": "fishing_rod_2pc_packed", "prob": 4 },
       { "item": "fishing_rod_tele_packed", "prob": 3 }
@@ -997,7 +1131,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "//": "Fishing rods with better portability",
-    "items": [
+    "entries": [
       { "item": "fishing_rod_2pc_packed", "prob": 3 },
       { "item": "fishing_rod_tele_packed", "prob": 3 },
       { "item": "plastichoboreel", "prob": 1 }
@@ -1006,15 +1140,15 @@
   {
     "id": "tools_tractor",
     "type": "item_group",
-    "subtype": "distribution",
+    "subtype": "collection",
     "//": "Tools that would be found in a tractor.",
-    "items": [
-      [ "wrench", 35 ],
-      [ "wrench_small", 35 ],
-      [ "hammer", 20 ],
-      [ "multitool", 20 ],
-      [ "pliers_locking", 15 ],
-      [ "wrench_large", 5 ]
+    "entries": [
+      { "item": "wrench", "prob": 35 },
+      { "item": "wrench_small", "prob": 35 },
+      { "item": "hammer", "prob": 20 },
+      { "item": "multitool", "prob": 20 },
+      { "item": "pliers_locking", "prob": 15 },
+      { "item": "wrench_large", "prob": 5 }
     ]
   },
   {
@@ -1049,19 +1183,19 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "dynamite_shipment",
-    "items": [ { "item": "dynamite", "count": [ 2, 3 ] } ]
+    "entries": [ { "item": "dynamite", "count": [ 2, 3 ] } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "superglue_bottles",
-    "items": [ { "item": "small_squeeze_tube", "prob": 90 }, { "item": "bottle_plastic_tiny_glue", "prob": 10 } ]
+    "entries": [ { "item": "small_squeeze_tube", "prob": 90 }, { "item": "bottle_plastic_tiny_glue", "prob": 10 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "glue_weak_domestic",
-    "items": [
+    "entries": [
       { "item": "glue_weak", "container-item": "bottle_plastic_tiny_glue", "charges": [ 0, 30 ] },
       { "item": "glue_weak", "container-item": "bottle_plastic_small_glue", "charges": [ 0, 250 ] }
     ]
@@ -1070,7 +1204,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "glue_weak_domestic_full",
-    "items": [
+    "entries": [
       { "item": "glue_weak", "container-item": "bottle_plastic_tiny_glue", "charges": 30 },
       { "item": "glue_weak", "container-item": "bottle_plastic_small_glue", "charges": 250 }
     ]
@@ -1079,7 +1213,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "glue_weak_professional",
-    "items": [
+    "entries": [
       { "item": "glue_weak", "container-item": "bottle_plastic_small_glue", "charges": [ 0, 500 ] },
       { "item": "glue_weak", "container-item": "bottle_plastic_glue", "charges": [ 0, 1000 ] },
       { "item": "glue_weak", "container-item": "bottle_twoliter_glue", "charges": [ 0, 2000 ] },
@@ -1090,7 +1224,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "glue_weak_professional_full",
-    "items": [
+    "entries": [
       { "item": "glue_weak", "container-item": "bottle_plastic_small_glue", "charges": 500 },
       { "item": "glue_weak", "container-item": "bottle_plastic_glue", "charges": 1000 },
       { "item": "glue_weak", "container-item": "bottle_twoliter_glue", "charges": 2000 },
@@ -1101,7 +1235,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "glue_strong_domestic",
-    "items": [
+    "entries": [
       { "item": "glue_strong", "container-item": "small_squeeze_tube", "charges": [ 0, 4 ] },
       { "item": "glue_strong", "container-item": "bottle_plastic_tiny_glue", "charges": [ 0, 30 ] },
       { "item": "glue_strong", "container-item": "bottle_plastic_small_glue", "charges": [ 0, 250 ] }
@@ -1111,7 +1245,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "glue_strong_domestic_full",
-    "items": [
+    "entries": [
       { "item": "glue_strong", "container-item": "small_squeeze_tube", "charges": 4 },
       { "item": "glue_strong", "container-item": "bottle_plastic_tiny_glue", "charges": 30 },
       { "item": "glue_strong", "container-item": "bottle_plastic_small_glue", "charges": 250 }
@@ -1121,7 +1255,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "glue_strong_professional",
-    "items": [
+    "entries": [
       { "item": "glue_strong", "container-item": "bottle_plastic_small_glue", "charges": [ 0, 500 ] },
       { "item": "glue_strong", "container-item": "bottle_plastic_glue", "charges": [ 0, 1000 ] },
       { "item": "glue_strong", "container-item": "bottle_twoliter_glue", "charges": [ 0, 2000 ] },
@@ -1132,7 +1266,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "glue_strong_professional_full",
-    "items": [
+    "entries": [
       { "item": "glue_strong", "container-item": "bottle_plastic_small_glue", "charges": 500 },
       { "item": "glue_strong", "container-item": "bottle_plastic_glue", "charges": 1000 },
       { "item": "glue_strong", "container-item": "bottle_twoliter_glue", "charges": 2000 },
