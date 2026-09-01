@@ -3366,7 +3366,7 @@
       { "limb_score": "block", "modifier": 1.0, "scaling": -0.035 },
       { "limb_score": "vision", "modifier": 1.0, "scaling": -0.035 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "PSYCHOPATH" ]
   },
   {
     "type": "effect_type",
