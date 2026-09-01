@@ -2066,7 +2066,7 @@
       { "point": [ 0, 1, 0 ], "overmap": "fishing_pond_0_1_north" },
       { "point": [ 1, 1, 0 ], "overmap": "fishing_pond_1_1_north" }
     ],
-    "city_sizes": [ 0, 8 ]
+    "city_sizes": [ 0, 18 ]
   },
   {
     "type": "city_building",
