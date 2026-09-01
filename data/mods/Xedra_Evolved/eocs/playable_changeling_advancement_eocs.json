@@ -343,10 +343,10 @@
         { "test_eoc": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING" },
         {
           "or": [
-            { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord" ] },
-            { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord" ] },
-            { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord" ] },
-            { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord" ] }
+            { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord_spring" ] },
+            { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord_summer" ] },
+            { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord_autumn" ] },
+            { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord_winter" ] }
           ]
         }
       ]
