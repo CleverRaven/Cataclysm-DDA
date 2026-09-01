@@ -40,6 +40,7 @@
     "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_mi_go_humanoid" ],
     "//": "Mi-go xys/zys words should be pronounced as one single combined word.",
     "sound": "\"We were so pleased/honored to be chosen as the inheritors of your species, so close to it's death that you must have felt it coming and sought us out.\"",
+  "volume": 20
   },
   {
     "type": "speech",
