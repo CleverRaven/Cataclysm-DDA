@@ -1,0 +1,282 @@
+[
+  {
+    "id": "mon_feral_taum_abstract",
+    "copy-from": "mon_feral_human_pipe",
+    "type": "MONSTER",
+    "name": { "str": "feral eater" },
+    "looks_like": "mon_zombie_bio_op2",
+    "description": "Abstract for feral eater.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "aggression": 30,
+    "morale": 100,
+    "melee_skill": 6,
+    "melee_dice": 3,
+    "melee_dice_sides": 6,
+    "armor": { "bash": 12, "cut": 12, "bullet": 12, "electric": 3 },
+    "dodge": 5,
+    "speed": 80,
+    "path_settings": { "max_dist": 60, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
+    "grab_strength": 30,
+    "special_attacks": [ { "id": "grab" }, { "id": "smash", "throw_strength": 12, "cooldown": 8 } ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ]
+  },
+  {
+    "id": "mon_feral_eater_melee",
+    "copy-from": "mon_feral_taum_abstract",
+    "type": "MONSTER",
+    "name": { "str": "feral eater" },
+    "description": "Untidy and shaggy, this person looks like a mountain with its broad shoulders and army-built posture, but its eyes reflect the end of someone who tries to bother him.  It wear a black jumpsuit with white \"υ\" on it's back, and it's arms are entirely covered in dried red blood.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "relative": { "hp": 100, "melee_dice": 2, "melee_skill": 2 },
+    "grab_strength": 60,
+    "special_attacks": [
+      { "id": "grab" },
+      { "id": "smash", "throw_strength": 12, "cooldown": 3 },
+      { "id": "smash", "throw_strength": 66, "cooldown": 15 },
+      { "id": "bio_op_takedown", "cooldown": 15 },
+      { "id": "bio_op_impale", "cooldown": 15 }
+    ]
+  },
+  {
+    "id": "mon_feral_eater_cardio",
+    "copy-from": "mon_feral_taum_abstract",
+    "type": "MONSTER",
+    "name": { "str": "feral eater" },
+    "description": "Untidy and shaggy, this person looks like a mountain with its broad shoulders and army-built posture, but its eyes reflect the end of someone who tries to bother him.  It wear a black jumpsuit with white \"υ\" on it's back, and has bulging blood vessels on every visible inch of skin.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "spell",
+          "spell_data": { "id": "blood_boil", "min_level": 5 },
+          "cooldown": 45,
+          "monster_message": "%1$s stares at you and you feel your blood begin to boil."
+        }
+      ]
+    }
+  },
+  {
+    "id": "mon_feral_eater_entropy",
+    "copy-from": "mon_feral_taum_abstract",
+    "type": "MONSTER",
+    "name": { "str": "feral eater" },
+    "description": "Untidy and shaggy, this person looks like a mountain with its broad shoulders and army-built posture, but its eyes reflect the end of someone who tries to bother him.  It wear a black jumpsuit with white \"υ\" on it's back, and has bulging blood vessels on every visible inch of skin.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "spell",
+          "spell_data": { "id": "xedra_eater_erosion", "min_level": 5 },
+          "cooldown": 45,
+          "monster_message": "Everything around the %1$s seems to wither in real time."
+        }
+      ]
+    }
+  },
+  {
+    "id": "mon_feral_eater_regen",
+    "copy-from": "mon_feral_taum_abstract",
+    "type": "MONSTER",
+    "name": { "str": "feral eater" },
+    "description": "Untidy and shaggy, this person looks like a mountain with its broad shoulders and army-built posture, but its eyes reflect the end of someone who tries to bother him.  It wear a black jumpsuit with white \"υ\" on it's back, and despite massively damaged armor, you can't find even a scratch on its body.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "relative": { "hp": 250, "regenerates": 10 }
+  },
+  {
+    "id": "mon_feral_eater_runner",
+    "copy-from": "mon_feral_taum_abstract",
+    "type": "MONSTER",
+    "name": { "str": "feral eater" },
+    "description": "Untidy and shaggy, this person looks like a mountain with its broad shoulders and army-built posture, but its eyes reflect the end of someone who tries to bother him.  It wear a black jumpsuit with white \"υ\" on it's back, and its stance says its always prepared to run at you.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "relative": { "speed": 110 }
+  },
+  {
+    "id": "mon_feral_eater_clairvoyant",
+    "copy-from": "mon_feral_taum_abstract",
+    "type": "MONSTER",
+    "name": { "str": "feral eater" },
+    "description": "Untidy and shaggy, this person looks like a mountain with its broad shoulders and army-built posture, but its eyes reflect the end of someone who tries to bother him.  It wear a black jumpsuit with white \"υ\" on it's back, and it stares at you with its closed eyes.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "extend": { "flags": [ "ALWAYS_SEES_YOU" ] }
+  },
+  {
+    "id": "mon_feral_eater_piercer",
+    "copy-from": "mon_feral_taum_abstract",
+    "type": "MONSTER",
+    "name": { "str": "feral eater" },
+    "description": "Untidy and shaggy, this person looks like a mountain with its broad shoulders and army-built posture, but its eyes reflect the end of someone who tries to bother him.  It wear a black jumpsuit with white \"υ\" on it's back, and its hands is full of white light.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "luminance": 7,
+    "special_attacks": [
+      { "id": "grab" },
+      { "id": "smash", "throw_strength": 12, "cooldown": 3 },
+      { "type": "spell", "spell_data": { "id": "spell_spear_mon", "min_level": 0 }, "cooldown": 12 }
+    ]
+  },
+  {
+    "id": "spell_spear_mon",
+    "type": "SPELL",
+    "name": "Pierce (Monster Version)",
+    "description": "Monster version of eater's spell.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "PERCENTAGE_DAMAGE", "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "shape": "cone",
+    "damage_type": "stab",
+    "min_damage": 19,
+    "max_damage": 19,
+    "min_range": 6,
+    "max_range": 6,
+    "min_aoe": 3,
+    "max_aoe": 3
+  },
+  {
+    "id": "mon_feral_inventor_drone",
+    "copy-from": "mon_manhack",
+    "type": "MONSTER",
+    "name": { "str": "inventor drone" },
+    "description": "With menacing buzz, this copter rapidly approaches you, throwing sparks and electric charges around.",
+    "default_faction": "zombie",
+    "species": [ "ROBOT" ],
+    "luminance": 5,
+    "melee_damage": [ { "damage_type": "electric", "amount": 12 } ],
+    "death_function": { "message": "The %s's interior compartment sizzles with destructive energy.", "corpse_type": "BROKEN" },
+    "emit_fields": [ { "emit_id": "emit_spark", "delay": "1 s" } ],
+    "extend": { "flags": [ "ELECTRIC" ] }
+  },
+  {
+    "id": "mon_feral_inventor_droner",
+    "copy-from": "mon_feral_taum_abstract",
+    "type": "MONSTER",
+    "name": { "str": "feral inventor" },
+    "description": "This person does not even look like a madman.  With a pistol in hand, and a swarm of drones, they gaze out across the waste of the world.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "tracking_distance": 6,
+    "special_attacks": [
+      { "type": "spell", "spell_data": { "id": "mon_inventor_drone_spawn", "min_level": 0 }, "cooldown": 9999999 },
+      {
+        "type": "gun",
+        "cooldown": 10,
+        "move_cost": 150,
+        "gun_type": "m18",
+        "ammo_type": "9mm",
+        "fake_skills": [ [ "gun", 1 ], [ "pistol", 2 ] ],
+        "fake_dex": 8,
+        "fake_per": 10,
+        "ranges": [ [ 4, 14, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "require_targeting_player": false,
+        "target_moving_vehicles": true,
+        "description": "Feral inventor fires their pistol!"
+      }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_inventor_drone_spawn",
+    "name": { "str": "Summon Drones" },
+    "description": "Summons many inventor drones.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground" ],
+    "min_damage": 5,
+    "max_damage": 8,
+    "min_aoe": 4,
+    "max_aoe": 4,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_feral_inventor_drone"
+  },
+  {
+    "id": "mon_feral_inventor_stormcaller",
+    "copy-from": "mon_feral_taum_abstract",
+    "type": "MONSTER",
+    "name": { "str": "feral inventor" },
+    "description": "This person does not even look like a madman.  Surrounded by constant cloud of electricity, and wielding a knife, do you wish to approach them?",
+    "symbol": "@",
+    "color": "dark_gray",
+    "luminance": 25,
+    "emit_fields": [ { "emit_id": "emit_shock_cloud_big", "delay": "1 s" } ],
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "feral_inventor_knife",
+        "cooldown": 1,
+        "move_cost": 100,
+        "accuracy": 3,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 2 }, { "damage_type": "cut", "amount": 14 } ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "hit_dmg_u": "%1$s hits your %2$s with a knife!",
+        "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a knife!",
+        "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+      }
+    ]
+  },
+  {
+    "id": "mon_feral_inventor_spider_drones",
+    "copy-from": "mon_feral_taum_abstract",
+    "type": "MONSTER",
+    "name": { "str": "feral inventor" },
+    "description": "This person does not even look like a madman.  Surrounded by constant cloud of electricity, and wielding a knife, do you wish to approach them?",
+    "symbol": "@",
+    "color": "dark_gray",
+    "luminance": 25,
+    "emit_fields": [ { "emit_id": "emit_shock_cloud_big", "delay": "1 s" } ],
+    "special_attacks": [
+      { "type": "spell", "spell_data": { "id": "mon_inventor_spider_drone_spawn", "min_level": 0 }, "cooldown": 9999999 },
+      {
+        "type": "gun",
+        "cooldown": 10,
+        "move_cost": 150,
+        "gun_type": "m18",
+        "ammo_type": "9mm",
+        "fake_skills": [ [ "gun", 1 ], [ "pistol", 2 ] ],
+        "fake_dex": 8,
+        "fake_per": 10,
+        "ranges": [ [ 4, 14, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "require_targeting_player": false,
+        "target_moving_vehicles": true,
+        "description": "Feral inventor fires their pistol!"
+      }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_inventor_drone_spawn",
+    "name": { "str": "Summon Drones" },
+    "description": "Summons many inventor drones.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground" ],
+    "min_damage": 5,
+    "max_damage": 8,
+    "min_aoe": 4,
+    "max_aoe": 4,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_inventor_spider_drone"
+  },
+  {
+    "id": "mon_inventor_spider_drone",
+    "copy-from": "mon_meleebot",
+    "type": "MONSTER",
+    "name": { "str": "inventor drone" },
+    "description": "With menacing buzz, this copter rapidly approaches you, throwing sparks and electric charges around.",
+    "default_faction": "zombie",
+    "species": [ "ROBOT" ]
+  }
+]
