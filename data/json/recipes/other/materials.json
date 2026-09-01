@@ -1877,5 +1877,74 @@
         [ "273x44casing", 30 ]
       ]
     ]
+  },
+  {
+    "type": "uncraft",
+    "result": "kaolinite",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "kaolin_chunk", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "impure_kaolin_powder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "2 m",
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
+    "autolearn": true,
+    "components": [ [ [ "kaolin_chunk", 1 ] ] ],
+    "charges": 7
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "pure_kaolin_slurry",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "3 m",
+    "qualities": [ { "id": "SIEVE", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "autolearn": true,
+    "components": [ [ [ "impure_kaolin_powder", 7 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "byproducts": [ [ "material_sand", 1 ] ],
+    "charges": 5
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "kaolin_powder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "autolearn": true,
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "components": [ [ [ "pure_kaolin_slurry", 5 ] ] ],
+    "charges": 5
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "clay_kaolin",
+    "id_suffix": "kaolin",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "autolearn": true,
+    "batch_time_factors": [ 90, 5 ],
+    "components": [ [ [ "kaolin_powder", 50 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   }
 ]
