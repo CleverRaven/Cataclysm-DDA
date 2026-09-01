@@ -183,7 +183,7 @@
     "id": "mon_zombie_rot",
     "type": "MONSTER",
     "name": { "str": "decayed zombie" },
-    "description": "A once-dead human corpse.  Its discolored, swollen flesh is riddled with festering wounds and open sores.",
+    "description": "A once-dead human corpse.  Its discolored, swollen flesh is riddled with festering wounds and open sores.  It smells indescribably awful.",
     "copy-from": "mon_zombie_base",
     "hp": 55,
     "speed": 60,
@@ -192,6 +192,7 @@
     "melee_dice_sides": 2,
     "grab_strength": 15,
     "fungalize_into": "mon_zombie_rot_dusted",
+    "emit_fields": [ { "emit_id": "emit_nauseating_smell", "delay": "1 s" } ],
     "upgrades": { "half_life": 172, "into_group": "GROUP_ZOMBIE_DECAYED_UPGRADE" },
     "extend": { "flags": [ "GEN_DORMANT", "CLUMSY_ATTACKS" ] }
   },
