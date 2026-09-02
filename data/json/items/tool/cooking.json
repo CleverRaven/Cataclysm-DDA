@@ -1015,7 +1015,8 @@
     "volume": "9 L",
     "use_action": [ "HEAT_SOLID_ITEMS", { "type": "link_up", "cable_length": 2, "charge_rate": "1800 W" } ],
     "qualities": [ [ "COOK", 1 ], [ "OVEN", 1 ], [ "HOTPLATE", 1 ] ],
-    "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 25,
     "tool_ammo": [ "battery" ]
   },
