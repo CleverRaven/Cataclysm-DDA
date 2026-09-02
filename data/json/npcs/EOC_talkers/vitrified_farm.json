@@ -23,9 +23,13 @@
     "type": "talk_topic",
     "id": "vitrified_repair_doll",
     "dynamic_line": "Repairing the doll is easier than you thought.  The mismatched parts fit together easily, and soon it is whole again.",
-    "responses": [ { "text": "You pick up the soft little thing, and feel a strong urge to hug it.",
-	  "effect": { "run_eocs": [ "EOC_queue_unvitrified_return" ] },
-	  "topic": "TALK_DONE" } ]
+    "responses": [
+      {
+        "text": "You pick up the soft little thing, and feel a strong urge to hug it.",
+        "effect": { "run_eocs": [ "EOC_queue_unvitrified_return" ] },
+        "topic": "TALK_DONE"
+      }
+    ]
   },
   {
     "type": "talk_topic",
