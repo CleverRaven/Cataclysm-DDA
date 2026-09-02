@@ -1,0 +1,19 @@
+#### Spawnable Weapons
+In the future, I would like to see little challenge areas, loot locations, or more monsters, which would provide a source for more weapons and such. Currently, the following firearms are obtainable:
+
+##### Easier Drops
+-M16a4 (secubot/TALON UGV disassembly)
+-M9 (feral security guard, zombie security guard drop)
+
+##### Random drops from zombies
+-"guns_pistol_common_everyday_carry" inside "default_zombie_death_drops"
+-"bugout_bag" inside "default_zombie_death_drops"
+
+NOTE: As of writing, the bugout drops (in other words, random drops from zombies at a low chance) include ALL non-milspec shotguns, including the likes of the Saiga 12. This could be unbalanced.
+
+#### Materials
+Material discs are meant to be easy enough to carry, but for the more powerful materials to be heavier and less convenient than the others.
+
+Material costs for items will likely need fine tuning.
+
+Quality Material Discs are not just for unique items, and are meant to be used in recipes for powerful firearms, equipment, and weapon mods.
