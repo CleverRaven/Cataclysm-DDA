@@ -879,7 +879,6 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             attack.weapon = &cur_weap;
             t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam, attack, &target_bp );
 
-            bool has_edged_damage = false;
             for( const damage_type &dt : damage_type::get_all() ) {
                 if( dt.melee_only && dt.edged && dealt_special_dam.type_damage( dt.id ) > 0 ) {
                     has_edged_damage = true;
