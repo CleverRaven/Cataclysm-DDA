@@ -152,12 +152,15 @@ struct tech_effect_data {
     bool on_damage;
     int chance;
     std::string message;
-    json_character_flag req_flag;
+    // Dialogue conditions of the effect
+    std::function<bool( const_dialogue const & )> condition;
+    std::string condition_desc;
+    bool has_condition = false;
 
     tech_effect_data( const efftype_id &nid, int dur, bool perm, bool ondmg,
-                      int nchance, std::string message, json_character_flag req_flag ) :
+                      int nchance, std::string message, bool has_condition ) :
         id( nid ), duration( dur ), permanent( perm ), on_damage( ondmg ),
-        chance( nchance ), message( std::move( message ) ), req_flag( req_flag ) {}
+        chance( nchance ), message( std::move( message ) ), has_condition( condition ) {}
 };
 
 class ma_technique
