@@ -157,11 +157,6 @@ struct tech_effect_data {
     std::string condition_desc;
     bool has_condition = false;
 
-    tech_effect_data( const efftype_id &nid, int dur, bool perm, bool ondmg,
-                      int nchance, std::string message, bool has_condition ) :
-        id( nid ), duration( dur ), permanent( perm ), on_damage( ondmg ),
-        chance( nchance ), message( std::move( message ) ), has_condition( condition ) {}
-
     tech_effect_data() = default;
 };
 
