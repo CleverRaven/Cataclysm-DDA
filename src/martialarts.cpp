@@ -236,10 +236,23 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
 
 tech_effect_data load_tech_effect_data( const JsonObject &e )
 {
-    return tech_effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
-                             e.get_bool( "permanent", false ), e.get_bool( "on_damage", true ),
-                             e.get_int( "chance", 100 ), e.get_string( "message", "" ),
-                             e.get_bool( "condition", false ) );
+    tech_effect_data ted;
+
+    // TODO: update to use optional()?
+    // Also duration as time unit instead of int?
+    ted.id = efftype_id( e.get_string( "id" ) );
+    ted.duration = e.get_int( "duration", 0 );
+    ted.permanent = e.get_bool( "permanent", false );
+    ted.on_damage = e.get_bool( "on_damage", true );
+    ted.chance = e.get_int( "chance", 100 );
+    ted.message = e.get_string( "message", "" );
+
+    if( e.has_member( "condition" ) ) {
+        read_condition( e, "condition", ted.condition, false );
+        ted.has_condition = true;
+    }
+
+    return ted;
 }
 
 namespace

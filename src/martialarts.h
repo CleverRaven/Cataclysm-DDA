@@ -161,6 +161,8 @@ struct tech_effect_data {
                       int nchance, std::string message, bool has_condition ) :
         id( nid ), duration( dur ), permanent( perm ), on_damage( ondmg ),
         chance( nchance ), message( std::move( message ) ), has_condition( condition ) {}
+
+    tech_effect_data() = default;
 };
 
 class ma_technique
