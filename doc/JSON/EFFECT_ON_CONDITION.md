@@ -614,7 +614,7 @@ Check if `map_cache` contain value `has`, `lack` or `read`
 | ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
-True if the talker has the Heist Driver profession
+True if the world has Sky Island loaded
 ```jsonc
 { "mod_is_loaded": "sky_island" }
 ```
