@@ -110,6 +110,7 @@ Add character stat requirements to crafting recipes
 unattended step for boiled egg recipe
 Food revolution: Spices and seasonings
 Allow future contributors to easily tune weary maluses in combat
+Monsters can block attacks for reduced damage
 
 
 ## Content:
@@ -207,6 +208,7 @@ Add AIMING_SPEED enchant
 Add CANNOT_SLEEP flag
 Highland Crypts
 Add serum-specific microlabs
+Add "serum ferals" to serum labs
 
 
 
@@ -261,6 +263,7 @@ Display some items by volume, weight or length instead of count
 Fix Crafting GUI text wrapping & don't offscreen recipe detail selection (`SPACE`)
 Show item fault severity with inventory and sidebar colors
 Migrate dialogue window to imgui
+Migrate appliance rename popup to ImGui
 
 
 ## Mods:
@@ -418,6 +421,7 @@ Add more tools and requirements to reloading ammo
 Deadly bears and how to hurt them
 Add faults to melee weapons lacking them
 Add faults to mainly magyclism melee weapons
+Faction camp hunting has an extra chance to return nothing based on time since the Cataclysm (and winter)
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -614,6 +618,7 @@ Unattended crafts no longer stall forever when their crafter is unreachable
 Scared NPCs don't turn hostile
 Preserve character-specific auto-pickup rules between sessions
 Requirement checks judge the character being checked instead of the player
+Fix monsters not being slowed by snow
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -764,6 +769,7 @@ Demote GCC 16 -Wsfinae-incomplete to warning
 Proper SDL support
 Migrate Android to SDL3 via CMake + prefab AAR; drop SDL2 customs; bump buildkit
 Remove SDL2 support
+Run tests in CI for multiple sets of mods
 
 
 ## I18N and A11Y:
