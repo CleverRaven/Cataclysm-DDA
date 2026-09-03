@@ -110,8 +110,7 @@
       "fort_\\d.*",
       "forge_.*",
       "aenor_paddock.*",
-      "field_office_.*",
-      "urban_dd_.*"
+      "field_office_.*"
     ]
   }
 ]
