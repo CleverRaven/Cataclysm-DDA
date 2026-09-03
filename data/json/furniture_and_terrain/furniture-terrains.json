@@ -1037,7 +1037,6 @@
         { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 1 },
         { "item": "material_zincite", "count": [ 0, 5 ], "prob": 2 },
         { "item": "chunk_feldspar", "count": [ 2, 5 ], "prob": 25 },
-        { "item": "chunk_graphite", "count": [ 0, 1 ], "prob": 1 },
         { "item": "chunk_caco3", "count": [ 0, 1 ], "prob": 30 }
       ]
     }
