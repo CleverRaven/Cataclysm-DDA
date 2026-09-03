@@ -3227,7 +3227,7 @@ std::list<item> Character::consume_items( const comp_selection<item_comp> &is, i
     }
     // populate a grid of spots that can be reached
     const std::vector<tripoint_bub_ms> &reachable_pts = m.reachable_flood_steps( pos_bub(),
-            PICKUP_RANGE, 1, 100 );
+            PICKUP_RANGE );
     return consume_items( m, is, batch, filter, reachable_pts, select_ind, disable_preference );
 }
 
