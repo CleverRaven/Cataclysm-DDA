@@ -124,6 +124,9 @@ class recipe_subset
             } );
         }
 
+        /** Check if a nested recipe has at least one child recipe present in the subset. */
+        bool has_available_child( const recipe *r ) const;
+
         /**
          * Get custom difficulty for the recipe.
          * @return Either custom difficulty if it was specified, or recipe default difficulty.
