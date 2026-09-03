@@ -50,7 +50,8 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY",
-      "UNBREAKABLE_MORALE"
+      "UNBREAKABLE_MORALE",
+      "VENOM_IMMUNE"
     ],
     "armor": { "electric": 1 },
     "revive_forms": [

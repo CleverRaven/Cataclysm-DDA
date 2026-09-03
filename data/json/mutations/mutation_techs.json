@@ -26,7 +26,13 @@
         "on_damage": false,
         "message": "You bleed the %s dry!"
       },
-      { "id": "downed", "chance": 50, "duration": 2, "message": "You bonk the %s real good", "req_flag": "DREAMY" }
+      {
+        "id": "downed",
+        "chance": 50,
+        "duration": 2,
+        "message": "You bonk the %s real good",
+        "condition": { "u_has_flag": "DREAMY" }
+      }
     ],
     "attack_vectors": [ "test_test" ]
   },
@@ -37,7 +43,7 @@
     "melee_allowed": true,
     "messages": [ "You bite %s", "<npcname> bites %s" ],
     "unarmed_allowed": true,
-    "weighting": -5,
+    "weighting": 5,
     "reach_ok": false,
     "attack_vectors": [ "vector_bite" ],
     "condition": {
@@ -54,7 +60,54 @@
         "duration": 3000,
         "on_damage": true,
         "message": "Saliva glistens across %s's wound!",
-        "req_flag": "DRACULIN_VENOM"
+        "condition": { "u_has_flag": "DRACULIN_VENOM" }
+      },
+      {
+        "id": "venom_player1",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_character" ] }
+      },
+      {
+        "id": "stunned",
+        "chance": 10,
+        "duration": 1,
+        "on_damage": true,
+        "message": "",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "POISONOUS" }, { "u_has_flag": "POISONOUS2" } ] },
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } }
+          ]
+        }
+      },
+      {
+        "id": "venom_player2",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_character" ] }
       }
     ],
     "flat_bonuses": [
@@ -90,7 +143,54 @@
         "duration": 3000,
         "on_damage": true,
         "message": "Saliva glistens across %s's wound!",
-        "req_flag": "DRACULIN_VENOM"
+        "condition": { "u_has_flag": "DRACULIN_VENOM" }
+      },
+      {
+        "id": "venom_player1",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_character" ] }
+      },
+      {
+        "id": "stunned",
+        "chance": 10,
+        "duration": 1,
+        "on_damage": true,
+        "message": "",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "POISONOUS" }, { "u_has_flag": "POISONOUS2" } ] },
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } }
+          ]
+        }
+      },
+      {
+        "id": "venom_player2",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_character" ] }
       }
     ],
     "flat_bonuses": [
@@ -126,7 +226,54 @@
         "duration": 3000,
         "on_damage": true,
         "message": "Saliva glistens across %s's wound!",
-        "req_flag": "DRACULIN_VENOM"
+        "condition": { "u_has_flag": "DRACULIN_VENOM" }
+      },
+      {
+        "id": "venom_player1",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_character" ] }
+      },
+      {
+        "id": "stunned",
+        "chance": 10,
+        "duration": 1,
+        "on_damage": true,
+        "message": "",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "POISONOUS" }, { "u_has_flag": "POISONOUS2" } ] },
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } }
+          ]
+        }
+      },
+      {
+        "id": "venom_player2",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_character" ] }
       }
     ],
     "flat_bonuses": [
@@ -154,7 +301,54 @@
         "duration": 6000,
         "on_damage": true,
         "message": "Saliva glistens across %s's wound!",
-        "req_flag": "DRACULIN_VENOM"
+        "condition": { "u_has_flag": "DRACULIN_VENOM" }
+      },
+      {
+        "id": "venom_player1",
+        "chance": 75,
+        "duration": 120,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 75,
+        "duration": 1200,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_character" ] }
+      },
+      {
+        "id": "stunned",
+        "chance": 10,
+        "duration": 1,
+        "on_damage": true,
+        "message": "",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "POISONOUS" }, { "u_has_flag": "POISONOUS2" } ] },
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } }
+          ]
+        }
+      },
+      {
+        "id": "venom_player2",
+        "chance": 75,
+        "duration": 120,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 75,
+        "duration": 1200,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_character" ] }
       }
     ],
     "flat_bonuses": [
@@ -188,7 +382,54 @@
         "duration": 3000,
         "on_damage": true,
         "message": "Saliva glistens across %s's wound!",
-        "req_flag": "DRACULIN_VENOM"
+        "condition": { "u_has_flag": "DRACULIN_VENOM" }
+      },
+      {
+        "id": "venom_player1",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_character" ] }
+      },
+      {
+        "id": "stunned",
+        "chance": 10,
+        "duration": 1,
+        "on_damage": true,
+        "message": "",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "POISONOUS" }, { "u_has_flag": "POISONOUS2" } ] },
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } }
+          ]
+        }
+      },
+      {
+        "id": "venom_player2",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_character" ] }
       }
     ],
     "flat_bonuses": [
@@ -216,7 +457,54 @@
         "duration": 3000,
         "on_damage": true,
         "message": "Saliva glistens across %s's wound!",
-        "req_flag": "DRACULIN_VENOM"
+        "condition": { "u_has_flag": "DRACULIN_VENOM" }
+      },
+      {
+        "id": "venom_player1",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_character" ] }
+      },
+      {
+        "id": "stunned",
+        "chance": 10,
+        "duration": 1,
+        "on_damage": true,
+        "message": "",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "POISONOUS" }, { "u_has_flag": "POISONOUS2" } ] },
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } }
+          ]
+        }
+      },
+      {
+        "id": "venom_player2",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_character" ] }
       }
     ],
     "condition": {
@@ -243,11 +531,58 @@
     "tech_effects": [
       {
         "id": "anticoagulant_draculin",
-        "chance": 100,
+        "chance": 90,
         "duration": 6000,
         "on_damage": true,
         "message": "Saliva glistens across %s's wound!",
-        "req_flag": "DRACULIN_VENOM"
+        "condition": { "u_has_flag": "DRACULIN_VENOM" }
+      },
+      {
+        "id": "venom_player1",
+        "chance": 75,
+        "duration": 120,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 75,
+        "duration": 1200,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_character" ] }
+      },
+      {
+        "id": "stunned",
+        "chance": 10,
+        "duration": 1,
+        "on_damage": true,
+        "message": "",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "POISONOUS" }, { "u_has_flag": "POISONOUS2" } ] },
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } }
+          ]
+        }
+      },
+      {
+        "id": "venom_player2",
+        "chance": 75,
+        "duration": 120,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 75,
+        "duration": 1200,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_character" ] }
       }
     ],
     "attack_vectors": [ "vector_bite" ],
@@ -269,6 +604,63 @@
     "messages": [ "You bite %s", "<npcname> bites %s" ],
     "description": "A bear bite.",
     "attack_vectors": [ "vector_bear_bite" ],
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "condition": { "u_has_flag": "DRACULIN_VENOM" }
+      },
+      {
+        "id": "venom_player1",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_character" ] }
+      },
+      {
+        "id": "stunned",
+        "chance": 10,
+        "duration": 1,
+        "on_damage": true,
+        "message": "",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "POISONOUS" }, { "u_has_flag": "POISONOUS2" } ] },
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } }
+          ]
+        }
+      },
+      {
+        "id": "venom_player2",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_character" ] }
+      }
+    ],
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
@@ -287,6 +679,63 @@
     "messages": [ "You bite %s", "<npcname> bites %s" ],
     "description": "A lupine bite.",
     "attack_vectors": [ "vector_lupine_bite" ],
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "condition": { "u_has_flag": "DRACULIN_VENOM" }
+      },
+      {
+        "id": "venom_player1",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_character" ] }
+      },
+      {
+        "id": "stunned",
+        "chance": 10,
+        "duration": 1,
+        "on_damage": true,
+        "message": "",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "POISONOUS" }, { "u_has_flag": "POISONOUS2" } ] },
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } }
+          ]
+        }
+      },
+      {
+        "id": "venom_player2",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_character" ] }
+      }
+    ],
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
@@ -305,6 +754,63 @@
     "messages": [ "You bite %s", "<npcname> bites %s" ],
     "description": "A reptilian bite.",
     "attack_vectors": [ "vector_reptile_bite" ],
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "condition": { "u_has_flag": "DRACULIN_VENOM" }
+      },
+      {
+        "id": "venom_player1",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_character" ] }
+      },
+      {
+        "id": "stunned",
+        "chance": 10,
+        "duration": 1,
+        "on_damage": true,
+        "message": "",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "POISONOUS" }, { "u_has_flag": "POISONOUS2" } ] },
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } }
+          ]
+        }
+      },
+      {
+        "id": "venom_player2",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_character" ] }
+      }
+    ],
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
@@ -324,6 +830,63 @@
     "description": "A rodent bite.",
     "attack_vectors": [ "vector_rodent_bite" ],
     "condition": { "u_has_trait": "INCISORS" },
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "condition": { "u_has_flag": "DRACULIN_VENOM" }
+      },
+      {
+        "id": "venom_player1",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_character" ] }
+      },
+      {
+        "id": "stunned",
+        "chance": 10,
+        "duration": 1,
+        "on_damage": true,
+        "message": "",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "POISONOUS" }, { "u_has_flag": "POISONOUS2" } ] },
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } }
+          ]
+        }
+      },
+      {
+        "id": "venom_player2",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_character" ] }
+      }
+    ],
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
@@ -343,6 +906,63 @@
     "description": "A rabbit bite.",
     "attack_vectors": [ "vector_rabbit_bite" ],
     "condition": { "u_has_trait": "INCISORS" },
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "condition": { "u_has_flag": "DRACULIN_VENOM" }
+      },
+      {
+        "id": "venom_player1",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_character" ] }
+      },
+      {
+        "id": "stunned",
+        "chance": 10,
+        "duration": 1,
+        "on_damage": true,
+        "message": "",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "POISONOUS" }, { "u_has_flag": "POISONOUS2" } ] },
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } }
+          ]
+        }
+      },
+      {
+        "id": "venom_player2",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_character" ] }
+      }
+    ],
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
@@ -374,6 +994,63 @@
         }
       ]
     },
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "condition": { "u_has_flag": "DRACULIN_VENOM" }
+      },
+      {
+        "id": "venom_player1",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_character" ] }
+      },
+      {
+        "id": "stunned",
+        "chance": 10,
+        "duration": 1,
+        "on_damage": true,
+        "message": "",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "POISONOUS" }, { "u_has_flag": "POISONOUS2" } ] },
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } }
+          ]
+        }
+      },
+      {
+        "id": "venom_player2",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_character" ] }
+      }
+    ],
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
@@ -519,6 +1196,63 @@
     "messages": [ "You stab %s with your sharp tongue", "<npcname> stabs %s with their sharp tongue" ],
     "description": "A stabbing attack with your gastropod tongue.",
     "attack_vectors": [ "vector_gastropod_tongue" ],
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "condition": { "u_has_flag": "DRACULIN_VENOM" }
+      },
+      {
+        "id": "venom_player1",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_character" ] }
+      },
+      {
+        "id": "stunned",
+        "chance": 10,
+        "duration": 1,
+        "on_damage": true,
+        "message": "",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "POISONOUS" }, { "u_has_flag": "POISONOUS2" } ] },
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } }
+          ]
+        }
+      },
+      {
+        "id": "venom_player2",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_character" ] }
+      }
+    ],
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
       { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.5625 },
@@ -577,7 +1311,7 @@
     "unarmed_allowed": true,
     "messages": [ "You claw %s", "<npcname> claws %s" ],
     "description": "A basic ursine punch, with claws",
-    "condition": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST" ] },
+    "condition": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST", "CLAWS_RETRACT_active" ] },
     "attack_vectors": [ "vector_broad_paw_punch" ]
   },
   {
@@ -590,7 +1324,64 @@
     "description": "A vicious clawed attack.",
     "weighting": -2,
     "attack_vectors": [ "vector_broad_paw_punch" ],
-    "condition": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST" ] },
+    "condition": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST", "CLAWS_RETRACT_active" ] },
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "condition": { "u_has_flag": "DRACULIN_VENOM" }
+      },
+      {
+        "id": "venom_player1",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_character" ] }
+      },
+      {
+        "id": "stunned",
+        "chance": 10,
+        "duration": 1,
+        "on_damage": true,
+        "message": "",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "POISONOUS" }, { "u_has_flag": "POISONOUS2" } ] },
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } }
+          ]
+        }
+      },
+      {
+        "id": "venom_player2",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_character" ] }
+      }
+    ],
     "flat_bonuses": [
       { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 0.75 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
@@ -628,7 +1419,7 @@
     "unarmed_allowed": true,
     "messages": [ "You punch %s", "<npcname> punches %s" ],
     "description": "A basic pawed punch",
-    "condition": { "not": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST" ] } },
+    "condition": { "not": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST", "CLAWS_RETRACT_active" ] } },
     "attack_vectors": [ "vector_paw_punch", "vector_paw_rat_punch" ]
   },
   {
@@ -639,7 +1430,64 @@
     "unarmed_allowed": true,
     "messages": [ "You claw %s", "<npcname> claw %s" ],
     "description": "A basic clawed and pawed punch",
-    "condition": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST" ] },
+    "condition": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST", "CLAWS_RETRACT_active" ] },
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "condition": { "u_has_flag": "DRACULIN_VENOM" }
+      },
+      {
+        "id": "venom_player1",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_character" ] }
+      },
+      {
+        "id": "stunned",
+        "chance": 10,
+        "duration": 1,
+        "on_damage": true,
+        "message": "",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "POISONOUS" }, { "u_has_flag": "POISONOUS2" } ] },
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } }
+          ]
+        }
+      },
+      {
+        "id": "venom_player2",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_character" ] }
+      }
+    ],
     "attack_vectors": [ "vector_paw_punch", "vector_paw_rat_punch" ]
   },
   {
@@ -652,7 +1500,64 @@
     "description": "A vicious clawed attack.",
     "weighting": -2,
     "attack_vectors": [ "vector_paw_punch", "vector_paw_rat_punch" ],
-    "condition": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST" ] },
+    "condition": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST", "CLAWS_RETRACT_active" ] },
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "condition": { "u_has_flag": "DRACULIN_VENOM" }
+      },
+      {
+        "id": "venom_player1",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_character" ] }
+      },
+      {
+        "id": "stunned",
+        "chance": 10,
+        "duration": 1,
+        "on_damage": true,
+        "message": "",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "POISONOUS" }, { "u_has_flag": "POISONOUS2" } ] },
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } }
+          ]
+        }
+      },
+      {
+        "id": "venom_player2",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_character" ] }
+      }
+    ],
     "flat_bonuses": [
       { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 0.75 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
@@ -721,6 +1626,63 @@
     "unarmed_allowed": true,
     "messages": [ "You slash %s with your talons", "<npcname> slashes %s with their talons" ],
     "description": "A bird kick",
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "condition": { "u_has_flag": "DRACULIN_VENOM" }
+      },
+      {
+        "id": "venom_player1",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject poison with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS" }, "npc_is_character" ] }
+      },
+      {
+        "id": "stunned",
+        "chance": 10,
+        "duration": 1,
+        "on_damage": true,
+        "message": "",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "POISONOUS" }, { "u_has_flag": "POISONOUS2" } ] },
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } }
+          ]
+        }
+      },
+      {
+        "id": "venom_player2",
+        "chance": 55,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_monster" ] }
+      },
+      {
+        "id": "venom_dmg",
+        "chance": 55,
+        "duration": 600,
+        "on_damage": true,
+        "message": "You inject venom with your bite!",
+        "condition": { "and": [ { "u_has_trait": "POISONOUS2" }, "npc_is_character" ] }
+      }
+    ],
     "attack_vectors": [ "vector_avian_talons", "vector_avian_talons_rear" ]
   },
   {

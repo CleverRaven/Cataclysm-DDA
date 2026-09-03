@@ -167,8 +167,6 @@ static const trait_id trait_CLAWS_TENTACLE( "CLAWS_TENTACLE" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEFT( "DEFT" );
-static const trait_id trait_POISONOUS( "POISONOUS" );
-static const trait_id trait_POISONOUS2( "POISONOUS2" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 
 static const weapon_category_id weapon_category_UNARMED( "UNARMED" );
@@ -881,46 +879,6 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             attack.weapon = &cur_weap;
             t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam, attack, &target_bp );
 
-            bool has_edged_damage = false;
-            for( const damage_type &dt : damage_type::get_all() ) {
-                if( dt.melee_only && dt.edged && dealt_special_dam.type_damage( dt.id ) > 0 ) {
-                    has_edged_damage = true;
-                    break;
-                }
-            }
-
-            if( has_edged_damage || ( !cur_weapon && has_edged_damage ) ) {
-                if( has_trait( trait_POISONOUS ) ) {
-                    if( t.is_monster() ) {
-                        t.add_effect( effect_venom_player1, 1_minutes );
-                    } else {
-                        t.add_effect( effect_venom_dmg, 10_minutes );
-                    }
-                    if( t.is_immune_effect( effect_venom_player1 ) ) {
-                        add_msg_if_player( m_bad, _( "The %s is not affected by your venom" ), t.disp_name() );
-                    } else {
-                        add_msg_if_player( m_good, _( "You poison %s!" ), t.disp_name() );
-                        if( x_in_y( 1, 10 ) ) {
-                            t.add_effect( effect_stunned, 1_turns );
-                        }
-                    }
-                } else if( has_trait( trait_POISONOUS2 ) ) {
-                    if( t.is_monster() ) {
-                        t.add_effect( effect_venom_player2, 1_minutes );
-                    } else {
-                        t.add_effect( effect_venom_dmg, 15_minutes );
-                        t.add_effect( effect_venom_weaken, 5_minutes );
-                    }
-                    if( t.is_immune_effect( effect_venom_player2 ) ) {
-                        add_msg_if_player( m_bad, _( "The %s is not affected by your venom" ), t.disp_name() );
-                    } else {
-                        add_msg_if_player( m_good, _( "You inject your venom into %s!" ), t.disp_name() );
-                        if( x_in_y( 1, 4 ) ) {
-                            t.add_effect( effect_stunned, 1_turns );
-                        }
-                    }
-                }
-            }
             // Make a rather quiet sound, to alert any nearby monsters
             if( !is_quiet() ) { // check martial arts silence
                 //sound generated later
@@ -1818,9 +1776,10 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
     // Add effects for each repeat of the tech
     for( int i = 0; i < rep; i++ ) {
         for( const tech_effect_data &eff : technique.tech_effects ) {
+            const_dialogue d( get_const_talker_for( *this ), get_const_talker_for( t ) );
             // Add the tech's effects if it rolls the chance and either did damage or ignores it
             if( x_in_y( eff.chance, 100 ) && ( di.total_damage() != 0 || !eff.on_damage ) ) {
-                if( eff.req_flag == json_flag_NULL || has_flag( eff.req_flag ) ) {
+                if( eff.has_condition && eff.condition( d ) ) {
                     t.add_effect( eff.id, time_duration::from_turns( eff.duration ), eff.permanent );
                     add_msg_if_player( m_good, _( eff.message ), t.disp_name() );
                 }
