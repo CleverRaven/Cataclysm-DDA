@@ -586,7 +586,7 @@
         ],
         "prob": 30
       },
-      { "item": "thread", "prob": 40, "count": [ 100, 500 ] },
+      { "item": "thread", "prob": 40, "count": [ 2, 10 ] },
       { "group": "pur_tablets_bottle_plastic_small_1_50", "prob": 10 },
       { "distribution": [ { "item": "umbrella", "prob": 47 }, { "item": "teleumbrella", "prob": 3 } ], "prob": 30 },
       {

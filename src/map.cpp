@@ -5562,6 +5562,104 @@ void map::set_temperature_mod( const tripoint_bub_ms &p,
 
     current_submap->set_temperature_mod( new_temperature_mod );
 }
+
+std::unordered_set<item_location> map::all_items( Character &who, accessor_flags flags )
+{
+    // Includes dummy filter that all items pass, only accessor_flags determines what gets returned.
+    return all_items( return_true<item>, who, flags );
+}
+
+std::unordered_set<item_location> map::all_items( const std::function<bool( const item & )> &filter,
+        Character &who, accessor_flags flags )
+{
+    std::unordered_set<item_location> ret;
+
+    auto recursive_add_contained_items = [&]( const std::function<bool( const item & )> &filter,
+    item_location & it ) {
+        it->visit_items( [&]( item * content_item, item * parent ) {
+            if( !parent ) {
+                // This is itself the top-level item.
+                // E.g. Calling visit_items() on a backpack > 2 soaps would first visit the backpack, which has no parent (it is not contained in itself)
+                // So just skip to the actual contents, rather than trying to say the backpack is in itself.
+                return VisitResponse::NEXT;
+            }
+            if( filter( *content_item ) ) {
+                item_location content_loc = form_loc_recursive( it, *content_item );
+                ret.emplace( content_loc );
+            }
+            return VisitResponse::NEXT;
+        } );
+    };
+
+
+    if( flags & Access_Inventory )  {
+        for( item_location &it : who.all_items_loc() ) {
+            if( filter( *it ) ) {
+                // NOTE: No need to recursively check here, all_items_loc() already did that.
+                ret.emplace( it );
+            }
+        }
+    }
+
+
+    if( flags & Access_Map_All || flags & Access_EVERYTHING )  {
+        for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
+            for( const tripoint_bub_ms &pt : points_on_zlevel( who.posz() ) ) {
+                for( item &it : i_at( pt ) ) {
+                    // We always want to recurse even if the top-level item doesn't pass our filter - the contained items still might!
+                    item_location there( map_cursor( pt ), &it );
+                    recursive_add_contained_items( filter, there );
+                    if( filter( it ) ) {
+                        ret.emplace( there );
+                    }
+                }
+            }
+        }
+    } else if( flags & Access_Map_Current_Z )  {
+        for( const tripoint_bub_ms &pt : points_on_zlevel( who.posz() ) ) {
+            for( item &it : i_at( pt ) ) {
+                // We always want to recurse even if the top-level item doesn't pass our filter - the contained items still might!
+                item_location there( map_cursor( pt ), &it );
+                recursive_add_contained_items( filter, there );
+                if( filter( it ) ) {
+                    ret.emplace( there );
+                }
+            }
+        }
+    } else if( flags & Access_Map_Around )  {
+        for( const tripoint_bub_ms &pt : points_in_radius( who.pos_bub(), PICKUP_RANGE ) ) {
+            for( item &it : i_at( pt ) ) {
+                // We always want to recurse even if the top-level item doesn't pass our filter - the contained items still might!
+                item_location there( map_cursor( pt ), &it );
+                recursive_add_contained_items( filter, there );
+                if( filter( it ) ) {
+                    ret.emplace( there );
+                }
+            }
+        }
+    }
+
+    if( flags & Access_Vehicle || flags & Access_EVERYTHING )  {
+        for( wrapped_vehicle &v : get_vehicles() ) {
+            vehicle *veh = v.v;
+            if( veh ) {
+                for( vpart_reference vp : veh->get_all_parts() ) {
+                    for( item &it : veh->get_items( vp.part() ) ) {
+                        // We always want to recurse even if the top-level item doesn't pass our filter - the contained items still might!
+                        item_location there( vehicle_cursor( *veh, vp.part_index() ), &it );
+                        recursive_add_contained_items( filter, there );
+                        if( filter( it ) ) {
+                            ret.emplace( there );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return ret;
+}
+
 // Items: 3D
 
 map_stack map::i_at( const tripoint_bub_ms &p )

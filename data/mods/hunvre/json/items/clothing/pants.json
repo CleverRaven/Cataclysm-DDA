@@ -1,0 +1,394 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "leggings",
+    "color": "blue",
+    "symbol": "[",
+    "looks_like": "leg_warmers",
+    "name": { "str_sp": "leggings" },
+    "description": "Stretchy, close-fitting pants, thin and breathable.",
+    "material": [ "lycra" ],
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price_postapoc": "1 USD",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100 } ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "short_shorts",
+    "color": "blue",
+    "symbol": "[",
+    "looks_like": "jeans",
+    "name": { "str_sp": "short shorts" },
+    "description": "Short shorts barely covering the thighs.",
+    "material": [ "nylon" ],
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price_postapoc": "1 USD",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
+    "warmth": 15,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "NORMAL" ],
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 3
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "coverage": 20,
+        "encumbrance": 3
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "950 ml",
+        "max_contains_weight": "3500 g",
+        "max_item_length": "15 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "950 ml",
+        "max_contains_weight": "3500 g",
+        "max_item_length": "15 cm",
+        "moves": 100
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "shorts",
+    "copy-from": "short_shorts",
+    "name": { "str_sp": "shorts" },
+    "description": "Shorts going down to mid thighs.",
+    "proportional": { "weight": 2, "volume": 2 },
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 3
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "coverage": 40,
+        "encumbrance": 3
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "950 ml",
+        "max_contains_weight": "3500 g",
+        "max_item_length": "15 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "950 ml",
+        "max_contains_weight": "3500 g",
+        "max_item_length": "15 cm",
+        "moves": 100
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "cargo_shorts",
+    "copy-from": "shorts",
+    "name": { "str_sp": "cargo shorts" },
+    "description": "Shorts going down to mid thighs with additional pockets on the sides.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "950 ml",
+        "max_contains_weight": "3500 g",
+        "max_item_length": "15 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "950 ml",
+        "max_contains_weight": "3500 g",
+        "max_item_length": "15 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "bermuda_shorts",
+    "copy-from": "short_shorts",
+    "name": { "str_sp": "bermuda shorts" },
+    "description": "Shorts reaching just above the knees.",
+    "proportional": { "weight": 4, "volume": 4 },
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ],
+        "coverage": 100,
+        "encumbrance": 3
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "cargo_bermuda_shorts",
+    "copy-from": "bermuda_shorts",
+    "name": { "str_sp": "cargo bermuda shorts" },
+    "description": "Shorts reaching just above the knees with additional pockets on the sides.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "950 ml",
+        "max_contains_weight": "3500 g",
+        "max_item_length": "15 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "950 ml",
+        "max_contains_weight": "3500 g",
+        "max_item_length": "15 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "capris",
+    "copy-from": "short_shorts",
+    "name": { "str_sp": "capris" },
+    "description": "Pants going up to mid calf.",
+    "proportional": { "weight": 6, "volume": 6 },
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r", "leg_knee_l", "leg_knee_r" ],
+        "coverage": 100,
+        "encumbrance": 3
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r" ],
+        "coverage": 40,
+        "encumbrance": 3
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "cargo_capris",
+    "copy-from": "capris",
+    "name": { "str_sp": "cargo capris" },
+    "description": "Pants going up to mid calf with additional pockets on the sides.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "950 ml",
+        "max_contains_weight": "3500 g",
+        "max_item_length": "15 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "950 ml",
+        "max_contains_weight": "3500 g",
+        "max_item_length": "15 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "pants",
+    "copy-from": "short_shorts",
+    "name": { "str_sp": "pants" },
+    "description": "A pair of pants.",
+    "proportional": { "weight": 8, "volume": 8 },
+    "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100 } ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "cargo_pants",
+    "copy-from": "pants",
+    "name": { "str_sp": "cargo pants" },
+    "description": "A pair of pants with additional pockets on the sides.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "950 ml",
+        "max_contains_weight": "3500 g",
+        "max_item_length": "15 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "950 ml",
+        "max_contains_weight": "3500 g",
+        "max_item_length": "15 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      }
+    ]
+  }
+]

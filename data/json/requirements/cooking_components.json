@@ -1259,8 +1259,8 @@
         [ "brussels_sprout", 3 ],
         [ "spinach", 1 ],
         [ "japanese_knotweed_stem", 1 ],
-        [ "cauliflower_head", 1 ],
-        [ "kale_head", 1 ],
+        [ "any_cauliflower", 1, "LIST" ],
+        [ "any_kale", 1, "LIST" ],
         [ "pea_pods", 1 ]
       ]
     ]

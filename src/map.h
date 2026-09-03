@@ -1359,6 +1359,16 @@ class map
         // Returns points for all submaps with inconsistent state relative to
         // the list in map.  Used in tests.
         void check_submap_active_item_consistency();
+
+        // Get item_location for character's carried items, map items, vehicle items, depending on accessor_flags.
+        // You can get a more limited subset of items by passing specific accessor_flags.
+        // If you need something even more finely-grained than that, pass in a bool matching function as the first argument.
+        // Note that this includes items contained within other items - deleting or modifying one of these item_locations may invalidate others.
+        // This should not be used anywhere that performance is a concern
+        std::unordered_set<item_location> all_items( Character &who,
+                accessor_flags flags = Access_EVERYTHING );
+        std::unordered_set<item_location> all_items( const std::function<bool( const item & )> &filter,
+                Character &who, accessor_flags flags = Access_EVERYTHING );
         // Accessor that returns a wrapped reference to an item stack for safe modification.
         map_stack i_at( const tripoint_bub_ms &p );
         map_stack i_at( const point_bub_ms &p ) {
