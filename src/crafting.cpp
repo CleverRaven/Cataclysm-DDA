@@ -1288,6 +1288,35 @@ static bool env_qualities_satisfied_for_step( const recipe_step &step, const ite
     return true;
 }
 
+void craft_relocated( const item_location &landed )
+{
+    if( !landed ) {
+        return;
+    }
+    // Ascend first: a copy re-uids the whole tree, and one caller hands back a location
+    // beneath the copied root rather than the root itself.
+    item_location root = landed;
+    while( root.parent_item() != item_location::nowhere ) {
+        root = root.parent_item();
+    }
+
+    std::vector<item *> crafts;
+    root->visit_items( [&crafts]( item * node, item * ) {
+        if( node->is_craft() &&
+            node->get_passive_started_at() != calendar::before_time_starts ) {
+            crafts.push_back( node );
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    for( item *craft : crafts ) {
+        const item_location craft_loc = craft == root.get_item()
+                                        ? root
+                                        : item_location( root, craft );
+        get_item_wakeups().rebuild_for_item( craft_loc );
+    }
+}
+
 static std::string compose_unattend_message( const item &craft, const recipe_step &step )
 {
     if( !step.unattend_message.empty() ) {

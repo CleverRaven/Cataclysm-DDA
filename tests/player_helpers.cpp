@@ -23,6 +23,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "magic.h"
+#include "map_helpers.h"
 #include "map.h"
 #include "npc.h"
 #include "pimpl.h"
@@ -230,6 +231,8 @@ void clear_avatar()
     avatar.clear_identified();
     avatar.clear_nutrition();
     avatar.reset_all_missions();
+    // Records outlive the items they claim.
+    clear_reservations();
 }
 
 void equip_shooter( npc &shooter, const std::vector<itype_id> &apparel )

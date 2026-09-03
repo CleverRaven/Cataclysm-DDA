@@ -2218,7 +2218,7 @@ TEST_CASE( "reconcile_walks_avatar_inventory_for_env_check",
     const int64_t uid = placed->uid().get_value();
 
     // Clear any schedule that i_add may have triggered, then exercise the
-    // same iteration map::reconcile_item_wakeups uses for character inventory
+    // same iteration map::reconcile_loaded_items uses for character inventory
     // (Character::all_items_loc() + rebuild_for_item per location).
     get_item_wakeups().cancel_all( uid );
     REQUIRE_FALSE( get_item_wakeups().is_scheduled( uid, item_wakeup_kind::env_check ) );
