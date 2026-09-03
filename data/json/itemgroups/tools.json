@@ -299,7 +299,6 @@
       { "item": "hand_crank_charger", "prob": 15 },
       { "item": "handflare", "prob": 20, "charges": 300 },
       { "item": "hatchet", "prob": 10 },
-      { "item": "portable_generator", "prob": 5 },
       { "item": "tourist_table", "prob": 1 },
       { "item": "storage_line", "prob": 5 },
       {
