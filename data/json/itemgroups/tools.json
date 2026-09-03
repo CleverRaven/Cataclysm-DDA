@@ -344,6 +344,7 @@
     "//": "Portable tools for earthworking or farming",
     "entries": [
       { "item": "ax", "prob": 80 },
+      { "item": "hatchet", "prob": 120 },
       { "item": "bucket_5gal", "prob": 40 },
       {
         "distribution": [
@@ -1105,6 +1106,7 @@
     "//": "Axes and saws.",
     "entries": [
       { "item": "ax", "prob": 100 },
+      { "item": "hatchet", "prob": 120 },
       { "item": "chainsaw_off", "prob": 80, "charges": [ 0, 400 ] },
       { "item": "polesaw_off", "prob": 75, "charges": [ 0, 400 ] },
       { "item": "saw", "prob": 100 },
