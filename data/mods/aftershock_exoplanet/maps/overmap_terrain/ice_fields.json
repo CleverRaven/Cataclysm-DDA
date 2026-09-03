@@ -1,14 +1,13 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "field",
+    "id": "glacial_field",
     "copy-from": "generic_open_land",
     "name": "Ice Fields",
     "sym": ".",
     "travel_cost_type": "field",
     "color": "light_gray",
     "see_cost": "none",
-    "extras": "field",
     "flags": [ "NO_ROTATE" ]
   },
   {
