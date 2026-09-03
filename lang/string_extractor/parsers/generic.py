@@ -49,7 +49,9 @@ def parse_subtypes(json, origin):
     write_text(json.get("description"), origin,
                comment=[isbn, f"Description of {item_type} '{name}'"])
 
-    for variant in json.get("variants", []):
+    variants = list(json.get("variants", []))
+    variants.extend(json.get("extend", {}).get("variants", []))
+    for variant in variants:
         variant_name = get_singular_name(variant)
         write_text(variant.get("name"), origin,
                    comment=f"Variant name of {item_type} '{name}'",
