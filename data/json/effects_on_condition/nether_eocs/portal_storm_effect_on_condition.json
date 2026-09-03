@@ -686,6 +686,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_HIGHLANDS_RETURN",
+    "condition": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
     "effect": [
       {
         "u_travel_to_dimension": "default",
@@ -695,6 +696,15 @@
         "success_message": "Your surroundings warp and fold into the recesses of the world you know."
       },
       { "give_achievement": "achievement_reach_highlands" }
+    ],
+    "false_effect": [
+      {
+        "if": { "current_dimension": "highlands" },
+        "then": [
+          { "u_message": "You feel a prickle at the edge of your senses." },
+          { "run_eocs": "EOC_PORTAL_HIGHLANDS_RETURN", "time_in_future": [ "36 hours", "60 hours" ] }
+        ]
+      }
     ]
   },
   {
