@@ -118,7 +118,7 @@
       [ [ "chem_ethanol", 46 ] ],
       [ [ "salt_water", 4 ] ],
       [ [ "chem_benzene", 90 ] ],
-      [ [ "disinfectant", 20 ], [ "oxy_powder", 100 ] ],
+      [ [ "disinfectant", 20 ], [ "oxy_powder", 125 ] ],
       [ [ "bleach", 5 ] ],
       [ [ "wyld_candy", 2 ] ]
     ]
@@ -157,7 +157,7 @@
       [ [ "lsd", 4 ] ],
       [ [ "fae_meat", 1 ] ],
       [ [ "chem_benzene", 90 ] ],
-      [ [ "oxy_powder", 100 ] ],
+      [ [ "oxy_powder", 125 ] ],
       [ [ "scrap_dreamdross", 5 ] ],
       [ [ "lotus_blossom", 2 ] ]
     ],
@@ -207,7 +207,7 @@
       [ [ "scrap_moon_tears", 3 ] ],
       [ [ "scrap_dreamdross", 10 ] ],
       [ [ "coal_lump", 1 ] ],
-      [ [ "oxy_powder", 5 ] ],
+      [ [ "oxy_powder", 6 ] ],
       [ [ "chem_nitric_acid", 3 ] ]
     ],
     "steps": [

@@ -8,7 +8,7 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "copper", 2 ] ],
+      [ [ "copper", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 6 ] ],
       [ [ "pistol_magnum_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],

@@ -22,7 +22,7 @@
       [ [ "rifle_huge_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "lead", 12 ] ],
-      [ [ "copper", 6 ] ],
+      [ [ "copper", 4 ] ],
       [ [ "scrap", 3 ] ]
     ]
   }

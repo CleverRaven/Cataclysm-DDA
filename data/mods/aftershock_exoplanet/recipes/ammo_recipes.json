@@ -13,7 +13,7 @@
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
-      [ [ "oxy_powder", 20 ] ],
+      [ [ "oxy_powder", 25 ] ],
       [ [ "afs_biomaterial_1", 4 ] ],
       [ [ "water", 4 ], [ "water_clean", 4 ] ],
       [ [ "concrete", 10 ], [ "chitin_piece", 6 ] ]
@@ -32,7 +32,7 @@
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "HAMMER_FINE", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 50 ] ],
     "components": [
-      [ [ "oxy_powder", 20 ] ],
+      [ [ "oxy_powder", 25 ] ],
       [ [ "afs_material_2", 4 ] ],
       [ [ "afs_material_3", 1 ] ],
       [ [ "afs_energy_storage_2", 1 ] ]
@@ -100,7 +100,7 @@
     "components": [
       [ [ "afs_5x50_hull", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder", 30 ], [ "gunpowder_magnum_pistol", 30 ] ],
+      [ [ "gunpowder", 2 ], [ "gunpowder_magnum_pistol", 30 ] ],
       [ [ "combatnail", 1 ] ]
     ]
   }

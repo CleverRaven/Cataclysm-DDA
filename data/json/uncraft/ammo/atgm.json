@@ -9,7 +9,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "atgm_spent", 1 ] ],
-      [ [ "copper", 2004 ] ],
+      [ [ "copper", 1282 ] ],
       [ [ "chem_compositionb", 4500 ] ],
       [ [ "impact_fuze", 1 ] ],
       [ [ "scrap", 20 ] ],

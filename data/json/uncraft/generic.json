@@ -21,7 +21,7 @@
     "difficulty": 1,
     "time": "20 s",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "incendiary", 75 ] ] ]
+    "components": [ [ [ "incendiary", 63 ] ] ]
   },
   {
     "result": "rock_large",
@@ -392,8 +392,8 @@
     "components": [
       [ [ "plastic_chunk", 2 ] ],
       [ [ "scrap", 7 ] ],
-      [ [ "copper", 13 ] ],
-      [ [ "aluminum_foil", 400 ] ],
+      [ [ "copper", 8 ] ],
+      [ [ "aluminum_foil", 20 ] ],
       [ [ "graphite", 98 ] ],
       [ [ "waste_electrolyte_slurry", 1 ] ]
     ]

@@ -48,7 +48,7 @@
     "using": [ [ "chainmail_standard", 7 ], [ "clasps", 5 ] ],
     "components": [
       [ [ "lc_link_sheet", 42 ] ],
-      [ [ "lc_chain_link", 1100 ] ],
+      [ [ "lc_chain_link", 647 ] ],
       [ [ "lc_wire", 8 ] ],
       [ [ "fur", 50 ], [ "tanned_pelt", 8 ], [ "leather", 50 ], [ "tanned_hide", 8 ] ]
     ],

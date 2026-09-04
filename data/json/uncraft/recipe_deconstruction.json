@@ -5,7 +5,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "6 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "wooden_bead", 10 ] ] ]
+    "components": [ [ [ "wooden_bead", 8 ] ] ]
   },
   {
     "result": "bead_ear",
@@ -21,7 +21,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "wooden_bead", 30 ] ] ]
+    "components": [ [ [ "wooden_bead", 25 ] ] ]
   },
   {
     "type": "uncraft",
@@ -101,7 +101,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper", 9 ] ] ]
+    "components": [ [ [ "copper", 6 ] ] ]
   },
   {
     "result": "copper_necklace",
@@ -109,7 +109,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper", 6 ] ] ]
+    "components": [ [ [ "copper", 4 ] ] ]
   },
   {
     "result": "copper_pan",
@@ -2279,7 +2279,7 @@
     "time": "30 s",
     "activity_level": "MODERATE_EXERCISE",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper", 9 ] ] ]
+    "components": [ [ [ "copper", 6 ] ] ]
   },
   {
     "result": "copper_ear",
@@ -2325,7 +2325,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap_copper", 1 ] ], [ [ "copper", 19 ] ] ]
+    "components": [ [ [ "scrap_copper", 1 ] ], [ [ "copper", 12 ] ] ]
   },
   {
     "result": "diamond_dental_grill",
@@ -3475,7 +3475,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap_copper", 1 ] ], [ [ "copper", 10 ] ] ]
+    "components": [ [ [ "scrap_copper", 1 ] ], [ [ "copper", 6 ] ] ]
   },
   {
     "result": "potato_masher",
@@ -6871,7 +6871,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "5 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "aluminum_foil", 250 ] ], [ [ "plastic_sheet_small", 7 ] ] ]
+    "components": [ [ [ "aluminum_foil", 13 ] ], [ [ "plastic_sheet_small", 7 ] ] ]
   },
   {
     "result": "mre_bag",
@@ -6879,7 +6879,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "5 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "aluminum_foil", 665 ] ], [ [ "plastic_sheet_small", 18 ] ] ]
+    "components": [ [ [ "aluminum_foil", 33 ] ], [ [ "plastic_sheet_small", 18 ] ] ]
   },
   {
     "result": "mre_package",
@@ -6887,7 +6887,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "aluminum_foil", 1150 ] ], [ [ "plastic_sheet_small", 32 ] ] ]
+    "components": [ [ [ "aluminum_foil", 58 ] ], [ [ "plastic_sheet_small", 32 ] ] ]
   },
   {
     "result": "missing_poster_adult",
@@ -7767,7 +7767,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper", 49 ] ] ]
+    "components": [ [ [ "copper", 31 ] ] ]
   },
   {
     "result": "wrench_large",

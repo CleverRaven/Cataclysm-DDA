@@ -3260,7 +3260,7 @@
     "time": "7 h 10 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 7 ], [ "tailoring_cotton_patchwork", 6 ] ],
-    "components": [ [ [ "lc_link_sheet", 7 ] ], [ [ "lc_chain_link", 175 ] ], [ [ "lc_wire", 1 ] ] ],
+    "components": [ [ [ "lc_link_sheet", 7 ] ], [ [ "lc_chain_link", 103 ] ], [ [ "lc_wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ]
   },
   {
@@ -3269,7 +3269,7 @@
     "copy-from": "lc_chainmail_vest",
     "time": "7 h 10 m",
     "using": [ [ "chainmail_standard", 5 ], [ "tailoring_cotton_patchwork", 4 ] ],
-    "components": [ [ [ "lc_link_sheet", 5 ] ], [ [ "lc_chain_link", 131 ] ], [ [ "lc_wire", 1 ] ] ]
+    "components": [ [ [ "lc_link_sheet", 5 ] ], [ [ "lc_chain_link", 77 ] ], [ [ "lc_wire", 1 ] ] ]
   },
   {
     "result": "xl_lc_chainmail_vest",
@@ -3277,7 +3277,7 @@
     "copy-from": "lc_chainmail_vest",
     "time": "8 h 5 m",
     "using": [ [ "chainmail_standard", 10 ], [ "tailoring_cotton_patchwork", 9 ] ],
-    "components": [ [ [ "lc_link_sheet", 10 ] ], [ [ "lc_chain_link", 210 ] ], [ [ "lc_wire", 2 ] ] ]
+    "components": [ [ [ "lc_link_sheet", 10 ] ], [ [ "lc_chain_link", 124 ] ], [ [ "lc_wire", 2 ] ] ]
   },
   {
     "result": "mc_chainmail_vest",

@@ -123,7 +123,7 @@
     "components": [
       [ [ "scrap_aluminum", 35 ] ],
       [ [ "tool_belt", 1 ], [ "police_belt", 1 ], [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "seatbelt", 1 ] ],
-      [ [ "fuse", 4 ] ],
+      [ [ "fuse", 3 ] ],
       [ [ "cable", 50 ] ],
       [ [ "e_scrap", 1 ] ],
       [ [ "antenna", 3 ] ],

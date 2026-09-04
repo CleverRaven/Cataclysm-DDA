@@ -8,7 +8,7 @@
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "copper", 200 ] ],
+      [ [ "copper", 128 ] ],
       [ [ "chem_compositionb", 450 ] ],
       [ [ "gunpowder_artillery", 3000 ] ],
       [ [ "impact_fuze", 1 ] ],
@@ -24,7 +24,7 @@
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "copper", 250 ] ],
+      [ [ "copper", 160 ] ],
       [ [ "chem_compositionb", 1500 ] ],
       [ [ "gunpowder_artillery", 3000 ] ],
       [ [ "impact_fuze", 1 ] ],

@@ -101,7 +101,7 @@
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
-      [ [ "chem_black_powder", 134 ] ],
+      [ [ "chem_black_powder", 12 ] ],
       [ [ "40x53mm_m169_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ]
     ]
@@ -127,7 +127,7 @@
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
-      [ [ "chem_black_powder", 194 ] ],
+      [ [ "chem_black_powder", 17 ] ],
       [ [ "40x53mm_m169_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ]
     ]
@@ -153,7 +153,7 @@
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "combatnail", 115 ] ],
-      [ [ "chem_black_powder", 86 ] ],
+      [ [ "chem_black_powder", 8 ] ],
       [ [ "40x53mm_m169_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ]
     ]

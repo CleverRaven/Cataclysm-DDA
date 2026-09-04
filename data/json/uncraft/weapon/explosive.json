@@ -17,7 +17,7 @@
     "difficulty": 3,
     "time": "1 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "delay_fuze", 1 ] ], [ [ "canister_empty", 1 ] ], [ [ "incendiary", 150 ] ] ]
+    "components": [ [ [ "delay_fuze", 1 ] ], [ [ "canister_empty", 1 ] ], [ [ "incendiary", 125 ] ] ]
   },
   {
     "type": "uncraft",

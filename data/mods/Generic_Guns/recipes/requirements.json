@@ -66,7 +66,7 @@
         [ "scrap", 1 ],
         [ "nails", 5, "LIST" ],
         [ "bb", 10 ],
-        [ "solder_wire", 5 ],
+        [ "solder_wire", 1 ],
         [ "platinum_small", 2 ],
         [ "gold_small", 2 ],
         [ "bearing", 2 ],

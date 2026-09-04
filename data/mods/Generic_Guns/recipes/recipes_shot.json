@@ -16,7 +16,7 @@
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "req_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ] ]
+    "components": [ [ [ "gunpowder", 1 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ] ]
   },
   {
     "result": "bp_shot_buck",
@@ -35,7 +35,7 @@
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "req_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 6 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ] ]
   },
   {
     "result": "bp_shot_buck",
@@ -73,7 +73,7 @@
     "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_shotgun", 1 ] ],
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "req_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "gunpowder", 3 ], [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ] ]
+    "components": [ [ [ "gunpowder", 1 ], [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ] ]
   },
   {
     "result": "bp_shot_fowl",
@@ -90,7 +90,7 @@
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "req_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "chem_black_powder", 3 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ] ]
   },
   {
     "result": "bp_shot_fowl",
@@ -109,7 +109,7 @@
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "tools": [ [ [ "press_dowel", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "chem_black_powder", 3 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ] ]
   },
   {
     "result": "reloaded_shot_pyro",
@@ -128,7 +128,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "using": [ [ "req_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "gunpowder", 3 ], [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ], [ [ "magnesium", 5 ] ] ]
+    "components": [ [ [ "gunpowder", 1 ], [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ], [ [ "magnesium", 4 ] ] ]
   },
   {
     "result": "bp_shot_pyro",
@@ -147,7 +147,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "using": [ [ "req_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "magnesium", 5 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ], [ [ "magnesium", 4 ] ] ]
   },
   {
     "result": "bp_shot_pyro",
@@ -185,7 +185,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 20 ], [ "req_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ] ]
+    "components": [ [ [ "gunpowder", 1 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ] ]
   },
   {
     "result": "bp_shot_foster",
@@ -204,7 +204,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 20 ], [ "req_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "chem_black_powder", 6 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ] ]
   },
   {
     "result": "bp_shot_foster",
@@ -242,7 +242,7 @@
     "book_learn": [ [ "recipe_bullets", 4 ], [ "manual_shotgun", 4 ] ],
     "using": [ [ "req_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ], [ [ "combatnail", 10 ] ] ]
+    "components": [ [ [ "gunpowder", 1 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ], [ [ "combatnail", 10 ] ] ]
   },
   {
     "result": "bp_shot_dart",
@@ -261,7 +261,7 @@
     "book_learn": [ [ "recipe_bullets", 4 ], [ "manual_shotgun", 4 ] ],
     "using": [ [ "req_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "combatnail", 10 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ], [ [ "combatnail", 10 ] ] ]
   },
   {
     "result": "bp_shot_dart",
@@ -299,12 +299,12 @@
     "using": [ [ "req_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ],
+      [ [ "gunpowder", 1 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ],
       [
         [ "scrap", 1 ],
         [ "nails", 5, "LIST" ],
         [ "bb", 10 ],
-        [ "solder_wire", 5 ],
+        [ "solder_wire", 1 ],
         [ "platinum_small", 2 ],
         [ "gold_small", 2 ],
         [ "bearing", 2 ],
@@ -332,12 +332,12 @@
     "using": [ [ "req_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "chem_black_powder", 6 ] ],
+      [ [ "chem_black_powder", 1 ] ],
       [
         [ "scrap", 1 ],
         [ "nails", 5, "LIST" ],
         [ "bb", 10 ],
-        [ "solder_wire", 5 ],
+        [ "solder_wire", 1 ],
         [ "platinum_small", 2 ],
         [ "gold_small", 2 ],
         [ "bearing", 2 ],

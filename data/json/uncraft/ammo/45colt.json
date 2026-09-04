@@ -10,7 +10,7 @@
       [ [ "unprimed_45colt_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 5 ] ],
-      [ [ "copper", 2 ] ]
+      [ [ "copper", 1 ] ]
     ]
   },
   {
@@ -24,7 +24,7 @@
       [ [ "unprimed_45colt_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 3 ] ],
-      [ [ "copper", 2 ] ]
+      [ [ "copper", 1 ] ]
     ]
   },
   {

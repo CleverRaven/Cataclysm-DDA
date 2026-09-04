@@ -138,8 +138,8 @@
     ],
     "components": [
       [ [ "small_relic", 2 ] ],
-      [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
-      [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ],
+      [ [ "bleach", 2 ], [ "oxy_powder", 250 ] ],
+      [ [ "ammonia_liquid", 1 ], [ "lye_powder", 125 ] ],
       [ [ "mercury", 1 ] ],
       [ [ "silver_small", 3 ] ],
       [ [ "gold_small", 1 ] ]

@@ -43,7 +43,7 @@
       [ [ "crystallized_mana", 15 ] ],
       [ [ "silver_small", 10 ] ],
       [ [ "gold_small", 10 ] ],
-      [ [ "chem_aluminium_powder", 10 ] ],
+      [ [ "chem_aluminium_powder", 8 ] ],
       [ [ "chem_chromium_oxide", 10 ] ],
       [ [ "lens", 2 ] ]
     ]

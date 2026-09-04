@@ -61,7 +61,7 @@
     "difficulty": 4,
     "time": "5 m",
     "autolearn": true,
-    "charges": 470,
+    "charges": 42,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [ [ [ "chem_saltpetre", 10 ] ], [ [ "chem_sulphur", 23 ] ], [ [ "charcoal", 1 ] ] ]
   },
@@ -79,7 +79,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "hotplate", 50 ], [ "integrated_welder", 50 ] ] ],
-    "components": [ [ [ "oxy_powder", 200 ] ], [ [ "ammonia_liquid", 2 ], [ "lye_powder", 200 ] ], [ [ "charcoal", 25 ] ] ]
+    "components": [ [ [ "oxy_powder", 250 ] ], [ [ "ammonia_liquid", 2 ], [ "lye_powder", 250 ] ], [ [ "charcoal", 25 ] ] ]
   },
   {
     "type": "recipe",

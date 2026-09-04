@@ -10,7 +10,7 @@
       [ [ "unprimed_3006_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 32 ] ],
-      [ [ "copper", 2 ] ]
+      [ [ "copper", 1 ] ]
     ]
   },
   {
@@ -20,12 +20,12 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "incendiary", 6 ] ],
+      [ [ "incendiary", 5 ] ],
       [ [ "lead", 4 ] ],
       [ [ "unprimed_3006_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 33 ] ],
-      [ [ "copper", 2 ] ]
+      [ [ "copper", 1 ] ]
     ]
   },
   {
@@ -39,7 +39,7 @@
       [ [ "unprimed_3006_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 33 ] ],
-      [ [ "copper", 2 ] ]
+      [ [ "copper", 1 ] ]
     ]
   },
   {
@@ -53,7 +53,7 @@
       [ [ "unprimed_3006_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 32 ] ],
-      [ [ "copper", 2 ] ]
+      [ [ "copper", 1 ] ]
     ]
   },
   {

@@ -38,7 +38,7 @@
       [ [ "unprimed_shot_hull", 1 ] ],
       [ [ "shotgun_primer", 1 ] ],
       [ [ "gunpowder_shotgun", 15 ] ],
-      [ [ "magnesium", 5 ] ]
+      [ [ "magnesium", 4 ] ]
     ]
   },
   {

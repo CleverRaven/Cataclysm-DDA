@@ -541,7 +541,7 @@
     "time": "30 s",
     "autolearn": true,
     "reversible": true,
-    "components": [ [ [ "aluminum_foil", 6 ] ] ],
+    "components": [ [ [ "aluminum_foil", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -556,7 +556,7 @@
     "autolearn": true,
     "reversible": true,
     "book_learn": [ [ "mag_dude", 0 ], [ "mag_survival", 0 ], [ "pocket_survival", 0 ] ],
-    "components": [ [ [ "aluminum_foil", 6 ] ] ],
+    "components": [ [ [ "aluminum_foil", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {

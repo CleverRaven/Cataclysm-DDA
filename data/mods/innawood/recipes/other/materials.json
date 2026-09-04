@@ -263,9 +263,9 @@
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [
-        [ "tin", 12 ],
-        [ "aluminum_foil", 371 ],
-        [ "chem_aluminium_powder", 29 ],
+        [ "tin", 6 ],
+        [ "aluminum_foil", 19 ],
+        [ "chem_aluminium_powder", 24 ],
         [ "can_drink", 2 ],
         [ "scrap_aluminum", 1 ]
       ],

@@ -81,7 +81,7 @@
     "id": "spell_components_shardspray",
     "type": "requirement",
     "//": "A kilo of metal fragments suitable for the Shardspray spell",
-    "components": [ [ [ "scrap", 40 ], [ "copper", 500 ], [ "gold_small", 200 ], [ "silver_small", 333 ], [ "lead", 333 ] ] ]
+    "components": [ [ [ "scrap", 40 ], [ "copper", 320 ], [ "gold_small", 200 ], [ "silver_small", 333 ], [ "lead", 333 ] ] ]
   },
   {
     "id": "spell_components_nova_flare",
@@ -218,13 +218,13 @@
     "//": "non-food powder suitable for the Shape of Dust spell",
     "components": [
       [
-        [ "magnesium", 5 ],
-        [ "chem_aluminium_powder", 5 ],
+        [ "magnesium", 4 ],
+        [ "chem_aluminium_powder", 4 ],
         [ "material_cement", 5 ],
         [ "chem_nickel_powder", 5 ],
         [ "meal_chitin_piece", 5 ],
         [ "chem_nickel_powder", 5 ],
-        [ "chem_black_powder", 5 ]
+        [ "chem_black_powder", 1 ]
       ]
     ]
   },
@@ -274,7 +274,7 @@
       [
         [ "lead", 5 ],
         [ "platinum_small", 5 ],
-        [ "copper", 5 ],
+        [ "copper", 3 ],
         [ "gold_small", 5 ],
         [ "silver_small", 5 ],
         [ "scrap_cast_iron", 5 ],
@@ -323,7 +323,7 @@
     "id": "spell_components_magus_permanent_light",
     "type": "requirement",
     "//": "Precious metals for the Imperishable Light spell",
-    "components": [ [ [ "gold_small", 5 ] ], [ [ "silver_small", 5 ] ], [ [ "copper", 5 ] ] ]
+    "components": [ [ [ "gold_small", 5 ] ], [ [ "silver_small", 5 ] ], [ [ "copper", 3 ] ] ]
   },
   {
     "id": "spell_components_biomancer_get_more_blood",
