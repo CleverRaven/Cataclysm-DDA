@@ -515,7 +515,7 @@
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
-    "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "small_repairkit", 10 ], [ "large_repairkit", 10 ] ] ],
+    "tools": [ [ [ "soldering_standard", 10, "LIST" ] ] ],
     "components": [ [ [ "scrap", 3 ], [ "steel_chunk_any", 1, "LIST" ] ], [ [ "plastic_chunk", 2 ] ] ]
   },
   {
@@ -613,7 +613,7 @@
     "difficulty": 5,
     "time": "2 h 20 m",
     "//": "Pipe/sheet metal is to add trip to non M16-style carriers, since both types are in civilian AR's.",
-    "book_learn": [ [ "manual_rifle", 5 ], [ "textbook_anarch", 5 ] ],
+    "book_learn": [ [ "textbook_anarch", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "tools": [
       [
@@ -623,8 +623,7 @@
         [ "modular_m16_auto_rifle", -1 ],
         [ "modular_m4_carbine", -1 ],
         [ "modular_m16a4", -1 ]
-      ],
-      [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
+      ]
     ],
     "//1": "30cm weld",
     "using": [ [ "welding_standard", 30 ] ],
