@@ -80,7 +80,7 @@
         [ "skull_feline_small", 4 ],
         [ "skull_feline_medium", 2 ]
       ],
-      [ [ "copper", 19 ] ],
+      [ [ "copper", 30 ] ],
       [ [ "crystallized_mana", 5 ] ]
     ],
     "pre_special": "check_empty",

@@ -251,7 +251,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "scrap_copper", 10 ], [ "copper", 640 ] ],
+      [ [ "scrap_copper", 10 ], [ "copper", 1000 ] ],
       [ [ "silver_small", 100 ] ],
       [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ], [ "duct_tape", 40 ] ],
       [ [ "rune_stormshaper", 1 ] ]
@@ -273,7 +273,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "components": [
       [ [ "rune_stormshaper_weapon", 1 ] ],
-      [ [ "scrap_copper", 10 ], [ "copper", 640 ] ],
+      [ [ "scrap_copper", 10 ], [ "copper", 1000 ] ],
       [ [ "gold_small", 100 ] ],
       [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ], [ "duct_tape", 40 ] ],
       [ [ "rune_stormshaper", 1 ] ]

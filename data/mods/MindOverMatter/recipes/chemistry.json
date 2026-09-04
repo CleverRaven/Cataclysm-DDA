@@ -19,7 +19,7 @@
       [ [ "ether", 100 ] ],
       [ [ "matrix_crystal_drained_dust", 3 ], [ "matrix_crystal_drained_dust_refined", 1 ] ],
       [ [ "water_clean", 5 ] ],
-      [ [ "chem_aluminium_powder", 8 ] ],
+      [ [ "chem_aluminium_powder", 10 ] ],
       [ [ "chem_zinc_powder", 10 ] ]
     ],
     "flags": [ "SECRET", "BLIND_HARD" ]

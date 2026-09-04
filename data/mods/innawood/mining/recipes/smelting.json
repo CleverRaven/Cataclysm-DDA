@@ -85,7 +85,7 @@
     "batch_time_factors": [ 90, 4 ],
     "autolearn": true,
     "//": "Reversed copper smelting recipe to make it easier to find the platinum recipe.",
-    "byproducts": [ [ "copper", 13 ] ],
+    "byproducts": [ [ "copper", 21 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "integrated_welder", 10 ] ] ],
     "components": [ [ [ "chunk_copper", 1 ] ] ]
   },
@@ -147,7 +147,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "smelt",
-    "charges": 50,
+    "charges": 100,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",

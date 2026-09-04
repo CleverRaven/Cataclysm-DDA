@@ -20,7 +20,7 @@
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
-      [ [ "gunpowder", 2 ], [ "gunpowder_pistol", 30 ], [ "gunpowder_shotgun", 30 ] ]
+      [ [ "gunpowder", 30 ], [ "gunpowder_pistol", 30 ], [ "gunpowder_shotgun", 30 ] ]
     ]
   },
   {
@@ -44,7 +44,7 @@
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
-      [ [ "gunpowder", 2 ], [ "gunpowder_pistol", 30 ], [ "gunpowder_shotgun", 30 ] ]
+      [ [ "gunpowder", 30 ], [ "gunpowder_pistol", 30 ], [ "gunpowder_shotgun", 30 ] ]
     ]
   }
 ]
