@@ -101,8 +101,8 @@
     "calories": 14,
     "spoils_in": "25 days",
     "charges": 16,
-    "fun": -1,
-    "flags": [ "NO_AUTO_CONSUME" ],
+    "fun": 3,
+    "flags": [ "NO_AUTO_CONSUME", "INEDIBLE" ],
     "phase": "liquid",
     "vitamins": [
       [ "vitC", "2300 μg" ],
@@ -133,8 +133,8 @@
     "calories": 40,
     "spoils_in": "49 days",
     "charges": 16,
-    "fun": -1,
-    "flags": [ "NO_AUTO_CONSUME" ],
+    "fun": 3,
+    "flags": [ "NO_AUTO_CONSUME", "INEDIBLE" ],
     "phase": "liquid",
     "vitamins": [ [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
@@ -159,8 +159,8 @@
     "calories": 28,
     "spoils_in": "25 days",
     "charges": 16,
-    "fun": -1,
-    "flags": [ "NO_AUTO_CONSUME" ],
+    "fun": 3,
+    "flags": [ "NO_AUTO_CONSUME", "INEDIBLE" ],
     "phase": "liquid",
     "vitamins": [ [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
@@ -182,12 +182,12 @@
     "comestible_type": "DRINK",
     "container": "condiment_bottle_sealed",
     "sealed": true,
-    "fun": -1,
+    "fun": 3,
     "calories": 10,
     "spoils_in": "25 days",
     "charges": 48,
     "phase": "liquid",
-    "flags": [ "NO_AUTO_CONSUME" ],
+    "flags": [ "NO_AUTO_CONSUME", "INEDIBLE" ],
     "vitamins": [ [ "iron", 2 ], [ "junk_allergen", 1 ] ]
   },
   {
