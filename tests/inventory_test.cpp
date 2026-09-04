@@ -1,8 +1,13 @@
+#include <vector>
+
+#include "calendar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
 #include "inventory.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "point.h"
 #include "type_id.h"
 
 static const itype_id itype_rock( "rock" );
