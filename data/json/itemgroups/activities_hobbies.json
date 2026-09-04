@@ -223,7 +223,7 @@
       { "item": "m_fishspear", "prob": 10 },
       { "item": "c_fishspear", "prob": 10 },
       { "item": "diveknife", "prob": 12 },
-      { "item": "small_repairkit", "prob": 2 },
+      { "group": "guns_toolbox", "prob": 2 },
       { "item": "slingshot", "prob": 10 },
       { "item": "wristrocket", "prob": 5 },
       { "item": "powered_earmuffs", "prob": 80, "charges": [ 0, 50 ] },

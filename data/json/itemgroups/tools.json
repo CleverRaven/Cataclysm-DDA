@@ -728,7 +728,7 @@
     "subtype": "collection",
     "//": "Tools used for working with guns and ammo",
     "entries": [
-      { "item": "large_repairkit", "prob": 50, "charges": [ 0, 500 ] },
+      { "group": "guns_toolbox", "prob": 50 },
       { "item": "puller", "prob": 100 },
       { "item": "press", "prob": 100 },
       { "item": "arbor_press", "prob": 100 }
@@ -1271,6 +1271,18 @@
       { "item": "glue_strong", "container-item": "bottle_plastic_glue", "charges": 1000 },
       { "item": "glue_strong", "container-item": "bottle_twoliter_glue", "charges": 2000 },
       { "item": "glue_strong", "container-item": "jug_plastic_glue", "charges": 3750 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "guns_toolbox",
+    "container-item": "toolbox_empty",
+    "items": [
+      { "item": "pipe_cleaner", "prob": 100 },
+      { "item": "screwdriver_set", "prob": 90 },
+      { "item": "wrench", "prob": 100 },
+      { "item": "hammer", "prob": 85 }
     ]
   }
 ]
