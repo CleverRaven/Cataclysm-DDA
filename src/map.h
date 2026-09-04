@@ -766,7 +766,7 @@ class map
          *
          */
         std::vector<tripoint_bub_ms> reachable_flood_steps( const tripoint_bub_ms &f, int range,
-                int cost_min, int cost_max ) const;
+                int cost_min = 1, int cost_max = 100 ) const;
 
         /**
          * Iteratively tries Bresenham lines with different biases

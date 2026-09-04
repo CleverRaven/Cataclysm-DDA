@@ -1323,6 +1323,7 @@
     "volume": "218 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
+    "seasonings": [ "seasonings_universal", "seasonings_pasta" ],
     "vitamins": [ [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 9 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {

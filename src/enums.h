@@ -179,7 +179,7 @@ using accessor_flags = int;
 enum accessor_flags_ {
     Access_None                       = 0,           // You probably don't want to use this!
     Access_Inventory                  = 1 << 0,      // Only character's inventory
-    Access_Map_Around                 = 1 << 1,      // Items in radius PICKUP_RANGE around character (ignores reachability)
+    Access_Map_Around                 = 1 << 1,      // Items in radius PICKUP_RANGE around character (only reachable)
     Access_Map_Current_Z              = 1 << 2,      // Everything on the current z-level (ignores reachability)
     Access_Map_All                    = 1 << 3,      // Everything on the map, all z-levels (ignores reachability)
     Access_Vehicle                    = 1 << 4,      // Everything on vehicles in the bubble *owned by that guy's faction* (ignores reachability)
