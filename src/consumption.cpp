@@ -1235,19 +1235,28 @@ static bool eat( item &food, Character &you, bool force )
         }
     }
 
-    item *seasoning = nullptr;
-    inventory inv;
-    inv.form_from_map( you.pos_bub(), PICKUP_RANGE, &you, true, true );
+    auto legal_to_consume = [&]( const item & it ) {
+        return it.is_owned_by( you );
+    };
+
+    auto fun_value = [&]( const item_location & it ) {
+        return it->get_comestible_fun();
+    };
+
+
+    item_location seasoning;
+    std::unordered_set<item_location> all_items = get_map().all_items( legal_to_consume,
+            you, Access_Inventory | Access_Map_Around );
     for( itype_id seasoning_type : food.get_comestible()->get_seasonings() ) {
-        inv.visit_items( [&]( item * e, const item * ) {
-            if( e->typeId() == seasoning_type ) {
-                // Always pick the last valid seasoning we find.
-                // TODO: More than one seasoning? Picking the 'best' seasoning instead of the first?
-                seasoning = e;
-                return VisitResponse::ABORT;
+        for( item_location checked : all_items ) {
+            if( checked && checked->typeId() == seasoning_type ) {
+                // Always pick the best(highest fun) valid seasoning we find.
+                // TODO: More than one seasoning?
+                if( !seasoning || ( fun_value( checked ) > fun_value( seasoning ) ) ) {
+                    seasoning = checked;
+                }
             }
-            return VisitResponse::NEXT;
-        } );
+        }
     }
 
     if( amorphous ) {
@@ -1364,16 +1373,10 @@ static bool eat( item &food, Character &you, bool force )
     you.consumption_history.emplace_back( food );
     if( seasoning && you.consume_effects( *seasoning ) ) {
         you.consumption_history.emplace_back( *seasoning );
-        map &here = get_map();
-        int left_to_use = 1;
-        // FIXME: Does not necessarily consume the exact seasoning item we have a pointer to!
         if( seasoning->count_by_charges() ) {
-            here.use_charges( you.pos_bub(), PICKUP_RANGE, seasoning->typeId(), left_to_use );
+            seasoning->mod_charges( -1 );
         } else {
-            here.use_amount( you.pos_bub(), PICKUP_RANGE, seasoning->typeId(), left_to_use );
-        }
-        if( left_to_use > 0 ) {
-            debugmsg( "Failed to consume seasoning %s during consumption", seasoning->typeId().c_str() );
+            seasoning.remove_item();
         }
     }
     // Clean out consumption_history so it doesn't get bigger than needed.
