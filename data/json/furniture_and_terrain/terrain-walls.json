@@ -2342,5 +2342,83 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "splinter", "count": [ 10, 22 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ossuary_wall",
+    "copy-from": "t_abstract_wall_stone",
+    "name": "ossuary wall",
+    "looks_like": "t_rock_wall",
+    "description": "A somewhat sturdy wall made of bones, skulls, rocks, and dirt.  Just rocks fitted together with soil for mortar.",
+    "roof": "t_drystone_roof",
+    "bash": {
+      "str_min": 50,
+      "str_max": 200,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "field_stone", "count": [ 100, 250 ] },
+        { "item": "bone_tainted", "count": [ 200, 400 ] },
+        { "item": "material_soil", "count": [ 100, 250 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ossuary_wall_half",
+    "looks_like": "t_rock_wall_half",
+    "name": "ossuary half-wall",
+    "description": "A somewhat sturdy half-height wall made of bones, skulls, rocks, and dirt.  Just rocks fitted together with soil for mortar.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 60,
+    "examine_action": "chainfence",
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "REDUCE_SCENT",
+      "MOUNTABLE",
+      "MINEABLE",
+      "THIN_OBSTACLE",
+      "SHORT",
+      "CLIMBABLE",
+      "BURROWABLE",
+      "PERMEABLE"
+    ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 30,
+      "str_max": 120,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "field_stone", "count": [ 100, 250 ] },
+        { "item": "bone_tainted", "count": [ 200, 400 ] },
+        { "item": "material_soil", "count": [ 100, 250 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ossuary_pillar",
+    "copy-from": "t_column",
+    "name": "ossuary pillar",
+    "description": "A pillar of bones and skulls arranged around a log with dirt.  Mostly decorative, but can still be used as a column.",
+    "bash": {
+      "str_min": 30,
+      "str_max": 120,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "bone_tainted", "count": [ 200, 400 ] },
+        { "item": "material_soil", "count": [ 100, 250 ] }
+      ]
+    }
   }
 ]

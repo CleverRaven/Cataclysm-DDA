@@ -252,6 +252,16 @@
   },
   {
     "type": "construction_group",
+    "id": "build_ossuary_pillar",
+    "name": "Build Ossuary Pillar"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_ossuary_wall",
+    "name": "Build Ossuary Wall"
+  },
+  {
+    "type": "construction_group",
     "id": "build_dumpster",
     "name": "Build Dumpster"
   },
