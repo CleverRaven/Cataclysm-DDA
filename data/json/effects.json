@@ -5862,6 +5862,26 @@
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
+    "id": "crowned_speaking",
+    "type": "effect_type",
+    "name": [ "Overwhelming Thoughts" ],
+    "desc": [
+      "Your head throbs.  Some alien mind reached out and touched yours with the finesse and gentleness of a sledgehammer."
+    ],
+    "apply_message": "You feel a sudden, violent sensation of vertigo as thoughts that are not your own flood your skull.",
+    "rating": "bad",
+    "base_mods": {
+      "vomit_chance": [ 250 ],
+      "int_mod": [ -4, -2 ],
+      "pain_min": [ 200 ],
+      "pain_max": [ 300 ],
+      "pain_max_val": [ 350 ],
+      "pain_amount": [ 5, 10 ],
+      "pain_chance": [ 50, 100 ],
+      "pain_tick": [ 10 ]
+    }
+  },
+  {
     "id": "effect_temporary_levitation",
     "type": "effect_type",
     "//": "Hidden effect, keeps you from falling in the portal dungeon briefly and also prevents infinite trap teleporting",
