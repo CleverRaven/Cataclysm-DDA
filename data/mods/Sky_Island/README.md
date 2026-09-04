@@ -2,9 +2,7 @@
 A raid-based gameplay overhaul mod for CDDA, inspired by games like Escape from Tarkov and Dark & Darker.
 ### Warning:
 - You MUST make a custom character for this.  "Play Now!" will not work.
-- The game uses code to search large areas of the map.  That means you may run into load times of up to a couple minutes at times.  You will generally be warned of these in-game, so please be patient.
 - Save often because there WILL be bugs and even occasionally crashes at this stage.
-- There is yet no way to clear the map.  This means despite a large search radius you will sometimes teleport near areas you've been before, and your save file will get very large very fast.  Unfortunately these are known issues and cannot be solved by mod-accessible code at this time.
 
 Changelog has been moved to the bottom!  Scroll down!
 
