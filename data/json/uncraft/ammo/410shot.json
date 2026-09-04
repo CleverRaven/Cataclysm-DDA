@@ -5,7 +5,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "unprimed_410shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_pistol", 10 ] ], [ [ "lead", 5 ] ] ]
+    "components": [ [ [ "unprimed_410shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_pistol", 1 ] ], [ [ "lead", 5 ] ] ]
   },
   {
     "result": "410shot_bird",
@@ -13,7 +13,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "unprimed_410shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_pistol", 10 ] ], [ [ "lead", 2 ] ] ]
+    "components": [ [ [ "unprimed_410shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_pistol", 1 ] ], [ [ "lead", 2 ] ] ]
   },
   {
     "result": "410shot_slug",
@@ -21,7 +21,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "unprimed_410shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_pistol", 10 ] ], [ [ "lead", 2 ] ] ]
+    "components": [ [ [ "unprimed_410shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_pistol", 1 ] ], [ [ "lead", 2 ] ] ]
   },
   {
     "result": "410shot_hull",

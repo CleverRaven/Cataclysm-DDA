@@ -657,7 +657,7 @@
       { "item": "hose", "prob": 50 },
       { "item": "scrap_copper", "prob": 15 },
       { "item": "cable", "count": [ 1, 3 ] },
-      { "item": "copper", "count": [ 7, 30 ] }
+      { "item": "copper", "count": [ 4, 19 ] }
     ],
     "damage_reduction": { "all": 32 },
     "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
@@ -694,7 +694,7 @@
       { "item": "hose", "prob": 50 },
       { "item": "scrap_copper", "prob": 15 },
       { "item": "cable", "count": [ 1, 3 ] },
-      { "item": "copper", "count": [ 7, 30 ] }
+      { "item": "copper", "count": [ 4, 19 ] }
     ],
     "variants": [ { "symbols": "d", "symbols_broken": "#" } ]
   },
@@ -726,7 +726,7 @@
       { "item": "hose", "prob": 50 },
       { "item": "scrap_copper", "prob": 15 },
       { "item": "cable", "count": [ 1, 3 ] },
-      { "item": "copper", "count": [ 7, 30 ] }
+      { "item": "copper", "count": [ 4, 19 ] }
     ],
     "variants": [ { "symbols": "A", "symbols_broken": "#" } ]
   },
