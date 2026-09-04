@@ -1,0 +1,83 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "mom_shoggothed_world_default" ],
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "rows": [
+        "                        ",
+        "           1            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   1                    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "nested": { "1": { "chunks": [ [ "null", 100 ], [ "mom_shoggothed_world_nests", 1 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mom_shoggothed_world_nests",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "   ..  ..   ",
+        "  ..   ...  ",
+        "     ...... ",
+        "  .. ...... ",
+        "  ......  . ",
+        "   .. ..... ",
+        "     .  ..  ",
+        "    ..  ..  ",
+        "      ..    "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "furniture": { ".": [ [ "f_boulder_large", 1 ], [ "f_null", 3 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mom_shoggothed_world_nests",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "    ....    ",
+        "   ..~~..   ",
+        "   .~~~~.   ",
+        "   .~~~~.   ",
+        "   ..~~..   ",
+        "    ....    ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "~": "t_water_sh", ".": [ [ "t_water_sh", 1 ], [ "t_dirt_cracked", 1 ] ] }
+    }
+  }
+]
