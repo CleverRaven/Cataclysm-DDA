@@ -159,12 +159,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 6 ], [ "ammo_bullet", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [
-      [ [ "unprimed_50ae_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ],
-      [ [ "chem_black_powder", 1 ] ],
-      [ [ "copper", 4 ] ]
-    ]
+    "components": [ [ [ "unprimed_50ae_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 1 ] ], [ [ "copper", 4 ] ] ]
   },
   {
     "result": "bp_762_25",

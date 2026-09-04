@@ -64,11 +64,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [
-      [ [ "thread", 10 ] ],
-      [ [ "paper", 1 ], [ "rolling_paper", 6 ] ],
-      [ [ "gunpowder", 3 ], [ "chem_black_powder", 4 ] ]
-    ]
+    "components": [ [ [ "thread", 10 ] ], [ [ "paper", 1 ], [ "rolling_paper", 6 ] ], [ [ "gunpowder", 3 ], [ "chem_black_powder", 4 ] ] ]
   },
   {
     "result": "firecracker_pack",

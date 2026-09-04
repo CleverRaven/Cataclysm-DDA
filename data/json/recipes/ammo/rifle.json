@@ -1179,12 +1179,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [
-      [ [ "unprimed_123ln_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "chem_black_powder", 3 ] ],
-      [ [ "copper", 1 ] ]
-    ]
+    "components": [ [ [ "unprimed_123ln_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_123ln_ap",
@@ -1227,12 +1222,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [
-      [ [ "unprimed_123ln_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "chem_black_powder", 3 ] ],
-      [ [ "copper", 1 ] ]
-    ]
+    "components": [ [ [ "unprimed_123ln_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_50beowulf_xtp",

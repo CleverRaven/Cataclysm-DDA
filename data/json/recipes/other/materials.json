@@ -266,13 +266,7 @@
     ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
-      [
-        [ "tin", 6 ],
-        [ "aluminum_foil", 19 ],
-        [ "chem_aluminium_powder", 24 ],
-        [ "can_drink", 2 ],
-        [ "scrap_aluminum", 1 ]
-      ],
+      [ [ "tin", 6 ], [ "aluminum_foil", 19 ], [ "chem_aluminium_powder", 24 ], [ "can_drink", 2 ], [ "scrap_aluminum", 1 ] ],
       [ [ "copper_scrap_equivalent", 1, "LIST" ] ]
     ]
   },
@@ -1186,11 +1180,7 @@
     "charges": 5,
     "batch_time_factors": [ 60, 2 ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [
-      [ [ "string_36", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "chem_black_powder", 1 ], [ "gunpowder", 3 ] ]
-    ]
+    "components": [ [ [ "string_36", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "chem_black_powder", 1 ], [ "gunpowder", 3 ] ] ]
   },
   {
     "result": "fuse",
