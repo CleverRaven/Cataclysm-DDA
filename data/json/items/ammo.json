@@ -206,8 +206,8 @@
     "color": "light_gray",
     "description": "A sheet of thin foil made of aluminum.  Sometimes called 'tin foil' due to being made of tin in the past.",
     "material": [ "aluminum" ],
-    "volume": "10 ml",
-    "weight": "135 mg",
+    "volume": "1 ml",
+    "weight": "2700 mg",
     "//": "Density of 2.7 g/cm3"
   },
   {
@@ -701,7 +701,7 @@
     "description": "A feather from a bird.  Useful for fletching arrows.",
     "material": [ "cotton" ],
     "flags": [ "NO_SALVAGE" ],
-    "volume": "50 ml",
+    "volume": "6 ml",
     "weight": "500 mg"
   },
   {
@@ -716,7 +716,7 @@
     "description": "A handful of fluffy down feather from a bird.  Useful for making cozy bedclothes.",
     "material": [ "down_feathers" ],
     "flags": [ "NO_SALVAGE" ],
-    "volume": "102 ml",
+    "volume": "128 ml",
     "weight": "102 mg"
   },
   {
@@ -775,8 +775,8 @@
     "sealed": false,
     "material": [ "powder" ],
     "flags": [ "TINDER" ],
-    "volume": "250 ml",
-    "weight": "100 mg",
+    "volume": "1 ml",
+    "weight": "1816 mg",
     "count": 4540,
     "explode_in_fire": true,
     "explosion": { "power": 42 }
@@ -859,7 +859,7 @@
     "description": "Volatile powdered chemical oxidizer.",
     "material": [ "powder" ],
     "volume": "1 ml",
-    "weight": "1 g",
+    "weight": "800 mg",
     "explode_in_fire": true,
     "//": "Burns rapidly but not really an explosion.",
     "explosion": { "power": 20 }
@@ -876,7 +876,7 @@
     "description": "Powdered caustic soda, also known as sodium hydroxide.",
     "material": [ "powder_nonflam" ],
     "volume": "1 ml",
-    "weight": "2662 mg"
+    "weight": "2130 mg"
   },
   {
     "type": "ITEM",
@@ -890,7 +890,7 @@
     "description": "A primer from a shotgun shell.",
     "material": [ "steel", "powder" ],
     "volume": "1 ml",
-    "weight": "1 g",
+    "weight": "800 mg",
     "explode_in_fire": true,
     "explosion": { "power": 50 }
   },
@@ -906,7 +906,7 @@
     "description": "A primer from a small-caliber pistol round.",
     "material": [ "steel", "powder" ],
     "volume": "1 ml",
-    "weight": "1 g",
+    "weight": "800 mg",
     "explode_in_fire": true,
     "explosion": { "power": 50 }
   },
@@ -922,7 +922,7 @@
     "description": "A primer from a large-caliber pistol round.",
     "material": [ "steel", "powder" ],
     "volume": "1 ml",
-    "weight": "1 g",
+    "weight": "800 mg",
     "explode_in_fire": true,
     "explosion": { "power": 50 }
   },
@@ -938,7 +938,7 @@
     "description": "A primer from a small-caliber rifle round.",
     "material": [ "steel", "powder" ],
     "volume": "1 ml",
-    "weight": "1 g",
+    "weight": "800 mg",
     "explode_in_fire": true,
     "explosion": { "power": 50 }
   },
@@ -954,7 +954,7 @@
     "description": "A primer from a large-caliber rifle round.",
     "material": [ "steel", "powder" ],
     "volume": "1 ml",
-    "weight": "1 g",
+    "weight": "800 mg",
     "explode_in_fire": true,
     "explosion": { "power": 50 }
   },
@@ -970,7 +970,7 @@
     "description": "A primer from a shotgun shell.  It has been fired, and must be cleaned and reloaded to use again.",
     "material": [ "steel" ],
     "volume": "1 ml",
-    "weight": "1 g"
+    "weight": "800 mg"
   },
   {
     "type": "ITEM",
@@ -984,7 +984,7 @@
     "description": "A primer from a small-caliber pistol round.  It has been fired, and must be cleaned and reloaded to use again.",
     "material": [ "steel" ],
     "volume": "1 ml",
-    "weight": "1 g"
+    "weight": "800 mg"
   },
   {
     "type": "ITEM",
@@ -998,7 +998,7 @@
     "description": "A primer from a large-caliber pistol round.  It has been fired, and must be cleaned and reloaded to use again.",
     "material": [ "steel", "powder" ],
     "volume": "1 ml",
-    "weight": "1 g"
+    "weight": "800 mg"
   },
   {
     "type": "ITEM",
@@ -1012,7 +1012,7 @@
     "description": "A primer from a small-caliber rifle round.  It has been fired, and must be cleaned and reloaded to use again.",
     "material": [ "steel" ],
     "volume": "1 ml",
-    "weight": "1 g"
+    "weight": "800 mg"
   },
   {
     "type": "ITEM",
@@ -1026,7 +1026,7 @@
     "description": "A primer from a large-caliber rifle round.  It has been fired, and must be cleaned and reloaded to use again.",
     "material": [ "steel" ],
     "volume": "1 ml",
-    "weight": "1 g"
+    "weight": "800 mg"
   },
   {
     "type": "ITEM",
@@ -1039,7 +1039,7 @@
     "color": "dark_gray",
     "description": "A rubber slug from a shotgun beanbag round.  You could use it to make a new beanbag round.",
     "material": [ "plastic", "rubber" ],
-    "volume": "250 ml",
+    "volume": "10 ml",
     "weight": "2 g"
   },
   {
@@ -1069,8 +1069,8 @@
     "description": "Some scrap bits of copper.  Could be used to craft things, such as makeshift ammunition.",
     "material": [ "copper" ],
     "volume": "1 ml",
-    "weight": "5 g",
-    "//": "200*5g / 8.63g/ml = ~115.87ml. Add 10% to take an uneven chunk into account = 127.46ml rounded upwards to 128ml."
+    "weight": "7813 mg",
+    "//": "Density preserved from the former 5 g, 0.64 ml unit, rounded to the nearest milligram."
   },
   {
     "type": "ITEM",
@@ -1410,7 +1410,7 @@
     "description": "A pile of small 3 cm by 6 cm steel rectangles with a pattern of holes drilled into it.  For use in creating or repairing lamellar armor.",
     "//": "An individual lamella is roughly 3cm x 6cm x 1mm in size.",
     "weight": "14 g",
-    "volume": "100 ml",
+    "volume": "6 ml",
     "price": "10 USD",
     "price_postapoc": "50 cent",
     "material": [ "lc_steel" ],
@@ -1426,7 +1426,7 @@
     "description": "A pile of small 3 cm by 6 cm steel rectangles with a pattern of holes drilled into it, then hardened.  For use in creating or repairing hardened lamellar armor.",
     "//": "An individual lamella is roughly 3cm x 6cm x 1mm in size.",
     "weight": "14 g",
-    "volume": "100 ml",
+    "volume": "6 ml",
     "price": "10 USD",
     "price_postapoc": "60 cent",
     "material": [ "ch_steel" ],
@@ -1447,7 +1447,7 @@
     "description": "A small metal ring, suitable for constructing chainmail.",
     "material": [ "lc_steel" ],
     "volume": "1 ml",
-    "weight": "320 mg"
+    "weight": "544 mg"
   },
   {
     "type": "ITEM",

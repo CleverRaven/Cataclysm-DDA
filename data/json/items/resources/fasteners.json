@@ -20,7 +20,7 @@
     "name": { "str": "button" },
     "description": "A button, usually found on clothing.",
     "weight": "1 g",
-    "volume": "20 ml",
+    "volume": "1 ml",
     "price": "1 USD",
     "price_postapoc": "10 cent",
     "symbol": "=",
