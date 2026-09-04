@@ -627,7 +627,17 @@
       "sound": "Snick, snick, gachunk!",
       "byproducts": [ { "item": "lc_wire", "count": 20 } ]
     },
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "UNSTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "THIN_OBSTACLE",
+      "PERMEABLE",
+      "UNSTABLE",
+      "CLIMBABLE",
+      "AUTO_WALL_SYMBOL",
+      "BURROWABLE",
+      "FACTION_SECURITY"
+    ],
     "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
     "examine_action": "chainfence",
@@ -863,6 +873,7 @@
       "FLAMMABLE_ASH",
       "CLIMBABLE",
       "AUTO_WALL_SYMBOL",
+      "FACTION_SECURITY",
       "BURROWABLE"
     ],
     "connect_groups": "WOODFENCE",
