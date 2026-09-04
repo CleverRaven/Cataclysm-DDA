@@ -5468,7 +5468,7 @@
         "pocket_type": "CONTAINER",
         "rigid": false,
         "max_contains_volume": "3000 ml",
-        "max_contains_weight": "6 kg",
+        "max_contains_weight": "8 kg",
         "item_restriction": [ "welding_wire_steel", "welding_wire_alloy" ],
         "transparent": true,
         "moves": 800,
