@@ -145,7 +145,7 @@
     "price": "5 USD",
     "price_postapoc": "5 USD",
     "container": "bag_plastic",
-    "material": [ "cotton" ],
+    "material": [ "cotton", "dense_powder" ],
     "symbol": ",",
     "color": "dark_gray"
   },

@@ -773,7 +773,7 @@
     "color": "dark_gray",
     "description": "Firearm-quality gunpowder, mixed without concern for composition, burn rate, or shape, making it thoroughly useless for reloading ammunition.  It has been slightly ground to make its properties more uniform.",
     "sealed": false,
-    "material": [ "powder" ],
+    "material": [ "dense_powder" ],
     "flags": [ "TINDER" ],
     "volume": "1 ml",
     "weight": "1816 mg",

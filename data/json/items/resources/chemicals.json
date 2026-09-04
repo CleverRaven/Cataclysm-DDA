@@ -104,7 +104,7 @@
     "symbol": "=",
     "color": "light_gray",
     "description": "A handful of gray powder that is highly sensitive to friction, heat, and shock.  Often used as a primary explosive, and historically in percussion caps and primers for self-contained firearm ammunition.",
-    "material": [ "powder" ],
+    "material": [ "dense_powder" ],
     "volume": "1 ml",
     "weight": "4420 mg",
     "//": "density: 4.42 g/cm3"
@@ -159,7 +159,7 @@
     "symbol": "=",
     "color": "white",
     "description": "A handful of white powder that is used in detonators to detonate secondary explosives.  It replaced mercury fulminate in modern ammunition primers.",
-    "material": [ "powder" ],
+    "material": [ "dense_powder" ],
     "volume": "1 ml",
     "weight": "4710 mg",
     "//": "density: 4.71 g/cm3"
