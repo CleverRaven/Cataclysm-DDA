@@ -603,6 +603,22 @@ Check if `map_cache` contain value `has`, `lack` or `read`
 
 #### Examples
 
+### `mod_is_loaded`
+- type: string
+- Return true if mod_id is loaded
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+True if the world has Sky Island loaded
+```jsonc
+{ "mod_is_loaded": "sky_island" }
+```
+
 Check if two variables are `yes`
 ```jsonc
 "compare_string": [ "yes", { "context_val": "some_context_should_be_yes" }, { "context_val": "some_another_context_also_should_be_yes" } ]
