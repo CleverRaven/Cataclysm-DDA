@@ -148,7 +148,8 @@
       { "item": "material_soil", "count": [ 2, 4 ] },
       { "item": "clay_lump", "count": [ 30, 80 ] },
       { "item": "rock", "count": [ 0, 4 ] },
-      { "item": "pebble", "count": [ 5, 25 ] }
+      { "item": "pebble", "count": [ 5, 25 ] },
+      { "item": "kaolinite", "count": [ 1, 2 ], "prob": 10 }
     ]
   },
   {
