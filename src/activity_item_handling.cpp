@@ -21,6 +21,7 @@
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
+#include "basecamp.h"
 #include "butchery.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -570,6 +571,24 @@ void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
         try_to_put_into_vehicle( you, reason, items, *vp );
         return;
     }
+
+    // If dropping on the ground and it's on purpose, then it's now property of whoever owns this place.
+    if( reason == item_drop_reason::deliberate ) {
+        std::optional<basecamp *> bcp = overmap_buffer.find_camp( you.pos_abs_omt().xy() );
+        if( bcp ) {
+            if( basecamp *actual_camp = *bcp; actual_camp ) {
+                if( !actual_camp->allowed_access_by( you, true ) ) {
+                    std::list<item> copy_items = items;
+                    for( item &copy : copy_items ) {
+                        copy.set_owner( actual_camp->get_owner() );
+                    }
+                    drop_on_map( you, reason, copy_items, here, where );
+                    return;
+                }
+            }
+        }
+    }
+
     drop_on_map( you, reason, items, here, where );
 }
 
