@@ -5,6 +5,10 @@
 #include "map_helpers.h"
 #include "type_id.h"
 
+static const itype_id itype_rock( "rock" );
+static const itype_id itype_stick( "stick" );
+static const itype_id itype_string_36( "string_36" );
+
 TEST_CASE( "inventory_form_from_map_bulk_batching", "[inventory][map]" )
 {
     clear_map_without_vision();
@@ -16,9 +20,9 @@ TEST_CASE( "inventory_form_from_map_bulk_batching", "[inventory][map]" )
     tripoint_bub_ms p3( 2, 0, 0 );
 
     // Add items to the map
-    item rock( "rock", calendar::turn );
-    item stick( "stick", calendar::turn );
-    item string( "string_36", calendar::turn );
+    item rock( itype_rock, calendar::turn );
+    item stick( itype_stick, calendar::turn );
+    item string( itype_string_36, calendar::turn );
 
     for( int i = 0; i < 5; ++i ) {
         m.add_item_or_charges( p1, rock );
@@ -39,7 +43,7 @@ TEST_CASE( "inventory_form_from_map_bulk_batching", "[inventory][map]" )
     // Sticks: 10 at p1 + 5 at p2 = 15 sticks
     // Strings: 5 at p2 = 5 strings
 
-    CHECK( inv.count_item( itype_id( "rock" ) ) == 10 );
-    CHECK( inv.count_item( itype_id( "stick" ) ) == 15 );
-    CHECK( inv.count_item( itype_id( "string_36" ) ) == 5 );
+    CHECK( inv.count_item( itype_rock ) == 10 );
+    CHECK( inv.count_item( itype_stick ) == 15 );
+    CHECK( inv.count_item( itype_string_36 ) == 5 );
 }
