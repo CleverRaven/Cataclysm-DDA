@@ -228,7 +228,7 @@
     "id": "EOC_VOID_STARE_EFF2",
     "condition": { "math": [ "u_effect_intensity('void_stares_back') = 5" ] },
     "effect": [
-      { "u_add_effect": "void_stares_back", "intensity": { "math": [ "u_effect_intensity('void_stares_back') - 5" ] } },
+      { "u_add_effect": "void_stares_back", , "duration": "PERMANENT", "intensity": { "math": [ "u_effect_intensity('void_stares_back') - 5" ] } },
       { "u_add_effect": "voidmarked", "duration": [ "24 hours", "120 hours" ] }
     ]
   },
