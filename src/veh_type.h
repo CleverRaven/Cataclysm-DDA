@@ -453,6 +453,9 @@ class vpart_info
         /** Damage modifier (percentage) used when damaging other entities upon collision */
         int dmg_mod = 100;
 
+        /** Angle in degrees between the direction of travel and the face of a SNOWPLOW part */
+        int collision_deflection = 60;
+
         /**
          * Electrical power, flat rate energy (per second); positive for generation, negative for consumption
          * For electric motor consumption scaled with powertrain demand see @ref energy_consumption instead

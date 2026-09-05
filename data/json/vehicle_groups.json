@@ -696,6 +696,7 @@
       [ "flatbed_truck", 40 ],
       [ "pickup", 20 ],
       [ "road_roller", 80 ],
+      [ "snowplow_truck", 150 ],
       [ "tatra_truck", 20 ],
       [ "trencher", 40 ]
     ]
