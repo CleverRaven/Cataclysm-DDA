@@ -31,6 +31,7 @@
 #include "coordinates.h"
 #include "craft_command.h"
 #include "crafting_enums.h"
+#include "craft_reservation.h"
 #include "crafting_gui.h"
 #include "creature.h"
 #include "debug.h"
@@ -1288,35 +1289,6 @@ static bool env_qualities_satisfied_for_step( const recipe_step &step, const ite
     return true;
 }
 
-void craft_relocated( const item_location &landed )
-{
-    if( !landed ) {
-        return;
-    }
-    // Ascend first: a copy re-uids the whole tree, and one caller hands back a location
-    // beneath the copied root rather than the root itself.
-    item_location root = landed;
-    while( root.parent_item() != item_location::nowhere ) {
-        root = root.parent_item();
-    }
-
-    std::vector<item *> crafts;
-    root->visit_items( [&crafts]( item * node, item * ) {
-        if( node->is_craft() &&
-            node->get_passive_started_at() != calendar::before_time_starts ) {
-            crafts.push_back( node );
-        }
-        return VisitResponse::NEXT;
-    } );
-
-    for( item *craft : crafts ) {
-        const item_location craft_loc = craft == root.get_item()
-                                        ? root
-                                        : item_location( root, craft );
-        get_item_wakeups().rebuild_for_item( craft_loc );
-    }
-}
-
 static std::string compose_unattend_message( const item &craft, const recipe_step &step )
 {
     if( !step.unattend_message.empty() ) {
@@ -1422,8 +1394,112 @@ static bool recipe_result_is_liquid( const recipe &rec )
 
 // Clear passive timing and wakeups so nothing re-arms the step; the craft holds
 // at full progress until the player collects it via an explicit continue/activate.
+static void release_step_resources( item &craft )
+{
+    if( !craft.is_craft() ) {
+        return;
+    }
+    const int64_t token = craft.peek_reservation_owner_token();
+    if( token != 0 ) {
+        get_craft_reservations().erase( token );
+    }
+    craft.set_reservations( {} );
+    craft.set_reserved_tile( std::nullopt );
+    craft.set_reservation_expiry( calendar::before_time_starts );
+    craft.set_reservation_search_attempts( 0 );
+    craft.set_reservation_pool_fingerprint( 0 );
+    craft.set_reservation_pause_reason( 0 );
+}
+
+static std::optional<tripoint_abs_ms> craft_site_tile( const item_location &loc )
+{
+    if( loc.where_recursive() == item_location::type::character ) {
+        return std::nullopt;
+    }
+    return loc.pos_abs();
+}
+
+static void reserve_step_resources( item &craft, const item_location &loc, time_point now )
+{
+    if( !craft.is_craft() ) {
+        return;
+    }
+    const recipe &rec = craft.get_making();
+    const int idx = craft.get_current_step();
+    if( !rec.has_steps() || idx < 0 || idx >= static_cast<int>( rec.steps().size() ) ) {
+        return;
+    }
+    // A grounded step claims the tile it sits on.  Only the initial lease is written
+    // here.  A lapsed one is left lapsed and refreshed by a tick that reaches its end,
+    // or a paused step would mint itself another hour on every check and never expire.
+    const bool no_lease = craft.get_reservation_expiry() == calendar::before_time_starts;
+    craft.set_reserved_tile( craft_site_tile( loc ) );
+    if( craft.get_reserved_tile() ) {
+        craft.reservation_owner_token();
+        if( no_lease ) {
+            craft.set_reservation_expiry( now + 1_hours );
+        }
+        get_craft_reservations().rebuild_for_craft( loc );
+    }
+}
+
+static void craft_refresh_reservation_lease( item &craft, time_point now,
+        const item_location &loc )
+{
+    if( !craft.is_craft() || craft.peek_reservation_owner_token() == 0 ) {
+        return;
+    }
+    // Derived, not owned: a craft in vehicle cargo changes tile with no copy and no hook.
+    craft.set_reserved_tile( craft_site_tile( loc ) );
+    craft.set_reservation_expiry( now + 1_hours );
+    get_craft_reservations().rebuild_for_craft( loc );
+}
+
+void craft_relocated( const item_location &landed )
+{
+    if( !landed ) {
+        return;
+    }
+    // Ascend first: a copy re-uids the whole tree, and one caller hands back a location
+    // beneath the copied root rather than the root itself.
+    item_location root = landed;
+    while( root.parent_item() != item_location::nowhere ) {
+        root = root.parent_item();
+    }
+
+    std::vector<item *> crafts;
+    root->visit_items( [&crafts]( item * node, item * ) {
+        if( node->is_craft() &&
+            node->get_passive_started_at() != calendar::before_time_starts ) {
+            crafts.push_back( node );
+        }
+        return VisitResponse::NEXT;
+    } );
+    if( crafts.empty() ) {
+        return;
+    }
+
+    for( item *craft : crafts ) {
+        const item_location craft_loc = craft == root.get_item()
+                                        ? root
+                                        : item_location( root, craft );
+        craft->set_reserved_tile( craft_site_tile( craft_loc ) );
+        // A craft that had nothing to poll for gains a site lock when dropped, and the
+        // lease needs a poll to refresh it.
+        if( craft->get_reserved_tile() &&
+            craft->get_env_check_at() == calendar::before_time_starts ) {
+            craft->set_env_check_at( calendar::turn + 1_minutes );
+        }
+        get_item_wakeups().rebuild_for_item( craft_loc );
+        if( craft->peek_reservation_owner_token() != 0 ) {
+            get_craft_reservations().rebuild_for_craft( craft_loc );
+        }
+    }
+}
+
 static void park_craft_for_collection( item &craft )
 {
+    release_step_resources( craft );
     craft.set_awaiting_collection( true );
     craft.item_counter = 10000000;
     craft.set_passive_started_at( calendar::before_time_starts );
@@ -1447,6 +1523,7 @@ static void craft_actualize_fail( item &craft, time_point now,
     if( now < craft.get_fail_at() ) {
         return;
     }
+    release_step_resources( craft );
     end_live_wait_for( loc );
     get_item_wakeups().cancel_all( craft.uid().get_value() );
     item_location mut_loc = loc;
@@ -1461,11 +1538,13 @@ static void finalize_passive_craft( item &craft, const item_location &loc )
                   "destroying craft for recipe %s",
                   craft.get_crafter_id().get_value(),
                   craft.get_making().ident().str() );
+        release_step_resources( craft );
         get_item_wakeups().cancel_all( craft.uid().get_value() );
         item_location mut_loc = loc;
         mut_loc.remove_item();
         return;
     }
+    release_step_resources( craft );
     end_live_wait_for( loc );
     item craft_copy = craft;
     const std::optional<tripoint_bub_ms> finalize_loc = craft_loc_for_complete( loc );
@@ -1551,7 +1630,9 @@ static env_check_result craft_check_env_step( item &craft, time_point now,
         }
         // Re-arm env_check cursor, clamped to ready_at so a near-end-of-step
         // restore does not arm a poll past completion.
-        if( step_has_env_requirements( step ) || step_has_charged_alloc( craft, step_idx ) ) {
+        craft_refresh_reservation_lease( craft, now, loc );
+        if( step_has_env_requirements( step ) || step_has_charged_alloc( craft, step_idx ) ||
+            craft.get_reserved_tile() ) {
             const time_point next = now + 1_minutes;
             craft.set_env_check_at( std::min( next, craft.get_ready_at() ) );
         } else {
@@ -1564,7 +1645,9 @@ static env_check_result craft_check_env_step( item &craft, time_point now,
     // Normal mid-step env check (no pause entered or exited).  Re-arm the
     // cursor for the next minute; clamp to ready_at so a poll never fires
     // after step completion.
-    if( step_has_env_requirements( step ) || step_has_charged_alloc( craft, step_idx ) ) {
+    craft_refresh_reservation_lease( craft, now, loc );
+    if( step_has_env_requirements( step ) || step_has_charged_alloc( craft, step_idx ) ||
+        craft.get_reserved_tile() ) {
         const time_point next = now + 1_minutes;
         craft.set_env_check_at( std::min( next, craft.get_ready_at() ) );
     } else {
@@ -1837,10 +1920,15 @@ void craft_stamp_passive_entry( item &craft, const Character &crafter, time_poin
     if( plan.choice == step_choice::set_timer && plan.alarm_offset.has_value() ) {
         craft.set_alarm_at( entry_time + *plan.alarm_offset );
     }
-    // Periodic env-check cursor: arm when the step has env requirements or any
-    // charged allocation to drain.  Clamp to ready_at so a short step never
-    // schedules a poll past completion.
-    if( step_has_env_requirements( cur_step ) || step_has_charged_alloc( craft, idx ) ) {
+    // Before the poll decision, which reads the claim: a step holding only its craft
+    // site still polls, so the lease taken here is refreshed rather than lapsing under
+    // a running craft.
+    reserve_step_resources( craft, loc, now );
+    // Periodic env-check cursor: arm when the step has env requirements, any charged
+    // allocation to drain, or a claim whose lease needs refreshing.  Clamp to ready_at
+    // so a short step never schedules a poll past completion.
+    if( step_has_env_requirements( cur_step ) || step_has_charged_alloc( craft, idx ) ||
+        craft.get_reserved_tile() ) {
         const time_point next = now + 1_minutes;
         craft.set_env_check_at( std::min( next, craft.get_ready_at() ) );
     } else {

@@ -23,6 +23,7 @@
 #include "construction_category.h"
 #include "construction_group.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "crafting.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -1298,6 +1299,12 @@ static std::string has_pre_flags_colorize( const construction &con )
 bool can_construct( const construction &con, const tripoint_bub_ms &p )
 {
     const map &here = get_map();
+    // Both lock kinds: a craft's own tile and any tile supplying it a provider.
+    const tripoint_abs_ms abs_p = here.get_abs( p );
+    if( get_craft_reservations().craft_site_reserved( abs_p ) ||
+        get_craft_reservations().provider_tile_reserved( abs_p ) ) {
+        return false;
+    }
     const furn_id &f = here.furn( p );
     const ter_id &t = here.ter( p );
     // pre-functions

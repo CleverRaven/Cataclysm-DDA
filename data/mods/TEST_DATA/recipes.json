@@ -801,5 +801,26 @@
     "time": "5 m",
     "autolearn": true,
     "components": [ [ [ "test_longshirt", 1 ] ] ]
+  },
+  {
+    "//": "Craft reservation fixtures.  water_boiling_heat is deliberately omitted so these isolate quality reservation from fire and charge plumbing.",
+    "type": "recipe",
+    "result": "water_clean",
+    "id_suffix": "test_unattended_boil",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 0,
+    "autolearn": true,
+    "components": [ [ [ "water", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Boiling",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "qualities": [ { "id": "BOIL", "level": 1 } ]
+      }
+    ]
   }
 ]

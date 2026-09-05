@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cstdint>
 #include <functional>
+#include <initializer_list>
 #include <list>
 #include <optional>
 #include <sstream>
@@ -8,16 +9,20 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "activity_handlers.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "cata_utility.h"
 #include "character_id.h"
+#include "construction.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "craft_reservation.h"
 #include "crafting.h"
 #include "crafting_enums.h"
+#include "enums.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "inventory.h"
@@ -30,23 +35,33 @@
 #include "json_loader.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_iterator.h"
 #include "map_selector.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "projectile.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "units.h"
+#include "vehicle.h"
+#include "vehicle_selector.h"
+#include "vpart_position.h"
 
 static const bionic_id test_bio_reserve_toggled_pseudo( "test_bio_reserve_toggled_pseudo" );
 static const bionic_id test_bio_reserve_two_pseudo( "test_bio_reserve_two_pseudo" );
 static const bionic_id test_bio_reserve_weapon( "test_bio_reserve_weapon" );
 
+static const construction_str_id
+construction_test_constr_pit_shallow( "test_constr_pit_shallow" );
+
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_cudgel( "cudgel" );
+static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_microwave( "microwave" );
 static const itype_id itype_pot( "pot" );
@@ -88,11 +103,27 @@ static const recipe_id recipe_cudgel_test_unattended_two_of_a(
     "cudgel_test_unattended_two_of_a" );
 static const recipe_id recipe_cudgel_test_unattended_with_qual(
     "cudgel_test_unattended_with_qual" );
+static const recipe_id recipe_water_clean_test_unattended_boil(
+    "water_clean_test_unattended_boil" );
 static const recipe_id recipe_water_clean_test_unattended_liquid(
     "water_clean_test_unattended_liquid" );
 
+static const ter_str_id ter_t_dirt( "t_dirt" );
+
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
+
+static const vproto_id vehicle_prototype_test_shopping_cart( "test_shopping_cart" );
+
+static craft_reservation_index::record make_item_record( const int64_t owner_token,
+        const int64_t item_uid, const time_point expires_at )
+{
+    craft_reservation_index::record rec;
+    rec.craft_uid = owner_token;
+    rec.provider_item_uids.push_back( item_uid );
+    rec.expires_at = expires_at;
+    return rec;
+}
 
 TEST_CASE( "attention_recipe_loads_attention_field", "[craft][attention][schema]" )
 {
@@ -1863,7 +1894,7 @@ TEST_CASE( "craft_stamp_arms_env_check_when_step_has_env_requirements",
                                             item_wakeup_kind::env_check ) );
 }
 
-TEST_CASE( "craft_stamp_skips_env_check_when_step_has_no_env_requirements",
+TEST_CASE( "craft_stamp_arms_env_check_for_a_grounded_step_with_no_env_requirements",
            "[craft][attention][env_check]" )
 {
     clear_avatar();
@@ -1885,11 +1916,13 @@ TEST_CASE( "craft_stamp_skips_env_check_when_step_has_no_env_requirements",
     craft_stamp_passive_entry( on_map, u, calendar::turn, loc );
 
     REQUIRE( on_map.get_passive_started_at() == calendar::turn );
-    CHECK( on_map.get_env_check_at() == calendar::before_time_starts );
-    CHECK_FALSE( get_item_wakeups().is_scheduled( on_map.uid().get_value(),
-                 item_wakeup_kind::env_check ) );
+    // A grounded step holds a craft-site lock even with nothing to bind, and the lock
+    // needs a poll to refresh it before the lease expires.
+    CHECK( on_map.get_reserved_tile() == here.get_abs( origin ) );
+    CHECK( on_map.get_env_check_at() != calendar::before_time_starts );
+    CHECK( get_item_wakeups().is_scheduled( on_map.uid().get_value(),
+                                            item_wakeup_kind::env_check ) );
 }
-
 TEST_CASE( "craft_stamp_arms_env_check_and_debits_entry_for_charged_alloc",
            "[craft][attention][charge][env_check]" )
 {
@@ -2511,6 +2544,918 @@ TEST_CASE( "intrinsic_qualities_count_provider_occurrences",
         THEN( "the innate pair is granted once, not once per trait" ) {
             CHECK( u.has_intrinsic_quality( qual_DIG, 1, 1 ) );
             CHECK_FALSE( u.has_intrinsic_quality( qual_DIG, 1, 2 ) );
+        }
+    }
+}
+
+TEST_CASE( "reservation_index_expiry_decides_visibility", "[craft][attention][reservation]" )
+{
+    clear_avatar();
+    clear_map();
+    craft_reservation_index &idx = get_craft_reservations();
+
+    // calendar::turn is never mutated; leases are set relative to it instead.
+    const time_point now = calendar::turn;
+    const time_point live_until = now + 1_hours;
+    const time_point lapsed_at = now - 1_minutes;
+
+    GIVEN( "a live record claiming an item" ) {
+        idx.set( make_item_record( 100, 4242, live_until ) );
+
+        THEN( "the item reads as reserved" ) {
+            CHECK( idx.is_reserved_uid( 4242 ) );
+        }
+
+        WHEN( "the record is erased" ) {
+            idx.erase( 100 );
+
+            THEN( "the item is free again" ) {
+                CHECK_FALSE( idx.is_reserved_uid( 4242 ) );
+            }
+        }
+    }
+
+    GIVEN( "a record whose lease has already lapsed" ) {
+        idx.set( make_item_record( 100, 4242, lapsed_at ) );
+
+        THEN( "it claims nothing, because an expired record is stored but never indexed" ) {
+            CHECK_FALSE( idx.is_reserved_uid( 4242 ) );
+        }
+
+        THEN( "it is still findable, so a later refresh and the sweep can both reach it" ) {
+            CHECK( idx.find( 100 ) != nullptr );
+        }
+    }
+
+    GIVEN( "an expired incumbent that the sweep has not yet removed" ) {
+        idx.set( make_item_record( 100, 4242, live_until ) );
+        REQUIRE( idx.is_reserved_uid( 4242 ) );
+        // Nothing runs at the deadline, so the mapping survives until the sweep.
+        idx.set( make_item_record( 100, 4242, lapsed_at ) );
+        REQUIRE_FALSE( idx.is_reserved_uid( 4242 ) );
+
+        WHEN( "another craft binds the same item" ) {
+            idx.set( make_item_record( 200, 4242, live_until ) );
+
+            THEN( "the newcomer owns it, rather than being blocked by a dead mapping" ) {
+                CHECK( idx.is_reserved_uid( 4242 ) );
+                const craft_reservation_index::record *owner = idx.record_for_item_uid( 4242 );
+                REQUIRE( owner != nullptr );
+                CHECK( owner->craft_uid == 200 );
+            }
+
+            THEN( "the expired craft cannot claim it back" ) {
+                CHECK( idx.item_claimed_by_other( 4242, 100 ) );
+            }
+
+            THEN( "the new owner does not consider itself blocked" ) {
+                CHECK_FALSE( idx.item_claimed_by_other( 4242, 200 ) );
+            }
+        }
+    }
+
+    GIVEN( "a lapsed craft A and a live craft B holding the same item" ) {
+        idx.set( make_item_record( 100, 4242, lapsed_at ) );
+        idx.set( make_item_record( 200, 4242, live_until ) );
+        REQUIRE( idx.record_for_item_uid( 4242 )->craft_uid == 200 );
+
+        WHEN( "A is released" ) {
+            idx.erase( 100 );
+
+            THEN( "B still owns the item, since removal is conditional on ownership" ) {
+                CHECK( idx.is_reserved_uid( 4242 ) );
+                CHECK( idx.record_for_item_uid( 4242 )->craft_uid == 200 );
+            }
+        }
+    }
+}
+
+TEST_CASE( "reservation_index_generation_tracks_visibility_only",
+           "[craft][attention][reservation][perf]" )
+{
+    clear_avatar();
+    clear_map();
+    craft_reservation_index &idx = get_craft_reservations();
+
+    const time_point now = calendar::turn;
+    const time_point live_until = now + 1_hours;
+    const time_point later = now + 2_hours;
+    const time_point lapsed_at = now - 1_minutes;
+
+    GIVEN( "a live record" ) {
+        idx.set( make_item_record( 100, 4242, live_until ) );
+        const uint64_t after_acquire = idx.generation();
+
+        WHEN( "an identical record is rebuilt" ) {
+            idx.set( make_item_record( 100, 4242, live_until ) );
+
+            THEN( "the generation does not move" ) {
+                CHECK( idx.generation() == after_acquire );
+            }
+        }
+
+        WHEN( "only the lease is refreshed" ) {
+            idx.set( make_item_record( 100, 4242, later ) );
+
+            THEN( "the generation does not move, since nothing became visible or invisible" ) {
+                CHECK( idx.generation() == after_acquire );
+            }
+        }
+
+        WHEN( "the record is released" ) {
+            idx.erase( 100 );
+
+            THEN( "the generation moves" ) {
+                CHECK( idx.generation() > after_acquire );
+            }
+        }
+    }
+
+    GIVEN( "a record that has expired" ) {
+        idx.set( make_item_record( 100, 4242, lapsed_at ) );
+        const uint64_t while_expired = idx.generation();
+
+        WHEN( "it is refreshed back to live" ) {
+            idx.set( make_item_record( 100, 4242, live_until ) );
+
+            THEN( "the generation moves, because that is a not-reserved to reserved change" ) {
+                CHECK( idx.generation() > while_expired );
+            }
+        }
+
+        WHEN( "the expired records are swept" ) {
+            idx.sweep_expired_records();
+
+            THEN( "the generation does not move, since the sweep is pure bookkeeping" ) {
+                CHECK( idx.generation() == while_expired );
+            }
+
+            THEN( "the record is physically gone" ) {
+                CHECK( idx.find( 100 ) == nullptr );
+            }
+        }
+    }
+}
+
+TEST_CASE( "reservation_tile_locks_are_tracked_separately",
+           "[craft][attention][reservation][tile]" )
+{
+    clear_avatar();
+    clear_map();
+    map &here = get_map();
+    craft_reservation_index &idx = get_craft_reservations();
+
+    const time_point live_until = calendar::turn + 1_hours;
+    const tripoint_abs_ms tile = here.get_abs( tripoint_bub_ms( 60, 60, 0 ) );
+
+    GIVEN( "two crafts sharing one craft site" ) {
+        craft_reservation_index::record first;
+        first.craft_uid = 100;
+        first.craft_tile = tile;
+        first.expires_at = live_until;
+        idx.set( first );
+
+        craft_reservation_index::record second;
+        second.craft_uid = 200;
+        second.craft_tile = tile;
+        second.expires_at = live_until;
+        idx.set( second );
+
+        REQUIRE( idx.craft_site_reserved( tile ) );
+
+        WHEN( "one of them is released" ) {
+            idx.erase( 100 );
+
+            THEN( "the other still holds the tile, since the lock is a set of owners" ) {
+                CHECK( idx.craft_site_reserved( tile ) );
+            }
+        }
+
+        WHEN( "both are released" ) {
+            idx.erase( 100 );
+            idx.erase( 200 );
+
+            THEN( "the tile is free" ) {
+                CHECK_FALSE( idx.craft_site_reserved( tile ) );
+            }
+        }
+    }
+
+    GIVEN( "a craft site lock and no provider lock on the same tile" ) {
+        craft_reservation_index::record rec;
+        rec.craft_uid = 100;
+        rec.craft_tile = tile;
+        rec.expires_at = live_until;
+        idx.set( rec );
+
+        THEN( "provider-tile queries do not see it, so pseudo-tool filtering stays separate" ) {
+            CHECK( idx.craft_site_reserved( tile ) );
+            CHECK_FALSE( idx.provider_tile_reserved( tile ) );
+        }
+    }
+}
+
+TEST_CASE( "reservation_predicates_differ_on_ancestry", "[craft][attention][reservation]" )
+{
+    clear_avatar();
+    clear_map();
+    map &here = get_map();
+    craft_reservation_index &idx = get_craft_reservations();
+
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    item backpack( itype_backpack );
+    item tool( itype_test_reserve_tool_a );
+    REQUIRE( backpack.put_in( tool, pocket_type::CONTAINER ).success() );
+    item &on_map = here.add_item( origin, backpack );
+    REQUIRE( on_map.num_item_stacks() == 1 );
+
+    item &nested = *on_map.all_items_top( pocket_type::CONTAINER ).front();
+    const int64_t nested_uid = nested.uid().get_value();
+    REQUIRE( nested_uid != 0 );
+
+    GIVEN( "a reserved item nested inside a free container" ) {
+        craft_reservation_index::record rec;
+        rec.craft_uid = 100;
+        rec.provider_item_uids.push_back( nested_uid );
+        rec.expires_at = calendar::turn + 1_hours;
+        idx.set( rec );
+
+        THEN( "the ancestry predicate hides the whole container" ) {
+            CHECK( craft_reservation::contains_reserved( on_map ) );
+        }
+    }
+}
+
+TEST_CASE( "craft_data_persists_reservation_fields", "[craft][attention][reservation][persist]" )
+{
+    clear_avatar();
+    clear_map();
+    map &here = get_map();
+
+    item ingredient( itype_water, calendar::turn );
+    item built( &recipe_water_clean_test_unattended_boil.obj(), 1, ingredient );
+    REQUIRE( built.is_craft() );
+
+    const tripoint_abs_ms tile = here.get_abs( tripoint_bub_ms( 60, 60, 0 ) );
+    const time_point expiry = calendar::turn + 1_hours;
+
+    craft_reservation::binding item_binding;
+    item_binding.group_index = 0;
+    item_binding.alternative_index = 0;
+    item_binding.req = craft_reservation::requirement_kind::quality;
+    item_binding.qual = qual_BOIL;
+    item_binding.level = 1;
+    item_binding.group_count = 1;
+    item_binding.kind = craft_reservation::provider_kind::item;
+    item_binding.provider_uid = 4242;
+
+    craft_reservation::binding intrinsic_binding;
+    intrinsic_binding.group_index = 0;
+    intrinsic_binding.alternative_index = 0;
+    intrinsic_binding.req = craft_reservation::requirement_kind::quality;
+    intrinsic_binding.qual = qual_BOIL;
+    intrinsic_binding.level = 1;
+    intrinsic_binding.group_count = 1;
+    intrinsic_binding.kind = craft_reservation::provider_kind::intrinsic;
+    intrinsic_binding.intrinsic_owner = get_avatar().getID();
+    intrinsic_binding.occurrence_slot = 0;
+
+    built.set_reservations( { item_binding, intrinsic_binding } );
+    built.set_reserved_tile( tile );
+    built.set_reservation_expiry( expiry );
+    built.set_reservation_search_attempts( 3 );
+    built.set_reservation_pool_fingerprint( 0x1234abcdULL );
+    built.set_reservation_pause_reason( 2 );
+    const int64_t token = built.reservation_owner_token();
+    REQUIRE( token != 0 );
+
+    std::ostringstream ss;
+    JsonOut jsout( ss );
+    built.serialize( jsout );
+
+    item restored;
+    restored.deserialize( json_loader::from_string( ss.str() ).get_object() );
+    REQUIRE( restored.is_craft() );
+
+    CHECK( restored.peek_reservation_owner_token() == token );
+    CHECK( restored.get_reserved_tile() == tile );
+    CHECK( restored.get_reservation_expiry() == expiry );
+    CHECK( restored.get_reservation_search_attempts() == 3 );
+    CHECK( restored.get_reservation_pool_fingerprint() == 0x1234abcdULL );
+    CHECK( restored.get_reservation_pause_reason() == 2 );
+
+    REQUIRE( restored.get_reservations().size() == 2 );
+    const craft_reservation::binding &r_item = restored.get_reservations()[0];
+    CHECK( r_item.kind == craft_reservation::provider_kind::item );
+    CHECK( r_item.provider_uid == 4242 );
+    CHECK( r_item.qual == qual_BOIL );
+    CHECK( r_item.level == 1 );
+    CHECK( r_item.occurrence_slot == -1 );
+
+    const craft_reservation::binding &r_intrinsic = restored.get_reservations()[1];
+    CHECK( r_intrinsic.kind == craft_reservation::provider_kind::intrinsic );
+    CHECK( r_intrinsic.intrinsic_owner == get_avatar().getID() );
+    CHECK( r_intrinsic.occurrence_slot == 0 );
+    CHECK( r_intrinsic.pseudo_type.is_null() );
+}
+
+TEST_CASE( "craft_data_omits_unset_reservation_fields", "[craft][attention][reservation][persist]" )
+{
+    item ingredient( itype_water, calendar::turn );
+    item built( &recipe_water_clean_test_unattended_boil.obj(), 1, ingredient );
+    REQUIRE( built.is_craft() );
+
+    std::ostringstream ss;
+    JsonOut jsout( ss );
+    built.serialize( jsout );
+    const std::string out = ss.str();
+
+    CHECK( out.find( "reservations" ) == std::string::npos );
+    CHECK( out.find( "reserved_tile" ) == std::string::npos );
+    CHECK( out.find( "reservation_owner" ) == std::string::npos );
+    CHECK( out.find( "reservation_expires_at" ) == std::string::npos );
+}
+
+TEST_CASE( "craft_data_reservation_owner_token_is_stable_and_unique",
+           "[craft][attention][reservation][persist]" )
+{
+    item ingredient( itype_water, calendar::turn );
+    item first( &recipe_water_clean_test_unattended_boil.obj(), 1, ingredient );
+    item second( &recipe_water_clean_test_unattended_boil.obj(), 1, ingredient );
+    REQUIRE( first.is_craft() );
+    REQUIRE( second.is_craft() );
+
+    GIVEN( "a craft that has been asked for its token" ) {
+        const int64_t token = first.reservation_owner_token();
+
+        THEN( "asking again returns the same value" ) {
+            CHECK( first.reservation_owner_token() == token );
+        }
+
+        THEN( "another craft gets a different one" ) {
+            CHECK( second.reservation_owner_token() != token );
+        }
+
+        THEN( "the token survives the copy that picking a craft up performs" ) {
+            // The copy is the subject: item_uid regenerates, the token must not.
+            // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
+            item copied( first );
+            CHECK( copied.peek_reservation_owner_token() == token );
+            CHECK( copied.uid().get_value() != first.uid().get_value() );
+        }
+    }
+
+    GIVEN( "a craft nobody has claimed" ) {
+        THEN( "peeking does not allocate" ) {
+            CHECK( second.peek_reservation_owner_token() == 0 );
+        }
+    }
+}
+
+TEST_CASE( "reservation_index_rebuilds_from_craft_state",
+           "[craft][attention][reservation][persist]" )
+{
+    clear_avatar();
+    clear_map();
+    map &here = get_map();
+    craft_reservation_index &idx = get_craft_reservations();
+
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    const tripoint_abs_ms abs_origin = here.get_abs( origin );
+    const tripoint_abs_ms provider_tile = here.get_abs( tripoint_bub_ms( 61, 60, 0 ) );
+
+    item ingredient( itype_water, calendar::turn );
+    item placed( &recipe_water_clean_test_unattended_boil.obj(), 1, ingredient );
+    item &on_map = here.add_item( origin, placed );
+    REQUIRE( on_map.is_craft() );
+
+    craft_reservation::binding item_binding;
+    item_binding.kind = craft_reservation::provider_kind::item;
+    item_binding.provider_uid = 4242;
+
+    // Two bindings, one provider: release is reference counted.
+    craft_reservation::binding same_provider = item_binding;
+
+    craft_reservation::binding furn_binding;
+    furn_binding.kind = craft_reservation::provider_kind::furniture;
+    furn_binding.tile = provider_tile;
+
+    craft_reservation::binding shared_binding;
+    shared_binding.kind = craft_reservation::provider_kind::environment;
+    shared_binding.occurrence_slot = 0;
+
+    on_map.set_reservations( { item_binding, same_provider, furn_binding, shared_binding } );
+    on_map.set_reserved_tile( abs_origin );
+    on_map.set_reservation_expiry( calendar::turn + 1_hours );
+    const int64_t token = on_map.reservation_owner_token();
+
+    item_location loc( map_cursor( abs_origin ), &on_map );
+    idx.rebuild_for_craft( loc );
+
+    THEN( "indexed providers are claimed" ) {
+        CHECK( idx.is_reserved_uid( 4242 ) );
+        CHECK( idx.provider_tile_reserved( provider_tile ) );
+        CHECK( idx.craft_site_reserved( abs_origin ) );
+    }
+
+    THEN( "the duplicate binding collapses to one entry" ) {
+        const craft_reservation_index::record *rec = idx.find( token );
+        REQUIRE( rec != nullptr );
+        CHECK( rec->provider_item_uids.size() == 1 );
+    }
+
+    THEN( "shared providers are recorded on the craft but never indexed" ) {
+        const craft_reservation_index::record *rec = idx.find( token );
+        REQUIRE( rec != nullptr );
+        CHECK( rec->provider_part_uids.empty() );
+        CHECK( on_map.get_reservations().size() == 4 );
+    }
+
+    THEN( "the record copies the craft's lease rather than minting one" ) {
+        const craft_reservation_index::record *rec = idx.find( token );
+        REQUIRE( rec != nullptr );
+        CHECK( rec->expires_at == on_map.get_reservation_expiry() );
+    }
+}
+
+TEST_CASE( "reservation_index_rebuild_honours_a_lapsed_lease",
+           "[craft][attention][reservation][persist]" )
+{
+    clear_avatar();
+    clear_map();
+    map &here = get_map();
+    craft_reservation_index &idx = get_craft_reservations();
+
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    const tripoint_abs_ms abs_origin = here.get_abs( origin );
+
+    item ingredient( itype_water, calendar::turn );
+    item placed( &recipe_water_clean_test_unattended_boil.obj(), 1, ingredient );
+    item &on_map = here.add_item( origin, placed );
+    REQUIRE( on_map.is_craft() );
+
+    craft_reservation::binding b;
+    b.kind = craft_reservation::provider_kind::item;
+    b.provider_uid = 4242;
+    on_map.set_reservations( { b } );
+    on_map.set_reservation_expiry( calendar::turn - 1_minutes );
+    on_map.reservation_owner_token();
+
+    item_location loc( map_cursor( abs_origin ), &on_map );
+    idx.rebuild_for_craft( loc );
+
+    THEN( "the craft reclaims nothing, so load order cannot decide ownership" ) {
+        CHECK_FALSE( idx.is_reserved_uid( 4242 ) );
+    }
+}
+
+TEST_CASE( "reservation_index_retakes_a_claim_the_incumbent_released",
+           "[craft][attention][reservation][lifecycle]" )
+{
+    clear_avatar();
+    clear_map();
+
+    const int64_t provider = 987654321;
+    craft_reservation_index &idx = get_craft_reservations();
+
+    craft_reservation_index::record incumbent;
+    incumbent.craft_uid = 111;
+    incumbent.expires_at = calendar::turn + 1_hours;
+    incumbent.provider_item_uids.push_back( provider );
+
+    craft_reservation_index::record loser;
+    loser.craft_uid = 222;
+    loser.expires_at = calendar::turn + 1_hours;
+    loser.provider_item_uids.push_back( provider );
+
+    GIVEN( "two live records naming one provider" ) {
+        idx.set( incumbent );
+        idx.set( loser );
+        REQUIRE( idx.record_for_item_uid( provider ) != nullptr );
+        REQUIRE( idx.record_for_item_uid( provider )->craft_uid == 111 );
+
+        WHEN( "the incumbent releases and the loser refreshes unchanged" ) {
+            idx.erase( 111 );
+            REQUIRE_FALSE( idx.is_reserved_uid( provider ) );
+            idx.set( loser );
+
+            THEN( "the loser takes the claim rather than leaving it free" ) {
+                CHECK( idx.is_reserved_uid( provider ) );
+            }
+        }
+    }
+}
+
+TEST_CASE( "reservation_keeps_claims_a_shift_did_not_walk",
+           "[craft][attention][reservation][lifecycle]" )
+{
+    clear_avatar();
+    clear_map();
+    map &here = get_map();
+
+    GIVEN( "a claim held by a craft this bubble does not hold" ) {
+        craft_reservation_index::record held;
+        held.craft_uid = 424242;
+        held.expires_at = calendar::turn + 1_hours;
+        held.provider_item_uids.push_back( 987654321 );
+        get_craft_reservations().set( held );
+        REQUIRE( get_craft_reservations().is_reserved_uid( 987654321 ) );
+
+        WHEN( "the map shifts" ) {
+            here.shift( point_rel_sm::east );
+
+            THEN( "the claim survives, since the shift walked a bubble without it" ) {
+                CHECK( get_craft_reservations().is_reserved_uid( 987654321 ) );
+            }
+        }
+    }
+}
+
+TEST_CASE( "craft_bindings_survive_a_batched_reload", "[craft][attention][reservation][persist]" )
+{
+    clear_avatar();
+    clear_map();
+
+    // operator* scales components and tool charges, not qualities.
+    item ingredient( itype_water, calendar::turn );
+    item built( &recipe_water_clean_test_unattended_boil.obj(), 4, ingredient );
+    REQUIRE( built.is_craft() );
+
+    const std::vector<std::vector<quality_requirement>> &quals =
+                recipe_water_clean_test_unattended_boil.obj().steps()[0].requirements.get_qualities();
+    REQUIRE( quals.size() == 1 );
+    REQUIRE( quals[0][0].count == 1 );
+
+    craft_reservation::binding b;
+    b.group_index = 0;
+    b.alternative_index = 0;
+    b.req = craft_reservation::requirement_kind::quality;
+    b.qual = quals[0][0].type;
+    b.level = quals[0][0].level;
+    b.group_count = quals[0][0].count;
+    b.kind = craft_reservation::provider_kind::item;
+    b.provider_uid = 4242;
+    built.set_reservations( { b } );
+    built.set_reservation_expiry( calendar::turn + 1_hours );
+
+    std::ostringstream ss;
+    JsonOut jsout( ss );
+    built.serialize( jsout );
+
+    item restored;
+    restored.deserialize( json_loader::from_string( ss.str() ).get_object() );
+    REQUIRE( restored.is_craft() );
+
+    THEN( "the binding is kept rather than dropped as stale" ) {
+        CHECK( restored.get_reservations().size() == 1 );
+    }
+
+    THEN( "the recorded count is the unscaled one" ) {
+        REQUIRE( restored.get_reservations().size() == 1 );
+        CHECK( restored.get_reservations()[0].group_count == 1 );
+    }
+}
+
+TEST_CASE( "reserved_items_are_marked_in_use", "[craft][attention][reservation][ui]" )
+{
+    clear_avatar();
+    clear_map();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+
+    item &reserved = here.add_item( origin, item( itype_pot ) );
+    item &spare = here.add_item( origin, item( itype_pot ) );
+
+    craft_reservation_index::record rec;
+    rec.craft_uid = 4242;
+    rec.provider_item_uids.push_back( reserved.uid().get_value() );
+    rec.expires_at = calendar::turn + 1_hours;
+    get_craft_reservations().set( rec );
+
+    THEN( "the reserved item is marked" ) {
+        CHECK( reserved.tname().find( "in use" ) != std::string::npos );
+    }
+
+    THEN( "an identical free one beside it is not" ) {
+        CHECK( spare.tname().find( "in use" ) == std::string::npos );
+    }
+}
+
+TEST_CASE( "reserved_tiles_refuse_construction_from_a_record",
+           "[craft][attention][reservation][tile]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms site_pos( 60, 60, 0 );
+    const tripoint_bub_ms provider_pos( 61, 60, 0 );
+    const tripoint_bub_ms free_pos( 63, 60, 0 );
+    // check_empty refuses a tile a creature stands on, so keep the avatar off all three.
+    u.setpos( here, tripoint_bub_ms( 55, 55, 0 ) );
+
+    for( const tripoint_bub_ms &p : {
+             site_pos, provider_pos, free_pos
+         } ) {
+        here.ter_set( p, ter_t_dirt );
+    }
+    const construction &con = construction_test_constr_pit_shallow.obj();
+    REQUIRE( can_construct( con, site_pos ) );
+
+    craft_reservation_index::record rec;
+    rec.craft_uid = 4242;
+    rec.craft_tile = here.get_abs( site_pos );
+    rec.provider_tiles.push_back( here.get_abs( provider_pos ) );
+    rec.expires_at = calendar::turn + 1_hours;
+    get_craft_reservations().set( rec );
+
+    THEN( "the craft site is refused" ) {
+        CHECK_FALSE( can_construct( con, site_pos ) );
+    }
+
+    THEN( "a tile supplying a provider is refused too" ) {
+        CHECK_FALSE( can_construct( con, provider_pos ) );
+    }
+
+    THEN( "an unrelated tile is still buildable" ) {
+        CHECK( can_construct( con, free_pos ) );
+    }
+}
+
+TEST_CASE( "craft_relocation_rekeys_its_schedule_and_site_lock",
+           "[craft][attention][reservation][lifecycle]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    const tripoint_bub_ms landing( 62, 60, 0 );
+    u.setpos( here, origin );
+
+    item ingredient( itype_2x4, calendar::turn );
+    item placed( &recipe_cudgel_test_only_unattended.obj(), 1, ingredient );
+    item &on_map = here.add_item( origin, placed );
+    REQUIRE( on_map.is_craft() );
+    on_map.set_current_step( 0 );
+    on_map.set_crafter_id( u.getID() );
+    on_map.set_step_plans( std::vector<attention_plan>( 1 ) );
+    item_location loc( map_cursor( here.get_abs( origin ) ), &on_map );
+    // Without storage, obtain falls through i_add to wield, which carries a re-key hook
+    // of its own; every obtain below would then pass whatever the wrapper does.
+    u.wear_item( item( itype_debug_backpack ) );
+
+    craft_stamp_passive_entry( on_map, u, calendar::turn, loc );
+    REQUIRE( on_map.get_reservations().empty() );
+    REQUIRE( get_craft_reservations().craft_site_reserved( here.get_abs( origin ) ) );
+
+    GIVEN( "the craft is carried to another tile and put down" ) {
+        item_location carried = loc.obtain( u );
+        REQUIRE( carried );
+        // Not wielded, so the wield hook is not what re-keyed it.
+        REQUIRE( u.get_wielded_item().get_item() != carried.get_item() );
+        item_location dropped = here.add_item_or_charges_ret_loc( landing, *carried );
+        carried.remove_item();
+        REQUIRE( dropped );
+        craft_relocated( dropped );
+
+        THEN( "the tile it left is buildable again" ) {
+            CHECK_FALSE( get_craft_reservations().craft_site_reserved( here.get_abs( origin ) ) );
+        }
+
+        THEN( "the tile it landed on is locked" ) {
+            CHECK( dropped->get_reserved_tile() == here.get_abs( landing ) );
+            CHECK( get_craft_reservations().craft_site_reserved( here.get_abs( landing ) ) );
+        }
+
+        THEN( "it is still polling under its new identity" ) {
+            CHECK( get_item_wakeups().is_scheduled( dropped->uid().get_value(),
+                                                    item_wakeup_kind::env_check ) );
+        }
+    }
+
+    GIVEN( "the craft is dropped through the drop activity" ) {
+        const tripoint_bub_ms drop_pos( 61, 61, 0 );
+        item_location carried = loc.obtain( u );
+        REQUIRE( carried );
+        REQUIRE_FALSE( carried->get_reserved_tile().has_value() );
+        const std::list<item> to_drop{ *carried };
+        carried.remove_item();
+        const std::vector<item_location> dropped =
+            drop_on_map( u, item_drop_reason::deliberate, to_drop, &here, drop_pos );
+        REQUIRE( dropped.size() == 1 );
+
+        THEN( "the landing site re-keys itself with no explicit call" ) {
+            CHECK( get_item_wakeups().is_scheduled( dropped.front()->uid().get_value(),
+                                                    item_wakeup_kind::env_check ) );
+            CHECK( dropped.front()->get_reserved_tile() == here.get_abs( drop_pos ) );
+            CHECK( get_craft_reservations().craft_site_reserved( here.get_abs( drop_pos ) ) );
+        }
+    }
+
+    GIVEN( "the craft is inserted into a container on the ground" ) {
+        const tripoint_bub_ms crate_pos( 61, 61, 0 );
+        item &crate = here.add_item( crate_pos, item( itype_backpack ) );
+        item_location holster( map_cursor( here.get_abs( crate_pos ) ), &crate );
+        item_location carried = loc.obtain( u );
+        REQUIRE( carried );
+        drop_locations to_insert;
+        to_insert.emplace_back( carried, 1 );
+        insert_item_activity_actor actor( holster, to_insert );
+        player_activity act;
+        actor.finish( act, u );
+
+        item *inside = nullptr;
+        for( item *held : crate.all_items_top( pocket_type::CONTAINER ) ) {
+            if( held->is_craft() ) {
+                inside = held;
+            }
+        }
+        REQUIRE( inside != nullptr );
+
+        THEN( "the site lock names the container's tile, not the character" ) {
+            CHECK( get_item_wakeups().is_scheduled( inside->uid().get_value(),
+                                                    item_wakeup_kind::env_check ) );
+            CHECK( inside->get_reserved_tile() == here.get_abs( crate_pos ) );
+        }
+    }
+
+    GIVEN( "the craft is thrown to a clear tile" ) {
+        const tripoint_bub_ms target( 60, 63, 0 );
+        item_location carried = loc.obtain( u );
+        REQUIRE( carried );
+        const item thrown = *carried;
+        carried.remove_item();
+        u.set_str_bonus( 10 );
+        u.throw_item( target, thrown );
+
+        item *landed = nullptr;
+        tripoint_bub_ms landing_tile;
+        for( const tripoint_bub_ms &p : here.points_in_radius( target, 3 ) ) {
+            for( item &ground : here.i_at( p ) ) {
+                if( ground.is_craft() ) {
+                    landed = &ground;
+                    landing_tile = p;
+                }
+            }
+        }
+        REQUIRE( landed != nullptr );
+
+        THEN( "the landing re-keys the schedule and the site lock" ) {
+            CHECK( get_item_wakeups().is_scheduled( landed->uid().get_value(),
+                                                    item_wakeup_kind::env_check ) );
+            CHECK( landed->get_reserved_tile() == here.get_abs( landing_tile ) );
+        }
+    }
+
+    GIVEN( "the craft rides in vehicle cargo" ) {
+        const tripoint_bub_ms cart_pos( 65, 60, 0 );
+        vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart, cart_pos,
+                                          0_degrees, 0, veh_spawn_status::UNDAMAGED );
+        REQUIRE( cart != nullptr );
+        std::optional<vpart_reference> cargo = here.veh_at( here.get_abs( cart_pos ) ).cargo();
+        REQUIRE( cargo );
+        item_location carried = loc.obtain( u );
+        REQUIRE( carried );
+        std::optional<vehicle_stack::iterator> in_cargo =
+            cargo->vehicle().add_item( here, cargo->part(), *carried );
+        carried.remove_item();
+        REQUIRE( in_cargo );
+        item_location cargo_loc( vehicle_cursor( cargo->vehicle(), cargo->part_index() ),
+                                 & **in_cargo );
+        // The vehicle add copies; re-key once the way the stow hook does, so the GIVENs
+        // below start from a coherent schedule.
+        craft_relocated( cargo_loc );
+        REQUIRE( get_item_wakeups().is_scheduled( cargo_loc->uid().get_value(),
+                 item_wakeup_kind::env_check ) );
+        REQUIRE( cargo_loc->get_reserved_tile() == here.get_abs( cart_pos ) );
+
+        WHEN( "it is obtained out of the cargo" ) {
+            item_location taken = cargo_loc.obtain( u );
+            REQUIRE( taken );
+            REQUIRE( u.get_wielded_item().get_item() != taken.get_item() );
+
+            THEN( "it polls under its new identity and holds no site lock" ) {
+                CHECK( get_item_wakeups().is_scheduled( taken->uid().get_value(),
+                                                        item_wakeup_kind::env_check ) );
+                CHECK_FALSE( taken->get_reserved_tile().has_value() );
+            }
+        }
+
+        WHEN( "the vehicle moves without the craft being touched" ) {
+            const int64_t uid_before = cargo_loc->uid().get_value();
+            const tripoint_abs_ms old_abs = cargo_loc.pos_abs();
+            REQUIRE( here.displace_vehicle( *cart, tripoint_rel_ms( 2, 0, 0 ) ) );
+            item *riding = nullptr;
+            for( item &it : cargo->items() ) {
+                if( it.is_craft() ) {
+                    riding = &it;
+                }
+            }
+            REQUIRE( riding != nullptr );
+            item_location moved_loc( vehicle_cursor( cargo->vehicle(),
+                                     cargo->part_index() ), riding );
+            const tripoint_abs_ms moved_abs = moved_loc.pos_abs();
+            REQUIRE( moved_abs != old_abs );
+
+            THEN( "nothing was copied, and the lock lags on the tile it left" ) {
+                CHECK( riding->uid().get_value() == uid_before );
+                CHECK( get_item_wakeups().is_scheduled( uid_before,
+                                                        item_wakeup_kind::env_check ) );
+                CHECK( get_craft_reservations().craft_site_reserved( old_abs ) );
+                CHECK_FALSE( get_craft_reservations().craft_site_reserved( moved_abs ) );
+            }
+
+            WHEN( "the next poll runs" ) {
+                craft_actualize_scheduled( *riding, item_wakeup_kind::env_check,
+                                           calendar::turn + 1_minutes, moved_loc );
+
+                THEN( "the site lock follows to the tile the craft now occupies" ) {
+                    CHECK( riding->get_reserved_tile() == moved_abs );
+                    CHECK( get_craft_reservations().craft_site_reserved( moved_abs ) );
+                    CHECK_FALSE( get_craft_reservations().craft_site_reserved( old_abs ) );
+                }
+            }
+        }
+    }
+
+    GIVEN( "the hook is handed a location beneath the moved root" ) {
+        // A craft type has no container pocket, so obtain can never return a location
+        // whose parent is the craft itself; the below-root contract is exercised on
+        // the helper directly, with the craft a sibling of the handed child.
+        const tripoint_bub_ms bag_pos( 63, 63, 0 );
+        item bag( itype_backpack );
+        item_location carried = loc.obtain( u );
+        REQUIRE( carried );
+        REQUIRE( bag.put_in( *carried, pocket_type::CONTAINER ).success() );
+        carried.remove_item();
+        REQUIRE( bag.put_in( item( itype_2x4, calendar::turn ), pocket_type::CONTAINER ).success() );
+        item &grounded_bag = here.add_item( bag_pos, bag );
+        item_location bag_loc( map_cursor( here.get_abs( bag_pos ) ), &grounded_bag );
+
+        item *plank = nullptr;
+        item *nested_craft = nullptr;
+        for( item *held : grounded_bag.all_items_top( pocket_type::CONTAINER ) ) {
+            if( held->is_craft() ) {
+                nested_craft = held;
+            } else {
+                plank = held;
+            }
+        }
+        REQUIRE( plank != nullptr );
+        REQUIRE( nested_craft != nullptr );
+        REQUIRE_FALSE( get_item_wakeups().is_scheduled( nested_craft->uid().get_value(),
+                       item_wakeup_kind::env_check ) );
+
+        WHEN( "a sibling's location is what reaches the hook" ) {
+            craft_relocated( item_location( bag_loc, plank ) );
+
+            THEN( "the craft is found through the ascent and re-keyed" ) {
+                CHECK( get_item_wakeups().is_scheduled( nested_craft->uid().get_value(),
+                                                        item_wakeup_kind::env_check ) );
+                CHECK( nested_craft->get_reserved_tile() == here.get_abs( bag_pos ) );
+            }
+        }
+    }
+}
+
+TEST_CASE( "reservation_keeps_polling_a_site_only_step",
+           "[craft][attention][reservation][lifecycle]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+
+    item ingredient( itype_2x4, calendar::turn );
+    item placed( &recipe_cudgel_test_only_unattended.obj(), 1, ingredient );
+    item &on_map = here.add_item( origin, placed );
+    REQUIRE( on_map.is_craft() );
+    on_map.set_current_step( 0 );
+    on_map.set_crafter_id( u.getID() );
+    on_map.set_step_plans( std::vector<attention_plan>( 1 ) );
+    item_location loc( map_cursor( here.get_abs( origin ) ), &on_map );
+
+    const time_point t0 = calendar::turn;
+
+    GIVEN( "a grounded step holding only its craft site" ) {
+        craft_stamp_passive_entry( on_map, u, t0, loc );
+        REQUIRE( on_map.get_reservations().empty() );
+        REQUIRE( on_map.get_reserved_tile().has_value() );
+        REQUIRE( on_map.get_env_check_at() != calendar::before_time_starts );
+
+        WHEN( "the first check runs" ) {
+            craft_actualize_scheduled( on_map, item_wakeup_kind::env_check, t0 + 1_minutes, loc );
+
+            THEN( "the poll is armed again so the lease keeps sliding" ) {
+                CHECK( on_map.get_env_check_at() != calendar::before_time_starts );
+            }
+
+            THEN( "the lease itself advanced with the completed tick" ) {
+                CHECK( on_map.get_reservation_expiry() == t0 + 1_minutes + 1_hours );
+            }
         }
     }
 }
