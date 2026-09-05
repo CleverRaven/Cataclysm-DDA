@@ -130,7 +130,7 @@
         ],
         "qualities": [ [ { "id": "SCREW" } ], [ { "id": "SCREW_FINE" } ], [ { "id": "WRENCH" } ], [ { "id": "WRENCH_FINE" } ] ],
         "components": [
-          [ [ "solder_wire", 50 ] ],
+          [ [ "solder_wire", 13 ] ],
           [ [ "processor", 2 ] ],
           [ [ "RAM", 8 ] ],
           [ [ "cable", 4 ] ],

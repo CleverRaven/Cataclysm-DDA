@@ -64,11 +64,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [
-      [ [ "thread", 10 ] ],
-      [ [ "paper", 1 ], [ "rolling_paper", 6 ] ],
-      [ [ "gunpowder", 50 ], [ "chem_black_powder", 50 ] ]
-    ]
+    "components": [ [ [ "thread", 10 ] ], [ [ "paper", 1 ], [ "rolling_paper", 6 ] ], [ [ "gunpowder", 3 ], [ "chem_black_powder", 4 ] ] ]
   },
   {
     "result": "firecracker_pack",
@@ -100,8 +96,8 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "using": [ [ "small_gas_canister_case", 1 ] ],
     "components": [
-      [ [ "bleach", 250 ], [ "oxy_powder", 200 ] ],
-      [ [ "ammonia_liquid", 2 ], [ "lye_powder", 200 ] ],
+      [ [ "bleach", 250 ], [ "oxy_powder", 250 ] ],
+      [ [ "ammonia_liquid", 2 ], [ "lye_powder", 250 ] ],
       [ [ "glue_strong", 5 ] ]
     ]
   },
@@ -120,7 +116,7 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "bleach", 250 ], [ "oxy_powder", 200 ] ],
+      [ [ "bleach", 250 ], [ "oxy_powder", 250 ] ],
       [ [ "triffid_fungicide", 1 ], [ "fungicide", 50 ] ],
       [ [ "chem_sulphur", 150 ] ],
       [ [ "small_gas_canister_case", 1, "LIST" ] ],
@@ -142,7 +138,7 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "bleach", 250 ], [ "oxy_powder", 200 ] ],
+      [ [ "bleach", 250 ], [ "oxy_powder", 250 ] ],
       [ [ "insecticide", 1 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [ [ "small_gas_canister_case", 1, "LIST" ] ],

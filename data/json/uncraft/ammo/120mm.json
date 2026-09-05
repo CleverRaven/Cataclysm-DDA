@@ -8,7 +8,7 @@
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "copper", 2500 ] ],
+      [ [ "copper", 1600 ] ],
       [ [ "chem_compositionb", 6000 ] ],
       [ [ "gunpowder_artillery", 80000 ] ],
       [ [ "impact_fuze", 1 ] ],

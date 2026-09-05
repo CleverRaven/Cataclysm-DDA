@@ -1022,7 +1022,7 @@
       [ [ "kernels", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [
-        [ "lye_powder", 15 ],
+        [ "lye_powder", 19 ],
         [ "chem_potassium_hydroxide", 75 ],
         [ "lye", 1 ],
         [ "lye_potassium", 1 ],

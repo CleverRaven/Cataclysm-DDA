@@ -62,13 +62,13 @@
     "batch_time_factors": [ 70, 5 ],
     "autolearn": true,
     "using": [ [ "surface_heat", 50 ] ],
-    "charges": 50,
+    "charges": 13,
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 } ],
     "tools": [
       [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "swage", -1 ] ],
       [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ]
     ],
-    "components": [ [ [ "lead", 15 ], [ "bismuth", 25 ] ], [ [ "tin", 25 ] ], [ [ "rosin", 2 ] ] ]
+    "components": [ [ [ "lead", 15 ], [ "bismuth", 21 ] ], [ [ "tin", 13 ] ], [ [ "rosin", 2 ] ] ]
   }
 ]

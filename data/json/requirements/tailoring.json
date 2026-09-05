@@ -12,7 +12,7 @@
     "//": "Assembling chainmail rings into finished products, and riveting rings closed, per 1025 g of steel.  It is assumed that each ring used comes with a prepared rivet.  Time needed is 1 hour per unit (most of the time goes into making rings and then chainmail sheets first)",
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
-    "components": [ [ [ "lc_link_sheet", 1 ] ], [ [ "lc_chain_link", 25 ] ] ]
+    "components": [ [ [ "lc_link_sheet", 1 ] ], [ [ "lc_chain_link", 15 ] ] ]
   },
   {
     "id": "armor_mc_chainmail_assembling",

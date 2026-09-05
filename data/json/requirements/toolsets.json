@@ -227,7 +227,7 @@
       ]
     ],
     "components": [
-      [ [ "welding_rod_steel", 10 ], [ "welding_wire_steel", 10 ], [ "brazing_rod_bronze", 10 ] ],
+      [ [ "welding_rod_steel", 12 ], [ "welding_wire_steel", 7 ], [ "brazing_rod_bronze", 8 ] ],
       [ [ "steel_chunk_any", 1, "LIST" ] ]
     ]
   },
@@ -247,7 +247,7 @@
       ]
     ],
     "components": [
-      [ [ "welding_rod_steel", 10 ], [ "welding_wire_steel", 10 ], [ "brazing_rod_bronze", 10 ] ],
+      [ [ "welding_rod_steel", 12 ], [ "welding_wire_steel", 7 ], [ "brazing_rod_bronze", 8 ] ],
       [ [ "lc_steel_chunk", 1 ] ]
     ]
   },
@@ -267,7 +267,7 @@
       ]
     ],
     "components": [
-      [ [ "welding_rod_alloy", 10 ], [ "welding_wire_alloy", 10 ], [ "brazing_rod_alloy", 10 ] ],
+      [ [ "welding_rod_alloy", 12 ], [ "welding_wire_alloy", 14 ], [ "brazing_rod_alloy", 8 ] ],
       [ [ "material_aluminium_ingot", 1 ] ]
     ]
   },
@@ -278,7 +278,7 @@
     "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient",
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
     "tools": [ [ [ "welder", 800 ], [ "welding_kit", 800 ], [ "welder_crude", 1600 ], [ "oxy_torch", 40 ] ] ],
-    "components": [ [ [ "welding_rod_steel", 10 ], [ "welding_wire_steel", 10 ], [ "brazing_rod_bronze", 10 ] ], [ [ "rebar", 1 ] ] ]
+    "components": [ [ [ "welding_rod_steel", 12 ], [ "welding_wire_steel", 7 ], [ "brazing_rod_bronze", 8 ] ], [ [ "rebar", 1 ] ] ]
   },
   {
     "id": "chainmail_standard",

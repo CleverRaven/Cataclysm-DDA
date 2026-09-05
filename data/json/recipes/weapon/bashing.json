@@ -1600,7 +1600,7 @@
     "autolearn": false,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "ppe_gas", 1 ], [ "metal_punch", 1 ] ],
-    "components": [ [ [ "copper", 100 ] ], [ [ "chem_zinc_powder", 500 ] ] ]
+    "components": [ [ [ "copper", 64 ] ], [ [ "chem_zinc_powder", 500 ] ] ]
   },
   {
     "result": "xl_knuckle_brass",
@@ -1608,7 +1608,7 @@
     "copy-from": "knuckle_brass",
     "time": "1 h",
     "using": [ [ "blacksmithing_standard", 4 ], [ "ppe_gas", 1 ], [ "metal_punch", 1 ] ],
-    "components": [ [ [ "copper", 150 ] ], [ [ "chem_zinc_powder", 600 ] ] ]
+    "components": [ [ [ "copper", 96 ] ], [ [ "chem_zinc_powder", 600 ] ] ]
   },
   {
     "result": "xs_knuckle_brass",
@@ -1616,7 +1616,7 @@
     "copy-from": "knuckle_brass",
     "time": "1 h",
     "using": [ [ "blacksmithing_standard", 4 ], [ "ppe_gas", 1 ], [ "metal_punch", 1 ] ],
-    "components": [ [ [ "copper", 80 ] ], [ [ "chem_zinc_powder", 400 ] ] ]
+    "components": [ [ [ "copper", 51 ] ], [ [ "chem_zinc_powder", 400 ] ] ]
   },
   {
     "type": "recipe",

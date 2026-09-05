@@ -13,7 +13,7 @@
     "book_learn": [ [ "recipe_dave_manual", 1 ] ],
     "using": [ [ "adhesive", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "cardboard", 300 ] ], [ [ "aluminum_foil", 5 ] ] ]
+    "components": [ [ [ "cardboard", 300 ] ], [ [ "aluminum_foil", 1 ] ] ]
   },
   {
     "result": "armor_cardboard",

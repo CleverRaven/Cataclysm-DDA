@@ -57,7 +57,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "//": "971 mg gunpowder rounded to 10 100 mg 'pieces'",
-    "components": [ [ [ "chem_black_powder", 10 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ] ]
   },
   {
     "result": "bp_410shot_000",
@@ -70,7 +70,7 @@
     "batch_time_factors": [ 60, 5 ],
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 5 ], [ "ammo_410shot", 1 ] ],
     "tools": [ [ [ "press_dowel", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 10 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ] ]
   },
   {
     "result": "reloaded_410shot_bird",
@@ -110,7 +110,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "//": "1101 mg gunpowder rounded to 11 100 mg 'pieces'",
-    "components": [ [ [ "chem_black_powder", 11 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ] ]
   },
   {
     "result": "bp_410shot_bird",
@@ -122,7 +122,7 @@
     "time": "4 m",
     "batch_time_factors": [ 60, 5 ],
     "tools": [ [ [ "press_dowel", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 11 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ] ]
   },
   {
     "result": "reloaded_410shot_slug",
@@ -162,7 +162,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "//": "971 mg gunpowder rounded to 10 100 mg 'pieces'",
-    "components": [ [ [ "chem_black_powder", 10 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ] ]
   },
   {
     "result": "bp_410shot_slug",
@@ -174,7 +174,7 @@
     "time": "4 m",
     "batch_time_factors": [ 60, 5 ],
     "tools": [ [ [ "press_dowel", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 10 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ] ]
   },
   {
     "result": "410shot_scrap",
@@ -199,7 +199,7 @@
         [ "scrap", 1 ],
         [ "nails", 4, "LIST" ],
         [ "bb", 7 ],
-        [ "solder_wire", 4 ],
+        [ "solder_wire", 1 ],
         [ "platinum_small", 1 ],
         [ "gold_small", 1 ],
         [ "bearing", 2 ],
@@ -228,12 +228,12 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "components": [
-      [ [ "chem_black_powder", 10 ] ],
+      [ [ "chem_black_powder", 1 ] ],
       [
         [ "scrap", 1 ],
         [ "nails", 4, "LIST" ],
         [ "bb", 7 ],
-        [ "solder_wire", 4 ],
+        [ "solder_wire", 1 ],
         [ "platinum_small", 1 ],
         [ "gold_small", 1 ],
         [ "bearing", 2 ],
@@ -256,12 +256,12 @@
     "using": [ [ "ammo_410shot", 1 ] ],
     "tools": [ [ [ "press_dowel", -1 ] ] ],
     "components": [
-      [ [ "chem_black_powder", 10 ] ],
+      [ [ "chem_black_powder", 1 ] ],
       [
         [ "scrap", 1 ],
         [ "nails", 4, "LIST" ],
         [ "bb", 7 ],
-        [ "solder_wire", 4 ],
+        [ "solder_wire", 1 ],
         [ "platinum_small", 1 ],
         [ "gold_small", 1 ],
         [ "bearing", 2 ],
@@ -309,7 +309,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "//": "same charge as a 1 oz load, could find no reference to actual loading data. 1490 mg gunpowder rounded to 15 100 mg 'pieces'",
-    "components": [ [ [ "gunpowder_pistol", 15 ], [ "gunpowder_shotgun", 15 ] ], [ [ "magnesium", 5 ] ] ]
+    "components": [ [ [ "gunpowder_pistol", 15 ], [ "gunpowder_shotgun", 15 ] ], [ [ "magnesium", 4 ] ] ]
   },
   {
     "result": "reloaded_shot_flechette",
@@ -367,7 +367,7 @@
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 11 ], [ "ammo_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 12 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ] ]
   },
   {
     "result": "bp_shot_bird",
@@ -387,7 +387,7 @@
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 15 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ] ]
   },
   {
     "result": "bp_shot_dragon",
@@ -406,7 +406,7 @@
     "using": [ [ "ammo_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 15 ] ], [ [ "magnesium", 5 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ], [ [ "magnesium", 4 ] ] ]
   },
   {
     "result": "bp_shot_flechette",
@@ -425,7 +425,7 @@
     "using": [ [ "ammo_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 8 ] ], [ [ "combatnail", 10 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ], [ [ "combatnail", 10 ] ] ]
   },
   {
     "result": "bp_shot_slug",
@@ -443,7 +443,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "chem_black_powder", 17 ] ] ]
+    "components": [ [ [ "chem_black_powder", 2 ] ] ]
   },
   {
     "result": "bp_shot_00",
@@ -455,7 +455,7 @@
     "time": "4 m",
     "batch_time_factors": [ 60, 5 ],
     "tools": [ [ [ "press_dowel", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 12 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ] ]
   },
   {
     "result": "bp_shot_bird",
@@ -467,7 +467,7 @@
     "time": "4 m",
     "batch_time_factors": [ 60, 5 ],
     "tools": [ [ [ "press_dowel", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 15 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ] ]
   },
   {
     "result": "bp_shot_dragon",
@@ -479,7 +479,7 @@
     "time": "4 m",
     "batch_time_factors": [ 60, 5 ],
     "tools": [ [ [ "press_dowel", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 15 ] ], [ [ "magnesium", 5 ] ] ]
+    "components": [ [ [ "chem_black_powder", 1 ] ], [ [ "magnesium", 4 ] ] ]
   },
   {
     "result": "bp_shot_slug",
@@ -496,7 +496,7 @@
       [ [ "pipe", -1 ], [ "cu_pipe", -1 ], [ "material_sand", -1 ], [ "material_soil", -1 ], [ "clay_lump", -1 ] ],
       [ [ "fire", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ]
     ],
-    "components": [ [ [ "chem_black_powder", 17 ] ] ]
+    "components": [ [ [ "chem_black_powder", 2 ] ] ]
   },
   {
     "result": "shot_scrap",
@@ -523,13 +523,13 @@
         [ "scrap", 1 ],
         [ "nails", 5, "LIST" ],
         [ "bb", 10 ],
-        [ "solder_wire", 5 ],
+        [ "solder_wire", 1 ],
         [ "platinum_small", 2 ],
         [ "gold_small", 2 ],
         [ "bearing", 3 ],
         [ "lead", 4 ],
         [ "silver_small", 4 ],
-        [ "bismuth", 4 ],
+        [ "bismuth", 3 ],
         [ "shrapnel", 2 ]
       ]
     ]
@@ -553,12 +553,12 @@
     "tools": [ [ [ "press", -1 ] ] ],
     "//1": "currently halved inputs (rounding up) and result pending fix of casing duplication",
     "components": [
-      [ [ "chem_black_powder", 12 ] ],
+      [ [ "chem_black_powder", 1 ] ],
       [
         [ "scrap", 1 ],
         [ "nails", 5, "LIST" ],
         [ "bb", 10 ],
-        [ "solder_wire", 5 ],
+        [ "solder_wire", 1 ],
         [ "platinum_small", 2 ],
         [ "gold_small", 2 ],
         [ "bearing", 3 ],
@@ -581,12 +581,12 @@
     "tools": [ [ [ "press_dowel", -1 ] ] ],
     "//1": "currently halved inputs (rounding up) and result pending fix of casing duplication",
     "components": [
-      [ [ "chem_black_powder", 23 ] ],
+      [ [ "chem_black_powder", 2 ] ],
       [
         [ "scrap", 1 ],
         [ "nails", 5, "LIST" ],
         [ "bb", 10 ],
-        [ "solder_wire", 5 ],
+        [ "solder_wire", 1 ],
         [ "platinum_small", 2 ],
         [ "gold_small", 2 ],
         [ "bearing", 3 ],
@@ -613,7 +613,7 @@
     "using": [ [ "ammo_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [ [ [ "incendiary", 25 ] ] ]
+    "components": [ [ [ "incendiary", 21 ] ] ]
   },
   {
     "result": "wax_slug",

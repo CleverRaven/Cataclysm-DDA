@@ -266,13 +266,7 @@
     ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
-      [
-        [ "tin", 12 ],
-        [ "aluminum_foil", 371 ],
-        [ "chem_aluminium_powder", 29 ],
-        [ "can_drink", 2 ],
-        [ "scrap_aluminum", 1 ]
-      ],
+      [ [ "tin", 6 ], [ "aluminum_foil", 19 ], [ "chem_aluminium_powder", 24 ], [ "can_drink", 2 ], [ "scrap_aluminum", 1 ] ],
       [ [ "copper_scrap_equivalent", 1, "LIST" ] ]
     ]
   },
@@ -295,7 +289,7 @@
     "type": "recipe",
     "copy-from": "ingot_making_base",
     "using": [ [ "smelting_standard", 5510 ] ],
-    "components": [ [ [ "scrap_copper", 36 ], [ "copper", 1800 ] ] ]
+    "components": [ [ [ "scrap_copper", 36 ], [ "copper", 1152 ] ] ]
   },
   {
     "type": "recipe",
@@ -309,7 +303,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "copper", 50 ] ] ]
+    "components": [ [ [ "copper", 32 ] ] ]
   },
   {
     "type": "recipe",
@@ -321,7 +315,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "charges": 19,
+    "charges": 12,
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "//": "There is a loss of approximately 4.687 grams, for the math check #74702.",
     "components": [ [ [ "copper_wire", 21 ] ] ]
@@ -457,7 +451,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "chem_aluminium_powder",
-    "charges": 100,
+    "charges": 83,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
@@ -468,7 +462,7 @@
     "//": "TODO: inputs not balanced to 176g output",
     "//2": "TODO: water / sand amounts excessive; also can recover some of it as byproducts",
     "components": [
-      [ [ "material_aluminium_ingot", 1 ], [ "can_drink", 6 ], [ "scrap_aluminum", 2 ], [ "aluminum_foil", 40 ] ],
+      [ [ "material_aluminium_ingot", 1 ], [ "can_drink", 6 ], [ "scrap_aluminum", 2 ], [ "aluminum_foil", 2 ] ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ],
       [ [ "material_sand", 25 ] ]
     ]
@@ -1065,7 +1059,7 @@
   },
   {
     "result": "tin",
-    "charges": 100,
+    "charges": 50,
     "id_suffix": "from_bowl",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
@@ -1129,7 +1123,7 @@
   },
   {
     "result": "tin",
-    "charges": 100,
+    "charges": 50,
     "id_suffix": "from_scrap",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1159,7 +1153,7 @@
     "result": "fuse",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "charges": 50,
+    "charges": 40,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "chemistry",
@@ -1183,14 +1177,10 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "time": "10 m",
-    "charges": 6,
+    "charges": 5,
     "batch_time_factors": [ 60, 2 ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [
-      [ [ "string_36", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "chem_black_powder", 6 ], [ "gunpowder", 60 ] ]
-    ]
+    "components": [ [ [ "string_36", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "chem_black_powder", 1 ], [ "gunpowder", 3 ] ] ]
   },
   {
     "result": "fuse",
@@ -1204,9 +1194,9 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "time": "4 m",
-    "charges": 3,
+    "charges": 2,
     "batch_time_factors": [ 30, 2 ],
-    "components": [ [ [ "rolling_paper", 1 ] ], [ [ "chem_black_powder", 3 ], [ "red_phosphorous_small", 3 ], [ "gunpowder", 30 ] ] ]
+    "components": [ [ [ "rolling_paper", 1 ] ], [ [ "chem_black_powder", 1 ], [ "red_phosphorous_small", 3 ], [ "gunpowder", 2 ] ] ]
   },
   {
     "result": "lc_wire",
@@ -1583,7 +1573,7 @@
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "scrap", 6 ] ] ],
-    "byproduct_group": [ { "item": "slag", "count": 5 } ]
+    "byproduct_group": [ { "item": "slag", "count": 4 } ]
   },
   {
     "result": "budget_steel_lump",
@@ -1600,7 +1590,7 @@
     "using": [ [ "forging_standard", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "scrap", 24 ] ] ],
-    "byproduct_group": [ { "item": "slag", "count": 20 } ]
+    "byproduct_group": [ { "item": "slag", "count": 17 } ]
   },
   {
     "result": "budget_steel_lump",
@@ -1760,7 +1750,7 @@
     "batch_time_factors": [ 90, 4 ],
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "aluminum_foil", 371 ] ] ]
+    "components": [ [ [ "aluminum_foil", 19 ] ] ]
   },
   {
     "result": "scrap_aluminum",
