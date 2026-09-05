@@ -94,6 +94,8 @@
 
 static const efftype_id effect_ridden( "ridden" );
 
+static const flag_id json_flag_TAXIDERMY( "TAXIDERMY" );
+
 static const itype_id itype_corpse( "corpse" );
 
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
@@ -3538,14 +3540,25 @@ bool cata_tiles::draw_field_or_item( const tripoint_bub_ms &p, const lit_level l
                 it_type = nullptr;
             }
             if( it_type && !it_id.is_null() ) {
+                bool is_taxidermy = !it_overridden && tile.get_uppermost_item().has_flag( json_flag_TAXIDERMY );
 
-                const std::string disp_id = it_id == itype_corpse && mon_id ?
-                                            "corpse_" + mon_id.str() : it_id.str();
+                std::string disp_id;
+                TILE_CATEGORY cat = TILE_CATEGORY::ITEM;
+
+                if( is_taxidermy && mon_id ) {
+                    disp_id = mon_id.str();
+                    cat = TILE_CATEGORY::MONSTER;
+                } else if( it_id == itype_corpse && mon_id ) {
+                    disp_id = "corpse_" + mon_id.str();
+                } else {
+                    disp_id = it_id.str();
+                }
+
                 const std::string it_category = it_type->get_item_type_string();
                 const lit_level lit = it_overridden ? lit_level::LIT : ll;
                 const bool nv = it_overridden ? false : nv_goggles_activated;
 
-                ret_draw_items = draw_from_id_string( disp_id, TILE_CATEGORY::ITEM, it_category, p, 0,
+                ret_draw_items = draw_from_id_string( disp_id, cat, it_category, p, 0,
                                                       0, lit, nv, height_3d, 0, variant );
                 if( ret_draw_items && hilite ) {
                     draw_item_highlight( p, height_3d );
