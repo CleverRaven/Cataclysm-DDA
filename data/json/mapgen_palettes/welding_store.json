@@ -52,6 +52,7 @@
       "H": "f_counter",
       "S": "f_rack"
     },
+    "monster": { "g": { "monster": "mon_raccoon", "chance": 15, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
     "item": {
       "f": { "item": "weldtank", "chance": 65, "repeat": [ 0, 3 ] },
       "F": { "item": "weldtank", "chance": 50, "repeat": [ 0, 3 ] }

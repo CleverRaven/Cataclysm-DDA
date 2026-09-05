@@ -55,6 +55,7 @@
       "^": "f_rubble",
       "{": [ "f_vending_o", "f_vending_c_off" ]
     },
+    "monster": { "K": { "monster": "mon_raccoon", "chance": 15, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
     "vendingmachines": {
       "U": { "item_group": "vending_drink", "lootable": true },
       "V": { "item_group": "vending_food", "lootable": true },

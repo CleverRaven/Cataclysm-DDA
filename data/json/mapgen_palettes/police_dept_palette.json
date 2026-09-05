@@ -123,6 +123,7 @@
       }
     },
     "liquids": { "z": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+    "monster": { "A": { "monster": "mon_raccoon", "chance": 15, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
     "toilets": { "T": {  }, "t": {  } }
   }
 ]
