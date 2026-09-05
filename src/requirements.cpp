@@ -1021,8 +1021,7 @@ bool quality_requirement::has(
     // Intrinsic only: has_quality also walks the actor's items, which crafting_inv has
     // already filtered.  A disjunction rather than a sum of the two counts, since a pseudo
     // item is reachable from both sides and would be counted twice.
-    return crafting_inv.has_provider_quality( type, level, count, actor ) ||
-           ( actor != nullptr && actor->has_intrinsic_quality( type, level, count ) );
+    return ( actor != nullptr && actor->has_intrinsic_quality( type, level, count ) ) || crafting_inv.has_provider_quality( type, level, count, actor );
 }
 
 nc_color quality_requirement::get_color( const Character *actor, bool has_one,
