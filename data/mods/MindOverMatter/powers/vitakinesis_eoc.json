@@ -107,7 +107,15 @@
     "effect": [
       { "u_message": "You begin to sweat.", "type": "mixed" },
       { "u_add_wet": 8 },
-      { "run_eocs": [ "EOC_VITAKIN_DEXTOXIFICATION_TOXICFLESH" ] },
+      {
+        "if": {
+          "and": [
+            { "not": { "u_has_bionics": "bio_exodii_cyberframe_1b" } },
+            { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } }
+          ]
+        },
+        "then": { "run_eocs": [ "EOC_VITAKIN_DEXTOXIFICATION_TOXICFLESH" ] }
+      },
       {
         "u_lose_effect": [ "poison", "badpoison", "venom_dmg", "venom_weaken", "venom_blind", "venom_pain", "paralyzepoison" ],
         "target_part": "ALL"

@@ -179,6 +179,7 @@
         "title": "Choose body part.",
         "names": [ "Left Arm", "Right Arm", "Head", "Left Leg", "Right Leg", "Torso" ],
         "keys": [ "1", "2", "3", "4", "5", "6" ],
+        "hide_failing": true,
         "descriptions": [
           "Concentrate healing wounds on the left arm.",
           "Concentrate healing wounds on the right arm.",
@@ -193,7 +194,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_CONCENTRATED_HEALING_LEFT_ARM",
-    "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_vita_concentrated_healing" },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1b" } },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } },
+        { "not": { "u_has_trait": "BIONIC_ARM_BASIC_LEFT" } },
+        { "not": { "u_has_trait": "BIONIC_ARM_BASIC_BOTH" } }
+      ]
+    },
     "effect": [
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "head", "duration": "PERMANENT" },
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "torso", "duration": "PERMANENT" },
@@ -216,7 +225,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_CONCENTRATED_HEALING_RIGHT_ARM",
-    "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_vita_concentrated_healing" },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1b" } },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } },
+        { "not": { "u_has_trait": "BIONIC_ARM_BASIC_RIGHT" } },
+        { "not": { "u_has_trait": "BIONIC_ARM_BASIC_BOTH" } }
+      ]
+    },
     "effect": [
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "head", "duration": "PERMANENT" },
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "torso", "duration": "PERMANENT" },
@@ -263,7 +280,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_CONCENTRATED_HEALING_RIGHT_LEG",
-    "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_vita_concentrated_healing" },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1b" } },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } },
+        { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } },
+        { "not": { "u_has_trait": "BIONIC_LEG_BASIC_BOTH" } }
+      ]
+    },
     "effect": [
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "head", "duration": "PERMANENT" },
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "torso", "duration": "PERMANENT" },
@@ -286,7 +311,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_CONCENTRATED_HEALING_LEFT_LEG",
-    "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_vita_concentrated_healing" },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1b" } },
+        { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } },
+        { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } },
+        { "not": { "u_has_trait": "BIONIC_LEG_BASIC_BOTH" } }
+      ]
+    },
     "effect": [
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "head", "duration": "PERMANENT" },
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "torso", "duration": "PERMANENT" },
