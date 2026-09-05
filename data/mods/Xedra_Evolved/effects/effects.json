@@ -4498,5 +4498,40 @@
     "rating": "bad",
     "show_in_info": true,
     "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.5 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "void_stares_back",
+    "name": [ "Glances in the Darkness", "Notice of the Void", "Consideration from Beyond", "Darkly Focused", "Void's Obsession" ],
+    "miss_messages": [ [ "Your sense of reality warps!", 3 ] ],
+    "speed_name": "Tainted",
+    "desc": [
+      "The hairs on the back of your neck rise.",
+      "Whispers just outside of comprehension.",
+      "Pregnant silence…",
+      "Something you can only describe as hungry chants…",
+      "You. Are. Seen."
+    ],
+    "rating": "bad",
+    "max_intensity": 5,
+    "max_duration": "2 h",
+    "int_add_val": 1,
+    "int_dur_factor": "30 m",
+    "base_mods": { "speed_mod": [ -20 ], "str_mod": [ 0 ], "dex_mod": [ -1 ], "per_mod": [ -2 ], "vomit_chance": [ 20 ] },
+    "scaling_mods": { "speed_mod": [ -10 ], "int_mod": [ -2 ], "str_mod": [ -1 ], "dex_mod": [ -1 ], "per_mod": [ -2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "discombobulate",
+    "name": [ "Discombobulated" ],
+    "desc": [ "Your %s flesh is warped and taffy-like." ],
+    "main_parts_only": true,
+    "part_descs": true,
+    "show_in_info": true,
+    "miss_messages": [ [ "Your limbs don't move as smoothly as usual.", 1 ] ],
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
+    "resist_traits": [ "RESTRICTED", "CHAOTIC_BAD" ],
+    "base_mods": { "dex_mod": [ -1 ], "str_mod": [ -1 ], "speed_mod": [ -3 ] },
+    "scaling_mods": { "str_mod": [ -0.5, -0.3 ], "dex_mod": [ -0.5, -0.3 ], "speed_mod": [ -0.5, -0.25 ] }
   }
 ]
