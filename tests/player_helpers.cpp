@@ -223,6 +223,7 @@ void arm_shooter( Character &shooter, const itype_id &gun_type,
 void clear_avatar()
 {
     avatar &avatar = get_avatar();
+    g->clear_kill_tracker();
     clear_character( avatar );
     avatar.grab( object_type::NONE );
     avatar.clear_identified();
