@@ -110,7 +110,10 @@
       "fort_\\d.*",
       "forge_.*",
       "aenor_paddock.*",
-      "field_office_.*"
+      "field_office_.*",
+      "aenor_farm_track.*",
+      "crystalline_spire_.*",
+      "field_deathworm"
     ]
   }
 ]
