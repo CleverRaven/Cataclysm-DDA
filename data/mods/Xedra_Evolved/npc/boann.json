@@ -147,7 +147,7 @@
           "and": [
             { "mod_is_loaded": "mindovermatter" },
             {
-              "or": [ { "math": [ "jmath_telepathy_knacks_combined_level() > 10" ] }, { "u_has_trait": "TELEPATH" } ]
+              "or": [ { "u_has_trait": "TELEPATH" }, { "math": [ "jmath_telepathy_knacks_combined_level() > 10" ] } ] }
             }
           ]
         },
