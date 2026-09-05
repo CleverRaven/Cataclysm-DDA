@@ -17,18 +17,6 @@ pixel_minimap_ortho_projector::pixel_minimap_ortho_projector(
     }
 }
 
-SDL_Rect pixel_minimap_ortho_projector::get_chunk_rect(
-    const point &p,
-    const point &tiles_count ) const
-{
-    return {
-        p.x * tile_size.x,
-        p.y * tile_size.y,
-        tiles_count.x * tile_size.x,
-        tiles_count.y *tile_size.y
-    };
-}
-
 point pixel_minimap_ortho_projector::get_tile_size() const
 {
     return tile_size;
@@ -61,17 +49,6 @@ pixel_minimap_iso_projector::pixel_minimap_iso_projector(
     if( square_pixels ) {
         tile_size.x = tile_size.y = std::min( tile_size.x, tile_size.y );
     }
-}
-
-SDL_Rect pixel_minimap_iso_projector::get_chunk_rect(
-    const point &p,
-    const point &tiles_count ) const
-{
-    const point size = get_tiles_size( tiles_count );
-    const point offset = point{ 0, tile_size.y *tiles_count.y / 2 };
-    const point pos = get_tile_pos( p, total_tiles_count ) - offset;
-
-    return { pos.x, pos.y, size.x, size.y };
 }
 
 point pixel_minimap_iso_projector::get_tile_size() const
