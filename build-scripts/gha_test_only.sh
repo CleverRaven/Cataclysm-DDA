@@ -5,10 +5,10 @@
 echo "Using bash version $BASH_VERSION"
 set -exo pipefail
 
-num_jobs=3
+num_jobs=$(nproc 2>/dev/null || echo 4)
 parallel_opts="--verbose --linebuffer"
 cata_test_opts="--min-duration 20 --use-colour yes --rng-seed time --order lex ${EXTRA_TEST_OPTS}"
-[ -z $NUM_TEST_JOBS ] && num_test_jobs=3 || num_test_jobs=$NUM_TEST_JOBS
+[ -z "$NUM_TEST_JOBS" ] && num_test_jobs=$num_jobs || num_test_jobs=$NUM_TEST_JOBS
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
 export PATH=$HOME/.local/bin:$PATH
@@ -50,16 +50,23 @@ then
     fi
 
     # Run regular tests
-    [ -f "${bin_path}cata_test" ] && parallel ${parallel_opts} "run_test $(printf %q "${bin_path}")'/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
-    [ -f "${bin_path}cata_test-tiles" ] && parallel ${parallel_opts} "run_test $(printf %q "${bin_path}")'/cata_test-tiles' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
+    if [ -f "${bin_path}cata_test" ]; then
+        SHARDS=$(python3 build-scripts/shard_tests.py --bin "${bin_path}cata_test" --shards "$num_test_jobs")
+        parallel -j "$num_test_jobs" ${parallel_opts} "run_test $(printf %q "${bin_path}")'/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} -f {}" ::: $SHARDS
+    fi
+    if [ -f "${bin_path}cata_test-tiles" ]; then
+        SHARDS=$(python3 build-scripts/shard_tests.py --bin "${bin_path}cata_test-tiles" --shards "$num_test_jobs")
+        parallel -j "$num_test_jobs" ${parallel_opts} "run_test $(printf %q "${bin_path}")'/cata_test-tiles' '('{}')=> ' --user-dir=test_user_dir_{#} -f {}" ::: $SHARDS
+    fi
 else
     export ASAN_OPTIONS=detect_odr_violation=1
     export UBSAN_OPTIONS=print_stacktrace=1
-    parallel -j "$num_test_jobs" ${parallel_opts} "run_test './tests/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
+    SHARDS=$(python3 build-scripts/shard_tests.py --bin "./tests/cata_test" --shards "$num_test_jobs")
+    parallel -j "$num_test_jobs" ${parallel_opts} "run_test './tests/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} -f {}" ::: $SHARDS
     if [ -n "$MODS" ]
     then
         for MODSET in ${MODS//|/ }; do
-            parallel -j "$num_test_jobs" ${parallel_opts} "run_test './tests/cata_test' 'Mods-('{}')=> ' --mods=$(printf %q "${MODSET}") --user-dir=modded_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
+            parallel -j "$num_test_jobs" ${parallel_opts} "run_test './tests/cata_test' 'Mods-('{}')=> ' --mods=$(printf %q "${MODSET}") --user-dir=modded_{#} -f {}" ::: $SHARDS
         done
     fi
 

@@ -605,7 +605,9 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
             point_abs_omt omt_end = omt_start + ( point::south_east * OMAPX );
             for( point_abs_omt p = omt_start; p.y() < omt_end.y(); p.y()++ ) {
                 for( p.x() = omt_start.x(); p.x() < omt_end.x(); p.x()++ ) {
-                    REQUIRE( !main_map.inbounds( tripoint_abs_ms( project_to<coords::ms>( p ), 0 ) ) );
+                    if( main_map.inbounds( tripoint_abs_ms( project_to<coords::ms>( p ), 0 ) ) ) {
+                        FAIL( "overmap point is inbounds of main map" );
+                    }
                     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; ++z ) {
                         tripoint_abs_omt tp( p, z );
                         oter_type_id id = overmap_buffer.ter( tp )->get_type_id();
