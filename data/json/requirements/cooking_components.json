@@ -357,7 +357,7 @@
         [ "syrup", 4 ],
         [ "syrup_corn", 3 ],
         [ "syrup_simple", 6 ],
-        [ "beet_syrup", 5 ],
+        [ "beet_syrup", 3 ],
         [ "molasses", 1 ],
         [ "honey_bottled", 3 ],
         [ "honey_glassed", 1 ],
@@ -377,7 +377,7 @@
         [ "syrup", 2 ],
         [ "syrup_corn", 2 ],
         [ "syrup_simple", 3 ],
-        [ "beet_syrup", 3 ],
+        [ "beet_syrup", 2 ],
         [ "honey_bottled", 2 ],
         [ "honeydew", 2 ],
         [ "artificial_sweetener", 6 ]
