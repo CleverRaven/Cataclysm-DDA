@@ -303,6 +303,18 @@
         { "chunks": [ "2x2_micro_apartment_furniture_e" ], "x": 8, "y": 7 },
         { "chunks": [ "2x2_micro_apartment_furniture_e" ], "x": 8, "y": 9 }
       ],
+      "place_zones": [
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 1, 3 ], "y": 1 },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 9 ], "y": 1 },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 1, 3 ], "y": 3 },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 9 ], "y": 3 },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 1, 3 ], "y": 5 },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 9 ], "y": 5 },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 1, 3 ], "y": 7 },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 9 ], "y": 7 },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 1, 3 ], "y": 9 },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 9 ], "y": 9 }
+      ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -357,6 +369,18 @@
         { "chunks": [ "2x2_micro_apartment_furniture_n" ], "x": 5, "y": 8 },
         { "chunks": [ "2x2_micro_apartment_furniture_n" ], "x": 7, "y": 8 },
         { "chunks": [ "2x2_micro_apartment_furniture_n" ], "x": 9, "y": 8 }
+      ],
+      "place_zones": [
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 1, "y": [ 1, 3 ] },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 1, "y": [ 7, 9 ] },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 3, "y": [ 1, 3 ] },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 3, "y": [ 7, 9 ] },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 5, "y": [ 1, 3 ] },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 5, "y": [ 7, 9 ] },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 7, "y": [ 1, 3 ] },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 7, "y": [ 7, 9 ] },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 9, "y": [ 1, 3 ] },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 9, "y": [ 7, 9 ] }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
