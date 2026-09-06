@@ -12,6 +12,7 @@
 #include <set>
 #include <string>
 #include <tuple>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -1235,27 +1236,26 @@ static bool eat( item &food, Character &you, bool force )
         }
     }
 
+    std::list<itype_id> seasonings_list = food.get_comestible()->get_seasonings();
+    std::unordered_set<itype_id> seasonings_set( seasonings_list.begin(), seasonings_list.end() );
+
     auto legal_to_consume = [&]( const item & it ) {
-        return it.is_owned_by( you );
+        return it.is_owned_by( you ) && ( seasonings_set.find( it.typeId() ) != seasonings_set.end() );
     };
 
     auto fun_value = [&]( const item_location & it ) {
         return it->get_comestible_fun();
     };
 
-
     item_location seasoning;
-    std::unordered_set<item_location> all_items = get_map().all_items( legal_to_consume,
+    std::unordered_set<item_location> all_valid_seasonings = get_map().all_items( legal_to_consume,
             you, Access_Inventory | Access_Map_Around );
-    for( itype_id seasoning_type : food.get_comestible()->get_seasonings() ) {
-        for( item_location checked : all_items ) {
-            if( checked && checked->typeId() == seasoning_type ) {
-                // Always pick the best(highest fun) valid seasoning we find.
-                // TODO: More than one seasoning?
-                if( !seasoning || ( fun_value( checked ) > fun_value( seasoning ) ) ) {
-                    seasoning = checked;
-                }
-            }
+
+    for( const item_location &checked : all_valid_seasonings ) {
+        // Always pick the best(highest fun) valid seasoning we find.
+        // TODO: More than one seasoning?
+        if( !seasoning || ( fun_value( checked ) > fun_value( seasoning ) ) ) {
+            seasoning = checked;
         }
     }
 
