@@ -970,9 +970,9 @@ void talker_character::mod_livestyle( int amount )
     me_chr->mod_livestyle( amount );
 }
 
-int talker_character_const::morale_cur() const
+int talker_character_const::morale_cur( bool raw ) const
 {
-    return me_chr_const->get_morale_level();
+    return me_chr_const->get_morale_level( raw );
 }
 
 void talker_character::set_oxygen( int value )

@@ -149,7 +149,7 @@ void talker_monster::set_anger( int new_val )
     me_mon->anger = new_val;
 }
 
-int talker_monster_const::morale_cur() const
+int talker_monster_const::morale_cur( bool raw ) const
 {
     return me_mon_const->morale;
 }

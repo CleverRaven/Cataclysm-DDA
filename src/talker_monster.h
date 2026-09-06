@@ -60,7 +60,7 @@ class talker_monster_const: public const_talker_cloner<talker_monster_const>
         std::string short_description() const override;
         int get_anger() const override;
         int get_difficulty() const override;
-        int morale_cur() const override;
+        int morale_cur( bool raw ) const override;
         int get_friendly() const override;
         int get_size() const override;
         int get_speed() const override;

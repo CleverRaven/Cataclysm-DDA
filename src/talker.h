@@ -575,7 +575,7 @@ class const_talker
         virtual int mana_max() const {
             return 0;
         }
-        virtual int morale_cur() const {
+        virtual int morale_cur( bool raw ) const {
             return 0;
         }
         virtual int focus_cur() const {

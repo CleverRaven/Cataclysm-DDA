@@ -186,11 +186,12 @@ double Character::get_modifier_for_ALL_morale() const
     return std::pow( 0.997, num_kills );
 }
 
-int Character::get_morale_level() const
+int Character::get_morale_level( bool raw ) const
 {
-    if( is_avatar() ) { // Only player is bothered by guilt kills, because only player tracks them.
+    if( !raw ) {
         return std::round( get_modifier_for_ALL_morale() * morale->get_level() );
     }
+    // For the unusual case that needs it, direct access to raw level for comparison purposes
     return morale->get_level();
 }
 
