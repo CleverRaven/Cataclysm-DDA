@@ -146,7 +146,7 @@
       }
     ]
   },
-    {
+  {
     "id": "zauropod_control",
     "type": "SPELL",
     "name": { "str": "Zauropod control", "//~": "NO_I18N" },
