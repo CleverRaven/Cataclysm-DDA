@@ -578,7 +578,7 @@
     "display_type": "BY_VOLUME",
     "price": "15 USD",
     "price_postapoc": "3 USD 50 cent",
-    "material": [ "junk" ],
+    "material": [ { "type": "sugar", "portion": 78 }, { "type": "water", "portion": 22 } ],
     "volume": "250 ml",
     "phase": "liquid",
     "vitamins": [ [ "iron", 34 ], [ "junk_allergen", 1 ] ],
