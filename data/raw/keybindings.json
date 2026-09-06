@@ -53,6 +53,20 @@
   },
   {
     "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_UP",
+    "category": "UILIST",
+    "name": "Scroll item info up",
+    "bindings": [ { "input_method": "keyboard_char", "key": "{" }, { "input_method": "keyboard_code", "key": "[", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_DOWN",
+    "category": "UILIST",
+    "name": "Scroll item info down",
+    "bindings": [ { "input_method": "keyboard_char", "key": "}" }, { "input_method": "keyboard_code", "key": "]", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SHOW_DESCRIPTION",
     "category": "MELEE_STYLE_PICKER",
     "name": "Show description of melee style",
