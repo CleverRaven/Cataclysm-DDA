@@ -216,7 +216,7 @@ jobs:
       run: |
           $jobs = [int]($env:NUMBER_OF_PROCESSORS ?? 4)
           $repo_root = (Get-Location).Path
-          $test_binary = (Resolve-Path .\Cataclysm-test-vcpkg-static-Release-x64.exe).Path
+          $test_binary = ".\Cataclysm-test-vcpkg-static-Release-x64.exe"
           $shards = @(python build-scripts/shard_tests.py --bin $test_binary --shards $jobs)
           if ($LASTEXITCODE -ne 0 -or $shards.Count -eq 0) { throw "Unable to generate test shards" }
           $shards | ForEach-Object -Parallel {
@@ -225,7 +225,7 @@ jobs:
               $repo_root = $using:repo_root
               Push-Location $repo_root
               try {
-                  $user_dir = Join-Path $repo_root "test_user_dir_$([IO.Path]::GetFileNameWithoutExtension($shard))"
+                  $user_dir = "test_user_dir_$([IO.Path]::GetFileNameWithoutExtension($shard))"
                   & $test_binary --user-dir $user_dir --min-duration 20 --rng-seed time --order lex -f $shard
                   if ($LASTEXITCODE -ne 0) { throw "Test failed on shard $shard (exit code $LASTEXITCODE)" }
               } finally {
