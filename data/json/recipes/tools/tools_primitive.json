@@ -129,6 +129,20 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "mining_hammer",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "skills_required": [ "fabrication", 1 ],
+    "difficulty": 4,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "HAMMER_SOFT", "level": 1 }, { "id": "CHISEL_WOOD", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rock_large", 1 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "primitive_axe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",

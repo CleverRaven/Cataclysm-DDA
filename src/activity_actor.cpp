@@ -23,6 +23,7 @@
 #include <vector>
 
 #include "action.h"
+#include "damage.h"
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_item_handling.h"
@@ -203,6 +204,7 @@ static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 static const activity_id ACT_MILK( "ACT_MILK" );
+static const activity_id ACT_MINING_HAMMER( "ACT_MINING_HAMMER" );
 static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
@@ -269,6 +271,8 @@ static const activity_id ACT_WORKOUT_ACTIVE( "ACT_WORKOUT_ACTIVE" );
 static const activity_id ACT_WORKOUT_HARD( "ACT_WORKOUT_HARD" );
 static const activity_id ACT_WORKOUT_LIGHT( "ACT_WORKOUT_LIGHT" );
 static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
+
+static const damage_type_id damage_bash( "bash" );
 
 static const ammotype ammo_battery( "battery" );
 static const ammotype ammo_money( "money" );
@@ -10994,6 +10998,17 @@ std::unique_ptr<activity_actor> longsalvage_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
+void mining_hammer_activity_actor::do_turn( player_activity &, Character & )
+{
+    const tripoint_bub_ms &pos = get_map().get_bub( mined_location );
+    sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
+    // each turn is too much
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a Pickaxe at work!
+        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK!  CHNK!  CHNK!" ) );
+    }
+}
+
 void pickaxe_activity_actor::do_turn( player_activity &, Character & )
 {
     const tripoint_bub_ms &pos = get_map().get_bub( mined_location );
@@ -11013,6 +11028,30 @@ void jackhammer_activity_actor::do_turn( player_activity &, Character & )
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a Pickaxe at work!
         sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK!  CHNK!  CHNK!" ) );
+    }
+}
+
+void mining_hammer_activity_actor::mining_strain( Character &who )
+{
+    if( who.is_avatar() ) {
+        map &here = get_map();
+        const tripoint_bub_ms mined_location_bub = here.get_bub( mined_location );
+        const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
+        if( here.is_bashable( mined_location_bub ) &&
+            here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, mined_location_bub ) &&
+            here.ter( mined_location_bub ) != ter_t_tree ) {
+            // Tunneling through solid rock is sweaty, backbreaking work
+            // Betcha wish you'd opted for the J-Hammer
+            if( who.has_trait( trait_STOCKY_TROGLO ) ) {
+                who.mod_pain( std::max( 0, ( 1 * static_cast<int>( rng( 0, 3 ) ) ) - helpersize ) );
+                who.deal_damage( &who, bodypart_id( "hand_l" ), damage_instance( damage_bash, 1 ) );
+                who.deal_damage( &who, bodypart_id( "hand_r" ), damage_instance( damage_bash, 1 ) );
+            } else {
+                who.mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
+                who.deal_damage( &who, bodypart_id( "hand_l" ), damage_instance( damage_bash, 9 ) );
+                who.deal_damage( &who, bodypart_id( "hand_r" ), damage_instance( damage_bash, 9 ) );
+            }
+        }
     }
 }
 
@@ -11087,6 +11126,14 @@ JsonObject mine_activity_actor::deserialize_base( JsonValue &jsin )
     data.read( "mining_duration", mining_duration );
 
     return data;
+}
+
+std::unique_ptr<activity_actor> mining_hammer_activity_actor::deserialize(
+    JsonValue &jsin )
+{
+    mining_hammer_activity_actor actor;
+    actor.deserialize_base( jsin );
+    return actor.clone();
 }
 
 std::unique_ptr<activity_actor> pickaxe_activity_actor::deserialize( JsonValue &jsin )
@@ -14952,8 +14999,8 @@ deserialize_functions = {
     { ACT_DISMEMBER, &butchery_activity_actor::deserialize },
     { ACT_DISSECT, &butchery_activity_actor::deserialize },
     { ACT_DROP, &drop_activity_actor::deserialize },
-    { ACT_E_FILE, &efile_activity_actor::deserialize },
     { ACT_EBOOKSAVE, &ebooksave_activity_actor::deserialize },
+    { ACT_E_FILE, &efile_activity_actor::deserialize },
     { ACT_FERTILIZE_PLANT, &fertilize_plant_activity_actor::deserialize },
     { ACT_FETCH_REQUIRED, &fetch_required_activity_actor::deserialize },
     { ACT_FIELD_DRESS, &butchery_activity_actor::deserialize },
@@ -14971,7 +15018,7 @@ deserialize_functions = {
     { ACT_HACKSAW, &hacksaw_activity_actor::deserialize },
     { ACT_HAIRCUT, &haircut_activity_actor::deserialize },
     { ACT_HAND_CRANK, &hand_crank_activity_actor::deserialize },
-    { ACT_HARVEST, &harvest_activity_actor::deserialize},
+    { ACT_HARVEST, &harvest_activity_actor::deserialize },
     { ACT_HEATING, &heat_activity_actor::deserialize },
     { ACT_HOTWIRE_CAR, &hotwire_car_activity_actor::deserialize },
     { ACT_INSERT_ITEM, &insert_item_activity_actor::deserialize },
@@ -14983,6 +15030,7 @@ deserialize_functions = {
     { ACT_MEND_ITEM, &mend_item_activity_actor::deserialize },
     { ACT_MIGRATION_CANCEL, &migration_cancel_activity_actor::deserialize },
     { ACT_MILK, &milk_activity_actor::deserialize },
+    { ACT_MINING_HAMMER, &mining_hammer_activity_actor::deserialize },
     { ACT_MOP, &mop_activity_actor::deserialize },
     { ACT_MOVE_ITEMS, &move_items_activity_actor::deserialize },
     { ACT_MOVE_LOOT, &zone_sort_activity_actor::deserialize },
@@ -15044,7 +15092,7 @@ deserialize_functions = {
     { ACT_WAIT_WEATHER, &wait_weather_activity_actor::deserialize },
     { ACT_WASH, &wash_activity_actor::deserialize },
     { ACT_WEAR, &wear_activity_actor::deserialize },
-    { ACT_WIELD, &wield_activity_actor::deserialize},
+    { ACT_WIELD, &wield_activity_actor::deserialize },
     { ACT_WORKOUT_ACTIVE, &workout_activity_actor::deserialize },
     { ACT_WORKOUT_HARD, &workout_activity_actor::deserialize },
     { ACT_WORKOUT_LIGHT, &workout_activity_actor::deserialize },

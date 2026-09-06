@@ -1741,6 +1741,26 @@ class mine_activity_actor : public activity_actor
         time_duration mining_duration;
 };
 
+class mining_hammer_activity_actor : public mine_activity_actor
+{
+    public:
+        using mine_activity_actor::mine_activity_actor;
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_MINING_HAMMER( "ACT_MINING_HAMMER" );
+            return ACT_MINING_HAMMER;
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<mining_hammer_activity_actor>( *this );
+        }
+
+        void mining_strain( Character &who ) override;
+        void do_turn( player_activity &, Character & ) override;
+
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
 class pickaxe_activity_actor : public mine_activity_actor
 {
     public:

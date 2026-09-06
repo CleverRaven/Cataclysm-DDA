@@ -140,6 +140,7 @@
 
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
+static const activity_id ACT_MINING_HAMMER( "ACT_MINING_HAMMER" );
 
 static const addiction_id addiction_marloss_b( "marloss_b" );
 static const addiction_id addiction_marloss_r( "marloss_r" );
@@ -3123,6 +3124,8 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint_bub_m
         p->assign_activity( jackhammer_activity_actor( mining_tool, pnt_abs, digging_time ) );
     } else if( activity == ACT_PICKAXE ) {
         p->assign_activity( pickaxe_activity_actor( mining_tool, pnt_abs, digging_time ) );
+    } else if( activity == ACT_MINING_HAMMER ) {
+        p->assign_activity( mining_hammer_activity_actor( mining_tool, pnt_abs, digging_time * 6 ) );
     }
 
     // You can mine either furniture or terrain, and furniture goes first,
@@ -3164,6 +3167,15 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, const tripoint_bub_m
                          *p
                                                           ) );
     return 1;
+}
+
+std::optional<int> iuse::mining_hammer(
+    Character *p,
+    item *it,
+    const tripoint_bub_ms &pos )
+{
+    return dig_tool( p, it, pos, ACT_MINING_HAMMER,
+                     _( "Mine where?" ), _( "You can't mine there." ), _( "You strike the %1$s with your %2$s." ) );
 }
 
 std::optional<int> iuse::pickaxe( Character *p, item *it, const tripoint_bub_ms &pos )

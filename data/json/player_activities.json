@@ -412,6 +412,13 @@
     "can_resume": false
   },
   {
+    "id": "ACT_MINING_HAMMER",
+    "type": "activity_type",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": "mining",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_PICKAXE",
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",

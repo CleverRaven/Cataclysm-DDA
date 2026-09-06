@@ -2132,6 +2132,7 @@ void Item_factory::init()
     add_iuse( "MEDITATE", &iuse::meditate );
     add_iuse( "METH", &iuse::meth );
     add_iuse( "MININUKE", &iuse::mininuke );
+    add_iuse( "MINING_HAMMER", &iuse::mining_hammer );
     add_iuse( "MOP", &iuse::mop );
     add_iuse( "MP3_ON", &iuse::mp3_on );
     add_iuse( "MULTICOOKER", &iuse::multicooker );

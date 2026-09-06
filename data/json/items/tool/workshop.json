@@ -942,6 +942,24 @@
     "flags": [ "BELT_CLIP" ]
   },
   {
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "id": "mining_hammer",
+    "name": { "str": "gabbro mining hammer" },
+    "description": "A heavy, roughly shaped gabbro hammer used for breaking copper-bearing rock.  It is little more than a hard stone selected and worked into a suitable shape, with a shallow groove around its middle for hafting.",
+    "weight": "1.3 kg",
+    "volume": "750 ml",
+    "price": "8 USD",
+    "price_postapoc": "4 USD",
+    "material": [ "stone" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "use_action": [ "MINING_HAMMER" ],
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
     "id": "pickaxe",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
