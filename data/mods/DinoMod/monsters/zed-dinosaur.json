@@ -2184,7 +2184,7 @@
     "death_function": {
       "corpse_type": "BROKEN",
       "message": "The sauropod zombie stumbles as one of its legs is badly hurt and collapses.",
-      "eoc": "EOC_SAUROPOD_HURT"
+      "eoc": "EOC_ZAUROPOD_HURT"
     },
     "weakpoint_sets": [ "wps_sauropod_leg" ],
     "extend": { "flags": [ "DESTROYS" ] }
