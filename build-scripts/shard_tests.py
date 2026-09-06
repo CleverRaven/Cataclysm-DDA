@@ -78,13 +78,8 @@ def main():
         shard_weights[min_idx] += dur
         shard_lists[min_idx].append(t)
 
-    # Use absolute paths.  Windows runs each shard in a separate PowerShell
-    # runspace, whose current directory is not guaranteed to be the checkout.
-    # Absolute paths also make it impossible for a test process to accidentally
-    # pick up a shard file from a different working directory.
-    output_dir = os.path.abspath(os.getcwd())
     for i in range(args.shards):
-        filename = os.path.join(output_dir, f"shard_{i}.txt")
+        filename = f"shard_{i}.txt"
         with open(filename, "w") as f:
             for t in shard_lists[i]:
                 f.write(t + "\n")
