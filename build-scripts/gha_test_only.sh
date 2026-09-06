@@ -52,21 +52,21 @@ then
     # Run regular tests
     if [ -f "${bin_path}cata_test" ]; then
         SHARDS=$(python3 build-scripts/shard_tests.py --bin "${bin_path}cata_test" --shards "$num_test_jobs")
-        parallel -j "$num_test_jobs" ${parallel_opts} "run_test $(printf %q "${bin_path}")'/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} -f {}" ::: $SHARDS
+        parallel -j "$num_test_jobs" ${parallel_opts} "run_test $(printf %q "${bin_path}")'/cata_test' '({})=> ' --user-dir=test_user_dir_{#} -f {}" ::: $SHARDS
     fi
     if [ -f "${bin_path}cata_test-tiles" ]; then
         SHARDS=$(python3 build-scripts/shard_tests.py --bin "${bin_path}cata_test-tiles" --shards "$num_test_jobs")
-        parallel -j "$num_test_jobs" ${parallel_opts} "run_test $(printf %q "${bin_path}")'/cata_test-tiles' '('{}')=> ' --user-dir=test_user_dir_{#} -f {}" ::: $SHARDS
+        parallel -j "$num_test_jobs" ${parallel_opts} "run_test $(printf %q "${bin_path}")'/cata_test-tiles' '({})=> ' --user-dir=test_user_dir_{#} -f {}" ::: $SHARDS
     fi
 else
     export ASAN_OPTIONS=detect_odr_violation=1
     export UBSAN_OPTIONS=print_stacktrace=1
     SHARDS=$(python3 build-scripts/shard_tests.py --bin "./tests/cata_test" --shards "$num_test_jobs")
-    parallel -j "$num_test_jobs" ${parallel_opts} "run_test './tests/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} -f {}" ::: $SHARDS
+    parallel -j "$num_test_jobs" ${parallel_opts} "run_test './tests/cata_test' '({})=> ' --user-dir=test_user_dir_{#} -f {}" ::: $SHARDS
     if [ -n "$MODS" ]
     then
         for MODSET in ${MODS//|/ }; do
-            parallel -j "$num_test_jobs" ${parallel_opts} "run_test './tests/cata_test' 'Mods-('{}')=> ' --mods=$(printf %q "${MODSET}") --user-dir=modded_{#} -f {}" ::: $SHARDS
+            parallel -j "$num_test_jobs" ${parallel_opts} "run_test './tests/cata_test' 'Mods-({})=> ' --mods=$(printf %q "${MODSET}") --user-dir=modded_{#} -f {}" ::: $SHARDS
         done
     fi
 

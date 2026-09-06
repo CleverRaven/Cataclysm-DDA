@@ -23,7 +23,8 @@ def get_tests(test_bin, cata_test_opts):
                 f"Return code: {result.returncode}",
                 file=sys.stderr
             )
-        # return tests, ignoring empty lines and hidden ones if any get through
+        # Return tests, ignoring empty lines.  Catch2 excludes hidden tests
+        # from this default listing.
         tests = [t.strip() for t in result.stdout.splitlines() if t.strip()]
         return tests
     except Exception as e:
@@ -37,6 +38,9 @@ def main():
     parser.add_argument("--opts", default="", help="Space-separated options")
     parser.add_argument("--shards", type=int, required=True)
     args = parser.parse_args()
+
+    if args.shards < 1:
+        parser.error("--shards must be at least 1")
 
     opts_list = args.opts.split() if args.opts else []
     tests = get_tests(args.bin, opts_list)
@@ -74,12 +78,17 @@ def main():
         shard_weights[min_idx] += dur
         shard_lists[min_idx].append(t)
 
+    # Use absolute paths.  Windows runs each shard in a separate PowerShell
+    # runspace, whose current directory is not guaranteed to be the checkout.
+    # Absolute paths also make it impossible for a test process to accidentally
+    # pick up a shard file from a different working directory.
+    output_dir = os.path.abspath(os.getcwd())
     for i in range(args.shards):
-        filename = f"shard_{i}.txt"
+        filename = os.path.join(output_dir, f"shard_{i}.txt")
         with open(filename, "w") as f:
             for t in shard_lists[i]:
                 f.write(t + "\n")
-        # Output the filenames so bash can capture them
+        # Output the filenames so the CI scripts can capture them.
         print(filename)
 
 
