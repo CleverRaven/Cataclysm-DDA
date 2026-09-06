@@ -11043,13 +11043,17 @@ void mining_hammer_activity_actor::mining_strain( Character &who )
             // Tunneling through solid rock is sweaty, backbreaking work
             // Betcha wish you'd opted for the J-Hammer
             if( who.has_trait( trait_STOCKY_TROGLO ) ) {
-                who.mod_pain( std::max( 0, ( 1 * static_cast<int>( rng( 0, 3 ) ) ) - helpersize ) );
-                who.deal_damage( &who, bodypart_id( "hand_l" ), damage_instance( damage_bash, 1 ) );
-                who.deal_damage( &who, bodypart_id( "hand_r" ), damage_instance( damage_bash, 1 ) );
+                who.mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 0, 3 ) ) ) - helpersize ) );
+                who.add_msg_player_or_npc( m_bad,
+                            _( "Your arms are used to digging hard rock and don't ache much." ),
+                            _( "<npcname> arms are used to digging hard rock and don't ache much." ) );
             } else {
-                who.mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
-                who.deal_damage( &who, bodypart_id( "hand_l" ), damage_instance( damage_bash, 9 ) );
-                who.deal_damage( &who, bodypart_id( "hand_r" ), damage_instance( damage_bash, 9 ) );
+                who.mod_pain( std::max( 0, ( 12 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
+                who.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_bash, 9 ) );
+                who.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_bash, 9 ) );
+                who.add_msg_player_or_npc( m_bad,
+                            _( "You hurt your arm with the primitive mining tool." ),
+                            _( "<npcname> hurts their arm with the primitive mining tool." ) );
             }
         }
     }
@@ -11085,12 +11089,12 @@ void mine_activity_actor::finish( player_activity &act, Character &who )
     map &here = get_map();
     const tripoint_bub_ms &pos = here.get_bub( mined_location );
 
+    mining_strain( who );
     here.destroy( pos, true );
 
     who.add_msg_player_or_npc( m_good,
                                _( "You finish digging." ),
                                _( "<npcname> finishes digging." ) );
-    mining_strain( who );
 
     if( mining_tool && mining_tool->needs_charges_to_use() ) {
         mining_tool->consume_tool_uses( 1, get_map(), tripoint_bub_ms::zero, &who );
