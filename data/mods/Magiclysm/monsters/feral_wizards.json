@@ -1254,7 +1254,7 @@
           "condition": {
             "and": [
               { "not": { "u_has_effect": "effect_feral_technomancer_bless" } },
-              { "math": [ "u_val('morale') <= -20" ] },
+              { "math": [ "u_morale() <= -20" ] },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
               { "not": { "u_has_effect": "maimed_arm" } }
             ]
