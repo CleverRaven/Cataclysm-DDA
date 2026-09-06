@@ -214,10 +214,14 @@ jobs:
     - name: Run tests
       if: ${{ github.ref_name != 'master' }}
       run: |
-          $jobs = $env:NUMBER_OF_PROCESSORS ?? 4
-          python build-scripts/shard_tests.py --bin .\Cataclysm-test-vcpkg-static-Release-x64.exe --shards $jobs | ForEach-Object -Parallel {
-              & .\Cataclysm-test-vcpkg-static-Release-x64.exe --user-dir "test_user_dir_$_" --min-duration 20 --rng-seed time --order lex --wait-for-keypress exit -f $_
-              if ($LASTEXITCODE -ne 0) { throw "Test failed on shard $_" }
+          $jobs = [int]($env:NUMBER_OF_PROCESSORS ?? 4)
+          $shards = @(python build-scripts/shard_tests.py --bin .\Cataclysm-test-vcpkg-static-Release-x64.exe --shards $jobs)
+          if ($LASTEXITCODE -ne 0 -or $shards.Count -eq 0) { throw "Unable to generate test shards" }
+          $shards | ForEach-Object -Parallel {
+              $shard = $_
+              $user_dir = "test_user_dir_$([IO.Path]::GetFileNameWithoutExtension($shard))"
+              & .\Cataclysm-test-vcpkg-static-Release-x64.exe --user-dir $user_dir --min-duration 20 --rng-seed time --order lex -f $shard
+              if ($LASTEXITCODE -ne 0) { throw "Test failed on shard $shard (exit code $LASTEXITCODE)" }
           } -ThrottleLimit $jobs
 
     - name: Dump disk usage logs if job failed
