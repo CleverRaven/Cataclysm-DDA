@@ -23,6 +23,10 @@ TEST_CASE( "Test_start_dates" )
     {
         set_scenario( scenario::generic() );
         g->start_calendar();
+        // Reset dates so other tests won't fail
+        calendar::start_of_game = calendar::turn_zero;
+        calendar::start_of_cataclysm = calendar::turn_zero;
+        calendar::turn = calendar::turn_zero;
     } };
 
     SECTION( "Scenario with custom game start date" ) {
@@ -78,8 +82,5 @@ TEST_CASE( "Test_start_dates" )
              );
     }
 
-    // Reset dates so other tests won't fail
-    calendar::start_of_game = calendar::turn_zero;
-    calendar::start_of_cataclysm = calendar::turn_zero;
-    calendar::turn = calendar::turn_zero;
+    // Dates are reset by the out of scope guard
 }

@@ -110,6 +110,7 @@ static float get_avg_melee_dmg( item cloth, bool infect_risk = false )
         if( zed.melee_attack( dude, 10000.0f ) ) {
             num_hits++;
         }
+        cloth.set_damage( 0 );
         if( !infect_risk ) {
             dam_acc += dude.get_hp_max() - dude.get_hp();
         } else if( dude.has_effect( effect_bite ) ) {
@@ -154,11 +155,10 @@ static float get_avg_bullet_dmg( const itype_id &clothing_id )
     int dam_acc = 0;
     int num_hits = 0;
     for( int i = 0; i < num_iters; i++ ) {
-        dude->set_all_parts_hp_to_max();
-        dude->clear_effects();
-        dude->add_effect( effect_sleep, 1_hours );
-        dude->clear_worn();
+        clear_character( *dude, true );
+        dude->setpos( here, dude_pos );
         dude->wear_item( cloth, false );
+        dude->add_effect( effect_sleep, 1_hours );
 
         dealt_projectile_attack atk;
         projectile_attack( atk, proj, badguy_pos, dude_pos, dispersion_sources(),
@@ -167,6 +167,7 @@ static float get_avg_bullet_dmg( const itype_id &clothing_id )
         if( atk.missed_by < 1.0 ) {
             num_hits++;
         }
+        cloth.set_damage( 0 );
         dam_acc += dude->get_hp_max() - dude->get_hp();
         if( dude->is_dead() ) {
             break;
