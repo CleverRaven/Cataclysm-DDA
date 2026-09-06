@@ -3700,8 +3700,8 @@ void character_creator_callback::confirm( uilist *menu )
             character_stat selected_stat = static_cast<character_stat>( selected_stat_index );
             const int stat_queried = cc_uistate.stats[selected_stat_index];
             number_input_popup<int> stat_query( 0, stat_queried,
-                                                string_format( "Set new %s (between %d and %d):",
-                                                        io::enum_to_full_string( selected_stat ),
+                                                string_format( _( "Set new %s (between %d and %d):" ),
+                                                        _( io::enum_to_full_string( selected_stat ) ),
                                                         CHARACTER_STAT_MIN, CHARACTER_STAT_MAX ) );
             int stat_queried_result = stat_query.query();
             const int stat_result_clamped = std::clamp( stat_queried_result, CHARACTER_STAT_MIN,
@@ -3799,7 +3799,7 @@ void character_creator_callback::confirm( uilist *menu )
             const skill_id skill_queried = cc_uistate.get_selected_skill();
             int previous_skill_level = u.get_skill_level( skill_queried );
             number_input_popup<int> skill_query( 0, previous_skill_level,
-                                                 string_format( "Set new %s skill level (between %d and %d):",
+                                                 string_format( _( "Set new %s skill level (between %d and %d):" ),
                                                          skill_queried->name(), MIN_SKILL, MAX_SKILL ) );
             int skill_queried_result = skill_query.query();
             if( skill_queried_result != previous_skill_level ) {
