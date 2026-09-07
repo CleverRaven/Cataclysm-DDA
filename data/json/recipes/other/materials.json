@@ -266,7 +266,7 @@
     ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
-      [ [ "tin", 6 ], [ "aluminum_foil", 38 ], [ "chem_aluminium_powder", 24 ], [ "can_drink", 2 ], [ "scrap_aluminum", 1 ] ],
+      [ [ "tin", 7 ], [ "aluminum_foil", 38 ], [ "chem_aluminium_powder", 24 ], [ "can_drink", 2 ], [ "scrap_aluminum", 1 ] ],
       [ [ "copper_scrap_equivalent", 1, "LIST" ] ]
     ]
   },
@@ -462,7 +462,7 @@
     "//": "TODO: inputs not balanced to 176g output",
     "//2": "TODO: water / sand amounts excessive; also can recover some of it as byproducts",
     "components": [
-      [ [ "material_aluminium_ingot", 1 ], [ "can_drink", 6 ], [ "scrap_aluminum", 2 ], [ "aluminum_foil", 4 ] ],
+      [ [ "material_aluminium_ingot", 1 ], [ "can_drink", 6 ], [ "scrap_aluminum", 2 ], [ "aluminum_foil", 130 ] ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ],
       [ [ "material_sand", 25 ] ]
     ]
