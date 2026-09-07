@@ -7,6 +7,10 @@
     "message": "",
     "flags": [ "NO_FAIL", "VERBAL", "SOMATIC" ],
     "valid_targets": [ "self" ],
+    "caster_condition": {
+      "u_has_items": { "item": "scrap_dreamdross", "count": { "math": [ "u_changeling_new_trait_dreamdross_research_cost" ] } }
+    },
+    "caster_condition_fail_message": "You do not have enough dreamdross.",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 4,
     "skill": "gramarye",
@@ -26,6 +30,10 @@
     "message": "",
     "flags": [ "NO_FAIL", "VERBAL", "SOMATIC" ],
     "valid_targets": [ "self" ],
+    "caster_condition": {
+      "u_has_items": { "item": "scrap_dreamdross", "count": { "math": [ "u_changeling_seasonal_magic_dreamdross_research_cost" ] } }
+    },
+    "caster_condition_fail_message": "You do not have enough dreamdross.",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 6,
     "skill": "gramarye",
