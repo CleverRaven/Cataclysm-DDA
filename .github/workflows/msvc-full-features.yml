@@ -227,8 +227,9 @@ jobs:
               try {
                   $user_dir = Join-Path $repo_root "test_user_dir_$([IO.Path]::GetFileNameWithoutExtension($shard))"
                   $shard_path = Join-Path $repo_root $shard
-                  & $test_binary --user-dir $user_dir --min-duration 20 --rng-seed time --order lex -f $shard_path
-                  if ($LASTEXITCODE -ne 0) { throw "Test failed on shard $shard (exit code $LASTEXITCODE)" }
+                  & $test_binary --user-dir $user_dir --min-duration 20 --rng-seed time --order lex --input-file $shard_path
+                  $exit_code = $LASTEXITCODE
+                  if ($exit_code -ne 0) { throw "Test failed on shard $shard (exit code $exit_code)" }
               } finally {
                   Pop-Location
               }
