@@ -866,7 +866,7 @@ TEST_CASE( "monster_can_navigate_from_overmap_to_reality_bubble_following_sound"
     horde_entity *test_mon_initial = nullptr;
     capture_debugmsg_during( [&]() {
         test_mon_initial = &overmap_buffer.spawn_monster( entity_spawn_location,
-                          mon_test_zombie );
+                                     mon_test_zombie );
     } );
     // Assert monster is not wandering
     REQUIRE( test_mon_initial->tracking_intensity == 0 );
