@@ -121,8 +121,35 @@ jobs:
             pch: 1
             archive-success: basic-build
             dont_skip_data_only_changes: 1
-            mods: magiclysm|xedra_evolved
             title: Basic Build and Test (Clang oldest supported, Ubuntu, Curses)
+            ccache_limit: 4.5G
+            ccache_key: linux-llvm-13
+
+          - compiler: clang++-13
+            os: ubuntu-22.04
+            tiles: 0
+            sound: 0
+            cmake: 0
+            localize: 1
+            native: linux64
+            pch: 1
+            dont_skip_data_only_changes: 1
+            mods: magiclysm
+            title: Basic Build and Test (Magiclysm)
+            ccache_limit: 4.5G
+            ccache_key: linux-llvm-13
+
+          - compiler: clang++-13
+            os: ubuntu-22.04
+            tiles: 0
+            sound: 0
+            cmake: 0
+            localize: 1
+            native: linux64
+            pch: 1
+            dont_skip_data_only_changes: 1
+            mods: xedra_evolved
+            title: Basic Build and Test (Xedra Evolved)
             ccache_limit: 4.5G
             ccache_key: linux-llvm-13
 

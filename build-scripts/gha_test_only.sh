@@ -65,9 +65,9 @@ else
     parallel -j "$num_test_jobs" ${parallel_opts} "run_test './tests/cata_test' '({#})=> ' --user-dir=test_user_dir_{#} -f {}" ::: $SHARDS
     if [ -n "$MODS" ]
     then
-        for MODSET in ${MODS//|/ }; do
-            parallel -j "$num_test_jobs" ${parallel_opts} "run_test './tests/cata_test' 'Mods-({#})=> ' --mods=$(printf %q "${MODSET}") --user-dir=modded_{#} -f {}" ::: $SHARDS
-        done
+        parallel -j "$num_test_jobs" ${parallel_opts} \
+            "run_test './tests/cata_test' 'Mods-({1})/({2})=> ' --mods={1} --user-dir=modded_{#} -f {2}" \
+            ::: ${MODS//|/ } ::: $SHARDS
     fi
 
     if [ -n "$TEST_STAGE" ]
