@@ -8,7 +8,12 @@ def get_tests(test_bin, cata_test_opts):
     if not os.path.exists(test_bin) and os.path.exists(test_bin + ".exe"):
         test_bin += ".exe"
 
-    cmd = [test_bin] + cata_test_opts + ["--list-test-names-only"]
+    # The test binary writes its normal startup log to stdout.  Quiet Catch2
+    # output keeps those log lines from being mistaken for test filters when
+    # the names are written to shard files.
+    cmd = [test_bin] + cata_test_opts + [
+        "--verbosity", "quiet", "--list-test-names-only"
+    ]
     try:
         result = subprocess.run(
             cmd,
