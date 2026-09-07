@@ -288,6 +288,8 @@ struct CataListener : Catch::TestEventListenerBase {
         // Reset lightweight global state that tests commonly modify without
         // restoring.  Expensive operations like clear_map() stay manual.
         calendar::turn = calendar::turn_zero;
+        calendar::start_of_game = calendar::turn_zero;
+        calendar::start_of_cataclysm = calendar::turn_zero;
         weather_manager &weather = get_weather();
         weather.weather_override = WEATHER_NULL; // NOLINT(cata-tests-must-restore-global-state)
         weather.windspeed_override.reset();

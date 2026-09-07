@@ -14,6 +14,7 @@
 #include "mapbuffer.h"
 #include "map.h"
 #include "map_scale_constants.h"
+#include "mission.h"
 #include "npc.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -83,6 +84,11 @@ void clear_creatures()
 void clear_npcs()
 {
     map &here = get_map();
+    // This is a test helper, not gameplay NPC removal.  Prevent mission death
+    // callbacks from observing missions whose avatar-side state has already
+    // been reset by the test that is cleaning up.
+    get_avatar().reset_all_missions();
+    mission::clear_all();
     // Reload to ensure that all active NPCs are in the overmap_buffer.
     g->reload_npcs();
     for( npc &n : g->all_npcs() ) {
