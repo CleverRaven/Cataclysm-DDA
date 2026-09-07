@@ -393,7 +393,7 @@
       [ [ "plastic_chunk", 2 ] ],
       [ [ "scrap", 7 ] ],
       [ [ "copper", 8 ] ],
-      [ [ "aluminum_foil", 20 ] ],
+      [ [ "aluminum_foil", 40 ] ],
       [ [ "graphite", 98 ] ],
       [ [ "waste_electrolyte_slurry", 1 ] ]
     ]

@@ -717,7 +717,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "chemistry",
-    "charges": 151,
+    "charges": 1000,
     "difficulty": 2,
     "time": "10 m",
     "autolearn": true,

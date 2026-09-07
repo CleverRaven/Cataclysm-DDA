@@ -1082,7 +1082,7 @@
     "tools": [ [ [ "hotplate", 50 ], [ "integrated_welder", 50 ] ] ],
     "components": [
       [ [ "pipe", 2 ] ],
-      [ [ "gunpowder", 17 ], [ "chem_black_powder", 27 ] ],
+      [ [ "gunpowder", 300 ], [ "chem_black_powder", 27 ] ],
       [ [ "tool_rocket_candy", 2 ], [ "chem_rocket_fuel", 10 ] ]
     ]
   },
