@@ -66,7 +66,7 @@ else
     if [ -n "$MODS" ]
     then
         parallel -j "$num_test_jobs" ${parallel_opts} \
-            "run_test './tests/cata_test' 'Mods-({1})/({2})=> ' --mods={1} --user-dir=modded_{#} -f {2}" \
+            "run_test './tests/cata_test' 'Mods-({1})=> ' --mods={1} --user-dir=modded_{#} -f {2}" \
             ::: ${MODS//|/ } ::: $SHARDS
     fi
 
