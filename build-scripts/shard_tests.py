@@ -21,7 +21,10 @@ def get_tests(test_bin, cata_test_opts):
             stderr=subprocess.DEVNULL,
             text=True
         )
-        if result.returncode != 0:
+        # Catch2 returns the number of listed tests as the exit code for
+        # --list-test-names-only, capped at 255.  A nonzero code is therefore
+        # expected when listing the full suite; empty output is the failure.
+        if result.returncode != 0 and not result.stdout.strip():
             print(
                 f"Failed to list tests from {test_bin}. "
                 f"Return code: {result.returncode}",
