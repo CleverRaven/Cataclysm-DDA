@@ -80,12 +80,10 @@ jobs:
     continue-on-error: true
     runs-on: ubuntu-latest
     outputs:
-      fail_fast: ${{ steps.matrix_vars.outputs.fail_fast }}
       skip_tests: ${{ steps.matrix_vars.outputs.skip_tests }}
     steps:
       - id: matrix_vars
         run: |
-          echo "fail_fast=$([ "$GITHUB_REF_NAME" = "master" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo false || echo true)" >> $GITHUB_OUTPUT
           echo "skip_tests=$([ "$GITHUB_REF_NAME" = "master" ] && echo true || echo false)" >> $GITHUB_OUTPUT
   compile-shaders:
     name: Compile shaders
@@ -104,7 +102,8 @@ jobs:
     needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables, compile-shaders ]
     if: ${{ always() && (needs.compile-shaders.result == 'success' || needs.compile-shaders.result == 'skipped') }}
     strategy:
-      fail-fast: ${{ fromJSON(needs.matrix-variables.outputs.fail_fast) }}
+      # Keep independent failures visible while sharding is being stabilized.
+      fail-fast: false
       matrix:
         include:
           - compiler: clang++-13

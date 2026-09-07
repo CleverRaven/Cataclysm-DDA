@@ -21,6 +21,13 @@ def get_tests(test_bin, cata_test_opts):
             stderr=subprocess.DEVNULL,
             text=True
         )
+        if result.returncode != 0:
+            print(
+                f"Failed to list tests from {test_bin}. "
+                f"Return code: {result.returncode}",
+                file=sys.stderr
+            )
+            return []
         if not result.stdout.strip():
             print(
                 f"Empty stdout from {test_bin}. "

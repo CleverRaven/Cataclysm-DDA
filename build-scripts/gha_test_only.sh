@@ -5,10 +5,26 @@
 echo "Using bash version $BASH_VERSION"
 set -exo pipefail
 
-num_jobs=$(nproc 2>/dev/null || echo 4)
-parallel_opts="--verbose --linebuffer"
+available_jobs=$(nproc 2>/dev/null || echo 4)
+max_test_jobs=4
+num_test_jobs=${NUM_TEST_JOBS:-$max_test_jobs}
+if ! [[ "$num_test_jobs" =~ ^[1-9][0-9]*$ ]]; then
+    echo "NUM_TEST_JOBS must be a positive integer" >&2
+    exit 2
+fi
+(( num_test_jobs > max_test_jobs )) && num_test_jobs=$max_test_jobs
+(( num_test_jobs > available_jobs )) && num_test_jobs=$available_jobs
+parallel_opts="--verbose --linebuffer --joblog=parallel-joblog.tsv"
 cata_test_opts="--min-duration 20 --use-colour yes --rng-seed time --order lex ${EXTRA_TEST_OPTS}"
-[ -z "$NUM_TEST_JOBS" ] && num_test_jobs=$num_jobs || num_test_jobs=$NUM_TEST_JOBS
+
+print_joblog()
+{
+    if [ -f parallel-joblog.tsv ]; then
+        echo "GNU parallel job log:"
+        cat parallel-joblog.tsv
+    fi
+}
+trap print_joblog EXIT
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
 export PATH=$HOME/.local/bin:$PATH
