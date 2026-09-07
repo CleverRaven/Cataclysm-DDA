@@ -2,8 +2,8 @@
   {
     "id": "changeling_gain_new_traits",
     "type": "SPELL",
-    "name": "Unlock Your Fey Heritage",
-    "description": "Using the power of human dreams, unlock the secrets of your fey heritage.  It requires a large amount of dreamdross and time to perform this research.",
+    "name": "Unlock Your Fae Heritage",
+    "description": "Using the power of human dreams, unlock the secrets of your fey heritage.  It requires <color_pink><u_val:changeling_new_trait_dreamdross_research_cost></color> scraps of dreamdross and a large amount of time to perform this research.",
     "message": "",
     "flags": [ "NO_FAIL", "VERBAL", "SOMATIC" ],
     "valid_targets": [ "self" ],
@@ -22,7 +22,7 @@
     "id": "changeling_research_new_seasonal_spells",
     "type": "SPELL",
     "name": "Develop New Glamours",
-    "description": "Using the power of human dreams, unlock the secrets of new seasonal magicks.  It requires a large amount of dreamdross and time to perform this research.",
+    "description": "Using the power of human dreams, unlock the secrets of new seasonal magicks.  It requires <color_pink><u_val:changeling_seasonal_magic_dreamdross_research_cost></color> scraps of dreamdross and a large amount of time to perform this research.",
     "message": "",
     "flags": [ "NO_FAIL", "VERBAL", "SOMATIC" ],
     "valid_targets": [ "self" ],
@@ -34,7 +34,11 @@
     "effect_str": "EOC_CHANGELING_USE_DREAMDROSS_TO_RESEARCH_NEW_SPELLS",
     "magic_type": "xe_fey_magick",
     "shape": "blast",
-    "base_energy_cost": 1000,
+    "base_energy_cost": {
+      "math": [
+        "1000 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') + u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') + u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') + u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 25)"
+      ]
+    },
     "base_casting_time": 50
   },
   {
