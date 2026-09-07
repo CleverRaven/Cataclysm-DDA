@@ -702,12 +702,12 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
             overmap_buffer.reset();
             overmap_special_batch custom_batch( overmap_origin, filtered );
             for( const point_abs_om &om_cur :
-                 closest_points_first( overmap_origin, 0, 3 ) ) {
+                 closest_points_first( overmap_origin, 0, 9 ) ) {
                 overmap_buffer.create_custom_overmap( om_cur, custom_batch );
             }
             // Scan the custom overmaps for newly-placed terrains.
             for( const point_abs_om &om_cur :
-                 closest_points_first( overmap_origin, 0, 5 ) ) {
+                 closest_points_first( overmap_origin, 0, 9 ) ) {
                 point_abs_omt omt_start = project_to<coords::omt>( om_cur );
                 if( overmap_buffer.ter_existing( { omt_start, 0 } ) == oter_id() ) {
                     continue;
