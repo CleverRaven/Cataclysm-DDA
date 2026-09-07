@@ -192,6 +192,8 @@ jobs:
             native: linux64
             pch: 1
             sanitize: address
+            # ASan test processes have substantially higher memory usage.
+            num_test_jobs: 2
             dont_skip_data_only_changes: 1
             title: Clang 18, Ubuntu, Tiles, ASan
             ccache_limit: 6G
