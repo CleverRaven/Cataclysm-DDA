@@ -88,7 +88,7 @@ jobs:
         run: |
           echo "fail_fast=$([ "$GITHUB_REF_NAME" = "master" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo false || echo true)" >> $GITHUB_OUTPUT
           echo "skip_tests=$([ "$GITHUB_REF_NAME" = "master" ] && echo true || echo false)" >> $GITHUB_OUTPUT
-          echo "max_parallel=$([ "$GITHUB_REF_NAME" = "master" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo 20 || echo 1)" >> $GITHUB_OUTPUT
+          echo "max_parallel=$([ "$GITHUB_REF_NAME" = "master" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo 20 || echo 3)" >> $GITHUB_OUTPUT
   compile-shaders:
     name: Compile shaders
     needs: [ skip-duplicates-code, skip-duplicates-data ]
