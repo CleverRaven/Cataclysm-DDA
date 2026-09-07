@@ -107,7 +107,7 @@
     "material": [ "dense_powder" ],
     "volume": "1 ml",
     "weight": "4420 mg",
-    "//": "density: 4.42 g/cm3"
+    "//": "crystalline density: 4.42 g/cm3"
   },
   {
     "type": "ITEM",
@@ -162,7 +162,7 @@
     "material": [ "dense_powder" ],
     "volume": "1 ml",
     "weight": "4710 mg",
-    "//": "density: 4.71 g/cm3"
+    "//": "crystalline density: 4.71 g/cm3"
   },
   {
     "type": "ITEM",

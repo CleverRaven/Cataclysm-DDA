@@ -207,8 +207,8 @@
     "description": "A sheet of thin foil made of aluminum.  Sometimes called 'tin foil' due to being made of tin in the past.",
     "material": [ "aluminum" ],
     "volume": "1 ml",
-    "weight": "2700 mg",
-    "//": "Density of 2.7 g/cm3"
+    "weight": "1350 mg",
+    "//": "Density of 2.7 g/cm3, adjusted to 50% due to packing inefficiency"
   },
   {
     "type": "ITEM",
@@ -860,6 +860,7 @@
     "material": [ "powder" ],
     "volume": "1 ml",
     "weight": "800 mg",
+    "//": "arbitrary legacy density, should specify which oxidizer this is",
     "explode_in_fire": true,
     "//": "Burns rapidly but not really an explosion.",
     "explosion": { "power": 20 }
@@ -876,7 +877,8 @@
     "description": "Powdered caustic soda, also known as sodium hydroxide.",
     "material": [ "powder_nonflam" ],
     "volume": "1 ml",
-    "weight": "2130 mg"
+    "weight": "2130 mg",
+    "//": "matches crystalline density of 2.13 g/cm³"
   },
   {
     "type": "ITEM",
