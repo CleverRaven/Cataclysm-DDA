@@ -409,7 +409,7 @@ std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, cons
     if( do_sort_items ) {
         new_item_it->on_wear( guy );
 
-        guy.inv->update_invlet( loc );
+        guy.inv->update_invlet( *new_item_it );
         guy.inv->update_cache_with_item( *new_item_it );
     }
 

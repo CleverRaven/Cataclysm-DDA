@@ -795,7 +795,7 @@ static item_location set_item_inventory( Character &p, item &newit )
     if( newit.made_of( phase_id::LIQUID ) ) {
         liquid_handler::handle_all_or_npc_liquid( p, newit, PICKUP_RANGE );
     } else {
-        p.inv->assign_empty_invlet( item_location( p, &newit ), p );
+        p.inv->assign_empty_invlet( newit, p );
         // We might not have space for the item
         if( !p.can_pickVolume( newit ) ) { //Accounts for result_mult
             put_into_vehicle_or_drop( p, item_drop_reason::too_large, { newit } );

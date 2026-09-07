@@ -329,7 +329,7 @@ item_location Character::try_add( item it, const item *avoid, const item *origin
         item *newit = nullptr;
         pocket.second->add( it, &newit );
         if( !keep_invlet && ( !it.count_by_charges() || it.charges == newit->charges ) ) {
-            inv->update_invlet( item_location(), true, original_inventory_item );
+            inv->update_invlet( *newit, true, original_inventory_item );
         }
         pocket.first.on_contents_changed();
         pocket.second->on_contents_changed();
@@ -405,7 +405,7 @@ item_location Character::try_add( item it, int &copies_remaining, const item *av
             }
         }
         if( !invlet ) {
-            inv->update_invlet( item_location( pocket.first, newits.front() ), true, original_inventory_item );
+            inv->update_invlet( *pocket.first, true, original_inventory_item );
         }
 
         copies_remaining -= max_copies;
@@ -609,7 +609,7 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
         }
     }
 
-    inv->assign_empty_invlet( loc, *this );
+    inv->assign_empty_invlet( *loc, *this );
     return retval;
 }
 
@@ -3097,7 +3097,7 @@ bool Character::wield( item &it, std::optional<int> obtain_cost, bool combat )
     if( wielded ) {
         last_item = wielded->typeId();
         wielded->on_wield( *this, combat );
-        inv->update_invlet( wielded );
+        inv->update_invlet( *wielded );
         inv->update_cache_with_item( *wielded );
         cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
         get_event_bus().send_with_talker( this, &wielded, e );
@@ -3174,7 +3174,7 @@ bool Character::wield_contents( item &container, item *internal_item, bool penal
     container.remove_item( *internal_item );
     container.on_contents_changed();
 
-    inv->update_invlet( item_location( *this, &weapon ) );
+    inv->update_invlet( weapon );
     inv->update_cache_with_item( weapon );
     last_item = weapon.typeId();
 

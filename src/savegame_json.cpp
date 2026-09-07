@@ -1056,7 +1056,7 @@ void Character::load( const JsonObject &data )
 
     inv->clear();
     if( data.has_member( "inv" ) ) {
-        inv->json_load_items( data.get_member( "inv" ) );
+        inv->json_load_items( data.get_member( "inv" ), *this );
     }
 
     set_wielded_item( item() );
@@ -2297,7 +2297,7 @@ void npc::load( const JsonObject &data )
 
     companion_mission_inv.clear();
     if( data.has_member( "companion_mission_inv" ) ) {
-        companion_mission_inv.json_load_items( data.get_member( "companion_mission_inv" ) );
+        companion_mission_inv.json_load_items( data.get_member( "companion_mission_inv" ), *this );
     }
 
     if( !data.read( "restock", restock ) ) {
@@ -2461,17 +2461,24 @@ void inventory::json_save_items( JsonOut &json ) const
 }
 
 // save-load has been adjusted because we have changed to item_location! remove the migration after 0.J
-void inventory::json_load_items( const JsonArray &ja )
+void inventory::json_load_items( const JsonArray &ja, Character &parent )
 {
-
-    std::vector<item_location> batch;
-    batch.reserve( ja.size() );
-    for( JsonObject jo : ja ) {
-        item_location tmp;
-        tmp.deserialize( jo );
-        batch.emplace_back( std::move( tmp ) );
+    if( savegame_loading_version > 39 ) {
+        std::vector<item_location> batch;
+        batch.reserve( ja.size() );
+        for( JsonObject jo : ja ) {
+            item_location tmp;
+            tmp.deserialize( jo );
+            batch.emplace_back( tmp );
+        }
+        add_items_bulk( batch, true, false );
+    } else {
+        for( JsonObject jo : ja ) {
+            item tmp;
+            tmp.deserialize( jo );
+            add_item( tmp, parent, true, false );
+        }
     }
-    add_items_bulk( batch, true, false );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

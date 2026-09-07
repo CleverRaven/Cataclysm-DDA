@@ -276,12 +276,52 @@ char inventory::find_usable_cached_invlet( const itype_id &item_type )
     return 0;
 }
 
-item_location inventory::add_item( item_location newit, bool keep_invlet, bool assign_invlet,
-                                   bool should_stack )
+item_location inventory::add_item( item &newit, Character &parent,
+                                   bool keep_invlet, bool assign_invlet, bool should_stack )
 {
     binned = false;
 
-    Character &player_character = get_player_character();
+    if( should_stack ) {
+        // See if we can't stack this item.
+        for( auto &elem : items ) {
+            std::list<item_location>::iterator it_ref = elem.begin();
+            if( it_ref->get_item()->stacks_with( newit ) ) {
+                if( it_ref->get_item()->merge_charges( newit ) ) {
+                    return *it_ref;
+                }
+                if( ( *it_ref )->invlet == '\0' ) {
+                    if( !keep_invlet ) {
+                        update_invlet( newit, assign_invlet );
+                    }
+                    update_cache_with_item( newit );
+                    it_ref->get_item()->invlet = newit.invlet;
+                } else {
+                    newit.invlet = it_ref->get_item()->invlet;
+                }
+                elem.emplace_back( item_location( parent, &newit ) );
+                return elem.back();
+            } else if( keep_invlet && assign_invlet && it_ref->get_item()->invlet == newit.invlet ) {
+                // If keep_invlet is true, we'll be forcing other items out of their current invlet.
+                assign_empty_invlet( **it_ref, parent );
+            }
+        }
+    }
+
+    // Couldn't stack the item, proceed.
+    if( !keep_invlet ) {
+        update_invlet( newit, assign_invlet );
+    }
+    update_cache_with_item( newit );
+
+    items.emplace_back( std::list<item_location> { item_location( parent, &newit ) } );
+    return items.back().back();
+}
+
+item_location inventory::add_item( item_location newit,
+                                   bool keep_invlet, bool assign_invlet, bool should_stack )
+{
+    binned = false;
+
     if( should_stack ) {
         // See if we can't stack this item.
         for( auto &elem : items ) {
@@ -292,7 +332,7 @@ item_location inventory::add_item( item_location newit, bool keep_invlet, bool a
                 }
                 if( ( *it_ref )->invlet == '\0' ) {
                     if( !keep_invlet ) {
-                        update_invlet( newit, assign_invlet );
+                        update_invlet( *newit, assign_invlet );
                     }
                     update_cache_with_item( *newit );
                     it_ref->get_item()->invlet = newit->invlet;
@@ -303,14 +343,14 @@ item_location inventory::add_item( item_location newit, bool keep_invlet, bool a
                 return elem.back();
             } else if( keep_invlet && assign_invlet && it_ref->get_item()->invlet == newit->invlet ) {
                 // If keep_invlet is true, we'll be forcing other items out of their current invlet.
-                assign_empty_invlet( *it_ref, player_character );
+                assign_empty_invlet( **it_ref, get_avatar() );
             }
         }
     }
 
     // Couldn't stack the item, proceed.
     if( !keep_invlet ) {
-        update_invlet( newit, assign_invlet );
+        update_invlet( *newit, assign_invlet );
     }
     update_cache_with_item( *newit );
 
@@ -335,7 +375,7 @@ void inventory::add_items_bulk( std::vector<item_location> items_in, bool keep_i
     if( !should_stack ) {
         for( item_location it : items_in ) {
             if( !keep_invlet ) {
-                update_invlet( it, assign_invlet );
+                update_invlet( *it, assign_invlet );
             }
             update_cache_with_item( *it );
             items.emplace_back( std::list<item_location> { it } );
@@ -367,7 +407,7 @@ void inventory::add_items_bulk( std::vector<item_location> items_in, bool keep_i
                 }
                 if( front_it->get_item()->invlet == '\0' ) {
                     if( !keep_invlet ) {
-                        update_invlet( newit, assign_invlet );
+                        update_invlet( *newit, assign_invlet );
                     }
                     update_cache_with_item( *newit );
                     front_it->get_item()->invlet = newit->invlet;
@@ -383,7 +423,7 @@ void inventory::add_items_bulk( std::vector<item_location> items_in, bool keep_i
             continue;
         }
         if( !keep_invlet ) {
-            update_invlet( newit, assign_invlet );
+            update_invlet( *newit, assign_invlet );
         }
         update_cache_with_item( *newit );
         items.emplace_back( std::list<item_location> { newit } );
@@ -457,7 +497,7 @@ void inventory::restack( Character &p )
         const item *invlet_item = p.invlet_to_item( topmost->invlet );
         if( !inv_chars.valid( topmost->invlet ) || ( invlet_item != nullptr &&
                 position_by_item( invlet_item ) != idx ) ) {
-            assign_empty_invlet( topmost, p );
+            assign_empty_invlet( *topmost, p );
             for( item_location stack_iter : stack ) {
                 stack_iter->invlet = topmost->invlet;
             }
@@ -999,24 +1039,6 @@ static void for_each_item_in_both(
         }
     }
 }
-/*
-units::mass inventory::weight_without( const std::map<const item *, int> &without ) const
-{
-    units::mass ret = weight();
-
-    for_each_item_in_both( items, without,
-    [&]( const item_location i ) {
-        ret -= i->weight();
-    }
-                         );
-
-    if( ret < 0_gram ) {
-        debugmsg( "Negative mass after removing some of inventory" );
-        ret = {};
-    }
-
-    return ret;
-}*/
 
 units::volume inventory::volume() const
 {
@@ -1028,24 +1050,6 @@ units::volume inventory::volume() const
     }
     return ret;
 }
-/*
-units::volume inventory::volume_without( const std::map<const item *, int> &without ) const
-{
-    units::volume ret = volume();
-
-    for_each_item_in_both( items, without,
-    [&]( const item_location i ) {
-        ret -= i->volume();
-    }
-                         );
-
-    if( ret < 0_ml ) {
-        debugmsg( "Negative volume after removing some of inventory" );
-        ret = 0_ml;
-    }
-
-    return ret;
-}*/
 
 int inventory::count_item( const itype_id &item_type ) const
 {
@@ -1061,18 +1065,18 @@ int inventory::count_item( const itype_id &item_type ) const
     return num;
 }
 
-void inventory::assign_empty_invlet( item_location it, const Character &p, const bool force )
+void inventory::assign_empty_invlet( item &it, const Character &p, const bool force )
 {
     const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
-    if( auto_setting == "disabled" || ( ( auto_setting == "favorites" ) && !it->is_favorite ) ) {
+    if( auto_setting == "disabled" || ( ( auto_setting == "favorites" ) && !it.is_favorite ) ) {
         return;
     }
 
     invlets_bitset cur_inv = p.allocated_invlets();
-    itype_id target_type = it->typeId();
+    itype_id target_type = it.typeId();
     for( const auto &iter : assigned_invlet ) {
         if( iter.second == target_type && !cur_inv[iter.first] ) {
-            it->invlet = iter.first;
+            it.invlet = iter.first;
             return;
         }
     }
@@ -1091,25 +1095,25 @@ void inventory::assign_empty_invlet( item_location it, const Character &p, const
                 continue;
             }
             if( !cur_inv[inv_char] ) {
-                it->invlet = inv_char;
+                it.invlet = inv_char;
                 return;
             }
         }
     }
     if( !force ) {
-        it->invlet = 0;
+        it.invlet = 0;
         return;
     }
     // No free hotkey exist, re-use some of the existing ones
     for( auto &elem : items ) {
         item_location o = elem.front();
         if( o->invlet != 0 ) {
-            it->invlet = o->invlet;
+            it.invlet = o->invlet;
             o->invlet = 0;
             return;
         }
     }
-    debugmsg( "could not find a hotkey for %s", it->tname() );
+    debugmsg( "could not find a hotkey for %s", it.tname() );
 }
 
 void inventory::reassign_item( item &it, char invlet, bool remove_old )
@@ -1124,42 +1128,42 @@ void inventory::reassign_item( item &it, char invlet, bool remove_old )
     update_cache_with_item( it );
 }
 
-void inventory::update_invlet( item_location newit, bool assign_invlet,
+void inventory::update_invlet( item &newit, bool assign_invlet,
                                const item *ignore_invlet_collision_with )
 {
-    if( newit->invlet ) {
+    if( newit.invlet ) {
         // Avoid letters that have been manually assigned to other things.
-        if( assigned_invlet.find( newit->invlet ) != assigned_invlet.end() ) {
-            if( assigned_invlet[newit->invlet] != newit->typeId() ) {
-                newit->invlet = '\0';
+        if( assigned_invlet.find( newit.invlet ) != assigned_invlet.end() ) {
+            if( assigned_invlet[newit.invlet] != newit.typeId() ) {
+                newit.invlet = '\0';
             }
 
             // Remove letters that are not in the favorites cache
-        } else if( !invlet_cache.contains( newit->invlet, newit->typeId() ) ) {
-            newit->invlet = '\0';
+        } else if( !invlet_cache.contains( newit.invlet, newit.typeId() ) ) {
+            newit.invlet = '\0';
         }
     }
 
     Character &player_character = get_player_character();
     // Remove letters that have been assigned to other items in the inventory
-    if( newit->invlet ) {
-        char tmp_invlet = newit->invlet;
-        newit->invlet = '\0';
+    if( newit.invlet ) {
+        char tmp_invlet = newit.invlet;
+        newit.invlet = '\0';
         item *collidingItem = player_character.invlet_to_item( tmp_invlet );
 
         if( collidingItem == nullptr || collidingItem == ignore_invlet_collision_with ) {
-            newit->invlet = tmp_invlet;
+            newit.invlet = tmp_invlet;
         }
     }
 
     if( assign_invlet ) {
         // Assign a cached letter to the item
-        if( !newit->invlet ) {
-            newit->invlet = find_usable_cached_invlet( newit->typeId() );
+        if( !newit.invlet ) {
+            newit.invlet = find_usable_cached_invlet( newit.typeId() );
         }
 
         // Give the item an invlet if it has none
-        if( !newit->invlet ) {
+        if( !newit.invlet ) {
             assign_empty_invlet( newit, player_character );
         }
     }

@@ -7147,7 +7147,7 @@ std::optional<int> iuse::radiocar( Character *p, item *it, const tripoint_bub_ms
         } else { // Disarm the car
             p->mod_moves( -to_moves<int>( 2_seconds ) );
 
-            p->inv->assign_empty_invlet( item_location( *p, bomb_it ), *p, true ); // force getting an invlet.
+            p->inv->assign_empty_invlet( *bomb_it, *p, true ); // force getting an invlet.
             p->i_add( *bomb_it );
             it->remove_item( *bomb_it );
 

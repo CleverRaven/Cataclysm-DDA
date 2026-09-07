@@ -143,6 +143,9 @@ class inventory : public visitable
         void clear();
         void push_back( const std::list<item_location> &newits );
         // returns a reference to the added item
+        item_location add_item( item &newit, Character &parent, bool keep_invlet = false,
+                                bool assign_invlet = true, bool should_stack = true );
+        // returns a reference to the added item
         item_location add_item( item_location newit, bool keep_invlet = false, bool assign_invlet = true,
                                 bool should_stack = true );
         // Bulk variant of add_item for callers ingesting many items at once
@@ -232,18 +235,18 @@ class inventory : public visitable
         void dump( std::vector<const item *> &dest ) const;
 
         void json_load_invcache( const JsonValue &jsin );
-        void json_load_items( const JsonArray &ja );
+        void json_load_items( const JsonArray &ja, Character &parent );
 
         void json_save_invcache( JsonOut &json ) const;
         void json_save_items( JsonOut &json ) const;
 
         // Assigns an invlet if any remain.  If none do, will assign ` if force is
         // true, empty (invlet = 0) otherwise.
-        void assign_empty_invlet( item_location it, const Character &p, bool force = false );
+        void assign_empty_invlet( item &it, const Character &p, bool force = false );
         // Assigns the item with the given invlet, and updates the favorite invlet cache. Does not check for uniqueness
         void reassign_item( item &it, char invlet, bool remove_old = true );
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
-        void update_invlet( item_location it, bool assign_invlet = true,
+        void update_invlet( item &it, bool assign_invlet = true,
                             const item *ignore_invlet_collision_with = nullptr );
 
         invlets_bitset allocated_invlets() const;
