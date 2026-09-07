@@ -219,6 +219,7 @@ jobs:
           $test_binary = (Resolve-Path .\Cataclysm-test-vcpkg-static-Release-x64.exe).Path
           $shards = @(python build-scripts/shard_tests.py --bin $test_binary --shards $jobs)
           if ($LASTEXITCODE -ne 0 -or $shards.Count -eq 0) { throw "Unable to generate test shards" }
+          Write-Host "Generated $($shards.Count) test shards: $($shards -join ', ')"
           $shards | ForEach-Object -Parallel {
               $shard = $_
               $test_binary = $using:test_binary
@@ -227,7 +228,9 @@ jobs:
               try {
                   $user_dir = Join-Path $repo_root "test_user_dir_$([IO.Path]::GetFileNameWithoutExtension($shard))"
                   $shard_path = Join-Path $repo_root $shard
-                  & $test_binary --user-dir $user_dir --min-duration 20 --rng-seed time --order lex --input-file $shard_path
+                  if (-not (Test-Path -LiteralPath $shard_path)) { throw "Missing test shard $shard_path" }
+                  Write-Host "Running test shard $shard_path"
+                  & $test_binary --user-dir $user_dir --min-duration 20 --rng-seed time "--input-file=$shard_path"
                   $exit_code = $LASTEXITCODE
                   if ($exit_code -ne 0) { throw "Test failed on shard $shard (exit code $exit_code)" }
               } finally {
