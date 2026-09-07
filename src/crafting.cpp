@@ -696,21 +696,19 @@ const inventory &Character::crafting_inventory( map *here, const tripoint_bub_ms
         if( !it->empty_container() ) {
             // is the non-empty container used for BOIL?
             if( !it->is_watertight_container() || it->get_quality( qual_BOIL, false ) <= 0 ) {
-                item tmp = item( it->typeId(), it->birthday() );
-                tmp.is_favorite = it->is_favorite;
-                *crafting_cache.crafting_inventory += tmp;
+                *crafting_cache.crafting_inventory->provide_pseudo_item( it->typeId() );
             }
             continue;
         } else if( it->is_watertight_container() ) {
             const int count = it->count_by_charges() ? it->charges : 1;
             tmp_liq_list[it->typeId()] += count;
         }
-        crafting_cache.crafting_inventory->add_item( *it );
+        crafting_cache.crafting_inventory->add_item( it );
     }
     crafting_cache.crafting_inventory->replace_liq_container_count( tmp_liq_list, true );
 
     for( const item &i : crafting_pseudo_items() ) {
-        *crafting_cache.crafting_inventory += i;
+        *crafting_cache.crafting_inventory->provide_pseudo_item( i.typeId() );
     }
 
     crafting_cache.valid = true;
@@ -797,7 +795,7 @@ static item_location set_item_inventory( Character &p, item &newit )
     if( newit.made_of( phase_id::LIQUID ) ) {
         liquid_handler::handle_all_or_npc_liquid( p, newit, PICKUP_RANGE );
     } else {
-        p.inv->assign_empty_invlet( newit, p );
+        p.inv->assign_empty_invlet( item_location( p, &newit ), p );
         // We might not have space for the item
         if( !p.can_pickVolume( newit ) ) { //Accounts for result_mult
             put_into_vehicle_or_drop( p, item_drop_reason::too_large, { newit } );

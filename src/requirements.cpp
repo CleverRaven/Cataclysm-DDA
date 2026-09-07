@@ -1438,7 +1438,13 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
     }
 
     inventory craft_components;
-    craft_components += remaining_comps;
+    for( const std::pair<itype_id, std::vector<item>> &comp : remaining_comps ) {
+        //these item locations are a hack! we don't know really where they are.
+        for( const item &inner : comp.second ) {
+            item_location loc( get_player_character(), const_cast<item *>( &inner ) );
+            craft_components.push_back( loc );
+        }
+    }
 
     // Remove requirements that are completely fulfilled by current craft components
     // For each requirement that isn't completely fulfilled, reduce the requirement by the amount

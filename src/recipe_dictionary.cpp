@@ -324,11 +324,11 @@ std::vector<const recipe *> recipe_subset::search(
                 const inventory &crafting_inventory = crafter_ref.crafting_inventory();
 
                 for( const auto &stack : crafting_inventory.const_slice() ) {
-                    const item &item = stack->front();
+                    const item_location item = stack->front();
 
-                    for( const auto &recipe : item.get_available_recipes( crafter_ref ) ) {
-                        if( recipe.first == r && ( lcmatch( item.display_name(), txt ) ||
-                                                   lcmatch( item::nname( item.typeId() ), txt ) ) ) {
+                    for( const auto &recipe : item->get_available_recipes( crafter_ref ) ) {
+                        if( recipe.first == r && ( lcmatch( item->display_name(), txt ) ||
+                                                   lcmatch( item::nname( item->typeId() ), txt ) ) ) {
                             return true;
                         }
                     }

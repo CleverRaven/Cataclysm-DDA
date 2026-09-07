@@ -383,15 +383,15 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     file << _( "Inventory:" ) << eol;
     u.inv->restack( u );
     invslice slice = u.inv->slice();
-    for( const std::list<item> *elem : slice ) {
-        const item &next_item = elem->front();
-        file << indent << next_item.invlet << " - " <<
-             next_item.tname( static_cast<unsigned>( elem->size() ), false );
+    for( const std::list<item_location> *elem : slice ) {
+        const item_location next_item = elem->front();
+        file << indent << next_item->invlet << " - " <<
+             next_item->tname( static_cast<unsigned>( elem->size() ), false );
         if( elem->size() > 1 ) {
             file << " [" << elem->size() << "]";
         }
-        if( next_item.charges > 0 ) {
-            file << " (" << next_item.charges << ")";
+        if( next_item->charges > 0 ) {
+            file << " (" << next_item->charges << ")";
         }
         file << eol;
     }

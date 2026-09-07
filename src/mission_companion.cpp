@@ -1326,7 +1326,7 @@ npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
 
     //Ensure we have someone to give equipment to before we lose it
     for( item *i : equipment ) {
-        comp->companion_mission_inv.add_item( *i );
+        comp->companion_mission_inv.add_item( item_location( *comp.get(), i ) );
         if( item::count_by_charges( i->typeId() ) ) {
             comp->as_character()->use_charges( i->typeId(), i->charges );
         } else {
@@ -2495,9 +2495,9 @@ void talk_function::companion_return( npc &comp )
     Character &player_character = get_player_character();
     map &here = get_map();
     for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
-        for( const item &it : comp.companion_mission_inv.const_stack( i ) ) {
-            if( !it.count_by_charges() || it.charges > 0 ) {
-                here.add_item_or_charges( player_character.pos_bub(), it );
+        for( const item_location it : comp.companion_mission_inv.const_stack( i ) ) {
+            if( !it->count_by_charges() || it->charges > 0 ) {
+                here.add_item_or_charges( player_character.pos_bub(), *it );
             }
         }
     }

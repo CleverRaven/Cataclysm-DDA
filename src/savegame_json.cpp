@@ -2453,23 +2453,25 @@ void inventory::json_save_items( JsonOut &json ) const
 {
     json.start_array();
     for( const auto &elem : items ) {
-        for( const item &elem_stack_iter : elem ) {
+        for( const item_location elem_stack_iter : elem ) {
             elem_stack_iter.serialize( json );
         }
     }
     json.end_array();
 }
 
+// save-load has been adjusted because we have changed to item_location! remove the migration after 0.J
 void inventory::json_load_items( const JsonArray &ja )
 {
-    std::vector<item> batch;
+
+    std::vector<item_location> batch;
     batch.reserve( ja.size() );
     for( JsonObject jo : ja ) {
-        item tmp;
+        item_location tmp;
         tmp.deserialize( jo );
         batch.emplace_back( std::move( tmp ) );
     }
-    add_items_bulk( std::move( batch ), true, false );
+    add_items_bulk( batch, true, false );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

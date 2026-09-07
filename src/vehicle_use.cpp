@@ -1902,29 +1902,32 @@ void vehicle::build_bike_rack_menu( map &here, veh_menu &menu, int part )
 
 void vpart_position::form_inventory( map &here, inventory &inv ) const
 {
-    if( const std::optional<vpart_reference> vp_cargo = part_with_feature( VPFLAG_CARGO, true ) ) {
-        for( const item &it : vp_cargo->items() ) {
+    if( std::optional<vpart_reference> vp_cargo = part_with_feature( VPFLAG_CARGO, true ) ) {
+        for( item &it : vp_cargo->items() ) {
             if( it.empty_container() && it.is_watertight_container() ) {
                 const int count = it.count_by_charges() ? it.charges : 1;
                 inv.update_liq_container_count( it.typeId(), count );
             }
-            inv.add_item( it );
+            item_location iit( vehicle_cursor( vehicle_.get(), part_index() ), &it );
+            inv.add_item( iit );
         }
     }
 
     // HACK: water_faucet pseudo tool gives access to liquids in tanks
     const std::optional<vpart_reference> vp_faucet = part_with_tool( here, itype_water_faucet );
-    if( vp_faucet && inv.provide_pseudo_item( itype_water_faucet ) != nullptr ) {
+    if( vp_faucet && inv.provide_pseudo_item( itype_water_faucet ) != std::nullopt ) {
         for( const item *it : vehicle().fuel_items_left() ) {
             if( it->made_of( phase_id::LIQUID ) ) {
                 item fuel( *it );
-                inv.add_item( fuel );
+                item_location fuel_loc( vehicle_cursor( vehicle_.get(), part_index() ), &fuel );
+                inv.add_item( fuel_loc );
             }
         }
     }
 
-    for( const auto&[tool_item, discard_] : get_tools( here ) ) {
-        inv.provide_pseudo_item( tool_item );
+    for( std::pair<item, int> pair : get_tools( here ) ) {
+        item_location loc( vehicle_cursor( vehicle_.get(), part_index() ), &pair.first );
+        inv.provide_pseudo_item( loc );
     }
 }
 

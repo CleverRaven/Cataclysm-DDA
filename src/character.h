@@ -2143,8 +2143,8 @@ class Character : public Creature, public visitable
         item *invlet_to_item( int invlet ) const;
 
         // Returns the item with a given inventory position.
-        item &i_at( int position );
-        const item &i_at( int position ) const;
+        item_location i_at( int position );
+        const item_location i_at( int position ) const;
         /**
          * Returns the item position (suitable for @ref i_at or similar) of a
          * specific item. Returns INT_MIN if the item is not found.

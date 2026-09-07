@@ -452,7 +452,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
     }
     item *main_tool = &( !w_hack.init( *act ) ?
                          ploc ?
-                         **ploc : you->i_at( act->index ) : w_hack.get_item() );
+                         **ploc : *you->i_at( act->index ) : w_hack.get_item() );
     if( main_tool == nullptr ) {
         debugmsg( "Empty main tool for repair" );
         act->set_to_null();

@@ -483,11 +483,11 @@ void Character::die( map *, Creature *nkiller )
     set_time_died( calendar::turn );
 
     if( has_effect( effect_heavysnare ) ) {
-        inv->add_item( item( itype_rope_6, calendar::turn_zero ) );
-        inv->add_item( item( itype_snare_trigger, calendar::turn_zero ) );
+        i_add( item( itype_rope_6, calendar::turn_zero ) );
+        i_add( item( itype_snare_trigger, calendar::turn_zero ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        inv->add_item( item( itype_beartrap, calendar::turn_zero ) );
+        i_add( item( itype_beartrap, calendar::turn_zero ) );
     }
     mission::on_creature_death( *this );
 }

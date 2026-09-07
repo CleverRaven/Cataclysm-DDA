@@ -126,10 +126,10 @@ recipe_subset Character::get_recipes_from_books( const inventory &crafting_inv )
     recipe_subset res;
 
     for( const auto &stack : crafting_inv.const_slice() ) {
-        const item &candidate = stack->front();
+        const item_location candidate = stack->front();
 
         for( std::pair<const recipe *, int> recipe_entry :
-             candidate.get_available_recipes( *this ) ) {
+             candidate->get_available_recipes( *this ) ) {
             res.include( recipe_entry.first, recipe_entry.second );
         }
     }
@@ -141,14 +141,14 @@ recipe_subset Character::get_recipes_from_ebooks( const inventory &crafting_inv 
 {
     recipe_subset res;
 
-    for( const std::list<item> *&stack : crafting_inv.const_slice() ) {
-        const item &ereader = stack->front();
-        if( !ereader.is_estorage() || !ereader.ammo_sufficient( this ) ||
-            ereader.is_broken_on_active() ) {
+    for( const std::list<item_location> *&stack : crafting_inv.const_slice() ) {
+        const item_location ereader = stack->front();
+        if( !ereader->is_estorage() || !ereader->ammo_sufficient( this ) ||
+            ereader->is_broken_on_active() ) {
             continue;
         }
 
-        for( const item *it : ereader.get_contents().ebooks() ) {
+        for( const item *it : ereader->get_contents().ebooks() ) {
             for( std::pair<const recipe *, int> recipe_entry :
                  it->get_available_recipes( *this ) ) {
                 res.include( recipe_entry.first, recipe_entry.second );

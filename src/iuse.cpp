@@ -7147,7 +7147,7 @@ std::optional<int> iuse::radiocar( Character *p, item *it, const tripoint_bub_ms
         } else { // Disarm the car
             p->mod_moves( -to_moves<int>( 2_seconds ) );
 
-            p->inv->assign_empty_invlet( *bomb_it, *p, true ); // force getting an invlet.
+            p->inv->assign_empty_invlet( item_location( *p, bomb_it ), *p, true ); // force getting an invlet.
             p->i_add( *bomb_it );
             it->remove_item( *bomb_it );
 
@@ -7703,13 +7703,13 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
         // add some tools and qualities. we can't add this qualities to
         // json, because multicook must be used only by activating, not as
         // component other crafts.
-        crafting_inv.push_back( item( itype_hotplate, calendar::turn_zero ) ); //hotplate inside
+        crafting_inv.provide_pseudo_item( itype_hotplate ); //hotplate inside
         // some recipes requires tongs
-        crafting_inv.push_back( item( itype_tongs, calendar::turn_zero ) );
+        crafting_inv.provide_pseudo_item( itype_tongs );
         // toolset with CUT and other qualities inside
-        crafting_inv.push_back( item( itype_toolset, calendar::turn_zero ) );
+        crafting_inv.provide_pseudo_item( itype_toolset );
         // good COOK, BOIL, CONTAIN qualities inside
-        crafting_inv.push_back( item( itype_pot, calendar::turn_zero ) );
+        crafting_inv.provide_pseudo_item( itype_pot );
 
         int counter = 0;
         static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };

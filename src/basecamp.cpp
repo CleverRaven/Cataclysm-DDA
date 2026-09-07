@@ -825,7 +825,8 @@ void basecamp::form_crafting_inventory( map &target_map )
                 }
             }
         }
-        _inv.add_item( camp_item );
+        // note: item_location hack!!
+        _inv.add_item( item_location( get_avatar(), &camp_item ) );
     }
 
     //  We're potentially adding the same item multiple times if present in multiple expansions,
@@ -845,8 +846,8 @@ void basecamp::form_crafting_inventory( map &target_map )
                     }
                 }
             }
-
-            _inv.add_item( camp_item );
+            // note: item_location hack!!
+            _inv.add_item( item_location( get_avatar(), &camp_item ) );
         }
     }
 }

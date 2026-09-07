@@ -183,7 +183,7 @@ bool inventory::has_quality( const quality_id &qual, int level, int qty ) const
     if( qualities_cache.find( query ) == qualities_cache.end() ) {
         int res = 0;
         for( const auto &stack : this->items ) {
-            res += stack.size() * has_quality_internal( stack.front(), qual, level, qty );
+            res += stack.size() * has_quality_internal( *stack.front(), qual, level, qty );
             if( res >= qty ) {
                 qualities_cache[query] = true;
             }
@@ -471,8 +471,8 @@ VisitResponse inventory::visit_items(
     const std::function<VisitResponse( item *, item * )> &func ) const
 {
     for( const auto &stack : items ) {
-        for( const item &it : stack ) {
-            if( visit_internal( func, &it ) == VisitResponse::ABORT ) {
+        for( const item_location it : stack ) {
+            if( visit_internal( func, it.get_item() ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
         }
@@ -656,19 +656,19 @@ std::list<item> item::remove_items_with( const std::function<bool( const item &e
 std::list<item> inventory::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
-    std::list<item> res;
-
+    std::list<item_location> res;
+    std::list<item> it_res;
     if( count <= 0 ) {
         // nothing to do
-        return res;
+        return std::list<item>();
     }
 
     for( auto stack = items.begin(); stack != items.end() && count > 0; ) {
-        std::list<item> &istack = *stack;
-        const char original_invlet = istack.front().invlet;
+        std::list<item_location> &istack = *stack;
+        const char original_invlet = istack.front()->invlet;
 
         for( auto istack_iter = istack.begin(); istack_iter != istack.end() && count > 0; ) {
-            if( filter( *istack_iter ) ) {
+            if( filter( **istack_iter ) ) {
                 count--;
                 res.splice( res.end(), istack, istack_iter++ );
                 // The non-first items of a stack may have different invlets, the code
@@ -676,11 +676,14 @@ std::list<item> inventory::remove_items_with( const
                 // ensures that the first item of a stack always has the same invlet, even
                 // after the original first item was removed.
                 if( istack_iter == istack.begin() && istack_iter != istack.end() ) {
-                    istack_iter->invlet = original_invlet;
+                    istack_iter->get_item()->invlet = original_invlet;
                 }
 
             } else {
-                istack_iter->remove_internal( filter, count, res );
+                for( item_location loc : res ) {
+                    it_res.push_back( item( *loc ) );
+                }
+                istack_iter->get_item()->remove_internal( filter, count, it_res );
                 ++istack_iter;
             }
         }
@@ -694,8 +697,7 @@ std::list<item> inventory::remove_items_with( const
 
     // Invalidate binning cache
     binned = false;
-
-    return res;
+    return it_res;
 }
 
 std::list<item> outfit::remove_items_with( Character &guy,
@@ -1153,7 +1155,7 @@ int inventory::charges_of( const itype_id &what, int limit,
     // dedup the shared UPS / bionic pool across tools (legacy and multimag).
     std::vector<tool_stock_entry> entries;
     int raw_ups_charges = 0;
-    for( const item *it : iter->second ) {
+    for( const item_location it : iter->second ) {
         scan_tool_charges( *it, what, filter, in_tools, entries, raw_ups_charges );
     }
     return apply_external_pools( *this, entries, limit, visitor, raw_ups_charges );
@@ -1211,12 +1213,12 @@ int inventory::amount_of( const itype_id &what, bool pseudo, int limit,
     int res = 0;
     if( what == itype_any ) {
         for( const auto &kv : binned ) {
-            for( const item *it : kv.second ) {
+            for( const item_location it : kv.second ) {
                 res = sum_no_wrap( res, it->amount_of( what, pseudo, limit, filter ) );
             }
         }
     } else {
-        for( const item *it : iter->second ) {
+        for( const item_location it : iter->second ) {
             res = sum_no_wrap( res, it->amount_of( what, pseudo, limit, filter ) );
         }
     }

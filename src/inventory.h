@@ -35,11 +35,11 @@ class item_stack;
 class map;
 class npc;
 
-using invstack = std::list<std::list<item> >;
-using invslice = std::vector<std::list<item> *>;
-using const_invslice = std::vector<const std::list<item> *>;
-using indexed_invslice = std::vector< std::pair<std::list<item>*, int> >;
-using itype_bin = std::unordered_map< itype_id, std::list<const item *> >;
+using invstack = std::list<std::list<item_location> >;
+using invslice = std::vector<std::list<item_location> *>;
+using const_invslice = std::vector<const std::list<item_location> *>;
+using indexed_invslice = std::vector< std::pair<std::list<item_location>*, int> >;
+using itype_bin = std::unordered_map< itype_id, std::list<item_location> >;
 using invlets_bitset = std::bitset<std::numeric_limits<char>::max()>;
 
 /**
@@ -117,7 +117,7 @@ class inventory : public visitable
 
         invslice slice();
         const_invslice const_slice() const;
-        const std::list<item> &const_stack( int i ) const;
+        const std::list<item_location> &const_stack( int i ) const;
         size_t size() const;
 
         std::map<char, itype_id> assigned_invlet;
@@ -129,39 +129,39 @@ class inventory : public visitable
         inventory &operator=( const inventory & ) = default;
 
         inventory &operator+= ( const inventory &rhs );
-        inventory &operator+= ( const item &rhs );
-        inventory &operator+= ( const std::list<item> &rhs );
-        inventory &operator+= ( const item_components &rhs );
-        inventory &operator+= ( const std::vector<item> &rhs );
-        inventory &operator+= ( const item_stack &rhs );
+        inventory &operator+= ( const item_location rhs );
+        inventory &operator+= ( const std::list<item_location> &rhs );
+        //inventory &operator+= ( const item_components &rhs );
+        inventory &operator+= ( const std::vector<item_location> &rhs );
+        //inventory &operator+= ( const item_stack &rhs );
         inventory  operator+ ( const inventory &rhs );
-        inventory  operator+ ( const item &rhs );
-        inventory  operator+ ( const std::list<item> &rhs );
-        inventory  operator+ ( const item_components &rhs );
+        inventory  operator+ ( const item_location rhs );
+        inventory  operator+ ( const std::list<item_location> &rhs );
+        //inventory  operator+ ( const item_components &rhs );
 
         void unsort(); // flags the inventory as unsorted
         void clear();
-        void push_back( const std::list<item> &newits );
+        void push_back( const std::list<item_location> &newits );
         // returns a reference to the added item
-        item &add_item( item newit, bool keep_invlet = false, bool assign_invlet = true,
-                        bool should_stack = true );
+        item_location add_item( item_location newit, bool keep_invlet = false, bool assign_invlet = true,
+                                bool should_stack = true );
         // Bulk variant of add_item for callers ingesting many items at once
         // (json save load, form_from_map). Preserves source order within each
         // typeId bucket to match add_item's per-item invlet inheritance.
         // Supports keep_invlet=true,assign_invlet=false and
         // keep_invlet=false,assign_invlet=false; other combinations fall
         // through to repeated add_item calls.
-        void add_items_bulk( std::vector<item> items_in, bool keep_invlet = false,
+        void add_items_bulk( std::vector<item_location> items_in, bool keep_invlet = false,
                              bool assign_invlet = true, bool should_stack = true );
-        void add_item_keep_invlet( const item &newit );
-        void push_back( const item &newit );
+        void add_item_keep_invlet( const item_location newit );
+        void push_back( const item_location newit );
 
         // provides pseudo tools (e.g. from terrain, furniture or vehicle parts )
         // @returns pointer to tool or nullptr if tool type_id already provided
-        item *provide_pseudo_item( const item &tool );
+        std::optional<item_location> provide_pseudo_item( const item_location tool );
         // provides pseudo tool of type \p tool_type constructed at current turn
         // @returns pointer to tool or nullptr if tool type_id is invalid or already provided
-        item *provide_pseudo_item( const itype_id &tool_type );
+        std::optional<item_location> provide_pseudo_item( const itype_id &tool_type );
 
         /* Check all items for proper stacking, rearranging as needed
          * game pointer is not necessary, but if supplied, will ensure no overlap with
@@ -186,16 +186,15 @@ class inventory : public visitable
          * in this inventory.
          * @return A copy of the removed item.
          */
-        item remove_item( const item *it );
-        item remove_item( int position );
+        void remove_item( int position );
         /**
          * Randomly select items until the volume quota is filled.
          */
-        std::list<item> remove_randomly_by_volume( const units::volume &volume );
-        std::list<item> reduce_stack( int position, int quantity );
+        std::list<item_location> remove_randomly_by_volume( const units::volume &volume );
+        std::list<item_location> reduce_stack( int position, int quantity );
 
-        const item &find_item( int position ) const;
-        item &find_item( int position );
+        const item_location find_item( int position ) const;
+        item_location find_item( int position );
 
         /**
          * Returns the item position of the stack that contains the given item (compared by
@@ -224,9 +223,9 @@ class inventory : public visitable
         void rust_iron_items();
 
         units::mass weight() const;
-        units::mass weight_without( const std::map<const item *, int> & ) const;
+        //units::mass weight_without( const std::map<const item *, int> & ) const;
         units::volume volume() const;
-        units::volume volume_without( const std::map<const item *, int> & ) const;
+        //units::volume volume_without( const std::map<const item *, int> & ) const;
 
         // dumps contents into dest (does not delete contents)
         void dump( std::vector<item *> &dest );
@@ -240,11 +239,11 @@ class inventory : public visitable
 
         // Assigns an invlet if any remain.  If none do, will assign ` if force is
         // true, empty (invlet = 0) otherwise.
-        void assign_empty_invlet( item &it, const Character &p, bool force = false );
+        void assign_empty_invlet( item_location it, const Character &p, bool force = false );
         // Assigns the item with the given invlet, and updates the favorite invlet cache. Does not check for uniqueness
         void reassign_item( item &it, char invlet, bool remove_old = true );
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
-        void update_invlet( item &it, bool assign_invlet = true,
+        void update_invlet( item_location it, bool assign_invlet = true,
                             const item *ignore_invlet_collision_with = nullptr );
 
         invlets_bitset allocated_invlets() const;

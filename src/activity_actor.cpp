@@ -10942,10 +10942,10 @@ void longsalvage_activity_actor::start( player_activity &act, Character & )
 void longsalvage_activity_actor::finish( player_activity &act, Character &who )
 {
     static const std::string salvage_string = "salvage";
-    item &main_tool = who.i_at( act.index );
+    item_location main_tool = who.i_at( act.index );
     map &here = get_map();
     map_stack items = here.i_at( who.pos_bub() );
-    item *salvage_tool = main_tool.get_usable_item( salvage_string );
+    item *salvage_tool = main_tool->get_usable_item( salvage_string );
     if( salvage_tool == nullptr ) {
         debugmsg( "Lost tool used for long salvage" );
         act.set_to_null();

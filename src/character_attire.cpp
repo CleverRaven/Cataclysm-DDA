@@ -278,7 +278,7 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
 std::optional<std::list<item>::iterator>
 Character::wear( int pos, bool interactive )
 {
-    return wear( item_location( *this, &i_at( pos ) ), interactive );
+    return wear( i_at( pos ), interactive );
 }
 
 std::optional<std::list<item>::iterator>
@@ -409,7 +409,7 @@ std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, cons
     if( do_sort_items ) {
         new_item_it->on_wear( guy );
 
-        guy.inv->update_invlet( *new_item_it );
+        guy.inv->update_invlet( loc );
         guy.inv->update_cache_with_item( *new_item_it );
     }
 
@@ -570,8 +570,7 @@ bool Character::takeoff( item_location loc, std::list<item> *res )
 
 bool Character::takeoff( int pos )
 {
-    item_location loc = item_location( *this, &i_at( pos ) );
-    return takeoff( loc );
+    return takeoff( i_at( pos ) );
 }
 
 bool Character::is_wearing( const itype_id &it ) const

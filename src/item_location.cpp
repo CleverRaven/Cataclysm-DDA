@@ -491,7 +491,7 @@ class item_location::impl::item_on_person : public item_location::impl
             ch.mod_moves( -obtain_cost( ch, qty ) );
 
             on_contents_changed();
-            if( &ch.i_at( ch.get_item_position( target() ) ) == target() ) {
+            if( ch.i_at( ch.get_item_position( target() ) ).get_item() == target() ) {
                 // item already in target characters inventory at base of stack
                 return item_location( ch, target() );
             }

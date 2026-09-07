@@ -8024,10 +8024,7 @@ void Character::use_wielded()
 
 void Character::use( int inventory_position )
 {
-    item &used = i_at( inventory_position );
-    item_location loc = item_location( *this, &used );
-
-    use( loc );
+    use( i_at( inventory_position ) );
 }
 
 void Character::use( item_location loc, int pre_obtain_moves, std::string const &method )

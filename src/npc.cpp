@@ -986,7 +986,9 @@ void starting_inv( npc &who, const npc_class_id &type )
     std::list<item> res;
     who.inv->clear();
     if( item_group::group_is_defined( type->carry_override ) ) {
-        *who.inv += item_group::items_from( type->carry_override );
+        for( item thing : item_group::items_from( type->carry_override ) ) {
+            who.i_add( thing );
+        }
         return;
     }
 
@@ -1019,8 +1021,8 @@ void starting_inv( npc &who, const npc_class_id &type )
     } ), res.end() );
     for( item &it : res ) {
         it.set_owner( who );
+        who.inv->push_back( item_location( who, &it ) );
     }
-    *who.inv += res;
 }
 
 /**
