@@ -56,11 +56,9 @@ static double weapon_dps_trials( avatar &attacker, monster &defender, item &weap
     const int healthy_kcal = attacker.get_healthy_kcal();
     melee::clear_stats();
     melee_statistic_data melee_stats = melee::get_stats();
-    // Rerun the trials in groups of 1000 until 100 crits occur
     for( int i = 0; i < 10 && melee_stats.actual_crit_count < 100;
          i++, melee_stats = melee::get_stats() ) {
         for( int j = 0; j < trials; j++ ) {
-            // Reset skills, stamina, and physical condition before each attack
             attacker.empty_skills();
             attacker.set_stamina( attacker.get_stamina_max() );
             attacker.set_stored_kcal( healthy_kcal );

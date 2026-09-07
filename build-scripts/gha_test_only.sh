@@ -49,8 +49,6 @@ then
         build_type=Debug
     fi
 
-    # Keep the output prefix free of the shard path so it cannot break
-    # run_test's sed expression.
     # Run regular tests
     if [ -f "${bin_path}cata_test" ]; then
         SHARDS=$(python3 build-scripts/shard_tests.py --bin "${bin_path}cata_test" --shards "$num_test_jobs")

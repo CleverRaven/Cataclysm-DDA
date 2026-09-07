@@ -10,7 +10,6 @@ def get_tests(test_bin, cata_test_opts):
 
     cmd = [test_bin] + cata_test_opts + ["--list-test-names-only"]
     try:
-        # stderr is piped to /dev/null
         result = subprocess.run(
             cmd,
             stdout=subprocess.PIPE,
@@ -23,8 +22,6 @@ def get_tests(test_bin, cata_test_opts):
                 f"Return code: {result.returncode}",
                 file=sys.stderr
             )
-        # Return tests, ignoring empty lines.  Catch2 excludes hidden tests
-        # from this default listing.
         tests = [t.strip() for t in result.stdout.splitlines() if t.strip()]
         return tests
     except Exception as e:
@@ -63,7 +60,6 @@ def main():
     shard_weights = [0.0] * args.shards
     shard_lists = [[] for _ in range(args.shards)]
 
-    # We assign tests. Slow tests first using LPT, then the rest.
     test_durations = []
     for t in tests:
         if t in known_slow:
@@ -83,7 +79,6 @@ def main():
         with open(filename, "w") as f:
             for t in shard_lists[i]:
                 f.write(t + "\n")
-        # Output the filenames so the CI scripts can capture them.
         print(filename)
 
 

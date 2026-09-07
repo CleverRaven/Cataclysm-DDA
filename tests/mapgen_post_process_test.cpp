@@ -140,9 +140,6 @@ static void clear_map_and_reset_player()
     // then reset the avatar to the middle of the bubble which is conveniently around them.
     // Some tests leave the avatar off in the sticks which makes clear_overmaps take astoundingly long
     get_avatar().move_to( tripoint_abs_ms::zero );
-    // clear_overmaps discards the map and its vehicles before moving the player.
-    // Clear this state first so it does not try to unboard from a vehicle that
-    // was just discarded.
     get_avatar().in_vehicle = false;
     get_avatar().controlling_vehicle = false;
     clear_overmaps();
