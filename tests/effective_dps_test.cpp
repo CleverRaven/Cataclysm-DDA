@@ -81,7 +81,11 @@ static double weapon_dps_trials( avatar &attacker, monster &defender, item &weap
 
             int before_moves = attacker.get_moves();
 
-            // Keep the defender at maximum health
+            // Keep each trial independent.  Reusing the defender avoids the
+            // expensive character reset, but attacks can leave effects and
+            // miss-state behind in addition to changing HP.
+            defender.clear_effects();
+            defender.set_moves( 0 );
             const int starting_hp = defender.get_hp_max();
             defender.set_hp( starting_hp );
 
