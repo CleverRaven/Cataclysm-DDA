@@ -581,7 +581,10 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         }
     }
 
-    constexpr int max_attempts = 3;
+    // Overmap specials are placed randomly.  A few attempts are normally
+    // enough, but modded terrain sets make the coverage test noticeably more
+    // sensitive to the seed used by a sharded test process.
+    constexpr int max_attempts = 10;
     for( int attempt_no = 0; attempt_no < max_attempts && !yet_to_be_seen.empty();
          ++attempt_no ) {
         if( attempt_no > 0 ) {
