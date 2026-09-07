@@ -69,6 +69,6 @@
       [ [ "swage", -1 ] ],
       [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ]
     ],
-    "components": [ [ [ "lead", 15 ], [ "bismuth", 21 ] ], [ [ "tin", 14 ] ], [ [ "rosin", 2 ] ] ]
+    "components": [ [ [ "lead", 15 ], [ "bismuth", 25 ] ], [ [ "tin", 14 ] ], [ [ "rosin", 2 ] ] ]
   }
 ]

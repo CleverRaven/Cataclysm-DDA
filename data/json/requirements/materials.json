@@ -469,7 +469,7 @@
         [ "motor_oil", 200 ],
         [ "salt_water", 5 ],
         [ "ash", 5 ],
-        [ "tin", 25 ]
+        [ "tin", 27 ]
       ]
     ]
   },
@@ -600,7 +600,7 @@
         [ "bag_plastic_small", 4 ],
         [ "bottle_plastic_small", 1 ],
         [ "plastic_chunk", 1 ],
-        [ "aluminum_foil", 2 ],
+        [ "aluminum_foil", 4 ],
         [ "cash_card", 2 ],
         [ "credit_card", 2 ]
       ]

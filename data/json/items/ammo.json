@@ -860,7 +860,6 @@
     "material": [ "powder" ],
     "volume": "1 ml",
     "weight": "800 mg",
-    "//": "arbitrary legacy density, should specify which oxidizer this is",
     "explode_in_fire": true,
     "//": "Burns rapidly but not really an explosion.",
     "explosion": { "power": 20 }
@@ -1072,7 +1071,7 @@
     "material": [ "copper" ],
     "volume": "1 ml",
     "weight": "7813 mg",
-    "//": "Density preserved from the former 5 g, 0.64 ml unit, rounded to the nearest milligram."
+    "//": "Density preserved from the legacy 5 g, 0.64 ml unit, 87.5% of elemental density"
   },
   {
     "type": "ITEM",

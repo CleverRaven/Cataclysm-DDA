@@ -219,7 +219,7 @@
       [ [ "fishing_hook_basic", 1 ] ],
       [ [ "qt_wire", 1 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "bismuth", 167 ] ]
+      [ [ "bismuth", 200 ] ]
     ]
   },
   {
@@ -235,7 +235,7 @@
       [ [ "fishing_hook_basic", 1 ] ],
       [ [ "qt_wire", 1 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "bismuth", 167 ] ]
+      [ [ "bismuth", 200 ] ]
     ]
   },
   {
@@ -252,7 +252,7 @@
       [ [ "fishing_hook_basic", 1 ] ],
       [ [ "qt_wire", 1 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "bismuth", 167 ] ]
+      [ [ "bismuth", 200 ] ]
     ]
   },
   {
@@ -268,7 +268,7 @@
       [ [ "fishing_hook_basic", 1 ] ],
       [ [ "qt_wire", 1 ] ],
       [ [ "scrap", 2 ] ],
-      [ [ "bismuth", 167 ] ]
+      [ [ "bismuth", 200 ] ]
     ]
   },
   {
@@ -285,7 +285,7 @@
       [ [ "fishing_hook_basic", 1 ] ],
       [ [ "qt_wire", 1 ] ],
       [ [ "scrap", 2 ] ],
-      [ [ "bismuth", 167 ] ]
+      [ [ "bismuth", 200 ] ]
     ]
   },
   {

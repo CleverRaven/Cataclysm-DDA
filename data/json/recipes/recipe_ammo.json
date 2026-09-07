@@ -678,7 +678,7 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "chem_black_powder", 2 ] ], [ [ "lead", 24 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
+    "components": [ [ [ "chem_black_powder", 4 ] ], [ [ "lead", 24 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -696,7 +696,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "chem_black_powder", 2 ] ],
+      [ [ "chem_black_powder", 4 ] ],
       [ [ "bb", 24 ], [ "clockworks", 1 ], [ "pebble", 16 ], [ "bearing", 16 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
@@ -718,7 +718,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "chem_black_powder", 2 ] ],
+      [ [ "chem_black_powder", 4 ] ],
       [ [ "scrap", 1 ], [ "nails", 8, "LIST" ], [ "copper", 10 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
@@ -740,7 +740,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "surface_heat", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "chem_black_powder", 2 ] ], [ [ "lead", 24 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
+    "components": [ [ [ "chem_black_powder", 4 ] ], [ [ "lead", 24 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -757,7 +757,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "chem_black_powder", 2 ] ],
+      [ [ "chem_black_powder", 4 ] ],
       [ [ "nails", 8, "LIST" ], [ "combatnail", 8 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
@@ -1082,7 +1082,7 @@
     "tools": [ [ [ "hotplate", 50 ], [ "integrated_welder", 50 ] ] ],
     "components": [
       [ [ "pipe", 2 ] ],
-      [ [ "gunpowder", 300 ], [ "chem_black_powder", 27 ] ],
+      [ [ "gunpowder", 300 ], [ "chem_black_powder", 53 ] ],
       [ [ "tool_rocket_candy", 2 ], [ "chem_rocket_fuel", 10 ] ]
     ]
   },

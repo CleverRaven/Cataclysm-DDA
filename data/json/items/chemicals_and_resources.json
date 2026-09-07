@@ -1138,8 +1138,8 @@
     "description": "A handful of black gunpowder, a mix of saltpeter, charcoal, and sulfur.  Pretty useless for making modern cartridges, as the soot produced when it burns will quickly clog any firearm, but it could be used to make some vicious bombs.",
     "material": [ "dense_powder" ],
     "volume": "1 ml",
-    "weight": "1697 mg",
-    "//": "density varies between ~1.5-1.9 g/cm³ depending on packing",
+    "weight": "849 mg",
+    "//": "density varies between ~1.5-1.9 g/cm³ depending on packing, the item description describes a loose handful, so ~50% of packed density",
     "container": "bag_plastic_small"
   },
   {
@@ -1202,7 +1202,7 @@
     "//": "Detonation velocity about 2500–3000 m/s near 0.5 g/cm3",
     "volume": "1 ml",
     "weight": "1429 mg",
-    "//": "crystalline density ~1.429 g/cm³",
+    "//2": "crystalline density ~1.429 g/cm³",
     "container": "bag_plastic_small"
   },
   {

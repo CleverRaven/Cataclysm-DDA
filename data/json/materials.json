@@ -1890,7 +1890,7 @@
     "type": "material",
     "id": "platinum",
     "name": "Platinum",
-    "density": 21.45,
+    "density": 21.46,
     "specific_heat_liquid": 0.18,
     "specific_heat_solid": 0.13,
     "latent_heat": 114,

@@ -577,7 +577,7 @@
       [ [ "aspirin", 18 ] ],
       [ [ "salt_water", 1 ] ],
       [ [ "water_clean", 1 ] ],
-      [ [ "bismuth", 8 ] ],
+      [ [ "bismuth", 10 ] ],
       [ [ "lye_powder", 2 ] ]
     ]
   },
@@ -1579,7 +1579,7 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
-    "charges": 59,
+    "charges": 122,
     "time": "5 m",
     "book_learn": [ [ "textbook_anarch", 0 ], [ "recipe_labchem", 5 ], [ "textbook_chemistry", 7 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],

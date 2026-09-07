@@ -1059,7 +1059,7 @@
   },
   {
     "result": "tin",
-    "charges": 50,
+    "charges": 55,
     "id_suffix": "from_bowl",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
@@ -1123,7 +1123,7 @@
   },
   {
     "result": "tin",
-    "charges": 50,
+    "charges": 55,
     "id_suffix": "from_scrap",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
