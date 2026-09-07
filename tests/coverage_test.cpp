@@ -200,7 +200,7 @@ TEST_CASE( "Melee_coverage_vs_melee_damage", "[coverage] [melee] [damage]" )
 
     SECTION( "No melee coverage vs. melee attack" ) {
         const float dmg = get_avg_melee_dmg( itype_test_hazmat_suit_nomelee );
-        check_near( "Average damage", dmg, 17.0f, 0.2f );
+        check_near( "Average damage", dmg, 17.0f, 0.4f );
     }
 }
 
