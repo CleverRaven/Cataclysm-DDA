@@ -57,7 +57,7 @@
     "vision_day": 30,
     "vision_night": 5,
     "grab_strength": 5,
-    "upgrades": { "half_life": 2, "into_group": "GROUP_LABGHOULBABY_UPGRADE" }
+    "upgrades": { "age_grow": 2, "into": "mon_ghoul_lab_juvenile" }
   },
   {
     "id": "mon_ghoul_lab_juvenile",
@@ -81,6 +81,32 @@
     "vision_day": 40,
     "vision_night": 8,
     "grab_strength": 20,
-    "armor": { "bash": 4, "cut": 2, "stab": 2 }
+    "armor": { "bash": 4, "cut": 2, "stab": 2 },
+    "upgrades": { "age_grow": 4, "into": "mon_ghoul_lab_adult" }
+  },
+  {
+    "id": "mon_ghoul_lab_adult",
+    "type": "MONSTER",
+    "name": { "str": "mature lab ghoul" },
+    "description": "An uncannily humanlike creature about the size of a very large dog, with pallid, leathery skin. Vicious fangs jut from an extended muzzle set below flat black eyes.  Its arms are unnaturally long, giving it an almost gorilla-like stance, and end in long claws that click on the floor as it moves.  This will definitely be a problem.",
+    "copy-from": "mon_ghoul_base",
+    "volume": "48600 ml",
+    "weight": "80500 g",
+    "hp": 105,
+    "speed": 115,
+    "symbol": "g",
+    "color": "white_gray",
+    "aggression": 80,
+    "morale": 80,
+    "melee_skill": 4,
+    "melee_dice": 3,
+    "melee_dice_sides": 8,
+    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "dodge": 3,
+    "vision_day": 40,
+    "vision_night": 8,
+    "grab_strength": 20,
+    "extend": { "special_attacks": [ { "id": "scratch", "cooldown": 5 } ] },
+    "armor": { "bash": 7, "cut": 4, "stab": 3 }
   }
 ]
