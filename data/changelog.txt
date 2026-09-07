@@ -111,6 +111,9 @@ unattended step for boiled egg recipe
 Food revolution: Spices and seasonings
 Allow future contributors to easily tune weary maluses in combat
 Monsters can block attacks for reduced damage
+QoL: When hauling items while auto-moving or auto-traveling, if the character is about to go over terrain where items cannot be placed, player will be prompted to stop auto-moving.
+Deliver fetch quest items via truck
+Swap `req_flag` in martial effects tech effects to `condition`
 
 
 ## Content:
@@ -209,6 +212,11 @@ Add CANNOT_SLEEP flag
 Highland Crypts
 Add serum-specific microlabs
 Add "serum ferals" to serum labs
+Add emery boards in bathrooms
+[Hunvre] Adding Hunvre-specific clothing, part 3: Pants
+More seasonings for more food
+adds a HEMA gambeson
+Greatly buff night vision for raccoons
 
 
 
@@ -360,6 +368,10 @@ Aftershock: Origin Hobbies
 [Aftershock] Project Sobek Genetech
 [Xedra Evolved] Challenge Scenario - Undying Vengeance
 You cannot `consume_drugs` if you have `TEMPORARY_SHAPESHIFT_NO_HANDS`
+[MoM] Add chance for feral psions in serum microlabs, small adjustment to mutagen microlabs
+[Innawoods] Separation funnel recipe no longer makes 40 funnels
+Ra'ab gives lilin the `PSYCHOPATH` flag
+[MoM] Feral biokinetics can block
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -422,6 +434,10 @@ Deadly bears and how to hurt them
 Add faults to melee weapons lacking them
 Add faults to mainly magyclism melee weapons
 Faction camp hunting has an extra chance to return nothing based on time since the Cataclysm (and winter)
+Microwaves are treated as electronics, like induction hotplates
+Brutes cannot smash Huge characters, hulk smashes are less effective against Huge characters
+Metal doors can only be removed with angle grinder or breacher
+Complete adjustments to soymilk recipes and oats
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -619,6 +635,16 @@ Scared NPCs don't turn hostile
 Preserve character-specific auto-pickup rules between sessions
 Requirement checks judge the character being checked instead of the player
 Fix monsters not being slowed by snow
+Follower NPCs actually follow orders
+Reduce the amount of thread spawned in camping stuff
+Fix mouse position not translated right when not in fullscreen, and with scales not 1x
+[Xedra Evolved] Fix changeling March Lord advancement unlock
+Allow Kale and Cauliflower to be used in many foods after they have been separated from the head.
+Remove graphite from boulders
+update spellbook view for damage for spells with RANDOM_DAMAGE
+Optimize finding the best seasoning
+[Bombastic Perks] Fix Closetland Paths
+Fix fang bite testing weight
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -636,6 +662,7 @@ Speed up spawning item groups into containers
 Crafting optimizations
 Fix n^3 deserialization bug by not trying to stack unstackable items
 Improve several per-turn performance bottlenecks
+Fix O(N^2) performance degradation in form_from_map
 
 
 ## Infrastructure:
