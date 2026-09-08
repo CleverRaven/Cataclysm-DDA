@@ -944,7 +944,6 @@
     "name": { "str_sp": "bean seeds" },
     "extend": { "flags": [ "NUTRIENT_OVERRIDE", "INEDIBLE" ] },
     "description": "Dry beans, ready for planting.",
-    "volume": "250 ml",
     "plant_name": "beans",
     "fruit": "raw_beans",
     "seeds": false,

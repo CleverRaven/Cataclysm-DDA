@@ -424,7 +424,15 @@
       { "item": "radio", "prob": 25 },
       { "group": "gear_survival", "count": 2, "prob": 50 },
       { "group": "hiking", "count": 2, "prob": 75 },
-      { "group": "tools_hunting", "count": 2, "prob": 75 },
+      {
+        "collection": [
+          { "group": "camping_huntingweapon", "prob": 2 },
+          { "group": "camping_lighting", "prob": 80 },
+          { "group": "camping_cooking", "prob": 10 },
+          { "group": "camping_blades", "prob": 40 }
+        ],
+        "prob": 75
+      },
       { "group": "bugout_bad_pack", "prob": 150 }
     ]
   },

@@ -44,6 +44,7 @@
 #include "json.h"
 #include "map.h"
 #include "messages.h"
+#include "mission.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -287,6 +288,8 @@ struct CataListener : Catch::TestEventListenerBase {
         }
         // Reset lightweight global state that tests commonly modify without
         // restoring.  Expensive operations like clear_map() stay manual.
+        get_avatar().reset_all_missions();
+        mission::clear_all();
         calendar::turn = calendar::turn_zero;
         weather_manager &weather = get_weather();
         weather.weather_override = WEATHER_NULL; // NOLINT(cata-tests-must-restore-global-state)

@@ -2184,7 +2184,7 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance &dam )
     }
 
     if( blocked ) {
-        add_msg( m_info, _( "%s blocks the attack!" ), disp_name() );
+        add_msg_if_player_sees( *this, m_warning, _( "The %s blocks the attack!" ), name() );
     }
 
     return blocked;

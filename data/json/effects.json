@@ -336,6 +336,7 @@
     "desc": [ { "str": "Don't worry, you shouldn't get this.", "//~": "NO_I18N" } ],
     "max_duration": 120,
     "base_mods": { "hurt_amount": [ 10 ], "hurt_min": [ 1 ], "hurt_chance": [ 2 ] },
+    "immune_flags": [ "VENOM_IMMUNE" ],
     "//": "10+0,5/s dmg, from max duration avg 70 (range 10-130)"
   },
   {
@@ -345,6 +346,7 @@
     "desc": [ { "str": "Don't worry, you really shouldn't get this.", "//~": "NO_I18N" } ],
     "max_duration": 120,
     "base_mods": { "hurt_amount": [ 20 ], "hurt_min": [ 4 ], "hurt_chance": [ 2 ], "speed_mod": [ -50 ] },
+    "immune_flags": [ "VENOM_IMMUNE" ],
     "//": "20+2/s dmg, from max duration avg 260 (range 20-480)"
   },
   {

@@ -194,7 +194,8 @@
     "harvest": "zombie_kevlar",
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      { "id": "smash", "throw_strength": 36, "cooldown": 30 }
+      { "id": "smash", "throw_strength": 36, "cooldown": 30 },
+      { "id": "smash_equal", "throw_strength": 18, "cooldown": 30 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
     "upgrades": { "half_life": 168, "into": "mon_zombie_kevlar_2" },
@@ -223,6 +224,7 @@
       { "id": "longswipe" },
       { "id": "cut_throat" },
       { "id": "smash", "throw_strength": 72 },
+      { "id": "smash_equal", "throw_strength": 36 },
       { "id": "hulk_wide_swing", "accuracy": 9 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
@@ -315,6 +317,8 @@
     "special_attacks": [
       { "id": "grab" },
       { "id": "smash", "throw_strength": 75, "cooldown": 30 },
+      { "id": "smash_equal", "throw_strength": 37, "cooldown": 30 },
+      { "id": "hulk_wide_swing", "accuracy": 9 },
       { "id": "scratch_humanoid", "move_cost": 150, "cooldown": 4, "min_mul": 1.5, "max_mul": 3.5 },
       { "id": "bite_humanoid", "move_cost": 150, "cooldown": 2, "accuracy": 4, "infection_chance": 8 }
     ]

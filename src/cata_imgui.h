@@ -99,7 +99,8 @@ class client
         // aborting mid-flight when end_frame() is unsafe (renderer undefined).
         // The next NewFrame would assert if the frame were left open.
         void abort_frame();
-        void process_input( void *input, int display_buffer_w = 0, int display_buffer_h = 0 );
+        void process_input( void *input, int display_buffer_w = 0, int display_buffer_h = 0,
+                            int scaling_factor = 1 );
         void process_cata_input( const input_event &event );
 #ifdef TUI
         void upload_color_pair( int p, int f, int b );
