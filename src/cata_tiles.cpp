@@ -2154,6 +2154,189 @@ void cata_tiles::set_disable_occlusion( const bool val )
     disable_occlusion = val;
 }
 
+unsigned int cata_tiles::get_variant_seed( const tile_type &display_tile, TILE_CATEGORY category,
+        const tripoint_bub_ms &pos, const std::string &found_id )
+{
+    map &here = get_map();
+
+    // seed the PRNG to get a reproducible random int
+    // TODO: faster solution here
+    unsigned int seed = 0;
+    creature_tracker &creatures = get_creature_tracker();
+    // TODO: determine ways other than category to differentiate more types of sprites
+    switch( category ) {
+        case TILE_CATEGORY::TERRAIN:
+        case TILE_CATEGORY::FIELD:
+        case TILE_CATEGORY::LIGHTING:
+            // stationary map tiles, seed based on map coordinates
+            seed = simple_point_hash( here.get_abs( pos ).raw().xy() );
+            break;
+        case TILE_CATEGORY::VEHICLE_PART:
+            // vehicle parts, seed based on coordinates within the vehicle
+            // TODO: also use some vehicle id, for less predictability
+        {
+            // new scope for variable declarations
+            const auto vp_override = vpart_override.find( tripoint_bub_ms( pos ) );
+            const bool vp_overridden = vp_override != vpart_override.end();
+            if( vp_overridden ) {
+                const vpart_id &vp_id = std::get<0>( vp_override->second );
+                if( vp_id ) {
+                    const point_rel_ms &mount = std::get<4>( vp_override->second );
+                    seed = simple_point_hash( mount.raw() );
+                }
+            } else {
+                const optional_vpart_position vp = here.veh_at( pos );
+                if( vp ) {
+                    seed = simple_point_hash( vp->mount_pos().raw() );
+                }
+            }
+        }
+        break;
+        case TILE_CATEGORY::FURNITURE: {
+            // If the furniture is not movable, we'll allow seeding by the position
+            // since we won't get the behavior that occurs where the tile constantly
+            // changes when the player grabs the furniture and drags it, causing the
+            // seed to change.
+            const furn_str_id fid( found_id );
+            if( fid.is_valid() ) {
+                const furn_t &f = fid.obj();
+                if( !f.is_movable() ) {
+                    seed = simple_point_hash( here.get_abs( pos ).raw().xy() );
+                }
+            }
+        }
+        break;
+        case TILE_CATEGORY::OVERMAP_WEATHER:
+        case TILE_CATEGORY::OVERMAP_TERRAIN:
+        case TILE_CATEGORY::OVERMAP_VISION_LEVEL:
+        case TILE_CATEGORY::MAP_EXTRA:
+            seed = simple_point_hash( pos.raw().xy() );
+            break;
+        case TILE_CATEGORY::NONE:
+            // graffiti
+            if( found_id == "graffiti" ) {
+                seed = std::hash<std::string> {}( here.graffiti_at( pos ) );
+            } else if( string_starts_with( found_id, "graffiti" ) ) {
+                seed = simple_point_hash( here.get_abs( pos ).raw().xy() );
+            }
+            break;
+        case TILE_CATEGORY::ITEM:
+        case TILE_CATEGORY::TRAP:
+        case TILE_CATEGORY::BULLET:
+        case TILE_CATEGORY::HIT_ENTITY:
+            // TODO: come up with ways to make random sprites consistent for these types
+            break;
+        case TILE_CATEGORY::WEATHER:
+            seed = rng_bits(); // Doesn't need to be deterministic
+            break;
+        case TILE_CATEGORY::MONSTER:
+            // FIXME: add persistent id to Creature type, instead of using monster pointer address
+            if( monster_override.find( tripoint_bub_ms( pos ) ) == monster_override.end() ) {
+                seed = reinterpret_cast<uintptr_t>( creatures.creature_at<monster>( pos ) );
+            }
+            break;
+        default:
+            // player
+            if( string_starts_with( found_id, "player_" ) ) {
+                seed = std::hash<std::string> {}( get_player_character().name );
+                break;
+            }
+            // NPC
+            if( string_starts_with( found_id, "npc_" ) ) {
+                if( npc *const guy = creatures.creature_at<npc>( pos ) ) {
+                    seed = guy->getID().get_value();
+                    break;
+                }
+            }
+    }
+
+    unsigned int loc_rand = 0;
+    static const auto rot32 = []( const unsigned int x, const int k ) {
+        return ( x << k ) | ( x >> ( 32 - k ) );
+    };
+    // use a fair mix function to turn the "random" seed into a random int
+    // taken from public domain code at http://burtleburtle.net/bob/c/lookup3.c 2015/12/11
+    unsigned int a = seed;
+    unsigned int b = -seed;
+    unsigned int c = seed * seed;
+    c ^= b;
+    c -= rot32( b, 14 );
+    a ^= c;
+    a -= rot32( c, 11 );
+    b ^= a;
+    b -= rot32( a, 25 );
+    c ^= b;
+    c -= rot32( b, 16 );
+    a ^= c;
+    a -= rot32( c, 4 );
+    b ^= a;
+    b -= rot32( a, 14 );
+    c ^= b;
+    c -= rot32( b, 24 );
+    loc_rand = c;
+
+    // idle tile animations:
+    if( display_tile.animated ) {
+        has_animated_tiles_ = true;
+        // idle animations run during the user's turn, and the animation speed
+        // needs to be defined by the tileset to look good, so we use system clock:
+        std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+        auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>( now );
+        std::chrono::milliseconds value = now_ms.time_since_epoch();
+        // aiming roughly at the standard 60 frames per second:
+        int animation_frame = value.count() / 17;
+        // offset by log_rand so that everything does not blink at the same time:
+        animation_frame += loc_rand;
+        int frames_in_loop = display_tile.fg.get_weight();
+        if( frames_in_loop == 1 ) {
+            frames_in_loop = display_tile.bg.get_weight();
+        }
+        // loc_rand is actually the weighed index of the selected tile, and
+        // for animations the "weight" is the number of frames to show the tile for:
+        loc_rand = animation_frame % frames_in_loop;
+
+    }
+
+    return loc_rand;
+}
+
+std::optional<texture_draw_data> cata_tiles::get_texture_draw_data( const std::string &id,
+        TILE_CATEGORY category, const tripoint_bub_ms &p )
+{
+    std::optional<tile_lookup_res> lookup_res = find_tile_looks_like( id, category, "" );
+
+    if( !lookup_res ) {
+        return std::nullopt;
+    }
+
+    const tile_type &ttype = lookup_res->tile();
+    unsigned int seed = get_variant_seed( ttype, category, p, lookup_res->id() );
+    const std::vector<int> *indices = ttype.fg.pick( seed );
+    if( !indices ) {
+        return std::nullopt;
+    }
+    const texture *tile = tileset_ptr->get_tile( indices->front() );
+    if( !tile ) {
+        return std::nullopt;
+    }
+
+    std::shared_ptr<SDL_Texture> texture_ptr = tile->get_texture_ptr();
+    SDL_Rect rect = tile->get_srcrect();
+
+    int buf_w = 0;
+    int buf_h = 0;
+    SDL_PropertiesID props = SDL_GetTextureProperties( texture_ptr.get() );
+    if( props ) {
+        buf_w = static_cast<int>( SDL_GetNumberProperty( props, SDL_PROP_TEXTURE_WIDTH_NUMBER, 0 ) );
+        buf_h = static_cast<int>( SDL_GetNumberProperty( props, SDL_PROP_TEXTURE_HEIGHT_NUMBER, 0 ) );
+    }
+
+    std::pair<float, float> uv0{ rect.x / ( float )buf_w, rect.y / ( float )buf_h };
+    std::pair<float, float> uv1{ ( rect.x + rect.w ) / ( float )buf_w, ( rect.y + rect.h ) / ( float )buf_h };
+
+    return texture_draw_data{ texture_ptr.get(), rect, uv0, uv1 };
+}
+
 bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEGORY category,
         const std::string &subcategory, const tripoint_bub_ms &pos,
         int subtile, int rota, lit_level ll, int retract,
@@ -2453,97 +2636,6 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         }
     }
 
-    // seed the PRNG to get a reproducible random int
-    // TODO: faster solution here
-    unsigned int seed = 0;
-    creature_tracker &creatures = get_creature_tracker();
-    // TODO: determine ways other than category to differentiate more types of sprites
-    switch( category ) {
-        case TILE_CATEGORY::TERRAIN:
-        case TILE_CATEGORY::FIELD:
-        case TILE_CATEGORY::LIGHTING:
-            // stationary map tiles, seed based on map coordinates
-            seed = simple_point_hash( here.get_abs( pos ).raw().xy() );
-            break;
-        case TILE_CATEGORY::VEHICLE_PART:
-            // vehicle parts, seed based on coordinates within the vehicle
-            // TODO: also use some vehicle id, for less predictability
-        {
-            // new scope for variable declarations
-            const auto vp_override = vpart_override.find( tripoint_bub_ms( pos ) );
-            const bool vp_overridden = vp_override != vpart_override.end();
-            if( vp_overridden ) {
-                const vpart_id &vp_id = std::get<0>( vp_override->second );
-                if( vp_id ) {
-                    const point_rel_ms &mount = std::get<4>( vp_override->second );
-                    seed = simple_point_hash( mount.raw() );
-                }
-            } else {
-                const optional_vpart_position vp = here.veh_at( pos );
-                if( vp ) {
-                    seed = simple_point_hash( vp->mount_pos().raw() );
-                }
-            }
-        }
-        break;
-        case TILE_CATEGORY::FURNITURE: {
-            // If the furniture is not movable, we'll allow seeding by the position
-            // since we won't get the behavior that occurs where the tile constantly
-            // changes when the player grabs the furniture and drags it, causing the
-            // seed to change.
-            const furn_str_id fid( found_id );
-            if( fid.is_valid() ) {
-                const furn_t &f = fid.obj();
-                if( !f.is_movable() ) {
-                    seed = simple_point_hash( here.get_abs( pos ).raw().xy() );
-                }
-            }
-        }
-        break;
-        case TILE_CATEGORY::OVERMAP_WEATHER:
-        case TILE_CATEGORY::OVERMAP_TERRAIN:
-        case TILE_CATEGORY::OVERMAP_VISION_LEVEL:
-        case TILE_CATEGORY::MAP_EXTRA:
-            seed = simple_point_hash( pos.raw().xy() );
-            break;
-        case TILE_CATEGORY::NONE:
-            // graffiti
-            if( found_id == "graffiti" ) {
-                seed = std::hash<std::string> {}( here.graffiti_at( pos ) );
-            } else if( string_starts_with( found_id, "graffiti" ) ) {
-                seed = simple_point_hash( here.get_abs( pos ).raw().xy() );
-            }
-            break;
-        case TILE_CATEGORY::ITEM:
-        case TILE_CATEGORY::TRAP:
-        case TILE_CATEGORY::BULLET:
-        case TILE_CATEGORY::HIT_ENTITY:
-            // TODO: come up with ways to make random sprites consistent for these types
-            break;
-        case TILE_CATEGORY::WEATHER:
-            seed = rng_bits(); // Doesn't need to be deterministic
-            break;
-        case TILE_CATEGORY::MONSTER:
-            // FIXME: add persistent id to Creature type, instead of using monster pointer address
-            if( monster_override.find( tripoint_bub_ms( pos ) ) == monster_override.end() ) {
-                seed = reinterpret_cast<uintptr_t>( creatures.creature_at<monster>( pos ) );
-            }
-            break;
-        default:
-            // player
-            if( string_starts_with( found_id, "player_" ) ) {
-                seed = std::hash<std::string> {}( get_player_character().name );
-                break;
-            }
-            // NPC
-            if( string_starts_with( found_id, "npc_" ) ) {
-                if( npc *const guy = creatures.creature_at<npc>( pos ) ) {
-                    seed = guy->getID().get_value();
-                    break;
-                }
-            }
-    }
-
     // make sure we aren't going to rotate the tile if it shouldn't be rotated
     if( !display_tile.rotates && !( category == TILE_CATEGORY::NONE )
         && !( category == TILE_CATEGORY::MONSTER ) ) {
@@ -2554,50 +2646,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
     // only bother mixing up a hash/random value if the tile has some sprites to randomly pick
     // between
     if( display_tile.fg.size() > 1 || display_tile.bg.size() > 1 ) {
-        static const auto rot32 = []( const unsigned int x, const int k ) {
-            return ( x << k ) | ( x >> ( 32 - k ) );
-        };
-        // use a fair mix function to turn the "random" seed into a random int
-        // taken from public domain code at http://burtleburtle.net/bob/c/lookup3.c 2015/12/11
-        unsigned int a = seed;
-        unsigned int b = -seed;
-        unsigned int c = seed * seed;
-        c ^= b;
-        c -= rot32( b, 14 );
-        a ^= c;
-        a -= rot32( c, 11 );
-        b ^= a;
-        b -= rot32( a, 25 );
-        c ^= b;
-        c -= rot32( b, 16 );
-        a ^= c;
-        a -= rot32( c, 4 );
-        b ^= a;
-        b -= rot32( a, 14 );
-        c ^= b;
-        c -= rot32( b, 24 );
-        loc_rand = c;
-
-        // idle tile animations:
-        if( display_tile.animated ) {
-            has_animated_tiles_ = true;
-            // idle animations run during the user's turn, and the animation speed
-            // needs to be defined by the tileset to look good, so we use system clock:
-            std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
-            auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>( now );
-            std::chrono::milliseconds value = now_ms.time_since_epoch();
-            // aiming roughly at the standard 60 frames per second:
-            int animation_frame = value.count() / 17;
-            // offset by log_rand so that everything does not blink at the same time:
-            animation_frame += loc_rand;
-            int frames_in_loop = display_tile.fg.get_weight();
-            if( frames_in_loop == 1 ) {
-                frames_in_loop = display_tile.bg.get_weight();
-            }
-            // loc_rand is actually the weighed index of the selected tile, and
-            // for animations the "weight" is the number of frames to show the tile for:
-            loc_rand = animation_frame % frames_in_loop;
-        }
+        loc_rand = get_variant_seed( display_tile, category, pos, found_id );
     }
 
     if( ! prevent_occlusion_retract ) {
