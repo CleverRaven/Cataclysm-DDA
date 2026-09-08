@@ -64,7 +64,6 @@
       "tailor_japanese",
       "craft",
       "frozen_lemonade",
-      "glowstick_dead",
       "rmi2_corpse",
       "milk_fortified",
       "coin_gold",
@@ -106,7 +105,6 @@
       "k_gambeson_xs",
       "arcfurnace",
       "maple_sap",
-      "dry_beans",
       "button_plastic",
       "bacon_uncut",
       "tÖttchen",
@@ -124,7 +122,6 @@
       "sandwich_deluxe",
       "chem_chloroform",
       "soaked_dandelion",
-      "coffee_syrup",
       "bot_lab_security_drone_GM",
       "fertilizer_liquid",
       "neccowafers",
@@ -152,7 +149,6 @@
       "tacvest",
       "chilidogs",
       "coin_half_dollar",
-      "glowstick",
       "integrated_patchskin3",
       "tactical_grenade_pouch",
       "marloss_gel",
@@ -308,7 +304,6 @@
       "makeshift_crutches",
       "bot_crows_m240",
       "pecan",
-      "syrup",
       "foodplace_food",
       "radiocontrol",
       "meat_pickled",
@@ -352,7 +347,6 @@
       "shed_stick",
       "glasses_monocle",
       "broken_tazer_hack",
-      "molasses",
       "bot_antimateriel",
       "human_marrow",
       "bot_lab_security_drone_BM2",
@@ -393,7 +387,6 @@
       "signal_flare",
       "pouch_autoclave",
       "mutant_marrow",
-      "glowstick_lit",
       "lye",
       "walnut",
       "chaps_leather",
@@ -478,9 +471,7 @@
       "purple_drink",
       "rootbeer",
       "rootbeer_brewed",
-      "milk_tea_sweetened",
-      "syrup_corn",
-      "syrup_simple"
+      "milk_tea_sweetened"
     ]
   }
 ]

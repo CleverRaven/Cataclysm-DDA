@@ -5627,7 +5627,7 @@ std::unordered_set<item_location> map::all_items( const std::function<bool( cons
             }
         }
     } else if( flags & Access_Map_Around )  {
-        for( const tripoint_bub_ms &pt : points_in_radius( who.pos_bub(), PICKUP_RANGE ) ) {
+        for( const tripoint_bub_ms &pt : reachable_flood_steps( who.pos_bub(), PICKUP_RANGE ) ) {
             for( item &it : i_at( pt ) ) {
                 // We always want to recurse even if the top-level item doesn't pass our filter - the contained items still might!
                 item_location there( map_cursor( pt ), &it );
@@ -6846,7 +6846,7 @@ std::list<item> map::use_amount( const tripoint_bub_ms &origin, const int range,
                                  const itype_id &type,
                                  int &quantity, const std::function<bool( const item & )> &filter, bool select_ind )
 {
-    const std::vector<tripoint_bub_ms> &reachable_pts = reachable_flood_steps( origin, range, 1, 100 );
+    const std::vector<tripoint_bub_ms> &reachable_pts = reachable_flood_steps( origin, range );
     return use_amount( reachable_pts, type, quantity, filter, select_ind );
 }
 
@@ -6977,7 +6977,7 @@ std::list<item> map::use_charges( const tripoint_bub_ms &origin, const int range
                                   basecamp *bcp, bool in_tools )
 {
     // populate a grid of spots that can be reached
-    const std::vector<tripoint_bub_ms> &reachable_pts = reachable_flood_steps( origin, range, 1, 100 );
+    const std::vector<tripoint_bub_ms> &reachable_pts = reachable_flood_steps( origin, range );
     return use_charges( reachable_pts, type, quantity, filter, bcp, in_tools );
 }
 
@@ -7009,7 +7009,7 @@ units::energy map::consume_ups( const std::vector<tripoint_bub_ms> &reachable_pt
 units::energy map::consume_ups( const tripoint_bub_ms &origin, const int range, units::energy qty )
 {
     // populate a grid of spots that can be reached
-    const std::vector<tripoint_bub_ms> &reachable_pts = reachable_flood_steps( origin, range, 1, 100 );
+    const std::vector<tripoint_bub_ms> &reachable_pts = reachable_flood_steps( origin, range );
     return consume_ups( reachable_pts, qty );
 }
 
@@ -8693,7 +8693,7 @@ void map::for_each_reachable_item( const tripoint_bub_ms &center, int radius,
                                    const Character *ch,
                                    const std::function<void( const item & )> &fn )
 {
-    for( const tripoint_bub_ms &p : reachable_flood_steps( center, radius, 1, 100 ) ) {
+    for( const tripoint_bub_ms &p : reachable_flood_steps( center, radius ) ) {
         for_each_item_at( *this, p, ch, false, true, fn );
     }
 }
