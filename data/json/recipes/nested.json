@@ -3291,7 +3291,7 @@
     "subcategory": "CSC_*_NESTED",
     "name": "auxiliary weapons",
     "description": "Recipes related to modifying secondary weapons to attach to a wider variety of guns and crossbows.",
-    "nested_category_data": [ "m26_mass_mod", "knife_combat", "m203_mod", "m320_mod_mod", "masterkey_mod" ]
+    "nested_category_data": [ "knife_combat", "m203_mod", "m320_mod_mod", "masterkey_mod" ]
   },
   {
     "id": "nested_ammo_flamethrower",
