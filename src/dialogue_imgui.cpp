@@ -398,11 +398,36 @@ void dialogue_imgui_impl::draw_responses()
         if( should_color_button ) {
             ImGui::PushStyleColor( ImGuiCol_Button, talk.color );
         }
-        if( ImGui::Button( talk.text.c_str() ) ) {
+
+        // Naive approach.
+        float total_allowed_width = ImGui::GetWindowWidth() - ImGui::CalcTextSize( ">>>>>   a:   " ).x;
+        const int num_expected_lines = std::ceil( ImGui::CalcTextSize( talk.text.c_str() ).x /
+                                       total_allowed_width );
+
+        ImVec2 button_size = { std::min( total_allowed_width, ImGui::CalcTextSize( talk.text.c_str() ).x ),
+                               ( ImGui::GetTextLineHeight() * num_expected_lines )
+                             };
+
+        // We need to manually pad the size here in case the dialogue selection would take up extra lines.
+        // ImGui's button widget doesn't allow multiple-line labels, so we have to draw our own label on top of the button.
+        button_size += ( ImGui::GetStyle().FramePadding * 2 );
+
+        const std::string button_name = "##" + talk.text;
+        ImVec2 stored_cursor = ImGui::GetCursorPos();
+        if( ImGui::Button( button_name.c_str(), button_size ) ) {
             sel_response = i;
             // Handled in dialogue::opt_imgui() with all other inputs.
             user_clicked_response_button = true;
         }
+        // Put our cursor back at the start of the button's position (top-left) and manually pad.
+        ImGui::SetCursorPos( stored_cursor + ImGui::GetStyle().FramePadding );
+
+        ImGui::BeginGroup();
+        // Again, wrap width manually.
+        cataimgui::TextColoredParagraph( c_white, talk.text, std::nullopt,
+                                         ImGui::GetWindowWidth() - ImGui::GetStyle().FramePadding.x );
+        ImGui::EndGroup();
+
         if( should_color_button ) {
             ImGui::PopStyleColor();
         }

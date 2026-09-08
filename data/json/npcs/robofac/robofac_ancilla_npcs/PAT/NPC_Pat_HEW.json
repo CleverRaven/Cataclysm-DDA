@@ -93,6 +93,11 @@
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_VOID_SPIDER_LAIR",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_spider_dimension" } ] }
       },
+      {
+        "text": "[Twisted images of the otherworldly, shifting tunnels] Ah, that place.  Duh.",
+        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_PORTAL_STORM_DUNGEON",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_portal_storm_dungeon" } ] }
+      },
       { "text": "Hmm.  Well, I guess we'll just see what I can find.", "topic": "TALK_DONE" }
     ]
   },
@@ -198,6 +203,14 @@
     "dynamic_line": "Well, yeah, I'd fahkin' say so.  You don' plan to go back theah, though, right?  That fahkin' spidah, man.  I don' like spidahs.",
     "responses": [
       { "text": "I guess if I'm ever back there, I could try.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" }
+    ]
+  },
+  {
+    "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_PORTAL_STORM_DUNGEON",
+    "type": "talk_topic",
+    "dynamic_line": "Ah, that' fahkin' place ya' got ripped inta' during the portal storm.  I'd fahkin' say so.  Real mind fahk.  Think the ground'll even hold the station?  I dunno.  Seems fahkin' nuts to try, but that's on you.",
+    "responses": [
+      { "text": "I guess if I can find my way back, I could try.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" }
     ]
   }
 ]

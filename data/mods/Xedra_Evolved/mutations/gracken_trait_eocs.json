@@ -2,17 +2,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GRACKEN_REPLACE_MUTATION",
-    "condition": { "not": { "u_has_trait": { "context_val": "mutation_id" } } },
+    "condition": { "and": [ { "not": { "u_has_trait": { "context_val": "mutation_id" } } }, { "u_has_trait": "GRACKEN" } ] },
     "effect": [
       { "u_lose_mutation_type": { "context_val": "mutation_type" } },
       { "u_add_trait": { "context_val": "mutation_id" } },
       { "u_message": "You exchanged your previous organ successfully." }
     ],
-    "false_effect": [
-      {
-        "u_message": "You destroyed the organ trying to merge it into your body despite having the same organ already grafted."
-      }
-    ]
+    "false_effect": [ { "u_message": "You destroyed the organ trying to merge it into your body." } ]
   },
   {
     "type": "effect_on_condition",

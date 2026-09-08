@@ -402,7 +402,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "integrated_armor": [ "integrated_talons" ]
+    "category": [ "LILIN" ],
+    "integrated_armor": [ "integrated_talons" ],
+    "delete": { "prereqs": [ "NAILS" ] }
   },
   {
     "type": "mutation",

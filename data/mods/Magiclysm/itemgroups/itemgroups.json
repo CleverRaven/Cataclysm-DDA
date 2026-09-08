@@ -133,8 +133,15 @@
   {
     "type": "item_group",
     "id": "tools_medical",
+    "subtype": "collection",
     "copy-from": "tools_medical",
-    "extend": { "items": [ [ "scalpel_plus_one", 5 ], [ "scalpel_plus_two", 2 ], [ "periapt_wound_closure", 2 ] ] }
+    "extend": {
+      "entries": [
+        { "item": "scalpel_plus_one", "prob": 5 },
+        { "item": "scalpel_plus_two", "prob": 2 },
+        { "item": "periapt_wound_closure", "prob": 2 }
+      ]
+    }
   },
   {
     "type": "item_group",
@@ -1486,10 +1493,10 @@
     "id": "tools_hunting",
     "//": "A distribution of magical items for classless themed spaces.",
     "type": "item_group",
-    "subtype": "distribution",
+    "subtype": "collection",
     "copy-from": "tools_hunting",
     "extend": {
-      "items": [
+      "entries": [
         { "group": "enchanted_tokens_tool", "prob": 3 },
         { "group": "enchanted_tokens_weapon", "prob": 2 },
         { "group": "enchanted_arrows", "prob": 5 },

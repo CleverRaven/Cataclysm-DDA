@@ -5,7 +5,7 @@
     "parameters": {
       "labtype": {
         "type": "palette_id",
-        "default": { "distribution": [ [ "microlab_generic", 6 ], [ "microlab_serum", 6 ], [ "microlab_meat", 1 ] ] }
+        "default": { "distribution": [ [ "microlab_generic", 4 ], [ "microlab_serum", 4 ], [ "microlab_meat", 1 ] ] }
       }
     },
     "palettes": [ { "param": "labtype" } ]
