@@ -2712,7 +2712,6 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
         item new_item( id, calendar::turn );
         if( new_item.count_by_charges() && count > 0 ) {
             new_item.charges *= count;
-            new_item.charges /= seed_data.fruit_div;
             if( new_item.charges <= 0 ) {
                 new_item.charges = 1;
             }
