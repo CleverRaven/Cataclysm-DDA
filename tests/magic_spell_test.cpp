@@ -21,13 +21,13 @@
 #include "point.h"
 #include "type_id.h"
 
-static const spell_id spell_test_spell_box( "test_spell_box" );
-static const spell_id spell_test_spell_pew( "test_spell_pew" );
-static const spell_id spell_test_spell_lava( "test_spell_lava" );
-static const spell_id spell_test_spell_tp_ghost( "test_spell_tp_ghost" );
-static const spell_id spell_test_spell_tp_mummy( "test_spell_tp_mummy" );
 static const magic_type_id magic_test_magic_available( "test_magic_available" );
 static const magic_type_id magic_test_magic_unavailable( "test_magic_unavailable" );
+static const spell_id spell_test_spell_box( "test_spell_box" );
+static const spell_id spell_test_spell_lava( "test_spell_lava" );
+static const spell_id spell_test_spell_pew( "test_spell_pew" );
+static const spell_id spell_test_spell_tp_ghost( "test_spell_tp_ghost" );
+static const spell_id spell_test_spell_tp_mummy( "test_spell_tp_mummy" );
 
 // Magic Spell tests
 // -----------------
