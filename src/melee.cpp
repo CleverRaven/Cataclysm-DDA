@@ -120,10 +120,6 @@ static const efftype_id effect_natural_stance( "natural_stance" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_transition_contacts( "transition_contacts" );
-static const efftype_id effect_venom_dmg( "venom_dmg" );
-static const efftype_id effect_venom_player1( "venom_player1" );
-static const efftype_id effect_venom_player2( "venom_player2" );
-static const efftype_id effect_venom_weaken( "venom_weaken" );
 static const efftype_id effect_winded( "winded" );
 
 static const itype_id itype_fur( "fur" );
@@ -139,7 +135,6 @@ static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_GRAB_FILTER( "GRAB_FILTER" );
 static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
-static const json_character_flag json_flag_NULL( "NULL" );
 static const json_character_flag json_flag_PSEUDOPOD_GRASP( "PSEUDOPOD_GRASP" );
 
 static const limb_score_id limb_score_block( "block" );

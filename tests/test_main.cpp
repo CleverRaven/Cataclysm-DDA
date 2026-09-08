@@ -448,6 +448,10 @@ int main( int argc, const char *argv[] )
     } );
 
     setupDebug( DebugOutput::std_err );
+    // DebugFile is a function-local static; shut it down before global teardown.
+    on_out_of_scope debug_shutdown_guard( []() {
+        deinitDebug();
+    } );
     if( limit_debug_level != -1 ) {
         limitDebugLevel( limit_debug_level );
     }
@@ -535,6 +539,16 @@ int main( int argc, const char *argv[] )
         DebugLog( D_INFO, DC_ALL ) << "Treating result as failure due to error logged during tests.";
         return 1;
     }
+
+#if defined(__MINGW32__)
+    // MinGW static teardown is unreliable after game state cleanup.
+    debug_shutdown_guard.cancel();
+    deinitDebug();
+    std::cout.flush();
+    std::cerr.flush();
+    std::fflush( nullptr );
+    std::_Exit( result );
+#endif
 
     return result;
 }
