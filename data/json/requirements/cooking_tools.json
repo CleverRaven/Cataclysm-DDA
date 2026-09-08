@@ -33,6 +33,13 @@
     ]
   },
   {
+    "id": "surface_heat_and_timer",
+    "type": "requirement",
+    "name": "Heat source with inbuilt timer",
+    "//": "Same as surface heat, but only ones that come with timers and can evenly heat food.",
+    "tools": [ [ [ "microwave", 25 ], [ "oven", 125 ] ] ]
+  },
+  {
     "id": "smoking_heat",
     "type": "requirement",
     "name": "Smoking heat",
