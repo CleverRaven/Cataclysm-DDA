@@ -6,7 +6,7 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 4 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "unprimed_45_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 3 ] ],
@@ -20,7 +20,7 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 4 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "unprimed_45_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 5 ] ],
@@ -34,7 +34,7 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 4 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "unprimed_45_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 5 ] ],

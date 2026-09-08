@@ -400,7 +400,7 @@
       [ [ "unprimed_4570_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 28 ], [ "gunpowder_magnum_pistol", 28 ] ],
-      [ [ "lead", 5 ] ],
+      [ [ "lead", 3 ] ],
       [ [ "copper", 2 ] ]
     ]
   },
@@ -1000,7 +1000,7 @@
       [ [ "unprimed_77arisaka_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 37 ], [ "gunpowder_large_rifle", 37 ] ],
-      [ [ "lead", 3 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "copper", 2 ] ]
     ]
   },
@@ -1024,7 +1024,7 @@
       [ [ "unprimed_77arisaka_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "chem_black_powder", 7 ] ],
-      [ [ "lead", 3 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "copper", 2 ] ]
     ]
   },
@@ -1245,7 +1245,7 @@
       [ [ "unprimed_50beowulf_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_rifle", 17 ], [ "gunpowder_magnum_pistol", 17 ] ],
-      [ [ "lead", 5 ] ],
+      [ [ "lead", 3 ] ],
       [ [ "copper", 2 ] ]
     ]
   },
@@ -1294,7 +1294,7 @@
       [ [ "unprimed_50beowulf_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "chem_black_powder", 3 ] ],
-      [ [ "lead", 5 ] ],
+      [ [ "lead", 3 ] ],
       [ [ "copper", 2 ] ]
     ]
   },
@@ -1343,7 +1343,7 @@
       [ [ "unprimed_450_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 37 ], [ "gunpowder_magnum_pistol", 37 ] ],
-      [ [ "lead", 5 ] ],
+      [ [ "lead", 3 ] ],
       [ [ "copper", 2 ] ]
     ]
   },
@@ -1392,7 +1392,7 @@
       [ [ "unprimed_450_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "chem_black_powder", 7 ] ],
-      [ [ "lead", 5 ] ],
+      [ [ "lead", 3 ] ],
       [ [ "copper", 2 ] ]
     ]
   },

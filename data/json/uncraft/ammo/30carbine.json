@@ -6,7 +6,7 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 2 ] ],
+      [ [ "lead", 1 ] ],
       [ [ "unprimed_30carbine_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 10 ] ],
@@ -20,7 +20,7 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 2 ] ],
+      [ [ "lead", 1 ] ],
       [ [ "unprimed_30carbine_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 10 ] ],

@@ -256,7 +256,7 @@
     "components": [
       [ [ "mutagen", 1 ] ],
       [ [ "gastropod_sample", 1 ] ],
-      [ [ "salt", 600 ], [ "lead", 4 ] ],
+      [ [ "salt", 600 ], [ "lead", 2 ] ],
       [ [ "stomach", 6 ], [ "stomach_large", 2 ], [ "gastropod_sample", 1 ] ]
     ],
     "flags": [ "SECRET" ]

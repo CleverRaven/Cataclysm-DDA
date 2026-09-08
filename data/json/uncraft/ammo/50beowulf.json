@@ -7,7 +7,7 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "copper", 2 ] ],
-      [ [ "lead", 5 ] ],
+      [ [ "lead", 3 ] ],
       [ [ "unprimed_50beowulf_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_rifle", 17 ] ]

@@ -6,7 +6,7 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 3 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "unprimed_77arisaka_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 37 ] ],

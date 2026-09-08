@@ -6,7 +6,7 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 8 ] ],
+      [ [ "lead", 4 ] ],
       [ [ "unprimed_500_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 19 ] ],

@@ -14,7 +14,7 @@
     "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 4 ] ], [ [ "lead", 2400 ] ], [ [ "chem_sulphuric_acid", 13 ] ] ]
+    "components": [ [ [ "scrap", 4 ] ], [ [ "lead", 1209 ] ], [ [ "chem_sulphuric_acid", 13 ] ] ]
   },
   {
     "result": "battery_motorbike",
@@ -31,7 +31,7 @@
     "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "lead", 360 ] ], [ [ "chem_sulphuric_acid", 3 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ], [ [ "lead", 181 ] ], [ [ "chem_sulphuric_acid", 3 ] ] ]
   },
   {
     "result": "heavy_atomic_battery_cell",
@@ -69,6 +69,6 @@
       [ [ "swage", -1 ] ],
       [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ]
     ],
-    "components": [ [ [ "lead", 15 ], [ "bismuth", 25 ] ], [ [ "tin", 14 ] ], [ [ "rosin", 2 ] ] ]
+    "components": [ [ [ "lead", 8 ], [ "bismuth", 25 ] ], [ [ "tin", 14 ] ], [ [ "rosin", 2 ] ] ]
   }
 ]

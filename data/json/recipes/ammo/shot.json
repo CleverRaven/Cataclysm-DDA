@@ -203,7 +203,7 @@
         [ "platinum_small", 1 ],
         [ "gold_small", 1 ],
         [ "bearing", 2 ],
-        [ "lead", 3 ],
+        [ "lead", 2 ],
         [ "silver_small", 3 ],
         [ "bismuth", 3 ],
         [ "shrapnel", 1 ]
@@ -237,7 +237,7 @@
         [ "platinum_small", 1 ],
         [ "gold_small", 1 ],
         [ "bearing", 2 ],
-        [ "lead", 3 ],
+        [ "lead", 2 ],
         [ "silver_small", 3 ],
         [ "bismuth", 3 ],
         [ "shrapnel", 1 ]
@@ -265,7 +265,7 @@
         [ "platinum_small", 1 ],
         [ "gold_small", 1 ],
         [ "bearing", 2 ],
-        [ "lead", 3 ],
+        [ "lead", 2 ],
         [ "silver_small", 3 ],
         [ "bismuth", 3 ],
         [ "shrapnel", 1 ]
@@ -527,7 +527,7 @@
         [ "platinum_small", 2 ],
         [ "gold_small", 2 ],
         [ "bearing", 3 ],
-        [ "lead", 4 ],
+        [ "lead", 2 ],
         [ "silver_small", 4 ],
         [ "bismuth", 4 ],
         [ "shrapnel", 2 ]
@@ -562,9 +562,9 @@
         [ "platinum_small", 2 ],
         [ "gold_small", 2 ],
         [ "bearing", 3 ],
-        [ "lead", 4 ],
+        [ "lead", 2 ],
         [ "silver_small", 4 ],
-        [ "lead", 4 ],
+        [ "lead", 2 ],
         [ "shrapnel", 2 ]
       ]
     ]
@@ -590,9 +590,9 @@
         [ "platinum_small", 2 ],
         [ "gold_small", 2 ],
         [ "bearing", 3 ],
-        [ "lead", 4 ],
+        [ "lead", 2 ],
         [ "silver_small", 4 ],
-        [ "lead", 4 ],
+        [ "lead", 2 ],
         [ "shrapnel", 2 ]
       ]
     ]

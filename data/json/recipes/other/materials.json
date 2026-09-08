@@ -199,21 +199,21 @@
     "type": "recipe",
     "copy-from": "ingot_making_base",
     "using": [ [ "smelting_standard", 6900 ] ],
-    "components": [ [ [ "5l_lead", 2 ], [ "1l_lead", 10 ], [ "lead", 10000 ] ] ]
+    "components": [ [ [ "5l_lead", 2 ], [ "1l_lead", 10 ], [ "lead", 5039 ] ] ]
   },
   {
     "result": "5l_lead",
     "type": "recipe",
     "copy-from": "ingot_making_base",
     "using": [ [ "smelting_standard", 3450 ] ],
-    "components": [ [ [ "1l_lead", 5 ], [ "lead", 5000 ] ] ]
+    "components": [ [ [ "1l_lead", 5 ], [ "lead", 2520 ] ] ]
   },
   {
     "result": "1l_lead",
     "type": "recipe",
     "copy-from": "ingot_making_base",
     "using": [ [ "smelting_standard", 690 ] ],
-    "components": [ [ [ "lead", 1000 ] ] ]
+    "components": [ [ [ "lead", 504 ] ] ]
   },
   {
     "result": "10l_bronze",
@@ -266,7 +266,7 @@
     ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
-      [ [ "tin", 12 ], [ "aluminum_foil", 38 ], [ "chem_aluminium_powder", 29 ], [ "can_drink", 2 ], [ "scrap_aluminum", 1 ] ],
+      [ [ "tin", 7 ], [ "aluminum_foil", 38 ], [ "chem_aluminium_powder", 29 ], [ "can_drink", 2 ], [ "scrap_aluminum", 1 ] ],
       [ [ "copper_scrap_equivalent", 1, "LIST" ] ]
     ]
   },
