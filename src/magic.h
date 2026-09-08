@@ -772,6 +772,9 @@ class known_magic
         bool knows_spell() const;
         // spells known by Character
         std::vector<spell_id> spells() const;
+        // whether any known spell can currently be cast
+        bool can_cast_any_spell( const Character &guy,
+                                 std::map<magic_type_id, bool> &success_tracker );
         // gets the spell associated with the spell_id to be edited
         spell &get_spell( const spell_id &sp );
         // opens up a ui that the Character can choose a spell from

@@ -43,7 +43,8 @@
     "difficulty": 1,
     "base_casting_time": 100,
     "base_energy_cost": 50,
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "magic_type": "test_magic_available"
   },
   {
     "type": "ter_furn_transform",
@@ -73,7 +74,8 @@
     "difficulty": 10,
     "base_casting_time": 500,
     "base_energy_cost": 500,
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "magic_type": "test_magic_unavailable"
   },
   {
     "id": "test_spell_montage",

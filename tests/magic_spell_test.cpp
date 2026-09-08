@@ -272,6 +272,24 @@ TEST_CASE( "spell_invlet", "[magic][invlet]" )
     }
 }
 
+TEST_CASE( "spell_menu_ignores_unavailable_magic_type_when_another_spell_is_available",
+           "[magic][spell]" )
+{
+    npc guy;
+    guy.magic->set_mana( 50 );
+    guy.magic->learn_spell( spell_id( "test_spell_pew" ), guy, true );
+    guy.magic->learn_spell( spell_id( "test_spell_lava" ), guy, true );
+
+    std::map<magic_type_id, bool> success_tracker;
+    CHECK( guy.magic->can_cast_any_spell( guy, success_tracker ) );
+    CHECK( success_tracker.at( magic_type_id( "test_magic_available" ) ) );
+    CHECK_FALSE( success_tracker.at( magic_type_id( "test_magic_unavailable" ) ) );
+
+    guy.magic->set_mana( 0 );
+    success_tracker.clear();
+    CHECK_FALSE( guy.magic->can_cast_any_spell( guy, success_tracker ) );
+}
+
 // Return experience points needed to level up a spell, starting at from_level
 static int spell_xp_to_next_level( const spell_id &sp_id, const int from_level )
 {
