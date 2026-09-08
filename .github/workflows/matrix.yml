@@ -82,13 +82,11 @@ jobs:
     outputs:
       fail_fast: ${{ steps.matrix_vars.outputs.fail_fast }}
       skip_tests: ${{ steps.matrix_vars.outputs.skip_tests }}
-      max_parallel: ${{ steps.matrix_vars.outputs.max_parallel }}
     steps:
       - id: matrix_vars
         run: |
           echo "fail_fast=$([ "$GITHUB_REF_NAME" = "master" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo false || echo true)" >> $GITHUB_OUTPUT
           echo "skip_tests=$([ "$GITHUB_REF_NAME" = "master" ] && echo true || echo false)" >> $GITHUB_OUTPUT
-          echo "max_parallel=$([ "$GITHUB_REF_NAME" = "master" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo 20 || echo 1)" >> $GITHUB_OUTPUT
   compile-shaders:
     name: Compile shaders
     needs: [ skip-duplicates-code, skip-duplicates-data ]
@@ -107,7 +105,6 @@ jobs:
     if: ${{ always() && (needs.compile-shaders.result == 'success' || needs.compile-shaders.result == 'skipped') }}
     strategy:
       fail-fast: ${{ fromJSON(needs.matrix-variables.outputs.fail_fast) }}
-      max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
       matrix:
         include:
           - compiler: clang++-13
