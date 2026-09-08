@@ -44,7 +44,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "thermometer", -1 ] ] ],
     "components": [
       [ [ "splinter", 3 ] ],
-      [ [ "lye_powder", 37 ], [ "lye", 1 ], [ "chem_potassium_hydroxide", 150 ], [ "lye_potassium", 1 ] ],
+      [ [ "lye_powder", 30 ], [ "lye", 1 ], [ "chem_potassium_hydroxide", 150 ], [ "lye_potassium", 1 ] ],
       [ [ "chem_sulphuric_acid", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "chem_glycerol", 20 ] ]
@@ -190,7 +190,7 @@
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [
       [ [ "lemon", 8 ], [ "orange", 8 ], [ "grapefruit", 8 ] ],
-      [ [ "lye_powder", 5 ] ],
+      [ [ "lye_powder", 4 ] ],
       [ [ "chem_sulphuric_acid", 1 ] ],
       [ [ "paper", 10 ] ],
       [ [ "chem_calcium_chloride", 14 ] ],

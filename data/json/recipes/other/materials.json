@@ -266,7 +266,7 @@
     ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
-      [ [ "tin", 7 ], [ "aluminum_foil", 38 ], [ "chem_aluminium_powder", 24 ], [ "can_drink", 2 ], [ "scrap_aluminum", 1 ] ],
+      [ [ "tin", 12 ], [ "aluminum_foil", 38 ], [ "chem_aluminium_powder", 29 ], [ "can_drink", 2 ], [ "scrap_aluminum", 1 ] ],
       [ [ "copper_scrap_equivalent", 1, "LIST" ] ]
     ]
   },

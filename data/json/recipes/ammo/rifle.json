@@ -304,7 +304,7 @@
     "components": [
       [ [ "gunpowder_magnum_pistol", 32 ], [ "gunpowder_rifle", 32 ], [ "gunpowder_large_rifle", 32 ] ],
       [ [ "copper", 1 ] ],
-      [ [ "incendiary", 7 ] ]
+      [ [ "incendiary", 8 ] ]
     ]
   },
   {
@@ -377,7 +377,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 3 ], [ "ammo_3006", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "copper", 1 ] ], [ [ "incendiary", 7 ] ] ]
+    "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "copper", 1 ] ], [ [ "incendiary", 8 ] ] ]
   },
   {
     "result": "reloaded_4570_sp",
@@ -534,7 +534,7 @@
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 158 ] ],
       [ [ "copper", 4 ] ],
-      [ [ "incendiary", 17 ] ]
+      [ [ "incendiary", 20 ] ]
     ]
   },
   {
@@ -558,7 +558,7 @@
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "chem_black_powder", 28 ] ],
       [ [ "copper", 4 ] ],
-      [ [ "incendiary", 17 ] ]
+      [ [ "incendiary", 20 ] ]
     ]
   },
   {
@@ -699,7 +699,7 @@
     "components": [
       [ [ "gunpowder_magnum_pistol", 28 ], [ "gunpowder_rifle", 28 ], [ "gunpowder_large_rifle", 28 ] ],
       [ [ "copper", 1 ] ],
-      [ [ "incendiary", 5 ] ]
+      [ [ "incendiary", 6 ] ]
     ]
   },
   {
@@ -723,7 +723,7 @@
     "components": [
       [ [ "gunpowder_magnum_pistol", 29 ], [ "gunpowder_rifle", 29 ], [ "gunpowder_large_rifle", 29 ] ],
       [ [ "copper", 1 ] ],
-      [ [ "incendiary", 5 ] ]
+      [ [ "incendiary", 6 ] ]
     ]
   },
   {
@@ -782,7 +782,7 @@
     "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 3 ], [ "ammo_762_51", 1 ] ],
     "//": "2812 mg gunpowder rounded to 28 100 mg 'pieces'. .308 146gr Norma FMJ spitz 67651, seated 0.324in, 7.62x51 case, 2.812g Hodgdon H4895.",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "copper", 1 ] ], [ [ "incendiary", 5 ] ] ]
+    "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "copper", 1 ] ], [ [ "incendiary", 6 ] ] ]
   },
   {
     "result": "bp_762_51_incendiary",
@@ -802,7 +802,7 @@
     "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 3 ], [ "ammo_308", 1 ] ],
     "//": "2915 mg gunpowder rounded to 29 100 mg 'pieces'. .308 146gr Norma FMJ spitz 67651, seated 0.324in, .308 win case, 2915mg Hodgdon H4895.",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "copper", 1 ] ], [ [ "incendiary", 5 ] ] ]
+    "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "copper", 1 ] ], [ [ "incendiary", 6 ] ] ]
   },
   {
     "result": "reloaded_762_54R",

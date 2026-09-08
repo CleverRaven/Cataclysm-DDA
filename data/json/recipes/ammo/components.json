@@ -3,7 +3,7 @@
     "result": "incendiary",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "charges": 167,
+    "charges": 200,
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
     "skill_used": "chemistry",
@@ -13,7 +13,7 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "using": [ [ "surface_heat", 25 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "components": [ [ [ "magnesium", 83 ], [ "chem_aluminium_powder", 83 ] ], [ [ "oxy_powder", 250 ] ] ]
+    "components": [ [ [ "magnesium", 100 ], [ "chem_aluminium_powder", 100 ] ], [ [ "oxy_powder", 200 ] ] ]
   },
   {
     "result": "gunpowder",

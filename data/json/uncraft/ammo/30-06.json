@@ -20,7 +20,7 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "incendiary", 5 ] ],
+      [ [ "incendiary", 6 ] ],
       [ [ "lead", 4 ] ],
       [ [ "unprimed_3006_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],

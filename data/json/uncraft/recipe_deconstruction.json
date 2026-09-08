@@ -5,7 +5,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "6 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "wooden_bead", 8 ] ] ]
+    "components": [ [ [ "wooden_bead", 10 ] ] ]
   },
   {
     "result": "bead_ear",
@@ -21,7 +21,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "wooden_bead", 25 ] ] ]
+    "components": [ [ [ "wooden_bead", 30 ] ] ]
   },
   {
     "type": "uncraft",

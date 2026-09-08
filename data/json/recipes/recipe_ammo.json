@@ -821,8 +821,8 @@
       [ [ "gasoline", 125 ], [ "diesel", 125 ], [ "biodiesel", 125 ] ],
       [ [ "plastic_chunk", 4 ] ],
       [ [ "bleach", 250 ] ],
-      [ [ "oxy_powder", 19 ] ],
-      [ [ "lye_powder", 19 ] ]
+      [ [ "oxy_powder", 15 ] ],
+      [ [ "lye_powder", 15 ] ]
     ]
   },
   {
@@ -847,7 +847,7 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "components": [
       [ [ "gasoline", 500 ], [ "avgas", 500 ] ],
-      [ [ "lye_powder", 9 ] ],
+      [ [ "lye_powder", 7 ] ],
       [ [ "rosin", 13 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
@@ -874,7 +874,7 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "components": [
       [ [ "gasoline", 500 ], [ "avgas", 500 ] ],
-      [ [ "lye_powder", 9 ] ],
+      [ [ "lye_powder", 7 ] ],
       [ [ "chem_ethanol", 25 ], [ "disinfectant", 1 ] ],
       [ [ "any_tallow", 5, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
