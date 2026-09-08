@@ -145,7 +145,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "lead", 1086 ] ] ]
+    "components": [ [ [ "lead", 1143 ] ] ]
   },
   {
     "result": "10l_silver",

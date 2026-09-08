@@ -902,7 +902,7 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "components": [
       [ [ "gasoline", 500 ], [ "avgas", 500 ] ],
-      [ [ "lye_powder", 17 ] ],
+      [ [ "lye_powder", 14 ] ],
       [ [ "chem_ethanol", 25 ], [ "disinfectant", 1 ] ],
       [ [ "cooking_oil", 10 ], [ "any_butter", 16, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]

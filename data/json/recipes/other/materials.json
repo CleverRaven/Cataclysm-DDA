@@ -199,21 +199,21 @@
     "type": "recipe",
     "copy-from": "ingot_making_base",
     "using": [ [ "smelting_standard", 6900 ] ],
-    "components": [ [ [ "5l_lead", 2 ], [ "1l_lead", 10 ], [ "lead", 5039 ] ] ]
+    "components": [ [ [ "5l_lead", 2 ], [ "1l_lead", 10 ], [ "lead", 11430 ] ] ]
   },
   {
     "result": "5l_lead",
     "type": "recipe",
     "copy-from": "ingot_making_base",
     "using": [ [ "smelting_standard", 3450 ] ],
-    "components": [ [ [ "1l_lead", 5 ], [ "lead", 2520 ] ] ]
+    "components": [ [ [ "1l_lead", 5 ], [ "lead", 5715 ] ] ]
   },
   {
     "result": "1l_lead",
     "type": "recipe",
     "copy-from": "ingot_making_base",
     "using": [ [ "smelting_standard", 690 ] ],
-    "components": [ [ [ "lead", 504 ] ] ]
+    "components": [ [ [ "lead", 1143 ] ] ]
   },
   {
     "result": "10l_bronze",
