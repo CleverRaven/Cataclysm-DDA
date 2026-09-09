@@ -46,10 +46,10 @@
     "proportional": { "weight": 0.8, "volume": 0.8 },
     "relative": { "warmth": -2 },
     "name": { "str": "tank top" },
-    "description": "Breathable shirt leaving the shoulders exposed.",
+    "description": "Breathable shirt leaving the shoulders exposed, it has an all-around loose cut.",
     "armor": [
-      { "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_lower", "torso_waist" ] },
-      { "coverage": 90, "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_neck" ] }
+      { "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] },
+      { "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] }
     ]
   }
 ]
