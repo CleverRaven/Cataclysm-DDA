@@ -866,8 +866,8 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     mvwprintz( w, point( column, vStart++ ), c_light_blue, _( "-----CREATURE-----" ) );
 
     if( debug_mode ) {
-    oss << get_tag_from_color( c_white ) << get_origin( type->src ) << "</color>" << "\n";
-}
+        oss << get_tag_from_color( c_white ) << get_origin( type->src ) << "</color>" << "\n";
+    }
 
     if( debug_mode ) {
         oss << colorize( type->id.str(), c_white );
