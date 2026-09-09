@@ -14,6 +14,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
+#include "messages.h"
 #include "monster.h"
 #include "npc.h"
 #include "pimpl.h"
@@ -26,6 +27,7 @@ static const magic_type_id magic_test_magic_unavailable( "test_magic_unavailable
 static const spell_id spell_test_spell_box( "test_spell_box" );
 static const spell_id spell_test_spell_lava( "test_spell_lava" );
 static const spell_id spell_test_spell_pew( "test_spell_pew" );
+static const spell_id spell_test_spell_random_damage( "test_spell_random_damage" );
 static const spell_id spell_test_spell_tp_ghost( "test_spell_tp_ghost" );
 static const spell_id spell_test_spell_tp_mummy( "test_spell_tp_mummy" );
 
@@ -460,6 +462,19 @@ TEST_CASE( "spell_damage", "[magic][spell][damage]" )
         CHECK( spell_damage( pew_id, 9 ) == 5 );
         CHECK( spell_damage( pew_id, 10 ) == 5 );
     }
+}
+
+TEST_CASE( "spellbook_preview_calculations_do_not_emit_learning_messages", "[magic][spell][damage]" )
+{
+    Messages::clear_messages();
+    const spell_type &random_damage_spell = spell_test_spell_random_damage.obj();
+
+    for( int i = 0; i < 3; ++i ) {
+        random_damage_spell.calculate_damage_increment();
+        random_damage_spell.damage_at_max_level();
+    }
+
+    CHECK( Messages::size() == 0 );
 }
 
 // Spell duration

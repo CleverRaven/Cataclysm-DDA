@@ -308,8 +308,7 @@ std::pair<int, int> spell_type::damage_at_max_level() const
     avatar guy;
     const_dialogue d( get_const_talker_for( guy ), nullptr );
 
-    guy.magic->learn_spell( id, guy, true );
-    spell &cur_spell = guy.magic->get_spell( id );
+    spell cur_spell( id );
     cur_spell.gain_levels( guy, 84 ); // 84 is just max possible spell level
 
     const int min = std::min( static_cast<float>( cur_spell.min_leveled_damage( guy ) ),
@@ -325,14 +324,12 @@ std::pair<float, float> spell_type::calculate_damage_increment() const
 {
     avatar min_guy;
     const_dialogue min_d( get_const_talker_for( min_guy ), nullptr );
-    min_guy.magic->learn_spell( id, min_guy, true );
 
     avatar max_guy;
     const_dialogue max_d( get_const_talker_for( max_guy ), nullptr );
-    max_guy.magic->learn_spell( id, max_guy, true );
 
-    spell &spell_0 = min_guy.magic->get_spell( id );
-    spell &spell_1 = max_guy.magic->get_spell( id );
+    spell spell_0( id );
+    spell spell_1( id );
     spell_1.gain_level( max_guy );
 
     const float spell_0_leveled = min_damage.evaluate( min_d ) + spell_0.get_effective_level() *
