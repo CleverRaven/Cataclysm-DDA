@@ -112,6 +112,13 @@ void weather_type::load( const JsonObject &jo, std::string_view )
     mandatory( jo, was_loaded, "priority", priority );
     optional( jo, was_loaded, "light_multiplier", light_multiplier, 1.f );
     optional( jo, was_loaded, "sun_multiplier", sun_multiplier, 1.f );
+    if( jo.has_array( "tint_color" ) ) {
+        JsonArray jarr = jo.get_array( "tint_color" );
+        tint_color.r = jarr.get_int( 0 ) / 255.0f;
+        tint_color.g = jarr.get_int( 1 ) / 255.0f;
+        tint_color.b = jarr.get_int( 2 ) / 255.0f;
+    }
+    optional( jo, was_loaded, "tint_strength", tint_strength, 0.0f );
 
     mandatory( jo, was_loaded, "sound_attn", sound_attn );
     mandatory( jo, was_loaded, "dangerous", dangerous );
