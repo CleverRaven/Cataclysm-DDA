@@ -1,0 +1,41 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_tile",
+    "//": "Dreamsmith workshop",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        " cc  |   c|  |c  c|r    ",
+        " cc  |   c|  |c  c|r  c ",
+        "     | h 6|  2    2   c ",
+        " dd  |==|||5G||||||6h   ",
+        " hd  |tt|    |    |6    ",
+        "|||22||||    2   ;||||||",
+        " c|  |##|  ||||||||hd^= ",
+        " c|  ||||  3      | d = ",
+        " c|    c|  |     6|   [ ",
+        "  2    c|  ||||||||   = ",
+        "|||    c|  |@D|D @||||||",
+        "       ?|  |@ |  @|     ",
+        "       ?|  ||2|2|||     ",
+        "||2||||||         |  |||",
+        "       r|         |  |r ",
+        "cc  c  r||2||2||2||  |r ",
+        "cc  c rr|   |  |  |  |r ",
+        "       r|  @| @| @|  |r ",
+        "||||||rr|D @|D@|D@|  |||",
+        "     ||||||||||||||  |c ",
+        "  c      6|          |c ",
+        "  iccc   6|          2  ",
+        "  c      6|  ||22|||||  ",
+        "  c c|c   |22|    |cc   "
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "G": "t_card_science", "X": "t_strconc_floor" },
+      "item": { "@": { "item": "SUS_office_desk", "chance": 70 } },
+      "toilets": { ";": {  } },
+      "place_monster": [ { "group": "GROUP_MICROLAB", "x": [ 3, 20 ], "y": [ 3, 20 ], "chance": 70, "repeat": [ 4, 10 ] } ]
+    }
+  }
+]
