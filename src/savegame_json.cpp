@@ -703,6 +703,7 @@ void Character::load( const JsonObject &data )
 
     data.read( "name", name );
     data.read( "play_name", play_name );
+    data.read( "portrait_filename", portrait_filename );
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
     if( !data.read( "blood_type", my_blood_type ) ||
@@ -1387,6 +1388,7 @@ void Character::store( JsonOut &json ) const
 
     json.member( "name", name );
     json.member( "play_name", play_name );
+    json.member( "portrait_filename", portrait_filename );
 
     json.member( "base_age", init_age );
     json.member( "base_height", init_height );

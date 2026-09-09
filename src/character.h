@@ -308,6 +308,11 @@ enum crush_tool_type {
     CRUSH_NO_TOOL
 };
 
+struct character_portrait {
+    public:
+        character_portrait_id id;
+};
+
 struct queued_eoc {
     public:
         effect_on_condition_id eoc;
@@ -578,6 +583,10 @@ class Character : public Creature, public visitable
         int kill_xp = 0;
 
         float cached_organic_size;
+
+        character_portrait_id portrait_filename;
+
+        virtual void ensure_portrait_valid();
 
         const profession *prof;
         std::set<const profession *> hobbies;

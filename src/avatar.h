@@ -113,6 +113,8 @@ class avatar : public Character
         void load_map_memory();
         void clear_map_memory();
 
+        void ensure_portrait_valid() override;
+
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );
         // initialize avatar and avatar mocks

@@ -18,6 +18,13 @@
 #include "translation.h"
 #include "ui_manager.h"
 
+#if defined(TILES)
+#include "cata_tiles.h"
+#include "imgui_texture.h"
+#endif
+
+struct character_portrait; // IWYU pragma: keep
+
 /*
 * This is roughly what the window should look like at full layout.
 * I've annotated the various parts to make it easier for you to identify what's doing each thing.
@@ -45,6 +52,8 @@
 *
 *
 */
+
+static constexpr float PORTRAIT_SIZE = 128.0f;
 
 static int topic_category( const talk_topic &the_topic )
 {
@@ -134,12 +143,33 @@ static float horizontal_separator_pos_y( const float window_height )
     return window_height * 0.6;
 }
 
+static void print_ASCII_portrait()
+{
+    // This is a masterpiece, especially with the double backslashes to escape it. Anybody who disagrees is automatically sentenced to 10 months of converting windows to Dear ImGui.
+    // -Renech "The Greatest" CDDA
+    std::string my_beautiful_NPC_ASCII_portait = string_format(
+                "|--------------------------|\n"
+                "|           _____   -Renech|\n"
+                "|          /     \\         |\n"
+                "|         | 0  0 |         |\n"
+                "|          \\ -  /          |\n"
+                "|          |\\__/|          |\n"
+                "|      ___/------\\___      |\n"
+                "|     / _/        \\_ \\     |\n"
+                "|    / / |  NPC   | \\ \\    |\n"
+                "|   / /  |        |  \\ \\   |\n"
+                "|                          |\n"
+                "|--------------------------|"
+            );
+    cataimgui::draw_colored_text( my_beautiful_NPC_ASCII_portait );
+}
+
 float dialogue_imgui_impl::sidebar_width() const
 {
     const int num_characters_line_in_ASCII_portrait = 28; // Known fact
     const int num_characters_width = num_characters_line_in_ASCII_portrait + 4; // Add some padding
     // Portraits are supposed to be 128x128. The extra size is to account for borders and any small padding cases we may have overlooked etc
-    const float min_width = std::max( 128.0f + border_size() * 4,
+    const float min_width = std::max( PORTRAIT_SIZE + border_size() * 4,
                                       num_characters_width * ImGui::CalcTextSize( "0" ).x );
     const float max_width = window_width * 0.3;
     const float actual_width = std::max( min_width, max_width );
@@ -209,6 +239,9 @@ void dialogue_imgui::draw_dialogue_imgui( bool is_computer, bool is_not_conversa
 
     ctxt.set_timeout( 10 );
 
+    // Make sure our conversation partner's portrait is ready!
+    conversation->actor( true )->ensure_portrait_valid();
+
     while( !conversation->done ) {
         ui_manager::redraw_invalidated();
 
@@ -237,23 +270,21 @@ void dialogue_imgui_impl::draw_dialogue_sidebar() const
     ImVec2 child_size = {sidebar_width(), ImGui::GetWindowHeight() - ( border_size() * 2 )};
     // TODO: Some of these (portrait, name) want to be centered.
     if( ImGui::BeginChild( "##DIALOGUE_SIDEBAR", child_size, child_flags ) ) {
-        // This is a masterpiece, especially with the double backslashes to escape it. Anybody who disagrees is automatically sentenced to 10 months of converting windows to Dear ImGui.
-        // -Renech "The Greatest" CDDA
-        std::string my_beautiful_NPC_ASCII_portait = string_format(
-                    "|--------------------------|\n"
-                    "|           _____   -Renech|\n"
-                    "|          /     \\         |\n"
-                    "|         | 0  0 |         |\n"
-                    "|          \\ -  /          |\n"
-                    "|          |\\__/|          |\n"
-                    "|      ___/------\\___      |\n"
-                    "|     / _/        \\_ \\     |\n"
-                    "|    / / |  NPC   | \\ \\    |\n"
-                    "|   / /  |        |  \\ \\   |\n"
-                    "|                          |\n"
-                    "|--------------------------|"
-                );
-        cataimgui::draw_colored_text( my_beautiful_NPC_ASCII_portait );
+#ifdef TILES
+        std::optional<character_portrait_id> portrait = conversation->portrait_or_nullopt();
+        if( get_option<bool>( "USE_TILES" ) && portrait.has_value() && portrait.value().is_valid() ) {
+            if( debug_mode ) {
+                cataimgui::draw_colored_text( "Portrait filename: " + portrait.value().str() );
+            }
+            // We can pass a dummy tripoint because portrait drawing doesn't need or use that information.
+            cataimgui::draw_texture( portrait.value(), tripoint_bub_ms(), ImVec2( PORTRAIT_SIZE,
+                                     PORTRAIT_SIZE ) );
+        } else {
+            print_ASCII_portrait();
+        }
+#else
+        print_ASCII_portrait();
+#endif
 
         // Name of who we're talking to (in big letter)
         cataimgui::PushGuiFont1_5x();

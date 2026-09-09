@@ -116,7 +116,7 @@ static const std::array<std::string, 8> multitile_keys = {{
 };
 
 static const std::string empty_string;
-static const std::array<std::string, 17> TILE_CATEGORY_IDS = {{
+static const std::array<std::string, 18> TILE_CATEGORY_IDS = {{
         "", // TILE_CATEGORY::NONE,
         "vehicle_part", // TILE_CATEGORY::VEHICLE_PART,
         "terrain", // TILE_CATEGORY::TERRAIN,
@@ -134,6 +134,7 @@ static const std::array<std::string, 17> TILE_CATEGORY_IDS = {{
         "overmap_weather", // TILE_CATEGORY::OVERMAP_WEATHER
         "map_extra", // TILE_CATEGORY::MAP_EXTRA
         "overmap_note", // TILE_CATEGORY::OVERMAP_NOTE
+        "portrait", // TILE_CATEGORY::PORTRAIT
     }
 };
 
@@ -398,6 +399,21 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
     }
 
     return inserted_tile;
+}
+
+std::unordered_set<std::string> tileset::get_all_portrait_tile_ids( bool male ) const
+{
+    std::unordered_set<std::string> ret;
+    for( const auto &pair : tile_ids ) {
+        // NOLINTNEXTLINE(bugprone-branch-clone)
+        if( male && pair.first.rfind( "GENERIC_MALE_PORTRAIT", 0 ) == 0 ) {
+            ret.emplace( pair.first );
+            // NOLINTNEXTLINE(bugprone-branch-clone)
+        } else if( !male && pair.first.rfind( "GENERIC_FEMALE_PORTRAIT", 0 ) == 0 ) {
+            ret.emplace( pair.first );
+        }
+    }
+    return ret;
 }
 
 bool service_mode2_upload_interrupt( const atlas_upload_interrupt interrupt,
@@ -1989,11 +2005,14 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
             }
         }
     }
+
+    // We have an ID --> just return its tile information
+    // Despite name, finds all sorts of tiles(items, monsters, what the hell ever), not just seasonal (e.g. terrain)
     if( auto ret = find_tile_with_season( id ) ) {
         return ret; // no variant
     }
 
-    // Then do looks_like
+    // Oops we found nothing for it --> looks_like or bust.
     switch( category ) {
         case TILE_CATEGORY::FURNITURE:
             return find_tile_looks_like_by_string_id<furn_t>( id, category,
@@ -2226,6 +2245,7 @@ unsigned int cata_tiles::get_variant_seed( const tile_type &display_tile, TILE_C
         case TILE_CATEGORY::HIT_ENTITY:
             // TODO: come up with ways to make random sprites consistent for these types
             break;
+        case TILE_CATEGORY::PORTRAIT:
         case TILE_CATEGORY::WEATHER:
             seed = rng_bits(); // Doesn't need to be deterministic
             break;
@@ -2331,10 +2351,15 @@ std::optional<texture_draw_data> cata_tiles::get_texture_draw_data( const std::s
         buf_h = static_cast<int>( SDL_GetNumberProperty( props, SDL_PROP_TEXTURE_HEIGHT_NUMBER, 0 ) );
     }
 
-    std::pair<float, float> uv0{ rect.x / ( float )buf_w, rect.y / ( float )buf_h };
-    std::pair<float, float> uv1{ ( rect.x + rect.w ) / ( float )buf_w, ( rect.y + rect.h ) / ( float )buf_h };
+    std::pair<float, float> uv0{ rect.x / static_cast<float>( buf_w ), rect.y / static_cast<float>( buf_h ) };
+    std::pair<float, float> uv1{ ( rect.x + rect.w ) / static_cast<float>( buf_w ), ( rect.y + rect.h ) / static_cast<float>( buf_h ) };
 
     return texture_draw_data{ texture_ptr.get(), rect, uv0, uv1 };
+}
+
+std::unordered_set<std::string> cata_tiles::get_all_portrait_tile_ids( bool male ) const
+{
+    return tileset_ptr->get_all_portrait_tile_ids( male );
 }
 
 bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEGORY category,
@@ -5274,7 +5299,7 @@ void cata_tiles::do_tile_loading_report()
 
     // TODO: OVERMAP_NOTE
 
-    static_assert( static_cast<int>( TILE_CATEGORY::last ) == 17,
+    static_assert( static_cast<int>( TILE_CATEGORY::last ) == 18,
                    "If you add more tile categories then update this tile loading report and then "
                    "increment the value in this static_assert accordingly" );
 

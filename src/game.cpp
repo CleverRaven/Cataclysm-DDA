@@ -632,6 +632,14 @@ void game::reload_tileset()
         }
     }
     try {
+        portrait_tilecontext->reinit();
+        portrait_tilecontext->load_tileset( get_option<std::string>( "PORTRAIT_TILES" ),
+                                            /*precheck=*/false, /*force=*/true,
+                                            /*pump_events=*/true, /*terrain=*/false );
+    } catch( const std::exception &err ) {
+        popup( _( "Loading the portrait tileset failed: %s" ), err.what() );
+    }
+    try {
         overmap_tilecontext->reinit();
         overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
                                            /*precheck=*/false, /*force=*/true,

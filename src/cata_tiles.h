@@ -97,6 +97,7 @@ enum class TILE_CATEGORY {
     OVERMAP_WEATHER,
     MAP_EXTRA,
     OVERMAP_NOTE,
+    PORTRAIT,
     last
 };
 
@@ -117,7 +118,8 @@ const std::unordered_map<std::string, TILE_CATEGORY> to_TILE_CATEGORY = {
     {"overmap_vision_level", TILE_CATEGORY::OVERMAP_VISION_LEVEL},
     {"overmap_weather", TILE_CATEGORY::OVERMAP_WEATHER},
     {"map_extra", TILE_CATEGORY::MAP_EXTRA},
-    {"overmap_note", TILE_CATEGORY::OVERMAP_NOTE}
+    {"overmap_note", TILE_CATEGORY::OVERMAP_NOTE},
+    {"portrait", TILE_CATEGORY::PORTRAIT}
 };
 
 enum class NEIGHBOUR {
@@ -402,6 +404,8 @@ class tileset
             return duplicate_ids;
         }
 
+        std::unordered_set<std::string> get_all_portrait_tile_ids( bool male ) const;
+
         const std::vector<atlas_replay_descriptor> &get_atlas_descriptors() const {
             return atlas_descriptors;
         }
@@ -603,7 +607,9 @@ class cata_tiles
         void draw_minimap( const point &dest, const tripoint_bub_ms &center, int width, int height );
 
         std::optional<texture_draw_data> get_texture_draw_data( const std::string &id,
-                TILE_CATEGORY categroy, const tripoint_bub_ms &p );
+                TILE_CATEGORY category, const tripoint_bub_ms &p );
+
+        std::unordered_set<std::string> get_all_portrait_tile_ids( bool male ) const;
 
     protected:
         /** How many rows and columns of tiles fit into given dimensions, fully

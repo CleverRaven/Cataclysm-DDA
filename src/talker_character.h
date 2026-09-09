@@ -328,6 +328,7 @@ class talker_character: virtual public talker
         void learn_martial_art( const matype_id &id ) override;
         void forget_martial_art( const matype_id &id ) override;
         std::vector<item *> items_with( const std::function<bool( const item & )> &filter ) override;
+        void ensure_portrait_valid() override;
 
     private:
         Character *me_chr{};

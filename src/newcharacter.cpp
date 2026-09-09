@@ -88,6 +88,9 @@ static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
 static const std::string flag_SKIP_DEFAULT_BACKGROUND( "SKIP_DEFAULT_BACKGROUND" );
 
+static const character_portrait_id character_portrait_AVATAR( "AVATAR" );
+static const character_portrait_id character_portrait_GENERIC_NPC( "GENERIC_NPC" );
+
 static const flag_id json_flag_WET( "WET" );
 static const flag_id json_flag_auto_wield( "auto_wield" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
@@ -425,6 +428,11 @@ void Character::randomize( const bool random_scenario, bool play_now )
     // Reset everything to the defaults to have a clean state.
     if( is_avatar() ) {
         *this->as_avatar() = avatar();
+        portrait_filename = character_portrait_AVATAR;
+    } else {
+        // Random NPC with no class --> generic portrait
+        // FIXME: Use null ID
+        portrait_filename = character_portrait_GENERIC_NPC;
     }
 
     bool gender_selection = one_in( 2 );
@@ -704,6 +712,10 @@ void Character::add_profession_items()
 
     recalc_sight_limits();
     calc_encumbrance();
+}
+
+void Character::ensure_portrait_valid()
+{
 }
 
 void Character::randomize_hobbies()

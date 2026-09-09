@@ -1294,7 +1294,8 @@ void options_manager::search_resource(
     }
 }
 
-std::vector<options_manager::id_and_option> options_manager::build_tilesets_list()
+std::vector<options_manager::id_and_option> options_manager::build_tilesets_list(
+    bool only_portraits )
 {
     std::vector<id_and_option> result;
 
@@ -1307,6 +1308,20 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
         result.emplace_back( "hoder", to_translation( "Hoder's" ) );
         result.emplace_back( "deon", to_translation( "Deon's" ) );
     }
+
+    if( only_portraits ) {
+        for( auto iter = result.begin(); iter != result.end(); ) {
+            // Portrait packs must contain the string "Portrait" (case-sensitive) somewhere in their ID.
+            // I would like this check to be less dumb, but we're working with only a std::string here.
+            if( iter->first.find( "Portrait" ) == std::string::npos ) {
+                iter = result.erase( iter );
+            } else {
+                ++iter;
+            }
+        }
+    }
+
+
     return result;
 }
 
@@ -2527,7 +2542,13 @@ void options_manager::add_options_graphics()
              1, 4, 2, COPT_CURSES_HIDE
            ); // populate the options dynamically
 
+        add( "PORTRAIT_TILES", page_id, to_translation( "Choose portrait pack" ),
+             to_translation( "Choose the tileset you want to use for NPC or player portraits." ),
+             build_tilesets_list( /*bool only_portraits=*/ true ), "Test_Portrait_Pack", COPT_CURSES_HIDE
+           ); // populate the options dynamically
+
         get_option( "TILES" ).setPrerequisite( "USE_TILES" );
+        get_option( "PORTRAIT_TILES" ).setPrerequisite( "USE_TILES" );
         get_option( "USE_DISTANT_TILES" ).setPrerequisite( "USE_TILES" );
         get_option( "DISTANT_TILES" ).setPrerequisite( "USE_DISTANT_TILES" );
         get_option( "SWAP_ZOOM" ).setPrerequisite( "USE_DISTANT_TILES" );
@@ -3297,6 +3318,18 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
                 use_tiles = false;
                 use_tiles_overmap = false;
             }
+        }
+        try {
+            portrait_tilecontext->reinit();
+            portrait_tilecontext->load_tileset( get_option<std::string>( "PORTRAIT_TILES" ),
+                                                /*precheck=*/false, /*force=*/false,
+                                                /*pump_events=*/true, /*terrain=*/true );
+            //game_ui::init_ui is called when zoom is changed
+            g->reset_zoom();
+            g->mark_main_ui_adaptor_resize();
+        } catch( const std::exception &err ) {
+            popup( _( "Loading the portrait tileset failed: %s" ), err.what() );
+            use_tiles = false;
         }
         try {
             overmap_tilecontext->reinit();
