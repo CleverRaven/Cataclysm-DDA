@@ -575,5 +575,15 @@
       { "monster": "mon_frozen_daemon", "weight": 10 },
       { "monster": "mon_spined_daemon", "weight": 2 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_XE_DREAMER_LAB_MONSTERS",
+    "monsters": [
+      { "monster": "mon_xe_flying_shark", "weight": 20 },
+      { "monster": "mon_shifter_non_player", "weight": 20 },
+      { "monster": "mon_ophanim_non_player", "weight": 5, "cost_multiplier": 5 },
+      { "monster": "mon_duplicator_non_player", "weight": 10 }
+    ]
   }
 ]

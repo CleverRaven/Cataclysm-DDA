@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "//": "Dreamsmith workshop",
+    "//": "Dreamer workshop",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -10,11 +10,11 @@
         " cc  |   c|  |c  c|r  c ",
         "     | h 6|  2    2   c ",
         " dd  |==|||5G||||||6h   ",
-        " hd  |tt|    |    |6    ",
-        "|||22||||    2   ;||||||",
+        " hd  |tt|    |ni|;|6    ",
+        "|||22||||    2    ||||||",
         " c|  |##|  ||||||||hd^= ",
-        " c|  ||||  3      | d = ",
-        " c|    c|  |     6|   [ ",
+        " c|  ||||  3    hd| d = ",
+        " c|    c|  |6h dd6|   [ ",
         "  2    c|  ||||||||   = ",
         "|||    c|  |@D|D @||||||",
         "       ?|  |@ |  @|     ",
@@ -33,9 +33,9 @@
       ],
       "palettes": [ "microlab" ],
       "terrain": { "G": "t_card_science", "X": "t_strconc_floor" },
-      "item": { "@": { "item": "SUS_office_desk", "chance": 70 } },
+      "item": { "@": { "item": "xed_office_dreamdross", "chance": 35 } },
       "toilets": { ";": {  } },
-      "place_monster": [ { "group": "GROUP_MICROLAB", "x": [ 3, 20 ], "y": [ 3, 20 ], "chance": 70, "repeat": [ 4, 10 ] } ]
+      "place_monster": [ { "group": "GROUP_XE_DREAMER_SUMMONS", "x": [ 9, 17 ], "y": [ 4, 18 ], "chance": 70, "repeat": [ 1, 5 ] } ]
     }
   }
 ]
