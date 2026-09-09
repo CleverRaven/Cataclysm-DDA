@@ -1,0 +1,69 @@
+[
+  {
+    "id": "storage_facility",
+    "type": "overmap_terrain",
+    "name": "storage facility",
+    "sym": "=",
+    "color": "yellow",
+    "vision_levels": "city_building",
+    "travel_cost_type": "structure",
+    "see_cost": "high",
+    "flags": [ "RISK_HIGH", "GENERIC_LOOT", "SIDEWALK" ]
+  },
+  {
+    "om_terrain": "storage_facility",
+    "type": "mapgen",
+    "object": {
+      "fill_ter": "t_concrete",
+      "rows": [
+        "########################",
+        "#    =            =    #",
+        "#    =            =    #",
+        "#    =            =    #",
+        "######            ######",
+        "#    =            =    #",
+        "#    =            =    #",
+        "#    =            =    #",
+        "######            ######",
+        "#    =            =    #",
+        "#    =            =    #",
+        "#    =            =    #",
+        "######            ######",
+        "#                      #",
+        "#                      #",
+        "######  ########  ######",
+        "#    =  =  ##  =  =    #",
+        "#    =  =  ##  =  =    #",
+        "#    =  =  ##  =  =    #",
+        "######  ########  ######",
+        "#    =  =  ##  =  =    #",
+        "#    =  =  ##  =  =    #",
+        "#    =  =  ##  =  =    #",
+        "########################"
+      ],
+      "palettes": [ "storage_facility_palette" ]
+    }
+  },
+  {
+    "id": "storage_facility_mutable_2x3",
+    "type": "overmap_special",
+    "subtype": "mutable",
+    "locations": [ "urban" ],
+    "city_distance": [ 0, 100 ],
+    "city_sizes": [ 0, 100 ],
+    "occurrences": [ 0, 100 ],
+    "check_for_locations_area": [ { "type": [ "urban" ], "from": [ 0, 0, 0 ], "to": [ 1, 2, -10 ] } ],
+    "joins": [ "entrance_to_shaft", "shaft_to_shaft" ],
+    "overmaps": {
+      "storage_facility_entrance": { "overmap": "storage_facility_north", "below": "entrance_to_shaft" },
+      "storage_facility_ramp_shaft": {
+        "overmap": "storage_facility_north",
+        "above": { "id": "shaft_to_shaft", "alternatives": [ "entrance_to_shaft" ] },
+        "below": "shaft_to_shaft"
+      },
+      "storage_facility": { "overmap": "storage_facility_north" }
+    },
+    "root": "storage_facility_entrance",
+    "phases": [ [ { "overmap": "storage_facility_ramp_shaft", "max": 3 } ] ]
+  }
+]
