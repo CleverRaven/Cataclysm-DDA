@@ -485,6 +485,8 @@
     "precip": "none",
     "rains": false,
     "sound_category": "cloudy",
+    "tint_color": [110, 0, 0],
+    "tint_strength": 1.0,
     "priority": 1,
     "condition": { "current_dimension": "scarlet" }
   }
