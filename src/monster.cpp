@@ -1077,7 +1077,6 @@ std::vector<std::string> monster::extended_description() const
     if( debug_mode ) {
     tmp.emplace_back( get_origin( type->src ) );
     tmp.emplace_back( colorize( type->id.str(), c_white ) );
-
     const std::vector<std::pair<std::string, std::string>> overlays = get_overlay_ids();
     const std::string overlay_str = enumerate_as_string(
         overlays.begin(), overlays.end(),
