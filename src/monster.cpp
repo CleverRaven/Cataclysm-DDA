@@ -1068,18 +1068,12 @@ std::vector<std::string> monster::extended_description() const
 {
     const map &here = get_map();
 
-    std::vector<std::string> tmp;
-    // Reserve the number of elements we know we will need.
-    // Likely we will need more, but it's best to leave that to
-    // exponential growth.
-    tmp.reserve( 12 );
+        tmp.emplace_back( get_origin( type->src ) );
+        tmp.emplace_back( colorize( type->id.str(), c_white ) );
 
-    if( debug_mode ) {
-    tmp.emplace_back( get_origin( type->src ) );
-    tmp.emplace_back( colorize( type->id.str(), c_white ) );
-    const std::vector<std::pair<std::string, std::string>> overlays = get_overlay_ids();
-    const std::string overlay_str = enumerate_as_string(
-        overlays.begin(), overlays.end(),
+        const std::vector<std::pair<std::string, std::string>> overlays = get_overlay_ids();
+        const std::string overlay_str = enumerate_as_string(
+                                            overlays.begin(), overlays.end(),
         []( const std::pair<std::string, std::string> &overlay ) {
             return overlay.second.empty() ? overlay.first : overlay.first + "_" + overlay.second;
         }
