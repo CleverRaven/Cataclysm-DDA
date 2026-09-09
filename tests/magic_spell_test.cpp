@@ -1,3 +1,4 @@
+#include <map>
 #include <memory>
 #include <string>
 
@@ -20,7 +21,11 @@
 #include "point.h"
 #include "type_id.h"
 
+static const magic_type_id magic_test_magic_available( "test_magic_available" );
+static const magic_type_id magic_test_magic_unavailable( "test_magic_unavailable" );
 static const spell_id spell_test_spell_box( "test_spell_box" );
+static const spell_id spell_test_spell_lava( "test_spell_lava" );
+static const spell_id spell_test_spell_pew( "test_spell_pew" );
 static const spell_id spell_test_spell_tp_ghost( "test_spell_tp_ghost" );
 static const spell_id spell_test_spell_tp_mummy( "test_spell_tp_mummy" );
 
@@ -270,6 +275,24 @@ TEST_CASE( "spell_invlet", "[magic][invlet]" )
             }
         }
     }
+}
+
+TEST_CASE( "spell_menu_ignores_unavailable_magic_type_when_another_spell_is_available",
+           "[magic][spell]" )
+{
+    npc guy;
+    guy.magic->set_mana( 50 );
+    guy.magic->learn_spell( spell_test_spell_pew, guy, true );
+    guy.magic->learn_spell( spell_test_spell_lava, guy, true );
+
+    std::map<magic_type_id, bool> success_tracker;
+    CHECK( guy.magic->can_cast_any_spell( guy, success_tracker ) );
+    CHECK( success_tracker.at( magic_test_magic_available ) );
+    CHECK_FALSE( success_tracker.at( magic_test_magic_unavailable ) );
+
+    guy.magic->set_mana( 0 );
+    success_tracker.clear();
+    CHECK_FALSE( guy.magic->can_cast_any_spell( guy, success_tracker ) );
 }
 
 // Return experience points needed to level up a spell, starting at from_level

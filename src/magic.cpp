@@ -2640,6 +2640,17 @@ std::vector<spell_id> known_magic::spells() const
     return spell_ids;
 }
 
+bool known_magic::can_cast_any_spell( const Character &guy,
+                                      std::map<magic_type_id, bool> &success_tracker )
+{
+    bool any_success = false;
+    for( const spell_id &sp : spells() ) {
+        spell &temp_spell = get_spell( sp );
+        any_success = temp_spell.can_cast( guy, success_tracker ) || any_success;
+    }
+    return any_success;
+}
+
 void known_magic::channel_magic( Character &guy )
 {
     spell_id sp_id = guy.magic->last_spell;
