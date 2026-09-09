@@ -464,7 +464,8 @@ TEST_CASE( "spell_damage", "[magic][spell][damage]" )
     }
 }
 
-TEST_CASE( "spellbook_preview_calculations_do_not_emit_learning_messages", "[magic][spell][damage]" )
+TEST_CASE( "spellbook_preview_calculations_do_not_emit_learning_messages",
+           "[magic][spell][damage]" )
 {
     Messages::clear_messages();
     const spell_type &random_damage_spell = spell_test_spell_random_damage.obj();
