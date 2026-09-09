@@ -1084,13 +1084,13 @@ std::vector<std::string> monster::extended_description() const
         []( const std::pair<std::string, std::string> &overlay ) {
             return overlay.second.empty() ? overlay.first : overlay.first + "_" + overlay.second;
         }
-    );
-    if( overlay_str.empty() ) {
-        tmp.emplace_back( colorize( _( "Overlays: none" ), c_white ) );
-    } else {
-        tmp.emplace_back( colorize( _( "Overlays: " ), c_white ) + overlay_str );
+                                        );
+        if( overlay_str.empty() ) {
+            tmp.emplace_back( colorize( _( "Overlays: none" ), c_white ) );
+        } else {
+            tmp.emplace_back( colorize( _( "Overlays: " ), c_white ) + overlay_str );
+        }
     }
-}
 
     nc_color bar_color = c_white;
     std::string bar_str;
