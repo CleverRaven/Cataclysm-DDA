@@ -342,13 +342,13 @@ void monster::on_move( const tripoint_abs_ms &old_pos )
     }
     g->update_zombie_pos( *this, old_pos, pos_abs() );
     if( has_effect( effect_onfire ) ||
-            calculate_by_enchantment( type->luminance, enchant_vals::mod::LUMINATION, true ) > 0 ) {
+        calculate_by_enchantment( type->luminance, enchant_vals::mod::LUMINATION, true ) > 0 ) {
         map &here = get_map();
         here.set_lightmap_cache_dirty( old_pos.z() );
         here.set_lightmap_cache_dirty( pos_bub().z() );
     }
     if( has_effect( effect_ridden ) && mounted_player &&
-            mounted_player->pos_abs() != pos_abs() ) {
+        mounted_player->pos_abs() != pos_abs() ) {
         add_msg_debug( debugmode::DF_MONSTER, "Ridden monster %s moved independently and dumped player",
                        get_name() );
         mounted_player->forced_dismount();
@@ -593,9 +593,9 @@ void monster::try_reproduce()
             season_match = false;
             for( const std::string &elem : type->baby_flags ) {
                 if( ( season_of_year( *baby_timer ) == SUMMER && elem == "SUMMER" ) ||
-                        ( season_of_year( *baby_timer ) == WINTER && elem == "WINTER" ) ||
-                        ( season_of_year( *baby_timer ) == SPRING && elem == "SPRING" ) ||
-                        ( season_of_year( *baby_timer ) == AUTUMN && elem == "AUTUMN" ) ) {
+                    ( season_of_year( *baby_timer ) == WINTER && elem == "WINTER" ) ||
+                    ( season_of_year( *baby_timer ) == SPRING && elem == "SPRING" ) ||
+                    ( season_of_year( *baby_timer ) == AUTUMN && elem == "AUTUMN" ) ) {
                     season_match = true;
                 }
             }
@@ -1333,9 +1333,9 @@ nc_color monster::color_with_effects() const
 {
     nc_color ret = type->color;
     if( has_effect( effect_beartrap ) || has_effect( effect_stunned ) ||
-            has_effect( effect_psi_stunned ) || has_effect( effect_downed ) ||
-            has_effect( effect_tied ) ||
-            has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) ) {
+        has_effect( effect_psi_stunned ) || has_effect( effect_downed ) ||
+        has_effect( effect_tied ) ||
+        has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) ) {
         ret = hilite( ret );
     }
     if( has_effect( effect_pacified ) ) {
@@ -1523,7 +1523,7 @@ int monster::sight_range( const float light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
     if( !can_see() || effect_cache[VISION_IMPAIRED] ||
-            ( underwater && !swims() && !has_flag( mon_flag_AQUATIC ) && !digging() ) ) {
+        ( underwater && !swims() && !has_flag( mon_flag_AQUATIC ) && !digging() ) ) {
         return 1;
     }
     static const float default_daylight = default_daylight_level();
@@ -1650,8 +1650,8 @@ Creature *monster::attack_target()
 
     Creature *target = get_creature_tracker().creature_at( get_dest() );
     if( target == nullptr || target == this ||
-            attitude_to( *target ) == Attitude::FRIENDLY || !sees( here,  *target ) ||
-            target->is_hallucination() ) {
+        attitude_to( *target ) == Attitude::FRIENDLY || !sees( here,  *target ) ||
+        target->is_hallucination() ) {
         return nullptr;
     }
 
@@ -1715,7 +1715,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
 
         mf_attitude faction_att = faction.obj().attitude( m->faction );
         if( ( friendly != 0 && m->friendly != 0 ) ||
-                ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
+            ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
             // Friendly (to player) monsters are friendly to each other
             // Unfriendly monsters go by faction attitude
             return Attitude::FRIENDLY;
@@ -1732,18 +1732,18 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
         }
     } else if( p != nullptr ) {
         switch( attitude( p ) ) {
-        case MATT_FRIEND:
-            return Attitude::FRIENDLY;
-        case MATT_FPASSIVE:
-        case MATT_FLEE:
-        case MATT_IGNORE:
-        case MATT_FOLLOW:
-            return Attitude::NEUTRAL;
-        case MATT_ATTACK:
-            return Attitude::HOSTILE;
-        case MATT_NULL:
-        case NUM_MONSTER_ATTITUDES:
-            break;
+            case MATT_FRIEND:
+                return Attitude::FRIENDLY;
+            case MATT_FPASSIVE:
+            case MATT_FLEE:
+            case MATT_IGNORE:
+            case MATT_FOLLOW:
+                return Attitude::NEUTRAL;
+            case MATT_ATTACK:
+                return Attitude::HOSTILE;
+            case MATT_NULL:
+            case NUM_MONSTER_ATTITUDES:
+                break;
         }
     }
     // Should not happen!, creature should be either player or monster
@@ -1755,7 +1755,7 @@ monster_attitude monster::attitude( const Character *u ) const
     // override for the Personal Portal Storms Mod
     // if the monster is a nether portal monster and the character is an NPC then ignore
     if( u != nullptr && faction == monfaction_nether_player_hate && u->is_npc() &&
-            get_option<bool>( "PORTAL_STORM_IGNORE_NPC" ) ) {
+        get_option<bool>( "PORTAL_STORM_IGNORE_NPC" ) ) {
         // portal storm creatures ignore NPCs no matter what with this mod on
         return MATT_FPASSIVE;
     }
@@ -1828,17 +1828,17 @@ monster_attitude monster::attitude( const Character *u ) const
         }
 
         if( effective_anger >= 10 &&
-                type->in_species( species_MAMMAL ) && u->has_trait( trait_PHEROMONE_MAMMAL ) ) {
+            type->in_species( species_MAMMAL ) && u->has_trait( trait_PHEROMONE_MAMMAL ) ) {
             effective_anger -= 20;
         }
 
         if( effective_anger >= 10 &&
-                type->in_species( species_AMPHIBIAN ) && u->has_trait( trait_PHEROMONE_AMPHIBIAN ) ) {
+            type->in_species( species_AMPHIBIAN ) && u->has_trait( trait_PHEROMONE_AMPHIBIAN ) ) {
             effective_anger -= 20;
         }
 
         if( ( faction == monfaction_acid_ant || faction == monfaction_ant || faction == monfaction_bee ||
-                faction == monfaction_wasp ) && effective_anger >= 10 && u->has_trait( trait_PHEROMONE_INSECT ) ) {
+              faction == monfaction_wasp ) && effective_anger >= 10 && u->has_trait( trait_PHEROMONE_INSECT ) ) {
             effective_anger -= 20;
         }
 
@@ -1914,7 +1914,7 @@ monster_attitude monster::attitude( const Character *u ) const
     }
 
     if( has_flag( mon_flag_KEEP_DISTANCE ) &&
-            rl_dist( pos_abs(), get_dest() ) < type->tracking_distance ) {
+        rl_dist( pos_abs(), get_dest() ) < type->tracking_distance ) {
         return MATT_FLEE;
     }
 
@@ -1962,7 +1962,7 @@ void monster::process_triggers()
     } );
 
     if( morale != type->morale && one_in( 4 ) &&
-            ( ( std::abs( morale - type->morale ) > 15 ) || one_in( 2 ) ) ) {
+        ( ( std::abs( morale - type->morale ) > 15 ) || one_in( 2 ) ) ) {
         if( morale < type->morale ) {
             morale++;
         } else {
@@ -1971,7 +1971,7 @@ void monster::process_triggers()
     }
 
     if( anger != type->agro && one_in( 4 ) &&
-            ( ( std::abs( anger - type->agro ) > 15 ) || one_in( 2 ) ) ) {
+        ( ( std::abs( anger - type->agro ) > 15 ) || one_in( 2 ) ) ) {
         if( anger < type->agro ) {
             anger++;
         } else {
@@ -2062,17 +2062,17 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
     }
 
     if( effect == effect_venom_dmg ||
-            effect == effect_venom_player1 ||
-            effect == effect_venom_player2 ) {
+        effect == effect_venom_player1 ||
+        effect == effect_venom_player2 ) {
         return ( !made_of( material_flesh ) && !made_of( material_iflesh ) ) ||
                type->in_species( species_NETHER ) || type->in_species( species_MIGO ) ||
                type->in_species( species_LEECH_PLANT );
     }
 
     if( effect == effect_paralyzepoison ||
-            effect == effect_badpoison ||
-            effect == effect_venom_weaken ||
-            effect == effect_poison ) {
+        effect == effect_badpoison ||
+        effect == effect_venom_weaken ||
+        effect == effect_poison ) {
         return type->in_species( species_ZOMBIE ) || type->in_species( species_NETHER ) ||
                type->in_species( species_MIGO ) ||
                !made_of_any( Creature::cmat_flesh ) || type->in_species( species_LEECH_PLANT );
@@ -2088,7 +2088,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 
     if( effect == effect_downed ) {
         if( type->bodytype == "insect" || type->bodytype == "flying insect" || type->bodytype == "spider" ||
-                type->bodytype == "crab" ) {
+            type->bodytype == "crab" ) {
             return x_in_y( 3, 4 );
         } else {
             return type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
@@ -2240,8 +2240,8 @@ bool monster::melee_attack( Creature &target, float accuracy )
     }
     // Prevent monsters from attacking THROUGH terrain if they are submerged under it & target isn't.
     if( is_underwater() && !target.is_underwater() &&
-            ( here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, pos_bub() ) ||
-              here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, target.pos_bub() ) ) ) {
+        ( here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, pos_bub() ) ||
+          here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, target.pos_bub() ) ) ) {
         return false;
     }
 
@@ -2254,7 +2254,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
 
     Character &player_character = get_player_character();
     if( target.is_avatar() ||
-            ( target.is_npc() && player_character.attitude_to( target ) == Attitude::FRIENDLY ) ) {
+        ( target.is_npc() && player_character.attitude_to( target ) == Attitude::FRIENDLY ) ) {
         // Make us a valid target for a few turns
         add_effect( effect_hit_by_player, 3_turns );
     }
@@ -2325,7 +2325,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
                          body_part_name_accusative( dealt_dam.bp_hit ) );
             } else if( target.is_npc() ) {
                 if( has_effect( effect_ridden ) && has_flag( mon_flag_RIDEABLE_MECH ) &&
-                        pos_bub() == player_character.pos_bub() ) {
+                    pos_bub() == player_character.pos_bub() ) {
                     //~ %1$s: name of your mount, %2$s: target NPC name, %3$d: damage value
                     add_msg( m_good, _( "Your %1$s hits %2$s for %3$d damage!" ), name(), target.disp_name(),
                              total_dealt );
@@ -2337,7 +2337,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
                 }
             } else {
                 if( has_effect( effect_ridden ) && has_flag( mon_flag_RIDEABLE_MECH ) &&
-                        pos_bub() == player_character.pos_bub() ) {
+                    pos_bub() == player_character.pos_bub() ) {
                     //~ %1$s: name of your mount, %2$s: target creature name, %3$d: damage value
                     add_msg( m_good, _( "Your %1$s hits %2$s for %3$d damage!" ), get_name(), target.disp_name(),
                              total_dealt );
@@ -2798,23 +2798,23 @@ float monster::stability_roll() const
 {
     int size_bonus = 0;
     switch( type->size ) {
-    case creature_size::tiny:
-        size_bonus -= 7;
-        break;
-    case creature_size::small:
-        size_bonus -= 3;
-        break;
-    case creature_size::large:
-        size_bonus += 5;
-        break;
-    case creature_size::huge:
-        size_bonus += 10;
-        break;
-    case creature_size::medium:
-        break; // keep default
-    case creature_size::num_sizes:
-        debugmsg( "ERROR: Invalid Creature size class." );
-        break;
+        case creature_size::tiny:
+            size_bonus -= 7;
+            break;
+        case creature_size::small:
+            size_bonus -= 3;
+            break;
+        case creature_size::large:
+            size_bonus += 5;
+            break;
+        case creature_size::huge:
+            size_bonus += 10;
+            break;
+        case creature_size::medium:
+            break; // keep default
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Invalid Creature size class." );
+            break;
     }
 
     int stability = dice( type->melee_sides, type->melee_dice ) + size_bonus;
@@ -2832,7 +2832,7 @@ float monster::get_dodge() const
 
     float ret = Creature::get_dodge();
     if( has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) ||
-            has_effect( effect_beartrap ) || has_effect( effect_tied ) ) {
+        has_effect( effect_beartrap ) || has_effect( effect_tied ) ) {
         ret /= 2;
     }
 
@@ -2890,19 +2890,19 @@ float monster::fall_damage_mod() const
     }
 
     switch( type->size ) {
-    case creature_size::tiny:
-        return 0.2f;
-    case creature_size::small:
-        return 0.6f;
-    case creature_size::medium:
-        return 1.0f;
-    case creature_size::large:
-        return 1.4f;
-    case creature_size::huge:
-        return 2.0f;
-    case creature_size::num_sizes:
-        debugmsg( "ERROR: Invalid Creature size class." );
-        return 0.0f;
+        case creature_size::tiny:
+            return 0.2f;
+        case creature_size::small:
+            return 0.6f;
+        case creature_size::medium:
+            return 1.0f;
+        case creature_size::large:
+            return 1.4f;
+        case creature_size::huge:
+            return 2.0f;
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Invalid Creature size class." );
+            return 0.0f;
     }
 
     return 0.0f;
@@ -3084,7 +3084,7 @@ void monster::process_turn()
                 }
             }
             if( weather.lightning_active && !has_effect( effect_supercharged ) &&
-                    here.is_outside( pos_bub() ) ) {
+                here.is_outside( pos_bub() ) ) {
                 weather.lightning_active = false; // only one supercharge per strike
                 sounds::sound( pos_bub(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ), false, "environment",
                                "thunder_near" );
@@ -3201,9 +3201,9 @@ void monster::die( map *here, Creature *nkiller )
         //Not a hallucination, go process the death effects.
         spell death_spell = type->mdeath_effect.sp.get_spell( *this );
         if( killer != nullptr && !type->mdeath_effect.sp.self &&
-                // TODO: Get the death_spell stuff to work on any map.
-                death_spell.is_target_in_range( *this,
-                                                killer->pos_bub() ) ) { // The operation called uses reality bubble internally
+            // TODO: Get the death_spell stuff to work on any map.
+            death_spell.is_target_in_range( *this,
+                                            killer->pos_bub() ) ) { // The operation called uses reality bubble internally
             death_spell.cast_all_effects( *this,
                                           killer->pos_bub() );      // ditto, so we should feed them pos_bub().
         } else if( type->mdeath_effect.sp.self ) {
@@ -3242,24 +3242,24 @@ void monster::die( map *here, Creature *nkiller )
     if( here != nullptr ) {
         const tripoint_bub_ms death_pos = pos_bub( *here );
         if( here->has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, death_pos ) && is_underwater() &&
-                ( swims() || has_flag( mon_flag_AQUATIC ) ) ) {
+            ( swims() || has_flag( mon_flag_AQUATIC ) ) ) {
             suppress_corpse = true;
         }
     }
     // drop a corpse, or not - this needs to happen after the spell, for e.g. revivification effects
     if( !suppress_corpse ) {
         switch( type->mdeath_effect.corpse_type ) {
-        case mdeath_type::NORMAL:
-            corpse =  mdeath::normal( here, *this );
-            break;
-        case mdeath_type::BROKEN:
-            mdeath::broken( here, *this );
-            break;
-        case mdeath_type::SPLATTER:
-            corpse = mdeath::splatter( here, *this );
-            break;
-        default:
-            break;
+            case mdeath_type::NORMAL:
+                corpse =  mdeath::normal( here, *this );
+                break;
+            case mdeath_type::BROKEN:
+                mdeath::broken( here, *this );
+                break;
+            case mdeath_type::SPLATTER:
+                corpse = mdeath::splatter( here, *this );
+                break;
+            default:
+                break;
         }
     }
 
@@ -3461,8 +3461,8 @@ void monster::drop_items_on_death( map *here, item *corpse ) const
                 std::pair<item_location, item_pocket *> internal_pocket =
                     worn_it->best_pocket( it, loc, nullptr, false, true );
                 if( internal_pocket.second != nullptr &&
-                        ( current_best.second == nullptr ||
-                          current_best.second->better_pocket( *internal_pocket.second, it ) ) ) {
+                    ( current_best.second == nullptr ||
+                      current_best.second->better_pocket( *internal_pocket.second, it ) ) ) {
                     current_best = internal_pocket;
                 }
             }
@@ -3690,7 +3690,7 @@ void monster::process_effects()
             const monster *const mon = creatures.creature_at<monster>( p );
             const Character *const guy = creatures.creature_at<Character>( p );
             if( mon && mon != this && mon->faction->attitude( faction ) != MFA_FRIENDLY &&
-                    !has_effect( effect_spooked ) && morale <= 0 ) {
+                !has_effect( effect_spooked ) && morale <= 0 ) {
                 if( !has_effect( effect_spooked_recent ) ) {
                     add_effect( effect_spooked, 3_turns, false );
                     add_effect( effect_spooked_recent, 9_turns, false );
@@ -3704,7 +3704,7 @@ void monster::process_effects()
             if( guy ) {
                 monster_attitude att = attitude( guy );
                 if( ( friendly == 0 ) && ( att == MATT_FOLLOW || att == MATT_FLEE ) &&
-                        !has_effect( effect_spooked ) ) {
+                    !has_effect( effect_spooked ) ) {
                     if( !has_effect( effect_spooked_recent ) ) {
                         add_effect( effect_spooked, 3_turns, false );
                         add_effect( effect_spooked_recent, 9_turns, false );
@@ -3753,8 +3753,8 @@ bool monster::make_fungus()
         return true;
     }
     if( !made_of( material_flesh ) && !made_of( material_hflesh ) &&
-            !made_of( material_veggy ) && !made_of( material_iflesh ) &&
-            !made_of( material_bone ) ) {
+        !made_of( material_veggy ) && !made_of( material_iflesh ) &&
+        !made_of( material_bone ) ) {
         // No fungalizing robots or weird stuff (mi-gos are technically fungi, blobs are goo)
         return true;
     }
@@ -3946,7 +3946,7 @@ void monster::init_from_item( item &itm )
         // if parent corpse is revives healthy *and* dormant, so will the monster
         const mtype *corpse_mtype = itm.get_mtype();
         if( hp > 0 && corpse_mtype->has_flag( mon_flag_REVIVES_HEALTHY ) &&
-                corpse_mtype->has_flag( mon_flag_DORMANT ) ) {
+            corpse_mtype->has_flag( mon_flag_DORMANT ) ) {
             hp = type->hp;
             set_speed_base( type->speed );
         }
@@ -4116,7 +4116,7 @@ void monster::hear_sound( const tripoint_bub_ms &source, const int vol, const in
         const field_entry *fire_fld = here.get_field( pt, fd_fire );
         // Only large, uncontained fires cause sounds to be ignored.
         if( fire_fld && fire_fld->get_field_intensity() > 1 &&
-                !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FIRE_CONTAINER, pt ) ) {
+            !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FIRE_CONTAINER, pt ) ) {
             probably_a_fire = true;
             break;
         }
@@ -4177,7 +4177,7 @@ void monster::hear_sound( const tripoint_bub_ms &source, const int vol, const in
             const tripoint_bub_ms here_bub = pos_bub();
             const bool grounded = here.has_floor_or_water( here_bub );
             if( !grounded &&
-                    here.valid_move( here_bub, here_bub + tripoint::below, false, true ) ) {
+                here.valid_move( here_bub, here_bub + tripoint::below, false, true ) ) {
                 chosen_z = posz() - 1;
             } else if( grounded &&
                        here.valid_move( here_bub, here_bub + tripoint::above, false, true ) ) {
@@ -4206,7 +4206,7 @@ bool monster::will_join_horde( int size )
 {
     const monster_horde_attraction mha = get_horde_attraction();
     if( this->has_flag( mon_flag_IMMOBILE ) || this->has_flag( mon_flag_NEVER_WANDER ) ||
-            this->has_flag( json_flag_CANNOT_MOVE ) ) {
+        this->has_flag( json_flag_CANNOT_MOVE ) ) {
         return false; //immobile monsters should never join a horde. Same with Never Wander monsters.
     }
     if( mha == MHA_NEVER ) {
@@ -4216,7 +4216,7 @@ bool monster::will_join_horde( int size )
         return true;
     }
     if( get_map().has_flag( ter_furn_flag::TFLAG_INDOORS, pos_bub() ) &&
-            ( mha == MHA_OUTDOORS || mha == MHA_OUTDOORS_AND_LARGE ) ) {
+        ( mha == MHA_OUTDOORS || mha == MHA_OUTDOORS_AND_LARGE ) ) {
         return false;
     }
     if( size < 3 && ( mha == MHA_LARGE || mha == MHA_OUTDOORS_AND_LARGE ) ) {
