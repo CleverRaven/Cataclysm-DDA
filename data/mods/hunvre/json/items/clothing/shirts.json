@@ -1,0 +1,59 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "tshirt",
+    "symbol": "[",
+    "color": "blue",
+    "looks_like": "tank_top",
+    "name": { "str": "t-shirt" },
+    "description": "Casual garment covering the torso.",
+    "material": [ "nylon" ],
+    "weight": "150 g",
+    "volume": "150 ml",
+    "price": "1 USD",
+    "price_postapoc": "50 cent",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
+    "warmth": 5,
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "NORMAL" ],
+    "armor": [
+      { "coverage": 100, "covers": [ "torso" ] },
+      {
+        "coverage": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      { "coverage": 40, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "long_tshirt",
+    "copy-from": "tshirt",
+    "proportional": { "weight": 1.2, "volume": 1.2 },
+    "relative": { "warmth": 2 },
+    "name": { "str": "long sleeve t-shirt" },
+    "description": "Casual garment covering the torso and arms.",
+    "armor": [ { "coverage": 100, "covers": [ "torso" ] }, { "coverage": 100, "covers": [ "arm_l", "arm_r" ] } ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "tank_top",
+    "copy-from": "tshirt",
+    "proportional": { "weight": 0.8, "volume": 0.8 },
+    "relative": { "warmth": -2 },
+    "name": { "str": "tank top" },
+    "description": "Breathable shirt leaving the shoulders exposed.",
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower", "torso_hanging_front", "torso_hanging_back", "torso_waist" ]
+      },
+      { "coverage": 90, "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_neck" ] }
+    ]
+  }
+]
