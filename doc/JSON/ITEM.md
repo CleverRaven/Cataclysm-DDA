@@ -1546,6 +1546,15 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "need_wielding": true,      // (optional) If the item has to be wielded to cast the spell
   "mundane": true             // (optional) This spell uses magic-related features, but is not magic itself. The description is changed from "This item casts spell_name at level spell_level" to "This item when activated: spell_name"
 },
+"use_action": {
+  "type": "attach_molle",   // Attach an item to this item's MOLLE webbing
+  "size": 10,               // Total MOLLE space available; each attached item uses some of it
+  "moves": 300              // Move points to attach an item.  Has no effect currently
+},
+"use_action": {
+  "type": "detach_molle",   // Detach an item from this item's MOLLE webbing
+  "moves": 300              // Move points to detach an item.  Has no effect currently
+},
 ```
 
 ### Drop Actions
