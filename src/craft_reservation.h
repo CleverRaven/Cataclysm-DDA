@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_CRAFT_RESERVATION_H
 #define CATA_SRC_CRAFT_RESERVATION_H
 
+#include <algorithm>
 #include <cstdint>
 #include <map>
 #include <optional>
@@ -70,6 +71,35 @@ struct binding {
 
 // For callers whose action carries a whole subtree.
 bool contains_reserved( const item &it );
+
+// True when a crafting inventory would fold these two into one entry, so a bound liquid
+// and an equivalent free one are one provider to the gate rather than two.
+bool merge_equivalent( const item &lhs, const item &rhs );
+
+// Per-item, for callers whose action touches only the item it names.
+bool usable_by_automation( const item &it );
+
+// One expansion is one evaluation of the charged pool prune.  Test-visible so the
+// budget can be asserted without measuring wall time.
+uint64_t search_expansions_total();
+void note_search_expansion();
+void reset_search_expansions();
+
+// Sized so the worst tick stays inside a few tens of milliseconds; the search runs on
+// the main thread.
+constexpr uint64_t search_budget_initial = 4096;
+constexpr uint8_t search_escalation_cap = 4;
+
+// Doubling per undetermined attempt, so a search needing modestly more finishes on the
+// next tick rather than crawling up.  The largest budget an attempt can actually draw is
+// the one below the cap, since a craft at the cap defers or resets rather than searching.
+constexpr uint64_t search_budget_for_attempt( uint8_t attempts )
+{
+    return search_budget_initial << std::min( attempts, search_escalation_cap );
+}
+
+// Bump when the fingerprint's component list changes; a mismatch forces a fresh search.
+constexpr uint8_t pool_fingerprint_version = 7;
 
 } // namespace craft_reservation
 

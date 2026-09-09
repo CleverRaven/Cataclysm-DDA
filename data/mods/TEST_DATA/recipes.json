@@ -741,6 +741,153 @@
     ]
   },
   {
+    "//": "Craft reservation fixtures.  water_boiling_heat is deliberately omitted so these isolate quality reservation from fire and charge plumbing.",
+    "type": "recipe",
+    "result": "water_clean",
+    "id_suffix": "test_unattended_boil",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 0,
+    "autolearn": true,
+    "components": [ [ [ "water", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Boiling",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "qualities": [ { "id": "BOIL", "level": 1 } ]
+      }
+    ]
+  },
+  {
+    "//": "The only fixture with a quality amount above one.  No shipped recipe uses amount != 1, so how qualities are counted is only observable here.",
+    "type": "recipe",
+    "result": "water_clean",
+    "id_suffix": "test_unattended_boil_two",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 0,
+    "autolearn": true,
+    "components": [ [ [ "water", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Boiling",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "qualities": [ { "id": "BOIL", "level": 1, "amount": 2 } ]
+      }
+    ]
+  },
+  {
+    "//": "A count <= 0 presence tool on a passive step.  The -1 idiom matches cudgel_test_steps_two_tools.",
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_presence_tool",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      { "name": "Shape", "time": "5 m", "activity_level": "MODERATE_EXERCISE" },
+      {
+        "name": "Cure",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "tools": [ [ [ "hammer", -1 ] ] ]
+      }
+    ]
+  },
+  {
+    "//": "A quality supplied only by the tree pseudo tool, which terrain provides through a hardcoded hack.",
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_tree_qual",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Cure",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "qualities": [ { "id": "SUSPENDING", "level": 1 } ]
+      }
+    ]
+  },
+  {
+    "//": "A quality that only a powered provider supplies.",
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_powered_qual",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Cure",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "qualities": [ { "id": "TEST_RESERVE_C", "level": 1 } ]
+      }
+    ]
+  },
+  {
+    "//": "An OR group of presence tools, so a binding must follow the allocation's chosen alternative.",
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_presence_or",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Cure",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "tools": [ [ [ "hammer", -1 ], [ "test_reserve_tool_a", -1 ] ] ]
+      }
+    ]
+  },
+  {
+    "//": "Root presence tool for the reservation fixture below.  Step recipes reject root-level tools, so it arrives through using.",
+    "type": "requirement",
+    "id": "test_reserve_root_presence",
+    "tools": [ [ [ "hammer", -1 ] ] ]
+  },
+  {
+    "//": "A recipe-root presence tool, which reaches a passive step only through its distributed allocation.",
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_root_presence",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "using": [ [ "test_reserve_root_presence", 1 ] ],
+    "steps": [ { "name": "Cure", "time": "10 m", "activity_level": "NO_EXERCISE", "attention": "unattended" } ]
+  },
+  {
     "//": "Two providers of one quality, so an abstract multiset holds two occurrence slots.",
     "type": "recipe",
     "result": "cudgel",
@@ -758,6 +905,264 @@
         "activity_level": "NO_EXERCISE",
         "attention": "unattended",
         "qualities": [ { "id": "TEST_RESERVE_A", "level": 1, "amount": 2 } ]
+      }
+    ]
+  },
+  {
+    "//": "A presence tool supplied only by a nearby fire, which is an abstract environment provider.",
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_fire_tool",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Cure",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "tools": [ [ [ "fire", -1 ] ] ]
+      }
+    ]
+  },
+  {
+    "//": "Quality satisfiable by test_f_reserve_qual's pseudo item, or by a carried test_reserve_tool_a.",
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_furn_qual",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Fire",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "qualities": [ { "id": "TEST_RESERVE_A", "level": 1 } ]
+      }
+    ]
+  },
+  {
+    "//": "One quality group whose alternatives demand different counts, so the required cardinality depends on which alternative is chosen.",
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_qual_or_counts",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Fit",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "qualities": [ [ { "id": "TEST_RESERVE_A", "level": 1 }, { "id": "TEST_RESERVE_B", "level": 1, "amount": 2 } ] ]
+      }
+    ]
+  },
+  {
+    "//": "A presence tool that only a bionic pseudo item supplies, so the binding is intrinsic and keyed by item type rather than by capability.",
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_intrinsic_tool",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Fit",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "tools": [ [ [ "test_reserve_bionic_tool_1", -1 ] ] ]
+      }
+    ]
+  },
+  {
+    "//": "Two groups both satisfiable by one test_reserve_multitool_ab, for cross-group reuse.",
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_two_qualities",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Fit",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "qualities": [ { "id": "TEST_RESERVE_A", "level": 1 }, { "id": "TEST_RESERVE_B", "level": 1 } ]
+      }
+    ]
+  },
+  {
+    "//": "One quality group plus a charged allocation of the SAME itype, so binding a provider for the quality removes its charges from the debitable pool.",
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_qual_and_charges",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Fit",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "qualities": [ { "id": "TEST_RESERVE_A", "level": 1 } ],
+        "tools": [ [ [ "test_reserve_charged_tool", 50 ] ] ]
+      }
+    ]
+  },
+  {
+    "//": "Three groups, for backtracking and the memo.  Group B is satisfiable only by the multitool, which also satisfies A, so a greedy first-fit on A can strand B.",
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_three_groups",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Fit",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "qualities": [
+          { "id": "TEST_RESERVE_A", "level": 1 },
+          { "id": "TEST_RESERVE_B", "level": 1 },
+          { "id": "TEST_RESERVE_C", "level": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "//": "An OR group whose first alternative wants two providers and whose second wants one, so a provider tried for the wide alternative must still be offered to the narrow one.",
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_qual_or_wide_first",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Fit",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "qualities": [ [ { "id": "TEST_RESERVE_A", "level": 1, "amount": 2 }, { "id": "TEST_RESERVE_B", "level": 1 } ] ]
+      }
+    ]
+  },
+  {
+    "//": "One quality across two groups of different counts, so an abstract source shared with the narrow group must not also fill both slots of the wide one.",
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_two_groups_of_a",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Fit",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "qualities": [ { "id": "TEST_RESERVE_A", "level": 1 }, { "id": "TEST_RESERVE_A", "level": 1, "amount": 2 } ]
+      }
+    ]
+  },
+  {
+    "//": "Three distinct providers of one quality, so a wide pool of qualifying tools gives the selection search a space large enough to exhaust its budget.",
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_three_of_a",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Fit",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "qualities": [ { "id": "TEST_RESERVE_A", "level": 1, "amount": 3 } ]
+      }
+    ]
+  },
+  {
+    "//": "A wide group beside a narrow one whose four providers collapse into a single class, so the same class can be spread across a different number of containers while every class key stays the same.",
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_three_of_a_four_of_b",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Fit",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "qualities": [ { "id": "TEST_RESERVE_A", "level": 1, "amount": 3 }, { "id": "TEST_RESERVE_B", "level": 1, "amount": 4 } ]
+      }
+    ]
+  },
+  {
+    "//": "A quality group and a presence tool group that one liquid covers, so reuse across groups leaves two bindings naming one provider.",
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_liquid_reuse",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Cure",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "qualities": [ { "id": "TEST_RESERVE_A", "level": 1 } ],
+        "tools": [ [ [ "test_reserve_liquid", -1 ] ] ]
       }
     ]
   },
@@ -801,26 +1206,5 @@
     "time": "5 m",
     "autolearn": true,
     "components": [ [ [ "test_longshirt", 1 ] ] ]
-  },
-  {
-    "//": "Craft reservation fixtures.  water_boiling_heat is deliberately omitted so these isolate quality reservation from fire and charge plumbing.",
-    "type": "recipe",
-    "result": "water_clean",
-    "id_suffix": "test_unattended_boil",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_DRINKS",
-    "skill_used": "cooking",
-    "difficulty": 0,
-    "autolearn": true,
-    "components": [ [ [ "water", 1 ] ] ],
-    "steps": [
-      {
-        "name": "Boiling",
-        "time": "10 m",
-        "activity_level": "NO_EXERCISE",
-        "attention": "unattended",
-        "qualities": [ { "id": "BOIL", "level": 1 } ]
-      }
-    ]
   }
 ]
