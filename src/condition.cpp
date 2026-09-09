@@ -744,6 +744,18 @@ conditional_t::func f_has_items_sum( const JsonObject &jo, std::string_view memb
         const Character *you = d.const_actor( is_npc )->get_const_character();
         inventory inventory_and_around = you->crafting_inventory( you->pos_bub(), PICKUP_RANGE );
 
+        // Also add vehicles...
+        map &here = get_map();
+        for( const wrapped_vehicle &wv : here.get_vehicles() ) {
+            if( wv.v->owner == you->get_faction_id() ) {
+                for( const tripoint_abs_ms &veh_pt : wv.v->get_points() ) {
+                    if( optional_vpart_position vp = here.veh_at( veh_pt ) ) {
+                        vp->form_inventory( here, inventory_and_around );
+                    }
+                }
+            }
+        }
+
         for( const auto &pair : item_and_amount ) {
             item_to_find = itype_id( pair.first.evaluate( d ) );
             count_desired = pair.second.evaluate( d );

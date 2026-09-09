@@ -64,7 +64,8 @@
       "REVIVES",
       "PUSH_MON",
       "RANGED_ATTACKER",
-      "POISON"
+      "POISON",
+      "VENOM_IMMUNE"
     ]
   },
   {

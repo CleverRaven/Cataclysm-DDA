@@ -81,6 +81,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "TRADER_AVOID" ],
+    "seasonings": [ "seasonings_universal", "seasonings_pasta" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ]
   },
   {
@@ -124,6 +125,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "TRADER_AVOID", "FREEZERBURN" ],
     "fun": 5,
+    "seasonings": [ "seasonings_universal", "seasonings_pasta" ],
     "vitamins": [ [ "calcium", 10 ], [ "iron", 11 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
