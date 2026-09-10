@@ -169,6 +169,8 @@
     "precip": "none",
     "rains": false,
     "sound_category": "silent",
+    "tint_color": [ 20, 0, 200 ],
+    "tint_strength": 0.4,
     "priority": 121,
     "condition": {
       "or": [ { "math": [ "xe_weather_ominous_fog_scenario == 1" ] }, { "math": [ "xe_weather_ominous_fog_active == 1" ] } ]
