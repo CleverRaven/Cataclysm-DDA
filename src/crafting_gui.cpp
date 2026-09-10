@@ -59,6 +59,7 @@
 #include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "temp_crafting_inventory.h"
 #include "text.h"
 #include "translation.h"
 #include "translation_cache.h"
@@ -419,7 +420,7 @@ class crafting_ui_impl : public cataimgui::window
     public:
         crafting_ui_impl( Character *crafter, const recipe_id &goto_recipe,
                           std::string filterstring, bool camp_crafting,
-                          inventory *inventory_override );
+                          temp_crafting_inventory *inventory_override );
 
         void process_action( const std::string &action_in, input_context &ctxt );
         void set_input_context( const input_context *ctxt ) {
@@ -452,7 +453,7 @@ class crafting_ui_impl : public cataimgui::window
         const recipe *chosen = nullptr;
         bool done = false;
         bool camp_crafting;
-        inventory *inventory_override;
+        temp_crafting_inventory *inventory_override;
         const recipe_subset *available_recipes;
         std::vector<Character *> crafting_group;
         int crafter_i;
@@ -546,10 +547,10 @@ class crafting_ui_impl : public cataimgui::window
         bool nav_clickable( const char *label, nc_color col );
         void draw_modifier_table( const recipe &recp, const availability &avail,
                                   int batch_size );
-        void draw_requirement_tools( const requirement_data &req, const inventory &inv,
+        void draw_requirement_tools( const requirement_data &req, const temp_crafting_inventory &inv,
                                      int batch_size, int group_offset );
         void draw_components( const requirement_data &req,
-                              const inventory &inv,
+                              const temp_crafting_inventory &inv,
                               const std::function<bool( const item & )> &filter,
                               int batch_size,
                               bool need_full_magazine );
@@ -571,7 +572,7 @@ class crafting_ui_impl : public cataimgui::window
 
 crafting_ui_impl::crafting_ui_impl( Character *crafter, const recipe_id &goto_recipe,
                                     std::string filterstring, bool camp_crafting,
-                                    inventory *inventory_override )
+                                    temp_crafting_inventory *inventory_override )
     : cataimgui::window( _( "Crafting" ),
                          ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav ),
       crafter( crafter ),
@@ -1053,8 +1054,8 @@ void crafting_ui_impl::draw_recipe_info_panel()
             {
                 std::string source_text;
                 if( !crafter->knows_recipe( &recp ) ) {
-                    const inventory &src_inv = avail.inv_override
-                                               ? *avail.inv_override : crafter->crafting_inventory();
+                    const temp_crafting_inventory &src_inv = avail.inv_override
+                            ? *avail.inv_override : crafter->crafting_inventory();
                     const std::set<itype_id> books = crafter->get_books_for_recipe( src_inv, &recp );
                     if( !books.empty() ) {
                         auto it = books.begin();
@@ -1334,8 +1335,8 @@ void crafting_ui_impl::draw_recipe_info_panel()
             }
             ImGui::Separator();
 
-            const inventory &crafting_inv = avail.inv_override
-                                            ? *avail.inv_override : crafter->crafting_inventory();
+            const temp_crafting_inventory &crafting_inv = avail.inv_override
+                    ? *avail.inv_override : crafter->crafting_inventory();
 
             // Single step recipes
             if( recp.has_steps() && ( recp.steps().size() <= 1 ) ) {
@@ -1893,7 +1894,7 @@ void crafting_ui_impl::draw_modifier_table( const recipe &recp,
                         string_format( _( "Crafting in the dark: %s" ), darkness ).c_str() );
 
     if( recp.result() ) {
-        const inventory &det_inv = crafter->crafting_inventory();
+        const temp_crafting_inventory &det_inv = crafter->crafting_inventory();
         const int nearby = det_inv.count_item( recp.result() );
         if( nearby > 0 ) {
             ImGui::TextColored( cataimgui::imvec4_from_color( c_yellow ), "%s",
@@ -1907,7 +1908,7 @@ void crafting_ui_impl::draw_modifier_table( const recipe &recp,
 
 // Lazy-built lookup: sorted item IDs of a tool group -> requirement display name.
 void crafting_ui_impl::draw_components( const requirement_data &req,
-                                        const inventory &crafting_inv,
+                                        const temp_crafting_inventory &crafting_inv,
                                         const std::function<bool( const item & )> &filter,
                                         int batch_size,
                                         bool need_full_magazine )
@@ -2079,7 +2080,7 @@ void crafting_ui_impl::draw_character_resources( const recipe &recp, const int b
 }
 
 void crafting_ui_impl::draw_requirement_tools( const requirement_data &req,
-        const inventory &crafting_inv, int batch_size, int group_offset )
+        const temp_crafting_inventory &crafting_inv, int batch_size, int group_offset )
 {
     const requirement_data::alter_tool_comp_vector &tool_groups = req.get_tools();
     const requirement_data::alter_quali_req_vector &qual_groups = req.get_qualities();
@@ -2969,7 +2970,7 @@ void crafting_ui_impl::process_action( const std::string &action_in,
 
 std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &batch_size_out,
         const recipe_id &goto_recipe, Character *crafter, std::string filterstring, bool camp_crafting,
-        inventory *inventory_override )
+        temp_crafting_inventory *inventory_override )
 {
     if( crafter == nullptr ) {
         return { nullptr, nullptr };
@@ -3210,7 +3211,7 @@ static void prioritize_components( const recipe &recipe, Character &crafter )
     int new_filters_count = 0;
     std::string added_filters;
     const requirement_data &req = recipe.simple_requirements();
-    const inventory &crafting_inv = crafter.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = crafter.crafting_inventory();
     for( const std::vector<item_comp> &comp_list : req.get_components() ) {
         for( const item_comp &i_comp : comp_list ) {
             std::string nname = item::nname( i_comp.type, 1 );

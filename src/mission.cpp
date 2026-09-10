@@ -33,6 +33,7 @@
 #include "point.h"
 #include "requirements.h"
 #include "talker.h"
+#include "temp_crafting_inventory.h"
 #include "visitable.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -478,7 +479,7 @@ void mission::wrap_up()
     std::vector<item_comp> comps;
     switch( type->goal ) {
         case MGOAL_FIND_ITEM_GROUP: {
-            inventory tmp_inv = player_character.crafting_inventory();
+            temp_crafting_inventory tmp_inv = player_character.crafting_inventory();
             std::vector<item *> items = std::vector<item *>();
             tmp_inv.dump( items );
             item_group_id grp_type = type->group_id;
@@ -581,7 +582,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
         }
 
         case MGOAL_FIND_ITEM_GROUP: {
-            inventory tmp_inv = player_character.crafting_inventory();
+            temp_crafting_inventory tmp_inv = player_character.crafting_inventory();
             std::vector<item *> items = std::vector<item *>();
             tmp_inv.dump( items );
             item_group_id grp_type = type->group_id;

@@ -33,6 +33,7 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "talker.h"
+#include "temp_crafting_inventory.h"
 
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
 
@@ -756,7 +757,8 @@ npc_attack_rating npc_attack_throw::evaluate(
         // please don't throw your pants...
         return effectiveness;
     }
-    const inventory &available_weapons = source.crafting_inventory( tripoint_bub_ms::zero, -1 );
+    const temp_crafting_inventory &available_weapons = source.crafting_inventory( tripoint_bub_ms::zero,
+            -1 );
     if( &thrown_item == source.evaluate_best_weapon() &&
         available_weapons.amount_of( thrown_item.typeId() ) <= 1 &&
         available_weapons.charges_of( thrown_item.typeId() ) <= 1 ) {

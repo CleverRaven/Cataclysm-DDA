@@ -111,7 +111,7 @@ class vpart_position
         std::map<item, int> get_tools( map &here ) const;
         std::vector<vpart_tool_source> get_tools_with_sources( map &here ) const;
         // Forms inventory for inventory::form_from_map
-        void form_inventory( map &here, inventory &inv ) const;
+        void form_inventory( map &here, temp_crafting_inventory &inv, std::set<::vehicle *> &veh ) const;
 
         bool can_load_furniture() const;
         bool has_loaded_furniture() const;

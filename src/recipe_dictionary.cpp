@@ -41,6 +41,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "subbodypart.h"
+#include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "translations.h"
 #include "uistate.h"
@@ -320,18 +321,25 @@ std::vector<const recipe *> recipe_subset::search(
                     debugmsg( "search_type::book requires a crafter to be provided, since it checks crafting group and crafters inventory" );
                     return false;
                 }
-                const Character &crafter_ref = *crafter;
-                const inventory &crafting_inventory = crafter_ref.crafting_inventory();
+                const Character &crafter_ref = crafter->get();
+                const temp_crafting_inventory &crafting_inventory = crafter_ref.crafting_inventory();
 
-                for( const auto &stack : crafting_inventory.const_slice() ) {
-                    const item &item = stack->front();
-
-                    for( const auto &recipe : item.get_available_recipes( crafter_ref ) ) {
-                        if( recipe.first == r && ( lcmatch( item.display_name(), txt ) ||
-                                                   lcmatch( item::nname( item.typeId() ), txt ) ) ) {
-                            return true;
+                bool found = false;
+                crafting_inventory.visit_items(
+                [&]( item * node, item * ) {
+                    for( const auto &recipe : node->get_available_recipes( crafter_ref ) ) {
+                        if( recipe.first == r && ( lcmatch( node->display_name(), txt ) ||
+                                                   lcmatch( item::nname( node->typeId() ), txt ) ) ) {
+                            found = true;
+                            return VisitResponse::ABORT;
                         }
                     }
+                    return VisitResponse::NEXT;
+                }
+                );
+
+                if( found ) {
+                    return true;
                 }
 
                 std::vector<const Character *> knowing_helpers;

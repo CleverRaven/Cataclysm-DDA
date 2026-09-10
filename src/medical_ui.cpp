@@ -726,7 +726,7 @@ struct healing_option {
 bool Character::pick_wound_fix( const bodypart_id &bp_id )
 {
     std::vector<healing_option> healing_options;
-    const inventory &inv = crafting_inventory();
+    const temp_crafting_inventory &inv = crafting_inventory();
 
     bodypart *bp = get_part( bp_id );
     const std::vector<wound> wounds = bp->get_wounds();

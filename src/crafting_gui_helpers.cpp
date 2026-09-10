@@ -33,7 +33,7 @@
 #include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "flat_set.h"
+#include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
@@ -99,13 +99,13 @@ float availability::get_max_proficiency_skill_maluses() const
 }
 
 availability::availability( Character &_crafter, const recipe *recp, int batch_size,
-                            bool camp_crafting, inventory *inventory_override ) :
+                            bool camp_crafting, temp_crafting_inventory *inventory_override ) :
     crafter( _crafter )
 {
     rec = recp;
     inv_override = inventory_override;
 
-    const inventory &inv = camp_crafting ? *inv_override : crafter.crafting_inventory();
+    const temp_crafting_inventory &inv = camp_crafting ? *inv_override : crafter.crafting_inventory();
 
     const craft_flags flag = camp_crafting ? craft_flags::none : craft_flags::start_only;
 
@@ -401,7 +401,8 @@ std::vector<std::string> recipe_info(
                           recp.has_flag( "BLIND_HARD" ) ? _( "Hard" ) :
                           _( "Impossible" ) );
 
-    const inventory &crafting_inv = avail.inv_override ? *avail.inv_override : guy.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = avail.inv_override ? *avail.inv_override :
+            guy.crafting_inventory();
     if( recp.result() ) {
         const int nearby_amount = crafting_inv.count_item( recp.result() );
         std::string nearby_string;
@@ -967,7 +968,7 @@ static void recursively_expand_recipes( std::vector<const recipe *> &current,
                                         std::map<const recipe *, availability> &availability_cache, int i,
                                         Character &crafter, bool unread_recipes_first, bool highlight_unread_recipes,
                                         const recipe_subset &available_recipes, const std::set<recipe_id> &hidden_recipes,
-                                        bool camp_crafting, inventory *inventory_override )
+                                        bool camp_crafting, temp_crafting_inventory *inventory_override )
 {
     std::vector<const recipe *> tmp;
     for( const recipe_id &nested : current[i]->nested_category_data ) {
@@ -1006,7 +1007,7 @@ static void expand_recipes( std::vector<const recipe *> &current,
                             std::map<const recipe *, availability> &availability_cache,
                             Character &crafter, bool unread_recipes_first, bool highlight_unread_recipes,
                             const recipe_subset &available_recipes, const std::set<recipe_id> &hidden_recipes,
-                            bool camp_crafting, inventory *inventory_override )
+                            bool camp_crafting, temp_crafting_inventory *inventory_override )
 {
     for( size_t i = 0; i < current.size(); ++i ) {
         if( current[i]->is_nested()
@@ -1045,7 +1046,7 @@ recipe_list_data build_recipe_list(
     bool skip_sort,
     Character &crafter,
     bool camp_crafting,
-    inventory *inventory_override,
+    temp_crafting_inventory *inventory_override,
     bool highlight_unread,
     bool unread_first,
     std::map<const recipe *, availability> &availability_cache,

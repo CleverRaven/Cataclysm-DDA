@@ -27,6 +27,7 @@
 #include "memory_fast.h"
 #include "point.h"
 #include "requirements.h"
+#include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "translations.h"
 #include "uilist.h"
@@ -63,7 +64,7 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who
 
 vehicle_part *most_repairable_part( vehicle &veh, Character &who )
 {
-    const inventory &inv = who.crafting_inventory();
+    const temp_crafting_inventory &inv = who.crafting_inventory();
     vehicle_part *vp_broken = nullptr;
     vehicle_part *vp_most_damaged = nullptr;
     int most_damage = 0;
@@ -106,12 +107,13 @@ bool repair_part( map &here, vehicle &veh, vehicle_part &pt, Character &who )
                                   ? vp.install_requirements()
                                   : vp.repair_requirements() * pt.get_base().repairable_levels();
 
-    const inventory &inv = who.crafting_inventory( who.pos_bub(), PICKUP_RANGE, !who.is_npc() );
-    inventory map_inv;
+    const temp_crafting_inventory &inv = who.crafting_inventory( who.pos_bub(), PICKUP_RANGE,
+                                         !who.is_npc() );
+    temp_crafting_inventory map_inv;
     // allow NPCs to use welding rigs they can't see ( on the other side of a vehicle )
     // as they have the handicap of not being able to use the veh interaction menu
     // or able to drag a welding cart etc.
-    map_inv.form_from_map( who.pos_bub(), PICKUP_RANGE, &who, false, !who.is_npc() );
+    map_inv.form_from_map( who.pos_bub(), PICKUP_RANGE, &who, !who.is_npc() );
     if( !reqs.can_make_with_inventory( &who, inv, is_crafting_component ) ) {
         who.add_msg_if_player( m_info, _( "You don't meet the requirements to repair the %s." ),
                                pt.name() );
