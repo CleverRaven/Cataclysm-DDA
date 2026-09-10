@@ -918,7 +918,7 @@
     "description": "This looks like a sunflower seed the size of your palm.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.  You could probably plant it.",
     "price": "1 cent",
     "material": [ { "type": "dried_vegetable", "portion": 10 }, { "type": "fruit", "portion": 1 } ],
-    "volume": "10 ml",
+    "volume": "175 ml",
     "fun": 30,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
     "vitamins": [ [ "fruit_allergen", 1 ] ],
