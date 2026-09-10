@@ -928,6 +928,14 @@ void cataimgui::window::mark_resized()
     }
 }
 
+void cataimgui::window::hide_if_hidden() const
+{
+    if( hide_ui ) {
+        ImGuiWindow *w = ImGui::GetCurrentWindowRead();
+        ImGui::SetWindowHiddenAndSkipItemsForCurrentFrame( w );
+    }
+}
+
 void cataimgui::window::draw()
 {
     button_action.clear();

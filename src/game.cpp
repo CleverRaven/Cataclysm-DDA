@@ -2252,6 +2252,7 @@ int game::inventory_item_menu( item_location locThisItem,
         bool first_execution = true;
         static int lang_version = detail::get_current_language_version();
         catacurses::window w_info;
+        shared_ptr_fast<uilist_impl> ui_impl;
         do {
             //lang check here is needed to redraw the menu when using "Toggle language to English" option
             if( first_execution || lang_version != detail::get_current_language_version() ) {
@@ -2360,7 +2361,9 @@ int game::inventory_item_menu( item_location locThisItem,
                 } );
 
                 action_menu.additional_actions = {
-                    { "RIGHT", translation() }
+                    { "RIGHT", translation() },
+                    { "SCROLL_ITEM_INFO_UP", translation() },
+                    { "SCROLL_ITEM_INFO_DOWN", translation() }
                 };
 
                 lang_version = detail::get_current_language_version();
@@ -2368,7 +2371,7 @@ int game::inventory_item_menu( item_location locThisItem,
             }
 
             const int prev_selected = action_menu.selected;
-            action_menu.query( true );
+            ui_impl = action_menu.query( false );
             if( action_menu.ret >= 0 ) {
                 cMenu = action_menu.ret; /* Remember: hotkey == retval, see addentry above. */
             } else if( action_menu.ret == UILIST_UNBOUND && action_menu.ret_act == "RIGHT" ) {
@@ -2381,6 +2384,9 @@ int game::inventory_item_menu( item_location locThisItem,
                 // could be instructed to ignore these two keys instead of scrolling.
                 action_menu.selected = prev_selected;
                 action_menu.fselected = prev_selected;
+            } else if( action_menu.ret_act == "SCROLL_ITEM_INFO_UP" ||
+                       action_menu.ret_act == "SCROLL_ITEM_INFO_DOWN" ) {
+                cMenu = action_menu.ret_act == "SCROLL_ITEM_INFO_UP" ? KEY_PPAGE : KEY_NPAGE;
             } else {
                 cMenu = 0;
             }
@@ -2390,6 +2396,9 @@ int game::inventory_item_menu( item_location locThisItem,
                 ui = nullptr;
             }
 
+#if defined(TILES)
+            action_menu.set_hide( true );
+#endif
             switch( cMenu ) {
                 case 'a': {
                     contents_change_handler handler;
@@ -2434,6 +2443,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     }
                     break;
                 case 't': {
+                    ui_impl.reset();
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
                     avatar_action::plthrow( u, locThisItem );
@@ -2481,20 +2491,24 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'v':
                     if( oThisItem.is_container() ) {
+                        ui_impl.reset();
                         oThisItem.favorite_settings_menu();
                     }
                     break;
                 case 'V': {
+                    ui_impl.reset();
                     view_recipe_crafting_menu( oThisItem );
                     break;
                 }
                 case 'i':
                     if( oThisItem.is_container() ) {
+                        ui_impl.reset();
                         game_menus::inv::insert_items( locThisItem );
                     }
                     break;
                 case 'o':
                     if( oThisItem.is_container() && oThisItem.num_item_stacks() > 0 ) {
+                        ui_impl.reset();
                         game_menus::inv::common( locThisItem );
                     }
                     break;
@@ -2536,6 +2550,9 @@ int game::inventory_item_menu( item_location locThisItem,
                 default:
                     break;
             }
+#if defined(TILES)
+            action_menu.set_hide( false );
+#endif
         } while( !exit );
     }
     return cMenu;

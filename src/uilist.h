@@ -301,7 +301,9 @@ class uilist // NOLINT(cata-xy)
         // initialize the window or reposition it after screen size change.
         void reposition();
         bool scrollby( int scrollby );
-        void query( bool loop = true, int timeout = 50, bool allow_unfiltered_hotkeys = false );
+        // construct a uilist_impl and loop to query input
+        shared_ptr_fast<uilist_impl> query( bool loop = true, int timeout = 50,
+                                            bool allow_unfiltered_hotkeys = false );
         void filterlist();
         // In add_entry/add_entry_desc/add_entry_col, int k only support letters
         // (a-z, A-Z) and digits (0-9), MENU_AUTOASSIGN, and 0 or ' ' (disable
@@ -398,6 +400,10 @@ class uilist // NOLINT(cata-xy)
                                   &fun );
 
         void reset();
+
+#if defined(TILES)
+        void set_hide( bool val );
+#endif
 
         shared_ptr_fast<uilist_impl> create_or_get_ui();
         // NOLINTNEXTLINE(google-explicit-constructor)
