@@ -508,7 +508,7 @@ recipe_subset recipe_subset::reduce(
     std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
-    return recipe_subset( *this, search( txt, key, std::nullopt, progress_callback ) );
+    return recipe_subset( *this, search( txt, key, nullptr, progress_callback ) );
 }
 
 recipe_subset recipe_subset::reduce(
