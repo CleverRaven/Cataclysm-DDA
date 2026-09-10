@@ -1259,7 +1259,7 @@ units::mass Character::weight_carried_with_tweaks( const std::vector<std::pair<i
 units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) const
 {
     const std::map<const item *, int> empty;
-    const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
+    const std::map<const item *, int> &without = tweaks.without_items ? *tweaks.without_items :
             empty;
 
     // Worn items
