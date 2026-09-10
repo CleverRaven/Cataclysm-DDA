@@ -173,7 +173,7 @@
     "id": "xe_lab_dreamsmith_dream_gear",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "xe_lab_dreamsmith_dream_weapons", "prob": 1 }, { "item": "xe_lab_dreamsmith_dream_armor", "prob": 1 } ]
+    "entries": [ { "group": "xe_lab_dreamsmith_dream_weapons", "prob": 1 }, { "group": "xe_lab_dreamsmith_dream_armor", "prob": 1 } ]
   },
   {
     "id": "xe_lab_dreamsmith_dream_weapons",
