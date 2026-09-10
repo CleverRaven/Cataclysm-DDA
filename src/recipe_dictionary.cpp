@@ -239,7 +239,7 @@ static Unit can_contain_filter( std::string_view hint, std::string_view txt, Uni
 
 std::vector<const recipe *> recipe_subset::search(
     std::string_view txt, const search_type key,
-    std::optional<std::reference_wrapper<const Character>> crafter,
+    const Character *crafter,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
     auto predicate = [&]( const recipe * r ) {
@@ -316,11 +316,11 @@ std::vector<const recipe *> recipe_subset::search(
                 return lcmatch( r->recipe_proficiencies_string(), txt );
 
             case search_type::book: {
-                if( !crafter.has_value() ) {
+                if( crafter == nullptr ) {
                     debugmsg( "search_type::book requires a crafter to be provided, since it checks crafting group and crafters inventory" );
                     return false;
                 }
-                const Character &crafter_ref = crafter->get();
+                const Character &crafter_ref = *crafter;
                 const inventory &crafting_inventory = crafter_ref.crafting_inventory();
 
                 for( const auto &stack : crafting_inventory.const_slice() ) {
@@ -515,7 +515,7 @@ recipe_subset recipe_subset::reduce(
     std::string_view txt, const Character &crafter, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
-    return recipe_subset( *this, search( txt, key, crafter, progress_callback ) );
+    return recipe_subset( *this, search( txt, key, &crafter, progress_callback ) );
 }
 recipe_subset recipe_subset::intersection( const recipe_subset &subset ) const
 {
