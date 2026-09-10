@@ -2366,8 +2366,8 @@ class Character : public Creature, public visitable
             explicit item_tweaks( const inventory &r ) :
                 without_items( nullptr ), replace_inv( &r )
             {}
-            const std::map<const item *, int> * const without_items;
-            const inventory * const replace_inv;
+            const std::map<const item *, int> *const without_items;
+            const inventory *const replace_inv;
         };
 
         units::mass weight_carried_with_tweaks( const item_tweaks &tweaks ) const;
