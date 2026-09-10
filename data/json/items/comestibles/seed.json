@@ -839,7 +839,6 @@
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
     "plant_name": "mutated poppy flower",
     "fruit": "poppy_bud",
-    "fruit_div": 2,
     "seeds": false,
     "byproducts": [ "withered" ],
     "growth_stages": [
