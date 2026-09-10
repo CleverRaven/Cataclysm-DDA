@@ -22,7 +22,8 @@
         { "u_at_om_location": "cabin_roof_3" },
         { "u_at_om_location": "cabin_roof_3_reverberation_hint" },
         { "u_at_om_location": "radio_tower_top" },
-        { "u_at_om_location": "wasp_tower_top" }
+        { "u_at_om_location": "wasp_tower_top" },
+        { "is_weather": "scarlet_storm_4" }
       ]
     }
   },
@@ -73,7 +74,18 @@
           { "u_message": "Its song drowns out the world.", "type": "info", "popup": true, "popup_w_interrupt_query": true },
           { "transform_item": "mp3_reverberation", "active": false },
           { "math": [ "n_cooldown = time('now')+time('1 d')+( time('8 h')*rand(4) )" ] },
-          { "run_eocs": [ "EOC_REVERBERATION_ENTER" ], "time_in_future": "2 seconds" }
+          {
+            "if": {
+              "or": [
+                { "u_at_om_location": "cabin_roof_3" },
+                { "u_at_om_location": "cabin_roof_3_reverberation_hint" },
+                { "u_at_om_location": "radio_tower_top" },
+                { "u_at_om_location": "wasp_tower_top" }
+              ]
+            },
+            "then": { "run_eocs": [ "EOC_REVERBERATION_ENTER" ], "time_in_future": "2 seconds" },
+            "else": { "if": { "is_weather": "scarlet_storm_4" }, "then": { "run_eocs": "EOC_PORTAL_SCARLET_SEA" } }
+          }
         ],
         "else": {
           "if": { "math": [ "n_warm_up <= 3" ] },
