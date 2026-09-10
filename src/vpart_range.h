@@ -43,7 +43,7 @@ class vehicle_part_iterator
         }
 
     public:
-        vehicle_part_iterator( const range_type &r, size_t i ) : range_( r ) {
+        vehicle_part_iterator( const range_type &r, size_t i ) : range_( r ), vp_( std::nullopt ) {
             cata_assert( i <= range().part_count() );
             skip_to_next_valid( i );
         }
