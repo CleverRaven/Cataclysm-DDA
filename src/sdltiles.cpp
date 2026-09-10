@@ -1012,24 +1012,16 @@ SDL_Point window_to_display_buffer_coords( SDL_Point window_pt )
         static_cast<int>( static_cast<int64_t>( window_pt.y - dstrect.y ) * buf_h / dstrect.h )
     };
 #else
-    int win_w = 0;
-    int win_h = 0;
-    GetWindowSize( window.get(), &win_w, &win_h );
-    const point draw = compute_drawable_dims();
-    const SDL_Rect dst = get_display_buffer_render_rect();
-    if( win_w <= 0 || win_h <= 0 || draw.x <= 0 || draw.y <= 0 || dst.w <= 0 || dst.h <= 0 ) {
-        return window_pt;
+    // Use the SDL provided translation of scaling and casting for SDL3 builds
+    if( renderer ) {
+        float rx = 0.0f;
+        float ry = 0.0f;
+        if( SDL_RenderCoordinatesFromWindow( renderer.get(),
+                                             static_cast<float>( window_pt.x ), static_cast<float>( window_pt.y ), &rx, &ry ) ) {
+            return SDL_Point{ static_cast<int>( rx ), static_cast<int>( ry ) };
+        }
     }
-    // Invert the present rect: logical coords to drawable px, then through the
-    // rect to buffer px. Points past it land in the border.
-    const point p{
-        static_cast<int>( static_cast<int64_t>( window_pt.x ) * draw.x / win_w ),
-        static_cast<int>( static_cast<int64_t>( window_pt.y ) * draw.y / win_h )
-    };
-    return SDL_Point{
-        static_cast<int>( static_cast<int64_t>( p.x - dst.x ) * buf_w / dst.w ),
-        static_cast<int>( static_cast<int64_t>( p.y - dst.y ) * buf_h / dst.h )
-    };
+    return window_pt;
 #endif
 }
 
@@ -5306,7 +5298,7 @@ static void CheckMessages()
         // shortcut and joystick hit-tests see the same domain SDL emitted.
         SDL_Event ev_display = ev;
         convert_event_to_display_buffer_coords( &ev_display );
-        imclient->process_input( &ev_display, imgui_buf_w, imgui_buf_h );
+        imclient->process_input( &ev_display, imgui_buf_w, imgui_buf_h, scaling_factor );
 
         // Window events are delivered as top-level event types.
         // IsWindowEvent/GetWindowEventID normalize across versions.

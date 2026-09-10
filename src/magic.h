@@ -271,6 +271,10 @@ class spell_type
         dbl_or_var damage_increment;
         // maximum damage this spell can cause
         dbl_or_var max_damage;
+        std::pair<int, int> damage_at_max_level()
+        const; // evaluate what the damage could be at this spell's maximum level
+        std::pair<float, float> calculate_damage_increment()
+        const; // the variable damage_increment evaluated as a min/max
 
         // minimum range of a spell
         dbl_or_var min_range;
@@ -502,8 +506,6 @@ class spell
         // alternative cast message
         translation alt_message;
 
-        // minimum damage including levels
-        int min_leveled_damage( const Creature &caster ) const;
         double min_leveled_dot( const Creature &caster ) const;
         // minimum aoe including levels
         int min_leveled_aoe( const Creature &caster ) const;
@@ -512,6 +514,10 @@ class spell
         int min_leveled_accuracy( const Creature &caster ) const;
 
     public:
+        // minimum damage including levels
+        int min_leveled_damage( const Creature &caster ) const;
+        float get_eoc_damage_multiplier() const;
+
         spell() = default;
         explicit spell( spell_id sp, int xp = 0, int level_adjustment = 0 );
 
@@ -766,6 +772,9 @@ class known_magic
         bool knows_spell() const;
         // spells known by Character
         std::vector<spell_id> spells() const;
+        // whether any known spell can currently be cast
+        bool can_cast_any_spell( const Character &guy,
+                                 std::map<magic_type_id, bool> &success_tracker );
         // gets the spell associated with the spell_id to be edited
         spell &get_spell( const spell_id &sp );
         // opens up a ui that the Character can choose a spell from

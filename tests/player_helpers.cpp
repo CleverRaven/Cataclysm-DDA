@@ -146,6 +146,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
 
     // Make sure we don't carry around weird effects.
     dummy.clear_effects();
+    dummy.set_dodges_left( dummy.get_num_dodges() );
     dummy.set_underwater( false );
 
     // Make stats nominal.
@@ -223,6 +224,7 @@ void arm_shooter( Character &shooter, const itype_id &gun_type,
 void clear_avatar()
 {
     avatar &avatar = get_avatar();
+    g->clear_kill_tracker();
     clear_character( avatar );
     avatar.grab( object_type::NONE );
     avatar.clear_identified();

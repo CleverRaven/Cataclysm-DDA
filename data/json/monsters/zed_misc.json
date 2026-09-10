@@ -145,7 +145,7 @@
           "id": "smash",
           "throw_strength": 72,
           "cooldown": 30,
-          "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] }
+          "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "math": [ "n_val('size') <= 4" ] } ] }
         }
       ]
     },
@@ -180,7 +180,7 @@
         "id": "smash",
         "throw_strength": 72,
         "cooldown": 30,
-        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] }
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "math": [ "n_val('size') <= 4" ] } ] }
       },
       { "id": "grab", "cooldown": 11 },
       { "id": "grab_3", "cooldown": 12 },
@@ -217,7 +217,7 @@
         "id": "smash",
         "throw_strength": 48,
         "cooldown": 40,
-        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] }
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "math": [ "n_val('size') <= 4" ] } ] }
       },
       { "id": "stretch_attack", "cooldown": 40 },
       { "id": "longswipe" },
@@ -314,7 +314,13 @@
     "vision_night": 8,
     "harvest": "zombie_hulk",
     "grab_strength": 50,
-    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, { "id": "smash" }, { "id": "hulk_wide_swing" } ],
+    "special_attacks": [
+      { "id": "grab", "cooldown": 7 },
+      { "id": "scratch_humanoid" },
+      { "id": "smash" },
+      { "id": "smash_equal" },
+      { "id": "hulk_wide_swing" }
+    ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "regenerates": 15,
     "death_function": { "eoc": "EOC_NEMESIS_DIED" },
@@ -439,6 +445,7 @@
       { "id": "scratch_humanoid" },
       { "id": "bite_humanoid" },
       { "id": "smash", "throw_strength": 96 },
+      { "id": "smash_equal", "throw_strength": 48 },
       { "id": "hulk_lift_and_smash" },
       { "id": "hulk_wide_swing" }
     ],
@@ -920,7 +927,13 @@
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "grab_strength": 35,
     "special_attacks": [
-      { "id": "smash", "throw_strength": 48, "cooldown": 30 },
+      { "id": "grab", "cooldown": 15 },
+      {
+        "id": "smash",
+        "throw_strength": 48,
+        "cooldown": 30,
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "math": [ "n_val('size') <= 4" ] } ] }
+      },
       { "id": "bite_humanoid", "cooldown": 5 },
       { "id": "scratch_humanoid", "cooldown": 15 },
       { "id": "ranged_pull", "cooldown": 20, "grab_data": { "pull_weight_ratio": 1.2 } },

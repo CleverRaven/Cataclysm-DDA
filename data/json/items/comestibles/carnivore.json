@@ -10,6 +10,7 @@
     "color": "red",
     "parasites": 32,
     "vitamins": [ [ "meat_allergen", 1 ] ],
+    "seasonings": [ "seasonings_universal", "seasonings_meat" ],
     "flags": [ "RAW" ]
   },
   {
@@ -311,19 +312,6 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
-    "id": "pepperhuman",
-    "copy-from": "human_flesh",
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "name": { "str_sp": "peppered person" },
-    "description": "A cooked slice of some person, seasoned with black pepper and salt.  Probably has better taste than they did when alive.",
-    "display_type": "BY_WEIGHT",
-    "proportional": { "price": 1.5 },
-    "parasites": 0,
-    "fun": 2,
-    "flags": [ "EATEN_HOT" ]
-  },
-  {
     "id": "meat",
     "copy-from": "flesh",
     "type": "ITEM",
@@ -567,19 +555,6 @@
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
   },
   {
-    "id": "peppermutant_human",
-    "copy-from": "mutant_human_flesh",
-    "calories": 402,
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "name": { "str_sp": "cooked pepper cretin" },
-    "description": "Cooked meat from a heavily mutated humanoid.  Now that the worst bits have been picked out, it's probably digestible.  It has also been properly seasoned with black pepper and salt, giving it a better taste.  Still, it is somewhat gross, but hey, it's food!",
-    "proportional": { "price": 1.5 },
-    "parasites": 0,
-    "fun": 1,
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
-  },
-  {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "meat_mutant_tainted",
@@ -658,26 +633,6 @@
     "price_postapoc": "1 USD",
     "parasites": 0,
     "calories": 402,
-    "seasonings": [ "seasonings_universal", "seasonings_meat" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ] ],
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
-  },
-  {
-    "id": "peppermeat",
-    "copy-from": "flesh",
-    "weight": "275 g",
-    "volume": "250 ml",
-    "spoils_in": "1 day",
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "name": { "str_sp": "cooked pepper meat" },
-    "description": "A piece of cooked meat, properly seasoned with black pepper and salt.  It's nutritious, yet basic seasoning adds a welcoming taste to this simple dish.",
-    "display_type": "BY_WEIGHT",
-    "price": "8 USD",
-    "price_postapoc": "1 USD 50 cent",
-    "fun": 2,
-    "parasites": 0,
-    "calories": 402,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
@@ -702,25 +657,6 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
-    "id": "pepperfat",
-    "copy-from": "flesh",
-    "weight": "275 g",
-    "volume": "250 ml",
-    "spoils_in": "1 day",
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "name": { "str_sp": "cooked pepper fatty meat" },
-    "description": "A chunk of cooked fatty meat properly seasoned with black pepper and salt.  Although absent of vitamins, it is very filling, tasty and delightfully greasy.",
-    "display_type": "BY_WEIGHT",
-    "calories": 1300,
-    "price": "9 USD 20 cent",
-    "price_postapoc": "3 USD 20 cent",
-    "fun": 3,
-    "parasites": 0,
-    "vitamins": [ [ "meat_allergen", 1 ] ],
-    "flags": [ "EATEN_HOT" ]
-  },
-  {
     "id": "meat_scrap_cooked",
     "copy-from": "meat_scrap",
     "type": "ITEM",
@@ -728,18 +664,6 @@
     "name": { "str": "cooked scrap of meat", "str_pl": "of cooked meat scraps" },
     "parasites": 0,
     "fun": 0,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
-    "calories": 51
-  },
-  {
-    "id": "pepperscrap",
-    "copy-from": "meat_scrap",
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "name": { "str": "cooked pepper scrap of meat", "str_pl": "of cooked pepper meat scraps" },
-    "description": "A cooked scrap of meat that has been properly seasoned with pepper and salt.  Small, yet has a good taste.",
-    "parasites": 0,
-    "fun": 1,
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "calories": 51
   },
@@ -758,20 +682,6 @@
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
   },
   {
-    "id": "peppermutant",
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "copy-from": "mutant_meat",
-    "name": { "str_sp": "cooked pepper mutant meat" },
-    "snippet_category": "cooked_mutant_meat_desc",
-    "description": "A cooked chunk of meat from a mutated animal which has been properly seasoned with black pepper and salt, will keep your hunger away, but even seasoned, it has a weird taste.",
-    "looks_like": "meat_cooked",
-    "proportional": { "price": 1.5 },
-    "parasites": 0,
-    "fun": 0,
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
-  },
-  {
     "id": "mutant_meat_scrap_cooked",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
@@ -782,19 +692,6 @@
     "parasites": 0,
     "calories": 25,
     "fun": 0,
-    "flags": [ "NUTRIENT_OVERRIDE" ]
-  },
-  {
-    "id": "pepperscrap_mutant",
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "copy-from": "mutant_meat_scrap",
-    "name": { "str": "cooked pepper scrap of mutant meat", "str_pl": "of cooked pepper mutant meat scraps" },
-    "description": "A tiny scrap of cooked mutant meat properly seasoned with black pepper and salt.  It is small, and even though it has been seasoned, it has a weird taste.",
-    "looks_like": "meat_scrap_cooked",
-    "parasites": 0,
-    "calories": 25,
-    "fun": 1,
     "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
@@ -816,27 +713,6 @@
     "spoils_in": "1 day",
     "calories": 471,
     "fun": 5,
-    "vitamins": [ [ "iron", 17 ], [ "meat_allergen", 1 ] ]
-  },
-  {
-    "id": "pepperbone",
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "comestible_type": "FOOD",
-    "name": { "str": "roasted peppered bone marrow", "str_pl": "of roasted peppered bone marrow" },
-    "conditional_names": [ { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "Marvin marrow" } } ],
-    "description": "Bone marrow, fully cooked to eliminate any parasites and properly seasoned with black pepper and salt.  Tasty!",
-    "display_type": "BY_WEIGHT",
-    "symbol": "%",
-    "color": "red",
-    "weight": "55 g",
-    "volume": "50 ml",
-    "price": "5 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "flesh" ],
-    "spoils_in": "1 day",
-    "calories": 471,
-    "fun": 6,
     "vitamins": [ [ "iron", 17 ], [ "meat_allergen", 1 ] ]
   },
   {
@@ -2435,24 +2311,6 @@
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
-    "id": "poultry_pepper",
-    "copy-from": "flesh",
-    "weight": "104 g",
-    "volume": "100 ml",
-    "spoils_in": "2 days",
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "name": { "str_sp": "cooked pepper poultry" },
-    "description": "A cut of bird meat that has been cooked with salt and pepper.  The simple addition of spices has made it much more palatable.",
-    "price": "5 USD",
-    "price_postapoc": "2 USD",
-    "fun": 3,
-    "parasites": 0,
-    "calories": 220,
-    "vitamins": [ [ "calcium", "5 mg" ], [ "iron", "5 mg" ], [ "meat_allergen", 1 ] ],
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
-  },
-  {
     "id": "poultry_scrap_cooked",
     "copy-from": "poultry_scrap",
     "type": "ITEM",
@@ -2461,19 +2319,6 @@
     "description": "A tiny scrap of cooked meat from a bird.  Not very filling, and a bit bland.",
     "parasites": 0,
     "fun": 1,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
-    "calories": 55,
-    "vitamins": [ [ "calcium", "1 mg" ], [ "iron", "1 mg" ], [ "meat_allergen", 1 ] ]
-  },
-  {
-    "id": "poultry_scrap_pepper",
-    "copy-from": "poultry_scrap",
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "name": { "str": "cooked pepper scrap of poultry", "str_pl": "of cooked peppered poultry scraps" },
-    "description": "A tiny scrap of cooked bird meat, seasoned with simple spices.  Makes for a nice high-protein snack.",
-    "parasites": 0,
-    "fun": 3,
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "calories": 55,
     "vitamins": [ [ "calcium", "1 mg" ], [ "iron", "1 mg" ], [ "meat_allergen", 1 ] ]

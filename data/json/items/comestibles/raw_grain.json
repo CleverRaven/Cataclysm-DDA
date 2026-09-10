@@ -470,7 +470,7 @@
     "copy-from": "wheat_stalks",
     "description": "A sheaf of freshly-cut oats, now ready for drying in a stook or smoker.",
     "price": "12 cent",
-    "calories": 355,
+    "calories": 524,
     "price_postapoc": "10 cent",
     "smoking_result": "dry_oat_stalks"
   },
@@ -493,7 +493,7 @@
     "name": { "str": "threshed oats", "str_pl": "of threshed oats" },
     "copy-from": "threshed_wheat",
     "quench": -5,
-    "calories": 340,
+    "calories": 524,
     "description": "Oats with the chaff still mixed in.  They will have to be winnowed before they're usable.",
     "price": "12 cent",
     "price_postapoc": "10 cent"

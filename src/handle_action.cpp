@@ -1936,15 +1936,12 @@ static void cast_spell( bool recast_spell = false )
     }
 
     std::map<magic_type_id, bool> success_tracker = {};
-    for( const spell_id &sp : spells ) {
-        spell &temp_spell = player_character.magic->get_spell( sp );
-        temp_spell.can_cast( player_character, success_tracker );
-    }
-
-    for( auto const& [m_type, any_success] : success_tracker ) {
-        if( !any_success && m_type->cannot_cast_message.has_value() ) {
-            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                     m_type->cannot_cast_message.value() );
+    if( !player_character.magic->can_cast_any_spell( player_character, success_tracker ) ) {
+        for( auto const& [m_type, any_success] : success_tracker ) {
+            if( !any_success && m_type->cannot_cast_message.has_value() ) {
+                add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                         m_type->cannot_cast_message.value() );
+            }
         }
     }
 
