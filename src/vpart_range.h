@@ -48,7 +48,8 @@ class vehicle_part_iterator
             skip_to_next_valid( i );
         }
 
-        vehicle_part_iterator( const vehicle_part_iterator &rhs ) : range_( rhs.range_ ), vp_( std::nullopt ) {
+        vehicle_part_iterator( const vehicle_part_iterator &rhs ) : range_( rhs.range_ ),
+            vp_( std::nullopt ) {
             if( rhs.vp_ ) {
                 vp_.emplace( rhs.vp_->vehicle(), rhs.vp_->part_index() );
             }
