@@ -1023,5 +1023,37 @@
     "max_range": 20,
     "min_duration": 750,
     "max_duration": 1800
+  },
+  {
+    "id": "mon_feral_dreamer_dream_dagger_spell",
+    "type": "SPELL",
+    "name": { "str": "Dream Dagger Monster", "//~": "NO_I18N" },
+    "description": { "str": "This is a monster only spell.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "max_level": 20,
+    "teachable": false,
+    "effect": "attack",
+    "effect_str": "effect_xe_feral_dreamer_dream_dagger",
+    "shape": "blast",
+    "min_duration": 2400,
+    "max_duration": 9600
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_feral_dreamer_summon_shifter_spell",
+    "name": { "str": "Summon Shifter", "//~": "NO_I18N" },
+    "description": { "str": "Summons a shifter.", "//~": "NO_I18N" },
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "min_duration": 3000,
+    "max_duration": 6000,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_shifter_feral"
   }
 ]

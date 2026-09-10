@@ -19,8 +19,8 @@
         "|||    c|  |@D|D @||||||",
         "       ?|  |@ |  @|     ",
         "       ?|  ||2|2|||     ",
-        "||2||||||         |  |||",
-        "       r|         |  |r ",
+        "||2||||||        Ŧ|  |||",
+        "       r|        Ŧ|  |r ",
         "cc  c  r||2||2||2||  |r ",
         "cc  c rr|   |  |  |  |r ",
         "       r|  @| @| @|  |r ",
@@ -33,6 +33,7 @@
       ],
       "palettes": [ "microlab" ],
       "terrain": { "G": "t_card_science", "X": "t_strconc_floor" },
+      "furniture": { "Ŧ": "f_table" },
       "item": {
         "@": [ { "item": "xed_office_dreamdross", "chance": 50 }, { "item": "dreamer_artifact", "chance": 2 } ],
         "D": [
@@ -42,7 +43,8 @@
               "entries": [ { "group": "SUS_wardrobe_mens", "prob": 50 }, { "group": "SUS_wardrobe_womens", "prob": 50 } ]
             }
           }
-        ]
+        ],
+        "Ŧ": [ { "item": "diazepam_scrip", "repeat": [ 2, 3 ] } ]
       },
       "toilets": { ";": {  } },
       "place_monster": [ { "group": "GROUP_XE_DREAMER_SUMMONS", "x": [ 9, 17 ], "y": [ 4, 18 ], "chance": 70, "repeat": [ 1, 5 ] } ]

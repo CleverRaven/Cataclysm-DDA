@@ -214,6 +214,12 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_shifter_feral",
+    "copy-from": "mon_shifter",
+    "default_faction": "zombie"
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_ophanim_non_player",
     "copy-from": "mon_ophanim",
     "default_faction": "nightmares"
