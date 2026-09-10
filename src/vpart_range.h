@@ -48,6 +48,23 @@ class vehicle_part_iterator
             skip_to_next_valid( i );
         }
 
+        vehicle_part_iterator( const vehicle_part_iterator &rhs ) : range_( rhs.range_ ), vp_( std::nullopt ) {
+            if( rhs.vp_ ) {
+                vp_.emplace( rhs.vp_->vehicle(), rhs.vp_->part_index() );
+            }
+        }
+
+        vehicle_part_iterator &operator=( const vehicle_part_iterator &rhs ) {
+            if( this != &rhs ) {
+                range_ = rhs.range_;
+                vp_.reset();
+                if( rhs.vp_ ) {
+                    vp_.emplace( rhs.vp_->vehicle(), rhs.vp_->part_index() );
+                }
+            }
+            return *this;
+        }
+
         const vpart_reference &operator*() const {
             cata_assert( vp_ );
             return *vp_;
