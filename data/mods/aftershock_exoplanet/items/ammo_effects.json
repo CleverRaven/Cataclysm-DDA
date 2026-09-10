@@ -67,7 +67,6 @@
   {
     "id": "VAHAGN",
     "type": "ammo_effect",
-    "always_cast_spell": true,
-    "spell_data": [ { "id": "spell_vahagn" } ]
+    "eoc": [ "EOC_vahagn_check_shootfoes" ]
   }
 ]
