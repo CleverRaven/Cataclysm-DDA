@@ -1104,7 +1104,8 @@
     "container": "jar_glass_sealed",
     "description": "A serving of crisply brined and canned vegetable matter.  Tasty and nutritious.",
     "price": "2 USD 50 cent",
-    "fun": 7
+    "fun": 7,
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -1211,7 +1212,7 @@
     "material": [ { "type": "dried_vegetable", "portion": 10 }, { "type": "veggy", "portion": 1 } ],
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -1352,7 +1353,8 @@
     "price": "9 USD",
     "price_postapoc": "50 cent",
     "delete": { "flags": [ "RAW" ] },
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
