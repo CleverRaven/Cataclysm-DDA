@@ -92,7 +92,6 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"

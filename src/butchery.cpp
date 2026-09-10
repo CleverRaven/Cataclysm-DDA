@@ -42,7 +42,6 @@
 #include "requirements.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "temp_crafting_inventory.h"
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"

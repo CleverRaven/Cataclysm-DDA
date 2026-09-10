@@ -55,8 +55,10 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "subbodypart.h"
+#include "temp_crafting_inventory.h"
 #include "type_id.h"
 #include "units.h"
+#include "visitable.h"
 #include "weakpoint.h"
 #include "weighted_list.h"
 
@@ -81,7 +83,6 @@ class profession;
 class recipe;
 class recipe_subset;
 class spell;
-class temp_crafting_inventory;
 class ui_adaptor;
 class vehicle;
 class vpart_reference;

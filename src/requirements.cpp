@@ -40,6 +40,7 @@
 #include "translations.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "visitable.h"
 
 static const flag_id json_flag_UNRECOVERABLE( "UNRECOVERABLE" );
 

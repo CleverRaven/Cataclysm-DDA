@@ -1,14 +1,32 @@
 
 #include "temp_crafting_inventory.h"
 
+#include <functional>
+#include <memory>
+#include <optional>
+#include <utility>
+
+#include "calendar.h"
 #include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
+#include "enums.h"
 #include "flag.h"
+#include "iexamine.h"
+#include "inventory.h"
 #include "itype.h"
 #include "map.h"
+#include "map_iterator.h"
+#include "map_selector.h"
+#include "mapdata.h"
+#include "pimpl.h"
+#include "pocket_type.h"
+#include "point.h"
 #include "type_id.h"
+#include "value_ptr.h"
 #include "vehicle_selector.h"
-
-#include <functional>
+#include "vpart_position.h"
+#include "weather.h"
 
 static const itype_id itype_brick_oven_pseudo( "brick_oven_pseudo" );
 static const itype_id itype_butchery_tree_pseudo( "butchery_tree_pseudo" );

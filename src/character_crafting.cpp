@@ -20,6 +20,7 @@
 #include "temp_crafting_inventory.h"
 #include "type_id.h"
 #include "value_ptr.h"
+#include "visitable.h"
 
 bool Character::has_recipe( const recipe *r ) const
 {
