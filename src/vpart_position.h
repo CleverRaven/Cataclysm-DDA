@@ -3,7 +3,6 @@
 #define CATA_SRC_VPART_POSITION_H
 
 #include <cstddef>
-#include <functional>
 #include <map>
 #include <optional>
 #include <string>
