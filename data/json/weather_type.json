@@ -103,7 +103,7 @@
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.02, "color": "light_blue", "sym": "," },
     "sound_category": "rainy",
-    "required_weathers": [ "light_drizzle", "drizzle" ],
+    "required_weathers": [ "light_drizzle", "drizzle", "scarlet_storm_1", "scarlet_storm_2", "scarlet_storm_3" ],
     "priority": 50,
     "condition": { "or": [ { "math": [ "weather('humidity') >= 98" ] }, { "math": [ "weather('pressure') < 993" ] } ] }
   },
@@ -267,7 +267,7 @@
     "rains": false,
     "sound_category": "silent",
     "priority": 15,
-    "required_weathers": [ "clear", "sunny", "fog" ],
+    "required_weathers": [ "clear", "sunny", "fog", "scarlet_storm_1" ],
     "condition": {
       "and": [
         { "math": [ "weather('windpower') < 12" ] },
@@ -295,7 +295,7 @@
     "rains": false,
     "sound_category": "silent",
     "priority": 15,
-    "required_weathers": [ "clear", "sunny", "mist" ],
+    "required_weathers": [ "clear", "sunny", "mist", "scarlet_storm_1" ],
     "condition": {
       "and": [
         { "math": [ "weather('windpower') < 12" ] },
@@ -489,5 +489,155 @@
     "tint_strength": 1.0,
     "priority": 1,
     "condition": { "current_dimension": "scarlet" }
+  },
+  {
+    "id": "scarlet_storm_1",
+    "type": "weather_type",
+    "name": "Yellowish Haze",
+    "color": "yellow",
+    "map_color": "yellow",
+    "sym": "~",
+    "sun_sym": "🌫",
+    "ranged_penalty": 7,
+    "sight_penalty": 1.7,
+    "light_modifier": -40,
+    "sun_multiplier": 0.3,
+    "temperature_modifier": -2,
+    "sound_attn": 8,
+    "dangerous": true,
+    "precip": "none",
+    "rains": false,
+    "sound_category": "silent",
+    "priority": 13,
+    "tint_color": [125, 100, 30],
+    "tint_strength": 0.7,
+    "condition": {
+      "and": [
+        { "current_dimension": "default" },
+        { "math": [ "scarlet_storm_active == 1" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_center) <= 1920" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_center) >= 1728" ] }
+      ]
+    }
+  },
+  {
+    "id": "scarlet_storm_2",
+    "type": "weather_type",
+    "name": "Amber Mist",
+    "color": "yellow",
+    "map_color": "yellow",
+    "sym": "~",
+    "sun_sym": "🌫",
+    "ranged_penalty": 7,
+    "sight_penalty": 2.0,
+    "light_modifier": -60,
+    "sun_multiplier": 0.01,
+    "temperature_modifier": -5,
+    "sound_attn": 8,
+    "dangerous": false,
+    "precip": "none",
+    "rains": false,
+    "sound_category": "silent",
+    "priority": 13,
+    "tint_color": [125, 100, 30],
+    "tint_strength": 0.8,
+    "condition": {
+      "and": [
+        { "current_dimension": "default" },
+        { "math": [ "scarlet_storm_active == 1" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_center) <= 1728" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_center) >= 1536" ] }
+      ]
+    },
+    "passive_effects": [
+      {
+        "effect_id": "scarlet_storm_lungs",
+        "intensity": 1,
+        "min_duration": "1s",
+        "max_duration": "1s",
+        "is_environmental": false,
+        "immunity_data": { "body_part_env_resistance": [ [ "mouth", 1 ] ] }
+      }
+    ]
+  },
+  {
+    "id": "scarlet_storm_3",
+    "type": "weather_type",
+    "name": "Crimson Fog",
+    "color": "light_red",
+    "map_color": "light_red",
+    "sym": "~",
+    "sun_sym": "🌫",
+    "ranged_penalty": 7,
+    "sight_penalty": 2.0,
+    "light_modifier": -65,
+    "sun_multiplier": 0.01,
+    "temperature_modifier": -10,
+    "sound_attn": 8,
+    "dangerous": true,
+    "precip": "none",
+    "rains": false,
+    "sound_category": "silent",
+    "priority": 45,
+    "tint_color": [100, 15, 30],
+    "tint_strength": 1.0,
+    "condition": {
+      "and": [
+        { "current_dimension": "default" },
+        { "math": [ "scarlet_storm_active == 1" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_center) < 1536" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_center) >= 960" ] }
+      ]
+    },
+    "passive_effects": [
+      {
+        "effect_id": "scarlet_storm_lungs",
+        "intensity": 1,
+        "min_duration": "1s",
+        "max_duration": "1s",
+        "is_environmental": false,
+        "immunity_data": { "body_part_env_resistance": [ [ "mouth", 3 ] ] }
+      }
+    ]
+  },
+  {
+    "id": "scarlet_storm_4",
+    "type": "weather_type",
+    "name": "Scarlet Storm",
+    "color": "red",
+    "map_color": "red",
+    "sym": "~",
+    "sun_sym": "🌫",
+    "ranged_penalty": 7,
+    "sight_penalty": 2.0,
+    "light_modifier": -75,
+    "sun_multiplier": 0.01,
+    "temperature_modifier": -20,
+    "sound_attn": 8,
+    "dangerous": true,
+    "precip": "none",
+    "rains": false,
+    "sound_category": "thunder",
+    "priority": 120,
+    "tint_color": [140, 15, 25],
+    "tint_strength": 1.0,
+    "condition": {
+      "and": [
+        { "current_dimension": "default" },
+        { "math": [ "scarlet_storm_active == 1" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_center) < 960" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_center) >= 0" ] }
+      ]
+    },
+    "passive_effects": [
+      {
+        "effect_id": "scarlet_storm_lungs",
+        "intensity": 1,
+        "min_duration": "1s",
+        "max_duration": "1s",
+        "is_environmental": false,
+        "immunity_data": { "body_part_env_resistance": [ [ "mouth", 7 ] ] }
+      }
+    ]
   }
 ]

@@ -22,7 +22,8 @@
         { "u_at_om_location": "cabin_roof_3" },
         { "u_at_om_location": "cabin_roof_3_reverberation_hint" },
         { "u_at_om_location": "radio_tower_top" },
-        { "u_at_om_location": "wasp_tower_top" }
+        { "u_at_om_location": "wasp_tower_top" },
+        { "is_weather": "scarlet_storm_4" }
       ]
     }
   },
