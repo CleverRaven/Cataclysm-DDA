@@ -2993,8 +2993,10 @@ std::vector<std::string> optional_vpart_position::extended_description() const
     }
 
     vehicle &v = value().vehicle();
+    if( debug_mode ) {
     ret.emplace_back( get_origin( v.type->src ) );
     ret.emplace_back( "--" );
+    }
 
     ret.emplace_back( string_format( _( "%s (%s)" ), v.name, v.owner->get_name() ) );
     ret.emplace_back( "--" );
