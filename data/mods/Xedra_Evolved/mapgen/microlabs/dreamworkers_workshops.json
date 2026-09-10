@@ -36,14 +36,7 @@
       "furniture": { "Ŧ": "f_table" },
       "item": {
         "@": [ { "item": "xed_office_dreamdross", "chance": 50 }, { "item": "dreamer_artifact", "chance": 2 } ],
-        "D": [
-          {
-            "item": {
-              "subtype": "distribution",
-              "entries": [ { "group": "SUS_wardrobe_mens", "prob": 50 }, { "group": "SUS_wardrobe_womens", "prob": 50 } ]
-            }
-          }
-        ],
+        "D": [ { "item": "SUS_wardrobe_mens", "chance": 50 }, { "item": "SUS_wardrobe_womens", "chance": 50 } ],
         "Ŧ": [ { "item": "diazepam_scrip", "repeat": [ 2, 3 ] } ]
       },
       "toilets": { ";": {  } },

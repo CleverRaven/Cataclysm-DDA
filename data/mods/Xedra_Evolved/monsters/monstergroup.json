@@ -555,12 +555,18 @@
   {
     "type": "monstergroup",
     "id": "GROUP_LAB",
-    "monsters": [ { "monster": "mon_zombie_oa_agent", "weight": 50, "cost_multiplier": 5 } ]
+    "monsters": [
+      { "monster": "mon_zombie_oa_agent", "weight": 50, "cost_multiplier": 5 },
+      { "monster": "mon_feral_xe_dreamer", "weight": 5, "cost_multiplier": 10 }
+    ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_LAB_SURFACE",
-    "monsters": [ { "monster": "mon_zombie_oa_agent", "weight": 20, "cost_multiplier": 5 } ]
+    "monsters": [
+      { "monster": "mon_zombie_oa_agent", "weight": 20, "cost_multiplier": 5 },
+      { "monster": "mon_feral_xe_dreamer", "weight": 5, "cost_multiplier": 10 }
+    ]
   },
   {
     "type": "monstergroup",
