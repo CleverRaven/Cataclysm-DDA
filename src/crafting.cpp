@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <functional>
+#include <initializer_list>
 #include <iterator>
 #include <limits>
 #include <map>
@@ -14,6 +15,7 @@
 #include <set>
 #include <string>
 #include <string_view>
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -30,8 +32,8 @@
 #include "color.h"
 #include "coordinates.h"
 #include "craft_command.h"
-#include "crafting_enums.h"
 #include "craft_reservation.h"
+#include "crafting_enums.h"
 #include "crafting_gui.h"
 #include "creature.h"
 #include "debug.h"
@@ -48,6 +50,7 @@
 #include "game_inventory.h"
 #include "handle_liquid.h"
 #include "input_popup.h"
+#include "iexamine.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_components.h"
@@ -78,6 +81,7 @@
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "safe_reference.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -107,8 +111,12 @@ static const efftype_id effect_transition_contacts( "transition_contacts" );
 static const furn_str_id furn_f_fake_bench_hands( "f_fake_bench_hands" );
 static const furn_str_id furn_f_ground_crafting_spot( "f_ground_crafting_spot" );
 
+static const itype_id itype_brick_oven_pseudo( "brick_oven_pseudo" );
+static const itype_id itype_butchery_tree_pseudo( "butchery_tree_pseudo" );
 static const itype_id itype_disassembly( "disassembly" );
+static const itype_id itype_fire( "fire" );
 static const itype_id itype_plut_cell( "plut_cell" );
+static const itype_id itype_water_faucet( "water_faucet" );
 
 static const json_character_flag json_flag_CRAFT_IN_DARKNESS( "CRAFT_IN_DARKNESS" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
@@ -122,6 +130,7 @@ static const quality_id qual_BOIL( "BOIL" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
 
+static const ter_str_id ter_t_brick_oven( "t_brick_oven" );
 
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -914,7 +923,8 @@ static item_location place_craft_or_disassembly(
     float best_bench_multi = 0.0f;
     map &here = get_map();
     for( const tripoint_bub_ms &adj : here.points_in_radius( ch.pos_bub(), 1 ) ) {
-        if( here.dangerous_field_at( adj ) ) {
+        if( here.dangerous_field_at( adj ) ||
+            get_craft_reservations().craft_site_reserved( here.get_abs( adj ) ) ) {
             continue;
         }
         if( const cata::value_ptr<furn_workbench_info> &wb = here.furn( adj ).obj().workbench ) {
@@ -1204,6 +1214,14 @@ static bool step_has_charged_alloc( const item &craft, int idx )
     return false;
 }
 
+// A claim of any kind needs the poll too: the lease is slid by a tick that completes,
+// so a step holding only its craft site would otherwise let that site expire under it.
+static bool step_wants_env_poll( const item &craft, const recipe_step &step, int idx )
+{
+    return step_has_env_requirements( step ) || step_has_charged_alloc( craft, idx ) ||
+           !craft.get_reservations().empty() || craft.get_reserved_tile().has_value();
+}
+
 static Character *resolve_crafter( const character_id &cid )
 {
     if( !cid.is_valid() ) {
@@ -1226,6 +1244,44 @@ struct step_source_context {
     int radius = PICKUP_RANGE;
     Character *present_char = nullptr;
 };
+
+enum class acquire_outcome : uint8_t {
+    ok,             // every group covered; bindings committed or revalidated
+    provider_lost,  // an established binding's provider left the admitted set
+    infeasible,     // selection searched exhaustively; nothing present can satisfy it
+    undetermined,   // the search budget ran out; nothing is known either way
+    deferred,       // at the escalation cap with an unchanged pool; no search was run
+    last
+};
+
+// One charged allocation's outstanding draw, with the pool it will be taken from.
+struct pending_tool_debit {
+    comp_selection<tool_comp> sel;
+    usage_from eff_use = usage_from::none;
+    int units = 0;
+    int step_idx = 0;
+    int alloc_idx = 0;
+    int new_count = 0;
+};
+
+// An allocation the target sweeps past without owing anything.  The debit still records
+// it as paid; a preflight has nothing to record and discards these.
+struct settled_tool_bucket {
+    int step_idx = 0;
+    int alloc_idx = 0;
+    int new_count = 0;
+};
+
+// Result of an env-check pass.
+enum class env_check_result {
+    // Pause was entered or continues.
+    paused,
+    // Pause restored; deadlines slid.  Ready-advance must recheck
+    // ready_at before continuing.
+    restored,
+    // No pause.
+    ok,
+};
 } // namespace
 
 static step_source_context resolve_step_source( const item &craft, const item_location &loc )
@@ -1234,7 +1290,7 @@ static step_source_context resolve_step_source( const item &craft, const item_lo
     step_source_context src;
     src.origin = m.get_bub( loc.pos_abs() );
     src.radius = PICKUP_RANGE;
-    if( loc.where() == item_location::type::character ) {
+    if( loc.where_recursive() == item_location::type::character ) {
         src.present_char = loc.carrier();
     } else {
         Character *crafter = resolve_crafter( craft.get_crafter_id() );
@@ -1249,7 +1305,7 @@ static step_source_context resolve_step_source( const item &craft, const item_lo
 // otherwise the recorded crafter.
 static Character *resolve_consume_crafter( const item &craft, const item_location &loc )
 {
-    if( loc.where() == item_location::type::character ) {
+    if( loc.where_recursive() == item_location::type::character ) {
         return loc.carrier();
     }
     return resolve_crafter( craft.get_crafter_id() );
@@ -1274,9 +1330,21 @@ static bool env_qualities_satisfied_for_step( const recipe_step &step, const ite
     } else {
         inv.form_from_map( &m, src.origin, src.radius, /*pl=*/nullptr );
     }
-    for( const std::vector<quality_requirement> &group : quals ) {
+    // A reserved provider is invisible to every inventory query including its owner's,
+    // so bound groups are validated through their bindings instead.
+    std::set<int> bound_groups;
+    for( const craft_reservation::binding &b : craft.get_reservations() ) {
+        if( b.established() && b.req == craft_reservation::requirement_kind::quality ) {
+            bound_groups.insert( b.group_index );
+        }
+    }
+
+    for( size_t g = 0; g < quals.size(); ++g ) {
+        if( bound_groups.count( static_cast<int>( g ) ) > 0 ) {
+            continue;
+        }
         bool group_ok = false;
-        for( const quality_requirement &q : group ) {
+        for( const quality_requirement &q : quals[g] ) {
             if( q.has( src.present_char, inv, return_true<item> ) ) {
                 group_ok = true;
                 break;
@@ -1289,6 +1357,1952 @@ static bool env_qualities_satisfied_for_step( const recipe_step &step, const ite
     return true;
 }
 
+// Ordered so `> ok` means the caller must pause.
+// Charges (count units) consumed through `count` 5% buckets.  Front-loads the
+// remainder at bucket 0 and caps at the step total.
+static int step_bucket_cumulative( int total, int count )
+{
+    if( count <= 0 ) {
+        return 0;
+    }
+    return std::min( total, total % 20 + count * ( total / 20 ) );
+}
+
+// Charges still owed to reach `targets`.  Allocations whose share rounds to nothing are
+// advanced in place.  Shared with the reservation preflight so the predicted draw and
+// the real one cannot drift.
+static std::vector<pending_tool_debit> collect_step_tool_debits(
+    const std::vector<std::vector<step_tool_alloc>> &allocs, const std::vector<int> &targets,
+    bool pin_to_map, std::vector<settled_tool_bucket> *settled )
+{
+    std::vector<pending_tool_debit> debits;
+    const auto settle = [settled]( int s, int a, int tgt ) {
+        if( settled != nullptr ) {
+            settled->push_back( { s, a, tgt } );
+        }
+    };
+    for( int s = 0; s < static_cast<int>( allocs.size() ) &&
+         s < static_cast<int>( targets.size() ); ++s ) {
+        const int tgt = targets[s];
+        for( int a = 0; a < static_cast<int>( allocs[s].size() ); ++a ) {
+            const step_tool_alloc &alloc = allocs[s][a];
+            if( alloc.sel.comp.count <= 0 || tgt <= alloc.consumed_buckets ) {
+                continue;
+            }
+            if( alloc.step_count_units <= 0 ) {
+                settle( s, a, tgt );
+                continue;
+            }
+            const int units = step_bucket_cumulative( alloc.step_count_units, tgt ) -
+                              step_bucket_cumulative( alloc.step_count_units, alloc.consumed_buckets );
+            if( units <= 0 ) {
+                settle( s, a, tgt );
+                continue;
+            }
+            // Pin player- and both-sourced charges to the map when the crafter
+            // cannot reach the craft, so the preflight and the debit both hit the
+            // charges sitting at the craft rather than an absent crafter's pack.
+            usage_from eff = alloc.sel.use_from;
+            if( pin_to_map && ( eff == usage_from::both || eff == usage_from::player ) ) {
+                eff = usage_from::map;
+            }
+            debits.push_back( { alloc.sel, eff, units, s, a, tgt } );
+        }
+    }
+    return debits;
+}
+
+// Charges each pool owes, aggregated per type so a shared pool cannot pass per
+// allocation and fail in total.
+static void aggregate_tool_debits( const std::vector<pending_tool_debit> &debits,
+                                   std::map<itype_id, int> &need_player,
+                                   std::map<itype_id, int> &need_map,
+                                   std::map<itype_id, int> &need_both )
+{
+    for( const pending_tool_debit &d : debits ) {
+        const int qty = d.units * item::find_type( d.sel.comp.type )->charge_factor();
+        switch( d.eff_use ) {
+            case usage_from::player:
+                need_player[d.sel.comp.type] += qty;
+                break;
+            case usage_from::map:
+                need_map[d.sel.comp.type] += qty;
+                break;
+            case usage_from::both:
+                need_both[d.sel.comp.type] += qty;
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+namespace
+{
+struct provider_candidate {
+    craft_reservation::provider_kind kind = craft_reservation::provider_kind::last;
+    const item *it = nullptr;                 // item candidates
+    int64_t provider_uid = 0;
+    std::optional<tripoint_abs_ms> tile;      // furniture / terrain
+    furn_id furn;
+    ter_id ter;
+    itype_id pseudo_type = itype_id::NULL_ID();
+    // Non-item providers are materialised the way their source materialises them, so a
+    // charged quality is measured against the charges the provider actually has.
+    std::optional<item> synthesized;
+    character_id intrinsic_owner;
+    // Binding a nested item hides its whole root, so scoring prefers a loose provider.
+    bool nested = false;
+    // Top-level item this candidate sits under, which is the unit hiding it removes
+    // from the pool.  Equal to provider_uid for a loose item.
+    int64_t root_uid = 0;
+    // Held by the step's character rather than reachable on the map, which is the
+    // distinction usage_from draws.
+    bool carried = false;
+};
+
+// Everything hiding `selected` removes from the pool: an item's whole root, a part,
+// or a provider tile.
+struct hidden_units {
+    std::set<int64_t> item_roots;
+    std::set<int64_t> parts;
+    std::set<tripoint_abs_ms> tiles;
+
+    bool covers( const provider_candidate &cand ) const {
+        switch( cand.kind ) {
+            case craft_reservation::provider_kind::item:
+                return item_roots.count( cand.root_uid ) > 0;
+            case craft_reservation::provider_kind::vehicle_part:
+                return parts.count( cand.provider_uid ) > 0;
+            case craft_reservation::provider_kind::furniture:
+            case craft_reservation::provider_kind::terrain:
+                return cand.tile && tiles.count( *cand.tile ) > 0;
+            default:
+                return false;
+        }
+    }
+};
+
+// Candidates that satisfy the same requests and hide the same things are
+// interchangeable, so the search branches over classes rather than over items.  Members
+// are grouped by exclusion unit and a unit is drained before the next one opens, which
+// keeps the accumulated hidden effect a union rather than a sum.
+struct candidate_class {
+    std::string key;
+    std::vector<const provider_candidate *> members;
+    // Per request, the score, or nullopt where this class cannot serve it.
+    std::vector<std::optional<int>> scores;
+    bool abstract = false;
+    // Leading members this craft already holds.  They sit at the front so the search
+    // reaches them before it opens one that would hide anything further.
+    int held = 0;
+};
+
+// One node of the depth-first assignment.
+struct search_state {
+    std::vector<int> usage;
+    std::vector<craft_reservation::binding> selected;
+    int next_abstract_slot = 0;
+};
+
+// Everything the recursion needs that does not change between nodes.
+struct selection_context {
+    const item *craft = nullptr;
+    const step_source_context *src = nullptr;
+    const std::vector<provider_candidate> *available = nullptr;
+    // Merge classes collapsed away, so abstract capacity counts entries rather than
+    // sources; the full pool above still answers what the debit can drain.
+    const std::vector<provider_candidate> *bindable = nullptr;
+    const std::vector<candidate_class> *classes = nullptr;
+    const std::vector<craft_reservation::binding> *requests = nullptr;
+    // (group index, providers still owed), most constrained first.
+    std::vector<std::pair<int, int>> groups;
+    std::set<std::string> failed;
+    uint64_t expansions_left = 0;
+};
+
+enum class selection_result : uint8_t {
+    feasible,      // an assignment was found and verified
+    infeasible,    // the space was searched out; nothing present can satisfy it
+    undetermined,  // the budget ran out first, so nothing is known either way
+    last
+};
+} // namespace
+
+// Materialised the way form_from_map materialises it, ammo included.
+static item furniture_pseudo_item( map &m, const tripoint_bub_ms &p, const furn_id &f )
+{
+    item pseudo( f->crafting_pseudo_item, calendar::turn );
+    if( !pseudo.has_pocket_type( pocket_type::MAGAZINE ) ) {
+        return pseudo;
+    }
+    const furn_t &fo = f.obj();
+    for( const itype *ammo : fo.crafting_ammo_item_types() ) {
+        itype_id ammo_id = ammo->get_id();
+        const int amount = fo.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD )
+                           ? count_charges_in_list( &ammo->ammo->type, m.i_at( p ), ammo_id )
+                           : count_charges_in_list( ammo, m.i_at( p ) );
+        if( amount > 0 ) {
+            pseudo.force_insert_item( item( ammo_id, calendar::turn, amount ),
+                                      pocket_type::MAGAZINE );
+        }
+    }
+    return pseudo;
+}
+
+// Counted the way discovery enumerates them, so capacity and binding cannot disagree.
+static int intrinsic_exposure( const Character &who, const itype_id &type )
+{
+    int exposed = 0;
+    for( const item &pseudo : who.crafting_pseudo_items() ) {
+        if( pseudo.typeId() == type ) {
+            ++exposed;
+        }
+    }
+    return exposed;
+}
+
+// The level a non-item provider supplies once materialised.
+static int provider_pseudo_quality( const provider_candidate &cand, const quality_id &qual,
+                                    const Character *who )
+{
+    const item pseudo = cand.synthesized ? *cand.synthesized
+                        : item( cand.pseudo_type, calendar::turn );
+    return provider_quality_level( pseudo, qual, who, true );
+}
+
+// Mirrors what the crafting inventory admits.
+static bool furniture_pseudo_available( map &m, const tripoint_bub_ms &p, const furn_id &f )
+{
+    const itype_id &pseudo_id = f->crafting_pseudo_item;
+    return !pseudo_id.is_valid() || !pseudo_id->has_flag( flag_NEEDS_SUNLIGHT ) ||
+           tile_has_sufficient_sunlight( m, p );
+}
+
+// Deliberately unfiltered: validation searches this layer for providers this craft
+// already holds.
+static std::vector<provider_candidate> enumerate_admitted_providers(
+    const step_source_context &src )
+{
+    map &m = get_map();
+    std::vector<provider_candidate> out;
+    // The same flood fill the crafting inventory and the charge debit use, so a provider
+    // behind a wall cannot bind and then fail every gate that would draw on it.
+    const std::vector<tripoint_bub_ms> reachable =
+        m.reachable_flood_steps( src.origin, src.radius, 1, 100 );
+
+    const auto admit_tree = [&out]( const item & root, bool carried ) {
+        const int64_t root_uid = root.uid().get_value();
+        root.visit_items( [&out, root_uid, carried]( const item * node, const item * parent ) {
+            provider_candidate cand;
+            cand.kind = craft_reservation::provider_kind::item;
+            cand.it = node;
+            cand.provider_uid = node->uid().get_value();
+            cand.nested = parent != nullptr;
+            cand.root_uid = root_uid;
+            cand.carried = carried;
+            out.push_back( cand );
+            return VisitResponse::NEXT;
+        } );
+    };
+
+    // Mirrors form_from_map: accessibility is judged per provider tile, and ownership
+    // gates the top-level item only.
+    for( const tripoint_bub_ms &p : reachable ) {
+        if( !m.accessible_items( p ) ) {
+            continue;
+        }
+        for( const item &stack_item : m.i_at( p ) ) {
+            if( src.present_char != nullptr &&
+                !stack_item.is_owned_by( *src.present_char, true ) ) {
+                continue;
+            }
+            if( stack_item.made_of( phase_id::LIQUID ) ) {
+                continue;
+            }
+            admit_tree( stack_item, false );
+        }
+    }
+
+    if( src.present_char != nullptr ) {
+        for( const item_location &carried : src.present_char->all_items_loc() ) {
+            if( carried && carried.parent_item() == item_location::nowhere ) {
+                admit_tree( *carried, true );
+            }
+        }
+    }
+
+    // Vehicle cargo enters outside the accessibility block, mirroring form_inventory.
+    for( const tripoint_bub_ms &p : reachable ) {
+        if( const std::optional<vpart_reference> vp = m.veh_at( p ).cargo() ) {
+            for( const item &it : vp->items() ) {
+                if( !it.made_of( phase_id::LIQUID ) ) {
+                    admit_tree( it, false );
+                }
+            }
+        }
+    }
+
+    // Terrain has no pseudo item field, so trees and brick ovens reach the pool through
+    // the same hardcoded pair form_from_map uses.
+    for( const tripoint_bub_ms &p : reachable ) {
+        const ter_id &t = m.ter( p );
+        const itype_id terrain_pseudo =
+            t->has_flag( ter_furn_flag::TFLAG_TREE ) ? itype_butchery_tree_pseudo
+            : t == ter_t_brick_oven ? itype_brick_oven_pseudo
+            : itype_id::NULL_ID();
+        if( !terrain_pseudo.is_null() ) {
+            provider_candidate cand;
+            cand.kind = craft_reservation::provider_kind::terrain;
+            cand.tile = m.get_abs( p );
+            cand.ter = t;
+            cand.pseudo_type = terrain_pseudo;
+            cand.synthesized = item( terrain_pseudo, calendar::turn );
+            out.push_back( cand );
+        }
+    }
+
+    // Unlike ground items, these face no accessibility or ownership check.
+    for( const tripoint_bub_ms &p : reachable ) {
+        const furn_id &f = m.furn( p );
+        if( f != furn_str_id::NULL_ID() && !f->crafting_pseudo_item.is_empty() &&
+            furniture_pseudo_available( m, p, f ) ) {
+            provider_candidate cand;
+            cand.kind = craft_reservation::provider_kind::furniture;
+            cand.tile = m.get_abs( p );
+            cand.furn = f;
+            cand.pseudo_type = f->crafting_pseudo_item;
+            cand.synthesized = furniture_pseudo_item( m, p, f );
+            out.push_back( cand );
+        }
+    }
+
+    // Keyed by the part's base item, which survives renumbering and movement.
+    for( const tripoint_bub_ms &p : reachable ) {
+        const optional_vpart_position vp = m.veh_at( p );
+        if( !vp ) {
+            continue;
+        }
+        for( const vpart_tool_source &src_tool : vp->get_tools_with_sources( m ) ) {
+            provider_candidate cand;
+            cand.kind = craft_reservation::provider_kind::vehicle_part;
+            cand.provider_uid = src_tool.part_base_uid;
+            cand.pseudo_type = src_tool.tool.typeId();
+            cand.synthesized = src_tool.tool;
+            out.push_back( cand );
+        }
+    }
+
+    // Generated sources, abstract and shared: a fire is taken from nobody by being bound.
+    // Only fire is deduplicated, matching provide_pseudo_item against the liquid rows'
+    // ordinary stacking.
+    bool fire_admitted = false;
+    for( const tripoint_bub_ms &p : reachable ) {
+        if( !fire_admitted && m.has_nearby_fire( p, 0 ) ) {
+            provider_candidate cand;
+            cand.kind = craft_reservation::provider_kind::environment;
+            cand.pseudo_type = itype_fire;
+            cand.synthesized = item( itype_fire, calendar::turn );
+            cand.synthesized->charges = 1;
+            out.push_back( cand );
+            fire_admitted = true;
+        }
+        const item water = m.liquid_from( p );
+        if( !water.is_null() ) {
+            provider_candidate cand;
+            cand.kind = craft_reservation::provider_kind::environment;
+            cand.pseudo_type = water.typeId();
+            cand.synthesized = water;
+            out.push_back( cand );
+        }
+        if( m.furn( p )->has_examine( iexamine::keg ) ) {
+            for( const item &held : m.i_at( p ) ) {
+                if( held.made_of( phase_id::LIQUID ) ) {
+                    provider_candidate cand;
+                    cand.kind = craft_reservation::provider_kind::environment;
+                    cand.pseudo_type = held.typeId();
+                    cand.synthesized = held;
+                    out.push_back( cand );
+                }
+            }
+        }
+        const optional_vpart_position vp = m.veh_at( p );
+        if( vp && vp->part_with_tool( m, itype_water_faucet ) ) {
+            for( const item *tank_content : vp->vehicle().fuel_items_left() ) {
+                if( tank_content->made_of( phase_id::LIQUID ) ) {
+                    provider_candidate cand;
+                    cand.kind = craft_reservation::provider_kind::environment;
+                    cand.pseudo_type = tank_content->typeId();
+                    cand.synthesized = *tank_content;
+                    out.push_back( cand );
+                }
+            }
+        }
+    }
+
+    // Read from the admitted character, not resolve_crafter, which resolves anywhere in
+    // the bubble and would outlive the range that drops their carried items.
+    if( src.present_char != nullptr ) {
+        provider_candidate cand;
+        cand.kind = craft_reservation::provider_kind::intrinsic;
+        cand.intrinsic_owner = src.present_char->getID();
+        out.push_back( cand );
+        // A presence requirement names an item type, so innate items enter typed while
+        // the capability candidate above covers qualities.
+        for( const item &pseudo : src.present_char->crafting_pseudo_items() ) {
+            provider_candidate typed;
+            typed.kind = craft_reservation::provider_kind::intrinsic;
+            typed.intrinsic_owner = src.present_char->getID();
+            typed.pseudo_type = pseudo.typeId();
+            typed.synthesized = pseudo;
+            out.push_back( typed );
+        }
+    }
+
+    return out;
+}
+
+static std::vector<provider_candidate> filter_available_for_binding(
+    std::vector<provider_candidate> admitted, const item &craft )
+{
+    const craft_reservation_index &idx = get_craft_reservations();
+    const int64_t owner = craft.peek_reservation_owner_token();
+    // Every crafting inventory hides a whole top-level item for one claimed descendant,
+    // so a root holding another craft's provider is unavailable in full.
+    std::set<int64_t> claimed_roots;
+    for( const provider_candidate &c : admitted ) {
+        if( c.kind == craft_reservation::provider_kind::item &&
+            idx.item_claimed_by_other( c.provider_uid, owner ) ) {
+            claimed_roots.insert( c.root_uid );
+        }
+    }
+    admitted.erase( std::remove_if( admitted.begin(), admitted.end(),
+    [&idx, &claimed_roots, owner]( const provider_candidate & c ) {
+        switch( c.kind ) {
+            case craft_reservation::provider_kind::item:
+                return claimed_roots.count( c.root_uid ) > 0 ||
+                       idx.item_claimed_by_other( c.provider_uid, owner );
+            case craft_reservation::provider_kind::vehicle_part:
+                return idx.part_claimed_by_other( c.provider_uid, owner );
+            case craft_reservation::provider_kind::furniture:
+            case craft_reservation::provider_kind::terrain:
+                return c.tile && idx.provider_tile_claimed_by_other( *c.tile, owner );
+            default:
+                return false;
+        }
+    } ), admitted.end() );
+    return admitted;
+}
+
+using provider_key = std::tuple<int, int64_t, tripoint_abs_ms>;
+
+static bool unreserved_filter( const item &it );
+
+// What the candidate presents to a crafting inventory, which is what stacking looks at.
+static const item *candidate_item( const provider_candidate &cand )
+{
+    if( cand.it != nullptr ) {
+        return cand.it;
+    }
+    return cand.synthesized ? &*cand.synthesized : nullptr;
+}
+
+// Liquids from every source land in one inventory, so equivalent stacks are one entry
+// there whatever kind of provider they came from.
+static bool candidate_merges_with( const provider_candidate &lhs, const provider_candidate &rhs )
+{
+    const item *a = candidate_item( lhs );
+    const item *b = candidate_item( rhs );
+    return a != nullptr && b != nullptr && a->made_of( phase_id::LIQUID ) &&
+           b->made_of( phase_id::LIQUID ) && craft_reservation::merge_equivalent( *a, *b );
+}
+
+static provider_key provider_identity( const provider_candidate &cand )
+{
+    switch( cand.kind ) {
+        case craft_reservation::provider_kind::item:
+        case craft_reservation::provider_kind::vehicle_part:
+            return provider_key{ 1, cand.provider_uid, tripoint_abs_ms() };
+        case craft_reservation::provider_kind::furniture:
+        case craft_reservation::provider_kind::terrain:
+            return provider_key{ 2, 0, cand.tile.value_or( tripoint_abs_ms() ) };
+        default:
+            return provider_key{ 0, 0, tripoint_abs_ms() };
+    }
+}
+
+// Abstract providers are shared, so they are never "taken" and never collide.
+static bool provider_is_exclusive( const provider_candidate &cand )
+{
+    return std::get<0>( provider_identity( cand ) ) != 0;
+}
+
+// The battery a cabled tool reaches, resolved the way the drain resolves it.  Several
+// tools on one vehicle share one charge, so a pool counted per tool reports it as many
+// times over as there are tools plugged into it.
+static const vehicle *linked_power_source( map &here, const item &it )
+{
+    if( !it.has_link_data() ) {
+        return nullptr;
+    }
+    if( it.link().t_veh ) {
+        return it.link().t_veh.get();
+    }
+    const optional_vpart_position vp = here.veh_at( it.link().t_abs_pos );
+    return vp ? &vp->vehicle() : nullptr;
+}
+
+static hidden_units units_hidden_by(
+    const std::vector<craft_reservation::binding> &selected,
+    const std::vector<provider_candidate> &pool )
+{
+    hidden_units hidden;
+    for( const craft_reservation::binding &b : selected ) {
+        switch( b.kind ) {
+            case craft_reservation::provider_kind::item: {
+                // A binding records the provider, not its root, so the root comes back
+                // from the pool the candidate was drawn from.
+                const auto found = std::find_if( pool.begin(), pool.end(),
+                [&b]( const provider_candidate & c ) {
+                    return c.kind == craft_reservation::provider_kind::item &&
+                           c.provider_uid == b.provider_uid;
+                } );
+                hidden.item_roots.insert( found == pool.end() ? b.provider_uid : found->root_uid );
+                break;
+            }
+            case craft_reservation::provider_kind::vehicle_part:
+                hidden.parts.insert( b.provider_uid );
+                break;
+            case craft_reservation::provider_kind::furniture:
+            case craft_reservation::provider_kind::terrain:
+                if( b.tile ) {
+                    hidden.tiles.insert( *b.tile );
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    return hidden;
+}
+
+// Runs on the selection, before anything is written, so a shortfall is a rejection
+// rather than a mid-craft pause.  Models the real debit: batch-scaled units through the
+// remaining buckets, times charge_factor, against the pool each allocation draws from.
+static bool charged_pool_feasible_without(
+    const item &craft, const step_source_context &src,
+    const std::vector<provider_candidate> &debitable,
+    const std::vector<craft_reservation::binding> &selected )
+{
+    craft_reservation::note_search_expansion();
+    const std::vector<std::vector<step_tool_alloc>> &allocs = craft.get_step_tool_allocs();
+    const int idx = craft.get_current_step();
+    if( idx < 0 || idx >= static_cast<int>( allocs.size() ) ) {
+        return true;
+    }
+    // What the step owes by the time it completes: earlier steps are settled, this one
+    // runs to its last bucket, later ones have not started.
+    std::vector<int> targets( allocs.size(), 0 );
+    for( int s = 0; s <= idx; ++s ) {
+        targets[s] = 20;
+    }
+    const bool pin_to_map = src.present_char == nullptr;
+    std::map<itype_id, int> need_player;
+    std::map<itype_id, int> need_map;
+    std::map<itype_id, int> need_both;
+    aggregate_tool_debits( collect_step_tool_debits( allocs, targets, pin_to_map, nullptr ),
+                           need_player, need_map, need_both );
+    if( need_player.empty() && need_map.empty() && need_both.empty() ) {
+        return true;
+    }
+
+    const hidden_units hidden = units_hidden_by( selected, debitable );
+    // Sources with no per-instance charge count of their own are treated as sufficient
+    // unless the selection hid them, so the check never refuses a step over a furniture
+    // or vehicle tool it cannot meter.  They sit on the map, so a player-only draw
+    // cannot reach them.
+    const auto unmetered_map_source = [&]( const itype_id & type ) {
+        return std::any_of( debitable.begin(), debitable.end(),
+        [&]( const provider_candidate & cand ) {
+            return cand.kind != craft_reservation::provider_kind::item &&
+                   cand.pseudo_type == type && !hidden.covers( cand );
+        } );
+    };
+    // Carried uids the selection puts out of reach, taken from the same enumeration the
+    // binding searched.  `covers` tests the exclusion unit, so a sibling sharing a hidden
+    // root comes with it; reading the character's own roots instead would miss a wielded
+    // tool it cannot drop, which discovery admits and inv_dump omits.
+    std::set<int64_t> hidden_carried_uids;
+    for( const provider_candidate &cand : debitable ) {
+        if( cand.carried && cand.kind == craft_reservation::provider_kind::item &&
+            cand.it != nullptr && hidden.covers( cand ) ) {
+            hidden_carried_uids.insert( cand.provider_uid );
+        }
+    }
+    // charges_of folds in UPS and bionic power, which belong to no item and vanish along
+    // with the last visible tool that can draw on them.  Hiding the selection inside the
+    // query is what makes this and the debit reach the same number.
+    const auto carried_charges = [&]( const itype_id & type ) {
+        if( src.present_char == nullptr ) {
+            return 0;
+        }
+        return src.present_char->charges_of( type, INT_MAX,
+        [&hidden_carried_uids]( const item & it ) {
+            return unreserved_filter( it ) &&
+                   hidden_carried_uids.count( it.uid().get_value() ) == 0;
+        } );
+    };
+    const auto map_charges = [&]( const itype_id & type ) {
+        if( unmetered_map_source( type ) ) {
+            return INT_MAX;
+        }
+        int charges = 0;
+        map &here = get_map();
+        std::set<const vehicle *> counted_pools;
+        for( const provider_candidate &cand : debitable ) {
+            if( cand.kind == craft_reservation::provider_kind::item && cand.it != nullptr &&
+                !cand.carried && cand.it->typeId() == type && !hidden.covers( cand ) ) {
+                charges += cand.it->ammo_remaining();
+                // A cabled tool draws on the vehicle it is plugged into, and the debit
+                // discharges that battery, but the battery is shared: it counts once
+                // however many tools reach it.
+                const vehicle *pool = linked_power_source( here, *cand.it );
+                if( pool != nullptr && counted_pools.insert( pool ).second ) {
+                    charges += cand.it->ammo_remaining_linked( here ) - cand.it->ammo_remaining();
+                }
+            }
+        }
+        return charges;
+    };
+
+    // The three pools overlap: a both-sourced draw competes with the player-only and
+    // map-only ones for the same charges, so each pool must clear its own supply and
+    // all three must clear the combined one.
+    std::set<itype_id> types;
+    for( const std::map<itype_id, int> *need : {
+             &need_player, &need_map, &need_both
+         } ) {
+        for( const std::pair<const itype_id, int> &n : *need ) {
+            types.insert( n.first );
+        }
+    }
+    for( const itype_id &type : types ) {
+        const auto owed = []( const std::map<itype_id, int> &need, const itype_id & t ) {
+            const auto found = need.find( t );
+            return found == need.end() ? 0 : found->second;
+        };
+        const int from_player = carried_charges( type );
+        const int from_map = map_charges( type );
+        if( owed( need_player, type ) > from_player || owed( need_map, type ) > from_map ) {
+            return false;
+        }
+        if( from_map != INT_MAX &&
+            owed( need_player, type ) + owed( need_map, type ) + owed( need_both, type ) >
+            from_player + from_map ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// nullopt rejects the candidate; lower ranks better.
+static std::optional<int> score_reservation_candidate(
+    const provider_candidate &cand, const craft_reservation::binding &req,
+    const Character *who )
+{
+    // Non-item providers rank first, leaving the player their portable tools.
+    switch( cand.kind ) {
+        case craft_reservation::provider_kind::furniture:
+        case craft_reservation::provider_kind::terrain: {
+            if( req.req != craft_reservation::requirement_kind::quality ) {
+                return cand.pseudo_type == req.tool_type ? std::optional<int>( 0 )
+                       : std::nullopt;
+            }
+            const int level = provider_pseudo_quality( cand, req.qual, who );
+            return level >= req.level ? std::optional<int>( level ) : std::nullopt;
+        }
+        case craft_reservation::provider_kind::vehicle_part: {
+            if( req.req != craft_reservation::requirement_kind::quality ) {
+                return cand.pseudo_type == req.tool_type ? std::optional<int>( 1 )
+                       : std::nullopt;
+            }
+            const int level = provider_pseudo_quality( cand, req.qual, who );
+            return level >= req.level ? std::optional<int>( 1 + level ) : std::nullopt;
+        }
+        case craft_reservation::provider_kind::environment: {
+            // Ranks ahead of anything exclusive: binding a fire denies nobody.
+            if( req.req != craft_reservation::requirement_kind::quality ) {
+                return cand.pseudo_type == req.tool_type ? std::optional<int>( 0 )
+                       : std::nullopt;
+            }
+            return provider_pseudo_quality( cand, req.qual, who ) >= req.level
+                   ? std::optional<int>( 0 )
+                   : std::nullopt;
+        }
+        case craft_reservation::provider_kind::intrinsic: {
+            if( who == nullptr || who->getID() != cand.intrinsic_owner ) {
+                return std::nullopt;
+            }
+            if( req.req != craft_reservation::requirement_kind::presence_tool ) {
+                if( !cand.pseudo_type.is_null() ) {
+                    return std::nullopt;
+                }
+                // Capacity, not presence: one mutation must not cover several
+                // occurrences.  Not has_quality, which also walks the crafter's items,
+                // so a carried tool would bind as an innate capability and hide nothing.
+                if( !who->has_intrinsic_quality( req.qual, req.level, req.group_count ) ) {
+                    return std::nullopt;
+                }
+                return std::optional<int>( 100 );
+            }
+            if( cand.pseudo_type != req.tool_type ) {
+                return std::nullopt;
+            }
+            return std::optional<int>( 100 );
+        }
+        case craft_reservation::provider_kind::item:
+            break;
+        default:
+            return std::nullopt;
+    }
+
+    if( cand.it == nullptr || cand.it->has_flag( flag_ITEM_BROKEN ) ) {
+        return std::nullopt;
+    }
+    if( req.req == craft_reservation::requirement_kind::quality ) {
+        const int level = provider_quality_level( *cand.it, req.qual, who,
+                          true );
+        if( level < req.level ) {
+            return std::nullopt;
+        }
+        return 10000 + ( cand.nested ? 1000 : 0 ) + level * 10 +
+               ( cand.it->is_favorite ? 1 : 0 );
+    }
+    if( cand.it->typeId() != req.tool_type ) {
+        return std::nullopt;
+    }
+    return 10000 + ( cand.nested ? 1000 : 0 ) + ( cand.it->is_favorite ? 1 : 0 );
+}
+
+// One candidate per merge class, so a group cannot be covered by two providers the gate
+// counts as one.  Reservation filtering has already run, so a claimed member never
+// represents its class, and a member this craft already holds keeps its own.
+static std::vector<provider_candidate> collapse_merge_classes(
+    const std::vector<provider_candidate> &available,
+    const std::vector<craft_reservation::binding> &held,
+    const std::vector<craft_reservation::binding> &requests, const Character *who )
+{
+    std::vector<const provider_candidate *> order;
+    order.reserve( available.size() );
+    for( const provider_candidate &cand : available ) {
+        order.push_back( &cand );
+    }
+    const auto best_score = [&requests, who]( const provider_candidate & cand ) {
+        std::optional<int> best;
+        for( const craft_reservation::binding &req : requests ) {
+            const std::optional<int> score = score_reservation_candidate( cand, req, who );
+            if( score && ( !best || *score < *best ) ) {
+                best = score;
+            }
+        }
+        return best;
+    };
+    const auto already_held = [&held]( const provider_candidate & cand ) {
+        for( const craft_reservation::binding &b : held ) {
+            if( b.kind == cand.kind && b.provider_uid == cand.provider_uid &&
+                b.pseudo_type == cand.pseudo_type ) {
+                return true;
+            }
+        }
+        return false;
+    };
+    // Held first, then by score, so the representative is the one binding would prefer
+    // rather than whichever source happened to be enumerated first.
+    std::stable_sort( order.begin(), order.end(),
+    [&]( const provider_candidate * a, const provider_candidate * b ) {
+        if( already_held( *a ) != already_held( *b ) ) {
+            return already_held( *a );
+        }
+        const std::optional<int> lhs = best_score( *a );
+        const std::optional<int> rhs = best_score( *b );
+        if( lhs.has_value() != rhs.has_value() ) {
+            return lhs.has_value();
+        }
+        if( lhs && *lhs != *rhs ) {
+            return *lhs < *rhs;
+        }
+        return provider_identity( *a ) < provider_identity( *b );
+    } );
+
+    std::vector<const provider_candidate *> kept;
+    for( const provider_candidate *cand : order ) {
+        const bool merged = std::any_of( kept.begin(), kept.end(),
+        [cand]( const provider_candidate * other ) {
+            return candidate_merges_with( *cand, *other );
+        } );
+        if( !merged ) {
+            kept.push_back( cand );
+        }
+    }
+
+    std::vector<provider_candidate> out;
+    out.reserve( kept.size() );
+    // Enumeration order, which class building and the fingerprint both depend on.
+    for( const provider_candidate &cand : available ) {
+        if( std::find( kept.begin(), kept.end(), &cand ) != kept.end() ) {
+            out.push_back( cand );
+        }
+    }
+    return out;
+}
+
+// Root qualities are excluded: the unattended gate reads step requirements only, so
+// binding root ones would create claims it never validated.
+static std::vector<craft_reservation::binding> step_binding_requests(
+    const item &craft, const recipe &rec, int idx )
+{
+    const recipe_step &step = rec.steps()[idx];
+    std::vector<craft_reservation::binding> reqs;
+    const requirement_data::alter_quali_req_vector &quals = step.requirements.get_qualities();
+    for( size_t g = 0; g < quals.size(); ++g ) {
+        if( quals[g].empty() ) {
+            continue;
+        }
+        // Alternatives are an OR; alternative_index is what a later load validates.
+        for( size_t a = 0; a < quals[g].size(); ++a ) {
+            craft_reservation::binding req;
+            req.group_index = static_cast<int>( g );
+            req.alternative_index = static_cast<int>( a );
+            req.req = craft_reservation::requirement_kind::quality;
+            req.qual = quals[g][a].type;
+            req.level = quals[g][a].level;
+            // requirement_data::operator* scales tools and components, not qualities.
+            req.group_count = quals[g][a].count;
+            reqs.push_back( req );
+        }
+    }
+
+    // The allocation names which alternative of an OR group is in play, and a
+    // recipe-root tool reaches a step only as an allocation.
+    const std::vector<std::vector<step_tool_alloc>> &allocs = craft.get_step_tool_allocs();
+    if( idx >= static_cast<int>( allocs.size() ) ) {
+        return reqs;
+    }
+    const std::vector<std::vector<tool_comp>> &tools = step.requirements.get_tools();
+    const std::vector<std::vector<tool_comp>> &root_tools = rec.root_requirements().get_tools();
+    for( size_t a = 0; a < allocs[idx].size(); ++a ) {
+        const step_tool_alloc &alloc = allocs[idx][a];
+        // Charged allocations drain a pool by type, so pinning one instance would make
+        // the preflight and the debit disagree.
+        if( alloc.sel.comp.count > 0 || alloc.sel.use_from == usage_from::none ||
+            alloc.sel.use_from == usage_from::cancel ) {
+            continue;
+        }
+        if( alloc.root_derived != ( a >= tools.size() ) ) {
+            continue;
+        }
+        const std::vector<std::vector<tool_comp>> &groups = alloc.root_derived ? root_tools : tools;
+        const size_t group = alloc.root_derived ? a - tools.size() : a;
+        if( group >= groups.size() ) {
+            continue;
+        }
+        // The recipe decides charged versus presence; the allocation only decides which
+        // alternative of the group was taken.
+        int alternative = -1;
+        for( size_t k = 0; k < groups[group].size(); ++k ) {
+            if( groups[group][k].type == alloc.sel.comp.type && groups[group][k].count <= 0 ) {
+                alternative = static_cast<int>( k );
+                break;
+            }
+        }
+        if( alternative < 0 ) {
+            continue;
+        }
+        craft_reservation::binding req;
+        req.group_index = static_cast<int>( quals.size() + a );
+        req.alternative_index = alternative;
+        req.req = craft_reservation::requirement_kind::presence_tool;
+        req.tool_type = alloc.sel.comp.type;
+        // A negative count is the presence idiom, and its magnitude is how many the
+        // requirement check demands.
+        req.group_count = std::max( 1, std::abs( groups[group][alternative].count ) );
+        reqs.push_back( req );
+    }
+    return reqs;
+}
+
+static void release_step_resources( item &craft )
+{
+    if( !craft.is_craft() ) {
+        return;
+    }
+    const int64_t token = craft.peek_reservation_owner_token();
+    if( token != 0 ) {
+        get_craft_reservations().erase( token );
+    }
+    craft.set_reservations( {} );
+    craft.set_reserved_tile( std::nullopt );
+    craft.set_reservation_expiry( calendar::before_time_starts );
+    craft.set_reservation_search_attempts( 0 );
+    craft.set_reservation_pool_fingerprint( 0 );
+    craft.set_reservation_pause_reason( 0 );
+}
+
+// where_recursive, so a craft inside a carried container is not read as grounded.
+static std::optional<tripoint_abs_ms> craft_site_tile( const item_location &loc )
+{
+    if( loc.where_recursive() == item_location::type::character ) {
+        return std::nullopt;
+    }
+    return loc.pos_abs();
+}
+
+// Whether an abstract multiset can back `wanted` occurrences at once.  Abstract
+// providers are shared, so they are never taken, but a group's slots still map onto
+// distinct sources.
+static bool abstract_capacity_allows( const provider_candidate &cand,
+                                      const craft_reservation::binding &req,
+                                      const step_source_context &src,
+                                      const std::vector<provider_candidate> &pool, int wanted )
+{
+    if( cand.kind == craft_reservation::provider_kind::intrinsic ) {
+        if( src.present_char == nullptr ) {
+            return false;
+        }
+        if( req.req == craft_reservation::requirement_kind::presence_tool ) {
+            return intrinsic_exposure( *src.present_char, req.tool_type ) >= wanted;
+        }
+        return src.present_char->has_intrinsic_quality( req.qual, req.level, wanted );
+    }
+    if( cand.kind == craft_reservation::provider_kind::environment ) {
+        const int sources = std::count_if( pool.begin(), pool.end(),
+        [&cand]( const provider_candidate & other ) {
+            return other.kind == craft_reservation::provider_kind::environment &&
+                   other.pseudo_type == cand.pseudo_type;
+        } );
+        return sources >= wanted;
+    }
+    return true;
+}
+
+// What selecting a candidate takes out of the pool, so two candidates that look alike
+// but hide different things never collapse into one class.
+static std::string exclusion_signature( const provider_candidate &cand,
+                                        const std::vector<provider_candidate> &pool )
+{
+    std::map<itype_id, int> charges;
+    std::set<itype_id> tools;
+    for( const provider_candidate &other : pool ) {
+        const bool same_unit =
+            cand.kind == craft_reservation::provider_kind::item
+            ? other.kind == craft_reservation::provider_kind::item &&
+            other.root_uid == cand.root_uid
+            : cand.kind == craft_reservation::provider_kind::vehicle_part
+            ? other.kind == craft_reservation::provider_kind::vehicle_part &&
+            other.provider_uid == cand.provider_uid
+            // Both tile kinds, since provider_tile_reserved hides everything the tile
+            // offers rather than only the pseudo tools of one kind.
+            : cand.tile && other.tile == cand.tile &&
+            ( other.kind == craft_reservation::provider_kind::furniture ||
+              other.kind == craft_reservation::provider_kind::terrain );
+        if( !same_unit ) {
+            continue;
+        }
+        if( other.it != nullptr ) {
+            charges[other.it->typeId()] += other.it->ammo_remaining();
+        } else {
+            tools.insert( other.pseudo_type );
+        }
+    }
+    std::string sig;
+    for( const std::pair<const itype_id, int> &c : charges ) {
+        sig += c.first.str() + ':' + std::to_string( c.second ) + ',';
+    }
+    sig += '|';
+    for( const itype_id &t : tools ) {
+        sig += t.str() + ',';
+    }
+    return sig;
+}
+
+// What makes two candidates interchangeable.  Abstract providers hide nothing, so they
+// collapse on capability alone.
+static std::string candidate_class_key( const provider_candidate &cand,
+                                        const std::vector<std::optional<int>> &scores,
+                                        const std::string &signature )
+{
+    std::string key = std::to_string( static_cast<int>( cand.kind ) ) + '/' +
+                      cand.pseudo_type.str() + '/' +
+                      ( cand.it != nullptr ? cand.it->typeId().str() : std::string() ) + '/' +
+                      ( cand.carried ? '1' : '0' ) + '/';
+    for( const std::optional<int> &s : scores ) {
+        key += s ? std::to_string( *s ) : std::string( "x" );
+        key += ',';
+    }
+    return key + signature;
+}
+
+static std::string exclusion_unit_key( const provider_candidate &cand )
+{
+    switch( cand.kind ) {
+        case craft_reservation::provider_kind::item:
+            return "i" + std::to_string( cand.root_uid );
+        case craft_reservation::provider_kind::vehicle_part:
+            return "p" + std::to_string( cand.provider_uid );
+        case craft_reservation::provider_kind::furniture:
+        case craft_reservation::provider_kind::terrain:
+            return cand.tile ? "t" + cand.tile->to_string() : std::string( "t" );
+        default:
+            return "a";
+    }
+}
+
+// `available` supplies the members; `pool` is the uncollapsed set the exclusion signature
+// is measured against, since a merge class hides only its representative but a debit can
+// still reach every stack behind it.  `held` names what this craft already has, which is
+// hidden already and so costs nothing more to reuse.
+static std::vector<candidate_class> build_candidate_classes(
+    const std::vector<provider_candidate> &available,
+    const std::vector<provider_candidate> &pool,
+    const std::vector<craft_reservation::binding> &requests,
+    const std::vector<craft_reservation::binding> &held, const Character *who )
+{
+    std::set<provider_key> held_keys;
+    for( const craft_reservation::binding &b : held ) {
+        if( b.kind == craft_reservation::provider_kind::item ||
+            b.kind == craft_reservation::provider_kind::vehicle_part ) {
+            held_keys.insert( provider_key{ 1, b.provider_uid, tripoint_abs_ms() } );
+        } else if( b.tile ) {
+            held_keys.insert( provider_key{ 2, 0, *b.tile } );
+        }
+    }
+    std::set<const provider_candidate *> held_members;
+    std::map<std::string, candidate_class> by_key;
+    // Units are numbered rather than compared as text: the order only has to be stable.
+    std::map<std::string, size_t> unit_ids;
+    std::map<const provider_candidate *, size_t> unit_of;
+    for( const provider_candidate &cand : available ) {
+        std::vector<std::optional<int>> scores;
+        scores.reserve( requests.size() );
+        bool usable = false;
+        for( const craft_reservation::binding &req : requests ) {
+            scores.push_back( score_reservation_candidate( cand, req, who ) );
+            usable = usable || scores.back().has_value();
+        }
+        if( !usable ) {
+            continue;
+        }
+        const std::string signature =
+            provider_is_exclusive( cand ) ? exclusion_signature( cand, pool ) : std::string();
+        const std::string key = candidate_class_key( cand, scores, signature );
+        candidate_class &cls = by_key[key];
+        cls.key = key;
+        cls.scores = scores;
+        cls.abstract = !provider_is_exclusive( cand );
+        cls.members.push_back( &cand );
+        if( provider_is_exclusive( cand ) && held_keys.count( provider_identity( cand ) ) > 0 ) {
+            held_members.insert( &cand );
+        }
+        const std::string unit = exclusion_unit_key( cand );
+        const auto inserted = unit_ids.emplace( unit, unit_ids.size() );
+        unit_of[&cand] = inserted.first->second;
+    }
+
+    std::vector<candidate_class> classes;
+    classes.reserve( by_key.size() );
+    for( std::pair<const std::string, candidate_class> &entry : by_key ) {
+        candidate_class &cls = entry.second;
+        // Draining one unit before opening another hides strictly less, so the fixed
+        // order is optimal and never needs searching over.  A member already held hides
+        // nothing at all, which is why those come first.
+        std::stable_sort( cls.members.begin(), cls.members.end(),
+        [&unit_of, &held_members]( const provider_candidate * a, const provider_candidate * b ) {
+            const bool a_held = held_members.count( a ) > 0;
+            const bool b_held = held_members.count( b ) > 0;
+            if( a_held != b_held ) {
+                return a_held;
+            }
+            if( unit_of[a] != unit_of[b] ) {
+                return unit_of[a] < unit_of[b];
+            }
+            return provider_identity( *a ) < provider_identity( *b );
+        } );
+        cls.held = 0;
+        for( const provider_candidate *member : cls.members ) {
+            if( held_members.count( member ) > 0 ) {
+                ++cls.held;
+            }
+        }
+        classes.push_back( std::move( cls ) );
+    }
+    return classes;
+}
+
+// Fixed algorithm over a canonically ordered stream: the value is persisted, so a hash
+// that varied with addresses or container order would force a search on every load.
+static uint64_t fold_fingerprint( uint64_t hash, std::string_view bytes )
+{
+    for( const char c : bytes ) {
+        hash ^= static_cast<uint64_t>( static_cast<unsigned char>( c ) );
+        hash *= 1099511628211ULL;
+    }
+    return hash;
+}
+
+// The whole root state the search reads, so a capped craft re-runs only when something
+// it depends on moved.  Cardinality and unit multiplicity are in here because a second
+// identical provider changes no class key and still flips a two-provider group.
+static uint64_t pool_fingerprint( const std::vector<candidate_class> &classes,
+                                  const std::vector<provider_candidate> &available,
+                                  Character *who )
+{
+    uint64_t hash = 14695981039346656037ULL;
+    hash = fold_fingerprint( hash, std::to_string( craft_reservation::pool_fingerprint_version ) );
+    std::vector<std::string> rows;
+    rows.reserve( classes.size() );
+    for( const candidate_class &cls : classes ) {
+        // Per-unit counts, not just how many units there are: three members in one unit
+        // and two in each of two hide different amounts for the same total.
+        std::map<std::string, int> units;
+        for( const provider_candidate *member : cls.members ) {
+            ++units[exclusion_unit_key( *member )];
+        }
+        std::vector<int> spread;
+        spread.reserve( units.size() );
+        for( const std::pair<const std::string, int> &unit : units ) {
+            spread.push_back( unit.second );
+        }
+        std::sort( spread.begin(), spread.end() );
+        std::string row = cls.key + '#' + std::to_string( cls.members.size() ) + '#';
+        for( const int n : spread ) {
+            row += std::to_string( n ) + ',';
+        }
+        rows.push_back( row );
+    }
+    // Partitioned the way the debit is: player, map and both draw from different pools,
+    // so a charge source changing sides changes feasibility without changing a class.
+    std::map<std::pair<bool, itype_id>, int> pool;
+    std::set<itype_id> carried_types;
+    // Connected batteries get rows of their own rather than a term inside each tool's, so
+    // one battery two tools reach reads as one pool and moves the fingerprint once.
+    std::map<tripoint_abs_ms, int> linked_pools;
+    map &here = get_map();
+    for( const provider_candidate &cand : available ) {
+        if( cand.it != nullptr ) {
+            pool[ { cand.carried, cand.it->typeId() }] += cand.it->ammo_remaining();
+            if( linked_power_source( here, *cand.it ) != nullptr ) {
+                linked_pools[cand.it->link().t_abs_pos] =
+                    cand.it->ammo_remaining_linked( here ) - cand.it->ammo_remaining();
+            }
+            if( cand.carried ) {
+                carried_types.insert( cand.it->typeId() );
+            }
+        } else {
+            pool[ { cand.carried, cand.pseudo_type }] += 1;
+        }
+    }
+    // The carried side is read back the way feasibility reads it, so a UPS or a bionic
+    // reserve refilling changes the fingerprint even though every item stayed put and
+    // every class key is byte for byte the same.
+    if( who != nullptr ) {
+        for( const itype_id &type : carried_types ) {
+            pool[ { true, type }] = who->charges_of( type, INT_MAX, unreserved_filter );
+        }
+    }
+    for( const std::pair<const std::pair<bool, itype_id>, int> &entry : pool ) {
+        rows.push_back( std::string( "pool/" ) + ( entry.first.first ? 'p' : 'm' ) + '/' +
+                        entry.first.second.str() + '/' + std::to_string( entry.second ) );
+    }
+    for( const std::pair<const tripoint_abs_ms, int> &entry : linked_pools ) {
+        rows.push_back( "link/" + entry.first.to_string() + '/' + std::to_string( entry.second ) );
+    }
+    std::sort( rows.begin(), rows.end() );
+    for( const std::string &row : rows ) {
+        hash = fold_fingerprint( hash, row );
+    }
+    return hash == 0 ? 1 : hash;
+}
+
+// Which class a request prefers, so the search tries the cheapest branch first.
+static std::vector<size_t> classes_for_request( const std::vector<candidate_class> &classes,
+        size_t request_index )
+{
+    std::vector<size_t> order;
+    for( size_t c = 0; c < classes.size(); ++c ) {
+        if( classes[c].scores[request_index] ) {
+            order.push_back( c );
+        }
+    }
+    std::stable_sort( order.begin(), order.end(), [&]( size_t a, size_t b ) {
+        return *classes[a].scores[request_index] < *classes[b].scores[request_index];
+    } );
+    return order;
+}
+
+// Two prefixes that took the same members of the same classes serve the same future
+// groups, because every member of a class satisfies the same requests.  Only sound at
+// group entry: mid-group the per-group identities decide what is still takeable, and
+// they are not in the key.
+static std::string memo_key( size_t depth, const search_state &state )
+{
+    std::string key = std::to_string( depth ) + ':';
+    for( int used : state.usage ) {
+        key += std::to_string( used ) + ',';
+    }
+    // Which multiset each held slot sits in, and which group minted it.  Two prefixes with
+    // equal usage counts can still leave a later group different slots to share, which
+    // decides whether it needs capacity of its own.
+    std::vector<std::string> slots;
+    for( const craft_reservation::binding &b : state.selected ) {
+        if( b.occurrence_slot < 0 ) {
+            continue;
+        }
+        slots.push_back( std::to_string( static_cast<int>( b.kind ) ) + '/' +
+                         std::to_string( b.intrinsic_owner.get_value() ) + '/' +
+                         b.qual.str() + '/' + std::to_string( b.level ) + '/' +
+                         b.pseudo_type.str() + '/' +
+                         std::to_string( b.group_index ) + '/' +
+                         std::to_string( b.occurrence_slot ) );
+    }
+    std::sort( slots.begin(), slots.end() );
+    key += '|';
+    for( const std::string &slot : slots ) {
+        key += slot + ';';
+    }
+    return key;
+}
+
+// Slots already held in one abstract multiset, keyed the way the multiset is: by
+// capability for an intrinsic quality, by type for everything else.
+static std::vector<std::pair<int, int>> abstract_slots_in_multiset(
+        const search_state &state, const provider_candidate &cand,
+        const craft_reservation::binding &req )
+{
+    std::vector<std::pair<int, int>> slots;
+    for( const craft_reservation::binding &b : state.selected ) {
+        if( b.occurrence_slot < 0 || b.kind != cand.kind ) {
+            continue;
+        }
+        const bool same_source =
+            cand.kind == craft_reservation::provider_kind::intrinsic
+            ? b.intrinsic_owner == cand.intrinsic_owner &&
+            ( req.req == craft_reservation::requirement_kind::presence_tool
+              ? b.pseudo_type == cand.pseudo_type
+              : b.qual == req.qual && b.level == req.level )
+            : b.pseudo_type == cand.pseudo_type;
+        if( same_source ) {
+            slots.emplace_back( b.group_index, b.occurrence_slot );
+        }
+    }
+    return slots;
+}
+
+// Providers this group already holds, so its slots stay distinct while reuse across
+// groups stays free.  Seeded from surviving bindings as well as this pass's picks.
+static std::set<provider_key> group_taken( const search_state &state, int group )
+{
+    std::set<provider_key> taken;
+    for( const craft_reservation::binding &b : state.selected ) {
+        if( b.group_index != group ) {
+            continue;
+        }
+        if( b.kind == craft_reservation::provider_kind::item ||
+            b.kind == craft_reservation::provider_kind::vehicle_part ) {
+            taken.insert( provider_key{ 1, b.provider_uid, tripoint_abs_ms() } );
+        } else if( b.tile ) {
+            taken.insert( provider_key{ 2, 0, *b.tile } );
+        }
+    }
+    return taken;
+}
+
+static selection_result assign_from( selection_context &ctx, size_t depth, int remaining,
+                                     search_state &state );
+
+// Take one more provider for the group at `depth`, trying each class in score order.
+static selection_result take_one( selection_context &ctx, size_t depth, search_state &state )
+{
+    const int group = ctx.groups[depth].first;
+    const std::set<provider_key> taken = group_taken( state, group );
+    // A group is an OR of alternatives, so once one is chosen the rest of its providers
+    // come from that same alternative rather than a mixture.
+    int chosen_alternative = -1;
+    for( const craft_reservation::binding &b : state.selected ) {
+        if( b.group_index == group ) {
+            chosen_alternative = b.alternative_index;
+            break;
+        }
+    }
+    bool budget_ran_out = false;
+    for( size_t r = 0; r < ctx.requests->size(); ++r ) {
+        const craft_reservation::binding &req = ( *ctx.requests )[r];
+        if( req.group_index != group ||
+            ( chosen_alternative >= 0 && req.alternative_index != chosen_alternative ) ) {
+            continue;
+        }
+        // Scoped to the alternative: a class that cannot fill a wide alternative may
+        // still be all a narrow one needs.
+        std::set<size_t> tried;
+        for( size_t c : classes_for_request( *ctx.classes, r ) ) {
+            if( !tried.insert( c ).second ) {
+                continue;
+            }
+            const candidate_class &cls = ( *ctx.classes )[c];
+            const int used = state.usage[c];
+            // Members already taken by an earlier group are free to reuse and hide
+            // nothing further, so they are offered before opening a new one.
+            std::vector<int> choices;
+            choices.reserve( used + 1 );
+            for( int m = 0; m < used; ++m ) {
+                choices.push_back( m );
+            }
+            if( cls.abstract ) {
+                choices.push_back( 0 );
+            } else if( used < static_cast<int>( cls.members.size() ) ) {
+                choices.push_back( used );
+            }
+
+            // A slot another group already minted for this source is reused rather than
+            // claiming the multiset's capacity twice.
+            std::vector<int> shared_slots;
+            int multiset_held = 0;
+            if( cls.abstract && !cls.members.empty() ) {
+                const std::vector<std::pair<int, int>> slots =
+                                                        abstract_slots_in_multiset( state, *cls.members[0], req );
+                std::set<int> own_slots;
+                std::set<int> distinct;
+                for( const std::pair<int, int> &held : slots ) {
+                    distinct.insert( held.second );
+                    if( held.first == group ) {
+                        own_slots.insert( held.second );
+                    }
+                }
+                // Capacity is spent per slot, and one slot may back several groups.
+                multiset_held = static_cast<int>( distinct.size() );
+                for( const std::pair<int, int> &held : slots ) {
+                    // A slot this group already holds cannot fill a second of its
+                    // occurrences, or one source would cover a two-provider group.
+                    if( held.first != group && own_slots.count( held.second ) == 0 ) {
+                        shared_slots.push_back( held.second );
+                    }
+                }
+            }
+
+            for( const int member : choices ) {
+                const bool fresh = !cls.abstract && member == used;
+                const provider_candidate &cand = *cls.members[cls.abstract ? 0 : member];
+                if( provider_is_exclusive( cand ) &&
+                    taken.count( provider_identity( cand ) ) > 0 ) {
+                    continue;
+                }
+                const bool shares_slot = cls.abstract && !shared_slots.empty();
+                if( cls.abstract && !shares_slot &&
+                    !abstract_capacity_allows( cand, req, *ctx.src, *ctx.bindable,
+                                               multiset_held + 1 ) ) {
+                    continue;
+                }
+
+                craft_reservation::binding bound = req;
+                bound.kind = cand.kind;
+                bound.provider_uid = cand.provider_uid;
+                bound.tile = cand.tile;
+                bound.furn = cand.furn;
+                bound.ter = cand.ter;
+                bound.intrinsic_owner = cand.intrinsic_owner;
+                if( cand.kind == craft_reservation::provider_kind::intrinsic ) {
+                    // Keyed by capability, so a quality binding names no item type.
+                    bound.pseudo_type = req.req == craft_reservation::requirement_kind::quality
+                                        ? itype_id::NULL_ID()
+                                        : cand.pseudo_type;
+                    bound.occurrence_slot = shares_slot ? shared_slots.front()
+                                            : state.next_abstract_slot++;
+                } else if( cand.kind == craft_reservation::provider_kind::environment ) {
+                    bound.pseudo_type = cand.pseudo_type;
+                    bound.occurrence_slot = shares_slot ? shared_slots.front()
+                                            : state.next_abstract_slot++;
+                } else if( cand.kind != craft_reservation::provider_kind::item ) {
+                    bound.pseudo_type = cand.pseudo_type;
+                }
+
+                const bool claims_capacity = fresh || ( cls.abstract && !shares_slot );
+                state.selected.push_back( bound );
+                if( claims_capacity ) {
+                    ++state.usage[c];
+                }
+                if( ctx.expansions_left == 0 ) {
+                    state.selected.pop_back();
+                    if( claims_capacity ) {
+                        --state.usage[c];
+                    }
+                    if( bound.occurrence_slot >= 0 && !shares_slot ) {
+                        --state.next_abstract_slot;
+                    }
+                    return selection_result::undetermined;
+                }
+                --ctx.expansions_left;
+                const bool pool_ok = charged_pool_feasible_without(
+                                         *ctx.craft, *ctx.src, *ctx.available, state.selected );
+                if( pool_ok ) {
+                    int held = 0;
+                    for( const craft_reservation::binding &b : state.selected ) {
+                        if( b.group_index == group ) {
+                            ++held;
+                        }
+                    }
+                    const int left = std::max( 0, std::max( 1, req.group_count ) - held );
+                    const selection_result rest = assign_from( ctx, depth, left, state );
+                    if( rest == selection_result::feasible ) {
+                        return rest;
+                    }
+                    budget_ran_out = budget_ran_out || rest == selection_result::undetermined;
+                }
+                state.selected.pop_back();
+                if( claims_capacity ) {
+                    --state.usage[c];
+                }
+                if( bound.occurrence_slot >= 0 && !shares_slot ) {
+                    --state.next_abstract_slot;
+                }
+            }
+        }
+    }
+    return budget_ran_out ? selection_result::undetermined : selection_result::infeasible;
+}
+
+static selection_result assign_from( selection_context &ctx, size_t depth, int remaining,
+                                     search_state &state )
+{
+    if( remaining > 0 ) {
+        // Only at group entry, where no per-group identity is held yet and the usage
+        // vector alone decides what the remainder can do.
+        const bool memoizable = remaining == ctx.groups[depth].second;
+        const std::string key = memoizable ? memo_key( depth, state ) : std::string();
+        if( memoizable && ctx.failed.count( key ) > 0 ) {
+            return selection_result::infeasible;
+        }
+        const selection_result res = take_one( ctx, depth, state );
+        if( memoizable && res == selection_result::infeasible ) {
+            ctx.failed.insert( key );
+        }
+        return res;
+    }
+    if( depth + 1 >= ctx.groups.size() ) {
+        return selection_result::feasible;
+    }
+    return assign_from( ctx, depth + 1, ctx.groups[depth + 1].second, state );
+}
+
+// Per-binding checks ask only whether one source exists, so two slots would both pass
+// against a single remaining one.  Only an aggregate over the multiset compares counts.
+static bool provider_type_is_liquid( const itype_id &type )
+{
+    return !type.is_null() && type.is_valid() &&
+           item::find_type( type )->phase == phase_id::LIQUID;
+}
+
+// Merge classes are re-derived rather than frozen: two providers distinct when they were
+// bound can converge later, at which point the gate offers one entry where the craft
+// holds two bindings.
+static bool liquid_classes_hold( const item &craft,
+                                 const std::vector<provider_candidate> &admitted )
+{
+    // One provider may back several bindings, so occupancy is counted per uid.
+    std::set<int64_t> bound_uids;
+    // Bindings sharing a slot are one demand; distinct slots need distinct classes.
+    std::set<std::pair<itype_id, int>> slots;
+    for( const craft_reservation::binding &b : craft.get_reservations() ) {
+        if( b.kind == craft_reservation::provider_kind::item ) {
+            bound_uids.insert( b.provider_uid );
+        } else if( b.kind == craft_reservation::provider_kind::environment &&
+                   provider_type_is_liquid( b.pseudo_type ) ) {
+            slots.emplace( b.pseudo_type, b.occurrence_slot );
+        }
+    }
+    // Classing a shoreline costs a stacks_with call per pair of water tiles, which no
+    // craft should pay for holding no liquid at all.
+    if( bound_uids.empty() && slots.empty() ) {
+        return true;
+    }
+
+    std::vector<std::vector<const provider_candidate *>> classes;
+    for( const provider_candidate &cand : admitted ) {
+        const item *as_item = candidate_item( cand );
+        if( as_item == nullptr || !as_item->made_of( phase_id::LIQUID ) ) {
+            continue;
+        }
+        const auto same = std::find_if( classes.begin(), classes.end(),
+        [&cand]( const std::vector<const provider_candidate *> &cls ) {
+            return candidate_merges_with( cand, *cls.front() );
+        } );
+        if( same == classes.end() ) {
+            classes.push_back( { &cand } );
+        } else {
+            same->push_back( &cand );
+        }
+    }
+    std::vector<bool> occupied( classes.size(), false );
+
+    for( const int64_t uid : bound_uids ) {
+        for( size_t c = 0; c < classes.size(); ++c ) {
+            const bool mine = std::any_of( classes[c].begin(), classes[c].end(),
+            [uid]( const provider_candidate * member ) {
+                return member->provider_uid == uid;
+            } );
+            if( !mine ) {
+                continue;
+            }
+            if( occupied[c] ) {
+                return false;
+            }
+            occupied[c] = true;
+            break;
+        }
+    }
+
+    for( const std::pair<itype_id, int> &slot : slots ) {
+        bool placed = false;
+        for( size_t c = 0; c < classes.size() && !placed; ++c ) {
+            if( occupied[c] ) {
+                continue;
+            }
+            placed = std::any_of( classes[c].begin(), classes[c].end(),
+            [&slot]( const provider_candidate * member ) {
+                return member->pseudo_type == slot.first;
+            } );
+            occupied[c] = occupied[c] || placed;
+        }
+        if( !placed ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+static bool abstract_capacity_holds( const item &craft, const step_source_context &src,
+                                     const std::vector<provider_candidate> &admitted )
+{
+    // Slots are distinct per multiset, so counting them counts the demand.
+    std::map<std::tuple<quality_id, int>, std::set<int>> intrinsic_quality_slots;
+    std::map<itype_id, std::set<int>> intrinsic_tool_slots;
+    std::map<itype_id, std::set<int>> environment_slots;
+
+    for( const craft_reservation::binding &b : craft.get_reservations() ) {
+        if( b.kind == craft_reservation::provider_kind::intrinsic ) {
+            if( b.req == craft_reservation::requirement_kind::quality ) {
+                intrinsic_quality_slots[ { b.qual, b.level } ].insert( b.occurrence_slot );
+            } else {
+                intrinsic_tool_slots[b.tool_type].insert( b.occurrence_slot );
+            }
+        } else if( b.kind == craft_reservation::provider_kind::environment &&
+                   !provider_type_is_liquid( b.pseudo_type ) ) {
+            // Liquid rows stack in the inventory, so their capacity is counted by class.
+            environment_slots[b.pseudo_type].insert( b.occurrence_slot );
+        }
+    }
+
+    for( const auto &[key, slots] : intrinsic_quality_slots ) {
+        const auto &[qual, level] = key;
+        if( src.present_char == nullptr ||
+            !src.present_char->has_intrinsic_quality( qual, level,
+                    static_cast<int>( slots.size() ) ) ) {
+            return false;
+        }
+    }
+
+    for( const auto &[type, slots] : intrinsic_tool_slots ) {
+        if( src.present_char == nullptr ) {
+            return false;
+        }
+        if( intrinsic_exposure( *src.present_char, type ) < static_cast<int>( slots.size() ) ) {
+            return false;
+        }
+    }
+
+    for( const auto &[type, slots] : environment_slots ) {
+        int available = 0;
+        for( const provider_candidate &cand : admitted ) {
+            if( cand.kind == craft_reservation::provider_kind::environment &&
+                cand.pseudo_type == type ) {
+                ++available;
+            }
+        }
+        if( available < static_cast<int>( slots.size() ) ) {
+            return false;
+        }
+    }
+
+    return liquid_classes_hold( craft, admitted );
+}
+
+// Validate every established binding, then bind any group not yet covered.  Idempotent.
+static acquire_outcome reserve_step_resources( item &craft, const item_location &loc,
+        time_point now )
+{
+    if( !craft.is_craft() ) {
+        return acquire_outcome::ok;
+    }
+    const recipe &rec = craft.get_making();
+    const int idx = craft.get_current_step();
+    if( !rec.has_steps() || idx < 0 || idx >= static_cast<int>( rec.steps().size() ) ) {
+        return acquire_outcome::ok;
+    }
+    const std::vector<craft_reservation::binding> requests =
+        step_binding_requests( craft, rec, idx );
+    if( requests.empty() ) {
+        // No providers to bind, but a grounded step still claims the tile it sits on.
+        // Only the initial lease is written here.  A lapsed one is left lapsed and
+        // refreshed by a tick that reaches its end, or a step paused for charges would
+        // mint itself another hour on every check and never expire.
+        const bool no_lease = craft.get_reservation_expiry() == calendar::before_time_starts;
+        craft.set_reserved_tile( craft_site_tile( loc ) );
+        if( craft.get_reserved_tile() ) {
+            craft.reservation_owner_token();
+            if( no_lease ) {
+                craft.set_reservation_expiry( now + 1_hours );
+            }
+            get_craft_reservations().rebuild_for_craft( loc );
+        }
+        return acquire_outcome::ok;
+    }
+
+    const step_source_context src = resolve_step_source( craft, loc );
+    const std::vector<provider_candidate> admitted = enumerate_admitted_providers( src );
+
+    for( const craft_reservation::binding &b : craft.get_reservations() ) {
+        if( !b.established() ) {
+            continue;
+        }
+        switch( b.kind ) {
+            case craft_reservation::provider_kind::item: {
+                const auto found = std::find_if( admitted.begin(), admitted.end(),
+                [&b]( const provider_candidate & c ) {
+                    return c.kind == craft_reservation::provider_kind::item &&
+                           c.provider_uid == b.provider_uid;
+                } );
+                if( found == admitted.end() ) {
+                    return acquire_outcome::provider_lost;
+                }
+                const bool still_qualifies =
+                    !found->it->has_flag( flag_ITEM_BROKEN ) &&
+                    ( b.req == craft_reservation::requirement_kind::quality
+                      ? provider_quality_level( *found->it, b.qual,
+                                                src.present_char, true ) >= b.level
+                      : found->it->typeId() == b.tool_type );
+                if( !still_qualifies ||
+                    get_craft_reservations().item_claimed_by_other( b.provider_uid,
+                            craft.peek_reservation_owner_token() ) ) {
+                    return acquire_outcome::provider_lost;
+                }
+                break;
+            }
+            case craft_reservation::provider_kind::furniture:
+            case craft_reservation::provider_kind::terrain: {
+                const auto found = std::find_if( admitted.begin(), admitted.end(),
+                [&b]( const provider_candidate & c ) {
+                    // Type as well as tile: a furniture definition can keep its id and
+                    // change the pseudo tool it supplies.
+                    return c.kind == b.kind && c.tile == b.tile && c.furn == b.furn &&
+                           c.ter == b.ter && c.pseudo_type == b.pseudo_type;
+                } );
+                if( found == admitted.end() || !b.tile ||
+                    get_craft_reservations().provider_tile_claimed_by_other( *b.tile,
+                            craft.peek_reservation_owner_token() ) ) {
+                    return acquire_outcome::provider_lost;
+                }
+                if( b.req == craft_reservation::requirement_kind::quality &&
+                    provider_pseudo_quality( *found, b.qual, src.present_char ) < b.level ) {
+                    return acquire_outcome::provider_lost;
+                }
+                break;
+            }
+            case craft_reservation::provider_kind::vehicle_part: {
+                const auto found = std::find_if( admitted.begin(), admitted.end(),
+                [&b]( const provider_candidate & c ) {
+                    return c.kind == craft_reservation::provider_kind::vehicle_part &&
+                           c.provider_uid == b.provider_uid &&
+                           c.pseudo_type == b.pseudo_type;
+                } );
+                if( found == admitted.end() ||
+                    get_craft_reservations().part_claimed_by_other( b.provider_uid,
+                            craft.peek_reservation_owner_token() ) ) {
+                    return acquire_outcome::provider_lost;
+                }
+                if( b.req == craft_reservation::requirement_kind::quality &&
+                    provider_pseudo_quality( *found, b.qual, src.present_char ) < b.level ) {
+                    return acquire_outcome::provider_lost;
+                }
+                break;
+            }
+            case craft_reservation::provider_kind::environment: {
+                // Any source supplying the type will do; the count belongs to the
+                // capacity aggregate.
+                const auto found = std::find_if( admitted.begin(), admitted.end(),
+                [&b]( const provider_candidate & c ) {
+                    return c.kind == craft_reservation::provider_kind::environment &&
+                           c.pseudo_type == b.pseudo_type;
+                } );
+                if( found == admitted.end() ) {
+                    return acquire_outcome::provider_lost;
+                }
+                break;
+            }
+            case craft_reservation::provider_kind::intrinsic: {
+                if( src.present_char == nullptr ||
+                    src.present_char->getID() != b.intrinsic_owner ) {
+                    return acquire_outcome::provider_lost;
+                }
+                const bool still_supplies =
+                    b.req == craft_reservation::requirement_kind::quality
+                    ? src.present_char->has_intrinsic_quality( b.qual, b.level, 1 )
+                    : intrinsic_exposure( *src.present_char, b.pseudo_type ) >= 1;
+                if( !still_supplies ) {
+                    return acquire_outcome::provider_lost;
+                }
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+    if( !abstract_capacity_holds( craft, src, admitted ) ) {
+        return acquire_outcome::provider_lost;
+    }
+
+    // Distinct within a group, reusable across groups.
+    std::map<int, int> covered;
+    for( const craft_reservation::binding &b : craft.get_reservations() ) {
+        ++covered[b.group_index];
+    }
+    // A group is an OR whose alternatives may demand different counts: the target is the
+    // bound alternative's where one exists and the cheapest otherwise, and take_one
+    // raises it once the search commits to one.
+    std::map<int, int> needed;
+    for( const craft_reservation::binding &r : requests ) {
+        const int target = std::max( 1, r.group_count );
+        const auto seen = needed.find( r.group_index );
+        needed[r.group_index] = seen == needed.end() ? target : std::min( seen->second, target );
+    }
+    for( const craft_reservation::binding &b : craft.get_reservations() ) {
+        needed[b.group_index] = std::max( 1, b.group_count );
+    }
+
+    bool all_covered = true;
+    for( const auto &[group, count] : needed ) {
+        const auto have = covered.find( group );
+        if( have == covered.end() || have->second < count ) {
+            all_covered = false;
+            break;
+        }
+    }
+    if( all_covered ) {
+        // A craft may hold a site lock without holding any binding.
+        craft.set_reserved_tile( craft_site_tile( loc ) );
+        if( craft.peek_reservation_owner_token() != 0 ) {
+            get_craft_reservations().rebuild_for_craft( loc );
+        }
+        return acquire_outcome::ok;
+    }
+
+    const std::vector<provider_candidate> available =
+        filter_available_for_binding( admitted, craft );
+    const std::vector<provider_candidate> bindable =
+        collapse_merge_classes( available, craft.get_reservations(), requests, src.present_char );
+
+    const std::vector<candidate_class> classes =
+        build_candidate_classes( bindable, available, requests, craft.get_reservations(),
+                                 src.present_char );
+
+    selection_context ctx;
+    ctx.craft = &craft;
+    ctx.src = &src;
+    ctx.available = &available;
+    ctx.bindable = &bindable;
+    ctx.classes = &classes;
+    ctx.requests = &requests;
+    for( const auto &[group, count] : needed ) {
+        const int have = covered.count( group ) > 0 ? covered.at( group ) : 0;
+        if( have < count ) {
+            ctx.groups.emplace_back( group, count - have );
+        }
+    }
+    // Most constrained first, so a group with one option decides before a wide one.
+    std::stable_sort( ctx.groups.begin(), ctx.groups.end(),
+    [&]( const std::pair<int, int> &a, const std::pair<int, int> &b ) {
+        const auto width = [&]( int group ) {
+            size_t n = 0;
+            for( size_t r = 0; r < requests.size(); ++r ) {
+                if( requests[r].group_index == group ) {
+                    n += classes_for_request( classes, r ).size();
+                }
+            }
+            return n;
+        };
+        return width( a.first ) < width( b.first );
+    } );
+
+    search_state state;
+    state.usage.assign( classes.size(), 0 );
+    // Seeded from what the craft holds, so a surviving binding reads as a member already
+    // taken rather than as one more the search has to open and pay for.
+    for( size_t c = 0; c < classes.size(); ++c ) {
+        state.usage[c] = classes[c].held;
+    }
+    state.selected = craft.get_reservations();
+    for( const craft_reservation::binding &b : state.selected ) {
+        state.next_abstract_slot = std::max( state.next_abstract_slot, b.occurrence_slot + 1 );
+    }
+    const uint64_t fingerprint = pool_fingerprint( classes, available, src.present_char );
+    if( craft.get_reservation_search_attempts() >= craft_reservation::search_escalation_cap ) {
+        if( craft.get_reservation_pool_fingerprint() == fingerprint ) {
+            // Capped against a world that has not moved: repeating the same traversal
+            // every minute would be a permanent stall rather than a permanent pause.
+            return acquire_outcome::deferred;
+        }
+        // The world moved, so the escalation starts over rather than pinning every
+        // later search at the largest budget.
+        craft.set_reservation_search_attempts( 0 );
+    }
+
+    ctx.expansions_left = craft_reservation::search_budget_for_attempt(
+                              craft.get_reservation_search_attempts() );
+    const selection_result found = assign_from( ctx, 0, ctx.groups[0].second, state );
+    if( found == selection_result::undetermined ) {
+        craft.set_reservation_search_attempts(
+            std::min<uint8_t>( craft_reservation::search_escalation_cap,
+                               craft.get_reservation_search_attempts() + 1 ) );
+        craft.set_reservation_pool_fingerprint( fingerprint );
+        return acquire_outcome::undetermined;
+    }
+    craft.set_reservation_search_attempts( 0 );
+    craft.set_reservation_pool_fingerprint( 0 );
+    if( found != selection_result::feasible ) {
+        return acquire_outcome::infeasible;
+    }
+    std::vector<craft_reservation::binding> selected = std::move( state.selected );
+
+    craft.set_reservations( std::move( selected ) );
+    craft.set_reserved_tile( craft_site_tile( loc ) );
+    craft.set_reservation_expiry( now + 1_hours );
+    craft.reservation_owner_token();
+    get_craft_reservations().rebuild_for_craft( loc );
+    return acquire_outcome::ok;
+}
+
+// What the player is told.  `deferred` describes this tick's work rather than the world,
+// so it reports whatever the last search actually concluded and stays silent.
+static uint8_t pause_reason_for( acquire_outcome outcome )
+{
+    return static_cast<uint8_t>( outcome == acquire_outcome::deferred
+                                 ? acquire_outcome::undetermined
+                                 : outcome );
+}
+
+// Announces on transition only.  A step retries every minute, so reporting each failure
+// would repeat the same line sixty times an hour, and the stored reason is what makes a
+// later recurrence a transition again.  Only the player's own crafts announce; an NPC's
+// pause is still stored, so it explains itself when the craft is examined.
+static void craft_note_reservation_pause( item &craft, acquire_outcome outcome )
+{
+    const uint8_t reason = pause_reason_for( outcome );
+    const uint8_t previous = craft.get_reservation_pause_reason();
+    craft.set_reservation_pause_reason( reason );
+    if( reason == previous || craft.get_crafter_id() != get_player_character().getID() ) {
+        return;
+    }
+    switch( static_cast<acquire_outcome>( reason ) ) {
+        case acquire_outcome::provider_lost:
+            add_msg( m_warning, _( "Something %s was set up to use is out of reach now." ),
+                     craft.tname() );
+            break;
+        case acquire_outcome::infeasible:
+            add_msg( m_warning, _( "The tools in reach cannot cover every part of %s at once." ),
+                     craft.tname() );
+            break;
+        case acquire_outcome::undetermined:
+            add_msg( m_warning, _( "You can't work out which tools to set aside for %s." ),
+                     craft.tname() );
+            break;
+        default:
+            break;
+    }
+}
+
+// A reserved provider is hidden from every inventory query, so an allocation a binding
+// already covers must not be re-checked against one.
+static bool tool_covered_by_binding( const item &craft, const itype_id &type )
+{
+    for( const craft_reservation::binding &b : craft.get_reservations() ) {
+        if( b.established() &&
+            b.req == craft_reservation::requirement_kind::presence_tool &&
+            b.tool_type == type ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Per-item: draining charges touches only the item it names.
+static bool unreserved_filter( const item &it )
+{
+    return craft_reservation::usable_by_automation( it );
+}
+
+void craft_relocated( const item_location &landed )
+{
+    if( !landed ) {
+        return;
+    }
+    // Ascend first: a copy re-uids the whole tree, and one caller hands back a location
+    // beneath the copied root rather than the root itself.
+    item_location root = landed;
+    while( root.parent_item() != item_location::nowhere ) {
+        root = root.parent_item();
+    }
+
+    std::vector<item *> crafts;
+    root->visit_items( [&crafts]( item * node, item * ) {
+        if( node->is_craft() &&
+            node->get_passive_started_at() != calendar::before_time_starts ) {
+            crafts.push_back( node );
+        }
+        return VisitResponse::NEXT;
+    } );
+    if( crafts.empty() ) {
+        return;
+    }
+
+    for( item *craft : crafts ) {
+        const item_location craft_loc = craft == root.get_item()
+                                        ? root
+                                        : item_location( root, craft );
+        craft->set_reserved_tile( craft_site_tile( craft_loc ) );
+        // A craft that had nothing to poll for gains a site lock when dropped, and the
+        // lease needs a poll to refresh it.
+        if( craft->get_reserved_tile() &&
+            craft->get_env_check_at() == calendar::before_time_starts ) {
+            craft->set_env_check_at( calendar::turn + 1_minutes );
+        }
+        get_item_wakeups().rebuild_for_item( craft_loc );
+        if( craft->peek_reservation_owner_token() != 0 ) {
+            get_craft_reservations().rebuild_for_craft( craft_loc );
+        }
+    }
+}
+
+// Call only past every gate, or a craft paused for charges renews its lease forever.
+static void craft_refresh_reservation_lease( item &craft, time_point now,
+        const item_location &loc )
+{
+    if( !craft.is_craft() || craft.peek_reservation_owner_token() == 0 ) {
+        return;
+    }
+    // Derived, not owned: a craft in vehicle cargo changes tile with no copy and no hook.
+    craft.set_reserved_tile( craft_site_tile( loc ) );
+    craft.set_reservation_expiry( now + 1_hours );
+    get_craft_reservations().rebuild_for_craft( loc );
+}
+
 static std::string compose_unattend_message( const item &craft, const recipe_step &step )
 {
     if( !step.unattend_message.empty() ) {
@@ -1299,6 +3313,8 @@ static std::string compose_unattend_message( const item &craft, const recipe_ste
 
 static void advance_passive_step( item &craft )
 {
+    // Before the step index moves, so the next entry re-binds against a freed pool.
+    release_step_resources( craft );
     if( craft.get_passive_end_counter() > craft.item_counter ) {
         craft.item_counter = std::min( 10000000, craft.get_passive_end_counter() );
     }
@@ -1372,7 +3388,7 @@ static void end_live_wait_for( const item_location &loc )
 
 static std::optional<tripoint_bub_ms> craft_loc_for_complete( const item_location &loc )
 {
-    if( loc.where() == item_location::type::character ) {
+    if( loc.where_recursive() == item_location::type::character ) {
         return std::nullopt;
     }
     return get_map().get_bub( loc.pos_abs() );
@@ -1394,109 +3410,6 @@ static bool recipe_result_is_liquid( const recipe &rec )
 
 // Clear passive timing and wakeups so nothing re-arms the step; the craft holds
 // at full progress until the player collects it via an explicit continue/activate.
-static void release_step_resources( item &craft )
-{
-    if( !craft.is_craft() ) {
-        return;
-    }
-    const int64_t token = craft.peek_reservation_owner_token();
-    if( token != 0 ) {
-        get_craft_reservations().erase( token );
-    }
-    craft.set_reservations( {} );
-    craft.set_reserved_tile( std::nullopt );
-    craft.set_reservation_expiry( calendar::before_time_starts );
-    craft.set_reservation_search_attempts( 0 );
-    craft.set_reservation_pool_fingerprint( 0 );
-    craft.set_reservation_pause_reason( 0 );
-}
-
-static std::optional<tripoint_abs_ms> craft_site_tile( const item_location &loc )
-{
-    if( loc.where_recursive() == item_location::type::character ) {
-        return std::nullopt;
-    }
-    return loc.pos_abs();
-}
-
-static void reserve_step_resources( item &craft, const item_location &loc, time_point now )
-{
-    if( !craft.is_craft() ) {
-        return;
-    }
-    const recipe &rec = craft.get_making();
-    const int idx = craft.get_current_step();
-    if( !rec.has_steps() || idx < 0 || idx >= static_cast<int>( rec.steps().size() ) ) {
-        return;
-    }
-    // A grounded step claims the tile it sits on.  Only the initial lease is written
-    // here.  A lapsed one is left lapsed and refreshed by a tick that reaches its end,
-    // or a paused step would mint itself another hour on every check and never expire.
-    const bool no_lease = craft.get_reservation_expiry() == calendar::before_time_starts;
-    craft.set_reserved_tile( craft_site_tile( loc ) );
-    if( craft.get_reserved_tile() ) {
-        craft.reservation_owner_token();
-        if( no_lease ) {
-            craft.set_reservation_expiry( now + 1_hours );
-        }
-        get_craft_reservations().rebuild_for_craft( loc );
-    }
-}
-
-static void craft_refresh_reservation_lease( item &craft, time_point now,
-        const item_location &loc )
-{
-    if( !craft.is_craft() || craft.peek_reservation_owner_token() == 0 ) {
-        return;
-    }
-    // Derived, not owned: a craft in vehicle cargo changes tile with no copy and no hook.
-    craft.set_reserved_tile( craft_site_tile( loc ) );
-    craft.set_reservation_expiry( now + 1_hours );
-    get_craft_reservations().rebuild_for_craft( loc );
-}
-
-void craft_relocated( const item_location &landed )
-{
-    if( !landed ) {
-        return;
-    }
-    // Ascend first: a copy re-uids the whole tree, and one caller hands back a location
-    // beneath the copied root rather than the root itself.
-    item_location root = landed;
-    while( root.parent_item() != item_location::nowhere ) {
-        root = root.parent_item();
-    }
-
-    std::vector<item *> crafts;
-    root->visit_items( [&crafts]( item * node, item * ) {
-        if( node->is_craft() &&
-            node->get_passive_started_at() != calendar::before_time_starts ) {
-            crafts.push_back( node );
-        }
-        return VisitResponse::NEXT;
-    } );
-    if( crafts.empty() ) {
-        return;
-    }
-
-    for( item *craft : crafts ) {
-        const item_location craft_loc = craft == root.get_item()
-                                        ? root
-                                        : item_location( root, craft );
-        craft->set_reserved_tile( craft_site_tile( craft_loc ) );
-        // A craft that had nothing to poll for gains a site lock when dropped, and the
-        // lease needs a poll to refresh it.
-        if( craft->get_reserved_tile() &&
-            craft->get_env_check_at() == calendar::before_time_starts ) {
-            craft->set_env_check_at( calendar::turn + 1_minutes );
-        }
-        get_item_wakeups().rebuild_for_item( craft_loc );
-        if( craft->peek_reservation_owner_token() != 0 ) {
-            get_craft_reservations().rebuild_for_craft( craft_loc );
-        }
-    }
-}
-
 static void park_craft_for_collection( item &craft )
 {
     release_step_resources( craft );
@@ -1553,20 +3466,6 @@ static void finalize_passive_craft( item &craft, const item_location &loc )
     mut_loc.remove_item();
     crafter->complete_craft( craft_copy, finalize_loc );
 }
-
-namespace
-{
-// Result of an env-check pass.
-enum class env_check_result {
-    // Pause was entered or continues.
-    paused,
-    // Pause restored; deadlines slid.  Ready-advance must recheck
-    // ready_at before continuing.
-    restored,
-    // No pause.
-    ok,
-};
-} // namespace
 
 // Park the in-flight deadlines and turn ready_at into a 1-minute polling cursor
 // so a paused step keeps re-checking until its requirements return.
@@ -1630,9 +3529,7 @@ static env_check_result craft_check_env_step( item &craft, time_point now,
         }
         // Re-arm env_check cursor, clamped to ready_at so a near-end-of-step
         // restore does not arm a poll past completion.
-        craft_refresh_reservation_lease( craft, now, loc );
-        if( step_has_env_requirements( step ) || step_has_charged_alloc( craft, step_idx ) ||
-            craft.get_reserved_tile() ) {
+        if( step_wants_env_poll( craft, step, step_idx ) ) {
             const time_point next = now + 1_minutes;
             craft.set_env_check_at( std::min( next, craft.get_ready_at() ) );
         } else {
@@ -1645,9 +3542,7 @@ static env_check_result craft_check_env_step( item &craft, time_point now,
     // Normal mid-step env check (no pause entered or exited).  Re-arm the
     // cursor for the next minute; clamp to ready_at so a poll never fires
     // after step completion.
-    craft_refresh_reservation_lease( craft, now, loc );
-    if( step_has_env_requirements( step ) || step_has_charged_alloc( craft, step_idx ) ||
-        craft.get_reserved_tile() ) {
+    if( step_wants_env_poll( craft, step, step_idx ) ) {
         const time_point next = now + 1_minutes;
         craft.set_env_check_at( std::min( next, craft.get_ready_at() ) );
     } else {
@@ -1674,6 +3569,13 @@ static void craft_actualize_env( item &craft, time_point now, const item_locatio
         now >= craft.get_fail_at() ) {
         return;
     }
+    // Also on the restore branch, so a craft paused for a lost provider recovers itself.
+    const acquire_outcome reservation_result = reserve_step_resources( craft, loc, now );
+    if( reservation_result != acquire_outcome::ok ) {
+        craft_note_reservation_pause( craft, reservation_result );
+        craft_enter_env_pause( craft, now, loc );
+        return;
+    }
     if( craft_check_env_step( craft, now, loc ) == env_check_result::paused ) {
         return;
     }
@@ -1682,8 +3584,11 @@ static void craft_actualize_env( item &craft, time_point now, const item_locatio
     if( Character *consumer = resolve_consume_crafter( craft, loc ) ) {
         if( !consumer->craft_consume_passive_step_tools( craft, now, loc ) ) {
             craft_enter_env_pause( craft, now, loc );
+            return;
         }
     }
+    craft.set_reservation_pause_reason( 0 );
+    craft_refresh_reservation_lease( craft, now, loc );
 }
 
 static void craft_actualize_ready( item &craft, time_point now, const item_location &loc )
@@ -1703,6 +3608,9 @@ static void craft_actualize_ready( item &craft, time_point now, const item_locat
     // Recipe-edit migration: stale passive state on what is now an active step
     // would otherwise advance/finalize the wrong step.  Clear and bail.
     if( step.attention != step_attention::unattended ) {
+        // No live unattended step is left to hold anything, so the claims go with it
+        // rather than waiting out the lease.
+        release_step_resources( craft );
         craft.set_passive_started_at( calendar::before_time_starts );
         craft.set_ready_at( calendar::before_time_starts );
         craft.set_alarm_at( calendar::before_time_starts );
@@ -1723,6 +3631,15 @@ static void craft_actualize_ready( item &craft, time_point now, const item_locat
     if( craft.get_fail_at() != calendar::before_time_starts &&
         now >= craft.get_fail_at() ) {
         craft_actualize_fail( craft, now, loc );
+        return;
+    }
+
+    // The gate treats a bound group as covered, which is only sound once that binding
+    // has been checked this tick; otherwise a lost provider completes the step.
+    const acquire_outcome ready_reservation = reserve_step_resources( craft, loc, now );
+    if( ready_reservation != acquire_outcome::ok ) {
+        craft_note_reservation_pause( craft, ready_reservation );
+        craft_enter_env_pause( craft, now, loc );
         return;
     }
 
@@ -1754,6 +3671,10 @@ static void craft_actualize_ready( item &craft, time_point now, const item_locat
     }
 
     if( env_result == env_check_result::restored && now < craft.get_ready_at() ) {
+        // Past every gate, so this tick counts as completed even though the slid
+        // deadline puts completion off.
+        craft.set_reservation_pause_reason( 0 );
+        craft_refresh_reservation_lease( craft, now, loc );
         return;
     }
 
@@ -1920,15 +3841,15 @@ void craft_stamp_passive_entry( item &craft, const Character &crafter, time_poin
     if( plan.choice == step_choice::set_timer && plan.alarm_offset.has_value() ) {
         craft.set_alarm_at( entry_time + *plan.alarm_offset );
     }
-    // Before the poll decision, which reads the claim: a step holding only its craft
-    // site still polls, so the lease taken here is refreshed rather than lapsing under
-    // a running craft.
-    reserve_step_resources( craft, loc, now );
-    // Periodic env-check cursor: arm when the step has env requirements, any charged
-    // allocation to drain, or a claim whose lease needs refreshing.  Clamp to ready_at
-    // so a short step never schedules a poll past completion.
-    if( step_has_env_requirements( cur_step ) || step_has_charged_alloc( craft, idx ) ||
-        craft.get_reserved_tile() ) {
+    // Periodic env-check cursor: arm when the step has env requirements or any
+    // charged allocation to drain.  Clamp to ready_at so a short step never
+    // schedules a poll past completion.
+    // Before the entry debit, which is irreversible: a step whose provider was already
+    // taken would otherwise spend charges and pause immediately.
+    const acquire_outcome reservation_result = reserve_step_resources( craft, loc, now );
+
+    // After acquiring, since the condition reads the bindings.
+    if( step_wants_env_poll( craft, cur_step, idx ) ) {
         const time_point next = now + 1_minutes;
         craft.set_env_check_at( std::min( next, craft.get_ready_at() ) );
     } else {
@@ -1961,6 +3882,12 @@ void craft_stamp_passive_entry( item &craft, const Character &crafter, time_poin
                                               ( prior_moves + step_default ) / base_total * 10000000.0 ) ) );
     craft.set_passive_start_counter( start_counter );
     craft.set_passive_end_counter( end_counter );
+    if( reservation_result != acquire_outcome::ok ) {
+        craft_note_reservation_pause( craft, reservation_result );
+        craft_enter_env_pause( craft, now, loc );
+        get_item_wakeups().rebuild_for_item( loc );
+        return;
+    }
     // Drain the entry (bucket 0) charges now so a passive step pays its entry
     // debit like an active one.  A shortfall pauses the step.
     if( Character *consumer = resolve_consume_crafter( craft, loc ) ) {
@@ -1988,6 +3915,9 @@ void craft_apply_resume_replan( item_location &loc )
     if( rec.steps()[idx].attention != step_attention::unattended ) {
         return;
     }
+    // A provider copied to a new uid can never match its old identity, so an explicit
+    // resume must re-resolve rather than revalidate.
+    release_step_resources( *craft );
     const std::vector<attention_plan> &plans = craft->get_step_plans();
     const attention_plan plan = idx < static_cast<int>( plans.size() ) ? plans[idx] :
                                 attention_plan{};
@@ -3717,16 +5647,6 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
     return true;
 }
 
-// Charges (count units) consumed through `count` 5% buckets.  Front-loads the
-// remainder at bucket 0 and caps at the step total.
-static int step_bucket_cumulative( int total, int count )
-{
-    if( count <= 0 ) {
-        return 0;
-    }
-    return std::min( total, total % 20 + count * ( total / 20 ) );
-}
-
 // 5% bucket count (0..20) a step should reach at progress fraction `f`.  Bucket
 // 0 (entry) fires at fraction 0; the final 5% is never charged.
 static int step_buckets_for_fraction( double f )
@@ -3758,44 +5678,25 @@ bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &
         int alloc_idx = 0;
         int new_count = 0;
     };
-    std::vector<pending_debit> debits;
     std::vector<pending_presence> presence;
     for( int s = 0; s < static_cast<int>( allocs.size() ) &&
          s < static_cast<int>( targets.size() ); ++s ) {
-        const int tgt = targets[s];
         for( int a = 0; a < static_cast<int>( allocs[s].size() ); ++a ) {
-            step_tool_alloc &alloc = allocs[s][a];
-            if( alloc.sel.comp.count <= 0 ) {
-                // Re-check non-charged tool presence on bucket transitions only;
-                // verify_step_tools sweeps the step at completion to catch a
-                // tool removed within the final bucket.
-                if( tgt > alloc.consumed_buckets ) {
-                    presence.push_back( { alloc.sel.comp.type, s, a, tgt } );
-                }
-                continue;
+            const step_tool_alloc &alloc = allocs[s][a];
+            // Re-check non-charged tool presence on bucket transitions only;
+            // verify_step_tools sweeps the step at completion to catch a
+            // tool removed within the final bucket.
+            if( alloc.sel.comp.count <= 0 && targets[s] > alloc.consumed_buckets &&
+                !tool_covered_by_binding( craft, alloc.sel.comp.type ) ) {
+                presence.push_back( { alloc.sel.comp.type, s, a, targets[s] } );
             }
-            if( tgt <= alloc.consumed_buckets ) {
-                continue;
-            }
-            if( alloc.step_count_units <= 0 ) {
-                alloc.consumed_buckets = tgt;
-                continue;
-            }
-            const int units = step_bucket_cumulative( alloc.step_count_units, tgt ) -
-                              step_bucket_cumulative( alloc.step_count_units, alloc.consumed_buckets );
-            if( units <= 0 ) {
-                alloc.consumed_buckets = tgt;
-                continue;
-            }
-            // Pin player- and both-sourced charges to the map when the crafter
-            // cannot reach the craft, so the preflight and the debit both hit the
-            // charges sitting at the craft rather than an absent crafter's pack.
-            usage_from eff = alloc.sel.use_from;
-            if( pin_to_map && ( eff == usage_from::both || eff == usage_from::player ) ) {
-                eff = usage_from::map;
-            }
-            debits.push_back( { alloc.sel, eff, units, s, a, tgt } );
         }
+    }
+    std::vector<settled_tool_bucket> settled;
+    const std::vector<pending_tool_debit> debits =
+        collect_step_tool_debits( allocs, targets, pin_to_map, &settled );
+    for( const settled_tool_bucket &s : settled ) {
+        allocs[s.step_idx][s.alloc_idx].consumed_buckets = s.new_count;
     }
 
     if( debits.empty() && presence.empty() ) {
@@ -3803,27 +5704,10 @@ bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &
         return true;
     }
 
-    // Aggregate the required charges per tool type, then preflight, so shared
-    // pools cannot pass per-alloc yet fail in total.
     std::map<itype_id, int> need_player;
     std::map<itype_id, int> need_map;
     std::map<itype_id, int> need_both;
-    for( const pending_debit &d : debits ) {
-        const int qty = d.units * item::find_type( d.sel.comp.type )->charge_factor();
-        switch( d.eff_use ) {
-            case usage_from::player:
-                need_player[d.sel.comp.type] += qty;
-                break;
-            case usage_from::map:
-                need_map[d.sel.comp.type] += qty;
-                break;
-            case usage_from::both:
-                need_both[d.sel.comp.type] += qty;
-                break;
-            default:
-                break;
-        }
-    }
+    aggregate_tool_debits( debits, need_player, need_map, need_both );
     // form_from_map is expensive in dense areas; defer it until a map-sourced
     // check actually needs it.  Active crafts with player-held tools never hit
     // need_map and pin_to_map=false, so the inventory is never built.
@@ -3839,7 +5723,9 @@ bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &
     const auto shortfall = [&]( const std::map<itype_id, int> &need, int which ) -> bool {
         for( const std::pair<const itype_id, int> &n : need )
         {
-            bool ok = which == 0 ? has_charges( n.first, n.second )
+            // The same filter the debit applies, or a reserved tool passes the check
+            // and then supplies nothing while the bucket is recorded as paid.
+            bool ok = which == 0 ? has_charges( n.first, n.second, unreserved_filter )
             : which == 1 ? get_map_inv().has_charges( n.first, n.second )
             : crafting_inventory().has_charges( n.first, n.second );
             if( !ok ) {
@@ -3874,7 +5760,7 @@ bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &
     }
 
     map &m = get_map();
-    for( const pending_debit &d : debits ) {
+    for( const pending_tool_debit &d : debits ) {
         comp_selection<tool_comp> to_consume = d.sel;
         to_consume.use_from = d.eff_use;
         to_consume.comp.count = d.units;
@@ -3909,6 +5795,9 @@ bool Character::verify_step_tools( item &craft, int step_idx,
     };
     for( const step_tool_alloc &alloc : allocs[step_idx] ) {
         if( alloc.sel.comp.count > 0 ) {
+            continue;
+        }
+        if( tool_covered_by_binding( craft, alloc.sel.comp.type ) ) {
             continue;
         }
         const bool present = pin_to_map ? get_map_inv().has_tools( alloc.sel.comp.type, 1 )
