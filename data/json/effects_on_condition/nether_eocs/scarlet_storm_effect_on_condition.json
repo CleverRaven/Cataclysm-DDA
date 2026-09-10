@@ -8,10 +8,7 @@
     "condition": { "math": [ "scarlet_storm_active == 1" ] },
     "deactivate_condition": { "math": [ "scarlet_storm_died == 1" ] },
     "effect": [
-      {
-        "location_variable_adjust": { "global_val": "scarlet_storm_center" },
-        "x_adjust": -72
-      },
+      { "location_variable_adjust": { "global_val": "scarlet_storm_center" }, "x_adjust": -72 },
       {
         "if": { "math": [ "scarlet_storm_direction == 0" ] },
         "then": [
@@ -61,11 +58,7 @@
     ],
     "false_effect": [
       { "math": [ "scarlet_storm_active = 1" ] },
-      {
-        "u_location_variable": { "global_val": "scarlet_storm_center" },
-        "z_override": true,
-        "z_adjust": 0
-      },
+      { "u_location_variable": { "global_val": "scarlet_storm_center" }, "z_override": true, "z_adjust": 0 },
       { "math": [ "scarlet_storm_offset = time_since('cataclysm', 'unit':'days') * 216" ] },
       { "math": [ "scarlet_storm_center.x = 50400 - scarlet_storm_offset" ] },
       { "math": [ "scarlet_storm_center.y = 0" ] },
@@ -79,12 +72,28 @@
     "global": true,
     "condition": {
       "and": [
-        { "or": [ { "is_weather": "scarlet_storm_1" }, { "is_weather": "scarlet_storm_2" }, { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" } ] },
+        {
+          "or": [
+            { "is_weather": "scarlet_storm_1" },
+            { "is_weather": "scarlet_storm_2" },
+            { "is_weather": "scarlet_storm_3" },
+            { "is_weather": "scarlet_storm_4" }
+          ]
+        },
         { "one_in_chance": 300 },
         { "math": [ "u_val('pos_z') >= 0" ] }
       ]
     },
-    "deactivate_condition": { "not": { "or": [ { "is_weather": "scarlet_storm_1" }, { "is_weather": "scarlet_storm_2" }, { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" } ] } },
+    "deactivate_condition": {
+      "not": {
+        "or": [
+          { "is_weather": "scarlet_storm_1" },
+          { "is_weather": "scarlet_storm_2" },
+          { "is_weather": "scarlet_storm_3" },
+          { "is_weather": "scarlet_storm_4" }
+        ]
+      }
+    },
     "effect": { "u_message": "Winds whisper in the distance." }
   },
   {
@@ -107,13 +116,7 @@
     "id": "scarlet_gust_3",
     "recurrence": 18,
     "global": true,
-    "condition": {
-      "and": [
-        { "is_weather": "scarlet_storm_4" },
-        { "one_in_chance": 300 },
-        { "math": [ "u_val('pos_z') >= 0" ] }
-      ]
-    },
+    "condition": { "and": [ { "is_weather": "scarlet_storm_4" }, { "one_in_chance": 300 }, { "math": [ "u_val('pos_z') >= 0" ] } ] },
     "deactivate_condition": { "not": { "is_weather": "scarlet_storm_4" } },
     "effect": [ { "u_message": "You hear winds howl high in the sky!" }, { "math": [ "weather('windpower') = 50" ] } ]
   },

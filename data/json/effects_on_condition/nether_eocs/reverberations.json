@@ -11,10 +11,7 @@
         "if": { "or": [ { "u_at_om_location": "cabin_roof_3" }, { "u_at_om_location": "cabin_roof_3_reverberation_hint" } ] },
         "then": { "run_eocs": "EOC_PORTAL_CABINS" }
       },
-      {
-        "if": { "is_weather": "scarlet_storm_4" },
-        "then": { "run_eocs": "EOC_PORTAL_SCARLET_SEA" }
-      }
+      { "if": { "is_weather": "scarlet_storm_4" }, "then": { "run_eocs": "EOC_PORTAL_SCARLET_SEA" } }
     ]
   },
   {
@@ -491,10 +488,7 @@
         "fail_message": "Nothing seems to change.",
         "success_message": "Your surroundings warp and fold into the recesses of the world you know."
       },
-      {
-        "u_teleport": { "global_val": "scarlet_storm_center" },
-        "force": true
-      },
+      { "u_teleport": { "global_val": "scarlet_storm_center" }, "force": true },
       { "u_message": "You're back.", "popup": true, "popup_w_interrupt_query": true }
     ],
     "false_effect": [

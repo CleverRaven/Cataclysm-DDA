@@ -509,7 +509,7 @@
     "rains": false,
     "sound_category": "silent",
     "priority": 13,
-    "tint_color": [125, 100, 30],
+    "tint_color": [ 125, 100, 30 ],
     "tint_strength": 0.7,
     "condition": {
       "and": [
@@ -539,7 +539,7 @@
     "rains": false,
     "sound_category": "silent",
     "priority": 13,
-    "tint_color": [125, 100, 30],
+    "tint_color": [ 125, 100, 30 ],
     "tint_strength": 0.8,
     "condition": {
       "and": [
@@ -579,7 +579,7 @@
     "rains": false,
     "sound_category": "silent",
     "priority": 45,
-    "tint_color": [100, 15, 30],
+    "tint_color": [ 100, 15, 30 ],
     "tint_strength": 1.0,
     "condition": {
       "and": [
@@ -619,7 +619,7 @@
     "rains": false,
     "sound_category": "thunder",
     "priority": 120,
-    "tint_color": [140, 15, 25],
+    "tint_color": [ 140, 15, 25 ],
     "tint_strength": 1.0,
     "condition": {
       "and": [
