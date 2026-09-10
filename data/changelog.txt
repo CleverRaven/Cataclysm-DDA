@@ -111,6 +111,8 @@ unattended step for boiled egg recipe
 Food revolution: Spices and seasonings
 Allow future contributors to easily tune weary maluses in combat
 Monsters can block attacks for reduced damage
+Deliver fetch quest items via truck
+Swap `req_flag` in martial effects tech effects to `condition`
 
 
 ## Content:
@@ -209,7 +211,6 @@ Add CANNOT_SLEEP flag
 Highland Crypts
 Add serum-specific microlabs
 Add "serum ferals" to serum labs
-
 
 
 ## Interface:
@@ -360,6 +361,7 @@ Aftershock: Origin Hobbies
 [Aftershock] Project Sobek Genetech
 [Xedra Evolved] Challenge Scenario - Undying Vengeance
 You cannot `consume_drugs` if you have `TEMPORARY_SHAPESHIFT_NO_HANDS`
+[MoM] Add chance for feral psions in serum microlabs, small adjustment to mutagen microlabs
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -422,6 +424,7 @@ Deadly bears and how to hurt them
 Add faults to melee weapons lacking them
 Add faults to mainly magyclism melee weapons
 Faction camp hunting has an extra chance to return nothing based on time since the Cataclysm (and winter)
+Brutes cannot smash Huge characters, hulk smashes are less effective against Huge characters
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -636,6 +639,7 @@ Speed up spawning item groups into containers
 Crafting optimizations
 Fix n^3 deserialization bug by not trying to stack unstackable items
 Improve several per-turn performance bottlenecks
+Fix O(N^2) performance degradation in form_from_map
 
 
 ## Infrastructure:
