@@ -1,11 +1,26 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_START_SCARLET_STORM",
+    "//": "Initialize the Scarlet Storm. It always spawns at x=5400 on the date of the cataclysm. The position is offset based on time since the cataclysm.",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "global": true,
+    "effect": [
+      { "math": [ "scarlet_storm_active = 1" ] },
+      { "u_location_variable": { "global_val": "scarlet_storm_center" }, "z_override": true, "z_adjust": 0 },
+      { "math": [ "scarlet_storm_offset = time_since('cataclysm', 'unit':'days') * 216" ] },
+      { "math": [ "scarlet_storm_center.x = 50400 - scarlet_storm_offset" ] },
+      { "math": [ "scarlet_storm_center.y = 0" ] },
+      { "math": [ "scarlet_storm_direction = 0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SCARLET_STORM",
-    "//": "Storm always spawns at x=5400. The position is offset based on time since the cataclysm.",
     "recurrence": "8 hours",
     "global": true,
-    "condition": { "math": [ "scarlet_storm_active == 1" ] },
+    "condition": { "and": [ { "math": [ "scarlet_storm_active == 1" ] }, { "math": [ "scarlet_storm_died != 1" ] } ] },
     "deactivate_condition": { "math": [ "scarlet_storm_died == 1" ] },
     "effect": [
       { "location_variable_adjust": { "global_val": "scarlet_storm_center" }, "x_adjust": -72 },
@@ -55,14 +70,6 @@
         "if": { "math": [ "time_since('cataclysm', 'unit':'days') >= 730" ] },
         "then": { "math": [ "scarlet_storm_died = 1" ] }
       }
-    ],
-    "false_effect": [
-      { "math": [ "scarlet_storm_active = 1" ] },
-      { "u_location_variable": { "global_val": "scarlet_storm_center" }, "z_override": true, "z_adjust": 0 },
-      { "math": [ "scarlet_storm_offset = time_since('cataclysm', 'unit':'days') * 216" ] },
-      { "math": [ "scarlet_storm_center.x = 50400 - scarlet_storm_offset" ] },
-      { "math": [ "scarlet_storm_center.y = 0" ] },
-      { "math": [ "scarlet_storm_direction = 0" ] }
     ]
   },
   {
