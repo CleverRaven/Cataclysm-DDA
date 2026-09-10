@@ -109,20 +109,20 @@ template<typename range_type>
 class generic_vehicle_part_range
 {
     private:
-        std::reference_wrapper<::vehicle> vehicle_;
+        ::vehicle *vehicle_;
         bool with_fake_;
 
     public:
-        explicit generic_vehicle_part_range( ::vehicle &v, bool with_fake = false ) : vehicle_( v ),
+        explicit generic_vehicle_part_range( ::vehicle &v, bool with_fake = false ) : vehicle_( &v ),
             with_fake_( with_fake ) { }
 
         // Templated because see top of file.
         template<typename T = ::vehicle>
         size_t part_count() const {
             if( with_fake_ ) {
-                return static_cast<const T &>( vehicle_.get() ).part_count();
+                return static_cast<const T &>( *vehicle_ ).part_count();
             } else {
-                return static_cast<const T &>( vehicle_.get() ).part_count_real_cached();
+                return static_cast<const T &>( *vehicle_ ).part_count_real_cached();
             }
 
         }
@@ -150,7 +150,7 @@ class generic_vehicle_part_range
         }
 
         ::vehicle &vehicle() const {
-            return vehicle_.get();
+            return *vehicle_;
         }
 };
 
