@@ -59,6 +59,12 @@
     "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true }
   },
   {
+    "type": "MONSTER",
+    "id": "mon_sniperbot_science",
+    "copy-from": "mon_sniperbot",
+    "default_faction": "science"
+  },
+  {
     "id": "mon_shotgunbot",
     "type": "MONSTER",
     "name": { "str": "shotgun bot" },
@@ -84,6 +90,12 @@
         "no_ammo_sound": "chk-chk!"
       }
     ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_shotgunbot_science",
+    "copy-from": "mon_shotgunbot",
+    "default_faction": "science"
   },
   {
     "id": "mon_meleebot",
@@ -115,6 +127,12 @@
     "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER", "STUN_IMMUNE" ]
   },
   {
+    "type": "MONSTER",
+    "id": "mon_meleebot_science",
+    "copy-from": "mon_meleebot",
+    "default_faction": "science"
+  },
+  {
     "id": "mon_bitebot",
     "type": "MONSTER",
     "name": { "str": "bitebot" },
@@ -144,5 +162,11 @@
       { "id": "drag_followup", "cooldown": 1 }
     ],
     "extend": { "flags": [ "GRABS", "CANPLAY" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_bitebot_science",
+    "copy-from": "mon_bitebot",
+    "default_faction": "science"
   }
 ]
