@@ -69,6 +69,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "talker.h"
+#include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "type_id.h"
 #include "units.h"
@@ -742,7 +743,8 @@ conditional_t::func f_has_items_sum( const JsonObject &jo, std::string_view memb
         double charges_present;
         double total_present;
         const Character *you = d.const_actor( is_npc )->get_const_character();
-        inventory inventory_and_around = you->crafting_inventory( you->pos_bub(), PICKUP_RANGE );
+        temp_crafting_inventory inventory_and_around = you->crafting_inventory( you->pos_bub(),
+                PICKUP_RANGE );
 
         // Also add vehicles...
         map &here = get_map();

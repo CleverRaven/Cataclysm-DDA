@@ -163,6 +163,21 @@ bool read_only_visitable::has_quality( const quality_id &qual, int level, int qt
     return has_quality_internal( *this, qual, level, qty ) == qty;
 }
 
+bool temp_crafting_inventory::has_quality( const quality_id &qual, int level, int qty ) const
+{
+    bool ret = read_only_visitable::has_quality( qual, level, qty );
+    if( ret ) {
+        return true;
+    }
+    for( const item &it : temp_owned_items ) {
+        ret = it.has_quality( qual, level, qty );
+        if( ret ) {
+            return true;
+        }
+    }
+    return ret;
+}
+
 bool read_only_visitable::has_provider_quality( const quality_id &qual, int level, int qty,
         const Character *who ) const
 {
@@ -489,6 +504,22 @@ VisitResponse temp_crafting_inventory::visit_items(
             return VisitResponse::ABORT;
         }
     }
+    for( item_location loc : items_loc ) {
+        if( visit_internal( func, loc.get_item() ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+    return VisitResponse::NEXT;
+}
+
+VisitResponse temp_crafting_inventory::visit_pseudo_items(
+    const std::function<VisitResponse( item *, item * )> &func ) const
+{
+    for( const item &it : temp_owned_items ) {
+        if( visit_internal( func, &it ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
     return VisitResponse::NEXT;
 }
 
@@ -694,6 +725,41 @@ std::list<item> inventory::remove_items_with( const
 
     // Invalidate binning cache
     binned = false;
+
+    return res;
+}
+
+std::list<item> temp_crafting_inventory::remove_items_with( const
+        std::function<bool( const item &e )> &filter, int count )
+{
+    std::list<item> res;
+
+    if( count <= 0 ) {
+        // nothing to do
+        return res;
+    }
+
+    visit_items(
+    [&filter, &count, &res]( item * node, item * ) {
+        if( filter( *node ) ) {
+            const int c = node->count();
+            if( c <= count ) {
+                res.push_back( node->remove_item( *node ) );
+            } else {
+                // we are only here if it's count by charges anyway.
+                item temp( *node );
+                temp.charges = count;
+                res.push_back( temp );
+                node->charges -= count;
+            }
+            count -= c;
+        }
+        if( count <= 0 ) {
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    }
+    );
 
     return res;
 }

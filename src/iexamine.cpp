@@ -85,6 +85,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "talker.h"  // IWYU pragma: keep
+#include "temp_crafting_inventory.h"
 #include "tileray.h"
 #include "timed_event.h"
 #include "translation.h"
@@ -1735,7 +1736,7 @@ void iexamine::portable_structure( Character &you, const tripoint_bub_ms &examp 
  */
 void iexamine::pit( Character &you, const tripoint_bub_ms &examp )
 {
-    const inventory &crafting_inv = you.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
     if( !crafting_inv.has_amount( itype_2x4, 1 ) ) {
         none( you, examp );
         return;
@@ -2821,7 +2822,7 @@ void iexamine::harvest_plant( Character &you, const tripoint_bub_ms &examp, bool
             add_msg( m_info, _( "The seed blossoms into a flower-looking fungus." ) );
         }
     } else { // Generic seed, use the seed item data
-        const inventory &crafting_inv = you.crafting_inventory();
+        const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
         if( seed->has_flag( flag_CUT_HARVEST ) && !crafting_inv.has_quality( qual_GRASS_CUT ) ) {
             you.add_msg_if_player( m_info, _( "You will need a grass-cutting tool to harvest this plant." ) );
             return;
@@ -4470,7 +4471,7 @@ static item_location maple_tree_sap_container()
 
 void iexamine::tree_maple( Character &you, const tripoint_bub_ms &examp )
 {
-    const inventory &crafting_inv = you.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
     if( !crafting_inv.has_quality( qual_DRILL ) ) {
         add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
         return;
@@ -5916,7 +5917,7 @@ void iexamine::autodoc( Character &you, const tripoint_bub_ms &examp )
         amenu.ret > 1 ) {
         needs_anesthesia = false;
     } else {
-        const inventory &crafting_inv = you.crafting_inventory();
+        const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
         std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_quality( qual_ANESTHESIA );
         } );
@@ -6755,7 +6756,7 @@ static void mill_load_food( Character &you, const tripoint_bub_ms &examp,
         return;
     }
     // filter millable food
-    inventory inv = you.crafting_inventory();
+    temp_crafting_inventory inv = you.crafting_inventory();
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );

@@ -98,6 +98,7 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "submap.h"  // IWYU pragma: keep
+#include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "translations.h"
 #include "trap.h"
@@ -4174,7 +4175,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         return;
     }
 
-    const inventory &inv = crafting_inventory();
+    const temp_crafting_inventory &inv = crafting_inventory();
 
     struct mending_option {
         fault_id fault;
@@ -5712,7 +5713,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
                                         const std::function<bool( const item & )> &filter, bool in_tools )
 {
     std::list<item> res;
-    inventory inv = crafting_inventory( pos_bub(), radius, true );
+    temp_crafting_inventory inv = crafting_inventory( pos_bub(), radius, true );
 
     if( qty <= 0 ) {
         return res;

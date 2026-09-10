@@ -34,6 +34,7 @@
 #include "ret_val.h"
 #include "skill.h"
 #include "stomach.h"
+#include "temp_crafting_inventory.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -46,7 +47,7 @@ static const move_mode_id move_mode_walk( "walk" );
 
 int get_remaining_charges( const itype_id &tool_id )
 {
-    const inventory crafting_inv = get_player_character().crafting_inventory();
+    const temp_crafting_inventory crafting_inv = get_player_character().crafting_inventory();
     std::vector<const item *> items =
     crafting_inv.items_with( [tool_id]( const item & i ) {
         return i.typeId() == tool_id;

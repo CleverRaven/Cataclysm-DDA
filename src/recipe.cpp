@@ -49,6 +49,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id_utils.h"
+#include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
@@ -1553,7 +1554,7 @@ double recipe::step_budget_moves( const Character &guy, size_t step_idx, int bat
     return s.batch_info.apply( t, batch );
 }
 
-float best_quality_speed_modifier( const read_only_visitable &inv,
+float best_quality_speed_modifier( const temp_crafting_inventory &inv,
                                    const Character &crafter,
                                    const quality_id &qual, int level )
 {
@@ -1583,7 +1584,7 @@ std::vector<float> compute_tool_speeds( const recipe &rec, const Character &craf
     if( !rec.has_steps() ) {
         return {};
     }
-    const read_only_visitable &inv = crafter.crafting_inventory();
+    const temp_crafting_inventory &inv = crafter.crafting_inventory();
     std::vector<float> result;
     result.reserve( rec.steps().size() );
     for( const recipe_step &step : rec.steps() ) {

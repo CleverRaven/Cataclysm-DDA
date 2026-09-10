@@ -56,6 +56,7 @@
 #include "ret_val.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "temp_crafting_inventory.h"
 #include "tileray.h"
 #include "translation.h"
 #include "translations.h"
@@ -377,7 +378,7 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
                                 const std::map<skill_id, int> &skills, time_duration time ) const
 {
     Character &player_character = get_player_character();
-    const inventory &inv = player_character.crafting_inventory();
+    const temp_crafting_inventory &inv = player_character.crafting_inventory();
     bool ok = reqs.can_make_with_inventory( &player_character, inv, is_crafting_component, 1,
                                             craft_flags::none, false );
 

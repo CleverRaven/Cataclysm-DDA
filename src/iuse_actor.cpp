@@ -86,6 +86,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "talker.h"
+#include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
@@ -493,7 +494,7 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
     }
 
     std::map<quality_id, int> unmet_reqs;
-    inventory inv;
+    temp_crafting_inventory inv;
     inv.form_from_map( p.pos_bub( *here ), 1, &p, true, true );
     for( const auto &quality : qualities_needed ) {
         if( !p.has_quality( quality.first, quality.second ) &&
@@ -1615,7 +1616,7 @@ ret_val<void> firestarter_actor::can_use( const Character &p, const item &it,
     }
 
     std::map<quality_id, int> unmet_reqs;
-    inventory inv;
+    temp_crafting_inventory inv;
     inv.form_from_map( p.pos_bub( *here ), 1, &p, true, true );
     for( const auto &quality : qualities_needed ) {
         if( !p.has_quality( quality.first, quality.second ) &&
@@ -3161,7 +3162,7 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
         return false;
     }
 
-    const inventory &crafting_inv = pl.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = pl.crafting_inventory();
 
     // Repairing or modifying items requires at least 1 repair item,
     //  otherwise number is related to size of item
@@ -5746,7 +5747,7 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it, map *here,
     // Cache available materials
     std::map< itype_id, bool > has_enough;
     const int items_needed = mod.base_volume() / 750_ml + 1;
-    const inventory &crafting_inv = p->crafting_inventory( here );
+    const temp_crafting_inventory &crafting_inv = p->crafting_inventory( here );
     const std::function<bool( const item & )> is_filthy_filter = is_crafting_component;
 
     // Go through all discovered repair items and see if we have any of them available

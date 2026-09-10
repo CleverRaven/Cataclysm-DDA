@@ -42,6 +42,7 @@
 #include "recipe_groups.h"
 #include "requirements.h"
 #include "string_formatter.h"
+#include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -825,7 +826,7 @@ void basecamp::form_crafting_inventory( map &target_map )
                 }
             }
         }
-        _inv.add_item( camp_item );
+        _inv.add_item_copy( camp_item );
     }
 
     //  We're potentially adding the same item multiple times if present in multiple expansions,
@@ -846,7 +847,7 @@ void basecamp::form_crafting_inventory( map &target_map )
                 }
             }
 
-            _inv.add_item( camp_item );
+            _inv.add_item_copy( camp_item );
         }
     }
 }

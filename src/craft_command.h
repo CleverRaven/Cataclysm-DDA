@@ -81,7 +81,7 @@ struct step_tool_alloc {
 *   future step's tool neither cancels nor degrades the resume.
 */
 std::vector<std::vector<step_tool_alloc>> select_step_tool_allocs(
-        Character &crafter, const recipe &rec, int batch, read_only_visitable &map_inv,
+        Character &crafter, const recipe &rec, int batch, temp_crafting_inventory &map_inv,
         bool &cancelled, int reselect_step = -1 );
 
 /**

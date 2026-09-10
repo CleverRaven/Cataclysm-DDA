@@ -71,6 +71,7 @@
 #include "rng.h"
 #include "safe_reference.h"
 #include "string_formatter.h"
+#include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
@@ -1437,7 +1438,7 @@ int item::ammo_remaining( const map &here, const std::set<ammotype> &ammo, const
     const bool is_tool_with_carrier = carrier != nullptr && is_tool();
 
     if( is_tool_with_carrier && has_flag( flag_USES_NEARBY_AMMO ) && !ammo.empty() ) {
-        const inventory &crafting_inventory = carrier->crafting_inventory();
+        const temp_crafting_inventory &crafting_inventory = carrier->crafting_inventory();
         const ammotype &a = *ammo.begin();
         return crafting_inventory.charges_of( a->default_ammotype(), INT_MAX );
     }
@@ -1844,7 +1845,7 @@ int item::ammo_consume( int qty, map &here, const tripoint_bub_ms &pos, Characte
     if( is_tool_with_carrier && has_flag( flag_USES_NEARBY_AMMO ) ) {
         const ammotype ammo = ammo_type();
         if( !ammo.is_null() ) {
-            const inventory &carrier_inventory = carrier->crafting_inventory( &here );
+            const temp_crafting_inventory &carrier_inventory = carrier->crafting_inventory( &here );
             itype_id ammo_type = ammo->default_ammotype();
             const int charges_avalable = carrier_inventory.charges_of( ammo_type, INT_MAX );
 

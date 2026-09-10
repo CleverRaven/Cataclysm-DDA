@@ -198,6 +198,7 @@
 #include "string_input_popup.h"
 #include "surroundings_menu.h"
 #include "talker.h"
+#include "temp_crafting_inventory.h"
 #include "text_snippets.h"
 #include "tileray.h"
 #include "timed_event.h"
@@ -6776,7 +6777,7 @@ void game::butcher( const std::optional<tripoint_bub_ms> &p )
     std::vector<map_stack::iterator> disassembles;
     std::vector<map_stack::iterator> salvageables;
     map_stack items = here.i_at( pos );
-    const inventory &crafting_inv = u.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = u.crafting_inventory();
 
     // TODO: Properly handle different material whitelists
     // TODO: Improve quality of this section

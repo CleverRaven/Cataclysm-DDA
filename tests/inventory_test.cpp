@@ -8,6 +8,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
+#include "temp_crafting_inventory.h"
 #include "type_id.h"
 
 static const itype_id itype_rock( "rock" );
@@ -40,7 +41,7 @@ TEST_CASE( "inventory_form_from_map_bulk_batching", "[inventory][map]" )
 
     std::vector<tripoint_bub_ms> pts = { p1, p2, p3 };
 
-    inventory inv;
+    temp_crafting_inventory inv;
     inv.form_from_map( m, pts, nullptr, false );
 
     // Check counts

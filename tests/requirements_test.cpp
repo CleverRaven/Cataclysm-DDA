@@ -18,6 +18,7 @@
 #include "npc.h"
 #include "player_helpers.h"
 #include "requirements.h"
+#include "temp_crafting_inventory.h"
 #include "type_id.h"
 
 static const butchery_requirements_id butchery_requirements_default( "default" );
@@ -215,7 +216,7 @@ TEST_CASE( "requirement_checks_follow_their_actor_mode", "[requirement]" )
 {
     clear_avatar();
     avatar &u = get_avatar();
-    const inventory empty_inv;
+    const temp_crafting_inventory empty_inv;
 
     GIVEN( "a requirement demanding a quality, a tool and a component" ) {
         const requirement_data req( { { tool_comp( itype_hammer, -1 ) } },

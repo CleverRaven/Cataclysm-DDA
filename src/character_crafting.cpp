@@ -17,6 +17,7 @@
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "skill.h"
+#include "temp_crafting_inventory.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -121,45 +122,49 @@ recipe_subset Character::get_available_nested( const recipe_subset &res ) const
     return nested_recipes;
 }
 
-recipe_subset Character::get_recipes_from_books( const inventory &crafting_inv ) const
+recipe_subset Character::get_recipes_from_books( const temp_crafting_inventory &crafting_inv ) const
 {
     recipe_subset res;
 
-    for( const auto &stack : crafting_inv.const_slice() ) {
-        const item &candidate = stack->front();
-
+    crafting_inv.visit_items(
+    [&]( item * candidate, item * ) {
         for( std::pair<const recipe *, int> recipe_entry :
-             candidate.get_available_recipes( *this ) ) {
+             candidate->get_available_recipes( *this ) ) {
             res.include( recipe_entry.first, recipe_entry.second );
         }
+        return VisitResponse::NEXT;
     }
+    );
 
     return res;
 }
 
-recipe_subset Character::get_recipes_from_ebooks( const inventory &crafting_inv ) const
+recipe_subset Character::get_recipes_from_ebooks( const temp_crafting_inventory &crafting_inv )
+const
 {
     recipe_subset res;
 
-    for( const std::list<item> *&stack : crafting_inv.const_slice() ) {
-        const item &ereader = stack->front();
-        if( !ereader.is_estorage() || !ereader.ammo_sufficient( this ) ||
-            ereader.is_broken_on_active() ) {
-            continue;
+    crafting_inv.visit_items(
+    [&]( item * ereader, item * ) {
+        if( !ereader->is_estorage() || !ereader->ammo_sufficient( this ) ||
+            ereader->is_broken_on_active() ) {
+            return VisitResponse::NEXT;
         }
 
-        for( const item *it : ereader.get_contents().ebooks() ) {
+        for( const item *it : ereader->get_contents().ebooks() ) {
             for( std::pair<const recipe *, int> recipe_entry :
                  it->get_available_recipes( *this ) ) {
                 res.include( recipe_entry.first, recipe_entry.second );
             }
         }
+        return VisitResponse::SKIP;
     }
+    );
 
     return res;
 }
 
-recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
+recipe_subset Character::get_available_recipes( const temp_crafting_inventory &crafting_inv,
         const std::vector<Character *> *helpers ) const
 {
     recipe_subset res( get_learned_recipes() );
@@ -169,7 +174,7 @@ recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
     if( helpers != nullptr ) {
         for( Character *guy : *helpers ) {
             // Directly form the helper's inventory
-            res.include( get_recipes_from_books( *guy->inv ) );
+            res.include( get_recipes_from_books( guy->crafting_inventory( tripoint_bub_ms::zero, -1 ) ) );
             // Being told what to do
             res.include_if( guy->get_learned_recipes(), [ this ]( const recipe & r ) {
                 return get_knowledge_level( r.skill_used ) >= static_cast<int>( r.get_difficulty(
@@ -183,7 +188,8 @@ recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
     return res;
 }
 
-recipe_subset &Character::get_group_available_recipes( inventory *inventory_override ) const
+recipe_subset &Character::get_group_available_recipes( temp_crafting_inventory *inventory_override )
+const
 {
     if( !test_mode && calendar::turn == cached_recipe_turn && cached_recipe_subset->size() > 0 ) {
         return *cached_recipe_subset;
@@ -204,7 +210,7 @@ recipe_subset &Character::get_group_available_recipes( inventory *inventory_over
     return *cached_recipe_subset;
 }
 
-std::set<itype_id> Character::get_books_for_recipe( const inventory &crafting_inv,
+std::set<itype_id> Character::get_books_for_recipe( const temp_crafting_inventory &crafting_inv,
         const recipe *r ) const
 {
     std::set<itype_id> book_ids;

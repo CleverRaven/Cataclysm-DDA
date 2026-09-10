@@ -97,7 +97,7 @@ class vpart_position
         // Returns a list of all tools provided by vehicle and their hotkey
         std::map<item, int> get_tools( map &here ) const;
         // Forms inventory for inventory::form_from_map
-        void form_inventory( map &here, inventory &inv ) const;
+        void form_inventory( map &here, temp_crafting_inventory &inv ) const;
 
         bool can_load_furniture() const;
         bool has_loaded_furniture() const;

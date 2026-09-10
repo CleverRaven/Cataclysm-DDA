@@ -124,6 +124,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "talker.h"
+#include "temp_crafting_inventory.h"
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
@@ -10640,7 +10641,7 @@ void mend_item_activity_actor::finish( player_activity &act, Character &who )
     }
     const fault_fix &fix = *mending_method;
     const requirement_data &reqs = fix.get_requirements();
-    const inventory &inv = who.crafting_inventory();
+    const temp_crafting_inventory &inv = who.crafting_inventory();
     if( !reqs.can_make_with_inventory( &who, inv, is_crafting_component ) ) {
         add_msg( m_info, _( "You are currently unable to mend the %s." ), target.tname() );
         return;
@@ -10742,7 +10743,7 @@ void fix_wound_activity_actor::finish( player_activity &act, Character &who )
     }
     const wound_fix &fix = *mending_method;
     const requirement_data &reqs = fix.get_requirements();
-    const inventory &inv = who.crafting_inventory();
+    const temp_crafting_inventory &inv = who.crafting_inventory();
     if( !reqs.can_make_with_inventory( &who, inv, is_crafting_component ) ) {
         add_msg( m_info, _( "You are currently unable to heal the %s." ), healed_bp->name.translated() );
         return;
@@ -11396,7 +11397,7 @@ void vehicle_activity_actor::complete_vehicle( player_activity &act, Character &
 
     switch( sub_activity ) {
         case VEHICLE_INSTALL: {
-            const inventory &inv = you.crafting_inventory();
+            const temp_crafting_inventory &inv = you.crafting_inventory();
             const requirement_data reqs = vpinfo.install_requirements();
             if( !reqs.can_make_with_inventory( &you, inv, is_crafting_component, 1, craft_flags::none,
                                                false ) ) {
@@ -11552,7 +11553,7 @@ void vehicle_activity_actor::complete_vehicle( player_activity &act, Character &
             const bool wall_wire_removal = appliance_removal && vpi.id == vpart_ap_wall_wiring;
             const bool broken = vp->is_broken();
             const bool smash_remove = vpi.has_flag( "SMASH_REMOVE" );
-            const inventory &inv = you.crafting_inventory();
+            const temp_crafting_inventory &inv = you.crafting_inventory();
             const requirement_data &reqs = vpi.removal_requirements();
             if( !reqs.can_make_with_inventory( &you, inv, is_crafting_component ) ) {
                 //~  1$s is the vehicle part name
@@ -11789,7 +11790,7 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
         return false;
     }
 
-    const inventory &inv = p.crafting_inventory();
+    const temp_crafting_inventory &inv = p.crafting_inventory();
     for( const vpart_reference &vp : veh.get_all_parts() ) {
         for( const itype_id &tool : vp.info().get_folding_tools() ) {
             if( !inv.has_tools( tool, 1 ) ) {
@@ -11911,7 +11912,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
                || here.impassable( p );
     };
 
-    const inventory &inv = p.crafting_inventory();
+    const temp_crafting_inventory &inv = p.crafting_inventory();
     for( const vpart_reference &vp : veh->get_all_parts() ) {
         if( vp.info().location != vpart_location_structure ) {
             continue;
@@ -12813,7 +12814,7 @@ void wash_activity_actor::finish( player_activity &act, Character &p )
     const auto is_liquid_crafting_component = []( const item & it ) {
         return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( phase_id::LIQUID ) );
     };
-    const inventory &crafting_inv = p.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = p.crafting_inventory();
     if( !crafting_inv.has_charges( itype_water, requirements.water, is_liquid_crafting_component ) &&
         !crafting_inv.has_charges( itype_water_clean, requirements.water, is_liquid_crafting_component ) ) {
         p.add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),

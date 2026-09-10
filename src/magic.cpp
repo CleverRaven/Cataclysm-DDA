@@ -62,6 +62,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "talker.h"
+#include "temp_crafting_inventory.h"
 #include "text.h"
 #include "text_snippets.h"
 #include "translations.h"
@@ -1199,7 +1200,7 @@ void spell::use_components( Character &guy ) const
     }
     const requirement_data &spell_components = type->spell_components.obj();
     // if we're here, we're assuming the Character has the correct components (using can_cast())
-    inventory map_inv;
+    temp_crafting_inventory map_inv;
     map_inv.form_from_map( guy.pos_bub(), 0, &guy, true, false );
     for( const std::vector<item_comp> &comp_vec : spell_components.get_components() ) {
         guy.consume_items( guy.select_item_component( comp_vec, 1, map_inv ), 1 );
@@ -1218,7 +1219,9 @@ bool spell::check_if_component_in_hand( Character &guy ) const
     const requirement_data &spell_components = type->spell_components.obj();
 
     if( guy.has_weapon() ) {
-        if( spell_components.can_make_with_inventory( &guy, *guy.get_wielded_item(), return_true<item> ) ) {
+        temp_crafting_inventory crafting_inv;
+        crafting_inv.add_item_loc( guy.get_wielded_item() );
+        if( spell_components.can_make_with_inventory( &guy, crafting_inv, return_true<item> ) ) {
             return true;
         }
     }
