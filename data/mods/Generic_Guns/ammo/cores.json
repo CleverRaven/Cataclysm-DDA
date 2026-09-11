@@ -1,0 +1,23 @@
+[
+  {
+    "id": "rifle_steel_core",
+    "copy-from": "3006_steel_core",
+    "type": "ITEM",
+    "name": { "str_sp": "steel rifle core" },
+    "description": "A machined core for reloading armour piercing rifle ammo."
+  },
+  {
+    "id": "rifle_alien_steel_core",
+    "copy-from": "123_steel_core",
+    "type": "ITEM",
+    "name": { "str_sp": "steel rifle core" },
+    "description": "A machined core for reloading armour piercing alien rifle ammo."
+  },
+  {
+    "id": "rifle_huge_steel_core",
+    "copy-from": "50_steel_core",
+    "type": "ITEM",
+    "name": { "str_sp": "huge steel rifle core" },
+    "description": "A machined core for reloading armour piercing huge rifle ammo."
+  }
+]
