@@ -488,12 +488,16 @@ TEST_CASE( "EOC_option_test", "[eoc][math_parser]" )
 
     globvars.clear_global_values();
 
+    // Key1: Test getting option(string type) and setting into string var
+    // Key2: Test getting option from math-type assignment
+    // Key3: Test checking option as a condition
+    // Checked values should not default to 0/0.0 as undefined globals may return that value, and thus could "fail silently"
     REQUIRE( !globvars.maybe_get_global_value( "key1" ) );
     REQUIRE( !globvars.maybe_get_global_value( "key2" ) );
     REQUIRE( !globvars.maybe_get_global_value( "key3" ) );
     CHECK( effect_on_condition_EOC_options_tests->activate( d ) );
     CHECK( globvars.get_global_value( "key1" ) == "ALWAYS" );
-    CHECK( globvars.get_global_value( "key2" ) == 4 );
+    CHECK( globvars.get_global_value( "key2" ) == 10 );
     CHECK( globvars.get_global_value( "key3" ) == 1 );
 }
 
