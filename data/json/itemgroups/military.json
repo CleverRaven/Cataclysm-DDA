@@ -876,12 +876,12 @@
     ]
   },
   {
-    "id": "gobag_contents",
+    "id": "guardsman_profession_bag",
     "type": "item_group",
     "subtype": "collection",
-    "//": "Items generated from a go bag",
+    "//": "for National Guardsman start",
+    "container-item": "duffelbag",
     "items": [
-      { "item": "duffelbag" },
       { "item": "backpack" },
       { "item": "helmet_army" },
       { "item": "jacket_army_modern" },
