@@ -63,7 +63,8 @@
     "id": "mon_sniperbot_science",
     "copy-from": "mon_sniperbot",
     "default_faction": "science",
-    "death_function": { "corpse_type": "BROKEN", "broken_itype": "broken_sniperbot" }
+    "death_function": { "corpse_type": "BROKEN" },
+    "broken_itype": "broken_sniperbot"
   },
   {
     "id": "mon_shotgunbot",
@@ -97,7 +98,8 @@
     "id": "mon_shotgunbot_science",
     "copy-from": "mon_shotgunbot",
     "default_faction": "science",
-    "death_function": { "corpse_type": "BROKEN", "broken_itype": "broken_shotgunbot" }
+    "death_function": { "corpse_type": "BROKEN" },
+    "broken_itype": "broken_shotgunbot"
   },
   {
     "id": "mon_meleebot",
@@ -133,7 +135,8 @@
     "id": "mon_meleebot_science",
     "copy-from": "mon_meleebot",
     "default_faction": "science",
-    "death_function": { "corpse_type": "BROKEN", "broken_itype": "broken_meleebot" }
+    "death_function": { "corpse_type": "BROKEN" },
+    "broken_itype": "broken_meleebot"
   },
   {
     "id": "mon_bitebot",
@@ -171,6 +174,7 @@
     "id": "mon_bitebot_science",
     "copy-from": "mon_bitebot",
     "default_faction": "science",
-    "death_function": { "corpse_type": "BROKEN", "broken_itype": "broken_bitebot" }
+    "death_function": { "corpse_type": "BROKEN" },
+    "broken_itype": "broken_bitebot"
   }
 ]
