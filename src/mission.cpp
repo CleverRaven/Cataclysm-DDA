@@ -811,6 +811,8 @@ bool mission::has_kill_count() const
         case MGOAL_KILL_MONSTER_SPEC:
         case MGOAL_KILL_MONSTERS:
             return true;
+        default:
+            return false;
     }
     return false;
 }
@@ -831,6 +833,8 @@ int mission::get_kills_remaining()
                 return -1;
             }
             return monster_kill_goal + 1;
+        default:
+            return -1;
     }
     return -1;
 }
