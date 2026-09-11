@@ -770,7 +770,7 @@
       { "group": "molle_backpacks_and_accessories", "prob": 15 },
       { "item": "legrig", "prob": 10 },
       { "item": "rucksack", "prob": 20 },
-      { "item": "gobag", "prob": 2 },
+      { "group": "bugout_bag", "prob": 2 },
       { "group": "full_survival_kit", "prob": 3 },
       { "item": "tac_helmet", "prob": 5 },
       { "item": "tac_fullhelmet", "prob": 2 },
