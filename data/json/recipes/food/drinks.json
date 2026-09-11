@@ -74,7 +74,7 @@
     "id_suffix": "using_bleach",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "charges": 10,
+    "charges": 48,
     "autolearn": true,
     "flags": [ "BLIND_EASY" ],
     "steps": [
@@ -92,7 +92,7 @@
         "attention": "unattended"
       }
     ],
-    "components": [ [ [ "water", 10 ] ], [ [ "bleach", 1 ] ] ]
+    "components": [ [ [ "water", 48 ] ], [ [ "bleach", 1 ] ] ]
   },
   {
     "type": "recipe",
