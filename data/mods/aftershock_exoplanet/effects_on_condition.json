@@ -116,6 +116,7 @@
     "condition": { "and": [ { "not": { "u_has_effect": "vahagan_fired_at" } } ] },
     "effect": [
       { "u_add_effect": "vahagan_fired_at", "duration": "1 seconds" },
+      { "u_cast_spell": { "id": "spell_vahagn" }, "loc": { "context_val": "targeted_location" } },
       { "math": [ "times_firing = 0" ] },
       { "u_location_variable": { "context_val": "shooter" } },
       {
@@ -126,12 +127,13 @@
               "and": [
                 { "u_has_effect": "smart_targeted" },
                 { "math": [ "u_hp('ALL') > 1" ] },
-                { "math": [ "times_firing < 9" ] },
+                { "math": [ "times_firing < 5" ] },
                 { "not": { "u_has_effect": "vahagan_fired_at" } }
               ]
             },
             "effect": [
               { "u_add_effect": "vahagan_fired_at", "duration": "1 seconds" },
+              { "u_lose_effect": "smart_targeted" },
               { "math": [ "times_firing++" ] },
               {
                 "run_eocs": [ "EOC_vahagn_shootfoes" ],

@@ -358,7 +358,8 @@
         "@@ y",
         "¤   "
       ],
-      "palettes": [ "standard_domestic_palette" ]
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
   {
@@ -374,7 +375,8 @@
         "@@ I",
         "¤   "
       ],
-      "palettes": [ "standard_domestic_palette" ]
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
   {
@@ -390,7 +392,8 @@
         "@@ ɱ",
         "¤   "
       ],
-      "palettes": [ "standard_domestic_palette" ]
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
   {
@@ -407,7 +410,7 @@
         "D   "
       ],
       "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
   {
@@ -424,7 +427,7 @@
         "D   "
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
   {
@@ -441,7 +444,7 @@
         "D   "
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
   {
@@ -457,7 +460,8 @@
         "@@ b",
         "D   "
       ],
-      "palettes": [ "standard_domestic_palette" ]
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
   {

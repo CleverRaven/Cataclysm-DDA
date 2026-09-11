@@ -118,9 +118,7 @@
     "connect_groups": "WATER",
     "connects_to": "WATER",
     "liquid_source": { "id": "water_clean_scarlet", "min_temp": 2.2 },
-    "examine_action": "water_source",
-    "light_emitted": 5,
-    "light_color": [ 110, 0, 0 ]
+    "examine_action": "water_source"
   },
   {
     "type": "terrain",
@@ -135,8 +133,6 @@
     "connects_to": "WATER",
     "liquid_source": { "id": "water_clean_scarlet", "min_temp": 2.2 },
     "examine_action": "water_source",
-    "light_emitted": 5,
-    "light_color": [ 110, 0, 0 ],
     "emissions": [ "emit_scarlet_sea_wave" ]
   },
   {
@@ -151,9 +147,7 @@
     "connect_groups": "SAND",
     "connects_to": [ "SAND", "SANDMOUND", "SANDGLASS" ],
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
-    "light_emitted": 5,
-    "light_color": [ 35, 0, 10 ]
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
     "type": "terrain",
@@ -195,8 +189,6 @@
     "coverage": 100,
     "roof": "t_nl_scrap_floor",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND", "CLIMBABLE" ],
-    "light_emitted": 5,
-    "light_color": [ 110, 0, 0 ],
     "bash": {
       "str_min": 80,
       "str_max": 200,

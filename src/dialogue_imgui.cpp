@@ -1,7 +1,9 @@
 #include "dialogue_imgui.h"
 
 #include <algorithm>
+#include <cmath>
 #include <imgui/imgui_internal.h>
+#include <optional>
 #include <string>
 #include <unordered_set>
 #include <vector>
