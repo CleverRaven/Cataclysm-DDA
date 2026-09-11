@@ -36,6 +36,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "extend": { "flags": [ "LEVER_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "blrmag" ] } ]
   },
   {
@@ -113,6 +114,7 @@
       [ "stock accessory", 1 ],
       [ "stock mount", 1 ]
     ],
+    "extend": { "flags": [ "BOLT_ACTION" ] },
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 5 }, "allowed_speedloaders": [ "3006_clip" ] }
     ]
@@ -183,6 +185,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "extend": { "flags": [ "BOLT_ACTION" ] },
     "clip_size": 4,
     "barrel_volume": "750 ml",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 4 } } ]
@@ -223,6 +226,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "extend": { "flags": [ "BOLT_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 4 } } ]
   }
 ]
