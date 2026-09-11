@@ -390,7 +390,7 @@
     "id": "bacon_uncut",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "copy-from": "meat_cooked",
+    "copy-from": "raw_cured_fatty_meat",
     "name": { "str": "large slab of uncut bacon", "str_pl": "of large uncut bacon slabs" },
     "description": "A huge slab of uncut smoked bacon.  You can eat it as is, but it would be more efficient to cut it into smaller portions with a knife.",
     "calories": 1566,
