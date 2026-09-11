@@ -7,11 +7,7 @@
         "if": { "one_in_chance": 500 },
         "then": { "u_message": "<anomalous_mp3_player_ambient_music>", "type": "info", "snippet": true }
       },
-      {
-        "u_add_morale": "morale_music",
-        "bonus": 5,
-        "max_bonus": 5
-      },
+      { "u_add_morale": "morale_music", "bonus": 5, "max_bonus": 5 },
       {
         "if": { "math": [ "has_var(n_mp3_timer)" ] },
         "then": {
@@ -55,8 +51,15 @@
               { "u_at_om_location": "radio_tower_top" },
               { "u_at_om_location": "wasp_tower_top" },
               { "is_weather": "scarlet_storm_4" },
-              { "and": [ { "not": { "current_dimension": "string_dimension" } }, { "u_has_item": "inert_glowing_string" } ] },
-              { "and": [ { "not": { "current_dimension": "highlands" } }, { "map_terrain_with_flag": "SHALLOW_WATER", "loc": { "context_val": "loc" } } ] }
+              {
+                "and": [ { "not": { "current_dimension": "string_dimension" } }, { "u_has_item": "inert_glowing_string" } ]
+              },
+              {
+                "and": [
+                  { "not": { "current_dimension": "highlands" } },
+                  { "map_terrain_with_flag": "SHALLOW_WATER", "loc": { "context_val": "loc" } }
+                ]
+              }
             ]
           },
           "then": {
