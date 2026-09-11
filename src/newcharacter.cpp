@@ -125,7 +125,10 @@ static constexpr int RANDOM_START_LOC_ENTRY = INT_MIN;
 
 static void draw_colored_text_wrap( const std::string &original_text, nc_color color )
 {
-    cataimgui::draw_colored_text( original_text, color, ImGui::GetContentRegionAvail().x );
+    const float avail = ImGui::GetContentRegionAvail().x;
+    const float padding = ImGui::GetStyle().ItemSpacing.x + 4.0f;
+    const float wrap_width = std::max( 1.0f, avail - padding );
+    cataimgui::draw_colored_text( original_text, color, wrap_width );
 }
 
 static bool cities_enabled()
