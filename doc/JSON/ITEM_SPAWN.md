@@ -191,6 +191,21 @@ be specified for guns and magazines in the entries array to use a non-default am
   Both of these default to 0 if unspecified.
 
   Note that `ammo` and `magazine` only apply to tools, guns, and magazines.  Furthermore, they don't apply to tools whose entry explicitly specifies how much ammo (charges) to spawn with, or to tools whose JSON item definition specifies a random amount or a fixed, nonzero amount of initial charges.
+  
+  You can also use `ammo` and `magazine` in item groups to define chance for items in that group to spawn within or without their default container, for example:
+```json
+  {
+    "type": "item_group",
+    "id": "syrups",
+    "ammo": 75,
+    "magazine": 100,
+    "entries": [
+      { "item": "syrup", "charges": [ 1, -1 ], "prob": 15 },
+      { "item": "syrup_simple", "charges": [ 1, -1 ], "prob": 1 },
+      { "item": "syrup_corn", "charges": [ 1, -1 ], "prob": 5 }
+    ]
+  }
+```
 
   If any item groups are referenced from your item group, then their ammo/magazine chances are ignored, and yours are used instead.
 
