@@ -12,7 +12,8 @@
     "variables": { "warm_up": 10 },
     "power_draw": "0 W",
     "charges_per_use": 0,
-    "delete": { "flags": [ "WATER_BREAK_ACTIVE" ] },
+    "delete": { "flags": [ "WATER_BREAK_ACTIVE", "ELECTRONIC" ] },
+    "faults": [  ],
     "pocket_data": [  ]
   },
   {
