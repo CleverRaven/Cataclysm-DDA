@@ -5350,7 +5350,7 @@
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "personal_gobag", "custom-flags": [ "FIT" ] },
+          { "group": "gobag_contents", "custom-flags": [ "FIT" ] },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
