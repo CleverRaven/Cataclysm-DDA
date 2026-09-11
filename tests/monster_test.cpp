@@ -630,7 +630,7 @@ TEST_CASE( "monster_broken_verify", "[monster]" )
         std::string broken_id_str = montype.id.str();
         if( !montype.broken_itype.is_empty() ) {
             std::string broken_id_str = montype.id.str();
-        } 
+        }
         if( broken_id_str.compare( 0, 4, "mon_" ) == 0 ) {
             broken_id_str.erase( 0, 4 );
         }
