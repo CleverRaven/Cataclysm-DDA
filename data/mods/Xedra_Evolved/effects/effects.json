@@ -39,6 +39,23 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampire_sunlight_slumber",
+    "//": "Hidden effect - Just has an apply message so you know when it's daytime",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "bad",
+    "apply_message": "You can feel the the weight of the sun bearing down heavily upon you.  You need to sleep the day away."
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_cannot_sleep_at_night",
+    "//": "Hidden effect_lets you run on water using Zephyr",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "CANNOT_SLEEP" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vampire_resilience_flesh_of_marble",
     "name": [ "Flesh of Marble" ],
     "desc": [ "You are invincible." ],
