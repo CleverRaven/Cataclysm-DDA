@@ -506,7 +506,10 @@
       "Your skin is pale and your eyes have turned dark red.  You feel a constant hunger, like the food you eat is no longer nourishing you."
     ],
     "apply_message": [
-      [ "You feel the blood rushing from the wound and then a pressure that reminds you of backwash as a liquid that feels heavier than normal blood is forced through the wound into your body.", "bad" ],
+      [
+        "You feel the blood rushing from the wound and then a pressure that reminds you of backwash as a liquid that feels heavier than normal blood is forced through the wound into your body.",
+        "bad"
+      ],
       [ "Your iris slowly turns red from the outside in.", "bad" ],
       [ "There is an emptiness in your stomach and soul that can no longer be filled with mortal joys.", "bad" ]
     ],
