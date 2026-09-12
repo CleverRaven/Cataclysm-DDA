@@ -38,6 +38,7 @@
       [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "extend": { "flags": [ "LEVER_ACTION" ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -322,6 +323,7 @@
       [ "stock mount", 1 ],
       [ "stock accessory", 2 ]
     ],
+    "extend": { "flags": [ "PUMP_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 15 } } ]
   },
   {
@@ -344,6 +346,7 @@
     "dispersion": 380,
     "reload": 250,
     "clip_size": 6,
+    "extend": { "flags": [ "SINGLE_ACTION" ] },
     "valid_mod_locations": [ [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 6 } } ],
     "variant_type": "gun",
@@ -448,6 +451,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "extend": { "flags": [ "LEVER_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 15 } } ]
   },
   {
@@ -490,6 +494,7 @@
       [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "extend": { "flags": [ "LEVER_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 16 } } ]
   },
   {

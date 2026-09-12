@@ -87,6 +87,7 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "extend": { "flags": [ "PUMP_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 14 } } ]
   },
   {
@@ -130,6 +131,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "durability": 9,
     "clip_size": 6,
+    "extend": { "flags": [ "PUMP_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
@@ -171,6 +173,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "extend": { "flags": [ "PUMP_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 9 } } ]
   },
   {
@@ -388,6 +391,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "extend": { "flags": [ "PUMP_ACTION" ] },
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "clip_size": 5,
     "barrel_volume": "229 ml",
@@ -431,6 +435,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "clip_size": 4,
     "barrel_volume": "229 ml",
+    "extend": { "flags": [ "PUMP_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 4 } } ]
   },
   {
@@ -797,6 +802,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "extend": { "flags": [ "PUMP_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 14 } } ]
   },
   {
@@ -836,6 +842,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "default_mods": [ "sword_bayonet" ],
+    "extend": { "flags": [ "PUMP_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
@@ -1203,6 +1210,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "extend": { "flags": [ "PUMP_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
   }
 ]
