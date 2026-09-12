@@ -11,6 +11,7 @@
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "enums.h"
 #include "flag.h"
 #include "iexamine.h"
@@ -240,20 +241,24 @@ void temp_crafting_inventory::form_from_map( map &m, std::vector<tripoint_bub_ms
 
     std::set<vehicle *> vehicles_found;
     for( const tripoint_bub_ms &p : pts ) {
+        // only this tile's pseudo tools, not its items, fire or cargo. not the union
+        // with craft sites, or a craft would hide the bench it stands on
+        const bool pseudo_tools_reserved =
+            get_craft_reservations().provider_tile_reserved( m.get_abs( p ) );
         const ter_id &t = m.ter( p );
         // a temporary hack while trees are terrain
-        if( t->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
+        if( !pseudo_tools_reserved && t->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
             add_pseudo_item( itype_butchery_tree_pseudo );
         }
         // Another terrible hack, as terrain can't provide pseudo items, and construction can't do multi-step furniture
         ter_id brick_oven( "t_brick_oven" );
-        if( t == brick_oven ) {
+        if( !pseudo_tools_reserved && t == brick_oven ) {
             add_pseudo_item( itype_brick_oven_pseudo );
         }
         const furn_id &f = m.furn( p );
         const furn_t &fo = f.obj();
         const itype_id &pseudo_id = fo.crafting_pseudo_item;
-        if( pseudo_id.is_valid() ) {
+        if( !pseudo_tools_reserved && pseudo_id.is_valid() ) {
             if(
                 pseudo_id->has_flag( flag_NEEDS_SUNLIGHT ) &&
                 !tile_has_sufficient_sunlight( m, p ) ) {
@@ -287,6 +292,11 @@ void temp_crafting_inventory::form_from_map( map &m, std::vector<tripoint_bub_ms
                 // if it's *the* player requesting this from from map inventory
                 // then don't allow items owned by another faction to be factored into recipe components etc.
                 if( pl && !i.is_owned_by( *pl, true ) ) {
+                    continue;
+                }
+                // crafting query walks the whole tree under each entry, so a container holding
+                // a reserved provider is hidden with it. before the liquid count too
+                if( craft_reservation::contains_reserved( i ) ) {
                     continue;
                 }
                 if( !i.made_of( phase_id::LIQUID ) ) {
