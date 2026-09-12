@@ -252,6 +252,11 @@ void avatar::clear_map_memory()
     player_map_memory->clear();
 }
 
+void avatar::ensure_portrait_valid()
+{
+    debugmsg( "No support for avatar portrait (yet)" );
+}
+
 void avatar::prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 )
 {
     player_map_memory->prepare_region( p1, p2 );

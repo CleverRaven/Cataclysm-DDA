@@ -35,6 +35,7 @@ Format:
   "name": { "str": "Example NPC" },                                        // Mandatory, display name for this class.
   "job_description": "I'm helping you learn the game.",                    // Mandatory
   "common": false,                                                         // Optional, defaults true. Whether or not this class can appear via random generation. Randomly generated NPCs will have skills, proficiencies, and bionics applied to them as a default new player character would.
+  "portrait_filename": "Named_NPC_Smokes",                                 // Optional, whether this NPC has a unique graphical portrait. Value is the ID of the portrait. If unspecified, NPCs will receive a portrait ID of GENERIC_MALE_PORTRAITXXXXXXXXXXXX or GENERIC_FEMALE_PORTRAITXXXXXXXXXXXX where the X's can be any string of characters. (Portraits will be assigned by gender of the NPC).
   "common_spawn_weight": 1.5,                                              // Optional (float), default 1.0 . For classes with common, this is how often they spawn. Higher numbers spawn more often.
   "sells_belongings": false,                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration)
   "bonus_str": { "rng": [ -4, 0 ] },                                       // Optional. Modifies stat by the given value. This example shows a random distribution between -4 and 0.
@@ -466,6 +467,18 @@ This example adds the "I'm going now!" response to all the listed topics.
     ]
 }
 ```
+
+#### `portrait_override`
+```jsonc
+  {
+    "id": "TALK_BALTHAZAR_You_Fucked_Up",
+    "type": "talk_topic",
+    "portrait_override": "portrait_balthazar_ANGERY",
+    "responses": [ { "text": "Woah calm down!  How was I supposed to know that was your favorite stuffed animal?", "topic": "TALK_BALTHAZAR_Kills_You_Anyway" } ]
+  }
+```
+
+Portrait_override will force the dialogue window to display the given portrait ID while on that topic, overriding any portrait that may normally be displayed.
 
 #### `dynamic_line`
 The `dynamic_line` is the line spoken by the NPC.  It is optional.  If it is not defined and the topic has the same id as a built-in topic, the `dynamic_line` from that built-in topic will be used.  Otherwise the NPC will say nothing.  [See the chapter about Dynamic Lines below](#dynamic-lines) for more details.

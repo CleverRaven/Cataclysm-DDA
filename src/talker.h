@@ -837,6 +837,7 @@ class talker: virtual public const_talker
         virtual std::list<item> use_amount( const itype_id &, int ) {
             return {};
         }
+        virtual void ensure_portrait_valid() {}
         virtual void add_debt( int ) {}
         virtual void i_add( const item & ) {}
         virtual void i_add_or_drop( item &, bool = false ) {}
