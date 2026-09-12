@@ -106,6 +106,21 @@ static const species_id species_SLIME( "SLIME" );
 
 static const trait_id trait_PACIFIST( "PACIFIST" );
 
+static int count_local_slimes( const tripoint_bub_ms &pos, int radius )
+{
+    int count = 0;
+    const ::map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
+    for( const tripoint_bub_ms &p : here.points_in_radius( pos, radius ) ) {
+        if( const monster *mon = creatures.creature_at<monster>( p ) ) {
+            if( mon->type->in_species( species_SLIME ) ) {
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
 namespace spell_detail
 {
 namespace
@@ -2056,6 +2071,9 @@ void spell_effect::slime_split_on_death( const spell &sp, Creature &caster,
     // Make sure the creature has enough mass to create new slimes
     if( mass >= mon_blob_small->speed / 2 ) {
         for( const tripoint_bub_ms &dest : pts ) {
+            if( count_local_slimes( caster.pos_bub(), 3 ) >= 6 ) {
+                break;
+            }
             // Fall back to small slimes if no bigger smile is chosen
             mtype_id slime_id = mon_blob_small;
             if( mass > mon_blob_large->speed + 20 && one_in( 3 ) ) {

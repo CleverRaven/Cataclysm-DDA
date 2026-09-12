@@ -229,6 +229,21 @@ static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
+static int count_local_slimes( const tripoint_bub_ms &pos, int radius )
+{
+    int count = 0;
+    const map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
+    for( const tripoint_bub_ms &p : here.points_in_radius( pos, radius ) ) {
+        if( const monster *mon = creatures.creature_at<monster>( p ) ) {
+            if( mon->type->in_species( species_SLIME ) ) {
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
 // shared utility functions
 static bool within_visual_range( monster *z, int max_range )
 {
@@ -355,6 +370,9 @@ bool mattack::eat_crop( monster *z )
 
 bool mattack::split( monster *z )
 {
+    if( z->type->in_species( species_SLIME ) && count_local_slimes( z->pos_bub(), 3 ) >= 6 ) {
+        return false;
+    }
     bool split_performed = false;
     while( z->get_hp() / 2 > z->type->hp ) {
         monster *const spawn = g->place_critter_around( z->type->id, z->pos_bub(), 1 );
@@ -2073,6 +2091,9 @@ bool mattack::formblob( monster *z )
         Creature *critter = creatures.creature_at( dest );
         if( critter == nullptr ) {
             if( z->get_speed_base() > mon_blob_small->speed + 35 && rng( 0, 250 ) < z->get_speed_base() ) {
+                if( count_local_slimes( z->pos_bub(), 3 ) >= 6 ) {
+                    continue;
+                }
                 // If we're big enough, spawn a baby blob.
                 shared_ptr_fast<monster> mon = make_shared_fast<monster>( mon_blob_small );
                 mon->ammo = mon->type->starting_ammo;
