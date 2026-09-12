@@ -861,13 +861,10 @@ TEST_CASE( "monster_can_navigate_from_overmap_to_reality_bubble_following_sound"
     // Place monster on the local overmap.monster_map just outside the reality bubble.
     map &m = get_map();
     tripoint_abs_ms entity_spawn_location( m.get_abs( { -12, 66, 0 } ) );
-    horde_entity *test_mon_initial = nullptr;
-    capture_debugmsg_during( [&]() {
-        test_mon_initial = &overmap_buffer.spawn_monster( entity_spawn_location,
-                           mon_test_zombie );
-    } );
+    horde_entity &test_mon_initial = overmap_buffer.spawn_monster( entity_spawn_location,
+                                     mon_test_zombie );
     // Assert monster is not wandering
-    REQUIRE( test_mon_initial->tracking_intensity == 0 );
+    REQUIRE( test_mon_initial.tracking_intensity == 0 );
     // Give the monster a goal location inside the bubble by making a loud noise.
     std::string test_sound( "test sound" );
     sound( destination, 200, sounds::sound_t::combat, test_sound );
