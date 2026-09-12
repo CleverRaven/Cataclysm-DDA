@@ -5,8 +5,8 @@
 #include <array>
 #include <climits>
 #include <cmath>
-#include <deque>
 #include <cstdlib>
+#include <deque>
 #include <list>
 #include <memory>
 #include <optional>
@@ -29,6 +29,7 @@
 #include "construction.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "crafting.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -325,6 +326,7 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
         if( std::optional<vehicle_stack::iterator> maybe_item = veh.add_item( here, vp, it ) ) {
             into_vehicle_count += it.count();
             result.emplace_back( vehicle_cursor( veh, vpr.part_index() ), &*maybe_item.value() );
+            craft_relocated( result.back() );
         } else {
             if( it.count_by_charges() ) {
                 // Maybe we can add a few charges in the trunk and the rest on the ground.
@@ -338,14 +340,17 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
             // Retain item in inventory if overflow not too large/heavy or wield if possible otherwise drop on the ground
             if( c.can_pickVolume( it ) && c.can_pickWeight( it, false ) ) {
                 result.push_back( c.i_add( it ) );
+                craft_relocated( result.back() );
             } else if( !c.has_wield_conflicts( it ) && c.can_wield( it ).success() ) {
                 c.wield( it );
                 result.emplace_back( c.get_wielded_item() );
+                craft_relocated( result.back() );
             } else {
                 const std::string ter_name = here.name( where );
                 //~ %1$s - item name, %2$s - terrain name
                 add_msg( _( "The %1$s falls to the %2$s." ), it.tname(), ter_name );
                 result.push_back( here.add_item_or_charges_ret_loc( where, it ) );
+                craft_relocated( result.back() );
             }
         }
         it.handle_pickup_ownership( c );
@@ -542,6 +547,7 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
         // which may differ from 'where' if the tile overflowed to an adjacent one.
         item_location dropped_loc = here->add_item_or_charges_ret_loc( where, it );
         if( dropped_loc.get_item() ) {
+            craft_relocated( dropped_loc );
             items_dropped.push_back( std::move( dropped_loc ) );
         }
         item( it ).handle_pickup_ownership( you );

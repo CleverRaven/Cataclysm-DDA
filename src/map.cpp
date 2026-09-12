@@ -30,6 +30,7 @@
 #include "color.h"
 #include "construction.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "coords_fwd.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -8806,30 +8807,63 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle,
         }
     }
 
-    reconcile_item_wakeups();
+    // tinymap derives from map, and a remote load would otherwise wipe the bubble's locks.
+    reconcile_loaded_items( this == &get_map()
+                            ? reconcile_scope::full_rebuild
+                            : reconcile_scope::additive );
 }
 
-void map::reconcile_item_wakeups()
+void map::reconcile_loaded_items( const reconcile_scope scope )
 {
     item_wakeup_manager &wakeups = get_item_wakeups();
-    auto reconcile_recursive = [&wakeups]( auto & self, item_location loc ) -> void {
-        if( !loc )
-        {
+    craft_reservation_index &index = get_craft_reservations();
+    if( scope == reconcile_scope::full_rebuild ) {
+        index.clear();
+    }
+
+    std::vector<int64_t> seen;
+    auto reconcile_one = [&wakeups, &index, &seen]( item_location loc ) {
+        item *it = loc.get_item();
+        if( it == nullptr ) {
             return;
         }
-        item *outer = loc.get_item();
-        if( outer == nullptr )
-        {
-            return;
+        if( it->is_craft() ) {
+            // On the token as well as the live step: the stale branch keeps the token and
+            // clears passive_started_at, and that record still needs cleaning.
+            const bool live = it->get_passive_started_at() != calendar::before_time_starts;
+            const int64_t token = it->peek_reservation_owner_token();
+            if( live || token != 0 ) {
+                // A pre-feature save was stamped before reservations existed, so nothing
+                // would ever call acquisition and the step would run unreserved to
+                // completion.  The wakeup rebuild below picks up the cursor set here.
+                if( live && token == 0 &&
+                    it->get_env_check_at() == calendar::before_time_starts ) {
+                    it->set_env_check_at( calendar::turn );
+                }
+                index.rebuild_for_craft( loc );
+                if( it->peek_reservation_owner_token() != 0 ) {
+                    seen.push_back( it->peek_reservation_owner_token() );
+                }
+            }
         }
         wakeups.rebuild_for_item( loc );
-        for( item *child : outer->all_items_top() )
+    };
+
+    auto walk_recursive = [&reconcile_one]( auto & self, item_location loc ) -> void {
+        if( !loc || loc.get_item() == nullptr )
         {
-            item_location child_loc( loc, child );
-            self( self, child_loc );
+            return;
+        }
+        reconcile_one( loc );
+        for( item *child : loc.get_item()->all_items_top() )
+        {
+            self( self, item_location( loc, child ) );
         }
     };
 
+    // Submaps rather than tiles, and the z range guarded by zlevels: get_nonant drops the z
+    // index on a map that does not support z levels, so every level would alias the one the
+    // map holds and the walk would repeat itself once per level.
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             const int zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
@@ -8845,9 +8879,8 @@ void map::reconcile_item_wakeups()
                         for( item &it : sm->get_items( { sx, sy } ) ) {
                             const tripoint_bub_ms p( sx + gridx * SEEX,
                                                      sy + gridy * SEEY, gridz );
-                            const tripoint_abs_ms abs = get_abs( p );
-                            item_location loc( map_cursor( abs ), &it );
-                            reconcile_recursive( reconcile_recursive, loc );
+                            item_location loc( map_cursor( get_abs( p ) ), &it );
+                            walk_recursive( walk_recursive, loc );
                         }
                     }
                 }
@@ -8855,6 +8888,8 @@ void map::reconcile_item_wakeups()
         }
     }
 
+    // Every part that holds items, not only the cargo part a tile resolves to, or a second
+    // cargo part at the same mount is never walked.
     for( wrapped_vehicle &wv : get_vehicles() ) {
         if( wv.v == nullptr ) {
             continue;
@@ -8862,24 +8897,31 @@ void map::reconcile_item_wakeups()
         for( const vpart_reference &vpr : wv.v->get_all_parts() ) {
             vehicle_part &vp = wv.v->part( vpr.part_index() );
             for( item &it : wv.v->get_items( vp ) ) {
-                vehicle_cursor vc( *wv.v, vpr.part_index() );
-                item_location loc( vc, &it );
-                reconcile_recursive( reconcile_recursive, loc );
+                item_location loc( vehicle_cursor( *wv.v, vpr.part_index() ), &it );
+                walk_recursive( walk_recursive, loc );
             }
         }
     }
 
-    auto walk_character = [&wakeups]( Character & c ) {
-        // all_items_loc() is already recursive; rebuild per location directly.
+    auto walk_character = [&reconcile_one]( Character & c ) {
+        // all_items_loc() is already recursive; reconcile per location directly.
         for( item_location &loc : c.all_items_loc() ) {
             if( loc && loc.get_item() != nullptr ) {
-                wakeups.rebuild_for_item( loc );
+                reconcile_one( loc );
             }
         }
     };
     walk_character( get_avatar() );
     for( npc &n : g->all_npcs() ) {
         walk_character( n );
+    }
+
+    // Crafts this pass did not walk are left alone: the index retains earlier entries.
+    for( const int64_t token : seen ) {
+        const craft_reservation_index::record *rec = index.find( token );
+        if( rec != nullptr && rec->empty() ) {
+            index.erase( token );
+        }
     }
 }
 
@@ -9073,7 +9115,9 @@ void map::shift( const point_rel_sm &sp )
         actualize( loaded_grid );
     }
     if( !loaded_grids.empty() ) {
-        reconcile_item_wakeups();
+        // A shift walks the bubble it now has, so the crafts it scrolled away from are
+        // not seen and must keep the claims their leases still cover.
+        reconcile_loaded_items( reconcile_scope::additive );
     }
 }
 

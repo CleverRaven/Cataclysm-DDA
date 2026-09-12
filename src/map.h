@@ -1984,12 +1984,22 @@ class map
         void saven( const tripoint_bub_sm &grid );
         void loadn( const point_bub_sm &grid, bool update_vehicles );
         /**
-         * Walk all items currently in the bubble (map tiles + vehicle cargo,
-         * recursing into containers) and call rebuild_for_item on each.  Run
-         * after submaps come back into range so item-targeted wakeups re-arm
-         * from authoritative item state.
+         * Whether the reservation index may be cleared before the walk.  A pass that
+         * does not walk every craft holding a record has to be additive, or it erases
+         * claims whose leases are still live.
          */
-        void reconcile_item_wakeups();
+        enum class reconcile_scope : uint8_t {
+            full_rebuild,
+            additive
+        };
+        /**
+         * Walk all items currently in the bubble (map tiles, vehicle parts and character
+         * inventories, recursing into containers) and rebuild the state that is keyed by
+         * item uid: wakeup entries and craft reservation records.  Run after submaps come
+         * back into range, so both re-arm from authoritative item state.  One walk rather
+         * than two, since both duties visit the same locations.
+         */
+        void reconcile_loaded_items( reconcile_scope scope );
         /**
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.
