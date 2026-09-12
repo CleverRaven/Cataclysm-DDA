@@ -552,7 +552,7 @@ double has_wielded_with_flag_eval( const_dialogue const &d, char scope,
            ->wielded_with_flag( flag_id( params[0].str( d ) ) );
 }
 
-double morale_eval( const_dialogue const &d, char scope, std::vector<diag_value> const &params,
+double morale_eval( const_dialogue const &d, char scope, std::vector<diag_value> const &,
                     diag_kwargs const &kwargs )
 {
     diag_value raw_val = kwargs.kwarg_or( "raw" );
@@ -562,7 +562,7 @@ double morale_eval( const_dialogue const &d, char scope, std::vector<diag_value>
     return d.const_actor( is_beta( scope ) )->morale_cur( raw );
 }
 
-void morale_ass( double val, dialogue &d, char scope, std::vector<diag_value> const &params,
+void morale_ass( double val, dialogue &d, char scope, std::vector<diag_value> const &,
                  diag_kwargs const & /* kwargs */ )
 {
     d.actor( is_beta( scope ) )->set_morale( val );
