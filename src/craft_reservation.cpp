@@ -5,11 +5,13 @@
 #include <iterator>
 #include <utility>
 
+#include "creature.h"
 #include "flexbuffer_json.h"
 #include "item.h"
 #include "item_location.h"
 #include "item_uid.h"
 #include "json.h"
+#include "map.h"
 #include "visitable.h"
 
 namespace craft_reservation
@@ -96,6 +98,102 @@ bool usable_by_automation( const item &it )
     return !get_craft_reservations().is_reserved_uid( it.uid().get_value() );
 }
 
+bool contains_live_craft( const item &it )
+{
+    bool found = false;
+    it.visit_items( [&found]( const item * node, const item * ) {
+        if( node->is_craft() &&
+            node->get_passive_started_at() != calendar::before_time_starts ) {
+            found = true;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+    return found;
+}
+
+bool contains_reserved_or_live_craft( const item &it )
+{
+    const craft_reservation_index &idx = get_craft_reservations();
+    const bool any_claims = idx.any_item_claims();
+    bool found = false;
+    it.visit_items( [&idx, any_claims, &found]( const item * node, const item * ) {
+        if( ( any_claims && idx.is_reserved_uid( node->uid().get_value() ) ) ||
+            ( node->is_craft() &&
+              node->get_passive_started_at() != calendar::before_time_starts ) ) {
+            found = true;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+    return found;
+}
+
+scoped_own_claims::scoped_own_claims( const item &craft )
+{
+    std::set<int64_t> items;
+    std::set<int64_t> parts;
+    std::set<tripoint_abs_ms> tiles;
+    for( const binding &b : craft.get_reservations() ) {
+        switch( b.kind ) {
+            case provider_kind::item:
+                items.insert( b.provider_uid );
+                break;
+            case provider_kind::vehicle_part:
+                parts.insert( b.provider_uid );
+                break;
+            case provider_kind::furniture:
+            case provider_kind::terrain:
+                if( b.tile ) {
+                    tiles.insert( *b.tile );
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    get_craft_reservations().set_overlay( std::move( items ), std::move( parts ),
+                                          std::move( tiles ) );
+}
+
+scoped_own_claims::~scoped_own_claims()
+{
+    get_craft_reservations().clear_overlay();
+}
+
+bool bashing_would_break_reservation( map &here, const Creature &who,
+                                      const tripoint_bub_ms &p )
+{
+    // Nothing is claimed anywhere, which is the state most of the game runs in, and this
+    // sits in the pathfinder's inner loop.
+    const craft_reservation_index &idx = get_craft_reservations();
+    if( !idx.any_claims() ) {
+        return false;
+    }
+    // Gating here keeps the item walk off the pathfinder's inner loop.
+    if( here.passable_through( p ) || !here.is_bashable( p ) ) {
+        return false;
+    }
+    // A door this character can open is walked through rather than broken, so nothing
+    // on it is at risk.  A locked one is not, and reads as bash-required.
+    if( here.open_door( who, p, !here.is_outside( who.pos_bub() ), true ) ) {
+        return false;
+    }
+
+    const tripoint_abs_ms abs = here.get_abs( p );
+    // Bashing a craft's own site smashes the craft, not just providers on it.
+    if( idx.craft_site_reserved( abs ) || idx.provider_tile_reserved( abs ) ) {
+        return true;
+    }
+
+    for( const item &stack_item : here.i_at( p ) ) {
+        if( contains_reserved( stack_item ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 namespace
 {
 uint64_t expansions_total = 0;
@@ -121,6 +219,12 @@ void reset_search_expansions()
 bool craft_reservation_index::any_item_claims() const
 {
     return !item_uid_to_owner_.empty() || !overlay_items_.empty();
+}
+
+bool craft_reservation_index::any_claims() const
+{
+    return any_item_claims() || !part_uid_to_owner_.empty() || !craft_sites_.empty() ||
+           !provider_tiles_.empty() || !overlay_parts_.empty() || !overlay_tiles_.empty();
 }
 
 bool craft_reservation_index::incumbent_is_live( const int64_t owner_token ) const

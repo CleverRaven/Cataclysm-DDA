@@ -15,10 +15,12 @@
 #include "coordinates.h"
 #include "type_id.h"
 
+class Creature;
 class JsonObject;
 class JsonOut;
 class item;
 class item_location;
+class map;
 
 namespace craft_reservation
 {
@@ -69,15 +71,35 @@ struct binding {
     void deserialize( const JsonObject &data );
 };
 
-// For callers whose action carries a whole subtree.
-bool contains_reserved( const item &it );
-
 // True when a crafting inventory would fold these two into one entry, so a bound liquid
 // and an equivalent free one are one provider to the gate rather than two.
 bool merge_equivalent( const item &lhs, const item &rhs );
 
+// Enforcement has no single funnel: every automation-side selector applies one of the
+// predicates below itself, and one that applies none silently takes reserved providers.
+// A new selector needs one, chosen by the unit its action takes: per-item where the
+// action is node-local, the ancestry form where a whole subtree moves, burns or is
+// re-keyed by a copy.  Planning and execution of one activity must use the same one, or
+// planning keeps offering what execution refuses.
+
+// For callers whose action carries a whole subtree.
+bool contains_reserved( const item &it );
+
 // Per-item, for callers whose action touches only the item it names.
 bool usable_by_automation( const item &it );
+
+// True when `it` or anything under it is a craft with a live passive step.  Automation
+// that copies a whole subtree re-keys every craft in it, and a craft holding no bindings
+// is invisible to contains_reserved.
+bool contains_live_craft( const item &it );
+
+// Both of the above in one walk, for the automation scans that ask both of every item.
+bool contains_reserved_or_live_craft( const item &it );
+
+// True when reaching `p` would require breaking something a live craft has claimed.
+// map::bash destroys tile locks and the tile's items alike, hence the union.
+bool bashing_would_break_reservation( map &here, const Creature &who,
+                                      const tripoint_bub_ms &p );
 
 // One expansion is one evaluation of the charged pool prune.  Test-visible so the
 // budget can be asserted without measuring wall time.
@@ -100,6 +122,18 @@ constexpr uint64_t search_budget_for_attempt( uint8_t attempts )
 
 // Bump when the fingerprint's component list changes; a mismatch forces a fresh search.
 constexpr uint8_t pool_fingerprint_version = 7;
+
+// Reads a craft's own bindings as reserved for as long as it is alive, whatever the
+// index says.  A lease lapses on its own schedule, and a step that keeps running past
+// that must still not drain or destroy what its bindings name.
+class scoped_own_claims
+{
+    public:
+        explicit scoped_own_claims( const item &craft );
+        ~scoped_own_claims();
+        scoped_own_claims( const scoped_own_claims & ) = delete;
+        scoped_own_claims &operator=( const scoped_own_claims & ) = delete;
+};
 
 } // namespace craft_reservation
 
@@ -137,6 +171,9 @@ class craft_reservation_index
         // True while any item claim is even physically present.  Expired-but-unswept
         // mappings keep this true, so a false answer is exact: no walk can find anything.
         bool any_item_claims() const;
+
+        // The same, widened to tiles and parts, for the guards that ask about all three.
+        bool any_claims() const;
 
         const record *record_for_item_uid( int64_t item_uid ) const;
 

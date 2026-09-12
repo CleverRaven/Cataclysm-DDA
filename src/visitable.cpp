@@ -16,6 +16,7 @@
 #include "character_attire.h"
 #include "colony.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "debug.h"
 #include "flag.h"
 #include "inventory.h"
@@ -248,6 +249,55 @@ bool Character::has_quality( const quality_id &qual, int level, int qty ) const
     }
 
     return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
+}
+
+bool Character::has_unreserved_quality( const quality_id &qual, int level, int qty ) const
+{
+    // The intrinsic arms are not filtered: a bionic or mutation is shared, so no craft
+    // can take one.  Only the item walk is, and per item rather than by ancestry, since
+    // the selector returns one item and the action is node-local.
+    for( const bionic &bio : *this->my_bionics ) {
+        // Crafter-aware, or a charged bionic quality resolves through the avatar.
+        if( provider_quality_level( bio.get_weapon(), qual, this,
+                                    false ) >= level ) {
+            if( qty <= 1 ) {
+                return true;
+            }
+            qty--;
+        }
+    }
+
+    // Level and qty are deliberately ignored on this arm, matching Character::has_quality:
+    // an automation caller must answer as that function does wherever no reservation is
+    // involved, or converting a call site silently changes what an NPC will do.  The
+    // crafting gate counts occurrences instead, through has_intrinsic_quality.
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        const auto &q = mut->provided_qualities.find( qual );
+        if( q != mut->provided_qualities.end() ) {
+            return true;
+        }
+    }
+
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        for( const bp_qualities_provided &bp_q : bp->qualities ) {
+            if( bp_q.quality == qual && bp_q.level >= level &&
+                float( get_part_hp_cur( bp ) ) / float( get_part_hp_max( bp ) ) >= bp_q.disable_percent ) {
+                return true;
+            }
+        }
+    }
+
+    if( qty <= 0 ) {
+        return true;
+    }
+    // Nonrecursive, so a container is not credited for a tool inside it that the
+    // selector would then decline to return.
+    const auto measure = [&qual, this]( const item & it ) {
+        return craft_reservation::usable_by_automation( it )
+               ? provider_quality_level( it, qual, this, false )
+               : INT_MIN;
+    };
+    return has_quality_internal( *this, qual, level, qty, measure ) == qty;
 }
 
 bool Character::has_intrinsic_quality( const quality_id &qual, int level, int qty ) const
