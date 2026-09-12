@@ -119,6 +119,7 @@ std::shared_ptr<cata_tiles> tilecontext;
 std::shared_ptr<cata_tiles> closetilecontext;
 std::shared_ptr<cata_tiles> fartilecontext;
 std::unique_ptr<cata_tiles> overmap_tilecontext;
+std::shared_ptr<cata_tiles> portrait_tilecontext;
 static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
 static bool needupdate = false;
@@ -1302,9 +1303,10 @@ bool renderer_resource_coordinator::should_abort_frame() const
 static void for_each_unique_tile_context( const std::function<void( cata_tiles & )> &fn )
 {
     cata_tiles *ctxs[] = { tilecontext.get(), closetilecontext.get(),
-                           fartilecontext.get(), overmap_tilecontext.get()
+                           fartilecontext.get(), overmap_tilecontext.get(),
+                           portrait_tilecontext.get()
                          };
-    cata_tiles *seen[4] = {};
+    cata_tiles *seen[5] = {};
     size_t n = 0;
     for( cata_tiles *c : ctxs ) {
         if( !c ) {
@@ -6099,6 +6101,16 @@ void catacurses::init_interface()
         // Setting it to false disables this from getting used.
         use_tiles = false;
     }
+    portrait_tilecontext = std::make_shared<cata_tiles>( renderer, geometry, ts_cache );
+    try {
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
+        portrait_tilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                            /*precheck=*/true, /*force=*/false,
+                                            /*pump_events=*/true, /*terrain=*/false );
+    } catch( const std::exception &err ) {
+        dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
+    }
     overmap_tilecontext = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
     try {
         // Disable UIs below to avoid accessing the tile context during loading.
@@ -6162,6 +6174,11 @@ void load_tileset()
                                       /*precheck=*/false, /*force=*/false,
                                       /*pump_events=*/true, /*terrain=*/false );
     }
+    if( use_tiles ) {
+        portrait_tilecontext->load_tileset( get_option<std::string>( "PORTRAIT_TILES" ),
+                                            /*precheck=*/false, /*force=*/false,
+                                            /*pump_events=*/true, /*terrain=*/false );
+    }
     tilecontext = closetilecontext;
     tilecontext->do_tile_loading_report();
 
@@ -6180,6 +6197,7 @@ void catacurses::endwin()
     closetilecontext.reset();
     fartilecontext.reset();
     overmap_tilecontext.reset();
+    portrait_tilecontext.reset();
     font.reset();
     gui_font.reset();
     map_font.reset();

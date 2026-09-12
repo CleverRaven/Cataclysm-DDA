@@ -228,13 +228,39 @@
     "type": "item_group",
     "container-item": "jug_plastic",
     "//": "128 oz",
-    "items": [ { "item": "bleach", "count": 3750 } ]
+    "items": [ { "item": "bleach", "count": -1 } ]
   },
   {
     "id": "bleach_jug_part",
     "type": "item_group",
     "container-item": "jug_plastic",
-    "items": [ { "item": "bleach", "count": [ 1, 3750 ] } ]
+    "items": [ { "item": "bleach", "count": [ 125, -1 ] } ]
+  },
+  {
+    "id": "lye_bottle_twoliter",
+    "type": "item_group",
+    "container-item": "bottle_twoliter",
+    "//": "67.6 oz, or 2L",
+    "items": [ { "item": "lye", "count": 40 } ]
+  },
+  {
+    "id": "lye_bottle_twoliter_part",
+    "type": "item_group",
+    "container-item": "bottle_twoliter",
+    "items": [ { "item": "lye", "count": [ 1, 40 ] } ]
+  },
+  {
+    "id": "lye_potassium_bottle_liter",
+    "type": "item_group",
+    "container-item": "bottle_twoliter",
+    "//": "32 oz, or 1L",
+    "items": [ { "item": "lye", "count": 20 } ]
+  },
+  {
+    "id": "lye_potassium_bottle_liter_part",
+    "type": "item_group",
+    "container-item": "bottle_twoliter",
+    "items": [ { "item": "lye", "count": [ 1, 20 ] } ]
   },
   {
     "id": "ammonia_hydroxide_bottle_twoliter",
@@ -1039,8 +1065,8 @@
       { "prob": 10, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
       { "group": "oxy_powder_bottle_part", "prob": 10 },
       [ "ash", 5 ],
-      [ "lye", 5 ],
-      [ "lye_potassium", 5 ],
+      { "group": "lye_bottle_twoliter_part", "prob": 5 },
+      { "group": "lye_potassium_bottle_liter_part", "prob": 5 },
       { "group": "lye_powder_bottle_part", "prob": 10 },
       { "group": "magnesiumpowder_small_bag_part", "prob": 10 },
       { "group": "charcoal_bag_part", "prob": 10 },

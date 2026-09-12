@@ -172,8 +172,8 @@ Linear scaling provides purely linear scaling. There are two parameters, the `se
 In other words, max does not limit the max batch size, it merely specifies when the setup cost will be applied again.
 It is specified as follows:
 ```jsonc
-"batch_time_factors": { "mode": "linear": "setup": "12 m" },
-"batch_time_factors": { "mode": "linear": "setup": "12 m", "max": 20 },
+"batch_time_factors": { "mode": "linear", "setup": "12 m" },
+"batch_time_factors": { "mode": "linear", "setup": "12 m", "max": 20 },
 ```
 
 ## Recipe steps

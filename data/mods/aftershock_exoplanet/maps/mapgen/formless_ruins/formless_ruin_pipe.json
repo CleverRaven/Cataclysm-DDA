@@ -3,7 +3,7 @@
     "type": "mapgen",
     "om_terrain": [ "afs_formless_ruins_pipe" ],
     "object": {
-      "predecessor_mapgen": "field",
+      "predecessor_mapgen": "glacial_field",
       "rows": [
         "1           1           ",
         "                        ",

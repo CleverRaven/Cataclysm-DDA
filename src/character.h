@@ -308,6 +308,11 @@ enum crush_tool_type {
     CRUSH_NO_TOOL
 };
 
+struct character_portrait {
+    public:
+        character_portrait_id id;
+};
+
 struct queued_eoc {
     public:
         effect_on_condition_id eoc;
@@ -578,6 +583,10 @@ class Character : public Creature, public visitable
         int kill_xp = 0;
 
         float cached_organic_size;
+
+        character_portrait_id portrait_filename;
+
+        virtual void ensure_portrait_valid();
 
         const profession *prof;
         std::set<const profession *> hobbies;
@@ -2359,15 +2368,15 @@ class Character : public Creature, public visitable
         /// struct offers two possible tweaks: a collection of items and
         /// counts to remove, or an entire replacement inventory.
         struct item_tweaks {
-            item_tweaks() : without_items( std::nullopt ), replace_inv( std::nullopt ) {}
+            item_tweaks() : without_items( nullptr ), replace_inv( nullptr ) {}
             explicit item_tweaks( const std::map<const item *, int> &w ) :
-                without_items( std::cref( w ) )
+                without_items( &w ), replace_inv( nullptr )
             {}
             explicit item_tweaks( const inventory &r ) :
-                replace_inv( std::cref( r ) )
+                without_items( nullptr ), replace_inv( &r )
             {}
-            const std::optional<std::reference_wrapper<const std::map<const item *, int>>> without_items;
-            const std::optional<std::reference_wrapper<const inventory>> replace_inv;
+            const std::map<const item *, int> *const without_items;
+            const inventory *const replace_inv;
         };
 
         units::mass weight_carried_with_tweaks( const item_tweaks &tweaks ) const;
@@ -3628,12 +3637,14 @@ class Character : public Creature, public visitable
         void update_morale();
         /** Ensures persistent morale effects are up-to-date */
         void apply_persistent_morale();
+        // From guilt kills, etc.
+        double get_modifier_for_ALL_morale() const;
         // the morale penalty for hoarders
         void hoarder_morale_penalty();
         /** Used to apply morale modifications from food and medication **/
         void modify_morale( item &food, int nutr = 0 );
         // Modified by traits, &c
-        int get_morale_level() const;
+        int get_morale_level( bool raw = false ) const;
         void add_morale( const morale_type &type, int bonus, int max_bonus = 0,
                          const time_duration &duration = 1_hours,
                          const time_duration &decay_start = 30_minutes, bool capped = false,

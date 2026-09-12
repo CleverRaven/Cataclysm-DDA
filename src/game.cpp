@@ -632,6 +632,14 @@ void game::reload_tileset()
         }
     }
     try {
+        portrait_tilecontext->reinit();
+        portrait_tilecontext->load_tileset( get_option<std::string>( "PORTRAIT_TILES" ),
+                                            /*precheck=*/false, /*force=*/true,
+                                            /*pump_events=*/true, /*terrain=*/false );
+    } catch( const std::exception &err ) {
+        popup( _( "Loading the portrait tileset failed: %s" ), err.what() );
+    }
+    try {
         overmap_tilecontext->reinit();
         overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
                                            /*precheck=*/false, /*force=*/true,
@@ -1301,6 +1309,11 @@ void game::reload_npcs()
 const kill_tracker &game::get_kill_tracker() const
 {
     return *kill_tracker_ptr;
+}
+
+void game::clear_kill_tracker() const
+{
+    kill_tracker_ptr->clear();
 }
 
 void game::create_starting_npcs()
@@ -2231,7 +2244,9 @@ int game::inventory_item_menu( item_location locThisItem,
                 } );
 
                 action_menu.additional_actions = {
-                    { "RIGHT", translation() }
+                    { "RIGHT", translation() },
+                    { "SCROLL_ITEM_INFO_UP", translation() },
+                    { "SCROLL_ITEM_INFO_DOWN", translation() }
                 };
 
                 lang_version = detail::get_current_language_version();
@@ -2252,6 +2267,9 @@ int game::inventory_item_menu( item_location locThisItem,
                 // could be instructed to ignore these two keys instead of scrolling.
                 action_menu.selected = prev_selected;
                 action_menu.fselected = prev_selected;
+            } else if( action_menu.ret_act == "SCROLL_ITEM_INFO_UP" ||
+                       action_menu.ret_act == "SCROLL_ITEM_INFO_DOWN" ) {
+                cMenu = action_menu.ret_act == "SCROLL_ITEM_INFO_UP" ? KEY_PPAGE : KEY_NPAGE;
             } else {
                 cMenu = 0;
             }
@@ -10408,7 +10426,7 @@ void game::perhaps_add_random_npc( bool ignore_spawn_timers_and_rates )
     }
     // Create a new NPC?
 
-    double spawn_time = get_option<float>( "NPC_SPAWNTIME" );
+    const double spawn_time = overmap_buffer.get_settings( u.pos_abs_omt() ).npc_spawn_time;
     if( !ignore_spawn_timers_and_rates && spawn_time == 0.0 ) {
         return;
     }

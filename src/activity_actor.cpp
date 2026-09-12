@@ -7888,6 +7888,11 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     }
 
     items.pop_front();
+    if( success ) {
+        // The post-insertion holster: recovering capacity can wield the container and
+        // rebind it.  May be map-backed, which is what reaches a container on the ground.
+        craft_relocated( holster );
+    }
     if( items.empty() || !success || items.front().first == item_location::nowhere ) {
         holster.make_active();
         handler.handle_by( who );

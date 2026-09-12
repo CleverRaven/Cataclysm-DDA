@@ -14,6 +14,7 @@
 #include "activity_actor_definitions.h"
 #include "auto_pickup.h"
 #include "character.h"
+#include "crafting.h"
 #include "contents_change_handler.h"
 #include "debug.h"
 #include "enums.h"
@@ -319,6 +320,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
                                          /*allow_drop=*/false, /*allow_wield=*/false, false );
             item_location added_it = ret.value();
             if( ret.success() ) {
+                craft_relocated( added_it );
                 if( added_it == item_location::nowhere ) {
                     newit.charges = last_charges - newit.charges;
                     // Don't call on_pickup on this local copy -- the real items

@@ -148,6 +148,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "extend": { "flags": [ "BOLT_ACTION" ] },
     "barrel_volume": "1250 ml",
     "default_mods": [ "rifle_scope" ],
     "built_in_mods": [ "bipod", "muzzle_brake", "high_end_folding_stock" ],

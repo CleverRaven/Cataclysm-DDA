@@ -146,7 +146,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PEEK_DOWN",
-    "condition": { "math": [ "u_val('morale') < -75" ] },
+    "condition": { "math": [ "u_morale() < -75" ] },
     "false_effect": [
       {
         "u_message": "You look down and see the elevator shaft going deeper than you expected.  Much deeper to where you can no longer see beyond."

@@ -27,7 +27,7 @@
     "durability": 7,
     "blackpowder_tolerance": 96,
     "clip_size": 6,
-    "flags": [ "NO_UNLOAD", "ALLOWS_BODY_BLOCK", "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN" ],
+    "extend": { "flags": [ "NO_UNLOAD", "ALLOWS_BODY_BLOCK", "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN", "SINGLE_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44paper": 6 } } ]
   }
 ]

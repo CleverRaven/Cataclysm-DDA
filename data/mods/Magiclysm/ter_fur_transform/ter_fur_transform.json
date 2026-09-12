@@ -218,8 +218,15 @@
       },
       {
         "result": "t_door_metal_o",
-        "valid_terrain": [ "t_door_metal_locked", "t_door_metal_pickable", "t_door_bar_locked" ],
+        "valid_terrain": [ "t_door_metal_locked", "t_door_metal_pickable", "t_door_bar_locked", "t_door_metal_interior_locked" ],
         "message": "The door opens forcefully!"
+      },
+      { "result": "t_door_bar_o", "valid_terrain": [ "t_door_bar_locked" ], "message": "The door opens forcefully!" },
+      { "result": "t_chaingate_o", "valid_terrain": [ "t_chaingate_l" ], "message": "The gate opens forcefully!" },
+      {
+        "result": "t_retractable_gate_o",
+        "valid_terrain": [ "t_retractable_gate_l" ],
+        "message": "The gate opens forcefully!"
       }
     ]
   },

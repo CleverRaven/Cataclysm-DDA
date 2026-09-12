@@ -67,7 +67,7 @@ pacman -Su
 4. Install packages required for compilation:
 
 ```bash
-pacman -S git make ncurses-devel gettext-devel mingw-w64-ucrt-x86_64-{astyle,ccache,cmake,freetype,gcc,libmad,libwebp,pkgconf,sdl3,libzip,libavif} mingw-w64-ucrt-x86_64-sdl3-{image,mixer,ttf} zlib-devel
+pacman -S git make ncurses-devel gettext-devel mingw-w64-ucrt-x86_64-{astyle,ccache,cmake,freetype,gcc,glslang,libmad,libwebp,pkgconf,sdl3,libzip,libavif} mingw-w64-ucrt-x86_64-sdl3-{image,mixer,ttf} zlib-devel
 ```
 
 **Note:** The tiles build needs SDL3 >= 3.4.0, so a Windows version that the

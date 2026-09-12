@@ -1892,6 +1892,25 @@ void dialogue::apply_speaker_effects( const talk_topic &the_topic )
     }
 }
 
+std::optional<character_portrait_id> dialogue::portrait_or_nullopt()
+const
+{
+    if( !topic_stack.empty() ) {
+        const std::string &topic = topic_stack.back().id;
+        const auto iter = json_talk_topics.find( topic );
+        if( iter != json_talk_topics.end() && iter->second.get_portrait_override().has_value() ) {
+            return iter->second.get_portrait_override();
+        }
+    }
+
+    Character *partner = actor( true )->get_character();
+    if( partner ) {
+        return partner->portrait_filename;
+    }
+
+    return std::nullopt;
+}
+
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
                                        const bool first )
 {
@@ -9232,6 +9251,12 @@ void json_talk_topic::load( const JsonObject &jo, std::string_view src )
             }
         }
     }
+    if( jo.has_member( "portrait_override" ) ) {
+        portrait_override = character_portrait_id( jo.get_member( "portrait_override" ) );
+    } else {
+        // FIXME: Use real null IDs not std::optional juggling :(
+        portrait_override = std::nullopt;
+    }
     bool insert_above_bottom = false;
     if( jo.has_bool( "insert_before_standard_exits" ) ) {
         insert_above_bottom = jo.get_bool( "insert_before_standard_exits" );
@@ -9338,6 +9363,11 @@ std::string json_talk_topic::get_dynamic_line( dialogue &d ) const
 std::vector<json_dynamic_line_effect> json_talk_topic::get_speaker_effects() const
 {
     return speaker_effects;
+}
+
+std::optional<character_portrait_id> json_talk_topic::get_portrait_override() const
+{
+    return portrait_override;
 }
 
 void json_talk_topic::check_consistency() const
