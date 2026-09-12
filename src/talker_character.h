@@ -183,7 +183,7 @@ class talker_character_const: virtual public const_talker
 
         bool can_see() const override;
         bool can_see_location( const tripoint_bub_ms &pos ) const override;
-        int morale_cur() const override;
+        int morale_cur( bool raw ) const override;
         int focus_cur() const override;
         int focus_effective_cur() const override;
         int get_rad() const override;

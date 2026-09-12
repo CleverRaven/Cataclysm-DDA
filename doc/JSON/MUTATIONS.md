@@ -249,7 +249,7 @@ Specific mutations are extremely versatile. A mutation only needs to have a few 
   "triggers": [                               // List of sublist of triggers, all sublists must be True for the mutation to activate.
     [                                         // Sublist of trigger: at least one trigger must be true for the sublist to be true.
       { 
-        "condition": { "math": [ "u_val('morale') < -50" ] },                                     // Dialogue condition (see NPCs.md).
+        "condition": { "math": [ "u_morale() < -50" ] },                                     // Dialogue condition (see NPCs.md).
         "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }  // Message displayed when the trigger activates.
       }
     ],

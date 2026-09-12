@@ -56,7 +56,7 @@
     "triggers": [
       [
         {
-          "condition": { "math": [ "u_val('morale') > 20" ] },
+          "condition": { "math": [ "u_morale() > 20" ] },
           "msg_on": { "text": "Your mood is above 20 and triggers the trigger.", "rating": "mixed" }
         },
         {
@@ -102,7 +102,7 @@
     "triggers": [
       [
         {
-          "condition": { "math": [ "u_val('morale') < 20" ] },
+          "condition": { "math": [ "u_morale() < 20" ] },
           "msg_off": { "text": "Your mood is below 20 and triggers the trigger.", "rating": "mixed" }
         },
         {

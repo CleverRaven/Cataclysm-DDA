@@ -552,6 +552,22 @@ double has_wielded_with_flag_eval( const_dialogue const &d, char scope,
            ->wielded_with_flag( flag_id( params[0].str( d ) ) );
 }
 
+double morale_eval( const_dialogue const &d, char scope, std::vector<diag_value> const &,
+                    diag_kwargs const &kwargs )
+{
+    diag_value raw_val = kwargs.kwarg_or( "raw" );
+
+
+    const bool raw = is_true( raw_val.dbl( d ) );
+    return d.const_actor( is_beta( scope ) )->morale_cur( raw );
+}
+
+void morale_ass( double val, dialogue &d, char scope, std::vector<diag_value> const &,
+                 diag_kwargs const & /* kwargs */ )
+{
+    d.actor( is_beta( scope ) )->set_morale( val );
+}
+
 double hp_eval( const_dialogue const &d, char scope, std::vector<diag_value> const &params,
                 diag_kwargs const & /* kwargs */ )
 {
@@ -1869,6 +1885,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "mon_species_nearby", { "ung", -1, monster_species_nearby_eval, {}, { "radius", "attitude", "location" } } },
     { "mon_groups_nearby", { "ung", -1, monster_groups_nearby_eval, {}, { "radius", "attitude", "location" } } },
     { "moon_phase", { "g", 0, moon_phase_eval } },
+    { "morale", { "un", 0, morale_eval, morale_ass, { "raw" } } },
     { "num_input", { "g", 2, num_input_eval } },
     { "oxygen", { "un", 0, oxygen_eval, oxygen_ass } },
     { "oxygen_max", { "un", 0, oxygen_max_eval } },

@@ -5862,7 +5862,7 @@
     "points": -1,
     "vitamin_cost": 60,
     "encumbrance_covered": [ [ "head", 5 ] ],
-    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": { "math": [ "(u_val('hunger')/10) + max(u_val('morale'), 0)" ] } } ] } ],
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": { "math": [ "(u_val('hunger')/10) + max(u_morale(), 0)" ] } } ] } ],
     "//": "Increases the lumination the more you hunger (max hunger = 300, max lumination when you hunger = 30, ie 3 tile of light), and the more you happy (1 tile of lumination for each +10 morale, negative morage excluded)"
   },
   {
@@ -6327,8 +6327,8 @@
         {
           "condition": {
             "or": [
-              { "math": [ "u_val('morale') < -75" ] },
-              { "math": [ "u_val('morale') > 75" ] },
+              { "math": [ "u_morale() < -75" ] },
+              { "math": [ "u_morale() > 75" ] },
               { "math": [ "u_val('stim') < -50" ] },
               { "math": [ "u_val('stim') > 50" ] }
             ]
@@ -6380,7 +6380,7 @@
     "triggers": [
       [
         {
-          "condition": { "math": [ "u_val('morale') < -50" ] },
+          "condition": { "math": [ "u_morale() < -50" ] },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ],
