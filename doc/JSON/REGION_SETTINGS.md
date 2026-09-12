@@ -22,6 +22,7 @@ see their info later in this document.
 | `place_specials`         | boolean                             | Controls placement of overmap specials |
 | `neighbor_connections`   | boolean                             | Generate connections between neighboring overmaps |
 | `max_urbanity`           | integer                             | Max urbanity (a multiplier on city size) |
+| `npc_spawntime`          | float                               | How long between each random NPC spawn, roughly in days. Default 4.0  |
 | `urbanity_increase`      | array of numbers                    | Increase in urbanity to the [ north, east, south, west ] of overmap (0,0) |
 | `rivers`                 | `region_settings_river`             | River generation parameters; Use `null` to disable river generation.  |
 | `lakes`                  | `region_settings_lake`              | Defines parameters for generating lakes in the region. `null` to disable. |
