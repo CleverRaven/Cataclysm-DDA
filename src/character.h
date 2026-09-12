@@ -4074,6 +4074,10 @@ class Character : public Creature, public visitable
             const quality_id &qual, int level ) const;
         // No item walk, unlike has_quality.
         bool has_intrinsic_quality( const quality_id &qual, int level = 1, int qty = 1 ) const;
+        // Automation's pair: planning and selection measure the same way, so a plan
+        // that passes is one the selector can act on.
+        bool has_unreserved_quality( const quality_id &qual, int level = 1, int qty = 1 ) const;
+        item &best_unreserved_item_with_quality( const quality_id &qid );
         int max_quality( const quality_id &qual ) const override;
         int max_quality( const quality_id &qual, int radius ) const;
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
@@ -4370,6 +4374,8 @@ class Character : public Creature, public visitable
             int moves;
             tripoint_bub_ms position;
             int radius;
+            // cache built earlier in the turn can't see a later acquire or release
+            uint64_t reservation_generation = 0;
             pimpl<temp_crafting_inventory> crafting_inventory;
         };
         mutable crafting_cache_type crafting_cache;
