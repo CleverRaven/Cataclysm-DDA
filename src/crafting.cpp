@@ -685,11 +685,13 @@ const inventory &Character::crafting_inventory( map *here, const tripoint_bub_ms
     if( src_pos == tripoint_bub_ms::zero ) {
         inv_pos = pos_bub( *here );
     }
+    const uint64_t reservation_generation = get_craft_reservations().generation();
     if( crafting_cache.valid
         && moves == crafting_cache.moves
         && radius == crafting_cache.radius
         && calendar::turn == crafting_cache.time
         && inv_pos == crafting_cache.position
+        && reservation_generation == crafting_cache.reservation_generation
       ) {
         return *crafting_cache.crafting_inventory;
     }
@@ -701,7 +703,27 @@ const inventory &Character::crafting_inventory( map *here, const tripoint_bub_ms
     std::map<itype_id, int> tmp_liq_list;
     // TODO: Add a const overload of all_items_loc() that returns something like
     // vector<const_item_location> in order to get rid of the const_cast here.
+    // all_items_loc flattens containers and contents into separate entries, so a
+    // per-entry check would admit the child it meant to hide.
+    std::map<int64_t, bool> root_reserved;
+    const auto root_is_reserved = [&root_reserved]( const item_location & entry ) {
+        item_location root = entry;
+        while( root.parent_item() != item_location::nowhere ) {
+            root = root.parent_item();
+        }
+        const int64_t root_uid = root->uid().get_value();
+        const auto found = root_reserved.find( root_uid );
+        if( found != root_reserved.end() ) {
+            return found->second;
+        }
+        const bool reserved = craft_reservation::contains_reserved( *root );
+        root_reserved.emplace( root_uid, reserved );
+        return reserved;
+    };
     for( const item_location &it : const_cast<Character *>( this )->all_items_loc() ) {
+        if( root_is_reserved( it ) ) {
+            continue;
+        }
         // add containers separately from their contents
         if( !it->empty_container() ) {
             // is the non-empty container used for BOIL?
@@ -724,6 +746,7 @@ const inventory &Character::crafting_inventory( map *here, const tripoint_bub_ms
     }
 
     crafting_cache.valid = true;
+    crafting_cache.reservation_generation = reservation_generation;
     crafting_cache.moves = moves;
     crafting_cache.time = calendar::turn;
     crafting_cache.position = inv_pos;
@@ -4357,10 +4380,15 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
         const std::vector<tripoint_bub_ms> &reachable_pts,
         bool select_ind, bool disable_preference )
 {
-    std::function<bool( const item & )> active_preferred_filter = [&filter]( const item & it ) {
-        return filter( it ) && is_preferred_component( it );
+    // Selection stores an itype_id and consumption re-resolves it, so a free instance
+    // may be cleared and a reserved one destroyed in its place.
+    std::function<bool( const item & )> unreserved = [&filter]( const item & it ) {
+        return filter( it ) && unreserved_filter( it );
     };
-    std::function<bool( const item & )> preferred_filter = disable_preference ? filter :
+    std::function<bool( const item & )> active_preferred_filter = [&unreserved]( const item & it ) {
+        return unreserved( it ) && is_preferred_component( it );
+    };
+    std::function<bool( const item & )> preferred_filter = disable_preference ? unreserved :
             active_preferred_filter;
 
     std::list<item> ret;
@@ -4734,16 +4762,9 @@ static int step_buckets_for_fraction( double f )
 bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &targets,
         const tripoint_bub_ms &origin, int radius, bool pin_to_map )
 {
+    const craft_reservation::scoped_own_claims own_claims( craft );
     std::vector<std::vector<step_tool_alloc>> allocs = craft.get_step_tool_allocs();
 
-    struct pending_debit {
-        comp_selection<tool_comp> sel;
-        usage_from eff_use = usage_from::none;
-        int units = 0;
-        int step_idx = 0;
-        int alloc_idx = 0;
-        int new_count = 0;
-    };
     // A selected non-charged tool drains nothing but must still be present, or
     // the step would advance free using a tool the crafter no longer has.
     struct pending_presence {
@@ -5106,14 +5127,14 @@ void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool, in
     const itype *tmp = item::find_type( tool.comp.type );
     int quantity = tool.comp.count * batch * tmp->charge_factor();
     if( tool.use_from == usage_from::both ) {
-        use_charges( tool.comp.type, quantity, radius );
+        use_charges( tool.comp.type, quantity, radius, unreserved_filter );
     } else if( tool.use_from == usage_from::player ) {
-        use_charges( tool.comp.type, quantity );
+        use_charges( tool.comp.type, quantity, unreserved_filter );
     } else if( tool.use_from == usage_from::map ) {
-        m.use_charges( origin, radius, tool.comp.type, quantity, return_true<item>, bcp );
+        m.use_charges( origin, radius, tool.comp.type, quantity, unreserved_filter, bcp );
         // Map::use_charges() does not handle UPS charges.
         if( quantity > 0 ) {
-            use_charges( tool.comp.type, quantity, radius );
+            use_charges( tool.comp.type, quantity, radius, unreserved_filter );
         }
     }
 
@@ -5130,10 +5151,10 @@ void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool, in
     int quantity = tool.comp.count * batch * tmp->charge_factor();
 
     if( tool.use_from == usage_from::player || tool.use_from == usage_from::both ) {
-        use_charges( tool.comp.type, quantity );
+        use_charges( tool.comp.type, quantity, unreserved_filter );
     }
     if( tool.use_from == usage_from::map || tool.use_from == usage_from::both ) {
-        m.use_charges( reachable_pts, tool.comp.type, quantity, return_true<item>, bcp );
+        m.use_charges( reachable_pts, tool.comp.type, quantity, unreserved_filter, bcp );
         // Map::use_charges() does not handle UPS charges.
         if( quantity > 0 ) {
             m.consume_ups( reachable_pts, units::from_kilojoule( static_cast<std::int64_t>( quantity ) ) );
