@@ -32,18 +32,6 @@
         "|||||| PP  PP  PP ||||||"
       ],
       "palettes": [ "microlab" ],
-      "place_nested": [
-        {
-          "chunks": [
-            {
-              "switch": { "param": "labtype", "fallback": "microlab_generic" },
-              "cases": { "microlab_meat": "micolab_meat_pools", "microlab_generic": "null" }
-            }
-          ],
-          "x": 0,
-          "y": 0
-        }
-      ],
       "computers": {
         "6": {
           "name": "Security Terminal",
@@ -88,18 +76,6 @@
         "|||||| PP  PP  PP ||||||"
       ],
       "palettes": [ "microlab" ],
-      "place_nested": [
-        {
-          "chunks": [
-            {
-              "switch": { "param": "labtype", "fallback": "microlab_generic" },
-              "cases": { "microlab_meat": "micolab_meat_pools", "microlab_generic": "null" }
-            }
-          ],
-          "x": 0,
-          "y": 0
-        }
-      ],
       "computers": {
         "6": {
           "name": "Security Terminal",

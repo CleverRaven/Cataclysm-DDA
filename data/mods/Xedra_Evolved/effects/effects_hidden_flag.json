@@ -79,5 +79,27 @@
     "desc": [ "" ],
     "rating": "good",
     "flags": [ "HUNGER_DISRUPTION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_nonhuman_super_soldier_serum_immune",
+    "//": "Hidden effect, makes full vampires and shapeshifters unable to use serums",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [
+      "resilience_serum_main",
+      "resilience_serum_crash",
+      "speed_serum_main",
+      "speed_serum_crash",
+      "super_soldier_serum_main",
+      "super_soldier_serum_crash",
+      "learning_serum_main",
+      "learning_serum_crash",
+      "regen_serum_main",
+      "regen_serum_crash_cardio",
+      "regen_serum_crash_fatigue",
+      "night_ops_serum_main",
+      "night_ops_serum_crash"
+    ]
   }
 ]

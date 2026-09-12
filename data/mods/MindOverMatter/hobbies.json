@@ -532,7 +532,7 @@
     "id": "late_vitakinetic",
     "name": "Ascended Vitakinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You've suffered injuries that should have killed you multiple times over by now and recovered in days every time.  You've broken your leg twice, your arm once, drank bad water that had you puking your guts out, nearly been disemboweled by some mutated thing…every single time, your powers kept you going.  Hopefully they'll see you through to the very end of all this.",
-    "points": 6,
+    "points": 10,
     "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH" ],
     "skills": [ { "level": 7, "name": "metaphysics" } ],
     "spells": [

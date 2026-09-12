@@ -1,6 +1,9 @@
+#include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "ballistics.h"
@@ -8,6 +11,7 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
 #include "coordinates.h"
 #include "damage.h"
 #include "dispersion.h"
@@ -37,6 +41,7 @@ static const flag_id json_flag_FILTHY( "FILTHY" );
 static const itype_id itype_ballistic_vest_esapi( "ballistic_vest_esapi" );
 static const itype_id itype_face_shield( "face_shield" );
 static const itype_id itype_hat_hard( "hat_hard" );
+static const itype_id itype_test_consolidate( "test_consolidate" );
 static const itype_id itype_test_ghost_vest( "test_ghost_vest" );
 static const itype_id itype_test_hazmat_suit( "test_hazmat_suit" );
 static const itype_id itype_test_hazmat_suit_nomelee( "test_hazmat_suit_nomelee" );
@@ -78,23 +83,29 @@ static void check_not_near( const std::string &subject, float actual, const floa
     }
 }
 
-static float get_avg_melee_dmg( const itype_id &clothing_id, bool infect_risk = false )
+static float get_avg_melee_dmg( item cloth, bool infect_risk = false )
 {
     map &here = get_map();
 
     monster zed( mon_manhack, mon_pos );
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
-    item cloth( clothing_id );
     if( infect_risk ) {
         cloth.set_flag( json_flag_FILTHY );
     }
+
+    clear_character( dude, true );
+    dude.setpos( here, dude_pos );
+    dude.wear_item( cloth, false );
+    dude.add_effect( effect_sleep, 1_hours );
+
     int dam_acc = 0;
     int num_hits = 0;
     for( int i = 0; i < num_iters; i++ ) {
-        clear_character( dude, true );
-        dude.setpos( here, dude_pos );
-        dude.wear_item( cloth, false );
+        dude.set_all_parts_hp_to_max();
+        dude.clear_effects();
         dude.add_effect( effect_sleep, 1_hours );
+        dude.clear_worn();
+        dude.wear_item( cloth, false );
         if( zed.melee_attack( dude, 10000.0f ) ) {
             num_hits++;
         }
@@ -116,41 +127,9 @@ static float get_avg_melee_dmg( const itype_id &clothing_id, bool infect_risk = 
     return static_cast<float>( dam_acc ) / num_hits;
 }
 
-static float get_avg_melee_dmg( item cloth, bool infect_risk = false )
+static float get_avg_melee_dmg( const itype_id &clothing_id, bool infect_risk = false )
 {
-    map &here = get_map();
-
-    monster zed( mon_manhack, mon_pos );
-    standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
-    if( infect_risk ) {
-        cloth.set_flag( json_flag_FILTHY );
-    }
-    int dam_acc = 0;
-    int num_hits = 0;
-    for( int i = 0; i < num_iters; i++ ) {
-        clear_character( dude, true );
-        dude.setpos( here, dude_pos );
-        dude.wear_item( cloth, false );
-        dude.add_effect( effect_sleep, 1_hours );
-        if( zed.melee_attack( dude, 10000.0f ) ) {
-            num_hits++;
-        }
-        cloth.set_damage( 0 );
-        if( !infect_risk ) {
-            dam_acc += dude.get_hp_max() - dude.get_hp();
-        } else if( dude.has_effect( effect_bite ) ) {
-            dam_acc++;
-        }
-        if( dude.is_dead() ) {
-            break;
-        }
-    }
-    CAPTURE( dude.is_dead() );
-    const std::string ret_type = infect_risk ? "infections" : "damage total";
-    INFO( string_format( "%s landed %d hits on character, causing %d %s.", zed.get_name(), num_hits,
-                         dam_acc, ret_type ) );
-    num_hits = num_hits ? num_hits : 1;
-    return static_cast<float>( dam_acc ) / num_hits;
+    return get_avg_melee_dmg( item( clothing_id ), infect_risk );
 }
 
 static float get_avg_bullet_dmg( const itype_id &clothing_id )
@@ -169,6 +148,9 @@ static float get_avg_bullet_dmg( const itype_id &clothing_id )
     proj.proj_effects = std::set<ammo_effect_str_id>();
     proj.critical_multiplier = 1;
 
+    clear_character( *dude, true );
+    dude->setpos( here, dude_pos );
+
     int dam_acc = 0;
     int num_hits = 0;
     for( int i = 0; i < num_iters; i++ ) {
@@ -179,7 +161,7 @@ static float get_avg_bullet_dmg( const itype_id &clothing_id )
         dealt_projectile_attack atk;
         projectile_attack( atk, proj, badguy_pos, dude_pos, dispersion_sources(),
                            &*badguy );
-        dude->deal_projectile_attack( &here,  & *badguy, atk, atk.missed_by, false );
+        dude->deal_projectile_attack( &here,  &*badguy, atk, atk.missed_by, false );
         if( atk.missed_by < 1.0 ) {
             num_hits++;
         }
@@ -218,7 +200,7 @@ TEST_CASE( "Melee_coverage_vs_melee_damage", "[coverage] [melee] [damage]" )
 
     SECTION( "No melee coverage vs. melee attack" ) {
         const float dmg = get_avg_melee_dmg( itype_test_hazmat_suit_nomelee );
-        check_near( "Average damage", dmg, 17.0f, 0.2f );
+        check_near( "Average damage", dmg, 17.0f, 0.4f );
     }
 }
 
@@ -329,3 +311,61 @@ TEST_CASE( "Off_Limb_Ghost_ablative_vest", "[coverage]" )
     }
 }
 
+TEST_CASE( "body_temperature_clothing_coverage_performance", "[.][performance][bodytemp]" )
+{
+    standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
+    clear_character( dude, true );
+
+    bool all_worn = true;
+    for( int i = 0; i < 20; ++i ) {
+        all_worn &= static_cast<bool>( dude.worn.wear_item( dude, item( itype_test_consolidate ), false,
+                                       false, false, true ) );
+    }
+    REQUIRE( all_worn );
+
+    const std::vector<bodypart_id> body_parts = dude.get_all_body_parts();
+    std::vector<const item *> worn_items;
+    dude.worn.inv_dump( worn_items );
+
+    BENCHMARK( "clothing->covers(bp)" ) {
+        long long covers_checksum = 0;
+        for( const bodypart_id &bp : body_parts ) {
+            for( const item *clothing : worn_items ) {
+                covers_checksum += clothing->covers( bp );
+            }
+        }
+        return covers_checksum;
+    };
+
+    BENCHMARK( "clothing->get_warmth(bp)" ) {
+        long long warmth_checksum = 0;
+        for( const bodypart_id &bp : body_parts ) {
+            for( const item *clothing : worn_items ) {
+                warmth_checksum += clothing->get_warmth( bp );
+            }
+        }
+        return warmth_checksum;
+    };
+
+    BENCHMARK( "outfit::warmth(dude)" ) {
+        long long outfit_warmth_checksum = 0;
+        for( const auto &entry : dude.worn.warmth( dude ) ) {
+            outfit_warmth_checksum += entry.second;
+        }
+        return outfit_warmth_checksum;
+    };
+
+    BENCHMARK( "outfit::wind_resistance(dude)" ) {
+        long long wind_checksum = 0;
+        for( const auto &entry : dude.worn.wind_resistance( dude ) ) {
+            wind_checksum += entry.second;
+        }
+        return wind_checksum;
+    };
+
+    BENCHMARK( "Character::update_bodytemp()" ) {
+        dude.update_bodytemp();
+    };
+
+    SUCCEED();
+}

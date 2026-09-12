@@ -19,6 +19,7 @@
 #include "game.h"
 #include "handle_liquid.h"
 #include "input_enums.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "item_location.h"
 #include "itype.h"
@@ -32,7 +33,6 @@
 #include "requirements.h"
 #include "ret_val.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
 #include "uilist.h"
@@ -522,10 +522,8 @@ void veh_app_interact::siphon( map &here )
 
 void veh_app_interact::rename()
 {
-    std::string name = string_input_popup()
-                       .title( _( "Enter new appliance name:" ) )
-                       .width( 20 )
-                       .query_string();
+    string_input_popup_imgui popup( 34, "", _( "Enter new appliance name:" ) );
+    std::string name = popup.query();
     if( !name.empty() ) {
         veh->name = name;
         if( veh->tracking_on ) {
@@ -552,7 +550,7 @@ void veh_app_interact::remove( map &here )
     Character &you = get_player_character();
     const inventory &inv = you.crafting_inventory();
     std::string msg;
-    bool can_remove = reqs.can_make_with_inventory( inv, is_crafting_component );
+    bool can_remove = reqs.can_make_with_inventory( &you, inv, is_crafting_component );
     if( !can_remove ) {
         msg += _( "Insufficient components/tools!\n" );
         msg += reqs.list_missing();

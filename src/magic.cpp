@@ -303,6 +303,53 @@ bool string_id<spell_type>::is_valid() const
     return spell_factory.is_valid( *this );
 }
 
+std::pair<int, int> spell_type::damage_at_max_level() const
+{
+    avatar guy;
+    const_dialogue d( get_const_talker_for( guy ), nullptr );
+
+    spell cur_spell( id );
+    cur_spell.gain_levels( guy, 84 ); // 84 is just max possible spell level
+
+    const int min = std::min( static_cast<float>( cur_spell.min_leveled_damage( guy ) ),
+                              static_cast<float>( max_damage.evaluate( d ) ) ) * cur_spell.get_eoc_damage_multiplier();
+
+    const int max = std::max( static_cast<float>( cur_spell.min_leveled_damage( guy ) ),
+                              static_cast<float>( max_damage.evaluate( d ) ) ) * cur_spell.get_eoc_damage_multiplier();
+
+    return std::make_pair( min, max );
+}
+
+std::pair<float, float> spell_type::calculate_damage_increment() const
+{
+    avatar min_guy;
+    const_dialogue min_d( get_const_talker_for( min_guy ), nullptr );
+
+    avatar max_guy;
+    const_dialogue max_d( get_const_talker_for( max_guy ), nullptr );
+
+    spell spell_0( id );
+    spell spell_1( id );
+    spell_1.gain_level( max_guy );
+
+    const float spell_0_leveled = min_damage.evaluate( min_d ) + spell_0.get_effective_level() *
+                                  damage_increment.evaluate( min_d );
+    const float spell_1_leveled = min_damage.evaluate( max_d ) + spell_1.get_effective_level() *
+                                  damage_increment.evaluate( max_d );
+
+    const float min_0 = std::min( static_cast<float>( spell_0_leveled ),
+                                  static_cast<float>( max_damage.evaluate( min_d ) ) ) * spell_0.get_eoc_damage_multiplier();
+    const float min_1 = std::min( static_cast<float>( spell_1_leveled ),
+                                  static_cast<float>( max_damage.evaluate( max_d ) ) ) * spell_1.get_eoc_damage_multiplier();
+
+    const float max_0 = std::max( static_cast<float>( spell_0_leveled ),
+                                  static_cast<float>( max_damage.evaluate( min_d ) ) ) * spell_0.get_eoc_damage_multiplier();
+    const float max_1 = std::max( static_cast<float>( spell_1_leveled ),
+                                  static_cast<float>( max_damage.evaluate( max_d ) ) ) * spell_1.get_eoc_damage_multiplier();
+
+    return std::make_pair( min_1 - min_0, max_1 - max_0 );
+}
+
 void spell_type::load_spell( const JsonObject &jo, const std::string &src )
 {
     spell_factory.load( jo, src );
@@ -651,6 +698,11 @@ double spell::bash_scaling( const Creature &caster ) const
             return std::max( leveled_scaling, static_cast<double>( type->max_bash_scaling.evaluate( d ) ) );
         }
     }
+}
+
+float spell::get_eoc_damage_multiplier() const
+{
+    return temp_damage_multiplyer;
 }
 
 int spell::min_leveled_damage( const Creature &caster ) const
@@ -1110,8 +1162,8 @@ bool spell::can_cast( const Character &guy ) const
     }
 
     if( !type->spell_components.is_empty() &&
-        !type->spell_components->can_make_with_inventory( guy.crafting_inventory( guy.pos_bub(), 0, false ),
-                return_true<item> ) ) {
+        !type->spell_components->can_make_with_inventory( &guy,
+                guy.crafting_inventory( guy.pos_bub(), 0, false ), return_true<item> ) ) {
         return false;
     }
 
@@ -1163,7 +1215,7 @@ bool spell::check_if_component_in_hand( Character &guy ) const
     const requirement_data &spell_components = type->spell_components.obj();
 
     if( guy.has_weapon() ) {
-        if( spell_components.can_make_with_inventory( *guy.get_wielded_item(), return_true<item> ) ) {
+        if( spell_components.can_make_with_inventory( &guy, *guy.get_wielded_item(), return_true<item> ) ) {
             return true;
         }
     }
@@ -2585,6 +2637,17 @@ std::vector<spell_id> known_magic::spells() const
     return spell_ids;
 }
 
+bool known_magic::can_cast_any_spell( const Character &guy,
+                                      std::map<magic_type_id, bool> &success_tracker )
+{
+    bool any_success = false;
+    for( const spell_id &sp : spells() ) {
+        spell &temp_spell = get_spell( sp );
+        any_success = temp_spell.can_cast( guy, success_tracker ) || any_success;
+    }
+    return any_success;
+}
+
 void known_magic::channel_magic( Character &guy )
 {
     spell_id sp_id = guy.magic->last_spell;
@@ -3175,14 +3238,14 @@ void spellcasting_callback::display_spell_info( size_t index )
         ImGui::NewLine();
         if( !sp.components().get_components().empty() ) {
             for( const std::string &line : sp.components().get_folded_components_list(
-                     0, c_light_gray, pc.crafting_inventory( pc.pos_bub(), 0, false ), return_true<item> ) ) {
+                     &pc, 0, c_light_gray, pc.crafting_inventory( pc.pos_bub(), 0, false ), return_true<item> ) ) {
                 cataimgui::TextColoredParagraph( c_white, line );
                 ImGui::NewLine();
             }
         }
         if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
             for( const std::string &line : sp.components().get_folded_tools_list(
-                     0, c_light_gray, pc.crafting_inventory( pc.pos_bub(), 0, false ) ) ) {
+                     &pc, 0, c_light_gray, pc.crafting_inventory( pc.pos_bub(), 0, false ) ) ) {
                 cataimgui::TextColoredParagraph( c_white, line );
                 ImGui::NewLine();
             }
@@ -3530,10 +3593,14 @@ static void draw_spellbook_info( const spell_type &sp )
         ImGui::TableHeadersRow();
 
         const auto row = [&]( const std::string & label, const dbl_or_var & min_d,
-        const dbl_or_var & inc_d, const dbl_or_var & max_d, bool check_minmax = false ) {
-            const int min = static_cast<int>( min_d.evaluate( d ) );
-            const float inc = static_cast<float>( inc_d.evaluate( d ) );
-            const int max = static_cast<int>( max_d.evaluate( d ) );
+                              const dbl_or_var & inc_d, const dbl_or_var & max_d, bool check_minmax = false,
+        bool absolute = false ) {
+            const int min = absolute ? std::abs( static_cast<int>( min_d.evaluate( d ) ) ) : static_cast<int>
+                            ( min_d.evaluate( d ) );
+            const float inc = absolute ? std::abs( static_cast<float>( inc_d.evaluate(
+                    d ) ) ) : static_cast<float>( inc_d.evaluate( d ) );
+            const int max = absolute ? std::abs( static_cast<int>( max_d.evaluate( d ) ) ) : static_cast<int>
+                            ( max_d.evaluate( d ) );
             if( check_minmax && ( min == 0 || max == 0 ) ) {
                 return;
             }
@@ -3549,7 +3616,31 @@ static void draw_spellbook_info( const spell_type &sp )
         };
 
         if( !damage_string.empty() ) {
-            row( damage_string, sp.min_damage, sp.damage_increment, sp.max_damage, true );
+            if( damage_string == _( "Damage" ) && ( sp.min_damage.evaluate( d ) < 0 ||
+                                                    sp.max_damage.evaluate( d ) < 0 ) ) {
+                damage_string = _( "Healing" );
+            }
+            if( fake_spell.has_flag( spell_flag::RANDOM_DAMAGE ) ) {
+                ImGui::TableNextRow();
+                ImGui::TableNextColumn();
+                ImGui::TextColored( c_light_gray, "%s", damage_string.c_str() );
+                ImGui::TableNextColumn();
+                ImGui::TextColored( c_light_green, "%d-%d",
+                                    static_cast<int>( std::abs( sp.min_damage.evaluate( d ) ) ),
+                                    std::abs( static_cast<int>( sp.max_damage.evaluate( d ) ) ) );
+                ImGui::TableNextColumn();
+                const std::pair<float, float> increment = sp.calculate_damage_increment();
+                ImGui::TextColored( c_light_green, "%.2f - %.2f", std::min( std::abs( increment.first ),
+                                    std::abs( increment.second ) ), std::max( std::abs( increment.first ),
+                                            std::abs( increment.second ) ) );
+                ImGui::TableNextColumn();
+                const std::pair<int, int> max_damage = sp.damage_at_max_level();
+                ImGui::TextColored( c_light_green, "%d-%d", std::min( std::abs( max_damage.first ),
+                                    std::abs( max_damage.second ) ), std::max( std::abs( max_damage.first ),
+                                            std::abs( max_damage.second ) ) );
+            } else {
+                row( damage_string, sp.min_damage, sp.damage_increment, sp.max_damage, true );
+            }
         }
 
         row( _( "Range" ), sp.min_range, sp.range_increment, sp.max_range, true );

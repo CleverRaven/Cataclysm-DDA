@@ -657,7 +657,7 @@ void iexamine::nanofab( Character &you, const tripoint_bub_ms &examp )
         new_item.set_flag( flag_NANOFAB_REPAIR );
     }
 
-    if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
+    if( !reqs.can_make_with_inventory( &you, you.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
         return;
     }
@@ -2710,14 +2710,7 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
 
     const auto add = [&]( const itype_id & id, const int count ) {
         item new_item( id, calendar::turn );
-        if( new_item.count_by_charges() && count > 0 ) {
-            new_item.charges *= count;
-            new_item.charges /= seed_data.fruit_div;
-            if( new_item.charges <= 0 ) {
-                new_item.charges = 1;
-            }
-            result.push_back( new_item );
-        } else if( count > 0 ) {
+        if( count > 0 ) {
             result.insert( result.begin(), count, new_item );
         }
     };
@@ -3436,7 +3429,7 @@ void iexamine::autoclave_empty( Character &you, const tripoint_bub_ms &examp )
     }
     requirement_data reqs = *requirement_data_autoclave;
 
-    if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
+    if( !reqs.can_make_with_inventory( &you, you.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
         return;
     }

@@ -3,7 +3,6 @@
 #define CATA_SRC_VPART_POSITION_H
 
 #include <cstddef>
-#include <functional>
 #include <map>
 #include <optional>
 #include <string>
@@ -40,14 +39,14 @@ struct vehicle_part;
 class vpart_position
 {
     private:
-        std::reference_wrapper<::vehicle> vehicle_;
+        ::vehicle *vehicle_;
         size_t part_index_;
 
     public:
-        vpart_position( ::vehicle &v, const size_t part ) : vehicle_( v ), part_index_( part ) { }
+        vpart_position( ::vehicle &v, const size_t part ) : vehicle_( &v ), part_index_( part ) { }
 
         ::vehicle &vehicle() const {
-            return vehicle_.get();
+            return *vehicle_;
         }
         // TODO: remove this, add a vpart_reference class instead
         size_t part_index() const {

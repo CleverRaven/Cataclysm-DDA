@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstddef>
 #include <map>
 #include <memory>
@@ -44,6 +45,7 @@ static const damage_type_id damage_stab( "stab" );
 
 static const enchantment_id enchantment_ENCH_TEST_ALT_ARMS( "ENCH_TEST_ALT_ARMS" );
 
+static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_attachable_ear_muffs( "attachable_ear_muffs" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_ballistic_vest_esapi( "ballistic_vest_esapi" );
@@ -57,7 +59,6 @@ static const itype_id itype_dress_shirt( "dress_shirt" );
 static const itype_id itype_face_shield( "face_shield" );
 static const itype_id itype_hat_hard( "hat_hard" );
 static const itype_id itype_heavy_battery_cell( "heavy_battery_cell" );
-static const itype_id itype_icecream( "icecream" );
 static const itype_id itype_iodine( "iodine" );
 static const itype_id itype_match( "match" );
 static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
@@ -96,6 +97,7 @@ static const itype_id itype_test_gum( "test_gum" );
 static const itype_id itype_test_halligan( "test_halligan" );
 static const itype_id itype_test_hallu_nutmeg( "test_hallu_nutmeg" );
 static const itype_id itype_test_hazmat_suit( "test_hazmat_suit" );
+static const itype_id itype_test_item_info_repair_tool( "test_item_info_repair_tool" );
 static const itype_id itype_test_jack_small( "test_jack_small" );
 static const itype_id itype_test_jug_plastic( "test_jug_plastic" );
 static const itype_id itype_test_longshirt( "test_longshirt" );
@@ -103,6 +105,7 @@ static const itype_id itype_test_matches( "test_matches" );
 static const itype_id itype_test_meower_armor( "test_meower_armor" );
 static const itype_id itype_test_multimag_gun_integral_ammo( "test_multimag_gun_integral_ammo" );
 static const itype_id itype_test_nuclear_carafe( "test_nuclear_carafe" );
+static const itype_id itype_test_nutrient_info_item( "test_nutrient_info_item" );
 static const itype_id itype_test_pants_faux_fur( "test_pants_faux_fur" );
 static const itype_id itype_test_pine_nuts( "test_pine_nuts" );
 static const itype_id itype_test_pipe( "test_pipe" );
@@ -805,6 +808,22 @@ static void verify_item_coverage( const item &i, const std::map<bodypart_id, int
     }
 }
 
+static void verify_item_warmth_by_bodypart( const item &i )
+{
+    CAPTURE( i.typeId() );
+    std::vector<std::pair<bodypart_id, int>> warmth_by_bodypart;
+    i.get_warmth_by_bodypart( warmth_by_bodypart );
+    for( const bodypart_id &bp : bodyparts_to_check() ) {
+        CAPTURE( bp.id() );
+        const auto found = std::find_if( warmth_by_bodypart.begin(), warmth_by_bodypart.end(),
+        [&]( const auto & entry ) {
+            return entry.first == bp;
+        } );
+        const int warmth = found == warmth_by_bodypart.end() ? 0 : found->second;
+        CHECK( warmth == i.get_warmth( bp ) );
+    }
+}
+
 static void verify_item_encumbrance( const item &i, item::encumber_flags flags, int average,
                                      const std::map<bodypart_id, int> &expected )
 {
@@ -814,6 +833,17 @@ static void verify_item_encumbrance( const item &i, item::encumber_flags flags, 
         CAPTURE( bp.id() );
         REQUIRE( i.get_encumber( get_player_character(), bp, flags ) == expected.at( bp ) );
     }
+}
+
+TEST_CASE( "warmth_by_bodypart_matches_single_bodypart_queries", "[iteminfo][armor][warmth]" )
+{
+    item splint( itype_arm_splint );
+
+    REQUIRE( splint.set_side( side::LEFT ) );
+    verify_item_warmth_by_bodypart( splint );
+
+    REQUIRE( splint.set_side( side::RIGHT ) );
+    verify_item_warmth_by_bodypart( splint );
 }
 
 // Related JSON fields:
@@ -1079,6 +1109,7 @@ TEST_CASE( "armor_coverage_warmth_and_encumbrance", "[iteminfo][armor][coverage]
         };
         REQUIRE( faux_fur_suit.get_avg_coverage() == 75 );
         REQUIRE( faux_fur_suit.get_warmth() == 5 );
+        verify_item_warmth_by_bodypart( faux_fur_suit );
         CHECK( item_info_str( faux_fur_suit, cov_warm_suit )
                ==
                "--\n"
@@ -1164,6 +1195,7 @@ TEST_CASE( "armor_coverage_warmth_and_encumbrance", "[iteminfo][armor][coverage]
         std::vector<iteminfo_parts> cov_warm_super_tank = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
         REQUIRE( super_tank_top.get_avg_coverage() == 100 );
         REQUIRE( super_tank_top.get_warmth() == 20 );
+        verify_item_warmth_by_bodypart( super_tank_top );
         CHECK( item_info_str( super_tank_top, cov_warm_super_tank )
                ==
                "--\n"
@@ -1317,6 +1349,7 @@ TEST_CASE( "helmet_with_pockets_stats", "[iteminfo][armor][protection]" )
         //warmth stats: 5 (hat's warmth) * 0.4 (hat's body part coverage)
         CHECK( hh.get_warmth( bp_head ) == 2 );
         CHECK( hh.get_warmth( bp_eyes ) == 0 );
+        verify_item_warmth_by_bodypart( hh );
     }
 
 
@@ -1331,6 +1364,7 @@ TEST_CASE( "helmet_with_pockets_stats", "[iteminfo][armor][protection]" )
         THEN( "warmth should not change" ) {
             CHECK( hh.get_warmth( bp_head ) == 2 );
             CHECK( hh.get_warmth( bp_eyes ) == 0 );
+            verify_item_warmth_by_bodypart( hh );
         }
         THEN( "breathbility should be 0" ) {
             CHECK( hh.breathability( bp_eyes ) == 0 );
@@ -1343,6 +1377,7 @@ TEST_CASE( "helmet_with_pockets_stats", "[iteminfo][armor][protection]" )
             CHECK( nape_protector.get_warmth( bp_head ) == 2 );
             //2 (base warmth) + 4 (nape's warmth) * 0.4 (nape's body part coverage)
             CHECK( hh.get_warmth( bp_head ) == 4 );
+            verify_item_warmth_by_bodypart( hh );
         }
         WHEN( "adding ear muffs to the helmet" ) {
             item ear_muffs( itype_attachable_ear_muffs );
@@ -1350,6 +1385,7 @@ TEST_CASE( "helmet_with_pockets_stats", "[iteminfo][armor][protection]" )
             THEN( "head's warmth should be increased even more" ) {
                 CHECK( ear_muffs.get_warmth( bp_head ) == 2 );
                 CHECK( hh.get_warmth( bp_head ) == 6 );
+                verify_item_warmth_by_bodypart( hh );
             }
         }
     }
@@ -2115,36 +2151,31 @@ TEST_CASE( "nutrients_in_food", "[iteminfo][food]" )
 {
     clear_avatar();
 
-    item ice_cream( itype_icecream );
+    item test_item( itype_test_nutrient_info_item );
 
     SECTION( "fixed nutrient values in regular item" ) {
-        CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_NUTRITION, iteminfo_parts::FOOD_QUENCH } )
+        CHECK( item_info_str( test_item, { iteminfo_parts::FOOD_NUTRITION } )
                ==
                "--\n"
-               "<color_c_white>Calories (kcal)</color>: <color_c_yellow>325</color>"
-               "  Quench: <color_c_yellow>0</color>\n" );
-        // Values end up rounded slightly
-        CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
+               "<color_c_white>Calories (kcal)</color>: <color_c_yellow>100</color>" );
+        CHECK( item_info_str( test_item, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
-               "Vitamins (RDA): 83 mg Calcium (8%)\n" );
+               "Vitamins (RDA): 1 g Calcium (100%)\n" );
     }
 
     SECTION( "nutrient ranges for recipe exemplars", "[iteminfo]" ) {
-        ice_cream.set_var( "recipe_exemplar", "icecream" );
+        test_item.set_var( "recipe_exemplar", "test_nutrient_info_item" );
 
-        CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_NUTRITION, iteminfo_parts::FOOD_QUENCH } )
+        CHECK( item_info_str( test_item, { iteminfo_parts::FOOD_NUTRITION } )
                ==
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "<color_c_white>Calories (kcal)</color>:"
-               " <color_c_yellow>53</color>-<color_c_yellow>465</color>"
-               "  Quench: <color_c_yellow>0</color>\n" );
-        // Values end up rounded slightly
-        CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
+               " <color_c_yellow>100</color>-<color_c_yellow>200</color>" );
+        CHECK( item_info_str( test_item, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-               "Vitamins (RDA): 63-323 mg Calcium (6-32%), 0-20 mg Iron (0-109%),"
-               " and 0-45 mg Vitamin C (0-50%)\n" );
+               "Vitamins (RDA): 1-2 g Calcium (100-200%)\n" );
     }
 }
 
@@ -2702,16 +2733,16 @@ TEST_CASE( "repairable_and_with_what_tools", "[iteminfo][repair]" )
 {
     clear_avatar();
 
-    item halligan( itype_test_halligan );
+    item test_repair_item( itype_test_item_info_repair_tool );
     item hazmat( itype_test_hazmat_suit );
     item rock( itype_test_rock );
 
     std::vector<iteminfo_parts> repaired = { iteminfo_parts::DESCRIPTION_REPAIREDWITH };
 
-    CHECK( item_info_str( halligan, repaired ) ==
+    CHECK( item_info_str( test_repair_item, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using integrated welder, arc welder, makeshift arc welder, or high-temperature welding kit.\n"
-           "<color_c_white>With</color> <color_c_cyan>chunk of steel</color>.\n"
+           "<color_c_white>Repair</color> using TEST item info repair tool.\n"
+           "<color_c_white>With</color> <color_c_cyan>TEST repair item</color>.\n"
          );
 
     // FIXME: Use an item that can only be repaired by test tools

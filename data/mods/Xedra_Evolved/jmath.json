@@ -402,5 +402,11 @@
     "type": "jmath_function",
     "num_args": 0,
     "return": "-0.25 + (u_effect_intensity('weary_1') > -1 ? 0.1 : 0) + (u_effect_intensity('weary_2') > -1 ? 0.25 : 0) + (u_effect_intensity('weary_3') > -1 ? 0.35 : 0) + (u_effect_intensity('weary_4') > -1 ? 0.5 : 0) + (u_effect_intensity('weary_5') > -1 ? 0.65 : 0) + (u_effect_intensity('weary_6') > -1 ? 0.9 : 0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_serum_duration_adjustments",
+    "num_args": 0,
+    "return": "1 * (u_has_trait('VAMPIRE4') ? 0 : 1) *  (u_has_trait('WEREWOLF_MANA_TRAIT') ? 0 : 1 )* (u_has_trait('VAMPIRE3') ? 0.5 : 1) * (u_has_trait('CHANGELING_MAGIC') ? 0.5 : 1) * (u_has_trait('ARVORE') ? 0.25 : 1) * (u_has_trait('IERDE') ? 0 : 1) * (u_has_trait('HOMULLUS') ? 0.5 : 1) * (u_has_trait('SALAMANDER') ? 0 : 1) * (u_has_trait('SYLPH') ? 0.25 : 1) * (u_has_trait('UNDINE') ? 0.25 : 1) * (u_has_trait('LILIN_TRAITS') ? 0.5 : 1) * (u_has_trait('THRESH_LILIN') ? 0 : 1) * (u_has_trait('GRACKEN') ? 0.25 : 1) * (u_has_trait('DHAMPIR_WEAKNESS_LOWER_KCAL_FROM_FOOD') ? 0.666 : 1) * (u_has_trait('DHAMPIR_WEAKNESS_SLOW_HEALING') ? 0.75 : 1)"
   }
 ]

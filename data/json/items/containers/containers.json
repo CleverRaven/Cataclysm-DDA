@@ -5497,5 +5497,77 @@
         "rigid": true
       }
     ]
+  },
+  {
+    "id": "six_bottle_box",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "six-bottle box", "str_pl": "six-bottle boxes" },
+    "description": "An open-top cardboard box, featuring a handle and six partitioned slots meant for small beverage bottles.",
+    "looks_like": "box_small",
+    "weight": "50 g",
+    "volume": "3500 ml",
+    "longest_side": "22 cm",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "cardboard" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "600 g",
+        "max_item_length": "22 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "600 g",
+        "max_item_length": "22 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "600 g",
+        "max_item_length": "22 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "600 g",
+        "max_item_length": "22 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "600 g",
+        "max_item_length": "22 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "600 g",
+        "max_item_length": "22 cm",
+        "moves": 100
+      }
+    ],
+    "symbol": "8",
+    "color": "brown"
   }
 ]

@@ -172,8 +172,8 @@ Linear scaling provides purely linear scaling. There are two parameters, the `se
 In other words, max does not limit the max batch size, it merely specifies when the setup cost will be applied again.
 It is specified as follows:
 ```jsonc
-"batch_time_factors": { "mode": "linear": "setup": "12 m" },
-"batch_time_factors": { "mode": "linear": "setup": "12 m", "max": 20 },
+"batch_time_factors": { "mode": "linear", "setup": "12 m" },
+"batch_time_factors": { "mode": "linear", "setup": "12 m", "max": 20 },
 ```
 
 ## Recipe steps
@@ -297,6 +297,12 @@ When the wall-clock deadline elapses:
 If the step's tools or qualities become unavailable, or a charged tool runs short on charges, the step pauses and the deadline slides forward once the requirement is restored.  `crafter_id` is remembered so env-check picks up the crafter's pseudo-tools, bionics, and trait qualities when they are next to the craft.
 
 NPCs do not see the planning modal and behave as if implicitly waiting; the unattended block in the craft activity actor still drives their craft forward.
+
+### Counting quality providers
+
+A quality requirement's `"amount"` counts **distinct providers**.  This can change whether a recipe is offered.  A qualifying tool inside a container counts once, not twice.  A stack of a charge-counted qualifying item counts once, not once per charge.
+
+A quality is measured against the character the check is about.  A charged quality reads that character's power, not the avatar's.  A mutation or body part that grants a quality without an item counts for that character too.
 
 Schema:
 

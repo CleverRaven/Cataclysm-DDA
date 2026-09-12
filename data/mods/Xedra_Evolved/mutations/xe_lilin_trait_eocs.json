@@ -468,7 +468,11 @@
       ]
     },
     "effect": [
-      { "u_message": "As yours wounds overtake you, you cast forth your spirit in the form of an owl.", "popup": true },
+      "u_prevent_death",
+      {
+        "u_message": "As yours wounds overtake you, you cast forth your spirit in the form of an owl.",
+        "popup": true
+      },
       { "run_eocs": [ "EOC_LILIN_PREVENT_DEATH_PROCESSING" ] }
     ]
   },
@@ -538,7 +542,8 @@
           "bleed",
           "blind",
           "deaf",
-          "grabbed"
+          "grabbed",
+          "tpollen"
         ]
       },
       { "u_add_effect": "lilit_prevent_death_escape", "duration": 15 },

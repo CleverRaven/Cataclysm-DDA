@@ -917,5 +917,10 @@
     "name": "dark_wyrm",
     "base_faction": "mutant",
     "neutral": [ "dark_wyrm" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "beetle_solar",
+    "base_faction": "insect"
   }
 ]

@@ -28,6 +28,7 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_imgui.h"
 #include "cata_lazy.h"
@@ -66,7 +67,6 @@
 #include "flat_set.h"
 #include "flexbuffer_json.h"
 #include "game.h"
-#include "game_constants.h"
 #include "game_inventory.h"
 #include "generic_factory.h"
 #include "global_vars.h"
@@ -76,7 +76,6 @@
 #include "input_context.h"
 #include "input_enums.h"
 #include "input_popup.h"
-#include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_category.h"
@@ -126,7 +125,6 @@
 #include "ranged.h"
 #include "recipe.h"
 #include "recipe_groups.h"
-#include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "simple_pathfinding.h"
@@ -2878,15 +2876,16 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
         npc *npc_actor = actor( true )->get_npc();
         d_img.add_to_history( challenge, speaker_name( d_img ),
                               npc_actor ? npc_actor->basic_symbol_color() : c_red );
+        // Empty line for padding. This is right after either a NPC greeting the player, or them responding to a player's message.
+        // So padding here keeps messages grouped into reasonable blocks.
+        d_img.add_to_history( "" );
     }
-    /* FIXME
     if( debug_mode ) {
-        std::vector<std::string> dynamic_line_debug = build_debug_info( d_win, topic );
+        std::vector<std::string> dynamic_line_debug = build_debug_info( d_img, topic );
         for( auto &line : dynamic_line_debug ) {
-            d_win.add_to_history( line );
+            d_img.add_to_history( line );
         }
     }
-    */
     apply_speaker_effects( topic );
 
     if( responses.empty() ) {
@@ -2904,12 +2903,10 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
         response_lines.clear();
         response_hotkeys.clear();
         input_event evt = ctxt.first_unassigned_hotkey( queue );
-        for( int i = 0; i < static_cast<int>( responses.size() ); i++ ) {
+        const int num_responses = responses.size();
+        for( int i = 0; i < num_responses; i++ ) {
             talk_response &response = responses[i];
-            talk_data td = response.create_option_line( *this, evt, d_img.is_computer );
-            if( d_img.sel_response == i ) {
-                td.hotkey_desc += " >>>";
-            }
+            const talk_data &td = response.create_option_line( *this, evt, d_img.is_computer );
             response_lines.emplace_back( td );
             response_hotkeys.emplace_back( evt );
 #if defined(__ANDROID__)
@@ -2935,12 +2932,23 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
                 d_img.set_responses_debug( build_debug_info( d_img, topic, d_img.sel_response ) );
                 d_img.debug_topic_name = topic.id;
             }
-            // Indicators for what line is selected are part of the response string, so let's regen them.
-            generate_response_lines();
             // For reasons unclear to me, we must manually invalidate and redraw the windows here, or else they will stack up.
             ui_manager::invalidate_all_ui_adaptors();
             ui_manager::redraw();
             action = ctxt.handle_input();
+
+            // Mouse click is an input type that would result in a continue, so we need to set our action before that.
+            if( action == "CONFIRM" || d_img.user_clicked_response_button ) {
+                action = "CONFIRM"; // If we actually did click, harmless otherwise.
+                d_img.user_clicked_response_button = false;
+                response_ind = d_img.sel_response;
+                //response condition must be reverified since non-selectable responses can be displayed
+                if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
+                        !debug_mode ) ) {
+                    action = "NONE";
+                }
+            }
+
             input_event evt = ctxt.get_raw_input();
             if( evt.type == input_event_t::error || evt.type == input_event_t::timeout ) {
                 continue;
@@ -2952,13 +2960,6 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
                 d_img.sel_response++;
             } else if( action == "UP" ) {
                 d_img.sel_response--;
-            } else if( action == "CONFIRM" ) {
-                response_ind = d_img.sel_response;
-                //response condition must be reverified since non-selectable responses can be displayed
-                if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
-                        !debug_mode ) ) {
-                    action = "NONE";
-                }
             } else if( action == "END" ) {
                 d_img.scroll_to = cataimgui::scroll::page_down;
             } else if( action == "HOME" ) {
@@ -3014,6 +3015,9 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
     } while( !okay );
 
     d_img.add_to_history( response_lines[response_ind].text, _( "You" ), c_light_blue );
+
+    // We just advanced the conversation, let's make sure we can see what they said.
+    d_img.scroll_to = cataimgui::scroll::end;
 
     talk_response chosen = responses[response_ind];
     if( chosen.mission_selected != nullptr ) {
@@ -3544,6 +3548,34 @@ talk_effect_fun_t::func f_remove_category( const JsonObject &jo,
             if( std::find( branch.category.begin(),
                            branch.category.end(),
                            cat_id ) != branch.category.end() ) {
+                to_remove.push_back( mut );
+            }
+        }
+
+        for( const trait_id &mut : to_remove ) {
+            ch->unset_mutation( mut );
+        }
+    };
+}
+
+talk_effect_fun_t::func f_remove_mutation_type( const JsonObject &jo,
+        std::string_view member,
+        std::string_view,
+        bool is_npc )
+{
+    str_or_var type = get_str_or_var( jo.get_member( member ), member, true );
+
+    return [is_npc, type]( dialogue const & d ) {
+        Character *ch = d.actor( is_npc )->get_character();
+
+        const std::string type_id = type.evaluate( d );
+
+        std::vector<trait_id> to_remove;
+
+        for( const trait_id &mut : ch->get_mutations() ) {
+            const mutation_branch &branch = mut.obj();
+
+            if( branch.types.count( type_id ) > 0 ) {
                 to_remove.push_back( mut );
             }
         }
@@ -4162,42 +4194,42 @@ talk_effect_fun_t::func f_consume_item_sum( const JsonObject &jo, std::string_vi
         add_msg_debug( debugmode::DF_TALKER, "using _consume_item_sum:" );
 
         itype_id item_to_remove;
-        double percent = 0.0f;
-        double ratio = 0.0f;
         double amount_desired = 0.0f;
-        int count_present = 0;
         Character *you = d.actor( is_npc )->get_character();
-        inventory inventory_and_around = you->crafting_inventory( you->pos_bub(), PICKUP_RANGE );
-        std::vector<item_comp> items_to_remove_vector;
+        auto legal_to_consume = [&]( const item & it ) {
+            return it.is_owned_by( *you );
+        };
+        std::unordered_set<item_location> all_items = get_map().all_items( legal_to_consume,
+                *you,
+                Access_Inventory | Access_Map_Around | Access_Vehicle );
 
         for( const auto &pair : item_and_amount ) {
-            int amount_to_remove = 0;
             item_to_remove = itype_id( pair.first.evaluate( d ) );
             amount_desired = pair.second.evaluate( d );
-            count_present = inventory_and_around.count_item( item_to_remove );
-
-            if( count_present == 0 ) {
-                continue;
-            }
-
-            percent += count_present / amount_desired;
-
-            if( percent <= 1.0 ) {
-                // either lack or just right amount of items to consume
-                items_to_remove_vector = { { item_to_remove, static_cast<int>( count_present ) } };
-                you->consume_items( items_to_remove_vector );
-
-            } else {
-                // too much items to consume, consuming only to hit 1.00 percent
-                percent -= count_present / amount_desired;
-                ratio = count_present / amount_desired;
-
-                while( percent < 1.0 ) {
-                    percent += ratio / count_present;
-                    ++amount_to_remove;
+            auto iter = all_items.begin();
+            while( iter != all_items.end() && amount_desired > 0 ) {
+                item_location it = *iter;
+                if( it && it->typeId() == item_to_remove ) {
+                    if( it->count_by_charges() ) {
+                        if( it->charges <= amount_desired ) {
+                            amount_desired -= it->charges;
+                            it->spill_contents( it.pos_bub( get_map() ) );
+                            it.remove_item();
+                            iter = all_items.erase( iter );
+                        } else {
+                            amount_desired = 0;
+                            it->mod_charges( -amount_desired );
+                            iter++;
+                        }
+                    } else {
+                        it->spill_contents( it.pos_bub( get_map() ) );
+                        it.remove_item();
+                        iter = all_items.erase( iter );
+                        amount_desired--;
+                    }
+                } else {
+                    iter++; // Not an item we're looking for. NEXT!
                 }
-                items_to_remove_vector = { { item_to_remove, amount_to_remove } };
-                you->consume_items( items_to_remove_vector );
             }
         }
     };
@@ -6619,6 +6651,25 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
     translation title = to_translation( "Select an option." );
     jo.read( "title", title );
 
+    // Selector dialog can't be initialized in tests, so either cancel or activate first eoc
+    if( test_mode ) {
+        return [eocs, context, allow_cancel]( dialogue & d ) {
+            if( allow_cancel ) {
+                return;
+            }
+
+            dialogue newDialog( d );
+            if( !context.empty() ) {
+                for( const auto &val : context[0] ) {
+                    newDialog.set_value( val.first, val.second.evaluate( d ) );
+                }
+            }
+            const effect_on_condition_id first_eoc =
+                eocs[0].var ? effect_on_condition_id( eocs[0].var->evaluate( d ) ) : eocs[0].id;
+            first_eoc->activate( newDialog );
+        };
+    }
+
     return [eocs, context, title, eoc_names, eoc_keys, eoc_descriptions,
           hide_failing, allow_cancel, hilight_disabled]( dialogue & d ) {
         uilist eoc_list;
@@ -8367,6 +8418,7 @@ parsers = {
     { "u_add_trait", "npc_add_trait", jarg::member, &talk_effect_fun::f_add_trait },
     { "u_lose_trait", "npc_lose_trait", jarg::member, &talk_effect_fun::f_remove_trait },
     { "u_lose_category", "npc_lose_category", jarg::member, &talk_effect_fun::f_remove_category },
+    { "u_lose_mutation_type", "npc_lose_mutation_type", jarg::member, &talk_effect_fun::f_remove_mutation_type },
     { "u_deactivate_trait", "npc_deactivate_trait", jarg::member, &talk_effect_fun::f_deactivate_trait },
     { "u_activate_trait", "npc_activate_trait", jarg::member, &talk_effect_fun::f_activate_trait },
     { "u_mutate", "npc_mutate", jarg::member | jarg::array, &talk_effect_fun::f_mutate },

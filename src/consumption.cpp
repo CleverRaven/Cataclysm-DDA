@@ -12,6 +12,7 @@
 #include <set>
 #include <string>
 #include <tuple>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -37,7 +38,6 @@
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_components.h"
@@ -123,6 +123,7 @@ static const itype_id itype_syringe( "syringe" );
 
 static const json_character_flag json_flag_BLOODFEEDER( "BLOODFEEDER" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
+static const json_character_flag json_flag_CANNOT_CONSUME_DRUGS( "CANNOT_CONSUME_DRUGS" );
 static const json_character_flag json_flag_CARNIVORE_DIET( "CARNIVORE_DIET" );
 static const json_character_flag json_flag_HEMOVORE( "HEMOVORE" );
 static const json_character_flag json_flag_HERBIVORE_DIET( "HERBIVORE_DIET" );
@@ -138,6 +139,8 @@ static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SKIP_HEALTH( "SKIP_HEALTH" );
 static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
 static const json_character_flag json_flag_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
+static const json_character_flag
+json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 
 static const material_id material_all( "all" );
 
@@ -907,6 +910,12 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     }
 
     const use_function *consume_drug = food.type->get_use( "consume_drug" );
+    if( has_flag( json_flag_CANNOT_CONSUME_DRUGS ) ) {
+        return ret_val<edible_rating>::make_failure( _( "That would have no effect on you." ) );
+    }
+    if( has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) ) {
+        return ret_val<edible_rating>::make_failure( _( "You cannot use that while shapeshifted." ) );
+    }
     if( consume_drug != nullptr ) { //its a drug)
         const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                 ( consume_drug->get_actor_ptr() );
@@ -1226,19 +1235,27 @@ static bool eat( item &food, Character &you, bool force )
         }
     }
 
-    item *seasoning = nullptr;
-    inventory inv;
-    inv.form_from_map( you.pos_bub(), PICKUP_RANGE, &you, true, true );
-    for( itype_id seasoning_type : food.get_comestible()->get_seasonings() ) {
-        inv.visit_items( [&]( item * e, const item * ) {
-            if( e->typeId() == seasoning_type ) {
-                // Always pick the last valid seasoning we find.
-                // TODO: More than one seasoning? Picking the 'best' seasoning instead of the first?
-                seasoning = e;
-                return VisitResponse::ABORT;
-            }
-            return VisitResponse::NEXT;
-        } );
+    std::list<itype_id> seasonings_list = food.get_comestible()->get_seasonings();
+    std::unordered_set<itype_id> seasonings_set( seasonings_list.begin(), seasonings_list.end() );
+
+    auto legal_to_consume = [&]( const item & it ) {
+        return it.is_owned_by( you ) && ( seasonings_set.find( it.typeId() ) != seasonings_set.end() );
+    };
+
+    auto fun_value = [&]( const item_location & it ) {
+        return it->get_comestible_fun();
+    };
+
+    item_location seasoning;
+    std::unordered_set<item_location> all_valid_seasonings = get_map().all_items( legal_to_consume,
+            you, Access_Inventory | Access_Map_Around );
+
+    for( const item_location &checked : all_valid_seasonings ) {
+        // Always pick the best(highest fun) valid seasoning we find.
+        // TODO: More than one seasoning?
+        if( !seasoning || ( fun_value( checked ) > fun_value( seasoning ) ) ) {
+            seasoning = checked;
+        }
     }
 
     if( amorphous ) {
@@ -1355,16 +1372,10 @@ static bool eat( item &food, Character &you, bool force )
     you.consumption_history.emplace_back( food );
     if( seasoning && you.consume_effects( *seasoning ) ) {
         you.consumption_history.emplace_back( *seasoning );
-        map &here = get_map();
-        int left_to_use = 1;
-        // FIXME: Does not necessarily consume the exact seasoning item we have a pointer to!
         if( seasoning->count_by_charges() ) {
-            here.use_charges( you.pos_bub(), PICKUP_RANGE, seasoning->typeId(), left_to_use );
+            seasoning->mod_charges( -1 );
         } else {
-            here.use_amount( you.pos_bub(), PICKUP_RANGE, seasoning->typeId(), left_to_use );
-        }
-        if( left_to_use > 0 ) {
-            debugmsg( "Failed to consume seasoning %s during consumption", seasoning->typeId().c_str() );
+            seasoning.remove_item();
         }
     }
     // Clean out consumption_history so it doesn't get bigger than needed.

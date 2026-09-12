@@ -59,7 +59,7 @@ bool active_item_cache::add( item &it, point_rel_ms location, item *parent,
     }
     std::unordered_map<item *, safe_reference<item>> &target_index = active_items_index[speed];
     std::list<item_reference> &target_list = active_items[speed];
-    if( target_index.empty() && !target_index.empty() ) {
+    if( target_index.empty() && !target_list.empty() ) {
         // If the index has been cleared, rebuild it first.
         for( item_reference &iter : target_list ) {
             // Omit those expired references

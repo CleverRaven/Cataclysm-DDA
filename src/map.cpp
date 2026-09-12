@@ -186,6 +186,8 @@ static const itype_id itype_HEW_printout_data_morgantown( "HEW_printout_data_mor
 static const itype_id itype_HEW_printout_data_physics_lab( "HEW_printout_data_physics_lab" );
 static const itype_id itype_HEW_printout_data_portal( "HEW_printout_data_portal" );
 static const itype_id itype_HEW_printout_data_portal_storm( "HEW_printout_data_portal_storm" );
+static const itype_id
+itype_HEW_printout_data_portal_storm_dungeon( "HEW_printout_data_portal_storm_dungeon" );
 static const itype_id itype_HEW_printout_data_radiosphere( "HEW_printout_data_radiosphere" );
 static const itype_id itype_HEW_printout_data_spiral_mine( "HEW_printout_data_spiral_mine" );
 static const itype_id itype_HEW_printout_data_strange_temple( "HEW_printout_data_strange_temple" );
@@ -277,6 +279,35 @@ static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction
 static cata::colony<item> nulitems;          // Returned when &i_at() is asked for an OOB value
 static field              nulfield;          // Returned when &field_at() is asked for an OOB value
 static level_cache        nullcache;         // Dummy cache for z-levels outside bounds
+
+namespace
+{
+
+void for_each_item_at( map &here, const tripoint_bub_ms &p, const Character *ch,
+                       bool filter_vehicle_ownership, bool skip_ground_liquids,
+                       const std::function<void( const item & )> &fn )
+{
+    if( here.has_items( p ) && here.accessible_items( p ) ) {
+        for( const item &it : here.i_at( p ) ) {
+            if( ch && !it.is_owned_by( *ch, true ) ) {
+                continue;
+            }
+            if( !skip_ground_liquids || !it.made_of( phase_id::LIQUID ) ) {
+                fn( it );
+            }
+        }
+    }
+    if( const std::optional<vpart_reference> vp = here.veh_at( p ).cargo() ) {
+        for( const item &it : vp->items() ) {
+            if( filter_vehicle_ownership && ch && !it.is_owned_by( *ch, true ) ) {
+                continue;
+            }
+            fn( it );
+        }
+    }
+}
+
+} // namespace
 
 // Map stack methods.
 map_stack::iterator map_stack::erase( map_stack::const_iterator it )
@@ -5531,6 +5562,104 @@ void map::set_temperature_mod( const tripoint_bub_ms &p,
 
     current_submap->set_temperature_mod( new_temperature_mod );
 }
+
+std::unordered_set<item_location> map::all_items( Character &who, accessor_flags flags )
+{
+    // Includes dummy filter that all items pass, only accessor_flags determines what gets returned.
+    return all_items( return_true<item>, who, flags );
+}
+
+std::unordered_set<item_location> map::all_items( const std::function<bool( const item & )> &filter,
+        Character &who, accessor_flags flags )
+{
+    std::unordered_set<item_location> ret;
+
+    auto recursive_add_contained_items = [&]( const std::function<bool( const item & )> &filter,
+    item_location & it ) {
+        it->visit_items( [&]( item * content_item, item * parent ) {
+            if( !parent ) {
+                // This is itself the top-level item.
+                // E.g. Calling visit_items() on a backpack > 2 soaps would first visit the backpack, which has no parent (it is not contained in itself)
+                // So just skip to the actual contents, rather than trying to say the backpack is in itself.
+                return VisitResponse::NEXT;
+            }
+            if( filter( *content_item ) ) {
+                item_location content_loc = form_loc_recursive( it, *content_item );
+                ret.emplace( content_loc );
+            }
+            return VisitResponse::NEXT;
+        } );
+    };
+
+
+    if( flags & Access_Inventory )  {
+        for( item_location &it : who.all_items_loc() ) {
+            if( filter( *it ) ) {
+                // NOTE: No need to recursively check here, all_items_loc() already did that.
+                ret.emplace( it );
+            }
+        }
+    }
+
+
+    if( flags & Access_Map_All || flags & Access_EVERYTHING )  {
+        for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
+            for( const tripoint_bub_ms &pt : points_on_zlevel( who.posz() ) ) {
+                for( item &it : i_at( pt ) ) {
+                    // We always want to recurse even if the top-level item doesn't pass our filter - the contained items still might!
+                    item_location there( map_cursor( pt ), &it );
+                    recursive_add_contained_items( filter, there );
+                    if( filter( it ) ) {
+                        ret.emplace( there );
+                    }
+                }
+            }
+        }
+    } else if( flags & Access_Map_Current_Z )  {
+        for( const tripoint_bub_ms &pt : points_on_zlevel( who.posz() ) ) {
+            for( item &it : i_at( pt ) ) {
+                // We always want to recurse even if the top-level item doesn't pass our filter - the contained items still might!
+                item_location there( map_cursor( pt ), &it );
+                recursive_add_contained_items( filter, there );
+                if( filter( it ) ) {
+                    ret.emplace( there );
+                }
+            }
+        }
+    } else if( flags & Access_Map_Around )  {
+        for( const tripoint_bub_ms &pt : reachable_flood_steps( who.pos_bub(), PICKUP_RANGE ) ) {
+            for( item &it : i_at( pt ) ) {
+                // We always want to recurse even if the top-level item doesn't pass our filter - the contained items still might!
+                item_location there( map_cursor( pt ), &it );
+                recursive_add_contained_items( filter, there );
+                if( filter( it ) ) {
+                    ret.emplace( there );
+                }
+            }
+        }
+    }
+
+    if( flags & Access_Vehicle || flags & Access_EVERYTHING )  {
+        for( wrapped_vehicle &v : get_vehicles() ) {
+            vehicle *veh = v.v;
+            if( veh ) {
+                for( vpart_reference vp : veh->get_all_parts() ) {
+                    for( item &it : veh->get_items( vp.part() ) ) {
+                        // We always want to recurse even if the top-level item doesn't pass our filter - the contained items still might!
+                        item_location there( vehicle_cursor( *veh, vp.part_index() ), &it );
+                        recursive_add_contained_items( filter, there );
+                        if( filter( it ) ) {
+                            ret.emplace( there );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return ret;
+}
+
 // Items: 3D
 
 map_stack map::i_at( const tripoint_bub_ms &p )
@@ -6175,6 +6304,8 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                             "inner_cabins_warped_cabin_10", 10, false );
                 const tripoint_abs_omt closest_inner_cabins_home_cabin = overmap_buffer.find_closest( veh_position,
                         "inner_cabins_cabin", 10, false );
+                const tripoint_abs_omt closest_portal_storm_dungeon = overmap_buffer.find_closest( veh_position,
+                        "default_portal_storm_dungeon_overmap", 10, false );
                 if( portal_nearby ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_portal, calendar::turn_zero ) );
                 }
@@ -6227,6 +6358,10 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 }
                 if( trig_dist( veh_position, closest_void_spider_lair ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_void_spider_lair, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_portal_storm_dungeon ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_portal_storm_dungeon,
+                                                      calendar::turn_zero ) );
                 }
                 if( trig_dist( veh_position, closest_inner_cabins_open_land ) <= 10 ) {
                     if( trig_dist( veh_position, closest_inner_cabins_home_cabin ) <= 10 ) {
@@ -6711,7 +6846,7 @@ std::list<item> map::use_amount( const tripoint_bub_ms &origin, const int range,
                                  const itype_id &type,
                                  int &quantity, const std::function<bool( const item & )> &filter, bool select_ind )
 {
-    const std::vector<tripoint_bub_ms> &reachable_pts = reachable_flood_steps( origin, range, 1, 100 );
+    const std::vector<tripoint_bub_ms> &reachable_pts = reachable_flood_steps( origin, range );
     return use_amount( reachable_pts, type, quantity, filter, select_ind );
 }
 
@@ -6842,7 +6977,7 @@ std::list<item> map::use_charges( const tripoint_bub_ms &origin, const int range
                                   basecamp *bcp, bool in_tools )
 {
     // populate a grid of spots that can be reached
-    const std::vector<tripoint_bub_ms> &reachable_pts = reachable_flood_steps( origin, range, 1, 100 );
+    const std::vector<tripoint_bub_ms> &reachable_pts = reachable_flood_steps( origin, range );
     return use_charges( reachable_pts, type, quantity, filter, bcp, in_tools );
 }
 
@@ -6874,7 +7009,7 @@ units::energy map::consume_ups( const std::vector<tripoint_bub_ms> &reachable_pt
 units::energy map::consume_ups( const tripoint_bub_ms &origin, const int range, units::energy qty )
 {
     // populate a grid of spots that can be reached
-    const std::vector<tripoint_bub_ms> &reachable_pts = reachable_flood_steps( origin, range, 1, 100 );
+    const std::vector<tripoint_bub_ms> &reachable_pts = reachable_flood_steps( origin, range );
     return consume_ups( reachable_pts, qty );
 }
 
@@ -8558,21 +8693,18 @@ void map::for_each_reachable_item( const tripoint_bub_ms &center, int radius,
                                    const Character *ch,
                                    const std::function<void( const item & )> &fn )
 {
-    for( const tripoint_bub_ms &p : reachable_flood_steps( center, radius, 1, 100 ) ) {
-        if( accessible_items( p ) ) {
-            for( const item &it : i_at( p ) ) {
-                if( ch && !it.is_owned_by( *ch, true ) ) {
-                    continue;
-                }
-                if( !it.made_of( phase_id::LIQUID ) ) {
-                    fn( it );
-                }
-            }
-        }
-        if( const std::optional<vpart_reference> vp = veh_at( p ).cargo() ) {
-            for( const item &it : vp->items() ) {
-                fn( it );
-            }
+    for( const tripoint_bub_ms &p : reachable_flood_steps( center, radius ) ) {
+        for_each_item_at( *this, p, ch, false, true, fn );
+    }
+}
+
+void map::for_each_visible_item( const tripoint_bub_ms &center, int radius,
+                                 const Character *ch,
+                                 const std::function<void( const item & )> &fn )
+{
+    for( const tripoint_bub_ms &p : points_in_radius( center, radius ) ) {
+        if( ch == nullptr || ch->sees( *this, p ) ) {
+            for_each_item_at( *this, p, ch, true, false, fn );
         }
     }
 }

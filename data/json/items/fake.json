@@ -122,6 +122,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "fake_item",
     "name": { "str": "Integrated AR System" },
+    "material": [ "plastic" ],
     "description": "Extremely thin lenses provide user with augmented reality overlay allowing the user to zoom, and it displays handy information about local topology.",
     "charges_per_use": 1,
     "use_action": [ "CAMERA", "PORTABLE_GAME", "EBOOKSAVE", "E_FILE_DEVICE" ],

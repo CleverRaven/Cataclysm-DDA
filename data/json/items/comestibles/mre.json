@@ -64,6 +64,7 @@
     "description": "The spaghetti entree from an MRE.",
     "material": [ "flesh", "wheat" ],
     "fun": 0,
+    "seasonings": [ "seasonings_universal", "seasonings_pasta" ],
     "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {

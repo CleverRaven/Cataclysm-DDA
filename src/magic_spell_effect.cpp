@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <iterator>
+#include <limits>
 #include <map>
 #include <memory>
 #include <optional>
@@ -1715,7 +1716,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint_bub_
         }
         // there used to be a MAX_GUILT_DISTANCE here, but the spell's range will do this instead.
         monster &z = *caster.as_monster();
-        const int kill_count = g->get_kill_tracker().guilt_kill_count( z.type->id );
+        const int kill_count = g->get_kill_tracker().guilt_kill_count();
         // this is when the player stops caring altogether.
         const int max_kills = sp.damage( caster );
         // this determines how strong the morale penalty will be
@@ -1737,16 +1738,8 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint_bub_
             return;
         }
 
-        if( kill_count >= max_kills ) {
-            // player no longer cares
-            if( kill_count == max_kills ) {
-                //~ Message after killing a lot of monsters which would normally affect the morale negatively. %s is the monster name, it most likely will be pluralized.
-                guy.add_msg_if_player( m_good, _( "After killing so many bloody %s you no longer care "
-                                                  "about their deaths anymore." ), z.name( max_kills ) );
-            }
-            return;
-        } else if( guy.has_flag( json_flag_PRED1 ) ||
-                   guy.has_flag( json_flag_PRED2 ) ) {
+        if( guy.has_flag( json_flag_PRED1 ) ||
+            guy.has_flag( json_flag_PRED2 ) ) {
             msg = _( "Culling the weak is distasteful, but necessary." );
             msgtype = m_neutral;
         } else {
@@ -1760,11 +1753,11 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint_bub_
 
         guy.add_msg_if_player( msgtype, msg, z.name() );
 
-        float killRatio = static_cast<float>( kill_count ) / max_kills;
-        int moraleMalus = -5 * guilt_mult * ( 1.0 - killRatio );
-        const int maxMalus = -250 * ( 1.0 - killRatio );
-        const time_duration duration = sp.duration_turns( caster ) * ( 1.0 - killRatio );
-        const time_duration decayDelay = 3_minutes * ( 1.0 - killRatio );
+        // No direct modifier for guilt based on existing kills, ALL morale is already modified.
+        int moraleMalus = -5 * guilt_mult;
+        const int maxMalus = std::numeric_limits<int>::max();
+        const time_duration duration = sp.duration_turns( caster );
+        const time_duration decayDelay = duration / 2;
 
         bool shared_species = false;
         if( caster.is_dead_state() && caster.get_killer() != nullptr ) {

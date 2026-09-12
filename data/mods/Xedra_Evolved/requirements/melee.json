@@ -73,7 +73,15 @@
     "type": "requirement",
     "//": "Any real, top-heavy bashing weapons with a pointy ball at the end that doesn't independently swing (those are flails).",
     "extend": {
-      "tools": [ [ [ "redcap_club", -1 ], [ "dreamdross_club", -1 ], [ "dreamforged_mace", -1 ], [ "dreamforged_morningstar", -1 ] ] ]
+      "tools": [
+        [
+          [ "redcap_club", -1 ],
+          [ "dreamdross_club", -1 ],
+          [ "dreamforged_mace", -1 ],
+          [ "dreamforged_morningstar", -1 ],
+          [ "moons_tears_mace", -1 ]
+        ]
+      ]
     }
   },
   {
@@ -92,7 +100,9 @@
           [ "pooka_gladius", -1 ],
           [ "dreamforged_arming_sword", -1 ],
           [ "dreamforged_broadsword", -1 ],
-          [ "dreamforged_tsurugi_speed", -1 ]
+          [ "dreamforged_tsurugi_speed", -1 ],
+          [ "moons_tears_arming_sword", -1 ],
+          [ "moons_tears_scimitar", -1 ]
         ]
       ]
     }

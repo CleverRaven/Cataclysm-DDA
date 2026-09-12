@@ -1,0 +1,141 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "//": "To make more underwear copy-from this then just add the specific armor definition, name, description and proportional weight and volume.",
+    "id": "abstract_underwear",
+    "copy-from": "abstract_garment_advanced_variants",
+    "name": { "str_sp": "abstract underwear" },
+    "description": "Abstract underwear.  If you see this it's a bug, please report.",
+    "symbol": "[",
+    "color": "blue",
+    "looks_like": "shorts",
+    "material": [ "lycra" ],
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price_postapoc": "1 USD",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "warmth": 5,
+    "material_thickness": 0.1
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "boxers",
+    "copy-from": "abstract_underwear",
+    "name": { "str_sp": "boxers" },
+    "description": "Loose men underwear covering most of the thighs.",
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 40, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "boxer_briefs",
+    "copy-from": "boxers",
+    "name": { "str_sp": "boxer briefs" },
+    "description": "Men underwear covering most of the thighs."
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "trunks",
+    "copy-from": "abstract_underwear",
+    "name": { "str_sp": "trunks" },
+    "description": "Men underwear with a square shape cut.",
+    "proportional": { "weight": 0.8, "volume": 0.8 },
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 20, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
+  },
+  {
+    "id": "briefs",
+    "copy-from": "abstract_underwear",
+    "proportional": { "weight": 0.6, "volume": 0.6 },
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str_sp": "briefs" },
+    "description": "Men underwear covering the hips with a high leg cut.",
+    "armor": [ { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "thong",
+    "copy-from": "abstract_underwear",
+    "name": { "str_sp": "thong" },
+    "description": "Minimal underwear covering the groin and a little bit of the rear.",
+    "proportional": { "weight": 0.4, "volume": 0.4 },
+    "armor": [ { "coverage": 60, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "boyshorts",
+    "copy-from": "abstract_underwear",
+    "name": { "str_sp": "boy shorts" },
+    "description": "Women underwear with a small rectangular shape cut.",
+    "proportional": { "weight": 0.8, "volume": 0.8 },
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 10, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "bikini_panties",
+    "copy-from": "abstract_underwear",
+    "name": { "str_sp": "bikini panties" },
+    "description": "Women underwear with a low-rise and high leg cut.",
+    "proportional": { "weight": 0.6, "volume": 0.6 },
+    "armor": [ { "coverage": 80, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "high_briefs",
+    "copy-from": "abstract_underwear",
+    "name": { "str_sp": "high briefs" },
+    "description": "Women underwear that leaves the thighs exposed while reaching the waist.",
+    "proportional": { "weight": 0.8, "volume": 0.8 },
+    "armor": [
+      { "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] },
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "bra",
+    "copy-from": "abstract_garment_advanced_variants",
+    "name": { "str": "bra" },
+    "description": "Women underwear providing support for the breasts.",
+    "symbol": "[",
+    "color": "blue",
+    "looks_like": "tank_top",
+    "material": [ "lycra" ],
+    "weight": "50 g",
+    "volume": "50 ml",
+    "price_postapoc": "50 cent",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "warmth": 5,
+    "material_thickness": 0.1,
+    "armor": [ { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 40 } ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "sports_bra",
+    "copy-from": "bra",
+    "name": { "str": "sports bra" },
+    "description": "Women underwear intended for physical activity, providing additional support for the breasts.",
+    "proportional": { "weight": 2, "volume": 2 },
+    "armor": [ { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 80 } ]
+  }
+]

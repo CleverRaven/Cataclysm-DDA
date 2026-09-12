@@ -336,6 +336,7 @@
     "desc": [ { "str": "Don't worry, you shouldn't get this.", "//~": "NO_I18N" } ],
     "max_duration": 120,
     "base_mods": { "hurt_amount": [ 10 ], "hurt_min": [ 1 ], "hurt_chance": [ 2 ] },
+    "immune_flags": [ "VENOM_IMMUNE" ],
     "//": "10+0,5/s dmg, from max duration avg 70 (range 10-130)"
   },
   {
@@ -345,6 +346,7 @@
     "desc": [ { "str": "Don't worry, you really shouldn't get this.", "//~": "NO_I18N" } ],
     "max_duration": 120,
     "base_mods": { "hurt_amount": [ 20 ], "hurt_min": [ 4 ], "hurt_chance": [ 2 ], "speed_mod": [ -50 ] },
+    "immune_flags": [ "VENOM_IMMUNE" ],
     "//": "20+2/s dmg, from max duration avg 260 (range 20-480)"
   },
   {
@@ -5810,7 +5812,7 @@
     "desc": [ "You've been breathing in an alien atmosphere.  Breathing is difficult." ],
     "remove_message": "Your head clears.",
     "rating": "bad",
-    "blood_analysis_description": "Trace: HNO3, HNO2, HBr, HBrO",
+    "blood_analysis_description": "HNO3, HNO2, HBr, HBrO",
     "max_intensity": 125,
     "max_effective_intensity": 100,
     "max_duration": 18000,
@@ -5860,6 +5862,36 @@
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
+    "type": "effect_type",
+    "id": "scarlet_storm_lungs",
+    "name": [ "Strange Lung Irritation" ],
+    "blood_analysis_description": "Trace: HNO3, HNO2, HBr, HBrO",
+    "desc": [ "You've been breathing strange mist and fog, and it doesn't feel quite right." ],
+    "remove_message": "You suddenly feel like you can breath again.",
+    "max_intensity": 125,
+    "max_effective_intensity": 100,
+    "max_duration": 18000,
+    "int_dur_factor": 144,
+    "dur_add_perc": 500,
+    "base_mods": {
+      "stamina_amount": [ -200 ],
+      "stamina_min": [ -100 ],
+      "stamina_chance": [ 10 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 300 ],
+      "cough_chance": [ 150 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "breathing", "resist_modifier": 1, "scaling": -0.25 },
+      { "limb_score": "reaction", "resist_modifier": 1, "scaling": -0.1 },
+      { "limb_score": "balance", "resist_modifier": 1, "scaling": -0.1 },
+      { "limb_score": "lift", "resist_modifier": 1, "scaling": -0.1 },
+      { "limb_score": "manip", "resist_modifier": 1, "scaling": -0.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "show_in_info": true
+  },
+  {
     "id": "effect_temporary_levitation",
     "type": "effect_type",
     "//": "Hidden effect, keeps you from falling in the portal dungeon briefly and also prevents infinite trap teleporting",
@@ -5891,5 +5923,22 @@
     "desc": [ "" ],
     "limb_score_mods": [ { "limb_score": "manip", "modifier": 0 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mon_feral_serum_user_armus",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "mixed",
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.75 },
+          { "type": "cut", "multiply": -0.666 },
+          { "type": "stab", "multiply": -0.5 },
+          { "type": "bullet", "multiply": -0.2 }
+        ]
+      }
+    ]
   }
 ]

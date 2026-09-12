@@ -501,6 +501,25 @@ struct run_cost_effect {
 
 nutrients default_character_compute_effective_nutrients( const item &comest );
 
+// One innate provider of one quality.  Slots are structural, so toggling a bionic
+// changes how an occurrence is found and never which occurrence it is.
+struct intrinsic_quality_source {
+    enum class owner_kind : uint8_t { bionic, mutation, body_part, last };
+    // `trait_item` is the hard-coded digging pair, the only trait-derived item there is:
+    // the mutation type carries provided_qualities and no item field, so every other
+    // mutation occurrence is itemless.
+    enum class slot_kind : uint8_t { pseudo, bionic_weapon, trait_item, itemless, last };
+
+    owner_kind owner = owner_kind::last;
+    bionic_uid bio_uid = 0;
+    trait_id mut;
+    bodypart_str_id bp;
+
+    slot_kind slot = slot_kind::last;
+    int slot_index = -1;
+    int level = 0;
+};
+
 class Character : public Creature, public visitable
 {
     public:
@@ -1168,7 +1187,7 @@ class Character : public Creature, public visitable
                            bool allow_unarmed = true, int forced_movecost = -1 );
         bool melee_attack_abstract( Creature &t, bool allow_special, const matec_id &force_technique,
                                     bool allow_unarmed = true, int forced_movecost = -1 );
-
+        void reduce_moves_from_attack( int forced_movecost, int move_cost );
         /** Handles reach melee attacks */
         bool can_reach_attack( const Creature &target ) const;
         void reach_attack( const tripoint_bub_ms &p, int forced_movecost = -1 );
@@ -1743,6 +1762,9 @@ class Character : public Creature, public visitable
         bool activate_bionic( bionic &bio, bool eff_only = false, bool *close_bionics_ui = nullptr );
         std::vector<bionic_id> get_bionics() const;
         std::vector<const item *> get_pseudo_items() const;
+        // Innate items a craft can draw: exposed pseudo items plus the hard-coded
+        // digging pair.
+        std::vector<item> crafting_pseudo_items() const;
         void invalidate_pseudo_items();
         /** Finds the highest UID for installed bionics and caches the next valid UID **/
         void update_last_bionic_uid() const;
@@ -2337,15 +2359,15 @@ class Character : public Creature, public visitable
         /// struct offers two possible tweaks: a collection of items and
         /// counts to remove, or an entire replacement inventory.
         struct item_tweaks {
-            item_tweaks() : without_items( std::nullopt ), replace_inv( std::nullopt ) {}
+            item_tweaks() : without_items( nullptr ), replace_inv( nullptr ) {}
             explicit item_tweaks( const std::map<const item *, int> &w ) :
-                without_items( std::cref( w ) )
+                without_items( &w ), replace_inv( nullptr )
             {}
             explicit item_tweaks( const inventory &r ) :
-                replace_inv( std::cref( r ) )
+                without_items( nullptr ), replace_inv( &r )
             {}
-            const std::optional<std::reference_wrapper<const std::map<const item *, int>>> without_items;
-            const std::optional<std::reference_wrapper<const inventory>> replace_inv;
+            const std::map<const item *, int> *const without_items;
+            const inventory *const replace_inv;
         };
 
         units::mass weight_carried_with_tweaks( const item_tweaks &tweaks ) const;
@@ -3606,6 +3628,8 @@ class Character : public Creature, public visitable
         void update_morale();
         /** Ensures persistent morale effects are up-to-date */
         void apply_persistent_morale();
+        // From guilt kills, etc.
+        double get_modifier_for_ALL_morale() const;
         // the morale penalty for hoarders
         void hoarder_morale_penalty();
         /** Used to apply morale modifications from food and medication **/
@@ -4031,6 +4055,12 @@ class Character : public Creature, public visitable
 
         // inherited from visitable
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;
+        // Discovery, capacity and revalidation all count through this one enumeration,
+        // so they cannot disagree about how many innate providers exist.
+        std::vector<intrinsic_quality_source> intrinsic_quality_sources(
+            const quality_id &qual, int level ) const;
+        // No item walk, unlike has_quality.
+        bool has_intrinsic_quality( const quality_id &qual, int level = 1, int qty = 1 ) const;
         int max_quality( const quality_id &qual ) const override;
         int max_quality( const quality_id &qual, int radius ) const;
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const

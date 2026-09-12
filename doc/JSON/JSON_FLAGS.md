@@ -369,6 +369,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```CANNIBAL``` Butcher humans, eat foods with the `CANNIBALISM` and `STRICT_HUMANITARIANISM` flags without a morale penalty.
 - ```CANNOT_ATTACK``` A creature with this flag cannot attack (includes spellcasting).
 - ```CANNOT_CHANGE_TEMPERATURE``` A creature with this flag cannot change body temperature.
+- ```CANNOT_CONSUME_DRUGS``` A creature with this flag cannot use items with the `consume_drug` use_action.
 - ```CANNOT_GAIN_EFFECTS``` A creature with this effect flag cannot gain effects.
 - ```CANNOT_GAIN_WEARINESS``` A character with this flag always has Fresh weariness. Weariness is still tracked in the background and accurately set when the flag wears off.
 - ```CANNOT_MOVE``` A creature with this flag cannot move.
@@ -1163,7 +1164,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```CAN_BE_CULLED``` This animal can be culled if it's a pet.
 - ```CAN_DIG``` Will dig on any diggable terrain the same way `DIGS` does, however, will walk normally over non-diggable terrain.
 - ```CAN_OPEN_DOORS``` Can open doors on its path.
-- ```CLIMBS``` (depricated in favor of [moveskills](MONSTERS.md#move_skills)) Can climb over fences or similar obstacles quickly.
+- ```CLIMBS``` (deprecated in favor of [moveskills](MONSTERS.md#move_skills)) Can climb over fences or similar obstacles quickly.
 - ```CLUMSY_ATTACKS``` Has a 1 in 4 chance of falling over when missing an attack.
 - ```COLDPROOF``` Immune to cold damage.
 - ```COMBAT_MOUNT```  This mount has better chance to ignore hostile monster fear.
@@ -1268,7 +1269,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```STUN_IMMUNE``` This monster is immune to stun.
 - ```SUNDEATH``` Dies in full sunlight.
 - ```SWARMS``` Groups together and forms loose packs.
-- ```SWIMS``` (depricated in favor of [moveskills](MONSTERS.md#move_skills)) Treats water as 50 movement point terrain.
+- ```SWIMS``` (deprecated in favor of [moveskills](MONSTERS.md#move_skills)) Treats water as 50 movement point terrain.
 - ```TRUESIGHT``` The monster can see creatures normally even if they have the `CAMOUFLAGE`, `INVISIBLE` or `NIGHT_INVISIBILITY` flags
 - ```UNREAKABLE_MORALE``` The monster will never run from combat once engaged
 - ```VAMP_VIRUS``` This monster can inflict the `vampire_virus` effect.  Used by Xedra Evolved mod.

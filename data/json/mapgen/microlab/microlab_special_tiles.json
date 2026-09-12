@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_generic_special_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -39,7 +39,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_generic_special_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -78,7 +78,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_generic_special_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -117,7 +117,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_generic_special_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -159,7 +159,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_generic_special_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -214,7 +214,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_generic_special_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -271,7 +271,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_generic_special_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -331,7 +331,7 @@
   {
     "//": "nano_fabricator room",
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_generic_special_tile",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [

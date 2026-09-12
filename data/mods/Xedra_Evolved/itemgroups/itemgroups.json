@@ -150,6 +150,16 @@
     ]
   },
   {
+    "id": "xed_office_dreamdross",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "scrap_dreamdross", "prob": 250, "count": [ 3, 20 ] },
+      { "item": "dreamdross_lump", "prob": 25, "count": [ 1, 2 ] },
+      { "item": "forged_dreamstuff_ingot", "prob": 1 }
+    ]
+  },
+  {
     "id": "deduction_books",
     "type": "item_group",
     "//": "Lies should only spawn by hand in specific mapgen, not randomly",
@@ -500,36 +510,12 @@
     "entries": [ { "item": "socks_gossamer", "prob": 20 }, { "item": "stockings_gossamer", "prob": 10 } ]
   },
   {
-    "id": "SUS_junk_drawer",
-    "type": "item_group",
-    "//": "Adding spell learning items to standard itemgroups",
-    "copy-from": "SUS_junk_drawer",
-    "subtype": "collection",
-    "extend": { "entries": [ { "group": "xe_all_spells_mid", "prob": 50 } ] }
-  },
-  {
-    "id": "SUS_junk_drawer_messy",
-    "type": "item_group",
-    "//": "Adding spell learning items to standard itemgroups",
-    "copy-from": "SUS_junk_drawer_messy",
-    "subtype": "collection",
-    "extend": { "entries": [ { "group": "xe_all_spells_mid", "prob": 50 } ] }
-  },
-  {
-    "id": "SUS_office_filing_cabinet",
-    "type": "item_group",
-    "//": "Adding spell learning items to standard itemgroups",
-    "copy-from": "SUS_office_filing_cabinet",
-    "subtype": "collection",
-    "extend": { "entries": [ { "group": "xe_all_spells_mid", "prob": 50 } ] }
-  },
-  {
     "id": "costume_misc_items",
     "type": "item_group",
     "//": "Adding spell learning items to standard itemgroups",
     "copy-from": "costume_misc_items",
     "subtype": "distribution",
-    "extend": { "items": [ [ "magicians_hat", 5 ] ] }
+    "extend": { "items": [ [ "magicians_hat", 1 ] ] }
   },
   {
     "id": "homebooks",
@@ -696,7 +682,8 @@
       { "group": "SUS_trash_forest_manmade", "prob": 70 },
       { "group": "remains_soldier", "prob": 50 },
       { "group": "remains_pilot", "prob": 5 },
-      { "group": "dead_fae_gear", "prob": 10 }
+      { "group": "dead_fae_gear", "prob": 10 },
+      { "group": "xe_all_spells_mid", "prob": 1 }
     ]
   }
 ]

@@ -194,6 +194,33 @@ TEST_CASE( "place_player_can_safely_move_multiple_submaps" )
     get_map().check_submap_active_item_consistency();
 }
 
+TEST_CASE( "active_item_cache_does_not_duplicate_items_after_index_invalidation",
+           "[active_item][cache]" )
+{
+    active_item_cache cache;
+    item survivor( itype_disinfectant );
+    REQUIRE( survivor.needs_processing() );
+    REQUIRE( cache.add( survivor, point_rel_ms::zero ) );
+
+    // Removing an expired item invalidates the lookup index.
+    // The surviving item is still in the cache, so adding it again must rebuild the index instead of creating a duplicate.
+    // Repeat for more than one processing interval so duplicates would also be visible in get_for_processing().
+    const int invalidations = survivor.processing_speed() + 1;
+    for( int i = 0; i < invalidations; ++i ) {
+        auto temporary = std::make_unique<item>( itype_disinfectant );
+        cache.add( *temporary, point_rel_ms::zero );
+        temporary.reset();
+        cache.get();
+        cache.add( survivor, point_rel_ms::zero );
+    }
+
+    const std::vector<item_reference> cached = cache.get();
+    CHECK( cached.size() == 1 );
+
+    const std::vector<item_reference> to_process = cache.get_for_processing();
+    CHECK( to_process.size() == 1 );
+}
+
 TEST_CASE( "inactive_container_with_active_contents", "[active_item][map]" )
 {
     map &here = get_map();

@@ -1,0 +1,14 @@
+[
+  {
+    "type": "tool_quality",
+    "id": "TEST_RESERVE_A",
+    "name": { "str": "test reservation A" },
+    "//": "Isolated quality for craft reservation tests.  Deliberately not shared with any core item, so a fixture's provider set is exactly what the test placed."
+  },
+  {
+    "type": "tool_quality",
+    "id": "TEST_RESERVE_B",
+    "name": { "str": "test reservation B" },
+    "//": "Second isolated quality, for steps with two groups satisfiable by one provider."
+  }
+]

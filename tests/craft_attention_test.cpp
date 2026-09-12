@@ -1,5 +1,7 @@
 #include <algorithm>
 #include <cstdint>
+#include <functional>
+#include <list>
 #include <optional>
 #include <sstream>
 #include <string>
@@ -7,8 +9,10 @@
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "bionics.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_utility.h"
 #include "character_id.h"
 #include "coordinates.h"
 #include "craft_command.h"
@@ -16,6 +20,7 @@
 #include "crafting_enums.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_location.h"
@@ -28,17 +33,32 @@
 #include "map_selector.h"
 #include "player_activity.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "recipe.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "type_id.h"
 
+static const bionic_id test_bio_reserve_toggled_pseudo( "test_bio_reserve_toggled_pseudo" );
+static const bionic_id test_bio_reserve_two_pseudo( "test_bio_reserve_two_pseudo" );
+static const bionic_id test_bio_reserve_weapon( "test_bio_reserve_weapon" );
+
 static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_cudgel( "cudgel" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_microwave( "microwave" );
+static const itype_id itype_pot( "pot" );
 static const itype_id itype_soldering_iron_portable( "soldering_iron_portable" );
+static const itype_id itype_test_reserve_charge_stack( "test_reserve_charge_stack" );
+static const itype_id itype_test_reserve_tool_a( "test_reserve_tool_a" );
 static const itype_id itype_water( "water" );
+
+static const quality_id qual_BOIL( "BOIL" );
+static const quality_id qual_DIG( "DIG" );
+static const quality_id qual_TEST_RESERVE_A( "TEST_RESERVE_A" );
+static const quality_id qual_TEST_RESERVE_B( "TEST_RESERVE_B" );
 
 static const recipe_id recipe_cudgel_test_charged_fast_stepless(
     "cudgel_test_charged_fast_stepless" );
@@ -64,10 +84,15 @@ static const recipe_id recipe_cudgel_test_unattended_charged_big(
     "cudgel_test_unattended_charged_big" );
 static const recipe_id recipe_cudgel_test_unattended_simple(
     "cudgel_test_unattended_simple" );
+static const recipe_id recipe_cudgel_test_unattended_two_of_a(
+    "cudgel_test_unattended_two_of_a" );
 static const recipe_id recipe_cudgel_test_unattended_with_qual(
     "cudgel_test_unattended_with_qual" );
 static const recipe_id recipe_water_clean_test_unattended_liquid(
     "water_clean_test_unattended_liquid" );
+
+static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 
 TEST_CASE( "attention_recipe_loads_attention_field", "[craft][attention][schema]" )
 {
@@ -2293,6 +2318,199 @@ TEST_CASE( "compute_inflight_alarm_choices_for_resume_timer_modal",
                 CHECK( started + *c.finish_offset == saved_ready_at );
                 CHECK( started + *c.five_before_offset == saved_ready_at - 5_minutes );
             }
+        }
+    }
+}
+
+TEST_CASE( "provider_quality_level_ignores_merely_contained_items",
+           "[craft][attention][reservation][quality]" )
+{
+    clear_avatar();
+    clear_map();
+
+    GIVEN( "a qualifying tool inside a backpack" ) {
+        item backpack( itype_backpack );
+        item tool( itype_test_reserve_tool_a );
+        REQUIRE( tool.get_quality( qual_TEST_RESERVE_A ) >= 1 );
+        REQUIRE( backpack.put_in( tool, pocket_type::CONTAINER ).success() );
+
+        THEN( "the backpack is credited with the tool's quality by the recursive accessor" ) {
+            CHECK( backpack.get_quality( qual_TEST_RESERVE_A ) >= 1 );
+        }
+
+        THEN( "but it supplies none of that quality in its own right" ) {
+            CHECK( provider_quality_level( backpack, qual_TEST_RESERVE_A,
+                                           nullptr, true ) < 1 );
+        }
+
+        THEN( "the contained tool still supplies it" ) {
+            const item &nested = *backpack.all_items_top( pocket_type::CONTAINER ).front();
+            CHECK( provider_quality_level( nested, qual_TEST_RESERVE_A,
+                                           nullptr, true ) >= 1 );
+        }
+    }
+
+    GIVEN( "a plain tool" ) {
+        item tool( itype_test_reserve_tool_a );
+
+        THEN( "it supplies its own quality" ) {
+            CHECK( provider_quality_level( tool, qual_TEST_RESERVE_A, nullptr,
+                                           true ) >= 1 );
+        }
+    }
+
+    GIVEN( "a pot, which carries BOIL" ) {
+        item pot( itype_pot );
+
+        THEN( "it supplies BOIL while empty, which is what a boil step binds" ) {
+            CHECK( provider_quality_level( pot, qual_BOIL, nullptr, true ) >= 1 );
+        }
+
+        WHEN( "it is filled" ) {
+            item water( itype_water, calendar::turn, 1 );
+            REQUIRE( pot.put_in( water, pocket_type::CONTAINER ).success() );
+
+            THEN( "it no longer supplies BOIL under strict boiling" ) {
+                CHECK( provider_quality_level( pot, qual_BOIL, nullptr,
+                                               true ) < 1 );
+            }
+        }
+    }
+}
+
+TEST_CASE( "requirement_gate_counts_distinct_quality_providers",
+           "[craft][attention][reservation][enforcement][quality][counting]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+
+    const requirement_data &req =
+        recipe_cudgel_test_unattended_two_of_a.obj().steps()[0].requirements;
+    REQUIRE( req.get_qualities().size() == 1 );
+    REQUIRE( req.get_qualities()[0][0].count == 2 );
+
+    GIVEN( "one qualifying tool inside a container" ) {
+        item bag( itype_backpack );
+        REQUIRE( bag.put_in( item( itype_test_reserve_tool_a ), pocket_type::CONTAINER ).success() );
+        here.add_item( origin, bag );
+        u.invalidate_crafting_inventory();
+        const inventory &crafting_inv = u.crafting_inventory();
+
+        THEN( "the container is not credited beside the tool it holds" ) {
+            CHECK_FALSE( req.can_make_with_inventory( &u, crafting_inv, return_true<item> ) );
+        }
+
+        THEN( "the default metric still counts them both" ) {
+            CHECK( crafting_inv.has_quality( qual_TEST_RESERVE_A, 1, 2 ) );
+        }
+    }
+
+    GIVEN( "one stack of a charge-counted qualifying item" ) {
+        item stack( itype_test_reserve_charge_stack );
+        stack.charges = 100;
+        here.add_item( origin, stack );
+        u.invalidate_crafting_inventory();
+        const inventory &crafting_inv = u.crafting_inventory();
+
+        THEN( "the stack is one provider rather than its charge count" ) {
+            CHECK_FALSE( req.can_make_with_inventory( &u, crafting_inv, return_true<item> ) );
+        }
+
+        THEN( "the default metric still counts its charges" ) {
+            CHECK( crafting_inv.has_quality( qual_TEST_RESERVE_A, 1, 2 ) );
+        }
+    }
+
+    GIVEN( "two loose qualifying tools" ) {
+        here.add_item( origin, item( itype_test_reserve_tool_a ) );
+        here.add_item( origin, item( itype_test_reserve_tool_a ) );
+        u.invalidate_crafting_inventory();
+        const inventory &crafting_inv = u.crafting_inventory();
+
+        THEN( "two genuine providers satisfy the requirement" ) {
+            CHECK( req.can_make_with_inventory( &u, crafting_inv, return_true<item> ) );
+        }
+    }
+}
+
+TEST_CASE( "intrinsic_qualities_count_provider_occurrences",
+           "[craft][attention][reservation][binding][intrinsic]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+
+    GIVEN( "a bionic exposing two pseudo items of one quality" ) {
+        u.add_bionic( test_bio_reserve_two_pseudo );
+
+        THEN( "each pseudo item is its own occurrence" ) {
+            CHECK( u.has_intrinsic_quality( qual_TEST_RESERVE_A, 1, 2 ) );
+        }
+
+        THEN( "a third occurrence is not invented" ) {
+            CHECK_FALSE( u.has_intrinsic_quality( qual_TEST_RESERVE_A, 1, 3 ) );
+        }
+
+    }
+
+    GIVEN( "a bionic whose weapon supplies a quality" ) {
+        u.add_bionic( test_bio_reserve_weapon );
+
+        THEN( "it supplies one occurrence while unpowered" ) {
+            CHECK( u.has_intrinsic_quality( qual_TEST_RESERVE_B, 1, 1 ) );
+        }
+
+        THEN( "the direct and pseudo routes are not counted twice" ) {
+            CHECK_FALSE( u.has_intrinsic_quality( qual_TEST_RESERVE_B, 1, 2 ) );
+        }
+
+        WHEN( "the bionic is powered" ) {
+            bionic &bio = u.bionic_at_index( u.get_bionics().size() - 1 );
+            bio.powered = true;
+
+            THEN( "the exposed weapon is still the occurrence it already was" ) {
+                CHECK( u.has_intrinsic_quality( qual_TEST_RESERVE_B, 1, 1 ) );
+                CHECK_FALSE( u.has_intrinsic_quality( qual_TEST_RESERVE_B, 1, 2 ) );
+            }
+        }
+    }
+
+    GIVEN( "a bionic that exposes its pseudo tool only while it is on" ) {
+        u.add_bionic( test_bio_reserve_toggled_pseudo );
+        bionic &bio = u.bionic_at_index( u.get_bionics().size() - 1 );
+
+        WHEN( "the bionic is off" ) {
+            REQUIRE_FALSE( bio.powered );
+
+            THEN( "it supplies no occurrence" ) {
+                CHECK_FALSE( u.has_intrinsic_quality( qual_TEST_RESERVE_A, 1, 1 ) );
+            }
+        }
+
+        WHEN( "the bionic is on" ) {
+            bio.powered = true;
+
+            THEN( "the pseudo tool counts" ) {
+                CHECK( u.has_intrinsic_quality( qual_TEST_RESERVE_A, 1, 1 ) );
+            }
+        }
+    }
+
+    GIVEN( "both digging traits at once" ) {
+        u.set_mutation( trait_BURROW );
+        u.set_mutation( trait_BURROWLARGE );
+        // Of the innate pair only the shovel carries a DIG quality; the pickaxe digs
+        // through its use action.  One occurrence is therefore the whole supply.
+        THEN( "the innate pair is granted once, not once per trait" ) {
+            CHECK( u.has_intrinsic_quality( qual_DIG, 1, 1 ) );
+            CHECK_FALSE( u.has_intrinsic_quality( qual_DIG, 1, 2 ) );
         }
     }
 }

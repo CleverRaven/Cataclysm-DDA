@@ -47,7 +47,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.6 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.6 } ] }, { "mutations": [ "IRON_ALLERGY" ] } ]
   },
   {
     "type": "mutation",
@@ -67,7 +67,7 @@
     "id": "CHANGELING_COURT_SUMMER",
     "name": { "str": "Summer Court" },
     "points": 1,
-    "description": "You are a member of the Summer Court, sometimes called the Seelie Court, the faeries recognized as benevolent by mortals.  Or, at least, the faeries who are slightly less likely to levy a generational curses on those who wrong them.",
+    "description": "You are a member of the Summer Court, sometimes called the Seelie Court, the faeries recognized as benevolent by mortals.  Or, at least, the faeries who are slightly less likely to levy generational curses on those who wrong them.",
     "valid": false,
     "purifiable": false,
     "profession": true,
@@ -259,7 +259,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.25 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.25 } ] }, { "mutations": [ "IRON_ALLERGY" ] } ]
   },
   {
     "type": "mutation",
@@ -290,7 +290,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.3 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.3 } ] }, { "mutations": [ "IRON_ALLERGY" ] } ]
   },
   {
     "type": "mutation",
@@ -321,7 +321,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.2 } ] }, { "mutations": [ "IRON_ALLERGY" ] } ]
   },
   {
     "type": "mutation",
@@ -352,7 +352,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.1 } ] }, { "mutations": [ "IRON_ALLERGY" ] } ]
   },
   {
     "type": "mutation",

@@ -29,6 +29,18 @@
     "origins": [  ]
   },
   {
+    "id": "TEST_MISSION_FIND_ITEM",
+    "type": "mission_definition",
+    "name": { "str": "Test find item mission" },
+    "description": "Find a test rock.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "test_rock",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
     "//COMMENT": "Dummy EOCs to prevent the startup chain from triggering missions in the test environment.",
     "type": "effect_on_condition",
     "id": "EOC_FACTION_SUCCESSION_CHANGE_REINIT",

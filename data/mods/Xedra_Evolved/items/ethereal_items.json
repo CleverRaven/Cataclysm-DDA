@@ -86,6 +86,7 @@
     "material": [ "dreamstuff" ],
     "symbol": "/",
     "color": "light_gray",
+    "looks_like": "rapier",
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [
@@ -117,6 +118,7 @@
     "material": [ "dreamstuff" ],
     "symbol": "/",
     "color": "light_gray",
+    "looks_like": "knife_combat",
     "techniques": [ "RAPID", "WBLOCK_1", "PRECISE" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 5 ] ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID", "SHEATH_KNIFE" ],

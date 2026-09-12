@@ -1303,6 +1303,11 @@ const kill_tracker &game::get_kill_tracker() const
     return *kill_tracker_ptr;
 }
 
+void game::clear_kill_tracker() const
+{
+    kill_tracker_ptr->clear();
+}
+
 void game::create_starting_npcs()
 {
     //We don't want more than one starting npc per starting location
@@ -2231,7 +2236,9 @@ int game::inventory_item_menu( item_location locThisItem,
                 } );
 
                 action_menu.additional_actions = {
-                    { "RIGHT", translation() }
+                    { "RIGHT", translation() },
+                    { "SCROLL_ITEM_INFO_UP", translation() },
+                    { "SCROLL_ITEM_INFO_DOWN", translation() }
                 };
 
                 lang_version = detail::get_current_language_version();
@@ -2252,6 +2259,9 @@ int game::inventory_item_menu( item_location locThisItem,
                 // could be instructed to ignore these two keys instead of scrolling.
                 action_menu.selected = prev_selected;
                 action_menu.fselected = prev_selected;
+            } else if( action_menu.ret_act == "SCROLL_ITEM_INFO_UP" ||
+                       action_menu.ret_act == "SCROLL_ITEM_INFO_DOWN" ) {
+                cMenu = action_menu.ret_act == "SCROLL_ITEM_INFO_UP" ? KEY_PPAGE : KEY_NPAGE;
             } else {
                 cMenu = 0;
             }
@@ -8280,7 +8290,12 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
     if( u.is_hauling() && ( !here.can_put_items( dest_loc ) ||
                             here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc ) ||
                             vp1 ) ) {
-        u.stop_hauling();
+        // returns false if not automoving in the first place
+        if( cancel_auto_move( *u.as_character(), _( "You're about to stop hauling!" ) ) ) {
+            return point_rel_sm::zero;
+        } else {
+            u.stop_hauling();
+        }
     }
     u.setpos( here, dest_loc );
     if( u.is_mounted() ) {
