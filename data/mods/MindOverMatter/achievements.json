@@ -277,5 +277,14 @@
     "manually_given": true,
     "requirements": [  ],
     "hidden_by": [ "mom_find_dead_fifth_sun_ocelopilli_trooper" ]
+  },
+  {
+    "id": "mom_find_cuauhmati_learn_his_story",
+    "type": "achievement",
+    "name": "In Cuauhtli, In Ocelotl",
+    "description": "\"The Eagle, the Ocelot.\"\n\nFound the Fifth Sun survivor and heard his story.",
+    "manually_given": true,
+    "requirements": [  ],
+    "hidden_by": [ "mom_find_cuauhmati_learn_his_story" ]
   }
 ]
