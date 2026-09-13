@@ -65,6 +65,13 @@ void binding::deserialize( const JsonObject &data )
     data.read( "occurrence_slot", occurrence_slot );
 }
 
+bool merge_equivalent( const item &lhs, const item &rhs )
+{
+    // The test inventory::add_item makes before merge_charges.
+    return lhs.count_by_charges() && rhs.count_by_charges() &&
+           static_cast<bool>( lhs.stacks_with( rhs ) );
+}
+
 bool contains_reserved( const item &it )
 {
     const craft_reservation_index &idx = get_craft_reservations();
@@ -82,6 +89,31 @@ bool contains_reserved( const item &it )
         return VisitResponse::NEXT;
     } );
     return found;
+}
+
+bool usable_by_automation( const item &it )
+{
+    return !get_craft_reservations().is_reserved_uid( it.uid().get_value() );
+}
+
+namespace
+{
+uint64_t expansions_total = 0;
+} // namespace
+
+uint64_t search_expansions_total()
+{
+    return expansions_total;
+}
+
+void note_search_expansion()
+{
+    ++expansions_total;
+}
+
+void reset_search_expansions()
+{
+    expansions_total = 0;
 }
 
 } // namespace craft_reservation
