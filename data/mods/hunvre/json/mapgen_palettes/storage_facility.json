@@ -1,0 +1,12 @@
+[
+  {
+    "type": "palette",
+    "id": "storage_facility_palette",
+    "mapping": {
+      "#": { "terrain": "t_concrete_wall" },
+      "=": { "terrain": "t_door_metal_locked" },
+      "[": { "terrain": "t_wall_glass" },
+      "+": { "terrain": "t_door_c" }
+    }
+  }
+]
