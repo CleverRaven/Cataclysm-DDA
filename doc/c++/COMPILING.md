@@ -398,10 +398,10 @@ The Gradle project lives under `android/`. Build it from the command line or ope
   * Android NDK 28.1.13356709 (r28b) - bundled 16 KB page-size alignment is required for Play under targetSdk 35
   * AGP 8.7 and Gradle 8.9 (Gradle wrapper auto-downloads)
   * SDL3 Android AARs (auto-downloaded with SHA256 pinning by the `fetchSdl3Aars` Gradle task):
-    * SDL3 3.4.8
-    * SDL3_image 3.4.4
+    * SDL3 3.4.16
+    * SDL3_image 3.4.6
     * SDL3_ttf 3.2.2
-    * SDL3_mixer 3.2.2
+    * SDL3_mixer 3.2.4
 
 ### Setup
 

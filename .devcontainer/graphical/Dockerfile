@@ -3,8 +3,8 @@ FROM mcr.microsoft.com/devcontainers/cpp:1-ubuntu-24.04
 # Ubuntu 24.04 does not package SDL3 >= 3.4.0, so the stack is built from
 # source. Versions and CMake options mirror
 # .github/actions/setup-sdl3-stack/action.yml; keep the two in step.
-ARG SDL3_VERSION=3.4.10
-ARG SDL3_IMAGE_VERSION=3.4.4
+ARG SDL3_VERSION=3.4.16
+ARG SDL3_IMAGE_VERSION=3.4.6
 ARG SDL3_TTF_VERSION=3.2.2
 ARG SDL3_MIXER_VERSION=3.2.4
 
