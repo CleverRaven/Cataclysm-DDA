@@ -174,9 +174,8 @@ static const skill_id skill_traps( "traps" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
+static const trait_id trait_SORCERER( "SORCERER" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
-
-static const json_flag json_flag_CANNOT_READ_SPELLBOOKS( "CANNOT_READ_SPELLBOOKS" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 
@@ -2724,7 +2723,7 @@ std::optional<int> learn_spell_actor::use( Character *p, item &, map *,
         p->add_msg_if_player( m_bad, _( "You can't read." ) );
         return std::nullopt;
     }
-    if( p->has_flag( json_flag_CANNOT_READ_SPELLBOOKS ) ) {
+    if( p->has_trait( trait_SORCERER ) ) {
         p->add_msg_if_player( m_bad, _( "Sorcerers cannot learn spells from books or scrolls." ) );
         return std::nullopt;
     }
