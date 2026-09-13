@@ -18,6 +18,7 @@
 #include "point.h"
 #include "requirements.h"
 #include "ret_val.h"
+#include "temp_crafting_inventory.h"
 #include "type_id.h"
 #include "units.h"
 #include "veh_appliance.h"
@@ -94,7 +95,7 @@ static void test_repair( const std::vector<item> &tools, bool plug_in_tools, boo
     requirement_data reqs = vp.repair_requirements();
     // Bust cache on crafting_inventory()
     player_character.mod_moves( 1 );
-    inventory crafting_inv = player_character.crafting_inventory();
+    temp_crafting_inventory crafting_inv = player_character.crafting_inventory();
     bool can_repair = vp.repair_requirements().can_make_with_inventory( &player_character,
                       player_character.crafting_inventory(),
                       is_crafting_component );

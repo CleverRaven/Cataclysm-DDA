@@ -42,6 +42,7 @@
 #include "ret_val.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uilist.h"
@@ -610,7 +611,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
         int ammo_remaining = used_tool->ammo_remaining_linked( here, you );
 
         std::set<itype_id> valid_entries = actor->get_valid_repair_materials( fix );
-        const inventory &crafting_inv = you->crafting_inventory();
+        const temp_crafting_inventory &crafting_inv = you->crafting_inventory();
         std::function<bool( const item & )> filter;
         if( fix.is_filthy() ) {
             filter = []( const item & component ) {

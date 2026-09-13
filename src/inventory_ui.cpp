@@ -49,6 +49,7 @@
 #include "sdltiles.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "temp_crafting_inventory.h"
 #include "trade_ui.h"
 #include "translation.h"
 #include "translation_cache.h"

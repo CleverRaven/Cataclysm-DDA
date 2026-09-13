@@ -66,6 +66,7 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "temp_crafting_inventory.h"
 #include "text.h"
 #include "translation.h"
 #include "translations.h"
@@ -637,7 +638,8 @@ class pickup_inventory_preset : public inventory_selector_preset
 class disassemble_inventory_preset : public inventory_selector_preset
 {
     public:
-        disassemble_inventory_preset( const Character &you, const inventory &inv ) : you( you ),
+        disassemble_inventory_preset( const Character &you,
+                                      const temp_crafting_inventory &inv ) : you( you ),
             inv( inv ) {
 
             check_components = true;
@@ -686,7 +688,7 @@ class disassemble_inventory_preset : public inventory_selector_preset
 
     private:
         const Character &you;
-        const inventory &inv;
+        const temp_crafting_inventory &inv;
 };
 } // namespace
 
@@ -2314,7 +2316,7 @@ class repair_inventory_preset: public inventory_selector_preset
             append_cell( [actor, &you]( const item_location & loc ) {
                 const int comp_needed = std::max<int>( 1,
                                                        std::ceil( loc->base_volume() * actor->cost_scaling / 250_ml ) );
-                const inventory &crafting_inv = you.crafting_inventory();
+                const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
                 std::function<bool( const item & )> filter;
                 if( loc->is_filthy() ) {
                     filter = []( const item & component ) {
@@ -2843,7 +2845,7 @@ static item_location autodoc_internal( Character &you, Character &patient,
         } else if( patient.has_bionic( bio_painkiller ) ) {
             hint = _( "<color_yellow>Patient has Sensory Dulling CBM installed.  Anesthesia unneeded.</color>" );
         } else {
-            const inventory &crafting_inv = you.crafting_inventory();
+            const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
             std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
                 return it.has_quality( qual_ANESTHESIA );
             } );

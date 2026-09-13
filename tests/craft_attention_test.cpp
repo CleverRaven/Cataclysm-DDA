@@ -51,6 +51,7 @@
 #include "recipe.h"
 #include "requirements.h"
 #include "ret_val.h"
+#include "temp_crafting_inventory.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
@@ -2513,7 +2514,7 @@ TEST_CASE( "requirement_gate_counts_distinct_quality_providers",
         REQUIRE( bag.put_in( item( itype_test_reserve_tool_a ), pocket_type::CONTAINER ).success() );
         here.add_item( origin, bag );
         u.invalidate_crafting_inventory();
-        const inventory &crafting_inv = u.crafting_inventory();
+        const temp_crafting_inventory &crafting_inv = u.crafting_inventory();
 
         THEN( "the container is not credited beside the tool it holds" ) {
             CHECK_FALSE( req.can_make_with_inventory( &u, crafting_inv, return_true<item> ) );
@@ -2529,7 +2530,7 @@ TEST_CASE( "requirement_gate_counts_distinct_quality_providers",
         stack.charges = 100;
         here.add_item( origin, stack );
         u.invalidate_crafting_inventory();
-        const inventory &crafting_inv = u.crafting_inventory();
+        const temp_crafting_inventory &crafting_inv = u.crafting_inventory();
 
         THEN( "the stack is one provider rather than its charge count" ) {
             CHECK_FALSE( req.can_make_with_inventory( &u, crafting_inv, return_true<item> ) );
@@ -2544,7 +2545,7 @@ TEST_CASE( "requirement_gate_counts_distinct_quality_providers",
         here.add_item( origin, item( itype_test_reserve_tool_a ) );
         here.add_item( origin, item( itype_test_reserve_tool_a ) );
         u.invalidate_crafting_inventory();
-        const inventory &crafting_inv = u.crafting_inventory();
+        const temp_crafting_inventory &crafting_inv = u.crafting_inventory();
 
         THEN( "two genuine providers satisfy the requirement" ) {
             CHECK( req.can_make_with_inventory( &u, crafting_inv, return_true<item> ) );

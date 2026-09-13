@@ -489,6 +489,16 @@ VisitResponse temp_crafting_inventory::visit_items(
             return VisitResponse::ABORT;
         }
     }
+    for( item *it : item_copies ) {
+        if( visit_internal( func, it ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+    for( item_location loc : items_loc ) {
+        if( visit_internal( func, loc.get_item() ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
     return VisitResponse::NEXT;
 }
 
@@ -694,6 +704,55 @@ std::list<item> inventory::remove_items_with( const
 
     // Invalidate binning cache
     binned = false;
+
+    return res;
+}
+
+// note this doesn't remove items from the copy list - this list will just contain extra items
+// until the temp_crafting_inventory goes away (since this is an ephemeral class
+std::list<item> temp_crafting_inventory::remove_items_with( const
+        std::function<bool( const item &e )> &filter, int count )
+{
+    std::list<item> res;
+
+    if( count <= 0 ) {
+        // nothing to do
+        return res;
+    }
+
+    for( auto iter = items.begin(); iter != items.end(); ) {
+        if( filter( **iter ) ) {
+            const int c = ( *iter )->count();
+            res.push_back( **iter );
+            iter = items.erase( iter );
+            count -= c;
+        } else {
+            ++iter;
+        }
+        if( count <= 0 ) {
+            if( count < 0 ) {
+                debugmsg( "temp_crafting_inventory::remove_items_with removed too many items" );
+            }
+            return res;
+        }
+    }
+
+    for( auto iter = items_loc.begin(); iter != items_loc.end(); ) {
+        if( filter( **iter ) ) {
+            const int c = ( *iter )->count();
+            res.push_back( **iter );
+            iter = items_loc.erase( iter );
+            count -= c;
+        } else {
+            ++iter;
+        }
+        if( count <= 0 ) {
+            if( count < 0 ) {
+                debugmsg( "temp_crafting_inventory::remove_items_with removed too many item locs" );
+            }
+            return res;
+        }
+    }
 
     return res;
 }

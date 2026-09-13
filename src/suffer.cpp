@@ -60,6 +60,7 @@
 #include "stomach.h"
 #include "talker.h"
 #include "teleport.h"
+#include "temp_crafting_inventory.h"
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
@@ -626,7 +627,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
 
     map &here = get_map();
     if( you.in_sleep_state() && !you.has_effect( effect_narcosis ) ) {
-        inventory map_inv;
+        temp_crafting_inventory map_inv;
         map_inv.form_from_map( you.pos_bub(), 2, &you );
         // check if an inhaler is somewhere near
         bool nearby_use = auto_use || oxygenator || map_inv.has_charges( itype_inhaler, 1 ) ||

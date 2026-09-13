@@ -42,6 +42,7 @@
 #include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
+#include "temp_crafting_inventory.h"
 #include "type_id.h"
 #include "units.h"
 #include "visitable.h"

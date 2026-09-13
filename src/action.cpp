@@ -37,6 +37,7 @@
 #include "point.h"
 #include "popup.h"
 #include "ret_val.h"
+#include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uilist.h"
@@ -622,7 +623,7 @@ bool can_butcher_at( map &here, const tripoint_bub_ms &p )
     bool has_item = false;
     bool has_corpse = false;
 
-    const inventory &crafting_inv = player_character.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = player_character.crafting_inventory();
     for( item &items_it : items ) {
         if( items_it.is_corpse() ) {
             if( factor != INT_MIN  || factorD != INT_MIN ) {

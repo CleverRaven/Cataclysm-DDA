@@ -161,7 +161,7 @@ class veh_interact
         std::unique_ptr<remove_info_t> remove_info;
 
         vehicle *veh;
-        const inventory *crafting_inv;
+        const temp_crafting_inventory *crafting_inv;
         input_context main_context;
 
         // maximum weight capacity of available lifting equipment (if any)
