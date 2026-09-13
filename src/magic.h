@@ -363,6 +363,9 @@ class spell_type
         // if vitamin is used, specifies the color of an energy
         nc_color energy_color() const;
 
+        // energy source as a string (translated)
+        std::string energy_string() const;
+
         damage_type_id dmg_type = damage_type_id::NULL_ID();
 
         // list of valid targets enum
