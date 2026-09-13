@@ -2722,6 +2722,10 @@ std::optional<int> learn_spell_actor::use( Character *p, item &, map *,
         p->add_msg_if_player( m_bad, _( "You can't read." ) );
         return std::nullopt;
     }
+    if( p->has_flag( json_flag_CANNOT_READ_SPELLBOOKS ) ) {
+        p->add_msg_if_player( m_bad, _( "Sorcerers cannot learn spells from books or scrolls." ) );
+        return std::nullopt;
+    }
     if( !p->has_morale_to_read() ) {
         p->add_msg_if_player( m_bad, _( "What's the point of studying?  (Your morale is too low!)" ) );
         return std::nullopt;
