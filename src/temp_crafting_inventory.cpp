@@ -190,7 +190,7 @@ void temp_crafting_inventory::form_from_map( map *here, const tripoint_bub_ms &o
     }
 }
 
-static bool tile_has_sufficient_sunlight( const map &m, const tripoint_bub_ms &p )
+bool tile_has_sufficient_sunlight( const map &m, const tripoint_bub_ms &p )
 {
     if( !m.is_outside( p ) || p.z() < 0 ) {
         return false;
@@ -199,7 +199,7 @@ static bool tile_has_sufficient_sunlight( const map &m, const tripoint_bub_ms &p
     return incident_sun_irradiance( wtype, calendar::turn ) > irradiance::high;
 }
 
-static int count_charges_in_list( const itype *type, const map_stack &items )
+int count_charges_in_list( const itype *type, const map_stack &items )
 {
     for( const item &candidate : items ) {
         if( candidate.type == type ) {
@@ -218,7 +218,7 @@ static int count_charges_in_list( const itype *type, const map_stack &items )
 *
 * @return           Number of charges.
 * */
-static int count_charges_in_list( const ammotype *ammotype, const map_stack &items,
+int count_charges_in_list( const ammotype *ammotype, const map_stack &items,
                                   itype_id &item_type )
 {
     for( const item &candidate : items ) {
