@@ -573,7 +573,7 @@
     "monsters": [ { "monster": "mon_triffid_greenseer", "weight": 1 } ]
   },
   {
-    "type": "monstergroup", 
+    "type": "monstergroup",
     "id": "GROUP_LAB",
     "monsters": [ { "monster": "mon_zombie_oa_agent", "weight": 50, "cost_multiplier": 5 }, { "group": "GROUP_FERAL_DREAMERS", "weight": 5, "cost_multiplier": 50 } ]
   },
