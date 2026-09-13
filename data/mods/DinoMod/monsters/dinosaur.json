@@ -1444,7 +1444,7 @@
     "hp": 250,
     "zombify_into": "mon_zaplocanthosaurus",
     "description": "Massive, long-necked, four-legged dinosaur with a whip-like tail and tall shoulders.",
-        "special_attacks": [
+    "special_attacks": [
       {
         "type": "spell",
         "spell_data": { "id": "sauropod_control", "min_level": 1, "hit_self": true },
