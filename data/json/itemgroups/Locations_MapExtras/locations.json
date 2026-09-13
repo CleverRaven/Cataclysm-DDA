@@ -109,9 +109,8 @@
       { "group": "guns_shotgun_common", "prob": 2 },
       { "group": "guns_survival", "prob": 1 },
       { "item": "flaregun", "prob": 25 },
-      { "item": "large_repairkit", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "signal_flare", "prob": 20 },
-      { "item": "small_repairkit", "prob": 5, "charges": [ 0, 500 ] }
+      { "group": "guns_toolbox", "prob": 10 }
     ]
   },
   {

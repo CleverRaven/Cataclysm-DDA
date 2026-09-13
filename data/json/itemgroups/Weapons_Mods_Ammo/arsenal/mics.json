@@ -8,8 +8,7 @@
       { "group": "arsenal_mics_mods", "prob": 25, "count": [ 1, 2 ] },
       { "group": "full_ifak", "prob": 80, "count": [ 1, 2 ] },
       { "group": "arsenal_mics_tools", "count": [ 1, 4 ] },
-      { "item": "large_repairkit", "prob": 2 },
-      { "item": "small_repairkit", "prob": 1 }
+      { "group": "guns_toolbox", "prob": 3 }
     ]
   },
   {
