@@ -76,7 +76,19 @@
       {
         "u_run_monster_eocs": [ "eoc_sauropod_walker" ],
         "monster_range": 3,
-        "mtype_ids": [ "mon_apatosaurus", "mon_brontosaurus", "mon_diplodocus" ]
+        "mtype_ids": [ 
+          "mon_moabosaurus",
+          "mon_haplocanthosaurus",
+          "mon_amargasaurus",
+          "mon_apatosaurus",
+          "mon_brontosaurus",
+          "mon_diplodocus",
+          "mon_barosaurus",
+          "mon_camarasaurus",
+          "mon_brachiosaurus",
+          "mon_astrodon",
+          "mon_alamosaurus"
+        ]
       }
     ],
     "false_effect": [ { "math": [ "updating_sauropods = 0" ] } ]
@@ -270,7 +282,19 @@
           }
         ],
         "monster_range": 3,
-        "mtype_ids": [ "mon_zapatosaurus", "mon_zrontosaurus", "mon_ziplodocus" ]
+        "mtype_ids": [
+          "mon_zoabosaurus",
+          "mon_zaplocanthosaurus",
+          "mon_zamargasaurus",
+          "mon_zapatosaurus",
+          "mon_zrontosaurus",
+          "mon_ziplodocus",
+          "mon_zarosaurus",
+          "mon_zamarasaurus",
+          "mon_zrachiosaurus",
+          "mon_zastrodon",
+          "mon_zalamosaurus"
+        ]
       }
     ]
   },
