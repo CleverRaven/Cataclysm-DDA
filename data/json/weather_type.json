@@ -515,8 +515,20 @@
       "and": [
         { "current_dimension": "default" },
         { "math": [ "scarlet_storm_active == 1" ] },
-        { "math": [ "distance(_weather_location, scarlet_storm_center) <= 1920" ] },
-        { "math": [ "distance(_weather_location, scarlet_storm_center) >= 1728" ] }
+        {
+          "or": [
+            {
+              "math": [ "distance(_weather_location, scarlet_storm_focus_a1) + distance(_weather_location, scarlet_storm_focus_a2) < 7680" ]
+            },
+            {
+              "math": [ "distance(_weather_location, scarlet_storm_focus_b1) + distance(_weather_location, scarlet_storm_focus_b2) < 7680" ]
+            }
+          ]
+        },
+        { "math": [ "distance(_weather_location, scarlet_storm_focus_a1) > 0" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_focus_a2) > 0" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_focus_b1) > 0" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_focus_b2) > 0" ] }
       ]
     }
   },
@@ -524,8 +536,8 @@
     "id": "scarlet_storm_2",
     "type": "weather_type",
     "name": "Amber Mist",
-    "color": "yellow",
-    "map_color": "yellow",
+    "color": "light_red",
+    "map_color": "light_red",
     "sym": "~",
     "sun_sym": "🌫",
     "ranged_penalty": 7,
@@ -538,15 +550,27 @@
     "precip": "none",
     "rains": false,
     "sound_category": "silent",
-    "priority": 13,
+    "priority": 14,
     "tint_color": [ 125, 100, 30 ],
     "tint_strength": 0.8,
     "condition": {
       "and": [
         { "current_dimension": "default" },
         { "math": [ "scarlet_storm_active == 1" ] },
-        { "math": [ "distance(_weather_location, scarlet_storm_center) <= 1728" ] },
-        { "math": [ "distance(_weather_location, scarlet_storm_center) >= 1536" ] }
+        {
+          "or": [
+            {
+              "math": [ "distance(_weather_location, scarlet_storm_focus_a1) + distance(_weather_location, scarlet_storm_focus_a2) < 6912" ]
+            },
+            {
+              "math": [ "distance(_weather_location, scarlet_storm_focus_b1) + distance(_weather_location, scarlet_storm_focus_b2) < 6912" ]
+            }
+          ]
+        },
+        { "math": [ "distance(_weather_location, scarlet_storm_focus_a1) > 0" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_focus_a2) > 0" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_focus_b1) > 0" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_focus_b2) > 0" ] }
       ]
     },
     "passive_effects": [
@@ -564,8 +588,8 @@
     "id": "scarlet_storm_3",
     "type": "weather_type",
     "name": "Crimson Fog",
-    "color": "light_red",
-    "map_color": "light_red",
+    "color": "red",
+    "map_color": "red",
     "sym": "~",
     "sun_sym": "🌫",
     "ranged_penalty": 7,
@@ -585,8 +609,20 @@
       "and": [
         { "current_dimension": "default" },
         { "math": [ "scarlet_storm_active == 1" ] },
-        { "math": [ "distance(_weather_location, scarlet_storm_center) < 1536" ] },
-        { "math": [ "distance(_weather_location, scarlet_storm_center) >= 960" ] }
+        {
+          "or": [
+            {
+              "math": [ "distance(_weather_location, scarlet_storm_focus_a1) + distance(_weather_location, scarlet_storm_focus_a2) < 6144" ]
+            },
+            {
+              "math": [ "distance(_weather_location, scarlet_storm_focus_b1) + distance(_weather_location, scarlet_storm_focus_b2) < 6144" ]
+            }
+          ]
+        },
+        { "math": [ "distance(_weather_location, scarlet_storm_focus_a1) > 0" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_focus_a2) > 0" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_focus_b1) > 0" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_focus_b2) > 0" ] }
       ]
     },
     "passive_effects": [
@@ -606,7 +642,7 @@
     "name": "Scarlet Storm",
     "color": "red",
     "map_color": "red",
-    "sym": "~",
+    "sym": "%",
     "sun_sym": "🌫",
     "ranged_penalty": 7,
     "sight_penalty": 2.0,
@@ -625,8 +661,20 @@
       "and": [
         { "current_dimension": "default" },
         { "math": [ "scarlet_storm_active == 1" ] },
-        { "math": [ "distance(_weather_location, scarlet_storm_center) < 960" ] },
-        { "math": [ "distance(_weather_location, scarlet_storm_center) >= 0" ] }
+        {
+          "or": [
+            {
+              "math": [ "distance(_weather_location, scarlet_storm_focus_a1) + distance(_weather_location, scarlet_storm_focus_a2) < 3840" ]
+            },
+            {
+              "math": [ "distance(_weather_location, scarlet_storm_focus_b1) + distance(_weather_location, scarlet_storm_focus_b2) < 3840" ]
+            }
+          ]
+        },
+        { "math": [ "distance(_weather_location, scarlet_storm_focus_a1) > 0" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_focus_a2) > 0" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_focus_b1) > 0" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_focus_b2) > 0" ] }
       ]
     },
     "passive_effects": [
@@ -639,5 +687,39 @@
         "immunity_data": { "body_part_env_resistance": [ [ "mouth", 7 ] ] }
       }
     ]
+  },
+  {
+    "id": "scarlet_storm_5",
+    "//": "rainstorm that supresses the effects of the fog",
+    "type": "weather_type",
+    "name": "Scarlet Cloudburst",
+    "color": "magenta",
+    "map_color": "magenta",
+    "sym": "%",
+    "sun_sym": "⛈",
+    "ranged_penalty": 7,
+    "sight_penalty": 2.0,
+    "light_modifier": -85,
+    "sun_multiplier": 0.01,
+    "temperature_modifier": -20,
+    "sound_attn": 8,
+    "dangerous": true,
+    "precip": "heavy",
+    "rains": true,
+    "tiles_animation": "weather_rain_drop",
+    "weather_animation": { "factor": 0.04, "color": "blue", "sym": ";" },
+    "sound_category": "thunder",
+    "priority": 125,
+    "tint_color": [ 175, 25, 0 ],
+    "tint_strength": 1.0,
+    "condition": {
+      "and": [
+        { "current_dimension": "default" },
+        { "math": [ "scarlet_storm_active == 1" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_focus_a1) < 1920" ] },
+        { "math": [ "distance(_weather_location, scarlet_storm_focus_a1) > 0" ] },
+        { "or": [ { "math": [ "weather('humidity') >= 97" ] }, { "math": [ "weather('pressure') < 1000" ] } ] }
+      ]
+    }
   }
 ]

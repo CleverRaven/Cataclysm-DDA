@@ -2,16 +2,25 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_START_SCARLET_STORM",
-    "//": "Initialize the Scarlet Storm. It always spawns at x=5400 on the date of the cataclysm. The position is offset based on time since the cataclysm.",
+    "//": "Initialize the Scarlet Storm. It always spawns at x=50400 on the date of the cataclysm. The position is offset based on time since the cataclysm.",
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "global": true,
     "effect": [
       { "math": [ "scarlet_storm_active = 1" ] },
-      { "u_location_variable": { "global_val": "scarlet_storm_center" }, "z_override": true, "z_adjust": 0 },
-      { "math": [ "scarlet_storm_offset = time_since('cataclysm', 'unit':'days') * 216" ] },
-      { "math": [ "scarlet_storm_center.x = 50400 - scarlet_storm_offset" ] },
-      { "math": [ "scarlet_storm_center.y = 0" ] },
+      { "u_location_variable": { "global_val": "scarlet_storm_focus_a1" }, "z_override": true, "z_adjust": 0 },
+      { "u_location_variable": { "global_val": "scarlet_storm_focus_a2" }, "z_override": true, "z_adjust": 0 },
+      { "u_location_variable": { "global_val": "scarlet_storm_focus_b1" }, "z_override": true, "z_adjust": 0 },
+      { "u_location_variable": { "global_val": "scarlet_storm_focus_b2" }, "z_override": true, "z_adjust": 0 },
+      { "math": [ "scarlet_storm_offset = time_since('cataclysm', 'unit':'days') * 432 + rng( -20200, 20200 )" ] },
+      { "math": [ "scarlet_storm_focus_a1.x = 50400 - scarlet_storm_offset" ] },
+      { "math": [ "scarlet_storm_focus_a1.y = 0" ] },
+      { "math": [ "scarlet_storm_focus_a2.x = 50400 - scarlet_storm_offset" ] },
+      { "math": [ "scarlet_storm_focus_a2.y = 1500" ] },
+      { "math": [ "scarlet_storm_focus_b1.x = 50400 - scarlet_storm_offset + 900" ] },
+      { "math": [ "scarlet_storm_focus_b1.y = 0" ] },
+      { "math": [ "scarlet_storm_focus_b2.x = 50400 - scarlet_storm_offset + 900" ] },
+      { "math": [ "scarlet_storm_focus_b2.y = 1100" ] },
       { "math": [ "scarlet_storm_direction = 0" ] }
     ]
   },
@@ -23,41 +32,59 @@
     "condition": { "and": [ { "math": [ "scarlet_storm_active == 1" ] }, { "math": [ "scarlet_storm_died != 1" ] } ] },
     "deactivate_condition": { "math": [ "scarlet_storm_died == 1" ] },
     "effect": [
-      { "location_variable_adjust": { "global_val": "scarlet_storm_center" }, "x_adjust": -72 },
+      { "location_variable_adjust": { "global_val": "scarlet_storm_focus_a1" }, "x_adjust": -144 },
+      { "location_variable_adjust": { "global_val": "scarlet_storm_focus_a2" }, "x_adjust": -144 },
+      { "location_variable_adjust": { "global_val": "scarlet_storm_focus_b1" }, "x_adjust": -144 },
+      { "location_variable_adjust": { "global_val": "scarlet_storm_focus_b2" }, "x_adjust": -144 },
       {
         "if": { "math": [ "scarlet_storm_direction == 0" ] },
         "then": [
-          { "location_variable_adjust": { "global_val": "scarlet_storm_center" }, "y_adjust": [ -24, 24 ] },
-          { "if": { "one_in_chance": 30 }, "then": { "math": [ "scarlet_storm_direction = -1" ] } },
-          { "if": { "one_in_chance": 30 }, "then": { "math": [ "scarlet_storm_direction = 1" ] } }
+          { "location_variable_adjust": { "global_val": "scarlet_storm_focus_a1" }, "y_adjust": [ -48, 48 ] },
+          { "location_variable_adjust": { "global_val": "scarlet_storm_focus_a2" }, "y_adjust": [ -48, 48 ] },
+          { "location_variable_adjust": { "global_val": "scarlet_storm_focus_b1" }, "y_adjust": [ -48, 48 ] },
+          { "location_variable_adjust": { "global_val": "scarlet_storm_focus_b2" }, "y_adjust": [ -48, 48 ] },
+          { "if": { "one_in_chance": 60 }, "then": { "math": [ "scarlet_storm_direction = -1" ] } },
+          { "if": { "one_in_chance": 60 }, "then": { "math": [ "scarlet_storm_direction = 1" ] } }
         ],
         "else": {
           "if": { "math": [ "scarlet_storm_direction == -1" ] },
           "then": [
-            { "location_variable_adjust": { "global_val": "scarlet_storm_center" }, "y_adjust": [ -72, 0 ] },
-            { "if": { "one_in_chance": 30 }, "then": { "math": [ "scarlet_storm_direction = -2" ] } },
-            { "if": { "one_in_chance": 60 }, "then": { "math": [ "scarlet_storm_direction = 0" ] } },
+            { "location_variable_adjust": { "global_val": "scarlet_storm_focus_a1" }, "y_adjust": [ -144, 0 ] },
+            { "location_variable_adjust": { "global_val": "scarlet_storm_focus_a2" }, "y_adjust": [ -144, 0 ] },
+            { "location_variable_adjust": { "global_val": "scarlet_storm_focus_b1" }, "y_adjust": [ -144, 0 ] },
+            { "location_variable_adjust": { "global_val": "scarlet_storm_focus_b2" }, "y_adjust": [ -144, 0 ] },
+            { "if": { "one_in_chance": 60 }, "then": { "math": [ "scarlet_storm_direction = -2" ] } },
+            { "if": { "one_in_chance": 30 }, "then": { "math": [ "scarlet_storm_direction = 0" ] } },
             { "if": { "one_in_chance": 120 }, "then": { "math": [ "scarlet_storm_direction = 1" ] } }
           ],
           "else": {
             "if": { "math": [ "scarlet_storm_direction == 1" ] },
             "then": [
-              { "location_variable_adjust": { "global_val": "scarlet_storm_center" }, "y_adjust": [ 0, 72 ] },
-              { "if": { "one_in_chance": 30 }, "then": { "math": [ "scarlet_storm_direction = 2" ] } },
-              { "if": { "one_in_chance": 60 }, "then": { "math": [ "scarlet_storm_direction = 0" ] } },
+              { "location_variable_adjust": { "global_val": "scarlet_storm_focus_a1" }, "y_adjust": [ 0, 144 ] },
+              { "location_variable_adjust": { "global_val": "scarlet_storm_focus_a2" }, "y_adjust": [ 0, 144 ] },
+              { "location_variable_adjust": { "global_val": "scarlet_storm_focus_b1" }, "y_adjust": [ 0, 144 ] },
+              { "location_variable_adjust": { "global_val": "scarlet_storm_focus_b2" }, "y_adjust": [ 0, 144 ] },
+              { "if": { "one_in_chance": 60 }, "then": { "math": [ "scarlet_storm_direction = 2" ] } },
+              { "if": { "one_in_chance": 30 }, "then": { "math": [ "scarlet_storm_direction = 0" ] } },
               { "if": { "one_in_chance": 120 }, "then": { "math": [ "scarlet_storm_direction = -1" ] } }
             ],
             "else": {
               "if": { "math": [ "scarlet_storm_direction == -2" ] },
               "then": [
-                { "location_variable_adjust": { "global_val": "scarlet_storm_center" }, "y_adjust": [ -72, -24 ] },
+                { "location_variable_adjust": { "global_val": "scarlet_storm_focus_a1" }, "y_adjust": [ -144, -48 ] },
+                { "location_variable_adjust": { "global_val": "scarlet_storm_focus_a2" }, "y_adjust": [ -144, -48 ] },
+                { "location_variable_adjust": { "global_val": "scarlet_storm_focus_b1" }, "y_adjust": [ -144, -48 ] },
+                { "location_variable_adjust": { "global_val": "scarlet_storm_focus_b2" }, "y_adjust": [ -144, -48 ] },
                 { "if": { "one_in_chance": 30 }, "then": { "math": [ "scarlet_storm_direction = -1" ] } },
                 { "if": { "one_in_chance": 60 }, "then": { "math": [ "scarlet_storm_direction = 0" ] } }
               ],
               "else": {
                 "if": { "math": [ "scarlet_storm_direction == 2" ] },
                 "then": [
-                  { "location_variable_adjust": { "global_val": "scarlet_storm_center" }, "y_adjust": [ 24, 72 ] },
+                  { "location_variable_adjust": { "global_val": "scarlet_storm_focus_a1" }, "y_adjust": [ 48, 144 ] },
+                  { "location_variable_adjust": { "global_val": "scarlet_storm_focus_a2" }, "y_adjust": [ 48, 144 ] },
+                  { "location_variable_adjust": { "global_val": "scarlet_storm_focus_b1" }, "y_adjust": [ 48, 144 ] },
+                  { "location_variable_adjust": { "global_val": "scarlet_storm_focus_b2" }, "y_adjust": [ 48, 144 ] },
                   { "if": { "one_in_chance": 30 }, "then": { "math": [ "scarlet_storm_direction = 1" ] } },
                   { "if": { "one_in_chance": 60 }, "then": { "math": [ "scarlet_storm_direction = 0" ] } }
                 ]
@@ -65,6 +92,24 @@
             }
           }
         }
+      },
+      {
+        "if": {
+          "or": [
+            { "math": [ "scarlet_storm_focus_a1.x - scarlet_storm_focus_a2.x < 1200" ] },
+            { "math": [ "scarlet_storm_focus_a1.x - scarlet_storm_focus_a2.x < 1900" ] }
+          ]
+        },
+        "then": { "math": [ "scarlet_storm_focus_a2.x = scarlet_storm_focus_a1.x + 1500" ] }
+      },
+      {
+        "if": {
+          "or": [
+            { "math": [ "scarlet_storm_focus_b1.x - scarlet_storm_focus_b2.x < 1200" ] },
+            { "math": [ "scarlet_storm_focus_b1.x - scarlet_storm_focus_b2.x < 1900" ] }
+          ]
+        },
+        "then": { "math": [ "scarlet_storm_focus_b2.x = scarlet_storm_focus_b1.x + 1500" ] }
       },
       {
         "if": { "math": [ "time_since('cataclysm', 'unit':'days') >= 730" ] },
@@ -134,12 +179,18 @@
     "global": true,
     "condition": {
       "and": [
-        { "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" } ] },
+        {
+          "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ]
+        },
         { "one_in_chance": 100 },
         { "math": [ "u_val('pos_z') >= 0" ] }
       ]
     },
-    "deactivate_condition": { "not": { "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" } ] } },
+    "deactivate_condition": {
+      "not": {
+        "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ]
+      }
+    },
     "effect": [
       { "u_message": "You hear a distant rumble of thunder.", "sound": true },
       { "sound_effect": "thunder_far", "outdoor_event": true, "id": "environment" }
@@ -150,13 +201,51 @@
     "id": "scarlet_lightning",
     "recurrence": 1,
     "global": true,
-    "condition": { "and": [ { "is_weather": "scarlet_storm_4" }, { "one_in_chance": 200 }, { "math": [ "u_val('pos_z') >= 0" ] } ] },
-    "deactivate_condition": { "not": { "is_weather": "scarlet_storm_4" } },
+    "condition": {
+      "and": [
+        { "or": [ { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ] },
+        { "one_in_chance": 200 },
+        { "math": [ "u_val('pos_z') >= 0" ] }
+      ]
+    },
+    "deactivate_condition": { "not": { "or": [ { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ] } },
     "effect": [
       { "u_message": "A flash of lightning illuminates the scarlet sky!" },
       { "sound_effect": "thunder_near", "id": "environment" },
       "lightning",
       { "custom_light_level": 100, "length": [ "1 seconds", "12 seconds" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SCARLET_STORM_WARNING",
+    "recurrence": 60,
+    "global": true,
+    "deactivate_condition": { "or": [ { "math": [ "scarlet_storm_died == 1" ] }, { "math": [ "player_saw_scarlet_storm == 1" ] } ] },
+    "condition": {
+      "and": [
+        { "math": [ "player_saw_scarlet_storm != 1" ] },
+        "u_is_outside",
+        {
+          "or": [
+            { "is_weather": "scarlet_storm_1" },
+            { "is_weather": "scarlet_storm_2" },
+            { "is_weather": "scarlet_storm_3" },
+            { "is_weather": "scarlet_storm_4" },
+            { "is_weather": "scarlet_storm_5" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "<scarlet_storm_warning>",
+        "type": "info",
+        "snippet": true,
+        "popup": true,
+        "popup_w_interrupt_query": true
+      },
+      { "math": [ "player_saw_scarlet_storm = 1" ] }
     ]
   },
   {
