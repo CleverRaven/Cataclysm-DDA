@@ -14,6 +14,7 @@
 #include "cata_path.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "craft_reservation.h"
 #include "color.h"
 #include "coordinates.h"
 #include "cursesdef.h"
@@ -157,6 +158,11 @@ static std::vector<item_location> get_autopickup_items( item_location &from )
     std::list<item *>::iterator it;
     for( it = contents.begin(); it != contents.end(); ++it ) {
         item *item_entry = *it;
+        // Before empty_autopickup_target below, which turns a container out.
+        if( craft_reservation::contains_reserved( *item_entry ) ) {
+            pick_all_items = false;
+            continue;
+        }
         if( !within_autopickup_limits( item_entry ) ) {
             pick_all_items = false;
             continue;
@@ -262,6 +268,11 @@ drop_locations auto_pickup::select_items(
         }
         // do not auto pickup spilt liquids
         if( item_entry->made_of( phase_id::LIQUID ) ) {
+            continue;
+        }
+        // Before empty_autopickup_target below, which turns a container out as part of
+        // selection.  Manual pickup stays unguarded.
+        if( craft_reservation::contains_reserved( *item_entry ) ) {
             continue;
         }
         rule_state pickup_state = get_autopickup_rule( item_entry );
