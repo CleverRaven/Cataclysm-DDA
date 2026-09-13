@@ -1444,8 +1444,14 @@
     "hp": 250,
     "zombify_into": "mon_zaplocanthosaurus",
     "description": "Massive, long-necked, four-legged dinosaur with a whip-like tail and tall shoulders.",
-    "special_attacks": [
-      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+        "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "sauropod_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
       [ "tailsmash_DinoMod", 30 ],
       [ "EAT_CROP", 40 ],
       [ "BROWSE", 60 ],
@@ -1557,8 +1563,14 @@
     "zombify_into": "mon_zarosaurus",
     "description": "Huge, long-necked, four-legged dinosaur with a long, whip-like tail and one large claw on each foreleg.",
     "special_attacks": [
-      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "cut", "amount": 14 } ] },
-      [ "tailsmash_DinoMod", 40 ],
+      {
+        "type": "spell",
+        "spell_data": { "id": "sauropod_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 40 ],
       [ "EAT_CROP", 40 ],
       [ "BROWSE", 60 ],
       [ "GRAZE", 60 ]
