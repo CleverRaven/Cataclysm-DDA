@@ -32,6 +32,7 @@
       "@": "f_dumpster",
       "^": "f_indoor_plant"
     },
+    "monster": { "@": { "monster": "mon_raccoon", "chance": 15, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
     "toilets": { "T": {  } },
     "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
     "items": {
