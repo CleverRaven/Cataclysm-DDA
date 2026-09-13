@@ -2430,7 +2430,7 @@ void overmap::place_ravines()
 
     const oter_id rift( "ravine" );
     const oter_id rift_edge( "ravine_edge" );
-    const oter_id rift_floor( "ravine_floor" );
+    const oter_id rift_floor = settings_ravine.ravine_bottom_terrain_id;
     const oter_id rift_floor_edge( "ravine_floor_edge" );
 
     std::set<point_om_omt> rift_points;

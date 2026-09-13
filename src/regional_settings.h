@@ -24,6 +24,8 @@ class JsonObject;
 class JsonValue;
 class mapgendata;
 
+static const oter_str_id oter_ravine_floor( "ravine_floor" );
+
 const region_settings_id DEFAULT_REGION( "default" );
 
 class building_bin
@@ -317,6 +319,7 @@ struct region_settings_ravine {
     int ravine_range = 45;
     int ravine_width = 1;
     int ravine_depth = -3;
+    oter_id ravine_bottom_terrain_id = oter_ravine_floor.id();
 
     bool was_loaded = false;
     void load( const JsonObject &jo, std::string_view );

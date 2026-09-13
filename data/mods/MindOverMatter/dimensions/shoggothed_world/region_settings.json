@@ -1,0 +1,75 @@
+[
+  {
+    "type": "dimension",
+    "id": "mom_shoggothed_world",
+    "region_layout": "mom_shoggothed_world"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "mom_shoggothed_world",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "mom_shoggothed_world"
+  },
+  {
+    "type": "region_settings",
+    "id": "mom_shoggothed_world",
+    "copy-from": "default",
+    "cities": "no_cities",
+    "highways": null,
+    "place_roads": false,
+    "forest_trails": null,
+    "place_specials": true,
+    "rivers": null,
+    "lakes": null,
+    "ocean": null,
+    "forests": null,
+    "ravines": "default_mom_shoggothed_world",
+    "terrain_furniture": "mom_shoggothed_world",
+    "default_oter": [
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "mom_shoggothed_world_default",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock"
+    ],
+    "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
+    "feature_flag_settings": { "blacklist": [  ], "whitelist": [ "MOM_SHOGGOTHED_WORLD" ] }
+  },
+  {
+    "type": "region_settings_ravine",
+    "id": "default_mom_shoggothed_world",
+    "copy-from": "default",
+    "num_ravines": 10,
+    "ravine_width": 2,
+    "ravine_range": 35,
+    "ravine_depth": -3
+  },
+  {
+    "type": "region_settings_terrain_furniture",
+    "id": "mom_shoggothed_world",
+    "copy-from": "default",
+    "ter_furn": [ "mom_shoggothed_world_t_region_groundcover" ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "mom_shoggothed_world_t_region_groundcover",
+    "ter_id": "t_region_groundcover",
+    "replace_with_terrain": [ [ "t_dirt_cracked", 250 ], [ "t_dirt", 1 ] ]
+  }
+]

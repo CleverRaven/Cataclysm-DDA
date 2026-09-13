@@ -459,6 +459,7 @@ void region_settings_ravine::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "ravine_range",
               ravine_range );
     optional( jo, was_loaded, "ravine_depth", ravine_depth );
+    optional( jo, was_loaded, "ravine_bottom_terrain_id", ravine_bottom_terrain_id );
 }
 
 void region_settings_overmap_connection::deserialize( const JsonObject &jo )
