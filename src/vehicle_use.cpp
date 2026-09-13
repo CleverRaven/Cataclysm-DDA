@@ -1910,7 +1910,8 @@ void vpart_position::form_inventory( map &here, temp_crafting_inventory &inv,
                 const int count = it.count_by_charges() ? it.charges : 1;
                 inv.update_liq_container_count( it.typeId(), count );
             }
-            inv.add_item_ref( it );
+            inv.add_item_loc( item_location( vehicle_cursor( vp_cargo->vehicle(), vp_cargo->part_index() ),
+                                             &it ) );
         }
     }
 

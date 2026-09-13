@@ -44,8 +44,12 @@ temp_crafting_inventory::temp_crafting_inventory( const temp_crafting_inventory 
     max_empty_liq_cont = v.max_empty_liq_cont;
 }
 
-temp_crafting_inventory temp_crafting_inventory::operator=( const temp_crafting_inventory &v )
+temp_crafting_inventory &temp_crafting_inventory::operator=( const temp_crafting_inventory &v )
 {
+    if( this == &v ) {
+        return *this;
+    }
+    clear();
     items = v.items;
     for( item *it : v.item_copies ) {
         add_item_copy( *it );
@@ -190,44 +194,13 @@ void temp_crafting_inventory::form_from_map( map *here, const tripoint_bub_ms &o
     }
 }
 
-static bool tile_has_sufficient_sunlight( const map &m, const tripoint_bub_ms &p )
+bool tile_has_sufficient_sunlight( const map &m, const tripoint_bub_ms &p )
 {
     if( !m.is_outside( p ) || p.z() < 0 ) {
         return false;
     }
     const weather_type_id wtype = current_weather( m.get_abs( p ), calendar::turn );
     return incident_sun_irradiance( wtype, calendar::turn ) > irradiance::high;
-}
-
-static int count_charges_in_list( const itype *type, const map_stack &items )
-{
-    for( const item &candidate : items ) {
-        if( candidate.type == type ) {
-            return candidate.charges;
-        }
-    }
-    return 0;
-}
-
-/**
-* Finds the number of charges of the first item that matches ammotype.
-*
-* @param ammotype   Search target.
-* @param items      Stack of items. Search stops at first match.
-* @param [out] item_type Matching type.
-*
-* @return           Number of charges.
-* */
-static int count_charges_in_list( const ammotype *ammotype, const map_stack &items,
-                                  itype_id &item_type )
-{
-    for( const item &candidate : items ) {
-        if( candidate.is_ammo() && candidate.type->ammo->type == *ammotype ) {
-            item_type = candidate.typeId();
-            return candidate.charges;
-        }
-    }
-    return 0;
 }
 
 void temp_crafting_inventory::form_from_map( map &m, std::vector<tripoint_bub_ms> pts,
@@ -240,12 +213,12 @@ void temp_crafting_inventory::form_from_map( map &m, std::vector<tripoint_bub_ms
         const ter_id &t = m.ter( p );
         // a temporary hack while trees are terrain
         if( t->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
-            add_item_copy( item( itype_butchery_tree_pseudo ) );
+            add_pseudo_item( itype_butchery_tree_pseudo );
         }
         // Another terrible hack, as terrain can't provide pseudo items, and construction can't do multi-step furniture
         ter_id brick_oven( "t_brick_oven" );
         if( t == brick_oven ) {
-            add_item_copy( item( itype_brick_oven_pseudo ) );
+            add_pseudo_item( itype_brick_oven_pseudo );
         }
         const furn_id &f = m.furn( p );
         const furn_t &fo = f.obj();
@@ -291,7 +264,7 @@ void temp_crafting_inventory::form_from_map( map &m, std::vector<tripoint_bub_ms
                         const int count = i.count_by_charges() ? i.charges : 1;
                         update_liq_container_count( i.typeId(), count );
                     }
-                    add_item_ref( i );
+                    add_item_loc( item_location( map_cursor( p ), &i ) );
                 }
             }
         }
@@ -303,7 +276,7 @@ void temp_crafting_inventory::form_from_map( map &m, std::vector<tripoint_bub_ms
         // Handle any water from map sources.
         item water = m.liquid_from( p );
         if( !water.is_null() ) {
-            add_item_copy( water );
+            add_pseudo_item( water );
         }
 
         // keg-kludge
@@ -311,7 +284,7 @@ void temp_crafting_inventory::form_from_map( map &m, std::vector<tripoint_bub_ms
             map_stack liq_contained = m.i_at( p );
             for( item &i : liq_contained ) {
                 if( i.made_of( phase_id::LIQUID ) ) {
-                    add_item_ref( i );
+                    add_item_loc( item_location( map_cursor( p ),  &i ) );
                 }
             }
         }

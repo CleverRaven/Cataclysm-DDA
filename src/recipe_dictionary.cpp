@@ -321,7 +321,7 @@ std::vector<const recipe *> recipe_subset::search(
                     debugmsg( "search_type::book requires a crafter to be provided, since it checks crafting group and crafters inventory" );
                     return false;
                 }
-                const Character &crafter_ref = crafter->get();
+                const Character &crafter_ref = *crafter;
                 const temp_crafting_inventory &crafting_inventory = crafter_ref.crafting_inventory();
 
                 bool found = false;

@@ -721,7 +721,6 @@ const temp_crafting_inventory &Character::crafting_inventory( map *here,
             const int count = it->count_by_charges() ? it->charges : 1;
             tmp_liq_list[it->typeId()] += count;
         }
-        // not supposed to be a copy, but we lose the scope somwhere.
         crafting_cache.crafting_inventory->add_item_copy( *it );
         return VisitResponse::SKIP;
     }

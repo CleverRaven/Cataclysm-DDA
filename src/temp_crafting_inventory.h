@@ -18,7 +18,7 @@ class temp_crafting_inventory : public read_only_visitable
     public:
         temp_crafting_inventory() = default;
         temp_crafting_inventory( const temp_crafting_inventory &v );
-        temp_crafting_inventory operator=( const temp_crafting_inventory &v );
+        temp_crafting_inventory &operator=( const temp_crafting_inventory &v );
 
         size_t size() const;
 
