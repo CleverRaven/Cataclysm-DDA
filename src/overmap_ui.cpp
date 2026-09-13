@@ -218,7 +218,7 @@ void overmap_sidebar::draw_tile_info()
         }
 
         ImGui::SameLine();
-        overmap_buffer.display_description_at( sm_pos, true );
+        overmap_buffer.display_description_at( sm_pos, debug_mode );
         if( center_vision != om_vision_level::full ) {
             std::string vision_level_string;
             switch( center_vision ) {
