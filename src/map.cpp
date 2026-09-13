@@ -6756,6 +6756,12 @@ static std::list<item> use_amount_stack( Stack stack, const itype_id &type, int 
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
+        // item::use_amount flattens contents before the filter sees anything, so a
+        // reserved provider has to be pruned here, where the root is still one thing.
+        if( craft_reservation::contains_reserved( *a ) ) {
+            ++a;
+            continue;
+        }
         if( a->use_amount( type, quantity, ret, filter ) ) {
             a = stack.erase( a );
         } else {
@@ -6900,6 +6906,11 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
                 }
             } );
             if( iter != stack.end() ) {
+                // The pseudo tool is fabricated per call and carries no uid, so an item
+                // filter can never reject it.  Guard on the tile it comes from instead.
+                if( get_craft_reservations().provider_tile_reserved( m->get_abs( p ) ) ) {
+                    return;
+                }
                 item furn_item( itt, calendar::turn_zero );
                 furn_item.ammo_set( ammo, iter->charges );
 

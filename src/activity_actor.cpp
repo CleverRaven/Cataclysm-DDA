@@ -45,6 +45,7 @@
 #include "contents_change_handler.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "craft_reservation.h"
 #include "crafting.h"
 #include "crafting_enums.h"
 #include "creature.h"
@@ -78,6 +79,7 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "item_uid.h"
 #include "item_wakeup.h"
 #include "itype.h"
 #include "iuse.h"
@@ -7183,10 +7185,12 @@ void plant_seed_activity_actor::finish( player_activity &act, Character &who )
     tripoint_bub_ms examp = here.get_bub( plant_location );
     const itype_id seed_id = seed_type;
     std::list<item> used_seed;
+    // Planning picked an instance and passed on only its type, so the filter has to be
+    // reapplied where the seed is actually taken.
     if( item::count_by_charges( seed_id ) ) {
-        used_seed = who.use_charges( seed_id, 1 );
+        used_seed = who.use_charges( seed_id, 1, craft_reservation::usable_by_automation );
     } else {
-        used_seed = who.use_amount( seed_id, 1 );
+        used_seed = who.use_amount( seed_id, 1, craft_reservation::usable_by_automation );
     }
     if( !used_seed.empty() ) {
         used_seed.front().set_age( 0_turns );
@@ -10197,9 +10201,14 @@ void fertilize_plant_activity_actor::finish( player_activity &act, Character &wh
 
     std::list<item> planted;
     if( fertilizer->count_by_charges() ) {
-        planted = who.use_charges( fertilizer, 1 );
+        planted = who.use_charges( fertilizer, 1, craft_reservation::usable_by_automation );
     } else {
-        planted = who.use_amount( fertilizer, 1 );
+        planted = who.use_amount( fertilizer, 1, craft_reservation::usable_by_automation );
+    }
+    if( planted.empty() ) {
+        // Every instance in reach is claimed by a live craft.
+        act.set_to_null();
+        return;
     }
 
     // Reduce the amount of time it takes until the next stage of the plant by
@@ -11557,6 +11566,11 @@ void vehicle_activity_actor::complete_vehicle( player_activity &act, Character &
             const bool wall_wire_removal = appliance_removal && vpi.id == vpart_ap_wall_wiring;
             const bool broken = vp->is_broken();
             const bool smash_remove = vpi.has_flag( "SMASH_REMOVE" );
+            if( get_craft_reservations().vehicle_part_reserved( vp->get_base().uid().get_value() ) ) {
+                //~  1$s is the vehicle part name
+                add_msg( m_info, _( "The %1$s is in use by an unattended craft." ), vpi.name() );
+                break;
+            }
             const inventory &inv = you.crafting_inventory();
             const requirement_data &reqs = vpi.removal_requirements();
             if( !reqs.can_make_with_inventory( &you, inv, is_crafting_component ) ) {

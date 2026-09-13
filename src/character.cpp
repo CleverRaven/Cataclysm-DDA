@@ -32,6 +32,7 @@
 #include "city.h"
 #include "color.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "creature_tracker.h"
 #include "current_map.h"
 #include "debug.h"
@@ -5595,7 +5596,8 @@ std::list<item> Character::use_amount( const itype_id &it, int quantity,
             tmp.erase( tmp.begin() + imenu.ret );
         }
     }
-    if( quantity > 0 && weapon.use_amount( it, quantity, ret ) ) {
+    if( quantity > 0 && !craft_reservation::contains_reserved( weapon ) &&
+        weapon.use_amount( it, quantity, ret, filter ) ) {
         remove_weapon();
     }
     ret = worn.use_amount( it, quantity, ret, filter, *this );
@@ -5742,10 +5744,16 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     } );
 
     if( radius >= 0 ) {
-        get_map().use_charges( pos_bub(), radius, what, qty, return_true<item>, nullptr, in_tools );
+        get_map().use_charges( pos_bub(), radius, what, qty, filter, nullptr, in_tools );
     }
     if( qty > 0 ) {
-        visit_items( [this, &what, &qty, &res, &del, &filter, &in_tools]( item * e, item * ) {
+        visit_items( [this, &what, &qty, &res, &del, &filter, &in_tools]( item * e,
+        item * parent ) {
+            // Only roots: this callback sees every descendant, and item::use_charges
+            // descends again, so a reserved root must prune its subtree here.
+            if( parent == nullptr && craft_reservation::contains_reserved( *e ) ) {
+                return VisitResponse::SKIP;
+            }
             if( e->use_charges( what, qty, res, pos_bub(), filter, this, in_tools ) ) {
                 del.push_back( e );
             }

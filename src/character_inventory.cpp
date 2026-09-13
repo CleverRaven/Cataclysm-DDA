@@ -25,10 +25,11 @@
 #include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
+#include "craft_reservation.h"
+#include "crafting.h"
 #include "character_attire.h"
 #include "character_martial_arts.h"
 #include "color.h"
-#include "crafting.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "effect.h"
@@ -2477,6 +2478,27 @@ void Character::on_item_acquire( const item &it )
     if( update_overmap_seen ) {
         g->update_overmap_seen();
     }
+}
+
+item &Character::best_unreserved_item_with_quality( const quality_id &qid )
+{
+    int max_lvl_found = INT_MIN;
+    std::vector<item *> items = items_with( [qid, &max_lvl_found, this]( const item & it ) {
+        if( !craft_reservation::usable_by_automation( it ) ) {
+            return false;
+        }
+        // The same metric has_unreserved_quality plans with, so the two cannot disagree.
+        const int qlvl = provider_quality_level( it, qid, this, false );
+        if( qlvl > max_lvl_found ) {
+            max_lvl_found = qlvl;
+            return true;
+        }
+        return false;
+    } );
+    if( max_lvl_found > INT_MIN ) {
+        return *items.back();
+    }
+    return null_item_reference();
 }
 
 item &Character::best_item_with_quality( const quality_id &qid )

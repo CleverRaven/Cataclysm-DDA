@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <list>
 #include <map>
@@ -17,11 +18,13 @@
 #include "cata_catch.h"
 #include "clzones.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "enums.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
 #include "item_stack.h"
+#include "item_uid.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -32,6 +35,7 @@
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "type_id.h"
 
@@ -832,6 +836,85 @@ TEST_CASE( "auto_pickup_should_not_implicitly_pickup_corpses", "[autopickup][ite
                     expect_to_find( *body_bag, { &item_cigarette, &item_rolling_paper } );
                 }
             }
+        }
+    }
+}
+
+TEST_CASE( "auto_pickup_leaves_reserved_items_alone", "[autopickup][item][reservation]" )
+{
+    avatar &they = get_avatar();
+    map &here = get_map();
+    clear_everything();
+
+    const tripoint_bub_ms ground = they.pos_bub();
+    auto backpack_iter = *they.wear_item( item( itype_backpack ) );
+    item &backpack = *backpack_iter;
+    REQUIRE( they.has_item( backpack ) );
+
+    const auto claim = []( const item & what ) {
+        craft_reservation_index::record rec;
+        rec.craft_uid = 77000 + what.uid().get_value();
+        rec.provider_item_uids.push_back( what.uid().get_value() );
+        rec.expires_at = calendar::turn + 1_hours;
+        get_craft_reservations().set( rec );
+        REQUIRE( get_craft_reservations().is_reserved_uid( what.uid().get_value() ) );
+    };
+
+    GIVEN( "two whitelisted items on the ground, one of them claimed" ) {
+        REQUIRE( here.i_at( ground ).empty() );
+        // Distinct types: two of a kind stack into one map entry and cannot be told apart.
+        item &free_item = here.add_item( ground, item( itype_codeine, calendar::turn ) );
+        item &claimed_item = here.add_item( ground, item( itype_aspirin, calendar::turn ) );
+        // Claim first: rules match on tname, and a reserved item's name gains a marker,
+        // so a rule added before the claim would simply stop matching.
+        claim( claimed_item );
+        add_autopickup_rule( &free_item, true );
+        add_autopickup_rule( &claimed_item, true );
+        const int64_t claimed_uid = claimed_item.uid().get_value();
+        const int64_t free_uid = free_item.uid().get_value();
+
+        THEN( "the sweep takes the free one and leaves the claimed one lying there" ) {
+            simulate_auto_pickup( ground, they );
+
+            bool claimed_still_on_ground = false;
+            for( const item &left : here.i_at( ground ) ) {
+                claimed_still_on_ground = claimed_still_on_ground ||
+                                          left.uid().get_value() == claimed_uid;
+            }
+            CHECK( claimed_still_on_ground );
+            // Pickup copies, so the stowed item carries a fresh uid; type is what
+            // identifies it on this side.
+            static_cast<void>( free_uid );
+            CHECK( backpack.has_item_with( []( const item & it ) {
+                return it.typeId() == itype_codeine;
+            } ) );
+        }
+    }
+
+    GIVEN( "a whitelisted container holding a claimed item" ) {
+        REQUIRE( here.i_at( ground ).empty() );
+        item bottle( itype_bottle_plastic_pill_prescription, calendar::turn );
+        bottle.put_in( item( itype_aspirin, calendar::turn ), pocket_type::CONTAINER );
+        item &grounded = here.add_item( ground, bottle );
+        item *inner = grounded.all_items_top( pocket_type::CONTAINER ).front();
+        REQUIRE( inner != nullptr );
+        claim( *inner );
+        add_autopickup_rule( inner, true );
+        const int64_t bottle_uid = grounded.uid().get_value();
+
+        THEN( "neither the container nor its contents move" ) {
+            simulate_auto_pickup( ground, they );
+
+            const item *left_bottle = nullptr;
+            for( const item &left : here.i_at( ground ) ) {
+                if( left.uid().get_value() == bottle_uid ) {
+                    left_bottle = &left;
+                }
+            }
+            REQUIRE( left_bottle != nullptr );
+            // Selection empties a whitelisted container as it goes, so the contents
+            // staying put is a separate claim from the container staying put.
+            CHECK( left_bottle->all_items_top().size() == 1 );
         }
     }
 }

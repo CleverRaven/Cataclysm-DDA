@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <functional>
 #include <iomanip>
@@ -3982,11 +3983,16 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
 // Cache for can_craft in final_info.
 static std::unordered_map<const recipe *, bool> can_craft_recipe_cache;
 static time_point cache_valid_turn;
+// Craftability changes within a turn, which the turn stamp alone cannot see.
+static uint64_t cache_valid_reservation_generation = 0;
 
 static bool can_craft_recipe( const recipe *r, const inventory &crafting_inv )
 {
-    if( cache_valid_turn != calendar::turn ) {
+    const uint64_t reservation_generation = get_craft_reservations().generation();
+    if( cache_valid_turn != calendar::turn ||
+        cache_valid_reservation_generation != reservation_generation ) {
         cache_valid_turn = calendar::turn;
+        cache_valid_reservation_generation = reservation_generation;
         can_craft_recipe_cache.clear();
     }
     if( can_craft_recipe_cache.count( r ) > 0 ) {
