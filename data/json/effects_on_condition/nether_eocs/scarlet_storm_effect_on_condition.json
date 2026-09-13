@@ -179,12 +179,18 @@
     "global": true,
     "condition": {
       "and": [
-        { "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ] },
+        {
+          "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ]
+        },
         { "one_in_chance": 100 },
         { "math": [ "u_val('pos_z') >= 0" ] }
       ]
     },
-    "deactivate_condition": { "not": { "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ] } },
+    "deactivate_condition": {
+      "not": {
+        "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ]
+      }
+    },
     "effect": [
       { "u_message": "You hear a distant rumble of thunder.", "sound": true },
       { "sound_effect": "thunder_far", "outdoor_event": true, "id": "environment" }
@@ -195,8 +201,14 @@
     "id": "scarlet_lightning",
     "recurrence": 1,
     "global": true,
-    "condition": { "and": [ { "or": [ { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ] }, { "one_in_chance": 200 }, { "math": [ "u_val('pos_z') >= 0" ] } ] },
-    "deactivate_condition": { "not": { "or": [ { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ]  } },
+    "condition": {
+      "and": [
+        { "or": [ { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ] },
+        { "one_in_chance": 200 },
+        { "math": [ "u_val('pos_z') >= 0" ] }
+      ]
+    },
+    "deactivate_condition": { "not": { "or": [ { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ] } },
     "effect": [
       { "u_message": "A flash of lightning illuminates the scarlet sky!" },
       { "sound_effect": "thunder_near", "id": "environment" },
@@ -226,7 +238,13 @@
       ]
     },
     "effect": [
-      { "u_message": "<scarlet_storm_warning>", "type": "info", "snippet": true, "popup": true, "popup_w_interrupt_query": true },
+      {
+        "u_message": "<scarlet_storm_warning>",
+        "type": "info",
+        "snippet": true,
+        "popup": true,
+        "popup_w_interrupt_query": true
+      },
       { "math": [ "player_saw_scarlet_storm = 1" ] }
     ]
   },

@@ -517,8 +517,12 @@
         { "math": [ "scarlet_storm_active == 1" ] },
         {
           "or": [
-            { "math": [ "distance(_weather_location, scarlet_storm_focus_a1) + distance(_weather_location, scarlet_storm_focus_a2) < 7680" ] },
-            { "math": [ "distance(_weather_location, scarlet_storm_focus_b1) + distance(_weather_location, scarlet_storm_focus_b2) < 7680" ] }
+            {
+              "math": [ "distance(_weather_location, scarlet_storm_focus_a1) + distance(_weather_location, scarlet_storm_focus_a2) < 7680" ]
+            },
+            {
+              "math": [ "distance(_weather_location, scarlet_storm_focus_b1) + distance(_weather_location, scarlet_storm_focus_b2) < 7680" ]
+            }
           ]
         },
         { "math": [ "distance(_weather_location, scarlet_storm_focus_a1) > 0" ] },
@@ -555,8 +559,12 @@
         { "math": [ "scarlet_storm_active == 1" ] },
         {
           "or": [
-            { "math": [ "distance(_weather_location, scarlet_storm_focus_a1) + distance(_weather_location, scarlet_storm_focus_a2) < 6912" ] },
-            { "math": [ "distance(_weather_location, scarlet_storm_focus_b1) + distance(_weather_location, scarlet_storm_focus_b2) < 6912" ] }
+            {
+              "math": [ "distance(_weather_location, scarlet_storm_focus_a1) + distance(_weather_location, scarlet_storm_focus_a2) < 6912" ]
+            },
+            {
+              "math": [ "distance(_weather_location, scarlet_storm_focus_b1) + distance(_weather_location, scarlet_storm_focus_b2) < 6912" ]
+            }
           ]
         },
         { "math": [ "distance(_weather_location, scarlet_storm_focus_a1) > 0" ] },
@@ -603,8 +611,12 @@
         { "math": [ "scarlet_storm_active == 1" ] },
         {
           "or": [
-            { "math": [ "distance(_weather_location, scarlet_storm_focus_a1) + distance(_weather_location, scarlet_storm_focus_a2) < 6144" ] },
-            { "math": [ "distance(_weather_location, scarlet_storm_focus_b1) + distance(_weather_location, scarlet_storm_focus_b2) < 6144" ] }
+            {
+              "math": [ "distance(_weather_location, scarlet_storm_focus_a1) + distance(_weather_location, scarlet_storm_focus_a2) < 6144" ]
+            },
+            {
+              "math": [ "distance(_weather_location, scarlet_storm_focus_b1) + distance(_weather_location, scarlet_storm_focus_b2) < 6144" ]
+            }
           ]
         },
         { "math": [ "distance(_weather_location, scarlet_storm_focus_a1) > 0" ] },
@@ -651,8 +663,12 @@
         { "math": [ "scarlet_storm_active == 1" ] },
         {
           "or": [
-            { "math": [ "distance(_weather_location, scarlet_storm_focus_a1) + distance(_weather_location, scarlet_storm_focus_a2) < 3840" ] },
-            { "math": [ "distance(_weather_location, scarlet_storm_focus_b1) + distance(_weather_location, scarlet_storm_focus_b2) < 3840" ] }
+            {
+              "math": [ "distance(_weather_location, scarlet_storm_focus_a1) + distance(_weather_location, scarlet_storm_focus_a2) < 3840" ]
+            },
+            {
+              "math": [ "distance(_weather_location, scarlet_storm_focus_b1) + distance(_weather_location, scarlet_storm_focus_b2) < 3840" ]
+            }
           ]
         },
         { "math": [ "distance(_weather_location, scarlet_storm_focus_a1) > 0" ] },
@@ -702,7 +718,7 @@
         { "math": [ "scarlet_storm_active == 1" ] },
         { "math": [ "distance(_weather_location, scarlet_storm_focus_a1) < 1920" ] },
         { "math": [ "distance(_weather_location, scarlet_storm_focus_a1) > 0" ] },
-        { "or": [ { "math": [ "weather('humidity') >= 97" ] }, { "math": [ "weather('pressure') < 1000" ] } ] } 
+        { "or": [ { "math": [ "weather('humidity') >= 97" ] }, { "math": [ "weather('pressure') < 1000" ] } ] }
       ]
     }
   }
