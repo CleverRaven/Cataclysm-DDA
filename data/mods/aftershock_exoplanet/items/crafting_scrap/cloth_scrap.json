@@ -6,5 +6,13 @@
     "name": { "str": "woven metamaterial sheet" },
     "description": "An intricately spun and carefully engineered sheet of iridescent fibers.",
     "looks_like": "cotton_patchwork"
+  },
+  {
+    "type": "ITEM",
+    "id": "afs_cloth_5",
+    "copy-from": "afs_scrap_5",
+    "name": { "str": "tyrium ribbon" },
+    "description": "A ribbon of reality lies where it yielded to the economic necessity of lifting freight into the stars.",
+    "looks_like": "cotton_patchwork"
   }
 ]
