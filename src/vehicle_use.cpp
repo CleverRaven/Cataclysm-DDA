@@ -17,6 +17,7 @@
 #include "character.h"
 #include "clzones.h"
 #include "color.h"
+#include "craft_reservation.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -1904,6 +1905,10 @@ void vpart_position::form_inventory( map &here, inventory &inv ) const
 {
     if( const std::optional<vpart_reference> vp_cargo = part_with_feature( VPFLAG_CARGO, true ) ) {
         for( const item &it : vp_cargo->items() ) {
+            // add_item copies whole trees, so a container holding one is hidden too.
+            if( craft_reservation::contains_reserved( it ) ) {
+                continue;
+            }
             if( it.empty_container() && it.is_watertight_container() ) {
                 const int count = it.count_by_charges() ? it.charges : 1;
                 inv.update_liq_container_count( it.typeId(), count );
@@ -1913,7 +1918,8 @@ void vpart_position::form_inventory( map &here, inventory &inv ) const
     }
 
     // HACK: water_faucet pseudo tool gives access to liquids in tanks
-    const std::optional<vpart_reference> vp_faucet = part_with_tool( here, itype_water_faucet );
+    const std::optional<vpart_reference> vp_faucet =
+        part_with_unreserved_tool( here, itype_water_faucet );
     if( vp_faucet && inv.provide_pseudo_item( itype_water_faucet ) != nullptr ) {
         for( const item *it : vehicle().fuel_items_left() ) {
             if( it->made_of( phase_id::LIQUID ) ) {
@@ -1923,8 +1929,11 @@ void vpart_position::form_inventory( map &here, inventory &inv ) const
         }
     }
 
-    for( const auto&[tool_item, discard_] : get_tools( here ) ) {
-        inv.provide_pseudo_item( tool_item );
+    for( const vpart_tool_source &src_tool : get_tools_with_sources( here ) ) {
+        if( get_craft_reservations().vehicle_part_reserved( src_tool.part_base_uid ) ) {
+            continue;
+        }
+        inv.provide_pseudo_item( src_tool.tool );
     }
 }
 

@@ -23,6 +23,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
+#include "craft_reservation.h"
 #include "crafting.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -36,6 +37,7 @@
 #include "input_popup.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_uid.h"
 #include "itype.h"
 #include "line.h"
 #include "localized_comparator.h"
@@ -1783,6 +1785,12 @@ bool veh_interact::can_remove_part( map &here, int idx, const Character &you )
     sel_vpart_info = &sel_vehicle_part->info();
     std::string nmsg;
     bool smash_remove = sel_vpart_info->has_flag( "SMASH_REMOVE" );
+
+    if( get_craft_reservations().vehicle_part_reserved(
+            sel_vehicle_part->get_base().uid().get_value() ) ) {
+        msg = _( "A craft in progress is using this part.\n" );
+        return false;
+    }
 
     if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) &&
         !smash_remove ) {

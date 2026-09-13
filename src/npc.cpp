@@ -22,6 +22,7 @@
 #include "character_attire.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "craft_reservation.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
@@ -3794,6 +3795,11 @@ std::function<bool( const tripoint_bub_ms & )> npc::get_path_avoid() const
             return true;
         }
         if( sees_dangerous_field( p ) ) {
+            return true;
+        }
+        // The pathfinder prices bashing itself, so guarding only the movement functions
+        // would repath into the same wall every turn.
+        if( craft_reservation::bashing_would_break_reservation( here, *this, p ) ) {
             return true;
         }
         return false;
