@@ -509,7 +509,7 @@
     "type": "MONSTER",
     "id": "mon_zarahsaurus_scorched",
     "name": { "str": "scorched sarahsaurus zombie" },
-    "copy-from": "mon_zapatosaurus_scorched",
+    "copy-from": "mon_zissi_scorched",
     "looks_like": "mon_zarahsaurus",
     "volume": "200 L",
     "weight": "200 kg",
@@ -525,7 +525,7 @@
     "type": "MONSTER",
     "id": "mon_zanchisaurus_scorched",
     "name": { "str": "scorched anchisaurus zombie" },
-    "copy-from": "mon_zapatosaurus_scorched",
+    "copy-from": "mon_zissi_scorched",
     "looks_like": "mon_zissi",
     "speed": 45,
     "attack_cost": 45,
@@ -533,8 +533,7 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 1 } ],
     "hp": 30,
     "fungalize_into": "mon_zanchisaurus_fungus",
-    "description": "Heavily-burned four-legged zombie dinosaur sauropod that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
-    "color": "white"
+    "description": "Heavily-burned four-legged zombie dinosaur sauropod that still reeks of charred meat.  Its flesh has mended into a leathery shell."
   },
   {
     "type": "MONSTER",
@@ -548,6 +547,11 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 4 } ],
     "hp": 90,
     "fungalize_into": "mon_zissi_fungus",
+    "special_attacks": [
+      { "id": "bite_grab", "cooldown": 20 },
+      [ "scratch", 10 ],
+      { "id": "stomp_DinoMod", "cooldown": 20, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] }
+    ],
     "description": "Heavily-burned two-legged zombie dinosaur sauropod that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "color": "white"
   },
