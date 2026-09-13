@@ -88,5 +88,65 @@
       }
     ],
     "death_drops": "feral_agent_p90_death_drops"
+  },
+  {
+    "id": "mon_feral_xe_dreamer",
+    "type": "MONSTER",
+    "name": "feral dreamer",
+    "description": "This madman wanders among the ruins wearing the ripped ruins of a jumpsuit with the Greek letter \"ϴ\" on the back.  They occasionally cock their head and stare at the air, as though looking at things only they can see.",
+    "copy-from": "mon_feral_human_pipe",
+    "special_attacks": [
+      [ "BROWSE", 100 ],
+      [ "EAT_FOOD", 100 ],
+      {
+        "id": "feral_xe_dreamer_summon_dream_dagger",
+        "type": "spell",
+        "spell_data": { "id": "mon_feral_dreamer_dream_dagger_spell", "hit_self": true },
+        "cooldown": { "math": [ "15 + rand(30)" ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+            { "not": { "u_has_effect": "effect_xe_feral_dreamer_dream_dagger" } }
+          ]
+        },
+        "monster_message": "%1$s gestures and an ethereal dagger appears in their hand."
+      },
+      {
+        "type": "spell",
+        "spell_data": { "id": "mon_feral_dreamer_summon_shifter_spell", "hit_self": true },
+        "cooldown": { "math": [ "18 + rand(36)" ] },
+        "monster_message": "%1$s waves their hands and something appears out of thin air!"
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "feral_dreamer_dream_knife",
+        "cooldown": 2,
+        "move_cost": 75,
+        "accuracy": 3,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 20 } ],
+        "condition": { "and": [ { "test_eoc": "is_disarmed" }, { "u_has_effect": "effect_xe_feral_dreamer_dream_dagger" } ] },
+        "hit_dmg_u": "%1$s stabs your %2$s with an ethereal knife!",
+        "hit_dmg_npc": "%1$s stabs <npcname>'s %2$s with an ethereal knife!",
+        "miss_msg_u": "%1$s tries to stab you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to stab <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s stabs your %2$s without penetrating your armor.",
+        "no_dmg_msg_npc": "%1$s stabs <npcname>'s %2$s without penetrating their armor."
+      }
+    ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "HUMAN",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER",
+      "PATH_AVOID_FIRE",
+      "PRIORITIZE_TARGETS",
+      "EATS"
+    ]
   }
 ]

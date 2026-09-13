@@ -223,7 +223,7 @@
     "effect": "attack",
     "shape": "cone",
     "valid_targets": [ "hostile", "ground", "item" ],
-    "flags": [ "SILENT", "IGNORE_WALLS", "RANDOM_AOE", "RANDOM_DAMAGE" ],
+    "flags": [ "SILENT", "IGNORE_WALLS", "RANDOM_AOE", "RANDOM_DAMAGE", "SPLIT_DAMAGE" ],
     "min_damage": 60,
     "max_damage": 150,
     "min_bash_scaling": 3,
