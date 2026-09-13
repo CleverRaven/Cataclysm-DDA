@@ -55,8 +55,6 @@ struct character_portrait; // IWYU pragma: keep
 *
 */
 
-static constexpr float PORTRAIT_SIZE = 128.0f;
-
 static int topic_category( const talk_topic &the_topic )
 {
     const std::string &topic = the_topic.id;
@@ -171,10 +169,14 @@ float dialogue_imgui_impl::sidebar_width() const
     const int num_characters_line_in_ASCII_portrait = 28; // Known fact
     const int num_characters_width = num_characters_line_in_ASCII_portrait + 4; // Add some padding
     // Portraits are supposed to be 128x128. The extra size is to account for borders and any small padding cases we may have overlooked etc
-    const float min_width = std::max( PORTRAIT_SIZE + border_size() * 4,
+#ifdef TILES
+    const float min_width = std::max( portrait_tilecontext->get_tile_width() + border_size() * 4,
                                       num_characters_width * ImGui::CalcTextSize( "0" ).x );
-    const float max_width = window_width * 0.3;
-    const float actual_width = std::max( min_width, max_width );
+#else
+    const float min_width = num_characters_width * ImGui::CalcTextSize( "0" ).x;
+#endif
+    const float desired_width = window_width * 0.3;
+    const float actual_width = std::max( min_width, desired_width );
     return actual_width;
 }
 
@@ -279,8 +281,7 @@ void dialogue_imgui_impl::draw_dialogue_sidebar() const
                 cataimgui::draw_colored_text( "Portrait filename: " + portrait.value().str() );
             }
             // We can pass a dummy tripoint because portrait drawing doesn't need or use that information.
-            cataimgui::draw_texture( portrait.value(), tripoint_bub_ms(), ImVec2( PORTRAIT_SIZE,
-                                     PORTRAIT_SIZE ) );
+            cataimgui::draw_texture( portrait.value(), tripoint_bub_ms() );
         } else {
             print_ASCII_portrait();
         }
