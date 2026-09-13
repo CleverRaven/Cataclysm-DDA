@@ -51,6 +51,7 @@
               { "u_at_om_location": "radio_tower_top" },
               { "u_at_om_location": "wasp_tower_top" },
               { "is_weather": "scarlet_storm_4" },
+              { "is_weather": "scarlet_storm_5" },
               {
                 "and": [ { "not": { "current_dimension": "string_dimension" } }, { "u_has_item": "inert_glowing_string" } ]
               },
@@ -96,7 +97,7 @@
             },
             "then": { "run_eocs": [ "EOC_REVERBERATION_ENTER" ], "time_in_future": "2 seconds" },
             "else": {
-              "if": { "is_weather": "scarlet_storm_4" },
+              "if": { "or": [ { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ] },
               "then": { "run_eocs": "EOC_PORTAL_SCARLET_SEA" },
               "else": {
                 "if": { "map_terrain_with_flag": "SHALLOW_WATER", "loc": { "context_val": "loc" } },
