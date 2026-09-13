@@ -3641,6 +3641,7 @@
     "name": "attachment mounts",
     "description": "Recipes related to making mounts for attachments on older or makeshift guns.",
     "nested_category_data": [
+      "barrel_threading",
       "rail_mount",
       "rail_bayonet_lug",
       "sights_mount",
