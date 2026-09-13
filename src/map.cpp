@@ -5602,7 +5602,7 @@ std::unordered_set<item_location> map::all_items( const std::function<bool( cons
     }
 
 
-    if( flags & Access_Map_All || flags & Access_EVERYTHING )  {
+    if( flags & Access_Map_All )  {
         for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
             for( const tripoint_bub_ms &pt : points_on_zlevel( who.posz() ) ) {
                 for( item &it : i_at( pt ) ) {
@@ -5639,7 +5639,7 @@ std::unordered_set<item_location> map::all_items( const std::function<bool( cons
         }
     }
 
-    if( flags & Access_Vehicle || flags & Access_EVERYTHING )  {
+    if( flags & Access_Vehicle )  {
         for( wrapped_vehicle &v : get_vehicles() ) {
             vehicle *veh = v.v;
             if( veh ) {
