@@ -201,6 +201,26 @@
     ]
   },
   {
+    "id": "snowplow_truck",
+    "type": "vehicle",
+    "copy-from": "tatra_truck",
+    "name": "Snowplow Truck",
+    "blueprint": [
+      [ "-OO--+O-/ " ],
+      [ "|+++'#'|>/" ],
+      [ "|+++'#'=>/" ],
+      [ "|+++'#'|>/" ],
+      [ "-OO--+O-/ " ]
+    ],
+    "parts": [
+      { "x": 3, "y": -1, "parts": [ "snowplow#front" ] },
+      { "x": 4, "y": 0, "parts": [ "snowplow#front" ] },
+      { "x": 4, "y": 1, "parts": [ "snowplow#front" ] },
+      { "x": 4, "y": 2, "parts": [ "snowplow#front" ] },
+      { "x": 3, "y": 3, "parts": [ "snowplow#front" ] }
+    ]
+  },
+  {
     "id": "trencher",
     "type": "vehicle",
     "name": "Trencher",

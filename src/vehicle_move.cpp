@@ -1051,6 +1051,26 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
     float k = 50 + material_factor + weight_factor;
     k = std::max( 10.0f, std::min( 90.0f, k ) );
 
+    // A snowplow doesn't take bodies head on: its face is raked back, so it shovels them off
+    // to one side instead.  Only the component of our velocity normal to that face is exchanged
+    // in the collision, which is what keeps both the damage and the speed we lose down.
+    // Terrain can't be shoved out of the way, so this only applies to bodies.
+    const bool deflects_bodies = ret.type == veh_coll_body && vpi.has_flag( "SNOWPLOW" );
+    const units::angle deflect_angle = deflects_bodies
+                                       ? units::from_degrees( vpi.collision_deflection )
+                                       : 0_degrees;
+    // 1 for a part facing straight ahead, falling off to 0 as the face is raked further back
+    const float deflect_normal = static_cast<float>( units::cos( deflect_angle ) );
+    // Bodies are thrown away from the vehicle's centerline, so a row of blades acts as a
+    // V-plow, clearing each body towards whichever side of the vehicle it is already closest to.
+    int deflect_side = 0;
+    if( deflects_bodies ) {
+        deflect_side = sgn( vp.mount.y() * 2 - ( mount_min.y() + mount_max.y() ) );
+        if( deflect_side == 0 ) {
+            deflect_side = one_in( 2 ) ? -1 : 1;
+        }
+    }
+
     bool smashed = true;
     const std::string snd = _( "smash!" );
     float dmg = 0.0f;
@@ -1068,14 +1088,22 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
         smashed = false;
         // Impulse of vehicle
         const float vel1 = coll_velocity / 100.0f;
-        // Velocity of car after collision
-        const float vel1_a = ( mass * vel1 + mass2 * vel2 + e * mass2 * ( vel2 - vel1 ) ) /
-                             ( mass + mass2 );
+        // Only the part of it that points into the face we're hitting with.  vel2 is likewise
+        // the object's velocity along that normal, accumulated over the iterations below.
+        const float vel1_n = vel1 * deflect_normal;
+        // Velocity of car after collision, along the same normal
+        const float vel1_a_n = ( mass * vel1_n + mass2 * vel2 + e * mass2 * ( vel2 - vel1_n ) ) /
+                               ( mass + mass2 );
         // Velocity of object after collision
-        const float vel2_a = ( mass * vel1 + mass2 * vel2 + e * mass * ( vel1 - vel2 ) ) / ( mass + mass2 );
+        const float vel2_a = ( mass * vel1_n + mass2 * vel2 + e * mass * ( vel1_n - vel2 ) ) /
+                             ( mass + mass2 );
+        // We only lose the share of that impulse that points back along our direction of travel
+        const float vel1_a = vel1 - ( vel1_n - vel1_a_n ) * deflect_normal;
         // Lost energy at collision -> deformation energy -> damage
-        const float E_before = 0.5f * ( mass * vel1 * vel1 )     + 0.5f * ( mass2 * vel2 * vel2 );
-        const float E_after  = 0.5f * ( mass * vel1_a * vel1_a ) + 0.5f * ( mass2 * vel2_a * vel2_a );
+        const float E_before = 0.5f * ( mass * vel1_n * vel1_n ) +
+                               0.5f * ( mass2 * vel2 * vel2 );
+        const float E_after = 0.5f * ( mass * vel1_a_n * vel1_a_n ) +
+                              0.5f * ( mass2 * vel2_a * vel2_a );
         const float d_E = E_before - E_after;
         if( d_E <= 0 ) {
             // Deformation energy is signed
@@ -1179,7 +1207,12 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
             if( !vert_coll ) {
                 if( std::fabs( vel2_a ) > 10.0f ||
                     std::fabs( e * mass * vel1_a ) > std::fabs( mass2 * ( 10.0f - vel2_a ) ) ) {
-                    const units::angle angle = rng_float( -60_degrees, 60_degrees );
+                    // A blade throws in a much tighter spread than a flat part does; at the
+                    // default 60 degrees of rake, every throw ends up at least a tile to the side.
+                    const units::angle angle = deflects_bodies
+                                               ? deflect_angle * deflect_side +
+                                               rng_float( -15_degrees, 15_degrees )
+                                               : rng_float( -60_degrees, 60_degrees );
                     // Also handle the weird case when we don't have enough force
                     // but still have to push (in such case compare momentum)
                     const float push_force = std::max<float>( std::fabs( vel2_a ), 10.1f );
@@ -1215,7 +1248,11 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
     if( critter != nullptr ) {
         if( !critter->is_hallucination() ) {
             if( player_is_driving_this_veh( &here ) ) {
-                if( time_stunned > 0_turns ) {
+                if( deflects_bodies && smashed && !critter->is_dead_state() ) {
+                    //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
+                    add_msg( m_warning, _( "Your %1$s's %2$s shoves %3$s aside!" ),
+                             name, vp.name(), ret.target_name );
+                } else if( time_stunned > 0_turns ) {
                     //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
                     add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s and stuns it!" ),
                              name, vp.name(), ret.target_name );
