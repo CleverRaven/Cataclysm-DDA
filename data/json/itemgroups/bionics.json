@@ -216,5 +216,11 @@
       [ "bio_time_freeze", 1 ],
       [ "bio_probability_travel", 1 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionics_ancient",
+    "subtype": "collection",
+    "entries": [ { "item": "bio_creeyncaggii", "prob": 100 } ]
   }
 ]
