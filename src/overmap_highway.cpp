@@ -386,9 +386,7 @@ Highway_path overmap::place_highway_line(
     // 2) do not make up the entire path
     while( current_point.xy() != sp2.xy() + draw_direction_vector ) {
         if( !inbounds( current_point ) ) {
-            add_msg_debug( debugmode::DF_HIGHWAY,
-                           "overmap (%s) highway slant pathing out of bounds; falling back to onramp.",
-                           loc.to_string_writable() );
+            debugmsg( "highway slant pathing out of bounds; falling back to onramp" );
             highway_line.clear();
             return highway_line;
         }
