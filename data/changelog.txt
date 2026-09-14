@@ -113,6 +113,11 @@ Allow future contributors to easily tune weary maluses in combat
 Monsters can block attacks for reduced damage
 Deliver fetch quest items via truck
 Swap `req_flag` in martial effects tech effects to `condition`
+Morale deadening, doing horrible things will inure you to hardship, and pleasures.
+Weather can have a defined color tint
+Support for graphical NPC portraits during dialogue
+An unattended craft reserves the tile it sits on
+An unattended craft keeps track of the tools it is using
 
 
 ## Content:
@@ -211,6 +216,9 @@ Add CANNOT_SLEEP flag
 Highland Crypts
 Add serum-specific microlabs
 Add "serum ferals" to serum labs
+A moving, trans-dimensional event - the Scarlet Storm
+[Hunvre] Adding Hunvre-specific clothing, part 4: Shirts and sweatshirts
+Reduce locker line in cs_open_sewer tent
 
 
 ## Interface:
@@ -265,6 +273,8 @@ Fix Crafting GUI text wrapping & don't offscreen recipe detail selection (`SPACE
 Show item fault severity with inventory and sidebar colors
 Migrate dialogue window to imgui
 Migrate appliance rename popup to ImGui
+Item action menu responds to the item info scroll keybinds
+Alternate sizes for portraits, by tileset
 
 
 ## Mods:
@@ -362,6 +372,16 @@ Aftershock: Origin Hobbies
 [Xedra Evolved] Challenge Scenario - Undying Vengeance
 You cannot `consume_drugs` if you have `TEMPORARY_SHAPESHIFT_NO_HANDS`
 [MoM] Add chance for feral psions in serum microlabs, small adjustment to mutagen microlabs
+Aftershock: Add uplift cryosuits for sale.
+[Xedra Evolved] Changeling Advancement glamours display dreamdross cost, one costs more mana
+[DinoMod] Multi-tile zombie sauropods
+[Xedra Evolved] Ominous colors
+Aftershock: Snowy fields can now be sprited
+[Xedra Evolved] Ethereal Wings can fail if you're damaged while flying
+ Magiclysm's Improved Knock now opens more types of doors
+Region-based support for NPC spawn rate
+[DinoMod] nerf feather drops
+Sky Island: Override dimension travel so it takes you to the island
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -425,6 +445,24 @@ Add faults to melee weapons lacking them
 Add faults to mainly magyclism melee weapons
 Faction camp hunting has an extra chance to return nothing based on time since the Cataclysm (and winter)
 Brutes cannot smash Huge characters, hulk smashes are less effective against Huge characters
+Embiggen sugar beet, adjust beet syrup recipe
+Change syrups' material to water+sugar
+Lighten glowstick weight
+Spawn lots of wire from bashed mattresses
+Decayed zombies also smell horrific
+Make marloss seeds, berries, bigger
+Put gloves, 16 band-aids in first aid kit
+add handaxes to hardware store spawns
+Fix bad sizes for cooked bacon, various meats
+Change ap ammo reloads
+Filter masks block `nauseating stench`
+Use less bleach to purify more water
+hellfire stew recipe is smaller, faster
+Fix uncut bacon's high density
+Give National Guardsman profession back its starting equipment
+Bulk up cracklins
+Water weight is now lost when curing and smoking bacon
+Make bone marrow less dense
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -622,6 +660,21 @@ Scared NPCs don't turn hostile
 Preserve character-specific auto-pickup rules between sessions
 Requirement checks judge the character being checked instead of the player
 Fix monsters not being slowed by snow
+Decrease density of dry beans
+fix the sandleather craft
+Recalculates post-decharging ore yields for Innawoods
+bean seeds don't float on water
+Suppress false supernatural ability warnings when opening the spell menu
+Suppress spellbook preview learning messages
+Fix item info panel scrolling in the item action menu
+Fix clothing with no coverage causing wind resistance errors if they have no material specified
+Interdimensional alien gadget, red mp3 player, doesn't have basic Earth-tech faults
+Fix GCC 16 warnings in multiple source files
+Remove remaining gobag references in mapgen
+Fix debug error when hovering empty space on the character encumbrance panel
+I added a bad debug message capture, and should remove it.
+I shouldn't have changed this from debugmsg previously
+Stop copying item pointers when counting
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -640,6 +693,8 @@ Crafting optimizations
 Fix n^3 deserialization bug by not trying to stack unstackable items
 Improve several per-turn performance bottlenecks
 Fix O(N^2) performance degradation in form_from_map
+Improving performance in the crafting ui
+Draw the pixel minimap with batched geometry instead of per-submap render targets
 
 
 ## Infrastructure:
@@ -757,6 +812,8 @@ Consume crafting tools per recipe step
 Abort and quarantine tileset atlas uploads interrupted by a renderer reset
 generic factory dimensions, multi-region support
 more region layouts + Voronoi library
+Stabilize test state resets and highway debug logging
+Stabilize local Windows test runs
 
 
 ## Build:
@@ -774,11 +831,14 @@ Proper SDL support
 Migrate Android to SDL3 via CMake + prefab AAR; drop SDL2 customs; bump buildkit
 Remove SDL2 support
 Run tests in CI for multiple sets of mods
+Dynamically include SDL AARs from sdl3Aars list
+Add glslang to MSYS2 build dependencies
 
 
 ## I18N and A11Y:
 Add documentation for C++ translation context comments
 add missing translation
+Extract character creation stat and skill input prompts
 
 
 # 0.I
