@@ -19,11 +19,5 @@
       "megacity_mod"
     ],
     "version": "3.5"
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "DEFAULT_REGION",
-    "stype": "string_input",
-    "value": "default_nohope"
   }
 ]
