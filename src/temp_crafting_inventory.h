@@ -48,7 +48,7 @@ class temp_crafting_inventory : public read_only_visitable
         */
         item &add_item_copy( const item &item );
         item &add_pseudo_item( const itype_id &id );
-        item &add_pseudo_item( item &item );
+        item &add_pseudo_item( const item &item );
 
         // inherited from visitable. note: temp_owned_items are copied into items
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
@@ -90,7 +90,7 @@ class temp_crafting_inventory : public read_only_visitable
         // moved from inventory
         std::map<itype_id, int> max_empty_liq_cont;
 
-        std::set<item &> pseudo_items;
+        std::map<itype_id, item &> pseudo_items;
 };
 
 #endif // CATA_SRC_TEMP_CRAFTING_INVENTORY_H
