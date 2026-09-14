@@ -71,6 +71,7 @@ void temp_crafting_inventory::clear()
     item_copies.clear();
     temp_owned_items.clear();
     max_empty_liq_cont.clear();
+    pseudo_items.clear();
 }
 
 void temp_crafting_inventory::add_item_ref( item &item )
@@ -95,6 +96,15 @@ item &temp_crafting_inventory::add_pseudo_item( const itype_id &id )
     item it( id );
     it.set_flag( json_flag_PSEUDO );
     return add_item_copy( it );
+}
+
+item &temp_crafting_inventory::add_pseudo_item( item &it )
+{
+    auto iter = pseudo_items.insert( it );
+    if( iter.second ) {
+        add_item_ref( it );
+    }
+    return *iter.first;
 }
 
 void temp_crafting_inventory::add_all_ref( const read_only_visitable &v )
