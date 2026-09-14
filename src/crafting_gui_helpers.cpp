@@ -98,47 +98,101 @@ float availability::get_max_proficiency_skill_maluses() const
     return max_proficiency_skill_maluses;
 }
 
-availability::availability( Character &_crafter, const recipe *r, int batch_size,
+availability::availability( Character &_crafter, const recipe *recp, int batch_size,
                             bool camp_crafting, inventory *inventory_override ) :
     crafter( _crafter )
 {
-    rec = r;
+    rec = recp;
     inv_override = inventory_override;
-    const inventory &inv = camp_crafting ? *inv_override : crafter.crafting_inventory();
-    auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
-    auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
-    auto no_favorite_filter = r->get_component_filter( recipe_filter_flags::no_favorite );
-    const deduped_requirement_data &req = r->deduped_requirements();
-    has_all_skills = r->skill_used.is_null() ||
-                     crafter.get_skill_level( r->skill_used ) >= r->get_difficulty( crafter );
-    crafter_has_primary_skill = r->skill_used.is_null()
-                                || crafter.get_knowledge_level( rec->skill_used )
-                                >= static_cast<int>( rec->get_difficulty( crafter ) * 0.8f );
-    has_proficiencies = r->character_has_required_proficiencies( crafter );
-    const bool meets_character_requirements = r->character_meets_requirements( crafter );
-    std::string reason;
-    craft_flags flag = camp_crafting ? craft_flags::none : craft_flags::start_only;
 
-    if( crafter.is_npc() && !r->npc_can_craft( reason ) && !camp_crafting ) {
-        can_craft = false;
-    } else if( r->is_nested() ) {
-        can_craft = check_can_craft_nested( _crafter, *r );
+    const inventory &inv = camp_crafting ? *inv_override : crafter.crafting_inventory();
+
+    const craft_flags flag = camp_crafting ? craft_flags::none : craft_flags::start_only;
+
+    const bool is_nested = recp->is_nested();
+    const bool is_practice = recp->is_practice();
+
+    // Crafter can craft and has the needed skills for it
+    if( recp->skill_used.is_null() ) {
+        has_all_skills = true;
+        crafter_has_primary_skill = true;
     } else {
-        can_craft = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
-                    meets_character_requirements &&
-                    req.can_make_with_inventory( inv, all_items_filter, batch_size, flag );
+        const float difficulty = recp->get_difficulty( crafter );
+
+        has_all_skills = crafter.get_skill_level( recp->skill_used ) >= difficulty;
+        crafter_has_primary_skill = crafter.get_knowledge_level( recp->skill_used ) >= static_cast<int>
+                                    ( difficulty * 0.8f );
     }
-    would_use_rotten = !req.can_make_with_inventory( inv, no_rotten_filter, batch_size,
-                       flag );
-    would_use_favorite = !req.can_make_with_inventory( inv, no_favorite_filter, batch_size,
-                         flag );
-    useless_practice = r->is_practice() && cannot_gain_skill_or_prof( crafter, *r );
-    is_nested_category = r->is_nested();
-    const requirement_data &simple_req = r->simple_requirements();
-    apparently_craftable = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
-                           meets_character_requirements &&
-                           simple_req.can_make_with_inventory( inv, all_items_filter, batch_size, flag );
-    for( const auto &[skill, skill_lvl] : r->required_skills ) {
+
+    has_proficiencies = recp->character_has_required_proficiencies( crafter );
+
+    const bool character_base_requirements =
+        ( !is_practice || has_all_skills ) &&
+        has_proficiencies &&
+        recp->character_meets_requirements( crafter );
+
+    std::string npc_reason;
+    const bool npc_cannot_craft =
+        !camp_crafting &&
+        crafter.is_npc() &&
+        !recp->npc_can_craft( npc_reason );
+
+    if( npc_cannot_craft || !character_base_requirements ) {
+        can_craft_recipe = false;
+    } else if( is_nested ) {
+        can_craft_recipe = check_can_craft_nested( _crafter, *recp );
+    } else {
+        const auto all_items_filter = recp->get_component_filter( recipe_filter_flags::none );
+        // I dont like it since we call functions on functions which is bad practice...
+        // But not worth a rework right now...
+        can_craft_recipe = recp->deduped_requirements().can_make_with_inventory(
+                               &crafter, inv, all_items_filter, batch_size, flag
+                           );
+    }
+
+    would_use_rotten = false;
+    would_use_favorite = false;
+
+    if( can_craft_recipe && !is_nested ) {
+        const deduped_requirement_data &req_data = recp->deduped_requirements();
+
+        const auto no_rotten_filter = recp->get_component_filter( recipe_filter_flags::no_rotten );
+        const auto no_favorite_filter = recp->get_component_filter( recipe_filter_flags::no_favorite );
+
+        would_use_rotten =
+            !req_data.can_make_with_inventory(
+                &crafter, inv, no_rotten_filter,
+                batch_size, flag
+            );
+
+        would_use_favorite =
+            !req_data.can_make_with_inventory(
+                &crafter, inv, no_favorite_filter,
+                batch_size, flag
+            );
+    }
+
+    apparently_craftable = false;
+
+    if( !can_craft_recipe &&
+        !is_nested &&
+        !npc_cannot_craft &&
+        character_base_requirements ) {
+
+        const auto all_items_filter = recp->get_component_filter( recipe_filter_flags::none );
+
+        apparently_craftable =
+            recp->simple_requirements().can_make_with_inventory(
+                &crafter, inv, all_items_filter,
+                batch_size, flag
+            );
+    }
+
+    useless_practice = is_practice && cannot_gain_skill_or_prof( crafter, *recp );
+    is_nested_category = is_nested;
+
+    // Idk whats going on here so i will leave it for now
+    for( const auto &[skill, skill_lvl] : recp->required_skills ) {
         if( crafter.get_skill_level( skill ) < skill_lvl ) {
             has_all_skills = false;
             break;
@@ -148,9 +202,9 @@ availability::availability( Character &_crafter, const recipe *r, int batch_size
 
 nc_color availability::selected_color() const
 {
-    if( !can_craft && is_nested_category ) {
+    if( !can_craft_recipe && is_nested_category ) {
         return h_blue;
-    } else if( !can_craft ) {
+    } else if( !can_craft_recipe ) {
         return h_dark_gray;
     } else if( !crafter_has_primary_skill && is_nested_category ) {
         return h_magenta;
@@ -169,9 +223,9 @@ nc_color availability::selected_color() const
 
 nc_color availability::color( bool ignore_missing_skills ) const
 {
-    if( !can_craft && is_nested_category ) {
+    if( !can_craft_recipe && is_nested_category ) {
         return c_blue;
-    } else if( !can_craft ) {
+    } else if( !can_craft_recipe ) {
         return c_dark_gray;
     } else if( !crafter_has_primary_skill && is_nested_category ) {
         return c_magenta;
@@ -191,7 +245,7 @@ nc_color availability::color( bool ignore_missing_skills ) const
 bool availability::check_can_craft_nested( Character &_crafter, const recipe &r )
 {
     for( const recipe_id &nested_r : r.nested_category_data ) {
-        if( availability( _crafter, &nested_r.obj() ).can_craft ) {
+        if( availability( _crafter, &nested_r.obj() ).can_craft_recipe ) {
             return true;
         }
     }
@@ -204,7 +258,7 @@ craft_confirm_result can_start_craft(
     const Character &crafter,
     int batch_size )
 {
-    if( !avail.can_craft || !avail.crafter_has_primary_skill ) {
+    if( !avail.can_craft_recipe || !avail.crafter_has_primary_skill ) {
         return craft_confirm_result::cannot_craft;
     }
     if( rec.makes_amount() * batch_size > MAX_ITEM_IN_SQUARE ) {
@@ -228,8 +282,8 @@ bool recipe_sort_compare(
             return !a_read;
         }
     }
-    if( avail_a.can_craft != avail_b.can_craft ) {
-        return avail_a.can_craft;
+    if( avail_a.can_craft_recipe != avail_b.can_craft_recipe ) {
+        return avail_a.can_craft_recipe;
     }
     if( b->difficulty != a->difficulty ) {
         return b->difficulty < a->difficulty;
@@ -362,7 +416,7 @@ std::vector<std::string> recipe_info(
         oss << string_format( _( "Nearby: %s\n" ), nearby_string );
     }
 
-    const bool can_craft_this = avail.can_craft;
+    const bool can_craft_this = avail.can_craft_recipe;
     if( can_craft_this && avail.would_use_rotten ) {
         oss << _( "<color_red>Will use rotten ingredients</color>\n" );
     }
@@ -428,9 +482,9 @@ std::vector<std::string> recipe_info(
     if( !recp.is_nested() ) {
         const requirement_data &req = recp.simple_requirements();
         const std::vector<std::string> tools = req.get_folded_tools_list(
-                fold_width, color, crafting_inv, batch_size );
+                &guy, fold_width, color, crafting_inv, batch_size );
         const std::vector<std::string> comps = req.get_folded_components_list(
-                fold_width, color, crafting_inv, recp.get_component_filter(), batch_size, qry_comps );
+                &guy, fold_width, color, crafting_inv, recp.get_component_filter(), batch_size, qry_comps );
         result.insert( result.end(), tools.begin(), tools.end() );
         result.insert( result.end(), comps.begin(), comps.end() );
     }

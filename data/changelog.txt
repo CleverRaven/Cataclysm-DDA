@@ -109,6 +109,10 @@ Allow crafting recipes to consume character resources
 Add character stat requirements to crafting recipes
 unattended step for boiled egg recipe
 Food revolution: Spices and seasonings
+Allow future contributors to easily tune weary maluses in combat
+Monsters can block attacks for reduced damage
+Deliver fetch quest items via truck
+Swap `req_flag` in martial effects tech effects to `condition`
 
 
 ## Content:
@@ -205,7 +209,8 @@ Add `THEORETICAL_SKILL_CATCHUP_BONUS` enchantment
 Add AIMING_SPEED enchant
 Add CANNOT_SLEEP flag
 Highland Crypts
-
+Add serum-specific microlabs
+Add "serum ferals" to serum labs
 
 
 ## Interface:
@@ -258,6 +263,8 @@ Move appliance infobox to imgui
 Display some items by volume, weight or length instead of count
 Fix Crafting GUI text wrapping & don't offscreen recipe detail selection (`SPACE`)
 Show item fault severity with inventory and sidebar colors
+Migrate dialogue window to imgui
+Migrate appliance rename popup to ImGui
 
 
 ## Mods:
@@ -352,6 +359,9 @@ Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
 Aftershock: Origin Hobbies
 [Xedra Evolved] Challenge Scenario - The Fog
 [Aftershock] Project Sobek Genetech
+[Xedra Evolved] Challenge Scenario - Undying Vengeance
+You cannot `consume_drugs` if you have `TEMPORARY_SHAPESHIFT_NO_HANDS`
+[MoM] Add chance for feral psions in serum microlabs, small adjustment to mutagen microlabs
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -413,6 +423,8 @@ Add more tools and requirements to reloading ammo
 Deadly bears and how to hurt them
 Add faults to melee weapons lacking them
 Add faults to mainly magyclism melee weapons
+Faction camp hunting has an extra chance to return nothing based on time since the Cataclysm (and winter)
+Brutes cannot smash Huge characters, hulk smashes are less effective against Huge characters
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -608,6 +620,8 @@ Display multiple like items in car part removal on the same line with a count
 Unattended crafts no longer stall forever when their crafter is unreachable
 Scared NPCs don't turn hostile
 Preserve character-specific auto-pickup rules between sessions
+Requirement checks judge the character being checked instead of the player
+Fix monsters not being slowed by snow
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -624,6 +638,8 @@ Speedup highway placement by caching expensive math
 Speed up spawning item groups into containers
 Crafting optimizations
 Fix n^3 deserialization bug by not trying to stack unstackable items
+Improve several per-turn performance bottlenecks
+Fix O(N^2) performance degradation in form_from_map
 
 
 ## Infrastructure:
@@ -756,6 +772,8 @@ Build instruction and files for Visual Studio Code
 Demote GCC 16 -Wsfinae-incomplete to warning
 Proper SDL support
 Migrate Android to SDL3 via CMake + prefab AAR; drop SDL2 customs; bump buildkit
+Remove SDL2 support
+Run tests in CI for multiple sets of mods
 
 
 ## I18N and A11Y:

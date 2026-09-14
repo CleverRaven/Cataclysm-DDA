@@ -4194,7 +4194,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
                     break;
                 }
             }
-            opt.doable &= fix.get_requirements().can_make_with_inventory( inv, is_crafting_component );
+            opt.doable &= fix.get_requirements().can_make_with_inventory( this, inv, is_crafting_component );
             mending_options.emplace_back( opt );
         }
     }
@@ -4234,8 +4234,9 @@ void Character::mend_item( item_location &&obj, bool interactive )
             const nc_color col = opt.doable ? c_white : c_light_gray;
 
             const requirement_data &reqs = fix.get_requirements();
-            auto tools = reqs.get_folded_tools_list( fold_width, col, inv );
-            auto comps = reqs.get_folded_components_list( fold_width, col, inv, is_crafting_component );
+            auto tools = reqs.get_folded_tools_list( this, fold_width, col, inv );
+            auto comps = reqs.get_folded_components_list( this, fold_width, col, inv,
+                         is_crafting_component );
 
             std::string descr = word_rewrap( obj.get_item()->get_fault_description( opt.fault ), 80 ) + "\n\n";
             for( const fault_id &fid : fix.faults_removed ) {

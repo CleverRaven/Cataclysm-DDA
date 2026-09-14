@@ -1,0 +1,65 @@
+[
+  {
+    "abstract": "platinum_periapt_magic",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "platinum periapt", "//~": "NO_I18N" },
+    "description": { "str": "A periapt with a large gem, subtly glowing from within.", "//~": "NO_I18N" },
+    "weight": "50 g",
+    "volume": "15 ml",
+    "material": [ "platinum", "crystallized_mana" ],
+    "symbol": "[",
+    "color": "white",
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ONE_PER_LAYER", "BELTED", "UNRESTRICTED" ],
+    "armor": [ { "coverage": 0, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
+  },
+  {
+    "copy-from": "platinum_periapt_magic",
+    "id": "periapt_health",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "name": { "str": "periapt of health", "str_pl": "periapts of health" },
+    "description": "Previously a common means of displaying wealth through overpriced miscellany, these have now become invaluable after the Cataclysm, where even a single illness could severely endanger your life.  Does nothing against poison, and may not work on more esoteric diseases.",
+    "price_postapoc": "9000 USD",
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "values": [ { "value": "EFFECTIVE_HEALTH_MOD", "add": 100 } ],
+        "ench_effects": [ { "effect": "effect_periapt_health", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "copy-from": "platinum_periapt_magic",
+    "id": "periapt_proof_against_poison",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "name": { "str": "periapt of proof against poison", "str_pl": "periapts of proof against poison" },
+    "description": "Useful in both the medieval era for traditional poisons and the modern day for allergies.  Does nothing against disease, and may not work on more esoteric poisons.",
+    "price_postapoc": "9000 USD",
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "ench_effects": [ { "effect": "effect_periapt_proof_against_poison", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "copy-from": "platinum_periapt_magic",
+    "id": "periapt_wound_closure",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "name": { "str": "periapt of wound closure", "str_pl": "periapts of wound closure" },
+    "description": "Standard issue at emergency rooms across the country, this is an item that grants preternatural skill at bandaging and disinfecting wounds.  Still takes some basic skill to use with maximum efficacy.",
+    "price_postapoc": "9000 USD",
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "values": [ { "value": "BANDAGE_BONUS", "multiply": 1 }, { "value": "DISINFECTANT_BONUS", "multiply": 1 } ]
+      }
+    ]
+  }
+]

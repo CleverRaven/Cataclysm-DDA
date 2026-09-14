@@ -582,5 +582,167 @@
     "death_drops": "feral_prisoner_death_drops",
     "special_attacks": [ { "id": "feral_weapon_shiv" }, [ "PARROT_AT_DANGER", 0 ] ],
     "zombify_into": "mon_zombie_prisoner"
+  },
+  {
+    "id": "mon_feral_serum_user_locutus",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_pipe",
+    "name": { "str": "feral test subject" },
+    "description": "This person, clad in the remnants of an orange jumpsuit, looks healthy.  Their eyes are bright, without any red markings; their hair has a pleasant shine; and their skin is practically glowing.  Only the twitching and the pipe held in one hand as they walk among the zombies would tell you that they've gone feral.",
+    "regenerates": 2,
+    "regeneration_modifiers": [ [ "onfire", -2 ], [ "corroding", -2 ] ],
+    "death_drops": {
+      "subtype": "collection",
+      "items": [ { "item": "serum_regen", "prob": 30, "count": [ 1, 3 ] }, { "group": "feral_humans_death_drops_pipe", "prob": 100 } ]
+    }
+  },
+  {
+    "id": "mon_feral_serum_user_noonien",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_pipe",
+    "name": { "str": "feral test subject" },
+    "description": "Clad in the remnants of an orange jumpsuit, this feral swings a pipe as they walk.  They hold it in one hand and move it like it's a stick, despite the  fittings on the end that must be increasing its weight.",
+    "relative": { "melee_skill": 2, "melee_dice": 1, "melee_dice_sides": 2, "dodge": 2 },
+    "//": "Much shorter half-life since Noonien both reduces healing and suppresses feelings of hunger",
+    "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 20, "cooldown": 25 },
+      { "id": "bio_op_takedown", "cooldown": 15 },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "feral_weapon_pipe_mace",
+        "cooldown": 1,
+        "move_cost": 80,
+        "accuracy": 2,
+        "//2": "all melee damage is decreased by 10% with assumption it is at least `|/` broken",
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 18 } ],
+        "condition": { "test_eoc": "is_disarmed" },
+        "hit_dmg_u": "%1$s hits your %2$s with a pipe!",
+        "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a pipe!",
+        "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+      },
+      [ "BROWSE", 100 ],
+      [ "EAT_FOOD", 100 ],
+      [ "PARROT_AT_DANGER", 0 ]
+    ],
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "serum_super_soldier", "prob": 30, "count": [ 1, 3 ] },
+        { "group": "feral_humans_death_drops_pipe", "prob": 100 }
+      ]
+    }
+  },
+  {
+    "id": "mon_feral_serum_user_armus",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_pipe",
+    "name": { "str": "feral test subject" },
+    "description": "Despite the myriad rips and tears in this feral's orange jumpsuit, they don't have a single scratch on them.  Only their bloodshot eyes and the way the zombies ignore them indicate something is wrong.",
+    "bleed_rate": 0,
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "monster_attack",
+          "attack_type": "eoc",
+          "id": "armus_user_armor",
+          "cooldown": 1,
+          "range": 100,
+          "condition": { "not": { "u_has_effect": "effect_mon_feral_serum_user_armus" } },
+          "eoc": [ "EOC_FERAL_ARMUS_TAKE_ARMUS" ],
+          "allow_no_target": true
+        }
+      ]
+    },
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "serum_resilience", "prob": 30, "count": [ 1, 3 ] },
+        { "group": "feral_humans_death_drops_pipe", "prob": 100 }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FERAL_ARMUS_TAKE_ARMUS",
+    "effect": { "u_add_effect": "effect_mon_feral_serum_user_armus", "duration": "1 days" }
+  },
+  {
+    "id": "mon_feral_serum_user_landru",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_pipe",
+    "name": { "str": "feral test subject" },
+    "description": "With bloodshot eyes and a ripped orange jumpsuit, this obviously-feral human wanders among the undead.  Their movements are uncanny, almost like an old-fashioned camera film that's been sped up.  All of their motions are jerky and unfocused but they make them at blinding speed.",
+    "speed": 110,
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "feral_human_thrown_rock",
+        "ammo_type": "rock",
+        "no_ammo_sound": "",
+        "fake_skills": [ [ "throw", 3 ] ],
+        "fake_str": 8,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 5, "DEFAULT" ] ],
+        "description": "The feral human throws a rock!"
+      },
+      [ "BROWSE", 100 ],
+      [ "EAT_FOOD", 100 ],
+      [ "PARROT_AT_DANGER", 0 ],
+      { "id": "feral_weapon_pipe", "move_cost": 55 }
+    ],
+    "death_drops": {
+      "subtype": "collection",
+      "items": [ { "item": "serum_speed", "prob": 30, "count": [ 1, 3 ] }, { "group": "feral_humans_death_drops_pipe", "prob": 100 } ]
+    }
+  },
+  {
+    "id": "mon_feral_serum_user_lore",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_pipe",
+    "name": { "str": "feral test subject" },
+    "description": "Despite their bloodshot eyes, this feral exhibits a level of awareness not seen among most of their fellows.  Their eyes purposefully scan their surroundings for danger, they carry a homemade spear, and they wear a set of armor they've cobbled together from bits of riot armor and lab supplies.  The remnants of an orange jumpsuit are visible under their improvised armor.",
+    "dodge": 3,
+    "vision_day": 50,
+    "special_attacks": [ [ "PARROT_AT_DANGER", 0 ], { "id": "feral_weapon_spear_knife" } ],
+    "zombify_into": "mon_zombie_survivor",
+    "extend": {
+      "flags": [ "PRIORITIZE_TARGETS" ],
+      "weakpoint_sets": [ "wps_humanoid_body_armor" ],
+      "families": [ "prof_wp_syn_armored" ]
+    },
+    "armor": { "bash": 9, "cut": 14, "acid": 4, "bullet": 18 },
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "serum_learning", "prob": 30, "count": [ 1, 3 ] },
+        { "group": "feral_sapien_death_drops_spear", "prob": 100 }
+      ]
+    }
+  },
+  {
+    "id": "mon_feral_serum_user_anaximander",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_pipe",
+    "name": { "str": "feral test subject" },
+    "description": "In light, this feral is clearly visible but they blend into the darkness like a ghost, despite the orange jumpsuit they still wear.  They don't seem to have any problems seeing in the dark either.",
+    "//": "No PARROT since Anaximander makes you silent",
+    "special_attacks": [ { "id": "feral_weapon_pipe" } ],
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
+    "vision_night": 15,
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "serum_night_operations", "prob": 30, "count": [ 1, 3 ] },
+        { "group": "feral_humans_death_drops_pipe", "prob": 100 }
+      ]
+    }
   }
 ]

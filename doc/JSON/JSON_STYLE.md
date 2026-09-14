@@ -58,6 +58,10 @@ Line breaks occur after open brackets, close brackets, or entries.
 
 The formatting tool can be found alongside the releases as `json_formatter.exe` or `json_formatter.cgi`, built via `make style-json`, or accessed at <http://dev.narc.ro/cataclysm/format.html>.  It is recommended to add the formatting tool's location to your `PATH` or (if not already present) put it in your Cataclysm-DDA root directory.
 
+You can run path/to/json_formatter.cgi/exe path/to/file/to/format in terminal to format a file. For ease of use, you can move json_formatter.cgi/exe to a static location and add an abbreviation for it so you can easily run it while your terminal is in any folder.
+
+For windows, you can also drag and drop json_formatter.exe to the file you want to format, to format a file.
+
 Using `make style-json` will format all files included in the JSON validation test, alternatively:
 ```sh
 # Using git to filter JSON files with uncommitted changes (provided there are no spaces in the file or directory names).

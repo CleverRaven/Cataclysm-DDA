@@ -194,7 +194,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     const inventory &crafting_inv = character.crafting_inventory();
     bool can_craft = recipe
                      .deduped_requirements()
-                     .can_make_with_inventory( crafting_inv, recipe.get_component_filter() );
+                     .can_make_with_inventory( &character, crafting_inv, recipe.get_component_filter() );
 
     if( expect_success ) {
         REQUIRE( can_craft );

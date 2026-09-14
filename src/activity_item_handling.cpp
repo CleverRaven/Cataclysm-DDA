@@ -5,8 +5,8 @@
 #include <array>
 #include <climits>
 #include <cmath>
-#include <deque>
 #include <cstdlib>
+#include <deque>
 #include <list>
 #include <memory>
 #include <optional>
@@ -29,6 +29,7 @@
 #include "construction.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "crafting.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -325,6 +326,7 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
         if( std::optional<vehicle_stack::iterator> maybe_item = veh.add_item( here, vp, it ) ) {
             into_vehicle_count += it.count();
             result.emplace_back( vehicle_cursor( veh, vpr.part_index() ), &*maybe_item.value() );
+            craft_relocated( result.back() );
         } else {
             if( it.count_by_charges() ) {
                 // Maybe we can add a few charges in the trunk and the rest on the ground.
@@ -338,14 +340,17 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
             // Retain item in inventory if overflow not too large/heavy or wield if possible otherwise drop on the ground
             if( c.can_pickVolume( it ) && c.can_pickWeight( it, false ) ) {
                 result.push_back( c.i_add( it ) );
+                craft_relocated( result.back() );
             } else if( !c.has_wield_conflicts( it ) && c.can_wield( it ).success() ) {
                 c.wield( it );
                 result.emplace_back( c.get_wielded_item() );
+                craft_relocated( result.back() );
             } else {
                 const std::string ter_name = here.name( where );
                 //~ %1$s - item name, %2$s - terrain name
                 add_msg( _( "The %1$s falls to the %2$s." ), it.tname(), ter_name );
                 result.push_back( here.add_item_or_charges_ret_loc( where, it ) );
+                craft_relocated( result.back() );
             }
         }
         it.handle_pickup_ownership( c );
@@ -542,6 +547,7 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
         // which may differ from 'where' if the tile overflowed to an adjacent one.
         item_location dropped_loc = here->add_item_or_charges_ret_loc( where, it );
         if( dropped_loc.get_item() ) {
+            craft_relocated( dropped_loc );
             items_dropped.push_back( std::move( dropped_loc ) );
         }
         item( it ).handle_pickup_ownership( you );
@@ -1914,7 +1920,7 @@ bool are_requirements_nearby(
             }
         }
     }
-    return needed_things.obj().can_make_with_inventory( temp_inv, is_crafting_component );
+    return needed_things.obj().can_make_with_inventory( &you, temp_inv, is_crafting_component );
 }
 
 } //namespace multi_activity_actor
@@ -2022,7 +2028,7 @@ activity_reason_info multi_vehicle_deconstruct_activity_actor::multi_activity_ca
         const requirement_data &reqs = vpinfo.removal_requirements();
         const inventory &inv = you.crafting_inventory( false );
 
-        const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
+        const bool can_make = reqs.can_make_with_inventory( &you, inv, is_crafting_component );
         you.set_value( "veh_index_type", vpinfo.name() );
         // temporarily store the intended index, we do this so two NPCs don't try and work on the same part at same time.
         you.activity_vehicle_part_index = vpindex;
@@ -2081,7 +2087,7 @@ activity_reason_info multi_vehicle_repair_activity_actor::multi_activity_can_do(
         const requirement_data &reqs = vpinfo.repair_requirements();
         const inventory &inv =
             you.crafting_inventory( src_loc, PICKUP_RANGE - 1, false );
-        const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
+        const bool can_make = reqs.can_make_with_inventory( &you, inv, is_crafting_component );
         you.set_value( "veh_index_type", vpinfo.name() );
         // temporarily store the intended index, we do this so two NPCs don't try and work on the same part at same time.
         you.activity_vehicle_part_index = vpindex;
@@ -2450,7 +2456,7 @@ activity_reason_info multi_craft_activity_actor::multi_activity_can_do( Characte
                 tool_comp_vector = r.simple_requirements().get_tools();
             }
             requirement_data req = requirement_data( tool_comp_vector, quality_comp_vector, item_comp_vector );
-            if( req.can_make_with_inventory( inv, is_crafting_component ) ) {
+            if( req.can_make_with_inventory( &you, inv, is_crafting_component ) ) {
                 return activity_reason_info::ok( do_activity_reason::NEEDS_CRAFT );
             } else {
                 return activity_reason_info( do_activity_reason::NEEDS_CRAFT, false, req );
@@ -2481,18 +2487,18 @@ activity_reason_info multi_disassemble_activity_actor::multi_activity_can_do( Ch
                               i.components.only_item().typeId() : i.typeId() );
             req = r.disassembly_requirements();
             if( !std::all_of( req.get_qualities().begin(),
-            req.get_qualities().end(), [&inv]( const std::vector<quality_requirement> &cur ) {
+            req.get_qualities().end(), [&inv, &you]( const std::vector<quality_requirement> &cur ) {
             return cur.empty() ||
-                std::any_of( cur.begin(), cur.end(), [&inv]( const quality_requirement & curr ) {
-                    return curr.has( inv, return_true<item> );
+                std::any_of( cur.begin(), cur.end(), [&inv, &you]( const quality_requirement & curr ) {
+                    return curr.has( &you, inv, return_true<item> );
                 } );
             } ) ) {
                 continue;
             }
             if( !std::all_of( req.get_tools().begin(),
-            req.get_tools().end(), [&inv]( const std::vector<tool_comp> &cur ) {
-            return cur.empty() || std::any_of( cur.begin(), cur.end(), [&inv]( const tool_comp & curr ) {
-                    return  curr.has( inv, return_true<item> );
+            req.get_tools().end(), [&inv, &you]( const std::vector<tool_comp> &cur ) {
+            return cur.empty() || std::any_of( cur.begin(), cur.end(), [&inv, &you]( const tool_comp & curr ) {
+                    return  curr.has( &you, inv, return_true<item> );
                 } );
             } ) ) {
                 continue;

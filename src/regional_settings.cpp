@@ -634,6 +634,8 @@ void region_settings::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "place_specials", place_specials, true );
     optional( jo, was_loaded, "neighbor_connections", neighbor_connections, true );
 
+    optional( jo, was_loaded, "npc_spawntime", npc_spawn_time, 4.0 );
+
     optional( jo, was_loaded, "max_urbanity", max_urban, 8 );
     optional( jo, was_loaded, "urbanity_increase", urban_increase, { 0, 0, 0, 0 } );
 }

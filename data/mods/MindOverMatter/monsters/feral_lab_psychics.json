@@ -110,6 +110,7 @@
     "attack_cost": 85,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
     "death_drops": "feral_security_death_drops_psychic",
+    "block": { "chance": 40, "effectiveness": 8, "count": 1, "ranged": false },
     "zombify_into": "mon_zombie_survivor",
     "extend": {
       "special_attacks": [

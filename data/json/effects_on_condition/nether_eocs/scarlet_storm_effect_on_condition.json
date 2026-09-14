@@ -1,0 +1,217 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_START_SCARLET_STORM",
+    "//": "Initialize the Scarlet Storm. It always spawns at x=5400 on the date of the cataclysm. The position is offset based on time since the cataclysm.",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "global": true,
+    "effect": [
+      { "math": [ "scarlet_storm_active = 1" ] },
+      { "u_location_variable": { "global_val": "scarlet_storm_center" }, "z_override": true, "z_adjust": 0 },
+      { "math": [ "scarlet_storm_offset = time_since('cataclysm', 'unit':'days') * 216" ] },
+      { "math": [ "scarlet_storm_center.x = 50400 - scarlet_storm_offset" ] },
+      { "math": [ "scarlet_storm_center.y = 0" ] },
+      { "math": [ "scarlet_storm_direction = 0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SCARLET_STORM",
+    "recurrence": "8 hours",
+    "global": true,
+    "condition": { "and": [ { "math": [ "scarlet_storm_active == 1" ] }, { "math": [ "scarlet_storm_died != 1" ] } ] },
+    "deactivate_condition": { "math": [ "scarlet_storm_died == 1" ] },
+    "effect": [
+      { "location_variable_adjust": { "global_val": "scarlet_storm_center" }, "x_adjust": -72 },
+      {
+        "if": { "math": [ "scarlet_storm_direction == 0" ] },
+        "then": [
+          { "location_variable_adjust": { "global_val": "scarlet_storm_center" }, "y_adjust": [ -24, 24 ] },
+          { "if": { "one_in_chance": 30 }, "then": { "math": [ "scarlet_storm_direction = -1" ] } },
+          { "if": { "one_in_chance": 30 }, "then": { "math": [ "scarlet_storm_direction = 1" ] } }
+        ],
+        "else": {
+          "if": { "math": [ "scarlet_storm_direction == -1" ] },
+          "then": [
+            { "location_variable_adjust": { "global_val": "scarlet_storm_center" }, "y_adjust": [ -72, 0 ] },
+            { "if": { "one_in_chance": 30 }, "then": { "math": [ "scarlet_storm_direction = -2" ] } },
+            { "if": { "one_in_chance": 60 }, "then": { "math": [ "scarlet_storm_direction = 0" ] } },
+            { "if": { "one_in_chance": 120 }, "then": { "math": [ "scarlet_storm_direction = 1" ] } }
+          ],
+          "else": {
+            "if": { "math": [ "scarlet_storm_direction == 1" ] },
+            "then": [
+              { "location_variable_adjust": { "global_val": "scarlet_storm_center" }, "y_adjust": [ 0, 72 ] },
+              { "if": { "one_in_chance": 30 }, "then": { "math": [ "scarlet_storm_direction = 2" ] } },
+              { "if": { "one_in_chance": 60 }, "then": { "math": [ "scarlet_storm_direction = 0" ] } },
+              { "if": { "one_in_chance": 120 }, "then": { "math": [ "scarlet_storm_direction = -1" ] } }
+            ],
+            "else": {
+              "if": { "math": [ "scarlet_storm_direction == -2" ] },
+              "then": [
+                { "location_variable_adjust": { "global_val": "scarlet_storm_center" }, "y_adjust": [ -72, -24 ] },
+                { "if": { "one_in_chance": 30 }, "then": { "math": [ "scarlet_storm_direction = -1" ] } },
+                { "if": { "one_in_chance": 60 }, "then": { "math": [ "scarlet_storm_direction = 0" ] } }
+              ],
+              "else": {
+                "if": { "math": [ "scarlet_storm_direction == 2" ] },
+                "then": [
+                  { "location_variable_adjust": { "global_val": "scarlet_storm_center" }, "y_adjust": [ 24, 72 ] },
+                  { "if": { "one_in_chance": 30 }, "then": { "math": [ "scarlet_storm_direction = 1" ] } },
+                  { "if": { "one_in_chance": 60 }, "then": { "math": [ "scarlet_storm_direction = 0" ] } }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": { "math": [ "time_since('cataclysm', 'unit':'days') >= 730" ] },
+        "then": { "math": [ "scarlet_storm_died = 1" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scarlet_gust_1",
+    "recurrence": 6,
+    "global": true,
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "is_weather": "scarlet_storm_1" },
+            { "is_weather": "scarlet_storm_2" },
+            { "is_weather": "scarlet_storm_3" },
+            { "is_weather": "scarlet_storm_4" }
+          ]
+        },
+        { "one_in_chance": 300 },
+        { "math": [ "u_val('pos_z') >= 0" ] }
+      ]
+    },
+    "deactivate_condition": {
+      "not": {
+        "or": [
+          { "is_weather": "scarlet_storm_1" },
+          { "is_weather": "scarlet_storm_2" },
+          { "is_weather": "scarlet_storm_3" },
+          { "is_weather": "scarlet_storm_4" }
+        ]
+      }
+    },
+    "effect": { "u_message": "Winds whisper in the distance." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scarlet_gust_2",
+    "recurrence": 12,
+    "global": true,
+    "condition": {
+      "and": [
+        { "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" } ] },
+        { "one_in_chance": 300 },
+        { "math": [ "u_val('pos_z') >= 0" ] }
+      ]
+    },
+    "deactivate_condition": { "not": { "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" } ] } },
+    "effect": [ { "u_message": "The wind moans through the fog." }, { "math": [ "weather('windpower') = 30" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scarlet_gust_3",
+    "recurrence": 18,
+    "global": true,
+    "condition": { "and": [ { "is_weather": "scarlet_storm_4" }, { "one_in_chance": 300 }, { "math": [ "u_val('pos_z') >= 0" ] } ] },
+    "deactivate_condition": { "not": { "is_weather": "scarlet_storm_4" } },
+    "effect": [ { "u_message": "You hear winds howl high in the sky!" }, { "math": [ "weather('windpower') = 50" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scarlet_thunder",
+    "recurrence": 1,
+    "global": true,
+    "condition": {
+      "and": [
+        { "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" } ] },
+        { "one_in_chance": 100 },
+        { "math": [ "u_val('pos_z') >= 0" ] }
+      ]
+    },
+    "deactivate_condition": { "not": { "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" } ] } },
+    "effect": [
+      { "u_message": "You hear a distant rumble of thunder.", "sound": true },
+      { "sound_effect": "thunder_far", "outdoor_event": true, "id": "environment" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scarlet_lightning",
+    "recurrence": 1,
+    "global": true,
+    "condition": { "and": [ { "is_weather": "scarlet_storm_4" }, { "one_in_chance": 200 }, { "math": [ "u_val('pos_z') >= 0" ] } ] },
+    "deactivate_condition": { "not": { "is_weather": "scarlet_storm_4" } },
+    "effect": [
+      { "u_message": "A flash of lightning illuminates the scarlet sky!" },
+      { "sound_effect": "thunder_near", "id": "environment" },
+      "lightning",
+      { "custom_light_level": 100, "length": [ "1 seconds", "12 seconds" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_SCARLET_SEA",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_add_effect": "blind", "duration": 0 },
+      {
+        "u_travel_to_dimension": "scarlet",
+        "npc_travel_radius": 0,
+        "npc_travel_filter": "none",
+        "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
+        "success_message": "Your surroundings warp and fold before reforming into a vast sea, bathed in scarlet light."
+      },
+      { "u_message": "Darkness envelops you.", "popup": true, "popup_w_interrupt_query": true },
+      { "run_eocs": "EOC_PORTAL_SCARLET_SEA_RETURN", "time_in_future": [ "20 minutes", "2 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_SCARLET_SEA_RETURN",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
+        { "not": "u_driving" },
+        { "current_dimension": "scarlet" }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "blind", "duration": 0 },
+      {
+        "u_travel_to_dimension": "default",
+        "npc_travel_radius": 0,
+        "npc_travel_filter": "none",
+        "fail_message": "Nothing seems to change.",
+        "success_message": "Your surroundings warp and fold into the recesses of the world you know."
+      },
+      { "u_teleport": { "global_val": "scarlet_storm_center" }, "force": true },
+      {
+        "u_message": "Your surroundings warp and fold into the recesses of the world you know.",
+        "popup": true,
+        "popup_w_interrupt_query": true
+      }
+    ],
+    "false_effect": [
+      {
+        "if": { "current_dimension": "scarlet" },
+        "then": [
+          {
+            "u_message": "You feel a slight push in a direction you can't name, but soon it ceases.  You have a feeling it'll happen again later."
+          },
+          { "run_eocs": "EOC_PORTAL_SCARLET_SEA_RETURN", "time_in_future": [ "20 minutes", "2 hours" ] }
+        ]
+      }
+    ]
+  }
+]

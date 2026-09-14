@@ -831,7 +831,7 @@
         "if": { "and": [ { "not": { "u_has_flag": "TEEP_IMMUNE" } }, { "not": { "u_has_flag": "TEEPSHIELD" } } ] },
         "then": [
           { "u_add_effect": "psi_stunned", "duration": { "math": [ "1 + rand(4)" ] } },
-          { "math": [ "u_val('morale') -= (20 + rand(40) )" ] }
+          { "math": [ "u_morale() -= (20 + rand(40) )" ] }
         ]
       }
     ]

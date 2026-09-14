@@ -524,7 +524,7 @@ void inventory::restack( Character &p )
 #endif
 }
 
-static int count_charges_in_list( const itype *type, const map_stack &items )
+int count_charges_in_list( const itype *type, const map_stack &items )
 {
     for( const item &candidate : items ) {
         if( candidate.type == type ) {
@@ -543,8 +543,8 @@ static int count_charges_in_list( const itype *type, const map_stack &items )
 *
 * @return           Number of charges.
 * */
-static int count_charges_in_list( const ammotype *ammotype, const map_stack &items,
-                                  itype_id &item_type )
+int count_charges_in_list( const ammotype *ammotype, const map_stack &items,
+                           itype_id &item_type )
 {
     for( const item &candidate : items ) {
         if( candidate.is_ammo() && candidate.type->ammo->type == *ammotype ) {
@@ -570,8 +570,7 @@ void inventory::form_from_map( map *here, const tripoint_bub_ms &origin, int ran
     // Populate a grid of spots that can be reached
     // If we need a clear path we care about the reachability of points
     if( clear_path ) {
-        const std::vector<tripoint_bub_ms> &reachable_pts = here->reachable_flood_steps( origin, range, 1,
-                100 );
+        const std::vector<tripoint_bub_ms> &reachable_pts = here->reachable_flood_steps( origin, range );
         form_from_map( *here, reachable_pts, pl, assign_invlet );
     } else {
         std::vector<tripoint_bub_ms> reachable_pts;
@@ -595,7 +594,7 @@ void inventory::form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zon
     form_from_map( m, pts, pl, assign_invlet );
 }
 
-static bool tile_has_sufficient_sunlight( const map &m, const tripoint_bub_ms &p )
+bool tile_has_sufficient_sunlight( const map &m, const tripoint_bub_ms &p )
 {
     if( !m.is_outside( p ) || p.z() < 0 ) {
         return false;
@@ -609,6 +608,9 @@ void inventory::form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const C
 {
     items.clear();
     provisioned_pseudo_tools.clear();
+
+    const bool bulk_eligible = !assign_invlet;
+    std::vector<item> bulk_batch;
 
     for( const tripoint_bub_ms &p : pts ) {
         const ter_id &t = m.ter( p );
@@ -650,15 +652,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const C
             }
         }
         if( m.accessible_items( p ) ) {
-            // assign_invlet=false has no per-item invlet collision pass, so a
-            // single bulk add per tile reproduces serial output while skipping
-            // the O(stacks) stacks_with sweep that add_item does per call.
             map_stack items_here = m.i_at( p );
-            const bool bulk_eligible = !assign_invlet && items_here.size() > 1;
-            std::vector<item> bulk_batch;
-            if( bulk_eligible ) {
-                bulk_batch.reserve( items_here.size() );
-            }
             for( item &i : items_here ) {
                 // if it's *the* player requesting this from from map inventory
                 // then don't allow items owned by another faction to be factored into recipe components etc.
@@ -676,9 +670,6 @@ void inventory::form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const C
                         add_item( i, false, assign_invlet );
                     }
                 }
-            }
-            if( bulk_eligible && !bulk_batch.empty() ) {
-                add_items_bulk( std::move( bulk_batch ), false, false );
             }
         }
         // Kludges for now!
@@ -708,6 +699,11 @@ void inventory::form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const C
             vp->form_inventory( m, *this );
         }
     }
+
+    if( bulk_eligible && !bulk_batch.empty() ) {
+        add_items_bulk( std::move( bulk_batch ), false, false );
+    }
+
     pts.clear();
 }
 
@@ -1080,12 +1076,13 @@ units::volume inventory::volume_without( const std::map<const item *, int> &with
 int inventory::count_item( const itype_id &item_type ) const
 {
     int num = 0;
-    const itype_bin bin = get_binned_items();
-    if( bin.find( item_type ) == bin.end() ) {
-        return num;
+    const itype_bin &bin = get_binned_items();
+    const auto iter = bin.find( item_type );
+    if( iter == bin.end() ) {
+        return 0;
     }
-    const std::list<const item *> items = get_binned_items().find( item_type )->second;
-    for( const item *it : items ) {
+
+    for( const item *it : iter->second ) {
         num += it->count();
     }
     return num;

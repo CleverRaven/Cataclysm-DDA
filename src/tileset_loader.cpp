@@ -254,7 +254,7 @@ void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_P
     // Blit into a 32-bit surface for format-safe pixel access. The normal atlas
     // texture is uploaded from the same 32-bit surface so shader variants sample
     // the same concrete RGBA pixels as the pre-baked variants; paletted fallback
-    // atlases are not reliable shader sources on every SDL3 GPU backend.
+    // atlases are not reliable shader sources on every GPU backend.
     SDL_Surface_Ptr scan_surf = create_surface_32( tile_atlas->w, tile_atlas->h );
     throwErrorIf( BlitSurface( tile_atlas, nullptr, scan_surf, nullptr ) != 0,
                   "SDL_BlitSurface failed" );

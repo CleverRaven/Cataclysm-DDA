@@ -44,7 +44,7 @@
         "ammo_restriction": { "273x110": 2, "273x44": 2, "273x44RG": 1 }
       }
     ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE", "EASY_CLEAN" ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE", "EASY_CLEAN", "SINGLE_ACTION" ],
     "melee_damage": { "bash": 6 }
   },
   {
@@ -449,7 +449,7 @@
     ],
     "min_cycle_recoil": 80000,
     "default_mods": [ "ree_33_tripod", "rifle_scope" ],
-    "flags": [ "NEVER_JAMS" ],
+    "flags": [ "NEVER_JAMS", "SINGLE_ACTION" ],
     "//2": "desired to be single shot or with attachable mag, but because MAGAZINE and MAGAZINE_WELL are mortal enemies, 4 round magazine is used instead.",
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ree_33_4_mag", "ree_33_53_mag" ] } ],
     "melee_damage": { "bash": 7 }

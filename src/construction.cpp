@@ -23,6 +23,7 @@
 #include "construction_category.h"
 #include "construction_group.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "crafting.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -642,8 +643,8 @@ construction_id construction_menu( const bool blueprint )
                     }
                 }
                 // Update the cached availability of components and tools in the requirement object
-                current_con->requirements->can_make_with_inventory( total_inv, is_crafting_component, 1,
-                        craft_flags::none, false );
+                current_con->requirements->can_make_with_inventory( &get_player_character(), total_inv,
+                        is_crafting_component, 1, craft_flags::none, false );
 
                 std::vector<std::string> current_buffer;
 
@@ -766,11 +767,11 @@ construction_id construction_menu( const bool blueprint )
                 // get time needed
                 add_folded( current_con->get_folded_time_string( available_window_width ) );
 
-                add_folded( current_con->requirements->get_folded_tools_list( available_window_width, color_stage,
-                            total_inv ) );
+                add_folded( current_con->requirements->get_folded_tools_list( &player_character,
+                            available_window_width, color_stage, total_inv ) );
 
-                add_folded( current_con->requirements->get_folded_components_list( available_window_width,
-                            color_stage, total_inv, is_crafting_component ) );
+                add_folded( current_con->requirements->get_folded_components_list( &player_character,
+                            available_window_width, color_stage, total_inv, is_crafting_component ) );
 
                 construct_buffers.push_back( current_buffer );
             }
@@ -1197,8 +1198,8 @@ bool player_can_build( Character &you, const read_only_visitable &inv, const con
     }
 
     // check for construction spot can be skipped by using can_construct_skip
-    return con.requirements->can_make_with_inventory( inv, is_crafting_component, 1, craft_flags::none,
-            false ) &&
+    return con.requirements->can_make_with_inventory( &you, inv, is_crafting_component, 1,
+            craft_flags::none, false ) &&
            ( can_construct_skip || can_construct( con ) );
 }
 
@@ -1298,6 +1299,12 @@ static std::string has_pre_flags_colorize( const construction &con )
 bool can_construct( const construction &con, const tripoint_bub_ms &p )
 {
     const map &here = get_map();
+    // Both lock kinds: a craft's own tile and any tile supplying it a provider.
+    const tripoint_abs_ms abs_p = here.get_abs( p );
+    if( get_craft_reservations().craft_site_reserved( abs_p ) ||
+        get_craft_reservations().provider_tile_reserved( abs_p ) ) {
+        return false;
+    }
     const furn_id &f = here.furn( p );
     const ter_id &t = here.ter( p );
     // pre-functions

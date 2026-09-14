@@ -1,0 +1,25 @@
+{
+  "tile_info": [
+    { "height": 128, "width": 128, "iso": false, "pixelscale": 1 }
+  ],
+  "tiles-new": [
+    { "file": "GENERIC_MALE_PORTRAIT_001.png", "tiles": [ { "id": "GENERIC_MALE_PORTRAIT_001", "fg": 0, "bg": 0, "rotates": false } ] },
+    { "file": "GENERIC_MALE_PORTRAIT_002.png", "tiles": [ { "id": "GENERIC_MALE_PORTRAIT_002", "fg": 1, "bg": 0, "rotates": false } ] },
+    { "file": "GENERIC_MALE_PORTRAIT_003.png", "tiles": [ { "id": "GENERIC_MALE_PORTRAIT_003", "fg": 2, "bg": 0, "rotates": false } ] },
+    {
+      "file": "GENERIC_FEMALE_PORTRAIT_001.png",
+      "tiles": [ { "id": "GENERIC_FEMALE_PORTRAIT_001", "fg": 3, "bg": 0, "rotates": false } ]
+    },
+    {
+      "file": "GENERIC_FEMALE_PORTRAIT_002.png",
+      "tiles": [ { "id": "GENERIC_FEMALE_PORTRAIT_002", "fg": 4, "bg": 0, "rotates": false } ]
+    },
+    {
+      "file": "GENERIC_FEMALE_PORTRAIT_003.png",
+      "tiles": [ { "id": "GENERIC_FEMALE_PORTRAIT_003", "fg": 5, "bg": 0, "rotates": false } ]
+    },
+    { "file": "Named_NPC_Smokes.png", "tiles": [ { "id": "Named_NPC_Smokes", "fg": 6, "bg": 0, "rotates": false } ] },
+    { "file": "Named_NPC_Smokes_TOPIC.png", "tiles": [ { "id": "Named_NPC_Smokes_TOPIC", "fg": 7, "bg": 0, "rotates": false } ] },
+    { "file": "Monster_Talk_Civilian.png", "tiles": [ { "id": "Monster_Talk_Civilian", "fg": 8, "bg": 0, "rotates": false } ] }
+  ]
+}

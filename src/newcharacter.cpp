@@ -88,6 +88,9 @@ static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
 static const std::string flag_SKIP_DEFAULT_BACKGROUND( "SKIP_DEFAULT_BACKGROUND" );
 
+static const character_portrait_id character_portrait_AVATAR( "AVATAR" );
+static const character_portrait_id character_portrait_GENERIC_NPC( "GENERIC_NPC" );
+
 static const flag_id json_flag_WET( "WET" );
 static const flag_id json_flag_auto_wield( "auto_wield" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
@@ -425,6 +428,11 @@ void Character::randomize( const bool random_scenario, bool play_now )
     // Reset everything to the defaults to have a clean state.
     if( is_avatar() ) {
         *this->as_avatar() = avatar();
+        portrait_filename = character_portrait_AVATAR;
+    } else {
+        // Random NPC with no class --> generic portrait
+        // FIXME: Use null ID
+        portrait_filename = character_portrait_GENERIC_NPC;
     }
 
     bool gender_selection = one_in( 2 );
@@ -704,6 +712,10 @@ void Character::add_profession_items()
 
     recalc_sight_limits();
     calc_encumbrance();
+}
+
+void Character::ensure_portrait_valid()
+{
 }
 
 void Character::randomize_hobbies()
@@ -3700,8 +3712,8 @@ void character_creator_callback::confirm( uilist *menu )
             character_stat selected_stat = static_cast<character_stat>( selected_stat_index );
             const int stat_queried = cc_uistate.stats[selected_stat_index];
             number_input_popup<int> stat_query( 0, stat_queried,
-                                                string_format( "Set new %s (between %d and %d):",
-                                                        io::enum_to_full_string( selected_stat ),
+                                                string_format( _( "Set new %s (between %d and %d):" ),
+                                                        _( io::enum_to_full_string( selected_stat ) ),
                                                         CHARACTER_STAT_MIN, CHARACTER_STAT_MAX ) );
             int stat_queried_result = stat_query.query();
             const int stat_result_clamped = std::clamp( stat_queried_result, CHARACTER_STAT_MIN,
@@ -3799,7 +3811,7 @@ void character_creator_callback::confirm( uilist *menu )
             const skill_id skill_queried = cc_uistate.get_selected_skill();
             int previous_skill_level = u.get_skill_level( skill_queried );
             number_input_popup<int> skill_query( 0, previous_skill_level,
-                                                 string_format( "Set new %s skill level (between %d and %d):",
+                                                 string_format( _( "Set new %s skill level (between %d and %d):" ),
                                                          skill_queried->name(), MIN_SKILL, MAX_SKILL ) );
             int skill_queried_result = skill_query.query();
             if( skill_queried_result != previous_skill_level ) {

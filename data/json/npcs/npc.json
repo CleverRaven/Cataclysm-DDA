@@ -37,7 +37,7 @@
     "type": "npc",
     "id": "derelict_dweller",
     "//": "Crazy Person.",
-    "name_suffix": "Psycho",
+    "name_suffix": "Survivor",
     "class": "NC_THUG",
     "attitude": 8,
     "mission": "NULL",

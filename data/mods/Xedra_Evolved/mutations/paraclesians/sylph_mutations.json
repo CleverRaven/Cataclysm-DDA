@@ -643,7 +643,8 @@
     "override_look": { "id": "fd_extinguisher", "tile_category": "field" },
     "category": [ "SYLPH" ],
     "purifiable": false,
-    "threshreq": [ "THRESH_SYLPH" ]
+    "threshreq": [ "THRESH_SYLPH" ],
+    "flags": [ "CANNOT_CONSUME_DRUGS" ]
   },
   {
     "type": "mutation",

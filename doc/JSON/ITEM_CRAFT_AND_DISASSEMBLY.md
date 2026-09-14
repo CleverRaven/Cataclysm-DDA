@@ -172,8 +172,8 @@ Linear scaling provides purely linear scaling. There are two parameters, the `se
 In other words, max does not limit the max batch size, it merely specifies when the setup cost will be applied again.
 It is specified as follows:
 ```jsonc
-"batch_time_factors": { "mode": "linear": "setup": "12 m" },
-"batch_time_factors": { "mode": "linear": "setup": "12 m", "max": 20 },
+"batch_time_factors": { "mode": "linear", "setup": "12 m" },
+"batch_time_factors": { "mode": "linear", "setup": "12 m", "max": 20 },
 ```
 
 ## Recipe steps
@@ -297,6 +297,31 @@ When the wall-clock deadline elapses:
 If the step's tools or qualities become unavailable, or a charged tool runs short on charges, the step pauses and the deadline slides forward once the requirement is restored.  `crafter_id` is remembered so env-check picks up the crafter's pseudo-tools, bionics, and trait qualities when they are next to the craft.
 
 NPCs do not see the planning modal and behave as if implicitly waiting; the unattended block in the craft activity actor still drives their craft forward.
+
+### Counting quality providers
+
+Two rules decide how many providers a quality requirement sees.  Both can change whether a recipe is offered.
+
+- A quality requirement's `"amount"` counts **distinct providers**.  A qualifying tool inside a container counts once, not twice.  A stack of a charge-counted qualifying item counts once, not once per charge.
+- Liquids that a crafting inventory would merge into one stack are **one provider**.  Water carried in a canteen merges with equivalent water on the map, and a lake counts once, not once per tile.
+
+A quality is measured against the character the check is about.  A charged quality reads that character's power, not the avatar's.  A mutation or body part that grants a quality without an item counts for that character too.
+
+### Reservations
+
+A live unattended step reserves what it depends on, so a second craft cannot quietly take it:
+
+- The **providers** covering the step's quality groups and its presence tools, whether those are items, furniture, a vehicle part, a nearby fire, or the crafter's own bionics and mutations.  Charged tools are not reserved, because charges drain from a pool by type rather than from one instance, but the pool is filtered so a reserved tool is never drained by anything else.
+- The **tile the craft sits on**, and any tile supplying it a provider.  Construction, including deconstruction, is refused on both.
+
+Manual actions are never blocked.  Picking up, wielding, throwing or smashing a reserved item all work exactly as before; the craft notices at its next check, up to a minute later, and pauses.  Because picking an item up gives it a new identity, putting the same item back down does not resume the craft: use the explicit resume, which re-resolves against whatever is present.
+
+Two limitations are deliberate:
+
+- A reserved tool's **UPS charge is not protected** and may be drained by anything, since no UPS path carries a filter.
+- A craft's tile lock follows it within one check rather than instantly, so a craft riding a moving vehicle briefly holds the tile it was loaded at.
+
+Reservations lapse an hour after a craft last completed a check, so a craft destroyed by fire or smashing frees its tile without needing a reload.
 
 Schema:
 

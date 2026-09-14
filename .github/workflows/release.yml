@@ -66,12 +66,12 @@ jobs:
     secrets:
       TX_TOKEN: ${{ secrets.TX_TOKEN }}
 
-  # Compile GLSL -> spv/dxil/msl once on Linux and share with every SDL3
+  # Compile GLSL -> spv/dxil/msl once on Linux and share with every tiles
   # platform job. Runtime variant_pass picks the format matching its GPU
   # backend (Vulkan/D3D12/Metal). Curses jobs do not fetch it.
   compile-shaders:
     name: Compile shaders
-    # Default SDL3 release builds need these shader artifacts.
+    # Default tiles release builds need these shader artifacts.
     runs-on: ubuntu-24.04
     steps:
     - name: checkout repository
@@ -100,7 +100,6 @@ jobs:
             content: application/zip
             tiles: 1
             sound: 0
-            sdl3: 1
           - name: Windows Tiles Sounds x64 MSVC
             artifact: windows-with-graphics-and-sounds-x64
             arch: x64
@@ -109,14 +108,12 @@ jobs:
             content: application/zip
             tiles: 1
             sound: 1
-            sdl3: 1
           - name: Linux Tiles x64
             os: ubuntu-24.04
             android: none
             libbacktrace: 1
             tiles: 1
             sound: 0
-            sdl3: 1
             artifact: linux-with-graphics-x64
             ext: tar.gz
             content: application/gzip
@@ -126,7 +123,6 @@ jobs:
             libbacktrace: 1
             tiles: 1
             sound: 1
-            sdl3: 1
             artifact: linux-with-graphics-and-sounds-x64
             ext: tar.gz
             content: application/gzip
@@ -150,14 +146,12 @@ jobs:
             os: macos-15
             tiles: 1
             sound: 1
-            sdl3: 1
             artifact: osx-with-graphics-universal
             ext: dmg
             content: application/x-apple-diskimage
           - name: Android x64
             os: ubuntu-latest
             tiles: 1
-            sdl3: 1
             android: arm64
             artifact: android-x64
             ext: apk
@@ -165,7 +159,6 @@ jobs:
           - name: Android x32
             os: ubuntu-latest
             tiles: 1
-            sdl3: 1
             android: arm32
             artifact: android-x32
             ext: apk
@@ -208,14 +201,14 @@ jobs:
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: translations
-      - name: Fetch shader artifacts into build (SDL3)
-        if: matrix.sdl3 == 1
+      - name: Fetch shader artifacts into build
+        if: matrix.tiles == 1
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: cdda-shaders
           path: data/shaders
-      - name: Mark shader artifacts fresh (SDL3)
-        if: matrix.sdl3 == 1
+      - name: Mark shader artifacts fresh
+        if: matrix.tiles == 1
         shell: bash
         run: |
           # Bump artifact mtimes so the Make/CMake shader rule sees them as
@@ -243,8 +236,8 @@ jobs:
           install: >-
             gettext
             make
-      - name: Cache vcpkg packages (Windows, SDL3)
-        if: runner.os == 'Windows' && matrix.sdl3 == 1
+      - name: Cache vcpkg packages (Windows)
+        if: runner.os == 'Windows' && matrix.tiles == 1
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: msvc-full-features/vcpkg_installed
@@ -254,16 +247,16 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libncursesw5-dev ccache gettext parallel
-      - name: Install dependencies (Linux, SDL3)
-        if: runner.os == 'Linux' && matrix.android == 'none' && !matrix.wasm && matrix.sdl3 == 1
+      - name: Install dependencies (Linux, tiles)
+        if: runner.os == 'Linux' && matrix.android == 'none' && !matrix.wasm && matrix.tiles == 1
         run: |
           sudo apt-get update
           wget -O /tmp/llvm.sh https://apt.llvm.org/llvm.sh
           chmod +x /tmp/llvm.sh
           sudo /tmp/llvm.sh 18
           sudo apt-get install -y libncursesw5-dev ccache gettext parallel patchelf
-      - name: Setup SDL3 stack (Linux, SDL3)
-        if: runner.os == 'Linux' && matrix.android == 'none' && !matrix.wasm && matrix.sdl3 == 1
+      - name: Setup SDL3 stack (Linux)
+        if: runner.os == 'Linux' && matrix.android == 'none' && !matrix.wasm && matrix.tiles == 1
         uses: ./.github/actions/setup-sdl3-stack
         with:
           cache-key: sdl3-stack-strict-sdl-3.4.10-image-3.4.4-ttf-3.2.2-mixer-3.2.4-ubuntu-24.04-v2
@@ -277,11 +270,11 @@ jobs:
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel dylibbundler
           pip3 install --break-system-packages dmgbuild biplist
-      - name: install macports (mac, SDL3)
-        if: runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 == 1
+      - name: install macports (mac)
+        if: runner.os == 'macOS' && matrix.tiles == 1
         uses: melusina-org/setup-macports@c7eb59386def259a274627092566a7f7b8d219b1 # v1
-      - name: install macports packages (mac, SDL3)
-        if: runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 == 1
+      - name: install macports packages (mac)
+        if: runner.os == 'macOS' && matrix.tiles == 1
         run: |
           # SDL_mixer VENDORED=OFF pulls every mixer codec from a system lib.
           # The macOS artifact is universal, so each (plus libiconv, a
@@ -289,15 +282,15 @@ jobs:
           sudo port install freetype +universal pkgconfig +universal \
               libiconv +universal libogg +universal flac +universal \
               libvorbis +universal wavpack +universal mpg123 +universal
-      - name: Cache SDL3 stack source build (mac, SDL3)
-        if: runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 == 1
+      - name: Cache SDL3 stack source build (mac)
+        if: runner.os == 'macOS' && matrix.tiles == 1
         id: cache-sdl3-release-macos
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ runner.workspace }}/sdl3_prefix
           key: sdl3-stack-universal-sdl-3.4.10-image-3.4.4-ttf-3.2.2-mixer-3.2.4-${{ runner.os }}-v5
-      - name: Build SDL3 stack from source (mac, SDL3, universal)
-        if: runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 == 1 && steps.cache-sdl3-release-macos.outputs.cache-hit != 'true'
+      - name: Build SDL3 stack from source (mac, universal)
+        if: runner.os == 'macOS' && matrix.tiles == 1 && steps.cache-sdl3-release-macos.outputs.cache-hit != 'true'
         run: |
           PREFIX=${{ runner.workspace }}/sdl3_prefix
           export PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig:/opt/local/lib/pkgconfig
@@ -405,8 +398,8 @@ jobs:
                   exit 1
               fi
           done
-      - name: Stage SDL3 license files (mac, SDL3)
-        if: runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 == 1
+      - name: Stage SDL3 license files (mac)
+        if: runner.os == 'macOS' && matrix.tiles == 1
         run: |
           cp ${{ runner.workspace }}/sdl3_prefix/share/LICENSE-SDL.txt ${{ github.workspace }}/LICENSE-SDL.txt
           cp ${{ runner.workspace }}/sdl3_prefix/share/LICENSE-SDL3_image.txt ${{ github.workspace }}/LICENSE-SDL3_image.txt
@@ -458,11 +451,11 @@ jobs:
       - name: Build CDDA (linux)
         if: runner.os == 'Linux' && matrix.android == 'none' && !matrix.wasm
         run: |
-          if [ "${{ matrix.sdl3 }}" = "1" ]; then
+          if [ "${{ matrix.tiles }}" = "1" ]; then
             export PKG_CONFIG_PATH="$RUNNER_WORKSPACE/sdl3_prefix/lib/pkgconfig:$RUNNER_WORKSPACE/sdl3_prefix/lib/x86_64-linux-gnu/pkgconfig"
             export LD_LIBRARY_PATH="$RUNNER_WORKSPACE/sdl3_prefix/lib:$RUNNER_WORKSPACE/sdl3_prefix/lib/x86_64-linux-gnu"
           fi
-          make COMPILER=clang++-18 -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.sound }} SDL3=${{ matrix.sdl3 == 1 && '1' || '0' }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 LIBBACKTRACE=${{ matrix.libbacktrace }} WARN_STALE_DATA=1 PCH=0 bindist
+          make COMPILER=clang++-18 -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.sound }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 LIBBACKTRACE=${{ matrix.libbacktrace }} WARN_STALE_DATA=1 PCH=0 bindist
           mv cataclysmdda-0.J.tar.gz cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
       - name: Build CDDA (WebAssembly)
         if: matrix.wasm && success()
@@ -470,30 +463,30 @@ jobs:
           ./build-scripts/build-emscripten.sh
           ./build-scripts/prepare-web.sh
           (cd build && zip ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }} *)
-      - name: Build CDDA (windows msvc, SDL3)
-        if: runner.os == 'Windows' && matrix.sdl3 == 1
+      - name: Build CDDA (windows msvc)
+        if: runner.os == 'Windows' && matrix.tiles == 1
         env:
           BACKTRACE: 1
           CDDA_RELEASE_BUILD: 1
           VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
         run: |
           msbuild -m -p:Configuration=Release -p:Platform=${{ matrix.arch }} "-target:Cataclysm-vcpkg-static;JsonFormatter-vcpkg-static;zzip" msvc-full-features\Cataclysm-vcpkg-static.sln
-          .\build-scripts\windist.ps1 -SDL3
+          .\build-scripts\windist.ps1
           mv cataclysmdda-0.J.zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
       - name: Build CDDA (osx, curses)
         if: runner.os == 'macOS' && matrix.tiles != 1
         run: |
           make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.sound }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 UNIVERSAL_BINARY=1 WARN_STALE_DATA=1 dmgdist
           mv Cataclysm.dmg cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
-      - name: Build CDDA (osx, SDL3)
-        if: runner.os == 'macOS' && matrix.sdl3 == 1
+      - name: Build CDDA (osx, tiles)
+        if: runner.os == 'macOS' && matrix.tiles == 1
         env:
           PKG_CONFIG_PATH: ${{ runner.workspace }}/sdl3_prefix/lib/pkgconfig:/opt/local/lib/pkgconfig
           # The MacPorts codecs live in /opt/local/lib; dylibbundler needs it
           # so the mpg123 (and friends) dylibs get pulled into the bundle.
           DYLIBBUNDLER_SEARCH_PATHS: ${{ runner.workspace }}/sdl3_prefix/lib /opt/local/lib
         run: |
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.sound }} SDL3=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 UNIVERSAL_BINARY=1 WARN_STALE_DATA=1 dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.sound }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 UNIVERSAL_BINARY=1 WARN_STALE_DATA=1 dmgdist
           # LGPL gate: mpg123 must ship as a standalone dylib in the bundle so
           # it stays user-replaceable. Empty match means dylibbundler did not
           # bundle it and the build must fail rather than ship a violation.

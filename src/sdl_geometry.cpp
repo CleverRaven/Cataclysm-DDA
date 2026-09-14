@@ -1,12 +1,7 @@
 #if defined(TILES)
 #include "sdl_geometry.h"
 
-#include <ostream>
-#include <stdexcept>
-
-#include "debug.h"
 #include "point.h"
-#include "sdl_utils.h"
 
 void GeometryRenderer::horizontal_line( const SDL_Renderer_Ptr &renderer, const point &pos, int x2,
                                         int thickness, const SDL_Color &color ) const
@@ -34,61 +29,6 @@ void DefaultGeometryRenderer::rect( const SDL_Renderer_Ptr &renderer, const SDL_
 {
     SetRenderDrawColor( renderer, color.r, color.g, color.b, color.a );
     RenderFillRect( renderer, &rect );
-}
-
-ColorModulatedGeometryRenderer::ColorModulatedGeometryRenderer( const SDL_Renderer_Ptr &renderer )
-{
-    build_texture( renderer );
-}
-
-void ColorModulatedGeometryRenderer::build_texture( const SDL_Renderer_Ptr &renderer )
-{
-    tex.reset();
-
-    SDL_Surface_Ptr alt_surf;
-    try {
-        alt_surf = create_surface_32( 1, 1 );
-    } catch( const std::runtime_error & ) {
-        DebugLog( D_ERROR, DC_ALL ) << "CreateRGBSurface failed: " << SDL_GetError();
-        return;
-    }
-
-    FillRect( alt_surf, nullptr, MapRGB( alt_surf, 255, 255, 255 ) );
-
-    tex = CreateTextureFromSurface( renderer, alt_surf );
-    alt_surf.reset();
-
-    SetTextureBlendMode( tex, SDL_BLENDMODE_BLEND );
-
-    // Test to make sure color modulation is supported by renderer
-    bool tex_enable = !SetTextureColorMod( tex, 0, 0, 0 );
-    if( !tex_enable ) {
-        tex.reset();
-    }
-    DebugLog( D_INFO, DC_ALL ) << "ColorModulatedGeometryRenderer build_texture() = " <<
-                               ( tex_enable ? "SUCCESS" : "FAIL" ) << ". tex_enable = " << tex_enable;
-}
-
-void ColorModulatedGeometryRenderer::release_gpu_resources()
-{
-    tex.reset();
-}
-
-void ColorModulatedGeometryRenderer::rebuild_for_renderer( const SDL_Renderer_Ptr &renderer )
-{
-    build_texture( renderer );
-}
-
-void ColorModulatedGeometryRenderer::rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
-        const SDL_Color &color ) const
-{
-    if( tex ) {
-        SetTextureColorMod( tex, color.r, color.g, color.b );
-        SetTextureAlphaMod( tex, color.a );
-        RenderCopy( renderer, tex, nullptr, &rect );
-    } else {
-        DefaultGeometryRenderer::rect( renderer, rect, color );
-    }
 }
 
 #endif // TILES

@@ -306,17 +306,7 @@
   },
   {
     "type": "recipe",
-    "result": "bp_9mm",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "bp_9mmfmj",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_40sw",
     "obsolete": true
   },
   {
@@ -327,11 +317,6 @@
   {
     "type": "recipe",
     "result": "bp_45_acp",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_45_jhp",
     "obsolete": true
   },
   {
@@ -352,11 +337,6 @@
   {
     "type": "recipe",
     "result": "bp_9x18mmfmj",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_380_JHP",
     "obsolete": true
   },
   {
@@ -386,22 +366,7 @@
   },
   {
     "type": "recipe",
-    "result": "reloaded_32_acp_jhp",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "reloaded_38_fmj",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_38_special",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_38_special_p",
     "obsolete": true
   },
   {
@@ -416,17 +381,7 @@
   },
   {
     "type": "recipe",
-    "result": "reloaded_357sig_jhp",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "reloaded_357mag_fmj",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_357mag_jhp",
     "obsolete": true
   },
   {
@@ -436,27 +391,7 @@
   },
   {
     "type": "recipe",
-    "result": "bp_357mag_jhp",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_38_special",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_38_super",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "reloaded_40fmj",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_40sw",
     "obsolete": true
   },
   {
@@ -476,32 +411,12 @@
   },
   {
     "type": "recipe",
-    "result": "reloaded_44magnum",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_44magnum",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "bp_44fmj",
     "obsolete": true
   },
   {
     "type": "recipe",
     "result": "reloaded_45_acp",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_45_jhp",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_45_super",
     "obsolete": true
   },
   {
@@ -516,11 +431,6 @@
   },
   {
     "type": "recipe",
-    "result": "reloaded_45colt_jhp",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "reloaded_45colt_fmj",
     "obsolete": true
   },
@@ -531,22 +441,12 @@
   },
   {
     "type": "recipe",
-    "result": "bp_45colt_jhp",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "bp_45colt_fmj",
     "obsolete": true
   },
   {
     "type": "recipe",
     "result": "bp_45colt_cowboy",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "matchhead_45colt_jhp",
     "obsolete": true
   },
   {
@@ -576,21 +476,6 @@
   },
   {
     "type": "recipe",
-    "result": "reloaded_9mm",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_9mmP",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_9mmP2",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "reloaded_9mmfmj",
     "obsolete": true
   },
@@ -607,16 +492,6 @@
   {
     "type": "recipe",
     "result": "reloaded_9x18mmP2",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_380_JHP",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_380_p",
     "obsolete": true
   },
   {
@@ -662,16 +537,6 @@
   {
     "type": "recipe",
     "result": "bp_270win_jsp",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_300_winmag",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_300_winmag",
     "obsolete": true
   },
   {
@@ -751,11 +616,6 @@
   },
   {
     "type": "recipe",
-    "result": "reloaded_50_incendiary",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "reloaded_50ss",
     "obsolete": true
   },
@@ -767,36 +627,6 @@
   {
     "type": "recipe",
     "result": "reloaded_545_ap",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_300blk",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_300blk",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_556",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_556_incendiary",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_556",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_556_incendiary",
     "obsolete": true
   },
   {
@@ -822,11 +652,6 @@
   {
     "type": "recipe",
     "result": "reloaded_762_54R",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_762_jhp",
     "obsolete": true
   },
   {
@@ -976,11 +801,6 @@
   },
   {
     "type": "recipe",
-    "result": "bp_32_acp_jhp",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "flintlock_ammo",
     "obsolete": true
   },
@@ -1007,16 +827,6 @@
   {
     "type": "recipe",
     "result": "reloaded_10mmP",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_10mm_jhp",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_10mm_jhp",
     "obsolete": true
   },
   {

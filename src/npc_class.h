@@ -120,6 +120,8 @@ class npc_class
         item_group_id carry_override;
         item_group_id weapon_override;
 
+        character_portrait_id class_portrait_filename;
+
         // category of snippet, from which bye message should be picked, if should be replaced
         std::optional<std::string> bye_message_override;
 
