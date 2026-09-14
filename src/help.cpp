@@ -130,6 +130,8 @@ help_window::help_window() : cataimgui::window( "help",
     // Switching between category options and scrolling open category
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_updown();
     // Switching between category options and open categories
     ctxt.register_leftright();
@@ -348,6 +350,10 @@ void help_window::show()
                 s = cataimgui::scroll::line_up;
             } else if( action == "DOWN" ) {
                 s = cataimgui::scroll::line_down;
+            } else if( action == "HOME" ) {
+                s = cataimgui::scroll::begin;
+            } else if( action == "END" ) {
+                s = cataimgui::scroll::end;
             } else if( action == "PAGE_UP" ) {
                 s = cataimgui::scroll::page_up;
             } else if( action == "PAGE_DOWN" ) {
