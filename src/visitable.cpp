@@ -494,8 +494,12 @@ VisitResponse temp_crafting_inventory::visit_items(
             return VisitResponse::ABORT;
         }
     }
-    for( item_location loc : items_loc ) {
-        if( visit_internal( func, loc.get_item() ) == VisitResponse::ABORT ) {
+    for( const item_location &loc : items_loc ) {
+        const item *it = loc.get_item();
+        if( it == nullptr ) {
+            continue;
+        }
+        if( visit_internal( func, it ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
