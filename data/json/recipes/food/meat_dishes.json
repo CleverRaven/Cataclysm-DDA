@@ -38,6 +38,22 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "result": "bacon",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "autolearn": true,
+    "time": "5 m",
+    "batch_time_factors": { "mode": "linear", "setup": "4m 30s" },
+    "flags": [ "BLIND_EASY" ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
+    "components": [ [ [ "bacon_uncooked", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "rehydrated_meat",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
