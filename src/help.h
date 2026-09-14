@@ -88,6 +88,7 @@ class help_window : public cataimgui::window
         int selected_option;
         bool has_selected_category = false;
         int loaded_option;
+        std::string imgui_action;
 
         // Save currently displayed parsed tag + translated paragraphs so they don't need to be recalced every frame
         void swap_translated_paragraphs();

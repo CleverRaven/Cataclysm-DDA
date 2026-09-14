@@ -118,7 +118,6 @@ help_window::help_window() : cataimgui::window( "help",
             ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
             ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoNavFocus )
 {
-
     ctxt = input_context( "DISPLAY_HELP", keyboard_mode::keychar );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
@@ -218,6 +217,9 @@ void help_window::draw_category_option( const int &option, const help_category &
     }
     if( ImGui::IsItemHovered() ) {
         selected_option = option;
+        if( ImGui::IsMouseClicked( ImGuiMouseButton_Left ) ) {
+            imgui_action = "SELECT";
+        }
     }
 }
 
@@ -305,7 +307,8 @@ void help_window::show()
     while( true ) {
         while( !has_selected_category ) {
             ui_manager::redraw_invalidated();
-            std::string action = ctxt.handle_input( 50 );
+            std::string action = imgui_action == "" ? ctxt.handle_input( 50 ) : imgui_action;
+            imgui_action = "";
             input_event input = ctxt.get_raw_input();
 
             for( const auto &hotkey_entry : hotkeys ) {
@@ -333,8 +336,8 @@ void help_window::show()
         }
         while( has_selected_category ) {
             ui_manager::redraw_invalidated();
-            std::string action = ctxt.handle_input( 50 );
-
+            std::string action = imgui_action == "" ? ctxt.handle_input( 50 ) : imgui_action;
+            imgui_action = "";
             if( selected_option != -1 ) {
                 if( action == "SELECT" || action == "CONFIRM" ) {
                     s = cataimgui::scroll::begin;
@@ -533,6 +536,9 @@ void help_window::format_footer( const std::string &prev, const std::string &nex
     ImGui::Text( "%s", prev.c_str() );
     if( ImGui::IsItemHovered() ) {
         selected_option = previous_option( loaded_option );
+        if( ImGui::IsMouseClicked( ImGuiMouseButton_Left ) ) {
+            imgui_action = "SELECT";
+        }
     }
 
     ImGui::SameLine( 0.f, 0.f );
@@ -544,6 +550,9 @@ void help_window::format_footer( const std::string &prev, const std::string &nex
     ImGui::Text( "%s", next.c_str() );
     if( ImGui::IsItemHovered() ) {
         selected_option = next_option( loaded_option );
+        if( ImGui::IsMouseClicked( ImGuiMouseButton_Left ) ) {
+            imgui_action = "SELECT";
+        }
     }
 
     ImGui::SameLine( 0.f, 0.f );
