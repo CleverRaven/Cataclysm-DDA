@@ -484,6 +484,8 @@ struct region_settings {
     bool place_specials;
     bool neighbor_connections;
 
+    double npc_spawn_time;
+
     float max_urban;
     // increase nesw
     std::array<float, 4> urban_increase;

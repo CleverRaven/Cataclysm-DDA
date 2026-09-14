@@ -1,0 +1,27 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_xe_weather_ominous_fog_monster_buff",
+    "//": "Hidden, caused by the Ominous Fog weather",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "u_has_species": "ZOMBIE" }, "u_is_outside", { "is_weather": "xe_weather_ominous_fog" } ] },
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.1 },
+          { "type": "stab", "multiply": -0.1 },
+          { "type": "cut", "multiply": -0.1 },
+          { "type": "bullet", "multiply": -0.1 },
+          { "type": "cold", "multiply": -0.1 },
+          { "type": "heat", "multiply": -0.1 },
+          { "type": "electric", "multiply": -0.1 },
+          { "type": "biological", "multiply": -0.1 },
+          { "type": "xe_shadow_damage", "multiply": -0.1 },
+          { "type": "withering_damage", "multiply": -0.1 }
+        ],
+        "values": [ { "value": "SPEED", "multiply": 0.25 }, { "value": "VISION_RANGE", "add": 20 } ]
+      }
+    ]
+  }
+]

@@ -169,7 +169,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SHABRIRI_REDUCE_ANGER",
-    "effect": [ { "math": [ "u_val('anger') -=50" ] }, { "math": [ "u_val('morale') -=30" ] } ]
+    "effect": [ { "math": [ "u_val('anger') -=50" ] }, { "math": [ "u_morale() -=30" ] } ]
   },
   {
     "id": "death_guilt",

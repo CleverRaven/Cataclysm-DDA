@@ -9,6 +9,15 @@
     "type": "overmap_terrain"
   },
   {
+    "color": "red",
+    "id": "mass_grave_red",
+    "mondensity": 2,
+    "name": "mass grave",
+    "see_cost": "none",
+    "sym": "R",
+    "type": "overmap_terrain"
+  },
+  {
     "color": "brown",
     "id": "dinoexhibit_roof",
     "mondensity": 2,

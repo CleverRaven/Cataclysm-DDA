@@ -56,7 +56,7 @@
     "id": "EOC_FAEWILD_ENNUI",
     "effect": [
       {
-        "switch": { "math": [ "u_val('morale')" ] },
+        "switch": { "math": [ "u_morale()" ] },
         "cases": [
           { "case": 15, "effect": { "u_add_morale": "morale_craving_faewild", "bonus": -15, "max_bonus": 25 } },
           { "case": 25, "effect": { "u_add_morale": "morale_craving_faewild", "bonus": -25, "max_bonus": -25 } },

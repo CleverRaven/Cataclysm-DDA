@@ -607,6 +607,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "exo_base_safehouse_stone_0",
+    "copy-from": "exo_base_safehouse_stone_0",
+    "sym": "U",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "exo_base_safehouse_stone_1",
+    "copy-from": "exo_base_safehouse_stone_1",
+    "sym": "U",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "exo_base_safehouse_stone_2",
+    "copy-from": "exo_base_safehouse_stone_2",
+    "sym": "U",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "slimepit_z0",
     "copy-from": "slimepit_z0",
     "name": "slime pit",

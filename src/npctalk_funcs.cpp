@@ -533,8 +533,8 @@ void talk_function::stop_guard( npc &p )
 
 void talk_function::wake_up( npc &p )
 {
-    p.rules.clear_override( ally_rule::allow_sleep );
     p.rules.enable_override( ally_rule::allow_sleep );
+    p.rules.set_override( ally_rule::allow_sleep );
     p.remove_effect( effect_allow_sleep );
     p.remove_effect( effect_lying_down );
     p.remove_effect( effect_npc_suspend );
@@ -915,6 +915,11 @@ void talk_function::follow( npc &p )
     g->add_npc_follower( p.getID() );
     p.set_attitude( NPCATT_FOLLOW );
     p.set_fac( faction_your_followers );
+    p.set_mission( NPC_MISSION_NULL );
+    p.goal = npc::no_goal_point;
+    p.guard_pos = std::nullopt;
+    p.clear_ai_guard_pos();
+    p.clear_committed_goal();
     get_player_character().cash += p.cash;
     p.cash = 0;
     if( !p.custom_profession.empty() ) {
@@ -925,6 +930,11 @@ void talk_function::follow( npc &p )
 void talk_function::follow_only( npc &p )
 {
     p.set_attitude( NPCATT_FOLLOW );
+    p.set_mission( NPC_MISSION_NULL );
+    p.goal = npc::no_goal_point;
+    p.guard_pos = std::nullopt;
+    p.clear_ai_guard_pos();
+    p.clear_committed_goal();
 }
 
 void talk_function::deny_follow( npc &p )

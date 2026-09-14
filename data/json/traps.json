@@ -555,7 +555,7 @@
     "flags": [ "ECHOLOCATION_DETECTABLE", "PIT" ],
     "symbol": "0",
     "visibility": 0,
-    "avoidance": 8,
+    "avoidance": 99,
     "difficulty": 99,
     "action": "pit",
     "vehicle_data": { "damage": 500 }
@@ -601,7 +601,7 @@
     "flags": [ "ECHOLOCATION_DETECTABLE", "PIT" ],
     "symbol": "0",
     "visibility": 0,
-    "avoidance": 8,
+    "avoidance": 99,
     "difficulty": 99,
     "action": "pit_spikes",
     "vehicle_data": { "damage": 500 }
@@ -833,7 +833,7 @@
     "memorial_female": { "ctxt": "memorial_female", "str": "Fell into a pit filled with glass shards." },
     "symbol": "0",
     "visibility": 0,
-    "avoidance": 8,
+    "avoidance": 99,
     "difficulty": 99,
     "flags": [ "PIT", "ECHOLOCATION_DETECTABLE" ],
     "action": "pit_glass",

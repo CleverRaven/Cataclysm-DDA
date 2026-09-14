@@ -739,6 +739,8 @@
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "use_action": [ "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "TRADER_AVOID", "MAGIC_FOCUS", "SPELLCASTING_AID" ],
+    "faults": [ { "fault_group": "steel_pipe_short" } ],
+    "//0": "Spellcasting aids like these should have some unique faults that could render them unusable as spellcasting aids.",
     "weapon_category": [ "HOOKING_WEAPONRY" ],
     "melee_damage": { "bash": 22, "cut": 1 }
   },
@@ -771,6 +773,8 @@
       "NO_RELOAD",
       "NO_UNLOAD"
     ],
+    "faults": [ { "fault_group": "steel_pipe_short" } ],
+    "//0": "Spellcasting aids like these should have some unique faults that could render them unusable as spellcasting aids.",
     "weapon_category": [ "HOOKING_WEAPONRY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
     "charges_per_use": 1,
@@ -806,7 +810,8 @@
     "subtypes": [ "ARTIFACT" ],
     "copy-from": "q_staff",
     "name": { "str": "Magus battle staff", "str_pl": "Magus battle staves" },
-    "//": "It will be based on the Q +2 weapon but slightly worse, slightly better than the magus staff, but its greatest strength will be its regen mana capabilities, better than magi staff minor but worse than the lesser one.",
+    "//0": "It will be based on the Q +2 weapon but slightly worse, slightly better than the magus staff, but its greatest strength will be its regen mana capabilities, better than magi staff minor but worse than the lesser one.",
+    "//1": "The description needs to be changed so that it is clear where the two glass jars are on the staff.",
     "description": "A quarterstaff with runes carved into it and two mana pearls at the tip, enchanted with mana for durability.  It fills you with an invigorating sensation.  There are two Magi runes carved into the wood.",
     "weight": "1600 g",
     "volume": "1550 ml",
@@ -979,6 +984,7 @@
       "HYGROMETER",
       "BAROMETER"
     ],
+    "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "blade_general_no_tip" } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
     "charges_per_use": 1,
     "melee_damage": { "bash": 40, "cut": 27 },
@@ -1002,6 +1008,7 @@
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
     "weapon_category": [ "KNIVES" ],
     "flags": [ "SHEATH_KNIFE", "MAGIC_FOCUS", "SPELLCASTING_AID", "TRADER_AVOID" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 2, "stab": 13 }
   },
   {
@@ -1023,6 +1030,7 @@
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
     "flags": [ "SHEATH_KNIFE", "MAGIC_FOCUS", "SPELLCASTING_AID", "TRADER_AVOID" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 7, "stab": 30 },
     "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.3 } ] } ]
   },
@@ -1039,6 +1047,7 @@
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "weapon_category": [ "BATONS" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "batons" }, { "fault_group": "steel_pipe_long", "weight_mult": 0 } ],
     "use_action": {
       "menu_text": "Extend to staff",
       "type": "transform",
@@ -1066,6 +1075,7 @@
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
+    "faults": [ { "fault_group": "batons", "weight_mult": 0 }, { "fault_group": "steel_pipe_long" } ],
     "use_action": {
       "menu_text": "Retract to baton",
       "type": "transform",
@@ -1111,6 +1121,7 @@
       "NO_RELOAD",
       "NO_UNLOAD"
     ],
+    "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "blade_general" } ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
     "charges_per_use": 1,

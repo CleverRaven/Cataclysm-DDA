@@ -1,0 +1,81 @@
+[
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "character_requirements_base",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": "1 s",
+    "activity_level": "LIGHT_EXERCISE",
+    "character_requirements": { "str": 9, "dex": 6 }
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "character_requirements_child_clear",
+    "copy-from": "cudgel_character_requirements_base",
+    "character_requirements": {  }
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "character_requirements_child_inherit",
+    "copy-from": "cudgel_character_requirements_base"
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "character_requirements_child_replace",
+    "copy-from": "cudgel_character_requirements_base",
+    "character_requirements": { "per": 12 }
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "character_requirements_control",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": "1 s",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "character_requirements_all_stats",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": "1 s",
+    "activity_level": "LIGHT_EXERCISE",
+    "character_requirements": { "str": 9, "dex": 6, "int": 4, "per": 12 }
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "character_requirements_restricted",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": "1 s",
+    "activity_level": "LIGHT_EXERCISE",
+    "character_requirements": { "str": 9 }
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "character_requirements_zero_entries",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": "1 s",
+    "activity_level": "LIGHT_EXERCISE",
+    "character_requirements": { "str": 0, "dex": 0, "int": 0, "per": 0 }
+  }
+]

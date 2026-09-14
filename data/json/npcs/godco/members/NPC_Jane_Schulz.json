@@ -55,7 +55,7 @@
     "id": "TALK_GODCO_Jane_1",
     "dynamic_line": {
       "math": [ "n_npc_anger() >= 5" ],
-      "yes": "&Jane glaces at you, scowls, and ignores your presence.",
+      "yes": "&Jane glances at you, scowls, and ignores your presence.",
       "no": {
         "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_jane" } ],
         "yes": [ "How can I help you?", "<u_name>, what can I do for you?" ],

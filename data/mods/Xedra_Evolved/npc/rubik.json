@@ -10,8 +10,22 @@
         "text": "[DEDUCTION 2] So does that mean the stories I heard about vampires are true as well?",
         "condition": { "math": [ "u_skill('deduction') >= 2" ] },
         "topic": "TALK_EXODII_MERCHANT_VAMPIRE"
+      },
+      {
+        "text": "I saw some much larger and more heavily armed and armored cyborgs .",
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_exodii_seen_jotunn" } ] },
+        "topic": "TALK_EXODII_MERCHANT_JOTUNN"
       }
     ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_JOTUNN",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "We brought out the armored forces early on this journey.  Specifically since this world hosts not just the undead but people who hunted us in other worlds.",
+      "str": "Four-by-twos woke afore the dawn this green and blue.  Us un's prefer to duck and dive but this mudball's filth kicked it off afore our landing."
+    },
+    "responses": [ { "text": "Oh well yeah, damn the man then I guess.", "topic": "TALK_EXODII_MERCHANT_Talk" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_XEDRA",

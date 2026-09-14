@@ -417,7 +417,7 @@
     "name": { "str": "Weak" },
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -2 } ] } ],
     "points": -1,
-    "description": "Your  movements are unnaturally very awkward.  -2 Dexterity.",
+    "description": "Your movements are unnaturally very awkward.  -2 Dexterity.",
     "types": [ "STR" ]
   }
 ]

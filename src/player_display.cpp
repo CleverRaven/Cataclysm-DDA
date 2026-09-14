@@ -592,13 +592,11 @@ static void draw_encumbrance_info( const catacurses::window &w_info, const Chara
     const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( you, nullptr );
 
     werase( w_info );
-    bodypart_id bp;
     if( line < bps.size() ) {
-        bp = bps[line].first;
+        const std::vector<std::string> s = get_encumbrance_description( you, bps[line].first );
+        const std::string desc = string_join( s, "\n" );
+        draw_x_info( w_info, desc, info_line );
     }
-    const std::vector<std::string> s = get_encumbrance_description( you, bp );
-    const std::string desc = string_join( s, "\n" );
-    draw_x_info( w_info, desc, info_line );
     wnoutrefresh( w_info );
 }
 

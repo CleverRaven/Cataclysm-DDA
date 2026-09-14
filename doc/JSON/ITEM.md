@@ -693,6 +693,7 @@ CBMs can be defined like this:
 "tool" : "apparatus",       // Tool required to be eaten/drank
 "charges" : 4,              // Number of uses when spawned
 "stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
+"seasonings": [ "seasonings_universal", "seasonings_meat" ],  // Item groups that define what items will be automatically consumed alongside this item automatically. Defaults to "seasonings_universal" if undefined.
 "fun" : 50                  // Morale effects when used
 "freezing_point": 32,       // (Optional) Temperature in C at which item freezes, default is water (32F/0C)
 "cooks_like": "meat_cooked",         // (Optional) If the item is used in a recipe, replaces it with its cooks_like
@@ -1027,7 +1028,6 @@ Gun mods can be defined like this:
   { "GROWTH_OVERGROWN": "1 hour" }        // NOTE: GROWTH_OVERGROWN is optional, but if used should be a short duration. Or else it may fail to plant because the overgrown(dead) crops would not 'grow'!
 ],
 "growth_temp": "7 C",                     // (optional, default 10 C). Celsius (C) or milli-Celsius(mC). Temperature required on the days this seed is planted and for every day with a growth stage. If below the required temperature it simply won't be plantable.
-"fruit_div": 2, // (optional, default is 1). Final amount of fruit charges produced is divided by this number. Works only if fruit item is counted by charges.
 "required_terrain_flag": "PLANTABLE" // A tag that terrain and furniture would need to have in order for the seed to be plantable there.
 // Default is "PLANTABLE", and using this will cause any terain the plant is wrown on to turn into dirt once the plant is planted, unless furniture is used.
 // Using any other tag will not turn the terrain into dirt.
@@ -1544,6 +1544,15 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "need_worn": true,          // (optional) If the item has to be worn to cast the spell
   "need_wielding": true,      // (optional) If the item has to be wielded to cast the spell
   "mundane": true             // (optional) This spell uses magic-related features, but is not magic itself. The description is changed from "This item casts spell_name at level spell_level" to "This item when activated: spell_name"
+},
+"use_action": {
+  "type": "attach_molle",   // Attach an item to this item's MOLLE webbing
+  "size": 10,               // Total MOLLE space available; each attached item uses some of it
+  "moves": 300              // Move points to attach an item.  Has no effect currently
+},
+"use_action": {
+  "type": "detach_molle",   // Detach an item from this item's MOLLE webbing
+  "moves": 300              // Move points to detach an item.  Has no effect currently
 },
 ```
 

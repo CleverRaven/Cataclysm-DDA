@@ -13,6 +13,7 @@
     "price_postapoc": "2 USD 50 cent",
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "faults": [ { "fault_group": "knuckles" } ],
     "material_thickness": 1,
     "armor": [
       {
@@ -77,6 +78,7 @@
     "price_postapoc": "2 USD 50 cent",
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE" ],
+    "faults": [ { "fault_group": "knuckles" } ],
     "material_thickness": 2,
     "armor": [
       {
@@ -119,6 +121,7 @@
     "weight": "200 g",
     "price_postapoc": "50 cent",
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "neutral" },
+    "faults": [ { "fault_group": "knuckles_bladed" } ],
     "flags": [  ],
     "material_thickness": 1,
     "armor": [
@@ -162,6 +165,7 @@
     "weight": "430 g",
     "price_postapoc": "50 cent",
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
+    "faults": [ { "fault_group": "knuckles" } ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "material_thickness": 1,
     "armor": [
@@ -208,6 +212,7 @@
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "DURABLE_MELEE" ],
+    "faults": [ { "fault_group": "knuckles" } ],
     "material_thickness": 2,
     "armor": [
       {
@@ -255,6 +260,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "faults": [ { "fault_group": "knuckles" } ],
     "armor": [
       {
         "material": [
@@ -326,6 +332,7 @@
     "warmth": 0,
     "material_thickness": 3,
     "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "OUTER" ],
+    "faults": [ { "fault_group": "knuckles" } ],
     "armor": [
       {
         "encumbrance": 5,
@@ -371,6 +378,7 @@
     "warmth": 0,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "OUTER" ],
+    "faults": [ { "fault_group": "knuckles_bladed" } ],
     "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_l", "hand_r" ] } ],
     "melee_damage": { "bash": 3, "stab": 6 }
   },

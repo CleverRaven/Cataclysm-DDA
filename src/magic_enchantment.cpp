@@ -68,6 +68,8 @@ namespace io
             case enchant_vals::mod::INTELLIGENCE: return "INTELLIGENCE";
             case enchant_vals::mod::SPEED: return "SPEED";
             case enchant_vals::mod::ATTACK_SPEED: return "ATTACK_SPEED";
+            case enchant_vals::mod::AIMING_SPEED: return "AIMING_SPEED";
+            case enchant_vals::mod::RELOADING_SPEED: return "RELOADING_SPEED";
             case enchant_vals::mod::MOVE_COST: return "MOVE_COST";
             case enchant_vals::mod::METABOLISM: return "METABOLISM";
             case enchant_vals::mod::MAX_MANA: return "MAX_MANA";
@@ -142,6 +144,7 @@ namespace io
             case enchant_vals::mod::EXTRA_ELEC_PAIN: return "EXTRA_ELEC_PAIN";
             case enchant_vals::mod::ITEM_ATTACK_SPEED: return "ITEM_ATTACK_SPEED";
             case enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE: return "EQUIPMENT_DAMAGE_CHANCE";
+            case enchant_vals::mod::THEORETICAL_SKILL_CATCHUP_BONUS: return "THEORETICAL_SKILL_CATCHUP_BONUS";
             case enchant_vals::mod::CLIMATE_CONTROL_HEAT: return "CLIMATE_CONTROL_HEAT";
             case enchant_vals::mod::CLIMATE_CONTROL_CHILL: return "CLIMATE_CONTROL_CHILL";
             case enchant_vals::mod::COMBAT_CATCHUP: return "COMBAT_CATCHUP";
@@ -173,6 +176,7 @@ namespace io
             case enchant_vals::mod::STAMINA_REGEN_MOD: return "STAMINA_REGEN_MOD";
             case enchant_vals::mod::MOVEMENT_EXERTION_MODIFIER: return "MOVEMENT_EXERTION_MODIFIER";
             case enchant_vals::mod::WEAKPOINT_ACCURACY: return "WEAKPOINT_ACCURACY";
+            case enchant_vals::mod::BLEEDING_RATE: return "BLEEDING_RATE";
             case enchant_vals::mod::WEIGHT: return "WEIGHT";
             case enchant_vals::mod::MOTION_ALARM: return "MOTION_ALARM";
             case enchant_vals::mod::TOTAL_WEIGHT: return "TOTAL_WEIGHT";

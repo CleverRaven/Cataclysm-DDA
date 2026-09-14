@@ -27,7 +27,7 @@
     "ammo_to_fire": 100,
     "faults": [  ],
     "use_action": { "type": "firestarter" },
-    "valid_mod_locations": [ [ "rail mount", 1 ], [ "grip", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "valid_mod_locations": [ [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [
       {
         "magazine_well": "1196 ml",
@@ -65,6 +65,6 @@
     "price_postapoc": "100 USD",
     "material": [ "aluminum", "carbonfiber" ],
     "range": 10,
-    "valid_mod_locations": [ [ "rail", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock mount", 1 ], [ "underbarrel", 1 ] ]
+    "valid_mod_locations": [ [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ], [ "underbarrel", 1 ] ]
   }
 ]

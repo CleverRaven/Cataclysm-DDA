@@ -32,8 +32,10 @@ RUN apt-fast -qq install --no-install-recommends gettext
 # CDDA: libraries for curses-based terminal cdda
 RUN apt-fast -qq install --no-install-recommends libncurses5-dev libncursesw5-dev
 
-# CDDA: libraries for tiles build
-RUN apt-fast -qq install --no-install-recommends  libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libfreetype6-dev
+# CDDA: libraries for tiles build. Debian testing carries SDL3 >= 3.4.0 and its
+# satellites; on an older suite these packages are too old and the stack has to
+# be built from source instead, as described in doc/c++/COMPILING.md.
+RUN apt-fast -qq install --no-install-recommends libsdl3-dev libsdl3-image-dev libsdl3-ttf-dev libsdl3-mixer-dev libfreetype6-dev cmake pkg-config
 
 # general packages for a much nicer time inside the container (we install psmisc for `killall`)
 RUN apt-fast -qq install --no-install-recommends tree watch tmux fish colormake vim emacs git silversearcher-ag lsof psmisc dstat

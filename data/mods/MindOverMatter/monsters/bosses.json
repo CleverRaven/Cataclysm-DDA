@@ -54,6 +54,7 @@
     "regeneration_modifiers": [ [ "effect_psi_null", -5 ], [ "effect_feral_regeneration", 5 ] ],
     "bleed_rate": 0,
     "death_drops": "mon_mathematician_alpha_five_seven_death_drops",
+    "block": { "chance": 70, "effectiveness": 20, "count": 3, "ranged": false },
     "zombify_into": "mon_zombie_survivor",
     "extend": {
       "special_attacks": [
@@ -170,7 +171,7 @@
           "condition": {
             "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_momentum_alteration" } } ]
           },
-          "monster_message": "The air around Mathematician A57Mathematician A57 wavers."
+          "monster_message": "The air around Mathematician A57 wavers."
         },
         {
           "id": "psi_transcendant_alpha_inertial_barrier",

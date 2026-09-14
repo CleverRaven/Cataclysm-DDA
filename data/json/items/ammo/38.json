@@ -111,46 +111,11 @@
     "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
-    "id": "reloaded_38_special",
-    "copy-from": "38_special",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".38 Special JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_38_special_p",
-    "copy-from": "38_special_p",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".38 Special +P, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
     "id": "bp_38_fmj",
     "copy-from": "38_fmj",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".38 Special FMJ, black powder" },
-    "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
-      "recoil": 0.76,
-      "dispersion": 1.2
-    },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "bp_38_special",
-    "copy-from": "38_special",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".38 Special JHP, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -169,17 +134,6 @@
     "name": { "str_sp": ".38 Special FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_38_fmj",
-    "extend": { "effects": [ "MATCHHEAD" ] }
-  },
-  {
-    "id": "matchhead_38_special",
-    "copy-from": "bp_38_special",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
-    "name": { "str_sp": ".38 Special JHP, matchhead powder" },
-    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
-    "looks_like": "bp_38_special",
     "extend": { "effects": [ "MATCHHEAD" ] }
   }
 ]

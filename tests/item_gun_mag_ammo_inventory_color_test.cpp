@@ -12,6 +12,11 @@
 static const ammotype ammo_38( "38" );
 static const ammotype ammo_9mm( "9mm" );
 
+static const fault_id fault_blade_cracked( "fault_blade_cracked" );
+static const fault_id fault_fail_to_feed( "fault_fail_to_feed" );
+static const fault_id fault_overheat_melting( "fault_overheat_melting" );
+static const fault_id fault_overheat_venting( "fault_overheat_venting" );
+
 static const itype_id itype_38_special( "38_special" );
 static const itype_id itype_9mm( "9mm" );
 static const itype_id itype_backpack( "backpack" );
@@ -111,4 +116,36 @@ TEST_CASE( "gun_with_ammo_but_no_mag_is_light_red", "[item][color][gun][inventor
     u.i_add( item( itype_9mm, calendar::turn, 10 ) );
     // Compatible loose ammo but no magazine -> light red.
     CHECK( gun->color_in_inventory( &u ) == c_light_red );
+}
+
+TEST_CASE( "fault_severity_overrides_item_inventory_color", "[item][color][fault][inventory]" )
+{
+    item gun( itype_glock_19 );
+
+    SECTION( "faults without severity preserve the base color" ) {
+        gun.set_fault( fault_overheat_venting, true, nullptr );
+        CHECK( gun.get_fault_color( c_green ) == c_green );
+    }
+
+    SECTION( "minor faults use red text" ) {
+        gun.set_fault( fault_fail_to_feed, true, nullptr );
+        CHECK( gun.get_fault_color( c_green ) == c_light_red );
+    }
+
+    SECTION( "major faults preserve the foreground on a red background" ) {
+        gun.set_fault( fault_blade_cracked, true, nullptr );
+        CHECK( gun.get_fault_color( c_green ) == red_background( c_black ) );
+    }
+
+    SECTION( "critical faults use a brown background" ) {
+        gun.set_fault( fault_overheat_melting, true, nullptr );
+        CHECK( gun.get_fault_color( c_green ) == yellow_background( c_yellow ) );
+    }
+
+    SECTION( "the most severe fault wins" ) {
+        gun.set_fault( fault_fail_to_feed, true, nullptr );
+        gun.set_fault( fault_blade_cracked, true, nullptr );
+        gun.set_fault( fault_overheat_melting, true, nullptr );
+        CHECK( gun.get_fault_color( c_green ) == yellow_background( c_yellow ) );
+    }
 }

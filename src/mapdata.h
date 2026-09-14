@@ -35,6 +35,15 @@ struct connect_group;
 struct furn_t;
 struct itype;
 struct ter_t;
+template <typename T> class generic_factory;
+
+namespace mapdata
+{
+
+extern generic_factory<ter_t> terrain_data;
+extern generic_factory<furn_t> furniture_data;
+
+} // namespace mapdata
 
 // size of connect groups bitset; increase if needed
 const int NUM_TERCONN = 256;
@@ -558,6 +567,7 @@ struct map_data_common_t {
         // checks if it has corresponding examine_actor
         bool has_examine( const std::string &action ) const;
         void set_examine( const iexamine_functions &func );
+        std::vector<cata::clone_ptr<iexamine_actor>> get_examine() const;
         void examine( Character &, const tripoint_bub_ms & ) const;
 
         int light_emitted = 0;

@@ -30,6 +30,7 @@
 #include "pimpl.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "requirements.h"
 #include "stomach.h"
 #include "submap.h"
 #include "temp_crafting_inventory.h"
@@ -112,14 +113,19 @@ static T sum_no_wrap( T a, T b )
     return a + b;
 }
 
+// `measure` decides what quality an item supplies and `tally` how many providers it
+// counts as.  Empty falls back to get_quality and item::count().
 template <typename T>
-static int has_quality_internal( const T &self, const quality_id &qual, int level, int limit )
+static int has_quality_internal( const T &self, const quality_id &qual, int level, int limit,
+                                 const std::function<int( const item & )> &measure = {},
+                                 const std::function<int( const item & )> &tally = {} )
 {
     int qty = 0;
 
-    self.visit_items( [&qual, level, &limit, &qty]( item * e, item * ) {
-        if( e->get_quality( qual ) >= level ) {
-            qty = sum_no_wrap( qty, static_cast<int>( e->count() ) );
+    self.visit_items( [&qual, level, &limit, &qty, &measure, &tally]( item * e, item * ) {
+        const int supplied = measure ? measure( *e ) : e->get_quality( qual );
+        if( supplied >= level ) {
+            qty = sum_no_wrap( qty, tally ? tally( *e ) : static_cast<int>( e->count() ) );
             if( qty >= limit ) {
                 // found sufficient items
                 return VisitResponse::ABORT;
@@ -155,6 +161,18 @@ static int has_quality_from_vpart( const vehicle &veh, int part, const quality_i
 bool read_only_visitable::has_quality( const quality_id &qual, int level, int qty ) const
 {
     return has_quality_internal( *this, qual, level, qty ) == qty;
+}
+
+bool read_only_visitable::has_provider_quality( const quality_id &qual, int level, int qty,
+        const Character *who ) const
+{
+    const std::function<int( const item & )> measure = [&qual, who]( const item & it ) {
+        return provider_quality_level( it, qual, who, true );
+    };
+    const std::function<int( const item & )> tally = []( const item & ) {
+        return 1;
+    };
+    return has_quality_internal( *this, qual, level, qty, measure, tally ) == qty;
 }
 
 /** @relates visitable */
@@ -230,6 +248,11 @@ bool Character::has_quality( const quality_id &qual, int level, int qty ) const
     }
 
     return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
+}
+
+bool Character::has_intrinsic_quality( const quality_id &qual, int level, int qty ) const
+{
+    return static_cast<int>( intrinsic_quality_sources( qual, level ).size() ) >= qty;
 }
 
 bool read_only_visitable::has_tools( const itype_id &it, int quantity,

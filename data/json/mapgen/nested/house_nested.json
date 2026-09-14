@@ -358,7 +358,8 @@
         "@@ y",
         "¤   "
       ],
-      "palettes": [ "standard_domestic_palette" ]
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
   {
@@ -374,7 +375,8 @@
         "@@ I",
         "¤   "
       ],
-      "palettes": [ "standard_domestic_palette" ]
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
   {
@@ -390,7 +392,8 @@
         "@@ ɱ",
         "¤   "
       ],
-      "palettes": [ "standard_domestic_palette" ]
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
   {
@@ -407,7 +410,7 @@
         "D   "
       ],
       "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
   {
@@ -424,7 +427,7 @@
         "D   "
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
   {
@@ -441,7 +444,7 @@
         "D   "
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
   {
@@ -457,7 +460,8 @@
         "@@ b",
         "D   "
       ],
-      "palettes": [ "standard_domestic_palette" ]
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
   {
@@ -2497,6 +2501,44 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest_plant",
+    "//": "Replace bookshelf with plant instead",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "R" ],
+      "furniture": { "R": "f_indoor_plant" },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest_table_book",
+    "//": "Replace bookshelf with table and book instead",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "R" ],
+      "furniture": { "R": "f_table" },
+      "items": { "R": [ { "item": "novels", "chance": 100 } ] },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest_table_book",
+    "//": "Replace bookshelf with armchair and book instead",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "R" ],
+      "furniture": { "R": "f_armchair" },
+      "items": { "R": [ { "item": "novels", "chance": 100 } ] },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "domestic_bookcase_nest_fiction",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -2723,6 +2765,20 @@
       "furniture": { "R": "f_bookcase" },
       "items": {
         "R": [ { "item": "SUS_domestic_bookshelf", "chance": 100, "repeat": [ 1, 2 ] }, { "item": "book_martial", "chance": 80 } ]
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_bookcase_nest_european_comics",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "R" ],
+      "furniture": { "R": "f_bookcase" },
+      "items": {
+        "R": [ { "item": "SUS_domestic_bookshelf", "chance": 100, "repeat": [ 1, 2 ] }, { "item": "european_comics_collection" } ]
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }

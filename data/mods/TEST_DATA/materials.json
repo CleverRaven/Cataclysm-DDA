@@ -24,5 +24,13 @@
     "dmg_adj": [ "lightly tested", "tested", "very tested", "thoroughly tested" ],
     "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 0, "electric": 0 },
     "chip_resist": 0
+  },
+  {
+    "type": "material",
+    "id": "test_protective_clothing_material",
+    "name": "TEST protective clothing material",
+    "copy-from": "cotton",
+    "wind_resist": 100,
+    "resist": { "bash": 1, "cut": 1, "acid": 3, "heat": 100, "bullet": 1 }
   }
 ]

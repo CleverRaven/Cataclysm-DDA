@@ -107,7 +107,14 @@
         },
         "then": [
           {
-            "if": { "compare_string": [ { "global_val": "closetland_last_dimension" }, "", "dimension_sky_island_mission", "highlands" ] },
+            "if": {
+              "compare_string": [
+                { "global_val": "closetland_last_dimension" },
+                "default",
+                { "global_val": "sky_island_target_region_settings" },
+                "highlands"
+              ]
+            },
             "then": [
               { "u_location_variable": { "u_val": "closetland_departure_point" }, "min_radius": 0, "max_radius": 0 },
               { "u_add_effect": "blind", "duration": 0 },

@@ -30,10 +30,10 @@ bool cannot_gain_skill_or_prof( const Character &crafter, const recipe &recp );
 // Computes whether a Character can craft a given recipe.
 // Stores craftability flags, color-coding, and lazy-cached proficiency maluses.
 struct availability {
-        explicit availability( Character &_crafter, const recipe *r, int batch_size = 1,
+        explicit availability( Character &_crafter, const recipe *recp, int batch_size = 1,
                                bool camp_crafting = false, inventory *inventory_override = nullptr );
         Character &crafter;
-        bool can_craft;
+        bool can_craft_recipe;
         // group can introduce recipe this crafter cannot craft because of low primary skill
         bool crafter_has_primary_skill;
         bool would_use_rotten;

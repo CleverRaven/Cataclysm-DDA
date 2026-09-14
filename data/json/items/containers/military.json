@@ -304,7 +304,7 @@
     "type": "ITEM",
     "category": "container",
     "name": "mortar container",
-    "description": "A small, thick cylindrical container.  Designed to store a single mortar rounds.",
+    "description": "A small, thick cylindrical container.  Designed to store a single mortar round.",
     "//": "cylinder of 393.7 mm H x 76.2 mm W",
     "weight": "272 g",
     "volume": "1795 ml",

@@ -21,7 +21,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "Yes, and yes again.  If every world has zombies, 90% of the ones we reach have dinos.",
-      "str": "Aye, n'aye again!  E'ry ball o mud has the Enemy.  Nine mudballs out o' ten  are mudded up wit thunder chickees."
+      "str": "Aye, n'aye again!  E'ry ball o mud has the Enemy.  Nine mudballs out o' ten are mudded up wit thunder chickees."
     },
     "responses": [ { "text": "I wonder why most worlds have dinosaurs roaming?", "topic": "TALK_EXODII_MERCHANT" } ]
   }

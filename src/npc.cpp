@@ -89,6 +89,10 @@
 #include "vpart_position.h"
 #include "weather.h"
 
+#if defined(TILES)
+#include "sdltiles.h"
+#endif
+
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 
 static const efftype_id effect_bouldering( "bouldering" );
@@ -638,6 +642,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         return;
     }
 
+    portrait_filename = type->class_portrait_filename;
     set_wielded_item( item( itype_id::NULL_ID(), calendar::turn_zero ) );
     inv->clear();
     randomize_personality();
@@ -2737,7 +2742,8 @@ bool npc::is_minion() const
 
 bool npc::guaranteed_hostile() const
 {
-    return attitude_to( get_player_character() ) == Attitude::HOSTILE || is_enemy() ||
+    return ( attitude_to( get_player_character() ) == Attitude::HOSTILE ) ||
+           is_enemy() ||
            ( my_fac && my_fac->likes_u < -10 );
 }
 
@@ -2786,7 +2792,7 @@ bool npc::is_leader() const
 
 bool npc::is_enemy() const
 {
-    return attitude == NPCATT_KILL || attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP;
+    return attitude == NPCATT_KILL || attitude == NPCATT_FLEE;
 }
 
 bool npc::is_stationary( bool include_guards ) const
@@ -4067,7 +4073,7 @@ npc_follower_rules::npc_follower_rules()
 
     clear_flag( ally_rule::allow_pick_up );
     clear_flag( ally_rule::allow_bash );
-    clear_flag( ally_rule::allow_sleep );
+    set_flag( ally_rule::allow_sleep );
     set_flag( ally_rule::allow_complain );
     set_flag( ally_rule::allow_pulp );
     set_flag( ally_rule::close_doors );
@@ -4257,6 +4263,31 @@ std::string npc::get_current_activity() const
         return _( "nothing" );
     }
 }
+
+#if defined(TILES)
+static void pick_random_portrait( npc *guy )
+{
+    std::unordered_set<std::string> all = portrait_tilecontext->get_all_portrait_tile_ids( guy->male );
+    guy->portrait_filename = character_portrait_id( random_entry( all ) );
+}
+
+void npc::ensure_portrait_valid()
+{
+    if( !portrait_filename.is_valid() ) {
+        DebugLog( D_INFO, DC_ALL ) << disp_name() << " invalid portrait " << portrait_filename.c_str();
+        if( myclass->class_portrait_filename.is_valid() ) {
+            portrait_filename = myclass->class_portrait_filename;
+        } else {
+            pick_random_portrait( this );
+        }
+    }
+}
+#else
+void npc::ensure_portrait_valid()
+{
+    // Dummied out function for the compiler's sake.
+}
+#endif
 
 std::string npc::get_current_status() const
 {

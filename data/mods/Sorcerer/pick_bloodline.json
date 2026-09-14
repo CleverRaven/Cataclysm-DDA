@@ -32,7 +32,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_GAIN_BLOODLINE_BLOODRAGER",
-    "dynamic_line": "Magic is in the blood of every sorcerer, but for you it's more literal.  Your magical powers surges as your blood does.\nYour caster level bonus is based off of strength instead of intelligence.  You get an extra boost during adrenaline rushes, but you take a penalty if you lose too  much blood.\nIs this your bloodline?",
+    "dynamic_line": "Magic is in the blood of every sorcerer, but for you it's more literal.  Your magical powers surges as your blood does.\nYour caster level bonus is based off of strength instead of intelligence.  You get an extra boost during adrenaline rushes, but you take a penalty if you lose too much blood.\nIs this your bloodline?",
     "responses": [
       {
         "text": "Choose this bloodline",

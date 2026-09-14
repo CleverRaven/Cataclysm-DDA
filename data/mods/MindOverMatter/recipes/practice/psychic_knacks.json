@@ -776,7 +776,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: mood stabilization",
     "id": "practice_telepathic_morale_knack",
-    "description": "Contemplate your powers and improve your ability to detect other minds.\n\nCurrent Power Level: <u_spell_level:telepathic_morale_knack>",
+    "description": "Contemplate your powers and improve your control of your own emotions or the emotions of others.\n\nCurrent Power Level: <u_spell_level:telepathic_morale_knack>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",

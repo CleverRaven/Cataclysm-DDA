@@ -865,6 +865,22 @@
   },
   {
     "type": "terrain",
+    "id": "t_rock_wall_fake",
+    "copy-from": "t_abstract_wall_stone",
+    "name": "stone wall",
+    "looks_like": "t_rock",
+    "description": "A sturdy stone wall.",
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "rock", "count": [ 8, 18 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_stone_masonry_wall_whitewashed",
     "copy-from": "t_abstract_wall_stone",
     "name": "whitewashed stone masonry wall",

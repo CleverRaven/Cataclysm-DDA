@@ -600,6 +600,16 @@
     "weakpoint_sets": [ "wps_sauropod_body" ],
     "hp": 250,
     "fungalize_into": "mon_zapatosaurus_fungus",
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zauropod_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "description": "Heavily-burned zombie dinosaur sauropod with a long neck that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "armor": { "acid": 3, "heat": 15, "bash": 8, "cut": 13, "bullet": 9 }
   },

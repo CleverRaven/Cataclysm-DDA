@@ -183,7 +183,7 @@ class talker_character_const: virtual public const_talker
 
         bool can_see() const override;
         bool can_see_location( const tripoint_bub_ms &pos ) const override;
-        int morale_cur() const override;
+        int morale_cur( bool raw ) const override;
         int focus_cur() const override;
         int focus_effective_cur() const override;
         int get_rad() const override;
@@ -328,6 +328,7 @@ class talker_character: virtual public talker
         void learn_martial_art( const matype_id &id ) override;
         void forget_martial_art( const matype_id &id ) override;
         std::vector<item *> items_with( const std::function<bool( const item & )> &filter ) override;
+        void ensure_portrait_valid() override;
 
     private:
         Character *me_chr{};

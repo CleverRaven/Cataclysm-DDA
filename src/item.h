@@ -23,6 +23,7 @@
 #include "character_id.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "craft_reservation.h"
 #include "crafting_enums.h"
 #include "enums.h"
 #include "flat_set.h"
@@ -450,14 +451,19 @@ class item : public visitable
          */
         nc_color color_in_inventory( const Character *ch = nullptr ) const;
         /**
+         * Returns the base color, overridden when this item has a fault with a defined severity.
+         */
+        nc_color get_fault_color( nc_color base_color ) const;
+        /**
          * Return the (translated) item name.
          * @param quantity used for translation to the proper plural form of the name, e.g.
          * returns "rock" for quantity 1 and "rocks" for quantity > 0.
          * @param segments determines which tname elements are included
          */
         std::string tname( unsigned int quantity = 1,
-                           tname::segment_bitset const &segments = tname::default_tname ) const;
-        std::string tname( unsigned int quantity, bool with_prefix ) const;
+                           tname::segment_bitset const &segments = tname::default_tname,
+                           bool color_faults = false ) const;
+        std::string tname( unsigned int quantity, bool with_prefix, bool color_faults = false ) const;
         static std::string tname( const itype_id &id, unsigned int quantity = 1,
                                   tname::segment_bitset const &segments = tname::default_tname );
         std::string display_money( unsigned int quantity, unsigned int total,
@@ -466,7 +472,7 @@ class item : public visitable
          * Returns the item name and the charges or contained charges (if the item can have
          * charges at all). Calls @ref tname with given quantity and with_prefix being true.
          */
-        std::string display_name( unsigned int quantity = 1 ) const;
+        std::string display_name( unsigned int quantity = 1, bool color_faults = false ) const;
 
         std::vector<iteminfo> get_info( bool showtext ) const;
         std::vector<iteminfo> get_info( bool showtext, int batch ) const;
@@ -2349,6 +2355,8 @@ class item : public visitable
         int get_warmth() const;
         /** Returns the warmth on the body part of the item on a specific bp. */
         int get_warmth( const bodypart_id &bp ) const;
+        /** Clears and fills @p result with the warmth provided by this item for each covered body part. */
+        void get_warmth_by_bodypart( std::vector<std::pair<bodypart_id, int>> &result ) const;
         /**
          * Returns the @ref islot_armor::thickness value, or 0 for non-armor. Thickness is are
          * relative value that affects the items resistance against bash / cutting / bullet damage.
@@ -3296,6 +3304,22 @@ class item : public visitable
         bool is_awaiting_collection() const;
         void set_awaiting_collection( bool v );
 
+        const std::vector<craft_reservation::binding> &get_reservations() const;
+        void set_reservations( std::vector<craft_reservation::binding> b );
+        std::optional<tripoint_abs_ms> get_reserved_tile() const;
+        void set_reserved_tile( std::optional<tripoint_abs_ms> tile );
+        // Allocates on first call.
+        int64_t reservation_owner_token();
+        int64_t peek_reservation_owner_token() const;
+        time_point get_reservation_expiry() const;
+        void set_reservation_expiry( time_point t );
+        uint8_t get_reservation_search_attempts() const;
+        void set_reservation_search_attempts( uint8_t n );
+        uint64_t get_reservation_pool_fingerprint() const;
+        void set_reservation_pool_fingerprint( uint64_t f );
+        uint8_t get_reservation_pause_reason() const;
+        void set_reservation_pause_reason( uint8_t r );
+
         std::vector<enchant_cache> get_proc_enchantments() const;
         std::vector<enchantment> get_defined_enchantments() const;
         // calculates the enchantment value as if this item were wielded.
@@ -3604,6 +3628,25 @@ class item : public visitable
                 // Terminal unattended liquid step finished; held at full progress
                 // until the player explicitly collects (pours) it.
                 bool awaiting_collection = false;
+
+                std::vector<craft_reservation::binding> reservations;
+                // Empty while the craft is ultimately character-held.  Derived, not
+                // owned: a craft can change tile without changing uid.
+                std::optional<tripoint_abs_ms> reserved_tile;
+                // Not an item_uid, so it survives the copy that picking a craft up
+                // performs.
+                int64_t reservation_owner = 0;
+                // Set at commit, slid by a tick that ends without pausing, untouched by
+                // a pause.  Persisted so a reload cannot re-mint a lapsed lease.
+                time_point reservation_expires_at = calendar::before_time_starts;
+                // Raises the budget on the next attempt.  Persisted, or a reload would
+                // restart from the value that already failed.
+                uint8_t reservation_search_attempts = 0;
+                // A capped craft re-runs its search only when this changes.
+                uint64_t reservation_pool_fingerprint = 0;
+                // Persisted so a pause explains itself after a reload and announces on
+                // transition rather than every minute.
+                uint8_t reservation_pause_reason = 0;
 
                 // Original crafter (for env-check fallback when craft is on
                 // map/vehicle and the crafter is no longer on top of it).

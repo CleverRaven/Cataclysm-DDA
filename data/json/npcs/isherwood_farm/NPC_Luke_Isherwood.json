@@ -99,7 +99,12 @@
       {
         "text": "How are those books doing for you?",
         "topic": "TALK_ISHERWOOD_LUKE_BOOKS1",
-        "condition": { "not": { "compare_string": [ "yes", { "u_val": "u_saved_barry_isherwood" } ] } }
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "u_did_luke_missions" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "u_saved_barry_isherwood" } ] } }
+          ]
+        }
       },
       {
         "text": "Chris and I have a little project for you that we've cooked up, if you're interested.",
@@ -149,6 +154,8 @@
         "topic": "TALK_ISHERWOOD_LUKE_BOOKS2",
         "condition": {
           "and": [
+            { "compare_string": [ "yes", { "u_val": "u_did_luke_missions" } ] },
+            { "compare_string": [ "yes", { "u_val": "u_saved_barry_isherwood" } ] },
             { "math": [ "time_since(u_timer_luke_isherwood_books) <= time('7 d')" ] },
             { "math": [ "u_timer_barry_rescue <= time('5 d')" ] }
           ]
@@ -159,6 +166,8 @@
         "topic": "TALK_ISHERWOOD_LUKE_BOOKS3",
         "condition": {
           "and": [
+            { "compare_string": [ "yes", { "u_val": "u_did_luke_missions" } ] },
+            { "compare_string": [ "yes", { "u_val": "u_saved_barry_isherwood" } ] },
             { "math": [ "time_since(u_timer_luke_isherwood_books) > time('7 d')" ] },
             { "math": [ "u_timer_barry_rescue > time('5 d')" ] }
           ]
@@ -462,6 +471,14 @@
     "value": 50000,
     "item": "glassblowing_book",
     "count": 1,
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "rural_outbuilding",
+          "place_item": [ { "item": "glassblowing_book", "x": 5, "y": 9, "faction": "isherwood_family" } ]
+        }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_ISHERWOOD_LUKE_2",
     "dialogue": {
@@ -487,7 +504,13 @@
     "count": 1,
     "end": {
       "opinion": { "trust": 2, "value": 2 },
-      "effect": [ { "u_add_var": "u_did_luke_missions", "value": "yes" }, { "math": [ "u_timer_luke_isherwood_books = time('now')" ] } ]
+      "effect": [ { "u_add_var": "u_did_luke_missions", "value": "yes" }, { "math": [ "u_timer_luke_isherwood_books = time('now')" ] } ],
+      "update_mapgen": [
+        {
+          "om_terrain": "rural_outbuilding",
+          "place_item": [ { "item": "textbook_fabrication", "x": 5, "y": 9, "faction": "isherwood_family" } ]
+        }
+      ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

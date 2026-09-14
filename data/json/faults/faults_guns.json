@@ -2,6 +2,7 @@
   {
     "id": "fault_gun_blackpowder",
     "type": "fault",
+    "severity": "minor",
     "name": { "str": "Blackpowder fouling" },
     "description": "Firing blackpowder loads from a gun fouls it, which reduces reliability and, if left uncleaned, leads to rust.  It fouls the gun much faster than the use of modern smokeless powder cartridges.  Fouling is only a significant impact on reliability at high levels, but black powder fouling accumulates quickly.",
     "item_prefix": "rusting",
@@ -10,6 +11,7 @@
   {
     "id": "fault_gun_unlubricated",
     "type": "fault",
+    "severity": "minor",
     "name": { "str": "Unlubricated" },
     "description": "Either this gun is brand new and came without lubrication or it was recently cleaned with a solvent without oiling afterwards.  Either way, it's not lubricated and will not cycle properly, and can even be damaged.",
     "item_prefix": "unlubricated",
@@ -18,6 +20,7 @@
   {
     "id": "fault_gun_dirt",
     "type": "fault",
+    "severity": "minor",
     "name": { "str": "Fouling" },
     "description": "Fouling is caused by firing gunpowder loads repeatedly, which reduces reliability and can eventually cause damage to the gun.  Fouling accumulates slowly (unless blackpowder is used) due to the design of modern smokeless powder found in the vast majority of retail cartridges and it is not a significant problem until high levels of fouling are reached due to firing thousands of rounds without cleaning your firearm."
   },
@@ -36,6 +39,7 @@
   {
     "id": "fault_overheat_melting",
     "type": "fault",
+    "severity": "critical",
     "name": { "str": "Fused internals" },
     "description": "Excessive heat has rendered this weapon inoperable.",
     "item_prefix": { "ctxt": "prefix", "str": "ruined" },
@@ -44,6 +48,7 @@
   {
     "id": "fault_overheat_safety",
     "type": "fault",
+    "severity": "minor",
     "name": { "str": "Overheat safety" },
     "description": "This weapon will attempt to enter a cooling cycle when overheated.",
     "flags": [ "OVERHEATED_GUN" ]
@@ -51,6 +56,7 @@
   {
     "id": "fault_overheat_forced_safety",
     "type": "fault",
+    "severity": "minor",
     "name": { "str": "Overheat Protection" },
     "description": "This weapon will enter a cooling cycle when overheated.",
     "flags": [ "OVERHEATED_GUN" ]
@@ -58,6 +64,7 @@
   {
     "id": "fault_fail_to_feed",
     "type": "fault",
+    "severity": "minor",
     "//": "gun_mechanical_simple can be fixed on the fly",
     "fault_type": "gun_mechanical_simple",
     "name": { "str": "Fail to feed" },
@@ -68,6 +75,7 @@
     "id": "fault_gun_chamber_spent",
     "//": "aka fail to extract",
     "type": "fault",
+    "severity": "minor",
     "fault_type": "gun_mechanical_simple",
     "name": { "str": "Spent casing in chamber" },
     "description": "This gun currently has an empty casing in the chamber.",
@@ -77,6 +85,7 @@
     "id": "fault_stovepipe",
     "//": "only closed bolt",
     "type": "fault",
+    "severity": "minor",
     "fault_type": "gun_mechanical_simple",
     "name": { "str": "Stovepipe" },
     "description": "The casing of the cartridge is stuck in the ejection port without being properly ejected, forming an exhaust pipe shape.",
@@ -86,6 +95,7 @@
     "id": "fault_double_feed",
     "//": "only magazine-fed firearms",
     "type": "fault",
+    "severity": "minor",
     "fault_type": "gun_mechanical_simple",
     "name": { "str": "Double feed" },
     "description": "The magazine of the gun tried to put two rounds in the chamber at once.",

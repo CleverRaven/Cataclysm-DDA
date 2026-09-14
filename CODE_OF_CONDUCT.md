@@ -13,7 +13,7 @@ In the interest of fostering an open and welcoming environment, we as contributo
 4. Don't argue unceasingly for your preferred course of action when a decision for some other course has already been made.
 5. If other participants complain about the way you express your ideas, please make an effort to cater to them.
 6. Don't raise unrelated political issues.
-7. If you feel these standards are being violated, please alert the project lead Kevin Granade at kevin.granade@gmail.com
+7. If you feel these standards are being violated, please alert the project lead Maya Granade at kevin.granade@gmail.com
 
 ## Attribution
 

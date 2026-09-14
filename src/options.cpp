@@ -1294,7 +1294,8 @@ void options_manager::search_resource(
     }
 }
 
-std::vector<options_manager::id_and_option> options_manager::build_tilesets_list()
+std::vector<options_manager::id_and_option> options_manager::build_tilesets_list(
+    bool only_portraits )
 {
     std::vector<id_and_option> result;
 
@@ -1307,6 +1308,20 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
         result.emplace_back( "hoder", to_translation( "Hoder's" ) );
         result.emplace_back( "deon", to_translation( "Deon's" ) );
     }
+
+    if( only_portraits ) {
+        for( auto iter = result.begin(); iter != result.end(); ) {
+            // Portrait packs must contain the string "Portrait" (case-sensitive) somewhere in their ID.
+            // I would like this check to be less dumb, but we're working with only a std::string here.
+            if( iter->first.find( "Portrait" ) == std::string::npos ) {
+                iter = result.erase( iter );
+            } else {
+                ++iter;
+            }
+        }
+    }
+
+
     return result;
 }
 
@@ -2527,7 +2542,13 @@ void options_manager::add_options_graphics()
              1, 4, 2, COPT_CURSES_HIDE
            ); // populate the options dynamically
 
+        add( "PORTRAIT_TILES", page_id, to_translation( "Choose portrait pack" ),
+             to_translation( "Choose the tileset you want to use for NPC or player portraits." ),
+             build_tilesets_list( /*bool only_portraits=*/ true ), "Test_Portrait_Pack", COPT_CURSES_HIDE
+           ); // populate the options dynamically
+
         get_option( "TILES" ).setPrerequisite( "USE_TILES" );
+        get_option( "PORTRAIT_TILES" ).setPrerequisite( "USE_TILES" );
         get_option( "USE_DISTANT_TILES" ).setPrerequisite( "USE_TILES" );
         get_option( "DISTANT_TILES" ).setPrerequisite( "USE_DISTANT_TILES" );
         get_option( "SWAP_ZOOM" ).setPrerequisite( "USE_DISTANT_TILES" );
@@ -2741,17 +2762,12 @@ void options_manager::add_options_graphics()
             }
         }
 #   endif
-        // SDL3 drives renderer selection through SDL_HINT_RENDER_DRIVER; the
+        // Renderer selection is driven through SDL_HINT_RENDER_DRIVER; the
         // saved RENDERER value is ignored at startup but the option ID is
         // retained so configs from existing worlds still parse.
-#   if defined(USE_SDL3)
-        const options_manager::copt_hide_t renderer_hide = COPT_ALWAYS_HIDE;
-#   else
-        const options_manager::copt_hide_t renderer_hide = COPT_CURSES_HIDE;
-#   endif
         add( "RENDERER", page_id, to_translation( "Renderer" ),
              to_translation( "Set which renderer to use.  Requires restart." ), renderer_list,
-             default_renderer, renderer_hide );
+             default_renderer, COPT_ALWAYS_HIDE );
 #   endif
 
 #else
@@ -2763,44 +2779,26 @@ void options_manager::add_options_graphics()
            );
 #endif
 
-#if defined(SDL_HINT_RENDER_BATCHING)
-        add( "RENDER_BATCHING", page_id, to_translation( "Allow render batching" ),
-             to_translation( "If true, use render batching for 2D render API to make it more efficient.  Requires restart." ),
-             true, COPT_CURSES_HIDE
-           );
-#endif
-        // FRAMEBUFFER_ACCEL only meaningful for the SDL2 software renderer
-        // path; under SDL3 the renderer is hidden and software fallback is
-        // automatic, so the option is hidden too.
-#if defined(USE_SDL3)
-        const options_manager::copt_hide_t framebuffer_accel_hide = COPT_ALWAYS_HIDE;
-#else
-        const options_manager::copt_hide_t framebuffer_accel_hide = COPT_CURSES_HIDE;
-#endif
+        // The renderer is hidden and the software fallback is automatic, so
+        // this option is hidden too; the ID is retained so existing configs
+        // still parse.
         add( "FRAMEBUFFER_ACCEL", page_id, to_translation( "Software framebuffer acceleration" ),
              to_translation( "If true, use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
-             false, framebuffer_accel_hide
+             false, COPT_ALWAYS_HIDE
            );
 
 #if defined(__ANDROID__)
         get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
-#elif !defined(USE_SDL3)
-        get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "RENDERER", "software" );
 #endif
 
-        // Color-modulated textures are an SDL2-era speed-up that replaces
-        // RenderFillRect with a stretched 1x1 texture. Under SDL3 the renderer
-        // batches fills efficiently and the texture path blends differently, so
-        // the saved value is ignored at startup and the option is hidden; the ID
-        // is retained so existing configs still parse.
-#if defined(USE_SDL3)
-        const options_manager::copt_hide_t color_modulated_hide = COPT_ALWAYS_HIDE;
-#else
-        const options_manager::copt_hide_t color_modulated_hide = COPT_CURSES_HIDE;
-#endif
+        // Color-modulated textures replaced RenderFillRect with a stretched
+        // 1x1 texture. The renderer now batches fills efficiently and the
+        // texture path blends differently, so the saved value is ignored at
+        // startup and the option is hidden; the ID is retained so existing
+        // configs still parse.
         add( "USE_COLOR_MODULATED_TEXTURES", page_id, to_translation( "Use color modulated textures" ),
              to_translation( "If true, tries to use color modulated textures to speed-up ASCII drawing.  Requires restart." ),
-             false, color_modulated_hide
+             false, COPT_ALWAYS_HIDE
            );
 
         add( "SCALING_MODE", page_id, to_translation( "Scaling mode" ),
@@ -2849,10 +2847,6 @@ void options_manager::add_options_world_default()
        );
 
     add( "ITEM_SPAWNRATE", "world_default", translation(), translation(), 0.01, 10.0, 1.0, 0.01,
-         COPT_ALWAYS_HIDE
-       );
-
-    add( "NPC_SPAWNTIME", "world_default", translation(), translation(), 0.0, 100.0, 4.0, 0.01,
          COPT_ALWAYS_HIDE
        );
 
@@ -3320,6 +3314,18 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
                 use_tiles = false;
                 use_tiles_overmap = false;
             }
+        }
+        try {
+            portrait_tilecontext->reinit();
+            portrait_tilecontext->load_tileset( get_option<std::string>( "PORTRAIT_TILES" ),
+                                                /*precheck=*/false, /*force=*/false,
+                                                /*pump_events=*/true, /*terrain=*/true );
+            //game_ui::init_ui is called when zoom is changed
+            g->reset_zoom();
+            g->mark_main_ui_adaptor_resize();
+        } catch( const std::exception &err ) {
+            popup( _( "Loading the portrait tileset failed: %s" ), err.what() );
+            use_tiles = false;
         }
         try {
             overmap_tilecontext->reinit();
@@ -4077,7 +4083,7 @@ void options_manager::deserialize( const JsonArray &ja )
         // yay hardcoded list! remove after 0.J
         std::vector<std::string> removed_options = { "DISTANCE_INITIAL_VISIBILITY", "FOV_3D_Z_RANGE", "SAFEMODE",
                                                      "INITIAL_STAT_POINTS", "INITIAL_TRAIT_POINTS", "INITIAL_SKILL_POINTS", "MAX_TRAIT_POINTS",
-                                                     "SKILL_TRAINING_SPEED", "PROFICIENCY_TRAINING_SPEED", "CITY_SPACING", "CITY_SIZE"
+                                                     "SKILL_TRAINING_SPEED", "PROFICIENCY_TRAINING_SPEED", "CITY_SPACING", "CITY_SIZE", "NPC_SPAWNTIME"
                                                    };
 
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );
@@ -4142,7 +4148,9 @@ void options_manager::update_options_cache()
     if( ::has_option( "PLAYER_MAX_INT_VALUE" ) ) {
         character_max_int = ::get_option<int>( "PLAYER_MAX_INT_VALUE" );
     }
-
+    if( ::has_option( "COMBAT_SPEED_MODIFIER" ) ) {
+        combat_speed_modifier = ::get_option<float>( "COMBAT_SPEED_MODIFIER" );
+    }
     prevent_occlusion = ::get_option<int>( "PREVENT_OCCLUSION" );
     prevent_occlusion_retract = ::get_option<bool>( "PREVENT_OCCLUSION_RETRACT" );
     prevent_occlusion_transp = ::get_option<bool>( "PREVENT_OCCLUSION_TRANSP" );

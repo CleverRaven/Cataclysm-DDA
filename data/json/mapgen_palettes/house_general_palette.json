@@ -248,7 +248,9 @@
         "chunks": [
           [ "domestic_bookcase_nest_fiction", 1750 ],
           [ "domestic_bookcase_nest_fiction_and_nonfiction", 850 ],
+          [ "domestic_bookcase_nest_plant", 850 ],
           [ "domestic_bookcase_nest_literature_enthusiast", 500 ],
+          [ "domestic_bookcase_nest_table_book", 500 ],
           [ "domestic_bookcase_nest_cookbooks", 350 ],
           [ "domestic_bookcase_nest_manga", 100 ],
           [ "domestic_bookcase_nest_tailoring", 100 ],
@@ -259,7 +261,8 @@
           [ "domestic_bookcase_nest_martial_arts", 25 ],
           [ "domestic_bookcase_nest_medical", 25 ],
           [ "domestic_bookcase_nest_esoterica", 25 ],
-          [ "domestic_bookcase_nest_judaica", 10 ]
+          [ "domestic_bookcase_nest_judaica", 10 ],
+          [ "domestic_bookcase_nest_european_comics", 10 ]
         ]
       }
     }

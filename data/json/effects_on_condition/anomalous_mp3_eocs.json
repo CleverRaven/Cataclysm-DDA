@@ -1,13 +1,18 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_MP3_REVERBERATION",
+    "id": "EOC_ANOMALOUS_MP3_PLAYER",
     "effect": [
+      {
+        "if": { "one_in_chance": 500 },
+        "then": { "u_message": "<anomalous_mp3_player_ambient_music>", "type": "info", "snippet": true }
+      },
+      { "u_add_morale": "morale_music", "bonus": 5, "max_bonus": 5 },
       {
         "if": { "math": [ "has_var(n_mp3_timer)" ] },
         "then": {
           "if": { "math": [ "n_mp3_timer < 0" ] },
-          "then": [ { "run_eocs": [ "EOC_MP3_REVERBERATION_PING" ] }, { "math": [ "n_mp3_timer = rand(10)+10" ] } ],
+          "then": [ { "run_eocs": [ "EOC_ANOMALOUS_MP3_PLAYER_PING" ] }, { "math": [ "n_mp3_timer = rand(10)+10" ] } ],
           "else": [ { "math": [ "n_mp3_timer -= 1" ] } ]
         },
         "else": { "math": [ "n_mp3_timer = rand(10)+10" ] }
@@ -16,47 +21,53 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_MP3_REVERBERATION_ENTRANCE_CHECK",
-    "condition": {
-      "or": [
-        { "u_at_om_location": "cabin_roof_3" },
-        { "u_at_om_location": "cabin_roof_3_reverberation_hint" },
-        { "u_at_om_location": "radio_tower_top" },
-        { "u_at_om_location": "wasp_tower_top" }
-      ]
-    }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_MP3_REVERBERATION_REVERBERATION_LISTENER",
+    "id": "EOC_ANOMALOUS_MP3_PLAYER_REVERBERATION_LISTENER",
     "condition": { "not": { "current_dimension": "default" } },
     "effect": [
       { "dimension_name": { "context_val": "dim_name" } },
       {
         "if": { "compare_string": [ { "context_val": "dim_name" }, "radiosphere" ] },
-        "then": { "u_message": "mp3_reverberation_listener_radiosphere", "type": "info", "snippet": true },
+        "then": { "u_message": "anomalous_mp3_player_reverberation_listener_radiosphere", "type": "info", "snippet": true },
         "else": {
           "if": { "compare_string": [ { "context_val": "dim_name" }, "cabins" ] },
-          "then": { "u_message": "mp3_reverberation_listener_cabins", "type": "info", "snippet": true }
+          "then": { "u_message": "anomalous_mp3_player_reverberation_listener_cabins", "type": "info", "snippet": true }
         }
       }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_MP3_REVERBERATION_PING",
+    "id": "EOC_ANOMALOUS_MP3_PLAYER_PING",
     "effect": [
+      { "u_location_variable": { "context_val": "loc" } },
       {
         "if": "has_alpha",
         "//": "only do the following if MP3 is in player's inventory.",
         "then": {
-          "if": { "test_eoc": "EOC_MP3_REVERBERATION_ENTRANCE_CHECK" },
+          "if": {
+            "or": [
+              { "u_at_om_location": "cabin_roof_3" },
+              { "u_at_om_location": "cabin_roof_3_reverberation_hint" },
+              { "u_at_om_location": "radio_tower_top" },
+              { "u_at_om_location": "wasp_tower_top" },
+              { "is_weather": "scarlet_storm_4" },
+              {
+                "and": [ { "not": { "current_dimension": "string_dimension" } }, { "u_has_item": "inert_glowing_string" } ]
+              },
+              {
+                "and": [
+                  { "not": { "current_dimension": "highlands" } },
+                  { "map_terrain_with_flag": "SHALLOW_WATER", "loc": { "context_val": "loc" } }
+                ]
+              }
+            ]
+          },
           "then": {
             "if": { "math": [ "n_cooldown < time('now')" ] },
-            "then": { "run_eocs": [ "EOC_MP3_REVERBERATION_LOCATOR" ] },
-            "else": { "u_message": "<mp3_reverberation_locator_cooldown>", "type": "info", "snippet": true }
+            "then": { "run_eocs": [ "EOC_ANOMALOUS_MP3_PLAYER_LOCATOR" ] },
+            "else": { "u_message": "<anomalous_mp3_player_locator_cooldown>", "type": "info", "snippet": true }
           },
-          "else": [ { "run_eocs": [ "EOC_MP3_REVERBERATION_REVERBERATION_LISTENER" ] }, { "math": [ "n_warm_up = 10" ] } ]
+          "else": [ { "run_eocs": [ "EOC_ANOMALOUS_MP3_PLAYER_REVERBERATION_LISTENER" ] }, { "math": [ "n_warm_up = 10" ] } ]
         },
         "else": { "transform_item": "mp3_reverberation", "active": false }
       }
@@ -64,33 +75,53 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_MP3_REVERBERATION_LOCATOR",
+    "id": "EOC_ANOMALOUS_MP3_PLAYER_LOCATOR",
     "effect": [
       { "math": [ "n_warm_up -= 1" ] },
+      { "u_location_variable": { "context_val": "loc" } },
       {
         "if": { "math": [ "n_warm_up <= 0" ] },
         "then": [
           { "u_message": "Its song drowns out the world.", "type": "info", "popup": true, "popup_w_interrupt_query": true },
           { "transform_item": "mp3_reverberation", "active": false },
           { "math": [ "n_cooldown = time('now')+time('1 d')+( time('8 h')*rand(4) )" ] },
-          { "run_eocs": [ "EOC_REVERBERATION_ENTER" ], "time_in_future": "2 seconds" }
+          {
+            "if": {
+              "or": [
+                { "u_at_om_location": "cabin_roof_3" },
+                { "u_at_om_location": "cabin_roof_3_reverberation_hint" },
+                { "u_at_om_location": "radio_tower_top" },
+                { "u_at_om_location": "wasp_tower_top" }
+              ]
+            },
+            "then": { "run_eocs": [ "EOC_REVERBERATION_ENTER" ], "time_in_future": "2 seconds" },
+            "else": {
+              "if": { "is_weather": "scarlet_storm_4" },
+              "then": { "run_eocs": "EOC_PORTAL_SCARLET_SEA" },
+              "else": {
+                "if": { "map_terrain_with_flag": "SHALLOW_WATER", "loc": { "context_val": "loc" } },
+                "then": { "run_eocs": "EOC_PORTAL_HIGHLANDS" },
+                "else": { "if": { "u_has_item": "inert_glowing_string" }, "then": { "run_eocs": "EOC_PORTAL_STRING_DIMENSION" } }
+              }
+            }
+          }
         ],
         "else": {
           "if": { "math": [ "n_warm_up <= 3" ] },
           "then": [
-            { "u_message": "<mp3_reverberation_locator_almost_there>", "type": "info", "snippet": true },
+            { "u_message": "<anomalous_mp3_player_locator_almost_there>", "type": "info", "snippet": true },
             { "u_add_morale": "morale_music", "bonus": 60, "max_bonus": 40 }
           ],
           "else": {
             "if": { "math": [ "n_warm_up <= 6" ] },
             "then": [
-              { "u_message": "<mp3_reverberation_locator_close>", "type": "info", "snippet": true },
+              { "u_message": "<anomalous_mp3_player_locator_close>", "type": "info", "snippet": true },
               { "u_add_morale": "morale_music", "bonus": 40, "max_bonus": 20 }
             ],
             "else": [
               {
                 "if": { "math": [ "n_warm_up < 10" ] },
-                "then": [ { "u_message": "<mp3_reverberation_locator_distant>", "type": "info", "snippet": true } ]
+                "then": [ { "u_message": "<anomalous_mp3_player_locator_distant>", "type": "info", "snippet": true } ]
               }
             ]
           }

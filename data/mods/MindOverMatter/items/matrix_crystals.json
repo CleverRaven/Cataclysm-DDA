@@ -217,7 +217,7 @@
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing red light in its depths.  Holding it, you feel hot.",
     "color": "red",
-    "flags": [ "MATRIX_CRYSTAL_PYROKINESIS" ],
+    "flags": [ "MATRIX_CRYSTAL_PYROKINESIS", "RELIC_PINK" ],
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
@@ -266,7 +266,7 @@
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing yellow light in its depths.  Holding it, you feel lighter.",
     "color": "yellow",
-    "flags": [ "MATRIX_CRYSTAL_TELEKINESIS" ],
+    "flags": [ "MATRIX_CRYSTAL_TELEKINESIS", "RELIC_PINK" ],
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
@@ -315,7 +315,7 @@
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing white light in its depths.  Holding it, you feel pensive.",
     "color": "white",
-    "flags": [ "MATRIX_CRYSTAL_TELEPATHY" ],
+    "flags": [ "MATRIX_CRYSTAL_TELEPATHY", "RELIC_PINK" ],
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
@@ -342,13 +342,29 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "category": "artifacts",
+    "id": "matrix_crystal_telepathy_artifact",
+    "name": { "str_sp": "strange crystal, white" },
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing blue light in its depths.  Holding it, you feel more mobile.",
+    "color": "white",
+    "symbol": "+",
+    "volume": "10 ml",
+    "weight": "150 g",
+    "longest_side": "21 mm",
+    "material": [ "nether_crystal" ],
+    "looks_like": "matrix_crystal_telepathy",
+    "flags": [ "MATRIX_CRYSTAL_TELEPATHY", "RELIC_PINK" ]
+  },
+  {
+    "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_teleportation",
     "name": { "str_sp": "strange crystal, blue" },
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing blue light in its depths.  Holding it, you feel more mobile.",
     "color": "blue",
-    "flags": [ "MATRIX_CRYSTAL_TELEPORTATION" ],
+    "flags": [ "MATRIX_CRYSTAL_TELEPORTATION", "RELIC_PINK" ],
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
@@ -397,7 +413,7 @@
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing green light in its depths.  Holding it, you feel healthier.",
     "color": "green",
-    "flags": [ "MATRIX_CRYSTAL_VITAKINESIS" ],
+    "flags": [ "MATRIX_CRYSTAL_VITAKINESIS", "RELIC_PINK" ],
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,

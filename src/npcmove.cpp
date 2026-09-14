@@ -1883,7 +1883,10 @@ void npc::move()
                 }
                 action = npc_goto_destination;
             } else if( new_goal == "free_time" ) {
-                action = npc_worker_downtime;
+                action = address_needs();
+                if( action == npc_undecided ) {
+                    action = npc_worker_downtime;
+                }
             } else if( new_goal == "idle" ) {
                 if( guard_pos && is_guarding() ) {
                     // Persistent duty post: stay put, tend minor needs.

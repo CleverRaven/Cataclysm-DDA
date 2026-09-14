@@ -29,6 +29,7 @@ extern int pixel_minimap_r;
 extern int pixel_minimap_g;
 extern int pixel_minimap_b;
 extern int pixel_minimap_a;
+extern float combat_speed_modifier;
 
 namespace cata::options
 {

@@ -26,6 +26,7 @@
 #include "cata_imgui.h"
 #endif
 #include "cata_variant.h"
+#include "craft_reservation.h"
 #include "clzones.h"
 #include "coordinates.h"
 #include "debug.h"
@@ -553,6 +554,9 @@ bool game::do_turn()
     timed_event_manager &timed_events = get_timed_events();
     timed_events.process();
     get_item_wakeups().process( calendar::turn );
+    if( calendar::once_every( 1_hours ) ) {
+        get_craft_reservations().sweep_expired_records();
+    }
     mission::process_all();
     avatar &u = get_avatar();
     map &m = get_map();

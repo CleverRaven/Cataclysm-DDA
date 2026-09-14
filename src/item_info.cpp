@@ -1,5 +1,3 @@
-#include "item.h"
-
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
@@ -30,8 +28,10 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_id.h"
 #include "character_martial_arts.h"
 #include "color.h"
+#include "craft_reservation.h"
 #include "damage.h"
 #include "debug.h"
 #include "dialogue.h"
@@ -46,11 +46,13 @@
 #include "global_vars.h"
 #include "gun_mode.h"
 #include "inventory.h"
+#include "item.h"
 #include "item_category.h"
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_factory.h"
 #include "item_pocket.h"
+#include "item_uid.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "iuse.h"
@@ -62,6 +64,7 @@
 #include "math_parser_diag_value.h"
 #include "mod_manager.h"
 #include "mtype.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
@@ -247,7 +250,7 @@ static void insert_separation_line( std::vector<iteminfo> &info )
 void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                        bool /* debug */ ) const
 {
-    if( parts->test( iteminfo_parts::BASE_MOD_SRC ) ) {
+    if( debug_mode && parts->test( iteminfo_parts::BASE_MOD_SRC ) ) {
         info.emplace_back( "BASE", get_origin( type->src ) );
         insert_separation_line( info );
     }
@@ -667,6 +670,17 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
     if( !effect_vits.empty() && parts->test( iteminfo_parts::FOOD_VIT_EFFECTS ) ) {
         info.emplace_back( "FOOD", _( "Other contents: " ), effect_vits );
+    }
+
+    std::list<itype_id>all_seasonings = get_comestible()->get_seasonings();
+    if( !all_seasonings.empty() ) {
+        std::vector<std::string> seasoning_types;
+        seasoning_types.reserve( all_seasonings.size() );
+        for( const itype_id seasoning_type : all_seasonings ) {
+            seasoning_types.push_back( seasoning_type->nname( 1 ) );
+        }
+        info.emplace_back( "FOOD", _( "Could be seasoned with: " ),
+                           enumerate_lcsorted_with_limit( seasoning_types ) );
     }
 
     insert_separation_line( info );
@@ -2414,7 +2428,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         auto bg_cb = [this]( const bodygraph_part * bgp, const std::string & sym ) {
             if( !bgp ) {
-                return colorize( sym, bodygraph_full_body_iteminfo->fill_color );
+                return sym;  // it's " "
             }
             std::set<sub_bodypart_id> grp{ bgp->sub_bodyparts.begin(), bgp->sub_bodyparts.end() };
             for( const bodypart_id &bid : bgp->bodyparts ) {
@@ -2444,7 +2458,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         std::vector<std::string> bg_lines = get_bodygraph_lines( get_player_character(), bg_cb,
                                             bodygraph_full_body_iteminfo );
         for( const std::string &line : bg_lines ) {
-            info.emplace_back( "ARMOR", line, iteminfo::is_art );
+            info.emplace_back( "ARMOR", rtrim( line ), iteminfo::is_art );
         }
         insert_separation_line( info );
     }
@@ -3939,6 +3953,30 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
                                activity_var_may->str() ) );
     }
 
+    if( get_craft_reservations().is_reserved_uid( uid().get_value() ) ) {
+        const craft_reservation_index::record *rec =
+            get_craft_reservations().record_for_item_uid( uid().get_value() );
+        const character_id claimant = rec != nullptr ? rec->crafter : character_id();
+        if( claimant.is_valid() && claimant == get_player_character().getID() ) {
+            info.emplace_back( "DESCRIPTION",
+                               _( "* This item is <info>reserved</info> by a craft of yours left running." ) );
+        } else if( npc *who = claimant.is_valid() ? g->find_npc( claimant ) : nullptr ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format(
+                                   _( "* This item is <info>reserved</info> by a craft %s left running." ),
+                                   who->get_name() ) );
+        } else {
+            info.emplace_back( "DESCRIPTION",
+                               _( "* This item is <info>reserved</info> by a craft left running." ) );
+        }
+        if( has_flag( flag_USE_UPS ) ) {
+            info.emplace_back( "DESCRIPTION",
+                               _( "* Its <bad>UPS charge is not protected</bad> and may be drained by anything." ) );
+        }
+    } else if( craft_reservation::contains_reserved( *this ) ) {
+        info.emplace_back( "DESCRIPTION",
+                           _( "* This holds an item <info>reserved</info> by a craft, so it cannot be used for crafting." ) );
+    }
 }
 
 // Cache for can_craft in final_info.
@@ -3954,8 +3992,9 @@ static bool can_craft_recipe( const recipe *r, const inventory &crafting_inv )
     if( can_craft_recipe_cache.count( r ) > 0 ) {
         return can_craft_recipe_cache.at( r );
     }
-    can_craft_recipe_cache[r] = r->deduped_requirements().can_make_with_inventory( crafting_inv,
-                                r->get_component_filter() );
+    can_craft_recipe_cache[r] = r->deduped_requirements().can_make_with_inventory(
+                                    &get_player_character(), crafting_inv,
+                                    r->get_component_filter() );
     return can_craft_recipe_cache.at( r );
 }
 
@@ -4305,7 +4344,7 @@ void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query * /
     if( art.is_valid() ) {
         insert_separation_line( info );
         for( const std::string &line : art->picture ) {
-            info.emplace_back( "DESCRIPTION", line, iteminfo::is_art );
+            info.emplace_back( "DESCRIPTION", rtrim( line ), iteminfo::is_art );
         }
     }
 }

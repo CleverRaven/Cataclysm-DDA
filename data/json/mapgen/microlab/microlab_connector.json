@@ -47,7 +47,7 @@
         "##|^                 |##",
         "##|^         §|^^^^^^|##",
         "##||(((((|    ||||||||##",
-        "###|l h  ( YY |#########",
+        "###|l h6 ( YY |#########",
         "###|l    ( YY |#########",
         "###|l §  (    |#########",
         "###||2||||    |#########",
@@ -74,7 +74,16 @@
         "l": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
         "t": { "item": "magazines", "chance": 90 }
       },
-      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } },
+      "computers": {
+        "6": {
+          "name": "Metro computer",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
+          "security": 3,
+          "options": [ { "name": "Check Subway Status", "security": 5, "action": "map_subway" } ],
+          "failures": [ { "action": "manhacks" }, { "action": "secubots" } ]
+        }
+      }
     }
   },
   {

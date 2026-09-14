@@ -542,7 +542,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     const inventory &crafting_inv = player_character.crafting_inventory();
 
     bool can_craft_with_crafting_inv = r.deduped_requirements()
-                                       .can_make_with_inventory( crafting_inv, r.get_component_filter() );
+                                       .can_make_with_inventory( &player_character, crafting_inv, r.get_component_filter() );
     const std::string missing_alt_reqs = enumerate_as_string( r.deduped_requirements().alternatives(),
     []( const requirement_data & rd ) {
         return string_format( "req id: '%s' missing: %s", rd.id().str(), rd.list_missing() );
@@ -550,7 +550,8 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     CAPTURE( missing_alt_reqs );
     REQUIRE( can_craft_with_crafting_inv == expect_craftable );
     bool can_craft_with_temp_inv = r.deduped_requirements()
-                                   .can_make_with_inventory( temp_crafting_inventory( crafting_inv ), r.get_component_filter() );
+                                   .can_make_with_inventory( &player_character, temp_crafting_inventory( crafting_inv ),
+                                           r.get_component_filter() );
     REQUIRE( can_craft_with_temp_inv == expect_craftable );
 }
 

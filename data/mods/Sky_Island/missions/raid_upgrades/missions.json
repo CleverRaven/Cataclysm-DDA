@@ -365,7 +365,7 @@
         { "math": [ "bonusmissions = 5" ] },
         { "u_forget_recipe": "upgradekey_bonusmissions5" },
         {
-          "u_message": "Your mmind fills with many transgressors that the Island has marked or will mark for death.  Carrying the Island's sentences is your responsibility, a duty you've accepted in full.\nIn every future expedition, you will now be given 5 random missions.",
+          "u_message": "Your mind fills with many transgressors that the Island has marked or will mark for death.  Carrying the Island's sentences is your responsibility, a duty you've accepted in full.\nIn every future expedition, you will now be given 5 random missions.",
           "type": "mixed"
         }
       ]

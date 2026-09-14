@@ -415,7 +415,6 @@
       [ "toaster", 20 ],
       [ "television", 20 ],
       [ "microwave", 20 ],
-      [ "multi_cooker", 1 ],
       [ "waffleiron", 25 ],
       [ "radio", 15 ]
     ]
@@ -438,7 +437,6 @@
       [ "toaster", 20 ],
       [ "television", 20 ],
       [ "microwave", 20 ],
-      [ "multi_cooker", 1 ],
       [ "pan", 25 ],
       [ "dutch_oven", 5 ],
       [ "waffleiron", 25 ],
@@ -686,7 +684,6 @@
       { "item": "dehydrator", "prob": 5 },
       { "item": "food_processor", "prob": 5 },
       { "item": "hotplate", "prob": 5 },
-      { "item": "multi_cooker", "prob": 5 },
       { "item": "vac_sealer", "prob": 5 }
     ]
   },
@@ -699,7 +696,7 @@
       [ "bubblewrap", 30 ],
       [ "syringe", 35 ],
       [ "glowstick_dead", 15 ],
-      { "item": "cash_card", "prob": 5, "charges": [ 5, 5000 ] },
+      { "item": "credit_card", "prob": 5 },
       [ "id_science", 3 ],
       [ "sandbox_kit", 5 ],
       [ "ear_spool", 15 ],
@@ -2377,9 +2374,9 @@
       { "item": "money_bundle_hundred", "prob": 10, "count": [ 1, 2 ] },
       { "group": "coins", "prob": 2, "count": [ 1, 10 ] },
       [ "file", 20 ],
-      [ "platinum_small", 10 ],
-      [ "gold_small", 10 ],
-      [ "silver_small", 30 ],
+      { "item": "platinum_small", "prob": 10, "count": [ 50, 150 ], "entry-wrapper": "box_small_wood" },
+      { "item": "gold_small", "prob": 10, "count": [ 50, 150 ], "entry-wrapper": "box_small_wood" },
+      { "item": "silver_small", "prob": 30, "count": [ 50, 150 ], "entry-wrapper": "box_small_wood" },
       [ "pocketwatch", 11 ],
       [ "gold_watch", 12 ],
       [ "sf_watch", 10 ],
@@ -2872,10 +2869,10 @@
     "id": "exodii_ammo_crate",
     "subtype": "collection",
     "items": [
-      { "item": "exodiiminimag", "count": [ 2, 20 ], "ammo-item": "123ln", "charges": 10, "prob": 80 },
-      { "item": "exodiiBRmag", "count": [ 2, 20 ], "ammo-item": "123ln", "charges": 60, "prob": 100 },
-      { "item": "exodiiBRmag_153", "count": [ 1, 5 ], "ammo-item": "123ln", "charges": 153, "prob": 100 },
-      { "item": "exodiiBRmag_26", "count": [ 4, 30 ], "ammo-item": "123ln", "charges": 26, "prob": 100 },
+      { "item": "exodiiminimag", "count": [ 2, 20 ], "ammo-item": "123ln_ap", "charges": 10, "prob": 80 },
+      { "group": "full_exodiiBRmag", "count": [ 2, 20 ] },
+      { "group": "full_exodiiBRmag_153", "count": [ 1, 5 ] },
+      { "group": "full_exodiiBRmag_26", "count": [ 4, 30 ] },
       { "item": "grenade", "count": [ 1, 10 ], "prob": 20 }
     ]
   },

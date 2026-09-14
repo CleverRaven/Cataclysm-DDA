@@ -918,6 +918,14 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "dodge", sk_dodge, numeric_bound_reader<int> {0} );
 
     // FIXME: load resistances by reader class
+    if( jo.has_member( "block" ) ) {
+        JsonObject block_jo = jo.get_object( "block" );
+
+        block.chance = block_jo.get_int( "chance", 0 );
+        block.effectiveness = block_jo.get_int( "effectiveness", 0 );
+        block.count = block_jo.get_int( "count", 0 );
+        block.ranged = block_jo.get_bool( "ranged", false );
+    }
     if( jo.has_object( "armor" ) ) {
         armor = load_resistances_instance( jo.get_object( "armor" ) );
     }

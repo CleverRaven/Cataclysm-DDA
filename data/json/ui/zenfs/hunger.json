@@ -45,12 +45,6 @@
         "text": " FAMISHED",
         "color": "c_white_red",
         "condition": { "u_has_effect": "hunger_famished" }
-      },
-      {
-        "id": "noonien_serum",
-        "text": "??????",
-        "color": "light_gray",
-        "condition": { "u_has_effect": "super_soldier_serum_main" }
       }
     ],
     "flags": [ "W_LABEL_NONE" ]

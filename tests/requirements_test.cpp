@@ -1,15 +1,31 @@
 #include <cstddef>
+#include <functional>
 #include <map>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
+#include "butchery.h"
+#include "butchery_requirements.h"
 #include "cata_catch.h"
+#include "cata_utility.h"
+#include "color.h"
+#include "creature.h"
+#include "harvest.h"
+#include "inventory.h"
+#include "item.h"
+#include "npc.h"
+#include "player_helpers.h"
 #include "requirements.h"
 #include "type_id.h"
 
+static const butchery_requirements_id butchery_requirements_default( "default" );
+
 static const itype_id itype_ash( "ash" );
 static const itype_id itype_chem_sulphuric_acid( "chem_sulphuric_acid" );
+static const itype_id itype_debug_backpack( "debug_backpack" );
+static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_lye( "lye" );
 static const itype_id itype_metal_tank_test( "metal_tank_test" );
 static const itype_id itype_rock( "rock" );
@@ -20,9 +36,15 @@ static const itype_id itype_test_glass_pipe_mostly_steel( "test_glass_pipe_mostl
 static const itype_id itype_test_pipe( "test_pipe" );
 static const itype_id itype_yarn( "yarn" );
 
+static const quality_id qual_BUTCHER( "BUTCHER" );
+static const quality_id qual_HAMMER( "HAMMER" );
+
 static const requirement_id requirement_data_eggs_bird( "eggs_bird" );
 static const requirement_id
 requirement_data_explosives_casting_standard( "explosives_casting_standard" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_MANDIBLES( "MANDIBLES" );
 
 static void test_requirement_deduplication(
     const requirement_data::alter_item_comp_vector &before,
@@ -185,6 +207,101 @@ TEST_CASE( "requirement_extension", "[requirement]" )
                 CAPTURE( found.first.c_str() );
                 CHECK( found.second );
             }
+        }
+    }
+}
+
+TEST_CASE( "requirement_checks_follow_their_actor_mode", "[requirement]" )
+{
+    clear_avatar();
+    avatar &u = get_avatar();
+    const inventory empty_inv;
+
+    GIVEN( "a requirement demanding a quality, a tool and a component" ) {
+        const requirement_data req( { { tool_comp( itype_hammer, -1 ) } },
+        { { quality_requirement( qual_HAMMER, 1, 1 ) } },
+        { { item_comp( itype_rock, 1 ) } } );
+        const quality_requirement qual_req( qual_HAMMER, 1, 1 );
+        const tool_comp tool_req( itype_hammer, -1 );
+        const item_comp comp_req( itype_rock, 1 );
+
+        WHEN( "the avatar carries a qualifying tool and the component" ) {
+            u.wear_item( item( itype_debug_backpack ) );
+            u.i_add( item( itype_hammer ) );
+            u.i_add( item( itype_rock ) );
+
+            THEN( "an inventory-only check is decided on the passed inventory alone" ) {
+                CHECK_FALSE( req.can_make_with_inventory( nullptr, empty_inv,
+                             return_true<item> ) );
+                CHECK_FALSE( qual_req.has( nullptr, empty_inv, return_true<item> ) );
+            }
+        }
+
+        WHEN( "the avatar has debug hammerspace" ) {
+            u.set_mutation( trait_DEBUG_HS );
+
+            THEN( "an inventory-only check grants none of it, at any level" ) {
+                CHECK_FALSE( req.can_make_with_inventory( nullptr, empty_inv,
+                             return_true<item> ) );
+                CHECK_FALSE( qual_req.has( nullptr, empty_inv, return_true<item> ) );
+                CHECK_FALSE( tool_req.has( nullptr, empty_inv, return_true<item> ) );
+                CHECK_FALSE( comp_req.has( nullptr, empty_inv, return_true<item> ) );
+            }
+
+            THEN( "the display path agrees with the refusal" ) {
+                CHECK( qual_req.get_color( nullptr, false, empty_inv,
+                                           return_true<item> ) != c_green );
+            }
+
+            THEN( "the same check for the avatar as actor is granted" ) {
+                CHECK( req.can_make_with_inventory( &u, empty_inv, return_true<item> ) );
+            }
+        }
+
+        WHEN( "an NPC without the trait stands beside a hammerspace avatar" ) {
+            u.set_mutation( trait_DEBUG_HS );
+            standard_npc guy( "ModeTester" );
+
+            THEN( "the NPC is not granted the avatar's hammerspace" ) {
+                CHECK_FALSE( req.can_make_with_inventory( &guy, empty_inv,
+                             return_true<item> ) );
+            }
+
+            THEN( "the NPC's own trait is what grants it" ) {
+                guy.set_mutation( trait_DEBUG_HS );
+                CHECK( req.can_make_with_inventory( &guy, empty_inv, return_true<item> ) );
+            }
+        }
+    }
+
+    GIVEN( "a crafter whose only butchering quality is a mutation grant" ) {
+        u.set_mutation( trait_MANDIBLES );
+        const quality_requirement butcher_req( qual_BUTCHER, 1, 1 );
+
+        THEN( "the actor-aware check reaches the intrinsic grant" ) {
+            CHECK( butcher_req.has( &u, empty_inv, return_true<item> ) );
+        }
+
+        THEN( "the inventory-only check has no actor to reach it through" ) {
+            CHECK_FALSE( butcher_req.has( nullptr, empty_inv, return_true<item> ) );
+        }
+    }
+
+    GIVEN( "the default butchery ladder, whose tiers differ in speed" ) {
+        u.set_mutation( trait_DEBUG_HS );
+        standard_npc guy( "ModeTester" );
+
+        THEN( "the actor decides which tier is reachable" ) {
+            // The hammerspace avatar satisfies the first tier; the bare NPC falls
+            // through to the fastest-tier fallback, so the pairs differ.  Depends on
+            // the "default" ladder carrying more than one speed tier.
+            const std::pair<float, requirement_id> for_avatar =
+                butchery_requirements_default.obj().get_fastest_requirements(
+                    &u, empty_inv, creature_size::medium, butcher_type::FULL );
+            const std::pair<float, requirement_id> for_npc =
+                butchery_requirements_default.obj().get_fastest_requirements(
+                    &guy, empty_inv, creature_size::medium, butcher_type::FULL );
+            CHECK( for_avatar != for_npc );
         }
     }
 }

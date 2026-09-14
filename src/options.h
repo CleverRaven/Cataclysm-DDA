@@ -45,7 +45,7 @@ class options_manager
             std::map<std::string, cata_path> &storage, std::vector<id_and_option> &option_list,
             const std::vector<cata_path> &search_paths, const std::string &resource_name,
             const std::string &resource_filename );
-        static std::vector<id_and_option> build_tilesets_list();
+        static std::vector<id_and_option> build_tilesets_list( bool only_portraits = false );
         static std::vector<id_and_option> build_soundpacks_list();
         static std::unordered_set<std::string> get_langs_with_translation_files();
 

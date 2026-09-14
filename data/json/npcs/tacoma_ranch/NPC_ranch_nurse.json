@@ -46,7 +46,6 @@
     "dynamic_line": "I'm willing to pay a premium for medical supplies that you might be able to scavenge up.  I also have a few miscellaneous jobs from time to time.",
     "repeat_responses": {
       "for_item": [
-        "1st_aid",
         "ifak",
         "antibiotics",
         "aspirin",

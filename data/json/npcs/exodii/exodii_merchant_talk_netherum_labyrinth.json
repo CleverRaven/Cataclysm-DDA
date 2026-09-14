@@ -24,7 +24,7 @@
         "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_what"
       },
       {
-        "text": "How would I get to these \"labyrinths?\"",
+        "text": "How would I get to these \"labyrinths\"?",
         "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_how"
       },
       { "text": "Let's talk about something else.", "topic": "TALK_EXODII_MERCHANT_Jobs" }
@@ -58,7 +58,7 @@
         "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_what3"
       },
       {
-        "text": "So, how would I get to these \"labyrinths?\"",
+        "text": "So, how would I get to these \"labyrinths\"?",
         "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_how"
       },
       { "text": "Let's talk about something else.", "topic": "TALK_EXODII_MERCHANT_Jobs" }
@@ -74,7 +74,7 @@
     "responses": [
       { "text": "Trouble and strife?", "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_trouble_strife" },
       {
-        "text": "So, how would I get to these \"labyrinths?\"",
+        "text": "So, how would I get to these \"labyrinths\"?",
         "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_how"
       },
       { "text": "Let's talk about something else.", "topic": "TALK_EXODII_MERCHANT_Jobs" }
@@ -89,7 +89,7 @@
     },
     "responses": [
       {
-        "text": "Okay, so whatever lives there is some sort of interdimensional horror.  Or maybe not.  Great.  How would I get to these \"labyrinths?\"",
+        "text": "Okay, so whatever lives there is some sort of interdimensional horror.  Or maybe not.  Great.  How would I get to these \"labyrinths\"?",
         "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_how"
       },
       { "text": "Let's talk about something else.", "topic": "TALK_EXODII_MERCHANT_Jobs" }

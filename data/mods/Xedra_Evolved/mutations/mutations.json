@@ -1280,7 +1280,8 @@
       {
         "ench_effects": [
           { "effect": "effect_vampire_immune_to_classic_zombification", "intensity": 1 },
-          { "effect": "effect_dhampir_corpselike_pallor_pale", "intensity": 1 }
+          { "effect": "effect_dhampir_corpselike_pallor_pale", "intensity": 1 },
+          { "effect": "effect_xe_nonhuman_super_soldier_serum_immune", "intensity": 1 }
         ]
       },
       {
@@ -1504,9 +1505,8 @@
     "purifiable": false,
     "valid": false,
     "can_only_eat": [ "blood", "hblood", "fae_blood", "vampire_blood" ],
-    "flags": [ "CANNIBAL", "DAYFEAR", "NO_THIRST", "NO_BODY_HEAT" ],
+    "flags": [ "CANNIBAL", "DAYFEAR", "NO_THIRST", "NO_BODY_HEAT", "CANNOT_CONSUME_DRUGS", "CANNOT_GAIN_WEARINESS" ],
     "vitamin_rates": [ [ "vitC", -500 ], [ "iron", -500 ], [ "calcium", -500 ] ],
-    "//": "When weariness can be modified through Json, this mutation should make the player immune to it.",
     "enchantments": [
       {
         "values": [
@@ -1516,7 +1516,8 @@
           { "value": "VITAMIN_ABSORB_MOD", "multiply": -100 },
           { "value": "HUNGER", "multiply": -1 },
           { "value": "THIRST", "multiply": -1 },
-          { "value": "METABOLISM", "multiply": -1 }
+          { "value": "METABOLISM", "multiply": -1 },
+          { "value": "STAMINA_REGEN_MOD", "multiply": -0.333 }
         ]
       },
       {

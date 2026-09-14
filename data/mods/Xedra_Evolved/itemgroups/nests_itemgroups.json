@@ -165,6 +165,7 @@
       { "item": "alchemy_recipe_truckers_stamina_pills", "prob": 1 },
       { "item": "alchemy_recipe_charm_of_marzanna", "prob": 1 },
       { "item": "alchemy_recipe_spiritshow_dust", "prob": 1 },
+      { "item": "alchemy_recipe_abyssal_coffee", "prob": 1 },
       { "item": "alchemy_recipe_väinämöinens_kantele_imitation", "prob": 1 }
     ]
   },

@@ -2194,5 +2194,10 @@
     "type": "construction_group",
     "id": "place_nl_safehouse_boiler",
     "name": "Place Otherworldly Boiler"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_bulk_liquid_tank",
+    "name": "Place a bulk liquid tank"
   }
 ]

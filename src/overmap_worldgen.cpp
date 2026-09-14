@@ -1,3 +1,4 @@
+#include "cata_utility.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -5,13 +6,22 @@
 #include "game.h"
 #include "generic_factory.h"
 #include "imgui/imgui.h"
+
+// IWYU pragma: begin_keep
+#define JC_VORONOI_IMPLEMENTATION // NOLINT(clang-diagnostic-unused-macros)
+// IWYU pragma: end_keep
+#include "jc_voronoi/jc_voronoi.h"
+#include "line.h"
 #include "map_iterator.h"
 #include "output.h"
-#include "overmapbuffer.h"
 #include "overmap_worldgen.h"
+#include "overmapbuffer.h"
+#include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "units.h"
 
+#include <cstring>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -40,10 +50,99 @@ void region_voronoi_point::deserialize( const JsonObject &jo )
     jo.read( "region", region );
 }
 
+// converts a JCV point to a CATA point
+// generalize with template if needed beyond regions
+static tripoint_abs_om jcv_to_cata_point( const jcv_point &loc )
+{
+    return tripoint_abs_om( static_cast<int>( loc.x ), -static_cast<int>( loc.y ), 0 );
+}
+
+static void generate_cata_voronoi_map( Region_map &placed_regions,
+                                       const std::vector<region_voronoi_point> &region_points,
+                                       const inclusive_cuboid<tripoint_abs_om> &generated_bounds )
+{
+    jcv_diagram diagram;
+    memset( &diagram, 0, sizeof( jcv_diagram ) );
+    std::vector<jcv_point> jcv_points;
+
+    // temporary map for `region_points`
+    std::unordered_map<tripoint_abs_om, region_settings_id> site_regions;
+    // y is negated because jcvoronoi flips y-axis
+    for( const region_voronoi_point &rv_point : region_points ) {
+        const jcv_point temp_point = { static_cast<float>( rv_point.region_point.x() ),
+                                       -static_cast<float>( rv_point.region_point.y() )
+                                     };
+        jcv_points.emplace_back( temp_point );
+        site_regions.emplace( rv_point.region_point, rv_point.region );
+    }
+
+    const jcv_point bounds_min = { static_cast<float>( generated_bounds.p_min.x() ), static_cast<float>( generated_bounds.p_min.y() ) };
+    const jcv_point bounds_max = { static_cast<float>( generated_bounds.p_max.x() ), static_cast<float>( generated_bounds.p_max.y() ) };
+    const jcv_rect jcv_bounds = { bounds_min, bounds_max };
+
+    jcv_diagram_generate( region_points.size(), &*jcv_points.begin(), &jcv_bounds, nullptr, &diagram );
+
+    const jcv_site *sites = jcv_diagram_get_sites( &diagram );
+    for( int i = 0; i < diagram.numsites; ++i ) {
+        const jcv_site *site = &sites[i];
+        const tripoint_abs_om site_point = jcv_to_cata_point( site->p );
+        region_settings_id site_region = site_regions.at( site_point );
+
+        // add all points contained in a cell polygon by drawing triangles
+        // from the center point to the cell edges
+        const jcv_graphedge *e = site->edges;
+        while( e ) {
+            std::vector<tripoint_abs_om> cell_points = points_in_triangle_2d(
+                        site_point, jcv_to_cata_point( e->pos[0] ), jcv_to_cata_point( e->pos[1] ) );
+            for( const tripoint_abs_om &cell_point : cell_points ) {
+                if( !placed_regions.count( cell_point ) ) {
+                    placed_regions[cell_point] = site_region;
+                }
+            }
+
+            e = e->next;
+        }
+    }
+}
+
 void dimension_region_layout_generator_uniform::generate_dynamic(
     Region_map &placed_regions, const tripoint_abs_om &current_om )
 {
     placed_regions.emplace( current_om, uniform_region );
+}
+
+void dimension_region_layout_generator_manual::generate_entire_layout(
+    Region_map &placed_regions, const tripoint_abs_om & )
+{
+    std::vector<region_voronoi_point> region_points;
+    for( const region_point_set &rps : region_point_sets ) {
+        std::vector<region_voronoi_point> resolved_points = rps.resolve();
+        for( const region_voronoi_point &rvp : resolved_points ) {
+            region_points.emplace_back( rvp );
+        }
+    }
+    generate_cata_voronoi_map( placed_regions, region_points, generated_bounds );
+}
+
+void dimension_region_layout_generator_random::generate_dynamic(
+    Region_map &placed_regions, const tripoint_abs_om &current_om )
+{
+    placed_regions.emplace( current_om, *random_regions.pick() );
+}
+
+void dimension_region_layout_generator_angles::generate_dynamic(
+    Region_map &placed_regions, const tripoint_abs_om &current_om )
+{
+
+    units::angle angle_diff = coord_to_angle( tripoint_abs_om::zero, current_om );
+    // align sectors towards north
+    angle_diff += angles_offset;
+
+    const units::angle sector_size = units::from_degrees( 360.0f / static_cast<double>
+                                     ( get_sector_count() ) );
+    int sector_index = modulo( static_cast<int>( angle_diff / sector_size ),
+                               get_sector_count() );
+    placed_regions.emplace( current_om, angles_regions[sector_index] );
 }
 
 region_settings_id dimension_region_layout_static::get_overmap_region(
@@ -90,8 +189,8 @@ std::string enum_to_string<regions_generation_mode>( regions_generation_mode dat
             return "MANUAL_VORONOI";
         case regions_generation_mode::RANDOM:
             return "RANDOM";
-        case regions_generation_mode::EIGHTHS:
-            return "EIGHTHS";
+        case regions_generation_mode::ANGLES:
+            return "ANGLES";
         default:
             return "last";
     }
@@ -173,6 +272,18 @@ void dimension_region_layout::load( const JsonObject &jo, const std::string_view
             load_layout_generator<dimension_region_layout_generator_uniform>( jo, layout_generator );
             break;
         }
+        case regions_generation_mode::MANUAL_VORONOI: {
+            load_layout_generator<dimension_region_layout_generator_manual>( jo, layout_generator );
+            break;
+        }
+        case regions_generation_mode::RANDOM: {
+            load_layout_generator<dimension_region_layout_generator_random>( jo, layout_generator );
+            break;
+        }
+        case regions_generation_mode::ANGLES: {
+            load_layout_generator<dimension_region_layout_generator_angles>( jo, layout_generator );
+            break;
+        }
         default:
             break;
     }
@@ -181,6 +292,29 @@ void dimension_region_layout::load( const JsonObject &jo, const std::string_view
 void dimension_region_layout_generator_uniform::deserialize( const JsonObject &jo )
 {
     mandatory( jo, false, "uniform_region", uniform_region );
+}
+
+void dimension_region_layout_generator_manual::deserialize( const JsonObject &jo )
+{
+    dimension_region_layout_static::deserialize( jo );
+    mandatory( jo, false, "region_point_sets", region_point_sets );
+}
+
+void dimension_region_layout_generator_random::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "random_regions", random_regions );
+}
+
+void dimension_region_layout_generator_angles::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "angles_regions", angles_regions );
+    optional( jo, false, "angles_offset", angles_offset );
+    if( angles_regions.size() > 16 || angles_regions.size() < 2 ) {
+        debugmsg( "ANGLES layout must have between 2 and 16 entries" );
+    }
+    if( angles_offset < 0_degrees || angles_offset >= 180_degrees ) {
+        debugmsg( "ANGLES offset must be in range [0, 180)" );
+    }
 }
 
 void dimension_region_layout_static::deserialize( const JsonObject &jo )
@@ -238,3 +372,34 @@ void overmapbuffer::print_region_layout()
     popup( _( "Copied world region map to clipboard!" ) );
 }
 
+std::vector<region_voronoi_point> region_point_set::resolve() const
+{
+    std::vector<region_voronoi_point> returned_points;
+    // make a copy of the weighted list to remove entries
+    weighted_int_list<region_settings_id> regions_weighted_mod = regions_weighted;
+    const int variance = region_point_variance;
+
+    for( const tripoint_abs_om &original_point : region_points ) {
+        region_voronoi_point new_rv_point;
+        region_settings_id *selected_region_ptr = regions_weighted_mod.pick();
+        region_settings_id selected_region = selected_region_ptr == nullptr ? default_region :
+                                             *selected_region_ptr;
+        if( remove_region ) {
+            regions_weighted_mod.remove( selected_region );
+        }
+        new_rv_point.region_point = original_point + point_rel_om( rng( -variance, variance ),
+                                    rng( -variance, variance ) );
+        new_rv_point.region = selected_region;
+        returned_points.emplace_back( new_rv_point );
+    }
+    return returned_points;
+}
+
+void region_point_set::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "region_points", region_points );
+    optional( jo, false, "regions_weighted", regions_weighted );
+    optional( jo, false, "remove_region", remove_region );
+    optional( jo, false, "default_region", default_region );
+    optional( jo, false, "region_point_variance", region_point_variance );
+}

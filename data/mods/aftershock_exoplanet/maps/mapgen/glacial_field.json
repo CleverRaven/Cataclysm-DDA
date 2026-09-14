@@ -1,0 +1,7 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "glacial_field",
+    "object": { "fill_ter": "t_region_groundcover" }
+  }
+]

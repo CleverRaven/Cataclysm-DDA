@@ -101,7 +101,13 @@
         "qualities": [ { "id": "CUT", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5 } ]
       },
-      { "name": "Smoke-curing wood", "time": "4 h", "activity_level": "NO_EXERCISE", "attention": "unattended" },
+      {
+        "name": "Smoke-curing wood",
+        "time": "4 h",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "tools": [ [ [ "smoking_heat", 120, "LIST" ] ] ]
+      },
       { "name": "Applying sealant", "time": "30 m", "activity_level": "NO_EXERCISE" }
     ]
   },
