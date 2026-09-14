@@ -175,12 +175,32 @@
     "desc": [ "You are in the form of a tree." ],
     "enchantments": [
       {
-        "mutations": [ "ARVORE_TREE_FORM_TRAITS" ],
-        "values": [ { "value": "METABOLISM", "multiply": -0.5 }, { "value": "REGEN_HP", "multiply": 10 } ],
+        "values": [
+          { "value": "METABOLISM", "multiply": -1 },
+          { "value": "REGEN_HP", "multiply": 10 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 2 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
+          { "value": "MENDING_MODIFIER", "multiply": 25 },
+          { "value": "SLEEPY", "add": 150 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 150 }
+        ],
         "ench_effects": [ { "effect": "effect_xe_hidden_infection_recovery", "intensity": 1 } ]
       }
     ],
-    "flags": [ "PAUSE_INFECTIONS" ]
+    "flags": [
+      "DEAF",
+      "BLIND",
+      "SEESLEEP",
+      "NO_SCENT",
+      "NO_SPELLCASTING",
+      "NO_FEY_MAGIC",
+      "IMMUNE_HEARING_DAMAGE",
+      "CANNOT_MOVE",
+      "CANNOT_ATTACK",
+      "SUFFOCATION_IMMUNE",
+      "CANNOT_CONSUME_DRUGS",
+      "PAUSE_INFECTIONS"
+    ]
   },
   {
     "type": "effect_type",
