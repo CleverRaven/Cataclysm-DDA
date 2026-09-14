@@ -178,6 +178,7 @@
       {
         "values": [
           { "value": "METABOLISM", "multiply": -1 },
+          { "value": "THIRST", "multiply": -1 },
           { "value": "REGEN_HP", "multiply": 50 },
           { "value": "REGEN_HP_AWAKE", "multiply": 2 },
           { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
@@ -201,7 +202,6 @@
       "SUFFOCATION_IMMUNE",
       "CANNOT_CONSUME_DRUGS",
       "PAUSE_INFECTIONS",
-      "INFECTION_RECOVERY",
       "CANOT_GAIN_WEARINESS"
     ]
   },

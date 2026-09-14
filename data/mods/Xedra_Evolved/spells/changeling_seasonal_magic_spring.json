@@ -490,7 +490,7 @@
     "type": "SPELL",
     "id": "changeling_spring_turn_target_into_tree_spell",
     "name": "Branch of Yggdrasil",
-    "description": "Transform yourself or an ally into a tree, greatly speeding their healing and allowing them to mend even serious wounds or broken bones with no other treatment.  If necessary, you can reweave the glamour to return the target to their normal form.  The glamour will automatically fade when the target has fully healed.  The glamour has a <color_yellow>lower duration</color> in autumn.",
+    "description": "Transform yourself or an ally into a tree, greatly speeding their healing and allowing them to mend even serious wounds or broken bones with no other treatment, as well as attempting to cure more esoteric afflictions.  If necessary, you can reweave the glamour to return the target to their normal form.  The glamour will automatically fade when the target has fully healed.  The glamour has a <color_yellow>lower duration</color> in autumn.",
     "message": "You chant the words of the glamour and the target's legs sink into the soil, their arms spread and begin to branch out, and they slowly turn into a tree.",
     "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_spring",
