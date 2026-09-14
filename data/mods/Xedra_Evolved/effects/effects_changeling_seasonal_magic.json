@@ -171,13 +171,14 @@
   {
     "type": "effect_type",
     "id": "effect_changeling_spring_turn_target_into_tree",
+    "//": "Once permanent damage is possible, this glamour should let you recover from it.",
     "name": [ "Branch of Yggdrasil" ],
     "desc": [ "You are in the form of a tree." ],
     "enchantments": [
       {
         "values": [
           { "value": "METABOLISM", "multiply": -1 },
-          { "value": "REGEN_HP", "multiply": 10 },
+          { "value": "REGEN_HP", "multiply": 50 },
           { "value": "REGEN_HP_AWAKE", "multiply": 2 },
           { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
           { "value": "MENDING_MODIFIER", "multiply": 25 },
