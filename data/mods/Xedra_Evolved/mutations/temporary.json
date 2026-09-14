@@ -604,11 +604,13 @@
   {
     "type": "mutation",
     "id": "CHANGELING_SPRING_TURN_INTO_TREE_TRACKER",
-    "name": { "str": "Branch of Yggdrasil Tree Tracker", "//~": "NO_I18N" },
-    "description": { "str": "Tracker to save you from being a tree for too long.", "//~": "NO_I18N" },
+    "//": "Tracker to save you from being a tree for too long.  Normally wouldn't need to display it but that throws an error about undisplayed active mutations",
+    "name": { "str": "Branch of Yggdrasil" },
+    "description": { "str": "You are in the form of a tree." },
     "points": 0,
     "valid": false,
-    "player_display": false,
+    "mixed_effect": true,
+    "player_display": true,
     "active": true,
     "starts_active": true,
     "processed_eocs": [ "EOC_CHANGELING_SPRING_TURN_INTO_TREE_TRACKER" ]
