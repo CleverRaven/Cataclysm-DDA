@@ -40,7 +40,15 @@
     "type": "effect_on_condition",
     "id": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER",
     "condition": {
-      "or": [ { "is_weather": "distant_portal_storm" }, { "is_weather": "portal_storm" }, { "is_weather": "close_portal_storm" } ]
+      "or": [
+        { "is_weather": "distant_portal_storm" },
+        { "is_weather": "portal_storm" },
+        { "is_weather": "close_portal_storm" },
+        { "is_weather": "scarlet_storm_2" },
+        { "is_weather": "scarlet_storm_3" },
+        { "is_weather": "scarlet_storm_4" },
+        { "is_weather": "scarlet_storm_5" }
+      ]
     },
     "effect": [  ]
   },
