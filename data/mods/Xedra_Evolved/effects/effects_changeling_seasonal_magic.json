@@ -140,7 +140,8 @@
               ]
             }
           }
-        ]
+        ],
+        "ench_effects": [ { "effect": "effect_xe_hidden_infection_recovery", "intensity": 1 } ]
       },
       {
         "condition": { "and": [ "u_is_outside", "u_is_npc" ] },
@@ -162,9 +163,33 @@
               ]
             }
           }
-        ]
+        ],
+        "ench_effects": [ { "effect": "effect_xe_hidden_infection_recovery", "intensity": 1 } ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_spring_turn_target_into_tree",
+    "name": [ "Branch of Yggdrasil" ],
+    "desc": [ "You are in the form of a tree." ],
+    "enchantments": [
+      {
+        "mutations": [ "ARVORE_TREE_FORM_TRAITS" ],
+        "values": [ { "value": "METABOLISM", "multiply": -0.5 }, { "value": "REGEN_HP", "multiply": 10 } ],
+        "ench_effects": [ { "effect": "effect_xe_hidden_infection_recovery", "intensity": 1 } ]
+      }
+    ],
+    "flags": [ "PAUSE_INFECTIONS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_spring_turn_target_into_tracker",
+    "//": "Used to de-tree the target when they're healed",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 300,
+    "int_add_val": 1
   },
   {
     "type": "effect_type",

@@ -226,5 +226,54 @@
       }
     ],
     "false_effect": [ { "u_message": "You must be outside and the temperature must be above freezing to call the rains.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SPRING_TURN_TARGET_INTO_TREE_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_changeling_spring_turn_target_into_tree" } },
+    "effect": [
+      {
+        "math": [
+          "_glamour_min_duration = ( ( ( 172848.61 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 5184.31) + (u_skill('gramarye') * 29413.51) ) ) * (global_what_is_the_season == 3 ? 0.4 : 1) )"
+        ]
+      },
+      {
+        "math": [
+          "_glamour_max_duration = ( ( ( 483844.89 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 15861.23) + (u_skill('gramarye') * 45945.12) ) ) * (global_what_is_the_season == 3 ? 0.4 : 1) )"
+        ]
+      },
+      {
+        "u_add_effect": "effect_changeling_spring_turn_target_into_tree",
+        "duration": { "math": [ "rng(_glamour_min_duration, _glamour_max_duration)" ] }
+      },
+      { "u_add_trait": "CHANGELING_SPRING_TURN_INTO_TREE_TRACKER" }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_changeling_spring_turn_target_into_tree" },
+      { "u_lose_effect": "effect_changeling_spring_turn_target_into_tracker" },
+      { "u_lose_trait": "CHANGELING_SPRING_TURN_INTO_TREE_TRACKER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SPRING_TURN_INTO_TREE_TRACKER",
+    "condition": { "math": [ "u_effect_intensity('effect_changeling_spring_turn_target_into_tracker') >= 300" ] },
+    "effect": [
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_hp('torso') == u_hp_max('torso')" ] },
+            { "math": [ "u_hp('head') == u_hp_max('head')" ] },
+            { "math": [ "u_hp('arm_l') == u_hp_max('arm_l')" ] },
+            { "math": [ "u_hp('arm_r') == u_hp_max('arm_r')" ] },
+            { "math": [ "u_hp('leg_l') == u_hp_max('leg_l')" ] },
+            { "math": [ "u_hp('leg_r') == u_hp_max('leg_r')" ] }
+          ]
+        },
+        "then": [ { "run_eocs": "EOC_CHANGELING_SPRING_TURN_TARGET_INTO_TREE_INITIATE" } ],
+        "else": [ { "u_lose_effect": "effect_changeling_spring_turn_target_into_tracker" } ]
+      }
+    ],
+    "false_effect": [ { "u_add_effect": "effect_changeling_spring_turn_target_into_tracker", "duration": 600 } ]
   }
 ]

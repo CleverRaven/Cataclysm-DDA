@@ -417,6 +417,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
 - ```IMMUNE_SPOIL``` You are immune to negative outcomes from spoiled food.
 - ```INFECTION_IMMUNE``` This mutation grants immunity to infections, including infection from bites and tetanus.
+- ```INFECTION_RECOVERY``` You can recover from infections easier to the same degree as the Infection Resistant mutation (which it stacks with)
 - ```INSECTBLOOD``` Your body drip insect blood if wounded.
 - ```INSTANT_BLEED``` You bleed corpses in 1 second each.
 - ```INVERTEBRATEBLOOD``` Your body drip invertebrate blood if wounded

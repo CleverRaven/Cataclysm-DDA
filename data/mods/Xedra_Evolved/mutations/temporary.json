@@ -560,7 +560,7 @@
     "type": "mutation",
     "id": "ASTRAL_PROJECTION_APPEARANCE",
     "name": "Astral Form",
-    "description": "You're a disembodied mind so you're all glowy and blue.  Spooky!",
+    "description": "You're a disembodied spirit so you're all glowy and blue.  Spooky!",
     "points": 0,
     "valid": false,
     "player_display": false,
@@ -600,5 +600,17 @@
     "player_display": false,
     "restricts_gear": [ "torso" ],
     "allow_soft_gear": true
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_SPRING_TURN_INTO_TREE_TRACKER",
+    "name": { "str": "Branch of Yggdrasil Tree Tracker", "//~": "NO_I18N" },
+    "description": { "str": "Tracker to save you from being a tree for too long.", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "active": true,
+    "starts_active": true,
+    "processed_eocs": [ "EOC_CHANGELING_SPRING_TURN_INTO_TREE_TRACKER" ]
   }
 ]
