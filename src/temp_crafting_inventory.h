@@ -90,7 +90,7 @@ class temp_crafting_inventory : public read_only_visitable
         // moved from inventory
         std::map<itype_id, int> max_empty_liq_cont;
 
-        std::map<itype_id, item &> pseudo_items;
+        std::map<itype_id, item *> pseudo_items;
 };
 
 #endif // CATA_SRC_TEMP_CRAFTING_INVENTORY_H

@@ -97,11 +97,11 @@ item &temp_crafting_inventory::add_pseudo_item( const itype_id &id )
     if( iter == pseudo_items.end() ) {
         item it( id );
         it.set_flag( json_flag_PSEUDO );
-        return add_item_copy( it );
-        pseudo_items[it.typeId()] = it;
-        return add_item_copy( it );
+        item &it_copy = add_item_copy( it );
+        pseudo_items[it.typeId()] = &it_copy;
+        return it_copy;
     } else {
-        return iter->second;
+        return *iter->second;
     }
 }
 
@@ -109,8 +109,8 @@ item &temp_crafting_inventory::add_pseudo_item( const item &it )
 {
     auto iter = pseudo_items.find( it.typeId() );
     if( iter == pseudo_items.end() ) {
-        pseudo_items[it.typeId()] = it;
         item &it_copy = add_item_copy( it );
+        pseudo_items[it.typeId()] = &it_copy;
         if( it.has_ammo() ) {
             if( it.uses_magazine() ) {
                 it_copy.force_insert_item( it.loaded_ammo(), pocket_type::MAGAZINE_WELL );
@@ -120,7 +120,7 @@ item &temp_crafting_inventory::add_pseudo_item( const item &it )
         }
         return it_copy;
     } else {
-        return iter->second;
+        return *iter->second;
     }
 }
 
