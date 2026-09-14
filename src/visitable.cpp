@@ -741,6 +741,30 @@ std::list<item> temp_crafting_inventory::remove_items_with( const
         }
     }
 
+    for( auto iter = temp_owned_items.begin(); iter != temp_owned_items.end(); ) {
+        if( filter( *iter ) ) {
+            const int c = iter->count();
+            res.push_back( *iter );
+            for( auto it = item_copies.begin(); it != item_copies.end(); ) {
+                if( *it == &*iter ) {
+                    item_copies.erase( it );
+                    break;
+                }
+                ++it;
+            }
+            iter = temp_owned_items.erase( iter );
+            count -= c;
+        } else {
+            ++iter;
+        }
+        if( count <= 0 ) {
+            if( count < 0 ) {
+                debugmsg( "temp_crafting_inventory::remove_items_with removed too many item copies" );
+            }
+            return res;
+        }
+    }
+
     for( auto iter = items_loc.begin(); iter != items_loc.end(); ) {
         if( filter( **iter ) ) {
             const int c = ( *iter )->count();
