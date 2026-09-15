@@ -3821,32 +3821,6 @@ std::vector<std::reference_wrapper<mongroup>> overmap::debug_unsafe_get_groups_a
     return groups_at;
 }
 
-std::vector<mongroup *> overmap::monsters_at( const tripoint_om_omt &p )
-{
-    // p is an overmap terrain coordinate, containing a 2x2 of submaps,
-    // with monster groups being defined with these submap coordinates.
-    const tripoint_om_sm p_sm = project_to<coords::sm>( p );
-    std::vector<mongroup *> result;
-    for( const point_rel_sm &offset : std::array<point_rel_sm, 4> { { { point_rel_sm::zero }, { point_rel_sm::south }, { point_rel_sm::east }, { point_rel_sm::south_east } } } ) {
-        std::vector<mongroup *> tmp = groups_at( p_sm + offset );
-        result.insert( result.end(), tmp.begin(), tmp.end() );
-    }
-    return result;
-}
-
-std::vector<mongroup *> overmap::groups_at( const tripoint_om_sm &p )
-{
-    std::vector<mongroup *> result;
-    auto groups_range = zg.equal_range( p );
-    for( auto it = groups_range.first; it != groups_range.second; ++it ) {
-        mongroup &mg = it->second;
-        if( !mg.empty() ) {
-            result.push_back( &mg );
-        }
-    }
-    return result;
-}
-
 void overmap::add_mon_group( const mongroup &group )
 {
     zg.emplace( group.rel_pos(), group );

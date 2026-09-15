@@ -534,8 +534,6 @@ class overmap
         std::optional<tripoint_om_ms> find_open_space_in_submap( const tripoint_om_ms &submap_origin,
                 point_rel_ms &cursor );
     public:
-        std::vector<mongroup *> monsters_at( const tripoint_om_omt &p );
-        std::vector<mongroup *> groups_at( const tripoint_om_sm &p );
         // Spawn a monter at overmap scale.
         horde_entity &spawn_monster( const tripoint_abs_ms &p, mtype_id id );
         // Spawn a vector of monsters at overmap scale on a specified submap.
