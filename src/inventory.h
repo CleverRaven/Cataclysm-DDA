@@ -111,6 +111,19 @@ struct quality_query {
     }
 };
 
+// Shared with reservation discovery, so a bound provider cannot outlive the condition
+// that made it usable.
+bool tile_has_sufficient_sunlight( const map &m, const tripoint_bub_ms &p );
+
+class map_stack;
+struct itype;
+
+// Charges of the first item in the stack matching the type, or the first matching the
+// ammotype with its id written back.
+int count_charges_in_list( const itype *type, const map_stack &items );
+int count_charges_in_list( const ammotype *ammotype, const map_stack &items,
+                           itype_id &item_type );
+
 class inventory : public visitable
 {
     public:

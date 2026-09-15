@@ -1571,7 +1571,7 @@ float best_quality_speed_modifier( const read_only_visitable &inv,
         return VisitResponse::NEXT;
     } );
     // Character-provided qualities (bionics, mutations) have no speed modifier.  Items
-    // reach this through the inventory alone.
+    // reach this through the inventory alone, so a reserved one stays hidden.
     if( !found && crafter.has_intrinsic_quality( qual, level ) ) {
         return 1.0f;
     }

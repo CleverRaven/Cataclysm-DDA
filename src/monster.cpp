@@ -865,7 +865,9 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     // Therefore the header is intentionally *neutral* on the language.
     mvwprintz( w, point( column, vStart++ ), c_light_blue, _( "-----CREATURE-----" ) );
 
-    oss << get_tag_from_color( c_white ) << get_origin( type->src ) << "</color>" << "\n";
+    if( debug_mode ) {
+        oss << get_tag_from_color( c_white ) << get_origin( type->src ) << "</color>" << "\n";
+    }
 
     if( debug_mode ) {
         oss << colorize( type->id.str(), c_white );
@@ -976,8 +978,9 @@ void monster::print_info_imgui() const
 {
     const map &here = get_map();
 
-    ImGui::TextUnformatted( get_origin( type->src ).c_str() );
-
+    if( debug_mode ) {
+        ImGui::TextUnformatted( get_origin( type->src ).c_str() );
+    }
     if( debug_mode ) {
         ImGui::TextUnformatted( type->id.c_str() );
     }
@@ -1071,11 +1074,11 @@ std::vector<std::string> monster::extended_description() const
     // exponential growth.
     tmp.reserve( 12 );
 
-    tmp.emplace_back( get_origin( type->src ) );
-    tmp.emplace_back( "--" );
-
     if( debug_mode ) {
+        tmp.emplace_back( get_origin( type->src ) );
+        tmp.emplace_back( "--" );
         tmp.emplace_back( colorize( type->id.str(), c_white ) );
+
         const std::vector<std::pair<std::string, std::string>> overlays = get_overlay_ids();
         const std::string overlay_str = enumerate_as_string(
                                             overlays.begin(), overlays.end(),

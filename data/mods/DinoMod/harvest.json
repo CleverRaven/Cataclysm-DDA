@@ -57,8 +57,8 @@
         { "drop": "skull_dino_med", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
         { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
         { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
-        { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
-        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.001 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.0005 }
       ]
     }
   },
@@ -117,8 +117,8 @@
         { "drop": "skull_dino_pred_med", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
         { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
         { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
-        { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
-        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.001 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.0005 }
       ]
     }
   },
@@ -138,8 +138,8 @@
         { "drop": "skull_dino_pred_large", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
         { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
         { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
-        { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
-        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.0002 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.0001 }
       ]
     }
   },
@@ -159,8 +159,8 @@
         { "drop": "skull_tyrannosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
         { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
         { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
-        { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
-        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.0002 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.0001 }
       ]
     }
   },
@@ -180,8 +180,8 @@
         { "drop": "skull_allosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
         { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
         { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
-        { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
-        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.0002 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.0001 }
       ]
     }
   },
@@ -201,8 +201,8 @@
         { "drop": "skull_acrocanthosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
         { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
         { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
-        { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
-        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.0002 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.0001 }
       ]
     }
   },
@@ -332,8 +332,8 @@
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
-      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.0002 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.0001 }
     ]
   },
   {
@@ -358,8 +358,8 @@
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
-      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.0002 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.0001 }
     ]
   }
 ]

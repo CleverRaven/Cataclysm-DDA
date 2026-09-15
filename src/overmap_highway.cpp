@@ -386,9 +386,7 @@ Highway_path overmap::place_highway_line(
     // 2) do not make up the entire path
     while( current_point.xy() != sp2.xy() + draw_direction_vector ) {
         if( !inbounds( current_point ) ) {
-            add_msg_debug( debugmode::DF_HIGHWAY,
-                           "overmap (%s) highway slant pathing out of bounds; falling back to onramp.",
-                           loc.to_string_writable() );
+            debugmsg( "highway slant pathing out of bounds; falling back to onramp" );
             highway_line.clear();
             return highway_line;
         }
@@ -1067,7 +1065,8 @@ void highway_intersection_grid::generate_offset( overmap_feature_grid_node &node
 {
     const int max_offset_variance = this->max_offset_variance;
     auto no_lakes = [this]( const point_abs_om & pt ) {
-        const region_settings &settings = overmap_buffer.get_default_settings( pt );
+        const region_settings &settings = overmap_buffer.get_settings(
+                                              project_to<coords::omt>( tripoint_abs_om( pt, 0 ) ) );
         if( !settings.overmap_lake ) {
             return true;
         }

@@ -699,7 +699,7 @@
     ],
     "false_effect": [
       {
-        "if": { "current_dimension": "highlands" },
+        "if": { "or": [ { "current_dimension": "highlands" }, { "current_dimension": "imperial_road" } ] },
         "then": [
           { "u_message": "You feel a prickle at the edge of your senses." },
           { "run_eocs": "EOC_PORTAL_HIGHLANDS_RETURN", "time_in_future": [ "36 hours", "60 hours" ] }

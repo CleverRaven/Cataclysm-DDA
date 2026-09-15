@@ -625,8 +625,13 @@ TEST_CASE( "monster_broken_verify", "[monster]" )
         if( montype.mdeath_effect.corpse_type != mdeath_type::BROKEN ) {
             continue;
         }
-
+        if( !montype.broken_itype.is_empty() ) {
+            CAPTURE( montype.id.c_str() );
+            CHECK( montype.broken_itype.is_valid() );
+            continue;
+        }
         // this contraption should match mdeath::broken in mondeath.cpp
+        // FIXME: Rewrite test so it doesn't use string manipulation or require broken_itype and delete it
         std::string broken_id_str = montype.id.str();
         if( broken_id_str.compare( 0, 4, "mon_" ) == 0 ) {
             broken_id_str.erase( 0, 4 );
@@ -861,13 +866,10 @@ TEST_CASE( "monster_can_navigate_from_overmap_to_reality_bubble_following_sound"
     // Place monster on the local overmap.monster_map just outside the reality bubble.
     map &m = get_map();
     tripoint_abs_ms entity_spawn_location( m.get_abs( { -12, 66, 0 } ) );
-    horde_entity *test_mon_initial = nullptr;
-    capture_debugmsg_during( [&]() {
-        test_mon_initial = &overmap_buffer.spawn_monster( entity_spawn_location,
-                           mon_test_zombie );
-    } );
+    horde_entity &test_mon_initial = overmap_buffer.spawn_monster( entity_spawn_location,
+                                     mon_test_zombie );
     // Assert monster is not wandering
-    REQUIRE( test_mon_initial->tracking_intensity == 0 );
+    REQUIRE( test_mon_initial.tracking_intensity == 0 );
     // Give the monster a goal location inside the bubble by making a loud noise.
     std::string test_sound( "test sound" );
     sound( destination, 200, sounds::sound_t::combat, test_sound );
