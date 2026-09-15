@@ -121,7 +121,7 @@ help_window::help_window() : cataimgui::window( "help",
     ctxt = input_context( "DISPLAY_HELP", keyboard_mode::keychar );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
-    // Mouse selection
+    // Mouse selection for ImTui ( ImGui mouse selection is handled in draw_controls() )
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "MOUSE_MOVE" );
     // Generated shortcuts
@@ -148,11 +148,16 @@ help_window::help_window() : cataimgui::window( "help",
 
 void help_window::draw_controls()
 {
-    if( ImGui::IsMouseClicked( ImGuiMouseButton_Left ) ) {
+
+#if defined(TILES)
+    // Retrieve captured mouse clicks
+    if( ImGui::IsMouseReleased( ImGuiMouseButton_Left ) ) {
         imgui_action = "SELECT";
-    } else if( ImGui::IsMouseClicked( ImGuiMouseButton_Right ) ) {
+    } else if( ImGui::IsMouseReleased( ImGuiMouseButton_Right ) ) {
         imgui_action = "QUIT";
     }
+#endif // TILES
+
     if( !has_selected_category ) {
         draw_category_selection();
     } else {
