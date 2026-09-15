@@ -1501,7 +1501,7 @@ void basecamp::choose_new_leader()
             get_player_character().set_value( var_timer_time_of_last_succession, current_time_int );
             return;
         }
-        popup( _( "%1$s wins the election with a popularity of %2$s!  The runner-up had a popularity of %3$s." ),
+        popup( _( "%1$s wins the election with a popularity of %2$d!  The runner-up had a popularity of %3$d." ),
                elected->get_name(), followers.at( 0 ).second, followers.at( 1 ).second );
         get_avatar().control_npc( *elected, false );
     }

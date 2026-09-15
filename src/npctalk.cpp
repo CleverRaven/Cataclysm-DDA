@@ -1855,18 +1855,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic )
                 return _( "&You yell." );
             }
         }
-    } else if( topic == "TALK_SIZE_UP" ) {
-        return actor( true )->evaluation_by( *actor( false ) );
-    } else if( topic == "TALK_ASSESS_PERSON" ) {
-        return actor( true )->view_personality_traits();
-    } else if( topic == "TALK_LOOK_AT" ) {
-        if( actor( false )->can_see() ) {
-            return "&" + actor( true )->short_description();
-        } else {
-            return string_format( _( "&You're blind and can't look at %s." ), actor( true )->disp_name() );
-        }
-    } else if( topic == "TALK_OPINION" ) {
-        return "&" + actor( true )->opinion_text();
     } else if( topic == "TALK_MIND_CONTROL" ) {
         if( actor( true )->enslave_mind() ) {
             return _( "YES, MASTER!" );
