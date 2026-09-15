@@ -5883,9 +5883,7 @@
       "hurt_chance": [ 2000 ],
       "hurt_min": [ 1 ]
     },
-    "limb_score_mods": [
-      { "limb_score": "breathing", "resist_modifier": 1, "scaling": -0.005 }
-    ],
+    "limb_score_mods": [ { "limb_score": "breathing", "resist_modifier": 1, "scaling": -0.005 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true
   },
