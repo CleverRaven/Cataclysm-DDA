@@ -148,6 +148,11 @@ help_window::help_window() : cataimgui::window( "help",
 
 void help_window::draw_controls()
 {
+    if( ImGui::IsMouseClicked( ImGuiMouseButton_Left ) ) {
+        imgui_action = "SELECT";
+    } else if( ImGui::IsMouseClicked( ImGuiMouseButton_Right ) ) {
+        imgui_action = "QUIT";
+    }
     if( !has_selected_category ) {
         draw_category_selection();
     } else {
@@ -217,9 +222,6 @@ void help_window::draw_category_option( const int &option, const help_category &
     }
     if( ImGui::IsItemHovered() ) {
         selected_option = option;
-        if( ImGui::IsMouseClicked( ImGuiMouseButton_Left ) ) {
-            imgui_action = "SELECT";
-        }
     }
 }
 
@@ -536,9 +538,6 @@ void help_window::format_footer( const std::string &prev, const std::string &nex
     ImGui::Text( "%s", prev.c_str() );
     if( ImGui::IsItemHovered() ) {
         selected_option = previous_option( loaded_option );
-        if( ImGui::IsMouseClicked( ImGuiMouseButton_Left ) ) {
-            imgui_action = "SELECT";
-        }
     }
 
     ImGui::SameLine( 0.f, 0.f );
@@ -550,9 +549,6 @@ void help_window::format_footer( const std::string &prev, const std::string &nex
     ImGui::Text( "%s", next.c_str() );
     if( ImGui::IsItemHovered() ) {
         selected_option = next_option( loaded_option );
-        if( ImGui::IsMouseClicked( ImGuiMouseButton_Left ) ) {
-            imgui_action = "SELECT";
-        }
     }
 
     ImGui::SameLine( 0.f, 0.f );
