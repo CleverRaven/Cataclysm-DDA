@@ -5874,20 +5874,16 @@
     "int_dur_factor": 144,
     "dur_add_perc": 500,
     "base_mods": {
-      "stamina_amount": [ -200 ],
-      "stamina_min": [ -100 ],
-      "stamina_chance": [ 10 ],
+      "stamina_amount": [ -50 ],
+      "stamina_min": [ -25 ],
+      "stamina_chance": [ 75 ],
       "health_min": [ -1 ],
-      "health_chance": [ 300 ],
-      "cough_chance": [ 150 ]
+      "health_chance": [ 2000 ],
+      "cough_chance": [ 150 ],
+      "hurt_chance": [ 2000 ],
+      "hurt_min": [ 1 ]
     },
-    "limb_score_mods": [
-      { "limb_score": "breathing", "resist_modifier": 1, "scaling": -0.25 },
-      { "limb_score": "reaction", "resist_modifier": 1, "scaling": -0.1 },
-      { "limb_score": "balance", "resist_modifier": 1, "scaling": -0.1 },
-      { "limb_score": "lift", "resist_modifier": 1, "scaling": -0.1 },
-      { "limb_score": "manip", "resist_modifier": 1, "scaling": -0.1 }
-    ],
+    "limb_score_mods": [ { "limb_score": "breathing", "resist_modifier": 1, "scaling": -0.005 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true
   },
