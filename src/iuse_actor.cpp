@@ -1851,19 +1851,19 @@ std::optional<int> salvage_actor::use( Character *p, item &cutter, map *,
 }
 
 std::optional<int> salvage_actor::try_to_cut_up
-( Character &p, item &cutter, item_location &cut ) const
+( Character &p, item &cutter, item_location &cut, bool damaged_by_wheels ) const
 {
     if( !valid_to_cut_up( &p, *cut.get_item() ) ) {
         // Messages should have already been displayed.
         return std::nullopt;
     }
 
-    if( &cutter == cut.get_item() ) {
+    if( !damaged_by_wheels && &cutter == cut.get_item() ) {
         add_msg( m_info, _( "You can not cut the %s with itself." ), cutter.tname() );
         return std::nullopt;
     }
 
-    salvage_actor::cut_up( p, cut );
+    salvage_actor::cut_up( p, cut, damaged_by_wheels );
     // Return used charges from cutter
     return cost >= 0 ? cost : 1;
 }
@@ -1985,7 +1985,7 @@ static std::optional<recipe> find_uncraft_recipe( const item &x )
     return std::nullopt;
 }
 
-void salvage_actor::cut_up( Character &p, item_location &cut ) const
+void salvage_actor::cut_up( Character &p, item_location &cut, bool damaged_by_wheels ) const
 {
     map &here = get_map();
 
@@ -2015,6 +2015,11 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
 
     // If the item being cut is damaged, additional losses will be incurred.
     efficiency *= std::pow( 0.8, cut.get_item()->damage_level() );
+
+    // Static efficiency when damaged by wheels
+    if( damaged_by_wheels ) {
+        efficiency = 0.1;
+    }
 
     auto distribute_uniformly = [&mat_to_weight]( const item & x, float num_adjusted ) -> void {
         for( const auto &type : x.made_of() )
@@ -2099,8 +2104,10 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     // Decompose the item into irreducible parts
     cut_up_component( *cut.get_item(), efficiency );
 
-    // Not much practice, and you won't get very far ripping things up.
-    p.practice( skill_fabrication, rng( 0, 5 ), 1 );
+    if( !damaged_by_wheels ) {
+        // Not much practice, and you won't get very far ripping things up.
+        p.practice( skill_fabrication, rng( 0, 5 ), 1 );
+    }
 
     // Add the uniformly distributed mass to the relevant salvage items
     for( const auto &iter : mat_to_weight ) {
@@ -2109,8 +2116,10 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
         }
     }
 
-    add_msg( m_info, _( "You try to salvage materials from the %s." ),
-             cut.get_item()->tname() );
+    if( !damaged_by_wheels ) {
+        p.add_msg_if_player( m_info, _( "You try to salvage materials from the %s." ),
+                             cut.get_item()->tname() );
+    }
 
     const item_location::type cut_type = cut.where();
     const tripoint_bub_ms pos = cut.pos_bub( here );
@@ -2119,7 +2128,9 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     // Clean up before removing the item.
     remove_ammo( *cut.get_item(), p );
     // Original item has been consumed.
-    cut.remove_item();
+    if( !damaged_by_wheels ) { // Caller handles it in this case.
+        cut.remove_item();
+    }
     // Force an encumbrance update in case they were wearing that item.
     p.calc_encumbrance();
 
@@ -2133,20 +2144,26 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
                 result.charges = amount;
                 amount = 1;
             }
-            add_msg( m_good, n_gettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
-                     amount, result.display_name( amount ) );
+            if( !damaged_by_wheels ) {
+                p.add_msg_if_player( m_good, n_gettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
+                                     amount, result.display_name( amount ) );
+            }
             if( filthy ) {
                 result.set_flag( flag_FILTHY );
             }
             if( cut_type == item_location::type::character ) {
                 p.i_add_or_drop( result, amount );
             } else {
+                item_drop_reason drop_reason = damaged_by_wheels ? item_drop_reason::no_message :
+                                               item_drop_reason::deliberate;
                 for( int i = 0; i < amount; i++ ) {
-                    put_into_vehicle_or_drop( p, item_drop_reason::deliberate, { result }, &here, pos );
+                    put_into_vehicle_or_drop( p, drop_reason, { result }, &here, pos );
                 }
             }
         } else {
-            add_msg( m_bad, _( "Could not salvage a %s." ), result.display_name() );
+            if( !damaged_by_wheels ) {
+                p.add_msg_if_player( m_bad, _( "Could not salvage a %s." ), result.display_name() );
+            }
         }
     }
 }
