@@ -753,36 +753,21 @@ void overmapbuffer::remove_nemesis()
 
 std::vector<mongroup *> overmapbuffer::monsters_at( const tripoint_abs_omt &p )
 {
-    // (x,y) are overmap terrain coordinates, they spawn 2x2 submaps,
-    // but monster groups are defined with submap coordinates.
-    tripoint_abs_sm p_sm = project_to<coords::sm>( p );
-    std::vector<mongroup *> result;
-    for( const point &offset : std::array<point, 4> { { { point::zero }, { point::south }, { point::east }, { point::south_east } } } ) {
-        std::vector<mongroup *> tmp = groups_at( p_sm + offset );
-        result.insert( result.end(), tmp.begin(), tmp.end() );
+    if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
+        return om_loc.om->monsters_at( om_loc.local );
     }
-    return result;
+    return {};
 }
 
 std::vector<mongroup *> overmapbuffer::groups_at( const tripoint_abs_sm &p )
 {
-    std::vector<mongroup *> result;
     point_om_sm sm_within_om;
     point_abs_om omp;
     std::tie( omp, sm_within_om ) = project_remain<coords::om>( p.xy() );
-    if( !has( omp ) ) {
-        return result;
+    if( overmap *om = get_existing( omp ) ) {
+        return om->groups_at( tripoint_om_sm( sm_within_om, p.z() ) );
     }
-    overmap &om = get( omp );
-    auto groups_range = om.zg.equal_range( tripoint_om_sm( sm_within_om, p.z() ) );
-    for( auto it = groups_range.first; it != groups_range.second; ++it ) {
-        mongroup &mg = it->second;
-        if( mg.empty() ) {
-            continue;
-        }
-        result.push_back( &mg );
-    }
-    return result;
+    return {};
 }
 
 #pragma GCC diagnostic push
