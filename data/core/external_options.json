@@ -421,13 +421,6 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "DEFAULT_REGION",
-    "//": "(WIP feature) Determines terrain, shops, plants, and more.",
-    "stype": "string_input",
-    "value": "default"
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "RAD_MUTATION",
     "//": "If true, radiation causes the player to mutate.",
     "stype": "bool",

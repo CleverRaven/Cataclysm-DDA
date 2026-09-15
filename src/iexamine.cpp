@@ -4835,45 +4835,6 @@ std::vector<const itype *> furn_t::crafting_ammo_item_types() const
     return output;
 }
 
-/**
-* Finds the number of charges of the first item that matches type.
-*
-* @param type       Search target.
-* @param items      Stack of items. Search stops at first match.
-*
-* @return           Number of charges.
-* */
-static int count_charges_in_list( const itype *type, const map_stack &items )
-{
-    for( const item &candidate : items ) {
-        if( candidate.type == type ) {
-            return candidate.charges;
-        }
-    }
-    return 0;
-}
-
-/**
-* Finds the number of charges of the first item that matches ammotype.
-*
-* @param ammotype   Search target.
-* @param items      Stack of items. Search stops at first match.
-* @param [out] item_type Matching type.
-*
-* @return           Number of charges.
-* */
-static int count_charges_in_list( const ammotype *ammotype, const map_stack &items,
-                                  itype_id &item_type )
-{
-    for( const item &candidate : items ) {
-        if( candidate.is_ammo() && candidate.type->ammo->type == *ammotype ) {
-            item_type = candidate.typeId();
-            return candidate.charges;
-        }
-    }
-    return 0;
-}
-
 static void reload_furniture( Character &you, const tripoint_bub_ms &examp, bool allow_unload )
 {
     map &here = get_map();

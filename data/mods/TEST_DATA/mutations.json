@@ -456,5 +456,23 @@
     "description": "",
     "types": [ "LEGS", "FEET", "SOLES" ],
     "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -2.0 } ] } ]
+  },
+  {
+    "//": "Craft reservation fixture: a quality source with no item behind it.  The mutation type has no crafting_pseudo_item field, only provided_qualities, so a mutation can never contribute a pseudo item.",
+    "type": "mutation",
+    "id": "TEST_RESERVE_QUALITIES",
+    "name": { "str": "Reservation Test Innate Tools" },
+    "points": 0,
+    "description": "Test mutation granting two craftable qualities with no item behind them.",
+    "provided_qualities": { "TEST_RESERVE_A": 1, "TEST_RESERVE_B": 1 }
+  },
+  {
+    "//": "Craft reservation fixture: a second itemless source of TEST_RESERVE_A, so an abstract multiset can hold two occurrences.",
+    "type": "mutation",
+    "id": "TEST_RESERVE_QUALITIES_2",
+    "name": { "str": "Reservation Test Innate Tools 2" },
+    "points": 0,
+    "description": "Second test mutation granting one craftable quality with no item behind it.",
+    "provided_qualities": { "TEST_RESERVE_A": 1 }
   }
 ]
