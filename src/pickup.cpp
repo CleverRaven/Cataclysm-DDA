@@ -13,6 +13,7 @@
 
 #include "activity_actor_definitions.h"
 #include "auto_pickup.h"
+#include "calendar.h"
 #include "character.h"
 #include "crafting.h"
 #include "contents_change_handler.h"
@@ -115,8 +116,19 @@ static pickup_answer handle_problematic_pickup( const item &it, const std::strin
     return static_cast<pickup_answer>( choice );
 }
 
-bool Pickup::query_thief( const item &it )
+bool Pickup::query_thief( item &it )
 {
+    if( it.has_var( "Forfeited_at" ) ) {
+        const time_point forfeit_time = time_point::from_turn( it.get_var( "Forfeited_at", 0.0 ) );
+        const time_duration time_since_forfeit = calendar::turn - forfeit_time;
+        it.erase_var( "Forfeited_at" );
+        // FIXME: Blind assumption that the character picking up is player. Not safe!
+        if( time_since_forfeit < 1_hours &&
+            it.get_old_owner() == get_player_character().get_faction_id() ) {
+            it.set_owner( get_player_character().get_faction_id() );
+            return true;
+        }
+    }
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
                             : input_context::allow_all_keys;

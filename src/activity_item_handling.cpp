@@ -587,6 +587,8 @@ void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
                     std::list<item> copy_items = items;
                     for( item &copy : copy_items ) {
                         copy.set_owner( actual_camp->get_owner() );
+                        copy.set_var( "Forfeited_at", to_turn<int>( calendar::turn ) );
+                        copy.set_old_owner( you.get_faction_id() );
                     }
                     drop_on_map( you, reason, copy_items, here, where );
                     return;
