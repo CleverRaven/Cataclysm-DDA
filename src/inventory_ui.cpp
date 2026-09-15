@@ -279,11 +279,12 @@ class selection_column_preset : public inventory_selector_preset
             const item_location &item = entry.any_item();
 
             if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                //~ %1$d: chosen count, %2$d: available count
-                res += string_format( pgettext( "count", "%1$d of %2$d" ), entry.chosen_count,
-                                      available_count ) + " ";
+                //~ %1$s: chosen count, %2$s: available count. The replaced string is an item measure prefix, so this entire sentence would be something like "1.25kg canned beans of 2kg canned beans"
+                res += string_format( pgettext( "count", "%1$s of %2$s" ),
+                                      entry.any_item()->type->item_measure_prefix( entry.chosen_count ),
+                                      entry.any_item()->type->item_measure_prefix( available_count ) ) + " ";
             } else if( available_count != 1 ) {
-                res += string_format( "%d ", available_count );
+                res += string_format( "%s ", entry.any_item()->type->item_measure_prefix( available_count ) );
             }
             if( item->is_money() ) {
                 cata_assert( available_count == entry.get_stack_size() );
