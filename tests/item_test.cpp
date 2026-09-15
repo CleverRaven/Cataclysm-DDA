@@ -1135,6 +1135,28 @@ TEST_CASE( "rigid_armor_compliance", "[item][armor]" )
     REQUIRE( !guy.wear( guy.used_weapon(), false ) );
 }
 
+TEST_CASE( "one_per_layer_sided_armor_compliance", "[item][armor]" )
+{
+    avatar &guy = get_avatar();
+    clear_avatar();
+
+    item first_ring( itype_id( "test_one_per_layer_ring_a" ) );
+    REQUIRE( guy.wield( first_ring ) );
+    REQUIRE( guy.wear( guy.used_weapon(), false ) );
+    CHECK( guy.worn.is_wearing_on_bp( first_ring.typeId(), bodypart_id( "hand_l" ) ) );
+    CHECK_FALSE( guy.worn.is_wearing_on_bp( first_ring.typeId(), bodypart_id( "hand_r" ) ) );
+
+    item second_ring( itype_id( "test_one_per_layer_ring_b" ) );
+    REQUIRE( guy.wield( second_ring ) );
+    REQUIRE( guy.wear( guy.used_weapon(), false ) );
+    CHECK( guy.worn.is_wearing_on_bp( second_ring.typeId(), bodypart_id( "hand_r" ) ) );
+    CHECK_FALSE( guy.worn.is_wearing_on_bp( second_ring.typeId(), bodypart_id( "hand_l" ) ) );
+
+    item third_ring( itype_id( "test_one_per_layer_ring_c" ) );
+    REQUIRE( guy.wield( third_ring ) );
+    REQUIRE( !guy.wear( guy.used_weapon(), false ) );
+}
+
 TEST_CASE( "rigid_splint_compliance", "[item][armor]" )
 {
     avatar &guy = get_avatar();

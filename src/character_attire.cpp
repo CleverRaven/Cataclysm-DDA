@@ -1336,7 +1336,7 @@ bool outfit::is_wearing_active_optcloak() const
     return false;
 }
 
-static ret_val<void> test_only_one_conflicts( const item &clothing, const item &i )
+ret_val<void> outfit::only_one_conflicts( const item &clothing ) const
 {
     const bool this_restricts_only_one = clothing.has_flag( json_flag_ONE_PER_LAYER );
 
@@ -1348,32 +1348,30 @@ static ret_val<void> test_only_one_conflicts( const item &clothing, const item &
     const auto sidedness_conflicts = [&sidedness]( side s ) -> bool {
         const bool ret = sidedness[s];
         sidedness[s] = true;
-        if( sidedness[side::LEFT] && sidedness[side::RIGHT] )
-        {
+        if( sidedness[side::LEFT] && sidedness[side::RIGHT] ) {
             sidedness[side::BOTH] = true;
             return true;
         }
         return ret;
     };
 
-    if( i.max_worn() == 1 && i.typeId() == clothing.typeId() ) {
-        return ret_val<void>::make_failure( _( "Can't wear more than one %s!" ), clothing.tname() );
-    }
-
-    if( this_restricts_only_one || i.has_flag( json_flag_ONE_PER_LAYER ) ) {
-        std::optional<side> overlaps = clothing.covers_overlaps( i );
-        if( overlaps && sidedness_conflicts( *overlaps ) ) {
-            return ret_val<void>::make_failure( _( "%1$s conflicts with %2$s!" ), clothing.tname(), i.tname() );
+    const auto test_conflicts = [&]( const item &i ) -> ret_val<void> {
+        if( i.max_worn() == 1 && i.typeId() == clothing.typeId() ) {
+            return ret_val<void>::make_failure( _( "Can't wear more than one %s!" ), clothing.tname() );
         }
-    }
 
-    return ret_val<void>::make_success();
-}
+        if( this_restricts_only_one || i.has_flag( json_flag_ONE_PER_LAYER ) ) {
+            std::optional<side> overlaps = clothing.covers_overlaps( i );
+            if( overlaps && sidedness_conflicts( *overlaps ) ) {
+                return ret_val<void>::make_failure( _( "%1$s conflicts with %2$s!" ), clothing.tname(), i.tname() );
+            }
+        }
 
-ret_val<void> outfit::only_one_conflicts( const item &clothing ) const
-{
+        return ret_val<void>::make_success();
+    };
+
     for( const item &i : worn ) {
-        ret_val<void> result = test_only_one_conflicts( clothing, i );
+        ret_val<void> result = test_conflicts( i );
         if( !result.success() ) {
             return result;
         }
@@ -1381,7 +1379,7 @@ ret_val<void> outfit::only_one_conflicts( const item &clothing ) const
         if( i.is_ablative() ) {
             // if item has ablative armor we should check those too.
             for( const item *ablative_armor : i.all_ablative_armor() ) {
-                result = test_only_one_conflicts( clothing, *ablative_armor );
+                result = test_conflicts( *ablative_armor );
                 if( !result.success() ) {
                     return result;
                 }
@@ -1480,6 +1478,10 @@ ret_val<void> outfit::check_rigid_conflicts( const item &clothing ) const
 void outfit::one_per_layer_sidedness( item &clothing ) const
 {
     const bool item_one_per_layer = clothing.has_flag( json_flag_ONE_PER_LAYER );
+    if( item_one_per_layer && clothing.is_sided() && clothing.get_side() == side::BOTH ) {
+        clothing.set_side( side::LEFT );
+    }
+
     for( const item &worn_item : worn ) {
         const std::optional<side> sidedness_conflict = clothing.covers_overlaps( worn_item );
         if( sidedness_conflict && ( item_one_per_layer ||
