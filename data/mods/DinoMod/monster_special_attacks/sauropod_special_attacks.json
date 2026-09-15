@@ -135,7 +135,19 @@
           }
         ],
         "monster_range": 3,
-        "mtype_ids": [ "mon_apatosaurus", "mon_brontosaurus", "mon_diplodocus" ]
+        "mtype_ids": [
+          "mon_moabosaurus",
+          "mon_haplocanthosaurus",
+          "mon_amargasaurus",
+          "mon_apatosaurus",
+          "mon_brontosaurus",
+          "mon_diplodocus",
+          "mon_barosaurus",
+          "mon_camarasaurus",
+          "mon_brachiosaurus",
+          "mon_astrodon",
+          "mon_alamosaurus"
+        ]
       }
     ]
   },
@@ -235,7 +247,30 @@
       {
         "u_run_monster_eocs": [ "eoc_zauropod_walker" ],
         "monster_range": 3,
-        "mtype_ids": [ "mon_zapatosaurus", "mon_zrontosaurus", "mon_ziplodocus" ]
+        "mtype_ids": [
+          "mon_zoabosaurus",
+          "mon_zaplocanthosaurus",
+          "mon_zamargasaurus",
+          "mon_zapatosaurus",
+          "mon_zrontosaurus",
+          "mon_ziplodocus",
+          "mon_zarosaurus",
+          "mon_zamarasaurus",
+          "mon_zrachiosaurus",
+          "mon_zastrodon",
+          "mon_zalamosaurus",
+          "mon_zoabosaurus_scorched",
+          "mon_zaplocanthosaurus_scorched",
+          "mon_zamargasaurus_scorched",
+          "mon_zapatosaurus_scorched",
+          "mon_zrontosaurus_scorched",
+          "mon_ziplodocus_scorched",
+          "mon_zarosaurus_scorched",
+          "mon_zamarasaurus_scorched",
+          "mon_zrachiosaurus_scorched",
+          "mon_zastrodon_scorched",
+          "mon_zalamosaurus_scorched"
+        ]
       }
     ],
     "false_effect": [ { "math": [ "updating_zauropods = 0" ] } ]
