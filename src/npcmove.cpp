@@ -2187,12 +2187,14 @@ void npc::execute_action( npc_action action )
                 // first build a list of positions to search
                 std::vector<tripoint_bub_ms> search_positions;
 
-                if( is_walking_with() && player_character.in_vehicle && player_character.in_sleep_state() ) {
+                if( is_walking_with() && player_character.in_vehicle ) {
                     const optional_vpart_position player_part_pos = here.veh_at( player_character.pos_bub() );
                     if( player_part_pos ) {
                         vehicle *player_vehicle = &player_part_pos->vehicle();
-                        for( const vpart_reference &part : player_vehicle->get_avail_parts( VPFLAG_BOARDABLE ) ) {
-                            search_positions.push_back( player_vehicle->bub_part_pos( here, part.part() ) );
+                        if( player_character.in_sleep_state() || player_vehicle->velocity != 0 ) {
+                            for( const vpart_reference &part : player_vehicle->get_avail_parts( VPFLAG_BOARDABLE ) ) {
+                                search_positions.push_back( player_vehicle->bub_part_pos( here, part.part() ) );
+                            }
                         }
                     }
                 }
@@ -7282,16 +7284,14 @@ std::vector<npc::need_candidate> npc::find_sleep_candidates()
     const Character &player_character = get_player_character();
 
     std::vector<tripoint_bub_ms> search_positions;
-    if( is_walking_with() && player_character.in_vehicle &&
-        player_character.in_sleep_state() ) {
-        const optional_vpart_position player_part_pos =
-            here.veh_at( player_character.pos_bub() );
+    if( is_walking_with() && player_character.in_vehicle ) {
+        const optional_vpart_position player_part_pos = here.veh_at( player_character.pos_bub() );
         if( player_part_pos ) {
             vehicle *player_vehicle = &player_part_pos->vehicle();
-            for( const vpart_reference &part :
-                 player_vehicle->get_avail_parts( VPFLAG_BOARDABLE ) ) {
-                search_positions.push_back(
-                    player_vehicle->bub_part_pos( here, part.part() ) );
+            if( player_character.in_sleep_state() || player_vehicle->velocity != 0 ) {
+                for( const vpart_reference &part : player_vehicle->get_avail_parts( VPFLAG_BOARDABLE ) ) {
+                    search_positions.push_back( player_vehicle->bub_part_pos( here, part.part() ) );
+                }
             }
         }
     }
