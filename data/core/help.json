@@ -18,6 +18,7 @@
       "Movement is typically performed using the numpad, vikeys, the mouse or arrow keys. Here are the layouts for numpad and vikeys, where the central bind is to wait in place:",
       {
         "force_monospaced": {
+          "//~": "NO_I18N",
           "//NOLINT(cata-text-style)": "intentional format",
           "str": "<color_light_blue>7 8 9     y k u\n ↖↑↗       ↖↑↗ \n4←5→6     h←.→l\n ↙↓↘       ↙↓↘ \n1 2 3     b j n\n"
         }
@@ -26,6 +27,7 @@
       "- Numpad Emulation: In this mode you hold Ctrl throughout, first pressing a direction which will then modify further key presses to be in altered by that direction, for example if you first press Up, then further Left, Up, Right and Down presses will become NW, N, NE, and wait respectively.",
       {
         "force_monospaced": {
+          "//~": "Diagram where Up and Right are arrow keys followed by compass directions",
           "//NOLINT(cata-text-style)": "intentional format",
           "str": "<color_light_blue>   After Up     After Right\n      N            NE\n   NW O  NE      O SE E\n"
         }
@@ -33,6 +35,7 @@
       "- CW/CCW: In this mode holding Shift modifies each key 45 degrees clockwise while holding Ctrl modifies each key 45 degrees counter-clockwise.",
       {
         "force_monospaced": {
+          "//~": "Diagram where Shift and Ctrl are the keyboard keys followed by compass directions",
           "//NOLINT(cata-text-style)": "intentional format",
           "str": "<color_light_blue>  With Shift    With Ctrl\n      NE            NW\n   NW SW SE      SW SE NE\n"
         }
@@ -40,8 +43,8 @@
       "- L/R Tilt: In this mode holding Shift/Ctrl makes Left and Right behave as NW/SW and NE/SE respectively.  Up and Down behave normally regardless of modifiers.",
       {
         "force_monospaced": {
+          "//~": "Diagram where Shift and Ctrl are the keyboard keys followed by compass directions",
           "//NOLINT(cata-text-style)": "intentional format",
-          "//~": "ASCII Diagram for directions of arrow keys when using L/R Tilt for diagonals",
           "str": "<color_light_blue>  With Shift    With Ctrl\n      N             NW\n   NW S  NE      SW S  SE\n"
         }
       },
@@ -250,7 +253,11 @@
     "messages": [
       "You control vehicles using the numpad, or vikeys by default.  Note, however, that you control the vehicle's controls, rather than controlling the vehicle directly.",
       {
-        "force_monospaced": "<color_light_blue>7 8 9     y k u\n ↖↑↗       ↖↑↗ \n4←5→6     h←.→l\n ↙↓↘       ↙↓↘ \n1 2 3     b j n\n"
+        "force_monospaced": {
+          "//~": "NO_I18N",
+          "//NOLINT(cata-text-style)": "intentional format",
+          "str": "<color_light_blue>7 8 9     y k u\n ↖↑↗       ↖↑↗ \n4←5→6     h←.→l\n ↙↓↘       ↙↓↘ \n1 2 3     b j n\n"
+        }
       },
       "In order to assume control of a vehicle, get to a location with working \"vehicle controls\" and a \"seat,\" then press <keybind:control_vehicle>.  Once you are in control, <keybind:UP> accelerates, <keybind:DOWN> slows or reverses, & <keybind:LEFT> & <keybind:RIGHT> turn left or right.  Diagonals adjust course and speed.  The gas/brake adjust the speed which the vehicle will attempt to maintain.",
       "10-30 MPH, or 16-48 KPH, is a good speed for beginning drivers, who tend to fumble the controls.  As your Driving skill improves, you will fumble less and less.  To simply maintain course and speed, hit <keybind:pause>.",
