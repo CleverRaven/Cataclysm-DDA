@@ -41,7 +41,6 @@
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "gun_mode.h"
-#include "inventory.h"
 #include "item_category.h"
 #include "item_contents.h"
 #include "item_factory.h"

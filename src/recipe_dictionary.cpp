@@ -28,7 +28,6 @@
 #include "flexbuffer_json.h"
 #include "init.h"
 #include "input.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
@@ -47,6 +46,7 @@
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "visitable.h"
 
 static const flag_id json_flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
 

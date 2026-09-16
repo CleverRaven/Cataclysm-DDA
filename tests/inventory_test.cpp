@@ -3,7 +3,6 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
-#include "inventory.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"

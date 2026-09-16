@@ -20,7 +20,6 @@
 #include "dialogue_chatbin.h"
 #include "enum_conversions.h"
 #include "game.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_group.h"
 #include "kill_tracker.h"

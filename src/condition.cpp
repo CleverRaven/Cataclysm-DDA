@@ -40,7 +40,6 @@
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "global_vars.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_location.h"

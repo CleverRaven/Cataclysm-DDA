@@ -16,7 +16,6 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_location.h"

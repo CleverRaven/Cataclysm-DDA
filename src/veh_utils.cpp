@@ -21,7 +21,6 @@
 #include "game_constants.h"
 #include "input_context.h"
 #include "input_enums.h"
-#include "inventory.h"
 #include "item.h"
 #include "map.h"
 #include "memory_fast.h"

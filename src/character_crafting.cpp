@@ -1,5 +1,5 @@
 #include <algorithm>
-#include <list>
+#include <functional>
 #include <map>
 #include <memory>
 #include <set>
@@ -8,8 +8,8 @@
 
 #include "cached_options.h"
 #include "calendar.h"
+#include "coordinates.h"
 #include "character.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"

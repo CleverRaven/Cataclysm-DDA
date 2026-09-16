@@ -39,7 +39,6 @@
 #include "input.h"
 #include "input_context.h"
 #include "input_popup.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_group.h"
 #include "iteminfo_query.h"
@@ -83,8 +82,6 @@
 #include "cursesport.h"        // for get_scaling_factor (??)
 #include "sdltiles.h"          // for tilecontext
 #endif
-
-class read_only_visitable;
 
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 

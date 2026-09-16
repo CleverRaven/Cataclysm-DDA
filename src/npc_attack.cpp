@@ -17,7 +17,6 @@
 #include "dialogue.h"
 #include "dialogue_helpers.h"
 #include "flag.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "magic.h"

@@ -29,8 +29,8 @@ class JsonValue;
 class cata_variant;
 class item;
 class item_components;
-class read_only_visitable;
 class recipe;
+class temp_crafting_inventory;
 template <typename E> struct enum_traits;
 
 enum scaling_stat : int;

@@ -29,7 +29,6 @@
 #include "gates.h"
 #include "handle_liquid.h"
 #include "iexamine.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_pocket.h"
 #include "itype.h"

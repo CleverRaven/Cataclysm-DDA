@@ -45,7 +45,6 @@
 #include "game_constants.h"
 #include "global_vars.h"
 #include "gun_mode.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_components.h"
@@ -127,6 +126,8 @@ static const skill_id skill_survival( "survival" );
 static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
 
 static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
+
+class temp_crafting_inventory;
 
 // sorts with localized_compare, and enumerates entries, if more than \p max entries
 // the rest are abbreviated into " and %d more"

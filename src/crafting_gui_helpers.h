@@ -16,9 +16,10 @@
 #include "translation.h"
 
 class Character;
-class inventory;
 class recipe;
 class recipe_subset;
+class temp_crafting_inventory;
+
 struct crafting_cost_context;
 struct tool_comp;
 

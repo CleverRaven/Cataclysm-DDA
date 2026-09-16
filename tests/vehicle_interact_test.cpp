@@ -8,7 +8,6 @@
 #include "character.h"
 #include "coordinates.h"
 #include "enums.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "map.h"

@@ -6,7 +6,6 @@
 #include <cstdlib>
 #include <iterator>
 #include <memory>
-#include <optional>
 #include <string>
 
 #include "avatar.h"
@@ -16,28 +15,21 @@
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
-#include "iexamine.h"
 #include "inventory_ui.h" // auto inventory blocking
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "map.h"
-#include "map_iterator.h"
-#include "mapdata.h"
 #include "messages.h" //for rust message
 #include "npc.h"
 #include "options.h"
-#include "pocket_type.h"
-#include "point.h"
 #include "proficiency.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
-#include "vpart_position.h"
-#include "weather.h"
 
 static const itype_id itype_acetaminophen( "acetaminophen" );
 static const itype_id itype_aspirin( "aspirin" );

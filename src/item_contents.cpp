@@ -26,7 +26,6 @@
 #include "input_context.h"
 #include "input_enums.h"
 #include "input_popup.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_factory.h"

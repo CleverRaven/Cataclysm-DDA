@@ -19,7 +19,6 @@
 #include "coordinates.h"
 #include "craft_command.h"
 #include "game_constants.h"
-#include "inventory.h"
 #include "item_components.h"
 #include "item_location.h"
 #include "map.h"

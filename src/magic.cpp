@@ -38,7 +38,6 @@
 #include "input_enums.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_location.h"
 #include "json.h"
 #include "localized_comparator.h"
 #include "magic_enchantment.h"

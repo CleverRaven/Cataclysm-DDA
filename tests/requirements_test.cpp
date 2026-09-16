@@ -13,7 +13,6 @@
 #include "color.h"
 #include "creature.h"
 #include "harvest.h"
-#include "inventory.h"
 #include "item.h"
 #include "npc.h"
 #include "player_helpers.h"

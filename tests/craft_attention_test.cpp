@@ -32,7 +32,6 @@
 #include "item.h"
 #include "item_components.h"
 #include "item_location.h"
-#include "inventory.h"
 #include "item_uid.h"
 #include "item_wakeup.h"
 #include "json.h"

@@ -26,7 +26,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_contents.h"

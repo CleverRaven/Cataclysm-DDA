@@ -3,11 +3,25 @@
 #define CATA_SRC_TEMP_CRAFTING_INVENTORY_H
 
 // IWYU pragma: no_include <memory>  // IWYU being silly
+#include <climits>
 #include <cstddef>
+#include <functional>
+#include <list>
+#include <map>
+#include <unordered_set>
+#include <vector>
 
 #include "colony.h"
+#include "coords_fwd.h"
 #include "item.h"
+#include "item_location.h"
+#include "type_id.h"
 #include "visitable.h"
+
+class Character;
+class map;
+class map_cursor;
+class vehicle_cursor;
 
 /**
  * A transient add-only list of item references and temporary pseudo-items, that implements `read_only_visitable`

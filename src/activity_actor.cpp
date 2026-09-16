@@ -70,7 +70,6 @@
 #include "harvest.h"
 #include "iexamine.h"
 #include "input_popup.h"
-#include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_components.h"

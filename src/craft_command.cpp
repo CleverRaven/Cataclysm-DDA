@@ -20,7 +20,6 @@
 #include "flag.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_contents.h"
@@ -46,6 +45,8 @@
 static const itype_id itype_candle( "candle" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
+class temp_crafting_inventory;
 
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const

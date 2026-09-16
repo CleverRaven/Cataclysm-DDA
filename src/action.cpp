@@ -22,7 +22,6 @@
 #include "game_constants.h"
 #include "input_context.h"
 #include "input_enums.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "map.h"
@@ -37,7 +36,6 @@
 #include "point.h"
 #include "popup.h"
 #include "ret_val.h"
-#include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uilist.h"
@@ -49,6 +47,8 @@ static const itype_id itype_swim_fins( "swim_fins" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
+
+class temp_crafting_inventory;
 
 static void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                           std::set<action_id> &unbound_keymap );

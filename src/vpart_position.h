@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <map>
 #include <optional>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -14,7 +15,7 @@
 #include "type_id.h"
 
 class Character;
-class inventory;
+class tenp_crafting_inventory;
 class map;
 class vehicle;
 class vehicle_stack;

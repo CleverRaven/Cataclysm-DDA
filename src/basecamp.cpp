@@ -26,7 +26,6 @@
 #include "faction_camp.h"
 #include "game.h"
 #include "input_popup.h"
-#include "inventory.h"
 #include "item.h"
 #include "map.h"
 #include "map_iterator.h"

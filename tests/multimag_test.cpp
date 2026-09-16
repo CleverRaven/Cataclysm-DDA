@@ -27,7 +27,6 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "item_pocket.h"
-#include "inventory.h"
 #include "inventory_ui.h"
 #include "iteminfo_query.h"
 #include "itype.h"

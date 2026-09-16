@@ -34,7 +34,6 @@
 #include "game_constants.h"
 #include "handle_liquid.h"
 #include "input_popup.h"
-#include "inventory.h"
 #include "item.h"
 #include "itype.h"
 #include "line.h"

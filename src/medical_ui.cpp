@@ -30,7 +30,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input_context.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "math_parser_diag_value.h"

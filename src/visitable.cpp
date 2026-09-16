@@ -21,6 +21,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "map.h"

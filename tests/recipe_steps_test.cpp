@@ -17,7 +17,6 @@
 #include "craft_command.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"

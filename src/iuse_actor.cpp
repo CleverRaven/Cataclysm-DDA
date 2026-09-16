@@ -46,7 +46,6 @@
 #include "game_inventory.h"
 #include "generic_factory.h"
 #include "iexamine.h"
-#include "inventory.h"
 #include "input_popup.h"
 #include "item.h"
 #include "item_components.h"
