@@ -46,8 +46,6 @@ static const itype_id itype_candle( "candle" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
-class temp_crafting_inventory;
-
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const
 {

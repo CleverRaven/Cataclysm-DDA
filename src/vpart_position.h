@@ -15,8 +15,8 @@
 #include "type_id.h"
 
 class Character;
-class tenp_crafting_inventory;
 class map;
+class temp_crafting_inventory;
 class vehicle;
 class vehicle_stack;
 class vpart_info;

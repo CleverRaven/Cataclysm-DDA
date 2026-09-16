@@ -76,6 +76,8 @@ static const vproto_id vehicle_prototype_test_rv( "test_rv" );
 static time_point midnight = calendar::turn_zero;
 static time_point midday = midnight + 12_hours;
 
+class temp_crafting_inventory;
+
 TEST_CASE( "verify_copy_from_gets_damage_reduction", "[vehicle]" )
 {
     // Picking halfboard_horizontal as a vpart which is likely to remain

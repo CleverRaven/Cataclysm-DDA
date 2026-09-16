@@ -30,6 +30,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input_context.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "math_parser_diag_value.h"
@@ -62,6 +63,8 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 
 template <typename T> struct enum_traits;
+
+class temp_crafting_inventory;
 
 namespace
 {

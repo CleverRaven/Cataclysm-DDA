@@ -39,8 +39,6 @@
 #include "translation.h"
 #include "type_id.h"
 
-class read_only_visitable;
-
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
 static const itype_id itype_2x4( "2x4" );

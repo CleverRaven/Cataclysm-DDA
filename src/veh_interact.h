@@ -25,8 +25,8 @@
 #include "vpart_position.h"
 
 class Character;
-class inventory;
 class map;
+class temp_crafting_inventory;
 class time_duration;
 class vpart_info;
 struct requirement_data;

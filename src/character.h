@@ -38,7 +38,6 @@
 #include "flat_set.h"
 #include "game_constants.h"
 #include "global_vars.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -75,6 +74,7 @@ class dispersion_sources;
 class effect;
 class enchant_cache;
 class faction;
+class inventory;
 class known_magic;
 class ma_technique;
 class map;

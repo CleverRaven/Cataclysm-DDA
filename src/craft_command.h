@@ -17,6 +17,7 @@ class JsonObject;
 class JsonOut;
 class item;
 class read_only_visitable;
+class temp_crafting_inventory;
 template<typename T> struct enum_traits;
 
 const std::string flag_ALWAYS_START_ON_GROUND( "ALWAYS_START_ON_GROUND" );
