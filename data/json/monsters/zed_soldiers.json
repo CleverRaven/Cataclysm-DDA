@@ -21,18 +21,6 @@
     "delete": { "flags": [ "STUMBLES" ] }
   },
   {
-    "id": "mon_zombie_soldier_no_weakpoints",
-    "type": "MONSTER",
-    "name": { "str_sp": "zombie soldier test only", "//~": "NO_I18N" },
-    "description": { "str": "This zombie soldier is for testing purposes only.", "//~": "NO_I18N" },
-    "copy-from": "mon_zombie_soldier",
-    "dodge": 1,
-    "extend": { "flags": [ "NOT_HALLUCINATION" ] },
-    "delete": {
-      "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ]
-    }
-  },
-  {
     "id": "mon_zombie_soldier_blackops_1",
     "type": "MONSTER",
     "name": { "str": "black-ops zombie" },
