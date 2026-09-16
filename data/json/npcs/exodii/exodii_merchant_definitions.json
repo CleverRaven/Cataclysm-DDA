@@ -81,7 +81,9 @@
       { "group": "SUS_junk_drawer" },
       { "group": "SUS_junk_drawer_messy" },
       { "group": "SUS_junk_drawer_artsy" },
-      { "group": "SUS_kitchen_sink" }
+      { "group": "SUS_kitchen_sink" },
+      { "group": "Exodii_Magiclysm_no_spell_scrolls" },
+      { "group": "Exodii_XE_no_dreamdross_items" }
     ]
   },
   {
