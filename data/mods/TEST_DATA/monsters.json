@@ -459,6 +459,7 @@
     "name": { "str": "flesh eating shoggoth test only" },
     "description": "This shoggoth is for testing purposes only.",
     "copy-from": "mon_shoggoth",
+    "extend": { "flags": [ "NOT_HALLUCINATION" ] },
     "absorb_material": [ "flesh" ]
   },
   {
@@ -467,6 +468,7 @@
     "name": { "str": "absorb only shoggoth test only" },
     "description": "This shoggoth is for testing purposes only.",
     "copy-from": "mon_shoggoth",
+    "extend": { "flags": [ "NOT_HALLUCINATION" ] },
     "delete": { "special_attacks": [ "SPLIT" ] }
   },
   {
@@ -481,7 +483,8 @@
     "hp": 300,
     "dodge": 2,
     "bleed_rate": 60,
-    "armor": { "bash": 8, "cut": 10, "electric": 1 }
+    "armor": { "bash": 8, "cut": 10, "electric": 1 },
+    "extend": { "flags": [ "NOT_HALLUCINATION" ] }
   },
   {
     "id": "mon_test_shotgun_1_bullet",
