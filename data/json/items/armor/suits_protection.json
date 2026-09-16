@@ -3013,7 +3013,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "S02a hazmat suit" },
-    "description": "A bulky hazardous materials handling suit.  This one appears outfitted for the highest levels of protection, featuring built in oversized rubber gloves, sealed boot covers with a rubber sole, and an active temperature control system.  It's clearly designed to accomodate additional equipment, including self-contained breathing apparatuses or powered air purifying respirator systems.  Strange wiring snakes the entire garment, connecting to small electronic pads on all of the joints and the head.  A battery compartment marked with \"X.E.D.R.A PROTOTYPE S02a\" is attached to the back.",
+    "description": "A bulky hazardous materials handling suit.  This one appears outfitted for the highest levels of protection, featuring built in oversized rubber gloves, sealed boot covers with a rubber sole, and an active temperature control system.  It's clearly designed to accommodate additional equipment, including self-contained breathing apparatuses or powered air purifying respirator systems.  Strange wiring snakes the entire garment, connecting to small electronic pads on all of the joints and the head.  A battery compartment marked with \"X.E.D.R.A PROTOTYPE S02a\" is attached to the back.",
     "weight": "2500 g",
     "volume": "2500 ml",
     "price": "1 kUSD 500 USD",
@@ -3109,7 +3109,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "S02a hazmat suit (on)", "str_pl": "S02a hazmat suit (on)" },
     "looks_like": "xedra_artifact_cleansuit",
-    "description": "A bulky hazardous materials handling suit.  This one appears outfitted for the highest levels of protection, featuring built in, oversized rubber gloves, sealed boot covers with a rubber sole, and an active temperature control system.  It's clearly designed to accomodate additional equipment, including self-contained breathing apparatuses or powered air purifying respirator systems.  Strange wiring snakes the entire garment, connecting to small electronic pads on all of the joints and the head.  A battery compartment marked with \"X.E.D.R.A PROTOTYPE S02a\" is attached to the back.  The device is currently switched on.",
+    "description": "A bulky hazardous materials handling suit.  This one appears outfitted for the highest levels of protection, featuring built in oversized rubber gloves, sealed boot covers with a rubber sole, and an active temperature control system.  It's clearly designed to accommodate additional equipment, including self-contained breathing apparatuses or powered air purifying respirator systems.  Strange wiring snakes the entire garment, connecting to small electronic pads on all of the joints and the head.  A battery compartment marked with \"X.E.D.R.A PROTOTYPE S02a\" is attached to the back.  The device is currently switched on.",
     "turns_per_charge": 100,
     "revert_to": "xedra_artifact_cleansuit",
     "use_action": {
