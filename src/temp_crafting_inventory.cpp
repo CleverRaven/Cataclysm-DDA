@@ -4,6 +4,7 @@
 #include <functional>
 #include <memory>
 #include <optional>
+#include <set>
 #include <utility>
 
 #include "calendar.h"
@@ -27,6 +28,8 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "weather.h"
+
+class vehicle;
 
 static const flag_id json_flag_PSEUDO( "PSEUDO" );
 
