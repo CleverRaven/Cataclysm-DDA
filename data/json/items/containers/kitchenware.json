@@ -1,0 +1,84 @@
+[
+  {
+    "id": "plastic_organizer_medium",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "Medium Food Organizer" },
+    "description": "A plastic container with lid for airtight food storage.  It's dishwasher safe.",
+    "weight": "990 g",
+    "volume": "2800 ml",
+    "//": "guesstimated volume by taking bottom measurements multiplied by height, and rounding up",
+    "longest_side": "17 cm",
+    "price": "33.98 USD",
+    "price_postapoc": "15 cent",
+    "material": [ "plastic" ],
+    "symbol": "o",
+    "color": "light_blue",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "2550 ml",
+        "max_contains_weight": "5 kg",
+        "spoil_multiplier": "0.9",
+        "watertight": true,
+        "airtight": true,
+        "transparent": true
+      }
+    ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "//": "Based on https://organizecraft.com/products/b08sqjtrrj"
+  },
+  {
+    "id": "plastic_organizer_small",
+    "copy-from": "plastic_organizer_medium",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "Small Food Organizer" },
+    "description": "A plastic container with lid for airtight food storage.  It's dishwasher safe.",
+    "proportiobnal": [
+      { "weight": 0.6 },
+      { "volume": 0.6 },
+      { "max_contains_volume": 0.6 },
+      { "max_contains_weight": 0.6 }
+    ],
+    "longest_side": "16 cm",
+    "price": "24.98 USD",
+    "price_postapoc": "10 cent"
+  },
+  {
+    "id": "plastic_organizer_tiny",
+    "copy-from": "plastic_organizer_medium",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "Very Small Food Organizer" },
+    "description": "A plastic container with lid for airtight food storage.  It's dishwasher safe.",
+    "proportiobnal": [
+      { "weight": 0.35 },
+      { "volume": 0.35 },
+      { "max_contains_volume": 0.35 },
+      { "max_contains_weight": 0.35 }
+    ],
+    "longest_side": "13 cm",
+    "price": "19.98 USD",
+    "price_postapoc": "8 cent"
+  },
+  {
+    "id": "plastic_organizer_large",
+    "copy-from": "plastic_organizer_medium",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "Large Food Organizer" },
+    "description": "A plastic container with lid for airtight food storage.  It's dishwasher safe.",
+    "proportiobnal": [
+      { "weight": 2.0 },
+      { "volume": 2.0 },
+      { "max_contains_volume": 2.0 },
+      { "max_contains_weight": 2.0 }
+    ],
+    "longest_side": "23 cm",
+    "price": "33.98 USD",
+    "price_postapoc": "20 cent",
+    "//": "Based on https://organizecraft.com/products/b08dhcdjhk?variant=53607245742293"
+  }
+]
