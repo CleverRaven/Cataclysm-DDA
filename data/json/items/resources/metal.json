@@ -406,7 +406,7 @@
     "id": "solder_wire",
     "category": "spare_parts",
     "price": "20 cent",
-    "price_postapoc": "2 cent",
+    "price_postapoc": "1 cent",
     "name": { "str_sp": "solder" },
     "symbol": "=",
     "color": "light_gray",
