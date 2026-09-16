@@ -679,6 +679,8 @@ static void WinCreate()
     rebuild_geometry_strategy( software_renderer );
 
     shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
+    shared_variant_pass->select_memory_preset( cata_shader::memory_preset_from_option_value(
+                get_option<std::string>( "MEMORY_MAP_MODE" ) ) );
 
     imclient = std::make_unique<cataimgui::client>( renderer, window, geometry );
 
@@ -2036,6 +2038,8 @@ bool renderer_recovery_test_support::setup_software_renderer()
     if( renderer || window ) {
         return false;
     }
+    cata_shader::test_reset_seams();
+    cata_shader::clear_reprobe();
     const char *const prior = SDL_getenv( "SDL_VIDEODRIVER" );
     test_fixture_had_prior_driver = prior != nullptr;
     test_fixture_prior_driver = prior != nullptr ? prior : std::string();
@@ -2078,6 +2082,8 @@ bool renderer_recovery_test_support::setup_software_renderer()
     detect_renderer_backend();
     pixel_format = SDL_PIXELFORMAT_ARGB8888;
     shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
+    shared_variant_pass->select_memory_preset( cata_shader::memory_preset_from_option_value(
+                get_option<std::string>( "MEMORY_MAP_MODE" ) ) );
     geometry = std::make_unique<DefaultGeometryRenderer>();
     if( !SetupRenderTarget() ) {
         teardown_software_renderer();
@@ -2104,6 +2110,8 @@ void renderer_recovery_test_support::teardown_software_renderer()
     reset_coordinator();
     geometry.reset();
     shared_variant_pass.reset();
+    cata_shader::test_reset_seams();
+    cata_shader::clear_reprobe();
     display_buffer.reset();
     renderer.reset();
     window.reset();
@@ -2236,6 +2244,40 @@ void renderer_recovery_test_support::arm_mode2_interrupt( const int poll_countdo
     cata_assert( poll_countdown > 0 );
     renderer_coordinator.test_mode2_interrupt_countdown_ = poll_countdown;
     renderer_coordinator.test_mode2_interrupt_ = interrupt;
+}
+
+void renderer_recovery_test_support::arm_probe_unsafe( const int count )
+{
+    cata_assert( count > 0 );
+    cata_shader::test_arm_probe_unsafe( count );
+}
+
+int renderer_recovery_test_support::probe_unsafe_remaining()
+{
+    return cata_shader::test_probe_unsafe_remaining();
+}
+
+void renderer_recovery_test_support::arm_flush_failure()
+{
+    cata_shader::test_arm_flush_failure();
+}
+
+void renderer_recovery_test_support::mark_shader_fault()
+{
+    cata_assert( shared_variant_pass );
+    shared_variant_pass->shader_fault_ = true;
+}
+
+void renderer_recovery_test_support::simulate_draw_bind_failure()
+{
+    cata_assert( shared_variant_pass );
+    shared_variant_pass->note_draw_bind_failure( false );
+    display_buffer_scope_signal_recovery_required();
+}
+
+int renderer_recovery_test_support::variant_probe_count()
+{
+    return cata_shader::test_probe_runs();
 }
 
 bool renderer_recovery_test_support::replay_quarantine_empty()

@@ -472,6 +472,22 @@ struct renderer_recovery_test_support {
     // on the stack, then close it. Reports whether the display buffer was bound
     // inside the scope and whether the target returned to NULL after it.
     static void pause_during_draw_scope( bool &bound_during, bool &null_after );
+
+    // next N variant_pass probes report unsafe boundary without touching SDL.
+    // countdown like arm_replay_pause
+    static void arm_probe_unsafe( int count = 1 );
+    static int probe_unsafe_remaining();
+    // next variant_pass flush fails without touching SDL, whether or not
+    // anything is bound
+    static void arm_flush_failure();
+    // Set the sticky shader fault alone: the state a shader-caused device_lost
+    // recovery leaves after rebind_renderer restored the boundary.
+    static void mark_shader_fault();
+    // Reproduce draw_sprite_at's bind-failure path: the pass flags plus the
+    // display latch, so the next drain promotes to device_lost.
+    static void simulate_draw_bind_failure();
+    // number of variant_pass probe runs since fixture setup
+    static int variant_probe_count();
 };
 
 // RAII wrapper around setup/teardown for use as a Catch2 fixture local.

@@ -6,6 +6,10 @@
 #include "cata_catch.h"
 #include "cata_shader.h"
 #include "cata_tiles.h"
+#include "options.h"
+#include "sdl_renderer_recovery.h"
+#include "sdl_wrappers.h"
+#include "sdltiles.h"
 
 TEST_CASE( "atlas_bake_plan_full_when_shaders_unavailable", "[tiles][gpu]" )
 {
@@ -107,5 +111,133 @@ TEST_CASE( "classify_bundle_distinguishes_metadata_only_from_uploaded", "[tiles]
     // stands in for a precheck bundle: no id, no atlas
     tileset metadata_only;
     CHECK( classify_bundle( &metadata_only ) == bundle_state::metadata_only );
+}
+
+TEST_CASE( "variant_pass_ensure_probed_is_unavailable_on_software_renderer", "[tiles][gpu]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+    REQUIRE( vp );
+    const int probes_before = renderer_recovery_test_support::variant_probe_count();
+    CHECK( vp->ensure_probed() == cata_shader::probe_state::unavailable );
+    // idempotent: second call doesn't re-run the probe
+    CHECK( vp->ensure_probed() == cata_shader::probe_state::unavailable );
+    CHECK( renderer_recovery_test_support::variant_probe_count() == probes_before + 1 );
+}
+
+TEST_CASE( "variant_pass_memory_preset_is_selected_before_any_upload", "[tiles][gpu]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    // fixture mirrors WinCreate, selects preset right after creating pass,
+    // before any tileset is touched
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+    REQUIRE( vp );
+    CHECK( vp->active_memory_preset() ==
+           cata_shader::memory_preset_from_option_value(
+               get_option<std::string>( "MEMORY_MAP_MODE" ) ) );
+}
+
+TEST_CASE( "failed_reprobe_flush_reports_unsafe_without_a_second_probe", "[tiles][gpu]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+    REQUIRE( vp );
+    REQUIRE( vp->ensure_probed() == cata_shader::probe_state::unavailable );
+    const int probes_before = renderer_recovery_test_support::variant_probe_count();
+    renderer_recovery_test_support::arm_flush_failure();
+    cata_shader::request_reprobe();
+    CHECK( vp->ensure_probed() == cata_shader::probe_state::unsafe );
+    CHECK( vp->boundary_lost() );
+    CHECK( vp->shader_fault() );
+    // failed reset returned before probing
+    CHECK( renderer_recovery_test_support::variant_probe_count() == probes_before );
+    // second call still unsafe and doesn't probe
+    CHECK( vp->ensure_probed() == cata_shader::probe_state::unsafe );
+    CHECK( renderer_recovery_test_support::variant_probe_count() == probes_before );
+}
+
+TEST_CASE( "failed_flush_sets_the_sticky_shader_fault", "[tiles][gpu]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+    REQUIRE( vp );
+    REQUIRE_FALSE( vp->shader_fault() );
+    renderer_recovery_test_support::arm_flush_failure();
+    // plain flush, not the one inside a reprobe reset
+    CHECK_FALSE( vp->flush() );
+    CHECK( vp->boundary_lost() );
+    CHECK( vp->shader_fault() );
+}
+
+TEST_CASE( "explicit_reprobe_clears_the_sticky_shader_fault", "[tiles][gpu]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+    REQUIRE( vp );
+    renderer_recovery_test_support::mark_shader_fault();
+    REQUIRE( vp->shader_fault() );
+    REQUIRE_FALSE( vp->boundary_lost() );
+    CHECK( vp->ensure_probed() == cata_shader::probe_state::unavailable );
+    cata_shader::request_reprobe();
+    // Software has no GPU device, so re-probe is still unavailable, but reset
+    // was successful and cleared the fault.
+    CHECK( vp->ensure_probed() == cata_shader::probe_state::unavailable );
+    CHECK_FALSE( vp->shader_fault() );
+}
+
+TEST_CASE( "lost_shader_boundary_refuses_target_binds_until_rebind",
+           "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+    REQUIRE( vp );
+    SDL_Texture_Ptr target = CreateTexture( get_sdl_renderer(), SDL_PIXELFORMAT_ARGB8888,
+                                            SDL_TEXTUREACCESS_TARGET, 4, 4 );
+    REQUIRE( target );
+    // SetupRenderTarget leaves the renderer on the window target
+    REQUIRE( GetRenderTarget( get_sdl_renderer() ) == nullptr );
+
+    renderer_recovery_test_support::arm_flush_failure();
+    cata_shader::request_reprobe();
+    REQUIRE( vp->ensure_probed() == cata_shader::probe_state::unsafe );
+
+    // nothing bound, no unbind pending, so only lost boundary can stop flush()
+    // taking its no-op path and switching targets
+    CHECK( permanent_render_target_bind( get_sdl_renderer(), target.get(), vp )
+           == bind_result::failed_in_switch );
+    CHECK( GetRenderTarget( get_sdl_renderer() ) == nullptr );
+    CHECK( renderer_boundary_recovery_pending() );
+
+    // The texture belongs to the renderer the recovery destroys
+    target.reset();
+    renderer_coordinator.drain_pending();
+    REQUIRE( renderer_coordinator.state() == renderer_recovery_state::ready );
+    CHECK_FALSE( vp->boundary_lost() );
+    CHECK( vp->shader_fault() );
+    CHECK( permanent_render_target_bind( get_sdl_renderer(), nullptr, vp ) == bind_result::ok );
 }
 #endif // TILES
