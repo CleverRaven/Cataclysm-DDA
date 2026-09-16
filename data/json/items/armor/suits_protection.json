@@ -3055,7 +3055,7 @@
       },
       {
         "covers": [ "foot_l", "foot_r" ],
-        "//": "feet are rubber boots",
+        "//": "feet have boot-covers with a tough footpad",
         "specifically_covers": [
           "foot_toes_r",
           "foot_toes_l",
