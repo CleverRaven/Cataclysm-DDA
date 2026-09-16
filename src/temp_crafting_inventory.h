@@ -68,7 +68,7 @@ class temp_crafting_inventory : public read_only_visitable
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX );
 
-        void dump( std::vector<const item *> &dest ) const;
+        void dump( std::vector<item *> &dest ) const;
 
         // moved from inventory
         bool must_use_liq_container( const itype_id &id, int to_use ) const;

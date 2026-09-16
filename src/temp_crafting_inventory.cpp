@@ -325,7 +325,7 @@ void temp_crafting_inventory::form_from_map( map &m, std::vector<tripoint_bub_ms
     pts.clear();
 }
 
-void temp_crafting_inventory::dump( std::vector<const item *> &dest ) const
+void temp_crafting_inventory::dump( std::vector<item *> &dest ) const
 {
     visit_items(
     [&]( item * node, item * ) {
