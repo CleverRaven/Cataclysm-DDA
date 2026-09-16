@@ -5575,7 +5575,7 @@
     "type": "ITEM",
     "category": "container",
     "name": { "str": "industrial storage crate" },
-    "description": "A large plastic crate for industrial purposes. ",
+    "description": "A large plastic crate for industrial purposes.",
     "weight": "3175 g",
     "volume": "137993 ml",
     "longest_side": "72 cm",
