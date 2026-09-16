@@ -137,8 +137,6 @@
     "copy-from": "tools_medical",
     "extend": {
       "entries": [
-        { "item": "scalpel_plus_one", "prob": 5 },
-        { "item": "scalpel_plus_two", "prob": 2 },
         { "item": "periapt_wound_closure", "prob": 2 }
       ]
     }
@@ -517,7 +515,6 @@
     "subtype": "collection",
     "items": [
       { "group": "tools_common", "prob": 60 },
-      { "group": "enchanted_tools_plus1", "prob": 10 },
       { "group": "jewelry_safe", "prob": 10 },
       { "group": "jewelry_front", "prob": 8 },
       { "group": "potions_common", "prob": 15, "count": [ 1, 3 ] },
@@ -1031,11 +1028,7 @@
       { "item": "q_staff_plus_one", "prob": 10 },
       { "item": "i_staff_plus_one", "prob": 10 },
       { "item": "longsword_plus_one", "prob": 5 },
-      { "item": "sledge_plus_one", "prob": 8 },
-      { "item": "sledge_heavy_plus_one", "prob": 6 },
       { "item": "warhammer_plus_one", "prob": 8 },
-      { "item": "bat_plus_one", "prob": 10 },
-      { "item": "bat_metal_plus_one", "prob": 8 },
       { "item": "spear_steel_plus_one", "prob": 8 },
       { "item": "qiang_plus_one", "prob": 8 },
       { "item": "halberd_plus_one", "prob": 8 },
@@ -1051,7 +1044,6 @@
       { "item": "battleaxe_plus_one", "prob": 5 },
       { "item": "cavalry_sabre_plus_one", "prob": 5 },
       { "item": "cutlass_plus_one", "prob": 5 },
-      { "item": "fire_ax_plus_one", "prob": 8 },
       { "item": "katana_plus_one", "prob": 5 },
       { "item": "knife_combat_plus_one", "prob": 8 },
       { "item": "knife_rambo_plus_one", "prob": 5 },
@@ -1123,32 +1115,6 @@
       { "item": "cestus_plus_two", "prob": 5 },
       { "item": "flaming_fist_plus_two", "prob": 5 },
       { "item": "dao_plus_two", "prob": 5 }
-    ]
-  },
-  {
-    "id": "enchanted_tools_plus1",
-    "type": "item_group",
-    "//": "Plus 1 enchanted tools. Relatively common drops in magical cabins, technomancer houses, and other locations where a mage would be doing some physical labor",
-    "items": [
-      { "item": "knife_hunting_plus_one", "prob": 20 },
-      { "item": "crowbar_plus_one", "prob": 20 },
-      { "item": "jack_plus_one", "prob": 10 },
-      { "item": "knife_butcher_plus_one", "prob": 10 },
-      { "item": "knife_meat_cleaver_plus_one", "prob": 10 },
-      { "item": "knife_carving_plus_one", "prob": 10 }
-    ]
-  },
-  {
-    "id": "enchanted_tools_plus2",
-    "type": "item_group",
-    "//": "Plus 2 enchanted tools.",
-    "items": [
-      { "item": "knife_hunting_plus_two", "prob": 20 },
-      { "item": "crowbar_plus_two", "prob": 20 },
-      { "item": "jack_plus_two", "prob": 10 },
-      { "item": "knife_butcher_plus_two", "prob": 10 },
-      { "item": "knife_meat_cleaver_plus_two", "prob": 10 },
-      { "item": "knife_carving_plus_two", "prob": 10 }
     ]
   },
   {
@@ -1676,7 +1642,6 @@
       { "group": "lair_black_dragon_treasure", "prob": 5 },
       { "group": "parabolan_armor", "prob": 10 },
       { "group": "enchanted_melee_weapons_plus2", "prob": 20 },
-      { "group": "enchanted_tools_plus2", "prob": 20 },
       { "group": "demon_spider_lair_treasure", "prob": 10 },
       { "group": "enchanted_cloaks_rare", "prob": 10 }
     ]
@@ -1944,8 +1909,6 @@
       { "group": "items_of_elvenkind" },
       { "group": "enchanted_tokens_tool" },
       { "group": "enchanted_tokens_weapon" },
-      { "group": "enchanted_tools_plus1" },
-      { "group": "enchanted_tools_plus2" },
       { "group": "enchanted_melee_weapons_plus1" },
       { "group": "enchanted_melee_weapons_plus2" },
       { "group": "enchanted_wands_greater" },
