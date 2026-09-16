@@ -259,6 +259,7 @@ class basecamp
         /// Takes all the food from the camp_food zone and increases the faction
         /// food_supply
         bool distribute_food( bool player_command = true );
+        bool milk_animals();
         std::string name_display_of( const mission_id &miss_id );
         void handle_hide_mission( const point_rel_omt &dir );
         void handle_reveal_mission( const point_rel_omt &dir );
