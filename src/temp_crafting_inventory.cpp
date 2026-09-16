@@ -79,7 +79,7 @@ void temp_crafting_inventory::add_item_ref( item &item )
     items.insert( &item );
 }
 
-void temp_crafting_inventory::add_item_loc( item_location loc )
+void temp_crafting_inventory::add_item_loc( const item_location &loc )
 {
     items_loc.insert( loc );
 }
@@ -139,7 +139,7 @@ void temp_crafting_inventory::add_all_ref( const Character &guy )
     if( guy.is_armed() ) {
         add_item_loc( non_const_guy.get_wielded_item() );
     }
-    for( item_location fit : non_const_guy.worn.top_items_loc( non_const_guy ) ) {
+    for( const item_location &fit : non_const_guy.worn.top_items_loc( non_const_guy ) ) {
         add_item_loc( fit );
     }
     non_const_guy.inv->visit_items(
@@ -323,16 +323,6 @@ void temp_crafting_inventory::form_from_map( map &m, std::vector<tripoint_bub_ms
     }
 
     pts.clear();
-}
-
-void temp_crafting_inventory::dump( std::vector<item *> &dest )
-{
-    visit_items(
-    [&]( item * node, item * ) {
-        dest.push_back( node );
-        return VisitResponse::NEXT;
-    }
-    );
 }
 
 void temp_crafting_inventory::dump( std::vector<const item *> &dest ) const

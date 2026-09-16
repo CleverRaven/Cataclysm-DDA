@@ -116,8 +116,8 @@ static const itype_id itype_brick_oven_pseudo( "brick_oven_pseudo" );
 static const itype_id itype_butchery_tree_pseudo( "butchery_tree_pseudo" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_fire( "fire" );
-static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_pickaxe( "pickaxe" );
+static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_shovel( "shovel" );
 static const itype_id itype_water_faucet( "water_faucet" );
 

@@ -1930,7 +1930,7 @@ void vpart_position::form_inventory( map &here, temp_crafting_inventory &inv,
         }
     }
 
-    for( const std::pair<item, int> &tool_pair : get_tools( here ) ) {
+    for( const std::pair<const item, int> &tool_pair : get_tools( here ) ) {
         inv.add_pseudo_item( tool_pair.first );
     }
 }

@@ -29,7 +29,7 @@ class temp_crafting_inventory : public read_only_visitable
          * @note container doesn't own the added reference, meaning added item should outlive this container.
          */
         void add_item_ref( item &item );
-        void add_item_loc( item_location loc );
+        void add_item_loc( const item_location &loc );
 
         /**
          * Adds all (top-level) items from the given visitable.
@@ -68,7 +68,6 @@ class temp_crafting_inventory : public read_only_visitable
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX );
 
-        void dump( std::vector<item *> &dest );
         void dump( std::vector<const item *> &dest ) const;
 
         // moved from inventory
