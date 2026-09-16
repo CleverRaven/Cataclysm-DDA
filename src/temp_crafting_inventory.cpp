@@ -111,7 +111,7 @@ item &temp_crafting_inventory::add_pseudo_item( const item &it )
     if( iter == pseudo_items.end() ) {
         item &it_copy = add_item_copy( it );
         pseudo_items[it.typeId()] = &it_copy;
-        if( it.has_ammo() ) {
+        if( it.has_ammo() && !it.loaded_ammo().is_null() ) {
             if( it.uses_magazine() ) {
                 it_copy.force_insert_item( it.loaded_ammo(), pocket_type::MAGAZINE_WELL );
             } else {
