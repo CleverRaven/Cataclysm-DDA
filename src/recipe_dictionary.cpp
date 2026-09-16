@@ -547,6 +547,20 @@ std::vector<const recipe *> recipe_subset::recipes_that_produce( const itype_id 
     return res;
 }
 
+bool recipe_subset::has_available_child( const recipe *r ) const
+{
+    if( !r || !r->is_nested() ) {
+        return false;
+    }
+    for( const recipe_id &child : r->nested_category_data ) {
+        const recipe &child_rec = child.obj();
+        if( contains( &child_rec ) || has_available_child( &child_rec ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool recipe_subset::empty_category( const crafting_category_id &cat,
                                     const std::string &subcat ) const
 {
@@ -564,11 +578,17 @@ bool recipe_subset::empty_category( const crafting_category_id &cat,
     auto iter = category.find( cat );
     if( iter != category.end() ) {
         if( subcat.empty() ) {
-            return false;
+            for( const recipe *e : iter->second ) {
+                if( !e->is_nested() || has_available_child( e ) ) {
+                    return false;
+                }
+            }
         } else {
             for( const recipe *e : iter->second ) {
                 if( e->subcategory == subcat ) {
-                    return false;
+                    if( !e->is_nested() || has_available_child( e ) ) {
+                        return false;
+                    }
                 }
             }
         }
