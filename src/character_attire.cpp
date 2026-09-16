@@ -761,6 +761,9 @@ bool outfit::one_per_layer_change_side( item &it, const Character &guy ) const
 
     const bool item_one_per_layer = it_copy.has_flag( json_flag_ONE_PER_LAYER );
     for( const item &worn_item : worn ) {
+        if( &worn_item == &it ) {
+            continue;
+        }
         if( item_one_per_layer && worn_item.has_flag( json_flag_ONE_PER_LAYER ) ) {
             const std::optional<side> sidedness_conflict = it_copy.covers_overlaps( worn_item );
             if( sidedness_conflict ) {

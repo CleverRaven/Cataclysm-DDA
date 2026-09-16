@@ -1146,6 +1146,12 @@ TEST_CASE( "one_per_layer_sided_armor_compliance", "[item][armor]" )
     CHECK( guy.worn.is_wearing_on_bp( first_ring.typeId(), bodypart_id( "hand_l" ) ) );
     CHECK_FALSE( guy.worn.is_wearing_on_bp( first_ring.typeId(), bodypart_id( "hand_r" ) ) );
 
+    item &worn_first_ring = *guy.worn.top_items_loc( guy ).front();
+    REQUIRE( guy.change_side( worn_first_ring, false ) );
+    CHECK( worn_first_ring.get_side() == side::RIGHT );
+    REQUIRE( guy.change_side( worn_first_ring, false ) );
+    CHECK( worn_first_ring.get_side() == side::LEFT );
+
     item second_ring( itype_id( "test_one_per_layer_ring_b" ) );
     REQUIRE( guy.wield( second_ring ) );
     REQUIRE( guy.wear( guy.used_weapon(), false ) );
