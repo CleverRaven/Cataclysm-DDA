@@ -135,11 +135,7 @@
     "id": "tools_medical",
     "subtype": "collection",
     "copy-from": "tools_medical",
-    "extend": {
-      "entries": [
-        { "item": "periapt_wound_closure", "prob": 2 }
-      ]
-    }
+    "extend": { "entries": [ { "item": "periapt_wound_closure", "prob": 2 } ] }
   },
   {
     "type": "item_group",

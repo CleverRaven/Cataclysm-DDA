@@ -117,5 +117,145 @@
     "id": "tainted_blood",
     "type": "MIGRATION",
     "replace": "blood_tainted"
+  },
+  {
+    "id": "sledge_plus_one",
+    "type": "MIGRATION",
+    "replace": "sledge"
+  },
+  {
+    "id": "sledge_plus_two",
+    "type": "MIGRATION",
+    "replace": "sledge"
+  },
+  {
+    "id": "sledge_heavy_plus_one",
+    "type": "MIGRATION",
+    "replace": "sledge_heavy"
+  },
+  {
+    "id": "sledge_heavy_plus_two",
+    "type": "MIGRATION",
+    "replace": "sledge_heavy"
+  },
+  {
+    "id": "bat_plus_one",
+    "type": "MIGRATION",
+    "replace": "bat"
+  },
+  {
+    "id": "bat_plus_two",
+    "type": "MIGRATION",
+    "replace": "bat"
+  },
+  {
+    "id": "bat_metal_plus_one",
+    "type": "MIGRATION",
+    "replace": "bat_metal"
+  },
+  {
+    "id": "bat_metal_plus_two",
+    "type": "MIGRATION",
+    "replace": "bat_metal"
+  },
+  {
+    "id": "fire_ax_plus_one",
+    "type": "MIGRATION",
+    "replace": "fire_ax"
+  },
+  {
+    "id": "fire_ax_plus_two",
+    "type": "MIGRATION",
+    "replace": "fire_ax"
+  },
+  {
+    "id": "pickaxe_plus_one",
+    "type": "MIGRATION",
+    "replace": "pickaxe"
+  },
+  {
+    "id": "pickaxe_plus_two",
+    "type": "MIGRATION",
+    "replace": "pickaxe"
+  },
+  {
+    "id": "crowbar_plus_one",
+    "type": "MIGRATION",
+    "replace": "crowbar"
+  },
+  {
+    "id": "crowbar_plus_two",
+    "type": "MIGRATION",
+    "replace": "crowbar"
+  },
+  {
+    "id": "knife_hunting_plus_one",
+    "type": "MIGRATION",
+    "replace": "knife_hunting"
+  },
+  {
+    "id": "knife_hunting_plus_two",
+    "type": "MIGRATION",
+    "replace": "knife_hunting"
+  },
+  {
+    "id": "jack_plus_one",
+    "type": "MIGRATION",
+    "replace": "jack"
+  },
+  {
+    "id": "jack_plus_two",
+    "type": "MIGRATION",
+    "replace": "jack"
+  },
+  {
+    "id": "scalpel_plus_one",
+    "type": "MIGRATION",
+    "replace": "scalpel"
+  },
+  {
+    "id": "scalpel_plus_two",
+    "type": "MIGRATION",
+    "replace": "scalpel"
+  },
+  {
+    "id": "knife_butcher_plus_one",
+    "type": "MIGRATION",
+    "replace": "knife_butcher"
+  },
+  {
+    "id": "knife_butcher_plus_two",
+    "type": "MIGRATION",
+    "replace": "knife_butcher"
+  },
+  {
+    "id": "knife_meat_cleaver_plus_one",
+    "type": "MIGRATION",
+    "replace": "knife_meat_cleaver"
+  },
+  {
+    "id": "knife_meat_cleaver_plus_two",
+    "type": "MIGRATION",
+    "replace": "knife_meat_cleaver"
+  },
+  {
+    "id": "knife_carving_plus_one",
+    "type": "MIGRATION",
+    "replace": "knife_carving"
+  },
+  {
+    "id": "knife_carving_plus_two",
+    "type": "MIGRATION",
+    "replace": "knife_carving"
+  },
+  {
+    "id": "butchering_kit_plus_one",
+    "type": "MIGRATION",
+    "replace": "butchering_kit"
+  },
+  {
+    "id": "butchering_kit_plus_two",
+    "type": "MIGRATION",
+    "replace": "butchering_kit"
   }
 ]
