@@ -744,7 +744,7 @@
       { "id": "stormshaper_air_blast", "level": 8 },
       { "id": "lightning_bolt", "level": 2 },
       { "id": "create_atomic_light", "level": 3 },
-    { "id": "electric_arts", "level": 3 },
+      { "id": "electric_arts", "level": 3 },
       { "id": "classless_clean_clothing_and_self", "level": 2 }
     ],
     "skills": [
