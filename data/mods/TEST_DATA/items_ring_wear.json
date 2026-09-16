@@ -12,13 +12,7 @@
     "flags": [ "ONE_PER_LAYER", "SKINTIGHT" ],
     "name": { "str": "test ring" },
     "description": "A ring used to test sided one-per-layer clothing.",
-    "armor": [
-      {
-        "coverage": 0,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
-      }
-    ]
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
   },
   {
     "copy-from": "test_one_per_layer_ring",

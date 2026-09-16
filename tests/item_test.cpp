@@ -94,6 +94,9 @@ static const itype_id itype_test_exo_lense_module( "test_exo_lense_module" );
 static const itype_id itype_test_liquid( "test_liquid" );
 static const itype_id itype_test_modular_exosuit( "test_modular_exosuit" );
 static const itype_id itype_test_mp3( "test_mp3" );
+static const itype_id itype_test_one_per_layer_ring_a( "test_one_per_layer_ring_a" );
+static const itype_id itype_test_one_per_layer_ring_b( "test_one_per_layer_ring_b" );
+static const itype_id itype_test_one_per_layer_ring_c( "test_one_per_layer_ring_c" );
 static const itype_id itype_test_rock( "test_rock" );
 static const itype_id itype_test_smart_phone( "test_smart_phone" );
 static const itype_id itype_test_waterproof_bag( "test_waterproof_bag" );
@@ -1140,7 +1143,7 @@ TEST_CASE( "one_per_layer_sided_armor_compliance", "[item][armor]" )
     avatar &guy = get_avatar();
     clear_avatar();
 
-    item first_ring( itype_id( "test_one_per_layer_ring_a" ) );
+    item first_ring( itype_test_one_per_layer_ring_a );
     REQUIRE( guy.wield( first_ring ) );
     REQUIRE( guy.wear( guy.used_weapon(), false ) );
     CHECK( guy.worn.is_wearing_on_bp( first_ring.typeId(), bodypart_id( "hand_l" ) ) );
@@ -1152,13 +1155,13 @@ TEST_CASE( "one_per_layer_sided_armor_compliance", "[item][armor]" )
     REQUIRE( guy.change_side( worn_first_ring, false ) );
     CHECK( worn_first_ring.get_side() == side::LEFT );
 
-    item second_ring( itype_id( "test_one_per_layer_ring_b" ) );
+    item second_ring( itype_test_one_per_layer_ring_b );
     REQUIRE( guy.wield( second_ring ) );
     REQUIRE( guy.wear( guy.used_weapon(), false ) );
     CHECK( guy.worn.is_wearing_on_bp( second_ring.typeId(), bodypart_id( "hand_r" ) ) );
     CHECK_FALSE( guy.worn.is_wearing_on_bp( second_ring.typeId(), bodypart_id( "hand_l" ) ) );
 
-    item third_ring( itype_id( "test_one_per_layer_ring_c" ) );
+    item third_ring( itype_test_one_per_layer_ring_c );
     REQUIRE( guy.wield( third_ring ) );
     REQUIRE( !guy.wear( guy.used_weapon(), false ) );
 }
