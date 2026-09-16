@@ -5574,12 +5574,12 @@
     "id": "plastic_industrial_storage",
     "type": "ITEM",
     "category": "container",
-    "name": { "str": "Industrial Storage Crate" },
+    "name": { "str": "industrial storage crate" },
     "description": "A large plastic crate for industrial purposes. ",
     "weight": "3175 g",
     "volume": "137993 ml",
-    "longest_side": "72.4 cm",
-    "price": "7.99 USD",
+    "longest_side": "72 cm",
+    "price": "799 cent",
     "price_postapoc": "20 cent",
     "material": [ "plastic" ],
     "symbol": "H",
@@ -5589,9 +5589,9 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "max_contains_volume": "102206 ml",
-        "max_contains_weight": "50 kg"
+        "max_contains_weight": "75 kg"
       }
-    ]
+    ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "//": "Based on https://www.menards.com/main/storage-organization/storage-totes-bins/storage-totes/performax-reg-27-gallon-black-industrial-storage-tote-with-snap-on-lid/bbtote27-1061ky/p-60892918543-c-12667.htm"
   }
