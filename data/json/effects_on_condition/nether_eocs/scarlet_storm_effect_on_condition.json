@@ -245,7 +245,8 @@
         "popup": true,
         "popup_w_interrupt_query": true
       },
-      { "math": [ "player_saw_scarlet_storm = 1" ] }
+      { "math": [ "player_saw_scarlet_storm = 1" ] },
+      { "remove_active_mission": "MISSION_ROBOFAC_PAT_RECON_13" }
     ]
   },
   {
