@@ -5160,7 +5160,7 @@ TEST_CASE( "reservation_discovery_skips_an_unreachable_provider",
         here.invalidate_map_cache( 0 );
         here.build_map_cache( 0, true );
 
-        inventory reachable;
+        temp_crafting_inventory reachable;
         reachable.form_from_map( &here, origin, PICKUP_RANGE, &u );
         REQUIRE_FALSE( reachable.has_quality( qual_BOIL, 1, 1 ) );
 
