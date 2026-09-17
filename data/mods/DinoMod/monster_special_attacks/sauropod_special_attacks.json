@@ -1,9 +1,9 @@
 [
   {
-    "id": "sauropod_control",
+    "id": "moabosaurus_control",
     "type": "SPELL",
-    "name": { "str": "Sauropod control", "//~": "NO_I18N" },
-    "description": { "str": "Sauropods control themselves using this one.", "//~": "NO_I18N" },
+    "name": { "str": "moabosaurus control", "//~": "NO_I18N" },
+    "description": { "str": "Moabosaurus control themselves using this one.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
@@ -11,42 +11,29 @@
     "max_range": 1,
     "message": "",
     "effect": "effect_on_condition",
-    "effect_str": "EOC_SAUROPOD_CONTROL"
-  },
-  {
-    "type": "SPELL",
-    "id": "sauropod_hurt_self",
-    "name": { "str": "Wretch Hurt Self", "//~": "NO_I18N" },
-    "description": { "str": "Hurts yourself.", "//~": "NO_I18N" },
-    "flags": [ "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
-    "min_damage": 1200,
-    "max_damage": 1500,
-    "damage_type": "pure",
-    "valid_targets": [ "hostile", "ally", "self", "ground" ],
-    "shape": "blast",
-    "effect": "attack"
+    "effect_str": "EOC_MOABOSAURUS_CONTROL"
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_SAUROPOD_CONTROL",
+    "id": "EOC_MOABOSAURUS_CONTROL",
     "effect": [
       {
         "run_eocs": [
           {
-            "id": "eoc_start_update_sauropod_walkers",
-            "condition": { "math": [ "updating_sauropods != 1" ] },
-            "effect": [ { "run_eocs": "eoc_update_sauropod_walkers" } ]
+            "id": "eoc_start_update_moabosaurus_walkers",
+            "condition": { "math": [ "updating_moabosaurus != 1" ] },
+            "effect": [ { "run_eocs": "eoc_update_moabosaurus_walkers" } ]
           },
           {
-            "id": "sauropod_setup",
+            "id": "moabosaurus_setup",
             "condition": { "math": [ "u_setup != 1" ] },
             "effect": [
               {
                 "run_eocs": [
                   {
-                    "id": "avatar_sees_sauropod_setup",
+                    "id": "avatar_sees_moabosaurus_setup",
                     "condition": "player_see_u",
-                    "effect": [ { "message": "You see the sauropod." } ]
+                    "effect": [ { "message": "You see the moabosaurus." } ]
                   }
                 ]
               },
@@ -66,46 +53,102 @@
     ]
   },
   {
-    "id": "eoc_update_sauropod_walkers",
+    "id": "eoc_update_moabosaurus_walkers",
     "type": "effect_on_condition",
     "global": true,
-    "condition": [
-      "or": [ 
-        [ "math": [ "u_monsters_nearby('mon_moabosaurus', 'radius': 3) >= 1" ] ], 
-        [ "math": [ "u_monsters_nearby('mon_haplocanthosaurus', 'radius': 3) >= 1" ] ], 
-        [ "math": [ "u_monsters_nearby('mon_amargasaurus', 'radius': 3) >= 1" ] ], 
-        [ "math": [ "u_monsters_nearby('mon_apatosaurus', 'radius': 3) >= 1" ] ], 
-        [ "math": [ "u_monsters_nearby('mon_brontosaurus', 'radius': 3) >= 1" ] ], 
-        [ "math": [ "u_monsters_nearby('mon_diplodocus', 'radius': 3) >= 1" ] ], 
-        [ "math": [ "u_monsters_nearby('mon_barosaurus', 'radius': 3) >= 1" ] ], 
-        [ "math": [ "u_monsters_nearby('mon_camarasaurus', 'radius': 3) >= 1" ] ], 
-        [ "math": [ "u_monsters_nearby('mon_brachiosaurus', 'radius': 3) >= 1" ] ], 
-        [ "math": [ "u_monsters_nearby('mon_astrodon', 'radius': 3) >= 1" ] ], 
-        [ "math": [ "u_monsters_nearby('mon_alamosaurus', 'radius': 3) >= 1" ] ] 
-      ] 
-    ],
+    "condition": { "math": [ "u_monsters_nearby('mon_moabosaurus', 'radius': 3) >= 1" ] },
     "effect": [
-      { "math": [ "updating_sauropods = 1" ] },
-      { "run_eocs": "eoc_update_sauropod_walkers", "time_in_future": 1 },
+      { "math": [ "updating_moabosaurus = 1" ] },
+      { "run_eocs": "eoc_update_moabosaurus_walkers", "time_in_future": 1 },
       {
         "u_run_monster_eocs": [ "eoc_sauropod_walker" ],
         "monster_range": 3,
-        "mtype_ids": [
-          "mon_moabosaurus",
-          "mon_haplocanthosaurus",
-          "mon_amargasaurus",
-          "mon_apatosaurus",
-          "mon_brontosaurus",
-          "mon_diplodocus",
-          "mon_barosaurus",
-          "mon_camarasaurus",
-          "mon_brachiosaurus",
-          "mon_astrodon",
-          "mon_alamosaurus"
-        ]
+        "mtype_ids": [ "mon_moabosaurus" ]
       }
     ],
-    "false_effect": [ { "math": [ "updating_sauropods = 0" ] } ]
+    "false_effect": [ { "math": [ "updating_moabosaurus = 0" ] } ]
+  },
+    {
+    "id": "haplocanthosaurus_control",
+    "type": "SPELL",
+    "name": { "str": "haplocanthosaurus control", "//~": "NO_I18N" },
+    "description": { "str": "Haplocanthosaurus control themselves using this one.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "message": "",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HAPLOCANTHOSAURUS_CONTROL"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HAPLOCANTHOSAURUS_CONTROL",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "eoc_start_update_haplocanthosaurus_walkers",
+            "condition": { "math": [ "updating_haplocanthosaurus != 1" ] },
+            "effect": [ { "run_eocs": "eoc_update_haplocanthosaurus_walkers" } ]
+          },
+          {
+            "id": "haplocanthosaurus_setup",
+            "condition": { "math": [ "u_setup != 1" ] },
+            "effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "avatar_sees_haplocanthosaurus_setup",
+                    "condition": "player_see_u",
+                    "effect": [ { "message": "You see the haplocanthosaurus." } ]
+                  }
+                ]
+              },
+              { "math": [ "_sauropod_uid = rand(1200)" ] },
+              { "math": [ "u_sauropod_uid = _quad_uid" ] },
+              { "math": [ "u_setup = 1" ] },
+              { "u_spawn_monster": "mon_sauropod_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
+              {
+                "u_run_monster_eocs": [ { "id": "sauropod_leg_assign", "effect": [ { "math": [ "u_quad_id = _quad_uid" ] } ] } ],
+                "monster_range": 2,
+                "mtype_ids": [ "mon_sauropod_leg" ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_update_haplocanthosaurus_walkers",
+    "type": "effect_on_condition",
+    "global": true,
+    "condition": { "math": [ "u_monsters_nearby('mon_haplocanthosaurus', 'radius': 3) >= 1" ] },
+    "effect": [
+      { "math": [ "updating_haplocanthosaurus = 1" ] },
+      { "run_eocs": "eoc_update_haplocanthosaurus_walkers", "time_in_future": 1 },
+      {
+        "u_run_monster_eocs": [ "eoc_sauropod_walker" ],
+        "monster_range": 3,
+        "mtype_ids": [ "mon_haplocanthosaurus" ]
+      }
+    ],
+    "false_effect": [ { "math": [ "updating_haplocanthosaurus = 0" ] } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "sauropod_hurt_self",
+    "name": { "str": "Wretch Hurt Self", "//~": "NO_I18N" },
+    "description": { "str": "Hurts yourself.", "//~": "NO_I18N" },
+    "flags": [ "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "min_damage": 1200,
+    "max_damage": 1500,
+    "damage_type": "pure",
+    "valid_targets": [ "hostile", "ally", "self", "ground" ],
+    "shape": "blast",
+    "effect": "attack"
   },
   {
     "id": "eoc_sauropod_walker",
