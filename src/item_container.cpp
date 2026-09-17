@@ -42,8 +42,6 @@
 #include "iuse_actor.h"
 #include "pocket_type.h"
 #include "ret_val.h"
-#include "string_formatter.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
