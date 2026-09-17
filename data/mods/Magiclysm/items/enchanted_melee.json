@@ -1135,7 +1135,7 @@
     "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Hy-Brasilian khanjar" },
-    "description": "An ornate curved blade .",
+    "description": "An ornate curved blade made of glassteel covered in orante looping designs that refract light.  These are the ceremonial daggers of the Hy-Brasil honor guard.",
     "weight": "38 g",
     "volume": "100 ml",
     "longest_side": "35 cm",
@@ -1149,6 +1149,7 @@
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "CONDUCTIVE", "DURABLE_MELEE" ],
     "weapon_category": [ "KNIVES" ],
     "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
+    "techniques": [ "HYBRASIL_ENCHANTMENT" ],
     "melee_damage": { "cut": 14 }
   }
 ]
