@@ -440,7 +440,7 @@
         "math": [
           "u_max_blood_amount_for_graph",
           "=",
-          "5400 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 2300) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 5600)"
+          "5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 2300) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 5600)"
         ]
       },
       { "run_eocs": "EOC_VAMPIRE_BLOOD_MAX_LIMIT" }
