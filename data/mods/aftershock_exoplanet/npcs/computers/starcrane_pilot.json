@@ -11,7 +11,7 @@
     "responses": [
       {
         "condition": { "math": [ "your_ship_ramp_up != 1" ] },
-        "text": "> Plot a course. <color_light_red>ERROR: BAY RAMP MUST CLOSE BEFORE TAKEOFF</color>",
+        "text": "> Plot a course.  <color_light_red>ERROR: BAY RAMP MUST CLOSE BEFORE TAKEOFF</color>",
         "topic": "THI_CONTROL_START"
       },
       {
