@@ -2511,7 +2511,7 @@ drop_locations game_menus::inv::multidrop( Character &you )
         if( basecamp *actual_camp = *bcp; actual_camp ) {
             if( !actual_camp->allowed_access_by( you, true ) ) {
                 warning = string_format(
-                              _( "<color_red>WARNING:</color> You are in the territory of %s. Items dropped and not picked up will be claimed by them!" ),
+                              _( "<color_red>WARNING:</color> You are in the territory of %s. Items dropped and not picked up within an hour will be claimed by them!" ),
                               actual_camp->get_owner()->get_name() );
                 popup( warning );
             }
