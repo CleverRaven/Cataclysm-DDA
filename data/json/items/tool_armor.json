@@ -1434,7 +1434,7 @@
     "symbol": "[",
     "color": "dark_gray",
     "name": { "str": "RM13 combat armor" },
-    "description": "A full-body suit of sleek black military armor that represents the pinnacle of Rivtech's powered armor technology.  It has a proprietary internal battery recharged by UPS.  While the entire suit, including its powered goggles, maintain positive air pressure to combat environmental threats, a separate gas mask or respirator system is required for full protection.  Use it to turn it on.",
+    "description": "A full-body suit of sleek black military armor that represents the pinnacle of Rivtech's powered armor technology.  It has a proprietary internal battery recharged by UPS.  It requires a gas mask for full environmental protection.  Use it to turn it on.",
     "flags": [
       "STURDY",
       "WATERPROOF",
