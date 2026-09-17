@@ -69,7 +69,7 @@
     "id": "eoc_update_sauropod_walkers",
     "type": "effect_on_condition",
     "global": true,
-    "condition": {
+    "condition": [
       "or": [ 
         { "math": [ "u_monsters_nearby('mon_moabosaurus', 'radius': 3) >= 1" ] }, 
         { "math": [ "u_monsters_nearby('mon_haplocanthosaurus', 'radius': 3) >= 1" ] }, 
@@ -83,7 +83,7 @@
         { "math": [ "u_monsters_nearby('mon_astrodon', 'radius': 3) >= 1" ] }, 
         { "math": [ "u_monsters_nearby('mon_alamosaurus', 'radius': 3) >= 1" ] } 
       ] 
-    },
+    ],
     "effect": [
       { "math": [ "updating_sauropods = 1" ] },
       { "run_eocs": "eoc_update_sauropod_walkers", "time_in_future": 1 },
