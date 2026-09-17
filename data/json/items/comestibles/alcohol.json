@@ -180,7 +180,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "wine_marsala",
-    "looks_like": "wine_cabernet ",
+    "looks_like": "wine_cabernet",
     "name": { "str_sp": "marsala" },
     "weight": "50 g",
     "color": "red",
