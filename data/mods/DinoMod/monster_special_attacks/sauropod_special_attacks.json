@@ -20,9 +20,9 @@
       {
         "run_eocs": [
           {
-            "id": "eoc_start_update_moabosaurus_walkers",
+            "id": "eoc_start_update_moabosaurus",
             "condition": { "math": [ "updating_moabosaurus != 1" ] },
-            "effect": [ { "run_eocs": "eoc_update_moabosaurus_walkers" } ]
+            "effect": [ { "run_eocs": "eoc_update_moabosaurus" } ]
           },
           {
             "id": "moabosaurus_setup",
@@ -38,11 +38,11 @@
                 ]
               },
               { "math": [ "_sauropod_uid = rand(1200)" ] },
-              { "math": [ "u_sauropod_uid = _quad_uid" ] },
+              { "math": [ "u_sauropod_uid = _sauropod_uid" ] },
               { "math": [ "u_setup = 1" ] },
               { "u_spawn_monster": "mon_sauropod_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
               {
-                "u_run_monster_eocs": [ { "id": "sauropod_leg_assign", "effect": [ { "math": [ "u_quad_id = _quad_uid" ] } ] } ],
+                "u_run_monster_eocs": [ { "id": "sauropod_leg_assign", "effect": [ { "math": [ "u_sauropodd_id = _sauropod_uid" ] } ] } ],
                 "monster_range": 2,
                 "mtype_ids": [ "mon_sauropod_leg" ]
               }
@@ -53,15 +53,15 @@
     ]
   },
   {
-    "id": "eoc_update_moabosaurus_walkers",
+    "id": "eoc_update_moabosaurus",
     "type": "effect_on_condition",
     "global": true,
     "condition": { "math": [ "u_monsters_nearby('mon_moabosaurus', 'radius': 3) >= 1" ] },
     "effect": [
       { "math": [ "updating_moabosaurus = 1" ] },
-      { "run_eocs": "eoc_update_moabosaurus_walkers", "time_in_future": 1 },
+      { "run_eocs": "eoc_update_moabosaurus", "time_in_future": 1 },
       {
-        "u_run_monster_eocs": [ "eoc_sauropod_walker" ],
+        "u_run_monster_eocs": [ "eoc_sauropod" ],
         "monster_range": 3,
         "mtype_ids": [ "mon_moabosaurus" ]
       }
@@ -89,9 +89,9 @@
       {
         "run_eocs": [
           {
-            "id": "eoc_start_update_haplocanthosaurus_walkers",
+            "id": "eoc_start_update_haplocanthosaurus",
             "condition": { "math": [ "updating_haplocanthosaurus != 1" ] },
-            "effect": [ { "run_eocs": "eoc_update_haplocanthosaurus_walkers" } ]
+            "effect": [ { "run_eocs": "eoc_update_haplocanthosaurus" } ]
           },
           {
             "id": "haplocanthosaurus_setup",
@@ -107,11 +107,11 @@
                 ]
               },
               { "math": [ "_sauropod_uid = rand(1200)" ] },
-              { "math": [ "u_sauropod_uid = _quad_uid" ] },
+              { "math": [ "u_sauropod_uid = _sauropod_uid" ] },
               { "math": [ "u_setup = 1" ] },
               { "u_spawn_monster": "mon_sauropod_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
               {
-                "u_run_monster_eocs": [ { "id": "sauropod_leg_assign", "effect": [ { "math": [ "u_quad_id = _quad_uid" ] } ] } ],
+                "u_run_monster_eocs": [ { "id": "sauropod_leg_assign", "effect": [ { "math": [ "u_sauropod_id = _sauropod_uid" ] } ] } ],
                 "monster_range": 2,
                 "mtype_ids": [ "mon_sauropod_leg" ]
               }
@@ -122,15 +122,15 @@
     ]
   },
   {
-    "id": "eoc_update_haplocanthosaurus_walkers",
+    "id": "eoc_update_haplocanthosaurus",
     "type": "effect_on_condition",
     "global": true,
     "condition": { "math": [ "u_monsters_nearby('mon_haplocanthosaurus', 'radius': 3) >= 1" ] },
     "effect": [
       { "math": [ "updating_haplocanthosaurus = 1" ] },
-      { "run_eocs": "eoc_update_haplocanthosaurus_walkers", "time_in_future": 1 },
+      { "run_eocs": "eoc_update_haplocanthosaurus", "time_in_future": 1 },
       {
-        "u_run_monster_eocs": [ "eoc_sauropod_walker" ],
+        "u_run_monster_eocs": [ "eoc_sauropod" ],
         "monster_range": 3,
         "mtype_ids": [ "mon_haplocanthosaurus" ]
       }
@@ -151,24 +151,24 @@
     "effect": "attack"
   },
   {
-    "id": "eoc_sauropod_walker",
+    "id": "eoc_sauropod",
     "type": "effect_on_condition",
     "effect": [
-      { "math": [ "_quad_uid = u_quad_uid" ] },
-      { "u_location_variable": { "context_val": "quad_pos_1" }, "x_adjust": 1 },
-      { "u_location_variable": { "context_val": "quad_pos_2" }, "x_adjust": -1 },
-      { "u_location_variable": { "context_val": "quad_pos_3" }, "y_adjust": 1 },
-      { "u_location_variable": { "context_val": "quad_pos_4" }, "y_adjust": -1 },
+      { "math": [ "_sauropod_uid = _sauropod_uid" ] },
+      { "u_location_variable": { "context_val": "sauropod_pos_1" }, "x_adjust": 1 },
+      { "u_location_variable": { "context_val": "sauropod_pos_2" }, "x_adjust": -1 },
+      { "u_location_variable": { "context_val": "sauropod_pos_3" }, "y_adjust": 1 },
+      { "u_location_variable": { "context_val": "sauropod_pos_4" }, "y_adjust": -1 },
       {
         "u_run_monster_eocs": [
           {
             "id": "sauropod_leg_tp",
-            "condition": { "math": [ "u_quad_id == _quad_uid" ] },
+            "condition": { "math": [ "_sauropod_uid == _sauropod_uid" ] },
             "effect": [
-              { "u_teleport": { "context_val": "quad_pos_1" } },
-              { "u_teleport": { "context_val": "quad_pos_2" } },
-              { "u_teleport": { "context_val": "quad_pos_3" } },
-              { "u_teleport": { "context_val": "quad_pos_4" } }
+              { "u_teleport": { "context_val": "sauropod_pos_1" } },
+              { "u_teleport": { "context_val": "sauropod_pos_2" } },
+              { "u_teleport": { "context_val": "sauropod_pos_3" } },
+              { "u_teleport": { "context_val": "sauropod_pos_4" } }
             ]
           }
         ],
@@ -182,12 +182,12 @@
     "type": "effect_on_condition",
     "global": true,
     "effect": [
-      { "math": [ "_uid = n_quad_id" ] },
+      { "math": [ "_uid = n_sauropod_id" ] },
       {
         "u_run_monster_eocs": [
           {
             "id": "sauropod_leg_hurt",
-            "condition": { "math": [ "u_quad_uid == _uid" ] },
+            "condition": { "math": [ "u_sauropod_uid == _uid" ] },
             "effect": [ { "u_cast_spell": { "id": "sauropod_hurt_self" } } ]
           }
         ],
@@ -213,12 +213,12 @@
     "type": "effect_on_condition",
     "global": true,
     "effect": [
-      { "math": [ "_uid = n_quad_uid" ] },
+      { "math": [ "_uid = n_sauropod_uid" ] },
       {
         "u_run_monster_eocs": [
           {
             "id": "sauropod_leg_dies",
-            "condition": { "math": [ "u_quad_id == _uid" ] },
+            "condition": { "math": [ "u_sauropod_id == _uid" ] },
             "effect": [ { "u_cast_spell": { "id": "sauropod_hurt_self" } } ]
           }
         ],
@@ -261,9 +261,9 @@
       {
         "run_eocs": [
           {
-            "id": "eoc_start_update_zauropod_walkers",
+            "id": "eoc_start_update_zauropod",
             "condition": { "math": [ "updating_zauropods != 1" ] },
-            "effect": [ { "run_eocs": "eoc_update_zauropod_walkers" } ]
+            "effect": [ { "run_eocs": "eoc_update_zauropod" } ]
           },
           {
             "id": "zauropod_setup",
@@ -279,11 +279,11 @@
                 ]
               },
               { "math": [ "_zauropod_uid = rand(1200)" ] },
-              { "math": [ "u_zauropod_uid = _quad_uid" ] },
+              { "math": [ "u_zauropod_uid = _zauropod_uid" ] },
               { "math": [ "u_setup = 1" ] },
               { "u_spawn_monster": "mon_zauropod_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
               {
-                "u_run_monster_eocs": [ { "id": "zauropod_leg_assign", "effect": [ { "math": [ "u_quad_id = _quad_uid" ] } ] } ],
+                "u_run_monster_eocs": [ { "id": "zauropod_leg_assign", "effect": [ { "math": [ "u_zauropod_uid = _zauropod_uid" ] } ] } ],
                 "monster_range": 2,
                 "mtype_ids": [ "mon_zauropod_leg" ]
               }
@@ -294,15 +294,15 @@
     ]
   },
   {
-    "id": "eoc_update_zauropod_walkers",
+    "id": "eoc_update_zauropod",
     "type": "effect_on_condition",
     "global": true,
     "condition": { "math": [ "u_monsters_nearby('mon_zapatosaurus', 'radius': 3) >= 1" ] },
     "effect": [
       { "math": [ "updating_zauropods = 1" ] },
-      { "run_eocs": "eoc_update_zauropod_walkers", "time_in_future": 1 },
+      { "run_eocs": "eoc_update_zauropod", "time_in_future": 1 },
       {
-        "u_run_monster_eocs": [ "eoc_zauropod_walker" ],
+        "u_run_monster_eocs": [ "eoc_zauropod" ],
         "monster_range": 3,
         "mtype_ids": [
           "mon_zoabosaurus",
@@ -333,24 +333,24 @@
     "false_effect": [ { "math": [ "updating_zauropods = 0" ] } ]
   },
   {
-    "id": "eoc_zauropod_walker",
+    "id": "eoc_zauropod",
     "type": "effect_on_condition",
     "effect": [
-      { "math": [ "_quad_uid = u_quad_uid" ] },
-      { "u_location_variable": { "context_val": "quad_pos_1" }, "x_adjust": 1 },
-      { "u_location_variable": { "context_val": "quad_pos_2" }, "x_adjust": -1 },
-      { "u_location_variable": { "context_val": "quad_pos_3" }, "y_adjust": 1 },
-      { "u_location_variable": { "context_val": "quad_pos_4" }, "y_adjust": -1 },
+      { "math": [ "_zauropod_uid = _zauropod_uid" ] },
+      { "u_location_variable": { "context_val": "zauropod_pos_1" }, "x_adjust": 1 },
+      { "u_location_variable": { "context_val": "zauropod_pos_2" }, "x_adjust": -1 },
+      { "u_location_variable": { "context_val": "zauropod_pos_3" }, "y_adjust": 1 },
+      { "u_location_variable": { "context_val": "zauropod_pos_4" }, "y_adjust": -1 },
       {
         "u_run_monster_eocs": [
           {
             "id": "zauropod_leg_tp",
-            "condition": { "math": [ "u_quad_id == _quad_uid" ] },
+            "condition": { "math": [ "_zauropod_uid == _zauropod_uid" ] },
             "effect": [
-              { "u_teleport": { "context_val": "quad_pos_1" } },
-              { "u_teleport": { "context_val": "quad_pos_2" } },
-              { "u_teleport": { "context_val": "quad_pos_3" } },
-              { "u_teleport": { "context_val": "quad_pos_4" } }
+              { "u_teleport": { "context_val": "zauropod_pos_1" } },
+              { "u_teleport": { "context_val": "zauropod_pos_2" } },
+              { "u_teleport": { "context_val": "zauropod_pos_3" } },
+              { "u_teleport": { "context_val": "zauropod_pos_4" } }
             ]
           }
         ],
@@ -364,12 +364,12 @@
     "type": "effect_on_condition",
     "global": true,
     "effect": [
-      { "math": [ "_uid = n_quad_id" ] },
+      { "math": [ "_uid = n_zauropod_id" ] },
       {
         "u_run_monster_eocs": [
           {
             "id": "zauropod_leg_hurt",
-            "condition": { "math": [ "u_quad_uid == _uid" ] },
+            "condition": { "math": [ "u_zauopod_uid == _uid" ] },
             "effect": [ { "u_cast_spell": { "id": "zauropod_hurt_self" } } ]
           }
         ],
@@ -406,12 +406,12 @@
     "type": "effect_on_condition",
     "global": true,
     "effect": [
-      { "math": [ "_uid = n_quad_uid" ] },
+      { "math": [ "_uid = n_zauropod_uid" ] },
       {
         "u_run_monster_eocs": [
           {
             "id": "zauropod_leg_dies",
-            "condition": { "math": [ "u_quad_id == _uid" ] },
+            "condition": { "math": [ "u_zauropod_id == _uid" ] },
             "effect": [ { "u_cast_spell": { "id": "sauropod_hurt_self" } } ]
           }
         ],
