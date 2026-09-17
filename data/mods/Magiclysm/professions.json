@@ -1160,7 +1160,7 @@
           { "item": "bow_sling", "contents-item": [ "bow_of_elvenkind" ] },
           { "item": "quiver_of_holding_plus_one", "contents-group": [ "quiver_elven_ceremonial_guard" ] },
           { "item": "m18", "ammo-item": "9mmfmj", "charges": 10, "container-item": "holster" },
-          { "item": "sheath", "contents-item": [ "knife_hunting_plus_one" ] },
+          { "item": "sheath", "contents-item": [ "knife_hunting" ] },
           { "item": "water_clean", "charges": 6, "container-item": "canteen" }
         ]
       },
