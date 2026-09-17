@@ -74,7 +74,6 @@ class dispersion_sources;
 class effect;
 class enchant_cache;
 class faction;
-class inventory;
 class known_magic;
 class ma_technique;
 class map;
@@ -1595,9 +1594,6 @@ class Character : public Creature, public visitable
 
         int calc_spell_training_cost( bool knows, int difficulty, int level ) const;
 
-        // TODO: Remove remaining calls to insert into the raw inventory and remove functions where appropriate so this can be removed
-        void migrate_items_to_storage( bool disintegrate );
-
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.
@@ -2253,10 +2249,6 @@ class Character : public Creature, public visitable
          */
         void handle_contents_changed( const std::vector<item_location> &containers );
 
-        /** Only use for UI things. Returns all invlets that are currently used in
-         * the player inventory, the weapon slot and the worn items. */
-        std::bitset<std::numeric_limits<char>::max()> allocated_invlets() const;
-
         /**
          * Whether the player carries an active item of the given item type.
          */
@@ -2369,15 +2361,11 @@ class Character : public Creature, public visitable
         /// struct offers two possible tweaks: a collection of items and
         /// counts to remove, or an entire replacement inventory.
         struct item_tweaks {
-            item_tweaks() : without_items( nullptr ), replace_inv( nullptr ) {}
+            item_tweaks() : without_items( nullptr ) {}
             explicit item_tweaks( const std::map<const item *, int> &w ) :
-                without_items( &w ), replace_inv( nullptr )
-            {}
-            explicit item_tweaks( const inventory &r ) :
-                without_items( nullptr ), replace_inv( &r )
+                without_items( &w )
             {}
             const std::map<const item *, int> *const without_items;
-            const inventory *const replace_inv;
         };
 
         units::mass weight_carried_with_tweaks( const item_tweaks &tweaks ) const;
@@ -2901,7 +2889,6 @@ class Character : public Creature, public visitable
         player_activity activity;
         std::list<player_activity> backlog;
         std::optional<tripoint_abs_ms> destination_point;
-        pimpl<inventory> inv;
         itype_id last_item;
     private:
         item weapon;
@@ -3957,7 +3944,12 @@ class Character : public Creature, public visitable
         bool leak_level_dirty = true;
         // Cache if current bionic layout has certain json flag. Refreshed upon bionics add/remove, activation/deactivation.
         mutable std::map<const json_character_flag, bool> bio_flag_cache;
+        // this is a temporary member, meant to facilitate items that can't be added on load,
+        // to be created on the first game turn.
+        std::vector<item> temporary_load_items;
     public:
+        void add_temporary_load_items();
+        void stash_temporary_load_item( const item &it );
         float get_leak_level() const;
         /** Iterate through the character inventory to get its leak level */
         void calculate_leak_level();

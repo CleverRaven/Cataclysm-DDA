@@ -2232,12 +2232,29 @@ int Character::move_mode_switch_cost( const move_mode_id &old_mode,
     return move_cost;
 }
 
+void Character::stash_temporary_load_item( const item &it )
+{
+    temporary_load_items.push_back( it );
+}
+
+void Character::add_temporary_load_items()
+{
+    if( !temporary_load_items.empty() ) {
+        for( const item &it : temporary_load_items ) {
+            // do not allow wield, because this was carried over
+            i_add( it, true, nullptr, nullptr, true, false );
+        }
+        temporary_load_items.clear();
+    }
+}
+
 void Character::process_turn()
 {
     map &here = get_map();
     // Has to happen before reset_stats
     clear_miss_reasons();
-    migrate_items_to_storage( false );
+
+    add_temporary_load_items();
 
     for( bionic &i : *my_bionics ) {
         if( i.incapacitated_time > 0_turns ) {
@@ -3127,7 +3144,6 @@ units::mass Character::get_weight() const
     units::mass wornWeight = worn.weight();
 
     ret += bodyweight();       // The base weight of the player's body
-    ret += inv->weight();           // Weight of the stored inventory
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
     ret += bionics_weight();       // Weight of installed bionics
@@ -3900,7 +3916,6 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
     }
 
     liquid.charges -= container->fill_with( liquid, amount, false, false, ignore_settings );
-    inv->unsort();
 
     if( liquid.charges > 0 && !silent ) {
         add_msg_if_player( _( "There's some left over!" ) );
@@ -5621,11 +5636,6 @@ std::list<item> Character::use_amount( const itype_id &it, int quantity,
     }
     ret = worn.use_amount( it, quantity, ret, filter, *this );
 
-    if( quantity <= 0 ) {
-        return ret;
-    }
-    std::list<item> tmp = inv->use_amount( it, quantity, filter );
-    ret.splice( ret.end(), tmp );
     return ret;
 }
 

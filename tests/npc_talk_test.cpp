@@ -1172,9 +1172,9 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.set_thirst( 27 );
     player_character.set_stored_kcal( 118169 );
     player_character.worn.wear_item( player_character, item( itype_backpack ), false, false );
-    player_character.inv->add_item( item( itype_bottle_glass ) );
-    player_character.inv->add_item( item( itype_bottle_glass ) );
-    player_character.inv->add_item( item( itype_bottle_glass ) );
+    player_character.i_add( item( itype_bottle_glass ) );
+    player_character.i_add( item( itype_bottle_glass ) );
+    player_character.i_add( item( itype_bottle_glass ) );
     cata::event e = cata::event::make<event_type::character_kills_monster>(
                         get_player_character().getID(), mon_zombie, 0 );
     get_event_bus().send_with_talker( get_player_character().as_character(), dummy_monster.as_monster(),
@@ -1578,7 +1578,7 @@ TEST_CASE( "test_topic_item_mutator", "[npc_talk]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    player_character.inv->add_item( item( itype_bottle_glass ) );
+    player_character.i_add( item( itype_bottle_glass ) );
     CHECK( player_character.has_amount( itype_bottle_glass, 1 ) );
     d.add_topic( "TALK_TEST_TOPIC_ITEM_MUTATOR" );
     gen_response_lines( d, 2 );

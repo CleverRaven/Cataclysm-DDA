@@ -588,7 +588,6 @@ void medical_ui::summary_tab() const
         cataimgui::draw_colored_text( "Debug:", c_red );
         std::string txt;
         txt += string_format( "bodyweight: %.2f kg\n", units::to_kilogram( you->bodyweight() ) );
-        txt += string_format( "inventory: %.2f kg\n", units::to_kilogram( you->inv->weight() ) );
         const units::mass wornWeight = you->worn.weight();
         txt += string_format( "worn: %.2f kg\n", units::to_kilogram( wornWeight ) );
 

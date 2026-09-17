@@ -394,9 +394,6 @@ void game::item_action_menu( item_location loc )
     item *it = iactions[action];
 
     u.invoke_item( it, action );
-
-    u.inv->restack( u );
-    u.inv->unsort();
 }
 
 std::string use_function::get_type() const

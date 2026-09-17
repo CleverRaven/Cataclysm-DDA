@@ -7148,7 +7148,9 @@ std::optional<int> iuse::radiocar( Character *p, item *it, const tripoint_bub_ms
         } else { // Disarm the car
             p->mod_moves( -to_moves<int>( 2_seconds ) );
 
-            p->inv->assign_empty_invlet( *bomb_it, *p, true ); // force getting an invlet.
+            if( p->is_avatar() ) {
+                p->as_avatar()->assign_empty_invlet( *bomb_it, true ); // force getting an invlet.
+            }
             p->i_add( *bomb_it );
             it->remove_item( *bomb_it );
 
@@ -8444,7 +8446,6 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
 {
     map &here = get_map();
 
-    p->inv->restack( *p );
     heater heater_data = find_heater( p, it, force_use_it );
     if( heater_data.available_heater == -1 ) {
         add_msg( m_info, _( "Never mind." ) );
@@ -8726,7 +8727,6 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
-    p->inv->restack( *p );
     const temp_crafting_inventory &crafting_inv = p->crafting_inventory();
 
     auto is_liquid = []( const item & it ) {

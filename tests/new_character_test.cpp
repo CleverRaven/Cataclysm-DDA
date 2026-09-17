@@ -163,7 +163,6 @@ TEST_CASE( "starting_items", "[slow]" )
                 for( int i = 0; i < 2; i++ ) {
                     player_character.clear_worn();
                     player_character.remove_weapon();
-                    player_character.inv->clear();
                     player_character.calc_encumbrance();
                     player_character.male = i == 0;
 
@@ -174,7 +173,6 @@ TEST_CASE( "starting_items", "[slow]" )
                         return VisitResponse::NEXT;
                     };
                     player_character.visit_items( visitable_counter );
-                    player_character.inv->visit_items( visitable_counter );
                     const int num_items_pre_migration = get_item_count( items_visited );
                     items_visited.clear();
 

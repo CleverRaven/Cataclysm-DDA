@@ -163,8 +163,6 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
 
     const consume_menu_uistate &cm_uistate = uistate.consume_uistate;
 
-    u.inv->restack( u );
-
     inv_s.clear_items();
 
     if( container ) {
@@ -243,8 +241,6 @@ static drop_locations inv_internal_multi( Character &u, const inventory_selector
     inv_s.set_hint( hint );
     inv_s.set_display_stats( false );
 
-    u.inv->restack( u );
-
     inv_s.clear_items();
 
     if( container ) {
@@ -287,7 +283,6 @@ void game_menus::inv::common()
     item_location location;
     std::string filter;
     do {
-        you.inv->restack( you );
         inv_s.drag_enabled = true;
         inv_s.clear_items();
         inv_s.add_character_items( you );
@@ -2494,8 +2489,6 @@ item_location game_menus::inv::veh_tool_attach( Character &you, const std::strin
 
 drop_locations game_menus::inv::multidrop( Character &you )
 {
-    you.inv->restack( you );
-
     const inventory_filter_preset preset( [ &you ]( const item_location & location ) {
         return you.can_drop( *location ).success() &&
                ( !location.get_item()->is_frozen_liquid() || !location.has_parent() ||
@@ -2755,7 +2748,6 @@ bool game_menus::inv::compare_item_menu::show()
 void game_menus::inv::compare( const std::optional<tripoint_rel_ms> &offset )
 {
     avatar &you = get_avatar();
-    you.inv->restack( you );
 
     inventory_compare_selector inv_s( you );
 
@@ -2815,7 +2807,6 @@ void game_menus::inv::reassign_letter( item &it )
 void game_menus::inv::swap_letters()
 {
     avatar &you = get_avatar();
-    you.inv->restack( you );
 
     inventory_pick_selector inv_s( you );
 
@@ -2831,7 +2822,7 @@ void game_menus::inv::swap_letters()
     while( true ) {
         const std::string invlets = colorize_symbols( inv_chars.get_allowed_chars(),
         [ &you ]( const std::string::value_type & elem ) {
-            if( you.inv->assigned_invlet.count( elem ) ) {
+            if( you.invlet_is_assigned( elem ) ) {
                 return c_yellow;
             } else if( you.invlet_to_item( elem ) != nullptr ) {
                 return c_white;
@@ -2892,8 +2883,6 @@ static item_location autodoc_internal( Character &you, Character &patient,
     inv_s.set_display_stats( false );
 
     do {
-        you.inv->restack( you );
-
         inv_s.clear_items();
         inv_s.add_character_items( you );
         if( you.getID() != patient.getID() ) {
@@ -3151,8 +3140,6 @@ std::pair<item_location, bool> game_menus::inv::unload( Character &you )
 
     inv_s.set_title( _( "Unload item" ) );
     inv_s.set_display_stats( false );
-
-    you.inv->restack( you );
 
     inv_s.clear_items();
 

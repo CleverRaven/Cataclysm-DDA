@@ -431,9 +431,6 @@ TEST_CASE( "item_location_on_person_survives_restack", "[item][item_location][it
     // Serialize the tshirt location
     std::string json_str = serialize_item_location( tshirt_loc );
 
-    // Restack inventory (may merge the two jeans, shifting indices)
-    dummy.inv->restack( dummy );
-
     // Deserialize - should find tshirt by UID
     item_location loaded = deserialize_item_location( json_str );
     REQUIRE( loaded );

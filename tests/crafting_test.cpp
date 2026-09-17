@@ -467,7 +467,6 @@ static void give_tools( const std::vector<item> &tools, const bool plug_in )
     Character &player_character = get_player_character();
     player_character.clear_worn();
     player_character.calc_encumbrance();
-    player_character.inv->clear();
     player_character.remove_weapon();
     const item backpack( itype_debug_backpack );
     player_character.worn.wear_item( player_character, backpack, false, false );

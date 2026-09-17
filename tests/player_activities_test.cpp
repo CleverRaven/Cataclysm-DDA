@@ -2013,7 +2013,6 @@ static const std::vector<std::function<player_activity()>> test_activities {
 
 static void cleanup( avatar &dummy )
 {
-    dummy.inv->clear();
     clear_map_without_vision();
 
     REQUIRE( dummy.activity.get_distractions().empty() );

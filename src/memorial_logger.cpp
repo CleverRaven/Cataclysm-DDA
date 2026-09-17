@@ -381,20 +381,19 @@ void memorial_logger::write_text_memorial( std::ostream &file,
 
     //Inventory
     file << _( "Inventory:" ) << eol;
-    u.inv->restack( u );
-    invslice slice = u.inv->slice();
-    for( const std::list<item> *elem : slice ) {
-        const item &next_item = elem->front();
-        file << indent << next_item.invlet << " - " <<
-             next_item.tname( static_cast<unsigned>( elem->size() ), false );
-        if( elem->size() > 1 ) {
-            file << " [" << elem->size() << "]";
+    u.visit_items(
+    [&file, &indent]( item * node, item * parent ) {
+        // your "inventory" is all items inside of other items.
+        if( parent != nullptr ) {
+            file << indent << node->invlet << node->tname();
+            if( node->charges > 0 ) {
+                file << '(' << node->charges << ')';
+            }
+            file << eol;
         }
-        if( next_item.charges > 0 ) {
-            file << " (" << next_item.charges << ")";
-        }
-        file << eol;
+        return VisitResponse::NEXT;
     }
+    );
     file << eol;
 
     //Lifetime stats
