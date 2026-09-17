@@ -59,6 +59,8 @@ static const oter_str_id oter_cabin_west( "cabin_west" );
 static const overmap_special_id overmap_special_Cabin( "Cabin" );
 static const overmap_special_id overmap_special_Lab( "Lab" );
 
+static const region_settings_id region_settings_default( "default" );
+
 class overmap_test_helper
 {
     public:
@@ -175,8 +177,7 @@ TEST_CASE( "set_and_get_overmap_scents", "[overmap]" )
 TEST_CASE( "default_overmap_generation_always_succeeds", "[overmap][slow]" )
 {
     overmap_buffer.clear();
-    const int city_size = overmap_buffer.get_default_settings(
-                              point_abs_om() ).get_settings_city().city_size;
+    const int city_size = region_settings_default->get_settings_city().city_size;
     int overmaps_to_construct = 10;
     for( const point_abs_om &candidate_addr : closest_points_first( point_abs_om(), 10 ) ) {
         // Skip populated overmaps.
@@ -561,8 +562,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         int occ_max;
     };
     std::unordered_map<oter_type_id, std::vector<special_spawn_info>> terrain_to_specials;
-    const int city_size = overmap_buffer.get_default_settings(
-                              point_abs_om() ).get_settings_city().city_size;
+    const int city_size = region_settings_default->get_settings_city().city_size;
     for( const overmap_special &sp : overmap_specials::get_all() ) {
         if( !sp.can_spawn( city_size ) ) {
             continue;

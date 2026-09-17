@@ -625,8 +625,13 @@ TEST_CASE( "monster_broken_verify", "[monster]" )
         if( montype.mdeath_effect.corpse_type != mdeath_type::BROKEN ) {
             continue;
         }
-
+        if( !montype.broken_itype.is_empty() ) {
+            CAPTURE( montype.id.c_str() );
+            CHECK( montype.broken_itype.is_valid() );
+            continue;
+        }
         // this contraption should match mdeath::broken in mondeath.cpp
+        // FIXME: Rewrite test so it doesn't use string manipulation or require broken_itype and delete it
         std::string broken_id_str = montype.id.str();
         if( broken_id_str.compare( 0, 4, "mon_" ) == 0 ) {
             broken_id_str.erase( 0, 4 );

@@ -555,12 +555,18 @@
   {
     "type": "monstergroup",
     "id": "GROUP_LAB",
-    "monsters": [ { "monster": "mon_zombie_oa_agent", "weight": 50, "cost_multiplier": 5 } ]
+    "monsters": [
+      { "monster": "mon_zombie_oa_agent", "weight": 50, "cost_multiplier": 5 },
+      { "monster": "mon_feral_xe_dreamer", "weight": 5, "cost_multiplier": 10 }
+    ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_LAB_SURFACE",
-    "monsters": [ { "monster": "mon_zombie_oa_agent", "weight": 20, "cost_multiplier": 5 } ]
+    "monsters": [
+      { "monster": "mon_zombie_oa_agent", "weight": 20, "cost_multiplier": 5 },
+      { "monster": "mon_feral_xe_dreamer", "weight": 5, "cost_multiplier": 10 }
+    ]
   },
   {
     "type": "monstergroup",
@@ -574,6 +580,27 @@
       { "monster": "mon_tentacle_daemon", "weight": 20 },
       { "monster": "mon_frozen_daemon", "weight": 10 },
       { "monster": "mon_spined_daemon", "weight": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_XE_DREAMER_LAB_MONSTERS",
+    "monsters": [
+      { "monster": "mon_xe_flying_shark", "weight": 20 },
+      { "monster": "mon_shifter_non_player", "weight": 20 },
+      { "monster": "mon_ophanim_non_player", "weight": 5, "cost_multiplier": 5 },
+      { "monster": "mon_duplicator_non_player", "weight": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_XE_INVENTOR_LAB_MONSTERS",
+    "//": "Includes gunbots, use sparingly",
+    "monsters": [
+      { "monster": "mon_bitebot_science", "weight": 20 },
+      { "monster": "mon_meleebot_science", "weight": 20 },
+      { "monster": "mon_shotgunbot_science", "weight": 5, "cost_multiplier": 5 },
+      { "monster": "mon_sniperbot_science", "weight": 1, "cost_multiplier": 15 }
     ]
   }
 ]
