@@ -81,7 +81,8 @@
       { "group": "SUS_junk_drawer" },
       { "group": "SUS_junk_drawer_messy" },
       { "group": "SUS_junk_drawer_artsy" },
-      { "group": "SUS_kitchen_sink" }
+      { "group": "SUS_kitchen_sink" },
+      { "group": "Exodii_mod_blacklist_items" }
     ]
   },
   {
