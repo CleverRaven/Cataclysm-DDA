@@ -68,7 +68,7 @@
     ],
     "false_effect": [ { "math": [ "updating_moabosaurus = 0" ] } ]
   },
-    {
+  {
     "id": "haplocanthosaurus_control",
     "type": "SPELL",
     "name": { "str": "haplocanthosaurus control", "//~": "NO_I18N" },
