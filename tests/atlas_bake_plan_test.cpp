@@ -1,4 +1,6 @@
 #if defined(TILES)
+#include <cstdint>
+#include <memory>
 #include <optional>
 #include <string>
 
@@ -239,5 +241,79 @@ TEST_CASE( "lost_shader_boundary_refuses_target_binds_until_rebind",
     CHECK_FALSE( vp->boundary_lost() );
     CHECK( vp->shader_fault() );
     CHECK( permanent_render_target_bind( get_sdl_renderer(), nullptr, vp ) == bind_result::ok );
+}
+
+TEST_CASE( "upload_bakes_only_the_variants_the_plan_names", "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    using cata_shader::memory_preset;
+    const uint64_t inst = renderer_coordinator.instance_generation();
+    const uint64_t tex = renderer_coordinator.textures_generation();
+
+    GIVEN( "a plan that relies on the variant shaders under a named preset" ) {
+        const atlas_bake_plan plan =
+            compute_atlas_bake_plan( true, memory_preset::SEPIA_LIGHT, false );
+        const std::shared_ptr<const tileset> bundle =
+            renderer_recovery_test_support::install_synthetic_bundle(
+                "synthetic_skip_ts", "color_pixel_sepia_light", inst, tex, plan );
+        REQUIRE( bundle );
+        THEN( "only the normal and silhouette atlases exist" ) {
+            CHECK( classify_bundle( bundle.get() ) == bundle_state::uploaded );
+            CHECK( bundle->get_tile( 0 ) != nullptr );
+            CHECK( bundle->get_silhouette_tile( 0 ) != nullptr );
+            CHECK( bundle->get_shadow_tile( 0 ) == nullptr );
+            CHECK( bundle->get_night_tile( 0 ) == nullptr );
+            CHECK( bundle->get_overexposed_tile( 0 ) == nullptr );
+            CHECK( bundle->get_memory_tile( 0 ) == nullptr );
+            CHECK( bake_plan_summary( bundle->get_bake_plan_at_upload() ) == "n----i" );
+        }
+    }
+    GIVEN( "same reliance under the custom preset" ) {
+        const atlas_bake_plan plan = compute_atlas_bake_plan( true, std::nullopt, false );
+        const std::shared_ptr<const tileset> bundle =
+            renderer_recovery_test_support::install_synthetic_bundle(
+                "synthetic_custom_ts", "color_pixel_custom", inst, tex, plan );
+        REQUIRE( bundle );
+        THEN( "memory atlas is still baked" ) {
+            CHECK( bundle->get_memory_tile( 0 ) != nullptr );
+            CHECK( bundle->get_shadow_tile( 0 ) == nullptr );
+        }
+    }
+    GIVEN( "default plan" ) {
+        const std::shared_ptr<const tileset> bundle =
+            renderer_recovery_test_support::install_synthetic_bundle(
+                "synthetic_full_ts", "color_pixel_sepia_light", inst, tex );
+        REQUIRE( bundle );
+        THEN( "all six variants exist and the upload configuration is recorded" ) {
+            CHECK( bundle->get_shadow_tile( 0 ) != nullptr );
+            CHECK( bundle->get_night_tile( 0 ) != nullptr );
+            CHECK( bundle->get_overexposed_tile( 0 ) != nullptr );
+            CHECK( bundle->get_memory_tile( 0 ) != nullptr );
+            CHECK( bundle->get_silhouette_tile( 0 ) != nullptr );
+            CHECK( bundle->get_bake_plan_at_upload().all_baked() );
+            CHECK( bundle->get_filter_fingerprint_at_upload()
+                   == compute_tileset_filter_fingerprint( "color_pixel_sepia_light" ) );
+        }
+    }
+}
+
+TEST_CASE( "mode2_injected_shader_boundary_loss_queues_device_lost",
+           "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    renderer_recovery_test_support::arm_mode2_interrupt(
+        1, atlas_upload_interrupt::shader_boundary_lost );
+    CHECK( renderer_coordinator.mode2_upload_poll() == atlas_upload_interrupt::shader_boundary_lost );
+    CHECK( renderer_coordinator.pending() == renderer_recovery_severity::device_lost );
+    renderer_coordinator.drain_pending();
+    CHECK( renderer_coordinator.state() == renderer_recovery_state::ready );
 }
 #endif // TILES

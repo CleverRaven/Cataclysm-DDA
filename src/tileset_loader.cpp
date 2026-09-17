@@ -277,17 +277,20 @@ void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_P
     }
 
     /** perform color filter conversion here */
-    using tiles_pixel_color_entry = std::tuple<std::vector<texture>*, std::string>;
+    using tiles_pixel_color_entry = std::tuple<std::vector<texture>*, std::string, bool>;
     std::array<tiles_pixel_color_entry, 6> tile_values_data = {{
-            { std::make_tuple( targets.normal, "color_pixel_none" ) },
-            { std::make_tuple( targets.shadow, "color_pixel_grayscale" ) },
-            { std::make_tuple( targets.night, "color_pixel_nightvision" ) },
-            { std::make_tuple( targets.overexposed, "color_pixel_overexposed" ) },
-            { std::make_tuple( targets.memory, memory_map_mode ) },
-            { std::make_tuple( targets.silhouette, "color_pixel_silhouette" ) }
+            { std::make_tuple( targets.normal, "color_pixel_none", bake_plan.normal ) },
+            { std::make_tuple( targets.shadow, "color_pixel_grayscale", bake_plan.shadow ) },
+            { std::make_tuple( targets.night, "color_pixel_nightvision", bake_plan.night ) },
+            { std::make_tuple( targets.overexposed, "color_pixel_overexposed", bake_plan.overexposed ) },
+            { std::make_tuple( targets.memory, memory_map_mode, bake_plan.memory ) },
+            { std::make_tuple( targets.silhouette, "color_pixel_silhouette", bake_plan.silhouette ) }
         }
     };
     for( tiles_pixel_color_entry &entry : tile_values_data ) {
+        if( !std::get<2>( entry ) ) {
+            continue;
+        }
         std::vector<texture> *tile_values = std::get<0>( entry );
         color_pixel_function_pointer color_pixel_function = get_color_pixel_function( std::get<1>
                 ( entry ) );
@@ -505,9 +508,9 @@ atlas_upload_interrupt tileset_cache::loader::load( const std::string &tileset_i
         load_layers( layer_config );
     }
 
-    return upload_atlases( ts, renderer, memory_map_mode, ts.get_atlas_descriptors(),
-                           renderer_instance_generation, gpu_textures_generation,
-                           pump_events, poll, quarantine );
+    return upload_atlases( ts, renderer, memory_map_mode, filter_fingerprint, atlas_bake_plan{},
+                           ts.get_atlas_descriptors(), renderer_instance_generation,
+                           gpu_textures_generation, pump_events, poll, quarantine );
 }
 
 void tileset_cache::loader::parse_atlases( const JsonObject &config,
@@ -1002,6 +1005,8 @@ void tileset_cache::loader::load_tile_spritelists( const JsonObject &entry,
 atlas_upload_interrupt tileset_cache::loader::upload_atlases( tileset &ts,
         const SDL_Renderer_Ptr &renderer,
         const std::string &memory_map_mode,
+        const uint64_t filter_fingerprint,
+        const atlas_bake_plan &plan,
         const std::vector<atlas_replay_descriptor> &descriptors,
         const uint64_t renderer_instance_generation,
         const uint64_t gpu_textures_generation,
@@ -1018,13 +1023,14 @@ atlas_upload_interrupt tileset_cache::loader::upload_atlases( tileset &ts,
 
     // Variant vectors size to the atlas tilecount; the synthetic highlight
     // adds a slot only to the normal vector so the draw path's range check
-    // returns nullptr for variants at that index and falls back to normal.
+    // returns nullptr for variants at that index and falls back to normal. A
+    // variant the plan skips gets an empty vector, which reads the same way.
     std::vector<texture> cand_normal( total + highlight_extra );
-    std::vector<texture> cand_shadow( total );
-    std::vector<texture> cand_night( total );
-    std::vector<texture> cand_overexposed( total );
-    std::vector<texture> cand_memory( total );
-    std::vector<texture> cand_silhouette( total );
+    std::vector<texture> cand_shadow( plan.shadow ? total : 0 );
+    std::vector<texture> cand_night( plan.night ? total : 0 );
+    std::vector<texture> cand_overexposed( plan.overexposed ? total : 0 );
+    std::vector<texture> cand_memory( plan.memory ? total : 0 );
+    std::vector<texture> cand_silhouette( plan.silhouette ? total : 0 );
 
     // Candidates are built against this gate; on success they commit and destroy
     // normally, on abnormal exit they are adopted into the graveyard (below).
@@ -1061,7 +1067,8 @@ atlas_upload_interrupt tileset_cache::loader::upload_atlases( tileset &ts,
         }
     } );
 
-    loader uploader( ts, renderer, memory_map_mode );
+    loader uploader( ts, renderer, memory_map_mode, filter_fingerprint );
+    uploader.bake_plan = plan;
     tile_value_targets targets;
     targets.normal = &cand_normal;
     targets.shadow = &cand_shadow;
@@ -1124,6 +1131,8 @@ atlas_upload_interrupt tileset_cache::loader::upload_atlases( tileset &ts,
 
     ts.set_upload_generations( renderer_instance_generation, gpu_textures_generation );
     ts.set_memory_map_mode_at_upload( memory_map_mode );
+    ts.set_bake_plan_at_upload( plan );
+    ts.set_filter_fingerprint_at_upload( filter_fingerprint );
     committed = true;
     return atlas_upload_interrupt::none;
 }

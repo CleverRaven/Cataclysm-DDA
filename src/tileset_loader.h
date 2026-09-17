@@ -8,6 +8,7 @@
 #include <utility>
 #include <vector>
 
+#include "atlas_bake_plan.h"
 #include "cata_tiles.h"
 #include "point.h"
 #include "sdl_wrappers.h"
@@ -35,6 +36,8 @@ class tileset_cache::loader
         tileset &ts;
         const SDL_Renderer_Ptr &renderer;
         std::string memory_map_mode;
+        uint64_t filter_fingerprint = 0;
+        atlas_bake_plan bake_plan;
 
         point sprite_offset;
         point sprite_offset_retracted;
@@ -110,8 +113,10 @@ class tileset_cache::loader
                 const atlas_upload_poll &poll );
 
     public:
-        loader( tileset &ts, const SDL_Renderer_Ptr &r, std::string memory_map_mode )
-            : ts( ts ), renderer( r ), memory_map_mode( std::move( memory_map_mode ) ) {
+        loader( tileset &ts, const SDL_Renderer_Ptr &r, std::string memory_map_mode,
+                const uint64_t filter_fingerprint )
+            : ts( ts ), renderer( r ), memory_map_mode( std::move( memory_map_mode ) ),
+              filter_fingerprint( filter_fingerprint ) {
         }
         // tileset_id matches the option string. precheck only loads metadata
         // (tile dimensions). pump_events handles window events / refreshes
@@ -133,9 +138,14 @@ class tileset_cache::loader
         // onto the bundle so a later cache lookup can spot a stale upload.
         // poll is consulted between chunks; on interrupt the candidate
         // textures are moved into *quarantine and the reason is returned, ts
-        // untouched. A default (empty) poll never interrupts.
+        // untouched. A default (empty) poll never interrupts. Bakes only the
+        // variants plan names; skipped variant vectors stay empty. Records
+        // filter_fingerprint as given, so the record matches the key the caller
+        // used even when an option changed in between.
         static atlas_upload_interrupt upload_atlases( tileset &ts, const SDL_Renderer_Ptr &renderer,
                 const std::string &memory_map_mode,
+                uint64_t filter_fingerprint,
+                const atlas_bake_plan &plan,
                 const std::vector<atlas_replay_descriptor> &descriptors,
                 uint64_t renderer_instance_generation,
                 uint64_t gpu_textures_generation,

@@ -415,6 +415,12 @@ struct renderer_recovery_test_support {
     static std::shared_ptr<const tileset> install_synthetic_bundle(
         const std::string &tileset_id, const std::string &memory_map_mode,
         uint64_t renderer_instance_generation, uint64_t gpu_textures_generation );
+    // As install_synthetic_bundle, uploading under an explicit bake plan
+    // instead of the full one.
+    static std::shared_ptr<const tileset> install_synthetic_bundle(
+        const std::string &tileset_id, const std::string &memory_map_mode,
+        uint64_t renderer_instance_generation, uint64_t gpu_textures_generation,
+        const atlas_bake_plan &plan );
 
     // Fetch a bundle through the production cache lookup at the given current
     // generations; returns the cached bundle on a fresh hit. Used only for the

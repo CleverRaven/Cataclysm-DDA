@@ -424,6 +424,11 @@ bool service_mode2_upload_interrupt( const atlas_upload_interrupt interrupt,
         // The drain is about to destroy the renderer; release the quarantined
         // handles without SDL_DestroyTexture.
         quarantine.abandon_pre_lost_renderer();
+    } else if( interrupt == atlas_upload_interrupt::shader_boundary_lost ) {
+        // boundary undefined, so renderer will be replaced: release quarantined
+        // handles without SDL_DestroyTexture, queue loss
+        quarantine.abandon_pre_lost_renderer();
+        renderer_coordinator.request_recovery( renderer_recovery_severity::device_lost );
     } else if( interrupt == atlas_upload_interrupt::paused ) {
         // Wait out the background; the foreground event queues the rebuild.
         pump_until_renderer_foreground();
@@ -4259,7 +4264,7 @@ std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &t
     // upload, so an interrupted load never replaces the live bundle in the
     // cache or in any consumer.
     std::shared_ptr<tileset> candidate = std::make_shared<tileset>();
-    loader loader( *candidate, renderer, memory_map_mode );
+    loader loader( *candidate, renderer, memory_map_mode, key.filter_fingerprint );
     const atlas_upload_interrupt interrupt =
         loader.load( tileset_id, precheck, pump_events, terrain,
                      current_renderer_instance_gen, current_gpu_textures_gen, poll, quarantine );
@@ -4304,8 +4309,10 @@ atlas_upload_interrupt tileset_cache::replay_live_atlases( const SDL_Renderer_Pt
         }
         const atlas_upload_interrupt interrupt =
             loader::upload_atlases( *ts, renderer, ts->get_memory_map_mode_at_upload(),
-                                    ts->get_atlas_descriptors(), renderer_instance_gen,
-                                    gpu_textures_gen, false, poll, &quarantine );
+                                    compute_tileset_filter_fingerprint( ts->get_memory_map_mode_at_upload() ),
+                                    atlas_bake_plan{}, ts->get_atlas_descriptors(),
+                                    renderer_instance_gen, gpu_textures_gen, false, poll,
+                                    &quarantine );
         if( interrupt != atlas_upload_interrupt::none ) {
             return interrupt;
         }
