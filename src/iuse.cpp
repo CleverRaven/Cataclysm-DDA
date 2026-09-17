@@ -117,6 +117,7 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "teleport.h"
+#include "temp_crafting_inventory.h"
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
@@ -7699,17 +7700,17 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
 
         std::vector<const recipe *> dishes;
 
-        inventory crafting_inv = p->crafting_inventory();
+        temp_crafting_inventory crafting_inv = p->crafting_inventory();
         // add some tools and qualities. we can't add this qualities to
         // json, because multicook must be used only by activating, not as
         // component other crafts.
-        crafting_inv.push_back( item( itype_hotplate, calendar::turn_zero ) ); //hotplate inside
+        crafting_inv.add_item_copy( item( itype_hotplate, calendar::turn_zero ) ); //hotplate inside
         // some recipes requires tongs
-        crafting_inv.push_back( item( itype_tongs, calendar::turn_zero ) );
+        crafting_inv.add_item_copy( item( itype_tongs, calendar::turn_zero ) );
         // toolset with CUT and other qualities inside
-        crafting_inv.push_back( item( itype_toolset, calendar::turn_zero ) );
+        crafting_inv.add_item_copy( item( itype_toolset, calendar::turn_zero ) );
         // good COOK, BOIL, CONTAIN qualities inside
-        crafting_inv.push_back( item( itype_pot, calendar::turn_zero ) );
+        crafting_inv.add_item_copy( item( itype_pot, calendar::turn_zero ) );
 
         int counter = 0;
         static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
@@ -7798,7 +7799,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
 
         bool has_tools = true;
 
-        const inventory &cinv = p->crafting_inventory();
+        const temp_crafting_inventory &cinv = p->crafting_inventory();
 
         if( !cinv.has_amount( itype_soldering_iron, 1 ) ) {
             p->add_msg_if_player( m_warning, _( "You need a %s." ),
@@ -8726,7 +8727,7 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
         return std::nullopt;
     }
     p->inv->restack( *p );
-    const inventory &crafting_inv = p->crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = p->crafting_inventory();
 
     auto is_liquid = []( const item & it ) {
         return it.made_of( phase_id::LIQUID );
@@ -9240,7 +9241,7 @@ std::optional<int> iuse::binder_add_recipe( Character *p, item *binder, const tr
         return std::nullopt;
     }
 
-    const inventory crafting_inv = p->crafting_inventory();
+    const temp_crafting_inventory crafting_inv = p->crafting_inventory();
     const std::vector<const item *> writing_tools = crafting_inv.items_with( [&]( const item & it ) {
         return it.has_flag( flag_WRITE_MESSAGE ) && it.ammo_sufficient( p );
     } );

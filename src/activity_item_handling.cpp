@@ -43,7 +43,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "iexamine.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_contents.h"
@@ -1836,7 +1835,7 @@ static activity_reason_info find_base_construction(
     if( !cc ) {
         return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
     }
-    const inventory &inv = you.crafting_inventory( inv_from_loc, PICKUP_RANGE );
+    const temp_crafting_inventory &inv = you.crafting_inventory( inv_from_loc, PICKUP_RANGE );
     if( !player_can_build( you, inv, build, true ) ) {
         //can't build with current inventory, do not look for pre-req
         return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, build.id );
@@ -2047,7 +2046,7 @@ activity_reason_info multi_vehicle_deconstruct_activity_actor::multi_activity_ca
             continue;
         }
         const requirement_data &reqs = vpinfo.removal_requirements();
-        const inventory &inv = you.crafting_inventory( false );
+        const temp_crafting_inventory &inv = you.crafting_inventory( false );
 
         const bool can_make = reqs.can_make_with_inventory( &you, inv, is_crafting_component );
         you.set_value( "veh_index_type", vpinfo.name() );
@@ -2106,7 +2105,7 @@ activity_reason_info multi_vehicle_repair_activity_actor::multi_activity_can_do(
             continue;
         }
         const requirement_data &reqs = vpinfo.repair_requirements();
-        const inventory &inv =
+        const temp_crafting_inventory &inv =
             you.crafting_inventory( src_loc, PICKUP_RANGE - 1, false );
         const bool can_make = reqs.can_make_with_inventory( &you, inv, is_crafting_component );
         you.set_value( "veh_index_type", vpinfo.name() );
@@ -2450,7 +2449,7 @@ activity_reason_info multi_craft_activity_actor::multi_activity_can_do( Characte
     if( p ) {
         item_location to_craft = p->get_item_to_craft();
         if( to_craft && to_craft->is_craft() ) {
-            const inventory &inv = you.crafting_inventory( src_loc, PICKUP_RANGE, false );
+            const temp_crafting_inventory &inv = you.crafting_inventory( src_loc, PICKUP_RANGE, false );
             const recipe &r = to_craft->get_making();
             std::vector<std::vector<item_comp>> item_comp_vector =
                                                  to_craft->get_continue_reqs().get_components();
@@ -2493,7 +2492,7 @@ activity_reason_info multi_disassemble_activity_actor::multi_activity_can_do( Ch
 
     map &here = get_map();
     // Is there anything to be disassembled?
-    const inventory &inv = you.crafting_inventory( src_loc, PICKUP_RANGE, false );
+    const temp_crafting_inventory &inv = you.crafting_inventory( src_loc, PICKUP_RANGE, false );
     requirement_data req;
     for( item &i : here.i_at( src_loc ) ) {
         // Skip items marked by other ppl.
@@ -2689,7 +2688,7 @@ requirement_id remove_met_requirements( requirement_id base_req_id, Character &y
     // We cannot assume that required items on the ground when the multi-activity starts
     // will *always* be in the multi-activity work area to meet requirements.
     // Therefore, items on the ground aren't counted here for met requirements.
-    const inventory &inv = you.crafting_inventory( tripoint_bub_ms::zero, -1 );
+    const temp_crafting_inventory &inv = you.crafting_inventory( tripoint_bub_ms::zero, -1 );
 
     for( std::vector<tool_comp> &tools : tool_reqs_vector ) {
         bool found = false;

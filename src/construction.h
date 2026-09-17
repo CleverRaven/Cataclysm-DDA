@@ -19,7 +19,7 @@
 #include "type_id.h"
 
 class Character;
-class read_only_visitable;
+class temp_crafting_inventory;
 struct point;
 
 namespace catacurses
@@ -120,7 +120,7 @@ void reset_constructions();
 construction_id construction_menu( bool blueprint );
 bool has_pre_flags( const construction &con, furn_id const &f, ter_id const &t );
 bool can_construct( const construction &con, const tripoint_bub_ms &p );
-bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con,
+bool player_can_build( Character &you, const temp_crafting_inventory &inv, const construction &con,
                        bool can_construct_skip = false );
 std::vector<const construction *> constructions_by_group( const construction_group_str_id &group );
 std::vector<const construction *> constructions_by_filter(

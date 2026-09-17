@@ -45,7 +45,6 @@
 #include "game_constants.h"
 #include "global_vars.h"
 #include "gun_mode.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_components.h"
@@ -127,6 +126,8 @@ static const skill_id skill_survival( "survival" );
 static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
 
 static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
+
+class temp_crafting_inventory;
 
 // sorts with localized_compare, and enumerates entries, if more than \p max entries
 // the rest are abbreviated into " and %d more"
@@ -3983,7 +3984,7 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
 static std::unordered_map<const recipe *, bool> can_craft_recipe_cache;
 static time_point cache_valid_turn;
 
-static bool can_craft_recipe( const recipe *r, const inventory &crafting_inv )
+static bool can_craft_recipe( const recipe *r, const temp_crafting_inventory &crafting_inv )
 {
     if( cache_valid_turn != calendar::turn ) {
         cache_valid_turn = calendar::turn;
@@ -4241,7 +4242,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES ) ) {
         // with the inventory display allowing you to select items, showing the things you could make with contained items could be confusing.
         const itype_id &tid = typeId();
-        const inventory &crafting_inv = player_character.crafting_inventory();
+        const temp_crafting_inventory &crafting_inv = player_character.crafting_inventory();
         const recipe_subset &available_recipe_subset = player_character.get_group_available_recipes();
         const std::set<const recipe *> &item_recipes = available_recipe_subset.of_component( tid );
 

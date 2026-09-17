@@ -3,11 +3,11 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
-#include "inventory.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
+#include "temp_crafting_inventory.h"
 #include "type_id.h"
 
 static const itype_id itype_rock( "rock" );
@@ -40,8 +40,8 @@ TEST_CASE( "inventory_form_from_map_bulk_batching", "[inventory][map]" )
 
     std::vector<tripoint_bub_ms> pts = { p1, p2, p3 };
 
-    inventory inv;
-    inv.form_from_map( m, pts, nullptr, false );
+    temp_crafting_inventory inv;
+    inv.form_from_map( m, pts, nullptr );
 
     // Check counts
     // Rocks: 5 at p1 + 5 at p3 = 10 rocks
