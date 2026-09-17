@@ -6,12 +6,10 @@
 
 #include "calendar.h"
 #include "cata_catch.h"
-#include "cata_utility.h"
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
 #include "enums.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -29,7 +27,6 @@
 #include "vpart_position.h"
 
 static const itype_id itype_backpack( "backpack" );
-static const itype_id itype_bone( "bone" );
 static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_flask_hip( "flask_hip" );
 static const itype_id itype_null( "null" );
@@ -506,17 +503,4 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             }
         }
     }
-}
-
-TEST_CASE( "inventory_remove_invalidates_binning_cache", "[visitable][inventory]" )
-{
-    inventory inv;
-    std::list<item> items = { item( itype_bone ) };
-    inv += items;
-    CHECK( inv.amount_of( itype_bone ) == 1 );
-    inv.remove_items_with( return_true<item> );
-    CHECK( inv.size() == 0 );
-    // The following used to be a heap use-after-free due to a caching bug.
-    // Now should be safe.
-    CHECK( inv.amount_of( itype_bone ) == 0 );
 }

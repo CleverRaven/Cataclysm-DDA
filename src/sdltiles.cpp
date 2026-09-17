@@ -4545,13 +4545,10 @@ void remove_stale_inventory_quick_shortcuts()
             in_inventory = false;
             if( valid ) {
                 Character &player_character = get_player_character();
-                in_inventory = player_character.inv->invlet_to_position( key ) != INT_MIN;
-                if( !in_inventory ) {
-                    // We couldn't find this item in the inventory, let's check worn items
-                    std::optional<const item *> item = player_character.worn.item_worn_with_inv_let( key );
-                    if( item ) {
-                        in_inventory = true;
-                    }
+                // let's check worn items first
+                std::optional<const item *> item = player_character.worn.item_worn_with_inv_let( key );
+                if( item ) {
+                    in_inventory = true;
                 }
                 if( !in_inventory ) {
                     // We couldn't find it in worn items either, check weapon held
@@ -4697,13 +4694,11 @@ void draw_quick_shortcuts()
         show_hint = hovered &&
                     GetTicks() - finger_down_time > static_cast<uint32_t>
                     ( get_option<int>( "ANDROID_INITIAL_DELAY" ) );
-        std::string hint_text;
+        std::string hint_text = "none";
         if( show_hint ) {
             if( touch_input_context.get_category() == "INVENTORY" && inv_chars.valid( key ) ) {
                 Character &player_character = get_player_character();
                 // Special case for inventory items - show the inventory item name as help text
-                hint_text = player_character.inv->find_item( player_character.inv->invlet_to_position(
-                                key ) ).display_name();
                 if( hint_text == "none" ) {
                     // We couldn't find this item in the inventory, let's check worn items
                     std::optional<const item *> item = player_character.worn.item_worn_with_inv_let( key );

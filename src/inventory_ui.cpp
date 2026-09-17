@@ -7,6 +7,7 @@
 #include <unordered_set>
 
 #include "activity_actor_definitions.h"
+#include "avatar.h"
 #include "avatar_action.h"
 #include "basecamp.h"
 #include "cata_assert.h"
@@ -26,7 +27,6 @@
 #include "input.h"
 #include "pickup.h"
 #include "input_enums.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_contents.h"
@@ -643,7 +643,7 @@ nc_color inventory_entry::get_invlet_color() const
 {
     if( !is_selectable() ) {
         return c_dark_gray;
-    } else if( get_player_character().inv->assigned_invlet.count( get_invlet() ) ) {
+    } else if( get_avatar().invlet_is_assigned( get_invlet() ) ) {
         return c_yellow;
     } else {
         return c_white;
@@ -1412,13 +1412,11 @@ bool inventory_column::sort_compare( inventory_entry const &lhs, inventory_entry
     if( lhs.is_selectable() != rhs.is_selectable() ) {
         return lhs.is_selectable(); // Disabled items always go last
     }
-    Character &player_character = get_player_character();
+    avatar &player_character = get_avatar();
     // Place favorite items and items with an assigned inventory letter first,
     // since the player cared enough to assign them
-    const bool left_has_invlet =
-        player_character.inv->assigned_invlet.count( lhs.any_item()->invlet ) != 0;
-    const bool right_has_invlet =
-        player_character.inv->assigned_invlet.count( rhs.any_item()->invlet ) != 0;
+    const bool left_has_invlet = player_character.invlet_is_assigned( lhs.any_item()->invlet );
+    const bool right_has_invlet = player_character.invlet_is_assigned( rhs.any_item()->invlet );
     if( left_has_invlet != right_has_invlet ) {
         return left_has_invlet;
     }

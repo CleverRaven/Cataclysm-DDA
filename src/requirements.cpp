@@ -25,8 +25,8 @@
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "inventory.h"
 #include "item.h"
+#include "item_components.h"
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "item_tname.h"
@@ -1445,8 +1445,12 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
         ret.components.emplace_back( std::vector<item_comp>( {it} ) );
     }
 
-    inventory craft_components;
-    craft_components += remaining_comps;
+    temp_crafting_inventory craft_components;
+    for( const item_components::type_vector_pair &tvp : remaining_comps ) {
+        for( const item &inner : tvp.second ) {
+            craft_components.add_item_copy( inner );
+        }
+    }
 
     // Remove requirements that are completely fulfilled by current craft components
     // For each requirement that isn't completely fulfilled, reduce the requirement by the amount
@@ -1478,7 +1482,12 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
         } else {
             int amount = craft_components.amount_of( comp.type, comp.count );
             comp.count -= amount;
-            craft_components.use_amount( comp.type, amount );
+            craft_components.remove_items_with(
+            [&comp]( const item & it ) {
+                return it.typeId() == comp.type;
+            }
+            , amount
+            );
         }
         return comp.count <= 0;
     } ), ret.components.end() );
