@@ -71,17 +71,17 @@
     "global": true,
     "condition": [
       "or": [ 
-        { "math": [ "u_monsters_nearby('mon_moabosaurus', 'radius': 3) >= 1" ] }, 
-        { "math": [ "u_monsters_nearby('mon_haplocanthosaurus', 'radius': 3) >= 1" ] }, 
-        { "math": [ "u_monsters_nearby('mon_amargasaurus', 'radius': 3) >= 1" ] }, 
-        { "math": [ "u_monsters_nearby('mon_apatosaurus', 'radius': 3) >= 1" ] }, 
-        { "math": [ "u_monsters_nearby('mon_brontosaurus', 'radius': 3) >= 1" ] }, 
-        { "math": [ "u_monsters_nearby('mon_diplodocus', 'radius': 3) >= 1" ] }, 
-        { "math": [ "u_monsters_nearby('mon_barosaurus', 'radius': 3) >= 1" ] }, 
-        { "math": [ "u_monsters_nearby('mon_camarasaurus', 'radius': 3) >= 1" ] }, 
-        { "math": [ "u_monsters_nearby('mon_brachiosaurus', 'radius': 3) >= 1" ] }, 
-        { "math": [ "u_monsters_nearby('mon_astrodon', 'radius': 3) >= 1" ] }, 
-        { "math": [ "u_monsters_nearby('mon_alamosaurus', 'radius': 3) >= 1" ] } 
+        [ "math": [ "u_monsters_nearby('mon_moabosaurus', 'radius': 3) >= 1" ] ], 
+        [ "math": [ "u_monsters_nearby('mon_haplocanthosaurus', 'radius': 3) >= 1" ] ], 
+        [ "math": [ "u_monsters_nearby('mon_amargasaurus', 'radius': 3) >= 1" ] ], 
+        [ "math": [ "u_monsters_nearby('mon_apatosaurus', 'radius': 3) >= 1" ] ], 
+        [ "math": [ "u_monsters_nearby('mon_brontosaurus', 'radius': 3) >= 1" ] ], 
+        [ "math": [ "u_monsters_nearby('mon_diplodocus', 'radius': 3) >= 1" ] ], 
+        [ "math": [ "u_monsters_nearby('mon_barosaurus', 'radius': 3) >= 1" ] ], 
+        [ "math": [ "u_monsters_nearby('mon_camarasaurus', 'radius': 3) >= 1" ] ], 
+        [ "math": [ "u_monsters_nearby('mon_brachiosaurus', 'radius': 3) >= 1" ] ], 
+        [ "math": [ "u_monsters_nearby('mon_astrodon', 'radius': 3) >= 1" ] ], 
+        [ "math": [ "u_monsters_nearby('mon_alamosaurus', 'radius': 3) >= 1" ] ] 
       ] 
     ],
     "effect": [
