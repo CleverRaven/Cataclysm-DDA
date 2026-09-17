@@ -1135,7 +1135,7 @@
     "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Hy-Brasilian khanjar" },
-    "description": "An ornate curved blade made of glassteel covered in orante looping designs that refract light.  These are the ceremonial daggers of the Hy-Brasil honor guard.",
+    "description": "An ornate curved blade made of glassteel covered in intricate looping designs that refract light.  These are the ceremonial daggers of the Hy-Brasil honor guard.",
     "weight": "38 g",
     "volume": "100 ml",
     "longest_side": "35 cm",
