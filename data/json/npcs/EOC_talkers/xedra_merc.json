@@ -48,6 +48,9 @@
       { "group": "clothing_tactical_leg" },
       { "group": "clothing_watch" },
       { "item": "phase_immersion_suit" },
+      { "item": "phase_immersion_helmet" },
+      { "item": "phase_immersion_cca" },
+      { "item": "phase_immersion_cs_papr_blower_off" },
       { "item": "id_science_security_black" },
       { "item": "survivor_machete_qt", "variant": "xedra_machete", "container-item": "scabbard" },
       {

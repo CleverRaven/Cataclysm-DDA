@@ -23,7 +23,8 @@
               { "item": "hk_g80mag", "count": [ 1, 3 ] },
               { "item": "12mm", "count": [ 3, 6 ] },
               { "item": "UPS_OFF" },
-              { "item": "rm13_armor" }
+              { "item": "rm13_armor" },
+              { "item": "cs_papr_blower_off" }
             ],
             "prob": 10
           },

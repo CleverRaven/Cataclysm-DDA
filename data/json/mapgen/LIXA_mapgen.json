@@ -585,7 +585,7 @@
           { "item": "xedra_artifact_cleansuit", "amount": 1 },
           { "item": "xedra_enviro_suit", "amount": 1 },
           { "item": "military_papr_mask", "amount": 1 },
-          { "item": "military_papr_blower_off", "amount": 1 },
+          { "item": "cs_papr_blower_off", "amount": 1 },
           { "item": "id_LIXA_mil", "amount": 1 }
         ],
         "O": [
