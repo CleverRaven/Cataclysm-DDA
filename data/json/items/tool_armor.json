@@ -2867,7 +2867,7 @@
         "specifically_covers": [ "mouth_cheeks" ],
         "coverage": 100,
         "encumbrance": 10,
-        "layers": [ "SKINTIGHT", "NORMAL", "OUTER" ],
+        "layers": [ "SKINTIGHT", "NORMAL" ],
         "volume_encumber_modifier": 0
       }
     ],
