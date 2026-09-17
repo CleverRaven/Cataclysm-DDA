@@ -834,7 +834,8 @@
         "u_roll_remainder": [
           "changeling_autumn_scare_animals_spell",
           "changeling_autumn_touch_of_frailty_spell",
-          "changeling_autumn_detect_magic_user_spell"
+          "changeling_autumn_detect_magic_user_spell",
+          "changeling_autumn_clean_nearby_spills_spell"
         ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
