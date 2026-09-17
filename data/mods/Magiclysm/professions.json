@@ -695,8 +695,8 @@
   {
     "type": "profession",
     "id": "academy_wizard",
-    "name": "Academy Wizard",
-    "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful spells.  With the teachers converted into the undead and classes canceled, the final lesson has begun.",
+    "name": "Academy Wizard (Magus)",
+    "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful magi spells.  With the teachers converted into the undead and classes canceled, the final lesson has begun.",
     "points": 4,
     "proficiencies": [ "prof_alchemy" ],
     "spells": [
@@ -732,6 +732,47 @@
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" }, { "item": "skirt" } ] }
     },
     "traits": [ "MAGUS" ]
+  },
+  {
+    "type": "profession",
+    "id": "academy_wizard_stormshaper",
+    "name": "Academy Wizard (Stormshaper)",
+    "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful stormshaping spells.  With the teachers converted into the undead and classes canceled, the final lesson has begun.",
+    "points": 4,
+    "proficiencies": [ "prof_alchemy" ],
+    "spells": [
+      { "id": "stormshaper_air_blast", "level": 8 },
+      { "id": "lightning_bolt", "level": 2 },
+      { "id": "create_atomic_light", "level": 3 },
+      { "id": "electric_arts", "level": 3 },
+      { "id": "classless_clean_clothing_and_self", "level": 2 }
+    ],
+    "skills": [
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "bashing" },
+      { "level": 4, "name": "spellcraft" },
+      { "level": 3, "name": "chemistry" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "copper_circlet" },
+          { "item": "cloak" },
+          { "item": "dress_shoes" },
+          { "item": "socks_wool" },
+          { "item": "beret_wool" },
+          { "item": "gloves_liner" },
+          { "item": "gloves_light" },
+          { "item": "dress_shirt" },
+          { "item": "knit_scarf" },
+          { "item": "pocketwatch" },
+          { "item": "q_staff", "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_briefs" }, { "item": "pants" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" }, { "item": "skirt" } ] }
+    },
+    "traits": [ "STORMSHAPER" ]
   },
   {
     "type": "profession",

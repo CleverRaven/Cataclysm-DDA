@@ -272,7 +272,7 @@
     "id": "stormshaper_restricted_tier_0",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 40 } ]
+    "entries": [ { "item": "spell_scroll_stormshaper_air_blast", "prob": 40 } ]
   },
   {
     "id": "stormshaper_illegal_tier_0",
