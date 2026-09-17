@@ -1101,7 +1101,7 @@
   {
     "type": "construction",
     "id": "constr_remove_st_gangway",
-    "group": "remove_floor",
+    "group": "remove_metal_floor",
     "//": "cut up the metal frames",
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -1109,7 +1109,7 @@
     "using": [ [ "metal_removal_high_standard", 1 ] ],
     "byproducts": [ { "item": "lc_steel_lump", "count": [ 20, 40 ] } ],
     "pre_terrain": "t_floor_metal_gangway",
-    "post_terrain": "t_null"
+    "post_terrain": "t_open_air"
   },
   {
     "type": "construction",
@@ -1122,6 +1122,6 @@
     "using": [ [ "metal_removal_high_standard", 1 ] ],
     "byproducts": [ { "item": "splinter", "count": [ 2, 32 ] }, { "item": "2x4", "count": [ 0, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
     "pre_terrain": "t_floor_wooden_gangway",
-    "post_terrain": "t_null"
+    "post_terrain": "t_open_air"
   }
 ]
