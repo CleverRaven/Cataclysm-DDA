@@ -502,6 +502,33 @@ static bool SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
     return true;
 }
 
+static tile_atlas_config applied_atlas_config;
+
+static void select_applied_memory_preset()
+{
+    if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+        vp->select_memory_preset(
+            cata_shader::memory_preset_from_option_value( applied_atlas_config.mode ) );
+    }
+}
+
+void apply_tile_atlas_options()
+{
+    // CreateTexture stamps this default on every texture, and the filter
+    // fingerprint folds SCALING_MODE. Change both together, so a replay never
+    // records a fingerprint its textures do not carry.
+    SetDefaultTextureScaleQuality( get_option<std::string>( "SCALING_MODE" ) );
+    applied_atlas_config.mode = get_option<std::string>( "MEMORY_MAP_MODE" );
+    applied_atlas_config.fingerprint =
+        compute_tileset_filter_fingerprint( applied_atlas_config.mode );
+    select_applied_memory_preset();
+}
+
+const tile_atlas_config &applied_tile_atlas_config()
+{
+    return applied_atlas_config;
+}
+
 //Registers, creates, and shows the Window!!
 static void WinCreate()
 {
@@ -510,9 +537,9 @@ static void WinCreate()
     WindowWidth = TERMINAL_WIDTH * fontwidth * scaling_factor;
     WindowHeight = TERMINAL_HEIGHT * fontheight * scaling_factor;
 
-    if( get_option<std::string>( "SCALING_MODE" ) != "none" ) {
-        SetDefaultTextureScaleQuality( get_option<std::string>( "SCALING_MODE" ) );
-    }
+    // Before the first texture: SetupRenderTarget below creates the display
+    // buffer under the scale default this sets.
+    apply_tile_atlas_options();
 
     // Track desired fullscreen mode separately; applied after window creation
     FullscreenMode desired_fullscreen = FullscreenMode::windowed;
@@ -680,8 +707,7 @@ static void WinCreate()
     rebuild_geometry_strategy( software_renderer );
 
     shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
-    shared_variant_pass->select_memory_preset( cata_shader::memory_preset_from_option_value(
-                get_option<std::string>( "MEMORY_MAP_MODE" ) ) );
+    select_applied_memory_preset();
 
     imclient = std::make_unique<cataimgui::client>( renderer, window, geometry );
 
@@ -873,6 +899,42 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
 
 static void draw_gamepad_radial_menu();
 
+// Whether the variant shaders can serve a skipped bake right now.
+static bool shader_variants_available_now()
+{
+    const cata_shader::variant_pass *vp = get_shared_variant_pass();
+    return vp && vp->available();
+}
+
+// Returns true when a recovery was requested because a live bundle no longer
+// matches the applied atlas configuration or shader availability
+static bool request_tile_repair_if_needed()
+{
+    if( !ts_cache.any_live_bundle_needs_repair( applied_atlas_config.mode,
+            applied_atlas_config.fingerprint, shader_variants_available_now() ) ) {
+        return false;
+    }
+    renderer_coordinator.request_recovery( renderer_recovery_severity::device_reset );
+    return true;
+}
+
+// whether this frame may present. re-arms needupdate and returns false while a
+// recovery is pending, or while a live bundle cannot be drawn correctly, so
+// nothing (clear, copy, overlays, present) runs against a renderer about to be
+// rebuilt and no frame drawn from a stale bundle is shown.
+static bool present_gate()
+{
+    if( renderer_coordinator.should_abort_frame() ) {
+        needupdate = true;
+        return false;
+    }
+    if( request_tile_repair_if_needed() ) {
+        needupdate = true;
+        return false;
+    }
+    return true;
+}
+
 void refresh_display()
 {
     needupdate = false;
@@ -882,11 +944,8 @@ void refresh_display()
         return;
     }
 
-    if( renderer_coordinator.should_abort_frame() ) {
-        // Skip the whole present so nothing (clear, copy, overlays, present) runs
-        // against a renderer about to be rebuilt or a buffer about to be resized.
-        // Re-arm needupdate so the present retries after the next drain.
-        needupdate = true;
+    if( !present_gate() ) {
+        // skip whole present, it will retry after next drain
         return;
     }
 
@@ -1328,6 +1387,17 @@ static void for_each_unique_tile_context( const std::function<void( cata_tiles &
         seen[n++] = c;
         fn( *c );
     }
+}
+
+void on_tiles_options_changed()
+{
+    apply_tile_atlas_options();
+    for_each_unique_tile_context( []( cata_tiles & ctx ) {
+        ctx.on_options_changed();
+    } );
+    // queue the repair now, next input poll drains it, present gate refuses
+    // frames until replay commits
+    request_tile_repair_if_needed();
 }
 
 static void reset_context_minimaps()
@@ -2085,8 +2155,8 @@ bool renderer_recovery_test_support::setup_software_renderer()
     detect_renderer_backend();
     pixel_format = SDL_PIXELFORMAT_ARGB8888;
     shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
-    shared_variant_pass->select_memory_preset( cata_shader::memory_preset_from_option_value(
-                get_option<std::string>( "MEMORY_MAP_MODE" ) ) );
+    // also restores the scale default a previous test might have changed
+    apply_tile_atlas_options();
     geometry = std::make_unique<DefaultGeometryRenderer>();
     if( !SetupRenderTarget() ) {
         teardown_software_renderer();
@@ -2292,6 +2362,11 @@ void renderer_recovery_test_support::simulate_draw_bind_failure()
 int renderer_recovery_test_support::variant_probe_count()
 {
     return cata_shader::test_probe_runs();
+}
+
+bool renderer_recovery_test_support::run_present_gate()
+{
+    return present_gate();
 }
 
 bool renderer_recovery_test_support::replay_quarantine_empty()

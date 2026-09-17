@@ -494,6 +494,9 @@ struct renderer_recovery_test_support {
     static void simulate_draw_bind_failure();
     // number of variant_pass probe runs since fixture setup
     static int variant_probe_count();
+    // run refresh_display's presentation decision that refresh_display can't
+    // reach under test_mode
+    static bool run_present_gate();
 };
 
 // RAII wrapper around setup/teardown for use as a Catch2 fixture local.

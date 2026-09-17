@@ -1,5 +1,6 @@
 #if defined(TILES)
 #include <cstdint>
+#include <initializer_list>
 #include <memory>
 #include <optional>
 #include <string>
@@ -9,6 +10,7 @@
 #include "cata_shader.h"
 #include "cata_tiles.h"
 #include "options.h"
+#include "options_helpers.h"
 #include "sdl_renderer_recovery.h"
 #include "sdl_wrappers.h"
 #include "sdltiles.h"
@@ -315,5 +317,228 @@ TEST_CASE( "mode2_injected_shader_boundary_loss_queues_device_lost",
     CHECK( renderer_coordinator.pending() == renderer_recovery_severity::device_lost );
     renderer_coordinator.drain_pending();
     CHECK( renderer_coordinator.state() == renderer_recovery_state::ready );
+}
+
+TEST_CASE( "saved_mode_change_replays_under_the_applied_mode_and_rekeys_in_place",
+           "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    const uint64_t inst = renderer_coordinator.instance_generation();
+    const uint64_t tex = renderer_coordinator.textures_generation();
+    override_option darken( "MEMORY_MAP_MODE", "color_pixel_darken" );
+    on_tiles_options_changed();
+    const std::shared_ptr<const tileset> bundle =
+        renderer_recovery_test_support::install_synthetic_bundle(
+            "synthetic_rekey_ts", "color_pixel_darken", inst, tex );
+    REQUIRE( bundle );
+    REQUIRE( renderer_coordinator.pending() == renderer_recovery_severity::none );
+
+    override_option blue( "MEMORY_MAP_MODE", "color_pixel_blue_dark" );
+    on_tiles_options_changed();
+    CHECK( renderer_coordinator.pending() == renderer_recovery_severity::device_reset );
+    renderer_coordinator.drain_pending();
+
+    const uint64_t inst2 = renderer_coordinator.instance_generation();
+    const uint64_t tex2 = renderer_coordinator.textures_generation();
+    CHECK( bundle->get_memory_map_mode_at_upload() == "color_pixel_blue_dark" );
+    CHECK( bundle->get_filter_fingerprint_at_upload() == applied_tile_atlas_config().fingerprint );
+    CHECK( bundle->get_memory_tile( 0 ) != nullptr );
+    CHECK_FALSE( renderer_recovery_test_support::cache_lookup_is_fresh(
+                     "synthetic_rekey_ts", "color_pixel_darken", inst2, tex2 ) );
+    // A miss in fetch_cached_bundle would run a real JSON load; confirm the hit first.
+    REQUIRE( renderer_recovery_test_support::cache_lookup_is_fresh(
+                 "synthetic_rekey_ts", "color_pixel_blue_dark", inst2, tex2 ) );
+    CHECK( renderer_recovery_test_support::fetch_cached_bundle(
+               "synthetic_rekey_ts", "color_pixel_blue_dark", inst2, tex2 ) == bundle );
+}
+
+TEST_CASE( "interrupted_replay_keeps_every_bundle_tracked", "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    const uint64_t inst = renderer_coordinator.instance_generation();
+    const uint64_t tex = renderer_coordinator.textures_generation();
+    override_option darken( "MEMORY_MAP_MODE", "color_pixel_darken" );
+    on_tiles_options_changed();
+    const std::shared_ptr<const tileset> first =
+        renderer_recovery_test_support::install_synthetic_bundle(
+            "synthetic_track_a_ts", "color_pixel_darken", inst, tex );
+    const std::shared_ptr<const tileset> second =
+        renderer_recovery_test_support::install_synthetic_bundle(
+            "synthetic_track_b_ts", "color_pixel_darken", inst, tex );
+    REQUIRE( first );
+    REQUIRE( second );
+
+    const auto check_both_current = [&]() {
+        const uint64_t inst_now = renderer_coordinator.instance_generation();
+        const uint64_t tex_now = renderer_coordinator.textures_generation();
+        for( const std::shared_ptr<const tileset> &b : {
+                 first, second
+             } ) {
+            CAPTURE( b->get_tileset_id() );
+            CHECK( b->get_renderer_instance_generation_at_upload() == inst_now );
+            CHECK( b->get_gpu_textures_generation_at_upload() == tex_now );
+            CHECK( b->get_memory_map_mode_at_upload() == "color_pixel_blue_dark" );
+        }
+    };
+
+    override_option blue( "MEMORY_MAP_MODE", "color_pixel_blue_dark" );
+    on_tiles_options_changed();
+    REQUIRE( renderer_coordinator.pending() == renderer_recovery_severity::device_reset );
+    // 1x1 one-descriptor bundle costs 5 replay polls (entry, pre-descriptor, sub-rect,
+    // post-loop, pre-publish), so the 6th is the second bundle's entry poll.
+    renderer_recovery_test_support::arm_replay_pause( 6 );
+    renderer_coordinator.drain_pending();
+    // Pin where the pause landed: the first bundle committed and was re-keyed,
+    // the second was never uploaded.
+    REQUIRE( first->get_gpu_textures_generation_at_upload()
+             == renderer_coordinator.textures_generation() );
+    REQUIRE( first->get_memory_map_mode_at_upload() == "color_pixel_blue_dark" );
+    REQUIRE( second->get_gpu_textures_generation_at_upload() == tex );
+    REQUIRE( second->get_memory_map_mode_at_upload() == "color_pixel_darken" );
+
+    renderer_coordinator.notify_lifecycle( lifecycle_state::resumed_pending_rebuild );
+    renderer_coordinator.drain_pending();
+    REQUIRE( renderer_coordinator.is_render_allowed() );
+    check_both_current();
+
+    renderer_coordinator.request_recovery( renderer_recovery_severity::device_reset );
+    renderer_coordinator.drain_pending();
+    check_both_current();
+
+    renderer_coordinator.request_recovery( renderer_recovery_severity::device_lost );
+    renderer_coordinator.drain_pending();
+    REQUIRE( renderer_coordinator.instance_generation() == inst + 1 );
+    check_both_current();
+}
+
+TEST_CASE( "replay_keeps_same_id_bundles_from_different_modes_tracked",
+           "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    const uint64_t inst = renderer_coordinator.instance_generation();
+    const uint64_t tex = renderer_coordinator.textures_generation();
+    // Two contexts drew the same tileset under different historical modes.
+    const std::shared_ptr<const tileset> darken =
+        renderer_recovery_test_support::install_synthetic_bundle(
+            "synthetic_twin_ts", "color_pixel_darken", inst, tex );
+    const std::shared_ptr<const tileset> sepia =
+        renderer_recovery_test_support::install_synthetic_bundle(
+            "synthetic_twin_ts", "color_pixel_sepia_light", inst, tex );
+    REQUIRE( darken );
+    REQUIRE( sepia );
+    override_option blue( "MEMORY_MAP_MODE", "color_pixel_blue_dark" );
+
+    const auto check_both_current = [&]() {
+        const uint64_t inst_now = renderer_coordinator.instance_generation();
+        const uint64_t tex_now = renderer_coordinator.textures_generation();
+        for( const std::shared_ptr<const tileset> &b : {
+                 darken, sepia
+             } ) {
+            CHECK( b->get_renderer_instance_generation_at_upload() == inst_now );
+            CHECK( b->get_gpu_textures_generation_at_upload() == tex_now );
+            CHECK( b->get_memory_map_mode_at_upload() == "color_pixel_blue_dark" );
+        }
+    };
+
+    // both entries re-key onto one key
+    on_tiles_options_changed();
+    renderer_coordinator.drain_pending();
+    check_both_current();
+    const uint64_t inst_now = renderer_coordinator.instance_generation();
+    const uint64_t tex_now = renderer_coordinator.textures_generation();
+    REQUIRE( renderer_recovery_test_support::cache_lookup_is_fresh(
+                 "synthetic_twin_ts", "color_pixel_blue_dark", inst_now, tex_now ) );
+    CHECK( renderer_recovery_test_support::fetch_cached_bundle(
+               "synthetic_twin_ts", "color_pixel_blue_dark", inst_now, tex_now ) == sepia );
+
+    renderer_coordinator.request_recovery( renderer_recovery_severity::device_lost );
+    renderer_coordinator.drain_pending();
+    check_both_current();
+}
+
+TEST_CASE( "present_gate_holds_frames_until_a_stale_bundle_is_repaired",
+           "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    const uint64_t inst = renderer_coordinator.instance_generation();
+    const uint64_t tex = renderer_coordinator.textures_generation();
+    override_option blue( "MEMORY_MAP_MODE", "color_pixel_blue_dark" );
+    on_tiles_options_changed();
+    REQUIRE( renderer_coordinator.pending() == renderer_recovery_severity::none );
+
+    // published under previous mode after the change was applied, so nothing
+    // queued a repair: gate itself must refuse and request it
+    const std::shared_ptr<const tileset> bundle =
+        renderer_recovery_test_support::install_synthetic_bundle(
+            "synthetic_repair_ts", "color_pixel_darken", inst, tex );
+    REQUIRE( bundle );
+    renderer_recovery_test_support::set_needupdate( false );
+    CHECK_FALSE( renderer_recovery_test_support::run_present_gate() );
+    CHECK( renderer_recovery_test_support::needupdate_armed() );
+    CHECK( renderer_coordinator.pending() == renderer_recovery_severity::device_reset );
+
+    // repair interrupted before bundle commit: frames stay refused
+    renderer_recovery_test_support::arm_replay_pause( 4 );
+    renderer_coordinator.drain_pending();
+    REQUIRE( bundle->get_memory_map_mode_at_upload() == "color_pixel_darken" );
+    renderer_recovery_test_support::set_needupdate( false );
+    CHECK_FALSE( renderer_recovery_test_support::run_present_gate() );
+
+    renderer_coordinator.notify_lifecycle( lifecycle_state::resumed_pending_rebuild );
+    renderer_coordinator.drain_pending();
+    CHECK( bundle->get_memory_map_mode_at_upload() == "color_pixel_blue_dark" );
+    renderer_recovery_test_support::set_needupdate( false );
+    CHECK( renderer_recovery_test_support::run_present_gate() );
+    CHECK_FALSE( renderer_recovery_test_support::needupdate_armed() );
+}
+
+TEST_CASE( "saved_scaling_mode_change_replays_atlases_with_the_new_filter",
+           "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    const uint64_t inst = renderer_coordinator.instance_generation();
+    const uint64_t tex = renderer_coordinator.textures_generation();
+    override_option sepia( "MEMORY_MAP_MODE", "color_pixel_sepia_light" );
+    override_option unscaled( "SCALING_MODE", "none" );
+    on_tiles_options_changed();
+    const std::shared_ptr<const tileset> bundle =
+        renderer_recovery_test_support::install_synthetic_bundle(
+            "synthetic_scale_ts", "color_pixel_sepia_light", inst, tex );
+    REQUIRE( bundle );
+    REQUIRE( bundle->get_tile( 0 ) != nullptr );
+    REQUIRE( GetTextureScaleMode( bundle->get_tile( 0 )->get_texture_ptr() )
+             == SDL_SCALEMODE_NEAREST );
+    REQUIRE( renderer_coordinator.pending() == renderer_recovery_severity::none );
+
+    override_option linear( "SCALING_MODE", "linear" );
+    on_tiles_options_changed();
+    CHECK( renderer_coordinator.pending() == renderer_recovery_severity::device_reset );
+    renderer_coordinator.drain_pending();
+
+    REQUIRE( bundle->get_tile( 0 ) != nullptr );
+    CHECK( bundle->get_filter_fingerprint_at_upload() == applied_tile_atlas_config().fingerprint );
+    // The recorded fingerprint names the linear filter, so the textures must carry it.
+    CHECK( GetTextureScaleMode( bundle->get_tile( 0 )->get_texture_ptr() )
+           == SDL_SCALEMODE_LINEAR );
 }
 #endif // TILES

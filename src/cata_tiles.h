@@ -531,12 +531,20 @@ class tileset_cache
         void release_live_atlases();
 
         // Re-upload atlases over every live cached tileset against `renderer`
-        // and the given generations, replaying each bundle's descriptors and
-        // memory-map mode. poll is consulted between entries and chunks; on
-        // interrupt the upload stops, candidates quarantine, and the reason returns.
+        // and the given generations, replaying each bundle's descriptors under
+        // the applied atlas configuration and re-keying it in place. poll is
+        // consulted between entries and chunks; on interrupt the upload stops,
+        // candidates quarantine, and the reason returns.
         atlas_upload_interrupt replay_live_atlases( const SDL_Renderer_Ptr &renderer,
                 uint64_t renderer_instance_gen, uint64_t gpu_textures_gen,
                 const atlas_upload_poll &poll, atlas_replay_quarantine &quarantine );
+
+        // True if any live uploaded bundle fails bundle_needs_repair against
+        // applied mode and fingerprint and shader availability. Also visits
+        // superseded entries: their holders still draw them.
+        bool any_live_bundle_needs_repair( const std::string &applied_mode,
+                                           uint64_t applied_fingerprint,
+                                           bool shader_variants_available ) const;
     private:
         class loader;
         friend struct renderer_recovery_test_support;

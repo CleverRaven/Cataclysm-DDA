@@ -1001,6 +1001,19 @@ void SetDefaultTextureScaleQuality( const std::string &quality )
     g_default_texture_scale_quality = quality;
 }
 
+SDL_ScaleMode GetTextureScaleMode( const std::shared_ptr<SDL_Texture> &texture )
+{
+    SDL_ScaleMode mode = SDL_SCALEMODE_INVALID;
+    if( !texture ) {
+        return mode;
+    }
+    if( printErrorIf( !SDL_GetTextureScaleMode( texture.get(), &mode ),
+                      "SDL_GetTextureScaleMode failed" ) ) {
+        return SDL_SCALEMODE_INVALID;
+    }
+    return mode;
+}
+
 
 void StartTextInput( SDL_Window *window )
 {

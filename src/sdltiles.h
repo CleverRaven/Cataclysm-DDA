@@ -113,6 +113,24 @@ void display_buffer_scope_signal_recovery_required();
 // Clear the latch once the poisoned renderer is gone and a fresh one is wired.
 void display_buffer_scope_clear_recovery_required();
 
+// configuration live tile atlases must match: MEMORY_MAP_MODE value and filter
+// fingerprint derived from it and SCALING_MODE
+struct tile_atlas_config {
+    std::string mode;
+    uint64_t fingerprint = 0;
+};
+
+// Change the default texture scale to SCALING_MODE, record MEMORY_MAP_MODE +
+// filter fingerprint as the applied configuration, and if the shared variant
+// pass exists, select the corresponding memory shader preset.
+void apply_tile_atlas_options();
+const tile_atlas_config &applied_tile_atlas_config();
+
+// Apply a saved options change to the tile renderer: the applied atlas
+// configuration, every context's logical options, and one device_reset
+// request when any live bundle no longer matches. Never reloads a tileset.
+void on_tiles_options_changed();
+
 // True when a draw must skip the backend paint, for any of: a queued recovery,
 // the app paused or resuming, a pending resize, or a latched draw-scope boundary
 // failure. Thin accessor so shared redraw paths skip the GPU paint without the

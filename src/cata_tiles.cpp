@@ -273,12 +273,7 @@ cata_tiles::~cata_tiles() = default;
 
 void cata_tiles::on_options_changed()
 {
-    memory_map_mode = get_option <std::string>( "MEMORY_MAP_MODE" );
-
-    if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
-        vp->select_memory_preset(
-            cata_shader::memory_preset_from_option_value( memory_map_mode ) );
-    }
+    memory_map_mode = applied_tile_atlas_config().mode;
 
     pixel_minimap_settings settings;
 
@@ -454,11 +449,15 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
 {
     renderer_texture_generations gens = renderer_coordinator.texture_generations();
     // Skip the reload only when the same tileset is already bound against the
-    // current renderer and texture generations; a generation bump from a
-    // device reset or loss invalidates the bundle and must reload.
+    // current renderer, texture generations and memory-map configuration; a
+    // generation bump from a device reset or loss invalidates the bundle and
+    // must reload
     if( tileset_ptr && tileset_ptr->get_tileset_id() == tileset_id && !force
         && tileset_ptr->get_renderer_instance_generation_at_upload() == gens.instance
-        && tileset_ptr->get_gpu_textures_generation_at_upload() == gens.textures ) {
+        && tileset_ptr->get_gpu_textures_generation_at_upload() == gens.textures
+        && tileset_ptr->get_memory_map_mode_at_upload() == memory_map_mode
+        && tileset_ptr->get_filter_fingerprint_at_upload()
+        == compute_tileset_filter_fingerprint( memory_map_mode ) ) {
         return;
     }
     // Snapshot the global mutation-overlay ordering before the candidate parse
@@ -4295,8 +4294,11 @@ atlas_upload_interrupt tileset_cache::replay_live_atlases( const SDL_Renderer_Pt
         const uint64_t renderer_instance_gen, const uint64_t gpu_textures_gen,
         const atlas_upload_poll &poll, atlas_replay_quarantine &quarantine )
 {
+    // upload with applied config, not the one each bundle last saw, so recovery
+    // never restores stale memory atlas or scale filter
+    const tile_atlas_config &applied = applied_tile_atlas_config();
     prune_expired();
-    for( const live_entry &entry : live_ ) {
+    for( live_entry &entry : live_ ) {
         if( poll ) {
             const atlas_upload_interrupt interrupt = poll();
             if( interrupt != atlas_upload_interrupt::none ) {
@@ -4308,16 +4310,37 @@ atlas_upload_interrupt tileset_cache::replay_live_atlases( const SDL_Renderer_Pt
             continue;
         }
         const atlas_upload_interrupt interrupt =
-            loader::upload_atlases( *ts, renderer, ts->get_memory_map_mode_at_upload(),
-                                    compute_tileset_filter_fingerprint( ts->get_memory_map_mode_at_upload() ),
+            loader::upload_atlases( *ts, renderer, applied.mode, applied.fingerprint,
                                     atlas_bake_plan{}, ts->get_atlas_descriptors(),
                                     renderer_instance_gen, gpu_textures_gen, false, poll,
                                     &quarantine );
         if( interrupt != atlas_upload_interrupt::none ) {
+            // this entry keeps its old key and stays tracked for retry
             return interrupt;
         }
+        // two entries may now share a key; neither becomes superseded
+        entry.key.memory_preset = applied.mode;
+        entry.key.filter_fingerprint = applied.fingerprint;
     }
     return atlas_upload_interrupt::none;
+}
+
+bool tileset_cache::any_live_bundle_needs_repair( const std::string &applied_mode,
+        const uint64_t applied_fingerprint, const bool shader_variants_available ) const
+{
+    for( const live_entry &entry : live_ ) {
+        const std::shared_ptr<tileset> ts = entry.bundle.lock();
+        if( classify_bundle( ts.get() ) != bundle_state::uploaded ) {
+            continue;
+        }
+        if( bundle_needs_repair( ts->get_bake_plan_at_upload(),
+                                 ts->get_memory_map_mode_at_upload(),
+                                 ts->get_filter_fingerprint_at_upload(), applied_mode,
+                                 applied_fingerprint, shader_variants_available ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 
