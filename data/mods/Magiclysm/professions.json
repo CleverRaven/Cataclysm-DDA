@@ -731,7 +731,7 @@
       "male": { "entries": [ { "item": "boxer_briefs" }, { "item": "pants" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" }, { "item": "skirt" } ] }
     },
-    "traits": [ "STORMSHAPER" ]
+    "traits": [ "MAGUS" ]
   },
   {
     "type": "profession",
@@ -772,7 +772,7 @@
       "male": { "entries": [ { "item": "boxer_briefs" }, { "item": "pants" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" }, { "item": "skirt" } ] }
     },
-    "traits": [ "MAGUS" ]
+    "traits": [ "STORMSHAPER" ]
   },
   {
     "type": "profession",
