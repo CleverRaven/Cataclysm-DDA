@@ -216,6 +216,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_spring_turn_target_one_more_day",
+    "//": "Used to remain as a tree to heal esoteric conditions",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_spring_charm_control_target",
     "name": [ "Ishtar's Folly" ],
     "desc": [ "Your devotion is stronger than adamant." ],
