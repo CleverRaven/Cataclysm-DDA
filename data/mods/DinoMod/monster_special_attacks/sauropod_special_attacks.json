@@ -42,7 +42,7 @@
               { "math": [ "u_setup = 1" ] },
               { "u_spawn_monster": "mon_sauropod_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
               {
-                "u_run_monster_eocs": [ { "id": "sauropod_leg_assign", "effect": [ { "math": [ "u_sauropodd_id = _sauropod_uid" ] } ] } ],
+                "u_run_monster_eocs": [ { "id": "sauropod_leg_assign", "effect": [ { "math": [ "u_sauropod_id = _sauropod_uid" ] } ] } ],
                 "monster_range": 2,
                 "mtype_ids": [ "mon_sauropod_leg" ]
               }
