@@ -1119,7 +1119,7 @@
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
-    "using": [ [ "metal_removal_high_standard", 1 ] ],
+    "using": [ [ "wood_removal_standard", 1 ] ],
     "byproducts": [ { "item": "splinter", "count": [ 2, 32 ] }, { "item": "2x4", "count": [ 0, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
     "pre_terrain": "t_floor_wooden_gangway",
     "post_terrain": "t_open_air"
