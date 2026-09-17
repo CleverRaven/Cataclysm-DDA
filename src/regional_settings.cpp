@@ -25,7 +25,6 @@ static const oter_str_id oter_lake_bed( "lake_bed" );
 static const oter_str_id oter_lake_shore( "lake_shore" );
 static const oter_str_id oter_lake_surface( "lake_surface" );
 static const oter_str_id oter_lake_water_cube( "lake_water_cube" );
-static const oter_str_id oter_ravine_floor( "ravine_floor" );
 
 static const weighted_string_id_reader<overmap_special_id, int> building_bin_reader( 1 );
 static const weighted_string_id_reader<furn_id, int> furn_reader( 1 );
