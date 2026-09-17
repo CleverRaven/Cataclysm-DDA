@@ -253,9 +253,7 @@
     "id": "real_great_axes",
     "type": "requirement",
     "//": "Any real, cutting weapons that can be used like an axe; large, heavy head with two sharp sides on a pole.",
-    "extend": {
-      "tools": [ [ [ "orich_fire_ax", -1 ], [ "battleaxe_plus_one", -1 ], [ "battleaxe_plus_two", -1 ] ] ]
-    }
+    "extend": { "tools": [ [ [ "orich_fire_ax", -1 ], [ "battleaxe_plus_one", -1 ], [ "battleaxe_plus_two", -1 ] ] ] }
   },
   {
     "id": "whips",
