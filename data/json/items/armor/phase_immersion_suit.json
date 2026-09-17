@@ -222,7 +222,7 @@
     "symbol": "[",
     "color": "light_gray",
     "name": { "str": "phase immersion helmet (raised)", "str_pl": "phase immersion helmets (raised)" },
-    "description": "This advanced headpiece resembles an astronaut's helmet.  Designed to protect its wearer during extradimensional excursions, it offers unparalleled environmental protection, both in this Earth and beyond.  It has attachments to pair with either a powered air purifying respirator system or with a self contained breathing apparatus (like a diving cylinder).  The faceshield is raised.  Activate it to lower the faceshield.",
+    "description": "This advanced headpiece resembles an astronaut's helmet.  Designed to protect its wearer during extradimensional excursions, it offers unparalleled environmental protection, both in this Earth and beyond.  It has attachments to pair with either a powered air purifying respirator system or with a self contained breathing apparatus (like a diving cylinder).  The face shield is raised.  Activate it to lower the face shield.",
     "price": "1 kUSD 500 USD",
     "price_postapoc": "150 USD",
     "material": [ "aluminum", "qt_steel", "lvl4ballisticglass" ],
