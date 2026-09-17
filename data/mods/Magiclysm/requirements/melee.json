@@ -259,8 +259,7 @@
           [ "orich_fire_ax", -1 ],
           [ "battleaxe_plus_one", -1 ],
           [ "battleaxe_plus_two", -1 ]
-        ]
-      ]
+"tools": [ [ [ "orich_fire_ax", -1 ], [ "battleaxe_plus_one", -1 ], [ "battleaxe_plus_two", -1 ] ] ]
     }
   },
   {
