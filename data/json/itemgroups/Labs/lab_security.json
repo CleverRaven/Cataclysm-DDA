@@ -37,10 +37,7 @@
             ],
             "prob": 55
           },
-          {
-            "collection": [ { "item": "rm13_armor" }, { "item": "rm13_battery", "charges": 5000 } ],
-            "prob": 5
-          }
+          { "collection": [ { "item": "rm13_armor" }, { "item": "rm13_battery", "charges": 5000 } ], "prob": 5 }
         ],
         "prob": 100
       }
