@@ -13,8 +13,10 @@ class window;
 
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <string>
 
+#include "atlas_bake_plan.h"
 #include "color_loader.h"
 #include "coords_fwd.h"
 #include "sdl_wrappers.h"
@@ -130,6 +132,12 @@ const tile_atlas_config &applied_tile_atlas_config();
 // configuration, every context's logical options, and one device_reset
 // request when any live bundle no longer matches. Never reloads a tileset.
 void on_tiles_options_changed();
+
+// Decide the atlas bake plan for an upload against the live renderer, in this
+// order: CATA_FORCE_ATLAS_VARIANTS, an unsafe probe, a sticky shader fault, the
+// test override, the probe result. nullopt when the probe left the renderer
+// boundary lost; the upload then aborts with shader_boundary_lost.
+std::optional<atlas_bake_plan> resolve_atlas_bake_plan( const std::string &memory_map_mode );
 
 // True when a draw must skip the backend paint, for any of: a queued recovery,
 // the app paused or resuming, a pending resize, or a latched draw-scope boundary

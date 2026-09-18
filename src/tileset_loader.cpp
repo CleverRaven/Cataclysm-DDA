@@ -508,7 +508,11 @@ atlas_upload_interrupt tileset_cache::loader::load( const std::string &tileset_i
         load_layers( layer_config );
     }
 
-    return upload_atlases( ts, renderer, memory_map_mode, filter_fingerprint, atlas_bake_plan{},
+    const std::optional<atlas_bake_plan> plan = resolve_atlas_bake_plan( memory_map_mode );
+    if( !plan ) {
+        return atlas_upload_interrupt::shader_boundary_lost;
+    }
+    return upload_atlases( ts, renderer, memory_map_mode, filter_fingerprint, *plan,
                            ts.get_atlas_descriptors(), renderer_instance_generation,
                            gpu_textures_generation, pump_events, poll, quarantine );
 }

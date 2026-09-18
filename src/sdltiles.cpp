@@ -503,6 +503,7 @@ static bool SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
 }
 
 static tile_atlas_config applied_atlas_config;
+static std::optional<bool> test_shader_variants_override;
 
 static void select_applied_memory_preset()
 {
@@ -527,6 +528,37 @@ void apply_tile_atlas_options()
 const tile_atlas_config &applied_tile_atlas_config()
 {
     return applied_atlas_config;
+}
+
+std::optional<atlas_bake_plan> resolve_atlas_bake_plan( const std::string &memory_map_mode )
+{
+    if( std::getenv( "CATA_FORCE_ATLAS_VARIANTS" ) ) {
+        return atlas_bake_plan{};
+    }
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+    bool shader_variants = false;
+    if( vp ) {
+        switch( vp->ensure_probed() ) {
+            case cata_shader::probe_state::unsafe:
+                display_buffer_scope_signal_recovery_required();
+                return std::nullopt;
+            case cata_shader::probe_state::available:
+                shader_variants = true;
+                break;
+            case cata_shader::probe_state::unavailable:
+                break;
+        }
+        if( vp->shader_fault() ) {
+            // Faulted session bakes full whatever the test override claims
+            return atlas_bake_plan{};
+        }
+    }
+    if( test_shader_variants_override ) {
+        shader_variants = *test_shader_variants_override;
+    }
+    return compute_atlas_bake_plan( shader_variants,
+                                    cata_shader::memory_preset_from_option_value( memory_map_mode ),
+                                    /*tint_shader_available=*/false );
 }
 
 //Registers, creates, and shows the Window!!
@@ -899,10 +931,17 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
 
 static void draw_gamepad_radial_menu();
 
-// Whether the variant shaders can serve a skipped bake right now.
+// Whether the variant shaders can serve a skipped bake right now. A sticky
+// fault wins; the test override stands in for the probe on the software fixture.
 static bool shader_variants_available_now()
 {
     const cata_shader::variant_pass *vp = get_shared_variant_pass();
+    if( vp && vp->shader_fault() ) {
+        return false;
+    }
+    if( test_shader_variants_override ) {
+        return *test_shader_variants_override;
+    }
     return vp && vp->available();
 }
 
@@ -2185,6 +2224,7 @@ void renderer_recovery_test_support::teardown_software_renderer()
     shared_variant_pass.reset();
     cata_shader::test_reset_seams();
     cata_shader::clear_reprobe();
+    test_shader_variants_override.reset();
     display_buffer.reset();
     renderer.reset();
     window.reset();
@@ -2216,8 +2256,13 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
     const std::string &tileset_id, const std::string &memory_map_mode,
     const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation )
 {
+    const std::optional<atlas_bake_plan> plan = resolve_atlas_bake_plan( memory_map_mode );
+    if( !plan ) {
+        renderer_coordinator.request_recovery( renderer_recovery_severity::device_lost );
+        return nullptr;
+    }
     return install_synthetic_bundle( tileset_id, memory_map_mode, renderer_instance_generation,
-                                     gpu_textures_generation, atlas_bake_plan{} );
+                                     gpu_textures_generation, *plan );
 }
 
 std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic_bundle(
@@ -2367,6 +2412,12 @@ int renderer_recovery_test_support::variant_probe_count()
 bool renderer_recovery_test_support::run_present_gate()
 {
     return present_gate();
+}
+
+void renderer_recovery_test_support::override_shader_variants_available(
+    const std::optional<bool> available )
+{
+    test_shader_variants_override = available;
 }
 
 bool renderer_recovery_test_support::replay_quarantine_empty()
