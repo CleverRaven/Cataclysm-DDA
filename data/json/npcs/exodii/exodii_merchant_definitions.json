@@ -9,7 +9,8 @@
     "mission": "SHOPKEEP",
     "chat": "TALK_EXODII_MERCHANT",
     "faction": "exodii",
-    "personality": { "aggression": -1, "bravery": 2, "collector": -3, "altruism": 3 }
+    "personality": { "aggression": -1, "bravery": 2, "collector": -3, "altruism": 3 },
+    "snip_bye": "…"
   },
   {
     "type": "npc_class",

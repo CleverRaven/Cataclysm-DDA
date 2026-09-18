@@ -1,0 +1,8 @@
+[
+  {
+    "id": "TALK_WEAPONMASTER_EXODII_DO_NOT_SPEAK_TO_FAIR_FOLK",
+    "type": "talk_topic",
+    "dynamic_line": { "str": "&No matter what you do or say, the the mechanical creature refuses to acknowledge you." },
+    "responses": [ { "text": "Leaves.", "topic": "TALK_DONE" } ]
+  }
+]

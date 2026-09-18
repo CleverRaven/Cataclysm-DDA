@@ -64,6 +64,12 @@
     "responses": [ { "text": "I'll keep your warnings in mind.", "topic": "TALK_EXODII_MERCHANT_Talk" } ]
   },
   {
+    "id": "TALK_EXODII_MERCHANT_Wont_Talk_To_Fair_Folk",
+    "type": "talk_topic",
+    "dynamic_line": { "str": "&No matter what you do or say, the the towering mass of metal will not acknowledge you." },
+    "responses": [ { "text": "Leave.", "topic": "TALK_DONE" } ]
+  },
+  {
     "id": "TALK_EXODII_MERCHANT_VAMPIRE_GEAR",
     "type": "talk_topic",
     "dynamic_line": {
