@@ -319,7 +319,7 @@ struct region_settings_ravine {
     int ravine_range = 45;
     int ravine_width = 1;
     int ravine_depth = -3;
-    oter_id ravine_bottom_terrain_id = oter_ravine_floor.id();
+    oter_str_id ravine_bottom_terrain_str_id = oter_ravine_floor;
 
     bool was_loaded = false;
     void load( const JsonObject &jo, std::string_view );
