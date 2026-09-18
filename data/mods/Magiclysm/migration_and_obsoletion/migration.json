@@ -121,22 +121,22 @@
   {
     "id": "sledge_plus_one",
     "type": "MIGRATION",
-    "replace": "sledge"
+    "replace": "hammer_sledge"
   },
   {
     "id": "sledge_plus_two",
     "type": "MIGRATION",
-    "replace": "sledge"
+    "replace": "hammer_sledge"
   },
   {
     "id": "sledge_heavy_plus_one",
     "type": "MIGRATION",
-    "replace": "sledge_heavy"
+    "replace": "hammer_sledge_heavy"
   },
   {
     "id": "sledge_heavy_plus_two",
     "type": "MIGRATION",
-    "replace": "sledge_heavy"
+    "replace": "hammer_sledge_heavy"
   },
   {
     "id": "bat_plus_one",
@@ -221,32 +221,32 @@
   {
     "id": "knife_butcher_plus_one",
     "type": "MIGRATION",
-    "replace": "knife_butcher"
+    "replace": "knife_huge"
   },
   {
     "id": "knife_butcher_plus_two",
     "type": "MIGRATION",
-    "replace": "knife_butcher"
+    "replace": "knife_huge"
   },
   {
     "id": "knife_meat_cleaver_plus_one",
     "type": "MIGRATION",
-    "replace": "knife_meat_cleaver"
+    "replace": "knife_huge"
   },
   {
     "id": "knife_meat_cleaver_plus_two",
     "type": "MIGRATION",
-    "replace": "knife_meat_cleaver"
+    "replace": "knife_huge"
   },
   {
     "id": "knife_carving_plus_one",
     "type": "MIGRATION",
-    "replace": "knife_carving"
+    "replace": "knife_huge"
   },
   {
     "id": "knife_carving_plus_two",
     "type": "MIGRATION",
-    "replace": "knife_carving"
+    "replace": "knife_huge"
   },
   {
     "id": "butchering_kit_plus_one",
