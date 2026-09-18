@@ -49,8 +49,8 @@
       { "prob": 4, "group": "sugar_bag_plastic" },
       { "prob": 1, "group": "sugar_bag_paper" },
       { "prob": 8, "group": "sugar_organizer_medium" },
-      { "prob": 2, "group": "sugar_organizer_small" }
-      { "prob": 5, "group": "sugar_organizer_large" },
+      { "prob": 2, "group": "sugar_organizer_small" },
+      { "prob": 5, "group": "sugar_organizer_large" }
     ]
   },
   {
