@@ -608,6 +608,8 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
         SDL_Rect clipRect = {dest.x, dest.y, width, height};
         RenderSetClipRect( renderer, &clipRect );
 
+        // sprite shader can still be bound if the previous frame-end flush failed
+        flush_sprite_shader_for_untextured_draw();
         //fill render area with opaque black to prevent artifacts where no new pixels are drawn.
         //alpha must be 255: the color-modulated geometry backend composites via a BLEND texture,
         //so an alpha-0 fill would be a no-op and leave the persistent display_buffer uncleared.
@@ -3020,6 +3022,7 @@ const memorized_tile &cata_tiles::get_vpart_memory_at( const tripoint_abs_ms &p 
 void cata_tiles::draw_square_below( const point_bub_ms &p, const nc_color &col,
                                     const int sizefactor )
 {
+    flush_sprite_shader_for_untextured_draw();
     const SDL_Color sdlcol = curses_color_to_SDL( col );
     SDL_Rect sdlrect;
     const point screen = player_to_screen( p );
@@ -4038,8 +4041,22 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint_bub_ms &pos, con
     return false;
 }
 
+// SDL3 gpu renderer applies the bound custom fragment shader to every draw
+// command, textured or not, so untextured geometry must not run under a sprite
+// shader. next sprite's try_begin rebinds
+void cata_tiles::flush_sprite_shader_for_untextured_draw()
+{
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+    if( vp && !vp->flush() ) {
+        display_buffer_scope_signal_recovery_required();
+        throw std::runtime_error(
+            "cata_tiles::flush_sprite_shader_for_untextured_draw: variant_pass flush failed; renderer in undefined state" );
+    }
+}
+
 void cata_tiles::draw_zlevel_overlay( const tripoint_bub_ms &p, const lit_level ll, int &height_3d )
 {
+    flush_sprite_shader_for_untextured_draw();
     // Draws zlevel fog using geometry renderer
     // Slower than sprites so only use as fallback when sprite missing
     const point screen = player_to_screen( p.xy() );

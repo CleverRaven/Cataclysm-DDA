@@ -806,6 +806,9 @@ class cata_tiles
         bool draw_zombie_revival_indicators( const tripoint_bub_ms &pos, lit_level ll, int &height_3d,
                                              const std::array<bool, 5> &invisible, bool memorize_only );
         void draw_zlevel_overlay( const tripoint_bub_ms &p, lit_level ll, int &height_3d );
+        // unbind any sprite shader before an untextured draw. throws after
+        // latching recovery when the flush is refused
+        void flush_sprite_shader_for_untextured_draw();
         void draw_entity_with_overlays( const Character &ch, const tripoint_bub_ms &p, lit_level ll,
                                         int &height_3d, FacingDirection facing_override = FacingDirection::NONE );
         void draw_entity_with_overlays( const Character &ch, const tripoint_abs_omt &p, lit_level ll,
