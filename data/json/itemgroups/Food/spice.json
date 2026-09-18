@@ -1147,10 +1147,7 @@
     "type": "item_group",
     "id": "sprinkles_various",
     "subtype": "distribution",
-    "entries": [
-      { "prob": 10, "group": "sprinkles_bottle_plastic_small_62" },
-      { "prob": 10, "group": "sprinkles_organizer_tiny" }
-    ]
+    "entries": [ { "prob": 10, "group": "sprinkles_bottle_plastic_small_62" }, { "prob": 10, "group": "sprinkles_organizer_tiny" } ]
   },
   {
     "type": "item_group",
