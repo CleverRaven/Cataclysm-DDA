@@ -58,7 +58,8 @@
     "num_ravines": 10,
     "ravine_width": 2,
     "ravine_range": 35,
-    "ravine_depth": -3
+    "ravine_depth": -3,
+    "ravine_bottom_terrain_id": "mom_shoggothed_world_ravine_floor"
   },
   {
     "type": "region_settings_terrain_furniture",
