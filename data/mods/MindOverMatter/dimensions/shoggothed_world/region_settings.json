@@ -55,7 +55,7 @@
     "type": "region_settings_ravine",
     "id": "default_mom_shoggothed_world",
     "copy-from": "default",
-    "num_ravines": 10,
+    "num_ravines": 30,
     "ravine_width": 2,
     "ravine_range": 35,
     "ravine_depth": -3,

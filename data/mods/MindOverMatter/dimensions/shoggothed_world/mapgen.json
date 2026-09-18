@@ -85,33 +85,7 @@
     "om_terrain": [ "mom_shoggothed_world_ravine_floor" ],
     "object": {
       "fill_ter": "t_dirt_cracked",
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
-      "place_monster": [ { "monster": "mon_secubot", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "repeat": [ 50, 90 ] } ]
+      "place_monster": [ { "monster": "mon_shoggoth", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "repeat": [ 350, 500 ] } ]
     }
   }
 ]
