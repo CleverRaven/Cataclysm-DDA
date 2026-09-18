@@ -26,6 +26,6 @@
     "looks_like": "field",
     "color": "brown",
     "see_cost": "none",
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "RAVINE" ]
   }
 ]
