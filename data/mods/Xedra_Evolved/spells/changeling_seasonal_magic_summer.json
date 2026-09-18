@@ -596,6 +596,39 @@
     "field_chance": 1
   },
   {
+    "id": "changeling_summer_combat_prowess_powerful_buff_spell",
+    "type": "SPELL",
+    "name": "Ríastrad",
+    "description": "Enter a focused battle fury, vastly increasing your combat prowess.  When it fades, however, you will suffer a bout of weariness.  The weariness you suffer <color_yellow>is doubled</color> in winter.",
+    "message": "",
+    "flags": [ "SOMATIC", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "valid_targets": [ "self" ],
+    "caster_condition": { "not": { "u_has_effect": "effect_changeling_summer_combat_prowess_powerful_buff" } },
+    "caster_condition_fail_message": "You are already in the Ríastrad.",
+    "teachable": false,
+    "skill": "gramarye",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 9,
+    "effect": "attack",
+    "effect_str": "effect_changeling_summer_combat_prowess_powerful_buff",
+    "components": "spell_components_changeling_dreamsparks_3",
+    "min_duration": {
+      "math": [ "( ( 3845 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 605) + (u_skill('gramarye') * 1285) ) )" ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 15315 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 1405) + (u_skill('gramarye') * 2354) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 800 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 6) - (u_skill('gramarye') * 9)), 550)" ]
+    },
+    "base_casting_time": 75
+  },
+  {
     "id": "changeling_summer_powerful_sunlight_spell",
     "type": "SPELL",
     "name": "Helios's Wrath",

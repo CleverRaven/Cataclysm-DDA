@@ -786,7 +786,7 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_5",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_summer_powerful_sunlight_spell" ],
+        "u_roll_remainder": [ "changeling_summer_powerful_sunlight_spell", "changeling_summer_combat_prowess_powerful_buff_spell" ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],

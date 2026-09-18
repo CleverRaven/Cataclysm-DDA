@@ -347,6 +347,17 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_SUN_GLASSES_REMOVER",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_changeling_summer_combat_prowess_powerful_buff", { "context_val": "effect" } ] },
+    "effect": [
+      { "math": [ "u_calories() -= (500 * global_what_is_the_season == 4 ? 2 : 1 )" ] },
+      { "math": [ "u_calories('dont_affect_weariness': true) += (500 * global_what_is_the_season == 4 ? 2 : 1 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_SUMMER_POWERFUL_SUNLIGHT_INITIATE",
     "effect": [
       {
