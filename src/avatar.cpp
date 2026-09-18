@@ -104,6 +104,7 @@ static const itype_id itype_guidebook( "guidebook" );
 static const itype_id itype_mut_longpull( "mut_longpull" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_CANNOT_READ_SPELLBOOKS( "CANNOT_READ_SPELLBOOKS" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
 
