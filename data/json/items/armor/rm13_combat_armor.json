@@ -7,7 +7,7 @@
     "symbol": "[",
     "color": "dark_gray",
     "name": { "str": "RM13 combat armor" },
-    "description": "A full-body suit of sleek black military armor representing the pinnacle of powered armor technology.  A battery pack is slotted into the lower back, while the upper back has all the straps and hoses required to reload the built-in rebreather with air and scrubber cartridges.  Use it to turn it on.",
+    "description": "A full-body suit of sleek black military armor representing the pinnacle of powered armor technology.  A battery pack is slotted into the lower back, while the upper back houses connections for the built-in rebreather system.  Use it to turn it on.",
     "flags": [
       "STURDY",
       "WATERPROOF",
@@ -116,7 +116,7 @@
       }
     ],
     "melee_damage": { "bash": 6 },
-    "passive_effects": [ { "id": "ench_climate_control_all" }, { "id": "ench_dampened_steps" }, { "id": "nvg_great" } ]
+    "passive_effects": [ { "id": "ench_climate_control_all" }, { "id": "ench_dampened_steps" }, { "id": "nvg_great" }, { "id": "ench_rm13_environmental" } ]
   },
   {
     "id": "rm13_armor_on",
@@ -143,6 +143,7 @@
       "COMBAT_TOGGLEABLE",
       "UNBREAKABLE_MELEE",
       "USE_POWER_WHEN_HIT",
+      "PARTIAL_DEAF",
       "PORTAL_PROOF",
       "SPAWN_ACTIVE"
     ],
