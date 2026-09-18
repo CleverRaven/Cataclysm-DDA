@@ -713,32 +713,35 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SINGULARITY_RECLAIMER_APPEAR",
-    "//": "Makes the reclaimer appear near a zombie for approximatively a minute, zeroes out the variable and prevents it from increasing for about a day.",
+    "//": "Makes the reclaimer appear near the player for approximatively a minute, zeroes out the variable and prevents it from increasing for about a day.",
     "effect": [
       { "u_message": "Debug: reclaimer tries to spawn.", "type": "good", "popup": true },
-      { "u_cast_spell": { "id": "singularity_reclaimer_pick_appear_target" } },
+      {
+        "u_location_variable": { "context_val": "reclaimer_spawn_spot" },
+        "passable_only": true,
+        "outdoor_only": true,
+        "z_adjust": 0,
+        "z_override": true,
+        "min_radius": 15,
+        "max_radius": 30,
+        "true_eocs": [ "EOC_SINGULARITY_RECLAIMER_APPEAR_NEARBY" ],
+        "false_eocs": [ "EOC_SINGULARITY_RECLAIMER_APPEAR_FAIL" ]
+      },
       { "math": [ "zombies_recently_killed = 0" ] },
       { "math": [ "reclaimer_cannot_spawn = 1" ] }
     ]
   },
   {
-    "id": "singularity_reclaimer_pick_appear_target",
-    "type": "SPELL",
-    "name": { "str": "Pick a random hostile for the reclaimer to spawn near it.", "//~": "NO_I18N" },
-    "description": { "str": "As the name says", "//~": "NO_I18N" },
-    "shape": "blast",
-    "valid_targets": [ "hostile" ],
-    "flags": [ "RANDOM_CRITTER", "RANDOM_TARGET", "NO_EXPLOSION_SFX", "SILENT", "NO_FAIL" ],
-    "min_range": 55,
-    "max_range": 55,
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_SINGULARITY_RECLAIMER_APPEAR_NEARBY"
-  },
-  {
     "type": "effect_on_condition",
     "id": "EOC_SINGULARITY_RECLAIMER_APPEAR_NEARBY",
     "effect": [
-      { "u_cast_spell": { "id": "singularity_reclaimer_appear" } },
+      {
+        "u_spawn_monster": "mon_singularity_reclaimer",
+        "target_var": { "context_val": "reclaimer_spawn_spot" },
+        "real_count": 1,
+        "outdoor_only": true,
+        "lifespan": { "math": [ "50 + rand(20)" ] }
+      },
       {
         "u_message": "A chill runs down your spine as the zombie hits the ground…",
         "type": "bad",
@@ -749,21 +752,11 @@
     ]
   },
   {
-    "id": "singularity_reclaimer_appear",
-    "type": "SPELL",
-    "name": { "str": "Spawn the reclaimer for a minute or so near the hostile.", "//~": "NO_I18N" },
-    "description": { "str": "As the name says", "//~": "NO_I18N" },
-    "valid_targets": [ "hostile" ],
-    "flags": [ "RANDOM_CRITTER", "RANDOM_TARGET", "NO_EXPLOSION_SFX", "SILENT", "NO_FAIL" ],
-    "effect": "summon",
-    "effect_str": "mon_singularity_reclaimer",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_aoe": 4,
-    "max_aoe": 4,
-    "min_duration": 5000,
-    "max_duration": 7000
+    "type": "effect_on_condition",
+    "id": "EOC_SINGULARITY_RECLAIMER_APPEAR_FAIL",
+    "effect": [
+      { "u_message": "A chill runs down your spine as the zombie hits the ground, but it quickly passes.", "type": "mixed" }
+    ]
   },
   {
     "type": "effect_on_condition",
