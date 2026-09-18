@@ -990,9 +990,9 @@ class item : public visitable
          * @param err Message to print if no more material will fit
          */
         int get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket = false,
-                                               std::string *err = nullptr ) const;
+                                               rem_cap_return *err = nullptr ) const;
         int get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
-                                               std::string *err = nullptr ) const;
+                                               rem_cap_return *err = nullptr ) const;
 
         /**
          * Returns total capacity of pockets belonging to this item
