@@ -76,16 +76,31 @@
   {
     "id": "TALK_EXODII_WEAPONMASTER",
     "type": "talk_topic",
-    "dynamic_line": [
-      "&The Weaponmaster seems to be tinkering on something, but turns their chair to you as you approach.",
-      "&The Weaponmaster seems to be cleaning some sort of weapon, but as you approach them, they signal to a bystanding worker to take the weapon, and turn to you.",
-      "&The Weaponmaster seems to be polishing some armor, but they turn towards you the second you enter the room."
-    ],
+    "dynamic_line": {
+      "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK",
+      "yes": [
+        "&The Weaponmaster seems to be tinkering on something, and completely ignores you as you approach.",
+        "&The Weaponmaster seems to be cleaning some sort of weapon, and as you approach they don't acknowledge you at all.",
+        "&The Weaponmaster seems to be polishing some armor, giving no indication they've seen you as you enter the room."
+      ],
+      "no": [
+        "&The Weaponmaster seems to be tinkering on something, but turns their chair to you as you approach.",
+        "&The Weaponmaster seems to be cleaning some sort of weapon, but as you approach them, they signal to a bystanding worker to take the weapon, and turn to you.",
+        "&The Weaponmaster seems to be polishing some armor, but they turn towards you the second you enter the room."
+      ]
+    },
     "responses": [
       {
         "text": "[With a familiar movement, you place a variety of valuables onto the counter, proposing a trade.]",
         "topic": "TALK_DONE",
-        "effect": [ "start_trade" ]
+        "effect": [ "start_trade" ],
+        "condition": { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } }
+      },
+      {
+        "text": "Hey!",
+        "topic": "TALK_WEAPONMASTER_EXODII_DO_NOT_SPEAK_TO_FAIR_FOLK",
+        "condition": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" },
+        "effect": [ { "npc_first_topic": "TALK_WEAPONMASTER_EXODII_DO_NOT_SPEAK_TO_FAIR_FOLK" } ]
       }
     ],
     "speaker_effect": [ { "sentinel": "meeting_weaponmaster", "effect": { "u_add_var": "u_met_weaponmaster", "value": "yes" } } ]
