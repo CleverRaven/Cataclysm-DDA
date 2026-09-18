@@ -246,7 +246,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK",
-      "yes": "&Before you stands a towering mass of metal, at least seven feet high, with a large reflective glass plate in the center of its torso.  It turns as you enter the room, and moves to raise its hand before it suddenly freezes.  A gravelly voice resonates from unseen speakers in the steel frame.  \"The Good Folk, an I'm ken.\"  There is a pause, and then before you can speak its tone changes and it repeats in a sing-song voice, \"Fire we hath, but nor drop o' milk, nor taste o' meat, nor crumb o' bread. A fine wander to ye.\"  Then it turns around and very obviously begins ignoring you.",
+      "yes": "&Before you stands a towering mass of metal, at least seven feet high, with a large reflective glass plate in the center of its torso.  It turns as you enter the room, and moves to raise its hand before it suddenly freezes.  A gravelly voice resonates from unseen speakers in the steel frame.  \"The Good Folk, an I'm ken.\"  There is a pause, and then before you can speak its tone changes and it repeats in a sing-song voice, \"Fire we hath, but nor drop o' milk, nor taste o' meat, nor crumb o' bread.  A fine wander to ye.\"  Then it turns around and very obviously begins ignoring you.",
       "no": {
         "test_eoc": "EOC_CONDITION_EXODII_MERCHANT_HATES_HUB_CYBORGS",
         "yes": "&The towering mass of metal rests its hands on its exotic rifle, albeit rather naturally and calmly.  After a brief pause, a hefty finger gently toggles a safety switch on the side of the firearm: *click*.",
