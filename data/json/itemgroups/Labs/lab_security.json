@@ -38,7 +38,7 @@
             "prob": 55
           },
           {
-            "collection": [ { "item": "rm13_armor" }, { "item": "heavy_atomic_battery_cell", "charges": 10000 } ],
+            "collection": [ { "item": "rm13_armor" }, { "item": "rm13_battery", "charges": 5000 } ],
             "prob": 5
           }
         ],

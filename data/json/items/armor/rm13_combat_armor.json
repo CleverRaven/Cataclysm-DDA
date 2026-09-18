@@ -30,7 +30,13 @@
     "volume": "9 L",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "pocket_data": [
-      { "id": "battery", "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "rm13_battery" ], "default_magazine": "rm13_battery" },
+      {
+        "id": "battery",
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "item_restriction": [ "rm13_battery" ],
+        "default_magazine": "rm13_battery"
+      },
       {
         "id": "rebreather",
         "pocket_type": "MAGAZINE_WELL",
@@ -48,7 +54,12 @@
         "effect_on_conditions": [
           {
             "id": "EOC_activate_rm13_sans_rebreather",
-            "effect": [ { "transform_item": "rm13_armor_on", "active": true }, { "u_message": "You activate your RM13 combat armor.\nCyclonic air scrubber:          ONLINE.\nRebreather system:             <color_light_red>OFFLINE</color>.\nAcoustic dampening system:      ONLINE.\nDimensional dampening system:   ONLINE.\nThermal regulation system:      ONLINE.\nVision enhancement system:      ONLINE.\nElectro-reactive armor system:  ONLINE.\nAll systems normal." } ]
+            "effect": [
+              { "transform_item": "rm13_armor_on", "active": true },
+              {
+                "u_message": "You activate your RM13 combat armor.\nCyclonic air scrubber:          ONLINE.\nRebreather system:             <color_light_red>OFFLINE</color>.\nAcoustic dampening system:      ONLINE.\nDimensional dampening system:   ONLINE.\nThermal regulation system:      ONLINE.\nVision enhancement system:      ONLINE.\nElectro-reactive armor system:  ONLINE.\nAll systems normal."
+              }
+            ]
           }
         ]
       },
@@ -116,7 +127,12 @@
       }
     ],
     "melee_damage": { "bash": 6 },
-    "passive_effects": [ { "id": "ench_climate_control_all" }, { "id": "ench_dampened_steps" }, { "id": "nvg_great" }, { "id": "ench_rm13_environmental" } ]
+    "passive_effects": [
+      { "id": "ench_climate_control_all" },
+      { "id": "ench_dampened_steps" },
+      { "id": "nvg_great" },
+      { "id": "ench_rm13_environmental" }
+    ]
   },
   {
     "id": "rm13_armor_on",
