@@ -505,8 +505,8 @@ bool avatar::read( item_location &book, item_location ereader )
     // src/iuse_actor.cpp -> learn_spell_actor::use
     if( book->get_use( "learn_spell" ) ) {
         if( has_flag( json_flag_CANNOT_READ_SPELLBOOKS ) ) {
-           return false;
-       }
+            return false;
+        }
 
         book->get_use( "learn_spell" )->call( this, *book, pos_bub() );
         return true;
