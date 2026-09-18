@@ -38,6 +38,10 @@ class tileset_cache::loader
         std::string memory_map_mode;
         uint64_t filter_fingerprint = 0;
         atlas_bake_plan bake_plan;
+        // Nominal payload of this upload: chunk textures created, and their
+        // size at four bytes per pixel.
+        int texture_count = 0;
+        uint64_t atlas_payload_bytes = 0;
 
         point sprite_offset;
         point sprite_offset_retracted;

@@ -1014,6 +1014,19 @@ SDL_ScaleMode GetTextureScaleMode( const std::shared_ptr<SDL_Texture> &texture )
     return mode;
 }
 
+const char *GetGPUBackendName( const SDL_Renderer_Ptr &renderer )
+{
+    if( !renderer ) {
+        return "none";
+    }
+    SDL_GPUDevice *const device = SDL_GetGPURendererDevice( renderer.get() );
+    if( !device ) {
+        return "none";
+    }
+    const char *const name = SDL_GetGPUDeviceDriver( device );
+    return name ? name : "none";
+}
+
 
 void StartTextInput( SDL_Window *window )
 {

@@ -283,6 +283,9 @@ const char *GetRenderDriverName( int index );
 
 // Name via SDL_GetRendererName, capabilities via SDL_GetRendererProperties.
 const char *GetRendererName( const SDL_Renderer_Ptr &renderer );
+// Name of the SDL GPU backend under a gpu renderer, such as "vulkan", or "none"
+// off the gpu driver
+const char *GetGPUBackendName( const SDL_Renderer_Ptr &renderer );
 bool IsRendererSoftware( const SDL_Renderer_Ptr &renderer );
 bool GetRendererMaxTextureSize( const SDL_Renderer_Ptr &renderer, int *max_w, int *max_h );
 

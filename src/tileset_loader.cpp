@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <cstddef>
 #include <cstdint>
 #include <filesystem>
@@ -38,6 +39,7 @@
 #include "path_info.h"
 #include "rect_range.h"
 #include "sdl_utils.h"
+#include "sdl_version_wrappers.h"
 #include "sdl_wrappers.h"
 #include "sdltiles.h"
 #include "translation.h"
@@ -223,6 +225,8 @@ void tileset_cache::loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf
     const std::shared_ptr<SDL_Texture> texture_ptr =
         make_gated_atlas_texture( CreateTextureFromSurface( renderer, surf ), abandon_gate );
     cata_assert( texture_ptr );
+    ++texture_count;
+    atlas_payload_bytes += static_cast<uint64_t>( surf->w ) * static_cast<uint64_t>( surf->h ) * 4;
 
     for( const SDL_Rect rect : input_range ) {
         cata_assert( offset.x % sprite_width == 0 );
@@ -1018,6 +1022,7 @@ atlas_upload_interrupt tileset_cache::loader::upload_atlases( tileset &ts,
         const atlas_upload_poll &poll,
         atlas_replay_quarantine *const quarantine )
 {
+    const std::chrono::steady_clock::time_point upload_started = std::chrono::steady_clock::now();
     int total = 0;
     for( const atlas_replay_descriptor &d : descriptors ) {
         total += d.expected_tilecount;
@@ -1137,6 +1142,21 @@ atlas_upload_interrupt tileset_cache::loader::upload_atlases( tileset &ts,
     ts.set_memory_map_mode_at_upload( memory_map_mode );
     ts.set_bake_plan_at_upload( plan );
     ts.set_filter_fingerprint_at_upload( filter_fingerprint );
+    const int64_t elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                   std::chrono::steady_clock::now() - upload_started ).count();
+    const SDLVersionInfo sdl_version = GetLinkedSDLVersion();
+    DebugLog( D_INFO, DC_ALL ) << "atlas upload: tileset=" << ts.get_tileset_id()
+                               << " renderer=" << GetRendererName( renderer )
+                               << " gpu_backend=" << GetGPUBackendName( renderer )
+                               << " sdl=" << sdl_version.major << "." << sdl_version.minor
+                               << "." << sdl_version.patch
+                               << " textures=" << uploader.texture_count
+                               << " atlas_payload_bytes=" << uploader.atlas_payload_bytes
+                               << " baked=" << bake_plan_summary( plan )
+                               << " mode=" << memory_map_mode
+                               << " gen=" << renderer_instance_generation << "/"
+                               << gpu_textures_generation
+                               << " ms=" << elapsed_ms;
     committed = true;
     return atlas_upload_interrupt::none;
 }
