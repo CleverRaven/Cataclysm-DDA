@@ -79,6 +79,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "submap.h"
+#include "tile_tint.h"
 #include "tileray.h"
 #include "translation.h"
 #include "trap.h"
@@ -1084,32 +1085,12 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                 if( !lc.is_colored() ) {
                     continue;
                 }
-                // Isolate the chromatic (saturated) component by subtracting
-                // the achromatic floor (min channel). Pure white light (equal
-                // RGB) produces zero saturation and no tint.
-                const float min_ch = std::min( { lc.r, lc.g, lc.b } );
-                const float sat_r = lc.r - min_ch;
-                const float sat_g = lc.g - min_ch;
-                const float sat_b = lc.b - min_ch;
-                const float sat_mag = std::max( { sat_r, sat_g, sat_b } );
-                if( sat_mag < 0.01f ) {
+                const std::optional<tile_tint> tint =
+                    compute_tile_tint( lc, zlev_cache.lm[p.com.pos.x()][p.com.pos.y()].max() );
+                if( !tint ) {
                     continue;
                 }
-                // Alpha: ratio of saturated energy to total scalar light.
-                // Effect is subtle under bright ambient, vivid in darkness.
-                const float scalar = zlev_cache.lm[p.com.pos.x()][p.com.pos.y()].max();
-                const float ratio = scalar > 0.1f ? std::min( 1.0f, sat_mag / scalar ) : 0.0f;
-                const Uint8 alpha = static_cast<Uint8>( ratio * 80.0f );
-                if( alpha == 0 ) {
-                    continue;
-                }
-                // Normalize saturated color to full brightness for the SDL tint.
-                p.com.tint_color = {
-                    static_cast<Uint8>( sat_r / sat_mag * 255.0f ),
-                    static_cast<Uint8>( sat_g / sat_mag * 255.0f ),
-                    static_cast<Uint8>( sat_b / sat_mag * 255.0f ),
-                    alpha
-                };
+                p.com.tint_color = *tint;
                 p.com.needs_tint = true;
                 row_tinted.push_back( &p );
                 // Ortho tiles need bounds tracking and sprite recording for the
