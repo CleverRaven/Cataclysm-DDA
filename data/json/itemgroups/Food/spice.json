@@ -1164,7 +1164,7 @@
     "id": "sprinkles_organizer_tiny",
     "subtype": "collection",
     "container-item": "plastic_organizer_tiny",
-    "entries": [ { "item": "sprinkles", "container-item": "null", "count": [ 9, 180 } ]
+    "entries": [ { "item": "sprinkles", "container-item": "null", "count": [ 9, 180 ] } ]
   },
   {
     "id": "thyme_bowl_plastic_full",
