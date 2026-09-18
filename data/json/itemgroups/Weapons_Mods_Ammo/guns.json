@@ -343,11 +343,14 @@
     "magazine": 100,
     "//": "Shotguns commonly owned by citizens and found in many locations.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
-    "//3": "To-do, add in more 410 shotguns along with 20 gauge",
+    "//3": "To-do, add in more 410 shotguns",
     "items": [
       { "group": "12_gauge_semi", "prob": 48 },
       { "group": "12_gauge_pump", "prob": 34 },
       { "group": "12_gauge_break", "prob": 18 },
+      { "group": "20_gauge_pump", "prob": 6 },
+      { "group": "20_gauge_bolt", "prob": 5 },
+      { "group": "20_gauge_break", "prob": 2 },
       { "group": "nested_mossberg_500_410", "prob": 5 }
     ]
   },
@@ -363,11 +366,14 @@
     "subtype": "distribution",
     "id": "guns_shotgun_common_display",
     "//": "Shotguns commonly owned by citizens and found in gun stores.",
-    "//2": "To-do, add in more 410 shotguns along with 20 gauge",
+    "//2": "To-do, add in more 410 shotguns",
     "items": [
       { "group": "12_gauge_semi_display", "prob": 48 },
       { "group": "12_gauge_pump_display", "prob": 34 },
       { "group": "12_gauge_break_display", "prob": 18 },
+      { "group": "20_gauge_pump_display", "prob": 6 },
+      { "group": "20_gauge_bolt_display", "prob": 5 },
+      { "group": "20_gauge_break_display", "prob": 2 },
       { "item": "mossberg_500_410", "prob": 5 }
     ]
   },
