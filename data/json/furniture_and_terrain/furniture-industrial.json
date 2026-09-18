@@ -407,7 +407,7 @@
       "str_max": 100,
       "sound": "shred!",
       "sound_fail": "thud!",
-      "items": [ { "item": "scrap_copper", "count": [ 1, 5 ] }, { "item": "cable", "count": [ 1, 4 ] } ]
+      "items": [ { "item": "cable", "count": [ 1, 4 ] } ]
     },
     "deconstruct": { "items": [ { "item": "cable", "count": [ 3, 4 ] } ] }
   },
