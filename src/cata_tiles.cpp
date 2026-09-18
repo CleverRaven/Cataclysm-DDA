@@ -8,6 +8,7 @@
 #include <chrono>
 #include <climits>
 #include <cmath>
+#include <cstdlib>
 #include <cstring>
 #include <functional>
 #include <iterator>
@@ -574,6 +575,14 @@ static std::map<tripoint_bub_ms, int> display_npc_attack_potential()
     return effectiveness_map;
 }
 
+// CATA_DISABLE_TINT_OVERLAY turns only the colored-light tint overlay off;
+// memory comparison can hold everything else in the draw equal. Read once.
+static bool tint_overlay_disabled()
+{
+    static const bool disabled = std::getenv( "CATA_DISABLE_TINT_OVERLAY" ) != nullptr;
+    return disabled;
+}
+
 void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int width, int height,
                        std::multimap<point, formatted_text> &overlay_strings,
                        color_block_overlay_container &color_blocks )
@@ -1042,7 +1051,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
         // path alone does not justify the per-sprite bounds tracking overhead
         // in the layer loop. Revisit when SDL_gpu or a shader-based tint path
         // is available.
-        const bool zlev_has_color = zlev_cache.has_colored_lights && !iso;
+        const bool zlev_has_color = zlev_cache.has_colored_lights && !iso && !tint_overlay_disabled();
         for( int row = cur_any_tile_range.p_min.y; row < cur_any_tile_range.p_max.y; row ++ ) {
             if( renderer_should_abort_frame() ) {
                 // Abort emitting tiles mid-draw. Post-loop bookkeeping still runs
@@ -1805,6 +1814,8 @@ void cata_tiles::ensure_tint_mask_texture( const int w, const int h )
     // reallocation for slightly varying sprite sizes.
     const int alloc_w = std::max( w, tint_mask_w );
     const int alloc_h = std::max( h, tint_mask_h );
+    DebugLog( D_INFO, DC_ALL ) << "tint mask reallocation: " << tint_mask_w << "x" << tint_mask_h
+                               << " -> " << alloc_w << "x" << alloc_h;
     tint_mask_tex = CreateTexture( renderer, SDL_PIXELFORMAT_ARGB8888,
                                    SDL_TEXTUREACCESS_TARGET, alloc_w, alloc_h );
     SetTextureBlendMode( tint_mask_tex, SDL_BLENDMODE_BLEND );
