@@ -485,18 +485,6 @@ struct tileset_cache_key {
     }
 };
 
-struct tileset_cache_key_hash {
-    std::size_t operator()( const tileset_cache_key &key ) const noexcept {
-        const std::size_t h1 = std::hash<std::string> {}( key.tileset_id );
-        const std::size_t h2 = std::hash<std::string> {}( key.memory_preset );
-        const std::size_t h3 = std::hash<uint64_t> {}( key.filter_fingerprint );
-        std::size_t h = h1;
-        h ^= h2 + 0x9e3779b97f4a7c15ULL + ( h << 6 ) + ( h >> 2 );
-        h ^= h3 + 0x9e3779b97f4a7c15ULL + ( h << 6 ) + ( h >> 2 );
-        return h;
-    }
-};
-
 class tileset_cache
 {
     public:
@@ -532,14 +520,35 @@ class tileset_cache
         class loader;
         friend struct renderer_recovery_test_support;
 
-        // Return the cached bundle at key when it is present and its recorded
-        // generations match the current ones; null on a miss or a stale entry.
-        // The single freshness predicate behind the fetch path's cache hit.
+        // return the latest live bundle at the key that no later publish superseded,
+        // when its recorded generations match the current ones; null on a miss
+        // or a stale entry. The single freshness predicate behind the fetch
+        // path's cache hit.
         std::shared_ptr<tileset> find_fresh_cached( const tileset_cache_key &key,
                 uint64_t current_renderer_instance_gen, uint64_t current_gpu_textures_gen ) const;
 
-        std::unordered_map<tileset_cache_key, std::weak_ptr<tileset>, tileset_cache_key_hash>
-        tilesets_;
+        // 1 tracked bundle
+        // and the key it was published under.
+        // superseded is set when a later publish used an equal key
+        // and removes the entry from lookup only
+        struct live_entry {
+            tileset_cache_key key;
+            std::weak_ptr<tileset> bundle;
+            bool superseded = false;
+        };
+
+        // Track a newly published bundle. Always appends, and marks every older
+        // entry with an equal key superseded: another context may still draw
+        // that object, so release and replay keep reaching it, but lookup must
+        // not hand it out again. Prunes expired entries first.
+        void track_bundle( const tileset_cache_key &key, const std::shared_ptr<tileset> &bundle );
+        // Remove entries with expired bundles. Never called mid-walk.
+        void prune_expired();
+
+        // every live published bundle, in publish order
+        // the one collection behind lookup, release and replay
+        // equal keys may repeat
+        std::vector<live_entry> live_;
 };
 
 
