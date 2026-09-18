@@ -91,7 +91,7 @@
       {
         "switch": { "math": [ "u_hp('torso')" ] },
         "cases": [
-          { "case": 0, "effect": { "u_cast_spell": { "id": "druid_summon_brambles_arc", "targeted": true }  } },
+          { "case": 0, "effect": { "u_cast_spell": { "id": "druid_summon_brambles_arc" }, "targeted": true }  },
           { "case": 25, "effect": { "u_cast_spell": { "id": "pain_split", "hit_self": true } } },
           { "case": 50, "effect": { "u_cast_spell": { "id": "recover_stamina", "hit_self": true } } },
           { "case": 75, "effect": { "u_cast_spell": { "id": "druid_thorn_skin", "hit_self": true } } }
