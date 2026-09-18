@@ -2153,7 +2153,7 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
     const tileset_cache_key key {
         tileset_id, memory_map_mode, compute_tileset_filter_fingerprint( memory_map_mode )
     };
-    ts_cache.tilesets_.insert_or_assign( key, ts );
+    ts_cache.track_bundle( key, ts );
     return ts;
 }
 

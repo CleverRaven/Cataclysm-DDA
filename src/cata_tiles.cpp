@@ -4192,17 +4192,41 @@ bool cata_tiles::draw_item_highlight( const tripoint_bub_ms &pos, int &height_3d
 std::shared_ptr<tileset> tileset_cache::find_fresh_cached( const tileset_cache_key &key,
         const uint64_t current_renderer_instance_gen, const uint64_t current_gpu_textures_gen ) const
 {
-    const auto it = tilesets_.find( key );
-    if( it == tilesets_.end() ) {
+    // Note: superseded entry is still skipped even if replacement expired
+    for( auto it = live_.rbegin(); it != live_.rend(); ++it ) {
+        if( it->superseded || !( it->key == key ) ) {
+            continue;
+        }
+        std::shared_ptr<tileset> cached = it->bundle.lock();
+        if( !cached ) {
+            continue;
+        }
+        if( cached->get_renderer_instance_generation_at_upload() == current_renderer_instance_gen
+            && cached->get_gpu_textures_generation_at_upload() == current_gpu_textures_gen ) {
+            return cached;
+        }
         return nullptr;
     }
-    std::shared_ptr<tileset> cached = it->second.lock();
-    if( cached
-        && cached->get_renderer_instance_generation_at_upload() == current_renderer_instance_gen
-        && cached->get_gpu_textures_generation_at_upload() == current_gpu_textures_gen ) {
-        return cached;
-    }
     return nullptr;
+}
+
+void tileset_cache::track_bundle( const tileset_cache_key &key,
+                                  const std::shared_ptr<tileset> &bundle )
+{
+    prune_expired();
+    for( live_entry &entry : live_ ) {
+        if( entry.key == key ) {
+            entry.superseded = true;
+        }
+    }
+    live_.push_back( live_entry{ key, bundle, false } );
+}
+
+void tileset_cache::prune_expired()
+{
+    live_.erase( std::remove_if( live_.begin(), live_.end(), []( const live_entry & e ) {
+        return e.bundle.expired();
+    } ), live_.end() );
 }
 
 std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &tileset_id,
@@ -4248,22 +4272,17 @@ std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &t
         return nullptr;
     }
     // load() recorded the generations on the bundle during upload.
-    // insert_or_assign so an expired weak_ptr at this key is replaced instead
-    // of being kept alongside a duplicate emplace attempt.
-    tilesets_.insert_or_assign( key, candidate );
+    track_bundle( key, candidate );
     return candidate;
 }
 
 void tileset_cache::release_live_atlases()
 {
-    for( auto it = tilesets_.begin(); it != tilesets_.end(); ) {
-        std::shared_ptr<tileset> ts = it->second.lock();
-        if( !ts ) {
-            it = tilesets_.erase( it );
-            continue;
+    prune_expired();
+    for( const live_entry &entry : live_ ) {
+        if( std::shared_ptr<tileset> ts = entry.bundle.lock() ) {
+            ts->release_gpu_atlases();
         }
-        ts->release_gpu_atlases();
-        ++it;
     }
 }
 
@@ -4271,16 +4290,16 @@ atlas_upload_interrupt tileset_cache::replay_live_atlases( const SDL_Renderer_Pt
         const uint64_t renderer_instance_gen, const uint64_t gpu_textures_gen,
         const atlas_upload_poll &poll, atlas_replay_quarantine &quarantine )
 {
-    for( auto it = tilesets_.begin(); it != tilesets_.end(); ) {
+    prune_expired();
+    for( const live_entry &entry : live_ ) {
         if( poll ) {
             const atlas_upload_interrupt interrupt = poll();
             if( interrupt != atlas_upload_interrupt::none ) {
                 return interrupt;
             }
         }
-        std::shared_ptr<tileset> ts = it->second.lock();
+        std::shared_ptr<tileset> ts = entry.bundle.lock();
         if( !ts ) {
-            it = tilesets_.erase( it );
             continue;
         }
         const atlas_upload_interrupt interrupt =
@@ -4290,7 +4309,6 @@ atlas_upload_interrupt tileset_cache::replay_live_atlases( const SDL_Renderer_Pt
         if( interrupt != atlas_upload_interrupt::none ) {
             return interrupt;
         }
-        ++it;
     }
     return atlas_upload_interrupt::none;
 }
