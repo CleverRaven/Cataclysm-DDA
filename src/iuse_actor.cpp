@@ -2724,7 +2724,6 @@ std::optional<int> learn_spell_actor::use( Character *p, item &, map *,
         return std::nullopt;
     }
     if( p->has_trait( trait_SORCERER ) ) {
-        p->add_msg_if_player( m_bad, _( "Sorcerers cannot learn spells from books or scrolls." ) );
         return std::nullopt;
     }
     if( !p->has_morale_to_read() ) {
