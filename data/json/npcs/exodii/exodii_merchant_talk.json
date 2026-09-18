@@ -28,44 +28,88 @@
     ],
     "type": "talk_topic",
     "responses": [
-      { "text": "What've you got for trade?", "effect": "start_trade", "topic": "TALK_EXODII_MERCHANT_DoneTrade" },
+      {
+        "text": "What've you got for trade?",
+        "effect": "start_trade",
+        "topic": "TALK_EXODII_MERCHANT_DoneTrade",
+        "condition": { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } }
+      },
       {
         "text": "Can you do something for me?",
         "topic": "TALK_EXODII_MERCHANT_DoSomething",
-        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
+        "condition": {
+          "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
+          ]
+        }
       },
       {
         "text": "I'm here to talk about a job.",
         "topic": "TALK_EXODII_MERCHANT_TalkJob",
-        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } }
+          ]
+        }
       },
-      { "text": "I don't understand a word you're saying.", "topic": "TALK_EXODII_MERCHANT_Dialect" },
-      { "text": "Are you some kind of robot?", "topic": "TALK_EXODII_MERCHANT_Robot" },
+      {
+        "text": "I don't understand a word you're saying.",
+        "topic": "TALK_EXODII_MERCHANT_Dialect",
+        "condition": { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } }
+      },
+      {
+        "text": "Are you some kind of robot?",
+        "topic": "TALK_EXODII_MERCHANT_Robot",
+        "condition": { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } }
+      },
       {
         "text": "[INT 9] You're called Exodii?  Does that mean you were driven out of your home?",
-        "condition": { "u_has_intelligence": 9 },
+        "condition": { "and": [ { "u_has_intelligence": 9 }, { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } } ] },
         "topic": "TALK_EXODII_MERCHANT_Exodus"
       },
       {
         "text": "What are you doing here?",
         "topic": "TALK_EXODII_MERCHANT_Purpose",
-        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } }
+          ]
+        }
       },
-      { "text": "What kind of place is this?", "topic": "TALK_EXODII_MERCHANT_Base" },
+      {
+        "text": "What kind of place is this?",
+        "topic": "TALK_EXODII_MERCHANT_Base",
+        "condition": { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } }
+      },
       {
         "text": "[PER 6] Some of this tech looks… weird.",
         "topic": "TALK_EXODII_MERCHANT_Tech",
-        "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }, { "u_has_perception": 6 } ] }
+        "condition": {
+          "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+            { "u_has_perception": 6 }
+          ]
+        }
       },
       {
         "text": "What's with those weird metal zombies I've been seeing?  They resemble some of the robots around here.",
-        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_exodii_seen_zomborg" } ] },
+        "condition": {
+          "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_exodii_seen_zomborg" } ] }
+          ]
+        },
         "topic": "TALK_EXODII_MERCHANT_Zomborgs"
       },
       {
         "text": "I'd feel strange saying this to anyone else, but I think I may have found a place with similar tech to yours in… well… what you might call an \"otherworld\".",
         "condition": {
           "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
             { "compare_string": [ "yes", { "u_val": "u_found_string_dimension_exodii" } ] },
             { "compare_string": [ "yes", { "u_val": "knowledge_exodii_transdimensional_u_knows_exodiilore" } ] },
             { "not": { "u_has_mission": "EXODII_MISSION_STRING_DIMENSION_EXODII" } },
@@ -102,6 +146,7 @@
         "text": "You wanted to ask me some questions earlier, and I think I was rude about it.  What did you want to ask?",
         "condition": {
           "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
             { "compare_string": [ "yes", { "u_val": "dialogue_started_rubik_intro" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_midpoint_rubik_intro" } ] } }
           ]
@@ -112,6 +157,7 @@
         "text": "Can we continue our conversation about your arrival in this world?",
         "condition": {
           "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
             { "compare_string": [ "yes", { "u_val": "dialogue_started_rubik_intro" } ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_midpoint_rubik_intro" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_completed_rubik_intro" } ] } }
@@ -166,6 +212,7 @@
         "text": "Any chance I can buy some riot armor?  I need five complete sets.",
         "condition": {
           "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
             { "u_has_faction_trust": 2 },
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
             { "math": [ "isherwood_gear_status < 1" ] },
@@ -295,6 +342,7 @@
         "topic": "TALK_EXODII_MERCHANT_DoneTrade",
         "condition": {
           "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
             { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
             { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
             { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
@@ -308,6 +356,7 @@
         "topic": "TALK_EXODII_MERCHANT_Talk",
         "condition": {
           "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
             { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
             { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
             { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
@@ -321,6 +370,7 @@
         "topic": "TALK_EXODII_MERCHANT_DoSomething",
         "condition": {
           "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
             { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
             { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
             { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
@@ -334,6 +384,7 @@
         "topic": "TALK_EXODII_MERCHANT_TalkJob",
         "condition": {
           "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
             { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
             { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
             { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
@@ -366,6 +417,7 @@
         "text": "Just popping in to say hi.  See you later, alligator.",
         "condition": {
           "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
             { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
             { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
             { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
@@ -379,6 +431,7 @@
         "text": "How is my buddy doing?",
         "condition": {
           "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
             { "math": [ "time_since(u_timer_exodii_cybor_rescue_operating) < time('1 d')" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_exodii_cybor_rescue_ongoing" } ] },
             { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
@@ -393,6 +446,7 @@
         "text": "How is my buddy doing?",
         "condition": {
           "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
             { "math": [ "time_since(u_timer_exodii_cybor_rescue_operating) > time('1 d')" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_exodii_cybor_rescue_ongoing" } ] },
             { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
@@ -407,6 +461,7 @@
         "text": "Fast, can you help this lad?",
         "condition": {
           "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
             { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_exodii_cybor_rescue_ongoing" } ] } },
             {
