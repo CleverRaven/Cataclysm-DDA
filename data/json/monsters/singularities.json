@@ -577,7 +577,7 @@
     "name": { "str_sp": "Reclaimer" },
     "description": "A titanic, featureless mass of writhing flesh anchored to the ground and stretching as if invisible hands are trying to tear it apart.  It relentlessly reaches towards nearby corpses with its appendages, as if trying to take hold of them.",
     "//": "When enough zombies are killed in a short timespan and many still remain, the reclaimer will appear if it hasn't been killed.",
-    "//2": "It creates a few reclaimer spawns when it appears and creates more if severely injured.  It doesn't move or attack, as its role is to recycle dead zombies and interfere with those powerful enough to quickly kill many zombies.",
+    "//2": "It creates a few reclaimer spawns when it appears and creates more if severely injured.  It doesn't move or attack, as its role is to recycle dead zombies and interfere with those powerful enough to kill many zombies in a short time.",
     "//3": "It doesn't appear if there's not enough standing zombies, as it relies on them for its protection.",
     "default_faction": "zombie",
     "bodytype": "blob",
@@ -604,57 +604,69 @@
       {
         "type": "spell",
         "id": "mon_singularity_reclaimer_summon_1",
-        "spell_data": { "id": "mon_singularity_reclaimer_summon" },
-        "cooldown": 100,
+        "condition": { "not": { "u_has_effect": "effect_monster_no_double_cast" } },
+        "spell_data": { "id": "mon_singularity_reclaimer_summon", "min_level": 1, "hit_self": true },
+        "cooldown": 1,
+        "allow_no_target": true,
         "monster_message": "A mass of flesh falls off %1$s and starts moving on its own!"
       },
       {
         "type": "spell",
         "id": "mon_singularity_reclaimer_summon_2",
-        "spell_data": { "id": "mon_singularity_reclaimer_summon" },
-        "condition": { "math": [ "u_hp('ALL') < 2501" ] },
-        "cooldown": 100,
+        "condition": {
+          "and": [ { "math": [ "u_effect_intensity('effect_monster_no_double_cast') < 2" ] }, { "math": [ "u_hp('ALL') < 2501" ] } ]
+        },
+        "spell_data": { "id": "mon_singularity_reclaimer_summon", "min_level": 1, "hit_self": true },
+        "cooldown": 1,
+        "allow_no_target": true,
         "monster_message": "A mass of bruised flesh falls off %1$s and starts moving on its own!"
       },
       {
         "type": "spell",
         "id": "mon_singularity_reclaimer_summon_3",
-        "spell_data": { "id": "mon_singularity_reclaimer_summon" },
-        "condition": { "math": [ "u_hp('ALL') < 2001" ] },
-        "cooldown": 100,
-        "monster_message": "A mass of damaged flesh falls off %1$s and starts moving on its own!"
+        "condition": {
+          "and": [ { "math": [ "u_effect_intensity('effect_monster_no_double_cast') < 3" ] }, { "math": [ "u_hp('ALL') < 2001" ] } ]
+        },
+        "spell_data": { "id": "mon_singularity_reclaimer_summon", "min_level": 1, "hit_self": true },
+        "cooldown": 1,
+        "allow_no_target": true,
+        "monster_message": "A mass of bruised flesh falls off %1$s and starts moving on its own!"
       },
       {
         "type": "spell",
         "id": "mon_singularity_reclaimer_summon_4",
-        "spell_data": { "id": "mon_singularity_reclaimer_summon" },
-        "condition": { "math": [ "u_hp('ALL') < 1501" ] },
-        "cooldown": 100,
+        "condition": {
+          "and": [ { "math": [ "u_effect_intensity('effect_monster_no_double_cast') < 4" ] }, { "math": [ "u_hp('ALL') < 1501" ] } ]
+        },
+        "spell_data": { "id": "mon_singularity_reclaimer_summon", "min_level": 1, "hit_self": true },
+        "cooldown": 1,
+        "allow_no_target": true,
         "monster_message": "A mass of badly damaged flesh falls off %1$s and starts moving on its own!"
       },
       {
         "type": "spell",
         "id": "mon_singularity_reclaimer_summon_5",
-        "spell_data": { "id": "mon_singularity_reclaimer_summon" },
-        "condition": { "math": [ "u_hp('ALL') < 1001" ] },
-        "cooldown": 100,
+        "condition": {
+          "and": [ { "math": [ "u_effect_intensity('effect_monster_no_double_cast') < 5" ] }, { "math": [ "u_hp('ALL') < 1001" ] } ]
+        },
+        "spell_data": { "id": "mon_singularity_reclaimer_summon", "min_level": 1, "hit_self": true },
+        "cooldown": 1,
+        "allow_no_target": true,
         "monster_message": "A mass of tattered flesh falls off %1$s and starts moving on its own!"
       },
       {
         "type": "spell",
         "id": "mon_singularity_reclaimer_summon_6",
-        "spell_data": { "id": "mon_singularity_reclaimer_summon" },
-        "condition": { "math": [ "u_hp('ALL') < 501" ] },
-        "cooldown": 100,
-        "monster_message": "A mass of almost-destroyed flesh falls off %1$s and starts moving on its own!"
+        "condition": {
+          "and": [ { "math": [ "u_effect_intensity('effect_monster_no_double_cast') < 6" ] }, { "math": [ "u_hp('ALL') < 501" ] } ]
+        },
+        "spell_data": { "id": "mon_singularity_reclaimer_summon", "min_level": 1, "hit_self": true },
+        "cooldown": 1,
+        "allow_no_target": true,
+        "monster_message": "A mass of tattered flesh falls off %1$s and starts moving on its own!"
       }
     ],
-    "death_function": {
-      "eoc": "EOC_SINGULARITY_RECLAIMER_DEATH",
-      "message": "The %s explodes in a shower of gore!",
-      "corpse_type": "NO_CORPSE",
-      "effect": { "id": "death_blood", "hit_self": true, "min_level": 3 }
-    },
+    "death_function": { "corpse_type": "NO_CORPSE" },
     "flags": [
       "WARM",
       "NO_BREATHE",
@@ -672,6 +684,15 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SINGULARITY_RECLAIMER_SETUP",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "//": "This sets the reclaimer as able to spawn when the game starts.  There's no need for a pre-spawn delay as it requires the player to be able to kill many zombies in a short time to spawn.  If the player is able to encounter it, they are well-equiped to survive it.",
+    "//2": "can_appear tracks if the reclaimer is still unkilled, while cannot_spawn is used to force a delay between two encounters.",
+    "effect": [ { "math": [ "reclaimer_can_appear = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SINGULARITY_RECLAIMER_CHECK_KILL_AMOUNT",
     "eoc_type": "EVENT",
     "//": "This counts any zombie killed by the player, NPCs and things they cause and summon.",
@@ -679,7 +700,7 @@
     "condition": {
       "and": [
         { "npc_has_species": "ZOMBIE" },
-        { "math": [ "reclaimer_is_dead == 0" ] },
+        { "math": [ "reclaimer_can_appear == 1" ] },
         { "math": [ "reclaimer_cannot_spawn == 0" ] }
       ]
     },
@@ -727,8 +748,7 @@
         "true_eocs": [ "EOC_SINGULARITY_RECLAIMER_APPEAR_NEARBY" ],
         "false_eocs": [ "EOC_SINGULARITY_RECLAIMER_APPEAR_FAIL" ]
       },
-      { "math": [ "zombies_recently_killed = 0" ] },
-      { "math": [ "reclaimer_cannot_spawn = 1" ] }
+      { "math": [ "zombies_recently_killed = 0" ] }
     ]
   },
   {
@@ -739,9 +759,11 @@
         "u_spawn_monster": "mon_singularity_reclaimer",
         "target_var": { "context_val": "reclaimer_spawn_spot" },
         "real_count": 1,
-        "outdoor_only": true,
-        "lifespan": { "math": [ "50 + rand(20)" ] }
+        "outdoor_only": true
       },
+      { "math": [ "reclaimer_can_appear = 0" ] },
+      { "math": [ "reclaimer_cannot_spawn = 1" ] },
+      { "math": [ "mon_singularity_reclaimer_time_active = 0" ] },
       {
         "u_message": "A chill runs down your spine as the zombie hits the ground…",
         "type": "bad",
@@ -760,13 +782,53 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_RECLAIMER_WITHDRAWS_FOR_NOW",
+    "recurrence": "1 second",
+    "global": true,
+    "run_for_npcs": false,
+    "//1": "A minute or so after it appeared or you're about to outrun it (55 tiles away).",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "math": [ "mon_singularity_reclaimer_time_active >= 60 += rng(-10, 10)" ] },
+            { "math": [ "u_monsters_nearby('mon_singularity_reclaimer', 'radius': 55) == 0" ] }
+          ]
+        },
+        { "math": [ "u_monsters_nearby('mon_singularity_reclaimer', 'radius': 60) > 0" ] }
+      ]
+    },
+    "//2": "Despawn the reclaimer, adjust var for later to let it respawn.",
+    "//3": "Reuses the Shadow's EOC as they are identical in effect.",
+    "effect": [
+      { "math": [ "reclaimer_can_appear = 1" ] },
+      { "u_add_effect": "blind_no_msg", "duration": "0 second" },
+      { "u_message": "The reclaimer sinks back into the ground", "type": "good" },
+      {
+        "u_location_variable": { "global_val": "mon_singularity_reclaimer" },
+        "monster": "mon_singularity_reclaimer",
+        "target_min_radius": 0,
+        "target_max_radius": 60
+      },
+      { "run_eocs": "EOC_KILL_SHADOW", "beta_loc": { "global_val": "mon_singularity_reclaimer" } },
+      { "u_message": "…but it will return.", "type": "bad" }
+    ],
+    "false_effect": [
+      {
+        "if": { "math": [ "u_monsters_nearby('mon_singularity_reclaimer', 'radius': 60) > 0" ] },
+        "then": [ { "math": [ "mon_singularity_reclaimer_time_active++" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SINGULARITY_RECLAIMER_LOWER_KILL_AMOUNT",
     "recurrence": [ "50 seconds", "70 seconds" ],
     "global": true,
     "run_for_npcs": false,
     "//": "This reduces the variable over time, so the encounter cannot be triggered by periodic killing.",
     "condition": { "math": [ "zombies_recently_killed > 0" ] },
-    "deactivate_condition": { "math": [ "reclaimer_is_dead == 1" ] },
+    "deactivate_condition": { "math": [ "reclaimer_can_appear == 0" ] },
     "effect": [ { "math": [ "zombies_recently_killed--" ] } ]
   },
   {
@@ -777,32 +839,55 @@
     "run_for_npcs": false,
     "//": "This resets the variable that stops the reclaimer from spawning too often.",
     "condition": { "math": [ "reclaimer_cannot_spawn > 0" ] },
-    "deactivate_condition": { "math": [ "reclaimer_is_dead == 1" ] },
+    "deactivate_condition": { "math": [ "reclaimer_can_appear == 0" ] },
     "effect": [ { "math": [ "reclaimer_cannot_spawn = 0" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_SINGULARITY_RECLAIMER_DEATH",
-    "//": "Once dead, the reclaimer is forever gone.",
-    "effect": [
-      { "u_message": "The chill down your spine fades away as the reclaimer bursts.", "type": "good" },
-      { "math": [ "reclaimer_is_dead = 1" ] }
-    ]
   },
   {
     "type": "SPELL",
     "id": "mon_singularity_reclaimer_summon",
     "name": { "str": "Summon Reclaimer Spawn", "//~": "NO_I18N" },
-    "description": { "str": "Summons a reclaimer spawn.", "//~": "NO_I18N" },
-    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
-    "valid_targets": [ "ground", "self" ],
+    "description": {
+      "str": "Summons a reclaimer spawn and makes the reclaimer keep track of how many it has spawned this time.",
+      "//~": "NO_I18N"
+    },
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "self" ],
     "min_damage": 1,
     "max_damage": 1,
     "min_aoe": 4,
     "max_aoe": 4,
     "shape": "blast",
-    "effect": "summon",
-    "effect_str": "mon_singularity_reclaimer_spawn"
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_RECLAIMER_CREATE_SPAWN"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RECLAIMER_CREATE_SPAWN",
+    "effect": [
+      {
+        "u_location_variable": { "context_val": "reclaimer_create_spawn_spot" },
+        "passable_only": true,
+        "min_radius": 1,
+        "max_radius": 5,
+        "true_eocs": [
+          {
+            "id": "EOC_RECLAIMER_CREATE_SPAWN_TRUE",
+            "effect": [
+              {
+                "u_spawn_monster": "mon_singularity_reclaimer_spawn",
+                "real_count": 1,
+                "target_var": { "context_val": "reclaimer_create_spawn_spot" }
+              },
+              {
+                "u_add_effect": "effect_monster_no_double_cast",
+                "duration": "PERMANENT",
+                "intensity": { "math": [ "u_effect_intensity('effect_monster_no_double_cast') + 1" ] }
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "mon_singularity_reclaimer_spawn",
