@@ -178,10 +178,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_MARLOSS_RANDOM_RADIATION_CLEANSE",
-    "effect": [
-      { "run_eocs": "EOC_MARLOSS_RANDOM_PAINKILLER" },
-      { "math": [ "u_val('rad') = 0" ] }
-    ]
+    "effect": [ { "run_eocs": "EOC_MARLOSS_RANDOM_PAINKILLER" }, { "math": [ "u_val('rad') = 0" ] } ]
   },
   {
     "type": "effect_on_condition",
