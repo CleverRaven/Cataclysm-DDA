@@ -983,5 +983,27 @@
     "fun": -1,
     "flags": [ "RAW" ],
     "vitamins": [ [ "vitC", "8 mg" ], [ "iron", "500 μg" ], [ "calcium", "141 mg" ], [ "fruit_allergen", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "misc_sweet_fruits",
+    "looks_like": "apricot",
+    "name": { "str": "handful of fresh fruit", "str_pl": "handfuls of fresh fruit" },
+    "weight": "150 g",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "spoils_in": "2 days 12 hours",
+    "quench": 1,
+    "healthy": 0,
+    "calories": 79,
+    "description": "A handful of fresh fruits, mixed together for ease of preservation, but not as tasty as they might once have been.",
+    "price_postapoc": "50 cent",
+    "material": [ "fruit" ],
+    "volume": "250 ml",
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "flags": [ "FREEZERBURN" ],
+    "fun": 1,
+    "smoking_result": "dry_fruit"
   }
 ]

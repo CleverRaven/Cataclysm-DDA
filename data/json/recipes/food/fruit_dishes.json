@@ -121,6 +121,18 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "id_suffix": "",
+    "result": "misc_sweet_fruits",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "1 s",
+    "autolearn": true,
+    "components": [ [ [ "sweet_fruit_fresh", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "jam_fruit",
     "category": "CC_FOOD",
