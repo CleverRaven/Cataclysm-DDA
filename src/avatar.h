@@ -380,8 +380,8 @@ class avatar : public Character
         void assign_empty_invlet( item &it, bool force = false );
         char free_assigned_invlet( const itype_id &id );
         invlets_bitset allocated_invlets() const;
-        bool invlet_is_assigned( const char invlet ) const;
-        itype_id get_itype_by_invlet( const char invlet ) const;
+        bool invlet_is_assigned( char invlet ) const;
+        itype_id get_itype_by_invlet( char invlet ) const;
 
         monster_visible_info &get_mon_visible() {
             return mon_visible;

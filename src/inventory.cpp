@@ -32,15 +32,6 @@
 #include "units.h"
 #include "value_ptr.h"
 
-static const itype_id itype_acetaminophen( "acetaminophen" );
-static const itype_id itype_aspirin( "aspirin" );
-static const itype_id itype_codeine( "codeine" );
-static const itype_id itype_heroin( "heroin" );
-static const itype_id itype_ibuprofen( "ibuprofen" );
-static const itype_id itype_oxycodone( "oxycodone" );
-static const itype_id itype_salt_water( "salt_water" );
-static const itype_id itype_tramadol( "tramadol" );
-
 static const material_id material_iron( "iron" );
 
 const invlet_wrapper
