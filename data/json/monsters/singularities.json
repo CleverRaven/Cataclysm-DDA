@@ -696,6 +696,7 @@
     "id": "EOC_SINGULARITY_RECLAIMER_CHECK_KILL_AMOUNT",
     "eoc_type": "EVENT",
     "//": "This counts any zombie killed by the player, NPCs and things they cause and summon.",
+    "//2": "When possible, this should also count zombies killed by hostile monsters.",
     "required_event": "character_kills_monster",
     "condition": {
       "and": [
@@ -791,7 +792,7 @@
       "and": [
         {
           "or": [
-            { "math": [ "mon_singularity_reclaimer_time_active >= 60 += rng(-10, 10)" ] },
+            { "math": [ "mon_singularity_reclaimer_time_active >= rng(55, 65)" ] },
             { "math": [ "u_monsters_nearby('mon_singularity_reclaimer', 'radius': 55) == 0" ] }
           ]
         },
