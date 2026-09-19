@@ -5,7 +5,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "5-round hunting shotgun, 20 gauge" },
-    "description": "Classic all-purpose shotgun, adapted to use 20 bore shells. While being somewhat weaker than classic 12 bore, 26 inch of barrel length allow it to kick reasonable punch, without being as heavy as it's bigger brothers.",
+    "description": "Classic all-purpose shotgun, adapted to use 20 bore shells.  While being somewhat weaker than classic 12 bore, 26 inch of barrel length allow it to kick reasonable punch, without being as heavy as it's bigger brothers.",
     "variant_type": "gun",
     "variants": [
       {
