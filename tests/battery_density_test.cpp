@@ -35,7 +35,6 @@ static const std::map<itype_id, std::string> battery_to_chemistry = {
     {itype_id( "folding_solar_panel_v2_deployed" ), "LiON"},
     {itype_id( "power_station_portable" ), "LiON"},
     {itype_id( "rm13_battery" ), "LiON"},
-    
     {itype_id( "light_cell_rechargeable" ), "Nickel-Metal Hydride"},
 
     {itype_id( "light_battery_cell" ), "Lithium/Iron Disulfide"},
