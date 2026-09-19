@@ -51,6 +51,7 @@ static void test_greedy_u_bend()
     const pf::two_node_scoring_fn<Point> estimate =
     [&]( pf::directed_node<Point> cur, std::optional<pf::directed_node<Point>> ) {
         if( cur.pos.x() == 1 && cur.pos.y() != 2 ) {
+            // x terrain is impassable
             return pf::node_score::rejected;
         }
         return pf::node_score( 0, manhattan_dist( cur.pos, finish ) );
@@ -94,13 +95,15 @@ TEST_CASE( "find_overmap_path_u_bend", "[pathfinding]" )
 
     const pf::omt_scoring_fn estimate = [&]( Point cur ) {
         if( !bounds.contains( cur ) || ( cur.x() == 1 && cur.y() != 2 ) ) {
+            // out of bounds and x terrain are impassable
             return pf::omt_score::rejected;
         }
-        return pf::omt_score( 10, false );
+        return pf::omt_score( 24, false );
     };
 
     const pf::simple_path<Point> pth = pf::find_overmap_path( start, finish, 2, estimate, noop_fn );
     REQUIRE( pth.points.size() == 7 );
+    REQUIRE( pth.dist == 144 );
     CHECK( pth.points[6] == Point( 0, 0, 0 ) );
     CHECK( pth.points[5] == Point( 0, 1, 0 ) );
     CHECK( pth.points[4] == Point( 0, 2, 0 ) );
@@ -110,27 +113,58 @@ TEST_CASE( "find_overmap_path_u_bend", "[pathfinding]" )
     CHECK( pth.points[0] == Point( 2, 0, 0 ) );
 }
 
+TEST_CASE( "find_overmap_path_u_bend_diagonal", "[pathfinding]" )
+{
+    using Point = tripoint_abs_omt;
+    const Point start( 0, 0, 0 );
+    const Point finish( 2, 0, 0 );
+    const inclusive_cuboid<Point> bounds( start, Point( 2, 2, 0 ) );
+    // Test area and expected path:
+    // SxF    4x0
+    // .x.    3x1
+    // ...    .2.
+
+    const pf::omt_scoring_fn estimate = [&]( Point cur ) {
+        if( !bounds.contains( cur ) || ( cur.x() == 1 && cur.y() != 2 ) ) {
+            // out of bounds and x terrain are impassable
+            return pf::omt_score::rejected;
+        }
+        return pf::omt_score( 24, false );
+    };
+
+    const pf::simple_path<Point> pth = pf::find_overmap_path( start, finish, 2, estimate, noop_fn,
+                                       std::nullopt, true );
+    REQUIRE( pth.points.size() == 5 );
+    REQUIRE( pth.dist == 116 );
+    CHECK( pth.points[4] == Point( 0, 0, 0 ) );
+    CHECK( pth.points[3] == Point( 0, 1, 0 ) );
+    CHECK( pth.points[2] == Point( 1, 2, 0 ) );
+    CHECK( pth.points[1] == Point( 2, 1, 0 ) );
+    CHECK( pth.points[0] == Point( 2, 0, 0 ) );
+}
+
 TEST_CASE( "find_overmap_path_bridge", "[pathfinding]" )
 {
     using Point = tripoint_abs_omt;
     const Point start( 0, 0, 0 );
     const Point finish( 2, 0, 0 );
-    const inclusive_cuboid<Point> bounds( start, Point( 2, 2, 1 ) );
+    const inclusive_cuboid<Point> bounds( start, Point( 2, 1, 1 ) );
     // Test area and expected path:
     // SxF    6x0
     // ^x^    5x1
-    // .x.    .x.
     // ( points 2, 3, 4 are at z=1 )
 
     const pf::omt_scoring_fn estimate = [&]( Point cur ) {
         if( !bounds.contains( cur ) || ( cur.x() == 1 && cur.z() == 0 ) ) {
+            // out of bounds and x terrain are impassable
             return pf::omt_score::rejected;
         }
-        return pf::omt_score( 10, ( cur.y() == 1 && cur.x() != 1 ) );
+        return pf::omt_score( 24, ( cur.y() == 1 && cur.x() != 1 ) );
     };
 
     const pf::simple_path<Point> pth = pf::find_overmap_path( start, finish, 2, estimate, noop_fn );
     REQUIRE( pth.points.size() == 7 );
+    REQUIRE( pth.dist == 98 );
     CHECK( pth.points[6] == Point( 0, 0, 0 ) );
     CHECK( pth.points[5] == Point( 0, 1, 0 ) );
     CHECK( pth.points[4] == Point( 0, 1, 1 ) );
@@ -140,3 +174,70 @@ TEST_CASE( "find_overmap_path_bridge", "[pathfinding]" )
     CHECK( pth.points[0] == Point( 2, 0, 0 ) );
 }
 
+TEST_CASE( "find_overmap_path_bridge_costs", "[pathfinding]" )
+{
+    using Point = tripoint_abs_omt;
+    const Point start( 0, 0, 0 );
+    const Point finish( 2, 0, 0 );
+    const inclusive_cuboid<Point> bounds( start, Point( 2, 1, 1 ) );
+    // Test area and expected path:
+    // SxF    6x0
+    // ^x^    5x1
+    // ( points 2, 3, 4 are at z=1 )
+
+    const pf::omt_scoring_fn estimate = [&]( Point cur ) {
+        if( !bounds.contains( cur ) || ( cur.x() == 1 && cur.z() == 0 ) ) {
+            // out of bounds and x terrain are impassable
+            return pf::omt_score::rejected;
+        }
+        // travel costs:
+        // z0        z1
+        // 18 24 30  24 30 36
+        // 24 30 36  30 36 42
+        return pf::omt_score( ( ( cur.x() + cur.y() + cur.z() + 1 ) * 6 ) + 12,
+                              ( cur.y() == 1 && cur.x() != 1 ) );
+    };
+
+    const pf::simple_path<Point> pth = pf::find_overmap_path( start, finish, 2, estimate, noop_fn );
+    REQUIRE( pth.points.size() == 7 );
+    REQUIRE( pth.dist == 98 );
+    // (30+36)/2 + (36/6+42/6)/2 + (42+36)/2 + (36+30)/2 + (30/6+24/6)/2 + (24+18)/2
+    REQUIRE( pth.cost == 138 );
+    CHECK( pth.points[6] == Point( 0, 0, 0 ) );
+    CHECK( pth.points[5] == Point( 0, 1, 0 ) );
+    CHECK( pth.points[4] == Point( 0, 1, 1 ) );
+    CHECK( pth.points[3] == Point( 1, 1, 1 ) );
+    CHECK( pth.points[2] == Point( 2, 1, 1 ) );
+    CHECK( pth.points[1] == Point( 2, 1, 0 ) );
+    CHECK( pth.points[0] == Point( 2, 0, 0 ) );
+}
+
+TEST_CASE( "find_overmap_path_costs", "[pathfinding]" )
+{
+    using Point = tripoint_abs_omt;
+    const Point start( 0, 0, 0 );
+    const Point finish( 2, 0, 0 );
+    const inclusive_cuboid<Point> bounds( start, Point( 2, 1, 0 ) );
+    // Test area and expected path:
+    // S!F    4!0
+    // ...    321
+
+    const pf::omt_scoring_fn estimate = [&]( Point cur ) {
+        if( !bounds.contains( cur ) ) {
+            // out of bounds is impassable
+            return pf::omt_score::rejected;
+        }
+        // ! has high cost and should be pathed around
+        return pf::omt_score( cur.x() == 1 && cur.y() == 0 ? 100 : 24, false );
+    };
+
+    const pf::simple_path<Point> pth = pf::find_overmap_path( start, finish, 2, estimate, noop_fn );
+    REQUIRE( pth.points.size() == 5 );
+    REQUIRE( pth.dist == 96 );
+    REQUIRE( pth.cost == 96 );
+    CHECK( pth.points[4] == Point( 0, 0, 0 ) );
+    CHECK( pth.points[3] == Point( 0, 1, 0 ) );
+    CHECK( pth.points[2] == Point( 1, 1, 0 ) );
+    CHECK( pth.points[1] == Point( 2, 1, 0 ) );
+    CHECK( pth.points[0] == Point( 2, 0, 0 ) );
+}
