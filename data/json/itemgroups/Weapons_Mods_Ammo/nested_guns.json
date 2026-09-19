@@ -1022,7 +1022,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "usp_45", "variant": "mk23", "contents-group": "mk23_mods", "charges": [ 0, 12 ] },
+      { "item": "usp_45_tactical", "variant": "mk23", "contents-group": "mk23_mods", "charges": [ 0, 12 ] },
       { "item": "usp45mag" },
       { "item": "usp45mag", "prob": 50 },
       { "group": "on_hand_45" }
