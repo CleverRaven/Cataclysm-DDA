@@ -162,7 +162,7 @@ static const damage_type_id damage_bullet( "bullet" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_stab( "stab" );
 
-static const flag_id flag_NPC_AVOID_CONSUMPTION( "NPC_AVOID_CONSUMPTION" );
+static const flag_id json_flag_NPC_AVOID_CONSUMPTION( "NPC_AVOID_CONSUMPTION" );
 
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bandaged( "bandaged" );
@@ -5302,7 +5302,7 @@ static float rate_food( const Character &who, const item &it, int want_nutr,
     }
 
     // Let the player decide whether to use Marloss or other restricted foods.
-    if( it.has_flag( flag_MYCUS_OK ) || it.has_flag( flag_NPC_AVOID_CONSUMPTION ) ) {
+    if( it.has_flag( flag_MYCUS_OK ) || it.has_flag( json_flag_NPC_AVOID_CONSUMPTION ) ) {
         return 0.0f;
     }
 

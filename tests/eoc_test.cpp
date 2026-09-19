@@ -96,11 +96,11 @@ effect_on_condition_EOC_item_math_test( "EOC_item_math_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_item_teleport_test( "EOC_item_teleport_test" );
 static const effect_on_condition_id
-effect_on_condition_EOC_marloss_gain_component( "EOC_MARLOSS_GAIN_COMPONENT" );
+effect_on_condition_EOC_MARLOSS_GAIN_COMPONENT( "EOC_MARLOSS_GAIN_COMPONENT" );
 static const effect_on_condition_id
-effect_on_condition_EOC_marloss_consume( "EOC_MARLOSS_CONSUME" );
+effect_on_condition_EOC_MARLOSS_CONSUME( "EOC_MARLOSS_CONSUME" );
 static const effect_on_condition_id
-effect_on_condition_EOC_mycus_consume( "EOC_MYCUS_CONSUME" );
+effect_on_condition_EOC_MYCUS_CONSUME( "EOC_MYCUS_CONSUME" );
 static const effect_on_condition_id
 effect_on_condition_EOC_jmath_test( "EOC_jmath_test" );
 static const effect_on_condition_id effect_on_condition_EOC_map_test( "EOC_map_test" );
@@ -294,14 +294,14 @@ TEST_CASE( "marloss_and_mycus_consumption_eocs", "[eoc][marloss]" )
 
     SECTION( "first_marloss_component" ) {
         set_marloss_context( d, "MARLOSS", "marloss_r", "marloss_b", "marloss_y" );
-        effect_on_condition_EOC_marloss_gain_component->activate( d );
+        effect_on_condition_EOC_MARLOSS_GAIN_COMPONENT->activate( d );
         CHECK( you.has_trait( trait_MARLOSS ) );
     }
 
     SECTION( "another_marloss_component" ) {
         you.set_mutation( trait_MARLOSS );
         set_marloss_context( d, "MARLOSS_BLUE", "marloss_b", "marloss_r", "marloss_y" );
-        effect_on_condition_EOC_marloss_gain_component->activate( d );
+        effect_on_condition_EOC_MARLOSS_GAIN_COMPONENT->activate( d );
         CHECK( you.has_trait( trait_MARLOSS ) );
         CHECK( you.has_trait( trait_MARLOSS_BLUE ) );
     }
@@ -310,7 +310,7 @@ TEST_CASE( "marloss_and_mycus_consumption_eocs", "[eoc][marloss]" )
         you.set_mutation( trait_MARLOSS );
         you.set_mutation( trait_MARLOSS_BLUE );
         set_marloss_context( d, "MARLOSS_YELLOW", "marloss_y", "marloss_r", "marloss_b" );
-        effect_on_condition_EOC_marloss_gain_component->activate( d );
+        effect_on_condition_EOC_MARLOSS_GAIN_COMPONENT->activate( d );
         CHECK( you.has_trait( trait_THRESH_MARLOSS ) );
         CHECK_FALSE( you.has_trait( trait_MARLOSS ) );
         CHECK_FALSE( you.has_trait( trait_MARLOSS_BLUE ) );
@@ -322,7 +322,7 @@ TEST_CASE( "marloss_and_mycus_consumption_eocs", "[eoc][marloss]" )
         you.set_mutation( trait_THRESH_LUPINE );
         you.set_mutation( trait_MARLOSS );
         set_marloss_context( d, "MARLOSS_BLUE", "marloss_b", "marloss_r", "marloss_y" );
-        effect_on_condition_EOC_marloss_gain_component->activate( d );
+        effect_on_condition_EOC_MARLOSS_GAIN_COMPONENT->activate( d );
         CHECK( you.has_trait( trait_MARLOSS_AVOID ) );
         CHECK_FALSE( you.has_trait( trait_MARLOSS ) );
         CHECK_FALSE( you.has_trait( trait_MARLOSS_BLUE ) );
@@ -332,14 +332,14 @@ TEST_CASE( "marloss_and_mycus_consumption_eocs", "[eoc][marloss]" )
         you.set_mutation( trait_MARLOSS_AVOID );
         d.set_value( "marloss_item", "marloss_berry" );
         set_marloss_context( d, "MARLOSS", "marloss_r", "marloss_b", "marloss_y" );
-        effect_on_condition_EOC_marloss_consume->activate( d );
+        effect_on_condition_EOC_MARLOSS_CONSUME->activate( d );
         CHECK_FALSE( you.has_trait( trait_MARLOSS ) );
     }
 
     SECTION( "mycus_at_marloss_threshold" ) {
         you.set_mutation( trait_THRESH_MARLOSS );
         you.set_rad( 10 );
-        effect_on_condition_EOC_mycus_consume->activate( d );
+        effect_on_condition_EOC_MYCUS_CONSUME->activate( d );
         CHECK_FALSE( you.has_trait( trait_THRESH_MARLOSS ) );
         CHECK( you.has_trait( trait_THRESH_MYCUS ) );
         CHECK( you.get_rad() == 0 );
@@ -348,7 +348,7 @@ TEST_CASE( "marloss_and_mycus_consumption_eocs", "[eoc][marloss]" )
     SECTION( "mycus_after_assimilation" ) {
         you.set_mutation( trait_THRESH_MYCUS );
         you.set_mutation( trait_M_DEPENDENT );
-        effect_on_condition_EOC_mycus_consume->activate( d );
+        effect_on_condition_EOC_MYCUS_CONSUME->activate( d );
         CHECK( you.get_painkiller() == 5 );
         CHECK( you.get_stim() == 5 );
     }
@@ -360,10 +360,10 @@ TEST_CASE( "marloss_consumables_reference_consumption_eocs", "[eoc][marloss]" )
         { itype_marloss_berry, effect_on_condition_id( "EOC_MARLOSS_BERRY_CONSUME" ) },
         { itype_marloss_seed, effect_on_condition_id( "EOC_MARLOSS_SEED_CONSUME" ) },
         { itype_marloss_gel, effect_on_condition_id( "EOC_MARLOSS_GEL_CONSUME" ) },
-        { itype_mycus_fruit, effect_on_condition_EOC_mycus_consume },
-        { itype_mycus_juice, effect_on_condition_EOC_mycus_consume },
+        { itype_mycus_fruit, effect_on_condition_EOC_MYCUS_CONSUME },
+        { itype_mycus_juice, effect_on_condition_EOC_MYCUS_CONSUME },
         { itype_wine_marloss, effect_on_condition_id( "EOC_MARLOSS_WINE_CONSUME" ) },
-        { itype_wine_mycus, effect_on_condition_EOC_mycus_consume }
+        { itype_wine_mycus, effect_on_condition_EOC_MYCUS_CONSUME }
     };
 
     for( const auto &[item_id, eoc_id] : expected ) {
