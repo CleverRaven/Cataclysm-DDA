@@ -51,6 +51,7 @@
 #include "talker.h"
 #include "timed_event.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
 #if defined(LOCALIZE)
 #include "translation_manager.h"
