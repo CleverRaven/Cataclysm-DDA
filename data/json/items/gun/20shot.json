@@ -30,13 +30,13 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "4-round hunting shotgun, 20 gauge" },
-    "description": "The most shotgun-looking shotgun, this one was adapated to use 20 bore shells.",
+    "description": "The most shotgun-looking shotgun, this one was adapted to use 20 bore shells.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "remington_870_20",
         "name": { "str": "Remington 870 Wingmaster shotgun, 20 gauge" },
-        "description": "The most shotgun-looking shotgun, this child of Remington Arms were adapated to use 20 bore shells."
+        "description": "The most shotgun-looking shotgun, this child of Remington Arms were adapted to use 20 bore shells."
       }
     ],
     "ascii_picture": "remington870",
@@ -55,13 +55,13 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "bolt-action shotgun, 20 gauge" },
-    "description": "Child of Massachusetts gunmakers, this is a rifled bolt-aciton shotgun, designed mainly to be used with slugs, with two round detachable magazine.  Using it for anything but a casual hunting would be a challenge of it's own.",
+    "description": "Child of Massachusetts gunmakers, this is a rifled bolt-action shotgun, designed mainly to be used with slugs, with two round detachable magazine.  Using it for anything but a casual hunting would be a challenge of it's own.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "savage_model_220",
         "name": { "str": "Savage 220 Slug, 20 gauge" },
-        "description": "Child of Massachusetts gunmakers, this is a rifled bolt-aciton shotgun, designed mainly to be used with slugs, with two round detachable magazine.  Using it for anything but a casual hunting would be a challenge of it's own."
+        "description": "Child of Massachusetts gunmakers, this is a rifled bolt-action shotgun, designed mainly to be used with slugs, with two round detachable magazine.  Using it for anything but a casual hunting would be a challenge of it's own."
       }
     ],
     "weight": "3330 g",

@@ -4,7 +4,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": "20 gauge slug" },
-    "description": "A .20 gause shotshell loaded with a 398gr slug, designed for a big game hunt.",
+    "description": "A .20 gauge shotshell loaded with a 398gr slug, designed for a big game hunt.",
     "weight": "37 g",
     "volume": "14 ml",
     "longest_side": "57 mm",
