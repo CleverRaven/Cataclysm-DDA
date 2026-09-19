@@ -3274,26 +3274,6 @@
     ]
   },
   {
-    "id": "nested_modified_gunmods",
-    "type": "nested_category",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "name": "modified attachments",
-    "description": "Recipes related to modifying weapon accessories to attach to a wider variety of guns and crossbows.",
-    "nested_category_data": [ "grip_mod", "nested_modified_gunmods_weapons" ]
-  },
-  {
-    "id": "nested_modified_gunmods_weapons",
-    "type": "nested_category",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "auxiliary weapons",
-    "description": "Recipes related to modifying secondary weapons to attach to a wider variety of guns and crossbows.",
-    "nested_category_data": [ "m26_mass_mod", "knife_combat", "m203_mod", "m320_mod_mod", "masterkey_mod" ]
-  },
-  {
     "id": "nested_ammo_flamethrower",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
@@ -3640,15 +3620,7 @@
     "subcategory": "CSC_WEAPON_MODS",
     "name": "attachment mounts",
     "description": "Recipes related to making mounts for attachments on older or makeshift guns.",
-    "nested_category_data": [
-      "rail_mount",
-      "rail_bayonet_lug",
-      "sights_mount",
-      "sights_mount_launcher",
-      "sights_mount_pistol",
-      "stock_mount",
-      "underbarrel_mount"
-    ]
+    "nested_category_data": [ "rail_bayonet_lug" ]
   },
   {
     "id": "nested_bionic_practice",

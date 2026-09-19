@@ -267,7 +267,7 @@
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
-    "mod_targets": [ "rifle", "crossbow" ],
+    "mod_targets": [ "rifle" ],
     "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "sword_bayonet" ],
     "min_skills": [ [ "weapon", 1 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
@@ -306,7 +306,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "underbarrel",
-    "mod_targets": [ "rifle", "crossbow" ],
+    "mod_targets": [ "rifle" ],
     "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "sword_bayonet" ],
     "min_skills": [ [ "weapon", 1 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
@@ -345,7 +345,8 @@
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
-    "mod_targets": [ "rifle", "crossbow" ],
+    "mod_targets": [ "rifle" ],
+    "//0": "seems like this need to connect to the barrel of the rifle when mounting regurarly, so it can only really mount on rifles unless you make it stable with only the rail",
     "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "sword_bayonet" ],
     "min_skills": [ [ "weapon", 1 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ],
@@ -384,7 +385,7 @@
     "color": "white",
     "location": "underbarrel",
     "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "sword_bayonet" ],
-    "mod_targets": [ "rifle" ],
+    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
     "min_skills": [ [ "weapon", 1 ], [ "shotgun", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m26_mass_mag_3", "m26_mass_mag_5" ] } ],
     "barrel_length": "197 mm",
@@ -393,15 +394,6 @@
     "dispersion": 310,
     "durability": 10,
     "clip_size": 5
-  },
-  {
-    "id": "m26_mass_mod",
-    "copy-from": "m26_mass",
-    "type": "ITEM",
-    "subtypes": [ "GUNMOD" ],
-    "name": { "str": "modified M26-MASS", "str_pl": "modified M26-MASSes" },
-    "description": "The Modular Accessory Shotgun System is an underbarrel bolt-action shotgun that was inspired by the \"Masterkey\" and fixed most of its predecessor's problems.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns.",
-    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
     "id": "pistol_bayonet",
@@ -565,7 +557,7 @@
     "symbol": ":",
     "color": "white",
     "location": "underbarrel",
-    "mod_targets": [ "smg", "pistol" ],
+    "mod_targets": [ "smg" ],
     "min_skills": [ [ "weapon", 3 ], [ "gun", 1 ] ]
   },
   {
