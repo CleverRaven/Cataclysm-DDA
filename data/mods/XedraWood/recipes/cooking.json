@@ -31,5 +31,42 @@
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "using": [ [ "magical_herbs", 2 ] ],
     "components": [ [ [ "sweet_fruit", 1, "LIST" ] ], [ [ "salt", 2 ] ], [ [ "vinegar", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "insect_meat_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "15 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "//": "20u energy to cook a meat chunk per standard",
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+    "components": [ [ [ "insect_meat", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "insect_meat_fried",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "10 m",
+    "autolearn": true,
+    "difficulty": 1,
+    "batch_time_factors": [ 67, 5 ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "//": "300g meat = 20u",
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_knife_skills", "time_multiplier": 1.5 },
+      { "proficiency": "prof_frying" }
+    ],
+    "components": [ [ [ "insect_meat", 1 ] ], [ [ "fry_oil", 1, "LIST" ] ] ]
   }
 ]

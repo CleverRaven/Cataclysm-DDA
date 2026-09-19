@@ -1,0 +1,26 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "q_staff_of_the_wise",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_WEAPONS",
+    "skill_used": "deduction",
+    "skills_required": [ [ "fabrication", 4 ] ],
+    "difficulty": 6,
+    "time": "360 m",
+    "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "MAGICAL_RESEARCH", "level": 1 } ],
+    "using": [ [ "magical_herbs", 5 ] ],
+    "flags": [ "SECRET" ],
+    "proficiencies": [
+      { "proficiency": "prof_carving", "required": true },
+      { "proficiency": "prof_occult_exploration", "required": true },
+      { "proficiency": "prof_thaumatology", "required": true }
+    ],
+    "components": [
+      [ [ "q_staff", 1 ] ],
+      [ [ "wild_herbs", 20 ] ],
+      [ [ "any_tallow", 5, "LIST" ], [ "cooking_oil", 16 ], [ "lamp_oil", 250 ] ]
+    ]
+  }
+]

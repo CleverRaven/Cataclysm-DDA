@@ -3,6 +3,7 @@
     "type": "help",
     "order": 0,
     "name": "Aftershock Exoplanet: Basics",
+    "color": "light_green",
     "messages": [
       "The Aftershock Exoplanet is a total conversion mod for Cataclysm: DDA.  This game takes place in the distant future on the edges of civilized space on a frozen planet named Salus IV.",
       "In the Aftershock timeline, the Cataclysm that changed everything happened centuries ago when suddenly faster than light travel, artificial intelligence, and a variety of other sciences that relied upon a weird physics interaction between two dimensions stopped working with no warning.",
@@ -15,6 +16,7 @@
     "type": "help",
     "order": 1,
     "name": "Aftershock Exoplanet: Possible Starts",
+    "color": "light_green",
     "messages": [
       "You will have to start in Port Augustmoon and survive a week before you can engage in other starts on Aftershock.  Significant feedback has shown that people will often start the Challenge starts and then immediately death spiral because they don't yet understand that power and heat are the most important resources in the early game.  Port Augustmoon provides both of those in abundance which allows you to explore the world and come back when you need to.",
       "Once you've gained some experience with Salus IV and the Aftershock activity cycle, you can experience more challenging starts where you may not have enough power or heat to survive without quick wits.",
@@ -25,6 +27,7 @@
     "type": "help",
     "order": 2,
     "name": "Aftershock Exoplanet: Suggestions",
+    "color": "light_green",
     "messages": [
       "Remember to buy things that provide heat and power before you leave Port Augustmoon.",
       "If you start as a bounty hunter in the crashed ship, your ship may have one last trick to save your life.",

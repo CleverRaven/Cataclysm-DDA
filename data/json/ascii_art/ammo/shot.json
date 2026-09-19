@@ -46,15 +46,6 @@
   },
   {
     "type": "ascii_art",
-    "id": "shot_he",
-    "picture": [
-      "<color_light_green>║║",
-      "║║",
-      "<color_yellow>╨╨"
-    ]
-  },
-  {
-    "type": "ascii_art",
     "id": "shot_scrap",
     "picture": [
       "<color_red>║║",

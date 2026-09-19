@@ -38,7 +38,7 @@ Steps from current guide were tested on Windows 11 (64 bit), Visual Studio 2022 
 
 2. Install `Git for Windows` (installer can be downloaded from [Git homepage](https://git-scm.com/)).
 
-3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you should update it to at least commit `c3867e714dd3a51c272826eea77267876517ed99` (the most recent tested good revision) and rerun `.\bootstrap-vcpkg.bat` as described:
+3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you should update it to at least commit `f6672d8e480ccdecddfad3fd1b838ba369ffe6cd` (the most recent tested good revision) and rerun `.\bootstrap-vcpkg.bat` as described:
 
 ***WARNING: It is important that, wherever you decide to clone this repo, the path does not include whitespace or special symbols. That is, `C:/dev/vcpkg` is acceptable, but `C:/dev test/vcpkg` and `C:/C++Projects/vcpkg` is not.***
 
@@ -61,7 +61,7 @@ git pull
 ./vcpkg.exe integrate install
 ```
 
-If during the compilation you're getting a vcpkg error along the lines of `error: no version database entry for sdl2 at 2.26.5`, that probably means that your vcpkg install is too old. Running a `git pull` in vcpkg directory should fix the issue.
+If during the compilation you're getting a vcpkg error along the lines of `error: no version database entry for sdl3`, that probably means that your vcpkg install is too old. Running a `git pull` in vcpkg directory should fix the issue.
 
 ## Cloning and compilation:
 

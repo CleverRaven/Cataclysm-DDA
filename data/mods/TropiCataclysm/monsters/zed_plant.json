@@ -130,7 +130,7 @@
         "ammo_type": "boomer_bile",
         "fake_skills": [ [ "gun", 3 ], [ "rifle", 3 ] ],
         "fake_dex": 10,
-        "no_ammo_sound": "Boomer tries to vomit more, but only droplets are thrown.",
+        "no_ammo_sound": "The boomer tries to vomit more, but only droplets are thrown.",
         "ranges": [ [ 0, 2, "DEFAULT" ] ]
       },
       [ "scratch", 20 ]

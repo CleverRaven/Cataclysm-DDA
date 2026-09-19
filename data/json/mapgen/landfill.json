@@ -55,7 +55,7 @@
           { "item": "chem_home", "chance": 1 },
           { "item": "hardware", "chance": 2 },
           { "item": "misc_smoking", "chance": 1 },
-          { "item": "protein_bar_box_small", "chance": 1 },
+          { "item": "box_of_evacuation_protein_bar", "chance": 1 },
           { "item": "tools_home", "chance": 1 }
         ]
       }
@@ -115,7 +115,7 @@
           { "item": "chem_home", "chance": 1 },
           { "item": "hardware", "chance": 2 },
           { "item": "misc_smoking", "chance": 1 },
-          { "item": "protein_bar_box_small", "chance": 1 },
+          { "item": "box_of_evacuation_protein_bar", "chance": 1 },
           { "item": "tools_home", "chance": 1 }
         ]
       },
@@ -178,7 +178,7 @@
           { "item": "chem_home", "chance": 1 },
           { "item": "hardware", "chance": 2 },
           { "item": "misc_smoking", "chance": 1 },
-          { "item": "protein_bar_box_small", "chance": 1 },
+          { "item": "box_of_evacuation_protein_bar", "chance": 1 },
           { "item": "tools_home", "chance": 1 }
         ]
       },
@@ -239,7 +239,7 @@
           { "item": "chem_home", "chance": 1 },
           { "item": "hardware", "chance": 2 },
           { "item": "misc_smoking", "chance": 1 },
-          { "item": "protein_bar_box_small", "chance": 1 },
+          { "item": "box_of_evacuation_protein_bar", "chance": 1 },
           { "item": "tools_home", "chance": 1 }
         ]
       },
@@ -302,7 +302,7 @@
           { "item": "chem_home", "chance": 1 },
           { "item": "hardware", "chance": 2 },
           { "item": "misc_smoking", "chance": 1 },
-          { "item": "protein_bar_box_small", "chance": 1 },
+          { "item": "box_of_evacuation_protein_bar", "chance": 1 },
           { "item": "tools_home", "chance": 1 }
         ]
       }

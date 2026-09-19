@@ -1,187 +1,5 @@
 [
   {
-    "id": "milk_cream_bottle_2",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bottle_plastic",
-    "entries": [ { "item": "milk_cream", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "id": "onion_rings_box_6",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "onion_rings", "container-item": "null", "count": 6 } ]
-  },
-  {
-    "id": "spaghetti_raw_bag_30",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "spaghetti_raw", "container-item": "null", "count": 30 } ]
-  },
-  {
-    "id": "lasagne_raw_bag_30",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "lasagne_raw", "container-item": "null", "count": 30 } ]
-  },
-  {
-    "id": "noodles_fast_bag_5",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "noodles_fast", "container-item": "null", "count": 5 } ]
-  },
-  {
-    "id": "cheese_hard_wrapper_8",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "wrapper",
-    "entries": [ { "item": "cheese_hard", "container-item": "null", "count": 8 } ]
-  },
-  {
-    "id": "spread_peanutbutter_2",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "can_food",
-    "entries": [ { "item": "spread_peanutbutter", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "id": "mustard_powder_bottle_plastic_small_full",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_seasoning_small",
-    "entries": [ { "item": "mustard_powder", "container-item": "null", "count": 50 } ]
-  },
-  {
-    "id": "oats_bag_plastic_full",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "oats", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "id": "crackers_box_16",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "crackers", "container-item": "null", "count": 16 } ]
-  },
-  {
-    "id": "oyster_crackers_box_20",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "oyster_crackers", "container-item": "null", "count": 20 } ]
-  },
-  {
-    "id": "peanut_bag_plastic_4",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "peanut", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "id": "peanut_shelled_bag_plastic_4",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "peanut_shelled", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "id": "chestnut_roasted_bag_plastic_4",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "chestnut_roasted", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "id": "pistachio_shelled_bag_plastic_4",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "pistachio_shelled", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "id": "pistachio_roasted_bag_plastic_4",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "pistachio_roasted", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "id": "almond_roasted_bag_plastic_4",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "almond_roasted", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "id": "cashews_bag_plastic_4",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "cashews", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "id": "pecan_shelled_bag_plastic_4",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "pecan_shelled", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "id": "pecan_roasted_bag_plastic_4",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "pecan_roasted", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "id": "cheese_bag_8",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "cheese", "container-item": "null", "count": 8 } ]
-  },
-  {
-    "id": "mozzarella_cheese_bag_1",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "mozzarella_cheese", "container-item": "null", "count": 1 } ]
-  },
-  {
-    "id": "mozzarella_cheese_smoked_bag_1",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "mozzarella_cheese_smoked", "container-item": "null", "count": 1 } ]
-  },
-  {
-    "id": "mascarpone_container_1",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "cup_plastic",
-    "entries": [ { "item": "mascarpone", "container-item": "null", "count": 1 } ]
-  },
-  {
-    "id": "pecorino_cheese_wrapper_4",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "wrapper",
-    "entries": [ { "item": "pecorino_cheese", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "id": "cottage_cheese_tub_1",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "plastic_bucket",
-    "entries": [ { "item": "cottage_cheese", "container-item": "null", "count": 1 } ]
-  },
-  {
     "id": "commercial_sauces_dressings",
     "type": "item_group",
     "subtype": "distribution",
@@ -415,7 +233,7 @@
     "//": "Should include pancake mixes. TODO fix.",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "cocoa_powder", 1 ], [ "cocoa_powder_milk", 1 ] ]
+    "items": [ { "group": "cocoa_powder_various_full" }, { "group": "milk_cocoa_powder_various_full" } ]
   },
   {
     "id": "SUS_shelf_commercial_breakfast_mixes",
@@ -809,7 +627,7 @@
       { "item": "stapler", "prob": 1 },
       { "item": "office_holepunch", "prob": 1 },
       { "item": "scissors", "prob": 1 },
-      { "group": "writing_utensils", "count": [ 40, 100 ], "prob": 80, "charges": [ 80, 100 ] }
+      { "group": "writing_utensils", "count": [ 40, 100 ], "prob": 80 }
     ]
   },
   {
@@ -1292,10 +1110,14 @@
   },
   {
     "id": "SUS_commercial_chewing_gum",
-    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "//": "A few packs in a box by the checkout",
     "type": "item_group",
-    "subtype": "distribution",
-    "entries": [ { "item": "gum", "count": [ 0, 60 ], "prob": 1 } ]
+    "subtype": "collection",
+    "entries": [
+      { "group": "chewing_gum_full", "count": [ 1, 15 ], "entry-wrapper": "box_snack" },
+      { "group": "chewing_gum_full_caff", "count": [ 1, 10 ], "prob": 50, "entry-wrapper": "box_snack" },
+      { "group": "chewing_gum_full_nic", "count": [ 1, 10 ], "prob": 50, "entry-wrapper": "box_snack" }
+    ]
   },
   {
     "id": "cardboards",

@@ -1,0 +1,55 @@
+[
+  {
+    "id": "Exodii_XE_no_dreamdross_items",
+    "copy-from": "Exodii_XE_no_dreamdross_items",
+    "type": "item_group",
+    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
+    "subtype": "distribution",
+    "extend": {
+      "entries": [
+        { "group": "dreamsmith_artifact", "prob": 1 },
+        { "group": "dreamer_artifact", "prob": 1 },
+        { "group": "xe_lab_dreamsmith_dreamdross", "prob": 1 },
+        { "group": "xe_lab_dreamsmith_dream_gear", "prob": 1 },
+        { "group": "inventor_creations", "prob": 1 },
+        { "group": "xe_all_spells_low", "prob": 400 },
+        { "group": "xe_all_spells_mid", "prob": 200 },
+        { "group": "xe_all_spells_high", "prob": 100 }
+      ]
+    }
+  },
+  {
+    "id": "Exodii_XE_no_fair_folk_items",
+    "copy-from": "Exodii_XE_no_fair_folk_items",
+    "type": "item_group",
+    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
+    "subtype": "distribution",
+    "extend": {
+      "entries": [
+        { "group": "spell_spawned_goblin_fruit", "prob": 1 },
+        { "group": "spell_spawned_goblin_fruit_ierde", "prob": 1 },
+        { "group": "spell_spawned_goblin_fruit_arvore", "prob": 1 },
+        { "group": "spell_spawned_goblin_fruit_homullus", "prob": 1 },
+        { "group": "spell_spawned_goblin_fruit_salamander", "prob": 1 },
+        { "group": "spell_spawned_goblin_fruit_sylph", "prob": 1 },
+        { "group": "spell_spawned_goblin_fruit_undine", "prob": 1 },
+        { "group": "spell_spawned_goblin_fruit_brownie", "prob": 1 },
+        { "group": "spell_spawned_goblin_fruit_selkie", "prob": 1 },
+        { "group": "spell_spawned_goblin_fruit_pooka", "prob": 1 },
+        { "group": "spell_spawned_goblin_fruit_trow", "prob": 1 },
+        { "group": "spell_spawned_goblin_fruit_noble", "prob": 1 },
+        { "item": "book_moons_tears_ingot", "prob": 1 },
+        { "group": "dead_fae_gear", "prob": 1 },
+        { "item": "hammer_fey_smith", "prob": 15 }
+      ]
+    }
+  },
+  {
+    "id": "Exodii_XE_no_spell_items",
+    "copy-from": "Exodii_XE_no_spell_items",
+    "type": "item_group",
+    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
+    "subtype": "distribution",
+    "extend": { "entries": [ { "group": "nether_sorcery_books", "prob": 1 }, { "group": "xe_nether_cult_artifact", "prob": 1 } ] }
+  }
+]

@@ -557,7 +557,7 @@
       "rejected": "That fungus is going to kill us all if it isn't stopped.",
       "advice": "Despite how fast it grows, it's highly vulnerable to fire.",
       "inquire": "Have you dealt with them?",
-      "success": "Thank you.  I don't like killing people, but this time we had too.  Here, take this; its some of our internal money that we've started using.  You know those religious pamphlets shaped like bills people would leave?  These are some of those, couldn't stand 'em myself.",
+      "success": "Thank you.  I don't like killing people, but this time we had to.  Here, take this; its some of our internal money that we've started using.  You know those religious pamphlets shaped like bills people would leave?  These are some of those, couldn't stand 'em myself.",
       "success_lie": "What good does this do us?",
       "failure": "We'll have to try again, I suppose."
     }

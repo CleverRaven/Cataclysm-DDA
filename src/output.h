@@ -631,6 +631,8 @@ char rand_char();
 
 // Remove spaces from the start and the end of a string.
 std::string trim( std::string_view s );
+// Remove spaces from the end of a string.
+std::string rtrim( std::string_view s );
 // Removes trailing periods and exclamation marks.
 std::string trim_trailing_punctuations( std::string_view s );
 // Removes all punctuation except underscore.
@@ -973,83 +975,6 @@ class scrollbar
         inclusive_rectangle<point> scrollbar_area;
 };
 
-struct multiline_list_entry {
-    bool active = false;
-    std::string prefix;
-    std::string entry_text;
-    std::vector<std::string> folded_text;
-};
-
-/** A class for handling and displaying lists of folded text
- * Handles folding of text, figuring out what text to display in the window, printing,
- * and standardized navigation.
- * Basic usage:
- * 1. Create a multiline_list( w ) where the window w is only used for this list
- * 2. Call create_entries() with the list data, ensuring that get_entry() is defined in the
- * data class
- * 3. Call set_up_navigation() with the local input_context to ensure all required actions
- * are registered
- * 4. Call print_entries() to display all of the folded text that fits and a scrollbar in
- * the window
- * 5. Call handle_navigation() to handle scrolling and selection of the text, including
- * arrow keys, page up/down, home/end, mousewheel scrolling, scrolling based on mouse position,
- * and click-and-drag of the scrollbar
- * 6. Call fold_entries() when the window is resized
- * See dialogue_win.cpp for example usage
- **/
-class multiline_list
-{
-        bool has_prefix;
-        int entry_position;
-        int offset_position;
-        int mouseover_position;
-        std::chrono::time_point<std::chrono::steady_clock> mouseover_delay_end;
-        size_t mouseover_accel_counter = 1;
-        std::vector<multiline_list_entry> entries;
-        std::vector<int> entry_sizes;
-        int total_length;
-        std::map<size_t, inclusive_rectangle<point>> entry_map;
-
-        std::unique_ptr<scrollbar> list_sb;
-        catacurses::window &w;
-
-        void add_entry( const multiline_list_entry &entry );
-        void create_entry_prep();
-        void print_line( int entry, const point &start, const std::string &text );
-
-    public:
-        explicit multiline_list( catacurses::window &win ) : w( win ) {
-            list_sb = std::make_unique<scrollbar>();
-        }
-
-        void activate_entry( size_t entry_pos, bool exclusive );
-
-        template <typename T> void create_entries( const std::vector<T> &entry_data ) {
-            create_entry_prep();
-            for( const T &entry : entry_data ) {
-                add_entry( entry.get_entry() );
-            }
-            fold_entries();
-        }
-
-        void fold_entries();
-        int get_entry_pos() const {
-            return entry_position;
-        }
-        int get_offset_pos() const {
-            return offset_position;
-        }
-        int get_entry_from_offset();
-        int get_entry_from_offset( int offset );
-        int get_offset_from_entry();
-        int get_offset_from_entry( int entry );
-        bool handle_navigation( std::string &action, input_context &ctxt );
-        void print_entries();
-        void set_entry_pos( int entry_pos, bool looping );
-        void set_offset_pos( int offset_pos, bool update_selection );
-        void set_up_navigation( input_context &ctxt );
-};
-
 /** A simple scrolling view onto some text.  Given a window, it will use the
  * leftmost column for the scrollbar and fill the rest with text.  When the
  * scrollbar is not needed it prints a vertical border in place of it, so the
@@ -1227,6 +1152,35 @@ int get_window_height();
  * delaying the update until the next time we are waiting for user input.
  */
 void refresh_display();
+
+/**
+ * Service pending renderer-resource recovery at an outer loop boundary. No-op in
+ * curses; in SDL drains the coordinator so a target reset, device loss, or mobile
+ * foreground rebuilds before the next draw.
+ */
+void drain_renderer_recovery();
+
+/**
+ * Pump SDL events on the main thread until the renderer leaves the paused
+ * lifecycle state (a foreground event has landed). Used by the tileset-load
+ * retry loop after a background interrupt; android-only in practice. No-op in
+ * curses or when not paused.
+ */
+void pump_until_renderer_foreground();
+
+enum class atlas_upload_interrupt;
+class atlas_replay_quarantine;
+/**
+ * Service renderer recovery for an interrupted standalone tileset-load upload and
+ * dispose the quarantined candidate against the resulting renderer: destroy on a
+ * healthy same-instance renderer, otherwise abandon without SDL_DestroyTexture.
+ * instance_before is the instance generation sampled when the candidate textures
+ * were created. Returns true if the renderer came back healthy so the caller may
+ * retry, false to stop and keep the previous tileset bound.
+ */
+bool service_mode2_upload_interrupt( atlas_upload_interrupt interrupt,
+                                     atlas_replay_quarantine &quarantine,
+                                     uint64_t instance_before );
 
 /**
  * Sync OS cursor and ImGui cursor-handling flags with the current

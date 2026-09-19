@@ -41,7 +41,6 @@
       {
         "u_travel_to_dimension": "spider_dimension",
         "npc_travel_radius": 0,
-        "region_type": "spider_dimension",
         "npc_travel_filter": "none",
         "fail_message": "Nothing happens.",
         "success_message": "The abyss opens up around you."
@@ -423,7 +422,7 @@
     "effect": [
       { "u_message": "The cavern folds itself beyond perception.", "popup": true },
       {
-        "u_travel_to_dimension": "",
+        "u_travel_to_dimension": "default",
         "npc_travel_radius": 0,
         "npc_travel_filter": "none",
         "fail_message": "Nothing seems to change.",

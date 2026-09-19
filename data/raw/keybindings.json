@@ -61,6 +61,28 @@
   },
   {
     "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_UP",
+    "category": "UILIST",
+    "name": "Scroll item info up",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "{" },
+      { "input_method": "keyboard_code", "key": "[", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "ALT_UP" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_DOWN",
+    "category": "UILIST",
+    "name": "Scroll item info down",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "}" },
+      { "input_method": "keyboard_code", "key": "]", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "ALT_DOWN" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "SHOW_DESCRIPTION",
     "category": "MELEE_STYLE_PICKER",
     "name": "Show description of melee style",
@@ -720,6 +742,17 @@
     "category": "SORT_ARMOR",
     "name": "Unequip selected armor",
     "bindings": [ { "input_method": "keyboard_any", "key": "u" }, { "input_method": "gamepad", "key": "L_RADIAL_W" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_FAVORITE",
+    "category": "SORT_ARMOR",
+    "name": "Toggle item as favorite",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",

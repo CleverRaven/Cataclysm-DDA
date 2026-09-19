@@ -61,6 +61,13 @@
   },
   {
     "type": "item_group",
+    "id": "tortilla_corn_bag_plastic_full",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "tortilla_corn", "container-item": "null", "count": 25 } ]
+  },
+  {
+    "type": "item_group",
     "id": "flatbread_in_bag",
     "subtype": "collection",
     "entries": [ { "item": "flatbread", "entry-wrapper": "bag_plastic_small", "count": [ 1, 8 ] } ]

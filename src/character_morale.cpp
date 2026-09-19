@@ -16,8 +16,10 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "effect.h"
+#include "game.h"
 #include "item.h"
 #include "item_pocket.h"
+#include "kill_tracker.h"
 #include "map_iterator.h"
 #include "messages.h"
 #include "morale.h"
@@ -33,6 +35,11 @@ static const efftype_id effect_took_xanax( "took_xanax" );
 
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
+
+static const json_character_flag json_flag_NUMB( "NUMB" );
+static const json_character_flag json_flag_PRED3( "PRED3" );
+static const json_character_flag json_flag_PRED4( "PRED4" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 
 static const morale_type morale_perm_fpmode_on( "morale_perm_fpmode_on" );
 static const morale_type morale_perm_hoarder( "morale_perm_hoarder" );
@@ -55,9 +62,8 @@ void Character::update_morale()
 
 void Character::hoarder_morale_penalty()
 {
-    // For hoarders holsters count as a flat -1 penalty for being empty, we also give them a 25% allowance on their pockets below 1000_ml
-    int empty_holsters = 0;
-    units::volume penalty_volume = 0_ml;
+    units::volume no_penalty_volume = 8000_ml;
+    units::volume total_volume = 0_ml;
 
     std::vector<item_pocket *> top_pockets = weapon.get_container_pockets();
     for( item &it : worn.worn ) {
@@ -65,29 +71,24 @@ void Character::hoarder_morale_penalty()
         top_pockets.insert( top_pockets.end(), worn_pockets.begin(), worn_pockets.end() );
     }
     for( const item_pocket *pocket : top_pockets ) {
-        if( pocket->is_forbidden() ) {
+        // Ablative stuff isn't gear, it is armor
+        if( pocket->is_ablative() ) {
             continue;
         }
-        if( pocket->is_holster() ) {
-            if( pocket->empty() ) {
-                empty_holsters++;
-            }
-        } else {
-            if( units::volume capacity = pocket->volume_capacity(); capacity <= 1000_ml ) {
-                penalty_volume += std::max( 0_ml, pocket->remaining_volume() - capacity / 4 );
-            } else {
-                penalty_volume += pocket->remaining_volume();
-            }
-        }
+        total_volume += pocket->contents_volume();
     }
-    int pen = penalty_volume / 125_ml;
-    pen += empty_holsters;
-    if( pen > 70 ) {
-        pen = 70;
-    }
-    if( pen <= 0 ) {
+    int pen = ( no_penalty_volume - total_volume ) / 100_ml;
+    if( pen >= 80 ) {
+        pen = 60;
+    } else if( pen <= 0 ) {
         pen = 0;
+    } else if( pen <= 40 ) {
+        // first 4L counts 10 per, next 4L is only 5 per
+        pen = pen / 2 ;
+    } else {
+        pen = pen - 20 ;
     }
+
     if( has_effect( effect_took_xanax ) ) {
         pen = pen / 7;
     } else if( has_trait( trait_THRESH_SPECIES_RAVENFOLK ) ) {
@@ -167,8 +168,30 @@ void Character::apply_persistent_morale()
     }
 }
 
-int Character::get_morale_level() const
+double Character::get_modifier_for_ALL_morale() const
 {
+    if( has_flag( json_flag_NUMB ) ) {
+        return 0.0; // I just don't care about anything anymore... (medical mutant)
+    }
+
+    // Only player is bothered by guilt kills, because only player tracks them.
+    if( !is_avatar() || has_flag( json_flag_PSYCHOPATH ) ||
+        has_flag( json_flag_PRED3 ) || has_flag( json_flag_PRED4 ) ) {
+        // No guilt.
+        return 1.0;
+    }
+
+    // Sanity check, at 1000 kills we're down to all morale modifiers being ~5% of max.
+    const int num_kills = std::clamp( g->get_kill_tracker().guilt_kill_count(), 0, 1000 );
+    return std::pow( 0.997, num_kills );
+}
+
+int Character::get_morale_level( bool raw ) const
+{
+    if( !raw ) {
+        return std::round( get_modifier_for_ALL_morale() * morale->get_level() );
+    }
+    // For the unusual case that needs it, direct access to raw level for comparison purposes
     return morale->get_level();
 }
 
@@ -261,5 +284,5 @@ void Character::disp_morale()
         pain_penalty = calc_focus_equilibrium( true ) - equilibrium - sleepiness_penalty;
     }
 
-    morale->display( equilibrium, pain_penalty, sleepiness_penalty );
+    morale->display( equilibrium, pain_penalty, sleepiness_penalty, *this );
 }

@@ -1628,7 +1628,7 @@
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Laser-Assisted Reading Device CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Who needs a reading lamp when you don't need your eyes?  This is a short-distance laser scanner implant which allows one to upload digital images of books straight into your brains optic lobe and language centers.  When active, one can read slightly faster, and can read in the dark.",
+    "description": "This implant serves as a reading light and a short-distance laser scanner, allowing one to upload digital images of books straight into the brain's optic lobe and language centers.  When active, one can read slightly faster, and can read in the dark.",
     "price": "2 kUSD 200 USD",
     "weight": "1000 g",
     "difficulty": 3
@@ -1640,7 +1640,7 @@
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Cranial EMF Shielding CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A a microscopically thin layer of some non-newtonian fluid for skull application.  It can protect from some types of electromagnetic fields.  Is it useful?  Maybe.",
+    "description": "A microscopically thin layer of some non-newtonian fluid for skull application.  It can protect from some types of electromagnetic fields.  Is it useful?  Maybe.",
     "price": "7 kUSD 500 USD",
     "price_postapoc": "50 USD",
     "difficulty": 9
@@ -1834,6 +1834,34 @@
     "price_postapoc": "200 USD",
     "weight": "25000 g",
     "volume": "25000 ml",
+    "difficulty": 1
+  },
+  {
+    "id": "bio_nl_collar",
+    "copy-from": "bionic_general_faulty",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "material": [ "nanotubes", "cyber_bone" ],
+    "name": { "str": "Cyberbone Collar CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A subdermal bone-like implant fit for the nape of the neck, with a mysterious nanotube sheet that ensheaths the throat.",
+    "price": "0 kUSD",
+    "price_postapoc": "0 USD",
+    "weight": "100 g",
+    "difficulty": 1
+  },
+  {
+    "id": "bio_nl_collar_deactivated",
+    "copy-from": "bionic_general_faulty",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "material": [ "nanotubes", "cyber_bone" ],
+    "name": { "str": "Cyberbone Collar CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A subdermal bone-like implant fit for the nape of the neck, with a mysterious nanotube sheet that ensheaths the throat.",
+    "price": "0 kUSD",
+    "price_postapoc": "0 USD",
+    "weight": "100 g",
     "difficulty": 1
   }
 ]

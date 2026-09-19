@@ -244,7 +244,7 @@
     "id": "upgradekey_stability4",
     "type": "ITEM",
     "category": "spare_parts",
-    "name": { "str": "Fortitude of the Island" },
+    "name": { "str_sp": "Fortitude of the Island" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 4",
     "volume": "25000 ml",
     "weight": "15000 g",

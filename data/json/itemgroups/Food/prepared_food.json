@@ -1,0 +1,410 @@
+[
+  {
+    "type": "item_group",
+    "id": "hotdogs_frozen_bag_plastic_10",
+    "subtype": "collection",
+    "container-item": "bowl_plastic",
+    "entries": [ { "item": "hotdogs_frozen", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "corndogs_frozen_bag_plastic_2",
+    "subtype": "collection",
+    "container-item": "bowl_plastic",
+    "entries": [ { "item": "corndogs_frozen", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "hotdogs_cooked_wrapper_1_inf",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "hotdogs_cooked", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "hotdogs_newyork_wrapper_1_inf",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "hotdogs_newyork", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chilidogs_wrapper_2",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "chilidogs", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "corndogs_cooked_wrapper_2",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "corndogs_cooked", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "currywurst_wrapper_2",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "currywurst", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bacon_bag_plastic_2",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "bacon", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bologna_bag_plastic_10",
+    "subtype": "collection",
+    "container-item": "bowl_plastic",
+    "entries": [ { "item": "bologna", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "crab_cakes_box_small_1_inf",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "crab_cakes", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "stuffed_clams_box_small_1_inf",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "stuffed_clams", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "stuffed_clams_box_small_5",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "stuffed_clams", "container-item": "null", "count": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "breakfast_cereal_in_box",
+    "subtype": "distribution",
+    "container-item": "box_small",
+    "entries": [
+      { "prob": 30, "item": "cereal", "count": [ 1, 4 ] },
+      { "prob": 30, "item": "cereal2", "count": [ 1, 4 ] },
+      { "prob": 30, "item": "cereal3", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "snicker", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "brantastic", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "honey", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "fructose", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "foodios", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp2", "count": [ 1, 4 ] },
+      { "prob": 1, "item": "cereal_fp4", "count": [ 1, 4 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "breakfast_cereal_in_box_full",
+    "subtype": "distribution",
+    "container-item": "box_small",
+    "entries": [
+      { "prob": 30, "item": "cereal", "count": 4 },
+      { "prob": 30, "item": "cereal2", "count": 4 },
+      { "prob": 30, "item": "cereal3", "count": 4 },
+      { "prob": 1, "item": "cereal_fp1", "variant": "snicker", "count": 4 },
+      { "prob": 1, "item": "cereal_fp1", "variant": "brantastic", "count": 4 },
+      { "prob": 1, "item": "cereal_fp1", "variant": "honey", "count": 4 },
+      { "prob": 1, "item": "cereal_fp1", "variant": "fructose", "count": 4 },
+      { "prob": 1, "item": "cereal_fp1", "variant": "foodios", "count": 4 },
+      { "prob": 1, "item": "cereal_fp2", "count": 4 },
+      { "prob": 1, "item": "cereal_fp4", "count": 4 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "frozen_dinner_box_small_2",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "frozen_dinner", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "freeze_dried_meal_box_any",
+    "subtype": "distribution",
+    "container-item": "box_small",
+    "entries": [
+      { "prob": 40, "item": "freeze_dried_meal", "count": -1 },
+      { "prob": 40, "item": "freeze_dried_stroganoff", "count": -1 },
+      { "prob": 20, "item": "freeze_dried_veggypasta", "count": -1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pemmican_bag_small",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "pemmican", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "soup_box",
+    "subtype": "distribution",
+    "container-item": "box_small",
+    "entries": [ { "group": "soup_packet", "count": [ 1, 8 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "soup_packet",
+    "subtype": "distribution",
+    "container-item": "bag_paper_powder",
+    "entries": [
+      { "item": "soup_instant_chicken_noodle_powder", "container-item": "null" },
+      { "item": "soup_instant_vegetable_powder", "container-item": "null" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "instant_gravy",
+    "subtype": "distribution",
+    "entries": [ { "group": "instant_gravy_tub", "prob": 1 }, { "group": "instant_gravy_packets", "count": [ 1, 12 ], "prob": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "instant_gravy_tub",
+    "//": "Higher chance of vegan gravy as a lot of food services will keep vegan just because it's good enough and won't cause fuss with diet restrictions.",
+    "//1": "Odd serving count as I really didn't feel like adding a specific gravy powder container",
+    "subtype": "distribution",
+    "container-item": "plastic_bucket",
+    "entries": [ { "item": "gravy_mix", "count": 850, "prob": 1 }, { "item": "vegan_gravy_mix", "count": 850, "prob": 7 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "instant_gravy_packets",
+    "subtype": "distribution",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "gravy_mix", "count": 8, "prob": 1 }, { "item": "vegan_gravy_mix", "count": 8, "prob": 7 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "peanutbutter_jar_sealed",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "peanutbutter", "container-item": "null", "count": -1 } ]
+  },
+  {
+    "id": "spread_peanutbutter_2",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "can_food",
+    "entries": [ { "item": "spread_peanutbutter", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "id": "chicken_fried_box_6",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "chicken_fried", "container-item": "null", "count": 6 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "fchicken_box_small_4",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "fchicken", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "sushi_veggyroll_bowl_2",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bowl_plastic",
+    "entries": [ { "item": "sushi_veggyroll", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "lobster_roll_wrapper_1_inf",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "lobster_roll", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "fries_box_small_1_inf",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "fries", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cheese_fries_box_small_1_inf",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "cheese_fries", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "fried_mozzarella_sticks_bag_plastic_4",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "fried_mozzarella_sticks", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "fish_fried_box_small_1_inf",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "fish_fried", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "foodplace_food_box_small_4",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "foodplace_food", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pizza_meat_box_small_1_inf",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "pizza_meat", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pizza_veggy_box_small_1_inf",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "pizza_veggy", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pizza_meat_box_small_4",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "pizza_meat", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pizza_veggy_box_small_4",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "pizza_veggy", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pizza_cheese_box_small_1_inf",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "pizza_cheese", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pizza_cheese_box_small_4",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "pizza_cheese", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pizza_supreme_box_small_1_inf",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "pizza_supreme", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pie_box_small_8",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "pie", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pie_meat_box_small_8",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "pie_meat", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pie_veggy_box_small_8",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "pie_veggy", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pie_maple_box_small_8",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "pie_maple", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "nachos_bowl_plastic_full",
+    "subtype": "collection",
+    "container-item": "bowl_plastic",
+    "entries": [ { "item": "nachos", "container-item": "null", "count": 9 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "nachos_bag_plastic_full",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "nachos", "container-item": "null", "count": 6 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "nachosv_bag_plastic_1_inf",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "nachosv", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "nachosmc_bag_plastic_1_inf",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "nachosmc", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "nachosc_bag_plastic_1_inf",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "nachosc", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "junk_burrito_bag_plastic_1_inf",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "junk_burrito", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "veggy_salad_bowl_plastic_1_inf",
+    "subtype": "collection",
+    "container-item": "bowl_plastic",
+    "entries": [ { "item": "veggy_salad", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "id": "veggy_salad_bowl_2",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bowl_plastic",
+    "entries": [ { "item": "veggy_salad", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cabbage_bag_plastic_8",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "cabbage", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "carrot_bowl_plastic_2",
+    "subtype": "collection",
+    "container-item": "bowl_plastic",
+    "entries": [ { "item": "carrot", "count": 2 } ]
+  }
+]

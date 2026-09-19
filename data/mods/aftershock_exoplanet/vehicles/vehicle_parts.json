@@ -103,7 +103,7 @@
       { "item": "lc_steel_lump", "count": [ 2, 4 ] },
       { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 4 ] },
-      { "item": "cable", "count": [ 5, 20 ] },
+      { "item": "cable", "count": [ 2, 7 ] },
       { "item": "RAM", "count": [ 1, 4 ] },
       { "item": "e_scrap", "count": [ 3, 8 ] }
     ],
@@ -206,7 +206,7 @@
     "breaks_into": [
       { "item": "mc_steel_lump", "count": [ 6, 11 ] },
       { "item": "mc_steel_chunk", "count": [ 6, 11 ] },
-      { "item": "scrap", "charges": [ 6, 11 ] }
+      { "item": "scrap", "count": [ 6, 11 ] }
     ],
     "damage_reduction": { "all": 50 },
     "variants": [ { "symbols": "O", "symbols_broken": "#" } ]

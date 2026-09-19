@@ -5,7 +5,7 @@
     "class": "NC_meteorologist",
     "name_suffix": "meteorologist",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_meteorologist_1",
     "faction": "no_faction",
     "mission_offered": "MISSION_meteorologist_1"
@@ -206,7 +206,7 @@
       "rejected": "Maybe another time…",
       "advice": "Try looking for some battery-powered trinkets and take them apart.",
       "inquire": "How's it going?",
-      "success": "Great, I'm continue to work on it…",
+      "success": "Great, I'll continue to work on it…",
       "success_lie": "Why do you say that?",
       "failure": "…"
     }

@@ -113,6 +113,86 @@
   {
     "type": "monster_attack",
     "attack_type": "melee",
+    "id": "march_lord_sword_spring",
+    "cooldown": 2,
+    "move_cost": 119,
+    "accuracy": 8,
+    "damage_max_instance": [
+      { "damage_type": "bash", "amount": 8 },
+      { "damage_type": "cut", "amount": 42 },
+      { "damage_type": "biological", "amount": 9 }
+    ],
+    "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+    "hit_dmg_u": "%1$s hits your %2$s with an ethereal blade!",
+    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with an ethereal blade!",
+    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "march_lord_sword_summer",
+    "cooldown": 2,
+    "move_cost": 119,
+    "accuracy": 8,
+    "damage_max_instance": [
+      { "damage_type": "bash", "amount": 8 },
+      { "damage_type": "cut", "amount": 42 },
+      { "damage_type": "heat", "amount": 9 }
+    ],
+    "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+    "hit_dmg_u": "%1$s hits your %2$s with an ethereal blade!",
+    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with an ethereal blade!",
+    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "march_lord_sword_autumn",
+    "cooldown": 2,
+    "move_cost": 119,
+    "accuracy": 8,
+    "damage_max_instance": [
+      { "damage_type": "bash", "amount": 8 },
+      { "damage_type": "cut", "amount": 42 },
+      { "damage_type": "withering_damage", "amount": 9 }
+    ],
+    "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+    "hit_dmg_u": "%1$s hits your %2$s with an ethereal blade!",
+    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with an ethereal blade!",
+    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "march_lord_sword_winter",
+    "cooldown": 2,
+    "move_cost": 119,
+    "accuracy": 8,
+    "damage_max_instance": [
+      { "damage_type": "bash", "amount": 8 },
+      { "damage_type": "cut", "amount": 42 },
+      { "damage_type": "cold", "amount": 9 }
+    ],
+    "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+    "hit_dmg_u": "%1$s hits your %2$s with an ethereal blade!",
+    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with an ethereal blade!",
+    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
     "id": "ice_spray",
     "cooldown": 5,
     "move_cost": 100,

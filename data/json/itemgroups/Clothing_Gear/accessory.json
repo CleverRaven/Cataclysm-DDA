@@ -1,0 +1,258 @@
+[
+  {
+    "id": "accesories_personal_womens",
+    "type": "item_group",
+    "//": "women's personal accessories",
+    "subtype": "distribution",
+    "items": [
+      { "group": "accesories_personal_womens_child", "prob": 380 },
+      { "item": "ring_engagement", "prob": 5 },
+      { "item": "ring_purity", "prob": 10 },
+      { "item": "gold_lip_ring_loop", "prob": 2 },
+      { "item": "silver_lip_ring_stud", "prob": 3 },
+      { "item": "silver_lip_ring_loop", "prob": 3 },
+      { "item": "gold_lip_ring_stud", "prob": 2 },
+      { "item": "gold_nose_ring_loop", "prob": 2 },
+      { "item": "gold_nose_ring_stud", "prob": 2 },
+      { "item": "silver_nose_ring_loop", "prob": 3 },
+      { "item": "silver_nose_ring_stud", "prob": 3 }
+    ]
+  },
+  {
+    "id": "accesories_personal_womens_child",
+    "type": "item_group",
+    "//": "women's personal accessories that do not contain the adult-specific ones",
+    "subtype": "distribution",
+    "items": [
+      { "item": "hairpin", "prob": 90 },
+      { "item": "fc_hairpin", "prob": 70 },
+      { "item": "copper_hairpin", "prob": 60 },
+      { "item": "silver_hairpin", "prob": 50 },
+      { "item": "gold_hairpin", "prob": 30 },
+      { "item": "platinum_hairpin", "prob": 10 },
+      { "item": "barrette", "prob": 60 },
+      { "item": "pearl_collar", "prob": 5 },
+      { "item": "jade_brooch", "prob": 5 },
+      { "item": "gold_anklet", "prob": 30 },
+      { "item": "silver_anklet", "prob": 50 },
+      { "item": "gold_toe_ring", "prob": 30 },
+      { "item": "silver_toe_ring", "prob": 50 },
+      { "item": "woven_anklet", "prob": 30 },
+      { "item": "bat_anklet", "prob": 30 },
+      { "item": "flower_anklet", "prob": 30 }
+    ]
+  },
+  {
+    "id": "accesories_personal_mens",
+    "type": "item_group",
+    "//": "men's personal accessories",
+    "subtype": "distribution",
+    "items": [
+      { "item": "tie_bow", "prob": 30 },
+      { "item": "tie_clipon", "prob": 10 },
+      { "item": "tie_necktie", "prob": 80 },
+      { "item": "tieclip", "prob": 20 },
+      { "item": "cufflinks", "prob": 20 },
+      { "item": "cufflinks_intricate", "prob": 5 },
+      { "item": "ring_signet", "prob": 30 },
+      { "item": "tie_skinny", "prob": 20 }
+    ]
+  },
+  {
+    "id": "neckties",
+    "type": "item_group",
+    "items": [ [ "tie_skinny", 40 ], [ "tie_necktie", 40 ], [ "tie_bow", 40 ], [ "tie_clipon", 40 ] ]
+  },
+  {
+    "id": "accessory_ring",
+    "type": "item_group",
+    "//": "decorative finger rings worn by people.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "copper_ring", "prob": 80, "count": [ 1, 3 ] },
+      { "item": "silver_ring", "prob": 50, "count": [ 1, 3 ] },
+      { "item": "gold_ring", "prob": 40, "count": [ 1, 3 ] },
+      { "item": "diamond_ring", "prob": 10 },
+      { "item": "platinum_ring", "prob": 10 }
+    ]
+  },
+  {
+    "id": "accessory_earring",
+    "type": "item_group",
+    "//": "decorative earrings and miscellaneous ear accessories worn by people.",
+    "subtype": "distribution",
+    "items": [
+      { "group": "earrings_silver", "prob": 70 },
+      { "group": "earrings_gold", "prob": 25 },
+      { "group": "earrings_platinum", "prob": 5 }
+    ]
+  },
+  {
+    "id": "accessory_bracelet",
+    "type": "item_group",
+    "//": "decorative bracelets worn by people.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "bead_bracelet", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "bracelet_friendship", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "copper_bracelet", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "silver_bracelet", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "gold_bracelet", "prob": 10, "count": [ 1, 2 ] },
+      { "item": "platinum_bracelet", "prob": 10 }
+    ]
+  },
+  {
+    "id": "accessory_teeth",
+    "type": "item_group",
+    "//": "decorative or functional teeth miscellany that may be present in people's mouths.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "gold_dental_grill", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "platinum_dental_grill", "prob": 30, "count": [ 1, 2 ] },
+      { "item": "diamond_dental_grill", "prob": 10 }
+    ]
+  },
+  {
+    "id": "accessory_necklace",
+    "type": "item_group",
+    "//": "decorative necklaces or neck accessories worn by people.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "bead_necklace", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "copper_necklace", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "silver_necklace", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "gold_necklace", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "platinum_necklace", "prob": 10, "count": [ 1, 2 ] },
+      { "item": "copper_locket", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "silver_locket", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "gold_locket", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "platinum_locket", "prob": 10, "count": [ 1, 2 ] },
+      { "item": "collarpin", "prob": 10 },
+      { "item": "bronze_medal", "prob": 6 },
+      { "item": "silver_medal", "prob": 4 },
+      { "item": "gold_medal", "prob": 2 },
+      { "item": "small_relic", "prob": 10 },
+      { "item": "holy_symbol", "prob": 10 },
+      { "item": "holy_symbol_wood", "prob": 10 }
+    ]
+  },
+  {
+    "id": "accessory_cat",
+    "type": "item_group",
+    "//": "accessories that some say were the cause of the Cataclysm.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "faux_fur_cat_ears", "prob": 80 },
+      { "item": "leather_cat_ears", "prob": 50 },
+      { "item": "fur_cat_ears", "prob": 10 },
+      { "item": "faux_fur_cat_tail", "prob": 80 },
+      { "item": "leather_cat_tail", "prob": 50 },
+      { "item": "fur_cat_tail", "prob": 10 },
+      { "item": "faux_fur_collar", "prob": 80 },
+      { "item": "leather_collar", "prob": 50 },
+      { "item": "fur_collar", "prob": 10 }
+    ]
+  },
+  {
+    "id": "accessory_weaponcarry",
+    "type": "item_group",
+    "//": "clothing designed to hold a small weapon worn by people.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "bootstrap", "prob": 20 },
+      { "item": "bootsheath", "prob": 50 },
+      { "item": "leg_sheath6", "prob": 1 },
+      { "item": "gartersheath1", "prob": 40 },
+      { "item": "gartersheath2", "prob": 10 },
+      { "item": "sheath", "prob": 80 },
+      { "item": "back_holster", "prob": 10 },
+      { "item": "holster", "prob": 10 },
+      { "item": "nylon_holster", "prob": 20 },
+      { "item": "sholster", "prob": 10 },
+      { "item": "shoulder_holster", "prob": 1 },
+      { "item": "bholster", "prob": 10 },
+      { "item": "bbholster", "prob": 8 }
+    ]
+  },
+  {
+    "id": "accessory_sportsgear",
+    "type": "item_group",
+    "//": "assorted sportsgear worn by people.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "elbow_pads", "prob": 50 },
+      { "item": "knee_pads", "prob": 50 },
+      { "item": "iggaak", "prob": 5 },
+      { "item": "goggles_swim", "prob": 10 },
+      { "item": "glasses_bal", "prob": 10 },
+      { "item": "eclipse_glasses", "prob": 5 },
+      { "item": "goggles_ski", "prob": 10 }
+    ]
+  },
+  {
+    "id": "accesories_personal_unisex",
+    "type": "item_group",
+    "//": "unisex personal accessories",
+    "subtype": "collection",
+    "items": [
+      { "group": "accesories_personal_unisex_child", "prob": 185 },
+      { "group": "accessory_cat", "prob": 1 },
+      { "group": "accessory_weaponcarry", "prob": 5 },
+      { "group": "accessory_sportsgear", "prob": 5 },
+      { "item": "american_flag", "prob": 1 },
+      { "item": "pride_flag", "prob": 1 },
+      { "item": "national_flag", "prob": 1 },
+      { "item": "state_flag", "prob": 1 },
+      { "item": "tool_belt", "prob": 2 },
+      { "group": "flask_liquor", "prob": 3 },
+      { "item": "pin_badge", "prob": 6 }
+    ]
+  },
+  {
+    "id": "accesories_personal_unisex_child",
+    "type": "item_group",
+    "//": "unisex personal accessories that a kid could have on them",
+    "subtype": "collection",
+    "items": [
+      { "group": "clothing_glasses", "prob": 50 },
+      { "group": "clothing_watch", "prob": 15 },
+      { "group": "accessory_ring", "prob": 15 },
+      { "group": "accessory_earring", "prob": 15 },
+      { "group": "accessory_bracelet", "prob": 15 },
+      { "group": "accessory_teeth", "prob": 2 },
+      { "group": "accessory_necklace", "prob": 15 },
+      { "group": "accessory_sportsgear", "prob": 5 },
+      { "item": "folding_poncho", "prob": 5 },
+      { "item": "leather_belt", "prob": 30 },
+      { "item": "wearable_light", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "binoculars", "prob": 2 },
+      { "item": "whistle", "prob": 3 },
+      { "item": "harmonica_holder", "prob": 1 },
+      { "group": "costume_accessories", "prob": 1 },
+      { "group": "costume_jewelry", "prob": 1 },
+      { "group": "costume_accessories", "prob": 30, "event": "halloween" },
+      { "group": "costume_jewelry", "prob": 30, "event": "halloween" }
+    ]
+  },
+  {
+    "id": "tefillin_sets",
+    "type": "item_group",
+    "//": "tefillin sets",
+    "subtype": "distribution",
+    "items": [ { "group": "tefillin_right_hand", "prob": 1 }, { "group": "tefillin_left_hand", "prob": 1 } ]
+  },
+  {
+    "id": "tefillin_right_hand",
+    "type": "item_group",
+    "//": "tefillin sets",
+    "subtype": "collection",
+    "items": [ { "item": "tefillin_hand_r", "prob": 100 }, { "item": "tefillin_head", "prob": 100 } ]
+  },
+  {
+    "id": "tefillin_left_hand",
+    "type": "item_group",
+    "//": "tefillin sets",
+    "subtype": "collection",
+    "items": [ { "item": "tefillin_hand_l", "prob": 100 }, { "item": "tefillin_head", "prob": 100 } ]
+  }
+]

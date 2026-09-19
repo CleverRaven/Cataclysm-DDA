@@ -124,6 +124,7 @@ const flag_id flag_E_STORABLE( "E_STORABLE" );
 const flag_id flag_E_STORABLE_EXCLUSIVE( "E_STORABLE_EXCLUSIVE" );
 const flag_id flag_FAKE_MILL( "FAKE_MILL" );
 const flag_id flag_FAKE_SMOKE( "FAKE_SMOKE" );
+const flag_id flag_FAULT_ON_COMPLETION( "FAULT_ON_COMPLETION" );
 const flag_id flag_FELINE( "FELINE" );
 const flag_id flag_FERTILIZER( "FERTILIZER" );
 const flag_id flag_FIELD_DRESS( "FIELD_DRESS" );

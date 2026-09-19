@@ -380,10 +380,11 @@ struct event_spec<event_type::character_kills_monster> {
 
 template<>
 struct event_spec<event_type::character_kills_character> {
-    static constexpr std::array<event_field, 3> fields = {{
+    static constexpr std::array<event_field, 4> fields = {{
             { "killer", cata_variant_type::character_id },
             { "victim", cata_variant_type::character_id },
             { "victim_name", cata_variant_type::string },
+            { "victim_class", cata_variant_type::string },
         }
     };
 };
@@ -620,8 +621,8 @@ template<>
 struct event_spec<event_type::dimension_travel> {
     static constexpr std::array<event_field, 3> fields = {{
             { "character", cata_variant_type::character_id },
-            { "from_dimension", cata_variant_type::string },
-            { "to_dimension", cata_variant_type::string },
+            { "from_dimension", cata_variant_type::dimension_id },
+            { "to_dimension", cata_variant_type::dimension_id },
         }
     };
 };

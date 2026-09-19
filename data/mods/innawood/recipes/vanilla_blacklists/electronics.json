@@ -1,0 +1,132 @@
+[
+  {
+    "type": "recipe",
+    "result": "solar_panel_v2",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "solar_panel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "recharge_station",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battery_bionic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "omnicamera",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "omnicamera_reinforced",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "amplifier",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "noise_emitter",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "noise_emitter_radio-mod",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "standing_directed_floodlight",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wall_light",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battery_ups",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "two_way_radio",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "heavy_plus_battery_cell",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "heavy_battery_cell",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battery_car",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battery_motorbike",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "magazine_battery_mod",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ground_solar_panel_v2",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "UPS_OFF",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ground_solar_panel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "foot_locker_recharge_station",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "discharging_battery",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "analytical_set_basic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "workbench_with_recharger",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oven",
+    "obsolete": true
+  }
+]

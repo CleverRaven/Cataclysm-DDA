@@ -13,7 +13,7 @@
     "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "soldering_standard", 10 ], [ "electric_probing", 1 ] ],
-    "components": [ [ [ "afs_plasma_torch", 1 ] ], [ [ "cable", 20 ] ], [ [ "afs_energy_storage_3", 1 ] ], [ [ "afs_material_1", 2 ] ] ]
+    "components": [ [ [ "afs_plasma_torch", 1 ] ], [ [ "cable", 7 ] ], [ [ "afs_energy_storage_3", 1 ] ], [ [ "afs_material_1", 2 ] ] ]
   },
   {
     "result": "afs_makeshift_fusion_gun",
@@ -30,7 +30,7 @@
     "components": [
       [ [ "afs_plasma_torch", 1 ] ],
       [ [ "afs_fusion_engine_core", 1 ] ],
-      [ [ "cable", 20 ] ],
+      [ [ "cable", 7 ] ],
       [ [ "afs_material_1", 5 ] ],
       [ [ "afs_heat_1", 1 ] ],
       [ [ "afs_energy_storage_3", 1 ] ],

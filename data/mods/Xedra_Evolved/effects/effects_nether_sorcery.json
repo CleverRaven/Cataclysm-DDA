@@ -26,5 +26,14 @@
     "remove_message": "You can move again.",
     "show_in_info": true,
     "flags": [ "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_nether_sorcery_cause_withering_damage",
+    "name": [ "The Withering" ],
+    "desc": [ "You are slowed." ],
+    "remove_message": "Your strength returns.",
+    "show_in_info": true,
+    "base_mods": { "hit_mod": [ -2 ], "dodge_mod": [ -2 ], "speed_mod": [ -30 ] }
   }
 ]

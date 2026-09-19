@@ -1,0 +1,47 @@
+[
+  {
+    "id": "bot_nl_surgicalbot",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "inactive surgical bonebot" },
+    "description": "An inactive surgical bonebot.  Using this item involves placing it on the ground and activating it.  If reprogrammed successfully, the nurse bot will then identify you as a friendly, roam around or follow you, and assist you in surgeries.  That is, if you can figure out how to reprogram this thing in the first place.",
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "price": "0 USD",
+    "price_postapoc": "0 USD",
+    "material": [ "cyber_bone" ],
+    "symbol": ";",
+    "color": "light_blue",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_nl_surgicalbot_assist",
+      "friendly_msg": "The bonebot slowly rises to its full height, each movement accompanied by the sound of snapping sinew.",
+      "hostile_msg": "The bonebot slowly rises to its full height, each movement accompanied by the sound of snapping sinew.",
+      "difficulty": 9,
+      "moves": 150,
+      "skills": [ "electronics", "computer" ]
+    },
+    "flags": [ "SINGLE_USE" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "broken_nl_surgicalbot_1_1",
+    "symbol": ",",
+    "color": "dark_gray",
+    "name": { "str": "broken surgical bonebot" },
+    "category": "other",
+    "description": "A broken surgical bonebot.  Could be gutted for parts.",
+    "price": "0 USD",
+    "price_postapoc": "0 USD",
+    "material": [ "cyber_bone" ],
+    "weight": "81500 g",
+    "volume": "62500 ml",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "broken_nl_surgicalbot_assist",
+    "name": { "str": "broken surgical bonebot" },
+    "copy-from": "broken_nl_surgicalbot_1_1"
+  }
+]

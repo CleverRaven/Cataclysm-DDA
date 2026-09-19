@@ -6,7 +6,7 @@
     "name_suffix": "Lumberjack",
     "class": "NC_COWBOY",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_RANCH_WOODCUTTER",
     "faction": "tacoma_commune"
   },

@@ -34,7 +34,7 @@
     "id": "upgradekey_slaughter",
     "type": "ITEM",
     "category": "spare_parts",
-    "name": { "str": "Vengeance of the Island" },
+    "name": { "str_sp": "Vengeance of the Island" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Slaughter Missions",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -229,7 +229,7 @@
     "id": "upgradekey_bonusmissions3",
     "type": "ITEM",
     "category": "spare_parts",
-    "name": { "str": "Hand of the Island" },
+    "name": { "str_sp": "Hand of the Island" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Three Missions per Expedition",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -365,7 +365,7 @@
         { "math": [ "bonusmissions = 5" ] },
         { "u_forget_recipe": "upgradekey_bonusmissions5" },
         {
-          "u_message": "Your mmind fills with many transgressors that the Island has marked or will mark for death.  Carrying the Island's sentences is your responsibility, a duty you've accepted in full.\nIn every future expedition, you will now be given 5 random missions.",
+          "u_message": "Your mind fills with many transgressors that the Island has marked or will mark for death.  Carrying the Island's sentences is your responsibility, a duty you've accepted in full.\nIn every future expedition, you will now be given 5 random missions.",
           "type": "mixed"
         }
       ]
@@ -511,7 +511,7 @@
     "id": "upgradekey_hardmissions2",
     "type": "ITEM",
     "category": "spare_parts",
-    "name": { "str": "Will of the Island" },
+    "name": { "str_sp": "Will of the Island" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Hardest Missions",
     "volume": "25000 ml",
     "weight": "15000 g",

@@ -28,5 +28,43 @@
       "_": { "chunks": [ [ "1x1_t_dirt", 1 ], [ "1x1_predecessor_groundcover", 3 ] ] },
       "~": { "chunks": [ [ "1x1_t_mud", 6 ], [ "1x1_t_dirt", 1 ], [ "1x1_predecessor_groundcover", 1 ] ] }
     }
+  },
+  {
+    "type": "palette",
+    "id": "trailhead",
+    "terrain": {
+      " ": "t_region_soil",
+      ",": [ [ "t_region_groundcover", 2 ], "t_region_soil" ],
+      ";": [ "t_region_groundcover", "t_region_soil" ],
+      ".": [ [ "t_region_groundcover", 2 ], "t_region_soil" ],
+      "b": "t_region_soil",
+      "t": "t_trunk",
+      "s": "t_region_soil",
+      "6": "t_region_soil",
+      "=": "t_region_soil",
+      "-": [ [ "t_region_groundcover", 2 ], "t_region_soil" ],
+      "|": [ [ "t_region_groundcover", 2 ], "t_region_soil" ],
+      "#": [ [ "t_region_groundcover", 2 ], "t_region_soil" ],
+      "B": [ [ "t_region_groundcover", 2 ], "t_region_soil" ],
+      "w": [ [ "t_region_groundcover", 2 ], "t_region_soil" ],
+      "+": [ [ "t_region_groundcover", 2 ], "t_region_soil" ],
+      ":": [ [ "t_region_groundcover", 2 ], "t_region_soil" ],
+      "c": [ [ "t_region_groundcover", 2 ], "t_region_soil" ],
+      "W": [ [ "t_region_groundcover", 2 ], "t_region_soil" ],
+      "T": [ [ "t_region_groundcover", 2 ], "t_region_soil" ],
+      "7": [ "t_region_tree", "t_region_shrub" ],
+      "f": "t_region_soil"
+    },
+    "furniture": {
+      "b": "f_boulder_small",
+      "s": [ [ "f_region_flower", 1 ], [ "f_null", 100 ] ],
+      "B": [ [ "f_region_flower", 1 ], [ "f_null", 100 ] ],
+      "=": [ [ "f_region_flower", 1 ], [ "f_null", 100 ] ],
+      "w": [ [ "f_region_flower", 1 ], [ "f_null", 100 ] ],
+      ",": [ [ "f_region_flower", 1 ], [ "f_null", 100 ] ],
+      ";": [ [ "f_region_flower", 1 ], [ "f_null", 100 ] ],
+      ".": [ [ "f_region_flower", 1 ], [ "f_null", 100 ] ]
+    },
+    "nested": { "6": { "chunks": [ [ "null", 1 ] ] } }
   }
 ]

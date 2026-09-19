@@ -320,6 +320,18 @@
         "name": { "str": "unicorn plushie" },
         "description": "This majestic unicorn plushie features a soft white body and horn, with tufts of white hair on its neck and tail.  Its black eyes are adorably large and round.",
         "weight": 1
+      },
+      {
+        "id": "toy_alien_green",
+        "name": { "str": "green alien plushie" },
+        "description": "A green alien plush with cute antennae and big shiny black eyes.  Considering current events, hopefully you won't encounter such aliens in your travels.",
+        "weight": 1
+      },
+      {
+        "id": "toy_alien_gray",
+        "name": { "str": "gray alien plushie" },
+        "description": "A gray alien plush with cute antennae and big shiny black eyes.  Considering current events, hopefully you won't encounter such aliens in your travels.",
+        "weight": 1
       }
     ]
   },

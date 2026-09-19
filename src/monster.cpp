@@ -865,7 +865,9 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     // Therefore the header is intentionally *neutral* on the language.
     mvwprintz( w, point( column, vStart++ ), c_light_blue, _( "-----CREATURE-----" ) );
 
-    oss << get_tag_from_color( c_white ) << get_origin( type->src ) << "</color>" << "\n";
+    if( debug_mode ) {
+        oss << get_tag_from_color( c_white ) << get_origin( type->src ) << "</color>" << "\n";
+    }
 
     if( debug_mode ) {
         oss << colorize( type->id.str(), c_white );
@@ -976,8 +978,9 @@ void monster::print_info_imgui() const
 {
     const map &here = get_map();
 
-    ImGui::TextUnformatted( get_origin( type->src ).c_str() );
-
+    if( debug_mode ) {
+        ImGui::TextUnformatted( get_origin( type->src ).c_str() );
+    }
     if( debug_mode ) {
         ImGui::TextUnformatted( type->id.c_str() );
     }
@@ -1071,11 +1074,11 @@ std::vector<std::string> monster::extended_description() const
     // exponential growth.
     tmp.reserve( 12 );
 
-    tmp.emplace_back( get_origin( type->src ) );
-    tmp.emplace_back( "--" );
-
     if( debug_mode ) {
+        tmp.emplace_back( get_origin( type->src ) );
+        tmp.emplace_back( "--" );
         tmp.emplace_back( colorize( type->id.str(), c_white ) );
+
         const std::vector<std::pair<std::string, std::string>> overlays = get_overlay_ids();
         const std::string overlay_str = enumerate_as_string(
                                             overlays.begin(), overlays.end(),
@@ -1130,6 +1133,22 @@ std::vector<std::string> monster::extended_description() const
                                        has_flag( mon_flag_IMMOBILE ) || has_flag( json_flag_CANNOT_MOVE ),
                                        type->speed_desc );
     tmp.emplace_back( speed_desc );
+
+    // Print "taming" food information
+    if( !type->petfood.food.empty() ) {
+        tmp.emplace_back( colorize( _( "Seems to be familiar with people and could be tamed with:" ),
+                                    c_light_blue ) );
+
+        for( std::string food_category : type->petfood.food ) {
+            std::vector<const itype *> food_items = Item_factory::find( [&]( const itype & t ) {
+                return t.use_methods.count( "PETFOOD" ) && t.comestible &&
+                       t.comestible->petfood.count( food_category );
+            } );
+            for( const itype *food_item_type : food_items ) {
+                tmp.emplace_back( colorize( food_item_type->nname( 1 ), c_white ) );
+            }
+        }
+    }
 
     tmp.emplace_back( "--" );
     tmp.emplace_back( string_format( "<dark>%s</dark>", type->get_description() ) );
@@ -1261,14 +1280,22 @@ std::vector<std::string> monster::extended_description() const
             tmp.emplace_back( "Lifespan end time: n/a <color_yellow>(indefinite)</color>" );
         }
 
+        if( !type->weakpoints.weakpoint_list.empty() ) {
+            tmp.emplace_back( colorize( "weakpoints:", c_white ) );
+            for( const weakpoint &wp : type->weakpoints.weakpoint_list ) {
+                tmp.emplace_back( string_format( "%s - coverage %.3f", wp.id, wp.coverage ) );
+            }
+        }
+
         const std::vector<std::reference_wrapper<const effect>> all_effects = get_effects();
         if( !all_effects.empty() ) {
             tmp.emplace_back( "Applied effects:" );
             for( const effect &eff : all_effects ) {
                 const std::string is_permanent = eff.is_permanent() ? "(permanent)" : "";
-                tmp.emplace_back( string_format( "%s (%s) %s", eff.get_id().c_str(),
-                                                 to_string_writable( eff.get_duration() ).c_str(),
-                                                 is_permanent.c_str() ) );
+                tmp.emplace_back( string_format( "%s [%d] (%s) %s", eff.get_id().c_str(),
+                                                 eff.get_intensity(),
+                                                 to_string_writable( eff.get_duration() ),
+                                                 is_permanent ) );
             }
         }
     }
@@ -2127,9 +2154,43 @@ bool monster::is_dead_state() const
     return hp <= 0;
 }
 
-bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
+bool monster::block_hit( Creature *, bodypart_id &, damage_instance &dam )
 {
-    return false;
+    if( blocks_left <= 0 ) {
+        return false;
+    }
+
+    --blocks_left;
+
+    if( !x_in_y( type->block.chance, 100 ) ) {
+        return false;
+    }
+
+    bool blocked = false;
+    float remaining_block = type->block.effectiveness;
+
+    for( damage_unit &elem : dam.damage_units ) {
+        if( remaining_block <= 0.0f ) {
+            break;
+        }
+
+        if( type->block.ranged || ( elem.type->physical && elem.type->melee_only ) ) {
+            const float block_amount = std::min( remaining_block, elem.amount );
+
+            elem.amount -= block_amount;
+            remaining_block -= block_amount;
+
+            if( block_amount > 0.0f ) {
+                blocked = true;
+            }
+        }
+    }
+
+    if( blocked ) {
+        add_msg_if_player_sees( *this, m_warning, _( "The %s blocks the attack!" ), name() );
+    }
+
+    return blocked;
 }
 
 const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const bodypart_id &,
@@ -2930,6 +2991,8 @@ void monster::explode()
 
 void monster::process_turn()
 {
+    blocks_left = type->block.count;
+
     map &here = get_map();
     if( !is_hallucination() ) {
         for( const std::pair<const emit_id, time_duration> &e : type->emit_fields ) {

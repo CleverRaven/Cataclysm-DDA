@@ -393,7 +393,12 @@ BitmapFont::BitmapFont(
     const int w, const int h,
     const palette_array &palette,
     const std::string &typeface_path )
-    : Font( w, h, palette )
+    : Font( w, h, palette ), typeface_path( typeface_path ), source_pixel_format( pixel_format )
+{
+    build_textures( renderer, pixel_format );
+}
+
+void BitmapFont::build_textures( const SDL_Renderer_Ptr &renderer, const Uint32 pixel_format )
 {
     dbg( D_INFO ) << "Loading bitmap font [" + typeface_path + "].";
     SDL_Surface_Ptr asciiload = load_image( typeface_path.c_str() );
@@ -624,6 +629,41 @@ void FontFallbackList::OutputChar( const SDL_Renderer_Ptr &renderer,
         }
     }
     ( *cached->second )->OutputChar( renderer, geometry, ch, p, color, opacity );
+}
+
+void CachedTTFFont::release_gpu_resources()
+{
+    glyph_cache_map.clear();
+}
+
+void BitmapFont::release_gpu_resources()
+{
+    for( SDL_Texture_Ptr &tex : ascii ) {
+        tex.reset();
+    }
+}
+
+void BitmapFont::rebuild_for_renderer( const SDL_Renderer_Ptr &renderer )
+{
+    build_textures( renderer, source_pixel_format );
+}
+
+void FontFallbackList::release_gpu_resources()
+{
+    for( std::unique_ptr<Font> &child : fonts ) {
+        if( child ) {
+            child->release_gpu_resources();
+        }
+    }
+}
+
+void FontFallbackList::rebuild_for_renderer( const SDL_Renderer_Ptr &renderer )
+{
+    for( std::unique_ptr<Font> &child : fonts ) {
+        if( child ) {
+            child->rebuild_for_renderer( renderer );
+        }
+    }
 }
 
 #endif // TILES

@@ -1,0 +1,92 @@
+[
+  {
+    "type": "recipe",
+    "result": "esbit_stove",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rebreather_filler_ko2",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rebreather_cartridge_o2",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rebreather_cartridge_air",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rebreather_cartridge_regen",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rebreather_filler_soda_lime",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "popcan_stove",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wearable_camera",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wearable_camera_pro",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oxygen_tank",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oxygen_cylinder",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "acetylene_cooker",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "large_space_heater",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "small_space_heater",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rake_plastic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shovel_snow_plastic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hair_dye_kit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "smoxygen_tank",
+    "obsolete": true
+  }
+]

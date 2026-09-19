@@ -30,6 +30,7 @@
 #include "clzones.h"
 #include "colony.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
@@ -48,6 +49,7 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_group.h"
+#include "item_uid.h"
 #include "itype.h"
 #include "json.h"
 #include "json_loader.h"
@@ -107,6 +109,7 @@ static const fault_id fault_broken_window( "fault_broken_window" );
 static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_flat_tire_riding_on_rims( "fault_flat_tire_riding_on_rims" );
 static const fault_id fault_punctured_tires( "fault_punctured_tires" );
+static const fault_id fault_tire_treads( "fault_tire_treads" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_battery( "battery" );
@@ -2886,6 +2889,42 @@ std::optional<vpart_reference> vpart_position::part_with_tool( map &here,
     return std::optional<vpart_reference>();
 }
 
+std::optional<vpart_reference> vpart_position::part_with_unreserved_tool( map &here,
+        const itype_id &tool_type ) const
+{
+    for( const int idx : vehicle().parts_at_relative( mount_pos(), false ) ) {
+        const vpart_reference vp( vehicle(), idx );
+        if( vp.part().is_broken() ||
+            get_craft_reservations().vehicle_part_reserved(
+                vp.part().get_base().uid().get_value() ) ) {
+            continue;
+        }
+        const std::map<item, int> tools = vehicle().prepare_tools( here, vp.part() );
+        if( std::find_if( tools.begin(), tools.end(),
+        [&tool_type]( const std::pair<const item, int> &pair ) {
+        return pair.first.typeId() == tool_type;
+        } ) != tools.end() ) {
+            return vp;
+        }
+    }
+    return std::optional<vpart_reference>();
+}
+
+std::vector<vpart_tool_source> vpart_position::get_tools_with_sources( map &here ) const
+{
+    std::vector<vpart_tool_source> res;
+    for( const int part_idx : this->vehicle().parts_at_relative( this->mount_pos(), false ) ) {
+        const vehicle_part &vp = this->vehicle().part( part_idx );
+        if( vp.is_broken() ) {
+            continue;
+        }
+        for( const auto &[tool_item, hk] : this->vehicle().prepare_tools( here, vp ) ) {
+            res.push_back( { tool_item, hk, part_idx, vp.get_base().uid().get_value() } );
+        }
+    }
+    return res;
+}
+
 std::map<item, int> vpart_position::get_tools( map &here ) const
 {
     std::map<item, int> res;
@@ -2984,6 +3023,12 @@ std::optional<vpart_reference> optional_vpart_position::part_with_tool(
     return has_value() ? value().part_with_tool( here, tool_type ) : std::nullopt;
 }
 
+std::optional<vpart_reference> optional_vpart_position::part_with_unreserved_tool(
+    map &here, const itype_id &tool_type ) const
+{
+    return has_value() ? value().part_with_unreserved_tool( here, tool_type ) : std::nullopt;
+}
+
 std::vector<std::string> optional_vpart_position::extended_description() const
 {
     std::vector<std::string> ret;
@@ -2992,8 +3037,10 @@ std::vector<std::string> optional_vpart_position::extended_description() const
     }
 
     vehicle &v = value().vehicle();
-    ret.emplace_back( get_origin( v.type->src ) );
-    ret.emplace_back( "--" );
+    if( debug_mode ) {
+        ret.emplace_back( get_origin( v.type->src ) );
+        ret.emplace_back( "--" );
+    }
 
     ret.emplace_back( string_format( _( "%s (%s)" ), v.name, v.owner->get_name() ) );
     ret.emplace_back( "--" );
@@ -4434,7 +4481,7 @@ void vehicle::noise_and_smoke( map &here, int load, time_duration time )
 
 void vehicle::check_flats_do_rim_damage_or_sounds( map &here )
 {
-    if( wheelcache.empty() || velocity <= 0 ) {
+    if( wheelcache.empty() || velocity == 0 ) {
         return; // No wheels or (somehow) not moving
     }
 
@@ -5237,6 +5284,9 @@ float vehicle::steering_effectiveness( map &here ) const
         }
         if( vp.get_base().has_fault( fault_flat_tire_riding_on_rims ) ) {
             part_steer_capacity *= 0.1f;
+        }
+        if( vp.get_base().has_fault( fault_tire_treads ) ) {
+            part_steer_capacity *= 0.9f;
         }
         if( !vp.is_available() ) {
             part_steer_capacity = 0.0f;
@@ -8411,7 +8461,17 @@ std::list<item> vehicle::use_charges( map &here, const vpart_position &vp, const
                                    ? itype_water_faucet
                                    : type;
 
-    if( const std::optional<vpart_reference> tool_vp = vp.part_with_tool( here, veh_tool_type ) ) {
+    // A reserved part is skipped rather than ending the search, so a colocated
+    // unreserved one still supplies the tool.
+    std::optional<vpart_reference> tool_vp;
+    for( const vpart_tool_source &src_tool : vp.get_tools_with_sources( here ) ) {
+        if( src_tool.tool.typeId() == veh_tool_type &&
+            !get_craft_reservations().vehicle_part_reserved( src_tool.part_base_uid ) ) {
+            tool_vp.emplace( vp.vehicle(), src_tool.part_index );
+            break;
+        }
+    }
+    if( tool_vp ) {
         const itype_id &tool_fuel_type = type->tool_slot_first_ammo();
         // use the tool's ammo charges
         const itype_id &fuel_type = tool_fuel_type.is_null() ? type : tool_fuel_type;

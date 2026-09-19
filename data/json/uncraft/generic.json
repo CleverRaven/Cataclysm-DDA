@@ -237,7 +237,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "gold_small", 40 ] ] ]
+    "components": [ [ [ "gold_small", 10 ] ] ]
   },
   {
     "result": "pillowcase",
@@ -310,7 +310,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-    "components": [ [ [ "sheet_cotton", 2 ] ], [ [ "cotton_patchwork", 4 ] ], [ [ "down_feather", 50 ] ] ]
+    "components": [ [ [ "sheet_cotton", 2 ] ], [ [ "cotton_patchwork", 4 ] ], [ [ "down_feather", 5 ] ] ]
   },
   {
     "result": "well_pump",
@@ -394,7 +394,7 @@
       [ [ "scrap", 7 ] ],
       [ [ "copper", 13 ] ],
       [ [ "aluminum_foil", 400 ] ],
-      [ [ "graphite", 4900 ] ],
+      [ [ "graphite", 98 ] ],
       [ [ "waste_electrolyte_slurry", 1 ] ]
     ]
   }

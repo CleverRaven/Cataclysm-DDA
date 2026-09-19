@@ -152,8 +152,6 @@
     "symbol": "!",
     "color": "yellow",
     "looks_like": "survival_marker",
-    "charges_per_use": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "graphite": 100 }, "rigid": true } ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
     "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "NO_UNLOAD", "ALLOWS_BODY_BLOCK" ]
   },

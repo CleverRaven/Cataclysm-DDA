@@ -174,6 +174,18 @@ struct enum_traits<ot_match_type> {
     static constexpr ot_match_type last = ot_match_type::num_ot_match_type;
 };
 
+using accessor_flags = int;
+
+enum accessor_flags_ {
+    Access_None                       = 0,           // You probably don't want to use this!
+    Access_Inventory                  = 1 << 0,      // Only character's inventory
+    Access_Map_Around                 = 1 << 1,      // Items in radius PICKUP_RANGE around character (only reachable)
+    Access_Map_Current_Z              = 1 << 2,      // Everything on the current z-level (ignores reachability)
+    Access_Map_All                    = 1 << 3,      // Everything on the map, all z-levels (ignores reachability)
+    Access_Vehicle                    = 1 << 4,      // Everything on vehicles in the bubble *owned by that guy's faction* (ignores reachability)
+    Access_EVERYTHING                 = Access_Inventory | Access_Map_All | Access_Vehicle      // All of the above
+};
+
 enum class special_game_type : int {
     NONE = 0,
     TUTORIAL,
@@ -565,6 +577,16 @@ enum class surroundings_menu_tab_enum : int {
 template<>
 struct enum_traits<surroundings_menu_tab_enum> {
     static constexpr surroundings_menu_tab_enum last = surroundings_menu_tab_enum::num_tabs;
+};
+
+// remaining capacity return value, see item::get_remaining_capacity_for_liquid()
+enum class rem_cap_return {
+    SUCCESS,
+    NO_SPACE,
+    NO_SPACE_IN_PARENT,
+    BUCKET_FAIL, // when item is bucket, and is not on ground/held
+    ANOTHER_LIQUID_INSIDE,
+    LAST
 };
 
 #endif // CATA_SRC_ENUMS_H

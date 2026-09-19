@@ -74,5 +74,22 @@
     "time": "1 s",
     "components": [ [ [ "glass_shard", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bag_durasack",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "plastic_sheet", 18 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bag_durasack_cement",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "components": [ [ [ "plastic_sheet", 18 ] ], [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

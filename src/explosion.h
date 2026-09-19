@@ -9,6 +9,7 @@
 
 #include "coordinates.h"
 #include "point.h"
+#include "safe_reference.h"
 #include "type_id.h"
 
 class Creature;
@@ -67,12 +68,11 @@ struct explosion_data {
 namespace explosion_handler
 {
 struct queued_explosion {
-    const Creature *source;
+    safe_reference<Creature> source;
     const tripoint_abs_ms pos;
     const explosion_data data;
 
-    queued_explosion( const Creature *source, const tripoint_abs_ms &pos, const explosion_data &data )
-        : source( source ), pos( pos ), data( data ) {}
+    queued_explosion( const Creature *source, const tripoint_abs_ms &pos, const explosion_data &data );
 };
 inline std::vector<queued_explosion> _explosions;
 

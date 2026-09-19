@@ -1,0 +1,222 @@
+[
+  {
+    "type": "recipe",
+    "result": "socks_bag",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cardboard_crown",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "load_bearing_vest_sling",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "load_bearing_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "heavy_load_bearing_vest_sling",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "heavy_load_bearing_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "vest_jean",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "vest_jean_from_jacket",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wearable_rx12",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fancy_ordinance_cartridge_necklace",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "simple_ordnance_cartridge_necklace",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fancy_rifle_cartridge_necklace",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "simple_rifle_cartridge_necklace",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rollerskates",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_wetsuit_booties",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wetsuit_booties",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_wetsuit_booties",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "under_armor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "under_armor_shorts",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "zentai",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_binder_top",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_binder_top",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "binder_top",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hat_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "coat_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_coat_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_coat_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pants_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_duster_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "duster_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faux_fur_cat_tail",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "trenchcoat_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "armor_faux_farmor_xs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "armor_faux_farmor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_armor_faux_farmor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_boots_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "boots_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_boots_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faux_fur_collar",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_gloves_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_gloves_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gloves_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faux_fur_cat_ears",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "footrags_faux_fur",
+    "obsolete": true
+  }
+]

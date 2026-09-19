@@ -991,6 +991,7 @@ The following is a list of possible enchantment `values`:
 
 Character status value  | Description
 ---                     |---
+`AIMING_SPEED`          | Affects the speed at which you aim ranged weapons. `"multiply": 1` means you aim twice as quickly.
 `ARMOR_ALL`             | Gives this amount of protection against any damage type except one with "no_resist": true. For more precise changes use incoming_damage_mod or item_armor_bonus
 `ARTIFACT_RESONANCE`    | Affects the level of artifact resonance you have, which causes various hardcoded penalties as it rises (note: only add works, not multiply).
 `ATTACK_NOISE`          | Affects the amount of noise you make while melee attacking.
@@ -1000,6 +1001,7 @@ Character status value  | Description
 `BIONIC_MANA_PENALTY`       | changes how big the mana penalty for having bionic energy is (default ratio is 1 kj removes 1 mana point). better to use with `multiply`, using `add` just adds or removes flat amount of mana no matter of energy level. `"multiply": 1` double the ratio (1 kj removes 2 mana points), `"multiply": -0.5` halves it
 `BIONIC_POWER`          | Adds bionic power storage in millijoules ("add": 1000000 adds 1 kJ)
 `BLEED_STOP_BONUS`      | Affects the `bleed` level when applying medicine.
+`BLEEEDING_RATE`        | Affects the rate you lose blood when bleeding. 
 `BODYTEMP_SLEEP`        | Amount of warmth (in celcius) added to you when you sleep. Default is 0, so better to use `add`
 `BONUS_BLOCK`           | Affects the number of blocks you can perform.
 `BONUS_DODGE`           | Affects the number of dodges you can perform. Do not confuse with `DODGE_CHANCE`
@@ -1076,6 +1078,7 @@ Character status value  | Description
 `REGEN_HP_AWAKE`        | Affects the rate you recover hp when you do not sleep. Default value is 0, meaning if this enchantment is not specified, character can not regenerate hp when awake. Negative value causes character to lost HP over time when awake. Since it's a percent, using `multiply` is recommended; `multiply: 0.2` would make character able to regenerate at 20% of it's default regen
 `REGEN_MANA`            | 
 `REGEN_STAMINA`         | 
+`RELOADING_SPEED`       | Affects the speed at which you reload ranged weapons. `"multiply": 1` means reloading takes twice the time.
 `SCENT_MASK`            | Amount added to your scent target scent value (default 500, assigned by `scent_intensity` mutation field); `"add": 100` makes character a bit more smelly
 `SHOUT_NOISE`           | Changes how loud your shouts are (default 10)
 `SHOUT_NOISE_STR_MULT`  | Modifies the `shout_multiplier`, that affect how much your strength affects noise level (default 2, meaning one point of strength adds 2 units of noise )
@@ -1093,6 +1096,7 @@ Character status value  | Description
 `STOMACH_SIZE_MULTIPLIER`   | Changes how much food you can consume at once. `"add": 1000` adds 1 L to stomach size
 `STRENGTH`              | Affects the strength stat. Formula for all stat affecting enchantments are `(base_stat + enchantment_addition) * (enchantment_multiplier + 1)`. Str 8 with enchantment `add 2, multiply 1` result in `(8+2) * (1+1) = 10 * 2 =` 20 str
 `SWEAT_MULTIPLIER`      | Affects how much your body can sweat. Affects all bodyparts at once. Since it's a percent, using `multiply` is recommended.
+`THEORETICAL_SKILL_CATCHUP_BONUS` | Affects how quickly practical skill catches up to theoretical skill. The default value this modifies is 2, so `add` is extremely powerful.
 `THIRST`                | 
 `THROW_STR`             | Increases your strength for throwing purposes. Not limited by your throwing skill (you still throw it as precise as your skill allows you, just further). Only additive. Rule of thumb: one additional point of strength allow you to throw 113 g object 10 tiles further, or 1130 g object 1 tile further, limited by [ str * 3 + skill ]. Full calculations are in Character::throw_range
 `THROW_DAMAGE`          | Increases the damage of any thrown projectile. `add` adds this amount of damage to the projectile as bash damage, `multiply` would increase all projectile damage, not only bash type.

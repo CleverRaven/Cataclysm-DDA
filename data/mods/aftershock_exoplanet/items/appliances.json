@@ -40,7 +40,7 @@
       { "item": "scrap", "count": [ 4, 16 ] },
       { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
       { "item": "plutonium", "count": [ 0, 2 ] },
-      { "item": "lead", "charges": [ 12, 18 ] }
+      { "item": "lead", "count": [ 12, 18 ] }
     ],
     "damage_reduction": { "all": 60 },
     "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
@@ -63,7 +63,7 @@
     "flags": [ "CARGO", "OBSTACLE", "RECHARGE", "COVERED", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "breaks_into": [
       { "item": "plastic_chunk", "count": [ 3, 5 ] },
-      { "item": "cable", "count": [ 1, 4 ] },
+      { "item": "cable", "count": [ 1, 2 ] },
       { "item": "e_scrap", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 2, 5 ] }
     ],
@@ -86,7 +86,7 @@
     "breaks_into": [
       { "item": "mc_steel_lump" },
       { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
-      { "item": "scrap", "charges": [ 1, 3 ] },
+      { "item": "scrap", "count": [ 1, 3 ] },
       { "item": "element", "count": [ 0, 2 ] }
     ],
     "damage_reduction": { "all": 15 },
@@ -107,7 +107,7 @@
     "bonus": 200,
     "damage_modifier": 10,
     "breaks_into": [
-      { "item": "cable", "count": [ 1, 4 ] },
+      { "item": "cable", "count": [ 1, 2 ] },
       { "item": "lc_steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],

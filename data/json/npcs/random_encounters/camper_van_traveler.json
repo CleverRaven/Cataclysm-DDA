@@ -4,7 +4,7 @@
     "id": "traveler_camper_van",
     "class": "NC_CAMPER_VAN_TRAVELER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_NPC_CAMPER_VAN_TRAVELER",
     "faction": "no_faction"
   },

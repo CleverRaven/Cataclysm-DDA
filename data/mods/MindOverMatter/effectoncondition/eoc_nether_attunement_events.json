@@ -805,9 +805,11 @@
         },
         "then": [
           { "u_message": "You feel like you're being watched.", "type": "bad" },
+          { "math": [ "_duration = ( (u_vitamin('vitamin_psionic_drain') * rng(150,600)) + 86400)" ] },
           {
-            "u_add_effect": "psi_nether_attention",
-            "duration": { "math": [ "(u_vitamin('vitamin_psionic_drain') * rng(150,600)) + 86400" ] }
+            "if": { "u_has_effect": "psi_nether_attention" },
+            "then": { "u_add_effect": "psi_nether_attention", "duration": { "math": [ "_duration / 4" ] } },
+            "else": { "u_add_effect": "psi_nether_attention", "duration": { "math": [ "_duration" ] } }
           }
         ]
       }

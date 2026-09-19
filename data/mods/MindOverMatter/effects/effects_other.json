@@ -39,5 +39,22 @@
     "desc": [ "" ],
     "rating": "good",
     "flags": [ "BLOCK_HUGE_ATTACKS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_premonition_quiet_farm_limiter",
+    "//": "Hidden effect, used as a limiter",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_shadow_urge_process_operation",
+    "//": "Hidden effect, used as part of the SHADOW URGE process",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "You slip into unconsciousness.",
+    "rating": "mixed",
+    "flags": [ "BLIND", "DEAF" ]
   }
 ]

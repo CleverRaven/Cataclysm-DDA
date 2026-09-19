@@ -1,0 +1,16 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_contraband_scanner_trap",
+    "condition": { "math": [ "lights_are_off == 0" ] },
+    "effect": [
+      {
+        "if": { "u_has_item_with_flag": "CONTRABAND" },
+        "then": [
+          { "message": "You hear an alarm.", "sound": true },
+          { "u_make_sound": "\"An alarm blares from the scanner!\"", "volume": 25, "type": "alarm" }
+        ]
+      }
+    ]
+  }
+]

@@ -232,6 +232,13 @@
   },
   {
     "type": "item_group",
+    "id": "cornmeal_box_full",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "cornmeal", "container-item": "null", "count": -1 } ]
+  },
+  {
+    "type": "item_group",
     "id": "yeast_various",
     "subtype": "distribution",
     "entries": [

@@ -13,7 +13,7 @@
     "components": [
       [ [ "circuit", 1 ] ],
       [ [ "e_scrap", 3 ] ],
-      [ [ "cable", 5 ] ],
+      [ [ "cable", 2 ] ],
       [ [ "light_minus_battery_cell", 1 ] ],
       [ [ "potato", 1 ] ]
     ]

@@ -9,7 +9,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "ANIMIST", "MAGUS", "KELVINIST", "STORMSHAPER", "EARTHSHAPER", "TECHNOMANCER", "DRUID", "BIOMANCER" ],
-    "flags": [ "ALLOW_ADVANCED_SPELLS" ],
+    "flags": [ "ALLOW_ADVANCED_SPELLS", "CANNOT_READ_SPELLBOOKS" ],
     "active": true,
     "activated_eocs": [ "EOC_open_sorcerer_menu" ]
   }

@@ -274,7 +274,7 @@
     "id": "t_highland_holy_tree",
     "copy-from": "t_tree_dead",
     "symbol": "G",
-    "name": " dead holy tree",
+    "name": "dead holy tree",
     "description": "Censers and candlelamps hang from the twisted branches of this tree, which seems to have been revered in the past.  A sword is embedded in its trunk.",
     "bash": {
       "str_min": 70,

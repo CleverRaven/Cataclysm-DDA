@@ -1,0 +1,38 @@
+[
+  {
+    "id": "mx_portal_cracked_mirror",
+    "type": "map_extra",
+    "name": { "str": "Cracked Mirror" },
+    "description": "Nether creatures have found there way in here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_portal_ingress" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "u",
+    "color": "dark_gray",
+    "autonote_visibility": "none",
+    "flags": [ "PORTAL_STORM_DUNGEON" ]
+  },
+  {
+    "id": "mx_portal_ingress",
+    "type": "map_extra",
+    "name": { "str": "Ingress" },
+    "description": "Nether creatures have found there way in here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_portal_ingress" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "o",
+    "color": "red",
+    "autonote_visibility": "none",
+    "flags": [ "PORTAL_STORM_DUNGEON" ]
+  },
+  {
+    "id": "mx_portal_distortion_item",
+    "type": "map_extra",
+    "name": { "str": "Distortion" },
+    "description": "A strange item is here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_portal_distortion_item" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "i",
+    "color": "blue",
+    "autonote_visibility": "none",
+    "flags": [ "PORTAL_STORM_DUNGEON" ]
+  }
+]

@@ -129,7 +129,7 @@
     "durability": 50,
     "description": "A mobile weather station.  Its instruments are deployed on its tall telescoping stand.",
     "folded_volume": "89 L",
-    "breaks_into": [ { "item": "plastic_chunk", "count": [ 14, 20 ] }, { "item": "scrap", "charges": [ 2, 3 ] } ],
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 14, 20 ] }, { "item": "scrap", "count": [ 2, 3 ] } ],
     "requirements": {
       "install": { "time": "1200 s" },
       "removal": { "time": "1200 s" },
@@ -155,7 +155,7 @@
     "durability": 50,
     "description": "A mobile hazardous environment weather station.  Its instruments are deployed on its tall telescoping stand.",
     "folded_volume": "90 L",
-    "breaks_into": [ { "item": "plastic_chunk", "count": [ 14, 20 ] }, { "item": "scrap", "charges": [ 2, 3 ] } ],
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 14, 20 ] }, { "item": "scrap", "count": [ 2, 3 ] } ],
     "requirements": {
       "install": { "time": "1200 s" },
       "removal": { "time": "1200 s" },
@@ -181,7 +181,7 @@
     "durability": 50,
     "description": "A mobile hazardous environment weather station.  Its instruments are deployed on its tall telescoping stand.",
     "folded_volume": "90 L",
-    "breaks_into": [ { "item": "plastic_chunk", "count": [ 14, 20 ] }, { "item": "scrap", "charges": [ 2, 3 ] } ],
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 14, 20 ] }, { "item": "scrap", "count": [ 2, 3 ] } ],
     "requirements": {
       "install": { "time": "1200 s" },
       "removal": { "time": "1200 s" },

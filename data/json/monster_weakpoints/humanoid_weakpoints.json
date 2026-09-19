@@ -81,38 +81,13 @@
             "damage_required": [ 51, 100 ]
           }
         ]
-      },
-      {
-        "id": "eye",
-        "name": "the eye",
-        "is_head": true,
-        "armor_mult": { "physical": 0 },
-        "coverage": 1,
-        "crit_mult": { "all": 1.25 },
-        "difficulty": { "ranged": 8, "melee": 6 },
-        "coverage_mult": { "broad": 0.5 },
-        "effects": [
-          {
-            "effect": "blind",
-            "duration": [ "1 seconds", "2 seconds" ],
-            "chance": 40,
-            "message": "The %s is blinded!",
-            "damage_required": [ 1, 25 ]
-          },
-          {
-            "effect": "blind",
-            "permanent": true,
-            "chance": 30,
-            "message": "The %s's eyes are obliterated!",
-            "damage_required": [ 26, 100 ]
-          }
-        ]
       }
     ]
   },
   {
     "type": "weakpoint_set",
     "id": "wps_humanoid_head_big",
+    "//": "overrides weakpoints of the same id from wps_humanoid_body",
     "weakpoints": [
       {
         "id": "head",
@@ -177,6 +152,7 @@
   {
     "type": "weakpoint_set",
     "id": "wps_humanoid_head_small",
+    "//": "overrides weakpoints of the same id from wps_humanoid_body",
     "weakpoints": [
       {
         "id": "head",

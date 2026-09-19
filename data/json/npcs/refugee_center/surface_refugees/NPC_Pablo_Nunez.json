@@ -7,7 +7,7 @@
     "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Pablo",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_REFUGEE_Pablo_1",
     "age": 28,
     "height": 184,

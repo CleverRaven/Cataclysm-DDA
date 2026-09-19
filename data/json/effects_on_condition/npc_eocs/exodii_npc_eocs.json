@@ -5,7 +5,8 @@
     "effect": [
       { "math": [ "faction_like('exodii') = -100" ] },
       { "math": [ "faction_respect('exodii') = -100" ] },
-      { "math": [ "faction_trust('exodii') = -100" ] }
+      { "math": [ "faction_trust('exodii') = -100" ] },
+      { "u_add_trait": "EXODII_WRATH" }
     ]
   },
   {

@@ -1,0 +1,13 @@
+[
+  {
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [
+      "mon_beaver_mutant_huge",
+      "mon_beaver_mutant_avian",
+      "mon_mutant_experimental",
+      "mon_crow_mutant_small",
+      "mon_zhark",
+      "mon_ocean_zhark"
+    ]
+  }
+]

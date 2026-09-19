@@ -352,7 +352,7 @@
       {
         "result": "xedra_chronomancer_memorized_terrain",
         "valid_furniture": [ "f_null" ],
-        "message": "You don't think you'd forget this spot.",
+        "message": "You don't think you'll forget this spot.",
         "message_good": true
       }
     ]

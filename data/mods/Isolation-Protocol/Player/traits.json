@@ -28,7 +28,7 @@
     "id": "iso_trait_balthazar_uplink",
     "name": "Balthazar Uplink",
     "points": 0,
-    "description": "A foreign segment of within your mind, it feels like handful of blades floating in the edge of your unconscious.  You could talk to Balthazar if you focused on it.",
+    "description": "A foreign segment within your mind, it feels like handful of blades floating on the edge of your unconscious.  You could talk to Balthazar if you focused on it.",
     "active": true,
     "activated_is_setup": false,
     "enchantments": [ "iso_ench_balthazar_control" ],

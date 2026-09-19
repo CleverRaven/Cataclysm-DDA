@@ -5,7 +5,7 @@
     "name_suffix": "Merchant",
     "class": "NC_BUNKER_MERCHANT",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_BUNKER_MERCHANT",
     "faction": "wasteland_scavengers"
   }

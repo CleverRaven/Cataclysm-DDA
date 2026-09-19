@@ -1,0 +1,35 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mx_tanglevine_patch",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "place_monster": [ { "monster": "mon_tanglevine", "x": [ 6, 18 ], "y": [ 6, 18 ], "chance": 100, "repeat": [ 3, 8 ] } ]
+    }
+  }
+]

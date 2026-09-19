@@ -1,0 +1,22 @@
+[
+  {
+    "id": "pants_leather",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str_sp": "leather pants" },
+    "description": "A pair of pants made from animal skin.",
+    "weight": "980 g",
+    "volume": "2500 ml",
+    "price": "120 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "dark_gray",
+    "warmth": 25,
+    "material_thickness": 0.75,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+  }
+]

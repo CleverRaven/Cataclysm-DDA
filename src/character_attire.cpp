@@ -15,6 +15,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -761,6 +762,9 @@ bool outfit::one_per_layer_change_side( item &it, const Character &guy ) const
 
     const bool item_one_per_layer = it_copy.has_flag( json_flag_ONE_PER_LAYER );
     for( const item &worn_item : worn ) {
+        if( &worn_item == &it ) {
+            continue;
+        }
         if( item_one_per_layer && worn_item.has_flag( json_flag_ONE_PER_LAYER ) ) {
             const std::optional<side> sidedness_conflict = it_copy.covers_overlaps( worn_item );
             if( sidedness_conflict ) {
@@ -1336,7 +1340,7 @@ bool outfit::is_wearing_active_optcloak() const
     return false;
 }
 
-static ret_val<void> test_only_one_conflicts( const item &clothing, const item &i )
+ret_val<void> outfit::only_one_conflicts( const item &clothing ) const
 {
     const bool this_restricts_only_one = clothing.has_flag( json_flag_ONE_PER_LAYER );
 
@@ -1356,24 +1360,25 @@ static ret_val<void> test_only_one_conflicts( const item &clothing, const item &
         return ret;
     };
 
-    if( i.max_worn() == 1 && i.typeId() == clothing.typeId() ) {
-        return ret_val<void>::make_failure( _( "Can't wear more than one %s!" ), clothing.tname() );
-    }
-
-    if( this_restricts_only_one || i.has_flag( json_flag_ONE_PER_LAYER ) ) {
-        std::optional<side> overlaps = clothing.covers_overlaps( i );
-        if( overlaps && sidedness_conflicts( *overlaps ) ) {
-            return ret_val<void>::make_failure( _( "%1$s conflicts with %2$s!" ), clothing.tname(), i.tname() );
+    const auto test_conflicts = [&]( const item & i ) -> ret_val<void> {
+        if( i.max_worn() == 1 && i.typeId() == clothing.typeId() )
+        {
+            return ret_val<void>::make_failure( _( "Can't wear more than one %s!" ), clothing.tname() );
         }
-    }
 
-    return ret_val<void>::make_success();
-}
+        if( this_restricts_only_one || i.has_flag( json_flag_ONE_PER_LAYER ) )
+        {
+            std::optional<side> overlaps = clothing.covers_overlaps( i );
+            if( overlaps && sidedness_conflicts( *overlaps ) ) {
+                return ret_val<void>::make_failure( _( "%1$s conflicts with %2$s!" ), clothing.tname(), i.tname() );
+            }
+        }
 
-ret_val<void> outfit::only_one_conflicts( const item &clothing ) const
-{
+        return ret_val<void>::make_success();
+    };
+
     for( const item &i : worn ) {
-        ret_val<void> result = test_only_one_conflicts( clothing, i );
+        ret_val<void> result = test_conflicts( i );
         if( !result.success() ) {
             return result;
         }
@@ -1381,7 +1386,7 @@ ret_val<void> outfit::only_one_conflicts( const item &clothing ) const
         if( i.is_ablative() ) {
             // if item has ablative armor we should check those too.
             for( const item *ablative_armor : i.all_ablative_armor() ) {
-                result = test_only_one_conflicts( clothing, *ablative_armor );
+                result = test_conflicts( *ablative_armor );
                 if( !result.success() ) {
                     return result;
                 }
@@ -1480,6 +1485,10 @@ ret_val<void> outfit::check_rigid_conflicts( const item &clothing ) const
 void outfit::one_per_layer_sidedness( item &clothing ) const
 {
     const bool item_one_per_layer = clothing.has_flag( json_flag_ONE_PER_LAYER );
+    if( item_one_per_layer && clothing.is_sided() && clothing.get_side() == side::BOTH ) {
+        clothing.set_side( side::LEFT );
+    }
+
     for( const item &worn_item : worn ) {
         const std::optional<side> sidedness_conflict = clothing.covers_overlaps( worn_item );
         if( sidedness_conflict && ( item_one_per_layer ||
@@ -1725,7 +1734,8 @@ std::list<item> outfit::use_amount( const itype_id &it, int quantity,
                                     Character &wearer )
 {
     for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
-        if( a->use_amount( it, quantity, used, filter ) ) {
+        if( !craft_reservation::contains_reserved( *a ) &&
+            a->use_amount( it, quantity, used, filter ) ) {
             a->on_takeoff( wearer );
             a = worn.erase( a );
         } else {
@@ -1936,26 +1946,56 @@ int outfit::get_env_resist( bodypart_id bp ) const
 
 std::map<bodypart_id, int> outfit::warmth( const Character &guy ) const
 {
+    const std::vector<bodypart_id> bodyparts = guy.get_all_body_parts();
     std::map<bodypart_id, int> total_warmth;
-    for( const bodypart_id &bp : guy.get_all_body_parts() ) {
-        double warmth_val = 0.0;
-        const float wetness_pct = guy.get_part_wetness_percentage( bp );
-        for( const item &clothing : worn ) {
-            if( !clothing.covers( bp ) ) {
+    std::vector<std::pair<bodypart_id, int>> item_warmth_by_bodypart;
+    item_warmth_by_bodypart.reserve( bodyparts.size() );
+    for( const item &clothing : worn ) {
+        clothing.get_warmth_by_bodypart( item_warmth_by_bodypart );
+        for( const auto &[bp, item_warmth] : item_warmth_by_bodypart ) {
+            if( !guy.has_part( bp ) ) {
                 continue;
             }
-            warmth_val = clothing.get_warmth( bp );
+            double warmth_val = item_warmth;
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
             if( !clothing.made_of( material_wool ) ) {
-                warmth_val *= 1.0 - 0.66 * wetness_pct;
+                warmth_val *= 1.0 - 0.66 * guy.get_part_wetness_percentage( bp );
             }
 
-            total_warmth[bp] += warmth_val;
+            total_warmth[bp] += static_cast<int>( warmth_val );
         }
+    }
+    for( const bodypart_id &bp : bodyparts ) {
         total_warmth[bp] += guy.get_effect_int( effect_heating_bionic, bp );
     }
     return total_warmth;
+}
+
+std::map<bodypart_id, int> outfit::wind_resistance( const Character &guy ) const
+{
+    const std::vector<bodypart_id> bodyparts = guy.get_all_body_parts();
+    std::vector<float> exposed_by_bodypart( bodyparts.size(), 1.0f );
+    for( const item &clothing : worn ) {
+        const body_part_set covered_bodyparts = clothing.get_covered_body_parts();
+        if( covered_bodyparts.none() ) {
+            continue;
+        }
+        const int penalty = 100 - clothing.wind_resist();
+        for( std::size_t i = 0; i < bodyparts.size(); ++i ) {
+            const bodypart_id &bp = bodyparts[i];
+            if( !covered_bodyparts.test( bp.id() ) ) {
+                continue;
+            }
+            const int coverage = std::max( 0, clothing.get_coverage( bp ) - penalty );
+            exposed_by_bodypart[i] *= 1.0f - static_cast<float>( coverage ) / 100.0f;
+        }
+    }
+    std::map<bodypart_id, int> ret;
+    for( std::size_t i = 0; i < bodyparts.size(); ++i ) {
+        ret[bodyparts[i]] = static_cast<int>( 100 - exposed_by_bodypart[i] * 100 );
+    }
+    return ret;
 }
 
 std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy ) const
@@ -2649,11 +2689,7 @@ std::vector<item_pocket *> outfit::grab_drop_pockets( const bodypart_id &bp )
     return pd;
 }
 
-void outfit::organize_items_menu()
+void outfit::organize_items_menu( Character &guy )
 {
-    std::vector<item *> to_organize;
-    for( item &i : worn ) {
-        to_organize.push_back( &i );
-    }
-    pocket_management_menu( _( "Inventory Organization" ), to_organize );
+    pocket_management_menu( _( "Inventory Organization" ), top_items_loc( guy ) );
 }

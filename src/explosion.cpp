@@ -61,6 +61,7 @@
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "weakpoint.h"
 
 static const ammo_effect_str_id ammo_effect_NULL_SOURCE( "NULL_SOURCE" );
 
@@ -84,7 +85,6 @@ static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" )
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
-static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
 static const json_character_flag json_flag_EMP_ENERGYDRAIN_IMMUNE( "EMP_ENERGYDRAIN_IMMUNE" );
 static const json_character_flag json_flag_EMP_IMMUNE( "EMP_IMMUNE" );
@@ -487,9 +487,16 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
             frag.shrapnel = true;
             frag.proj.speed = cloud.velocity;
             frag.proj.impact = damage_instance( damage_bullet, damage );
+
+            weakpoint_attack wp_attack;
+            wp_attack.type = weakpoint_attack::attack_type::PROJECTILE;
+            wp_attack.target = critter;
+            wp_attack.accuracy = 0.f;
+
             for( int i = 0; i < hits; ++i ) {
                 frag.missed_by = rng_float( 0.05, 1.0 / critter->ranged_target_size() );
-                critter->deal_projectile_attack( m, mutable_source, frag, frag.missed_by, false );
+                critter->deal_projectile_attack( m, mutable_source, frag, frag.missed_by, false, wp_attack );
+
                 add_msg_debug( debugmode::DF_EXPLOSION, "Shrapnel hit %s at %d m/s at a distance of %d",
                                critter->disp_name(),
                                frag.proj.speed, rl_dist( src, target ) );
@@ -540,6 +547,13 @@ bool explosion_processing_active()
 {
     return process_explosions_in_progress;
 }
+
+queued_explosion::queued_explosion( const Creature *source, const tripoint_abs_ms &pos,
+                                    const explosion_data &data )
+    : source( source ? const_cast<Creature *>( source )->get_safe_reference()
+              : safe_reference<Creature>() )
+    , pos( pos )
+    , data( data ) {}
 
 void explosion( const Creature *source, const tripoint_bub_ms &p, const explosion_data &ex )
 {
@@ -622,7 +636,8 @@ void flashbang( const tripoint_bub_ms &p, bool player_immune, const int radius )
         if( dist <= radius )
         {
             if( !guy.has_flag( json_flag_IMMUNE_HEARING_DAMAGE ) &&
-                !guy.is_wearing( itype_rm13_armor_on ) ) {
+                !guy.worn_with_flag( flag_PARTIAL_DEAF ) &&
+                !guy.worn_with_flag( flag_DEAF ) ) {
                 guy.add_effect( effect_deaf, time_duration::from_turns( radius * 5 - dist * 4 ) );
             }
             if( here.sees( guy.pos_bub(), p, radius ) ) {
@@ -634,8 +649,7 @@ void flashbang( const tripoint_bub_ms &p, bool player_immune, const int radius )
                     }
                 } else if( guy.has_trait( trait_PER_SLIME_OK ) ) {
                     flash_mod = radius; // Just retract those and extrude fresh eyes
-                } else if( guy.has_flag( json_flag_GLARE_RESIST ) ||
-                           guy.is_wearing( itype_rm13_armor_on ) ) {
+                } else if( guy.has_flag( json_flag_GLARE_RESIST ) ) {
                     flash_mod = radius / 1.3f;
                 } else if( guy.has_flag( json_flag_HIGH_GLARE ) ) {
                     flash_mod /= 2;
@@ -1015,10 +1029,10 @@ void process_explosions()
             m.spawn_monsters( true, true );
             g->load_npcs( &m );
             process_explosions_in_progress = false;
-            _make_explosion( &m, ex.source, m.get_bub( ex.pos ), ex.data );
+            _make_explosion( &m, ex.source.get(), m.get_bub( ex.pos ), ex.data );
             m.process_falling();
         } else {
-            _make_explosion( bubble_map, ex.source, bubble_map->get_bub( ex.pos ), ex.data );
+            _make_explosion( bubble_map, ex.source.get(), bubble_map->get_bub( ex.pos ), ex.data );
         }
     }
 }

@@ -95,7 +95,8 @@
           { "item": "exodiiBRmag", "count": [ 1, 2 ] },
           { "item": "exodiiBRmag_153", "count": [ 0, 1 ] },
           { "item": "exodiiBRmag_26", "count": [ 2, 4 ] },
-          { "item": "123ln", "count": [ 0, 100 ] }
+          { "item": "123ln", "count": [ 0, 100 ] },
+          { "item": "123ln_ap", "count": [ 0, 50 ] }
         ],
         "prob": 5
       },
@@ -132,7 +133,7 @@
           { "group": "salt_various", "prob": 100 },
           { "group": "pepper_various", "prob": 95 },
           { "group": "sugar_jar_glass_sealed_10_140", "prob": 25 },
-          { "item": "chem_saltpetre", "count": [ 2, -1 ], "prob": 10 },
+          { "group": "saltpeter_canvas_bag_part", "prob": 10 },
           { "group": "yeast_various", "prob": 30 }
         ],
         "prob": 50
@@ -160,7 +161,13 @@
           { "item": "chem_agar", "count": [ 2, -1 ], "prob": 20 },
           { "item": "lye", "charges": [ 2, -1 ], "prob": 45 },
           { "group": "lye_powder_bottle_part", "prob": 20 },
-          { "item": "chem_sulphur", "prob": 30, "charges": [ 100, -1 ], "container-item": "bottle_plastic_small" },
+          {
+            "item": "chem_sulphur",
+            "prob": 30,
+            "count": [ 100, -1 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_small"
+          },
           { "item": "chem_peptone_broth", "prob": 95 }
         ],
         "prob": 20

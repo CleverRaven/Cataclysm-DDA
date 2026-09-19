@@ -290,7 +290,7 @@ class mission
         // global overmap terrain coordinates.
         tripoint_abs_omt target;
         // Dimension the mission is specific to
-        std::string dimension;
+        dimension_id dimension;
         // Item that needs to be found (or whatever)
         itype_id item_id;
         // The number of above items needed
@@ -336,7 +336,7 @@ class mission
         bool has_deadline() const;
         time_point get_deadline() const;
         std::string get_description() const;
-        std::string get_dimension() const;
+        dimension_id get_dimension() const;
         bool has_target() const;
         const tripoint_abs_omt &get_target() const;
         const mission_type &get_type() const;
@@ -367,7 +367,7 @@ class mission
          * Simple setters, no checking if the values is performed. */
         /*@{*/
         void set_deadline( time_point new_deadline );
-        void set_dimension( const std::string &dimension_prefix );
+        void set_dimension( dimension_id dimension_prefix );
         void set_target( const tripoint_abs_omt &p );
         void set_target_npc_id( const character_id &npc_id );
         void set_assigned_player_id( const character_id &char_id );

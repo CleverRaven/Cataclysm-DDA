@@ -53,6 +53,7 @@ static const damage_type_id damage_bullet( "bullet" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_heat( "heat" );
 static const damage_type_id damage_pure( "pure" );
+static const damage_type_id damage_stab( "stab" );
 
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_downed( "downed" );
@@ -100,6 +101,7 @@ static const ter_str_id ter_t_floor_blue( "t_floor_blue" );
 static const ter_str_id ter_t_floor_green( "t_floor_green" );
 static const ter_str_id ter_t_floor_red( "t_floor_red" );
 static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_pit_corpsed( "t_pit_corpsed" );
 static const ter_str_id ter_t_rock_blue( "t_rock_blue" );
 static const ter_str_id ter_t_rock_green( "t_rock_green" );
 static const ter_str_id ter_t_rock_red( "t_rock_red" );
@@ -111,7 +113,9 @@ static const trap_str_id tr_shotgun_1( "tr_shotgun_1" );
 static const trap_str_id tr_shotgun_2( "tr_shotgun_2" );
 static const trap_str_id tr_temple_flood( "tr_temple_flood" );
 
-// A pit becomes less effective as it fills with corpses.
+// A pit becomes less effective as it fills with corpses. Returned values are between 0.0 and 1.0.
+// 0.0 - totally ineffective pit, filled with corpses. Should become a corpse-filled pit.
+// 1.0 - totally empty pit, maximum effectiveness.
 static float pit_effectiveness( const tripoint_bub_ms &p )
 {
     units::volume corpse_volume = 0_ml;
@@ -121,10 +125,34 @@ static float pit_effectiveness( const tripoint_bub_ms &p )
         }
     }
 
-    // 10 zombies; see item::volume
-    const units::volume filled_volume = 10 * units::from_milliliter<float>( 62500 );
+    // Arbitrary value. A regular human body is about 70-75L. Our base zombified human size is 62.5L.
+    // This value allows one 'full kill' and then a second at seriously reduced effectiveness.
+    // A single large creature will instantly render the pit ineffective.
+    const units::volume filled_volume = 100_liter;
 
     return std::max( 0.0f, 1.0f - corpse_volume / filled_volume );
+}
+
+// Returns true if pit was completely filled, becoming corpse-filled pit
+static bool cleanup_after_pit( map &here, const tripoint_bub_ms &p, Creature *c )
+{
+    c->check_dead_state( &here );
+    // Pit filled with corpses? It becomes a corpse-filled pit.
+    if( pit_effectiveness( p ) <= 0.0f ) {
+        here.ter_set( p, ter_t_pit_corpsed );
+        return true;
+    }
+    return false;
+}
+
+static void pit_try_dismount( monster *z )
+{
+    // Note that it's possible for NPCs to ride horses or other mounts.
+    // FIXME: Only checks for/ejects player, need some way to match the rider and the mount
+    if( z->has_effect( effect_ridden ) && z->pos_abs() == get_player_character().pos_abs() ) {
+        add_msg( m_bad, _( "Your %s falls into a pit!" ), z->get_name() );
+        get_player_character().forced_dismount();
+    }
 }
 
 bool trapfunc::none( const tripoint_bub_ms &, Creature *, item * )
@@ -357,12 +385,13 @@ bool trapfunc::board( const tripoint_bub_ms &p, Creature *c, item * )
         return false;
     }
     map &here = get_map();
+    const std::string trap_name = here.tr_at( p ).name();
     // Only a chance to step on the board, dependent on size
     if( !x_in_y( occupied_tile_fraction( c->get_size() ), 1.0f ) ) {
         return false;
     }
-    c->add_msg_if_player( m_bad, _( "You step on a %s!" ), here.tr_at( p ).name() );
-    c->add_msg_if_npc( _( "%s steps on a %s!" ), c->disp_name( false, true ), here.tr_at( p ).name() );
+    c->add_msg_if_player( m_bad, _( "You step on a %s!" ), trap_name );
+    c->add_msg_if_npc( _( "%s steps on a %s!" ), c->disp_name( false, true ), trap_name );
     if( c->has_effect( effect_ridden ) ) {
         monster *z = c->as_monster();
         mount_step_on_trap_make_slow_give_msg( z, p );
@@ -380,9 +409,9 @@ bool trapfunc::board( const tripoint_bub_ms &p, Creature *c, item * )
         here.remove_trap( p );
         if( !c->is_avatar() ) {
             add_msg_if_player_sees( p, _( "%s destroys a %s as they move over it!" ),
-                                    c->disp_name( false, true ), here.tr_at( p ).name() );
+                                    c->disp_name( false, true ), trap_name );
         } else {
-            add_msg( _( "You destroy the %s as you step on it!" ), here.tr_at( p ).name() );
+            add_msg( _( "You destroy the %s as you step on it!" ), trap_name );
         }
     } else if( x_in_y( 40, 100 ) ) {
         // 40% chance disarm trap
@@ -397,13 +426,13 @@ bool trapfunc::caltrops( const tripoint_bub_ms &p, Creature *c, item * )
         return false;
     }
     map &here = get_map();
+    const std::string trap_name = here.tr_at( p ).name();
     // Only a chance to step on the caltrop, dependent on size
     if( !x_in_y( occupied_tile_fraction( c->get_size() ), 1.0f ) ) {
         return false;
     }
-    c->add_msg_if_player( m_bad, _( "You step on a sharp %s!" ), here.tr_at( p ).name() );
-    c->add_msg_if_npc( _( "%s steps on a sharp %s!" ), c->disp_name( false, true ),
-                       here.tr_at( p ).name() );
+    c->add_msg_if_player( m_bad, _( "You step on a sharp %s!" ), trap_name );
+    c->add_msg_if_npc( _( "%s steps on a sharp %s!" ), c->disp_name( false, true ), trap_name );
     if( c->has_effect( effect_ridden ) ) {
         monster *z = c->as_monster();
         mount_step_on_trap_make_slow_give_msg( z, p );
@@ -421,9 +450,9 @@ bool trapfunc::caltrops( const tripoint_bub_ms &p, Creature *c, item * )
         here.remove_trap( p );
         if( !c->is_avatar() ) {
             add_msg_if_player_sees( p, _( "%s destroys a %s as they move over it!" ),
-                                    c->disp_name( false, true ), here.tr_at( p ).name() );
+                                    c->disp_name( false, true ), trap_name );
         } else {
-            add_msg( _( "You destroy the %s as you step on it!" ), here.tr_at( p ).name() );
+            add_msg( _( "You destroy the %s as you step on it!" ), trap_name );
         }
     } else if( x_in_y( 20, 100 ) ) {
         // 20% chance disarm trap
@@ -1048,43 +1077,45 @@ bool trapfunc::pit( const tripoint_bub_ms &p, Creature *c, item * )
     if( c->get_size() == creature_size::tiny ) {
         return false;
     }
-    const float eff = pit_effectiveness( p );
-    c->add_msg_player_or_npc( m_bad, _( "You fall in a pit!" ), _( "<npcname> falls in a pit!" ) );
+
+    // NOTE: This will be bash-type damage, and reduced by armor accordingly.
+    const int expected_dmg = pit_effectiveness( p ) * rng( 6, 12 );
+
+    const bool did_see = get_player_character().sees( here, p );
+
+    if( did_see ) {
+        c->add_msg_player_or_npc( m_bad, _( "You fall in a pit!" ), _( "<npcname> falls in a pit!" ) );
+    }
+
     c->add_effect( effect_in_pit, 1_turns, true );
-    monster *z = dynamic_cast<monster *>( c );
-    Character *you = dynamic_cast<Character *>( c );
+    monster *z = c->as_monster();
+    Character *you = c->as_character();
     if( you != nullptr ) {
         if( you->can_fly() ) {
-            you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
-                                        _( "<npcname> spreads their wings to slow their fall." ) );
+            if( did_see ) {
+                you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
+                                            _( "<npcname> spreads their wings to slow their fall." ) );
+            }
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
                                     _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
         } else {
-            int dodge = you->get_dodge();
-            ///\EFFECT_DODGE reduces damage taken falling into a pit
-            int damage = eff * rng( 10, 20 ) - rng( dodge, dodge * 5 );
-            if( damage > 0 ) {
-                you->add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
-                // like the message says \-:
-                you->hurtall( rng( static_cast<int>( damage / 2 ), damage ), you );
-                you->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_bash, damage ) );
-                you->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_bash, damage ) );
-            } else {
-                you->add_msg_if_player( _( "You land nimbly." ) );
+            you->add_msg_if_player( m_bad, _( "You are hurt from falling into a pit!" ) );
+            for( const bodypart_id &bp : you->get_all_body_parts( get_body_part_flags::only_main ) ) {
+                if( bp->primary_limb_type() == bp_type::leg ) {
+                    // Extra damage to legs or your tentacles, whatever you've got
+                    you->deal_damage( nullptr, bp, damage_instance( damage_bash, expected_dmg * 2 ) );
+                } else {
+                    you->deal_damage( nullptr, bp, damage_instance( damage_bash, expected_dmg ) );
+                }
             }
         }
     } else if( z != nullptr ) {
-        if( z->has_effect( effect_ridden ) ) {
-            add_msg( m_bad, _( "Your %s falls into a pit!" ), z->get_name() );
-            get_player_character().forced_dismount();
-        }
-        z->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_bash, eff * rng( 10,
-                        20 ) ) );
-        z->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_bash, eff * rng( 10,
-                        20 ) ) );
+        pit_try_dismount( z );
+        z->deal_damage( nullptr, z->get_random_body_part_of_type( bp_type::leg ),
+                        damage_instance( damage_bash, expected_dmg ) );
     }
-    c->check_dead_state( &here );
+    cleanup_after_pit( here, p, c );
     return true;
 }
 
@@ -1099,54 +1130,57 @@ bool trapfunc::pit_spikes( const tripoint_bub_ms &p, Creature *c, item * )
     if( c->get_size() == creature_size::tiny ) {
         return false;
     }
-    c->add_msg_player_or_npc( m_bad, _( "You fall in a spiked pit!" ),
-                              _( "<npcname> falls in a spiked pit!" ) );
+
+    // NOTE: This will be pierce-type damage, and reduced by armor accordingly. (Spike 'misses' will be bash damage at half this value)
+    // pit_effectiveness() intentionally does not change the damage - instead, partially-filled pits have a higher chance to miss the spikes.
+    const int expected_dmg = rng( 10, 20 );
+
+    const float pit_eff = pit_effectiveness( p );
+    // +20% chance to serendipitiously avoid spikes even in an empty pit. NOTE: Chances rolled separately for each main limb.
+    const float miss_chance = 0.2f;
+    const float total_pit_eff = std::max( 0.0f, pit_eff - miss_chance );
+
+    const bool did_see = get_player_character().sees( here, p );
+
+    if( did_see ) {
+        c->add_msg_player_or_npc( m_bad, _( "You fall in a spiked pit!" ),
+                                  _( "<npcname> falls in a spiked pit!" ) );
+    }
+
     c->add_effect( effect_in_pit, 1_turns, true );
-    monster *z = dynamic_cast<monster *>( c );
-    Character *you = dynamic_cast<Character *>( c );
-    Character &player_character = get_player_character();
+    monster *z = c->as_monster();
+    Character *you = c->as_character();
     if( you != nullptr ) {
-        int dodge = you->get_dodge();
-        int damage = pit_effectiveness( p ) * rng( 20, 50 );
         if( you->can_fly() ) {
-            you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
-                                        _( "<npcname> spreads their wings to slow their fall." ) );
+            // Gliding bullshit allows maneuvering to avoid spikes
+            if( did_see ) {
+                you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
+                                            _( "<npcname> spreads their wings to slow their fall." ) );
+            }
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
+            // Not sure this should really work vs spikes, but whatever
             you->add_msg_if_player( m_info,
                                     _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
-            ///\EFFECT_DODGE reduces chance of landing on spikes in spiked pit
-        } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
-            you->add_msg_if_player( _( "You avoid the spikes within." ) );
         } else {
-            bodypart_id hit = bodypart_str_id::NULL_ID();
-            switch( rng( 1, 10 ) ) {
-                case  1:
-                    hit = bodypart_id( "leg_l" );
-                    break;
-                case  2:
-                    hit = bodypart_id( "leg_r" );
-                    break;
-                case  3:
-                    hit = bodypart_id( "arm_l" );
-                    break;
-                case  4:
-                    hit = bodypart_id( "arm_r" );
-                    break;
-                case  5:
-                case  6:
-                case  7:
-                case  8:
-                case  9:
-                case 10:
-                    hit = bodypart_id( "torso" );
-                    break;
+            bool did_any_stab_dmg = false;
+            for( const bodypart_id &bp : you->get_all_body_parts( get_body_part_flags::only_main ) ) {
+                if( total_pit_eff > 0.0 && total_pit_eff >= rng_float( 0.0, 1.0 ) ) {
+                    you->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
+                                            body_part_name_accusative( bp ) );
+                    dealt_damage_instance dealt_dmg =
+                        you->deal_damage( nullptr, bp, damage_instance( damage_stab, expected_dmg ) );
+                    if( dealt_dmg.type_damage( damage_stab ) > 0 ) {
+                        did_any_stab_dmg = true;
+                    }
+                } else {
+                    you->add_msg_if_player( m_bad, _( "Your %s hits the ground, missing the spikes!" ),
+                                            body_part_name_accusative( bp ) );
+                    you->deal_damage( nullptr, bp, damage_instance( damage_bash,
+                                      static_cast<int>( expected_dmg / 2 ) ) );
+                }
             }
-            you->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
-                                    body_part_name_accusative( hit ) );
-            dealt_damage_instance dealt_dmg = you->deal_damage( nullptr, hit, damage_instance( damage_cut,
-                                              damage ) );
-            if( !you->has_flag( json_flag_INFECTION_IMMUNE ) &&
-                dealt_dmg.type_damage( damage_cut ) > 0 ) {
+
+            if( !you->has_flag( json_flag_INFECTION_IMMUNE ) && did_any_stab_dmg ) {
                 const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
                 if( one_in( chance_in ) ) {
                     you->add_effect( effect_tetanus, 1_turns, true );
@@ -1154,14 +1188,12 @@ bool trapfunc::pit_spikes( const tripoint_bub_ms &p, Creature *c, item * )
             }
         }
     } else if( z != nullptr ) {
-        if( z->has_effect( effect_ridden ) ) {
-            add_msg( m_bad, _( "Your %s falls into a pit!" ), z->get_name() );
-            player_character.forced_dismount();
-        }
-        z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_cut, rng( 20, 50 ) ) );
+        pit_try_dismount( z );
+        z->deal_damage( nullptr, z->get_random_body_part_of_type( bp_type::torso ),
+                        damage_instance( damage_stab, expected_dmg ) );
     }
-    c->check_dead_state( &here );
-    if( one_in( 4 ) ) {
+    const bool filled_up = cleanup_after_pit( here, p, c );
+    if( !filled_up && one_in( 4 ) ) {
         add_msg_if_player_sees( p, _( "The spears break!" ) );
         map &here = get_map();
         here.ter_set( p, ter_t_pit );
@@ -1186,58 +1218,55 @@ bool trapfunc::pit_glass( const tripoint_bub_ms &p, Creature *c, item * )
     if( c->get_size() == creature_size::tiny ) {
         return false;
     }
-    c->add_msg_player_or_npc( m_bad, _( "You fall in a pit filled with glass shards!" ),
-                              _( "<npcname> falls in pit filled with glass shards!" ) );
+
+    // NOTE: This will be cut-type damage, and reduced by armor accordingly. (Glass 'misses' will be bash damage at 100% of this value)
+    // pit_effectiveness() intentionally does not change the damage - instead, partially-filled pits have a higher chance to miss the glass.
+    const int expected_dmg = pit_effectiveness( p ) * rng( 6, 12 );
+
+    const float pit_eff = pit_effectiveness( p );
+    // +50% chance to avoid glass even in an empty pit. NOTE: Chances rolled separately for each main limb.
+    // Random scattered glass is not very effective.
+    const float miss_chance = 0.5f;
+    const float total_pit_eff = std::max( 0.0f, pit_eff - miss_chance );
+
+    const bool did_see = get_player_character().sees( here, p );
+
+    if( did_see ) {
+        c->add_msg_player_or_npc( m_bad, _( "You fall in a pit filled with glass shards!" ),
+                                  _( "<npcname> falls in pit filled with glass shards!" ) );
+    }
+
     c->add_effect( effect_in_pit, 1_turns, true );
-    monster *z = dynamic_cast<monster *>( c );
-    Character *you = dynamic_cast<Character *>( c );
-    Character &player_character = get_player_character();
+    monster *z = c->as_monster();
+    Character *you = c->as_character();
     if( you != nullptr ) {
-        int dodge = you->get_dodge();
-        int damage = pit_effectiveness( p ) * rng( 15, 35 );
         if( you->can_fly() ) {
-            you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
-                                        _( "<npcname> spreads their wings to slow their fall." ) );
+            if( did_see ) {
+                you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
+                                            _( "<npcname> spreads their wings to slow their fall." ) );
+            }
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
                                     _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
-            ///\EFFECT_DODGE reduces chance of landing on glass in glass pit
-        } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
-            you->add_msg_if_player( _( "You avoid the glass shards within." ) );
         } else {
-            bodypart_id hit = bodypart_str_id::NULL_ID();
-            switch( rng( 1, 10 ) ) {
-                case  1:
-                    hit = bodypart_id( "leg_l" );
-                    break;
-                case  2:
-                    hit = bodypart_id( "leg_r" );
-                    break;
-                case  3:
-                    hit = bodypart_id( "arm_l" );
-                    break;
-                case  4:
-                    hit = bodypart_id( "arm_r" );
-                    break;
-                case  5:
-                    hit = bodypart_id( "foot_l" );
-                    break;
-                case  6:
-                    hit = bodypart_id( "foot_r" );
-                    break;
-                case  7:
-                case  8:
-                case  9:
-                case 10:
-                    hit = bodypart_id( "torso" );
-                    break;
+            bool did_any_cut_dmg = false;
+            for( const bodypart_id &bp : you->get_all_body_parts( get_body_part_flags::only_main ) ) {
+                if( total_pit_eff > 0.0 && total_pit_eff >= rng_float( 0.0, 1.0 ) ) {
+                    you->add_msg_if_player( m_bad, _( "The glass shards slash your %s!" ),
+                                            body_part_name_accusative( bp ) );
+                    dealt_damage_instance dealt_dmg =
+                        you->deal_damage( nullptr, bp, damage_instance( damage_cut, expected_dmg ) );
+                    if( dealt_dmg.type_damage( damage_cut ) > 0 ) {
+                        did_any_cut_dmg = true;
+                    }
+                } else {
+                    you->add_msg_if_player( m_bad, _( "Your %s hits the ground, missing the glass!" ),
+                                            body_part_name_accusative( bp ) );
+                    you->deal_damage( nullptr, bp, damage_instance( damage_bash, expected_dmg ) );
+                }
             }
-            you->add_msg_if_player( m_bad, _( "The glass shards slash your %s!" ),
-                                    body_part_name_accusative( hit ) );
-            dealt_damage_instance dealt_dmg = you->deal_damage( nullptr, hit, damage_instance( damage_cut,
-                                              damage ) );
-            if( !you->has_flag( json_flag_INFECTION_IMMUNE ) &&
-                dealt_dmg.type_damage( damage_cut ) > 0 ) {
+
+            if( !you->has_flag( json_flag_INFECTION_IMMUNE ) && did_any_cut_dmg ) {
                 const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
                 if( one_in( chance_in ) ) {
                     you->add_effect( effect_tetanus, 1_turns, true );
@@ -1245,15 +1274,12 @@ bool trapfunc::pit_glass( const tripoint_bub_ms &p, Creature *c, item * )
             }
         }
     } else if( z != nullptr ) {
-        if( z->has_effect( effect_ridden ) ) {
-            add_msg( m_bad, _( "Your %s falls into a pit!" ), z->get_name() );
-            player_character.forced_dismount();
-        }
-        z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_cut, rng( 20,
-                        50 ) ) );
+        pit_try_dismount( z );
+        z->deal_damage( nullptr, z->get_random_body_part_of_type( bp_type::torso ),
+                        damage_instance( damage_cut, expected_dmg ) );
     }
-    c->check_dead_state( &here );
-    if( one_in( 5 ) ) {
+    const bool filled_up = cleanup_after_pit( here, p, c );
+    if( !filled_up && one_in( 5 ) ) {
         add_msg_if_player_sees( p, _( "The shards shatter!" ) );
         map &here = get_map();
         here.ter_set( p, ter_t_pit );

@@ -206,7 +206,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR", "TOOL" ],
     "name": { "str": "nomad utility belt" },
-    "description": "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side is lined with 10 cartridge loops fit for 27.3x110 Diyua shotshells.  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  Paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  Activate it to turn it on.",
+    "description": "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side has a custom open-top pouch lined with 10 cartridge loops fit for 27.3x110 Diyua shotshells.  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  If loaded with a filter and paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  Activate it to turn it on.",
     "weight": "1549 g",
     "volume": "2250 ml",
     "price": "150 USD",
@@ -218,6 +218,13 @@
     "material_thickness": 2,
     "pocket_data": [
       {
+        "id": "papr_blower_filter",
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med",
+        "rigid": true
+      },
+      {
         "holster": true,
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -225,9 +232,17 @@
         "moves": 20,
         "flag_restriction": [ "SHEATH_KNIFE" ]
       },
-      { "ammo_restriction": { "273x110": 10 }, "moves": 25, "volume_encumber_modifier": 0.3 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "120 mm",
+        "max_contains_volume": "2840 ml",
+        "max_contains_weight": "2260 g",
+        "moves": 25,
+        "item_restriction": [ "273x110flock", "273x110canister", "273x110slugheavy", "273x110sluglight", "273x110slugmedium" ],
+        "volume_encumber_modifier": 0.3
+      }
     ],
-    "tool_ammo": [ "battery" ],
+    "tool_ammo": [ "battery", "gasfilter_m" ],
     "use_action": [
       { "type": "holster", "holster_prompt": "Store item", "holster_msg": "You put your %1$s in your %2$s" },
       {
@@ -245,7 +260,7 @@
     "subtypes": [ "ARMOR", "TOOL" ],
     "copy-from": "nomad_papr_blower_273diyua_off",
     "name": { "str": "nomad utility belt (on)", "str_pl": "nomad utility belts (on)" },
-    "description": "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side is lined with 10 cartridge loops fit for 27.3x110 Diyua shotshells.  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  Paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  The blower is active and draining power.  Activate it to turn it off.",
+    "description": "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side has a custom open-top pouch lined with 10 cartridge loops fit for 27.3x110 Diyua shotshells.  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  If loaded with a filter and paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  The blower is active and draining power.  Activate it to turn it off.",
     "use_action": [
       { "type": "holster", "holster_prompt": "Store item", "holster_msg": "You put your %1$s in your %2$s" },
       {
@@ -258,14 +273,17 @@
     ],
     "power_draw": "4000 mW",
     "revert_to": "nomad_papr_blower_273diyua_off",
-    "tick_action": {
-      "type": "sound",
-      "sound_type": "movement",
-      "sound_message": "whooooo…",
-      "sound_id": "humming",
-      "sound_variant": "machinery",
-      "sound_volume": 12
-    },
+    "tick_action": [
+      "PAPR_BLOWER",
+      {
+        "type": "sound",
+        "sound_type": "movement",
+        "sound_message": "whooooo…",
+        "sound_id": "humming",
+        "sound_variant": "machinery",
+        "sound_volume": 12
+      }
+    ],
     "extend": { "flags": [ "PAPR_BLOWER", "TRADER_AVOID", "SPAWN_ACTIVE" ] }
   },
   {
@@ -274,7 +292,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR", "TOOL" ],
     "name": { "str": "nomad utility belt" },
-    "description": "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side has three pouches, each fit for a 26-round PA md. 68 box magazine (although anything that size or smaller will fit).  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  Paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  Activate it to turn it on.",
+    "description": "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side has three pouches, each fit for a 26-round PA md. 68 box magazine (although anything that size or smaller will fit).  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  If loaded with a filter and paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  Activate it to turn it on.",
     "weight": "1549 g",
     "volume": "2250 ml",
     "price": "150 USD",
@@ -285,6 +303,13 @@
     "color": "brown",
     "material_thickness": 2,
     "pocket_data": [
+      {
+        "id": "papr_blower_filter",
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med",
+        "rigid": true
+      },
       {
         "holster": true,
         "max_contains_volume": "1 L",
@@ -321,7 +346,7 @@
         "volume_encumber_modifier": 0.3
       }
     ],
-    "tool_ammo": [ "battery" ],
+    "tool_ammo": [ "battery", "gasfilter_m" ],
     "use_action": [
       { "type": "holster", "holster_prompt": "Store item", "holster_msg": "You put your %1$s in your %2$s" },
       {
@@ -339,7 +364,7 @@
     "subtypes": [ "ARMOR", "TOOL" ],
     "copy-from": "nomad_papr_blower_magpouch_off",
     "name": { "str": "nomad utility belt (on)", "str_pl": "nomad utility belts (on)" },
-    "description": "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side has three pouches made to snugly and securely hold 26-round PA md. 68 box magazines, although anything that size or smaller will fit.  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  Paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  The blower is active and draining power.  Activate it to turn it off.",
+    "description": "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side has three pouches made to snugly and securely hold 26-round PA md. 68 box magazines, although anything that size or smaller will fit.  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  If loaded with a filter and paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  The blower is active and draining power.  Activate it to turn it off.",
     "use_action": [
       { "type": "holster", "holster_prompt": "Store item", "holster_msg": "You put your %1$s in your %2$s" },
       {
@@ -352,14 +377,17 @@
     ],
     "power_draw": "4000 mW",
     "revert_to": "nomad_papr_blower_magpouch_off",
-    "tick_action": {
-      "type": "sound",
-      "sound_type": "movement",
-      "sound_message": "whooooo…",
-      "sound_id": "humming",
-      "sound_variant": "machinery",
-      "sound_volume": 12
-    },
+    "tick_action": [
+      "PAPR_BLOWER",
+      {
+        "type": "sound",
+        "sound_type": "movement",
+        "sound_message": "whooooo…",
+        "sound_id": "humming",
+        "sound_variant": "machinery",
+        "sound_volume": 12
+      }
+    ],
     "extend": { "flags": [ "PAPR_BLOWER", "TRADER_AVOID", "SPAWN_ACTIVE" ] }
   },
   {
@@ -368,7 +396,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR", "TOOL" ],
     "name": { "str": "nomad utility belt" },
-    "description": "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side is lined with 10 leather and plastic clips fit for 27.3x Diyua grenades.  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  Paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  Activate it to turn it on.",
+    "description": "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side has a custom open-top pouch lined with 10 cartridge loops fit for 27.3x Diyua grenades.  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  If loaded with a filter and paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  Activate it to turn it on.",
     "weight": "1549 g",
     "volume": "2250 ml",
     "price": "150 USD",
@@ -380,6 +408,13 @@
     "material_thickness": 2,
     "pocket_data": [
       {
+        "id": "papr_blower_filter",
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med",
+        "rigid": true
+      },
+      {
         "holster": true,
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -387,9 +422,17 @@
         "moves": 20,
         "flag_restriction": [ "SHEATH_KNIFE" ]
       },
-      { "ammo_restriction": { "273x44": 10 }, "moves": 25, "volume_encumber_modifier": 0.3 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "120 mm",
+        "max_contains_volume": "1760 ml",
+        "max_contains_weight": "1760 g",
+        "moves": 25,
+        "item_restriction": [ "273x44HE", "273x44flare", "273x44trainer", "273x44thermobaric" ],
+        "volume_encumber_modifier": 0.3
+      }
     ],
-    "tool_ammo": [ "battery" ],
+    "tool_ammo": [ "battery", "gasfilter_m" ],
     "use_action": [
       { "type": "holster", "holster_prompt": "Store item", "holster_msg": "You put your %1$s in your %2$s" },
       {
@@ -407,7 +450,7 @@
     "subtypes": [ "ARMOR", "TOOL" ],
     "copy-from": "nomad_papr_blower_273grenade_off",
     "name": { "str": "nomad utility belt (on)", "str_pl": "nomad utility belts (on)" },
-    "description": "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side is lined with 10 leather and plastic clips fit for 27.3x Diyua grenades.  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  Paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  The blower is active and draining power.  Activate it to turn it off.",
+    "description": "A sturdy leather belt and powered air purifying respirator blower designed for exploring the apocalyptic wasteland.  On one side hangs an archaic dagger sheath.  The other side has a custom open-top pouch lined with 10 cartridge loops fit for 27.3x Diyua grenades.  Mounted to the back is a spartan PAPR blower, shielded in plastic, with connections for a bionic interface.  If loaded with a filter and paired with a PAPR mask this will protect from all manner of post-apocalyptic environmental threats.  The blower is active and draining power.  Activate it to turn it off.",
     "use_action": [
       { "type": "holster", "holster_prompt": "Store item", "holster_msg": "You put your %1$s in your %2$s" },
       {
@@ -420,14 +463,17 @@
     ],
     "power_draw": "4000 mW",
     "revert_to": "nomad_papr_blower_273grenade_off",
-    "tick_action": {
-      "type": "sound",
-      "sound_type": "movement",
-      "sound_message": "whooooo…",
-      "sound_id": "humming",
-      "sound_variant": "machinery",
-      "sound_volume": 12
-    },
+    "tick_action": [
+      "PAPR_BLOWER",
+      {
+        "type": "sound",
+        "sound_type": "movement",
+        "sound_message": "whooooo…",
+        "sound_id": "humming",
+        "sound_variant": "machinery",
+        "sound_volume": 12
+      }
+    ],
     "extend": { "flags": [ "PAPR_BLOWER", "TRADER_AVOID", "SPAWN_ACTIVE" ] }
   }
 ]

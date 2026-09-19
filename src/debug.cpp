@@ -272,6 +272,7 @@ std::string filter_name( debug_filter value )
         case DF_VEHICLE: return "DF_VEHICLE";
         case DF_VEHICLE_DRAG: return "DF_VEHICLE_DRAG";
         case DF_VEHICLE_MOVE: return "DF_VEHICLE_MOVE";
+        case DF_WEAKPOINTS: return "DF_WEAKPOINTS";
         case DF_WOUNDS: return "DF_WOUNDS";
         case DF_MONITOR: return "DF_MONITOR";
         // *INDENT-ON*
@@ -1962,8 +1963,8 @@ std::string game_info::mods_loaded()
     mod_names.reserve( mod_ids.size() );
     std::transform( mod_ids.begin(), mod_ids.end(),
     std::back_inserter( mod_names ), []( const mod_id & mod ) -> std::string {
-        // e.g. "Dark Days Ahead [dda]".
-        return string_format( "%s [%s]", mod->name(), mod->ident.str() );
+        // e.g. "Dark Days Ahead [dda] (95c4e03)".
+        return string_format( "%s [%s] (%s)", mod->name(), mod->ident.str(), mod->version );
     } );
 
     return string_join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.

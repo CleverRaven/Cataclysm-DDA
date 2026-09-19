@@ -6,7 +6,7 @@
     "class": "NC_SURVIVOR_CHEF",
     "name_suffix": "pizzaiolo",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_pizzaiolo_1",
     "faction": "no_faction",
     "mission_offered": "MISSION_pizzaiolo_1"

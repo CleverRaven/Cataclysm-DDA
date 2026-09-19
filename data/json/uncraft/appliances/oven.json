@@ -15,7 +15,7 @@
       [ [ "oven_broiler_pan", 1 ] ],
       [ [ "heavy_wire_rack", 2 ] ],
       [ [ "element", 4 ] ],
-      [ [ "cable", 4 ] ]
+      [ [ "cable", 2 ] ]
     ]
   },
   {
@@ -54,7 +54,7 @@
       [ [ "element", 2 ] ],
       [ [ "scrap", 4 ] ],
       [ [ "e_scrap", 2 ] ],
-      [ [ "cable", 2 ] ],
+      [ [ "cable", 1 ] ],
       [ [ "pilot_light", 1 ] ],
       [ [ "motor_micro", 1 ] ],
       [ [ "fanblade_metal", 1 ] ],
@@ -82,7 +82,7 @@
       [ [ "element", 2 ] ],
       [ [ "scrap", 4 ] ],
       [ [ "e_scrap", 2 ] ],
-      [ [ "cable", 2 ] ],
+      [ [ "cable", 1 ] ],
       [ [ "hinge", 2 ] ]
     ]
   },
@@ -125,7 +125,7 @@
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 6 ] ],
-      [ [ "cable", 2 ] ],
+      [ [ "cable", 1 ] ],
       [ [ "small_lcd_screen", 1 ] ]
     ]
   }

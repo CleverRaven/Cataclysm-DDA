@@ -31,7 +31,8 @@
         android:allowBackup="true"
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="true"
-        android:isGame="true" >
+        android:isGame="true"
+        android:enableOnBackInvokedCallback="false" >
 
         <!-- Example of setting SDL hints from AndroidManifest.xml:
         <meta-data android:name="SDL_ENV.SDL_ACCELEROMETER_AS_JOYSTICK" android:value="0"/>

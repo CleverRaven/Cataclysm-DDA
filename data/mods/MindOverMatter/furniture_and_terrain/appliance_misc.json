@@ -13,7 +13,7 @@
     "damage_modifier": 10,
     "pseudo_tools": [ { "id": "psi_noetic_resonance_detector_tool" } ],
     "breaks_into": [
-      { "item": "cable", "count": [ 1, 4 ] },
+      { "item": "cable", "count": [ 1, 2 ] },
       { "item": "lc_steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],

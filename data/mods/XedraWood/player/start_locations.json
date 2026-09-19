@@ -1,0 +1,9 @@
+[
+  {
+    "type": "start_location",
+    "id": "sloc_wise_one_hut",
+    "name": "Remote dwelling",
+    "terrain": [ "xedrawood_scenario_wise_one_hut" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  }
+]

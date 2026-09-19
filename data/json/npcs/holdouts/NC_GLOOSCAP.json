@@ -6,7 +6,7 @@
     "name_unique": "Glooscap",
     "class": "NC_HUNTER",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_GLOOSCAP",
     "faction": "no_faction"
   },

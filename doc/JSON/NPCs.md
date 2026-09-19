@@ -9,6 +9,7 @@
 - [Writing dialogues](#writing-dialogues)
   - [Validating Dialogues](#validating-dialogues)
   - [Customizing NPC speech](#customizing-npc-speech)
+    - [Special Custom Entries](#special-custom-entries)
   - [Talk Topics](#talk-topics)
   - [Dynamic Lines](#dynamic-lines)
   - [Speaker Effects](#speaker-effects)
@@ -35,6 +36,7 @@ Format:
   "name": { "str": "Example NPC" },                                        // Mandatory, display name for this class.
   "job_description": "I'm helping you learn the game.",                    // Mandatory
   "common": false,                                                         // Optional, defaults true. Whether or not this class can appear via random generation. Randomly generated NPCs will have skills, proficiencies, and bionics applied to them as a default new player character would.
+  "portrait_filename": "Named_NPC_Smokes",                                 // Optional, whether this NPC has a unique graphical portrait. Value is the ID of the portrait. If unspecified, NPCs will receive a portrait ID of GENERIC_MALE_PORTRAITXXXXXXXXXXXX or GENERIC_FEMALE_PORTRAITXXXXXXXXXXXX where the X's can be any string of characters. (Portraits will be assigned by gender of the NPC).
   "common_spawn_weight": 1.5,                                              // Optional (float), default 1.0 . For classes with common, this is how often they spawn. Higher numbers spawn more often.
   "sells_belongings": false,                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration)
   "bonus_str": { "rng": [ -4, 0 ] },                                       // Optional. Modifies stat by the given value. This example shows a random distribution between -4 and 0.
@@ -199,7 +201,7 @@ This is the JSON that creates the NPC ID that is used to spawn an NPC in "mapgen
 | `name_unique` | Set name of NPC.
 | `name_suffix` | Set name suffix of NPC.
 | `attitude`    | _(mandatory)_ Based on the enum in `npc.h`. The important ones are `0=NPCATT_NULL`, `1=NPCATT_TALK`, `3=NPCATT_FOLLOW`, `10=NPCATT_KILL`, and `11=NPCATT_FLEE`.
-| `mission`     | _(mandatory)_ Based on the enum in `npc.h`. The important ones are `0=NPC_MISSION_NULL`, `3=NPC_MISSION_SHOPKEEP`, `7=NPC_MISSION_GUARD`, and `8=NPC_MISSION_GUARD_PATROL`.
+| `mission`     | _(mandatory)_ Based on the enum in `npc.h`. The important ones are `NULL`, `SHOPKEEP`, `GUARD`, and `GUARD_PATROL`.
 | `chat`        | _(mandatory)_ Covered in the dialogue examples below.
 | `faction`     | Set faction NPC belongs to (see [FACTIONS.md](FACTIONS.md)).
 | `death_eocs`  | String `effect_on_condition` ids and/or inline `effect_on_condition`s (see [EFFECT_ON_CONDITION.md](EFFECT_ON_CONDITION.md)). When the npc dies all of these `eoc`s are run with the victim as u and the killer as npc.
@@ -466,6 +468,18 @@ This example adds the "I'm going now!" response to all the listed topics.
     ]
 }
 ```
+
+#### `portrait_override`
+```jsonc
+  {
+    "id": "TALK_BALTHAZAR_You_Fucked_Up",
+    "type": "talk_topic",
+    "portrait_override": "portrait_balthazar_ANGERY",
+    "responses": [ { "text": "Woah calm down!  How was I supposed to know that was your favorite stuffed animal?", "topic": "TALK_BALTHAZAR_Kills_You_Anyway" } ]
+  }
+```
+
+Portrait_override will force the dialogue window to display the given portrait ID while on that topic, overriding any portrait that may normally be displayed.
 
 #### `dynamic_line`
 The `dynamic_line` is the line spoken by the NPC.  It is optional.  If it is not defined and the topic has the same id as a built-in topic, the `dynamic_line` from that built-in topic will be used.  Otherwise the NPC will say nothing.  [See the chapter about Dynamic Lines below](#dynamic-lines) for more details.
@@ -1296,7 +1310,7 @@ or idiomatically
 ```
 Example:
 ```jsonc
-{ "value": "LUMINATION", "add": { "math": [ "u_val('morale') * 3 - rng(0, 100)" ] } }
+{ "value": "LUMINATION", "add": { "math": [ "u_morale() * 3 - rng(0, 100)" ] } }
 ```
 The expression in `lhs` is evaluated and passed on to the parent object.
 
@@ -1400,6 +1414,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | consumption_count_total    |  ✅   |   ❌  | u, n  | Return total number of items eaten within a time window, regardless of type.<br/><br/>Optional kwargs:<br/>`hours`: `d` - Time window in hours (default 48).<br/><br/>Example:<br/>`"condition": { "math": [ "u_consumption_count_total('hours': 6) >= 1"] }`|
 | coverage(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total coverage of a body part.<br/>Argument is bodypart ID. <br/>For items, returns typical coverage of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_coverage('torso') > 0"] }`|
 | distance(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | g  | Return distance between two targets.<br/>Arguments are location variables or special strings (`u`, `npc`). `u` means your location. `npc` means NPC's location.<br/><br/>Example:<br/>`"condition": { "math": [ "distance('u', loc) <= 50"] }`|
+| light_level(`v`)    |  ✅   |   ❌  | g | Return the value of light level the specific tile has. <br/>Argument is location variable. <br/>Return values are:<br/>`0` = DARK<br/>`1` = LOW (Hard to see)<br/>`3` = BRIGHT_ONLY (bright but indistinct(i do not know what it means))<br/>`4` = BRIGHT (only for light sources)<br/>`5` = MEMORIZED (Not a light level but behaves similarly)<br/>`6` = BLANK (blank space, not an actual light level) <br/><br/>Example:<br/>`"condition": { "math": [ "light_level(_pos) == 3" ] }`|
 | effect_intensity(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters intensity of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set intensity of effect.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso') > 1"] }`|
 | effect_duration(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return the characters duration of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set duration of effect.<br/>`unit`: `s`/`v` - Specify the unit of the duration. Omitting will use seconds.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_duration('bite', 'bodypart': 'torso') > 1"] }`<br/>`{ "math": [ "_thing = u_effect_duration('yrax_overcharged', 'bodypart': 'torso', 'unit': 'hours')" ] }`|
 | limb_score(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the character limb score.<br/>Argument is limb score id.<br/><br/>Optional kwargs:<br/>`type`: `s`/`v` - Specifies the type of bodypart of which score should be picked, like `arm` or `sensor`, see the full list in [JSON_INFO.md#Body_parts](JSON_INFO.md#Body_parts).<br/><br/> Example:<br/>`{ "math": [ "_foo = u_limb_score('lift', 'type': 'arm')" ] }`|
@@ -1408,7 +1423,8 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | energy(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return a numeric value (in millijoules) for an energy string (see [Units](JSON_INFO.md#units)).<br/><br/>Example:<br/>`{ "math": [ "u_val('power') -= energy('25 kJ')" ] }`|
 | faction_like(`s`/`v`)<br/>faction_respect(`s`/`v`)<br/>faction_trust(`s`/`v`)<br/>faction_food_supply(`s`/`v`)<br/>faction_wealth(`s`/`v`)<br/>faction_power(`s`/`v`)<br/>faction_size(`s`/`v`)    |   ✅   |   ✅  | N/A<br/>(global)  | Return the like/respect/trust/fac_food_supply/wealth/power/size value a faction has for the avatar.<br/>Argument is faction ID.<br/>`faction_food_supply` has an optional second argument(kwarg) for getting/setting vitamins.<br/><br/>Example:<br/>`"condition": { "math": [ "faction_like('hells_raiders') < -60" ] }`<br/><br/>`{ "math": [ "calcium_amount = faction_food_supply('your_followers', 'vitamin':'calcium')" ] },`<br/>`{ "u_message": "Calcium stored is <global_val:calcium_amount>", "type": "good" },`|
 | field_strength(`s`/`v`)    |   ✅   |   ❌  | u, n, global  | Return the strength of a field on the tile.<br/>Argument is field ID.<br/><br/>Optional kwargs:<br/> `location`: `v` - center search on this location<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_field_strength('fd_blood') > 5" ] }`<br/><br/>`"condition": { "math": [ "field_strength('fd_blood_insect', 'location': u_search_loc) > 5" ] }`|
-| has_flag(`s`/`v`) | ✅ | ❌ | u, n | Check whether the actor has a flag. Meant to be used as condition for ternaries. Argument is trait ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg = u_has_flag('MUTATION_TRESHOLD') ? 100 : 15" ] }`|
+| has_flag(`s`/`v`) | ✅ | ❌ | u, n | Check whether the actor has a flag. Meant to be used as condition for ternaries. Argument is flag ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg = u_has_flag('MUTATION_TRESHOLD') ? 100 : 15" ] }`|
+| has_wielded_with_flag(`s`/`v`) | ✅ | ❌ | u, n | Check whether the actor is wielding an item that has a flag. Meant to be used as condition for ternaries. Argument is flag ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg = u_has_wielded_with_flag('STURDY') ? 100 : 15" ] }`|
 | has_trait(`s`/`v`)    |  ✅   |   ❌  | u, n  | Check whether the actor has a trait. Meant to be used as condition for ternaries. Argument is trait ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg = u_has_trait('FEEBLE') ? 100 : 15" ] }`|
 | sum_traits_of_category(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return sum of all positive, negative, or all mutation in a mutation tree (not one character has). Argument is category id.<br/><br/>Optional kwargs:<br/> `type`: `s`/`v` - should it be only positive (points >= 0), only negative(points <= 0), or all traits altogether; possible values are `POSITIVE`, `NEGATIVE` and `ALL`(default).<br/><br/> Example:<br/>`"condition": { "math": [ "u_sum_traits_of_category('RAT') < u_sum_traits_of_category('RAT', 'type': 'POSITIVE')" ] }`|
 | u_sum_traits_of_category_char_has(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return sum of all positive, negative, or all mutation in a mutation tree talker has at this moment. Argument is category id.<br/><br/>Optional kwargs:<br/> `type`: `s`/`v` - should it be only positive (points >= 0), only negative(points <= 0), or all traits altogether; possible values are `POSITIVE`, `NEGATIVE` and `ALL`(default).<br/><br/> Example:<br/>`"condition": { "math": [ "u_sum_traits_of_category_char_has('RAT') < u_sum_traits_of_category_char_has('RAT', 'type': 'POSITIVE')" ] }`|
@@ -1426,6 +1442,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | mon_species_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Same as `monsters_nearby()`, but arguments are monster species |
 | mon_groups_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Same as `monsters_nearby()`, but arguments are monster groups |
 | moon_phase()     |  ✅  |   ❌   | N/A<br/>(global)  | Returns current phase of the Moon. <pre>MOON_NEW = 0,<br/>WAXING_CRESCENT = 1,<br/>HALF_MOON_WAXING = 2,<br/>WAXING_GIBBOUS = 3,<br/>FULL = 4,<br/>WANING_GIBBOUS = 5,<br/>HALF_MOON_WANING = 6,<br/>WANING_CRESCENT = 7 |
+| morale()     |  ✅  |   ✅*   | u, n  | Returns or sets total morale level.  Optional kwargs:<br/>`raw`: `true`/`false`/`d` - false (default) Whether to return the raw morale value without adjusting for trauma 'deadening'. Assignment only works for monsters. |
 | num_input(`s`/`v`,`d`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Prompt the player for a number.<br/>Arguments are Prompt text, Default Value:<br/>`"math": [ "u_value_to_set = num_input('Playstyle Perks Cost?', 4)" ]`|
 | oxygen()   |  ✅  |   ✅   | u, n  | Return or set the characters oxygen level.<br/><br/>Example:<br/>`{ "math": [ "u_oxygen() -= 1" ] }` Reduces the alpha talker's oxygen level by 1 provided it was greater than 0<br/>|
 | oxygen_max()   |  ✅  |   ❌   | u, n  | Return the characters max oxygen level.<br/><br/>Example:<br/>`{ "math": [ "u_oxygen() = max(u_oxygen(), 0.5 * u_oxygen_max())" ] }` Increases the alpha talker's oxygen level to half the max if it was below that<br/>|
@@ -1498,7 +1515,6 @@ These can be read or written to with `val()`.
 | `mana` | ✅ | Current mana. |
 | `mana_max` | ❌ | Max mana. |
 | `mana_percentage` | ❌ | Current mana as percent. |
-| `morale` | ✅* | The current morale. Assigment only works for monsters. |
 | `owed` | ✅ | Amount of money the Character owes the avatar. |
 | `pkill` | ✅ | Current painkiller level. |
 | `pos_x`<br/>`pos_y`<br/>`pos_z` | ✅ | Absolute coordinate of the character |

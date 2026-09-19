@@ -1,0 +1,33 @@
+[
+  {
+    "type": "palette",
+    "id": "xe_genius_locum",
+    "terrain": {
+      " ": "t_region_groundcover_urban",
+      ".": "t_rock_floor",
+      "X": "t_rock_floor",
+      "b": "t_rock_floor",
+      "1": "t_dirt",
+      "4": "t_dirt",
+      "-": [ [ "t_region_groundcover_urban", 5 ], "t_region_tree_shade", 2 ],
+      "#": "t_rock_wall"
+    },
+    "furniture": {
+      "b": "f_bench",
+      "h": "f_bench",
+      "X": "f_elemental_altar",
+      "1": "f_brazier",
+      "2": "f_topiary_animal",
+      "3": "f_topiary_abstract",
+      "4": "f_topiary_dragon"
+    }
+  },
+  {
+    "type": "palette",
+    "id": "xe_genius_locum_homullus",
+    "terrain": {
+      "~": [ [ "t_metal_floor_no_roof", 2 ], [ "t_floor_noroof", 10 ], [ "t_pavement", 5 ] ],
+      "|": [ [ "t_scrap_wall", 10 ], [ "t_scrap_wall_halfway", 2 ], [ "t_brick_wall", 10 ], [ "t_brick_wall_halfway", 2 ] ]
+    }
+  }
+]

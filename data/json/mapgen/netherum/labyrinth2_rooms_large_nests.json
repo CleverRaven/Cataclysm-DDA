@@ -28,6 +28,29 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "         ",
+        "         ",
+        "         ",
+        "   ###   ",
+        "   #<o   ",
+        "   ###   ",
+        "         ",
+        "         ",
+        "         "
+      ],
+      "palettes": [ "labyrinth2_nest_palette" ],
+      "terrain": { "<": "t_nl_stairs_up", "o": "t_nl_archway" },
+      "place_nested": [ { "chunks": [ [ "labyrinth_stairs_2_to_1_teleporter", 1 ] ], "x": 2, "y": 2, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_9x9_square_room_nest",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "         ",
         " ÇÇÇ ÇÇÇ ",
         "         ",
         " ϴÇÇÇÇϴ  ",
@@ -1100,6 +1123,31 @@
         "           "
       ],
       "palettes": [ "labyrinth2_nest_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_9x9_circle_room_nest",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "    ###    ",
+        "    #<o    ",
+        "    ###    ",
+        "           ",
+        "           ",
+        "           ",
+        "           "
+      ],
+      "palettes": [ "labyrinth2_nest_palette" ],
+      "terrain": { "<": "t_nl_stairs_up", "o": "t_nl_archway" },
+      "place_nested": [ { "chunks": [ [ "labyrinth_stairs_2_to_1_teleporter", 1 ] ], "x": 3, "y": 3, "z": 1 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }

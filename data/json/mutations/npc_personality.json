@@ -131,7 +131,7 @@
   {
     "id": "personality_altruist",
     "type": "mutation",
-    "name": { "str": "Kind" },
+    "name": { "ctxt": "personality trait", "str": "Kind" },
     "description": "<npc_name> just wants to help.",
     "points": 0,
     "valid": false,

@@ -7,7 +7,7 @@
     "name_unique": "Mikhail Frolov",
     "name_suffix": "Fisherman",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_lighthouse_man_1",
     "faction": "fisherman_family",
     "mission_offered": "MISSION_lighthouse_man_1"

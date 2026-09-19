@@ -793,7 +793,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::dimension_travel: {
             add( pgettext( "memorial_male", "Traveled from '%s' to '%s'." ),
                  pgettext( "memorial_female", "Traveled from '%s' to '%s'." ),
-                 e.get<std::string>( "from_dimension" ), e.get<std::string>( "to_dimension" ) );
+                 e.get<dimension_id>( "from_dimension" ).c_str(), e.get<dimension_id>( "to_dimension" ).c_str() );
             break;
         }
         case event_type::disarms_nuke: {

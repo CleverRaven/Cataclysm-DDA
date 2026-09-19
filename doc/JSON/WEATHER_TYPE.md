@@ -14,6 +14,7 @@ Each weather type is a type of weather that occurs, and what causes it. The only
 | `ranged_penalty`     | Penalty to ranged attacks.                                                                       |
 | `sight_penalty`      | Penalty to per-square visibility, applied in transparency map.                                   |
 | `light_modifier`     | modification to ambient light.                                                                   |
+| `temperature_modifier` | additive modifier to ambient temperature above ground.                                         |
 | `sound_attn`         | Sound attenuation of a given weather type.                                                       |
 | `dangerous`          | If true, our activity gets interrupted.                                                          |
 | `precip`             | Amount of associated precipitation. Valid values are: none, very_light, light and heavy          |
@@ -31,6 +32,8 @@ Each weather type is a type of weather that occurs, and what causes it. The only
 | `priority`           | An integer.  If the condition of multiple weather types are true the one with higher priority wins. |
 | `required_weathers`  | A string array of possible weathers, it is at this point in the loop. i.e. rain can only happen if the conditions for clouds light drizzle or drizzle are present.  Required weathers need to have lower load orders to be. |
 | `passive_effects`    | Passive effects, that will be applied on character when this weather occurs; for detailed syntax, see [field_effect](JSON_INFO.md#field_effect) |
+| `tint_color`         | RBG value that sunlight is tinted, during this weather.                                          |
+| `tint_strength`      | Value between 0 and 1 that indicates how strong tint_color is, where 0 is no tint at all.        |
 
 #### `weather_type` example
 
@@ -47,6 +50,7 @@ Each weather type is a type of weather that occurs, and what causes it. The only
     "ranged_penalty": 4,
     "sight_penalty": 1.25,
     "light_modifier": -45,
+    "temperature_modifier": "-30 C",
     "sound_attn": 8,
     "dangerous": false,
     "precip": "heavy",
@@ -73,6 +77,8 @@ Each weather type is a type of weather that occurs, and what causes it. The only
         "immunity_data": { "body_part_env_resistance": [ [ "mouth", 3 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
         "immune_inside_vehicle": true
       }
-    ]
+    ],
+    "tint_color": [110, 0, 0],
+    "tint_strength": 1.0
   }
 ]

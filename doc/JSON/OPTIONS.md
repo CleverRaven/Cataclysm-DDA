@@ -19,8 +19,10 @@ config/options.json stores most options, and is persistent across separate game 
 save/<world>/worldoptions.json stores just a subset of options that are appropriate to change on a per-world basis, and override options specified in options.json when present.
 
 Options are split into "menu options" and "external options", which are usually separate, but options can be migrated back and forth.
-"menu options" are displayed in an in-game menu for adjustment, and are intended to be adjusted by plyters to tune the game to their liking. Their use is documented within this menu.
+"menu options" are displayed in an in-game menu for adjustment, and are intended to be adjusted by players to tune the game to their liking. Their use is documented within this menu.
 "external options" are mostly intended to be used to expose options to mods that have an impact on the game outside the norm for adjustments we expect players to make, though if you have a text editior you can still have at it. Expected uses for these options are included in their entry in data/core/external_options.json
+
+External options that are frequently checked can be cached as variables by declaring them in the cached_options.h and .cpp files. Options that are cached in this way and added to the update_options_cache() function (located around line 4100 of options.cpp) will be used correctly anywhere in the c++ code.
 
 ### Hack for migrating menu options
 In the case when a menu option is migrated to an external option, it is desirable to have already-adjusted world or global options take precedence over the new external option.

@@ -218,7 +218,8 @@
       { "item": "rope_30", "prob": 50 },
       { "item": "pliers", "prob": 50 },
       { "group": "new_laptops", "prob": 70 },
-      { "item": "cable", "prob": 40 },
+      { "group": "cable_roll_part", "prob": 40 },
+      { "group": "copper_wire_roll_part", "prob": 30 },
       { "item": "manual_traps_mil", "prob": 80 },
       { "group": "gear_eod_light_or_heavy", "prob": 100 }
     ]

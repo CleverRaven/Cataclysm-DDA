@@ -728,6 +728,31 @@
   },
   {
     "type": "profession",
+    "id": "obsolete_academic",
+    "name": "Obsolete Academic",
+    "description": "Be it algebraic structures or the social lives of finches, you devoted your life to lecturing others on something that won't keep you warm, intact, or fed in the coming days.",
+    "npc_background": "BG_survival_story_EVACUEE",
+    "points": 1,
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "backpack" },
+          { "item": "book_binder" },
+          { "item": "red_pen", "ammo-item": "red_pen_ink", "charges": 100 },
+          { "group": "charged_smart_phone", "contents-item": "guidebook" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "traits": [ "GOODMEMORY", "DISORGANIZED", "INATTENTIVE", "BOOMING_VOICE" ]
+  },
+  {
+    "type": "profession",
     "id": "video_blogger",
     "name": "Video Blogger",
     "description": "You made a career out of creating and commentating video content and posting it on various platforms.  Now most of your fans are dead, alongside your equipment.  Maybe you didn't cultivate the most practical skillset through your career, but you have learned a thing or two about troubleshooting software and getting people to listen to you.",
@@ -1346,7 +1371,7 @@
     "id": "major-general",
     "name": "Major General",
     "requirement": [ "achievement_reach_military_bunker", "achievement_reach_military_base" ],
-    "description": "You worked your way up through the ranks from a no-name private to a big shot Major General, respected and decorated.  On the downside, years of desk duty have left your shooting skills rusty, and all the medals in the world won't protect you now.",
+    "description": "You worked your way up through the ranks from a no-name private to a big shot major general, respected and decorated.  On the downside, years of desk duty have left your shooting skills rusty, and all the medals in the world won't protect you now.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 4,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
@@ -1896,7 +1921,7 @@
   {
     "type": "profession",
     "id": "seal_sniper",
-    "name": "Navy SEAL Marksmen",
+    "name": "Navy SEAL Marksman",
     "description": "Recruited into the ranks of the US Navy's Special Warfare forces as a designated sniper, your training in precision marksmanship and maritime operations was extensive.  As a proficient soldier and combative in all respects, you provided overwatch and long-range elimination services in the line of duty.  Now, with naval command imploding and your spotter MIA, your skills with a rifle and covert operations are the only things standing between you and the Cataclysm.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 8,
@@ -3938,7 +3963,7 @@
           { "item": "tool_belt" },
           { "group": "charged_smart_watch" },
           { "item": "mbag" },
-          { "item": "solder_wire" },
+          { "group": "solder_wire_spool_part" },
           { "group": "charged_smart_phone", "contents-item": "manual_electronics" },
           { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
@@ -5092,7 +5117,6 @@
     "description": "You've decided today is the day to take your first lesson at the local dojo.  You'll be great at it, you're sure of it.",
     "npc_background": "BG_survival_story_SPORTS",
     "points": 1,
-    "flags": [ "NO_BONUS_ITEMS" ],
     "skills": [ { "level": 1, "name": "melee" }, { "level": 1, "name": "unarmed" } ],
     "proficiencies": [ "prof_unarmed_familiar" ],
     "items": {
@@ -5326,7 +5350,7 @@
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "personal_gobag", "custom-flags": [ "FIT" ] },
+          { "group": "guardsman_profession_bag", "custom-flags": [ "FIT" ] },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },

@@ -312,7 +312,7 @@
     "subcategory": "CSC_PRACTICE_RANGED",
     "time": "0 s",
     "autolearn": true,
-    "flags": [ "SECRET", "BLIND_EASY", "ALWAYS_START_ON_GROUND" ],
+    "flags": [ "SECRET", "ALWAYS_START_ON_GROUND" ],
     "result_eocs": [ { "id": "EOC_START_TARGET_PRACTICE", "effect": [ { "u_assign_activity": "ACT_TARGET_PRACTICE" } ] } ]
   }
 ]

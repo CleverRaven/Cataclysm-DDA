@@ -87,7 +87,7 @@
   </screenshots>
 
   <developer id="org.cataclysmdda">
-    <name>Kevin Granade and Contributors</name>
+    <name>Maya Granade and Contributors</name>
   </developer>
   <releases>
     <release version="0.H" date="2024-07-22">
@@ -474,7 +474,7 @@
           to PC/NPC relations.
         </p>
         <p>
-          This release, containing over 9,000 commits (@kevingranade
+          This release, containing over 9,000 commits (@mayagranade
           counted) brings an unheard-of amount of new features and
           content, most of which wants you dead.
         </p>

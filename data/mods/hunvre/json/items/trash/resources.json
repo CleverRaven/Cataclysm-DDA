@@ -1,0 +1,40 @@
+[
+  {
+    "id": "contaminated_dirt",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "contaminated dirt" },
+    "description": "Brownish biological matter mixed with toxic contaminants, generally a byproduct of cleaning processes, it's meant to be further processed and its components separated to be of any use.",
+    "color": "brown",
+    "symbol": "=",
+    "price_postapoc": "0 cent",
+    "volume": "5 L",
+    "weight": "6250 g",
+    "material": [ "soil", "plastic" ],
+    "display_type": "BY_VOLUME"
+  },
+  {
+    "id": "nurdle",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "nurdle" },
+    "description": "Pre production plastic pellets, ready to be processed into all kinds of items.",
+    "color": "white",
+    "symbol": "=",
+    "price_postapoc": "1 dollar",
+    "volume": "5 L",
+    "weight": "5 kg",
+    "material": [ "plastic" ],
+    "display_type": "BY_VOLUME"
+  },
+  {
+    "id": "degraded_nurdle",
+    "copy-from": "nurdle",
+    "proportional": { "price_postapoc": 0.2 },
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "degraded nurdle" },
+    "description": "Yellowed and cloudy pellets of degraded polymers.",
+    "color": "light_gray"
+  }
+]

@@ -133,7 +133,7 @@
           [ [ "solder_wire", 50 ] ],
           [ [ "processor", 2 ] ],
           [ [ "RAM", 8 ] ],
-          [ [ "cable", 10 ] ],
+          [ [ "cable", 4 ] ],
           [ [ "e_scrap", 20 ] ],
           [ [ "circuit", 10 ] ],
           [ [ "ai_module_basic", 1 ], [ "ai_module", 1 ] ]
@@ -173,7 +173,7 @@
           [ [ "circuit", 4 ] ],
           [ [ "power_supply", 2 ] ],
           [ [ "amplifier", 2 ] ],
-          [ [ "cable", 80 ] ],
+          [ [ "cable", 27 ] ],
           [ [ "motor_small", 1 ], [ "motor_tiny", 2 ] ]
         ]
       }

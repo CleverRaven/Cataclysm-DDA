@@ -9,7 +9,7 @@
     "gender": "female",
     "class": "NC_ROBOFAC_INTERCOM",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_ROBOFAC_INTERCOM",
     "mission_offered": [ "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1", "MISSION_ROBOFAC_INTERCOM_2" ],
     "faction": "robofac"
@@ -170,7 +170,7 @@
     "name_suffix": "Intercom Operator",
     "class": "NC_ROBOFAC_INTERCOM_DAY",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_ROBOFAC_INTERCOM",
     "faction": "robofac"
   },
@@ -181,7 +181,7 @@
     "name_suffix": "Intercom Operator",
     "class": "NC_ROBOFAC_INTERCOM_NIGHT",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_ROBOFAC_INTERCOM",
     "faction": "robofac"
   },
@@ -208,7 +208,7 @@
     "name_suffix": "Hub 01 Representative",
     "class": "NC_ROBOFAC_INTERCOM_SUPPLY",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_ROBOFAC_INTERCOM",
     "faction": "robofac"
   },
@@ -611,7 +611,8 @@
                 { "u_has_items": { "item": "HEW_printout_data_void_spider_lair", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_inner_cabins_open_field", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_inner_cabins_warped_cabin", "count": 1 } },
-                { "u_has_items": { "item": "HEW_printout_data_inner_cabins_home_cabin", "count": 1 } }
+                { "u_has_items": { "item": "HEW_printout_data_inner_cabins_home_cabin", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_portal_storm_dungeon", "count": 1 } }
               ]
             }
           ]
@@ -1552,7 +1553,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_ARMOR_NANO_ASK",
     "type": "talk_topic",
-    "dynamic_line": "Thank you.  This might be of use benefit to us, but we will need at least a day to read the contents of the template.  Please speak with us again once we've had time.",
+    "dynamic_line": "Thank you.  This might be of use to us, but we will need at least a day to read the contents of the template.  Please speak with us again once we've had time to look it over.",
     "speaker_effect": {
       "effect": [
         { "u_consume_item": "template_armor", "count": 1, "popup": true },
@@ -2107,11 +2108,11 @@
     },
     "responses": [
       {
-        "text": "Actually, I'm familiar with these cybernetics.  I already have an interface installed by the Exodii.",
+        "text": "Actually, I'm familiar with these cybernetics.  I already have one.",
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ] },
-            { "u_has_trait": "CBM_Interface" },
+            { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
             { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
           ]
         },
@@ -2142,7 +2143,8 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ] },
-            { "not": { "u_has_trait": "CBM_Interface" } }
+            { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "u_has_trait": "NL_CBM_Interface" } }
           ]
         },
         "effect": [

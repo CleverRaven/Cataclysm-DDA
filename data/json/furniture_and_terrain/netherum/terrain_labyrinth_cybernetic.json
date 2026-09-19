@@ -275,6 +275,8 @@
     "move_cost": -1,
     "coverage": 100,
     "roof": "t_nl_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "CONNECT_WITH_WALL", "BLOCK_WIND", "SUPPORTS_ROOF", "LOCKED", "REDUCE_SCENT", "BARRICADABLE_DOOR", "DOOR" ],
     "prying": {
       "result": "t_nl_door_o",
@@ -304,6 +306,8 @@
     "move_cost": -1,
     "coverage": 100,
     "roof": "t_nl_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "CONNECT_WITH_WALL", "BLOCK_WIND", "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR", "DOOR" ],
     "open": "t_nl_door_o"
   },
@@ -318,6 +322,8 @@
     "move_cost": 2,
     "coverage": 20,
     "roof": "t_nl_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "CONNECT_WITH_WALL",
       "BLOCK_WIND",
@@ -334,7 +340,7 @@
   {
     "type": "terrain",
     "id": "t_nl_archway",
-    "name": "mysterious open door",
+    "name": "mysterious archway",
     "looks_like": "t_nl_door_o",
     "description": "A heavy metal archway, etched with alien symbols.",
     "symbol": "/",
@@ -342,7 +348,25 @@
     "move_cost": 2,
     "coverage": 20,
     "roof": "t_nl_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "CONNECT_WITH_WALL", "SUPPORTS_ROOF", "TRANSPARENT", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_archway_scarlet",
+    "name": "mysterious archway",
+    "looks_like": "t_nl_door_o",
+    "description": "A heavy metal archway, etched with alien symbols.",
+    "symbol": "/",
+    "color": "blue",
+    "move_cost": 2,
+    "coverage": 20,
+    "roof": "t_nl_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "CONNECT_WITH_WALL", "SUPPORTS_ROOF", "TRANSPARENT", "FLAT", "ROAD" ],
+    "emissions": [ "emit_scarlet_sea_gas" ]
   },
   {
     "type": "terrain",
@@ -501,7 +525,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_nl_metal_wall_edge",
+    "id": "t_nl_metal_wall_border",
     "name": "metallic wall",
     "copy-from": "t_nl_metal_wall",
     "description": "A durable wall of ordinary looking sheet metal, at first.  Staring closer, the welds and joins seem to form strange fractal patterns.",

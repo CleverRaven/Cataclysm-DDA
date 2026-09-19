@@ -18,7 +18,7 @@
       [ [ "afs_energy_storage_1", 2 ] ],
       [ [ "afs_circuitry_2", 1 ] ],
       [ [ "scrap", 5 ] ],
-      [ [ "cable", 10 ] ]
+      [ [ "cable", 4 ] ]
     ]
   },
   {
@@ -45,7 +45,7 @@
       [ [ "afs_circuitry_2", 1 ] ],
       [ [ "element", 12 ], [ "crude_heating_element", 18 ] ],
       [ [ "sheet_metal", 2 ] ],
-      [ [ "cable", 15 ] ]
+      [ [ "cable", 5 ] ]
     ]
   },
   {
@@ -62,7 +62,7 @@
     "skills_required": [ [ "fabrication", 1 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "cable", 2 ] ], [ [ "afs_circuitry_1", 2 ] ], [ [ "lightstrip_inactive", 3 ] ], [ [ "pipe", 3 ] ] ]
+    "components": [ [ [ "cable", 1 ] ], [ [ "afs_circuitry_1", 2 ] ], [ [ "lightstrip_inactive", 3 ] ], [ [ "pipe", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -87,7 +87,7 @@
       [ [ "afs_energy_storage_1", 10 ] ],
       [ [ "afs_circuitry_1", 1 ] ],
       [ [ "sheet_metal", 2 ] ],
-      [ [ "cable", 20 ] ]
+      [ [ "cable", 7 ] ]
     ]
   }
 ]

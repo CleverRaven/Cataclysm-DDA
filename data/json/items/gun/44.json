@@ -78,6 +78,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "extend": { "flags": [ "LEVER_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 10 } } ]
   },
   {
@@ -115,7 +116,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": ".44 revolver" },
-    "description": "A stainless steel, six-shot, double-action revolver with a matte black plastic handle manufactured by Smith & Wesson.  Though hardly the most powerful handgun in the world any more, it could still blow a zombie's head clean off.",
+    "description": "A stainless steel, six-shot, double-action revolver with a matte black plastic handle manufactured by Smith & Wesson.  Though hardly the most powerful handgun in the world anymore, it could still blow a zombie's head clean off.",
     "//1": "If someone makes a sw269 ascii picture, make this only the ruger's art",
     "ascii_picture": "redhawk",
     "variant_type": "gun",
@@ -269,6 +270,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "extend": { "flags": [ "LEVER_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 8 } } ]
   },
   {
@@ -309,6 +311,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "extend": { "flags": [ "LEVER_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 10 } } ]
   }
 ]

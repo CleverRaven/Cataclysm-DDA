@@ -8,7 +8,7 @@
     "class": "NC_OG_OFFICER",
     "gender": "male",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_OLD_GUARD_FOB_OFFICER",
     "faction": "old_guard"
   },

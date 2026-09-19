@@ -1,0 +1,195 @@
+[
+  {
+    "om_terrain": [ [ "central_elevator_0_0", "central_elevator_1_0" ], [ "central_elevator_2_0", "central_elevator_3_0" ] ],
+    "type": "mapgen",
+    "object": {
+      "fill_ter": "t_concrete",
+      "rows": [
+        "########################*#######################",
+        "#hhYhh#hhhYhh#  µ  #hhhh #9#9#9#9#9#9#9#9#9#t#t#",
+        "#     *      *  #  *     oh#h#h#h#h#h#h#h#h#°#°#",
+        "#     #hhhYhh#  µ  #hhhY #                 +   #",
+        "#Y    ##O#####*o#o*#####*#+#################Y S#",
+        "#h    #Y #VYV#  9  # *     +               +   #",
+        "#h    o  #   *  h  * #21SFY#h#h#h#h#h#h#h#h#°#°#",
+        "#h    o  #   ####### #######9#9#9#9#9#9#9#9#t#t#",
+        "#h    #9h#   #             #####################",
+        "#h    o  #   *                               * #",
+        "#Y    o  # #*########   ###################### #",
+        "#   ####+# #    TTTT#   *   +  #VYV  +bl#Y °t# #",
+        "#   #lll # #       T#   #   #  #     ####S ### #",
+        "#   #    # #       T#   #L L#  #      +b#S °t# #",
+        "#   #lll * #h9Y     #   #L L#  +  hhh #l#Y ### #",
+        "##*################+#   #L L#  # hTTT####  °t# #",
+        "#   $        + R# / #   #L L#  #        +  ### #",
+        "#            # R# | #   #L L#  # 1221SFY#  °t# #",
+        "#            # R### #   #####*##+########Y ### #",
+        "#            # R#hT #   #rrr# Y#       Y#S °t# #",
+        "#            # R# Y #   +   # l#+##+##+##S ### #",
+        "#            # R#   +   #rrr#  #bl#bl#bl#Y °t# #",
+        "#            # R#+###########  ###############*#",
+        "#            # R#  o        o6h#     #         #",
+        "#            # R#  o       &#oo#     #         #",
+        "#            # R#  o _________ #  #  #  #      #",
+        "#ù           ####  # _________ #  #  #  #      #",
+        "#            + R#  o _________ #  #  #  #      #",
+        "#            # R#  o _________ #  #  #  #      #",
+        "#            # R#  o _________ #  #  #  #      #",
+        "#            # R#  # _________ #  #  #  #      #",
+        "#            # R#  o _________ #  #  #  #      #",
+        "#            # R#  o _________ #  #  #  #      #",
+        "#            # R#  o           #  #  #  #      #",
+        "#            # R#  #ooo#  #oooo#  #  #  #      #",
+        "#            # R#      #  #    #  #     #      #",
+        "#            # R#      *  *    *  #     #      #",
+        "#            ############################      #",
+        "#### ^        £             £         ^        #",
+        "#R +                                           #",
+        "#R #                                           #",
+        "#R #                                           #",
+        "#R #                                           #",
+        "#R #                                           #",
+        "#R #          #+######+######+########         #",
+        "#R #          #    #    #     #      +         #",
+        "#R #          #RRRR#RRRR#RRRRR#RRRRRR#         #",
+        "################################################"
+      ],
+      "palettes": [ "elevator" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "6x6_elevator_shop",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "      ",
+        " ssss ",
+        "#cccc#",
+        "#   h#",
+        "#    #",
+        "# FFO#"
+      ],
+      "palettes": [ "elevator_shop_base", { "param": "elevator_shop_type_palette" } ],
+      "parameters": {
+        "elevator_shop_type_palette": {
+          "type": "palette_id",
+          "scope": "nest",
+          "default": { "distribution": [ "elevator_shop_drink", "elevator_shop_food", "elevator_shop_luxury" ] }
+        }
+      },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "9x9_elevator_shop",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "         ",
+        "ddd  ddd ",
+        "ddd  ddd ",
+        "         ",
+        "ddd  ddd ",
+        "ddd  ddd ",
+        "         ",
+        "#cccccc##",
+        " h    h #"
+      ],
+      "palettes": [ "elevator_shop_base", { "param": "elevator_shop_type_palette" } ],
+      "parameters": {
+        "elevator_shop_type_palette": {
+          "type": "palette_id",
+          "scope": "nest",
+          "default": { "distribution": [ "elevator_shop_drink", "elevator_shop_food", "elevator_shop_luxury" ] }
+        }
+      },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "8x8_elevator_shop",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "dd dd c ",
+        "dd dd c ",
+        "      c ",
+        "dd dd ch",
+        "dd dd # ",
+        "dd dd # ",
+        "dd dd #F",
+        "      ##"
+      ],
+      "palettes": [ "elevator_shop_base", { "param": "elevator_shop_type_palette" } ],
+      "parameters": {
+        "elevator_shop_type_palette": {
+          "type": "palette_id",
+          "scope": "nest",
+          "default": { "distribution": [ "elevator_shop_drink", "elevator_shop_food", "elevator_shop_luxury" ] }
+        }
+      },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "12x12_elevator_shop",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  ##########",
+        "            ",
+        " dd  dd  dd ",
+        " dd  dd  dd ",
+        " dd  dd  dd ",
+        " dd  dd  dd ",
+        "            ",
+        "            ",
+        "#cc  dd  dd ",
+        "Fhc  dd  dd ",
+        "O c  dd  dd ",
+        "F #  dd  dd "
+      ],
+      "palettes": [ "elevator_shop_base", { "param": "elevator_shop_type_palette" } ],
+      "parameters": {
+        "elevator_shop_type_palette": {
+          "type": "palette_id",
+          "scope": "nest",
+          "default": { "distribution": [ "elevator_shop_drink", "elevator_shop_food", "elevator_shop_luxury" ] }
+        }
+      },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "central_elevator_0_0", "central_elevator_1_0", "central_elevator_2_0", "central_elevator_3_0" ],
+    "name": "central elevator",
+    "sym": "E",
+    "color": "light_red",
+    "vision_levels": "large_city_building",
+    "travel_cost_type": "structure",
+    "see_cost": "full_high",
+    "flags": [ "RISK_EXTREME", "SOURCE_LUXURY", "SIDEWALK" ],
+    "spawns": { "group": "euzhvil_group", "population": [ 1, 3 ], "chance": 75 }
+  },
+  {
+    "type": "city_building",
+    "id": "hab_unit_central_building_z2",
+    "locations": [ "space" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "central_elevator_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "central_elevator_1_0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "central_elevator_2_0_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "central_elevator_3_0_north" }
+    ],
+    "flags": [ "LIGHTHOUSE" ]
+  }
+]

@@ -18,7 +18,6 @@
     "morale": 100,
     "vision_day": 50,
     "revert_to_itype": "bot_laserturret_xray",
-    "starting_ammo": { "xray_laser_barrel": 3 },
     "special_attacks": [
       {
         "type": "gun",

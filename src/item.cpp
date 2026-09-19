@@ -25,6 +25,7 @@
 #include "character_martial_arts.h"
 #include "color.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "craft_command.h"
 #include "creature.h"
 #include "debug.h"
@@ -122,8 +123,6 @@ static const itype_id itype_efile_photos( "efile_photos" );
 static const itype_id itype_efile_recipes( "efile_recipes" );
 static const itype_id itype_joint_lit( "joint_lit" );
 static const itype_id itype_stock_none( "stock_none" );
-static const itype_id itype_water( "water" );
-static const itype_id itype_water_clean( "water_clean" );
 
 static const material_id material_wool( "wool" );
 
@@ -310,7 +309,8 @@ safe_reference<item> item::get_safe_reference()
     return anchor->reference_to( this );
 }
 
-item::item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections )
+item::item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections,
+            bool should_add_faults )
     : item( itype_craft, calendar::turn )
 {
     craft_data_ = cata::make_value<craft_data>();
@@ -326,6 +326,10 @@ item::item( const recipe *rec, int qty, item_components items, std::vector<item_
         if( goes_bad() ) {
             inherit_rot_from_components( *this );
         }
+    }
+
+    if( should_add_faults ) {
+        set_flag( flag_FAULT_ON_COMPLETION );
     }
 
     for( item_components::type_vector_pair &tvp : components ) {
@@ -1191,6 +1195,30 @@ const std::string &item::symbol() const
     return type->sym;
 }
 
+nc_color item::get_fault_color( const nc_color base_color ) const
+{
+    fault_severity severity = fault_severity::none;
+    for( const fault_id &fault : faults ) {
+        severity = std::max( severity, fault->severity() );
+        if( severity == fault_severity::critical ) {
+            break;
+        }
+    }
+
+    switch( severity ) {
+        case fault_severity::none:
+            return base_color;
+        case fault_severity::minor:
+            return c_light_red;
+        case fault_severity::major:
+            return red_background( c_black );
+        case fault_severity::critical:
+            return yellow_background( c_yellow );
+        default:
+            return base_color;
+    }
+}
+
 nc_color item::color_in_inventory( const Character *const ch ) const
 {
     const Character &player_character = ch ? *ch : get_player_character();
@@ -1524,20 +1552,35 @@ void item::update_prefix_suffix_flags( const flag_id &f )
     }
 }
 
-std::string item::tname( unsigned int quantity, bool with_prefix ) const
+std::string item::tname( unsigned int quantity, bool with_prefix, bool color_faults ) const
 {
-    return tname( quantity, with_prefix ? tname::default_tname : tname::unprefixed_tname );
+    return tname( quantity, with_prefix ? tname::default_tname : tname::unprefixed_tname,
+                  color_faults );
 }
 
-std::string item::tname( unsigned int quantity, tname::segment_bitset const &segments ) const
+std::string item::tname( unsigned int quantity, const tname::segment_bitset &segments,
+                         bool color_faults ) const
 {
     std::string ret;
+    size_t fault_color_start = 0;
 
     for( tname::segments idx : tname::get_tname_set() ) {
         if( !segments[idx] ) {
             continue;
         }
         ret += tname::print_segment( idx, *this, quantity, segments );
+
+        if( idx == tname::segments::DURABILITY ) {
+            fault_color_start = ret.size();
+        }
+    }
+
+    if( color_faults ) {
+        const nc_color fault_color = get_fault_color( c_white );
+        if( fault_color != c_white ) {
+            ret = ret.substr( 0, fault_color_start ) +
+                  colorize( ret.substr( fault_color_start ), fault_color );
+        }
     }
 
     if( item_vars.find( "item_note" ) != item_vars.end() ) {
@@ -1569,9 +1612,9 @@ std::string item::display_money( unsigned int quantity, unsigned int total,
     }
 }
 
-std::string item::display_name( unsigned int quantity ) const
+std::string item::display_name( unsigned int quantity, bool color_faults ) const
 {
-    std::string name = tname( quantity );
+    std::string name = tname( quantity, tname::default_tname, color_faults );
     std::string sidetxt;
     std::string amt;
     std::string cable;
@@ -1677,11 +1720,12 @@ std::string item::display_name( unsigned int quantity ) const
                         if( has_loaded_ammo ) {
                             const auto it = restrictions.find( loaded_ammotype );
                             if( it != restrictions.end() ) {
-                                well_max = it->second;
+                                // honor capacity_mods scaling
+                                well_max = p->ammo_capacity( loaded_ammotype );
                             }
                         } else if( !restrictions.empty() ) {
                             const std::pair<const ammotype, int> &first = *restrictions.begin();
-                            well_max = first.second;
+                            well_max = p->ammo_capacity( first.first );
                             ammo_id_for_name = first.first->default_ammotype();
                             if( !ammo_id_for_name.is_null() &&
                                 !ammo_id_for_name.is_empty() &&
@@ -1820,12 +1864,12 @@ std::string item::display_name( unsigned int quantity ) const
                     }
                     amt = string_format( " (%s%s)",
                                          colorize( string_format( "%s/%s",
-                                                   type->count_or_volume_or_weight_prefix( amount ),
-                                                   type->count_or_volume_or_weight_prefix( max_amount ) ),
+                                                   type->item_measure_prefix( amount ),
+                                                   type->item_measure_prefix( max_amount ) ),
                                                    charges_color ),
                                          ammotext );
                 } else  {
-                    amt = string_format( " (%s%s)", type->count_or_volume_or_weight_prefix( amount ), ammotext );
+                    amt = string_format( " (%s%s)", type->item_measure_prefix( amount ), ammotext );
                 }
             }
         } else if( !ammotext.empty() ) {
@@ -3939,7 +3983,11 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
         }
 
         if( !filter( *e ) ) {
-            return VisitResponse::NEXT;
+            // A reserved item hides its whole subtree, matching how the inventory guards
+            // prune roots.  Other filters keep descending.
+            return craft_reservation::contains_reserved( *e )
+                   ? VisitResponse::SKIP
+                   : VisitResponse::NEXT;
         }
 
         if( e->is_tool() || e->is_gun() ) {
@@ -4337,11 +4385,6 @@ void item::set_temp_flags( units::temperature new_temperature, float freeze_perc
         }
     } else if( new_temperature < temperatures::cold ) {
         set_flag( flag_COLD );
-    }
-
-    // Convert water into clean water if it starts boiling
-    if( typeId() == itype_water && new_temperature > temperatures::boiling ) {
-        convert( itype_water_clean ).poison = 0;
     }
 }
 
@@ -5426,6 +5469,88 @@ void item::set_awaiting_collection( bool v )
 {
     cata_assert( craft_data_ );
     craft_data_->awaiting_collection = v;
+}
+
+const std::vector<craft_reservation::binding> &item::get_reservations() const
+{
+    static const std::vector<craft_reservation::binding> none;
+    return craft_data_ ? craft_data_->reservations : none;
+}
+
+void item::set_reservations( std::vector<craft_reservation::binding> b )
+{
+    cata_assert( craft_data_ );
+    craft_data_->reservations = std::move( b );
+}
+
+std::optional<tripoint_abs_ms> item::get_reserved_tile() const
+{
+    return craft_data_ ? craft_data_->reserved_tile : std::nullopt;
+}
+
+void item::set_reserved_tile( std::optional<tripoint_abs_ms> tile )
+{
+    cata_assert( craft_data_ );
+    craft_data_->reserved_tile = tile;
+}
+
+int64_t item::reservation_owner_token()
+{
+    cata_assert( craft_data_ );
+    if( craft_data_->reservation_owner == 0 ) {
+        // From the persisted uid counter, so this cannot collide with a restored token.
+        craft_data_->reservation_owner = generate_next_item_uid();
+    }
+    return craft_data_->reservation_owner;
+}
+
+int64_t item::peek_reservation_owner_token() const
+{
+    return craft_data_ ? craft_data_->reservation_owner : 0;
+}
+
+time_point item::get_reservation_expiry() const
+{
+    return craft_data_ ? craft_data_->reservation_expires_at : calendar::before_time_starts;
+}
+
+void item::set_reservation_expiry( time_point t )
+{
+    cata_assert( craft_data_ );
+    craft_data_->reservation_expires_at = t;
+}
+
+uint8_t item::get_reservation_search_attempts() const
+{
+    return craft_data_ ? craft_data_->reservation_search_attempts : 0;
+}
+
+void item::set_reservation_search_attempts( uint8_t n )
+{
+    cata_assert( craft_data_ );
+    craft_data_->reservation_search_attempts = n;
+}
+
+uint64_t item::get_reservation_pool_fingerprint() const
+{
+    return craft_data_ ? craft_data_->reservation_pool_fingerprint : 0;
+}
+
+void item::set_reservation_pool_fingerprint( uint64_t f )
+{
+    cata_assert( craft_data_ );
+    craft_data_->reservation_pool_fingerprint = f;
+}
+
+uint8_t item::get_reservation_pause_reason() const
+{
+    return craft_data_ ? craft_data_->reservation_pause_reason : 0;
+}
+
+void item::set_reservation_pause_reason( uint8_t r )
+{
+    cata_assert( craft_data_ );
+    craft_data_->reservation_pause_reason = r;
 }
 
 const cata::value_ptr<islot_comestible> &item::get_comestible() const

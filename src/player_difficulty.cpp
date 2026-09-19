@@ -413,8 +413,9 @@ std::string player_difficulty::difficulty_to_string( const avatar &u ) const
     std::string defense = get_defense_difficulty( n );
 
     if( get_option<bool>( "SCREEN_READER_MODE" ) ) {
-        // Put value before label to ensure the screen reader reads the label when the value changes
-        return string_format( "%s | %s %s, %s %s, %s %s, %s %s, %s %s",
+        //~ Used in new charactor screen
+        //~ Put value before label to ensure the screen reader reads the label when the value changes
+        return string_format( _( "%s | %s %s, %s %s, %s %s, %s %s, %s %s" ),
                               _( "Rating:" ),
                               genetics, _( "Lifestyle" ),
                               expertise, _( "Knowledge" ),
@@ -422,7 +423,8 @@ std::string player_difficulty::difficulty_to_string( const avatar &u ) const
                               defense, _( "Defense" ),
                               socials, _( "Social" ) );
     } else {
-        return string_format( "%s |  %s: %s  %s: %s  %s: %s  %s: %s  %s: %s",
+        //~ Used in new charactor screen
+        return string_format( _( "%s |  %s: %s  %s: %s  %s: %s  %s: %s  %s: %s" ),
                               _( "Rating:" ),
                               _( "Lifestyle" ), genetics,
                               _( "Knowledge" ), expertise,

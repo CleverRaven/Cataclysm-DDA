@@ -1,0 +1,15 @@
+[
+  {
+    "id": "WISE_SORCERY_AID",
+    "type": "json_flag",
+    "info": "This item <good>reduces the cost of your enchantments</good> when wielded."
+  },
+  {
+    "id": "XEDRAWOOD_INSECT_BAD_TASTE",
+    "type": "json_flag",
+    "craft_inherit": true,
+    "taste_mod": -8,
+    "//": "Has a bad taste or texture that can't be covered up through cooking.",
+    "info": "This food is <bad>unappetizing</bad> in a way that <bad>can't be covered up by most cooking</bad>."
+  }
+]

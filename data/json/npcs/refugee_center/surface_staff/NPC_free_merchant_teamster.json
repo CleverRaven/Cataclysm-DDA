@@ -6,7 +6,7 @@
     "name_suffix": "Teamster",
     "class": "NC_TEAMSTER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "GUARD",
     "death_eocs": [ "GODCO_TRADER_MISSION_DEATHFAIL" ],
     "chat": "TALK_FREE_MERCHANT_TEAMSTER",
     "faction": "free_merchants"

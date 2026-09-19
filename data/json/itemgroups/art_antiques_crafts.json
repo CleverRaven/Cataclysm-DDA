@@ -314,12 +314,5 @@
       [ "bead_ear", 5 ],
       [ "bead_necklace", 5 ]
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "cheese_hard_wrapper_8",
-    "subtype": "collection",
-    "container-item": "wrapper",
-    "entries": [ { "item": "cheese_hard", "container-item": "null", "count": 8 } ]
   }
 ]

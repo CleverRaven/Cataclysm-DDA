@@ -149,7 +149,7 @@
       [ "blood", 20 ],
       [ "iodine", 5 ],
       [ "prussian_blue", 5 ],
-      { "item": "bleach", "prob": 20, "charges": [ 10, -1 ] },
+      { "group": "bleach_jug_part", "prob": 20 },
       { "item": "bandages", "prob": 30, "count": [ 1, 3 ] },
       { "group": "adhesive_bandages_box_used", "prob": 30 },
       { "group": "cotton_ball_bag_used", "prob": 50 },
@@ -415,7 +415,6 @@
       [ "toaster", 20 ],
       [ "television", 20 ],
       [ "microwave", 20 ],
-      [ "multi_cooker", 1 ],
       [ "waffleiron", 25 ],
       [ "radio", 15 ]
     ]
@@ -438,7 +437,6 @@
       [ "toaster", 20 ],
       [ "television", 20 ],
       [ "microwave", 20 ],
-      [ "multi_cooker", 1 ],
       [ "pan", 25 ],
       [ "dutch_oven", 5 ],
       [ "waffleiron", 25 ],
@@ -518,7 +516,7 @@
     "id": "steel_mill_mill",
     "//": "for the steel mill in the well, steel mill",
     "items": [
-      { "item": "scrap", "prob": 50, "charges": [ 1, 3 ] },
+      { "item": "scrap", "prob": 50, "count": [ 1, 3 ] },
       { "item": "lc_steel_chunk", "prob": 50, "count": [ 1, 2 ] },
       { "item": "lc_steel_lump", "prob": 50, "count": [ 1, 2 ] },
       { "item": "lc_wire", "prob": 80, "count": [ 0, 40 ] },
@@ -558,7 +556,7 @@
     "type": "item_group",
     "id": "oa_ig_ash_pile",
     "//": "for ws_regional_dump",
-    "items": [ [ "ash", 100 ] ]
+    "items": [ [ "ash", 10 ] ]
   },
   {
     "id": "fishing_items",
@@ -686,7 +684,6 @@
       { "item": "dehydrator", "prob": 5 },
       { "item": "food_processor", "prob": 5 },
       { "item": "hotplate", "prob": 5 },
-      { "item": "multi_cooker", "prob": 5 },
       { "item": "vac_sealer", "prob": 5 }
     ]
   },
@@ -699,7 +696,7 @@
       [ "bubblewrap", 30 ],
       [ "syringe", 35 ],
       [ "glowstick_dead", 15 ],
-      { "item": "cash_card", "prob": 5, "charges": [ 5, 5000 ] },
+      { "item": "credit_card", "prob": 5 },
       [ "id_science", 3 ],
       [ "sandbox_kit", 5 ],
       [ "ear_spool", 15 ],
@@ -787,6 +784,7 @@
     "items": [
       [ "cu_pipe", 45 ],
       { "item": "cable", "prob": 50, "count": [ 1, 20 ] },
+      { "item": "copper_wire", "prob": 50, "count": [ 1, 20 ] },
       [ "pot_copper", 30 ],
       [ "pot_makeshift_copper", 15 ],
       [ "copper_pan", 15 ],
@@ -813,7 +811,7 @@
       [ "spring", 150 ],
       [ "pastaextruder", 75 ],
       { "item": "nail", "prob": 300, "charges": [ 1, 15 ] },
-      { "item": "nuts_bolts", "prob": 60, "charges": [ 5, 30 ] },
+      { "item": "nuts_bolts", "prob": 60, "count": [ 5, 30 ] },
       [ "well_pump", 50 ],
       [ "manhole_cover", 20 ],
       [ "hairpin", 120 ],
@@ -844,7 +842,7 @@
       [ "can_food", 65 ],
       [ "can_medium", 65 ],
       [ "can_medium", 65 ],
-      { "item": "scrap", "prob": 50, "charges": [ 1, 3 ] },
+      { "item": "scrap", "prob": 50, "count": [ 1, 3 ] },
       { "item": "lc_steel_chunk", "prob": 50, "count": [ 1, 2 ] },
       { "item": "lc_steel_lump", "prob": 50, "count": [ 1, 2 ] },
       [ "jerrycan_big", 25 ],
@@ -1011,7 +1009,7 @@
       { "item": "towel", "prob": 40 },
       { "item": "scorecard", "prob": 10 },
       { "item": "golf_club", "prob": 75 },
-      { "item": "pencil", "prob": 20, "charges": [ 0, 100 ] }
+      { "item": "pencil", "prob": 20 }
     ]
   },
   {
@@ -1202,7 +1200,7 @@
       { "prob": 90, "group": "meth_bag_zipper_1_6" },
       [ "jar_glass_sealed", 80 ],
       { "prob": 1, "group": "heroin_bag_zipper_1_4" },
-      { "item": "bleach", "prob": 60, "charges": [ 10, -1 ] },
+      { "group": "bleach_jug_part", "prob": 60 },
       { "item": "ammonia_liquid", "prob": 80, "charges": [ 6, -1 ] },
       { "item": "chem_baking_soda", "prob": 60, "count": [ 10, -1 ] },
       [ "syringe", 30 ],
@@ -1288,8 +1286,7 @@
       { "item": "material_shrd_limestone", "prob": 40, "count": [ 1, 10 ] },
       { "item": "material_limestone", "prob": 40, "count": [ 1, 10 ] },
       { "item": "material_niter", "prob": 5, "count": [ 1, 10 ] },
-      { "item": "material_sand", "prob": 50, "count": 500, "container-item": "bag_canvas" },
-      { "item": "material_soil", "prob": 50, "count": 500, "container-item": "bag_canvas" },
+      { "item": "material_soil", "prob": 50, "count": [ 70, 140 ] },
       { "item": "chunk_sulfur", "prob": 5, "count": [ 1, 10 ] },
       { "item": "material_rocksalt", "prob": 5, "count": [ 1, 10 ] },
       { "item": "material_rhodonite", "prob": 5, "count": [ 1, 10 ] },
@@ -1512,6 +1509,7 @@
       { "item": "electrohack", "prob": 3, "charges": [ 0, 100 ] },
       { "item": "textbook_gaswarfare", "prob": 1 },
       { "item": "textbook_anarch", "prob": 3 },
+      { "item": "improvised_munition_handbook", "prob": 1 },
       { "item": "brewing_cookbook", "prob": 3 },
       { "item": "recipe_bullets", "prob": 1 },
       { "item": "knife_combat", "prob": 3 },
@@ -1668,7 +1666,7 @@
       { "item": "gartersheath1", "prob": 10 },
       { "item": "gartersheath2", "prob": 5 },
       { "item": "tazer", "prob": 1, "charges": [ 0, 100 ] },
-      { "prob": 30, "group": "cig_box_cigarette_0_10" },
+      { "prob": 30, "group": "cig_box_cigarette_1_20" },
       { "item": "rope_6", "prob": 5 },
       { "item": "rope_30", "prob": 2 },
       { "group": "duct_tape_roll_part", "prob": 10 },
@@ -1676,13 +1674,11 @@
       { "item": "matches", "prob": 10, "charges": [ 0, 20 ] },
       { "item": "ref_matches", "prob": 10, "charges": [ 0, 32 ] },
       { "group": "chewing_gum_used", "prob": 10 },
-      { "item": "cable", "prob": 5 },
       { "item": "panties", "prob": 2 },
       { "item": "sharp_toothbrush", "prob": 10 },
       { "item": "razor_blade", "prob": 20 },
       { "item": "soap", "prob": 5, "charges": [ 1, 10 ] },
-      { "item": "detergent", "prob": 5, "charges": [ 1, 20 ] },
-      { "item": "chem_borax", "prob": 5, "charges": [ 100, 500 ] },
+      { "group": "detergent_small_box_part", "prob": 5 },
       { "item": "knitting_needles", "prob": 1 },
       { "item": "survnote", "prob": 2 },
       { "item": "ankle_wallet_pouch", "prob": 5 }
@@ -1929,6 +1925,7 @@
       [ "recipe_raptor", 1 ],
       [ "recipe_labchem", 1 ],
       [ "textbook_anarch", 1 ],
+      { "item": "improvised_munition_handbook", "prob": 1 },
       [ "recipe_caseless", 1 ],
       { "group": "used_laptops", "prob": 30, "contents-group": "civilian_laptop_efiles" },
       { "item": "smart_lamp", "prob": 5, "charges": [ 0, 100 ] },
@@ -1952,7 +1949,7 @@
       [ "scissors", 50 ],
       { "item": "soldering_iron", "prob": 70 },
       { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },
-      [ "solder_wire", 70 ],
+      { "group": "solder_wire_spool_part", "prob": 70 },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       [ "syringe", 8 ],
       { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },
@@ -2141,7 +2138,7 @@
       { "item": "adv_chemistry", "prob": 2 },
       { "item": "water_clean", "prob": 90, "charges": [ 1, -1 ], "container-item": "bottle_plastic", "sealed": false },
       { "item": "salt_water", "prob": 30, "charges": [ 1, -1 ] },
-      { "item": "bleach", "prob": 10, "charges": [ 6, -1 ] },
+      { "group": "bleach_jug_part", "prob": 10 },
       { "item": "ammonia_liquid", "prob": 30, "charges": [ 6, -1 ] },
       { "item": "chem_washing_soda", "prob": 10 },
       { "item": "chem_baking_soda", "prob": 10 },
@@ -2171,18 +2168,18 @@
       { "item": "eyedrops", "prob": 15, "count": [ 1, 10 ] },
       { "item": "steroid_eyedrops", "prob": 3, "count": [ 1, 10 ] },
       { "group": "charcoal_bag_part", "prob": 10 },
-      { "item": "magnesium", "prob": 10, "charges": [ 1, 100 ] },
-      { "item": "tin", "prob": 10, "charges": [ 1, 100 ] },
+      { "group": "magnesiumpowder_small_bag_part", "prob": 10 },
+      { "item": "tin", "prob": 10, "count": [ 1, 100 ] },
       { "item": "chem_hydrogen_peroxide", "prob": 10, "charges": [ 1, -1 ] },
       { "item": "chem_muriatic_acid", "prob": 5, "charges": [ 1, -1 ] },
       { "prob": 10, "group": "chem_sulphur_bottle_plastic_small_100_inf" },
-      { "item": "chem_aluminium_powder", "prob": 5, "charges": [ 1, 100 ] },
-      { "item": "chem_zinc_powder", "prob": 10, "charges": [ 100, -1 ] },
-      { "item": "chem_zinc_oxide", "prob": 5, "charges": [ 100, -1 ] },
-      { "item": "chem_manganese_dioxide", "prob": 10, "charges": [ 100, -1 ] },
-      { "item": "chem_saltpetre", "prob": 10, "charges": [ 1, 50 ] },
-      { "item": "chem_carbide", "prob": 10, "charges": [ 100, -1 ] },
-      { "item": "chem_caco3", "prob": 10, "charges": [ 100, -1 ] },
+      { "item": "chem_aluminium_powder", "prob": 5, "count": [ 1, 100 ] },
+      { "group": "zincpowder_small_bottle_part", "prob": 10 },
+      { "item": "chem_zinc_oxide", "prob": 5, "count": [ 100, -1 ] },
+      { "group": "manganesedioxide_small_bottle_part", "prob": 10 },
+      { "group": "saltpeter_canvas_bag_part", "prob": 10 },
+      { "group": "calciumcarbide_small_bottle_part", "prob": 10 },
+      { "group": "calciumcarbonate_small_bottle_part", "prob": 10 },
       { "item": "denat_alcohol", "prob": 6, "charges": [ 250, -1 ] },
       { "item": "methed_alcohol", "prob": 4, "charges": [ 250, -1 ] }
     ]
@@ -2377,9 +2374,9 @@
       { "item": "money_bundle_hundred", "prob": 10, "count": [ 1, 2 ] },
       { "group": "coins", "prob": 2, "count": [ 1, 10 ] },
       [ "file", 20 ],
-      [ "platinum_small", 10 ],
-      [ "gold_small", 10 ],
-      [ "silver_small", 30 ],
+      { "item": "platinum_small", "prob": 10, "count": [ 50, 150 ], "entry-wrapper": "box_small_wood" },
+      { "item": "gold_small", "prob": 10, "count": [ 50, 150 ], "entry-wrapper": "box_small_wood" },
+      { "item": "silver_small", "prob": 30, "count": [ 50, 150 ], "entry-wrapper": "box_small_wood" },
       [ "pocketwatch", 11 ],
       [ "gold_watch", 12 ],
       [ "sf_watch", 10 ],
@@ -2442,7 +2439,7 @@
       [ "con_milk", 20 ],
       [ "milk_evap", 15 ],
       { "group": "milk_in_container", "prob": 10 },
-      { "prob": 20, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_10" },
+      { "prob": 20, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_30" },
       [ "can_spam", 30 ],
       { "group": "tuna_in_can", "prob": 35 },
       { "group": "clams_in_can", "prob": 25 },
@@ -2614,7 +2611,7 @@
     "id": "mil_base_ash",
     "type": "item_group",
     "//": "Remains of bodies burned in the corpse pits.",
-    "items": [ [ "ash", 35 ] ]
+    "items": [ [ "ash", 3 ] ]
   },
   {
     "id": "mil_base_bodybag",
@@ -2816,7 +2813,7 @@
       { "prob": 35, "group": "cornbread_in_bag" },
       { "prob": 25, "group": "yeast_bag_plastic" },
       { "prob": 20, "group": "sugar_various" },
-      [ "chem_ethanol", 5 ]
+      { "group": "ethanol_bottle_liter_part", "prob": 5 }
     ]
   },
   {
@@ -2872,10 +2869,10 @@
     "id": "exodii_ammo_crate",
     "subtype": "collection",
     "items": [
-      { "item": "exodiiminimag", "count": [ 2, 20 ], "ammo-item": "123ln", "charges": 10, "prob": 80 },
-      { "item": "exodiiBRmag", "count": [ 2, 20 ], "ammo-item": "123ln", "charges": 60, "prob": 100 },
-      { "item": "exodiiBRmag_153", "count": [ 1, 5 ], "ammo-item": "123ln", "charges": 153, "prob": 100 },
-      { "item": "exodiiBRmag_26", "count": [ 4, 30 ], "ammo-item": "123ln", "charges": 26, "prob": 100 },
+      { "item": "exodiiminimag", "count": [ 2, 20 ], "ammo-item": "123ln_ap", "charges": 10, "prob": 80 },
+      { "group": "full_exodiiBRmag", "count": [ 2, 20 ] },
+      { "group": "full_exodiiBRmag_153", "count": [ 1, 5 ] },
+      { "group": "full_exodiiBRmag_26", "count": [ 4, 30 ] },
       { "item": "grenade", "count": [ 1, 10 ], "prob": 20 }
     ]
   },

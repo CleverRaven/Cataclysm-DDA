@@ -9,5 +9,44 @@
     "description": "You are a creature of Faerie.",
     "anger_relations": [ [ "CHANGELING", -150 ] ],
     "//": "So fae NPCs show up on special_vision effects."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_REASON_UNWILLING",
+    "name": { "str": "Unwilling vampire", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "description": { "str": "You never wanted to be a vampire, yet you are one now.", "//~": "NO_I18N" }
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_REASON_POWER_HUNGRY",
+    "name": { "str": "Power-hungry vampire", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "description": { "str": "You want the powers granted by vampirism.", "//~": "NO_I18N" }
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_REASON_VENGEFUL",
+    "name": { "str": "Vengeful vampire", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "description": {
+      "str": "After almost being killed by someone because you were a vampire, you decided to become a stronger vampire so none will be able to kill you.",
+      "//~": "NO_I18N"
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_REASON_DELUDED",
+    "name": { "str": "Deluded vampire", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "description": { "str": "You are fascinated by vampires, and decided to become one.", "//~": "NO_I18N" }
   }
 ]

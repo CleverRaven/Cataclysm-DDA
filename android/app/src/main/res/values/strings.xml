@@ -9,6 +9,10 @@
     <string name="ignoreFalsePostives">Mark as false positive(s)</string>
     <string name="softwareRendering">Software rendering</string>
     <string name="forceFullscreen">Force fullscreen</string>
+    <string name="androidSystemUiMode">Android system bars</string>
+    <string name="androidSystemUiModeSystemBars">Show system bars</string>
+    <string name="androidSystemUiModeFullscreen">Fullscreen</string>
+    <string name="androidSystemUiModeEdgeToEdge">Edge-to-edge fullscreen</string>
     <string name="trapBackButton">Trap Back button</string>
     <string name="nativeAndroidUI">Native Android UI menus</string>
     <string name="settings">Settings</string>

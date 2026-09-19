@@ -7,7 +7,7 @@
     "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Fatima",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_REFUGEE_Fatima_1",
     "faction": "free_merchants",
     "mission_offered": "MISSION_REFUGEE_Fatima_1"

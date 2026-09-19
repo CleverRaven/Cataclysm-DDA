@@ -7,7 +7,7 @@
     "name_suffix": "building maintenance",
     "class": "NC_HUB01_DNovak",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "HUB01_DNovak_Intro",
     "faction": "robofac"
   },

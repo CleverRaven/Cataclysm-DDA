@@ -5,7 +5,7 @@
     "class": "NC_CHEM_MERCHANT",
     "name_suffix": "chemist",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_NPC_CABIN_CHEMIST",
     "faction": "wasteland_scavengers",
     "mission_offered": "MISSION_CABIN_CHEMIST_GET_analytical_set_basic"

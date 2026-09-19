@@ -20,7 +20,6 @@
 #include "flag.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_contents.h"
@@ -35,6 +34,7 @@
 #include "pocket_type.h"
 #include "recipe.h"
 #include "requirements.h"
+#include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
@@ -145,7 +145,7 @@ void craft_command::execute( bool only_cache_comps )
     }
 
     bool need_selections = true;
-    inventory map_inv;
+    temp_crafting_inventory map_inv;
     map_inv.form_from_map( crafter->pos_bub(), PICKUP_RANGE, crafter );
 
     if( has_cached_selections() ) {
@@ -468,8 +468,19 @@ bool craft_command::safe_to_unload_comp( const item &it )
     return true;
 }
 
+static bool should_add_crafting_faults( Character *who, const recipe *rec )
+{
+    // Intentionally does not consider books helping.
+    // Because ~~lazy implementation~~ book learning is no substitute for experience.
+    if( rec->proficiency_skill_maluses( *who ) > 0.0f ) {
+        return true;
+    }
+    return false;
+}
+
+
 std::vector<std::vector<step_tool_alloc>> select_step_tool_allocs(
-        Character &crafter, const recipe &rec, int batch, read_only_visitable &map_inv,
+        Character &crafter, const recipe &rec, int batch, temp_crafting_inventory &map_inv,
         bool &cancelled, int reselect_step )
 {
     cancelled = false;
@@ -590,7 +601,7 @@ item craft_command::create_in_progress_craft()
     item_components used;
     std::vector<item_comp> comps_used;
     if( crafter->has_trait( trait_DEBUG_HS ) ) {
-        return item( rec, batch_size, used, comps_used );
+        return item( rec, batch_size, used, comps_used, false );
     }
 
     if( empty() ) {
@@ -598,7 +609,7 @@ item craft_command::create_in_progress_craft()
         return item();
     }
 
-    inventory map_inv;
+    temp_crafting_inventory map_inv;
     map_inv.form_from_map( crafter->pos_bub(), PICKUP_RANGE, crafter );
 
     if( !check_item_components_missing( map_inv ).empty() ) {
@@ -674,7 +685,7 @@ item craft_command::create_in_progress_craft()
         }
     }
 
-    item new_craft( rec, batch_size, used, comps_used );
+    item new_craft( rec, batch_size, used, comps_used, should_add_crafting_faults( crafter, rec ) );
 
     // Carry the probe's debited start buckets onto the real craft.
     new_craft.set_step_tool_allocs( start_allocs );

@@ -10,6 +10,7 @@
 
 #include "map_scale_constants.h"
 #include "point.h"
+#include "type_id.h"
 
 constexpr float LIGHT_SOURCE_LOCAL = 0.1f;
 constexpr float LIGHT_SOURCE_BRIGHT = 10.0f;
@@ -88,7 +89,7 @@ static_assert( std::is_trivially_default_constructible_v<light_color_rgb> );
 
 // Returns the warm dawn/dusk tint color, or empty when not applicable
 // (alternate dimension, outside twilight). Cached per turn.
-light_color_rgb dawn_dusk_color_for_lightmap( std::string_view dimension );
+light_color_rgb dawn_dusk_color_for_lightmap( dimension_id dimension );
 
 enum class lit_level : uint8_t {
     DARK = 0,

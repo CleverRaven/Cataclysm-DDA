@@ -8,7 +8,7 @@
     "temp_suffix": "Beggar",
     "class": "NC_BEGGAR_2",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_REFUGEE_BEGGAR_2",
     "faction": "lobby_beggars",
     "mission_offered": "MISSION_BEGGAR_2_BOX_SMALL"

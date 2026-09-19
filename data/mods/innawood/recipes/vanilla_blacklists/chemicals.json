@@ -1,0 +1,72 @@
+[
+  {
+    "type": "recipe",
+    "result": "oxycodone",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pepto",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pur_tablets",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "red_phosphorous",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "white_phosphorous",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chem_hydrogen_peroxide",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chem_hydrogen_peroxide_conc",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chem_hmtd_from_acetic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chem_hmtd_from_citric",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "prussian_blue",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chem_sulphuric_acid",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chem_aluminium_sulphate",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "iodine_crystal",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chem_toluene",
+    "obsolete": true
+  }
+]

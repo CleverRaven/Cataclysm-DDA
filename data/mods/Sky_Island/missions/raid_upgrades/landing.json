@@ -300,7 +300,7 @@
     "id": "upgradekey_landing5",
     "type": "ITEM",
     "category": "spare_parts",
-    "name": { "str": "Grace of the Island" },
+    "name": { "str_sp": "Grace of the Island" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 5",
     "volume": "25000 ml",
     "weight": "15000 g",

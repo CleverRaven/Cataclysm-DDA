@@ -1,0 +1,8 @@
+[
+  {
+    "id": "spell_components_bramble_spear",
+    "type": "requirement",
+    "//": "Sticks to turn into a bramble spear",
+    "components": [ [ [ "stick", 1 ], [ "stick_long", 1 ] ] ]
+  }
+]

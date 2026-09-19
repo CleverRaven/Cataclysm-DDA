@@ -6,7 +6,7 @@
     "class": "NC_EXODII_TYPE_9_Weaponmaster",
     "name_unique": "Nine",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_WEAPONMASTER_INTRO_1",
     "faction": "exodii",
     "personality": { "aggression": -2, "bravery": 2, "collector": 2, "altruism": -2 }
@@ -66,6 +66,7 @@
     "type": "shopkeeper_blacklist",
     "id": "cyborg_type_9_shopkeep_blacklist",
     "entries": [
+      { "group": "exodii_do_not_buy_currency_blacklist", "message": "Will not accept currency" },
       { "group": "exodii_do_not_buy_ammo_blacklist" },
       { "category": "clothing" },
       { "group": "SUS_bathroom_sink" },

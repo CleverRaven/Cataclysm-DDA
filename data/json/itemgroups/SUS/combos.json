@@ -31,5 +31,78 @@
       { "prob": 1, "group": "antiparasitic_bottle_plastic_pill_prescription_1_10" },
       { "prob": 6, "group": "diazepam_bottle_plastic_pill_prescription_1_10" }
     ]
+  },
+  {
+    "id": "ultralight_battery_any_open",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      {
+        "collection": [
+          { "group": "ultralight_battery_small_bag", "prob": 100, "count": [ 0, 2 ] },
+          { "group": "ultralight_battery_small_bag_part", "prob": 100 }
+        ],
+        "prob": 100
+      },
+      {
+        "collection": [
+          { "group": "ultralight_battery_large_bag", "prob": 100, "count": [ 0, 1 ] },
+          { "group": "ultralight_battery_large_bag_part", "prob": 100 }
+        ],
+        "prob": 20
+      }
+    ]
+  },
+  {
+    "id": "light_battery_any_open",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      {
+        "collection": [
+          { "group": "light_battery_small_bag", "prob": 100, "count": [ 0, 2 ] },
+          { "group": "light_battery_small_bag_part", "prob": 100 }
+        ],
+        "prob": 100
+      },
+      {
+        "collection": [
+          { "group": "light_battery_large_bag", "prob": 100, "count": [ 0, 1 ] },
+          { "group": "light_battery_large_bag_part", "prob": 100 }
+        ],
+        "prob": 20
+      }
+    ]
+  },
+  {
+    "id": "medium_battery_any_open",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      {
+        "collection": [
+          { "group": "medium_battery_small_bag", "prob": 100, "count": [ 0, 2 ] },
+          { "group": "medium_battery_small_bag_part", "prob": 100 }
+        ],
+        "prob": 100
+      },
+      {
+        "collection": [
+          { "group": "medium_battery_large_bag", "prob": 100, "count": [ 0, 1 ] },
+          { "group": "medium_battery_large_bag_part", "prob": 100 }
+        ],
+        "prob": 20
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "SUS_used_batteries",
+    "entries": [
+      { "group": "ultralight_battery_any_open", "prob": 70 },
+      { "group": "light_battery_any_open", "prob": 100 },
+      { "group": "medium_battery_any_open", "prob": 35 }
+    ]
   }
 ]

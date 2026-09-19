@@ -1,0 +1,389 @@
+[
+  {
+    "id": "clothing_navy",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Base clothing entries for Navy personnel like sailors, Marines, SEALs, etc. Leaving out entries for boots and pants in order to define them in the individual drops for the monsters themselves, so as to give the appropriate type of boots and army pants pattern to the appropriate types of personnel.",
+    "items": [
+      { "group": "clothing_soldier_shirt" },
+      { "distribution": [ { "item": "jacket_army_modern", "prob": 50 }, { "item": "combat_shirt", "prob": 50 } ] },
+      { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "nomex_socks", "prob": 70 } ] },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "clothing_navy_officer",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Base clothing entries for Navy officers.",
+    "items": [
+      { "item": "boots", "damage": [ 0, 4 ] },
+      { "item": "hat_navy", "damage": [ 0, 4 ] },
+      { "item": "officer_uniform", "damage": [ 0, 4 ] },
+      { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "nomex_socks", "prob": 70 } ] },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "clothing_military",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Standard (non-winter) set of clothes worn by soldiers and paramilitary forces.",
+    "items": [
+      { "group": "clothing_soldier_shirt" },
+      { "distribution": [ { "item": "jacket_army_modern", "prob": 50 }, { "item": "combat_shirt", "prob": 50 } ] },
+      { "item": "pants_army" },
+      { "group": "loaded_webbing_belt" },
+      { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
+      { "item": "boots_combat" },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "clothing_military_distribution",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "todo: when #57228 would be closed, change this one to copy-from `clothing_military`",
+    "items": [
+      { "group": "clothing_soldier_shirt" },
+      { "distribution": [ { "item": "jacket_army_modern", "prob": 50 }, { "item": "combat_shirt", "prob": 50 } ] },
+      { "item": "pants_army" },
+      { "group": "loaded_webbing_belt" },
+      { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
+      { "item": "boots_combat" },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "clothing_military_winter",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Winter set of clothes worn by soldiers and paramilitary forces.",
+    "items": [
+      { "group": "clothing_soldier_shirt" },
+      { "item": "winter_jacket_army" },
+      { "item": "winter_pants_army" },
+      { "group": "loaded_webbing_belt" },
+      { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
+      { "item": "boots_combat" },
+      {
+        "collection": [
+          {
+            "distribution": [ { "item": "balclava", "variant": "black", "prob": 90 }, { "item": "balaclava_cut_resistant", "prob": 10 } ]
+          }
+        ],
+        "prob": 25
+      },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "clothing_soldier_set",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Standard (non-winter) set of clothes and combat gear worn by soldiers and paramilitary forces.",
+    "items": [
+      { "group": "clothing_military" },
+      { "item": "elbow_pads", "prob": 10 },
+      { "item": "knee_pads", "prob": 85 },
+      {
+        "distribution": [ { "group": "army_helmet_nvg", "prob": 15 }, { "item": "helmet_army", "prob": 85 } ],
+        "prob": 80
+      },
+      { "item": "gloves_tactical", "prob": 60 },
+      { "group": "military_ballistic_vest", "prob": 90 },
+      { "group": "molle_backpacks_and_accessories", "prob": 85 },
+      { "group": "clothing_tactical_leg", "prob": 15 },
+      {
+        "distribution": [ { "group": "clothing_glasses", "prob": 60 }, { "item": "glasses_bal", "prob": 30 } ],
+        "prob": 20
+      },
+      { "group": "clothing_watch", "prob": 5 }
+    ]
+  },
+  {
+    "id": "clothing_soldier_set_pristine",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Standard (non-winter) set of clothes and combat gear worn by soldiers and paramilitary forces.",
+    "items": [
+      { "group": "clothing_military" },
+      { "item": "elbow_pads", "prob": 10 },
+      { "item": "knee_pads", "prob": 85 },
+      {
+        "distribution": [ { "group": "army_helmet_nvg", "prob": 20 }, { "item": "helmet_army", "prob": 80 } ],
+        "prob": 80
+      },
+      { "item": "gloves_tactical", "prob": 60 },
+      { "group": "military_ballistic_vest_pristine", "prob": 90 },
+      { "group": "molle_backpacks_and_accessories", "prob": 85 },
+      { "group": "clothing_tactical_leg", "prob": 15 },
+      {
+        "distribution": [ { "group": "clothing_glasses", "prob": 60 }, { "item": "glasses_bal", "prob": 30 } ],
+        "prob": 20
+      },
+      { "group": "clothing_watch", "prob": 5 }
+    ]
+  },
+  {
+    "id": "clothing_soldier_heavy_set",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Set of clothes and combat gear worn by heavier soldiers and paramilitary forces including IOTV armor.",
+    "items": [
+      { "group": "clothing_military" },
+      { "item": "elbow_pads", "prob": 10 },
+      { "item": "knee_pads", "prob": 85 },
+      {
+        "distribution": [ { "group": "army_helmet_nvg", "prob": 20 }, { "item": "helmet_army", "prob": 80 } ],
+        "prob": 80
+      },
+      { "item": "gloves_tactical", "prob": 60 },
+      { "group": "military_ballistic_vest_heavy", "prob": 90 },
+      { "group": "molle_backpacks_and_accessories", "prob": 85 },
+      { "group": "clothing_tactical_leg", "prob": 15 },
+      {
+        "distribution": [ { "group": "clothing_glasses", "prob": 60 }, { "item": "glasses_bal", "prob": 30 } ],
+        "prob": 20
+      },
+      { "group": "clothing_watch", "prob": 5 }
+    ]
+  },
+  {
+    "id": "clothing_soldier_winter_set",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Winter set of clothes and combat gear worn by soldiers and paramilitary forces.",
+    "items": [
+      { "group": "clothing_military_winter" },
+      { "item": "elbow_pads", "prob": 10 },
+      { "item": "knee_pads", "prob": 85 },
+      {
+        "collection": [
+          { "distribution": [ { "group": "army_helmet_nvg", "prob": 15 }, { "item": "helmet_army", "prob": 85 } ] },
+          { "item": "helmet_liner" }
+        ],
+        "prob": 80
+      },
+      { "collection": [ { "item": "gloves_liner", "prob": 60 }, { "item": "winter_gloves_army" } ], "prob": 80 },
+      { "group": "military_ballistic_vest", "prob": 90 },
+      { "group": "molle_backpacks_and_accessories", "prob": 85 },
+      { "group": "clothing_tactical_leg", "prob": 15 },
+      {
+        "distribution": [ { "group": "clothing_glasses", "prob": 60 }, { "item": "glasses_bal", "prob": 30 } ],
+        "prob": 20
+      },
+      { "group": "clothing_watch", "prob": 5 }
+    ]
+  },
+  {
+    "id": "clothing_military_pilot",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Standard set of clothes worn by a military helicopter pilot.",
+    "items": [
+      { "item": "chestrig", "prob": 40 },
+      { "item": "flight_helmet", "ammo-item": "light_battery_cell", "charges": [ 0, 150 ] },
+      { "item": "mil_flight_suit", "prob": 80 },
+      { "item": "nomex_gloves" },
+      { "group": "loaded_webbing_belt" },
+      { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "nomex_socks", "prob": 70 } ] },
+      { "item": "gloves_tactical", "prob": 60 },
+      { "item": "boots_combat" },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      },
+      { "group": "clothing_watch", "prob": 85 },
+      { "item": "goggles_ir", "prob": 10, "charges": [ 0, 100 ] }
+    ]
+  },
+  {
+    "id": "clothing_military_pilot_distribution",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "todo: when #57228 would be closed, change this one to copy-from `clothing_military`",
+    "items": [
+      { "item": "chestrig", "prob": 40 },
+      { "item": "flight_helmet", "ammo-item": "light_battery_cell", "charges": [ 0, 150 ] },
+      { "item": "mil_flight_suit", "prob": 80 },
+      { "item": "nomex_gloves" },
+      { "group": "loaded_webbing_belt" },
+      { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "nomex_socks", "prob": 70 } ] },
+      { "item": "gloves_tactical", "prob": 60 },
+      { "item": "boots_combat" },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      },
+      { "group": "clothing_watch", "prob": 85 },
+      { "item": "goggles_ir", "prob": 10, "charges": [ 0, 100 ] }
+    ]
+  },
+  {
+    "id": "clothing_soldier_shirt",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "tshirt" } ]
+  },
+  {
+    "id": "clothing_military_headwear",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Standard set of hats worn by a uniformed soldier.",
+    "items": [
+      { "item": "beret", "prob": 40 },
+      { "item": "hat_field", "prob": 35 },
+      { "item": "hat_boonie", "prob": 23 },
+      { "item": "turban", "prob": 1 },
+      { "item": "headscarf", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "eod_armor",
+    "entries": [
+      {
+        "collection": [
+          { "item": "helmet_eod", "charges": [ 0, 500 ] },
+          { "item": "jacket_eod" },
+          { "item": "trousers_eod" },
+          { "item": "foot_protectors_eod" },
+          { "item": "gloves_eod", "prob": 20 }
+        ],
+        "prob": 100
+      },
+      {
+        "collection": [ { "item": "jacket_eod_light" }, { "item": "face_shield_eod" }, { "item": "trousers_eod_light" } ],
+        "prob": 20
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mil_armor",
+    "items": [
+      [ "pants_army", 10 ],
+      [ "jacket_army_modern", 5 ],
+      [ "jacket_army_modern", 5 ],
+      [ "winter_pants_army", 30 ],
+      [ "winter_jacket_army", 30 ],
+      [ "winter_gloves_army", 30 ],
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 30 },
+      [ "kevlar", 10 ],
+      { "group": "military_ballistic_vest", "prob": 30 },
+      [ "vest", 15 ],
+      { "group": "gasmask_bag_full", "prob": 10 },
+      { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
+      { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
+      [ "backpack", 38 ],
+      { "item": "UPS_OFF", "prob": 8, "charges": [ 0, 1000 ] },
+      [ "tacvest", 10 ],
+      { "group": "molle_backpacks_and_accessories", "prob": 8 },
+      [ "duffelbag", 15 ],
+      { "group": "large_duffelbags", "prob": 5 },
+      [ "dump_pouch", 20 ],
+      [ "legrig", 10 ],
+      [ "under_armor", 20 ],
+      [ "boots", 70 ],
+      [ "boots_combat", 70 ],
+      [ "gloves_tactical", 30 ],
+      [ "glasses_bal", 40 ],
+      [ "chestguard_hard", 20 ],
+      [ "armguard_hard", 20 ],
+      [ "legguard_hard", 15 ],
+      { "group": "army_helmet_nvg", "prob": 1 },
+      [ "helmet_army", 40 ],
+      [ "helmet_liner", 10 ],
+      [ "mask_bal", 5 ],
+      [ "beret", 50 ],
+      [ "beret_wool", 40 ],
+      [ "elbow_pads", 50 ],
+      [ "knee_pads", 50 ],
+      [ "folding_solar_panel_v2", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mil_accessories",
+    "items": [
+      { "group": "gasmask_bag_full", "prob": 10 },
+      [ "duffelbag", 15 ],
+      { "group": "large_duffelbags", "prob": 5 },
+      { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
+      { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
+      { "item": "military_nvg", "prob": 1, "charges": [ 0, 100 ] },
+      { "item": "advanced_gpnvg", "prob": 1, "charges": [ 0, 100 ] },
+      { "item": "enhanced_nvg", "prob": 1, "charges": [ 0, 100 ] },
+      [ "optical_cloak", 1 ],
+      { "item": "holo_cloak", "prob": 1, "charges": [ 0, 1000 ] },
+      { "item": "mess_kit", "prob": 9 },
+      [ "backpack", 38 ],
+      [ "briefcase", 10 ],
+      { "item": "UPS_OFF", "prob": 8, "charges": [ 0, 1000 ] },
+      [ "chestguard_hard", 20 ],
+      [ "armguard_hard", 20 ],
+      [ "legguard_hard", 15 ],
+      [ "power_armor_frame", 4 ],
+      [ "power_armor_generator", 4 ],
+      [ "elbow_pads", 40 ],
+      [ "knee_pads", 40 ],
+      [ "mask_bal", 5 ],
+      [ "e_tool", 10 ],
+      [ "grapnel", 3 ],
+      [ "glasses_bal", 30 ],
+      [ "sheath", 10 ],
+      [ "bootsheath", 8 ],
+      [ "nylon_holster", 15 ],
+      [ "sholster", 10 ],
+      [ "shoulder_holster", 1 ],
+      [ "bandolier_shotgun", 8 ],
+      [ "torso_bandolier_grenade", 8 ],
+      [ "chem_hexamine", 3 ],
+      { "item": "esbit_stove", "prob": 6, "charges": [ 0, 50 ] },
+      { "group": "full_survival_kit", "prob": 4 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mil_armor_pants",
+    "items": [
+      [ "pants_army", 10 ],
+      [ "winter_pants_army", 40 ],
+      [ "pants", 75 ],
+      [ "pants_cargo", 70 ],
+      [ "legrig", 10 ],
+      [ "knee_pads", 20 ]
+    ]
+  }
+]

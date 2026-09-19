@@ -10,6 +10,7 @@
         { "math": [ "u_characters_nearby('radius': 45)", "==", "0" ] },
         {
           "and": [
+            { "current_dimension": "default" },
             { "not": "u_is_outside" },
             { "not": "u_is_in_vehicle" },
             { "not": { "u_is_on_furniture": "f_large_groundsheet" } },
@@ -46,6 +47,7 @@
         { "not": "is_day" },
         {
           "and": [
+            { "current_dimension": "default" },
             { "not": "u_is_outside" },
             { "not": "u_is_in_vehicle" },
             { "not": { "u_is_on_furniture": "f_large_groundsheet" } },
@@ -144,7 +146,7 @@
         "type": "mixed"
       },
       { "u_add_trait": "XE_FACTION_CAMP_BROWNIE_BLESSING" },
-      { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } }
+      { "npc_die": { "remove_corpse": true, "supress_message": true } }
     ]
   }
 ]

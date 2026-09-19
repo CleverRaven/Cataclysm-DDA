@@ -28,7 +28,7 @@
     "name_suffix": "CEO",
     "class": "NC_SWAMPER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_SWAMPER",
     "faction": "swamper",
     "mission_offered": "MISSION_SWAMPER_GATHER_MEAT"

@@ -9,8 +9,8 @@
       { "group": "electrokinetic_matrix_crystals_group", "prob": 10 },
       { "group": "photokinetic_matrix_crystals_group", "prob": 10 },
       { "group": "pyrokinetic_matrix_crystals_group", "prob": 10 },
-      { "item": "matrix_crystal_telekinesis", "prob": 10 },
-      { "item": "matrix_crystal_telepathy", "prob": 10 },
+      { "group": "telekinetic_matrix_crystals_group", "prob": 10 },
+      { "group": "telepathic_matrix_crystals_group", "prob": 10 },
       { "group": "teleportation_matrix_crystals_group", "prob": 10 },
       { "group": "vitakinetic_matrix_crystals_group", "prob": 10 },
       { "item": "matrix_crystal_coruscating", "prob": 1 }
@@ -27,8 +27,8 @@
       { "group": "electrokinetic_matrix_crystals_group", "prob": 10 },
       { "group": "photokinetic_matrix_crystals_group", "prob": 10 },
       { "group": "pyrokinetic_matrix_crystals_group", "prob": 10 },
-      { "item": "matrix_crystal_telekinesis", "prob": 10 },
-      { "item": "matrix_crystal_telepathy", "prob": 10 },
+      { "group": "telekinetic_matrix_crystals_group", "prob": 10 },
+      { "group": "telepathic_matrix_crystals_group", "prob": 10 },
       { "group": "teleportation_matrix_crystals_group", "prob": 10 },
       { "group": "vitakinetic_matrix_crystals_group", "prob": 10 },
       { "item": "matrix_crystal_coruscating", "prob": 1 }
@@ -45,8 +45,8 @@
       { "group": "electrokinetic_matrix_crystals_group", "prob": 1 },
       { "group": "photokinetic_matrix_crystals_group", "prob": 1 },
       { "group": "pyrokinetic_matrix_crystals_group", "prob": 1 },
-      { "item": "matrix_crystal_telekinesis", "prob": 1 },
-      { "item": "matrix_crystal_telepathy", "prob": 1 },
+      { "group": "telekinetic_matrix_crystals_group", "prob": 1 },
+      { "group": "telepathic_matrix_crystals_group", "prob": 1 },
       { "group": "teleportation_matrix_crystals_group", "prob": 1 },
       { "group": "vitakinetic_matrix_crystals_group", "prob": 1 }
     ]
@@ -83,6 +83,24 @@
       { "item": "matrix_crystal_teleport_dust", "prob": 1, "container-item": "test_tube" },
       { "item": "matrix_crystal_vitakin_dust", "prob": 1, "container-item": "test_tube" },
       { "item": "matrix_crystal_drained_dust", "prob": 1, "container-item": "test_tube" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "distribution_matrix_dust_survivor",
+    "container-item": "bottle_glass",
+    "items": [
+      { "item": "matrix_crystal_biokin_dust", "prob": 1, "count": [ 4, 12 ] },
+      { "item": "matrix_crystal_clair_dust", "prob": 1, "count": [ 4, 12 ] },
+      { "item": "matrix_crystal_electrokin_dust", "prob": 1, "count": [ 4, 12 ] },
+      { "item": "matrix_crystal_photokin_dust", "prob": 1, "count": [ 4, 12 ] },
+      { "item": "matrix_crystal_pyrokin_dust", "prob": 1, "count": [ 4, 12 ] },
+      { "item": "matrix_crystal_telekin_dust", "prob": 1, "count": [ 4, 12 ] },
+      { "item": "matrix_crystal_telepath_dust", "prob": 1, "count": [ 4, 12 ] },
+      { "item": "matrix_crystal_teleport_dust", "prob": 1, "count": [ 4, 12 ] },
+      { "item": "matrix_crystal_vitakin_dust", "prob": 1, "count": [ 4, 12 ] },
+      { "item": "matrix_crystal_drained_dust", "prob": 1, "count": [ 4, 12 ] }
     ]
   },
   {
@@ -137,6 +155,24 @@
     "entries": [
       { "group": "pyrokinetic_crystal_awakening_artifact_procgen", "prob": 1 },
       { "group": "pyrokinetic_crystal_artifact_procgen", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "telekinetic_matrix_crystals_group",
+    "entries": [
+      { "group": "telekinetic_crystal_awakening_artifact_procgen", "prob": 1 },
+      { "group": "telekinetic_crystal_artifact_procgen", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "telepathic_matrix_crystals_group",
+    "entries": [
+      { "group": "telepathic_crystal_awakening_artifact_procgen", "prob": 1 },
+      { "group": "telepathic_crystal_artifact_procgen", "prob": 1 }
     ]
   },
   {
@@ -261,7 +297,7 @@
     "entries": [
       { "group": "biokinetic_matrix_crystals_group", "prob": 1 },
       { "item": "matrix_crystal_drained", "prob": 4 },
-      { "item": "matrix_crystal_vitakinesis", "prob": 1 }
+      { "group": "vitakinetic_matrix_crystals_group", "prob": 1 }
     ]
   },
   {

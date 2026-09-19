@@ -24,7 +24,7 @@
     "dodge": 5,
     "vision_night": 5,
     "harvest": "zombie_fur",
-    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ],
     "fear_triggers": [ "FIRE" ],
     "upgrades": { "half_life": 112, "into_group": "GROUP_ZOLF_UPGRADE" },
@@ -56,7 +56,7 @@
     "dodge": 5,
     "vision_night": 12,
     "harvest": "orc",
-    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "bash": 24, "cut": 31, "bullet": 23 }
@@ -182,7 +182,7 @@
     "path_settings": { "max_dist": 3, "avoid_traps": false, "avoid_sharp": false },
     "harvest": "zombie_fur",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "weakpoint_sets": [ "wps_animal_quadruped" ],
+    "weakpoint_sets": [ "wps_animal_quadruped", "wps_vital_organs", "wps_eyes" ],
     "grab_strength": 50,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 8 }, [ "scratch", 6 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "GRABS", "STUMBLES", "BASHES", "POISON", "NO_BREATHE", "REVIVES" ],
@@ -280,9 +280,10 @@
     "copy-from": "mon_giant_heron_ridable",
     "default_faction": "zombie",
     "species": [ "BIRD", "ZOMBIE" ],
-    "speed": 250,
+    "speed": 175,
     "harvest": "large_bird_flightless_zombie",
     "extend": { "flags": [ "STUMBLES", "NO_BREATHE", "REVIVES" ] },
+    "petfood": {  },
     "special_attacks": [
       { "id": "impale", "cooldown": 5, "move_cost": 375 },
       { "id": "mutant_hoof", "cooldown": 6, "dodgeable": true, "move_cost": 350 }

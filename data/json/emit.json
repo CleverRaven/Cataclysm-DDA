@@ -246,6 +246,13 @@
     "qty": 100
   },
   {
+    "id": "emit_cold_air4_blast",
+    "type": "emit",
+    "field": "fd_cold_air4",
+    "intensity": 3,
+    "qty": 100
+  },
+  {
     "id": "emit_hot_air2_stream",
     "type": "emit",
     "field": "fd_hot_air2",
@@ -480,5 +487,19 @@
     "field": "fd_nauseating_smell",
     "intensity": 1,
     "qty": 50
+  },
+  {
+    "id": "emit_scarlet_sea_wave",
+    "type": "emit",
+    "field": "fd_scarlet_sea_wave",
+    "intensity": 3,
+    "qty": 4
+  },
+  {
+    "id": "emit_scarlet_sea_gas",
+    "type": "emit",
+    "field": "fd_scarlet_sea_gas",
+    "intensity": 3,
+    "qty": 4
   }
 ]

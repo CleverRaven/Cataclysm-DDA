@@ -10,7 +10,8 @@
     "dependencies": [ "dda" ],
     "conflicts": [ "backrooms", "MA", "extra_mut_scens" ],
     "version": "0.4.0",
-    "loading_images": [ "skyisland1.png" ]
+    "loading_images": [ "skyisland1.png" ],
+    "disable_other_loading_screens": true
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -25,11 +26,5 @@
     "//": "All vehicles spawn in this status.  -1 is lightly damaged (default), 0 is undamaged, 1 is disabled (destroyed tires or engine).  Values are read only if OVERRIDE_VEHICLE_INIT_STATE is set to true.",
     "stype": "int",
     "value": 0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "DEFAULT_REGION",
-    "stype": "string_input",
-    "value": "default_skyisland"
   }
 ]

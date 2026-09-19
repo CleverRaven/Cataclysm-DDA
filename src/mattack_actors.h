@@ -22,6 +22,8 @@ class Creature;
 class JsonObject;
 class monster;
 
+enum class bp_type;
+
 class invalid_mattack_actor : public mattack_actor
 {
         bool call( monster & ) const override;
@@ -173,7 +175,7 @@ class melee_actor : public mattack_actor
          * If non-empty, a body part is selected from the map to be targeted,
          * with a chance proportional to the value.
          */
-        weighted_float_list<bodypart_str_id> body_parts;
+        weighted_int_list<bp_type> body_parts_types;
 
         /** Extra effects applied on hit. */
         std::vector<mon_effect_data> effects;
@@ -210,6 +212,8 @@ class melee_actor : public mattack_actor
         /* Dedicated grab faction. Possible returns: -1 fails silently (attempting another attack instead)
         0 fails loudly (resetting the cooldown), 1 succeeds */
         int do_grab( monster &, Creature *target, bodypart_id bp_id ) const;
+        // return vector of bodyparts that were hit by this attack. Helper
+        std::vector<bodypart_id> pick_bodyparts_hit( const Creature *target, int hitspread ) const;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
 };

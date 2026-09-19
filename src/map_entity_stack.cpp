@@ -80,7 +80,7 @@ void map_entity_stack<item>::make_name_cache()
     const int count = get_selected_count();
     if( count > 1 ) {
         text += string_format( "%s ",
-                               get_selected_entity()->type->count_or_volume_or_weight_prefix( count ) );
+                               get_selected_entity()->type->item_measure_prefix( count ) );
     }
     text += get_selected_entity()->display_name( count );
 

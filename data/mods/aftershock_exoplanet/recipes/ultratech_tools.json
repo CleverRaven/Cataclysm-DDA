@@ -31,7 +31,7 @@
     "components": [
       [ [ "afs_material_4", 8 ] ],
       [ [ "afs_material_2", 12 ] ],
-      [ [ "cable", 40 ] ],
+      [ [ "cable", 14 ] ],
       [ [ "afs_magnet_3", 4 ] ],
       [ [ "afs_magnet_2", 12 ] ],
       [ [ "afs_circuitry_1", 20 ] ],
@@ -78,7 +78,7 @@
       [ [ "afs_material_3", 8 ] ],
       [ [ "afs_material_2", 12 ] ],
       [ [ "afs_material_1", 28 ] ],
-      [ [ "cable", 40 ] ],
+      [ [ "cable", 14 ] ],
       [ [ "afs_magnet_3", 8 ] ],
       [ [ "afs_magnet_2", 12 ] ],
       [ [ "afs_circuitry_1", 20 ] ],

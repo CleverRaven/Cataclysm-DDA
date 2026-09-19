@@ -16,7 +16,6 @@ BACKTRACE=${BACKTRACE:-1}
 LOCALIZE=${LOCALIZE:-1}
 TILES=${TILES:-1}
 SOUND=${SOUND:-1}
-
 # create compilation database (compile_commands.json)
 mkdir -p "$build_dir"
 build_dir="$(cd "$build_dir" && pwd)"

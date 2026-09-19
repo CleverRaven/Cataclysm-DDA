@@ -17,6 +17,7 @@
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "addiction.h"
+#include "bonuses.h"
 #include "clone_ptr.h"
 #include "anatomy.h"
 #include "avatar.h"
@@ -31,6 +32,7 @@
 #include "city.h"
 #include "color.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "creature_tracker.h"
 #include "current_map.h"
 #include "debug.h"
@@ -97,6 +99,7 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "submap.h"  // IWYU pragma: keep
+#include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "translations.h"
 #include "trap.h"
@@ -202,7 +205,6 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_mech_recon_vision( "mech_recon_vision" );
 static const efftype_id effect_melatonin( "melatonin" );
-static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -229,7 +231,6 @@ static const itype_id itype_fire( "fire" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 static const itype_id itype_human_sample( "human_sample" );
-static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
 static const json_character_flag json_flag_ACIDBLOOD( "ACIDBLOOD" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
@@ -237,6 +238,7 @@ static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_CANNOT_CHANGE_TEMPERATURE( "CANNOT_CHANGE_TEMPERATURE" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
+static const json_character_flag json_flag_CANNOT_SLEEP( "CANNOT_SLEEP" );
 static const json_character_flag json_flag_CLAIRVOYANCE( "CLAIRVOYANCE" );
 static const json_character_flag json_flag_CLAIRVOYANCE_PLUS( "CLAIRVOYANCE_PLUS" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
@@ -260,6 +262,7 @@ json_flag_MYOPIC_IN_LIGHT_SUPERNATURAL( "MYOPIC_IN_LIGHT_SUPERNATURAL" );
 static const json_character_flag json_flag_MYOPIC_SUPERNATURAL( "MYOPIC_SUPERNATURAL" );
 static const json_character_flag json_flag_NIGHT_VISION( "NIGHT_VISION" );
 static const json_character_flag json_flag_NON_THRESH( "NON_THRESH" );
+static const json_character_flag json_flag_NO_WING_GLIDING( "NO_WING_GLIDING" );
 static const json_character_flag json_flag_NVG_GREEN( "NVG_GREEN" );
 static const json_character_flag json_flag_PHASE_MOVEMENT( "PHASE_MOVEMENT" );
 static const json_character_flag json_flag_PLANTBLOOD( "PLANTBLOOD" );
@@ -1093,7 +1096,9 @@ double Character::aim_per_move( const item &gun, double recoil,
     aim_speed = std::max( aim_speed, MIN_RECOIL_IMPROVEMENT );
 
     // Never improve by more than the currently used sights permit.
-    return std::min( aim_speed, recoil - limit );
+    aim_speed = std::min( aim_speed, recoil - limit );
+
+    return calculate_by_enchantment( aim_speed, enchant_vals::mod::AIMING_SPEED );
 }
 
 void Character::mod_free_dodges( int added )
@@ -2446,7 +2451,7 @@ void Character::recalc_sight_limits()
     if( has_nv_goggles() ) {
         vision_mode_cache.set( NV_GOGGLES );
     }
-    if( has_active_mutation( trait_NIGHTVISION3 ) || is_wearing( itype_rm13_armor_on ) ||
+    if( has_active_mutation( trait_NIGHTVISION3 ) ||
         ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ) {
         vision_mode_cache.set( NIGHTVISION_3 );
     }
@@ -2530,6 +2535,8 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
     // but perception also plays a role, representing both memory/attentiveness and catching on to how
     // the two apply to each other.
     float catchup_modifier = 1.0f + ( 2.0f * get_int() + get_per() ) / 24.0f; // 2 for an average person
+    catchup_modifier = calculate_by_enchantment( catchup_modifier,
+                       enchant_vals::mod::THEORETICAL_SKILL_CATCHUP_BONUS );
     float knowledge_modifier = 1.0f + get_int() /
                                40.0f; // 1.2 for an average person, always a bit higher than base amount
 
@@ -3281,6 +3288,22 @@ int Character::get_int_bonus() const
     return int_bonus;
 }
 
+int Character::get_primary_stat_value( const scaling_stat stat ) const
+{
+    switch( stat ) {
+        case STAT_STR:
+            return get_str();
+        case STAT_DEX:
+            return get_dex();
+        case STAT_INT:
+            return get_int();
+        case STAT_PER:
+            return get_per();
+        default:
+            cata_fatal( "Invalid primary character stat" );
+    }
+}
+
 int Character::get_enchantment_speed_bonus() const
 {
     return enchantment_speed_bonus;
@@ -3612,7 +3635,7 @@ bool Character::is_immune_field( const field_type_id &fid ) const
         return is_elec_immune();
     }
     if( ft.has_fire ) {
-        return has_flag( json_flag_HEATSINK ) || is_wearing( itype_rm13_armor_on );
+        return has_flag( json_flag_HEATSINK );
     }
     if( ft.has_acid ) {
         return !is_on_ground() && get_env_resist( body_part_foot_l ) >= 15 &&
@@ -3646,7 +3669,7 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
         return worn_with_flag( flag_DEAF ) || has_flag( json_flag_DEAF ) ||
                worn_with_flag( flag_PARTIAL_DEAF ) ||
                has_flag( json_flag_IMMUNE_HEARING_DAMAGE ) ||
-               is_wearing( itype_rm13_armor_on ) || is_deaf();
+               is_deaf();
     } else if( eff->has_flag( flag_MUTE ) ) {
         return has_bionic( bio_voice );
     } else if( eff == effect_corroding ) {
@@ -3824,25 +3847,44 @@ bool Character::sees_with_specials( const Creature &critter ) const
 bool Character::pour_into( item_location &container, item &liquid, bool ignore_settings,
                            bool silent )
 {
-    std::string err;
+    rem_cap_return err = rem_cap_return::SUCCESS;
     int max_remaining_capacity = container->get_remaining_capacity_for_liquid( liquid, *this, &err );
+    // amount of liquid that can be inserted
     int amount = container->all_pockets_rigid() ? max_remaining_capacity :
                  std::min( max_remaining_capacity, container.max_charges_by_parent_recursive( liquid ).value() );
 
-    if( !err.empty() ) {
-        if( !container->has_item_with( [&liquid]( const item & it ) {
+    const bool desired_liquid_is_in = container->has_item_with( [&liquid]( const item & it ) {
         return it.typeId() == liquid.typeId();
-        } ) ) {
-            add_msg_if_player( m_bad, err );
-        } else {
-            //~ you filled <container> to the brim with <liquid>
-            add_msg_if_player( _( "You filled %1$s to the brim with %2$s." ), container->tname(),
-                               liquid.tname() );
-        }
+    } );
+
+    if( err == rem_cap_return::NO_SPACE && desired_liquid_is_in ) {
+        add_msg_if_player( _( "You filled %1$s to the brim with %2$s." ), container->tname(),
+                           liquid.tname() );
         return false;
     }
 
-    if( amount == 0 ) {
+    switch( err ) {
+        case rem_cap_return::BUCKET_FAIL:
+            add_msg_if_player( m_bad, _( "That %s must be on the ground or held to hold contents!" ),
+                               container->tname() );
+            return false;
+        case rem_cap_return::ANOTHER_LIQUID_INSIDE:
+            add_msg_if_player( m_bad, _( "That %1$s won't hold %2$s." ),
+                               container->tname(), liquid.tname() );
+            return false;
+        case rem_cap_return::NO_SPACE:
+            add_msg_if_player( m_bad, _( "Your %1$s can't hold any more %2$s." ),
+                               container->tname(), liquid.tname() );
+            return false;
+        case rem_cap_return::NO_SPACE_IN_PARENT:
+            add_msg_if_player( m_bad, _( "That %s doesn't have room to expand." ),
+                               container->tname() );
+            return false;
+        default:
+            break;
+    }
+
+    if( max_remaining_capacity == 0 ) {
         add_msg_if_player( _( "The %1$s can't expand to fit any more %2$s." ), container->tname(),
                            liquid.tname() );
         return false;
@@ -4152,7 +4194,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         return;
     }
 
-    const inventory &inv = crafting_inventory();
+    const temp_crafting_inventory &inv = crafting_inventory();
 
     struct mending_option {
         fault_id fault;
@@ -4172,7 +4214,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
                     break;
                 }
             }
-            opt.doable &= fix.get_requirements().can_make_with_inventory( inv, is_crafting_component );
+            opt.doable &= fix.get_requirements().can_make_with_inventory( this, inv, is_crafting_component );
             mending_options.emplace_back( opt );
         }
     }
@@ -4212,8 +4254,9 @@ void Character::mend_item( item_location &&obj, bool interactive )
             const nc_color col = opt.doable ? c_white : c_light_gray;
 
             const requirement_data &reqs = fix.get_requirements();
-            auto tools = reqs.get_folded_tools_list( fold_width, col, inv );
-            auto comps = reqs.get_folded_components_list( fold_width, col, inv, is_crafting_component );
+            auto tools = reqs.get_folded_tools_list( this, fold_width, col, inv );
+            auto comps = reqs.get_folded_components_list( this, fold_width, col, inv,
+                         is_crafting_component );
 
             std::string descr = word_rewrap( obj.get_item()->get_fault_description( opt.fault ), 80 ) + "\n\n";
             for( const fault_id &fid : fix.faults_removed ) {
@@ -5408,8 +5451,13 @@ void Character::fall_asleep( const time_duration &duration )
             cancel_activity();
         }
     }
-    add_effect( effect_sleep, duration );
-    get_event_bus().send<event_type::character_falls_asleep>( getID(), to_seconds<int>( duration ) );
+    if( has_flag( json_flag_CANNOT_SLEEP ) ) {
+        add_msg_if_player( m_info, _( "You cannot sleep!" ) );
+        cancel_activity();
+    } else {
+        add_effect( effect_sleep, duration );
+        get_event_bus().send<event_type::character_falls_asleep>( getID(), to_seconds<int>( duration ) );
+    }
 }
 
 std::map<bodypart_id, int> Character::bonus_item_warmth() const
@@ -5567,7 +5615,8 @@ std::list<item> Character::use_amount( const itype_id &it, int quantity,
             tmp.erase( tmp.begin() + imenu.ret );
         }
     }
-    if( quantity > 0 && weapon.use_amount( it, quantity, ret ) ) {
+    if( quantity > 0 && !craft_reservation::contains_reserved( weapon ) &&
+        weapon.use_amount( it, quantity, ret, filter ) ) {
         remove_weapon();
     }
     ret = worn.use_amount( it, quantity, ret, filter, *this );
@@ -5684,7 +5733,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
                                         const std::function<bool( const item & )> &filter, bool in_tools )
 {
     std::list<item> res;
-    inventory inv = crafting_inventory( pos_bub(), radius, true );
+    temp_crafting_inventory inv = crafting_inventory( pos_bub(), radius, true );
 
     if( qty <= 0 ) {
         return res;
@@ -5714,10 +5763,16 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     } );
 
     if( radius >= 0 ) {
-        get_map().use_charges( pos_bub(), radius, what, qty, return_true<item>, nullptr, in_tools );
+        get_map().use_charges( pos_bub(), radius, what, qty, filter, nullptr, in_tools );
     }
     if( qty > 0 ) {
-        visit_items( [this, &what, &qty, &res, &del, &filter, &in_tools]( item * e, item * ) {
+        visit_items( [this, &what, &qty, &res, &del, &filter, &in_tools]( item * e,
+        item * parent ) {
+            // Only roots: this callback sees every descendant, and item::use_charges
+            // descends again, so a reserved root must prune its subtree here.
+            if( parent == nullptr && craft_reservation::contains_reserved( *e ) ) {
+                return VisitResponse::SKIP;
+            }
             if( e->use_charges( what, qty, res, pos_bub(), filter, this, in_tools ) ) {
                 del.push_back( e );
             }
@@ -5732,6 +5787,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     if( has_tool_with_UPS ) {
         consume_ups( units::from_kilojoule( static_cast<std::int64_t>( qty ) ), radius );
     }
+    invalidate_inventory_validity_cache();
 
     return res;
 }
@@ -6705,7 +6761,7 @@ void Character::process_one_effect( effect &it, bool is_new )
         }
         if( is_new || it.activated( calendar::turn, "PAIN", val, reduced, mod ) ) {
             int pain_inc = bound_mod_to_vals( get_pain(), val, it.get_max_val( "PAIN", reduced ), 0 );
-            mod_pain( pain_inc );
+            mod_pain( pain_inc, it.get_bp() );
             if( pain_inc > 0 ) {
                 add_pain_msg( val, bp );
             }
@@ -6993,8 +7049,9 @@ void Character::stagger()
 
 bool Character::can_sleep()
 {
-    if( has_effect( effect_meth ) ) {
-        // Sleep ain't happening until that meth wears off completely.
+
+    if( has_flag( json_flag_CANNOT_SLEEP ) ) {
+        // Sleep ain't happening
         return false;
     }
 
@@ -7914,8 +7971,8 @@ bool Character::can_fly()
     if( has_flag( json_flag_GLIDE ) ) {
         return true;
     }
-    // TODO: Remove grandfathering traits in after Limb Stuff
-    if( count_flag( json_flag_WINGS_2 ) >= 2 || count_flag( json_flag_WING_ARMS ) >= 2 ) {
+    if( ( count_flag( json_flag_WINGS_2 ) >= 2 || count_flag( json_flag_WING_ARMS ) >= 2 ) &&
+        !worn_with_flag( json_flag_NO_WING_GLIDING ) ) {
 
         if( 100 * weight_carried() / weight_capacity() > 50 ) {
             return false;

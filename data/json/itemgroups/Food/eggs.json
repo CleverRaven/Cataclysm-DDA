@@ -39,23 +39,11 @@
   },
   {
     "type": "item_group",
-    "id": "egg_bird_unfert_carton_egg_6_12",
-    "subtype": "collection",
-    "container-item": "carton_egg",
-    "entries": [ { "item": "egg_bird_unfert", "count": [ 6, 12 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "egg_bird_unfert_carton_egg_10",
-    "subtype": "collection",
-    "container-item": "carton_egg",
-    "entries": [ { "item": "egg_bird_unfert", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "egg_bird_unfert_carton_egg_1_2",
-    "subtype": "collection",
-    "container-item": "carton_egg",
-    "entries": [ { "item": "egg_bird_unfert", "count": [ 1, 2 ] } ]
+    "id": "eggs_in_carton_empty",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "egg_bird_unfert", "entry-wrapper": "carton_egg", "count": [ 1, 2 ] },
+      { "item": "egg_bird_unfert", "entry-wrapper": "carton_egg_6", "count": [ 1, 2 ] }
+    ]
   }
 ]

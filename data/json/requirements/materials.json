@@ -468,7 +468,7 @@
         [ "lamp_oil", 200 ],
         [ "motor_oil", 200 ],
         [ "salt_water", 5 ],
-        [ "ash", 50 ],
+        [ "ash", 5 ],
         [ "tin", 50 ]
       ]
     ]
@@ -601,7 +601,8 @@
         [ "bottle_plastic_small", 1 ],
         [ "plastic_chunk", 1 ],
         [ "aluminum_foil", 40 ],
-        [ "cash_card", 2 ]
+        [ "cash_card", 2 ],
+        [ "credit_card", 2 ]
       ]
     ]
   },
@@ -621,13 +622,13 @@
     "id": "solar_panel",
     "type": "requirement",
     "//": "Materials used for repairing solar panels",
-    "components": [ [ [ "solar_cell", 3 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "solar_cell", 3 ] ], [ [ "cable", 2 ] ] ]
   },
   {
     "id": "solar_panel_v2",
     "type": "requirement",
     "//": "Materials used for advanced solar panels",
-    "components": [ [ [ "solar_cell_v2", 3 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "solar_cell_v2", 3 ] ], [ [ "cable", 2 ] ] ]
   },
   {
     "id": "paint",

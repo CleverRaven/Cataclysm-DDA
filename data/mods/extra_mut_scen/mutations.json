@@ -23,6 +23,7 @@
       "MUTAGEN_GLAND_FISH",
       "MUTAGEN_GLAND_GASTROPOD",
       "MUTAGEN_GLAND_INSECT",
+      "MUTAGEN_GLAND_LAGOMORPH",
       "MUTAGEN_GLAND_LIZARD",
       "MUTAGEN_GLAND_LUPINE",
       "MUTAGEN_GLAND_MEDICAL",
@@ -146,6 +147,14 @@
     "name": { "str": "Mutagen Gland - Insect" },
     "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with insect traits.",
     "delete": { "cancels": [ "MUTAGEN_GLAND_INSECT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_LAGOMORPH",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Lagomorph" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with lagomorph traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_LAGOMORPH" ] }
   },
   {
     "type": "mutation",

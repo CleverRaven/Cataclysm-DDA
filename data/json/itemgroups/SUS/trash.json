@@ -368,7 +368,7 @@
       { "item": "qt_wire", "prob": 3 },
       { "item": "sheet_metal_small", "prob": 2 },
       { "item": "pipe", "prob": 5 },
-      { "item": "nuts_bolts", "prob": 10, "charges": [ 1, 15 ] },
+      { "item": "nuts_bolts", "prob": 10, "count": [ 1, 15 ] },
       { "item": "scrap", "prob": 5, "count": [ 1, 2 ] },
       { "item": "scrap_bronze", "prob": 2 },
       { "item": "scrap_brass", "prob": 2 },
@@ -387,7 +387,7 @@
     "items": [
       { "group": "tools_general", "prob": 2 },
       { "item": "nail", "prob": 10, "charges": [ 1, 15 ] },
-      { "item": "nuts_bolts", "prob": 5, "charges": [ 1, 15 ] },
+      { "item": "nuts_bolts", "prob": 5, "count": [ 1, 15 ] },
       { "item": "splinter", "prob": 10, "count": [ 4, 20 ] },
       { "item": "wood_block", "prob": 5, "count": [ 1, 5 ] }
     ]

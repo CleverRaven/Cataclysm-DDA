@@ -77,7 +77,7 @@
       [ [ "pipe_fittings", 2 ] ],
       [ [ "pipe", 2 ] ],
       [ [ "plastic_chunk", 10 ] ],
-      [ [ "cable", 50 ] ]
+      [ [ "cable", 17 ] ]
     ]
   },
   {
@@ -97,7 +97,7 @@
       [ [ "power_supply", 1 ] ],
       [ [ "hd_pipe", 4 ] ],
       [ [ "sheet_metal_small", 6 ] ],
-      [ [ "cable", 20 ] ],
+      [ [ "cable", 7 ] ],
       [ [ "mc_steel_chunk", 1 ] ]
     ]
   },

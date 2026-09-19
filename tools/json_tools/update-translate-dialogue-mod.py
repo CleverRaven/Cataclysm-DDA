@@ -66,7 +66,9 @@ def main():
     input_dir = "data/json/npcs/exodii/"
     output_dir = "data/mods/translate-dialogue/"
     files = ["exodii_merchant_talk.json",
-             "exodii_merchant_talk_exodization.json"]
+             "exodii_merchant_talk_exodization.json",
+             "exodii_merchant_missions.json",
+             "exodii_merchant_talk_netherum_labyrinth.json"]
 
     for f in files:
         dialogues = []

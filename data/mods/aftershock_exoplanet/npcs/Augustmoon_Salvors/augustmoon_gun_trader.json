@@ -99,7 +99,7 @@
     "name_suffix": "gun trader",
     "class": "NC_AUGUSTMOON_GUNTRADER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_AUGUSTMOON_GUNTRADER",
     "faction": "UICA"
   },

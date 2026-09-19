@@ -350,16 +350,15 @@ class game
          * @param npc_travellers vector of NPCs that should be brought along when travelling to another dimension
          * @param veh pointer to a vehicle to bring along.
          */
-        bool travel_to_dimension( const std::string &prefix, const std::string &region_type,
+        bool travel_to_dimension( dimension_id dimension_destination,
                                   const std::vector<npc *> &npc_travellers,
                                   const std::vector<item_location> &item_travellers,
                                   std::optional<tripoint_bub_ms> item_travellers_location,
                                   vehicle *veh = nullptr );
         /**
          * Retrieve the identifier of the current dimension.
-         * TODO: this should be a dereferencable id that gives properties of the dimension.
          */
-        std::string get_dimension_prefix() {
+        dimension_id get_dimension_prefix() {
             return dimension_prefix;
         }
 
@@ -640,6 +639,7 @@ class game
         void reload_npcs();
         void remove_npc( character_id const &id );
         const kill_tracker &get_kill_tracker() const;
+        void clear_kill_tracker() const;
         stats_tracker &stats();
         achievements_tracker &achievements();
         /** Add follower id to set of followers. */
@@ -1034,9 +1034,9 @@ class game
         void print_fields_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                                 int &line );
         void print_terrain_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                                 std::string_view area_name, int column, int &line );
+                                 std::string_view area_name, int column, int &line, bool visible );
         void print_furniture_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
-                                   int &line );
+                                   int &line, bool visible );
         void print_trap_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                               int &line );
         void print_part_con_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
@@ -1393,9 +1393,8 @@ class game
         //currently used as a hacky workaround for dimension swapping
         bool swapping_dimensions = false; // NOLINT (cata-serialize)
     private:
-        // Stores the currently occupied dimension.
-        // TODO: should be an id instead of a string.
-        std::string dimension_prefix;
+        // the currently occupied dimension
+        dimension_id dimension_prefix;
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

@@ -15,8 +15,7 @@
     "description": "A delicious grilled cheese sandwich, because everything is better with melted cheese.",
     "price": "5 USD 50 cent",
     "price_postapoc": "2 USD",
-    "material": [ "milk", "wheat" ],
-    "primary_material": "wheat",
+    "material": [ { "type": "wheat", "portion": 10 }, { "type": "milk", "portion": 1 } ],
     "volume": "500 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
@@ -38,8 +37,7 @@
     "description": "A delicious egg salad sandwich.",
     "price": "5 USD 50 cent",
     "price_postapoc": "2 USD",
-    "material": [ "egg", "wheat" ],
-    "primary_material": "wheat",
+    "material": [ { "type": "wheat", "portion": 10 }, { "type": "egg", "portion": 1 } ],
     "volume": "500 ml",
     "fun": 6,
     "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "egg_allergen", 1 ] ]
@@ -72,8 +70,13 @@
     "description": "A sandwich of meat, vegetables, and cheese with condiments.  Tasty and nutritious!",
     "price": "6 USD",
     "price_postapoc": "150 cent",
-    "material": [ "flesh", "veggy", "wheat", "milk" ],
-    "primary_material": "processed_food",
+    "material": [
+      { "type": "processed_food", "portion": 10 },
+      { "type": "flesh", "portion": 1 },
+      { "type": "veggy", "portion": 1 },
+      { "type": "wheat", "portion": 1 },
+      { "type": "milk", "portion": 1 }
+    ],
     "volume": "125 ml",
     "fun": 12,
     "vitamins": [
@@ -109,8 +112,13 @@
     "description": "A pre-Cataclysm classic, probably made with significant substitutions.  Key components are the special sauce and sauerkraut, with bread, meat, and cheese fried in a pan.",
     "price": "6 USD",
     "price_postapoc": "150 cent",
-    "material": [ "flesh", "veggy", "wheat", "milk" ],
-    "primary_material": "processed_food",
+    "material": [
+      { "type": "processed_food", "portion": 10 },
+      { "type": "flesh", "portion": 1 },
+      { "type": "veggy", "portion": 1 },
+      { "type": "wheat", "portion": 1 },
+      { "type": "milk", "portion": 1 }
+    ],
     "volume": "125 ml",
     "fun": 14,
     "vitamins": [
@@ -159,8 +167,7 @@
     "description": "A simple cheese sandwich.",
     "price": "5 USD",
     "price_postapoc": "2 USD",
-    "material": [ "milk", "wheat" ],
-    "primary_material": "wheat",
+    "material": [ { "type": "wheat", "portion": 10 }, { "type": "milk", "portion": 1 } ],
     "volume": "500 ml",
     "fun": 8,
     "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
@@ -181,8 +188,7 @@
     "description": "A delicious jam sandwich.",
     "price": "2 USD",
     "price_postapoc": "2 USD",
-    "material": [ "fruit", "wheat" ],
-    "primary_material": "wheat",
+    "material": [ { "type": "wheat", "portion": 10 }, { "type": "fruit", "portion": 1 } ],
     "volume": "500 ml",
     "fun": 6,
     "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
@@ -203,8 +209,7 @@
     "description": "A delicious jam and cheese sandwich.",
     "price": "2 USD",
     "price_postapoc": "2 USD",
-    "material": [ "fruit", "wheat", "milk" ],
-    "primary_material": "wheat",
+    "material": [ { "type": "wheat", "portion": 10 }, { "type": "fruit", "portion": 1 }, { "type": "milk", "portion": 1 } ],
     "volume": "500 ml",
     "fun": 6,
     "vitamins": [
@@ -232,8 +237,7 @@
     "description": "A delicious jam and butter sandwich.",
     "price": "2 USD",
     "price_postapoc": "2 USD",
-    "material": [ "milk", "fruit", "wheat" ],
-    "primary_material": "wheat",
+    "material": [ { "type": "wheat", "portion": 10 }, { "type": "fruit", "portion": 1 }, { "type": "milk", "portion": 1 } ],
     "volume": "500 ml",
     "fun": 15,
     "vitamins": [
@@ -260,8 +264,7 @@
     "description": "An 'open-faced sandwich' consisting of sliced white bread, a healthy crust-to-crust slathering of butter, and sprinkles.  Supposedly a staple of birthday parties in Australia.",
     "price": "85 cent",
     "price_postapoc": "3 USD",
-    "material": [ "junk", "wheat" ],
-    "primary_material": "wheat",
+    "material": [ { "type": "wheat", "portion": 10 }, { "type": "junk", "portion": 1 } ],
     "volume": "120 ml",
     "fun": 10,
     "vitamins": [ [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ]
@@ -281,8 +284,7 @@
     "calories": 328,
     "description": "A delicious honey sandwich.",
     "price": "1 USD 75 cent",
-    "material": [ "honey", "wheat" ],
-    "primary_material": "wheat",
+    "material": [ { "type": "wheat", "portion": 10 }, { "type": "honey", "portion": 1 } ],
     "volume": "500 ml",
     "fun": 6,
     "vitamins": [ [ "calcium", 10 ], [ "iron", 24 ], [ "wheat_allergen", 1 ] ]
@@ -424,8 +426,7 @@
     "description": "A delicious peanut butter and jelly sandwich.  It reminds you of the times your mother would make you lunch.",
     "price": "1 USD 75 cent",
     "price_postapoc": "1 USD 75 cent",
-    "material": [ "fruit", "wheat" ],
-    "primary_material": "wheat",
+    "material": [ { "type": "wheat", "portion": 10 }, { "type": "fruit", "portion": 1 } ],
     "//": "Sandwich is 500ml so it fills up a sealed 500 ml bag_zipper. See issue 45650",
     "volume": "500 ml",
     "fun": 15,
@@ -447,8 +448,7 @@
     "description": "Some damned fool put honey on this peanut butter sandwich, who in their right mind- oh wait, this is pretty good.",
     "price": "1 USD 75 cent",
     "price_postapoc": "1 USD 75 cent",
-    "material": [ "wheat", "honey" ],
-    "primary_material": "wheat",
+    "material": [ { "type": "wheat", "portion": 10 }, { "type": "honey", "portion": 1 } ],
     "volume": "500 ml",
     "fun": 10,
     "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ], [ "wheat_allergen", 1 ] ]
@@ -541,8 +541,13 @@
     "description": "A bacon, lettuce, and tomato sandwich on toasted bread.",
     "price": "2 USD",
     "price_postapoc": "125 cent",
-    "material": [ "flesh", "veggy", "wheat", "tomato" ],
-    "primary_material": "processed_food",
+    "material": [
+      { "type": "processed_food", "portion": 10 },
+      { "type": "flesh", "portion": 1 },
+      { "type": "veggy", "portion": 1 },
+      { "type": "wheat", "portion": 1 },
+      { "type": "tomato", "portion": 1 }
+    ],
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 8,
@@ -596,8 +601,12 @@
     "description": "A delicious peanut butter and marshmallow fluff sandwich.  More commonly referred to as a fluffernutter.",
     "price": "1 USD 75 cent",
     "price_postapoc": "1 USD 75 cent",
-    "material": [ "nut", "junk", "wheat", "egg" ],
-    "primary_material": "wheat",
+    "material": [
+      { "type": "wheat", "portion": 10 },
+      { "type": "nut", "portion": 1 },
+      { "type": "junk", "portion": 1 },
+      { "type": "egg", "portion": 1 }
+    ],
     "volume": "500 ml",
     "fun": 15,
     "vitamins": [

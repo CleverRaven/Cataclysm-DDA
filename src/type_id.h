@@ -49,6 +49,9 @@ using bodygraph_id = string_id<bodygraph>;
 struct character_modifier;
 using character_modifier_id = string_id<character_modifier>;
 
+struct character_portrait;
+using character_portrait_id = string_id<character_portrait>;
+
 struct limb_score;
 using limb_score_id = string_id<limb_score>;
 
@@ -84,6 +87,12 @@ using damage_type_id = string_id<damage_type>;
 
 struct damage_info_order;
 using damage_info_order_id = string_id<damage_info_order>;
+
+class dimension_world;
+using dimension_id = string_id<dimension_world>;
+
+class dimension_region_layout;
+using dimension_region_layout_id = string_id<dimension_region_layout>;
 
 class disease_type;
 using diseasetype_id = string_id<disease_type>;

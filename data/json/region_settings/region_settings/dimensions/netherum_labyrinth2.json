@@ -14,6 +14,7 @@
     "map_extras": "no_map_extras",
     "terrain_furniture": "default",
     "weather": "default",
+    "npc_spawntime": 0,
     "place_roads": false,
     "place_specials": true,
     "neighbor_connections": false,
@@ -51,11 +52,5 @@
       "subway_connection": "subway_tunnel",
       "rail_connection": "local_railroad"
     }
-  },
-  {
-    "type": "region_terrain_furniture",
-    "id": "netherum_labyrinth_t_region_groundcover",
-    "ter_id": "t_netherum_labyrinth_groundcover",
-    "replace_with_terrain": [ "t_nl_chasm_no_trap" ]
   }
 ]

@@ -189,7 +189,7 @@
     "description": { "str": "Blind nearby targets.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "SILENT", "RANDOM_DURATION" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_level": { "math": [ "mom_photokinesis_max_power_formula()" ] },
     "shape": "blast",
     "effect": "attack",
     "effect_str": "blind",

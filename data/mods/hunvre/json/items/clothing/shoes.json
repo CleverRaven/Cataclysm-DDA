@@ -1,0 +1,394 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "sneakers",
+    "copy-from": "abstract_garment_advanced_variants",
+    "color": "blue",
+    "symbol": "[",
+    "looks_like": "shoes_bowling",
+    "name": { "str_sp": "sneakers (pair)" },
+    "description": "Sporty, comfortable shoes with a low top leaving the ankles uncovered.",
+    "material": [ { "type": "nylon", "portion": 90 }, { "type": "rubber", "portion": 10 } ],
+    "weight": "600 g",
+    "volume": "500 ml",
+    "price": "1 USD",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
+    "warmth": 5,
+    "flags": [ "VARSIZE", "NORMAL" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_heel_l", "foot_heel_r", "foot_arch_l", "foot_arch_r", "foot_toes_l", "foot_toes_r" ],
+        "coverage": 100,
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 } ],
+        "encumbrance": 4
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "high_top_sneakers",
+    "copy-from": "sneakers",
+    "name": { "str_sp": "high top sneakers (pair)" },
+    "description": "Sporty, comfortable shoes with a high top covering the ankles.",
+    "proportional": { "weight": 1.1, "volume": 1.1 },
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_heel_l",
+          "foot_heel_r",
+          "foot_arch_l",
+          "foot_arch_r",
+          "foot_toes_l",
+          "foot_toes_r",
+          "foot_ankle_l",
+          "foot_ankle_r"
+        ],
+        "coverage": 100,
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 } ],
+        "encumbrance": 4
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "coverage": 100,
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "boots",
+    "copy-from": "abstract_garment_advanced_variants",
+    "symbol": "[",
+    "color": "blue",
+    "looks_like": "dress_shoes",
+    "name": { "str_sp": "boots (pair)" },
+    "description": "Rugged boots with a thick sole, reaching above the ankles for support and protection.",
+    "material": [ { "type": "nylon", "portion": 90 }, { "type": "rubber", "portion": 10 } ],
+    "weight": "700 g",
+    "volume": "600 ml",
+    "price": "1 USD",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
+    "warmth": 5,
+    "flags": [ "VARSIZE", "NORMAL" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_heel_l",
+          "foot_heel_r",
+          "foot_arch_l",
+          "foot_arch_r",
+          "foot_toes_l",
+          "foot_toes_r",
+          "foot_ankle_l",
+          "foot_ankle_r"
+        ],
+        "coverage": 100,
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 } ],
+        "encumbrance": 6
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "coverage": 100,
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "mid_calf_boots",
+    "copy-from": "boots",
+    "name": { "str_sp": "mid-calf boots" },
+    "description": "Rugged boots with a thick sole, reaching the calf for more support and protection.",
+    "proportional": { "weight": 1.2, "volume": 1.2 },
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_heel_l",
+          "foot_heel_r",
+          "foot_arch_l",
+          "foot_arch_r",
+          "foot_toes_l",
+          "foot_toes_r",
+          "foot_ankle_l",
+          "foot_ankle_r"
+        ],
+        "coverage": 100,
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 } ],
+        "encumbrance": 6
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "coverage": 100,
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+        ]
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_l", "leg_lower_r" ], "coverage": 40 }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "minimal_shoes",
+    "copy-from": "abstract_garment_advanced_variants",
+    "color": "blue",
+    "symbol": "[",
+    "looks_like": "shoes_bowling",
+    "name": { "str_sp": "minimal shoes (pair)" },
+    "description": "Minimalist shoes, snug and featureless aside from the fasteners, with a thin, flexible sole and a low cut leaving the ankles uncovered.",
+    "material": [ { "type": "nylon", "portion": 95 }, { "type": "rubber", "portion": 5 } ],
+    "weight": "500 g",
+    "volume": "400 ml",
+    "price": "1 USD",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
+    "warmth": 5,
+    "flags": [ "VARSIZE", "NORMAL" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_heel_l", "foot_heel_r", "foot_arch_l", "foot_arch_r", "foot_toes_l", "foot_toes_r" ],
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 } ],
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "high_top_minimal_shoes",
+    "copy-from": "minimal_shoes",
+    "name": { "str_sp": "high top minimal shoes (pair)" },
+    "description": "Minimalist shoes, snug and featureless aside from the fasteners, with a thin, flexible sole and a high cut covering the ankles.",
+    "proportional": { "weight": 1.1, "volume": 1.1 },
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_heel_l",
+          "foot_heel_r",
+          "foot_arch_l",
+          "foot_arch_r",
+          "foot_toes_l",
+          "foot_toes_r",
+          "foot_ankle_l",
+          "foot_ankle_r"
+        ],
+        "coverage": 100,
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 } ],
+        "encumbrance": 3
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "coverage": 100,
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 2.0 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "mid_calf_minimal_shoes",
+    "copy-from": "high_top_minimal_shoes",
+    "name": { "str_sp": "mid calf minimal shoes (pair)" },
+    "description": "Minimalist shoes reaching up to your calf, snug and featureless aside from the fasteners, with a thin, flexible sole.",
+    "proportional": { "weight": 1.2, "volume": 1.2 },
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_heel_l",
+          "foot_heel_r",
+          "foot_arch_l",
+          "foot_arch_r",
+          "foot_toes_l",
+          "foot_toes_r",
+          "foot_ankle_l",
+          "foot_ankle_r"
+        ],
+        "coverage": 100,
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 } ],
+        "encumbrance": 4
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "coverage": 100,
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 2.0 }
+        ]
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_l", "leg_lower_r" ], "coverage": 40 }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "safety_sneakers",
+    "copy-from": "abstract_garment_basic_variants",
+    "//": "We don't inherit from the base sneakers because safety sneakers are exclusively for work and should not have fancy patterns.",
+    "color": "blue",
+    "symbol": "[",
+    "looks_like": "shoes_bowling",
+    "name": { "str_sp": "safety sneakers (pair)" },
+    "description": "Sporty, comfortable shoes with a low top leaving the ankles uncovered.  Metal caps have been added to protect the toes.",
+    "material": [ { "type": "nylon", "portion": 85 }, { "type": "rubber", "portion": 10 }, { "type": "qt_steel", "portion": 5 } ],
+    "weight": "700 g",
+    "volume": "600 ml",
+    "price": "1 USD",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
+    "warmth": 5,
+    "flags": [ "VARSIZE", "NORMAL" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_heel_l", "foot_heel_r", "foot_arch_l", "foot_arch_r" ],
+        "coverage": 100,
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 } ],
+        "encumbrance": 5
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "coverage": 100,
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+        ]
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_l", "foot_toes_r" ],
+        "coverage": 100,
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 0.1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "safety_boots",
+    "copy-from": "abstract_garment_basic_variants",
+    "//": "We don't inherit from the base boots because safety boots are exclusively for work and should not have fancy patterns.",
+    "symbol": "[",
+    "color": "blue",
+    "looks_like": "dress_shoes",
+    "name": { "str_sp": "safety boots (pair)" },
+    "description": "Rugged boots with a thick sole, reaching above the ankles for support and protection.  Metal caps have been added to protect the toes.",
+    "material": [ { "type": "nylon", "portion": 85 }, { "type": "rubber", "portion": 10 }, { "type": "qt_steel", "portion": 5 } ],
+    "weight": "750 g",
+    "volume": "610 ml",
+    "price": "1 USD",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
+    "warmth": 5,
+    "flags": [ "VARSIZE", "NORMAL" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_heel_l", "foot_heel_r", "foot_arch_l", "foot_arch_r", "foot_ankle_l", "foot_ankle_r" ],
+        "coverage": 100,
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 } ],
+        "encumbrance": 6
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "coverage": 100,
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+        ]
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_l", "foot_toes_r" ],
+        "coverage": 100,
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 0.1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "safety_mid_calf_boots",
+    "copy-from": "safety_boots",
+    "name": { "str_sp": "safety mid-calf boots (pair)" },
+    "description": "Rugged boots with a thick sole, reaching the calf for more support and protection.  Metal caps have been added to protect the toes.",
+    "material": [ { "type": "nylon", "portion": 85 }, { "type": "rubber", "portion": 10 }, { "type": "qt_steel", "portion": 5 } ],
+    "proportional": { "weight": 1.2, "volume": 1.2 },
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_heel_l", "foot_heel_r", "foot_arch_l", "foot_arch_r", "foot_ankle_l", "foot_ankle_r" ],
+        "coverage": 100,
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 } ],
+        "encumbrance": 6
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "coverage": 100,
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+        ]
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_l", "foot_toes_r" ],
+        "coverage": 100,
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 0.1 }
+        ]
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_l", "leg_lower_r" ], "coverage": 40 }
+    ]
+  }
+]

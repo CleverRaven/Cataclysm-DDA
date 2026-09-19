@@ -18,6 +18,7 @@
 #include "city.h"
 #include "color.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -28,6 +29,7 @@
 #include "item_category.h"
 #include "item_contents.h"
 #include "item_pocket.h"
+#include "item_uid.h"
 #include "itype.h"
 #include "mutation.h"
 #include "options.h"
@@ -311,10 +313,10 @@ std::string contents( item const &it, unsigned int /* quantity */,
             if( total_count == aggi_count ) {
                 return string_format(
                            segments[tname::segments::CONTENTS_COUNT]
-                           //~ [container item name] " > [count or volume or weight (depending on type)] [type]"
+                           //~ [container item name] " > [count or volume or weight or length (depending on type)] [type]"
                            ? npgettext( "item name", " > %1$s %2$s", " > %1$s %2$s", total_count )
                            : " > %2$s",
-                           contents_item.type->count_or_volume_or_weight_prefix( total_count ),
+                           contents_item.type->item_measure_prefix( total_count ),
                            ctnc );
             }
             return string_format(
@@ -626,6 +628,10 @@ std::string activity_occupany( item const &it, unsigned int /* quantity */,
     if( it.has_var( "activity_var" ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
+        return _( " (in use)" );
+    }
+    // Direct mark only, so a container is not labelled for what it holds.
+    if( get_craft_reservations().is_reserved_uid( it.uid().get_value() ) ) {
         return _( " (in use)" );
     }
     return {};

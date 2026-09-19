@@ -1,0 +1,17 @@
+[
+  {
+    "type": "recipe",
+    "result": "scarhmag",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "scarhmag_30rd",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "scarh_makeshiftmag",
+    "obsolete": true
+  }
+]

@@ -1,0 +1,188 @@
+[
+  {
+    "type": "mutation_category",
+    "id": "COMBAT_BRUTE",
+    "name": "Perfect Warrior",
+    "threshold_mut": "THRESH_COMBAT_BRUTE",
+    "mutagen_message": "You feel like a trillion bucks.",
+    "memorial_message": "Was reborn as the perfect warrior."
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_COMBAT_BRUTE",
+    "name": "Perfect Warrior",
+    "points": 1,
+    "description": "None around you could best you in a fight.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_THROWING_STRENGTH",
+    "name": { "str": "All-Star Pitch" },
+    "description": "If you throw a grenade at someone, it will first cave their skull in.",
+    "category": [ "COMBAT_BRUTE" ],
+    "points": 2,
+    "changes_to": [ "GOODCARDIO2" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "THROW_STR", "multiply": 2 }, { "value": "THROW_DAMAGE", "multiply": 1.25 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_STRONG",
+    "name": { "str": "Bio-Sculpted Musculature" },
+    "description": "Your arms and legs are finely threaded pieces of living machinery, greatly increasing your strength and capacity to lift and carry heavy objects.  Unfortunately, the complex tissue heals at a slower rate than normal.",
+    "category": [ "COMBAT_BRUTE" ],
+    "points": 4,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "STRENGTH", "add": 2 },
+          { "value": "MENDING_MODIFIER", "multiply": -0.25 },
+          { "value": "REGEN_HP", "multiply": -0.25 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_GOOD_HEAD",
+    "name": { "str": "Intra-Cranial Padding" },
+    "description": "Internal bladders of cerebrospinal fluid better protect your brain from trauma and concussions.  You cannot be stunned in melee, and your head is more resistant than normal.  The reduced brain volume has slightly deleterious effects on your intelligence and learning ability.",
+    "category": [ "COMBAT_BRUTE" ],
+    "points": 1,
+    "integrated_armor": [ "integrated_cranial_padding" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "INTELLIGENCE", "add": -2 }, { "value": "LEARNING_FOCUS", "multiply": -0.15 } ],
+        "ench_effects": [ { "effect": "afs_remove_stun_biological", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_WAR_BUILD",
+    "name": { "str": "Superhuman Physique" },
+    "description": "Your augmented body dwarfs anything ordinary humans can achieve.  You are stronger, faster, and more durable than any unaugmented human could ever hope to be.",
+    "threshreq": [ "THRESH_COMBAT_BRUTE" ],
+    "points": 15,
+    "category": [ "COMBAT_BRUTE" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "STRENGTH", "add": 2 },
+          { "value": "DEXTERITY", "add": 2 },
+          { "value": "PERCEPTION", "add": 2 },
+          { "value": "SPEED", "add": 10 },
+          { "value": "THROW_STR", "multiply": 1 },
+          { "value": "METABOLISM", "multiply": 1 },
+          { "value": "THROW_DAMAGE", "multiply": 0.25 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_COMBAT_DRUG_PRODUCTION",
+    "name": { "str": "Stimulant biosynthesis" },
+    "description": "You naturally produce combat-enhancing substances, and you might consciously trigger their release as you see fit.",
+    "vitamin_cost": 350,
+    "points": 15,
+    "active": true,
+    "cost": 800,
+    "kcal": true,
+    "activation_msg": "You release the flood of combat-enhancing substances into your bloodstream.",
+    "activated_eocs": [
+      {
+        "id": "_EOC_AFS_COMBAT_DRUG_MUTATION",
+        "effect": [ { "u_add_effect": "afs_combat_stims", "duration": "10 minutes" } ]
+      }
+    ],
+    "category": [ "COMBAT_BRUTE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_HYPERMETABOLISM",
+    "name": { "str": "Hypermetabolism" },
+    "description": "Your particular metabolism allows you to burn calories at a prodigious rate to regenerate tissues in a matter of minutes; this is, however, a very wasteful process.  Activate to start healing.",
+    "threshreq": [ "THRESH_COMBAT_BRUTE" ],
+    "category": [ "COMBAT_BRUTE" ],
+    "types": [ "METABOLISM" ],
+    "points": 15,
+    "active": true,
+    "vitamin_cost": 350,
+    "transform": {
+      "target": "AFS_HYPERMETABOLISM_active",
+      "msg_transform": "Your hyper-metabolism starts burning up calories.",
+      "active": true,
+      "moves": 0
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_HYPERMETABOLISM_active",
+    "copy-from": "AFS_HYPERMETABOLISM",
+    "name": { "str": "Hyper-Metabolism: burning" },
+    "description": "You're burning calories like crazy to heal your wounds.",
+    "valid": false,
+    "time": "1 s",
+    "cost": 9,
+    "kcal": true,
+    "transform": { "target": "AFS_HYPERMETABOLISM", "msg_transform": "Your hyper-metabolism slows down.", "active": false, "moves": 0 },
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 349 }, { "value": "REGEN_HP_AWAKE", "multiply": 0.85 } ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_FAST_BLOOD_PRODUCTION",
+    "recurrence": "5 minutes",
+    "condition": { "u_has_trait": "AFS_FAST_BLOOD_PRODUCTION" },
+    "deactivate_condition": { "not": { "u_has_trait": "AFS_FAST_BLOOD_PRODUCTION" } },
+    "effect": [
+      { "math": [ "u_vitamin('blood') = min(0, u_vitamin('blood') + 50)" ] },
+      { "math": [ "u_vitamin('redcells') = min(0, u_vitamin('redcells') + 50)" ] }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_FAST_BLOOD_PRODUCTION",
+    "name": { "str": "Accelerated Hematopoiesis" },
+    "description": "Your body produces blood at a prodigious rate, allowing you to recover from injuries that would be fatal to any ordinary human.",
+    "points": 15,
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": 0.5 } ] } ],
+    "threshreq": [ "THRESH_COMBAT_BRUTE" ],
+    "category": [ "COMBAT_BRUTE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_REDUNDANT_ORGANS",
+    "name": { "str": "Distributed Physiology" },
+    "description": "Your vital organs have been restructured, split and distributed all across your body.  Anyone lucky enough to hit you is unlikely to deal a fatal blow.",
+    "threshreq": [ "THRESH_COMBAT_BRUTE" ],
+    "points": 15,
+    "category": [ "COMBAT_BRUTE" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "incoming_damage_mod_post_absorbed": [
+          { "type": "bash", "multiply": -0.25 },
+          { "type": "cut", "multiply": -0.25 },
+          { "type": "bullet", "multiply": -0.5 },
+          { "type": "pierce", "multiply": -0.5 },
+          { "type": "afs_laser", "multiply": -0.15 },
+          { "type": "afs_plasma", "multiply": -0.15 },
+          { "type": "afs_toxin_bullet", "multiply": -0.5 },
+          { "type": "afs_toxin_pierce", "multiply": -0.5 },
+          { "type": "psi_telekinetic_damage", "multiply": -0.15 }
+        ]
+      }
+    ]
+  }
+]

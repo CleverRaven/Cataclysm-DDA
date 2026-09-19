@@ -35,6 +35,12 @@
 
 catacurses::window catacurses::stdscr;
 std::array<cata_cursesport::pairs, 100> cata_cursesport::colorpairs;   //storage for pair'ed colored
+unsigned cata_cursesport::curses_render_epoch = 0;
+
+void cata_cursesport::bump_curses_render_epoch()
+{
+    ++curses_render_epoch;
+}
 
 static bool wmove_internal( const catacurses::window &win_, const point &p )
 {
@@ -174,7 +180,10 @@ void catacurses::wnoutrefresh( const window &win_ )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     // TODO: log win == nullptr
-    if( win != nullptr && win->draw ) {
+    // Force a redraw when the window is stale against the render epoch even if
+    // its text was not touched, so a renderer rebuild re-emits every window.
+    if( win != nullptr && ( win->draw
+                            || win->last_render_epoch != cata_cursesport::curses_render_epoch ) ) {
         cata_cursesport::curses_drawwindow( win_ );
     }
 }

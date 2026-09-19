@@ -5,7 +5,7 @@
     "category": "manuals",
     "id": "magical_grimoire_apprentice",
     "name": { "str": "apprentice's grimoire", "str_pl": "copies of apprentice's grimoire" },
-    "description": "A compilation of your elementary magical observations.  This would be extremely useful as a reference material.",
+    "description": "A compilation of your elementary magical observations, a series of diagrams, maps, drawings of leaves and the sky and the moon, and ticks to mark times and numbers you've counted.  This would be extremely useful as a reference material.",
     "weight": "920 g",
     "volume": "750 ml",
     "material": [ "paper" ],
@@ -19,5 +19,14 @@
     "intelligence": 11,
     "time": "60 m",
     "read_fun": -2
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "id": "magical_grimoire_apprentice_wise",
+    "copy-from": "magical_grimoire_apprentice",
+    "name": { "str": "apprentice's grimoire", "str_pl": "copies of apprentice's grimoire" },
+    "description": "Written using the runes of the wise, this contains the rituals and supplications necessary to unlock the secrets of the lesser mysteries."
   }
 ]

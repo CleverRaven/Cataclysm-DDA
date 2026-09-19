@@ -1,0 +1,48 @@
+[
+  {
+    "id": "EOC_elevator_controls",
+    "type": "effect_on_condition",
+    "effect": [
+      { "math": [ "elevator_present = 0" ] },
+      {
+        "u_map_run_eocs": [
+          {
+            "id": "EOC_elevator_state_check",
+            "effect": [ { "math": [ "elevator_present = 1" ] }, { "u_message": "Works <context_val:elevator_controls_start>" } ]
+          }
+        ],
+        "range": 10,
+        "store_coordinates_in": { "context_val": "elevator_controls_start" },
+        "stop_at_first": true,
+        "condition": { "map_terrain_id": "t_central_elevator", "loc": { "context_val": "elevator_controls_start" } }
+      },
+      { "open_dialogue": { "topic": "elevator_controls_start" } }
+    ]
+  },
+  {
+    "id": "EOC_elevator_controls_call",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "u_map_run_eocs": [
+          {
+            "id": "EOC_elevator_call_down_start",
+            "effect": [
+              {
+                "u_transform_radius": 0,
+                "ter_furn_transform": "closed_elevator_to_open",
+                "target_var": { "context_val": "elevator_platform_check" }
+              },
+              { "u_message": "Works <context_val:elevator_platform_check>" }
+            ],
+            "false_effect": { "u_message": "The elevator fails to arrive", "type": "bad" }
+          }
+        ],
+        "range": 15,
+        "store_coordinates_in": { "context_val": "elevator_platform_check" },
+        "stop_at_first": false,
+        "condition": { "map_terrain_id": "t_central_elevator_closed", "loc": { "context_val": "elevator_platform_check" } }
+      }
+    ]
+  }
+]

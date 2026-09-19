@@ -32,7 +32,7 @@ static const itype_id itype_compbow( "compbow" );
 static const mtype_id mon_pig( "mon_pig" );
 static const mtype_id mon_test_weakpoint_mon( "mon_test_weakpoint_mon" );
 static const mtype_id mon_test_zombie_cop( "mon_test_zombie_cop" );
-static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_test_zombie_weakpoint_loading( "mon_test_zombie_weakpoint_loading" );
 static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
 namespace
@@ -234,7 +234,7 @@ TEST_CASE( "Check_damage_from_weakpoint_sets", "[monster][weakpoint]" )
 
 TEST_CASE( "Check_deferred_weakpoint_set_loading", "[monster][weakpoint]" )
 {
-    weakpoints wplist = mon_zombie->weakpoints;
+    weakpoints wplist = mon_test_zombie_weakpoint_loading->weakpoints;
     CHECK( wplist.weakpoint_list.size() == 2 );
 
     std::map<std::string, bool> wp_found {

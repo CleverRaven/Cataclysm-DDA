@@ -71,5 +71,15 @@
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "SUN_GLASSES", "OUTER", "SOFT" ],
     "melee_damage": { "bash": 7 },
     "passive_effects": [ { "id": "afs_ench_climate_control_warm_helmet" } ]
+  },
+  {
+    "id": "afs_frontier_cryomask_xl",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str": "frontier cryomask" },
+    "copy-from": "afs_frontier_cryomask",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.5 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   }
 ]

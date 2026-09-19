@@ -15,6 +15,7 @@
 #include "input.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "ui_manager.h"
 #include "input_context.h"
 
@@ -117,16 +118,35 @@ cataimgui::client::~client()
 {
     ImTui_ImplNcurses_Shutdown();
     ImTui_ImplText_Shutdown();
-    ImGui::Shutdown();
+    // DestroyContext runs the internal Shutdown and frees the context;
+    // calling ImGui::Shutdown alone leaks the context created in the
+    // constructor.
+    ImGui::DestroyContext();
 }
 
-void cataimgui::client::new_frame()
+void cataimgui::client::new_frame( int display_buffer_w, int display_buffer_h )
 {
+    // TUI layout is driven by the ncurses backend, not display-buffer
+    // pixel dims.
+    ( void )display_buffer_w;
+    ( void )display_buffer_h;
     ImTui_ImplNcurses_NewFrame( imtui_events );
     imtui_events.clear();
     ImTui_ImplText_NewFrame();
 
     ImGui::NewFrame();
+}
+
+void cataimgui::client::abort_frame()
+{
+    // EndFrame finalizes the drawlist without painting it. Drain
+    // cata_input_trail like end_frame() so events do not pile up.
+    ImGui::EndFrame();
+    ImGuiIO &io = ImGui::GetIO();
+    for( const int &code : cata_input_trail ) {
+        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+    }
+    cata_input_trail.clear();
 }
 
 void cataimgui::client::end_frame()
@@ -155,8 +175,13 @@ void cataimgui::client::set_alloced_pair_count( short count )
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
-void cataimgui::client::process_input( void *input )
+void cataimgui::client::process_input( void *input, int display_buffer_w, int display_buffer_h,
+                                       int /*scaling_factor*/ )
 {
+    // TUI input is in cell coordinates from ncurses; no display-buffer
+    // pixel scaling.
+    ( void )display_buffer_w;
+    ( void )display_buffer_h;
     if( !any_window_shown() ) {
         return;
     }
@@ -237,14 +262,10 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
 #include "sdl_utils.h"
 #include "sdl_font.h"
 #include "sdltiles.h"
+#include "sdl_wrappers.h"
 #include "font_loader.h"
-#if SDL_MAJOR_VERSION >= 3
 #include <imgui/imgui_impl_sdl3.h>
 #include <imgui/imgui_impl_sdlrenderer3.h>
-#else
-#include <imgui/imgui_impl_sdl2.h>
-#include <imgui/imgui_impl_sdlrenderer2.h>
-#endif
 
 static bool clear_screen = false;
 
@@ -285,13 +306,52 @@ cataimgui::client::client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Windo
     // Default cellPadding is {4, 2}. We reduce this to {3, 2}.
     ImGui::PushStyleVar( ImGuiStyleVar_CellPadding, ImVec2( 3, style.CellPadding.y ) );
 
-#if SDL_MAJOR_VERSION >= 3
+    init_platform_backend();
+    init_renderer_backend();
+}
+
+void cataimgui::client::init_platform_backend()
+{
+    if( platform_backend_active_ ) {
+        return;
+    }
     ImGui_ImplSDL3_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
+    platform_backend_active_ = true;
+}
+
+void cataimgui::client::init_renderer_backend()
+{
+    if( renderer_backend_active_ ) {
+        return;
+    }
     ImGui_ImplSDLRenderer3_Init( sdl_renderer.get() );
-#else
-    ImGui_ImplSDL2_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
-    ImGui_ImplSDLRenderer2_Init( sdl_renderer.get() );
-#endif
+    renderer_backend_active_ = true;
+}
+
+void cataimgui::client::shutdown_renderer_backend()
+{
+    if( !renderer_backend_active_ ) {
+        return;
+    }
+    ImGui_ImplSDLRenderer3_Shutdown();
+    renderer_backend_active_ = false;
+}
+
+void cataimgui::client::shutdown_platform_backend()
+{
+    if( !platform_backend_active_ ) {
+        return;
+    }
+    ImGui_ImplSDL3_Shutdown();
+    platform_backend_active_ = false;
+}
+
+void cataimgui::client::destroy_backend_device_objects() const
+{
+    if( !renderer_backend_active_ ) {
+        return;
+    }
+    ImGui_ImplSDLRenderer3_DestroyDeviceObjects();
 }
 
 #if defined(__clang__) || defined(__GNUC__)
@@ -374,11 +434,11 @@ void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
 
 cataimgui::client::~client()
 {
-#if SDL_MAJOR_VERSION >= 3
-    ImGui_ImplSDL3_Shutdown();
-#else
-    ImGui_ImplSDL2_Shutdown();
-#endif
+    // Reverse-order teardown: renderer backend, platform backend, context.
+    // Skipping any one leaks that resource.
+    shutdown_renderer_backend();
+    shutdown_platform_backend();
+    ImGui::DestroyContext();
 }
 
 #if 0 and not TUI
@@ -469,31 +529,48 @@ struct FreeTypeTest {
 FreeTypeTest freetype_test;
 #endif
 
-void cataimgui::client::new_frame()
+point cataimgui::imgui_frame_display_size( const int display_buffer_w, const int display_buffer_h,
+        const int renderer_output_w, const int renderer_output_h )
+{
+    if( display_buffer_w > 0 && display_buffer_h > 0 ) {
+        return point{ display_buffer_w, display_buffer_h };
+    }
+    return point{ renderer_output_w, renderer_output_h };
+}
+
+void cataimgui::client::new_frame( int display_buffer_w, int display_buffer_h )
 {
 #if 0 and not TUI
     if( freetype_test.PreNewFrame() ) {
         // REUPLOAD FONT TEXTURE TO GPU
-#if SDL_MAJOR_VERSION >= 3
         ImGui_ImplSDLRenderer3_DestroyDeviceObjects();
         ImGui_ImplSDLRenderer3_CreateDeviceObjects();
-#else
-        ImGui_ImplSDLRenderer2_DestroyDeviceObjects();
-        ImGui_ImplSDLRenderer2_CreateDeviceObjects();
-#endif
     }
 #endif
-    if( clear_screen ) {
+    if( clear_screen && clear_sdl_window() ) {
+        // Keep the request armed if the clear was deferred by a queued recovery.
         clear_screen = false;
-        clear_sdl_window();
     }
-#if SDL_MAJOR_VERSION >= 3
     ImGui_ImplSDLRenderer3_NewFrame();
     ImGui_ImplSDL3_NewFrame();
-#else
-    ImGui_ImplSDLRenderer2_NewFrame();
-    ImGui_ImplSDL2_NewFrame();
-#endif
+
+    // ImGui draws into display_buffer, whose size differs from the window under
+    // SCALING_FACTOR or android letterboxing. Prefer the caller's dims; fall
+    // back to the bound target's output size.
+    {
+        ImGuiIO &io = ImGui::GetIO();
+        int output_w = 0;
+        int output_h = 0;
+        if( display_buffer_w <= 0 || display_buffer_h <= 0 ) {
+            GetRendererOutputSize( sdl_renderer, &output_w, &output_h );
+        }
+        const point sz = imgui_frame_display_size( display_buffer_w, display_buffer_h,
+                         output_w, output_h );
+        if( sz.x > 0 && sz.y > 0 ) {
+            io.DisplaySize = ImVec2( static_cast<float>( sz.x ), static_cast<float>( sz.y ) );
+            io.DisplayFramebufferScale = ImVec2( 1.0f, 1.0f );
+        }
+    }
 
     ImGui::NewFrame();
 #if 0 and not TUI
@@ -504,11 +581,23 @@ void cataimgui::client::new_frame()
 void cataimgui::client::end_frame()
 {
     ImGui::Render();
-#if SDL_MAJOR_VERSION >= 3
-    ImGui_ImplSDLRenderer3_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
-#else
-    ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
-#endif
+    // A watcher write can land after the outer-boundary drain passed but before
+    // this paint. The draw list is finalized; skip only the backend paint.
+    if( !renderer_should_abort_frame() ) {
+        ImGui_ImplSDLRenderer3_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
+    }
+    ImGuiIO &io = ImGui::GetIO();
+    for( const int &code : cata_input_trail ) {
+        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+    }
+    cata_input_trail.clear();
+}
+
+void cataimgui::client::abort_frame()
+{
+    // EndFrame finalizes the drawlist without painting it. Drain
+    // cata_input_trail like end_frame() so events do not pile up.
+    ImGui::EndFrame();
     ImGuiIO &io = ImGui::GetIO();
     for( const int &code : cata_input_trail ) {
         io.AddKeyEvent( cata_key_to_imgui( code ), false );
@@ -521,10 +610,14 @@ bool cataimgui::clear_pending()
     return clear_screen;
 }
 
-void cataimgui::client::process_input( void *input )
+void cataimgui::client::process_input( void *input, int display_buffer_w, int display_buffer_h,
+                                       int scaling_factor )
 {
     if( any_window_shown() ) {
         const SDL_Event *evt = static_cast<const SDL_Event *>( input );
+        if( !evt ) {
+            return;
+        }
         bool no_mouse = ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_NoMouse;
         if( no_mouse ) {
             switch( evt->type ) {
@@ -535,11 +628,23 @@ void cataimgui::client::process_input( void *input )
                     return;
             }
         }
-#if SDL_MAJOR_VERSION >= 3
-        ImGui_ImplSDL3_ProcessEvent( evt );
-#else
-        ImGui_ImplSDL2_ProcessEvent( evt );
-#endif
+        ( void )display_buffer_w;
+        ( void )display_buffer_h;
+
+        SDL_Event imgui_ev = *evt;
+        if( scaling_factor > 1 ) {
+            if( imgui_ev.type == CATA_MOUSEMOTION ) {
+                imgui_ev.motion.x /= scaling_factor;
+                imgui_ev.motion.y /= scaling_factor;
+            } else if( imgui_ev.type == CATA_MOUSEBUTTONDOWN || imgui_ev.type == CATA_MOUSEBUTTONUP ) {
+                imgui_ev.button.x /= scaling_factor;
+                imgui_ev.button.y /= scaling_factor;
+            } else if( imgui_ev.type == CATA_MOUSEWHEEL ) {
+                imgui_ev.wheel.mouse_x /= scaling_factor;
+                imgui_ev.wheel.mouse_y /= scaling_factor;
+            }
+        }
+        ImGui_ImplSDL3_ProcessEvent( &imgui_ev );
     }
 }
 
@@ -576,6 +681,18 @@ bool cataimgui::client::want_capture_mouse()
 bool cataimgui::client::want_capture_keyboard()
 {
     return ImGui::GetCurrentContext() != nullptr && ImGui::GetIO().WantCaptureKeyboard;
+}
+
+bool cataimgui::client::want_text_input()
+{
+    return ImGui::GetCurrentContext() != nullptr && ImGui::GetIO().WantTextInput;
+}
+
+void cataimgui::client::clear_text_focus()
+{
+    if( ImGui::GetCurrentContext() != nullptr ) {
+        ImGui::ClearActiveID();
+    }
 }
 
 static ImGuiKey cata_key_to_imgui( int cata_key )
@@ -669,7 +786,9 @@ void cataimgui::set_scroll( scroll &s )
             scroll_px_begin = 0;
             break;
         case scroll::end:
-            scroll_px_begin = ImGui::GetScrollMaxY();
+            // We can't rely on setting the next frame's scroll position with the current frame's window size. (We might have changed it!)
+            // So just set scroll to max and let imgui clamp us.
+            scroll_px_begin = INT_MAX;
             break;
         case scroll::line_up:
             scroll_px = -line_height;
@@ -831,6 +950,14 @@ cataimgui::window::~window()
             clear_screen = true;
 #endif
         }
+    }
+}
+
+void cataimgui::window::hide_if_hidden() const
+{
+    if( hide_ui ) {
+        ImGuiWindow *w = ImGui::GetCurrentWindowRead();
+        ImGui::SetWindowHiddenAndSkipItemsForCurrentFrame( w );
     }
 }
 
@@ -1030,6 +1157,13 @@ void cataimgui::window::clear_filter()
             input_state->ClearText();
             filter_impl->text.clear();
         }
+    }
+}
+
+void cataimgui::window::defocus_filter()
+{
+    if( filter_impl && filter_impl->id != 0 && GImGui->ActiveId == filter_impl->id ) {
+        ImGui::ClearActiveID();
     }
 }
 

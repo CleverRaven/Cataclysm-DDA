@@ -1,0 +1,200 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_contaminated_dirt_pile_tall",
+    "name": "tall mound of contaminated dirt",
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "t_dirtmound",
+    "move_cost_mod": -1,
+    "examine_action": "chainfence",
+    "coverage": 100,
+    "description": "An area of contaminated dirt heaped well above your head, difficult to climb over.",
+    "required_str": -1,
+    "flags": [ "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "PERMEABLE", "CLIMBABLE" ],
+    "deconstruct": { "items": [ { "item": "contaminated_dirt", "count": 200 } ], "furn_set": "f_contaminated_dirt_pile" },
+    "bash": {
+      "str_min": 50,
+      "str_max": 100,
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "items": [ { "item": "contaminated_dirt", "count": [ 170, 200 ] } ],
+      "furn_set": "f_contaminated_dirt_pile"
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_contaminated_dirt_pile",
+    "name": "mound of contaminated dirt",
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "t_dirtmound",
+    "move_cost_mod": 5,
+    "coverage": 60,
+    "description": "An area of contaminated dirt heaped up to your shoulders, not easily traversable.",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
+    "deconstruct": { "items": [ { "item": "contaminated_dirt", "count": 200 } ], "furn_set": "f_contaminated_dirt_pile_short" },
+    "bash": {
+      "str_min": 50,
+      "str_max": 100,
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "items": [ { "item": "contaminated_dirt", "count": [ 170, 200 ] } ],
+      "furn_set": "f_contaminated_dirt_pile_short"
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_contaminated_dirt_pile_short",
+    "name": "short mound of contaminated dirt",
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "t_dirtmound",
+    "move_cost_mod": 3,
+    "coverage": 40,
+    "description": "An area of heaped contaminated dirt, not easily traversable.",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
+    "deconstruct": { "items": [ { "item": "contaminated_dirt", "count": 200 } ] },
+    "bash": {
+      "str_min": 50,
+      "str_max": 100,
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "items": [ { "item": "contaminated_dirt", "count": [ 170, 200 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nurdle_pile_tall",
+    "name": "tall mound of nurdle",
+    "symbol": "#",
+    "color": "white",
+    "looks_like": "t_dirtmound",
+    "move_cost_mod": -1,
+    "examine_action": "chainfence",
+    "coverage": 100,
+    "description": "An area of nurdle heaped well above your head, difficult to climb over.",
+    "required_str": -1,
+    "flags": [ "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "PERMEABLE", "CLIMBABLE" ],
+    "deconstruct": { "items": [ { "item": "nurdle", "count": 200 } ], "furn_set": "f_nurdle_pile" },
+    "bash": {
+      "str_min": 50,
+      "str_max": 100,
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "items": [ { "item": "nurdle", "count": [ 170, 200 ] } ],
+      "furn_set": "f_nurdle_pile"
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nurdle_pile",
+    "name": "mound of nurdle",
+    "symbol": "#",
+    "color": "white",
+    "looks_like": "t_dirtmound",
+    "move_cost_mod": 5,
+    "coverage": 60,
+    "description": "An area of nurdle heaped up to your shoulders, not easily traversable.",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
+    "deconstruct": { "items": [ { "item": "nurdle", "count": 200 } ], "furn_set": "f_nurdle_pile_short" },
+    "bash": {
+      "str_min": 50,
+      "str_max": 100,
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "items": [ { "item": "nurdle", "count": [ 170, 200 ] } ],
+      "furn_set": "f_nurdle_pile_short"
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nurdle_pile_short",
+    "name": "short mound of nurdle",
+    "symbol": "#",
+    "color": "white",
+    "looks_like": "t_dirtmound",
+    "move_cost_mod": 3,
+    "coverage": 40,
+    "description": "An area of heaped nurdle, not easily traversable.",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
+    "deconstruct": { "items": [ { "item": "nurdle", "count": 200 } ] },
+    "bash": {
+      "str_min": 50,
+      "str_max": 100,
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "items": [ { "item": "nurdle", "count": [ 170, 200 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_degraded_nurdle_pile_tall",
+    "name": "tall mound of degraded nurdle",
+    "symbol": "#",
+    "color": "light_gray",
+    "looks_like": "t_dirtmound",
+    "move_cost_mod": -1,
+    "examine_action": "chainfence",
+    "coverage": 100,
+    "description": "An area of degraded nurdle heaped well above your head, difficult to climb over.",
+    "required_str": -1,
+    "flags": [ "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "PERMEABLE", "CLIMBABLE" ],
+    "deconstruct": { "items": [ { "item": "degraded_nurdle", "count": 200 } ], "furn_set": "f_degraded_nurdle_pile" },
+    "bash": {
+      "str_min": 50,
+      "str_max": 100,
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "items": [ { "item": "degraded_nurdle", "count": [ 170, 200 ] } ],
+      "furn_set": "f_degraded_nurdle_pile"
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_degraded_nurdle_pile",
+    "name": "mound of degraded nurdle",
+    "symbol": "#",
+    "color": "light_gray",
+    "looks_like": "t_dirtmound",
+    "move_cost_mod": 5,
+    "coverage": 60,
+    "description": "An area of degraded nurdle heaped up to your shoulders, not easily traversable.",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
+    "deconstruct": { "items": [ { "item": "degraded_nurdle", "count": 200 } ], "furn_set": "f_degraded_nurdle_pile_short" },
+    "bash": {
+      "str_min": 50,
+      "str_max": 100,
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "items": [ { "item": "degraded_nurdle", "count": [ 170, 200 ] } ],
+      "furn_set": "f_degraded_nurdle_pile_short"
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_degraded_nurdle_pile_short",
+    "name": "short mound of degraded nurdle",
+    "symbol": "#",
+    "color": "light_gray",
+    "looks_like": "t_dirtmound",
+    "move_cost_mod": 3,
+    "coverage": 40,
+    "description": "An area of heaped degraded nurdle, not easily traversable.",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
+    "deconstruct": { "items": [ { "item": "degraded_nurdle", "count": 200 } ] },
+    "bash": {
+      "str_min": 50,
+      "str_max": 100,
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "items": [ { "item": "degraded_nurdle", "count": [ 170, 200 ] } ]
+    }
+  }
+]

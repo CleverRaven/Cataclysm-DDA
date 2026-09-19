@@ -1,0 +1,32 @@
+[
+  {
+    "type": "recipe",
+    "result": "bag_garbage_reinforced",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bandolier_pipebomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bandolier_pipebomb_xl",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bandolier_pipebomb_xs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "canteen_pouch",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "deployment_bag",
+    "obsolete": true
+  }
+]

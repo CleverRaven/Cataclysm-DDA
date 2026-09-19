@@ -34,6 +34,7 @@
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
@@ -60,6 +61,7 @@
 #include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather_type.h"
@@ -175,6 +177,7 @@ recipe_cudgel_test_charged_fast_stepless( "cudgel_test_charged_fast_stepless" );
 static const recipe_id recipe_cudgel_test_steps_basic( "cudgel_test_steps_basic" );
 static const recipe_id recipe_cudgel_test_steps_charged( "cudgel_test_steps_charged" );
 static const recipe_id recipe_cudgel_test_steps_dual_charged( "cudgel_test_steps_dual_charged" );
+static const recipe_id recipe_cudgel_test_steps_two_tools( "cudgel_test_steps_two_tools" );
 static const recipe_id recipe_dry_meat( "dry_meat" );
 static const recipe_id recipe_fishing_hook_basic( "fishing_hook_basic" );
 static const recipe_id recipe_helmet_kabuto( "helmet_kabuto" );
@@ -537,10 +540,10 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     place_appliance( here, battery_pos, vpart_ap_test_storage_battery, player_character, battery_item );
 
     give_tools( tools, plug_in_tools );
-    const inventory &crafting_inv = player_character.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = player_character.crafting_inventory();
 
     bool can_craft_with_crafting_inv = r.deduped_requirements()
-                                       .can_make_with_inventory( crafting_inv, r.get_component_filter() );
+                                       .can_make_with_inventory( &player_character, crafting_inv, r.get_component_filter() );
     const std::string missing_alt_reqs = enumerate_as_string( r.deduped_requirements().alternatives(),
     []( const requirement_data & rd ) {
         return string_format( "req id: '%s' missing: %s", rd.id().str(), rd.list_missing() );
@@ -548,7 +551,8 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     CAPTURE( missing_alt_reqs );
     REQUIRE( can_craft_with_crafting_inv == expect_craftable );
     bool can_craft_with_temp_inv = r.deduped_requirements()
-                                   .can_make_with_inventory( temp_crafting_inventory( crafting_inv ), r.get_component_filter() );
+                                   .can_make_with_inventory( &player_character, temp_crafting_inventory( crafting_inv ),
+                                           r.get_component_filter() );
     REQUIRE( can_craft_with_temp_inv == expect_craftable );
 }
 
@@ -1308,7 +1312,7 @@ TEST_CASE( "select_step_tool_allocs_resume_reselects_only_current_step",
     u.set_skill_level( skill_fabrication, 10 );
     const recipe &r = recipe_cudgel_test_steps_charged.obj();
     REQUIRE( r.steps().size() == 3 );
-    inventory map_inv;
+    temp_crafting_inventory map_inv;
     bool cancelled = false;
 
     SECTION( "a full build selects the charged step's tool" ) {
@@ -1398,6 +1402,68 @@ TEST_CASE( "craft_step_charge_shortfall_rewinds_turn_progress",
     CHECK( u.get_moves() == 100 );
 }
 
+TEST_CASE( "craft_terminal_verifier_cancels_on_missing_noncharged_tool",
+           "[crafting][charge][steps]" )
+{
+    std::vector<item> tools;
+    tools.emplace_back( itype_2x4 );
+    tools.emplace_back( itype_soldering_iron_portable );
+    tools.emplace_back( itype_hammer );
+    prep_craft( recipe_cudgel_test_steps_two_tools, tools, true );
+    setup_test_craft( recipe_cudgel_test_steps_two_tools );
+
+    avatar &u = get_avatar();
+
+    // Drive into the final 5% drift window so every bucket has already been
+    // credited with both tools present.
+    int guard = 0;
+    while( u.activity.id() == ACT_CRAFT ) {
+        item_location craft = u.get_wielded_item();
+        REQUIRE( craft );
+        REQUIRE( craft->is_craft() );
+        if( craft->item_counter >= 9500000 ) {
+            break;
+        }
+        REQUIRE( ++guard < 100000 );
+        u.set_moves( 100 );
+        u.activity.do_turn( u );
+    }
+    REQUIRE( u.activity.id() == ACT_CRAFT );
+    {
+        item_location craft = u.get_wielded_item();
+        REQUIRE( craft );
+        REQUIRE( craft->is_craft() );
+        const std::vector<std::vector<step_tool_alloc>> &allocs = craft->get_step_tool_allocs();
+        REQUIRE( allocs.size() == 1 );
+        REQUIRE( allocs[0].size() == 2 );
+        for( const step_tool_alloc &a : allocs[0] ) {
+            REQUIRE( a.consumed_buckets == 20 );
+        }
+        craft->set_tools_to_continue( true );
+    }
+
+    // Remove the hammer in the drift window; the terminal sweep at completion
+    // must reject the craft even though every bucket has already been credited.
+    for( item *it : u.items_with( []( const item & i ) {
+    return i.typeId() == itype_hammer;
+    } ) ) {
+        u.i_rem( it );
+    }
+    u.invalidate_crafting_inventory();
+
+    while( u.activity.id() == ACT_CRAFT ) {
+        REQUIRE( ++guard < 100000 );
+        u.set_moves( 100 );
+        u.activity.do_turn( u );
+    }
+
+    item_location after = u.get_wielded_item();
+    REQUIRE( after );
+    REQUIRE( after->is_craft() );
+    CHECK( after->item_counter < 10000000 );
+    CHECK_FALSE( after->has_tools_to_continue() );
+}
+
 TEST_CASE( "craft_step_consume_requires_selected_noncharged_tool",
            "[crafting][charge][steps]" )
 {
@@ -1444,14 +1510,58 @@ TEST_CASE( "craft_step_consume_requires_selected_noncharged_tool",
 
     GIVEN( "the tool's buckets are full but the craft is not done" ) {
         // Buckets filled earlier with the tool present, then it was removed
-        // before completion; the active step must re-check, not free-finish.
+        // before completion; the step-completion verifier must catch the
+        // absence so the step does not finish on a missing tool.
         allocs[0][0].consumed_buckets = 20;
         craft.set_step_tool_allocs( allocs );
         craft.item_counter = 0;
+        craft.set_tools_to_continue( true );
         u.invalidate_crafting_inventory();
 
-        THEN( "the active step re-checks presence and fails" ) {
+        THEN( "the verifier fails and clears tools_to_continue" ) {
+            CHECK_FALSE( u.verify_step_tools( craft, 0, u.pos_bub(), PICKUP_RANGE,
+                                              /*pin_to_map=*/false ) );
+            CHECK_FALSE( craft.has_tools_to_continue() );
+        }
+    }
+
+    GIVEN( "the tool is removed within a bucket that has already been credited" ) {
+        // Presence is sampled on bucket boundaries (matching charge-debit
+        // semantics), so a tool removed mid-bucket is tolerated until the
+        // next bucket boundary aborts the step.
+        const recipe &rec = craft.get_making();
+        const double budget = rec.step_budget_moves( u, 0, 1, {} );
+        REQUIRE( budget > 0.0 );
+        allocs[0][0].consumed_buckets = 5;
+        craft.set_step_tool_allocs( allocs );
+        craft.set_current_step( 0 );
+        // Place progress comfortably inside bucket 5 (fraction ~0.22) so the
+        // step's target is also 5: no boundary to cross this turn.
+        craft.set_step_progress( budget * 0.22 );
+        craft.item_counter = 2200000;
+        u.invalidate_crafting_inventory();
+
+        THEN( "the mid-bucket call does not abort" ) {
+            CHECK( u.craft_consume_step_tools( craft ) );
+            CHECK( craft.get_step_tool_allocs()[0][0].consumed_buckets == 5 );
+        }
+    }
+
+    GIVEN( "the tool is gone when progress crosses into the next bucket" ) {
+        const recipe &rec = craft.get_making();
+        const double budget = rec.step_budget_moves( u, 0, 1, {} );
+        REQUIRE( budget > 0.0 );
+        allocs[0][0].consumed_buckets = 5;
+        craft.set_step_tool_allocs( allocs );
+        craft.set_current_step( 0 );
+        // Fraction ~0.30 puts the target at bucket 6, one past consumed_buckets.
+        craft.set_step_progress( budget * 0.30 );
+        craft.item_counter = 3000000;
+        u.invalidate_crafting_inventory();
+
+        THEN( "the boundary crossing re-checks presence and aborts" ) {
             CHECK_FALSE( u.craft_consume_step_tools( craft ) );
+            CHECK( craft.get_step_tool_allocs()[0][0].consumed_buckets == 5 );
         }
     }
 }
@@ -2836,6 +2946,22 @@ TEST_CASE( "variant_crafting_recipes", "[crafting][slow]" )
     }
 }
 
+static item *get_pseudo_item_by_type( const temp_crafting_inventory &crafting_inv,
+                                      const itype_id &id )
+{
+    item *ret = nullptr;
+    crafting_inv.visit_items(
+    [&id, &ret]( item * node, item * ) {
+        if( node->typeId() == id ) {
+            ret = node;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    }
+    );
+    return ret;
+}
+
 TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
 {
     clear_map_without_vision();
@@ -2899,10 +3025,9 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
             THEN( "crafting inventory contains pseudo tool for the smoker, but without any ammo" ) {
                 player.invalidate_crafting_inventory();
                 CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
-                const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
-                REQUIRE( pos >= 0 );
-                const item &rack = player.crafting_inventory().find_item( pos );
-                CHECK( rack.ammo_remaining( ) == 0 );
+                const item *rack = get_pseudo_item_by_type( player.crafting_inventory(), pseudo_tool );
+                REQUIRE( rack != nullptr );
+                CHECK( rack->ammo_remaining( ) == 0 );
             }
         }
         WHEN( "the smoking rack contains charcoal" ) {
@@ -2910,10 +3035,9 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
             THEN( "crafting inventory contains pseudo tool for the smoker, with ammo" ) {
                 player.invalidate_crafting_inventory();
                 CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
-                const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
-                REQUIRE( pos >= 0 );
-                const item &rack = player.crafting_inventory().find_item( pos );
-                CHECK( rack.ammo_remaining( ) == 200 );
+                const item *rack = get_pseudo_item_by_type( player.crafting_inventory(), pseudo_tool );
+                REQUIRE( rack != nullptr );
+                CHECK( rack->ammo_remaining() == 200 );
             }
             GIVEN( "an additional smoking rack" ) {
                 REQUIRE( here.furn_set( furn2_pos, furn_f_smoking_rack ) );
@@ -2922,10 +3046,9 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
                     THEN( "crafting inventory contains pseudo tool for smoking rack, with ammo" ) {
                         player.invalidate_crafting_inventory();
                         CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
-                        const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
-                        REQUIRE( pos >= 0 );
-                        const item &rack = player.crafting_inventory().find_item( pos );
-                        CHECK( rack.ammo_remaining( ) == 200 );
+                        const item *rack = get_pseudo_item_by_type( player.crafting_inventory(), pseudo_tool );
+                        REQUIRE( rack != nullptr );
+                        CHECK( rack->ammo_remaining() == 200 );
                     }
                 }
                 WHEN( "the second smoking rack also contains charcoal" ) {
@@ -2933,10 +3056,9 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
                     THEN( "crafting inventory contains pseudo tool for smoking rack, with ammo" ) {
                         player.invalidate_crafting_inventory();
                         CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
-                        const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
-                        REQUIRE( pos >= 0 );
-                        const item &rack = player.crafting_inventory().find_item( pos );
-                        CHECK( rack.ammo_remaining( ) == 300 );
+                        const item *rack = get_pseudo_item_by_type( player.crafting_inventory(), pseudo_tool );
+                        REQUIRE( rack != nullptr );
+                        CHECK( rack->ammo_remaining() == 300 );
                     }
                 }
             }

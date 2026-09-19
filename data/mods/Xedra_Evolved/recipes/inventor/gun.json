@@ -9,7 +9,7 @@
     "components": [
       [ [ "pipe", 2 ] ],
       [ [ "pipe_fittings", 1 ] ],
-      [ [ "cable", 20 ] ],
+      [ [ "cable", 7 ] ],
       [ [ "element", 1 ] ],
       [ [ "scrap", 5 ] ],
       [ [ "duct_tape", 25 ] ]
@@ -55,7 +55,7 @@
     "components": [
       [ [ "pipe", 5 ] ],
       [ [ "pipe_fittings", 3 ] ],
-      [ [ "cable", 50 ] ],
+      [ [ "cable", 17 ] ],
       [ [ "element", 3 ] ],
       [ [ "lens_small", 1 ] ],
       [ [ "scrap", 5 ] ],
@@ -93,7 +93,7 @@
     "components": [
       [ [ "pipe", 8 ] ],
       [ [ "pipe_fittings", 5 ] ],
-      [ [ "cable", 150 ] ],
+      [ [ "cable", 50 ] ],
       [ [ "element", 6 ] ],
       [ [ "lens", 2 ] ],
       [ [ "scrap", 15 ] ],
@@ -142,7 +142,7 @@
     "components": [
       [ [ "pipe", 7 ] ],
       [ [ "pipe_fittings", 6 ] ],
-      [ [ "cable", 100 ] ],
+      [ [ "cable", 34 ] ],
       [ [ "element", 3 ] ],
       [ [ "lens", 1 ] ],
       [ [ "scrap", 5 ] ],
@@ -216,7 +216,7 @@
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "components": [
       [ [ "chem_compositionb", 300 ] ],
-      [ [ "cable", 20 ] ],
+      [ [ "cable", 7 ] ],
       [ [ "blood", 1 ], [ "animal_blood", 1 ], [ "mutant_blood", 1 ], [ "blood_tainted", 1 ] ],
       [ [ "fuse", 1 ] ],
       [ [ "scrap", 2 ] ]
@@ -259,7 +259,7 @@
       [ [ "magnetron", 1 ] ],
       [ [ "pipe", 5 ] ],
       [ [ "antenna", 3 ] ],
-      [ [ "cable", 25 ] ],
+      [ [ "cable", 9 ] ],
       [ [ "circuit", 1 ] ],
       [ [ "scrap", 5 ] ],
       [ [ "duct_tape", 15 ] ]
@@ -410,7 +410,7 @@
       [ [ "amplifier", 1 ] ],
       [ [ "e_scrap", 35 ] ],
       [ [ "plastic_chunk", 10 ] ],
-      [ [ "cable", 200 ] ]
+      [ [ "cable", 67 ] ]
     ],
     "skill_used": "deduction",
     "difficulty": 5,
@@ -451,7 +451,7 @@
       [ [ "power_supply", 4 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "e_scrap", 10 ] ],
-      [ [ "cable", 200 ] ]
+      [ [ "cable", 67 ] ]
     ],
     "skill_used": "deduction",
     "difficulty": 5,
@@ -490,7 +490,7 @@
       [ [ "power_supply", 3 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "e_scrap", 5 ] ],
-      [ [ "cable", 50 ] ]
+      [ [ "cable", 17 ] ]
     ],
     "skill_used": "deduction",
     "difficulty": 5,
@@ -529,7 +529,7 @@
       [ [ "power_supply", 1 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "e_scrap", 5 ] ],
-      [ [ "cable", 250 ] ]
+      [ [ "cable", 84 ] ]
     ],
     "skill_used": "deduction",
     "difficulty": 5,
@@ -568,7 +568,7 @@
       [ [ "power_supply", 5 ] ],
       [ [ "amplifier", 5 ] ],
       [ [ "e_scrap", 5 ] ],
-      [ [ "cable", 50 ] ]
+      [ [ "cable", 17 ] ]
     ],
     "skill_used": "deduction",
     "difficulty": 5,
@@ -612,7 +612,7 @@
       [ [ "power_supply", 4 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "e_scrap", 5 ] ],
-      [ [ "cable", 100 ] ]
+      [ [ "cable", 34 ] ]
     ],
     "skill_used": "deduction",
     "difficulty": 5,
@@ -656,7 +656,7 @@
       [ [ "power_supply", 4 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "e_scrap", 5 ] ],
-      [ [ "cable", 500 ] ]
+      [ [ "cable", 167 ] ]
     ],
     "skill_used": "deduction",
     "difficulty": 5,
@@ -700,7 +700,7 @@
       [ [ "power_supply", 4 ] ],
       [ [ "amplifier", 5 ] ],
       [ [ "e_scrap", 5 ] ],
-      [ [ "cable", 100 ] ]
+      [ [ "cable", 34 ] ]
     ],
     "skill_used": "deduction",
     "difficulty": 5,
@@ -734,7 +734,7 @@
       [ [ "power_supply", 4 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "e_scrap", 10 ] ],
-      [ [ "cable", 200 ] ]
+      [ [ "cable", 67 ] ]
     ],
     "skill_used": "deduction",
     "difficulty": 5,
@@ -769,7 +769,7 @@
       [ [ "power_supply", 4 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "e_scrap", 10 ] ],
-      [ [ "cable", 200 ] ]
+      [ [ "cable", 67 ] ]
     ],
     "skill_used": "deduction",
     "difficulty": 5,

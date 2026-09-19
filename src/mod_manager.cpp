@@ -296,6 +296,8 @@ void mod_manager::load_modfile( const JsonObject &jo, const cata_path &path )
     optional( jo, false, "core", modfile.core, false );
     optional( jo, false, "obsolete", modfile.obsolete, false );
     optional( jo, false, "loading_images", modfile.loading_images );
+    optional( jo, false, "disable_other_loading_screens", modfile.disable_other_loading_screens,
+              false );
 
     if( std::find( modfile.dependencies.begin(), modfile.dependencies.end(),
                    modfile.ident ) != modfile.dependencies.end() ) {

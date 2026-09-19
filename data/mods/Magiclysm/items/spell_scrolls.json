@@ -868,7 +868,7 @@
     "id": "spell_scroll_technomancer_perception_buff_spell",
     "//": "Technomancer spell",
     "name": { "str": "Scroll of Keenness of Sight", "str_pl": "Scrolls of Keenness of Sight" },
-    "description": "You senses all sharpen.",
+    "description": "Your senses all sharpen.",
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_perception_buff_spell" ] }
   },
   {
@@ -930,6 +930,16 @@
     "name": { "str": "Scroll of Lightning Bolt", "str_pl": "Scrolls of Lightning Bolt" },
     "description": "The go-to spell for many Stormshapers, this iconic spell does just what you expect: you shoot lightning from your fingertips.  However, this lightning is more directed than most lightning, and travels in a line through most non-solid targets.",
     "use_action": { "type": "learn_spell", "spells": [ "lightning_bolt" ] }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_stormshaper_air_blast",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Air Blast", "str_pl": "Scrolls of Air Blast" },
+    "description": "A concentrated puff of air that knocks down a single foe.",
+    "use_action": { "type": "learn_spell", "spells": [ "stormshaper_air_blast" ] }
   },
   {
     "type": "ITEM",

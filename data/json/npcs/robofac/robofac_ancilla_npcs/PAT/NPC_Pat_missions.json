@@ -173,7 +173,7 @@
     "id": "MISSION_ROBOFAC_PAT_EXODII_WAREHOUSE",
     "type": "mission_definition",
     "name": { "str": "Pat & the Lost Warehouse" },
-    "description": "Pat is looking into the Rubik's lost warehouse for me.  They said it could take a while, and told me to check in once a week.",
+    "description": "Pat is looking into Rubik's lost warehouse for me.  They said it could take a while, and told me to check in once a week.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
@@ -490,6 +490,17 @@
       "success_lie": "…",
       "failure": "…"
     }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_13",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: the Scarlet Storm" },
+    "goal": "MGOAL_CONDITION",
+    "description": "Pat learned about some sort of storm.  It seems pretty dangerous, but might be worth checking out.",
+    "difficulty": 0,
+    "value": 0,
+    "invisible_on_complete": true,
+    "start": { "assign_mission_target": { "var": { "global_val": "scarlet_storm_focus_a1" } } }
   },
   {
     "id": "MISSION_ROBOFAC_PAT_CIRCUIT_SAFARI_RECON",

@@ -1,0 +1,13 @@
+[
+  {
+    "id": "default",
+    "type": "dimension",
+    "region_layout": "default_hunvre"
+  },
+  {
+    "id": "default_hunvre",
+    "type": "dimension_region_layout",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "hunvre"
+  }
+]

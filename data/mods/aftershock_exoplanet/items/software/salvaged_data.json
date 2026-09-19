@@ -74,7 +74,7 @@
     "copy-from": "afs_software_materialized",
     "type": "ITEM",
     "name": { "str_sp": "lost holo" },
-    "description": "The archive contains a preserved copy of a full-immersion holofilm thought to be lost.  It feels unremarkable, but a bounty exist for its recovery.",
+    "description": "The archive contains a preserved copy of a full-immersion holofilm thought to be lost.  It feels unremarkable, but a bounty exists for its recovery.",
     "price": "100 USD",
     "price_postapoc": "1000 USD"
   },

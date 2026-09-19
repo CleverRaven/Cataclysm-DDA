@@ -85,14 +85,8 @@ then
         ..
     make -j$num_jobs
 else
-    make -j "$num_jobs" CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 FRAMEWORK=1 UNIVERSAL_BINARY=1 DEBUG_SYMBOLS=1
-
-    # For CI on macOS, patch the test binary so it can find SDL2 libraries.
-    if [[ ! -z "$OS" && "$OS" = "macos-12" ]]
-    then
-        file tests/cata_test
-        install_name_tool -add_rpath $HOME/Library/Frameworks tests/cata_test
-    fi
+    make_args=( CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 DEBUG_SYMBOLS=1 )
+    make -j "$num_jobs" "${make_args[@]}"
 fi
 
 # vim:tw=0

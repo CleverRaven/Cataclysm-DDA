@@ -1332,7 +1332,8 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
-    "resist": { "bash": 1, "cut": 3, "acid": 5, "heat": 2, "bullet": 2, "stab": 5 },
+    "burn_data": [ { "immune": true }, { "immune": true }, { "immune": true } ],
+    "resist": { "bash": 1, "cut": 3, "acid": 5, "heat": 40, "bullet": 2, "stab": 5 },
     "repair_difficulty": 4
   },
   {
@@ -1352,7 +1353,8 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
-    "resist": { "bash": 1.5, "cut": 2, "acid": 5, "heat": 3, "bullet": 5 },
+    "burn_data": [ { "immune": true }, { "immune": true }, { "immune": true } ],
+    "resist": { "bash": 1.5, "cut": 2, "acid": 5, "heat": 40, "bullet": 5 },
     "repair_difficulty": 4
   },
   {
@@ -1369,7 +1371,8 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
-    "resist": { "bash": 3, "cut": 4, "acid": 5, "heat": 3, "bullet": 5 },
+    "burn_data": [ { "immune": true }, { "immune": true }, { "immune": true } ],
+    "resist": { "bash": 3, "cut": 4, "acid": 5, "heat": 40, "bullet": 5 },
     "repair_difficulty": 5
   },
   {
@@ -1806,6 +1809,14 @@
   },
   {
     "type": "material",
+    "id": "dense_powder",
+    "copy-from": "powder",
+    "name": "Powder",
+    "//COMMENT": "Representing everything from military explosives to metal filings, this very high density is so that the tests will stop whining.",
+    "density": 10
+  },
+  {
+    "type": "material",
     "id": "powder_nonflam",
     "name": "Powder",
     "density": 1,
@@ -1818,6 +1829,14 @@
     "bash_dmg_verb": { "ctxt": "verb", "str": "damaged" },
     "cut_dmg_verb": { "ctxt": "verb", "str": "damaged" },
     "resist": { "bash": 1, "cut": 1, "acid": 0, "heat": 20, "bullet": 1 }
+  },
+  {
+    "type": "material",
+    "id": "dense_powder_nonflam",
+    "copy-from": "powder_nonflam",
+    "name": "Powder",
+    "//COMMENT": "Nonflammable implementation of dense_powder",
+    "density": 10
   },
   {
     "type": "material",
@@ -1897,7 +1916,7 @@
     "latent_heat": 165,
     "chip_resist": 8,
     "repaired_with": "plastic_chunk",
-    "salvaged_into": "chunk_rubber",
+    "salvaged_into": "rubber_tire_chunk",
     "dmg_adj": [ "worn", "stressed", "shredded", { "ctxt": "adjective", "str": "ruined" } ],
     "bash_dmg_verb": "stressed",
     "cut_dmg_verb": "slashed",

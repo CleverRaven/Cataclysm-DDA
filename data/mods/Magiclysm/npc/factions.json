@@ -218,5 +218,42 @@
       }
     },
     "description": "Builders and merchants of magical wonders.  They expect to weather this Cataclysm through trade and innovation.  They will take any coin from any land."
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEATH_FORGE_LORD",
+    "eoc_type": "NPC_DEATH",
+    "effect": [ { "u_cast_spell": { "id": "SPELL_FORGE_LOCKDOWN" } } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "SPELL_FORGE_LOCKDOWN",
+    "name": { "str": "SPELL_FORGE_LOCKDOWN", "//~": "NO_I18N" },
+    "description": { "str": "SPELL_FORGE_LOCKDOWN", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile", "ally", "ground" ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FORGE_LOCKDOWN",
+    "min_range": 50,
+    "max_range": 50,
+    "extra_effects": [ { "id": "summon_forgehounds" } ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_PROJECTILE", "NO_FAIL", "IGNORE_WALLS" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FORGE_LOCKDOWN",
+    "condition": { "not": { "u_has_trait": "VAULT_DEFENDER" } },
+    "effect": { "u_add_trait": "MARK_FOR_DEATH_VALZAIN" }
+  },
+  {
+    "type": "mutation",
+    "id": "MARK_FOR_DEATH_VALZAIN",
+    "player_display": false,
+    "name": { "//~": "NO_I18N", "str": "Forge Lord Wrath" },
+    "points": 0,
+    "description": { "//~": "NO_I18N", "str": "Makes sure all the Forge Lord mobs shoot you on sight." },
+    "valid": false,
+    "purifiable": false,
+    "anger_relations": [ [ "FORGE_LORD", 95 ] ]
   }
 ]

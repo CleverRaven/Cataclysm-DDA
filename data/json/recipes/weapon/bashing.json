@@ -101,7 +101,13 @@
         "qualities": [ { "id": "CUT", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5 } ]
       },
-      { "name": "Smoke-curing wood", "time": "4 h", "activity_level": "NO_EXERCISE", "attention": "unattended" },
+      {
+        "name": "Smoke-curing wood",
+        "time": "4 h",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "tools": [ [ [ "smoking_heat", 120, "LIST" ] ] ]
+      },
       { "name": "Applying sealant", "time": "30 m", "activity_level": "NO_EXERCISE" }
     ]
   },
@@ -201,7 +207,7 @@
     "reversible": true,
     "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
-    "components": [ [ [ "i_staff", 1 ] ], [ [ "tazer", 1 ] ], [ [ "cable", 10 ] ] ],
+    "components": [ [ [ "i_staff", 1 ] ], [ [ "tazer", 1 ] ], [ [ "cable", 4 ] ] ],
     "steps": [
       {
         "name": "Preparing staff and mounting electronics",
@@ -363,6 +369,8 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
+    "difficulty": 7,
+    "book_learn": [ [ "textbook_weapwest", 6 ] ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "nail", 5 ] ] ],
     "steps": [
@@ -1743,7 +1751,7 @@
       [ [ "amplifier", 2 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 2 ] ],
-      [ [ "cable", 10 ] ]
+      [ [ "cable", 4 ] ]
     ]
   },
   {

@@ -159,6 +159,8 @@ std::set<itype_id> turret_data::ammo_options() const
     if( part->base.uses_firing_requirements() ) {
         // Battery pockets are not user-selectable and never enumerated.
         const item &gun = part->base;
+        // TODO(multimag): base itype firing_requirements only; gunmod-owned
+        // modes (mode_firing_requirements) are not resolved for turrets.
         const std::vector<pocket_consumption_entry> *entries =
             gun.type->firing_requirements.for_mode( gun.gun_get_mode_id() );
         if( entries == nullptr ) {
@@ -337,6 +339,8 @@ std::vector<multimag_display_pocket> turret_data::multimag_display_state() const
         return out;
     }
     const gun_mode_id mode = gun.gun_get_mode_id();
+    // TODO(multimag): base itype firing_requirements only; gunmod-owned modes
+    // (mode_firing_requirements) are not resolved for turrets.
     const std::vector<pocket_consumption_entry> *entries =
         gun.type->firing_requirements.for_mode( mode );
     if( entries == nullptr ) {

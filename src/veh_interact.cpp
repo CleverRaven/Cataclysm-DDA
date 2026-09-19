@@ -23,6 +23,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
+#include "craft_reservation.h"
 #include "crafting.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -34,8 +35,8 @@
 #include "game_constants.h"
 #include "handle_liquid.h"
 #include "input_popup.h"
-#include "inventory.h"
 #include "item.h"
+#include "item_uid.h"
 #include "itype.h"
 #include "line.h"
 #include "localized_comparator.h"
@@ -56,6 +57,7 @@
 #include "ret_val.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "temp_crafting_inventory.h"
 #include "tileray.h"
 #include "translation.h"
 #include "translations.h"
@@ -377,8 +379,9 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
                                 const std::map<skill_id, int> &skills, time_duration time ) const
 {
     Character &player_character = get_player_character();
-    const inventory &inv = player_character.crafting_inventory();
-    bool ok = reqs.can_make_with_inventory( inv, is_crafting_component, 1, craft_flags::none, false );
+    const temp_crafting_inventory &inv = player_character.crafting_inventory();
+    bool ok = reqs.can_make_with_inventory( &player_character, inv, is_crafting_component, 1,
+                                            craft_flags::none, false );
 
     msg += _( "<color_white>Time required:</color>\n" );
     msg += "> " + to_string_approx( time ) + "\n";
@@ -398,12 +401,12 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
         msg += string_format( "> %1$s%2$s</color>", status_color( true ), _( "NONE" ) ) + "\n";
     }
 
-    auto comps = reqs.get_folded_components_list( getmaxx( w_msg ) - 2, c_white, inv,
+    auto comps = reqs.get_folded_components_list( &player_character, getmaxx( w_msg ) - 2, c_white, inv,
                  is_crafting_component );
     for( const std::string &line : comps ) {
         msg += line + "\n";
     }
-    auto tools = reqs.get_folded_tools_list( getmaxx( w_msg ) - 2, c_white, inv );
+    auto tools = reqs.get_folded_tools_list( &player_character, getmaxx( w_msg ) - 2, c_white, inv );
     for( const std::string &line : tools ) {
         msg += line + "\n";
     }
@@ -1454,7 +1457,7 @@ void veh_interact::calc_overview( map &here )
                     }
                     right_print( w, y, offset, pt_ammo_cur->color,
                                  string_format( fmtstring, specials, pt_ammo_cur->nname( 1 ),
-                                                pt_ammo_cur->count_or_volume_or_weight_prefix( pt.ammo_remaining() ) ) );
+                                                pt_ammo_cur->item_measure_prefix( pt.ammo_remaining() ) ) );
                 } else {
                     if( pt.is_leaking() ) {
                         std::string outputstr = str_cat( leak_marker, "      ", leak_marker );
@@ -1783,6 +1786,12 @@ bool veh_interact::can_remove_part( map &here, int idx, const Character &you )
     std::string nmsg;
     bool smash_remove = sel_vpart_info->has_flag( "SMASH_REMOVE" );
 
+    if( get_craft_reservations().vehicle_part_reserved(
+            sel_vehicle_part->get_base().uid().get_value() ) ) {
+        msg = _( "A craft in progress is using this part.\n" );
+        return false;
+    }
+
     if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) &&
         !smash_remove ) {
         msg = _( "This vehicle cannot be modified in this way.\n" );
@@ -1808,8 +1817,22 @@ bool veh_interact::can_remove_part( map &here, int idx, const Character &you )
         nmsg += string_format(
                     _( "<color_white>Removing the %1$s will yield:</color>\n> %2$s\n" ),
                     sel_vehicle_part->name(), result_of_removal.display_name() );
+
+        std::map<itype_id, int> unique_salvageable_items;
         for( const item &it : sel_vehicle_part->get_salvageable() ) {
-            nmsg += "> " + it.display_name() + "\n";
+            unique_salvageable_items[ it.typeId() ] += 1;
+        }
+
+        std::map<itype_id, int>::iterator it;
+        for( it = unique_salvageable_items.begin(); it != unique_salvageable_items.end(); it++ ) {
+            const itype *type = item::find_type( it->first );
+            nmsg += "> ";
+
+            if( it->second > 1 ) {
+                nmsg += type->item_measure_prefix( it->second ) + " ";
+            }
+
+            nmsg += type->nname( it->second ) + "\n";
         }
     }
 
@@ -2163,7 +2186,8 @@ int veh_interact::part_at( const point_rel_ms &d )
 bool veh_interact::can_potentially_install( const vpart_info &vpart )
 {
     bool engine_reqs_met = true;
-    bool can_make = vpart.install_requirements().can_make_with_inventory( *crafting_inv,
+    bool can_make = vpart.install_requirements().can_make_with_inventory( &get_player_character(),
+                    *crafting_inv,
                     is_crafting_component, 1, craft_flags::none, false );
     bool hammerspace = get_player_character().has_trait( trait_DEBUG_HS );
 

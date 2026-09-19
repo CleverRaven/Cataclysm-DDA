@@ -86,7 +86,7 @@ For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant,
 | recipe: "result_eocs"                            | crafter (Character)         | NONE                        |
 | monster weakpoint: "effect_on_conditions"        | attacker (Creature, if exists, otherwise NONE) | victim (Creature) | note that if weakpoint was hit without attacker, EoC would be built without alpha talker, so using EoC referencing `u_` would result in error. Use `has_alpha` condition before manipulating alpha talker
 | monster death: "death_function"                  | killer (Creature, if exists, otherwise NONE)| victim (Creature) | Note that if monster was killed without a killer (falling anvil, explosion of a bomb etc), EoC would be built without alpha talker, so using EoC referencing `u_` would result in error. Use `has_alpha` condition before manipulating alpha talker
-| ammo_effect: "eoc"                               | shooter (Creature)          | victim (if exist, otherwise NONE) (Creature) | `proj_damage`, int, amount of damage projectile dealt. Detonation via SPECIAL_COOKOFF ammo effect return `proj_damage` as 1. Note that if projectile miss the target, EoC would be built without beta talker, so using EoC referencing `npc_` or `n_` would result in error. Use `has_beta` condition before manipulating npc
+| ammo_effect: "eoc"                               | shooter (Creature)          | victim (if exist, otherwise NONE) (Creature) | `targeted_location`: location_variable, the tile impacted by the projectile, `proj_damage`: int, amount of damage projectile dealt. Detonation via SPECIAL_COOKOFF ammo effect return `proj_damage` as 1. Note that if projectile miss the target, EoC would be built without beta talker, so using EoC referencing `npc_` or `n_` would result in error. Use `has_beta` condition before manipulating npc
 
 Some actions sent additional context variables, that can be used in EoC, in format:
 
@@ -602,6 +602,22 @@ Check if `map_cache` contain value `has`, `lack` or `read`
 - For two strings the check is same as compare_string
 
 #### Examples
+
+### `mod_is_loaded`
+- type: string
+- Return true if mod_id is loaded
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+True if the world has Sky Island loaded
+```jsonc
+{ "mod_is_loaded": "sky_island" }
+```
 
 Check if two variables are `yes`
 ```jsonc
@@ -2590,8 +2606,8 @@ NPC run EoCs, provided by this effect; can work outside of reality bubble
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
 | "u_run_npc_eocs"/ "npc_run_npc_eocs" | **mandatory** | array of eocs | EoCs that would be run by NPCs |
-| "unique_ids" | optional | string, [variable objects](#variable-object) or array | id of NPCs that would be affected; lack of ids make effect run EoC on every NPC in your reality bubble, if `"local": true`, and to every NPC in the world, if `"local": false`; unique ID of every npc is specified in mapgen, using `npcs` or `place_npcs` |
-| "local" | optional | boolean | default false; if true, the effect is run for every NPC in the world; if false, effect is run only to NPC in your reality bubble |
+| "unique_ids" | optional | string, [variable objects](#variable-object) or array | id of NPCs that would be affected; lack of ids make effect run EoC on every NPC in your reality bubble if `"local": true`, and to every NPC in the world if `"local": false`; unique ID of every npc is specified in mapgen, using `npcs` or `place_npcs` |
+| "local" | optional | boolean | default false; if true, the effect is run for every NPC in your reality bubble; if false, effect is run for every NPC in the world |
 | "npc_range" | optional | int or [variable object](#variable-object) | if used and neither 'z_min' nor 'z_max' is specified, only NPC having the same z position as the player in this range are affected |
 | "z_min" | optional | int or [variable object](#variable-object) | if used, only NPC'z position >= z_min are affected |
 | "z_max" | optional | int or [variable object](#variable-object) | if used, only NPC'z position <= z_max are affected |
@@ -3537,6 +3553,27 @@ Character or NPC got trait or mutation removed, if it has one
 mutation, stored in `mutation_id`  context value, is removed from character:
 ```jsonc
 { "u_lose_trait": { "context_val": "mutation_id" } }
+```
+
+
+#### `u_lose_category`, `npc_lose_category`
+Character or NPC will have all traits of the specified category removed, if they have them
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "u_lose_category" / "npc_lose_category" | **mandatory** | string or [variable object](#variable-object) | id of mutation category to be removed; if character or NPC has no such mutation, nothing happens |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+`URSINE` mutations are removed from character:
+```jsonc
+{ "u_lose_category": "URSINE" }
 ```
 
 
@@ -5036,7 +5073,6 @@ If the target is an item, it will be deleted.
 | --- | --- | --- | --- |
 | "remove_corpse" | optional | bool | default false; if true, the corpse and all inside of it won't be spawned on death |
 | "supress_message" | optional | bool | default false; if true, death would omit death message |
-| "remove_from_creature_tracker" | optional | bool | default false; if true, and talker is monster, the monster instead removed from creature tracker, resulting not only in monster disappearing without message and corpse, but also bypasses any death effect they could fire before their death |
 
 ##### Valid talkers:
 
@@ -5589,17 +5625,89 @@ Spawn 2 hallucination `portal_person`s, outdoor, 3-5 tiles around the player, fo
 }
 ```
 
+#### `set_trap`
+Spawn a trap around target coordinates.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "set_trap" | **mandatory** | string or [variable object](#variable-object) | id of trap to spawn |
+| "location" | **mandatory** | [variable object](#variable-object) | the trap would spawn from this location |
+| "radius" | optional | int, [variable object](#variable-object) or value between two | default 1; radius in which all traps will be spawned |
+| "square" | optional | boolean | default false; if true, the field spawned will be a square, otherwise it will be a circle |
+
+##### Examples
+Select the area, and spawn bear traps 5 tiles around it
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLACE_TRAP",
+    "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
+      { "set_trap": "tr_beartrap", "location": { "context_val": "pos" }, "radius": 5 }
+    ]
+  }
+```
+
+#### `set_terrain`
+Spawn a terrain around target coordinates.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "set_terrain" | **mandatory** | string or [variable object](#variable-object) | id of terrain to spawn |
+| "location" | **mandatory** | [variable object](#variable-object) | the trap would spawn from this location |
+| "radius" | optional | int, [variable object](#variable-object) or value between two | default 1; radius in which all terrain will be spawned |
+| "avoid_creatures" | optional | boolean | default false; if true, terrain will not be spawned if some other creature stands on it |
+| "square" | optional | boolean | default false; if true, the field spawned will be a square, otherwise it will be a circle |
+
+##### Examples
+Select the area, and spawn thin ice 5 tiles around it
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLACE_TERRAIN",
+    "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
+      { "set_terrain": "t_ice_sh_thin", "location": { "context_val": "pos" }, "radius": 5 }
+    ]
+  }
+```
+
+#### `set_furniture`
+Spawn a furniture around target coordinates.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "set_furniture" | **mandatory** | string or [variable object](#variable-object) | id of furniture to spawn |
+| "location" | **mandatory** | [variable object](#variable-object) | the trap would spawn from this location |
+| "radius" | optional | int, [variable object](#variable-object) or value between two | default 1; radius in which all furniture will be spawned |
+| "avoid_creatures" | optional | boolean | default false; if true, furniture will not be spawned if some other creature stands on it |
+| "square" | optional | boolean | default false; if true, the field spawned will be a square, otherwise it will be a circle |
+
+##### Examples
+Select the area, and spawn tables 5 tiles around it
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLACE_FURNITURE",
+    "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
+      { "set_furniture": "f_table", "location": { "context_val": "pos" }, "radius": 5 }
+    ]
+  }
+```
+
 #### `u_set_field`, `npc_set_field`
-spawn a field in a square around player. it is recommended to not use it in favor of `u_transform_radius` or `u_emit` if possible
+Spawn a field around player or target coordinates.
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
 | "u_set_field", "npc_set_field" | **mandatory** | string or [variable object](#variable-object) | id of field to spawn around the player |
-| "intensity" | optional | int, [variable object](#variable-object) or value between two | default 1; intensity of field to spawn |
-| "radius" | optional | int, [variable object](#variable-object) or value between two | default 10000000; radius of a field to spawn |
-| "age" | optional | int, duration, [variable object](#variable-object) or value between two | how long the field would last |
+| "intensity" | optional | int, [variable object](#variable-object) or value between two | default 1; intensity of field to spawn. Each field evaluate intensity separately, so `[1, 5]` would spawn fields of intensity from 1 to 5 |
+| "radius" | optional | int, [variable object](#variable-object) or value between two | default 1; radius of a field to spawn |
+| "age" | optional | int, duration, [variable object](#variable-object) or value between two | default 1 second; how long the field would last. Each field evaluate age separately |
 | "outdoor_only"/ "indoor_only" | optional | boolean | default false; if used, field would be spawned only outside or only inside buildings |
 | "hit_player" | optional | boolean | default true; if field spawn where the player is, process like player stepped on this field |
+| "square" | optional | boolean | default false; if true, the field spawned will be a square, otherwise it will be a circle |
 | "target_var" | optional | [variable object](#variable-object) | if used, the field would spawn from this location instead of you or NPC |
 
 ##### Examples

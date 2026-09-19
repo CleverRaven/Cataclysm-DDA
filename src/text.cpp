@@ -273,7 +273,7 @@ static void TextEx( std::string_view str, float wrap_width, uint32_t color )
                 textStart++;
             } else if( c == '\n' ) {
                 textStart++;
-                break;
+                continue;
             } else {
                 break;
             }

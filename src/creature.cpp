@@ -134,6 +134,7 @@ static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_CANNOT_GAIN_EFFECTS( "CANNOT_GAIN_EFFECTS" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
+static const json_character_flag json_flag_DISTRIBUTED_DAMAGE( "DISTRIBUTED_DAMAGE" );
 static const json_character_flag json_flag_FREEZE_EFFECTS( "FREEZE_EFFECTS" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
@@ -201,6 +202,11 @@ Creature &Creature::operator=( const Creature & ) = default;
 Creature &Creature::operator=( Creature && ) noexcept = default;
 
 Creature::~Creature() = default;
+
+safe_reference<Creature> Creature::get_safe_reference()
+{
+    return anchor->reference_to( this );
+}
 
 tripoint_bub_ms Creature::pos_bub() const
 {
@@ -1281,10 +1287,15 @@ void Creature::messaging_projectile_attack( const Creature *source,
             }
         } else if( is_avatar() ) {
             //monster hits player ranged
-            //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
-            add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
-                               body_part_name_accusative( hit_selection.bp_hit ),
-                               total_damage );
+            if( has_flag( json_flag_DISTRIBUTED_DAMAGE ) ) {
+                //~ Hit message. 2$d is damage value.
+                add_msg_if_player( m_bad, _( "You were hit for %2$d total damage." ) );
+            } else {
+                //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
+                add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
+                                   body_part_name_accusative( hit_selection.bp_hit ),
+                                   total_damage );
+            }
         } else if( source != nullptr ) {
             if( source->is_avatar() ) {
                 //player hits monster ranged
@@ -1521,13 +1532,14 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         total_damage = clamp( get_hp( bp ), total_base_damage, total_damage );
     }
     if( !bp->has_flag( json_flag_BIONIC_LIMB ) ) {
-        mod_pain( total_pain );
+        mod_pain( total_pain, bp );
     }
 
     apply_damage( source, bp, total_damage );
 
     if( wkpt != nullptr ) {
         wkpt->apply_effects( *this, total_damage, attack );
+        add_msg_debug( debugmode::DF_WEAKPOINTS, "applying weakpoint: %s", wkpt->id );
     }
 
     return dealt_dams;
@@ -2216,7 +2228,7 @@ void Creature::clear_values()
     values.clear();
 }
 
-int Creature::mod_pain( int npain )
+int Creature::mod_pain( int npain, const bodypart_id /* bp */ )
 {
     mod_pain_noresist( npain );
     return npain;

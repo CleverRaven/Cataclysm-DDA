@@ -1,5 +1,146 @@
 [
   {
+    "id": "book_nonf_hard_biography_living",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "biography (living person)", "str_pl": "biographies (living person)" },
+    "description": "A biography of a living person.  Well, living at the time it was written.  You'd be willing to bet they're shambling around looking for brains at the moment.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_biography_dead",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "biography (deceased person)", "str_pl": "biographies (deceased person)" },
+    "description": "A biography of someone who has already passed away.  At least they were lucky enough to live before the Cataclysm happened.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_autobiography",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "autobiography", "str_pl": "autobiographies" },
+    "description": "A biography of someone written by that very same someone.  Hopefully it's not too self-aggrandizing.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_history_ancient",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "history book (ancient)", "str_pl": "history books (ancient)" },
+    "description": "A real and true accounting of actual historical events, or at least the common understanding of those events.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_history_modern",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "history book (modern)", "str_pl": "history books (modern)" },
+    "description": "A history book about events that living people can still remember.  You might think this would make it easier to write about, but you would be wrong.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_photography_book",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "photography collection" },
+    "description": "A hardbound book containing a set of very impressive photographs of animals you'll never see and places you'll never be able to go to.",
+    "weight": "3016 g",
+    "volume": "2000 ml",
+    "copy-from": "book_nonf_hard_homemk_tpl",
+    "relative": { "fun": 2 }
+  },
+  {
+    "id": "book_nonf_hard_self_help",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "self-help book" },
+    "description": "A book to help you sleep better, increase your productivity, finally accomplish those life goals, or attain psychological satisfaction.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_true_crime",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "true crime book" },
+    "description": "Part history, part biography, the story of a real crime and the people affected by it.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl",
+    "relative": { "fun": 2 }
+  },
+  {
+    "id": "book_nonf_hard_popular_science",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "popular science book" },
+    "description": "The entire history of the universe in a single book, or perhaps a book-length examination of an atom or the water cycle.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_business_strategy",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "business strategy book" },
+    "description": "A book about analyzing business trends to keep hitting your KPIs and make sure your SMART goals are aligned with your overall strategic framework.  Basically useless now.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl",
+    "relative": { "fun": -2 }
+  },
+  {
+    "id": "book_nonf_hard_language_learning",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "language learning book" },
+    "description": "A hardcover book dedicated to learning a new language.  If only the zombies could talk.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_religion",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "religion book" },
+    "description": "A book about religion, not a religious book.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_travelogue",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "travelogue" },
+    "description": "Stories about traveling to a far-off place, meeting new people, and eating new foods.  The kind of things you'll never be able to do again.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl",
+    "relative": { "fun": 1 }
+  },
+  {
+    "id": "book_nonf_hard_parenting",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "parenting book" },
+    "description": "A book about raising children, including proper ways to punish them for breaking boundaries, making sure they're well-adjusted and happy, and equipping them with the skills they need to survive in the world.  That last part is a little outdated now.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_humor",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "humorous book" },
+    "description": "A book entirely written to make the reader laugh.  Honestly it's exactly what you need right now.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl",
+    "relative": { "fun": 4 }
+  },
+  {
     "id": "book_nonf_hard_homemk_anythingcan",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],

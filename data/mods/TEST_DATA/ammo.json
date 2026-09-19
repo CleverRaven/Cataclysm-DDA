@@ -16,5 +16,31 @@
     "id": "test_liquid",
     "name": "test_liquid",
     "default": "test_napalm"
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "id": "graphite_test_item",
+    "category": "chems",
+    "price": "50 cent",
+    "price_postapoc": "1 USD",
+    "name": { "str_sp": "graphite" },
+    "symbol": "!",
+    "description": "Graphite, aka elemental carbon, mixed with a little clay or oil.  Produces gray or black marks that are easily erased, but otherwise resistant to moisture, most chemicals, ultraviolet radiation, and natural aging.  Useful as a lubricant in metalworking.",
+    "material": [ "powder" ],
+    "volume": "6 ml",
+    "weight": "40 mg",
+    "color": "dark_gray",
+    "looks_like": "charcoal",
+    "flags": [ "TRADER_AVOID" ],
+    "ammo_type": "test_graphite",
+    "container": "bottle_plastic_small",
+    "count": 300
+  },
+  {
+    "type": "ammunition_type",
+    "id": "test_graphite",
+    "name": "graphite",
+    "default": "graphite_test_item"
   }
 ]

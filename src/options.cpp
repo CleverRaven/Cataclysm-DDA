@@ -40,6 +40,11 @@
 #include "ui_manager.h"
 #include "worldfactory.h"
 
+#if defined(__ANDROID__)
+#include <jni.h>
+#include "sdl_wrappers.h" // for GetAndroidJNIEnv(), GetAndroidActivity()
+#endif
+
 #if defined(TILES)
 #include "cata_tiles.h"
 #endif // TILES
@@ -1289,7 +1294,8 @@ void options_manager::search_resource(
     }
 }
 
-std::vector<options_manager::id_and_option> options_manager::build_tilesets_list()
+std::vector<options_manager::id_and_option> options_manager::build_tilesets_list(
+    bool only_portraits )
 {
     std::vector<id_and_option> result;
 
@@ -1302,6 +1308,20 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
         result.emplace_back( "hoder", to_translation( "Hoder's" ) );
         result.emplace_back( "deon", to_translation( "Deon's" ) );
     }
+
+    if( only_portraits ) {
+        for( auto iter = result.begin(); iter != result.end(); ) {
+            // Portrait packs must contain the string "Portrait" (case-sensitive) somewhere in their ID.
+            // I would like this check to be less dumb, but we're working with only a std::string here.
+            if( iter->first.find( "Portrait" ) == std::string::npos ) {
+                iter = result.erase( iter );
+            } else {
+                ++iter;
+            }
+        }
+    }
+
+
     return result;
 }
 
@@ -1401,15 +1421,58 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
 #if defined(__ANDROID__)
 bool android_get_default_setting( const char *settings_name, bool default_value )
 {
-    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-    jobject activity = ( jobject )SDL_AndroidGetActivity();
+    JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+    jobject activity = ( jobject )GetAndroidActivity();
     jclass clazz( env->GetObjectClass( activity ) );
     jmethodID method_id = env->GetMethodID( clazz, "getDefaultSetting", "(Ljava/lang/String;Z)Z" );
-    jboolean ans = env->CallBooleanMethod( activity, method_id, env->NewStringUTF( settings_name ),
-                                           default_value );
+    jstring settings_name_arg = env->NewStringUTF( settings_name );
+    jboolean ans = env->CallBooleanMethod( activity, method_id, settings_name_arg, default_value );
+    env->DeleteLocalRef( settings_name_arg );
     env->DeleteLocalRef( activity );
     env->DeleteLocalRef( clazz );
     return ans;
+}
+
+std::string android_get_default_string_setting( const char *settings_name,
+        const char *default_value )
+{
+    JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+    jobject activity = ( jobject )GetAndroidActivity();
+    jclass clazz( env->GetObjectClass( activity ) );
+    jmethodID method_id = env->GetMethodID( clazz, "getDefaultStringSetting",
+                                            "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;" );
+    jstring settings_name_arg = env->NewStringUTF( settings_name );
+    jstring default_value_arg = env->NewStringUTF( default_value );
+    jstring result = static_cast<jstring>( env->CallObjectMethod(
+            activity, method_id, settings_name_arg, default_value_arg ) );
+    const char *result_chars = result != nullptr ? env->GetStringUTFChars( result, nullptr ) : nullptr;
+    std::string ans = result_chars != nullptr ? result_chars : default_value;
+    if( result_chars != nullptr ) {
+        env->ReleaseStringUTFChars( result, result_chars );
+    }
+    if( result != nullptr ) {
+        env->DeleteLocalRef( result );
+    }
+    env->DeleteLocalRef( default_value_arg );
+    env->DeleteLocalRef( settings_name_arg );
+    env->DeleteLocalRef( activity );
+    env->DeleteLocalRef( clazz );
+    return ans;
+}
+
+void android_apply_system_ui_mode()
+{
+    JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+    jobject activity = ( jobject )GetAndroidActivity();
+    jclass clazz( env->GetObjectClass( activity ) );
+    jmethodID method_id = env->GetMethodID( clazz, "setSystemUiMode",
+                                            "(Ljava/lang/String;)V" );
+    jstring mode_arg = env->NewStringUTF(
+                           ::get_option<std::string>( "ANDROID_SYSTEM_UI_MODE" ).c_str() );
+    env->CallVoidMethod( activity, method_id, mode_arg );
+    env->DeleteLocalRef( mode_arg );
+    env->DeleteLocalRef( activity );
+    env->DeleteLocalRef( clazz );
 }
 #endif
 
@@ -2046,7 +2109,14 @@ void options_manager::add_options_interface()
          * Example 3: Press → while holding Shift and ← results in input rejection
 
          */
-    to_translation( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", to_translation( "None" ) }, { "mode1", to_translation( "Mode 1: Numpad Emulation" ) }, { "mode2", to_translation( "Mode 2: CW/CCW" ) }, { "mode3", to_translation( "Mode 3: L/R Tilt" ) }, { "mode4", to_translation( "Mode 4: Diagonal Lock" ) } },
+         to_translation( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured.  See the movement category in the help menu for full descriptions of the options." ),
+    {
+        { "none", to_translation( "None" ) },
+        { "mode1", to_translation( "Mode 1: Numpad Emulation" ) },
+        { "mode2", to_translation( "Mode 2: CW/CCW" ) },
+        { "mode3", to_translation( "Mode 3: L/R Tilt" ) },
+        { "mode4", to_translation( "Mode 4: Diagonal Lock" ) }
+    },
     "none", COPT_CURSES_HIDE );
 
     add_empty_line();
@@ -2479,7 +2549,13 @@ void options_manager::add_options_graphics()
              1, 4, 2, COPT_CURSES_HIDE
            ); // populate the options dynamically
 
+        add( "PORTRAIT_TILES", page_id, to_translation( "Choose portrait pack" ),
+             to_translation( "Choose the tileset you want to use for NPC or player portraits." ),
+             build_tilesets_list( /*bool only_portraits=*/ true ), "Test_Portrait_Pack", COPT_CURSES_HIDE
+           ); // populate the options dynamically
+
         get_option( "TILES" ).setPrerequisite( "USE_TILES" );
+        get_option( "PORTRAIT_TILES" ).setPrerequisite( "USE_TILES" );
         get_option( "USE_DISTANT_TILES" ).setPrerequisite( "USE_TILES" );
         get_option( "DISTANT_TILES" ).setPrerequisite( "USE_DISTANT_TILES" );
         get_option( "SWAP_ZOOM" ).setPrerequisite( "USE_DISTANT_TILES" );
@@ -2520,7 +2596,7 @@ void options_manager::add_options_graphics()
            );
 
         add( "MEMORY_MAP_MODE", page_id, to_translation( "Memory map overlay preset" ),
-        to_translation( "Specify the overlay in which the memory map is drawn.  The custom overlay needs a restart to take effect; for it, define RGB values for dark and bright colors as well as gamma." ), {
+        to_translation( "Specify the overlay in which the memory map is drawn.  For the custom overlay, define RGB values for dark and bright colors as well as gamma." ), {
             { "color_pixel_darken", to_translation( "Darkened" ) },
             { "color_pixel_sepia_light", to_translation( "Sepia" ) },
             { "color_pixel_sepia_dark", to_translation( "Sepia Dark" ) },
@@ -2693,17 +2769,12 @@ void options_manager::add_options_graphics()
             }
         }
 #   endif
-        // SDL3 drives renderer selection through SDL_HINT_RENDER_DRIVER; the
+        // Renderer selection is driven through SDL_HINT_RENDER_DRIVER; the
         // saved RENDERER value is ignored at startup but the option ID is
         // retained so configs from existing worlds still parse.
-#   if defined(USE_SDL3)
-        const options_manager::copt_hide_t renderer_hide = COPT_ALWAYS_HIDE;
-#   else
-        const options_manager::copt_hide_t renderer_hide = COPT_CURSES_HIDE;
-#   endif
         add( "RENDERER", page_id, to_translation( "Renderer" ),
              to_translation( "Set which renderer to use.  Requires restart." ), renderer_list,
-             default_renderer, renderer_hide );
+             default_renderer, COPT_ALWAYS_HIDE );
 #   endif
 
 #else
@@ -2715,34 +2786,26 @@ void options_manager::add_options_graphics()
            );
 #endif
 
-#if defined(SDL_HINT_RENDER_BATCHING)
-        add( "RENDER_BATCHING", page_id, to_translation( "Allow render batching" ),
-             to_translation( "If true, use render batching for 2D render API to make it more efficient.  Requires restart." ),
-             true, COPT_CURSES_HIDE
-           );
-#endif
-        // FRAMEBUFFER_ACCEL only meaningful for the SDL2 software renderer
-        // path; under SDL3 the renderer is hidden and software fallback is
-        // automatic, so the option is hidden too.
-#if defined(USE_SDL3)
-        const options_manager::copt_hide_t framebuffer_accel_hide = COPT_ALWAYS_HIDE;
-#else
-        const options_manager::copt_hide_t framebuffer_accel_hide = COPT_CURSES_HIDE;
-#endif
+        // The renderer is hidden and the software fallback is automatic, so
+        // this option is hidden too; the ID is retained so existing configs
+        // still parse.
         add( "FRAMEBUFFER_ACCEL", page_id, to_translation( "Software framebuffer acceleration" ),
              to_translation( "If true, use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
-             false, framebuffer_accel_hide
+             false, COPT_ALWAYS_HIDE
            );
 
 #if defined(__ANDROID__)
         get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
-#elif !defined(USE_SDL3)
-        get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "RENDERER", "software" );
 #endif
 
+        // Color-modulated textures replaced RenderFillRect with a stretched
+        // 1x1 texture. The renderer now batches fills efficiently and the
+        // texture path blends differently, so the saved value is ignored at
+        // startup and the option is hidden; the ID is retained so existing
+        // configs still parse.
         add( "USE_COLOR_MODULATED_TEXTURES", page_id, to_translation( "Use color modulated textures" ),
              to_translation( "If true, tries to use color modulated textures to speed-up ASCII drawing.  Requires restart." ),
-             false, COPT_CURSES_HIDE
+             false, COPT_ALWAYS_HIDE
            );
 
         add( "SCALING_MODE", page_id, to_translation( "Scaling mode" ),
@@ -2791,10 +2854,6 @@ void options_manager::add_options_world_default()
        );
 
     add( "ITEM_SPAWNRATE", "world_default", translation(), translation(), 0.01, 10.0, 1.0, 0.01,
-         COPT_ALWAYS_HIDE
-       );
-
-    add( "NPC_SPAWNTIME", "world_default", translation(), translation(), 0.0, 100.0, 4.0, 0.01,
          COPT_ALWAYS_HIDE
        );
 
@@ -2921,6 +2980,28 @@ void options_manager::add_options_android()
          to_translation( "If true, quicksave whenever the app loses focus (screen locked, app moved into background etc.)  WARNING: Experimental.  This may result in corrupt save games." ),
          false
        );
+
+    add_empty_line();
+
+    add_option_group( "android", Group( "android_display_opts",
+                                        to_translation( "Android display options" ),
+                                        to_translation( "Options regarding Android system bars and display insets." ) ),
+    [&]( const std::string & page_id ) {
+        add( "ANDROID_SYSTEM_UI_MODE", page_id, to_translation( "Android system bars" ),
+             to_translation( "Controls whether Android status and navigation bars are visible and whether the game may draw behind them.  This does not control Back button handling." ),
+        {
+            { "system_bars", to_translation( "Show system bars" ) },
+            { "fullscreen", to_translation( "Fullscreen" ) },
+            { "edge_to_edge", to_translation( "Edge-to-edge fullscreen" ) }
+        },
+        android_get_default_string_setting( "Android system UI mode", "system_bars" )
+           );
+
+        add( "ANDROID_RENDER_SAFE_AREA", page_id, to_translation( "Confine display to safe area" ),
+             to_translation( "If true, keep the game within the screen's safe area so it does not draw under the camera cutout or other unsafe edges.  If false, the game fills the entire screen.  This does not show or hide Android system bars." ),
+             true
+           );
+    } );
 
     add_empty_line();
 
@@ -3240,6 +3321,18 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
                 use_tiles = false;
                 use_tiles_overmap = false;
             }
+        }
+        try {
+            portrait_tilecontext->reinit();
+            portrait_tilecontext->load_tileset( get_option<std::string>( "PORTRAIT_TILES" ),
+                                                /*precheck=*/false, /*force=*/false,
+                                                /*pump_events=*/true, /*terrain=*/true );
+            //game_ui::init_ui is called when zoom is changed
+            g->reset_zoom();
+            g->mark_main_ui_adaptor_resize();
+        } catch( const std::exception &err ) {
+            popup( _( "Loading the portrait tileset failed: %s" ), err.what() );
+            use_tiles = false;
         }
         try {
             overmap_tilecontext->reinit();
@@ -3720,7 +3813,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 case ItemType::GroupHeader:
                     return true;
                 case ItemType::Option:
-                    return groups_state[curr_item.group];
+                    return groups_state[curr_item.group]
+                    && !get_options().get_option( curr_item.data ).is_hidden();
                 default:
                     cata_fatal( "invalid ItemType" );
             }
@@ -3911,6 +4005,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 world_generator->active_world->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
                 world_generator->active_world->save();
             }
+#if defined(__ANDROID__)
+            android_apply_system_ui_mode();
+#endif
             g->on_options_changed();
         } else {
             lang_changed = false;
@@ -3993,7 +4090,7 @@ void options_manager::deserialize( const JsonArray &ja )
         // yay hardcoded list! remove after 0.J
         std::vector<std::string> removed_options = { "DISTANCE_INITIAL_VISIBILITY", "FOV_3D_Z_RANGE", "SAFEMODE",
                                                      "INITIAL_STAT_POINTS", "INITIAL_TRAIT_POINTS", "INITIAL_SKILL_POINTS", "MAX_TRAIT_POINTS",
-                                                     "SKILL_TRAINING_SPEED", "PROFICIENCY_TRAINING_SPEED", "CITY_SPACING", "CITY_SIZE"
+                                                     "SKILL_TRAINING_SPEED", "PROFICIENCY_TRAINING_SPEED", "CITY_SPACING", "CITY_SIZE", "NPC_SPAWNTIME"
                                                    };
 
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );
@@ -4058,7 +4155,9 @@ void options_manager::update_options_cache()
     if( ::has_option( "PLAYER_MAX_INT_VALUE" ) ) {
         character_max_int = ::get_option<int>( "PLAYER_MAX_INT_VALUE" );
     }
-
+    if( ::has_option( "COMBAT_SPEED_MODIFIER" ) ) {
+        combat_speed_modifier = ::get_option<float>( "COMBAT_SPEED_MODIFIER" );
+    }
     prevent_occlusion = ::get_option<int>( "PREVENT_OCCLUSION" );
     prevent_occlusion_retract = ::get_option<bool>( "PREVENT_OCCLUSION_RETRACT" );
     prevent_occlusion_transp = ::get_option<bool>( "PREVENT_OCCLUSION_TRANSP" );
@@ -4114,6 +4213,9 @@ void options_manager::load()
 
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
+#endif
+#if defined(__ANDROID__)
+    android_apply_system_ui_mode();
 #endif
 }
 

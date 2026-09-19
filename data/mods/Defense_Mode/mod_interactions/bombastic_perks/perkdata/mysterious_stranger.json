@@ -35,7 +35,7 @@
     "name_unique": "Mysterious Stranger",
     "class": "NC_MYSTERIOUS_STRANGER",
     "attitude": 0,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_DONE",
     "faction": "no_faction"
   },

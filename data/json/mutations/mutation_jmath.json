@@ -18,5 +18,15 @@
     "//example3": "temperature_speed_mod(65, 0.2), but character has mutation, that gives CLIMATE_CONTROL_HEAT 5; it would make you lose 0.2 speed, if temperature around is lower than 60 F; temperature of 55 F would result in `(65-5-55)*0.2 = 5*0.2 = 1` 1 move speed decrease",
     "num_args": 2,
     "return": "min((fahrenheit(weather('temperature')) - _0 + u_climate_control_str_heat()) * _1, 0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "temperature_speed_mod_bipolar",
+    "//": "Changes your speed based on temperature in both directions: penalty below the threshold, bonus above it",
+    "//_0": "Temperature threshold in fahrenheit",
+    "//_1": "Speed change per degree",
+    "//example": "temperature_speed_mod_bipolar(65, 0.5) would give -10 speed at 45 F and +12 speed at 89 F",
+    "num_args": 2,
+    "return": "(fahrenheit(weather('temperature')) - _0 + u_climate_control_str_heat()) * _1"
   }
 ]

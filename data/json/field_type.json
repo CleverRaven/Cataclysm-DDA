@@ -2505,7 +2505,7 @@
     "percent_spread": 25,
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 7 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
     "priority": 8,
     "half_life": "30 seconds",
     "phase": "gas"
@@ -2517,5 +2517,159 @@
     "priority": -1,
     "display_field": false,
     "phase": "gas"
+  },
+  {
+    "id": "fd_scarlet_atmosphere",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "scarlet atmosphere",
+        "effects": [
+          {
+            "effect_id": "effect_scarlet_atmopshere",
+            "intensity": 1,
+            "min_duration": "1s",
+            "max_duration": "1s",
+            "is_environmental": false
+          }
+        ]
+      }
+    ],
+    "decrease_intensity_on_contact": false,
+    "indestructible": true,
+    "priority": -1,
+    "display_field": false,
+    "phase": "gas",
+    "gas_absorption_factor": "80m",
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] }
+  },
+  {
+    "id": "fd_scarlet_sea_wave",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "breaking ripple",
+        "color": "light_red",
+        "sym": "~",
+        "dangerous": false,
+        "transparent": true,
+        "concentration": 1
+      },
+      {
+        "name": "breaking wave",
+        "color": "light_red",
+        "dangerous": false,
+        "transparent": true,
+        "concentration": 2,
+        "scent_neutralization": 1
+      },
+      {
+        "name": "breaking redcap",
+        "color": "light_red",
+        "dangerous": false,
+        "transparent": true,
+        "concentration": 3,
+        "scent_neutralization": 5
+      }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 1,
+    "dirty_transparency_cache": true,
+    "outdoor_age_speedup": "0 turns",
+    "priority": 8,
+    "half_life": "1 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_items": false,
+    "display_field": true
+  },
+  {
+    "id": "fd_scarlet_sea_gas",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "scarlet haze",
+        "color": "light_red",
+        "light_emitted": 160,
+        "light_color": [ 110, 0, 0 ],
+        "effects": [
+          {
+            "effect_id": "effect_scarlet_atmopshere",
+            "intensity": 1,
+            "min_duration": "1s",
+            "max_duration": "1s",
+            "is_environmental": false,
+            "message": "The air here irritates your lungs!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "scarlet smoke",
+        "color": "light_red",
+        "light_emitted": 160,
+        "light_color": [ 110, 0, 0 ],
+        "effects": [
+          {
+            "effect_id": "effect_scarlet_atmopshere",
+            "intensity": 2,
+            "min_duration": "1s",
+            "max_duration": "1s",
+            "is_environmental": false,
+            "message": "The air here irritates your lungs!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "scarlet smog",
+        "color": "light_red",
+        "light_emitted": 160,
+        "light_color": [ 110, 0, 0 ],
+        "effects": [
+          {
+            "effect_id": "effect_scarlet_atmopshere",
+            "intensity": 3,
+            "min_duration": "1s",
+            "max_duration": "1s",
+            "is_environmental": false,
+            "message": "The air here irritates your lungs!",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 20,
+    "dirty_transparency_cache": true,
+    "outdoor_age_speedup": "0 turns",
+    "priority": 8,
+    "half_life": "1 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_items": false,
+    "display_field": false,
+    "gas_absorption_factor": "80m",
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] }
+  },
+  {
+    "id": "fd_portal_cracked_mirror",
+    "type": "field_type",
+    "looks_like": "fd_fatigue",
+    "intensity_levels": [
+      {
+        "name": "cracked mirror",
+        "color": "magenta",
+        "transparent": false,
+        "monster_spawn_chance": 60,
+        "monster_spawn_count": 1,
+        "monster_spawn_radius": 1,
+        "monster_spawn_group": "GROUP_PORTAL_REFLECTIONS"
+      }
+    ],
+    "description_affix": "under",
+    "priority": 8,
+    "display_items": true,
+    "display_field": true
   }
 ]

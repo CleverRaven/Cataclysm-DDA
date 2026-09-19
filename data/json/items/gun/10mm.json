@@ -12,7 +12,7 @@
       {
         "id": "glock_29",
         "name": { "str": "Glock 29 pistol" },
-        "description": "A modestly sized version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  It is easy to carry because of its small size, but also recoils fiercely."
+        "description": "A modestly sized version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  It is easy to carry because of its small size, but also has fierce recoil."
       }
     ],
     "ascii_picture": "glock_19",
@@ -39,7 +39,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "Glock pistol" },
-    "description": "A semi-automatic pistol chambered in 10mm and accepting Glock magazines.",
+    "description": "A semi-automatic pistol chambered in 10mm which accepts Glock magazines.",
     "variant_type": "gun",
     "variants": [
       {

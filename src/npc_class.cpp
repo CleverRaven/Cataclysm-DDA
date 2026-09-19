@@ -27,6 +27,8 @@
 
 class item;
 
+static const character_portrait_id character_portrait_GENERIC_NPC( "GENERIC_NPC" );
+
 static generic_factory<npc_class> npc_class_factory( "npc_class" );
 
 /** @relates string_id */
@@ -212,7 +214,8 @@ bool shopkeeper_item_group::can_restock( npc const &guy ) const
 std::string shopkeeper_item_group::get_refusal() const
 {
     if( refusal.empty() ) {
-        return _( "<npc_faction> faction does not trust you enough." );
+        //~Unspecified refusal reason. Mostly a fallback, the important thing here is to convey that the reason is ambiguous or unknown.
+        return _( "<npc_faction> will not trade this." );
     }
 
     return refusal.translated();
@@ -279,6 +282,10 @@ void npc_class::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "carry_override", carry_override );
     optional( jo, was_loaded, "weapon_override", weapon_override );
     optional( jo, was_loaded, "bye_message_override", bye_message_override );
+
+    // FIXME: Use null ID
+    optional( jo, was_loaded, "portrait_filename", class_portrait_filename,
+              character_portrait_GENERIC_NPC );
 
     if( jo.has_member( "traits" ) ) {
         traits = trait_group::load_trait_group( jo.get_member( "traits" ), "collection" );

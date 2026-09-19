@@ -64,6 +64,8 @@ static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 
 template <typename T> struct enum_traits;
 
+class temp_crafting_inventory;
+
 namespace
 {
 enum class medical_tab_mode {
@@ -267,10 +269,21 @@ std::string medical_ui::get_limb_wounds( const bodypart_id &part ) const
                 detail_str +=
                     string_format( "%s - %s\n", colorize( wd.type->get_name(), c_cyan ), wd.type->get_description() );
             } else {
+
+                std::string limb_score_output = "limb scores applied:\n";
+                for( const wound_limb_score &s : wd.type->get_limb_scores() ) {
+                    limb_score_output += string_format( "%s: %.3f\n", s.score.str(), s.value );
+                }
+
                 detail_str +=
-                    string_format( "wound: %s - %s (healing time %s, healing percentage %.3f%%, gives pain: %d)\n",
-                                   colorize( wd.type->get_name(), c_cyan ), wd.type->get_description(),
-                                   to_string( wd.get_healing_time() ), wd.healing_percentage(), wd.get_pain() );
+                    string_format( "wound: %s - %s\nhealing time %s\nhealing percentage %.3f%%\ngives pain: %d\n%s\n",
+                                   colorize( wd.type->get_name(), c_cyan ),
+                                   wd.type->get_description(),
+                                   to_string( wd.get_healing_time() ),
+                                   wd.healing_percentage(),
+                                   wd.get_pain(),
+                                   limb_score_output
+                                 );
             }
         }
     }
@@ -304,7 +317,7 @@ std::string medical_ui::get_limb_scores_and_modifiers( const bodypart_id &part )
             continue;
         }
 
-        float injury_score = bp->get_limb_score( *you, sc.getId(), 0, 0, 1 );
+        float injury_score = bp->get_limb_score( *you, sc.getId() );
         float max_score = part->get_limb_score( sc.getId() );
 
         if( injury_score < max_score ) {
@@ -715,7 +728,7 @@ struct healing_option {
 bool Character::pick_wound_fix( const bodypart_id &bp_id )
 {
     std::vector<healing_option> healing_options;
-    const inventory &inv = crafting_inventory();
+    const temp_crafting_inventory &inv = crafting_inventory();
 
     bodypart *bp = get_part( bp_id );
     const std::vector<wound> wounds = bp->get_wounds();
@@ -773,7 +786,8 @@ bool Character::pick_wound_fix( const bodypart_id &bp_id )
                 }
             }
 
-            opt.doable &= fix_id->get_requirements().can_make_with_inventory( inv, is_crafting_component );
+            opt.doable &= fix_id->get_requirements().can_make_with_inventory( this, inv,
+                          is_crafting_component );
 
             healing_options.emplace_back( opt );
         }
@@ -812,8 +826,8 @@ bool Character::pick_wound_fix( const bodypart_id &bp_id )
         const requirement_data &reqs = fix.get_requirements();
         const nc_color col = opt.doable ? c_white : c_light_gray;
 
-        const std::vector<std::string> tools = reqs.get_folded_tools_list( fold_width, col, inv );
-        const std::vector<std::string> comps = reqs.get_folded_components_list( fold_width, col, inv,
+        const std::vector<std::string> tools = reqs.get_folded_tools_list( this, fold_width, col, inv );
+        const std::vector<std::string> comps = reqs.get_folded_components_list( this, fold_width, col, inv,
                                                is_crafting_component );
 
         std::string descr = word_rewrap( fix.get_description(), 80 ) + "\n\n";

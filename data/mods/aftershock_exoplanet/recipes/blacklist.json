@@ -1,0 +1,257 @@
+[
+  {
+    "//COMMENT": "This file contains a bunch of stuff that should not be craftable in aftershock. They're inappropriate for the setting, or crafting them makes no sense in context, and the existence of these recipes in the crafting window is distracting, annoying, or misleading. So we simply blacklist them to get rid of the recipes altogether.",
+    "type": "recipe",
+    "result": "cudgel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mace_pipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mace_pipe_large",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sword_wood",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "selfbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_wood",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_field_point_fletched",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "//COMMENT": "Note the suffix. We need to obsolete both recipes.",
+    "result": "arrow_field_point_fletched",
+    "id_suffix": "lathe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_fire_hardened_fletched",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_metal_sharpened_fletched",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_small_game_fletched",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_plastic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_heavy_fire_hardened_fletched",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "compgreatbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "longbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "spear_wood",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "javelin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "q_staff",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "crossbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "huge_crossbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hand_crossbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bullet_crossbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "compositecrossbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "anvil_bronze",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "anvil_scavenged",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "anvil_crude",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "anvil_stump",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "club_wooden",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "club_wooden_large",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "club_wooden_nails",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "club_wooden_bolted",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "club_wooden_large_nails",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "club_wooden_large_bolted",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "primitive_axe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "//COMMENT": "Note the suffix. We need to obsolete both recipes.",
+    "result": "primitive_axe",
+    "id_suffix": "by grinding",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "primitive_adze",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "spear_stone",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "primitive_knife",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "stone_chisel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sickle_stone",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "stone_chopper",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hand_axe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "spear_stone_simple",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "primitive_hammer",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "staff_pipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shortbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "woodgreatbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reflexbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "compositebow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_wood_heavy",
+    "obsolete": true
+  }
+]

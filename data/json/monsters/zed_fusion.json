@@ -238,6 +238,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "bleed_rate": 0,
     "vision_night": 10,
+    "upgrades": false,
     "grab_strength": 75,
     "special_attacks": [
       { "id": "longswipe", "min_mul": 1, "max_mul": 2, "cooldown": 5 },

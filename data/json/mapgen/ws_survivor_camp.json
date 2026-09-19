@@ -151,5 +151,58 @@
       },
       "place_vehicles": [ { "vehicle": "surv_car", "x": 11, "y": 4, "chance": 70, "rotation": 270 } ]
     }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "ws_survivor_camp" ],
+    "weight": { "math": [ "clamp( ( (time_since('cataclysm', 'unit':'days') * 2) + 25 ), 25, 350)" ] },
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "_______pp      pp_______",
+        "_pppppppp      pppppppp_",
+        "pppppppp  A     pppppppp",
+        "pppssr          ssr  ppp",
+        "ppsE        A  sW     pp",
+        "ppr c          r c    pp",
+        "pp      A             pp",
+        "pp                    pp",
+        "pp           ww       pp",
+        "pp ssr       ww ssr   pp",
+        "ppsE           sW     pp",
+        "ppr c          r c    pp",
+        "pp         O          pp",
+        "pp        A           pp",
+        "pp            A       pp",
+        "pp ssr          ssr   pp",
+        "ppsE           sW     pp",
+        "ppr c          r c    pp",
+        "pp                    pp",
+        "pp           A        pp",
+        "pp                    pp",
+        "ppp                  ppp",
+        "pppppppppppppppppppppppp",
+        "_pppppppppppppppppppppp_"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "nested": {
+        "E": { "chunks": [ [ "tent_b_3x3_E", 10 ], [ "tent_b_5x5_E", 20 ], [ "null", 5 ] ] },
+        "W": { "chunks": [ [ "tent_b_3x3_W", 10 ], [ "tent_b_5x5_W", 20 ], [ "null", 5 ] ] },
+        "A": { "chunks": [ [ "survivor_corpse", 1 ], [ "corpses_bones_only", 25 ], [ "null", 75 ] ] }
+      },
+      "terrain": {
+        "_": "t_region_groundcover",
+        "O": "t_pit_shallow",
+        "p": [ [ "t_pit_spiked", 3 ], [ "t_dirt", 3 ], [ "t_region_groundcover", 1 ] ]
+      },
+      "furniture": { "O": "f_firering" },
+      "items": {
+        "c": { "item": "sc_loot_rare", "chance": 30 },
+        "r": { "item": "sc_loot_general", "chance": 30 },
+        "s": { "item": "sc_loot_equipment", "chance": 30 },
+        "w": { "item": "stash_wood", "chance": 30 }
+      },
+      "place_vehicles": [ { "vehicle": "surv_car", "x": 11, "y": 4, "chance": 20, "status": -1, "rotation": 270 } ]
+    }
   }
 ]

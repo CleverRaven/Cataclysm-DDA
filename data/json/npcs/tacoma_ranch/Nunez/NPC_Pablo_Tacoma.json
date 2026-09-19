@@ -7,7 +7,7 @@
     "name_suffix": "bookkeeper",
     "class": "NC_TACOMA_Pablo",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_TACOMA_Pablo_1",
     "age": 28,
     "height": 184,
