@@ -154,7 +154,7 @@
     "id": "eoc_sauropod",
     "type": "effect_on_condition",
     "effect": [
-      { "math": [ "_sauropod_uid = _sauropod_uid" ] },
+      { "math": [ "u_sauropod_id = _sauropod_uid" ] },
       { "u_location_variable": { "context_val": "sauropod_pos_1" }, "x_adjust": 1 },
       { "u_location_variable": { "context_val": "sauropod_pos_2" }, "x_adjust": -1 },
       { "u_location_variable": { "context_val": "sauropod_pos_3" }, "y_adjust": 1 },
@@ -336,7 +336,7 @@
     "id": "eoc_zauropod",
     "type": "effect_on_condition",
     "effect": [
-      { "math": [ "_zauropod_uid = _zauropod_uid" ] },
+      { "math": [ "u_zauropod_id = _zauropod_uid" ] },
       { "u_location_variable": { "context_val": "zauropod_pos_1" }, "x_adjust": 1 },
       { "u_location_variable": { "context_val": "zauropod_pos_2" }, "x_adjust": -1 },
       { "u_location_variable": { "context_val": "zauropod_pos_3" }, "y_adjust": 1 },
@@ -345,7 +345,7 @@
         "u_run_monster_eocs": [
           {
             "id": "zauropod_leg_tp",
-            "condition": { "math": [ "_zauropod_uid == _zauropod_uid" ] },
+            "condition": { "math": [ "u_zauropod_id == _zauropod_uid" ] },
             "effect": [
               { "u_teleport": { "context_val": "zauropod_pos_1" } },
               { "u_teleport": { "context_val": "zauropod_pos_2" } },
