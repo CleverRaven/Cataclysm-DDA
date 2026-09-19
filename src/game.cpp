@@ -9045,7 +9045,7 @@ void game::on_move_effects()
 void game::on_options_changed()
 {
 #if defined(TILES)
-    tilecontext->on_options_changed();
+    on_tiles_options_changed();
 #endif
     refresh_mouse_config();
 }

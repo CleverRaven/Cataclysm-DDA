@@ -949,6 +949,24 @@ TEST_CASE( "renderer_coordinator_mode2_interrupt_disposes_quarantine",
         // never receive SDL_DestroyTexture for the old handles.
         CHECK( gate->load() );
     }
+
+    SECTION( "shader boundary loss abandons the candidate and recovers through device loss" ) {
+        atlas_replay_quarantine quarantine;
+        const atlas_replay_quarantine::gate gate =
+            renderer_recovery_test_support::populate_mode2_quarantine( quarantine );
+        REQUIRE_FALSE( quarantine.empty() );
+        REQUIRE( gate );
+        const uint64_t inst = renderer_coordinator.instance_generation();
+
+        // no recovery queued up front, interrupt itself must request it
+        const bool recovered = service_mode2_upload_interrupt(
+                                   atlas_upload_interrupt::shader_boundary_lost, quarantine, inst );
+
+        CHECK( recovered );
+        CHECK( quarantine.empty() );
+        CHECK( gate->load() );
+        CHECK( renderer_coordinator.instance_generation() == inst + 1 );
+    }
 }
 
 TEST_CASE( "renderer_coordinator_retries_from_any_phase", "[tiles][renderer_recovery]" )

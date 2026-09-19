@@ -39,6 +39,7 @@
 #include "weather.h"
 #include "weighted_list.h"
 
+#include "atlas_bake_plan.h"
 #include "cata_shader.h"
 
 namespace cata_shader
@@ -198,6 +199,9 @@ enum class atlas_upload_interrupt {
     paused,
     texture_resources_invalidated,
     renderer_invalidated,
+    // Shader pass reported lost renderer boundary before upload allocated
+    // anything. Must replace renderer (device_lost).
+    shader_boundary_lost,
 };
 // Polled between atlas chunks. Returns the reason to stop, or none.
 using atlas_upload_poll = std::function<atlas_upload_interrupt()>;
@@ -329,6 +333,11 @@ class tileset
         // Memory-map mode the atlases were uploaded with, retained so a
         // device-reset replay regenerates the memory tiles identically.
         std::string memory_map_mode_at_upload;
+        // which variants the atlases were uploaded with, and filter fingerprint
+        // they were uploaded under, so a stale bundle can be told from a valid
+        // one
+        atlas_bake_plan bake_plan_at_upload;
+        uint64_t filter_fingerprint_at_upload = 0;
 
         std::unordered_set<std::string> duplicate_ids;
 
@@ -434,6 +443,18 @@ class tileset
         void set_memory_map_mode_at_upload( const std::string &mode ) {
             memory_map_mode_at_upload = mode;
         }
+        const atlas_bake_plan &get_bake_plan_at_upload() const {
+            return bake_plan_at_upload;
+        }
+        void set_bake_plan_at_upload( const atlas_bake_plan &plan ) {
+            bake_plan_at_upload = plan;
+        }
+        uint64_t get_filter_fingerprint_at_upload() const {
+            return filter_fingerprint_at_upload;
+        }
+        void set_filter_fingerprint_at_upload( uint64_t fingerprint ) {
+            filter_fingerprint_at_upload = fingerprint;
+        }
         // Drop the per-variant atlas textures. Safe to call repeatedly; the
         // descriptors and metadata are retained for a later replay.
         void release_gpu_atlases() {
@@ -510,12 +531,20 @@ class tileset_cache
         void release_live_atlases();
 
         // Re-upload atlases over every live cached tileset against `renderer`
-        // and the given generations, replaying each bundle's descriptors and
-        // memory-map mode. poll is consulted between entries and chunks; on
-        // interrupt the upload stops, candidates quarantine, and the reason returns.
+        // and the given generations, replaying each bundle's descriptors under
+        // the applied atlas configuration and re-keying it in place. poll is
+        // consulted between entries and chunks; on interrupt the upload stops,
+        // candidates quarantine, and the reason returns.
         atlas_upload_interrupt replay_live_atlases( const SDL_Renderer_Ptr &renderer,
                 uint64_t renderer_instance_gen, uint64_t gpu_textures_gen,
                 const atlas_upload_poll &poll, atlas_replay_quarantine &quarantine );
+
+        // True if any live uploaded bundle fails bundle_needs_repair against
+        // applied mode and fingerprint and shader availability. Also visits
+        // superseded entries: their holders still draw them.
+        bool any_live_bundle_needs_repair( const std::string &applied_mode,
+                                           uint64_t applied_fingerprint,
+                                           bool shader_variants_available ) const;
     private:
         class loader;
         friend struct renderer_recovery_test_support;

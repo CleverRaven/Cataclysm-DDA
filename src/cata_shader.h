@@ -11,6 +11,8 @@
 
 #include "sdl_wrappers.h"
 
+struct renderer_recovery_test_support;
+
 namespace cata_shader
 {
 
@@ -20,6 +22,24 @@ namespace cata_shader
 void request_reprobe();
 bool reprobe_requested();
 void clear_reprobe();
+
+// How the variant pass can serve an atlas upload; see
+// variant_pass::ensure_probed
+enum class probe_state {
+    available,
+    unavailable,
+    // renderer boundary is lost, see boundary_lost()
+    unsafe,
+};
+
+// test seams driven by renderer_recovery_test_support only, inert until armed.
+// armed faults replace the named SDL outcome and log D_INFO, because the real
+// failure's D_ERROR would fail the test run
+void test_arm_probe_unsafe( int count );
+int test_probe_unsafe_remaining();
+void test_arm_flush_failure();
+int test_probe_runs();
+void test_reset_seams();
 
 // Sprite-variant kinds for the GPU shader path. NORMAL has no shader and
 // uses the atlas directly. MEMORY dispatches by the selected memory_preset
@@ -183,6 +203,29 @@ class variant_pass
             return probed_ok_ && !session_disabled_;
         }
 
+        // classify pass for upload decision, run activation probe if not done
+        // yet. check in order: embargo, lost boundary, pending reprobe, sticky
+        // fault, then the probe.
+        probe_state ensure_probed();
+        // renderer may still have a probe target or shader bind that this pass
+        // couldn't release; flush() refuses while set; cleared only by
+        // rebind_renderer
+        bool boundary_lost() const {
+            return boundary_lost_;
+        }
+        // Sticky: unsafe probe, failed flush, or draw-time bind failure happened.
+        // Survives rebind_renderer; cleared only by successful explicit reset
+        // (request_reprobe).
+        bool shader_fault() const {
+            return shader_fault_;
+        }
+        std::optional<memory_preset> active_memory_preset() const {
+            return active_memory_preset_;
+        }
+        // raise the flags for failed draw-time SDL_SetGPURenderState, log_error
+        // false skips the D_ERROR line for the test seam
+        void note_draw_bind_failure( bool log_error = true );
+
         // try_begin outcome. bound: shader path active, draw with it.
         // use_atlas: safe fallback (NORMAL, unsupported MEMORY preset, clean
         // session_disabled) -- renderer valid, fall through to the pre-baked
@@ -198,8 +241,8 @@ class variant_pass
         begin_result try_begin( variant_kind v );
         bool end();
 
-        // Returns false on SDL_SetGPURenderState(NULL) failure; pass
-        // stays flagged bound so callers can refuse to cross a
+        // returns false on lost boundary, under embargo, or on
+        // SDL_SetGPURenderState(NULL) failure; callers then refuse to cross a
         // render-target boundary.
         bool flush();
 
@@ -221,8 +264,12 @@ class variant_pass
         void rebind_renderer( SDL_Renderer *renderer );
 
     private:
+        friend struct ::renderer_recovery_test_support;
+
         void probe();
         void reset();
+        void mark_probe_unsafe();
+        void mark_flush_failed();
         // Drop shader + render-state slots. abandon_handles=true skips SDL
         // destroy on each (renderer undefined or about to die); false runs the
         // destructors normally to release the SDL handles.
@@ -250,6 +297,8 @@ class variant_pass
         bool probe_attempted_ = false;
         bool probed_ok_ = false;
         bool session_disabled_ = false;
+        bool boundary_lost_ = false;
+        bool shader_fault_ = false;
 };
 
 } // namespace cata_shader
