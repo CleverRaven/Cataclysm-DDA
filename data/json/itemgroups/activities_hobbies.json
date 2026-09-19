@@ -106,6 +106,7 @@
       [ "wetsuit_hood", 10 ],
       [ "wetsuit_hood_thick", 2 ],
       [ "swim_cap", 35 ],
+      [ "scuba_regulator", 20 ],
       { "item": "scuba_tank", "prob": 20, "charges": 60 },
       { "item": "small_scuba_tank", "prob": 10, "charges": 20 },
       { "group": "tools_fishingrods_commercial", "prob": 4 },
