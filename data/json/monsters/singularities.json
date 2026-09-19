@@ -792,7 +792,7 @@
       "and": [
         {
           "or": [
-            { "math": [ "mon_singularity_reclaimer_time_active >= rng(55, 65)" ] },
+            { "math": [ "mon_singularity_reclaimer_time_active >= rng(50, 70)" ] },
             { "math": [ "u_monsters_nearby('mon_singularity_reclaimer', 'radius': 55) == 0" ] }
           ]
         },
@@ -905,7 +905,7 @@
     "hp": 122,
     "speed": 80,
     "material": [ "flesh" ],
-    "symbol": "o",
+    "symbol": "0",
     "color": "red",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 100,
