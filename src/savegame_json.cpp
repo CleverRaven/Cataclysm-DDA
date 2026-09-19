@@ -1085,6 +1085,7 @@ void Character::load( const JsonObject &data )
     }
     data.read( "move_mode", move_mode );
 
+    data.read( "temporary_load_items", temporary_load_items );
     if( has_effect( effect_riding ) ) {
         int temp_id;
         if( data.read( "mounted_creature", temp_id ) ) {
@@ -1549,6 +1550,7 @@ void Character::store( JsonOut &json ) const
     json.member( "addictions", addictions );
     json.member( "death_eocs", death_eocs );
     json.member( "worn", worn ); // also saves contents
+    json.member( "temporary_load_items", temporary_load_items );
 
     if( const auto lt_ptr = last_target.lock() ) {
         if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
