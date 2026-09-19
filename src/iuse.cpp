@@ -57,7 +57,6 @@
 #include "flag.h"
 #include "flat_set.h" // IWYU pragma: keep
 #include "flexbuffer_json.h"
-#include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -84,7 +83,6 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
-#include "memorial_logger.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
@@ -141,9 +139,6 @@
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 
-static const addiction_id addiction_marloss_b( "marloss_b" );
-static const addiction_id addiction_marloss_r( "marloss_r" );
-static const addiction_id addiction_marloss_y( "marloss_y" );
 static const addiction_id addiction_nicotine( "nicotine" );
 
 static const ammotype ammo_battery( "battery" );
@@ -331,7 +326,6 @@ static const morale_type morale_food_bad( "morale_food_bad" );
 static const morale_type morale_food_good( "morale_food_good" );
 static const morale_type morale_game( "morale_game" );
 static const morale_type morale_game_found_kitten( "morale_game_found_kitten" );
-static const morale_type morale_marloss( "morale_marloss" );
 static const morale_type morale_music( "morale_music" );
 static const morale_type morale_wet( "morale_wet" );
 
@@ -343,7 +337,6 @@ static const mtype_id mon_spore( "mon_spore" );
 static const mtype_id mon_vortex( "mon_vortex" );
 
 static const mutation_category_id mutation_category_CATTLE( "CATTLE" );
-static const mutation_category_id mutation_category_MYCUS( "MYCUS" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_GLARE( "GLARE" );
@@ -366,7 +359,6 @@ static const species_id species_ROBOT( "ROBOT" );
 
 static const ter_str_id ter_t_grave( "t_grave" );
 static const ter_str_id ter_t_grave_new( "t_grave_new" );
-static const ter_str_id ter_t_marloss( "t_marloss" );
 static const ter_str_id ter_t_pit( "t_pit" );
 static const ter_str_id ter_t_pit_corpsed( "t_pit_corpsed" );
 static const ter_str_id ter_t_pit_covered( "t_pit_covered" );
@@ -387,15 +379,8 @@ static const trait_id trait_EATPOISON( "EATPOISON" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
-static const trait_id trait_MARLOSS( "MARLOSS" );
-static const trait_id trait_MARLOSS_AVOID( "MARLOSS_AVOID" );
-static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
-static const trait_id trait_MARLOSS_YELLOW( "MARLOSS_YELLOW" );
-static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
-static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
-static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_VAMPIRE( "VAMPIRE" );
@@ -1231,318 +1216,6 @@ std::optional<int> iuse::purify_smart( Character *p, item *it, const tripoint_bu
     p->vitamins_mod( default_character_compute_effective_nutrients( *it ).vitamins() );
     get_event_bus().send<event_type::administers_mutagen>( p->getID(),
             mutagen_technique::injected_smart_purifier );
-    return 1;
-}
-
-static void spawn_spores( const Character &p )
-{
-    int spores_spawned = 0;
-    map &here = get_map();
-    fungal_effects fe;
-    creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint_bub_ms &dest : closest_points_first( p.pos_bub(), 4 ) ) {
-        if( here.impassable( dest ) ) {
-            continue;
-        }
-        float dist = rl_dist( dest, p.pos_bub() );
-        if( x_in_y( 1, dist ) ) {
-            fe.marlossify( dest );
-        }
-        if( creatures.creature_at( dest ) != nullptr ) {
-            continue;
-        }
-        if( one_in( 10 + 5 * dist ) && one_in( spores_spawned * 2 ) ) {
-            if( monster *const spore = g->place_critter_at( mon_spore, dest ) ) {
-                spore->friendly = -1;
-                spores_spawned++;
-            }
-        }
-    }
-}
-
-static void marloss_common( Character &p, item &it, const trait_id &current_color )
-{
-    static const std::map<trait_id, addiction_id> mycus_colors = {{
-            { trait_MARLOSS_BLUE, addiction_marloss_b }, { trait_MARLOSS_YELLOW, addiction_marloss_y }, { trait_MARLOSS, addiction_marloss_r }
-        }
-    };
-
-    if( p.has_trait( current_color ) || p.has_trait( trait_THRESH_MARLOSS ) ) {
-        p.add_msg_if_player( m_good,
-                             _( "As you eat the %s, you have a near-religious experience, feeling at one with your surroundings…" ),
-                             it.tname() );
-        p.add_morale( morale_marloss, 100, 1000 );
-        for( const std::pair<const trait_id, addiction_id> &pr : mycus_colors ) {
-            if( pr.first != current_color ) {
-                p.add_addiction( pr.second, 50 );
-            }
-        }
-
-        p.set_hunger( -10 );
-        spawn_spores( p );
-        return;
-    }
-
-    int marloss_count = std::count_if( mycus_colors.begin(), mycus_colors.end(),
-    [&p]( const std::pair<trait_id, addiction_id> &pr ) {
-        return p.has_trait( pr.first );
-    } );
-
-    /* If we're not already carriers of current type of Marloss, roll for a random effect:
-     * 1 - Mutate
-     * 2 - Mutate
-     * 3 - Mutate
-     * 4 - Painkiller
-     * 5 - Painkiller
-     * 6 - Cleanse radiation + Painkiller
-     * 7 - Fully satiate
-     * 8 - Vomit
-     * 9-12 - Give Marloss mutation
-     */
-    int effect = rng( 1, 12 );
-    if( effect <= 3 ) {
-        p.add_msg_if_player( _( "It tastes extremely strange!" ) );
-        p.mutate();
-        // Gruss dich, mutation drain, missed you!
-        p.mod_pain( 2 * rng( 1, 5 ) );
-        p.mod_stored_kcal( -87 );
-        p.mod_thirst( 10 );
-        p.mod_sleepiness( 5 );
-    } else if( effect <= 6 ) { // Radiation cleanse is below
-        p.add_msg_if_player( m_good, _( "You feel better all over." ) );
-        p.mod_painkiller( 30 );
-        p.mod_pain( -40 );
-        if( effect == 6 ) {
-            p.set_rad( 0 );
-        }
-    } else if( effect == 7 ) {
-
-        // previously used to set hunger to -10. with the new system, needs to do something
-        // else that actually makes sense, so it is a little bit more involved.
-        units::volume fulfill_vol = std::max( p.stomach.capacity( p ) / 8 - p.stomach.contains(), 0_ml );
-        if( fulfill_vol != 0_ml ) {
-            p.add_msg_if_player( m_good, _( "It is delicious, and very filling!" ) );
-            int fulfill_cal = units::to_milliliter( fulfill_vol * 6 );
-            p.stomach.mod_calories( fulfill_cal );
-            p.stomach.mod_contents( fulfill_vol );
-        } else {
-            p.add_msg_if_player( m_bad, _( "It is delicious, but you can't eat any more." ) );
-        }
-    } else if( effect == 8 ) {
-        p.add_msg_if_player( m_bad, _( "You take one bite, and immediately vomit!" ) );
-        p.vomit();
-    } else if( p.crossed_threshold() ) {
-        // Mycus Rejection.  Goo already present fights off the fungus.
-        p.add_msg_if_player( m_bad,
-                             _( "You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out…" ) );
-        if( p.is_avatar() ) {
-            get_memorial().add(
-                pgettext( "memorial_male", "Suffered Marloss Rejection." ),
-                pgettext( "memorial_female", "Suffered Marloss Rejection." ) );
-        }
-        p.vomit();
-        p.mod_pain( 90 );
-        p.hurtall( rng( 40, 65 ), nullptr ); // No good way to say "lose half your current HP"
-        /** @EFFECT_INT slightly reduces sleep duration when eating Mycus+goo */
-        p.fall_asleep( 10_hours - p.get_int() *
-                       1_minutes ); // Hope you were eating someplace safe.  Mycus v. goo in your guts is no joke.
-        for( const std::pair<const trait_id, addiction_id> &pr : mycus_colors ) {
-            p.unset_mutation( pr.first );
-            p.rem_addiction( pr.second );
-        }
-        p.set_mutation(
-            trait_MARLOSS_AVOID ); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
-    } else if( marloss_count >= 2 ) {
-        p.add_msg_if_player( m_bad,
-                             _( "You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground…" ) );
-        /** @EFFECT_INT reduces sleep duration when eating wrong color Marloss */
-        p.fall_asleep( 40_minutes - 1_minutes * p.get_int() / 2 );
-        for( const std::pair<const trait_id, addiction_id> &pr : mycus_colors ) {
-            p.unset_mutation( pr.first );
-            p.rem_addiction( pr.second );
-        }
-
-        p.set_mutation( trait_THRESH_MARLOSS );
-        get_map().ter_set( p.pos_bub(), ter_t_marloss );
-        get_event_bus().send<event_type::crosses_marloss_threshold>( p.getID() );
-        p.add_msg_if_player( m_good,
-                             _( "You wake up in a Marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
-        p.add_msg_if_player( m_good,
-                             //~ Beginning to hear the Mycus while conscious: that's it speaking
-                             _( "unity.  together we have reached the door.  we provide the final key.  now to pass through…" ) );
-    } else {
-        p.add_msg_if_player( _( "You feel a strange warmth spreading throughout your body…" ) );
-        p.set_mutation( current_color );
-        // Give us addictions to the other two colors, but cure one for current color
-        for( const std::pair<const trait_id, addiction_id> &pr : mycus_colors ) {
-            if( pr.first == current_color ) {
-                p.rem_addiction( pr.second );
-            } else {
-                p.add_addiction( pr.second, 60 );
-            }
-        }
-    }
-}
-
-static bool marloss_prevented( const Character &p )
-{
-    if( p.is_npc() ) {
-        return true;
-    }
-    if( p.has_trait( trait_MARLOSS_AVOID ) ) {
-        p.add_msg_if_player( m_warning,
-                             //~ "Nuh-uh" is a sound used for "nope", "no", etc.
-                             _( "After what happened that last time?  Nuh-uh.  You're not eating that alien poison." ) );
-        return true;
-    }
-    if( p.has_trait( trait_THRESH_MYCUS ) ) {
-        p.add_msg_if_player( m_info,
-                             _( "we no longer require this scaffolding.  we reserve it for other uses." ) );
-        return true;
-    }
-
-    return false;
-}
-
-std::optional<int> iuse::marloss( Character *p, item *it, const tripoint_bub_ms & )
-{
-    if( marloss_prevented( *p ) ) {
-        return std::nullopt;
-    }
-
-    get_event_bus().send<event_type::consumes_marloss_item>( p->getID(), it->typeId() );
-
-    marloss_common( *p, *it, trait_MARLOSS );
-    return 1;
-}
-
-std::optional<int> iuse::marloss_seed( Character *p, item *it, const tripoint_bub_ms & )
-{
-    if( !query_yn( _( "Are you sure you want to eat the %s?  You could plant it in a mound of dirt." ),
-                   colorize( it->tname(), it->color_in_inventory() ) ) ) {
-        return std::nullopt; // Save the seed for later!
-    }
-
-    if( marloss_prevented( *p ) ) {
-        return std::nullopt;
-    }
-
-    get_event_bus().send<event_type::consumes_marloss_item>( p->getID(), it->typeId() );
-
-    marloss_common( *p, *it, trait_MARLOSS_BLUE );
-    return 1;
-}
-
-std::optional<int> iuse::marloss_gel( Character *p, item *it, const tripoint_bub_ms & )
-{
-    if( marloss_prevented( *p ) ) {
-        return std::nullopt;
-    }
-
-    get_event_bus().send<event_type::consumes_marloss_item>( p->getID(), it->typeId() );
-
-    marloss_common( *p, *it, trait_MARLOSS_YELLOW );
-    return 1;
-}
-
-std::optional<int> iuse::mycus( Character *p, item *, const tripoint_bub_ms & )
-{
-    if( p->is_npc() ) {
-        return 1;
-    }
-    // Welcome our guide.  Welcome.  To. The Mycus.
-
-    // From an end-user perspective, dialogue should be presented uniformly:
-    // initial caps, as in human writing, or all lowercase letters.
-    // I think that all lowercase, because it contrasts with normal convention, reinforces the Mycus' alien nature
-
-    if( p->has_trait( trait_THRESH_MARLOSS ) ) {
-        get_event_bus().send<event_type::crosses_mycus_threshold>( p->getID() );
-        p->add_msg_if_player( m_neutral,
-                              _( "It tastes amazing, and you finish it quickly." ) );
-        p->add_msg_if_player( m_good, _( "You feel better all over." ) );
-        p->mod_painkiller( 30 );
-        p->set_rad( 0 );
-        p->healall( 4 ); // Can't make you a whole new person, but not for lack of trying
-        p->add_msg_if_player( m_good,
-                              _( "As it settles in, you feel ecstasy radiating through every part of your body…" ) );
-        p->add_morale( morale_marloss, 1000, 1000 ); // Last time you'll ever have it this good.  So enjoy.
-        p->add_msg_if_player( m_good,
-                              _( "Your eyes roll back in your head.  Everything dissolves into a blissful haze…" ) );
-        /** @EFFECT_INT slightly reduces sleep duration when eating Mycus */
-        p->fall_asleep( 5_hours - p->get_int() * 1_minutes );
-        p->unset_mutation( trait_THRESH_MARLOSS );
-        p->set_mutation( trait_THRESH_MYCUS );
-        g->invalidate_main_ui_adaptor();
-        //~ The Mycus does not use the term (or encourage the concept of) "you".  The PC is a local/native organism, but is now the Mycus.
-        //~ It still understands the concept, but uninitelligent fungaloids and mind-bent symbiotes should not need it.
-        //~ We are the Mycus.
-        popup( _( "we welcome into us.  we have endured long in this forbidding world." ) );
-        p->add_msg_if_player( " " );
-        p->add_msg_if_player( m_good,
-                              _( "A sea of white caps, waving gently.  A haze of spores wafting silently over a forest." ) );
-        g->invalidate_main_ui_adaptor();
-        popup( _( "the natives have a saying: \"e pluribus unum.\"  out of many, one." ) );
-        p->add_msg_if_player( " " );
-        p->add_msg_if_player( m_good,
-                              _( "The blazing pink redness of the berry.  The juices spreading across our tongue, the warmth draping over us like a lover's embrace." ) );
-        g->invalidate_main_ui_adaptor();
-        popup( _( "we welcome the union of our lines in our local guide.  we will prosper, and unite this world.  even now, our fruits adapt to better serve local physiology." ) );
-        p->add_msg_if_player( " " );
-        p->add_msg_if_player( m_good,
-                              _( "The sky-blue of the seed.  The nutty, creamy flavors intermingling with the berry, a memory that will never leave us." ) );
-        g->invalidate_main_ui_adaptor();
-        popup( _( "as, in time, shall we adapt to better welcome those who have not received us." ) );
-        p->add_msg_if_player( " " );
-        p->add_msg_if_player( m_good,
-                              _( "The amber-yellow of the sap.  Feel it flowing through our veins, taking the place of the strange, thin red gruel called \"blood.\"" ) );
-        g->invalidate_main_ui_adaptor();
-        popup( _( "we are the Mycus." ) );
-        /*p->add_msg_if_player( m_good,
-                              _( "We welcome into us.  We have endured long in this forbidding world." ) );
-        p->add_msg_if_player( m_good,
-                              _( "The natives have a saying: \"E Pluribus Unum\"  Out of many, one." ) );
-        p->add_msg_if_player( m_good,
-                              _( "We welcome the union of our lines in our local guide.  We will prosper, and unite this world." ) );
-        p->add_msg_if_player( m_good, _( "Even now, our fruits adapt to better serve local physiology." ) );
-        p->add_msg_if_player( m_good,
-                              _( "As, in time, shall we adapt to better welcome those who have not received us." ) );*/
-        map &here = get_map();
-        fungal_effects fe;
-        for( const tripoint_bub_ms &nearby_pos : here.points_in_radius( p->pos_bub(), 3 ) ) {
-            if( here.move_cost( nearby_pos ) != 0 && !here.has_furn( nearby_pos ) &&
-                !here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, nearby_pos ) &&
-                !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, nearby_pos ) ) {
-                fe.marlossify( nearby_pos );
-            }
-        }
-        p->rem_addiction( addiction_marloss_r );
-        p->rem_addiction( addiction_marloss_b );
-        p->rem_addiction( addiction_marloss_y );
-    } else if( p->has_trait( trait_THRESH_MYCUS ) &&
-               !p->has_trait( trait_M_DEPENDENT ) ) { // OK, now set the hook.
-        if( !one_in( 3 ) ) {
-            p->mutate_category( mutation_category_MYCUS, false, true );
-            p->mod_stored_kcal( -87 );
-            p->mod_thirst( 10 );
-            p->mod_sleepiness( 5 );
-            p->add_morale( morale_marloss, 25, 200 ); // still covers up mutation pain
-        }
-    } else if( p->has_trait( trait_THRESH_MYCUS ) ) {
-        p->mod_painkiller( 5 );
-        p->mod_stim( 5 );
-    } else { // In case someone gets one without having been adapted first.
-        // Marloss is the Mycus' method of co-opting humans.  Mycus fruit is for symbiotes' maintenance and development.
-        p->add_msg_if_player(
-            _( "This tastes really weird!  You're not sure it's good for you…" ) );
-        p->mutate();
-        p->mod_pain( 2 * rng( 1, 5 ) );
-        p->mod_stored_kcal( -87 );
-        p->mod_thirst( 10 );
-        p->mod_sleepiness( 5 );
-        p->vomit(); // no hunger/quench benefit for you
-        p->mod_daily_health( -8, -50 );
-    }
     return 1;
 }
 

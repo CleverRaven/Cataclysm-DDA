@@ -965,6 +965,11 @@ void talker_character::mod_daily_health( int amount, int cap )
     me_chr->mod_daily_health( amount, cap );
 }
 
+void talker_character::set_hunger( int amount )
+{
+    me_chr->set_hunger( amount );
+}
+
 void talker_character::mod_livestyle( int amount )
 {
     me_chr->mod_livestyle( amount );
@@ -1165,6 +1170,11 @@ int talker_character_const::get_fine_detail_vision_mod() const
 int talker_character_const::get_health() const
 {
     return me_chr_const->get_lifestyle();
+}
+
+int talker_character_const::get_daily_health() const
+{
+    return me_chr_const->get_daily_health();
 }
 
 static std::pair<bodypart_id, bodypart_id> temp_delta( const Character *u )

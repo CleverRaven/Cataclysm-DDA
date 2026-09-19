@@ -1794,6 +1794,10 @@
     "info": "Injecting it will <neutral>prime your body for mutation</neutral>."
   },
   {
+    "id": "MARLOSS",
+    "type": "json_flag"
+  },
+  {
     "id": "MYCUS_OK",
     "type": "json_flag"
   },
