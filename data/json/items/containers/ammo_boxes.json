@@ -725,8 +725,8 @@
     "type": "ITEM",
     "name": { "str": "20 gauge ammo box", "str_pl": "20 gauge ammo boxes" },
     "description": "This box holds 10 rounds of 20 gauge shells.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
-    "weight": "5 g",
-    "volume": "65 ml",
+    "weight": "10 g",
+    "volume": "150 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -743,8 +743,8 @@
     "type": "ITEM",
     "name": { "str": "20 gauge ammo box", "str_pl": "20 gauge ammo boxes" },
     "description": "This box holds 25 rounds of 20 gauge shells.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
-    "weight": "27 g",
-    "volume": "280 ml",
+    "weight": "15 g",
+    "volume": "360 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
