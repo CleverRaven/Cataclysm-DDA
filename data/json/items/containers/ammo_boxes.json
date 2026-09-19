@@ -384,6 +384,12 @@
         "name": { "str": "12 gauge ammo box", "str_pl": "12 gauge ammo boxes" },
         "description": "A small plain brown ammo box.  Black text printed on the front says \"5 CARTRIDGES 12 GA SHOTSHELL BEANBAG\"",
         "weight": 0
+      },
+      {
+        "id": "20_ammo_box_5",
+        "name": { "str": "20 gauge ammo box", "str_pl": "20 gauge ammo boxes" },
+        "description": "This box holds 5 rounds of 20 gauge shells.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo",
+        "weight": 0
       }
     ]
   },
@@ -395,6 +401,15 @@
     "description": "This box holds 10 rounds of 12 gauge ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
     "weight": "28 g",
     "volume": "307 ml",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "20_ammo_box_10",
+        "name": { "str": "20 gauge ammo box", "str_pl": "20 gauge ammo boxes" },
+        "description": "This box holds 10 rounds of 20 gauge shells.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo",
+        "weight": 0
+      }
+    ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "190 ml", "max_contains_weight": "800 g", "rigid": true } ]
   },
   {
@@ -420,6 +435,12 @@
         "id": "ammo_box_army_10_50bmg",
         "name": { "str": ".50 BMG ammo box", "str_pl": ".50 BMG ammo boxes" },
         "description": "A small painted in white ammo box.  Black text printed on the front says \"10 CARTRIDGES\n12.7x99MM BALL M33\n(50 Browning)\"",
+        "weight": 0
+      },
+      {
+        "id": "20_ammo_box_10",
+        "name": { "str": "20 gauge ammo box", "str_pl": "20 gauge ammo boxes" },
+        "description": "This box holds 25 rounds of 20 gauge shells.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo",
         "weight": 0
       }
     ]
@@ -700,60 +721,6 @@
     "weight": "27 g",
     "volume": "280 ml",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "213 ml", "max_contains_weight": "700 g", "rigid": true } ]
-  },
-  {
-    "id": "20_ammo_box_5",
-    "copy-from": "9mm_ammo_box_20",
-    "type": "ITEM",
-    "name": { "str": "20 gauge ammo box", "str_pl": "20 gauge ammo boxes" },
-    "description": "This box holds 5 rounds of 20 gauge shells.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
-    "weight": "5 g",
-    "volume": "80 ml",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "70 ml",
-        "max_contains_weight": "185 g",
-        "rigid": true,
-        "max_item_length": "6 cm"
-      }
-    ]
-  },
-  {
-    "id": "20_ammo_box_10",
-    "copy-from": "9mm_ammo_box_20",
-    "type": "ITEM",
-    "name": { "str": "20 gauge ammo box", "str_pl": "20 gauge ammo boxes" },
-    "description": "This box holds 10 rounds of 20 gauge shells.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
-    "weight": "10 g",
-    "volume": "150 ml",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "140 ml",
-        "max_contains_weight": "370 g",
-        "rigid": true,
-        "max_item_length": "6 cm"
-      }
-    ]
-  },
-  {
-    "id": "20_ammo_box_25",
-    "copy-from": "9mm_ammo_box_20",
-    "type": "ITEM",
-    "name": { "str": "20 gauge ammo box", "str_pl": "20 gauge ammo boxes" },
-    "description": "This box holds 25 rounds of 20 gauge shells.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
-    "weight": "15 g",
-    "volume": "360 ml",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "350 ml",
-        "max_contains_weight": "925 g",
-        "rigid": true,
-        "max_item_length": "6 cm"
-      }
-    ]
   },
   {
     "id": "10mm_ammo_box_20",
