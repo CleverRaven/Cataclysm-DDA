@@ -997,12 +997,9 @@ void starting_inv( npc &who, const npc_class_id &type )
 {
     std::list<item> res;
     if( item_group::group_is_defined( type->carry_override ) ) {
-        for( const item &it : item_group::items_from( type->carry_override ) ) {
-            item_location returned_item = who.i_add( it, true, nullptr, nullptr, false, false );
-            if( returned_item.where() == item_location::type::invalid ) {
-                who.stash_temporary_load_item( it );
-            }
-        }
+        put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
+                                  std::list<item>( item_group::items_from( type->carry_override ).begin(),
+                                          item_group::items_from( type->carry_override ).end() ) );
         return;
     }
 
@@ -1036,13 +1033,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     for( item &it : res ) {
         it.set_owner( who );
     }
-    for( const item &it : res ) {
-        item_location returned_item = who.i_add( it, true, nullptr, nullptr, false,
-                                      !who.has_wield_conflicts( it ) );
-        if( returned_item.where() == item_location::type::invalid ) {
-            who.stash_temporary_load_item( it );
-        }
-    }
+    put_into_vehicle_or_drop( who, item_drop_reason::deliberate, res );
 }
 
 /**

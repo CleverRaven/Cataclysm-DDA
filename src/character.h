@@ -3946,7 +3946,7 @@ class Character : public Creature, public visitable
         mutable std::map<const json_character_flag, bool> bio_flag_cache;
         // this is a temporary member, meant to facilitate items that can't be added on load,
         // to be created on the first game turn.
-        std::vector<item> temporary_load_items;
+        std::list<item> temporary_load_items;
     public:
         void add_temporary_load_items();
         void stash_temporary_load_item( const item &it );

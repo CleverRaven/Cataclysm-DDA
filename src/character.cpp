@@ -16,6 +16,7 @@
 #include "action.h"
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
+#include "activity_handlers.h"
 #include "addiction.h"
 #include "bonuses.h"
 #include "clone_ptr.h"
@@ -2240,10 +2241,7 @@ void Character::stash_temporary_load_item( const item &it )
 void Character::add_temporary_load_items()
 {
     if( !temporary_load_items.empty() ) {
-        for( const item &it : temporary_load_items ) {
-            // do not allow wield, because this was carried over
-            i_add( it, true, nullptr, nullptr, true, false );
-        }
+        put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, temporary_load_items );
         temporary_load_items.clear();
     }
 }

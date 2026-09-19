@@ -260,11 +260,10 @@ static tripoint_bub_ms read_legacy_creature_pos( const JsonObject &data )
     }
     return pos;
 }
-// delete after 0.J
-static std::vector<item> json_load_inv_items( const JsonArray &ja )
+
+static std::list<item> json_load_inv_items( const JsonArray &ja )
 {
-    std::vector<item> batch;
-    batch.reserve( ja.size() );
+    std::list<item> batch;
     for( JsonObject jo : ja ) {
         item tmp;
         tmp.deserialize( jo );
@@ -1068,14 +1067,11 @@ void Character::load( const JsonObject &data )
         set_part_frostbite_timer( bodypart_id( "foot_r" ), frostbite_timer[11] );
     }
 
-    // delete the whole if statement after 0.J
+    // delete first part after 0.J
     if( data.has_member( "inv" ) ) {
-        for( const item &it : json_load_inv_items( data.get_array( "inv" ) ) ) {
-            item_location returned_item = i_add( it, true, nullptr, nullptr, false, false );
-            if( returned_item.where() == item_location::type::invalid ) {
-                stash_temporary_load_item( it );
-            }
-        }
+        temporary_load_items = json_load_inv_items( data.get_array( "inv" ) );
+    } else {
+        data.read( "temporary_load_items", temporary_load_items );
     }
 
     set_wielded_item( item() );
@@ -1550,7 +1546,6 @@ void Character::store( JsonOut &json ) const
     json.member( "addictions", addictions );
     json.member( "death_eocs", death_eocs );
     json.member( "worn", worn ); // also saves contents
-    json.member( "temporary_load_items", temporary_load_items );
 
     if( const auto lt_ptr = last_target.lock() ) {
         if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
