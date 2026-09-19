@@ -3817,7 +3817,8 @@ std::optional<int> iuse::scba_mask_activate( Character *p, item *it, const tripo
         return std::nullopt;
 
     } else {
-        p->add_msg_if_player( _( "You test the regulator and prep your %s for breathing.  Air is flowing." ), it->tname() );
+        p->add_msg_if_player(
+            _( "You test the regulator and prep your %s for breathing.  Air is flowing." ), it->tname() );
         it->active = true;
         it->convert( itype_id( it->typeId().str() + "_scba_on" ), p );
     }
