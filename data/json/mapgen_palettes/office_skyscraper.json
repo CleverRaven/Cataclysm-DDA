@@ -362,7 +362,7 @@
     "items": {
       "C": { "item": "SUS_office_desk", "chance": 33 },
       "j": { "item": "SUS_trash_trashcan", "chance": 65 },
-      "J": { "item": "SUS_trash_trashcan", "chance": 65 },
+      "J": { "item": "SUS_trash_dumpster", "chance": 65 },
       "b": { "item": "shower", "chance": 20 },
       "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
       "B": { "item": "homebooks", "chance": 30, "repeat": [ 2, 4 ] },

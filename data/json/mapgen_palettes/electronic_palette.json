@@ -44,6 +44,7 @@
       "(": "f_dumpster"
     },
     "toilets": { "T": {  } },
+    "monster": { "(": { "monster": "mon_raccoon", "chance": 10, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
     "items": {
       "1": { "item": "elecsto_books", "chance": 10 },
       "2": { "item": "elecsto_homapl", "chance": 50 },
