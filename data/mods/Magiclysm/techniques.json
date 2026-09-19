@@ -22,7 +22,7 @@
     "melee_allowed": true,
     "crit_tec": true,
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
-    "eocs": [ "EOC_HYBRASIL_ENCHANTMENT_SELECTOR" ],
+    "eocs": [ "EOC_HYBRASIL_ENCHANTMENT" ],
     "description": "Casts different spells on crit depending on user hp.",
     "attack_vectors": [ "vector_null" ]
   }
