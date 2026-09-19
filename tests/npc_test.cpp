@@ -945,13 +945,13 @@ TEST_CASE( "npc_eats_food_with_harmless_iuse", "[npc][food]" )
     }
 
     SECTION( "refuses marloss berry" ) {
-        // MARLOSS iuse + MYCUS_OK flag -- fungal transformation
+        // MARLOSS and MYCUS_OK flags -- fungal transformation
         guy.i_add( item( itype_marloss_berry ) );
         CHECK_FALSE( guy.consume_food() );
     }
 
     SECTION( "refuses marloss gel" ) {
-        // MARLOSS_GEL iuse -- fungal transformation, no MYCUS_OK flag
+        // MARLOSS flag -- fungal transformation, no MYCUS_OK flag
         guy.i_add( item( itype_marloss_gel ) );
         CHECK_FALSE( guy.consume_food() );
     }

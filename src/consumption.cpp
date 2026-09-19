@@ -114,6 +114,7 @@ static const flag_id json_flag_ALLERGEN_EGG( "ALLERGEN_EGG" );
 static const flag_id json_flag_ALLERGEN_MEAT( "ALLERGEN_MEAT" );
 static const flag_id json_flag_ALLERGEN_MILK( "ALLERGEN_MILK" );
 static const flag_id json_flag_ANIMAL_PRODUCT( "ANIMAL_PRODUCT" );
+static const flag_id json_flag_MARLOSS( "MARLOSS" );
 
 static const item_category_id item_category_chems( "chems" );
 
@@ -183,6 +184,7 @@ static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
+static const trait_id trait_MARLOSS_AVOID( "MARLOSS_AVOID" );
 static const trait_id trait_MEATARIAN( "MEATARIAN" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
@@ -202,6 +204,7 @@ static const trait_id trait_THRESH_CATTLE( "THRESH_CATTLE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 static const trait_id trait_THRESH_MOUSE( "THRESH_MOUSE" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_RABBIT( "THRESH_RABBIT" );
 static const trait_id trait_THRESH_RAT( "THRESH_RAT" );
@@ -892,6 +895,20 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     }
 
     if( edible || drinkable ) {
+        // Consumption EOCs run too late to refuse the food without ingesting it.
+        if( food.has_flag( json_flag_MARLOSS ) ) {
+            if( is_npc() ) {
+                return ret_val<edible_rating>::make_failure( _( "That doesn't look edible to you." ) );
+            }
+            if( has_trait( trait_MARLOSS_AVOID ) ) {
+                return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
+                        _( "After what happened that last time?  Nuh-uh.  You're not eating that alien poison." ) );
+            }
+            if( has_trait( trait_THRESH_MYCUS ) ) {
+                return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
+                        _( "we no longer require this scaffolding.  we reserve it for other uses." ) );
+            }
+        }
         // For all those folks who loved eating Marloss berries.  D:< mwuhahaha
         if( has_trait( trait_M_DEPENDENT ) && !food.has_flag( flag_MYCUS_OK ) ) {
             return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,

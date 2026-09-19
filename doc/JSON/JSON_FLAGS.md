@@ -548,6 +548,7 @@ These branches are the valid `dreams` from [dreams.json](/data/json/dreams.json)
 - ```MUTAGEN_CATALYST``` Injecting it will jumpstart mutation.
 - ```MUTAGEN_PRIMER``` Injecting it will prime your body for mutation.
 - ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters.  Only applies to Mycus fruits by default.
+- ```MARLOSS``` Marloss food, refused by NPCs and characters with `MARLOSS_AVOID` or `THRESH_MYCUS` before consumption effects, nutrition or addictions are applied.  Does not apply to Mycus food.
 - ```NEGATIVE_MONOTONY_OK``` Allows `negative_monotony` property to lower comestible fun to negative values.
 - ```NO_AUTO_CONSUME``` Consumables with this flag would not get consumed in auto-eat / auto-drink zone.
 - ```NO_INGEST``` Administered by some means other than oral intake.

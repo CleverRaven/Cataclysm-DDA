@@ -506,21 +506,6 @@
   },
   {
     "type": "item_action",
-    "id": "MARLOSS",
-    "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
-    "id": "MARLOSS_GEL",
-    "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
-    "id": "MARLOSS_SEED",
-    "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
     "id": "MA_MANUAL",
     "name": { "str": "Read" }
   },
@@ -583,11 +568,6 @@
     "type": "item_action",
     "id": "MULTICOOKER",
     "name": { "str": "Cook" }
-  },
-  {
-    "type": "item_action",
-    "id": "MYCUS",
-    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
