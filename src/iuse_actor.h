@@ -546,7 +546,8 @@ class salvage_actor : public iuse_actor
         /** Moves used per unit of volume of cut item */
         int moves_per_part = 25;
 
-        std::optional<int> try_to_cut_up( Character &p, item &cutter, item_location &cut ) const;
+        std::optional<int> try_to_cut_up( Character &p, item &cutter, item_location &cut,
+                                          bool damaged_by_wheels = false ) const;
         int time_to_cut_up( const item &it ) const;
         bool valid_to_cut_up( const Character *p, const item &it ) const;
 
@@ -557,7 +558,7 @@ class salvage_actor : public iuse_actor
         std::optional<int> use( Character *, item &, map *here, const tripoint_bub_ms & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
     private:
-        void cut_up( Character &p, item_location &cut ) const;
+        void cut_up( Character &p, item_location &cut, bool damaged_by_wheels ) const;
 };
 
 /**

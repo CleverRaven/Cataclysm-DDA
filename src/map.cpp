@@ -76,6 +76,7 @@
 #include "mission.h"
 #include "memory_fast.h"
 #include "messages.h"
+#include "mondeath.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
@@ -198,6 +199,7 @@ static const itype_id itype_HEW_printout_data_vitrified( "HEW_printout_data_vitr
 static const itype_id
 itype_HEW_printout_data_void_spider_lair( "HEW_printout_data_void_spider_lair" );
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_debug_fake_salvage_actor( "debug_fake_salvage_actor" );
 static const itype_id itype_maple_sap( "maple_sap" );
 static const itype_id itype_mws_monster_corpse_weather_data( "mws_monster_corpse_weather_data" );
 static const itype_id itype_mws_portal_storm_weather_data( "mws_portal_storm_weather_data" );
@@ -4239,6 +4241,10 @@ void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &c
         return;
     }
 
+    // HACK: We use this to "salvage" items that are run over, turning them into their chunks or patches of themselves if possible.
+    // Initialized outside the loop to prevent reiniting it
+    item knife( itype_debug_fake_salvage_actor );
+
     // Keep track of how many items have been damaged, and what the first one is
     bool item_was_damaged = false;
     int items_damaged = 0;
@@ -4281,6 +4287,58 @@ void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &c
         const float material_factor = i->chip_resistance( true );
         if( power < material_factor ) {
             i++;
+            continue;
+        }
+
+        if( veh && vp_wheel ) {
+            const double relative_mass = static_cast<double>( i->weight().value() ) / static_cast<double>
+                                         ( veh->total_mass( *this ).value() );
+            // Make sure our velocity doesn't flip signs. i.e. we don't "bounce" off an object, even one that's more than 2.0x as heavy as our vehicle.
+            const double remaining_velocity_factor = std::clamp( ( 1.0 - ( relative_mass / 2.0 ) ), 0.0, 1.0 );
+            // Wheel runs over object --> Vehicle loses some speed
+            veh->velocity = veh->velocity * remaining_velocity_factor;
+
+            // Always reduce power of remaining wheel damage.
+            power -= material_factor;
+
+            // Wheels running over items can do one of three things to the item:
+            // For non-pulped corpses, they can gib the corpse.
+            // For salvageable items, they salvage them, at extreme loss. e.g. a pile of sticks can be turned into scattered "splintered wood"
+            // For all other items they are either ejected (rarely) or the wheels roll over them (do nothing).
+            if( i->is_corpse() && i->can_revive() ) {
+                damaged_item_name = i->tname();
+                items_damaged++;
+                items_destroyed++;
+                // Remove the corpse first, to make sure we have space for the resulting gibs.
+                i = i_rem( p, i );
+                // Extremely funny implementation: Making a fake monster and splattering it.
+                monster mon( i->get_corpse_mon()->id );
+                mon.set_hp( mon.get_hp_max() * -2 );
+                mon.setpos( get_abs( p ) );
+                mdeath::splatter( this, mon );
+                continue;
+            } else if( i->is_salvageable() ) {
+                const salvage_actor *salvage_iuse = dynamic_cast<const salvage_actor *>
+                                                    ( knife.get_use( "salvage" )->get_actor_ptr() );
+                item_location there( map_cursor( p ), &*i );
+                // It's fine to pass the player here - we discard any character-related values with the damaged_by_wheels boolean.
+                std::optional<int> ret = salvage_iuse->try_to_cut_up( get_player_character(), knife, there, true );
+                if( ret.has_value() && ret.value() != 0 ) {
+                    i = i_rem( p, i ); // Manually remove item to preserve iterator
+                }
+            } else {
+                // Small chance: Eject item away from wheel
+                if( one_in( 5 ) ) {
+                    point_rel_ms move_to( rng( 0, 1 ), rng( 0, 1 ) );
+                    if( move_to != point_rel_ms() ) {  // Don't "move" to the same tile, always an adjacent one
+                        add_item( p + move_to, *i );
+                        i = i_rem( p, i );
+                        continue;
+                    }
+                }
+                // Nothing happens! Item stays where it is, vehicle keeps rolling with its remaining velocity.
+                i++;
+            }
             continue;
         }
 

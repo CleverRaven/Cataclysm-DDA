@@ -913,6 +913,26 @@
     "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
+    "id": "debug_fake_salvage_actor",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "pocket knife", "str_pl": "pocket knives" },
+    "description": "A small pocket knife.  It isn't great for combat, but it's better than nothing.  It's sharp enough to butcher with.",
+    "weight": "161 g",
+    "volume": "125 ml",
+    "longest_side": "11 cm",
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "brown",
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
+    "flags": [ "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
+    "melee_damage": { "stab": 7 }
+  },
+  {
     "id": "tindalos_whistle",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],

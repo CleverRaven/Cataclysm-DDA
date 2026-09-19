@@ -407,6 +407,9 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
                     it_name, veh.name, part_name
                 );
                 break;
+            case item_drop_reason::no_message:
+                // Do nothing!
+                break;
         }
     } else {
         switch( reason ) {
@@ -416,6 +419,9 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
                     _( "<npcname> puts several items in the %1$s's %2$s." ),
                     veh.name, part_name
                 );
+                break;
+            case item_drop_reason::no_message:
+                // Do nothing!
                 break;
             case item_drop_reason::too_large:
             case item_drop_reason::too_heavy:
@@ -509,6 +515,9 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
                     it_name, ter_name
                 );
                 break;
+            case item_drop_reason::no_message:
+                // Do nothing!
+                break;
         }
 
         if( get_option<bool>( "AUTO_NOTES_DROPPED_FAVORITES" )
@@ -540,6 +549,9 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
                     );
                 }
                 break;
+            case item_drop_reason::no_message:
+                // Do nothing!
+                break;
             case item_drop_reason::too_large:
             case item_drop_reason::too_heavy:
             case item_drop_reason::tumbling:
@@ -556,6 +568,7 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
             craft_relocated( dropped_loc );
             items_dropped.push_back( std::move( dropped_loc ) );
         }
+        // Create a new item, handle pickup ownership on it, immediately throw away the item??
         item( it ).handle_pickup_ownership( you );
     }
 

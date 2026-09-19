@@ -164,7 +164,8 @@ enum class item_drop_reason : int {
     deliberate,
     too_large,
     too_heavy,
-    tumbling
+    tumbling,
+    no_message
 };
 
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items );
