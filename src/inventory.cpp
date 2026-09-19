@@ -12,6 +12,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
@@ -717,7 +718,8 @@ std::list<item> inventory::use_amount( const itype_id &it, int quantity,
         for( std::list<item>::iterator stack_iter = iter->begin();
              stack_iter != iter->end() && quantity > 0;
              /* noop */ ) {
-            if( stack_iter->use_amount( it, quantity, ret, filter ) ) {
+            if( !craft_reservation::contains_reserved( *stack_iter ) &&
+                stack_iter->use_amount( it, quantity, ret, filter ) ) {
                 stack_iter = iter->erase( stack_iter );
             } else {
                 ++stack_iter;
