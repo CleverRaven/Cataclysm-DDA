@@ -3414,10 +3414,10 @@ void basecamp::start_crafting( const mission_id &miss_id )
         components.consume_components();
         item_components used = components.consumed_components();
         for( const item &results : making->create_results( num_to_make, &used ) ) {
-            comp->companion_mission_inv.add_item( results );
+            comp->companion_mission_inv.insert( results );
         }
         for( const item &byproducts : making->create_byproducts( num_to_make ) ) {
-            comp->companion_mission_inv.add_item( byproducts );
+            comp->companion_mission_inv.insert( byproducts );
         }
     }
 }
@@ -3447,7 +3447,11 @@ std::pair<size_t, std::string> basecamp::farm_action( const point_rel_omt &dir, 
     std::set<std::string> plant_names;
     std::vector<item *> seed_inv;
     if( comp ) {
-        seed_inv = comp->companion_mission_inv.items_with( farm_valid_seed );
+        for( item &it : comp->companion_mission_inv ) {
+            if( farm_valid_seed( it ) ) {
+                seed_inv.push_back( &it );
+            }
+        }
     }
 
     // farm_map is what the area actually looks like
@@ -3538,7 +3542,14 @@ std::pair<size_t, std::string> basecamp::farm_action( const point_rel_omt &dir, 
                         farm_map.add_item_or_charges( pos, used_seed.front() );
                         farm_map.set( pos, ter_t_dirt, furn_f_plant_seed );
                         if( !tmp_seed->count_by_charges() ) {
-                            comp->companion_mission_inv.remove_item( tmp_seed );
+                            // remove_item
+                            for( auto iter = comp->companion_mission_inv.begin(); iter != comp->companion_mission_inv.end(); ) {
+                                if( tmp_seed == &*iter ) {
+                                    iter = comp->companion_mission_inv.erase( iter );
+                                } else {
+                                    ++iter;
+                                }
+                            }
                         }
                     }
                 }
@@ -3720,11 +3731,9 @@ void basecamp::finish_return( npc &comp, const bool fixed_time, const std::strin
     comp.companion_mission_time = calendar::before_time_starts;
     comp.companion_mission_time_ret = calendar::before_time_starts;
     if( !cancel ) {
-        for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
-            for( const item &it : comp.companion_mission_inv.const_stack( i ) ) {
-                if( !it.count_by_charges() || it.charges > 0 ) {
-                    place_results( it );
-                }
+        for( const item &it : comp.companion_mission_inv ) {
+            if( !it.count_by_charges() || it.charges > 0 ) {
+                place_results( it );
             }
         }
     }
@@ -4570,13 +4579,12 @@ bool basecamp::farm_return( const mission_id &miss_id, const point_rel_omt &dir 
 
     Character &player_character = get_player_character();
     //Give any seeds the NPC didn't use back to you.
-    for( size_t i = 0; i < comp->companion_mission_inv.size(); i++ ) {
-        for( const item &it : comp->companion_mission_inv.const_stack( i ) ) {
-            if( it.charges > 0 ) {
-                player_character.i_add( it );
-            }
+    for( const item &it : comp->companion_mission_inv ) {
+        if( it.charges > 0 ) {
+            player_character.i_add( it );
         }
     }
+
     finish_return( *comp, true, msg, skill_survival.str(), 2 );
     return true;
 }
@@ -4760,7 +4768,7 @@ int om_harvest_ter( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t,
                 if( bash ) {
                     for( const item &itm : item_group::items_from( ter_tgt.bash->drop_group,
                             calendar::turn ) ) {
-                        comp.companion_mission_inv.push_back( itm );
+                        comp.companion_mission_inv.insert( itm );
                     }
                     harvested++;
                     target_bay.ter_set( p, ter_tgt.bash->ter_set );
@@ -4856,7 +4864,7 @@ mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt
                 total_num += 1;
                 if( take && x_in_y( chance, 100 ) ) {
                     if( comp ) {
-                        comp->companion_mission_inv.push_back( i );
+                        comp->companion_mission_inv.insert( i );
                     }
                     harvested_m += i.weight( true );
                     harvested_v += i.volume( true );
@@ -4960,10 +4968,10 @@ bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
         }
 
         if( split_item.is_null() ) {
-            comp.companion_mission_inv.add_item( *i );
+            comp.companion_mission_inv.insert( *i );
             target_bay.i_rem( relay_site_stash, i );
         } else {
-            comp.companion_mission_inv.add_item( split_item );
+            comp.companion_mission_inv.insert( split_item );
         }
     }
 

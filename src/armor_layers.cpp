@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "body_part_set.h"
 #include "bodypart.h"
 #include "catacharset.h"
@@ -1158,7 +1159,9 @@ void outfit::sort_armor( Character &guy )
                     } else if( guy.invlet_to_item( invlet ) != nullptr ) {
                         ++iiter;
                     } else {
-                        guy.inv->reassign_item( w, invlet );
+                        if( guy.is_avatar() ) {
+                            guy.as_avatar()->reassign_item_cache( w, invlet, true );
+                        }
                         ++witer;
                         ++iiter;
                     }

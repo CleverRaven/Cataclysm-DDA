@@ -62,7 +62,7 @@ int get_remaining_charges( const itype_id &tool_id )
 
 bool player_has_item_of_type( const itype_id &id )
 {
-    std::vector<item *> matching_items = get_player_character().inv->items_with(
+    std::vector<item *> matching_items = get_player_character().items_with(
     [&]( const item & i ) {
         return i.typeId() == id;
     } );
@@ -90,7 +90,6 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.clear_worn();
     dummy.calc_encumbrance();
     dummy.invalidate_crafting_inventory();
-    dummy.inv->clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
     // clear_mutations() removes traits but does not rebuild bodypart topology.
@@ -240,7 +239,6 @@ void equip_shooter( npc &shooter, const std::vector<itype_id> &apparel )
 {
     CHECK( !shooter.in_vehicle );
     shooter.clear_worn();
-    shooter.inv->clear();
     for( const itype_id &article : apparel ) {
         shooter.wear_item( item( article ) );
     }

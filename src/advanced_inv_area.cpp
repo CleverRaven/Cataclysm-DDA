@@ -33,7 +33,7 @@ int advanced_inv_area::get_item_count() const
 {
     Character &player_character = get_player_character();
     if( id == AIM_INVENTORY ) {
-        return player_character.inv->size();
+        return 0;
     } else if( id == AIM_WORN ) {
         return player_character.worn.size();
     } else if( id == AIM_ALL ) {

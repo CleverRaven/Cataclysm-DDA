@@ -1800,10 +1800,6 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         } else {
             uistate.transfer_save.exit_code = aim_exit::none;
         }
-        // Might have changed a stack (activated an item, repaired an item, etc.)
-        if( spane.get_area() == AIM_INVENTORY ) {
-            player_character.inv->restack( player_character );
-        }
         recalc = true;
     } else {
         item &it = *sitem->items.front();
@@ -2018,8 +2014,6 @@ void advanced_inventory::display()
 
     exit = false;
     if( !is_processing() ) {
-
-        player_character.inv->restack( player_character );
 
         recalc = true;
         g->wait_popup_reset();
