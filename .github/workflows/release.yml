@@ -223,7 +223,7 @@ jobs:
         id: runvcpkg
         with:
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-          vcpkgGitCommitId: 'f6672d8e480ccdecddfad3fd1b838ba369ffe6cd'
+          vcpkgGitCommitId: 'a1cae005c39be7b18ba319fced856b68d7276271'
       - name: Install dependencies (windows msvc) (3/4)
         if: runner.os == 'Windows'
         run: |
@@ -241,7 +241,7 @@ jobs:
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: msvc-full-features/vcpkg_installed
-          key: vcpkg-installed-sdl3-${{ hashFiles('msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/x64-windows-static.cmake') }}-f6672d8e480ccdecddfad3fd1b838ba369ffe6cd
+          key: vcpkg-installed-sdl3-${{ hashFiles('msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/x64-windows-static.cmake') }}-a1cae005c39be7b18ba319fced856b68d7276271
       - name: Install dependencies (Linux, curses)
         if: runner.os == 'Linux' && matrix.android == 'none' && !matrix.wasm && matrix.tiles != 1
         run: |
@@ -259,7 +259,7 @@ jobs:
         if: runner.os == 'Linux' && matrix.android == 'none' && !matrix.wasm && matrix.tiles == 1
         uses: ./.github/actions/setup-sdl3-stack
         with:
-          cache-key: sdl3-stack-strict-sdl-3.4.10-image-3.4.4-ttf-3.2.2-mixer-3.2.4-ubuntu-24.04-v2
+          cache-key: sdl3-stack-strict-sdl-3.4.16-image-3.4.6-ttf-3.2.2-mixer-3.2.4-ubuntu-24.04-v2
           prefix: ${{ runner.workspace }}/sdl3_prefix
           stage-licenses: "true"
       - name: Install Emscripten (WebAssembly)
@@ -288,7 +288,7 @@ jobs:
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ runner.workspace }}/sdl3_prefix
-          key: sdl3-stack-universal-sdl-3.4.10-image-3.4.4-ttf-3.2.2-mixer-3.2.4-${{ runner.os }}-v5
+          key: sdl3-stack-universal-sdl-3.4.16-image-3.4.6-ttf-3.2.2-mixer-3.2.4-${{ runner.os }}-v5
       - name: Build SDL3 stack from source (mac, universal)
         if: runner.os == 'macOS' && matrix.tiles == 1 && steps.cache-sdl3-release-macos.outputs.cache-hit != 'true'
         run: |
@@ -298,14 +298,14 @@ jobs:
           # so /opt/local must be on CMAKE_PREFIX_PATH.
           export CMAKE_PREFIX_PATH=$PREFIX:/opt/local
           ARCH_ARG='-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64'
-          git clone --depth 1 --branch release-3.4.10 https://github.com/libsdl-org/SDL.git sdl3_src
+          git clone --depth 1 --branch release-3.4.16 https://github.com/libsdl-org/SDL.git sdl3_src
           cmake -S sdl3_src -B sdl3_build "$ARCH_ARG" \
               -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=$PREFIX \
               -DBUILD_SHARED_LIBS=ON
           cmake --build sdl3_build -j$(sysctl -n hw.ncpu)
           cmake --install sdl3_build
-          git clone --depth 1 --branch release-3.4.4 --recurse-submodules --shallow-submodules https://github.com/libsdl-org/SDL_image.git sdl3_image_src
+          git clone --depth 1 --branch release-3.4.6 --recurse-submodules --shallow-submodules https://github.com/libsdl-org/SDL_image.git sdl3_image_src
           cmake -S sdl3_image_src -B sdl3_image_build "$ARCH_ARG" \
               -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=$PREFIX \
