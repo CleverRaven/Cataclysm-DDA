@@ -295,6 +295,32 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 20 } } ]
   },
   {
+    "id": "savage_220_magazine",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "2-round 20 gauge magazine" },
+    "description": "Detachable box magazine for bolt-action shotgun, that can fit two 20 bore shells.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mossberg_590m_mag_20",
+        "name": { "str": "Savage 220 Slug 2-round magazine" },
+        "description": "Detachable box magazine for bolt-action shotgun, that can fit two 20 bore shells."
+      }
+    ],
+    "weight": "90 g",
+    "volume": "170 ml",
+    "longest_side": "182 mm",
+    "price": "40 USD",
+    "price_postapoc": "20 cent",
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "dark_gray",
+    "ammo_type": [ "20shot" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "20shot": 2 } } ]
+  },
+  {
     "id": "mka_1919_5",
     "copy-from": "mka_1919_10",
     "type": "ITEM",

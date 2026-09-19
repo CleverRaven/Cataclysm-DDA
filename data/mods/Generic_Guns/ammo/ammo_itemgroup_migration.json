@@ -86,6 +86,11 @@
   },
   {
     "type": "item_group",
+    "id": "boxed_20",
+    "items": [ { "group": "boxed_shot" } ]
+  },
+  {
+    "type": "item_group",
     "id": "boxed_410",
     "items": [ { "group": "boxed_shot" } ]
   },

@@ -1,0 +1,132 @@
+[
+  {
+    "id": "mossberg_500_20",
+    "copy-from": "mossberg_500",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "5-round hunting shotgun, 20 gauge" },
+    "description": "Classic all-purpose shotgun, adapted to use 20 bore shells.  While being somewhat weaker than classic 12 bore, 26 inch of barrel length allow it to kick reasonable punch, without being as heavy as it's bigger brothers.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mossberg_500_20",
+        "name": { "str": "Mossberg 500, 20 gauge" },
+        "description": "Classic, famous Mossberg 500 Hunting All Purpose Field, adapted to use 20 bore shells.  While being somewhat weaker than classic 12 bore, 26 inch of barrel length allow it to kick reasonable punch, without being as heavy as it's bigger brothers."
+      }
+    ],
+    "weight": "3175 g",
+    "volume": "2000 ml",
+    "longest_side": "1149 mm",
+    "barrel_length": "660 mm",
+    "price": "545 USD",
+    "price_postapoc": "3 USD",
+    "clip_size": 5,
+    "ammo": [ "20shot" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "20shot": 5 } } ]
+  },
+  {
+    "id": "remington_870_20",
+    "copy-from": "remington_870",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "4-round hunting shotgun, 20 gauge" },
+    "description": "The most shotgun-looking shotgun, this one was adapted to use 20 bore shells.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "remington_870_20",
+        "name": { "str": "Remington 870 Wingmaster shotgun, 20 gauge" },
+        "description": "The most shotgun-looking shotgun, this child of Remington Arms were adapted to use 20 bore shells."
+      }
+    ],
+    "ascii_picture": "remington870",
+    "weight": "2778 g",
+    "volume": "2300 ml",
+    "longest_side": "1181 mm",
+    "barrel_length": "660 mm",
+    "price": "1023 USD",
+    "clip_size": 4,
+    "ammo": [ "20shot" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "20shot": 4 } } ]
+  },
+  {
+    "id": "savage_model_220",
+    "copy-from": "gun_base_shotgun_manual",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "bolt-action shotgun, 20 gauge" },
+    "description": "Child of Massachusetts gunmakers, this is a rifled bolt-action shotgun, designed mainly to be used with slugs, with two round detachable magazine.  Using it for anything but a casual hunting would be a challenge of it's own.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "savage_model_220",
+        "name": { "str": "Savage 220 Slug, 20 gauge" },
+        "description": "Child of Massachusetts gunmakers, this is a rifled bolt-action shotgun, designed mainly to be used with slugs, with two round detachable magazine.  Using it for anything but a casual hunting would be a challenge of it's own."
+      }
+    ],
+    "weight": "3330 g",
+    "volume": "2800 ml",
+    "longest_side": "1092 mm",
+    "barrel_length": "559 mm",
+    "price": "719 USD",
+    "price_postapoc": "3 USD",
+    "material": [ "steel", "plastic" ],
+    "dispersion": 395,
+    "durability": 7,
+    "barrel_volume": "252 ml",
+    "extend": { "flags": [ "BOLT_ACTION" ] },
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "ammo": [ "20shot" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "savage_220_magazine" ] } ],
+    "melee_damage": { "bash": 3 }
+  },
+  {
+    "id": "browning_citori_20",
+    "copy-from": "gun_base_shotgun_manual",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "double-barreled shotgun, 20 gauge" },
+    "description": "Manufactured in Japan, this 28 inch over-under double-barreled shotgun, loaded with 20 bore shells, is a classy tool to hunt a deer and to kill a man.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "browning_citori_20",
+        "name": { "str": "Browning Citori 20 gauge shotgun" },
+        "description": "Manufactured in Japan, this 28 inch over-under double-barreled shotgun, loaded with 20 bore shells, is a classy tool to hunt a deer and to kill a man."
+      }
+    ],
+    "clip_size": 2,
+    "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2, "VOLLEY" ] ],
+    "weight": "3231 g",
+    "volume": "1819 ml",
+    "longest_side": "1143 mm",
+    "barrel_length": "711 mm",
+    "price": "2640 USD",
+    "price_postapoc": "3 USD",
+    "barrel_volume": "494 ml",
+    "ammo": [ "20shot" ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "20shot": 2 } } ]
+  }
+]
