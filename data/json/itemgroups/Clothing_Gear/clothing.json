@@ -1780,7 +1780,7 @@
     "type": "item_group",
     "id": "fireman_mask",
     "items": [
-      { "item": "mask_bunker", "prob": 70, "charges": [ 0, -1 ] },
+      { "item": "mask_bunker", "prob": 70 },
       [ "mask_dust", 30 ],
       {
         "distribution": [
