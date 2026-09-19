@@ -862,6 +862,11 @@
     "type": "json_flag"
   },
   {
+    "id": "NPC_AVOID_CONSUMPTION",
+    "type": "json_flag",
+    "info": "NPCs will not consume this item autonomously."
+  },
+  {
     "id": "NO_WEAR_EFFECT",
     "type": "json_flag",
     "info": "This item can be worn, but it <neutral>won't provide any effects</neutral>."
