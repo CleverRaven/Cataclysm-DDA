@@ -7261,7 +7261,7 @@ void Character::abort_automove()
     }
 
     clear_destination();
-    if( g->overmap_data.fast_traveling && is_avatar() ) {
+    if( g->overmap_data.overmap_only_auto_travel && is_avatar() ) {
         ui::omap::force_quit();
     }
 }
