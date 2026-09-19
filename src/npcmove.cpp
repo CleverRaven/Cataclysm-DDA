@@ -38,6 +38,7 @@
 #include "character_oracle.h"
 #include "clzones.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -2604,6 +2605,9 @@ void npc::evaluate_best_attack( const Creature *target )
     // punching things is always available
     compare( std::make_shared<npc_attack_melee>( null_item_reference() ), "barehanded" );
     visit_items( [&compare, this, &here]( item * it, item * ) {
+        if( craft_reservation::contains_reserved( *it ) ) {
+            return VisitResponse::SKIP;
+        }
         if( can_wield( *it ).success() ) {
             // you can theoretically melee with anything.
             compare( std::make_shared<npc_attack_melee>( *it ), "(as MELEE) " + it->display_name() );
@@ -2720,7 +2724,8 @@ item_location npc::find_reloadable()
     // TODO: Make it understand smaller and bigger magazines
     item_location reloadable;
     visit_items( [this, &reloadable]( item * node, item * ) {
-        if( !wants_to_reload( *this, *node ) ) {
+        if( !craft_reservation::usable_by_automation( *node ) ||
+            !wants_to_reload( *this, *node ) ) {
             return VisitResponse::NEXT;
         }
 
@@ -2783,6 +2788,13 @@ item::reload_option npc::select_ammo( const item_location &base, bool, bool empt
 
     std::vector<item::reload_option> ammo_list;
     list_ammo( base, ammo_list, empty );
+    // Ammunition can be a bound provider on its own, and chambering it just consumes
+    // the round, not a subtree. The avatar has its own override, so no manual reload
+    // is touched here.
+    ammo_list.erase( std::remove_if( ammo_list.begin(), ammo_list.end(),
+    []( const item::reload_option & opt ) {
+        return opt.ammo && !craft_reservation::usable_by_automation( *opt.ammo );
+    } ), ammo_list.end() );
 
     if( ammo_list.empty() ) {
         return item::reload_option();
@@ -3659,7 +3671,8 @@ bool npc::can_move_to( const tripoint_bub_ms &p, bool no_bashing ) const
             !g->is_dangerous_tile( p ) &&
             ( here.passable_through( p ) || ( can_open_door( p, !here.is_outside( pos_bub() ) ) &&
                     !is_hallucination() ) ||
-              ( !no_bashing && here.bash_rating( smash_ability(), p ) > 0 ) )
+              ( !no_bashing && here.bash_rating( smash_ability(), p ) > 0 &&
+                !craft_reservation::bashing_would_break_reservation( here, *this, p ) ) )
           );
 }
 
@@ -3854,7 +3867,8 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
             moved = true;
         }
     } else if( !no_bashing && !smash_ability().empty() && here.is_bashable( p ) &&
-               here.bash_rating( smash_ability(), p ) > 0 ) {
+               here.bash_rating( smash_ability(), p ) > 0 &&
+               !craft_reservation::bashing_would_break_reservation( here, *this, p ) ) {
         mod_moves( -get_speed() * 0.8 );
         here.bash( p, smash_ability() );
     } else {
@@ -4332,9 +4346,17 @@ void npc::find_item()
         return;
     }
 
+    bool declined_dynamically = false;
     const auto consider_item =
-        [&best_value, this]
+        [&best_value, this, &declined_dynamically]
     ( const item & it, const tripoint_bub_ms & p ) {
+        // Targets whole stack entries, so an exact-uid test would send the NPC after a
+        // container holding a reserved provider.
+        if( craft_reservation::contains_reserved( it ) ||
+            craft_reservation::contains_live_craft( it ) ) {
+            declined_dynamically = true;
+            return false;
+        }
         if( ::good_for_pickup( it, *this, p ) ) {
             wanted_item_pos = p;
             best_value = has_item_whitelist() ? 1000 : value( it );
@@ -4388,8 +4410,11 @@ void npc::find_item()
         if( prev_num_items == num_items ) {
             continue;
         }
-        auto cache_tile = [this, &abs_p, num_items]() {
-            if( wanted_item.get_item() == nullptr ) {
+        // Both reservation release and craft completion don't change item count, so a
+        // tile declined for either reason shouldn't be remembered as empty.
+        declined_dynamically = false;
+        auto cache_tile = [this, &abs_p, num_items, &declined_dynamically]() {
+            if( wanted_item.get_item() == nullptr && !declined_dynamically ) {
                 ai_cache.searched_tiles.insert( 1000, abs_p, num_items );
             }
         };
@@ -4585,7 +4610,11 @@ static std::list<item> npc_pickup_from_stack( npc &who, T &items )
 
     for( auto iter = items.begin(); iter != items.end(); ) {
         const item &it = *iter;
-        if( who.can_take_that( it ) && who.wants_take_that( it ) ) {
+        // This erases all wanted items on the tile, otherwise one free item would
+        // sweep up the reserved ones next to it
+        const bool off_limits = craft_reservation::contains_reserved( it ) ||
+                                craft_reservation::contains_live_craft( it );
+        if( !off_limits && who.can_take_that( it ) && who.wants_take_that( it ) ) {
             picked_up.push_back( it );
             iter = items.erase( iter );
         } else {
@@ -4858,6 +4887,9 @@ item *npc::evaluate_best_weapon() const
 
     //Now check through the NPC's inventory for melee weapons, guns, or holstered items
     visit_items( [this, &weap, &best_value, &best]( item * node, item * ) {
+        if( craft_reservation::contains_reserved( *node ) ) {
+            return VisitResponse::SKIP;
+        }
         if( node == &weap ) {
             // Weapon is already evaluated above with danger multiplier.
             // Return NEXT to visit its contents (items inside containers
@@ -5002,8 +5034,8 @@ bool npc::alt_attack()
     };
 
     check_alt_item( &*get_wielded_item() );
-    const auto inv_all = items_with( []( const item & ) {
-        return true;
+    const auto inv_all = items_with( []( const item & itm ) {
+        return !craft_reservation::contains_reserved( itm );
     } );
     for( item *it : inv_all ) {
         // TODO: Cached values - an itype slot maybe?
@@ -5159,7 +5191,8 @@ void npc::heal_self()
         const auto filter_use = [this]( const std::string & filter ) -> std::vector<item *> {
             std::vector<item *> inv_filtered = items_with( [&filter]( const item & itm )
             {
-                return ( itm.type->get_use( filter ) != nullptr ) && itm.ammo_sufficient( nullptr );
+                return craft_reservation::usable_by_automation( itm ) &&
+                ( itm.type->get_use( filter ) != nullptr ) && itm.ammo_sufficient( nullptr );
             } );
             return inv_filtered;
         };
@@ -5424,7 +5457,12 @@ bool npc::consume_food( consume_filter filter )
     }
     int want_quench = ( filter == consume_filter::food_only ) ? 0 : std::max( 0, get_thirst() );
 
-    const std::vector<item_location> inv_food = cache_get_items_with( "is_food", &item::is_food );
+    std::vector<item_location> inv_food = cache_get_items_with( "is_food", &item::is_food );
+    // Eating consumes the item it names, so per-item predicate is the right one
+    inv_food.erase( std::remove_if( inv_food.begin(), inv_food.end(),
+    []( const item_location & loc ) {
+        return !loc || !craft_reservation::usable_by_automation( *loc );
+    } ), inv_food.end() );
 
     if( inv_food.empty() ) {
         if( !needs_food() ) {
@@ -5521,6 +5559,7 @@ void npc::mug_player( Character &mark )
     std::vector<const item *> pseudo_items = mark.get_pseudo_items();
     const auto inv_valuables = mark.items_with( [this, pseudo_items]( const item & itm ) {
         return std::find( pseudo_items.begin(), pseudo_items.end(), &itm ) == pseudo_items.end() &&
+               !craft_reservation::contains_reserved( itm ) &&
                !itm.has_flag( flag_INTEGRATED ) && !itm.has_flag( flag_NO_TAKEOFF ) && value( itm ) > 0;
     } );
     for( item *it : inv_valuables ) {
@@ -6831,7 +6870,8 @@ std::optional<tripoint_bub_ms> npc::find_fire_spot()
     // Check that the NPC has a usable firestarter tool.
     bool found_tool = false;
     visit_items( [this, &found_tool]( item * it, item * ) -> VisitResponse {
-        if( is_usable_npc_firestarter( *this, *it ) )
+        if( craft_reservation::usable_by_automation( *it ) &&
+            is_usable_npc_firestarter( *this, *it ) )
         {
             found_tool = true;
             return VisitResponse::ABORT;
@@ -6854,6 +6894,10 @@ std::optional<tripoint_bub_ms> npc::find_fire_spot()
         if( it == wielded_ptr )
         {
             return VisitResponse::NEXT;
+        }
+        if( craft_reservation::contains_reserved( *it ) )
+        {
+            return VisitResponse::SKIP;
         }
         if( it->has_flag( flag_FIREWOOD ) )
         {
@@ -7076,7 +7120,8 @@ npc::need_result npc::execute_seek_warmth()
         item *fire_tool = nullptr;
         const firestarter_actor *actor = nullptr;
         visit_items( [this, &fire_tool, &actor]( item * it, item * ) -> VisitResponse {
-            if( !is_usable_npc_firestarter( *this, *it ) )
+            if( !craft_reservation::usable_by_automation( *it ) ||
+                !is_usable_npc_firestarter( *this, *it ) )
             {
                 return VisitResponse::NEXT;
             }
@@ -7099,6 +7144,10 @@ npc::need_result npc::execute_seek_warmth()
                 if( it == wielded_ptr )
                 {
                     return VisitResponse::NEXT;
+                }
+                if( craft_reservation::contains_reserved( *it ) )
+                {
+                    return VisitResponse::SKIP;
                 }
                 if( it->has_flag( flag_FIREWOOD ) )
                 {

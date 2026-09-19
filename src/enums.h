@@ -579,4 +579,14 @@ struct enum_traits<surroundings_menu_tab_enum> {
     static constexpr surroundings_menu_tab_enum last = surroundings_menu_tab_enum::num_tabs;
 };
 
+// remaining capacity return value, see item::get_remaining_capacity_for_liquid()
+enum class rem_cap_return {
+    SUCCESS,
+    NO_SPACE,
+    NO_SPACE_IN_PARENT,
+    BUCKET_FAIL, // when item is bucket, and is not on ground/held
+    ANOTHER_LIQUID_INSIDE,
+    LAST
+};
+
 #endif // CATA_SRC_ENUMS_H

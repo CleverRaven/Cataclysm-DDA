@@ -2404,6 +2404,7 @@
     "max_intensity": 4,
     "int_decay_tick": 40,
     "scaling_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "cough_chance": [ 10 ] },
+    "immune_flags": [ "INHALED_TOXIN_IMMUNE" ],
     "limb_score_mods": [
       { "limb_score": "breathing", "resist_modifier": 1, "scaling": -0.25 },
       { "limb_score": "reaction", "resist_modifier": 1, "scaling": -0.1 },
@@ -2425,6 +2426,7 @@
     "harmful_cough": true,
     "max_duration": "30 m",
     "resist_effects": [ "steroid_eye" ],
+    "immune_flags": [ "INHALED_TOXIN_IMMUNE" ],
     "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "per_mod": [ -5, -2 ], "speed_mod": [ -10 ], "cough_chance": [ 5 ] },
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.5, "resist_modifier": 0.75 },
@@ -2938,6 +2940,7 @@
     "miss_messages": [ [ "The world spins.", 2 ] ],
     "harmful_cough": true,
     "max_duration": "40 m",
+    "immune_flags": [ "INHALED_TOXIN_IMMUNE" ],
     "base_mods": {
       "str_mod": [ -1 ],
       "dex_mod": [ -2 ],
@@ -2976,6 +2979,7 @@
       "cough_chance": [ 50 ],
       "vomit_chance": [ 4000 ]
     },
+    "immune_flags": [ "INHALED_TOXIN_IMMUNE" ],
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.45 },
       { "limb_score": "night_vis", "modifier": 0.6 },
@@ -3214,6 +3218,13 @@
     "name": [ "Revived" ],
     "desc": [ "" ],
     "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "id": "berserk",
+    "//COMMENT": "Hardcoded effect to track a pc as berserk. Applied and checked in C++ only.",
+    "name": [ "RAGE" ],
+    "desc": [ "Uncontrollably raging.  You cannot flee from hostiles." ]
   },
   {
     "type": "effect_type",
@@ -3809,6 +3820,7 @@
     ],
     "max_intensity": 2,
     "int_dur_factor": "10 m",
+    "immune_flags": [ "INHALED_TOXIN_IMMUNE" ],
     "scaling_mods": { "vomit_chance": [ 500 ] },
     "blood_analysis_description": "Nicotine"
   },
@@ -3831,6 +3843,7 @@
     "apply_message": "You feel lightheaded.",
     "miss_messages": [ [ "That critter's jumping around like a jitterbug!  It needs to mellow out.", 1 ] ],
     "base_mods": { "per_mod": [ -1 ] },
+    "immune_flags": [ "INHALED_TOXIN_IMMUNE" ],
     "enchantments": [ { "values": [ { "value": "VOMIT_MUL", "multiply": -0.9 } ] } ],
     "blood_analysis_description": "Intoxicant: THC"
   },
@@ -4006,6 +4019,7 @@
     "remove_message": "The slackness leaves your muscles.",
     "rating": "bad",
     "base_mods": { "str_mod": [ -3 ], "dex_mod": [ -3 ], "int_mod": [ -2 ], "per_mod": [ -4 ] },
+    "immune_flags": [ "INHALED_TOXIN_IMMUNE" ],
     "limb_score_mods": [
       { "limb_score": "reaction", "modifier": 0.5 },
       { "limb_score": "move_speed", "modifier": 0.75 },
@@ -4920,6 +4934,7 @@
     "miss_messages": [ [ "You feel groggy in this sweltering, foul air.", 2 ] ],
     "harmful_cough": false,
     "base_mods": { "cough_chance": [ -1002 ] },
+    "immune_flags": [ "INHALED_TOXIN_IMMUNE" ],
     "scaling_mods": {
       "str_mod": [ -0.25 ],
       "per_mod": [ -0.5 ],
@@ -5216,6 +5231,7 @@
     "miss_messages": [ [ "Your lungs burn from the glowing gas.", 1 ] ],
     "harmful_cough": true,
     "max_duration": "10 m",
+    "immune_flags": [ "INHALED_TOXIN_IMMUNE" ],
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "cough_chance": [ 10 ] },
     "show_in_info": true
   },
@@ -5773,6 +5789,7 @@
     "remove_message": "The last traces of the foul stench leave your nostrils.",
     "rating": "bad",
     "max_duration": 120,
+    "immune_flags": [ "INHALED_TOXIN_IMMUNE" ],
     "base_mods": {
       "str_mod": [ -1 ],
       "dex_mod": [ -1 ],
@@ -5819,6 +5836,7 @@
     "int_dur_factor": 144,
     "dur_add_perc": 500,
     "harmful_cough": true,
+    "immune_flags": [ "INHALED_TOXIN_IMMUNE" ],
     "base_mods": {
       "stamina_amount": [ -200 ],
       "stamina_min": [ -100 ],
@@ -5873,6 +5891,7 @@
     "max_duration": 18000,
     "int_dur_factor": 144,
     "dur_add_perc": 500,
+    "immune_flags": [ "INHALED_TOXIN_IMMUNE" ],
     "base_mods": {
       "stamina_amount": [ -50 ],
       "stamina_min": [ -25 ],

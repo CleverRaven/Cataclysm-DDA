@@ -1030,5 +1030,28 @@
     "use_action": [ { "type": "cast_spell", "spell_id": "rupture", "no_fail": true, "level": 10, "need_wielding": true } ],
     "melee_damage": { "bash": 17, "cut": 45 },
     "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true }
+  },
+  {
+    "id": "knife_hybrasil_khanjar",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "weapons",
+    "name": { "str": "Hy-Brasilian khanjar" },
+    "description": "An ornate curved blade made of glassteel covered in intricate looping designs that refract light.  These are the ceremonial daggers of the Hy-Brasil honor guard.",
+    "weight": "38 g",
+    "volume": "100 ml",
+    "longest_side": "35 cm",
+    "price": "40 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
+    "material": [ "glassteel", "leather" ],
+    "symbol": "/",
+    "color": "dark_gray",
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 20 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "CONDUCTIVE", "DURABLE_MELEE" ],
+    "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
+    "techniques": [ "HYBRASIL_ENCHANTMENT" ],
+    "melee_damage": { "cut": 14 }
   }
 ]
