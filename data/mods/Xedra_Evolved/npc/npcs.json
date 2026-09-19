@@ -6,7 +6,7 @@
     "name_suffix": "rebuilt",
     "class": "NC_NPC_XE_RECONSTRUCTED_MIND",
     "attitude": 0,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_DONE",
     "faction": "your_followers"
   }
