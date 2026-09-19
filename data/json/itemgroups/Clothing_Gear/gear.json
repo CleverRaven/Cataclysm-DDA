@@ -366,7 +366,7 @@
       { "item": "wetsuit_gloves", "prob": 70 },
       { "item": "wetsuit_booties", "prob": 70 },
       { "item": "swim_fins", "prob": 100 },
-      { "item": "scubar_regulator", "prob": 60 },
+      { "item": "scuba_regulator", "prob": 60 },
       {
         "distribution": [ { "item": "airspeargun", "prob": 20 }, { "item": "doublespeargun", "prob": 10 }, { "item": "speargun", "prob": 40 } ],
         "prob": 65
