@@ -28,6 +28,7 @@
 #include "global_vars.h"
 #include "item.h"
 #include "item_location.h"
+#include "itype.h"
 #include "line.h"
 #include "magic.h"
 #include "map.h"
@@ -94,6 +95,12 @@ static const effect_on_condition_id
 effect_on_condition_EOC_item_math_test( "EOC_item_math_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_item_teleport_test( "EOC_item_teleport_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_marloss_gain_component( "EOC_MARLOSS_GAIN_COMPONENT" );
+static const effect_on_condition_id
+effect_on_condition_EOC_marloss_consume( "EOC_MARLOSS_CONSUME" );
+static const effect_on_condition_id
+effect_on_condition_EOC_mycus_consume( "EOC_MYCUS_CONSUME" );
 static const effect_on_condition_id
 effect_on_condition_EOC_jmath_test( "EOC_jmath_test" );
 static const effect_on_condition_id effect_on_condition_EOC_map_test( "EOC_map_test" );
@@ -188,12 +195,19 @@ static const furn_str_id furn_test_f_eoc( "test_f_eoc" );
 
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_hammer( "hammer" );
+static const itype_id itype_marloss_berry( "marloss_berry" );
+static const itype_id itype_marloss_gel( "marloss_gel" );
+static const itype_id itype_marloss_seed( "marloss_seed" );
+static const itype_id itype_mycus_fruit( "mycus_fruit" );
+static const itype_id itype_mycus_juice( "mycus_juice" );
 static const itype_id itype_shotgun_s( "shotgun_s" );
 static const itype_id itype_sword_wood( "sword_wood" );
 static const itype_id itype_test_eoc_armor_suit( "test_eoc_armor_suit" );
 static const itype_id itype_test_glock( "test_glock" );
 static const itype_id itype_test_knife_combat( "test_knife_combat" );
 static const itype_id itype_test_whiskey_caffenated( "test_whiskey_caffenated" );
+static const itype_id itype_wine_marloss( "wine_marloss" );
+static const itype_id itype_wine_mycus( "wine_mycus" );
 
 static const matype_id style_aikido( "style_aikido" );
 static const matype_id style_none( "style_none" );
@@ -211,11 +225,20 @@ static const spell_id spell_test_eoc_spell( "test_eoc_spell" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_marloss( "t_marloss" );
 
 static const trait_id trait_process_mutation( "process_mutation" );
 static const trait_id trait_process_mutation_two( "process_mutation_two" );
 static const trait_id trait_purifiability_first( "purifiability_first" );
 static const trait_id trait_purifiability_second( "purifiability_second" );
+static const trait_id trait_MARLOSS( "MARLOSS" );
+static const trait_id trait_MARLOSS_AVOID( "MARLOSS_AVOID" );
+static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
+static const trait_id trait_MARLOSS_YELLOW( "MARLOSS_YELLOW" );
+static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
+static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 namespace
 {
@@ -250,7 +273,106 @@ void check_ter_in_line( tripoint_abs_ms const &first, tripoint_abs_ms const &sec
     }
 }
 
+void set_marloss_context( dialogue &d, const std::string &color, const std::string &addiction,
+                          const std::string &other_addiction_1,
+                          const std::string &other_addiction_2 )
+{
+    d.set_value( "marloss_color", color );
+    d.set_value( "marloss_addiction", addiction );
+    d.set_value( "marloss_other_addiction_1", other_addiction_1 );
+    d.set_value( "marloss_other_addiction_2", other_addiction_2 );
+}
+
 } // namespace
+
+TEST_CASE( "marloss_and_mycus_consumption_eocs", "[eoc][marloss]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    avatar &you = get_avatar();
+    dialogue d( get_talker_for( you ), nullptr );
+
+    SECTION( "first_marloss_component" ) {
+        set_marloss_context( d, "MARLOSS", "marloss_r", "marloss_b", "marloss_y" );
+        effect_on_condition_EOC_marloss_gain_component->activate( d );
+        CHECK( you.has_trait( trait_MARLOSS ) );
+    }
+
+    SECTION( "another_marloss_component" ) {
+        you.set_mutation( trait_MARLOSS );
+        set_marloss_context( d, "MARLOSS_BLUE", "marloss_b", "marloss_r", "marloss_y" );
+        effect_on_condition_EOC_marloss_gain_component->activate( d );
+        CHECK( you.has_trait( trait_MARLOSS ) );
+        CHECK( you.has_trait( trait_MARLOSS_BLUE ) );
+    }
+
+    SECTION( "complete_marloss_components" ) {
+        you.set_mutation( trait_MARLOSS );
+        you.set_mutation( trait_MARLOSS_BLUE );
+        set_marloss_context( d, "MARLOSS_YELLOW", "marloss_y", "marloss_r", "marloss_b" );
+        effect_on_condition_EOC_marloss_gain_component->activate( d );
+        CHECK( you.has_trait( trait_THRESH_MARLOSS ) );
+        CHECK_FALSE( you.has_trait( trait_MARLOSS ) );
+        CHECK_FALSE( you.has_trait( trait_MARLOSS_BLUE ) );
+        CHECK_FALSE( you.has_trait( trait_MARLOSS_YELLOW ) );
+        CHECK( get_map().ter( you.pos_bub() ).id() == ter_t_marloss );
+    }
+
+    SECTION( "marloss_rejection_at_another_threshold" ) {
+        you.set_mutation( trait_THRESH_LUPINE );
+        you.set_mutation( trait_MARLOSS );
+        set_marloss_context( d, "MARLOSS_BLUE", "marloss_b", "marloss_r", "marloss_y" );
+        effect_on_condition_EOC_marloss_gain_component->activate( d );
+        CHECK( you.has_trait( trait_MARLOSS_AVOID ) );
+        CHECK_FALSE( you.has_trait( trait_MARLOSS ) );
+        CHECK_FALSE( you.has_trait( trait_MARLOSS_BLUE ) );
+    }
+
+    SECTION( "marloss_avoid_prevents_component_effects" ) {
+        you.set_mutation( trait_MARLOSS_AVOID );
+        d.set_value( "marloss_item", "marloss_berry" );
+        set_marloss_context( d, "MARLOSS", "marloss_r", "marloss_b", "marloss_y" );
+        effect_on_condition_EOC_marloss_consume->activate( d );
+        CHECK_FALSE( you.has_trait( trait_MARLOSS ) );
+    }
+
+    SECTION( "mycus_at_marloss_threshold" ) {
+        you.set_mutation( trait_THRESH_MARLOSS );
+        you.set_rad( 10 );
+        effect_on_condition_EOC_mycus_consume->activate( d );
+        CHECK_FALSE( you.has_trait( trait_THRESH_MARLOSS ) );
+        CHECK( you.has_trait( trait_THRESH_MYCUS ) );
+        CHECK( you.get_rad() == 0 );
+    }
+
+    SECTION( "mycus_after_assimilation" ) {
+        you.set_mutation( trait_THRESH_MYCUS );
+        you.set_mutation( trait_M_DEPENDENT );
+        effect_on_condition_EOC_mycus_consume->activate( d );
+        CHECK( you.get_painkiller() == 5 );
+        CHECK( you.get_stim() == 5 );
+    }
+}
+
+TEST_CASE( "marloss_consumables_reference_consumption_eocs", "[eoc][marloss]" )
+{
+    const std::vector<std::pair<itype_id, effect_on_condition_id>> expected = {
+        { itype_marloss_berry, effect_on_condition_id( "EOC_MARLOSS_BERRY_CONSUME" ) },
+        { itype_marloss_seed, effect_on_condition_id( "EOC_MARLOSS_SEED_CONSUME" ) },
+        { itype_marloss_gel, effect_on_condition_id( "EOC_MARLOSS_GEL_CONSUME" ) },
+        { itype_mycus_fruit, effect_on_condition_EOC_mycus_consume },
+        { itype_mycus_juice, effect_on_condition_EOC_mycus_consume },
+        { itype_wine_marloss, effect_on_condition_id( "EOC_MARLOSS_WINE_CONSUME" ) },
+        { itype_wine_mycus, effect_on_condition_EOC_mycus_consume }
+    };
+
+    for( const auto &[item_id, eoc_id] : expected ) {
+        const cata::value_ptr<islot_comestible> &comestible = item::find_type( item_id )->comestible;
+        REQUIRE( comestible );
+        REQUIRE( comestible->consumption_eocs.size() == 1 );
+        CHECK( comestible->consumption_eocs.front() == eoc_id );
+    }
+}
 
 TEST_CASE( "EOC_teleport", "[eoc]" )
 {

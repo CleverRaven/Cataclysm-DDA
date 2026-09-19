@@ -1345,6 +1345,19 @@ Runs a query, allowing you to pick specific tile around. When picked, stores coo
 }
 ```
 
+### `map_is_passable`
+- type: [location variable](#location-variable)
+- returns true if the map tile at that location is passable
+
+#### Valid talkers:
+
+No talker is needed.
+
+#### Examples
+```jsonc
+{ "map_is_passable": { "context_val": "loc" } }
+```
+
 ### `map_in_city`
 - type: location string or [variable object](#variable-object)
 - return true if the location is in the bounds of a city at or above z-1
@@ -2834,6 +2847,7 @@ Used if you need to check if specific furniture or terrain is around
 | "target_var" | optional | [variable object](#variable-object) | location variable, around which the game should scan; if omitted, sticks to `u_` or `npc_` position |
 | "range" | optional | int or [variable object](#variable-object) | how big the search radius should be; default 1 ( 3x3 square with character in the middle ) |
 | stop_at_first | optional | bool | If true, stops execution after the first `condition` is met; if false, runs EoC on all tiles that met condition. Default false |
+| "closest_first" | optional | bool | If true (default), visits the closest tiles first. If false, uses the map's coordinate iteration order, clipped to map bounds. Useful when terrain changes affect neighboring tiles. |
 
 ##### Examples
 
@@ -4302,6 +4316,79 @@ Increases or decreases your healthiness (respond for disease immunity and regene
 Your health is decreased by 1, but not smaller than -200
 ```jsonc
 { "u_mod_healthy": -1, "cap": -200 }
+```
+
+#### `u_add_addiction`, `npc_add_addiction`, `u_lose_addiction`, `npc_lose_addiction`
+Adds an addiction with the supplied strength, or removes an addiction entirely.
+
+| Syntax | Optionality | Value | Info |
+| --- | --- | --- | --- |
+| "u_add_addiction" / "npc_add_addiction" | **mandatory** | string or [variable object](#variable-object) | addiction type to add |
+| "strength" | **mandatory** | int, float or [variable object](#variable-object) | addiction strength passed to the normal addiction system |
+| "u_lose_addiction" / "npc_lose_addiction" | **mandatory** | string or [variable object](#variable-object) | addiction type to remove |
+
+```jsonc
+{ "u_add_addiction": "nicotine", "strength": 10 }
+{ "u_lose_addiction": "nicotine" }
+```
+
+#### `u_vomit`, `npc_vomit`
+Makes the character vomit.
+
+```jsonc
+{ "u_vomit": true }
+```
+
+#### `u_fall_asleep`, `npc_fall_asleep`
+Makes the character fall asleep for the given duration.
+
+```jsonc
+{ "u_fall_asleep": "2 hours" }
+```
+
+#### `u_heal_all`, `npc_heal_all`, `u_hurt_all`, `npc_hurt_all`
+Heals or damages every body part by the given amount.  `u_hurt_all` uses the normal all-body damage and pain handling.
+
+```jsonc
+{ "u_heal_all": 4 }
+{ "u_hurt_all": { "math": [ "rng( 10, 20 )" ] } }
+```
+
+#### `u_set_hunger`, `npc_set_hunger`
+Sets the character's hunger to the given value.
+
+```jsonc
+{ "u_set_hunger": -10 }
+```
+
+#### `u_fill_stomach`, `npc_fill_stomach`
+Fills the character's stomach up to a fraction of its current capacity, adding the specified calories for each milliliter added.  `true_eocs` run if anything was added; otherwise `false_eocs` run.
+
+| Syntax | Optionality | Value | Info |
+| --- | --- | --- | --- |
+| "u_fill_stomach" / "npc_fill_stomach" | **mandatory** | float or [variable object](#variable-object) | target fraction of stomach capacity |
+| "calories_per_ml" | **mandatory** | int, float or [variable object](#variable-object) | calories added per milliliter |
+| "true_eocs" / "false_eocs" | optional | EOC or array of EOCs | results for a successful fill or an already-full stomach |
+
+```jsonc
+{ "u_fill_stomach": 0.25, "calories_per_ml": 2, "true_eocs": "EOC_FILLED" }
+```
+
+#### `u_marlossify`, `npc_marlossify`
+Applies the normal fungal Marloss transformation to the character's tile, or to `target_var` when supplied.
+
+```jsonc
+{ "u_marlossify": true, "target_var": { "context_val": "loc" } }
+```
+
+#### `u_add_memorial`, `npc_add_memorial`
+Adds an entry to the avatar's memorial log.  The value is the male translation; `female` optionally supplies the female translation and defaults to the same text.
+
+```jsonc
+{
+  "u_add_memorial": { "str": "Found something strange.", "ctxt": "memorial_male" },
+  "female": { "str": "Found something strange.", "ctxt": "memorial_female" }
+}
 ```
 
 

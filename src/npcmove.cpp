@@ -162,6 +162,8 @@ static const damage_type_id damage_bullet( "bullet" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_stab( "stab" );
 
+static const flag_id flag_NPC_AVOID_CONSUMPTION( "NPC_AVOID_CONSUMPTION" );
+
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
@@ -5299,11 +5301,8 @@ static float rate_food( const Character &who, const item &it, int want_nutr,
         return 0.0f;
     }
 
-    // Reject marloss/mycus items -- player should control the fungal path
-    if( it.has_flag( flag_MYCUS_OK ) ||
-        it.type->use_methods.count( "MARLOSS" ) ||
-        it.type->use_methods.count( "MARLOSS_SEED" ) ||
-        it.type->use_methods.count( "MARLOSS_GEL" ) ) {
+    // Let the player decide whether to use Marloss or other restricted foods.
+    if( it.has_flag( flag_MYCUS_OK ) || it.has_flag( flag_NPC_AVOID_CONSUMPTION ) ) {
         return 0.0f;
     }
 
