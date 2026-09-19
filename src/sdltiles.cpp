@@ -2829,8 +2829,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     avatar &you = get_avatar();
     const tripoint_abs_omt avatar_pos = you.pos_abs_omt();
     tripoint_abs_omt center_pos = center_abs_omt;
-    const bool fast_traveling = g->overmap_data.fast_traveling;
-    if( fast_traveling ) {
+    const bool overmap_only_auto_travel = g->overmap_data.overmap_only_auto_travel;
+    if( overmap_only_auto_travel ) {
         center_pos = you.pos_abs_omt();
     }
     const tripoint_abs_omt origin = center_pos - point( s.x / 2, s.y / 2 );
@@ -2851,7 +2851,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     const bool show_map_revealed = uistate.overmap_show_revealed_omts;
     std::unordered_set<tripoint_abs_omt> &revealed_highlights = get_avatar().map_revealed_omts;
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
-    const bool draw_overlays = blink || fast_traveling;
+    const bool draw_overlays = blink || overmap_only_auto_travel;
     o = origin.xy().raw();
 
     const auto global_omt_to_draw_position = []( const tripoint_abs_omt & omp ) {
@@ -3078,7 +3078,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     draw_entity_with_overlays( get_player_character(),
                                global_omt_to_draw_position( avatar_pos ),
                                lit_level::LIT, height_3d );
-    if( !fast_traveling ) {
+    if( !overmap_only_auto_travel ) {
         draw_from_id_string( "cursor", global_omt_to_draw_position( center_pos ), 0, 0, lit_level::LIT,
                              false );
     }
@@ -3158,9 +3158,9 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
     std::vector<std::pair<nc_color, std::string>> notes_window_text;
 
-    if( fast_traveling ) {
+    if( overmap_only_auto_travel ) {
         // We hijack this to avoid repeating code just for this simple notice. Notes will still display normally
-        notes_window_text.emplace_back( c_yellow, _( "FAST TRAVELING" ) );
+        notes_window_text.emplace_back( c_yellow, _( "AUTO TRAVELING" ) );
     }
 
     if( viewing_weather ) {
