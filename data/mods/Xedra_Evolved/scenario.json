@@ -163,5 +163,21 @@
     "requirement": "achievement_survive_28_days",
     "eoc": [ "scenario_xe_permanent_ominous_fog" ],
     "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "xe_revenant_scenario",
+    "name": "Challenge - Undying Vengeance",
+    "points": 0,
+    "description": "You died in the Cataclysm.  Perhaps during the Cataclysm itself, perhaps in the riots leading up to it.  Someone killed you and hastily dumped you in a shallow grave, and that should have been the end.\n\nBut it wasn't.  Your rage at your own death, your thirst for vengeance, the sheer unfairness of it all, dragged you out of the grave and propelled you onward.  You can feel your murderer, out there in the world, and will stop at nothing until you've tracked them down.  You don't need to eat, sleep, or breathe anymore.  All you need is revenge.\n\n<color_red>Scenario may take some time to load after game is entered</color>.",
+    "start_name": "Your grave",
+    "allowed_locs": [ "sloc_forest", "sloc_field" ],
+    "eoc": [ "scenario_xe_revenant_scenario" ],
+    "professions": [ "xedra_revenant_prof" ],
+    "flags": [ "LONE_START" ],
+    "reveal_locale": false,
+    "requirement": "achievement_kill_10000_monsters",
+    "missions": [ "MISSION_REVENANT_VENGEANCE" ],
+    "forced_traits": [ "XE_REVENANT_TRAITS" ]
   }
 ]

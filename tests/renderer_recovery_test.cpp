@@ -995,4 +995,89 @@ TEST_CASE( "renderer_coordinator_retries_from_any_phase", "[tiles][renderer_reco
     }
 }
 
+TEST_CASE( "replay_reaches_every_live_bundle_published_under_one_key",
+           "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    const uint64_t inst = renderer_coordinator.instance_generation();
+    const uint64_t tex = renderer_coordinator.textures_generation();
+    // When you force reload you publish a second object with the same key, and
+    // un-reloaded context still refers to the first one
+    const std::shared_ptr<const tileset> older =
+        renderer_recovery_test_support::install_synthetic_bundle(
+            "synthetic_shared_key_ts", "color_pixel_sepia_light", inst, tex );
+    const std::shared_ptr<const tileset> newer =
+        renderer_recovery_test_support::install_synthetic_bundle(
+            "synthetic_shared_key_ts", "color_pixel_sepia_light", inst, tex );
+    REQUIRE( older );
+    REQUIRE( newer );
+    REQUIRE( older != newer );
+
+    WHEN( "device reset replays the cache" ) {
+        renderer_coordinator.request_recovery( renderer_recovery_severity::device_reset );
+        renderer_coordinator.drain_pending();
+        const uint64_t tex_now = renderer_coordinator.textures_generation();
+        REQUIRE( tex_now == tex + 1 );
+        THEN( "both have new texture generation" ) {
+            CHECK( older->get_gpu_textures_generation_at_upload() == tex_now );
+            CHECK( newer->get_gpu_textures_generation_at_upload() == tex_now );
+        }
+        THEN( "but still the lookup returns the newer object" ) {
+            CHECK( renderer_recovery_test_support::fetch_cached_bundle(
+                       "synthetic_shared_key_ts", "color_pixel_sepia_light",
+                       renderer_coordinator.instance_generation(), tex_now ) == newer );
+        }
+    }
+    WHEN( "device loss replays the cache on a new renderer" ) {
+        renderer_coordinator.request_recovery( renderer_recovery_severity::device_lost );
+        renderer_coordinator.drain_pending();
+        const uint64_t inst_now = renderer_coordinator.instance_generation();
+        REQUIRE( inst_now == inst + 1 );
+        THEN( "both have new instance generation" ) {
+            CHECK( older->get_renderer_instance_generation_at_upload() == inst_now );
+            CHECK( newer->get_renderer_instance_generation_at_upload() == inst_now );
+        }
+    }
+}
+
+TEST_CASE( "lookup_skips_a_bundle_superseded_by_a_forced_reload",
+           "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    const uint64_t inst = renderer_coordinator.instance_generation();
+    const uint64_t tex = renderer_coordinator.textures_generation();
+    const std::shared_ptr<const tileset> older =
+        renderer_recovery_test_support::install_synthetic_bundle(
+            "synthetic_superseded_ts", "color_pixel_sepia_light", inst, tex );
+    std::shared_ptr<const tileset> newer =
+        renderer_recovery_test_support::install_synthetic_bundle(
+            "synthetic_superseded_ts", "color_pixel_sepia_light", inst, tex );
+    REQUIRE( older );
+    REQUIRE( newer );
+
+    // all contexts that did the reload let go, one still has the superseded object
+    newer.reset();
+    // Hit can only be a superseded object, this helper does no load
+    CHECK_FALSE( renderer_recovery_test_support::cache_lookup_is_fresh(
+                     "synthetic_superseded_ts", "color_pixel_sepia_light", inst, tex ) );
+
+    renderer_coordinator.request_recovery( renderer_recovery_severity::device_reset );
+    renderer_coordinator.drain_pending();
+    // Recovery still reaches the superseded object when held
+    CHECK( older->get_gpu_textures_generation_at_upload()
+           == renderer_coordinator.textures_generation() );
+    CHECK_FALSE( renderer_recovery_test_support::cache_lookup_is_fresh(
+                     "synthetic_superseded_ts", "color_pixel_sepia_light",
+                     renderer_coordinator.instance_generation(),
+                     renderer_coordinator.textures_generation() ) );
+}
+
 #endif // TILES

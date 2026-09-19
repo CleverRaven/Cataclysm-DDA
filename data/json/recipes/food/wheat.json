@@ -10,7 +10,7 @@
     "time": "45 m",
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
-    "charges": 1,
+    "charges": 4,
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ], [ [ "rock_quern", -1 ] ] ],
     "components": [ [ [ "oats", 1 ] ] ]
   },

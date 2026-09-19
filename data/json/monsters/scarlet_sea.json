@@ -1,0 +1,11 @@
+[
+  {
+    "id": "mon_zombie_xedra_scarlet_sea",
+    "type": "MONSTER",
+    "name": { "str": "zombie explorer" },
+    "description": "You see a human - or, at least, what was a human - wearing some sort of armored spacesuit.  The interlocking plates of reflective metal have been stained a faint yellowish-red, most prominently in the joints.",
+    "copy-from": "mon_zombie_scientist",
+    "death_drops": "xedra_scarlet_sea_set",
+    "armor": { "electric": 3, "bash": 30, "cut": 30, "bullet": 40 }
+  }
+]

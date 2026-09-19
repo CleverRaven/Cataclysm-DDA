@@ -1,7 +1,9 @@
 #include "dialogue_imgui.h"
 
 #include <algorithm>
+#include <cmath>
 #include <imgui/imgui_internal.h>
+#include <optional>
 #include <string>
 #include <unordered_set>
 #include <vector>
@@ -17,6 +19,13 @@
 #include "text.h"
 #include "translation.h"
 #include "ui_manager.h"
+
+#if defined(TILES)
+#include "cata_tiles.h"
+#include "imgui_texture.h"
+#endif
+
+struct character_portrait; // IWYU pragma: keep
 
 /*
 * This is roughly what the window should look like at full layout.
@@ -120,13 +129,6 @@ static int topic_category( const talk_topic &the_topic )
     if( topic_9.count( topic ) > 0 ) {
         return 9;
     }
-    static const std::unordered_set<std::string> topic_99 = { {
-            "TALK_SIZE_UP", "TALK_ASSESS_PERSON", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT"
-        }
-    };
-    if( topic_99.count( topic ) > 0 ) {
-        return 99;
-    }
     return -1; // Not grouped with other topics
 }
 
@@ -141,18 +143,62 @@ static float horizontal_separator_pos_y( const float window_height )
     return window_height * 0.6;
 }
 
+// Hacky basic stuff, really meant for objects that would only ever take up one line.
+static void set_cursor_for_center_draw( float width_of_thing_to_draw )
+{
+    const float avail_width = ImGui::GetContentRegionAvail().x;
+    if( width_of_thing_to_draw >= avail_width ) {
+        // Very bad! But we don't want to throw a debugmsg, that will blow up most imgui contexts.
+        ImGui::SetCursorPosX( 0 );
+        return;
+    }
+    ImGui::SetCursorPosX( ( avail_width / 2.0f ) - ( width_of_thing_to_draw / 2.0f ) );
+}
+
+static void print_ASCII_portrait()
+{
+    // First line of the ASCII. Should be basically the same width as the next lines.
+    set_cursor_for_center_draw( ImGui::CalcTextSize( "|--------------------------|" ).x );
+    // This aligns our multi-line text!
+    ImGui::BeginGroup();
+    // This is a masterpiece, especially with the double backslashes to escape it. Anybody who disagrees is automatically sentenced to 10 months of converting windows to Dear ImGui.
+    // -Renech "The Greatest" CDDA
+    std::string my_beautiful_NPC_ASCII_portait = string_format(
+                "|--------------------------|\n"
+                "|           _____   -Renech|\n"
+                "|          /     \\         |\n"
+                "|         | 0  0 |         |\n"
+                "|          \\ -  /          |\n"
+                "|          |\\__/|          |\n"
+                "|      ___/------\\___      |\n"
+                "|     / _/        \\_ \\     |\n"
+                "|    / / |  NPC   | \\ \\    |\n"
+                "|   / /  |        |  \\ \\   |\n"
+                "|                          |\n"
+                "|--------------------------|"
+            );
+    cataimgui::draw_colored_text( my_beautiful_NPC_ASCII_portait );
+    ImGui::EndGroup();
+}
+
 float dialogue_imgui_impl::sidebar_width() const
 {
     const int num_characters_line_in_ASCII_portrait = 28; // Known fact
     const int num_characters_width = num_characters_line_in_ASCII_portrait + 4; // Add some padding
     // Portraits are supposed to be 128x128. The extra size is to account for borders and any small padding cases we may have overlooked etc
-    const float min_width = std::max( 128.0f + border_size() * 4,
+#ifdef TILES
+    const float min_width = std::max( portrait_tilecontext->get_tile_width() + border_size() * 4,
                                       num_characters_width * ImGui::CalcTextSize( "0" ).x );
-    const float max_width = window_width * 0.3;
-    const float actual_width = std::max( min_width, max_width );
+#else
+    const float min_width = num_characters_width * ImGui::CalcTextSize( "0" ).x;
+#endif
+    const float desired_width = window_width * 0.3;
+    const float actual_width = std::max( min_width, desired_width );
     return actual_width;
 }
 
+// Width for just the history/responses children (they use the same width).
+// Not to be confused with `window_width` which is a class variable for the entire parent window's width.
 float dialogue_imgui_impl::dialogue_window_width() const
 {
     // Two child windows side by side with 4 total borders, plus an extra border's worth of space to not let everything feel cramped.
@@ -214,6 +260,9 @@ void dialogue_imgui::draw_dialogue_imgui( bool is_computer, bool is_not_conversa
 
     ctxt.set_timeout( 10 );
 
+    // Make sure our conversation partner's portrait is ready!
+    conversation->actor( true )->ensure_portrait_valid();
+
     while( !conversation->done ) {
         ui_manager::redraw_invalidated();
 
@@ -240,58 +289,56 @@ void dialogue_imgui_impl::draw_dialogue_sidebar() const
     ImGui::PushStyleVar( ImGuiStyleVar_ChildBorderSize, border_size() );
     ImGuiChildFlags child_flags = ImGuiChildFlags_Borders;
     ImVec2 child_size = {sidebar_width(), ImGui::GetWindowHeight() - ( border_size() * 2 )};
-    // TODO: Some of these (portrait, name) want to be centered.
     if( ImGui::BeginChild( "##DIALOGUE_SIDEBAR", child_size, child_flags ) ) {
-        // This is a masterpiece, especially with the double backslashes to escape it. Anybody who disagrees is automatically sentenced to 10 months of converting windows to Dear ImGui.
-        // -Renech "The Greatest" CDDA
-        std::string my_beautiful_NPC_ASCII_portait = string_format(
-                    "|--------------------------|\n"
-                    "|           _____   -Renech|\n"
-                    "|          /     \\         |\n"
-                    "|         | 0  0 |         |\n"
-                    "|          \\ -  /          |\n"
-                    "|          |\\__/|          |\n"
-                    "|      ___/------\\___      |\n"
-                    "|     / _/        \\_ \\     |\n"
-                    "|    / / |  NPC   | \\ \\    |\n"
-                    "|   / /  |        |  \\ \\   |\n"
-                    "|                          |\n"
-                    "|--------------------------|"
-                );
-        cataimgui::draw_colored_text( my_beautiful_NPC_ASCII_portait );
+#ifdef TILES
+        std::optional<character_portrait_id> portrait = conversation->portrait_or_nullopt();
+        if( get_option<bool>( "USE_TILES" ) && portrait.has_value() && portrait.value().is_valid() ) {
+            if( debug_mode ) {
+                cataimgui::draw_colored_text( "Portrait filename: " + portrait.value().str() );
+            }
+            set_cursor_for_center_draw( portrait_tilecontext->get_tile_width() );
+            // We can pass a dummy tripoint because portrait drawing doesn't need or use that information.
+            cataimgui::draw_texture( portrait.value(), tripoint_bub_ms() );
+        } else {
+            print_ASCII_portrait();
+        }
+#else
+        print_ASCII_portrait();
+#endif
 
         // Name of who we're talking to (in big letter)
         cataimgui::PushGuiFont1_5x();
+        set_cursor_for_center_draw( ImGui::CalcTextSize( conversation->speaker_name( *this ).c_str() ).x );
         cataimgui::draw_colored_text( conversation->speaker_name( *this ) );
         cataimgui::PopGuiFont1_5x();
 
         // Wielding/Wearing/Visible mutations
         ImGui::NewLine();
         ImGui::NewLine();
-        // FIXME: Temporary color for contrast
+        // Color for contrast
         if( conversation->actor( false )->can_see() ) {
             cataimgui::TextColoredParagraph( c_blue, conversation->actor( true )->short_description() );
         } else {
-            cataimgui::TextColoredParagraph( c_blue, string_format( _( "&You're blind and can't look at %s." ),
+            cataimgui::TextColoredParagraph( c_blue, string_format( _( "You're blind and can't look at %s." ),
                                              conversation->actor( true )->disp_name() ) );
         }
 
         // Stats estimate
         ImGui::NewLine();
         ImGui::NewLine();
-        // FIXME: Temporary color for contrast
+        // Color for contrast
         cataimgui::TextColoredParagraph( c_red,
                                          conversation->actor( true )->evaluation_by( *conversation->actor( false ) ) );
         // Personality traits
         ImGui::NewLine();
         ImGui::NewLine();
-        // FIXME: Temporary color for contrast
+        // Color for contrast
         cataimgui::TextColoredParagraph( c_pink, conversation->actor( true )->view_personality_traits() );
 
         // Opinions of player
         ImGui::NewLine();
         ImGui::NewLine();
-        // FIXME: Temporary color for contrast
+        // Color for contrast
         cataimgui::TextColoredParagraph( c_yellow, conversation->actor( true )->opinion_text() );
 
     }
@@ -307,13 +354,13 @@ void dialogue_imgui_impl::draw_dialogue_history()
     ImVec2 child_size = {dialogue_window_width(), ( horizontal_separator_pos_y( window_height ) - border_size() * 2 )};
     if( ImGui::BeginChild( "##DIALOGUE_HISTORY", child_size, child_flags ) ) {
         draw_history();
-        cataimgui::set_scroll( scroll_to );
+        set_scroll( scroll_to );
     }
     ImGui::EndChild();
     ImGui::PopStyleVar();
 }
 
-void dialogue_imgui_impl::draw_dialogue_responses() const
+void dialogue_imgui_impl::draw_dialogue_responses()
 {
     ImGui::PushStyleVar( ImGuiStyleVar_ChildBorderSize, border_size() );
     ImGuiChildFlags child_flags = ImGuiChildFlags_Borders;
@@ -360,17 +407,82 @@ void dialogue_imgui_impl::set_responses( const std::vector<talk_data> &responses
     response_list = responses;
 }
 
-void dialogue_imgui_impl::draw_responses() const
+void dialogue_imgui_impl::draw_responses()
 {
     // Head it with the topic ID, if needed
     if( debug_mode ) {
         cataimgui::draw_colored_text( "talk_topic: " + debug_topic_name );
     }
 
-    for( const talk_data &talk : response_list ) {
-        cataimgui::draw_colored_text( formatted_hotkey( talk.hotkey_desc, talk.color ) );
+    // Sentinel value. Just used for automatic scrolling.
+    static int prev_response = 0;
+
+    // We do our own selection highlighting, and this easily desyncs. So let's make sure it stays hidden.
+    ImGui::SetNavCursorVisible( false );
+
+    // Each response line is comprised of three main parts: Selection indicator, hotkey, and selection text.
+    // To keep things simple we print in that order too.
+    for( int i = 0; i < static_cast<int>( response_list.size() ); i++ ) {
+        const talk_data &talk = response_list[i];
+
+        // Selection indicator
+        if( sel_response == i ) {
+            cataimgui::draw_colored_text( ">>>>>", c_yellow );
+            if( prev_response != sel_response ) {
+                // This automatically scrolls us up or down to make sure the button stays in view.
+                ImGui::SetKeyboardFocusHere();
+                prev_response = sel_response;
+            }
+        } else {
+            // This should be the same width as the arrows up above, to align with non-selected lines.
+            cataimgui::draw_colored_text( "     " );
+        }
+
         ImGui::SameLine();
-        cataimgui::TextColoredParagraph( talk.color, talk.text );
+
+        // Hotkey
+        cataimgui::draw_colored_text( formatted_hotkey( talk.hotkey_desc, talk.color ) );
+
+        ImGui::SameLine();
+
+        // Selection text
+        const bool should_color_button = talk.color != c_white; // White is default and unreadable.
+        if( should_color_button ) {
+            ImGui::PushStyleColor( ImGuiCol_Button, talk.color );
+        }
+
+        // Naive approach.
+        float total_allowed_width = ImGui::GetWindowWidth() - ImGui::CalcTextSize( ">>>>>   a:   " ).x;
+        const int num_expected_lines = std::ceil( ImGui::CalcTextSize( talk.text.c_str() ).x /
+                                       total_allowed_width );
+
+        ImVec2 button_size = { std::min( total_allowed_width, ImGui::CalcTextSize( talk.text.c_str() ).x ),
+                               ( ImGui::GetTextLineHeight() * num_expected_lines )
+                             };
+
+        // We need to manually pad the size here in case the dialogue selection would take up extra lines.
+        // ImGui's button widget doesn't allow multiple-line labels, so we have to draw our own label on top of the button.
+        button_size += ( ImGui::GetStyle().FramePadding * 2 );
+
+        const std::string button_name = "##" + talk.text;
+        ImVec2 stored_cursor = ImGui::GetCursorPos();
+        if( ImGui::Button( button_name.c_str(), button_size ) ) {
+            sel_response = i;
+            // Handled in dialogue::opt_imgui() with all other inputs.
+            user_clicked_response_button = true;
+        }
+        // Put our cursor back at the start of the button's position (top-left) and manually pad.
+        ImGui::SetCursorPos( stored_cursor + ImGui::GetStyle().FramePadding );
+
+        ImGui::BeginGroup();
+        // Again, wrap width manually.
+        cataimgui::TextColoredParagraph( c_white, talk.text, std::nullopt,
+                                         ImGui::GetWindowWidth() - ImGui::GetStyle().FramePadding.x );
+        ImGui::EndGroup();
+
+        if( should_color_button ) {
+            ImGui::PopStyleColor();
+        }
         ImGui::NewLine();
     }
 
@@ -378,6 +490,7 @@ void dialogue_imgui_impl::draw_responses() const
     if( debug_mode ) {
         for( const std::string &dbg_info : responses_debug ) {
             cataimgui::TextColoredParagraph( c_yellow, dbg_info );
+            ImGui::NewLine();
         }
     }
 }

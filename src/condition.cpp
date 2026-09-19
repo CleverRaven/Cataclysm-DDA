@@ -40,7 +40,6 @@
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "global_vars.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_location.h"
@@ -69,6 +68,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "talker.h"
+#include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "type_id.h"
 #include "units.h"
@@ -742,7 +742,21 @@ conditional_t::func f_has_items_sum( const JsonObject &jo, std::string_view memb
         double charges_present;
         double total_present;
         const Character *you = d.const_actor( is_npc )->get_const_character();
-        inventory inventory_and_around = you->crafting_inventory( you->pos_bub(), PICKUP_RANGE );
+        temp_crafting_inventory inventory_and_around = you->crafting_inventory( you->pos_bub(),
+                PICKUP_RANGE );
+
+        // Also add vehicles...
+        map &here = get_map();
+        std::set<vehicle *> vehicles_found;
+        for( const wrapped_vehicle &wv : here.get_vehicles() ) {
+            if( wv.v->owner == you->get_faction_id() ) {
+                for( const tripoint_abs_ms &veh_pt : wv.v->get_points() ) {
+                    if( optional_vpart_position vp = here.veh_at( veh_pt ) ) {
+                        vp->form_inventory( here, inventory_and_around, vehicles_found );
+                    }
+                }
+            }
+        }
 
         for( const auto &pair : item_and_amount ) {
             item_to_find = itype_id( pair.first.evaluate( d ) );
@@ -2275,7 +2289,6 @@ std::unordered_map<std::string_view, int ( const_talker::* )() const> const f_ge
     { "intelligence", &const_talker::int_cur },
     { "mana_max", &const_talker::mana_max },
     { "mana", &const_talker::mana_cur },
-    { "morale", &const_talker::morale_cur },
     { "owed", &const_talker::debt },
     { "oxygen", &const_talker::get_oxygen },
     { "perception_base", &const_talker::get_per_max },
@@ -2370,7 +2383,6 @@ std::unordered_map<std::string_view, void ( talker::* )( int )> const f_set_vals
     { "intelligence_base", &talker::set_int_max },
     { "intelligence_bonus", &talker::set_int_bonus },
     { "mana", &talker::set_mana_cur },
-    { "morale", &talker::set_morale },
     { "oxygen", &talker::set_oxygen },
     { "perception_base", &talker::set_per_max },
     { "perception_bonus", &talker::set_per_bonus },

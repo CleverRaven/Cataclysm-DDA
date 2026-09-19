@@ -22,6 +22,7 @@
 #include "character_attire.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "craft_reservation.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
@@ -88,6 +89,10 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
+
+#if defined(TILES)
+#include "sdltiles.h"
+#endif
 
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 
@@ -638,6 +643,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         return;
     }
 
+    portrait_filename = type->class_portrait_filename;
     set_wielded_item( item( itype_id::NULL_ID(), calendar::turn_zero ) );
     inv->clear();
     randomize_personality();
@@ -3791,6 +3797,11 @@ std::function<bool( const tripoint_bub_ms & )> npc::get_path_avoid() const
         if( sees_dangerous_field( p ) ) {
             return true;
         }
+        // pathfinder prices bashing itself. guarding only movement functions would
+        // repath into the same wall every turn.
+        if( craft_reservation::bashing_would_break_reservation( here, *this, p ) ) {
+            return true;
+        }
         return false;
     };
 }
@@ -4258,6 +4269,31 @@ std::string npc::get_current_activity() const
         return _( "nothing" );
     }
 }
+
+#if defined(TILES)
+static void pick_random_portrait( npc *guy )
+{
+    std::unordered_set<std::string> all = portrait_tilecontext->get_all_portrait_tile_ids( guy->male );
+    guy->portrait_filename = character_portrait_id( random_entry( all ) );
+}
+
+void npc::ensure_portrait_valid()
+{
+    if( !portrait_filename.is_valid() ) {
+        DebugLog( D_INFO, DC_ALL ) << disp_name() << " invalid portrait " << portrait_filename.c_str();
+        if( myclass->class_portrait_filename.is_valid() ) {
+            portrait_filename = myclass->class_portrait_filename;
+        } else {
+            pick_random_portrait( this );
+        }
+    }
+}
+#else
+void npc::ensure_portrait_valid()
+{
+    // Dummied out function for the compiler's sake.
+}
+#endif
 
 std::string npc::get_current_status() const
 {

@@ -45,6 +45,7 @@
 #include "contents_change_handler.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "craft_reservation.h"
 #include "crafting.h"
 #include "crafting_enums.h"
 #include "creature.h"
@@ -70,7 +71,6 @@
 #include "harvest.h"
 #include "iexamine.h"
 #include "input_popup.h"
-#include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_components.h"
@@ -78,6 +78,7 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "item_uid.h"
 #include "item_wakeup.h"
 #include "itype.h"
 #include "iuse.h"
@@ -124,6 +125,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "talker.h"
+#include "temp_crafting_inventory.h"
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
@@ -7183,10 +7185,12 @@ void plant_seed_activity_actor::finish( player_activity &act, Character &who )
     tripoint_bub_ms examp = here.get_bub( plant_location );
     const itype_id seed_id = seed_type;
     std::list<item> used_seed;
+    // Planning picked an instance and passed only its type, so the filter has to be
+    // reapplied where the seed is actually taken
     if( item::count_by_charges( seed_id ) ) {
-        used_seed = who.use_charges( seed_id, 1 );
+        used_seed = who.use_charges( seed_id, 1, craft_reservation::usable_by_automation );
     } else {
-        used_seed = who.use_amount( seed_id, 1 );
+        used_seed = who.use_amount( seed_id, 1, craft_reservation::usable_by_automation );
     }
     if( !used_seed.empty() ) {
         used_seed.front().set_age( 0_turns );
@@ -7888,6 +7892,11 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     }
 
     items.pop_front();
+    if( success ) {
+        // The post-insertion holster: recovering capacity can wield the container and
+        // rebind it.  May be map-backed, which is what reaches a container on the ground.
+        craft_relocated( holster );
+    }
     if( items.empty() || !success || items.front().first == item_location::nowhere ) {
         holster.make_active();
         handler.handle_by( who );
@@ -10192,9 +10201,14 @@ void fertilize_plant_activity_actor::finish( player_activity &act, Character &wh
 
     std::list<item> planted;
     if( fertilizer->count_by_charges() ) {
-        planted = who.use_charges( fertilizer, 1 );
+        planted = who.use_charges( fertilizer, 1, craft_reservation::usable_by_automation );
     } else {
-        planted = who.use_amount( fertilizer, 1 );
+        planted = who.use_amount( fertilizer, 1, craft_reservation::usable_by_automation );
+    }
+    if( planted.empty() ) {
+        // Every reachable instance is claimed by a live craft
+        act.set_to_null();
+        return;
     }
 
     // Reduce the amount of time it takes until the next stage of the plant by
@@ -10640,8 +10654,8 @@ void mend_item_activity_actor::finish( player_activity &act, Character &who )
     }
     const fault_fix &fix = *mending_method;
     const requirement_data &reqs = fix.get_requirements();
-    const inventory &inv = who.crafting_inventory();
-    if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
+    const temp_crafting_inventory &inv = who.crafting_inventory();
+    if( !reqs.can_make_with_inventory( &who, inv, is_crafting_component ) ) {
         add_msg( m_info, _( "You are currently unable to mend the %s." ), target.tname() );
         return;
     }
@@ -10742,8 +10756,8 @@ void fix_wound_activity_actor::finish( player_activity &act, Character &who )
     }
     const wound_fix &fix = *mending_method;
     const requirement_data &reqs = fix.get_requirements();
-    const inventory &inv = who.crafting_inventory();
-    if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
+    const temp_crafting_inventory &inv = who.crafting_inventory();
+    if( !reqs.can_make_with_inventory( &who, inv, is_crafting_component ) ) {
         add_msg( m_info, _( "You are currently unable to heal the %s." ), healed_bp->name.translated() );
         return;
     }
@@ -11396,9 +11410,10 @@ void vehicle_activity_actor::complete_vehicle( player_activity &act, Character &
 
     switch( sub_activity ) {
         case VEHICLE_INSTALL: {
-            const inventory &inv = you.crafting_inventory();
+            const temp_crafting_inventory &inv = you.crafting_inventory();
             const requirement_data reqs = vpinfo.install_requirements();
-            if( !reqs.can_make_with_inventory( inv, is_crafting_component, 1, craft_flags::none, false ) ) {
+            if( !reqs.can_make_with_inventory( &you, inv, is_crafting_component, 1, craft_flags::none,
+                                               false ) ) {
                 you.add_msg_player_or_npc( m_info,
                                            _( "You don't meet the requirements to install the %s." ),
                                            _( "<npcname> doesn't meet the requirements to install the %s." ),
@@ -11551,9 +11566,14 @@ void vehicle_activity_actor::complete_vehicle( player_activity &act, Character &
             const bool wall_wire_removal = appliance_removal && vpi.id == vpart_ap_wall_wiring;
             const bool broken = vp->is_broken();
             const bool smash_remove = vpi.has_flag( "SMASH_REMOVE" );
-            const inventory &inv = you.crafting_inventory();
+            if( get_craft_reservations().vehicle_part_reserved( vp->get_base().uid().get_value() ) ) {
+                //~  1$s is the vehicle part name
+                add_msg( m_info, _( "The %1$s is in use by an unattended craft." ), vpi.name() );
+                break;
+            }
+            const temp_crafting_inventory &inv = you.crafting_inventory();
             const requirement_data &reqs = vpi.removal_requirements();
-            if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
+            if( !reqs.can_make_with_inventory( &you, inv, is_crafting_component ) ) {
                 //~  1$s is the vehicle part name
                 add_msg( m_info, _( "You don't meet the requirements to remove the %1$s." ), vpi.name() );
                 break;
@@ -11788,7 +11808,7 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
         return false;
     }
 
-    const inventory &inv = p.crafting_inventory();
+    const temp_crafting_inventory &inv = p.crafting_inventory();
     for( const vpart_reference &vp : veh.get_all_parts() ) {
         for( const itype_id &tool : vp.info().get_folding_tools() ) {
             if( !inv.has_tools( tool, 1 ) ) {
@@ -11910,7 +11930,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
                || here.impassable( p );
     };
 
-    const inventory &inv = p.crafting_inventory();
+    const temp_crafting_inventory &inv = p.crafting_inventory();
     for( const vpart_reference &vp : veh->get_all_parts() ) {
         if( vp.info().location != vpart_location_structure ) {
             continue;
@@ -12812,7 +12832,7 @@ void wash_activity_actor::finish( player_activity &act, Character &p )
     const auto is_liquid_crafting_component = []( const item & it ) {
         return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( phase_id::LIQUID ) );
     };
-    const inventory &crafting_inv = p.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = p.crafting_inventory();
     if( !crafting_inv.has_charges( itype_water, requirements.water, is_liquid_crafting_component ) &&
         !crafting_inv.has_charges( itype_water_clean, requirements.water, is_liquid_crafting_component ) ) {
         p.add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
@@ -13235,7 +13255,8 @@ void butchery_activity_actor::calculate_butchery_data( Character &you, butchery_
     const mtype &corpse = *target.get_item()->get_mtype();
 
     std::pair<float, requirement_id> butchery_reqs =
-        corpse.harvest->get_butchery_requirements().get_fastest_requirements( you.crafting_inventory(),
+        corpse.harvest->get_butchery_requirements().get_fastest_requirements( &you,
+                you.crafting_inventory(),
                 corpse.size, this_bd.b_type );
     this_bd.req_speed_bonus = butchery_reqs.first;
     this_bd.req = butchery_reqs.second;

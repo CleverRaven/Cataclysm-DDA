@@ -26,6 +26,7 @@
         { "item": "splinter", "count": [ 3, 6 ] },
         { "item": "sheet_cotton", "count": [ 5, 6 ] },
         { "item": "cotton_patchwork", "count": [ 8, 15 ] },
+        { "item": "hc_wire", "count": [ 80, 100 ] },
         { "item": "scrap", "count": [ 10, 20 ] }
       ],
       "hit_field": [ "fd_dust", 2 ],
@@ -61,6 +62,7 @@
         { "item": "splinter", "count": [ 8, 15 ] },
         { "item": "sheet_cotton", "count": [ 10, 13 ] },
         { "item": "cotton_patchwork", "count": [ 8, 14 ] },
+        { "item": "hc_wire", "count": [ 160, 200 ] },
         { "item": "scrap", "count": [ 20, 40 ] }
       ],
       "hit_field": [ "fd_dust", 2 ],
@@ -168,6 +170,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 2 ] },
         { "item": "sheet_cotton", "count": [ 15, 20 ] },
         { "item": "cotton_patchwork", "count": [ 8, 15 ] },
+        { "item": "hc_wire", "count": [ 240, 300 ] },
         { "item": "scrap", "count": [ 60, 100 ] }
       ]
     }

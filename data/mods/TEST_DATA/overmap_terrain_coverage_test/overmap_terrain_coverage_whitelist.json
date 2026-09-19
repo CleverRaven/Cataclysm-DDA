@@ -17,6 +17,7 @@
       "ravine_edge",
       "ravine_floor",
       "ravine_floor_edge",
+      "mom_shoggothed_world_default",
       "standing_stones_highlands",
       "highlands",
       "highland_crypt_above",
@@ -109,7 +110,8 @@
       "helipad.*",
       "fort_\\d.*",
       "forge_.*",
-      "aenor_paddock.*"
+      "aenor_paddock.*",
+      "field_office_.*"
     ]
   }
 ]

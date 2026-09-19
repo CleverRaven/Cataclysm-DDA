@@ -158,6 +158,22 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
+    "id": "emery_board",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "emery board" },
+    "description": "A slim cardboard stick coated with abrasive grit, meant for shaping fingernails.",
+    "weight": "4 g",
+    "volume": "12 ml",
+    "longest_side": "18 cm",
+    "price": "50 cent",
+    "price_postapoc": "10 cent",
+    "material": [ "cardboard" ],
+    "symbol": "`",
+    "color": "brown",
+    "qualities": [ [ "FILE", 1 ] ]
+  },
+  {
     "type": "ITEM",
     "id": "razor_blade",
     "symbol": ",",

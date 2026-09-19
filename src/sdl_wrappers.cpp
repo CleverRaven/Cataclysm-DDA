@@ -7,6 +7,8 @@
 #include <ostream>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
+#include <utility>
 
 #include "cata_assert.h"
 #include "cata_shader.h"
@@ -482,6 +484,34 @@ void RenderSetClipRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const 
                   "SDL_SetRenderClipRect failed" );
 }
 
+void RenderGeometryRaw( const SDL_Renderer_Ptr &renderer,
+                        const float *const xy, const int xy_stride,
+                        const SDL_FColor *const color, const int color_stride,
+                        const int num_vertices,
+                        const Uint32 *const indices, const int num_indices )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to render geometry to a null renderer";
+        return;
+    }
+    if( num_vertices <= 0 || num_indices <= 0 ) {
+        return;
+    }
+    printErrorIf( !SDL_RenderGeometryRaw( renderer.get(), nullptr,
+                                          xy, xy_stride,
+                                          color, color_stride,
+                                          nullptr, 0,
+                                          num_vertices,
+                                          indices, num_indices,
+                                          static_cast<int>( sizeof( Uint32 ) ) ),
+                  "SDL_RenderGeometryRaw failed" );
+}
+
+bool GetRectIntersection( const SDL_Rect &a, const SDL_Rect &b, SDL_Rect &result )
+{
+    return SDL_GetRectIntersection( &a, &b, &result );
+}
+
 void RenderGetClipRect( const SDL_Renderer_Ptr &renderer, SDL_Rect *const rect )
 {
     if( !renderer ) {
@@ -839,10 +869,18 @@ bool RenderReadPixels( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect,
     if( !renderer ) {
         return false;
     }
-    ( void )format;
     SDL_Surface *surf = SDL_RenderReadPixels( renderer.get(), rect );
     if( !surf ) {
         return false;
+    }
+    if( surf->format != static_cast<SDL_PixelFormat>( format ) ) {
+        SDL_Surface *converted =
+            SDL_ConvertSurface( surf, static_cast<SDL_PixelFormat>( format ) );
+        SDL_DestroySurface( surf );
+        if( !converted ) {
+            return false;
+        }
+        surf = converted;
     }
     const int copy_h = surf->h;
     const int copy_pitch = std::min( pitch, surf->pitch );

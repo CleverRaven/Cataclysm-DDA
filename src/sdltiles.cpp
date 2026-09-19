@@ -119,6 +119,7 @@ std::shared_ptr<cata_tiles> tilecontext;
 std::shared_ptr<cata_tiles> closetilecontext;
 std::shared_ptr<cata_tiles> fartilecontext;
 std::unique_ptr<cata_tiles> overmap_tilecontext;
+std::shared_ptr<cata_tiles> portrait_tilecontext;
 static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
 static bool needupdate = false;
@@ -1012,24 +1013,16 @@ SDL_Point window_to_display_buffer_coords( SDL_Point window_pt )
         static_cast<int>( static_cast<int64_t>( window_pt.y - dstrect.y ) * buf_h / dstrect.h )
     };
 #else
-    int win_w = 0;
-    int win_h = 0;
-    GetWindowSize( window.get(), &win_w, &win_h );
-    const point draw = compute_drawable_dims();
-    const SDL_Rect dst = get_display_buffer_render_rect();
-    if( win_w <= 0 || win_h <= 0 || draw.x <= 0 || draw.y <= 0 || dst.w <= 0 || dst.h <= 0 ) {
-        return window_pt;
+    // Use the SDL provided translation of scaling and casting for SDL3 builds
+    if( renderer ) {
+        float rx = 0.0f;
+        float ry = 0.0f;
+        if( SDL_RenderCoordinatesFromWindow( renderer.get(),
+                                             static_cast<float>( window_pt.x ), static_cast<float>( window_pt.y ), &rx, &ry ) ) {
+            return SDL_Point{ static_cast<int>( rx ), static_cast<int>( ry ) };
+        }
     }
-    // Invert the present rect: logical coords to drawable px, then through the
-    // rect to buffer px. Points past it land in the border.
-    const point p{
-        static_cast<int>( static_cast<int64_t>( window_pt.x ) * draw.x / win_w ),
-        static_cast<int>( static_cast<int64_t>( window_pt.y ) * draw.y / win_h )
-    };
-    return SDL_Point{
-        static_cast<int>( static_cast<int64_t>( p.x - dst.x ) * buf_w / dst.w ),
-        static_cast<int>( static_cast<int64_t>( p.y - dst.y ) * buf_h / dst.h )
-    };
+    return window_pt;
 #endif
 }
 
@@ -1310,9 +1303,10 @@ bool renderer_resource_coordinator::should_abort_frame() const
 static void for_each_unique_tile_context( const std::function<void( cata_tiles & )> &fn )
 {
     cata_tiles *ctxs[] = { tilecontext.get(), closetilecontext.get(),
-                           fartilecontext.get(), overmap_tilecontext.get()
+                           fartilecontext.get(), overmap_tilecontext.get(),
+                           portrait_tilecontext.get()
                          };
-    cata_tiles *seen[4] = {};
+    cata_tiles *seen[5] = {};
     size_t n = 0;
     for( cata_tiles *c : ctxs ) {
         if( !c ) {
@@ -2159,7 +2153,7 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
     const tileset_cache_key key {
         tileset_id, memory_map_mode, compute_tileset_filter_fingerprint( memory_map_mode )
     };
-    ts_cache.tilesets_.insert_or_assign( key, ts );
+    ts_cache.track_bundle( key, ts );
     return ts;
 }
 
@@ -5306,7 +5300,7 @@ static void CheckMessages()
         // shortcut and joystick hit-tests see the same domain SDL emitted.
         SDL_Event ev_display = ev;
         convert_event_to_display_buffer_coords( &ev_display );
-        imclient->process_input( &ev_display, imgui_buf_w, imgui_buf_h );
+        imclient->process_input( &ev_display, imgui_buf_w, imgui_buf_h, scaling_factor );
 
         // Window events are delivered as top-level event types.
         // IsWindowEvent/GetWindowEventID normalize across versions.
@@ -6107,6 +6101,16 @@ void catacurses::init_interface()
         // Setting it to false disables this from getting used.
         use_tiles = false;
     }
+    portrait_tilecontext = std::make_shared<cata_tiles>( renderer, geometry, ts_cache );
+    try {
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
+        portrait_tilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                            /*precheck=*/true, /*force=*/false,
+                                            /*pump_events=*/true, /*terrain=*/false );
+    } catch( const std::exception &err ) {
+        dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
+    }
     overmap_tilecontext = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
     try {
         // Disable UIs below to avoid accessing the tile context during loading.
@@ -6170,6 +6174,11 @@ void load_tileset()
                                       /*precheck=*/false, /*force=*/false,
                                       /*pump_events=*/true, /*terrain=*/false );
     }
+    if( use_tiles ) {
+        portrait_tilecontext->load_tileset( get_option<std::string>( "PORTRAIT_TILES" ),
+                                            /*precheck=*/false, /*force=*/false,
+                                            /*pump_events=*/true, /*terrain=*/false );
+    }
     tilecontext = closetilecontext;
     tilecontext->do_tile_loading_report();
 
@@ -6188,6 +6197,7 @@ void catacurses::endwin()
     closetilecontext.reset();
     fartilecontext.reset();
     overmap_tilecontext.reset();
+    portrait_tilecontext.reset();
     font.reset();
     gui_font.reset();
     map_font.reset();

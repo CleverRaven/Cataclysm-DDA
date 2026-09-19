@@ -89,6 +89,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "reloaded_rifle_AP",
+    "using": [ [ "req_rifle", 1 ], [ "req_penetrator_rifle_alien", 1 ], [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
     "components": [
       [ [ "gunpowder", 12 ], [ "gunpowder_magnum_pistol", 12 ], [ "gunpowder_rifle", 12 ], [ "gunpowder_large_rifle", 12 ] ]
     ]
@@ -98,6 +99,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "bp_rifle_AP",
+    "using": [ [ "req_rifle", 1 ], [ "req_penetrator_rifle_alien", 1 ], [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
     "components": [ [ [ "chem_black_powder", 12 ] ] ]
   },
   {
@@ -112,7 +114,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "reloaded_rifle_ball",
-    "using": [ [ "req_rifle", 1 ], [ "req_penetrator", 1 ], [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
+    "using": [ [ "req_rifle", 1 ], [ "req_penetrator_rifle", 1 ], [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
     "components": [
       [ [ "gunpowder", 12 ], [ "gunpowder_magnum_pistol", 12 ], [ "gunpowder_rifle", 12 ], [ "gunpowder_large_rifle", 12 ] ],
       [ [ "copper", 3 ] ]
@@ -155,7 +157,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "reloaded_rifle_huge_ball",
-    "using": [ [ "req_rifle_huge", 1 ], [ "req_penetrator", 1 ], [ "bullet_forming", 21 ], [ "ammo_bullet", 12 ] ],
+    "using": [ [ "req_rifle_huge", 1 ], [ "req_penetrator_rifle_huge", 1 ], [ "bullet_forming", 21 ], [ "ammo_bullet", 12 ] ],
     "components": [ [ [ "gunpowder", 30 ], [ "gunpowder_large_rifle", 30 ] ], [ [ "copper", 6 ], [ "rifle_casing", 1 ] ] ]
   },
   {
@@ -163,7 +165,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "reloaded_rifle_huge_ball",
-    "using": [ [ "req_rifle_huge", 1 ], [ "req_penetrator", 1 ], [ "bullet_forming", 21 ], [ "ammo_bullet", 12 ] ],
+    "using": [ [ "req_rifle_huge", 1 ], [ "req_penetrator_rifle_huge", 1 ], [ "bullet_forming", 21 ], [ "ammo_bullet", 12 ] ],
     "components": [ [ [ "gunpowder", 30 ], [ "gunpowder_large_rifle", 30 ] ], [ [ "copper", 6 ], [ "rifle_casing", 1 ] ] ]
   }
 ]

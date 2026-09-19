@@ -44,6 +44,7 @@
 #include "json.h"
 #include "map.h"
 #include "messages.h"
+#include "mission.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -287,6 +288,8 @@ struct CataListener : Catch::TestEventListenerBase {
         }
         // Reset lightweight global state that tests commonly modify without
         // restoring.  Expensive operations like clear_map() stay manual.
+        get_avatar().reset_all_missions();
+        mission::clear_all();
         calendar::turn = calendar::turn_zero;
         weather_manager &weather = get_weather();
         weather.weather_override = WEATHER_NULL; // NOLINT(cata-tests-must-restore-global-state)
@@ -445,6 +448,10 @@ int main( int argc, const char *argv[] )
     } );
 
     setupDebug( DebugOutput::std_err );
+    // DebugFile is a function-local static; shut it down before global teardown.
+    on_out_of_scope debug_shutdown_guard( []() {
+        deinitDebug();
+    } );
     if( limit_debug_level != -1 ) {
         limitDebugLevel( limit_debug_level );
     }
@@ -532,6 +539,16 @@ int main( int argc, const char *argv[] )
         DebugLog( D_INFO, DC_ALL ) << "Treating result as failure due to error logged during tests.";
         return 1;
     }
+
+#if defined(__MINGW32__)
+    // MinGW static teardown is unreliable after game state cleanup.
+    debug_shutdown_guard.cancel();
+    deinitDebug();
+    std::cout.flush();
+    std::cerr.flush();
+    std::fflush( nullptr );
+    std::_Exit( result );
+#endif
 
     return result;
 }

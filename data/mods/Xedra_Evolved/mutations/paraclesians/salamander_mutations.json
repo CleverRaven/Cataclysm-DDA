@@ -795,7 +795,8 @@
     "override_look": { "id": "fd_nuke_gas", "tile_category": "field" },
     "category": [ "SALAMANDER" ],
     "purifiable": false,
-    "threshreq": [ "THRESH_SALAMANDER" ]
+    "threshreq": [ "THRESH_SALAMANDER" ],
+    "flags": [ "CANNOT_CONSUME_DRUGS" ]
   },
   {
     "type": "mutation",

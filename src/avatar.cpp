@@ -39,7 +39,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "help.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -69,6 +68,7 @@
 #include "string_formatter.h"
 #include "talker.h"
 #include "talker_avatar.h"
+#include "text_snippets.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "type_id.h"
@@ -250,6 +250,11 @@ void avatar::load_map_memory()
 void avatar::clear_map_memory()
 {
     player_map_memory->clear();
+}
+
+void avatar::ensure_portrait_valid()
+{
+    debugmsg( "No support for avatar portrait (yet)" );
 }
 
 void avatar::prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 )

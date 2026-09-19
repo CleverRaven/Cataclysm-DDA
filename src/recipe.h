@@ -29,8 +29,8 @@ class JsonValue;
 class cata_variant;
 class item;
 class item_components;
-class read_only_visitable;
 class recipe;
+class temp_crafting_inventory;
 template <typename E> struct enum_traits;
 
 enum scaling_stat : int;
@@ -555,7 +555,7 @@ class recipe
 // Best (lowest) speed modifier for a quality at a given level from available items.
 // Returns 1.0f if no items have a speed modifier for this quality.
 // crafter is used for charged_qualities (ammo_sufficient check).
-float best_quality_speed_modifier( const read_only_visitable &inv,
+float best_quality_speed_modifier( const temp_crafting_inventory &inv,
                                    const Character &crafter, const quality_id &qual, int level );
 
 // Compute per-step tool speed modifiers for a recipe from the crafter's inventory.

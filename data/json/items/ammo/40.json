@@ -76,36 +76,11 @@
     "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
-    "id": "bp_40sw",
-    "copy-from": "40sw",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".40 S&W JHP, black powder" },
-    "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
-      "recoil": 0.76,
-      "dispersion": 1.2
-    },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
     "id": "reloaded_40fmj",
     "copy-from": "40fmj",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".40 S&W FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_40sw",
-    "copy-from": "40sw",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".40 S&W JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -119,17 +94,6 @@
     "name": { "str_sp": ".40 S&W FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_40fmj",
-    "extend": { "effects": [ "MATCHHEAD" ] }
-  },
-  {
-    "id": "matchhead_40sw",
-    "copy-from": "bp_40sw",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
-    "name": { "str_sp": ".40 S&W JHP, matchhead powder" },
-    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
-    "looks_like": "bp_40sw",
     "extend": { "effects": [ "MATCHHEAD" ] }
   }
 ]

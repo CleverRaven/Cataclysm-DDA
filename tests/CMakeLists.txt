@@ -58,8 +58,15 @@ if (BUILD_TESTING)
             add_dependencies(cata_test test_mo)
         endif()
         target_link_libraries(cata_test PRIVATE cataclysm-common)
-        add_test(NAME test
-                COMMAND cata_test --rng-seed time
-                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+        # Match CI's split to keep global test state from leaking between batches.
+        list(APPEND _n 1 2)
+        list(APPEND _args "[slow] ~starting_items" "~[slow] ~[.],starting_items")
+        foreach(n args IN ZIP_LISTS _n _args)
+            add_test(NAME cata.test-${n}
+                    COMMAND cata_test --min-duration 20 --rng-seed time
+                    --order lex
+                    --user-dir=${CMAKE_CURRENT_BINARY_DIR}/test_user_dir_${n} ${args}
+                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+        endforeach()
     endif ()
 endif ()

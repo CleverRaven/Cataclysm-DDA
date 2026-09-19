@@ -246,6 +246,13 @@
     "qty": 100
   },
   {
+    "id": "emit_cold_air4_blast",
+    "type": "emit",
+    "field": "fd_cold_air4",
+    "intensity": 3,
+    "qty": 100
+  },
+  {
     "id": "emit_hot_air2_stream",
     "type": "emit",
     "field": "fd_hot_air2",

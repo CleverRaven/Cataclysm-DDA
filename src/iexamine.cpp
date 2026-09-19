@@ -85,6 +85,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "talker.h"  // IWYU pragma: keep
+#include "temp_crafting_inventory.h"
 #include "tileray.h"
 #include "timed_event.h"
 #include "translation.h"
@@ -657,7 +658,7 @@ void iexamine::nanofab( Character &you, const tripoint_bub_ms &examp )
         new_item.set_flag( flag_NANOFAB_REPAIR );
     }
 
-    if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
+    if( !reqs.can_make_with_inventory( &you, you.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
         return;
     }
@@ -1735,7 +1736,7 @@ void iexamine::portable_structure( Character &you, const tripoint_bub_ms &examp 
  */
 void iexamine::pit( Character &you, const tripoint_bub_ms &examp )
 {
-    const inventory &crafting_inv = you.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
     if( !crafting_inv.has_amount( itype_2x4, 1 ) ) {
         none( you, examp );
         return;
@@ -2710,14 +2711,7 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
 
     const auto add = [&]( const itype_id & id, const int count ) {
         item new_item( id, calendar::turn );
-        if( new_item.count_by_charges() && count > 0 ) {
-            new_item.charges *= count;
-            new_item.charges /= seed_data.fruit_div;
-            if( new_item.charges <= 0 ) {
-                new_item.charges = 1;
-            }
-            result.push_back( new_item );
-        } else if( count > 0 ) {
+        if( count > 0 ) {
             result.insert( result.begin(), count, new_item );
         }
     };
@@ -2821,7 +2815,7 @@ void iexamine::harvest_plant( Character &you, const tripoint_bub_ms &examp, bool
             add_msg( m_info, _( "The seed blossoms into a flower-looking fungus." ) );
         }
     } else { // Generic seed, use the seed item data
-        const inventory &crafting_inv = you.crafting_inventory();
+        const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
         if( seed->has_flag( flag_CUT_HARVEST ) && !crafting_inv.has_quality( qual_GRASS_CUT ) ) {
             you.add_msg_if_player( m_info, _( "You will need a grass-cutting tool to harvest this plant." ) );
             return;
@@ -3436,7 +3430,7 @@ void iexamine::autoclave_empty( Character &you, const tripoint_bub_ms &examp )
     }
     requirement_data reqs = *requirement_data_autoclave;
 
-    if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
+    if( !reqs.can_make_with_inventory( &you, you.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
         return;
     }
@@ -4470,7 +4464,7 @@ static item_location maple_tree_sap_container()
 
 void iexamine::tree_maple( Character &you, const tripoint_bub_ms &examp )
 {
-    const inventory &crafting_inv = you.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
     if( !crafting_inv.has_quality( qual_DRILL ) ) {
         add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
         return;
@@ -4840,45 +4834,6 @@ std::vector<const itype *> furn_t::crafting_ammo_item_types() const
         }
     }
     return output;
-}
-
-/**
-* Finds the number of charges of the first item that matches type.
-*
-* @param type       Search target.
-* @param items      Stack of items. Search stops at first match.
-*
-* @return           Number of charges.
-* */
-static int count_charges_in_list( const itype *type, const map_stack &items )
-{
-    for( const item &candidate : items ) {
-        if( candidate.type == type ) {
-            return candidate.charges;
-        }
-    }
-    return 0;
-}
-
-/**
-* Finds the number of charges of the first item that matches ammotype.
-*
-* @param ammotype   Search target.
-* @param items      Stack of items. Search stops at first match.
-* @param [out] item_type Matching type.
-*
-* @return           Number of charges.
-* */
-static int count_charges_in_list( const ammotype *ammotype, const map_stack &items,
-                                  itype_id &item_type )
-{
-    for( const item &candidate : items ) {
-        if( candidate.is_ammo() && candidate.type->ammo->type == *ammotype ) {
-            item_type = candidate.typeId();
-            return candidate.charges;
-        }
-    }
-    return 0;
 }
 
 static void reload_furniture( Character &you, const tripoint_bub_ms &examp, bool allow_unload )
@@ -5916,7 +5871,7 @@ void iexamine::autodoc( Character &you, const tripoint_bub_ms &examp )
         amenu.ret > 1 ) {
         needs_anesthesia = false;
     } else {
-        const inventory &crafting_inv = you.crafting_inventory();
+        const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
         std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_quality( qual_ANESTHESIA );
         } );
@@ -6755,7 +6710,7 @@ static void mill_load_food( Character &you, const tripoint_bub_ms &examp,
         return;
     }
     // filter millable food
-    inventory inv = you.crafting_inventory();
+    temp_crafting_inventory inv = you.crafting_inventory();
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );

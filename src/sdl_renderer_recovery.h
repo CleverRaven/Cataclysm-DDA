@@ -409,9 +409,9 @@ struct renderer_recovery_test_support {
     // state, draining any quarantine on the still-live renderer first.
     static void reset_coordinator();
 
-    // Build a one-descriptor 1x1 bundle, upload it once at the given generations,
-    // and insert it into the global cache. Returns the held bundle so the weak
-    // cache entry stays live and the recorded generations are readable.
+    // make one-descriptor 1x1 bundle, upload it once at the given generations,
+    // then track it in global cache, and return the held bundle so that the weak
+    // cache entry stays live and the recorded generations are readable
     static std::shared_ptr<const tileset> install_synthetic_bundle(
         const std::string &tileset_id, const std::string &memory_map_mode,
         uint64_t renderer_instance_generation, uint64_t gpu_textures_generation );

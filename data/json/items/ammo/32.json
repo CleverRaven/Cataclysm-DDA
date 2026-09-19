@@ -89,41 +89,5 @@
     "price": "36 USD 80 cent",
     "price_postapoc": "10 USD",
     "relative": { "damage": { "damage_type": "bullet", "amount": 1 } }
-  },
-  {
-    "id": "bp_32_acp_jhp",
-    "copy-from": "32_acp_jhp",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".32 ACP JHP, black powder" },
-    "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
-      "recoil": 0.76,
-      "dispersion": 1.2
-    },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_32_acp_jhp",
-    "copy-from": "32_acp_jhp",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".32 ACP JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "matchhead_32_acp_jhp",
-    "copy-from": "bp_32_acp_jhp",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
-    "name": { "str_sp": ".32 ACP JHP, matchhead powder" },
-    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
-    "looks_like": "bp_32_acp_jhp",
-    "extend": { "effects": [ "MATCHHEAD" ] }
   }
 ]

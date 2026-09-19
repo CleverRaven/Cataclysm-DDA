@@ -1,0 +1,38 @@
+[
+  {
+    "id": "mon_beetle_solar_reverberation",
+    "type": "MONSTER",
+    "name": { "str": "giant solar beetle" },
+    "description": "Giant beetle-like robot with a glistening blue plastic shell, its open elytra is covered with curved solar panels.  Despite it's robotic appearance, it motions like an organic creature.",
+    "copy-from": "mon_diving_beetle_small",
+    "default_faction": "beetle_solar",
+    "move_skills": { "swim": 0 },
+    "material": [ "iflesh", "plastic", "glass" ],
+    "color": "light_blue",
+    "aggression": -100,
+    "morale": 0,
+    "melee_skill": 2,
+    "dodge": 1,
+    "vision_night": 4,
+    "harvest": "arachnid_beetle_solar",
+    "dissect": "dissect_insect_sample_single",
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
+    "anger_triggers": [  ],
+    "fear_triggers": [ "FIRE", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "extend": { "flags": [ "PATH_AVOID_DANGER", "PATH_AVOID_FALL" ] },
+    "delete": { "flags": [ "WATER_CAMOUFLAGE" ] },
+    "armor": { "bash": 7, "cut": 9, "bullet": 10, "electric": 2 }
+  },
+  {
+    "id": "mon_beetle_solar_starving_reverberation",
+    "type": "MONSTER",
+    "name": { "str": "malnourished giant solar beetle" },
+    "description": "Giant beetle-like robot with a scratched blue plastic shell, the exterior of its open elytra is covered with curved solar panels.  Despite weak attempts, it can't move.",
+    "melee_skill": 0,
+    "dodge": 0,
+    "harvest": "arachnid_beetle_solar_starving",
+    "copy-from": "mon_beetle_solar_reverberation",
+    "hp": 30,
+    "extend": { "flags": [ "IMMOBILE" ] }
+  }
+]

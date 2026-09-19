@@ -1,7 +1,6 @@
-#include "item.h"
-
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <functional>
 #include <iomanip>
@@ -30,8 +29,10 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_id.h"
 #include "character_martial_arts.h"
 #include "color.h"
+#include "craft_reservation.h"
 #include "damage.h"
 #include "debug.h"
 #include "dialogue.h"
@@ -45,12 +46,13 @@
 #include "game_constants.h"
 #include "global_vars.h"
 #include "gun_mode.h"
-#include "inventory.h"
+#include "item.h"
 #include "item_category.h"
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_factory.h"
 #include "item_pocket.h"
+#include "item_uid.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "iuse.h"
@@ -62,6 +64,7 @@
 #include "math_parser_diag_value.h"
 #include "mod_manager.h"
 #include "mtype.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
@@ -124,6 +127,8 @@ static const skill_id skill_survival( "survival" );
 static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
 
 static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
+
+class temp_crafting_inventory;
 
 // sorts with localized_compare, and enumerates entries, if more than \p max entries
 // the rest are abbreviated into " and %d more"
@@ -247,7 +252,7 @@ static void insert_separation_line( std::vector<iteminfo> &info )
 void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                        bool /* debug */ ) const
 {
-    if( parts->test( iteminfo_parts::BASE_MOD_SRC ) ) {
+    if( debug_mode && parts->test( iteminfo_parts::BASE_MOD_SRC ) ) {
         info.emplace_back( "BASE", get_origin( type->src ) );
         insert_separation_line( info );
     }
@@ -3950,23 +3955,53 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
                                activity_var_may->str() ) );
     }
 
+    if( get_craft_reservations().is_reserved_uid( uid().get_value() ) ) {
+        const craft_reservation_index::record *rec =
+            get_craft_reservations().record_for_item_uid( uid().get_value() );
+        const character_id claimant = rec != nullptr ? rec->crafter : character_id();
+        if( claimant.is_valid() && claimant == get_player_character().getID() ) {
+            info.emplace_back( "DESCRIPTION",
+                               _( "* This item is <info>reserved</info> by a craft of yours left running." ) );
+        } else if( npc *who = claimant.is_valid() ? g->find_npc( claimant ) : nullptr ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format(
+                                   _( "* This item is <info>reserved</info> by a craft %s left running." ),
+                                   who->get_name() ) );
+        } else {
+            info.emplace_back( "DESCRIPTION",
+                               _( "* This item is <info>reserved</info> by a craft left running." ) );
+        }
+        if( has_flag( flag_USE_UPS ) ) {
+            info.emplace_back( "DESCRIPTION",
+                               _( "* Its <bad>UPS charge is not protected</bad> and may be drained by anything." ) );
+        }
+    } else if( craft_reservation::contains_reserved( *this ) ) {
+        info.emplace_back( "DESCRIPTION",
+                           _( "* This holds an item <info>reserved</info> by a craft, so it cannot be used for crafting." ) );
+    }
 }
 
 // Cache for can_craft in final_info.
 static std::unordered_map<const recipe *, bool> can_craft_recipe_cache;
 static time_point cache_valid_turn;
+// Craftability changes within a turn, which the turn stamp alone cannot see.
+static uint64_t cache_valid_reservation_generation = 0;
 
-static bool can_craft_recipe( const recipe *r, const inventory &crafting_inv )
+static bool can_craft_recipe( const recipe *r, const temp_crafting_inventory &crafting_inv )
 {
-    if( cache_valid_turn != calendar::turn ) {
+    const uint64_t reservation_generation = get_craft_reservations().generation();
+    if( cache_valid_turn != calendar::turn ||
+        cache_valid_reservation_generation != reservation_generation ) {
         cache_valid_turn = calendar::turn;
+        cache_valid_reservation_generation = reservation_generation;
         can_craft_recipe_cache.clear();
     }
     if( can_craft_recipe_cache.count( r ) > 0 ) {
         return can_craft_recipe_cache.at( r );
     }
-    can_craft_recipe_cache[r] = r->deduped_requirements().can_make_with_inventory( crafting_inv,
-                                r->get_component_filter() );
+    can_craft_recipe_cache[r] = r->deduped_requirements().can_make_with_inventory(
+                                    &get_player_character(), crafting_inv,
+                                    r->get_component_filter() );
     return can_craft_recipe_cache.at( r );
 }
 
@@ -4213,7 +4248,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES ) ) {
         // with the inventory display allowing you to select items, showing the things you could make with contained items could be confusing.
         const itype_id &tid = typeId();
-        const inventory &crafting_inv = player_character.crafting_inventory();
+        const temp_crafting_inventory &crafting_inv = player_character.crafting_inventory();
         const recipe_subset &available_recipe_subset = player_character.get_group_available_recipes();
         const std::set<const recipe *> &item_recipes = available_recipe_subset.of_component( tid );
 

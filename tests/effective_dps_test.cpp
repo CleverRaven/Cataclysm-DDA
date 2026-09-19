@@ -49,19 +49,33 @@ static double weapon_dps_trials( avatar &attacker, monster &defender, item &weap
 
     clear_character( attacker );
     REQUIRE( attacker.can_wield( weapon ).success() );
+    attacker.wield( weapon );
+    REQUIRE( !!attacker.used_weapon() );
+    REQUIRE( attacker.used_weapon()->type == weapon.type );
 
+    const int healthy_kcal = attacker.get_healthy_kcal();
     melee::clear_stats();
     melee_statistic_data melee_stats = melee::get_stats();
-    // rerun the trials in groups of 1000 until 100 crits occur
     for( int i = 0; i < 10 && melee_stats.actual_crit_count < 100;
          i++, melee_stats = melee::get_stats() ) {
         for( int j = 0; j < trials; j++ ) {
-            // Reset and re-wield weapon before each attack to prevent skill-up during trials
-            clear_character( attacker );
-            attacker.wield( weapon );
-            // Verify that wielding worked (and not e.g. using martial arts instead)
-            REQUIRE( !!attacker.used_weapon() );
-            REQUIRE( attacker.used_weapon()->type == weapon.type );
+            attacker.empty_skills();
+            attacker.set_stamina( attacker.get_stamina_max() );
+            attacker.set_stored_kcal( healthy_kcal );
+            attacker.set_thirst( 0 );
+            attacker.set_hunger( 0 );
+            attacker.set_pain( 0 );
+            attacker.set_str_bonus( 0 );
+            attacker.set_dex_bonus( 0 );
+            attacker.set_int_bonus( 0 );
+            attacker.set_per_bonus( 0 );
+            attacker.reset_bonuses();
+            attacker.clear_effects();
+            attacker.clear_miss_reasons();
+            attacker.set_moves( 0 );
+            if( attacker.used_weapon() ) {
+                attacker.used_weapon()->set_damage( 0 );
+            }
 
             int before_moves = attacker.get_moves();
 

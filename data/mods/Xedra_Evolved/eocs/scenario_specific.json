@@ -37,5 +37,34 @@
     "type": "effect_on_condition",
     "id": "scenario_xe_permanent_ominous_fog",
     "effect": [ { "math": [ "xe_weather_ominous_fog_scenario = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_xe_revenant_scenario",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "worn_only": true } ],
+        "true_eocs": [ { "id": "EOC_SCENARIO_REVENANT_STARTING_CLOTHES_ARE_FILTHY", "effect": [ { "npc_set_flag": "FILTHY" } ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SCENARIO_REVENANT_PERIODIC_FIX_NEEDS",
+    "recurrence": [ "1 hours", "1 hours" ],
+    "condition": { "u_has_profession": "xedra_revenant_prof" },
+    "deactivate_condition": { "not": { "u_has_profession": "xedra_revenant_prof" } },
+    "effect": [
+      {
+        "if": { "math": [ "u_calories('dont_affect_weariness': true) < 118000" ] },
+        "then": { "math": [ "u_calories('dont_affect_weariness': true) = 118000" ] }
+      },
+      { "if": { "math": [ "u_val('sleepiness') > 0" ] }, "then": { "math": [ "u_val('sleepiness') = 0" ] } },
+      {
+        "if": { "math": [ "u_val('sleep_deprivation') > 0" ] },
+        "then": { "math": [ "u_val('sleep_deprivation') = 0" ] }
+      }
+    ]
   }
 ]

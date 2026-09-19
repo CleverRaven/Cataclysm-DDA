@@ -370,6 +370,11 @@
     "info": "You don't know how hungry you are when you are effected by this."
   },
   {
+    "id": "CANNOT_CONSUME_DRUGS",
+    "type": "json_flag",
+    "info": "You cannot use any item with the consume_drug use_action when you have this flag."
+  },
+  {
     "id": "ELECTRIC_IMMUNE",
     "type": "json_flag",
     "info": "This gear <good>completely protects</good> you from <info>electric discharges</info>."

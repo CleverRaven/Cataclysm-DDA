@@ -15,13 +15,6 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "DEFAULT_REGION",
-    "//": "(WIP feature) Determines terrain, shops, plants, and more.",
-    "stype": "string_input",
-    "value": "hunvre"
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "ETERNAL_SEASON",
     "//": "If true, keep the initial season for ever.",
     "stub": true,

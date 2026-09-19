@@ -8,14 +8,38 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "seasonings_any_salt_pepper",
+    "items": [ { "item": "salt" }, { "item": "pepper" }, { "item": "seasoning_salt" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "seasonings_meat",
     "//COMMENT": "Stuff you would put on a meat-only dish, like a steak. Yes I know putting ketchup on a steak is heretical, but plenty of people do it, so I put it in here.",
     "items": [
-      { "item": "pepper" },
       { "item": "ketchup" },
-      { "item": "salt" },
       { "item": "wild_herbs" },
-      { "item": "seasoning_salt" }
+      { "item": "soysauce" },
+      { "item": "barbecue_sauce" },
+      { "item": "hot_sauce" },
+      { "item": "honey_mustard" },
+      { "item": "mustard" },
+      { "item": "honey_bottled" },
+      { "item": "seasoning_italian" },
+      { "group": "seasonings_any_salt_pepper" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "seasonings_pasta",
+    "//COMMENT": "Anything you could reasonably consider putting on a pasta dish. (Even if that pasta dish already has some. Spaghetti al pesto with extra pesto? Don't mind if I do!)",
+    "items": [
+      { "item": "sauce_pesto" },
+      { "item": "wild_herbs" },
+      { "item": "sauce_red" },
+      { "item": "seasoning_italian" },
+      { "group": "seasonings_any_salt_pepper" }
     ]
   }
 ]
