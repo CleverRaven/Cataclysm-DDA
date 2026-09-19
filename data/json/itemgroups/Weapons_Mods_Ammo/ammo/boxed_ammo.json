@@ -1664,7 +1664,7 @@
     "subtype": "distribution",
     "id": "boxed_20_10_used",
     "on_overflow": "spill",
-    "container-item": { "item": "44_ammo_box_20", "variant": "20_ammo_box_10" },
+    "container-item": "20_ammo_box_10",
     "items": [
       { "item": "20shot_slug", "charges": 1, "count": [ 5, 15 ], "prob": 3 },
       { "item": "20shot_buck", "charges": 1, "count": [ 5, 15 ], "prob": 5 },
@@ -2616,7 +2616,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "boxed_20_10_looted",
-    "container-item": { "item": "44_ammo_box_20", "variant": "20_ammo_box_10" },
+    "container-item": "20_ammo_box_10",
     "items": [
       { "item": "20shot_slug", "charges": [ 0, 4 ], "prob": 3 },
       { "item": "20shot_buck", "charges": [ 0, 4 ], "prob": 5 },
