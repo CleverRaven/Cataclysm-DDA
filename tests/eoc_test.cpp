@@ -66,6 +66,20 @@ static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 
 static const effect_on_condition_id
+effect_on_condition_EOC_MARLOSS_BERRY_CONSUME( "EOC_MARLOSS_BERRY_CONSUME" );
+static const effect_on_condition_id
+effect_on_condition_EOC_MARLOSS_CONSUME( "EOC_MARLOSS_CONSUME" );
+static const effect_on_condition_id
+effect_on_condition_EOC_MARLOSS_GAIN_COMPONENT( "EOC_MARLOSS_GAIN_COMPONENT" );
+static const effect_on_condition_id
+effect_on_condition_EOC_MARLOSS_GEL_CONSUME( "EOC_MARLOSS_GEL_CONSUME" );
+static const effect_on_condition_id
+effect_on_condition_EOC_MARLOSS_SEED_CONSUME( "EOC_MARLOSS_SEED_CONSUME" );
+static const effect_on_condition_id
+effect_on_condition_EOC_MARLOSS_WINE_CONSUME( "EOC_MARLOSS_WINE_CONSUME" );
+static const effect_on_condition_id
+effect_on_condition_EOC_MYCUS_CONSUME( "EOC_MYCUS_CONSUME" );
+static const effect_on_condition_id
 effect_on_condition_EOC_TEST_PURIFIABILITY_FALSE( "EOC_TEST_PURIFIABILITY_FALSE" );
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_PURIFIABILITY_TRUE( "EOC_TEST_PURIFIABILITY_TRUE" );
@@ -95,12 +109,6 @@ static const effect_on_condition_id
 effect_on_condition_EOC_item_math_test( "EOC_item_math_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_item_teleport_test( "EOC_item_teleport_test" );
-static const effect_on_condition_id
-effect_on_condition_EOC_MARLOSS_GAIN_COMPONENT( "EOC_MARLOSS_GAIN_COMPONENT" );
-static const effect_on_condition_id
-effect_on_condition_EOC_MARLOSS_CONSUME( "EOC_MARLOSS_CONSUME" );
-static const effect_on_condition_id
-effect_on_condition_EOC_MYCUS_CONSUME( "EOC_MYCUS_CONSUME" );
 static const effect_on_condition_id
 effect_on_condition_EOC_jmath_test( "EOC_jmath_test" );
 static const effect_on_condition_id effect_on_condition_EOC_map_test( "EOC_map_test" );
@@ -227,10 +235,6 @@ static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_marloss( "t_marloss" );
 
-static const trait_id trait_process_mutation( "process_mutation" );
-static const trait_id trait_process_mutation_two( "process_mutation_two" );
-static const trait_id trait_purifiability_first( "purifiability_first" );
-static const trait_id trait_purifiability_second( "purifiability_second" );
 static const trait_id trait_MARLOSS( "MARLOSS" );
 static const trait_id trait_MARLOSS_AVOID( "MARLOSS_AVOID" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
@@ -239,6 +243,10 @@ static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_process_mutation( "process_mutation" );
+static const trait_id trait_process_mutation_two( "process_mutation_two" );
+static const trait_id trait_purifiability_first( "purifiability_first" );
+static const trait_id trait_purifiability_second( "purifiability_second" );
 
 namespace
 {
@@ -357,12 +365,12 @@ TEST_CASE( "marloss_and_mycus_consumption_eocs", "[eoc][marloss]" )
 TEST_CASE( "marloss_consumables_reference_consumption_eocs", "[eoc][marloss]" )
 {
     const std::vector<std::pair<itype_id, effect_on_condition_id>> expected = {
-        { itype_marloss_berry, effect_on_condition_id( "EOC_MARLOSS_BERRY_CONSUME" ) },
-        { itype_marloss_seed, effect_on_condition_id( "EOC_MARLOSS_SEED_CONSUME" ) },
-        { itype_marloss_gel, effect_on_condition_id( "EOC_MARLOSS_GEL_CONSUME" ) },
+        { itype_marloss_berry, effect_on_condition_EOC_MARLOSS_BERRY_CONSUME },
+        { itype_marloss_seed, effect_on_condition_EOC_MARLOSS_SEED_CONSUME },
+        { itype_marloss_gel, effect_on_condition_EOC_MARLOSS_GEL_CONSUME },
         { itype_mycus_fruit, effect_on_condition_EOC_MYCUS_CONSUME },
         { itype_mycus_juice, effect_on_condition_EOC_MYCUS_CONSUME },
-        { itype_wine_marloss, effect_on_condition_id( "EOC_MARLOSS_WINE_CONSUME" ) },
+        { itype_wine_marloss, effect_on_condition_EOC_MARLOSS_WINE_CONSUME },
         { itype_wine_mycus, effect_on_condition_EOC_MYCUS_CONSUME }
     };
 

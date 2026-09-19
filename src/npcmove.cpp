@@ -162,8 +162,6 @@ static const damage_type_id damage_bullet( "bullet" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_stab( "stab" );
 
-static const flag_id json_flag_NPC_AVOID_CONSUMPTION( "NPC_AVOID_CONSUMPTION" );
-
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
@@ -189,6 +187,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
 static const flag_id json_flag_FIRESTARTER( "FIRESTARTER" );
+static const flag_id json_flag_NPC_AVOID_CONSUMPTION( "NPC_AVOID_CONSUMPTION" );
 
 static const item_category_id item_category_food( "food" );
 
