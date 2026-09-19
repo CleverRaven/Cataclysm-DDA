@@ -2029,7 +2029,7 @@
       { "prob": 5, "group": "antiparasitic_bottle_plastic_pill_prescription_1_10" },
       { "prob": 1, "group": "diazepam_bottle_plastic_pill_prescription_1_10" },
       [ "throw_extinguisher", 2 ],
-      { "item": "small_repairkit", "prob": 14, "charges": [ 0, 500 ] },
+      { "group": "guns_toolbox", "prob": 12 },
       [ "grapnel", 6 ],
       { "item": "misc_repairkit", "prob": 8 },
       { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 3 },
