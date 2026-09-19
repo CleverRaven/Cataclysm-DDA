@@ -125,7 +125,8 @@
       "NO_UNLOAD",
       "COMBAT_TOGGLEABLE",
       "UNBREAKABLE_MELEE",
-      "SPAWN_ACTIVE"
+      "SPAWN_ACTIVE",
+      "SCBA"
     ]
   },
   {
@@ -136,7 +137,7 @@
     "symbol": "[",
     "color": "light_gray",
     "name": { "str": "phase immersion helmet" },
-    "description": "This advanced headpiece resembles an astronaut's helmet.  Designed to protect its wearer during extradimensional excursions, it offers unparalleled environmental protection, both in this Earth and beyond.  Activate it alongside a powered PAPR blower for full environmental protection.",
+    "description": "This advanced headpiece resembles an astronaut's helmet.  Designed to protect its wearer during extradimensional excursions, it offers unparalleled environmental protection, both in this Earth and beyond.  It has tubes to connect to a powered air-purifying respirator (PAPR), and a regulator to connect to an external air source (such as a SCUBA tank).",
     "price": "1 kUSD 500 USD",
     "price_postapoc": "150 USD",
     "material": [ "aluminum", "qt_steel", "lvl4ballisticglass" ],
@@ -168,6 +169,7 @@
     ],
     "use_action": [
       "PAPR_MASK_ACTIVATE",
+      "SCBA_MASK_ACTIVATE",
       {
         "type": "transform",
         "msg": "You raise your face shield.",
@@ -189,7 +191,8 @@
       "SUN_GLASSES",
       "PADDED",
       "UNBREAKABLE_MELEE",
-      "PSYSHIELD_PARTIAL"
+      "PSYSHIELD_PARTIAL",
+      "SCBA"
     ],
     "armor": [
       {
@@ -278,6 +281,41 @@
         "layers": [ "OUTER" ],
         "volume_encumber_modifier": 0
       }
+    ]
+  },
+  {
+    "id": "phase_immersion_helmet_scba_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "light_gray",
+    "name": { "str": "phase immersion helmet (SCBA)" },
+    "description": "This advanced headpiece resembles an astronaut's helmet.  Designed to protect its wearer during extradimensional excursions, it offers unparalleled environmental protection, both in this Earth and beyond.  Its SCBA system is currently engaged.  Activate it to turn it off.",
+    "copy-from": "phase_immersion_helmet",
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You turn off the SCBA system.",
+        "menu_text": "Turn off the SCBA system",
+        "target": "phase_immersion_helmet"
+      }
+    ],
+    "tick_action": [ "SCBA_MASK" ],
+    "environmental_protection": 80,
+    "revert_to": "phase_immersion_helmet",
+    "flags": [
+      "RAD_PROOF",
+      "STURDY",
+      "WATERPROOF",
+      "RAINPROOF",
+      "SWIM_GOGGLES",
+      "SUN_GLASSES",
+      "PADDED",
+      "UNBREAKABLE_MELEE",
+      "PSYSHIELD_PARTIAL",
+      "SPAWN_ACTIVE",
+      "SCBA_ON"
     ]
   },
   {
