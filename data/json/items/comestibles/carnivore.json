@@ -404,6 +404,25 @@
     "flags": [ "EATEN_HOT", "SMOKED" ]
   },
   {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "bacon_uncooked",
+    "copy-from": "bacon_uncut",
+    "flags": [ "EATEN_HOT", "SMOKED" ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 6 ], [ "meat_allergen", 1 ] ],
+    "name": { "str": "uncooked bacon", "str_pl": "pieces of uncooked bacon" },
+    "description": "A thick slab of salty cured bacon.",
+    "weight": "85 g",
+    "volume": "125 ml",
+    "color": "pink",
+    "symbol": "%",
+    "price": "950 cent",
+    "price_postapoc": "250 cent",
+    "quench": -2,
+    "calories": 398,
+    "fun": 1
+  },
+  {
     "id": "raw_curing_fatty_meat_active",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
