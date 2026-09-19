@@ -87,6 +87,14 @@
     <name>Kevin Granade and Contributors</name>
   </developer>
   <releases>
+    <release version="0.I-1" date="2026-09-19">
+      <description>
+        <p>
+          Point release Ito-1 (0.I-1) brings bugfixes and minor improvements to Ito release.
+        </p>
+      </description>
+      <url type="details">https://raw.githubusercontent.com/CleverRaven/Cataclysm-DDA/refs/heads/0.I-branch/data/changelog.txt</url>
+    </release>
     <release version="0.I" date="2026-06-06">
       <description>
         <p>

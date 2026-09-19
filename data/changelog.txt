@@ -1,3 +1,26 @@
+# 0.I-1
+
+## Bugfixes and improvements:
+Item info panel can now be scrolled properly
+Game no longer shows an error about layering.json when using MSXotto+ tileset
+Terminal version of the game no longer has up 100% CPU usage
+Fixed LIXA teleportation, clarified text about entering LIXA and added alternative entry method
+Fixed zone-related crashed on loading a save
+Allow player to pick up items NPCs have reserved for tasks
+Tools recharging from a car catch up their charging when returning to reality bubble
+Show "not castable" message in spellbook menu only when spells are actually not castable
+Actual NPC name shown instead of <npcname> for messages whe NPC wields an item
+Wooden floors are now deconstructed with a nail puller instead of angle grinder
+Removed error messages about inconsistent morale
+Food heating UI now shows right amount of time and energy for charge-based items
+AR glasses can now take photos and store data correctly
+Fixed a bug that sometimes removed temporary morale bonuses
+Aftershock: Lynx Explorer vehicle bought from salvor encampment is now your property, not UICA's
+Magiclysm: Giant Growth spell can no longer be spammed
+Mind Over Matter: monster taking unsourced damage with Obscurity in effect will no longer crash the game
+Innawood: bronze tongs can be made without already having tongs
+
+
 # 0.I
 
 ## Highlights:
