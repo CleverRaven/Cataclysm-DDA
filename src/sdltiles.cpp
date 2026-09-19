@@ -556,9 +556,12 @@ std::optional<atlas_bake_plan> resolve_atlas_bake_plan( const std::string &memor
     if( test_shader_variants_override ) {
         shader_variants = *test_shader_variants_override;
     }
+    // override stands in for the variant probe only; tint shader is read from
+    // the live pass
+    const bool tint_shader = vp && vp->tint_available();
     return compute_atlas_bake_plan( shader_variants,
                                     cata_shader::memory_preset_from_option_value( memory_map_mode ),
-                                    /*tint_shader_available=*/false );
+                                    tint_shader );
 }
 
 //Registers, creates, and shows the Window!!
@@ -2268,7 +2271,7 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
 std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic_bundle(
     const std::string &tileset_id, const std::string &memory_map_mode,
     const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation,
-    const atlas_bake_plan &plan )
+    const atlas_bake_plan &plan, const bool with_highlight )
 {
     std::shared_ptr<tileset> ts = std::make_shared<tileset>();
     ts->tileset_id = tileset_id;
@@ -2279,6 +2282,12 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
     desc.atlas_offset = 0;
     desc.expected_tilecount = 1;
     ts->append_atlas_descriptor( desc );
+    if( with_highlight ) {
+        // highlight texture takes the tile size
+        ts->tile_width = 1;
+        ts->tile_height = 1;
+        ts->set_default_item_highlight_index( 1 );
+    }
     ts->set_memory_map_mode_at_upload( memory_map_mode );
     tileset_cache::loader::upload_atlases( *ts, renderer, memory_map_mode,
                                            compute_tileset_filter_fingerprint( memory_map_mode ), plan,
@@ -2291,6 +2300,15 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
     };
     ts_cache.track_bundle( key, ts );
     return ts;
+}
+
+std::shared_ptr<const tileset>
+renderer_recovery_test_support::install_synthetic_bundle_with_highlight(
+    const std::string &tileset_id, const std::string &memory_map_mode,
+    const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation )
+{
+    return install_synthetic_bundle( tileset_id, memory_map_mode, renderer_instance_generation,
+                                     gpu_textures_generation, atlas_bake_plan{}, true );
 }
 
 atlas_replay_quarantine::gate renderer_recovery_test_support::populate_mode2_quarantine(
