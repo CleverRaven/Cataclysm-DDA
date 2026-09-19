@@ -7,7 +7,8 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "40 m",
-    "components": [ [ [ "material_gravel", 500 ] ] ],
+    "//2": "75 L of gravel, 7.5 cm x 1 m², for heavy-duty application",
+    "components": [ [ [ "material_gravel", 15000 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_railroad_rubble"
   },
@@ -43,7 +44,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "material_gravel", "count": [ 7, 10 ] } ],
+    "byproducts": [ { "item": "material_gravel", "count": [ 13000, 14500 ] } ],
     "pre_terrain": "t_railroad_rubble",
     "post_terrain": "t_dirt",
     "strict": true
