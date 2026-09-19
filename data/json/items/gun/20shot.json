@@ -104,7 +104,6 @@
         "description": "Manufactured in Japan, this 28 inch over-under double-barreled shotgun, loaded with 20 bore shells, is a classy tool to hunt a deer and to kill a man."
       }
     ],
-    "ascii_picture": "2barrel_shotgun",
     "clip_size": 2,
     "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2, "VOLLEY" ] ],
     "weight": "3231 g",

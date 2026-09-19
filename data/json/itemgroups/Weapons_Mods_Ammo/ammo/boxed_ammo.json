@@ -593,6 +593,49 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "boxed_20",
+    "items": [
+      { "group": "boxed_20_5", "prob": 214 },
+      { "group": "boxed_20_10", "prob": 5 },
+      { "group": "boxed_20_25", "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_20_5",
+    "container-item": "20_ammo_box_5",
+    "items": [
+      { "item": "20shot_slug", "charges": 5, "prob": 21 },
+      { "item": "20shot_buck", "charges": 5, "prob": 6 },
+      { "item": "20shot_bird", "charges": 5, "prob": 8 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_20_10",
+    "container-item": "20_ammo_box_10",
+    "items": [
+      { "item": "20shot_slug", "charges": 10, "prob": 3 },
+      { "item": "20shot_buck", "charges": 10, "prob": 5 },
+      { "item": "20shot_bird", "charges": 10, "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_20_25",
+    "container-item": "20_ammo_box_25",
+    "items": [
+      { "item": "20shot_slug", "charges": 25, "prob": 17 },
+      { "item": "20shot_buck", "charges": 25, "prob": 4 },
+      { "item": "20shot_bird", "charges": 25, "prob": 35 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "boxed_410",
     "items": [
       { "group": "boxed_410_5", "prob": 214 },
@@ -1597,6 +1640,52 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "boxed_20_used",
+    "items": [
+      { "group": "boxed_20_5_used", "prob": 214 },
+      { "group": "boxed_20_10_used", "prob": 5 },
+      { "group": "boxed_20_25_used", "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_20_5_used",
+    "on_overflow": "spill",
+    "container-item": "20_ammo_box_5",
+    "items": [
+      { "item": "20shot_slug", "charges": 1, "count": [ 3, 7 ], "prob": 21 },
+      { "item": "20shot_buck", "charges": 1, "count": [ 3, 7 ], "prob": 6 },
+      { "item": "20shot_bird", "charges": 1, "count": [ 3, 7 ], "prob": 8 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_20_10_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "44_ammo_box_20", "variant": "20_ammo_box_10" },
+    "items": [
+      { "item": "20shot_slug", "charges": 1, "count": [ 5, 15 ], "prob": 3 },
+      { "item": "20shot_buck", "charges": 1, "count": [ 5, 15 ], "prob": 5 },
+      { "item": "20shot_bird", "charges": 1, "count": [ 5, 15 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_20_25_used",
+    "on_overflow": "spill",
+    "container-item": "20_ammo_box_25",
+    "items": [
+      { "item": "20shot_slug", "charges": 1, "count": [ 15, 35 ], "prob": 17 },
+      { "item": "20shot_buck", "charges": 1, "count": [ 15, 35 ], "prob": 4 },
+      { "item": "20shot_bird", "charges": 1, "count": [ 15, 35 ], "prob": 35 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "boxed_10mm_used",
     "items": [
       { "group": "boxed_10mm_20_used", "prob": 174 },
@@ -2500,6 +2589,49 @@
       { "item": "410shot_slug", "charges": [ 0, 6 ], "prob": 17 },
       { "item": "410shot_000", "charges": [ 0, 6 ], "prob": 4 },
       { "item": "410shot_bird", "charges": [ 0, 6 ], "prob": 35 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_20_looted",
+    "items": [
+      { "group": "boxed_20_5_looted", "prob": 214 },
+      { "group": "boxed_20_10_looted", "prob": 5 },
+      { "group": "boxed_20_25_looted", "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_20_5_looted",
+    "container-item": "20_ammo_box_5",
+    "items": [
+      { "item": "20shot_slug", "charges": [ 0, 2 ], "prob": 21 },
+      { "item": "20shot_buck", "charges": [ 0, 2 ], "prob": 6 },
+      { "item": "20shot_bird", "charges": [ 0, 2 ], "prob": 8 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_20_10_looted",
+    "container-item": { "item": "44_ammo_box_20", "variant": "20_ammo_box_10" },
+    "items": [
+      { "item": "20shot_slug", "charges": [ 0, 4 ], "prob": 3 },
+      { "item": "20shot_buck", "charges": [ 0, 4 ], "prob": 5 },
+      { "item": "20shot_bird", "charges": [ 0, 4 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_20_25_looted",
+    "container-item": "20_ammo_box_25",
+    "items": [
+      { "item": "20shot_slug", "charges": [ 0, 6 ], "prob": 17 },
+      { "item": "20shot_buck", "charges": [ 0, 6 ], "prob": 4 },
+      { "item": "20shot_bird", "charges": [ 0, 6 ], "prob": 35 }
     ]
   },
   {
