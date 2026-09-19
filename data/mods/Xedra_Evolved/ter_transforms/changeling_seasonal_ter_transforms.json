@@ -116,6 +116,29 @@
   },
   {
     "type": "ter_furn_transform",
+    "id": "ter_changeling_autumn_clean_nearby_spills",
+    "field": [
+      {
+        "result": "fd_null",
+        "valid_field": [
+          "fd_dust",
+          "fd_mechanical_fluid",
+          "fd_dirty_water",
+          "fd_blood",
+          "fd_bile",
+          "fd_bile_adv",
+          "fd_slime",
+          "fd_sap",
+          "fd_blood_veggy",
+          "fd_blood_insect",
+          "fd_blood_invertebrate"
+        ],
+        "message": "Spills and dust on the floor shimmer and disappear."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "ter_changeling_winter_close_the_reality_tear",
     "field": [
       {
