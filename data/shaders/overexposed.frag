@@ -18,6 +18,8 @@ void main()
     float result = min(64.0 / 255.0 + av * (av * 0.25 + 192.0 / 255.0), 1.0);
     vec3 ox_rgb = vec3(result * 0.25, result, result * 0.125);
 
-    out_color = vec4(ox_rgb * v_vertex_color.rgb,
-                     sample_color.a * v_vertex_color.a);
+    // Vertex color carries the colored-light tint: rgb = hue, a = 1 - strength.
+    // The renderer default (1,1,1,1) is the identity.
+    float tint_strength = 1.0 - v_vertex_color.a;
+    out_color = vec4(mix(ox_rgb, v_vertex_color.rgb, tint_strength), sample_color.a);
 }

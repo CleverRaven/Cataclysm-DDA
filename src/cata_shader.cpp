@@ -192,8 +192,7 @@ render_state render_state::create( SDL_Renderer *renderer, const shader &fragmen
     SDL_GPURenderStateCreateInfo info{};
     info.fragment_shader = fragment_shader.get();
     // No additional sampler/storage bindings: the atlas sampler comes from the
-    // renderer's normal textured-draw path, and uniforms (when present) are
-    // uploaded per draw via SDL_SetGPURenderStateFragmentUniforms.
+    // renderer's normal textured-draw path, and the shaders take no uniforms
     info.num_sampler_bindings = 0;
     info.num_storage_textures = 0;
     info.num_storage_buffers = 0;
