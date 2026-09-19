@@ -7453,9 +7453,10 @@ talk_effect_fun_t::func f_lose_addiction( const JsonObject &jo, std::string_view
     };
 }
 
-talk_effect_fun_t::func f_vomit( const JsonObject &, std::string_view,
+talk_effect_fun_t::func f_vomit( const JsonObject &jo, std::string_view member,
                                  std::string_view, bool is_npc )
 {
+    jo.get_bool( member );
     return [is_npc]( dialogue & d ) {
         Character *target = d.actor( is_npc )->get_character();
         if( target ) {
@@ -7552,9 +7553,10 @@ talk_effect_fun_t::func f_fill_stomach( const JsonObject &jo, std::string_view m
     };
 }
 
-talk_effect_fun_t::func f_marlossify( const JsonObject &jo, std::string_view,
+talk_effect_fun_t::func f_marlossify( const JsonObject &jo, std::string_view member,
                                       std::string_view, bool is_npc )
 {
+    jo.get_bool( member );
     std::optional<var_info> target_var;
     optional( jo, false, "target_var", target_var );
     return [is_npc, target_var]( dialogue & d ) {
