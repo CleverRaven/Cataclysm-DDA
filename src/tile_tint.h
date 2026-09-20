@@ -32,4 +32,7 @@ struct tint_texture_mod {
 tint_texture_mod tint_texture_mod_for( const tile_tint &t );
 tint_texture_mod tint_texture_mod_none();
 
+// one channel of the sprite shader tint, unrounded: mix(src, mod, 1 - mod_a / 255)
+float tint_mix_channel( float src, float mod, uint8_t mod_a );
+
 #endif // CATA_SRC_TILE_TINT_H

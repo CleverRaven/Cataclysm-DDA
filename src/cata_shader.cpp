@@ -4,6 +4,7 @@
 
 #include <array>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <fstream>
 #include <iterator>
@@ -320,12 +321,10 @@ constexpr tint_texture_mod tint_probe_mod{ 255, 0, 0, 127 };
 
 bool tint_predicate( int r, int g, int b )
 {
-    // Expected out = mix(gray, mod rgb, 1 - mod alpha). An identity shader
-    // returns the source gray and fails.
-    const float strength = 1.0f - tint_probe_mod.a / 255.0f;
-    const auto expected = [strength]( const int mod_channel ) {
-        return static_cast<int>( std::lround( 128.0f * ( 1.0f - strength ) +
-                                              mod_channel * strength ) );
+    // identity shader returns source gray and fails
+    const auto expected = []( const uint8_t mod_channel ) {
+        return static_cast<int>( std::lround( tint_mix_channel( 128.0f, mod_channel,
+                                              tint_probe_mod.a ) ) );
     };
     return std::abs( r - expected( tint_probe_mod.r ) ) <= 4 &&
            std::abs( g - expected( tint_probe_mod.g ) ) <= 4 &&

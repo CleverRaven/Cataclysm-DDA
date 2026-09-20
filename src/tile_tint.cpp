@@ -47,3 +47,8 @@ tint_texture_mod tint_texture_mod_none()
 {
     return tint_texture_mod{};
 }
+
+float tint_mix_channel( const float src, const float mod, const uint8_t mod_a )
+{
+    return ( src * mod_a + mod * ( 255 - mod_a ) ) / 255.0f;
+}
