@@ -115,19 +115,19 @@ static T sum_no_wrap( T a, T b )
     return a + b;
 }
 
-// `measure` decides what quality an item supplies and `tally` how many providers it
-// counts as.  Empty falls back to get_quality and item::count().
+// `measure` decides what quality an item supplies, `count` how many providers it is worth.
+// Empty falls back to get_quality and item::count().
 template <typename T>
 static int has_quality_internal( const T &self, const quality_id &qual, int level, int limit,
                                  const std::function<int( const item & )> &measure = {},
-                                 const std::function<int( const item & )> &tally = {} )
+                                 const std::function<int( const item & )> &count = {} )
 {
     int qty = 0;
 
-    self.visit_items( [&qual, level, &limit, &qty, &measure, &tally]( item * e, item * ) {
+    self.visit_items( [&qual, level, &limit, &qty, &measure, &count]( item * e, item * ) {
         const int supplied = measure ? measure( *e ) : e->get_quality( qual );
         if( supplied >= level ) {
-            qty = sum_no_wrap( qty, tally ? tally( *e ) : static_cast<int>( e->count() ) );
+            qty = sum_no_wrap( qty, count ? count( *e ) : static_cast<int>( e->count() ) );
             if( qty >= limit ) {
                 // found sufficient items
                 return VisitResponse::ABORT;
@@ -166,15 +166,15 @@ bool read_only_visitable::has_quality( const quality_id &qual, int level, int qt
 }
 
 bool read_only_visitable::has_provider_quality( const quality_id &qual, int level, int qty,
-        const Character *who ) const
+        const Character *who, const quality_count mode ) const
 {
     const std::function<int( const item & )> measure = [&qual, who]( const item & it ) {
         return provider_quality_level( it, qual, who, true );
     };
-    const std::function<int( const item & )> tally = []( const item & ) {
-        return 1;
+    const std::function<int( const item & )> count = [mode]( const item & it ) {
+        return mode == quality_count::units ? it.count() : 1;
     };
-    return has_quality_internal( *this, qual, level, qty, measure, tally ) == qty;
+    return has_quality_internal( *this, qual, level, qty, measure, count ) == qty;
 }
 
 /** @relates visitable */
