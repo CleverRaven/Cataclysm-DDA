@@ -274,5 +274,19 @@
       { "x": 1, "y": 2, "parts": [ "machine_frame#ne", "reinforced_windshield#ne", "headlight_reinforced" ] },
       { "x": 1, "y": 2, "parts": [ "wheel_mount_heavy_steerable", "wheel_earthmover" ] }
     ]
+  },
+  {
+    "id": "wheel_loader_bucket",
+    "type": "vehicle",
+    "copy-from": "wheel_loader_abstract",
+    "name": "Wheel Loader with Bucket",
+    "//": "The machine as a yard would leave it, bucket on: a straight edge, five tiles across.",
+    "parts": [
+      { "x": 2, "y": -2, "parts": [ "loader_bucket" ] },
+      { "x": 2, "y": -1, "parts": [ "loader_bucket" ] },
+      { "x": 2, "y": 0, "parts": [ "loader_bucket" ] },
+      { "x": 2, "y": 1, "parts": [ "loader_bucket" ] },
+      { "x": 2, "y": 2, "parts": [ "loader_bucket" ] }
+    ]
   }
 ]
