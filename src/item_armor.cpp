@@ -1036,7 +1036,7 @@ void item::get_warmth_by_bodypart( std::vector<std::pair<bodypart_id, int>> &res
     }
 
     const side side = get_side();
-    const double warmth = get_warmth();
+    const int warmth = get_warmth();
 
     body_part_set covered_bodyparts;
     iterate_covered_body_parts_internal( side, [&]( const bodypart_str_id & bp ) {
