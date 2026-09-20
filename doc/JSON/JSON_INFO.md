@@ -2799,6 +2799,11 @@ Vehicle components when installed on a vehicle.
                               // forwards, and both the damage dealt and the speed the vehicle
                               // loses scale with the cosine squared of the angle, so 0 behaves
                               // like an ordinary ram and 60 costs a quarter as much as one.
+"min_vehicle_mass": "8000 kg", // (Optional, default = 0) Least the vehicle may weigh, unloaded,
+                              // for a character to install this part.  Use it for parts heavy
+                              // enough that only a purpose-built machine can carry them.
+                              // Vehicle prototypes are not held to it, so a definition may
+                              // mount the part whatever its author intends.
 "durability": 200,            // How much damage the part can take before breaking
 "description": "A wheel.",    // A description of this vehicle part when installing it
 "fuel_type": "diesel",        // (Optional, default = "NULL") Type of fuel/ammo the part consumes,
