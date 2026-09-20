@@ -3806,66 +3806,43 @@ std::optional<int> iuse::rpgdie( Character *you, item *die, const tripoint_bub_m
     return roll;
 }
 
-std::optional<int> iuse::dive_tank( Character *p, item *it, const tripoint_bub_ms & )
+std::optional<int> iuse::scba_mask_activate( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( p && p->is_worn( *it ) ) {
-        if( p->is_underwater() && p->oxygen < 10 ) {
-            if( !it->activation_success() ) {
-                p->add_msg_if_player( m_bad,
-                                      _( "You try to take a deep breath from your %s, but something blocks the flow." ), it->tname() );
-                return std::nullopt;
-            }
+    if( !p->has_item_with_flag( flag_SCBA_TANK_ON ) ) {
+        p->add_msg_if_player( m_bad,
+                              _( "You don't have an active air source." ), it->tname() );
+    } else if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You fail to adjust your damaged %s so it doesn't leak." ),
+                              it->tname() );
+        return std::nullopt;
 
-            p->oxygen += 20;
-        }
-        if( one_in( 15 ) ) {
-            p->add_msg_if_player( m_bad, _( "You take a deep breath from your %s." ), it->tname() );
-        }
-        if( it->ammo_remaining( ) == 0 ) {
-            p->add_msg_if_player( m_bad, _( "Air in your %s runs out." ), it->tname() );
-            it->erase_var( "overwrite_env_resist" );
-            it->type->transform_into.value().transform( p, *it, true );
-        }
-    } else { // not worn = off thanks to on-demand regulator
-        it->erase_var( "overwrite_env_resist" );
-        it->type->transform_into.value().transform( p, *it, true );
+    } else {
+        p->add_msg_if_player(
+            _( "You test the regulator and prep your %s for breathing.  Air is flowing." ), it->tname() );
+        it->active = true;
+        it->convert( itype_id( it->typeId().str() + "_scba_on" ), p );
     }
 
     return 0;
 }
 
-std::optional<int> iuse::dive_tank_activate( Character *p, item *it, const tripoint_bub_ms & )
+std::optional<int> iuse::scba_tank_activate( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( it->ammo_remaining( ) == 0 ) {
-        p->add_msg_if_player( _( "Your %s is empty." ), it->tname() );
-    } else if( it->active ) { //off
-        if( it->activation_success() ) {
-            p->add_msg_if_player( _( "You turn off the regulator and close the air valve." ) );
-            it->erase_var( "overwrite_env_resist" );
-            it->type->transform_into.value().transform( p, *it, true );
-        } else {
-            p->add_msg_if_player( m_bad,
-                                  _( "You try to turn off the regulator and close the air valve of your %s, but the valve is stuck." ),
-                                  it->tname() );
-            return std::nullopt;
-        }
+    if( !p->has_item_with_flag( flag_SCBA ) ) {
+        p->add_msg_if_player( m_bad,
+                              _( "You don't have a regulator to attach to your %s." ), it->tname() );
+    } else if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "The valve on your %s is stuck!" ),
+                              it->tname() );
+        return std::nullopt;
 
-    } else { //on
-        if( !p->is_worn( *it ) ) {
-            p->add_msg_if_player( _( "You should wear it first." ) );
-        } else {
-            if( it->activation_success() ) {
-                p->add_msg_if_player( _( "You turn on the regulator and open the air valve." ) );
-                it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
-                it->convert( itype_id( it->typeId().str() + "_on" ) ).active = true;
-            } else {
-                p->add_msg_if_player( m_bad,
-                                      _( "You try to turn on the regulator and open the air valve of your %s, but the valve is stuck." ),
-                                      it->tname() );
-            }
-        }
+    } else {
+        p->add_msg_if_player( _( "You open the valve on your %s." ), it->tname() );
+        it->active = true;
+        it->convert( itype_id( it->typeId().str() + "_on" ), p );
     }
-    return 1;
+
+    return 0;
 }
 
 std::optional<int> iuse::solarpack( Character *p, item *it, const tripoint_bub_ms & )
@@ -4104,6 +4081,18 @@ std::optional<int> iuse::papr_blower( Character *p, item *it, const tripoint_bub
             _( "<npcname> needs new PAPR blower filters!" )
             , it->tname() );
         it->deactivate();
+    }
+    return 0;
+}
+
+std::optional<int> iuse::scba_mask( Character *p, item *it, const tripoint_bub_ms & )
+{
+    if( p && p->is_worn( *it ) ) {
+        if( p && !p->has_item_with_flag( flag_SCBA_TANK_ON ) ) {
+            it->active = false;
+            it->type->transform_into.value().transform( p, *it, true );
+            p->add_msg_if_player( m_bad, _( "Air has stopped flowing into your %s!" ), it->tname() );
+        }
     }
     return 0;
 }
@@ -4354,6 +4343,7 @@ std::optional<int> iuse::vibe( Character *p, item *it, const tripoint_bub_ms & )
         return std::nullopt;
     }
     if( p->is_underwater() && ( !( p->has_trait( trait_GILLS ) ||
+                                   ( p->worn_with_flag( flag_SCBA ) && p->has_item_with_flag( flag_SCBA_TANK_ON ) ) ||
                                    p->is_wearing( itype_rebreather_on ) ||
                                    p->is_wearing( itype_rebreather_xl_on ) ||
                                    p->is_wearing( itype_mask_h20survivor_on ) ) ) ) {
