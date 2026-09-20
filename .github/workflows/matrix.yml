@@ -42,7 +42,7 @@ concurrency:
 # | name                                 | OS       | compiler | newest/ oldest | tiles | sound | localize | cmake | backtrace | lto | sanitize | mods |
 # | ------------------------------------ | -------- | -------- | -------------- | ----- | ----- | -------- | ----- | --------- | --- | -------- | ---- |
 # | Basic Build and Test                 | ubuntu   | clang-13 | oldest (clang) |       |       | yes      |       |           |     |          | yes  |
-# | Clang 18, Ubuntu, Tiles, ASan        | ubuntu   | clang-18 | newest (clang) | yes   |       | yes      |       | yes       |     | address  |      |
+# | Clang 22, Ubuntu, Tiles, ASan        | ubuntu   | clang-22 | newest (clang) | yes   |       | yes      |       | yes       |     | address  |      |
 # | GCC 9, Curses, LTO                   | ubuntu   | gcc-9    | oldest   (gcc) |       |       | yes      |       | yes       | yes |          |      |
 # | GCC 14, Ubuntu, Curses               | ubuntu   | gcc-14   | newest   (gcc) |       |       | yes      |       |           |     |          |      |
 # | GCC 9, Ubuntu, Tiles, Sound, CMake   | ubuntu   | gcc-9    | oldest   (gcc) | yes   | yes   |          | yes   |           |     |          |      |
@@ -159,8 +159,8 @@ jobs:
             ccache_key: linux-gcc-9-lto
             extra_package: g++-9
 
-          - compiler: clang++-18
-            os: ubuntu-24.04
+          - compiler: clang++-22
+            os: ubuntu-26.04
             cmake: 0
             tiles: 1
             sound: 0
@@ -169,9 +169,9 @@ jobs:
             pch: 1
             sanitize: address
             dont_skip_data_only_changes: 1
-            title: Clang 18, Ubuntu, Tiles, ASan
+            title: Clang 22, Ubuntu, Tiles, ASan
             ccache_limit: 6G
-            ccache_key: linux-llvm-18-asan
+            ccache_key: linux-llvm-22-asan
 
           - compiler: g++-14
             os: ubuntu-latest
