@@ -1306,8 +1306,34 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
         }
     }
 
+    if( deflects_bodies ) {
+        const int speed_mph = std::abs( prev_velocity ) / 100;
+        const int wear = speed_mph * static_cast<int>( mass2 ) / 25;
+        if( wear > 0 ) {
+            pending_blade_wear.emplace_back( ret.part, wear );
+        }
+    }
+
     ret.imp = part_dmg;
     return ret;
+}
+
+void vehicle::apply_blade_wear( map &here )
+{
+    // Copy and clear first: damage() can destroy a blade, and an UNMOUNT_ON_DAMAGE part is
+    // removed when it goes, which would invalidate the indices still queued behind it.
+    const std::vector<std::pair<int, int>> wear = pending_blade_wear;
+    pending_blade_wear.clear();
+    for( const std::pair<int, int> &entry : wear ) {
+        if( entry.first >= part_count() ) {
+            continue;
+        }
+        const vehicle_part &vp = part( entry.first );
+        if( vp.removed || !vp.info().has_flag( "SNOWPLOW" ) ) {
+            continue;
+        }
+        damage( here, entry.first, entry.second, damage_bash, false );
+    }
 }
 
 int vehicle::blade_side( const vehicle_part &vp ) const
