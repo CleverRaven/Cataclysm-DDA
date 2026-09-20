@@ -44,7 +44,7 @@ concurrency:
 # | Basic Build and Test                 | ubuntu   | clang-13 | oldest (clang) |       |       | yes      |       |           |     |          | yes  |
 # | Clang 22, Ubuntu, Tiles, ASan        | ubuntu   | clang-22 | newest (clang) | yes   |       | yes      |       | yes       |     | address  |      |
 # | GCC 9, Curses, LTO                   | ubuntu   | gcc-9    | oldest   (gcc) |       |       | yes      |       | yes       | yes |          |      |
-# | GCC 14, Ubuntu, Curses               | ubuntu   | gcc-14   | newest   (gcc) |       |       | yes      |       |           |     |          |      |
+# | GCC 16, Ubuntu, Curses               | ubuntu   | gcc-16   | newest   (gcc) |       |       | yes      |       |           |     |          |      |
 # | GCC 9, Ubuntu, Tiles, Sound, CMake   | ubuntu   | gcc-9    | oldest   (gcc) | yes   | yes   |          | yes   |           |     |          |      |
 # | macOS 15, Apple Clang 17             | macOS 15 | apple clang-17  |  N/A    | yes   | yes   | yes      |       |           |     |          |      |
 # | Windows (in msvc-full-features.yml)  | windows  | msvc     |     N/A        | yes   | yes   | yes      |       | yes?      |     |          |      |
@@ -173,17 +173,17 @@ jobs:
             ccache_limit: 6G
             ccache_key: linux-llvm-22-asan
 
-          - compiler: g++-14
-            os: ubuntu-latest
+          - compiler: g++-16
+            os: ubuntu-26.04
             cmake: 0
             tiles: 0
             sound: 0
             localize: 1
             native: linux64
             pch: 1
-            title: GCC 14, Ubuntu, Curses
+            title: GCC 16, Ubuntu, Curses
             ccache_limit: 6.5G
-            ccache_key: linux-gcc-14
+            ccache_key: linux-gcc-16
 
           - compiler: g++-9
             os: ubuntu-24.04
