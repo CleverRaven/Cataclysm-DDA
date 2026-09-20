@@ -650,16 +650,6 @@ void overmap::unserialize( const JsonObject &jsobj )
                 }
                 radios.push_back( new_radio );
             }
-        } else if( name == "monster_map" ) {
-            // Migration code for old "monster_map" to new "horde_map"
-            JsonArray monster_map_json = om_member;
-            while( monster_map_json.has_more() ) {
-                tripoint_om_sm monster_location;
-                monster new_monster;
-                monster_location.deserialize( monster_map_json.next_value() );
-                new_monster.deserialize( monster_map_json.next_object(), project_combine( loc, monster_location ) );
-                hordes.spawn_entity( new_monster.pos_abs(), new_monster );
-            }
         } else if( name == "horde_map" ) {
             JsonArray monster_map_json = om_member;
             while( monster_map_json.has_more() ) {
@@ -823,49 +813,6 @@ void overmap::unserialize( const JsonObject &jsobj )
             std::vector<oter_id> om_predecessors;
 
             for( auto& [p, serialized_predecessors] : flattened_predecessors ) {
-                if( !serialized_predecessors.empty() ) {
-                    // TODO remove after 0.H release.
-                    // JSONizing roads caused some bad mapgen data to get saved to disk. Fixup bad saves to conform.
-                    // The logic to do this is to emulate setting overmap::set_ter repeatedly. The difference is the
-                    // 'original' terrain is lost, all we have is a chain of predecessors.
-                    // This doesn't matter for the sake of deduplicating predecessors.
-                    //
-                    // Mapgen refinement can push multiple different roads over each other.
-                    // Roads require a predecessor. A road pushed over a road might cause a
-                    // road to be a predecessor to another road. That causes too many spawns
-                    // to happen. So when pushing a predecessor, if the predecessor to-be-pushed
-                    // is linear and the previous predecessor is linear, overwrite it.
-                    // This way only the 'last' rotation/variation generated is kept.
-                    om_predecessors.reserve( serialized_predecessors.size() );
-                    oter_id current_oter;
-                    auto local_set_ter = [&]( oter_id & id ) {
-                        const oter_type_str_id &current_type_id = current_oter->get_type_id();
-                        const oter_type_str_id &incoming_type_id = id->get_type_id();
-                        const bool current_type_same = current_type_id == incoming_type_id;
-                        if( om_predecessors.empty() || ( !current_oter->is_linear() && !current_type_same ) ) {
-                            // If we need a predecessor, we must have a predecessor no matter what.
-                            // Or, if the oter to-be-pushed is not linear, push it only if the incoming oter is different.
-                            om_predecessors.push_back( current_oter );
-                        } else if( !current_type_same ) {
-                            // Current oter is linear, incoming oter is different from current.
-                            // If the last predecessor is the same type as the current type, overwrite.
-                            // Else push the current type.
-                            oter_id &last_predecessor = om_predecessors.back();
-                            if( last_predecessor->get_type_id() == current_type_id ) {
-                                last_predecessor = current_oter;
-                            } else {
-                                om_predecessors.push_back( current_oter );
-                            }
-                        }
-                        current_oter = id;
-                    };
-
-                    current_oter = serialized_predecessors.front();
-                    for( size_t i = 1; i < serialized_predecessors.size(); ++i ) {
-                        local_set_ter( serialized_predecessors[i] );
-                    }
-                    local_set_ter( layer[p.z() + OVERMAP_DEPTH].terrain[p.xy()] );
-                }
                 predecessors_.insert_or_assign( p, std::move( om_predecessors ) );
 
                 // Reuse allocations because it's a good habit.
