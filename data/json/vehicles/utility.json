@@ -233,5 +233,46 @@
       { "x": -1, "y": 1, "parts": [ "frame#se", "roof", "wheel_mount_medium", "wheel_wide_or" ] },
       { "x": -1, "y": 1, "parts": [ "board#se" ] }
     ]
+  },
+  {
+    "abstract": "wheel_loader_abstract",
+    "type": "vehicle",
+    "name": "Wheel Loader",
+    "//": "A yard loader with nothing on the front: five tiles across on a machine chassis, earthmover wheels, the engine boxed in over the rear axle with a cast ballast block at each corner of the tail, and a front row left free for whatever attachment it carries.  Spawn a child of this, not this - an abstract is not a prototype.",
+    "parts": [
+      { "x": -3, "y": -2, "parts": [ "machine_frame#sw", "loader_ballast" ] },
+      { "x": -3, "y": -1, "parts": [ "machine_frame#horizontal_rear", "hdhalfboard#sw", "hdroof" ] },
+      { "x": -3, "y": 0, "parts": [ "machine_frame#horizontal_rear", "hdhalfboard#horizontal_rear", "hdroof" ] },
+      { "x": -3, "y": 1, "parts": [ "machine_frame#horizontal_rear", "hdhalfboard#se", "hdroof" ] },
+      { "x": -3, "y": 2, "parts": [ "machine_frame#se", "loader_ballast" ] },
+      { "x": -2, "y": -2, "parts": [ "machine_frame#vertical_left", "hdboard#vertical_left" ] },
+      { "x": -2, "y": -2, "parts": [ "wheel_mount_heavy", "wheel_earthmover" ] },
+      { "x": -2, "y": -1, "parts": [ "machine_frame#cross", "hdhalfboard#vertical_left", "hdroof" ] },
+      { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "diesel" } ] },
+      { "x": -2, "y": 0, "parts": [ "machine_frame#cross", "hdroof", "diesel_engine_i6", "alternator_truck" ] },
+      { "x": -2, "y": 0, "parts": [ "battery_car", "muffler" ] },
+      { "x": -2, "y": 1, "parts": [ "machine_frame#cross", "hdhalfboard#vertical_right", "hdroof" ] },
+      { "x": -2, "y": 1, "parts": [ { "part": "tank", "fuel": "diesel" } ] },
+      { "x": -2, "y": 2, "parts": [ "machine_frame#vertical_right", "hdboard#vertical_right" ] },
+      { "x": -2, "y": 2, "parts": [ "wheel_mount_heavy", "wheel_earthmover" ] },
+      { "x": -1, "y": -2, "parts": [ "machine_frame#vertical_left", "reinforced_windshield#sw", "hdroof" ] },
+      { "x": -1, "y": -1, "parts": [ "machine_frame#cross", "reinforced_windshield#horizontal_rear", "hdroof" ] },
+      { "x": -1, "y": 0, "parts": [ "machine_frame#cross", "reinforced_windshield#horizontal_rear", "hdroof" ] },
+      { "x": -1, "y": 1, "parts": [ "machine_frame#cross", "reinforced_windshield#horizontal_rear", "hdroof" ] },
+      { "x": -1, "y": 2, "parts": [ "machine_frame#vertical_right", "reinforced_windshield#se", "hdroof" ] },
+      { "x": 0, "y": -2, "parts": [ "machine_frame#vertical_left", "hddoor#left", "hdroof" ] },
+      { "x": 0, "y": -1, "parts": [ "machine_frame#cross", "aisle", "hdroof" ] },
+      { "x": 0, "y": 0, "parts": [ "machine_frame#cross", "seat", "seatbelt", "hdroof", "controls" ] },
+      { "x": 0, "y": 0, "parts": [ "dashboard", "horn_big", "vehicle_alarm" ] },
+      { "x": 0, "y": 1, "parts": [ "machine_frame#cross", "aisle", "hdroof" ] },
+      { "x": 0, "y": 2, "parts": [ "machine_frame#vertical_right", "hddoor#right", "hdroof" ] },
+      { "x": 1, "y": -2, "parts": [ "machine_frame#nw", "reinforced_windshield#nw", "headlight_reinforced" ] },
+      { "x": 1, "y": -2, "parts": [ "wheel_mount_heavy_steerable", "wheel_earthmover" ] },
+      { "x": 1, "y": -1, "parts": [ "machine_frame#horizontal_front", "reinforced_windshield#horizontal_front" ] },
+      { "x": 1, "y": 0, "parts": [ "machine_frame#horizontal_front", "reinforced_windshield#horizontal_front" ] },
+      { "x": 1, "y": 1, "parts": [ "machine_frame#horizontal_front", "reinforced_windshield#horizontal_front" ] },
+      { "x": 1, "y": 2, "parts": [ "machine_frame#ne", "reinforced_windshield#ne", "headlight_reinforced" ] },
+      { "x": 1, "y": 2, "parts": [ "wheel_mount_heavy_steerable", "wheel_earthmover" ] }
+    ]
   }
 ]
