@@ -288,5 +288,23 @@
       { "x": 2, "y": 1, "parts": [ "loader_bucket" ] },
       { "x": 2, "y": 2, "parts": [ "loader_bucket" ] }
     ]
+  },
+  {
+    "id": "wheel_loader_plow",
+    "type": "vehicle",
+    "copy-from": "wheel_loader_abstract",
+    "name": "Wheel Loader with Plow",
+    "//": "The same machine with the winter attachment fitted in place of the bucket, set into a chevron: the wings sit on the chassis, the apex two tiles out, and each blade is carried on a push frame of its own, because nothing can be mounted in front of a blade.",
+    "parts": [
+      { "x": 2, "y": -2, "parts": [ "snowplow" ] },
+      { "x": 2, "y": -1, "parts": [ "hdframe#horizontal_front" ] },
+      { "x": 2, "y": 0, "parts": [ "hdframe#horizontal_front" ] },
+      { "x": 2, "y": 1, "parts": [ "hdframe#horizontal_front" ] },
+      { "x": 2, "y": 2, "parts": [ "snowplow" ] },
+      { "x": 3, "y": -1, "parts": [ "snowplow" ] },
+      { "x": 3, "y": 0, "parts": [ "hdframe#horizontal_front" ] },
+      { "x": 3, "y": 1, "parts": [ "snowplow" ] },
+      { "x": 4, "y": 0, "parts": [ "snowplow" ] }
+    ]
   }
 ]
