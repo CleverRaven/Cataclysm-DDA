@@ -405,9 +405,6 @@ void player_activity::deserialize( const JsonObject &data )
 
     bool is_obsolete = false;
     std::set<std::string> obs_activities {
-        "ACT_PICKUP_MENU", // Remove after 0.I
-        "ACT_VIEW_RECIPE", // Remove after 0.I
-        "ACT_ADV_INVENTORY", // Remove after 0.I
         "ACT_EAT_MENU", // Remove after 0.J
         "ACT_CONSUME_FOOD_MENU", // Remove after 0.J
         "ACT_CONSUME_DRINK_MENU", // Remove after 0.J
@@ -2425,8 +2422,6 @@ void monster::load( const JsonObject &data )
     data.read( "baby_timer", baby_timer );
     if( baby_timer && *baby_timer == calendar::before_time_starts ) {
         baby_timer.reset();
-    } else if( reproduces && type->baby_timer && !baby_timer ) {  // Remove after 0.I
-        baby_timer.emplace( calendar::turn + *type->baby_timer );
     }
 
     biosignatures = data.get_bool( "biosignatures", type->biosignatures );
@@ -3773,10 +3768,7 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "velocity", velocity );
     data.read( "avg_velocity", avg_velocity );
     data.read( "falling", is_falling );
-    if( !data.read( "in_deep_water", in_deep_water ) ) {
-        // fallback; remove after 0.I
-        data.read( "floating", in_deep_water );
-    }
+    data.read( "in_deep_water", in_deep_water );
     data.read( "in_water", in_water );
     data.read( "flying", is_flying );
     data.read( "cruise_velocity", cruise_velocity );
