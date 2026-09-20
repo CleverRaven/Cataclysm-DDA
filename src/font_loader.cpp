@@ -81,14 +81,7 @@ static void load_font_from_config( const JsonObject &config, const std::string &
 
     if( config.has_string( key ) ) {
         std::string path = config.get_string( key );
-        // Migrate old font config files. Remove after 0.I
-        if( path.find( "Terminus.ttf" ) != std::string::npos ) {
-            typefaces.emplace_back( path, ImGuiFreeTypeLoaderFlags_Bitmap );
-        }  else if( path.find( "Roboto-Medium.ttf" ) != std::string::npos ) {
-            typefaces.emplace_back( path, ImGuiFreeTypeLoaderFlags_LightHinting );
-        } else {
-            typefaces.emplace_back( path );
-        }
+        typefaces.emplace_back( path );
     } else if( config.has_object( key ) ) {
         font_config conf;
         if( !config.read( key, conf, false ) ) {
@@ -100,15 +93,7 @@ static void load_font_from_config( const JsonObject &config, const std::string &
         JsonArray array = config.get_array( key );
         for( JsonValue value : array ) {
             if( value.test_string() ) {
-                std::string path = value.get_string();
-                // Migrate old font config files. Remove after 0.I
-                if( path.find( "Terminus.ttf" ) != std::string::npos ) {
-                    typefaces.emplace_back( path, ImGuiFreeTypeLoaderFlags_Bitmap );
-                } else if( path.find( "Roboto-Medium.ttf" ) != std::string::npos ) {
-                    typefaces.emplace_back( path, ImGuiFreeTypeLoaderFlags_LightHinting );
-                } else {
-                    typefaces.emplace_back( path );
-                }
+                typefaces.emplace_back( value.get_string() );
             } else if( value.test_object() ) {
                 font_config conf;
                 if( !value.read( conf, false ) ) {
@@ -122,11 +107,6 @@ static void load_font_from_config( const JsonObject &config, const std::string &
                           key );
             }
         }
-    } else if( key == "gui_typeface" &&
-               !config.has_member( key ) ) { // More legacy migration, remove after 0.I
-        typefaces.emplace_back( "data/font/Roboto-Medium.ttf", ImGuiFreeTypeLoaderFlags_LightHinting );
-        typefaces.emplace_back( "data/font/Terminus.ttf", ImGuiFreeTypeLoaderFlags_Bitmap );
-        typefaces.emplace_back( "data/font/unifont.ttf" ); // default hinting
     } else {
         debugmsg( "Font specifiers must be an array, object, or string." );
     }
@@ -219,17 +199,10 @@ void font_loader::save( const cata_path &path ) const
 void font_loader::load()
 {
     const cata_path fontdata = PATH_INFO::fontdata();
-    if( file_exist( fontdata ) ) {
-        load_throws( fontdata );
-        // Migrate old font files to the new format.
-        // Remove after 0.I.
-        save( fontdata );
-    } else {
-        const cata_path legacy_fontdata = PATH_INFO::legacy_fontdata();
-        load_throws( legacy_fontdata );
-        assure_dir_exist( PATH_INFO::config_dir() );
-        save( fontdata );
-    }
+    const cata_path legacy_fontdata = PATH_INFO::legacy_fontdata();
+    load_throws( legacy_fontdata );
+    assure_dir_exist( PATH_INFO::config_dir() );
+    save( fontdata );
 }
 
 #endif // TILES
