@@ -302,9 +302,6 @@ void game::unserialize_impl( const JsonObject &data )
     }
     data.read( "active_monsters", *critter_tracker );
 
-    data.has_null( "stair_monsters" ); // TEMPORARY until 0.G
-    data.has_null( "monstairz" ); // TEMPORARY until 0.G
-
     data.read( "driving_view_offset", driving_view_offset );
     data.read( "turnssincelastmon", turnssincelastmon );
     data.read( "bVMonsterLookFire", bVMonsterLookFire );
