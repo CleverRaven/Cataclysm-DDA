@@ -30,7 +30,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "4-round hunting shotgun, 20 gauge" },
-    "description": "The most shotgun-looking shotgun, this one was adapted to use 20 bore shells.",
+    "description": "The most widely recognizeable pump shotgun frame ever created.  When tv shows or movies picked a shotgun for civilian use, this or a replica like it were the most commonly used.  It comes in many shell sizes, this one is for 20 bore shells..",
     "variant_type": "gun",
     "variants": [
       {
