@@ -2249,6 +2249,14 @@ class vehicle
         int blade_side( const vehicle_part &vp ) const;
 
 
+        /**
+         * Wear owed by blades that shoved a body aside this move, as pairs of part index
+         * and damage.  Applied only once collisions are resolved; see @ref apply_blade_wear.
+         */
+        std::vector<std::pair<int, int>> pending_blade_wear; // NOLINT(cata-serialize)
+
+        /** Apply and clear @ref pending_blade_wear.  Safe only once collisions are resolved. */
+        void apply_blade_wear( map &here );
         //main method for the control of individual engines
         void control_engines( map &here );
         //returns whether the engine is enabled or not, and has fueltype

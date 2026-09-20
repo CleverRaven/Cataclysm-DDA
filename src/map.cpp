@@ -1152,6 +1152,9 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
              sgn( coll_velocity ) == sgn( velocity_before ) &&
              !collisions.empty() && !veh_veh_coll_flag );
 
+    // Now that nothing holds a part index from those collisions any more
+    veh.apply_blade_wear( *this );
+
     const int velocity_after = coll_velocity;
     bool can_move = velocity_after != 0 && sgn( velocity_after ) == sgn( velocity_before );
     if( dp.z() != 0 && veh.is_rotorcraft( *this ) ) {
