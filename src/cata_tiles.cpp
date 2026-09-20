@@ -273,12 +273,7 @@ cata_tiles::~cata_tiles() = default;
 
 void cata_tiles::on_options_changed()
 {
-    memory_map_mode = get_option <std::string>( "MEMORY_MAP_MODE" );
-
-    if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
-        vp->select_memory_preset(
-            cata_shader::memory_preset_from_option_value( memory_map_mode ) );
-    }
+    memory_map_mode = applied_tile_atlas_config().mode;
 
     pixel_minimap_settings settings;
 
@@ -424,6 +419,11 @@ bool service_mode2_upload_interrupt( const atlas_upload_interrupt interrupt,
         // The drain is about to destroy the renderer; release the quarantined
         // handles without SDL_DestroyTexture.
         quarantine.abandon_pre_lost_renderer();
+    } else if( interrupt == atlas_upload_interrupt::shader_boundary_lost ) {
+        // boundary undefined, so renderer will be replaced: release quarantined
+        // handles without SDL_DestroyTexture, queue loss
+        quarantine.abandon_pre_lost_renderer();
+        renderer_coordinator.request_recovery( renderer_recovery_severity::device_lost );
     } else if( interrupt == atlas_upload_interrupt::paused ) {
         // Wait out the background; the foreground event queues the rebuild.
         pump_until_renderer_foreground();
@@ -449,11 +449,15 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
 {
     renderer_texture_generations gens = renderer_coordinator.texture_generations();
     // Skip the reload only when the same tileset is already bound against the
-    // current renderer and texture generations; a generation bump from a
-    // device reset or loss invalidates the bundle and must reload.
+    // current renderer, texture generations and memory-map configuration; a
+    // generation bump from a device reset or loss invalidates the bundle and
+    // must reload
     if( tileset_ptr && tileset_ptr->get_tileset_id() == tileset_id && !force
         && tileset_ptr->get_renderer_instance_generation_at_upload() == gens.instance
-        && tileset_ptr->get_gpu_textures_generation_at_upload() == gens.textures ) {
+        && tileset_ptr->get_gpu_textures_generation_at_upload() == gens.textures
+        && tileset_ptr->get_memory_map_mode_at_upload() == memory_map_mode
+        && tileset_ptr->get_filter_fingerprint_at_upload()
+        == compute_tileset_filter_fingerprint( memory_map_mode ) ) {
         return;
     }
     // Snapshot the global mutation-overlay ordering before the candidate parse
@@ -4192,17 +4196,41 @@ bool cata_tiles::draw_item_highlight( const tripoint_bub_ms &pos, int &height_3d
 std::shared_ptr<tileset> tileset_cache::find_fresh_cached( const tileset_cache_key &key,
         const uint64_t current_renderer_instance_gen, const uint64_t current_gpu_textures_gen ) const
 {
-    const auto it = tilesets_.find( key );
-    if( it == tilesets_.end() ) {
+    // Note: superseded entry is still skipped even if replacement expired
+    for( auto it = live_.rbegin(); it != live_.rend(); ++it ) {
+        if( it->superseded || !( it->key == key ) ) {
+            continue;
+        }
+        std::shared_ptr<tileset> cached = it->bundle.lock();
+        if( !cached ) {
+            continue;
+        }
+        if( cached->get_renderer_instance_generation_at_upload() == current_renderer_instance_gen
+            && cached->get_gpu_textures_generation_at_upload() == current_gpu_textures_gen ) {
+            return cached;
+        }
         return nullptr;
     }
-    std::shared_ptr<tileset> cached = it->second.lock();
-    if( cached
-        && cached->get_renderer_instance_generation_at_upload() == current_renderer_instance_gen
-        && cached->get_gpu_textures_generation_at_upload() == current_gpu_textures_gen ) {
-        return cached;
-    }
     return nullptr;
+}
+
+void tileset_cache::track_bundle( const tileset_cache_key &key,
+                                  const std::shared_ptr<tileset> &bundle )
+{
+    prune_expired();
+    for( live_entry &entry : live_ ) {
+        if( entry.key == key ) {
+            entry.superseded = true;
+        }
+    }
+    live_.push_back( live_entry{ key, bundle, false } );
+}
+
+void tileset_cache::prune_expired()
+{
+    live_.erase( std::remove_if( live_.begin(), live_.end(), []( const live_entry & e ) {
+        return e.bundle.expired();
+    } ), live_.end() );
 }
 
 std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &tileset_id,
@@ -4235,7 +4263,7 @@ std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &t
     // upload, so an interrupted load never replaces the live bundle in the
     // cache or in any consumer.
     std::shared_ptr<tileset> candidate = std::make_shared<tileset>();
-    loader loader( *candidate, renderer, memory_map_mode );
+    loader loader( *candidate, renderer, memory_map_mode, key.filter_fingerprint );
     const atlas_upload_interrupt interrupt =
         loader.load( tileset_id, precheck, pump_events, terrain,
                      current_renderer_instance_gen, current_gpu_textures_gen, poll, quarantine );
@@ -4248,22 +4276,17 @@ std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &t
         return nullptr;
     }
     // load() recorded the generations on the bundle during upload.
-    // insert_or_assign so an expired weak_ptr at this key is replaced instead
-    // of being kept alongside a duplicate emplace attempt.
-    tilesets_.insert_or_assign( key, candidate );
+    track_bundle( key, candidate );
     return candidate;
 }
 
 void tileset_cache::release_live_atlases()
 {
-    for( auto it = tilesets_.begin(); it != tilesets_.end(); ) {
-        std::shared_ptr<tileset> ts = it->second.lock();
-        if( !ts ) {
-            it = tilesets_.erase( it );
-            continue;
+    prune_expired();
+    for( const live_entry &entry : live_ ) {
+        if( std::shared_ptr<tileset> ts = entry.bundle.lock() ) {
+            ts->release_gpu_atlases();
         }
-        ts->release_gpu_atlases();
-        ++it;
     }
 }
 
@@ -4271,28 +4294,58 @@ atlas_upload_interrupt tileset_cache::replay_live_atlases( const SDL_Renderer_Pt
         const uint64_t renderer_instance_gen, const uint64_t gpu_textures_gen,
         const atlas_upload_poll &poll, atlas_replay_quarantine &quarantine )
 {
-    for( auto it = tilesets_.begin(); it != tilesets_.end(); ) {
+    // upload with applied config, not the one each bundle last saw, so recovery
+    // never restores stale memory atlas or scale filter
+    const tile_atlas_config &applied = applied_tile_atlas_config();
+    prune_expired();
+    for( live_entry &entry : live_ ) {
         if( poll ) {
             const atlas_upload_interrupt interrupt = poll();
             if( interrupt != atlas_upload_interrupt::none ) {
                 return interrupt;
             }
         }
-        std::shared_ptr<tileset> ts = it->second.lock();
+        std::shared_ptr<tileset> ts = entry.bundle.lock();
         if( !ts ) {
-            it = tilesets_.erase( it );
             continue;
         }
+        const std::optional<atlas_bake_plan> plan = resolve_atlas_bake_plan( applied.mode );
+        if( !plan ) {
+            // probe lost the renderer boundary, so this entry keeps its old key
+            return atlas_upload_interrupt::shader_boundary_lost;
+        }
         const atlas_upload_interrupt interrupt =
-            loader::upload_atlases( *ts, renderer, ts->get_memory_map_mode_at_upload(),
-                                    ts->get_atlas_descriptors(), renderer_instance_gen,
-                                    gpu_textures_gen, false, poll, &quarantine );
+            loader::upload_atlases( *ts, renderer, applied.mode, applied.fingerprint,
+                                    *plan, ts->get_atlas_descriptors(),
+                                    renderer_instance_gen, gpu_textures_gen, false, poll,
+                                    &quarantine );
         if( interrupt != atlas_upload_interrupt::none ) {
+            // this entry keeps its old key and stays tracked for retry
             return interrupt;
         }
-        ++it;
+        // two entries may now share a key; neither becomes superseded
+        entry.key.memory_preset = applied.mode;
+        entry.key.filter_fingerprint = applied.fingerprint;
     }
     return atlas_upload_interrupt::none;
+}
+
+bool tileset_cache::any_live_bundle_needs_repair( const std::string &applied_mode,
+        const uint64_t applied_fingerprint, const bool shader_variants_available ) const
+{
+    for( const live_entry &entry : live_ ) {
+        const std::shared_ptr<tileset> ts = entry.bundle.lock();
+        if( classify_bundle( ts.get() ) != bundle_state::uploaded ) {
+            continue;
+        }
+        if( bundle_needs_repair( ts->get_bake_plan_at_upload(),
+                                 ts->get_memory_map_mode_at_upload(),
+                                 ts->get_filter_fingerprint_at_upload(), applied_mode,
+                                 applied_fingerprint, shader_variants_available ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 

@@ -171,6 +171,19 @@
         },
         "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_12" }
       },
+      {
+        "text": "[A blurry polaroid of a scarlet storm cloud] That cloud looks nasty.  Who gave you that?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_13",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 13" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_13" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_scarlet_storm" } ] } },
+            { "math": [ "player_saw_scarlet_storm != 1" ] }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_13" }
+      },
       { "text": "Nothing looks interesting to me.  I'll check in again later.", "topic": "TALK_ROBOFAC_MERC_PAT" }
     ]
   },
@@ -257,5 +270,20 @@
       "no": "Right, look at this heah.  Merc I talked to said they wandered deep into this fahkin' mine and found all these strange ass spirals.  Even drew a map.\"  Pat flips over the paper to show you a sketched map.  \"Fahkah wasn't right in the head, I'll tell ya' that.  Anyway.  Sounds like the kinda strange shit that's right up your alley, though.  Check it out."
     },
     "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_13",
+    "type": "talk_topic",
+    "dynamic_line": "This fahkin' merc stumbled in, sweatin' like a pig, and snortin', too.  Well, not snortin', really, but coughing.  They were hawkin' some smokes.  I says: \"that doesn't seem like a good idea, right?\"  Given' the coughin', right?  \"The fahk is in'em,\" I said?  Well, they say: \"ah, the coughin' is from some dust storm.\"  They described it as some sort of fuckin' fog - nasty shit you can't breath in.  Smells like the old Y, apparently.  Doesn't sound safe or natural, but maybe you go see for yourself?  Interestin' weather phenomenon if nothin' else.",
+    "responses": [
+      { "text": "The old Y?", "topic": "MISSION_ROBOFAC_PAT_RECON_13_old_y" },
+      { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_13_old_y",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah, the YMCA, ya' know?  The one with the pool.  He said is smells like a fahkin' pool.  You know, right after they dump all that chlorine in.  Bad sign for that cloud being safe, ah'll tell ya' that.",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks for the warning, Pat.", "topic": "TALK_DONE" } ]
   }
 ]

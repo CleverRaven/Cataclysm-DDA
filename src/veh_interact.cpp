@@ -23,6 +23,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
+#include "craft_reservation.h"
 #include "crafting.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -34,8 +35,8 @@
 #include "game_constants.h"
 #include "handle_liquid.h"
 #include "input_popup.h"
-#include "inventory.h"
 #include "item.h"
+#include "item_uid.h"
 #include "itype.h"
 #include "line.h"
 #include "localized_comparator.h"
@@ -56,6 +57,7 @@
 #include "ret_val.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "temp_crafting_inventory.h"
 #include "tileray.h"
 #include "translation.h"
 #include "translations.h"
@@ -377,7 +379,7 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
                                 const std::map<skill_id, int> &skills, time_duration time ) const
 {
     Character &player_character = get_player_character();
-    const inventory &inv = player_character.crafting_inventory();
+    const temp_crafting_inventory &inv = player_character.crafting_inventory();
     bool ok = reqs.can_make_with_inventory( &player_character, inv, is_crafting_component, 1,
                                             craft_flags::none, false );
 
@@ -1783,6 +1785,12 @@ bool veh_interact::can_remove_part( map &here, int idx, const Character &you )
     sel_vpart_info = &sel_vehicle_part->info();
     std::string nmsg;
     bool smash_remove = sel_vpart_info->has_flag( "SMASH_REMOVE" );
+
+    if( get_craft_reservations().vehicle_part_reserved(
+            sel_vehicle_part->get_base().uid().get_value() ) ) {
+        msg = _( "A craft in progress is using this part.\n" );
+        return false;
+    }
 
     if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) &&
         !smash_remove ) {

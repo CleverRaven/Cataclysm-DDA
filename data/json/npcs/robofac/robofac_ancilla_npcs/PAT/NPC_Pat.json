@@ -424,7 +424,7 @@
             { "math": [ "time_since(robofac_timer_pat_recon) >= time('3 d')" ] }
           ]
         },
-        "effect": [ { "math": [ "robofac_pat_recon_random_loc = rand(12)" ] }, { "math": [ "robofac_timer_pat_recon = time('now')" ] } ]
+        "effect": [ { "math": [ "robofac_pat_recon_random_loc = rand(13)" ] }, { "math": [ "robofac_timer_pat_recon = time('now')" ] } ]
       },
       {
         "text": "Any ideas on places we've seen before that might be worth scanning with the HEW system?",

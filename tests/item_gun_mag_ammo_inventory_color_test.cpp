@@ -4,6 +4,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "player_helpers.h"

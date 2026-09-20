@@ -157,6 +157,14 @@ Dependencies:
 
 Install the SDL3 libraries from your package manager or build them from the upstream SDL release branches. `BUILD_SHADER_FORMATS` picks which shader artifacts get built: `spv` on Linux, `msl` on macOS, `dxil` on Windows by default. Put `shadercross` on `PATH` (or set `SDL_SHADERCROSS=/path/to/shadercross`) for formats that need it.
 
+Runtime shader switches, read when they are used:
+
+  * `SDL_RENDER_DRIVER` selects the SDL renderer instead of the game's default driver list.
+  * `CATA_FORCE_ATLAS_VARIANTS=1` bakes all six atlas variants. Sprites still draw through the shaders.
+  * `CATA_DISABLE_SPRITE_SHADERS=1` turns the sprite shaders off. Sprites draw from fully baked atlases.
+
+Each atlas upload writes an `atlas upload:` line to `config/debug.log`, naming the renderer, GPU backend, SDL version, texture count, payload bytes, baked variants and upload time.
+
 Install the shader compiler on Debian/Ubuntu:
 
     sudo apt-get install glslang-tools

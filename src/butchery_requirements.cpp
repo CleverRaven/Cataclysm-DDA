@@ -5,6 +5,7 @@
 #include <optional>
 #include <string>
 
+#include "butchery.h"
 #include "cata_utility.h"
 #include "creature.h"
 #include "debug.h"
@@ -13,7 +14,6 @@
 #include "generic_factory.h"
 #include "item.h"
 #include "requirements.h"
-#include "butchery.h"
 
 namespace
 {
@@ -108,7 +108,7 @@ void butchery_requirements::check_consistency()
 }
 
 std::pair<float, requirement_id> butchery_requirements::get_fastest_requirements(
-    const Character *actor, const read_only_visitable &crafting_inv, creature_size size,
+    const Character *actor, const temp_crafting_inventory &crafting_inv, creature_size size,
     butcher_type butcher ) const
 {
     for( const std::pair<const float, std::map<creature_size, std::map<butcher_type, requirement_id>>>

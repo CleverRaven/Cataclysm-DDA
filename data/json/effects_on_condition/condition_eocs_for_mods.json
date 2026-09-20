@@ -1,0 +1,9 @@
+[
+  {
+    "//": "These EoCs are all overridden in mods",
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK",
+    "condition": { "mod_is_loaded": "xedra_evolved" },
+    "effect": [  ]
+  }
+]

@@ -7,6 +7,7 @@
 #include <atomic>
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <string>
 
 #include "cata_tiles.h"
@@ -409,12 +410,20 @@ struct renderer_recovery_test_support {
     // state, draining any quarantine on the still-live renderer first.
     static void reset_coordinator();
 
-    // Build a one-descriptor 1x1 bundle, upload it once at the given generations,
-    // and insert it into the global cache. Returns the held bundle so the weak
-    // cache entry stays live and the recorded generations are readable.
+    // make one-descriptor 1x1 bundle, upload it once at the given generations
+    // under resolve_atlas_bake_plan, then track it in global cache, and return the
+    // held bundle so that the weak cache entry stays live and the recorded
+    // generations are readable; null, with device_lost queued, when the probe
+    // lost the renderer boundary
     static std::shared_ptr<const tileset> install_synthetic_bundle(
         const std::string &tileset_id, const std::string &memory_map_mode,
         uint64_t renderer_instance_generation, uint64_t gpu_textures_generation );
+    // As install_synthetic_bundle, uploading under an explicit bake plan
+    // instead of the resolver's decision.
+    static std::shared_ptr<const tileset> install_synthetic_bundle(
+        const std::string &tileset_id, const std::string &memory_map_mode,
+        uint64_t renderer_instance_generation, uint64_t gpu_textures_generation,
+        const atlas_bake_plan &plan );
 
     // Fetch a bundle through the production cache lookup at the given current
     // generations; returns the cached bundle on a fresh hit. Used only for the
@@ -472,6 +481,30 @@ struct renderer_recovery_test_support {
     // on the stack, then close it. Reports whether the display buffer was bound
     // inside the scope and whether the target returned to NULL after it.
     static void pause_during_draw_scope( bool &bound_during, bool &null_after );
+
+    // next N variant_pass probes report unsafe boundary without touching SDL.
+    // countdown like arm_replay_pause
+    static void arm_probe_unsafe( int count = 1 );
+    static int probe_unsafe_remaining();
+    // next variant_pass flush fails without touching SDL, whether or not
+    // anything is bound
+    static void arm_flush_failure();
+    // Set the sticky shader fault alone: the state a shader-caused device_lost
+    // recovery leaves after rebind_renderer restored the boundary.
+    static void mark_shader_fault();
+    // Reproduce draw_sprite_at's bind-failure path: the pass flags plus the
+    // display latch, so the next drain promotes to device_lost.
+    static void simulate_draw_bind_failure();
+    // number of variant_pass probe runs since fixture setup
+    static int variant_probe_count();
+    // run refresh_display's presentation decision that refresh_display can't
+    // reach under test_mode
+    static bool run_present_gate();
+    // Force "shader variants available" for bake-plan resolver and present gate
+    // without touching variant_pass, so software fixture can exercise skipped
+    // bundles. nullopt restores the live pass. A sticky shader fault overrides
+    // it. Cleared by teardown_software_renderer.
+    static void override_shader_variants_available( std::optional<bool> available );
 };
 
 // RAII wrapper around setup/teardown for use as a Catch2 fixture local.
