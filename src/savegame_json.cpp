@@ -4224,21 +4224,7 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "num_blocks_bonus", num_blocks_bonus );
     jsin.read( "num_dodges_bonus", num_dodges_bonus );
 
-    if( jsin.has_object( "armor_bonus" ) ) {
-        jsin.read( "armor_bonus", armor_bonus );
-    } else {
-        // Legacy load conversion, remove after 0.H releases
-        float bash_bonus = 0;
-        float cut_bonus = 0;
-        float bullet_bonus = 0;
-        jsin.read( "armor_bash_bonus", bash_bonus );
-        jsin.read( "armor_cut_bonus", cut_bonus );
-        jsin.read( "armor_bullet_bonus", bullet_bonus );
-        armor_bonus.clear();
-        armor_bonus.emplace( damage_bash, bash_bonus );
-        armor_bonus.emplace( damage_cut, cut_bonus );
-        armor_bonus.emplace( damage_bullet, bullet_bonus );
-    }
+    jsin.read( "armor_bonus", armor_bonus );
 
     jsin.read( "speed", speed_base );
 
@@ -4363,7 +4349,7 @@ static std::string migrate_memorized_terrain( const std::string &ter_id )
     return ter_id;
 }
 
-void mm_submap::deserialize( int version, const JsonArray &ja )
+void mm_submap::deserialize( int, const JsonArray &ja )
 {
     size_t submap_array_idx = 0;
 
@@ -4377,50 +4363,20 @@ void mm_submap::deserialize( int version, const JsonArray &ja )
                 remaining -= 1;
             } else {
                 const JsonArray ja_tile = ja.get_array( submap_array_idx++ );
-                if( version < 1 ) { // legacy, remove after 0.H comes out
-                    std::string id = ja_tile.get_string( 0 );
-                    if( string_starts_with( id, "t_" ) ) {
-                        tile.set_ter_id( migrate_memorized_terrain( id ) );
-                        tile.set_ter_subtile( ja_tile.get_int( 1 ) );
-                        tile.set_ter_rotation( ja_tile.get_int( 2 ) );
-                        tile.set_dec_id( "" );
-                        tile.set_dec_subtile( 0 );
-                        tile.set_dec_rotation( 0 );
-                    } else {
-                        tile.set_ter_id( "" );
-                        tile.set_ter_subtile( 0 );
-                        tile.set_ter_rotation( 0 );
-                        tile.set_dec_id( std::move( id ) );
-                        tile.set_dec_subtile( ja_tile.get_int( 1 ) );
-                        const int legacy_rotation = ja_tile.get_int( 2 );
-                        if( string_starts_with( tile.dec_id, "vp_" ) ) {
-                            // legacy vehicle rotation needs to be converted from 0-360 degrees
-                            // to 0-3 tileset rotation
-                            const units::angle legacy_angle = units::from_degrees( legacy_rotation );
-                            tile.set_dec_rotation( angle_to_dir4( legacy_angle - 270_degrees ) );
-                        } else {
-                            tile.set_dec_rotation( legacy_rotation );
-                        }
-                    }
-                    tile.symbol = ja_tile.get_int( 3 );
-                    if( ja_tile.size() > 4 ) {
-                        remaining = ja_tile.get_int( 4 ) - 1;
-                    }
+
+                remaining = ja_tile.get_int( 0 ) - 1;
+                tile.symbol = ja_tile.get_int( 1 );
+                tile.set_ter_id( migrate_memorized_terrain( ja_tile.get_string( 2 ) ) );
+                tile.ter_subtile = ja_tile.get_int( 3 );
+                tile.ter_rotation = ja_tile.get_int( 4 );
+                if( ja_tile.size() > 5 ) {
+                    tile.set_dec_id( ja_tile.get_string( 5 ) );
+                    tile.dec_subtile = ja_tile.get_int( 6 );
+                    tile.dec_rotation = ja_tile.get_int( 7 );
                 } else {
-                    remaining = ja_tile.get_int( 0 ) - 1;
-                    tile.symbol = ja_tile.get_int( 1 );
-                    tile.set_ter_id( migrate_memorized_terrain( ja_tile.get_string( 2 ) ) );
-                    tile.ter_subtile = ja_tile.get_int( 3 );
-                    tile.ter_rotation = ja_tile.get_int( 4 );
-                    if( ja_tile.size() > 5 ) {
-                        tile.set_dec_id( ja_tile.get_string( 5 ) );
-                        tile.dec_subtile = ja_tile.get_int( 6 );
-                        tile.dec_rotation = ja_tile.get_int( 7 );
-                    } else {
-                        tile.set_dec_id( "" );
-                        tile.dec_subtile = 0;
-                        tile.dec_rotation = 0;
-                    }
+                    tile.set_dec_id( "" );
+                    tile.dec_subtile = 0;
+                    tile.dec_rotation = 0;
                 }
             }
             // Try to avoid assigning to save up on memory
@@ -4457,15 +4413,9 @@ void mm_region::deserialize( const JsonValue &ja )
 {
     int version;
     JsonArray region_json;
-
-    if( ja.test_array() ) { // legacy, remove after 0.H comes out
-        version = 0;
-        region_json = ja;
-    } else {
-        JsonObject region_obj = ja;
-        version = region_obj.get_int( "version" );
-        region_json = region_obj.get_array( "data" );
-    }
+    JsonObject region_obj = ja;
+    version = region_obj.get_int( "version" );
+    region_json = region_obj.get_array( "data" );
 
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
         // NOLINTNEXTLINE(modernize-loop-convert)
@@ -4950,45 +4900,6 @@ void stats_tracker::deserialize( const JsonObject &jo )
         d.second.set_type( d.first );
     }
     jo.read( "initial_scores", initial_scores );
-
-    // TODO: remove after 0.H
-    // migration for saves made before addition of event_type::game_avatar_new
-    event_multiset gan_evts = get_events( event_type::game_avatar_new );
-    if( !gan_evts.count() ) {
-        event_multiset gs_evts = get_events( event_type::game_start );
-        avatar &u = get_avatar();
-        // check if character ID set, if loadsave, the ID will not be -1
-        // if it's an old save without event_type::game_avatar_new, the event need to be done
-        // this function is invoked when load memorial, on this situation start a new game, below shouldn't be invoked.
-        if( u.getID() != character_id( -1 ) ) {
-            if( gs_evts.count() ) {
-                auto gs_evt = gs_evts.first().value();
-                cata::event::data_type gs_data = gs_evt.first;
-
-                // retroactively insert starting avatar
-                cata::event::data_type gan_data( gs_data );
-                gan_data["is_new_game"] = cata_variant::make<cata_variant_type::bool_>( true );
-                gan_data["is_debug"] = cata_variant::make<cata_variant_type::bool_>( false );
-                gan_data.erase( "game_version" );
-                get_event_bus().send( cata::event( event_type::game_avatar_new, calendar::start_of_game,
-                                                   std::move( gan_data ) ) );
-
-                // retroactively insert current avatar, if different from starting avatar
-                // we don't know when they took over, so just use current time point
-                if( u.getID() != gs_data["avatar_id"].get<cata_variant_type::character_id>() ) {
-                    get_event_bus().send( cata::event::make<event_type::game_avatar_new>( false, false,
-                                          u.getID(), u.name, u.custom_profession ) );
-                }
-            } else {
-                // last ditch effort for really old saves that don't even have event_type::game_start
-                // treat current avatar as the starting avatar; abuse is_new_game=false to flag such cases
-                std::swap( calendar::turn, calendar::start_of_game );
-                get_event_bus().send( cata::event::make<event_type::game_avatar_new>( false, false,
-                                      u.getID(), u.name, u.custom_profession ) );
-                std::swap( calendar::turn, calendar::start_of_game );
-            }
-        }
-    }
 }
 
 namespace

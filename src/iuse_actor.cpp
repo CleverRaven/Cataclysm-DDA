@@ -3360,7 +3360,6 @@ std::pair<float, float> repair_item_actor::repair_chance(
             action_difficulty = material_difficulty;
             break;
         default:
-            // 5 is obsoleted reinforcing, remove after 0.H
             action_difficulty = 1000000; // ensure failure
             break;
     }
