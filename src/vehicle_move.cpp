@@ -1051,6 +1051,23 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
     float k = 50 + material_factor + weight_factor;
     k = std::max( 10.0f, std::min( 90.0f, k ) );
 
+    static constexpr float min_deflect_mass_ratio = 8.0f;
+    // The rake does its work at any height, so this ignores whether the blade is lowered
+    const bool deflects_bodies = ret.type == veh_coll_body && vpi.has_flag( "SNOWPLOW" ) &&
+                                 mass > mass2 * min_deflect_mass_ratio;
+    const units::angle deflect_angle = deflects_bodies
+                                       ? units::from_degrees( vpi.collision_deflection )
+                                       : 0_degrees;
+    // 1 for a part facing straight ahead, falling off to 0 as the face is raked further back
+    const float deflect_normal = static_cast<float>( units::cos( deflect_angle ) );
+    int deflect_side = 0;
+    if( deflects_bodies ) {
+        deflect_side = blade_side( vp );
+        if( deflect_side == 0 ) {
+            deflect_side = one_in( 2 ) ? -1 : 1;
+        }
+    }
+
     bool smashed = true;
     const std::string snd = _( "smash!" );
     float dmg = 0.0f;
@@ -1068,14 +1085,22 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
         smashed = false;
         // Impulse of vehicle
         const float vel1 = coll_velocity / 100.0f;
-        // Velocity of car after collision
-        const float vel1_a = ( mass * vel1 + mass2 * vel2 + e * mass2 * ( vel2 - vel1 ) ) /
-                             ( mass + mass2 );
+        // Only the part of it that points into the face we're hitting with.  vel2 is likewise
+        // the object's velocity along that normal, accumulated over the iterations below.
+        const float vel1_n = vel1 * deflect_normal;
+        // Velocity of car after collision, along the same normal
+        const float vel1_a_n = ( mass * vel1_n + mass2 * vel2 + e * mass2 * ( vel2 - vel1_n ) ) /
+                               ( mass + mass2 );
         // Velocity of object after collision
-        const float vel2_a = ( mass * vel1 + mass2 * vel2 + e * mass * ( vel1 - vel2 ) ) / ( mass + mass2 );
+        const float vel2_a = ( mass * vel1_n + mass2 * vel2 + e * mass * ( vel1_n - vel2 ) ) /
+                             ( mass + mass2 );
+        // We only lose the share of that impulse that points back along our direction of travel
+        const float vel1_a = vel1 - ( vel1_n - vel1_a_n ) * deflect_normal;
         // Lost energy at collision -> deformation energy -> damage
-        const float E_before = 0.5f * ( mass * vel1 * vel1 )     + 0.5f * ( mass2 * vel2 * vel2 );
-        const float E_after  = 0.5f * ( mass * vel1_a * vel1_a ) + 0.5f * ( mass2 * vel2_a * vel2_a );
+        const float E_before = 0.5f * ( mass * vel1_n * vel1_n ) +
+                               0.5f * ( mass2 * vel2 * vel2 );
+        const float E_after = 0.5f * ( mass * vel1_a_n * vel1_a_n ) +
+                              0.5f * ( mass2 * vel2_a * vel2_a );
         const float d_E = E_before - E_after;
         if( d_E <= 0 ) {
             // Deformation energy is signed
@@ -1163,12 +1188,16 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
                 dam = std::max( 0, dam - armor );
                 critter->apply_damage( driver, bodypart_id( "torso" ), dam );
                 if( !critter->has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
+                    // A vehicle can run something over with nobody at the wheel
+                    const effect_source bleed_source = driver != nullptr
+                                                       ? effect_source( driver )
+                                                       : effect_source::empty();
                     if( vpi.has_flag( "SHARP" ) ) {
-                        critter->add_effect( effect_source( driver ), effect_bleed, 1_minutes * rng( 1, dam ),
+                        critter->add_effect( bleed_source, effect_bleed, 1_minutes * rng( 1, dam ),
                                              critter->get_random_body_part_of_type( bp_type::torso ) );
                     } else if( dam > 18 && rng( 1, 20 ) > 15 ) {
                         //low chance of lighter bleed even with non sharp objects.
-                        critter->add_effect( effect_source( driver ), effect_bleed, 1_minutes,
+                        critter->add_effect( bleed_source, effect_bleed, 1_minutes,
                                              critter->get_random_body_part_of_type( bp_type::torso ) );
                     }
                 }
@@ -1179,7 +1208,10 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
             if( !vert_coll ) {
                 if( std::fabs( vel2_a ) > 10.0f ||
                     std::fabs( e * mass * vel1_a ) > std::fabs( mass2 * ( 10.0f - vel2_a ) ) ) {
-                    const units::angle angle = rng_float( -60_degrees, 60_degrees );
+                    const units::angle angle = deflects_bodies
+                                               ? deflect_angle * deflect_side +
+                                               rng_float( -15_degrees, 15_degrees )
+                                               : rng_float( -60_degrees, 60_degrees );
                     // Also handle the weird case when we don't have enough force
                     // but still have to push (in such case compare momentum)
                     const float push_force = std::max<float>( std::fabs( vel2_a ), 10.1f );
@@ -1215,7 +1247,11 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
     if( critter != nullptr ) {
         if( !critter->is_hallucination() ) {
             if( player_is_driving_this_veh( &here ) ) {
-                if( time_stunned > 0_turns ) {
+                if( deflects_bodies && smashed && !critter->is_dead_state() ) {
+                    //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
+                    add_msg( m_warning, _( "Your %1$s's %2$s shoves %3$s aside!" ),
+                             name, vp.name(), ret.target_name );
+                } else if( time_stunned > 0_turns ) {
                     //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
                     add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s and stuns it!" ),
                              name, vp.name(), ret.target_name );
@@ -1272,6 +1308,13 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
 
     ret.imp = part_dmg;
     return ret;
+}
+
+int vehicle::blade_side( const vehicle_part &vp ) const
+{
+    // Doubled so the comparison stays exact on a vehicle of even width, where the centerline
+    // falls between two mounts instead of on one of them.
+    return sgn( vp.mount.y() * 2 - ( mount_min.y() + mount_max.y() ) );
 }
 
 // Simple boilerplate extracted to a static to re-use.
