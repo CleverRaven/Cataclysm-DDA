@@ -468,10 +468,11 @@
   },
   {
     "type": "effect_type",
-    "id": "changeling_summer_combat_prowess_powerful_buff_spell",
+    "id": "effect_changeling_summer_combat_prowess_powerful_buff",
     "name": [ "Ríastrad" ],
     "desc": [ "Your foes shall fall." ],
     "rating": "good",
+    "remove_message": "Your body twist back into place as the Ríastrad fades from you.",
     "enchantments": [
       {
         "melee_damage_bonus": [
@@ -511,10 +512,7 @@
           {
             "value": "THROW_STR",
             "add": {
-              "value": "STRENGTH",
-              "add": {
-                "math": [ "2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 0.05) + (u_skill('gramarye') * 0.25)" ]
-              }
+              "math": [ "2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 0.05) + (u_skill('gramarye') * 0.25)" ]
             }
           },
           { "value": "THROW_DAMAGE", "multiply": 0.4 },
@@ -526,8 +524,7 @@
           { "value": "FORCEFIELD", "add": 0.05 }
         ]
       }
-    ],
-    "flags": [ "UNCANNY_DODGE" ]
+    ]
   },
   {
     "type": "effect_type",

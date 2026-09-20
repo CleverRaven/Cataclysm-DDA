@@ -281,7 +281,7 @@
             { "x_in_y_chance": { "x": 1, "y": 20000 } }
           ]
         },
-        "then": [ { "u_run_eocs": "EOC_REDUCE_VAMPVIRUS" } ]
+        "then": [ { "run_eocs": "EOC_REDUCE_VAMPVIRUS" } ]
       },
       {
         "if": { "and": [ { "u_has_effect": "blood_spiders" }, { "x_in_y_chance": { "x": 1, "y": 5000 } } ] },
