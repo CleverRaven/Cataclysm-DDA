@@ -227,6 +227,34 @@
     "variants": [ { "symbols": ")", "symbols_broken": "x" } ]
   },
   {
+    "id": "loader_bucket",
+    "type": "vehicle_part",
+    "name": { "str": "loader bucket" },
+    "item": "v_loader_bucket_item",
+    "location": "structure",
+    "categories": [ "utility" ],
+    "color": "yellow",
+    "broken_color": "brown",
+    "damage_modifier": 130,
+    "durability": 1400,
+    "description": "One section of a wheel loader's bucket: a hardened steel shell carried on its share of the lift arms.  Several span the machine's width.  It is not raked to throw anything aside, so what it meets in the road it meets head on.",
+    "//": "600 kg a section, hung off the lift arms of a machine built to carry it.  Nothing a survivor fabricates, hence no recipe, but a cracked shell can still be welded.",
+    "min_vehicle_mass": "8000 kg",
+    "damage_reduction": { "all": 90 },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "90 m", "using": [ [ "vehicle_bolt_install", 6 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "45 m", "using": [ [ "vehicle_wrench_2", 6 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "repair_welding_standard", 8 ] ] }
+    },
+    "breaks_into": [
+      { "item": "mc_steel_lump", "count": [ 4, 8 ] },
+      { "item": "mc_steel_chunk", "count": [ 4, 8 ] },
+      { "item": "scrap", "count": [ 8, 16 ] }
+    ],
+    "flags": [ "PROTRUSION", "OBSTACLE", "NO_INSTALL_PLAYER" ],
+    "variants": [ { "symbols": "(", "symbols_broken": "*" } ]
+  },
+  {
     "id": "loader_ballast",
     "type": "vehicle_part",
     "name": { "str": "ballast block" },
