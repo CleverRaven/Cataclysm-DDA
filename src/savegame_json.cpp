@@ -145,12 +145,6 @@ static const addiction_id addiction_nicotine( "nicotine" );
 static const addiction_id addiction_opiate( "opiate" );
 static const addiction_id addiction_sleeping_pill( "sleeping pill" );
 
-static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
-
-static const damage_type_id damage_bash( "bash" );
-static const damage_type_id damage_bullet( "bullet" );
-static const damage_type_id damage_cut( "cut" );
-
 static const dimension_id dimension_world_default( "default" );
 
 static const efftype_id effect_riding( "riding" );
@@ -921,140 +915,6 @@ void Character::load( const JsonObject &data )
         data.read( "worn", worn );
     }
     worn.on_item_wear( *this );
-
-    // TEMPORARY until 0.F
-    if( data.has_array( "hp_cur" ) ) {
-        set_anatomy( anatomy_human_anatomy );
-        set_body();
-        std::array<int, 6> hp_cur;
-        data.read( "hp_cur", hp_cur );
-        std::array<int, 6> hp_max;
-        data.read( "hp_max", hp_max );
-        set_part_hp_cur( bodypart_id( "head" ), hp_cur[0] );
-        set_part_hp_max( bodypart_id( "head" ), hp_max[0] );
-        set_part_hp_cur( bodypart_id( "torso" ), hp_cur[1] );
-        set_part_hp_max( bodypart_id( "torso" ), hp_max[1] );
-        set_part_hp_cur( bodypart_id( "arm_l" ), hp_cur[2] );
-        set_part_hp_max( bodypart_id( "arm_l" ), hp_max[2] );
-        set_part_hp_cur( bodypart_id( "arm_r" ), hp_cur[3] );
-        set_part_hp_max( bodypart_id( "arm_r" ), hp_max[3] );
-        set_part_hp_cur( bodypart_id( "leg_l" ), hp_cur[4] );
-        set_part_hp_max( bodypart_id( "leg_l" ), hp_max[4] );
-        set_part_hp_cur( bodypart_id( "leg_r" ), hp_cur[5] );
-        set_part_hp_max( bodypart_id( "leg_r" ), hp_max[5] );
-    }
-    if( data.has_array( "damage_bandaged" ) ) {
-        set_anatomy( anatomy_human_anatomy );
-        set_body();
-        std::array<int, 6> damage_bandaged;
-        data.read( "damage_bandaged", damage_bandaged );
-        set_part_damage_bandaged( bodypart_id( "head" ), damage_bandaged[0] );
-        set_part_damage_bandaged( bodypart_id( "torso" ), damage_bandaged[1] );
-        set_part_damage_bandaged( bodypart_id( "arm_l" ), damage_bandaged[2] );
-        set_part_damage_bandaged( bodypart_id( "arm_r" ), damage_bandaged[3] );
-        set_part_damage_bandaged( bodypart_id( "leg_l" ), damage_bandaged[4] );
-        set_part_damage_bandaged( bodypart_id( "leg_r" ), damage_bandaged[5] );
-    }
-    if( data.has_array( "damage_disinfected" ) ) {
-        set_anatomy( anatomy_human_anatomy );
-        set_body();
-        std::array<int, 6> damage_disinfected;
-        data.read( "damage_disinfected", damage_disinfected );
-        set_part_damage_disinfected( bodypart_id( "head" ), damage_disinfected[0] );
-        set_part_damage_disinfected( bodypart_id( "torso" ), damage_disinfected[1] );
-        set_part_damage_disinfected( bodypart_id( "arm_l" ), damage_disinfected[2] );
-        set_part_damage_disinfected( bodypart_id( "arm_r" ), damage_disinfected[3] );
-        set_part_damage_disinfected( bodypart_id( "leg_l" ), damage_disinfected[4] );
-        set_part_damage_disinfected( bodypart_id( "leg_r" ), damage_disinfected[5] );
-    }
-    if( data.has_array( "healed_24h" ) ) {
-        set_anatomy( anatomy_human_anatomy );
-        set_body();
-        std::array<int, 6> healed_total;
-        data.read( "healed_24h", healed_total );
-        set_part_healed_total( bodypart_id( "head" ), healed_total[0] );
-        set_part_healed_total( bodypart_id( "torso" ), healed_total[1] );
-        set_part_healed_total( bodypart_id( "arm_l" ), healed_total[2] );
-        set_part_healed_total( bodypart_id( "arm_r" ), healed_total[3] );
-        set_part_healed_total( bodypart_id( "leg_l" ), healed_total[4] );
-        set_part_healed_total( bodypart_id( "leg_r" ), healed_total[5] );
-    }
-    if( data.has_array( "body_wetness" ) ) {
-        set_anatomy( anatomy_human_anatomy );
-        set_body();
-        std::array<int, 12> body_wetness;
-        body_wetness.fill( 0 );
-        data.read( "body_wetness", body_wetness );
-        set_part_wetness( bodypart_id( "torso" ), body_wetness[0] );
-        set_part_wetness( bodypart_id( "head" ), body_wetness[1] );
-        set_part_wetness( bodypart_id( "eyes" ), body_wetness[2] );
-        set_part_wetness( bodypart_id( "mouth" ), body_wetness[3] );
-        set_part_wetness( bodypart_id( "arm_l" ), body_wetness[4] );
-        set_part_wetness( bodypart_id( "arm_r" ), body_wetness[5] );
-        set_part_wetness( bodypart_id( "hand_l" ), body_wetness[6] );
-        set_part_wetness( bodypart_id( "hand_r" ), body_wetness[7] );
-        set_part_wetness( bodypart_id( "leg_l" ), body_wetness[8] );
-        set_part_wetness( bodypart_id( "leg_r" ), body_wetness[9] );
-        set_part_wetness( bodypart_id( "foot_l" ), body_wetness[10] );
-        set_part_wetness( bodypart_id( "foot_r" ), body_wetness[11] );
-    }
-    if( data.has_array( "temp_cur" ) ) {
-        set_anatomy( anatomy_human_anatomy );
-        set_body();
-        std::array<units::temperature, 12> temp_cur;
-        temp_cur.fill( BODYTEMP_NORM );
-        data.read( "temp_cur", temp_cur );
-        set_part_temp_cur( bodypart_id( "torso" ), temp_cur[0] );
-        set_part_temp_cur( bodypart_id( "head" ), temp_cur[1] );
-        set_part_temp_cur( bodypart_id( "eyes" ), temp_cur[2] );
-        set_part_temp_cur( bodypart_id( "mouth" ), temp_cur[3] );
-        set_part_temp_cur( bodypart_id( "arm_l" ), temp_cur[4] );
-        set_part_temp_cur( bodypart_id( "arm_r" ), temp_cur[5] );
-        set_part_temp_cur( bodypart_id( "hand_l" ), temp_cur[6] );
-        set_part_temp_cur( bodypart_id( "hand_r" ), temp_cur[7] );
-        set_part_temp_cur( bodypart_id( "leg_l" ), temp_cur[8] );
-        set_part_temp_cur( bodypart_id( "leg_r" ), temp_cur[9] );
-        set_part_temp_cur( bodypart_id( "foot_l" ), temp_cur[10] );
-        set_part_temp_cur( bodypart_id( "foot_r" ), temp_cur[11] );
-    }
-    if( data.has_array( "temp_conv" ) ) {
-        set_anatomy( anatomy_human_anatomy );
-        set_body();
-        std::array<units::temperature, 12> temp_conv;
-        temp_conv.fill( BODYTEMP_NORM );
-        data.read( "temp_conv", temp_conv );
-        set_part_temp_conv( bodypart_id( "torso" ), temp_conv[0] );
-        set_part_temp_conv( bodypart_id( "head" ), temp_conv[1] );
-        set_part_temp_conv( bodypart_id( "eyes" ), temp_conv[2] );
-        set_part_temp_conv( bodypart_id( "mouth" ), temp_conv[3] );
-        set_part_temp_conv( bodypart_id( "arm_l" ), temp_conv[4] );
-        set_part_temp_conv( bodypart_id( "arm_r" ), temp_conv[5] );
-        set_part_temp_conv( bodypart_id( "hand_l" ), temp_conv[6] );
-        set_part_temp_conv( bodypart_id( "hand_r" ), temp_conv[7] );
-        set_part_temp_conv( bodypart_id( "leg_l" ), temp_conv[8] );
-        set_part_temp_conv( bodypart_id( "leg_r" ), temp_conv[9] );
-        set_part_temp_conv( bodypart_id( "foot_l" ), temp_conv[10] );
-        set_part_temp_conv( bodypart_id( "foot_r" ), temp_conv[11] );
-    }
-    if( data.has_array( "frostbite_timer" ) ) {
-        set_anatomy( anatomy_human_anatomy );
-        set_body();
-        std::array<int, 12> frostbite_timer;
-        frostbite_timer.fill( 0 );
-        data.read( "frostbite_timer", frostbite_timer );
-        set_part_frostbite_timer( bodypart_id( "torso" ), frostbite_timer[0] );
-        set_part_frostbite_timer( bodypart_id( "head" ), frostbite_timer[1] );
-        set_part_frostbite_timer( bodypart_id( "eyes" ), frostbite_timer[2] );
-        set_part_frostbite_timer( bodypart_id( "mouth" ), frostbite_timer[3] );
-        set_part_frostbite_timer( bodypart_id( "arm_l" ), frostbite_timer[4] );
-        set_part_frostbite_timer( bodypart_id( "arm_r" ), frostbite_timer[5] );
-        set_part_frostbite_timer( bodypart_id( "hand_l" ), frostbite_timer[6] );
-        set_part_frostbite_timer( bodypart_id( "hand_r" ), frostbite_timer[7] );
-        set_part_frostbite_timer( bodypart_id( "leg_l" ), frostbite_timer[8] );
-        set_part_frostbite_timer( bodypart_id( "leg_r" ), frostbite_timer[9] );
-        set_part_frostbite_timer( bodypart_id( "foot_l" ), frostbite_timer[10] );
-        set_part_frostbite_timer( bodypart_id( "foot_r" ), frostbite_timer[11] );
-    }
 
     inv->clear();
     if( data.has_member( "inv" ) ) {
@@ -2132,39 +1992,11 @@ void npc::load( const JsonObject &data )
 {
     Character::load( data );
 
-    // TEMPORARY Remove if branch after 0.G (keep else branch)
-    if( !data.has_member( "location" ) ) {
-        point_abs_sm submap_coords;
-        data.read( "submap_coords", submap_coords );
-        const tripoint_bub_ms pos = read_legacy_creature_pos( data );
-        set_pos_abs_only( tripoint_abs_ms( project_to<coords::ms>( submap_coords ),
-                                           0 ) + tripoint( pos.x() % SEEX, pos.y() % SEEY, pos.z() ) );
-        std::optional<tripoint_bub_ms> opt;
-        if( data.read( "last_player_seen_pos", opt ) && opt ) {
-            last_player_seen_pos = pos_abs() + ( *opt - pos );
-        }
-        if( data.read( "pulp_location", opt ) && opt ) {
-            pulp_location = pos_abs() + ( *opt - pos );
-        }
-        tripoint_abs_ms tmp;
-        if( data.read( "guardx", tmp.x() ) && data.read( "guardy", tmp.y() ) &&
-            data.read( "guardz", tmp.z() ) &&
-            tmp != tripoint_abs_ms::min ) {
-            guard_pos = tmp;
-        }
-        if( data.read( "chair_pos", tmp ) && tmp != tripoint_abs_ms::min ) {
-            chair_pos = tmp;
-        }
-        if( data.read( "wander_pos", tmp ) && tmp != tripoint_abs_ms::min ) {
-            wander_pos = tmp;
-        }
-    } else {
-        data.read( "last_player_seen_pos", last_player_seen_pos );
-        data.read( "guard_pos", guard_pos );
-        data.read( "pulp_location", pulp_location );
-        data.read( "chair_pos", chair_pos );
-        data.read( "wander_pos", wander_pos );
-    }
+    data.read( "last_player_seen_pos", last_player_seen_pos );
+    data.read( "guard_pos", guard_pos );
+    data.read( "pulp_location", pulp_location );
+    data.read( "chair_pos", chair_pos );
+    data.read( "wander_pos", wander_pos );
 
     int misstmp = 0;
     int atttmp = 0;
@@ -3484,9 +3316,7 @@ void item::io( Archive &archive )
     archive.io( "temperature", temperature, units::from_kelvin( 0.f ) );
     archive.io( "recipe_charges", recipe_charges, 1 );
     archive.io( "template_traits", template_traits );
-    // Legacy: remove flag check/unset after 0.F
-    archive.io( "ethereal", ethereal, has_flag( flag_ETHEREAL_ITEM ) );
-    unset_flag( flag_ETHEREAL_ITEM );
+    archive.io( "ethereal", ethereal );
     archive.template io<const mtype>( "corpse", corpse, load_corpse,
     []( const mtype & i ) {
         return i.id.str();
@@ -3540,14 +3370,6 @@ void item::io( Archive &archive )
     }
     if( poison != 0 && irradiation == 0 && typeId() == itype_rad_badge ) {
         std::swap( irradiation, poison );
-    }
-
-    // Compatibility with old 0.F saves
-    // Tempreature used to be saved as 0.00001 K integer.
-    // specific_energy used to be saved as 0.00001 J/g integer.
-    if( temperature > 100000_K ) {
-        temperature /= 100000;
-        specific_energy /= 100000;
     }
 
     // erase all invalid flags (not defined in flags.json)
@@ -4441,34 +4263,7 @@ void Creature::load( const JsonObject &jsin )
 
     killer = nullptr; // see Creature::load
 
-    // TEMPORARY until 0.F
-    if( savegame_loading_version < 31 ) {
-        if( jsin.has_object( "effects" ) ) {
-            // Because JSON requires string keys we need to convert back to our bp keys
-            std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
-            jsin.read( "effects", tmp_map );
-            int key_num = 0;
-            for( const auto &maps : tmp_map ) {
-                const efftype_id id( maps.first );
-                if( !id.is_valid() ) {
-                    debugmsg( "Invalid effect: %s", id.c_str() );
-                    continue;
-                }
-                for( const auto &i : maps.second ) {
-                    if( !( std::istringstream( i.first ) >> key_num ) ) {
-                        key_num = 0;
-                    }
-                    const bodypart_str_id &bp = convert_bp( static_cast<body_part>( key_num ) );
-                    const effect &e = i.second;
-
-                    ( *effects )[id][bp] = e;
-                    on_effect_int_change( id, e.get_intensity(), bp );
-                }
-            }
-        }
-    } else {
-        jsin.read( "effects", *effects );
-    }
+    jsin.read( "effects", *effects );
 
     migrate_effects();
 
@@ -5202,23 +4997,9 @@ void event_multiset::serialize( JsonOut &jsout ) const
 void event_multiset::deserialize( const JsonObject &jo )
 {
     jo.allow_omitted_members();
-    JsonArray events = jo.get_array( "event_counts" );
-    if( !events.empty() && events.get_array( 0 ).has_int( 1 ) ) {
-        // TEMPORARY until 0.F
-        // Read legacy format with just ints
-        std::vector<std::pair<cata::event::data_type, int>> copy;
-        jo.read( "event_counts", copy );
-        summaries_.clear();
-        for( const std::pair<cata::event::data_type, int> &p : copy ) {
-            event_summary summary{ p.second, calendar::start_of_game, calendar::start_of_game };
-            summaries_.emplace( p.first, summary );
-        }
-    } else {
-        // Read actual summaries
-        std::vector<std::pair<cata::event::data_type, event_summary>> copy;
-        jo.read( "event_counts", copy );
-        summaries_ = { copy.begin(), copy.end() };
-    }
+    std::vector<std::pair<cata::event::data_type, event_summary>> copy;
+    jo.read( "event_counts", copy );
+    summaries_ = { copy.begin(), copy.end() };
 }
 
 void stats_tracker::serialize( JsonOut &jsout ) const
