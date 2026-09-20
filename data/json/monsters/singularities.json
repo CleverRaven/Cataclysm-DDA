@@ -1192,23 +1192,32 @@
       ]
     },
     "effect": [
+      { "math": [ "reclaimer_zombies_required_standing = rng(45, 55)" ] },
+      { "math": [ "reclaimer_zombies_required_killed = rng(45, 55)" ] },
+      { "math": [ "reclaimer_zombies_killed_warning = rng(25, 30)" ] },
       {
-        "if": { "math": [ "u_mon_species_nearby('ZOMBIE', 'radius': 55, 'attitude': 'hostile') > rng(90, 110)" ] },
+        "if": {
+          "math": [ "u_mon_species_nearby('ZOMBIE', 'radius': 55, 'attitude': 'hostile') > reclaimer_zombies_required_standing" ]
+        },
         "then": [ { "math": [ "zombies_recently_killed++" ] } ]
       },
       {
         "if": {
           "and": [
-            { "math": [ "zombies_recently_killed > rng(35, 45)" ] },
-            { "math": [ "u_mon_species_nearby('ZOMBIE', 'radius': 55, 'attitude': 'hostile') > rng(90, 110)" ] }
+            { "math": [ "zombies_recently_killed > reclaimer_zombies_required_killed" ] },
+            {
+              "math": [ "u_mon_species_nearby('ZOMBIE', 'radius': 55, 'attitude': 'hostile') > reclaimer_zombies_required_standing" ]
+            }
           ]
         },
         "then": [ { "run_eocs": "EOC_SINGULARITY_RECLAIMER_APPEAR", "alpha_talker": "avatar" } ],
         "else": {
           "if": {
             "and": [
-              { "math": [ "zombies_recently_killed > rng(25, 30)" ] },
-              { "math": [ "u_mon_species_nearby('ZOMBIE', 'radius': 55, 'attitude': 'hostile') >= 90" ] },
+              { "math": [ "zombies_recently_killed > reclaimer_zombies_killed_warning" ] },
+              {
+                "math": [ "u_mon_species_nearby('ZOMBIE', 'radius': 55, 'attitude': 'hostile') >= reclaimer_zombies_required_standing" ]
+              },
               { "math": [ "reclaimer_recent_warning == 0" ] }
             ]
           },
