@@ -245,16 +245,6 @@ static void deserialize( weak_ptr_fast<monster> &obj, const JsonObject &data )
     //    }
 }
 
-static tripoint_bub_ms read_legacy_creature_pos( const JsonObject &data )
-{
-    tripoint_bub_ms pos;
-    if( !data.read( "posx", pos.x() ) || !data.read( "posy", pos.y() ) ||
-        !data.read( "posz", pos.z() ) ) {
-        debugmsg( R"(Bad Creature JSON: neither "location" nor "posx", "posy", "posz" found)" );
-    }
-    return pos;
-}
-
 void item_contents::serialize( JsonOut &json ) const
 {
     if( !contents.empty() || !get_ablative_pockets().empty() || !additional_pockets.empty() ) {
@@ -670,10 +660,6 @@ void activity_tracker::deserialize( const JsonObject &jo )
     jo.read( "tracker", tracker );
     jo.read( "intake", intake );
     jo.read( "low_activity_ticks", low_activity_ticks );
-    if( jo.has_member( "tick_counter" ) ) { // migration - remove after 0.G
-        tracker *= 1000;
-        intake *= 1000;
-    }
 }
 
 /**
@@ -906,14 +892,7 @@ void Character::load( const JsonObject &data )
     data.read( "death_eocs", death_eocs );
     worn.on_takeoff( *this );
     clear_worn();
-    // deprecate after 0.G
-    if( data.has_array( "worn" ) ) {
-        std::list<item> items;
-        data.read( "worn", items );
-        worn = outfit( items );
-    } else {
-        data.read( "worn", worn );
-    }
+    data.read( "worn", worn );
     worn.on_item_wear( *this );
 
     inv->clear();
@@ -2310,58 +2289,15 @@ void inventory::json_load_items( const JsonArray &ja )
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// monster.h
 
-// TEMPORARY until 0.G
-void monster::deserialize( const JsonObject &data, const tripoint_abs_sm &submap_loc )
-{
-    data.allow_omitted_members();
-    load( data, submap_loc );
-}
-
 void monster::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
     load( data );
 }
 
-// TEMPORARY until 0.G
-void monster::load( const JsonObject &data, const tripoint_abs_sm &submap_loc )
-{
-    load( data );
-    if( !data.has_member( "location" ) ) {
-        // When loading an older save in which the monster's absolute location is not serialized
-        // and the monster is not in the current map, the submap location inferred by load()
-        // will be wrong. Use the supplied argument to fix it.
-        const tripoint_abs_ms old_loc = pos_abs();
-        point_abs_sm wrong_submap;
-        tripoint_sm_ms_ib local_pos;
-        std::tie( wrong_submap, local_pos ) = project_remain<coords::sm>( pos_abs() );
-        set_pos_abs_only( project_combine( submap_loc.xy(), local_pos ) );
-        // adjust other relative coordinates that would be subject to the same error
-        wander_pos = wander_pos - old_loc + pos_abs();
-        if( goal ) {
-            *goal = *goal - old_loc + pos_abs();
-        }
-    }
-}
-
 void monster::load( const JsonObject &data )
 {
     Creature::load( data );
-
-    // TEMPORARY until 0.G
-    if( !data.has_member( "location" ) ) {
-        set_pos_abs_only( get_map().get_abs( read_legacy_creature_pos( data ) ) );
-        tripoint_bub_ms wand;
-        data.read( "wandx", wand.x() );
-        data.read( "wandy", wand.y() );
-        data.read( "wandz", wand.z() );
-        wander_pos = get_map().get_abs( wand );
-        tripoint_rel_ms destination;
-        data.read( "destination", destination );
-        if( destination != tripoint_rel_ms::zero ) {
-            goal = pos_abs() + destination;
-        }
-    }
 
     const mtype_id montype( data.get_string( "typeid", "invalid*type" ) );
     if( montype.is_valid() ) {
@@ -4973,11 +4909,7 @@ void cata_variant::deserialize( const JsonValue &jsin )
         *this = cata_variant::make<cata_variant_type::bool_>( jsin.get_bool() );
     } else {
         JsonArray ja = jsin.get_array();
-        // FIXME: add_type migration - remove after 0.G
-        if( ja.get_string( 0 ) == "add_type" ) {
-            type_ = cata_variant_type::addiction_id;
-            value_ = add_type_legacy_conv( ja.get_string( 1 ) );
-        } else if( !( ja.read_next( type_ ) && ja.read_next( value_ ) ) ) {
+        if( !( ja.read_next( type_ ) && ja.read_next( value_ ) ) ) {
             ja.throw_error( "Failed to read cata_variant" );
         }
         if( ja.size() > 2 ) {
