@@ -290,7 +290,7 @@
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
-    "name": { "str": "phase immersion helmet (SCBA)" },
+    "name": { "str": "phase immersion helmet (SCBA)", "str_pl": "phase immersion helmets (SCBA)" },
     "description": "This advanced headpiece resembles an astronaut's helmet.  Designed to protect its wearer during extradimensional excursions, it offers unparalleled environmental protection, both in this Earth and beyond.  Its SCBA system is currently engaged.  Activate it to turn it off.",
     "copy-from": "phase_immersion_helmet",
     "use_action": [
