@@ -2240,6 +2240,15 @@ class vehicle
         // for destroying any terrain around vehicle part. Automated mining tool.
         void crash_terrain_around( map &here );
         void transform_terrain( map &here );
+
+        /**
+         * Which way a blade at this mount throws things: -1 for the vehicle's left, 1 for its
+         * right, 0 for a mount sitting exactly on the centerline.  The caller decides what to
+         * do with a centered blade.
+         */
+        int blade_side( const vehicle_part &vp ) const;
+
+
         //main method for the control of individual engines
         void control_engines( map &here );
         //returns whether the engine is enabled or not, and has fueltype

@@ -253,6 +253,7 @@ void vpart_info::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "location", location );
     optional( jo, was_loaded, "durability", durability, 0 );
     optional( jo, was_loaded, "damage_modifier", dmg_mod, 100 );
+    optional( jo, was_loaded, "collision_deflection", collision_deflection, 60 );
     optional( jo, was_loaded, "energy_consumption", energy_consumption, 0_W );
     optional( jo, was_loaded, "power", power, 0_W );
     optional( jo, was_loaded, "epower", epower, 0_W );
@@ -849,6 +850,10 @@ void vpart_info::check() const
     }
     if( dmg_mod < 0 ) {
         debugmsg( "vehicle part %s has negative damage modifier", id.str() );
+    }
+    if( collision_deflection < 0 || collision_deflection > 85 ) {
+        debugmsg( "vehicle part %s has collision deflection outside of the 0-85 degree range",
+                  id.str() );
     }
     if( folded_volume && folded_volume.value() <= 0_ml ) {
         debugmsg( "vehicle part %s has folding part with zero or negative folded volume", id.str() );
