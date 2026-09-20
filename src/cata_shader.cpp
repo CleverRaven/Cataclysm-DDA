@@ -365,6 +365,11 @@ probe_predicate predicate_for( memory_preset p )
 
 } // namespace
 
+bool variant_takes_tint( const variant_kind v )
+{
+    return v == variant_kind::NORMAL || v == variant_kind::SHADOW;
+}
+
 std::optional<memory_preset> memory_preset_from_option_value(
     const std::string &mode )
 {

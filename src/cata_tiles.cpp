@@ -2746,6 +2746,8 @@ bool cata_tiles::draw_sprite_at(
     const int sprite_index = spritelist[sprite_num];
     const texture *sprite_tex = tileset_ptr->get_tile( sprite_index );
 
+    const cata_shader::variant_kind variant =
+        compute_variant_kind( rp.ll, rp.use_night_vision_tiles );
     bool shader_bound = false;
     // Try the GPU shader variant first. On success the main atlas drives
     // the render and the variant transform happens per-pixel in the
@@ -2753,9 +2755,7 @@ bool cata_tiles::draw_sprite_at(
     // preset, clean session-disable) try_begin reports use_atlas; abort_frame
     // means undefined shader state -- latch recovery and throw.
     if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
-        const cata_shader::variant_kind v =
-            compute_variant_kind( rp.ll, rp.use_night_vision_tiles );
-        const cata_shader::variant_pass::begin_result br = vp->try_begin( v, m_zlev_tint_bound );
+        const cata_shader::variant_pass::begin_result br = vp->try_begin( variant, m_zlev_tint_bound );
         if( br == cata_shader::variant_pass::begin_result::abort_frame ) {
             display_buffer_scope_signal_recovery_required();
             throw std::runtime_error(
@@ -2876,7 +2876,8 @@ bool cata_tiles::draw_sprite_at(
 
     // only a bound sprite shader decodes the tint from the vertex color; with
     // no shader SDL would multiply the sprite by it
-    const bool apply_tint = m_cur_tint != nullptr && shader_bound;
+    const bool apply_tint = m_cur_tint != nullptr && shader_bound &&
+                            cata_shader::variant_takes_tint( variant );
     if( apply_tint ) {
         const tint_texture_mod mod = tint_texture_mod_for( *m_cur_tint );
         SetTextureColorMod( sprite_tex->get_texture_ptr(), mod.r, mod.g, mod.b );

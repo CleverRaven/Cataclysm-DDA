@@ -54,6 +54,11 @@ enum class variant_kind : int {
     count
 };
 
+// Whether a variant keeps the sprite's own colors, and so reads as lit by the
+// tile's light. Night vision and the memory overlay rewrite the sprite into a
+// palette of their own, which the colored-light tint has nothing to say about.
+bool variant_takes_tint( variant_kind v );
+
 // Memory map overlay presets that have a baked shader. Mirrors the four
 // named MEMORY_MAP_MODE values; the custom preset has no shader here and
 // falls back to the memory atlas.
@@ -244,8 +249,8 @@ class variant_pass
             abort_frame,
         };
 
-        // tinted selects tint.frag for NORMAL; every other variant shader reads
-        // the tint from the vertex color
+        // tinted selects tint.frag for NORMAL. SHADOW reads the tint from the
+        // vertex color in its own shader, and the rest take no tint at all
         begin_result try_begin( variant_kind v, bool tinted = false );
         bool end();
 

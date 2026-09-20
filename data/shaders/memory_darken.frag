@@ -21,8 +21,6 @@ void main()
     vec3 dim = max(rgb * (85.0 / 256.0), vec3(1.0 / 255.0));
     vec3 result_rgb = mix(dim, rgb, black);
 
-    // Vertex color carries the colored-light tint: rgb = hue, a = 1 - strength.
-    // The renderer default (1,1,1,1) is the identity.
-    float tint_strength = 1.0 - v_vertex_color.a;
-    out_color = vec4(mix(result_rgb, v_vertex_color.rgb, tint_strength), sample_color.a);
+    out_color = vec4(result_rgb * v_vertex_color.rgb,
+                     sample_color.a * v_vertex_color.a);
 }

@@ -216,6 +216,16 @@ TEST_CASE( "variant_pass_tinted_normal_uses_the_atlas_on_software_renderer", "[t
     CHECK( vp->flush() );
 }
 
+TEST_CASE( "only_the_variants_that_keep_the_sprite_palette_take_tint", "[tint_overlay]" )
+{
+    using cata_shader::variant_kind;
+    CHECK( cata_shader::variant_takes_tint( variant_kind::NORMAL ) );
+    CHECK( cata_shader::variant_takes_tint( variant_kind::SHADOW ) );
+    CHECK_FALSE( cata_shader::variant_takes_tint( variant_kind::NIGHT ) );
+    CHECK_FALSE( cata_shader::variant_takes_tint( variant_kind::OVEREXPOSED ) );
+    CHECK_FALSE( cata_shader::variant_takes_tint( variant_kind::MEMORY ) );
+}
+
 // 2x1 strip: opaque white on the left, transparent on the right. asymmetric, so
 // a flip or rotation moves the opaque texel to a different destination
 static SDL_Texture_Ptr make_left_opaque_2x1_texture()
