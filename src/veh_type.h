@@ -456,6 +456,11 @@ class vpart_info
         /** Angle in degrees between the direction of travel and the face of a SNOWPLOW part */
         int collision_deflection = 60;
 
+        /**
+         * Least the vehicle may weigh, unloaded, for a character to install this part; zero
+         * for no requirement.  Vehicle prototypes are not held to it.
+         */
+        units::mass min_vehicle_mass = 0_gram;
 
         /**
          * Electrical power, flat rate energy (per second); positive for generation, negative for consumption
