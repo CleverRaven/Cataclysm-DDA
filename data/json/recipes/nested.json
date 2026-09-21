@@ -7211,12 +7211,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "name": "Woods Soup(Jars and Tins)",
     "description": "Recipes related to putting woods soup in jars and tins.",
-    "nested_category_data": [
-      "soup_woods_jarred",
-      "soup_woods_jarred_3l",
-      "soup_woods_canned",
-      "soup_woods_canned_big"
-    ]
+    "nested_category_data": [ "soup_woods_jarred", "soup_woods_jarred_3l", "soup_woods_canned", "soup_woods_canned_big" ]
   },
   {
     "id": "nested_meat_soup",
