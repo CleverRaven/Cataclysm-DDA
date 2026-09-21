@@ -7229,12 +7229,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "name": "Meat Soup(Jars and Tins)",
     "description": "Recipes related to putting meat soup in jars and tins.",
-    "nested_category_data": [
-      "soup_meat_jarred",
-      "soup_meat_jarred_3l",
-      "soup_meat_canned",
-      "soup_meat_canned_big"
-    ]
+    "nested_category_data": [ "soup_meat_jarred", "soup_meat_jarred_3l", "soup_meat_canned", "soup_meat_canned_big" ]
   },
   {
     "id": "nested_veggy_soup",
