@@ -41,7 +41,7 @@ concurrency:
 # At the time of writing (June 2025), the feature matrix for the above criteria looks like this:
 # | name                                 | OS       | compiler | newest/ oldest | tiles | sound | localize | cmake | backtrace | lto | sanitize | mods |
 # | ------------------------------------ | -------- | -------- | -------------- | ----- | ----- | -------- | ----- | --------- | --- | -------- | ---- |
-# | Basic Build and Test                 | ubuntu   | clang-13 | oldest (clang) |       |       | yes      |       |           |     |          | yes  |
+# | Basic Build and Test                 | ubuntu   | clang-14 | oldest (clang) |       |       | yes      |       |           |     |          | yes  |
 # | Clang 22, Ubuntu, Tiles, ASan        | ubuntu   | clang-22 | newest (clang) | yes   |       | yes      |       | yes       |     | address  |      |
 # | GCC 9, Curses, LTO                   | ubuntu   | gcc-9    | oldest   (gcc) |       |       | yes      |       | yes       | yes |          |      |
 # | GCC 16, Ubuntu, Curses               | ubuntu   | gcc-16   | newest   (gcc) |       |       | yes      |       |           |     |          |      |
@@ -110,8 +110,8 @@ jobs:
       max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
       matrix:
         include:
-          - compiler: clang++-13
-            os: ubuntu-22.04
+          - compiler: clang++-14
+            os: ubuntu-24.04
             tiles: 0
             sound: 0
             cmake: 0
@@ -124,7 +124,8 @@ jobs:
             mods: magiclysm|xedra_evolved
             title: Basic Build and Test (Clang oldest supported, Ubuntu, Curses)
             ccache_limit: 4.5G
-            ccache_key: linux-llvm-13
+            ccache_key: linux-llvm-14
+            extra_package: clang-14
 
           - compiler: clang++
             os: macos-15
