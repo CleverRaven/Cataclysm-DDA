@@ -7135,10 +7135,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "name": "Pickled Meat(Jars and Tins)",
     "description": "Recipes related to putting pickled meat in jars and tins.",
-    "nested_category_data": [
-      "meat_pickled_jarred",
-      "meat_pickled_jarred_3l"
-    ]
+    "nested_category_data": [ "meat_pickled_jarred", "meat_pickled_jarred_3l" ]
   },
   {
     "id": "nested_canned_fish",
