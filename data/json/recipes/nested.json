@@ -7204,13 +7204,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "name": "Canned Chicken(Jars and Tins)",
     "description": "Recipes related to putting canned chicken in jars and tins.",
-    "nested_category_data": [
-      "can_chicken_jarred",
-      "can_chicken_jarred_3l",
-      "can_chicken",
-      "can_chicken_canned_medium",
-      "can_chicken_canned_big"
-    ]
+    "nested_category_data": [ "can_chicken_jarred", "can_chicken_jarred_3l", "can_chicken", "can_chicken_canned_medium", "can_chicken_canned_big" ]
   },
   {
     "id": "nested_woods_soup",
