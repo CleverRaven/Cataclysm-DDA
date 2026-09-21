@@ -7083,12 +7083,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "name": "Dogfood(Jars and Tins)",
     "description": "Recipes related to putting dogfood in jars and tins.",
-    "nested_category_data": [
-      "dogfood_jarred",
-      "dogfood_jarred_3l",
-      "dogfood_canned",
-      "dogfood_canned_big"
-    ]
+    "nested_category_data": [ "dogfood_jarred", "dogfood_jarred_3l", "dogfood_canned", "dogfood_canned_big" ]
   },
   {
     "id": "nested_catfood",
