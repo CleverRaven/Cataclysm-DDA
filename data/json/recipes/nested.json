@@ -7073,10 +7073,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "name": "Pickled Offal(Jars)",
     "description": "Recipes related to putting pickled offal in jars.",
-    "nested_category_data": [
-      "offal_pickled_jarred",
-      "offal_pickled_jarred_3l"
-    ]
+    "nested_category_data": [ "offal_pickled_jarred", "offal_pickled_jarred_3l" ]
   },
   {
     "id": "nested_dogfood",
