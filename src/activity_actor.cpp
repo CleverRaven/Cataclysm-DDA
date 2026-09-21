@@ -14258,6 +14258,8 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     // Track whether the knock-down gate blocked any item (item so heavy it
     // would cause the character to collapse under its weight).
     bool knockdown_gate_fired = false;
+    // whether this call took anything or only staged state
+    bool picked_anything_this_call = false;
     // picked_up_this_pass is a member variable that persists across do_turn
     // calls so batching still fires when move exhaustion splits pickup and
     // batching into separate turns. Reset after the batching check evaluates.
@@ -14479,38 +14481,32 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                             drag_ok = false;
                         }
                     }
-                    if( !drag_ok ) {
-                        // Cart would be too heavy to drag - stop loading.
+                    if( drag_ok ) {
+                        std::optional<vehicle_stack::iterator> vehstack = veh.add_item( here, ovp->part(),
+                                copy_thisitem );
+                        if( vehstack ) {
+                            thisitem_loc = item_location( vehicle_cursor( veh, ovp->part_index() ),
+                                                          &*vehstack.value() );
+                        }
+                    } else {
+                        // cart is at its drag limit, so carry the item instead of
+                        // leaving it
                         cart_or_carry_blocked = true;
                         drag_gate_fired = true;
-                        continue;
-                    }
-                    std::optional<vehicle_stack::iterator> vehstack = veh.add_item( here, ovp->part(),
-                            copy_thisitem );
-                    if( vehstack ) {
-                        thisitem_loc = item_location( vehicle_cursor( veh, ovp->part_index() ),
-                                                      &*vehstack.value() );
                     }
                 }
             }
             if( !thisitem_loc ) {
-                if( !you.is_avatar() || you.as_avatar()->get_grab_type() != object_type::VEHICLE ) {
-                    // Knock-down gate: never pick up items so heavy they would
-                    // cause the character to collapse (exceed max_pickup_capacity).
-                    // TODO: handle these items via hauling instead of skipping them.
-                    if( you.weight_carried() + copy_thisitem.weight() > you.max_pickup_capacity() ) {
-                        cart_or_carry_blocked = true;
+                // every way into the inventory goes through the same gate: cart
+                // refused the item, cargo was full, or there is no cart
+                const zone_sorting::carry_gate_result gate =
+                    zone_sorting::carry_gate_check( you, copy_thisitem, !picked_up_stuff.empty() );
+                if( gate != zone_sorting::carry_gate_result::ok ) {
+                    cart_or_carry_blocked = true;
+                    if( gate == zone_sorting::carry_gate_result::knockdown ) {
                         knockdown_gate_fired = true;
-                        continue;
                     }
-                    // No-grab weight gate: stop picking up when over capacity.
-                    // Always allow at least one item so heavy things like corpses
-                    // can be sorted one at a time.
-                    if( !picked_up_stuff.empty() &&
-                        you.weight_carried() + copy_thisitem.weight() > you.weight_capacity() ) {
-                        cart_or_carry_blocked = true;
-                        continue;
-                    }
+                    continue;
                 }
                 thisitem_loc = you.try_add( copy_thisitem );
             }
@@ -14567,11 +14563,19 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         // OK, we can sort this!
         picked_up_stuff.emplace_back( thisitem_loc );
         picked_up_this_pass = true;
+        picked_anything_this_call = true;
         note_progress();
         // out of moves or item was unloaded
         if( you.get_moves() <= 0 || *move_and_reset ) {
             return;
         }
+    }
+
+    if( !picked_anything_this_call && drag_gate_fired ) {
+        // cart is at its drag limit and nothing here fits the character, so
+        // this tile stays unusable until the load or the position changes.
+        // stage_think clears unreachable_sources on either
+        unreachable_sources.emplace( src );
     }
 
     if( picked_up_stuff.empty() ) {
@@ -14785,14 +14789,11 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                             fits = true;
                         }
                     }
-                    if( !fits && you.can_stash( *it ) ) {
-                        if( you.is_avatar() &&
-                            you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
-                            fits = true;
-                        } else {
-                            fits = ( you.weight_carried() + it->weight() <=
-                                     you.weight_capacity() );
-                        }
+                    if( !fits ) {
+                        // same gate the pickup path uses. a looser predicate picks
+                        // targets nothing can be taken from
+                        fits = zone_sorting::carry_gate_check( you, *it, !picked_up_stuff.empty() ) ==
+                               zone_sorting::carry_gate_result::ok;
                     }
                     if( fits ) {
                         should_batch = true;

@@ -3482,7 +3482,122 @@ TEST_CASE( "zone_sorting_adjacent_sources_do_not_oscillate",
     // bounded on purpose: a sorter that keeps trading the two sources as each
     // other's batch target spends no moves, and an unbounded runner sits in
     // that loop forever
-    REQUIRE( process_activity_bounded( dummy, 200, 20000 ) );
+    REQUIRE( process_activity_bounded( dummy, 100, 2000 ) );
+}
+
+// builds the sort fixture the drag gate tests share: weak avatar, grabbed cart
+// at its drag edge, one unsorted tile of boulders, a food zone to the south.
+// returns the cart
+static vehicle *setup_drag_limited_sort( avatar &dummy, map &here,
+        const tripoint_bub_ms &start_pos, int boulders )
+{
+    dummy.set_str_base( 4 );
+    dummy.set_str_bonus( 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+
+    const tripoint_bub_ms cart_pos = start_pos + tripoint::east;
+    vehicle *cart = setup_grabbed_cart( dummy, here, start_pos, tripoint_rel_ms::east );
+
+    const tripoint_bub_ms src_pos = start_pos + tripoint::south;
+    const tripoint_bub_ms dest_pos = start_pos + tripoint( 0, 8, 0 );
+    here.ter_set( start_pos, ter_t_floor );
+    here.ter_set( src_pos, ter_t_floor );
+    here.ter_set( dest_pos, ter_t_floor );
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, here.get_abs( src_pos ) );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+    for( int i = 0; i < boulders; i++ ) {
+        here.add_item_or_charges( src_pos, item( itype_test_heavy_boulder ) );
+    }
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    REQUIRE( load_cart_to_drag_edge( dummy, here, *cart, cart_pos, dest_abs ) );
+    return cart;
+}
+
+static int count_carried( const Character &who, const itype_id &id )
+{
+    int carried = 0;
+    who.visit_items( [&carried, &id]( const item * it, const item * ) {
+        if( it->typeId() == id ) {
+            carried++;
+        }
+        return VisitResponse::NEXT;
+    } );
+    return carried;
+}
+
+TEST_CASE( "zone_sorting_drag_refused_items_reach_the_inventory",
+           "[zones][items][activities][sorting][vehicle][weight]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    const tripoint_bub_ms src_pos = start_pos + tripoint::south;
+    const int boulders = 3;
+
+    SECTION( "into a worn container" ) {
+        dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
+        setup_drag_limited_sort( dummy, here, start_pos, boulders );
+
+        dummy.assign_activity( zone_sort_activity_actor() );
+        REQUIRE( process_activity_bounded( dummy, 100, 2000 ) );
+
+        const int at_source = count_items_or_charges( src_pos, itype_test_heavy_boulder,
+                              std::nullopt );
+        const int carried = count_carried( dummy, itype_test_heavy_boulder );
+        CAPTURE( at_source );
+        CAPTURE( carried );
+        // cart takes one before it hits its limit; the rest have to go
+        // somewhere the character can hold them
+        CHECK( carried > 0 );
+        CHECK( at_source < boulders - 1 );
+    }
+
+    SECTION( "by wielding when there is no container" ) {
+        REQUIRE( dummy.worn.empty() );
+        setup_drag_limited_sort( dummy, here, start_pos, boulders );
+        REQUIRE_FALSE( dummy.can_stash( item( itype_test_heavy_boulder ) ) );
+
+        dummy.assign_activity( zone_sort_activity_actor() );
+        REQUIRE( process_activity_bounded( dummy, 100, 2000 ) );
+
+        const int at_source = count_items_or_charges( src_pos, itype_test_heavy_boulder,
+                              std::nullopt );
+        CAPTURE( at_source );
+        CHECK( at_source < boulders - 1 );
+    }
+
+    SECTION( "but not past the carry limit" ) {
+        dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
+        setup_drag_limited_sort( dummy, here, start_pos, boulders );
+        // load the character over weight_capacity. i_add spills to the ground
+        // once the pockets are full, so stop when carried weight stops rising
+        for( int i = 0; i < 100 && dummy.weight_carried() <= dummy.weight_capacity(); i++ ) {
+            const units::mass before = dummy.weight_carried();
+            dummy.i_add( item( itype_test_heavy_boulder ) );
+            if( dummy.weight_carried() <= before ) {
+                break;
+            }
+        }
+        REQUIRE( dummy.weight_carried() > dummy.weight_capacity() );
+        const int carried_before = count_carried( dummy, itype_test_heavy_boulder );
+
+        dummy.assign_activity( zone_sort_activity_actor() );
+        REQUIRE( process_activity_bounded( dummy, 100, 2000 ) );
+
+        CHECK( count_carried( dummy, itype_test_heavy_boulder ) == carried_before );
+        CHECK( count_items_or_charges( src_pos, itype_test_heavy_boulder,
+                                       std::nullopt ) == boulders - 1 );
+    }
 }
 
 namespace
