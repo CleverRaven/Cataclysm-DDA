@@ -8,7 +8,7 @@
     "name_unique": "Barry Isherwood",
     "gender": "male",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_ISHERWOOD_BARRY_RESCUE",
     "faction": "isherwood_family",
     "death_eocs": [ "EOC_BARRY_ISHERWOOD_DIE" ]

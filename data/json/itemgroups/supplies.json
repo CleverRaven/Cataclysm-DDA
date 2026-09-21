@@ -100,6 +100,32 @@
     "items": [ { "item": "chem_zinc_powder", "count": [ 2, 175 ] } ]
   },
   {
+    "id": "potassiumchloride_small_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, filled 80% as new",
+    "items": [ { "item": "chem_potassium_chloride", "count": 355 } ]
+  },
+  {
+    "id": "potassiumchloride_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
+    "items": [ { "item": "chem_potassium_chloride", "count": [ 2, 355 ] } ]
+  },
+  {
+    "id": "potassiumhydroxide_small_bottle",
+    "type": "item_group",
+    "container-item": "bag_plastic_small",
+    "items": [ { "item": "chem_potassium_hydroxide", "count": 350 } ]
+  },
+  {
+    "id": "potassiumhydroxide_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bag_plastic_small",
+    "items": [ { "item": "chem_potassium_hydroxide", "count": [ 2, 350 ] } ]
+  },
+  {
     "id": "redphosphorus_small_bottle",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
@@ -198,6 +224,71 @@
     "items": [ { "item": "detergent", "count": [ 2, 129 ] } ]
   },
   {
+    "id": "bleach_jug",
+    "type": "item_group",
+    "container-item": "jug_plastic",
+    "//": "128 oz",
+    "items": [ { "item": "bleach", "count": -1 } ]
+  },
+  {
+    "id": "bleach_jug_part",
+    "type": "item_group",
+    "container-item": "jug_plastic",
+    "items": [ { "item": "bleach", "count": [ 125, -1 ] } ]
+  },
+  {
+    "id": "lye_bottle_twoliter",
+    "type": "item_group",
+    "container-item": "bottle_twoliter",
+    "//": "67.6 oz, or 2L",
+    "items": [ { "item": "lye", "count": 40 } ]
+  },
+  {
+    "id": "lye_bottle_twoliter_part",
+    "type": "item_group",
+    "container-item": "bottle_twoliter",
+    "items": [ { "item": "lye", "count": [ 1, 40 ] } ]
+  },
+  {
+    "id": "lye_potassium_bottle_liter",
+    "type": "item_group",
+    "container-item": "bottle_twoliter",
+    "//": "32 oz, or 1L",
+    "items": [ { "item": "lye", "count": 20 } ]
+  },
+  {
+    "id": "lye_potassium_bottle_liter_part",
+    "type": "item_group",
+    "container-item": "bottle_twoliter",
+    "items": [ { "item": "lye", "count": [ 1, 20 ] } ]
+  },
+  {
+    "id": "ammonia_hydroxide_bottle_twoliter",
+    "type": "item_group",
+    "container-item": "bottle_twoliter",
+    "//": "64 oz",
+    "items": [ { "item": "ammonia_hydroxide", "count": 15 } ]
+  },
+  {
+    "id": "ammonia_hydroxide_bottle_twoliter_part",
+    "type": "item_group",
+    "container-item": "bottle_twoliter",
+    "items": [ { "item": "ammonia_hydroxide", "count": [ 1, 15 ] } ]
+  },
+  {
+    "id": "ethanol_bottle_liter",
+    "type": "item_group",
+    "container-item": "bottle_liter",
+    "//": "32 oz",
+    "items": [ { "item": "chem_ethanol", "count": 950 } ]
+  },
+  {
+    "id": "ethanol_bottle_liter_part",
+    "type": "item_group",
+    "container-item": "bottle_liter",
+    "items": [ { "item": "chem_ethanol", "count": [ 15, 950 ] } ]
+  },
+  {
     "id": "magnesiumpowder_small_bag",
     "type": "item_group",
     "container-item": "box_small",
@@ -210,6 +301,20 @@
     "container-item": "box_small",
     "//": "17 oz bag, opened with a variable amount",
     "items": [ { "item": "magnesium", "count": [ 2, 200 ] } ]
+  },
+  {
+    "id": "saltpeter_canvas_bag",
+    "type": "item_group",
+    "container-item": "bag_canvas",
+    "//": "15 liter bag, filled 80% as new",
+    "items": [ { "item": "chem_saltpetre", "count": 300 } ]
+  },
+  {
+    "id": "saltpeter_canvas_bag_part",
+    "type": "item_group",
+    "container-item": "bag_canvas",
+    "//": "15 liter bag, opened with a variable amount",
+    "items": [ { "item": "chem_saltpetre", "count": [ 2, 300 ] } ]
   },
   {
     "id": "sandbag",
@@ -561,6 +666,18 @@
     "type": "item_group",
     "container-item": "spool_small",
     "items": [ { "item": "solder_wire", "count": [ 0, 113 ] } ]
+  },
+  {
+    "id": "bag_garbage_box",
+    "type": "item_group",
+    "container-item": "box_small",
+    "items": [ { "item": "bag_garbage", "count": 20 } ]
+  },
+  {
+    "id": "bag_garbage_box_part",
+    "type": "item_group",
+    "container-item": "box_small",
+    "items": [ { "item": "bag_garbage", "count": [ 0, 20 ] } ]
   },
   {
     "id": "paint",
@@ -942,14 +1059,14 @@
       { "item": "salt_water", "prob": 20, "charges": [ 1, -1 ] },
       { "group": "detergent_small_box_part", "prob": 10 },
       { "group": "borax_box_part", "prob": 10 },
-      { "item": "bleach", "prob": 10, "charges": [ 10, -1 ] },
+      { "group": "bleach_jug_part", "prob": 10 },
       { "item": "ammonia_liquid", "prob": 20, "charges": [ 6, -1 ] },
-      { "item": "ammonia_hydroxide", "prob": 10, "charges": [ 10, -1 ] },
+      { "group": "ammonia_hydroxide_bottle_twoliter_part", "prob": 10 },
       { "prob": 10, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
       { "group": "oxy_powder_bottle_part", "prob": 10 },
       [ "ash", 5 ],
-      [ "lye", 5 ],
-      [ "lye_potassium", 5 ],
+      { "group": "lye_bottle_twoliter_part", "prob": 5 },
+      { "group": "lye_potassium_bottle_liter_part", "prob": 5 },
       { "group": "lye_powder_bottle_part", "prob": 10 },
       { "group": "magnesiumpowder_small_bag_part", "prob": 10 },
       { "group": "charcoal_bag_part", "prob": 10 },
@@ -1002,10 +1119,10 @@
       { "item": "polycarbonate_sheet", "prob": 7, "count": [ 1, 30 ] },
       { "prob": 10, "group": "salt_bag_plastic" },
       { "prob": 10, "group": "sugar_bag_plastic" },
-      { "item": "chem_ethanol", "prob": 10, "charges": [ 250, -1 ] },
+      { "group": "ethanol_bottle_liter_part", "prob": 10 },
       [ "oxygen_cylinder", 8 ],
       { "prob": 16, "group": "chem_citric_acid_bottle_glass_100_inf" },
-      { "item": "chem_ethanol", "prob": 10, "charges": [ 250, -1 ] },
+      { "group": "ethanol_bottle_liter_part", "prob": 10 },
       { "item": "chem_turpentine", "prob": 10, "charges": [ 20, -1 ] }
     ]
   },
@@ -1073,7 +1190,7 @@
     "type": "item_group",
     "//": "Combustible fuels within their default containers",
     "items": [
-      [ "chem_ethanol", 10 ],
+      { "group": "ethanol_bottle_liter_part", "prob": 10 },
       [ "denat_alcohol", 12 ],
       [ "denat_alcohol", 8 ],
       [ "chem_methanol", 10 ],
@@ -1139,7 +1256,11 @@
     "id": "supplies_metal_precious",
     "type": "item_group",
     "//": "Metals of significant economic value before the Cataclysm",
-    "items": [ [ "gold_small", 100 ], [ "silver_small", 100 ] ]
+    "items": [
+      { "item": "gold_small", "prob": 100, "count": [ 50, 150 ] },
+      { "item": "silver_small", "prob": 100, "count": [ 50, 150 ] },
+      { "item": "platinum_small", "prob": 100, "count": [ 50, 150 ] }
+    ]
   },
   {
     "id": "supplies_mechanics",

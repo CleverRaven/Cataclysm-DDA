@@ -222,5 +222,24 @@
     "folded_volume": "1500 ml",
     "breaks_into": [ { "item": "medium_battery_cell", "count": [ 0, 1 ] }, { "item": "scrap", "count": [ 1, 4 ] } ],
     "flags": [ "BATTERY", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_power_station_portable",
+    "name": { "str": "portable power station" },
+    "categories": [ "energy" ],
+    "looks_like": "battery_car",
+    "color": "red",
+    "flags": [ "APPLIANCE" ],
+    "description": "A portable power station wired for grid use.",
+    "item": "power_station_portable",
+    "breaks_into": [
+      { "item": "e_scrap", "count": [ 10, 15 ] },
+      { "item": "plastic_chunk", "count": [ 14, 20 ] },
+      { "item": "scrap", "count": [ 5, 10 ] }
+    ],
+    "durability": 120,
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "B", "symbols_broken": "#" } ]
   }
 ]

@@ -146,16 +146,20 @@ static void move_selection( T &data, const int amount )
 
     auto it = std::find( data.filtered_list.begin(), data.filtered_list.end(), data.selected_entry );
 
-    if( ( amount < 0 && it == data.filtered_list.begin() ) || ( amount > 0 &&
-            amount > std::distance( it, data.filtered_list.end() ) ) ) {
+    // NOLINTBEGIN (bugprone-branch-clone)
+    // order of conditions is important
+    if( amount > 0 && it == data.filtered_list.end() - 1 ) {
+        data.selected_entry = *data.filtered_list.begin();
+    } else if( ( amount < 0 && it == data.filtered_list.begin() ) || ( amount > 0 &&
+               amount > std::distance( it, data.filtered_list.end() - 1 ) ) ) {
         data.selected_entry = *data.filtered_list.rbegin();
-    } else if( ( amount < 0 && amount < std::distance( it, data.filtered_list.begin() ) ) ||
-               ( amount > 0 && it == data.filtered_list.end() - 1 ) ) {
+    } else if( amount < 0 && amount < std::distance( it, data.filtered_list.begin() ) ) {
         data.selected_entry = *data.filtered_list.begin();
     } else {
         std::advance( it, amount );
         data.selected_entry = *it;
     }
+    // NOLINTEND (bugprone-branch-clone)
 }
 
 tab_data::tab_data( const std::string &title ) : title( title )

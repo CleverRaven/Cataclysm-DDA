@@ -30,7 +30,7 @@
     "id": "bio_inventor_calorie_storage",
     "type": "bionic",
     "name": { "str": "Calorie Etherealization System" },
-    "description": "The best place to store calories is inside your own body.  Unfortunately, caloric oversaturation causes issues that impede this perfect storage.  Thanks to magnets, orbital tragectories and your own ingenuity, your calories are now close to you and will be consumed as needed without penalties.  The process is imperfect and the orbit can't be maintained without power, but nothing preserves calories this well.",
+    "description": "The best place to store calories is inside your own body.  Unfortunately, caloric oversaturation causes issues that impede this perfect storage.  Thanks to magnets, orbital trajectories and your own ingenuity, your calories are now close to you and will be consumed as needed without penalties.  The process is imperfect and the orbit can't be maintained without power, but nothing preserves calories this well.",
     "occupied_bodyparts": [ [ "torso", 8 ] ],
     "act_cost": "10 kJ",
     "react_cost": "100 J",

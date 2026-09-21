@@ -63,7 +63,7 @@
     "class": "test_npc_trader_class",
     "faction": "debuggers",
     "attitude": 1,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_TEST_START"
   }
 ]

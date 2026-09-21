@@ -6,7 +6,7 @@
     "items": [
       { "item": "mortar_pestle", "prob": 40 },
       { "item": "corpse_ash", "prob": 15, "container-item": "null", "entry-wrapper": "clay_pot", "count": [ 5, 10 ] },
-      { "item": "ash", "prob": 15, "container-item": "null", "entry-wrapper": "clay_pot", "count": [ 10, 20 ] },
+      { "item": "ash", "prob": 15, "container-item": "null", "entry-wrapper": "clay_pot", "count": [ 1, 2 ] },
       {
         "item": "wild_herbs",
         "prob": 75,

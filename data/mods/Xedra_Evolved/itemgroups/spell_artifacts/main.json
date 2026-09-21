@@ -82,7 +82,9 @@
       { "group": "dreamer_artifact", "prob": 50 },
       { "group": "dreamsmith_artifact", "prob": 50 },
       { "group": "inventor_creations", "prob": 50 },
-      { "group": "xe_nether_cult_artifact", "prob": 25 }
+      { "group": "nether_sorcery_books", "prob": 25 },
+      { "group": "xe_nether_cult_artifact", "prob": 25 },
+      { "item": "hammer_fey_smith", "prob": 15 }
     ]
   }
 ]

@@ -16,5 +16,37 @@
       { "monster": "mon_zombie_psi_void", "weight": 100 },
       { "monster": "mon_zombie_master", "weight": 25 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE",
+    "monsters": [
+      { "group": "GROUP_ZOMBIE_UPGRADE", "weight": 95 },
+      { "monster": "mon_feral_human_bio", "weight": 1 },
+      { "monster": "mon_feral_human_clair", "weight": 1 },
+      { "monster": "mon_feral_human_electrokin", "weight": 1 },
+      { "monster": "mon_feral_human_photokin", "weight": 1 },
+      { "monster": "mon_feral_human_pyrokin", "weight": 1 },
+      { "monster": "mon_feral_human_telekin", "weight": 1 },
+      { "monster": "mon_feral_human_teep", "weight": 1 },
+      { "monster": "mon_feral_human_porter", "weight": 1 },
+      { "monster": "mon_feral_human_vita", "weight": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_MOM_FERAL_ZOMBIE_UPGRADE_HIGHER_ODDS",
+    "monsters": [
+      { "group": "GROUP_ZOMBIE_UPGRADE", "weight": 45 },
+      { "monster": "mon_feral_human_bio", "weight": 1 },
+      { "monster": "mon_feral_human_clair", "weight": 1 },
+      { "monster": "mon_feral_human_electrokin", "weight": 1 },
+      { "monster": "mon_feral_human_photokin", "weight": 1 },
+      { "monster": "mon_feral_human_pyrokin", "weight": 1 },
+      { "monster": "mon_feral_human_telekin", "weight": 1 },
+      { "monster": "mon_feral_human_teep", "weight": 1 },
+      { "monster": "mon_feral_human_porter", "weight": 1 },
+      { "monster": "mon_feral_human_vita", "weight": 1 }
+    ]
   }
 ]

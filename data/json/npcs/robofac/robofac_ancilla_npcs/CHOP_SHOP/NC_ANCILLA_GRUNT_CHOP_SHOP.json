@@ -6,7 +6,7 @@
     "name_unique": "armed mercenary",
     "class": "NC_ANCILLA_GRUNT_CHOP_SHOP",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_ROBOFAC_MERC_CHOP_SHOP",
     "faction": "robofac_auxiliaries_chop_shop"
   },
@@ -17,7 +17,7 @@
     "name_unique": "armed mercenary",
     "class": "NC_ANCILLA_GRUNT_CHOP_SHOP",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_ROBOFAC_MERC_CHOP_SHOP",
     "faction": "robofac_auxiliaries_chop_shop"
   },
@@ -28,7 +28,7 @@
     "name_unique": "armed mercenary",
     "class": "NC_ANCILLA_GRUNT",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_ROBOFAC_MERC_CHOP_SHOP",
     "faction": "robofac_auxiliaries_chop_shop"
   },
@@ -39,7 +39,7 @@
     "name_unique": "armed mercenary",
     "class": "NC_ANCILLA_GRUNT_CHOP_SHOP",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_ROBOFAC_MERC_CHOP_SHOP",
     "faction": "robofac_auxiliaries_chop_shop"
   },
@@ -50,7 +50,7 @@
     "name_unique": "armed mercenary",
     "class": "NC_ANCILLA_GRUNT_CHOP_SHOP",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_ROBOFAC_MERC_CHOP_SHOP",
     "faction": "robofac_auxiliaries_chop_shop"
   },

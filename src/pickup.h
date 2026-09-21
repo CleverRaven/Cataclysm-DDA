@@ -33,6 +33,8 @@ struct pick_info {
     item_location src_container;
     item_location dst;
 
+    item_location highlight;
+
     int extra_moves_per_distance = 0;
 
     units::volume picked_up_volume = 0_ml;
@@ -47,7 +49,7 @@ struct pick_info {
  */
 bool do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
                 bool autopickup, bool &stash_successful, Pickup::pick_info &info );
-bool query_thief( const item &it );
+bool query_thief( item &it );
 
 enum from_where : int {
     from_cargo = 0,

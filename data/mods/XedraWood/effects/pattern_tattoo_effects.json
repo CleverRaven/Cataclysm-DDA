@@ -1,0 +1,25 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_pattern_tattoo_meditation",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "flags": [ "BLIND" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_flames_tattoo_one",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mountain_tattoo_three",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "removes_effects": [ "stunned", "downed", "dazed" ]
+  }
+]

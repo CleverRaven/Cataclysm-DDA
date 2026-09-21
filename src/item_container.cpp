@@ -12,8 +12,10 @@
 #include <cmath>
 #include <functional>
 #include <list>
+#include <map>
 #include <memory>
 #include <optional>
+#include <set>
 #include <string>
 #include <type_traits>
 #include <unordered_map>
@@ -29,6 +31,7 @@
 #include "enums.h"
 #include "flag.h"
 #include "flat_set.h"
+#include "gun_mode.h"
 #include "item_category.h"
 #include "item_contents.h"
 #include "item_location.h"
@@ -39,8 +42,6 @@
 #include "iuse_actor.h"
 #include "pocket_type.h"
 #include "ret_val.h"
-#include "string_formatter.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -167,6 +168,85 @@ void item::update_modified_pockets()
     }
 
     contents.update_modified_pockets( std::move( mag_or_mag_wells ), std::move( container_pockets ) );
+
+    // A gunmod's hide_modes can remove the gun's selected mode; reselect a
+    // survivor. All modes hidden leaves no selection, and shot resolution refuses.
+    if( is_gun() ) {
+        const std::map<gun_mode_id, gun_mode> modes = gun_all_modes();
+        if( !modes.empty() && modes.count( gun_get_mode_id() ) == 0 ) {
+            gun_cycle_mode();
+        }
+    }
+
+    // Restamp per-pocket capacity scaling from installed mods. Reset first so
+    // removing a mod restores base capacity; combine multiple mods by product.
+    for( item_pocket *p : get_pockets( []( const item_pocket & ) {
+    return true;
+} ) ) {
+        p->set_capacity_mult( 1.0f );
+    }
+    for( const item *mod : mods() ) {
+        if( mod->type == nullptr || !mod->type->mod ) {
+            continue;
+        }
+        for( const pocket_capacity_mod &cm : mod->type->mod->capacity_mods ) {
+            item_pocket *p = pocket_by_id( cm.pocket );
+            if( p != nullptr && p->is_type( pocket_type::MAGAZINE ) ) {
+                p->set_capacity_mult( p->get_capacity_mult() * cm.multiply );
+            }
+        }
+    }
+
+    validate_mod_pocket_refs();
+}
+
+void item::validate_mod_pocket_refs() const
+{
+    if( !is_gun() && !is_tool() ) {
+        return;
+    }
+    std::set<std::string> seen;
+    for( const item_pocket *p : get_pockets( []( const item_pocket & q ) {
+    return q.get_pocket_data() && !q.get_pocket_data()->pocket_id.empty();
+    } ) ) {
+        const std::string &id = p->get_pocket_data()->pocket_id;
+        if( !seen.insert( id ).second ) {
+            debugmsg( "%s has duplicate pocket id \"%s\" after mod merge", tname(), id );
+        }
+    }
+    const auto check = [this]( const std::string & id, const char *what ) {
+        if( pocket_by_id( id ) == nullptr ) {
+            debugmsg( "%s: mod %s references unknown pocket id \"%s\"", tname(), what, id );
+        }
+    };
+    for( const item *mod : mods() ) {
+        if( mod->type == nullptr ) {
+            continue;
+        }
+        if( mod->type->gunmod ) {
+            for( const std::pair<const gun_mode_id, std::vector<pocket_consumption_entry>> &mp :
+                 mod->type->gunmod->firing_requirements.per_mode ) {
+                for( const pocket_consumption_entry &e : mp.second ) {
+                    check( e.pocket, "mode_firing_requirements" );
+                }
+            }
+        }
+        if( mod->type->mod ) {
+            for( const pocket_consumption_mod &cm : mod->type->mod->consumption_mods ) {
+                check( cm.pocket, "consumption_mods" );
+            }
+            for( const pocket_capacity_mod &cm : mod->type->mod->capacity_mods ) {
+                const item_pocket *p = pocket_by_id( cm.pocket );
+                if( p == nullptr ) {
+                    debugmsg( "%s: mod capacity_mods references unknown pocket id \"%s\"",
+                              tname(), cm.pocket );
+                } else if( !p->is_type( pocket_type::MAGAZINE ) ) {
+                    debugmsg( "%s: capacity_mods pocket \"%s\" is not an integral MAGAZINE; "
+                              "well capacity is the loaded magazine's", tname(), cm.pocket );
+                }
+            }
+        }
+    }
 }
 
 bool item::same_contents( const item &rhs ) const
@@ -665,11 +745,11 @@ units::volume item::get_biggest_pocket_capacity() const
 }
 
 int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
-        std::string *err ) const
+        rem_cap_return *err ) const
 {
-    const auto error = [ &err ]( const std::string & message ) {
+    const auto error = [ &err ]( const rem_cap_return & type ) {
         if( err != nullptr ) {
-            *err = message;
+            *err = type;
         }
         return 0;
     };
@@ -678,25 +758,22 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buck
 
     if( can_contain_partial( liquid ).success() ) {
         if( !contents.can_contain_liquid( allow_bucket ) ) {
-            return error( string_format( _( "That %s must be on the ground or held to hold contents!" ),
-                                         tname() ) );
+            return error( rem_cap_return::BUCKET_FAIL );
         }
         remaining_capacity = contents.remaining_capacity_for_liquid( liquid );
     } else {
-        return error( string_format( _( "That %1$s won't hold %2$s." ), tname(),
-                                     liquid.tname() ) );
+        return error( rem_cap_return::ANOTHER_LIQUID_INSIDE );
     }
 
     if( remaining_capacity <= 0 ) {
-        return error( string_format( _( "Your %1$s can't hold any more %2$s." ), tname(),
-                                     liquid.tname() ) );
+        return error( rem_cap_return::NO_SPACE );
     }
 
     return remaining_capacity;
 }
 
 int item::get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
-        std::string *err ) const
+        rem_cap_return *err ) const
 {
     const bool allow_bucket = ( p.get_wielded_item() && this == &*p.get_wielded_item() ) ||
                               !p.has_item( *this );
@@ -706,7 +783,7 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, const Character
         res = std::min( contents.remaining_capacity_for_liquid( liquid ), res );
 
         if( res == 0 && err != nullptr ) {
-            *err = string_format( _( "That %s doesn't have room to expand." ), tname() );
+            *err = rem_cap_return::NO_SPACE_IN_PARENT;
         }
     }
 
@@ -1108,9 +1185,9 @@ const item &item::legacy_front() const
     return contents.legacy_front();
 }
 
-void item::favorite_settings_menu()
+void item::favorite_settings_menu( item_location il )
 {
-    contents.favorite_settings_menu( this );
+    contents.favorite_settings_menu( std::move( il ) );
 }
 
 void item::combine( const item_contents &read_input, bool convert )

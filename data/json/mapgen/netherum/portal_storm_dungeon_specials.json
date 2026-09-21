@@ -1,0 +1,37 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "portal_storm_dungeon_teleporter" ],
+    "object": {
+      "rows": [
+        "----Q---Q--oo----Q-----Q",
+        "-         -  -          ",
+        "Q     Q   -  -          ",
+        "-     -   -  -------Q-  ",
+        "-- --------  -       -  ",
+        "-         o  o       -  ",
+        "Q         -  ------  -  ",
+        "--------- -  -       -  ",
+        "-     -   -  -   Q      ",
+        "Q     -  --  --  -   Q  ",
+        "-----o----    ----o-----",
+        "o          TT           ",
+        "o          TT           ",
+        "-----o----    ----o-----",
+        "Q   -    --  --  -   -  ",
+        "-   O     -  - ---      ",
+        "-  ----- --  -   -----  ",
+        "-   -     -  ---     -  ",
+        "Q   Q     o  o       -Q-",
+        "-   -- ----  -       -  ",
+        "--- -     -  --Q--- --  ",
+        "-   ----- -  -   -   - -",
+        "Q  --     Q  -   -   o  ",
+        "-         -  Q       -  "
+      ],
+      "palettes": [ "portal_storm_dungeon_palette" ],
+      "terrain": { "T": "t_floor_warped" },
+      "traps": { "T": "tr_portal_dungeon_teleporter" }
+    }
+  }
+]

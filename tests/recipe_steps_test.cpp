@@ -17,7 +17,6 @@
 #include "craft_command.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -25,6 +24,7 @@
 #include "json_loader.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "npc.h"
 #include "player_activity.h"
 #include "player_helpers.h"
@@ -35,10 +35,9 @@
 #include "requirements.h"
 #include "ret_val.h"
 #include "string_formatter.h"
+#include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "type_id.h"
-
-class read_only_visitable;
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
@@ -1909,7 +1908,7 @@ TEST_CASE( "best_speed_single_item", "[recipe][steps][tool_speed]" )
     guy.setpos( get_map(), origin );
 
     place_tool( itype_test_fast_cutter );
-    const read_only_visitable &inv = guy.crafting_inventory();
+    const temp_crafting_inventory &inv = guy.crafting_inventory();
 
     CHECK( best_quality_speed_modifier( inv, guy, qual_CUT, 1 ) == Approx( 0.5f ) );
 }
@@ -1925,7 +1924,7 @@ TEST_CASE( "best_speed_picks_fastest", "[recipe][steps][tool_speed]" )
 
     place_tool( itype_test_fast_cutter );
     place_tool( itype_test_slow_cutter );
-    const read_only_visitable &inv = guy.crafting_inventory();
+    const temp_crafting_inventory &inv = guy.crafting_inventory();
 
     CHECK( best_quality_speed_modifier( inv, guy, qual_CUT, 1 ) == Approx( 0.5f ) );
 }
@@ -1940,7 +1939,7 @@ TEST_CASE( "best_speed_no_modifier_returns_one", "[recipe][steps][tool_speed]" )
     guy.setpos( get_map(), origin );
 
     place_tool( itype_knife_hunting );
-    const read_only_visitable &inv = guy.crafting_inventory();
+    const temp_crafting_inventory &inv = guy.crafting_inventory();
 
     CHECK( best_quality_speed_modifier( inv, guy, qual_CUT, 1 ) == Approx( 1.0f ) );
 }
@@ -1955,7 +1954,7 @@ TEST_CASE( "best_speed_insufficient_level_ignored", "[recipe][steps][tool_speed]
     guy.setpos( get_map(), origin );
 
     place_tool( itype_test_fast_cutter );
-    const read_only_visitable &inv = guy.crafting_inventory();
+    const temp_crafting_inventory &inv = guy.crafting_inventory();
 
     // Level 1 should work
     CHECK( best_quality_speed_modifier( inv, guy, qual_CUT, 1 ) == Approx( 0.5f ) );
@@ -1973,7 +1972,7 @@ TEST_CASE( "best_speed_slow_tool_returns_above_one", "[recipe][steps][tool_speed
     guy.setpos( get_map(), origin );
 
     place_tool( itype_test_slow_cutter );
-    const read_only_visitable &inv = guy.crafting_inventory();
+    const temp_crafting_inventory &inv = guy.crafting_inventory();
 
     CHECK( best_quality_speed_modifier( inv, guy, qual_CUT, 1 ) == Approx( 1.5f ) );
 }
@@ -1998,7 +1997,7 @@ TEST_CASE( "best_speed_charged_quality_when_charged", "[recipe][steps][tool_spee
 
     here.add_item( origin, tool );
     guy.invalidate_crafting_inventory();
-    const read_only_visitable &inv = guy.crafting_inventory();
+    const temp_crafting_inventory &inv = guy.crafting_inventory();
 
     // Level 1 query -- charged quality at level 2 qualifies, speed 0.3
     CHECK( best_quality_speed_modifier( inv, guy, qual_CUT, 1 ) == Approx( 0.3f ) );
@@ -2335,7 +2334,7 @@ TEST_CASE( "step_recipe_root_tool_distributed_by_step_budget", "[recipe][steps][
     r.load( jo, "dda" );
     r.finalize();
 
-    inventory map_inv;
+    temp_crafting_inventory map_inv;
     bool cancelled = false;
     const std::vector<std::vector<step_tool_alloc>> allocs =
                 select_step_tool_allocs( u, r, 1, map_inv, cancelled );

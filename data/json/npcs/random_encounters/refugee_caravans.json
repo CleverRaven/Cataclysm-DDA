@@ -6,7 +6,7 @@
     "name_suffix": "refugee",
     "class": "NC_SCAVENGER",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_CARAVAN_REFUGEE_A1",
     "faction": "wasteland_scavengers"
   },
@@ -17,7 +17,7 @@
     "name_suffix": "refugee",
     "class": "NC_SCAVENGER",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_CARAVAN_REFUGEE_B1",
     "faction": "wasteland_scavengers"
   },
@@ -28,7 +28,7 @@
     "name_suffix": "refugee",
     "class": "NC_SCAVENGER",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_CARAVAN_REFUGEE_C1",
     "faction": "wasteland_scavengers"
   },

@@ -181,11 +181,6 @@
   },
   {
     "type": "item_action",
-    "id": "unpack",
-    "name": { "str": "Unpack" }
-  },
-  {
-    "type": "item_action",
     "id": "learn_spell",
     "name": { "str": "Learn spell" }
   },
@@ -566,8 +561,13 @@
   },
   {
     "type": "item_action",
-    "id": "DIVE_TANK_ACTIVATE",
-    "name": { "str": "Use regulator" }
+    "id": "SCBA_MASK_ACTIVATE",
+    "name": { "str": "Engage the SCBA regulator" }
+  },
+  {
+    "type": "item_action",
+    "id": "SCBA_TANK_ACTIVATE",
+    "name": { "str": "Open the valve" }
   },
   {
     "type": "item_action",
@@ -761,11 +761,6 @@
   },
   {
     "type": "item_action",
-    "id": "UNPACK_ITEM",
-    "name": { "str": "Unpack" }
-  },
-  {
-    "type": "item_action",
     "id": "BLOOD_DRAW",
     "name": { "str": "Draw some blood" }
   },
@@ -802,11 +797,6 @@
   {
     "type": "item_action",
     "id": "WATER_PURIFIER",
-    "name": { "str": "Purify some water" }
-  },
-  {
-    "type": "item_action",
-    "id": "WATER_TABLETS",
     "name": { "str": "Purify some water" }
   },
   {

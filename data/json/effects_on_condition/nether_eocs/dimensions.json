@@ -7,7 +7,6 @@
       {
         "u_travel_to_dimension": "abyss",
         "npc_travel_radius": 0,
-        "region_type": "nether_abyss",
         "npc_travel_filter": "none",
         "fail_message": "Nothing happens.",
         "success_message": "The abyss opens up around you."

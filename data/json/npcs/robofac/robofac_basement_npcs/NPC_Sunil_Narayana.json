@@ -7,7 +7,7 @@
     "name_suffix": "server maintenance",
     "class": "NC_HUB01_SNarayana",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "HUB01_SNarayana_Intro",
     "faction": "robofac"
   },

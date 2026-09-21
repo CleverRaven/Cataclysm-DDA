@@ -86,7 +86,7 @@
     "name_suffix": "Rogue Kindred",
     "class": "NC_KINDRED_COOPER",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_KINDRED_COOPER",
     "faction": "no_faction"
   },

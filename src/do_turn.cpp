@@ -26,6 +26,7 @@
 #include "cata_imgui.h"
 #endif
 #include "cata_variant.h"
+#include "craft_reservation.h"
 #include "clzones.h"
 #include "coordinates.h"
 #include "debug.h"
@@ -257,8 +258,9 @@ void handle_key_blocking_activity()
             u.disp_info( true );
         } else if( action == "messages" ) {
             Messages::display_messages();
-        } else if( action == "help" ) {
-            get_help().display_help();
+        } else if( action == "DISPLAY_HELP" ) {
+            help_window hw;
+            hw.show();
         } else if( action != "HELP_KEYBINDINGS" ) {
             refresh = false;
         }
@@ -553,6 +555,9 @@ bool game::do_turn()
     timed_event_manager &timed_events = get_timed_events();
     timed_events.process();
     get_item_wakeups().process( calendar::turn );
+    if( calendar::once_every( 1_hours ) ) {
+        get_craft_reservations().sweep_expired_records();
+    }
     mission::process_all();
     avatar &u = get_avatar();
     map &m = get_map();

@@ -133,7 +133,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_discover_zomborg",
-    "condition": { "math": [ "u_monsters_nearby('mon_zomborg') >= 1" ] },
+    "recurrence": 8,
+    "deactivate_condition": { "math": [ "has_var(dialogue_exodii_seen_zomborg)" ] },
+    "condition": {
+      "and": [
+        { "math": [ "u_monsters_nearby('mon_zomborg', 'radius': 60, 'attitude': 'both') >= 1" ] },
+        { "not": { "math": [ "has_var(dialogue_exodii_seen_zomborg)" ] } }
+      ]
+    },
     "effect": [ { "u_add_var": "dialogue_exodii_seen_zomborg", "value": "yes" } ]
   },
   {
@@ -298,7 +305,7 @@
     "run_for_npcs": true,
     "condition": {
       "and": [
-        { "current_dimension": "" },
+        { "current_dimension": "default" },
         "u_is_outside",
         "u_can_see",
         { "test_eoc": "EOC_CONDITION_XE_SUNRISE_MORALE_OVERRIDES" }
@@ -373,7 +380,12 @@
     "global": true,
     "run_for_npcs": true,
     "condition": {
-      "and": [ { "current_dimension": "" }, "u_is_outside", "u_can_see", { "test_eoc": "EOC_CONDITION_XE_SUNSET_MORALE_OVERRIDES" } ]
+      "and": [
+        { "current_dimension": "default" },
+        "u_is_outside",
+        "u_can_see",
+        { "test_eoc": "EOC_CONDITION_XE_SUNSET_MORALE_OVERRIDES" }
+      ]
     },
     "effect": [
       {

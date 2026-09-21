@@ -97,6 +97,24 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_monster_physical_enhancement",
+    "name": [ "Physical Enhancement" ],
+    "desc": [ "You are enhancing your strength and agility." ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ 1 ] },
+    "enchantments": [ { "melee_damage_bonus": [ { "type": "bash", "multiply": 0.1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_physical_enhancement_improved",
+    "name": [ "Physical Enhancement" ],
+    "desc": [ "You are greatly enhancing your strength and agility." ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ 2 ] },
+    "enchantments": [ { "melee_damage_bonus": [ { "type": "bash", "multiply": 0.25 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_monster_hardened_skin",
     "name": [ "Hardened Skin" ],
     "desc": [ "You are more resilient than normal." ],
@@ -413,6 +431,28 @@
     "desc": [ "Your melee attacks travel further than the range of your weapons makes it seem like they should." ],
     "show_in_info": true,
     "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_tindalos_hounds_corrupted_stride",
+    "//": "Hidden affect, reduces effects of extended stride",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_tindalos_hounds_corrupted_stride_warning",
+    "name": [ "Corrupted Stride" ],
+    "desc": [ "Your Extended Stride isn't working nearly as well as it should." ],
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hound_extended_speed_bonus",
+    "name": [ "Moving Oddly" ],
+    "desc": [ "The Hound flickers as it moves." ],
+    "show_in_info": true,
+    "base_mods": { "speed_mod": [ 35 ] }
   },
   {
     "type": "effect_type",

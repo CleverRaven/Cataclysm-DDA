@@ -1,0 +1,62 @@
+[
+  {
+    "type": "mutation",
+    "id": "AFS_NIGHTVISION",
+    "name": { "str": "High Night Vision" },
+    "points": 2,
+    "description": "You can see incredibly well in the dark!  Activate to toggle NV-visible areas on or off.",
+    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "u_val('perception') * 0.8" ] } } ] } ],
+    "category": [ "COMBAT_BRUTE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DISRESISTANT",
+    "copy-from": "DISRESISTANT",
+    "extend": { "category": [ "COMBAT_BRUTE", "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DISIMMUNE",
+    "copy-from": "DISIMMUNE",
+    "extend": { "category": [ "COMBAT_BRUTE", "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_UNCARING",
+    "name": { "str": "Uncaring" },
+    "points": 1,
+    "description": "The suffering of others does not affect you, they either serve a purpose or they do not.  It's pragmatism, nothing more.",
+    "flags": [ "PSYCHOPATH" ],
+    "category": [ "COMBAT_BRUTE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_QUICK",
+    "copy-from": "QUICK",
+    "category": [ "COMBAT_BRUTE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "INFRESIST",
+    "copy-from": "INFRESIST",
+    "extend": { "category": [ "COMBAT_BRUTE", "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_INFIMMUNE",
+    "copy-from": "INFIMMUNE",
+    "category": [ "COMBAT_BRUTE", "MIGO" ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_PAINRESIST",
+    "copy-from": "PAINRESIST",
+    "category": [ "COMBAT_BRUTE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_GOODCARDIO",
+    "copy-from": "GOODCARDIO",
+    "category": [ "COMBAT_BRUTE" ]
+  }
+]

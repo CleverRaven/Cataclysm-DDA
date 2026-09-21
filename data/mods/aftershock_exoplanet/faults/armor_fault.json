@@ -36,5 +36,43 @@
       { "damage_id": "afs_laser", "multiply": 0.4 },
       { "damage_id": "afs_plasma", "multiply": 0.1 }
     ]
+  },
+  {
+    "type": "fault",
+    "id": "afs_fault_armor_steel",
+    "name": { "str": "damaged" },
+    "description": "Successive impacts have dented and weakened the steel panels of this armor piece, reducing its effectiveness.",
+    "fault_type": "mechanical_damage",
+    "item_prefix": "damaged",
+    "message": "%s was damaged!",
+    "degradation_mod": 100,
+    "price_modifier": 0.3,
+    "armor_mod": [
+      { "damage_id": "bash", "multiply": 0.6 },
+      { "damage_id": "cut", "multiply": 0.9 },
+      { "damage_id": "stab", "multiply": 0.9 },
+      { "damage_id": "bullet", "multiply": 0.6 },
+      { "damage_id": "afs_laser", "multiply": 0.6 }
+    ]
+  },
+  {
+    "type": "fault",
+    "id": "afs_fault_armor_steel_bad",
+    "name": { "str": "compromised" },
+    "affected_by_degradation": true,
+    "description": "Most of the steel panels of this armor piece have been torn away or completely destroyed.  It won't provide much protection at all, and could at best be recycled for scrap.",
+    "fault_type": "mechanical_damage",
+    "item_prefix": "compromised",
+    "message": "%s was heavily damaged!",
+    "degradation_mod": 100,
+    "price_modifier": 0.01,
+    "armor_mod": [
+      { "damage_id": "bash", "multiply": 0.3 },
+      { "damage_id": "cut", "multiply": 0.6 },
+      { "damage_id": "stab", "multiply": 0.3 },
+      { "damage_id": "bullet", "multiply": 0.3 },
+      { "damage_id": "afs_laser", "multiply": 0.4 },
+      { "damage_id": "afs_plasma", "multiply": 0.1 }
+    ]
   }
 ]

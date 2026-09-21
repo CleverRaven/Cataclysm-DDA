@@ -1,0 +1,504 @@
+[
+  {
+    "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_PROCESS",
+    "type": "effect_on_condition",
+    "effect": { "open_dialogue": { "topic": "TALK_MOM_SHADOW_URGE_MACHINE" } }
+  },
+  {
+    "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECT_BIOKINETIC_CRYSTAL",
+    "type": "effect_on_condition",
+    "effect": [
+      { "set_string_var": "no", "target_var": { "u_val": "activated_shadow_urge_machine" } },
+      {
+        "u_run_inv_eocs": "manual",
+        "title": "Which crystal do you enter?",
+        "search_data": [ { "flags": [ "MATRIX_CRYSTAL_BIOKINESIS" ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECT_BIOKINETIC_CRYSTAL_SELECTED",
+            "effect": [ { "npc_set_flag": "MOM_SHADOW_URGE_CHOICE" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECTED_BIOKINETIC_CRYSTAL_CONSUME",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "flags": [ "MOM_SHADOW_URGE_CHOICE" ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECTED_BIOKINETIC_CRYSTAL_CONSUME_RUN",
+            "effect": [ "npc_die", { "set_string_var": "yes", "target_var": { "u_val": "activated_shadow_urge_machine" } } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECT_VITAKINETIC_CRYSTAL",
+    "type": "effect_on_condition",
+    "effect": [
+      { "set_string_var": "no", "target_var": { "u_val": "activated_shadow_urge_machine" } },
+      {
+        "u_run_inv_eocs": "manual",
+        "title": "Which crystal do you enter?",
+        "search_data": [ { "flags": [ "MATRIX_CRYSTAL_VITAKINESIS" ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECT_VITAKINETIC_CRYSTAL_SELECTED",
+            "effect": [ { "npc_set_flag": "MOM_SHADOW_URGE_CHOICE" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECTED_VITAKINETIC_CRYSTAL_CONSUME",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "flags": [ "MOM_SHADOW_URGE_CHOICE" ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECTED_VITAKINETIC_CRYSTAL_CONSUME_RUN",
+            "effect": [ "npc_die", { "set_string_var": "yes", "target_var": { "u_val": "activated_shadow_urge_machine" } } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_STRENGTH_FINALIZATION",
+    "type": "effect_on_condition",
+    "effect": [
+      { "run_eocs": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_DRAIN_THE_CRYSTAL" },
+      {
+        "math": [
+          "_awakenings = u_has_trait('BIOKINETIC') + u_has_trait('CLAIRSENTIENT') + u_has_trait('ELECTROKINETIC') + u_has_trait('PHOTOKINETIC') + u_has_trait('PYROKINETIC') + u_has_trait('TELEKINETIC') + u_has_trait('TELEPATH') + u_has_trait('TELEPORTER') + u_has_trait('VITAKINETIC') + (u_spell_count('school': 'PSYCHIC_KNACK') * 0.25)"
+        ]
+      },
+      {
+        "math": [
+          "_calculations = clamp( ( (_awakenings * -10) + (u_has_proficiency('prof_concentration_basic') * 5) + (u_has_proficiency('prof_concentration_intermediate') * 10) + (u_has_proficiency('prof_concentration_master') * 20) ), -90, 35)"
+        ]
+      },
+      { "math": [ "_success_chance = 97 + _calculations" ] },
+      { "u_message": "Awakening calculation is <context_val:awakenings>.", "type": "debug" },
+      { "u_message": "Modifier calculation is <context_val:calculations>.", "type": "debug" },
+      { "u_message": "Success chance is is <context_val:success_chance>.", "type": "debug" },
+      {
+        "if": { "x_in_y_chance": { "x": { "math": [ "_success_chance" ] }, "y": 100 } },
+        "then": [
+          {
+            "if": { "u_has_trait": "STR_UP" },
+            "then": [ { "u_roll_remainder": [ "STR_UP_2", "STRONGBACK", "STRONG_LEGS_MOM" ], "type": "mutation" } ],
+            "else": { "u_roll_remainder": [ "STR_UP", "STRONGBACK", "STRONG_LEGS_MOM" ], "type": "mutation" }
+          },
+          {
+            "u_message": "You come to, a bit groggy, and experimentally try to move.  You feel…different.",
+            "type": "good"
+          }
+        ],
+        "else": [
+          {
+            "if": { "u_has_trait": "WEAK_MOM" },
+            "then": [ { "u_roll_remainder": [ "WEAK_MOM_2", "BADKNEES", "LIGHT_BONES", "LIGHTWEIGHT", "BADBACK" ], "type": "mutation" } ],
+            "else": { "u_roll_remainder": [ "WEAK_MOM", "BADKNEES", "LIGHT_BONES", "LIGHTWEIGHT", "BADBACK" ], "type": "mutation" }
+          },
+          {
+            "u_message": "You come to, a bit groggy, and experimentally try to move.  You feel…different.",
+            "type": "bad"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_AGILITY_FINALIZATION",
+    "type": "effect_on_condition",
+    "effect": [
+      { "run_eocs": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_DRAIN_THE_CRYSTAL" },
+      {
+        "math": [
+          "_awakenings = u_has_trait('BIOKINETIC') + u_has_trait('CLAIRSENTIENT') + u_has_trait('ELECTROKINETIC') + u_has_trait('PHOTOKINETIC') + u_has_trait('PYROKINETIC') + u_has_trait('TELEKINETIC') + u_has_trait('TELEPATH') + u_has_trait('TELEPORTER') + u_has_trait('VITAKINETIC') + (u_spell_count('school': 'PSYCHIC_KNACK') * 0.25)"
+        ]
+      },
+      {
+        "math": [
+          "_calculations = clamp( ( (_awakenings * -10) + (u_has_proficiency('prof_concentration_basic') * 5) + (u_has_proficiency('prof_concentration_intermediate') * 10) + (u_has_proficiency('prof_concentration_master') * 20) ), -90, 35)"
+        ]
+      },
+      { "math": [ "_success_chance = 97 + _calculations" ] },
+      {
+        "if": { "x_in_y_chance": { "x": { "math": [ "_success_chance" ] }, "y": 100 } },
+        "then": [
+          {
+            "if": { "u_has_trait": "DEX_UP" },
+            "then": [ { "u_roll_remainder": [ "DEX_UP_2", "FLEET", "QUICK" ], "type": "mutation" } ],
+            "else": { "u_roll_remainder": [ "DEX_UP", "FLEET", "QUICK" ], "type": "mutation" }
+          },
+          {
+            "u_message": "You come to, a bit groggy, and experimentally try to move.  You feel…different.",
+            "type": "good"
+          }
+        ],
+        "else": [
+          {
+            "if": { "u_has_trait": "CLUMSY_MOM" },
+            "then": [ { "u_roll_remainder": [ "CLUMSY_MOM_2", "JITTERY", "CLUMSY" ], "type": "mutation" } ],
+            "else": { "u_roll_remainder": [ "CLUMSY_MOM", "JITTERY", "CLUMSY" ], "type": "mutation" }
+          },
+          {
+            "u_message": "You come to, a bit groggy, and experimentally try to move.  You feel…different.",
+            "type": "bad"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_RESILIENCE_FINALIZATION",
+    "type": "effect_on_condition",
+    "effect": [
+      { "run_eocs": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_DRAIN_THE_CRYSTAL" },
+      {
+        "math": [
+          "_awakenings = u_has_trait('BIOKINETIC') + u_has_trait('CLAIRSENTIENT') + u_has_trait('ELECTROKINETIC') + u_has_trait('PHOTOKINETIC') + u_has_trait('PYROKINETIC') + u_has_trait('TELEKINETIC') + u_has_trait('TELEPATH') + u_has_trait('TELEPORTER') + u_has_trait('VITAKINETIC') + (u_spell_count('school': 'PSYCHIC_KNACK') * 0.25)"
+        ]
+      },
+      {
+        "math": [
+          "_calculations = clamp( ( (_awakenings * -10) + (u_has_proficiency('prof_concentration_basic') * 5) + (u_has_proficiency('prof_concentration_intermediate') * 10) + (u_has_proficiency('prof_concentration_master') * 20) ), -90, 35)"
+        ]
+      },
+      { "math": [ "_success_chance = 97 + _calculations" ] },
+      {
+        "if": { "x_in_y_chance": { "x": { "math": [ "_success_chance" ] }, "y": 100 } },
+        "then": [
+          {
+            "if": { "u_has_trait": "TOUGH" },
+            "then": [ { "u_roll_remainder": [ "TOUGH2", "THICKSKIN", "TOUGH_FEET" ], "type": "mutation" } ],
+            "else": { "u_roll_remainder": [ "TOUGH", "THICKSKIN", "TOUGH_FEET" ], "type": "mutation" }
+          },
+          {
+            "u_message": "You come to, a bit groggy, and experimentally try to move.  You feel…different.",
+            "type": "good"
+          }
+        ],
+        "else": [
+          {
+            "if": { "u_has_trait": "FLIMSY" },
+            "then": [ { "u_roll_remainder": [ "FLIMSY2", "LIGHT_BONES", "GLASSJAW" ], "type": "mutation" } ],
+            "else": { "u_roll_remainder": [ "FLIMSY", "LIGHT_BONES", "GLASSJAW" ], "type": "mutation" }
+          },
+          {
+            "u_message": "You come to, a bit groggy, and experimentally try to move.  You feel…different.",
+            "type": "bad"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_RECOVERY_FINALIZATION",
+    "type": "effect_on_condition",
+    "effect": [
+      { "run_eocs": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_DRAIN_THE_CRYSTAL" },
+      {
+        "math": [
+          "_awakenings = u_has_trait('BIOKINETIC') + u_has_trait('CLAIRSENTIENT') + u_has_trait('ELECTROKINETIC') + u_has_trait('PHOTOKINETIC') + u_has_trait('PYROKINETIC') + u_has_trait('TELEKINETIC') + u_has_trait('TELEPATH') + u_has_trait('TELEPORTER') + u_has_trait('VITAKINETIC') + (u_spell_count('school': 'PSYCHIC_KNACK') * 0.25)"
+        ]
+      },
+      {
+        "math": [
+          "_calculations = clamp( ( (_awakenings * -10) + (u_has_proficiency('prof_concentration_basic') * 5) + (u_has_proficiency('prof_concentration_intermediate') * 10) + (u_has_proficiency('prof_concentration_master') * 20) ), -90, 35)"
+        ]
+      },
+      { "math": [ "_success_chance = 97 + _calculations" ] },
+      {
+        "if": { "x_in_y_chance": { "x": { "math": [ "_success_chance" ] }, "y": 100 } },
+        "then": [
+          {
+            "if": { "u_has_trait": "FASTHEALER" },
+            "then": [ { "u_roll_remainder": [ "FASTHEALER2", "PAINREC1", "PAINRESIST" ], "type": "mutation" } ],
+            "else": { "u_roll_remainder": [ "FASTHEALER", "PAINREC1", "PAINRESIST" ], "type": "mutation" }
+          },
+          {
+            "u_message": "You come to, a bit groggy, and experimentally try to move.  You feel…different.",
+            "type": "good"
+          }
+        ],
+        "else": [
+          {
+            "if": { "u_has_trait": "SLOWHEALER" },
+            "then": [ { "u_roll_remainder": [ "SLOWHEALER2", "MORE_PAIN", "WEAKSTOMACH" ], "type": "mutation" } ],
+            "else": { "u_roll_remainder": [ "SLOWHEALER", "MORE_PAIN", "WEAKSTOMACH" ], "type": "mutation" }
+          },
+          {
+            "u_message": "You come to, a bit groggy, and experimentally try to move.  You feel…different.",
+            "type": "bad"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_DRAIN_THE_CRYSTAL",
+    "effect": [ { "map_spawn_item": "matrix_crystal_drained" } ]
+  },
+  {
+    "id": [ "TALK_MOM_SHADOW_URGE_MACHINE" ],
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "u_is_on_furniture": "f_biokinetic_physiology_improver",
+        "yes": "&You sit down and activate the screen, trying to ignore your awkward positioning, and within a few moments are greeted with a login prompt.\n\n\"Project SHADOW URGE.  Enter login credentials.\"",
+        "no": "&You poke at the computer, and while it does turn on and you see a login screen for a moment, it's quickly replaced with a popup that reads:\n\n\"No occupant detected.  SHADOW URGE functions unavailable.\""
+      }
+    ],
+    "responses": [
+      {
+        "text": "Input the SHADOW URGE access codes you have.",
+        "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_KNOWN_PASS",
+        "condition": {
+          "and": [ { "u_is_on_furniture": "f_biokinetic_physiology_improver" }, { "u_has_item": "lab_file_shadow_urge_password" } ]
+        }
+      },
+      {
+        "text": "Try a random username and password.",
+        "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_RANDOM_PASS",
+        "condition": {
+          "and": [
+            { "u_is_on_furniture": "f_biokinetic_physiology_improver" },
+            { "not": { "u_has_item": "lab_file_shadow_urge_password" } }
+          ]
+        }
+      },
+      {
+        "text": "Better sit down.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_is_on_furniture": "f_biokinetic_physiology_improver" } }
+      }
+    ]
+  },
+  {
+    "id": [ "COMP_MOM_SHADOW_URGE_COMPUTER_RANDOM_PASS" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You input the first combination of username and password that comes to mind, and of course it doesn't work.  Rather than trigger a lockout due to too many attempts, you decide to come back when you have some idea what to do.",
+    "responses": [ { "text": "Log Off", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": [ "COMP_MOM_SHADOW_URGE_COMPUTER_KNOWN_PASS" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You input the access codes from the SHADOW URGE document you found and are greeted with a long text string that, from your quick skim, promises dire punishments as well as termination of employment for anyone who attempts to use the SHADOW URGE device without properly-approved experiment protocol beforehand.  Fortunately, all the HR departments are now shambling around on the surface, so you skip past it.  Following the instructions on the documents, you skip through a few menus, input at least two more access codes, and eventually arrive at what can only be the main menu.",
+    "responses": [
+      { "text": "SHADOW URGE: Improve Strength.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_STRENGTH" },
+      { "text": "SHADOW URGE: Improve Agility.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_AGILITY" },
+      { "text": "SHADOW URGE: Improve Resilience.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_RESILIENCE" },
+      { "text": "SHADOW URGE: Improve Recovery.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_RECOVERY" },
+      { "text": "Do nothing and log off", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "COMP_MOM_SHADOW_URGE_COMPUTER_MAIN_MENU" ],
+    "type": "talk_topic",
+    "dynamic_line": "&Project SHADOW URGE.  Insert catalyst and select treatment.",
+    "responses": [
+      { "text": "SHADOW URGE: Improve Strength.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_STRENGTH" },
+      { "text": "SHADOW URGE: Improve Agility.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_AGILITY" },
+      { "text": "SHADOW URGE: Improve Resilience.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_RESILIENCE" },
+      { "text": "SHADOW URGE: Improve Recovery.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_RECOVERY" },
+      { "text": "Do nothing and log off", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_STRENGTH" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You select Improve Strength and after a moment, a screen pops up with the message: \"Catalyst required.  Insert BURNT NOVEMBER matrix crystal.\"",
+    "responses": [
+      {
+        "text": "Let me see…",
+        "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_STRENGTH_FUEL",
+        "effect": [
+          {
+            "run_eocs": [
+              "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECT_BIOKINETIC_CRYSTAL",
+              "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECTED_BIOKINETIC_CRYSTAL_CONSUME"
+            ]
+          }
+        ]
+      },
+      { "text": "Well, maybe not now.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_MAIN_MENU" }
+    ]
+  },
+  {
+    "id": [ "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_STRENGTH_FUEL" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "activated_shadow_urge_machine" } ],
+      "yes": "&You insert the matrix crystal and the screen opens up what looks like X-ray results, or some other type of medical diagrams.  You only get a moment to look at it before a soft humming fills your hearing and drowns out all other sounds and darkness steals across your vision.",
+      "no": "&Without a BURNT NOVEMBER matrix crystal, the machine stubbornly refuses to work.  After clicking through menus a few times, you eventually give up and go back to the main menu."
+    },
+    "responses": [
+      {
+        "text": "I…",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "yes", { "u_val": "activated_shadow_urge_machine" } ] },
+        "effect": [
+          { "math": [ "_duration = 14400 + rand(7200)" ] },
+          { "u_add_effect": "effect_mom_shadow_urge_process_operation", "duration": { "math": [ "_duration" ] } },
+          { "u_assign_activity": "ACT_MOM_SHADOW_URGE_GAIN_STRENGTH", "duration": { "math": [ "_duration" ] } }
+        ]
+      },
+      {
+        "text": "Fine, fine.",
+        "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_MAIN_MENU",
+        "condition": { "compare_string": [ "no", { "u_val": "activated_shadow_urge_machine" } ] }
+      }
+    ]
+  },
+  {
+    "id": [ "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_AGILITY" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You select Improve Agility and after a moment, a screen pops up with the message: \"Catalyst required.  Insert BURNT NOVEMBER matrix crystal.\"",
+    "responses": [
+      {
+        "text": "Let me see…",
+        "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_AGILITY_FUEL",
+        "effect": [
+          {
+            "run_eocs": [
+              "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECT_BIOKINETIC_CRYSTAL",
+              "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECTED_BIOKINETIC_CRYSTAL_CONSUME"
+            ]
+          }
+        ]
+      },
+      { "text": "Well, maybe not now.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_MAIN_MENU" }
+    ]
+  },
+  {
+    "id": [ "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_AGILITY_FUEL" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "activated_shadow_urge_machine" } ],
+      "yes": "&You insert the matrix crystal and the screen opens up what looks like X-ray results, or some other type of medical diagrams.  You only get a moment to look at it before a soft humming fills your hearing and drowns out all other sounds and darkness steals across your vision.",
+      "no": "&Without a BURNT NOVEMBER matrix crystal, the machine stubbornly refuses to work.  After clicking through menus a few times, you eventually give up and go back to the main menu."
+    },
+    "responses": [
+      {
+        "text": "I…",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "yes", { "u_val": "activated_shadow_urge_machine" } ] },
+        "effect": [
+          { "math": [ "_duration = 14400 + rand(7200)" ] },
+          { "u_add_effect": "effect_mom_shadow_urge_process_operation", "duration": { "math": [ "_duration" ] } },
+          { "u_assign_activity": "ACT_MOM_SHADOW_URGE_GAIN_AGILITY", "duration": { "math": [ "_duration" ] } }
+        ]
+      },
+      {
+        "text": "Fine, fine.",
+        "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_MAIN_MENU",
+        "condition": { "compare_string": [ "no", { "u_val": "activated_shadow_urge_machine" } ] }
+      }
+    ]
+  },
+  {
+    "id": [ "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_RESILIENCE" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You select Improve Agility and after a moment, a screen pops up with the message: \"Catalyst required.  Insert SMOKE USHER matrix crystal.\"",
+    "responses": [
+      {
+        "text": "Let me see…",
+        "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_RESILIENCE_FUEL",
+        "effect": [
+          {
+            "run_eocs": [
+              "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECT_VITAKINETIC_CRYSTAL",
+              "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECTED_VITAKINETIC_CRYSTAL_CONSUME"
+            ]
+          }
+        ]
+      },
+      { "text": "Well, maybe not now.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_MAIN_MENU" }
+    ]
+  },
+  {
+    "id": [ "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_RESILIENCE_FUEL" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "activated_shadow_urge_machine" } ],
+      "yes": "&You insert the matrix crystal and the screen opens up what looks like X-ray results, or some other type of medical diagrams.  You only get a moment to look at it before a soft humming fills your hearing and drowns out all other sounds and darkness steals across your vision.",
+      "no": "&Without a SMOKE USHER matrix crystal, the machine stubbornly refuses to work.  After clicking through menus a few times, you eventually give up and go back to the main menu."
+    },
+    "responses": [
+      {
+        "text": "I…",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "yes", { "u_val": "activated_shadow_urge_machine" } ] },
+        "effect": [
+          { "math": [ "_duration = 14400 + rand(7200)" ] },
+          { "u_add_effect": "effect_mom_shadow_urge_process_operation", "duration": { "math": [ "_duration" ] } },
+          { "u_assign_activity": "ACT_MOM_SHADOW_URGE_GAIN_RESILIENCE", "duration": { "math": [ "_duration" ] } }
+        ]
+      },
+      {
+        "text": "Fine, fine.",
+        "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_MAIN_MENU",
+        "condition": { "compare_string": [ "no", { "u_val": "activated_shadow_urge_machine" } ] }
+      }
+    ]
+  },
+  {
+    "id": [ "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_RECOVERY" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You select Improve Agility and after a moment, a screen pops up with the message: \"Catalyst required.  Insert SMOKE USHER matrix crystal.\"",
+    "responses": [
+      {
+        "text": "Let me see…",
+        "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_RECOVERY_FUEL",
+        "effect": [
+          {
+            "run_eocs": [
+              "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECT_VITAKINETIC_CRYSTAL",
+              "EOC_MOM_BIOKINESIS_VITAKINESIS_LAB_SHADOW_URGE_SELECTED_VITAKINETIC_CRYSTAL_CONSUME"
+            ]
+          }
+        ]
+      },
+      { "text": "Well, maybe not now.", "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_MAIN_MENU" }
+    ]
+  },
+  {
+    "id": [ "COMP_MOM_SHADOW_URGE_COMPUTER_IMPROVE_RECOVERY_FUEL" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "activated_shadow_urge_machine" } ],
+      "yes": "&You insert the matrix crystal and the screen opens up what looks like X-ray results, or some other type of medical diagrams.  You only get a moment to look at it before a soft humming fills your hearing and drowns out all other sounds and darkness steals across your vision.",
+      "no": "&Without a SMOKE USHER matrix crystal, the machine stubbornly refuses to work.  After clicking through menus a few times, you eventually give up and go back to the main menu."
+    },
+    "responses": [
+      {
+        "text": "I…",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "yes", { "u_val": "activated_shadow_urge_machine" } ] },
+        "effect": [
+          { "math": [ "_duration = 14400 + rand(7200)" ] },
+          { "u_add_effect": "effect_mom_shadow_urge_process_operation", "duration": { "math": [ "_duration" ] } },
+          { "u_assign_activity": "ACT_MOM_SHADOW_URGE_GAIN_RECOVERY", "duration": { "math": [ "_duration" ] } }
+        ]
+      },
+      {
+        "text": "Fine, fine.",
+        "topic": "COMP_MOM_SHADOW_URGE_COMPUTER_MAIN_MENU",
+        "condition": { "compare_string": [ "no", { "u_val": "activated_shadow_urge_machine" } ] }
+      }
+    ]
+  }
+]

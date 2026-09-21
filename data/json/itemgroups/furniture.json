@@ -71,7 +71,7 @@
       { "group": "games", "prob": 40, "count": [ 0, 3 ] },
       { "group": "magazines", "prob": 40, "count": [ 0, 6 ] },
       { "group": "newspaper", "prob": 40, "count": [ 1, 2 ] },
-      { "group": "homebooks", "prob": 40, "count": [ 0, 4 ] },
+      { "group": "homebooks", "prob": 40, "count": [ 0, 2 ] },
       { "group": "novels", "prob": 40, "count": [ 0, 8 ] },
       { "group": "religious_books", "prob": 40, "count": [ 0, 8 ] },
       { "item": "stereo", "prob": 30 },

@@ -54,7 +54,7 @@
     "name_suffix": "Cyborg Abomination",
     "class": "frankenstein",
     "attitude": 1,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_CYBORG_Abomination_1",
     "faction": "no_faction"
   }

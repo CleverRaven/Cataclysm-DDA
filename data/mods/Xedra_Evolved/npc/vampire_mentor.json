@@ -5,7 +5,7 @@
     "name_suffix": "vampire",
     "class": "NC_NPC_XE_VAMPIRE_MENTOR",
     "attitude": 0,
-    "mission": 2,
+    "mission": "SHELTER",
     "chat": "TALK_VAMPIRE_MENTOR",
     "faction": "no_faction"
   },
@@ -141,7 +141,7 @@
         "topic": "TALK_DONE",
         "condition": { "u_has_any_trait": [ "VAMPIRE_ANATHEMA", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] },
         "effect": [
-          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_die": { "remove_corpse": true, "supress_message": true } },
           { "u_message": "The mentor vanishes in a fine mist." }
         ]
       },
@@ -238,7 +238,7 @@
         "topic": "TALK_DONE",
         "effect": [
           "hostile",
-          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_die": { "remove_corpse": true, "supress_message": true } },
           { "u_message": "The mentor vanishes in a fine mist." }
         ]
       },
@@ -347,7 +347,7 @@
     "id": [ "TALK_VAMPIRE_MENTOR_NEWVAMPIRE" ],
     "type": "talk_topic",
     "dynamic_line": {
-      "str": "[bites you] Here you go.  You might not notice the effects at first, but keep some human blood close for when your thirst will appear and some shelter for when the sun will start to burn your skin.  There are levels of vampiric power that cannot be achieved through time alone.  When you'll reach that point, come back here and I'll help you reach them."
+      "str": "[Drains a significant portion of your blood and begins speaking to you before you black out] Here you go.  You might not notice the effects at first, but keep some human blood close for when your thirst will appear and some shelter for when the sun will start to burn your skin.  There are levels of vampiric power that cannot be achieved through time alone.  When you'll reach that point, come back here and I'll help you reach them.  [Slits its own wrist and lets you drink, as the blood hits your tongue it energizes you and washes away the dizziness of blood loss]"
     },
     "responses": [
       { "text": "Can we talk about something else?", "topic": "TALK_VAMPIRE_MENTOR_TALK" },
@@ -543,7 +543,7 @@
     "effect": [
       { "finish_mission": "GET_COMPONENTS_FOR_TIER_5", "success": true },
       { "u_add_trait": "BLOOD_DRINKER" },
-      { "run_eocs": [ "EOC_TIER_5_REMOVE_MORALS" ] },
+      { "run_eocs": [ "EOC_TIER_4_REMOVE_MORALS" ] },
       { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
       { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
       { "u_add_effect": "vampire_virus_post_mortal", "intensity": 1, "duration": "PERMANENT" },
@@ -569,7 +569,7 @@
         "topic": "TALK_DONE",
         "effect": [
           "hostile",
-          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_die": { "remove_corpse": true, "supress_message": true } },
           { "u_message": "The mentor vanishes in a fine mist." }
         ]
       },
@@ -600,7 +600,7 @@
         "topic": "TALK_DONE",
         "effect": [
           "hostile",
-          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_die": { "remove_corpse": true, "supress_message": true } },
           { "u_message": "The mentor vanishes in a fine mist." }
         ]
       },

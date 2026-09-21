@@ -52,6 +52,8 @@
 
 class overmap_connection;
 
+static const dimension_id dimension_world_default( "default" );
+
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 static const mongroup_id GROUP_ZOMBIE_HORDE( "GROUP_ZOMBIE_HORDE" );
 
@@ -256,8 +258,12 @@ void game::unserialize_impl( const JsonObject &data )
     calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
                                static_cast<int>( SPRING ) ) );
 
-    std::string loaded_dimension_prefix;
+    dimension_id loaded_dimension_prefix;
     if( data.read( "dimension_prefix", loaded_dimension_prefix ) ) {
+        if( !loaded_dimension_prefix.is_valid() ) {
+            debugmsg( "invalid dimension loaded, using default dimension instead" );
+            loaded_dimension_prefix = dimension_world_default;
+        }
         dimension_prefix = loaded_dimension_prefix;
         load_dimension_data();
     }
@@ -546,16 +552,6 @@ void overmap::unserialize( const JsonObject &jsobj )
         if( name == "region_id" ) {
             std::string new_region_id;
             om_member.read( new_region_id );
-            if( settings->id.str() != new_region_id ) {
-                region_settings_id new_region_set( new_region_id );
-                //migrate old save region settings to new saves (remove in 0.J)
-                if( new_region_id == "default" ) {
-                    new_region_set = overmap_buffer.get_default_settings( pos() ).id;
-                }
-                if( new_region_set.is_valid() ) {
-                    settings = new_region_set;
-                }
-            }
         } else if( name == "mongroups" ) {
             load_legacy_monstergroups( om_member );
         } else if( name == "monster_groups" ) {
@@ -1395,7 +1391,6 @@ void overmap::serialize( std::ostream &fout ) const
     }
     json.end_array();
 
-    // temporary, to allow user to manually switch regions during play until regionmap is done.
     json.member( "region_id", settings->id );
     fout << std::endl;
 
@@ -1755,8 +1750,6 @@ void game::unserialize_dimension_data( const JsonValue &jv )
             overmap_buffer.global_state.deserialize( jsin );
         } else if( name == "placed_unique_specials" ) {
             overmap_buffer.deserialize_placed_unique_specials( jsin );
-        } else if( name == "region_type" ) {
-            jsin.read( overmap_buffer.current_region_type );
         } else if( name == "power_networks" ) {
             power_networks().deserialize( jsin );
         }
@@ -1950,8 +1943,6 @@ void game::serialize_dimension_data( std::ostream &fout )
         json.member( "weather" );
         weather_manager::serialize_all( json );
 
-        json.member( "region_type", overmap_buffer.current_region_type );
-
         json.member( "power_networks" );
         power_networks().serialize( json );
 
@@ -2109,6 +2100,7 @@ void overmap_global_state::serialize( JsonOut &json ) const
     json.member( "overmap_highway_intersection_grid", highway_intersections );
     json.member( "major_river_count", major_river_count );
     json.member( "unique_special_decks", unique_special_decks );
+    json.member( "placed_regions", placed_regions );
 
     json.end_object();
 }
@@ -2140,6 +2132,7 @@ void overmap_global_state::deserialize( const JsonObject &json )
     json.read( "major_river_count", major_river_count );
     unique_special_decks.clear();
     json.read( "unique_special_decks", unique_special_decks );
+    json.read( "placed_regions", placed_regions );
 }
 
 void overmapbuffer::deserialize_placed_unique_specials( const JsonValue &jsin )

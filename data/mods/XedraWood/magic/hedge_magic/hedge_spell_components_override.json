@@ -29,6 +29,6 @@
   {
     "id": "spell_components_hedge_extinguish_fire_spell",
     "type": "requirement",
-    "components": [ [ [ "ash", 25 ] ], [ [ "morningflower_leaves_smoked", 2 ] ] ]
+    "components": [ [ [ "ash", 2 ] ], [ [ "morningflower_leaves_smoked", 2 ] ] ]
   }
 ]

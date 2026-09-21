@@ -3,27 +3,19 @@
 #include "pixel_minimap.h"
 
 #include <algorithm>
-#include <array>
 #include <bitset>
 #include <cmath>
-#include <cstdlib>
-#include <functional>
-#include <iterator>
 #include <memory>
 #include <optional>
-#include <tuple>
-#include <utility>
-#include <vector>
 
 #include "cached_options.h"
-#include "cata_assert.h"
-#include "cata_tiles.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "game.h"
 #include "level_cache.h"
 #include "lightmap.h"
 #include "map.h"
@@ -35,7 +27,6 @@
 #include "mtype.h"
 #include "pixel_minimap_projectors.h"
 #include "sdl_utils.h"
-#include "sdltiles.h"
 #include "type_id.h"
 #include "vehicle.h"
 #include "viewer.h"
@@ -45,6 +36,14 @@ namespace
 {
 
 const point total_tiles_count = { MAX_VIEW_DISTANCE * 2 + 1, MAX_VIEW_DISTANCE * 2 + 1 };
+
+// Enemy-beacon flicker sweeps brightness between these two percentages.
+constexpr int beacon_flicker_dim = 25;
+constexpr int beacon_flicker_full = 100;
+// Milliseconds contributed by one unit of the beacon_blink_interval setting.
+constexpr int beacon_blink_ms_per_step = 200;
+// Edge pixels of the beacon diamond are darkened by this divisor to outline it.
+constexpr int beacon_edge_divisor = 3;
 
 point get_pixel_size( const point &tile_size, pixel_minimap_mode mode )
 {
@@ -59,7 +58,7 @@ point get_pixel_size( const point &tile_size, pixel_minimap_mode mode )
             return { point::south_east };
     }
 
-    return {};
+    cata_fatal( "Invalid pixel_minimap_mode %d", static_cast<int>( mode ) );
 }
 
 /// Returns a number in range [0..1]. The range lasts for @param phase_length_ms (milliseconds).
@@ -72,19 +71,6 @@ float get_animation_phase( int phase_length_ms )
     return std::fmod<float>( GetTicks(), phase_length_ms ) / phase_length_ms;
 }
 
-//creates the texture that individual minimap updates are drawn to
-//later, the main texture is drawn to the display buffer
-//the surface is needed to determine the color format needed by the texture
-SDL_Texture_Ptr create_cache_texture( const SDL_Renderer_Ptr &renderer, int tile_width,
-                                      int tile_height )
-{
-    return CreateTexture( renderer,
-                          SDL_PIXELFORMAT_ARGB8888,
-                          SDL_TEXTUREACCESS_TARGET,
-                          tile_width,
-                          tile_height );
-}
-
 SDL_Color get_map_color_at( const tripoint_bub_ms &p )
 {
     const map &here = get_map();
@@ -93,8 +79,8 @@ SDL_Color get_map_color_at( const tripoint_bub_ms &p )
         return curses_color_to_SDL( vd.color );
     }
 
-    if( const furn_id &furn_id = here.furn( p ) ) {
-        return curses_color_to_SDL( furn_id->color() );
+    if( const furn_id &furn = here.furn( p ) ) {
+        return curses_color_to_SDL( furn->color() );
     }
 
     return curses_color_to_SDL( here.ter( p )->color() );
@@ -119,90 +105,6 @@ SDL_Color get_critter_color( Creature *critter, int flicker, int mixture )
 }
 
 } // namespace
-
-// a texture pool to avoid recreating textures every time player changes their view
-// at most 142 out of 144 textures can be in use due to regular player movement
-//  (moving from submap corner to new corner) with MAPSIZE = 11
-// textures are dumped when the player moves more than one submap in one update
-//  (teleporting, z-level change) to prevent running out of the remaining pool
-class pixel_minimap::shared_texture_pool
-{
-    public:
-        explicit shared_texture_pool( const std::function<SDL_Texture_Ptr()> &generator ) {
-            const size_t pool_size = ( MAPSIZE + 1 ) * ( MAPSIZE + 1 );
-
-            texture_pool.reserve( pool_size );
-            inactive_index.reserve( pool_size );
-
-            for( size_t i = 0; i < pool_size; ++i ) {
-                texture_pool.emplace_back( generator() );
-                inactive_index.push_back( i );
-            }
-        }
-
-        //reserves a texture from the inactive group and returns tracking info
-        SDL_Texture_Ptr request_tex( size_t &index ) {
-            if( inactive_index.empty() ) {
-                debugmsg( "Ran out of available textures in the pool." );
-                //shouldn't be happening, but minimap will just be default color instead of crashing
-                return nullptr;
-            }
-            index = inactive_index.back();
-            inactive_index.pop_back();
-            return std::move( texture_pool[index] );
-        }
-
-        //releases the provided texture back into the inactive pool to be used again
-        //called automatically in the submap cache destructor
-        void release_tex( size_t index, SDL_Texture_Ptr &&ptr ) {
-            if( ptr ) {
-                inactive_index.push_back( index );
-                texture_pool[index] = std::move( ptr );
-            }
-        }
-
-    private:
-        std::vector<SDL_Texture_Ptr> texture_pool;
-        std::vector<size_t> inactive_index;
-};
-
-struct pixel_minimap::submap_cache {
-    //the color stored for each submap tile
-    std::array<SDL_Color, SEEX *SEEY> minimap_colors = {};
-    //checks if the submap has been looked at by the minimap routine
-    bool touched = false;
-    //the texture updates are drawn to
-    SDL_Texture_Ptr chunk_tex;
-    //the submap being handled
-    size_t texture_index = 0;
-    //the list of updates to apply to the texture
-    //reduces render target switching to once per submap
-    std::vector<point> update_list;
-    //flag used to indicate that the texture needs to be cleared before first use
-    bool ready = false;
-    shared_texture_pool &pool;
-
-    //reserve the SEEX * SEEY submap tiles
-    explicit submap_cache( shared_texture_pool &pool ) :
-        pool( pool ) {
-        chunk_tex = pool.request_tex( texture_index );
-    }
-
-    //handle the release of the borrowed texture
-    ~submap_cache() {
-        pool.release_tex( texture_index, std::move( chunk_tex ) );
-    }
-
-    submap_cache( const submap_cache & ) = delete;
-    submap_cache( submap_cache && ) = default;
-
-    SDL_Color &color_at( const point &p ) {
-        cata_assert( p.x < SEEX );
-        cata_assert( p.y < SEEY );
-
-        return minimap_colors[p.y * SEEX + p.x];
-    }
-};
 
 pixel_minimap::pixel_minimap( const SDL_Renderer_Ptr &renderer,
                               const GeometryRenderer_Ptr &geometry ) :
@@ -229,349 +131,66 @@ void pixel_minimap::set_settings( const pixel_minimap_settings &settings )
     reset();
 }
 
-void pixel_minimap::prepare_cache_for_updates( const tripoint_bub_ms &center )
-{
-    const tripoint_abs_sm new_center_sm = get_map().get_abs_sub() + rebase_rel(
-            coords::project_to<coords::sm>
-            ( center ) );
-    const tripoint_rel_sm center_sm_diff = cached_center_sm - new_center_sm;
-
-    //invalidate the cache if the game shifted more than one submap in the last update, or if z-level changed.
-    if( std::abs( center_sm_diff.x() ) > 1 ||
-        std::abs( center_sm_diff.y() ) > 1 ||
-        std::abs( center_sm_diff.z() ) > 0 ) {
-        cache.clear();
-    } else {
-        for( auto &mcp : cache ) {
-            mcp.second.touched = false;
-        }
-    }
-
-    cached_center_sm = new_center_sm;
-}
-
-//deletes the mapping of unused submap caches from the main map
-//the touched flag prevents deletion
-void pixel_minimap::clear_unused_cache()
-{
-    for( auto it = cache.begin(); it != cache.end(); ) {
-        it = it->second.touched ? std::next( it ) : cache.erase( it );
-    }
-}
-
-//draws individual updates to the submap cache texture
-void pixel_minimap::flush_cache_updates()
-{
-    for( auto &mcp : cache ) {
-        if( mcp.second.update_list.empty() ) {
-            continue;
-        }
-
-        scoped_render_target chunk_scope( renderer, mcp.second.chunk_tex.get()
-#if SDL_MAJOR_VERSION >= 3
-                                          , get_shared_variant_pass()
-#endif
-                                        );
-        if( !chunk_scope.is_valid() ) {
-            if( !chunk_scope.boundary_intact() ) {
-                // Boundary lost: latch so the enclosing dtor skips detach.
-                display_buffer_scope_signal_recovery_required();
-            }
-            // Chunk did not paint, so a later render would composite stale data.
-            // Throw to abort the frame, like the tint-mask path.
-            throw std::runtime_error( chunk_scope.boundary_intact()
-                                      ? "pixel_minimap::flush_cache_updates: variant_pass refused boundary"
-                                      : "pixel_minimap::flush_cache_updates: scoped_render_target boundary lost" );
-        }
-
-        if( !mcp.second.ready ) {
-            mcp.second.ready = true;
-
-            SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0x00 );
-            RenderClear( renderer );
-
-            for( int y = 0; y < SEEY; ++y ) {
-                for( int x = 0; x < SEEX; ++x ) {
-                    const point tile_pos = projector->get_tile_pos( { x, y }, { SEEX, SEEY } );
-                    const point tile_size = projector->get_tile_size();
-
-                    const SDL_Rect rect = SDL_Rect{ tile_pos.x, tile_pos.y, tile_size.x, tile_size.y };
-
-                    geometry->rect( renderer, rect, SDL_Color() );
-                }
-            }
-        }
-
-        for( const point &p : mcp.second.update_list ) {
-            const point tile_pos = projector->get_tile_pos( p, { SEEX, SEEY } );
-            const SDL_Color tile_color = mcp.second.color_at( p );
-
-            if( pixel_size.x == 1 && pixel_size.y == 1 ) {
-                SetRenderDrawColor( renderer, tile_color.r, tile_color.g, tile_color.b, tile_color.a );
-                RenderDrawPoint( renderer, tile_pos );
-            } else {
-                geometry->rect( renderer, tile_pos, pixel_size.x, pixel_size.y, tile_color );
-            }
-        }
-
-        mcp.second.update_list.clear();
-
-        // Restore failure leaves later draws landing on the chunk texture or an
-        // undefined target, so propagate like the other scoped failures.
-        if( !chunk_scope.restore() ) {
-            if( !chunk_scope.boundary_intact() ) {
-                display_buffer_scope_signal_recovery_required();
-            }
-            throw std::runtime_error( chunk_scope.boundary_intact()
-                                      ? "pixel_minimap::flush_cache_updates: variant_pass refused boundary on restore"
-                                      : "pixel_minimap::flush_cache_updates: failed to restore prior render target" );
-        }
-    }
-}
-
-void pixel_minimap::update_cache_at( const tripoint_bub_sm &sm_pos )
-{
-    const map &here = get_map();
-    const level_cache &access_cache = here.access_cache( sm_pos.z() );
-    const bool nv_goggle = get_player_character().get_vision_modes()[NV_GOGGLES];
-
-    submap_cache &cache_item = get_cache_at( here.get_abs_sub() + rebase_rel( sm_pos ) );
-    const tripoint_bub_ms ms_pos = coords::project_to<coords::ms>( sm_pos );
-
-    cache_item.touched = true;
-
-    for( int y = 0; y < SEEY; ++y ) {
-        for( int x = 0; x < SEEX; ++x ) {
-            const tripoint_bub_ms p = ms_pos + tripoint{x, y, 0};
-            const lit_level lighting = access_cache.visibility_cache[p.x()][p.y()];
-
-            SDL_Color color;
-
-            if( lighting == lit_level::BLANK || lighting == lit_level::DARK ) {
-                // TODO: Map memory?
-                color = { Uint8( pixel_minimap_r ), Uint8( pixel_minimap_g ), Uint8( pixel_minimap_b ), Uint8( pixel_minimap_a ) };
-            } else {
-                color = get_map_color_at( p );
-
-                //color terrain according to lighting conditions
-                if( nv_goggle ) {
-                    if( lighting == lit_level::LOW ) {
-                        color = color_pixel_nightvision( color );
-                    } else if( lighting != lit_level::DARK && lighting != lit_level::BLANK ) {
-                        color = color_pixel_overexposed( color );
-                    }
-                } else if( lighting == lit_level::LOW ) {
-                    color = color_pixel_grayscale( color );
-                }
-
-                color = adjust_color_brightness( color, settings.brightness );
-            }
-
-            SDL_Color &current_color = cache_item.color_at( { x, y } );
-
-            if( current_color != color ) {
-                current_color = color;
-                cache_item.update_list.emplace_back( x, y );
-            }
-        }
-    }
-}
-
-pixel_minimap::submap_cache &pixel_minimap::get_cache_at( const tripoint_abs_sm &abs_sm_pos )
-{
-    auto it = cache.find( abs_sm_pos );
-
-    if( it == cache.end() ) {
-        it = cache.emplace( abs_sm_pos, submap_cache( *tex_pool ) ).first;
-    }
-
-    return it->second;
-}
-
-void pixel_minimap::process_cache( const tripoint_bub_ms &center )
-{
-    prepare_cache_for_updates( center );
-
-    for( int y = 0; y < MAPSIZE; ++y ) {
-        for( int x = 0; x < MAPSIZE; ++x ) {
-            update_cache_at( { x, y, center.z()} );
-        }
-    }
-
-    flush_cache_updates();
-    clear_unused_cache();
-}
-
 void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
 {
-    if( this->screen_rect == screen_rect && main_tex && tex_pool && projector ) {
+    if( this->screen_rect == screen_rect && projector ) {
         return;
     }
 
     this->screen_rect = screen_rect;
-
     projector = create_projector( screen_rect );
     pixel_size = get_pixel_size( projector->get_tile_size(), settings.mode );
-
-    const point size_on_screen = projector->get_tiles_size( total_tiles_count );
-
-    if( settings.scale_to_fit ) {
-        main_tex_clip_rect = SDL_Rect{ 0, 0, size_on_screen.x, size_on_screen.y };
-        screen_clip_rect = fit_rect_inside( main_tex_clip_rect, screen_rect );
-
-        main_tex = create_cache_texture( renderer, size_on_screen.x, size_on_screen.y );
-        // This texture is scaled to fit the screen; use linear filtering for smooth presentation.
-        SetTextureScaleQuality( main_tex, "linear" );
-
-    } else {
-        const point d( ( size_on_screen.x - screen_rect.w ) / 2, ( size_on_screen.y - screen_rect.h ) / 2 );
-
-        main_tex_clip_rect = SDL_Rect{
-            std::max( d.x, 0 ),
-            std::max( d.y, 0 ),
-            size_on_screen.x - 2 * std::max( d.x, 0 ),
-            size_on_screen.y - 2 * std::max( d.y, 0 )
-        };
-
-        screen_clip_rect = SDL_Rect{
-            screen_rect.x - std::min( d.x, 0 ),
-            screen_rect.y - std::min( d.y, 0 ),
-            main_tex_clip_rect.w,
-            main_tex_clip_rect.h
-        };
-
-        main_tex = create_cache_texture( renderer, size_on_screen.x, size_on_screen.y );
-    }
-
-    cache.clear();
-
-    const point chunk_size = projector->get_tiles_size( { SEEX, SEEY } );
-
-    const auto chunk_texture_generator = [&chunk_size, this]() {
-        SDL_Texture_Ptr result = create_cache_texture( renderer, chunk_size.x, chunk_size.y );
-        SetTextureBlendMode( result, SDL_BLENDMODE_BLEND );
-        return result;
-    };
-
-    tex_pool = std::make_unique<shared_texture_pool>( chunk_texture_generator );
+    tf_ = compute_minimap_transform( projector->get_tiles_size( total_tiles_count ),
+                                     screen_rect, settings.scale_to_fit );
 }
 
 void pixel_minimap::reset()
 {
     projector.reset();
-    cache.clear();
-    main_tex.reset();
-    tex_pool.reset();
+    screen_rect = SDL_Rect{ 0, 0, 0, 0 };
 }
 
-void pixel_minimap::render( const tripoint_bub_ms &center )
+void pixel_minimap::build_batches( const tripoint_bub_ms &center )
 {
-    scoped_render_target main_scope( renderer, main_tex.get()
-#if SDL_MAJOR_VERSION >= 3
-                                     , get_shared_variant_pass()
-#endif
-                                   );
-    if( !main_scope.is_valid() ) {
-        if( !main_scope.boundary_intact() ) {
-            display_buffer_scope_signal_recovery_required();
-        }
-        // main_tex unpainted: the RenderCopy below would composite stale data.
-        throw std::runtime_error( main_scope.boundary_intact()
-                                  ? "pixel_minimap::render: variant_pass refused boundary"
-                                  : "pixel_minimap::render: scoped_render_target boundary lost" );
-    }
-    SetRenderDrawColor( renderer, pixel_minimap_r, pixel_minimap_g, pixel_minimap_b,
-                        pixel_minimap_a );
-    RenderClear( renderer );
-
-    render_cache( center );
-    render_critters( center );
-
-    // Restore so the compositing RenderCopy below lands on the caller's prior
-    // target, not main_tex.
-    if( !main_scope.restore() ) {
-        if( !main_scope.boundary_intact() ) {
-            display_buffer_scope_signal_recovery_required();
-        }
-        throw std::runtime_error( main_scope.boundary_intact()
-                                  ? "pixel_minimap::render: variant_pass refused boundary on restore"
-                                  : "pixel_minimap::render: failed to restore prior render target" );
-    }
-    RenderCopy( renderer, main_tex, &main_tex_clip_rect, &screen_clip_rect );
-}
-
-void pixel_minimap::render_cache( const tripoint_bub_ms &center )
-{
-    const tripoint_abs_sm sm_center = get_map().get_abs_sub() + rebase_rel(
-                                          coords::project_to<coords::sm>
-                                          ( center ) );
-    const tripoint_rel_sm sm_offset {
-        total_tiles_count.x / SEEX / 2,
-        total_tiles_count.y / SEEY / 2, 0
-    };
-
-    point_rel_ms ms_offset;
-    tripoint_bub_sm quotient;
-    point_sm_ms remainder;
-    std::tie( quotient, remainder ) = coords::project_remain<coords::sm>( center );
-
-    point_sm_ms ms_base_offset = point_sm_ms( ( total_tiles_count.x / 2 ) % SEEX,
-                                 ( total_tiles_count.y / 2 ) % SEEY );
-    ms_offset = ms_base_offset - remainder;
-
-    for( const auto &elem : cache ) {
-        if( !elem.second.touched ) {
-            continue;   // What you gonna do with all that junk?
-        }
-
-        const tripoint_rel_sm rel_pos = elem.first - sm_center;
-
-        if( std::abs( rel_pos.x() ) > sm_offset.x() + 1 ||
-            std::abs( rel_pos.y() ) > sm_offset.y() + 1 ||
-            rel_pos.z() != 0 ) {
-            continue;
-        }
-
-        const tripoint_rel_sm sm_pos = tripoint_rel_sm( rel_pos ) + sm_offset;
-        const tripoint_rel_ms ms_pos = coords::project_to<coords::ms>( sm_pos ) + ms_offset;
-
-        const SDL_Rect chunk_rect = projector->get_chunk_rect( ms_pos.xy().raw(), {SEEX, SEEY} );
-
-        RenderCopy( renderer, elem.second.chunk_tex, nullptr, &chunk_rect );
-    }
-}
-
-void pixel_minimap::render_critters( const tripoint_bub_ms &center )
-{
+    terrain_batch_.clear();
+    beacon_batch_.clear();
     has_blinking_beacons_ = false;
 
+    terrain_batch_.reserve_quads( total_tiles_count.x * total_tiles_count.y );
+
     const map &m = get_map();
+    const level_cache &access_cache = m.access_cache( center.z() );
+    const bool nv_goggle = get_player_character().get_vision_modes()[NV_GOGGLES];
+    creature_tracker &creatures = get_creature_tracker();
 
-    //handles the enemy faction red highlights
-    //this value should be divisible by 200
-    const int indicator_length = settings.beacon_blink_interval * 200; //default is 2000 ms, 2 seconds
+    // Full blink period in milliseconds; default is 2000.
+    const int indicator_length = settings.beacon_blink_interval * beacon_blink_ms_per_step;
 
-    int flicker = 100;
+    int flicker = beacon_flicker_full;
     int mixture = 0;
 
     if( indicator_length > 0 ) {
         const float t = get_animation_phase( 2 * indicator_length );
         const float s = std::sin( 2 * M_PI * t );
 
-        flicker = lerp_clamped( 25, 100, std::abs( s ) );
-        mixture = lerp_clamped( 0, 100, std::max( s, 0.0f ) );
+        flicker = lerp_clamped( beacon_flicker_dim, beacon_flicker_full, std::abs( s ) );
+        mixture = lerp_clamped( 0, beacon_flicker_full, std::max( s, 0.0f ) );
     }
-
-    const level_cache &access_cache = m.access_cache( center.z() );
 
     const point_rel_ms start( center.x() - total_tiles_count.x / 2,
                               center.y() - total_tiles_count.y / 2 );
+    // Scaled so beacons keep their proportion to the map under scale_to_fit.
     const point beacon_size = {
-        std::max<int>( projector->get_tile_size().x *settings.beacon_size / 2, 2 ),
-        std::max<int>( projector->get_tile_size().y *settings.beacon_size / 2, 2 )
+        std::max( static_cast<int>( projector->get_tile_size().x *tf_.scale_x *
+                                    settings.beacon_size / 2 ), 2 ),
+        std::max( static_cast<int>( projector->get_tile_size().y *tf_.scale_y *
+                                    settings.beacon_size / 2 ), 2 )
     };
+    // A constant size, or the fractional pitch lands as a mix of sizes and bands.
+    const bool fills_cell = pixel_size == projector->get_tile_size();
+    const int fixed_w = std::max( 1, static_cast<int>( std::lround( pixel_size.x * tf_.scale_x ) ) );
+    const int fixed_h = std::max( 1, static_cast<int>( std::lround( pixel_size.y * tf_.scale_y ) ) );
 
-    creature_tracker &creatures = get_creature_tracker();
     for( int y = 0; y < total_tiles_count.y; y++ ) {
         for( int x = 0; x < total_tiles_count.x; x++ ) {
             const tripoint_bub_ms p = start + tripoint_bub_ms( x, y, center.z() );
@@ -580,30 +199,84 @@ void pixel_minimap::render_critters( const tripoint_bub_ms &center )
                 continue;
             }
             const lit_level lighting = access_cache.visibility_cache[p.x()][p.y()];
-
-            if( lighting == lit_level::DARK || lighting == lit_level::BLANK ) {
+            if( lighting == lit_level::BLANK || lighting == lit_level::DARK ) {
+                // TODO: Map memory?
                 continue;
             }
+
+            SDL_Color color = get_map_color_at( p );
+
+            if( nv_goggle ) {
+                if( lighting == lit_level::LOW ) {
+                    color = color_pixel_nightvision( color );
+                } else {
+                    color = color_pixel_overexposed( color );
+                }
+            } else if( lighting == lit_level::LOW ) {
+                color = color_pixel_grayscale( color );
+            }
+
+            color = adjust_color_brightness( color, settings.brightness );
+
+            const point pos = projector->get_tile_pos( { x, y }, total_tiles_count );
+            const point origin_px( snap_to_pixel( tf_.origin_x, tf_.scale_x, pos.x ),
+                                   snap_to_pixel( tf_.origin_y, tf_.scale_y, pos.y ) );
+            const point extent_px(
+                fills_cell ? std::max( 1, snap_to_pixel( tf_.origin_x, tf_.scale_x,
+                                       pos.x + pixel_size.x ) - origin_px.x )
+                : fixed_w,
+                fills_cell ? std::max( 1, snap_to_pixel( tf_.origin_y, tf_.scale_y,
+                                       pos.y + pixel_size.y ) - origin_px.y )
+                : fixed_h );
+            terrain_batch_.append_quad( origin_px.x, origin_px.y,
+                                        extent_px.x, extent_px.y, to_fcolor( color ) );
 
             Creature *critter = creatures.creature_at( p, true );
-
-            if( critter == nullptr || !get_player_view().sees( m, *critter ) ) {
-                continue;
+            if( critter != nullptr && get_player_view().sees( m, *critter ) ) {
+                if( indicator_length > 0 ) {
+                    has_blinking_beacons_ = true;
+                }
+                const SDL_Rect critter_rect = SDL_Rect{ origin_px.x, origin_px.y,
+                                                        beacon_size.x, beacon_size.y };
+                append_beacon( beacon_batch_, critter_rect,
+                               get_critter_color( critter, flicker, mixture ),
+                               beacon_edge_divisor );
             }
-
-            const point critter_pos = projector->get_tile_pos( { x, y }, total_tiles_count );
-            const SDL_Rect critter_rect = SDL_Rect{ critter_pos.x, critter_pos.y, beacon_size.x, beacon_size.y };
-            const SDL_Color critter_color = get_critter_color( critter, flicker, mixture );
-
-            if( indicator_length > 0 ) {
-                has_blinking_beacons_ = true;
-            }
-            draw_beacon( critter_rect, critter_color );
         }
     }
 }
 
-//the main call for drawing the pixel minimap to the screen
+void pixel_minimap::present()
+{
+    const bool had_clip = RenderIsClipEnabled( renderer );
+    SDL_Rect prior_clip = { 0, 0, 0, 0 };
+    if( had_clip ) {
+        RenderGetClipRect( renderer, &prior_clip );
+    }
+    // A caller may already be clipping to something narrower than the
+    // minimap rect, so draw within both.
+    SDL_Rect clip = tf_.dest_rect;
+    if( had_clip && !GetRectIntersection( prior_clip, tf_.dest_rect, clip ) ) {
+        return;
+    }
+
+    SDL_BlendMode prior_blend = SDL_BLENDMODE_NONE;
+    GetRenderDrawBlendMode( renderer, prior_blend );
+    SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
+    RenderSetClipRect( renderer, &clip );
+
+    geometry->rect( renderer, tf_.dest_rect,
+                    SDL_Color{ static_cast<Uint8>( pixel_minimap_r ),
+                               static_cast<Uint8>( pixel_minimap_g ),
+                               static_cast<Uint8>( pixel_minimap_b ),
+                               static_cast<Uint8>( pixel_minimap_a ) } );
+    render_batch( renderer, terrain_batch_ );
+    render_batch( renderer, beacon_batch_ );
+
+    RenderSetClipRect( renderer, had_clip ? &prior_clip : nullptr );
+    SetRenderDrawBlendMode( renderer, prior_blend );
+}
+
 void pixel_minimap::draw( const SDL_Rect &screen_rect, const tripoint_bub_ms &center )
 {
     if( !g ) {
@@ -615,20 +288,8 @@ void pixel_minimap::draw( const SDL_Rect &screen_rect, const tripoint_bub_ms &ce
     }
 
     set_screen_rect( screen_rect );
-    process_cache( center );
-    render( center );
-}
-
-void pixel_minimap::draw_beacon( const SDL_Rect &rect, const SDL_Color &color )
-{
-    for( int x = -rect.w, x_max = rect.w; x <= x_max; ++x ) {
-        for( int y = -rect.h + std::abs( x ), y_max = rect.h - std::abs( x ); y <= y_max; ++y ) {
-            const int divisor = 2 * ( std::abs( y ) == rect.h - std::abs( x ) ? 1 : 0 ) + 1;
-
-            SetRenderDrawColor( renderer, color.r / divisor, color.g / divisor, color.b / divisor, 0xFF );
-            RenderDrawPoint( renderer, point( rect.x + x, rect.y + y ) );
-        }
-    }
+    build_batches( center );
+    present();
 }
 
 std::unique_ptr<pixel_minimap_projector> pixel_minimap::create_projector(
@@ -645,7 +306,7 @@ const
                     settings.square_pixels );
     }
 
-    return nullptr;
+    cata_fatal( "Invalid pixel_minimap_type %d", static_cast<int>( type ) );
 }
 
-#endif // SDL_TILES
+#endif // TILES

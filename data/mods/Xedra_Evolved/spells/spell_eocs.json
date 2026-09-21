@@ -326,7 +326,7 @@
       { "u_teleport": { "u_val": "lucid_dream_teleport" } },
       { "math": [ "u_hp('ALL') = u_hp_before_lucid" ] },
       { "math": [ "u_pain() = u_pain_before_lucid" ] },
-      { "math": [ "u_calories() = u_kcal_before_lucid" ] },
+      { "math": [ "u_calories('dont_affect_weariness': true) = u_kcal_before_lucid" ] },
       { "math": [ "u_val('thirst') = u_thirst_before_lucid" ] },
       { "math": [ "u_vitamin('blood') = u_blood_before_lucid" ] },
       { "math": [ "u_vitamin('redcells') = u_redcells_before_lucid" ] },

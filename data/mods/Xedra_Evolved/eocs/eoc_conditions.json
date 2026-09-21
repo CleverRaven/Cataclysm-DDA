@@ -68,6 +68,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK",
+    "condition": { "u_has_any_trait": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE", "CHANGELING_MAGIC" ] },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CONDITION_XE_VAMPIRE_AVOID_BURNING_IN_SUNLIGHT",
     "condition": { "and": [ { "not": { "u_has_effect": "vampire_blind_the_sun" } } ] },
     "effect": [  ]
@@ -116,9 +122,16 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DREAMS_OR_NIGHTMARES_GRACKEN_AND_FAE",
+    "//": "This only gives the vampire-caused messages to fae that can gain a new trait through dreaming, as they still can dream but can't gain anything from it until they're cured.",
     "condition": { "u_has_trait": "GRACKEN" },
     "effect": [ { "u_message": "gracken_wake_up", "snippet": true, "type": "neutral" } ],
-    "false_effect": [ { "u_message": "fae_wake_up", "snippet": true, "type": "neutral" } ]
+    "false_effect": [
+      {
+        "if": { "and": [ { "math": [ "u_changeling_advancement_dreams_counter >= 1" ] }, { "u_has_trait": "VAMPIRE" } ] },
+        "then": { "u_message": "vampire_infected_fae_wake_up", "snippet": true, "type": "bad" },
+        "else": { "u_message": "fae_wake_up", "snippet": true, "type": "neutral" }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",

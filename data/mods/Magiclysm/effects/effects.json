@@ -1708,7 +1708,7 @@
     "desc": [ "You bleed less than normal." ],
     "rating": "good",
     "max_duration": 25200,
-    "flags": [ "BLEEDSLOW" ]
+    "enchantments": [ { "values": [ { "value": "BLEEDING_RATE", "multiply": -0.333 } ] } ]
   },
   {
     "type": "effect_type",
@@ -1717,7 +1717,7 @@
     "desc": [ "You bleed much less than normal." ],
     "rating": "good",
     "max_duration": 25200,
-    "flags": [ "BLEEDSLOW2" ]
+    "enchantments": [ { "values": [ { "value": "BLEEDING_RATE", "multiply": -0.666 } ] } ]
   },
   {
     "type": "effect_type",
@@ -2012,6 +2012,48 @@
         "hit_me_effect": [ { "id": "druid_thorn_skin_attacked", "hit_self": false, "once_in": 2 } ],
         "incoming_damage_mod": [ { "type": "bash", "multiply": -0.2 }, { "type": "cut", "multiply": -0.1 }, { "type": "stab", "multiply": -0.2 } ]
       }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_periapt_health",
+    "//": "Hidden effect, makes the periapt of health block diseases and infection",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [
+      "nausea",
+      "bite",
+      "infected",
+      "spores",
+      "fungus",
+      "dermatik",
+      "pre_common_cold",
+      "pre_flu",
+      "common_cold",
+      "flu",
+      "tetanus",
+      "asthma",
+      "tapeworm",
+      "brainworms",
+      "bloodworms"
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_periapt_proof_against_poison",
+    "//": "Hidden effect, makes the periapt of proof against poison prevent poisons",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [
+      "poison",
+      "badpoison",
+      "tpollen",
+      "venom_dmg",
+      "venom_weaken",
+      "venom_blind",
+      "venom_pain",
+      "foodpoison",
+      "paralyzepoison"
     ]
   },
   {

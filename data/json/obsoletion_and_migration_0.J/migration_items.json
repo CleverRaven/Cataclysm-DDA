@@ -376,6 +376,16 @@
   },
   {
     "type": "MIGRATION",
+    "id": "water_purifying_active",
+    "replace": "water_clean"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "water_purifying",
+    "replace": "water_clean"
+  },
+  {
+    "type": "MIGRATION",
     "id": "mre_strawberry_cake",
     "replace": "mre_chocolate_cake"
   },
@@ -869,6 +879,16 @@
   },
   {
     "type": "MIGRATION",
+    "id": "gobag",
+    "replace": "duffelbag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "personal_gobag",
+    "replace": "duffelbag"
+  },
+  {
+    "type": "MIGRATION",
     "id": "mc_kukri",
     "replace": "kukri"
   },
@@ -881,5 +901,55 @@
     "type": "MIGRATION",
     "id": "mc_rapier",
     "replace": "rapier"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "pepperhuman",
+    "replace": "human_cooked"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "peppermutant_human",
+    "replace": "mutant_human_cooked"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "peppermeat",
+    "replace": "meat_cooked"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "pepperfat",
+    "replace": "meat_fatty_cooked"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "pepperscrap",
+    "replace": "meat_scrap"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "peppermutant",
+    "replace": "mutant_meat"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "pepperscrap_mutant",
+    "replace": "mutant_meat_scrap"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "pepperbone",
+    "replace": "cooked_marrow"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "poultry_pepper",
+    "replace": "poultry_cooked"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "poultry_scrap_pepper",
+    "replace": "poultry_scrap"
   }
 ]

@@ -150,6 +150,7 @@
       ],
       "palettes": [ "microlab_generic" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "set": [ { "square": "trap_remove", "id": "tr_null", "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
       "terrain": { ".": "t_nether_glass_floor", "2": "t_door_glass_frosted_lab_o" }
     }
   },

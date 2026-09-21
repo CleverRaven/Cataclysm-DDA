@@ -88,6 +88,9 @@ static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
 static const std::string flag_SKIP_DEFAULT_BACKGROUND( "SKIP_DEFAULT_BACKGROUND" );
 
+static const character_portrait_id character_portrait_AVATAR( "AVATAR" );
+static const character_portrait_id character_portrait_GENERIC_NPC( "GENERIC_NPC" );
+
 static const flag_id json_flag_WET( "WET" );
 static const flag_id json_flag_auto_wield( "auto_wield" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
@@ -425,6 +428,11 @@ void Character::randomize( const bool random_scenario, bool play_now )
     // Reset everything to the defaults to have a clean state.
     if( is_avatar() ) {
         *this->as_avatar() = avatar();
+        portrait_filename = character_portrait_AVATAR;
+    } else {
+        // Random NPC with no class --> generic portrait
+        // FIXME: Use null ID
+        portrait_filename = character_portrait_GENERIC_NPC;
     }
 
     bool gender_selection = one_in( 2 );
@@ -706,6 +714,10 @@ void Character::add_profession_items()
     calc_encumbrance();
 }
 
+void Character::ensure_portrait_valid()
+{
+}
+
 void Character::randomize_hobbies()
 {
     hobbies.clear();
@@ -964,6 +976,13 @@ void Character::initialize( bool learn_recipes )
         learn_recipe( &r );
     }
 
+    prof->learn_spells( *this );
+
+    // Also learn spells from hobbies
+    for( const profession *profession : hobbies ) {
+        profession->learn_spells( *this );
+    }
+
     // Add hobby proficiencies
     set_proficiencies_from_hobbies();
 
@@ -1047,17 +1066,16 @@ void avatar::initialize( character_type type )
         starting_pets.push_back( elem );
     }
 
-    if( get_scenario()->vehicle() != vproto_id::NULL_ID() ) {
-        starting_vehicle = get_scenario()->vehicle();
+    const scenario *scen = get_scenario();
+    if( scen->vehicle() != vproto_id::NULL_ID() ) {
+        starting_vehicle = scen->vehicle();
     } else {
         starting_vehicle = prof->vehicle();
     }
 
-    prof->learn_spells( *this );
-
-    // Also learn spells from hobbies
-    for( const profession *profession : hobbies ) {
-        profession->learn_spells( *this );
+    const point_rel_om &offset = scen->get_origin_offset();
+    if( offset != point_rel_om::zero ) {
+        world_origin = world_origin.value_or( point_abs_om() ) + offset;
     }
 
 }
@@ -2168,8 +2186,7 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
-    //TODO: NPCs already get profession stuff assigned at least twice elsewhere causing issues and it all wants unifying (if not here this should be made an avatar::add_traits()
-    if( !is_npc() ) {
+    {
         for( const trait_and_var &tr : prof->get_locked_traits() ) {
             if( !has_trait( tr.trait ) ) {
                 toggle_trait_deps( tr.trait );
@@ -2509,7 +2526,11 @@ void character_creator_ui::setup_new_uilist()
                         if( key == CHARACTER_CREATOR_TRAITS_NEGATIVE.translated() && entry_trait->points < 0 ) {
                             return true;
                         }
-                        if( key == CHARACTER_CREATOR_TRAITS_NEUTRAL.translated() && entry_trait->points == 0 ) {
+                        if( key == CHARACTER_CREATOR_TRAITS_NEUTRAL.translated() && entry_trait->points == 0 &&
+                            !entry_trait->vanity ) {
+                            return true;
+                        }
+                        if( key == CHARACTER_CREATOR_TRAITS_COSMETIC.translated() && entry_trait->vanity ) {
                             return true;
                         }
                     }
@@ -2524,6 +2545,8 @@ void character_creator_ui::setup_new_uilist()
                                           CHARACTER_CREATOR_TRAITS_NEGATIVE.translated() );
                 new_uilist->add_category( CHARACTER_CREATOR_TRAITS_NEUTRAL.translated(),
                                           CHARACTER_CREATOR_TRAITS_NEUTRAL.translated() );
+                new_uilist->add_category( CHARACTER_CREATOR_TRAITS_COSMETIC.translated(),
+                                          CHARACTER_CREATOR_TRAITS_COSMETIC.translated() );
                 break;
             }
             case CHARCREATOR_SKILLS: {
@@ -2869,9 +2892,11 @@ bool character_creator_ui::display()
 
     while( !cc_uistate.finished_character_creator ) {
 
+        input_context &current_tab_input = get_current_tab_input();
+        input_context::scoped_activation active_tab_context( current_tab_input );
+
         ui_manager::redraw();
         std::shared_ptr<uilist> current_tab_uilist = get_current_tab_uilist();
-        input_context &current_tab_input = get_current_tab_input();
         if( current_tab_uilist ) {
             cc_uilist_current = current_tab_uilist->create_or_get_ui();
             if( current_tab_uilist->query_setup() ) {
@@ -3687,8 +3712,8 @@ void character_creator_callback::confirm( uilist *menu )
             character_stat selected_stat = static_cast<character_stat>( selected_stat_index );
             const int stat_queried = cc_uistate.stats[selected_stat_index];
             number_input_popup<int> stat_query( 0, stat_queried,
-                                                string_format( "Set new %s (between %d and %d):",
-                                                        io::enum_to_full_string( selected_stat ),
+                                                string_format( _( "Set new %s (between %d and %d):" ),
+                                                        _( io::enum_to_full_string( selected_stat ) ),
                                                         CHARACTER_STAT_MIN, CHARACTER_STAT_MAX ) );
             int stat_queried_result = stat_query.query();
             const int stat_result_clamped = std::clamp( stat_queried_result, CHARACTER_STAT_MIN,
@@ -3786,7 +3811,7 @@ void character_creator_callback::confirm( uilist *menu )
             const skill_id skill_queried = cc_uistate.get_selected_skill();
             int previous_skill_level = u.get_skill_level( skill_queried );
             number_input_popup<int> skill_query( 0, previous_skill_level,
-                                                 string_format( "Set new %s skill level (between %d and %d):",
+                                                 string_format( _( "Set new %s skill level (between %d and %d):" ),
                                                          skill_queried->name(), MIN_SKILL, MAX_SKILL ) );
             int skill_queried_result = skill_query.query();
             if( skill_queried_result != previous_skill_level ) {

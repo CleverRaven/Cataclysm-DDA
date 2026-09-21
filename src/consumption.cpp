@@ -12,6 +12,7 @@
 #include <set>
 #include <string>
 #include <tuple>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -122,6 +123,7 @@ static const itype_id itype_syringe( "syringe" );
 
 static const json_character_flag json_flag_BLOODFEEDER( "BLOODFEEDER" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
+static const json_character_flag json_flag_CANNOT_CONSUME_DRUGS( "CANNOT_CONSUME_DRUGS" );
 static const json_character_flag json_flag_CARNIVORE_DIET( "CARNIVORE_DIET" );
 static const json_character_flag json_flag_HEMOVORE( "HEMOVORE" );
 static const json_character_flag json_flag_HERBIVORE_DIET( "HERBIVORE_DIET" );
@@ -137,6 +139,8 @@ static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SKIP_HEALTH( "SKIP_HEALTH" );
 static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
 static const json_character_flag json_flag_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
+static const json_character_flag
+json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 
 static const material_id material_all( "all" );
 
@@ -906,6 +910,12 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     }
 
     const use_function *consume_drug = food.type->get_use( "consume_drug" );
+    if( has_flag( json_flag_CANNOT_CONSUME_DRUGS ) ) {
+        return ret_val<edible_rating>::make_failure( _( "That would have no effect on you." ) );
+    }
+    if( has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) ) {
+        return ret_val<edible_rating>::make_failure( _( "You cannot use that while shapeshifted." ) );
+    }
     if( consume_drug != nullptr ) { //its a drug)
         const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                 ( consume_drug->get_actor_ptr() );
@@ -1225,6 +1235,33 @@ static bool eat( item &food, Character &you, bool force )
         }
     }
 
+    std::list<itype_id> seasonings_list = food.get_comestible()->get_seasonings();
+    std::unordered_set<itype_id> seasonings_set( seasonings_list.begin(), seasonings_list.end() );
+
+    item_location seasoning;
+    // Food that takes no seasoning has nothing to match, so skip the search over
+    // the inventory and the surrounding map.
+    if( !seasonings_set.empty() ) {
+        auto legal_to_consume = [&]( const item & it ) {
+            return it.is_owned_by( you ) && ( seasonings_set.find( it.typeId() ) != seasonings_set.end() );
+        };
+
+        auto fun_value = [&]( const item_location & it ) {
+            return it->get_comestible_fun();
+        };
+
+        std::unordered_set<item_location> all_valid_seasonings = get_map().all_items( legal_to_consume,
+                you, Access_Inventory | Access_Map_Around );
+
+        for( const item_location &checked : all_valid_seasonings ) {
+            // Always pick the best(highest fun) valid seasoning we find.
+            // TODO: More than one seasoning?
+            if( !seasoning || ( fun_value( checked ) > fun_value( seasoning ) ) ) {
+                seasoning = checked;
+            }
+        }
+    }
+
     if( amorphous ) {
         you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
                                    food.tname() );
@@ -1238,8 +1275,15 @@ static bool eat( item &food, Character &you, bool force )
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), tname );
             add_msg( _( "You drink your %s (rotten)." ), tname );
         } else {
-            you.add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ),
-                                       food.tname() );
+            if( seasoning ) {
+                //~Position 1: A food item (e.g. coffee). Position 2: A seasoning or additive(e.g. milk). "You drink your coffee with milk."
+                you.add_msg_player_or_npc( _( "You drink your %1$s with %2$s." ),
+                                           _( "<npcname> drinks a %1$s with %2$s." ),
+                                           food.tname(), seasoning->tname() );
+            } else {
+                you.add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ),
+                                           food.tname() );
+            }
         }
     } else if( chew ) {
         if( you.is_avatar() && you.schizo_symptoms( 50 ) && !spoiled && food.goes_bad() &&
@@ -1250,8 +1294,15 @@ static bool eat( item &food, Character &you, bool force )
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), tname );
             add_msg( _( "You eat your %s (rotten)." ), tname );
         } else {
-            you.add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
-                                       food.tname() );
+            if( seasoning ) {
+                //~Position 1: A food item (e.g. steak). Position 2: A seasoning or additive(e.g. black pepper). "You eat your steak with black pepper."
+                you.add_msg_player_or_npc( _( "You eat your %1$s with %2$s." ),
+                                           _( "<npcname> eats a %1$s with %2$s." ),
+                                           food.tname(), seasoning->tname() );
+            } else {
+                you.add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
+                                           food.tname() );
+            }
         }
     }
 
@@ -1323,6 +1374,14 @@ static bool eat( item &food, Character &you, bool force )
     }
 
     you.consumption_history.emplace_back( food );
+    if( seasoning && you.consume_effects( *seasoning ) ) {
+        you.consumption_history.emplace_back( *seasoning );
+        if( seasoning->count_by_charges() ) {
+            seasoning->mod_charges( -1 );
+        } else {
+            seasoning.remove_item();
+        }
+    }
     // Clean out consumption_history so it doesn't get bigger than needed.
     while( you.consumption_history.front().time < calendar::turn - 2_days ) {
         you.consumption_history.pop_front();

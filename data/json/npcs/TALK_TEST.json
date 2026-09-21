@@ -979,7 +979,7 @@
         "topic": "TALK_DONE",
         "condition": { "math": [ "u_val('power_percentage') == 50" ] }
       },
-      { "text": "Morale is 23.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('morale') == 23" ] } },
+      { "text": "Morale is 23.", "topic": "TALK_DONE", "condition": { "math": [ "u_morale() == 23" ] } },
       { "text": "Focus is 24.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('focus') == 24" ] } },
       { "text": "Mana is 25.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('mana') == 25" ] } },
       { "text": "Mana max is 900.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('mana_max') == 900" ] } },
@@ -1292,7 +1292,7 @@
     "name_suffix": "Tester",
     "class": "test_shop_class",
     "attitude": 1,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_TEST_FACTION_TRUST",
     "faction": "free_merchants"
   },
@@ -1303,7 +1303,7 @@
     "name_suffix": "Tester",
     "class": "NC_DOCTOR",
     "attitude": 1,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_TEST_START",
     "faction": "tacoma_commune",
     "talk_friend_guard": "TALK_TEST_GUARD"

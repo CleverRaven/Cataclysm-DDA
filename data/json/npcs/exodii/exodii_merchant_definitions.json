@@ -6,10 +6,11 @@
     "class": "NC_EXODII_TYPE_1_Merchant",
     "name_unique": "Rubik",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_EXODII_MERCHANT",
     "faction": "exodii",
-    "personality": { "aggression": -1, "bravery": 2, "collector": -3, "altruism": 3 }
+    "personality": { "aggression": -1, "bravery": 2, "collector": -3, "altruism": 3 },
+    "snip_bye": "…"
   },
   {
     "type": "npc_class",
@@ -66,6 +67,7 @@
     "type": "shopkeeper_blacklist",
     "id": "rubik_shopkeep_blacklist",
     "entries": [
+      { "group": "exodii_do_not_buy_currency_blacklist", "message": "Will not accept currency" },
       { "group": "exodii_do_not_buy_ammo_blacklist" },
       { "category": "clothing" },
       { "group": "SUS_bathroom_sink" },
@@ -80,7 +82,8 @@
       { "group": "SUS_junk_drawer" },
       { "group": "SUS_junk_drawer_messy" },
       { "group": "SUS_junk_drawer_artsy" },
-      { "group": "SUS_kitchen_sink" }
+      { "group": "SUS_kitchen_sink" },
+      { "group": "Exodii_mod_blacklist_items" }
     ]
   },
   {

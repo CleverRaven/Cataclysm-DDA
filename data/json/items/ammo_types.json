@@ -367,6 +367,13 @@
   },
   {
     "type": "ammunition_type",
+    "//COMMENT": "This ammotype exists to collect all the liquids that are not real ammo, and not comestibles.",
+    "id": "FAKE_NO_SHOOTING_generic_liquid",
+    "name": "",
+    "default": "glue_weak"
+  },
+  {
+    "type": "ammunition_type",
     "id": "lamp_oil",
     "name": "kerosene",
     "default": "lamp_oil"
@@ -412,12 +419,6 @@
     "id": "match",
     "name": "match",
     "default": "match"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "incense",
-    "name": "incense",
-    "default": "incense"
   },
   {
     "type": "ammunition_type",
@@ -490,18 +491,6 @@
     "id": "plutonium",
     "name": "plutonium",
     "default": "plut_cell"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "uranium",
-    "name": "uranium",
-    "default": "uran_cell"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "reactor_slurry",
-    "name": "plutonium slurry",
-    "default": "plut_slurry"
   },
   {
     "type": "ammunition_type",
@@ -584,12 +573,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "thrown",
-    "name": "throwing weapon",
-    "default": "thrown"
-  },
-  {
-    "type": "ammunition_type",
     "id": "ampoule",
     "name": "chemical ampoule",
     "default": "ampoule"
@@ -614,9 +597,51 @@
   },
   {
     "type": "ammunition_type",
-    "id": "components",
-    "name": "components",
-    "default": "components"
+    "id": "rolling_paper",
+    "name": "",
+    "default": "rolling_paper"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "gunpowder",
+    "name": "",
+    "default": "gunpowder"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "gunpowder_shotgun",
+    "name": "",
+    "default": "gunpowder_shotgun"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "gunpowder_pistol",
+    "name": "",
+    "default": "gunpowder_pistol"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "gunpowder_magnum_pistol",
+    "name": "",
+    "default": "gunpowder_magnum_pistol"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "gunpowder_rifle",
+    "name": "",
+    "default": "gunpowder_rifle"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "gunpowder_large_rifle",
+    "name": "",
+    "default": "gunpowder_large_rifle"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "gunpowder_artillery",
+    "name": "",
+    "default": "gunpowder_artillery"
   },
   {
     "type": "ammunition_type",
@@ -719,18 +744,6 @@
     "id": "chemical_spray",
     "name": "sprayable chemical",
     "default": "gas_fungicidal"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "milk",
-    "name": "milk",
-    "default": "milk"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "milk_raw",
-    "name": "raw milk",
-    "default": "milk_raw"
   },
   {
     "type": "ammunition_type",
@@ -911,12 +924,6 @@
     "id": "airgun_pellet",
     "name": "airgun pellet",
     "default": "airgun_pellet_target"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "rivets",
-    "name": "rivets",
-    "default": "rivets"
   },
   {
     "type": "ammunition_type",

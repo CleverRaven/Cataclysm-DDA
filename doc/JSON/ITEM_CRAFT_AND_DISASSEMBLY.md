@@ -7,6 +7,7 @@
   - [Practice recipes](#practice-recipes)
   - [Nested recipes](#nested-recipes)
   - [Recipe requirements](#recipe-requirements)
+  - [Character resource costs](#character-resource-costs)
   - [Defining common requirements](#defining-common-requirements)
   - [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
 - [Item disassembly](#item-disassembly)
@@ -40,6 +41,12 @@ Crafting recipes are defined as a JSON object with the following fields:
 "delete_flags": [ "CANNIBALISM" ], // Optional (default: empty list). Flags specified here will be removed from the resultant item upon crafting. This will override flag inheritance, but *will not* delete flags that are part of the item type itself.
 "skill_used": "fabrication", // Skill trained and used for success checks
 "skills_required": [["survival", 1], ["throw", 2]], // Skills required to unlock recipe
+"character_requirements": { // Optional minimum final character stat values required to craft the recipe.
+  "str": 9,
+  "dex": 6,
+  "int": 4,
+  "per": 12
+},
 "book_learn": {	             // (optional) Books that this recipe can be learned from.
     "textbook_anarch" : {    // ID of the book the recipe can be learned from
         "skill_level" : 7,   // Skill level at which it can be learned
@@ -116,12 +123,42 @@ Crafting recipes are defined as a JSON object with the following fields:
 "component_blacklist": [     // List of item types that don't get added to result item components. Reversible recipes won't recover these and comestibles will not include them in calorie calculations.
   "item_a",
   "item_b"
-]
+],
+"character_resources": {    // Optional character resources consumed while crafting. Costs scale linearly with batch size.
+  "mana": 100,              // Mana consumed per crafted unit.
+  "stamina": 500,           // Stamina consumed per crafted unit.
+  "vitamins": [             // Vitamins consumed per crafted unit.
+    {
+      "vitamin": "blood",  // Vitamin id.
+      "value": 1000,        // Amount consumed.
+      "safe_level": -20000  // Optional minimum level the craft may reduce this vitamin to.
+    }
+  ]
+}
 ```
+
+#### `character_requirements`
+
+`character_requirements` optionally restricts a recipe to characters whose current final primary stat values meet the configured minimums. The supported members are `str`, `dex`, `int`, and `per`. Final values include all modifiers currently affecting the character.
+
+Each member is an integer minimum:
+
+```jsonc
+"character_requirements": {
+  "str": 9,
+  "dex": 6,
+  "int": 4,
+  "per": 12
+}
+```
+
+A value of `0` is valid but has no effect. The recipe cannot be started while any effective requirement is unmet.
+
+When a recipe with `copy-from` defines `character_requirements`, the entire inherited object is replaced. Members omitted from the child object are not inherited individually.
 
 #### `batch_time_factors`
 
-`batch_time_factors supports several formats, with two different scaling functions.
+`batch_time_factors` supports several formats, with two different scaling functions.
 
 Logistic scaling provides savings of some percent once the batch reaches a certain size.
 ```jsonc
@@ -135,8 +172,8 @@ Linear scaling provides purely linear scaling. There are two parameters, the `se
 In other words, max does not limit the max batch size, it merely specifies when the setup cost will be applied again.
 It is specified as follows:
 ```jsonc
-"batch_time_factors": { "mode": "linear": "setup": "12 m" },
-"batch_time_factors": { "mode": "linear": "setup": "12 m", "max": 20 },
+"batch_time_factors": { "mode": "linear", "setup": "12 m" },
+"batch_time_factors": { "mode": "linear", "setup": "12 m", "max": 20 },
 ```
 
 ## Recipe steps
@@ -173,6 +210,8 @@ Each entry in the `"steps"` array is an object with these fields:
 "batch_time_factors": // (Optional)  Same format as recipe-level.
 "attention":          // (Optional)  Either "none" (default) or "unattended".  See "Unattended steps".
 "max_time":           // (Optional)  Duration.  Hard deadline for an unattended step.  Must be > "time".
+                      //             Authored per-unit; the ruin deadline ("max_time" + "grace_period")
+                      //             scales with batch size through "batch_time_factors", like "time".
 "grace_period":       // (Optional)  Duration.  Extra time past "max_time" before the craft is destroyed.
                       //             Only allowed when "max_time" is set.
 "unattend_message":   // (Optional)  Translatable string.  Shown when an unattended step finishes
@@ -253,11 +292,44 @@ When the wall-clock deadline elapses:
 
 - Non-terminal: step advances, distraction fires with `unattend_message` (or a vague log line without a timepiece).  Suppressed if the player is already on this craft.
 - Terminal: craft auto-finalizes at the deadline, so morale, EOCs, heat, and birthday use in-game completion time.
-- `max_time + grace_period` past start: craft is destroyed.
+- `max_time + grace_period` past start: craft is destroyed.  This deadline is batch-scaled the same way as completion, so the ruin window tracks the batch-scaled completion time rather than staying a flat per-unit duration.
 
 If the step's tools or qualities become unavailable, or a charged tool runs short on charges, the step pauses and the deadline slides forward once the requirement is restored.  `crafter_id` is remembered so env-check picks up the crafter's pseudo-tools, bionics, and trait qualities when they are next to the craft.
 
 NPCs do not see the planning modal and behave as if implicitly waiting; the unattended block in the craft activity actor still drives their craft forward.
+
+### Counting quality providers
+
+Two rules decide how many providers a quality requirement sees.  Both can change whether a recipe is offered.
+
+- A quality requirement's `"amount"` counts **distinct providers**.  A qualifying tool inside a container counts once, not twice.  A stack of a charge-counted qualifying item counts once, not once per charge.
+- Liquids that a crafting inventory would merge into one stack are **one provider**.  Water carried in a canteen merges with equivalent water on the map, and a lake counts once, not once per tile.
+
+A component can also supply a quality the recipe needs.  When the `"amount"` is one, that check counts items rather than providers.  A stack survives losing a charge, so one spare item is one surviving provider.  One rock cannot be both the hammer and the material.  Two can, even in the same stack.  Above an `"amount"` of one the check counts providers again, because a stack is one tool whatever its charge count.
+
+A quality is measured against the character the check is about.  A charged quality reads that character's power, not the avatar's.  A mutation or body part that grants a quality without an item counts for that character too.
+
+### Reservations
+
+A live unattended step reserves what it depends on, so a second craft cannot quietly take it:
+
+- The **providers** covering the step's quality groups and its presence tools, whether those are items, furniture, a vehicle part, a nearby fire, or the crafter's own bionics and mutations.  Charged tools are not reserved, because charges drain from a pool by type rather than from one instance, but the pool is filtered so a reserved tool is never drained by anything else.
+- The **tile the craft sits on**, and any tile supplying it a provider.  Construction, including deconstruction, is refused on both.
+
+A reserved provider is invisible to every crafting inventory, including the owning crafter's own.  The craft validates through its reservations instead of searching for them.
+
+Automation and NPCs skip it too.  Zone sorting, fetching, auto-pickup and NPC pickup all pass over a reserved provider.  An NPC will not path through a tile it would have to smash to reach one.  A live unattended craft stays where it was placed rather than being hauled to a loot zone.  Reserved items are shown as `(in use)` and say so in their description.
+
+An NPC will also not wield, throw, consume or burn a reserved provider.  A follower may therefore fight with a worse weapon while one of your crafts holds the better one.
+
+Manual actions are never blocked.  Picking up, wielding, throwing or smashing a reserved item all work exactly as before; the craft notices at its next check, up to a minute later, and pauses.  Because picking an item up gives it a new identity, putting the same item back down does not resume the craft: use the explicit resume, which re-resolves against whatever is present.
+
+Two limitations are deliberate:
+
+- A reserved tool's **UPS charge is not protected** and may be drained by anything, since no UPS path carries a filter.
+- A craft's tile lock follows it within one check rather than instantly, so a craft riding a moving vehicle briefly holds the tile it was loaded at.
+
+Reservations lapse an hour after a craft last completed a check, so a craft destroyed by fire or smashing frees its tile without needing a reload.
 
 Schema:
 
@@ -407,6 +479,55 @@ And to bind the grip onto the javelin, some sinew or thread should be required, 
 *Note*: Related to "NO_RECOVER", some items such as "superglue" and "duct_tape" have an
 "UNRECOVERABLE" flag on the item itself, indicating they can never be reclaimed when disassembling.
 See [JSON_FLAGS.md](JSON_FLAGS.md) for how to use this and other item flags.
+
+
+## Character resource costs
+
+Recipes and practice recipes may use the optional `character_resources` object to consume
+resources directly from the crafting character.  Supported resources are mana, stamina, and any
+vitamin id.
+
+```jsonc
+"character_resources": {
+  "mana": 100,
+  "stamina": 500,
+  "vitamins": [
+    {
+      "vitamin": "blood",
+      "value": 1000,
+      "safe_level": -20000
+    }
+  ]
+}
+```
+
+`mana` and `stamina` are non-negative integer costs.  Each entry in `vitamins` has these
+fields:
+
+- `vitamin`: the vitamin id to consume.
+- `value`: a non-negative integer cost.
+- `safe_level`: optional integer minimum.  The recipe cannot reduce that vitamin below this
+  value.  If omitted, the vitamin's defined minimum is used.
+
+A vitamin may appear only once in the array.  Unknown character resource names, negative costs,
+and duplicate vitamin entries are JSON errors.
+
+Character resource costs are authored per crafted unit and scale linearly with batch size.  Batch
+time reductions do not discount them.  During an active craft, resources are consumed gradually in
+proportion to progress.  Previously paid portions are tracked on the in-progress craft, so pausing
+or resuming does not charge them again.
+
+Before each debit, all character resource costs due at the current progress are checked together.
+If any one resource is unavailable, none of them are consumed for that progress update and crafting
+cannot continue.  Stamina may be reduced to zero.  A vitamin cannot be reduced below its applicable
+minimum.
+
+When an unattended recipe step begins, the remaining character resource cost for the whole craft is
+consumed immediately because the crafter is no longer present to pay it over time.  If the remaining
+cost is unavailable, the unattended step does not begin.
+
+When a recipe using `copy-from` defines its own `character_resources` object, that object
+replaces the inherited character resource costs rather than merging with them.
 
 ## Defining common requirements
 

@@ -117,6 +117,7 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "teleport.h"
+#include "temp_crafting_inventory.h"
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
@@ -2377,20 +2378,6 @@ std::optional<int> iuse::manage_exosuit( Character *p, item *it, const tripoint_
     return 0;
 }
 
-std::optional<int> iuse::unpack_item( Character *p, item *it, const tripoint_bub_ms & )
-{
-    if( p->cant_do_underwater() ) {
-        return std::nullopt;
-    }
-    std::string oname = it->typeId().str() + "_on";
-    p->mod_moves( -to_moves<int>( 10_seconds ) );
-    p->add_msg_if_player( _( "You unpack your %s for use." ), it->tname() );
-    it->convert( itype_id( oname ), p ).active = false;
-    // Check if unpacking led to invalid container state
-    p->invalidate_inventory_validity_cache();
-    return 0;
-}
-
 std::optional<int> iuse::pack_cbm( Character *p, item *it, const tripoint_bub_ms & )
 {
     item_location bionic = g->inv_map_splice( []( const item & e ) {
@@ -2540,29 +2527,6 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
     }
     // We've already consumed the tablets, so don't try to consume them again
     return std::nullopt;
-}
-
-std::optional<int> iuse::water_tablets( Character *p, item *it, const tripoint_bub_ms & )
-{
-    map &here = get_map();
-
-    if( p->cant_do_mounted() ) {
-        return std::nullopt;
-    }
-
-    item_location obj = g->inv_map_splice( [&here]( const item_location & e ) {
-        return ( !e->empty() && e->has_item_with( []( const item & it ) {
-            return it.typeId() == itype_water || it.typeId() == itype_water_murky;
-        } ) ) || ( ( e->typeId() == itype_water || e->typeId() == itype_water_murky ) &&
-                   here.has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, e.pos_bub( here ) ) );
-    }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
-
-    if( !obj ) {
-        p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
-        return std::nullopt;
-    }
-
-    return purify_water( p, it, obj );
 }
 
 std::optional<int> iuse::directional_antenna( Character *p, item *it, const tripoint_bub_ms & )
@@ -3787,6 +3751,24 @@ void iuse::play_music( Character *p, const tripoint_bub_ms &source, const int vo
     }
 }
 
+void iuse::make_music( Character *p, const tripoint_bub_ms &source, int volume, int max_morale,
+                       bool play_sounds )
+{
+    //I've mirrored playing music which is really more like listening to music.  Studies show that satisfaction from playing musical instruments outlasts emotional impact of listening to music.
+    if( play_sounds ) {
+        sounds::sound( source, volume, sounds::sound_t::music, _( "music" ), false, "music", "music" );
+    }
+    if( ! p || !p->can_hear( source, volume ) ) {
+        return;
+    }
+    p->add_effect( effect_music, 1_turns );
+    if( max_morale > 0 ) {
+        p->add_morale( morale_music, 1, max_morale, 2_hours, 30_minutes, true );
+    } else if( max_morale < 0 ) {
+        p->add_morale( morale_music, -1, max_morale, 2_hours, 30_minutes, true );
+    }
+}
+
 std::optional<int> iuse::mp3_on( Character *p, item *it, const tripoint_bub_ms &pos )
 {
     if( !it->activation_success() ) {
@@ -3824,66 +3806,43 @@ std::optional<int> iuse::rpgdie( Character *you, item *die, const tripoint_bub_m
     return roll;
 }
 
-std::optional<int> iuse::dive_tank( Character *p, item *it, const tripoint_bub_ms & )
+std::optional<int> iuse::scba_mask_activate( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( p && p->is_worn( *it ) ) {
-        if( p->is_underwater() && p->oxygen < 10 ) {
-            if( !it->activation_success() ) {
-                p->add_msg_if_player( m_bad,
-                                      _( "You try to take a deep breath from your %s, but something blocks the flow." ), it->tname() );
-                return std::nullopt;
-            }
+    if( !p->has_item_with_flag( flag_SCBA_TANK_ON ) ) {
+        p->add_msg_if_player( m_bad,
+                              _( "You don't have an active air source." ), it->tname() );
+    } else if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You fail to adjust your damaged %s so it doesn't leak." ),
+                              it->tname() );
+        return std::nullopt;
 
-            p->oxygen += 20;
-        }
-        if( one_in( 15 ) ) {
-            p->add_msg_if_player( m_bad, _( "You take a deep breath from your %s." ), it->tname() );
-        }
-        if( it->ammo_remaining( ) == 0 ) {
-            p->add_msg_if_player( m_bad, _( "Air in your %s runs out." ), it->tname() );
-            it->erase_var( "overwrite_env_resist" );
-            it->type->transform_into.value().transform( p, *it, true );
-        }
-    } else { // not worn = off thanks to on-demand regulator
-        it->erase_var( "overwrite_env_resist" );
-        it->type->transform_into.value().transform( p, *it, true );
+    } else {
+        p->add_msg_if_player(
+            _( "You test the regulator and prep your %s for breathing.  Air is flowing." ), it->tname() );
+        it->active = true;
+        it->convert( itype_id( it->typeId().str() + "_scba_on" ), p );
     }
 
     return 0;
 }
 
-std::optional<int> iuse::dive_tank_activate( Character *p, item *it, const tripoint_bub_ms & )
+std::optional<int> iuse::scba_tank_activate( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( it->ammo_remaining( ) == 0 ) {
-        p->add_msg_if_player( _( "Your %s is empty." ), it->tname() );
-    } else if( it->active ) { //off
-        if( it->activation_success() ) {
-            p->add_msg_if_player( _( "You turn off the regulator and close the air valve." ) );
-            it->erase_var( "overwrite_env_resist" );
-            it->type->transform_into.value().transform( p, *it, true );
-        } else {
-            p->add_msg_if_player( m_bad,
-                                  _( "You try to turn off the regulator and close the air valve of your %s, but the valve is stuck." ),
-                                  it->tname() );
-            return std::nullopt;
-        }
+    if( !p->has_item_with_flag( flag_SCBA ) ) {
+        p->add_msg_if_player( m_bad,
+                              _( "You don't have a regulator to attach to your %s." ), it->tname() );
+    } else if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "The valve on your %s is stuck!" ),
+                              it->tname() );
+        return std::nullopt;
 
-    } else { //on
-        if( !p->is_worn( *it ) ) {
-            p->add_msg_if_player( _( "You should wear it first." ) );
-        } else {
-            if( it->activation_success() ) {
-                p->add_msg_if_player( _( "You turn on the regulator and open the air valve." ) );
-                it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
-                it->convert( itype_id( it->typeId().str() + "_on" ) ).active = true;
-            } else {
-                p->add_msg_if_player( m_bad,
-                                      _( "You try to turn on the regulator and open the air valve of your %s, but the valve is stuck." ),
-                                      it->tname() );
-            }
-        }
+    } else {
+        p->add_msg_if_player( _( "You open the valve on your %s." ), it->tname() );
+        it->active = true;
+        it->convert( itype_id( it->typeId().str() + "_on" ), p );
     }
-    return 1;
+
+    return 0;
 }
 
 std::optional<int> iuse::solarpack( Character *p, item *it, const tripoint_bub_ms & )
@@ -4122,6 +4081,18 @@ std::optional<int> iuse::papr_blower( Character *p, item *it, const tripoint_bub
             _( "<npcname> needs new PAPR blower filters!" )
             , it->tname() );
         it->deactivate();
+    }
+    return 0;
+}
+
+std::optional<int> iuse::scba_mask( Character *p, item *it, const tripoint_bub_ms & )
+{
+    if( p && p->is_worn( *it ) ) {
+        if( p && !p->has_item_with_flag( flag_SCBA_TANK_ON ) ) {
+            it->active = false;
+            it->type->transform_into.value().transform( p, *it, true );
+            p->add_msg_if_player( m_bad, _( "Air has stopped flowing into your %s!" ), it->tname() );
+        }
     }
     return 0;
 }
@@ -4372,6 +4343,7 @@ std::optional<int> iuse::vibe( Character *p, item *it, const tripoint_bub_ms & )
         return std::nullopt;
     }
     if( p->is_underwater() && ( !( p->has_trait( trait_GILLS ) ||
+                                   ( p->worn_with_flag( flag_SCBA ) && p->has_item_with_flag( flag_SCBA_TANK_ON ) ) ||
                                    p->is_wearing( itype_rebreather_on ) ||
                                    p->is_wearing( itype_rebreather_xl_on ) ||
                                    p->is_wearing( itype_mask_h20survivor_on ) ) ) ) {
@@ -7577,6 +7549,7 @@ static bool multicooker_hallu( Character &p )
 
 }
 
+// Remove after 0.J.
 std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub_ms &pos )
 {
     map &here = get_map();
@@ -7717,17 +7690,17 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
 
         std::vector<const recipe *> dishes;
 
-        inventory crafting_inv = p->crafting_inventory();
+        temp_crafting_inventory crafting_inv = p->crafting_inventory();
         // add some tools and qualities. we can't add this qualities to
         // json, because multicook must be used only by activating, not as
         // component other crafts.
-        crafting_inv.push_back( item( itype_hotplate, calendar::turn_zero ) ); //hotplate inside
+        crafting_inv.add_item_copy( item( itype_hotplate, calendar::turn_zero ) ); //hotplate inside
         // some recipes requires tongs
-        crafting_inv.push_back( item( itype_tongs, calendar::turn_zero ) );
+        crafting_inv.add_item_copy( item( itype_tongs, calendar::turn_zero ) );
         // toolset with CUT and other qualities inside
-        crafting_inv.push_back( item( itype_toolset, calendar::turn_zero ) );
+        crafting_inv.add_item_copy( item( itype_toolset, calendar::turn_zero ) );
         // good COOK, BOIL, CONTAIN qualities inside
-        crafting_inv.push_back( item( itype_pot, calendar::turn_zero ) );
+        crafting_inv.add_item_copy( item( itype_pot, calendar::turn_zero ) );
 
         int counter = 0;
         static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
@@ -7747,7 +7720,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
                 for( const recipe * const &rec : recipes_to_add ) {
                     dishes.push_back( rec );
                     const bool can_make = rec->deduped_requirements().can_make_with_inventory(
-                                              crafting_inv, rec->get_component_filter() );
+                                              p, crafting_inv, rec->get_component_filter() );
                     dmenu.addentry( counter++, can_make, -1, rec->result_name( /*decorated=*/true ) );
                 }
             }
@@ -7816,7 +7789,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
 
         bool has_tools = true;
 
-        const inventory &cinv = p->crafting_inventory();
+        const temp_crafting_inventory &cinv = p->crafting_inventory();
 
         if( !cinv.has_amount( itype_soldering_iron, 1 ) ) {
             p->add_msg_if_player( m_warning, _( "You need a %s." ),
@@ -7877,6 +7850,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
     return 0;
 }
 
+// Remove after 0.J
 std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoint_bub_ms &pos )
 {
     map &here = get_map();
@@ -8743,7 +8717,7 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
         return std::nullopt;
     }
     p->inv->restack( *p );
-    const inventory &crafting_inv = p->crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = p->crafting_inventory();
 
     auto is_liquid = []( const item & it ) {
         return it.made_of( phase_id::LIQUID );
@@ -8754,7 +8728,7 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
                           );
     int available_cleanser = std::max( {
         crafting_inv.charges_of( itype_soap ),
-        crafting_inv.charges_of( itype_detergent ),
+        crafting_inv.amount_of( itype_detergent ),
         crafting_inv.charges_of( itype_liquid_soap, INT_MAX, is_liquid )
     } );
 
@@ -8822,7 +8796,7 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
                               required.water );
         return std::nullopt;
     } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
-               !crafting_inv.has_charges( itype_detergent, required.cleanser ) &&
+               !crafting_inv.has_amount( itype_detergent, required.cleanser ) &&
                !crafting_inv.has_charges( itype_liquid_soap, required.cleanser, is_liquid ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
                               required.cleanser );
@@ -9257,7 +9231,7 @@ std::optional<int> iuse::binder_add_recipe( Character *p, item *binder, const tr
         return std::nullopt;
     }
 
-    const inventory crafting_inv = p->crafting_inventory();
+    const temp_crafting_inventory crafting_inv = p->crafting_inventory();
     const std::vector<const item *> writing_tools = crafting_inv.items_with( [&]( const item & it ) {
         return it.has_flag( flag_WRITE_MESSAGE ) && it.ammo_sufficient( p );
     } );

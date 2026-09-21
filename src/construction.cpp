@@ -23,6 +23,7 @@
 #include "construction_category.h"
 #include "construction_group.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "crafting.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -38,7 +39,6 @@
 #include "input.h"
 #include "input_context.h"
 #include "input_popup.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_group.h"
 #include "iteminfo_query.h"
@@ -82,8 +82,6 @@
 #include "cursesport.h"        // for get_scaling_factor (??)
 #include "sdltiles.h"          // for tilecontext
 #endif
-
-class read_only_visitable;
 
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
@@ -279,8 +277,8 @@ int_id<construction>::int_id( const string_id<construction> &id ) : _id( id.id()
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const construction &con );
 static std::vector<const construction *> player_can_build_valid_constructions( Character &you,
-        const read_only_visitable &inv, const construction_group_str_id &group );
-static bool player_can_build( Character &you, const read_only_visitable &inv,
+        const temp_crafting_inventory &inv, const construction_group_str_id &group );
+static bool player_can_build( Character &you, const temp_crafting_inventory &inv,
                               const construction_group_str_id &group );
 static bool player_can_see_to_build( Character &you, const construction_group_str_id &group );
 
@@ -459,7 +457,7 @@ static std::string furniture_qualities_string( const furn_id &fid )
 
 static std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<const construction *>>
         valid_constructions_near_player( const std::vector<construction_group_str_id> &groups,
-                const inventory &total_inv, avatar &player_character );
+                const temp_crafting_inventory &total_inv, avatar &player_character );
 
 static shared_ptr_fast<game::draw_callback_t> construction_preview_callback(
     const std::map<tripoint_bub_ms, const construction *> &valid,
@@ -565,7 +563,7 @@ construction_id construction_menu( const bool blueprint )
     int total_project_breakpoints = 0;
     int current_construct_breakpoint = 0;
     avatar &player_character = get_avatar();
-    const inventory &total_inv = player_character.crafting_inventory();
+    const temp_crafting_inventory &total_inv = player_character.crafting_inventory();
 
     input_context ctxt( "CONSTRUCTION" );
     ctxt.register_navigate_ui_list();
@@ -642,8 +640,8 @@ construction_id construction_menu( const bool blueprint )
                     }
                 }
                 // Update the cached availability of components and tools in the requirement object
-                current_con->requirements->can_make_with_inventory( total_inv, is_crafting_component, 1,
-                        craft_flags::none, false );
+                current_con->requirements->can_make_with_inventory( &get_player_character(), total_inv,
+                        is_crafting_component, 1, craft_flags::none, false );
 
                 std::vector<std::string> current_buffer;
 
@@ -766,11 +764,11 @@ construction_id construction_menu( const bool blueprint )
                 // get time needed
                 add_folded( current_con->get_folded_time_string( available_window_width ) );
 
-                add_folded( current_con->requirements->get_folded_tools_list( available_window_width, color_stage,
-                            total_inv ) );
+                add_folded( current_con->requirements->get_folded_tools_list( &player_character,
+                            available_window_width, color_stage, total_inv ) );
 
-                add_folded( current_con->requirements->get_folded_components_list( available_window_width,
-                            color_stage, total_inv, is_crafting_component ) );
+                add_folded( current_con->requirements->get_folded_components_list( &player_character,
+                            available_window_width, color_stage, total_inv, is_crafting_component ) );
 
                 construct_buffers.push_back( current_buffer );
             }
@@ -1156,7 +1154,7 @@ construction_id construction_menu( const bool blueprint )
 }
 
 std::vector<const construction *> player_can_build_valid_constructions( Character &you,
-        const read_only_visitable &inv,
+        const temp_crafting_inventory &inv,
         const construction_group_str_id &group )
 {
     std::vector<const construction *> result;
@@ -1172,7 +1170,7 @@ std::vector<const construction *> player_can_build_valid_constructions( Characte
     return result;
 }
 
-bool player_can_build( Character &you, const read_only_visitable &inv,
+bool player_can_build( Character &you, const temp_crafting_inventory &inv,
                        const construction_group_str_id &group )
 {
     // check all with the same group to see if player can build any
@@ -1185,7 +1183,7 @@ bool player_can_build( Character &you, const read_only_visitable &inv,
     return false;
 }
 
-bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con,
+bool player_can_build( Character &you, const temp_crafting_inventory &inv, const construction &con,
                        const bool can_construct_skip )
 {
     if( you.has_trait( trait_DEBUG_HS ) ) {
@@ -1197,8 +1195,8 @@ bool player_can_build( Character &you, const read_only_visitable &inv, const con
     }
 
     // check for construction spot can be skipped by using can_construct_skip
-    return con.requirements->can_make_with_inventory( inv, is_crafting_component, 1, craft_flags::none,
-            false ) &&
+    return con.requirements->can_make_with_inventory( &you, inv, is_crafting_component, 1,
+            craft_flags::none, false ) &&
            ( can_construct_skip || can_construct( con ) );
 }
 
@@ -1298,6 +1296,12 @@ static std::string has_pre_flags_colorize( const construction &con )
 bool can_construct( const construction &con, const tripoint_bub_ms &p )
 {
     const map &here = get_map();
+    // Both lock kinds: a craft's own tile and any tile supplying it a provider.
+    const tripoint_abs_ms abs_p = here.get_abs( p );
+    if( get_craft_reservations().craft_site_reserved( abs_p ) ||
+        get_craft_reservations().provider_tile_reserved( abs_p ) ) {
+        return false;
+    }
     const furn_id &f = here.furn( p );
     const ter_id &t = here.ter( p );
     // pre-functions
@@ -1333,7 +1337,7 @@ bool can_construct( const construction &con )
 
 std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<const construction *>>
         valid_constructions_near_player( const std::vector<construction_group_str_id> &groups,
-                const inventory &total_inv, avatar &player_character )
+                const temp_crafting_inventory &total_inv, avatar &player_character )
 {
     std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<const construction *>> ret;
     std::map<tripoint_bub_ms, const construction *> &valid = ret.first;
@@ -1357,7 +1361,7 @@ std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<const con
 void place_construction( std::vector<construction_group_str_id> const &groups )
 {
     avatar &player_character = get_avatar();
-    const inventory &total_inv = player_character.crafting_inventory();
+    const temp_crafting_inventory &total_inv = player_character.crafting_inventory();
 
     std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<const construction *>>
             valid_pair = valid_constructions_near_player( groups, total_inv, player_character );

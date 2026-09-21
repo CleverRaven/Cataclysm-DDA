@@ -22,7 +22,6 @@
 #include "game_constants.h"
 #include "input_context.h"
 #include "input_enums.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "map.h"
@@ -48,6 +47,8 @@ static const itype_id itype_swim_fins( "swim_fins" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
+
+class temp_crafting_inventory;
 
 static void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                           std::set<action_id> &unbound_keymap );
@@ -622,7 +623,7 @@ bool can_butcher_at( map &here, const tripoint_bub_ms &p )
     bool has_item = false;
     bool has_corpse = false;
 
-    const inventory &crafting_inv = player_character.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = player_character.crafting_inventory();
     for( item &items_it : items ) {
         if( items_it.is_corpse() ) {
             if( factor != INT_MIN  || factorD != INT_MIN ) {

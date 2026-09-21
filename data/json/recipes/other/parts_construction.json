@@ -650,7 +650,7 @@
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "any_water", 100, "LIST" ] ], [ [ "material_quicklime", 50 ] ], [ [ "material_sand", 150 ], [ "ash", 300 ] ] ]
+    "components": [ [ [ "any_water", 100, "LIST" ] ], [ [ "material_quicklime", 50 ] ], [ [ "material_sand", 150 ], [ "ash", 30 ] ] ]
   },
   {
     "type": "recipe",

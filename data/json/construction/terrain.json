@@ -242,6 +242,21 @@
   },
   {
     "type": "construction",
+    "id": "constr_pit_from_corpsefilled",
+    "skill": "survival",
+    "group": "dig_a_pit",
+    "category": "CONSTRUCT",
+    "difficulty": 0,
+    "time": "90m",
+    "on_display": true,
+    "qualities": [ { "id": "DIG", "level": 2 } ],
+    "pre_terrain": "t_pit_corpsed",
+    "post_terrain": "t_pit",
+    "activity_level": "ACTIVE_EXERCISE",
+    "do_turn_special": "do_turn_shovel"
+  },
+  {
+    "type": "construction",
     "id": "constr_pit_shallow_sand",
     "skill": "survival",
     "group": "dig_a_shallow_pit",

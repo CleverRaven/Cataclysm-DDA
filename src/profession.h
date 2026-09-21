@@ -19,7 +19,6 @@
 
 class Character;
 class JsonObject;
-class avatar;
 class item;
 template<typename T>
 class generic_factory;
@@ -146,7 +145,7 @@ class profession
         std::vector<achievement_id> get_requirements() const;
 
         std::map<spell_id, int> spells() const;
-        void learn_spells( avatar &you ) const;
+        void learn_spells( Character &you ) const;
         std::vector<effect_on_condition_id> get_eocs() const;
         //returns the profession id
         profession_id get_profession_id() const;

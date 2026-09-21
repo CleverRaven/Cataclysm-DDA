@@ -36,6 +36,16 @@
     "flags": [ "GENE_TECH" ]
   },
   {
+    "id": "afs_gene_template_combat_brute",
+    "name": "Project Sobek Genetech",
+    "copy-from": "afs_gene_disp",
+    "description": "A genetic treatment from Project Sobek, part of Mercurial's own military augmentation program.  The whole treatment is designed for general combat enhancement, without the xenobiology-derived traits that are rumored to exist in more secretive programs.",
+    "type": "ITEM",
+    "price": "75 kUSD",
+    "subtypes": [ "TOOL" ],
+    "trait_group": "GENETECH_COMBAT_BRUTE_TRAITS"
+  },
+  {
     "id": "afs_gene_disp_low_tier",
     "name": "Mercurial Genetech",
     "copy-from": "afs_gene_disp",
@@ -146,9 +156,32 @@
       { "trait": "MUT_TOUGH2", "prob": 100 },
       { "trait": "NOPAIN", "prob": 100 },
       { "trait": "PRED1", "prob": 100 },
-      { "trait": "STR_UP", "prob": 100 },
       { "trait": "LARGE_OK", "prob": 100 },
       { "trait": "FLEET2", "prob": 100 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "GENETECH_COMBAT_BRUTE_TRAITS",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "AFS_QUICK", "prob": 15 },
+      { "trait": "INFRESIST", "prob": 15 },
+      { "trait": "AFS_INFIMMUNE", "prob": 15 },
+      { "trait": "AFS_GOODCARDIO", "prob": 15 },
+      { "trait": "AFS_PAINRESIST", "prob": 15 },
+      { "trait": "AFS_UNCARING", "prob": 15 },
+      { "trait": "DISIMMUNE", "prob": 15 },
+      { "trait": "DISRESISTANT", "prob": 15 },
+      { "trait": "AFS_NIGHTVISION", "prob": 15 },
+      { "trait": "AFS_COMBAT_DRUG_PRODUCTION", "prob": 50 },
+      { "trait": "AFS_HYPERMETABOLISM", "prob": 50 },
+      { "trait": "AFS_FAST_BLOOD_PRODUCTION", "prob": 50 },
+      { "trait": "AFS_REDUNDANT_ORGANS", "prob": 50 },
+      { "trait": "AFS_WAR_BUILD", "prob": 100 },
+      { "trait": "AFS_THROWING_STRENGTH", "prob": 100 },
+      { "trait": "AFS_STRONG", "prob": 100 },
+      { "trait": "AFS_GOOD_HEAD", "prob": 100 }
     ]
   },
   {
@@ -160,9 +193,9 @@
       { "trait": "ACIDPROOF", "prob": 50 },
       { "trait": "TOUGH_MEDICAL", "prob": 100 },
       { "trait": "STRONGER_RESISTCHILL", "prob": 50 },
-      { "trait": "GOODCARDIO", "prob": 100 },
+      { "trait": "AFS_GOODCARDIO", "prob": 100 },
       { "trait": "LIGHTEATER", "prob": 100 },
-      { "trait": "PAINRESIST", "prob": 100 },
+      { "trait": "AFS_PAINRESIST", "prob": 100 },
       { "trait": "BOVINE_BULK2", "prob": 50 },
       { "trait": "THICKSKIN", "prob": 100 },
       { "trait": "TOLERANCE", "prob": 100 },

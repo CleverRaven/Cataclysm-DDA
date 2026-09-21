@@ -195,7 +195,7 @@
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE", "SHEATH_SPEAR" ],
     "faults": [ { "fault_group": "handle_long", "weight_mult": 2 }, { "fault_group": "spearhead" } ],
     "weapon_category": [ "SPEARS" ],
-    "melee_damage": { "bash": 4, "stab": 24 }
+    "melee_damage": { "bash": 4, "stab": 19 }
   },
   {
     "id": "spear_knife",
@@ -233,7 +233,7 @@
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "faults": [ { "fault_group": "handle_long", "weight_mult": 2 }, { "fault_group": "blade_general" } ],
     "weapon_category": [ "SPEARS" ],
-    "melee_damage": { "bash": 4, "stab": 26 }
+    "melee_damage": { "bash": 4, "stab": 22 }
   },
   {
     "type": "ITEM",
@@ -256,7 +256,7 @@
     "price": "160 USD",
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -28 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
-    "melee_damage": { "bash": 4, "stab": 26 }
+    "melee_damage": { "bash": 4, "stab": 22 }
   },
   {
     "id": "spear_homemade_halfpike",
@@ -281,7 +281,7 @@
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "faults": [ { "fault_group": "handle_long", "weight_mult": 2 }, { "fault_group": "spearhead" } ],
     "weapon_category": [ "SPEARS" ],
-    "melee_damage": { "bash": 4, "stab": 24 }
+    "melee_damage": { "bash": 4, "stab": 20 }
   },
   {
     "type": "ITEM",
@@ -304,7 +304,7 @@
     "price": "160 USD",
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
-    "melee_damage": { "bash": 4, "stab": 24 }
+    "melee_damage": { "bash": 4, "stab": 20 }
   },
   {
     "id": "crude_goedendag",
@@ -405,7 +405,7 @@
     "proportional": { "price": 1.2, "price_postapoc": 1.2 },
     "replace_materials": { "mc_steel": "qt_steel" },
     "extend": { "material": [ "leather" ] },
-    "relative": { "melee_damage": { "stab": 5, "bash": 2 } }
+    "relative": { "melee_damage": { "stab": 5 } }
   },
   {
     "type": "ITEM",
@@ -470,7 +470,7 @@
     "price": "80 USD",
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
-    "melee_damage": { "bash": 7, "stab": 24 }
+    "melee_damage": { "bash": 7, "stab": 20 }
   },
   {
     "type": "ITEM",

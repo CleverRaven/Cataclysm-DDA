@@ -99,6 +99,11 @@
     "//": "Immune to telekinetic damage"
   },
   {
+    "id": "TELEKIN_PUSH_PULL_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to being telekinetically thrown"
+  },
+  {
     "id": "HIVE_MIND",
     "type": "monster_flag",
     "//": "This monster is part of a hive mind"
@@ -115,6 +120,10 @@
   },
   {
     "id": "FIFTH_SUN_TECHNOLOGY",
+    "type": "json_flag"
+  },
+  {
+    "id": "MOM_SHADOW_URGE_CHOICE",
     "type": "json_flag"
   }
 ]

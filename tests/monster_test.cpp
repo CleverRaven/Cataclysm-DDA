@@ -28,6 +28,7 @@
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "mapdata.h"
@@ -624,8 +625,13 @@ TEST_CASE( "monster_broken_verify", "[monster]" )
         if( montype.mdeath_effect.corpse_type != mdeath_type::BROKEN ) {
             continue;
         }
-
+        if( !montype.broken_itype.is_empty() ) {
+            CAPTURE( montype.id.c_str() );
+            CHECK( montype.broken_itype.is_valid() );
+            continue;
+        }
         // this contraption should match mdeath::broken in mondeath.cpp
+        // FIXME: Rewrite test so it doesn't use string manipulation or require broken_itype and delete it
         std::string broken_id_str = montype.id.str();
         if( broken_id_str.compare( 0, 4, "mon_" ) == 0 ) {
             broken_id_str.erase( 0, 4 );
@@ -936,6 +942,7 @@ TEST_CASE( "monster_cant_enter_reality_bubble_because_wall", "[monster][hordes]"
 {
     // Remove interacting with the player as a complication.
     clear_map_and_put_player_underground();
+    sounds::process_sounds();
     const tripoint_bub_ms destination{ 11 * 6, 11 * 6, 0 };
     // Place monster on the local overmap.monster_map just outside the reality bubble.
     map &m = get_map();

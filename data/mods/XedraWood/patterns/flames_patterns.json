@@ -1,0 +1,32 @@
+[
+  {
+    "id": "flames_tattoo_one",
+    "type": "bionic",
+    "name": { "str": "The Smoke of the Fire" },
+    "description": "The first element of the flames pattern, the rising smoke above the bonfire that floats up to the stars and disappears, depicted on the upper back.  When active, you will immediately rise if you are downed and you'll gain a speed bonus for a short period of time afterwards.",
+    "act_cost": "50 J",
+    "react_cost": "20 J",
+    "time": "1 s",
+    "occupied_bodyparts": [ [ "torso", 4 ], [ "arm_l", 1 ], [ "arm_r", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ { "condition": "ACTIVE", "ench_effects": [ { "effect": "effect_flames_tattoo_one", "intensity": 1 } ] } ]
+  },
+  {
+    "id": "flames_tattoo_two",
+    "type": "bionic",
+    "name": { "str": "The Light of the Fire" },
+    "description": "The second element of the flames pattern, the light emitted by the fire, that comfort to weary travelers and beacon in the darkness, depicted in a dim glow on all your limbs.  When active, a softly flickering reddish light springs up around you, illuminating your surroundings.",
+    "act_cost": "50 J",
+    "react_cost": "50 J",
+    "time": "1 s",
+    "required_bionic": "flames_tattoo_one",
+    "occupied_bodyparts": [ [ "head", 2 ], [ "torso", 5 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [ { "value": "LUMINATION", "add": { "math": [ "10 + (u_flames_tattoo_count * 4)" ] } } ]
+      }
+    ]
+  }
+]

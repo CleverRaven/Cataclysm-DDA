@@ -1,0 +1,72 @@
+[
+  {
+    "type": "dimension",
+    "id": "default",
+    "region_layout": "default"
+  },
+  {
+    "type": "dimension",
+    "id": "abyss",
+    "region_layout": "nether_abyss"
+  },
+  {
+    "type": "dimension",
+    "id": "highlands",
+    "region_layout": "highlands"
+  },
+  {
+    "type": "dimension",
+    "id": "imperial_road",
+    "region_layout": "highland_imperial_road"
+  },
+  {
+    "type": "dimension",
+    "id": "netherum_labyrinth",
+    "region_layout": "netherum_labyrinth"
+  },
+  {
+    "type": "dimension",
+    "id": "netherum_labyrinth2",
+    "region_layout": "netherum_labyrinth2"
+  },
+  {
+    "type": "dimension",
+    "id": "netherum_labyrinth_safehouse",
+    "region_layout": "netherum_labyrinth_safehouse"
+  },
+  {
+    "type": "dimension",
+    "id": "radiosphere",
+    "region_layout": "radiosphere"
+  },
+  {
+    "type": "dimension",
+    "id": "cabins",
+    "region_layout": "cabins"
+  },
+  {
+    "type": "dimension",
+    "id": "inner_cabins",
+    "region_layout": "inner_cabins"
+  },
+  {
+    "type": "dimension",
+    "id": "spider_dimension",
+    "region_layout": "spider_dimension"
+  },
+  {
+    "type": "dimension",
+    "id": "scarlet",
+    "region_layout": "scarlet"
+  },
+  {
+    "type": "dimension",
+    "id": "string_dimension",
+    "region_layout": "string_dimension"
+  },
+  {
+    "type": "dimension",
+    "id": "string_dimension_ka",
+    "region_layout": "string_dimension_ka"
+  }
+]

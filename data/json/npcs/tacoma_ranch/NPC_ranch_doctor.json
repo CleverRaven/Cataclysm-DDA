@@ -6,7 +6,7 @@
     "name_suffix": "Doctor",
     "class": "NC_DOCTOR",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_RANCH_DOCTOR",
     "faction": "tacoma_commune"
   },

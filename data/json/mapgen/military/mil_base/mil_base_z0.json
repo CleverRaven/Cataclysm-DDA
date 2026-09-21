@@ -1228,7 +1228,7 @@
         { "item": "coat_lab", "x": 31, "y": 25, "chance": 50, "repeat": [ 10, 30 ] },
         { "item": "towel", "x": 31, "y": 25, "chance": 50, "repeat": [ 10, 30 ] },
         { "item": "soap", "x": 31, "y": 25, "chance": 50, "repeat": [ 10, 30 ] },
-        { "item": "bleach", "x": 31, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
+        { "group": "bleach_jug_part", "x": 31, "y": 25, "chance": 50 },
         { "item": "rad_monitor", "x": 32, "y": 25, "chance": 50, "repeat": [ 5, 10 ] },
         { "item": "geiger_off", "x": 32, "y": 25, "chance": 50, "repeat": [ 10, 20 ] },
         { "item": "rad_monitor", "x": 32, "y": 25, "chance": 50, "repeat": [ 10, 20 ] },

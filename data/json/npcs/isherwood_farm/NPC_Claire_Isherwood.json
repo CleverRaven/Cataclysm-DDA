@@ -7,7 +7,7 @@
     "gender": "female",
     "class": "NC_ISHERWOOD_CLAIRE",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "age": 67,
     "height": 153,
     "chat": "TALK_ISHERWOOD_CLAIRE",

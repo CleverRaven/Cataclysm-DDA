@@ -36,6 +36,81 @@
   },
   {
     "type": "talk_topic",
+    "id": [ "TALK_Liam_SOCIAL" ],
+    "dynamic_line": "Any time, what's on your mind?",
+    "responses": [
+      { "text": "I'd like your opinion on a job we're doing.", "topic": "TALK_Liam_Opinions" },
+      { "text": "[Raise your hand for a high-five.]", "topic": "TALK_Liam_HighFive" },
+      { "text": "Can I ask you a bit about yourself?", "topic": "BGSS_Liam1" },
+      { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
+      {
+        "text": "I just wanted to chat, you know.  To relax.",
+        "topic": "TALK_FRIEND_Liam_CHAT",
+        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
+      },
+      {
+        "text": "The way you said something earlier made me realize… you have a crush on Jenny Forcette, don't you.",
+        "topic": "TALK_Liam_Jenny_CrushAccuse",
+        "condition": {
+          "and": [
+            { "compare_string": [ "crush_suspected", { "u_val": "u_liam_jenny_feelings" } ] },
+            { "not": { "compare_string": [ "crushing_hard", { "u_val": "u_liam_jenny_feelings" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "You keep looking at my ears?",
+        "topic": "TALK_LIAM_CHANGELING",
+        "condition": { "u_has_trait": "CHANGELING_EARS" }
+      },
+      { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LIAM_CHANGELING",
+    "dynamic_line": "Yeah, of course I'm looking at your ears, I'm pretty sure you never had pointy ears before now?  It doesn't change anything about our friendship but really did you hide this from me all these years?",
+    "responses": [
+      {
+        "text": "I don't know where it came from but during the Cataclysm it was like the veil was lifted from my eyes and I suddenly realized I'd never been from here.  But I don't really know where I'm from just yet.",
+        "topic": "TALK_Liam_SOCIAL",
+        "condition": { "and": [ { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" }, { "not": { "u_has_trait": "THRESH_FAIR_FOLK_NOBLE" } } ] }
+      },
+      {
+        "text": "I never really felt like I belonged but now I know the truth, I am one of the aristocracy of the Fae and I must find my way back home to our courts!",
+        "topic": "TALK_Liam_SOCIAL",
+        "condition": { "u_has_trait": "THRESH_FAIR_FOLK_NOBLE" }
+      },
+      {
+        "text": "I don't know where it came from but during the Cataclysm it was like the veil was lifted from my eyes and I suddenly realized I'd never been from here.  But I don't really know where I'm from just yet.",
+        "topic": "TALK_Liam_SOCIAL",
+        "condition": { "u_has_trait": "FAIR_FOLK_COMMONER_SELECTOR" }
+      },
+      {
+        "text": "I'm descended from the house fae that help good people with their chores and protect their homes!  I never knew until after the Cataclysm.",
+        "topic": "TALK_Liam_SOCIAL",
+        "condition": { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_BROWNIE" }
+      },
+      {
+        "text": "I'm an animal aspected prankster fae!  Doesn't this make so much sense from our childhood?  I never knew before but it feels so true!",
+        "topic": "TALK_Liam_SOCIAL",
+        "condition": { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_POOKA" }
+      },
+      {
+        "text": "It's so weird ever since the Cataclysm I've been having these dreams of swimming and when I see myself in the water I'm not a person but a seal.  I think I'm some kind of seal faerie.",
+        "topic": "TALK_Liam_SOCIAL",
+        "condition": { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_SELKIE" }
+      },
+      {
+        "text": "During the Cataclysm a boulder spoke to me and told me that I was descended from the folk of stone and mountains.  Afterwards I noticed my ears had changed.",
+        "topic": "TALK_Liam_SOCIAL",
+        "condition": { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_TROW" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_Liam_Opinions",
     "dynamic_line": "My opinion?  Sure, my friend, hit me up, what's eating you?",
     "responses": [

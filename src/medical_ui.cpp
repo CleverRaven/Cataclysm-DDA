@@ -64,6 +64,8 @@ static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 
 template <typename T> struct enum_traits;
 
+class temp_crafting_inventory;
+
 namespace
 {
 enum class medical_tab_mode {
@@ -726,7 +728,7 @@ struct healing_option {
 bool Character::pick_wound_fix( const bodypart_id &bp_id )
 {
     std::vector<healing_option> healing_options;
-    const inventory &inv = crafting_inventory();
+    const temp_crafting_inventory &inv = crafting_inventory();
 
     bodypart *bp = get_part( bp_id );
     const std::vector<wound> wounds = bp->get_wounds();
@@ -784,7 +786,8 @@ bool Character::pick_wound_fix( const bodypart_id &bp_id )
                 }
             }
 
-            opt.doable &= fix_id->get_requirements().can_make_with_inventory( inv, is_crafting_component );
+            opt.doable &= fix_id->get_requirements().can_make_with_inventory( this, inv,
+                          is_crafting_component );
 
             healing_options.emplace_back( opt );
         }
@@ -823,8 +826,8 @@ bool Character::pick_wound_fix( const bodypart_id &bp_id )
         const requirement_data &reqs = fix.get_requirements();
         const nc_color col = opt.doable ? c_white : c_light_gray;
 
-        const std::vector<std::string> tools = reqs.get_folded_tools_list( fold_width, col, inv );
-        const std::vector<std::string> comps = reqs.get_folded_components_list( fold_width, col, inv,
+        const std::vector<std::string> tools = reqs.get_folded_tools_list( this, fold_width, col, inv );
+        const std::vector<std::string> comps = reqs.get_folded_components_list( this, fold_width, col, inv,
                                                is_crafting_component );
 
         std::string descr = word_rewrap( fix.get_description(), 80 ) + "\n\n";

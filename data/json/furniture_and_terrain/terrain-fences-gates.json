@@ -86,7 +86,7 @@
     "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "PICKABLE", "THIN_OBSTACLE", "BURROWABLE" ],
     "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
-    "examine_action": "locked_object_pickable",
+    "examine_action": [ "locked_object_pickable", "chainfence" ],
     "oxytorch": {
       "result": "t_dirt",
       "duration": "9 seconds",

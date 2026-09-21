@@ -531,7 +531,10 @@
       ],
       "palettes": [ "phavian_hospital_lab" ],
       "furniture": { "Ṅ": "f_lab_bench", "X": "f_biokinetic_physiology_improver", "5": "f_server" },
-      "place_item": [ { "item": "lab_file_shadow_urge_item", "x": 10, "y": 9, "chance": 30 } ],
+      "place_item": [
+        { "item": "lab_file_shadow_urge_item", "x": 10, "y": 9, "chance": 30 },
+        { "item": "lab_file_shadow_urge_password", "x": 9, "y": 9, "chance": 15 }
+      ],
       "items": {
         "Ł": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "N": [
@@ -815,7 +818,10 @@
       ],
       "palettes": [ "phavian_hospital_lab" ],
       "furniture": { "Ṅ": "f_lab_bench", "X": "f_biokinetic_physiology_improver", "5": "f_server" },
-      "place_item": [ { "item": "lab_file_shadow_urge_item", "x": 0, "y": 0, "chance": 30 } ],
+      "place_item": [
+        { "item": "lab_file_shadow_urge_item", "x": 0, "y": 0, "chance": 30 },
+        { "item": "lab_file_shadow_urge_password", "x": 1, "y": 0, "chance": 15 }
+      ],
       "items": {
         "Ł": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "N": [
@@ -993,6 +999,7 @@
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
         ]
       },
+      "place_item": [ { "item": "lab_file_shadow_urge_password", "x": 2, "y": 1, "chance": 15 } ],
       "place_monster": [
         { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 3 ] },
         { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
@@ -1127,6 +1134,7 @@
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
         ]
       },
+      "place_item": [ { "item": "lab_file_shadow_urge_password", "x": 0, "y": 0, "chance": 15 } ],
       "place_monster": [
         { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 3 ] },
         { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
@@ -1412,6 +1420,7 @@
           { "item": "book_mag_gen", "chance": 50, "repeat": [ 1, 2 ] }
         ]
       },
+      "place_item": [ { "item": "lab_file_shadow_urge_password", "x": 0, "y": 3, "chance": 15 } ],
       "place_monster": [
         { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
         { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
@@ -1446,6 +1455,7 @@
           { "item": "book_mag_gen", "chance": 50, "repeat": [ 1, 2 ] }
         ]
       },
+      "place_item": [ { "item": "lab_file_shadow_urge_password", "x": 2, "y": 1, "chance": 15 } ],
       "place_monster": [
         { "group": "GROUP_PHAVIAN_CITY_HOSPITAL_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 33, "repeat": [ 1, 3 ] },
         { "group": "GROUP_FERAL_BIOKINETIC_VITAKINETIC", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }

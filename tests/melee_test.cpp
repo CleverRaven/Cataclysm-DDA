@@ -14,6 +14,7 @@
 #include "item.h"
 #include "item_location.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "map_scale_constants.h"
 #include "math_parser_diag_value.h"
 #include "messages.h"

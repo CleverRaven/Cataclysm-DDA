@@ -15,6 +15,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "garlic powder" },
     "description": "Garlic that has been dehydrated and ground into a powder.  A must-have seasoning in any pantry.",
+    "display_type": "BY_WEIGHT",
     "weight": "1 g",
     "color": "white"
   },
@@ -26,16 +27,18 @@
     "comestible_type": "DRINK",
     "name": { "str_sp": "hot sauce" },
     "description": "Flamin' hot sauce.  It'd be a bad idea to drink it on its own.  You should probably wash your hands after handling it, too.",
+    "display_type": "BY_VOLUME",
     "weight": "5 g",
     "charges": 50,
     "volume": "250 ml",
-    "material": [ "veggy", "water" ],
+    "material": [ { "type": "water", "portion": 10 }, { "type": "veggy", "portion": 1 } ],
     "//": "hot sauces are very salty, hence the negative quench",
     "quench": -2,
     "calories": 5,
+    "fun": 3,
+    "flags": [ "NO_AUTO_CONSUME", "INEDIBLE" ],
     "symbol": "~",
     "color": "red",
-    "primary_material": "water",
     "freezing_point": -30,
     "phase": "liquid"
   },
@@ -46,6 +49,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cinnamon" },
     "description": "Ground cinnamon bark with a sweet but slightly spicy aroma.",
+    "display_type": "BY_WEIGHT",
     "color": "brown"
   },
   {
@@ -55,6 +59,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "curry powder" },
     "description": "A blend of spices meant to be used in some South Asian dishes.  Can't be eaten raw, why would you even try that?",
+    "display_type": "BY_WEIGHT",
     "color": "red"
   },
   {
@@ -64,6 +69,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "black pepper" },
     "description": "Ground black spice berries with a pungent aroma.",
+    "display_type": "BY_WEIGHT",
     "color": "dark_gray"
   },
   {
@@ -95,6 +101,9 @@
     "display_type": "BY_WEIGHT",
     "description": "Yuck!  You surely wouldn't want to eat this.  It's good for preserving meat and cooking, though.",
     "material": [ "salt" ],
+    "//COMMENT": "Basic salt, a little less fun than most seasonings(fun 3).",
+    "fun": 2,
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "INEDIBLE" ] },
     "color": "white"
   },
   {
@@ -104,6 +113,9 @@
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "Italian seasoning" },
     "description": "A fragrant mix of dried oregano, basil, thyme and other spices.",
+    "display_type": "BY_WEIGHT",
+    "fun": 3,
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "INEDIBLE" ] },
     "color": "green"
   },
   {
@@ -113,7 +125,9 @@
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "seasoned salt" },
     "description": "Salt mixed with a fragrant blend of secret herbs and spices.",
+    "display_type": "BY_WEIGHT",
     "material": [ "salt" ],
+    "fun": 3,
     "color": "brown"
   },
   {
@@ -127,6 +141,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
+    "display_type": "BY_WEIGHT",
     "price": "5 cent",
     "price_postapoc": "4 cent",
     "material": [ "sugar" ],
@@ -143,6 +158,7 @@
     "copy-from": "sugar",
     "container": "bottle_plastic_small",
     "description": "Known as nonpareils, sprinkles, jimmies, sugar strands or 'hundreds-and-thousands', these colorful balls, rods or flakes of sugar and starch are intended for use decorating soft surfaces of sweets.  Like sugar, they are bad for your teeth and surprisingly not very tasty on their own.",
+    "display_type": "BY_WEIGHT",
     "price": "6 cent",
     "price_postapoc": "3 cent",
     "calories": 20,
@@ -160,6 +176,7 @@
     "quench": -1,
     "calories": 9,
     "description": "A tasty collection of wild herbs including violet, sassafras, mint, clover, purslane, and fireweed.",
+    "display_type": "BY_WEIGHT",
     "price": "1 cent",
     "price_postapoc": "1 cent",
     "material": [ "veggy" ],
@@ -176,18 +193,19 @@
     "color": "brown",
     "name": { "str_sp": "soy sauce" },
     "description": "Salty fermented soybean sauce.",
+    "display_type": "BY_VOLUME",
     "price": "1 USD 90 cent",
     "price_postapoc": "25 cent",
     "weight": "24 g",
     "volume": "250 ml",
-    "material": [ "water" ],
+    "material": [ { "type": "water" } ],
     "calories": 17,
     "comestible_type": "DRINK",
     "container": "bottle_glass",
-    "primary_material": "water",
     "quench": -20,
     "charges": 10,
-    "fun": -15,
+    "fun": 3,
+    "flags": [ "NO_AUTO_CONSUME", "INEDIBLE" ],
     "freezing_point": -30,
     "phase": "liquid"
   },
@@ -216,6 +234,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "mustard powder" },
     "description": "A fragrant yellow powder.  Not edible in this form.",
+    "display_type": "BY_WEIGHT",
     "color": "yellow"
   },
   {
@@ -225,6 +244,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "artificial sweetener" },
     "description": "Sweet, sweet sugar?  No, it is bitter-sweet artificial sweetener.  No calories, no worries.",
+    "display_type": "BY_WEIGHT",
     "material": [ "powder" ],
     "calories": 0
   }

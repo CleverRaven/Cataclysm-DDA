@@ -1,5 +1,16 @@
 [
   {
+    "type": "dimension",
+    "id": "dimension_perk_closetland",
+    "region_layout": "dimension_perk_closetland"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "dimension_perk_closetland",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "dimension_perk_closetland_settings"
+  },
+  {
     "type": "region_settings",
     "//": "We only need one Overmap, if in the future that's possible",
     "id": "dimension_perk_closetland_settings",

@@ -23,7 +23,7 @@
         "success": { "topic": "COMPUTER_GENERIC_SALVAGE_SUCCESS" },
         "failure": { "topic": "COMPUTER_GENERIC_SALVAGE_FAIL" }
       },
-      { "text": "Leave", "topic": "TALK_DONE" }
+      { "text": "Leave.", "topic": "TALK_DONE" }
     ]
   },
   {

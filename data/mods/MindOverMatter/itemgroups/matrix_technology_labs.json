@@ -5,7 +5,7 @@
     "id": "psi_lab",
     "items": [
       { "item": "water_clean", "prob": 150, "charges": [ 1, -1 ], "container-item": "bottle_plastic", "sealed": false },
-      { "item": "bleach", "prob": 20, "charges": [ 1, -1 ] },
+      { "group": "bleach_jug_part", "prob": 20 },
       { "item": "ether", "prob": 50, "charges": [ 100, -1 ] },
       { "item": "chem_aluminium_powder", "prob": 25, "container-item": "flask_glass" },
       { "group": "zincpowder_glass_flask_part", "prob": 25 },
@@ -183,7 +183,7 @@
     "id": "psi_lab_no_recipes",
     "items": [
       { "item": "water_clean", "prob": 150, "charges": [ 1, -1 ], "container-item": "bottle_plastic", "sealed": false },
-      { "item": "bleach", "prob": 20, "charges": [ 1, -1 ] },
+      { "group": "bleach_jug_part", "prob": 20 },
       { "item": "ether", "prob": 50, "charges": [ 100, -1 ] },
       { "item": "chem_aluminium_powder", "prob": 25, "container-item": "flask_glass" },
       { "item": "chem_zinc_powder", "prob": 25, "container-item": "flask_glass" },

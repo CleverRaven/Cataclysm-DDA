@@ -1,5 +1,16 @@
 [
   {
+    "type": "dimension",
+    "id": "mom_mycus_world",
+    "region_layout": "mom_mycus_world"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "mom_mycus_world",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "mom_mycus_world"
+  },
+  {
     "type": "region_settings",
     "id": "mom_mycus_world",
     "copy-from": "default",

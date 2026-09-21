@@ -1,0 +1,396 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "abstract": "abstract_garment_basic_variants",
+    "name": { "str_sp": "abstract garment with basic variants" },
+    "description": "Abstract garment with solid color variants.  If you see this it's a bug, please report.",
+    "variants": [
+      { "id": "black", "description": "This one is black.", "weight": 20, "expand_snippets": true, "append": true },
+      {
+        "id": "grey",
+        "description": "This one is <color_prefix_brightness> grey.",
+        "weight": 7,
+        "expand_snippets": true,
+        "append": true
+      },
+      { "id": "white", "description": "This one is white.", "weight": 7, "expand_snippets": true, "append": true },
+      {
+        "id": "brown",
+        "description": "This one is <color_prefix_brightness> brown.",
+        "weight": 4,
+        "expand_snippets": true,
+        "append": true
+      },
+      {
+        "id": "pink",
+        "description": "This one is <color_prefix> pink.",
+        "weight": 4,
+        "expand_snippets": true,
+        "append": true
+      },
+      {
+        "id": "red",
+        "description": "This one is <color_prefix> red.",
+        "weight": 4,
+        "expand_snippets": true,
+        "append": true
+      },
+      {
+        "id": "orange",
+        "description": "This one is <color_prefix> orange.",
+        "weight": 4,
+        "expand_snippets": true,
+        "append": true
+      },
+      {
+        "id": "yellow",
+        "description": "This one is <color_prefix> yellow.",
+        "weight": 4,
+        "expand_snippets": true,
+        "append": true
+      },
+      {
+        "id": "green",
+        "description": "This one is <color_prefix> green.",
+        "weight": 4,
+        "expand_snippets": true,
+        "append": true
+      },
+      {
+        "id": "blue",
+        "description": "This one is <color_prefix> blue.",
+        "weight": 4,
+        "expand_snippets": true,
+        "append": true
+      },
+      {
+        "id": "purple",
+        "description": "This one is <color_prefix> purple.",
+        "weight": 4,
+        "expand_snippets": true,
+        "append": true
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "abstract": "abstract_garment_advanced_variants",
+    "copy-from": "abstract_garment_basic_variants",
+    "name": { "str_sp": "abstract garment with advanced variants" },
+    "description": "Abstract garment with advanced variants on top of the basic ones.  If you see this it's a bug, please report.",
+    "extend": {
+      "variants": [
+        {
+          "id": "black_animal",
+          "description": "This one has a black <animal_pattern> print.",
+          "weight": 5,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "grey_animal",
+          "description": "This one has a <color_prefix_brightness> grey <animal_pattern> print.",
+          "weight": 2,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "white_animal",
+          "description": "This one has a white <animal_pattern> print.",
+          "weight": 5,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "brown_animal",
+          "description": "This one has a <color_prefix_brightness> brown <animal_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "pink_animal",
+          "description": "This one has a <color_prefix> pink <animal_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "red_animal",
+          "description": "This one has a <color_prefix> red <animal_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "orange_animal",
+          "description": "This one has a <color_prefix> orange <animal_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "yellow_animal",
+          "description": "This one has a <color_prefix> yellow <animal_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "green_animal",
+          "description": "This one has a <color_prefix> green <animal_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "blue_animal",
+          "description": "This one has a <color_prefix> blue <animal_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "purple_animal",
+          "description": "This one has a <color_prefix> purple <animal_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "black_camouflage",
+          "description": "This one has a black camouflage print.",
+          "weight": 5,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "grey_camouflage",
+          "description": "This one has a <color_prefix_brightness> grey camouflage print.",
+          "weight": 2,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "white_camouflage",
+          "description": "This one has a white camouflage print.",
+          "weight": 2,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "brown_camouflage",
+          "description": "This one has a <color_prefix_brightness> brown camouflage print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "pink_camouflage",
+          "description": "This one has a <color_prefix> pink camouflage print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "red_camouflage",
+          "description": "This one has a <color_prefix> red camouflage print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "orange_camouflage",
+          "description": "This one has a <color_prefix> orange camouflage print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "yellow_camouflage",
+          "description": "This one has a <color_prefix> yellow camouflage print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "green_camouflage",
+          "description": "This one has a <color_prefix> green camouflage print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "blue_camouflage",
+          "description": "This one has a <color_prefix> blue camouflage print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "purple_camouflage",
+          "description": "This one has a <color_prefix> purple camouflage print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "black_generic_fancy",
+          "description": "This one has a <color_prefix_brightness> black <generic_fancy_pattern> print.",
+          "weight": 2,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "grey_generic_fancy",
+          "description": "This one has a <color_prefix_brightness> grey <generic_fancy_pattern> print.",
+          "weight": 2,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "white_generic_fancy",
+          "description": "This one has a white <generic_fancy_pattern> print.",
+          "weight": 2,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "brown_generic_fancy",
+          "description": "This one has a <color_prefix_brightness> brown <generic_fancy_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "pink_generic_fancy",
+          "description": "This one has a <color_prefix> pink <generic_fancy_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "red_generic_fancy",
+          "description": "This one has a <color_prefix> red <generic_fancy_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "orange_generic_fancy",
+          "description": "This one has a <color_prefix> orange <generic_fancy_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "yellow_generic_fancy",
+          "description": "This one has a <color_prefix> yellow <generic_fancy_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "green_generic_fancy",
+          "description": "This one has a <color_prefix> green <generic_fancy_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "blue_generic_fancy",
+          "description": "This one has a <color_prefix> blue <generic_fancy_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "purple_generic_fancy",
+          "description": "This one has a <color_prefix> purple <generic_fancy_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "black_generic_casual",
+          "description": "This one has a <color_prefix_brightness> black <generic_casual_pattern> print.",
+          "weight": 2,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "grey_generic_casual",
+          "description": "This one has a <color_prefix_brightness> grey <generic_casual_pattern> print.",
+          "weight": 2,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "white_generic_casual",
+          "description": "This one has a white <generic_casual_pattern> print.",
+          "weight": 2,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "brown_generic_casual",
+          "description": "This one has a <color_prefix_brightness> brown <generic_casual_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "pink_generic_casual",
+          "description": "This one has a <color_prefix> pink <generic_casual_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "red_generic_casual",
+          "description": "This one has a <color_prefix> red <generic_casual_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "orange_generic_casual",
+          "description": "This one has a <color_prefix> orange <generic_casual_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "yellow_generic_casual",
+          "description": "This one has a <color_prefix> yellow <generic_casual_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "green_generic_casual",
+          "description": "This one has a <color_prefix> green <generic_casual_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "blue_generic_casual",
+          "description": "This one has a <color_prefix> blue <generic_casual_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        },
+        {
+          "id": "purple_generic_casual",
+          "description": "This one has a <color_prefix> purple <generic_casual_pattern> print.",
+          "weight": 1,
+          "expand_snippets": true,
+          "append": true
+        }
+      ]
+    }
+  }
+]

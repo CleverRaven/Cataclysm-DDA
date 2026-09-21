@@ -183,6 +183,30 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "exo_base_safehouse_stone_0",
+    "vision_levels": "isolated_building",
+    "name": "unusual stone barn",
+    "sym": "^",
+    "color": "brown",
+    "see_cost": "high",
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "exo_base_safehouse_stone_1",
+    "copy-from": "exo_safehouse_stone_0",
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "exo_base_safehouse_stone_2",
+    "vision_levels": "roof_or_air",
+    "name": "unusual stone barn roof",
+    "copy-from": "exo_safehouse_stone_0",
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "alien_meadow",
     "copy-from": "generic_open_land",
     "name": "alien meadow",

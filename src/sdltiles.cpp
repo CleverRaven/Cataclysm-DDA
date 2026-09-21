@@ -1,9 +1,7 @@
 #include "cursesdef.h" // IWYU pragma: associated
 #include "sdltiles.h" // IWYU pragma: associated
 
-#if SDL_MAJOR_VERSION >= 3
 #include "cata_shader.h"
-#endif
 #include "cuboid_rectangle.h"
 #include "point.h"
 
@@ -29,16 +27,8 @@
 #include <stdexcept>
 #include <type_traits>
 #include <vector>
-#ifndef USE_SDL3
-#if defined(_MSC_VER) && defined(USE_VCPKG)
-#   include <SDL2/SDL_syswm.h>
-#else
-#ifdef _WIN32
-#   include <SDL_syswm.h>
-#endif
-#endif
-#endif
 
+#include "atlas_bake_plan.h"
 #include "avatar.h"
 #include "cached_options.h"
 #include "cata_assert.h"
@@ -130,6 +120,7 @@ std::shared_ptr<cata_tiles> tilecontext;
 std::shared_ptr<cata_tiles> closetilecontext;
 std::shared_ptr<cata_tiles> fartilecontext;
 std::unique_ptr<cata_tiles> overmap_tilecontext;
+std::shared_ptr<cata_tiles> portrait_tilecontext;
 static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
 static bool needupdate = false;
@@ -146,9 +137,7 @@ static SDL_Renderer_Ptr renderer;
 static Uint32 pixel_format = SDL_PIXELFORMAT_UNKNOWN;
 static SDL_Texture_Ptr display_buffer;
 static GeometryRenderer_Ptr geometry;
-#if SDL_MAJOR_VERSION >= 3
 static std::unique_ptr<cata_shader::variant_pass> shared_variant_pass;
-#endif
 #if defined(__ANDROID__)
 static SDL_Texture_Ptr touch_joystick;
 #endif
@@ -197,18 +186,10 @@ bool clear_sdl_window()
 
 static void InitSDL()
 {
-#if SDL_MAJOR_VERSION >= 3
     int init_flags = SDL_INIT_VIDEO;
-#else
-    int init_flags = SDL_INIT_VIDEO | SDL_INIT_TIMER;
-#endif
 #if defined(SDL_SOUND)
     init_flags |= SDL_INIT_AUDIO;
 #endif
-#if SDL_MAJOR_VERSION < 3
-    int ret;
-#endif
-
 #if defined(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING)
     // Requires SDL 2.0.5. Disables thread naming so that gdb works correctly
     // with the game.
@@ -237,36 +218,12 @@ static void InitSDL()
     SDL_SetHint( SDL_HINT_APP_NAME, _( "Cataclysm: Dark Days Ahead" ) );
 #endif
 
-#if defined(__linux__) && SDL_MAJOR_VERSION < 3
-    // https://bugzilla.libsdl.org/show_bug.cgi?id=3472#c5
-    if( SDL_COMPILEDVERSION == SDL_VERSIONNUM( 2, 0, 5 ) ) {
-        const char *xmod = getenv( "XMODIFIERS" );
-        if( xmod && strstr( xmod, "@im=ibus" ) != nullptr ) {
-            setenv( "XMODIFIERS", "@im=none", 1 );
-        }
-    }
-#endif
-
-#if SDL_MAJOR_VERSION >= 3
     throwErrorIf( !SDL_Init( init_flags ), "SDL_Init failed" );
     throwErrorIf( !TTF_Init(), "TTF_Init failed" );
-    // SDL3_image: IMG_Init removed; loading functions init on demand.
-#else
-    ret = SDL_Init( init_flags );
-    throwErrorIf( ret != 0, "SDL_Init failed" );
+    // There is no IMG_Init; the loading functions initialize on demand.
 
-    ret = TTF_Init();
-    throwErrorIf( ret != 0, "TTF_Init failed" );
-
-    // cata_tiles won't be able to load the tiles, but the normal SDL
-    // code will display fine.
-    ret = IMG_Init( IMG_INIT_PNG );
-    printErrorIf( ( ret & IMG_INIT_PNG ) != IMG_INIT_PNG,
-                  "IMG_Init failed to initialize PNG support, tiles won't work" );
-#endif
-
-    //SDL2 has no functionality for INPUT_DELAY, we would have to query it manually, which is expensive
-    //SDL2 instead uses the OS's Input Delay.
+    // SDL has no INPUT_DELAY functionality; querying it manually is
+    // expensive, so the OS input delay is used instead.
 
     if( atexit( SDL_Quit ) ) {
         debugmsg( "atexit failed to register SDL_Quit" );
@@ -304,6 +261,22 @@ static point compute_drawable_dims()
     return point{ pw, ph };
 }
 
+#if !defined(__ANDROID__)
+// Present rect in drawable px: largest integer buffer multiple that fits
+// (absorbs SCALING_FACTOR + HiDPI), top-left, remainder border. A fractional
+// fit would grid the minimap. Inverted by window_to_display_buffer_coords.
+static SDL_Rect get_display_buffer_render_rect()
+{
+    const point b = compute_display_buffer_dims();
+    const point d = compute_drawable_dims();
+    if( b.x <= 0 || b.y <= 0 ) {
+        return SDL_Rect{ 0, 0, 0, 0 };
+    }
+    const int scale = std::max( 1, std::min( d.x / b.x, d.y / b.y ) );
+    return SDL_Rect{ 0, 0, b.x * scale, b.y * scale };
+}
+#endif
+
 // Test-only injected drawable pixels. The headless dummy backend reports backing
 // pixels equal to the logical window, so a DPI-only change cannot be produced
 // through SDL; a non-negative override stands in. Inert at the -1 default.
@@ -337,11 +310,7 @@ static bool SetupRenderTarget()
     if( printErrorIf( !staged, "Failed to create window buffer" ) ) {
         return false;
     }
-#if SDL_MAJOR_VERSION >= 3
     cata_shader::variant_pass *vp = get_shared_variant_pass();
-#else
-    cata_shader::variant_pass *vp = nullptr;
-#endif
     {
         const bind_result r = permanent_render_target_bind( renderer, staged.get(), vp );
         if( r == bind_result::failed_in_switch ) {
@@ -406,8 +375,8 @@ void refresh_mouse_config()
     }
 }
 
-#if SDL_MAJOR_VERSION >= 3 && defined(_WIN32)
-// True if data/shaders contains .spv but no .dxil. Used to bias the SDL3 GPU
+#if defined(_WIN32)
+// True if data/shaders contains .spv but no .dxil. Used to bias the GPU
 // device toward Vulkan when a local Windows build skipped SDL_shadercross
 // install (which would have produced DXIL for the D3D12 backend) but
 // glslangValidator still produced SPIR-V.
@@ -450,7 +419,6 @@ static SDL_Renderer_Ptr create_game_renderer( const std::string &renderer_name, 
 // direct3d_mode from the prior renderer choice.
 static void detect_renderer_backend()
 {
-#if SDL_MAJOR_VERSION >= 3
     direct3d_mode = false;
     const SDL_PropertiesID props = SDL_GetRendererProperties( renderer.get() );
     const char *actual_name = props != 0
@@ -460,7 +428,6 @@ static void detect_renderer_backend()
     if( actual_name && std::string( actual_name ).find( "direct3d" ) != std::string::npos ) {
         direct3d_mode = true;
     }
-#endif
 }
 
 // Pick the geometry renderer matching the live renderer's capabilities:
@@ -470,19 +437,11 @@ static void rebuild_geometry_strategy( bool software_renderer )
 {
     DebugLog( D_INFO, DC_ALL ) << "USE_COLOR_MODULATED_TEXTURES is set to " <<
                                get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" );
-#if SDL_MAJOR_VERSION >= 3
     ( void )software_renderer;
-    // SDL3 batches RenderFillRect efficiently and the modulated texture path
+    // The renderer batches RenderFillRect efficiently and the modulated path
     // blends differently from a plain fill (it breaks the per-frame clear), so
     // the saved option value is ignored and the default renderer is always used.
     geometry = std::make_unique<DefaultGeometryRenderer>();
-#else
-    if( get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) && !software_renderer ) {
-        geometry = std::make_unique<ColorModulatedGeometryRenderer>( renderer );
-    } else {
-        geometry = std::make_unique<DefaultGeometryRenderer>();
-    }
-#endif
 }
 
 // The renderer event watch may run off the main thread (SDL calls watches on the
@@ -491,29 +450,18 @@ static void rebuild_geometry_strategy( bool software_renderer )
 // filtered to the game window; mobile lifecycle events carry no window id.
 static Uint32 renderer_watch_window_id = 0;
 
-#if SDL_MAJOR_VERSION >= 3
 static bool SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
-#else
-static int SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
-#endif
 {
     renderer_resource_coordinator *coord =
         static_cast<renderer_resource_coordinator *>( userdata );
     switch( event->type ) {
         case CATA_RENDER_TARGETS_RESET:
-#if SDL_MAJOR_VERSION >= 3
             if( event->render.windowID == renderer_watch_window_id ) {
-#endif
                 coord->request_recovery( renderer_recovery_severity::targets_reset );
-#if SDL_MAJOR_VERSION >= 3
             }
-#endif
             break;
         case CATA_RENDER_DEVICE_RESET:
-#if SDL_MAJOR_VERSION >= 3
-            if( event->render.windowID == renderer_watch_window_id )
-#endif
-            {
+            if( event->render.windowID == renderer_watch_window_id ) {
 #if defined(__ANDROID__)
                 // SDL emits this only after the preserved EGL context fails to
                 // restore and it allocates a replacement context, leaving the
@@ -524,13 +472,11 @@ static int SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
 #endif
             }
             break;
-#if SDL_MAJOR_VERSION >= 3
         case CATA_RENDER_DEVICE_LOST:
             if( event->render.windowID == renderer_watch_window_id ) {
                 coord->request_recovery( renderer_recovery_severity::device_lost );
             }
             break;
-#endif
 #if defined(__ANDROID__)
         case CATA_APP_DIDENTERFOREGROUND:
             // Severity is a hint; the lifecycle epoch is the durable signal that
@@ -544,31 +490,75 @@ static int SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
             coord->notify_lifecycle( lifecycle_state::paused );
             break;
 #endif
-#if SDL_MAJOR_VERSION >= 3
         case CATA_WINDOWEVENT_RESIZED:
         case CATA_WINDOWEVENT_PIXEL_SIZE_CHANGED:
             if( event->window.windowID == renderer_watch_window_id ) {
                 coord->notify_resize();
             }
             break;
-#else
-        case SDL_WINDOWEVENT:
-            // SDL2 delivers resize as a window sub-event under one umbrella type.
-            if( event->window.windowID == renderer_watch_window_id
-                && ( event->window.event == CATA_WINDOWEVENT_RESIZED
-                     || event->window.event == CATA_WINDOWEVENT_PIXEL_SIZE_CHANGED ) ) {
-                coord->notify_resize();
-            }
-            break;
-#endif
         default:
             break;
     }
-#if SDL_MAJOR_VERSION >= 3
     return true;
-#else
-    return 0;
-#endif
+}
+
+static tile_atlas_config applied_atlas_config;
+static std::optional<bool> test_shader_variants_override;
+
+static void select_applied_memory_preset()
+{
+    if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+        vp->select_memory_preset(
+            cata_shader::memory_preset_from_option_value( applied_atlas_config.mode ) );
+    }
+}
+
+void apply_tile_atlas_options()
+{
+    // CreateTexture stamps this default on every texture, and the filter
+    // fingerprint folds SCALING_MODE. Change both together, so a replay never
+    // records a fingerprint its textures do not carry.
+    SetDefaultTextureScaleQuality( get_option<std::string>( "SCALING_MODE" ) );
+    applied_atlas_config.mode = get_option<std::string>( "MEMORY_MAP_MODE" );
+    applied_atlas_config.fingerprint =
+        compute_tileset_filter_fingerprint( applied_atlas_config.mode );
+    select_applied_memory_preset();
+}
+
+const tile_atlas_config &applied_tile_atlas_config()
+{
+    return applied_atlas_config;
+}
+
+std::optional<atlas_bake_plan> resolve_atlas_bake_plan( const std::string &memory_map_mode )
+{
+    if( std::getenv( "CATA_FORCE_ATLAS_VARIANTS" ) ) {
+        return atlas_bake_plan{};
+    }
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+    bool shader_variants = false;
+    if( vp ) {
+        switch( vp->ensure_probed() ) {
+            case cata_shader::probe_state::unsafe:
+                display_buffer_scope_signal_recovery_required();
+                return std::nullopt;
+            case cata_shader::probe_state::available:
+                shader_variants = true;
+                break;
+            case cata_shader::probe_state::unavailable:
+                break;
+        }
+        if( vp->shader_fault() ) {
+            // Faulted session bakes full whatever the test override claims
+            return atlas_bake_plan{};
+        }
+    }
+    if( test_shader_variants_override ) {
+        shader_variants = *test_shader_variants_override;
+    }
+    return compute_atlas_bake_plan( shader_variants,
+                                    cata_shader::memory_preset_from_option_value( memory_map_mode ),
+                                    /*tint_shader_available=*/false );
 }
 
 //Registers, creates, and shows the Window!!
@@ -579,9 +569,9 @@ static void WinCreate()
     WindowWidth = TERMINAL_WIDTH * fontwidth * scaling_factor;
     WindowHeight = TERMINAL_HEIGHT * fontheight * scaling_factor;
 
-    if( get_option<std::string>( "SCALING_MODE" ) != "none" ) {
-        SetDefaultTextureScaleQuality( get_option<std::string>( "SCALING_MODE" ) );
-    }
+    // Before the first texture: SetupRenderTarget below creates the display
+    // buffer under the scale default this sets.
+    apply_tile_atlas_options();
 
     // Track desired fullscreen mode separately; applied after window creation
     FullscreenMode desired_fullscreen = FullscreenMode::windowed;
@@ -662,40 +652,22 @@ static void WinCreate()
     throwErrorIf( pixel_format == SDL_PIXELFORMAT_UNKNOWN, "SDL_GetWindowPixelFormat failed" );
 
 #if !defined(__ANDROID__)
-#if defined(USE_SDL3)
-    // Under SDL3 the GPU renderer is the only one that supports
-    // SDL_SetGPURenderState. Drive selection through SDL_HINT_RENDER_DRIVER
-    // (comma-list with platform-appropriate fallbacks) rather than the
-    // saved RENDERER option, which predates SDL3 and may name a renderer
-    // that no longer exists. Power users can still override at the SDL
-    // layer via SDL_RENDER_DRIVER environment variable (env > SDL_SetHint).
+    // The GPU renderer is the only one that supports SDL_SetGPURenderState.
+    // Drive selection through SDL_HINT_RENDER_DRIVER (comma-list with
+    // platform-appropriate fallbacks) rather than the saved RENDERER option,
+    // which may name a renderer that no longer exists. Power
+    // users can still override at the SDL layer via the SDL_RENDER_DRIVER
+    // environment variable (env > SDL_SetHint).
     bool software_renderer = false;
     std::string renderer_name;
-#else
-    bool software_renderer = get_option<std::string>( "RENDERER" ).empty();
-    std::string renderer_name;
-    if( software_renderer ) {
-        renderer_name = "software";
-    } else {
-        renderer_name = get_option<std::string>( "RENDERER" );
-    }
-
-    if( renderer_name == "direct3d" ) {
-        direct3d_mode = true;
-    }
-#endif
 #else
     bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
     std::string renderer_name = software_renderer ? "software" : "";
 #endif
 
-#if SDL_MAJOR_VERSION < 3
-    // SDL3: batching is always on.
-    SDL_SetHint( SDL_HINT_RENDER_BATCHING, get_option<bool>( "RENDER_BATCHING" ) ? "1" : "0" );
-#else
 #  if defined(_WIN32)
     SDL_SetHint( SDL_HINT_RENDER_DRIVER, "gpu,direct3d12,direct3d11,opengl" );
-    // Bias the SDL3 GPU device toward Vulkan when the install only has
+    // Bias the GPU device toward Vulkan when the install only has
     // SPIR-V artifacts (e.g. a local dev build that skipped SDL_shadercross
     // install and so never produced DXIL). Vulkan consumes SPIR-V; D3D12
     // would not load these. SDL falls through to D3D12 via the comma-list
@@ -704,13 +676,12 @@ static void WinCreate()
         && !SDL_GetHint( SDL_HINT_GPU_DRIVER )
         && only_spirv_shader_artifacts_present() ) {
         SDL_SetHint( SDL_HINT_GPU_DRIVER, "vulkan" );
-        dbg( D_INFO ) << "Only SPIR-V shader artifacts present; biasing SDL3 "
+        dbg( D_INFO ) << "Only SPIR-V shader artifacts present; biasing the "
                       "GPU device toward Vulkan.";
     }
 #  else
     SDL_SetHint( SDL_HINT_RENDER_DRIVER, "gpu,opengl" );
 #  endif
-#endif
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
@@ -731,13 +702,6 @@ static void WinCreate()
     }
 
     if( software_renderer ) {
-#if !defined(USE_SDL3)
-        // FRAMEBUFFER_ACCEL is hidden under SDL3 (the option is the SDL2
-        // software-renderer toggle); don't consume the stored value there.
-        if( get_option<bool>( "FRAMEBUFFER_ACCEL" ) ) {
-            SDL_SetHint( SDL_HINT_FRAMEBUFFER_ACCELERATION, "1" );
-        }
-#endif
         renderer = create_game_renderer( {}, true );
         throwErrorIf( !renderer, "Failed to initialize software renderer" );
         throwErrorIf( !SetupRenderTarget(),
@@ -774,9 +738,8 @@ static void WinCreate()
 
     rebuild_geometry_strategy( software_renderer );
 
-#if SDL_MAJOR_VERSION >= 3
     shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
-#endif
+    select_applied_memory_preset();
 
     imclient = std::make_unique<cataimgui::client>( renderer, window, geometry );
 
@@ -785,24 +748,16 @@ static void WinCreate()
     // Register before the cold-start tileset upload so a reset or mobile
     // lifecycle event during bootstrap is not lost.
     renderer_watch_window_id = SDL_GetWindowID( ::window.get() );
-#if SDL_MAJOR_VERSION >= 3
     if( !SDL_AddEventWatch( renderer_event_watch, &renderer_coordinator ) ) {
         DebugLog( D_ERROR, DC_ALL ) << "Failed to register renderer event watch: " << SDL_GetError();
     }
-#else
-    SDL_AddEventWatch( renderer_event_watch, &renderer_coordinator );
-#endif
 }
 
 static void WinDestroy()
 {
     // Unregister before SDL teardown. The remove does not join an in-flight
     // callback, but the process-lifetime coordinator outlives it.
-#if SDL_MAJOR_VERSION >= 3
     SDL_RemoveEventWatch( renderer_event_watch, &renderer_coordinator );
-#else
-    SDL_DelEventWatch( renderer_event_watch, &renderer_coordinator );
-#endif
 #if defined(__ANDROID__)
     touch_joystick.reset();
 #endif
@@ -811,9 +766,7 @@ static void WinDestroy()
     tilecontext.reset();
     gamepad::quit();
     geometry.reset();
-#if SDL_MAJOR_VERSION >= 3
     shared_variant_pass.reset();
-#endif
     display_buffer.reset();
     renderer.reset();
     ::window.reset();
@@ -925,14 +878,12 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
     // the whole window; with ANDROID_RENDER_SAFE_AREA the system safe area is used
     // instead so the game stays clear of the camera cutout and other unsafe edges.
     SDL_Rect bounds{ 0, 0, WindowWidth, WindowHeight };
-#if SDL_MAJOR_VERSION >= 3
     if( get_option<bool>( "ANDROID_RENDER_SAFE_AREA" ) ) {
         SDL_Rect safe;
         if( SDL_GetWindowSafeArea( ::window.get(), &safe ) && safe.w > 0 && safe.h > 0 ) {
             bounds = safe;
         }
     }
-#endif
 
     // Reserve the on-screen shortcut strip along the bottom unless it overlaps.
     // Keep at least one row so the aspect math never divides by a zero height.
@@ -980,6 +931,49 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
 
 static void draw_gamepad_radial_menu();
 
+// Whether the variant shaders can serve a skipped bake right now. A sticky
+// fault wins; the test override stands in for the probe on the software fixture.
+static bool shader_variants_available_now()
+{
+    const cata_shader::variant_pass *vp = get_shared_variant_pass();
+    if( vp && vp->shader_fault() ) {
+        return false;
+    }
+    if( test_shader_variants_override ) {
+        return *test_shader_variants_override;
+    }
+    return vp && vp->available();
+}
+
+// Returns true when a recovery was requested because a live bundle no longer
+// matches the applied atlas configuration or shader availability
+static bool request_tile_repair_if_needed()
+{
+    if( !ts_cache.any_live_bundle_needs_repair( applied_atlas_config.mode,
+            applied_atlas_config.fingerprint, shader_variants_available_now() ) ) {
+        return false;
+    }
+    renderer_coordinator.request_recovery( renderer_recovery_severity::device_reset );
+    return true;
+}
+
+// whether this frame may present. re-arms needupdate and returns false while a
+// recovery is pending, or while a live bundle cannot be drawn correctly, so
+// nothing (clear, copy, overlays, present) runs against a renderer about to be
+// rebuilt and no frame drawn from a stale bundle is shown.
+static bool present_gate()
+{
+    if( renderer_coordinator.should_abort_frame() ) {
+        needupdate = true;
+        return false;
+    }
+    if( request_tile_repair_if_needed() ) {
+        needupdate = true;
+        return false;
+    }
+    return true;
+}
+
 void refresh_display()
 {
     needupdate = false;
@@ -989,11 +983,8 @@ void refresh_display()
         return;
     }
 
-    if( renderer_coordinator.should_abort_frame() ) {
-        // Skip the whole present so nothing (clear, copy, overlays, present) runs
-        // against a renderer about to be rebuilt or a buffer about to be resized.
-        // Re-arm needupdate so the present retries after the next drain.
-        needupdate = true;
+    if( !present_gate() ) {
+        // skip whole present, it will retry after next drain
         return;
     }
 
@@ -1004,11 +995,7 @@ void refresh_display()
     // Present from the window target. The buffer stays unbound; draw paths
     // re-bind it next frame. Go through the pass-aware helper so variant_pass
     // can flush before the switch.
-#if SDL_MAJOR_VERSION >= 3
     cata_shader::variant_pass *present_vp = get_shared_variant_pass();
-#else
-    cata_shader::variant_pass *present_vp = nullptr;
-#endif
     {
         const bind_result r = permanent_render_target_bind( renderer, nullptr, present_vp );
         if( r == bind_result::failed_in_switch ) {
@@ -1027,7 +1014,14 @@ void refresh_display()
                        TERMINAL_HEIGHT * fontheight );
     RenderCopy( renderer, display_buffer, NULL, &dstrect );
 #else
-    RenderCopy( renderer, display_buffer, nullptr, nullptr );
+    // Integer-scaled top-left blit; remainder is border. A null full-window blit
+    // would fractionally scale and grid the minimap.
+    const SDL_Rect dstrect = get_display_buffer_render_rect();
+    if( dstrect.w > 0 && dstrect.h > 0 ) {
+        RenderCopy( renderer, display_buffer, nullptr, &dstrect );
+    } else {
+        RenderCopy( renderer, display_buffer, nullptr, nullptr );
+    }
 #endif
 
 #if defined(__ANDROID__)
@@ -1079,7 +1073,6 @@ void get_display_buffer_dims( int *w, int *h )
     int buf_w = 0;
     int buf_h = 0;
     if( display_buffer ) {
-#if SDL_MAJOR_VERSION >= 3
         SDL_PropertiesID props = SDL_GetTextureProperties( display_buffer.get() );
         if( props ) {
             buf_w = static_cast<int>( SDL_GetNumberProperty( props,
@@ -1087,9 +1080,6 @@ void get_display_buffer_dims( int *w, int *h )
             buf_h = static_cast<int>( SDL_GetNumberProperty( props,
                                       SDL_PROP_TEXTURE_HEIGHT_NUMBER, 0 ) );
         }
-#else
-        SDL_QueryTexture( display_buffer.get(), nullptr, nullptr, &buf_w, &buf_h );
-#endif
     }
     if( w ) {
         *w = buf_w;
@@ -1124,16 +1114,16 @@ SDL_Point window_to_display_buffer_coords( SDL_Point window_pt )
         static_cast<int>( static_cast<int64_t>( window_pt.y - dstrect.y ) * buf_h / dstrect.h )
     };
 #else
-    int win_w = 0;
-    int win_h = 0;
-    GetWindowSize( window.get(), &win_w, &win_h );
-    if( win_w <= 0 || win_h <= 0 ) {
-        return window_pt;
+    // Use the SDL provided translation of scaling and casting for SDL3 builds
+    if( renderer ) {
+        float rx = 0.0f;
+        float ry = 0.0f;
+        if( SDL_RenderCoordinatesFromWindow( renderer.get(),
+                                             static_cast<float>( window_pt.x ), static_cast<float>( window_pt.y ), &rx, &ry ) ) {
+            return SDL_Point{ static_cast<int>( rx ), static_cast<int>( ry ) };
+        }
     }
-    return SDL_Point{
-        static_cast<int>( static_cast<int64_t>( window_pt.x ) * buf_w / win_w ),
-        static_cast<int>( static_cast<int64_t>( window_pt.y ) * buf_h / win_h )
-    };
+    return window_pt;
 #endif
 }
 
@@ -1144,41 +1134,25 @@ void convert_event_to_display_buffer_coords( SDL_Event *event )
     }
     switch( event->type ) {
         case CATA_MOUSEMOTION: {
-#if SDL_MAJOR_VERSION >= 3
             SDL_Point pt { static_cast<int>( event->motion.x ), static_cast<int>( event->motion.y ) };
             const SDL_Point conv = window_to_display_buffer_coords( pt );
             event->motion.x = static_cast<float>( conv.x );
             event->motion.y = static_cast<float>( conv.y );
-#else
-            SDL_Point pt { event->motion.x, event->motion.y };
-            const SDL_Point conv = window_to_display_buffer_coords( pt );
-            event->motion.x = conv.x;
-            event->motion.y = conv.y;
-#endif
             break;
         }
         case CATA_MOUSEBUTTONDOWN:
         case CATA_MOUSEBUTTONUP: {
-#if SDL_MAJOR_VERSION >= 3
             SDL_Point pt { static_cast<int>( event->button.x ), static_cast<int>( event->button.y ) };
             const SDL_Point conv = window_to_display_buffer_coords( pt );
             event->button.x = static_cast<float>( conv.x );
             event->button.y = static_cast<float>( conv.y );
-#else
-            SDL_Point pt { event->button.x, event->button.y };
-            const SDL_Point conv = window_to_display_buffer_coords( pt );
-            event->button.x = conv.x;
-            event->button.y = conv.y;
-#endif
             break;
         }
         case CATA_MOUSEWHEEL: {
-#if SDL_MAJOR_VERSION >= 3
             SDL_Point pt { static_cast<int>( event->wheel.mouse_x ), static_cast<int>( event->wheel.mouse_y ) };
             const SDL_Point conv = window_to_display_buffer_coords( pt );
             event->wheel.mouse_x = static_cast<float>( conv.x );
             event->wheel.mouse_y = static_cast<float>( conv.y );
-#endif
             break;
         }
         default:
@@ -1186,12 +1160,10 @@ void convert_event_to_display_buffer_coords( SDL_Event *event )
     }
 }
 
-#if SDL_MAJOR_VERSION >= 3
 cata_shader::variant_pass *get_shared_variant_pass()
 {
     return shared_variant_pass.get();
 }
-#endif
 
 namespace
 {
@@ -1266,11 +1238,7 @@ display_buffer_draw_scope::display_buffer_draw_scope( const bool allow_during_re
         // rebuilds the renderer.
         return;
     }
-#if SDL_MAJOR_VERSION >= 3
     cata_shader::variant_pass *vp = get_shared_variant_pass();
-#else
-    cata_shader::variant_pass *vp = nullptr;
-#endif
     const bind_result r = permanent_render_target_bind( renderer, display_buffer.get(), vp );
     if( r == bind_result::failed_in_switch ) {
         // Boundary undefined: latch recovery so this and later scopes refuse.
@@ -1310,11 +1278,7 @@ display_buffer_draw_scope::~display_buffer_draw_scope()
         // -- another switch on the undefined renderer would deepen corruption.
         return;
     }
-#if SDL_MAJOR_VERSION >= 3
     cata_shader::variant_pass *vp = get_shared_variant_pass();
-#else
-    cata_shader::variant_pass *vp = nullptr;
-#endif
     if( permanent_render_target_bind( renderer, nullptr, vp )
         == bind_result::failed_in_switch ) {
         // Boundary undefined: latch so later scopes refuse until rebuild.
@@ -1338,15 +1302,11 @@ void clear_window_area( const catacurses::window &win_ )
                     win->width * fontwidth, win->height * fontheight, color_as_sdl( catacurses::black ) );
 }
 
-// Shared variant_pass pointer for the pass-aware target binds, or null on
-// SDL2 where there is no shader pass.
+// Shared variant_pass pointer for the pass-aware target binds, or null when
+// no shader pass is active.
 static cata_shader::variant_pass *shared_variant_pass_or_null()
 {
-#if SDL_MAJOR_VERSION >= 3
     return get_shared_variant_pass();
-#else
-    return nullptr;
-#endif
 }
 
 // Renderer-resource coordinator: recovery recipes and the drain state
@@ -1444,9 +1404,10 @@ bool renderer_resource_coordinator::should_abort_frame() const
 static void for_each_unique_tile_context( const std::function<void( cata_tiles & )> &fn )
 {
     cata_tiles *ctxs[] = { tilecontext.get(), closetilecontext.get(),
-                           fartilecontext.get(), overmap_tilecontext.get()
+                           fartilecontext.get(), overmap_tilecontext.get(),
+                           portrait_tilecontext.get()
                          };
-    cata_tiles *seen[4] = {};
+    cata_tiles *seen[5] = {};
     size_t n = 0;
     for( cata_tiles *c : ctxs ) {
         if( !c ) {
@@ -1465,6 +1426,17 @@ static void for_each_unique_tile_context( const std::function<void( cata_tiles &
         seen[n++] = c;
         fn( *c );
     }
+}
+
+void on_tiles_options_changed()
+{
+    apply_tile_atlas_options();
+    for_each_unique_tile_context( []( cata_tiles & ctx ) {
+        ctx.on_options_changed();
+    } );
+    // queue the repair now, next input poll drains it, present gate refuses
+    // frames until replay commits
+    request_tile_repair_if_needed();
 }
 
 static void reset_context_minimaps()
@@ -1612,7 +1584,6 @@ recipe_result renderer_resource_coordinator::recipe_targets_reset()
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-#if SDL_MAJOR_VERSION >= 3
     if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
         if( !vp->flush() ) {
             // An undefined shader boundary must escalate before any further
@@ -1620,7 +1591,6 @@ recipe_result renderer_resource_coordinator::recipe_targets_reset()
             return { recipe_outcome::restart_required, renderer_recovery_severity::device_lost };
         }
     }
-#endif
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
@@ -1654,13 +1624,11 @@ recipe_result renderer_resource_coordinator::recipe_device_reset()
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-#if SDL_MAJOR_VERSION >= 3
     if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
         if( !vp->flush() ) {
             return { recipe_outcome::restart_required, renderer_recovery_severity::device_lost };
         }
     }
-#endif
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
@@ -1712,29 +1680,25 @@ recipe_result renderer_resource_coordinator::recipe_device_reset()
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-#if SDL_MAJOR_VERSION >= 3
     if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
         vp->release_gpu_resources();
     }
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-#endif
     if( imclient ) {
         imclient->destroy_backend_device_objects();
     }
-    // SDL3 documents a device reset as invalidating every texture, so cached
+    // A device reset is documented as invalidating every texture, so cached
     // atlas bundles are rejected by the texture-generation bump and replayed
     // explicitly below over every live tileset.
     ++gpu_textures_generation_;
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-#if SDL_MAJOR_VERSION >= 3
     if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
         vp->rebind_renderer( renderer.get() );
     }
-#endif
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
@@ -1818,11 +1782,9 @@ bool renderer_resource_coordinator::install_renderer_with_fallback()
         if( check_pause_abort() ) {
             return false;
         }
-#if SDL_MAJOR_VERSION >= 3
         if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
             vp->rebind_renderer( renderer.get() );
         }
-#endif
         if( check_pause_abort() ) {
             return false;
         }
@@ -1853,13 +1815,11 @@ recipe_result renderer_resource_coordinator::recipe_device_lost()
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-#if SDL_MAJOR_VERSION >= 3
     if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
         if( !vp->flush() ) {
             vp->force_abandon_gpu_resources();
         }
     }
-#endif
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
@@ -1910,11 +1870,9 @@ recipe_result renderer_resource_coordinator::recipe_device_lost()
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-#if SDL_MAJOR_VERSION >= 3
     if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
         vp->release_gpu_resources();
     }
-#endif
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
@@ -2014,6 +1972,7 @@ atlas_upload_interrupt renderer_resource_coordinator::mode2_upload_poll()
                     request_recovery( renderer_recovery_severity::device_reset );
                     break;
                 case atlas_upload_interrupt::renderer_invalidated:
+                case atlas_upload_interrupt::shader_boundary_lost:
                     request_recovery( renderer_recovery_severity::device_lost );
                     break;
                 case atlas_upload_interrupt::none:
@@ -2061,6 +2020,7 @@ recipe_result renderer_resource_coordinator::map_replay_interrupt(
         case atlas_upload_interrupt::texture_resources_invalidated:
             return { recipe_outcome::restart_required, renderer_recovery_severity::device_reset };
         case atlas_upload_interrupt::renderer_invalidated:
+        case atlas_upload_interrupt::shader_boundary_lost:
             return { recipe_outcome::restart_required, renderer_recovery_severity::device_lost };
         case atlas_upload_interrupt::none:
             break;
@@ -2137,24 +2097,12 @@ static struct {
 // environment API to be seen at video-subsystem init.
 static void set_videodriver_env( const char *const value )
 {
-#if SDL_MAJOR_VERSION >= 3
     SDL_SetEnvironmentVariable( SDL_GetEnvironment(), "SDL_VIDEODRIVER", value, true );
-#else
-    SDL_setenv( "SDL_VIDEODRIVER", value, 1 );
-#endif
 }
 
 static void clear_videodriver_env()
 {
-#if SDL_MAJOR_VERSION >= 3
     SDL_UnsetEnvironmentVariable( SDL_GetEnvironment(), "SDL_VIDEODRIVER" );
-#elif defined(_WIN32)
-    // SDL2 has no unset; an empty value still counts as defined, so drop the
-    // variable through the C runtime, which SDL2's SDL_getenv reads directly.
-    _putenv_s( "SDL_VIDEODRIVER", "" );
-#else
-    unsetenv( "SDL_VIDEODRIVER" );
-#endif
 }
 
 static void restore_videodriver_env()
@@ -2202,6 +2150,8 @@ bool renderer_recovery_test_support::setup_software_renderer()
     if( renderer || window ) {
         return false;
     }
+    cata_shader::test_reset_seams();
+    cata_shader::clear_reprobe();
     const char *const prior = SDL_getenv( "SDL_VIDEODRIVER" );
     test_fixture_had_prior_driver = prior != nullptr;
     test_fixture_prior_driver = prior != nullptr ? prior : std::string();
@@ -2209,11 +2159,7 @@ bool renderer_recovery_test_support::setup_software_renderer()
 
     test_fixture_acquired_video = !SDL_WasInit( SDL_INIT_VIDEO );
     if( test_fixture_acquired_video ) {
-#if SDL_MAJOR_VERSION >= 3
         const bool inited = SDL_InitSubSystem( SDL_INIT_VIDEO );
-#else
-        const bool inited = SDL_InitSubSystem( SDL_INIT_VIDEO ) == 0;
-#endif
         if( !inited ) {
             test_fixture_acquired_video = false;
             restore_videodriver_env();
@@ -2247,9 +2193,9 @@ bool renderer_recovery_test_support::setup_software_renderer()
     }
     detect_renderer_backend();
     pixel_format = SDL_PIXELFORMAT_ARGB8888;
-#if SDL_MAJOR_VERSION >= 3
     shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
-#endif
+    // also restores the scale default a previous test might have changed
+    apply_tile_atlas_options();
     geometry = std::make_unique<DefaultGeometryRenderer>();
     if( !SetupRenderTarget() ) {
         teardown_software_renderer();
@@ -2275,9 +2221,10 @@ void renderer_recovery_test_support::teardown_software_renderer()
     display_buffer_scope_recovery_required = false;
     reset_coordinator();
     geometry.reset();
-#if SDL_MAJOR_VERSION >= 3
     shared_variant_pass.reset();
-#endif
+    cata_shader::test_reset_seams();
+    cata_shader::clear_reprobe();
+    test_shader_variants_override.reset();
     display_buffer.reset();
     renderer.reset();
     window.reset();
@@ -2309,6 +2256,20 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
     const std::string &tileset_id, const std::string &memory_map_mode,
     const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation )
 {
+    const std::optional<atlas_bake_plan> plan = resolve_atlas_bake_plan( memory_map_mode );
+    if( !plan ) {
+        renderer_coordinator.request_recovery( renderer_recovery_severity::device_lost );
+        return nullptr;
+    }
+    return install_synthetic_bundle( tileset_id, memory_map_mode, renderer_instance_generation,
+                                     gpu_textures_generation, *plan );
+}
+
+std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic_bundle(
+    const std::string &tileset_id, const std::string &memory_map_mode,
+    const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation,
+    const atlas_bake_plan &plan )
+{
     std::shared_ptr<tileset> ts = std::make_shared<tileset>();
     ts->tileset_id = tileset_id;
     atlas_replay_descriptor desc;
@@ -2320,6 +2281,7 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
     ts->append_atlas_descriptor( desc );
     ts->set_memory_map_mode_at_upload( memory_map_mode );
     tileset_cache::loader::upload_atlases( *ts, renderer, memory_map_mode,
+                                           compute_tileset_filter_fingerprint( memory_map_mode ), plan,
                                            ts->get_atlas_descriptors(),
                                            renderer_instance_generation,
                                            gpu_textures_generation, false );
@@ -2327,7 +2289,7 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
     const tileset_cache_key key {
         tileset_id, memory_map_mode, compute_tileset_filter_fingerprint( memory_map_mode )
     };
-    ts_cache.tilesets_.insert_or_assign( key, ts );
+    ts_cache.track_bundle( key, ts );
     return ts;
 }
 
@@ -2352,7 +2314,8 @@ atlas_replay_quarantine::gate renderer_recovery_test_support::populate_mode2_qua
                : atlas_upload_interrupt::none;
     };
     tileset_cache::loader::upload_atlases( ts, renderer, "color_pixel_sepia_light",
-                                           ts.get_atlas_descriptors(),
+                                           compute_tileset_filter_fingerprint( "color_pixel_sepia_light" ),
+                                           atlas_bake_plan{}, ts.get_atlas_descriptors(),
                                            renderer_coordinator.instance_generation(),
                                            renderer_coordinator.textures_generation(),
                                            false, poll, &quarantine );
@@ -2410,6 +2373,51 @@ void renderer_recovery_test_support::arm_mode2_interrupt( const int poll_countdo
     cata_assert( poll_countdown > 0 );
     renderer_coordinator.test_mode2_interrupt_countdown_ = poll_countdown;
     renderer_coordinator.test_mode2_interrupt_ = interrupt;
+}
+
+void renderer_recovery_test_support::arm_probe_unsafe( const int count )
+{
+    cata_assert( count > 0 );
+    cata_shader::test_arm_probe_unsafe( count );
+}
+
+int renderer_recovery_test_support::probe_unsafe_remaining()
+{
+    return cata_shader::test_probe_unsafe_remaining();
+}
+
+void renderer_recovery_test_support::arm_flush_failure()
+{
+    cata_shader::test_arm_flush_failure();
+}
+
+void renderer_recovery_test_support::mark_shader_fault()
+{
+    cata_assert( shared_variant_pass );
+    shared_variant_pass->shader_fault_ = true;
+}
+
+void renderer_recovery_test_support::simulate_draw_bind_failure()
+{
+    cata_assert( shared_variant_pass );
+    shared_variant_pass->note_draw_bind_failure( false );
+    display_buffer_scope_signal_recovery_required();
+}
+
+int renderer_recovery_test_support::variant_probe_count()
+{
+    return cata_shader::test_probe_runs();
+}
+
+bool renderer_recovery_test_support::run_present_gate()
+{
+    return present_gate();
+}
+
+void renderer_recovery_test_support::override_shader_variants_available(
+    const std::optional<bool> available )
+{
+    test_shader_variants_override = available;
 }
 
 bool renderer_recovery_test_support::replay_quarantine_empty()
@@ -3003,8 +3011,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     avatar &you = get_avatar();
     const tripoint_abs_omt avatar_pos = you.pos_abs_omt();
     tripoint_abs_omt center_pos = center_abs_omt;
-    const bool fast_traveling = g->overmap_data.fast_traveling;
-    if( fast_traveling ) {
+    const bool overmap_only_auto_travel = g->overmap_data.overmap_only_auto_travel;
+    if( overmap_only_auto_travel ) {
         center_pos = you.pos_abs_omt();
     }
     const tripoint_abs_omt origin = center_pos - point( s.x / 2, s.y / 2 );
@@ -3025,7 +3033,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     const bool show_map_revealed = uistate.overmap_show_revealed_omts;
     std::unordered_set<tripoint_abs_omt> &revealed_highlights = get_avatar().map_revealed_omts;
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
-    const bool draw_overlays = blink || fast_traveling;
+    const bool draw_overlays = blink || overmap_only_auto_travel;
     o = origin.xy().raw();
 
     const auto global_omt_to_draw_position = []( const tripoint_abs_omt & omp ) {
@@ -3252,7 +3260,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     draw_entity_with_overlays( get_player_character(),
                                global_omt_to_draw_position( avatar_pos ),
                                lit_level::LIT, height_3d );
-    if( !fast_traveling ) {
+    if( !overmap_only_auto_travel ) {
         draw_from_id_string( "cursor", global_omt_to_draw_position( center_pos ), 0, 0, lit_level::LIT,
                              false );
     }
@@ -3332,9 +3340,9 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
     std::vector<std::pair<nc_color, std::string>> notes_window_text;
 
-    if( fast_traveling ) {
+    if( overmap_only_auto_travel ) {
         // We hijack this to avoid repeating code just for this simple notice. Notes will still display normally
-        notes_window_text.emplace_back( c_yellow, _( "FAST TRAVELING" ) );
+        notes_window_text.emplace_back( c_yellow, _( "AUTO TRAVELING" ) );
     }
 
     if( viewing_weather ) {
@@ -3465,7 +3473,6 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     }
 
     RenderSetClipRect( renderer, nullptr );
-#if SDL_MAJOR_VERSION >= 3
     // Flush failure means the shader bind boundary forbids a target switch:
     // abort the scope's unbind, latch recovery, and throw to unwind
     // curses_drawwindow instead of drawing terrain overlays on a dead renderer.
@@ -3477,7 +3484,6 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 "cata_tiles::draw_om: variant_pass flush failed at end of frame; renderer in undefined state" );
         }
     }
-#endif
 }
 
 static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset,
@@ -4064,7 +4070,7 @@ static int sdl_keysym_to_curses( const CataKeysym &keysym )
 
 static int sdl_keypad_scancode_to_keycode( SDL_Scancode scancode )
 {
-    // SDL3 reports keypad digits as regular digit key values. The scancode
+    // Keypad digits are reported as regular digit key values. The scancode
     // still preserves keypad identity, including repeat events on macOS.
     switch( scancode ) {
         case SDL_SCANCODE_KP_DIVIDE:
@@ -4584,12 +4590,36 @@ void draw_terminal_size_preview()
     }
 }
 
+// Mark the frame dirty after an Android keyboard / shortcut-bar state change so
+// the strip is rebuilt to reflect the new state on the next draw pass.
+static void android_request_repaint()
+{
+    needupdate = true;
+    ui_manager::redraw_invalidated();
+}
+
+// The SDL "text input active" flag can be set while the keyboard never actually
+// appeared on screen, which would wrongly hide the shortcut strip. Trust the
+// platform IME-insets report once we have one; fall back to the SDL flag only
+// until the first report arrives.
+static bool android_keyboard_occludes_shortcuts()
+{
+    if( !IsTextInputActive( ::window.get() ) ) {
+        return false;
+    }
+    SDL_Rect frame;
+    bool has_frame = false;
+    bool visible = false;
+    visible_frame_inbox.read_frame( frame, has_frame, visible );
+    return has_frame ? ( visible && frame.h > 0 ) : true;
+}
+
 // Draw quick shortcuts on top of the game view
 void draw_quick_shortcuts()
 {
 
     if( !quick_shortcuts_enabled ||
-        IsTextInputActive( ::window.get() ) ||
+        android_keyboard_occludes_shortcuts() ||
         ( get_option<bool>( "ANDROID_HIDE_HOLDS" ) && !is_quick_shortcut_touch && finger_down_time > 0 &&
           GetTicks() - finger_down_time >= static_cast<uint32_t>(
               get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) ) { // player is swipe + holding in a direction
@@ -4945,6 +4975,16 @@ bool is_string_input( input_context &ctx )
            || category == "HELP_KEYBINDINGS";
 }
 
+// True when the soft keyboard is legitimately wanted for this context and CDDA
+// must not auto-hide it or convert keystrokes to quick shortcuts: a legacy
+// string-input/curses context, an inventory quantity field, or a focused ImGui
+// text widget (ImGui drives SDL text-input itself; CDDA defers to it).
+static bool android_wants_text_input( input_context &ctx )
+{
+    return is_string_input( ctx ) || ctx.allow_text_entry
+           || cataimgui::client::want_text_input();
+}
+
 int get_key_event_from_string( const std::string &str )
 {
     if( !str.empty() ) {
@@ -5157,8 +5197,7 @@ static void CheckMessages()
 
         // If we were in an allow_text_entry input context, and text input is still active, and we're auto-managing keyboard, hide it.
         if( touch_input_context.allow_text_entry &&
-            !new_input_context->allow_text_entry &&
-            !is_string_input( *new_input_context ) &&
+            !android_wants_text_input( *new_input_context ) &&
             IsTextInputActive( ::window.get() ) &&
             get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
             focus_aware_stop_text_input();
@@ -5362,6 +5401,7 @@ static void CheckMessages()
             if( !quick_shortcuts_toggle_handled ) {
                 quick_shortcuts_enabled = !quick_shortcuts_enabled;
                 quick_shortcuts_toggle_handled = true;
+                android_request_repaint();
                 refresh_display();
 
                 // Display an Android toast message
@@ -5442,9 +5482,9 @@ static void CheckMessages()
         // shortcut and joystick hit-tests see the same domain SDL emitted.
         SDL_Event ev_display = ev;
         convert_event_to_display_buffer_coords( &ev_display );
-        imclient->process_input( &ev_display, imgui_buf_w, imgui_buf_h );
+        imclient->process_input( &ev_display, imgui_buf_w, imgui_buf_h, scaling_factor );
 
-        // Window events: SDL3 flattens the SDL_WINDOWEVENT+subtype to top-level events.
+        // Window events are delivered as top-level event types.
         // IsWindowEvent/GetWindowEventID normalize across versions.
         if( IsWindowEvent( ev ) ) {
             switch( GetWindowEventID( ev ) ) {
@@ -5496,14 +5536,12 @@ static void CheckMessages()
                 case CATA_WINDOWEVENT_EXPOSED:
                     needupdate = true;
                     break;
-#if SDL_MAJOR_VERSION >= 3
                 case CATA_WINDOWEVENT_SAFE_AREA_CHANGED:
                     // The safe area feeds the android render rect, so repaint to
                     // pick up the new bounds when a cutout or inset changes.
                     needupdate = true;
                     ui_manager::redraw_invalidated();
                     break;
-#endif
 #if defined(__ANDROID__)
                 case CATA_WINDOWEVENT_RESTORED:
                     needs_sdl_surface_visibility_refresh = true;
@@ -5548,7 +5586,7 @@ static void CheckMessages()
                             last_input = input_event( lc, input_event_t::keyboard_char );
 #if defined(__ANDROID__)
                             if( !android_is_hardware_keyboard_available() ) {
-                                if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
+                                if( !android_wants_text_input( touch_input_context ) ) {
                                     if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                                         focus_aware_stop_text_input();
                                     }
@@ -5558,7 +5596,7 @@ static void CheckMessages()
                                         !inp_mngr.get_keyname( lc, input_event_t::keyboard_char ).empty() ) {
                                         qsl.remove( last_input );
                                         add_quick_shortcut( qsl, last_input, false, true );
-                                        ui_manager::redraw_invalidated();
+                                        android_request_repaint();
                                         refresh_display();
                                     }
                                 } else if( lc == '\n' || lc == KEY_ESCAPE ) {
@@ -5580,11 +5618,17 @@ static void CheckMessages()
                     if( GetKeysym( ev ).sym == SDLK_AC_BACK ) {
                         if( ticks - ac_back_down_time <= static_cast<uint32_t>
                             ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
-                            if( IsTextInputActive( ::window.get() ) ) {
+                            if( cataimgui::client::want_text_input() ) {
+                                // ImGui owns the keyboard while a text widget is
+                                // focused. Defocus it so ImGui releases text input
+                                // and the keyboard dismisses.
+                                cataimgui::client::clear_text_focus();
+                            } else if( IsTextInputActive( ::window.get() ) ) {
                                 focus_aware_stop_text_input();
                             } else {
                                 focus_aware_start_text_input();
                             }
+                            android_request_repaint();
                         }
                         ac_back_down_time = 0;
                     }
@@ -5616,7 +5660,7 @@ static void CheckMessages()
                             last_input = input_event( lc, input_event_t::keyboard_char );
 #if defined(__ANDROID__)
                             if( !android_is_hardware_keyboard_available() ) {
-                                if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
+                                if( !android_wants_text_input( touch_input_context ) ) {
                                     if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                                         focus_aware_stop_text_input();
                                     }
@@ -5625,7 +5669,7 @@ static void CheckMessages()
                                                                  touch_input_context.get_category() )];
                                     qsl.remove( last_input );
                                     add_quick_shortcut( qsl, last_input, false, true );
-                                    ui_manager::redraw_invalidated();
+                                    android_request_repaint();
                                     refresh_display();
                                 } else if( lc == '\n' || lc == KEY_ESCAPE ) {
                                     if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
@@ -5992,8 +6036,8 @@ static void CheckMessages()
                         is_three_finger_touch = false;
                         finger_down_time = 0;
                         finger_repeat_time = 0;
-                        needupdate = true; // ensure virtual joystick and quick shortcuts are updated properly
-                        ui_manager::redraw_invalidated();
+                        // ensure virtual joystick and quick shortcuts are updated properly
+                        android_request_repaint();
                         refresh_display(); // as above, but actually redraw it now as well
                     } else if( slot == 1 ) {
                         if( is_two_finger_touch ) {
@@ -6061,7 +6105,6 @@ int projected_window_height()
 // Measures scaling factor for high-dpi displays
 static std::pair<float, float> get_display_scale( int display_index )
 {
-#if SDL_VERSION_ATLEAST(2,26,0)
     SDL_Window_Ptr probe = CreateGameWindow( "probe", display_index, 16, 16,
                            CATA_WINDOW_HIDDEN | CATA_WINDOW_HIGH_DPI );
     if( !probe ) {
@@ -6079,10 +6122,6 @@ static std::pair<float, float> get_display_scale( int display_index )
     float scale_w = lw ? static_cast<float>( pw ) / static_cast<float>( lw ) : 1.0f;
     float scale_h = lh ? static_cast<float>( ph ) / static_cast<float>( lh ) : 1.0f;
     return std::make_pair( scale_w, scale_h );
-#else
-    ( void )display_index; // avoid unused parameter lint
-    return std::make_pair( 1.0f, 1.0f );
-#endif
 }
 
 static void init_term_size_and_scaling_factor()
@@ -6244,6 +6283,16 @@ void catacurses::init_interface()
         // Setting it to false disables this from getting used.
         use_tiles = false;
     }
+    portrait_tilecontext = std::make_shared<cata_tiles>( renderer, geometry, ts_cache );
+    try {
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
+        portrait_tilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                            /*precheck=*/true, /*force=*/false,
+                                            /*pump_events=*/true, /*terrain=*/false );
+    } catch( const std::exception &err ) {
+        dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
+    }
     overmap_tilecontext = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
     try {
         // Disable UIs below to avoid accessing the tile context during loading.
@@ -6307,6 +6356,11 @@ void load_tileset()
                                       /*precheck=*/false, /*force=*/false,
                                       /*pump_events=*/true, /*terrain=*/false );
     }
+    if( use_tiles ) {
+        portrait_tilecontext->load_tileset( get_option<std::string>( "PORTRAIT_TILES" ),
+                                            /*precheck=*/false, /*force=*/false,
+                                            /*pump_events=*/true, /*terrain=*/false );
+    }
     tilecontext = closetilecontext;
     tilecontext->do_tile_loading_report();
 
@@ -6325,6 +6379,7 @@ void catacurses::endwin()
     closetilecontext.reset();
     fartilecontext.reset();
     overmap_tilecontext.reset();
+    portrait_tilecontext.reset();
     font.reset();
     gui_font.reset();
     map_font.reset();
@@ -6758,16 +6813,9 @@ bool save_screenshot( const std::string &file_path )
 #ifdef _WIN32
 HWND getWindowHandle()
 {
-#if SDL_MAJOR_VERSION >= 3
     return static_cast<HWND>( SDL_GetPointerProperty(
                                   SDL_GetWindowProperties( ::window.get() ),
                                   SDL_PROP_WINDOW_WIN32_HWND_POINTER, nullptr ) );
-#else
-    SDL_SysWMinfo info;
-    SDL_VERSION( &info.version );
-    SDL_GetWindowWMInfo( ::window.get(), &info );
-    return info.info.win.window;
-#endif
 }
 #endif
 

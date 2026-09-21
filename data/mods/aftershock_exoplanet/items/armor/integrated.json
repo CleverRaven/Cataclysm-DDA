@@ -1,0 +1,27 @@
+[
+  {
+    "id": "integrated_cranial_padding",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "cranial padding" },
+    "description": "Internal bladders of cerebrospinal fluid better protect your brain from trauma and concussions.",
+    "weight": "300 g",
+    "volume": "200 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "afs_plastic_armor" ],
+    "symbol": ";",
+    "color": "brown",
+    "warmth": 2,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED" ],
+    "armor": [
+      {
+        "material": [ { "type": "afs_plastic_armor", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "head" ],
+        "coverage": 60,
+        "encumbrance": 5
+      }
+    ]
+  }
+]

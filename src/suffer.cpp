@@ -60,6 +60,7 @@
 #include "stomach.h"
 #include "talker.h"
 #include "teleport.h"
+#include "temp_crafting_inventory.h"
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
@@ -327,7 +328,8 @@ void suffer::while_underwater( Character &you )
     if( !you.has_flag( json_flag_GILLS ) ) {
         you.oxygen--;
     }
-    if( you.oxygen < 12 && you.worn_with_flag( flag_REBREATHER ) ) {
+    if( you.oxygen < 12 && ( you.worn_with_flag( flag_REBREATHER ) ||
+                             ( you.worn_with_flag( flag_SCBA_ON ) && you.has_item_with_flag( flag_SCBA_TANK_ON ) ) ) ) {
         you.oxygen += 12;
     }
     if( you.oxygen <= 5 ) {
@@ -569,7 +571,7 @@ void suffer::from_chemimbalance( Character &you )
         you.mod_thirst( 5 * rng( 1, 3 ) );
     }
     if( one_turn_in( 6_hours ) ) {
-        you.add_msg_if_player( m_good, _( "You feel sleepy all of a sudden." ) );
+        you.add_msg_if_player( m_bad, _( "You feel sleepy all of a sudden." ) );
         you.mod_sleepiness( 10 * rng( 2, 4 ) );
     }
     if( one_turn_in( 8_hours ) ) {
@@ -626,7 +628,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
 
     map &here = get_map();
     if( you.in_sleep_state() && !you.has_effect( effect_narcosis ) ) {
-        inventory map_inv;
+        temp_crafting_inventory map_inv;
         map_inv.form_from_map( you.pos_bub(), 2, &you );
         // check if an inhaler is somewhere near
         bool nearby_use = auto_use || oxygenator || map_inv.has_charges( itype_inhaler, 1 ) ||

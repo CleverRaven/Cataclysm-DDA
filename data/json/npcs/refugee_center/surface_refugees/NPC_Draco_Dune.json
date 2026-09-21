@@ -62,7 +62,7 @@
     "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Draco",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_REFUGEE_Draco_1",
     "faction": "free_merchants",
     "mission_offered": "MISSION_REFUGEE_Draco_GET_GUITAR"

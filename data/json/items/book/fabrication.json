@@ -800,5 +800,26 @@
     "time": "20 m",
     "read_skill": "fabrication",
     "read_fun": -1
+  },
+  {
+    "id": "improvised_munition_handbook",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "name": { "str": "TM 31-210 Improvised Munitions Handbook", "str_pl": "copies of TM 31-210 Improvised Munitions Handbook" },
+    "description": "Army manual, written for situations when military supplies are inaccessible, and describes a variety of ways an army man can produce simple munition out of materials at hand.  Opposite to more popular books of this type, this one is keen to preserve your body integrity in the process, although caution is advised nonetheless.",
+    "weight": "130 g",
+    "volume": "550 ml",
+    "price": "11 USD 95 cent",
+    "price_postapoc": "28 USD",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "textbook_anarch",
+    "color": "yellow",
+    "max_level": 3,
+    "intelligence": 6,
+    "time": "45 m",
+    "read_skill": "fabrication",
+    "read_fun": -1
   }
 ]

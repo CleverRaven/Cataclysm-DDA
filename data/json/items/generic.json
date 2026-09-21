@@ -933,7 +933,7 @@
     "price": "10 USD",
     "price_postapoc": "1 USD",
     "material": [ "iron" ],
-    "weight": "3 kg",
+    "weight": "2 kg",
     "volume": "750 ml",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 3 }
@@ -950,7 +950,7 @@
     "price_postapoc": "10 cent",
     "material": [ "steel" ],
     "weight": "100 g",
-    "volume": "50 ml",
+    "volume": "60 ml",
     "longest_side": "10 cm"
   },
   {
@@ -2960,6 +2960,19 @@
     "extend": { "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "money": 200000000 } } ],
     "tool_ammo": [ "money" ]
+  },
+  {
+    "id": "credit_card",
+    "type": "ITEM",
+    "category": "currency",
+    "copy-from": "card_plastic_abstract",
+    "symbol": "$",
+    "color": "yellow",
+    "name": { "str": "credit card" },
+    "ascii_picture": "cashcard",
+    "description": "A plastic card used to purchase goods and services.  It's useless now.",
+    "price": "10 USD",
+    "extend": { "flags": [ "TRADER_AVOID" ] }
   },
   {
     "id": "robofac_test_data",

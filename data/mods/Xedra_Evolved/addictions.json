@@ -15,5 +15,14 @@
     "description": "You ate the lotus, you experienced the universe.  You washed the pain away.",
     "craving_morale": "morale_craving_lotus_blossom",
     "effect_on_condition": "EOC_LOTUS_ADDICTION"
+  },
+  {
+    "type": "addiction_type",
+    "id": "faewild",
+    "name": "ælfadl",
+    "type_name": "faewild",
+    "description": "You consumed faewild until it has left its mark upon you.  You have become elf addled.",
+    "craving_morale": "morale_craving_faewild",
+    "effect_on_condition": "EOC_FAEWILD_ADDICTION"
   }
 ]

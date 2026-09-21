@@ -18,5 +18,30 @@
     "color": "black",
     "see_cost": "opaque",
     "flags": [ "RISK_EXTREME", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "default_portal_storm_dungeon_overmap",
+    "copy-from": "nether_glass_impassable",
+    "name": "somewhere",
+    "sym": ".",
+    "travel_cost_type": "basement",
+    "looks_like": "nether_glass",
+    "color": "black",
+    "see_cost": "none",
+    "extras": "default_portal_storm_dungeon_extras",
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "portal_storm_dungeon_teleporter",
+    "copy-from": "nether_glass_impassable",
+    "name": "elsewhere",
+    "sym": "T",
+    "travel_cost_type": "basement",
+    "looks_like": "nether_glass",
+    "color": "black",
+    "see_cost": "none",
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   }
 ]

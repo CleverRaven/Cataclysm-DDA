@@ -475,5 +475,51 @@
       },
       { "math": [ "u_government_assassins_sent += 2" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_PREMONITION_QUIET_FARMSTEAD_WARNING",
+    "global": true,
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_clair_premonition" },
+        { "not": { "u_has_effect": "effect_premonition_quiet_farm_limiter" } },
+        { "not": { "u_has_trait": "NOT_GLASS" } },
+        {
+          "or": [
+            { "u_near_om_location": "unvitrified_farm_1", "range": 2 },
+            { "u_near_om_location": "unvitrified_farm_0", "range": 2 }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "As you approach the farmhouse the hair rises on the back of your neck.  Despite the calm appearance you have a distinct sense of danger here.  Things are not as they seem.",
+        "popup": true
+      },
+      { "u_add_effect": "effect_premonition_quiet_farm_limiter", "duration": "24 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_quietfarm_nearby_popup_welcome_message",
+    "condition": { "not": { "u_has_effect": "effect_clair_premonition" } },
+    "effect": [
+      {
+        "u_message": "You arrive at the farmhouse, after what feels like an eternity.  It's not quite what you were expecting, but it's very peaceful.",
+        "type": "good",
+        "popup": true
+      }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You arrive at the farmhouse, after what feels like an eternity.  Despite the peaceful surroundings, your sense of danger only grows.  Something is very wrong here.",
+        "type": "mixed",
+        "popup": true
+      }
+    ]
   }
 ]

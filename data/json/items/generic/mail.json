@@ -69,7 +69,7 @@
       {
         "id": "letter_home_student_2",
         "name": { "str": "letter home", "str_pl": "letters home" },
-        "description": "A written message from a student to their parents scrawled on notebook paper.  They're having a great time at college and can't wait to introduce you to their new lover.  Coincidently they have run out of money for gas again and it sure would be great if you could send some."
+        "description": "A written message from a student to their parents scrawled on notebook paper.  They're having a great time at college and can't wait to introduce you to their new lover.  Coincidentally they have run out of money for gas again and it sure would be great if you could send some."
       },
       {
         "id": "letter_home_immigrant",

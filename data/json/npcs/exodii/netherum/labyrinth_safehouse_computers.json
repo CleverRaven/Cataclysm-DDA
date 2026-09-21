@@ -55,7 +55,8 @@
             { "math": [ "nl_boiler_placed != 1" ] },
             { "math": [ "nl_utility_space_obelisk_placed != 1" ] },
             { "math": [ "nl_water_cooler_placed != 1" ] },
-            { "math": [ "nl_living_space_1_obelisk_placed != 1" ] }
+            { "math": [ "nl_living_space_1_obelisk_placed != 1" ] },
+            { "math": [ "nl_autodoc_obelisk_placed != 1" ] }
           ]
         },
         "topic": "COMP_labyrinthine_safehouse_missions_list"
@@ -67,7 +68,8 @@
             { "math": [ "nl_boiler_placed == 1" ] },
             { "math": [ "nl_utility_space_obelisk_placed == 1" ] },
             { "math": [ "nl_water_cooler_placed == 1" ] },
-            { "math": [ "nl_living_space_1_obelisk_placed == 1" ] }
+            { "math": [ "nl_living_space_1_obelisk_placed == 1" ] },
+            { "math": [ "nl_autodoc_obelisk_placed == 1" ] }
           ]
         },
         "topic": "COMP_labyrinthine_safehouse_missions_none"

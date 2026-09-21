@@ -41,7 +41,6 @@
 #include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
-#include "options.h"
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_types.h"
@@ -273,26 +272,14 @@ void overmap_global_state::clear()
     unique_special_count.clear();
     unique_special_decks.clear();
     highway_intersections.clear();
+    placed_regions.clear();
     overmap_count = 0;
     major_river_count = 0;
 }
 
 const region_settings &overmapbuffer::get_settings( const tripoint_abs_omt &p )
 {
-    overmap *om = get_om_global( p ).om;
-    return om->get_settings();
-}
-
-const region_settings &overmapbuffer::get_default_settings( const point_abs_om &p )
-{
-    const std::string rsettings_id = get_option<std::string>( "DEFAULT_REGION" );
-    const region_settings_id region_settings_default( rsettings_id );
-
-    if( !region_settings_default.is_valid() ) {
-        debugmsg( "overmap%s: can't find region '%s'", p.to_string(),
-                  rsettings_id.c_str() ); // gonna die now =[
-    }
-    return *region_settings_default;
+    return *get_overmap_region( project_to<coords::om>( p ) );
 }
 
 void overmapbuffer::add_note( const tripoint_abs_omt &p, const std::string &message )

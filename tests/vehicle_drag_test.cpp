@@ -11,6 +11,7 @@
 #include "enums.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "point.h"
 #include "test_data.h"
 #include "test_statistics.h"

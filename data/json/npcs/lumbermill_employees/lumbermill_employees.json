@@ -5,7 +5,7 @@
     "class": "NC_LUMBERJACK",
     "name_suffix": "logger",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_NPC_LUMBERMILL_LOGGER",
     "faction": "wasteland_scavengers"
   },
@@ -15,7 +15,7 @@
     "class": "NC_LUMBERJACK_MERCHANT",
     "name_suffix": "manager",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_NPC_LUMBERMILL_MERCHANT",
     "faction": "wasteland_scavengers",
     "mission_offered": "MISSION_GET_DRIVEBELTS"

@@ -58,7 +58,6 @@ static const item_category_id item_category_spare_parts( "spare_parts" );
 static const item_category_id item_category_tools( "tools" );
 
 static const itype_id itype_10gal_hat( "10gal_hat" );
-static const itype_id itype_ammonia_hydroxide( "ammonia_hydroxide" );
 static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_arm_warmers( "arm_warmers" );
 static const itype_id itype_armor_mc_lightplate( "armor_mc_lightplate" );
@@ -95,6 +94,9 @@ static const itype_id itype_test_exo_lense_module( "test_exo_lense_module" );
 static const itype_id itype_test_liquid( "test_liquid" );
 static const itype_id itype_test_modular_exosuit( "test_modular_exosuit" );
 static const itype_id itype_test_mp3( "test_mp3" );
+static const itype_id itype_test_one_per_layer_ring_a( "test_one_per_layer_ring_a" );
+static const itype_id itype_test_one_per_layer_ring_b( "test_one_per_layer_ring_b" );
+static const itype_id itype_test_one_per_layer_ring_c( "test_one_per_layer_ring_c" );
 static const itype_id itype_test_rock( "test_rock" );
 static const itype_id itype_test_smart_phone( "test_smart_phone" );
 static const itype_id itype_test_waterproof_bag( "test_waterproof_bag" );
@@ -385,7 +387,6 @@ static void check_spawning_in_container( const itype_id &item_type )
 TEST_CASE( "items_spawn_in_their_default_containers", "[item]" )
 {
     check_spawning_in_container( itype_water );
-    check_spawning_in_container( itype_ammonia_hydroxide );
     check_spawning_in_container( itype_single_malt_whiskey );
     check_spawning_in_container( itype_rocuronium );
     check_spawning_in_container( itype_chem_muriatic_acid );
@@ -1134,6 +1135,34 @@ TEST_CASE( "rigid_armor_compliance", "[item][armor]" )
 
     item third_test_armguard( itype_test_armguard );
     REQUIRE( guy.wield( third_test_armguard ) );
+    REQUIRE( !guy.wear( guy.used_weapon(), false ) );
+}
+
+TEST_CASE( "one_per_layer_sided_armor_compliance", "[item][armor]" )
+{
+    avatar &guy = get_avatar();
+    clear_avatar();
+
+    item first_ring( itype_test_one_per_layer_ring_a );
+    REQUIRE( guy.wield( first_ring ) );
+    REQUIRE( guy.wear( guy.used_weapon(), false ) );
+    CHECK( guy.worn.is_wearing_on_bp( first_ring.typeId(), bodypart_id( "hand_l" ) ) );
+    CHECK_FALSE( guy.worn.is_wearing_on_bp( first_ring.typeId(), bodypart_id( "hand_r" ) ) );
+
+    item &worn_first_ring = *guy.worn.top_items_loc( guy ).front();
+    REQUIRE( guy.change_side( worn_first_ring, false ) );
+    CHECK( worn_first_ring.get_side() == side::RIGHT );
+    REQUIRE( guy.change_side( worn_first_ring, false ) );
+    CHECK( worn_first_ring.get_side() == side::LEFT );
+
+    item second_ring( itype_test_one_per_layer_ring_b );
+    REQUIRE( guy.wield( second_ring ) );
+    REQUIRE( guy.wear( guy.used_weapon(), false ) );
+    CHECK( guy.worn.is_wearing_on_bp( second_ring.typeId(), bodypart_id( "hand_r" ) ) );
+    CHECK_FALSE( guy.worn.is_wearing_on_bp( second_ring.typeId(), bodypart_id( "hand_l" ) ) );
+
+    item third_ring( itype_test_one_per_layer_ring_c );
+    REQUIRE( guy.wield( third_ring ) );
     REQUIRE( !guy.wear( guy.used_weapon(), false ) );
 }
 

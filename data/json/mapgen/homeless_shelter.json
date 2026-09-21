@@ -291,7 +291,7 @@
       ],
       "palettes": [ "homeless_palette", "parametrized_highrise_walls_palette" ],
       "place_loot": [
-        { "item": "bleach", "repeat": [ 1, 3 ], "x": [ 19, 21 ], "y": 29 },
+        { "group": "bleach_jug_part", "repeat": [ 1, 3 ], "x": [ 19, 21 ], "y": 29 },
         { "item": "basket_laundry", "repeat": [ 1, 4 ], "x": [ 19, 21 ], "y": 26 }
       ]
     }

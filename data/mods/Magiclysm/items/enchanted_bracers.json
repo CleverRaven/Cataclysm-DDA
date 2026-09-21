@@ -15,8 +15,18 @@
     "color": "light_gray",
     "warmth": 10,
     "material_thickness": 5,
-    "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "arm_l", "arm_r" ] } ]
+    "flags": [ "OUTER", "STURDY", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 3,
+        "coverage": 95,
+        "cover_melee": 95,
+        "cover_ranged": 90,
+        "cover_vitals": 70,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+      }
+    ]
   },
   {
     "copy-from": "mbracer_steel_pair",
@@ -37,7 +47,7 @@
     "price_postapoc": "950 USD",
     "description": "A light but extremely sturdy steel bracer with an ornate shield engraved on the top, silver accentuates the intricate design.  It protects your body with a light aura to reduce damage you take.",
     "material_thickness": 6,
-    "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN" ],
+    "flags": [ "OUTER", "STURDY", "BLOCK_WHILE_WORN" ],
     "passive_effects": [
       {
         "has": "WORN",
@@ -60,7 +70,7 @@
     "name": { "str": "bracer of greater defense", "str_pl": "bracers of greater defense" },
     "description": "A light but extremely sturdy steel bracer with an ornate shield engraved on the top, gold accentuates the intricate design.  It protects your body with a strong aura to reduce damage you take.",
     "material_thickness": 6,
-    "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN" ],
+    "flags": [ "OUTER", "STURDY", "BLOCK_WHILE_WORN" ],
     "passive_effects": [
       {
         "has": "WORN",
@@ -84,7 +94,7 @@
     "description": "A light but extremely sturdy steel bracer with an ornate bundle of lightning bolts engraved on the top, silver accentuates the intricate design.  It protects your body with a light aura to reduce electrical damage you take, as well as being able to release a Jolt spell 3 times a day.",
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
-    "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "OUTER", "STURDY", "BLOCK_WHILE_WORN", "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": { "type": "cast_spell", "spell_id": "jolt", "no_fail": true, "level": 15, "need_worn": true },
     "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true },
     "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "incoming_damage_mod": [ { "type": "electric", "add": -5 } ] } ]
@@ -99,13 +109,13 @@
     "description": "A light but extremely sturdy steel bracer with an ornate bundle of lightning bolts engraved on the top, gold accentuates the intricate design.  It protects your body with a strong aura to reduce electrical damage you take, as well as being able to release a Lightning Bolt spell 3 times a day.",
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
-    "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "OUTER", "STURDY", "BLOCK_WHILE_WORN", "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": { "type": "cast_spell", "spell_id": "lightning_bolt", "no_fail": true, "level": 15, "need_worn": true },
     "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true },
     "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "incoming_damage_mod": [ { "type": "electric", "add": -10 } ] } ]
   },
   {
-    "copy-from": "armguard_larmor",
+    "copy-from": "vambrace_larmor",
     "type": "ITEM",
     "subtypes": [ "ARMOR", "ARTIFACT" ],
     "id": "mbracer_archery",
@@ -122,7 +132,7 @@
     ]
   },
   {
-    "copy-from": "armguard_larmor",
+    "copy-from": "vambrace_larmor",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "id": "mbracer_blinding_strike",

@@ -5,7 +5,7 @@
     "//": "Generic random survivor related to lighthouse family",
     "class": "NC_NONE",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_LIGHTHOUSE_SURVIVOR",
     "faction": "fisherman_family"
   },

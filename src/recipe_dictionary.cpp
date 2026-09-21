@@ -28,7 +28,6 @@
 #include "flexbuffer_json.h"
 #include "init.h"
 #include "input.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
@@ -41,15 +40,18 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "subbodypart.h"
+#include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "translations.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "visitable.h"
 
 static const flag_id json_flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
 
 static const itype_id itype_debug_item_search( "debug_item_search" );
+static const itype_id itype_paper( "paper" );
 
 static const requirement_id requirement_data_uncraft_book( "uncraft_book" );
 
@@ -238,7 +240,7 @@ static Unit can_contain_filter( std::string_view hint, std::string_view txt, Uni
 
 std::vector<const recipe *> recipe_subset::search(
     std::string_view txt, const search_type key,
-    std::optional<std::reference_wrapper<const Character>> crafter,
+    const Character *crafter,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
     auto predicate = [&]( const recipe * r ) {
@@ -315,22 +317,29 @@ std::vector<const recipe *> recipe_subset::search(
                 return lcmatch( r->recipe_proficiencies_string(), txt );
 
             case search_type::book: {
-                if( !crafter.has_value() ) {
+                if( crafter == nullptr ) {
                     debugmsg( "search_type::book requires a crafter to be provided, since it checks crafting group and crafters inventory" );
                     return false;
                 }
-                const Character &crafter_ref = crafter->get();
-                const inventory &crafting_inventory = crafter_ref.crafting_inventory();
+                const Character &crafter_ref = *crafter;
+                const temp_crafting_inventory &crafting_inventory = crafter_ref.crafting_inventory();
 
-                for( const auto &stack : crafting_inventory.const_slice() ) {
-                    const item &item = stack->front();
-
-                    for( const auto &recipe : item.get_available_recipes( crafter_ref ) ) {
-                        if( recipe.first == r && ( lcmatch( item.display_name(), txt ) ||
-                                                   lcmatch( item::nname( item.typeId() ), txt ) ) ) {
-                            return true;
+                bool found = false;
+                crafting_inventory.visit_items(
+                [&]( item * node, item * ) {
+                    for( const auto &recipe : node->get_available_recipes( crafter_ref ) ) {
+                        if( recipe.first == r && ( lcmatch( node->display_name(), txt ) ||
+                                                   lcmatch( item::nname( node->typeId() ), txt ) ) ) {
+                            found = true;
+                            return VisitResponse::ABORT;
                         }
                     }
+                    return VisitResponse::NEXT;
+                }
+                );
+
+                if( found ) {
+                    return true;
                 }
 
                 std::vector<const Character *> knowing_helpers;
@@ -507,14 +516,14 @@ recipe_subset recipe_subset::reduce(
     std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
-    return recipe_subset( *this, search( txt, key, std::nullopt, progress_callback ) );
+    return recipe_subset( *this, search( txt, key, nullptr, progress_callback ) );
 }
 
 recipe_subset recipe_subset::reduce(
     std::string_view txt, const Character &crafter, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
-    return recipe_subset( *this, search( txt, key, crafter, progress_callback ) );
+    return recipe_subset( *this, search( txt, key, &crafter, progress_callback ) );
 }
 recipe_subset recipe_subset::intersection( const recipe_subset &subset ) const
 {
@@ -805,8 +814,8 @@ void recipe_dictionary::finalize()
         const recipe_id rid = recipe_id( id.str() );
 
         // books that don't already have an uncrafting recipe
-        if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {
-            int pages = e->volume / 12.5_ml;
+        if( e->book && !recipe_dict.uncraft.count( rid ) && e->weight > 0_gram ) {
+            const int pages = e->weight / itype_paper->weight;
             recipe &bk = recipe_dict.uncraft[rid];
             bk.id = rid;
             bk.result_ = id;

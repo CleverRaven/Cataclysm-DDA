@@ -820,6 +820,20 @@
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_campsite", "sloc_campground", "sloc_desert_island", "sloc_river" ],
     "reveal_locale": false,
     "distance_initial_visibility": 0,
+    "origin_offset": [ -5, 0 ],
+    "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "beach_day",
+    "name": "Beach day",
+    "points": 0,
+    "description": "You do not remember why you went there but now you are at the beach.  It is nice to look at the waves and forget about the End Times.",
+    "start_name": "Beach day",
+    "allowed_locs": [ "sloc_ocean_shore" ],
+    "reveal_locale": false,
+    "distance_initial_visibility": 0,
+    "origin_offset": [ 10, 0 ],
     "flags": [ "LONE_START" ]
   },
   {

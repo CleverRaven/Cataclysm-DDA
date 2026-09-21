@@ -162,7 +162,7 @@
       [ [ "scrap", 3 ] ],
       [ [ "e_scrap", 2 ] ],
       [ [ "cable", 2 ] ],
-      [ [ "spring", 2 ] ],
+      [ [ "spring_medium", 4 ] ],
       [ [ "radio_car_wheel", 1 ] ]
     ]
   },

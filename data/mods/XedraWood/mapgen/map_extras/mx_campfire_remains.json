@@ -56,7 +56,7 @@
         "W": [ [ "t_dirt", 50 ], [ "t_region_groundcover", 25 ] ]
       },
       "furniture": { "O": "f_firering", "W": [ [ "f_logstool", 1 ], [ "f_null", 1 ] ] },
-      "place_item": [ { "item": "ash", "x": 3, "y": 3, "chance": 50, "repeat": [ 500, 1200 ] } ]
+      "place_item": [ { "item": "ash", "x": 3, "y": 3, "chance": 50, "repeat": [ 50, 120 ] } ]
     }
   },
   {
@@ -82,7 +82,7 @@
         "W": [ [ "t_dirt", 50 ], [ "t_region_groundcover", 25 ] ]
       },
       "furniture": { "O": "f_firering", "W": [ [ "f_logstool", 1 ], [ "f_null", 1 ] ] },
-      "place_item": [ { "item": "ash", "x": 3, "y": 3, "chance": 50, "repeat": [ 500, 1200 ] } ],
+      "place_item": [ { "item": "ash", "x": 3, "y": 3, "chance": 50, "repeat": [ 50, 120 ] } ],
       "nested": { "W": { "chunks": [ [ "campfire_remnants_chunk_1x1_body", 1 ], [ "null", 5 ] ] } }
     }
   },
@@ -137,7 +137,7 @@
           [ "f_null", 1 ]
         ]
       },
-      "place_item": [ { "item": "ash", "x": 3, "y": 3, "chance": 50, "repeat": [ 500, 1200 ] } ]
+      "place_item": [ { "item": "ash", "x": 3, "y": 3, "chance": 50, "repeat": [ 50, 120 ] } ]
     }
   }
 ]

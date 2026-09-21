@@ -30,6 +30,8 @@
 #include "units.h"
 #include "units_utility.h"
 
+static const dimension_id dimension_world_default( "default" );
+
 static const faction_id faction_no_faction( "no_faction" );
 
 namespace
@@ -456,10 +458,10 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
         // TODO: target does not contain a z-component, targets are assumed to be on z=0
         draw_location( _( "Target:" ), miss->get_target() );
     }
-    std::string dimension = miss->get_dimension();
+    dimension_id mission_dimension = miss->get_dimension();
     // If dimension isn't the default one
-    if( !dimension.empty() ) {
-        draw_label_with_value( _( "Dimension:" ), dimension );
+    if( mission_dimension != dimension_world_default ) {
+        draw_label_with_value( _( "Dimension:" ), mission_dimension.str() );
     }
 }
 

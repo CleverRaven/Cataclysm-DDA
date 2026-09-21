@@ -2004,7 +2004,7 @@
     "id": "mon_wasp_larva",
     "type": "MONSTER",
     "name": { "str": "wasp larva", "str_pl": "wasp larvae" },
-    "description": "A dog-sized white grub, featureless apart from a vestigal mouthpart.  It hangs upside-down in its cell, and regurgitates sweet-smelling fluid in return for the scraps of viscera fed to it by the workers below.",
+    "description": "A dog-sized white grub, featureless apart from a vestigial mouthpart.  It hangs upside-down in its cell, and regurgitates sweet-smelling fluid in return for the scraps of viscera fed to it by the workers below.",
     "copy-from": "mon_larva_abstract",
     "color": "white",
     "looks_like": "mon_dermatik_larva",

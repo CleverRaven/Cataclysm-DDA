@@ -1814,6 +1814,11 @@ static void fire()
 
     const item_location weapon = you.get_wielded_item();
     // try reach weapon
+    // used_weapon() returns null location if force unarmed is selected
+    if( weapon && !you.used_weapon() && !weapon->is_gun() ) {
+        add_msg( m_info, _( "You can't use reach attacks while forcing yourself to fight unarmed." ) );
+        return;
+    }
     if( weapon && !weapon->is_gun() && weapon->current_reach_range( you ).first > 1 ) {
         reach_attack( you );
         return;
@@ -1931,15 +1936,12 @@ static void cast_spell( bool recast_spell = false )
     }
 
     std::map<magic_type_id, bool> success_tracker = {};
-    for( const spell_id &sp : spells ) {
-        spell &temp_spell = player_character.magic->get_spell( sp );
-        temp_spell.can_cast( player_character, success_tracker );
-    }
-
-    for( auto const& [m_type, any_success] : success_tracker ) {
-        if( !any_success && m_type->cannot_cast_message.has_value() ) {
-            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                     m_type->cannot_cast_message.value() );
+    if( !player_character.magic->can_cast_any_spell( player_character, success_tracker ) ) {
+        for( auto const& [m_type, any_success] : success_tracker ) {
+            if( !any_success && m_type->cannot_cast_message.has_value() ) {
+                add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                         m_type->cannot_cast_message.value() );
+            }
         }
     }
 
@@ -3097,9 +3099,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             Messages::display_messages();
             break;
 
-        case ACTION_HELP:
-            get_help().display_help();
+        case ACTION_HELP: {
+            help_window hw;
+            hw.show();
             break;
+        }
 
         case ACTION_OPTIONS:
             get_options().show( true );

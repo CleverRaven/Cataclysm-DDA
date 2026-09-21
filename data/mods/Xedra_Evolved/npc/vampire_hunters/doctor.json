@@ -9,7 +9,7 @@
     "name_unique": "Blaine Weiss",
     "gender": "male",
     "attitude": 0,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_HUNTER_DOCTOR",
     "personality": { "aggression": 0, "bravery": 6, "collector": 6, "altruism": 8 },
     "faction": "vampire_hunters"

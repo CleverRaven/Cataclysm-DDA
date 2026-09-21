@@ -92,6 +92,8 @@
         "condition": {
           "and": [
             { "not": { "u_has_flag": "NO_PSIONICS" } },
+            { "not": { "npc_has_flag": "TELEKIN_SHIELD" } },
+            { "not": { "npc_has_flag": "TELEKIN_PUSH_PULL_IMMUNE" } },
             { "math": [ "u_effect_intensity('effect_amalgamation_telekinetic_shielder_counter') == 0" ] }
           ]
         }

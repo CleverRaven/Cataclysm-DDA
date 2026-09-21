@@ -66,7 +66,7 @@
     "time": "1 h 30 m",
     "result_mult": 6,
     "autolearn": true,
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "FEY_HAMMER", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -90,7 +90,7 @@
     "difficulty": 2,
     "time": "30 m",
     "book_learn": [ [ "book_moons_tears_ingot", 2 ] ],
-    "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
+    "using": [ [ "forging_standard", 1 ], [ "fey_smithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [ [ [ "scrap_moon_tears", 140 ] ] ]
   },
@@ -112,7 +112,7 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0 }
     ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "bronzesmithing_tools", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "fey_smithing_tools", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [
@@ -138,7 +138,7 @@
       { "proficiency": "prof_moonstearssmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "bronzesmithing_tools", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "fey_smithing_tools", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "casting_mold", -1 ] ] ],
     "components": [ [ [ "leather", 1 ], [ "hc_wire", 2 ] ], [ [ "moon_tear_ingot", 2 ] ] ]
@@ -160,7 +160,7 @@
       { "proficiency": "prof_moonstearssmithing" },
       { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0.15 }
     ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "bronzesmithing_tools", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "fey_smithing_tools", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "casting_mold", -1 ] ] ],
     "components": [ [ [ "leather", 2 ] ], [ [ "moon_tear_ingot", 2 ] ] ]
@@ -175,7 +175,7 @@
     "difficulty": 5,
     "time": "15 h",
     "flags": [ "SECRET" ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "bronzesmithing_tools", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "fey_smithing_tools", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -203,7 +203,7 @@
       { "proficiency": "prof_moonstearssmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "blacksmithing_standard", 16 ], [ "bronzesmithing_tools", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 16 ], [ "fey_smithing_tools", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "leather", 2 ] ], [ [ "moon_tear_ingot", 2 ] ] ]
@@ -224,7 +224,7 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_moonstearssmithing" }
     ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "bronzesmithing_tools", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "fey_smithing_tools", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "leather", 4 ] ], [ [ "moon_tear_ingot", 2 ] ] ]
@@ -246,7 +246,7 @@
       { "proficiency": "prof_moonstearssmithing" },
       { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 }
     ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "bronzesmithing_tools", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "fey_smithing_tools", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "spear_shaft", 1 ] ], [ [ "moon_tear_ingot", 1 ] ] ]
@@ -268,7 +268,7 @@
       { "proficiency": "prof_moonstearssmithing" },
       { "proficiency": "prof_carving", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 }
     ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "bronzesmithing_tools", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "fey_smithing_tools", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ], [ "drift", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "moon_tear_ingot", 2 ] ] ]
@@ -289,7 +289,7 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_moonstearssmithing" }
     ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "bronzesmithing_tools", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "fey_smithing_tools", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "moon_tear_ingot", 2 ] ] ]

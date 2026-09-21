@@ -911,7 +911,7 @@
   {
     "id": "achievement_lvl_10_computer",
     "type": "achievement",
-    "name": "Still not quite like Kevin",
+    "name": "Still not quite like Maya",
     "description": "It's not cheating.  It's debugging.",
     "requirements": [
       {
@@ -1999,7 +1999,7 @@
         "is": "==",
         "target": [ "overmap_special_id", "hub_01" ],
         "visible": "when_achievement_completed",
-        "description": "Reach Hub-01"
+        "description": "Reach Hub 01"
       }
     ]
   },

@@ -103,11 +103,8 @@ std::string pocket_data::check_definition() const
             return string_format( "invalid ammotype %s", at.str() );
         }
         const itype_id &it = at->default_ammotype();
-        // Abstract ammotypes (e.g. "components", "thrown") intentionally point
-        // their default at an undefined itype; ammunition_type::check_consistency
-        // skips them and so does the per-pocket phase check.
-        if( it.is_empty() || !item::type_is_defined( it ) ) {
-            continue;
+        if( !item::type_is_defined( it ) || it.is_null() ) {
+            return string_format( "undefined item %s", it.c_str() );
         }
         if( it->phase == phase_id::LIQUID && !watertight ) {
             return string_format( "restricted to liquid item %s but not watertight\n",
@@ -778,7 +775,7 @@ int item_pocket::ammo_capacity( const ammotype &ammo ) const
     if( found_ammo == data->ammo_restriction.end() ) {
         return 0;
     } else {
-        return found_ammo->second;
+        return std::lround( found_ammo->second * capacity_mult );
     }
 }
 
@@ -797,7 +794,9 @@ int item_pocket::remaining_ammo_capacity( const ammotype &ammo ) const
         }
         ammo_count += it.count();
     }
-    return total_capacity - ammo_count;
+    // A capacity-shrinking mod (or removing a boost mod) can leave a pocket
+    // overfilled; grandfather the overflow rather than report negative space.
+    return std::max( 0, total_capacity - ammo_count );
 }
 
 std::set<ammotype> item_pocket::ammo_types() const
@@ -2274,7 +2273,7 @@ ret_val<item *> item_pocket::insert_item( const item &it,
         contents.push_back( it );
         inserted = &contents.back();
     }
-    if( restack_charges ) {
+    if( restack_charges && it.count_by_charges() ) {
         inserted = restack( inserted );
     }
     if( bulk_fill_volume ) {

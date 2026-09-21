@@ -12,7 +12,8 @@
       { "item": "ruin_data_space_currents", "prob": 5 },
       { "item": "ruin_data_holo", "prob": 2 },
       { "item": "ruin_data_geoengineering", "prob": 2 },
-      { "item": "ruin_data_mercurial_id", "prob": 1 }
+      { "item": "ruin_data_mercurial_id", "prob": 1 },
+      { "item": "afs_gene_template_combat_brute", "prob": 1 }
     ]
   }
 ]

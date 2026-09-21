@@ -572,9 +572,8 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
-    "flags": [ "PAPER_SHAPED" ],
-    "weight": "5 g",
-    "volume": "5 ml",
+    "weight": "90 g",
+    "volume": "150 ml",
     "use_action": {
       "type": "effect_on_conditions",
       "menu_text": "Study the notebook",
@@ -620,9 +619,8 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
-    "flags": [ "PAPER_SHAPED" ],
-    "weight": "5 g",
-    "volume": "5 ml"
+    "weight": "90 g",
+    "volume": "150 ml"
   },
   {
     "type": "ITEM",
@@ -634,10 +632,9 @@
     "description": "An absolutely ancient-looking, leather-bound journal.  The pages are gilded at the edges.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
-    "flags": [ "PAPER_SHAPED" ],
-    "weight": "5 g",
-    "volume": "5 ml",
+    "material": [ "paper", "leather" ],
+    "weight": "750 g",
+    "volume": "1200 ml",
     "use_action": {
       "type": "effect_on_conditions",
       "menu_text": "Study the journal",
@@ -683,7 +680,6 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
-    "flags": [ "PAPER_SHAPED" ],
     "weight": "5 g",
     "volume": "5 ml"
   },

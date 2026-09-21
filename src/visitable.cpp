@@ -16,11 +16,13 @@
 #include "character_attire.h"
 #include "colony.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "debug.h"
 #include "flag.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
@@ -30,6 +32,7 @@
 #include "pimpl.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "requirements.h"
 #include "stomach.h"
 #include "submap.h"
 #include "temp_crafting_inventory.h"
@@ -112,14 +115,19 @@ static T sum_no_wrap( T a, T b )
     return a + b;
 }
 
+// `measure` decides what quality an item supplies, `count` how many providers it is worth.
+// Empty falls back to get_quality and item::count().
 template <typename T>
-static int has_quality_internal( const T &self, const quality_id &qual, int level, int limit )
+static int has_quality_internal( const T &self, const quality_id &qual, int level, int limit,
+                                 const std::function<int( const item & )> &measure = {},
+                                 const std::function<int( const item & )> &count = {} )
 {
     int qty = 0;
 
-    self.visit_items( [&qual, level, &limit, &qty]( item * e, item * ) {
-        if( e->get_quality( qual ) >= level ) {
-            qty = sum_no_wrap( qty, static_cast<int>( e->count() ) );
+    self.visit_items( [&qual, level, &limit, &qty, &measure, &count]( item * e, item * ) {
+        const int supplied = measure ? measure( *e ) : e->get_quality( qual );
+        if( supplied >= level ) {
+            qty = sum_no_wrap( qty, count ? count( *e ) : static_cast<int>( e->count() ) );
             if( qty >= limit ) {
                 // found sufficient items
                 return VisitResponse::ABORT;
@@ -155,6 +163,18 @@ static int has_quality_from_vpart( const vehicle &veh, int part, const quality_i
 bool read_only_visitable::has_quality( const quality_id &qual, int level, int qty ) const
 {
     return has_quality_internal( *this, qual, level, qty ) == qty;
+}
+
+bool read_only_visitable::has_provider_quality( const quality_id &qual, int level, int qty,
+        const Character *who, const quality_count mode ) const
+{
+    const std::function<int( const item & )> measure = [&qual, who]( const item & it ) {
+        return provider_quality_level( it, qual, who, true );
+    };
+    const std::function<int( const item & )> count = [mode]( const item & it ) {
+        return mode == quality_count::units ? it.count() : 1;
+    };
+    return has_quality_internal( *this, qual, level, qty, measure, count ) == qty;
 }
 
 /** @relates visitable */
@@ -230,6 +250,60 @@ bool Character::has_quality( const quality_id &qual, int level, int qty ) const
     }
 
     return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
+}
+
+bool Character::has_unreserved_quality( const quality_id &qual, int level, int qty ) const
+{
+    // intrinsic branches are not filtered: a bionic or mutation is shared, so no craft can
+    // take one.  only the item walk is, and per item rather than by ancestry, since the
+    // selector returns one item and the action is node-local.
+    for( const bionic &bio : *this->my_bionics ) {
+        // Crafter-aware, or a charged bionic quality resolves through the avatar.
+        if( provider_quality_level( bio.get_weapon(), qual, this,
+                                    false ) >= level ) {
+            if( qty <= 1 ) {
+                return true;
+            }
+            qty--;
+        }
+    }
+
+    // level/qty are deliberately ignored on this branch, matching Character::has_quality. an
+    // automation caller must answer as that function does when no reservation is involved,
+    // or converting a call site silently changes what an NPC will do. the crafting gate
+    // counts occurrences instead, through has_intrinsic_quality
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        const auto &q = mut->provided_qualities.find( qual );
+        if( q != mut->provided_qualities.end() ) {
+            return true;
+        }
+    }
+
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        for( const bp_qualities_provided &bp_q : bp->qualities ) {
+            if( bp_q.quality == qual && bp_q.level >= level &&
+                float( get_part_hp_cur( bp ) ) / float( get_part_hp_max( bp ) ) >= bp_q.disable_percent ) {
+                return true;
+            }
+        }
+    }
+
+    if( qty <= 0 ) {
+        return true;
+    }
+    // Nonrecursive, so a container is not credited for a tool inside it that the
+    // selector would then decline to return.
+    const auto measure = [&qual, this]( const item & it ) {
+        return craft_reservation::usable_by_automation( it )
+               ? provider_quality_level( it, qual, this, false )
+               : INT_MIN;
+    };
+    return has_quality_internal( *this, qual, level, qty, measure ) == qty;
+}
+
+bool Character::has_intrinsic_quality( const quality_id &qual, int level, int qty ) const
+{
+    return static_cast<int>( intrinsic_quality_sources( qual, level ).size() ) >= qty;
 }
 
 bool read_only_visitable::has_tools( const itype_id &it, int quantity,
@@ -466,6 +540,20 @@ VisitResponse temp_crafting_inventory::visit_items(
             return VisitResponse::ABORT;
         }
     }
+    for( item *it : item_copies ) {
+        if( visit_internal( func, it ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+    for( const item_location &loc : items_loc ) {
+        const item *it = loc.get_item();
+        if( it == nullptr ) {
+            continue;
+        }
+        if( visit_internal( func, it ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
     return VisitResponse::NEXT;
 }
 
@@ -671,6 +759,79 @@ std::list<item> inventory::remove_items_with( const
 
     // Invalidate binning cache
     binned = false;
+
+    return res;
+}
+
+// note this doesn't remove items from the copy list - this list will just contain extra items
+// until the temp_crafting_inventory goes away (since this is an ephemeral class
+std::list<item> temp_crafting_inventory::remove_items_with( const
+        std::function<bool( const item &e )> &filter, int count )
+{
+    std::list<item> res;
+
+    if( count <= 0 ) {
+        // nothing to do
+        return res;
+    }
+
+    for( auto iter = items.begin(); iter != items.end(); ) {
+        if( filter( **iter ) ) {
+            const int c = ( *iter )->count();
+            res.push_back( **iter );
+            iter = items.erase( iter );
+            count -= c;
+        } else {
+            ++iter;
+        }
+        if( count <= 0 ) {
+            if( count < 0 ) {
+                debugmsg( "temp_crafting_inventory::remove_items_with removed too many items" );
+            }
+            return res;
+        }
+    }
+
+    for( auto iter = temp_owned_items.begin(); iter != temp_owned_items.end(); ) {
+        if( filter( *iter ) ) {
+            const int c = iter->count();
+            res.push_back( *iter );
+            for( auto it = item_copies.begin(); it != item_copies.end(); ) {
+                if( *it == &*iter ) {
+                    item_copies.erase( it );
+                    break;
+                }
+                ++it;
+            }
+            iter = temp_owned_items.erase( iter );
+            count -= c;
+        } else {
+            ++iter;
+        }
+        if( count <= 0 ) {
+            if( count < 0 ) {
+                debugmsg( "temp_crafting_inventory::remove_items_with removed too many item copies" );
+            }
+            return res;
+        }
+    }
+
+    for( auto iter = items_loc.begin(); iter != items_loc.end(); ) {
+        if( filter( **iter ) ) {
+            const int c = ( *iter )->count();
+            res.push_back( **iter );
+            iter = items_loc.erase( iter );
+            count -= c;
+        } else {
+            ++iter;
+        }
+        if( count <= 0 ) {
+            if( count < 0 ) {
+                debugmsg( "temp_crafting_inventory::remove_items_with removed too many item locs" );
+            }
+            return res;
+        }
+    }
 
     return res;
 }

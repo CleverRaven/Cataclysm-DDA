@@ -7,9 +7,10 @@
     "name_suffix": "Diviner",
     "class": "NC_FORGE_LORD_DIVINER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "gender": "female",
     "chat": "TALK_FORGE_LORD_DIVINER",
+    "death_eocs": [ "EOC_DEATH_FORGE_LORD" ],
     "faction": "forge_lords"
   },
   {
@@ -95,7 +96,7 @@
       { "text": "A slime pit.", "topic": "TALK_FORGE_LORD_DIVINER_SLIME" },
       { "text": "A goblin camp.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN" },
       { "text": "A swamp dragon cave!", "topic": "TALK_FORGE_LORD_DIVINER_SWAMP_DRAGON" },
-      { "text": "A balrog mine", "topic": "TALK_FORGE_LORD_DIVINER_BALROG" },
+      { "text": "A balrog mine.", "topic": "TALK_FORGE_LORD_DIVINER_BALROG" },
       { "text": "About something else…", "topic": "TALK_NONE" },
       { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]

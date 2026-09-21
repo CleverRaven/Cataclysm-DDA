@@ -108,7 +108,7 @@
       ],
       [ [ "forge", 26 ] ]
     ],
-    "components": [ [ [ "material_sand", 10 ] ], [ [ "ash", 540 ] ], [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ] ] ]
+    "components": [ [ [ "material_sand", 10 ] ], [ [ "ash", 50 ] ], [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ] ] ]
   },
   {
     "type": "recipe",

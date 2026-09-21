@@ -1,0 +1,112 @@
+[
+  {
+    "type": "mutation",
+    "id": "QUICK",
+    "copy-from": "QUICK",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "DEFT",
+    "copy-from": "DEFT",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "FAST_REFLEXES",
+    "copy-from": "FAST_REFLEXES",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTVISION",
+    "copy-from": "NIGHTVISION",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "PACKMULE",
+    "copy-from": "PACKMULE",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "TOUGH",
+    "copy-from": "TOUGH",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "STRONGBACK",
+    "copy-from": "STRONGBACK",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "ANTIJUNK",
+    "copy-from": "ANTIJUNK",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "PROJUNK",
+    "copy-from": "PROJUNK",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "PICKYEATER",
+    "copy-from": "PICKYEATER",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "TABLEMANNERS",
+    "copy-from": "TABLEMANNERS",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "COMPUTER_ILLITERATE",
+    "copy-from": "COMPUTER_ILLITERATE",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "GUNSHY",
+    "copy-from": "GUNSHY",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "FASTREADER",
+    "copy-from": "FASTREADER",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "SLOWREADER",
+    "copy-from": "SLOWREADER",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "NO_CBM_INSTALLATION",
+    "copy-from": "NO_CBM_INSTALLATION",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "KI_STRIKE",
+    "copy-from": "KI_STRIKE",
+    "starting_trait": false,
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "mutation",
+    "id": "DRUNKEN",
+    "copy-from": "DRUNKEN",
+    "starting_trait": false,
+    "chargen_allow_npc": false
+  }
+]

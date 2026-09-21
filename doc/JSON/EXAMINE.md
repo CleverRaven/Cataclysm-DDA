@@ -45,6 +45,7 @@
 These are actions that will be performed when a terrain/furniture is examined.
 The hardcoded examine actions specified as a `"examine_action": "ACTION"`, where `ACTION` is replaced with one of the strings from the list below.
 The examine actors are specified as JSON objects with a `type` corresponding to a certain type of action, and other members filling in the data for how the action functions.
+Examine actions and examine actors can be mixed within single key, like `"examine_action": [ "locked_object_pickable", "chainfence", { "type": "effect_on_conditions", ... } ]`
 
 ## Hardcoded Examine Actions
 
@@ -83,6 +84,16 @@ The examine actors are specified as JSON objects with a `type` corresponding to 
 - ```mortar``` Shoot a projectile.
 
 ## Examine Actors
+
+All examine actions share the keys `"type"` and `"name"`
+
+```jsonc
+  {
+    "type": "appliance_convert",
+    "name": "Take down"
+    ...
+  }
+```
 
 ### `appliance_convert`
 

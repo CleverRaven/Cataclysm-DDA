@@ -1,0 +1,44 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mx_giant_snake_nest",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "             _          ",
+        "                        ",
+        "            --          ",
+        "       _   ,,           ",
+        "           ,,           ",
+        "         _    _         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { ".": "t_region_groundcover_swamp", "_": "t_region_groundcover_swamp", ",": "t_pit_shallow", "-": "t_trunk" },
+      "place_corpses": [ { "group": "GROUP_SWAMP", "x": [ 9 ], "y": [ 10 ], "repeat": [ 1, 3 ] } ],
+      "items": {
+        "_": [ { "item": "corpses", "chance": 10, "repeat": 1 }, { "item": "default_innawood_zombie_clothes", "chance": 20 } ]
+      },
+      "place_monster": [
+        { "monster": "mon_rattlesnake_mega", "x": 9, "y": 11, "spawn_data": { "patrol": [ { "x": 9, "y": 9 } ] } },
+        { "monster": "mon_rattlesnake_big_s", "x": [ 6, 15 ], "y": [ 6, 15 ], "repeat": [ 2, 10 ], "chance": 50 }
+      ]
+    }
+  }
+]

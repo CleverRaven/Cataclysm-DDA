@@ -22,6 +22,8 @@
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
+#include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "map_selector.h"
 #include "monster.h"
@@ -133,6 +135,52 @@ TEST_CASE( "map_bounds_checking" )
     }
 }
 
+static std::vector<tripoint_bub_ms> points_in_radius_of( const map &here,
+        const tripoint_bub_ms &center, const int radius )
+{
+    std::vector<tripoint_bub_ms> visited;
+    for( const tripoint_bub_ms &p : here.points_in_radius( center, radius ) ) {
+        visited.push_back( p );
+    }
+    return visited;
+}
+
+TEST_CASE( "map_points_in_radius_with_center_outside_map", "[map]" )
+{
+    const map &here = get_map();
+    const int radius = 6;
+
+    SECTION( "center past the low x and y edges by more than the radius" ) {
+        const std::vector<tripoint_bub_ms> visited =
+            points_in_radius_of( here, tripoint_bub_ms( -100, -50, 0 ), radius );
+        CAPTURE( visited );
+        CHECK( visited.empty() );
+    }
+    SECTION( "center past the low x edge by more than the radius" ) {
+        const std::vector<tripoint_bub_ms> visited =
+            points_in_radius_of( here, tripoint_bub_ms( -100, 20, 0 ), radius );
+        CAPTURE( visited );
+        CHECK( visited.empty() );
+    }
+    SECTION( "center past the high x edge by more than the radius" ) {
+        const std::vector<tripoint_bub_ms> visited =
+            points_in_radius_of( here, tripoint_bub_ms( MAPSIZE_X + 100, 20, 0 ), radius );
+        CAPTURE( visited );
+        CHECK( visited.empty() );
+    }
+    SECTION( "center past the low x edge by less than the radius" ) {
+        const tripoint_bub_ms center( -2, 20, 0 );
+        const std::vector<tripoint_bub_ms> visited = points_in_radius_of( here, center, radius );
+        // x in [0, 4], y in [14, 26]
+        CHECK( visited.size() == 5 * 13 );
+        for( const tripoint_bub_ms &p : visited ) {
+            CAPTURE( p );
+            CHECK( here.inbounds( p ) );
+            CHECK( square_dist( center, p ) <= radius );
+        }
+    }
+}
+
 TEST_CASE( "tinymap_bounds_checking" )
 {
     // FIXME: There are issues with vehicle caching between maps, because
@@ -191,6 +239,33 @@ TEST_CASE( "place_player_can_safely_move_multiple_submaps" )
     // broken active item cache.
     g->place_player( tripoint_bub_ms::zero );
     get_map().check_submap_active_item_consistency();
+}
+
+TEST_CASE( "active_item_cache_does_not_duplicate_items_after_index_invalidation",
+           "[active_item][cache]" )
+{
+    active_item_cache cache;
+    item survivor( itype_disinfectant );
+    REQUIRE( survivor.needs_processing() );
+    REQUIRE( cache.add( survivor, point_rel_ms::zero ) );
+
+    // Removing an expired item invalidates the lookup index.
+    // The surviving item is still in the cache, so adding it again must rebuild the index instead of creating a duplicate.
+    // Repeat for more than one processing interval so duplicates would also be visible in get_for_processing().
+    const int invalidations = survivor.processing_speed() + 1;
+    for( int i = 0; i < invalidations; ++i ) {
+        auto temporary = std::make_unique<item>( itype_disinfectant );
+        cache.add( *temporary, point_rel_ms::zero );
+        temporary.reset();
+        cache.get();
+        cache.add( survivor, point_rel_ms::zero );
+    }
+
+    const std::vector<item_reference> cached = cache.get();
+    CHECK( cached.size() == 1 );
+
+    const std::vector<item_reference> to_process = cache.get_for_processing();
+    CHECK( to_process.size() == 1 );
 }
 
 TEST_CASE( "inactive_container_with_active_contents", "[active_item][map]" )

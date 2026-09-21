@@ -7,7 +7,7 @@
     "gender": "female",
     "class": "NC_ISHERWOOD_LISA",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "age": 20,
     "height": 170,
     "str": 8,

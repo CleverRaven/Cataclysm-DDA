@@ -1,0 +1,13 @@
+[
+  {
+    "type": "dimension_region_layout",
+    "id": "default_aftershock",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "default_aftershock"
+  },
+  {
+    "type": "dimension",
+    "id": "default",
+    "region_layout": "default_aftershock"
+  }
+]

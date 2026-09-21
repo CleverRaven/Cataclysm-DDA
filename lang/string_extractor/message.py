@@ -14,3 +14,4 @@ class Message:
 
 messages = dict()
 occurrences = []
+errors = []

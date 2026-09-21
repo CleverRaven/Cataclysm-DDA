@@ -72,9 +72,9 @@ class client
 {
         std::vector<int> cata_input_trail;
 #ifndef TUI
-        // Backend-active latches for the platform (SDL2/SDL3) and
-        // renderer (SDLRenderer2/3) ImGui backends. Guard the wrappers
-        // so partial teardown + retry is idempotent.
+        // Backend-active latches for the platform and renderer ImGui
+        // backends. Guard the wrappers so partial teardown + retry is
+        // idempotent.
         bool platform_backend_active_ = false;
         bool renderer_backend_active_ = false;
 #endif
@@ -99,7 +99,8 @@ class client
         // aborting mid-flight when end_frame() is unsafe (renderer undefined).
         // The next NewFrame would assert if the frame were left open.
         void abort_frame();
-        void process_input( void *input, int display_buffer_w = 0, int display_buffer_h = 0 );
+        void process_input( void *input, int display_buffer_w = 0, int display_buffer_h = 0,
+                            int scaling_factor = 1 );
         void process_cata_input( const input_event &event );
 #ifdef TUI
         void upload_color_pair( int p, int f, int b );
@@ -128,6 +129,10 @@ class client
         static bool want_capture_mouse();
         // True if an ImGui text field or shortcut has keyboard focus.
         static bool want_capture_keyboard();
+        // True if an ImGui text-entry widget is focused and wants character input.
+        static bool want_text_input();
+        // Drop the active ImGui item so a focused text widget releases input.
+        static void clear_text_focus();
 };
 
 #ifndef TUI

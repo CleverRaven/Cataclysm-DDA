@@ -9,19 +9,35 @@
     "type": "scenario",
     "id": "cave_lonesome",
     "copy-from": "cave_lonesome",
-    "extend": { "professions": [ "tribal_warrior_expert", "lizardfolk_warrior", "lizardfolk_hunter", "wise_one_apprentice" ] }
+    "extend": {
+      "professions": [
+        "tribal_warrior_expert",
+        "lizardfolk_warrior",
+        "lizardfolk_hunter",
+        "wise_one_apprentice",
+        "pattern_tattoo_mountain_prof"
+      ]
+    }
   },
   {
     "type": "scenario",
     "id": "infected",
     "copy-from": "infected",
-    "extend": { "professions": [ "tribal_warrior_expert", "wise_one_apprentice" ] }
+    "extend": { "professions": [ "tribal_warrior_expert", "wise_one_apprentice", "pattern_tattoo_mountain_prof" ] }
   },
   {
     "type": "scenario",
     "id": "hunted_start",
     "copy-from": "hunted_start",
-    "extend": { "professions": [ "tribal_warrior_expert", "lizardfolk_warrior", "lizardfolk_hunter", "wise_one_apprentice" ] }
+    "extend": {
+      "professions": [
+        "tribal_warrior_expert",
+        "lizardfolk_warrior",
+        "lizardfolk_hunter",
+        "wise_one_apprentice",
+        "pattern_tattoo_mountain_prof"
+      ]
+    }
   },
   {
     "type": "scenario",
@@ -33,25 +49,57 @@
     "type": "scenario",
     "id": "bordered",
     "copy-from": "bordered",
-    "extend": { "professions": [ "tribal_warrior_expert", "lizardfolk_warrior", "lizardfolk_hunter", "wise_one_apprentice" ] }
+    "extend": {
+      "professions": [
+        "tribal_warrior_expert",
+        "lizardfolk_warrior",
+        "lizardfolk_hunter",
+        "wise_one_apprentice",
+        "pattern_tattoo_mountain_prof"
+      ]
+    }
   },
   {
     "type": "scenario",
     "id": "ambushed",
     "copy-from": "ambushed",
-    "extend": { "professions": [ "tribal_warrior_expert", "lizardfolk_warrior", "lizardfolk_hunter", "wise_one_apprentice" ] }
+    "extend": {
+      "professions": [
+        "tribal_warrior_expert",
+        "lizardfolk_warrior",
+        "lizardfolk_hunter",
+        "wise_one_apprentice",
+        "pattern_tattoo_mountain_prof"
+      ]
+    }
   },
   {
     "type": "scenario",
     "id": "summer_advanced_start",
     "copy-from": "summer_advanced_start",
-    "extend": { "professions": [ "tribal_warrior_expert", "lizardfolk_warrior", "lizardfolk_hunter", "wise_one_apprentice" ] }
+    "extend": {
+      "professions": [
+        "tribal_warrior_expert",
+        "lizardfolk_warrior",
+        "lizardfolk_hunter",
+        "wise_one_apprentice",
+        "pattern_tattoo_mountain_prof"
+      ]
+    }
   },
   {
     "type": "scenario",
     "id": "wilderness",
     "copy-from": "wilderness",
-    "extend": { "professions": [ "tribal_warrior_expert", "lizardfolk_warrior", "lizardfolk_hunter", "wise_one_apprentice" ] }
+    "extend": {
+      "professions": [
+        "tribal_warrior_expert",
+        "lizardfolk_warrior",
+        "lizardfolk_hunter",
+        "wise_one_apprentice",
+        "pattern_tattoo_mountain_prof"
+      ]
+    }
   },
   {
     "type": "scenario",

@@ -52,7 +52,7 @@
     "name_suffix": "UICA Quartermaster",
     "class": "NC_UICA_GROUND_QUARTERMASTER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_UICA_GROUND_QUARTERMASTER",
     "faction": "UICA"
   },

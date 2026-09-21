@@ -41,6 +41,7 @@
     "type": "SPELL",
     "name": "Bound in Ebon Bands",
     "description": "Bind a single target in bands of shadow, holding them in place and causing cold damage over time.",
+    "message": "You intone the words of the spell.",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "RANDOM_DAMAGE", "RANDOM_DURATION", "VERBAL", "SOMATIC", "NO_LEGS", "LOUD" ],
     "spell_class": "XE_NETHER_SORCERY",
@@ -67,6 +68,7 @@
     "type": "SPELL",
     "name": { "str": "The Baying of Hounds" },
     "description": "Using this spell will summon a pack of otherworldly hounds.  They are <color_yellow>somewhat difficult</color> to control.",
+    "message": "You intone the words of the spell.",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
     "spell_class": "XE_NETHER_SORCERY",
@@ -121,5 +123,35 @@
         "else": [ { "u_message": "The things you called up resist your attempt to control them!", "type": "bad" } ]
       }
     ]
+  },
+  {
+    "type": "SPELL",
+    "id": "xe_nether_sorcery_cause_withering_damage",
+    "name": "The Withering",
+    "description": "Blast your targets with the raw energy of the grave, withering their flesh.",
+    "message": "You intone the words of the spell.",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "flags": [ "RANDOM_DAMAGE", "RANDOM_DURATION", "SPLIT_DAMAGE", "VERBAL", "SILENT", "SOMATIC", "NO_LEGS" ],
+    "spell_class": "XE_NETHER_SORCERY",
+    "magic_type": "xe_nether_sorcery",
+    "skill": "deduction",
+    "difficulty": 90,
+    "max_level": 15,
+    "effect": "attack",
+    "effect_str": "effect_xe_nether_sorcery_cause_withering_damage",
+    "shape": "blast",
+    "damage_type": "withering_damage",
+    "min_damage": { "math": [ "(u_spell_level('xe_nether_sorcery_cause_withering_damage') * 3) + 25" ] },
+    "max_damage": { "math": [ "(u_spell_level('xe_nether_sorcery_cause_withering_damage') * 7.5) + 55" ] },
+    "min_duration": { "math": [ "(u_spell_level('xe_nether_sorcery_cause_withering_damage') * 350) + 1200" ] },
+    "max_duration": { "math": [ "(u_spell_level('xe_nether_sorcery_cause_withering_damage') * 1200) + 6000" ] },
+    "min_range": 6,
+    "range_increment": 0.5,
+    "max_range": 30,
+    "min_aoe": 1,
+    "max_aoe": 5,
+    "aoe_increment": 0.25,
+    "base_energy_cost": 4500,
+    "base_casting_time": 225
   }
 ]

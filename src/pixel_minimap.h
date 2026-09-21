@@ -2,10 +2,10 @@
 #ifndef CATA_SRC_PIXEL_MINIMAP_H
 #define CATA_SRC_PIXEL_MINIMAP_H
 
-#include <map>
 #include <memory>
 
 #include "coordinates.h"
+#include "pixel_minimap_geometry.h"
 #include "point.h"
 #include "sdl_wrappers.h"
 #include "sdl_geometry.h"
@@ -43,9 +43,7 @@ class pixel_minimap
 
         void draw( const SDL_Rect &screen_rect, const tripoint_bub_ms &center );
 
-        // Drop every renderer-owned GPU resource (main texture, texture
-        // pool) along with the projector and submap cache. All of it
-        // rebuilds lazily on the next draw().
+        // The projector and screen transform rebuild lazily on the next draw().
         void reset();
 
         // True if the last draw() rendered any critters with blinking beacons.
@@ -54,26 +52,12 @@ class pixel_minimap
         }
 
     private:
-        struct submap_cache;
-
-        submap_cache &get_cache_at( const tripoint_abs_sm &abs_sm_pos );
-
         void set_screen_rect( const SDL_Rect &screen_rect );
+        void build_batches( const tripoint_bub_ms &center );
+        void present();
 
-        void draw_beacon( const SDL_Rect &rect, const SDL_Color &color );
-
-        void process_cache( const tripoint_bub_ms &center );
-
-        void flush_cache_updates();
-        void update_cache_at( const tripoint_bub_sm &pos );
-        void prepare_cache_for_updates( const tripoint_bub_ms &center );
-        void clear_unused_cache();
-
-        void render( const tripoint_bub_ms &center );
-        void render_cache( const tripoint_bub_ms &center );
-        void render_critters( const tripoint_bub_ms &center );
-
-        std::unique_ptr<pixel_minimap_projector> create_projector( const SDL_Rect &max_screen_rect ) const;
+        std::unique_ptr<pixel_minimap_projector> create_projector(
+            const SDL_Rect &max_screen_rect ) const;
 
         const SDL_Renderer_Ptr &renderer;
         const GeometryRenderer_Ptr &geometry;
@@ -83,22 +67,13 @@ class pixel_minimap
 
         point pixel_size;
 
-        //track the previous viewing area to determine if the minimap cache needs to be cleared
-        tripoint_abs_sm cached_center_sm;
-
         SDL_Rect screen_rect;
-        SDL_Rect main_tex_clip_rect;
-        SDL_Rect screen_clip_rect;
-
-        SDL_Texture_Ptr main_tex;
+        minimap_transform tf_;
 
         std::unique_ptr<pixel_minimap_projector> projector;
 
-        //the minimap texture pool which is used to reduce new texture allocation spam
-        class shared_texture_pool;
-        std::unique_ptr<shared_texture_pool> tex_pool;
-
-        std::map<tripoint_abs_sm, submap_cache> cache;
+        minimap_vertex_batch terrain_batch_;
+        minimap_vertex_batch beacon_batch_;
 
         bool has_blinking_beacons_ = false;
 };

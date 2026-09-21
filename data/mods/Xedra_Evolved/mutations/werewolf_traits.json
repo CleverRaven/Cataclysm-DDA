@@ -427,6 +427,18 @@
     "enchantments": [ { "condition": "ACTIVE", "ench_effects": [ { "effect": "effect_xe_werewolf_redhanded_rage", "intensity": 1 } ] } ]
   },
   {
+    "type": "mutation",
+    "id": "WEREWOLF_CURE_OUTSIDE_EFFECTS",
+    "name": "Strike the Inner Outsider",
+    "points": 4,
+    "description": "The People is meant to fight the things from Outside, but sometimes they must fight what is inside their own bodies.  You can focus your mana to try and cure most ailments caused by beings from the Nether, from Under the Hill and from wherever vampires come from.  The amount of mana this requires increases with the amount and severity of your afflictions, and will fail if your mana is insufficient.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_eocs": [ "EOC_WEREWOLF_CURE_OUTSIDE_EFFECTS_ACTIVATED" ]
+  },
+  {
     "//": "Tier 4 traits begin here",
     "type": "mutation",
     "id": "WEREWOLF_SUPER_FAST_REGENERATION",

@@ -131,6 +131,7 @@
       { "item": "electrohack", "prob": 3, "charges": [ 0, -1 ] },
       { "item": "textbook_gaswarfare", "prob": 1 },
       { "item": "textbook_anarch", "prob": 3 },
+      { "item": "improvised_munition_handbook", "prob": 1 },
       { "item": "brewing_cookbook", "prob": 3 },
       { "item": "recipe_bullets", "prob": 1 },
       { "item": "knife_combat", "prob": 14 },

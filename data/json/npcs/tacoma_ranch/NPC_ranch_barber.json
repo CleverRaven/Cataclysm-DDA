@@ -6,7 +6,7 @@
     "name_suffix": "Barber",
     "class": "NC_HUNTER",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_RANCH_BARBER",
     "faction": "tacoma_commune"
   },

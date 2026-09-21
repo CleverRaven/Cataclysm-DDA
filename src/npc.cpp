@@ -22,6 +22,7 @@
 #include "character_attire.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "craft_reservation.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
@@ -88,6 +89,10 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
+
+#if defined(TILES)
+#include "sdltiles.h"
+#endif
 
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 
@@ -175,6 +180,37 @@ static const trait_id trait_TRADE_BACKEND( "TRADE_BACKEND" );
 static void starting_clothes( npc &who, const npc_class_id &type, bool male );
 static void starting_inv( npc &who, const npc_class_id &type );
 static void starting_inv_ammo( npc &who, std::list<item> &res, int multiplier );
+
+template <typename T> struct enum_traits;
+
+template<>
+struct enum_traits<npc_mission> {
+    static constexpr npc_mission last = npc_mission::NPC_MISSION_LAST;
+};
+
+namespace io
+{
+template<>
+std::string enum_to_string<npc_mission>( npc_mission data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case npc_mission::NPC_MISSION_NULL: return "NULL";
+        case npc_mission::NPC_MISSION_LEGACY_1: return "LEGACY_1";
+        case npc_mission::NPC_MISSION_SHELTER: return "SHELTER";
+        case npc_mission::NPC_MISSION_SHOPKEEP: return "SHOPKEEP";
+        case npc_mission::NPC_MISSION_GUARD_ALLY: return "GUARD_ALLY";
+        case npc_mission::NPC_MISSION_GUARD: return "GUARD";
+        case npc_mission::NPC_MISSION_GUARD_PATROL: return "GUARD_PATROL";
+        case npc_mission::NPC_MISSION_ACTIVITY: return "ACTIVITY";
+        case npc_mission::NPC_MISSION_TRAVELLING: return "TRAVELLING";
+        case npc_mission::NPC_MISSION_CAMP_RESIDENT: return "CAMP_RESIDENT";
+        case npc_mission::NPC_MISSION_LAST: break;
+            // *INDENT-ON*
+    }
+    cata_fatal( "Invalid npc_mission" );
+}
+} // namespace io
 
 bool job_data::set_task_priority( const activity_id &task, int new_priority )
 {
@@ -352,7 +388,9 @@ void npc_template::load( const JsonObject &jsobj, std::string_view src )
         guy.set_attitude( NPCATT_NULL );
     }
     guy.set_attitude( static_cast<npc_attitude>( jsobj.get_int( "attitude" ) ) );
-    guy.mission = static_cast<npc_mission>( jsobj.get_int( "mission" ) );
+    if( jsobj.has_string( "mission" ) ) {
+        guy.mission = io::string_to_enum<npc_mission>( jsobj.get_string( "mission" ) );
+    }
     guy.chatbin.first_topic = jsobj.get_string( "chat" );
     if( jsobj.has_string( "mission_offered" ) ) {
         guy.miss_ids.emplace_back( jsobj.get_string( "mission_offered" ) );
@@ -605,6 +643,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         return;
     }
 
+    portrait_filename = type->class_portrait_filename;
     set_wielded_item( item( itype_id::NULL_ID(), calendar::turn_zero ) );
     inv->clear();
     randomize_personality();
@@ -2704,7 +2743,8 @@ bool npc::is_minion() const
 
 bool npc::guaranteed_hostile() const
 {
-    return attitude_to( get_player_character() ) == Attitude::HOSTILE || is_enemy() ||
+    return ( attitude_to( get_player_character() ) == Attitude::HOSTILE ) ||
+           is_enemy() ||
            ( my_fac && my_fac->likes_u < -10 );
 }
 
@@ -2753,7 +2793,7 @@ bool npc::is_leader() const
 
 bool npc::is_enemy() const
 {
-    return attitude == NPCATT_KILL || attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP;
+    return attitude == NPCATT_KILL || attitude == NPCATT_FLEE;
 }
 
 bool npc::is_stationary( bool include_guards ) const
@@ -3264,7 +3304,8 @@ void npc::die( map *here, Creature *nkiller )
     }
 
     if( Character *ch = dynamic_cast<Character *>( killer ) ) {
-        get_event_bus().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
+        get_event_bus().send<event_type::character_kills_character>( ch->getID(), getID(), get_name(),
+                myclass.c_str() );
     }
     Character &player_character = get_player_character();
     if( killer == &player_character ) {
@@ -3756,6 +3797,11 @@ std::function<bool( const tripoint_bub_ms & )> npc::get_path_avoid() const
         if( sees_dangerous_field( p ) ) {
             return true;
         }
+        // pathfinder prices bashing itself. guarding only movement functions would
+        // repath into the same wall every turn.
+        if( craft_reservation::bashing_would_break_reservation( here, *this, p ) ) {
+            return true;
+        }
         return false;
     };
 }
@@ -4033,7 +4079,7 @@ npc_follower_rules::npc_follower_rules()
 
     clear_flag( ally_rule::allow_pick_up );
     clear_flag( ally_rule::allow_bash );
-    clear_flag( ally_rule::allow_sleep );
+    set_flag( ally_rule::allow_sleep );
     set_flag( ally_rule::allow_complain );
     set_flag( ally_rule::allow_pulp );
     set_flag( ally_rule::close_doors );
@@ -4223,6 +4269,31 @@ std::string npc::get_current_activity() const
         return _( "nothing" );
     }
 }
+
+#if defined(TILES)
+static void pick_random_portrait( npc *guy )
+{
+    std::unordered_set<std::string> all = portrait_tilecontext->get_all_portrait_tile_ids( guy->male );
+    guy->portrait_filename = character_portrait_id( random_entry( all ) );
+}
+
+void npc::ensure_portrait_valid()
+{
+    if( !portrait_filename.is_valid() ) {
+        DebugLog( D_INFO, DC_ALL ) << disp_name() << " invalid portrait " << portrait_filename.c_str();
+        if( myclass->class_portrait_filename.is_valid() ) {
+            portrait_filename = myclass->class_portrait_filename;
+        } else {
+            pick_random_portrait( this );
+        }
+    }
+}
+#else
+void npc::ensure_portrait_valid()
+{
+    // Dummied out function for the compiler's sake.
+}
+#endif
 
 std::string npc::get_current_status() const
 {

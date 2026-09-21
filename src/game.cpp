@@ -198,6 +198,7 @@
 #include "string_input_popup.h"
 #include "surroundings_menu.h"
 #include "talker.h"
+#include "temp_crafting_inventory.h"
 #include "text_snippets.h"
 #include "tileray.h"
 #include "timed_event.h"
@@ -254,6 +255,8 @@ static const damage_type_id damage_acid( "acid" );
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_stab( "stab" );
+
+static const dimension_id dimension_world_default( "default" );
 
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_bouldering( "bouldering" );
@@ -467,7 +470,8 @@ game::game() :
     next_mission_id( 1 ),
     next_item_uid( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
-    last_mouse_edge_scroll( std::chrono::steady_clock::now() )
+    last_mouse_edge_scroll( std::chrono::steady_clock::now() ),
+    dimension_prefix( dimension_world_default )
 {
     current_map.set( &m );
     first_redraw_since_waiting_started = true;
@@ -629,6 +633,14 @@ void game::reload_tileset()
         }
     }
     try {
+        portrait_tilecontext->reinit();
+        portrait_tilecontext->load_tileset( get_option<std::string>( "PORTRAIT_TILES" ),
+                                            /*precheck=*/false, /*force=*/true,
+                                            /*pump_events=*/true, /*terrain=*/false );
+    } catch( const std::exception &err ) {
+        popup( _( "Loading the portrait tileset failed: %s" ), err.what() );
+    }
+    try {
         overmap_tilecontext->reinit();
         overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
                                            /*precheck=*/false, /*force=*/true,
@@ -785,8 +797,9 @@ bool game::start_game()
     get_safemode().load_global();
 
     init_autosave();
-    //Needs to be explicitly cleared so a previously loaded world state doesn't leak into the new game
-    dimension_prefix.clear();
+    //Needs to be explicitly reset so a previously loaded world state doesn't leak into the new game
+    dimension_prefix = dimension_world_default;
+    overmap_buffer.init_region_layout();
 
     background_pane background;
     static_popup popup;
@@ -795,7 +808,6 @@ bool game::start_game()
     refresh_display();
 
     load_master();
-    overmap_buffer.current_region_type = "default";
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
     // Make sure the items are added after the calendar is started
@@ -826,6 +838,7 @@ bool game::start_game()
 
             MAPBUFFER.clear();
             overmap_buffer.clear();
+            overmap_buffer.init_region_layout();
 
             if( !query_yn(
                     _( "Try again?\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
@@ -1297,6 +1310,11 @@ void game::reload_npcs()
 const kill_tracker &game::get_kill_tracker() const
 {
     return *kill_tracker_ptr;
+}
+
+void game::clear_kill_tracker() const
+{
+    kill_tracker_ptr->clear();
 }
 
 void game::create_starting_npcs()
@@ -2227,7 +2245,9 @@ int game::inventory_item_menu( item_location locThisItem,
                 } );
 
                 action_menu.additional_actions = {
-                    { "RIGHT", translation() }
+                    { "RIGHT", translation() },
+                    { "SCROLL_ITEM_INFO_UP", translation() },
+                    { "SCROLL_ITEM_INFO_DOWN", translation() }
                 };
 
                 lang_version = detail::get_current_language_version();
@@ -2248,6 +2268,9 @@ int game::inventory_item_menu( item_location locThisItem,
                 // could be instructed to ignore these two keys instead of scrolling.
                 action_menu.selected = prev_selected;
                 action_menu.fselected = prev_selected;
+            } else if( action_menu.ret_act == "SCROLL_ITEM_INFO_UP" ||
+                       action_menu.ret_act == "SCROLL_ITEM_INFO_DOWN" ) {
+                cMenu = action_menu.ret_act == "SCROLL_ITEM_INFO_UP" ? KEY_PPAGE : KEY_NPAGE;
             } else {
                 cMenu = 0;
             }
@@ -2257,6 +2280,9 @@ int game::inventory_item_menu( item_location locThisItem,
                 ui = nullptr;
             }
 
+#if defined(TILES)
+            action_menu.set_hide( true );
+#endif
             switch( cMenu ) {
                 case 'a': {
                     contents_change_handler handler;
@@ -2264,13 +2290,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( locThisItem.get_item()->type->has_use() &&
                         !locThisItem.get_item()->item_has_uses_recursive( true ) ) { // NOLINT(bugprone-branch-clone)
                         // Item has uses and none of its contents (if any) has uses.
-#if defined(TILES)
-                        action_menu.set_hide( true );
-#endif
                         avatar_action::use_item( u, locThisItem );
-#if defined(TILES)
-                        action_menu.set_hide( false );
-#endif
                     } else if( locThisItem.get_item()->item_has_uses_recursive() ) {
                         game::item_action_menu( locThisItem );
                     } else if( locThisItem.get_item()->has_relic_activation() &&
@@ -2360,7 +2380,7 @@ int game::inventory_item_menu( item_location locThisItem,
                 case 'v':
                     if( oThisItem.is_container() ) {
                         ui_impl.reset();
-                        oThisItem.favorite_settings_menu();
+                        locThisItem.favorite_settings_menu();
                     }
                     break;
                 case 'V': {
@@ -2418,6 +2438,9 @@ int game::inventory_item_menu( item_location locThisItem,
                 default:
                     break;
             }
+#if defined(TILES)
+            action_menu.set_hide( false );
+#endif
         } while( !exit );
     }
     return cMenu;
@@ -2836,7 +2859,7 @@ bool game::is_game_over()
         Creature *player_killer = u.get_killer();
         if( player_killer && player_killer->as_character() ) {
             events().send<event_type::character_kills_character>(
-                player_killer->as_character()->getID(), u.getID(), u.get_name() );
+                player_killer->as_character()->getID(), u.getID(), u.get_name(), "" );
         }
         events().send<event_type::character_dies>( u.getID() );
         events().send<event_type::avatar_dies>();
@@ -4142,7 +4165,7 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
                 break;
             }
             targ->setpos( here, traj[i] );
-            if( here.has_flag( ter_furn_flag::TFLAG_LIQUID, targ_pos ) && !targ->can_drown() &&
+            if( here.has_flag( ter_furn_flag::TFLAG_LIQUID, targ_pos ) && targ->can_drown() &&
                 !targ->is_dead() ) {
                 targ->die( &here, nullptr );
                 if( u.sees( here, *targ ) ) {
@@ -6762,7 +6785,7 @@ void game::butcher( const std::optional<tripoint_bub_ms> &p )
     std::vector<map_stack::iterator> disassembles;
     std::vector<map_stack::iterator> salvageables;
     map_stack items = here.i_at( pos );
-    const inventory &crafting_inv = u.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = u.crafting_inventory();
 
     // TODO: Properly handle different material whitelists
     // TODO: Improve quality of this section
@@ -8276,7 +8299,12 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
     if( u.is_hauling() && ( !here.can_put_items( dest_loc ) ||
                             here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc ) ||
                             vp1 ) ) {
-        u.stop_hauling();
+        // returns false if not automoving in the first place
+        if( cancel_auto_move( *u.as_character(), _( "You're about to stop hauling!" ) ) ) {
+            return point_rel_sm::zero;
+        } else {
+            u.stop_hauling();
+        }
     }
     u.setpos( here, dest_loc );
     if( u.is_mounted() ) {
@@ -9017,7 +9045,7 @@ void game::on_move_effects()
 void game::on_options_changed()
 {
 #if defined(TILES)
-    tilecontext->on_options_changed();
+    on_tiles_options_changed();
 #endif
     refresh_mouse_config();
 }
@@ -9733,8 +9761,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     cata_event_dispatch::avatar_moves( old_abs_pos, u, here );
 }
 
-bool game::travel_to_dimension( const std::string &new_prefix,
-                                const std::string &region_type,
+bool game::travel_to_dimension( dimension_id dimension_destination,
                                 const std::vector<npc *> &npc_travellers,
                                 const std::vector<item_location> &item_travellers,
                                 const std::optional<tripoint_bub_ms> item_travellers_location,
@@ -9804,19 +9831,11 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     here.rebuild_vehicle_level_caches();
     // Inputting an empty string to the text input EOC fails
     // so i'm using 'default' as empty/main dimension
-    std::string old_prefix = dimension_prefix;
-    if( new_prefix != "default" ) {
-        dimension_prefix = new_prefix;
-    } else {
-        dimension_prefix.clear();
-    }
+    dimension_id previous_dimension = dimension_prefix;
+    dimension_prefix = dimension_destination;
     // Load in data specific to the dimension (like weather)
-    if( !load_dimension_data() ) {
-        // dimension data file not found/created yet
+    load_dimension_data();
 
-        // Only allow `region_type` input for new dimensions.
-        overmap_buffer.current_region_type = region_type;
-    }
     // Clear the immediate game area around the player
     MAPBUFFER.clear();
     // hack to prevent crashes from temperature checks
@@ -9824,6 +9843,7 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     swapping_dimensions = true;
     // Clear the overmap
     overmap_buffer.clear();
+    overmap_buffer.init_region_layout();
     // load/create new overmap
     overmap &new_om = overmap_buffer.get( project_to<coords::om>( player.pos_abs().xy() ) );
     // insert travelled NPCs
@@ -9862,7 +9882,7 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     weather.set_nextweather( calendar::turn );
     update_overmap_seen();
     if( undo_shift ) {
-        travel_to_dimension( old_prefix, region_type, npc_travellers, {}, std::nullopt, veh );
+        travel_to_dimension( previous_dimension, npc_travellers, {}, std::nullopt, veh );
         if( !place_items.empty() ) {
             tripoint_bub_ms item_center = item_travellers_location.value_or( player.pos_bub( here ) );
             for( const item &it : place_items ) {
@@ -9871,7 +9891,8 @@ bool game::travel_to_dimension( const std::string &new_prefix,
         }
     }
     game::mon_info_update();
-    get_event_bus().send<event_type::dimension_travel>( player.getID(), old_prefix, dimension_prefix );
+    get_event_bus().send<event_type::dimension_travel>( player.getID(), previous_dimension,
+            dimension_prefix );
     return true;
 }
 
@@ -10406,7 +10427,7 @@ void game::perhaps_add_random_npc( bool ignore_spawn_timers_and_rates )
     }
     // Create a new NPC?
 
-    double spawn_time = get_option<float>( "NPC_SPAWNTIME" );
+    const double spawn_time = overmap_buffer.get_settings( u.pos_abs_omt() ).npc_spawn_time;
     if( !ignore_spawn_timers_and_rates && spawn_time == 0.0 ) {
         return;
     }

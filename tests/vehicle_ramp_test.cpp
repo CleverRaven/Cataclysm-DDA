@@ -15,6 +15,7 @@
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "map_scale_constants.h"
 #include "monster.h"
 #include "point.h"
