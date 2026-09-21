@@ -60,6 +60,19 @@ struct enum_traits<zone_activity_stage> {
     static constexpr zone_activity_stage last = LAST;
 };
 
+enum class open_tile_result {
+    OPEN_FAIL,
+    OPEN_DOOR,
+    OPEN_VEHICLE_SINGLE,
+    OPEN_VEHICLE_ALL,
+    OPEN_TILE_RESULT_LAST
+};
+
+template<>
+struct enum_traits<open_tile_result> {
+    static constexpr open_tile_result last = open_tile_result::OPEN_TILE_RESULT_LAST;
+};
+
 /**
 * Any activity that does operations in one or more zone types.
 */
@@ -1391,6 +1404,9 @@ std::string enum_to_string<efile_action>( efile_action data );
 
 template<>
 std::string enum_to_string<efile_combo>( efile_combo data );
+
+template<>
+std::string enum_to_string<open_tile_result>( open_tile_result data );
 } // namespace io
 
 /**
@@ -1805,6 +1821,35 @@ class open_gate_activity_actor : public activity_actor
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
+// open a terrain, furniture, or vehicle tile if possible
+class open_tile_activity_actor : public activity_actor
+{
+    public:
+        open_tile_activity_actor() = default;
+        open_tile_activity_actor( std::optional<tripoint_bub_ms> tile_location ) : tile_location(
+                tile_location ) {}
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_OPEN_TILE( "ACT_OPEN_TILE" );
+            return ACT_OPEN_TILE;
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<open_tile_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        std::optional<tripoint_bub_ms> tile_location;
+        open_tile_result open_success;
+        int opened_vehicle_part = -1;
 };
 
 class consume_activity_actor : public activity_actor

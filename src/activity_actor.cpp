@@ -221,6 +221,7 @@ static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
+static const activity_id ACT_OPEN_TILE( "ACT_OPEN_TILE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
@@ -3801,6 +3802,19 @@ std::string enum_to_string<efile_combo>( efile_combo data )
             cata_fatal( "Invalid based_on_type in enum_to_string" );
     }
 }
+template<>
+std::string enum_to_string<open_tile_result>( open_tile_result data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case open_tile_result::OPEN_DOOR: return "OPEN_DOOR";
+        case open_tile_result::OPEN_VEHICLE_SINGLE: return "OPEN_VEHICLE_SINGLE";
+        case open_tile_result::OPEN_VEHICLE_ALL: return "OPEN_VEHICLE_ALL";
+            // *INDENT-ON*
+        default:
+            cata_fatal( "Invalid based_on_type in enum_to_string" );
+    }
+}
 } // namespace io
 
 bool efile_activity_actor::processed_edevices_remain() const
@@ -5768,6 +5782,156 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonValue
 
     data.read( "moves", actor.moves_total );
     data.read( "placement", actor.placement );
+
+    return actor.clone();
+}
+
+void open_tile_activity_actor::start( player_activity &act, Character &who )
+{
+    act.moves_total = to_moves<int>( 1_seconds );
+    act.moves_left = act.moves_total;
+
+    map &here = get_map();
+
+    avatar &player_character = get_avatar();
+    if( !tile_location ) {
+        tile_location = choose_adjacent_highlight( here, _( "Open where?" ),
+                        pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
+                        ACTION_OPEN, false );
+    }
+
+    // no valid tile selected or provided
+    if( !tile_location ) {
+        act.set_to_null();
+        return;
+    }
+
+    const tripoint_bub_ms openp = *tile_location;
+    if( const optional_vpart_position vp = here.veh_at( openp ) ) {
+        vehicle *const veh = &vp->vehicle();
+
+        // vehicle theft denied
+        if( !veh->handle_potential_theft( who ) ) {
+            act.set_to_null();
+            return;
+        }
+
+        // Check if vehicle has a part here that can be opened
+        opened_vehicle_part = veh->next_part_to_open( vp->part_index() );
+        if( opened_vehicle_part >= 0 ) {
+            // If player is inside vehicle, open the door/window/curtain
+            const vehicle *player_veh = veh_pointer_or_null( here.veh_at( who.pos_bub() ) );
+            const std::string part_name = veh->part( opened_vehicle_part ).name();
+            bool outside = !player_veh || player_veh != veh;
+            if( !outside ) {
+                open_success = open_tile_result::OPEN_VEHICLE_SINGLE;
+            } else {
+                // Outside means we check if there's anything in that tile outside-openable.
+                // If there is, we open everything on tile. This means opening a closed,
+                // curtained door from outside is possible, but it will magically open the
+                // curtains as well.
+                int outside_openable = veh->next_part_to_open( vp->part_index(), true );
+                if( outside_openable == -1 ) {
+                    add_msg( m_info, _( "That %s can only be opened from the inside." ), part_name );
+                    act.set_to_null();
+                    return;
+                } else {
+                    open_success = open_tile_result::OPEN_VEHICLE_ALL;
+                }
+            }
+        } else {
+            // If there are any OPENABLE parts here, they must be already open or locked
+            if( const std::optional<vpart_reference> openable_part = vp.part_with_feature( "OPENABLE",
+                    true ); openable_part.has_value() ) {
+                const std::string name = openable_part->info().name();
+                if( vp->vehicle().part( openable_part->part_index() ).locked ) {
+                    add_msg( m_info, _( "That %s is locked." ), name );
+                } else {
+                    add_msg( m_info, _( "That %s is already open." ), name );
+                }
+            }
+            act.set_to_null();
+            return;
+        }
+    } else {
+        // Not a vehicle part, just a regular door
+        bool could_open_door = here.open_door( player_character, openp,
+                                               !here.is_outside( player_character.pos_bub() ), true );
+        if( !could_open_door ) {
+            const ter_str_id tid = here.ter( openp ).id();
+
+            if( here.has_flag( ter_furn_flag::TFLAG_LOCKED, openp ) ) {
+                add_msg( m_info, _( "The door is locked!" ) );
+                act.set_to_null();
+                return;
+            } else if( tid.obj().close ) {
+                // if the following message appears unexpectedly, the prior check was for t_door_o
+                add_msg( m_info, _( "The door is already open." ) );
+                act.set_to_null();
+                return;
+            }
+            add_msg( m_info, _( "No door there." ) );
+            act.set_to_null();
+        }
+        open_success = open_tile_result::OPEN_DOOR;
+    }
+}
+
+void open_tile_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+
+    const tripoint_bub_ms openp = *tile_location;
+
+    if( open_success == open_tile_result::OPEN_FAIL ) {
+        debugmsg( "invalid open_tile_activity_actor finish state" );
+        return;
+    }
+
+    if( open_success == open_tile_result::OPEN_DOOR ) {
+        who.add_msg_if_player( _( "You open the %s." ), here.name( openp ) );
+        here.open_door( who, openp,
+                        !here.is_outside( who.pos_bub() ) );
+    } else if( optional_vpart_position vp = here.veh_at( *tile_location ) ) {
+        vehicle *const veh = &vp->vehicle();
+        const std::string part_name = veh->part( opened_vehicle_part ).name();
+
+        switch( open_success ) {
+            case open_tile_result::OPEN_VEHICLE_SINGLE: {
+                who.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh->name, part_name );
+                veh->open( here, opened_vehicle_part );
+                break;
+            }
+            case open_tile_result::OPEN_VEHICLE_ALL: {
+                who.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh->name, part_name );
+                veh->open_all_at( here, opened_vehicle_part );
+                break;
+            }
+        }
+    }
+    act.set_to_null();
+}
+
+void open_tile_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "tile_location", tile_location );
+    jsout.member( "open_success", open_success );
+    jsout.member( "opened_vehicle_part", opened_vehicle_part );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> open_tile_activity_actor::deserialize( JsonValue &jsin )
+{
+    open_tile_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "tile_location", actor.tile_location );
+    data.read( "open_success", actor.open_success );
+    data.read( "opened_vehicle_part", actor.opened_vehicle_part );
 
     return actor.clone();
 }
@@ -15018,6 +15182,7 @@ deserialize_functions = {
     { ACT_MULTIPLE_READ, &multi_read_activity_actor::deserialize },
     { ACT_MULTIPLE_STUDY, &multi_study_activity_actor::deserialize },
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
+    { ACT_OPEN_TILE, &open_tile_activity_actor::deserialize },
     { ACT_OPERATION, &bionic_operation_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
     { ACT_PICKAXE, &pickaxe_activity_actor::deserialize },

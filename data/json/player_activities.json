@@ -553,6 +553,13 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_OPEN_TILE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "opening",
+    "based_on": "time"
+  },
+  {
     "id": "ACT_FILL_LIQUID",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
