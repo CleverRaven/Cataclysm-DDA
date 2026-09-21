@@ -1091,7 +1091,8 @@ static void scan_tool_charges( const T &self, const itype_id &id,
                                int &raw_ups_charges )
 {
     map &here = get_map();
-    static_cast<const read_only_visitable &>( self ).visit_items_of_type( id, [&]( const item * e, item * ) {
+    static_cast<const read_only_visitable &>( self ).visit_items_of_type( id, [&]( const item * e,
+    item * ) {
         if( filter( *e ) &&
             ( id == e->typeId() || ( in_tools && id == e->ammo_current() ) ||
               ( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) ) &&

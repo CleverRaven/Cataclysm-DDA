@@ -187,8 +187,8 @@ void availability::ensure_apparently_craftable() const
     const temp_crafting_inventory &inv = inv_override ? *inv_override : crafter.crafting_inventory();
     const craft_flags flag = inv_override ? craft_flags::none : craft_flags::start_only;
     apparently_craftable_ = rec->simple_requirements().can_make_with_inventory(
-                               &crafter, inv, rec->get_component_filter( recipe_filter_flags::none ),
-                               batch_size, flag );
+                                &crafter, inv, rec->get_component_filter( recipe_filter_flags::none ),
+                                batch_size, flag );
 }
 
 void availability::ensure_item_warnings() const
@@ -207,11 +207,11 @@ void availability::ensure_item_warnings() const
     const craft_flags flag = inv_override ? craft_flags::none : craft_flags::start_only;
     const deduped_requirement_data &req_data = rec->deduped_requirements();
     would_use_rotten_ = !req_data.can_make_with_inventory(
-                           &crafter, inv, rec->get_component_filter( recipe_filter_flags::no_rotten ),
-                           batch_size, flag );
+                            &crafter, inv, rec->get_component_filter( recipe_filter_flags::no_rotten ),
+                            batch_size, flag );
     would_use_favorite_ = !req_data.can_make_with_inventory(
-                             &crafter, inv, rec->get_component_filter( recipe_filter_flags::no_favorite ),
-                             batch_size, flag );
+                              &crafter, inv, rec->get_component_filter( recipe_filter_flags::no_favorite ),
+                              batch_size, flag );
 }
 
 nc_color availability::selected_color() const
