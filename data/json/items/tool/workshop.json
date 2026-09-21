@@ -1976,7 +1976,7 @@
     ],
     "charges_per_use": 1,
     "power_draw": "175 W",
-    "use_action": { "type": "link_up", "cable_length": 30 },
+    "use_action": { "type": "link_up", "cable_length": 4 },
     "melee_damage": { "bash": 2 },
     "tool_ammo": [ "battery" ],
     "faults": [ { "fault_group": "electronic_general" } ],
