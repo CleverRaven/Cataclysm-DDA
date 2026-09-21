@@ -11,8 +11,10 @@
 #include <tuple>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
+#include "cata_utility.h"
 #include "colony.h"
 #include "coords_fwd.h"
 #include "item.h"
@@ -70,7 +72,7 @@ class temp_crafting_inventory : public read_only_visitable
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
         override;
         VisitResponse visit_items_of_type( const itype_id &type,
-                const std::function<VisitResponse( item *, item * )> &func ) const override;
+                                           const std::function<VisitResponse( item *, item * )> &func ) const override;
         bool has_provider_quality( const quality_id &qual, int level, int qty,
                                    const Character *who,
                                    quality_count mode = quality_count::providers ) const override;

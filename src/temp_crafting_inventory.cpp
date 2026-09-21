@@ -1,6 +1,7 @@
 
 #include "temp_crafting_inventory.h"
 
+#include <algorithm>
 #include <functional>
 #include <memory>
 #include <optional>
@@ -33,14 +34,14 @@
 
 class vehicle;
 
-static const flag_id json_flag_PSEUDO( "PSEUDO" );
 static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
+static const flag_id json_flag_PSEUDO( "PSEUDO" );
 
+static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_any( "any" );
 static const itype_id itype_brick_oven_pseudo( "brick_oven_pseudo" );
 static const itype_id itype_butchery_tree_pseudo( "butchery_tree_pseudo" );
 static const itype_id itype_fire( "fire" );
-static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_any( "any" );
 
 static bool is_unfiltered( const std::function<bool( const item & )> &filter )
 {
@@ -301,8 +302,8 @@ void temp_crafting_inventory::build_item_bins() const
 
     binned_items.clear();
     binned_tool_items.clear();
-    const auto add_root = [&]( const item *root ) {
-        root->visit_items( [&]( item *node, item * ) {
+    const auto add_root = [&]( const item * root ) {
+        root->visit_items( [&]( item * node, item * ) {
             const itype_id type = node->typeId();
             binned_items[type].push_back( node );
             binned_tool_items[type].push_back( node );

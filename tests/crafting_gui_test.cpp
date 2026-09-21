@@ -37,8 +37,8 @@ static const itype_id itype_family_cookbook( "family_cookbook" );
 static const itype_id itype_fat( "fat" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_knife_hunting( "knife_hunting" );
-static const itype_id itype_rock( "rock" );
 static const itype_id itype_pepper( "pepper" );
+static const itype_id itype_rock( "rock" );
 static const itype_id itype_salt( "salt" );
 static const itype_id itype_tomato_juice( "tomato_juice" );
 
@@ -49,12 +49,12 @@ static const proficiency_id proficiency_prof_knapping( "prof_knapping" );
 static const recipe_id recipe_cudgel_simple( "cudgel_simple" );
 static const recipe_id recipe_cudgel_slow( "cudgel_slow" );
 static const recipe_id recipe_cudgel_test_no_tools( "cudgel_test_no_tools" );
+static const recipe_id recipe_drink_virgin_mary( "drink_virgin_mary" );
 static const recipe_id recipe_meat_cooked_test_no_tools( "meat_cooked_test_no_tools" );
 static const recipe_id recipe_prac_knapping( "prac_knapping" );
 static const recipe_id recipe_test_longshirt_test_poor_fit( "test_longshirt_test_poor_fit" );
 static const recipe_id recipe_test_nested_weapons( "test_nested_weapons" );
 static const recipe_id recipe_test_tallow( "test_tallow" );
-static const recipe_id recipe_drink_virgin_mary( "drink_virgin_mary" );
 static const recipe_id recipe_water_clean_test_in_jar( "water_clean_test_in_jar" );
 
 static const skill_id skill_cooking( "cooking" );

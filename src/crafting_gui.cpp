@@ -1525,8 +1525,8 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 auto child_avail = availability_cache->find( &child );
                 if( child_avail == availability_cache->end() ) {
                     child_avail = availability_cache->emplace( &child,
-                                    availability( *crafter, &child, 1, camp_crafting,
-                                            inventory_override, true ) ).first;
+                                  availability( *crafter, &child, 1, camp_crafting,
+                                                inventory_override, true ) ).first;
                 }
                 nc_color col = child_avail->second.color();
                 std::string child_name = child.result_name( true );
@@ -1929,16 +1929,21 @@ void crafting_ui_impl::draw_components( const requirement_data &req,
 
     // Compute how many of a given component the player has on hand
     std::map<itype_id, int> available_counts;
-    const auto avail_count = [&crafting_inv, &filter, &available_counts]( const item_comp & ic ) -> int {
+    const auto avail_count = [&crafting_inv, &filter,
+                   &available_counts]( const item_comp & ic ) -> int {
         const auto cached = available_counts.find( ic.type );
-        if( cached != available_counts.end() ) {
+        if( cached != available_counts.end() )
+        {
             return cached->second;
         }
         int count;
         if( item::count_by_charges( ic.type ) )
+        {
             count = crafting_inv.charges_of( ic.type, INT_MAX, filter );
-        else
+        } else
+        {
             count = crafting_inv.amount_of( ic.type, false, INT_MAX, filter );
+        }
         available_counts.emplace( ic.type, count );
         return count;
     };
@@ -2132,7 +2137,7 @@ void crafting_ui_impl::draw_requirement_tools( const requirement_data &req,
 
     // Tool groups -- bullet per group, with named req labels and expand/collapse
     std::map<std::pair<itype_id, int>, bool> tool_availability;
-    const auto has_tool = [&]( const tool_comp &tc ) {
+    const auto has_tool = [&]( const tool_comp & tc ) {
         const auto key = std::make_pair( tc.type, tc.count );
         const auto cached = tool_availability.find( key );
         if( cached != tool_availability.end() ) {

@@ -1,13 +1,17 @@
+#include <functional>
+
 #include "../src/temp_crafting_inventory.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "item.h"
+#include "pocket_type.h"
+#include "ret_val.h"
 #include "type_id.h"
 
+static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_test_fire_ax( "test_fire_ax" );
 static const itype_id itype_test_gum( "test_gum" );
 static const itype_id itype_test_halligan( "test_halligan" );
-static const itype_id itype_backpack( "backpack" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_DIG( "DIG" );
@@ -59,7 +63,7 @@ TEST_CASE( "temp_crafting_inv_test_quality", "[crafting][inventory]" )
     CHECK( inv.has_quality( qual_AXE ) );
     CHECK( inv.has_provider_quality( qual_AXE, 1, 1, nullptr ) );
 
-    inv.remove_items_with( [&fire_ax]( const item &it ) {
+    inv.remove_items_with( [&fire_ax]( const item & it ) {
         return &it == &fire_ax;
     } );
     CHECK_FALSE( inv.has_provider_quality( qual_AXE, 1, 1, nullptr ) );
