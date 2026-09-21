@@ -116,6 +116,11 @@ Swap `req_flag` in martial effects tech effects to `condition`
 Morale deadening, doing horrible things will inure you to hardship, and pleasures.
 Weather can have a defined color tint
 Support for graphical NPC portraits during dialogue
+ovens can be used for crafting again
+Berserk Rage Prevents fleeing hostile enemies
+Other crafts, NPCs and automation leave an unattended craft's tools alone
+Overhaul RM13 - JSONized effects, believable sci-fi features, rebreather system,
+SCBA/SCUBA systems
 
 
 ## Content:
@@ -215,6 +220,11 @@ Highland Crypts
 Add serum-specific microlabs
 Add "serum ferals" to serum labs
 A moving, trans-dimensional event - the Scarlet Storm
+Scarlet Storm is bigger, more random, and more dynamic
+Pat reacts to and can send you on a mission to the Scarlet Storm
+Changes to LIXA rewards -> remove phase immersion suit and RM13, add more lab-appropriate S02a
+Phase Immersion Suit & RM13 power armor require actual respirator systems
+Add pieces of uncooked bacon
 
 
 ## Interface:
@@ -269,6 +279,7 @@ Fix Crafting GUI text wrapping & don't offscreen recipe detail selection (`SPACE
 Show item fault severity with inventory and sidebar colors
 Migrate dialogue window to imgui
 Migrate appliance rename popup to ImGui
+Imguify help menu
 
 
 ## Mods:
@@ -367,6 +378,16 @@ Aftershock: Origin Hobbies
 You cannot `consume_drugs` if you have `TEMPORARY_SHAPESHIFT_NO_HANDS`
 [MoM] Add chance for feral psions in serum microlabs, small adjustment to mutagen microlabs
 Sky Island: Override dimension travel so it takes you to the island
+[Xedra Evolved] Add Dreamworker workshops to XE portal labs
+[MoM] Add scarlet storm to nether weather check
+Aftershock: Remove multiverse references in high tech scrap.
+[Mods] The Exodii don't buy magic items
+add new stormshaper spell and start Academy Wizard
+Aftershock Fix vanishing arc flight condition errors.
+[MoM] Oubliette destination: shoggothed world
+Magiclysm: casters can always ride their mojocycles
+[Xedra Evolved] The Exodii won't talk to the Fair Folk
+[XE] Torpor can't be used outdoors and ask for confirmation before starting
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -431,6 +452,14 @@ Add faults to mainly magyclism melee weapons
 Faction camp hunting has an extra chance to return nothing based on time since the Cataclysm (and winter)
 Brutes cannot smash Huge characters, hulk smashes are less effective against Huge characters
 Decayed zombies smell horrific
+Remove parasites from cleaned and rendered tallow
+Scarlet Storm is less punishing with acute exposure, more punishing with chronic exposure
+Adjust TOW missile stats
+Fix solder price
+Update vanilla effects with `INHALED_TOXIN_IMMUNE` flag
+Unify pipe rifle crafting times to 1 h
+Adjust some nut milk recipes
+A cattail stalk can no longer fit in any pocket
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -628,6 +657,25 @@ Scared NPCs don't turn hostile
 Preserve character-specific auto-pickup rules between sessions
 Requirement checks judge the character being checked instead of the player
 Fix monsters not being slowed by snow
+Fix getting perma-stuck in the Imperial Road
+Fix large grenade bandoliers not fitting molotovs
+Naturally spawned pickled veggy contains triffid fibers
+[Xedra Evolved] Update `hallu` effect
+map::all_items() returning too much results in some cases
+Prevent NPCs from trying to get off moving vehicles to sleep
+Replace junk material with sugar material for condensed milk
+Remove OUTER from military PAPR mask coverage
+Can't use faction bases as your own personal storage
+[XE] Fix the blood level UI displaying a wrong maximal value.
+Fixed one-per-layer sided ring wearing limits.
+Allow wooden and metal gangways to be deconstructed.
+Smelting requires more than one tool
+Keep every live tileset bundle in renderer recovery
+Can create Characters again
+Vehicle wheels don't crush items in deep water
+Fix tentacle stockings not covering your tentacles
+Fix an out of bounds write when looking for items around a position outside the map
+Stone tools can be crafted from a stack of rocks again
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -648,6 +696,7 @@ Improve several per-turn performance bottlenecks
 Fix O(N^2) performance degradation in form_from_map
 Improving performance in the crafting ui
 Draw the pixel minimap with batched geometry instead of per-submap render targets
+Use less VRAM on the gpu renderer by not pre-baking atlas variants the shaders draw
 
 
 ## Infrastructure:
@@ -765,6 +814,9 @@ Consume crafting tools per recipe step
 Abort and quarantine tileset atlas uploads interrupted by a renderer reset
 generic factory dimensions, multi-region support
 more region layouts + Voronoi library
+remove obsolete DEFAULT_REGION external option
+Make main readable
+move all crafting_inventory operations to temp_crafting_inventory class
 
 
 ## Build:
@@ -782,6 +834,8 @@ Proper SDL support
 Migrate Android to SDL3 via CMake + prefab AAR; drop SDL2 customs; bump buildkit
 Remove SDL2 support
 Run tests in CI for multiple sets of mods
+Fix SDL3 CMake build on MSVC
+Address warnings on possible loss of data
 
 
 ## I18N and A11Y:
