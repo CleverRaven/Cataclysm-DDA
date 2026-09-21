@@ -1,4 +1,5 @@
 #include <climits>
+#include <cstddef>
 #include <functional>
 #include <initializer_list>
 #include <list>
@@ -29,6 +30,7 @@
 #include "item_pocket.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "npc.h"
 #include "player_activity.h"
 #include "player_helpers.h"
@@ -53,6 +55,7 @@ static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_belt223( "belt223" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
 static const itype_id itype_chem_washing_soda( "chem_washing_soda" );
+static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_test_apple( "test_apple" );
 static const itype_id itype_test_bitter_almond( "test_bitter_almond" );
 static const itype_id itype_test_heavy_boulder( "test_heavy_boulder" );
@@ -70,6 +73,7 @@ static const vproto_id vehicle_prototype_test_shopping_cart( "test_shopping_cart
 static const vproto_id vehicle_prototype_test_turret_rig( "test_turret_rig" );
 
 static const zone_type_id zone_type_LOOT_CHEMICAL( "LOOT_CHEMICAL" );
+static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
 static const zone_type_id zone_type_LOOT_DEFAULT( "LOOT_DEFAULT" );
 static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
@@ -3483,6 +3487,55 @@ TEST_CASE( "zone_sorting_adjacent_sources_do_not_oscillate",
     // other's batch target spends no moves, and an unbounded runner sits in
     // that loop forever
     REQUIRE( process_activity_bounded( dummy, 100, 2000 ) );
+}
+
+TEST_CASE( "zone_custom_filter_query_spans_the_whole_zone",
+           "[zones][items][sorting]" )
+{
+    clear_map_without_vision();
+    map &here = get_map();
+    zone_manager &zmgr = zone_manager::get_manager();
+    zmgr.clear();
+
+    const int zone_width = 4;
+    const tripoint_abs_ms zone_start = here.get_abs( tripoint_bub_ms{ 5, 5, 0 } );
+    const tripoint_abs_ms zone_end = zone_start + tripoint( zone_width - 1, 0, 0 );
+    const tripoint_abs_ms where = here.get_abs( tripoint_bub_ms::zero );
+
+    const item hammer( itype_hammer );
+    const item apple( itype_test_apple );
+
+    auto tiles_for = [&zmgr, &where]( const item & it ) {
+        return zmgr.get_near( zone_type_LOOT_CUSTOM, where, MAX_VIEW_DISTANCE, &it );
+    };
+
+    mapgen_place_zone( zone_start, zone_end, zone_type_LOOT_CUSTOM, faction_your_followers, {},
+                       "hammer" );
+
+    const std::unordered_set<tripoint_abs_ms> hammer_tiles = tiles_for( hammer );
+    CHECK( hammer_tiles.size() == static_cast<size_t>( zone_width ) );
+    for( int i = 0; i < zone_width; i++ ) {
+        CAPTURE( i );
+        CHECK( hammer_tiles.count( zone_start + tripoint( i, 0, 0 ) ) == 1 );
+    }
+    CHECK( tiles_for( apple ).empty() );
+
+    // repeat queries answer from the compiled filter instead of rebuilding it
+    CHECK( tiles_for( hammer ) == hammer_tiles );
+    CHECK( tiles_for( apple ).empty() );
+
+    // same filter text, fresh manager state
+    zmgr.clear();
+    mapgen_place_zone( zone_start, zone_end, zone_type_LOOT_CUSTOM, faction_your_followers, {},
+                       "hammer" );
+    CHECK( tiles_for( hammer ).size() == static_cast<size_t>( zone_width ) );
+
+    // different filter on same tiles answers differently
+    zmgr.clear();
+    mapgen_place_zone( zone_start, zone_end, zone_type_LOOT_CUSTOM, faction_your_followers, {},
+                       "apple" );
+    CHECK( tiles_for( hammer ).empty() );
+    CHECK( tiles_for( apple ).size() == static_cast<size_t>( zone_width ) );
 }
 
 // builds the sort fixture the drag gate tests share: weak avatar, grabbed cart
