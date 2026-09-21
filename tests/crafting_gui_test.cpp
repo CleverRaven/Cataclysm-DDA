@@ -46,8 +46,8 @@ static const proficiency_id proficiency_prof_knapping( "prof_knapping" );
 
 static const recipe_id recipe_cudgel_simple( "cudgel_simple" );
 static const recipe_id recipe_cudgel_slow( "cudgel_slow" );
-static const recipe_id recipe_cudgel_test_no_tools( "cudgel_test_no_tools" );
 static const recipe_id recipe_cudgel_test_apparent_craftable( "cudgel_test_apparent_craftable" );
+static const recipe_id recipe_cudgel_test_no_tools( "cudgel_test_no_tools" );
 static const recipe_id recipe_meat_cooked_test_no_tools( "meat_cooked_test_no_tools" );
 static const recipe_id recipe_prac_knapping( "prac_knapping" );
 static const recipe_id recipe_test_longshirt_test_poor_fit( "test_longshirt_test_poor_fit" );
