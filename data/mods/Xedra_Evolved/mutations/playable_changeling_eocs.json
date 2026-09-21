@@ -435,8 +435,8 @@
       {
         "run_eocs": "EOC_CHANGELING_DISGUISE_AS_NATURE_END",
         "time_in_future": [
-          { "math": [ "(changeling_common_traits() * 22.5) + (u_skill('deduction') * 230) + 351" ] },
-          { "math": [ "(changeling_common_traits() * 57.5) + (u_skill('deduction') * 560) + 789" ] }
+          { "math": [ "(changeling_common_traits() * 22.5) + (u_skill('gramarye') * 230) + 351" ] },
+          { "math": [ "(changeling_common_traits() * 57.5) + (u_skill('gramarye') * 560) + 789" ] }
         ]
       }
     ],
@@ -475,7 +475,7 @@
         "u_add_effect": "effect_changeling_noble_burning_weapon",
         "duration": {
           "math": [
-            "rng( ((u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2.4) + (u_skill('deduction') * 26) + 278) , ((u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 8.8) + (u_skill('deduction') * 175) + 915))"
+            "rng( ((u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2.4) + (u_skill('gramarye') * 26) + 278) , ((u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 8.8) + (u_skill('gramarye') * 175) + 915))"
           ]
         }
       }
@@ -486,7 +486,7 @@
         "math": [
           "u_val('mana')",
           "+=",
-          "max(( 400 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 3) - (u_skill('deduction') * 20)), 200)"
+          "max(( 400 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 3) - (u_skill('gramarye') * 20)), 200)"
         ]
       }
     ]
@@ -655,7 +655,7 @@
     "condition": "u_is_npc",
     "effect": [
       { "math": [ "u_glamoured_changeling_noble_traits = n_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE')" ] },
-      { "math": [ "u_glamoured_deduction_movement_buff = n_skill('deduction')" ] },
+      { "math": [ "u_glamoured_deduction_movement_buff = n_skill('gramarye')" ] },
       {
         "u_add_effect": "effect_changeling_noble_movement_buffs_ally",
         "duration": {
@@ -671,7 +671,7 @@
         "u_add_effect": "effect_changeling_noble_movement_buffs",
         "duration": {
           "math": [
-            "rng( ((u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 5.5) + (u_skill('deduction') * 39) + 225), ((u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 12.3) + (u_skill('deduction') * 89) + 691) )"
+            "rng( ((u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 5.5) + (u_skill('gramarye') * 39) + 225), ((u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 12.3) + (u_skill('gramarye') * 89) + 691) )"
           ]
         }
       }
@@ -1728,7 +1728,7 @@
         "u_add_effect": "effect_selkie_fog_cloak",
         "duration": {
           "math": [
-            "rng( ((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 5.6) + (u_skill('deduction') * 51.2) + 135.4), ((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 13.8) + (u_skill('deduction') * 123.05) + 498.5))"
+            "rng( ((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 5.6) + (u_skill('gramarye') * 51.2) + 135.4), ((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 13.8) + (u_skill('gramarye') * 123.05) + 498.5))"
           ]
         }
       }
@@ -1749,12 +1749,12 @@
         "time_in_future": [
           {
             "math": [
-              "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 9.8) + (u_skill('deduction') * 34.53) + 203.10) * selkie_has_weather_mastery()"
+              "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 9.8) + (u_skill('gramarye') * 34.53) + 203.10) * selkie_has_weather_mastery()"
             ]
           },
           {
             "math": [
-              "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 24.15) + (u_skill('deduction') * 102.75) + 747.75) * selkie_has_weather_mastery()"
+              "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 24.15) + (u_skill('gramarye') * 102.75) + 747.75) * selkie_has_weather_mastery()"
             ]
           }
         ]
@@ -1807,7 +1807,7 @@
                 "u_add_effect": "effect_controlling_weather",
                 "duration": {
                   "math": [
-                    "rng( ( ( (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 17.15) + (u_skill('deduction') * 60.43) + 355.43) * selkie_has_weather_mastery() ), ( ( (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 42.26) + ( (u_skill('deduction') * 179.81) + 1233.79) * selkie_has_weather_mastery() ) ) )"
+                    "rng( ( ( (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 17.15) + (u_skill('gramarye') * 60.43) + 355.43) * selkie_has_weather_mastery() ), ( ( (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 42.26) + ( (u_skill('gramarye') * 179.81) + 1233.79) * selkie_has_weather_mastery() ) ) )"
                   ]
                 }
               },
@@ -1857,7 +1857,7 @@
                 "u_add_effect": "effect_controlling_weather",
                 "duration": {
                   "math": [
-                    "rng( ( ( (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 17.15) + (u_skill('deduction') * 60.43) + 355.43) * selkie_has_weather_mastery() ), ( ( (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 42.26) + ( (u_skill('deduction') * 179.81) + 1233.79) * selkie_has_weather_mastery() ) ) )"
+                    "rng( ( ( (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 17.15) + (u_skill('gramarye') * 60.43) + 355.43) * selkie_has_weather_mastery() ), ( ( (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 42.26) + ( (u_skill('gramarye') * 179.81) + 1233.79) * selkie_has_weather_mastery() ) ) )"
                   ]
                 }
               },
