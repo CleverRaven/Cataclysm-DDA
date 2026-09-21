@@ -228,10 +228,10 @@
     ]
   },
   {
-    "id": "zauropod_control",
+    "id": "zapatosaurus_control",
     "type": "SPELL",
-    "name": { "str": "Zauropod control", "//~": "NO_I18N" },
-    "description": { "str": "Zauropods control themselves using this one.", "//~": "NO_I18N" },
+    "name": { "str": "zapatosaurus control", "//~": "NO_I18N" },
+    "description": { "str": "Zombie apatosaurus control themselves using this one.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
@@ -239,7 +239,7 @@
     "max_range": 1,
     "message": "",
     "effect": "effect_on_condition",
-    "effect_str": "EOC_ZAUROPOD_CONTROL"
+    "effect_str": "EOC_ZAPATOSAURUS_CONTROL"
   },
   {
     "type": "SPELL",
@@ -256,23 +256,23 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ZAUROPOD_CONTROL",
+    "id": "EOC_ZAPATOSAURUS_CONTROL",
     "effect": [
       {
         "run_eocs": [
           {
-            "id": "eoc_start_update_zauropod",
-            "condition": { "math": [ "updating_zauropods != 1" ] },
-            "effect": [ { "run_eocs": "eoc_update_zauropod" } ]
+            "id": "eoc_start_update_zapatosaurus",
+            "condition": { "math": [ "updating_zapatosaurus != 1" ] },
+            "effect": [ { "run_eocs": "eoc_update_zapatosaurus" } ]
           },
           {
-            "id": "zauropod_setup",
+            "id": "zapatosaurus_setup",
             "condition": { "math": [ "u_setup != 1" ] },
             "effect": [
               {
                 "run_eocs": [
                   {
-                    "id": "avatar_sees_zauropod_setup",
+                    "id": "avatar_sees_zapatosaurus_setup",
                     "condition": "player_see_u",
                     "effect": [ { "message": "You see the zombie sauropod." } ]
                   }
@@ -294,43 +294,20 @@
     ]
   },
   {
-    "id": "eoc_update_zauropod",
+    "id": "eoc_update_zapatosaurus",
     "type": "effect_on_condition",
     "global": true,
     "condition": { "math": [ "u_monsters_nearby('mon_zapatosaurus', 'radius': 3) >= 1" ] },
     "effect": [
-      { "math": [ "updating_zauropods = 1" ] },
-      { "run_eocs": "eoc_update_zauropod", "time_in_future": 1 },
+      { "math": [ "updating_zapatosaurus = 1" ] },
+      { "run_eocs": "eoc_update_zapatosaurus", "time_in_future": 1 },
       {
         "u_run_monster_eocs": [ "eoc_zauropod" ],
         "monster_range": 3,
-        "mtype_ids": [
-          "mon_zoabosaurus",
-          "mon_zaplocanthosaurus",
-          "mon_zamargasaurus",
-          "mon_zapatosaurus",
-          "mon_zrontosaurus",
-          "mon_ziplodocus",
-          "mon_zarosaurus",
-          "mon_zamarasaurus",
-          "mon_zrachiosaurus",
-          "mon_zastrodon",
-          "mon_zalamosaurus",
-          "mon_zoabosaurus_scorched",
-          "mon_zaplocanthosaurus_scorched",
-          "mon_zamargasaurus_scorched",
-          "mon_zapatosaurus_scorched",
-          "mon_zrontosaurus_scorched",
-          "mon_ziplodocus_scorched",
-          "mon_zarosaurus_scorched",
-          "mon_zamarasaurus_scorched",
-          "mon_zrachiosaurus_scorched",
-          "mon_zastrodon_scorched",
-          "mon_zalamosaurus_scorched"
-        ]
+        "mtype_ids": [ "mon_zapatosaurus" ]
       }
     ],
-    "false_effect": [ { "math": [ "updating_zauropods = 0" ] } ]
+    "false_effect": [ { "math": [ "updating_zapatosaurus = 0" ] } ]
   },
   {
     "id": "eoc_zauropod",
