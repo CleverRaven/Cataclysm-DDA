@@ -1802,7 +1802,7 @@
     "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "powered quarterstaff", "str_pl": "powered quarterstaves" },
-    "description": "An ironshod quarterstaff that has a high-voltage stun gun built into the handle.  The stun gun is wired to the metal caps at either end of the staff, allowing you to zap a dangerous opponent should beating them senseless with it prove too hazardous.",
+    "description": "An ironshod quarterstaff that has a high-voltage stun gun built into the handle.  The stun guns prongs are extended by a wire and stick out from the tip of the shaft, allowing you to zap a dangerous opponent should beating them senseless with it prove too hazardous.",
     "weight": "1910 g",
     "volume": "1800 ml",
     "longest_side": "180 cm",
