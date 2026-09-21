@@ -7261,13 +7261,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "name": "Meat Broth(Jars and Tins)",
     "description": "Recipes related to putting meat broth in jars and tins.",
-    "nested_category_data": [
-      "broth_meat_jarred",
-      "broth_meat_jarred_3l",
-      "broth_meat_canned",
-      "broth_meat_canned_small",
-      "broth_meat_canned_big"
-    ]
+    "nested_category_data": [ "broth_meat_jarred", "broth_meat_jarred_3l", "broth_meat_canned", "broth_meat_canned_small", "broth_meat_canned_big" ]
   },
   {
     "id": "nested_broth_bone",
