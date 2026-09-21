@@ -904,6 +904,7 @@
       { "group": "glue_strong_professional", "prob": 10 },
       [ "sandpaper", 40 ],
       [ "screwdriver", 5 ],
+      [ "dremel", 20 ],
       [ "chisel", 10 ],
       [ "hammer", 5 ]
     ]

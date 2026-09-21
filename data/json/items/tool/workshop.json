@@ -1949,5 +1949,38 @@
     "name": { "str": "taped razorblade" },
     "description": "A double-edged razor blade with one side taped to allow its use as a basic tool.",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ], [ "FABRIC_CUT", 1 ] ]
+  },
+  {
+    "id": "dremel",
+    "looks_like": "angle_grinder",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "dremel" },
+    "description": "A rotating tool that can be used with various bits for a large amount of applications.",
+    "weight": "544 g",
+    "volume": "800 ml",
+    "price": "200 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "steel", "plastic" ],
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "neutral" },
+    "symbol": "/",
+    "color": "yellow",
+    "charged_qualities": [
+      { "id": "GRIND", "level": 2, "speed": 0.7 },
+      { "id": "SAW_M", "level": 1, "speed": 0.8 },
+      { "id": "SAW_M_FINE", "level": 2, "speed": 0.5 },
+      { "id": "SAW_W", "level": 1, "speed": 0.5 },
+      { "id": "BUTCHER", "level": 11 },
+      { "id": "FABRIC_CUT", "level": 1 },
+      { "id": "CUT", "level": 1, "speed": 0.5 }
+    ],
+    "charges_per_use": 1,
+    "power_draw": "175 W",
+    "use_action": { "type": "link_up", "cable_length": 30 },
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "//0": "source https://www.amazon.com/Dremel-4300-9-Performance-Attachments-Accessories/dp/B01LZVVA58",
+    "//2": "volume is rounded up by less than 200ml to accomodate all the small bits you also need to carry"
   }
 ]
