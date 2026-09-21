@@ -7241,12 +7241,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "name": "Fish Soup(Jars and Tins)",
     "description": "Recipes related to putting fish soup in jars and tins.",
-    "nested_category_data": [
-      "soup_fish_jarred",
-      "soup_fish_jarred_3l",
-      "soup_fish_canned",
-      "soup_fish_canned_big"
-    ]
+    "nested_category_data": [ "soup_fish_jarred", "soup_fish_jarred_3l", "soup_fish_canned", "soup_fish_canned_big" ]
   },
   {
     "id": "nested_broth",
