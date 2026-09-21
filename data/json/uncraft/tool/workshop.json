@@ -76,9 +76,9 @@
     "components": [
       [ [ "e_scrap", 3 ] ],
       [ [ "copper", 1 ] ],
-      [ [ "scrap", 2 ] ],
+      [ [ "scrap", 4 ] ],
       [ [ "cable", 4 ] ],
-      [ [ "plastic_chunk", 2 ] ],
+      [ [ "plastic_chunk", 3 ] ],
       [ [ "motor_micro", 1 ] ]
     ]
   }
