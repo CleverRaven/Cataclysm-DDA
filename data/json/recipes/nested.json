@@ -7277,13 +7277,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "name": "Bone Broth(Jars and Tins)",
     "description": "Recipes related to putting bone broth in jars and tins.",
-    "nested_category_data": [
-      "broth_bone_jarred",
-      "broth_bone_jarred_3l",
-      "broth_bone_canned",
-      "broth_bone_canned_small",
-      "broth_bone_canned_big"
-    ]
+    "nested_category_data": [ "broth_bone_jarred", "broth_bone_jarred_3l", "broth_bone_canned", "broth_bone_canned_small", "broth_bone_canned_big" ]
   },
   {
     "id": "nested_canned_beans",
