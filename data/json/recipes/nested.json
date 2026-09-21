@@ -7125,13 +7125,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "name": "Canned Meat(Jars and Tins)",
     "description": "Recipes related to putting canned meat in jars and tins.",
-    "nested_category_data": [
-      "meat_canned_jarred",
-      "meat_canned_jarred_3l",
-      "meat_canned",
-      "meat_canned_canned_medium",
-      "meat_canned_canned_big"
-    ]
+    "nested_category_data": [ "meat_canned_jarred", "meat_canned_jarred_3l", "meat_canned", "meat_canned_canned_medium", "meat_canned_canned_big" ]
   },
   {
     "id": "nested_pickled_meat",
