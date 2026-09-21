@@ -1216,8 +1216,16 @@ bool requirement_data::check_enough_materials( const Character *actor, const ite
         }
         // This item can be used for the quality requirement, same as above for specific
         // tools applies.
-        if( !crafting_inv.has_provider_quality( qr->type, qr->level,
-                                                qr->count + std::abs( comp.count ), actor ) ) {
+        // One provider outliving the craft is a question about items: the stack a component
+        // comes out of survives losing a charge, so what counts is how many rocks there are
+        // rather than how many stacks.  Two is a question about stacks, since two tools at
+        // once means two separate items.  `cnt` rather than the bare count, since a batch
+        // eats its component once per unit.
+        const quality_count mode = qr->count == 1
+                                   ? quality_count::units
+                                   : quality_count::providers;
+        if( !crafting_inv.has_provider_quality( qr->type, qr->level, qr->count + cnt, actor,
+                                                mode ) ) {
             comp.available = available_status::a_insufficient;
         }
     }

@@ -1589,7 +1589,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```CROWBAR``` Pry open doors, windows, man-hole covers and many other things that need prying.
 - ```DIG``` Clear rubble.
 - ```DIRECTIONAL_ANTENNA``` Find the source of a signal with your radio.
-- ```DIVE_TANK``` Use compressed air tank to breathe.
 - ```DOG_WHISTLE``` Dogs hate this thing; your dog seems pretty cool with it though.
 - ```DOLLCHAT``` That creepy doll just keeps on talking.
 - ```EXTINGUISHER``` Put out fires.
@@ -1632,6 +1631,8 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```RESTAURANTMAP``` Learn of local eateries, and show roads.
 - ```ROADMAP``` Learn of local common points-of-interest and show roads.
 - ```SCISSORS``` Cut up clothing.
+- ```SCBA_MASK_ACTIVATE``` Prep SCBA regulator for breathing.  Transforms into an item with string <item_id>_scba_on.
+- ```SCBA_TANK_ACTIVATE``` Prep SCBA air source for breathing.
 - ```SEED``` Asks if you are sure that you want to eat the seed.  As it is better to plant seeds.
 - ```SEW``` Sew clothing.
 - ```SHELTER``` Put up a full-blown shelter.

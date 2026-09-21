@@ -312,16 +312,16 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "byproducts": [ [ "molasses", 2 ] ],
     "result": "crystallizing_sugar_active",
     "id_suffix": "from_beets",
+    "charges": 30,
+    "byproducts": [ [ "molasses", 1 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "//": "process sugar beets into sugar",
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "1 h 30 m",
-    "charges": 10,
     "batch_time_factors": [ 20, 1 ],
     "book_learn": { "cookbook_foodfashions": { "skill_level": 5, "recipe_name": "Natural Beet Sugar" } },
     "proficiencies": [ { "proficiency": "prof_knife_skills" } ],
@@ -333,7 +333,7 @@
     ],
     "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ], [ [ "screw_press", -1 ] ] ],
     "//1": "1u base + 1u ingredient + 6u evaporation",
-    "components": [ [ [ "sugar_beet", 3 ] ], [ [ "water_clean", 1 ], [ "water", 1 ] ] ]
+    "components": [ [ [ "sugar_beet", 1 ] ], [ [ "water_clean", 4 ], [ "water", 4 ] ] ]
   },
   {
     "type": "recipe",

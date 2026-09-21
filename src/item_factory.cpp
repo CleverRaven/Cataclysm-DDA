@@ -2066,8 +2066,6 @@ void Item_factory::init()
     add_iuse( "CROWBAR_WEAK", &iuse::crowbar_weak );
     add_iuse( "DATURA", &iuse::datura );
     add_iuse( "DIG", &iuse::dig );
-    add_iuse( "DIVE_TANK", &iuse::dive_tank );
-    add_iuse( "DIVE_TANK_ACTIVATE", &iuse::dive_tank_activate );
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
     add_iuse( "DISASSEMBLE", &iuse::disassemble );
     add_iuse( "CRAFT", &iuse::craft );
@@ -2168,6 +2166,9 @@ void Item_factory::init()
     add_iuse( "REMOTEVEH_TICK", &iuse::remoteveh_tick );
     add_iuse( "REMOVE_ALL_MODS", &iuse::remove_all_mods );
     add_iuse( "ROBOTCONTROL", &iuse::robotcontrol );
+    add_iuse( "SCBA_MASK", &iuse::scba_mask );
+    add_iuse( "SCBA_MASK_ACTIVATE", &iuse::scba_mask_activate );
+    add_iuse( "SCBA_TANK_ACTIVATE", &iuse::scba_tank_activate );
     add_iuse( "SEED", &iuse::seed );
     add_iuse( "SEWAGE", &iuse::sewage );
     add_iuse( "SIPHON", &iuse::siphon );

@@ -1802,6 +1802,55 @@
     "armor": [ { "encumbrance": 20, "coverage": 75, "covers": [ "mouth" ] } ]
   },
   {
+    "id": "scuba_regulator",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "dark_gray",
+    "name": { "str": "SCUBA regulator" },
+    "description": "A set of hoses and regulators used by SCUBA divers to breathe underwater.  Wear it, open an air tank, and activate it to prepare it for use.",
+    "flags": [ "WATER_FRIENDLY", "PADDED", "NORMAL", "SKINTIGHT", "SCBA" ],
+    "price": "250 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "plastic", "aluminum", "rubber" ],
+    "weight": "1000 g",
+    "volume": "1500 ml",
+    "use_action": "SCBA_MASK_ACTIVATE",
+    "environmental_protection": 3,
+    "material_thickness": 1,
+    "armor": [ { "encumbrance": 30, "coverage": 75, "covers": [ "mouth" ] } ]
+  },
+  {
+    "id": "scuba_regulator_scba_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "dark_gray",
+    "name": { "str": "SCUBA regulator (on)", "str_pl": "SCUBA regulators (on)" },
+    "description": "A set of hoses and regulators used by SCUBA divers to breathe underwater.  It is currently being fed air.  Activate it to turn it off.",
+    "flags": [ "WATER_FRIENDLY", "PADDED", "NORMAL", "SKINTIGHT", "SCBA_ON", "SPAWN_ACTIVE" ],
+    "revert_to": "scuba_regulator",
+    "tick_action": [ "SCBA_MASK" ],
+    "price": "250 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "plastic", "aluminum", "rubber" ],
+    "weight": "1000 g",
+    "volume": "1500 ml",
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You turn off the regulator.",
+        "menu_text": "Turn off the regulator",
+        "target": "scuba_regulator"
+      }
+    ],
+    "environmental_protection": 16,
+    "material_thickness": 1,
+    "armor": [ { "encumbrance": 30, "coverage": 75, "covers": [ "mouth" ] } ]
+  },
+  {
     "id": "mask_filter",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
@@ -2078,26 +2127,16 @@
     "symbol": "[",
     "color": "light_gray",
     "name": { "str": "firefighter PBA mask" },
-    "description": "A full-face mask commonly used by firefighters.  The protective breathing apparatus provides excellent protection from smoke, flame, and other dangers.  It must be prepared before use.",
-    "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "PADDED" ],
+    "description": "A full-face mask commonly used by firefighters.  When connected to an air source, the breathing apparatus provides excellent protection from smoke, flame, and other dangers.  Wear it, activate an air source, and activate it to engage airflow.",
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "SCBA" ],
     "price": "1 kUSD",
     "price_postapoc": "7 USD 50 cent",
     "material": [ "plastic", "nomex" ],
     "weight": "1260 g",
     "volume": "1500 ml",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med"
-      }
-    ],
-    "use_action": [ "GASMASK_ACTIVATE" ],
-    "tick_action": [ "GASMASK" ],
+    "use_action": [ "SCBA_MASK_ACTIVATE" ],
     "warmth": 25,
     "environmental_protection": 4,
-    "environmental_protection_with_filter": 16,
     "armor": [
       {
         "material": [
@@ -2114,8 +2153,22 @@
         "coverage": 100,
         "encumbrance": 12
       }
-    ],
-    "tool_ammo": "gasfilter_m"
+    ]
+  },
+  {
+    "id": "mask_bunker_scba_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "armor",
+    "symbol": "[",
+    "color": "light_gray",
+    "name": { "str": "firefighter PBA mask (SCBA)", "str_pl": "firefighter PBA masks (SCBA)" },
+    "description": "A full-face mask commonly used by firefighters.  When connected to an air source, the breathing apparatus provides excellent protection from smoke, flame, and other dangers.  It is currently part of an active SCBA system.  Activate it to turn it off.",
+    "copy-from": "mask_bunker",
+    "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "PADDED", "SCBA_ON" ],
+    "tick_action": "SCBA_MASK",
+    "revert_to": "mask_bunker",
+    "environmental_protection": 16
   },
   {
     "id": "mask_hsurvivor",
@@ -4094,134 +4147,6 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "STURDY", "PADDED" ],
     "melee_damage": { "bash": 6 }
-  },
-  {
-    "id": "scuba_tank",
-    "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
-    "category": "clothing",
-    "name": { "str": "diving cylinder" },
-    "looks_like": "oxygen_tank",
-    "description": "A high-pressure 232 bar diving tank that can contain up to 12 L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
-    "weight": "16000 g",
-    "volume": "12 L",
-    "price": "60 USD",
-    "price_postapoc": "5 USD",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 60 } }
-    ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
-    "max_worn": 1,
-    "environmental_protection": 1,
-    "environmental_protection_with_filter": 16,
-    "material_thickness": 4,
-    "use_action": [ "DIVE_TANK_ACTIVATE" ],
-    "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
-    "melee_damage": { "bash": 10 },
-    "tool_ammo": "nitrox"
-  },
-  {
-    "id": "scuba_tank_on",
-    "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
-    "category": "clothing",
-    "name": { "str": "diving cylinder (on)", "str_pl": "diving cylinders (on)" },
-    "description": "A high-pressure 232 bar diving tank that can contain up to 12 L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
-    "looks_like": "oxygen_tank",
-    "weight": "16 kg",
-    "volume": "12 L",
-    "price": "60 USD",
-    "price_postapoc": "5 USD",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 60 } }
-    ],
-    "charges_per_use": 1,
-    "turns_per_charge": 60,
-    "revert_to": "scuba_tank",
-    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
-    "max_worn": 1,
-    "environmental_protection": 3,
-    "environmental_protection_with_filter": 16,
-    "material_thickness": 4,
-    "use_action": [ "DIVE_TANK_ACTIVATE" ],
-    "tick_action": [ "DIVE_TANK" ],
-    "armor": [
-      { "encumbrance": 30, "coverage": 50, "covers": [ "torso", "mouth" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ],
-    "melee_damage": { "bash": 10 },
-    "tool_ammo": "nitrox"
-  },
-  {
-    "id": "small_scuba_tank",
-    "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
-    "category": "clothing",
-    "name": { "str": "small diving cylinder" },
-    "description": "A small, high-pressure 200 bar backup diving tank that can contain 4 L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
-    "looks_like": "smoxygen_tank",
-    "weight": "7 kg",
-    "volume": "4 L",
-    "price": "40 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 20 } }
-    ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
-    "max_worn": 1,
-    "environmental_protection": 1,
-    "environmental_protection_with_filter": 16,
-    "material_thickness": 4,
-    "use_action": [ "DIVE_TANK_ACTIVATE" ],
-    "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
-    "melee_damage": { "bash": 6 },
-    "tool_ammo": "nitrox"
-  },
-  {
-    "id": "small_scuba_tank_on",
-    "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
-    "category": "clothing",
-    "name": { "str": "small diving cylinder (on)", "str_pl": "small diving cylinders (on)" },
-    "description": "A small, high-pressure 200 bar backup diving tank that can contain 4 L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
-    "looks_like": "smoxygen_tank",
-    "weight": "7 kg",
-    "volume": "4 L",
-    "price": "40 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 20 } }
-    ],
-    "charges_per_use": 1,
-    "turns_per_charge": 60,
-    "revert_to": "small_scuba_tank",
-    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
-    "max_worn": 1,
-    "environmental_protection": 3,
-    "environmental_protection_with_filter": 16,
-    "material_thickness": 4,
-    "use_action": [ "DIVE_TANK_ACTIVATE" ],
-    "tick_action": [ "DIVE_TANK" ],
-    "armor": [
-      { "encumbrance": 30, "coverage": 50, "covers": [ "torso", "mouth" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ],
-    "melee_damage": { "bash": 6 },
-    "tool_ammo": "nitrox"
   },
   {
     "id": "electric_blanket",
