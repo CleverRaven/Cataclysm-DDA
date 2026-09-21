@@ -7194,10 +7194,7 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "name": "Pickled Veggy(Jars and Tins)",
     "description": "Recipes related to putting pickled veggy in jars and tins.",
-    "nested_category_data": [
-      "veggy_pickled_jarred",
-      "veggy_pickled_jarred_3l"
-    ]
+    "nested_category_data": [ "veggy_pickled_jarred", "veggy_pickled_jarred_3l" ]
   },
   {
     "id": "nested_canned_chicken",
