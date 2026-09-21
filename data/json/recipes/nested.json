@@ -7297,12 +7297,6 @@
     "subcategory": "CSC_FOOD_OTHER",
     "name": "Condensed Milk(Jars and Tins)",
     "description": "Recipes related to putting condensed milk in jars and tins.",
-    "nested_category_data": [
-      "con_milk_jarred",
-      "con_milk_jarred_3l",
-      "con_milk_canned",
-      "con_milk_canned_small",
-      "con_milk_canned_big"
-    ]
+    "nested_category_data": [ "con_milk_jarred", "con_milk_jarred_3l", "con_milk_canned", "con_milk_canned_small", "con_milk_canned_big" ]
   }
 ]
