@@ -7239,12 +7239,7 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "name": "Veggy Soup(Jars and Tins)",
     "description": "Recipes related to putting veggy soup in jars and tins.",
-    "nested_category_data": [
-      "soup_veggy_jarred",
-      "soup_veggy_jarred_3l",
-      "soup_veggy_canned",
-      "soup_veggy_canned_big"
-    ]
+    "nested_category_data": [ "soup_veggy_jarred", "soup_veggy_jarred_3l", "soup_veggy_canned", "soup_veggy_canned_big" ]
   },
   {
     "id": "nested_fish_soup",
