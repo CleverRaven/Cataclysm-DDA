@@ -709,9 +709,9 @@ const temp_crafting_inventory &Character::crafting_inventory( map *here,
     std::map<itype_id, int> tmp_liq_list;
 
     visit_items(
-    [&]( item * it, item * parent ) {
+    [&]( item_location it ) {
         // Only roots: a reserved provider takes the container carrying it along.
-        if( parent == nullptr && craft_reservation::contains_reserved( *it ) ) {
+        if( !it.has_parent() && craft_reservation::contains_reserved( *it ) ) {
             return VisitResponse::SKIP;
         }
         if( !it->empty_container() ) {
@@ -1460,14 +1460,14 @@ static std::vector<provider_candidate> enumerate_admitted_providers(
     const std::vector<tripoint_bub_ms> reachable =
         m.reachable_flood_steps( src.origin, src.radius, 1, 100 );
 
-    const auto admit_tree = [&out]( const item & root, bool carried ) {
-        const int64_t root_uid = root.uid().get_value();
-        root.visit_items( [&out, root_uid, carried]( const item * node, const item * parent ) {
+    const auto admit_tree = [&out]( item_location root, bool carried ) {
+        const int64_t root_uid = root->uid().get_value();
+        root.visit_items( [&out, root_uid, carried]( item_location node ) {
             provider_candidate cand;
             cand.kind = craft_reservation::provider_kind::item;
-            cand.it = node;
+            cand.it = node.get_item();
             cand.provider_uid = node->uid().get_value();
-            cand.nested = parent != nullptr;
+            cand.nested = node.has_parent();
             cand.root_uid = root_uid;
             cand.carried = carried;
             out.push_back( cand );
@@ -1489,14 +1489,14 @@ static std::vector<provider_candidate> enumerate_admitted_providers(
             if( stack_item.made_of( phase_id::LIQUID ) ) {
                 continue;
             }
-            admit_tree( stack_item, false );
+            admit_tree( item_location( map_cursor( p ), const_cast<item *>( &stack_item ) ), false );
         }
     }
 
     if( src.present_char != nullptr ) {
         for( const item_location &carried : src.present_char->all_items_loc() ) {
             if( carried && carried.parent_item() == item_location::nowhere ) {
-                admit_tree( *carried, true );
+                admit_tree( carried, true );
             }
         }
     }
@@ -1506,7 +1506,8 @@ static std::vector<provider_candidate> enumerate_admitted_providers(
         if( const std::optional<vpart_reference> vp = m.veh_at( p ).cargo() ) {
             for( const item &it : vp->items() ) {
                 if( !it.made_of( phase_id::LIQUID ) ) {
-                    admit_tree( it, false );
+                    admit_tree( item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ),
+                                               const_cast<item *>( &it ) ), false );
                 }
             }
         }
@@ -2352,8 +2353,8 @@ void craft_relocated( const item_location &landed )
         root = root.parent_item();
     }
 
-    std::vector<item *> crafts;
-    root->visit_items( [&crafts]( item * node, item * ) {
+    std::vector<item_location> crafts;
+    root.visit_items( [&crafts]( item_location node ) {
         if( node->is_craft() &&
             node->get_passive_started_at() != calendar::before_time_starts ) {
             crafts.push_back( node );
@@ -2364,20 +2365,17 @@ void craft_relocated( const item_location &landed )
         return;
     }
 
-    for( item *craft : crafts ) {
-        const item_location craft_loc = craft == root.get_item()
-                                        ? root
-                                        : item_location( root, craft );
-        craft->set_reserved_tile( craft_site_tile( craft_loc ) );
+    for( item_location &craft : crafts ) {
+        craft->set_reserved_tile( craft_site_tile( craft ) );
         // A craft that had nothing to poll for gains a site lock when dropped, and the
         // lease needs a poll to refresh it.
         if( craft->get_reserved_tile() &&
             craft->get_env_check_at() == calendar::before_time_starts ) {
             craft->set_env_check_at( calendar::turn + 1_minutes );
         }
-        get_item_wakeups().rebuild_for_item( craft_loc );
+        get_item_wakeups().rebuild_for_item( craft );
         if( craft->peek_reservation_owner_token() != 0 ) {
-            get_craft_reservations().rebuild_for_craft( craft_loc );
+            get_craft_reservations().rebuild_for_craft( craft );
         }
     }
 }
@@ -5784,9 +5782,9 @@ item_location npc::get_item_to_craft()
 {
     // check inventory
     item_location to_craft;
-    visit_items( [ this, &to_craft ]( item * itm, item * ) {
+    visit_items( [this, &to_craft]( item_location itm ) {
         if( itm->get_var( "crafter", "" ) == name ) {
-            to_craft = item_location( *this, itm );
+            to_craft = itm;
             if( !is_anyone_crafting( to_craft, this ) ) {
                 return VisitResponse::ABORT;
             }
@@ -5830,9 +5828,9 @@ void npc::do_npc_craft( const std::optional<tripoint_bub_ms> &loc, const recipe_
     std::vector<item_location> craft_item_list;
     std::string dummy;
 
-    visit_items( [ this, &craft_item_list, &dummy ]( item * itm, item * ) {
+    visit_items( [ this, &craft_item_list, &dummy ]( item_location itm ) {
         if( itm->is_craft() && itm->get_making().npc_can_craft( dummy ) ) {
-            item_location to_craft = item_location( *this, itm );
+            item_location to_craft = itm;
             if( !is_anyone_crafting( to_craft, this ) ) {
                 craft_item_list.push_back( to_craft );
             }

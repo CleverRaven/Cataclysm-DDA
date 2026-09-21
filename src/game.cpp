@@ -864,7 +864,7 @@ bool game::start_game()
     start_loc.place_player( u, omtstart );
     // Set spawn location for starting items (maps need it to be readable)
     const tripoint_abs_ms player_pos = u.pos_abs();
-    u.visit_items( [&player_pos]( item * it, item * ) {
+    u.visit_items( [&player_pos]( item_location it ) {
         it->preserve_location( player_pos );
         return VisitResponse::NEXT;
     } );
@@ -1951,11 +1951,11 @@ static void view_recipe_crafting_menu( const item &it )
     you.craft( std::nullopt, recipe_id(), filterstring );
 }
 
-static hint_rating rate_action_eat( const avatar &you, const item &it )
+static hint_rating rate_action_eat( const avatar &you, const item_location &it )
 {
-    if( it.is_container() ) {
+    if( it->is_container() ) {
         hint_rating best_rate = hint_rating::cant;
-        it.visit_items( [&you, &best_rate]( item * node, item * ) {
+        it.visit_items( [&you, &best_rate]( item_location node ) {
             if( you.can_consume_as_is( *node ) )  {
                 ret_val<edible_rating> rate = you.will_eat( *node );
                 if( rate.success() ) {
@@ -1970,11 +1970,11 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
         return best_rate;
     }
 
-    if( !you.can_consume_as_is( it ) ) {
+    if( !you.can_consume_as_is( *it ) ) {
         return hint_rating::cant;
     }
 
-    const auto rating = you.will_eat( it );
+    const auto rating = you.will_eat( *it );
     if( rating.success() ) {
         return hint_rating::good;
     } else if( rating.value() == INEDIBLE || rating.value() == INEDIBLE_MUTATION ) {
@@ -2166,7 +2166,7 @@ int game::inventory_item_menu( item_location locThisItem,
                 };
                 addentry( 'a', pgettext( "action", "activate" ), rate_action_use( u, oThisItem ) );
                 addentry( 'R', pgettext( "action", "read" ), rate_action_read( u, oThisItem ) );
-                addentry( 'E', pgettext( "action", "eat" ), rate_action_eat( u, oThisItem ) );
+                addentry( 'E', pgettext( "action", "eat" ), rate_action_eat( u, locThisItem ) );
                 addentry( 'W', pgettext( "action", "wear" ), rate_action_wear( u, oThisItem ) );
                 addentry( 'w', pgettext( "action", "wield" ), rate_action_wield( u, oThisItem ) );
                 addentry( 't', pgettext( "action", "throw" ), rate_action_wield( u, oThisItem ) );

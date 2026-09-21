@@ -1746,10 +1746,10 @@ bool firestarter_actor::npc_start_fire( npc &who, item &tool,
         // Search inventory and adjacent tiles (same scope as the
         // tinder picker in fire_start_activity_actor::do_turn).
         item_location tinder;
-        who.visit_items( [&tinder, &who]( item * it, item * ) -> VisitResponse {
+        who.visit_items( [&tinder, &who]( item_location it ) -> VisitResponse {
             if( it->has_flag( flag_TINDER ) )
             {
-                tinder = item_location( who, it );
+                tinder = it;
                 return VisitResponse::ABORT;
             }
             return VisitResponse::NEXT;

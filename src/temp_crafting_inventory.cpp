@@ -151,8 +151,7 @@ void temp_crafting_inventory::remember_provider_quality( const provider_quality_
 
 temp_crafting_inventory::temp_crafting_inventory( const temp_crafting_inventory &v )
 {
-    items = v.items;
-    for( item *it : v.item_copies ) {
+    for( const item_location &it : v.item_copies ) {
         add_item_copy( *it );
     }
     items_loc = v.items_loc;
@@ -165,8 +164,7 @@ temp_crafting_inventory &temp_crafting_inventory::operator=( const temp_crafting
         return *this;
     }
     clear();
-    items = v.items;
-    for( item *it : v.item_copies ) {
+    for( const item_location &it : v.item_copies ) {
         add_item_copy( *it );
     }
     items_loc = v.items_loc;
@@ -176,24 +174,17 @@ temp_crafting_inventory &temp_crafting_inventory::operator=( const temp_crafting
 
 size_t temp_crafting_inventory::size() const
 {
-    return items.size() + items_loc.size() + item_copies.size();
+    return items_loc.size() + item_copies.size();
 }
 
 void temp_crafting_inventory::clear()
 {
     drop_caches();
-    items.clear();
     items_loc.clear();
     item_copies.clear();
     temp_owned_items.clear();
     max_empty_liq_cont.clear();
     pseudo_items.clear();
-}
-
-void temp_crafting_inventory::add_item_ref( item &item )
-{
-    drop_caches();
-    items.insert( &item );
 }
 
 void temp_crafting_inventory::add_item_loc( const item_location &loc )
@@ -206,7 +197,7 @@ item &temp_crafting_inventory::add_item_copy( const item &item )
 {
     drop_caches();
     const auto iter = temp_owned_items.insert( item );
-    item_copies.insert( &( *iter ) );
+    item_copies.insert( item_location( *this, &*iter ) );
     return *iter;
 }
 
@@ -245,8 +236,8 @@ item &temp_crafting_inventory::add_pseudo_item( const item &it )
 
 void temp_crafting_inventory::add_all_ref( const read_only_visitable &v )
 {
-    v.visit_items( [&]( item * it, item * ) {
-        add_item_ref( *it );
+    v.visit_items( [&]( item_location node ) {
+        add_item_loc( node );
         return VisitResponse::SKIP;
     } );
 }
@@ -266,8 +257,8 @@ void temp_crafting_inventory::add_all_ref( const Character &guy )
 void temp_crafting_inventory::add_all_ref( const map_cursor &cur )
 {
     cur.visit_items(
-    [ & ]( item * node, item * ) {
-        add_item_loc( item_location( cur, node ) );
+    [ & ]( item_location node ) {
+        add_item_loc( node );
         return VisitResponse::SKIP;
     }
     );
@@ -276,8 +267,8 @@ void temp_crafting_inventory::add_all_ref( const map_cursor &cur )
 void temp_crafting_inventory::add_all_ref( const vehicle_cursor &cur )
 {
     cur.visit_items(
-    [ & ]( item * node, item * ) {
-        add_item_loc( item_location( cur, node ) );
+    [ & ]( item_location node ) {
+        add_item_loc( node );
         return VisitResponse::SKIP;
     }
     );
@@ -469,8 +460,8 @@ void temp_crafting_inventory::form_from_map( map &m, std::vector<tripoint_bub_ms
 void temp_crafting_inventory::dump( std::vector<item *> &dest ) const
 {
     visit_items(
-    [&]( item * node, item * ) {
-        dest.push_back( node );
+    [&]( item_location node ) {
+        dest.push_back( node.get_item() );
         return VisitResponse::NEXT;
     }
     );

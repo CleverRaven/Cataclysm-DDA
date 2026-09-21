@@ -1559,7 +1559,7 @@ float best_quality_speed_modifier( const temp_crafting_inventory &inv,
 {
     bool found = false;
     float best = 1.0f;
-    inv.visit_items( [&]( item * e, item * ) {
+    inv.visit_items( [&]( item_location e ) {
         // Crafter-aware: a charged quality otherwise resolves through the avatar.
         if( provider_quality_level( *e, qual, &crafter, false ) >= level ) {
             float s = e->get_quality_speed( qual, level, &crafter );

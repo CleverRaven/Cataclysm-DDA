@@ -2035,7 +2035,7 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
                            std::vector<std::function<void()>> &actions )
 {
     for( item &clothing : worn ) {
-        std::vector<item *> guns = clothing.items_with( []( const item & it ) {
+        std::vector<item *> guns = item_location( guy, &clothing ).items_with( []( const item & it ) {
             return it.is_gun();
         } );
 

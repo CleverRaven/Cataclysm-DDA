@@ -15,6 +15,7 @@
 
 class Character;
 class item;
+class item_location;
 
 enum class VisitResponse : int {
     ABORT, // Stop processing after this node
@@ -45,7 +46,7 @@ class read_only_visitable
          * @return This method itself only ever returns VisitResponse::Next or VisitResponse::Abort.
          */
         virtual VisitResponse visit_items(
-            const std::function<VisitResponse( item *, item * )> &func ) const = 0;
+            const std::function<VisitResponse( item_location )> &func ) const = 0;
 
         /**
          * Determine the immediate parent container (if any) for an item.

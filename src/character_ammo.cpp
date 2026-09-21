@@ -167,14 +167,15 @@ bool Character::list_ammo( const item_location &base, std::vector<item::reload_o
     return ammo_match_found;
 }
 
-int Character::item_reload_cost( const item &it, const item &ammo, int qty ) const
+int Character::item_reload_cost( const item &it, const item_location &loc, int qty ) const
 {
+    const item &ammo = *loc;
     if( ammo.is_ammo() || ammo.is_frozen_liquid() || ammo.made_of_from_type( phase_id::LIQUID ) ) {
         qty = std::max( std::min( ammo.charges, qty ), 1 );
     } else if( ammo.is_ammo_container() ) {
         int min_clamp = 0;
         // find the first ammo in the container to get its charges
-        ammo.visit_items( [&min_clamp]( const item * it, item * ) {
+        loc.visit_items( [&min_clamp]( item_location it ) {
             if( it->is_ammo() ) {
                 min_clamp = it->charges;
                 return VisitResponse::ABORT;
@@ -234,9 +235,9 @@ std::vector<item_location> Character::find_reloadables()
 {
     std::vector<item_location> reloadables;
 
-    visit_items( [this, &reloadables]( item * node, item * ) {
+    visit_items( [this, &reloadables]( item_location node ) {
         if( node->is_reloadable() ) {
-            reloadables.emplace_back( *this, node );
+            reloadables.emplace_back( node );
         }
         return VisitResponse::NEXT;
     } );

@@ -671,7 +671,7 @@ class gunmod_remove_activity_actor : public activity_actor
         }
 
         static bool gunmod_unload( Character &who, item &gunmod );
-        static void gunmod_remove( Character &who, item &gun, item &mod );
+        static void gunmod_remove( Character &who, item_location gun, item &mod );
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );

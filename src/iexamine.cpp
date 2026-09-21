@@ -4518,24 +4518,24 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint_bub_ms &examp )
     const std::string maple_sap_name = item::nname( itype_maple_sap );
 
     map &here = get_map();
-    map_stack items = here.i_at( examp );
-    for( item &it : items ) {
-        if( it.will_spill() || it.is_watertight_container() ) {
-            container = &it;
-
-            it.visit_items( [&charges, &has_sap]( const item * it, item * ) {
-                if( it->typeId() == itype_maple_sap ) {
-                    has_sap = true;
-                    charges = it->charges;
-                    return VisitResponse::ABORT;
-                }
-                return VisitResponse::NEXT;
-            } );
+    map_cursor cur( examp );
+    cur.visit_items(
+    [&]( item_location node ) {
+        if( node->will_spill() || node->is_watertight_container() ) {
+            container = node.get_item();
+            if( node->typeId() == itype_maple_sap ) {
+                has_sap = true;
+                charges = node->charges;
+                return VisitResponse::ABORT;
+            }
+            return VisitResponse::NEXT;
         }
-        if( it.get_quality_nonrecursive( qual_TREE_TAP ) > 0 ) {
-            spile = &it;
+        if( node->get_quality_nonrecursive( qual_TREE_TAP ) > 0 ) {
+            spile = node.get_item();
         }
+        return VisitResponse::NEXT;
     }
+    );
 
     if( !spile ) {
         return;
@@ -5873,7 +5873,7 @@ void iexamine::autodoc( Character &you, const tripoint_bub_ms &examp )
     } else {
         const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
         std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
-            return it.has_quality( qual_ANESTHESIA );
+            return it.get_quality( qual_ANESTHESIA ) > 0;
         } );
         for( const item *anesthesia_item : a_filter ) {
             if( anesthesia_item->ammo_remaining( ) >= 1 ) {

@@ -98,9 +98,9 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
                 }
                 AND_THEN( "a single correctly sized ammo stack remains in the inventory" ) {
                     std::vector<const item *> found;
-                    player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
+                    player_character.visit_items( [&ammo_id, &found]( const item_location & e ) {
                         if( e->typeId() == ammo_id ) {
-                            found.push_back( e );
+                            found.push_back( e.get_item() );
                         }
                         // ignore ammo contained within guns or magazines
                         return ( e->is_gun() || e->is_magazine() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
@@ -128,9 +128,9 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
                 }
                 AND_THEN( "the ammo stack was completely used" ) {
                     std::vector<const item *> found;
-                    player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
+                    player_character.visit_items( [&ammo_id, &found]( const item_location & e ) {
                         if( e->typeId() == ammo_id ) {
-                            found.push_back( e );
+                            found.push_back( e.get_item() );
                         }
                         // ignore ammo contained within guns or magazines
                         return ( e->is_gun() || e->is_magazine() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
@@ -153,9 +153,9 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
                     }
                     AND_THEN( "a single correctly sized ammo stack remains in the inventory" ) {
                         std::vector<const item *> found;
-                        player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
+                        player_character.visit_items( [&ammo_id, &found]( const item_location & e ) {
                             if( e->typeId() == ammo_id ) {
-                                found.push_back( e );
+                                found.push_back( e.get_item() );
                             }
                             // ignore ammo contained within guns or magazines
                             return ( e->is_gun() || e->is_magazine() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
@@ -293,9 +293,9 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
                         }
                         AND_THEN( "a single correctly sized ammo stack remains in the inventory" ) {
                             std::vector<const item *> found;
-                            player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
+                            player_character.visit_items( [&ammo_id, &found]( const item_location & e ) {
                                 if( e->typeId() == ammo_id ) {
-                                    found.push_back( e );
+                                    found.push_back( e.get_item() );
                                 }
                                 // ignore ammo contained within guns or magazines
                                 return ( e->is_gun() || e->is_magazine() ) ?
@@ -382,9 +382,9 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location] [reload]" )
                 }
                 AND_THEN( "a single correctly sized ammo stack remains in the inventory" ) {
                     std::vector<const item *> found;
-                    player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
+                    player_character.visit_items( [&ammo_id, &found]( const item_location & e ) {
                         if( e->typeId() == ammo_id ) {
-                            found.push_back( e );
+                            found.push_back( e.get_item() );
                         }
                         // ignore ammo contained within guns or magazines
                         return ( e->is_gun() || e->is_magazine() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
@@ -412,9 +412,9 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location] [reload]" )
                 }
                 AND_THEN( "the ammo stack was completely used" ) {
                     std::vector<const item *> found;
-                    player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
+                    player_character.visit_items( [&ammo_id, &found]( const item_location & e ) {
                         if( e->typeId() == ammo_id ) {
-                            found.push_back( e );
+                            found.push_back( e.get_item() );
                         }
                         // ignore ammo contained within guns or magazines
                         return ( e->is_gun() || e->is_magazine() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
@@ -437,9 +437,9 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location] [reload]" )
                     }
                     AND_THEN( "a single correctly sized ammo stack remains in the inventory" ) {
                         std::vector<const item *> found;
-                        player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
+                        player_character.visit_items( [&ammo_id, &found]( const item_location & e ) {
                             if( e->typeId() == ammo_id ) {
-                                found.push_back( e );
+                                found.push_back( e.get_item() );
                             }
                             // ignore ammo contained within guns or magazines
                             return ( e->is_gun() || e->is_magazine() ) ? VisitResponse::SKIP : VisitResponse::NEXT;

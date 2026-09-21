@@ -75,7 +75,7 @@ TEST_CASE( "temp_crafting_inv_test_amount", "[crafting][inventory]" )
 
     item gum( itype_test_gum, calendar::turn_zero, item::default_charges_tag{} );
 
-    inv.add_item_ref( gum );
+    inv.add_item_copy( gum );
     CHECK( inv.size() == 1 );
 
     CHECK( inv.amount_of( itype_test_gum ) == 1 );

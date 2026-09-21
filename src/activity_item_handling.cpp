@@ -1291,7 +1291,7 @@ void remove_item( const std::optional<vpart_reference> &vp,
 
 std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
                                  unload_sort_options zone_unload_options, const std::optional<vpart_reference> &vpr_src,
-                                 item *it, const std::unordered_set<tripoint_abs_ms> &dest_set,
+                                 item_location it, const std::unordered_set<tripoint_abs_ms> &dest_set,
                                  int &num_processed )
 {
     const zone_manager &mgr = zone_manager::get_manager();
@@ -1309,7 +1309,7 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
     // TODO: less egregious than teleporting over a distance, but still not good
     auto unload_teleport_item = [&you, &src_bub, &vpr_src, &it]( item * contained ) {
         move_item( you, *contained, contained->count(), src_bub, src_bub, vpr_src );
-        it->remove_item( *contained );
+        it.remove_item( *contained );
     };
 
     if( mgr.has_near( zone_type_UNLOAD_ALL, abspos, 1, fac_id ) ||
@@ -1363,7 +1363,7 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
 
                     // destroy fully unloaded magazines
                     if( it->has_flag( flag_MAG_DESTROY ) && it->ammo_remaining() == 0 ) {
-                        zone_sorting::remove_item( vpr_src, src_bub, it );
+                        zone_sorting::remove_item( vpr_src, src_bub, it.get_item() );
                         num_processed = std::max( num_processed - 1, 0 );
                         return std::nullopt;
                     }
@@ -1907,17 +1907,17 @@ bool are_requirements_nearby(
     }
 
     bool found_welder = false;
-    for( item *elem : you.inv_dump() ) {
-        // temp_crafting_inventory holds references, so visit_items would still reach a
-        // reserved provider inside an added container
-        if( craft_reservation::contains_reserved( *elem ) ) {
-            continue;
+    you.visit_items(
+    [&]( item_location node ) {
+        if( craft_reservation::contains_reserved( *node ) ) {
+            return VisitResponse::NEXT;
         }
-        if( elem->has_quality( qual_WELD ) ) {
+        if( node.has_quality( qual_WELD ) ) {
             found_welder = true;
         }
-        temp_inv.add_item_ref( *elem );
+        temp_inv.add_item_loc( node );
     }
+    );
     map &here = get_map();
     for( const tripoint_bub_ms &elem : loot_spots ) {
         // if we are searching for things to fetch, we can skip certain things.
@@ -1949,7 +1949,7 @@ bool are_requirements_nearby(
             if( craft_reservation::contains_reserved( elem2 ) ) {
                 continue;
             }
-            temp_inv.add_item_ref( elem2 );
+            temp_inv.add_item_loc( item_location( map_cursor( elem ), &elem2 ) );
         }
 
         if( !in_loot_zones ) {
@@ -1958,7 +1958,7 @@ bool are_requirements_nearby(
                     if( craft_reservation::contains_reserved( it ) ) {
                         continue;
                     }
-                    temp_inv.add_item_ref( it );
+                    temp_inv.add_item_loc( item_location( vehicle_cursor( ovp->vehicle(), ovp->part_index() ), &it ) );
                 }
             }
         }
@@ -3073,7 +3073,8 @@ std::vector<std::tuple<tripoint_bub_ms, itype_id, int>>
                 for( quality_requirement &comp_elem : elem ) {
                     const quality_id tool_qual = comp_elem.type;
                     const int qual_level = comp_elem.level;
-                    if( stack_elem.has_quality( tool_qual, qual_level ) ) {
+                    if( item_location( map_cursor( point_elem ),
+                                       const_cast<item *>( &stack_elem ) ).has_quality( tool_qual, qual_level ) ) {
                         if( !pickup_task &&
                             std::find( already_there_spots.begin(), already_there_spots.end(),
                                        point_elem ) != already_there_spots.end() ) {
@@ -3228,7 +3229,7 @@ std::vector<std::tuple<tripoint_bub_ms, itype_id, int>>
                 tripoint_bub_ms pos_here = std::get<0>( *it );
                 itype_id item_here = std::get<1>( *it );
                 item test_item = item( item_here, calendar::turn_zero );
-                if( test_item.has_quality( tool_qual, qual_level ) ) {
+                if( item_location( map_cursor( pos_here ), &test_item ).has_quality( tool_qual, qual_level ) ) {
                     // it's just this spot that can fulfil the requirement on its own
                     final_map.emplace_back( pos_here, item_here, 1 );
                     line_found = true;

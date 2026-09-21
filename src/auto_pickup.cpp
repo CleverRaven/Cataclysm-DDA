@@ -93,7 +93,7 @@ static rule_state get_autopickup_rule( const item *pickup_item )
  * @param from container to drop items from.
  * @param where location on the map to drop items to.
  */
-static void empty_autopickup_target( item *what, tripoint_bub_ms where )
+static void empty_autopickup_target( item_location what, tripoint_bub_ms where )
 {
     bool is_rigid = what->all_pockets_rigid();
     for( item *entry : what->all_items_top() ) {
@@ -101,8 +101,10 @@ static void empty_autopickup_target( item *what, tripoint_bub_ms where )
         // rigid containers want to keep as much items as possible so drop only blacklisted items
         // non-rigid containers want to drop as much items as possible so keep only whitelisted items
         if( is_rigid ? ap_rule == rule_state::BLACKLISTED : ap_rule != rule_state::WHITELISTED ) {
+            item nitem( *what );
+            what.remove_item( *entry );
             // drop the items on the same tile the container is on
-            get_map().add_item( where, what->remove_item( *entry ) );
+            get_map().add_item( where, nitem );
         }
     }
 }
@@ -173,7 +175,7 @@ static std::vector<item_location> get_autopickup_items( item_location &from )
             if( !force_pick_container ) {
                 if( item_entry->is_container() ) {
                     // whitelisted containers should exclude contained blacklisted items
-                    empty_autopickup_target( item_entry, from.pos_bub( here ) );
+                    empty_autopickup_target( item_location( from, item_entry ), from.pos_bub( here ) );
                 } else if( item_entry->made_of_from_type( phase_id::LIQUID ) ) {
                     // liquid items should never be picked up without container
                     force_pick_container = true;
@@ -281,7 +283,7 @@ drop_locations auto_pickup::select_items(
         // before checking contents check if item is on pickup list
         if( pickup_state == rule_state::WHITELISTED ) {
             if( item_entry->is_container() ) {
-                empty_autopickup_target( item_entry, location );
+                empty_autopickup_target( item_location( map_location, item_entry ), location );
             }
             // skip if the container is still above the limit after emptying it
             if( !within_autopickup_limits( item_entry ) ) {

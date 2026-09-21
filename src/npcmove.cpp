@@ -2603,7 +2603,7 @@ void npc::evaluate_best_attack( const Creature *target )
 
     // punching things is always available
     compare( std::make_shared<npc_attack_melee>( null_item_reference() ), "barehanded" );
-    visit_items( [&compare, this, &here]( item * it, item * ) {
+    visit_items( [&compare, this, &here]( item_location it ) {
         if( craft_reservation::contains_reserved( *it ) ) {
             return VisitResponse::SKIP;
         }
@@ -2722,7 +2722,7 @@ item_location npc::find_reloadable()
     // TODO: Cache items checked for reloading to avoid re-checking same items every turn
     // TODO: Make it understand smaller and bigger magazines
     item_location reloadable;
-    visit_items( [this, &reloadable]( item * node, item * ) {
+    visit_items( [this, &reloadable]( item_location node ) {
         if( !craft_reservation::usable_by_automation( *node ) ||
             !wants_to_reload( *this, *node ) ) {
             return VisitResponse::NEXT;
@@ -4885,11 +4885,11 @@ item *npc::evaluate_best_weapon() const
     }
 
     //Now check through the NPC's inventory for melee weapons, guns, or holstered items
-    visit_items( [this, &weap, &best_value, &best]( item * node, item * ) {
+    visit_items( [this, &weap, &best_value, &best]( item_location node ) {
         if( craft_reservation::contains_reserved( *node ) ) {
             return VisitResponse::SKIP;
         }
-        if( node == &weap ) {
+        if( node.get_item() == &weap ) {
             // Weapon is already evaluated above with danger multiplier.
             // Return NEXT to visit its contents (items inside containers
             // that might be better weapons). CONTAINER pockets only -
@@ -4899,13 +4899,13 @@ item *npc::evaluate_best_weapon() const
         if( can_wield( *node ).success() ) {
             double weapon_value = 0.0;
             bool using_same_type_bionic_weapon = is_using_bionic_weapon()
-                                                 && node != &weap
+                                                 && node.get_item() != &weap
                                                  && node->type->get_id() == weap.type->get_id();
 
             if( node->is_melee() || node->is_gun() ) {
                 weapon_value = evaluate_weapon( *node );
                 if( weapon_value > best_value && !using_same_type_bionic_weapon ) {
-                    best = const_cast<item *>( node );
+                    best = node.get_item();
                     best_value = weapon_value;
                 }
                 return VisitResponse::SKIP;
@@ -6868,7 +6868,7 @@ std::optional<tripoint_bub_ms> npc::find_fire_spot()
 {
     // Check that the NPC has a usable firestarter tool.
     bool found_tool = false;
-    visit_items( [this, &found_tool]( item * it, item * ) -> VisitResponse {
+    visit_items( [this, &found_tool]( item_location it ) -> VisitResponse {
         if( craft_reservation::usable_by_automation( *it ) &&
             is_usable_npc_firestarter( *this, *it ) )
         {
@@ -6889,8 +6889,8 @@ std::optional<tripoint_bub_ms> npc::find_fire_spot()
     // doesn't drop its own weapon into the fire.
     const item *wielded_ptr = get_wielded_item().get_item();
     bool has_firewood = false;
-    visit_items( [&has_firewood, wielded_ptr]( item * it, item * ) -> VisitResponse {
-        if( it == wielded_ptr )
+    visit_items( [&has_firewood, wielded_ptr]( item_location it ) -> VisitResponse {
+        if( it.get_item() == wielded_ptr )
         {
             return VisitResponse::NEXT;
         }
@@ -7118,7 +7118,7 @@ npc::need_result npc::execute_seek_warmth()
         // shared helper, then call the real firestarter hook.
         item *fire_tool = nullptr;
         const firestarter_actor *actor = nullptr;
-        visit_items( [this, &fire_tool, &actor]( item * it, item * ) -> VisitResponse {
+        visit_items( [this, &fire_tool, &actor]( item_location it ) -> VisitResponse {
             if( !craft_reservation::usable_by_automation( *it ) ||
                 !is_usable_npc_firestarter( *this, *it ) )
             {
@@ -7126,7 +7126,7 @@ npc::need_result npc::execute_seek_warmth()
             }
             const use_function *usef = it->type->get_use( "firestarter" );
             const auto *a = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-            fire_tool = it;
+            fire_tool = it.get_item();
             actor = a;
             return VisitResponse::ABORT;
         } );
@@ -7139,8 +7139,8 @@ npc::need_result npc::execute_seek_warmth()
         if( !here.is_flammable( target_bub ) ) {
             item *fuel = nullptr;
             const item *wielded_ptr = get_wielded_item().get_item();
-            visit_items( [&fuel, wielded_ptr]( item * it, item * ) -> VisitResponse {
-                if( it == wielded_ptr )
+            visit_items( [&fuel, wielded_ptr]( item_location it ) -> VisitResponse {
+                if( it.get_item() == wielded_ptr )
                 {
                     return VisitResponse::NEXT;
                 }
@@ -7150,7 +7150,7 @@ npc::need_result npc::execute_seek_warmth()
                 }
                 if( it->has_flag( flag_FIREWOOD ) )
                 {
-                    fuel = it;
+                    fuel = it.get_item();
                     return VisitResponse::ABORT;
                 }
                 return VisitResponse::NEXT;

@@ -912,7 +912,7 @@ void gunmod_remove_activity_actor::finish( player_activity &act, Character &who 
         return;
     }
     act.set_to_null();
-    gunmod_remove( who, *it_gun, *it_mod );
+    gunmod_remove( who, gun, *it_mod );
     it_gun->on_contents_changed();
 }
 
@@ -932,13 +932,13 @@ bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
     return !( gunmod.ammo_remaining( ) && !who.unload( loc, true ) );
 }
 
-void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, item &mod )
+void gunmod_remove_activity_actor::gunmod_remove( Character &who, item_location gun, item &mod )
 {
     if( !gunmod_unload( who, mod ) ) {
         return;
     }
 
-    gun.gun_set_mode( gun_mode_DEFAULT );
+    gun->gun_set_mode( gun_mode_DEFAULT );
     const itype *modtype = mod.type;
 
     who.i_add_or_drop( mod );
@@ -946,7 +946,7 @@ void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, ite
 
     //~ %1$s - gunmod, %2$s - gun.
     who.add_msg_if_player( _( "You remove your %1$s from your %2$s." ), modtype->nname( 1 ),
-                           gun.tname() );
+                           gun->tname() );
 }
 
 void gunmod_remove_activity_actor::serialize( JsonOut &jsout ) const
@@ -4141,10 +4141,9 @@ item_location efile_activity_actor::find_external_transfer_estorage( Character &
     units::ememory largest_efile_size = efile->ememory_size();
     //search for fastest, large-enough, browsed, non-tool, estorage device in radius or on person
     units::ememory fastest_rate = 0_KB;
-    const std::function<bool( const item *it, const item * )> func = [&]( const item * it,
-    const item * ) {
+    const std::function<bool( item_location )> func = [&]( item_location it ) {
         return it->is_browsed() &&
-               !edevice_has_use( it ) && //is not a usable e-device (e.g. a USB drive)
+               !edevice_has_use( it.get_item() ) && //is not a usable e-device (e.g. a USB drive)
                it->is_estorage() &&
                it->remaining_ememory() >= largest_efile_size &&
                it->is_tool();
@@ -4455,8 +4454,8 @@ void atm_activity_actor::do_turn( player_activity &act, Character &who )
         } );
 
         // get first physical cash item; deposit exactly one bill per turn
-        item *cash_item = nullptr;
-        who.visit_items( [&]( item * e, const item * ) {
+        item_location cash_item;
+        who.visit_items( [&]( item_location e ) {
             if( e->type->has_flag( flag_OLD_CURRENCY ) ) {
                 cash_item = e;
                 return VisitResponse::ABORT;
@@ -4480,7 +4479,7 @@ void atm_activity_actor::do_turn( player_activity &act, Character &who )
         if( cash_item->charges > 1 ) {
             cash_item->charges--;
         } else {
-            item_location( who, cash_item ).remove_item();
+            cash_item.remove_item();
         }
         destination_cash_card->ammo_set( destination_cash_card->ammo_default(),
                                          destination_cash_card->ammo_remaining() + value );
@@ -6124,7 +6123,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
                     handler.unseal_pocket_containing( item_location( target, contained ) );
                 }
                 if( consumed ) {
-                    it.remove_item( *contained );
+                    target.remove_item( *contained );
                 }
             }
 
@@ -6144,20 +6143,25 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         return;
     }
 
-    std::vector<item *> remove_contained;
-    for( item *contained : it.all_items_top() ) {
+    std::vector<item_location> remove_contained;
+    it.visit_contents(
+    [&]( item_location contained ) {
         if( contained->ammo_type() == ammo_plutonium ) {
             contained->charges /= PLUTONIUM_CHARGES;
         }
-        if( who.add_or_drop_with_msg( *contained, true, &it, contained ) ) {
+        if( who.add_or_drop_with_msg( *contained, true, &it, contained.get_item() ) ) {
             qty += contained->charges;
             remove_contained.push_back( contained );
             actually_unloaded = true;
         }
-    }
+
+        return VisitResponse::SKIP;
+    },
+    target, {pocket_type::CONTAINER, pocket_type::MAGAZINE, pocket_type::MAGAZINE_WELL}
+    );
     // remove the ammo leads in the belt
-    for( item *remove : remove_contained ) {
-        it.remove_item( *remove );
+    for( item_location remove : remove_contained ) {
+        target.remove_item( *remove );
         actually_unloaded = true;
     }
 
@@ -9358,7 +9362,7 @@ void prying_activity_actor::start( player_activity &act, Character &who )
         return;
     }
 
-    if( prying_nails && !tool->has_quality( qual_PRYING_NAIL ) ) {
+    if( prying_nails && !tool.has_quality( qual_PRYING_NAIL ) ) {
         who.add_msg_if_player( _( "You can't use your %1$s to pry up the nails." ), tool->tname() );
         act.set_to_null();
         return;
@@ -10448,7 +10452,7 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
         it.remove_item();
     } else if( used_tool->is_medication() ) {
         if( !it->count_by_charges() ||
-            it->use_charges( it->typeId(), charges_consumed, used, it.pos_bub( here ) ) ) {
+            it->use_charges( it, it->typeId(), charges_consumed, used, it.pos_bub( here ) ) ) {
             it.remove_item();
         }
     } else if( used_tool->is_tool() ) {

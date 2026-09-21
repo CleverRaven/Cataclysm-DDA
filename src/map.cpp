@@ -5629,8 +5629,8 @@ std::unordered_set<item_location> map::all_items( const std::function<bool( cons
 
     auto recursive_add_contained_items = [&]( const std::function<bool( const item & )> &filter,
     item_location & it ) {
-        it->visit_items( [&]( item * content_item, item * parent ) {
-            if( !parent ) {
+        it.visit_items( [&]( item_location content_item ) {
+            if( !content_item.has_parent() ) {
                 // This is itself the top-level item.
                 // E.g. Calling visit_items() on a backpack > 2 soaps would first visit the backpack, which has no parent (it is not contained in itself)
                 // So just skip to the actual contents, rather than trying to say the backpack is in itself.

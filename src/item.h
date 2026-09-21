@@ -203,7 +203,7 @@ struct stacking_info {
     }
 };
 
-class item : public visitable
+class item
 {
     public:
         using FlagsSetType = cata::flat_set<flag_id>;
@@ -235,7 +235,7 @@ class item : public visitable
         /** For constructing in-progress disassemblies */
         item( const recipe *rec, int qty, item &component );
 
-        ~item() override;
+        ~item();
 
         /** Return a pointer-like type that's automatically invalidated if this
          * item is destroyed or assigned-to */
@@ -3333,20 +3333,13 @@ class item : public visitable
          * @return The number of moves to recursively disassemble this item
          */
         int get_recursive_disassemble_moves( const Character &guy ) const;
-
-        // inherited from visitable
-        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
-        override;
-        /**
-         * @relates visitable
-         * NOTE: upon expansion, this may need to be filtered by type enum depending on accessibility
-         */
-        VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,
-                                      item *parent = nullptr );
+        // "parent" will be self plus the required other ref for the item_location constructor
+        VisitResponse visit_contents( const std::function<VisitResponse( item_location )> &func,
+                                      item_location parent, const std::set<pocket_type> &allowed_pockets = {pocket_type::CONTAINER} );
         void remove_internal( const std::function<bool( item & )> &filter,
                               int &count, std::list<item> &res );
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
-                                           int count = INT_MAX ) override;
+                                           int count = INT_MAX );
 
         /** returns a list of pointers to all top-level items in standard pockets */
         std::list<const item *> all_items_top() const;

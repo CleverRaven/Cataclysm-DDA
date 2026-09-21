@@ -59,9 +59,9 @@ static const quality_id qual_SMOKE_PIPE( "SMOKE_PIPE" );
 item *read_only_visitable::find_parent( const item &it ) const
 {
     item *res = nullptr;
-    if( visit_items( [&]( item * node, item * parent ) {
-    if( node == &it ) {
-            res = parent;
+    if( visit_items( [&]( const item_location & node ) {
+    if( &*node == &it ) {
+            res = node.parent_item().get_item();
             return VisitResponse::ABORT;
         }
         return VisitResponse::NEXT;
@@ -84,15 +84,15 @@ std::vector<item *> read_only_visitable::parents( const item &it ) const
 /** @relates visitable */
 bool read_only_visitable::has_item( const item &it ) const
 {
-    return visit_items( [&it]( const item * node, item * ) {
-        return node == &it ? VisitResponse::ABORT : VisitResponse::NEXT;
+    return visit_items( [&it]( const item_location & node ) {
+        return &*node == &it ? VisitResponse::ABORT : VisitResponse::NEXT;
     } ) == VisitResponse::ABORT;
 }
 
 /** @relates visitable */
 bool read_only_visitable::has_item_with( const std::function<bool( const item & )> &filter ) const
 {
-    return visit_items( [&filter]( const item * node, item * ) {
+    return visit_items( [&filter]( const item_location & node ) {
         return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
     } ) == VisitResponse::ABORT;
 }
@@ -123,7 +123,7 @@ static int has_quality_internal( const T &self, const quality_id &qual, int leve
 {
     int qty = 0;
 
-    self.visit_items( [&qual, level, &limit, &qty, &measure, &count]( item * e, item * ) {
+    self.visit_items( [&qual, level, &limit, &qty, &measure, &count]( item_location e ) {
         const int supplied = measure ? measure( *e ) : e->get_quality( qual );
         if( supplied >= level ) {
             qty = sum_no_wrap( qty, count ? count( *e ) : static_cast<int>( e->count() ) );
@@ -435,18 +435,15 @@ std::vector<item *> read_only_visitable::items_with(
     return items_with_internal<item *>( *this, filter );
 }
 
-static VisitResponse visit_internal( const std::function<VisitResponse( item *, item * )> &func,
-                                     const item *node, item *parent = nullptr )
+static VisitResponse visit_internal( const std::function<VisitResponse( item_location )> &func,
+                                     const item_location &node )
 {
-    // hack to avoid repetition
-    item *m_node = const_cast<item *>( node );
-
-    switch( func( m_node, parent ) ) {
+    switch( func( node ) ) {
         case VisitResponse::ABORT:
             return VisitResponse::ABORT;
 
         case VisitResponse::NEXT:
-            if( m_node->visit_contents( func, m_node ) == VisitResponse::ABORT ) {
+            if( node.visit_contents( func ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
             [[fallthrough]];
@@ -459,17 +456,25 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
     return VisitResponse::ABORT;
 }
 
-VisitResponse item::visit_contents( const std::function<VisitResponse( item *, item * )>
-                                    &func, item *parent )
+
+
+VisitResponse item_location::visit_contents( const std::function<VisitResponse( item_location )>
+        &func ) const
+{
+    return const_cast<item *>( get_item() )->visit_contents( func, *this );
+}
+
+VisitResponse item::visit_contents( const std::function<VisitResponse( item_location )>
+                                    &func, item_location parent, const std::set<pocket_type> &allowed_pockets )
 {
     return contents.visit_contents( func, parent );
 }
 
-VisitResponse item_contents::visit_contents( const std::function<VisitResponse( item *, item * )>
-        &func, item *parent )
+VisitResponse item_contents::visit_contents( const std::function<VisitResponse( item_location )>
+        &func, item_location parent, const std::set<pocket_type> &allowed_pockets )
 {
     for( item_pocket &pocket : contents ) {
-        if( !pocket.is_type( pocket_type::CONTAINER ) ) {
+        if( !pocket.is_type( allowed_pockets ) ) {
             // anything that is not CONTAINER is accessible only via its specific accessor
             continue;
         }
@@ -483,11 +488,11 @@ VisitResponse item_contents::visit_contents( const std::function<VisitResponse( 
     return VisitResponse::NEXT;
 }
 
-VisitResponse item_pocket::visit_contents( const std::function<VisitResponse( item *, item * )>
-        &func, item *parent )
+VisitResponse item_pocket::visit_contents( const std::function<VisitResponse( item_location )>
+        &func, item_location parent )
 {
     for( item &e : contents ) {
-        switch( visit_internal( func, &e, parent ) ) {
+        switch( visit_internal( func, parent ) ) {
             case VisitResponse::ABORT:
                 return VisitResponse::ABORT;
             default:
@@ -498,43 +503,37 @@ VisitResponse item_pocket::visit_contents( const std::function<VisitResponse( it
 }
 
 /** @relates visitable */
-VisitResponse item::visit_items(
-    const std::function<VisitResponse( item *, item * )> &func ) const
+VisitResponse item_location::visit_items(
+    const std::function<VisitResponse( item_location )> &func ) const
 {
-    return visit_internal( func, this );
+    return visit_internal( func, *this );
 }
 
 /** @relates visitable */
 VisitResponse temp_crafting_inventory::visit_items(
-    const std::function<VisitResponse( item *, item * )> &func ) const
+    const std::function<VisitResponse( item_location )> &func ) const
 {
-    for( item *it : items ) {
-        if( visit_internal( func, it ) == VisitResponse::ABORT ) {
-            return VisitResponse::ABORT;
-        }
-    }
-    for( item *it : item_copies ) {
+    for( const item_location &it : item_copies ) {
         if( visit_internal( func, it ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
     for( const item_location &loc : items_loc ) {
-        const item *it = loc.get_item();
-        if( it == nullptr ) {
-            continue;
-        }
-        if( visit_internal( func, it ) == VisitResponse::ABORT ) {
+        if( visit_internal( func, loc ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
     return VisitResponse::NEXT;
 }
 
-VisitResponse outfit::visit_items( const std::function<VisitResponse( item *, item * )> &func )
+VisitResponse outfit::visit_items( const Character &wearer,
+                                   const std::function<VisitResponse( item_location )> &func )
 const
 {
     for( const item &e : worn ) {
-        if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
+        // i'm cheating with const_cast so i don't have to make a bunch of copies of this function
+        if( visit_internal( func, item_location( const_cast<Character &>( wearer ),
+                            const_cast<item *>( &e ) ) ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
@@ -542,20 +541,22 @@ const
 }
 
 /** @relates visitable */
-VisitResponse Character::visit_items( const std::function<VisitResponse( item *, item * )> &func )
+VisitResponse Character::visit_items( const std::function<VisitResponse( item_location )> &func )
 const
 {
     if( !weapon.is_null() &&
-        visit_internal( func, &weapon ) == VisitResponse::ABORT ) {
+        visit_internal( func, item_location( const_cast<Character &>( *this ),
+                        const_cast<item *>( &weapon ) ) ) == VisitResponse::ABORT ) {
         return VisitResponse::ABORT;
     }
 
-    if( worn.visit_items( func ) == VisitResponse::ABORT ) {
+    if( worn.visit_items( *this, func ) == VisitResponse::ABORT ) {
         return VisitResponse::ABORT;
     }
 
     for( const item *e : get_pseudo_items() ) {
-        if( visit_internal( func, e ) == VisitResponse::ABORT ) {
+        if( visit_internal( func, item_location( const_cast<Character &>( *this ),
+                            const_cast<item *>( e ) ) ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
@@ -563,14 +564,14 @@ const
 }
 
 static VisitResponse visit_items_internal( map *here,
-        const tripoint_bub_ms p, const std::function<VisitResponse( item *, item * )> &func )
+        const tripoint_bub_ms p, const std::function<VisitResponse( item_location )> &func )
 {
     // check furniture pseudo items
     if( here->furn( p ) != furn_str_id::NULL_ID() ) {
         itype_id it_id = here->furn( p )->crafting_pseudo_item;
         if( it_id.is_valid() ) {
             item it( it_id );
-            if( visit_internal( func, &it ) == VisitResponse::ABORT ) {
+            if( visit_internal( func, item_location( map_cursor( p ), &it ) ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
         }
@@ -583,7 +584,7 @@ static VisitResponse visit_items_internal( map *here,
     }
 
     for( item &e : here->i_at( p ) ) {
-        if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
+        if( visit_internal( func, item_location( map_cursor( p ), &e ) ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
@@ -592,7 +593,7 @@ static VisitResponse visit_items_internal( map *here,
 
 /** @relates visitable */
 VisitResponse map_cursor::visit_items(
-    const std::function<VisitResponse( item *, item * )> &func ) const
+    const std::function<VisitResponse( item_location )> &func ) const
 {
     if( get_map().inbounds( pos_bub() ) ) {
         return visit_items_internal( &get_map(), pos_bub(), func );
@@ -610,7 +611,7 @@ VisitResponse map_cursor::visit_items(
 
 /** @relates visitable */
 VisitResponse map_selector::visit_items(
-    const std::function<VisitResponse( item *, item * )> &func ) const
+    const std::function<VisitResponse( item_location )> &func ) const
 {
     for( map_cursor &cursor : * ( const_cast<map_selector *>( this ) ) ) {
         if( cursor.visit_items( func ) == VisitResponse::ABORT ) {
@@ -622,13 +623,14 @@ VisitResponse map_selector::visit_items(
 
 /** @relates visitable */
 VisitResponse vehicle_cursor::visit_items(
-    const std::function<VisitResponse( item *, item * )> &func ) const
+    const std::function<VisitResponse( item_location )> &func ) const
 {
     const vehicle_part &vp = veh.part( part );
     const int idx = veh.part_with_feature( vp.mount, "CARGO", true );
     if( idx >= 0 ) {
         for( item &e : veh.get_items( veh.part( idx ) ) ) {
-            if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
+            if( visit_internal( func, item_location( vehicle_cursor( veh, idx ),
+                                &e ) ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
         }
@@ -638,7 +640,7 @@ VisitResponse vehicle_cursor::visit_items(
 
 /** @relates visitable */
 VisitResponse vehicle_selector::visit_items(
-    const std::function<VisitResponse( item *, item * )> &func ) const
+    const std::function<VisitResponse( item_location )> &func ) const
 {
     for( const vehicle_cursor &cursor :  *this ) {
         if( cursor.visit_items( func ) == VisitResponse::ABORT ) {
@@ -666,21 +668,21 @@ item visitable::remove_item( item &it )
 }
 
 /** @relates visitable */
-std::list<item> item::remove_items_with( const std::function<bool( const item &e )>
+std::list<item> item_location::remove_items_with( const std::function<bool( const item &e )>
         &filter, int count )
 {
     std::list<item> res;
 
-    if( count <= 0 ) {
+    if( count <= 0 || where() != type::invalid ) {
         // nothing to do
         return res;
     }
 
-    contents.remove_internal( filter, count, res );
+    get_item()->remove_internal( filter, count, res );
 
     // updating pockets is only necessary when removing mods,
     // but no way to determine where something got removed here
-    update_modified_pockets();
+    get_item()->update_modified_pockets();
 
     if( !res.empty() ) {
         on_contents_changed();
@@ -689,8 +691,18 @@ std::list<item> item::remove_items_with( const std::function<bool( const item &e
     return res;
 }
 
-// note this doesn't remove items from the copy list - this list will just contain extra items
-// until the temp_crafting_inventory goes away (since this is an ephemeral class
+item temp_crafting_inventory::remove_item( item &it )
+{
+    for( auto iter = temp_owned_items.begin(); iter != temp_owned_items.end(); ) {
+        if( &it == &*iter ) {
+            item it( *iter );
+            temp_owned_items.erase( iter );
+            return it;
+        }
+        ++iter;
+    }
+}
+
 std::list<item> temp_crafting_inventory::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
@@ -702,42 +714,19 @@ std::list<item> temp_crafting_inventory::remove_items_with( const
         return res;
     }
 
-    for( auto iter = items.begin(); iter != items.end(); ) {
+    for( auto iter = item_copies.begin(); iter != item_copies.end(); ) {
         if( filter( **iter ) ) {
             const int c = ( *iter )->count();
             res.push_back( **iter );
-            iter = items.erase( iter );
+            iter->remove_item();
+            iter = items_loc.erase( iter );
             count -= c;
         } else {
             ++iter;
         }
         if( count <= 0 ) {
             if( count < 0 ) {
-                debugmsg( "temp_crafting_inventory::remove_items_with removed too many items" );
-            }
-            return res;
-        }
-    }
-
-    for( auto iter = temp_owned_items.begin(); iter != temp_owned_items.end(); ) {
-        if( filter( *iter ) ) {
-            const int c = iter->count();
-            res.push_back( *iter );
-            for( auto it = item_copies.begin(); it != item_copies.end(); ) {
-                if( *it == &*iter ) {
-                    item_copies.erase( it );
-                    break;
-                }
-                ++it;
-            }
-            iter = temp_owned_items.erase( iter );
-            count -= c;
-        } else {
-            ++iter;
-        }
-        if( count <= 0 ) {
-            if( count < 0 ) {
-                debugmsg( "temp_crafting_inventory::remove_items_with removed too many item copies" );
+                debugmsg( "temp_crafting_inventory::remove_items_with removed too many item locs" );
             }
             return res;
         }
@@ -1300,7 +1289,7 @@ int Character::amount_of( const itype_id &what, bool pseudo, int limit,
 
     if( what == itype_apparatus && pseudo ) {
         int qty = 0;
-        visit_items( [&qty, &limit, &filter]( const item * e, item * ) {
+        visit_items( [&qty, &limit, &filter]( const item_location & e ) {
             if( e->get_quality( qual_SMOKE_PIPE ) >= 1 && filter( *e ) ) {
                 qty = sum_no_wrap( qty, 1 );
             }

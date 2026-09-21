@@ -967,7 +967,7 @@ TEST_CASE( "character_unload_ejects_every_loaded_magazine", "[multimag][unload]"
 
     bool found_glockmag = false;
     bool found_stanag = false;
-    you.visit_items( [&]( const item * it, item * ) {
+    you.visit_items( [&]( const item_location it ) {
         if( it->typeId() == itype_glockmag ) {
             found_glockmag = true;
         }

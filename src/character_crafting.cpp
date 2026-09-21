@@ -128,7 +128,7 @@ recipe_subset Character::get_recipes_from_books( const temp_crafting_inventory &
     recipe_subset res;
 
     crafting_inv.visit_items(
-    [&]( item * candidate, item * ) {
+    [&]( item_location candidate ) {
         for( std::pair<const recipe *, int> recipe_entry :
              candidate->get_available_recipes( *this ) ) {
             res.include( recipe_entry.first, recipe_entry.second );
@@ -146,7 +146,7 @@ const
     recipe_subset res;
 
     crafting_inv.visit_items(
-    [&]( item * ereader, item * ) {
+    [&]( item_location ereader ) {
         if( !ereader->is_estorage() || !ereader->ammo_sufficient( this ) ||
             ereader->is_broken_on_active() ) {
             return VisitResponse::NEXT;

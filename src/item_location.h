@@ -12,6 +12,7 @@
 
 #include "coords_fwd.h"
 #include "units_fwd.h"
+#include "visitable.h"
 
 class Character;
 class JsonObject;
@@ -23,7 +24,12 @@ class pocket_constraint;
 class map;
 class map_cursor;
 class talker;
+class temp_crafting_inventory;
 class vehicle_cursor;
+
+// forward declaration so we don't get an #include loop
+extern item &null_item_reference();
+
 template<typename T> class ret_val;
 
 /**
@@ -32,7 +38,7 @@ template<typename T> class ret_val;
  * Provides a generic interface of querying, obtaining and removing an item
  * Is invalidated by many operations (including copying of the item)
  */
-class item_location
+class item_location : public visitable
 {
     public:
         enum class type : int {
@@ -40,7 +46,9 @@ class item_location
             character = 1,
             map = 2,
             vehicle = 3,
-            container = 4
+            container = 4,
+            // these are ALL pseudo items of some variety!
+            crafting_inventory = 5
         };
 
         item_location();
@@ -51,6 +59,8 @@ class item_location
         item_location( const map_cursor &mc, item *which );
         item_location( const vehicle_cursor &vc, item *which );
         item_location( const item_location &container, item *which );
+        item_location( temp_crafting_inventory &inv, item *which );
+
 
         void serialize( JsonOut &js ) const;
         void deserialize( const JsonObject &obj );
@@ -68,6 +78,8 @@ class item_location
 
         /** Returns the type of location where the item is found */
         type where() const;
+
+        bool valid() const;
 
         /** Returns the type of location where the topmost container of the item is found.
          *  Therefore can not return item_location::type::container */
@@ -97,7 +109,7 @@ class item_location
 
         /** Removes the selected item from the game
          *  @warning all further operations using this class are invalid */
-        void remove_item();
+        void remove_item( item & = null_item_reference() );
 
         /** Handles updates to the item location, mostly for caching. */
         void on_contents_changed();
@@ -198,6 +210,11 @@ class item_location
          */
         void favorite_settings_menu();
 
+        VisitResponse visit_contents( const std::function<VisitResponse( item_location )> &func ) const;
+        VisitResponse visit_items( const std::function<VisitResponse( item_location )> &func ) const
+        override;
+        std::list<item> remove_items_with( const std::function<bool( const item &e )> &filter,
+                                           int count ) override;
     private:
         class impl;
 

@@ -1873,10 +1873,10 @@ bool Character::can_consume_as_is( const item &it ) const
     return false;
 }
 
-item &Character::get_consumable_from( item &it ) const
+item_location Character::get_consumable_from( item_location it ) const
 {
-    item *ret = nullptr;
-    it.visit_items( [&]( item * it, item * ) {
+    item_location ret;
+    it.visit_items( [&]( item_location it ) {
         if( can_consume_as_is( *it ) ) {
             ret = it;
             return VisitResponse::ABORT;
@@ -1884,14 +1884,7 @@ item &Character::get_consumable_from( item &it ) const
         return VisitResponse::NEXT;
     } );
 
-    if( ret != nullptr ) {
-        return *ret;
-    }
-
-    static item null_comestible;
-    // Since it's not const.
-    null_comestible = item();
-    return null_comestible;
+    return ret;
 }
 
 time_duration Character::get_consume_time( const item &it ) const
