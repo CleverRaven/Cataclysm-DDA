@@ -1807,8 +1807,8 @@
     "volume": "1800 ml",
     "longest_side": "180 cm",
     "price": "80 USD",
-    "price_postapoc": "45 USD",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "neutral" },
+    "price_postapoc": "15 USD",
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "uneven" },
     "material": [ "wood", "iron" ],
     "symbol": "/",
     "color": "brown",
@@ -1817,7 +1817,7 @@
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": [ "TAZER" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "WATER_BREAK", "DURABLE_MELEE" ],
-    "faults": [ { "fault_group": "staff_long" } ],
+    "faults": [ { "fault_group": "staff_long" }, { "fault_group": "electronic_general" } ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "pocket_data": [
       {
@@ -1827,7 +1827,7 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 32 },
+    "melee_damage": { "bash": 14 },
     "tool_ammo": [ "battery" ]
   },
   {
