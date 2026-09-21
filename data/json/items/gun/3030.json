@@ -35,6 +35,7 @@
       [ "stock accessory", 1 ],
       [ "stock mount", 1 ]
     ],
+    "extend": { "flags": [ "LEVER_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3030": 8 } } ]
   },
   {
@@ -73,6 +74,7 @@
       [ "stock accessory", 1 ],
       [ "stock mount", 1 ]
     ],
+    "extend": { "flags": [ "LEVER_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3030": 6 } } ]
   }
 ]

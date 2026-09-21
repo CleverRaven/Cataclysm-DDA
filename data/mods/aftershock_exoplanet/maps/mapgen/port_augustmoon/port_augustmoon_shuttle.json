@@ -42,7 +42,7 @@
     "type": "mapgen",
     "om_terrain": "afs_landed_shuttle",
     "object": {
-      "predecessor_mapgen": "field",
+      "predecessor_mapgen": "glacial_field",
       "place_nested": [ { "chunks": [ "augustmoon_shuttle_ground_tile" ], "x": 0, "y": 0 } ]
     }
   },

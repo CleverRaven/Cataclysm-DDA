@@ -46,7 +46,6 @@
 #include "game_inventory.h"
 #include "generic_factory.h"
 #include "iexamine.h"
-#include "inventory.h"
 #include "input_popup.h"
 #include "item.h"
 #include "item_components.h"
@@ -86,6 +85,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "talker.h"
+#include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
@@ -174,6 +174,7 @@ static const skill_id skill_traps( "traps" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
+static const trait_id trait_SORCERER( "SORCERER" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
@@ -194,6 +195,17 @@ item_location form_loc_recursive( T &loc, item &it )
 //explict template instantiation
 template item_location form_loc_recursive<Character>( Character &loc, item &it );
 template item_location form_loc_recursive<npc>( npc &loc, item &it );
+
+template<>
+item_location form_loc_recursive( item_location &loc, item &it )
+{
+    item *parent = loc->find_parent( it );
+    if( parent != nullptr ) {
+        return item_location( form_loc_recursive( loc, *parent ), &it );
+    }
+
+    return item_location( loc, &it );
+}
 
 static std::optional<item_location> try_form_loc( Character &you, map *here,
         const tripoint_bub_ms &p, item &it )
@@ -482,8 +494,8 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
     }
 
     std::map<quality_id, int> unmet_reqs;
-    inventory inv;
-    inv.form_from_map( p.pos_bub( *here ), 1, &p, true, true );
+    temp_crafting_inventory inv;
+    inv.form_from_map( p.pos_bub( *here ), 1, &p, true );
     for( const auto &quality : qualities_needed ) {
         if( !p.has_quality( quality.first, quality.second ) &&
             !inv.has_quality( quality.first, quality.second ) ) {
@@ -1604,8 +1616,8 @@ ret_val<void> firestarter_actor::can_use( const Character &p, const item &it,
     }
 
     std::map<quality_id, int> unmet_reqs;
-    inventory inv;
-    inv.form_from_map( p.pos_bub( *here ), 1, &p, true, true );
+    temp_crafting_inventory inv;
+    inv.form_from_map( p.pos_bub( *here ), 1, &p, true );
     for( const auto &quality : qualities_needed ) {
         if( !p.has_quality( quality.first, quality.second ) &&
             !inv.has_quality( quality.first, quality.second ) ) {
@@ -2722,6 +2734,10 @@ std::optional<int> learn_spell_actor::use( Character *p, item &, map *,
         p->add_msg_if_player( m_bad, _( "You can't read." ) );
         return std::nullopt;
     }
+    if( p->has_trait( trait_SORCERER ) ) {
+        p->add_msg_if_player( m_bad, _( "Sorcerers cannot learn spells from books or scrolls." ) );
+        return std::nullopt;
+    }
     if( !p->has_morale_to_read() ) {
         p->add_msg_if_player( m_bad, _( "What's the point of studying?  (Your morale is too low!)" ) );
         return std::nullopt;
@@ -3150,7 +3166,7 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
         return false;
     }
 
-    const inventory &crafting_inv = pl.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = pl.crafting_inventory();
 
     // Repairing or modifying items requires at least 1 repair item,
     //  otherwise number is related to size of item
@@ -5735,7 +5751,7 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it, map *here,
     // Cache available materials
     std::map< itype_id, bool > has_enough;
     const int items_needed = mod.base_volume() / 750_ml + 1;
-    const inventory &crafting_inv = p->crafting_inventory( here );
+    const temp_crafting_inventory &crafting_inv = p->crafting_inventory( here );
     const std::function<bool( const item & )> is_filthy_filter = is_crafting_component;
 
     // Go through all discovered repair items and see if we have any of them available

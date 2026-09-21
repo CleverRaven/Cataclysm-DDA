@@ -2019,6 +2019,26 @@
     "type": "json_flag"
   },
   {
+    "id": "SCBA",
+    "info": "If paired with an air source and activated, this item can be used to breathe from a self-contained breathing apparatus.",
+    "type": "json_flag"
+  },
+  {
+    "id": "SCBA_ON",
+    "info": "This item is active and can be used to breathe from self-contained breathing apparatus.",
+    "type": "json_flag"
+  },
+  {
+    "id": "SCBA_TANK",
+    "info": "When activated, this item can fuel a self-contained breathing apparatus.",
+    "type": "json_flag"
+  },
+  {
+    "id": "SCBA_TANK_ON",
+    "info": "This item is active and can be used to fuel a self-contained breathing apparatus.",
+    "type": "json_flag"
+  },
+  {
     "id": "SLEEP_IGNORE",
     "type": "json_flag"
   },

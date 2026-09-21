@@ -39,7 +39,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "help.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -69,6 +68,7 @@
 #include "string_formatter.h"
 #include "talker.h"
 #include "talker_avatar.h"
+#include "text_snippets.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "type_id.h"
@@ -104,6 +104,7 @@ static const itype_id itype_guidebook( "guidebook" );
 static const itype_id itype_mut_longpull( "mut_longpull" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_CANNOT_READ_SPELLBOOKS( "CANNOT_READ_SPELLBOOKS" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
 
@@ -250,6 +251,11 @@ void avatar::load_map_memory()
 void avatar::clear_map_memory()
 {
     player_map_memory->clear();
+}
+
+void avatar::ensure_portrait_valid()
+{
+    debugmsg( "No support for avatar portrait (yet)" );
 }
 
 void avatar::prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 )
@@ -503,10 +509,13 @@ bool avatar::read( item_location &book, item_location ereader )
     // spells are handled in a different place
     // src/iuse_actor.cpp -> learn_spell_actor::use
     if( book->get_use( "learn_spell" ) ) {
+        if( has_flag( json_flag_CANNOT_READ_SPELLBOOKS ) ) {
+            return false;
+        }
+
         book->get_use( "learn_spell" )->call( this, *book, pos_bub() );
         return true;
     }
-
     bool continuous = false;
     const time_duration time_taken = time_to_read( *book, *reader );
     add_msg_debug( debugmode::DF_ACT_READ, "avatar::read time_taken = %s",

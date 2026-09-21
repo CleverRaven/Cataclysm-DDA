@@ -979,7 +979,7 @@
         "topic": "TALK_DONE",
         "condition": { "math": [ "u_val('power_percentage') == 50" ] }
       },
-      { "text": "Morale is 23.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('morale') == 23" ] } },
+      { "text": "Morale is 23.", "topic": "TALK_DONE", "condition": { "math": [ "u_morale() == 23" ] } },
       { "text": "Focus is 24.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('focus') == 24" ] } },
       { "text": "Mana is 25.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('mana') == 25" ] } },
       { "text": "Mana max is 900.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('mana_max') == 900" ] } },

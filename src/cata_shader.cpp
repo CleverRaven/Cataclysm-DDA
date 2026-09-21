@@ -17,6 +17,9 @@ namespace cata_shader
 namespace
 {
 bool g_reprobe_requested = false;
+int test_probe_unsafe_countdown = 0;
+bool test_flush_failure_armed = false;
+int test_probe_run_count = 0;
 } // namespace
 
 void request_reprobe()
@@ -32,6 +35,33 @@ bool reprobe_requested()
 void clear_reprobe()
 {
     g_reprobe_requested = false;
+}
+
+void test_arm_probe_unsafe( const int count )
+{
+    test_probe_unsafe_countdown = count;
+}
+
+int test_probe_unsafe_remaining()
+{
+    return test_probe_unsafe_countdown;
+}
+
+void test_arm_flush_failure()
+{
+    test_flush_failure_armed = true;
+}
+
+int test_probe_runs()
+{
+    return test_probe_run_count;
+}
+
+void test_reset_seams()
+{
+    test_probe_unsafe_countdown = 0;
+    test_flush_failure_armed = false;
+    test_probe_run_count = 0;
 }
 
 namespace
@@ -518,18 +548,74 @@ load_outcome load_and_probe( SDL_GPUDevice *device, SDL_Renderer *renderer,
 
 } // namespace
 
+probe_state variant_pass::ensure_probed()
+{
+    if( abandoned_pending_rebind_ || boundary_lost_ ) {
+        return probe_state::unsafe;
+    }
+    if( reprobe_requested() ) {
+        reset();
+        clear_reprobe();
+        if( boundary_lost_ ) {
+            return probe_state::unsafe;
+        }
+    }
+    if( shader_fault_ ) {
+        return probe_state::unavailable;
+    }
+    if( !probe_attempted_ ) {
+        probe();
+        if( boundary_lost_ ) {
+            return probe_state::unsafe;
+        }
+    }
+    return available() ? probe_state::available : probe_state::unavailable;
+}
+
 void variant_pass::reset()
 {
     const bool flushed = flush();
     clear_state_arrays( !flushed );
+    if( !flushed ) {
+        // renderer might still hold the bind, keep probe_attempted_ so nothing
+        // probes against it
+        boundary_lost_ = true;
+        shader_fault_ = true;
+        return;
+    }
     probe_attempted_ = false;
     probed_ok_ = false;
-    // On flush failure leave session_disabled_ set so callers refuse the
-    // boundary; the rebuild driving reset() decides when to clear it.
-    if( flushed ) {
-        session_disabled_ = false;
-        unbind_required_ = false;
+    session_disabled_ = false;
+    unbind_required_ = false;
+    shader_fault_ = false;
+}
+
+void variant_pass::mark_probe_unsafe()
+{
+    unbind_required_ = true;
+    session_disabled_ = true;
+    boundary_lost_ = true;
+    shader_fault_ = true;
+}
+
+void variant_pass::mark_flush_failed()
+{
+    session_disabled_ = true;
+    boundary_lost_ = true;
+    shader_fault_ = true;
+}
+
+void variant_pass::note_draw_bind_failure( const bool log_error )
+{
+    if( log_error ) {
+        DebugLog( D_ERROR, DC_ALL )
+                << "cata_shader::variant_pass: SDL_SetGPURenderState failed: "
+                << SDL_GetError();
     }
+    session_disabled_ = true;
+    unbind_required_ = true;
+    boundary_lost_ = true;
+    shader_fault_ = true;
 }
 
 void variant_pass::clear_state_arrays( bool abandon_handles )
@@ -559,7 +645,20 @@ void variant_pass::clear_state_arrays( bool abandon_handles )
 void variant_pass::probe()
 {
     probe_attempted_ = true;
+    ++test_probe_run_count;
     if( !renderer_ ) {
+        return;
+    }
+    if( std::getenv( "CATA_DISABLE_SPRITE_SHADERS" ) ) {
+        DebugLog( D_INFO, DC_ALL )
+                << "cata_shader::variant_pass: CATA_DISABLE_SPRITE_SHADERS set; "
+                "shader variant path disabled";
+        return;
+    }
+    if( test_probe_unsafe_countdown > 0 ) {
+        --test_probe_unsafe_countdown;
+        DebugLog( D_INFO, DC_ALL ) << "cata_shader::variant_pass: armed unsafe probe";
+        mark_probe_unsafe();
         return;
     }
     SDL_GPUDevice *const device = SDL_GetGPURendererDevice( renderer_ );
@@ -578,8 +677,7 @@ void variant_pass::probe()
         const load_outcome o = load_and_probe( device, renderer_, basename,
                                                predicate_for( v ), shaders_[i], states_[i] );
         if( o == load_outcome::failed_unsafe ) {
-            unbind_required_ = true;
-            session_disabled_ = true;
+            mark_probe_unsafe();
             return;
         }
         if( o == load_outcome::failed_clean ) {
@@ -595,8 +693,7 @@ void variant_pass::probe()
         const load_outcome o = load_and_probe( device, renderer_, basename,
                                                predicate_for( p ), memory_shaders_[i], memory_states_[i] );
         if( o == load_outcome::failed_unsafe ) {
-            unbind_required_ = true;
-            session_disabled_ = true;
+            mark_probe_unsafe();
             return;
         }
         if( o == load_outcome::failed_clean ) {
@@ -619,18 +716,21 @@ SDL_GPURenderState *variant_pass::state_for( variant_kind v ) const
 
 variant_pass::begin_result variant_pass::try_begin( variant_kind v )
 {
-    if( abandoned_pending_rebind_ ) {
-        // Embargo raised: refuse without calling SDL until rebind.
+    if( abandoned_pending_rebind_ || boundary_lost_ ) {
+        // embargo or lost boundary: refuse without calling SDL until rebind
         return begin_result::abort_frame;
     }
     if( reprobe_requested() ) {
         reset();
         clear_reprobe();
+        if( boundary_lost_ ) {
+            return begin_result::abort_frame;
+        }
     }
-    if( session_disabled_ ) {
-        // Drop any held bind so the disabled session does not leave shader
-        // state on subsequent draws. If flush fails the renderer is undefined
-        // -- signal abort.
+    if( shader_fault_ || session_disabled_ ) {
+        // Drop held bind so that a faulted or disabled session doesn't leave
+        // any shader state on later draws. A failed flush leaves the renderer
+        // undefined.
         if( !flush() ) {
             return begin_result::abort_frame;
         }
@@ -638,9 +738,7 @@ variant_pass::begin_result variant_pass::try_begin( variant_kind v )
     }
     if( !probe_attempted_ ) {
         probe();
-        if( unbind_required_ ) {
-            // probe() observed a boundary-loss probe failure and latched
-            // unbind_required_. Renderer state is undefined.
+        if( boundary_lost_ ) {
             return begin_result::abort_frame;
         }
     }
@@ -655,14 +753,8 @@ variant_pass::begin_result variant_pass::try_begin( variant_kind v )
         return target != nullptr ? begin_result::bound : begin_result::use_atlas;
     }
     if( !SDL_SetGPURenderState( renderer_, target ) ) {
-        DebugLog( D_ERROR, DC_ALL )
-                << "cata_shader::variant_pass: SDL_SetGPURenderState failed: "
-                << SDL_GetError();
-        session_disabled_ = true;
-        // Bind state undefined after the failure: assume still held. Keep
-        // currently_bound_ so operator== rejects the boundary, and force the
-        // next flush() to call null-state even if currently_bound_ was empty.
-        unbind_required_ = true;
+        // bind state is undefined after failure, treat as held
+        note_draw_bind_failure();
         return begin_result::abort_frame;
     }
     if( target ) {
@@ -681,8 +773,17 @@ bool variant_pass::end()
 
 bool variant_pass::flush()
 {
-    if( abandoned_pending_rebind_ ) {
-        // Embargo raised: refuse without SDL. false signals the boundary loss.
+    if( abandoned_pending_rebind_ || boundary_lost_ ) {
+        // Refuse without SDL: false tells every caller not to cross a render
+        // target boundary until rebind_renderer.
+        return false;
+    }
+    if( test_flush_failure_armed ) {
+        // stands in for a failed SDL_SetGPURenderState(NULL) even with nothing
+        // bound; the software fixture never binds
+        test_flush_failure_armed = false;
+        DebugLog( D_INFO, DC_ALL ) << "cata_shader::variant_pass: armed flush failure";
+        mark_flush_failed();
         return false;
     }
     if( !currently_bound_ && !unbind_required_ ) {
@@ -692,7 +793,7 @@ bool variant_pass::flush()
         DebugLog( D_ERROR, DC_ALL )
                 << "cata_shader::variant_pass: SDL_SetGPURenderState(NULL) failed: "
                 << SDL_GetError();
-        session_disabled_ = true;
+        mark_flush_failed();
         return false;
     }
     currently_bound_.reset();
@@ -714,7 +815,7 @@ void variant_pass::release_gpu_resources()
     // flush() returns false on an undefined bind; abandon the handles in that
     // case rather than let their destructors touch a still-referenced resource.
     bool flushed = true;
-    if( currently_bound_ || unbind_required_ ) {
+    if( currently_bound_ || unbind_required_ || boundary_lost_ ) {
         flushed = flush();
     }
     clear_state_arrays( !flushed );
@@ -754,6 +855,7 @@ void variant_pass::rebind_renderer( SDL_Renderer *renderer )
     probed_ok_ = false;
     session_disabled_ = false;
     abandoned_pending_rebind_ = false;
+    boundary_lost_ = false;
     renderer_ = renderer;
 }
 

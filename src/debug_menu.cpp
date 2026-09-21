@@ -863,7 +863,7 @@ static void monster_edit_menu()
                                critter->type->morale ) << std::endl;
         if( !critter->ammo.empty() ) {
             for( auto &ammos : critter->ammo ) {
-                data << string_format( _( "Ammo: %s rounds of %s" ), ammos.second,
+                data << string_format( _( "Ammo: %d rounds of %s" ), ammos.second,
                                        ammos.first.c_str() ) << std::endl;
             }
         }

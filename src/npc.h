@@ -931,6 +931,8 @@ class npc : public Character
         /// Returns the current activity name (reading, disassembling, etc.), or "nothing"
         std::string get_current_activity() const;
 
+        void ensure_portrait_valid() override;
+
         // Interaction with the player
         void form_opinion( const Character &you );
         npc_opinion get_opinion_values( const Character &you ) const;

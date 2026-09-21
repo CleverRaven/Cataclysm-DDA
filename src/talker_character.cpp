@@ -970,9 +970,9 @@ void talker_character::mod_livestyle( int amount )
     me_chr->mod_livestyle( amount );
 }
 
-int talker_character_const::morale_cur() const
+int talker_character_const::morale_cur( bool raw ) const
 {
-    return me_chr_const->get_morale_level();
+    return me_chr_const->get_morale_level( raw );
 }
 
 void talker_character::set_oxygen( int value )
@@ -1451,6 +1451,11 @@ void talker_character::learn_martial_art( const matype_id &id )
 void talker_character::forget_martial_art( const matype_id &id )
 {
     me_chr->martial_arts_data->clear_style( id );
+}
+
+void talker_character::ensure_portrait_valid()
+{
+    me_chr->ensure_portrait_valid();
 }
 
 int talker_character_const::climate_control_str_heat() const

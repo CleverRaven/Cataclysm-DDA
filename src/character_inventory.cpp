@@ -25,6 +25,8 @@
 #include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
+#include "craft_reservation.h"
+#include "crafting.h"
 #include "character_attire.h"
 #include "character_martial_arts.h"
 #include "color.h"
@@ -898,7 +900,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
             }
 
             mod_moves( -item_handling_cost( *obj ) );
-            this->i_add( *obj, true, &*obj, &*obj );
+            craft_relocated( this->i_add( *obj, true, &*obj, &*obj ) );
             obj.remove_item();
             return true;
         }
@@ -923,7 +925,12 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
 
             item it = *obj;
             obj.remove_item();
-            return !!wear_item( it );
+            const std::optional<std::list<item>::iterator> worn_it = wear_item( it );
+            if( worn_it )
+            {
+                craft_relocated( item_location( *this, & **worn_it ) );
+            }
+            return !!worn_it;
         }
     } );
 
@@ -1259,7 +1266,7 @@ units::mass Character::weight_carried_with_tweaks( const std::vector<std::pair<i
 units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) const
 {
     const std::map<const item *, int> empty;
-    const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
+    const std::map<const item *, int> &without = tweaks.without_items ? *tweaks.without_items :
             empty;
 
     // Worn items
@@ -2473,6 +2480,27 @@ void Character::on_item_acquire( const item &it )
     }
 }
 
+item &Character::best_unreserved_item_with_quality( const quality_id &qid )
+{
+    int max_lvl_found = INT_MIN;
+    std::vector<item *> items = items_with( [qid, &max_lvl_found, this]( const item & it ) {
+        if( !craft_reservation::usable_by_automation( it ) ) {
+            return false;
+        }
+        // same metric has_unreserved_quality plans with, so the two can't disagree
+        const int qlvl = provider_quality_level( it, qid, this, false );
+        if( qlvl > max_lvl_found ) {
+            max_lvl_found = qlvl;
+            return true;
+        }
+        return false;
+    } );
+    if( max_lvl_found > INT_MIN ) {
+        return *items.back();
+    }
+    return null_item_reference();
+}
+
 item &Character::best_item_with_quality( const quality_id &qid )
 {
     int max_lvl_found = INT_MIN;
@@ -3081,6 +3109,10 @@ bool Character::wield( item &it, std::optional<int> obtain_cost, bool combat )
 
     // set_wielded_item invalidates the weapon item_location, so get it again
     wielded = get_wielded_item();
+    // Copy-assigned into the weapon slot, so every uid under it is fresh.
+    if( wielded ) {
+        craft_relocated( wielded );
+    }
     recoil = MAX_RECOIL;
 
     // if fists are wielded get_wielded_item returns item_location::nowhere, which is a nullptr
@@ -3182,6 +3214,9 @@ bool Character::wield_contents( item &container, item *internal_item, bool penal
 void Character::store( item &container, item &put, bool penalties, int base_cost,
                        pocket_type pk_type, bool check_best_pkt )
 {
+    // Correct only while every caller passes a destination this character holds; one
+    // with a destination elsewhere must thread in its own location.
+    const item_location container_loc( *this, &container );
     mod_moves( -item_store_cost( put, container, penalties, base_cost ) );
     if( check_best_pkt && pk_type == pocket_type::CONTAINER &&
         container.get_container_pockets().size() > 1 ) {
@@ -3191,6 +3226,7 @@ void Character::store( item &container, item &put, bool penalties, int base_cost
     } else {
         container.put_in( i_rem( &put ), pk_type, false, this );
     }
+    craft_relocated( container_loc );
     calc_encumbrance();
 }
 
@@ -3210,5 +3246,6 @@ void Character::store( item_pocket *pocket, item &put, bool penalties, int base_
                           pocket->obtain_cost( put ) ) );
     ret_val<item *> result = pocket->insert_item( i_rem( &put ) );
     result.value()->on_pickup( *this );
+    craft_relocated( item_location( *this, result.value() ) );
     calc_encumbrance();
 }

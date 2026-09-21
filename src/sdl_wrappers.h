@@ -9,6 +9,7 @@
 // IWYU pragma: end_exports
 
 #include <atomic>
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <vector>
@@ -233,7 +234,16 @@ void RenderCopyEx( const SDL_Renderer_Ptr &renderer, SDL_Texture *texture,
                    const SDL_Rect *srcrect, const SDL_Rect *dstrect,
                    double angle, const SDL_Point *center, CataFlipMode flip );
 void RenderSetClipRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect );
+// Untextured per-vertex-color triangles. SDL permits the null texture/uv
+// pair, and untextured geometry blends with the renderer draw blend mode.
+void RenderGeometryRaw( const SDL_Renderer_Ptr &renderer,
+                        const float *xy, int xy_stride,
+                        const SDL_FColor *color, int color_stride,
+                        int num_vertices,
+                        const Uint32 *indices, int num_indices );
 void RenderGetClipRect( const SDL_Renderer_Ptr &renderer, SDL_Rect *rect );
+// Returns whether the intersection is non-empty. result is written either way.
+bool GetRectIntersection( const SDL_Rect &a, const SDL_Rect &b, SDL_Rect &result );
 bool RenderIsClipEnabled( const SDL_Renderer_Ptr &renderer );
 int BlitSurface( const SDL_Surface_Ptr &src, const SDL_Rect *srcrect,
                  const SDL_Surface_Ptr &dst, SDL_Rect *dstrect );
@@ -273,6 +283,9 @@ const char *GetRenderDriverName( int index );
 
 // Name via SDL_GetRendererName, capabilities via SDL_GetRendererProperties.
 const char *GetRendererName( const SDL_Renderer_Ptr &renderer );
+// Name of the SDL GPU backend under a gpu renderer, such as "vulkan", or "none"
+// off the gpu driver
+const char *GetGPUBackendName( const SDL_Renderer_Ptr &renderer );
 bool IsRendererSoftware( const SDL_Renderer_Ptr &renderer );
 bool GetRendererMaxTextureSize( const SDL_Renderer_Ptr &renderer, int *max_w, int *max_h );
 
@@ -284,7 +297,8 @@ void RenderGetViewport( const SDL_Renderer_Ptr &renderer, SDL_Rect *rect );
 // since the input pipeline runs against the window target, not the buffer.
 void RenderSetLogicalSize( const SDL_Renderer_Ptr &renderer, int w, int h );
 void RenderSetScale( const SDL_Renderer_Ptr &renderer, float scaleX, float scaleY );
-// SDL_RenderReadPixels returns an SDL_Surface*; the wrapper copies data out.
+// SDL_RenderReadPixels returns an SDL_Surface*; the wrapper converts it to
+// the requested format and copies data out.
 bool RenderReadPixels( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect,
                        Uint32 format, void *pixels, int pitch );
 void GetRendererOutputSize( const SDL_Renderer_Ptr &renderer, int *w, int *h );
@@ -321,6 +335,8 @@ void GetWindowSizeInPixels( SDL_Window *window, int *w, int *h );
 void SetTextureScaleQuality( const SDL_Texture_Ptr &texture, const std::string &quality );
 // Store a default scale quality applied by CreateTexture/CreateTextureFromSurface.
 void SetDefaultTextureScaleQuality( const std::string &quality );
+// SDL_GetTextureScaleMode. SDL_SCALEMODE_INVALID for a null texture or on failure.
+SDL_ScaleMode GetTextureScaleMode( const std::shared_ptr<SDL_Texture> &texture );
 
 // Text input is window-scoped; all three take the target SDL_Window*.
 void StartTextInput( SDL_Window *window );

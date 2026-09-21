@@ -35,7 +35,8 @@
       "novice_earthshaper",
       "novice_technomancer",
       "novice_stormshaper",
-      "academy_wizard"
+      "academy_wizard",
+      "academy_wizard_stormshaper"
     ]
   },
   {
@@ -55,7 +56,8 @@
       "novice_earthshaper",
       "novice_technomancer",
       "novice_stormshaper",
-      "academy_wizard"
+      "academy_wizard",
+      "academy_wizard_stormshaper"
     ]
   },
   {
@@ -73,7 +75,8 @@
       "novice_earthshaper",
       "novice_technomancer",
       "novice_stormshaper",
-      "academy_wizard"
+      "academy_wizard",
+      "academy_wizard_stormshaper"
     ],
     "reveal_locale": false
   },
@@ -103,7 +106,9 @@
       "moose_rider",
       "wild_druid",
       "archer_druid",
-      "magic_grim_reaper"
+      "magic_grim_reaper",
+      "academy_wizard",
+      "academy_wizard_stormshaper"
     ],
     "reveal_locale": false
   },

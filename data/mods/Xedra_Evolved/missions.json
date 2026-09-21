@@ -202,7 +202,7 @@
         { "give_achievement": "achievement_xe_complete_revenant_mission" },
         {
           "if": {
-            "u_query": "Your murderer lies dead.  Your terrible thirst for vengeance is sated.  Berefit of the urge driving you on, you feel yourself falling backwards into the embrace of death.  Do you let yourself go?",
+            "u_query": "Your murderer lies dead.  Your terrible thirst for vengeance is sated.  Bereft of the urge driving you on, you feel yourself falling backwards into the embrace of death.  Do you let yourself go?",
             "default": true
           },
           "then": "u_die"

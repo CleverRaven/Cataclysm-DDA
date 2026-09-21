@@ -9,6 +9,7 @@
 #include "character.h"
 #include "clzones.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "field.h"
 #include "game.h"
 #include "mapbuffer.h"
@@ -109,6 +110,13 @@ void clear_fields( const int zlevel )
     }
 }
 
+void clear_reservations()
+{
+    // Records outlive the items they claim, and tests never advance calendar::turn, so
+    // nothing would expire between them.
+    get_craft_reservations().clear();
+}
+
 void clear_items( const int zlevel )
 {
     map &here = get_map();
@@ -157,6 +165,7 @@ void clear_map_with_vision( int zmin, int zmax, bool with_vision )
         clear_fields( z );
     }
     clear_zones();
+    clear_reservations();
     clear_npcs();
     wipe_map_terrain_with_vision( nullptr, with_vision );
     clear_creatures();

@@ -1,0 +1,13 @@
+[
+  {
+    "type": "dimension_region_layout",
+    "id": "default_skyisland",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "default_skyisland"
+  },
+  {
+    "type": "dimension",
+    "id": "default",
+    "region_layout": "default_skyisland"
+  }
+]

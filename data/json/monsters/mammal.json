@@ -2444,7 +2444,7 @@
     "dodge": 3,
     "harvest": "raccoon_with_skull",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "vision_night": 5,
+    "vision_night": 20,
     "upgrades": { "half_life": 120, "into": "mon_raccoon_mutant" },
     "special_attacks": [ [ "EAT_FOOD", 60 ], [ "BROWSE", 50 ], [ "EAT_CARRION", 60 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],

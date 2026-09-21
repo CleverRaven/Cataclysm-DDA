@@ -67,17 +67,14 @@
 #include "flat_set.h"
 #include "flexbuffer_json.h"
 #include "game.h"
-#include "game_constants.h"
 #include "game_inventory.h"
 #include "generic_factory.h"
 #include "global_vars.h"
 #include "gun_mode.h"
-#include "help.h"
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
 #include "input_popup.h"
-#include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_category.h"
@@ -127,7 +124,6 @@
 #include "ranged.h"
 #include "recipe.h"
 #include "recipe_groups.h"
-#include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "simple_pathfinding.h"
@@ -1859,18 +1855,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic )
                 return _( "&You yell." );
             }
         }
-    } else if( topic == "TALK_SIZE_UP" ) {
-        return actor( true )->evaluation_by( *actor( false ) );
-    } else if( topic == "TALK_ASSESS_PERSON" ) {
-        return actor( true )->view_personality_traits();
-    } else if( topic == "TALK_LOOK_AT" ) {
-        if( actor( false )->can_see() ) {
-            return "&" + actor( true )->short_description();
-        } else {
-            return string_format( _( "&You're blind and can't look at %s." ), actor( true )->disp_name() );
-        }
-    } else if( topic == "TALK_OPINION" ) {
-        return "&" + actor( true )->opinion_text();
     } else if( topic == "TALK_MIND_CONTROL" ) {
         if( actor( true )->enslave_mind() ) {
             return _( "YES, MASTER!" );
@@ -1893,6 +1877,25 @@ void dialogue::apply_speaker_effects( const talk_topic &the_topic )
             npc_effect.apply( *this );
         }
     }
+}
+
+std::optional<character_portrait_id> dialogue::portrait_or_nullopt()
+const
+{
+    if( !topic_stack.empty() ) {
+        const std::string &topic = topic_stack.back().id;
+        const auto iter = json_talk_topics.find( topic );
+        if( iter != json_talk_topics.end() && iter->second.get_portrait_override().has_value() ) {
+            return iter->second.get_portrait_override();
+        }
+    }
+
+    Character *partner = actor( true )->get_character();
+    if( partner ) {
+        return partner->portrait_filename;
+    }
+
+    return std::nullopt;
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
@@ -4197,42 +4200,42 @@ talk_effect_fun_t::func f_consume_item_sum( const JsonObject &jo, std::string_vi
         add_msg_debug( debugmode::DF_TALKER, "using _consume_item_sum:" );
 
         itype_id item_to_remove;
-        double percent = 0.0f;
-        double ratio = 0.0f;
         double amount_desired = 0.0f;
-        int count_present = 0;
         Character *you = d.actor( is_npc )->get_character();
-        inventory inventory_and_around = you->crafting_inventory( you->pos_bub(), PICKUP_RANGE );
-        std::vector<item_comp> items_to_remove_vector;
+        auto legal_to_consume = [&]( const item & it ) {
+            return it.is_owned_by( *you );
+        };
+        std::unordered_set<item_location> all_items = get_map().all_items( legal_to_consume,
+                *you,
+                Access_Inventory | Access_Map_Around | Access_Vehicle );
 
         for( const auto &pair : item_and_amount ) {
-            int amount_to_remove = 0;
             item_to_remove = itype_id( pair.first.evaluate( d ) );
             amount_desired = pair.second.evaluate( d );
-            count_present = inventory_and_around.count_item( item_to_remove );
-
-            if( count_present == 0 ) {
-                continue;
-            }
-
-            percent += count_present / amount_desired;
-
-            if( percent <= 1.0 ) {
-                // either lack or just right amount of items to consume
-                items_to_remove_vector = { { item_to_remove, static_cast<int>( count_present ) } };
-                you->consume_items( items_to_remove_vector );
-
-            } else {
-                // too much items to consume, consuming only to hit 1.00 percent
-                percent -= count_present / amount_desired;
-                ratio = count_present / amount_desired;
-
-                while( percent < 1.0 ) {
-                    percent += ratio / count_present;
-                    ++amount_to_remove;
+            auto iter = all_items.begin();
+            while( iter != all_items.end() && amount_desired > 0 ) {
+                item_location it = *iter;
+                if( it && it->typeId() == item_to_remove ) {
+                    if( it->count_by_charges() ) {
+                        if( it->charges <= amount_desired ) {
+                            amount_desired -= it->charges;
+                            it->spill_contents( it.pos_bub( get_map() ) );
+                            it.remove_item();
+                            iter = all_items.erase( iter );
+                        } else {
+                            amount_desired = 0;
+                            it->mod_charges( -amount_desired );
+                            iter++;
+                        }
+                    } else {
+                        it->spill_contents( it.pos_bub( get_map() ) );
+                        it.remove_item();
+                        iter = all_items.erase( iter );
+                        amount_desired--;
+                    }
+                } else {
+                    iter++; // Not an item we're looking for. NEXT!
                 }
-                items_to_remove_vector = { { item_to_remove, amount_to_remove } };
-                you->consume_items( items_to_remove_vector );
             }
         }
     };
@@ -9235,6 +9238,12 @@ void json_talk_topic::load( const JsonObject &jo, std::string_view src )
             }
         }
     }
+    if( jo.has_member( "portrait_override" ) ) {
+        portrait_override = character_portrait_id( jo.get_member( "portrait_override" ) );
+    } else {
+        // FIXME: Use real null IDs not std::optional juggling :(
+        portrait_override = std::nullopt;
+    }
     bool insert_above_bottom = false;
     if( jo.has_bool( "insert_before_standard_exits" ) ) {
         insert_above_bottom = jo.get_bool( "insert_before_standard_exits" );
@@ -9341,6 +9350,11 @@ std::string json_talk_topic::get_dynamic_line( dialogue &d ) const
 std::vector<json_dynamic_line_effect> json_talk_topic::get_speaker_effects() const
 {
     return speaker_effects;
+}
+
+std::optional<character_portrait_id> json_talk_topic::get_portrait_override() const
+{
+    return portrait_override;
 }
 
 void json_talk_topic::check_consistency() const

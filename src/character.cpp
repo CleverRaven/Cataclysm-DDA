@@ -32,6 +32,7 @@
 #include "city.h"
 #include "color.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "creature_tracker.h"
 #include "current_map.h"
 #include "debug.h"
@@ -98,6 +99,7 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "submap.h"  // IWYU pragma: keep
+#include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "translations.h"
 #include "trap.h"
@@ -229,7 +231,6 @@ static const itype_id itype_fire( "fire" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 static const itype_id itype_human_sample( "human_sample" );
-static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
 static const json_character_flag json_flag_ACIDBLOOD( "ACIDBLOOD" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
@@ -2450,7 +2451,7 @@ void Character::recalc_sight_limits()
     if( has_nv_goggles() ) {
         vision_mode_cache.set( NV_GOGGLES );
     }
-    if( has_active_mutation( trait_NIGHTVISION3 ) || is_wearing( itype_rm13_armor_on ) ||
+    if( has_active_mutation( trait_NIGHTVISION3 ) ||
         ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ) {
         vision_mode_cache.set( NIGHTVISION_3 );
     }
@@ -3634,7 +3635,7 @@ bool Character::is_immune_field( const field_type_id &fid ) const
         return is_elec_immune();
     }
     if( ft.has_fire ) {
-        return has_flag( json_flag_HEATSINK ) || is_wearing( itype_rm13_armor_on );
+        return has_flag( json_flag_HEATSINK );
     }
     if( ft.has_acid ) {
         return !is_on_ground() && get_env_resist( body_part_foot_l ) >= 15 &&
@@ -3668,7 +3669,7 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
         return worn_with_flag( flag_DEAF ) || has_flag( json_flag_DEAF ) ||
                worn_with_flag( flag_PARTIAL_DEAF ) ||
                has_flag( json_flag_IMMUNE_HEARING_DAMAGE ) ||
-               is_wearing( itype_rm13_armor_on ) || is_deaf();
+               is_deaf();
     } else if( eff->has_flag( flag_MUTE ) ) {
         return has_bionic( bio_voice );
     } else if( eff == effect_corroding ) {
@@ -3846,25 +3847,44 @@ bool Character::sees_with_specials( const Creature &critter ) const
 bool Character::pour_into( item_location &container, item &liquid, bool ignore_settings,
                            bool silent )
 {
-    std::string err;
+    rem_cap_return err = rem_cap_return::SUCCESS;
     int max_remaining_capacity = container->get_remaining_capacity_for_liquid( liquid, *this, &err );
+    // amount of liquid that can be inserted
     int amount = container->all_pockets_rigid() ? max_remaining_capacity :
                  std::min( max_remaining_capacity, container.max_charges_by_parent_recursive( liquid ).value() );
 
-    if( !err.empty() ) {
-        if( !container->has_item_with( [&liquid]( const item & it ) {
+    const bool desired_liquid_is_in = container->has_item_with( [&liquid]( const item & it ) {
         return it.typeId() == liquid.typeId();
-        } ) ) {
-            add_msg_if_player( m_bad, err );
-        } else {
-            //~ you filled <container> to the brim with <liquid>
-            add_msg_if_player( _( "You filled %1$s to the brim with %2$s." ), container->tname(),
-                               liquid.tname() );
-        }
+    } );
+
+    if( err == rem_cap_return::NO_SPACE && desired_liquid_is_in ) {
+        add_msg_if_player( _( "You filled %1$s to the brim with %2$s." ), container->tname(),
+                           liquid.tname() );
         return false;
     }
 
-    if( amount == 0 ) {
+    switch( err ) {
+        case rem_cap_return::BUCKET_FAIL:
+            add_msg_if_player( m_bad, _( "That %s must be on the ground or held to hold contents!" ),
+                               container->tname() );
+            return false;
+        case rem_cap_return::ANOTHER_LIQUID_INSIDE:
+            add_msg_if_player( m_bad, _( "That %1$s won't hold %2$s." ),
+                               container->tname(), liquid.tname() );
+            return false;
+        case rem_cap_return::NO_SPACE:
+            add_msg_if_player( m_bad, _( "Your %1$s can't hold any more %2$s." ),
+                               container->tname(), liquid.tname() );
+            return false;
+        case rem_cap_return::NO_SPACE_IN_PARENT:
+            add_msg_if_player( m_bad, _( "That %s doesn't have room to expand." ),
+                               container->tname() );
+            return false;
+        default:
+            break;
+    }
+
+    if( max_remaining_capacity == 0 ) {
         add_msg_if_player( _( "The %1$s can't expand to fit any more %2$s." ), container->tname(),
                            liquid.tname() );
         return false;
@@ -4174,7 +4194,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         return;
     }
 
-    const inventory &inv = crafting_inventory();
+    const temp_crafting_inventory &inv = crafting_inventory();
 
     struct mending_option {
         fault_id fault;
@@ -5595,7 +5615,8 @@ std::list<item> Character::use_amount( const itype_id &it, int quantity,
             tmp.erase( tmp.begin() + imenu.ret );
         }
     }
-    if( quantity > 0 && weapon.use_amount( it, quantity, ret ) ) {
+    if( quantity > 0 && !craft_reservation::contains_reserved( weapon ) &&
+        weapon.use_amount( it, quantity, ret, filter ) ) {
         remove_weapon();
     }
     ret = worn.use_amount( it, quantity, ret, filter, *this );
@@ -5712,7 +5733,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
                                         const std::function<bool( const item & )> &filter, bool in_tools )
 {
     std::list<item> res;
-    inventory inv = crafting_inventory( pos_bub(), radius, true );
+    temp_crafting_inventory inv = crafting_inventory( pos_bub(), radius, true );
 
     if( qty <= 0 ) {
         return res;
@@ -5742,10 +5763,16 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     } );
 
     if( radius >= 0 ) {
-        get_map().use_charges( pos_bub(), radius, what, qty, return_true<item>, nullptr, in_tools );
+        get_map().use_charges( pos_bub(), radius, what, qty, filter, nullptr, in_tools );
     }
     if( qty > 0 ) {
-        visit_items( [this, &what, &qty, &res, &del, &filter, &in_tools]( item * e, item * ) {
+        visit_items( [this, &what, &qty, &res, &del, &filter, &in_tools]( item * e,
+        item * parent ) {
+            // Only roots: this callback sees every descendant, and item::use_charges
+            // descends again, so a reserved root must prune its subtree here.
+            if( parent == nullptr && craft_reservation::contains_reserved( *e ) ) {
+                return VisitResponse::SKIP;
+            }
             if( e->use_charges( what, qty, res, pos_bub(), filter, this, in_tools ) ) {
                 del.push_back( e );
             }
@@ -5760,6 +5787,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     if( has_tool_with_UPS ) {
         consume_ups( units::from_kilojoule( static_cast<std::int64_t>( qty ) ), radius );
     }
+    invalidate_inventory_validity_cache();
 
     return res;
 }
@@ -7233,7 +7261,7 @@ void Character::abort_automove()
     }
 
     clear_destination();
-    if( g->overmap_data.fast_traveling && is_avatar() ) {
+    if( g->overmap_data.overmap_only_auto_travel && is_avatar() ) {
         ui::omap::force_quit();
     }
 }

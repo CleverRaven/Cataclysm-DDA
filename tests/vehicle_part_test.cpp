@@ -16,7 +16,6 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_location.h"
@@ -76,6 +75,8 @@ static const vproto_id vehicle_prototype_test_rv( "test_rv" );
 
 static time_point midnight = calendar::turn_zero;
 static time_point midday = midnight + 12_hours;
+
+class temp_crafting_inventory;
 
 TEST_CASE( "verify_copy_from_gets_damage_reduction", "[vehicle]" )
 {
@@ -191,7 +192,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     veh.charge_battery( here, give_battery );
 
     character.invalidate_crafting_inventory();
-    const inventory &crafting_inv = character.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = character.crafting_inventory();
     bool can_craft = recipe
                      .deduped_requirements()
                      .can_make_with_inventory( &character, crafting_inv, recipe.get_component_filter() );
