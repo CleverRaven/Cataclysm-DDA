@@ -3,6 +3,7 @@
 #define CATA_SRC_MAPGEN_POST_PROCESS_H
 
 #include <cstdint>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
