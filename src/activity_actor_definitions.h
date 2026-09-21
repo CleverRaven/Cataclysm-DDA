@@ -87,12 +87,35 @@ class zone_activity_actor : public activity_actor
 
         void update_vehicle_zone_cache();
 
+        // called when a run of DO passes stops making progress, before the stage
+        // resets. base does nothing; overriders release what the stage held
+        virtual void on_no_progress( Character & ) {}
+
     protected:
         int moves;
         int num_processed;
         zone_activity_stage stage = UNINIT;
         std::unordered_set<tripoint_abs_ms> coord_set;
         tripoint_abs_ms placement;
+
+        // DO passes in one turn that spent no moves. the caller re-enters
+        // do_turn while moves remain, so an unbroken run of these never ends the
+        // turn. stamped with its turn so a stale count cannot outlive it
+        int zero_move_dispatches = 0; // NOLINT(cata-serialize)
+        time_point zero_move_turn = calendar::turn_zero; // NOLINT(cata-serialize)
+
+        // call from stage_do wherever real progress happens: route_to_destination
+        // copies the activity, so a clone taken later in the same pass carries
+        // the cleared count
+        void note_progress() {
+            zero_move_dispatches = 0;
+        }
+
+        // zero-move dispatches tolerated in one turn. one per source tile is
+        // legitimate, so twice that plus a margin
+        int zero_move_budget() const {
+            return 2 * static_cast<int>( coord_set.size() ) + 8;
+        }
 };
 
 /*
@@ -4163,6 +4186,8 @@ class zone_sort_activity_actor : public zone_activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
         void update_other_activity_items();
+
+        void on_no_progress( Character &you ) override;
 
         // Viewport lock: restore zoom and clear Character viewport state.
         void restore_viewport( Character &you );

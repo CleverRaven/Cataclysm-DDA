@@ -13656,7 +13656,34 @@ void zone_activity_actor::do_turn( player_activity &act, Character &you )
     }
     if( stage == DO ) {
         //to end this activity, THINK stage must resolve all zone tiles
+        if( zero_move_turn != calendar::turn ) {
+            zero_move_turn = calendar::turn;
+            zero_move_dispatches = 0;
+        }
+        const int moves_before = you.get_moves();
+        const activity_actor *const dispatched = act.actor.get();
         stage_do( act, you );
+        // stage_do can null this activity (routing) or swap in another one
+        // (gunmod removal); either destroys this actor, so read no member
+        // unless the activity still holds the dispatched actor
+        if( act.is_null() || act.actor.get() != dispatched ) {
+            return;
+        }
+        if( you.get_moves() != moves_before ) {
+            zero_move_dispatches = 0;
+            return;
+        }
+        if( stage == DO && ++zero_move_dispatches > zero_move_budget() ) {
+            // passes that spend nothing are normal; an unbroken run of them in one
+            // turn is not, and the caller re-enters while moves remain
+            add_msg_debug( debugmode::DF_ACTIVITY,
+                           "zone activity: %d zero-move DO dispatches in one turn, forcing THINK",
+                           zero_move_dispatches );
+            zero_move_dispatches = 0;
+            on_no_progress( you );
+            stage = THINK;
+            you.mod_moves( -1 );
+        }
         return;
     }
     // If we got here without restarting the activity, it means we're done
@@ -13986,6 +14013,16 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
     return true;
 }
 
+void zone_sort_activity_actor::on_no_progress( Character &you )
+{
+    // stage_think clears picked_up_stuff and dropoff_coords, so a staged batch
+    // has to go back to its source tile or it rides along untracked
+    if( !picked_up_stuff.empty() ) {
+        return_items_to_source( you, get_map().get_bub( placement ) );
+    }
+    unreachable_sources.emplace( placement );
+}
+
 void zone_sort_activity_actor::return_items_to_source( Character &you,
         const tripoint_bub_ms &src_bub )
 {
@@ -14150,6 +14187,9 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
             bool routed = false;
             auto dest_it = dropoff_coords.begin();
+            // routing copies the activity, so the stall counter has to be clear
+            // before the copy is taken, not after this call returns
+            note_progress();
             while( dest_it != dropoff_coords.end() ) {
                 if( zone_sorting::route_to_destination( you, act, here.get_bub( *dest_it ), stage ) ) {
                     routed = true;
@@ -14315,6 +14355,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 }
                 num_processed--;
                 delivered = true;
+                note_progress();
                 break;
             }
             if( delivered ) {
@@ -14526,6 +14567,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         // OK, we can sort this!
         picked_up_stuff.emplace_back( thisitem_loc );
         picked_up_this_pass = true;
+        note_progress();
         // out of moves or item was unloaded
         if( you.get_moves() <= 0 || *move_and_reset ) {
             return;
@@ -14620,6 +14662,11 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             }
         }
         if( picked_up_this_pass ) {
+            // evaluate batching at most once per pickup pass. every exit below
+            // (including early returns) must leave this false: a pass returning
+            // with it true re-enters DO without spending a move, and the caller
+            // keeps re-entering while moves remain.
+            picked_up_this_pass = false;
             // Pre-fetch cart cargo for per-item volume check
             std::optional<vpart_reference> batch_cart_vp;
             if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
@@ -14768,6 +14815,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                     // Already adjacent, re-enter DO to process batch target
                     return;
                 }
+                note_progress();
                 if( zone_sorting::route_to_destination( you, act,
                                                         here.get_bub( batch_target ), stage ) ) {
                     return;
@@ -14775,9 +14823,6 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 // Can't reach batch target, mark unreachable and fall through to delivery
                 unreachable_sources.emplace( batch_target );
             }
-            // Reset after evaluation. Prevents infinite loops when a batch
-            // target has no pickable items (zero moves consumed per cycle).
-            picked_up_this_pass = false;
         }
 
         bool match = false;
@@ -14849,6 +14894,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         if( square_dist( abspos, destination ) <= 1 ) {
             return;
         }
+        note_progress();
         if( !zone_sorting::route_to_destination( you, act, here.get_bub( destination ), stage ) ) {
             // Defensive: route_length passed (destination was in dropoff_coords)
             // but route_to_destination failed. Both use the same A* in a single
