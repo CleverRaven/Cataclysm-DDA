@@ -2676,6 +2676,58 @@
     "copy-from": "military_papr_mask",
     "flags": [ "SLEEP_IGNORE", "VARSIZE", "PADDED" ],
     "tool_ammo": "gasfilter_m",
+    "armor": [
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_nape" ],
+        "coverage": 25,
+        "encumbrance": 0,
+        "layers": [ "SKINTIGHT" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [ { "type": "butyl_rubber", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "volume_encumber_modifier": 0,
+        "layers": [ "SKINTIGHT" ]
+      },
+      {
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "SKINTIGHT", "NORMAL" ],
+        "rigid_layer_only": true,
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "butyl_rubber", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "plastic", "covered_by_mat": 30, "thickness": 1 }
+        ],
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_lips", "mouth_nose", "mouth_chin" ],
+        "coverage": 100,
+        "encumbrance": [ 20, 40 ],
+        "layers": [ "SKINTIGHT", "NORMAL" ]
+      },
+      {
+        "material": [
+          { "type": "butyl_rubber", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "plastic", "covered_by_mat": 25, "thickness": 1 }
+        ],
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_cheeks" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "SKINTIGHT", "NORMAL" ],
+        "volume_encumber_modifier": 0
+      }
+    ],
     "use_action": [
       "GASMASK_ACTIVATE",
       {
