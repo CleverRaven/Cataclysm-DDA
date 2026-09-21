@@ -7139,13 +7139,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "name": "Canned Fish(Jars and Tins)",
     "description": "Recipes related to putting canned fish in jars and tins.",
-    "nested_category_data": [
-      "fish_canned_jarred",
-      "fish_canned_jarred_3l",
-      "fish_canned",
-      "fish_canned_canned_medium",
-      "fish_canned_canned_big"
-    ]
+    "nested_category_data": [ "fish_canned_jarred", "fish_canned_jarred_3l", "fish_canned", "fish_canned_canned_medium", "fish_canned_canned_big" ]
   },
   {
     "id": "nested_pickled_fish",
