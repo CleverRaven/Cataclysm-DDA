@@ -7093,13 +7093,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "name": "Catfood(Jars and Tins)",
     "description": "Recipes related to putting catfood in jars and tins.",
-    "nested_category_data": [
-      "catfood_jarred",
-      "catfood_jarred_3l",
-      "catfood_canned",
-      "catfood_canned_medium",
-      "catfood_canned_big"
-    ]
+    "nested_category_data": [ "catfood_jarred", "catfood_jarred_3l", "catfood_canned", "catfood_canned_medium", "catfood_canned_big" ]
   },
   {
     "id": "nested_mushroom_soup",
