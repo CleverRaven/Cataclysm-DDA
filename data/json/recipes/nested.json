@@ -7287,12 +7287,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "name": "Canned Beans(Jars and Tins)",
     "description": "Recipes related to putting canned beans in jars and tins.",
-    "nested_category_data": [
-      "can_beans_jarred",
-      "can_beans_jarred_3l",
-      "can_beans",
-      "can_beans_canned_big"
-    ]
+    "nested_category_data": [ "can_beans_jarred", "can_beans_jarred_3l", "can_beans", "can_beans_canned_big" ]
   },
   {
     "id": "nested_con_milk",
