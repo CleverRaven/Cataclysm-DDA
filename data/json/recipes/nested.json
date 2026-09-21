@@ -7251,13 +7251,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "name": "Broth(Jars and Tins)",
     "description": "Recipes related to putting broth in jars and tins.",
-    "nested_category_data": [
-      "broth_jarred",
-      "broth_jarred_3l",
-      "broth_canned",
-      "broth_canned_small",
-      "broth_canned_big"
-    ]
+    "nested_category_data": [ "broth_jarred", "broth_jarred_3l", "broth_canned", "broth_canned_small", "broth_canned_big" ]
   },
   {
     "id": "nested_broth_meat",
