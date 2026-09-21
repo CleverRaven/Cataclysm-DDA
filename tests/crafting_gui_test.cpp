@@ -38,10 +38,7 @@ static const itype_id itype_family_cookbook( "family_cookbook" );
 static const itype_id itype_fat( "fat" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_knife_hunting( "knife_hunting" );
-static const itype_id itype_pepper( "pepper" );
 static const itype_id itype_rock( "rock" );
-static const itype_id itype_salt( "salt" );
-static const itype_id itype_tomato_juice( "tomato_juice" );
 
 static const proficiency_id proficiency_prof_carving( "prof_carving" );
 static const proficiency_id proficiency_prof_food_prep( "prof_food_prep" );
@@ -135,7 +132,7 @@ TEST_CASE( "crafting_gui_component_availability_uses_batch_size", "[crafting][gu
 
     const recipe &rec = recipe_cudgel_test_apparent_craftable.obj();
     const requirement_data &req = rec.simple_requirements();
-    const auto &components = req.get_components();
+    const requirement_data::alter_item_comp_vector &components = req.get_components();
     const auto filter = rec.get_component_filter();
 
     CHECK( req.can_make_with_inventory( &guy, guy.crafting_inventory(), filter, 1 ) );
