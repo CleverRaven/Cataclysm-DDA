@@ -7149,10 +7149,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "name": "Pickled Fish(Jars and Tins)",
     "description": "Recipes related to putting pickled fish in jars and tins.",
-    "nested_category_data": [
-      "fish_pickled_jarred",
-      "fish_pickled_jarred_3l"
-    ]
+    "nested_category_data": [ "fish_pickled_jarred", "fish_pickled_jarred_3l" ]
   },
   {
     "id": "nested_canned_lobster",
