@@ -8,6 +8,8 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <tuple>
+#include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
@@ -67,9 +69,21 @@ class temp_crafting_inventory : public read_only_visitable
         // inherited from visitable. note: temp_owned_items are copied into items
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
         override;
+        VisitResponse visit_items_of_type( const itype_id &type,
+                const std::function<VisitResponse( item *, item * )> &func ) const override;
+        bool has_provider_quality( const quality_id &qual, int level, int qty,
+                                   const Character *who,
+                                   quality_count mode = quality_count::providers ) const override;
 
         // these functions are identical to inventory
         int count_item( const itype_id &item_type ) const;
+        int charges_of( const itype_id &what, int limit = INT_MAX,
+                        const std::function<bool( const item & )> &filter = return_true<item>,
+                        const std::function<void( int )> &visitor = nullptr,
+                        bool in_tools = false ) const override;
+        int amount_of(
+            const itype_id &what, bool pseudo = true, int limit = INT_MAX,
+            const std::function<bool( const item & )> &filter = return_true<item> ) const override;
 
         void form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zone_pts,
                              const Character *pl = nullptr );
@@ -99,6 +113,19 @@ class temp_crafting_inventory : public read_only_visitable
         cata::colony<item *> item_copies;
         // this is only walked in visitable for tool qualities!
         cata::colony<item> temp_owned_items;
+
+        using item_bin = std::unordered_map<itype_id, std::vector<const item *>>;
+        mutable bool binned = false;
+        mutable item_bin binned_items;
+        mutable item_bin binned_tool_items;
+        mutable std::map<std::pair<itype_id, bool>, int> unfiltered_amount;
+        mutable std::map<std::pair<itype_id, bool>, int> unfiltered_charges;
+        mutable std::map<std::tuple<quality_id, int, int, const Character *, quality_count>, bool>
+        provider_quality_cache;
+
+        void build_item_bins() const;
+        bool can_cache() const;
+        void invalidate_caches();
 
         // moved from inventory
         std::map<itype_id, int> max_empty_liq_cont;

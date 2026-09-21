@@ -5,6 +5,7 @@
 #include <memory>
 #include <optional>
 #include <set>
+#include <unordered_set>
 #include <utility>
 
 #include "calendar.h"
@@ -33,10 +34,20 @@
 class vehicle;
 
 static const flag_id json_flag_PSEUDO( "PSEUDO" );
+static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
 
 static const itype_id itype_brick_oven_pseudo( "brick_oven_pseudo" );
 static const itype_id itype_butchery_tree_pseudo( "butchery_tree_pseudo" );
 static const itype_id itype_fire( "fire" );
+static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_any( "any" );
+
+static bool is_unfiltered( const std::function<bool( const item & )> &filter )
+{
+    using filter_type = bool ( * )( const item & );
+    const filter_type *fn = filter.target<filter_type>();
+    return fn != nullptr && *fn == &return_true<item>;
+}
 
 temp_crafting_inventory::temp_crafting_inventory( const temp_crafting_inventory &v )
 {
@@ -76,22 +87,41 @@ void temp_crafting_inventory::clear()
     temp_owned_items.clear();
     max_empty_liq_cont.clear();
     pseudo_items.clear();
+    invalidate_caches();
+    binned_items.clear();
+    binned_tool_items.clear();
+}
+
+bool temp_crafting_inventory::can_cache() const
+{
+    return items.empty() && items_loc.empty();
+}
+
+void temp_crafting_inventory::invalidate_caches()
+{
+    binned = false;
+    unfiltered_amount.clear();
+    unfiltered_charges.clear();
+    provider_quality_cache.clear();
 }
 
 void temp_crafting_inventory::add_item_ref( item &item )
 {
     items.insert( &item );
+    invalidate_caches();
 }
 
 void temp_crafting_inventory::add_item_loc( const item_location &loc )
 {
     items_loc.insert( loc );
+    invalidate_caches();
 }
 
 item &temp_crafting_inventory::add_item_copy( const item &item )
 {
     const auto iter = temp_owned_items.insert( item );
     item_copies.insert( &( *iter ) );
+    invalidate_caches();
     return *iter;
 }
 
@@ -176,15 +206,130 @@ void temp_crafting_inventory::add_all_ref( const vehicle_cursor &cur )
 
 int temp_crafting_inventory::count_item( const itype_id &item_type ) const
 {
+    build_item_bins();
     int num = 0;
-    visit_items(
-    [&]( item * node, item * ) {
-        if( node->typeId() == item_type ) {
-            num += node->count();
-        }
-        return VisitResponse::NEXT;
-    } );
+    const auto iter = binned_items.find( item_type );
+    if( iter == binned_items.end() ) {
+        return 0;
+    }
+    for( const item *it : iter->second ) {
+        num += it->count();
+    }
     return num;
+}
+
+int temp_crafting_inventory::amount_of( const itype_id &what, bool pseudo, int limit,
+                                        const std::function<bool( const item & )> &filter ) const
+{
+    if( what == itype_any ) {
+        return read_only_visitable::amount_of( what, pseudo, limit, filter );
+    }
+
+    const auto key = std::make_pair( what, pseudo );
+    const bool cache_result = is_unfiltered( filter ) && limit == INT_MAX;
+    if( can_cache() && is_unfiltered( filter ) ) {
+        const auto cached = unfiltered_amount.find( key );
+        if( cached != unfiltered_amount.end() ) {
+            return std::min( cached->second, limit );
+        }
+    }
+
+    build_item_bins();
+    const auto iter = binned_items.find( what );
+    if( iter == binned_items.end() ) {
+        if( can_cache() && cache_result ) {
+            unfiltered_amount.emplace( key, 0 );
+        }
+        return 0;
+    }
+
+    int result = 0;
+    for( const item *it : iter->second ) {
+        if( !it->has_flag( json_flag_ITEM_BROKEN ) && filter( *it ) &&
+            ( pseudo || !it->has_flag( json_flag_PSEUDO ) ) ) {
+            ++result;
+            if( result == limit ) {
+                break;
+            }
+        }
+    }
+    if( can_cache() && cache_result ) {
+        unfiltered_amount.emplace( key, result );
+    }
+    return result;
+}
+
+int temp_crafting_inventory::charges_of( const itype_id &what, int limit,
+        const std::function<bool( const item & )> &filter,
+        const std::function<void( int )> &visitor, bool in_tools ) const
+{
+    const auto key = std::make_pair( what, in_tools );
+    if( can_cache() && visitor == nullptr && is_unfiltered( filter ) ) {
+        const auto cached = unfiltered_charges.find( key );
+        if( cached != unfiltered_charges.end() ) {
+            return std::min( cached->second, limit );
+        }
+        const int result = read_only_visitable::charges_of( what, INT_MAX, filter, nullptr, in_tools );
+        unfiltered_charges.emplace( key, result );
+        return std::min( result, limit );
+    }
+    return read_only_visitable::charges_of( what, limit, filter, visitor, in_tools );
+}
+
+bool temp_crafting_inventory::has_provider_quality( const quality_id &qual, int level, int qty,
+        const Character *who, quality_count mode ) const
+{
+    const auto key = std::make_tuple( qual, level, qty, who, mode );
+    if( can_cache() ) {
+        const auto cached = provider_quality_cache.find( key );
+        if( cached != provider_quality_cache.end() ) {
+            return cached->second;
+        }
+    }
+    const bool result = read_only_visitable::has_provider_quality( qual, level, qty, who, mode );
+    if( can_cache() ) {
+        provider_quality_cache.emplace( key, result );
+    }
+    return result;
+}
+
+void temp_crafting_inventory::build_item_bins() const
+{
+    if( binned && can_cache() ) {
+        return;
+    }
+
+    binned_items.clear();
+    binned_tool_items.clear();
+    const auto add_root = [&]( const item *root ) {
+        root->visit_items( [&]( item *node, item * ) {
+            const itype_id type = node->typeId();
+            binned_items[type].push_back( node );
+            binned_tool_items[type].push_back( node );
+            const bool is_ups = node->has_flag( flag_IS_UPS );
+            if( is_ups && type != itype_UPS ) {
+                binned_tool_items[itype_UPS].push_back( node );
+            }
+            const itype_id ammo = node->ammo_current();
+            if( ammo.is_valid() && ammo != type && !( is_ups && ammo == itype_UPS ) ) {
+                binned_tool_items[ammo].push_back( node );
+            }
+            return VisitResponse::NEXT;
+        } );
+    };
+
+    for( item *it : items ) {
+        add_root( it );
+    }
+    for( item *it : item_copies ) {
+        add_root( it );
+    }
+    for( const item_location &loc : items_loc ) {
+        if( const item *it = loc.get_item() ) {
+            add_root( it );
+        }
+    }
+    binned = true;
 }
 
 void temp_crafting_inventory::form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zone_pts,

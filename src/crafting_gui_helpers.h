@@ -32,23 +32,30 @@ bool cannot_gain_skill_or_prof( const Character &crafter, const recipe &recp );
 // Stores craftability flags, color-coding, and lazy-cached proficiency maluses.
 struct availability {
         explicit availability( Character &_crafter, const recipe *recp, int batch_size = 1,
-                               bool camp_crafting = false, temp_crafting_inventory *inventory_override = nullptr );
+                               bool camp_crafting = false, temp_crafting_inventory *inventory_override = nullptr,
+                               bool defer_expensive_checks = false );
         Character &crafter;
         bool can_craft_recipe;
         // group can introduce recipe this crafter cannot craft because of low primary skill
         bool crafter_has_primary_skill;
-        bool would_use_rotten;
-        bool would_use_favorite;
+        mutable bool would_use_rotten = false;
+        mutable bool would_use_favorite = false;
         bool useless_practice;
-        bool apparently_craftable;
+        mutable bool apparently_craftable = false;
         bool has_proficiencies;
         bool has_all_skills;
         bool is_nested_category;
         // Used as an indicator to see if crafting is called via camp.
         // If not nullptr, we must be camp crafting.
         temp_crafting_inventory *inv_override;
+        void ensure_item_warnings() const;
+        void ensure_apparently_craftable() const;
     private:
         const recipe *rec;
+        int batch_size = 1;
+        mutable bool item_warnings_checked = false;
+        bool apparently_craftable_checkable = false;
+        mutable bool apparently_craftable_checked = false;
         mutable float proficiency_time_maluses = -1.0f;
         mutable float max_proficiency_time_maluses = -1.0f;
         mutable float proficiency_skill_maluses = -1.0f;

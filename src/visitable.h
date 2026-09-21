@@ -45,6 +45,9 @@ class read_only_visitable
         virtual VisitResponse visit_items(
             const std::function<VisitResponse( item *, item * )> &func ) const = 0;
 
+        virtual VisitResponse visit_items_of_type( const itype_id &type,
+                const std::function<VisitResponse( item *, item * )> &func ) const;
+
         /**
          * Determine the immediate parent container (if any) for an item.
          * @param it item to search for which must be contained (at any depth) by this object
@@ -70,9 +73,9 @@ class read_only_visitable
         // non-recursive. container doesn't get credit for tool inside it. `mode`: charge
         // stack answers once or once per charge. `who`: charged qualities (can be null,
         // drops character-owned power).
-        bool has_provider_quality( const quality_id &qual, int level, int qty,
-                                   const Character *who,
-                                   quality_count mode = quality_count::providers ) const;
+        virtual bool has_provider_quality( const quality_id &qual, int level, int qty,
+                                           const Character *who,
+                                           quality_count mode = quality_count::providers ) const;
 
         /** Return maximum tool quality level provided by instance or INT_MIN if not found */
         virtual int max_quality( const quality_id &qual ) const;

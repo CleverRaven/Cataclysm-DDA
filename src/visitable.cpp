@@ -90,6 +90,12 @@ bool read_only_visitable::has_item( const item &it ) const
     } ) == VisitResponse::ABORT;
 }
 
+VisitResponse read_only_visitable::visit_items_of_type( const itype_id &,
+        const std::function<VisitResponse( item *, item * )> &func ) const
+{
+    return visit_items( func );
+}
+
 /** @relates visitable */
 bool read_only_visitable::has_item_with( const std::function<bool( const item & )> &filter ) const
 {
@@ -557,6 +563,22 @@ VisitResponse temp_crafting_inventory::visit_items(
     return VisitResponse::NEXT;
 }
 
+VisitResponse temp_crafting_inventory::visit_items_of_type(
+    const itype_id &type, const std::function<VisitResponse( item *, item * )> &func ) const
+{
+    build_item_bins();
+    const auto iter = binned_tool_items.find( type );
+    if( iter == binned_tool_items.end() ) {
+        return VisitResponse::NEXT;
+    }
+    for( const item *it : iter->second ) {
+        if( func( const_cast<item *>( it ), nullptr ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+    return VisitResponse::NEXT;
+}
+
 VisitResponse outfit::visit_items( const std::function<VisitResponse( item *, item * )> &func )
 const
 {
@@ -775,6 +797,7 @@ std::list<item> temp_crafting_inventory::remove_items_with( const
         return res;
     }
 
+    invalidate_caches();
     for( auto iter = items.begin(); iter != items.end(); ) {
         if( filter( **iter ) ) {
             const int c = ( *iter )->count();
@@ -1068,7 +1091,7 @@ static void scan_tool_charges( const T &self, const itype_id &id,
                                int &raw_ups_charges )
 {
     map &here = get_map();
-    self.visit_items( [&]( const item * e, item * ) {
+    self.visit_items_of_type( id, [&]( const item * e, item * ) {
         if( filter( *e ) &&
             ( id == e->typeId() || ( in_tools && id == e->ammo_current() ) ||
               ( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) ) &&

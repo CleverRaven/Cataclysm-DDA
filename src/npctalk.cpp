@@ -6444,7 +6444,7 @@ void queue_eocs( const std::vector<eoc_entry> &eocs, dialogue &d, dialogue newDi
 
 void run_eocs( const std::vector<eoc_entry> &eocs, dialogue &d, dialogue newDialog,
                std::optional<dbl_or_var> const &iterations,
-               std::optional<std::function<bool( dialogue & )>> const &cond )
+               std::optional<std::function<bool( const_dialogue const & )>> const &cond )
 {
     int i = 0;
 

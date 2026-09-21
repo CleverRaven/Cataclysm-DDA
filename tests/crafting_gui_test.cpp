@@ -38,6 +38,9 @@ static const itype_id itype_fat( "fat" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_knife_hunting( "knife_hunting" );
 static const itype_id itype_rock( "rock" );
+static const itype_id itype_pepper( "pepper" );
+static const itype_id itype_salt( "salt" );
+static const itype_id itype_tomato_juice( "tomato_juice" );
 
 static const proficiency_id proficiency_prof_carving( "prof_carving" );
 static const proficiency_id proficiency_prof_food_prep( "prof_food_prep" );
@@ -51,6 +54,7 @@ static const recipe_id recipe_prac_knapping( "prac_knapping" );
 static const recipe_id recipe_test_longshirt_test_poor_fit( "test_longshirt_test_poor_fit" );
 static const recipe_id recipe_test_nested_weapons( "test_nested_weapons" );
 static const recipe_id recipe_test_tallow( "test_tallow" );
+static const recipe_id recipe_drink_virgin_mary( "drink_virgin_mary" );
 static const recipe_id recipe_water_clean_test_in_jar( "water_clean_test_in_jar" );
 
 static const skill_id skill_cooking( "cooking" );
@@ -103,6 +107,26 @@ TEST_CASE( "recipe_availability_missing_component", "[crafting][gui]" )
     CHECK( avail.color() == c_dark_gray );
 }
 
+TEST_CASE( "recipe_availability_apparently_craftable_can_be_deferred", "[crafting][gui]" )
+{
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_cooking, 3 );
+    guy.i_add( item( itype_tomato_juice ) );
+    guy.i_add( item( itype_salt ) );
+    guy.i_add( item( itype_pepper ) );
+    guy.invalidate_crafting_inventory();
+
+    const recipe &rec = recipe_drink_virgin_mary.obj();
+    availability eager( guy, &rec );
+    availability lazy( guy, &rec, 1, false, nullptr, true );
+
+    CHECK( lazy.can_craft_recipe == eager.can_craft_recipe );
+    CHECK_FALSE( lazy.apparently_craftable );
+    lazy.ensure_apparently_craftable();
+    CHECK( eager.apparently_craftable );
+    CHECK( lazy.apparently_craftable );
+}
+
 TEST_CASE( "recipe_availability_insufficient_skill", "[crafting][gui]" )
 {
     Character &guy = setup_character();
@@ -137,11 +161,11 @@ TEST_CASE( "recipe_availability_would_use_rotten", "[crafting][gui]" )
     guy.invalidate_crafting_inventory();
 
     const recipe &rec = recipe_test_tallow.obj();
-    availability avail( guy, &rec );
+    availability avail( guy, &rec, 1, false, nullptr, true );
 
-    CHECK( avail.would_use_rotten );
-    // has_all_skills is true, so rotten color is c_brown
+    CHECK_FALSE( avail.would_use_rotten );
     CHECK( avail.color() == c_brown );
+    CHECK( avail.would_use_rotten );
 }
 
 TEST_CASE( "recipe_availability_would_use_favorite", "[crafting][gui]" )

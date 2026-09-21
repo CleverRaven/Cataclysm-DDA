@@ -857,7 +857,7 @@ std::vector<std::string> requirement_data::get_folded_list( const Character *act
         requirement_display_flags flags ) const
 {
     // Refresh the cached availability.
-    can_make_with_inventory( actor, crafting_inv, filter );
+    can_make_with_inventory( actor, crafting_inv, filter, batch );
 
     const bool no_unavailable =
         static_cast<bool>( flags & requirement_display_flags::no_unavailable );
@@ -1103,7 +1103,8 @@ nc_color item_comp::get_color( const Character *actor, bool has_one,
 {
     if( available == available_status::a_insufficient ) {
         return c_brown;
-    } else if( has( actor, crafting_inv, filter, batch ) ) {
+    } else if( ( actor != nullptr && actor->has_trait( trait_DEBUG_HS ) ) ||
+               available == available_status::a_true ) {
         // Will use non-empty liquid container
         if( std::any_of( type->pockets.begin(), type->pockets.end(), []( const pocket_data & d ) {
         return d.type == pocket_type::CONTAINER && d.watertight;

@@ -7,6 +7,7 @@
 static const itype_id itype_test_fire_ax( "test_fire_ax" );
 static const itype_id itype_test_gum( "test_gum" );
 static const itype_id itype_test_halligan( "test_halligan" );
+static const itype_id itype_backpack( "backpack" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_DIG( "DIG" );
@@ -19,17 +20,27 @@ TEST_CASE( "temp_crafting_inv_test_amount", "[crafting][inventory]" )
     CHECK( inv.size() == 0 );
 
     item gum( itype_test_gum, calendar::turn_zero, item::default_charges_tag{} );
+    const int gum_count = gum.count();
+    item backpack( itype_backpack );
+    REQUIRE( backpack.put_in( gum, pocket_type::CONTAINER ).success() );
 
-    inv.add_item_ref( gum );
+    inv.add_item_copy( backpack );
     CHECK( inv.size() == 1 );
 
     CHECK( inv.amount_of( itype_test_gum ) == 1 );
+    CHECK( inv.count_item( itype_test_gum ) == gum_count );
     CHECK( inv.has_amount( itype_test_gum, 1 ) );
-    CHECK( inv.has_charges( itype_test_gum, 10 ) );
-    CHECK_FALSE( inv.has_charges( itype_test_gum, 11 ) );
+    CHECK( inv.has_charges( itype_test_gum, gum_count ) );
+    CHECK_FALSE( inv.has_charges( itype_test_gum, gum_count + 1 ) );
 
     inv.clear();
     CHECK( inv.size() == 0 );
+
+    item live_gum( itype_test_gum, calendar::turn_zero, item::default_charges_tag{} );
+    inv.add_item_ref( live_gum );
+    CHECK( inv.charges_of( itype_test_gum ) == live_gum.charges );
+    live_gum.charges = 0;
+    CHECK( inv.charges_of( itype_test_gum ) == 0 );
 }
 
 TEST_CASE( "temp_crafting_inv_test_quality", "[crafting][inventory]" )
@@ -42,9 +53,16 @@ TEST_CASE( "temp_crafting_inv_test_quality", "[crafting][inventory]" )
     CHECK_FALSE( inv.has_quality( qual_HAMMER, 3 ) );
     CHECK( inv.has_quality( qual_DIG, 1 ) );
     CHECK_FALSE( inv.has_quality( qual_AXE ) );
+    CHECK_FALSE( inv.has_provider_quality( qual_AXE, 1, 1, nullptr ) );
 
-    inv.add_item_copy( item( itype_test_fire_ax ) );
+    item &fire_ax = inv.add_item_copy( item( itype_test_fire_ax ) );
     CHECK( inv.has_quality( qual_AXE ) );
+    CHECK( inv.has_provider_quality( qual_AXE, 1, 1, nullptr ) );
+
+    inv.remove_items_with( [&fire_ax]( const item &it ) {
+        return &it == &fire_ax;
+    } );
+    CHECK_FALSE( inv.has_provider_quality( qual_AXE, 1, 1, nullptr ) );
 
     CHECK( inv.max_quality( qual_PRY ) == 4 );
 }

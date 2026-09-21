@@ -99,10 +99,12 @@ float availability::get_max_proficiency_skill_maluses() const
 }
 
 availability::availability( Character &_crafter, const recipe *recp, int batch_size,
-                            bool camp_crafting, temp_crafting_inventory *inventory_override ) :
+                            bool camp_crafting, temp_crafting_inventory *inventory_override,
+                            bool defer_expensive_checks ) :
     crafter( _crafter )
 {
     rec = recp;
+    this->batch_size = batch_size;
     inv_override = inventory_override;
 
     const temp_crafting_inventory &inv = camp_crafting ? *inv_override : crafter.crafting_inventory();
@@ -153,43 +155,15 @@ availability::availability( Character &_crafter, const recipe *recp, int batch_s
     would_use_rotten = false;
     would_use_favorite = false;
 
-    if( can_craft_recipe && !is_nested ) {
-        const deduped_requirement_data &req_data = recp->deduped_requirements();
-
-        const auto no_rotten_filter = recp->get_component_filter( recipe_filter_flags::no_rotten );
-        const auto no_favorite_filter = recp->get_component_filter( recipe_filter_flags::no_favorite );
-
-        would_use_rotten =
-            !req_data.can_make_with_inventory(
-                &crafter, inv, no_rotten_filter,
-                batch_size, flag
-            );
-
-        would_use_favorite =
-            !req_data.can_make_with_inventory(
-                &crafter, inv, no_favorite_filter,
-                batch_size, flag
-            );
-    }
-
-    apparently_craftable = false;
-
-    if( !can_craft_recipe &&
-        !is_nested &&
-        !npc_cannot_craft &&
-        character_base_requirements ) {
-
-        const auto all_items_filter = recp->get_component_filter( recipe_filter_flags::none );
-
-        apparently_craftable =
-            recp->simple_requirements().can_make_with_inventory(
-                &crafter, inv, all_items_filter,
-                batch_size, flag
-            );
-    }
-
     useless_practice = is_practice && cannot_gain_skill_or_prof( crafter, *recp );
     is_nested_category = is_nested;
+    apparently_craftable_checkable = !can_craft_recipe && !is_nested && !npc_cannot_craft &&
+                                     character_base_requirements;
+
+    if( !defer_expensive_checks ) {
+        ensure_apparently_craftable();
+        ensure_item_warnings();
+    }
 
     // Idk whats going on here so i will leave it for now
     for( const auto &[skill, skill_lvl] : recp->required_skills ) {
@@ -200,8 +174,49 @@ availability::availability( Character &_crafter, const recipe *recp, int batch_s
     }
 }
 
+void availability::ensure_apparently_craftable() const
+{
+    if( apparently_craftable_checked ) {
+        return;
+    }
+    apparently_craftable_checked = true;
+    if( !apparently_craftable_checkable ) {
+        return;
+    }
+
+    const temp_crafting_inventory &inv = inv_override ? *inv_override : crafter.crafting_inventory();
+    const craft_flags flag = inv_override ? craft_flags::none : craft_flags::start_only;
+    apparently_craftable = rec->simple_requirements().can_make_with_inventory(
+                               &crafter, inv, rec->get_component_filter( recipe_filter_flags::none ),
+                               batch_size, flag );
+}
+
+void availability::ensure_item_warnings() const
+{
+    if( item_warnings_checked ) {
+        return;
+    }
+    item_warnings_checked = true;
+    would_use_rotten = false;
+    would_use_favorite = false;
+    if( !can_craft_recipe || is_nested_category ) {
+        return;
+    }
+
+    const temp_crafting_inventory &inv = inv_override ? *inv_override : crafter.crafting_inventory();
+    const craft_flags flag = inv_override ? craft_flags::none : craft_flags::start_only;
+    const deduped_requirement_data &req_data = rec->deduped_requirements();
+    would_use_rotten = !req_data.can_make_with_inventory(
+                           &crafter, inv, rec->get_component_filter( recipe_filter_flags::no_rotten ),
+                           batch_size, flag );
+    would_use_favorite = !req_data.can_make_with_inventory(
+                             &crafter, inv, rec->get_component_filter( recipe_filter_flags::no_favorite ),
+                             batch_size, flag );
+}
+
 nc_color availability::selected_color() const
 {
+    ensure_item_warnings();
     if( !can_craft_recipe && is_nested_category ) {
         return h_blue;
     } else if( !can_craft_recipe ) {
@@ -223,6 +238,7 @@ nc_color availability::selected_color() const
 
 nc_color availability::color( bool ignore_missing_skills ) const
 {
+    ensure_item_warnings();
     if( !can_craft_recipe && is_nested_category ) {
         return c_blue;
     } else if( !can_craft_recipe ) {
@@ -245,7 +261,7 @@ nc_color availability::color( bool ignore_missing_skills ) const
 bool availability::check_can_craft_nested( Character &_crafter, const recipe &r )
 {
     for( const recipe_id &nested_r : r.nested_category_data ) {
-        if( availability( _crafter, &nested_r.obj() ).can_craft_recipe ) {
+        if( availability( _crafter, &nested_r.obj(), 1, false, nullptr, true ).can_craft_recipe ) {
             return true;
         }
     }
@@ -341,6 +357,7 @@ std::vector<std::string> recipe_info(
     const nc_color &color,
     const std::vector<Character *> &crafting_group )
 {
+    avail.ensure_item_warnings();
     std::ostringstream oss;
     oss << string_format( _( "Crafter: %s\n" ), guy.name_and_maybe_activity() );
 
@@ -432,6 +449,7 @@ std::vector<std::string> recipe_info(
     }
     std::string reason;
     bool npc_cant = avail.crafter.is_npc() && !recp.npc_can_craft( reason ) && !avail.inv_override ;
+    avail.ensure_apparently_craftable();
     if( !can_craft_this && avail.apparently_craftable && !recp.is_nested() && !npc_cant ) {
         oss << _( "<color_red>Cannot be crafted because the same item is needed "
                   "for multiple components.</color>\n" );
@@ -981,7 +999,7 @@ static void recursively_expand_recipes( std::vector<const recipe *> &current,
             if( !availability_cache.count( &nested.obj() ) ) {
                 availability_cache.emplace( &nested.obj(),
                                             availability( crafter, &nested.obj(), 1,
-                                                    camp_crafting, inventory_override ) );
+                                                    camp_crafting, inventory_override, true ) );
             }
         }
     }
@@ -1083,7 +1101,7 @@ recipe_list_data build_recipe_list(
     for( const recipe *e : result.entries ) {
         if( !availability_cache.count( e ) ) {
             availability_cache.emplace( e,
-                                        availability( crafter, e, 1, camp_crafting, inventory_override ) );
+                                        availability( crafter, e, 1, camp_crafting, inventory_override, true ) );
         }
     }
 

@@ -129,6 +129,10 @@ recipe_subset Character::get_recipes_from_books( const temp_crafting_inventory &
 
     crafting_inv.visit_items(
     [&]( item * candidate, item * ) {
+        if( !candidate->is_book() && !candidate->is_estorage() &&
+            !candidate->has_var( "EIPC_RECIPES" ) ) {
+            return VisitResponse::NEXT;
+        }
         for( std::pair<const recipe *, int> recipe_entry :
              candidate->get_available_recipes( *this ) ) {
             res.include( recipe_entry.first, recipe_entry.second );

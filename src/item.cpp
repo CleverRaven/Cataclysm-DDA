@@ -3505,6 +3505,10 @@ std::set<recipe_id> item::get_saved_recipes() const
             return recipe_catalog->get_saved_recipes();
         }
     }
+    if( has_var( "EIPC_RECIPES_count" ) && get_var( "EIPC_RECIPES_count", 0.0 ) == 0 &&
+        get_var( "EIPC_RECIPES" ).empty() ) {
+        return {};
+    }
     std::set<recipe_id> result;
     for( const std::string &rid_str : string_split( get_var( "EIPC_RECIPES" ), ',' ) ) {
         const recipe_id rid( rid_str );
