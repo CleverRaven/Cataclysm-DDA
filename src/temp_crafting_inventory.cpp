@@ -101,7 +101,6 @@ bool temp_crafting_inventory::can_cache() const
 void temp_crafting_inventory::invalidate_caches()
 {
     binned = false;
-    unfiltered_amount.clear();
     unfiltered_charges.clear();
     provider_quality_cache.clear();
 }
@@ -226,21 +225,9 @@ int temp_crafting_inventory::amount_of( const itype_id &what, bool pseudo, int l
         return read_only_visitable::amount_of( what, pseudo, limit, filter );
     }
 
-    const auto key = std::make_pair( what, pseudo );
-    const bool cache_result = is_unfiltered( filter ) && limit == INT_MAX;
-    if( can_cache() && is_unfiltered( filter ) ) {
-        const auto cached = unfiltered_amount.find( key );
-        if( cached != unfiltered_amount.end() ) {
-            return std::min( cached->second, limit );
-        }
-    }
-
     build_item_bins();
     const auto iter = binned_items.find( what );
     if( iter == binned_items.end() ) {
-        if( can_cache() && cache_result ) {
-            unfiltered_amount.emplace( key, 0 );
-        }
         return 0;
     }
 
@@ -253,9 +240,6 @@ int temp_crafting_inventory::amount_of( const itype_id &what, bool pseudo, int l
                 break;
             }
         }
-    }
-    if( can_cache() && cache_result ) {
-        unfiltered_amount.emplace( key, result );
     }
     return result;
 }

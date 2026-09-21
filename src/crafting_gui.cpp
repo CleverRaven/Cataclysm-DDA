@@ -460,7 +460,8 @@ class crafting_ui_impl : public cataimgui::window
         // --- Recipe list ---
         std::vector<const recipe *> current;
         std::vector<int> indent_vec;
-        std::vector<availability> available;
+        std::vector<const availability *> available;
+        std::vector<availability> batch_available;
         int line = 0;
         int num_recipe = 0;
         size_t num_hidden = 0;
@@ -559,6 +560,9 @@ class crafting_ui_impl : public cataimgui::window
         void draw_hidden_count();
         void draw_keybinding_footer();
         void rebuild_keybinding_tips();
+
+        const requirement_data *component_availability_req = nullptr;
+        int component_availability_batch = 0;
 
         // --- State management ---
         void recalculate_recipes();
@@ -917,8 +921,8 @@ void crafting_ui_impl::draw_recipe_list()
                 }
 
                 nc_color col = ( i == line )
-                               ? available[i].selected_color()
-                               : available[i].color();
+                               ? available[i]->selected_color()
+                               : available[i]->color();
 
                 ImGui::PushStyleColor( ImGuiCol_Text,
                                        cataimgui::imvec4_from_color( col ) );
@@ -979,7 +983,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
     info_nav_count = 0;
     // info_nav_activated persists from process_action until consumed this frame
     const recipe &recp = *current[line];
-    const availability &avail = available[line];
+    const availability &avail = *available[line];
 
     if( ImGui::BeginChild( "##RECIPE_INFO", ImGui::GetContentRegionAvail(), false,
                            ImGuiWindowFlags_NoNav ) ) {
@@ -1198,10 +1202,10 @@ void crafting_ui_impl::draw_recipe_info_panel()
 
         // Warnings (right after stats)
         avail.ensure_item_warnings();
-        if( avail.can_craft_recipe && avail.would_use_rotten ) {
+        if( avail.can_craft_recipe && avail.would_use_rotten() ) {
             cataimgui::TextColoredParagraphNewline( c_red, _( "Will use rotten ingredients" ) );
         }
-        if( avail.can_craft_recipe && avail.would_use_favorite ) {
+        if( avail.can_craft_recipe && avail.would_use_favorite() ) {
             cataimgui::TextColoredParagraphNewline( c_red, _( "Will use favorited ingredients" ) );
         }
         if( !avail.can_craft_recipe && !avail.has_proficiencies ) {
@@ -1236,7 +1240,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
                                   && !recp.npc_can_craft( npc_reason )
                                   && !avail.inv_override;
             avail.ensure_apparently_craftable();
-            if( !avail.can_craft_recipe && avail.apparently_craftable
+            if( !avail.can_craft_recipe && avail.apparently_craftable()
                 && !npc_cant ) {
                 cataimgui::TextColoredParagraphNewline( c_red,
                                                         _( "Cannot be crafted because the same item is needed "
@@ -1924,8 +1928,11 @@ void crafting_ui_impl::draw_components( const requirement_data &req,
         return;
     }
 
-    // Ensure availability cache is fresh
-    req.can_make_with_inventory( &get_player_character(), crafting_inv, filter, batch_size );
+    if( component_availability_req != &req || component_availability_batch != batch_size ) {
+        req.can_make_with_inventory( &get_player_character(), crafting_inv, filter, batch_size );
+        component_availability_req = &req;
+        component_availability_batch = batch_size;
+    }
 
     // Compute how many of a given component the player has on hand
     std::map<itype_id, int> available_counts;
@@ -2392,18 +2399,22 @@ void crafting_ui_impl::draw_keybinding_footer()
 void crafting_ui_impl::recalculate_recipes()
 {
     recalc = false;
+    component_availability_req = nullptr;
     const recipe *prev_rcp = nullptr;
     if( keepline && line >= 0 && static_cast<size_t>( line ) < current.size() ) {
         prev_rcp = current[line];
     }
     show_hidden = false;
     available.clear();
+    batch_available.clear();
 
     if( batch ) {
         current.clear();
+        batch_available.reserve( 50 );
         for( int i = 1; i <= 50; i++ ) {
             current.push_back( chosen );
-            available.emplace_back( *crafter, chosen, i, camp_crafting, inventory_override );
+            batch_available.emplace_back( *crafter, chosen, i, camp_crafting, inventory_override );
+            available.push_back( &batch_available.back() );
         }
         indent_vec.assign( current.size(), 0 );
     } else {
@@ -2745,7 +2756,7 @@ void crafting_ui_impl::process_action( const std::string &action_in,
             const int bs = get_batch_size();
             const recipe crafting_rec = *current[line];
             craft_confirm_result confirm = can_start_craft(
-                                               crafting_rec, available[line], *crafter, bs );
+                                               crafting_rec, *available[line], *crafter, bs );
             switch( confirm ) {
                 case craft_confirm_result::cannot_craft:
                     popup( _( "Crafter can't craft that!" ) );
@@ -2758,7 +2769,7 @@ void crafting_ui_impl::process_action( const std::string &action_in,
                     popup( _( "Crafter can't see!" ) );
                     break;
                 case craft_confirm_result::ok:
-                    if( available[line].inv_override == nullptr &&
+                    if( available[line]->inv_override == nullptr &&
                         !crafter->check_eligible_containers_for_crafting( *current[line], bs ) ) {
                         break;
                     }

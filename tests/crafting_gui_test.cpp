@@ -25,6 +25,7 @@
 #include "player_helpers.h"
 #include "proficiency.h"
 #include "recipe.h"
+#include "requirements.h"
 #include "type_id.h"
 #include "uistate.h"
 #include "weather_type.h"
@@ -49,7 +50,7 @@ static const proficiency_id proficiency_prof_knapping( "prof_knapping" );
 static const recipe_id recipe_cudgel_simple( "cudgel_simple" );
 static const recipe_id recipe_cudgel_slow( "cudgel_slow" );
 static const recipe_id recipe_cudgel_test_no_tools( "cudgel_test_no_tools" );
-static const recipe_id recipe_drink_virgin_mary( "drink_virgin_mary" );
+static const recipe_id recipe_cudgel_test_apparent_craftable( "cudgel_test_apparent_craftable" );
 static const recipe_id recipe_meat_cooked_test_no_tools( "meat_cooked_test_no_tools" );
 static const recipe_id recipe_prac_knapping( "prac_knapping" );
 static const recipe_id recipe_test_longshirt_test_poor_fit( "test_longshirt_test_poor_fit" );
@@ -110,21 +111,37 @@ TEST_CASE( "recipe_availability_missing_component", "[crafting][gui]" )
 TEST_CASE( "recipe_availability_apparently_craftable_can_be_deferred", "[crafting][gui]" )
 {
     Character &guy = setup_character();
-    guy.set_skill_level( skill_cooking, 3 );
-    guy.i_add( item( itype_tomato_juice ) );
-    guy.i_add( item( itype_salt ) );
-    guy.i_add( item( itype_pepper ) );
+    guy.set_skill_level( skill_fabrication, 2 );
+    guy.i_add( item( itype_2x4 ) );
     guy.invalidate_crafting_inventory();
 
-    const recipe &rec = recipe_drink_virgin_mary.obj();
+    const recipe &rec = recipe_cudgel_test_apparent_craftable.obj();
     availability eager( guy, &rec );
     availability lazy( guy, &rec, 1, false, nullptr, true );
 
     CHECK( lazy.can_craft_recipe == eager.can_craft_recipe );
-    CHECK_FALSE( lazy.apparently_craftable );
+    CHECK_FALSE( lazy.apparently_craftable() );
     lazy.ensure_apparently_craftable();
-    CHECK( eager.apparently_craftable );
-    CHECK( lazy.apparently_craftable );
+    CHECK( eager.apparently_craftable() );
+    CHECK( lazy.apparently_craftable() );
+}
+
+TEST_CASE( "crafting_gui_component_availability_uses_batch_size", "[crafting][gui]" )
+{
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_fabrication, 2 );
+    guy.i_add( item( itype_2x4 ) );
+    guy.invalidate_crafting_inventory();
+
+    const recipe &rec = recipe_cudgel_test_apparent_craftable.obj();
+    const requirement_data &req = rec.simple_requirements();
+    const auto &components = req.get_components();
+    const auto filter = rec.get_component_filter();
+
+    CHECK( req.can_make_with_inventory( &guy, guy.crafting_inventory(), filter, 1 ) );
+    CHECK( components[0][0].available == available_status::a_true );
+    CHECK_FALSE( req.can_make_with_inventory( &guy, guy.crafting_inventory(), filter, 2 ) );
+    CHECK( components[0][0].available != available_status::a_true );
 }
 
 TEST_CASE( "recipe_availability_insufficient_skill", "[crafting][gui]" )
@@ -163,9 +180,9 @@ TEST_CASE( "recipe_availability_would_use_rotten", "[crafting][gui]" )
     const recipe &rec = recipe_test_tallow.obj();
     availability avail( guy, &rec, 1, false, nullptr, true );
 
-    CHECK_FALSE( avail.would_use_rotten );
+    CHECK_FALSE( avail.would_use_rotten() );
     CHECK( avail.color() == c_brown );
-    CHECK( avail.would_use_rotten );
+    CHECK( avail.would_use_rotten() );
 }
 
 TEST_CASE( "recipe_availability_would_use_favorite", "[crafting][gui]" )
@@ -182,7 +199,7 @@ TEST_CASE( "recipe_availability_would_use_favorite", "[crafting][gui]" )
     availability avail( guy, &rec );
 
     CHECK( avail.can_craft_recipe );
-    CHECK( avail.would_use_favorite );
+    CHECK( avail.would_use_favorite() );
     CHECK( avail.color() == c_pink );
 }
 
@@ -601,7 +618,7 @@ TEST_CASE( "recipe_info_would_use_rotten", "[crafting][gui]" )
     const recipe &rec = recipe_test_tallow.obj();
     availability avail( guy, &rec );
     REQUIRE( avail.can_craft_recipe );
-    REQUIRE( avail.would_use_rotten );
+    REQUIRE( avail.would_use_rotten() );
 
     std::vector<Character *> group = { &guy };
     std::string output = join_lines(
@@ -623,7 +640,7 @@ TEST_CASE( "recipe_info_would_use_favorite", "[crafting][gui]" )
     const recipe &rec = recipe_cudgel_test_no_tools.obj();
     availability avail( guy, &rec );
     REQUIRE( avail.can_craft_recipe );
-    REQUIRE( avail.would_use_favorite );
+    REQUIRE( avail.would_use_favorite() );
 
     std::vector<Character *> group = { &guy };
     std::string output = join_lines(
@@ -1158,13 +1175,37 @@ TEST_CASE( "build_recipe_list_sort_craftable_first", "[crafting][gui][recipe_lis
     REQUIRE( result.available.size() == 2 );
     // Craftable recipes come first in sorted order
     bool seen_uncraftable = false;
-    for( const availability &entry : result.available ) {
-        if( !entry.can_craft_recipe ) {
+    for( const availability *entry : result.available ) {
+        if( !entry->can_craft_recipe ) {
             seen_uncraftable = true;
         } else {
             CHECK_FALSE( seen_uncraftable );
         }
     }
+}
+
+TEST_CASE( "build_recipe_list_reuses_lazy_availability", "[crafting][gui][recipe_list]" )
+{
+    clear_recipe_ui_state();
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_fabrication, 2 );
+    guy.i_add( item( itype_2x4 ) );
+    guy.invalidate_crafting_inventory();
+
+    const recipe *rec = &recipe_cudgel_test_apparent_craftable.obj();
+    recipe_subset available_recipes = make_subset( { rec } );
+    std::vector<const recipe *> picking = { rec };
+    std::map<const recipe *, availability> cache;
+    recipe_list_data first = build_recipe_list( picking, false, false,
+                             guy, false, nullptr, false, false, cache, available_recipes );
+
+    first.available[0]->ensure_apparently_craftable();
+    REQUIRE( first.available[0]->apparently_craftable() );
+
+    recipe_list_data second = build_recipe_list( picking, false, false,
+                              guy, false, nullptr, false, false, cache, available_recipes );
+    CHECK( second.available[0] == first.available[0] );
+    CHECK( second.available[0]->apparently_craftable() );
 }
 
 TEST_CASE( "build_recipe_list_expands_nested", "[crafting][gui][recipe_list]" )

@@ -38,21 +38,30 @@ struct availability {
         bool can_craft_recipe;
         // group can introduce recipe this crafter cannot craft because of low primary skill
         bool crafter_has_primary_skill;
-        mutable bool would_use_rotten = false;
-        mutable bool would_use_favorite = false;
         bool useless_practice;
-        mutable bool apparently_craftable = false;
         bool has_proficiencies;
         bool has_all_skills;
         bool is_nested_category;
         // Used as an indicator to see if crafting is called via camp.
         // If not nullptr, we must be camp crafting.
         temp_crafting_inventory *inv_override;
+        bool would_use_rotten() const {
+            return would_use_rotten_;
+        }
+        bool would_use_favorite() const {
+            return would_use_favorite_;
+        }
+        bool apparently_craftable() const {
+            return apparently_craftable_;
+        }
         void ensure_item_warnings() const;
         void ensure_apparently_craftable() const;
     private:
         const recipe *rec;
         int batch_size = 1;
+        mutable bool would_use_rotten_ = false;
+        mutable bool would_use_favorite_ = false;
+        mutable bool apparently_craftable_ = false;
         mutable bool item_warnings_checked = false;
         bool apparently_craftable_checkable = false;
         mutable bool apparently_craftable_checked = false;
@@ -151,7 +160,7 @@ std::vector<iteminfo> recipe_result_info( const recipe &rec, Character &crafter,
 struct recipe_list_data {
     std::vector<const recipe *> entries;
     std::vector<int> indent;
-    std::vector<availability> available;
+    std::vector<const availability *> available;
     size_t num_hidden = 0;
 };
 

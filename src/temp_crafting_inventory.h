@@ -71,8 +71,6 @@ class temp_crafting_inventory : public read_only_visitable
         // inherited from visitable. note: temp_owned_items are copied into items
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
         override;
-        VisitResponse visit_items_of_type( const itype_id &type,
-                                           const std::function<VisitResponse( item *, item * )> &func ) const override;
         bool has_provider_quality( const quality_id &qual, int level, int qty,
                                    const Character *who,
                                    quality_count mode = quality_count::providers ) const override;
@@ -120,7 +118,6 @@ class temp_crafting_inventory : public read_only_visitable
         mutable bool binned = false;
         mutable item_bin binned_items;
         mutable item_bin binned_tool_items;
-        mutable std::map<std::pair<itype_id, bool>, int> unfiltered_amount;
         mutable std::map<std::pair<itype_id, bool>, int> unfiltered_charges;
         mutable std::map<std::tuple<quality_id, int, int, const Character *, quality_count>, bool>
         provider_quality_cache;
@@ -133,6 +130,9 @@ class temp_crafting_inventory : public read_only_visitable
         std::map<itype_id, int> max_empty_liq_cont;
 
         std::map<itype_id, item *> pseudo_items;
+
+        VisitResponse visit_items_of_type( const itype_id &type,
+                                           const std::function<VisitResponse( item *, item * )> &func ) const override;
 };
 
 #endif // CATA_SRC_TEMP_CRAFTING_INVENTORY_H

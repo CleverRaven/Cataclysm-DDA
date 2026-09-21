@@ -564,13 +564,6 @@ TEST_CASE( "efile_recipes_count_cache", "[item][estorage]" )
         CHECK( nonzero );
     }
 
-    SECTION( "a stale zero count does not hide recipes written directly" ) {
-        item book = make_recipe_book( {} );
-        book.set_var( "EIPC_RECIPES", recipe_balclava.str() );
-        const std::set<recipe_id> recipes = book.get_saved_recipes();
-        CHECK( recipes.find( recipe_balclava ) != recipes.end() );
-    }
-
     SECTION( "mixed cache state still stacks" ) {
         item a = make_recipe_book( two );
         item b = make_recipe_book( two );

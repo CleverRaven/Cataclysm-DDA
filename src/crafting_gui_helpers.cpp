@@ -152,8 +152,8 @@ availability::availability( Character &_crafter, const recipe *recp, int batch_s
                            );
     }
 
-    would_use_rotten = false;
-    would_use_favorite = false;
+    would_use_rotten_ = false;
+    would_use_favorite_ = false;
 
     useless_practice = is_practice && cannot_gain_skill_or_prof( crafter, *recp );
     is_nested_category = is_nested;
@@ -186,7 +186,7 @@ void availability::ensure_apparently_craftable() const
 
     const temp_crafting_inventory &inv = inv_override ? *inv_override : crafter.crafting_inventory();
     const craft_flags flag = inv_override ? craft_flags::none : craft_flags::start_only;
-    apparently_craftable = rec->simple_requirements().can_make_with_inventory(
+    apparently_craftable_ = rec->simple_requirements().can_make_with_inventory(
                                &crafter, inv, rec->get_component_filter( recipe_filter_flags::none ),
                                batch_size, flag );
 }
@@ -197,8 +197,8 @@ void availability::ensure_item_warnings() const
         return;
     }
     item_warnings_checked = true;
-    would_use_rotten = false;
-    would_use_favorite = false;
+    would_use_rotten_ = false;
+    would_use_favorite_ = false;
     if( !can_craft_recipe || is_nested_category ) {
         return;
     }
@@ -206,10 +206,10 @@ void availability::ensure_item_warnings() const
     const temp_crafting_inventory &inv = inv_override ? *inv_override : crafter.crafting_inventory();
     const craft_flags flag = inv_override ? craft_flags::none : craft_flags::start_only;
     const deduped_requirement_data &req_data = rec->deduped_requirements();
-    would_use_rotten = !req_data.can_make_with_inventory(
+    would_use_rotten_ = !req_data.can_make_with_inventory(
                            &crafter, inv, rec->get_component_filter( recipe_filter_flags::no_rotten ),
                            batch_size, flag );
-    would_use_favorite = !req_data.can_make_with_inventory(
+    would_use_favorite_ = !req_data.can_make_with_inventory(
                              &crafter, inv, rec->get_component_filter( recipe_filter_flags::no_favorite ),
                              batch_size, flag );
 }
@@ -227,9 +227,9 @@ nc_color availability::selected_color() const
         return h_light_red;
     } else if( is_nested_category ) {
         return h_light_blue;
-    } else if( would_use_rotten || useless_practice ) {
+    } else if( would_use_rotten_ || useless_practice ) {
         return has_all_skills ? h_brown : h_red;
-    } else if( would_use_favorite ) {
+    } else if( would_use_favorite_ ) {
         return has_all_skills ? h_pink : h_red;
     } else {
         return has_all_skills ? h_white : h_yellow;
@@ -249,9 +249,9 @@ nc_color availability::color( bool ignore_missing_skills ) const
         return c_light_red;
     } else if( is_nested_category ) {
         return c_light_blue;
-    } else if( would_use_rotten || useless_practice ) {
+    } else if( would_use_rotten_ || useless_practice ) {
         return has_all_skills || ignore_missing_skills ? c_brown : c_red;
-    } else if( would_use_favorite ) {
+    } else if( would_use_favorite_ ) {
         return has_all_skills ? c_pink : c_red;
     } else {
         return has_all_skills || ignore_missing_skills ? c_white : c_yellow;
@@ -435,10 +435,10 @@ std::vector<std::string> recipe_info(
     }
 
     const bool can_craft_this = avail.can_craft_recipe;
-    if( can_craft_this && avail.would_use_rotten ) {
+    if( can_craft_this && avail.would_use_rotten() ) {
         oss << _( "<color_red>Will use rotten ingredients</color>\n" );
     }
-    if( can_craft_this && avail.would_use_favorite ) {
+    if( can_craft_this && avail.would_use_favorite() ) {
         oss << _( "<color_red>Will use favorited ingredients</color>\n" );
     }
     const bool too_complex = recp.deduped_requirements().is_too_complex();
@@ -450,7 +450,7 @@ std::vector<std::string> recipe_info(
     std::string reason;
     bool npc_cant = avail.crafter.is_npc() && !recp.npc_can_craft( reason ) && !avail.inv_override ;
     avail.ensure_apparently_craftable();
-    if( !can_craft_this && avail.apparently_craftable && !recp.is_nested() && !npc_cant ) {
+    if( !can_craft_this && avail.apparently_craftable() && !recp.is_nested() && !npc_cant ) {
         oss << _( "<color_red>Cannot be crafted because the same item is needed "
                   "for multiple components.</color>\n" );
     }
@@ -1129,7 +1129,7 @@ recipe_list_data build_recipe_list(
     result.available.reserve( result.entries.size() );
     std::transform( result.entries.begin(), result.entries.end(),
     std::back_inserter( result.available ), [&]( const recipe * e ) {
-        return availability_cache.at( e );
+        return &availability_cache.at( e );
     } );
 
     return result;
