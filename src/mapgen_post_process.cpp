@@ -774,14 +774,14 @@ static void execute_aftershock_ruin( map &md, const tripoint_abs_omt &p,
 }
 
 static void execute_ter_furn_transform( map &md,
-                                        std::list<tripoint_bub_ms> &all_points_in_map,
+                                        const std::list<tripoint_bub_ms> &all_points_in_map,
                                         const pp_sub_generator &sg )
 {
     if( !sg.ter_furn_transform_used.has_value() ) {
         return;
     }
 
-    for( tripoint_bub_ms current_tile : all_points_in_map ) {
+    for( const tripoint_bub_ms &current_tile : all_points_in_map ) {
         sg.ter_furn_transform_used.value()->transform( md, current_tile );
     }
 }
