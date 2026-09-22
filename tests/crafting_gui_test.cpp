@@ -44,16 +44,23 @@ static const itype_id itype_soldering_iron_portable( "soldering_iron_portable" )
 static const proficiency_id proficiency_prof_carving( "prof_carving" );
 static const proficiency_id proficiency_prof_food_prep( "prof_food_prep" );
 static const proficiency_id proficiency_prof_knapping( "prof_knapping" );
+static const proficiency_id proficiency_prof_test_step_required( "prof_test_step_required" );
 
+static const recipe_id recipe_cudgel_character_requirements_restricted(
+    "cudgel_character_requirements_restricted" );
 static const recipe_id recipe_cudgel_simple( "cudgel_simple" );
 static const recipe_id recipe_cudgel_slow( "cudgel_slow" );
 static const recipe_id recipe_cudgel_test_charged_fast_stepless(
     "cudgel_test_charged_fast_stepless" );
 static const recipe_id recipe_cudgel_test_no_tools( "cudgel_test_no_tools" );
+static const recipe_id recipe_cudgel_test_steps_required_prof( "cudgel_test_steps_required_prof" );
 static const recipe_id recipe_meat_cooked_test_no_tools( "meat_cooked_test_no_tools" );
 static const recipe_id recipe_prac_knapping( "prac_knapping" );
 static const recipe_id recipe_test_longshirt_test_poor_fit( "test_longshirt_test_poor_fit" );
 static const recipe_id recipe_test_nested_gate_charged( "test_nested_gate_charged" );
+static const recipe_id recipe_test_nested_gate_charreq( "test_nested_gate_charreq" );
+static const recipe_id recipe_test_nested_gate_prof( "test_nested_gate_prof" );
+static const recipe_id recipe_test_nested_outer( "test_nested_outer" );
 static const recipe_id recipe_test_nested_weapons( "test_nested_weapons" );
 static const recipe_id recipe_test_tallow( "test_tallow" );
 static const recipe_id recipe_water_clean_test_in_jar( "water_clean_test_in_jar" );
@@ -271,6 +278,59 @@ TEST_CASE( "nested_availability_follows_the_camp_inventory", "[crafting][gui]" )
                 CHECK_FALSE( avail.can_craft_recipe );
             }
         }
+    }
+}
+
+// recipe::npc_can_craft accepts every recipe, so no case covers an NPC crafter
+TEST_CASE( "nested_availability_expectations", "[crafting][gui]" )
+{
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_fabrication, 2 );
+    guy.set_skill_level( skill_melee, 1 );
+    guy.set_skill_level( skill_cooking, 3 );
+
+    SECTION( "nested child that is itself nested" ) {
+        const recipe &outer = recipe_test_nested_outer.obj();
+        REQUIRE( outer.nested_category_data.count( recipe_test_tallow ) == 1 );
+        REQUIRE( outer.nested_category_data.count( recipe_test_nested_weapons ) == 1 );
+        REQUIRE( recipe_test_nested_weapons->is_nested() );
+        SECTION( "only grandchild's component" ) {
+            guy.i_add( item( itype_2x4 ) );
+            guy.invalidate_crafting_inventory();
+            CHECK( availability( guy, &outer ).can_craft_recipe );
+        }
+        SECTION( "only first child's components" ) {
+            guy.i_add( item( itype_fat ) );
+            guy.i_add( item( itype_fat ) );
+            guy.i_add( item( itype_knife_hunting ) );
+            guy.invalidate_crafting_inventory();
+            CHECK( availability( guy, &outer ).can_craft_recipe );
+        }
+        SECTION( "nothing" ) {
+            CHECK_FALSE( availability( guy, &outer ).can_craft_recipe );
+        }
+    }
+    SECTION( "child requiring a proficiency" ) {
+        const recipe &nested = recipe_test_nested_gate_prof.obj();
+        const std::vector<proficiency_id> required =
+            recipe_cudgel_test_steps_required_prof->required_proficiencies();
+        REQUIRE( std::count( required.begin(), required.end(),
+                             proficiency_prof_test_step_required ) == 1 );
+        guy.i_add( item( itype_2x4 ) );
+        guy.invalidate_crafting_inventory();
+        CHECK_FALSE( availability( guy, &nested ).can_craft_recipe );
+        guy.add_proficiency( proficiency_prof_test_step_required );
+        CHECK( availability( guy, &nested ).can_craft_recipe );
+    }
+    SECTION( "child with a strength requirement" ) {
+        const recipe &nested = recipe_test_nested_gate_charreq.obj();
+        REQUIRE( nested.nested_category_data.count(
+                     recipe_cudgel_character_requirements_restricted ) == 1 );
+        guy.set_str_bonus( 0 );
+        guy.set_str_base( 8 );
+        CHECK_FALSE( availability( guy, &nested ).can_craft_recipe );
+        guy.set_str_base( 9 );
+        CHECK( availability( guy, &nested ).can_craft_recipe );
     }
 }
 
