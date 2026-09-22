@@ -3783,7 +3783,16 @@ int item::getlight_emit() const
     return lumint;
 }
 
-bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
+static int num_parents( item_location node )
+{
+    if( !node.has_parent() ) {
+        return 0;
+    } else {
+        return 1 + num_parents( node.parent_item() );
+    }
+}
+
+bool item::use_amount( item_location self, const itype_id &it, int &quantity, std::list<item> &used,
                        const std::function<bool( const item & )> &filter )
 {
     if( is_null() ) {
@@ -3791,29 +3800,34 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
     }
     // Remember quantity so that we can unseal self
     int old_quantity = quantity;
-    std::vector<item *> removed_items;
-    const std::list<item *> temp_contained_list = all_items_ptr( pocket_type::CONTAINER );
-    std::list<item *> contained_list;
-    // Reverse the list, as it's created from the top down, but we have to remove items
-    // from the bottom up in order for the references to remain valid until used.
-    for( item *contained : temp_contained_list ) {
-        contained_list.emplace_front( contained );
+    std::vector<item_location> removed_items;
+    std::map<int, std::list<item_location>> contained_list; // int is how many parents deep it is
+    self.visit_items(
+    [&]( item_location node ) {
+        contained_list[num_parents( node )].push_back( node );
+        return VisitResponse::NEXT;
     }
-    for( item *contained : contained_list ) {
-        if( contained->use_amount_internal( it, quantity, used, filter ) ) {
-            removed_items.push_back( contained );
+    );
+
+    // we have to remove items from the bottom up in order for the references to remain valid until used.
+    for( auto iter = contained_list.rbegin(); iter != contained_list.rend(); ++iter ) {
+        for( item_location loc : iter->second ) {
+            if( loc->use_amount_internal( it, quantity, used, filter ) ) {
+                removed_items.push_back( loc );
+            }
         }
     }
 
-    for( item *removed : removed_items ) {
+    for( item_location removed : removed_items ) {
         // Handle cases where items are removed but the pocket isn't emptied
-        item *parent = this->find_parent( *removed );
-        for( item_pocket *pocket : parent->get_standard_pockets() ) {
-            if( pocket->has_item( *removed ) ) {
-                pocket->unseal();
+        if( removed.has_parent() ) {
+            for( item_pocket *pocket : removed.parent_item()->get_standard_pockets() ) {
+                if( pocket->has_item( *removed ) ) {
+                    pocket->unseal();
+                }
             }
         }
-        this->remove_item( *removed );
+        removed.remove_item();
     }
 
     if( quantity != old_quantity ) {

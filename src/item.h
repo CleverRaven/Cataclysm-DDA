@@ -886,7 +886,7 @@ class item
          * @param used On success all consumed items will be stored here.
          * @param filter Must return true for use to occur.
          */
-        bool use_amount( const itype_id &it, int &quantity, std::list<item> &used,
+        bool use_amount( item_location self, const itype_id &it, int &quantity, std::list<item> &used,
                          const std::function<bool( const item & )> &filter = return_true<item> );
 
         /** Permits filthy components, should only be used as a helper in creating filters */
