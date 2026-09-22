@@ -7,6 +7,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <utility>
 
 #include "bionics.h"
@@ -687,6 +688,7 @@ std::list<item> item::remove_items_with( const std::function<bool( const item &e
 std::list<item> temp_crafting_inventory::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
+    drop_caches();
     std::list<item> res;
 
     if( count <= 0 ) {
@@ -1215,6 +1217,67 @@ int read_only_visitable::amount_of( const itype_id &what, bool pseudo, int limit
                                     const std::function<bool( const item & )> &filter ) const
 {
     return amount_of_internal( *this, what, pseudo, limit, filter );
+}
+
+/** @relates visitable */
+int temp_crafting_inventory::charges_of( const itype_id &what, int limit,
+        const std::function<bool( const item & )> &filter,
+        const std::function<void( int )> &visitor, bool in_tools ) const
+{
+    // Loaded ammo and `any` have no index entry, so those queries walk live
+    if( in_tools || what == itype_any ) {
+        return read_only_visitable::charges_of( what, limit, filter, visitor, in_tools );
+    }
+    const type_index *idx = cached_index();
+    if( idx == nullptr ) {
+        return read_only_visitable::charges_of( what, limit, filter, visitor, in_tools );
+    }
+    const std::vector<root_ref> *roots = nullptr;
+    if( what == itype_UPS ) {
+        roots = &idx->ups;
+    } else {
+        const auto found = idx->by_type.find( what );
+        if( found == idx->by_type.end() ) {
+            return 0;
+        }
+        roots = &found->second;
+    }
+    std::vector<tool_stock_entry> entries;
+    int raw_ups_charges = 0;
+    for( const root_ref &ref : *roots ) {
+        if( const item *root = ref.get() ) {
+            scan_tool_charges( *root, what, filter, in_tools, entries, raw_ups_charges );
+        }
+    }
+    return apply_external_pools( *this, entries, limit, visitor, raw_ups_charges );
+}
+
+/** @relates visitable */
+int temp_crafting_inventory::amount_of( const itype_id &what, bool pseudo, int limit,
+                                        const std::function<bool( const item & )> &filter ) const
+{
+    // at limit zero the live walk stops early on a mismatch, which the index can't mirror
+    if( what == itype_any || limit <= 0 ) {
+        return read_only_visitable::amount_of( what, pseudo, limit, filter );
+    }
+    const type_index *idx = cached_index();
+    if( idx == nullptr ) {
+        return read_only_visitable::amount_of( what, pseudo, limit, filter );
+    }
+    const auto found = idx->by_type.find( what );
+    if( found == idx->by_type.end() ) {
+        return 0;
+    }
+    int qty = 0;
+    for( const root_ref &ref : found->second ) {
+        if( qty >= limit ) {
+            break;
+        }
+        if( const item *root = ref.get() ) {
+            qty = sum_no_wrap( qty, root->amount_of( what, pseudo, limit - qty, filter ) );
+        }
+    }
+    return std::min( qty, limit );
 }
 
 /** @relates visitable */

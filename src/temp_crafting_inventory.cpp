@@ -37,6 +37,96 @@ static const itype_id itype_brick_oven_pseudo( "brick_oven_pseudo" );
 static const itype_id itype_butchery_tree_pseudo( "butchery_tree_pseudo" );
 static const itype_id itype_fire( "fire" );
 
+namespace
+{
+int &scope_depth()
+{
+    static int depth = 0;
+    return depth;
+}
+
+// Changes when the outermost scope opens and closes, so caches never outlive their scope.
+uint64_t &current_epoch()
+{
+    static uint64_t epoch = 0;
+    return epoch;
+}
+} // namespace
+
+temp_crafting_inventory::query_cache_scope::query_cache_scope()
+{
+    if( scope_depth()++ == 0 ) {
+        ++current_epoch();
+    }
+}
+
+temp_crafting_inventory::query_cache_scope::~query_cache_scope()
+{
+    if( --scope_depth() == 0 ) {
+        ++current_epoch();
+    }
+}
+
+const item *temp_crafting_inventory::root_ref::get() const
+{
+    return raw != nullptr ? raw : loc->get_item();
+}
+
+bool temp_crafting_inventory::prepare_query_cache() const
+{
+    if( scope_depth() == 0 ) {
+        return false;
+    }
+    if( cache_epoch != current_epoch() ) {
+        drop_caches();
+        cache_epoch = current_epoch();
+    }
+    return true;
+}
+
+const temp_crafting_inventory::type_index *temp_crafting_inventory::cached_index() const
+{
+    if( !prepare_query_cache() ) {
+        return nullptr;
+    }
+    if( !index ) {
+        type_index &idx = index.emplace();
+        const auto add_root = [&idx]( const root_ref & ref ) {
+            const item *root = ref.get();
+            if( root == nullptr ) {
+                return;
+            }
+            bool holds_ups = false;
+            root->visit_items( [&]( const item * node, item * ) {
+                std::vector<root_ref> &roots = idx.by_type[node->typeId()];
+                if( roots.empty() || !( roots.back() == ref ) ) {
+                    roots.push_back( ref );
+                }
+                holds_ups = holds_ups || node->has_flag( flag_IS_UPS );
+                return VisitResponse::NEXT;
+            } );
+            if( holds_ups ) {
+                idx.ups.push_back( ref );
+            }
+        };
+        for( item *it : items ) {
+            add_root( { it, nullptr } );
+        }
+        for( item *it : item_copies ) {
+            add_root( { it, nullptr } );
+        }
+        for( const item_location &loc : items_loc ) {
+            add_root( { nullptr, &loc } );
+        }
+    }
+    return &*index;
+}
+
+void temp_crafting_inventory::drop_caches() const
+{
+    index.reset();
+}
+
 temp_crafting_inventory::temp_crafting_inventory( const temp_crafting_inventory &v )
 {
     items = v.items;
@@ -69,6 +159,7 @@ size_t temp_crafting_inventory::size() const
 
 void temp_crafting_inventory::clear()
 {
+    drop_caches();
     items.clear();
     items_loc.clear();
     item_copies.clear();
@@ -79,16 +170,19 @@ void temp_crafting_inventory::clear()
 
 void temp_crafting_inventory::add_item_ref( item &item )
 {
+    drop_caches();
     items.insert( &item );
 }
 
 void temp_crafting_inventory::add_item_loc( const item_location &loc )
 {
+    drop_caches();
     items_loc.insert( loc );
 }
 
 item &temp_crafting_inventory::add_item_copy( const item &item )
 {
+    drop_caches();
     const auto iter = temp_owned_items.insert( item );
     item_copies.insert( &( *iter ) );
     return *iter;
@@ -170,13 +264,24 @@ void temp_crafting_inventory::add_all_ref( const vehicle_cursor &cur )
 int temp_crafting_inventory::count_item( const itype_id &item_type ) const
 {
     int num = 0;
-    visit_items(
-    [&]( item * node, item * ) {
+    const auto count_node = [&]( const item * node, item * ) {
         if( node->typeId() == item_type ) {
             num += node->count();
         }
         return VisitResponse::NEXT;
-    } );
+    };
+    if( const type_index *idx = cached_index() ) {
+        const auto found = idx->by_type.find( item_type );
+        if( found != idx->by_type.end() ) {
+            for( const root_ref &ref : found->second ) {
+                if( const item *root = ref.get() ) {
+                    root->visit_items( count_node );
+                }
+            }
+        }
+        return num;
+    }
+    visit_items( count_node );
     return num;
 }
 
