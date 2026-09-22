@@ -213,7 +213,7 @@
     "type": "ammunition_type",
     "id": "45",
     "name": ".45 ACP",
-    "default": "45_acp"
+    "default": "45_jhp"
   },
   {
     "type": "ammunition_type",
