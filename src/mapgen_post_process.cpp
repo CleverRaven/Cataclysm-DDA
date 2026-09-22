@@ -255,9 +255,9 @@ void pp_sub_generator::check( const std::string &ctx ) const
             }
             break;
         case sub_generator_type::ter_furn_transform:
-            if( attempts != 0 || chance != 0 || min_intensity != 0 ||
+            if( attempts != 0 || min_intensity != 0 ||
                 max_intensity != 0 || scaling_days_start != 0 || scaling_days_end != 0 ) {
-                debugmsg( "pp_generator '%s' %s: all numeric fields ignored for this type",
+                debugmsg( "pp_generator '%s' %s: attempts, min_intensity, max_intensity, scaling_days_start and scaling_days_end are not used for this type",
                           ctx, tname );
             }
             break;
@@ -782,7 +782,9 @@ static void execute_ter_furn_transform( map &md,
     }
 
     for( const tripoint_bub_ms &current_tile : all_points_in_map ) {
-        sg.ter_furn_transform_used.value()->transform( md, current_tile );
+        if( x_in_y( sg.chance, 100 ) ) {
+            sg.ter_furn_transform_used.value()->transform( md, current_tile );
+        }
     }
 }
 

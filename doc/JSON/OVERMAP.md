@@ -494,7 +494,7 @@ falls through to the original per-OMT fresh-roll behavior.  No migration needed.
 | `add_fire`        | Places fire fields.  Chance is computed from `scaling_days_end` (fires stop spawning after that many days since the cataclysm).  `min_intensity`/`max_intensity` control fire strength.  `chance` must be 0 (it is derived internally). |
 | `pre_burn`        | Replaces an entire OMT with burnt terrain variants -- walls become `t_wall_burnt`, floors become `t_floor_burnt`, furniture and items are destroyed.  Chance is computed from `scaling_days_start`/`scaling_days_end` and intensity.  Stairs (GOES_UP/GOES_DOWN) are preserved.  `chance` must be 0 (it is derived internally). |
 | `place_blood`     | Places blood streaks, pools, and splatter.  `chance` is permille [0-1000] per attempt.  Outdoor blood fades over 30 days. |
-| `ter_furn_transform`  | Applies `ter_furn_transform_used` on every tile in map |
+| `ter_furn_transform`  | Applies `ter_furn_transform_used` on every tile in map. `chance` is percent chance to apply (remember the default chance value, if undefined, is 0) |
 | `aftershock_ruin`  | Runs the Aftershock ruin generator.  All numeric fields are ignored. |
 
 ### Built-in generators
