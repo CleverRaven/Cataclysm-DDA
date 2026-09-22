@@ -25,8 +25,8 @@
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "inventory.h"
 #include "item.h"
+#include "item_components.h"
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "item_tname.h"
@@ -1216,8 +1216,16 @@ bool requirement_data::check_enough_materials( const Character *actor, const ite
         }
         // This item can be used for the quality requirement, same as above for specific
         // tools applies.
-        if( !crafting_inv.has_provider_quality( qr->type, qr->level,
-                                                qr->count + std::abs( comp.count ), actor ) ) {
+        // One provider outliving the craft is a question about items: the stack a component
+        // comes out of survives losing a charge, so what counts is how many rocks there are
+        // rather than how many stacks.  Two is a question about stacks, since two tools at
+        // once means two separate items.  `cnt` rather than the bare count, since a batch
+        // eats its component once per unit.
+        const quality_count mode = qr->count == 1
+                                   ? quality_count::units
+                                   : quality_count::providers;
+        if( !crafting_inv.has_provider_quality( qr->type, qr->level, qr->count + cnt, actor,
+                                                mode ) ) {
             comp.available = available_status::a_insufficient;
         }
     }
@@ -1437,8 +1445,12 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
         ret.components.emplace_back( std::vector<item_comp>( {it} ) );
     }
 
-    inventory craft_components;
-    craft_components += remaining_comps;
+    temp_crafting_inventory craft_components;
+    for( const item_components::type_vector_pair &tvp : remaining_comps ) {
+        for( const item &inner : tvp.second ) {
+            craft_components.add_item_copy( inner );
+        }
+    }
 
     // Remove requirements that are completely fulfilled by current craft components
     // For each requirement that isn't completely fulfilled, reduce the requirement by the amount
@@ -1470,7 +1482,12 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
         } else {
             int amount = craft_components.amount_of( comp.type, comp.count );
             comp.count -= amount;
-            craft_components.use_amount( comp.type, amount );
+            craft_components.remove_items_with(
+            [&comp]( const item & it ) {
+                return it.typeId() == comp.type;
+            }
+            , amount
+            );
         }
         return comp.count <= 0;
     } ), ret.components.end() );

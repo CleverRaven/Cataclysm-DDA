@@ -71,5 +71,18 @@ bool bundle_needs_repair( const atlas_bake_plan &plan,
                           uint64_t applied_fingerprint,
                           bool shader_variants_available );
 
+// why the mask replay found no silhouette for a recorded sprite
+enum class silhouette_miss {
+    // upload skipped silhouettes for the tint shader; present gate refuses the
+    // frame until the replay bakes them
+    skipped_by_plan,
+    // synthetic item highlight has normal texture only
+    normal_only_highlight,
+    // missing expected bundle silhouette
+    invalid,
+};
+silhouette_miss classify_silhouette_miss( const atlas_bake_plan &plan,
+        std::optional<int> synthetic_highlight_index, int sprite_index );
+
 #endif // TILES
 #endif // CATA_SRC_ATLAS_BAKE_PLAN_H

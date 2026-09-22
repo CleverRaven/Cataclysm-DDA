@@ -64,5 +64,22 @@
     "time": "20 m",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "e_scrap", 3 ] ], [ [ "copper", 1 ] ], [ [ "scrap", 2 ] ], [ [ "cable", 4 ] ] ]
+  },
+  {
+    "result": "dremel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "20 m",
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "e_scrap", 3 ] ],
+      [ [ "copper", 1 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "plastic_chunk", 3 ] ],
+      [ [ "motor_micro", 1 ] ]
+    ]
   }
 ]

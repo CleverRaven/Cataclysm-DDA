@@ -556,6 +556,7 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
             craft_relocated( dropped_loc );
             items_dropped.push_back( std::move( dropped_loc ) );
         }
+        // Create a new temporary, handle pickup ownership on it, immediately throw away the temporary??
         item( it ).handle_pickup_ownership( you );
     }
 
@@ -1091,6 +1092,25 @@ bool ignore_zone_position( Character &you, const tripoint_abs_ms &src,
            here.get_field( src_bub, fd_fire ) != nullptr ||
            !here.can_put_items_ter_furn( src_bub ) ||
            here.impassable_field_at( src_bub );
+}
+
+carry_gate_result carry_gate_check( Character &you, const item &it,
+                                    const bool have_staged_items )
+{
+    // can_add(), not can_stash(): try_add() wields an item when no pocket fits,
+    // so bulky things stay sortable with free hands
+    if( !you.can_add( it ) ) {
+        return carry_gate_result::no_space;
+    }
+    // TODO: haul items instead of skipping
+    if( you.weight_carried() + it.weight() > you.max_pickup_capacity() ) {
+        return carry_gate_result::knockdown;
+    }
+    if( have_staged_items &&
+        you.weight_carried() + it.weight() > you.weight_capacity() ) {
+        return carry_gate_result::over_capacity;
+    }
+    return carry_gate_result::ok;
 }
 
 // vehicle::add_item and map::add_item_or_charges silently fail at the count

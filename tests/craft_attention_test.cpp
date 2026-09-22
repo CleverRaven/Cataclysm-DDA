@@ -36,7 +36,6 @@
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_location.h"
@@ -2534,7 +2533,7 @@ TEST_CASE( "provider_quality_level_ignores_merely_contained_items",
     }
 }
 
-TEST_CASE( "requirement_gate_counts_distinct_quality_providers",
+TEST_CASE( "requirement_gate_counting_rules",
            "[craft][attention][reservation][enforcement][quality][counting]" )
 {
     clear_avatar();
@@ -2548,6 +2547,24 @@ TEST_CASE( "requirement_gate_counts_distinct_quality_providers",
         recipe_cudgel_test_unattended_two_of_a.obj().steps()[0].requirements;
     REQUIRE( req.get_qualities().size() == 1 );
     REQUIRE( req.get_qualities()[0][0].count == 2 );
+
+    // same itype as both consumed material and quality provider. that's the path
+    // check_enough_materials takes, and it counts by a different rule than "amount"
+    const requirement_data overlap( {},
+    { { quality_requirement( qual_TEST_RESERVE_A, 1, 1 ) } },
+    { { item_comp( itype_test_reserve_charge_stack, 1 ) } } );
+
+    // Two providers must outlive the craft, consumed one is a plain tool. The stack cannot
+    // stand in for the tool it loses, so this is refused however many charges it holds.
+    const requirement_data overlap_two_tool( {},
+    { { quality_requirement( qual_TEST_RESERVE_A, 2, 1 ) } },
+    { { item_comp( itype_test_reserve_tool_a, 1 ) } } );
+
+    // same demand but consuming a charge. both providers outlive the craft, so the refusal
+    // below is the known-conservative boundary, not the intended answer.
+    const requirement_data overlap_two_charge( {},
+    { { quality_requirement( qual_TEST_RESERVE_A, 2, 1 ) } },
+    { { item_comp( itype_test_reserve_charge_stack, 1 ) } } );
 
     GIVEN( "one qualifying tool inside a container" ) {
         item bag( itype_backpack );
@@ -2576,6 +2593,12 @@ TEST_CASE( "requirement_gate_counts_distinct_quality_providers",
             CHECK_FALSE( req.can_make_with_inventory( &u, crafting_inv, return_true<item> ) );
         }
 
+        // the two rules have to disagree on one fixture: as "amount" of two the stack is
+        // one tool, but as material+tool it's two items out of the one stack
+        THEN( "the same stack still covers a quality it is also consumed for" ) {
+            CHECK( overlap.can_make_with_inventory( &u, crafting_inv, return_true<item> ) );
+        }
+
         THEN( "the default metric still counts its charges" ) {
             CHECK( crafting_inv.has_quality( qual_TEST_RESERVE_A, 1, 2 ) );
         }
@@ -2589,6 +2612,61 @@ TEST_CASE( "requirement_gate_counts_distinct_quality_providers",
 
         THEN( "two genuine providers satisfy the requirement" ) {
             CHECK( req.can_make_with_inventory( &u, crafting_inv, return_true<item> ) );
+        }
+    }
+
+    GIVEN( "a single charge of a qualifying item" ) {
+        item stack( itype_test_reserve_charge_stack );
+        stack.charges = 1;
+        here.add_item( origin, stack );
+        u.invalidate_crafting_inventory();
+        const temp_crafting_inventory &crafting_inv = u.crafting_inventory();
+
+        THEN( "it cannot be both the tool and the material at once" ) {
+            CHECK_FALSE( overlap.can_make_with_inventory( &u, crafting_inv, return_true<item> ) );
+        }
+    }
+
+    GIVEN( "two charges of a qualifying item" ) {
+        item stack( itype_test_reserve_charge_stack );
+        stack.charges = 2;
+        here.add_item( origin, stack );
+        u.invalidate_crafting_inventory();
+        const temp_crafting_inventory &crafting_inv = u.crafting_inventory();
+
+        THEN( "one craft spends one charge and swings the other" ) {
+            CHECK( overlap.can_make_with_inventory( &u, crafting_inv, return_true<item>, 1 ) );
+        }
+
+        // a batch eats its component once per unit, so the spare has to scale with it
+        THEN( "a batch of two would spend both, leaving nothing to swing" ) {
+            CHECK_FALSE( overlap.can_make_with_inventory( &u, crafting_inv, return_true<item>, 2 ) );
+        }
+    }
+
+    GIVEN( "a qualifying tool that is consumed, beside a charge stack" ) {
+        here.add_item( origin, item( itype_test_reserve_tool_a ) );
+        item stack( itype_test_reserve_charge_stack );
+        stack.charges = 100;
+        here.add_item( origin, stack );
+        u.invalidate_crafting_inventory();
+        const temp_crafting_inventory &crafting_inv = u.crafting_inventory();
+
+        THEN( "two providers before the craft" ) {
+            CHECK( req.can_make_with_inventory( &u, crafting_inv, return_true<item> ) );
+        }
+
+        THEN( "but consuming the tool would leave only one, so two are refused" ) {
+            CHECK_FALSE( overlap_two_tool.can_make_with_inventory( &u, crafting_inv,
+                         return_true<item> ) );
+        }
+
+        // Over-strict, and deliberately left so.  Consuming one charge of a hundred destroys
+        // no provider, so both survive the craft.  Counting providers cannot see that, and no
+        // shipped requirement asks for more than one.
+        THEN( "consuming a charge is refused too, though both providers would survive" ) {
+            CHECK_FALSE( overlap_two_charge.can_make_with_inventory( &u, crafting_inv,
+                         return_true<item> ) );
         }
     }
 }
@@ -6551,7 +6629,6 @@ TEST_CASE( "reservation_keeps_node_local_npc_selectors_off_a_bound_item",
 
     npc &guy = spawn_npc( point_bub_ms( 60, 62 ), "thug" );
     guy.clear_worn();
-    guy.inv->clear();
     guy.remove_weapon();
     guy.wear_item( item( itype_debug_backpack ) );
     guy.set_attitude( NPCATT_NULL );
@@ -6607,7 +6684,6 @@ TEST_CASE( "reservation_keeps_npc_pickup_off_a_bound_provider",
 
     npc &scavenger = spawn_npc( point_bub_ms( 60, 62 ), "thug" );
     scavenger.clear_worn();
-    scavenger.inv->clear();
     scavenger.remove_weapon();
     scavenger.wear_item( item( itype_debug_backpack ) );
     scavenger.set_attitude( NPCATT_NULL );
@@ -7093,7 +7169,6 @@ TEST_CASE( "reservation_keeps_npc_selectors_off_a_bound_provider",
     npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
     hostile.clear_worn();
     hostile.invalidate_crafting_inventory();
-    hostile.inv->clear();
     hostile.remove_weapon();
     hostile.clear_mutations();
     hostile.set_body();

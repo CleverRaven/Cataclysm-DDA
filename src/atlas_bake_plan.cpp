@@ -66,4 +66,16 @@ bool bundle_needs_repair( const atlas_bake_plan &plan,
                                   cata_shader::memory_preset_from_option_value( applied_mode ) );
 }
 
+silhouette_miss classify_silhouette_miss( const atlas_bake_plan &plan,
+        const std::optional<int> synthetic_highlight_index, const int sprite_index )
+{
+    if( !plan.silhouette ) {
+        return silhouette_miss::skipped_by_plan;
+    }
+    if( synthetic_highlight_index && *synthetic_highlight_index == sprite_index ) {
+        return silhouette_miss::normal_only_highlight;
+    }
+    return silhouette_miss::invalid;
+}
+
 #endif // TILES

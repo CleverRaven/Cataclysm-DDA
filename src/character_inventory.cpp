@@ -18,6 +18,7 @@
 
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "body_part_set.h"
 #include "bodypart.h"
@@ -41,7 +42,6 @@
 #include "game_constants.h"
 #include "gun_mode.h"
 #include "handle_liquid.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
@@ -65,7 +65,6 @@
 #include "pickup.h"
 #include "pimpl.h"
 #include "pocket_type.h"
-#include "profession.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "string_formatter.h"
@@ -308,12 +307,11 @@ item_location Character::try_add( item it, const item *avoid, const item *origin
 
     // if there's a desired invlet for this item type, try to use it
     bool keep_invlet = false;
-    const invlets_bitset cur_inv = allocated_invlets();
-    for( const auto &iter : inv->assigned_invlet ) {
-        if( iter.second == item_type_id && !cur_inv[iter.first] ) {
-            it.invlet = iter.first;
+    if( is_avatar() ) {
+        const char invlet = as_avatar()->free_assigned_invlet( item_type_id );
+        if( invlet != 0 ) {
             keep_invlet = true;
-            break;
+            it.invlet = invlet;
         }
     }
     std::pair<item_location, item_pocket *> pocket = best_pocket( it, avoid, ignore_pkt_settings );
@@ -330,8 +328,8 @@ item_location Character::try_add( item it, const item *avoid, const item *origin
         // this will set ret to either it, or to stack where it was placed
         item *newit = nullptr;
         pocket.second->add( it, &newit );
-        if( !keep_invlet && ( !it.count_by_charges() || it.charges == newit->charges ) ) {
-            inv->update_invlet( *newit, true, original_inventory_item );
+        if( is_avatar() && !keep_invlet && ( !it.count_by_charges() || it.charges == newit->charges ) ) {
+            as_avatar()->update_invlet( *newit, original_inventory_item );
         }
         pocket.first.on_contents_changed();
         pocket.second->on_contents_changed();
@@ -359,12 +357,8 @@ item_location Character::try_add( item it, int &copies_remaining, const item *av
 
     // if there's a desired invlet for this item type, try to use it
     char invlet = 0;
-    const invlets_bitset cur_inv = allocated_invlets();
-    for( const auto &iter : inv->assigned_invlet ) {
-        if( iter.second == item_type_id && !cur_inv[iter.first] ) {
-            invlet = iter.first;
-            break;
-        }
+    if( is_avatar() ) {
+        invlet = as_avatar()->free_assigned_invlet( item_type_id );
     }
 
     //item copy for test can contain
@@ -406,8 +400,8 @@ item_location Character::try_add( item it, int &copies_remaining, const item *av
                 first_item_added->invlet = invlet;
             }
         }
-        if( !invlet ) {
-            inv->update_invlet( *newits.front(), true, original_inventory_item );
+        if( is_avatar() && !invlet ) {
+            as_avatar()->update_invlet( *newits.front(), original_inventory_item );
         }
 
         copies_remaining -= max_copies;
@@ -541,7 +535,7 @@ ret_val<item_location> Character::i_add_or_fill( item &it, bool should_stack, co
     }
 }
 
-// Negative positions indicate weapon/clothing, 0 & positive indicate inventory
+// Negative positions indicate weapon/clothing, >=0 is obsolete
 const item &Character::i_at( int position ) const
 {
     if( position == -1 ) {
@@ -551,7 +545,7 @@ const item &Character::i_at( int position ) const
         return worn.i_at( worn_position_to_index( position ) );
     }
 
-    return inv->find_item( position );
+    return null_item_reference();
 }
 
 item &Character::i_at( int position )
@@ -583,7 +577,9 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
     bool retval = true;
     bool drop = it.made_of( phase_id::LIQUID );
     bool add = it.is_gun() || !it.is_irremovable();
-    inv->assign_empty_invlet( it, *this );
+    if( is_avatar() ) {
+        as_avatar()->assign_empty_invlet( it );
+    }
     map &here = get_map();
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pickWeight( it, false ) || !can_pickVolume( it );
@@ -700,8 +696,7 @@ int Character::get_item_position( const item *it ) const
     if( pos ) {
         return worn_position_to_index( *pos );
     }
-
-    return inv->position_by_item( it );
+    return INT_MIN;
 }
 
 void Character::drop( item_location loc, const tripoint_bub_ms &where )
@@ -772,20 +767,6 @@ void Character::pick_up( const drop_locations &what, Pickup::pick_info &info )
     assign_activity( pickup_activity_actor( items, quantities, pos_bub(), false, info ) );
 }
 
-invlets_bitset Character::allocated_invlets() const
-{
-    invlets_bitset invlets = inv->allocated_invlets();
-
-    visit_items( [&invlets]( item * i, item * ) -> VisitResponse {
-        invlets.set( i->invlet );
-        return VisitResponse::NEXT;
-    } );
-
-    invlets[0] = false;
-
-    return invlets;
-}
-
 bool Character::has_active_item( const itype_id &id ) const
 {
     return has_item_with( [id]( const item & it ) {
@@ -807,19 +788,6 @@ void Character::drop_invalid_inventory()
 
     if( cache_inventory_is_valid ) {
         return;
-    }
-    bool dropped_liquid = false;
-    for( const std::list<item> *stack : inv->const_slice() ) {
-        const item &it = stack->front();
-        if( it.made_of( phase_id::LIQUID ) ) {
-            dropped_liquid = true;
-            here.add_item_or_charges( pos_bub( here ), it );
-            // must be last
-            i_rem( &it );
-        }
-    }
-    if( dropped_liquid ) {
-        add_msg_if_player( m_bad, _( "Liquid from your inventory has leaked onto the ground." ) );
     }
 
     item_location weap = get_wielded_item();
@@ -1669,8 +1637,6 @@ bool Character::unwield()
         return false;
     }
 
-    inv->unsort();
-
     return true;
 }
 
@@ -1842,7 +1808,6 @@ std::vector<item *> Character::inv_dump()
         ret.push_back( &weapon );
     }
     worn.inv_dump( ret );
-    inv->dump( ret );
     return ret;
 }
 
@@ -1853,7 +1818,6 @@ std::vector<const item *> Character::inv_dump() const
         ret.push_back( &weapon );
     }
     worn.inv_dump( ret );
-    inv->dump( ret );
     return ret;
 }
 
@@ -2017,29 +1981,6 @@ bool Character::trim_haul_list( const std::vector<item_location> &valid_items )
     } ), haul_list.end() );
 
     return qty_before != haul_list.size();
-}
-
-void Character::migrate_items_to_storage( bool disintegrate )
-{
-    inv->visit_items( [&]( const item * it, item * ) {
-        if( disintegrate ) {
-            if( try_add( *it, /*avoid=*/nullptr, it ) == item_location::nowhere ) {
-                std::string profession_id = prof->ident().str();
-                debugmsg( "ERROR: Could not put %s (%s) into inventory.  Check if the "
-                          "profession (%s) has enough space.",
-                          it->tname(), it->typeId().str(), profession_id );
-                return VisitResponse::ABORT;
-            }
-        } else {
-            item_location added = i_add( *it, true, /*avoid=*/nullptr,
-                                         it, /*allow_drop=*/false, /*allow_wield=*/!has_wield_conflicts( *it ) );
-            if( added == item_location::nowhere ) {
-                put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { *it } );
-            }
-        }
-        return VisitResponse::SKIP;
-    } );
-    inv->clear();
 }
 
 std::string Character::is_snuggling() const
@@ -3119,8 +3060,9 @@ bool Character::wield( item &it, std::optional<int> obtain_cost, bool combat )
     if( wielded ) {
         last_item = wielded->typeId();
         wielded->on_wield( *this, combat );
-        inv->update_invlet( *wielded );
-        inv->update_cache_with_item( *wielded );
+        if( is_avatar() ) {
+            as_avatar()->add_invlet_to_new_item( *wielded );
+        }
         cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
         get_event_bus().send_with_talker( this, &wielded, e );
     } else {
@@ -3178,7 +3120,6 @@ bool Character::wield_contents( item &container, item *internal_item, bool penal
         if( !unwield() ) {
             return false;
         }
-        inv->unsort();
     }
 
     // for holsters, we should not include the cost of wielding the holster itself
@@ -3196,8 +3137,9 @@ bool Character::wield_contents( item &container, item *internal_item, bool penal
     container.remove_item( *internal_item );
     container.on_contents_changed();
 
-    inv->update_invlet( weapon );
-    inv->update_cache_with_item( weapon );
+    if( is_avatar() ) {
+        as_avatar()->add_invlet_to_new_item( weapon );
+    }
     last_item = weapon.typeId();
 
     mod_moves( -mv );

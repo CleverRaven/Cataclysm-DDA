@@ -1,4 +1,5 @@
 #if defined(TILES)
+#include <cstddef>
 #include <cstdint>
 #include <initializer_list>
 #include <memory>
@@ -115,6 +116,19 @@ TEST_CASE( "classify_bundle_distinguishes_metadata_only_from_uploaded", "[tiles]
     // stands in for a precheck bundle: no id, no atlas
     tileset metadata_only;
     CHECK( classify_bundle( &metadata_only ) == bundle_state::metadata_only );
+}
+
+TEST_CASE( "classify_silhouette_miss_separates_skip_highlight_and_invalid", "[tiles][gpu]" )
+{
+    using cata_shader::memory_preset;
+    const atlas_bake_plan full = compute_atlas_bake_plan( false, std::nullopt, false );
+    const atlas_bake_plan tint_skipped =
+        compute_atlas_bake_plan( true, memory_preset::DARKEN, true );
+    CHECK( classify_silhouette_miss( tint_skipped, std::nullopt, 3 )
+           == silhouette_miss::skipped_by_plan );
+    CHECK( classify_silhouette_miss( full, 7, 7 ) == silhouette_miss::normal_only_highlight );
+    CHECK( classify_silhouette_miss( full, 7, 3 ) == silhouette_miss::invalid );
+    CHECK( classify_silhouette_miss( full, std::nullopt, 3 ) == silhouette_miss::invalid );
 }
 
 TEST_CASE( "variant_pass_ensure_probed_is_unavailable_on_software_renderer", "[tiles][gpu]" )
@@ -839,5 +853,31 @@ TEST_CASE( "physical_reset_whose_replay_probe_is_unsafe_restarts_once_as_device_
     CHECK( bundle->get_bake_plan_at_upload().all_baked() );
     CHECK( bundle->get_renderer_instance_generation_at_upload()
            == renderer_coordinator.instance_generation() );
+}
+
+TEST_CASE( "synthetic_item_highlight_has_no_silhouette_and_is_not_invalid",
+           "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    const std::shared_ptr<const tileset> bundle =
+        renderer_recovery_test_support::install_synthetic_bundle_with_highlight(
+            "synthetic_highlight_ts", "color_pixel_sepia_light",
+            renderer_coordinator.instance_generation(),
+            renderer_coordinator.textures_generation() );
+    REQUIRE( bundle );
+    const std::optional<int> highlight = bundle->get_default_item_highlight_index();
+    REQUIRE( highlight );
+    REQUIRE( bundle->get_bake_plan_at_upload().all_baked() );
+    const size_t highlight_index = static_cast<size_t>( *highlight );
+    CHECK( bundle->get_tile( highlight_index ) != nullptr );
+    CHECK( bundle->get_silhouette_tile( highlight_index ) == nullptr );
+    CHECK( classify_silhouette_miss( bundle->get_bake_plan_at_upload(), highlight, *highlight )
+           == silhouette_miss::normal_only_highlight );
+    // atlas sprite has its silhouette, so mask replay never classifies it
+    CHECK( bundle->get_silhouette_tile( 0 ) != nullptr );
 }
 #endif // TILES

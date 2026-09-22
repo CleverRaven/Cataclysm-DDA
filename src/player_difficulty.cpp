@@ -9,7 +9,6 @@
 #include "bodypart.h"
 #include "character.h"
 #include "character_martial_arts.h"
-#include "inventory.h"
 #include "item.h"
 #include "mutation.h"
 #include "npc_opinion.h"
@@ -79,7 +78,6 @@ void player_difficulty::reset_npc( Character &dummy )
     // delete all worn items.
     dummy.clear_worn();
     dummy.calc_encumbrance();
-    dummy.inv->clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
 

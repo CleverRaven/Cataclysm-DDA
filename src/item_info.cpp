@@ -2002,7 +2002,7 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         if( !printed_any ) {
             info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Negligible Protection" ) ) );
         }
-        if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
+        if( type->can_use( "GASMASK" ) || type->can_use( "PAPR_MASK_ACTIVATE" ) ) {
             info.emplace_back( "ARMOR", string_format( "<bold>%s</bold>:",
                                _( "Protection when active" ) ) );
             info.emplace_back( bp_cat, space + _( "Acid: " ), "",

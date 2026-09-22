@@ -1802,6 +1802,55 @@
     "armor": [ { "encumbrance": 20, "coverage": 75, "covers": [ "mouth" ] } ]
   },
   {
+    "id": "scuba_regulator",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "dark_gray",
+    "name": { "str": "SCUBA regulator" },
+    "description": "A set of hoses and regulators used by SCUBA divers to breathe underwater.  Wear it, open an air tank, and activate it to prepare it for use.",
+    "flags": [ "WATER_FRIENDLY", "PADDED", "NORMAL", "SKINTIGHT", "SCBA" ],
+    "price": "250 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "plastic", "aluminum", "rubber" ],
+    "weight": "1000 g",
+    "volume": "1500 ml",
+    "use_action": "SCBA_MASK_ACTIVATE",
+    "environmental_protection": 3,
+    "material_thickness": 1,
+    "armor": [ { "encumbrance": 30, "coverage": 75, "covers": [ "mouth" ] } ]
+  },
+  {
+    "id": "scuba_regulator_scba_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "dark_gray",
+    "name": { "str": "SCUBA regulator (on)", "str_pl": "SCUBA regulators (on)" },
+    "description": "A set of hoses and regulators used by SCUBA divers to breathe underwater.  It is currently being fed air.  Activate it to turn it off.",
+    "flags": [ "WATER_FRIENDLY", "PADDED", "NORMAL", "SKINTIGHT", "SCBA_ON", "SPAWN_ACTIVE" ],
+    "revert_to": "scuba_regulator",
+    "tick_action": [ "SCBA_MASK" ],
+    "price": "250 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "plastic", "aluminum", "rubber" ],
+    "weight": "1000 g",
+    "volume": "1500 ml",
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You turn off the regulator.",
+        "menu_text": "Turn off the regulator",
+        "target": "scuba_regulator"
+      }
+    ],
+    "environmental_protection": 16,
+    "material_thickness": 1,
+    "armor": [ { "encumbrance": 30, "coverage": 75, "covers": [ "mouth" ] } ]
+  },
+  {
     "id": "mask_filter",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
@@ -2077,27 +2126,17 @@
     "category": "armor",
     "symbol": "[",
     "color": "light_gray",
-    "name": { "str": "firefighter PBA mask" },
-    "description": "A full-face mask commonly used by firefighters.  The protective breathing apparatus provides excellent protection from smoke, flame, and other dangers.  It must be prepared before use.",
-    "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "PADDED" ],
+    "name": { "str": "firefighter respirator mask" },
+    "description": "A full-face mask commonly used by firefighters.  When connected to an air source, the breathing apparatus provides excellent protection from smoke, flame, and other dangers.  Wear it, activate an air source, and activate it to engage airflow.",
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "SCBA" ],
     "price": "1 kUSD",
     "price_postapoc": "7 USD 50 cent",
     "material": [ "plastic", "nomex" ],
     "weight": "1260 g",
     "volume": "1500 ml",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med"
-      }
-    ],
-    "use_action": [ "GASMASK_ACTIVATE" ],
-    "tick_action": [ "GASMASK" ],
+    "use_action": [ "SCBA_MASK_ACTIVATE" ],
     "warmth": 25,
     "environmental_protection": 4,
-    "environmental_protection_with_filter": 16,
     "armor": [
       {
         "material": [
@@ -2114,8 +2153,22 @@
         "coverage": 100,
         "encumbrance": 12
       }
-    ],
-    "tool_ammo": "gasfilter_m"
+    ]
+  },
+  {
+    "id": "mask_bunker_scba_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "armor",
+    "symbol": "[",
+    "color": "light_gray",
+    "name": { "str": "firefighter respirator mask (on)", "str_pl": "firefighter respirator masks (on)" },
+    "description": "A full-face mask commonly used by firefighters.  When connected to an air source, the breathing apparatus provides excellent protection from smoke, flame, and other dangers.  It is currently part of an active SCBA system.  Activate it to turn it off.",
+    "copy-from": "mask_bunker",
+    "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "PADDED", "SCBA_ON" ],
+    "tick_action": "SCBA_MASK",
+    "revert_to": "mask_bunker",
+    "environmental_protection": 16
   },
   {
     "id": "mask_hsurvivor",
@@ -2439,13 +2492,13 @@
   },
   {
     "id": "military_papr_mask",
-    "//": "Based on the Avalon/US military FM50/FM51.  Very similar to standard mask_gas",
+    "//": "Based on the Avon/US military FM54",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
-    "name": { "str": "military PAPR mask" },
+    "name": { "str": "military respirator mask (PAPR)", "str_pl": "military respirator masks (PAPR)" },
     "looks_like": "mask_gas",
-    "description": "A black, full-face military respirator made from a silicon and butyl rubber blend, providing decent user comfort in addition to a clear field of view and a secure fit thanks to the mask's single-element visor and 6-point head harness.  The mask has pre-installed tubing which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be prepared before use; unlike a standard gas mask it will only function when paired with an active PAPR blower unit.  Unlike large commercial and industrial models, this respirator sits close to the face and can accommodate various attachments.",
+    "description": "A black, full-face military respirator made from a silicon and butyl rubber blend, providing decent user comfort in addition to a clear field of view and a secure fit thanks to the mask's single-element visor and 6-point head harness.  This mask is configured for two modes: negative-pressure, using standard CBRN gas mask filter canisters; and positive-pressure, with built-in hardware to accommodate either a powered air-purifying respirator (PAPR) or a self-contained breathing apparatus (SCBA).  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  It is currently in positive-pressure PAPR mode, so will only function with a powered PAPR blower.",
     "weight": "490 g",
     "volume": "1536 ml",
     "longest_side": "27 cm",
@@ -2511,6 +2564,7 @@
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
     "pocket_data": [
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GASFILTER_MED" ], "default_magazine": "gasfilter_med" },
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
@@ -2537,9 +2591,163 @@
         "inherits_flags": true
       }
     ],
-    "use_action": [ "PAPR_MASK_ACTIVATE" ],
+    "use_action": [
+      "PAPR_MASK_ACTIVATE",
+      {
+        "type": "transform",
+        "msg": "You switch airflow to the CBRN filter compartment.",
+        "target": "military_papr_mask_gasmask",
+        "menu_text": "Switch to filter mode"
+      },
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Switch to SCBA mode",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_military_papr_mask_to_scba",
+            "effect": [ { "transform_item": "military_papr_mask_asr" }, { "u_message": "You switch airflow to the SCBA regulator." } ]
+          }
+        ]
+      }
+    ],
     "tick_action": [ "PAPR_MASK" ],
-    "flags": [ "SKINTIGHT", "NORMAL", "SLEEP_IGNORE", "VARSIZE", "PADDED", "PAPR_MASK" ]
+    "flags": [ "SLEEP_IGNORE", "VARSIZE", "PADDED", "PAPR_MASK" ]
+  },
+  {
+    "id": "military_papr_mask_asr",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "name": { "str": "military respirator mask (SCBA)", "str_pl": "military respirator masks (SCBA)" },
+    "looks_like": "mask_gas",
+    "description": "A black, full-face military respirator made from a silicon and butyl rubber blend, providing decent user comfort in addition to a clear field of view and a secure fit thanks to the mask's single-element visor and 6-point head harness.  This mask is configured for two modes: negative-pressure, using standard CBRN gas mask filter canisters; and positive-pressure, with built-in hardware to accommodate either a powered air-purifying respirator (PAPR) or a self-contained breathing apparatus (SCBA).  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  It is currently in positive-pressure SCBA mode, so will only function with an external air source.",
+    "copy-from": "military_papr_mask",
+    "use_action": [
+      "SCBA_MASK_ACTIVATE",
+      {
+        "type": "transform",
+        "msg": "You switch airflow to the CBRN filter compartment.",
+        "target": "military_papr_mask_gasmask",
+        "menu_text": "Switch to filter mode"
+      },
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Switch to PAPR mode",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_military_scba_mask_to_papr",
+            "effect": [ { "transform_item": "military_papr_mask" }, { "u_message": "You switch airflow to PAPR mode." } ]
+          }
+        ]
+      }
+    ],
+    "flags": [ "SLEEP_IGNORE", "VARSIZE", "PADDED", "SCBA" ]
+  },
+  {
+    "id": "military_papr_mask_asr_scba_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "name": { "str": "military respirator mask (SCBA) (on)", "str_pl": "military respirator masks (SCBA) (on)" },
+    "looks_like": "mask_gas",
+    "description": "A black, full-face military respirator made from a silicon and butyl rubber blend, providing decent user comfort in addition to a clear field of view and a secure fit thanks to the mask's single-element visor and 6-point head harness.  This mask is configured for two modes: negative-pressure, using standard CBRN gas mask filter canisters; and positive-pressure, with built-in hardware to accommodate either a powered air-purifying respirator (PAPR) or a self-contained breathing apparatus (SCBA).  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  It is currently in positive-pressure SCBA mode, so will only function with an external air source.  It is currently being fed air.  Activate it to turn it off.",
+    "copy-from": "military_papr_mask",
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You turn off the regulator.",
+        "menu_text": "Turn off the regulator",
+        "target": "military_papr_mask_asr"
+      }
+    ],
+    "flags": [ "VARSIZE", "PADDED", "SCBA_ON", "SPAWN_ACTIVE" ],
+    "revert_to": "military_papr_mask_asr",
+    "tick_action": [ "SCBA_MASK" ],
+    "environmental_protection": 16
+  },
+  {
+    "id": "military_papr_mask_gasmask",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "name": { "str": "military respirator mask (filter)", "str_pl": "military respirator masks (filter)" },
+    "looks_like": "mask_gas",
+    "description": "A black, full-face military respirator made from a silicon and butyl rubber blend, providing decent user comfort in addition to a clear field of view and a secure fit thanks to the mask's single-element visor and 6-point head harness.  This mask is configured for two modes: negative-pressure, using standard CBRN gas mask filter canisters; and positive-pressure, with built-in hardware to accommodate either a powered air-purifying respirator (PAPR) or a self-contained breathing apparatus (SCBA).  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  It is currently in negative-pressure mode, so will only function with an installed and prepared CBRN gas mask canister.",
+    "copy-from": "military_papr_mask",
+    "flags": [ "SLEEP_IGNORE", "VARSIZE", "PADDED" ],
+    "tool_ammo": "gasfilter_m",
+    "armor": [
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_nape" ],
+        "coverage": 25,
+        "encumbrance": 0,
+        "layers": [ "SKINTIGHT" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [ { "type": "butyl_rubber", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "volume_encumber_modifier": 0,
+        "layers": [ "SKINTIGHT" ]
+      },
+      {
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "SKINTIGHT", "NORMAL" ],
+        "rigid_layer_only": true,
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "butyl_rubber", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "plastic", "covered_by_mat": 30, "thickness": 1 }
+        ],
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_lips", "mouth_nose", "mouth_chin" ],
+        "coverage": 100,
+        "encumbrance": [ 20, 40 ],
+        "layers": [ "SKINTIGHT", "NORMAL" ]
+      },
+      {
+        "material": [
+          { "type": "butyl_rubber", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "plastic", "covered_by_mat": 25, "thickness": 1 }
+        ],
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_cheeks" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "SKINTIGHT", "NORMAL" ],
+        "volume_encumber_modifier": 0
+      }
+    ],
+    "use_action": [
+      "GASMASK_ACTIVATE",
+      {
+        "type": "transform",
+        "msg": "You switch airflow to the SCBA regulator.",
+        "target": "military_papr_mask_asr",
+        "menu_text": "Switch to SCBA mode"
+      },
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Switch to PAPR mode",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_military_filter_mask_to_papr",
+            "effect": [ { "transform_item": "military_papr_mask" }, { "u_message": "You switch airflow to PAPR mode." } ]
+          }
+        ]
+      }
+    ],
+    "tick_action": [ "GASMASK" ]
   },
   {
     "id": "basic_papr_helmet_xedra_mark",
@@ -4094,134 +4302,6 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "STURDY", "PADDED" ],
     "melee_damage": { "bash": 6 }
-  },
-  {
-    "id": "scuba_tank",
-    "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
-    "category": "clothing",
-    "name": { "str": "diving cylinder" },
-    "looks_like": "oxygen_tank",
-    "description": "A high-pressure 232 bar diving tank that can contain up to 12 L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
-    "weight": "16000 g",
-    "volume": "12 L",
-    "price": "60 USD",
-    "price_postapoc": "5 USD",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 60 } }
-    ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
-    "max_worn": 1,
-    "environmental_protection": 1,
-    "environmental_protection_with_filter": 16,
-    "material_thickness": 4,
-    "use_action": [ "DIVE_TANK_ACTIVATE" ],
-    "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
-    "melee_damage": { "bash": 10 },
-    "tool_ammo": "nitrox"
-  },
-  {
-    "id": "scuba_tank_on",
-    "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
-    "category": "clothing",
-    "name": { "str": "diving cylinder (on)", "str_pl": "diving cylinders (on)" },
-    "description": "A high-pressure 232 bar diving tank that can contain up to 12 L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
-    "looks_like": "oxygen_tank",
-    "weight": "16 kg",
-    "volume": "12 L",
-    "price": "60 USD",
-    "price_postapoc": "5 USD",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 60 } }
-    ],
-    "charges_per_use": 1,
-    "turns_per_charge": 60,
-    "revert_to": "scuba_tank",
-    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
-    "max_worn": 1,
-    "environmental_protection": 3,
-    "environmental_protection_with_filter": 16,
-    "material_thickness": 4,
-    "use_action": [ "DIVE_TANK_ACTIVATE" ],
-    "tick_action": [ "DIVE_TANK" ],
-    "armor": [
-      { "encumbrance": 30, "coverage": 50, "covers": [ "torso", "mouth" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ],
-    "melee_damage": { "bash": 10 },
-    "tool_ammo": "nitrox"
-  },
-  {
-    "id": "small_scuba_tank",
-    "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
-    "category": "clothing",
-    "name": { "str": "small diving cylinder" },
-    "description": "A small, high-pressure 200 bar backup diving tank that can contain 4 L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
-    "looks_like": "smoxygen_tank",
-    "weight": "7 kg",
-    "volume": "4 L",
-    "price": "40 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 20 } }
-    ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
-    "max_worn": 1,
-    "environmental_protection": 1,
-    "environmental_protection_with_filter": 16,
-    "material_thickness": 4,
-    "use_action": [ "DIVE_TANK_ACTIVATE" ],
-    "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
-    "melee_damage": { "bash": 6 },
-    "tool_ammo": "nitrox"
-  },
-  {
-    "id": "small_scuba_tank_on",
-    "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
-    "category": "clothing",
-    "name": { "str": "small diving cylinder (on)", "str_pl": "small diving cylinders (on)" },
-    "description": "A small, high-pressure 200 bar backup diving tank that can contain 4 L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
-    "looks_like": "smoxygen_tank",
-    "weight": "7 kg",
-    "volume": "4 L",
-    "price": "40 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 20 } }
-    ],
-    "charges_per_use": 1,
-    "turns_per_charge": 60,
-    "revert_to": "small_scuba_tank",
-    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
-    "max_worn": 1,
-    "environmental_protection": 3,
-    "environmental_protection_with_filter": 16,
-    "material_thickness": 4,
-    "use_action": [ "DIVE_TANK_ACTIVATE" ],
-    "tick_action": [ "DIVE_TANK" ],
-    "armor": [
-      { "encumbrance": 30, "coverage": 50, "covers": [ "torso", "mouth" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ],
-    "melee_damage": { "bash": 6 },
-    "tool_ammo": "nitrox"
   },
   {
     "id": "electric_blanket",

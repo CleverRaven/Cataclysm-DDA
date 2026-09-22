@@ -556,9 +556,12 @@ std::optional<atlas_bake_plan> resolve_atlas_bake_plan( const std::string &memor
     if( test_shader_variants_override ) {
         shader_variants = *test_shader_variants_override;
     }
+    // override stands in for the variant probe only; tint shader is read from
+    // the live pass
+    const bool tint_shader = vp && vp->tint_available();
     return compute_atlas_bake_plan( shader_variants,
                                     cata_shader::memory_preset_from_option_value( memory_map_mode ),
-                                    /*tint_shader_available=*/false );
+                                    tint_shader );
 }
 
 //Registers, creates, and shows the Window!!
@@ -2268,7 +2271,7 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
 std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic_bundle(
     const std::string &tileset_id, const std::string &memory_map_mode,
     const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation,
-    const atlas_bake_plan &plan )
+    const atlas_bake_plan &plan, const bool with_highlight )
 {
     std::shared_ptr<tileset> ts = std::make_shared<tileset>();
     ts->tileset_id = tileset_id;
@@ -2279,6 +2282,12 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
     desc.atlas_offset = 0;
     desc.expected_tilecount = 1;
     ts->append_atlas_descriptor( desc );
+    if( with_highlight ) {
+        // highlight texture takes the tile size
+        ts->tile_width = 1;
+        ts->tile_height = 1;
+        ts->set_default_item_highlight_index( 1 );
+    }
     ts->set_memory_map_mode_at_upload( memory_map_mode );
     tileset_cache::loader::upload_atlases( *ts, renderer, memory_map_mode,
                                            compute_tileset_filter_fingerprint( memory_map_mode ), plan,
@@ -2291,6 +2300,15 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
     };
     ts_cache.track_bundle( key, ts );
     return ts;
+}
+
+std::shared_ptr<const tileset>
+renderer_recovery_test_support::install_synthetic_bundle_with_highlight(
+    const std::string &tileset_id, const std::string &memory_map_mode,
+    const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation )
+{
+    return install_synthetic_bundle( tileset_id, memory_map_mode, renderer_instance_generation,
+                                     gpu_textures_generation, atlas_bake_plan{}, true );
 }
 
 atlas_replay_quarantine::gate renderer_recovery_test_support::populate_mode2_quarantine(
@@ -3011,8 +3029,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     avatar &you = get_avatar();
     const tripoint_abs_omt avatar_pos = you.pos_abs_omt();
     tripoint_abs_omt center_pos = center_abs_omt;
-    const bool fast_traveling = g->overmap_data.fast_traveling;
-    if( fast_traveling ) {
+    const bool overmap_only_auto_travel = g->overmap_data.overmap_only_auto_travel;
+    if( overmap_only_auto_travel ) {
         center_pos = you.pos_abs_omt();
     }
     const tripoint_abs_omt origin = center_pos - point( s.x / 2, s.y / 2 );
@@ -3033,7 +3051,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     const bool show_map_revealed = uistate.overmap_show_revealed_omts;
     std::unordered_set<tripoint_abs_omt> &revealed_highlights = get_avatar().map_revealed_omts;
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
-    const bool draw_overlays = blink || fast_traveling;
+    const bool draw_overlays = blink || overmap_only_auto_travel;
     o = origin.xy().raw();
 
     const auto global_omt_to_draw_position = []( const tripoint_abs_omt & omp ) {
@@ -3260,7 +3278,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     draw_entity_with_overlays( get_player_character(),
                                global_omt_to_draw_position( avatar_pos ),
                                lit_level::LIT, height_3d );
-    if( !fast_traveling ) {
+    if( !overmap_only_auto_travel ) {
         draw_from_id_string( "cursor", global_omt_to_draw_position( center_pos ), 0, 0, lit_level::LIT,
                              false );
     }
@@ -3340,9 +3358,9 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
     std::vector<std::pair<nc_color, std::string>> notes_window_text;
 
-    if( fast_traveling ) {
+    if( overmap_only_auto_travel ) {
         // We hijack this to avoid repeating code just for this simple notice. Notes will still display normally
-        notes_window_text.emplace_back( c_yellow, _( "FAST TRAVELING" ) );
+        notes_window_text.emplace_back( c_yellow, _( "AUTO TRAVELING" ) );
     }
 
     if( viewing_weather ) {
@@ -4545,13 +4563,10 @@ void remove_stale_inventory_quick_shortcuts()
             in_inventory = false;
             if( valid ) {
                 Character &player_character = get_player_character();
-                in_inventory = player_character.inv->invlet_to_position( key ) != INT_MIN;
-                if( !in_inventory ) {
-                    // We couldn't find this item in the inventory, let's check worn items
-                    std::optional<const item *> item = player_character.worn.item_worn_with_inv_let( key );
-                    if( item ) {
-                        in_inventory = true;
-                    }
+                // let's check worn items first
+                std::optional<const item *> item = player_character.worn.item_worn_with_inv_let( key );
+                if( item ) {
+                    in_inventory = true;
                 }
                 if( !in_inventory ) {
                     // We couldn't find it in worn items either, check weapon held
@@ -4697,13 +4712,11 @@ void draw_quick_shortcuts()
         show_hint = hovered &&
                     GetTicks() - finger_down_time > static_cast<uint32_t>
                     ( get_option<int>( "ANDROID_INITIAL_DELAY" ) );
-        std::string hint_text;
+        std::string hint_text = "none";
         if( show_hint ) {
             if( touch_input_context.get_category() == "INVENTORY" && inv_chars.valid( key ) ) {
                 Character &player_character = get_player_character();
                 // Special case for inventory items - show the inventory item name as help text
-                hint_text = player_character.inv->find_item( player_character.inv->invlet_to_position(
-                                key ) ).display_name();
                 if( hint_text == "none" ) {
                     // We couldn't find this item in the inventory, let's check worn items
                     std::optional<const item *> item = player_character.worn.item_worn_with_inv_let( key );

@@ -419,11 +419,17 @@ struct renderer_recovery_test_support {
         const std::string &tileset_id, const std::string &memory_map_mode,
         uint64_t renderer_instance_generation, uint64_t gpu_textures_generation );
     // As install_synthetic_bundle, uploading under an explicit bake plan
-    // instead of the resolver's decision.
+    // instead of the resolver's decision. with_highlight adds the synthetic
+    // item highlight the loader reserves for a tileset without its own: 1x1
+    // tile size and the highlight in the slot after the atlas sprite
     static std::shared_ptr<const tileset> install_synthetic_bundle(
         const std::string &tileset_id, const std::string &memory_map_mode,
         uint64_t renderer_instance_generation, uint64_t gpu_textures_generation,
-        const atlas_bake_plan &plan );
+        const atlas_bake_plan &plan, bool with_highlight = false );
+    // install_synthetic_bundle with a full plan and the synthetic item highlight.
+    static std::shared_ptr<const tileset> install_synthetic_bundle_with_highlight(
+        const std::string &tileset_id, const std::string &memory_map_mode,
+        uint64_t renderer_instance_generation, uint64_t gpu_textures_generation );
 
     // Fetch a bundle through the production cache lookup at the given current
     // generations; returns the cached bundle on a fresh hit. Used only for the
