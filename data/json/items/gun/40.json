@@ -74,7 +74,7 @@
     "looks_like": "glock_17",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "Beretta Px4 Storm .40 S&W" },
+    "name": { "str": "Beretta Px4 Storm .40 S&W pistol" },
     "description": "Lighter than Beretta's iconic 92 series of guns, the Px4 Storm was built by utilizing light-weight polymer construction with steel inserts.  Its shape was also optimized for concealed carry.  This one is chambered in .40 S&W.",
     "weight": "785 g",
     "volume": "520 ml",
