@@ -1,12 +1,17 @@
 #include <array>
 #include <climits>
+#include <cstddef>
 #include <functional>
+#include <list>
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "../src/temp_crafting_inventory.h"
+#include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "cata_utility.h"
@@ -14,13 +19,17 @@
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "npc.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "type_id.h"
+#include "units.h"
 #include "visitable.h"
+
+class Character;
 
 static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
 static const flag_id json_flag_USE_UPS( "USE_UPS" );
@@ -39,14 +48,20 @@ static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_knife_hunting( "knife_hunting" );
 static const itype_id itype_lighter( "lighter" );
+static const itype_id itype_pot( "pot" );
 static const itype_id itype_rock( "rock" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_test_fire_ax( "test_fire_ax" );
 static const itype_id itype_test_gum( "test_gum" );
 static const itype_id itype_test_halligan( "test_halligan" );
+static const itype_id itype_test_reserve_bionic_rod( "test_reserve_bionic_rod" );
+static const itype_id itype_water( "water" );
 
 static const quality_id qual_AXE( "AXE" );
+static const quality_id qual_BOIL( "BOIL" );
+static const quality_id qual_CUT( "CUT" );
 static const quality_id qual_DIG( "DIG" );
+static const quality_id qual_FISHING_ROD( "FISHING_ROD" );
 static const quality_id qual_HAMMER( "HAMMER" );
 static const quality_id qual_PRY( "PRY" );
 
@@ -240,6 +255,24 @@ TEST_CASE( "temp_crafting_inventory_query_cache_lifecycle", "[crafting][inventor
         source.reset();
         CHECK( copy.amount_of( itype_knife_hunting ) == 1 );
     }
+    SECTION( "quality answer is remembered from the first query of a scope" ) {
+        temp_crafting_inventory::query_cache_scope scope;
+        REQUIRE_FALSE( inv.has_provider_quality( qual_CUT, 1, 1, nullptr ) );
+        sneak_in_a_knife();
+        CHECK_FALSE( inv.has_provider_quality( qual_CUT, 1, 1, nullptr ) );
+    }
+    SECTION( "boiling answer does not outlive its scope" ) {
+        REQUIRE( box.put_in( item( itype_pot ), pocket_type::CONTAINER ).success() );
+        item &pot = *box.all_items_top( pocket_type::CONTAINER ).front();
+        {
+            temp_crafting_inventory::query_cache_scope first;
+            REQUIRE( inv.has_provider_quality( qual_BOIL, 1, 1, nullptr ) );
+        }
+        REQUIRE( pot.put_in( item( itype_water, calendar::turn, 1 ),
+                             pocket_type::CONTAINER ).success() );
+        temp_crafting_inventory::query_cache_scope second;
+        CHECK_FALSE( inv.has_provider_quality( qual_BOIL, 1, 1, nullptr ) );
+    }
     SECTION( "cache lives only as long as its outermost scope" ) {
         {
             temp_crafting_inventory::query_cache_scope outer;
@@ -254,5 +287,72 @@ TEST_CASE( "temp_crafting_inventory_query_cache_lifecycle", "[crafting][inventor
         sneak_in_a_knife();
         temp_crafting_inventory::query_cache_scope later;
         CHECK( inv.amount_of( itype_knife_hunting ) == 2 );
+    }
+}
+
+namespace
+{
+struct quality_ask {
+    quality_id qual;
+    int level;
+    int qty;
+    const Character *who;
+    quality_count mode;
+};
+} // namespace
+
+static bool ask( const temp_crafting_inventory &inv, const quality_ask &q )
+{
+    return inv.has_provider_quality( q.qual, q.level, q.qty, q.who, q.mode );
+}
+
+TEST_CASE( "provider_quality_memo_keeps_every_key_dimension", "[crafting][inventory]" )
+{
+    clear_avatar();
+    avatar &u = get_avatar();
+    u.set_max_power_level( 10_kJ );
+    u.set_power_level( 10_kJ );
+    const standard_npc unpowered( "Unpowered" );
+    REQUIRE( unpowered.get_power_level() == 0_kJ );
+
+    temp_crafting_inventory inv;
+    inv.add_item_copy( item( itype_test_reserve_bionic_rod ) );
+    inv.add_item_copy( item( itype_test_halligan ) );
+    inv.add_item_copy( item( itype_rock, calendar::turn, 2 ) );
+
+    const quality_count each = quality_count::providers;
+    const quality_count units = quality_count::units;
+    // two queries of a pair differ in one key dimension and in their answer
+    const std::vector<std::pair<quality_ask, quality_ask>> pairs = {
+        { { qual_FISHING_ROD, 1, 1, &u, each }, { qual_FISHING_ROD, 1, 1, &unpowered, each } },
+        { { qual_FISHING_ROD, 1, 1, &u, each }, { qual_FISHING_ROD, 1, 1, nullptr, each } },
+        { { qual_HAMMER, 2, 1, nullptr, each }, { qual_HAMMER, 3, 1, nullptr, each } },
+        { { qual_PRY, 1, 1, nullptr, each }, { qual_PRY, 1, 2, nullptr, each } },
+        { { qual_DIG, 1, 1, nullptr, each }, { qual_AXE, 1, 1, nullptr, each } },
+        { { qual_HAMMER, 1, 3, nullptr, units }, { qual_HAMMER, 1, 3, nullptr, each } },
+    };
+    std::vector<quality_ask> asks;
+    for( const auto &[first, second] : pairs ) {
+        CAPTURE( asks.size() );
+        REQUIRE( ask( inv, first ) != ask( inv, second ) );
+        asks.push_back( first );
+        asks.push_back( second );
+    }
+    std::vector<bool> live;
+    live.reserve( asks.size() );
+    for( const quality_ask &q : asks ) {
+        live.push_back( ask( inv, q ) );
+    }
+
+    const std::array<bool, 2> orders{ false, true };
+    for( const bool reverse : orders ) {
+        temp_crafting_inventory::query_cache_scope scope;
+        for( int pass = 0; pass < 2; ++pass ) {
+            for( size_t n = 0; n < asks.size(); ++n ) {
+                const size_t i = reverse ? asks.size() - 1 - n : n;
+                CAPTURE( reverse, pass, i );
+                CHECK( ask( inv, asks[i] ) == live[i] );
+            }
+        }
     }
 }

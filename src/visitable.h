@@ -5,6 +5,8 @@
 #include <climits>
 #include <functional>
 #include <list>
+#include <optional>
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -120,6 +122,28 @@ class read_only_visitable
         virtual bool has_charges( const itype_id &it, int quantity,
                                   const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
+    protected:
+        struct provider_quality_key {
+            quality_id qual;
+            int level = 0;
+            int qty = 0;
+            const Character *who = nullptr;
+            quality_count mode = quality_count::providers;
+            bool operator<( const provider_quality_key &rhs ) const {
+                if( std::tie( qual, level, qty, mode ) != std::tie( rhs.qual, rhs.level, rhs.qty,
+                        rhs.mode ) ) {
+                    return std::tie( qual, level, qty, mode ) <
+                           std::tie( rhs.qual, rhs.level, rhs.qty, rhs.mode );
+                }
+                return std::less<>()( who, rhs.who );
+            }
+        };
+        // storage for has_provider_quality answers, for containers whose items are fixed
+        // between mutations
+        virtual std::optional<bool> recall_provider_quality( const provider_quality_key & ) const {
+            return std::nullopt;
+        }
+        virtual void remember_provider_quality( const provider_quality_key &, bool ) const {}
 };
 
 /**

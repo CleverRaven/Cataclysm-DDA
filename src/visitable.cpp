@@ -167,13 +167,19 @@ bool read_only_visitable::has_quality( const quality_id &qual, int level, int qt
 bool read_only_visitable::has_provider_quality( const quality_id &qual, int level, int qty,
         const Character *who, const quality_count mode ) const
 {
+    const provider_quality_key key{ qual, level, qty, who, mode };
+    if( const std::optional<bool> known = recall_provider_quality( key ) ) {
+        return *known;
+    }
     const std::function<int( const item & )> measure = [&qual, who]( const item & it ) {
         return provider_quality_level( it, qual, who, true );
     };
     const std::function<int( const item & )> count = [mode]( const item & it ) {
         return mode == quality_count::units ? it.count() : 1;
     };
-    return has_quality_internal( *this, qual, level, qty, measure, count ) == qty;
+    const bool found = has_quality_internal( *this, qual, level, qty, measure, count ) == qty;
+    remember_provider_quality( key, found );
+    return found;
 }
 
 /** @relates visitable */
