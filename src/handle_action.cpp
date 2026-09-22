@@ -618,7 +618,7 @@ static void close( const std::optional<tripoint_bub_ms> &p = std::nullopt )
     }
 
     if( pnt ) {
-        doors::close_door( here, get_player_character(), *pnt );
+        get_player_character().assign_activity( close_tile_activity_actor( *pnt ) );
     }
 }
 
