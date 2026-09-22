@@ -272,7 +272,7 @@
     "subtypes": [ "GUN" ],
     "copy-from": "gun_base_rifle_semi",
     "name": { "str": "M4 carbine" },
-    "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.  It is chambered in 5.56x45mm NATO and accepts STANAG magazines.",
+    "description": "A popular carbine, long used by the US military.  Although accurate, small and lightweight, it is infamous for its unreliability when not properly maintained.  It is chambered in 5.56x45mm NATO and accepts STANAG magazines.",
     "ascii_picture": "modular_m4a1",
     "weight": "880 g",
     "volume": "1760 ml",
@@ -285,7 +285,7 @@
       {
         "id": "modular_m4a1",
         "name": { "str": "M4A1 carbine" },
-        "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.",
+        "description": "A popular carbine, long used by the US military.  Although accurate, small and lightweight, it is infamous for its unreliability when not properly maintained.",
         "ascii_picture": "modular_m4a1"
       },
       {
