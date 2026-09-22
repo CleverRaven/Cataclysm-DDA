@@ -66,6 +66,29 @@ jobs:
     secrets:
       TX_TOKEN: ${{ secrets.TX_TOKEN }}
 
+  publish-translations:
+    name: Publish translations
+    needs:
+      - release
+      - build-translations
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Fetch translations artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: translations
+          path: translations
+      - name: Upload translations to release
+        env:
+          GH_REPO: ${{ github.repository }}
+          NEEDS_RELEASE_OUTPUTS_TIMESTAMP: ${{ needs.release.outputs.timestamp }}
+        run: |
+          archive="cdda-translations-${NEEDS_RELEASE_OUTPUTS_TIMESTAMP}.tar.gz"
+          (cd translations && tar --sort=name --owner=0 --group=0 --numeric-owner -czf "../${archive}" -- *)
+          gh release upload "cdda-experimental-${NEEDS_RELEASE_OUTPUTS_TIMESTAMP}" "${archive}"
+
   # Compile GLSL -> spv/dxil/msl once on Linux and share with every tiles
   # platform job. Runtime variant_pass picks the format matching its GPU
   # backend (Vulkan/D3D12/Metal). Curses jobs do not fetch it.
