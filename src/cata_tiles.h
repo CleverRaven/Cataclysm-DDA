@@ -58,6 +58,7 @@ class monster;
 class nc_color;
 class pixel_minimap;
 struct sprite_screen_bounds;
+struct tile_tint;
 struct tint_sprite_record;
 enum class direction : unsigned int;
 enum class lit_level : uint8_t;
@@ -806,6 +807,9 @@ class cata_tiles
         bool draw_zombie_revival_indicators( const tripoint_bub_ms &pos, lit_level ll, int &height_3d,
                                              const std::array<bool, 5> &invisible, bool memorize_only );
         void draw_zlevel_overlay( const tripoint_bub_ms &p, lit_level ll, int &height_3d );
+        // unbind any sprite shader before an untextured draw. throws after
+        // latching recovery when the flush is refused
+        void flush_sprite_shader_for_untextured_draw();
         void draw_entity_with_overlays( const Character &ch, const tripoint_bub_ms &p, lit_level ll,
                                         int &height_3d, FacingDirection facing_override = FacingDirection::NONE );
         void draw_entity_with_overlays( const Character &ch, const tripoint_abs_omt &p, lit_level ll,
@@ -1010,10 +1014,16 @@ class cata_tiles
 
         // During the layer loop, these point to the current tile's tint tracking
         // state. draw_sprite_at uses them to accumulate screen bounds and record
-        // sprites for later silhouette replay. Only set for ortho tiles that need
-        // tinting; null for iso tiles, UI overlays, and non-tinted tiles.
+        // sprites for later silhouette replay. Only set on the mask path for
+        // ortho tiles that need tinting; null otherwise.
         sprite_screen_bounds *m_cur_bounds = nullptr;
         small_literal_vector<tint_sprite_record, 4> *m_cur_tint_sprites = nullptr;
+        // Tint of the tile being drawn on the shader tint path; null for
+        // untinted tiles, UI overlays and the mask path
+        const tile_tint *m_cur_tint = nullptr;
+        // true while a z-level binds tint.frag for NORMAL sprites, so untinted
+        // NORMAL sprites keep the same state and the batch holds
+        bool m_zlev_tint_bound = false;
 
         // Scratch render target for the ortho silhouette mask tint path. Sized
         // to fit the largest batched sprite region; reused across tiles/frames.

@@ -43,6 +43,7 @@
 #include "maptile_fwd.h"
 #include "point.h"
 #include "rng.h"
+#include "tile_tint.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -361,9 +362,7 @@ struct tile_render_info {
         sprite_screen_bounds bounds;
         small_literal_vector<tint_sprite_record, 4> tint_sprites;
         bool needs_tint = false;
-        struct {
-            uint8_t r, g, b, a;
-        } tint_color = { 0, 0, 0, 0 };
+        tile_tint tint_color;
 
         common( const tripoint_bub_ms &pos, const int height_3d )
             : pos( pos ), height_3d( height_3d ) {}

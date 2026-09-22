@@ -54,6 +54,11 @@ enum class variant_kind : int {
     count
 };
 
+// Whether a variant keeps the sprite's own colors, and so reads as lit by the
+// tile's light. Night vision and the memory overlay rewrite the sprite into a
+// palette of their own, which the colored-light tint has nothing to say about.
+bool variant_takes_tint( variant_kind v );
+
 // Memory map overlay presets that have a baked shader. Mirrors the four
 // named MEMORY_MAP_MODE values; the custom preset has no shader here and
 // falls back to the memory atlas.
@@ -167,16 +172,17 @@ class render_state
 // without recycling, so each variant gets its own state and the dispatch
 // is a state switch rather than a uniform mutation.
 //
-// try_begin holds the bound state across same-variant runs of sprites and
-// only calls SDL_SetGPURenderState when the variant changes. flush() at the
-// end of the frame clears the held state.
+// try_begin holds the bound state across runs of sprites that select the same
+// state, only calling SDL_SetGPURenderState when the state changes. flush() at
+// the end of the frame clears the held state.
 //
 // Lifecycle:
 //   - construct with renderer (no work).
 //   - probe() lazily on first use; loads shaders and creates states for
-//     SHADOW/NIGHT/OVEREXPOSED plus one per named memory_preset. Either
-//     every variant succeeds or every variant is marked unavailable
-//     (single decision, no per-variant gating). NORMAL has no shader.
+//     SHADOW/NIGHT/OVEREXPOSED, one per named memory_preset, and tint.frag for
+//     tinted NORMAL sprites. either all variants succeed or all are marked
+//     unavailable (single decision, no per-variant gating). untinted NORMAL has
+//     no shader
 //   - select_memory_preset(p) picks which memory shader try_begin(MEMORY)
 //     binds. Nullopt disables the MEMORY shader path so callers fall back
 //     to the memory atlas (used for the custom MEMORY_MAP_MODE preset).
@@ -201,6 +207,11 @@ class variant_pass
         // late failure. Cheap, safe in a hot path.
         bool available() const {
             return probed_ok_ && !session_disabled_;
+        }
+        // probe loads tint.frag with every other variant, so the tint path is
+        // available exactly when the pass is
+        bool tint_available() const {
+            return available();
         }
 
         // classify pass for upload decision, run activation probe if not done
@@ -238,7 +249,9 @@ class variant_pass
             abort_frame,
         };
 
-        begin_result try_begin( variant_kind v );
+        // tinted selects tint.frag for NORMAL. SHADOW reads the tint from the
+        // vertex color in its own shader, and the rest take no tint at all
+        begin_result try_begin( variant_kind v, bool tinted = false );
         bool end();
 
         // returns false on lost boundary, under embargo, or on
@@ -274,7 +287,7 @@ class variant_pass
         // destroy on each (renderer undefined or about to die); false runs the
         // destructors normally to release the SDL handles.
         void clear_state_arrays( bool abandon_handles );
-        SDL_GPURenderState *state_for( variant_kind v ) const;
+        SDL_GPURenderState *state_for( variant_kind v, bool tinted ) const;
 
         SDL_Renderer *renderer_ = nullptr;
         std::array<shader, static_cast<size_t>( variant_kind::count )> shaders_;
@@ -282,11 +295,13 @@ class variant_pass
         std::array<shader, static_cast<size_t>( memory_preset::count )> memory_shaders_;
         std::array<render_state, static_cast<size_t>( memory_preset::count )>
         memory_states_;
+        shader tint_shader_;
+        render_state tint_state_;
         std::optional<memory_preset> active_memory_preset_;
-        std::optional<variant_kind> currently_bound_;
+        SDL_GPURenderState *bound_state_ = nullptr;
         // Set after an unsafe bind transition (failed SDL_SetGPURenderState or
         // a probe boundary loss): next flush() must call null-state regardless
-        // of currently_bound_ to clear whatever the renderer holds.
+        // of bound_state_ to clear whatever the renderer holds.
         bool unbind_required_ = false;
         // The "embargo": while true, every SDL-touching method (flush,
         // try_begin, release_gpu_resources, dtor) refuses without calling SDL,
