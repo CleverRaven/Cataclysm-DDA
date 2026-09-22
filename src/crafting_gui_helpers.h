@@ -64,7 +64,8 @@ struct availability {
         nc_color selected_color() const;
         nc_color color( bool ignore_missing_skills = false ) const;
 
-        static bool check_can_craft_nested( Character &_crafter, const recipe &r );
+        static bool check_can_craft_nested( Character &_crafter, const recipe &r, bool camp_crafting,
+                                            temp_crafting_inventory *inventory_override );
 };
 
 enum class craft_confirm_result {
