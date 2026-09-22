@@ -101,7 +101,7 @@ int provider_quality_level( const item &cand, const quality_id &id, const Charac
     // screwdriver is not part of the backpack.
     for( int pk = 0; pk < static_cast<int>( pocket_type::LAST ); ++pk ) {
         const pocket_type pk_type = static_cast<pocket_type>( pk );
-        if( pk_type == pocket_type::CONTAINER ) {
+        if( pk_type == pocket_type::CONTAINER || !cand.has_pocket_type( pk_type ) ) {
             continue;
         }
         for( const item *nested : cand.all_items_ptr( pk_type ) ) {
