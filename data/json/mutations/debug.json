@@ -13,7 +13,7 @@
     "type": "mutation",
     "id": "DEBUG_CLAIRVOYANCE",
     "name": { "str": "Debug Clairvoyance Super" },
-    "description": "Much bigger range than the other Debug Clairvoyance trait.  Unsure which one to use?  Use them both!  You can see all the bugs with this one.",
+    "description": "Shows the entire active map, including all loaded submaps.  Don't know what that means?  Then use regular clairvoyance.",
     "points": 99,
     "debug": true,
     "valid": false,

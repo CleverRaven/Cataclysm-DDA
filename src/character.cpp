@@ -1314,19 +1314,30 @@ int Character::overmap_modified_sight_range( float light_level ) const
 
 int Character::clairvoyance() const
 {
+    // See everything, on all loaded submaps. Debug only.
     if( vision_mode_cache[VISION_CLAIRVOYANCE_SUPER] ) {
         return MAX_CLAIRVOYANCE;
     }
 
+    // See everything **inbounds**. Debug only.
     if( vision_mode_cache[VISION_CLAIRVOYANCE_PLUS] ) {
-        return 8;
+        // In order to see everything, we must see *more than max view distance*.
+        // Why? Because straight NESW from the avatar is indeed MAX_VIEW_DISTANCE away.
+        // BUT, to the *corners* is further. We want to see the corners, too.
+        return MAX_CLAIRVOYANCE - 1;
     }
 
+    // Artifacts, etc.
     if( vision_mode_cache[VISION_CLAIRVOYANCE] ) {
         return 3;
     }
 
     return 0;
+}
+
+bool Character::has_super_clairvoyance() const
+{
+    return clairvoyance() == MAX_CLAIRVOYANCE;
 }
 
 bool Character::sight_impaired() const
