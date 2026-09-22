@@ -206,7 +206,8 @@
     "difficulty": 3,
     "reversible": true,
     "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "drilling_standard", 5 ], [ "glue_strong", 5 ] ],
+    "using": [ [ "drilling_standard", 5 ], [ "glue_strong", 30 ] ],
+    "//0": "glue is for ~60cm2 for the cables",
     "components": [ [ [ "i_staff", 1 ] ], [ [ "tazer", 1 ] ], [ [ "cable", 4 ] ], [ [ "nuts_bolts", 4 ] ] ],
     "steps": [
       {
