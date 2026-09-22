@@ -31,6 +31,7 @@
 
 class Character;
 
+static const flag_id json_flag_HIDDEN_POISON( "HIDDEN_POISON" );
 static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
 static const flag_id json_flag_USE_UPS( "USE_UPS" );
 
@@ -126,6 +127,13 @@ static void build_pile( temp_crafting_inventory &inv, item &loose )
     REQUIRE( knives.put_in( item( itype_knife_hunting ), pocket_type::CONTAINER ).success() );
     here.add_item( pile_origin, knives );
 
+    item gum_bag( itype_backpack );
+    item bad_gum( itype_test_gum, calendar::turn, 10 );
+    bad_gum.set_flag( json_flag_HIDDEN_POISON );
+    REQUIRE( gum_bag.put_in( bad_gum, pocket_type::CONTAINER ).success() );
+    here.add_item( pile_origin, gum_bag );
+    here.add_item( pile_origin, item( itype_test_gum, calendar::turn, 1 ) );
+
     here.add_item( pile_origin, tool_with_ammo( itype_lighter, 10 ) );
 
     here.add_item( pile_origin, charged_ups( itype_UPS_ON, 100 ) );
@@ -163,6 +171,10 @@ static std::map<std::string, int> ask_everything( const temp_crafting_inventory 
                                    limit )] = inv.amount_of( type, pseudo, limit );
             }
         }
+        for( const int to_use : limits ) {
+            out[string_format( "must_use_hallu_poison %s to_use %d", type.str(), to_use )] =
+                inv.must_use_hallu_poison( type, to_use ) ? 1 : 0;
+        }
         out["charges_of " + type.str()] = inv.charges_of( type );
         out["count_item " + type.str()] = inv.count_item( type );
     }
@@ -198,6 +210,8 @@ TEST_CASE( "temp_crafting_inventory_index_answers_like_a_live_walk", "[crafting]
     const std::map<std::string, int> live = ask_everything( inv, types );
     CHECK( live.at( "charges_of UPS" ) == 150 );
     CHECK( live.at( "UPS drawn by soldering_iron" ) == live.at( "charges_of UPS" ) );
+    CHECK( live.at( "must_use_hallu_poison test_gum to_use 1" ) == 0 );
+    CHECK( live.at( "must_use_hallu_poison test_gum to_use 2" ) == 1 );
 
     temp_crafting_inventory::query_cache_scope scope;
     for( int pass = 0; pass < 2; ++pass ) {
