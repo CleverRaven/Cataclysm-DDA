@@ -245,6 +245,7 @@ static const json_character_flag json_flag_DEAF( "DEAF" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
 static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
+static const json_character_flag json_flag_FREEZE_EFFECTS( "FREEZE_EFFECTS" );
 static const json_character_flag json_flag_GLIDE( "GLIDE" );
 static const json_character_flag json_flag_GLIDING( "GLIDING" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
@@ -6615,6 +6616,10 @@ std::string Character::short_description() const
 
 void Character::process_one_effect( effect &it, bool is_new )
 {
+    if( has_flag( json_flag_FREEZE_EFFECTS ) ) {
+        return;
+    }
+
     bool reduced = resists_effect( it );
     double mod = 1;
     const bodypart_id &bp = it.get_bp();
