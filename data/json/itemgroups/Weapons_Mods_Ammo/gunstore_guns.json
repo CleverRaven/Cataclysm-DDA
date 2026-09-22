@@ -1412,6 +1412,8 @@
       { "group": "12_gauge_semi_boxed", "prob": 48 },
       { "group": "12_gauge_pump_boxed", "prob": 34 },
       { "group": "12_gauge_break_boxed", "prob": 18 },
+      { "group": "20_gauge_manual_boxed", "prob": 12 },
+      { "group": "20_gauge_break_boxed", "prob": 2 },
       { "group": "boxed_410", "prob": 5 }
     ]
   },
@@ -1516,6 +1518,39 @@
         "distribution": [ { "item": "shotgun_s", "prob": 11 }, { "item": "shotgun_d", "prob": 87 }, { "item": "shotgun_triple", "prob": 1 } ]
       }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "20_gauge_manual_boxed",
+    "items": [ { "group": "20_gauge_pump_internal_magazine_boxed", "prob": 100 }, { "group": "boxed_savage_model_220", "prob": 83 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "20_gauge_pump_internal_magazine_boxed",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_shotgun" },
+    "entries": [
+      { "group": "firearm_box_extras" },
+      { "distribution": [ { "item": "mossberg_500_20", "prob": 100 }, { "item": "remington_870_20", "prob": 100 } ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_savage_model_220",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_shotgun" },
+    "items": [
+      { "item": "savage_model_220" },
+      { "group": "firearm_box_extras" },
+      { "item": "savage_220_magazine", "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "20_gauge_break_boxed",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_shotgun" },
+    "entries": [ { "group": "firearm_box_extras" }, { "distribution": [ { "item": "browning_citori_20", "prob": 100 } ] } ]
   },
   {
     "type": "item_group",

@@ -960,5 +960,35 @@
     "type": "item_group",
     "id": "12_gauge_break_display",
     "items": [ { "item": "shotgun_s", "prob": 11 }, { "item": "shotgun_d", "prob": 87 }, { "item": "shotgun_triple", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "20_gauge_pump",
+    "items": [ { "group": "nested_mossberg_500_20", "prob": 100 }, { "group": "nested_remington_870_20", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "20_gauge_bolt",
+    "items": [ { "group": "nested_savage_model_220", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "20_gauge_break",
+    "items": [ { "group": "nested_browning_citori_20", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "20_gauge_pump_display",
+    "items": [ { "item": "mossberg_500_20", "prob": 100 }, { "item": "remington_870_20", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "20_gauge_bolt_display",
+    "items": [ { "item": "savage_model_220", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "20_gauge_break_display",
+    "items": [ { "item": "browning_citori_20", "prob": 100 } ]
   }
 ]

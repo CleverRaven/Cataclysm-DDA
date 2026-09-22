@@ -127,6 +127,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "20shot",
+    "name": "20 gauge",
+    "default": "20shot_buck"
+  },
+  {
+    "type": "ammunition_type",
     "id": "410shot",
     "name": ".410",
     "default": "410shot_000"
