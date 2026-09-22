@@ -3984,14 +3984,13 @@ void item::set_countdown( int num_turns )
     charges = num_turns;
 }
 
-bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
-                        const tripoint_bub_ms &pos, const std::function<bool( const item & )> &filter,
-                        Character *carrier, bool in_tools )
+bool item::use_charges( item_location self, const itype_id &what, int &qty, std::list<item> &used,
+                        const tripoint_bub_ms &pos, const std::function<bool( const item & )> &filter, bool in_tools )
 {
-    std::vector<item *> del;
+    std::vector<item_location> del;
 
-    visit_items(
-    [&what, &qty, &used, &pos, &del, &filter, &carrier, &in_tools]( item * e, item * parent ) {
+    self.visit_items(
+    [&what, &qty, &used, &pos, &del, &filter, &in_tools]( item_location e ) {
         if( qty == 0 ) {
             // found sufficient charges
             return VisitResponse::ABORT;
@@ -4020,10 +4019,10 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
                         return VisitResponse::NEXT;
                     }
                     const int wanted_uses = qty / factor;
-                    const int got_uses = e->consume_tool_uses( wanted_uses, get_map(), pos, carrier );
+                    const int got_uses = e->consume_tool_uses( wanted_uses, get_map(), pos, e.carrier() );
                     n = got_uses * factor;
-                } else if( carrier ) {
-                    n = e->ammo_consume( qty, pos, carrier );
+                } else if( e.carrier() ) {
+                    n = e->ammo_consume( qty, pos, e.carrier() );
                 } else {
                     n = e->ammo_consume( qty, pos, nullptr );
                 }
@@ -4041,9 +4040,9 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
             if( e->typeId() == what ) {
                 // if can supply excess charges split required off leaving remainder in-situ
                 item obj = e->split( qty );
-                if( parent ) {
-                    parent->contained_where( *e )->on_contents_changed();
-                    parent->on_contents_changed();
+                if( e.has_parent() ) {
+                    e.parent_item()->contained_where( *e )->on_contents_changed();
+                    e.parent_item()->on_contents_changed();
                 }
                 if( !obj.is_null() ) {
                     used.push_back( obj );
@@ -4064,11 +4063,11 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
     } );
 
     bool destroy = false;
-    for( item *e : del ) {
-        if( e == this ) {
+    for( item_location e : del ) {
+        if( e.get_item() == this ) {
             destroy = true; // cannot remove ourselves...
         } else {
-            remove_item( *e );
+            e.remove_item();
         }
     }
 

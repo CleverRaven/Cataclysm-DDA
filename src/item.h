@@ -856,9 +856,9 @@ class item
          * @param filter Must return true for use to occur.
          * @return true if this item should be deleted (count-by-charges items with no remaining charges)
          */
-        bool use_charges( const itype_id &what, int &qty, std::list<item> &used, const tripoint_bub_ms &pos,
-                          const std::function<bool( const item & )> &filter = return_true<item>,
-                          Character *carrier = nullptr, bool in_tools = false );
+        bool use_charges( item_location self, const itype_id &what, int &qty, std::list<item> &used,
+                          const tripoint_bub_ms &pos, const std::function<bool( const item & )> &filter = return_true<item>,
+                          bool in_tools = false );
 
         /**
          * Invokes item type's @ref itype::drop_action.
