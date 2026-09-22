@@ -262,7 +262,7 @@
     "name": [ "One Amazing Idea", "Several Inspired Tangents", "Brimming with Creativity" ],
     "desc": [
       "You have an incredibly amazing idea.  You think you should <color_yellow>research</color> it.",
-      "You've got a few theories you'd like to explore.  Grab a laptop, a cup of coffee, and <color_yellow>research</color> it like a proper scientist.",
+      "You've got a few theories you'd like to explore.  Grab a laptop, a cup of your favorite beverage, and <color_yellow>research</color> it like a proper scientist.",
       "Your brain can't hold any more brilliance.  To the <color_yellow>research</color> table!"
     ],
     "max_intensity": 3,
