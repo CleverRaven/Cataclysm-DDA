@@ -2976,6 +2976,8 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         return { nullptr, nullptr };
     }
 
+    // nothing reachable from this menu changes what the query caches read
+    temp_crafting_inventory::query_cache_scope cache_scope;
     crafting_ui_impl impl( crafter, goto_recipe, std::move( filterstring ),
                            camp_crafting, inventory_override );
     input_context ctxt = make_crafting_context(
