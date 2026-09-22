@@ -564,7 +564,7 @@
     "//": "Simple to manufacture, hence it's not gonna be in published in too much detail in gun-mags.",
     "book_learn": [ [ "manual_rifle", 6 ], [ "textbook_anarch", 3 ] ],
     "qualities": [ { "id": "DRILL", "level": 3 }, { "id": "FILE", "level": 2 } ],
-    "tools": [ [ [ "modular_ar15", -1 ], [ "modular_ar_pistol", -1 ] ] ],
+    "tools": [ [ [ "modular_ar15", -1 ], [ "modular_ar_pistol", -1 ] ], [ [ "dremel", 5 ] ] ],
     "components": [ [ [ "sheet_metal_small", 2 ] ] ],
     "//0": "source for it https://texasguntalk.com/attachments/ar15lightninglinkplans-pdf.228985/"
   },
