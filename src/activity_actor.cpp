@@ -3750,12 +3750,6 @@ std::unique_ptr<activity_actor> ebooksave_activity_actor::deserialize( JsonValue
 
     JsonObject data = jsin.get_object();
     data.read( "books", actor.books );
-    if( data.has_member( "book" ) ) {
-        // legacy compatibility: in 0.G, this activity only handled one book each
-        item_location book;
-        data.read( "book", book );
-        actor.books.push_back( book );
-    }
     data.read( "ereader", actor.ereader );
     data.read( "handled_books", actor.handled_books );
     data.read( "turns_left_on_current_book", actor.turns_left_on_current_book );

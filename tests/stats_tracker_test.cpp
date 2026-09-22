@@ -18,9 +18,7 @@
 #include "event_bus.h"
 #include "event_statistics.h"
 #include "event_subscriber.h"
-#include "flexbuffer_json.h"
 #include "game.h"
-#include "json_loader.h"
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
 #include "map_scale_constants.h"
@@ -995,34 +993,4 @@ TEST_CASE( "achievements_tracker_in_game", "[stats]" )
         REQUIRE( e != sub.events.end() );
         CHECK( e->get<bool>( "achievements_enabled" ) == true );
     }
-}
-
-TEST_CASE( "legacy_stats_tracker_save_loading", "[stats]" )
-{
-    std::string json_string = R"({
-        "data": {
-            "character_triggers_trap": {
-                "event_counts": [
-                    [
-                        {
-                            "character": [ "character_id", "20" ],
-                            "trap": [ "trap_str_id", "tr_goo" ]
-                        },
-                        2
-                    ]
-                ]
-            },
-            "character_kills_monster": {
-                "event_counts": []
-            }
-        },
-        "initial_scores": [
-            "score_distance_walked"
-        ]
-    })";
-    JsonValue jsin = json_loader::from_string( json_string );
-    stats_tracker s;
-    s.deserialize( jsin.get_object() );
-    CHECK( s.get_events( event_type::character_triggers_trap ).count() == 2 );
-    CHECK( s.get_events( event_type::character_kills_monster ).count() == 0 );
 }

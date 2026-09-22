@@ -3269,12 +3269,7 @@ void bionic::deserialize( const JsonObject &jo )
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
 
-    //Remove After 0.G
-    if( jo.has_int( "charge" ) ) {
-        charge_timer = time_duration::from_turns( jo.get_int( "charge" ) );
-    } else {
-        jo.read( "charge_timer", charge_timer );
-    }
+    jo.read( "charge_timer", charge_timer );
 
     if( jo.has_int( "incapacitated_time" ) ) {
         incapacitated_time = 1_turns * jo.get_int( "incapacitated_time" );

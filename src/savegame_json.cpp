@@ -145,12 +145,6 @@ static const addiction_id addiction_nicotine( "nicotine" );
 static const addiction_id addiction_opiate( "opiate" );
 static const addiction_id addiction_sleeping_pill( "sleeping pill" );
 
-static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
-
-static const damage_type_id damage_bash( "bash" );
-static const damage_type_id damage_bullet( "bullet" );
-static const damage_type_id damage_cut( "cut" );
-
 static const dimension_id dimension_world_default( "default" );
 
 static const efftype_id effect_riding( "riding" );
@@ -249,16 +243,6 @@ static void deserialize( weak_ptr_fast<monster> &obj, const JsonObject &data )
     //     data.read( "unique_id", unique_id );
     //     obj = g->id_registry->from_id( unique_id)
     //    }
-}
-
-static tripoint_bub_ms read_legacy_creature_pos( const JsonObject &data )
-{
-    tripoint_bub_ms pos;
-    if( !data.read( "posx", pos.x() ) || !data.read( "posy", pos.y() ) ||
-        !data.read( "posz", pos.z() ) ) {
-        debugmsg( R"(Bad Creature JSON: neither "location" nor "posx", "posy", "posz" found)" );
-    }
-    return pos;
 }
 
 void item_contents::serialize( JsonOut &json ) const
@@ -421,9 +405,6 @@ void player_activity::deserialize( const JsonObject &data )
 
     bool is_obsolete = false;
     std::set<std::string> obs_activities {
-        "ACT_PICKUP_MENU", // Remove after 0.I
-        "ACT_VIEW_RECIPE", // Remove after 0.I
-        "ACT_ADV_INVENTORY", // Remove after 0.I
         "ACT_EAT_MENU", // Remove after 0.J
         "ACT_CONSUME_FOOD_MENU", // Remove after 0.J
         "ACT_CONSUME_DRINK_MENU", // Remove after 0.J
@@ -676,10 +657,6 @@ void activity_tracker::deserialize( const JsonObject &jo )
     jo.read( "tracker", tracker );
     jo.read( "intake", intake );
     jo.read( "low_activity_ticks", low_activity_ticks );
-    if( jo.has_member( "tick_counter" ) ) { // migration - remove after 0.G
-        tracker *= 1000;
-        intake *= 1000;
-    }
 }
 
 /**
@@ -912,149 +889,8 @@ void Character::load( const JsonObject &data )
     data.read( "death_eocs", death_eocs );
     worn.on_takeoff( *this );
     clear_worn();
-    // deprecate after 0.G
-    if( data.has_array( "worn" ) ) {
-        std::list<item> items;
-        data.read( "worn", items );
-        worn = outfit( items );
-    } else {
-        data.read( "worn", worn );
-    }
+    data.read( "worn", worn );
     worn.on_item_wear( *this );
-
-    // TEMPORARY until 0.F
-    if( data.has_array( "hp_cur" ) ) {
-        set_anatomy( anatomy_human_anatomy );
-        set_body();
-        std::array<int, 6> hp_cur;
-        data.read( "hp_cur", hp_cur );
-        std::array<int, 6> hp_max;
-        data.read( "hp_max", hp_max );
-        set_part_hp_cur( bodypart_id( "head" ), hp_cur[0] );
-        set_part_hp_max( bodypart_id( "head" ), hp_max[0] );
-        set_part_hp_cur( bodypart_id( "torso" ), hp_cur[1] );
-        set_part_hp_max( bodypart_id( "torso" ), hp_max[1] );
-        set_part_hp_cur( bodypart_id( "arm_l" ), hp_cur[2] );
-        set_part_hp_max( bodypart_id( "arm_l" ), hp_max[2] );
-        set_part_hp_cur( bodypart_id( "arm_r" ), hp_cur[3] );
-        set_part_hp_max( bodypart_id( "arm_r" ), hp_max[3] );
-        set_part_hp_cur( bodypart_id( "leg_l" ), hp_cur[4] );
-        set_part_hp_max( bodypart_id( "leg_l" ), hp_max[4] );
-        set_part_hp_cur( bodypart_id( "leg_r" ), hp_cur[5] );
-        set_part_hp_max( bodypart_id( "leg_r" ), hp_max[5] );
-    }
-    if( data.has_array( "damage_bandaged" ) ) {
-        set_anatomy( anatomy_human_anatomy );
-        set_body();
-        std::array<int, 6> damage_bandaged;
-        data.read( "damage_bandaged", damage_bandaged );
-        set_part_damage_bandaged( bodypart_id( "head" ), damage_bandaged[0] );
-        set_part_damage_bandaged( bodypart_id( "torso" ), damage_bandaged[1] );
-        set_part_damage_bandaged( bodypart_id( "arm_l" ), damage_bandaged[2] );
-        set_part_damage_bandaged( bodypart_id( "arm_r" ), damage_bandaged[3] );
-        set_part_damage_bandaged( bodypart_id( "leg_l" ), damage_bandaged[4] );
-        set_part_damage_bandaged( bodypart_id( "leg_r" ), damage_bandaged[5] );
-    }
-    if( data.has_array( "damage_disinfected" ) ) {
-        set_anatomy( anatomy_human_anatomy );
-        set_body();
-        std::array<int, 6> damage_disinfected;
-        data.read( "damage_disinfected", damage_disinfected );
-        set_part_damage_disinfected( bodypart_id( "head" ), damage_disinfected[0] );
-        set_part_damage_disinfected( bodypart_id( "torso" ), damage_disinfected[1] );
-        set_part_damage_disinfected( bodypart_id( "arm_l" ), damage_disinfected[2] );
-        set_part_damage_disinfected( bodypart_id( "arm_r" ), damage_disinfected[3] );
-        set_part_damage_disinfected( bodypart_id( "leg_l" ), damage_disinfected[4] );
-        set_part_damage_disinfected( bodypart_id( "leg_r" ), damage_disinfected[5] );
-    }
-    if( data.has_array( "healed_24h" ) ) {
-        set_anatomy( anatomy_human_anatomy );
-        set_body();
-        std::array<int, 6> healed_total;
-        data.read( "healed_24h", healed_total );
-        set_part_healed_total( bodypart_id( "head" ), healed_total[0] );
-        set_part_healed_total( bodypart_id( "torso" ), healed_total[1] );
-        set_part_healed_total( bodypart_id( "arm_l" ), healed_total[2] );
-        set_part_healed_total( bodypart_id( "arm_r" ), healed_total[3] );
-        set_part_healed_total( bodypart_id( "leg_l" ), healed_total[4] );
-        set_part_healed_total( bodypart_id( "leg_r" ), healed_total[5] );
-    }
-    if( data.has_array( "body_wetness" ) ) {
-        set_anatomy( anatomy_human_anatomy );
-        set_body();
-        std::array<int, 12> body_wetness;
-        body_wetness.fill( 0 );
-        data.read( "body_wetness", body_wetness );
-        set_part_wetness( bodypart_id( "torso" ), body_wetness[0] );
-        set_part_wetness( bodypart_id( "head" ), body_wetness[1] );
-        set_part_wetness( bodypart_id( "eyes" ), body_wetness[2] );
-        set_part_wetness( bodypart_id( "mouth" ), body_wetness[3] );
-        set_part_wetness( bodypart_id( "arm_l" ), body_wetness[4] );
-        set_part_wetness( bodypart_id( "arm_r" ), body_wetness[5] );
-        set_part_wetness( bodypart_id( "hand_l" ), body_wetness[6] );
-        set_part_wetness( bodypart_id( "hand_r" ), body_wetness[7] );
-        set_part_wetness( bodypart_id( "leg_l" ), body_wetness[8] );
-        set_part_wetness( bodypart_id( "leg_r" ), body_wetness[9] );
-        set_part_wetness( bodypart_id( "foot_l" ), body_wetness[10] );
-        set_part_wetness( bodypart_id( "foot_r" ), body_wetness[11] );
-    }
-    if( data.has_array( "temp_cur" ) ) {
-        set_anatomy( anatomy_human_anatomy );
-        set_body();
-        std::array<units::temperature, 12> temp_cur;
-        temp_cur.fill( BODYTEMP_NORM );
-        data.read( "temp_cur", temp_cur );
-        set_part_temp_cur( bodypart_id( "torso" ), temp_cur[0] );
-        set_part_temp_cur( bodypart_id( "head" ), temp_cur[1] );
-        set_part_temp_cur( bodypart_id( "eyes" ), temp_cur[2] );
-        set_part_temp_cur( bodypart_id( "mouth" ), temp_cur[3] );
-        set_part_temp_cur( bodypart_id( "arm_l" ), temp_cur[4] );
-        set_part_temp_cur( bodypart_id( "arm_r" ), temp_cur[5] );
-        set_part_temp_cur( bodypart_id( "hand_l" ), temp_cur[6] );
-        set_part_temp_cur( bodypart_id( "hand_r" ), temp_cur[7] );
-        set_part_temp_cur( bodypart_id( "leg_l" ), temp_cur[8] );
-        set_part_temp_cur( bodypart_id( "leg_r" ), temp_cur[9] );
-        set_part_temp_cur( bodypart_id( "foot_l" ), temp_cur[10] );
-        set_part_temp_cur( bodypart_id( "foot_r" ), temp_cur[11] );
-    }
-    if( data.has_array( "temp_conv" ) ) {
-        set_anatomy( anatomy_human_anatomy );
-        set_body();
-        std::array<units::temperature, 12> temp_conv;
-        temp_conv.fill( BODYTEMP_NORM );
-        data.read( "temp_conv", temp_conv );
-        set_part_temp_conv( bodypart_id( "torso" ), temp_conv[0] );
-        set_part_temp_conv( bodypart_id( "head" ), temp_conv[1] );
-        set_part_temp_conv( bodypart_id( "eyes" ), temp_conv[2] );
-        set_part_temp_conv( bodypart_id( "mouth" ), temp_conv[3] );
-        set_part_temp_conv( bodypart_id( "arm_l" ), temp_conv[4] );
-        set_part_temp_conv( bodypart_id( "arm_r" ), temp_conv[5] );
-        set_part_temp_conv( bodypart_id( "hand_l" ), temp_conv[6] );
-        set_part_temp_conv( bodypart_id( "hand_r" ), temp_conv[7] );
-        set_part_temp_conv( bodypart_id( "leg_l" ), temp_conv[8] );
-        set_part_temp_conv( bodypart_id( "leg_r" ), temp_conv[9] );
-        set_part_temp_conv( bodypart_id( "foot_l" ), temp_conv[10] );
-        set_part_temp_conv( bodypart_id( "foot_r" ), temp_conv[11] );
-    }
-    if( data.has_array( "frostbite_timer" ) ) {
-        set_anatomy( anatomy_human_anatomy );
-        set_body();
-        std::array<int, 12> frostbite_timer;
-        frostbite_timer.fill( 0 );
-        data.read( "frostbite_timer", frostbite_timer );
-        set_part_frostbite_timer( bodypart_id( "torso" ), frostbite_timer[0] );
-        set_part_frostbite_timer( bodypart_id( "head" ), frostbite_timer[1] );
-        set_part_frostbite_timer( bodypart_id( "eyes" ), frostbite_timer[2] );
-        set_part_frostbite_timer( bodypart_id( "mouth" ), frostbite_timer[3] );
-        set_part_frostbite_timer( bodypart_id( "arm_l" ), frostbite_timer[4] );
-        set_part_frostbite_timer( bodypart_id( "arm_r" ), frostbite_timer[5] );
-        set_part_frostbite_timer( bodypart_id( "hand_l" ), frostbite_timer[6] );
-        set_part_frostbite_timer( bodypart_id( "hand_r" ), frostbite_timer[7] );
-        set_part_frostbite_timer( bodypart_id( "leg_l" ), frostbite_timer[8] );
-        set_part_frostbite_timer( bodypart_id( "leg_r" ), frostbite_timer[9] );
-        set_part_frostbite_timer( bodypart_id( "foot_l" ), frostbite_timer[10] );
-        set_part_frostbite_timer( bodypart_id( "foot_r" ), frostbite_timer[11] );
-    }
 
     inv->clear();
     if( data.has_member( "inv" ) ) {
@@ -2132,39 +1968,11 @@ void npc::load( const JsonObject &data )
 {
     Character::load( data );
 
-    // TEMPORARY Remove if branch after 0.G (keep else branch)
-    if( !data.has_member( "location" ) ) {
-        point_abs_sm submap_coords;
-        data.read( "submap_coords", submap_coords );
-        const tripoint_bub_ms pos = read_legacy_creature_pos( data );
-        set_pos_abs_only( tripoint_abs_ms( project_to<coords::ms>( submap_coords ),
-                                           0 ) + tripoint( pos.x() % SEEX, pos.y() % SEEY, pos.z() ) );
-        std::optional<tripoint_bub_ms> opt;
-        if( data.read( "last_player_seen_pos", opt ) && opt ) {
-            last_player_seen_pos = pos_abs() + ( *opt - pos );
-        }
-        if( data.read( "pulp_location", opt ) && opt ) {
-            pulp_location = pos_abs() + ( *opt - pos );
-        }
-        tripoint_abs_ms tmp;
-        if( data.read( "guardx", tmp.x() ) && data.read( "guardy", tmp.y() ) &&
-            data.read( "guardz", tmp.z() ) &&
-            tmp != tripoint_abs_ms::min ) {
-            guard_pos = tmp;
-        }
-        if( data.read( "chair_pos", tmp ) && tmp != tripoint_abs_ms::min ) {
-            chair_pos = tmp;
-        }
-        if( data.read( "wander_pos", tmp ) && tmp != tripoint_abs_ms::min ) {
-            wander_pos = tmp;
-        }
-    } else {
-        data.read( "last_player_seen_pos", last_player_seen_pos );
-        data.read( "guard_pos", guard_pos );
-        data.read( "pulp_location", pulp_location );
-        data.read( "chair_pos", chair_pos );
-        data.read( "wander_pos", wander_pos );
-    }
+    data.read( "last_player_seen_pos", last_player_seen_pos );
+    data.read( "guard_pos", guard_pos );
+    data.read( "pulp_location", pulp_location );
+    data.read( "chair_pos", chair_pos );
+    data.read( "wander_pos", wander_pos );
 
     int misstmp = 0;
     int atttmp = 0;
@@ -2478,58 +2286,15 @@ void inventory::json_load_items( const JsonArray &ja )
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// monster.h
 
-// TEMPORARY until 0.G
-void monster::deserialize( const JsonObject &data, const tripoint_abs_sm &submap_loc )
-{
-    data.allow_omitted_members();
-    load( data, submap_loc );
-}
-
 void monster::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
     load( data );
 }
 
-// TEMPORARY until 0.G
-void monster::load( const JsonObject &data, const tripoint_abs_sm &submap_loc )
-{
-    load( data );
-    if( !data.has_member( "location" ) ) {
-        // When loading an older save in which the monster's absolute location is not serialized
-        // and the monster is not in the current map, the submap location inferred by load()
-        // will be wrong. Use the supplied argument to fix it.
-        const tripoint_abs_ms old_loc = pos_abs();
-        point_abs_sm wrong_submap;
-        tripoint_sm_ms_ib local_pos;
-        std::tie( wrong_submap, local_pos ) = project_remain<coords::sm>( pos_abs() );
-        set_pos_abs_only( project_combine( submap_loc.xy(), local_pos ) );
-        // adjust other relative coordinates that would be subject to the same error
-        wander_pos = wander_pos - old_loc + pos_abs();
-        if( goal ) {
-            *goal = *goal - old_loc + pos_abs();
-        }
-    }
-}
-
 void monster::load( const JsonObject &data )
 {
     Creature::load( data );
-
-    // TEMPORARY until 0.G
-    if( !data.has_member( "location" ) ) {
-        set_pos_abs_only( get_map().get_abs( read_legacy_creature_pos( data ) ) );
-        tripoint_bub_ms wand;
-        data.read( "wandx", wand.x() );
-        data.read( "wandy", wand.y() );
-        data.read( "wandz", wand.z() );
-        wander_pos = get_map().get_abs( wand );
-        tripoint_rel_ms destination;
-        data.read( "destination", destination );
-        if( destination != tripoint_rel_ms::zero ) {
-            goal = pos_abs() + destination;
-        }
-    }
 
     const mtype_id montype( data.get_string( "typeid", "invalid*type" ) );
     if( montype.is_valid() ) {
@@ -2657,8 +2422,6 @@ void monster::load( const JsonObject &data )
     data.read( "baby_timer", baby_timer );
     if( baby_timer && *baby_timer == calendar::before_time_starts ) {
         baby_timer.reset();
-    } else if( reproduces && type->baby_timer && !baby_timer ) {  // Remove after 0.I
-        baby_timer.emplace( calendar::turn + *type->baby_timer );
     }
 
     biosignatures = data.get_bool( "biosignatures", type->biosignatures );
@@ -3484,9 +3247,7 @@ void item::io( Archive &archive )
     archive.io( "temperature", temperature, units::from_kelvin( 0.f ) );
     archive.io( "recipe_charges", recipe_charges, 1 );
     archive.io( "template_traits", template_traits );
-    // Legacy: remove flag check/unset after 0.F
-    archive.io( "ethereal", ethereal, has_flag( flag_ETHEREAL_ITEM ) );
-    unset_flag( flag_ETHEREAL_ITEM );
+    archive.io( "ethereal", ethereal );
     archive.template io<const mtype>( "corpse", corpse, load_corpse,
     []( const mtype & i ) {
         return i.id.str();
@@ -3540,14 +3301,6 @@ void item::io( Archive &archive )
     }
     if( poison != 0 && irradiation == 0 && typeId() == itype_rad_badge ) {
         std::swap( irradiation, poison );
-    }
-
-    // Compatibility with old 0.F saves
-    // Tempreature used to be saved as 0.00001 K integer.
-    // specific_energy used to be saved as 0.00001 J/g integer.
-    if( temperature > 100000_K ) {
-        temperature /= 100000;
-        specific_energy /= 100000;
     }
 
     // erase all invalid flags (not defined in flags.json)
@@ -4015,10 +3768,7 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "velocity", velocity );
     data.read( "avg_velocity", avg_velocity );
     data.read( "falling", is_falling );
-    if( !data.read( "in_deep_water", in_deep_water ) ) {
-        // fallback; remove after 0.I
-        data.read( "floating", in_deep_water );
-    }
+    data.read( "in_deep_water", in_deep_water );
     data.read( "in_water", in_water );
     data.read( "flying", is_flying );
     data.read( "cruise_velocity", cruise_velocity );
@@ -4441,34 +4191,7 @@ void Creature::load( const JsonObject &jsin )
 
     killer = nullptr; // see Creature::load
 
-    // TEMPORARY until 0.F
-    if( savegame_loading_version < 31 ) {
-        if( jsin.has_object( "effects" ) ) {
-            // Because JSON requires string keys we need to convert back to our bp keys
-            std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
-            jsin.read( "effects", tmp_map );
-            int key_num = 0;
-            for( const auto &maps : tmp_map ) {
-                const efftype_id id( maps.first );
-                if( !id.is_valid() ) {
-                    debugmsg( "Invalid effect: %s", id.c_str() );
-                    continue;
-                }
-                for( const auto &i : maps.second ) {
-                    if( !( std::istringstream( i.first ) >> key_num ) ) {
-                        key_num = 0;
-                    }
-                    const bodypart_str_id &bp = convert_bp( static_cast<body_part>( key_num ) );
-                    const effect &e = i.second;
-
-                    ( *effects )[id][bp] = e;
-                    on_effect_int_change( id, e.get_intensity(), bp );
-                }
-            }
-        }
-    } else {
-        jsin.read( "effects", *effects );
-    }
+    jsin.read( "effects", *effects );
 
     migrate_effects();
 
@@ -4493,21 +4216,7 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "num_blocks_bonus", num_blocks_bonus );
     jsin.read( "num_dodges_bonus", num_dodges_bonus );
 
-    if( jsin.has_object( "armor_bonus" ) ) {
-        jsin.read( "armor_bonus", armor_bonus );
-    } else {
-        // Legacy load conversion, remove after 0.H releases
-        float bash_bonus = 0;
-        float cut_bonus = 0;
-        float bullet_bonus = 0;
-        jsin.read( "armor_bash_bonus", bash_bonus );
-        jsin.read( "armor_cut_bonus", cut_bonus );
-        jsin.read( "armor_bullet_bonus", bullet_bonus );
-        armor_bonus.clear();
-        armor_bonus.emplace( damage_bash, bash_bonus );
-        armor_bonus.emplace( damage_cut, cut_bonus );
-        armor_bonus.emplace( damage_bullet, bullet_bonus );
-    }
+    jsin.read( "armor_bonus", armor_bonus );
 
     jsin.read( "speed", speed_base );
 
@@ -4632,7 +4341,7 @@ static std::string migrate_memorized_terrain( const std::string &ter_id )
     return ter_id;
 }
 
-void mm_submap::deserialize( int version, const JsonArray &ja )
+void mm_submap::deserialize( int, const JsonArray &ja )
 {
     size_t submap_array_idx = 0;
 
@@ -4646,50 +4355,20 @@ void mm_submap::deserialize( int version, const JsonArray &ja )
                 remaining -= 1;
             } else {
                 const JsonArray ja_tile = ja.get_array( submap_array_idx++ );
-                if( version < 1 ) { // legacy, remove after 0.H comes out
-                    std::string id = ja_tile.get_string( 0 );
-                    if( string_starts_with( id, "t_" ) ) {
-                        tile.set_ter_id( migrate_memorized_terrain( id ) );
-                        tile.set_ter_subtile( ja_tile.get_int( 1 ) );
-                        tile.set_ter_rotation( ja_tile.get_int( 2 ) );
-                        tile.set_dec_id( "" );
-                        tile.set_dec_subtile( 0 );
-                        tile.set_dec_rotation( 0 );
-                    } else {
-                        tile.set_ter_id( "" );
-                        tile.set_ter_subtile( 0 );
-                        tile.set_ter_rotation( 0 );
-                        tile.set_dec_id( std::move( id ) );
-                        tile.set_dec_subtile( ja_tile.get_int( 1 ) );
-                        const int legacy_rotation = ja_tile.get_int( 2 );
-                        if( string_starts_with( tile.dec_id, "vp_" ) ) {
-                            // legacy vehicle rotation needs to be converted from 0-360 degrees
-                            // to 0-3 tileset rotation
-                            const units::angle legacy_angle = units::from_degrees( legacy_rotation );
-                            tile.set_dec_rotation( angle_to_dir4( legacy_angle - 270_degrees ) );
-                        } else {
-                            tile.set_dec_rotation( legacy_rotation );
-                        }
-                    }
-                    tile.symbol = ja_tile.get_int( 3 );
-                    if( ja_tile.size() > 4 ) {
-                        remaining = ja_tile.get_int( 4 ) - 1;
-                    }
+
+                remaining = ja_tile.get_int( 0 ) - 1;
+                tile.symbol = ja_tile.get_int( 1 );
+                tile.set_ter_id( migrate_memorized_terrain( ja_tile.get_string( 2 ) ) );
+                tile.ter_subtile = ja_tile.get_int( 3 );
+                tile.ter_rotation = ja_tile.get_int( 4 );
+                if( ja_tile.size() > 5 ) {
+                    tile.set_dec_id( ja_tile.get_string( 5 ) );
+                    tile.dec_subtile = ja_tile.get_int( 6 );
+                    tile.dec_rotation = ja_tile.get_int( 7 );
                 } else {
-                    remaining = ja_tile.get_int( 0 ) - 1;
-                    tile.symbol = ja_tile.get_int( 1 );
-                    tile.set_ter_id( migrate_memorized_terrain( ja_tile.get_string( 2 ) ) );
-                    tile.ter_subtile = ja_tile.get_int( 3 );
-                    tile.ter_rotation = ja_tile.get_int( 4 );
-                    if( ja_tile.size() > 5 ) {
-                        tile.set_dec_id( ja_tile.get_string( 5 ) );
-                        tile.dec_subtile = ja_tile.get_int( 6 );
-                        tile.dec_rotation = ja_tile.get_int( 7 );
-                    } else {
-                        tile.set_dec_id( "" );
-                        tile.dec_subtile = 0;
-                        tile.dec_rotation = 0;
-                    }
+                    tile.set_dec_id( "" );
+                    tile.dec_subtile = 0;
+                    tile.dec_rotation = 0;
                 }
             }
             // Try to avoid assigning to save up on memory
@@ -4726,15 +4405,9 @@ void mm_region::deserialize( const JsonValue &ja )
 {
     int version;
     JsonArray region_json;
-
-    if( ja.test_array() ) { // legacy, remove after 0.H comes out
-        version = 0;
-        region_json = ja;
-    } else {
-        JsonObject region_obj = ja;
-        version = region_obj.get_int( "version" );
-        region_json = region_obj.get_array( "data" );
-    }
+    JsonObject region_obj = ja;
+    version = region_obj.get_int( "version" );
+    region_json = region_obj.get_array( "data" );
 
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
         // NOLINTNEXTLINE(modernize-loop-convert)
@@ -5178,11 +4851,7 @@ void cata_variant::deserialize( const JsonValue &jsin )
         *this = cata_variant::make<cata_variant_type::bool_>( jsin.get_bool() );
     } else {
         JsonArray ja = jsin.get_array();
-        // FIXME: add_type migration - remove after 0.G
-        if( ja.get_string( 0 ) == "add_type" ) {
-            type_ = cata_variant_type::addiction_id;
-            value_ = add_type_legacy_conv( ja.get_string( 1 ) );
-        } else if( !( ja.read_next( type_ ) && ja.read_next( value_ ) ) ) {
+        if( !( ja.read_next( type_ ) && ja.read_next( value_ ) ) ) {
             ja.throw_error( "Failed to read cata_variant" );
         }
         if( ja.size() > 2 ) {
@@ -5202,23 +4871,9 @@ void event_multiset::serialize( JsonOut &jsout ) const
 void event_multiset::deserialize( const JsonObject &jo )
 {
     jo.allow_omitted_members();
-    JsonArray events = jo.get_array( "event_counts" );
-    if( !events.empty() && events.get_array( 0 ).has_int( 1 ) ) {
-        // TEMPORARY until 0.F
-        // Read legacy format with just ints
-        std::vector<std::pair<cata::event::data_type, int>> copy;
-        jo.read( "event_counts", copy );
-        summaries_.clear();
-        for( const std::pair<cata::event::data_type, int> &p : copy ) {
-            event_summary summary{ p.second, calendar::start_of_game, calendar::start_of_game };
-            summaries_.emplace( p.first, summary );
-        }
-    } else {
-        // Read actual summaries
-        std::vector<std::pair<cata::event::data_type, event_summary>> copy;
-        jo.read( "event_counts", copy );
-        summaries_ = { copy.begin(), copy.end() };
-    }
+    std::vector<std::pair<cata::event::data_type, event_summary>> copy;
+    jo.read( "event_counts", copy );
+    summaries_ = { copy.begin(), copy.end() };
 }
 
 void stats_tracker::serialize( JsonOut &jsout ) const
@@ -5237,45 +4892,6 @@ void stats_tracker::deserialize( const JsonObject &jo )
         d.second.set_type( d.first );
     }
     jo.read( "initial_scores", initial_scores );
-
-    // TODO: remove after 0.H
-    // migration for saves made before addition of event_type::game_avatar_new
-    event_multiset gan_evts = get_events( event_type::game_avatar_new );
-    if( !gan_evts.count() ) {
-        event_multiset gs_evts = get_events( event_type::game_start );
-        avatar &u = get_avatar();
-        // check if character ID set, if loadsave, the ID will not be -1
-        // if it's an old save without event_type::game_avatar_new, the event need to be done
-        // this function is invoked when load memorial, on this situation start a new game, below shouldn't be invoked.
-        if( u.getID() != character_id( -1 ) ) {
-            if( gs_evts.count() ) {
-                auto gs_evt = gs_evts.first().value();
-                cata::event::data_type gs_data = gs_evt.first;
-
-                // retroactively insert starting avatar
-                cata::event::data_type gan_data( gs_data );
-                gan_data["is_new_game"] = cata_variant::make<cata_variant_type::bool_>( true );
-                gan_data["is_debug"] = cata_variant::make<cata_variant_type::bool_>( false );
-                gan_data.erase( "game_version" );
-                get_event_bus().send( cata::event( event_type::game_avatar_new, calendar::start_of_game,
-                                                   std::move( gan_data ) ) );
-
-                // retroactively insert current avatar, if different from starting avatar
-                // we don't know when they took over, so just use current time point
-                if( u.getID() != gs_data["avatar_id"].get<cata_variant_type::character_id>() ) {
-                    get_event_bus().send( cata::event::make<event_type::game_avatar_new>( false, false,
-                                          u.getID(), u.name, u.custom_profession ) );
-                }
-            } else {
-                // last ditch effort for really old saves that don't even have event_type::game_start
-                // treat current avatar as the starting avatar; abuse is_new_game=false to flag such cases
-                std::swap( calendar::turn, calendar::start_of_game );
-                get_event_bus().send( cata::event::make<event_type::game_avatar_new>( false, false,
-                                      u.getID(), u.name, u.custom_profession ) );
-                std::swap( calendar::turn, calendar::start_of_game );
-            }
-        }
-    }
 }
 
 namespace

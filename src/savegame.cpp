@@ -302,9 +302,6 @@ void game::unserialize_impl( const JsonObject &data )
     }
     data.read( "active_monsters", *critter_tracker );
 
-    data.has_null( "stair_monsters" ); // TEMPORARY until 0.G
-    data.has_null( "monstairz" ); // TEMPORARY until 0.G
-
     data.read( "driving_view_offset", driving_view_offset );
     data.read( "turnssincelastmon", turnssincelastmon );
     data.read( "bVMonsterLookFire", bVMonsterLookFire );
@@ -406,19 +403,12 @@ void overmap::load_monster_groups( const JsonArray &jsin )
     for( JsonArray mongroup_with_tripoints : jsin ) {
         mongroup new_group;
         new_group.deserialize( mongroup_with_tripoints.next_object() );
-        bool reset_target = false;
-        if( new_group.target ==  point_abs_sm() ) { // Remove after 0.I
-            reset_target = true;
-        }
 
         JsonArray tripoints_json = mongroup_with_tripoints.next_array();
         tripoint_om_sm temp;
         for( JsonValue tripoint_json : tripoints_json ) {
             temp.deserialize( tripoint_json );
             new_group.abs_pos = project_combine( pos(), temp );
-            if( reset_target ) { // Remove after 0.I
-                new_group.set_target( new_group.abs_pos.xy() );
-            }
             if( new_group.horde ) {
                 // Migrate "horde" type monster groups to new horde map.
                 if( !new_group.monsters.empty() ) {
@@ -653,16 +643,6 @@ void overmap::unserialize( const JsonObject &jsobj )
                 }
                 radios.push_back( new_radio );
             }
-        } else if( name == "monster_map" ) {
-            // Migration code for old "monster_map" to new "horde_map"
-            JsonArray monster_map_json = om_member;
-            while( monster_map_json.has_more() ) {
-                tripoint_om_sm monster_location;
-                monster new_monster;
-                monster_location.deserialize( monster_map_json.next_value() );
-                new_monster.deserialize( monster_map_json.next_object(), project_combine( loc, monster_location ) );
-                hordes.spawn_entity( new_monster.pos_abs(), new_monster );
-            }
         } else if( name == "horde_map" ) {
             JsonArray monster_map_json = om_member;
             while( monster_map_json.has_more() ) {
@@ -826,49 +806,6 @@ void overmap::unserialize( const JsonObject &jsobj )
             std::vector<oter_id> om_predecessors;
 
             for( auto& [p, serialized_predecessors] : flattened_predecessors ) {
-                if( !serialized_predecessors.empty() ) {
-                    // TODO remove after 0.H release.
-                    // JSONizing roads caused some bad mapgen data to get saved to disk. Fixup bad saves to conform.
-                    // The logic to do this is to emulate setting overmap::set_ter repeatedly. The difference is the
-                    // 'original' terrain is lost, all we have is a chain of predecessors.
-                    // This doesn't matter for the sake of deduplicating predecessors.
-                    //
-                    // Mapgen refinement can push multiple different roads over each other.
-                    // Roads require a predecessor. A road pushed over a road might cause a
-                    // road to be a predecessor to another road. That causes too many spawns
-                    // to happen. So when pushing a predecessor, if the predecessor to-be-pushed
-                    // is linear and the previous predecessor is linear, overwrite it.
-                    // This way only the 'last' rotation/variation generated is kept.
-                    om_predecessors.reserve( serialized_predecessors.size() );
-                    oter_id current_oter;
-                    auto local_set_ter = [&]( oter_id & id ) {
-                        const oter_type_str_id &current_type_id = current_oter->get_type_id();
-                        const oter_type_str_id &incoming_type_id = id->get_type_id();
-                        const bool current_type_same = current_type_id == incoming_type_id;
-                        if( om_predecessors.empty() || ( !current_oter->is_linear() && !current_type_same ) ) {
-                            // If we need a predecessor, we must have a predecessor no matter what.
-                            // Or, if the oter to-be-pushed is not linear, push it only if the incoming oter is different.
-                            om_predecessors.push_back( current_oter );
-                        } else if( !current_type_same ) {
-                            // Current oter is linear, incoming oter is different from current.
-                            // If the last predecessor is the same type as the current type, overwrite.
-                            // Else push the current type.
-                            oter_id &last_predecessor = om_predecessors.back();
-                            if( last_predecessor->get_type_id() == current_type_id ) {
-                                last_predecessor = current_oter;
-                            } else {
-                                om_predecessors.push_back( current_oter );
-                            }
-                        }
-                        current_oter = id;
-                    };
-
-                    current_oter = serialized_predecessors.front();
-                    for( size_t i = 1; i < serialized_predecessors.size(); ++i ) {
-                        local_set_ter( serialized_predecessors[i] );
-                    }
-                    local_set_ter( layer[p.z() + OVERMAP_DEPTH].terrain[p.xy()] );
-                }
                 predecessors_.insert_or_assign( p, std::move( om_predecessors ) );
 
                 // Reuse allocations because it's a good habit.

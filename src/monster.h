@@ -207,7 +207,6 @@ class monster : public Creature
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
-        void deserialize( const JsonObject &data, const tripoint_abs_sm &submap_loc );
 
         // Performs any necessary coordinate updates due to map shift.
         void shift( const point_rel_sm &sm_shift );
@@ -676,7 +675,6 @@ class monster : public Creature
     protected:
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
-        void load( const JsonObject &data, const tripoint_abs_sm &submap_loc );
 
         void on_move( const tripoint_abs_ms &old_pos ) override;
         void on_effect_int_change( const efftype_id &eid, int intensity,

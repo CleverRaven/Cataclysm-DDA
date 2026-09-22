@@ -20,7 +20,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_assert.h"
-#include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
@@ -168,10 +167,6 @@ static const std::string omt_ranch_camp_63 = "ranch_camp_63";
 
 static const std::string return_ally_question_string =
     "\n\nDo you wish to bring your allies back into your party?";
-
-//  Legacy faction camp mission strings used to translate tasks in progress when upgrading.
-static const std::string camp_upgrade_npc_string = "_faction_upgrade_camp";
-static const std::string camp_upgrade_expansion_npc_string = "_faction_upgrade_exp_";
 
 static const std::string caravan_commune_center_job_assign_parameter = "Assign";
 static const std::string caravan_commune_center_job_active_parameter = "Active";
@@ -433,137 +428,8 @@ void mission_id::deserialize( const JsonValue &val )
         obj.read( "parameters", parameters );
         obj.read( "mapgen_args", mapgen_args );
         obj.read( "dir", dir );
-    } else if( val.test_string() ) {
-        // Legacy values are stored as a string where the pieces need to be
-        // parsed out.  Replaced during 0.G.
-        std::string str = val.get_string();
-        size_t id_size = str.length();
-
-        if( id_size == 0 ) {
-            return;
-        }
-
-        for( const auto &direction : base_camps::all_directions ) {
-            if( string_ends_with( str, direction.second.id ) ) {
-                dir = direction.first;
-                id_size = str.length() - direction.second.id.length();
-                break;
-            }
-        }
-
-        std::string st = str.substr( 0, id_size );
-
-        for( int i = No_Mission + 1; i <= Camp_Harvest; i++ ) {
-            if( st.length() >= miss_info[i].serialize_id.length() &&
-                st.substr( 0, miss_info[i].serialize_id.length() ) == miss_info[i].serialize_id ) {
-                if( st.length() == miss_info[i].serialize_id.length() ) {
-                    id = static_cast<mission_kind>( i );
-                    return;
-                } else {
-                    id = static_cast<mission_kind>( i );
-                    parameters = st.substr( miss_info[i].serialize_id.length() );
-                    return;
-                }
-            }
-        }
-
-        // Even older legacy definition matching (replaced during 0.F)
-        if( str == "_scavenging_patrol" ) {
-            id = Scavenging_Patrol_Job;
-        } else if( str == "_scavenging_raid" ) {
-            id = Scavenging_Raid_Job;
-        } else if( str == "_labor" ) {
-            id = Menial_Job;
-        } else if( str == "_carpenter" ) {
-            id = Carpentry_Job;
-        } else if( str == "_forage" ) {
-            id = Forage_Job;
-        } else if( str == "_commune_refugee_caravan" ) {
-            id = Caravan_Commune_Center_Job;
-        }
-        //  The farm field actions do not result in npc missions
-
-        else if( string_ends_with( str, camp_upgrade_npc_string ) ) {  //  blueprint + id
-            id = Camp_Upgrade;
-            parameters = str.substr( 0, str.length() - camp_upgrade_npc_string.length() );
-            dir = base_camps::base_dir;
-        }  //  Camp_Emergency_Recall is an immediate action, and so isn't serialized
-
-        else if( st == "_faction_camp_crafting_" ) { //  id + dir
-            id = Camp_Crafting;
-            dir = base_camps::base_dir;
-        } else if( str == "_faction_camp_gathering" ) {
-            id = Camp_Gather_Materials;
-            dir = base_camps::base_dir;
-        } else if( str == "_faction_camp_firewood" ) {
-            id = Camp_Collect_Firewood;
-            dir = base_camps::base_dir;
-        } else if( str == "_faction_camp_menial" ) {
-            id = Camp_Menial;
-            dir = base_camps::base_dir;
-        } else if( str == "_faction_camp_field" ) {
-            id = Camp_Survey_Field;
-            dir = base_camps::base_dir;
-        } else if( str == "_faction_camp_expansion" ) {
-            id = Camp_Survey_Expansion;
-            dir = base_camps::base_dir;
-        } else if( str == "_faction_camp_cut_log" ) {
-            id = Camp_Cut_Logs;
-            dir = base_camps::base_dir;
-        } else if( str == "_faction_camp_clearcut" ) {
-            id = Camp_Clearcut;
-            dir = base_camps::base_dir;
-        } else if( str == "_faction_camp_hide_site" ) {
-            id = Camp_Setup_Hide_Site;
-            dir = base_camps::base_dir;
-        } else if( str == "_faction_camp_hide_trans" ) {
-            id = Camp_Relay_Hide_Site;
-            dir = base_camps::base_dir;
-        } else if( str == "_faction_camp_foraging" ) {
-            id = Camp_Foraging;
-            dir = base_camps::base_dir;
-        } else if( str == "_faction_camp_trapping" ) {
-            id = Camp_Trapping;
-            dir = base_camps::base_dir;
-        } else if( str == "_faction_camp_hunting" ) {
-            id = Camp_Hunting;
-            dir = base_camps::base_dir;
-        } else if( str == "_faction_camp_om_fortifications" ) {
-            //  This legacy mission version hides the blueprint as a mission role rather than a string component
-            id = Camp_OM_Fortifications;
-            dir = base_camps::base_dir;
-        } else if( str == "_faction_camp_recruit_0" ) {
-            id = Camp_Recruiting;
-            dir = base_camps::base_dir;
-        } else if( str == "_faction_camp_scout_0" ) {
-            id = Camp_Scouting;
-            dir = base_camps::base_dir;
-        } else if( str == "_faction_camp_combat_0" ) {
-            id = Camp_Combat_Patrol;
-            dir = base_camps::base_dir;
-        } else if( id_size >= camp_upgrade_expansion_npc_string.length() &&
-                   st.substr( id_size - camp_upgrade_expansion_npc_string.length() ) ==
-                   camp_upgrade_expansion_npc_string ) { // blueprint + id + dir
-            id = Camp_Upgrade;
-            parameters = st.substr( 0, id_size - camp_upgrade_expansion_npc_string.length() );
-        } else if( st == "_faction_exp_kitchen_cooking_" ||   // id + dir
-                   st == "_faction_exp_blacksmith_crafting_" ||
-                   st == "_faction_exp_farm_crafting_" ) {
-            id = Camp_Crafting;
-        } else if( st == "_faction_exp_plow_" ) {             // id + dir
-            id = Camp_Plow;
-        } else if( st == "_faction_exp_plant_" ) {            // id + dir
-            id = Camp_Plant;
-        } else if( st == "_faction_exp_harvest_" ) {          // id + dir
-            id = Camp_Harvest;
-        }
-
-        if( id == No_Mission ) {
-            debugmsg(
-                "Unrecognized npc mission id string encountered: '%s'", str );
-        }
     } else {
-        debugmsg( "Mission id in JSON should be either a string or object, but was neither" );
+        debugmsg( "Mission id in JSON should be an object" );
     }
 }
 
