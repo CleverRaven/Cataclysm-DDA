@@ -140,7 +140,7 @@ availability::availability( Character &_crafter, const recipe *recp, int batch_s
     if( npc_cannot_craft || !character_base_requirements ) {
         can_craft_recipe = false;
     } else if( is_nested ) {
-        can_craft_recipe = check_can_craft_nested( _crafter, *recp );
+        can_craft_recipe = check_can_craft_nested( _crafter, *recp, camp_crafting, inventory_override );
     } else {
         const auto all_items_filter = recp->get_component_filter( recipe_filter_flags::none );
         // I dont like it since we call functions on functions which is bad practice...
@@ -242,10 +242,12 @@ nc_color availability::color( bool ignore_missing_skills ) const
     }
 }
 
-bool availability::check_can_craft_nested( Character &_crafter, const recipe &r )
+bool availability::check_can_craft_nested( Character &_crafter, const recipe &r,
+        bool camp_crafting, temp_crafting_inventory *inventory_override )
 {
     for( const recipe_id &nested_r : r.nested_category_data ) {
-        if( availability( _crafter, &nested_r.obj() ).can_craft_recipe ) {
+        if( availability( _crafter, &nested_r.obj(), 1, camp_crafting,
+                          inventory_override ).can_craft_recipe ) {
             return true;
         }
     }

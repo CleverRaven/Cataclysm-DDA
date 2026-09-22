@@ -1520,7 +1520,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 if( !available_recipes->contains( &child ) ) {
                     continue;
                 }
-                availability child_avail( *crafter, &child );
+                availability child_avail( *crafter, &child, 1, camp_crafting, inventory_override );
                 nc_color col = child_avail.color();
                 std::string child_name = child.result_name( true );
                 ImGui::TextColored( cataimgui::imvec4_from_color( c_white ), "  \u2022 " );
