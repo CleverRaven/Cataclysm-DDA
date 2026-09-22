@@ -60,7 +60,6 @@
 #include "gun_mode.h"
 #include "harvest.h"
 #include "iexamine.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "item_transformation.h"
@@ -5247,7 +5246,7 @@ void npc::heal_self()
 void npc::use_painkiller()
 {
     // First, find the best painkiller for our pain level
-    item *it = inv->most_appropriate_painkiller( get_pain() );
+    item *it = most_appropriate_painkiller();
 
     if( it->is_null() ) {
         debugmsg( "NPC tried to use painkillers, but has none!" );

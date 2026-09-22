@@ -81,7 +81,6 @@
 #include "input_context.h"
 #include "input_enums.h"
 #include "input_popup.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -2521,7 +2520,6 @@ static void character_edit_menu()
             }
             you.worn.on_takeoff( you );
             you.clear_worn();
-            you.inv->clear();
             you.remove_weapon();
             break;
         case D_DROP_ITEMS:

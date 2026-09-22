@@ -261,6 +261,17 @@ static tripoint_bub_ms read_legacy_creature_pos( const JsonObject &data )
     return pos;
 }
 
+static std::list<item> json_load_inv_items( const JsonArray &ja )
+{
+    std::list<item> batch;
+    for( JsonObject jo : ja ) {
+        item tmp;
+        tmp.deserialize( jo );
+        batch.emplace_back( std::move( tmp ) );
+    }
+    return batch;
+}
+
 void item_contents::serialize( JsonOut &json ) const
 {
     if( !contents.empty() || !get_ablative_pockets().empty() || !additional_pockets.empty() ) {
@@ -1056,9 +1067,11 @@ void Character::load( const JsonObject &data )
         set_part_frostbite_timer( bodypart_id( "foot_r" ), frostbite_timer[11] );
     }
 
-    inv->clear();
+    // delete first part after 0.J
     if( data.has_member( "inv" ) ) {
-        inv->json_load_items( data.get_member( "inv" ) );
+        temporary_load_items = json_load_inv_items( data.get_array( "inv" ) );
+    } else {
+        data.read( "temporary_load_items", temporary_load_items );
     }
 
     set_wielded_item( item() );
@@ -1499,6 +1512,7 @@ void Character::store( JsonOut &json ) const
     json.member( "stomach", stomach );
     json.member( "guts", guts );
     json.member( "automoveroute", auto_move_route );
+    json.member( "temporary_load_items", temporary_load_items );
     json.member( "known_traps" );
     json.start_array();
     for( const auto &elem : known_traps ) {
@@ -1532,8 +1546,6 @@ void Character::store( JsonOut &json ) const
     json.member( "addictions", addictions );
     json.member( "death_eocs", death_eocs );
     json.member( "worn", worn ); // also saves contents
-    json.member( "inv" );
-    inv->json_save_items( json );
 
     if( const auto lt_ptr = last_target.lock() ) {
         if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
@@ -1603,6 +1615,42 @@ void Character::store( JsonOut &json ) const
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// avatar.h
+
+static void json_save_invcache( JsonOut &json, const invlet_favorites &invlet_cache )
+{
+    json.start_array();
+    for( const auto &elem : invlet_cache.get_invlets_by_id() ) {
+        json.start_object();
+        json.member( elem.first.str() );
+        json.start_array();
+        for( const char &_sym : elem.second ) {
+            json.write( static_cast<int>( _sym ) );
+        }
+        json.end_array();
+        json.end_object();
+    }
+    json.end_array();
+}
+
+static void json_load_invcache( const JsonValue &jsin, invlet_favorites &invlet_cache )
+{
+    try {
+        std::unordered_map<itype_id, std::string> map;
+        for( JsonObject jo : jsin.get_array() ) {
+            jo.allow_omitted_members();
+            for( const JsonMember member : jo ) {
+                std::string invlets;
+                for( const int i : member.get_array() ) {
+                    invlets.push_back( i );
+                }
+                map[itype_id( member.name() )] = invlets;
+            }
+        }
+        invlet_cache = invlet_favorites{ map };
+    } catch( const JsonError &jsonerr ) {
+        debugmsg( "bad invcache json:\n%s", jsonerr.c_str() );
+    }
+}
 
 void avatar::serialize( JsonOut &json ) const
 {
@@ -1678,7 +1726,7 @@ void avatar::store( JsonOut &json ) const
 
     json.member( "assigned_invlet" );
     json.start_array();
-    for( const auto &iter : inv->assigned_invlet ) {
+    for( const auto &iter : assigned_invlet ) {
         json.start_array();
         json.write( iter.first );
         json.write( iter.second );
@@ -1687,7 +1735,7 @@ void avatar::store( JsonOut &json ) const
     json.end_array();
 
     json.member( "invcache" );
-    inv->json_save_invcache( json );
+    json_save_invcache( json, invlet_cache );
 
     json.member( "calorie_diary", calorie_diary );
 
@@ -1823,12 +1871,12 @@ void avatar::load( const JsonObject &data )
     }
 
     for( JsonArray pair : data.get_array( "assigned_invlet" ) ) {
-        inv->assigned_invlet[static_cast<char>( pair.get_int( 0 ) )] =
+        assigned_invlet[static_cast<char>( pair.get_int( 0 ) )] =
             itype_id( pair.get_string( 1 ) );
     }
 
     if( data.has_member( "invcache" ) ) {
-        inv->json_load_invcache( data.get_member( "invcache" ) );
+        json_load_invcache( data.get_member( "invcache" ), invlet_cache );
     }
 
     data.read( "calorie_diary", calorie_diary );
@@ -2300,7 +2348,14 @@ void npc::load( const JsonObject &data )
 
     companion_mission_inv.clear();
     if( data.has_member( "companion_mission_inv" ) ) {
-        companion_mission_inv.json_load_items( data.get_member( "companion_mission_inv" ) );
+        // deprecate after 0.J
+        if( savegame_loading_version < 40 ) {
+            for( const item &it : json_load_inv_items( data.get_member( "companion_mission_inv" ) ) ) {
+                companion_mission_inv.insert( it );
+            }
+        } else {
+            data.read( "companion_mission_inv", companion_mission_inv );
+        }
     }
 
     if( !data.read( "restock", restock ) ) {
@@ -2395,84 +2450,13 @@ void npc::store( JsonOut &json ) const
     json.member( "companion_mission_time_ret", companion_mission_time_ret );
     json.member( "companion_mission_exertion", companion_mission_exertion );
     json.member( "companion_mission_travel_time", companion_mission_travel_time );
-    json.member( "companion_mission_inv" );
-    companion_mission_inv.json_save_items( json );
+    json.member( "companion_mission_inv", companion_mission_inv );
     json.member( "restock", restock );
 
     json.member( "complaints", complaints );
     json.member( "unique_id", unique_id );
     json.member( "may_activity_occupancy_after_end_items_loc",
                  may_activity_occupancy_after_end_items_loc );
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-///// inventory.h
-/*
- * Save invlet cache
- */
-void inventory::json_save_invcache( JsonOut &json ) const
-{
-    json.start_array();
-    for( const auto &elem : invlet_cache.get_invlets_by_id() ) {
-        json.start_object();
-        json.member( elem.first.str() );
-        json.start_array();
-        for( const char &_sym : elem.second ) {
-            json.write( static_cast<int>( _sym ) );
-        }
-        json.end_array();
-        json.end_object();
-    }
-    json.end_array();
-}
-
-/*
- * Invlet cache: player specific, thus not wrapped in inventory::json_load/save
- */
-void inventory::json_load_invcache( const JsonValue &jsin )
-{
-    try {
-        std::unordered_map<itype_id, std::string> map;
-        for( JsonObject jo : jsin.get_array() ) {
-            jo.allow_omitted_members();
-            for( const JsonMember member : jo ) {
-                std::string invlets;
-                for( const int i : member.get_array() ) {
-                    invlets.push_back( i );
-                }
-                map[itype_id( member.name() )] = invlets;
-            }
-        }
-        invlet_cache = invlet_favorites{ map };
-    } catch( const JsonError &jsonerr ) {
-        debugmsg( "bad invcache json:\n%s", jsonerr.c_str() );
-    }
-}
-
-/*
- * save all items. Just this->items, invlet cache saved separately
- */
-void inventory::json_save_items( JsonOut &json ) const
-{
-    json.start_array();
-    for( const auto &elem : items ) {
-        for( const item &elem_stack_iter : elem ) {
-            elem_stack_iter.serialize( json );
-        }
-    }
-    json.end_array();
-}
-
-void inventory::json_load_items( const JsonArray &ja )
-{
-    std::vector<item> batch;
-    batch.reserve( ja.size() );
-    for( JsonObject jo : ja ) {
-        item tmp;
-        tmp.deserialize( jo );
-        batch.emplace_back( std::move( tmp ) );
-    }
-    add_items_bulk( std::move( batch ), true, false );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -19,11 +19,11 @@
 #include "auto_pickup.h"
 #include "calendar.h"
 #include "character.h"
+#include "colony.h"
 #include "color.h"
 #include "compatibility.h"
 #include "coordinates.h"
 #include "dialogue_chatbin.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "line.h"
@@ -1029,8 +1029,6 @@ class npc : public Character
         // Use and assessment of items
         // The minimum value to want to pick up an item
         int minimum_item_value() const;
-        // Find the worst value in our inventory
-        void update_worst_item_value();
         double value( const item &it ) const;
         double value( const item &it, double market_price ) const;
         faction_price_rule const *get_price_rules( item const &it ) const;
@@ -1049,9 +1047,10 @@ class npc : public Character
         healing_options has_healing_options();
         healing_options has_healing_options( healing_options try_to_fix );
         item &get_healing_item( healing_options try_to_fix, bool first_best = false );
-        bool has_painkiller();
+        bool has_painkiller() const;
         bool took_painkiller() const;
         void use_painkiller();
+        item *most_appropriate_painkiller();
         void activate_item( item &it );
         bool has_identified( const itype_id & ) const override {
             return true;
@@ -1611,7 +1610,7 @@ class npc : public Character
         //Travel time for the current mission
         time_duration companion_mission_travel_time = 0_hours;
         //Inventory that is added and dropped on mission
-        inventory companion_mission_inv;
+        cata::colony<item> companion_mission_inv;
         npc_mission mission = NPC_MISSION_NULL;
         npc_mission previous_mission = NPC_MISSION_NULL;
         // Personality & other defining characteristics

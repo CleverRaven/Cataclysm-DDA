@@ -4,7 +4,6 @@
 #include <functional>
 #include <iterator>
 #include <list>
-#include <memory>
 #include <optional>
 #include <set>
 #include <tuple>
@@ -22,7 +21,6 @@
 #include "game.h"
 #include "input_context.h"
 #include "input_enums.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_factory.h"
@@ -32,7 +30,6 @@
 #include "iuse.h"
 #include "map.h"
 #include "output.h"
-#include "pimpl.h"
 #include "pocket_type.h"
 #include "ret_val.h"
 #include "string_formatter.h"
@@ -394,9 +391,6 @@ void game::item_action_menu( item_location loc )
     item *it = iactions[action];
 
     u.invoke_item( it, action );
-
-    u.inv->restack( u );
-    u.inv->unsort();
 }
 
 std::string use_function::get_type() const

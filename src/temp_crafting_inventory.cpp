@@ -21,7 +21,6 @@
 #include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
-#include "pimpl.h"
 #include "pocket_type.h"
 #include "point.h"
 #include "type_id.h"
@@ -146,12 +145,6 @@ void temp_crafting_inventory::add_all_ref( const Character &guy )
     for( const item_location &fit : non_const_guy.worn.top_items_loc( non_const_guy ) ) {
         add_item_loc( fit );
     }
-    non_const_guy.inv->visit_items(
-    [&]( item * node, item * ) {
-        add_item_loc( item_location( non_const_guy, node ) );
-        return VisitResponse::SKIP;
-    }
-    );
 }
 
 void temp_crafting_inventory::add_all_ref( const map_cursor &cur )

@@ -36,7 +36,6 @@
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_location.h"
@@ -6630,7 +6629,6 @@ TEST_CASE( "reservation_keeps_node_local_npc_selectors_off_a_bound_item",
 
     npc &guy = spawn_npc( point_bub_ms( 60, 62 ), "thug" );
     guy.clear_worn();
-    guy.inv->clear();
     guy.remove_weapon();
     guy.wear_item( item( itype_debug_backpack ) );
     guy.set_attitude( NPCATT_NULL );
@@ -6686,7 +6684,6 @@ TEST_CASE( "reservation_keeps_npc_pickup_off_a_bound_provider",
 
     npc &scavenger = spawn_npc( point_bub_ms( 60, 62 ), "thug" );
     scavenger.clear_worn();
-    scavenger.inv->clear();
     scavenger.remove_weapon();
     scavenger.wear_item( item( itype_debug_backpack ) );
     scavenger.set_attitude( NPCATT_NULL );
@@ -7172,7 +7169,6 @@ TEST_CASE( "reservation_keeps_npc_selectors_off_a_bound_provider",
     npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
     hostile.clear_worn();
     hostile.invalidate_crafting_inventory();
-    hostile.inv->clear();
     hostile.remove_weapon();
     hostile.clear_mutations();
     hostile.set_body();
