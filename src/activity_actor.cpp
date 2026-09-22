@@ -7254,6 +7254,7 @@ static void stash_on_pet( const std::list<item> &items, monster &pet, Character 
             remaining_weight -= it.weight();
         }
         // TODO: if NPCs can have pets or move items onto pets
+        // Create a new temporary, handle pickup ownership on it, immediately throw away the temporary??
         item( it ).handle_pickup_ownership( who );
     }
 }

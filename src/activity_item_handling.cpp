@@ -550,6 +550,7 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
             craft_relocated( dropped_loc );
             items_dropped.push_back( std::move( dropped_loc ) );
         }
+        // Create a new temporary, handle pickup ownership on it, immediately throw away the temporary??
         item( it ).handle_pickup_ownership( you );
     }
 
