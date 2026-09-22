@@ -283,27 +283,35 @@ void temp_crafting_inventory::add_all_ref( const vehicle_cursor &cur )
     );
 }
 
+void temp_crafting_inventory::visit_roots_holding( const itype_id &id,
+        const std::function<VisitResponse( item *, item * )> &func ) const
+{
+    const type_index *idx = cached_index();
+    if( idx == nullptr ) {
+        visit_items( func );
+        return;
+    }
+    const auto found = idx->by_type.find( id );
+    if( found == idx->by_type.end() ) {
+        return;
+    }
+    for( const root_ref &ref : found->second ) {
+        const item *root = ref.get();
+        if( root != nullptr && root->visit_items( func ) == VisitResponse::ABORT ) {
+            return;
+        }
+    }
+}
+
 int temp_crafting_inventory::count_item( const itype_id &item_type ) const
 {
     int num = 0;
-    const auto count_node = [&]( const item * node, item * ) {
+    visit_roots_holding( item_type, [&]( const item * node, item * ) {
         if( node->typeId() == item_type ) {
             num += node->count();
         }
         return VisitResponse::NEXT;
-    };
-    if( const type_index *idx = cached_index() ) {
-        const auto found = idx->by_type.find( item_type );
-        if( found != idx->by_type.end() ) {
-            for( const root_ref &ref : found->second ) {
-                if( const item *root = ref.get() ) {
-                    root->visit_items( count_node );
-                }
-            }
-        }
-        return num;
-    }
-    visit_items( count_node );
+    } );
     return num;
 }
 
@@ -488,8 +496,7 @@ bool temp_crafting_inventory::must_use_hallu_poison( const itype_id &id, int to_
 {
     const int total = count_item( id );
     int bad = 0;
-    visit_items(
-    [&]( item * node, item * ) {
+    visit_roots_holding( id, [&]( item * node, item * ) {
         const item &it = *node;
         if( it.typeId() == id && ( it.has_flag( flag_HIDDEN_POISON ) ||
                                    it.has_flag( flag_HIDDEN_HALLU ) ) ) {
@@ -500,8 +507,7 @@ bool temp_crafting_inventory::must_use_hallu_poison( const itype_id &id, int to_
             }
         }
         return VisitResponse::NEXT;
-    }
-    );
+    } );
     return total - bad < to_use;
 }
 

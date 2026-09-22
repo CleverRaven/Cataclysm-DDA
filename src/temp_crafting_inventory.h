@@ -138,6 +138,9 @@ class temp_crafting_inventory : public read_only_visitable
         bool prepare_query_cache() const;
         // type index for this scope, built on first use; nullptr outside a scope
         const type_index *cached_index() const;
+        // walks entries whose subtree holds `id` inside a scope, and every entry outside one
+        void visit_roots_holding( const itype_id &id,
+                                  const std::function<VisitResponse( item *, item * )> &func ) const;
         void drop_caches() const;
 
         std::optional<bool> recall_provider_quality( const provider_quality_key &key ) const override;
