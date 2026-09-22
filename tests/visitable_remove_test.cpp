@@ -1,11 +1,14 @@
 #include <algorithm>
+#include <climits>
 #include <functional>
 #include <list>
 #include <optional>
 #include <vector>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
@@ -28,7 +31,10 @@
 
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_bottle_plastic( "bottle_plastic" );
+static const itype_id itype_butane( "butane" );
+static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_flask_hip( "flask_hip" );
+static const itype_id itype_lighter( "lighter" );
 static const itype_id itype_null( "null" );
 static const itype_id itype_water( "water" );
 
@@ -503,4 +509,16 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             }
         }
     }
+}
+
+TEST_CASE( "charges_of_in_tools_counts_ammo_loaded_in_a_tool", "[visitable]" )
+{
+    clear_avatar();
+    Character &guy = get_avatar();
+    guy.worn.wear_item( guy, item( itype_debug_backpack ), false, false );
+    guy.i_add( tool_with_ammo( itype_lighter, 10 ) );
+    REQUIRE( guy.has_amount( itype_lighter, 1 ) );
+
+    CHECK( guy.charges_of( itype_butane, INT_MAX, return_true<item>, nullptr, true ) == 10 );
+    CHECK( guy.charges_of( itype_butane, INT_MAX, return_true<item>, nullptr, false ) == 0 );
 }
