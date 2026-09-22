@@ -981,10 +981,9 @@ static void scan_tool_charges( const T &self, const itype_id &id,
 {
     map &here = get_map();
     self.visit_items( [&]( const item * e, item * ) {
-        if( filter( *e ) &&
-            ( id == e->typeId() || ( in_tools && id == e->ammo_current() ) ||
+        if( ( id == e->typeId() || ( in_tools && id == e->ammo_current() ) ||
               ( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) ) &&
-            !e->is_broken() ) {
+            filter( *e ) && !e->is_broken() ) {
             if( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) {
                 raw_ups_charges = sum_no_wrap( raw_ups_charges,
                                                e->ammo_remaining_linked( here, nullptr ) );
@@ -1201,8 +1200,8 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
 {
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item * e, item * ) {
-        if( !e->has_flag( json_flag_ITEM_BROKEN ) &&
-            ( id == itype_any || e->typeId() == id ) && filter( *e ) &&
+        if( ( id == itype_any || e->typeId() == id ) &&
+            !e->has_flag( json_flag_ITEM_BROKEN ) && filter( *e ) &&
             ( pseudo || !e->has_flag( json_flag_PSEUDO ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
