@@ -140,7 +140,11 @@ class temp_crafting_inventory : public read_only_visitable
         const type_index *cached_index() const;
         void drop_caches() const;
 
+        std::optional<bool> recall_provider_quality( const provider_quality_key &key ) const override;
+        void remember_provider_quality( const provider_quality_key &key, bool answer ) const override;
+
         mutable std::optional<type_index> index;
+        mutable std::map<provider_quality_key, bool> provider_quality_answers;
         mutable uint64_t cache_epoch = 0;
 
         // list of all items in this container that don't know their parent

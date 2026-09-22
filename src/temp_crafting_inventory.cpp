@@ -125,6 +125,28 @@ const temp_crafting_inventory::type_index *temp_crafting_inventory::cached_index
 void temp_crafting_inventory::drop_caches() const
 {
     index.reset();
+    provider_quality_answers.clear();
+}
+
+std::optional<bool> temp_crafting_inventory::recall_provider_quality(
+    const provider_quality_key &key ) const
+{
+    if( !prepare_query_cache() ) {
+        return std::nullopt;
+    }
+    const auto found = provider_quality_answers.find( key );
+    if( found == provider_quality_answers.end() ) {
+        return std::nullopt;
+    }
+    return found->second;
+}
+
+void temp_crafting_inventory::remember_provider_quality( const provider_quality_key &key,
+        bool answer ) const
+{
+    if( prepare_query_cache() ) {
+        provider_quality_answers[key] = answer;
+    }
 }
 
 temp_crafting_inventory::temp_crafting_inventory( const temp_crafting_inventory &v )
