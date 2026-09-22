@@ -365,7 +365,7 @@
     "spoils_in": "1 day",
     "calories": 1300,
     "fun": -10,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "meat_allergen", 1 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ], [ "meat_allergen", 1 ] ],
     "flags": [ "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
   },
@@ -382,7 +382,6 @@
     "price": "6 USD 50 cent",
     "price_postapoc": "3 USD",
     "spoils_in": "14 days",
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ], [ "meat_allergen", 1 ] ],
     "flags": [ "RAW" ],
     "smoking_result": "bacon_uncut"
   },
@@ -400,7 +399,6 @@
     "//": "High price to reflect the rarity and value of bacon. Note that this is three pieces of it.",
     "spoils_in": "42 days",
     "fun": 5,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_HOT", "SMOKED" ]
   },
   {
@@ -426,17 +424,12 @@
     "id": "raw_curing_fatty_meat_active",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "copy-from": "flesh",
+    "copy-from": "raw_cured_fatty_meat",
     "name": { "str": "slab of raw curing porkbelly", "str_pl": "of raw curing porkbelly slabs" },
     "description": "Porkbelly in the process of becoming fully cured with salt and sugar, capable of becoming bacon.  The flavor is slowly developing at this stage, and is significantly unpleasant due to the residual salt.  Activate it once completed to make use of the final product.",
-    "weight": "275 g",
-    "volume": "250ml",
-    "calories": 1556,
     "price": "5 USD",
     "price_postapoc": "2 USD 50 cent",
-    "spoils_in": "14 days",
     "fun": -15,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "meat_allergen", 1 ] ],
     "flags": [ "SPAWN_ACTIVE" ],
     "countdown_interval": "8 hours",
     "revert_to": "raw_cured_fatty_meat"
