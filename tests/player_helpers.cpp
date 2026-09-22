@@ -259,6 +259,23 @@ void process_activity( Character &dummy, bool pass_time )
     } while( dummy.activity );
 }
 
+bool process_activity_bounded( Character &dummy, const int max_turns, const int max_dispatches )
+{
+    int turns = 0;
+    int dispatches = 0;
+    while( dummy.activity && turns < max_turns ) {
+        dummy.mod_moves( dummy.get_speed() );
+        while( dummy.get_moves() > 0 && dummy.activity ) {
+            dummy.activity.do_turn( dummy );
+            if( ++dispatches >= max_dispatches ) {
+                return false;
+            }
+        }
+        ++turns;
+    }
+    return !dummy.activity;
+}
+
 npc &spawn_npc( const point_bub_ms &p, const std::string &npc_class )
 {
     const npc_template_id npc_template = npc_template_id( npc_class );

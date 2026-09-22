@@ -13656,7 +13656,34 @@ void zone_activity_actor::do_turn( player_activity &act, Character &you )
     }
     if( stage == DO ) {
         //to end this activity, THINK stage must resolve all zone tiles
+        if( zero_move_turn != calendar::turn ) {
+            zero_move_turn = calendar::turn;
+            zero_move_dispatches = 0;
+        }
+        const int moves_before = you.get_moves();
+        const activity_actor *const dispatched = act.actor.get();
         stage_do( act, you );
+        // stage_do can null this activity (routing) or swap in another one
+        // (gunmod removal); either destroys this actor, so read no member
+        // unless the activity still holds the dispatched actor
+        if( act.is_null() || act.actor.get() != dispatched ) {
+            return;
+        }
+        if( you.get_moves() != moves_before ) {
+            zero_move_dispatches = 0;
+            return;
+        }
+        if( stage == DO && ++zero_move_dispatches > zero_move_budget() ) {
+            // passes that spend nothing are normal; an unbroken run of them in one
+            // turn is not, and the caller re-enters while moves remain
+            add_msg_debug( debugmode::DF_ACTIVITY,
+                           "zone activity: %d zero-move DO dispatches in one turn, forcing THINK",
+                           zero_move_dispatches );
+            zero_move_dispatches = 0;
+            on_no_progress( you );
+            stage = THINK;
+            you.mod_moves( -1 );
+        }
         return;
     }
     // If we got here without restarting the activity, it means we're done
@@ -13986,6 +14013,16 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
     return true;
 }
 
+void zone_sort_activity_actor::on_no_progress( Character &you )
+{
+    // stage_think clears picked_up_stuff and dropoff_coords, so a staged batch
+    // has to go back to its source tile or it rides along untracked
+    if( !picked_up_stuff.empty() ) {
+        return_items_to_source( you, get_map().get_bub( placement ) );
+    }
+    unreachable_sources.emplace( placement );
+}
+
 void zone_sort_activity_actor::return_items_to_source( Character &you,
         const tripoint_bub_ms &src_bub )
 {
@@ -14150,6 +14187,9 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
             bool routed = false;
             auto dest_it = dropoff_coords.begin();
+            // routing copies the activity, so the stall counter has to be clear
+            // before the copy is taken, not after this call returns
+            note_progress();
             while( dest_it != dropoff_coords.end() ) {
                 if( zone_sorting::route_to_destination( you, act, here.get_bub( *dest_it ), stage ) ) {
                     routed = true;
@@ -14218,6 +14258,8 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     // Track whether the knock-down gate blocked any item (item so heavy it
     // would cause the character to collapse under its weight).
     bool knockdown_gate_fired = false;
+    // whether this call took anything or only staged state
+    bool picked_anything_this_call = false;
     // picked_up_this_pass is a member variable that persists across do_turn
     // calls so batching still fires when move exhaustion splits pickup and
     // batching into separate turns. Reset after the batching check evaluates.
@@ -14315,6 +14357,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 }
                 num_processed--;
                 delivered = true;
+                note_progress();
                 break;
             }
             if( delivered ) {
@@ -14438,38 +14481,32 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                             drag_ok = false;
                         }
                     }
-                    if( !drag_ok ) {
-                        // Cart would be too heavy to drag - stop loading.
+                    if( drag_ok ) {
+                        std::optional<vehicle_stack::iterator> vehstack = veh.add_item( here, ovp->part(),
+                                copy_thisitem );
+                        if( vehstack ) {
+                            thisitem_loc = item_location( vehicle_cursor( veh, ovp->part_index() ),
+                                                          &*vehstack.value() );
+                        }
+                    } else {
+                        // cart is at its drag limit, so carry the item instead of
+                        // leaving it
                         cart_or_carry_blocked = true;
                         drag_gate_fired = true;
-                        continue;
-                    }
-                    std::optional<vehicle_stack::iterator> vehstack = veh.add_item( here, ovp->part(),
-                            copy_thisitem );
-                    if( vehstack ) {
-                        thisitem_loc = item_location( vehicle_cursor( veh, ovp->part_index() ),
-                                                      &*vehstack.value() );
                     }
                 }
             }
             if( !thisitem_loc ) {
-                if( !you.is_avatar() || you.as_avatar()->get_grab_type() != object_type::VEHICLE ) {
-                    // Knock-down gate: never pick up items so heavy they would
-                    // cause the character to collapse (exceed max_pickup_capacity).
-                    // TODO: handle these items via hauling instead of skipping them.
-                    if( you.weight_carried() + copy_thisitem.weight() > you.max_pickup_capacity() ) {
-                        cart_or_carry_blocked = true;
+                // every way into the inventory goes through the same gate: cart
+                // refused the item, cargo was full, or there is no cart
+                const zone_sorting::carry_gate_result gate =
+                    zone_sorting::carry_gate_check( you, copy_thisitem, !picked_up_stuff.empty() );
+                if( gate != zone_sorting::carry_gate_result::ok ) {
+                    cart_or_carry_blocked = true;
+                    if( gate == zone_sorting::carry_gate_result::knockdown ) {
                         knockdown_gate_fired = true;
-                        continue;
                     }
-                    // No-grab weight gate: stop picking up when over capacity.
-                    // Always allow at least one item so heavy things like corpses
-                    // can be sorted one at a time.
-                    if( !picked_up_stuff.empty() &&
-                        you.weight_carried() + copy_thisitem.weight() > you.weight_capacity() ) {
-                        cart_or_carry_blocked = true;
-                        continue;
-                    }
+                    continue;
                 }
                 thisitem_loc = you.try_add( copy_thisitem );
             }
@@ -14526,10 +14563,19 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         // OK, we can sort this!
         picked_up_stuff.emplace_back( thisitem_loc );
         picked_up_this_pass = true;
+        picked_anything_this_call = true;
+        note_progress();
         // out of moves or item was unloaded
         if( you.get_moves() <= 0 || *move_and_reset ) {
             return;
         }
+    }
+
+    if( !picked_anything_this_call && drag_gate_fired ) {
+        // cart is at its drag limit and nothing here fits the character, so
+        // this tile stays unusable until the load or the position changes.
+        // stage_think clears unreachable_sources on either
+        unreachable_sources.emplace( src );
     }
 
     if( picked_up_stuff.empty() ) {
@@ -14620,6 +14666,11 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             }
         }
         if( picked_up_this_pass ) {
+            // evaluate batching at most once per pickup pass. every exit below
+            // (including early returns) must leave this false: a pass returning
+            // with it true re-enters DO without spending a move, and the caller
+            // keeps re-entering while moves remain.
+            picked_up_this_pass = false;
             // Pre-fetch cart cargo for per-item volume check
             std::optional<vpart_reference> batch_cart_vp;
             if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
@@ -14738,14 +14789,11 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                             fits = true;
                         }
                     }
-                    if( !fits && you.can_stash( *it ) ) {
-                        if( you.is_avatar() &&
-                            you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
-                            fits = true;
-                        } else {
-                            fits = ( you.weight_carried() + it->weight() <=
-                                     you.weight_capacity() );
-                        }
+                    if( !fits ) {
+                        // same gate the pickup path uses. a looser predicate picks
+                        // targets nothing can be taken from
+                        fits = zone_sorting::carry_gate_check( you, *it, !picked_up_stuff.empty() ) ==
+                               zone_sorting::carry_gate_result::ok;
                     }
                     if( fits ) {
                         should_batch = true;
@@ -14768,6 +14816,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                     // Already adjacent, re-enter DO to process batch target
                     return;
                 }
+                note_progress();
                 if( zone_sorting::route_to_destination( you, act,
                                                         here.get_bub( batch_target ), stage ) ) {
                     return;
@@ -14775,9 +14824,6 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 // Can't reach batch target, mark unreachable and fall through to delivery
                 unreachable_sources.emplace( batch_target );
             }
-            // Reset after evaluation. Prevents infinite loops when a batch
-            // target has no pickable items (zero moves consumed per cycle).
-            picked_up_this_pass = false;
         }
 
         bool match = false;
@@ -14849,6 +14895,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         if( square_dist( abspos, destination ) <= 1 ) {
             return;
         }
+        note_progress();
         if( !zone_sorting::route_to_destination( you, act, here.get_bub( destination ), stage ) ) {
             // Defensive: route_length passed (destination was in dropoff_coords)
             // but route_to_destination failed. Both use the same A* in a single
