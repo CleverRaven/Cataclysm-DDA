@@ -68,7 +68,7 @@
     "//durability_modifier": -3,
     "mode_modifier": [ [ "DEFAULT", "auto", 14 ] ],
     "min_skills": [ [ "mechanics", 2 ], [ "rifle", 3 ] ],
-    "flags": [ "INSTALL_DIFFICULT", "CONSUMABLE" ]
+    "flags": [ "CONSUMABLE" ]
   },
   {
     "id": "glocksear",
