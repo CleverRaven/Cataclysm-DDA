@@ -5,12 +5,16 @@
 // IWYU pragma: no_include <memory>  // IWYU being silly
 #include <climits>
 #include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <list>
 #include <map>
+#include <optional>
+#include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
+#include "cata_utility.h"
 #include "colony.h"
 #include "coords_fwd.h"
 #include "item.h"
@@ -30,6 +34,22 @@ class vehicle_cursor;
 class temp_crafting_inventory : public read_only_visitable
 {
     public:
+        /**
+         * While one is alive, crafting inventories may build and reuse query caches; outside one,
+         * every query walks the items live.  The scope is process-wide.  Its holder promises that
+         * for its lifetime no item changes behind an inventory's back in what the caches read:
+         * which items each entry holds, item types, container emptiness, charges and linked power,
+         * and the actor's and external power.  Filters are still evaluated on every query.
+         */
+        class query_cache_scope
+        {
+            public:
+                query_cache_scope();
+                ~query_cache_scope();
+                query_cache_scope( const query_cache_scope & ) = delete;
+                query_cache_scope &operator=( const query_cache_scope & ) = delete;
+        };
+
         temp_crafting_inventory() = default;
         temp_crafting_inventory( const temp_crafting_inventory &v );
         temp_crafting_inventory &operator=( const temp_crafting_inventory &v );
@@ -67,6 +87,13 @@ class temp_crafting_inventory : public read_only_visitable
         // inherited from visitable. note: temp_owned_items are copied into items
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
         override;
+        int charges_of( const itype_id &what, int limit = INT_MAX,
+                        const std::function<bool( const item & )> &filter = return_true<item>,
+                        const std::function<void( int )> &visitor = nullptr,
+                        bool in_tools = false ) const override;
+        int amount_of( const itype_id &what, bool pseudo = true, int limit = INT_MAX,
+                       const std::function<bool( const item & )> &filter = return_true<item> ) const
+        override;
 
         // these functions are identical to inventory
         int count_item( const itype_id &item_type ) const;
@@ -91,6 +118,38 @@ class temp_crafting_inventory : public read_only_visitable
         void update_liq_container_count( const itype_id &id, int count );
         void replace_liq_container_count( const std::map<itype_id, int> &newmap, bool use_max = false );
     private:
+        // Single top-level entry, resolved at query time.
+        struct root_ref {
+            item *raw = nullptr;
+            const item_location *loc = nullptr;
+            const item *get() const;
+            bool operator==( const root_ref &rhs ) const {
+                return raw == rhs.raw && loc == rhs.loc;
+            }
+        };
+        // top-level entries, in visit order, under every item type in their visited subtree, and
+        // in `ups` when that subtree holds an IS_UPS item
+        struct type_index {
+            std::unordered_map<itype_id, std::vector<root_ref>> by_type;
+            std::vector<root_ref> ups;
+        };
+
+        // true while a query_cache_scope is alive; resets caches from an earlier scope
+        bool prepare_query_cache() const;
+        // type index for this scope, built on first use; nullptr outside a scope
+        const type_index *cached_index() const;
+        // walks entries whose subtree holds `id` inside a scope, and every entry outside one
+        void visit_roots_holding( const itype_id &id,
+                                  const std::function<VisitResponse( item *, item * )> &func ) const;
+        void drop_caches() const;
+
+        std::optional<bool> recall_provider_quality( const provider_quality_key &key ) const override;
+        void remember_provider_quality( const provider_quality_key &key, bool answer ) const override;
+
+        mutable std::optional<type_index> index;
+        mutable std::map<provider_quality_key, bool> provider_quality_answers;
+        mutable uint64_t cache_epoch = 0;
+
         // list of all items in this container that don't know their parent
         cata::colony<item *> items;
         // list of all items in this crafting inventory that know their parent

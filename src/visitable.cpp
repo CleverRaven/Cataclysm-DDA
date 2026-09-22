@@ -7,6 +7,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <utility>
 
 #include "bionics.h"
@@ -166,13 +167,19 @@ bool read_only_visitable::has_quality( const quality_id &qual, int level, int qt
 bool read_only_visitable::has_provider_quality( const quality_id &qual, int level, int qty,
         const Character *who, const quality_count mode ) const
 {
+    const provider_quality_key key{ qual, level, qty, who, mode };
+    if( const std::optional<bool> known = recall_provider_quality( key ) ) {
+        return *known;
+    }
     const std::function<int( const item & )> measure = [&qual, who]( const item & it ) {
         return provider_quality_level( it, qual, who, true );
     };
     const std::function<int( const item & )> count = [mode]( const item & it ) {
         return mode == quality_count::units ? it.count() : 1;
     };
-    return has_quality_internal( *this, qual, level, qty, measure, count ) == qty;
+    const bool found = has_quality_internal( *this, qual, level, qty, measure, count ) == qty;
+    remember_provider_quality( key, found );
+    return found;
 }
 
 /** @relates visitable */
@@ -687,6 +694,7 @@ std::list<item> item::remove_items_with( const std::function<bool( const item &e
 std::list<item> temp_crafting_inventory::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
+    drop_caches();
     std::list<item> res;
 
     if( count <= 0 ) {
@@ -981,10 +989,9 @@ static void scan_tool_charges( const T &self, const itype_id &id,
 {
     map &here = get_map();
     self.visit_items( [&]( const item * e, item * ) {
-        if( filter( *e ) &&
-            ( id == e->typeId() || ( in_tools && id == e->ammo_current() ) ||
+        if( ( id == e->typeId() || ( in_tools && id == e->ammo_current() ) ||
               ( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) ) &&
-            !e->is_broken() ) {
+            filter( *e ) && !e->is_broken() ) {
             if( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) {
                 raw_ups_charges = sum_no_wrap( raw_ups_charges,
                                                e->ammo_remaining_linked( here, nullptr ) );
@@ -1201,8 +1208,8 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
 {
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item * e, item * ) {
-        if( !e->has_flag( json_flag_ITEM_BROKEN ) &&
-            ( id == itype_any || e->typeId() == id ) && filter( *e ) &&
+        if( ( id == itype_any || e->typeId() == id ) &&
+            !e->has_flag( json_flag_ITEM_BROKEN ) && filter( *e ) &&
             ( pseudo || !e->has_flag( json_flag_PSEUDO ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
@@ -1216,6 +1223,67 @@ int read_only_visitable::amount_of( const itype_id &what, bool pseudo, int limit
                                     const std::function<bool( const item & )> &filter ) const
 {
     return amount_of_internal( *this, what, pseudo, limit, filter );
+}
+
+/** @relates visitable */
+int temp_crafting_inventory::charges_of( const itype_id &what, int limit,
+        const std::function<bool( const item & )> &filter,
+        const std::function<void( int )> &visitor, bool in_tools ) const
+{
+    // Loaded ammo and `any` have no index entry, so those queries walk live
+    if( in_tools || what == itype_any ) {
+        return read_only_visitable::charges_of( what, limit, filter, visitor, in_tools );
+    }
+    const type_index *idx = cached_index();
+    if( idx == nullptr ) {
+        return read_only_visitable::charges_of( what, limit, filter, visitor, in_tools );
+    }
+    const std::vector<root_ref> *roots = nullptr;
+    if( what == itype_UPS ) {
+        roots = &idx->ups;
+    } else {
+        const auto found = idx->by_type.find( what );
+        if( found == idx->by_type.end() ) {
+            return 0;
+        }
+        roots = &found->second;
+    }
+    std::vector<tool_stock_entry> entries;
+    int raw_ups_charges = 0;
+    for( const root_ref &ref : *roots ) {
+        if( const item *root = ref.get() ) {
+            scan_tool_charges( *root, what, filter, in_tools, entries, raw_ups_charges );
+        }
+    }
+    return apply_external_pools( *this, entries, limit, visitor, raw_ups_charges );
+}
+
+/** @relates visitable */
+int temp_crafting_inventory::amount_of( const itype_id &what, bool pseudo, int limit,
+                                        const std::function<bool( const item & )> &filter ) const
+{
+    // at limit zero the live walk stops early on a mismatch, which the index can't mirror
+    if( what == itype_any || limit <= 0 ) {
+        return read_only_visitable::amount_of( what, pseudo, limit, filter );
+    }
+    const type_index *idx = cached_index();
+    if( idx == nullptr ) {
+        return read_only_visitable::amount_of( what, pseudo, limit, filter );
+    }
+    const auto found = idx->by_type.find( what );
+    if( found == idx->by_type.end() ) {
+        return 0;
+    }
+    int qty = 0;
+    for( const root_ref &ref : found->second ) {
+        if( qty >= limit ) {
+            break;
+        }
+        if( const item *root = ref.get() ) {
+            qty = sum_no_wrap( qty, root->amount_of( what, pseudo, limit - qty, filter ) );
+        }
+    }
+    return std::min( qty, limit );
 }
 
 /** @relates visitable */

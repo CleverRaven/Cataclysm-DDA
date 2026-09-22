@@ -1520,7 +1520,8 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 if( !available_recipes->contains( &child ) ) {
                     continue;
                 }
-                availability child_avail( *crafter, &child );
+                const availability &child_avail = cached_availability( *availability_cache, *crafter,
+                                                  child, camp_crafting, inventory_override );
                 nc_color col = child_avail.color();
                 std::string child_name = child.result_name( true );
                 ImGui::TextColored( cataimgui::imvec4_from_color( c_white ), "  \u2022 " );
@@ -2975,6 +2976,8 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         return { nullptr, nullptr };
     }
 
+    // nothing reachable from this menu changes what the query caches read
+    temp_crafting_inventory::query_cache_scope cache_scope;
     crafting_ui_impl impl( crafter, goto_recipe, std::move( filterstring ),
                            camp_crafting, inventory_override );
     input_context ctxt = make_crafting_context(
