@@ -98,7 +98,9 @@ static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_fertilizer( "fertilizer" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_hammer( "hammer" );
+static const itype_id itype_inter_bayonet( "inter_bayonet" );
 static const itype_id itype_leather_belt( "leather_belt" );
+static const itype_id itype_m1a( "m1a" );
 static const itype_id itype_microwave( "microwave" );
 static const itype_id itype_mop( "mop" );
 static const itype_id itype_pot( "pot" );
@@ -130,6 +132,7 @@ static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_welder( "welder" );
 
 static const quality_id qual_BOIL( "BOIL" );
+static const quality_id qual_CUT( "CUT" );
 static const quality_id qual_DIG( "DIG" );
 static const quality_id qual_TEST_RESERVE_A( "TEST_RESERVE_A" );
 static const quality_id qual_TEST_RESERVE_B( "TEST_RESERVE_B" );
@@ -2529,6 +2532,36 @@ TEST_CASE( "provider_quality_level_ignores_merely_contained_items",
                 CHECK( provider_quality_level( pot, qual_BOIL, nullptr,
                                                true ) < 1 );
             }
+        }
+    }
+}
+
+TEST_CASE( "provider_quality_level_counts_fitted_gunmods",
+           "[craft][attention][reservation][quality]" )
+{
+    clear_avatar();
+    clear_map();
+    const item bayonet( itype_inter_bayonet );
+    REQUIRE( bayonet.get_quality( qual_CUT ) >= 1 );
+
+    GIVEN( "rifle with bayonet fitted" ) {
+        item rifle( itype_m1a );
+        REQUIRE( rifle.put_in( bayonet, pocket_type::MOD ).success() );
+        THEN( "rifle supplies bayonet's quality" ) {
+            CHECK( provider_quality_level( rifle, qual_CUT, nullptr, true ) >= 1 );
+        }
+    }
+    GIVEN( "bayonet stored in a backpack" ) {
+        item backpack( itype_debug_backpack );
+        REQUIRE( backpack.put_in( bayonet, pocket_type::CONTAINER ).success() );
+        THEN( "backpack doesn't supply any of that" ) {
+            CHECK( provider_quality_level( backpack, qual_CUT, nullptr, true ) < 1 );
+        }
+    }
+    GIVEN( "rifle alone" ) {
+        const item rifle( itype_m1a );
+        THEN( "supplies no CUT" ) {
+            CHECK( provider_quality_level( rifle, qual_CUT, nullptr, true ) < 1 );
         }
     }
 }
