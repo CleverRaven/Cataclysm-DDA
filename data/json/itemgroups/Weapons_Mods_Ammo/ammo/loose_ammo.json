@@ -101,6 +101,16 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "20_loose",
+    "items": [
+      { "item": "20shot_buck", "charges": [ 1, 10 ], "prob": 2 },
+      { "item": "20shot_bird", "charges": [ 1, 10 ], "prob": 10 },
+      { "item": "20shot_slug", "charges": [ 1, 10 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "410_loose",
     "items": [
       { "item": "410shot_000", "charges": [ 1, 10 ], "prob": 2 },
