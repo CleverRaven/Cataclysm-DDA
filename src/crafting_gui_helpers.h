@@ -68,6 +68,12 @@ struct availability {
                                             temp_crafting_inventory *inventory_override );
 };
 
+// The availability of `rec` within one menu session, built on first use.  The cache is keyed on
+// the recipe alone, so one cache must serve one crafter with one inventory context.
+const availability &cached_availability( std::map<const recipe *, availability> &cache,
+        Character &crafter, const recipe &rec, bool camp_crafting,
+        temp_crafting_inventory *inventory_override );
+
 enum class craft_confirm_result {
     ok,
     cannot_craft,
