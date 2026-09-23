@@ -83,6 +83,8 @@ effect_on_condition_EOC_MARLOSS_GAIN_COMPONENT( "EOC_MARLOSS_GAIN_COMPONENT" );
 static const effect_on_condition_id
 effect_on_condition_EOC_MARLOSS_GEL_CONSUME( "EOC_MARLOSS_GEL_CONSUME" );
 static const effect_on_condition_id
+effect_on_condition_EOC_MARLOSS_REPEAT_CONSUMPTION( "EOC_MARLOSS_REPEAT_CONSUMPTION" );
+static const effect_on_condition_id
 effect_on_condition_EOC_MARLOSS_SEED_CONSUME( "EOC_MARLOSS_SEED_CONSUME" );
 static const effect_on_condition_id
 effect_on_condition_EOC_MARLOSS_WINE_CONSUME( "EOC_MARLOSS_WINE_CONSUME" );
@@ -205,6 +207,7 @@ effect_on_condition_run_eocs_talker_mixes_loc( "run_eocs_talker_mixes_loc" );
 static const effect_on_condition_id
 effect_on_condition_run_eocs_variable_types( "run_eocs_variable_types" );
 
+static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_sleep( "sleep" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
@@ -230,6 +233,8 @@ static const itype_id itype_wine_mycus( "wine_mycus" );
 
 static const matype_id style_aikido( "style_aikido" );
 static const matype_id style_none( "style_none" );
+
+static const morale_type morale_marloss( "morale_marloss" );
 
 static const mtype_id mon_triffid( "mon_triffid" );
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -343,6 +348,8 @@ TEST_CASE( "marloss_and_mycus_consumption_eocs", "[eoc][marloss]" )
         CHECK_FALSE( you.has_trait( trait_MARLOSS_YELLOW ) );
         CHECK( get_map().ter( you.pos_bub() ).id() == ter_t_marloss );
         CHECK_FALSE( you.has_effect( effect_sleep ) );
+        // Keep normal sleep processing from immediately waking the rested test avatar.
+        you.add_effect( effect_narcosis, 1_turns );
         effect_on_conditions::process_effect_on_conditions( you );
         CHECK( you.get_effect_dur( effect_sleep ) == 40_minutes - you.get_int() * 30_seconds );
     }
@@ -356,6 +363,8 @@ TEST_CASE( "marloss_and_mycus_consumption_eocs", "[eoc][marloss]" )
         CHECK_FALSE( you.has_trait( trait_MARLOSS ) );
         CHECK_FALSE( you.has_trait( trait_MARLOSS_BLUE ) );
         CHECK_FALSE( you.has_effect( effect_sleep ) );
+        // Keep normal sleep processing from immediately waking the rested test avatar.
+        you.add_effect( effect_narcosis, 1_turns );
         effect_on_conditions::process_effect_on_conditions( you );
         CHECK( you.stomach.contains() == 0_ml );
         CHECK( you.get_effect_dur( effect_sleep ) == 10_hours - you.get_int() * 1_minutes );
@@ -367,6 +376,29 @@ TEST_CASE( "marloss_and_mycus_consumption_eocs", "[eoc][marloss]" )
         set_marloss_context( d, "MARLOSS", "marloss_r", "marloss_b", "marloss_y" );
         effect_on_condition_EOC_MARLOSS_CONSUME->activate( d );
         CHECK_FALSE( you.has_trait( trait_MARLOSS ) );
+    }
+
+    SECTION( "marloss_consume_dispatches_repeat_consumption" ) {
+        you.set_mutation( trait_MARLOSS );
+        you.set_hunger( 100 );
+        d.set_value( "marloss_item", "marloss_berry" );
+        set_marloss_context( d, "MARLOSS", "marloss_r", "marloss_b", "marloss_y" );
+
+        effect_on_condition_EOC_MARLOSS_CONSUME->activate( d );
+
+        CHECK( you.get_hunger() == -10 );
+        CHECK( you.has_morale( morale_marloss ) == 100 );
+    }
+
+    SECTION( "repeat_marloss_consumption" ) {
+        you.set_hunger( 100 );
+        set_marloss_context( d, "MARLOSS", "marloss_r", "marloss_b", "marloss_y" );
+
+        effect_on_condition_EOC_MARLOSS_REPEAT_CONSUMPTION->activate( d );
+
+        CHECK( you.get_hunger() == -10 );
+        CHECK( you.has_morale( morale_marloss ) == 100 );
+        CHECK_FALSE( you.maybe_get_value( "marloss_spores_spawned" ) );
     }
 
     SECTION( "mycus_consumption_activity_finishes_before_sleep" ) {
@@ -382,6 +414,8 @@ TEST_CASE( "marloss_and_mycus_consumption_eocs", "[eoc][marloss]" )
         CHECK( you.has_trait( trait_THRESH_MYCUS ) );
         CHECK_FALSE( you.has_effect( effect_sleep ) );
 
+        // Keep normal sleep processing from immediately waking the rested test avatar.
+        you.add_effect( effect_narcosis, 1_turns );
         effect_on_conditions::process_effect_on_conditions( you );
         CHECK( you.get_effect_dur( effect_sleep ) == 5_hours - you.get_int() * 1_minutes );
     }
