@@ -2753,7 +2753,7 @@ bool Character::unload( item_location &loc, bool bypass_activity,
             // Eject magazine consuming half as much time as required to insert it
             this->mod_moves( -this->item_reload_cost( *target, item_location( targloc, mag ), -1 ) / 2 );
 
-            target->remove_items_with( [mag]( const item & e ) {
+            targloc.remove_items_with( [mag]( const item & e ) {
                 return &e == mag;
             } );
         }

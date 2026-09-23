@@ -1141,7 +1141,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
             // clear out empty magazines so put_in below doesn't error
             for( item *i : tmp.contents.all_items_top() ) {
                 if( i->is_magazine() ) {
-                    tmp.remove_item( *i );
+                    // item_location hack warning!
+                    item_location( get_player_character(), &tmp ).remove_item( *i );
                     tmp.on_contents_changed();
                 }
             }

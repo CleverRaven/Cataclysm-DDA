@@ -110,10 +110,10 @@ const temp_crafting_inventory::type_index *temp_crafting_inventory::cached_index
             }
         };
         for( const item_location &it : item_copies ) {
-            add_root( { it, item_location()});
+            add_root( { it, item_location()} );
         }
         for( const item_location &loc : items_loc ) {
-            add_root( { item_location(), loc});
+            add_root( { item_location(), loc} );
         }
     }
     return &*index;

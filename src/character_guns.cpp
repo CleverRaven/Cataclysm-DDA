@@ -41,15 +41,15 @@ template <typename T, typename Output>
 static void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nested,
                               bool now = true )
 {
-    src.visit_items( [&src, &nested, &out, &obj, empty, now]( item * node, item * parent ) {
+    src.visit_items( [&src, &nested, &out, &obj, empty, now]( item_location node ) {
 
         // This stops containers and magazines counting *themselves* as ammo sources
-        if( node == &obj ) {
+        if( node.get_item() == &obj ) {
             return VisitResponse::SKIP;
         }
 
         // Spills are not valid. spilled liquids have no parent.
-        if( parent == nullptr && node->made_of_from_type( phase_id::LIQUID ) ) {
+        if( !node.has_parent() && node->made_of_from_type( phase_id::LIQUID ) ) {
             return VisitResponse::SKIP;
         }
 
@@ -59,12 +59,12 @@ static void find_ammo_helper( T &src, const item &obj, bool empty, Output out, b
         }
 
         // Do not steal ammo from magazines
-        if( parent != nullptr && parent->is_magazine() ) {
+        if( node.has_parent() && node.parent_item()->is_magazine() ) {
             return VisitResponse::SKIP;
         }
 
         // Do not steal magazines from other items
-        if( parent != nullptr && node == parent->magazine_current() ) {
+        if( node.has_parent() && node.get_item() == node.parent_item()->magazine_current() ) {
             return VisitResponse::SKIP;
         }
 
@@ -82,25 +82,25 @@ static void find_ammo_helper( T &src, const item &obj, bool empty, Output out, b
             // Ammo check is done somewhere else
             // Ammo check should probably happen here...
             if( obj.can_reload_with( *node, now ) ) {
-                if( parent != nullptr ) {
-                    out = item_location( item_location( src, parent ), node );
+                if( !node.has_parent() ) {
+                    out = item_location( node.parent_item(), node.get_item() );
                 } else {
-                    out = item_location( src, node );
+                    out = node;
                 }
             }
             return VisitResponse::SKIP;
         }
 
         if( obj.can_reload_with( *node, now ) ) {
-            if( parent != nullptr ) {
-                out = item_location( item_location( src, parent ), node );
+            if( node.has_parent() ) {
+                out = item_location( node.parent_item(), node.get_item() );
             } else {
-                out = item_location( src, node );
+                out = node;
             }
         }
 
         // Not-nested checks only top level containers and their immediate contents.
-        return parent == nullptr || nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+        return !node.has_parent() || nested ? VisitResponse::NEXT : VisitResponse::SKIP;
 
     } );
 }

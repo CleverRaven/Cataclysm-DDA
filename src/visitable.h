@@ -167,7 +167,7 @@ class visitable : public read_only_visitable
            * @param count maximum number of items to if unspecified unlimited. A count of zero is a no-op
            * @return any items removed (items counted by charges are not guaranteed to be stacked)
            */
-        virtual std::list<item> remove_items_with( const item_filter &filter,
+        virtual std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                 int count = INT_MAX ) = 0;
 
         /** Removes and returns the item which must be contained by this instance */

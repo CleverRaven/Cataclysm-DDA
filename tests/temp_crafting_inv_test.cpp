@@ -154,7 +154,7 @@ static void build_pile( temp_crafting_inventory &inv, item &loose )
     here.furn_set( pile_origin, furn_test_f_reserve_qual );
 
     inv.form_from_map( pile_origin, 0, nullptr, false );
-    inv.add_item_ref( loose );
+    inv.add_item_copy( loose );
     inv.add_item_copy( item( itype_knife_hunting ) );
 }
 
@@ -200,7 +200,7 @@ TEST_CASE( "temp_crafting_inventory_index_answers_like_a_live_walk", "[crafting]
     build_pile( inv, loose );
 
     std::set<itype_id> types{ itype_cudgel, itype_rock };
-    inv.visit_items( [&types]( const item * node, item * ) {
+    inv.visit_items( [&types]( const item_location & node ) {
         types.insert( node->typeId() );
         return VisitResponse::NEXT;
     } );

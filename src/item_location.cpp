@@ -90,15 +90,15 @@ static item *retrieve_index( const T &sel, int idx )
 template <typename T>
 static item *retrieve_by_uid( const T &sel, int64_t uid )
 {
-    item *obj = nullptr;
-    sel.visit_items( [&uid, &obj]( const item * e, item * ) {
+    item_location obj;
+    sel.visit_items( [&uid, &obj]( item_location e ) {
         if( e->uid().get_value() == uid ) {
-            obj = const_cast<item *>( e );
+            obj = e;
             return VisitResponse::ABORT;
         }
         return VisitResponse::NEXT;
     } );
-    return obj;
+    return obj.get_item();
 }
 
 class item_location::impl
@@ -929,6 +929,11 @@ class item_location::impl::item_in_crafting_inventory : public item_location::im
             // technically this could be a pseudo item from a furniture a few steps away.
             // TODO: return something else
             return 0;
+        }
+
+        bool valid() const override {
+            ensure_unpacked();
+            return !!what && !!inv;
         }
 
         type where() const {

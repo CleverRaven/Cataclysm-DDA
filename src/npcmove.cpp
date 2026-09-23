@@ -3527,7 +3527,9 @@ bool npc::enough_time_to_reload( const item &gun ) const
     const map &here = get_map();
 
     const std::optional<ammotype> at = item::ammotype_of( gun.ammo_default() );
-    int rltime = item_reload_cost( gun, item( gun.ammo_default() ),
+    item temp_ammo( gun.ammo_default() );
+    item_location loc( const_cast<npc &>( *this ), &temp_ammo );
+    int rltime = item_reload_cost( gun, loc,
                                    at ? gun.ammo_capacity( *at ) : 0 );
     const float turns_til_reloaded = static_cast<float>( rltime ) / get_speed();
 
@@ -6228,7 +6230,7 @@ void npc::do_reload( const item_location &it )
     item_location &usable_ammo = reload_opt.ammo;
 
     int qty = reload_opt.qty();
-    int reload_time = item_reload_cost( *it, *usable_ammo, qty );
+    int reload_time = item_reload_cost( *it, usable_ammo, qty );
     // TODO: Consider printing this info to player too
     // TODO(multimag): pocket_index defaults to -1 (first compatible well).
     // NPCs cannot pick a specific well on multi-well guns yet.

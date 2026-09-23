@@ -3333,13 +3333,27 @@ class item
          * @return The number of moves to recursively disassemble this item
          */
         int get_recursive_disassemble_moves( const Character &guy ) const;
+
+        // this is outdated, deprecate me!!
+        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const;
+
         // "parent" will be self plus the required other ref for the item_location constructor
         VisitResponse visit_contents( const std::function<VisitResponse( item_location )> &func,
                                       item_location parent, const std::set<pocket_type> &allowed_pockets = {pocket_type::CONTAINER} );
+        VisitResponse visit_contents_legacy( const std::function<VisitResponse( item *, item * )> &func,
+                                             item *parent,
+                                             const std::set<pocket_type> &allowed_pockets = { pocket_type::CONTAINER } );
+        std::vector<const item *> items_with( const item_filter &filter ) const;
+        bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const;
+        bool has_item_with( const std::function<bool( const item & )> &filter ) const;
+        bool has_item( const item & ) const;
+        int amount_of( const itype_id &what, bool pseudo = true, int limit = INT_MAX,
+                       const item_filter &filter = return_true<item> ) const;
+        int charges_of( const itype_id &what, int limit = INT_MAX,
+                        const item_filter &filter = return_true<item>,
+                        const std::function<void( int )> &visitor = nullptr, bool in_tools = false ) const;
         void remove_internal( const std::function<bool( item & )> &filter,
                               int &count, std::list<item> &res );
-        std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
-                                           int count = INT_MAX );
 
         /** returns a list of pointers to all top-level items in standard pockets */
         std::list<const item *> all_items_top() const;

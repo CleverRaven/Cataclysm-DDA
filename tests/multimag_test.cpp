@@ -1560,10 +1560,12 @@ TEST_CASE( "capacity_mods_survive_save_load_roundtrip", "[multimag][mod]" )
 TEST_CASE( "capacity_mod_overflow_grandfathered_on_removal", "[multimag][mod]" )
 {
     clear_map();
-    item gun( itype_test_multimag_gun_integral_ammo );
-    REQUIRE( gun.put_in( item( itype_test_multimag_capacity_gunmod ),
-                         pocket_type::MOD ).success() );
-    item_pocket *ammo = gun.pocket_by_id( "ammo" );
+    Character &guy = get_player_character();
+    // will wield this gun
+    item_location gun = guy.i_add( item( itype_test_multimag_gun_integral_ammo ) );
+    REQUIRE( gun->put_in( item( itype_test_multimag_capacity_gunmod ),
+                          pocket_type::MOD ).success() );
+    item_pocket *ammo = gun->pocket_by_id( "ammo" );
     REQUIRE( ammo != nullptr );
     const ammotype at = *ammo->ammo_types().begin();
     REQUIRE( ammo->ammo_capacity( at ) == 2 );
@@ -1576,13 +1578,13 @@ TEST_CASE( "capacity_mod_overflow_grandfathered_on_removal", "[multimag][mod]" )
             return it.typeId() == itype_test_multimag_capacity_gunmod;
         } );
         THEN( "capacity drops but contents are grandfathered and remaining clamps to 0" ) {
-            const item_pocket *ammo2 = gun.pocket_by_id( "ammo" );
+            const item_pocket *ammo2 = gun->pocket_by_id( "ammo" );
             REQUIRE( ammo2 != nullptr );
             CHECK( ammo2->ammo_capacity( at ) == 1 );
             CHECK( ammo2->remaining_ammo_capacity( at ) == 0 );
             // item-level API: capacity drops and remaining clamps (no -1)
-            CHECK( gun.ammo_capacity( at ) == 1 );
-            CHECK( gun.remaining_ammo_capacity() == 0 );
+            CHECK( gun->ammo_capacity( at ) == 1 );
+            CHECK( gun->remaining_ammo_capacity() == 0 );
             int loaded = 0;
             for( const item *it : ammo2->all_items_top() ) {
                 loaded += it->count();
@@ -1859,9 +1861,9 @@ TEST_CASE( "legacy_charges_per_use_factor_non_divisible_hard_fails",
     std::list<item> used;
     int qty = 7; // factor=5; 7 % 5 != 0
     const std::string captured = capture_debugmsg_during( [&]() {
-        carried->use_charges( itype_test_multimag_tool_factor, qty, used,
+        carried->use_charges( loc, itype_test_multimag_tool_factor, qty, used,
                               tripoint_bub_ms::zero,
-                              return_true<item>, &chr, /*in_tools=*/false );
+                              return_true<item>, /*in_tools=*/false );
     } );
     CHECK( captured.find( "factor" ) != std::string::npos );
     CHECK( carried->ammo_remaining_in_pocket( "well_a" ) == 15 );
@@ -1965,9 +1967,9 @@ TEST_CASE( "Character_use_charges_drains_multimag_tool_via_consume_tool_uses",
 
     int qty = 1; // factor=1, well_a qty=2, well_b qty=1, 1 use -> 2 + 1 drain
     std::list<item> used;
-    loc->use_charges( itype_test_multimag_tool_consume, qty, used,
+    loc->use_charges( loc, itype_test_multimag_tool_consume, qty, used,
                       tripoint_bub_ms::zero,
-                      return_true<item>, &chr, /*in_tools=*/false );
+                      return_true<item>, /*in_tools=*/false );
     CHECK( qty == 0 );
     CHECK( loc->ammo_remaining_in_pocket( "well_a" ) == 10 );
     CHECK( loc->ammo_remaining_in_pocket( "well_b" ) == 29 );

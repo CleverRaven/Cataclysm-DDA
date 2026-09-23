@@ -130,7 +130,7 @@
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "vehicle.h"
-#include "vehicle.selector.h"
+#include "vehicle_selector.h"
 #include "viewer.h"
 #include "vitamin.h"
 #include "vpart_position.h"
@@ -2455,7 +2455,7 @@ std::optional<int> iuse::water_purifier( Character *p, item *it, const tripoint_
         return std::nullopt;
     }
 
-    const std::vector<item *> liquids = obj->items_with( []( const item & it ) {
+    const std::vector<item *> liquids = obj.items_with( []( const item & it ) {
         return it.typeId() == itype_water;
     } );
     int charges_of_water = 0;
@@ -2488,7 +2488,7 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
         return std::nullopt;
     }
 
-    const std::vector<item *> liquids = water->items_with( []( const item & it ) {
+    const std::vector<item *> liquids = water.items_with( []( const item & it ) {
         return it.typeId() == itype_water || it.typeId() == itype_water_murky;
     } );
     int charges_of_water = 0;
@@ -7142,7 +7142,7 @@ std::optional<int> iuse::radiocar( Character *p, item *it, const tripoint_bub_ms
                 p->as_avatar()->assign_empty_invlet( *bomb_it, true ); // force getting an invlet.
             }
             p->i_add( *bomb_it );
-            it->remove_item( *bomb_it );
+            item_location( *p, it ).remove_item( *bomb_it );
 
             p->add_msg_if_player( _( "You disarmed your RC car." ) );
         }
@@ -7667,7 +7667,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
             p->i_add( dish );
         }
 
-        it->remove_item( *dish_it );
+        item_location( *p, it ).remove_item( *dish_it );
         it->erase_var( "RECIPE" );
         if( is_delicious ) {
             p->add_msg_if_player( m_good,
@@ -8298,7 +8298,7 @@ static std::optional<std::pair<tripoint_bub_ms, itype_id>> appliance_heater_sele
             int n = 0;
             for( const auto&[tool_item, hk] : vp_.value().get_tools( here ) ) {
                 if( item_location( vehicle_cursor( vp_->vehicle(), vp_->part_index() ),
-                                   tool_item ).has_quality( qual_HOTPLATE, 2 ) ) {
+                                   const_cast<item *>( &tool_item ) ).has_quality( qual_HOTPLATE, 2 ) ) {
                     pseudo_tools[n] = tool_item.typeId();
                     n++;
                 }

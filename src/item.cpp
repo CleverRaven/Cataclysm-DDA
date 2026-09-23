@@ -446,7 +446,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
         active = true;
     }
     if( carrier && carrier->has_item( *this ) ) {
-        carrier->on_item_acquire( *this );
+        carrier->on_item_acquire( item_location( *carrier, this ) );
     }
 
     item_counter = 0;
@@ -1481,7 +1481,7 @@ void item::on_pickup( Character &p )
     contents.on_pickup( p, this );
 
     p.flag_encumbrance();
-    p.on_item_acquire( *this );
+    p.on_item_acquire( item_location( p, this ) );
 }
 
 void item::update_inherited_flags()

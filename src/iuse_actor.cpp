@@ -199,7 +199,7 @@ template item_location form_loc_recursive<npc>( npc &loc, item &it );
 template<>
 item_location form_loc_recursive( item_location &loc, item &it )
 {
-    item *parent = loc->find_parent( it );
+    item *parent = loc.find_parent( it );
     if( parent != nullptr ) {
         return item_location( form_loc_recursive( loc, *parent ), &it );
     }
@@ -1061,7 +1061,7 @@ std::optional<int> place_monster_iuse::use( Character *p, item &it, map *here,
 
     shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>( mtypeid );
     monster &newmon = *newmon_ptr;
-    newmon.init_from_item( it );
+    newmon.init_from_item( item_location( *p, &it ) );
     if( place_randomly ) {
         // place_critter_around returns the same pointer as its parameter (or null)
         if( !g->place_critter_around( newmon_ptr, p->pos_bub( *here ), 1 ) ) {
@@ -4713,7 +4713,7 @@ std::optional<int> detach_gunmods_actor::use( Character *p, item &it,
     }
 
     if( mod_index >= 0 ) {
-        gun_copy.remove_item( *mods_copy[mod_index] );
+        item_location( *p, &gun_copy ).remove_item( *mods_copy[mod_index] );
 
         if( p->meets_requirements( *mods[mod_index], gun_copy ) ||
             query_yn( _( "Are you sure?  You may be lacking the skills needed to reattach this modification." ) ) ) {

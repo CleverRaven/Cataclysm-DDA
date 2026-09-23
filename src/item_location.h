@@ -214,7 +214,7 @@ class item_location : public visitable
         VisitResponse visit_items( const std::function<VisitResponse( item_location )> &func ) const
         override;
         std::list<item> remove_items_with( const std::function<bool( const item &e )> &filter,
-                                           int count ) override;
+                                           int count = INT_MAX ) override;
     private:
         class impl;
 

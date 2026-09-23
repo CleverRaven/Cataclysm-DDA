@@ -513,11 +513,11 @@ int item::spoilage_sort_order() const
 
     bool any_goes_bad = false;
     time_duration min_spoil_time = calendar::INDEFINITELY_LONG_DURATION;
-    visit_items( [&]( item_location node ) {
+    visit_items( [&]( const item * node, const item * parent ) {
         if( node && node->goes_bad() ) {
             float spoil_multiplier = 1.0f;
-            if( node.has_parent() ) {
-                const item_pocket *const parent_pocket = node.parent_item()->contained_where( *node );
+            if( parent != nullptr ) {
+                const item_pocket *const parent_pocket = parent->contained_where( *node );
                 if( parent_pocket ) {
                     spoil_multiplier = parent_pocket->spoil_multiplier();
                 }

@@ -1916,6 +1916,7 @@ bool are_requirements_nearby(
             found_welder = true;
         }
         temp_inv.add_item_loc( node );
+        return VisitResponse::NEXT;
     }
     );
     map &here = get_map();

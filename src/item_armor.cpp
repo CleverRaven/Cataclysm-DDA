@@ -460,7 +460,7 @@ void item::on_wear( Character &p )
     if( get_player_character().getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
-    p.on_item_acquire( *this );
+    p.on_item_acquire( item_location( p, this ) );
     p.on_item_wear( *this );
 }
 

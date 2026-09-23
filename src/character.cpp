@@ -5627,14 +5627,15 @@ std::list<item> Character::use_amount( const itype_id &it, int quantity,
             if( imenu.ret < 0 || static_cast<size_t>( imenu.ret ) >= tmp.size() ) {
                 break;
             }
-            if( tmp[imenu.ret]->use_amount( it, quantity, ret, filter ) ) {
+            if( tmp[imenu.ret]->use_amount( item_location( *this, tmp[imenu.ret] ), it, quantity, ret,
+                                            filter ) ) {
                 remove_item( *tmp[imenu.ret] );
             }
             tmp.erase( tmp.begin() + imenu.ret );
         }
     }
     if( quantity > 0 && !craft_reservation::contains_reserved( weapon ) &&
-        weapon.use_amount( it, quantity, ret, filter ) ) {
+        weapon.use_amount( get_wielded_item(), it, quantity, ret, filter ) ) {
         remove_weapon();
     }
     ret = worn.use_amount( it, quantity, ret, filter, *this );
@@ -5785,7 +5786,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
             if( !e.has_parent() && craft_reservation::contains_reserved( *e ) ) {
                 return VisitResponse::SKIP;
             }
-            if( e->use_charges( what, qty, res, pos_bub(), filter, this, in_tools ) ) {
+            if( e->use_charges( e, what, qty, res, pos_bub(), filter, in_tools ) ) {
                 del.push_back( e );
             }
             return qty > 0 ? VisitResponse::NEXT : VisitResponse::ABORT;

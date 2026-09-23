@@ -4942,7 +4942,7 @@ static void reload_furniture( Character &you, const tripoint_bub_ms &examp, bool
     place_item( moved );
     you.mod_moves( -you.item_handling_cost( moved ) );
     std::list<item>used;
-    if( opt.ammo.get_item()->use_charges( opt_type->get_id(), amount, used,
+    if( opt.ammo.get_item()->use_charges( opt.ammo, opt_type->get_id(), amount, used,
                                           opt.ammo.pos_bub( here ) ) ) {
         opt.ammo.remove_item();
     }

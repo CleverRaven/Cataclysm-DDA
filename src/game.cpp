@@ -4953,7 +4953,7 @@ bool game::revive_corpse( const tripoint_bub_ms &p, item &it, int radius )
         newmon_ptr = make_shared_fast<monster>( it.get_mtype()->id );
     }
     monster &critter = *newmon_ptr;
-    critter.init_from_item( it );
+    critter.init_from_item( item_location( map_cursor( p ), &it ) );
     if( critter.get_hp() < 1 ) {
         // Failed reanimation due to corpse being too burned
         return false;

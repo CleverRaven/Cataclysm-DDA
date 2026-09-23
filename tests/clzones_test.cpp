@@ -3572,7 +3572,7 @@ static vehicle *setup_drag_limited_sort( avatar &dummy, map &here,
 static int count_carried( const Character &who, const itype_id &id )
 {
     int carried = 0;
-    who.visit_items( [&carried, &id]( const item * it, const item * ) {
+    who.visit_items( [&carried, &id]( const item_location & it ) {
         if( it->typeId() == id ) {
             carried++;
         }

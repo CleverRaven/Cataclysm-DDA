@@ -44,7 +44,7 @@ template <typename T>
 static int count_items( const T &src, const itype_id &id )
 {
     int n = 0;
-    src.visit_items( [&n, &id]( const item * e, item * ) {
+    src.visit_items( [&n, &id]( const item_location & e ) {
         n += ( e->typeId() == id );
         return VisitResponse::NEXT;
     } );

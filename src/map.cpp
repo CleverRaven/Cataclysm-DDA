@@ -6179,8 +6179,9 @@ void map::update_lum( item_location &loc, bool add )
     set_lightmap_cache_dirty( loc.pos_bub( *this ).z() );
 }
 
+template <typename veh_or_map_cursor>
 static bool process_map_items( map &here, item_stack &items, safe_reference<item> &item_ref,
-                               item *parent, const tripoint_bub_ms &location, float insulation,
+                               item *parent, const tripoint_bub_ms &location, const veh_or_map_cursor &cur, float insulation,
                                temperature_flag flag, float spoil_multiplier, bool watertight_container )
 {
     if( item_ref->process( here, nullptr, location, insulation, flag, spoil_multiplier,
@@ -6190,7 +6191,7 @@ static bool process_map_items( map &here, item_stack &items, safe_reference<item
         if( item_ref ) {
             item_ref->spill_contents( location );
             if( parent != nullptr ) {
-                parent->remove_item( *item_ref );
+                item_location( cur, parent ).remove_item( *item_ref );
             } else {
                 items.erase( items.get_iterator_from_pointer( item_ref.get() ) );
             }
@@ -6602,10 +6603,10 @@ void map::process_items_in_submap( submap &current_submap, const tripoint_rel_sm
         bool furniture_is_sealed = has_flag( ter_furn_flag::TFLAG_SEALED, map_location );
 
         map_stack items = i_at( map_location );
-        process_map_items( *this, items, active_item_ref.item_ref, active_item_ref.parent,
-                           map_location, active_item_ref.insulation(), flag,
-                           spoil_multiplier * active_item_ref.spoil_multiplier(),
-                           furniture_is_sealed || active_item_ref.has_watertight_container() );
+        process_map_items( *this, items, active_item_ref.item_ref, active_item_ref.parent, map_location,
+                           map_cursor( map_location ), active_item_ref.insulation(), flag,
+                           spoil_multiplier * active_item_ref.spoil_multiplier(), furniture_is_sealed ||
+                           active_item_ref.has_watertight_container() );
     }
 }
 
@@ -6686,6 +6687,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         // Find the cargo part and coordinates corresponding to the current active item.
         const vehicle_part &pt = it->part();
         const tripoint_bub_ms item_loc = it->pos_bub( *this );
+        const vehicle_cursor item_cur( it->vehicle(), it->part_index() );
         vehicle_stack items = cur_veh.get_items( pt );
         float it_insulation = 1.0f;
         temperature_flag flag = temperature_flag::NORMAL;
@@ -6709,9 +6711,9 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
             }
         }
         bool in_tank = pt.info().has_flag( VPFLAG_FLUIDTANK );
-        if( !process_map_items( *this, items, active_item_ref.item_ref, active_item_ref.parent,
-                                item_loc, it_insulation, flag,
-                                active_item_ref.spoil_multiplier(), in_tank || active_item_ref.has_watertight_container() ) ) {
+        if( !process_map_items( *this, items, active_item_ref.item_ref, active_item_ref.parent, item_loc,
+                                item_cur, it_insulation, flag, active_item_ref.spoil_multiplier(), in_tank ||
+                                active_item_ref.has_watertight_container() ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
@@ -6802,9 +6804,9 @@ bool map::only_liquid_in_liquidcont( const tripoint_bub_ms &p )
     return false;
 }
 
-template <typename Stack>
-static std::list<item> use_amount_stack( Stack stack, const itype_id &type, int &quantity,
-        const std::function<bool( const item & )> &filter )
+template <typename Stack, typename veh_or_map_cursor>
+static std::list<item> use_amount_stack( const veh_or_map_cursor &cur, Stack stack,
+        const itype_id &type, int &quantity, const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
@@ -6814,7 +6816,7 @@ static std::list<item> use_amount_stack( Stack stack, const itype_id &type, int 
             ++a;
             continue;
         }
-        if( a->use_amount( type, quantity, ret, filter ) ) {
+        if( a->use_amount( item_location( cur, &*a ), type, quantity, ret, filter ) ) {
             a = stack.erase( a );
         } else {
             ++a;
@@ -6836,10 +6838,12 @@ std::list<item> map::use_amount_square( const tripoint_bub_ms &p, const itype_id
     }
 
     if( const std::optional<vpart_reference> ovp = veh_at( p ).cargo() ) {
-        std::list<item> tmp = use_amount_stack( ovp->items(), type, quantity, filter );
+        const vehicle_cursor cur( ovp->vehicle(), ovp->part_index() );
+        std::list<item> tmp = use_amount_stack( cur, ovp->items(), type, quantity, filter );
         ret.splice( ret.end(), tmp );
     }
-    std::list<item> tmp = use_amount_stack( i_at( p ), type, quantity, filter );
+    map_cursor cur( p );
+    std::list<item> tmp = use_amount_stack( cur, i_at( p ), type, quantity, filter );
     ret.splice( ret.end(), tmp );
     return ret;
 }
@@ -6887,7 +6891,7 @@ std::list<item> map::use_amount( const std::vector<tripoint_bub_ms> &reachable_p
             if( imenu.ret < 0 || static_cast<size_t>( imenu.ret ) >= locs.size() ) {
                 break;
             }
-            locs[imenu.ret]->use_amount( type, quantity, ret, filter );
+            locs[imenu.ret]->use_amount( locs[imenu.ret], type, quantity, ret, filter );
             locs[imenu.ret].remove_item();
             locs.erase( locs.begin() + imenu.ret );
         }
@@ -6969,7 +6973,8 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
                 if( !filter( furn_item ) ) {
                     return;
                 }
-                if( furn_item.use_charges( type, quantity, ret, p, return_true<item>, nullptr, in_tools ) ) {
+                item_location loc( map_cursor( p ), &furn_item );
+                if( furn_item.use_charges( loc, type, quantity, ret, p, return_true<item>, in_tools ) ) {
                     stack.erase( iter );
                 } else {
                     iter->charges = furn_item.ammo_remaining( );
