@@ -959,11 +959,11 @@ class item_location::impl::item_in_crafting_inventory : public item_location::im
         }
 
         tripoint_bub_ms pos_bub( const map &here ) const override {
-            tripoint_bub_ms::zero;
+            return tripoint_bub_ms::zero;
         }
 
         tripoint_abs_ms pos_abs() const override {
-            tripoint_abs_ms::zero;
+            return tripoint_abs_ms::zero;
         }
 
         units::volume volume_capacity() const override {
@@ -985,11 +985,11 @@ class item_location::impl::item_in_crafting_inventory : public item_location::im
                 return nullptr;
             }
 
-            return retrieve_by_uid( inv, id );
+            return retrieve_by_uid( const_cast<temp_crafting_inventory &>( *inv ), id );
         }
 
         void serialize( JsonOut &js ) const override {
-            if( !target() ) {
+            if( !valid() ) {
                 item_location::nowhere.serialize( js );
                 return;
             }
@@ -1000,7 +1000,7 @@ class item_location::impl::item_in_crafting_inventory : public item_location::im
             }
             js.start_object();
             js.member( "type", "in_inventory" );
-            js.member( "inv", inv );
+            //js.member( "inv", inv );
             js.member( "uid", target()->uid().get_value() );
             js.end_object();
         }

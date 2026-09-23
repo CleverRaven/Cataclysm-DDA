@@ -1110,11 +1110,10 @@ static void scan_tool_charges( const T &self, const itype_id &id,
     } );
 }
 
-template <typename T>
-static void scan_tool_charges<item>( const T &self, const itype_id &id,
-                                     const item_filter &filter,
-                                     bool in_tools, std::vector<tool_stock_entry> &entries,
-                                     int &raw_ups_charges )
+static void scan_tool_charges_item( const item &self, const itype_id &id,
+                                    const item_filter &filter,
+                                    bool in_tools, std::vector<tool_stock_entry> &entries,
+                                    int &raw_ups_charges )
 {
     map &here = get_map();
     self.visit_items( [&]( const item * e, const item * ) {
@@ -1375,7 +1374,7 @@ int item::charges_of( const itype_id &what, int limit,
 {
     std::vector<tool_stock_entry> entries;
     int raw_ups_charges = 0;
-    scan_tool_charges( *this, what, filter, in_tools, entries, raw_ups_charges );
+    scan_tool_charges_item( *this, what, filter, in_tools, entries, raw_ups_charges );
     return apply_external_pools( *this, entries, limit, visitor, raw_ups_charges );
 }
 
@@ -1406,7 +1405,7 @@ int temp_crafting_inventory::charges_of( const itype_id &what, int limit,
     int raw_ups_charges = 0;
     for( const root_ref &ref : *roots ) {
         if( const item_location &root = ref.get() ) {
-            scan_tool_charges( *root, what, filter, in_tools, entries, raw_ups_charges );
+            scan_tool_charges( root, what, filter, in_tools, entries, raw_ups_charges );
         }
     }
     return apply_external_pools( *this, entries, limit, visitor, raw_ups_charges );
