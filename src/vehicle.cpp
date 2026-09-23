@@ -5347,7 +5347,8 @@ units::energy vehicle::drain_energy( const itype_id &ftype, units::energy wanted
             break;
         }
 
-        units::energy consumed = p.consume_energy( ftype, wanted_energy );
+        units::energy consumed = p.consume_energy( vehicle_cursor( *this, index_of_part( &p ) ), ftype,
+                                 wanted_energy );
         drained += consumed;
         wanted_energy -= consumed;
     }

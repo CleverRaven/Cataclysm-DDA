@@ -351,7 +351,8 @@ struct vehicle_part {
          * @param wanted_energy Energy to consume
          * @return Energy actually consumed
          */
-        units::energy consume_energy( const itype_id &ftype, units::energy wanted_energy );
+        units::energy consume_energy( const vehicle_cursor &cur, const itype_id &ftype,
+                                      units::energy wanted_energy );
 
         /* @return true if part in current state be reloaded optionally with specific itype_id */
         bool can_reload( const item &obj = item() ) const;
