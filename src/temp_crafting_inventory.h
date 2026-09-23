@@ -91,7 +91,7 @@ class temp_crafting_inventory : public visitable
                         const std::function<void( int )> &visitor = nullptr,
                         bool in_tools = false ) const override;
         int amount_of( const itype_id &what, bool pseudo = true, int limit = INT_MAX,
-                       const std::function<bool( const item_location & )> &filter = return_true<item_location> ) const
+                       const std::function<bool( const item & )> &filter = return_true<item> ) const
         override;
 
         // these functions are identical to inventory
