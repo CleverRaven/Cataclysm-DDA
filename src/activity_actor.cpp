@@ -10213,7 +10213,7 @@ void fertilize_plant_activity_actor::finish( player_activity &act, Character &wh
     }
 
     // Reduce the amount of time it takes until the next stage of the plant by
-    // 20% of a seasons length. (default 2.8 days).
+    // 20% of a seasons length. (default 18.2 days).
     const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
 
     // Can't use item_stack::only_item() since there might be fertilizer
