@@ -1,13 +1,5 @@
 [
   {
-    "id": "basic_maces",
-    "type": "requirement",
-    "//": "Any basic thing you can use as a mace.",
-    "extend": {
-      "tools": [ [ [ "bat_plus_one", -1 ], [ "bat_plus_two", -1 ], [ "bat_metal_plus_one", -1 ], [ "bat_metal_plus_two", -1 ] ] ]
-    }
-  },
-  {
     "id": "basic_spears",
     "type": "requirement",
     "//": "Any given item that can be used as a spear.  Reserved for crappier things.",
@@ -22,21 +14,6 @@
     }
   },
   {
-    "id": "basic_great_hammers",
-    "type": "requirement",
-    "//": "Any basic thing that works like a great hammer; unga bunga.",
-    "extend": {
-      "tools": [
-        [
-          [ "sledge_plus_one", -1 ],
-          [ "sledge_plus_two", -1 ],
-          [ "sledge_heavy_plus_two", -1 ],
-          [ "sledge_heavy_plus_one", -1 ]
-        ]
-      ]
-    }
-  },
-  {
     "id": "basic_batons",
     "type": "requirement",
     "//": "Any basic, easy-to-use bashing weapons.  Like police batons, sticks, or baseball bats.",
@@ -47,28 +24,9 @@
           [ "cudgel_plus_two", -1 ],
           [ "q_staff_plus_one", -1 ],
           [ "q_staff_plus_two", -1 ],
-          [ "bat_plus_one", -1 ],
-          [ "bat_plus_two", -1 ],
-          [ "bat_metal_plus_one", -1 ],
-          [ "bat_metal_plus_two", -1 ],
           [ "rune_magus_weapon", -1 ],
           [ "rune_magus_weapon_adept", -1 ],
           [ "springstaff-extended", -1 ]
-        ]
-      ]
-    }
-  },
-  {
-    "id": "basic_hooks",
-    "type": "requirement",
-    "//": "Any basic thing that you can use to hook stuff in a fight.",
-    "extend": {
-      "tools": [
-        [
-          [ "sledge_plus_one", -1 ],
-          [ "sledge_plus_two", -1 ],
-          [ "sledge_heavy_plus_one", -1 ],
-          [ "sledge_heavy_plus_two", -1 ]
         ]
       ]
     }
@@ -295,17 +253,7 @@
     "id": "real_great_axes",
     "type": "requirement",
     "//": "Any real, cutting weapons that can be used like an axe; large, heavy head with two sharp sides on a pole.",
-    "extend": {
-      "tools": [
-        [
-          [ "orich_fire_ax", -1 ],
-          [ "battleaxe_plus_one", -1 ],
-          [ "battleaxe_plus_two", -1 ],
-          [ "fire_ax_plus_one", -1 ],
-          [ "fire_ax_plus_two", -1 ]
-        ]
-      ]
-    }
+    "extend": { "tools": [ [ [ "orich_fire_ax", -1 ], [ "battleaxe_plus_one", -1 ], [ "battleaxe_plus_two", -1 ] ] ] }
   },
   {
     "id": "whips",
