@@ -88,7 +88,7 @@
     "type": "vitamin",
     "vit_type": "drug",
     "name": { "str": "Morphine Milligram Equivalent (percentile)" },
-    "//": "1 vit_mme is equivalent to 1% of an MME.  Need to adjust excess and rate at minimum.",
+    "//": "1 vit_mme is equivalent to 1% of an MME.  Need to adjust excess.  Rate is set for full elimination of a single oxycodone pill in six hours.",
     "excess": "opiate_eff",
     "min": 0,
     "max": 40000,
