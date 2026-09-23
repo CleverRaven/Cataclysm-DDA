@@ -103,11 +103,11 @@ class read_only_visitable
          */
         virtual int amount_of( const itype_id &what, bool pseudo = true,
                                int limit = INT_MAX,
-                               const std::function<bool( const item & )> &filter = return_true<item> ) const;
+                               const std::function<bool( const item_location & )> &filter = return_true<item_location> ) const;
 
         /** Check instance provides at least qty of an item (@see amount_of) */
         bool has_amount( const itype_id &what, int qty, bool pseudo = true,
-                         const std::function<bool( const item & )> &filter = return_true<item> ) const;
+                         const std::function<bool( const item_location & )> &filter = return_true<item_location> ) const;
 
         /** Returns all items (including those within a container) matching the filter */
         std::vector<item *> items_with( const std::function<bool( const item & )> &filter );

@@ -1193,12 +1193,12 @@ int Character::charges_of( const itype_id &what, int limit,
 
 template <typename T>
 static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, int limit,
-                               const std::function<bool( const item & )> &filter )
+                               const std::function<bool( const item_location & )> &filter )
 {
     int qty = 0;
-    self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item * e, item * ) {
+    self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item_location & e ) {
         if( ( id == itype_any || e->typeId() == id ) &&
-            !e->has_flag( json_flag_ITEM_BROKEN ) && filter( *e ) &&
+            !e->has_flag( json_flag_ITEM_BROKEN ) && filter( e ) &&
             ( pseudo || !e->has_flag( json_flag_PSEUDO ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
@@ -1209,7 +1209,7 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
 
 /** @relates visitable */
 int read_only_visitable::amount_of( const itype_id &what, bool pseudo, int limit,
-                                    const std::function<bool( const item & )> &filter ) const
+                                    const std::function<bool( const item_location & )> &filter ) const
 {
     return amount_of_internal( *this, what, pseudo, limit, filter );
 }
@@ -1240,7 +1240,7 @@ int temp_crafting_inventory::charges_of( const itype_id &what, int limit,
     std::vector<tool_stock_entry> entries;
     int raw_ups_charges = 0;
     for( const root_ref &ref : *roots ) {
-        if( const item *root = ref.get() ) {
+        if( const item_location &root = ref.get() ) {
             scan_tool_charges( *root, what, filter, in_tools, entries, raw_ups_charges );
         }
     }
@@ -1249,7 +1249,7 @@ int temp_crafting_inventory::charges_of( const itype_id &what, int limit,
 
 /** @relates visitable */
 int temp_crafting_inventory::amount_of( const itype_id &what, bool pseudo, int limit,
-                                        const std::function<bool( const item & )> &filter ) const
+                                        const std::function<bool( const item_location & )> &filter ) const
 {
     // at limit zero the live walk stops early on a mismatch, which the index can't mirror
     if( what == itype_any || limit <= 0 ) {
@@ -1268,8 +1268,8 @@ int temp_crafting_inventory::amount_of( const itype_id &what, bool pseudo, int l
         if( qty >= limit ) {
             break;
         }
-        if( const item *root = ref.get() ) {
-            qty = sum_no_wrap( qty, root->amount_of( what, pseudo, limit - qty, filter ) );
+        if( const item_location &root = ref.get() ) {
+            qty = sum_no_wrap( qty, root.amount_of( what, pseudo, limit - qty, filter ) );
         }
     }
     return std::min( qty, limit );
@@ -1277,7 +1277,7 @@ int temp_crafting_inventory::amount_of( const itype_id &what, bool pseudo, int l
 
 /** @relates visitable */
 int Character::amount_of( const itype_id &what, bool pseudo, int limit,
-                          const std::function<bool( const item & )> &filter ) const
+                          const std::function<bool( const item_location & )> &filter ) const
 {
     if( pseudo ) {
         for( const item *pseudos : get_pseudo_items() ) {
@@ -1290,7 +1290,7 @@ int Character::amount_of( const itype_id &what, bool pseudo, int limit,
     if( what == itype_apparatus && pseudo ) {
         int qty = 0;
         visit_items( [&qty, &limit, &filter]( const item_location & e ) {
-            if( e->get_quality( qual_SMOKE_PIPE ) >= 1 && filter( *e ) ) {
+            if( e->get_quality( qual_SMOKE_PIPE ) >= 1 && filter( e ) ) {
                 qty = sum_no_wrap( qty, 1 );
             }
             return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
@@ -1303,7 +1303,7 @@ int Character::amount_of( const itype_id &what, bool pseudo, int limit,
 
 /** @relates visitable */
 bool read_only_visitable::has_amount( const itype_id &what, int qty, bool pseudo,
-                                      const std::function<bool( const item & )> &filter ) const
+                                      const std::function<bool( const item_location & ) > &filter ) const
 {
     return amount_of( what, pseudo, qty, filter ) == qty;
 }

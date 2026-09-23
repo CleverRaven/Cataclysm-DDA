@@ -67,9 +67,9 @@ temp_crafting_inventory::query_cache_scope::~query_cache_scope()
     }
 }
 
-const item *temp_crafting_inventory::root_ref::get() const
+item_location temp_crafting_inventory::root_ref::get() const
 {
-    return raw != nullptr ? raw : loc->get_item();
+    return raw.valid() ? raw : loc;
 }
 
 bool temp_crafting_inventory::prepare_query_cache() const
@@ -92,12 +92,12 @@ const temp_crafting_inventory::type_index *temp_crafting_inventory::cached_index
     if( !index ) {
         type_index &idx = index.emplace();
         const auto add_root = [&idx]( const root_ref & ref ) {
-            const item *root = ref.get();
-            if( root == nullptr ) {
+            const item_location root = ref.get();
+            if( !root.valid() ) {
                 return;
             }
             bool holds_ups = false;
-            root->visit_items( [&]( const item * node, item * ) {
+            root.visit_items( [&]( const item_location & node ) {
                 std::vector<root_ref> &roots = idx.by_type[node->typeId()];
                 if( roots.empty() || !( roots.back() == ref ) ) {
                     roots.push_back( ref );
@@ -109,10 +109,7 @@ const temp_crafting_inventory::type_index *temp_crafting_inventory::cached_index
                 idx.ups.push_back( ref );
             }
         };
-        for( item *it : items ) {
-            add_root( { it, nullptr } );
-        }
-        for( item *it : item_copies ) {
+        for( const item_location &it : item_copies ) {
             add_root( { it, nullptr } );
         }
         for( const item_location &loc : items_loc ) {
@@ -275,7 +272,7 @@ void temp_crafting_inventory::add_all_ref( const vehicle_cursor &cur )
 }
 
 void temp_crafting_inventory::visit_roots_holding( const itype_id &id,
-        const std::function<VisitResponse( item *, item * )> &func ) const
+        const std::function<VisitResponse( item_location )> &func ) const
 {
     const type_index *idx = cached_index();
     if( idx == nullptr ) {
@@ -287,8 +284,8 @@ void temp_crafting_inventory::visit_roots_holding( const itype_id &id,
         return;
     }
     for( const root_ref &ref : found->second ) {
-        const item *root = ref.get();
-        if( root != nullptr && root->visit_items( func ) == VisitResponse::ABORT ) {
+        const item_location root = ref.get();
+        if( !root.valid() && root.visit_items( func ) == VisitResponse::ABORT ) {
             return;
         }
     }
@@ -297,7 +294,7 @@ void temp_crafting_inventory::visit_roots_holding( const itype_id &id,
 int temp_crafting_inventory::count_item( const itype_id &item_type ) const
 {
     int num = 0;
-    visit_roots_holding( item_type, [&]( const item * node, item * ) {
+    visit_roots_holding( item_type, [&]( const item_location & node ) {
         if( node->typeId() == item_type ) {
             num += node->count();
         }
@@ -487,7 +484,7 @@ bool temp_crafting_inventory::must_use_hallu_poison( const itype_id &id, int to_
 {
     const int total = count_item( id );
     int bad = 0;
-    visit_roots_holding( id, [&]( item * node, item * ) {
+    visit_roots_holding( id, [&]( const item_location & node ) {
         const item &it = *node;
         if( it.typeId() == id && ( it.has_flag( flag_HIDDEN_POISON ) ||
                                    it.has_flag( flag_HIDDEN_HALLU ) ) ) {

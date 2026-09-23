@@ -91,7 +91,7 @@ class temp_crafting_inventory : public visitable
                         const std::function<void( int )> &visitor = nullptr,
                         bool in_tools = false ) const override;
         int amount_of( const itype_id &what, bool pseudo = true, int limit = INT_MAX,
-                       const std::function<bool( const item & )> &filter = return_true<item> ) const
+                       const std::function<bool( const item_location & )> &filter = return_true<item_location> ) const
         override;
 
         // these functions are identical to inventory
@@ -122,9 +122,9 @@ class temp_crafting_inventory : public visitable
     private:
         // Single top-level entry, resolved at query time.
         struct root_ref {
-            item *raw = nullptr;
-            const item_location *loc = nullptr;
-            const item *get() const;
+            item_location raw;
+            item_location loc;
+            item_location get() const;
             bool operator==( const root_ref &rhs ) const {
                 return raw == rhs.raw && loc == rhs.loc;
             }
@@ -142,7 +142,7 @@ class temp_crafting_inventory : public visitable
         const type_index *cached_index() const;
         // walks entries whose subtree holds `id` inside a scope, and every entry outside one
         void visit_roots_holding( const itype_id &id,
-                                  const std::function<VisitResponse( item *, item * )> &func ) const;
+                                  const std::function<VisitResponse( item_location )> &func ) const;
         void drop_caches() const;
 
         std::optional<bool> recall_provider_quality( const provider_quality_key &key ) const override;
