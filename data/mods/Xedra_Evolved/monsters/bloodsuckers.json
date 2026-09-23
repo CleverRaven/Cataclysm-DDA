@@ -644,7 +644,7 @@
   {
     "id": "mon_renfield_shotgun",
     "type": "MONSTER",
-    "name": { "str": "renfield with a shotgun", "str_pl": "renfields with shotguns" },
+    "name": { "str": "renfield with a Remington", "str_pl": "renfields with Remingtons" },
     "description": "Wild hair and bloodshot eyes, this person constantly mumbles to themselves about food and life.  They carry a shotgun loosely one handed until they take aim.  Renfields care for nothing except protecting their vampire masters.",
     "default_faction": "vampire",
     "bodytype": "human",
