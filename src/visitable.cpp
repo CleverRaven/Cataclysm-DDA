@@ -90,7 +90,7 @@ bool read_only_visitable::has_item( const item &it ) const
 }
 
 /** @relates visitable */
-bool read_only_visitable::has_item_with( const std::function<bool( const item & )> &filter ) const
+bool read_only_visitable::has_item_with( const item_filter &filter ) const
 {
     return visit_items( [&filter]( const item_location & node ) {
         return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
@@ -294,19 +294,19 @@ bool Character::has_intrinsic_quality( const quality_id &qual, int level, int qt
 }
 
 bool read_only_visitable::has_tools( const itype_id &it, int quantity,
-                                     const std::function<bool( const item & )> &filter ) const
+                                     const item_filter &filter ) const
 {
     return has_amount( it, quantity, true, filter );
 }
 
 bool read_only_visitable::has_components( const itype_id &it, int quantity,
-        const std::function<bool( const item & )> &filter ) const
+        const item_filter &filter ) const
 {
     return has_amount( it, quantity, false, filter );
 }
 
 bool read_only_visitable::has_charges( const itype_id &it, int quantity,
-                                       const std::function<bool( const item & )> &filter ) const
+                                       const item_filter &filter ) const
 {
     return ( charges_of( it, INT_MAX, filter ) >= quantity );
 }
@@ -409,7 +409,7 @@ int vehicle_selector::max_quality( const quality_id &qual ) const
 }
 
 template<typename T, typename V>
-static inline std::vector<T> items_with_internal( V &self, const std::function<bool( const item & )>
+static inline std::vector<T> items_with_internal( V &self, const item_filter
         &filter )
 {
     std::vector<T> res;
@@ -424,13 +424,13 @@ static inline std::vector<T> items_with_internal( V &self, const std::function<b
 
 /** @relates visitable */
 std::vector<const item *> read_only_visitable::items_with(
-    const std::function<bool( const item & )> &filter ) const
+    const item_filter &filter ) const
 {
     return items_with_internal<const item *>( *this, filter );
 }
 /** @relates visitable */
 std::vector<item *> read_only_visitable::items_with(
-    const std::function<bool( const item & )> &filter )
+    const item_filter &filter )
 {
     return items_with_internal<item *>( *this, filter );
 }
@@ -753,7 +753,7 @@ std::list<item> temp_crafting_inventory::remove_items_with( const
 }
 
 std::list<item> outfit::remove_items_with( Character &guy,
-        const std::function<bool( const item & )> &filter, int &count )
+        const item_filter &filter, int &count )
 {
     std::list<item> res;
     for( auto iter = worn.begin(); iter != worn.end(); ) {
@@ -972,7 +972,7 @@ static tool_stock_entry build_multimag_entry( const item &e )
 
 template <typename T>
 static void scan_tool_charges( const T &self, const itype_id &id,
-                               const std::function<bool( const item & )> &filter,
+                               const item_filter &filter,
                                bool in_tools, std::vector<tool_stock_entry> &entries,
                                int &raw_ups_charges )
 {
@@ -1126,7 +1126,7 @@ static int apply_external_pools( const M &main,
 
 template <typename T, typename M>
 static int charges_of_internal( const T &self, const M &main, const itype_id &id, int limit,
-                                const std::function<bool( const item & )> &filter,
+                                const item_filter &filter,
                                 const std::function<void( int )> &visitor, bool in_tools )
 {
     std::vector<tool_stock_entry> entries;
@@ -1137,7 +1137,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
 
 template <typename T>
 static std::pair<int, int> kcal_range_of_internal( const T &self, const itype_id &id,
-        const std::function<bool( const item & )> &filter, Character &player_character )
+        const item_filter &filter, Character &player_character )
 {
     std::pair<int, int> result( INT_MAX, INT_MIN );
     self.visit_items( [&result, &id, &filter, &player_character]( const item * e, item * ) {
@@ -1156,20 +1156,20 @@ static std::pair<int, int> kcal_range_of_internal( const T &self, const itype_id
 }
 
 std::pair<int, int> read_only_visitable::kcal_range( const itype_id &id,
-        const std::function<bool( const item & )> &filter, Character &player_character ) const
+        const item_filter &filter, Character &player_character ) const
 {
     return kcal_range_of_internal( *this, id, filter, player_character );
 }
 
 std::pair<int, int> Character::kcal_range( const itype_id &id,
-        const std::function<bool( const item & )> &filter, Character &player_character ) const
+        const item_filter &filter, Character &player_character ) const
 {
     return kcal_range_of_internal( *this, id, filter, player_character );
 }
 
 /** @relates visitable */
 int read_only_visitable::charges_of( const itype_id &what, int limit,
-                                     const std::function<bool( const item & )> &filter,
+                                     const item_filter &filter,
                                      const std::function<void( int )> &visitor, bool in_tools ) const
 {
     return charges_of_internal( *this, *this, what, limit, filter, visitor, in_tools );
@@ -1177,7 +1177,7 @@ int read_only_visitable::charges_of( const itype_id &what, int limit,
 
 /** @relates visitable */
 int Character::charges_of( const itype_id &what, int limit,
-                           const std::function<bool( const item & )> &filter,
+                           const item_filter &filter,
                            const std::function<void( int )> &visitor, bool in_tools ) const
 {
     if( what == itype_UPS ) {
@@ -1193,7 +1193,7 @@ int Character::charges_of( const itype_id &what, int limit,
 
 template <typename T>
 static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, int limit,
-                               const std::function<bool( const item_location & )> &filter )
+                               const item_filter &filter )
 {
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item_location & e ) {
@@ -1209,14 +1209,14 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
 
 /** @relates visitable */
 int read_only_visitable::amount_of( const itype_id &what, bool pseudo, int limit,
-                                    const std::function<bool( const item_location & )> &filter ) const
+                                    const item_filter &filter ) const
 {
     return amount_of_internal( *this, what, pseudo, limit, filter );
 }
 
 /** @relates visitable */
 int temp_crafting_inventory::charges_of( const itype_id &what, int limit,
-        const std::function<bool( const item & )> &filter,
+        const item_filter &filter,
         const std::function<void( int )> &visitor, bool in_tools ) const
 {
     // Loaded ammo and `any` have no index entry, so those queries walk live
@@ -1249,7 +1249,7 @@ int temp_crafting_inventory::charges_of( const itype_id &what, int limit,
 
 /** @relates visitable */
 int temp_crafting_inventory::amount_of( const itype_id &what, bool pseudo, int limit,
-                                        const std::function<bool( const item_location & )> &filter ) const
+                                        const item_filter &filter ) const
 {
     // at limit zero the live walk stops early on a mismatch, which the index can't mirror
     if( what == itype_any || limit <= 0 ) {
@@ -1277,7 +1277,7 @@ int temp_crafting_inventory::amount_of( const itype_id &what, bool pseudo, int l
 
 /** @relates visitable */
 int Character::amount_of( const itype_id &what, bool pseudo, int limit,
-                          const std::function<bool( const item_location & )> &filter ) const
+                          const item_filter &filter ) const
 {
     if( pseudo ) {
         for( const item *pseudos : get_pseudo_items() ) {
