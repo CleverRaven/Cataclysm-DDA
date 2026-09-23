@@ -67,6 +67,8 @@ class item_location : public visitable
 
         bool operator==( const item_location &rhs ) const;
         bool operator!=( const item_location &rhs ) const;
+        // this compares pointers! implemented for std::set implementation
+        bool operator<( const item_location &rhs ) const;
 
         explicit operator bool() const;
 

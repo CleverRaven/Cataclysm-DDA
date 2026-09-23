@@ -1038,6 +1038,11 @@ bool item_location::operator!=( const item_location &rhs ) const
     return ptr->target() != rhs.ptr->target();
 }
 
+bool item_location::operator<( const item_location &rhs ) const
+{
+    return ptr->target() < rhs.ptr->target();
+}
+
 item_location::operator bool() const
 {
     return ptr->valid();
