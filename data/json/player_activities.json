@@ -557,14 +557,16 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "opening",
-    "based_on": "time"
+    "based_on": "time",
+    "mute_npc_completion": true
   },
   {
     "id": "ACT_CLOSE_TILE",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "closing",
-    "based_on": "time"
+    "based_on": "time",
+    "mute_npc_completion": true
   },
   {
     "id": "ACT_FILL_LIQUID",

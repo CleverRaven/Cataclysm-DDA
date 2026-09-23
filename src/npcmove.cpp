@@ -4822,6 +4822,8 @@ bool npc::can_do_pulp()
 
 bool npc::do_player_activity()
 {
+    const bool mute_activity = activity.is_null() ? false :
+                               activity.id()->mute_npc_completion_message();
     int old_moves = moves;
     // the multi-activity types can sometimes cancel the activity, and return without using up any moves.
     // ( when they are setting a destination etc. )
@@ -4852,7 +4854,7 @@ bool npc::do_player_activity()
             backlog.pop_front();
             current_activity_id = activity.id();
         } else {
-            if( is_player_ally() && attitude == NPCATT_ACTIVITY ) {
+            if( is_player_ally() && attitude == NPCATT_ACTIVITY && !mute_activity ) {
                 add_msg( m_info, string_format( _( "%s completed the assigned task." ), disp_name() ) );
             }
             current_activity_id = activity_id::NULL_ID();
