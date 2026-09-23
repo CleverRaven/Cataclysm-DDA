@@ -29,7 +29,7 @@
     "name": "Loot: Bionics",
     "display_field": "fd_bionics_loot_zone",
     "can_be_personal": true,
-    "description": "Destination for Compact Bionics Modules, a.k.a. CBMs."
+    "description": "Destination for Compact Bionic Modules, a.k.a. CBMs."
   },
   {
     "id": "LOOT_BOOKS",
