@@ -577,7 +577,7 @@ VisitResponse item_pocket::visit_contents( const std::function<VisitResponse( it
         &func, item_location parent )
 {
     for( item &e : contents ) {
-        switch( visit_internal( func, parent ) ) {
+        switch( visit_internal( func, item_location( parent, &e ) ) ) {
             case VisitResponse::ABORT:
                 return VisitResponse::ABORT;
             default:
